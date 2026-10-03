@@ -52,7 +52,8 @@
       "normalization": "Only audio.formats collection ordering. OutputSettings.inventory iterates a Swift dictionary of strategies; no ordering contract is advertised.",
       "initialRawComparison": {
         "exitCode": 1,
-        "reason": "Same supported AAC strategies appeared in different collection order."
+        "reason": "Same supported AAC strategies appeared in different collection order.",
+        "retention": "Only the tool failure trace and exit were retained for this first probe; the complete operands listed above belong to the subsequent comparison and were saved before its assertions."
       }
     },
     "rejectedUnexpectedRequests": 6,

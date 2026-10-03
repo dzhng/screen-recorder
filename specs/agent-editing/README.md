@@ -36,23 +36,16 @@ passes one unchanged synthesis request and complete public PCM delivery.
 actual missing facts and their stopping conditions. Do not reopen stopped campaigns,
 repeat completed cohorts or manufacture load.
 
-Whole-spec source review found two small boundary defects, now corrected:
-capability queries reject unread parameters, and CLI help defers exact-time
-admission to each operation's schema. The
-[focused verification](assets/acceptance-maintenance/native-capability-verification.json)
-retains the red/green result and unchanged accepted discovery contents. Its
-incremental native build does not close the heavy-compilation storage condition.
-The installed release bank remains bound to its original executable. The
-[developer update](assets/acceptance-maintenance/personal-correction-update.json)
-records the corrected installed bundle, default-service startup and idle capture;
-it neither resets the library nor repeats model/media acceptance.
-
-The pure composition review also corrected seeded-caption replacement: changing
-that occurrence to media retires text provenance while preserving its identity,
-placement and compatible processing. The regression in
-[text tests](../../packages/composition/src/text.test.ts) failed before the fix;
-the text, structural-edit and processing files now pass together. The composition
-README now describes admitted fractional media endpoints accurately.
+Source reviews across public, native and pure composition boundaries corrected
+strict capability parameters, seeded-caption replacement and exact-time wording.
+The [focused bank](assets/acceptance-maintenance/native-capability-verification.json)
+and [text regression](../../packages/composition/src/text.test.ts) own their checks;
+the [developer update](assets/acceptance-maintenance/personal-correction-update.json)
+pins the installed corrections. Historical acceptance retains its original worker
+identity; the incremental build does not establish heavy compilation.
+The [current choices ledger](choices.md) now contains surviving architecture and
+fixture-method decisions, with rollout notes and results removed. It is a
+maintenance consolidation, not permission to archive the pending release gates.
 
 The [canonical registry](assets/23-owner-fixture-ports/README.md) owns current
 results and exact limitations. Reuse the passed long learned-processing bank,

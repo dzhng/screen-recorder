@@ -1,8411 +1,3659 @@
-# Implementation choices
+# Current implementation choices
 
-Choices made where the plan was silent; explicitly delegated internal details
-are omitted. Planning decisions remain in [decisions.md](decisions.md).
+This is a current-state decision ledger, not a release verdict. The toolkit supplies
+primitives and makes zero editorial decisions; source media stays intact. Caller
+ownership, best-effort speech, the selected 200 ms ambience, disposable fixture
+library and iteration-speed principles are user givens rather than invented choices.
+Reconciled against source **1b6aa64f**, with the documentation/installation
+checkpoint **18fabb92** kept as a separate evidence authority. Required physical,
+acoustic and release evidence stays with the active spec and its acceptance owners.
+This maintenance consolidation does not archive that work.
+
+Every entry below names the surviving decision, its concrete scenario, what was left
+unspecified and the consequence future work inherits. Historical corrections,
+implementation sequencing and gate results are excluded. Confidence ranks whether
+the user would likely make the same call, not a claim that every acceptance gate passed.
 
 ## Sound — medium confidence
 
-### Small, ordinary compressed timing fixtures
+### Choose ordinary compressed timing fixtures
 
-When: corpus pass, `b1fc5fe`.
+**When:** Origin in `9b839582`; prior ledger location 8–23.
 
-The choice: numbered clips use low frame rates and High-profile H.264 with modest
-compression. When a check asks which frame appears at a cut, there are few frames
-to inspect and each has a visible identity. Lossless H.264 would preserve exact
-colors but selected a less broadly supported profile; tests instead allow a small
-color error while checking frame identity. The plan required deterministic,
-asymmetric clips but did not select encoding or frame rate.
+A developer needs to see which picture appears across a cut. Small numbered, asymmetric clips use low frame rates and ordinary High-profile H.264 rather than a less broadly supported lossless profile. Their visible identities make timing inspectable; codec color allowance is separate from frame identity.
 
-The reach: these fixtures prove timing and basic geometry, not production motion
-quality or native compatibility. Native decode and high-rate preservation have
-separate gates. Verdict: sound because compact fixtures expose exact boundaries
-without requiring an unusual decoder profile. Confidence: medium.
+**Gap:** The corpus plan required deterministic asymmetric media without choosing a codec or frame rate.
 
-### Byte reproducibility is tied to recorded tool versions
+**Reach:** These fixtures constrain timing and basic geometry checks; they do not define production motion quality.
 
-When: corpus pass, `b1fc5fe`.
+**Verdict:** sound. **Confidence:** medium.
 
-The choice: regenerating with the recorded encoder and runtime must reproduce the
-same bytes. A different encoder release may write different bytes for the same
-pictures; the manifest records tool versions and generator hashes rather than
-promising otherwise. The plan required determinism without defining its toolchain
-boundary.
+**Owner:** [README.md](../../packages/test-harness/editing/README.md).
 
-The reach: future fixture updates must preserve the frozen inputs or deliberately
-record a new toolchain and evidence. Verdict: sound because it makes the actual
-reproduction guarantee checkable. Confidence: medium.
+### Return the entire inverse time interval
+
+**When:** Origin in `9b839582`; prior ledger location 87–98.
+
+A slow clip maps several project microseconds to one source microsecond. Reverse lookup returns the whole corresponding exact project interval and the first integer project time, which can be absent if fast playback skips that bin. A held frame maps to its complete hold.
+
+**Gap:** The plan required inverse lookup without defining its many-to-one result.
+
+**Reach:** Evidence and callers cannot assume a source timestamp has one project timestamp.
+
+**Verdict:** sound. **Confidence:** medium.
+
+**Owner:** [README.md](../../packages/composition/README.md).
+
+### Reuse decoders but isolate conversion filters
+
+**When:** Origin in `9b839582`; prior ledger location 110–125.
+
+Several ordered selected intervals share one decoder, but each cut starts a fresh rate-conversion filter so excluded samples cannot influence the cut. A source gap beyond the existing finite seek threshold restarts reading instead of walking arbitrarily far through discarded audio.
+
+**Gap:** Cut isolation did not specify decoder/filter reuse boundaries.
+
+**Reach:** Reader reuse remains bounded; arbitrary reordering must obtain an appropriate reader.
+
+**Verdict:** sound. **Confidence:** medium.
+
+**Owner:** [AudioSource.swift](../../helpers/mac/Sources/ScreenRecorderAudio/AudioSource.swift).
+
+### Retain a safe extension without making it identity
+
+**When:** Origin in `9b839582`; prior ledger location 213–225.
+
+Two equal files share the same content hash, while the first admitted copy retains a bounded safe suffix so native decoders can open it. The probe determines media kind from bytes; a misleading or absent suffix can still produce a truthful decode refusal.
+
+**Gap:** Managed filename layout was unspecified and extensionless files were not universally accepted by the platform.
+
+**Reach:** A pathname suffix never becomes codec authority or another asset identity.
+
+**Verdict:** sound. **Confidence:** medium.
+
+**Owner:** [assets.ts](../../packages/core/src/assets.ts).
+
+### Bound removal requests without dividing commits
+
+**When:** Origin in `9b839582`; prior ledger location 264–270.
+
+An agent names many overlapping ranges in one removal. The reducer merges their union and applies it against that operation’s pre-state, under the existing per-operation range bound. It does not split an oversized request into hidden commits.
+
+**Gap:** The multi-range input needed a finite public cardinality.
+
+**Reach:** Large edits retain caller-visible atomicity and explicit refusal.
+
+**Verdict:** sound. **Confidence:** medium.
+
+**Owner:** [edits.ts](../../packages/composition/src/edits.ts).
+
+### Move the expanded selection as one group
+
+**When:** Origin in `9b839582`; prior ledger location 290–300.
+
+Linked audio begins later than its video. A move destination names the earliest start of the expanded selection, retaining the audio delay regardless of argument order. Moving only two members of a four-member link gives the moved subgroup a fresh link identity while stationary members retain the original link.
+
+**Gap:** The move origin and subgroup identity after partial selection were unspecified.
+
+**Reach:** Commands must explain that the expanded group lands at the destination.
+
+**Verdict:** sound. **Confidence:** medium.
+
+**Owner:** [edits.ts](../../packages/composition/src/edits.ts).
+
+### Ripple move uses the finished destination
+
+**When:** Origin in `9b839582`; prior ledger location 403–415.
+
+A two-second clip moves from the beginning to ten seconds. Its old occupied windows close first and it starts at ten in the resulting timeline. Separated selected pieces retain their spacing while their full envelope opens at the destination; changing only track at the same time opens no gap.
+
+**Gap:** Destination coordinates before or after old-time removal were unspecified.
+
+**Reach:** Conveniences must translate to final coordinates rather than make callers add back removed duration.
+
+**Verdict:** sound. **Confidence:** medium.
+
+**Owner:** [edits.ts](../../packages/composition/src/edits.ts).
+
+### Padding expands into linked ordinary pieces
+
+**When:** Origin in `9b839582`; prior ledger location 453–466.
+
+One second of replacement audio fills a two-second slot using explicit silence fit. The prefix keeps the old occurrence ID and the new silence tail gets a normal identity linked to it. Video hold fit adds its ordinary held tail. Lineage exposes both; linked scope edits the full result and selected scope can edit one piece.
+
+**Gap:** Fitting policies did not specify their persisted representation.
+
+**Reach:** One source clock per media clip survives; old attached descendants retire even if the prefix selects the old source.
+
+**Verdict:** sound. **Confidence:** medium.
+
+**Owner:** [edits.ts](../../packages/composition/src/edits.ts).
+
+### Worker budgets charge selected work rather than discarded prefix
+
+**When:** Origin in `9b839582`; prior ledger location 733–746;1017–1052;4029–4070.
+
+An agent previews the final second of a long asset. Its finite worker allowance charges startup and selected work, not the discarded earlier recording. Stateful and retimed requests additionally charge complete prerequisite contexts once per exact recipe/rate. Retained PCM does not charge inference that is not performed.
+
+**Gap:** Deadline formulas and shared prerequisite accounting were unspecified.
+
+**Reach:** Budgets reflect actual admitted work; they do not guarantee throughput on every host.
+
+**Verdict:** sound. **Confidence:** medium.
+
+**Owner:** [project-render.ts](../../apps/service/src/project-render.ts).
+
+### Deduplicated role bytes require equal acquisition support
+
+**When:** Origin in `9b839582`; prior ledger location 858–889.
+
+Microphone and system files can hash to one asset/stream. Their capture binding combines authentic roles only if their support histories agree. Differing support refuses rather than selecting the first or unioning histories the caller cannot distinguish.
+
+**Gap:** Content deduplication exposed a collision in context identity.
+
+**Reach:** Asset identity does not erase capture-history selection meaning.
+
+**Verdict:** sound. **Confidence:** medium.
+
+**Owner:** [acquisitions.ts](../../packages/core/src/acquisitions.ts).
+
+### Query checkpoints are disposable pinned evidence
+
+**When:** Origin in `9b839582`; prior ledger location 980–997.
+
+A caller pages a long transcript and its cached checkpoint is evicted. The continuation refuses and a new traversal is required; it cannot silently resume against newer source generations. Bounded recent revision contexts remain disposable indexes rather than permanent read sessions.
+
+**Gap:** Resumable pinned reads needed a storage/lifetime representation.
+
+**Reach:** No read-session database or hidden generation switch becomes another authority.
+
+**Verdict:** sound. **Confidence:** medium.
+
+**Owner:** [project-evidence.ts](../../packages/core/src/project-evidence.ts).
+
+### Classic WAV has an explicit large-file ceiling
+
+**When:** Origin in `9b839582`; prior ledger location 955–979;1017–1052.
+
+A full-source float WAV would exceed its 32-bit container size. Native refuses before creating oversized output, with its own header reserve; core preflight separately uses the minimum RIFF size and publication checks actual bytes. RF64 is not silently substituted.
+
+**Gap:** Supported large-file container and preflight precision were unspecified.
+
+**Reach:** Long audio capacity is finite and format-specific, independent of bounded read memory.
+
+**Verdict:** sound. **Confidence:** medium.
+
+**Owner:** [audio-inspection.ts](../../packages/core/src/audio-inspection.ts).
+
+### Published cache capacity is separate from working-file cost
+
+**When:** Origin in `9b839582`; prior ledger location 1017–1037.
+
+A source extraction can fit WAV while exceeding a smaller cache budget. The shared default is four GiB and active leases protect reads; known minimum output size is checked before rendering. Free space can still change, and in-progress spools are outside this published-byte budget.
+
+**Gap:** Full extraction did not prescribe retained derivative capacity.
+
+**Reach:** Storage use is explicit; increasing cache does not prove memory or free-space guarantees.
+
+**Verdict:** sound. **Confidence:** medium.
+
+**Owner:** [cache.ts](../../packages/core/src/cache.ts).
+
+### Continuation identity preserves literal submitted search text
+
+**When:** Origin in `9b839582`; prior ledger location 1053–1078.
+
+Matching ignores case and outer punctuation, but a cursor for “Okay so” cannot be reused with “Okay SO.” The exact submitted query stays in continuation identity even if these searches have the same matches.
+
+**Gap:** Literal-versus-normalized identity was unspecified.
+
+**Reach:** Optional retry/search selectors must agree with the pinned request rather than silently change it.
+
+**Verdict:** sound. **Confidence:** medium.
+
+**Owner:** [project-transcript.ts](../../packages/core/src/project-transcript.ts).
+
+### AAC comparison uses matched domains and explicit numerical scope
+
+**When:** Origin in `9b839582`; prior ledger location 1116–1177;2572–2589;4180–4199.
+
+Two separate AAC seeks can return slightly different floating samples. Comparisons keep exact counts, clocks, channels and endpoint membership, with the existing bounded RMS/maximum difference policy for that declared seek comparison. Lossless and otherwise exact controls remain exact; a composition’s AAC oracle separately encodes its expected PCM at the same range/settings.
+
+**Gap:** Independent lossy decoder/encoder invocations did not guarantee exact float identity.
+
+**Reach:** This fixture-specific allowance is not blanket perceptual or codec acceptance.
+
+**Verdict:** sound. **Confidence:** medium.
+
+**Owner:** [README.md](assets/11a-audio-extraction/README.md).
+
+### Waveform defaults offer a declared overview
+
+**When:** Origin in `9b839582`; prior ledger location 1211–1234.
+
+A caller first asks for a whole long source waveform. Omitted resolution yields roughly a thousand bounded buckets, with exact bucket width/partial edges reported. Explicit fine resolution on too broad a range refuses rather than dropping short sounds.
+
+**Gap:** Useful default resolution and response cardinality were unspecified.
+
+**Reach:** Overview and detail remain caller-inspectable without changing source samples.
+
+**Verdict:** sound. **Confidence:** medium.
+
+**Owner:** [audio-wave.ts](../../packages/core/src/audio-wave.ts).
+
+### Maximum-per-pixel raster preserves short events
+
+**When:** Origin in `9b839582`; prior ledger location 1308–1325.
+
+Many time buckets or frequency bins collapse into one image pixel. The plot draws the maximum density and labels it, so a brief click is not averaged away or erased by the final value. Both waveform channels share an amplitude scale; spectrum contrast is fixed and labeled.
+
+**Gap:** Raster reduction and scale conventions were unspecified.
+
+**Reach:** Display remains an aid, while numerical data retains every measured value.
+
+**Verdict:** sound. **Confidence:** medium.
+
+**Owner:** [AcousticImage.swift](../../helpers/mac/Sources/ScreenRecorderFrames/AcousticImage.swift).
+
+### Cuts describe mapping changes rather than history or sound
+
+**When:** Origin in `9b839582`; prior ledger location 1534–1577.
+
+A clip changes rate while source position continues. The event names that mapping transition, not an audible click. A pure split preserving binding, rate and boundary adds no cut; the outer project beginning/end is not an editorial cut, while internal track entrances/exits can be.
+
+**Gap:** The cut category did not define rate changes, pure splits or outer boundaries.
+
+**Reach:** Evidence derives from immutable final mapping rather than clip IDs, edits performed or a detector job.
+
+**Verdict:** sound. **Confidence:** medium.
+
+**Owner:** [project-cuts.ts](../../packages/composition/src/project-cuts.ts).
+
+### Project indexes use sparse explicit selection policy
+
+**When:** Origin in `9b839582`; prior ledger location 1578–1628;1646–1666.
+
+A storyboard samples its project periodically plus authored/temporal boundaries and both observed sides of scene changes. Unrepresented intervals stay unproven even if one source was still. A new cadence needs its own selection identity, not an editorial change.
+
+**Gap:** Project density, tap scope and selection ownership were unspecified.
+
+**Reach:** Retained pictures are observations, not a substitute for a complete movie.
+
+**Verdict:** sound. **Confidence:** medium.
+
+**Owner:** [project-index-selection.ts](../../packages/core/src/project-index-selection.ts).
+
+### Pointer trails follow source history, not inferred cut intent
+
+**When:** Origin in `9b839582`; prior ledger location 1693–1717.
+
+A trimmed video requests an explicit source-time trail that can include motion just before the trim. Source availability and missing observations still constrain it; zero duration asks only for the current pointer. Pure splits retain identical pointer history.
+
+**Gap:** Source attachment did not choose lookbehind semantics.
+
+**Reach:** The engine cannot silently reset trails merely because an edit occurred.
+
+**Verdict:** sound. **Confidence:** medium.
+
+**Owner:** [composition-pointer.ts](../../packages/core/src/composition-pointer.ts).
+
+### Backward pointer queries replay bounded history
+
+**When:** Origin in `9b839582`; prior ledger location 1827–1846.
+
+A shuffled clip requests source second ten then second two. The sampler restarts the existing forward history reader and charges the accumulated work count; a repeated hold also charges output requests even when no new source event is read.
+
+**Gap:** Random-access inspection did not specify history residency or work accounting.
+
+**Reach:** Highly shuffled or repeated output can refuse explicitly without an unbounded event store.
+
+**Verdict:** sound. **Confidence:** medium.
+
+**Owner:** [pointer-schedule.ts](../../packages/core/src/pointer-schedule.ts).
+
+### Image residency follows active bindings
+
+**When:** Origin in `9b839582`; prior ledger location 1914–1942;assets/15-layer-geometry/choices.md.
+
+Two simultaneous occurrences of a photograph share one decoded image; once neither contributes, it can be released and a later repeat decoded again. Video readers retain their separate per-occurrence accounting, and source/stage/mask pixel budgets are checked before allocation.
+
+**Gap:** Bounded residency and multiplied-work admission were unspecified.
+
+**Reach:** Memory depends on simultaneous contributors rather than every image in the project.
+
+**Verdict:** sound. **Confidence:** medium.
+
+**Owner:** [CompositionPictureExecutor.swift](../../helpers/mac/Sources/ScreenRecorderFrames/CompositionPictureExecutor.swift).
+
+### Conveniences append ordinary steps with explicit windows
+
+**When:** Origin in `9b839582`; prior ledger location 2307–2334.
+
+An agent adds a zoom after a crop or a fade after gain. The new step appends rather than replaces earlier authored work, and its window is active only there. A mid-clip fade-out does not silently hold zero afterward. Source/project shorthand times are whole microseconds; normalized clip fractions stay supported.
+
+**Gap:** Convenience expansion and behavior beyond the window were unspecified.
+
+**Reach:** The caller inspects/reorders the returned stack; the general curve API remains the complete expressive path.
+
+**Verdict:** sound. **Confidence:** medium.
+
+**Owner:** [edits.ts](../../packages/composition/src/edits.ts).
+
+### Packages carry authenticated resource files within one JSON budget
+
+**When:** Origin in `9b839582`; prior ledger location 2445–2455;3219–3231;3400–3410.
+
+A large history/prepared recipe no longer fits the compact manifest. Version-three project archives store typed revision/resource metadata as hashed inventory members and hydrate them through admitted descriptors before readiness, under the existing aggregate 128-MiB JSON budget. Truncating history or processing is forbidden.
+
+**Gap:** Complete metadata representation and working-memory budget were unspecified.
+
+**Reach:** Finite package readiness remains explicit without a second lazy history interpreter.
+
+**Verdict:** sound. **Confidence:** medium.
+
+**Owner:** [project-package.ts](../../packages/core/src/project-package.ts).
+
+### Balanced is a measured preset rather than a universal fidelity promise
+
+**When:** Origin in `9b839582`; prior ledger location 2352–2372;2510–2527.
+
+A caller chooses balanced encoding for a compact preview. It uses the existing middle quality/size settings; another explicit setting can favor a different tradeoff. Fine text/trails may soften through compression while timing and geometry remain separately contractual.
+
+**Gap:** The requested preset did not prescribe its numerical settings or universal visual threshold.
+
+**Reach:** A preset stays inspectable/reversible and does not approve arbitrary color or motion loss.
+
+**Verdict:** sound. **Confidence:** medium.
+
+**Owner:** [output-settings.ts](../../packages/composition/src/output-settings.ts).
+
+### Font faces are scoped to immutable asset bytes
+
+**When:** Origin in `9b839582`; prior ledger location 2373–2391.
+
+Two fonts can expose the same PostScript face name. Text names the immutable font hash and exact face, while family/style are descriptive. Duplicate face names within one collection refuse and the collection has a bounded face-count envelope. Installed ambient fonts cannot substitute.
+
+**Gap:** Explicit font identity and admission envelope were unspecified.
+
+**Reach:** Rendering/history/package dependencies retain exact selected font bytes.
+
+**Verdict:** sound. **Confidence:** medium.
+
+**Owner:** [assets.ts](../../packages/core/src/assets.ts).
+
+### Keep platform sparse materialization and sequential audio-role cost
+
+**When:** Origin in `9b839582`; prior ledger location 2778–2792.
+
+A sparse recording has many occupied runs. Canonical audio uses the measured platform composition/export representation and finalizes audio roles sequentially so their peak allocations do not overlap. Relative inefficiency alone does not justify a second MOV serializer or narrower source domain.
+
+**Gap:** The platform mechanism/resource tradeoff was unspecified.
+
+**Reach:** Source support remains exact; resource cost is finite but host-dependent and cancellation preserves inputs.
+
+**Verdict:** sound. **Confidence:** medium.
+
+**Owner:** [CaptureAudioMaterializer.swift](../../helpers/mac/Sources/ScreenRecorderCapture/CaptureAudioMaterializer.swift).
+
+### Compile the fixed local denoiser and observe its identity
+
+**When:** Origin in `9b839582`; prior ledger location 2652–2675;2819–2832;2916–2927.
+
+Explicit hash-checked native-build preparation supplies the selected model to the linked worker. Startup makes one bounded metadata request to identify its compiled recipe; unavailable/malformed metadata leaves new learned execution unready while retained PCM and authoring still work. A worker change needs restart.
+
+**Gap:** Packaging and service-instance capability binding were unspecified.
+
+**Reach:** Runtime editing never downloads weights or selects a parallel denoising package.
+
+**Verdict:** sound. **Confidence:** medium.
+
+**Owner:** [Package.swift](../../helpers/mac/Package.swift).
+
+### Give each output channel independent learned state
+
+**When:** Origin in `9b839582`; prior ledger location 2904–2915;2998–3003.
+
+Different left/right speech and noise receive separate instances of the selected mono algorithm over the same authored state interval. Lanes are prepared sequentially in the same attempt spool and published only after both counts are complete. The project mixer still duplicates mono according to its existing rendition.
+
+**Gap:** The mono algorithm needed an explicit stereo state/transaction policy.
+
+**Reach:** One lane cannot alter another detector; this adds no hidden downmix, linked detector or normalization.
+
+**Verdict:** sound. **Confidence:** medium.
+
+**Owner:** [CompositionState.swift](../../helpers/mac/Sources/ScreenRecorderAudio/CompositionState.swift).
+
+### Recovery and orphan readers share filesystem authority
+
+**When:** Origin in `9b839582`; prior ledger location 3029–3041;3081–3093;7596–7617.
+
+A service dies while its native child still accesses an acquisition workspace or donor. Native holds inherited shared locks; cleanup needs exclusive authority and reports ACQUISITION_BUSY or RECORDING_BUSY instead of deleting live files. Root recovery deliberately covers the whole acquisition domain, including reservations without files.
+
+**Gap:** Cross-process recovery/delete scope was unspecified.
+
+**Reach:** Busy refusal remains retryable after actual child exit without a process registry or polling cleaner.
+
+**Verdict:** sound. **Confidence:** medium.
+
+**Owner:** [acquisitions.ts](../../packages/core/src/acquisitions.ts).
+
+### Canonical recovery receives a fragmentation-aware finite allowance
+
+**When:** Origin in `9b839582`; prior ledger location 3042–3052;3199–3209;3368–3376.
+
+A sparse take has many segments but little PCM. Canonical verification/publication/cleanup get their existing finite fragmentation allowance plus byte-work allowance under the media-worker cap; controls return promptly because work remains asynchronous. Expiry retains sources with an explicit failure.
+
+**Gap:** Duration alone did not predict canonical setup cost.
+
+**Reach:** This is a conservative operational budget, not a universal throughput promise or changed control deadline.
+
+**Verdict:** sound. **Confidence:** medium.
+
+**Owner:** [capture-cleanup.ts](../../apps/service/src/capture-cleanup.ts).
+
+### Each source keeps a portable immutable publication authority
+
+**When:** Origin in `9b839582`; prior ledger location 5267–5284;5792–5816.
+
+A primary or camera directory has a durable receipt tying allocated source identity, timing and canonical/proof byte hashes to a frozen journal copy. Camera retains its closed mapping locally too. Recovery reads that claim rather than reconstructing authority from surviving filenames or an implicit parent directory.
+
+**Gap:** Publication/recovery source authority needed a self-contained representation.
+
+**Reach:** Deleting donor paths cannot change independently admitted acquisition evidence.
+
+**Verdict:** sound. **Confidence:** medium.
+
+**Owner:** [CaptureSourcePublication.swift](../../helpers/mac/Sources/ScreenRecorderCapture/CaptureSourcePublication.swift).
+
+### Capture admission uses the allocated source’s stable key
+
+**When:** Origin in `9b839582`; prior ledger location 5507–5529.
+
+A finished take is reported again after restart. The internal acquisition request key is capture plus allocated source ID, joining the same durable job. A conflicting explicit import or different donor/recording identity refuses; a new notification cannot create another import.
+
+**Gap:** Replay naming and partial admission storage were unspecified.
+
+**Reach:** One source identity governs independent primary/camera admission without another request table.
+
+**Verdict:** sound. **Confidence:** medium.
+
+**Owner:** [acquisitions.ts](../../packages/core/src/acquisitions.ts).
+
+### Empty recovery reports absence only after authoritative closure
+
+**When:** Origin in `9b839582`; prior ledger location 5954–5989.
+
+An allocated take has an empty directory and no journal. After managed reconciliation proves idle inputs and owns that directory, native returns inputs-closed plus NO_SOURCE_MEDIA, zero duration and no invented tracks/receipt. Missing journal alone is only a typed trigger; journal-only consumers retain their prior error.
+
+**Gap:** Zero-media result and optional journal lease boundaries were unspecified.
+
+**Reach:** Permissions, live journal ownership, missing directory or unknown retained files cannot masquerade as proved empty source.
+
+**Verdict:** sound. **Confidence:** medium.
+
+**Owner:** [CaptureJournalLease.swift](../../helpers/mac/Sources/ScreenRecorderCapture/CaptureJournalLease.swift).
+
+### Recovered support has a compact immutable identity
+
+**When:** Origin in `9b839582`; prior ledger location 5918–5953;6033–6050.
+
+A crash leaves usable sources without trusted ordinary completion. Native publication marks recovered status explicitly and hashes every verified support interval, not merely its final endpoint. Complete media/proof identity remains independently pinned, and generic journal completion facts stay retained rather than overriding shorter verified support.
+
+**Gap:** Recovered mode and bounded complete support representation were unspecified.
+
+**Reach:** Equal duration cannot conceal a gap or turn recovered publication into ordinary completion.
+
+**Verdict:** sound. **Confidence:** medium.
+
+**Owner:** [CaptureSourcePublication.swift](../../helpers/mac/Sources/ScreenRecorderCapture/CaptureSourcePublication.swift).
+
+### Camera verification has one latest-request continuation and fallback
+
+**When:** Origin in `9b839582`; prior ledger location 6474;6514;6664–6778;6911–6970;6500–6513.
+
+While camera bytes grow, one owner coalesces the latest written observation request and responds to file events. Private filesystem clones isolate later writes but do not alone certify a complete prefix. It qualifies actual refresh/decode/presentation boundaries, retains complete sample objects and binds encoded-prefix proof before reusing picture hashes. Stop joins that work; failure uses full-scan publication. Early closed-source scheduling requires the qualified single occupied segment and complete native inventory; sources with several occupied segments retain the generic path rather than joining support by assumption.
+
+**Gap:** Background progress, immutable views and codec closure were unspecified.
+
+**Reach:** No fragment interval, keyframe setting or clone is treated as proof; the existing complete digest requirement survives.
+
+**Verdict:** sound. **Confidence:** medium.
+
+**Owner:** [CameraMedia.swift](../../helpers/mac/Sources/ScreenRecorderCapture/CameraMedia.swift).
+
+### Private camera backpressure has finite refusal without changing Stop
+
+**When:** Origin in `9b839582`; prior ledger location 6760–6770.
+
+A speculative passthrough writer stops accepting samples. Its existing continuation checks cancellation and uses a finite thirty-second backpressure guard, then falls back to ordinary publication. The guard does not redefine the product’s ten-second completed Stop requirement.
+
+**Gap:** Internal writer waits needed a bounded no-progress policy.
+
+**Reach:** Unsupported continuation remains recoverable without an unbounded queue or relaxed external deadline.
+
+**Verdict:** sound. **Confidence:** medium.
+
+**Owner:** [CameraMedia.swift](../../helpers/mac/Sources/ScreenRecorderCapture/CameraMedia.swift).
+
+### Voice assets use one prepared runtime and explicit transcript
+
+**When:** Origin in `9b839582`; prior ledger location 3606–3649;3755–3767.
+
+An agent reuses a reference audio asset with a different submitted transcript. That request has a distinct immutable identity. Common model preparation verifies its registered runtime/model inventories; the standalone Python environment carries its effective installed packages, with model bytes a separate input. No voice enrollment registry or implicit environment is introduced.
+
+**Gap:** Runtime supply, transcript handle and effective environment identity were unspecified.
+
+**Reach:** New inference requires measured local preparation, while historical receipts retain their original structural grammar.
+
+**Verdict:** sound. **Confidence:** medium.
+
+**Owner:** [voice-generation.ts](../../packages/core/src/voice-generation.ts).
+
+### Repair only an empty valid voice sampling distribution
+
+**When:** Origin in `9b839582`; prior ledger location 3668–3689;3781–3802.
+
+Very small top-p rounding removes every valid next-token candidate. The registered runtime restores the first maximum-score token while preserving already nonempty filtering output. It does not claim ideal probability mass or repair invalid model scores; ignored backend speed and unverified streaming are not advertised as controls.
+
+**Gap:** The selected backend’s numerical empty-support case lacked behavior.
+
+**Reach:** Measured settings stay available without inventing a minimum top-p or replacing successful filtering.
+
+**Verdict:** sound. **Confidence:** medium.
+
+**Owner:** [voice-profile-v1.json](../../packages/core/src/model-data/voice-profile-v1.json).
+
+### Model copying reserves finite destination margin
+
+**When:** Origin in `9b839582`; prior ledger location 3650–3667.
+
+Explicit preparation copies each pinned model/runtime file only when its size plus the existing 512-MiB reserve fits the destination filesystem. Other processes can still consume that space; failure remains retryable. Inspection/synthesis never installs implicitly.
+
+**Gap:** Preparation required capacity checks without choosing the reserve.
+
+**Reach:** The local operational margin is reversible but can refuse before literal disk exhaustion.
+
+**Verdict:** sound. **Confidence:** medium.
+
+**Owner:** [models.ts](../../packages/core/src/models.ts).
+
+### Audio-only encoding reuses the complete PCM owner
+
+**When:** Origin in `9b839582`; prior ledger location 6121–6132;assets/09c-audio-export/choices.md.
+
+A caller requests M4A after an existing project mix. Encoding borrows the cached full WAV rather than mixing again, with a distinct rendition identity and resolved settings. This trades temporary disk space and the WAV ceiling for reuse; it does not introduce a direct-stream preparation path.
+
+**Gap:** Standalone encoding’s preparation/lifetime seam was unspecified.
+
+**Reach:** Changing encoding can preserve the unchanged exact mix and replay its original bytes.
+
+**Verdict:** sound. **Confidence:** medium.
+
+**Owner:** [audio-inspection.ts](../../packages/core/src/audio-inspection.ts).
+
+### Use standard audio-only MP4 presentation for M4A
+
+**When:** Origin in `9b839582`; prior ledger location assets/09c-native-audio-file/choices.md.
+
+A requested M4A starts at its first authored sample. The existing ISO MPEG-4 writer produces an AAC-only compatible file with a standard edit list, excluding encoder priming from presented content. Presented frames and total decoded packet capacity are reported separately.
+
+**Gap:** The dedicated platform M4A writer’s metadata did not establish the required timeline.
+
+**Reach:** Packet padding never defines content duration and no new mux/codec dependency is selected.
+
+**Verdict:** sound. **Confidence:** medium.
+
+**Owner:** [MovieMux.swift](../../helpers/mac/Sources/ScreenRecorderWire/MovieMux.swift).
+
+### Large compiled/probe payloads use existing attempt files
+
+**When:** Origin in `9b839582`; prior ledger location 3016–3028;3105–3118.
+
+A small requested window can have a many-megabyte prerequisite plan or physical metadata inventory. The service writes bounded authenticated payloads inside the locked attempt and native reads the same strict schema. It does not raise global control frames or invent a second plan meaning.
+
+**Gap:** Bulk control delivery was unspecified.
+
+**Reach:** Metadata size caps remain distinct from native framework allocations and project capacity.
+
+**Verdict:** sound. **Confidence:** medium.
+
+**Owner:** [project-render.ts](../../apps/service/src/project-render.ts).
+
+### Storage categories measure shared actual bytes
+
+**When:** Origin in `9b839582`; prior ledger location 4993–5008.
+
+Two projects reference one immutable asset. Aggregate storage counts the file length once and does not invent each project’s share. Registered derivatives are cache bytes; models/external donors are excluded and managed unfinished capture donors remain accounted for by their lifetime.
+
+**Gap:** Shared project files did not have a meaningful per-project allocation policy.
+
+**Reach:** One contained cancellable scanner owns actual filesystem observation.
+
+**Verdict:** sound. **Confidence:** medium.
+
+**Owner:** [storage.ts](../../packages/core/src/storage.ts).
+
+### Bound rename cleanup to the retained parent
+
+**When:** Origin in `9b839582`; prior ledger location 7862–7904.
+
+An attempt directory is renamed and another appears under its old name. Cleanup uses held directory identity and one scan of the retained parent to retire the original empty entry; moving it outside that parent does not authorize a machine-wide search. Direct producers verify known output inode; platform writers retain only authority they actually supply.
+
+**Gap:** Rename scope and producer-specific leaf identity guarantees were unspecified.
+
+**Reach:** The implementation does not promise arbitrary concurrent external leaf-replacement protection.
+
+**Verdict:** sound. **Confidence:** medium.
+
+**Owner:** [OutputFile.swift](../../helpers/mac/Sources/ScreenRecorderMedia/OutputFile.swift).
+
+### Transport uses a conservative local inline budget
+
+**When:** Origin in `9b839582`; prior ledger location 4354–4376;assets/24z11-operation-result-delivery/choices.md;assets/24z12-mcp-media-admission/choices.md.
+
+The socket caller supplies its inline byte preference in the outer envelope, leaving operation schemas independent of MCP. One owner budgets structural plus worst quoted JSON copies and complete envelope/error overhead. Some otherwise deliverable results choose artifact delivery; standalone handlers lacking that lease owner refuse before dispatch.
+
+**Gap:** Wrapper-aware delivery margin and handler ownership were unspecified.
+
+**Reach:** Complete data survives without increasing control caps or teaching core MCP serialization.
+
+**Verdict:** sound. **Confidence:** medium.
+
+**Owner:** [framing.ts](../../packages/protocol/src/framing.ts).
+
+### JSON inspection never spends a lease to discover it was too large
+
+**When:** Origin in `9b839582`; prior ledger location assets/24z12-mcp-media-admission/choices.md.
+
+An admitted JSON artifact may fit raw bytes but exceed the message once quoted. The adapter uses a conservative UTF-8/envelope estimate before reading, leaving the existing token live if automatic delivery cannot fit. Current owned error-body sizes participate in the same budget.
+
+**Gap:** Pre-consumption capacity needed a bounded estimate without parsing leased bytes first.
+
+**Reach:** Future error/envelope growth requires budget review rather than truncation or hidden loss of evidence.
+
+**Verdict:** sound. **Confidence:** medium.
+
+**Owner:** [README.md](../../apps/cli/README.md).
+
+### Color comparison names the actual pixel domain
+
+**When:** Origin in `9b839582`; prior ledger location 226–238;358–368;1170–1177;5385–5405;8099–8142.
+
+A source-membership oracle compares decoded samples with authored RGB, while a PNG may have a different declared profile. Comparisons retain these original operands and separately convert complete images from actual profiles when asking color correspondence. Geometry/pointer masks cannot approve an unresolved whole-image color difference.
+
+**Gap:** Raw values, rendered profile conversion and source membership were conflated.
+
+**Reach:** No oracle-only explanation, changed tolerance or missing historical producer is treated as a production color correction.
+
+**Verdict:** sound. **Confidence:** medium.
+
+**Owner:** [FrameImage.swift](../../helpers/mac/Sources/ScreenRecorderFrames/FrameImage.swift).
+
+### Geometry and pointer fixtures use independent changing landmarks
+
+**When:** Origin in `9b839582`; prior ledger location 1682–1692;1792–1811;4125–4199;8099–8142;575–584.
+
+A fractional moved clip can select the wrong frame while a static picture still looks plausible. Maintained fixtures use independently authored changing counters/landmarks and same-clock references, checking explicit geometric edges or pointer neighborhoods rather than deriving expected pixels from renderer receipts. Blank compressed frames have a separately defined all-pixel codec allowance.
+
+**Gap:** Motion membership and geometry needed a falsifiable source oracle.
+
+**Reach:** Fixture-specific raster tolerances stay scoped and do not become broad color or perceptual approval.
+
+**Verdict:** sound. **Confidence:** medium.
+
+**Owner:** [README.md](../../packages/test-harness/editing/README.md).
+
+### Preserved fixture encoders use declared current settings
+
+**When:** Origin in `9b839582`; prior ledger location 8209–8268.
+
+A frozen pointer graph names H.264/Rec.709 but lacks historical implicit encoder defaults. A private fixture uses current balanced settings without tuning to resemble old bytes, carries the required video media tag and normalizes only schema-declared nil omissions. A video-only graph invokes the existing video-only owner.
+
+**Gap:** Historical implicit settings and current strict wire shape were not identical.
+
+**Reach:** Current paired output does not acquire old encoded-byte authority or a production compatibility adapter.
+
+**Verdict:** sound. **Confidence:** medium.
+
+**Owner:** [README.md](assets/23-owner-fixture-ports/README.md).
+
+### SDK cancellation fixtures observe actual owned phases
+
+**When:** Origin in `9b839582`; prior ledger location 6474;8033–8098.
+
+A cancellation check forwards the real writer finishing method/callback and identifies its exact writer before requesting cancel while it is unfinished. A sibling-failure check openly controls readiness to keep both original pumps unfinished, then triggers actual SDK failure with the caller task uncanceled. All observed callbacks/readers drain before restoration.
+
+**Gap:** Natural tiny media did not reliably overlap the required finishing/pump phase.
+
+**Reach:** Controlled scheduling proves that interleaving, not its natural frequency, and no product hook or fake completion is introduced.
+
+**Verdict:** sound. **Confidence:** medium.
+
+**Owner:** [MovieMux.swift](../../helpers/mac/Sources/ScreenRecorderWire/MovieMux.swift).
+
+### Player observation is muted and uses actual time advancement
+
+**When:** Origin in `9b839582`; prior ledger location 4095–4124;6862–6878;7990–8032.
+
+A retained independently identified movie goes through the actual native controller/window/player. The test synchronously mutes the assigned player before play and observes delivered frames/end at their real timestamps, with finite first-output/progress allowances. A sampled spatial grid stays explicitly narrower than whole-frame or perceptual judgment.
+
+**Gap:** Continuous presentation required observation without unsolicited sound/desktop changes.
+
+**Reach:** Muted progress cannot stand in for integrated listening or every-pixel presentation.
+
+**Verdict:** sound. **Confidence:** medium.
+
+**Owner:** [PreviewWindow.swift](../../apps/macos/Sources/ScreenRecorder/PreviewWindow.swift).
+
+### Measure independent workload axes and complete delivery
+
+**When:** Origin in `9b839582`; prior ledger location 3441–3459;3488–3506;3537–3561;4275–4376;5141–5150;6780–6812;7946–7990;8186–8208.
+
+A query-memory fixture changes duration while keeping clip count/rows fixed, or history length while keeping document size fixed; setup is outside the measured phase. A warm preview uses an uncached window rather than timing a cache lookup. Public timings include actual default-client retrieval/decoding while optional repeated diagnostic copying is disabled.
+
+**Gap:** Scale plan did not prescribe isolation or measurement boundaries.
+
+**Reach:** One axis result does not certify another family, host or cached/uncached path.
+
+**Verdict:** sound. **Confidence:** medium.
+
+**Owner:** [README.md](../../packages/test-harness/editing/README.md).
+
+### Profiling keeps exact runtime authority and diagnostic scope
+
+**When:** Origin in `9b839582`; prior ledger location 5133–5140;5222–5266;6075–6097;6780–6812.
+
+A historical query worker is missing while current code progresses. Distinct retained source/module/runtime inventories qualify each profile; opt-in service sampling runs only over query delivery and bounds time/RSS/owned cleanup. Host load is observed and disclosed rather than assumed absent. Diagnostic CPU attribution never changes the latency requirement.
+
+**Gap:** Attribution after missing worker and concurrent host activity needed qualified inputs.
+
+**Reach:** No new production tracing or invented historical executable is introduced.
+
+**Verdict:** sound. **Confidence:** medium.
+
+**Owner:** [choices.md](assets/24z-current-preparation/choices.md).
+
+### Research methods preserve frozen comparison variables
+
+**When:** Origin in `9b839582`; prior ledger location 301–343;1411–1453;1496–1517;1973–2004;3450–3459;3894–3910.
+
+A bounded alternative speech/stretch/denoise trial keeps its original matcher, input, context, precision and recipe identity; a different conditioning mode, engine or context receives a separately named candidate. Synthetic zeros flush excluded-source processing tails; source guards are explicit selected input rather than hidden neighboring speech.
+
+**Gap:** The risky mechanisms needed concrete experiment parameters without premature production adoption.
+
+**Reach:** A local gain in one diagnostic cannot replace the selected runtime or create an automatic duration-based algorithm switch.
+
+**Verdict:** sound. **Confidence:** medium.
+
+**Owner:** [choices.md](assets/13a-visual-clarity/choices.md).
+
+### Annotation confirms the selected boundary rather than playback
+
+**When:** Origin in `9b839582`; prior ledger location 4721–4770;4784–4826;4887–4930.
+
+The listener clicks a waveform, hears a short preview beginning at that exact point and presses Next to confirm the fixed selected line, not the moving play cursor. Back revises and Skip leaves an unknown edge. The target list owns prompt order/word identity; no estimated boundary is prefilled.
+
+**Gap:** The requested simple listening flow left selection and confirmation behavior unspecified.
+
+**Reach:** Marks retain independent audible authority without a removal decision or a second labeling UI.
+
+**Verdict:** sound. **Confidence:** medium.
+
+**Owner:** [choices.md](assets/12d-marking-page-ui/choices.md).
+
+### Fixed audition construction declares every treatment
+
+**When:** Origin in `9b839582`; prior ledger location 301–343;381–402;3929–3944;4410–4547;4657–4720;4827–4886;4947–4992.
+
+A generated voice candidate can be matched by average signal energy to up to two seconds of original context on each side. A corrected phrase entrance can remove an explicitly declared 120 ms while preserving its later samples. These are separately retained fixture treatments, as are complete familiar sentences, authored stereo/noise, source-aligned endpoints and exact join envelopes. The normal untreated output stays available; exact PCM diagnostics count changed float encodings even when amplitude difference is zero.
+
+**Gap:** Listening aids and comparison material were unspecified.
+
+**Reach:** RMS is not perceived loudness, a marked word is not an automatic edit, and fixed audible approval cannot define global engine defaults.
+
+**Verdict:** sound. **Confidence:** medium.
+
+**Owner:** [choices.md](assets/15a3-protected-sentence/choices.md).
+
+### Fresh caller fixtures begin with unedited explicit inputs
+
+**When:** Origin in `9b839582`; prior ledger location 4982–4992;5169–5177;6151–6168;6306–6354.
+
+An external caller gets a short bounded brief, named protected content, actual human cuts, explicit canvas/output and admitted source clocks. Preparation creates an empty project and pinned inputs, not the developer’s completed preferred edit. It resumes interrupted setup with the same request IDs and supplied read-only retained-media root, refusing changed/edited inputs.
+
+**Gap:** Independent caller acceptance lacked a concrete fixture and resumable preparation contract.
+
+**Reach:** The caller chooses operations/layout; a real recording fixture never becomes an unsolicited tutorial-editing project.
+
+**Verdict:** sound. **Confidence:** medium.
+
+**Owner:** [choices.md](assets/25-input-preparation/choices.md).
+
+### Use explicit fixture devices and callback orders
+
+**When:** Origin in `9b839582`; prior ledger location 5896–5917;6780–6812;6896–6910.
+
+An established-primary camera control explicitly offers primary first and preserves its later prologue rejection; a separate camera-first control exercises new early support. A missing selected device is never substituted by product code. A separately authored available-device fixture can investigate a different lifecycle question with its own identity.
+
+**Gap:** Historical fixture order and unavailable development device did not define the new requested case.
+
+**Reach:** Fixture choices cannot become a camera fallback or physical synchronization claim.
+
+**Verdict:** sound. **Confidence:** medium.
+
+**Owner:** [README.md](assets/23-owner-fixture-ports/README.md).
+
+### Existing evidence is reused only within its exact authority
+
+**When:** Origin in `9b839582`; prior ledger location 3166–3177;3768–3780;3803–3821;3945–3956;4599–4618;4657–4693;4771–4783;4846–4875;4931–4946;6176–6195;6370–6473;6600–6659;8330–8350; 24–37;3430–3440;4575–4598;6527–6559.
+
+A saved media/worker packet can move directories only after hashes qualify the same complete bytes. Pinned workers live in content-addressed durable local storage; large artifacts may remain outside Git with explicit local full archives, while unique blobs plus filename maps and exact MOV-date patches avoid duplicate storage. Failed observation operands are persisted before assertions whenever the maintained observer can retain them. A developer regenerates the same fixture after updating the encoder. The pictures may mean the same thing while the container bytes change. The fixture records its generator, runtime and encoder identity rather than promising byte equality across unspecified versions. Reconstructing a retained large checkpoint authenticates its complete original recipe hash and preserves PCM provenance; it never manufactures missing original history. Timing container comparison excludes only six documented creation/modification date fields while retaining original hashes, not presentation clocks or media bytes.
+
+**Gap:** Long-running work needed durable identity and bounded evidence storage. Determinism needed an explicit toolchain boundary.
+
+**Reach:** Paths, aggregate manifests or reconstructed receipts cannot acquire missing original-runtime/full-content authority. Frozen evidence must retain its original producer or name a distinct new producer.
+
+**Verdict:** sound. **Confidence:** medium.
+
+**Owner:** [README.md](assets/23-owner-fixture-ports/README.md).
+
+### Room-tone fixture loops remain ordinary explicit tracks and curves
+
+**When:** Origin in `9b839582`; prior ledger location 381–402;4430–4461;4657–4720.
+
+A fixed review project repeats a caller-selected half-second quiet region. Each occurrence has its own audio track and content-clock gains, making outgoing and incoming selected samples explicit through the ordinary mixer. The user’s 200-ms treatment is a given; level-matched/+24-dB monitor copies and the rejected 250-ms comparison remain separately labeled fixture recipes.
+
+**Gap:** Loop layout, curve anchoring and diagnostic monitor level were unspecified.
+
+**Reach:** No automatic ambience selection, production loudness policy or parallel renderer follows from this fixed fixture.
+
+**Verdict:** sound. **Confidence:** medium.
+
+**Owner:** [choices.md](assets/19-soft-roomtone-overlap/choices.md).
+
+### Inspection limits are current refusal boundaries
+
+**When:** Origin in `9b839582`; prior ledger location 996;1270–1289;1635–1645;1827–1872;1914–1967.
+
+A request has too many selected sources/occurrences, a huge retained checkpoint or a compressed image that expands into excessive pixels. Current owners reject it before oversized work rather than silently sample less. Query context reuse is limited to four recent revisions; full project evidence has 10,000 selected occurrences, 1,024 source selections and eight-MiB manifest/checkpoint limits, and still decoding its shared 8192-by-8192 pixel-count ceiling.
+
+**Gap:** Bounded work required concrete operational admission limits.
+
+**Reach:** These are current supported-domain choices, not future implementation promises or universal memory/throughput acceptance.
+
+**Verdict:** sound. **Confidence:** medium.
+
+**Owner:** [project-evidence.ts](../../packages/core/src/project-evidence.ts).
+
+### Exact audition envelopes are authored after the narration sum
+
+**When:** Origin in `9b839582`; prior ledger location 4827–4845.
+
+A fixed human-marked cut must reproduce its pinned native join samples including signed zero. The fixture applies its envelope to the combined narration track rather than independently faded sibling clips. Short ramps become explicit sample-held gain keys through the ordinary curve API; the older accepted fixture retains its own recipe.
+
+**Gap:** The exact comparison required a public authoring representation without changing mixer arithmetic.
+
+**Reach:** This bounded fixture data is not a new production fade processor or general cleanup policy.
+
+**Verdict:** sound. **Confidence:** medium.
+
+**Owner:** [edits.ts](../../packages/composition/src/edits.ts).
+
+### Movie support represents only the exact fractional PCM remainder
+
+**When:** Origin in `9b839582`; prior ledger location 7793–7816.
+
+A movie ends between output sample cells. The existing mux preserves the floor-counted PCM and encoded media, then declares the remaining less-than-one-sample support as an empty audio edit in its bounded header. It accepts only its writer’s fixed one-audio-track grammar and refuses ambiguous/unrepresentable headers rather than adding a sample or re-encoding.
+
+**Gap:** Exact presentation and unchanged PCM required a representation for platform-omitted remainder.
+
+**Reach:** This is a private 64-MiB-bounded finalizer for this writer, not a general import repair parser or invented audio tail.
+
+**Verdict:** sound. **Confidence:** medium.
+
+**Owner:** [MovieAudioTail.swift](../../helpers/mac/Sources/ScreenRecorderWire/MovieAudioTail.swift).
+
+### Project navigation remembers cursors and shares one observed page
+
+**When:** Origin in `9b839582`; prior ledger location 5839–5874.
+
+A user goes forward through Projects and then back. The native controller stores the public cursors for visited pages, requests five rows at a time in service creation order, and publishes one observed value to menu and Settings. Those views issue no independent library reads and keep no second catalog.
+
+**Gap:** Bounded page size, backward navigation storage and view publication were unspecified.
+
+**Reach:** Navigation stays small and service-owned; the page size is reversible presentation discretion rather than a large-library guarantee.
+
+**Verdict:** sound. **Confidence:** medium.
+
+**Owner:** [LibraryController.swift](../../apps/macos/Sources/ScreenRecorder/LibraryController.swift).
+
+### Model tests replace only the external fetch boundary
+
+**When:** Origin in `9b839582`; prior ledger location 6053–6074;6151–6168.
+
+A scratch public model.prepare asks its ordinary owner to fetch each registered file. The fixture supplies already verified exact local bytes at that boundary and can hold or fail the external response; actual checksum validation, receipt creation, retry and reopen remain real. A fabricated ready receipt or scripted synthesis would bypass the contract being checked.
+
+**Gap:** Readiness proof did not require live hosting/credentials for its local owner behavior.
+
+**Reach:** This fixture does not claim a live network transfer or speech quality and does not prime an independent caller’s generation choices.
+
+**Verdict:** sound. **Confidence:** medium.
+
+**Owner:** [models.ts](../../packages/core/src/models.ts).
+
+### Measurement probes stop visibly and recover by immutable content
+
+**When:** Origin in `9b839582`; prior ledger location 3822–3855.
+
+A camera probe reaches its finite five-million-observation bound and stops interrupted, retaining accepted media/mappings rather than continue with hidden missing evidence. Recovery names verified raw/mapping/candidate content; an existing equal output can satisfy replay, while a different output refuses without replacement. Moving the evidence need not preserve its original inode.
+
+**Gap:** The finite observation envelope and probe replay identity were unspecified.
+
+**Reach:** Probe limits do not become production recording caps, and caller-owned failed/raw evidence is not silently reclaimed.
+
+**Verdict:** sound. **Confidence:** medium.
+
+**Owner:** [CameraMedia.swift](../../helpers/mac/Sources/ScreenRecorderCapture/CameraMedia.swift).
+
+### Public voice capacity is a registered joint envelope with truthful completion
+
+**When:** Origin in `9b839582`; prior ledger location 3781–3802;3606–3625.
+
+A caller supplies a canonical mono 24-kHz reference lasting up to twenty seconds—480,000 decoded frames, within the 1,985,536-byte encoded-reference limit—and chooses measured synthesis controls. The registered profile also bounds target tokens, total model input, request bytes and generated codes jointly. If generation reaches its code/output budget without the model’s end-of-speech signal, it fails as incomplete rather than publishing a chopped sentence. [The generation owner](../../packages/core/src/voice-generation.ts) admits the exact request; the caller can make another explicit request or compose several generated assets, without hidden splitting or stretching.
+
+**Gap:** Backend configuration alone did not establish safe local capacity or what reaching a budget meant.
+
+**Reach:** A wider supported envelope requires a new measured immutable profile identity; operational capacity and completed speech are explicit, independently of already retained generation replay.
+
+**Verdict:** sound. **Confidence:** medium.
+
+**Owner:** [voice-profile-v1.json](../../packages/core/src/model-data/voice-profile-v1.json).
 
 ## Sound — high confidence
 
-### A timestamp jump is not evidence of a native acquisition gap
-
-When: corpus pass, `b1fc5fe`.
-
-The choice: a video timestamp jump is paired with explicitly synthetic acquisition
-metadata. A decoder can hold the prior picture across the jump; the separate
-metadata says recording was unavailable there. The fixture does not claim to
-contain a native empty edit-list interval. The plan requested gap cases without
-choosing how this small generated case would encode one.
+### Distinguish acquired gaps from held pictures
 
-The reach: consumers must distinguish displayed held pixels from evidence that
-media was actually acquired. Existing native empty-gap references remain required.
-Verdict: sound because it avoids treating a convenient synthetic case as proof of
-a different media mechanism. Confidence: high.
+**When:** Origin in `9b839582`; prior ledger location 40–54.
 
-### Retain one thumbnail by decoded-buffer identity
+A generated video jumps forward in timestamp. The decoder may hold its earlier picture across the jump, so a separate declared acquisition mask marks unavailable time. A held decoded picture alone cannot establish that a camera acquired another frame.
 
-When: native baseline maintenance, `babc2f7`.
+**Gap:** The gap fixture did not specify how to represent actual acquisition absence.
 
-The choice: when thousands of tiny cuts revisit the same held video frame, reuse
-its thumbnail. The cache holds a strong reference to that exact decoded buffer,
-so a different frame cannot accidentally reuse its identity. Empty intervals
-clear it. Every cut still emits its own timing row. The alternative was to redraw
-the same pixels thousands of times, or maintain a larger timestamp-keyed cache.
-The plan required bounded work but did not select this cache identity.
+**Reach:** Readers and oracles keep physical presentation, acquisition support and synthetic fixture metadata distinct.
 
-The reach: memory includes at most one extra retained source buffer and one small
-thumbnail; timing and output budgets stay unchanged. Verdict: sound because the
-cache follows the existing decoder's actual held-frame lifetime without changing
-sample selection. Confidence: high.
+**Verdict:** sound. **Confidence:** high.
 
-### Probe presentation timing without retaining every frame timestamp
+**Owner:** [source-projection.ts](../../packages/composition/src/source-projection.ts).
 
-When: slice 02 native metadata checkpoint.
+### Reuse one thumbnail by decoded buffer identity
 
-The choice: when importing a long video, the probe walks its sample cursor and
-reports the presented sample count, first/last timestamp and duration range. It
-maps the file's edit list—the instructions selecting and repositioning encoded
-media—before counting. It does not return a potentially huge per-frame JSON list.
-The plan required actual timing metadata but did not choose its summary shape.
+**When:** Origin in `9b839582`; prior ledger location 55–70.
 
-The reach: metadata can identify variable timing and preserve stream offsets with
-bounded sample memory. Exact frame selection still reads the source through the
-native timing owner; a summary cannot replace source evidence. Verdict: sound
-because it preserves the shared presentation clock without making import responses
-grow with every frame. Confidence: high.
+Thousands of short cuts visit the same held physical frame. Thumbnail reuse retains that exact buffer and one thumbnail, while every cut still emits its own timing row. A new frame or empty interval clears reuse; a timestamp guessed to be equivalent cannot supply identity.
 
-### Reverse lookup returns an interval rather than one guessed timestamp
+**Gap:** Bounded native work did not prescribe a thumbnail cache key.
 
-When: slice 01, `b1b08f3`. Confidence: medium. Verdict: sound.
+**Reach:** Future image-changing work must preserve the buffer identity boundary rather than grow an independent persistent cache.
 
-The choice: at slow playback, several project microseconds can point to the same
-source microsecond. A source-time query therefore returns the whole matching
-project interval and its first integer time, or null when fast playback skips that
-source microsecond altogether. A held frame returns the entire hold. The plan
-required all occurrences and exact rounding but did not specify inverse query
-shape. The reach: evidence projection can represent repetition and holds without
-losing occurrences; callers must not assume one source time has one project time.
+**Verdict:** sound. **Confidence:** high.
 
-### Attached content inherits its parent's unavailable intervals
+**Owner:** [SourceVisualSamples.swift](../../helpers/mac/Sources/ScreenRecorderFrames/SourceVisualSamples.swift).
 
-When: slice 01, `b1b08f3`. Confidence: medium. Verdict: sound.
+### Keep probe summaries separate from sample inventories
 
-The choice: an overlay attached to a particular occurrence of captured content
-retains its full placement envelope, but reports unavailable intervals wherever
-that parent content was not acquired. Independently placed project-time content
-remains independent. The plan required source gaps and content attachments but
-did not spell out their intersection. The reach: render/inspection consumers must
-honor that distinction; attaching content never invents acquired source material.
+**When:** Origin in `9b839582`; prior ledger location 71–86.
 
-### Decode nearby cuts once; reset the conversion filter at every cut
+An agent imports a long movie. The probe walks actual presentation samples and edit-list mapping but returns count, first/last time and duration variation rather than a timestamp array for every frame. Exact picture selection still asks the native presentation owner.
 
-When: baseline maintenance, `0147c63`. Confidence: medium. Verdict: sound.
+**Gap:** Import metadata needed actual timing without an unbounded JSON inventory.
 
-The choice: many tiny cuts share one source decoder, but each selected interval
-gets a fresh rate-conversion filter. This avoids thousands of expensive decoder
-starts while preventing excluded neighboring audio from influencing a cut through
-the filter. One decoded packet is retained; a gap exceeding one second restarts
-reading instead of decoding an arbitrarily long excluded span. The plan required
-bounded work and cut isolation but did not set this reuse boundary.
+**Reach:** Summary metadata can describe timing variation; it cannot replace physical sample membership.
 
-The reach: the one-second threshold trades decoder startup against bounded
-skipping; it does not alter samples admitted to the filter. Source reordering in
-future executors must start an appropriate reader rather than treating this ordered
-cursor as random access. Long-stream scale acceptance remains separately required.
+**Verdict:** sound. **Confidence:** high.
 
-### Persist exact fractions when an edit creates a fractional boundary
+**Owner:** [SampleTiming.swift](../../helpers/mac/Sources/ScreenRecorderMedia/SampleTiming.swift).
 
-When: slice 03a. Confidence: medium. Verdict: sound.
+### Let attached children inherit unavailable support
 
-The choice: a clip selecting ten source microseconds plays over six project
-microseconds. Splitting it at project time two requires source time10/3. Rounding
-the stored split to3 changes a later query from source time5 to4. Stored clip and
-anchor endpoints therefore accept reduced fractional microseconds, while whole
-values remain numbers and requested command coordinates stay integers. Both
-fraction components must fit safe integers; unrepresentable results fail rather
-than round silently.
+**When:** Origin in `9b839582`; prior ledger location 99–109.
 
-The gap: the original integer-only document could not preserve its own affine
-mapping under arbitrary retimed splits. The reach: the reducer, compiler and
-portable document readers inherit one exact representation; they must not coerce
-stored endpoints to numbers before the declared sampling boundary. This avoids
-adding a second speed or hidden original-mapping field to every edited clip.
+A title follows an occurrence that has an acquisition hole. Its authored envelope stays intact, but its available intervals also contain that hole. A project-time title placed independently remains independent.
 
+**Gap:** Content attachment and source gaps needed an intersection rule.
 
-### Admit an import and its job in the same transaction
+**Reach:** Attachment never becomes permission to invent acquired source material.
 
-When: slice 02a admission integration. Confidence: high. Verdict: sound.
+**Verdict:** sound. **Confidence:** high.
 
-The choice: when an agent imports a file while the queue is full, neither a job
-nor a new frozen import record is saved. The queue runs a synchronous request
-factory inside its existing database transaction; that factory creates the import
-record and returns the job request. A capacity failure rolls both back. Source
-inspection happens beforehand, and media processing starts after commit.
+**Owner:** [source-projection.ts](../../packages/composition/src/source-projection.ts).
 
-The gap: the plan required bounded admission and immutable retries but did not
-specify how the import owner joins queue admission. Saving imports first would
-leave unlimited rejected requests behind; a cleanup worker would add another
-lifecycle. The reach: future preparation owners can share this transaction, but
-must keep asynchronous file work outside it. Previously accepted request replay
-still uses its frozen identity without reopening the external source.
+### Store exact selected and placed fractions
 
+**When:** Origin in `9b839582`; prior ledger location 126–144;2543–2571;4200–4274.
 
-### Explicit track setup and inspectable deterministic batch results
+A ten-microsecond source interval plays in six project microseconds. Splitting at project time two stores source time 10/3 rather than rounding it to three. The same representation preserves admitted physical endpoints and seeded-caption positions. Reduced safe-integer fractions are persisted; unrepresentable results refuse.
 
-When: slice 03 reducer foundation. Confidence: medium. Verdict: sound.
+**Gap:** Integer-only documents could not preserve the affine mapping or exact admitted endpoint.
 
-The choice: an agent first adds the tracks it needs, labels them inside the batch,
-then places streams on those tracks. Changing the canvas leaves clip timing
-intact. Removing a track containing clips asks for explicit clip edits first;
-removing an already absent track succeeds. This avoids silently deleting media
-when the agent only requested a layout change.
+**Reach:** Reducers, packages and native lowering share one time representation instead of hidden original clocks or mutable speed fields.
 
-The gap: the plan defined tracks and atomic edits but left track creation and the
-receipt format unspecified. The transaction owner supplies a stable namespace;
-entity kind and a batch ordinal produce repeatable IDs. Each operation returns
-its changed entities, while the final changed flag compares the initial and final
-documents. Adding and removing a track in one batch is therefore a net no-op.
-The reach: storage can replay requests without inventing fresh identities, and
-agents can inspect the same expansion that produced the resulting document.
+**Verdict:** sound. **Confidence:** high.
 
+**Owner:** [README.md](../../packages/composition/README.md).
 
-### Name split children by their original occurrence
+### Join import admission to queue admission
 
-When: slice 03 splitting. Confidence: high. Verdict: sound.
+**When:** Origin in `9b839582`; prior ledger location 145–162.
 
-The choice: an agent splitting linked audio and video can name the right video
-and right audio in that operation, then independently edit those named pieces
-later in the same batch. Each label identifies an original occurrence and binds
-to its new right child. If that occurrence lies outside the cut and produces no
-right child, the batch fails explicitly instead of selecting unrelated footage.
+An agent imports while the preparation queue is full. A synchronous request factory inside the catalog transaction either stores both the immutable import intent and its real job or stores neither. Asynchronous source inspection happens before that transaction; media work starts afterward.
 
-The gap: the plan required in-batch labels and split lineage but did not define
-how a multi-stream split exposes more than one new identity. The reach: callers
-can compose edits atomically without predicting IDs or sending intermediate
-requests. The left surviving clip and first surviving synchronization group keep
-their IDs; additional children/groups use the same batch identity allocator.
+**Gap:** Import intent and bounded queue admission needed one transaction owner.
 
-### Metadata stays readable regardless of import history
+**Reach:** New preparation owners must not leave rejected import intents behind or hold SQL transactions across asynchronous work.
 
-When: asset admission integration. Confidence: high. Verdict: sound.
+**Verdict:** sound. **Confidence:** high.
 
-The choice: importing the same bytes from many paths adds provenance to one
-asset. Reading its immutable metadata does not also load that entire history;
-asset.origins returns a bounded page and continuation cursor. Asset lists likewise
-return compact summaries, with full stream metadata available by identity.
+**Owner:** [assets.ts](../../packages/core/src/assets.ts).
 
-The gap: the plan required bounded inspection but left response boundaries and
-cursor shape open. Provenance uses the existing lexical database key, so a
-concurrent insertion before the cursor appears on a refreshed traversal. Fixed
-history traverses exactly once. The reach: agents must follow pagination to inspect
-all origins, while a large history cannot make ordinary metadata unreadable.
+### Require explicit track edits and report the net batch change
 
-### Keep a safe media extension without making it asset identity
+**When:** Origin in `9b839582`; prior ledger location 163–181.
 
-When: immutable asset admission. Confidence: medium. Verdict: sound.
+An agent adds tracks, gives them local labels and places selected streams in one batch. Removing an occupied track refuses until its clips are addressed; removing an absent track is harmless. Ordered receipts describe intermediate changes, while the final changed flag compares the starting and resulting documents.
 
-The choice: two files with identical bytes share one hash identity, while the
-managed file retains a bounded, safe original extension so native decoders can
-open it. The first admitted copy owns the stored filename. Native probing, rather
-than the extension, determines the actual streams. The gap: the plan did not
-specify physical names; extensionless managed movies failed AVFoundation decoding.
-The reach: original bytes remain unchanged, but extensionless or mislabeled input
-may still produce an explicit native decode error. This does not classify its
-codec as unsupported or introduce a second decoder into production.
+**Gap:** Track setup, no-op meaning and receipts were unspecified.
 
-### Compare native render timing independently from color interpretation
+**Reach:** Adding and then removing the same empty track is a net no-op without hiding its ordered expansion.
 
-When: slice 06 reproduction. Confidence: medium. Verdict: sound.
+**Verdict:** sound. **Confidence:** high.
 
-The choice: use the bounded reader/compositor/writer mechanism for the demonstrated
-preview, gap and tail timing cases. Keep untagged color interpretation separate:
-known synthetic colors get separately hashed tagged derivative fixtures, while
-original untagged files retain their own diagnostic results. The gap: native
-platform guesses can differ from the generator's intended profile. The reach:
-future rendering must preserve the winning timing mechanism and explicitly settle
-color conversion; passing a tagged fixture cannot authorize retagging arbitrary
-user footage or claim every AVFoundation composition configuration fails.
+**Owner:** [edits.ts](../../packages/composition/src/edits.ts).
 
-### Preserve generated duration and expose the actual joins
+### Allocate reproducible local identities and split labels
 
-When: slice 18 research. Confidence: medium. Verdict: sound.
-
-The choice: generate one word and one phrase using a five-second local reference,
-then insert the complete generated PCM between untouched original samples. A
-longer generated phrase lengthens the result rather than being silently squeezed
-into its requested slot. Three path origins use identical reference bytes to
-isolate path handling, and are explicitly not evidence of managed project reuse.
-The gap: the reproduction needed concrete bounded texts, reference duration and
-join treatment. The reach: generation remains a candidate until words, voice and
-joins pass; seed, numerical speed and exact PCM preservation do not certify
-speech quality. The agent will choose any eventual trim, stretch or fade explicitly.
+**When:** Origin in `9b839582`; prior ledger location 163–198.
 
-
-### Trim removes addressed end windows rather than inventing a group envelope
-
-When: slice 03 removal/trim. Confidence: medium. Verdict: sound.
-
-The choice: trimming a one-second video to its middle portion also removes those
-same end windows from linked audio. If that audio extends beyond the video's
-original end, its extra tail remains. The agent can address that tail explicitly;
-trimming one occurrence does not silently redefine the whole synchronization
-group's duration. The gap: the plan defined linked project-range intersection but
-left the trim command's input shape open. The reach: trim uses one occurrence and
-a kept project interval, and expands through the same range-removal algebra.
-
-Removal accepts up to 1,000 ranges in one operation, matching the batch's existing
-bounded-work convention; overlapping ranges are merged before applying them.
-Larger edits must be expressed deliberately within the public operation limits,
-never silently divided into separate commits. This bound must appear with the
-shared edit schema when the public project API is added.
+A batch splits linked video and audio, then addresses each right-hand child by a local label. Each label names the original occurrence that actually split. A member outside the cut cannot borrow a neighboring child; the batch refuses. The stable transaction namespace plus entity kind and ordinal supplies created IDs.
 
+**Gap:** Multiple split children needed inspectable labels and replay-stable allocation.
 
-### Ripple closes named time windows without silently trimming other footage
+**Reach:** Callers compose atomic edits without predicting IDs; later retries preserve the same identities.
 
-When: slice 03 ripple. Confidence: medium. Verdict: sound.
+**Verdict:** sound. **Confidence:** high.
 
-The choice: removing a half-second gap can shift later clips on named tracks even
-though no picture occupied that gap. If a different clip crosses the same window,
-the operation asks the agent to include it explicitly instead of silently deleting
-part of it. An absent occurrence ID never becomes permission to shift unrelated
-footage. Attached overlays follow their root once; fixed project overlays remain
-in place and are reported for review.
+**Owner:** [edits.ts](../../packages/composition/src/edits.ts).
 
-The gap: the plan fixed explicit ripple scopes but left empty-time collapse and
-unaddressed crossing content implicit. The reach: the agent can express global
-ripple deletion by naming all affected content, or retain unrelated footage with
-an explicit narrower scope. The engine does not choose which extra footage to cut.
+### Separate immutable metadata from growing origin history
 
-
-### Move destination and retained subgroups — sound, medium confidence
-
-When moving linked audio that begins after its video, `atUs` places the earliest
-start of the expanded selection, so the audio keeps its delay. The plan required
-one shared displacement but did not name which start the destination describes.
-This makes multi-selection moves independent of argument order; future command
-help must explain that the expanded group, not the clicked member, lands there.
-For a selected move of two clips out of a four-clip link, both pairs retain their
-internal synchronization. The stationary pair keeps the old group identity and
-the moving pair receives a new one, so unedited members retain identity.
-
-### Gain-only voice audition — sound, medium confidence
-
-When generated speech sounds louder than the surrounding take, the audition
-matches its average signal energy to up to two seconds of original audio on
-each side. This changes only the generated samples, leaving raw generation and
-original context untouched. The plan did not specify a level estimator. Silence
-and delivery affect this simple measurement, so it is a reversible comparison,
-not the production loudness policy. Join acceptance still requires listening.
-
-
-### Change attachment without silently changing timing — sound, medium confidence
-
-If an overlay should follow another clip, `reanchor` changes what it follows
-only when the requested attachment resolves to its current start and end. The
-agent uses move or retime separately when timing should change. `detach` instead
-freezes that resolved position exactly, including fractional boundaries, so the
-agent does not have to round it into a command timestamp. The plan required
-explicit reanchoring but left its timing behavior unspecified. This separation
-keeps links and source samples unchanged during a dependency-only edit, while
-batches can still combine all three operations for a deliberate timing change.
-
-
-### Separate join timing from acoustic similarity — sound, medium confidence
-
-After level matching, the user still heard pauses and an echoey replacement.
-The initial join audition cropped only generated margins and faded only its
-edge samples, preserving surrounding original samples exactly. The later
-room-tone audition declares short crossfades into original context explicitly. The crop is
-explicit, not an automatic silence detector: the first word crop changed the
-recognizer result from paid to page, demonstrating why quiet material cannot
-be discarded solely from an ASR timestamp. A longer ending restored word
-agreement. These are provisional listening candidates, not approved defaults.
-
-For the echo complaint, a second experiment uses the same local model and
-reference audio but conditions on its speaker representation alone, omitting
-the reference transcript/sequence. The plan permitted local runtime experiments
-but did not choose a conditioning mode. Voice similarity and room sound may
-trade off. The user subsequently rejected speaker-only conditioning as much
-worse; it remains negative evidence, while the original mode stays the closer
-candidate. No de-reverberation claim or production policy follows from
-the recognizer passing.
-
-
-### Copies own their destination — sound, medium confidence
-
-Copying an overlay alone to a later point creates an independent occurrence at
-that point. It does not remain trapped inside the original parent's interval.
-If the parent is copied too, the copied overlay follows that new parent instead.
-The plan required duplication of occurrences and attachments but did not define
-references to parents outside the copied set. This gives a copy a usable explicit
-destination without changing the original attachment; agents can reanchor the
-copy afterward when they want an external dependency. Duplicate defaults to the
-selected subtree; linked AV copying is explicit. Its origin map shares the
-`clipLineage` receipt with split/remove, which names relationships without
-implying that the original was deleted.
-
-
-### Match native RGB and encoder color interpretation — sound, high confidence
-
-For the Rec.709 reproduction, RGB pixels carry the same color-space
-interpretation as the encoder's output tags. The RGB color space is derived
-from Core Video's Rec.709 metadata rather than assuming that a similarly named
-Core Graphics space is interchangeable on this host. The plan required a
-verified SDR profile but delegated the conversion mechanism. This determines
-how a later native renderer must label its pixel buffers; it does not choose a
-universal compression bitrate or declare untagged source color intent.
-
-
-### Insertion opens time before placing media — sound, medium confidence
-
-To insert a new video, an agent opens the desired duration on explicit tracks
-with `insert`, then uses `place` for its video/audio streams in the same atomic
-batch. An invalid placement rolls the whole request back. The plan required
-splitting and shifting but did not prescribe whether insertion carried its own
-second placement schema. Reusing place supports video-only, audio-only or
-multi-layer inserts without duplicating placement rules or making users manage
-partially completed edits. A gap after the final clip alone does not extend the
-project; a placed clip establishes its content duration.
-
-
-### Match the recorded background with a separate room-tone bed — sound, medium confidence
-
-To address the missing hum, the audition repeats a quiet interior of an original
-pause beneath the generated speech, preserving its recorded average level.
-Short overlaps join repeats; short declared crossfades join the replacement to
-the surrounding take. The user requested extraction and addition of the actual
-background, but left the region, level and transition method to implementation.
-Keeping this bed separate makes its level and source auditable and reversible.
-The selected region is supported by its low stable energy and transcript gap,
-not yet by an independent listening judgment that it contains no speech. These
-are audition settings, not automatic defaults for all future recordings.
-
-### Shorten only the phrase entrance — sound, medium confidence
-
-The user accepted the phrase ending but still heard too much delay at its start.
-The next audition removes 120ms from the existing voice-plus-background audio
-and rebuilds just the entrance crossfade. It keeps every later sample unchanged,
-so the accepted ending cannot drift through regenerated room tone or a different
-mix. The amount is a reversible audition choice, not an automatic trim default;
-local transcription retains the complete phrase, while naturalness still needs
-listening judgment.
-
-### Ripple move names the final destination — sound, medium confidence
-
-When an agent moves a two-second clip from the start to ten seconds, `atUs`
-means that it starts at ten seconds in the finished timeline. The old occupied
-intervals close first in the timing calculation. The plan required an explicit
-destination but did not choose before-removal versus after-removal coordinates.
-Final coordinates make the result directly inspectable without the agent adding
-back the removed duration. Separated selected clips keep their internal spacing:
-only occupied old intervals close, and their whole envelope opens at the new
-location. A track-only change at the same time does not open or close time.
-Future convenience reorder commands must translate their chosen destination to
-this same rule. Agents can compose separate moves when they want different spacing.
-
-### Replacement retains the occurrence name but drops old content dependencies — sound, medium confidence
-
-Replacing one narration clip keeps that clip's ID, timing and link to its video,
-so later edits can keep addressing the same occurrence. The plan required explicit
-occurrence selection but did not say whether replacement allocated a new ID.
-Revision pinning distinguishes evidence about the old source from the new one.
-An actual source or selected-range change removes the old attached descendants;
-replacing with the identical selection leaves them intact. An agent can detach
-an overlay first when it should survive. This avoids silently treating old
-content references as references into unrelated footage while keeping the
-replacement itself easy to address. Explicit trim starts at the supplied source
-start; choosing a different excerpt remains the agent's decision.
-
-### Ripple replacement follows the supplied media's natural duration — sound, high confidence
-
-Replacing two seconds of narration with one second using explicit ripple fit
-makes that occurrence one second long and shifts later audio on the named
-tracks. It leaves the linked video untouched and splits the old timing link;
-it does not silently speed up the video or inherit an old playback-rate change.
-The plan named ripple replacement without specifying its duration basis.
-Using the supplied selection's natural duration makes this fit distinct from
-stretch-to-target and preserves the requested audio/video independence. A held
-image has no natural duration, so it needs an explicit duration operation instead.
-
-### Silence is an asset-free occurrence — sound, high confidence
-
-A final three-second silent interval needs to keep those three seconds in the
-project even when no later media establishes its end. It is therefore an explicit
-audio clip with placement and identity, without a fake WAV file, asset ID or source
-clock. The original model only described ranges and held media; explicit silence
-padding exposed this missing shape. Existing media documents keep their required
-asset/stream fields, and strict silence documents forbid them. Source queries
-omit silence, while composition inspection retains its authored interval; a
-missing recorded sample still reports its actual source with unavailable evidence.
-This preserves one affine source mapping per media clip and lets ordinary clip
-editing carry silence without a separate within-clip segment model.
-
-### Padding expands into ordinary linked pieces — sound, medium confidence
-
-If one second of replacement narration must occupy a two-second slot, silence
-fit creates a one-second media prefix plus a one-second asset-free silence tail.
-Video hold fit similarly adds a held-frame tail at the last selected microsecond.
-The prefix keeps the old occurrence ID; lineage names both pieces, and the tail
-joins the existing synchronization group or a new group with the prefix. Thus
-normal linked edits carry the complete replacement, while selected scope can
-change one piece. The plan named fitting policies without specifying this shape.
-Ordinary pieces preserve the one-source-clock-per-clip rule and reuse all edit
-primitives. Expansion removes old attached descendants, even with an unchanged
-source selection; detach first to preserve a chosen overlay. Exact/default,
-trim and stretch replacements keep their single-interval behavior.
-
-## Processing routing — deterministic audio ties
-
-- **When:** 03b routing implementation.
-- **Choice:** Equal-order audio siblings use node kind and ID as deterministic
-  tie-breakers. When two narration tracks share an order, reading the same project
-  gives the same occurrence ordering even if its stored arrays were rearranged.
-  This does not change their gain or give either voice priority.
-- **Gap:** The plan required canonical audio ordering but did not name tie-breakers.
-- **Reach:** Inspection and later compilation share the same resolved track rank;
-  visual siblings still reject duplicate order rather than guess layering.
-- **Verdict:** sound; a stable content-derived tie-break avoids storage-order drift.
-- **Confidence:** high.
-
-## Processing identity and authoring readiness
-
-- **When:** 03c stack lifecycle.
-- **Choice:** Processor IDs are unique across a project, and copy receipts record
-  each original step → new step relationship. Splitting a clip keeps the old IDs
-  on its retained first piece and allocates different IDs for additional pieces.
-  An agent can therefore change one fragment without changing its neighbor.
-- **Gap:** The plan required stable/fresh IDs and lineage without fixing their
-  uniqueness scope or receipt shape.
-- **Reach:** Inspection and prepared-result dependencies can identify a step
-  unambiguously; copied settings never become a hidden shared configuration.
-- **Verdict:** sound; follows existing transaction identity allocation.
-- **Confidence:** high.
-
-- **When:** 03c registry foundation.
-- **Choice:** Constant gain uses a finite nonnegative linear multiplier, including
-  zero for silence, with no automatic upper clipping limit. The registry reports
-  authoring support separately from executable support. An agent can inspect a
-  valid authored stack without being told that audio processing already works.
-- **Gap:** The plan delegated the registry representation, and required explicit
-  gain rather than hidden normalization; this fixes its initial numeric domain.
-- **Reach:** Native mixing will apply these values and report peaks rather than
-  silently attenuate the mix. Decibel conveniences convert at the shared boundary.
-- **Verdict:** sound; consistent with the existing linear-gain contract.
-- **Confidence:** high.
-
-## Durable project request and asset ownership
-
-- **When:** 04 core store checkpoint.
-- **Choice:** A request ID is unique across mutation kinds within one project;
-  creation requests have their own catalog-wide namespace. Reusing an edit ID
-  for undo therefore conflicts instead of accidentally replaying another action.
-  Validated arguments are compared with sorted object keys while preserving list
-  order, so reordered JSON fields replay but reordered processing steps do not.
-- **Gap:** The transaction contract required replay/conflict without fixing the
-  namespace across operation names.
-- **Reach:** CLI and MCP will share exact receipts, including labels and copied
-  processing IDs. Failed requests publish no receipt and can be corrected/retried.
-- **Verdict:** sound; fewer ambiguous retry cases than operation-local ID reuse.
-- **Confidence:** high.
-
-- **When:** 04 core store checkpoint.
-- **Choice:** Every immutable revision directly retains its media dependencies.
-  Removing a clip from today's edit does not free the media still needed by undo.
-  Project deletion must explicitly retire those references in its lifecycle pass.
-- **Gap:** The plan required historical retention but left the concrete owner key
-  open. Revisions use globally unique IDs because asset reference owners have one ID.
-- **Reach:** Undo, old previews and later portable packages can follow one owner
-  graph instead of reconstructing what prior edits used.
-- **Verdict:** sound; ownership matches immutable revision lifetime.
-- **Confidence:** high.
-## Compiler scheduling pass — 2026-09-27
-
-- **Sound; medium confidence — Build once, query many windows.** When an agent
-  requests several previews from one revision, `createCompiler` builds an interval
-  index once and reuses it for frame, audio and processing queries. The plan named
-  a compile-window function but left index lifetime unspecified. A caller rebuilding
-  for every frame would repeatedly scan the whole project. The service must retain
-  this compiler with its immutable revision; execution and cache identity remain
-  separate unfinished compiler work.
-- **Sound; high confidence — Keep the full audio mapping beside bounded output.**
-  A preview starting halfway through speech receives only its requested sample
-  interval, but keeps the clip's original source selection and placement. Replacing
-  those with the preview bounds would restart stretch or resample timing. The plan
-  fixed phase preservation but left worker record shape open. Future preparation
-  consumes the original mapping and restricts its output, rather than treating a
-  preview as newly authored media.
-- **Sound; medium confidence — Omit inactive processing branches.** A short preview
-  returns the clips contributing audio or sampled pictures to its window and their track/group ancestors,
-  followed by output. Empty branches contain no signal, and the currently supported
-  gain processor cannot generate one. The plan required bounded work but left graph
-  pruning unspecified. A future processor that generates sound or has a tail beyond
-  its input must revisit this rule before its capability is admitted.
-
-## Compiler execution-window contract — 2026-09-27
-
-- **Sound; medium confidence — Identify work with its complete manifest.** An agent
-  asking for the same window gets the same revision, rendition, tap, source mappings
-  and ordered processing requirements. These serializable values identify its work;
-  storage can hash them when assigning an artifact key. The plan required dependency
-  identity without choosing a hashing owner. Keeping hashing out of composition
-  avoids a second algorithm that must agree with durable preparation and publication.
-- **Sound; high confidence — Dry means before this target's stack.** Inspecting a
-  dry group still hears its processed child tracks, and inspecting after one group
-  step excludes all later group steps and every parent stack. The plan named taps
-  without defining their request shape. Explicit target plus dry/after-step/processed
-  selection preserves this meaning; immutable raw source evidence remains a separate
-  existing read rather than an ambiguous dry option.
-- **Sound; medium confidence — Native requirements stay unresolved.** A retimed
-  narration window records its full selection, placement, pitch policy and required
-  output count but cannot claim readiness without the actual prepared implementation.
-  The compiler can validate this request now; native adoption later supplies media.
-  This fills the plan's worker-binding gap without adding pretend executor identities
-  or allowing inspection to silently substitute dry or unstretched audio.
-
-## Decoded gap oracle — 2026-09-27
-
-- **Sound; high confidence — Judge compressed black with the existing codec tolerance.**
-  A correctly blank H.264 gap may decode a few channels slightly above zero. The
-  old exact-byte test labeled such a gap as footage even though source timing and
-  pixel inspection showed black. The corpus now applies its existing four-level
-  color tolerance to every channel in a gap; timestamp/duration checks and
-  rejection of colored glyph-free frames remain. This is an oracle correction,
-  not a new production quality threshold or a relaxed whole-image color gate.
-
-## Project retirement — 2026-09-27
-
-- **Sound; medium confidence — A deleted project cannot replay a successful edit.**
-  A retry against a retired project returns NOT_FOUND before looking up an old
-  edit receipt. For live projects, replay still precedes stale-head checks.
-  Returning an edit success after deletion would suggest that work remains
-  available. Retrying the original creation returns its historical receipt but
-  never recreates the project; the caller can inspect its availability.
-- **Sound; high confidence — Keep retirement identity, release media references.**
-  The existing deletion timestamp fences work; retained revision rows journal
-  incomplete cleanup. After the shared queue drains, undo and revision rows retire
-  in bounded pages. Project/request identities remain so retries cannot resurrect
-  work. Deleting a project does not delete its original assets. Future preview or
-  export owners must join this same coordinator before they can publish jobs.
-- **Sound; high confidence — Deletion is idempotent by project ID.**
-  Repeating project.delete for an already absent project succeeds, matching the
-  existing recording deletion contract. There is no extra deletion-request ledger
-  or parallel job queue.
-
-## Compiler presentation-interval conformance — 2026-09-27
-
-- **Sound; high confidence — A partial preview keeps the picture already on screen.**
-  If a preview begins at 50,001 microseconds between project frames, its first picture
-  still comes from the preceding sampled frame; only that picture's visible interval
-  is shortened. The frozen render reproduction already requires this. The first
-  compiler pass incorrectly kept only samples starting inside the window. Records
-  now distinguish the original sample time from the clipped presentation interval,
-  and dependency selection includes the preceding picture's clip even after that
-  clip's authored interval ends. This is a preservation correction, not a new preview
-  policy; later native execution must preserve both fields.
-
-- **Sound; high confidence — Missing parent support outranks missing source support.**
-  Two clips can read the same gapped file, but one can additionally depend on an
-  unavailable attached parent. The resolver now retains the parent's exact support
-  before intersecting it with the child's source. Compiled frame layers distinguish
-  available, source-unavailable and anchor-unavailable, prioritizing the ancestor.
-  This fills a boundary-information gap: a native decoder may prove that a source
-  gap is an explicit empty edit, but that proof cannot repair missing parent support.
-  The initial native executor refused ancestor gaps outright. The acquisition-gap
-  picture pass below completes that path: physical selection remains validated,
-  then either known exclusion suppresses the layer while preserving its reason.
-  Unknown availability states and unsupported physical timestamps still fail.
-
-## Derived-file ownership — 2026-09-27
-
-- **Sound; high confidence — One cache, explicit domain ownership.**
-  A cached preview belongs to a typed project/asset/recording owner, independently
-  of its file identity. The cache validates availability through its caller's domain
-  policy at reservation, publication and read, using the shared job-owner identity
-  encoding. This replaces recording-only lookup without duplicating leases,
-  publication or eviction. A project and asset with the same ID cannot purge each
-  other's files. The recording policy remains only while that real consumer exists.
-- **Sound; high confidence — Refuse the previous unshipped catalog format.**
-  The derived-cache row now stores owner kind/ID rather than a recording foreign
-  key. The existing format gate advances and refuses older databases without
-  changing their bytes; it does not migrate or reset the user's installed library.
-  This follows the agreed fresh-library cutover and keeps one writable catalog.
-## Selected resampling context — 2026-09-27
-
-- **Sound; high confidence — Resampling context comes from current retained media.**
-  Splitting a continuous clip must keep the same samples, but removing source material
-  must prevent that material from entering a resampling filter. Reading a fixed margin
-  from the whole asset preserved split phase experimentally but leaked an excluded
-  impulse into kept output, contrary to the frozen reader's selection contract.
-  The compiler now derives maximal adjacent same-track/source/affine-clock runs,
-  bounded by source and ancestor availability. Their exact source bounds travel with
-  compiled audio. Pure splits leave the retained union unchanged; real cuts shrink it.
-  These are derived execution inputs, not authored continuity groups or persistent IDs.
-  Native execution may pad synthetically outside a domain, but may not feed real
-  neighboring samples into the filter. Post-resampling gain changes do not split a run.
-
-- **Sound; high confidence — The compiler supplies the retained output origin.**
-  Each context pairs exact source bounds with the full run's floored output sample
-  bounds at the requested rate. Native resampling can preserve frozen nearest-source
-  selection without reconstructing project origins across fractional offsets,
-  splits or windows. This pins phase metadata, not decoded-media equivalence.
-
-## Project derivative retirement — 2026-09-27
-
-- **Sound; high confidence — A held derivative keeps deletion retryable.**
-  If an agent is reading a cached preview when its project is deleted, the project
-  immediately refuses new reads and edits. Cleanup preserves the project's media
-  references until the existing read is released and cache removal succeeds.
-  A retry or startup recovery completes the same deletion; no polling janitor or
-  second lifetime journal is added. The plan required owner coordination but left
-  the busy-read response unspecified. This reuses the cache's existing lease refusal
-  and project tombstone, keeping later preview/export delivery responsible for
-  revoking its own reads before final retirement.
-
-## Render lifetime — 2026-09-27
-
-- **Sound; high confidence — Share attempt ownership without translating edits.**
-  When a project preview renders independent audio and video, its action will run
-  inside the same locked temporary directory and cleanup boundary as recording
-  previews. The action interprets the compiler's records; it does not turn them
-  into old recording spans. The plan required reuse but left that seam unspecified.
-  Separating the render action keeps cancellation, child-process lifetime and
-  publication fencing in one owner while allowing the old recording interpreter
-  to be removed at cutover.
-
-## Native video execution — 2026-09-27
-
-- **Sound; high confidence — Stream compiled pictures under an explicit profile.**
-  The service supplies retained source bindings and a sealed frame-record file;
-  native reads one record at a time. A ten-minute movie does not require a whole
-  frame schedule in native memory or a second interpretation of editing commands.
-  The initial video profile is opaque H.264/Rec.709 using the reproduced encoder
-  settings. Declared HDR, wide-gamut and custom profiles refuse until an explicit
-  conversion is validated, rather than silently changing their appearance. The
-  plan delegated mechanisms but required measured fidelity; this binds the first
-  executable profile without claiming broader color or codec-quality acceptance.
-- **Sound; high confidence — Native cancellation and worker death have different owners.**
-  Cooperative cancellation removes the worker's staging before returning. A killed
-  process cannot run cleanup, so the service's existing locked attempt directory
-  remains responsible for that recovery. The first native operation does not add a
-  competing janitor. Public preview must use this shared lifetime to retain the
-  same guarantees after process death.
-
-## Shared PCM mux input — 2026-09-27
-
-- **Sound; high confidence — PCM consumption is the shared assembly boundary.**
-  Recording and composition producers expose their format and bounded asynchronous
-  blocks through `AudioPCMSource`. MovieMux remains the sole H.264-copy/AAC clock
-  and assembly owner. The protocol does not carry recording roles, source paths,
-  editorial plans or publication metadata; producers retain those responsibilities.
-  Composition adoption requires no legacy timeline translation or intermediate WAV.
-
-## Native audio phase and bounded raster reuse — 2026-09-27
-
-- **Sound; high confidence — Keep selected samples and exact project sample counts.**
-  A fractional cut uses the frozen decoder's nearest source start and upward-rounded
-  source end, while its project output uses the compiler's absolute sample bounds.
-  Those two clocks can leave a final output sample without a retained input sample.
-  Only that calculated deficit may receive synthetic zero, and only after the
-  decoder reaches the declared selection end; discarded real audio never fills it.
-  This resolves the endpoint policy left open by the plan without changing duration,
-  adding a gain ramp or weakening pure-split/window identity. The shared conversion
-  owner applies this same bounded endpoint rule to recording and composition audio;
-  genuinely truncated retained input still fails.
-- **Sound; high confidence — Reuse an unchanged picture within one render attempt.**
-  A held picture may occupy thousands of output frames. Retaining one immutable
-  rendered buffer avoids drawing the identical picture repeatedly, while every
-  compiled frame keeps its own timestamp and duration. Reader identity, selected
-  source-sample time and background state distinguish reuse; future image-changing
-  processing must extend that identity or disable reuse. This is bounded temporary
-  memory inside the existing buffer limit, not another persistent cache.
-
-
-## Public composition preview and movie assembly — 2026-09-27
-
-- **Sound; medium confidence — Budget a render from the retained movie duration.**
-  Previewing the last second of a long source seeks to that retained interval.
-  Its worker budget includes startup plus two times the selected duration, for
-  picture rendering and PCM/AAC assembly, capped by the shared media limit. The
-  plan did not specify this formula. Charging for a discarded source prefix would
-  hide stalled short previews. Broader throughput remains a separate scale gate.
-- **Sound; high confidence — Pin the whole preview request before starting work.**
-  Asking for a preview without a revision or range resolves both from the current
-  project once. Later edits cannot move that job's target. The implementation
-  identity joins its cache identity, so changed rendering code cannot silently
-  reuse a differently produced result. The initial profile is the measured opaque
-  H.264/Rec.709 profile at the authored canvas; no unverified rendition choices
-  are exposed. Future profiles must retain explicit identity and fidelity gates.
-- **Sound; high confidence — Delivery ends at deletion; existing reads still drain.**
-  Deleting a project immediately invalidates its preview tokens. A read already
-  holding a cache lease can finish, so deletion may need retry before removing
-  derived files and history references. Revoking another project's tokens or
-  removing files beneath active reads would violate ownership. The shared delivery
-  and cache owners enforce this without a second project-specific token store.
-- **Sound; high confidence — Keep movie time and PCM sample time explicit.**
-  A requested window starts movie playback at zero, so its PCM block positions
-  are relative to that window. Source context and unavailable-range evidence
-  retain absolute project positions, allowing an agent to locate the original
-  issue. A positive one-microsecond movie may contain no audio sample and therefore
-  no audio track. Exact MP4 movie/edit-list durations remain authoritative when a
-  probe rounds AAC duration to sample boundaries; no selected PCM sample is dropped
-  merely to make those two reports look identical. This resolves the assembly
-  boundary without inventing sound or changing the requested timeline.
-
-
-## Shared project export lifecycle — 2026-09-27
-
-- **Sound; medium confidence — Pin rendered bytes independently of renderer availability.**
-  An export that already selected a completed preview can still publish those exact
-  bytes after the rendering implementation is unavailable. If cache eviction removes
-  those bytes, regenerating requires the originally pinned implementation; another
-  build may produce a different movie. The plan required repeatable outputs but did
-  not specify this deployment boundary. Missing implementation is recoverable when
-  it returns. Explicit export retry repairs only that matching current preview
-  failure; an unrelated newer decode failure still requires its own diagnosis.
-- **Sound; high confidence — One export owner accepts explicit recording or project domains.**
-  Exporting either kind writes a typed owner identity in the same intent table and
-  uses the same job, cache and publication lifecycle. A project-only service supplies
-  its real project owners, not fabricated recording stores. The changed unshipped
-  table uses catalog format 4 and refuses previous formats; it never migrates or
-  resets them. This resolves the unspecified reuse seam while preserving the fresh
-  library decision and enables removing recording bindings at cutover.
-- **Sound; high confidence — Discovery cursors name both possible owner filters.**
-  When an agent carries a page cursor between CLI and MCP, it carries explicit
-  recording and project fields, with the unused one null. Reusing it with different
-  filters fails instead of silently traversing another set. The plan did not fix
-  cursor shape; one neutral shape avoids separate export discovery implementations
-  and leaves no fallback for obsolete unshipped cursor forms.
-- **Sound; high confidence — Stop export admission before waiting for service requests.**
-  A destination check may still be running when the service shuts down. The export
-  owner first closes admission and sends cancellation, then the service waits for
-  pending requests and owners before closing storage. Waiting first would delay the
-  very signal needed to end the request and could admit new work during shutdown.
-  The existing export lifetime supplies this signal; no additional shutdown owner
-  or timeout is introduced.
-
-
-## Exact source-range projection — 2026-09-27
-
-- **Sound; high confidence — A retained word belongs to one clip occurrence.**
-  Splitting through a word produces two partial results with complementary exact
-  ranges; their separate clip identities are not fused into a fictitious whole
-  word. An internal source or anchor gap also makes the result partial, even if
-  the outer endpoints survive. This fixes the completeness meaning left open by
-  the range API. Later phrase search can recognize declared contiguous whole-word
-  sequences but cannot silently upgrade partial words.
-- **Sound; high confidence — Empty retained coverage has no word occurrence.**
-  Querying a known clip for a wholly removed or unavailable source interval returns
-  no retained word (`null` for named lookup, omitted from all-occurrence lookup).
-  A surviving fragment returns partial evidence. The plan did not choose an empty
-  shape; this keeps absent audio from appearing as spoken words. Public inspection
-  must still report unavailable/acquisition ranges through its separate source
-  evidence, rather than treating missing words as proof of silence.
-
-
-## Acquisition-bound composition — 2026-09-27
-
-- **Sound; medium confidence — Changing capture context replaces source identity.**
-  If a clip switches from a context that excludes a capture gap to one that includes
-  it, content attached to the old source selection follows the existing replacement
-  removal rules. Keeping those attachments silently could make annotations refer to
-  different retained material. The plan specified replacement binding but left this
-  attachment consequence open; processing keep/reset remains independent.
-- **Sound; high confidence — A capture context may describe unused sibling streams.**
-  A capture containing screen video and microphone audio keeps both bindings even
-  when a project uses only the microphone. Validation requires the selected binding
-  to match loaded media, without requiring unused sibling assets in every project
-  model. This resolves the scope of context validation and preserves provenance
-  without expanding every revision's media dependencies.
-- **Sound; high confidence — Captured support constrains rather than guarantees bytes.**
-  If a journal says audio was acquired beyond a file's physical endpoint, the model
-  uses only the intersection. It does not reject the complete context or invent
-  missing samples. The plan required physical/support intersection but did not fix
-  treatment of a broader journal interval; keeping it preserves raw evidence while
-  ensuring playback and inspection use only available media.
-
-
-## Native source selection — 2026-09-27
-
-- **Sound; high confidence — PCM results describe sources; capture receipts describe roles.**
-  Reading an imported stream produces the same PCM report as reading a recorded
-  microphone track, without calling imported audio narration. Recording receipt
-  writers attach their actual microphone/system role. This resolves the shared
-  report boundary left open by the neutral selection contract and keeps one
-  converter available to transcription and subsequent audio inspection.
-- **Sound; high confidence — Ambiguous stream omission is an invalid request.**
-  A file containing two audio streams requires the caller to choose one. Omission
-  returns INVALID_REQUEST; a named stream that cannot decode retains the existing
-  decode failure. The spec fixed refusal but not its error category. Neither file
-  ordering nor a decoder default becomes the agent's editorial choice.
-- **Sound; high confidence — Compiled exclusions may suppress occupied pictures.**
-  A capture context can exclude a picture whose bytes still exist in the file.
-  Native video validates the selected stream and source instant, then respects the
-  compiler's unavailable verdict. It does not alter the shared decoder, so another
-  occurrence can retain that same picture. This resolves the negative-support
-  trust boundary; unknown states or unsupported source timestamps still refuse.
-
-
-## Capture adoption admission — 2026-09-27
-
-- **Sound; medium confidence — Identical role files share a binding only when support agrees.**
-  A capture may contain identical microphone and system files. Byte deduplication
-  then gives them the same asset and stream IDs. If both histories acquired the
-  same intervals, one binding retains both authentic role labels. If they acquired
-  different intervals, adoption refuses: selecting that context/asset/stream could
-  not identify which history the agent intended. The plan fixed selector identity
-  but left this collision unspecified; silently taking the first or unioning masks
-  would erase the requested distinction.
-- **Sound; medium confidence — A failed capture adoption does not delete valid media assets.**
-  The video may finish importing before an ambiguous audio stream makes adoption
-  fail. The incomplete capture context stays unavailable and its references are
-  released, but independently valid immutable assets remain in the library. Deleting
-  those assets as rollback could delete bytes another project already uses. The
-  plan did not specify visibility of successful member imports after a later failure;
-  the existing asset owner continues to govern those bytes and future storage policy.
-- **Sound; high confidence — Capture metadata can be read without constructing an importer.**
-  Reopening a project needs its selected capture support and lifetime references;
-  it does not need a native worker or journal-copy machinery. The metadata store
-  and import executor have separate responsibilities in one acquisition module.
-  They share the catalog and existing evidence/asset/job owners, rather than adding
-  another parser or queue. This resolves the constructor boundary while keeping
-  ordinary revision reads independent of media preparation.
-- **Sound; high confidence — Recover abandoned imports before constructing the queue.**
-  The shared queue resumes durable queued jobs as soon as it is constructed. Under
-  the exclusive service lock, startup therefore removes abandoned acquisition files,
-  indexed generations and references first. Reversing that order could erase the
-  files a resumed import just created. The plan required recovery but did not fix
-  this initialization order; the actual crash journey checks all three kinds of
-  abandoned state before permitting retry.
-
-## Source transcript storage — 2026-09-27
-
-- **Sound; high confidence — Recording packages retain their actual domain metadata.**
-  The shared transcript store now indexes either a recording or an imported asset,
-  with explicit source descriptors. Existing recording package readers receive a
-  checked recording view with their real narration provenance; an asset transcript
-  cannot pass that conversion. The plan required preserving packages but left this
-  boundary representation open. It keeps one raw ingester and bounded index without
-  pretending an arbitrary imported stream belongs to a recording. Managed project
-  packages will adopt their own explicit source dependencies in slice 22.
-- **Sound; high confidence — Source support hashes supplement source identities.**
-  Two contexts may retain the same samples but have different capture provenance.
-  Source preparation therefore keeps the selected asset, stream and acquisition
-  identity alongside a digest of the effective support. It never replaces those
-  identifiers with the digest alone. This determines the compact preparation-input
-  shape without storing large interval arrays in job keys; raw evidence remains
-  separately pinned and immutable.
-
-
-## Selected source transcript integration — 2026-09-27
-
-- **Sound; medium confidence — Source phrase searches stop at transcript segments.**
-  A capture gap can leave two recognized words adjacent in stored row order even
-  though they were never spoken continuously. Searching the source will not join
-  words across inference segments. The plan requires acquisition-gap separation
-  but leaves the exact search boundary representation open. Segment identity is
-  already retained by the single ingester; edited cross-clip phrases remain the
-  separate project query contract, where playback continuity is explicitly known.
-- **Sound; high confidence — Job dependencies commit with the actual job identity.**
-  Preparing imported speech must retain both its media and selected capture context.
-  Queue admission now provides a synchronous callback after assigning the real job
-  ID, inside the same catalog transaction, including repeated admission. If saving
-  a reference fails, the job and its references roll back together. The plan required
-  the shared lifetime ledger without choosing this transaction seam; inventing a
-  second dependency identity would make cleanup unable to follow the real job.
-- **Sound; high confidence — The final canceled model caller waits for cleanup.**
-  When service shutdown cancels the only model download, its preparation promise
-  now settles after temporary-file cleanup. Otherwise a caller awaiting shutdown
-  could release library ownership while the old downloader still writes there.
-  A caller leaving a download that another caller still needs returns promptly.
-  The plan did not specify cancellation settlement timing; this makes awaiting the
-  owner meaningful without introducing another shutdown owner or polling loop.
-
-
-## Bounded source and occurrence seeks — 2026-09-27
-
-- **Sound; high confidence — Portable admission establishes the same word ordering invariant.**
-  A late transcript window used to scan backward by the longest word anywhere in
-  the source. A long early word could therefore make a late request read thousands
-  of irrelevant rows. Source ingestion already prevents overlapping words; portable
-  package admission now enforces that same property, including page boundaries.
-  Both readers can then seek just one earlier word and the rows in the window.
-  The plan required bounded work but did not select this invariant-based seek;
-  metadata and cursor formats stay unchanged.
-- **Sound; high confidence — Select occurrence envelopes before filtering available fragments.**
-  A query entirely inside a capture hole still identifies the clip and selected
-  capture context, with an empty list of available fragments. Dropping that clip
-  would hide why evidence is missing and could join speech across the hole.
-  Composition therefore owns indexed envelope selection and exact inverse mapping;
-  core can represent unavailability without reconstructing timeline arithmetic.
-  The plan fixed gap-aware phrase matching but left this selection representation
-  open. Full-word projection remains separate so query clipping cannot change
-  whether an edit retained the whole word.
-
-
-## Native source WAV delivery — 2026-09-27
-
-- **Sound; medium confidence — Classic float-WAV capacity is explicit.**
-  A long full-source request can exceed the format's 32-bit container sizes. The
-  shared sink now refuses payloads above UInt32.max minus a 4096-byte platform
-  header reserve before creating output, rather than discovering overflow after
-  hours of decoding. The spec left the supported large-file container open; RF64
-  or another large-file format is not implemented. This conservative limit remains
-  a release-format decision for slice 24, not a claim of unlimited WAV duration.
-- **Sound; high confidence — Source windows use an absolute sample clock.**
-  Asking for a later portion of a source must select the same samples as slicing
-  its full WAV. Window endpoints therefore use the existing composition floor
-  clock and retain each support run's decoding origin. The established recording
-  operation concatenates spans with its own preserved clock and join treatment;
-  it is not reused as a synthetic one-span source window. This resolves the source
-  producer seam while retaining measured recording/ASR behavior.
-- **Sound; high confidence — Preserve known native formats and refuse ambiguous layouts.**
-  Raw source delivery retains integral native sample rates and conventional mono
-  or stereo, with platform defaults when channel-layout metadata is absent.
-  Explicit discrete stereo, wider layouts and fractional rates refuse instead of
-  silently remapping or rounding. The plan required supported-layout preservation
-  without choosing the initial format set; extending that set needs real channel
-  and sample-parity proof through the same producer.
-
-
-## Project transcript and source audio ownership
-
-- **Sound; medium confidence — Query checkpoints are disposable cached evidence.**
-  When an agent reads a long project one page at a time, the service saves its
-  source-generation pins and merge position in the existing derived-file cache.
-  If those files disappear, the old continuation refuses and the agent starts a
-  fresh read; it never silently resumes against different words. The plan required
-  bounded pinned reads but left their representation open. This avoids a permanent
-  read-session database; future inspection must preserve explicit invalidation.
-  Landed in the core paging/public routing pass.
-
-- **Sound; medium confidence — Keep a small revision context in memory.**
-  Consecutive pages reuse validated clip indexes for up to four recent revisions
-  instead of parsing the whole project again per page. Project existence and
-  evidence generations are still checked. The plan left this memory/performance
-  tradeoff open. The source/occurrence and serialized-checkpoint limits are
-  provisional scale gates; exceeding them refuses explicitly, and slice 24 must
-  judge realistic long projects. Landed in the core paging pass.
-
-- **Sound; high confidence — Retrying project evidence does not retry every source.**
-  A failed query can refer to many source recordings with different problems.
-  Project retry rebuilds its own manifest; a failed source is retried using the
-  returned source selection after diagnosis. The plan did not specify retry
-  fanout. This keeps expensive transcription intentional and makes dependency
-  failures visible. Paging cursors and limits are not accepted on this mutation.
-  Landed in the public routing pass.
-
-- **Sound; high confidence — Selected-source WAVs have an asset-domain owner.**
-  Extracting audio from an imported file retains that asset and its optional
-  acquisition context through the shared job/cache system. It does not manufacture
-  a recording or edit revision. The existing recording audio owner depends on
-  recording timelines, so the source owner is separate until consumer cutover.
-  The plan fixed role-free source semantics but left that implementation split
-  open. Project taps must join shared processing, and job-reference retirement
-  remains an explicit cutover requirement. Landed in the core source WAV pass.
-
-
-## Full source WAV delivery
-
-- **Sound; medium confidence — Bound published cache bytes at the supported WAV ceiling.**
-  A long stereo extraction can exceed the former one-GiB cache despite fitting the
-  native WAV format. The shared default is now four GiB, and the audio owner checks
-  its known minimum size before rendering. The plan required full extraction but
-  left the cache budget unspecified. Existing leases still protect active readers;
-  insufficient free space can fail at publication, and in-progress files are outside
-  this published-byte budget. Custom smaller budgets remain possible. This changes
-  retained disk use, not per-read memory. Landed in the shared capacity pass.
-
-- **Sound; medium confidence — Preflight uses the minimum WAV size, not a copied native header rule.**
-  For a known rate and channel count, exact absolute sample boundaries determine
-  PCM bytes. The check adds the smallest RIFF header; it does not claim to predict
-  every encoder chunk. The plan did not define preflight precision. This prevents
-  certainly oversized work without falsely refusing valid files; final publication
-  checks actual size. The native writer independently owns its format ceiling.
-  Landed in the shared capacity pass.
-
-- **Sound; high confidence — Large MCP audio remains an artifact instead of an inline message.**
-  A full recording can produce a gigabyte WAV. CLI streams it to disk; MCP returns
-  its existing renewable delivery token once audio exceeds the bounded inline size.
-  Small excerpts retain inline audio. The plan specified full delivery but not MCP
-  representation. This lets agents inspect bounded chunks or download the file
-  without allocating a gigabyte message. The same artifact read/renew/close protocol
-  already serves previews. Landed in the public source audio pass.
-
-- **Sound; medium confidence — Source extraction deadlines scale with selected output duration.**
-  A short late excerpt gets startup allowance plus twice its requested duration,
-  rather than a budget based on the discarded prefix. Full extraction receives a
-  longer but finite deadline, capped by the existing worker timer limit. The plan
-  left this scheduling parameter open. This matches the existing movie execution
-  policy; slice 24 still owns empirical long-work and no-progress acceptance.
-  Landed in the public source audio pass.
-
-
-## Edited phrase query decisions
-
-- **Sound; high confidence — Sort a phrase by its first word, even if another speaker finishes sooner.**
-  Two tracks may speak at different speeds. Search finds each track's next match
-  independently, then merges matches by the first contributing word's exact project
-  time. The plan fixed project ordering but not this mechanism; emitting a phrase
-  as soon as its last word arrives would put a later, faster speaker first. Bounded
-  checkpoints may therefore return an empty page while an earlier track is scanned.
-  Landed in the core/public phrase pass.
-
-- **Sound; medium confidence — Preserve literal search text in continuation identity.**
-  Matching ignores case and outer punctuation, but a continuation still names the
-  exact submitted query. Changing “Okay so” to “Okay SO” requires a new read even
-  though their matches agree. The plan left normalized-versus-literal query identity
-  open. This matches source search and avoids implicit query changes across pages;
-  optional retry text selects that same phrase manifest. Landed in the phrase pass.
-
-- **Sound; high confidence — Inspection windows retain recoverable word boundaries.**
-  Looking at a narrow interval inside a whole word returns that word's full retained
-  editorial fragments, rather than shortening it to the inspection window. A word
-  actually trimmed by the edit remains partial. The plan specified editorial
-  partiality but left fragment clipping ambiguous; keeping full word boundaries
-  makes transcript evidence useful for subsequent edits. Synthetic missing-support
-  gaps still describe the selected window because they have no original word row.
-  Landed in public paging and clarified in contracts during phrase integration.
-
-## Capture and audio integration decisions
-
-- **Sound; medium confidence — Missing event categories are explicit, not fabricated.**
-  A project can currently return captured pauses and geometry while reporting that
-  scene, cut and interruption evidence is unsupported. An agent must not interpret
-  this as proof that none occurred. The plan left category rollout unspecified;
-  the remaining categories stay required work before occurrence-query closure.
-
-- **Sound; high confidence — Audio encoder staging uses the existing render lock.**
-  If the service crashes while a native encoder is still writing, the child keeps
-  the inherited workspace lock. A restarted service cannot clear that child's
-  files; after it exits, ordinary workspace cleanup removes the whole attempt.
-  Only completed WAV bytes are copied exclusively into the cache. The plan left
-  native temporary-file lifetime unspecified. Reusing this owner avoids a second
-  cache janitor with knowledge of private encoder filenames.
-
-- **Sound; high confidence — Audio-only requests bind only audible dependencies.**
-  Inspecting a track should not fail because an unrelated picture processor is
-  unavailable. Audio windows use the compiler's shared planning and source-binding
-  owners but select the audio plane. Generic movie windows retain both planes.
-  The plan required shared binding without specifying this separation; later
-  processors must preserve it rather than introducing another mixer.
-
-- **Sound; high confidence — A demanded picture ignores unrelated audio execution.**
-  A still from a project with retimed speech uses the same globally phased picture
-  as a movie, but does not need the audio stretch processor to be ready. The plan
-  required shared capability binding; extending its existing media-plane selection
-  keeps picture and audio inspection independent without duplicating timing.
-  Landed in the direct-picture planning prerequisite.
-
-- **Sound; medium confidence — A demanded frame is a one-microsecond query on the global picture schedule.**
-  Asking at 75,001 microseconds in a 20-fps project selects the picture sampled at
-  50,000 microseconds. The receipt distinguishes that earlier sample from the
-  requested visible interval, 75,001–75,002. The plan required global timing but
-  left point-query representation open. This lets stills reuse exact movie
-  scheduling without creating a second nearest-frame rule.
-
-## Native media execution decisions
-
-- **Sound; medium confidence — AAC comparisons permit bounded seek-dependent float differences.**
-  The same old decoder produces slightly different floating samples when reading
-  an AAC file from the beginning versus seeking near its end; packet-aligned
-  retries do not remove that difference. The native output is not changed.
-  Comparison now requires exact counts, clocks, channels and endpoint samples,
-  plus both RMS and maximum error below one 16-bit quantization step. Lossless
-  formats and unchanged successful old/new ranged output stay byte exact.
-  This corrects an overbroad test contract based on retained negative controls;
-  it does not excuse missing samples or establish perceptual quality.
-  Evidence: [AAC comparison audit](assets/11a-audio-extraction/README.md).
-
-- **Sound; medium confidence — Decoder lookbehind is bounded by declared packet size.**
-  A seek inside the last compressed packet can miss real samples. The shared
-  reader includes two packet widths before the selected time and discards that
-  context before conversion. It may reopen once after real progress at the exact
-  next unread sample, then refuses another shortage. Unknown or oversized packet
-  metadata refuses; signed requested starts must never be advanced to zero.
-  The plan left recovery mechanics unspecified. Broader format admission and
-  resource limits remain slice-24 work; this is not a universal codec guarantee.
-
-- **Sound; high confidence — Execution revisions are separate from portable transcript format.**
-  Replacing the native decoder changes new audio, movie and transcription job
-  identities. A saved transcript remains readable under its existing format and
-  generation; changing the format version merely to force fresh inference would
-  break retained packages. The plan left this invalidation seam unspecified.
-  New current work uses the revised execution key while old retained artifacts
-  keep their provenance. Evidence: [execution pins](assets/11a-audio-execution-pins/README.md).
-
-- **Sound; high confidence — Still receipts distinguish requested pictures from physical samples.**
-  The compiler may request a time inside a source picture. The receipt keeps the
-  requested time and exact native sample value/timescale/origin, with a separately
-  rounded convenience timestamp. It distinguishes an empty canvas, excluded
-  acquisition support and an actual empty media edit. The plan required traceable
-  timing but left the native representation open; retaining both clocks prevents
-  a rounded label from becoming a false exact boundary.
-
-- **Sound; high confidence — Still delivery sizing follows the completed movie canvas.**
-  The picture is oriented and composed once using the movie executor, then reduced
-  to the requested image delivery size. Resizing inputs before composition would
-  create a second framing path. The existing profile and image-size limits apply;
-  profile color conformance remains independently verified.
-
-- **Sound; high confidence — Concurrent renders keep shared root authority and exclusive attempt authority.**
-  A movie and a still may render at once into separate child directories. Each
-  child retains a shared lock on the render root and an exclusive lock on its own
-  directory. Restart cleanup needs exclusive root authority, so it cannot erase
-  an orphan worker's output. Attempt cleanup uses open directory descriptors,
-  not a path that another operation can replace. The plan left concurrent
-  temporary-file ownership open; this extends the existing render owner without
-  adding a separate cleanup service. Landed in the concurrent-render pass.
-
-- **Sound; high confidence — Visual comparison converts each image from its actual color profile.**
-  A PNG and a decoded movie frame can contain the same scene but declare different
-  transfer curves. Placing their raw values beside one another can manufacture a
-  brightness difference. The independent reference converts the movie's actual
-  embedded profile to the PNG's sRGB space before comparison. The plan required
-  visual parity without specifying reference conversion; no production pixels
-  or acceptance tolerances change. Broader color fidelity remains a separate gate.
-
-
-## Selected-source picture decisions
-
-- **Sound; high confidence — Source frames keep source identity without project-shaped metadata.**
-  An agent inspecting the second video stream in an imported file supplies that
-  asset, stream and optional capture context. The result contains the physical
-  picture covering the requested source instant, including its exact start/end
-  clock. It has no made-up project revision, clip, canvas or processing tap.
-  Declared physical gaps and capture exclusions return distinct unavailability,
-  rather than a synthetic black source image. The plan left the raw receipt and
-  gap response open; this prevents absence from looking like recorded black video.
-  Source and project requests share frame job/cache publication and the native
-  color/orientation owner, while retaining different planning inputs. Landed in
-  the selected-source picture integration.
-
-
-## Retained scene ownership decisions
-
-- **Sound; high confidence — A retained scene generation pins its selected stream and capture context.**
-  The same imported file can contain two video streams or be reused with different
-  capture context. A generation cannot change that selection between chunks even
-  when its support happens to be identical. Owner kind prevents collisions with a
-  real recording that happens to have the same ID. The plan left storage identity
-  details open; the shared source descriptor keeps one duration authority and the
-  queue remains responsible for declaring finished work ready.
-
-- **Sound; high confidence — Real recording packages keep their recording metadata.**
-  Opening an existing recording package still reads its established scene format.
-  Only the internal retained reader uses neutral asset-or-recording identity;
-  explicit conversions protect the package boundary. An imported asset is never
-  disguised as a recording package. This fills the plan's storage seam without
-  inventing a new portable format before editable project packaging is implemented.
-
-
-## Acoustic evidence decisions
-
-- **Sound; medium confidence — Omitted waveform resolution produces an overview.**
-  Asking for a whole long recording produces roughly a thousand buckets instead
-  of failing because a fine default exceeds the response limit. An agent can then
-  request a narrower window with an explicit number of sample frames per bucket.
-  The response reports its exact resolution and partial edge bounds. The plan
-  required useful detail but left default resolution open; automatic overview
-  plus explicit detail keeps the first request useful without hiding short sounds.
-
-- **Sound; high confidence — Cached waveforms retain audio provenance without requiring temporary WAV bytes forever.**
-  After measurements finish, deleting the disposable WAV does not invalidate the
-  surviving waveform. Its audio recipe and generation remain pinned. Rebuilding
-  missing measurements needs that audio again; explicit retry uses the same audio
-  owner to recover the prerequisite, while ordinary reads do not restart terminal
-  failures. This fills the dependency-lifetime seam without another scheduler or
-  a second decoder.
-
-- **Sound; high confidence — Waveform JSON uses the same leased artifact transport as pictures and audio.**
-  CLI inspection writes a complete JSON file without overwriting an existing file;
-  MCP supplies its bounded JSON text. Both consume the same cached bytes and close
-  the delivery lease. The plan left model presentation open; text preserves exact
-  numbers for agents without base64 decoding or another download mechanism.
-
-## Continuous audio support
-
-- **Sound; high confidence — Joining availability declarations does not join edits.**
-  When capture is available from 0–1 seconds and again from 1–2 seconds, audio
-  reads those declarations as one continuous interval before decoding. A gap of
-  even one microsecond remains excluded, and overlapping declarations still
-  refuse. The plan permitted adjacent source support but left decoder boundaries
-  implicit. Only caller support is joined: physical container segment boundaries
-  and recording edit joins retain their established meaning. Existing accepted
-  recipes are unchanged, so this does not invalidate cached execution results.
-
-## Capture completion and occurrence boundaries
-
-- **Sound; high confidence — A stopped capture reports its finalized video endpoint, not an invented failure onset.**
-  If the recorder finishes video at two seconds but its selected microphone stream
-  ends earlier, the completion fact remains at two seconds. Short audio does not
-  receive a relocated interruption marker. Older receipts that merely say a finish
-  record existed remain unknown; damaged or contradictory terminal records retain
-  their facts but cannot publish a trusted marker. The plan required interruption
-  evidence without defining which journal fact establishes its time. Optional
-  completion and last-lifecycle metadata preserve that distinction for all future
-  event readers. Failure codes are retained without verbose failure messages, and
-  terminal facts share the existing provenance size budget instead of being silently
-  dropped. Landed in lifecycle provenance and capture-end projection.
-
-- **Sound; high confidence — A capture-end marker belongs to the range closing at its time.**
-  A query from one to two seconds includes a completion at two seconds; a query
-  starting at two seconds does not repeat it. Ordinary observations keep their
-  existing start-inclusive/end-exclusive rule. At an adjacent clip boundary, the
-  reader briefly retains the prior clip's endpoint while merging the next clip's
-  opening observations using the established project-time/track/clip ordering.
-  The plan left endpoint query ownership open. This prevents dropped final markers
-  and pagination reordering without changing transcript semantics; capture
-  checkpoints have their own policy because their continuation state changed.
-
-## Selected-source scene measurements
-
-- **Sound; medium confidence — Scene sampling refuses unusually expensive batches instead of silently skipping frames.**
-  A short request crossing an extreme number of physical edits or decoded samples
-  has explicit work ceilings. If it exceeds them, the operation fails visibly and
-  can be retried with a narrower range. These inspection limits are provisional
-  for the broader scale gate; no content is mislabeled unavailable to meet them.
-  The plan required bounded work but left the physical-support traversal ceiling
-  unspecified. Existing frame/movie callers keep their prior decoder behavior.
-
-- **Sound; high confidence — Selected-source scenes preserve exact picture clocks and reset across real gaps.**
-  Two sampled images can have a short physical hole between them even when both
-  endpoints contain pictures. The sampler checks the intervening support, so
-  stillness does not run through that hole. Touching availability stays continuous.
-  Exact container clocks identify images; rounded microseconds remain convenient
-  labels, and stillness starts at the first observed request after a reset. The
-  plan did not prescribe chunk overlap: source chunks repeat the exact previous
-  endpoint and publish analysis state only after the whole batch succeeds. This
-  preserves retry behavior and leaves the recording nearest-picture policy intact.
-
-## Spectral measurements
-
-- **Sound; high confidence — Retain physical spectral energy before choosing image contrast.**
-  When inspecting hum or a quiet consonant, the measured spectrum retains separate
-  channels and linear power per frequency interval, including constant/DC energy.
-  It does not remove a mean or apply a display floor. The image may later choose
-  a clearly labeled decibel scale. The plan left normalization and window defaults
-  open; periodic Hann and explicit rectangular windows use one-sided density
-  scaling, so frequency-bin energy has a defined meaning rather than arbitrary
-  brightness. Bounded matrix admission limits work before reading PCM.
-
-- **Sound; high confidence — Spectral queries keep a global sample grid and declare missing window context.**
-  Narrowing a displayed range over the same audio file returns identical overlapping
-  columns. If the input file itself is clipped, windows at its edges explicitly
-  report missing context. A public range/full-parity promise must acquire surrounding
-  PCM through the existing audio owner, respecting capture masks. The plan left
-  edge-window semantics open; inventing neighboring samples would conceal missing
-  evidence. No second decoder or mixer is introduced.
-## Acoustic raster choices — 2026-09-28
-
-### Sound, medium confidence — preserve short energy when compressing measurements into pixels
-
-When many time buckets or frequency bins share one image pixel, draw the largest spectral density in that pixel. A short click or narrow tone therefore remains visible; averaging could hide it and last-value assignment could erase it. The spec requires useful bounded pictures but leaves raster reduction unspecified. This affects only display: numerical density remains unchanged. The legend says “max per pixel,” so the image cannot be mistaken for an average-energy measurement.
-
-### Sound, medium confidence — one fixed spectral display scale and shared waveform scale
-
-A quiet channel beside a loud channel uses the same waveform amplitude scale, with a minimum full-scale range and five percent headroom above larger peaks. It does not make both channels appear equally loud. Spectral images use a fixed -120 to 0 dB density scale (power relative to full-scale squared per Hz), preserving comparability between views; values outside it saturate only in the image, never in numerical evidence. The plan did not specify display scaling. Future appearance changes must keep scale labels explicit and keep underlying measurements intact.
-
-### Sound, high confidence — preserve full labels outside the bounded image
-
-A project with a very long clip identifier still produces a bounded image. The visible label ends with an explicit full-text-in-receipt notice; the native receipt retains the entire provenance string. Rejecting legitimate identifiers would prevent inspection, while silently clipping text would hide identity. The plan required provenance without choosing overflow behavior. Public artifact delivery must preserve that receipt so an agent can resolve the abbreviated label.
-
-### Sound, high confidence — render retained measurements without another audio decode
-
-The native plotting operation receives bounded waveform or spectral measurements and writes PNG using the existing picture encoder/publication owner. It cannot reopen audio, mix channels or choose a different revision. This introduces one internal native operation, one core request adapter, and no new package dependency. The plan required measured images but left the rendering library open; using existing macOS graphics keeps output headless and avoids introducing a second media pipeline.
-
-## Retained source scene paging
-
-- **Sound, medium confidence — continuation counts examined candidates.** Two
-  physical samples can round to the same displayed microsecond. A range query
-  examines a bounded set, keeps only samples whose exact timestamps belong, and
-  continues after the last examined sample even when none belonged. This avoids
-  an unbounded search hidden behind an apparently small result page. Consumers
-  must follow the continuation until it is absent.
-- **Sound, high confidence — index actual sample time and ordinal together.** A
-  late request seeks directly to its cursor, including samples sharing the same
-  rounded time, rather than revisiting every earlier chunk. Exact clock data
-  remains alongside the index for range membership; displayed rounding cannot
-  change whether a sample belongs.
-- **Sound, high confidence — keep recording and asset evidence distinguishable.**
-  Recording packages describe nearest sampled pictures; imported assets describe
-  the picture physically present at the requested time. They share generation
-  ownership and storage but use explicit typed chunk views. An asset cannot be
-  exported accidentally through the recording package representation.
-
-
-## Source scene preparation
-
-- **Sound, high confidence — prepare a complete selected-source generation on demand.**
-  An agent's first scene request queues one bounded scan of that selected stream
-  and acquisition support. Later requests read the retained generation instead
-  of decoding overlapping windows again. Chunking bounds each worker step; the
-  existing heavy-work queue limits concurrent execution. Merely importing an
-  asset does not introduce a second automatic scene scheduler.
-- **Sound, high confidence — keep ordinary cancellation distinct from deletion.**
-  Canceling inspection lets the agent explicitly retry later. Deleting its owner
-  drains the worker and permanently cancels that job under the existing queue
-  policy. A late successful worker result cannot revive deleted work. The same
-  resource-reference and queue owners enforce both cases.
-
-## Acoustic delivery and surrounding context
-
-- **Sound; medium confidence — Spectrograms begin with a bounded local view.**
-  A long recording first gets a waveform overview; a spectrogram uses a short
-  selected window, with explicit FFT and hop sizes for frequency/time resolution.
-  Excessive detail refuses with a limit instead of silently discarding columns.
-  The plan left public defaults open; this keeps a request inspectable and makes
-  the resolution visible. Waveforms offer JSON or images; the separate spectrogram
-  operation shares their preparation and delivery owners.
-
-- **Sound; high confidence — Image preparation depends on measurements, not resident audio bytes.**
-  If a temporary WAV has been evicted, an existing waveform or spectral measurement
-  can still produce its image. An existing image also survives measurement eviction.
-  When rebuilding needs missing inputs, explicit retry follows the same dependency
-  chain; ordinary reads do not restart canceled work. The plan left multistage cache
-  lifetime open. This preserves useful evidence without pinning large WAV files.
-
-- **Sound; high confidence — The displayed interval and FFT context remain distinct.**
-  An image of a word can require a few neighboring samples to measure frequencies.
-  Those samples use the same source masks and processing tap, but their exclusions
-  are reported separately. If a neighboring exclusion affects a column, the image
-  warns that its analysis is incomplete even when the displayed interval has audio.
-  The plan required full/range parity without specifying this annotation; context
-  cannot masquerade as measured silence or silently widen the agent's chosen range.
-
-- **Sound; high confidence — Large bounded measurements use the existing render attempt's files.**
-  A valid spectrogram can exceed the worker's small command-message limit. The
-  service writes its measurements inside the same locked temporary directory used
-  for rendering and sends the path. The worker reads only a bounded regular file;
-  cleanup removes it with the attempt. This fills the transport seam without
-  raising global command limits or adding a second file-lifetime mechanism.
-
-## Scene inspection and occurrence projection
-
-- **Sound, medium confidence — preserve measured coverage context around a query.**
-  Asking about the middle of a still picture returns its retained observation
-  chunk, including the earlier measured stillness start. It does not claim the
-  stillness began when the agent asked, and it does not turn an unsampled gap
-  into known unchanged pixels. Sparse observations and physical source support
-  remain distinguishable.
-- **Sound, high confidence — physical scenes carry physical clocks, not invented capture events.**
-  Imported footage can have scene changes without any capture journal. Those
-  rows keep exact source sample time and their own ordinal; capture pause and
-  interruption rows keep their existing capture fields. One event merge projects
-  both through each clip occurrence and orders them by exact time.
-- **Sound, high confidence — event continuations carry both reader positions.**
-  A pause and a picture change can alternate across one-row pages. The cursor
-  keeps each reader's consumed position, and the project checkpoint uses the same
-  bounded merge owner. Preparing a different scene generation invalidates the
-  old continuation rather than mixing evidence from different runs.
-
-## Speech alternative research — 2026-09-28
-
-- **Sound, medium confidence — keep the frozen exact-word matcher for this comparison.**
-  When an alternative spells a word differently or splits it into two tokens, the
-  existing scorer reports an unmatched edge. Treating those as successful matches
-  would change the evaluator after seeing the candidate. Keep the failure visible
-  and explain its cause separately; a future general token-alignment evaluator
-  needs its own frozen protocol. The plan left representation differences open.
-  This constrains score comparison, not what the app will eventually transcribe.
-- **Sound, high confidence — keep research-restricted transcripts out of product evidence.**
-  The alternative's license covers generated words as well as weights. Store its
-  full research output in scratch and commit hashes, aggregate measurements and
-  reproducible probes. This lets later work audit the experiment without silently
-  making the model or its outputs part of operational app behavior. The plan
-  required license evidence but did not specify artifact placement.
-
-## Frozen-text alignment research — 2026-09-28
-
-- **Sound, medium confidence — use full-recording MPS float32 before tuning context.**
-  The aligner accepts this complete recording within its documented five-minute
-  range. Feed the entire frozen transcript and audio once, using 32-bit numbers on
-  the Mac GPU, so chunk boundaries and reduced precision do not become extra
-  variables in the first comparison. The plan did not choose a device, precision
-  or chunk policy. This is an experimental starting point, not a product memory
-  policy; any later chunking or lower precision gets a separately named trial.
-- **Sound, high confidence — retain permissively licensed alignment output with its supplied-text identity.**
-  This model accepts our existing words and adds timing; its card declares
-  Apache-2.0. Keep the full timed output and the hash of supplied text so another
-  agent can rescore every edge without rerunning inference. The separate verbatim
-  candidate's research restrictions still apply to its own output. The plan left
-  evidence storage unspecified; neither output can serve as independent labels.
-
-
-## Denoise timing research — 2026-09-28
-
-- **Sound, medium confidence — flush the processing state with explicit zeros, not nearby source audio.**
-  A selected final word must not borrow the excluded next word merely to flush a
-  filter's delayed output. The research candidate appends zeros after its chosen
-  input, removes the implementation's sample delay, and keeps the requested
-  count. The plan requires isolation but leaves filter-tail handling open. This
-  tests a reversible timing mechanism; it does not yet choose production context
-  or establish preserved speech quality. Future state/quality gates can reject it.
-
-## Retained screenshot ownership
-
-- **Sound, high confidence — gaps carry no image reference.** An imported clip
-  can have unavailable physical intervals. Its retained index records that range
-  with no candidate ordinal, rather than pointing to the preceding picture and
-  suggesting the missing footage was visually unchanged.
-- **Sound, high confidence — share storage lifetime, specialize evidence meaning.**
-  Recording and source indexes use the same retained file checks, descriptor
-  lifetime, paging and cleanup. Their domain validators keep actual recording
-  revision receipts separate from asset/stream physical sample receipts. The
-  recording package representation stays unchanged; source metadata has neither
-  a fabricated recording ID nor a fabricated revision.
-- **Sound, high confidence — source index files live outside immutable asset bytes.**
-  Removing an index generation removes its retained PNGs and coverage, not the
-  imported media. Recording directories keep their existing ownership path so
-  established recording deletion and portable export semantics remain intact.
-
-- **Sound, high confidence — an unavailable sample is not a missing interval.**
-  A decoder can report no picture at one inspected time even within declared
-  source support. The index retains that exact unavailable observation and marks
-  its surrounding range as lacking a representative, with equality unproven.
-  Only support exclusion establishes a known missing source range. This preserves
-  useful evidence without upgrading one sample into a claim about every pixel.
-
-- **Sound, high confidence — index completion does not promise an image.**
-  If a selected video has no decodable supported pictures, its index can finish
-  describing that coverage with no image entries. A caller can see why there is
-  nothing to open instead of retrying an impossible image forever. This defines
-  source-index readiness; genuine recording indexes still require an image to
-  satisfy their existing portable package contract.
-
-## Source selection observations
-
-- **Sound, high confidence — a failed image request is not a missing picture.**
-  A decoder can fail because of unsupported media or an internal error even where
-  a picture exists. Only the native reader's explicit empty-sample result becomes
-  a retained unavailable observation. Its exact requested point and source recipe
-  travel with the result, so deleting a temporary job cannot erase its meaning.
-  This constrains source index generation to preserve failed work as a failure
-  instead of silently treating it as a physical gap.
-
-
-## Learned denoise baseline — 2026-09-28
-
-- **Sound, medium confidence — measure the unchanged example before fixing its block handling.**
-  RNNoise's demonstration program shortens a clip because it skips its first
-  output block and never flushes the final one. Keep that behavior visible in
-  the baseline, then evaluate any exact-length wrapper as a separate candidate.
-  The plan names a learned comparison but leaves its first adapter unspecified.
-  This separates a library's noise reduction from whether a wrapper preserves
-  the user's selected duration; it selects no production processor.
-- **Sound, high confidence — raw-source sampling has its own policy.**
-  Recording screenshots combine an edited playback span with cursor overlays;
-  an imported source picture has neither. The source selector therefore walks
-  physical observations directly while reusing the retained image store and job
-  queue. This avoids treating missing cursor evidence as motion or inventing a
-  stationary cursor just to make a shared recording state machine fit.
-- **Sound, high confidence — scene reasons distinguish sampling time from picture time.**
-  If the picture changes at 250ms and the next observation is at 400ms, the index
-  requests the previous observed old picture and the newly observed picture. Its
-  reason records the actual physical sample clock and the 400ms observation
-  separately. Requesting 399.999ms would show the new picture twice and imply
-  knowledge of an unseen semantic cut that the samples do not establish.
-
-## Source index preparation
-
-- **Sound, high confidence — queued recipes retain their input scenes; finished indexes do not need them.**
-  An index may wait behind another heavy task while scene analysis is regenerated.
-  Its recipe keeps the exact earlier stream/context generation until execution or
-  explicit retry is no longer possible. Once images and coverage are retained,
-  those results can be read independently and older scenes can be reclaimed. The
-  source scene owner uses the existing job records for this decision, without a
-  parallel lifetime table.
-- **Sound, high confidence — explicit index retry follows its failed dependency chain.**
-  Canceling a scene or frame job does not make an ordinary index read restart it.
-  When the user explicitly retries the index, retryable terminal dependencies get
-  one new attempt, including canceled jobs represented as `not_requested` by the
-  queue. A terminal child failure ends the parent with its exact dependency, rather
-  than leaving a polling parent waiting forever or hiding which request failed.
-
-## Project cut event meaning
-
-- **Sound, medium confidence — report a rate change as an editorial mapping transition.**
-  When narration continues from the same source position but changes speed, the
-  source-to-project mapping changes. A project cut row exposes both rates so an
-  agent can inspect that boundary; it does not claim an audible click or visual
-  jump. The earlier plan required cut evidence without defining this case. This
-  interpretation gives inspection one deterministic meaning across audio/video,
-  holds and replacements, while excluding processor changes from the category.
-- **Sound, medium confidence — omit the whole-project opening and terminal boundary.**
-  An otherwise unedited single clip has no editorial cuts merely because playback
-  begins and ends. An overlay starting later or ending earlier still reports its
-  track entrance/exit, because those boundaries are internal to the composition.
-  The plan left the outer-boundary convention open. Screenshot indexes must select
-  their first/last pictures separately rather than infer them from cut events.
-- **Sound, high confidence — derive cuts from mapping continuity, not clip IDs or history.**
-  Splitting a clip into two unchanged pieces should not add an apparent edit to
-  the inspection report. Compare exact source binding, boundary and rate on each
-  side; a source jump or replacement remains visible even if both pieces use the
-  same file. The immutable revision supplies authority without a detector job or
-  synthetic source generation. This preserves pure splits, fractional timing and
-  stable results when the same final composition was reached by different edits.
-
-
-## Project-cut query integration — 2026-09-28
-
-- **Sound, medium confidence — deterministic ties use the arriving clip.** When a
-  cut and a captured observation share a project time, the cut sorts under the
-  arriving clip; an exit uses the departing clip. Its internal ordinal sorts before
-  source observations of that same clip. The frozen plan required stable ordering
-  without choosing this tie key. This preserves every existing source row's relative
-  position and avoids adding a global kind-first order that would reshuffle earlier
-  event consumers. Future event kinds must use the same exact merge contract.
-- **Sound, high confidence — cut readiness belongs to the project coverage.** A
-  project made entirely from authored silence can report its gap boundaries even
-  though no source evidence exists. The first-page coverage names cuts as ready from
-  the revision; per-source cut coverage remains unavailable. The plan required the
-  distinction but left its response location open. Attaching cut readiness to each
-  source would invent provenance and could not describe a source-free project.
-
-The per-revision boundary index, a single additional bounded merge lane and the
-20,000-selected-cut ceiling are delegated index/budget choices, using the existing
-128-step page budget and cache lifetime. They introduce no new table, endpoint,
-preparation job or persistent reader lifetime. Slice 24 owns release-scale budgets.
-## Project index frame-boundary checkpoint
-
-- **Sound, high confidence — keep frame timing in the compiler.** An edit at
-  33,366.5 microseconds occurs after the existing picture sampled at 33,366.
-  The helper selects that picture as its predecessor and 66,733 as its following
-  sample, using the existing clock and shared visibility builder. The spec needed
-  project index timing without defining a public selection primitive. This keeps
-  later screenshot selection consistent with preview without changing exact edit
-  times or adding another clock interpreter.
-- **Sound, high confidence — return neighbors, not a screenshot policy.** At the
-  project end only the preceding picture exists; an empty project has neither.
-  Requests outside the project refuse. The primitive accepts one boundary and
-  leaves repeated-candidate removal, sampling density and tap scope to their
-  future owner. This parent-approved scope avoids silently choosing how many
-  pictures an agent receives while making boundary selection independently testable.
-
-
-## Public source-generation acceptance — 2026-09-28
-
-- **Sound, high confidence — reproduce a recipe release instead of inventing a
-  force retry.** A ready source job intentionally does nothing when retried. To
-  verify what an agent sees after an analysis recipe changes, the public journey
-  restarts an isolated service with exactly one recipe identifier changed by its
-  test-only loader. Existing owners publish a new source attempt; old CLI/MCP
-  cursors refuse it and fresh queries succeed. The plan required public generation
-  coverage but did not name a legitimate replacement trigger. This adopted test
-  boundary avoids adding a product operation or mutating private catalog rows.
-  Scene samples are actually produced by the frozen native worker; speech engine
-  responses remain the independently labeled frozen fixture. The evidence proves
-  consumer invalidation across a simulated release, not two shipped binaries,
-  fresh ASR quality, cache eviction or a change to retry semantics.
-
-## Project retained-index selection policy — 2026-09-28
-
-- **Sound, medium confidence — sparse pictures describe observations, not an entire movie.**
-  For a long screen recording, select a picture every five seconds as well as
-  authored boundaries and both observed sides of scene changes. The existing source
-  cadence supplies a reasonable initial density; the plan did not choose project
-  density. Keep unknown intervals visibly unproven. A later policy may increase
-  density without changing edits; it must use a new selection identity. Source
-  stillness cannot omit samples because another layer or processing may change.
-- **Sound, high confidence — reuse picture taps and compiler timing.** An agent
-  asking for a track's processed storyboard gets the same target as a direct track
-  picture. Every selected time resolves through the compiler, and duplicate frame
-  requests share a picture while retaining why each was selected. The plan left
-  index scope unspecified; whole-project indexes with existing taps avoid another
-  filter language or clock. Empty projects return no images; audio-only projects
-  can still show their canvas. Processing windows will contribute their own timing
-  boundaries when their composition owner exists, rather than inspection guessing
-  anchor or interpolation rules.
-
-## Compiled geometry integration — 2026-09-28
-
-The [geometry decision record](assets/15-layer-geometry/choices.md) owns the
-sampling/coverage, fixed-canvas, orientation, full-layer receipt and alpha choices.
-These are adopted as sound with high confidence: compiler instructions define the
-picture, one native executor applies them, and independent pixel controls expose
-crop leakage and incorrect source borders. Its provisional allocation limits are
-sound with medium confidence; they reject multiplied source/surface work before
-allocation but do not establish measured memory or release-scale acceptance.
-
-When a previously imported source has old orientation metadata, silently probing
-it again would change immutable evidence underneath an edit. Reject old catalog
-format instead, as the user-approved no-migration contract allows, and change every
-affected image/scene recipe so cached old pictures cannot masquerade as corrected
-output. This integration choice is sound with high confidence; it leaves the
-unaffected capture-journal and audio identities alone.
-
-## Project index candidate selection — 2026-09-28
-
-- **Sound, medium confidence — bound one complete selection before rendering.**
-  A pathological project with thousands of repeated clips can request many pictures
-  and attach many explanations to the same picture. Keep a bounded candidate map
-  until the full selection succeeds, then return ordered candidates; stop with an
-  explicit limit error instead of returning a partial storyboard. The pass leaves
-  budget values in the selection owner, with the exceeded bound and revision in the
-  error. The plan required bounded work but did not choose a buffering strategy.
-  This makes deduplication across overlapping layers simple and prevents rendering
-  work for a selection that will ultimately be refused. Slice 24 still owns measured
-  scale acceptance; raising a budget does not require another paging mechanism.
-- **Sound, high confidence — move each observed scene side toward its own side.**
-  At three frames per second, a scene change at 350 milliseconds first observed at
-  400 milliseconds must not select the preceding 333-millisecond picture as the
-  new side. Choose at-or-before the actual earlier observation and at-or-after the
-  actual later observation, using the compiler clock. Keep exact matches and both
-  original and projected times. The policy did not choose directional rounding.
-  Omit a side if this choice leaves its occurrence's supported interval; authored
-  boundaries still select surrounding output. This avoids attributing a neighboring
-  clip to a source observation without claiming raw-source/composite equality.
-## Supplied-text coverage diagnosis — 2026-09-28
-
-- **Sound, high confidence — retain the full comparison, including unknown effects.**
-  Adding the candidate filler before Return was an explicitly delegated diagnostic,
-  not a correction to independent labels. The comparator preserves all 306 original
-  words and both edges, exposing two additional unmarked onset shifts. Their
-  accuracy remains unknown rather than being silently accepted as harmless.
-  Existing scoring owns timing gates; the new helper only enforces correspondence
-  and displays changes. No second matcher or production inference policy is added.
-- **Sound, high confidence — keep local hypothesis support separate from adoption.**
-  Return's error becomes zero against the frozen mark, but p95 and memory still
-  fail. Workbench requires wider independent evidence and listening, not label
-  movement based on model agreement. The one-condition development trial therefore
-  updates the diagnosis while leaving slices 12 and 12b open.
-
-## Public geometry acceptance — 2026-09-28
-
-The [public journey choices](assets/15-layer-public/choices.md) are adopted as
-sound with high confidence. Reusing independent authored geometry makes a public
-transport success insufficient on its own: delivered pixels and unchanged audio
-must still agree. The representative public subset is a checkpoint, not blanket
-acceptance of remaining edits, pointers or animation. Full export is tested through
-the actual whole-revision API; fractional windows use preview. Committed external
-exports survive deletion while service-owned deliveries are revoked by their
-existing lifetime owner.
-
-## Source-attached pointer decisions — 2026-09-28
-
-- **Sound, medium confidence — trails follow capture history, including before a trim.**
-  If an agent selects a later portion of a capture with a visible trail, the trail
-  may include motion immediately before that selected portion. Looking back through
-  immutable source support preserves identical output after a pure split and avoids
-  inferring edit intent from history. A zero-duration trail requests only the current
-  pointer. The plan required source attachment and split invariance but did not pick
-  this history boundary; the explicit duration keeps the choice inspectable.
-- **Sound, high confidence — source context determines valid targets.** A clip names
-  one captured stream; a combined group may contain unrelated recordings and raw
-  B-roll. Require a pointer step on the acquisition-bound video clip rather than
-  guessing which group member owns it. Registry metadata drives both authoring
-  validation and discovery, including atomic incompatible replacement refusal.
-- **Sound, high confidence — reuse compiled geometry at every ordered position.**
-  A pointer drawn after dimming should remain bright, but it still belongs at the
-  cropped/rotated source location. Replay the already-compiled geometric prefix on
-  the new overlay, excluding prior opacity, then apply later steps to the combination.
-  This keeps arbitrary clip-stack placement without a second transform calculator.
-- **Sound, high confidence — make new trail duration explicit and retain existing defaults.**
-  Existing still/movie pointer behavior differs, so neither default can silently
-  represent both. The new processor requires source-time duration; legacy callers
-  retain their policies. Matched-time preservation checks respect the project's
-  established frame clock rather than adding hidden pointer-event frames.
-
-## Retained project pictures and receipt boundary — 2026-09-28
-
-- **Sound, medium confidence — keep one immutable composition while writing an index.**
-  Appending many pictures from the same revision should not validate and index its
-  entire composition again for every image. Reuse one revision/tap planning context
-  during the write; another context replaces it, and successful completion clears
-  it. The plan did not choose this working-memory lifetime. Residency is at most
-  one full composition, its asset metadata and compiler indexes, not one entry per
-  project or historical revision. That composition's size still follows the revision
-  owner's limits; slice 24 retains measured memory/latency acceptance. Interleaved
-  writes may rebuild their context but cannot silently reuse a different revision.
-- **Sound, high confidence — each delivered picture gets one complete sampled interval.**
-  A picture sampled at zero in a ten-frame-per-second project proves the output
-  visible through 100 milliseconds. The direct request's one-microsecond window
-  must not shrink that proof, and a completed storyboard must not leave the entire
-  delivered frame marked unknown. Project coverage therefore records exactly one
-  complete compiler-visible interval for each retained picture; intervening ranges
-  have no image ordinal and remain unproven. The plan left coverage serialization
-  open. Keeping source availability in picture provenance avoids calling a valid
-  background or surviving layer unavailable merely because one source is missing.
-- **Sound, high confidence — expose picture evidence, not native rendering instructions.**
-  A fresh agent run mistook a renderer's lower-left coordinate for an authored
-  top-left placement and made an unnecessary edit before undoing it. Public picture
-  receipts now retain timing, layer identity and physical-source observations, while
-  the authored processing API remains the place to inspect placement. The native
-  worker's complete visual graph is still compared against the compiler before
-  publication; only then is it omitted from public/retained receipts. The spec did
-  not explicitly separate these representations. Advancing the project-picture
-  recipe prevents an old cached receipt from reintroducing the confusing field;
-  source pictures, movie pixels and the catalog format are unaffected.
-
-## Pointer wire integration — 2026-09-28
-
-- **Sound, high confidence — disabled effects still travel with processing metadata.**
-  A user can keep a pointer step in a clip's stack while bypassing it. The picture
-  then needs no pointer renderer, but its request still includes that authored
-  step. The native request decoder therefore accepts its trail-duration field;
-  otherwise bypass itself would break a previously renderable clip. This is wire
-  support only: enabled pointer execution remains unavailable until preparation
-  and rendering exist. The schema/compiler checkpoint did not originally name
-  this cross-language metadata requirement. Existing raw request validation stays
-  strict, and unrelated unknown fields remain errors.
-
-## Project index production and preparation inputs — 2026-09-28
-
-- **Sound, medium confidence — distinguish preparation inputs from durable job-owned media.**
-  An index needs its exact scene analysis to finish or retry, but after it copies
-  its PNGs it can release that analysis. An import job's result asset and a frame
-  job's source asset still need their existing lifetime. Add a preparation-input
-  owner to the existing resource references rather than releasing every job
-  reference at success or creating a separate scene table. The plan required
-  multisource retention but left retirement ownership open. The queue releases
-  preparation inputs with successful/permanent settlement; canceled older workers
-  keep them until they exit, and explicit retryable failures keep their recipe.
-  Forgetting a job releases both kinds. This becomes the shared lifetime for future
-  preparation dependencies, with bounded owner cleanup under deletion fences.
-- **Sound, medium confidence — refuse old unshipped catalogs when dependency meaning changes.**
-  An old source-index job can look ready to retry but has no normalized record of
-  which scene generation it needs. Keeping the old catalog would require a JSON
-  dependency fallback or a migration. Format 12 instead refuses it explicitly,
-  using the project's unshipped reset policy; it does not delete or modify an old
-  library. The plan did not say whether semantic reference changes require a
-  format change. This avoids two retention interpreters and means development
-  libraries must be recreated for this version.
-- **Sound, high confidence — a continuation reads the retained generation's pins.**
-  An agent can page an old storyboard after a new revision, renderer update or
-  scene cleanup. The cursor carries project, revision, generation, tap and picture
-  size; stored metadata supplies its renderer and scene identities. Explicit new
-  selectors must agree, while omitted optional selectors inherit the cursor.
-  Re-resolving current analysis would make valid retained PNGs unreadable. The plan
-  left cursor shape and optional-selector behavior open. This keeps continuations
-  compact and stable without embedding the potentially large scene list in every
-  reference, while deletion still prevents new reads.
-
-## Moving-source edit verification — 2026-09-28
-
-- **Sound, high confidence — source membership needs changing independent landmarks.**
-  A moving clip copied onto a fractional timeline position can decode the wrong
-  source frame while a static picture still appears correct. The live edit gate
-  therefore uses independently authored, changing calibration marks and a physical
-  source-frame table, then applies the existing geometry oracle. It never derives
-  expected pixels from renderer receipts. The earlier plan named moving-source
-  conformance without choosing its oracle. All-intra calibration footage isolates
-  membership and geometry; it does not replace broader codec or deep-GOP gates.
-- **Sound, high confidence — empty encoded output has a black-pixel check, not a shape mask.**
-  Between clips the intended movie frame is opaque black. A decoded value of one
-  has no meaningful landmark, but a shape threshold derived from an all-zero
-  reference treats it as one. The new journey explicitly checks every RGB channel
-  against the existing two-code-value budget and alpha against 255 for these
-  authored-empty states; negative controls reject RGB three and alpha 254.
-  Nonempty frames retain unchanged landmark checks. The plan left blank codec
-  verification unspecified; this adds no wider color allowance or product behavior.
-
-
-## Displayed frame intervals — 2026-09-28
-
-- **Sound, high confidence — a picture receipt describes its full displayed interval.**
-  At ten frames per second, requesting a picture at 2.25 seconds returns the sample
-  at 2.20 seconds, displayed until 2.30 seconds. The receipt now says exactly that;
-  the separate request time still says 2.25. Previously its visibility field echoed
-  the internal one-microsecond decode request while index coverage used the full
-  frame interval. The plan required both truthful frame timing and coverage but
-  left this public field projection implicit. Using the compiler's existing
-  timing owner removes the competing meanings without changing which picture is
-  rendered. Native receipts still must match the demanded execution window before
-  projection. Future consumers can compare direct pictures and storyboard
-  coverage; the changed metadata has a new cache recipe identity.
-
-
-## Pointer sampling work bounds — 2026-09-28
-
-- **Sound, medium confidence — reread forward history for a backward request.**
-  If a clip jumps from source second ten back to second two, the sampler restarts
-  the existing forward history readers and reconstructs the earlier pointer state.
-  It retains the accumulated work count, so repeated jumps cannot bypass the
-  attempt limit. The plan required arbitrary source-time inspection and bounded
-  memory but did not choose between rereading and a new random-access event store.
-  Rereading keeps one history owner and avoids retaining all events. Highly
-  shuffled projects may reach the explicit limit; release-scale performance is
-  still a separate gate, not established by the focused tests.
-- **Sound, high confidence — bound repeated output work separately from source events.**
-  Holding one source picture for many output frames can request the same pointer
-  state repeatedly without advancing source history. Counting only source events
-  would leave that work unbounded. The sampler therefore also counts requested
-  output occurrences, including repeats. The plan required bounded preparation
-  but left the counters unspecified. Future preparation can refuse excessive work
-  explicitly instead of silently truncating overlays; resource thresholds remain
-  provisional until the scale slice measures them.
-
-## Timeless still-image preparation — 2026-09-28
-
-- **Sound, medium confidence — bound decoded pixels before asking ImageIO for pixels.**
-  A small compressed image can expand into a large memory allocation. Both import
-  and picture delivery now reject images above a shared 8192×8192 pixel-count
-  ceiling before decoding; a caller can request a smaller budget. This is a
-  provisional bound at the existing compositor's source-work magnitude, not a
-  measured release-scale memory guarantee. The plan required bounded work but
-  left image admission limits open. The one-pixel negative control proves the
-  budget affects execution; release measurement may lower this single owner.
-- **Sound, high confidence — share image admission and rendering, including refusal.**
-  A partially downloaded JPEG may let ImageIO return plausible partial pixels.
-  Importing that file and later treating it as complete would make the same asset
-  mean different things. Both paths now require one fully decoded PNG/JPEG frame,
-  valid dimensions and orientation; animation and incomplete data are refused.
-  The plan did not define recoverable truncation. This preserves original bytes
-  and makes admission match the pixels future project rendering can consume.
-- **Sound, high confidence — image receipts have no pretend video clock.**
-  Inspecting a photograph should return its identity, orientation, alpha and
-  dimensions. It should not invent a sample at time zero or a duration merely to
-  fit a video response. The native receipt therefore identifies an image, and
-  existing frame sizing/publication is shared below the timing boundary. The plan
-  required still admission but left this shape open. Public source selection and
-  project image provenance must preserve that distinction in the next pass.
-
-
-## Acquisition-gap picture scope — 2026-09-28
-
-- **Sound; medium confidence — Test selected acquisition gaps using the public producer.**
-  A video clip attached to captured audio disappears when that selected audio
-  context says its parent was unavailable. The same video bytes remain readable
-  directly and in a full-context occurrence. The plan required delivered pictures
-  across acquisition gaps but did not define an arbitrary video-mask authoring
-  API. This pass uses existing public capture admission and content attachment to
-  cover that project behavior, keeping its `anchor-unavailable` provenance distinct
-  from direct source exclusion. A future direct video-support producer belongs to
-  acquisition admission in 10b and needs authoritative capture evidence; native/core
-  support for narrower video masks does not itself promise that public producer.
-
-- **Sound; high confidence — Missing parent support suppresses its child picture.**
-  An attached video whose parent has a capture gap must leave the background or
-  other layers visible. Rejecting the entire frame would make the compiler's valid
-  unavailable interval impossible to inspect or preview. The native executor now
-  treats that declared gap as transparent after the existing physical-source checks,
-  and retains the ancestor reason. This completes the earlier unsupported execution
-  path without letting a decoder invent evidence that the parent was available.
-
-## Public raw image inspection — 2026-09-28
-
-- **Sound, high confidence — omit time to request a still image; validate the actual stream.**
-  An agent inspecting a photograph supplies its asset and stream, while an agent
-  inspecting video also supplies a source time. The service checks the admitted
-  stream instead of accepting either shape for any media. Image time/acquisition
-  context is refused, and timed batches stay timed. The public design requested
-  omission of time; the remaining choice was whether to ignore incompatible
-  fields. Refusal prevents a caller from mistaking a photograph for evidence of
-  a requested instant. The returned PNG is upright; retained orientation describes
-  the source, so the skill explicitly warns against interpreting it as output rotation.
-- **Sound, high confidence — isolate raw image lifetime from a referencing project.**
-  Deleting an edit that used a photograph must not invalidate a separately admitted
-  original or its raw inspection. Raw image jobs and delivered PNGs therefore use
-  the existing asset-owned references, cache and leases. Project deletion is the
-  available public deletion surface; no asset-delete API is invented for a test.
-  The plan requested deletion coverage without specifying that absent surface.
-  The live journey verifies project/source independence and delivery closure;
-  any future asset deletion must add its own explicit drain/revocation gate.
-
-## Project still-image composition — 2026-09-28
-
-- **Sound, medium confidence — retain images only while their binding contributes.**
-  If the same photograph appears in two overlapping clips, both reuse the same
-  decoded image. When neither clip is present, the executor releases that image;
-  a later repeat can decode it again. The plan required bounded rendering without
-  defining image residency. Keeping every photo for the whole movie would make
-  memory grow with project length. Active-source retention makes the bound depend
-  on simultaneous sources, matching the existing video executor. Still-image pixels
-  are charged once per binding even when several clips reuse them; video retains
-  its per-occurrence decoder accounting. The current pixel
-  allowance is provisional until release-scale measurement.
-- **Sound, high confidence — give compiled images an explicit timeless kind.**
-  A photograph placed for two seconds is visible during project time, but no
-  camera sampled it at source time zero. Compiled layers and returned picture
-  receipts distinguish images from videos; images omit source/sample clocks.
-  Existing authoring uses a hold at zero to select the whole image, so no new
-  editing operation or second timeline is added. The plan fixed timeless semantics
-  without fixing the compiled representation. Explicit kinds prevent consumers
-  from treating a sentinel number as evidence of an observed video frame.
-- **Sound, high confidence — refuse development catalogs missing the new retained provenance.**
-  A previously retained index contains picture receipts without image/video kind
-  and decoded-image counts. Reading those as today's schema would silently guess
-  provenance, while rendering them again would change retained-history semantics.
-  Catalog format 13 therefore refuses older development catalogs under the existing
-  no-migration rule. Renderer recipe changes independently invalidate disposable
-  frames and previews. This chooses a clean persisted contract over compatibility
-  inference; it does not change the user's original media files.
-
-## Public pointer admission and recovery
-
-- **Sound, medium confidence — cap synchronous dependency selection by metadata work.**
-  A long held clip should not require scanning every output frame just to start a
-  render. The compiler finds actual discrete samples inside exact available
-  intervals, with a provisional work ceiling and the existing source-count cap.
-  Exceeding these bounds refuses preparation; slice24 must measure useful capacity.
-- **Sound, high confidence — preserve source history while an index produces frames.**
-  An index occupies the heavy lane while its frame children run. If those children
-  queued heavy history work, neither could finish. Admit history first and retain
-  cache descriptors across the index producer. Lost prerequisites release the lane
-  for one existing queue readmission; repeated loss fails explicitly. The persisted
-  readmission flag prevents automatic recovery from gaining explicit child-retry authority.
-- **Sound, high confidence — use real transitions, not reads, to wake waiting parents.**
-  Creating a nested child or failing its admission can change a parent already
-  visited in the queue snapshot. Coalesce one later event turn for those changes.
-  Unchanged waiting/pressure and ordinary reads schedule nothing. Retained history
-  byte receipts reject impossible aggregate cache sizes before regeneration churn.
-- **Sound, high confidence — distinguish dependency repair from arbitrary rendering retry.**
-  Explicit export retry repairs failed pointer preparation or its returned pinned
-  renderer. Unrelated decoder failures retain the existing explicit preview-retry
-  policy, including a newer failure behind a stale parent error. Already prepared
-  cached/staged bytes use publication readiness and can finish without old renderer
-  availability. This extends the prerequisite flow without changing unrelated retry intent.
-- **Sound, high confidence — bind readiness to the actual preparation owner.**
-  Test or alternate renderers without pointer support cannot advertise executable
-  pointer steps. Production passes the validated composition in process; public
-  manifests gain no capture metadata. Joint image/pointer recipe identities prevent
-  reuse of incompatible disposable receipts; the image pass owns Catalog13.
-
-## Guarded stretch research inputs
-
-- **Sound, medium confidence — make phrase guards part of the selected input.**
-  The existing visual phrase marks have about 25 ms uncertainty. The audition
-  includes an explicitly selected 25 ms on either side before stretching, then
-  leaves the outer 250 ms untouched. This allows a useful join comparison without
-  secretly feeding excluded neighboring speech into the processor. The original
-  plan did not choose audition margins. These are research selections, not an
-  automatic editor policy; independent complete-word labels still need proof.
-- **Sound, high confidence — separate a whole utterance from labeled word spans.**
-  The clean reference has a transcript but no sample-exact first/last-word times.
-  Processing its whole file provides a listening control for MISTER and GOSPEL,
-  while claiming precise protected-word spans would invent evidence. The plan
-  permits independent clean controls without prescribing this clip. Future
-  endpoint acceptance must retain this distinction; file boundaries are not
-  automatically word boundaries.
-
-## Short stretch alternative research — 2026-09-28
-
-- **Choice:** Test Rubber Band as an explicit research candidate, without choosing
-  it automatically for short clips. A 10 ms selected sound may be accepted by this
-  engine even when the incumbent cannot process it, but exact duration and pitch
-  alone do not prove that a word beginning or ending survives. The existing engine
-  therefore stays the numerical candidate while endpoint and listening gates stay
-  open; no clip silently receives a different processing recipe.
-- **Gap:** The plan requires useful short edits but did not choose an alternative
-  engine or authorize a duration-based switch.
-- **Reach:** Future integration must resolve speech quality and distribution terms
-  before adopting this engine; scratch compilation does not add a product license
-  or runtime dependency.
-- **Verdict:** Sound, medium confidence. Preserve the measured short-tone gain and
-  endpoint regression together without converting either into product policy.
-## Pointer product skill clarification
-
-- **Sound, high confidence — discover processor scope instead of prescribing a pointer recipe.**
-  An agent tried a captured pointer on a track even though the service advertised
-  clip-only support. The skill now asks for target and acquisition capabilities
-  before selecting scope, so future processors still use their own advertised
-  contract rather than inheriting a hard-coded pointer exception.
-- **Sound, high confidence — distinguish retained identities from new effects.**
-  When adding dimming beside an existing pointer, keep the pointer's returned ID;
-  when adding a new effect, omit its ID and let the service assign one. Otherwise
-  the agent can accidentally recreate an existing effect or invent an ID the
-  service rejects. Requests and receipts from failed attempts remain separate
-  from successful recovery, preserving what actually happened for inspection.
-
-
-## Scalar curve compiler prerequisite — 16a
-
-- **Choice:** Restrict animation by keeping its original function and clock, then
-  narrowing where it is active. For example, splitting a zoom halfway through a
-  curved acceleration should keep the same acceleration on each side; starting
-  a fresh curve from the split value would change its motion. The compiler keeps
-  its complete keys and exact clock behind intersected project windows.
-- **Gap:** The contract allows either exact curve reparameterization or an
-  evaluation window; this pass chooses the window representation in process.
-- **Reach:** Slice 16 must preserve this function/clock when it connects persisted
-  processing edits and native execution. This pass does not choose that storage
-  format or advertise runnable animation. It avoids a second source-clock or
-  easing owner in workers.
-- **Verdict:** Sound, high confidence. Pure restrictions preserve every original
-  sample exactly without approximating cubic control handles.
-
-
-## Opacity temporal processing vertical — slice 16
-
-- **Choice:** Retain the portion of the original normalized clip clock explicitly
-  on the processing step. After a halfway split, one child reports [0,1/2] and the
-  other [1/2,1]; the same original keys and activation window continue to mean the
-  same motion. Repeated trims restrict that retained interval again, using the
-  existing partitioner's exact ranges. The plan required original-function
-  preservation but did not choose its persisted representation.
-  **Verdict:** sound, medium confidence. `evaluationRange` is visible through
-  get/set and follows normalized clip timing; it is not another source timeline.
-- **Choice:** Reject an opacity curve whose actual cubic extrema leave [0,1],
-  rather than clipping it silently or forbidding every overshooting easing handle.
-  For example, a small fade around 0.5 can safely use a y handle outside [0,1].
-  The plan fixes opacity's physical bounds but did not choose how curved overshoot
-  should be validated. **Verdict:** sound, high confidence; valid motion remains
-  expressible and invalid alpha never reaches native execution.
-- **Choice:** Keep authoring windows and opacity values out of native metadata.
-  The compiler has already emitted each picture's numeric opacity, so sending
-  the original curve would ask the worker to carry a second unused description.
-  One shared service-boundary projection is used by delivery and direct native
-  harnesses; strict unknown-field rejection remains intact. The plan left this
-  transport narrowing implicit. **Verdict:** sound, high confidence. Native still
-  receives the routing, step identities and executable gain/pointer parameters
-  it needs; no native authoring evaluator or silent dry fallback is added.
-
-## Slice 22a — Portable snapshot boundary
-
-- **Sound, medium confidence:** Adopting a package creates new project and revision
-  identities while keeping clip/track/processing identities inside its documents.
-  This allows two independent copies in one library without revision collisions;
-  the adoption receipt maps donor revisions to their new identities.
-- **Sound, medium confidence:** Copy and hash media before the shared publication
-  transaction, then expose asset rows and the entire project together. Failed
-  transactions can leave invisible immutable files for existing startup recovery;
-  they cannot expose a partly adopted project.
-- **Sound, high confidence:** Preserve the actual active undo stack separately from
-  historical documents. Undo/restore operations append revisions, so deriving undo
-  from the last two documents would change the next undo after relocation.
-
-## Animated scale vertical — slice 16
-
-- **Choice:** Use closed internal scalar slots for opacity and scale x/y, with one
-  clock per processing step and separate compiled programs per scalar. This extends
-  the existing curve owner without a generic author-facing parameter-path API.
-  **Verdict:** sound, high confidence. Both axes retain the same original clip
-  timing through edits while independent values cannot overwrite each other's cache.
-- **Choice:** Preserve signed and zero scale, validate complete curve extrema for
-  finiteness, and keep numeric matrix safety checks at emission. Do not clamp values
-  or reject a curve merely because it crosses zero. **Verdict:** sound, high
-  confidence; animation inherits the established static geometry semantics.
-- **Choice:** Extend the existing native projection to omit geometry authoring
-  values after matrix compilation. **Verdict:** sound, high confidence. The worker
-  has no second curve evaluator and direct harnesses share the same projection.
-
-## Slice 22 — Public archive checkpoint
-
-- **Sound, medium confidence:** This checkpoint refuses a non-current revision
-  while the project owner only represents a current head at the end of history. A project
-  export names its current editable state plus all retained history. Earlier
-  revision export stays an explicit follow-up until the project owner can represent
-  that branch without ordinal collisions or changed undo meaning.
-- **Sound, medium confidence:** An adoption job returns only durable project and
-  revision IDs. A long history or large document can exceed the bounded job-result
-  envelope; returning its IDs lets the caller read the normal paged history without
-  reporting a successful catalog commit as a failed oversized job result.
-- **Sound, high confidence:** Each service explicitly selects its package format
-  validator. Opening a project ZIP in the recording service does not reinterpret
-  it, and opening an old recording package in the project service does not migrate
-  history. The archive parser and resource lifetime remain shared.
-- **Sound, high confidence:** Package export assembly has its own private managed
-  root, separate from temporary opened-package handles. Restart recovery can clean
-  expired opened ZIPs without deleting work retained by a durable export intent.
-
-## Slice 16 — Animated position and rotation
-
-- **Sound, high confidence:** Keep animated position in the existing rectangle's
-  x/y fields and animate the existing clockwise angle. For a presenter moving
-  right while rotating, the agent supplies curves in those same fields instead
-  of a second translation object whose order could disagree with the rectangle.
-  The plan named position animation without naming another representation; this
-  preserves the established static placement and transform order. Future geometry
-  consumers inherit one position owner and the same per-step clock.
-- **Sound, medium confidence:** Deliver position/rotation before animating crop,
-  rectangle size or pivot. A moving presenter gains a verified trajectory without
-  pretending size-bound validation and changing crop support were exercised.
-  The plan allowed reviewable passes without fixing their grouping. This is a
-  checkpoint boundary only: remaining scalar consumers and full slice16 acceptance
-  remain open and continue under their original contracts.
-
-## Slice 22 — Acquisition dependency checkpoint
-
-- **Sound, medium confidence:** Acquisition admission is a typed import/package
-  union. A package has no capture-directory import path, so it must not invent one
-  or pretend to rerun native parsing. Catalog format 14 requires a fresh library,
-  following the existing development no-migration contract.
-- **Sound, high confidence:** Retain acquisition, source and generation identities
-  exactly while project/revision identities remain fresh. History and provenance
-  reference those acquisition identities; collisions require complete matching
-  metadata and local byte hashes rather than silently remapping their meaning.
-- **Sound, high confidence:** SourceEvidenceStore ingests the exact packaged
-  normalized bytes under a pending acquisition reservation. The existing project
-  transaction publishes acquisition metadata and references together with assets
-  and history. Unpublished staged evidence remains unreachable and existing owner
-  recovery reclaims it.
-- **Sound, high confidence:** Acquisition IDs require the lowercase canonical form
-  emitted by their sole Node randomUUID producer. Native capture session IDs are
-  separate source identities and retain their original spelling. Exclusive directory
-  creation protects retained data even when staging finds an unexpected directory.
-- **Sound, medium confidence:** General resource references carry asset and
-  acquisition closure through one graph walk. Scene-generation resources still
-  refuse export until their real retained owner and queue readiness are portable;
-  the refusal is a checkpoint boundary, not reduced final package scope.
-
-## Slice 16 — Crop, dimension and pivot curves
-
-- **Sound, high confidence:** Preserve the static geometry domain for animation.
-  When an agent moves a crop partly outside the source, it remains a valid crop
-  just as the same constant rectangle was valid. Width and height must stay
-  positive and each pivot coordinate between zero and one, but no new rule forces
-  the rectangle inside an image. The plan required static-domain preservation;
-  it did not spell out whether to add a combined inside-image constraint. Adding
-  one would reject existing creative placements and create a second geometry policy.
-- **Sound, high confidence:** Use the smallest positive representable number as
-  the lower bound for a size curve's complete value function. A curve that touches
-  zero halfway through is invalid even with positive keys; an arbitrarily small
-  positive value is not rejected merely by choosing an unexplained epsilon.
-  The plan required strict positivity without choosing a numerical expression.
-  Sampled matrix precision remains the existing compiler's responsibility, so this
-  does not promise that tiny dimensions produce safe output matrices.
-
-## Composed PNG delivery boundary
-
-- **Sound — high confidence:** Deliver a completed composition through the existing
-  oriented-image sizing/PNG path. Source-edge sampling belongs before composition;
-  applying it again changes the finished artwork. Preserve the source decoding path
-  and advance the picture cache identity so prior altered borders are not reused.
-  This adds no processor, model, profile, or new public API.
-
-## Slice 22 — Retained source-scene checkpoint
-
-- **Sound, high confidence:** Imported readiness belongs in the existing artifact
-  publication table, with the original attempt identity and no fabricated local
-  job. The queue reports a ready imported result with a null job ID and reserves
-  later real generations beyond it. Exact publication conflicts refuse adoption;
-  active local work is retryable, terminal identity conflicts are explicit failures.
-- **Sound, high confidence:** Pin immutable scene metadata and retain it through
-  existing export references. Read and hash chunk payloads only in the heavy archive
-  job. Indexed owner/artifact/attempt lookup avoids scanning unrelated publications
-  for each retained generation.
-- **Sound, high confidence:** Stage scene chunks through their existing normalizer
-  as unpublished rows. Validate actual source ownership and publish them in the
-  adoption transaction. Startup recovery scans pending generations independently
-  of asset publication, and bounded event-loop yields permit real cancellation.
-- **Sound, high confidence:** Preserve the original sampler implementation identity
-  in retained publication inputs. Validate its source selection and policy without
-  relabeling historical analysis as the recipient's current implementation.
-
-## Native sampling bounds
-
-- **Sound — high confidence:** Keep selection geometry expressed as pixel centers
-  in the compiler and translate to Core Image pixel-cell rectangles at the native
-  API boundary. Source orientation also retains whole pixel cells. This preserves
-  source edges instead of blending away their outer halves; it introduces no new
-  authoring choice, processor, or shared geometry owner. Advance all affected
-  picture/movie and source-evidence cache recipes together.
-## Canonical numerical scalar prerequisite
-
-- **Sound; high confidence — one mathematical program for preview and audio.**
-  When a steep curve approaches its endpoint, rounding a tiny time remainder can
-  change the result much more than expected. The compiler now keeps that remainder
-  exact, then runs short polynomial instructions shared with native audio. Native
-  receives numerical coefficients, not a second copy of editorial easing rules.
-  Independent endpoint and fractional-center formulas catch the precision failure;
-  matching native and TypeScript results alone is not the correctness argument.
-- **Sound; high confidence — a fixed global sample origin survives cuts.**
-  Each curve piece chooses its nearest sample origin before a preview window is
-  selected. A shorter render or fractional split therefore evaluates the same
-  original envelope. Activation keeps the existing floor rule, while curve key
-  selection uses ceil because the first sample at or after a key owns its value.
-  This is a compact key-sized program, not a duration-sized gain array.
-- **Corrected unsound provisional choice; high confidence — no new Int128 limit.**
-  A legal pair of nearly equal normalized fractions exceeds fixed-width native
-  rational arithmetic after composition. The initial proposed refusal was removed
-  before implementation. Exact clock lowering stays in the existing BigInt owner;
-  native executes finite sample offsets and slopes. Existing native audio schedule
-  precision bounds justify those finite numbers, rather than the fixtures alone.
-- **Sound; high confidence — prerequisite proof does not advertise gain delivery.**
-  Numerical conformance and preserved PNGs verify the shared evaluator seam.
-  Animated gain remains unavailable until ordered native mixing, bypass, joins,
-  range renders and actual PCM comparisons are implemented and verified.
-- **Sound; high confidence — stop when arithmetic cannot narrow further.**
-  A fixed number of searches can leave a small timing error that a large but legal
-  gain magnifies. The shared solver stops when its two bounds are neighboring
-  floating-point values, with a ceiling derived from the number format. Exact
-  authored endpoints bypass that search. A legal long-span example now agrees with
-  an independent formula; the measured native cost remains explicit in the evidence.
-
-## Slice 22 — Retained source-transcript checkpoint
-
-- **Sound, medium confidence:** Reconstruct the bounded native receipt from retained
-  segment rows and word counts, then package it beside exact raw native bytes. When
-  a transcript moves, the existing indexer can validate the original receipt and
-  rebuild its normal tables; a second package-specific transcript format would
-  duplicate that authority. The plan did not prescribe receipt storage. This keeps
-  future format validation in the existing transcript owner and caps receipt size.
-- **Sound, high confidence:** Preserve original engine/model/decoder identities but
-  replace only the donor media locator. A receiver without models reads imported
-  ready evidence immediately. It does not relabel old words as produced by its
-  current model or fabricate an inference job. Future regeneration remains ordinary
-  explicit local processing; shared queue publication retains the old identity.
-- **Sound, high confidence:** Stage raw bytes and indexed rows before the shared
-  adoption transaction, and recover pending generations independently of asset
-  publication. A crash after raw copying can leave no transcript row at all, so
-  recovery also scans the existing transcript directory owner. A canceled package
-  cannot leave visible evidence or block a later retry with an orphan directory.
-- **Sound, high confidence:** Freeze raw file identity while pinning; reconstruct
-  receipts and copy/hash bytes only in the heavy export job. The package's generic
-  reference graph retains each immutable transcript generation until publication
-  or abandonment, so history does not silently fall back to a newer transcript.
-### Retained-output research uses the compiled output target before production adoption
-
-- **When:** 12c retained-output reproduction.
-- **Choice:** Prove state over the selected combined output before designing clip-level storage. When a five-second selection is split into two clips, the experiment compiles both into the same five-second signal and prepares that signal once. A later preview reads its saved samples. Trimming away a second instead prepares the newly selected signal; it cannot silently crop the old denoised file. The alternative would invent clip lineage and cache policy before the signal contract is measured.
-- **Gap:** The plan requires a split-safe state strategy but does not choose the first target scope for its reproduction.
-- **Reach:** This establishes an output-target mono mechanism only. Future clip-level preparation, window transitions, durable publication and stereo policy still need their own evidence. The harness adds no production storage owner or readiness flag.
-- **Verdict:** Sound — exercises actual compiler/native selection while leaving unproved product policy unavailable.
-- **Confidence:** High.
-
-## Durable prepared-audio lifecycle prerequisite
-
-- **Sound, high confidence — publish through the existing queue fence.** File
-  preparation finishes before settlement; a synchronous catalog callback then
-  publishes asset metadata and revision references in the same transaction as the
-  queue result. Cancellation or a newer attempt prevents that callback from running.
-  This avoids a second registry that could say audio is ready after its job failed.
-- **Sound, high confidence — share bytes without mixing their histories.** Two
-  unrelated projects can produce identical silence. Their PCM asset may be shared,
-  but their source dependencies belong to each immutable publication receipt and
-  revision reference set. Putting those dependencies on the shared asset would
-  unnecessarily retain or package another project's sources.
-- **Sound, high confidence — retain exact local file identity separately from the
-  recipe.** Drop the staging hard link before capturing identity because unlinking
-  it changes filesystem metadata. A later bounded reader refuses substituted files
-  rather than silently re-rendering different bytes. Relocation must adopt a new
-  local identity while preserving recipe and content identity.
-- **Sound, high confidence — refuse incomplete portable exports.** The first
-  checkpoint establishes core storage and lifecycle behavior. Until the existing
-  package owner learns this resource, export reports unsupported prepared retention
-  instead of producing a package that silently loses it. Native constant gain and
-  unit-rate verification do not make RNNoise or stretch executable.
-
-## Ordered native gain delivery
-
-- **Sound; high confidence — keep editable settings separate from execution.**
-  An agent inspecting a fade still receives its keys and original clip clock.
-  Rendering lowers those settings into numerical instructions through the same
-  compiler that owns picture timing. The numerical program is not saved as a
-  second editable representation or sent back as replacement authoring settings.
-- **Sound; high confidence — retain the constant path and explicit stack order.**
-  Ordinary constant volume changes use the same Float32 loop. Animated gain is
-  evaluated once for each stereo frame at that exact step in the stack, including
-  after children are mixed at a parent. No hidden normalization or automatic
-  ducking changes the agent's requested levels.
-- **Sound; high confidence — retain the unready stretch boundary.**
-  Moving, cutting and trimming a unit-rate audio clip now preserves delivered
-  gain envelopes. A duration-changing edit still needs the unaccepted stretch
-  executor, so its existing not-ready result remains. Pure timing checks support
-  later integration; they are not evidence that stretched speech is deliverable.
-
-
-### Convenience edits append a new ordinary step
-
-When: slice16 explicit fade/zoom pass.
-
-The choice: adding a zoom after an existing crop leaves the crop intact and adds
-another geometry step consuming its output. Adding a fade likewise keeps previous
-level adjustments. The caller receives the complete updated stack and can move,
-edit or bypass the new step by its ordinary ID. The plan required inspectable
-expansion but did not select replacement versus append or the convenience shape.
-Replacing an existing geometry step would silently change unrelated authored work.
-The reach: callers must inspect the current stack and choose crop/rectangle settings
-for the image at that point. Verdict: sound; preserves explicit authorship and the
-single stack owner. Confidence: high.
-
-### Convenience windows do not invent a terminal hold or round time
-
-When: slice16 explicit fade/zoom pass.
-
-The choice: a fade-out from one-quarter to one-half of a clip is active only in
-that interval, then the original unfaded level returns. To stay silent after it,
-the caller authors an ordinary curve through the intended end. Source/project
-convenience endpoints must be whole microseconds; a fractional endpoint is refused
-instead of shifting the requested animation. Normalized clip fractions remain
-supported. The plan left the shorthand's behavior at its edges unspecified.
-The reach: the shorthand keeps existing dry-outside-window and integer-key rules;
-it adds no hidden end key, second clock or rounding policy. Verdict: sound, because
-ordinary processing remains the complete expressive path and receipts describe
-exactly what executes. Confidence: medium.
-## Output settings functional checkpoint
-
-- **Sound, high confidence — keep authored replay identity separate from encoder settings.**
-  An export requested with a preset stores both the request and its resolved values.
-  Repeating that export ID reuses those values even if defaults change later; a new
-  export can resolve the new preset. Empty settings preserve the existing request
-  identity. Render caching uses resolved values so equivalent requests share work.
-- **Sound, high confidence — preserve the internal audio clock while exposing output format.**
-  A request for44.1kHz mono AAC still mixes the composition at its existing48kHz
-  stereo clock, then asks the encoder for the chosen output format. This avoids
-  changing edit/gain sample ownership just to change delivery format. Both internal
-  and encoded formats are reported; public tests check track duration and layout.
-- **Sound, high confidence — verify the encoded header before publication.**
-  A requested H.264 profile/explicit level must match the actual sequence parameter
-  set. Echoing the request cannot prove encoder behavior. Auto level reports the
-  encoder-selected level. This adds a bounded metadata read, not a second renderer.
-
-### Balanced encoding favors the middle measured quality/size tradeoff
-
-- **When:** 09b output quality decision.
-- **Choice:** Use an 8 Mbps encoder target when an agent leaves video rate control
-  unspecified. A ten-second screen recording at this setting costs about 6.5%
-  more bytes than the compact candidate and reduces the sampled pixel error by
-  about 7.7%. The sharper candidate costs another 13.1% for a smaller error
-  reduction. An agent can request any supported explicit setting; the preset
-  does not restrict the controls or promise a particular file size.
-- **Gap:** The user chose balanced sharpness/file size, leaving the numeric default
-  to measured evidence.
-- **Reach:** Ordinary exports inherit this starting point. Fine grids can benefit
-  from sharper settings, and this small screen-recording corpus does not establish
-  the best value for every kind of footage. Existing fidelity failures remain open.
-- **Verdict:** Sound as a reversible default, supported by four cohorts and an
-  independent visual review rather than preset names alone.
-- **Confidence:** Medium; preference between marginal sharpness and bytes varies
-  by content. Change the preset default if broader evidence supports another
-  point; retained export intents keep their original resolved settings.
-
-
-### Font faces belong to immutable bytes, with bounded descriptive metadata
-
-When: prerequisite17b font admission.
-
-The choice: importing a collection lists each face under its exact PostScript
-name, scoped to the file's asset hash. A second file may reuse the same name and
-remain a different dependency. Duplicate names inside one file are refused so a
-later caption never resolves an ambiguous first match. Family/style are display
-metadata, not a font lookup. The parent confirmed this identity choice where the
-text plan had required an explicit font without defining its public identifier.
-The existing probe envelope keeps origin zero and no streams for fonts, while a
-separate count makes them discoverable. The admitted collection is capped at 256
-faces to keep metadata within the existing probe cardinality boundary; larger
-collections are explicitly unsupported. The reach: rendering must resolve this
-pair from retained bytes rather than use an installed font by name. Project
-caption references retain this ordinary asset through the shared document
-dependency extractor. Verdict:
-sound, preserving one blob/reference owner and explicit font identity. Confidence:
-high for identity/ownership, medium for the conservative face-count limit.
-## Slice 22 — Retained project screenshot indexes
-
-- **Sound, high confidence — bind portable indexes to the revision they describe.**
-  A project can keep pictures for both its current edit and an older edit. The
-  package snapshot adds each retained generation to that exact revision's dependency
-  references. Adoption changes project/revision identities and those references
-  together; the picture times, clip identities and pixels keep their meaning. The
-  plan required complete history but left these dependency roots unspecified. This
-  makes future deletion and re-export follow the existing reference graph.
-- **Sound, high confidence — inspect retained pictures without granting execution.**
-  A receiver may lack a pointer executor while already holding its validated PNGs.
-  Retained validation compiles the original picture meaning without requiring that
-  executor to run, and keeps the unavailable requirement explicitly unavailable.
-  Ordinary rendering still requires readiness. The plan did not prescribe this
-  compiler read boundary; sharing it prevents a second interpretation of history.
-- **Sound, high confidence — a ready receipt does not need its donor job.**
-  Importing an index preserves the queue's published result, but does not invent
-  a completed worker job. An inspection now uses that exact result immediately.
-  Submitting fresh work solely because the donor job is absent would replace the
-  generation while the caller is reading its pictures. The plan left the read-side
-  admission decision unspecified; explicit retry and new recipes retain their
-  ordinary execution paths.
-
-## Explicit encoder control decisions
-
-- **Sound, high confidence — preserve full GPU identities as decimal strings.**
-  A machine can identify its graphics device with a 64-bit number that JSON
-  cannot represent exactly as an ordinary JavaScript number. The agent sends
-  the discovered decimal string, and native code validates its unsigned range
-  before creating the writer. This prevents a valid device choice from silently
-  rounding to another ID; the plan did not specify the wire representation.
-- **Sound, high confidence — distinguish required selection from preference and telemetry.**
-  A required software, hardware or GPU policy goes into both preflight and the
-  actual writer. Successful writing under that hard constraint establishes
-  enforcement. A preferred GPU explicitly permits fallback. The platform does
-  not expose the writer's selected encoder session, so receipts do not invent
-  an observed ID from a separate preflight session. This retains the existing
-  writer owner rather than replacing it solely for telemetry.
-- **Sound, high confidence — explicit null requests the encoder default.**
-  A software encoder can reject an optional hardware-oriented property even
-  when the requested value is false. Agents inspect per-encoder capabilities
-  and set a nullable control to null when they intend to leave it unspecified.
-  Default presets remain intact, unsupported explicit values still fail, and
-  the resolved receipt preserves the null. The alternative of silently omitting
-  unsupported preset values would conceal which request was actually honored.
-- **Sound, high confidence — unavailable public controls remain discoverable.**
-  An SDK resampling key passed admission but failed actual AAC writing. Discovery
-  explains that it requires another conversion path rather than presenting a
-  working knob or pretending an accepted dictionary proves support. Read-only,
-  private and separate realtime/multipass workflows likewise remain distinct
-  from verified offline controls. No unverified DSP or codec is added by this
-  settings feature.
-
-## Slice 14a — Prepared recipe portability
-
-- **Sound, high confidence — bound a whole-project recipe by its package budget.**
-  A short project made of many small clips can have a larger execution description
-  than a long single clip. Export preserves that complete description under the
-  existing package manifest limit. Reusing the smaller input limit for simple
-  artifact recipes would refuse valid prepared results even when the package fits.
-  The plan required bounded metadata but did not choose a separate recipe limit.
-  This keeps one enclosing budget and forbids truncating ordered processing or
-  provenance merely to satisfy an unrelated small-recipe bound.
-
-## Operation help selection (CLI discovery follow-up)
-
-- **Choice:** Keep one registry and let an agent request one operation with
-  `screenrec <operation> --help`. For example, importing a font needs the asset
-  import schema, without loading every curve and editing schema first. Bare help
-  still supplies the full catalog; an unknown operation is an explicit error.
-- **Gap:** The plan required discoverable schemas but did not specify how a
-  caller narrows an increasingly large catalog.
-- **Reach:** This changes offline CLI discovery only. MCP and service operations
-  retain their existing schemas, and no preset restricts explicit settings.
-- **Verdict:** Sound: reduces irrelevant output without adding a second schema
-  owner or hiding any capability. **Confidence:** High.
-
-## Slice 17c — Literal text ownership
-
-- **Sound, high confidence — text uses the existing clip graph.** A title that
-  follows a video uses the same attachment as another visual layer. It therefore
-  splits, moves and repeats with that parent instead of needing a second caption
-  timeline. The parent explicitly approved removing the unshipped empty captions
-  field; frozen historical evidence retains its original format and build boundary.
-- **Sound, high confidence — exact font bytes stay ordinary asset dependencies.**
-  Changing a caption's font leaves its earlier revision able to undo and render.
-  One shared dependency extractor roots media and font assets for history and
-  packages. Native receives a separate font binding because a font has no playable
-  stream; it does not register fonts globally or select a face by ambient name.
-- **Sound, high confidence — layout reuse preserves literal code units.** Two
-  visually equivalent Unicode spellings may have different character ranges.
-  Raster reuse compares exact UTF-16 literals so their receipts keep the caller's
-  ranges. Reuse lives within active frame surfaces and existing pixel budgets,
-  without another persistent cache or unbounded glyph store.
-- **Sound, high confidence — canvas alpha is honored before codec admission.**
-  A transparent PNG remains transparent; an H.264 movie is admitted only when its
-  final pixels are opaque. This corrects the misplaced movie restriction in the
-  shared picture background without adding a matte or relaxing the movie gate.
-- **Sound, medium confidence — missing selected glyphs refuse separately from
-  font substitution.** A missing-glyph box from the chosen font is not proof that
-  the requested character rendered. Native refuses glyph zero as well as runs from
-  a substituted font; finite-box clipping remains the explicitly requested layout
-  behavior rather than an implicit font fallback.
-
-
-### Historical packages capture the selected moment
-
-When: slice 22 historical export checkpoint. Verdict: sound. Confidence: high.
-
-The choice: if a project has edits A, B and C and the caller exports B, the copied
-project opens at B with its history and undo stack through B. C stays in the donor
-and is absent from that package. Later donor undo, restore or edits cannot change
-what B meant. The plan required history retention but did not define whether an
-older selected head should also carry its future. Keeping those later edits would
-introduce a different branch model and unclear undo behavior. The reach: package
-revision selection is a historical snapshot, and each adopted project continues
-its ordinary append-only revision sequence from that selected moment.
-
-## Scoped encoded appearance disposition
-
-- **Choice:** Accept the measured fine-line/text softening for the tested balanced
-  MP4 static compositions while retaining exact selection, geometry and timing
-  gates. A pointer still lands on the intended target; its thin colored trail may
-  soften through lossy encoding. Agents can choose explicit settings for another
-  tradeoff. This does not accept motion playback or speech quality by implication.
-- **Gap:** The plan allowed documented codec error but did not prescribe a universal
-  numeric color threshold or a perceptual loss cutoff. Earlier experimental
-  thresholds had been treated too broadly as unfinished feature requirements.
-- **Reach:** Closes06/15's named contracts using complete retained evidence and
-  independent critique; failed diagnostics remain failed.16,24 and final acceptance
-  keep their own boundaries. No source or renderer behavior changes.
-- **Verdict:** Sound: measured loss is compatible with the user's balanced policy
-  and does not conceal a demonstrated edit defect. Reversible through explicit
-  encoding settings. **Confidence:** Medium, because acceptable loss depends on
-  content and viewing conditions beyond this corpus.
-
-## Public prepared audio
-
-- **Choice:** Require an explicit revision for `audio.prepare`, returning the
-  shared job state and a retained audio asset. If an agent edits the project while
-  a preparation runs, polling the old selection still means the original recipe;
-  it never quietly switches to the new head. The existing queue keys that work,
-  so there is no additional request-intent table.
-- **Gap:** The storage prerequisite required public consumers but did not name
-  their entry point or define whether a missing revision follows current state.
-- **Reach:** Existing job retry/cancel and asset/audio/acoustic inspection consume
-  the result. The initial command names only the verified full processed output
-  domain; it does not imply arbitrary target preparation or accepted DSP.
-- **Verdict:** Sound: explicit pinning and reuse of existing owners keep the API
-  small and retries predictable. **Confidence:** High.
-
-## Transcript-seeded text
-
-- **Choice:** Preserve the original selected word evidence separately from edited
-  caption text. If an agent creates a caption from a spoken phrase, then corrects
-  its spelling or deletes the original occurrence, the caption still records
-  which retained transcript words it came from. New evidence must match the
-  pre-edit occurrence; inherited evidence can outlive that clip. Package adoption
-  verifies that origin against retained history rather than requiring the clip
-  to remain in today's timeline.
-- **Gap:** The plan separated display corrections from source transcripts but did
-  not specify the lifetime of the original occurrence reference after deletion.
-- **Reach:** Existing revision references retain both source resources and the
-  exact transcript generation; no second occurrence store is introduced.
-- **Verdict:** Sound: provenance describes the origin without pretending corrected
-  text is unchanged source speech. **Confidence:** High.
-
-- **Choice:** Allow exact fractional endpoints when placing text. A caption seeded
-  from a word in a retimed clip may start between integer microseconds; storing
-  that fraction preserves the existing composition clock instead of rounding the
-  word boundary. Ordinary text placement accepts the same exact anchor shape, so
-  the convenience operation does not need a private edit format.
-- **Gap:** Early authoring inputs used integer project/content times, while the
-  accepted composition model and projected word occurrences already used exact
-  fractions. Transcript seeding exposed that mismatch.
-- **Reach:** Text placement becomes more expressive; other movement and media
-  placement input contracts stay unchanged. The shared compiler still owns time.
-- **Verdict:** Sound: one public edit representation preserves exact authored
-  placement through retiming. **Confidence:** High.
-
-## Independent codec invocations
-
-- **Choice:** Keep fresh AAC decode/resample comparisons as visible reproducibility
-  measurements while testing mixer arithmetic exactly against frozen decoded PCM.
-  When two separate invocations differ by one Float32 step, that alone does not
-  identify whether decoding, conversion or mixing caused the difference. The
-  original failed comparison remains unresolved; no replacement tolerance or
-  whole-composition acceptance is inferred from the frozen-input control.
-- **Gap:** The new mixed-rate probe initially invented an exact comparison across
-  independent lossy-decoder invocations without separating that claim from exact
-  arithmetic on identical inputs.
-- **Reach:** Existing MP3 exact gates and AAC source bounds remain unchanged.
-  Resampled AAC reproducibility needs its own localization or explicit contract
-  disposition; a later green arithmetic test cannot erase the earlier failure.
-- **Verdict:** Sound for this scoped checkpoint, with medium confidence: separating
-  claims avoids attributing an unexplained difference to the wrong owner, while
-  retaining the failed claim as unfinished work.
-
-## Input discovery annotations
-
-- **Choice:** Remove readOnly annotations when exporting caller input schemas.
-  An agent creating a gain curve must supply its keys even though the engine
-  freezes the parsed array internally. Advertising that field as read-only
-  confuses those two meanings. CLI help and MCP tools/list share the same export
-  override; runtime freezing, required fields and semantic validation stay intact.
-- **Gap:** The schema library exports runtime immutability as an input annotation,
-  even when asked for its input representation.
-- **Reach:** Schema-driven agents can author all advertised input fields without
-  learning a special exception for arrays. Immutable provenance rules remain
-  enforced by edits and are not changed by a discovery annotation.
-- **Verdict:** Sound: the public description matches what callers can submit,
-  using the existing single discovery owner. **Confidence:** High.
-
-## Fractional native audio execution
-
-- **Choice:** Keep fractional-rate audio importable, but refuse its execution until
-  the native decoding path can preserve source phase across seeks. Validate actual
-  format rates before integer conversion rather than rounding them silently.
-- **Gap:** Asset admission allowed fractional metadata, while the execution clock
-  used integer rates without an explicit supported-domain boundary.
-- **Evidence:** A declared44100.5Hz impulse fixture preserves full-render spacing
-  but shifts a late public window. The shift already exists in AVAssetReader output
-  before the second converter. An offset patch would hide a seek-dependent defect.
-- **Reach:** One SourceTrack rate validator governs execution. Source layout
-  restrictions and composition discrete-two-channel index mapping stay separate.
-  Audio/movie recipe identities advance; prepared recipes inherit the audio
-  executor identity so prior ready results cannot satisfy a new request.
-- **Verdict:** Sound with high confidence for explicit refusal; fractional-rate support and broader decoder quality
-  remain unproven. Asset admission and retained original provenance are unchanged.
-
-### Sparse captured-PCM proof: retain exact phase failure (sound, scoped)
-
-The offline storage experiment caps requests at eight runs,30 seconds and16 MiB
-input, keeping whole-file hashing and platform composition metadata bounded. These
-are experiment bounds, not production recording limits. It takes explicit
-probe-known frame addresses and requires a supported exact common timescale. It refuses unsupported rates/scales
-rather than rounding. This is not a new capture journal or a promise for all device
-clocks. The rational container succeeds while the existing reader still moves a
-sample; that red remains a separate prerequisite. Packed files remain immutable
-experiment inputs, not a decision to retain duplicate production originals forever.
-
-
-### Captured time: raw-clock equality superseded by admitted placement (corrected)
-
-The 20b/c implementer required every raw host nanosecond plus native frame duration
-to survive canonical MOV exactly. This exceeded the public microsecond/source-sample
-contract and can exceed the platform timescale. The corrected requirement is one
-declared CaptureClock admission policy, exact raw provenance retained separately,
-and canonical preservation of admitted sample identities, addresses and support.
-A fixed initial microsecond phase with deterministic native-sample classification
-is the production admission policy. The writer commits the prospective clock only
-after media acceptance; canonical publication and recovery preserve represented
-physical sample addresses. No hidden fitting, epsilon merging or reader-specific
-timeline is authorized. This supersedes
-the earlier raw-PTS equality/coalescence and raw-through-MOV requirements, while
-keeping accepted-versus-durable and canonical publication invariants unchanged.
-Verdict: earlier requirement unsound; corrected observable property sound, high
-confidence. Admitted-placement preservation does not establish physical camera
-synchronization or raw-clock equality through a container.
-
-### Frozen learned native parity: isolated dependency before runtime adoption (sound, scoped)
-
-The fixed RNNoise frame adapter lives in an isolated native dependency package
-until the existing audio owner can consume it with an accepted state/channel
-contract. This avoids making every app build compile a large model or require
-model staging before public adoption. The runtime slice will link this same
-library directly; it is not a second renderer or queue. Confidence is high for
-this prerequisite boundary, not for unimplemented runtime policy.
-
-Unchanged small upstream source/header files and their notice are vendored;
-the large generated model source is explicitly extracted from a hash-verified
-local frozen archive into ignored build storage. No download or weight conversion
-occurs. This keeps parity tied to the winning bytes without committing a large
-trained model or implying public distribution readiness. Broader build/model
-preparation remains an explicit runtime-adoption gate.
-
-The streaming adapter delegates selected-domain identity and transactional output
-publication to its caller, while retaining one state across arbitrary read chunks.
-It rejects unsupported format, invalid reads and nonfinite scaled samples, and
-propagates cancellation/read/write errors. It adds no editorial strength/channel
-policy, source decoder or automatic quality acceptance. Confidence is high in
-this narrow ownership split; the public target/state contract remains open.
-
-
-### PCM ties and accepted-state boundary (sound)
-
-An input buffer whose native position lies halfway between sample cells rounds
-away from zero under the shared capture clock's named boundary rule. The writer
-calculates a prospective placement, appends media, then commits that clock state.
-A rejected first buffer therefore cannot establish the phase for later audio.
-The capture journal records accepted physical addresses and raw provenance;
-canonical publication determines which bytes are durably represented. This keeps
-one admitted timeline rather than correcting each reader independently.
-Confidence: high for the implemented admission/acceptance ownership; physical
-synchronization remains a separate acceptance question.
-
-### Retain accepted media before journal writes (sound)
-
-When the media writer accepts the first audio buffer but the journal cannot write,
-the recorder now remembers that accepted buffer and finishes its container. It
-still stops with JOURNAL_FAILED and claims no acquisition for the unjournaled
-buffer. Previously its zero counter caused finalization to cancel those bytes.
-The plan required truthful accepted state; the bounded verification choice is a
-real process-local filesystem limit rather than a test-only production failure
-hook. The opt-in offline test restores limits before inspecting retained media.
-This adds no persistent format or new recording path. Confidence: high; both first
-journal boundaries preserve exact decoded input PCM while recovery keeps support empty.
-
-### Native sample addresses survive rounded decoder timestamps (sound)
-
-When an agent requests a later excerpt, the reader now keeps the physical run's
-sample origin and counts samples from it. A platform timestamp can describe two
-different returned payloads, so it cannot identify the sample by itself. The
-decoder seeks to a provably interior point of the selected sample cell; this
-changes neither authored placement nor acquisition support. The
-[reader decisions](assets/08-native-sample-address/choices.md) cover bounded seek,
-continuity checks and cache invalidation. Confidence: high; this avoids a fitted
-offset or a new restriction on ordinary integral-rate audio.
-
-### Packed mapping evidence is not acquired source support (sound)
-
-A schema2 journal may say that an audio buffer was accepted even when its last
-physical bytes never reached a usable container. Its new streaming consumer exposes
-those mappings to the canonical materializer; ordinary inspection refuses that
-layout until canonical publication proves which prefix is represented. The summary
-does not turn mapping records into acquired intervals. This fills the staging gap
-between media acceptance and durable publication without a permissive alternate
-parser or packet array. Confidence: high for the implemented boundary; a mapping
-record never substitutes for verified committed-prefix admission.
-
-### Bind recovery to original validated journal bytes (sound)
-
-When a recording gains later lifecycle records, a whole-file hash changes even
-though the mappings used to construct an earlier candidate have not. The existing
-journal decoder now returns the byte count and hash of its validated prefix to
-internal recovery consumers. A candidate can later name those exact bytes instead
-of relying on a sequence number or re-serialized JSON. This token stays out of
-ordinary inspection and does not claim that mapped audio reached disk. Confidence:
-high; it gives20c/20d one provenance owner without another parsing or storage path.
-
-### Stateful clip membership before runtime adoption (sound, scoped)
-
-Instance identity and shared continuity are distinct meanings. Existing globally
-unique step IDs still address owned instances; explicit stateKey values mark
-shared groups, while absence means independent state. A first split uses its
-newly allocated child step ID as the shared token on both pieces, preventing a
-detached token owner from reconnecting former siblings on resplit. This reuses the
-existing allocator and adds no group registry or ancestor lookup. Tokens still
-present in a revision reserve their ID even after the original owner is removed.
-
-One duplicate operation preserves copied siblings' mutual continuity under a
-fresh copied-member token, independent of originals and separate duplicate calls.
-Ordinary get/set omission preserves metadata; fresh steps cannot manufacture it.
-These are explicit editing semantics, not a claim that independent stereo or
-rendered processing has been accepted.
-
-The compiler stores current clip inputs/stacks once and derives connected-domain
-prerequisites from ordered stateful steps. It never equates prefix configurations
-or infers membership from matching adjacent clips. Shared state participates only
-where currently enabled; changing that coverage may require new domains. Input
-availability remains evidence of missing support rather than authorization to
-feed invented source samples.
-
-At completed edit boundaries, incompatible cross-track membership and dependency
-cycles detach all shared state on participating changed occurrences with monotonic bounded repair.
-Every iteration removes shared memberships on originally changed occurrences; newly exposed violations cannot trigger unchanged retries. This deliberately avoids a minimum-repair search and leaves the consequence in
-normal processing receipts. Unchanged occurrences and valid whole-group moves
-retain membership. Structural resolution is shared by edit helpers; strict
-admission still rejects invalid imported state graphs. No public processing
-readiness follows from this pure compiler checkpoint.
-
-### Normalize audio representation at one track boundary (sound)
-
-A microphone buffer can contain the same frames as 16-bit integers or floating-point
-numbers. The writer accepted a changed representation but interpreted its bytes as
-the first format, losing or inventing frames. Each track now supplies one float32
-interleaved representation at its established rate and channel count. Apple's
-PCM-only converter changes representation with an explicit identity channel map;
-rate/channel changes refuse before append. One current converter is replaced as
-needed, rather than retaining a format cache or introducing another timing owner.
-The plan left the platform primitive open; packed24 and planar controls supported
-AudioConverterConvertComplexBuffer without narrowing representation support.
-Removing sourceFormatHint was rejected: controlled outputs were byte-identical to
-the failure. Confidence: high for this bounded correction; actual device format
-changes and physical capture remain unmeasured.
-
-### Keep the measured platform export for sparse capture (sound)
-
-When a recording has many gaps, the platform export uses more memory for the
-separate occupied runs. The largest existing acquisition limit completed with
-exact original samples and placement. Continue with that representation,
-finalizing audio roles sequentially so their peak memory costs do not overlap.
-The plan left the platform mechanism and resource tradeoff open; the measured
-cost alone does not establish a violated finalization budget. A custom movie
-serializer would create another format owner without evidence that it is needed.
-This choice constrains20c implementation, not recording duration or accepted
-input. Confidence: medium; one host's measurements exclude platform services and
-do not prove every machine's resource envelope. Cancellation must retain the
-original payload and journal; this experiment does not authorize cleanup. See
-[the retained experiment](assets/20c-platform-feasibility/README.md).
-
-## 15a2b — Parent and window state semantics
-
-**Accepted for pure authoring/compiler validation; runtime quality remains open.**
-Parent state spans structural audio children, including internal timeline gaps,
-without using unrelated video or amplitude to choose endpoints. Authored activity
-and missing-source support remain separate: a source hole is not permission to
-reset the learned state or manufacture samples. Existing curve/temporal placement
-owns activation, including empty normalized-window intersections.
-
-Range selection starts from the full structural audio tap plan and intersects the
-same eligible member's active interval. Each prerequisite expands at its own
-ordered prefix. Interval-local edges to earlier stateful steps may be redundant
-transitive edges but cannot acquire disconnected components. Current processing
-instructions are reused once; each member retains its own input prefix instead of
-flattening several recipes into one schedule. This adds no persistent graph owner.
-
-Channel provenance/native preparation is the next gate: two-channel prepared
-output does not establish dual mono. Metadata scopes do not enable execution or
-replace the retained full policy and listening requirements.
-
-The immutable model's placement owner reuses a weakly held clip lookup, and each
-compiler memoizes its own derived state plan. These are disposable indexes of the
-current frozen revision, never membership authority or inputs from an old graph.
-Whole-domain activation uses the temporal owner's existing range directly; authored
-windows still use its anchored placement resolver.
-
-### Compile the fixed denoiser into the worker (sound, medium confidence)
-
-For local denoising, build the already verified fixed model into the existing
-worker after explicit hash-checked preparation. An agent editing a clip then uses
-the worker's compiled model identity and never triggers a model download. The
-plan required deliberate build adoption but left packaging mechanics open.
-Keeping the earlier isolated package optional would add feature-selection
-machinery; converting weights for runtime loading would require another parity
-proof. Neither is needed merely to preserve the temporary isolated build.
-The ordinary build must explain missing preparation before opaque compiler
-failures. Native linkage/parity and distribution provenance remain explicit
-gates in [15a2](slices/15a2-denoise-prepared-consumers.md); this decision does not
-claim those gates passed or authorize publishing a distribution.
-
-### Journal inode owns publication exclusion (sound, scoped)
-
-Use the existing take journal inode as the kernel flock owner, with close-on-exec
-and pinned directory/file identities. Process exit releases ownership without a
-PID registry or stale-lock cleaner. Exact-prefix replay shares the bounded journal
-decoder and validates its byte digest before callers accept staged work. Later
-appends cannot expand a pinned recovery attempt. Ordinary schema1 writing holds
-the lease already; canonical publication, retry continuation and schema2 adoption
-remain separate gates. [Evidence](assets/20d-journal-lease/README.md) includes actual
-contenders and exec inheritance with a failing negative control.
-
-## 15a2c — Input provenance before native binding
-
-**Accepted initial admission boundary; full native/channel policy remains open.**
-Stored probe channels/rate travel through the existing normalized audio stream and
-selected state inputs. Unknown provenance stays unknown; stereo output does not
-prove dual mono. Mono duplication, common scalar gain, authored silence and mixing
-preserve the intended channel relation, but actual native opening must verify that
-premise before DSP execution. Other channel-changing prefixes are not assumed safe.
-
-Consumed support is exact, including prerequisites outside the requested output.
-Selected missing support blocks new learned processing instead of being padded;
-retained reads keep their existing independence from live processor availability.
-File binding and prepared resource retention share the same media-input union.
-Actual learned publication/retention proof remains with native integration, not a
-fake successful backend or a test-only exported dependency collector.
-
-### Retain working audio when accepted frames are missing (corrected, sound)
-
-During20c/20d integration, the earlier cleanup proposal allowed deletion when all
-decodable frames were represented even if the journal said the writer accepted
-more. For example, a take could report120000 accepted frames but expose only96000
-decodable frames. Copying those96000 exactly does not resolve the missing tail.
-The original plan already required preserving uncertain recoverable evidence,
-so automatic cleanup now requires all three counts to agree and complete indexed
-decode without an unresolved tail diagnosis. A useful canonical prefix may still
-be published while its working input remains retained. This corrects the earlier
-non-strict count condition; it adds no forensic container parser and does not
-claim knowledge of arbitrary unindexed bytes. Confidence: high. The publisher's
-retention tests must cover both accepted-beyond-EOF and unjournaled physical tails.
-
-### Verify complete audio through bounded reader batches (sound, medium confidence)
-
-A highly fragmented recording made one giant native reader spend tens of seconds
-opening before cancellation could be checked. The canonical verifier now reads
-small batches of occupied runs through the same native decoder, carrying one
-continuous sample hash across them. Every sample and global placement still has
-to match; batching bounds working setup rather than shortening the recording.
-Whole-file descriptor verification explicitly selects streaming in the existing
-input owner, while ordinary inspections retain their original byte budget.
-The proof's byte identity and placement identity are separate and include the
-fixed format: regrouping callbacks cannot change the meaning of identical audio.
-The [reviewed materializer choices](assets/20c-materializer/choices.md) retain the
-encoding and ownership details. These internal choices enable cancellation and
-immutable long-file verification; they do not remove public deadlines, establish
-a new recording cap or claim forensic knowledge of unindexed container bytes.
-
-### Keep unfinished publication attempts private and inspectable (sound, high confidence)
-
-In the canonical publisher checkpoint, a stopped export keeps one private folder
-per audio role. Its intent names the exact input, and its prepared receipt says
-which verified output may be published. A partial candidate can be rebuilt before
-that receipt exists; after it exists, retry must verify the same candidate. This
-fills in the proposal's on-disk restart boundary without a second job manager.
-Small metadata records have a fixed size budget because sample placements remain
-in the journal, rather than being copied into each receipt. The budget is not a
-recording length limit. If cleanup encounters an unexpected file in the attempt,
-it retains that file and reports pending cleanup instead of deleting the folder
-recursively. A successfully published recording stays available throughout. These
-choices make future stop/recovery continuation reuse the same inspectable attempt.
-
-### Stream learned state through one attempt-owned PCM spool (sound, medium confidence)
-
-When a short preview needs an earlier learned-processing prefix, the compiler
-supplies one shared set of current inputs and ordered prefix references. Native
-execution uses the ordinary mixer to write each complete component into one
-reusable input file, then calls the fixed adapter and appends its output to one
-attempt-owned file. This trades temporary disk I/O for memory independent of
-recording length and avoids an asynchronous-to-synchronous thread bridge. Nothing
-is published until counts agree; cancellation belongs to the existing render
-attempt and prepared job. There is no second prepared cache, job queue or project
-graph. Components with no output samples do no inference.
-
-### Bind the compiled recipe through observed native metadata (sound, high confidence)
-
-At service startup, one bounded native metadata request identifies the compiled
-recipe for both audio and movie consumers. If that request is unavailable or
-malformed, new learned preparation remains unavailable while ordinary authoring
-and retained PCM reads remain usable. Availability is fixed for that service
-instance because the model is compiled into its worker; replacing the worker
-requires a restart. The existing render deadline includes the complete selected
-state components as well as requested output, so a short preview does not budget
-only its visible duration. This neither creates a runtime model installer nor
-claims that an unavailable capability removes weights from the linked binary.
-
-### Verify imported source clocks against the media they describe (sound, high confidence)
-
-During canonical package admission, a package could keep every audio byte unchanged
-but shift its claimed starting time and matching binding by one microsecond. File
-hashes alone therefore could not prove that playback would use the verified clock.
-Publication-backed audio now uses the existing native probe on its admitted file
-handle to confirm the stored media facts before acceptance. Both temporary package
-inspection and durable adoption regenerate journal evidence and rebuild bindings
-through the same owners. A package cannot select a weaker check by claiming an
-older journal layout. This fills in the original canonical-only admission contract;
-it does not change the policy for unrelated imported asset types. Package readiness
-now requires this native verification work, whose large-work deadline remains an
-explicit rollout gate. [Admission choices](assets/20d-canonical-admission/choices.md)
-retain the workspace and legacy-rounding boundaries.
-
-
-## Capture stop continuation (20d)
-
-
-## Sound — medium confidence
-
-**Availability and cleanup have separate outcomes (20d stop continuation).** When
-canonical media is already verified and published but removing working files fails,
-the take remains complete. CaptureResult carries optional cleanupFailure rather
-than mislabeling it as a failed capture. An original capture failure still wins.
-The plan required this distinction but did not choose its result shape. Keeping the
-warning on the existing result avoids a parallel volatile warning owner; recovery
-owns an explicit cleanup retry. Root reviewed this contract. No endpoint is added.
-
-## Sound — high confidence
-
-**Repeated stop returns its authored acknowledgment while completion is being
-reported (20d stop continuation).** If media finishes while the terminal report is
-waiting for service acknowledgment, the controller retains the earlier finalizing
-receipt rather than manufacturing finalizing with the newer terminal sequence. The
-plan did not specify this interleaving. This preserves one meaning per sequence and
-lets the terminal report win normally; it adds one transient receipt to the existing
-controller rather than another state machine.
-
-**Cancellation transfers to the existing native termination task (20d stop
-continuation).** A cancel can arrive while the controller's first finalizing report
-is held, before native stop has created its task. NativeCapture retains that request
-only for an existing packed sink, transfers it when the task starts, and clears it
-for a new take. Otherwise the cancellation disappears and expensive publication
-runs despite the user's request. A cancel after availability settles remains optional
-cleanup cancellation. The plan named the owner but did not specify this await gap.
-There is no new task registry or transport-triggered cancellation.
-
-**A lost start response can advance directly to native-proved finalizing (20d stop
-continuation).** The library may still say preparing when native has captured and
-received stop. Its actual finalizing event is accepted with the same identity and
-sequence checks; no invented recording event fills the missing response. Otherwise
-recovery could inspect a still-owned writer and permanently override its later
-completion. The old transition table left this legitimate state jump unspecified.
-Root approved the change; public terminal duration still comes from native outcome.
-### Learned portable preservation oracle
-
-- **When:** 14a learned prepared-package checkpoint.
-- **Choice:** Compare the receiver with the donor's actual publicly delivered
-  learned PCM. A package should preserve the sound already prepared: exporting,
-  adopting and reading it must not run the denoiser again or change its samples.
-  The earlier frozen-adapter comparisons remain the separate proof that the
-  denoiser computes the accepted recipe; this transfer pass does not replace them.
-- **Gap:** The package follow-up did not prescribe a second DSP oracle.
-- **Reach:** Reuses the existing package and prepared-audio harness with a short
-  generated stereo fixture; does not infer speech quality or long-output behavior.
-- **Verdict:** Sound; isolates preservation from execution and retains the earlier
-  independent numerical gates.
-- **Confidence:** High.
-
-### Independent channel state (sound, medium confidence)
-
-**Sound, medium confidence: fixed independent state for each output lane.** When a project contains different left/right speech or noise, each lane now receives its own instance of the already selected mono algorithm over the same authored state interval. A quiet or opposite-polarity right channel cannot alter the left detector. The existing mixer still maps mono sources into the stereo project rendition; this adds no downmix, linked detector, normalization or channel control. The native identity names the policy so earlier mono-only recipes cannot silently acquire a different meaning. This was explicitly approved as the implementation direction and is now numerically verified; it is not a user listening verdict or a claim that stereo balance is perceptually unchanged.
-
-Paired output remains one transaction in the existing attempt-local spool. Processing lanes sequentially avoids another scheduler and preserves the unchanged synchronous adapter; only complete paired counts expose a component to its dependents. This internal buffering choice keeps the same state graph and prepared publication owner.
-
-### Shared recording-package admission (sound, high confidence)
-
-A portable recording can contain correctly hashed audio while its editable metadata
-claims different speech timing. Both package assembly and opening therefore verify
-the native publication proof and compare the audio pages that playback actually uses.
-Project packages reuse the same proof owner, retaining their own binding checks.
-The specification required truthful portable audio but left the shared owner boundary
-open. Verification borrows the existing workspace lock into native workers so a
-service restart cannot remove their working files. This introduces no second clock,
-cleanup owner or ready store. [Detailed decisions](assets/20d-recording-package/choices.md)
-record the preserved legacy and deadline boundaries.
-
-### Large compiled plans use the existing render workspace (sound, medium confidence)
-
-A long project can have a small preview yet need a large learned-processing input
-plan. Raising the control-message limit would widen every operation. Instead, the
-service keeps small composition plans inline and puts larger ones in the render
-attempt's private directory. Native reads the same plan fields with the same strict
-validator; no second timeline or request meaning appears. The compiler contract left
-serialization to implementation. The64 MiB plan bound leaves room above the measured
-17.4 MB basic10,000-occurrence fixture while keeping native admission finite; heavily
-enriched projects can still refuse explicitly. This is a transport bound, not a
-promise that every10,000-clip project fits. Existing attempt locks/cleanup own the file,
-and the native file check does not claim arbitrary parent directories are immutable.
-
-### Acquisition recovery waits for native work (sound, medium confidence)
-
-If the service dies during source verification, its native child can keep reading
-and writing. Acquisition recovery now takes an exclusive lease on the acquisition
-root before deleting files, references or pending rows; native work inherits a
-shared lease. The plan required safe recovery but did not select lease scope.
-A root lease deliberately delays unrelated acquisition cleanup too, because the
-existing recovery transaction spans the whole owner, including reservations without
-files. Startup reports retryable ACQUISITION_BUSY instead of polling or deleting
-live work. Once the child exits, ordinary recovery proceeds. This reuses the existing
-directory and adds no lockfile registry. Package verification carries both its input
-workspace lease and acquisition staging lease because they protect different files.
-
-### Canonical verification gets its own work budget (sound, medium confidence)
-
-A sparse recording may hold little PCM while its many segments take a minute to
-verify. Source normalization now gets a ten-minute canonical segment allowance plus
-the existing byte-work budget. The gap was how asynchronous verification should be
-bounded; this is an observation policy grounded in the measured100,000-run workload,
-not a universal throughput promise. Legacy sources retain their old worker deadline;
-control messages and public client waits are unchanged because preparation is a job.
-Cancellation still drains the worker. Larger probe responses and physical metadata
-row limits are separate failures; extending a timer does not make those imports work.
-
-### Advance execution identity when a refused domain becomes supported (sound, high confidence)
-
-A project that failed an older native size limit has a nonretryable job, so retry
-cannot repair it after updating the renderer. Audio/movie execution identities now
-advance with the expanded transport and scheduling capability even though sample
-meaning is unchanged. A new preparation request for the same revision gets a fresh
-recipe instead of reusing the old refusal. The earlier transport pass did not account
-for persistent failures; the owner regression now demonstrates that boundary. This
-can recompute previously ready recipes requested anew, but saved audio assets and
-historical publications remain intact. There is no metadata migration or change to
-the fixed RNNoise model recipe.
-### Active audio scheduling and scale evidence
-
-- **When:** 24b active-audio prerequisite.
-- **Choice:** Apply the decoder budget to simultaneously readable occurrences,
-  rather than every clip saved in the timeline. A project can play thousands of
-  short clips one after another without opening thousands of readers. Overlapping
-  clips still consume the existing bounded reader budget; structural plan bounds
-  separately limit metadata. The same mixer decides both ordinary and learned
-  prefix work, including prepared output that continues across source silence.
-- **Gap:** The declared 500/10,000-occurrence workload exceeded the prior whole-plan
-  limit; the plan did not prescribe the admission/scheduling repair.
-- **Reach:** Allows long sequential timelines without a new mixer or cache. It
-  does not admit unbounded simultaneous readers or guarantee deep-graph latency.
-- **Verdict:** Sound; bounds the resource actually consumed while preserving
-  earlier numerical, routing and cancellation contracts.
-- **Confidence:** High.
-
-### Retain both source-generation and recording lifetime (sound, high confidence)
-
-When the service dies while a native reader continues, the restarted service cannot
-use its own job list to decide that files are unused. The reader now holds an
-operating-system lock on both its temporary generation and the recording root.
-Cleanup may remove unrelated abandoned generations, but must preserve the held one;
-whole-recording deletion must wait for the broader root lock before purging files
-or evidence. Native deletion children inherit that authority too. These are two
-different deletion scopes, sharing the existing file-owner lock primitive rather
-than a new process registry. The plan required safe recovery but left these orphan
-lifetimes unspecified. Busy outcomes are retryable; explicit retry after the child
-exits completes cleanup. An already-missing root still permits deletion recovery.
-
-### Resolve independent placement runs once (sound, high confidence)
-
-The atomic editor now groups contiguous project-anchored placements only when no
-processing normalization is present. It reuses the existing resolver and placement
-construction; failed runs locate the earliest invalid prefix so error ordering and
-receipts remain those of sequential edits. This is narrower than a lazy mutable
-model/cache, which would need invalidation and intermediate-validity rules across
-all edit kinds. Exact frozen scalar comparisons and original large receipt identity
-support the choice. The public deadline remains unchanged. The separate duplicate
-public-document/MCP response-size failure is not counted as fixed by faster edits.
-
-### Deliver bulk probe metadata through the attempt owner (sound, high confidence)
-
-A heavily fragmented recording can have a small media file but a metadata description
-that exceeds the command-response frame. Native probing now writes that same description
-to its caller's temporary file and returns a length and digest. The service checks the
-file before applying its existing metadata schema. This keeps one metadata producer
-and one decoder, using the existing attempt cleanup and inherited locks. Caller file
-descriptors retain their numbering before hidden lifetime descriptors are appended.
-The plan left bulk delivery unspecified; the measured object fits a separate64MiB
-payload budget, which bounds accepted bytes rather than native framework allocations.
-Ordinary media path admission stays unchanged, and direct native callers may still
-request inline metadata. Physical row limits and public/package delivery need their
-own verification; larger global control frames would not solve those contracts.
-
-### Count physical gaps in asset capacity (sound, high confidence)
-
-A recording with100,000 occupied runs can also have99,999 gaps between them plus
-one gap at each edge. The shared asset schema therefore admits up to200,001 physical
-rows, retaining gaps exactly. The previous100,000-row cap confused physical rows
-with occupied support and rejected an otherwise admitted recording. This applies
-to the common import schema, with no canonical-only exception or dropped rows.
-It changes metadata admission capacity; public page and package budgets remain
-separate. Measured parsing and persisted round-trip work support this bound, without
-claiming a universal memory limit for native probing.
-
-### Public revisions own the committed document (sound, high confidence)
-
-Public edit results no longer repeat the full document inside their operation
-receipt. The same canonical projection applies to newly produced and saved results;
-old persisted bytes are not migrated or executed again. This preserves committed
-identity and result meaning while intentionally changing developmental response
-shape. Full historical byte equality across this release is not a contract. MCP's
-standard text/structured representations remain, and actual 10,000-clip delivery
-fits existing bounds. This fixes redundant ownership instead of increasing global
-response limits or inventing a second receipt protocol.
-
-### Public job status identifies rather than embeds execution recipes (sound, high confidence)
-
-The existing public status owner returns a SHA-256 of exact stored input bytes
-instead of copying the serialized execution plan. This preserves queue identity,
-retry/cancel behavior and publication while allowing declared large projects to be
-inspected under existing transport limits. Raw recipes remain internal. Test-only
-recipe comparisons read the catalog and authenticate against the public digest;
-there is no product escape hatch. Full-input query work remains, explicitly outside
-this delivery correction's claim. A cache or global frame increase was unnecessary.
-
-### Store physical segments once behind indexed pages (sound, high confidence)
-
-An agent inspecting a fragmented asset now reads stream summaries, then requests
-ordinal pages of physical segments. Every asset uses that same public shape.
-Keeping the segments inside one JSON string forced even a small page to parse the
-whole recording and reached about1GiB in the measured traversal. AssetStore now
-stores those rows once in an indexed table; the metadata header keeps only array
-presence so complete internal reads can reconstruct optional-versus-empty fields.
-Import and portable adoption commit the header and rows together. Shared admission
-refuses duplicate stream identities before they can alias rows. The plan left
-bulk representation unspecified; this choice keeps one authoritative owner and
-bounds page work without a second cache. Catalog15 identifies this layout, and the
-subsequent capture column change must use the next version rather than reusing15.
-Old layouts are explicitly refused; no history migration is introduced.
-
-### Preserve independent scale evidence through lossless reconstruction (sound, high confidence)
-
-The complete two-hour delivered WAV remains stored, while duplicate lane oracle
-files are reconstructed from retained unmatched prefixes and byte-preserving
-channels, and exact repeated input periods reconstruct source input files. Original
-independent file hashes were captured first; archive decompression and all four
-materialized restoration hashes were verified before reclaiming duplicates. This
-reduces storage without selecting favorable samples. Restored evidence is not a new
-independent oracle, and the original execution/provenance remains retained. No new
-product store or audio representation is introduced. Concurrent-load timings and
-successful-path cleanup retain their stated limits.
-
-### Separate authored upstream truth from the learned oracle (sound, high confidence)
-
-The combined public fixture uses known retained samples, exact source offsets and
-held binary gains to predict upstream PCM without the renderer's curve/mix logic.
-Only after the delivered prefix matches does the frozen C adapter judge RNNoise.
-This prevents two paths sharing a wrong prefix from certifying each other. Held
-transitions bound this proof; existing interpolation contracts and later listening
-judgments remain separate. One shared test reference runner retains the recipe and
-raw files for both native/public harnesses, without adding a production audio owner.
-
-### Keep unfinished recovery in the capture lifecycle (sound, high confidence)
-
-When a take stops but publication still needs minutes, CaptureService retains one
-owned cancellable attempt and returns finalizing promptly. The recording stores a
-bounded error when that attempt fails; reads preserve it, explicit retry clears it
-when work begins, and terminal state clears it. This implements slice 20d1 without another
-job registry for a take whose revision does not yet exist. Catalog version 16 identifies the
-added field; older layouts are refused under the existing development policy.
-The plan required durable failure but left the concrete lifecycle storage open.
-This gives control, restart and deletion one owner rather than a parallel tracker.
-
-### Give canonical recovery a finite work allowance (sound, medium confidence)
-
-A very fragmented take may require much more work than its duration suggests.
-Canonical publication receives a 20-minute fragmentation allowance plus the existing
-byte-based allowance, capped by the media-worker maximum. Control calls still return
-promptly. The observed 100,000-run recovery needed about 254 seconds; this allowance is
-conservative rather than a universal performance guarantee. Expiry keeps source bytes
-and reports a retryable failure. The plan required fragmentation-aware budgeting but
-did not specify this allowance; later scale evidence may revise it without changing
-editing semantics or global client deadlines.
-
-### Share source support only within one validation (sound, high confidence)
-
-When many short clips use one fragmented source, the model now computes the shared
-source/acquisition intersection once for that validation, then selects only the
-intervals each clip touches. A different acquisition keeps a different intersection.
-Freezing the result visits shared objects once. The scale plan left the optimization
-mechanism open; keeping this index local avoids a long-lived cache or invalidation
-policy, while preserving every selected interval and exact rational boundary.
-
-### Hydrate complete project metadata before readiness (sound, medium confidence)
-
-A project with many fragments and a long undo history can exceed the manifest and
-control-message budgets even though its media files are small. Project package
-version 2 stores every existing typed resource and revision as a hashed inventory
-member. The same admitted file owner reads and validates them before readiness;
-recording packages keep their existing contract. A shared 128 MiB serialized JSON
-budget covers the whole selected history and all resources, with explicit refusal
-rather than partial history. The plan left the expanded metadata representation and
-working-memory ceiling open. A near-limit resolver measurement stayed below the
-existing 4 GiB memory target, but unlimited lazy metadata is not implemented. Version
-1 project packages are explicitly refused under the unshipped-format policy.
-
-### Index compact export status in SQLite (sound, high confidence)
-
-Polling an export should not read its complete large execution snapshot. The export
-owner now uses one covering expression index containing the derived summary and
-small lifecycle fields; listing first selects a bounded ID page and then looks up
-those summaries. The original snapshot remains authoritative for execution. The
-plan did not prescribe status storage. SQLite maintains this derived index without
-a second registry, at a measured cost of recomputing it on lifecycle changes. This
-trades infrequent write work for bounded repeated reads; video and recording status
-settings remain complete.
-
-## 24h — Compact job inspection
-
-### Store a short recipe fingerprint for job lookup (sound, high confidence)
-
-When an agent polls a large render, the job may contain a many-megabyte recipe.
-The queue keeps that complete recipe for execution, but stores its SHA-256
-fingerprint once for lookup and status. A fingerprint is a short identifier
-computed from the recipe bytes. When admitting or publishing a result, the queue
-still compares the complete recipe and refuses a fingerprint collision. Polling
-uses the established write invariant instead of reading and hashing the complete
-recipe again. The scale plan left the lookup mechanism open; this replaces large
-identity indexes without introducing another job registry or losing exact inputs.
-
-### Check owner existence without loading its media plan (sound, high confidence)
-
-A status request needs to know whether the job's project revision or asset still
-exists. It now checks that exact retained revision under a nondeleted project,
-or the asset row, without parsing the revision document or its physical media
-segments. Execution and admission retain their full validation. The plan required
-truthful status but did not prescribe its database reads; this keeps repeated
-inspection bounded without weakening the checks that produce or consume media.
-
-### Keep export recovery ordered through its own compact index (sound, high confidence)
-
-After a restart, exports must find their attempts in the existing recovery order.
-The database retains a partial index containing only those exports' bounded
-identity and attempt keys. Its exact joins use the same deterministic fingerprint
-helper as the queue. This avoids rebuilding huge general recipe indexes or adding
-a separate recovery registry. The plan left the index shape open; ordinary job
-inspection becomes cheaper while export retirement keeps its existing ordering.
-
-### Identify the changed development catalog explicitly (sound, high confidence)
-
-A library created by this version stores the new recipe fingerprints and indexes
-under catalog format17. An older incompatible development library is refused
-explicitly rather than modified in place. The project already requires this
-unshipped-format policy; applying it here prevents old binaries from interpreting
-new storage incorrectly. Complete execution recipes remain durable. This format
-change does not establish that all history and execution work is bounded.
-
-## 24i — Independent processing updates
-
-### Validate independent stack changes together (sound, high confidence)
-
-When an agent replaces stacks on many distinct existing targets, the editor now
-constructs those stateless updates in order and validates their combined document
-once. Repeated targets, symbolic dependencies and any RNNoise state retain the
-ordinary sequential path. This changes the work performed, not which edits are
-allowed. The plan left batching eligibility open; a narrow rule preserves state
-normalization and prevents a later edit from hiding an earlier invalid operation.
-Both paths share ID allocation, stack construction and composition validation.
-The earliest failing prefix and each operation's frozen receipt remain observable.
-
-### Reproduce a timed-out edit without deleting its receipt (sound, high confidence)
-
-The original large request timed out and later committed. To measure a fresh edit,
-the verification copies that library and uses public restore to recover the exact
-input document. It then sends the same operations with the new revision and request
-IDs required by that restore. The original receipt remains intact and supplies the
-complete expected result. The plan left fixture reset mechanics open; this avoids
-direct database rewrites while preserving honest replay and latency evidence.
-
-## 20d5 — Recording-owned work without a video revision
-
-### Keep cleanup work under the recording's existing owner (sound, high confidence)
-
-An interrupted recording may retain audio but have no playable video revision.
-Its source-owned jobs now explicitly use revisionId:null; ordinary requests that
-omit the revision still select the current revision. The recording's existing
-cancellation and deletion ownership applies to both. The plan required cleanup
-of these recordings but left the job representation open. Reusing the existing
-nonrevision storage value avoids inventing a revision or a second job registry.
-Catalog18 identifies this changed interpretation; project jobs remain revision-bound.
-
-### Expose existing job controls in the recording service (sound, high confidence)
-
-An agent could previously inspect jobs in the isolated editing service, while the
-recording service refused the same commands. It now routes inspect, retry and
-cancel directly to its existing queue. Cancel waits for the existing worker-drain
-budget; inspect and retry remain short calls. This makes source-owned work
-manageable through the shared public API without adding a new continuation system.
-The actual cleanup operation remains a separate implementation checkpoint.
-
-## 22b — Consume retained project output
-
-### Reuse a recorded result only when its full recipe matches (sound, high confidence)
-
-Moving a prepared project should not require rerunning its original processor.
-The prepared owner compares the selected revision's complete audio recipe with
-the saved recipe, keeping recorded model, state, upstream and rendition identities.
-Equivalent references to the same policy and bytes count as one result; distinct
-matching policies report ambiguity instead of choosing whichever is newest. A
-broken matching result remains an error. The plan left candidate selection open;
-this permits offline playback without inventing a new processing policy.
-
-### Pin produced or retained audio when work is admitted (sound, high confidence)
-
-If an export starts before preparation finishes, it keeps its produced-audio
-choice even when a retained result arrives while it is queued. A retained choice
-instead pins that exact resource. This prevents later publications from changing
-job meaning. The plan required immutable jobs but left this consumer representation
-open; an explicit internal null means produced, a resource ID means retained.
-The native reader borrows the validated file descriptor and passes bounded PCM
-blocks to existing WAV/movie writers, with no new decoder or resampler.
-
-## 20d6 — Explicit verified cleanup
-
-### Reclaim one recording through its existing jobs (sound, high confidence)
-
-When publication succeeds but working files remain, the agent requests cleanup of
-that named recording. The existing queue owns retry, cancellation and deletion
-draining; the native publication owner alone authorizes file removal. No startup
-scan or automatic retry is added. The plan required explicit recovery but left
-its operation shape open. Repeated requests join the same source-owned job, and
-ready source evidence is independent of that job's cleanup outcome.
-
-### Report retained files as an explicit result (sound, high confidence)
-
-A successful inspection may find files whose mapping or publication proof is
-incomplete. Its result says retained rather than claiming all files were removed.
-Missing journals also retain media. Changed proof is a final conflict; positively
-identified access and ownership failures are retryable. The plan left the result
-shape open. This distinction lets agents act on uncertainty without deleting
-recoverable media or retrying malformed proof as though it were a transient fault.
-
-### Reuse the canonical verification work allowance (sound, medium confidence)
-
-Cleanup can recheck an entire fragmented take before unlinking small working files.
-It receives the existing20-minute canonical fragmentation allowance plus the
-byte-based publication budget, capped by the media-worker maximum. The request
-itself remains asynchronous. The plan required bounded cancellable work but left
-this budget open; using the measured recovery allowance avoids a short control
-timeout without introducing an unbounded cleanup worker.
-
-## 20d7 — Terminal diagnostic ownership (sound, medium confidence)
-
-When a capture fails before usable video exists, the agent still needs to learn
-why. Store one nullable message beside the recording's existing interruption code,
-so ordinary status reads work without a revision or a journal scan. The plan
-required disclosure but did not choose storage. This adds one catalog column and
-extends existing reports and snapshots; it adds no endpoint or background task.
-The choice is sound because the recording already owns terminal state and survives
-restart independently of media processing.
-
-## 20d7 — Historical receipt verification (sound, high confidence)
-
-An older exported package can contain a raw failure message that its original
-normalized receipt never disclosed. Recomputing with the new reader must still
-verify that package. New receipts declare normalization version 2; absence denotes
-the original format. Only when verifying that original format, the verifier removes
-the newly disclosed message and version before comparing the complete receipt.
-It still compares every earlier field and the normalized file hash exactly, and
-new-format verification includes the message. The plan required immutable source
-preservation but left format handling unspecified. This decision preserves existing
-packages without silently rewriting their proofs or broadly ignoring differences.
-
-
-## 22c — Use the shared resource budget for complete recipes (sound, high confidence)
-
-When thousands of clips produce a multi-megabyte preparation recipe, that recipe
-is stored in its own authenticated package resource, not inside the compact
-manifest. Apply the already selected128MiB aggregate project JSON budget to its
-UTF-8 bytes, retaining the aggregate check across all resources and history.
-This supersedes14a's manifest-sized recipe cap now that20d3 has moved resource
-metadata out of the manifest. The earlier cap would reject valid editable projects;
-truncating their recipes would erase the evidence needed to reuse their audio.
-No new memory budget, storage owner or package format is introduced.
-
-## 20d8 — Exercise real pause timing with prerecorded input (sound, high confidence)
-
-A deterministic input fixture delivers decoded audio after the recorder has observed
-an actual pause/resume interval. It independently removes the offered buffers that
-intersect that interval and derives the expected source positions. This tests the
-production clock, writer and publisher for both audio roles without recording the
-user's devices. The plan required both-role pause preservation but left the offline
-fixture method open. The result establishes sample/support preservation, not
-physical synchronization or listening.
-
-## 20d8 — Reconstruct interrupted terminal persistence (sound, high confidence)
-
-After canonical media and receipts are durable, a copied fixture omits the final
-journal record or retains only its torn prefix. Recovery must retain all media and
-report incomplete capture rather than inventing a successful finish. The plan
-required the boundary but did not choose the fault mechanism. Reconstructed disk
-states directly exercise recovery without claiming an actual process kill or
-hardware power-loss experiment.
-
-## 24j — Restore an authenticated checkpoint, not missing history (sound, high confidence)
-
-The original two-hour library was removed, but its successful receipt kept the
-complete recipe hash. Rebuild the authored composition from the frozen setup and
-accept it only if the full recipe hash matches exactly. Preserve its original
-preparation identity and PCM; use the existing adoption owner to assign a new
-checkpoint identity and timestamp. Newly authored edits can test undo, but cannot
-stand in for missing original history. The plan required full-size transfer without
-repeating proved DSP and did not specify recovery from this retained evidence.
-This preserves provenance without manufacturing a new execution or old history.
-
-## 24j — Check the test's actual storage peak first (sound, high confidence)
-
-Full export briefly holds four independent copies of the large prepared payload.
-The research harness checks that capacity plus a1GiB working margin before
-restoring gigabytes, and keeps scratch on the checked output volume. This is a
-reversible test safeguard, not a product limit or permission to delete other files.
-The plan left research capacity checks unspecified; the exact transfer remains
-unverified until enough capacity is available and all real owners run successfully.
-
-## 13a — Familiar full-selection stretch listening material (sound, high confidence)
-
-The user could not interpret unfamiliar short word fragments. Use the same retained
-five-second recording selection and inherited transcript as the familiar denoise
-comparison for optional speed listening. The two rendered input channels are
-byte-identical, so one channel supplies the frozen mono research adapter without
-changing sample values. Preserve unity gain and the full selected context, with
-clearly labeled speeds. This is a reversible presentation choice; it does not
-establish protected-word labels, public stereo behavior or speech quality.
-
-## 15a3b — Denoise strength is an explicit wet/dry mix (sound, high confidence)
-
-An agent may want denoising to enter gradually during a sentence. Give the
-existing processor a `mix` scalar using the same keys and clocks as gain:0
-keeps its immediate input,1 keeps the learned result, and values between blend
-them linearly. This adds control without changing the frozen model recipe.
-Keep learned state continuous through zero mix so fading back in does not start
-a new acoustic history. The accepted plan required strength automation but left
-its parameter and arithmetic unspecified; explicit blend avoids inventing a
-model tuning control that the fixed adapter does not provide.
-
-## 24k — Reuse state ownership to batch independent placements (sound, high confidence)
-
-Adding many clips to a project with ordinary gain previously repeated full project
-validation for every clip. The existing state owner already distinguishes processors
-whose input membership changes shared learned state. Use that same classification
-to batch independent placements; keep stateful normalization scalar. This avoids
-a gain-only exception and preserves ordered receipts and the earliest invalid edit.
-
-## 24k — Skip sources known to have no published events (sound, high confidence)
-
-Thousands of imported clips may have editorial cuts but no capture or scene
-evidence. Their missing source rows cannot contribute events, so skip those lanes
-without spending the source-read budget. Keep publication dependencies pinned:
-later evidence invalidates the query, and a missing file behind a published pointer
-still fails normally. The existing10,000-occurrence bound contains this traversal;
-no larger page budget, cache or timeout is introduced.
-
-## 24l — Measure a fresh warm render through publication (sound, high confidence)
-
-A repeated preview request can return a cached movie without rendering. Prime one
-window, then measure a different uncached ten-second window on the same long
-project, through ready publication; record cache lookup separately. Sample the
-existing process peak after movie finalization so the memory receipt includes
-encoding. The corpus proves1080p output cost, not decoding1080p source footage.
-This measures the existing budget without adding a new endpoint or renderer.
-
-## 24m — Isolate duration from clip count and authoring memory (sound, high confidence)
-
-A longer project often also has more clips, obscuring what caused extra memory.
-Keep10,000 identical source selections and the250-row query fixed, changing only
-project spacing from two to four hours. Restart after authoring and compare three
-alternating fresh-process trials per duration. Report sampled resident peaks and
-growth above startup, using medians without hiding individual variation. This
-resolves the plan's unspecified measurement method for timeline queries; it does
-not establish memory behavior for other query families or native decoding.
-
-## 15a3b — Version produced mixes while retaining old preparations (sound, high confidence)
-
-Adding mix curves changes what the composition executor understands, even though
-the learned model itself is unchanged. Advance produced audio/movie identities
-tov9/v19 while keeping the fixed model identity. Previously prepared audio keeps
-its recorded policy and remains readable through the existing retained-result
-owner. Omitted mix preserves the old full-wet samples; its new execution receipt
-truthfully identifies the new executor rather than pretending it was the old one.
-
-## 24n — Measure decoding and source reads separately (sound, high confidence)
-
-A 20 ms excerpt can decode few samples while still reading most of its file to
-identify it. Report both amounts from their existing owners: native decoded
-frames by rate, and successful positional reads/deliveries by the descriptor
-loader. Count retired readers once without retaining them. Snapshot loader
-counters only for the final public result; preparation's internal results would
-otherwise repeatedly scan the same sources. The plan required bounded work but
-left the measurement seam unspecified. Explicit unknown reads for pathname and
-retained-PCM paths prevent partial telemetry from masquerading as total I/O;
-future performance claims must preserve that distinction.
-
-## 24o — Tell the framework when all source bytes already exist (sound, high confidence)
-
-When an agent opens a local clip, the existing loader already has its complete
-file. Declare that using Apple's available-on-demand property so metadata reads
-can seek directly. Keep the same owned file handle, exact timing and inspection
-ceiling. This platform capability fills the plan's unspecified metadata-loading
-mechanism without adding a new decoder, pathname lookup or file copy. A direct
-file-descriptor URL was rejected because it bypassed that inspection ceiling.
-
-## 24o — Separate metadata repair from unconstrained decoder read-ahead (sound, high confidence)
-
-A short excerpt from a long file needs two different checks: finding its media
-metadata and reading its selected samples. Use a sparse two-hour file with known
-sample markers to measure early, middle and late reads without allocating or
-rendering two hours of audio. Report actual bytes and exact sample comparisons.
-The initial 128 KiB test guess ignored the existing one-second physical tail in its
-60-second fixture, so its corrected bound follows that tail plus metadata; its
-original failure stays retained. The new sparse read-ahead bound is still failed
-and remains unchanged. Separate verdicts permit the metadata repair to land
-without treating its success as proof of bounded decoder demand. This resolves
-the plan's unspecified measurement method, not its open performance requirement.
-
-## 24r — Isolate history size from revision size and authoring cost (sound, high confidence)
-
-When an agent reads one page of edits, a longer history should not require
-loading all earlier revisions. Compare 5,000 and 10,000 real revisions with the
-same small canvas document, then restart before reading the same fixed 250-row
-pages. Generate edits through the real owner in memory and back up its catalog
-for public disk-backed reads, avoiding thousands of durable setup commits without
-inventing database rows. The plan left the history measurement method open;
-this isolates that query contract without claiming arbitrary document-size or
-package-history performance. Use three alternating cohorts and preserve sampled
-memory/latency distributions instead of equating one fast read with a guarantee.
-
-## 24p — Identify ambiguous audio through the platform parser (sound, high confidence)
-
-A file handle has no useful filename, and an ID3 header can precede more than MP3.
-Use known container signatures only to select a path, then ask AudioToolbox to
-identify ambiguous audio through positional reads on the already-owned handle.
-Use its registered type and suffix for AVFoundation. This fills the existing
-loader's format gap without a second decoder or a handwritten tag/frame parser.
-Actual packet, rate and channel support remains the audio reader's decision;
-ordinary pathname imports are a preservation control, not the original defect.
-
-## 24p — Bound identification even during whole-file streaming (sound, high confidence)
-
-Streaming a long movie may legitimately consume its entire contents, but merely
-recognizing a malformed audio header must not scan indefinitely. Require a finite
-identification allowance for both modes. Inspection charges sniffing,
-identification and subsequent reads to one 64 MiB ceiling; streaming may continue
-reading after its bounded identification. The plan did not specify recognition
-cost. Making the helper's allowance mandatory prevents an unbounded recognition
-path from reappearing, and the parser never changes the caller's file position.
-
-## 24q — End decoding at the demand already computed by its caller (sound, high confidence)
-
-When an agent asks for a short excerpt, its caller already knows the exact native
-sample interval, including necessary conversion context. Give that finite end to
-AVFoundation rather than an infinite range. Preserve the existing packet
-lookbehind and source-time representation; discard any endpoint rounding cell
-before conversion. Later adjacent requests first consume reusable pending samples,
-then open a new finite reader only when coverage ends. Keep that ordinary
-extension separate from the one-time premature-end retry, and let empty requests
-leave the physical origin untouched. This resolves the previously unspecified
-reader coverage policy without guessed padding, new caches or altered PCM meaning.
-
-## 18a/19a — Port frozen voice bytes without treating parity as listening approval (sound, high confidence)
-
-The user found the main generated voice close and rejected the speaker-only
-alternative, but joins and listening acceptance are still unresolved. Preserve
-the main candidate exactly. Two fresh offline processes now reproduce the
-retained words and phrase without changing any identity or parameter; system
-caches remain intact and the reference-origin copies remain the same bytes.
-Use that bounded result for a private worker-entry port, as the earlier denoise
-entry checkpoint did. Keep public generation and the complete parent acceptance
-separate. This resolves whether implementation can progress before listening
-without silently choosing a new voice or upgrading numerical parity to quality.
-
-## Private voice entry19a integration
-
-- **Choice:** Treat the prepared environment as an explicit measured input. When
-  the agent starts synthesis, the service checks executable, entry and manifest
-  bytes; Python checks model bytes, runtime Python sources and dependency versions.
-  Other dependency binaries are not authenticated. The alternative would silently
-  accept a different installed environment and lose the frozen-output guarantee.
-  **Gap:** The plan required preparation identity without specifying its envelope.
-  **Reach:** Public preparation must deliberately replace these private pins with
-  its common owner, preserving the measured recipe. **Verdict: sound; confidence
-  medium.** The scope is explicit and does not promise portable binary identity.
-- **Choice:** Admit only short measured references in this private checkpoint. A
-  request with more than five seconds is refused before inference; future public
-  controls must widen this through measured support rather than inherit it by
-  accident. Encoded references are also capped at1MiB and each text field at16KiB.
-  **Gap:** The parent did not specify private admission budgets. **Reach:** These
-  bounds constrain this entry test, not the final editing workflow or model ability.
-  **Verdict: sound; confidence medium.** A bounded checkpoint preserves parity
-  while the full public settings contract remains open.
-
-## Voice relocation and public integration plan
-
-- **Choice:** Package the effective Python environment as installed bytes. The
-  standalone interpreter uses its adjacent library and the original venv's full
-  effective package set; base-only pip and unused activation tools are excluded.
-  The model remains a separate verified input. **Gap:** Relocation layout and
-  artifact supply were unspecified. **Reach:** This yields an explicit local
-  preparation artifact without claiming a downloadable or cross-machine release.
-  **Verdict: sound; confidence medium.** Original bytes and exact outputs survive;
-  public distribution remains separate work, not an implicit install.
-- **Choice:** Keep reference transcripts in frozen generation requests. An agent
-  can reuse the same excerpt with different explicit transcripts; each request
-  has its own identity. Historical extraction origins remain typed metadata, not
-  a second voice library. **Gap:** Parent19 did not fix reference handle shape.
-  **Reach:** Ordinary assets and shared jobs own lifetime and replay. **Verdict:
-  sound; confidence high.** This supports reuse without another mutable registry.
-- **Choice:** Resolve saved generation before installed-model readiness. The same
-  immutable model/preset/reference request returns its completed audio even after
-  model deletion. Only work needing inference checks local preparation. **Gap:**
-  The parent required replay but did not specify admission order. **Reach:**
-  Defaults and chosen origin identities cannot mutate underneath deduplication.
-  **Verdict: sound; confidence high.** It preserves saved-byte authority and the
-  existing queue identity rather than adding a request-ID database.
-
-## Local model preparation capacity reserve
-
-- **When:** common model preparation19c (`6bc4717a`).
-- **Choice:** before copying each pinned model/runtime file, require that file’s
-  size plus512 MiB free on the destination filesystem. For example, a2 GiB model
-  file is refused with a retryable storage error if only2.2 GiB remains; freeing
-  space lets the same explicit preparation run again. Installation uses an
-  independent bounded copy, after Node’s clone operation was observed unsupported.
-- **Gap:** the plan required truthful capacity and cancellation but did not select
-  a free-space reserve. This is a conservative admission policy, not an assertion
-  that other processes cannot consume the remaining space.
-- **Reach:** local preparation may refuse before the disk is literally full;
-  ordinary inspection and synthesis never start an implicit installation.
-- **Verdict:** sound, because bounded independent copies preserve source isolation
-  and leave some operating space without claiming guaranteed capacity.
-- **Confidence:** medium; the reserve is a reversible operational choice and can
-  be revisited with measurements on other hosts.
-
-## Empty voice-sampling distributions
-
-- **When:** probability-filter proposal19d1 (`1536a72e`), adopted by the measured
-  registered runtime in19d (`ca5a4f39`).
-- **Choice:** preserve every already-valid filtering result. If rounding leaves
-  no possible next token despite valid input scores, restore the highest-scoring
-  token, choosing the first index on a tie. For example, an agent requesting a
-  very small positive top-p value gets one available candidate instead of an
-  empty probability distribution. The default path stays unchanged.
-- **Gap:** the requested full controls did not specify how to repair the pinned
-  backend's numerical failure. Raising a guessed minimum would exclude settings
-  while leaving the general defect unresolved; replacing the filtering algorithm
-  would change outputs that already worked.
-- **Reach:** this defines deterministic recovery only for formerly empty results.
-  Invalid model scores are not repaired or claimed to be rejected. The policy
-  guarantees an available candidate for valid input, not exact ideal probability
-  mass from the existing low-precision arithmetic.
-- **Verdict:** sound; the recovery has a general nonempty-support property and
-  preserves measured valid behavior without changing model precision.
-- **Confidence:** medium; this is a narrow compatibility choice. A future change
-  to ideal nucleus filtering needs its own identity and output comparison.
-
-## Independent audio extraction operation
-
-- **When:** retained excerpts19e (`b12372b2`).
-- **Choice:** expose `audio.extract` separately from `audio.prepare`. For example,
-  an agent retaining seven seconds of a processed project receives an ordinary
-  audio asset that stays usable after deleting that project. Its historical
-  source information describes where the sound came from without keeping the
-  donor project alive. Full-output preparation retains its existing purpose.
-- **Gap:** the plan required a consolidated preparation seam but did not name the
-  public operation or decide whether optional arguments should change its lifetime.
-- **Reach:** callers choose durable extraction explicitly; source rendering,
-  conversion, jobs and immutable asset publication remain shared owners.
-- **Verdict:** sound; the operation name makes the different lifetime visible
-  without adding a separate renderer or voice-reference registry.
-- **Confidence:** high.
-
-## Explicit voice-reference origin selection
-
-- **When:** public voice generation19f, before implementation acceptance.
-- **Choice:** let the agent echo one complete typed origin object returned by
-  asset inspection or extraction. Validate that it belongs to the reference
-  asset, then freeze that exact selection with the generation request. Omitting
-  it selects no historical origin. For example, if the same audio came from two
-  projects, adding the second origin later cannot change a saved generation's
-  identity or silently switch its attribution.
-- **Gap:** the plan required stable explicit origin selection but left its input
-  shape unspecified. A separate hash-selector API would add another discovery
-  field and lookup surface for metadata the agent already receives.
-- **Reach:** the request keeps the selected object; portable generated provenance
-  records its derived hash alongside the retained reference asset identity. It
-  does not embed a recursively growing tree of generated origins.
-  Equivalent selected metadata uses canonical record-key ordering, so adding
-  another equivalent stored origin cannot change saved-request identity.
-- **Verdict:** sound; explicit structured input uses the existing origin schema
-  and preserves stable replay without another reference registry.
-- **Confidence:** high.
-
-## Check revision ownership without loading its document
-
-- **When:** cached waveform duration-memory24w.
-- **Choice:** dependency lookup and job pinning use the existing live-project and
-  pinned-revision availability checks. Only the actual composition consumer loads
-  and validates the document and source context.
-- **Gap:** the plan required bounded inspection but did not require ownership-only
-  consumers to deserialize the entire editing document.
-- **Verdict:** sound; shared ownership checks retain missing/foreign/deleted error
-  semantics without a new model cache, invalidation policy or public identity.
-- **Confidence:** high.
-
-## Start queued execution after service recovery
-
-- **When:** public durable voice jobs19f.
-- **Choice:** assembled services explicitly release the shared queue after their
-  owners and recovery are ready. Installing dependency admission alone does not
-  start execution. Existing standalone initialized queues retain eager execution.
-- **Gap:** durable queued work can survive restart before its executor owner has
-  been constructed. The plan did not specify an assembly barrier.
-- **Reach:** both service entry points use the same barrier. After recording-service
-  startup is reported, retryable catalog contention is logged and durable work
-  remains eligible for ordinary scheduling; fatal errors remain visible. No new
-  polling loop or automatic failed-job retry is introduced.
-- **Verdict:** sound; execution readiness belongs to service assembly and the
-  existing queue, rather than per-feature retry workarounds.
-- **Confidence:** high.
-
-## Preserve voice evidence independently of execution readiness
-
-- **When:** public durable voice jobs19f.
-- **Choice:** historical voice receipts use structural validation independent of
-  the currently installed execution profile. Exact PCM frames remain authoritative;
-  the worker's rounded duration metadata is preserved without changing samples.
-  Generated assets retain their reference bytes through existing resource ownership.
-- **Gap:** future profile changes must not invalidate old saved evidence, and the
-  measured output is not always a whole number of microseconds.
-- **Verdict:** sound; historical evidence describes what ran, while current profile
-  checks govern new work. Existing fenced publication prevents partial results.
-- **Confidence:** high.
-
-## Publish the selected head once when importing history
-
-- **When:** combined document/history scale24u.
-- **Choice:** importing history stores each revision while publishing the selected
-  current revision once. Ordinary edits and undo still advance the current revision
-  within their existing transaction. Request equality, complete history and atomic
-  publication remain unchanged.
-- **Gap:** the plan required complete history and responsiveness but did not specify
-  whether inserting a historical revision should also change the current head.
-- **Verdict:** sound; the two operations have different meanings, and separating
-  them removes repeated writes without dropping history or weakening replay.
-- **Confidence:** high. No new schema, endpoint or configuration is introduced.
-
-## Measured voice execution envelope
-
-- **When:** registered settings19d (`ca5a4f39`).
-- **Choice:** expose every measured backend control, while bounding one synthesis
-  job by actual decoded reference frames, target tokens, total model input and
-  generated code count. For example, a request reaching its output budget without
-  the model's end-of-speech signal fails as incomplete instead of publishing a
-  cut-off sentence. The agent can choose another explicit request or compose
-  multiple generated assets; no hidden splitting or stretching occurs.
-- **Gap:** the user required full settings, but the model's configuration limits
-  did not establish safe local memory use. The joint measured reference/text/output
-  case supports the selected profile; the larger-output memory failure remains
-  outside that measured envelope.
-- **Reach:** limits and effective clamps are discoverable profile data, independent
-  of presets. New measured capacity requires a new immutable execution identity.
-  The backend's ignored speed and unverified streaming paths are not advertised
-  as working controls.
-- **Verdict:** sound; measured bounds and truthful completion preserve control
-  without presenting untested capacity as supported.
-- **Confidence:** medium; capacity is host/profile specific and may be widened by
-  new evidence, while voice quality remains an independent acceptance gate.
-
-## Read the real recording baseline in an isolated selected-recording copy
-
-- **When:** retained-recording preservation23a.
-- **Choice:** when the new service cannot open an old-format library, the comparison
-  runs the genuine installed service against a backup taken read-only from the
-  original library and projected to the
-  selected recording's existing rows. Original export intents are excluded so old
-  absolute destinations cannot resume; writes are confined to the copied home.
-  The original library remains intact. This avoids inventing an old recording's
-  history or adding migration code merely to produce a test baseline.
-- **Gap:** the plan required matched public old/new behavior but did not choose how
-  to access a genuine old catalog after the development format had changed.
-- **Reach:** this is a preservation fixture strategy, not a supported migration or
-  second production engine. Clock, source selection, explicit cursor processing
-  and encoding policies remain their already-recorded contracts.
-- **Verdict:** sound; actual source/history provenance survives without resuming
-  unrelated work or changing the installed app.
-- **Confidence:** high.
-
-## Stop an overflowing camera probe instead of silently dropping its evidence
-
-- **When:** selected-device probe20e.
-- **Choice:** if a probe reaches five million timestamp observations, it stops with
-  an interrupted result. It preserves the media and observations already accepted
-  so the caller can inspect or recover them. It does not quietly stop logging while
-  continuing to record and then call that take complete.
-- **Gap:** the probe needed a finite bound for a pathological callback stream; the
-  plan did not choose a row count.
-- **Reach:** this is a measurement-tool limit, not a webcam recording setting or a
-  promise about production throughput. The stored mapping is streamed during capture
-  and replay, so the bound does not authorize a five-million-record memory array.
-- **Verdict:** sound; the explicit interrupted result prevents incomplete evidence
-  from being mistaken for a full timing proof.
-- **Confidence:** medium; the numerical bound is operational and can be revisited
-  for the probe without changing production capture policy.
-
-## Recover a probe’s verified camera content without replacing another output
-
-- **When:** durable camera gaps20e1 and selected-device probe20e.
-- **Choice:** a retry identifies the raw media, saved frame mapping and finished
-  candidate by their content. If the verified output already exists with the same
-  content, retry succeeds; a different output is refused rather than overwritten.
-  Copying the probe directory need not preserve the operating system’s file number.
-  Raw files, mapping and failed candidates remain caller-owned evidence.
-- **Gap:** the probe needed recovery after losing a reply or stopping between
-  verification and publication; the plan did not require a new filesystem identity
-  schema or an automatic evidence cleanup service.
-- **Reach:** existing capture leases, content identities and no-replacement file
-  publication remain the owners. This adds no production camera role or cleanup job.
-- **Verdict:** sound; retries preserve verified bytes and conflicts cannot destroy
-  another file, while retained inputs keep partial outcomes inspectable.
-- **Confidence:** high.
-
-## Separate acquired picture ordering from display duration
-
-- **When:** real-capture audit and20e2 correction, integrated in d40f8eb3.
-- **Choice being corrected:** the probe treated a callback's reported duration as
-  both the next-picture admission boundary and an authoritative outage boundary.
-  In the actual take, a picture arrived33.33ms after the previous one, whose
-  reported duration was33.34ms. The recorder threw the new picture away for that
-  10µs overlap, then represented the manufactured hole as unavailable footage.
-- **Gap:** the plan required exact picture identity and no extension beyond camera
-  loss, but did not establish that nominal callback duration defines display
-  availability. That equivalence was introduced in20e1.
-- **Reach:** compare acquired timestamps strictly in order, retain durations as
-  evidence, and use verified native presentation support within actual start/end
-  boundaries. A displayed previous picture is still that original picture, not
-  a newly acquired one. The generic reader already uses this distinction.
-- **Verdict:** the old assumption is unsound;20e2 specifies the correction without
-  a timing tolerance or fabricated pixels. Preserve the historical failed take
-  and its observations; already rejected pictures cannot be recovered.
-- **Confidence:** high, supported by exact callback chronology and the existing
-  native variable-frame-rate consumer. Physical sync acceptance stays separate.
-
-## Fence saved camera results by their presentation policy
-
-- **When:**20e2 publication/replay integration.
-- **Choice:** a durable recovery receipt must explicitly identify native bounded
-  presentation. The same raw file and callback log previously produced a movie
-  with invented nominal-duration holes. Matching those inputs alone cannot make
-  that older output a valid result of the corrected policy.
-- **Gap:** existing content identities protected file integrity, but did not say
-  which interpretation of camera presentation had been verified.
-- **Reach:** older receipts lacking the policy identity refuse without modifying
-  any source or canonical output. Newly verified results keep the existing
-  identity-based replay and atomic publication. This adds result provenance,
-  not a format migration or protocol-negotiation mechanism.
-- **Verdict:** sound; preserved bytes cannot be silently promoted into evidence
-  for a different presentation contract.
-- **Confidence:** high; the real failed candidates demonstrate the distinction.
-
-## Confirm selected word containment in the complete sentence
-
-- **When:**13a remaining speech acceptance packet.
-- **Choice:** insert a half-second pause at each authored selection boundary in
-  a copy of the complete familiar sentence. The listener can check that each
-  pause falls between words while still understanding the sentence. The speed
-  candidates use the original boundaries without those added pauses.
-- **Gap:** transcript timing proposed the cuts, but did not independently prove
-  that protected neighboring words lie wholly outside the changed portion.
-- **Reach:** a positive verdict establishes conservative word containment for
-  this fixture only. It neither identifies exact phonetic edges nor makes the
-  runtime recognize words, widen selections or add pauses.
-- **Verdict:** sound; every original sample remains intact, the artificial pauses
-  are explicit, and containment is judged separately from naturalness.
-- **Confidence:** high; complete familiar sentences follow the user's requested
-  listening workflow and avoid unexplained isolated word fragments.
-
-## Measure accumulated camera closure without acquiring another take
-
-- **When:**20e prerecorded stop measurement.
-- **Choice:** replay the retained camera movie at its timestamps through the
-  existing injected input and real capture writers, then measure stop through
-  durable publication. The camera and microphone are never activated.
-- **Gap:** offline recovery timing could not establish how long the normal stop
-  operation takes, and another physical recording is not authorized.
-- **Reach:** this test can demonstrate a slow but successful finalizer. It cannot
-  establish live device drain, microphone work or app termination. The result
-  does not select a replacement timeout or close those separate gates.
-- **Verdict:** sound; the measurement advances the known lifecycle question
-  without inventing physical evidence or changing shutdown policy. Empty-edit
-  samples are excluded using the existing production timing owner, so the test
-  does not introduce its own definition of an acquired picture.
-- **Confidence:** high; the remaining limits and original fixture identity are
-  explicit, and no further user recording is needed for this scoped evidence.
-
-## Verify background treatments without prescribing an editing style
-
-- **When:** public pause workflow integration.
-- **Choice:** a synthetic source has a known ambience-only section and a separate
-  harmonic foreground. Explicit edits insert silence, fill it with retained audio,
-  or apply selected noise reduction in independent revisions. Matching sample
-  rates allow exact preservation checks without borrowing a boundary tolerance.
-- **Gap:** the user required flexible tools and practical skill guidance; an
-  arbitrary real quiet passage would not establish that the donor lacks speech.
-- **Reach:** the test proves composition, scope, mix and undo mechanics. It cannot
-  prove natural speech, a preferred noise policy or source separation. Overlaps
-  use ordinary separate tracks under the existing track contract.
-- **Verdict:** sound; explicit alternatives remain independently usable, with
-  listening acceptance kept separate from the signal oracle.
-- **Confidence:** high; this directly follows the user's stated product principle.
-
-## Retain full transport evidence only when the journey requests it
-
-- **When:** pause workflow evidence review.
-- **Choice:** the shared test harness snapshots requests and raw CLI/MCP replies
-  before assertions when the report opts into exchanges. Ordinary callers retain
-  compact reports; scale tests do not accumulate every payload unintentionally.
-- **Gap:** summary traces could not show exactly what public requests executed.
-- **Reach:** reviewers can inspect actual calls, including refusals, without a new
-  transport or production logging policy. No public API is added.
-- **Verdict:** sound; evidence fidelity improves without changing runtime behavior.
-- **Confidence:** high; opt-in recording confines resource costs to the test.
-
-## Preserve the complete stretch call through paged file access
-
-- **When:**14 bounded mono preparation prerequisite.
-- **Choice:** give the unchanged stretch engine indexed file pages instead of
-  splitting the selected run into processing chunks or mapping complete buffers.
-- **Gap:** the accepted recipe required complete-run behavior, but its research
-  array adapter did not define a production memory strategy.
-- **Reach:** memory used by adapter buffers stays fixed; input can be revisited
-  and the output tail can be corrected exactly. Temporary disk usage still grows
-  with output, and cancellation checks do not interrupt blocked OS calls or all
-  upstream internal loops.
-- **Verdict:** sound; this preserves the measured DSP instead of rewriting its
-  energy and rounding domains. The signed-int engine domain remains an execution
-  representation limit, not a duration policy.
-- **Confidence:** high; accepted speech, frozen endpoint hashes and long-run
-  equality support the choice.
-
-## Keep preparation publication with the descriptor caller
-
-- **When:**14 bounded mono preparation prerequisite.
-- **Choice:** the library accepts an immutable input descriptor and a distinct,
-  empty read/write output descriptor. The caller discards output after any failure
-  and publishes only after success; the library does not open paths or register
-  derivatives. Both array and file entry points use one checked exact recipe.
-- **Gap:** the research adapter had no cancellable file contract or production
-  scratch ownership, and upstream converted an extreme derived seek unsafely.
-- **Reach:** existing prepared-audio owners can adopt this seam without another
-  queue or cache. Descriptor lifetime and immutable input are caller obligations;
-  unsafe derived seeks return unsupported before invoking upstream conversion.
-- **Verdict:** sound; boundary validation protects source identity and separates
-  processor success from publication without widening public capabilities.
-- **Confidence:** high; explicit ownership fits the existing preparation model
-  and failure checks cover partial output, aliases and existing destinations.
-
-## Stretch evidence presentation
-
-The [audited evidence choices](assets/13a-visual-clarity/choices.md) retain exact
-recovered PCM and separate diagnostic traces/source guards. They change no
-product behavior or listening scope.
-
-## Keep the stereo reference independent of file addressing
-
-- **When:**14c isolated stereo prerequisite.
-- **Choice:** compare the interleaved file implementation with the same vendored
-  engine using complete planar channel vectors, and pin the complete reference
-  outputs. Measure correlated-channel differences as upstream behavior rather
-  than introducing a perfect-coherence promise.
-- **Gap:** the plan required direct linked-reference parity but did not specify
-  how the oracle should avoid sharing the file-layout implementation's mistakes.
-- **Reach:** exact equality can expose channel stride/order errors and replacing
-  linked processing with independent mono engines. It does not establish new
-  perceptual acceptance or improve upstream's measured channel residuals.
-- **Verdict:** sound; deliberately different access layouts provide an independent
-  execution oracle while preserving the mandated DSP and all mono acceptance.
-- **Confidence:** high; the negative independent-mono control distinguishes the
-  forbidden alternative without changing the reference or its tolerances.
-
-## Bound scratch readers by active work
-
-- **When:**14d resource correction of14b preparation.
-- **Choice:** after writing a prepared run, close its descriptor and keep its
-  immutable scratch path. Open a reader only for each bounded block, then close it.
-  A300-run sequence otherwise held300 files even while playing only one, exceeding
-  the Mac app's default256-descriptor limit.
-- **Gap:** the plan fixed request ownership but did not choose descriptor lifetime.
-- **Reach:** many-run timelines no longer consume one open file per prepared run.
-  Reads pay a file open/close per block; no reader cache or product clip cap is added.
-- **Verdict:** sound; the same300-run PCM passes under256 descriptors after the
-  recorded old implementation fails.
-- **Confidence:** high; the simpler lifetime fits existing bounded block work.
-
-
-## 14e — Public retiming admission and delivery
-
-- **When:** JS/core/service14e integration.
-  **Choice:** Validate native metadata before creating new produced work, then let
-  the existing queue transaction own publication of its job and export intent.
-  For example, a requested movie pins revision A, waits for the worker to check
-  the source's physical audio runs, and still queues revision A if the user edits
-  to B while waiting. A rejected run creates neither preview work nor an export
-  intent. The alternative would queue known-unsupported work or hold a database
-  transaction across a worker wait. **Gap:** The plan specified early validation
-  but not how it fits the synchronous queue. **Reach:** Audio, preparation,
-  acoustic inspection and preview request/retry APIs now return promises; queue
-  submission itself remains synchronous. **Verdict:** sound; the queue keeps one
-  transaction owner and rechecks closure/deletion after the await.
-  **Confidence:** high.
-
-- **When:** JS/core/service14e integration.
-  **Choice:** Preserve exact admitted dependencies during automatic recovery;
-  reserve fresh metadata validation for an explicit request or retry. For example,
-  a waiting export resumes its previously admitted preview even after cache loss;
-  if that job row is absent, the synchronous pump reports a retryable unavailable
-  dependency. An explicit retry can validate and recreate it. Existing published
-  and retained results stay readable without repeating native source validation.
-  **Gap:** The plan did not specify replay behavior after asynchronous admission.
-  **Reach:** Recovery cannot secretly launch asynchronous probes from a queue
-  callback; callers retain control over recreating absent work.
-  **Verdict:** sound; preserves synchronous queue ownership and stored revision
-  intent. **Confidence:** high.
-
-- **When:** JS/core/service14e integration.
-  **Choice:** Charge a complete retained context once per exact rate when setting
-  a worker deadline. Two clips cut from one continuous retimed run share its
-  preparation cost. Two almost-equal rates that round to the same sample span
-  still need separate conversions and receive separate time budgets. The service
-  uses the composition package's existing rational arithmetic rather than a new
-  floating-point rate rule. **Gap:** Full-run charging was required but the
-  distinctness key was unspecified. **Reach:** Deadline estimates match native
-  work identity across state-only clips and split edits; retained PCM reads skip
-  preparation cost. **Verdict:** sound; collision and split-control regressions
-  prove both sides. **Confidence:** high.
-
-
-## Exact execution time behind frame labels
-
-- **When:**14f correction discovered by the public14e frame-counter journey.
-- **Choice:** keep integer labels for project frame cells, but evaluate content at
-  the exact rational frame instant owned by the compiler. Map that exact time into
-  source media and use physical presentation membership. For example,30fps frame29
-  samples at29/30seconds, even though its integer label is966666us.
-- **Gap:** the original rounding rule specified an integer execution instant but
-  never measured identity preservation against fractional physical timestamps.
-- **Reach:** clip/effect/pointer membership and picture/source receipts must follow
-  the same exact instant; frame/movie cache identities change. Audio sampling and
-  the accepted stretch recipe stay unchanged. A decoder epsilon or rounding source
-  timestamps would hide the defect and corrupt boundary evidence. Native uses
-  the existing ExactTime owner to compare requests with physical support; a query
-  need not fit CMTime's limited timescale merely to choose an existing picture.
-  Reader seeks may start earlier, and integer cursor history uses a floored
-  observation cutoff only after the exact source-to-capture mapping.
-- **Verdict:** sound correction; the old rule demonstrably selects only80 of120
-  pictures in a matching30fps source. Integer frame-cell labels remain derived
-  projections of one clock, not an independently adjustable timeline.
-- **Confidence:** high in the contract; implementation acceptance requires the
-  native counter, fractional membership, pointer and full/range gates in14f.
-
-
-## Slice16 continuous playback evidence
-
-- **When:** muted playback probe, integrated788030bc.
-- **Choice:** observe the frames a muted offscreen player delivers at the current
-  host-clock time. For example, a three-second movie must actually advance and
-  finish; merely decoding its frames cannot pass. Compare256 interior pixels from
-  each delivered frame with the offline frame at exactly the same timestamp.
-  This small spatial grid keeps polling cheap; it cannot establish every pixel
-  equal, screen presentation, audible quality or perceived smoothness.
-- **Gap:** the plan required playback and landmarks without prescribing how to
-  observe them without interrupting the person's desktop.
-- **Reach:** later checks may reuse this bounded execution probe, but must retain
-  separate authoring, full-image and perceptual gates.
-- **Verdict:** sound; it observes actual player execution and rejects readiness-only
-  and wrong-frame controls without installing or showing a player.
-- **Confidence:** high.
-
-- **When:** same playback probe.
-- **Choice:** allow three seconds for first output, then require progress within
-  the longest decoded frame interval (including the final tail) plus250ms. If the
-  player pauses without sending a stall notification, the probe still fails.
-  The allowance accounts for the probe being briefly descheduled on this host.
-- **Gap:** bounded playback was required, but its test-environment allowances were
-  unspecified.
-- **Reach:** these are explicit probe limits, not a smoothness standard or a
-  production timeout. A future environment must justify changes to them.
-- **Verdict:** sound; an actual paused-player control fails the new progress gate.
-- **Confidence:** medium; this host-specific allowance is deliberately limited in scope.
-
-
-## Retimed curves and combined learned delivery
-
-- **When:**16 retimed curve verification, integrated7465290b.
-- **Choice:** judge compressed animation timing using the source counter and the
-  four edges of an asymmetric landmark, with a two-pixel edge bound fixed before
-  rendering. A wrong curve phase moves the landmark beyond that bound. Small
-  codec color changes are measured separately rather than treated as a moved
-  picture or accepted as strict color fidelity.
-- **Gap:** the plan required encoded trajectory conformance without prescribing a
-  pixel classifier or raster-edge allowance.
-- **Reach:** this fixture's geometry verdict cannot establish text quality, color
-  fidelity or perceived smoothness on other material.
-- **Verdict:** sound; complete frame coverage and wrong-phase/source controls make
-  the timing question discriminating, while color limits remain visible.
-- **Confidence:** medium.
-
-- **When:** same curve verification.
-- **Choice:** multiply independently calculated gain envelopes by the already
-  verified dry retimed PCM. For example, slowing a passage first changes its
-  samples; this check then asks whether each one receives the right gain at the
-  right clock phase. Reimplementing stretch inside the gain oracle would obscure
-  that question and create another version of the algorithm.
-- **Gap:** the plan required an independent envelope without fixing its input oracle.
-- **Reach:** dry retiming acceptance remains a separate prerequisite; the gain
-  check does not silently certify its own source samples.
-- **Verdict:** sound; all samples and deliberately wrong envelopes are checked.
-- **Confidence:** high.
-
-- **When:**16/15a3c focused public verification.
-- **Choice:** add small named cases behind existing harness entry points, retaining
-  their established default cohorts. A developer checking a new retimed curve or
-  combined effect can run just that case. The obsolete expectation that retiming
-  is refused is removed because successful delivery now owns that contract.
-- **Gap:** the spec did not prescribe how to extend its verification runners.
-- **Reach:** this adds test-maintenance surfaces, no product setting or alternate
-  execution path. Shared counter media keeps one dimensions/event owner.
-- **Verdict:** sound; each case exercises public operations without re-running
-  unrelated accepted cohorts.
-- **Confidence:** high.
-
-- **When:**16 evidence integration.
-- **Choice:** keep the exact movie files used by the independent playback check,
-  even when a later render produces identical decoded pictures with different
-  container creation metadata. Record both identities and decoded equality.
-- **Gap:** the plan did not specify which duplicate render should be retained.
-- **Reach:** playback provenance stays auditable; a new file cannot silently inherit
-  another file's playback verdict.
-- **Verdict:** sound; preserves the actual observed artifact.
-- **Confidence:** high.
-
-- **When:**15a3c post-retime combined verification, integratedcb2dbc57.
-- **Choice:** reuse the accepted slowed excerpt and familiar sentence as an
-  overlapping technical fixture. First require its dry stem to match retained
-  samples, then calculate the mix/gain independently and process that result with
-  the frozen C reference. Request a late window before full preparation so a
-  completed earlier clip still has to contribute learned history.
-- **Gap:** the spec required the combined join but did not choose its fixture.
-- **Reach:** the overlap tests execution and state; it is not a new listening task
-  and does not extend either original speech-quality verdict.
-- **Verdict:** sound; keeps previously accepted media as the upstream authority
-  while exposing missing state and ordering.
-- **Confidence:** high.
-
-- **When:** same combined verification, after independent review.
-- **Choice:** verify movie audio against AAC made from the independent expected
-  PCM in a plain unit-rate project, matching each requested range and setting.
-  A two-second range is compared with a separately encoded two-second reference,
-  because cropping a full AAC file need not produce identical codec tails.
-- **Gap:** preview/export equality alone did not show that either contained the
-  correct audio, and the spec did not prescribe a lossy-codec oracle.
-- **Reach:** the comparison verifies delivery through the existing encoder; it
-  does not equate lossy AAC with lossless PCM or establish audible quality.
-- **Verdict:** sound; matched full/range decodes agree and wrong-order AAC differs.
-- **Confidence:** high.
-
-## Exact admitted media correction (2026-09-30)
-
-Accepted A re-import loses a nonzero last sample because physical admission and
-public media authoring narrow exact endpoints to integer microseconds. [03d](slices/03d-exact-media-admission.md)
-replaces those field types in place using the existing rational owners and one
-shared signed physical origin. Explicit integer floor selections retain their
-meaning. Three independent plans were synthesized into authority evidence, signed
-carrier, atomic producer/consumer cutover and targeted preservation checkpoints.
-The wider atomic cutover avoids temporary rounded adapters between nine otherwise
-separable API seams. Default raw-source audio is included; fixing placement alone
-would leave the same loss there. No compatibility migration, new clock, whole-file
-sentinel, ceil padding or new DSP research is approved. Original red and accepted
-quality media remain immutable; the listening audition uses the already verified
-original-source retime route and is independent of this defect.
-
-The fresh-format boundary uses the existing catalog and editable-package version
-fences, because rounded old integers are indistinguishable from exact new integers
-inside an asset. This is sound with high confidence under the no-migration plan:
-old runtime/library evidence remains untouched, while new runtime refuses old
-metadata rather than silently trusting it. Retained-byte worker independence applies
-inside the current format. Normalized acquisition bindings become exact after
-mapping from integer capture evidence; capture observations themselves stay integer.
-
-03d projection choices are sound with high confidence: preserve exact mapped
-capture events through project projection; keep integer query grids and word labels
-as explicit projections. Speech segment rows retain their exact physical range
-plus existing integer query columns, so portable receipts do not reconstruct
-physical authority from rounded labels. Promote the existing native audio range
-owner into Media instead of creating another range/decoder. Preserve signed
-capture masks internally while enforcing normalized source domains at inputs.
-
-- **When:**03d native consumer cutover.
-- **Choice:** pass the existing source-selection value directly into asynchronous
-  audio readers. When a source has a fractional offset, expanding that value into
-  separate arguments exposes an installed Swift compiler fault: caller and callee
-  disagree about where an array lives. Keeping the source path, stream, offset and
-  available ranges together removes the forwarding overload and makes the reader
-  consume the same selection its caller already owns. Reordering arguments or
-  adding a special box would preserve two competing interfaces.
-- **Gap:** the plan did not anticipate a compiler calling-convention failure.
-- **Reach:** native readers now have one selection input; no compiler installation,
-  build flag or permanent workaround layer is required.
-- **Verdict:** sound; the aggregate is the natural existing owner, and standalone
-  compiler controls plus actual source decoding distinguish this from data repair.
-- **Confidence:** high.
-
-- **When:**03d result-duration and scheduling review.
-- **Choice:** derive an extracted or generated audio file's published duration from
-  its verified frame count and rate. A6001-frame file at24kHz lasts750125/3µs;
-  the voice worker's250042µs label remains an internal observation rather than
-  defining the admitted audio. Separately, a job's waiting budget rounds frame
-  costs upward to whole milliseconds under the existing cap. That budget controls
-  how long to wait, never which samples to select.
-- **Gap:** the plan required exact physical authority without naming these two
-  downstream uses of a duration number.
-- **Reach:** callers may receive a fractional duration while worker labels and
-  timers remain integers; consumers must preserve their distinct meanings.
-- **Verdict:** sound; verified bytes determine media support and timeouts remain
-  conservative scheduling estimates. No model or DSP policy changes.
-- **Confidence:** high.
-
-- **When:**03d preservation across the fresh-format boundary.
-- **Choice:** reconstruct the frozen follow project through current public edits
-  after extracting and authenticating its original media. For example, the old
-  package's linked clips are recreated with new IDs, then the whole document is
-  compared after normalizing only those IDs. Accepting or relabeling the old
-  manifest would bypass the refusal that keeps rounded old metadata out.
-- **Gap:** the plan required both format refusal and frozen-output preservation;
-  the old fixture previously depended on adopting an old package.
-- **Reach:** the fixture preserves editorial meaning and original media without
-  introducing a migration path. Its complete dry and processed bytes stay pinned.
-- **Verdict:** sound; public reauthoring tests the new format while old artifacts
-  retain their historical identity and evidence.
-- **Confidence:** high.
-
-## Transcript query measurement and matched movie delivery (2026-09-30)
-
-- **When:** transcript duration-memory harness pass.
-- **Choice:** admit real media, then ingest unchanged native word rows while an
-  explicit child-process fixture declares model readiness. When a query asks for
-  words from this project, normal production storage and projection execute, but
-  the synthetic audio was never recognized as speech. The readiness wrapper checks
-  model pins and digest; it does not prepare or run a model. A fresh inference run
-  would mix recognition cost and variable output into a query-memory comparison.
-- **Gap:** the scale plan did not prescribe how to isolate query work without
-  repeating expensive inference or installing models.
-- **Reach:** these fixtures can establish query values and resource costs, never
-  recognition quality or independent audible word boundaries. The readiness seam
-  remains inside the existing test child process, with production unchanged.
-- **Verdict:** sound; the declared boundary preserves actual admission and query
-  behavior while keeping the measurement reproducible.
-- **Confidence:** medium.
-
-- **When:** follow-pitch learned movie verification.
-- **Choice:** reuse one matched movie-audio comparison for both retiming policies.
-  Each preview is compared with a separately encoded plain project containing
-  the independent expected PCM at the identical range and encoding settings.
-  This extends the already banked matched-codec decision to the follow consumer
-  instead of building another oracle with different duration arithmetic.
-- **Gap:** the missing follow movie gate left helper ownership unspecified.
-- **Reach:** both cohorts share exact physical-duration handling and matched
-  decoded-audio assertions; no production processor or output setting changes.
-- **Verdict:** sound; one oracle owner prevents the two policies from drifting.
-- **Confidence:** high.
-
-## Bounded evidence continuations (2026-09-30)
-
-- **When:**24x query correction.
-- **Choice:** retain only the clips a page visits in a lookup that dies with that
-  page. When a search resumes at clip1,000, the manifest identifies its ordered
-  clips and source dependencies; the existing exact projection owner resolves
-  that named clip and any adjacent clip needed for phrase continuity. Rebuilding
-  every10,000-clip window per page repeats already settled selection work. A new
-  long-lived query cache would retain another owner and invalidation policy.
-- **Gap:** the scale plan prescribed bounded inspection without fixing the
-  lifetime of projected page data.
-- **Reach:** transcript and event mergers share the same named lookup; existing
-  immutable revision context remains bounded by its original owner. Query and
-  checkpoint formats do not change.
-- **Verdict:** sound; reuse canonical exact projection with page-local lifetime.
-- **Confidence:** high.
-
-- **When:**24x live dependency review.
-- **Choice:** the immutable manifest supplies which unique sources to check, never
-  their current status. If a later source changes while an earlier word page is
-  being published, fresh checks of every manifest source reject the page. Checking
-  only the sources visited on that page would return a continuation already tied
-  to stale evidence. Expected generation pins can be hashed once per read, while
-  actual source status and project existence are checked both before merging and
-  after asynchronous publication.
-- **Gap:** avoiding repeated selection discovery could have been misread as
-  permission to reuse readiness or generation values.
-- **Reach:** immutable revision identity does not eliminate live dependency races
-  or deletion; all evidence domains inherit this rule.
-- **Verdict:** sound; keeps recovery and refusal behavior while removing repeated
-  occurrence deduplication.
-- **Confidence:** high.
-
-- **When:**24x public search measurement.
-- **Choice:** measure search with the existing authored word cohort and allow
-  empty bounded-scan pages to advance by checkpoint. The fixture selects every
-  fifth clip containing the literal word“so” to form250 independently expected
-  matches. Its100-page harness ceiling catches pathological nonprogress; it does
-  not change the product scan limit, cached250ms target or returned-row contract.
-  CLI and native-call checks run before the latency assertion so a slow correct
-  result retains its full correctness evidence.
-- **Gap:** the prior runner measured word reads, whose pages were nonempty, rather
-  than sparse phrase matches requiring many more continuations.
-- **Reach:** query-family measurements share source/clock oracles while retaining
-  their distinct output shapes and page behavior.
-- **Verdict:** sound; stronger cursor-value checks preserve the actual continuation
-  contract without relaxing the performance gate.
-- **Confidence:** high.
-
-## Populated event setup: explicit SDK client capacity (2026-09-30)
-
-- **When:**24y setup diagnosis.
-- **Choice:** preserve full edit receipts and configure the sequential verification
-  client's existing bounded receive buffer for the legal control-response envelope.
-  A10,000-clip edit commits, producing a5.09MB service reply within its8MiB cap.
-  MCP sends both JSON text and the structured object; escaping expands their
-  combined reply to10.66MB. The SDK's default10MiB receiver then closes, although
-  the edit succeeded. This client uses3*the existing service-frame cap+64KiB,
-  enough for the structured body, its quoted text and this fixed framing. Raising
-  the service cap, dropping normalized changes or discarding one representation
-  would change the product contract instead of aligning the test consumer.
-- **Gap:** the plan did not distinguish legal service-frame bytes from the larger
-  MCP wrapper received by a particular SDK client.
-- **Reach:** these sequential control-response checks use a declared bounded
-  receiver. They do not promise universal capacity for inline media, concurrent
-  replies or external clients retaining the default. The original default-client
-  failure remains evidence, and same-request replay must recover the one commit.
-- **Verdict:** sound; preserves complete values and the existing service bound
-  using a supported client option. Cached latency/RSS budgets remain unchanged.
-- **Confidence:** medium; another client may deliberately impose a smaller cap
-  and need CLI recovery or an explicitly configured receiver for large replies.
-
-## Populated source-event evidence (2026-09-30)
-
-- **When:**24y fixture integration.
-- **Choice:** reuse the actual source-event owners with two pinned input families.
-  The tiny authored scene movie supplies a pause and scene at the same instant;
-  the unchanged original capture journal supplies cursor coordinates and an
-  excluded endpoint. Native normalization runs independently before querying,
-  but complete cursor data is also compared with the original journal so two
-  copies of a broken normalizer cannot agree unnoticed. Fresh public identities
-  and generations fill the independent source/placement clock oracle.
-- **Gap:** the scale plan did not prescribe a populated-event fixture, and
-  generating a new combined journal would add unverified content.
-- **Reach:** the real-fixture branch remains in its existing module, shared with
-  every original capture cohort. Query processes permit cleanup only; source
-  preparation remains real and distinct from measured cached-query work.
-- **Verdict:** sound; tests populated scene/capture and exact retimed cursor
-  consumers without a new source-processing implementation or physical claim.
-- **Confidence:** high.
-
-- **When:**24y default capture regression.
-- **Choice:** include the authored terminal failure message in both completion
-  and interruption-row expectations. A synthetic device-loss journal contains
-  code and message; current production preserves both. The pre-change fixture
-  already failed because its expected object omitted the message. Copying that
-  authored message into the oracle checks more payload instead of suppressing
-  the extra field or changing native output.
-- **Gap:** the old oracle had not followed the earlier diagnostic-preservation
-  contract; this pass made the stale check run again.
-- **Reach:** every original capture cohort retains full diagnostic assertions
-  when using the extracted shared real-source helper.
-- **Verdict:** sound; corrects a proven stale expectation and strengthens checks.
-- **Confidence:** high.
-
-## Scope of reference-speech acceptance (2026-09-30)
-
-- **When:** listening-gate maintenance after the user's accepted word/phrase auditions.
-- **Choice:** close18's fixed reproduction while keeping19's ambience workflow open.
-  The user hears the generated word and corrected phrase in their recorded context
-  and says they sound good. The same review hears a brief voice sound in the pause
-  selected for background ambience. That permits preserving those exact accepted
-  replacements, but does not permit treating the pause as clean background for
-  future edits. The alternative would either reopen accepted voice work because
-  a separate source-region check failed, or mistakenly approve arbitrary looping
-  of speech-contaminated room tone.
-- **Gap:** the plan did not prescribe how one review spanning accepted contextual
-  replacements and a rejected ambience source should resolve the two parent slices.
-- **Reach:** later agents inherit the fixed voice runtime/output acceptance and
-  leave its media untouched;19 still needs independent clean-region and loop-seam
-  evidence. Larger voice/text matrices are future coverage, not invented18 gates.
-- **Verdict:** sound; distinguishes acceptance of particular delivered replacements
-  from approval of a reusable background source without weakening either contract.
-- **Confidence:** high.
-
-## Earlier room-tone candidate (2026-09-30)
-
-- **When:** real pause review after the user heard a voice blip in the old source.
-- **Choice:** retain an earlier half-second as a separate candidate, keeping accepted
-  replacements intact. The reported blip is about1.05–1.2 seconds into the pause.
-  This review takes0.3–0.8 seconds, repeats it with explicit overlapping fades and
-  asks the listener whether it contains speech or noticeable seams. The alternative
-  would modify the already accepted voice edits or assume that a quiet region is
-  clean without hearing it.
-- **Gap:** the user's approximate location does not supply a precise clean interval.
-- **Reach:** this window is a reversible audition proposal, never automatic ambience
-  selection. Its own speech-free and loop verdict must pass before reuse; original
-  recordings and accepted replacements keep their identities.
-- **Verdict:** sound; makes the rejected source-region gate concretely reviewable
-  without claiming unheard quality or changing accepted media.
-- **Confidence:** medium.
-
-## Louder ambience monitoring copy (2026-09-30)
-
-- **When:** the user could barely hear the normal-level pause.
-- **Choice:** add a labeled+24dB listening copy through the ordinary output gain
-  processor. This makes quiet background and any leaked voice easier to notice,
-  while preserving a separate normal-level loop. Undo returns the normal loop
-  exactly. The alternative would ask the user to judge nearly inaudible audio or
-  silently change the gain used in real voice edits.
-- **Gap:** the plan specifies no listening-monitor volume for quiet ambience.
-- **Reach:** the louder copy is diagnostic only; it does not normalize source audio,
-  choose a production room-tone level or replace the accepted contextual outputs.
-- **Verdict:** sound; gain is explicit, unclipped and reversible, with both levels
-  retained and perceptual acceptance still separate.
-- **Confidence:** high.
-
-## Protected-sentence sample alignment (2026-09-30)
-
-**When:** protected-sentence audition packet, 2026-09-30.
-
-**The choice:** Align presentation endpoints to the recording file's sample grid.
-For this sentence, the source clock includes the recording's 48,675-microsecond
-origin. Starting exactly at 72 seconds therefore lands between two audio samples
-after subtracting that origin. Public source extraction rounds down while the
-project's sample selection starts at the next sample, producing a one-sample shift.
-The packet instead starts 8,675 microseconds later and moves the ending by the same
-amount. Both routes then select the exact same samples for the same 2.7-second
-sentence, while retaining the ASR-proposed beginning and ending with margins.
-
-**The gap:** The requested complete sentence did not prescribe exact presentation
-endpoints or which discrete sample should represent a fractional boundary.
-
-**The reach:** This fixes only the listening packet's selection. It neither changes
-production rounding nor supplies independent word boundaries. Future annotations
-must retain the actual origin and the appropriate clock instead of copying these
-presentation margins as word labels.
-
-**Verdict:** Sound. Exact matched input makes the denoise comparison easier to
-assess without silently shifting one reference. No added gain or waveform edit is
-needed. The original remains available for the user to assess the proposed crop.
-
-**Confidence:** High.
-
-## Authored stereo container encoding (2026-09-30)
-
-**When:** protected-sentence authored stereo follow-up, 2026-09-30.
-
-**The choice:** Use the existing FFmpeg encoder to wrap explicitly authored
-Float32 samples in a WAV file. The sentence's original samples are copied into the
-left channel; the right gets exactly half each sample's amplitude. The encoder
-receives those already interleaved samples at their original rate and writes
-Float32 WAV. A complete sample comparison proves the encoded file retains the
-exact declared channels before it reaches the public import and project workflow.
-
-**The gap:** The requested stereo control prescribed channel gains and public
-processing, but did not prescribe how to create the source WAV container.
-
-**The reach:** This evidence assembler requires the already installed encoder,
-whose binary hash and actual arguments are retained. It adds no production
-format writer or dependency installation. Future reproduction can verify the
-encoded samples rather than assume an encoder preserves them.
-
-**Verdict:** Sound. Reusing an existing encoder avoids another maintained WAV
-writer, while all-frame equality prevents an unnoticed encoding or gain change.
-
-**Confidence:** High.
-
-## Known-noise listening fixture (2026-09-30)
-
-- **When:** known-added-noise complete-sentence packet.
-- **Choice:** combine existing steady-noise and transient-noise policies in one
-  complete sentence. A listener who hears the original “The sample offer says
-  this is free” can compare the same words with explicitly added hum, hiss and
-  brief bursts, then RNNoise. The recipe uses the earlier 10 dB aggregate ratio and
-  20 ms triangular bursts. Independent channel seeds/phases make the noise stereo
-  without turning the mono source into purported real spatial capture. Repeating
-  the old tiny unfamiliar excerpts would obscure what words should survive.
-- **Gap:** the plan requires steady and transient noise but does not prescribe
-  their combined levels or a complete-sentence presentation.
-- **Reach:** this is one declared fixture recipe, with no product default or new
-  noise engine. The unchanged clean reference remains separately authoritative;
-  listening and real stereo quality stay separate from mechanism checks.
-- **Verdict:** sound; uses the existing noise ratio and complete familiar words
-  while preserving exact duration and original speech before additive noise.
-- **Confidence:** high.
-
-- **When:** explicit RMS comparison aid.
-- **Choice:** provide a separately labeled gain-only diagnostic matching the
-  unchanged clean sentence's RMS, the average signal-energy level. If RNNoise
-  reduces the candidate's level, a listener can judge words with that level
-  difference compensated while the raw noisy and processed files remain available.
-  Matching the noisier whole mixture instead would also compensate for energy
-  deliberately added by this fixture. Neither calculation measures perceived
-  loudness or justifies an automatic editing policy.
-- **Gap:** the plan requires raw and separately matched surfaces without choosing
-  the matching anchor for a known-added-noise utterance.
-- **Reach:** the saved raw public output remains untouched. The extra copy uses
-  only explicit offline Float32 gain; future edits do not inherit normalization.
-- **Verdict:** sound; controls a declared comparison variable while retaining
-  raw gain and clipping evidence and reporting the copy's provenance.
-- **Confidence:** high.
-
-## Camera publication buffer hashing (2026-09-30)
-
-
-**When:** offline camera publication performance pass, 2026-09-30.
-
-**The choice:** Hash the existing locked pixel memory directly in the same private
-picture-digest owner. When the publisher verifies a frame, it already holds the
-pixel buffer's read-only lock. CryptoKit consumes a buffer view synchronously,
-so each view finishes before unlocking. Rows whose physical stride equals their
-visible width can be passed together; otherwise only the visible bytes of each
-row enter the digest. The timestamp and dimension prefix stays identical. The
-alternative would keep creating and copying a new Data object for every row.
-
-**The gap:** The preservation contract fixed the digest's contents but left the
-memory representation and hashing call granularity to implementation.
-
-**The reach:** Camera raw/canonical verification keeps the same digest and
-recovery authority while avoiding millions of temporary row copies. The code
-continues to depend on the publisher's existing forced BGRA decoder format; this
-adds no planar-image support or lifetime-spanning pointer cache.
-
-**Verdict:** Sound. Complete retained-picture parity and contiguous/padded
-publication tests preserve the byte stream, and stage timing identifies hashing
-as the relevant measured cost. The change does not adjust the shutdown deadline.
-
-**Confidence:** High.
-
-### Publication fixtures
-
-**When:** the same pass's preservation checks.
-
-**The choice:** Exercise contiguous and padded decoded memory through actual
-publication, using two tiny encoded fixtures. A lossless BGRA movie makes the
-contiguous case precise; an ordinary camera codec, H264, supplies realistic padded
-rows. Independently serialized decoded pixels define the expected full picture
-digests. The alternative would expose the private hashing function for tests or
-create another maintained digest implementation.
-
-**The gap:** The contract required preservation but did not prescribe a test seam
-for memory layout and padding.
-
-**The reach:** Default offline capture checks now protect timestamp/dimension
-serialization, visible pixels and padding exclusion at the public publication
-boundary. The fixtures and expected output are tied to the current native BGRA
-decoder contract; changing that contract requires examining their provenance.
-
-**Verdict:** Sound. The tests exercise the production owner and fail when padding
-is included without adding a production test hook or parallel digest abstraction.
-
-**Confidence:** High.
-
-### Offline canonical-date comparison
-
-- **When:** camera publication preservation review.
-- **Choice:** Compare complete exported movie files after excluding only their
-  six documented creation/modification date fields. Exporting the same pictures
-  twice writes different wall-clock dates into the MOV container. The review keeps
-  each actual file hash and the original strict-equality failure, identifies the
-  date fields from their container boxes, and then compares every remaining byte.
-  This changes only the offline comparison. Production still checks exact acquired
-  timestamps, dimensions and every decoded picture before publishing.
-- **Gap:** The plan requires preserved media but does not prescribe how an offline
-  whole-file comparison treats AVFoundation's fresh export dates.
-- **Reach:** Future reproduction must distinguish export wall-clock dates from
-  media timing. It may not mask presentation times, duration, sample bytes or
-  arbitrary metadata; the original identities remain inspectable.
-- **Verdict:** sound; the exception names the six exact date fields, retains the
-  strict red and independently verifies the complete remainder without weakening
-  production decoded-picture checks.
-- **Confidence:** medium.
-
-## Finite denoise acceptance reconciliation (2026-09-30)
-
-- **When:** final12c/15a3/15a evidence reconciliation.
-- **Choice:** Close the named local denoise matrix when the exact meaningful
-  sentence, post-retime, authored stereo and known-noise hearing cases pass,
-  alongside the retained execution proofs. A listener now accepts the complete
-  words and channel balance; public/native checks separately prove duration,
-  selection, state, order, history and delivery. Independent word-boundary marks
-  needed for accurate cuts and speech-free ambience needed for looping keep their
-  own gates. The alternative would ask for extra speakers or naturally recorded
-  stereo without an explicit requirement, or pretend these verdicts supply cut
-  labels and loop approval.
-- **Gap:** The plan named the quality cases without prescribing how to reconcile
-  later complete-sentence verdicts with historical cropped-packet pending states.
-- **Reach:** Later passes inherit the frozen accepted implementation and exact
-  media verdicts, without repeating hearing or transferring approval to arbitrary
-  inputs.12/12d and19 remain independently accountable for their missing evidence.
-- **Verdict:** sound; it satisfies the finite named denoise requirements without
-  weakening independent cut accuracy, ambience or installed acceptance.
-- **Confidence:** high.
-
-- **When:** executable reproduction pointers in the same reconciliation.
-- **Choice:** Point planned denoise probes at the existing frame/native/public
-  runners that already perform the required work. An agent following the plan
-  reaches executable owners and pinned receipts rather than a nonexistent proposed
-  filename. A forwarding file would add another maintained entry point while
-  repeating the same operation.
-- **Gap:** Planned names preceded the implemented harness organization; no public
-  consumer depends on those speculative filenames.
-- **Reach:** Future reproduction uses the actual contract owners and their evidence;
-  this creates no compatibility shim, duplicate engine or new API.
-- **Verdict:** sound; preserves runnable verification while deleting stale planning
-  instructions.
-- **Confidence:** high.
-
-One documentation discretion: the acceptance ledger is the canonical index;
-historical experiments retain their scoped limitations and refer to later verdicts.
-
-## Room-tone overlap refinement (2026-09-30)
-
-
-**Content-clock keys, one source occurrence per track.**
-
-- When: revised room-tone overlap packet.
-- Choice: Each repeated region starts at source time zero on its own audio track.
-  A content-anchored gain window means the curve follows that region's local source
-  samples. For example, while one region plays its last200ms, the next plays its
-  first200ms; both contribute through the existing public mixer. The keys are
-  read back from public processing state before the independent sample calculation.
-- Gap: The request fixed the fade shape but did not prescribe track layout or key
-  anchoring. Alternating a smaller set of tracks would also represent this fixed
-  loop, but would add placement/track-assignment logic to a single finite packet.
-- Reach: This declares only the review project's layout. It adds no product
-  ambience helper, automatic region choice or default processing policy.
-- Verdict: sound. Explicit public occurrences and content windows make the two
-  simultaneously playing source positions unambiguous without another renderer.
-- Confidence: high.
-
-**Keep complete transient deliveries in the exchanges instead of duplicate WAVs.**
-
-- When: revised room-tone overlap packet.
-- Choice: The scratch run writes and checks the actual dry-source and undo WAVs.
-  The durable packet retains the original source in its existing home and one
-  normal loop. The dry source is byte-identical to that original; undo is
-  byte-identical to the normal loop. Their complete MCP audio bodies, public
-  receipts and hashes remain in the compressed exchange record. A reviewer can
-  reconstruct either transient delivery without a second copy of those samples.
-- Gap: Actual undo delivery was required, but redundant permanent audio files
-  were not. Retaining all four WAVs would duplicate bytes already preserved.
-- Reach: The report's delivery entries describe actual runtime deliveries,
-  including transient ones; they are not a permanent filename inventory.
-- Verdict: sound. Complete transport evidence preserves the equality proof and
-  avoids unnecessary repeated audio assets.
-- Confidence: high.
-
-### Full-half overlap comparison
-
-- **When:** response to the user's qualified improvement and request for low-hanging
-  refinements.
-- **Choice:** Try250ms overlaps on the same half-second source, rather than add
-  new audio or change its speed. The200ms case has100ms in each interior cycle
-  where only one occurrence plays; the250ms case blends two throughout the
-  interior. A listener can compare that one treatment change at the same explicit
-  output gain. The curve midpoint shared by its incoming/outgoing envelopes is
-  represented once, avoiding duplicate authored times.
-- **Gap:** The user asked for another small improvement without prescribing its
-  fade duration. The existing public gain/mixing owners support this finite case.
-- **Reach:** This is an explicit review-project recipe, not automatic room-tone
-  selection, normalization or a new processing default. The prior candidate and
-  its qualified verdict remain available if this treatment sounds worse.
-- **Verdict:** sound; preserves the accepted source while testing whether continuous
-  overlap improves its remaining audible seam. Hearing decides between treatments.
-- **Confidence:** medium.
-
-Both recipes remain frozen as execution evidence. Their authored parameters differ,
-while production execution remains owned by the existing public mixer and scalar
-curves; no parallel production renderer is introduced.
-
-The final user choice retains the200ms treatment and explicitly tolerates its
-small residual seam. The250ms trial is rejected for a perceived whirling sound;
-it remains negative evidence, with no production adoption or further tuning.
-
-### Sentence marking starts with four bounded targets — sound, medium confidence
-
-When: 12d marking page, 2026-09-30. The user requested a simple page to provide
-independent audible boundaries. It presents the sentence edges and the three
-words surrounding the cut: paragraph, uh and this. All times start blank. If two
-connected words have no clear edge, the listener leaves it unknown instead of
-being forced to fill every proposed word. The request left the marking surface
-unspecified. This bounded starting point resolves the immediate cut evidence;
-it cannot claim the broader speech corpus has been annotated. Future corpus
-work must collect its own actual labels. Sound because it keeps the requested
-human task small without inventing exact boundaries.
-
-### Save separate annotation snapshots — sound, high confidence
-
-When: 12d marking page, 2026-09-30. Pressing Save writes a uniquely named local
-JSON file in the output directory given to the local server; another Save creates
-another file. Existing source audio and frozen annotation proposals remain
-unchanged. The request did not choose persistence. Separate snapshots let the
-agent inspect what the listener submitted before deliberately reconciling any
-ranges into canonical evidence. There is no automatic import, autosave or reload
-of previous drafts. Sound because no submission can silently overwrite existing
-truth, and the finite page needs no new product storage owner.
-
-### Bind exports to one source clock and preserve unknown authority — sound, high confidence
-
-When: 12d marking page, 2026-09-30. A time of one second in the clip becomes one
-second after this clip's already source-clock start; its recording offset is not
-added twice. Browser readouts and server exports share that conversion. The server
-checks audio/source/annotation hashes and exact source interval before saving,
-so an old page cannot attach marks to changed audio. The request did not choose
-an export schema. Drafts contain no independent labels; confirmed partial edges
-still cannot form a full range, and any confirmed filler inventory explicitly
-remains incomplete for the corpus. Sound because a saved mark retains both its
-source identity and the limits of what the listener actually supplied.
-
-### Next confirms the selected boundary — sound, high confidence
-
-When: initial marking page and the user's interactive-flow correction, 2026-09-30.
-The listener clicks a point and hears a preview. Next confirms that selected
-point, even though the playback cursor has moved. Each confirmed point stays in
-memory as the page advances; Back can revise it and Skip leaves an edge unknown.
-The user explicitly requested Next as the confirmation action, replacing the
-checkbox. The request did not choose when to write the accumulated record.
-The last Next saves one separate snapshot, so intermediate corrections do not
-create many competing records. During saving, editing is disabled; a failure
-keeps every selection and Next retries, including when the last edge was skipped.
-Closing or reloading before completion still loses the in-memory work, as in the
-original page; no autosave or persistence owner was introduced. Sound because
-confirmation applies to the selected point and missing edges stay unknown.
-
-### Diagnostic movie evidence retains exact date patches — sound, high confidence
-
-When: camera digest cost audit, 2026-09-30. Two temporary canonical movies were
-verified byte for byte against an already retained base. Only six container date
-fields differed. The audit stores those exact date bytes and both observed full
-file hashes; replacing those fields in the retained base reproduces each hash
-exactly. The temporary copies were then removed, freeing test scratch space.
-The plan did not choose storage for this new diagnostic evidence. This preserves
-the actual observed files without keeping duplicate large movies on the nearly
-full disk. Future verification must use the pinned base and recorded patches;
-no image, time, codec or production publication policy is changed. Sound because
-full equality and reconstruction were proven before cleanup.
-
-### Keep the complete clip in the browser while marking — sound, high confidence
-
-When: marking-page repair, 2026-09-30. The listener opened a page whose server
-had stopped and saw a player with zero seconds. The restored server runs outside
-the launching command session. Once the page loads, it holds the entire small
-original recording in browser memory before enabling marks. If the server then
-stops, replay and seeking still use those same original bytes; saving reports a
-failure and keeps the inputs. Reloading still requires the server. The request
-left server lifetime and media loading unspecified. Streaming alone would keep
-later seeks dependent on that process, while installing a permanent service
-would add unnecessary product machinery. This bounded evaluation clip costs
-about 1.4 MB in browser memory and adds no new dependency or media transform.
-Sound because it repairs the actual failure with platform process separation and
-complete local media, without promising permanent hosting or changing evidence.
-
-### Keep waveform selection and confirmation together — sound, high confidence
-
-When: marking repair and the user's interactive-flow correction, 2026-09-30.
-The listener sees one prompt, its waveform, the selected blue line and Next in
-one compact panel. A click chooses the boundary; Next confirms it without
-scrolling to a separate input row. The opening “um” comes first because the user
-reported it. The server's target list owns that order and identifies filler
-ranges for export, while original recording details remain collapsed. This
-supersedes the earlier sticky player above a long form, which still forced the
-user to move between separate controls. The request chose the two-action flow
-but left exact layout unspecified. This affects the bounded evaluation page
-only and supplies no suggested boundary times. Sound because the listening task
-now follows the user's requested actions and preserves human boundary authority.
-
-### Preview from the clicked point without moving the selection — sound, high confidence
-
-When: guided waveform page, 2026-09-30. Clicking selects a blue boundary line and
-plays a short excerpt starting exactly at that point and ending shortly after it.
-The orange playback cursor moves while the selected point remains fixed. A
-second click cancels the earlier preview; an old cancelled playback request
-cannot clear the new preview's stop point. The user requested waveform clicks
-and Next, then explicitly chose playback from the click instead of a lead-in.
-Starting a preview on the click lets the user audition that boundary without an additional Play action. Loading and
-Next start no sound; tests mute previews in a separate tab. The current short
-window is a reversible listening aid, not a proposed boundary or acceptance
-threshold. Sound because playback now follows the user's explicit preference;
-the point confirmed by Next remains unchanged.
-
-### Apply the native join envelope after narration clips combine — sound, medium confidence
-
-When: exact human-marked filler reproduction, 2026-09-30. Removing the two
-marked fillers leaves two neighboring narration clips. Fading each clip before
-mixing produced the correct amplitudes, but adding sibling silence changed one
-negative zero to positive zero. These sound identical yet have different stored
-bits, so the strict reference comparison correctly failed. The named fixture
-now applies the same fade to the combined narration track. The public track
-clock accepts whole microseconds; held keys specify each native sample's gain
-until the next key. Expanding the two short ramps into 482 keys reproduces the
-complete native envelope, including its signed zero, without a compensating
-operation aimed at that one sample. The older accepted fixture keeps its proven
-clip recipe. The plan required exact bytes but left public envelope authoring
-unspecified. This is bounded fixture authoring data through the existing gain
-API, not a new production processor or general cleanup policy. Future fixtures
-must prove their full output rather than inherit this recipe. Sound because it
-preserves the entire reference and existing mixer semantics; confidence is
-medium because the exact sampled authoring is less compact than a linear curve.
-
-### Bind a relocated reference packet by its bytes — sound, high confidence
-
-When: exact human-marked filler reproduction, 2026-09-30. A native packet prepared
-in scratch must move into durable evidence without changing the edit it defines.
-The existing public journey accepts an explicit reference directory and records
-the report's hash. Reinspection permits a different directory only when those
-report bytes match; actual WAV hashes remain checked. Its default still uses the
-frozen accepted packet and original pins. The plan left the second fixed packet's
-storage unspecified. Binding the original scratch path would prevent honest
-archival, while silently substituting another report would weaken evidence.
-This adds one harness selector and no product API or schema. Sound because
-location can change while the actual reference identity remains fixed.
-
-### Give the changed two-filler candidate its own acceptance record — sound, high confidence
-
-When: saved human-mark reconciliation and exact cleanup, 2026-09-30. The saved
-labels expose a prefix of the middle filler left by the older accepted cut and
-also mark the opening filler. A separate candidate removes exactly those two
-ranges; it preserves the older files and listening verdict. Its technical
-evidence proves exclusion and retained samples. The independently recorded
-user listening verdict accepts these exact new candidate bytes, including the
-protected words, endpoints and join; it grants no general speech-quality verdict.
-The plan did not specify how a
-new labeled candidate should coexist with an accepted inherited cut. Replacing
-the old bytes or borrowing their approval would erase a useful comparison.
-This supplies one named-target fixture and leaves automatic discovery, complete
-technical inventory/timing with their existing gates. Editorial repetition intent
-belongs to the external caller, not a product gate. Sound because each
-claim remains tied to the recording and judgment that actually support it.
-
-### Count changed float encodings when reporting exact PCM — sound, high confidence
-
-When: exact human-marked filler reproduction, 2026-09-30. The byte comparison
-rejected a zero whose sign changed, but amplitude subtraction reported zero
-changed samples. The report now counts different 32-bit float encodings while
-retaining amplitude measurements separately. A single-channel zero-sign
-mutation therefore reports one changed sample and still fails. The plan left
-diagnostic counting unspecified; numerical counting alone concealed the cause
-of an honest failure. This affects harness reports only and changes no equality
-gate. Sound because diagnostics now describe the same exact contract they judge.
-
-### Reuse the marking page for one disputed word in original context — sound, medium confidence
-
-When: workbench-boundary preparation, 2026-09-30. The speech engines disagree
-about the last sound in “workbench”, and the older visual mark cannot resolve
-which sound belongs to that word. The same waveform page now accepts an explicit
-packet whose sole target is that word. The original opening context includes
-the proposed first two sentences; two clicks confirmed with Next can mark the
-word without typing times. No estimated edge is prefilled. The plan required an
-independent endpoint diagnosis but left the presentation unspecified. A word
-fragment would remove the context the user previously needed, while another
-annotation UI would duplicate the already requested workflow. This adds one
-evaluation-harness packet selector and preserves its default sentence packet.
-It does not select a speech engine or imply broader inventory completeness.
-Sound because it prepares the actual missing listening evidence without changing
-the recording; confidence is medium because the context length is a reversible
-presentation choice and the proposed transcript still needs listening verification.
-
-### Export the word targets the listener actually marked — sound, high confidence
-
-When: workbench-boundary preparation, 2026-09-30. A workbench-only page must not
-export empty entries for “paragraph” and “this” from the previous sentence. The
-existing annotation owner now derives its protected-word entries from the page's
-non-filler word targets; sentence and filler targets retain their separate roles.
-For the original page this produces the same two entries, and for the new page
-it produces only “workbench”. Skipped edges remain unknown. The plan left the
-second packet's export unspecified. Hardcoding the earlier words would make the
-saved evidence misdescribe the task, while a second export owner would drift.
-Future packets must explicitly name the words they ask the listener to mark;
-this does not infer removal intent or discover missing words. Sound because
-the target list already owns identity and the export now follows that owner.
-
-### Retired personal repetition-intent solicitation — scope error corrected
-
-When: repetition-intent preparation and user correction, 2026-09-30. The proposed
-transcript said “Return to it” twice. Preparing unchanged surrounding audio
-proved source delivery, but asking the recording owner whether the later phrase
-was deliberate and making the answer block implementation was an unsound scope
-choice. The user clarified: zero editorial decisions, only primitives; the agent
-using the project makes those decisions. The solicitation is retired and its
-unanswered record remains historical. Future development measures evidence and
-executes fixture-specified edits; it does not undertake a personal editorial
-task. The audio proof remains valid and no keep/remove answer is inferred. This
-corrects the earlier sound verdict without inventing new acceptance evidence.
-
-### Rescore retained outputs while disclosing missing preparation — sound, medium confidence
-
-When: actual-human-edge comparison, 2026-09-30. The listener has marked words,
-and the saved alignment results still exist, but their prepared 16 kHz audio
-file has disappeared from scratch. The comparison checks the retained results
-and recorded identities, then scores the same eight marked edges for every
-condition through the existing evaluator. The missing opening filler is
-reported separately and cannot earn a complete-cleanup pass. The plan did not
-specify whether absent preparation prevents this limited inspection. Refusing
-all comparison would discard usable saved predictions; certifying a fresh run
-would claim evidence that no longer exists. The result therefore describes only
-the retained predictions on this small cohort, with no current runtime proof or
-recipe selection. Sound because its claim stays within the evidence that can be
-checked. Confidence is medium because broader acceptance still needs complete
-labels and its own preserved execution evidence.
-
-### Complete the fixed packet independently of aggregate quality — sound, high confidence
-
-When: scoped 12d completion audit, 2026-09-30. The sentence packet already has its
-source binding, explicit-cut media/undo proof, actual marked neighbors and its
-own accepted join. Its last open checkbox instead asks for the entire corpus
-speech-quality pass. That belongs to parent12, so 12d now records completion of
-its fixed packet while 12 stays open. The plan conflated an evidence packet's
-completion with selecting a production speech recipe. Keeping them coupled
-would hide completed primitives without supplying missing aggregate evidence.
-Future adoption still needs 12's technical quality and 12b's public parity. Sound
-because retained artifacts and independent reviews prove every requirement within 12d;
-the 15 ms filler prefix, existing scores and broader failures remain unchanged.
-
-### Preserve the selected baseline while checking public parity — sound, high confidence
-
-When: feedback-driven spec review, 2026-09-30. The earlier recording contract
-already selected Parakeet with best-effort fillers and disclosed timing misses.
-The new plan nevertheless required a better model to win before its public
-integration could proceed. The revised12b pass compares the current pipeline's
-requests, raw results, generations and explicit edit outputs through existing
-owners. Broader quality measurements stay open; a changed model still needs its
-own evidence. The planning gap was confusing preservation of an accepted behavior
-with accepting a replacement. This enables useful primitive verification without
-claiming that omitted speech or inaccurate acoustic boundaries were repaired.
-
-### Separate preparation from final release acceptance — sound, high confidence
-
-When: the same spec review. Missing physical camera proof previously serialized
-unrelated speech, camera API and consumer work. Isolated wiring and matched
-preservation now proceed from verified source/clock/lifecycle owners. Final
-physical acceptance, installed switching and owner removal still require their
-actual evidence and authorization. The plan did not distinguish those dependency
-kinds. The correction removes artificial waiting without inventing a physical
-pass, a second production engine or a compatibility layer.
-
-### Test an external caller with a bounded fixture brief — sound, high confidence
-
-When: the same spec review. The final workflow wording could make a development
-agent start editing the user's personal tutorial. The test instead gives an
-external caller a declared fixture request and protected content, then checks
-discovery, explicit effects, delivery, replay/undo, export and truthful limits.
-The caller chooses how to use the primitives within that brief; the engine makes
-no editorial choice, and reviewers do not grade one preferred style. The plan
-left the test brief unspecified. This preserves the integration scenario set
-while keeping development and consumption of the toolkit distinct.
-
-### Shared-library storage categories — sound, medium confidence
-
-When: 23c (2026-09-30).
-
-- **Choice:** Count retained project-library files as shared bytes. When two
-  projects use one asset, the aggregate counts its actual file length once. It
-  does not estimate each project's share. Registered temporary derivatives remain
-  cache bytes, and private external export staging remains other bytes.
-- **Gap:** The plan required truthful storage preservation without assigning new
-  project-specific ownership categories to files shared by several projects.
-- **Reach:** The existing public aggregate shape stays usable through cutover;
-  scoped project accounting would require its own requested contract.
-- **Verdict:** Sound. One real byte observation avoids an invented allocation
-  policy and preserves the existing category meanings for recording consumers.
-- **Confidence:** Medium.
-
-### Explicit camera facts across owned peers — sound, high confidence
-
-When: 21a (2026-09-30). A device/status response now supplies a camera list and
-camera permission state explicitly. An empty list and an unknown state are
-valid facts; a missing field is an invalid peer response, rather than something
-the service interprets as no camera or a permission denial. The plan did not
-specify omission handling for these new fields. This keeps every owned producer
-and consumer on the same truthful contract without a fallback or compatibility
-layer; future camera selection still requires its own working lifecycle.
-
-### Isolated scratch for the controller gate — sound, high confidence
-
-When: 21a. The existing scripted controller gate can compile into a caller-selected
-scratch directory. Its ordinary default and scenario set remain unchanged.
-The plan required preserving the native gate and frozen workers but did not give
-this runner an isolated output option. A test-only scratch location lets the
-same gate run against changed source without overwriting a frozen build. It adds
-no product setting or installed-application behavior.
-
-### Camera implementation seams before public exposure — sound, medium confidence
-
-When: remaining21 reslice (2026-10-01). The plan now separates closed camera
-publication, input acquisition, durable source adoption, project construction and
-public selection. Three independent drafts agreed on the result/retry defect; one
-preferred three broader passes. Five small seams make each ownership boundary
-verifiable and allow input/adoption work in parallel. Public selection waits for
-its complete execution path, so an accepted selector cannot be silently ignored.
-This chooses implementation order; it does not authorize a presenter layout or
-change physical acceptance.
-
-### Attempt independent publications before reporting an operational failure — sound, medium confidence
-
-When: 21b (2026-10-01).
-
-- **Choice:** A camera's filesystem publication failure still lets primary audio
-  attempt its existing publication. For example, a read-only camera directory
-  blocks its canonical file while the narration is ready. Narration can become
-  verified and playable during that stop attempt. NativeCapture then reports the
-  camera error and keeps both journal leases, which are the exclusive authority
-  to finish the take. Explicit retry verifies completed sources and attempts the
-  unfinished one. The alternative would repeatedly stop at camera's first error,
-  preventing independent audio from making progress.
-- **Gap:** The plan required shared retry ownership but did not specify the order
-  or progress behavior when independent source publications encounter errors.
-- **Reach:** Later source adoption inherits one complete take outcome without
-  losing independently verified media or adding a second finalization owner.
-- **Verdict:** Sound. It extends the existing audio publisher's per-role progress
-  rule to the independent camera source and retains the first operational error.
-- **Confidence:** Medium.
-
-### Honor publication cancellation after physical closure — sound, high confidence
-
-When: 21b.
-
-- **Choice:** If cancellation arrives while input drain is held, the owned stop
-  still finishes the camera encoder and records its immutable byte identities
-  before honoring cancellation at publication. NativeCapture awaits this closure
-  step inside the existing termination operation. The alternative could cancel
-  the byte scan after encoder finish and lose the closed source while a caller
-  believes retry is safe. No device or encoder is reopened by retry.
-- **Gap:** The plan distinguished closure from publication but left the native
-  task-cancellation boundary to implementation.
-- **Reach:** Future selected inputs can reuse this lifecycle without implementing
-  their own cancellation teardown. Transport callers still do not cancel shared
-  work, and physical completed-stop acceptance retains its existing limit.
-- **Verdict:** Sound. Cancellation ends an attempt to publish, while already
-  owned physical closure must finish and remain reviewable.
-- **Confidence:** High.
-
-### Keep media conflicts terminal while another source retries — sound, high confidence
-
-When: 21b.
-
-- **Choice:** Suppose another file occupies the camera's canonical name, and
-  primary audio also encounters an operational error. The camera returns a
-  terminal conflict: it has no verified canonical source to offer. Removing the
-  conflicting name before audio retry does not turn that same closed camera
-  outcome into success. Successful camera publications are instead reverified
-  against their complete input, receipt and canonical byte identities on each
-  retry. The alternative would either silently promote a terminal source or
-  trust an old success after its media had changed.
-- **Gap:** The plan required truthful terminal outcomes and retry but did not
-  specify how a settled companion interacts with a still-unfinished primary.
-- **Reach:** Source adoption can distinguish stable unavailability from an
-  operational retry without inventing represented pictures or replacing files.
-- **Verdict:** Sound. Terminal failure is retained; success keeps its verification
-  obligations until the take settles.
-- **Confidence:** High.
-
-### Do not repeat an uncertain terminal journal append — sound, high confidence
-
-When: 21b.
-
-- **Choice:** A finished journal row may reach disk before synchronization fails.
-  That failure is reported as bounded journal failure, and the append attempt is
-  remembered. A later primary retry can verify camera media and retry a result-file
-  write, but cannot append a second finished row. A camera journal error also
-  cannot skip physical encoder finish. The alternative would use metadata retry
-  as permission either to duplicate completion evidence or to abandon the encoder.
-- **Gap:** The plan required terminal ordering but did not classify the point
-  where a failed append may already have changed the journal.
-- **Reach:** The existing acquisition journal remains the single lifecycle
-  history; recovery sees actual completion or incomplete evidence rather than a
-  fabricated repaired history.
-- **Verdict:** Sound. It follows the existing writer's terminal journal-failure
-  behavior and preserves raw closure independently of metadata availability.
-- **Confidence:** High.
-
-### Keep captured-source facts separate from composition choices — sound, high confidence
-
-When: spec reconciliation after the user's zero-editorial feedback (2026-10-01).
-The earlier plan promised automatic linked-project construction at capture finish,
-but did not specify which visual source went first or which picture covered the
-other. Those are presentation choices. Capture now publishes independent assets
-and exact common-clock mappings; the external caller creates the project and
-submits explicit placements/links through existing commands. The existing stores
-allocate IDs and preserve request replay. Documented single-AV defaults keep their
-scope. This changes automatic capture-finalization project construction into
-explicit caller construction, while preserving recording-to-project capability,
-independent edits and synchronized portable delivery. No new authoring API or
-capture-start setting is added. The correction follows the user's requirement
-that the toolkit make zero editorial decisions; it removes unspecified policy
-instead of selecting a layout on their behalf.
-
-### Inspect host contention before timing — corrected, high confidence
-
-When: 24z source-cardinality diagnostic (2026-10-01). Coordinating this project's
-lanes alone was an unsound basis for treating the host as quiet: other applications
-and builds can consume the same CPU. Future timing inspects whole-host contention
-before launch and states any remaining limits. The existing contended cohort stays
-retained; this correction authorizes neither a replacement run nor a higher budget.
-
-### Keep source-cardinality controls and timer scope explicit — sound, high confidence
-
-When: 24z. Both arms use the same populated catalog and 1,024 clips, including
-identical leading empty clips. Only referenced source-selection cardinality
-changes. Those empty clips exercise actual continuation progress instead of
-assuming each page returns rows. The warm timer covers complete delivery through
-the unconfigured SDK; oracle comparisons, telemetry and file writes follow it.
-Resident memory in the shared process remains descriptive, without treating the
-two arms as separate processes or borrowing the duration-memory ratio rule.
-These are diagnostic choices, not production caching or response-policy changes.
-## One public speech parity journey for frozen and actual inference (2026-10-01)
-
-- **When:** bounded12b actual selected-source parity extension.
-- **The choice:** Keep one public journey and one fixture service for both inference modes. When a caller supplies an existing model directory, the same admission, transcript, explicit cut, protected media, restart and generation operations run with real native speech replies. Without that option, the established frozen-response journey remains available. A separate actual-only script would copy the public checks and let their contracts drift independently. The readiness declaration stays a fixture input in both modes, rather than becoming a new production model API.
-- **The gap:** The plan required actual inference through the public owners but did not prescribe whether to extend the existing journey or duplicate it.
-- **The reach:** Future parity changes update the public-operation sequence once. The fixture's readiness declaration cannot be cited as production preparation-owner readiness, even when its native inference is real.
-- **Verdict:** sound; one operation sequence preserves matched inputs and makes the inference boundary explicit.
-- **Confidence:** high.
-
-### Keep bounded attempt evidence in the existing request record
-
-- **When:** root review of the same pass.
-- **The choice:** Reserve a speech attempt in the existing request record before calling native, save its exact request before launch, and save its reply or error afterward. A failed launch or a bad returned file still consumes its attempt. Writes to that small record execute in order, so two callbacks cannot overwrite each other's evidence. A success-only counter would hide failed work and allow more native attempts than the fixture authorized; a separate general-purpose tracing store would add another owner for this bounded experiment.
-- **The gap:** The request bound did not prescribe durable failure accounting or the record format.
-- **The reach:** A restarted fixture sees the same consumed attempts. Missing or refused raw output remains visible as a failure rather than becoming an implicit retry.
-- **Verdict:** sound; the record binds work performed to the existing explicit bound without adding production tracing hooks.
-- **Confidence:** high.
-
-## Make the external-caller request concrete with a short fixture (2026-10-01)
-
-- **When:** preparation of the 25 fixture brief, before its execution prerequisites.
-- **The choice:** Give the external test agent one short scratch project with named saved checkpoints covering every required primitive. Its request supplies exact marked cuts, an accepted retiming selection, a two-second camera/screen/microphone interlude, a processed pure split, voice treatment, pause and delivery. The fixture uses 1280×720 at 30 fps, balanced encoding with a 3 Mbps average-video override, a 600 ms pause and an explicit music gain curve. These values make the expected effects inspectable; they are not product defaults or a preferred editing style. The external caller still chooses operations, reversible layout and the zoom landmark.
-- **The gap:** Slice 25 required a bounded user brief but supplied neither an executable media request nor concrete output and placement parameters.
-- **The reach:** The future grader checks requested effects and protected media rather than judging taste or asking the person to identify more removals. The four-minute take remains the camera authority; its short use here cannot satisfy the independent physical gate. Preparation does not replace the installed journey or authorize a new model/capture operation.
-- **Verdict:** sound; a complete technical fixture can exercise caller-controlled composition without putting editorial judgment in the engine or editing the person's tutorial as development work.
-- **Confidence:** high. Reversible presentation discretion was already delegated by 25; no new product policy is chosen.
-
-### Fence startup cleanup within the existing take owner — sound, high confidence
-
-When: 21c (2026-10-01).
-
-- **Choice:** Suppose a screen lookup or camera start reply arrives after its take
-  was discarded and another take began. The existing generation identifier tells
-  which take still owns the work. Discard ends selection even before a writer
-  exists. Preparation checks that identifier after lookup and before opening the
-  selected camera, then NativeCapture checks again before writing shared state.
-  An obsolete returned input is released locally; a writer-construction refusal
-  also releases only its prepared resources. Neither cleanup can clear the newer
-  take. Failed active startup instead joins the existing termination operation,
-  which clears its size/state and ends its generation inside the owned task.
-- **Gap:** The plan required one lifecycle and stale-callback protection but did
-  not specify resource authority across asynchronous preparation/start replies.
-- **Reach:** NativeCapture/CaptureTermination retain take state; the stream owner
-  owns only SDK operations. Selected inputs inherit cancellation and cleanup
-  protection without a second take lifecycle or test-only production flags.
-- **Verdict:** Sound. Each cleanup acts on the resources it actually owns, and
-  obsolete work acquires no authority over a newer take.
-- **Confidence:** High.
-
-### Retain attempted SDK resources and join startup before drain — sound, high confidence
-
-When: 21c.
-
-- **Choice:** A screen stream's asynchronous start can acquire a resource before
-  returning success or failure. The SDK operation owner records the attempt before
-  awaiting it. If discard arrives during that wait, one cached drain task joins
-  startup and then stops each attempted stream once, including partial failure.
-  It prevents starting the next system-audio stream after drain owns the inputs.
-  Caller cancellation reaches only the startup task, with checks before each SDK
-  operation; it does not cancel drain. For example, canceling a held video start
-  still releases that video after its reply and never opens the audio stream.
-- **Gap:** The plan required a single physical drain, but did not specify how a
-  pending SDK start or partially acquired failed stream retained that authority.
-- **Reach:** ScreenCaptureInput uses this owner for real SDK operations. NativeCapture
-  still owns take state and termination; the resource owner has no recording,
-  pause, publication, source-allocation or project state.
-- **Verdict:** Sound. An error does not prove a resource was never acquired. Joining
-  startup then independently draining retains the cleanup obligation and prevents
-  both missed and repeated physical stops.
-- **Confidence:** High.
-
-## Preserve query authority while preparing owner attribution (2026-10-01)
-
-### Keep the retained query implementation separate from the new worker
-
-- **When:** 24z owner-profile preparation and root integration.
-- **The choice:** The slow-query diagnostic used a worker that is now missing.
-  Keep that failed measurement and its identity intact. A future CPU profile uses
-  the exact retained query code and catalog in a separate checkout, with every
-  compiled file and local import checked. A separately identified current worker
-  may perform startup workspace cleanup, but the profiled query must invoke no
-  native operation. For example, changing camera admission on main cannot quietly
-  change the query implementation being profiled. Rebuilding a replacement and
-  assigning it the missing worker's authority would conceal a changed input.
-- **The gap:** The original worker's loss left attribution unavailable; the plan
-  did not specify how to resume that diagnosis while other implementation progressed.
-- **The reach:** Future attribution keeps the original measurement, query code and
-  new worker identities distinct. The retained checkout must remain available;
-  neither its preparation nor a later CPU trace establishes the latency budget.
-- **Verdict:** sound; preserves the failed cohort and makes the new experiment's
-  authority explicit without replacing a frozen runtime.
-- **Confidence:** high. Actual profile dispatch and attribution remain unverified.
-
-### Sample the service through opt-in IPC and retain bounded cleanup
-
-- **When:** the same preparation pass.
-- **The choice:** The parent harness sends start/stop messages over its existing
-  inter-process channel to the service. The service records its own CPU samples
-  only while delivering the requested rows; the parent's comparisons and report
-  writing occur afterward. If a read stalls or memory exceeds the operator guard,
-  the harness first requests a partial trace and starts transport closure. It
-  reserves time for flushing and shutdown, then may stop only its own still-live
-  child process. A bare process number can be reused after exit and is not cleanup
-  authority. The chosen guards are 60 seconds per arm, 180 seconds overall and
-  1 GiB service RSS; they bound this diagnostic, not the product's latency contract.
-- **The gap:** The plan required bounded owner attribution but did not prescribe
-  sampler placement, interrupted-trace delivery or cleanup ownership.
-- **The reach:** Instrumentation is opt-in harness code; normal service operations
-  and production schemas remain unchanged. Sampler overhead, idle time and unknown
-  frames stay visible rather than becoming a claim of exclusive query CPU cost.
-- **Verdict:** sound; measures the intended process and gives interruption a bounded
-  cleanup path without adding production instrumentation or raw-PID signaling.
-- **Confidence:** high for the ownership decision. Synthetic lifecycle controls pass;
-  actual service integration and the query profile remain open.
-
-
-### Preserve the exact closed mapping inside the source — sound, high confidence
-
-When: 21d (2026-10-01).
-
-- **Choice:** A camera source used to depend on its take's external timestamp file.
-  Admission now retains the original closed bytes under the source directory,
-  and its receipt identifies those bytes. Deleting the external file or moving a
-  portable project therefore leaves the same evidence available. It never reads
-  an implicit parent directory or replaces a conflicting local snapshot.
-- **Gap:** The plan required self-contained mapping evidence without specifying
-  how the original byte identity survived movement.
-- **Reach:** Publication, recovery, fresh acquisition import and portable packages
-  share the existing publication-member inventory. No new media role or catalog
-  is introduced, and later lifecycle work must supply this same evidence.
-- **Verdict:** Sound. Keeping the original bytes preserves the evidence's meaning
-  without manufacturing another timing representation.
-- **Confidence:** High.
-
-### Retain camera facts through the existing journal parser — sound, high confidence
-
-When: 21d.
-
-- **Choice:** Camera proof needs to remember which journal bytes established its
-  source identity, common origin and pauses before finalization. The existing
-  parser can retain that byte prefix directly; a fake audio callback is no longer
-  required to request it. Reading through a supplied prefix always checks its
-  length and hash. Later terminal rows may still be appended, but that prefix
-  does not attest their state or duration payload. Admission separately keeps the
-  complete journal, while the camera verifier refuses later origin/pause changes.
-- **Gap:** The plan required shared journal authority, while prefix retention
-  previously followed the packed-audio callback rather than the evidence need.
-- **Reach:** Audio parsing and its existing defaults remain unchanged. Camera
-  proof uses the same torn-tail, sequence and exact-byte interpretation, so
-  later producers cannot quietly substitute another parser or clock history.
-- **Verdict:** Sound. One parser decides what the journal says; requesting its
-  byte identity does not create a second lifecycle owner.
-- **Confidence:** High.
-
-### Keep the picture digest's original timescale — sound, high confidence
-
-When: 21d.
-
-- **Choice:** A picture digest includes its exact native timestamp serialized at
-  a particular tick rate. New receipts retain that positive native rate along
-  with exact rational support. Suppose an older unbound receipt lacks it: the
-  verifier may read the actual original raw movie through one held ordinary
-  descriptor, check its bytes, and obtain that rate. If the raw authority is gone,
-  proof-bearing admission refuses; guessing the canonical movie's rate could
-  change the digest's meaning. Neither the old receipt nor its probe identity is
-  rewritten to imply production allocation.
-- **Gap:** Historical receipts retained the digest but omitted its timestamp
-  serialization rate; the plan forbade fabrication without specifying this
-  truthful remaining verification boundary.
-- **Reach:** New sources are portable without raw media. Historical raw-less
-  sources do not gain that claim automatically. Canonical support and offsets
-  remain exact rational values rather than projected integer labels.
-- **Verdict:** Sound. Verification uses an existing physical authority or refuses
-  its missing scope instead of silently changing the preservation contract.
-- **Confidence:** High.
-
-### Exercise mapping growth through the actual internal reader — sound, high confidence
-
-When: 21d.
-
-- **Choice:** A real mapping file can grow after it was opened. A deterministic
-  fixture opens the existing reader, appends bytes and checks refusal beyond its
-  captured boundary, alongside stable and torn input. Only that reader's internal
-  package constructor/next operation is visible to the fixture; there is no public
-  flag or alternate production path.
-- **Gap:** The reader's initial file-size limit alone did not bound subsequent
-  reads, and the production consumer needed a meaningful growth control.
-- **Reach:** The bounded reader continues to serve publication and admission.
-  Its narrow package visibility is an internal fixture boundary, not caller API.
-- **Verdict:** Sound. The control observes real-file behavior at the actual owner,
-  without asserting internal counters or building a parallel parser.
-- **Confidence:** High.
-
-### Share the capture implementation through an editing specialization — sound, high confidence
-
-When: 21f1 durable capture-facts extraction.
-
-- **Choice:** When native reports a finished take, both service paths use the same
-  implementation to check its identity, sequence and source duration. The installed
-  revision store extends that implementation only to create the first editable
-  span or remove its editing rows. Those additions run before the enclosing SQL
-  transaction commits: if the lifecycle write fails, its source and editing changes
-  are rolled back together. The fresh store has no such editing additions.
-- **Gap:** The plan required one surviving capture owner and atomic installed
-  behavior without choosing inheritance or composition for the mixed store.
-- **Reach:** The fresh service uses the capture store as its one catalog connection;
-  the installed service keeps its actual editing owner. Slice 23 can remove the
-  editing specialization without copying or replacing capture lifecycle logic.
-- **Verdict:** Sound. This preserves the real consumer transaction while avoiding
-  forwarding methods, observer-based commits and a second lifecycle or catalog.
-- **Confidence:** High.
-
-### Retain the installed recording field until its consumers leave — sound, high confidence
-
-When: 21f1 durable capture-facts extraction.
-
-- **Choice:** The installed app still reads a recording's `currentRevisionId` to
-  open its existing edit. That nullable field stays in the shared recording row;
-  a fresh capture leaves it null and creates no editing revision. Slice 23 removes
-  the field together with the old span and app consumers, rather than treating it
-  as permanent metadata for new projects.
-- **Gap:** Splitting capture ownership exposed an editing field in the existing
-  row shape; the checkpoint had to preserve real installed consumers without
-  introducing a migration or a translating wrapper.
-- **Reach:** New capture consumers cannot infer project existence from this field.
-  The field and its old consumers were removed at hard cutover. The later
-  approved personal switch disposed of the duplicate old library at the user’s
-  explicit instruction; the canonical source fixture remains intact.
-- **Verdict:** Sound. The temporary field has named live consumers and an explicit
-  removal boundary; it does not select a composition or duplicate editing state.
-- **Confidence:** High.
-
-## 21e — Caller-authored capture projects
-
-### Bound the raster comparison to its real authority — sound, medium confidence
-
-When: 21e isolated media verification.
-
-- **Choice:** A source PNG and the same picture placed in a project pass through
-  different existing image contexts. On this numeric fixture their opaque sRGB
-  pixels differ by at most one 8-bit RGB code, dispersed across the image. The
-  fixture permits that measured rounding only when comparing these two paths.
-  It still compares project replacement, undo and relocation pixels byte for
-  byte, and uses exact clock/sample receipts and black unsupported regions.
-  Deliberately selecting the wrong source picture or moving camera onset earlier
-  fails through the same bounded comparator.
-- **Gap:** The plan required exact selected pictures but did not distinguish
-  picture identity from two independently rounded raster encodings.
-- **Reach:** This does not define a codec tolerance or approve color conversion
-  generally. A new fixture or image path needs its own evidence; arbitrary
-  visual drift cannot inherit this allowance.
-- **Verdict:** Sound. The comparator follows the demonstrated fixture boundary
-  while negative controls preserve its ability to catch the target mistakes.
-- **Confidence:** Medium; the parent explicitly accepted this bounded interpretation.
-
-### Use supported-color input without changing old media — sound, high confidence
-
-When: 21e source prerequisite.
-
-- **Choice:** The historical prerecorded source declares SMPTE-C primaries,
-  which the current renderer refuses without explicit conversion. The test now
-  authors separate numeric Rec.709 pixels and encoder tags, then sends that new
-  input through the real prerecorded capture/publication owners. Existing source
-  bytes and their refusal remain intact. Its optional input pacing prevents
-  writer backpressure from deciding which fixture pictures survive; it makes no
-  hardware throughput claim.
-- **Gap:** The source-adoption fixture's color profile had never been accepted
-  for project rendering, and the plan did not supply a supported-color source.
-- **Reach:** Existing fixture callers retain their color/pacing defaults. No
-  production color policy, accepted publication, source identity or installed
-  worker changes. Broader camera/color support remains separate work.
-- **Verdict:** Sound. New declared input supplies the missing prerequisite
-  without silently converting accepted media or broadening production scope.
-- **Confidence:** High; the parent explicitly authorized the separate fixture.
-
-### Judge replacement isolation with an explicit tiny source — sound, high confidence
-
-When: 21e independent replacement and visual review.
-
-- **Choice:** The existing bound-camera proof fixture is a 32×16 picture. The
-  caller explicitly stretches it into the selected 160×120 project plane when
-  replacing camera or screen. The result visibly enlarges its stripes and
-  source-edge artifacts. The test checks selected source/time, changed target
-  plane, untouched other plane and PCM, exact undo and exact relocated output.
-- **Gap:** The plan requested independent replacement without choosing a
-  replacement source or claiming representative visual quality.
-- **Reach:** This proves edit isolation and provenance, not presentation quality.
-  A later presenter design or physical camera acceptance needs representative
-  media and its own human judgment.
-- **Verdict:** Sound. Reusing the admitted proof-bearing source keeps ownership
-  visible; the complete unprimed review records the enlargement rather than
-  treating its blur as an unnoticed product-quality success.
-- **Confidence:** High.
-
-## 23d — Native export consumer parity
-
-### Keep unanswered replies separate from definite refusals — sound, high confidence
-
-When: 23d.
-
-- **Choice:** If the service accepts a retry but its reply is unreadable, times out
-  or is lost as the service stops or becomes unavailable,
-  the menu keeps its last readable receipt, shows the read failure, and includes
-  that export in ordinary status polling even when the old receipt said it had
-  stopped. A valid status resolves that uncertainty without repeating the retry.
-  A definite refusal stays an action failure and does not make a stopped export
-  poll forever. A valid read also cannot erase a separately refused action.
-- **Gap:** The old consumer silently treated decoding failure as success. Its
-  single action-error slot could not represent both a refused action and an
-  unreadable observation with different recovery rules.
-- **Reach:** Reply uncertainty is temporary view state in the existing export
-  state owner, not a second lifecycle or retry queue. It uses the existing shared
-  unanswered-request classification and does not schedule an additional mutation
-  or change transport deadlines. The service still owns
-  export state, retry, publication and cleanup.
-- **Verdict:** Sound. One visible uncertainty survives until authoritative
-  status resolves it, and the controller does not manufacture a successful
-  outcome from a reply it could not understand.
-- **Confidence:** High; the stopped-retry failure was reproduced before the fix.
-
-### Retain one traversal failure while discovering later exports — sound, high confidence
-
-When: 23d.
-
-- **Choice:** Suppose one saved export has an unreadable status and the next
-  export is valid. Discovery keeps the first failure visible, admits the valid
-  export, and follows the remaining pages. Reaching the final page does not
-  clear the earlier failure. A later wholly successful discovery clears it.
-- **Gap:** The existing global discovery-error slot did not specify whether one
-  bad item's status should stop later independent items or disappear at the
-  traversal's successful end.
-- **Reach:** The menu reports the first unresolved traversal problem rather
-  than collecting a new persistent error catalog. Users can still see and act
-  on the other service-described exports. Malformed list identities use the
-  same truthful failure path rather than being silently filtered out.
-- **Verdict:** Sound. A local read failure does not hide unrelated exports or
-  become a false success, while the existing consumer remains the sole owner.
-- **Confidence:** High.
-
-### Name the received owner without broadening project authoring — sound, high confidence
-
-When: 23d.
-
-- **Choice:** A received export carries one recording or project target. The
-  native record stores that distinction explicitly, and its menu names it. A
-  recording deletion cannot remove a project export merely because the two
-  owner identifiers have the same text. Receipts with neither or both owner
-  fields refuse, and a response for a different export ID cannot replace the
-  requested export's visible state.
-- **Gap:** The old record shape assumed every response belonged to a recording,
-  even though the existing service already returned real project receipts.
-- **Reach:** Recording save-panel choices and outbound create/replay requests
-  remain recording-owned until the separate cutover. No project chooser,
-  automatic project, forwarding facade or new service schema is introduced.
-- **Verdict:** Sound. The consumer preserves two existing ownership namespaces
-  instead of guessing ownership or inventing a new authoring flow.
-### Name automatic capture admission by its allocated source — sound, medium confidence
-
-When: 21f2a, implementation `e339a58f`.
-
-- **Choice:** A completed take may be reported again after a restart. Its internal
-  admission request uses `capture:<allocated source ID>` so both reports find the
-  same acquisition, the durable record that owns imported source material. If a
-  replay supplies a different directory or recording identity, it conflicts
-  instead of silently pointing that record elsewhere. A separate request per
-  notification would create duplicate imports; naming by recording alone would
-  assume that a recording can never own another source in later work.
-- **Gap:** The parent plan required durable replay but did not choose its internal
-  naming scheme. The narrowed child contract accepted source-based naming without
-  prescribing the literal request string.
-- **Reach:** The coordinator must use the allocated source identity. The internal
-  request occupies the existing request-ID namespace; an explicit import using
-  the same string conflicts rather than being adopted as capture work. This does
-  not add a new public request field or a second request table.
-- **Verdict:** Sound. The source is the imported thing whose identity must survive
-  repeated delivery. A namespace collision fails visibly instead of changing
-  ownership, although this internal spelling is an implementation choice.
-- **Confidence:** Medium.
-
-### Save a growing set of immutable observations inside the acquisition — sound, high confidence
-
-When: 21f2a, implementation `e339a58f`.
-
-- **Choice:** Suppose capture is settled but the video file cannot yet be opened.
-  Admission first reserves the acquisition and its existing queue job in one SQL
-  transaction. Execution can then freeze the journal's identity and fail on the
-  missing video. After restart, retry validates every saved observation before it
-  learns anything new. A missing map entry means “not observed”; a null entry
-  means “looked and absent.” New observations extend the record; prior ones never
-  change. The queue target remains the acquisition ID and its input stays the
-  constant `capture`, so adding observations does not invent another job.
-- **Gap:** The broad plan required durable pending/failed/ready facts but left open
-  how to retain partial admission without a second request store. The child
-  contract adopted this acquisition-owned representation before implementation.
-  The exact absent/unobserved representation and immutable job input remained
-  implementation decisions.
-- **Reach:** A retry cannot silently import different bytes or newly appearing
-  optional material. An explicit `acquisition.import` request still freezes its
-  entire source before admission; it does not inherit this deferred behavior.
-  Future controller code must submit the existing job, not serialize the growing
-  observation map into a new job identity.
-- **Verdict:** Sound. One owner retains both authority and partial progress, while
-  the existing queue owns retries. Requiring every file before reserving anything
-  would lose the durable failed/pending outcome the capture workflow needs.
-- **Confidence:** High.
-
-### Let the shared capture store vouch for a settled usable source — sound, high confidence
-
-When: 21f2a, implementation `e339a58f`.
-
-- **Choice:** An admission caller names a recording, but cannot pass a fabricated
-  “complete” record. Inside the queue's shared transaction, AcquisitionStore asks
-  the real CaptureStore for the stored recording and allocated source. A live,
-  canceled or no-video take is refused. A complete or interrupted take with a
-  positive duration can proceed. Later, the normalized journal must name that
-  allocated source before any ready evidence or assets are published.
-- **Gap:** The original coordination checkpoint did not specify how the
-  acquisition owner would obtain trustworthy capture eligibility. Root review
-  made authoritative same-connection lookup a child requirement; the focused
-  `settledSource` read and passing that owner into admission implement it without
-  duplicating the lifecycle rules.
-- **Reach:** A caller cannot turn an unsuccessful take into a successful empty
-  acquisition, or bind another source's journal to this take. Future control
-  wiring must share the same catalog connection and use the allocated identity;
-  a copied lifecycle object or another connection cannot supply authority.
-- **Verdict:** Sound. Stored capture facts establish eligibility and the journal
-  independently proves the material's source, before downstream publication.
-- **Confidence:** High.
-
-## 23e — Native preview consumer parity
-
-### Separate presentation from the one preview lifetime — sound, high confidence
-
-When: 23e.
-
-- **Choice:** When a preview reply arrives, the existing controller checks its
-  owner, revision and delivery lease before asking a presenter to show it. The
-  concrete presenter still creates the ordinary native window and player for
-  a user's recording preview. A controlled check supplies a sink at that same
-  platform boundary, so it can inspect the request to present media without
-  creating a window, player or audible output.
-- **Gap:** The old controller mixed service lifetime with AppKit/AV objects;
-  its external Call seam alone could not test ready receipts without playback.
-- **Reach:** The presenter owns no service state, decoding policy or lease.
-  Close/retry/player-failure events return to the same controller, and stale
-  events remain fenced by the preview generation. There is no test-only autoplay
-  switch or second controller to keep synchronized with production.
-- **Verdict:** Sound. The actual platform boundary is replaceable for checks,
-  while ordinary production presentation and the existing lease owner remain.
-- **Confidence:** High.
-
-### Give two consumers one target decoder — sound, high confidence
-
-When: 23e.
-
-- **Choice:** A preview's outer answer and published movie need the same
-  recording/project distinction already required by native export records.
-  That identity and its exactly-one-owner decoder now live in shared native
-  controls. Both consumers use it directly; real recording menu actions pass
-  a recording target rather than going through a compatibility overload.
-- **Gap:** Extending the old recording-only preview shape locally would create
-  another copy of the owner-decoding rule established in 23d.
-- **Reach:** Same-text IDs in different namespaces remain distinct through
-  requests, liveness checks and closing. This adds no project picker or implicit
-  project and does not generalize recording-only export creation.
-- **Verdict:** Sound. One existing identity rule gains its second real consumer
-  without creating a second schema interpretation or forwarding facade.
-- **Confidence:** High.
-
-### Replay historical receipts against an explicit clock — sound, high confidence
-
-When: 23e.
-
-- **Choice:** Retained public preview receipts contain expired delivery leases.
-  The controlled test leaves their values intact and supplies a clock before
-  their recorded expiry; later clock advances exercise renewal and expiration
-  without waiting in real time. Production uses the real clock by default.
-  The test sends no token to a live service and opens no historical cache file.
-- **Gap:** Wall-clock validation made retained evidence unusable for a bounded
-  decoder/lifetime check even though the metadata contract was still relevant.
-- **Reach:** Passing proves interpretation and controlled lifetime behavior,
-  not that the old lease or file is usable now. Actual AV playback, audible
-  quality, media generation and installed acceptance retain their own evidence.
-- **Verdict:** Sound. Time is an explicit external boundary; archived evidence
-  is neither rewritten nor promoted into a live-service claim.
-- **Confidence:** High.
-
-## 21f2 — Fresh capture coordination
-
-### Discover each settled capture source through its existing acquisition job — sound, high confidence
-
-When: 21f2, public discovery contract before implementation.
-
-- **Choice:** Fresh recording reads and capture replies carry `sourceAdmissions`,
-  a bounded per-source list. Each entry names the allocated source and its existing
-  acquisition/job identities. Null acquisition and job identities, with no admission error, mean
-  that capture settled but admission has not succeeded yet. If an explicit import
-  already owns the internal request key, the entry derives a refusal from that
-  durable row. The completed take stays readable; it never borrows the other
-  import’s job or falsely calls a permanent conflict pending. Admitted entries reuse
-  the queue's real public job receipt; full metadata stays in `acquisition.get`.
-- **Gap:** The coordination plan required truthful source readiness but had not
-  chosen how a capture caller discovers the acquisition ID. Root accepted this
-  contract after inspecting native independent camera results and existing source
-  descriptors, before implementation.
-- **Reach:** This selector-free pass emits only authoritative eligible primary
-  sources. The later selected-camera pass adds its real independent source through
-  the same shape, without changing ordinary acquisition media roles. Reads cannot
-  admit work or retry failure, and a swallowed notification error cannot imply
-  admission succeeded.
-- **Verdict:** Sound. The list reflects independent source identities while the
-  existing acquisition and job owners retain all publication and retry facts.
-- **Confidence:** High.
-
-### Recover missed source admission from the capture and acquisition records — sound, medium confidence
-
-When: 21f2, coordination implementation.
-
-- **Choice:** A take can finish while the job queue is full. Its capture record
-  keeps the successful finish, while its source entry shows no acquisition or job
-  yet. Startup and the queue's existing capacity notification select a bounded
-  batch of settled primary sources with no matching acquisition intent. Each
-  admission still commits through the existing queue transaction. Once a job
-  exists, this recovery path leaves its failure or cancellation alone; only an
-  explicit job retry starts another attempt.
-- **Gap:** The plan required durable recovery without another queue or table but
-  did not choose how a notification lost before admission would be rediscovered.
-- **Reach:** Settled capture facts are sufficient to recover missed primary-source
-  admission. There is no second admission backlog to reconcile, filesystem scan,
-  timer or hidden retry of failed import work. A conflicting request remains a
-  visible refusal derived from its existing acquisition row.
-- **Verdict:** Sound. The same durable owners distinguish an unadmitted source
-  from an admitted failed job, preserving capture success through backpressure.
-- **Confidence:** Medium. This chooses an on-demand catalog selection strategy;
-  it makes no large-library performance claim.
-
-## 23g — Explicit native project export requests
-
-### Pin the physical destination before the first request — sound, medium confidence
-
-When: 23g, malformed destination review and actual chooser-alias tracer.
-
-- **Choice:** A person chooses a folder through an alias. The app resolves that
-  folder with the operating system's realpath before sending the export request,
-  then preserves that same physical pathname and filename on every resend. If
-  the alias is later pointed somewhere else, the pending export still names the
-  originally chosen folder. Receipts must match that destination.
-- **Gap:** The plan required an immutable destination but had not reconciled the
-  chooser pathname with the broker, which already reports a realpath. Foundation
-  prettifies macOS private-directory aliases, so its URL resolver did not match
-  the actual broker; the operating system resolver supplies the same authority.
-- **Reach:** This deliberately normalizes the submitted directory before first
-  admission. It changes no filename, save-panel options or media settings; it
-  uses the existing OS resolver, with no custom resolution algorithm, protocol
-  operation or persistent state. A missing selected
-  folder is a visible refusal. Resend/status never resolve the alias again.
-- **Verdict:** Sound. Accepting an arbitrary first receipt destination would hide
-  a mismatch, while comparing an unresolved alias would refuse legitimate exports.
-- **Confidence:** Medium. This chooses the moment the physical folder is pinned;
-  the owned symlink and retargeted-alias control verifies its intended behavior.
-
-### Use the export identity to fence a destination choice — sound, high confidence
-
-When: 23g, held owner-read and chooser review.
-
-- **Choice:** Allocate the ordinary export UUID when its destination choice
-  begins. If its project is forgotten while the folder chooser is waiting, a
-  later result cannot send an export or clear a newer choice. The same UUID then
-  becomes the request identity if the person chooses a destination.
-- **Gap:** Owner and kind alone cannot distinguish two choices for the same
-  target. The plan fixed request replay identity but had not chosen this earlier
-  asynchronous choice boundary.
-- **Reach:** Canceling still admits nothing. No second token registry or take
-  lifecycle is created; known request/record identities also fence late replies.
-- **Verdict:** Sound. One existing export identity binds the asynchronous work
-  that can actually submit it, while different target namespaces stay independent.
-- **Confidence:** High.
-
-### Discard a stale discovery pass and use the existing resweep — sound, high confidence
-
-When: 23g, delayed status discovery across owner forgetting.
-
-- **Choice:** If a project is forgotten while an export discovery pass is
-  awaiting a reply, the app drops that old pass and requests one fresh sweep.
-  Existing records for other owners remain intact. The fresh service list is
-  authoritative; the stale reply cannot restore a deleted project's export.
-- **Gap:** An unseen export has no local request to fence its delayed discovery
-  receipt, and the plan had not selected how discovery should recover.
-- **Reach:** A bounded generation counter and the existing pending-sweep flag
-  replace the stale pass. There is no target tombstone registry, extra timer,
-  automatic export retry or second export lifecycle.
-- **Verdict:** Sound. It preserves namespace isolation without retaining an
-  indefinitely growing list of deleted targets in the native consumer.
-- **Confidence:** High.
-
-## 23f — Captured-source lifetime
-
-### Keep canceled import work retryable when native completion wins — sound, high confidence
-
-When: 23f source retirement.
-
-- **Choice:** A user cancels a take while an import still borrows its files. The
-  source owner first stops and joins that import with the queue's existing job
-  cancellation operation. The native recorder can then report that completion
-  already won. In that case the temporary admission fence is released, the
-  completed source is announced again, and the stopped import remains eligible
-  for an explicit retry. A successful discard instead retires its unfinished job
-  resources while keeping the original acquisition request identity.
-- **Gap:** The plan required one shared fence but did not choose which queue
-  cancellation contract to use when discarding the take can still be refused.
-- **Reach:** Borrower cancellation does not invent permanent acquisition deletion
-  or silently retry failed work. Ready acquisitions stay outside donor retirement.
-- **Verdict:** Sound. Permanent owner deletion would prevent legitimate retry after
-  completion wins; authoring canceled before native responds would destroy that
-  completed-take outcome. Both public race and omission controls pin the choice.
-- **Confidence:** High.
-
-### Require the held descriptor for removal of an existing recording directory — sound, high confidence
-
-When: 23f native descriptor correction.
-
-- **Choice:** The service opens the donor directory, but its name is replaced
-  before native removal runs. Native compares the selected entry with the held
-  descriptor and refuses the mismatch, leaving both directories alone. An
-  existing target with no supplied descriptor is also refused. A target already
-  absent succeeds without reaching outside that name.
-- **Gap:** An actual scratch control showed the previous native operation ignored
-  the supplied descriptor and deleted the replacement. The correction could have
-  retained an unanchored fallback for callers omitting it.
-- **Reach:** Every real removal caller must carry its directory lifetime into the
-  native operation. Historical workers remain separately pinned and cannot prove
-  this corrected contract; the new worker needs its own source and binary identity.
-- **Verdict:** Sound. The existing service already supplies that descriptor; the
-  fallback would preserve the observed wrong-directory removal. Direct native
-  fixtures now exercise the same inherited descriptor contract.
-- **Confidence:** High.
-
-Internal owner decomposition, fixture extraction and bounded catalog paging used
-explicitly delegated implementation discretion. No new persisted field, queue,
-periodic cleanup policy, project creation or asset garbage collection was added.
-
-## 21f3a — Independent native publication authority
-
-### Pin source authority in one durable receipt — sound, medium confidence
-
-When: 21f3a native prerequisite.
-
-- **Choice:** A camera directory can refuse publication after the primary source
-  has finished. The primary now has a durable receipt that ties its source
-  identity and timing to a frozen journal copy and the hashes of its canonical
-  media and publication proofs. Recovery reads that same receipt. It does not
-  assemble a fresh claim from whichever filenames happen to remain. Camera keeps
-  its already-stable journal and receives the same receipt representation.
-- **Gap:** The plan required one immutable source-evidence representation but
-  left its storage shape and relationship to existing media proofs unspecified.
-- **Reach:** Later controller reporting and source adoption can use the same
-  bounded authority. This adds source evidence files and linear file hashing;
-  it adds no queue, media role, model dependency, or stop-time guarantee. Existing
-  media publishers still verify the actual audio and camera proofs, and the
-  original journal retains later lifecycle records.
-- **Verdict:** Sound. The receipt gives every reader the same publication claim
-  while preserving the existing media owners and whole-file identity checks.
-- **Confidence:** Medium. This deliberately spends file-reading work to retain a
-  directly verifiable publication boundary; large-take stop performance is not
-  established by the tiny prerecorded gate.
-
-### Preserve settled observations when a retry is canceled — sound, high confidence
-
-When: 21f3a cancellation regression.
-
-- **Choice:** Suppose the primary has published while the camera is still
-  pending. Canceling a subsequent attempt leaves the primary's published
-  observation intact instead of replacing it with a pending cancellation error.
-  That observation records what was verified earlier. It does not grant access
-  to a canceled or deleted recording, and it is not a ready acquisition asset.
-  An ordinary retry still verifies the source's current media and proof bytes.
-- **Gap:** The bounded observation contract did not specify how cancellation of
-  another publication attempt should affect facts already reported as settled.
-- **Reach:** The controller can preserve truthful source progress without
-  inventing another cancellation owner. Source lifetime checks in 23f govern
-  donor availability; independently owned ready acquisitions retain their own
-  lifetime. Retained-file native recovery proves only what its bytes authorize.
-- **Verdict:** Sound. Canceling an attempt cannot erase completed publication,
-  while historical publication cannot bypass current ownership and admission.
-- **Confidence:** High.
-
-## 23h — Native library consumption
-
-### Keep a cursor trail, not a second project catalog — sound, medium confidence
-
-When: 23h, library page extraction.
-
-- **Choice:** A person moves from one Projects page to the next, then back. The
-  controller remembers only the service cursors needed to request those pages;
-  it does not retain past project rows or scan the library to reconstruct recency.
-  Each request asks for five projects, matching the existing bounded recording
-  menu. The displayed order remains the service's ascending creation order.
-- **Gap:** The plan required explicit bounded navigation but did not choose its
-  page size or backward-navigation storage.
-- **Reach:** Navigation retains one small cursor per explicitly visited page;
-  metadata stays authoritative at the service. There is no catalog, pagination
-  endpoint, project association or background full-library scan to maintain.
-- **Verdict:** Sound. The current page remains small and backward navigation
-  reuses the public list contract without caching a second library.
-- **Confidence:** Medium. The page size is a reversible menu presentation choice,
-  not a large-library performance claim.
-
-### Publish the library observation into the shared controls value — sound, high confidence
-
-When: 23h, concrete menu and Settings wiring.
-
-- **Choice:** After a library reply, its controller copies its observation into
-  the controls' shared view value. The menu and Settings read that same snapshot;
-  neither issues library requests or settles deletion itself. A person changing
-  capture settings still uses the existing capture owner and preferences.
-- **Gap:** The plan chose a Foundation controller but did not choose how its
-  observations reach the two existing presentation consumers.
-- **Reach:** The controller is the sole asynchronous library writer. The copied
-  value carries no task, catalog connection, clock or lifecycle; it preserves the
-  existing pure menu and Settings consumers without a second read owner.
-- **Verdict:** Sound. It reuses the actual shared presentation boundary and keeps
-  capture/status and aggregate storage independent of project paging.
-- **Confidence:** High.
-
-## 21f3b — Independent camera origin
-
-### Keep fractional first pictures with a downward microsecond origin — sound, high confidence
-
-When: 21f3b native camera clock prerequisite.
-
-- **Choice:** Suppose a camera's first accepted timestamp is 1,000,000.75
-  microseconds and primary video has not started. The stored origin is
-  1,000,000; the picture keeps its exact relative timestamp of 0.75 microseconds.
-  Rounding that origin to 1,000,001 would put the picture before source zero and
-  cause the ordering check to reject it. The existing media writer quantizes its
-  published container timestamps as before. A camera starting after primary
-  keeps the established primary-origin conversion rule.
-- **Gap:** The plan required a demonstrated fractional conversion rule while
-  retaining the existing integer-microsecond source-origin representation.
-- **Reach:** This preserves exact acquisition timing through the camera mapping
-  proof without widening the journal/public source schema or inventing alignment.
-- **Verdict:** Sound. The fractional control passes with downward conversion and
-  fails when only that conversion is changed to nearest rounding.
-- **Confidence:** High.
-
-### Preserve the established-primary fixture by declaring callback order — sound, medium confidence
-
-When: 21f3b preservation gate.
-
-- **Choice:** A camera callback offered before any primary picture can now be
-  accepted. The preservation control first delivers primary, then the delayed
-  camera picture, then the earlier prologue camera callback. That prologue is
-  still observed but is rejected as out of order. The same five accepted
-  pictures and positive camera start remain under test. A separate control keeps
-  the original camera-first callback order and requires the extra early picture.
-- **Gap:** The historical fixture combined an established-primary support claim
-  with a camera callback offered before primary existed. The new contract makes
-  that earlier callback meaningful, so one input order cannot test both claims.
-- **Reach:** The physical input fixture gains an explicit ordering control. It
-  changes no product mode or input policy, and every offered callback remains
-  visible in retained timestamp observations.
-- **Verdict:** Sound. Both acquisition orders are tested, and the intended new
-  support is not hidden by removing the early callback or weakening old timing
-  assertions. Separate encodes do not promise identical decoded pixels; the
-  retained cross-run exception is documented in the slice evidence.
-- **Confidence:** Medium.
-
-## 21f3c — Native source publication recovery
-
-### Distinguish recovered support with a fixed diagnostic — sound, medium confidence
-
-When: 21f3c native checkpoint.
-
-- **Choice:** A process crashes after retaining playable pictures but before it records trusted
-  completion. The published source carries `CAPTURE_RECOVERED` and the bounded message that its
-  support was recovered without trusted ordinary completion. Retry verifies both that code and
-  message. Detailed audio/camera diagnostics stay in their existing pinned media proofs, and the
-  ordinary recovery reply keeps per-track errors. The toolkit makes no editorial decision.
-- **Gap:** The plan required truthful recovery diagnostics but did not choose the source-level
-  diagnostic or whether a later retry could replace its message.
-- **Reach:** Consumers can distinguish recovered publication from ordinary completion without
-  widening the public source fields or treating missing completion as success.
-- **Verdict:** Sound. The diagnostic states the proved mechanical fact; changes to its message
-  cannot silently become the same immutable source authority.
-- **Confidence:** Medium. The wording is reversible before shipping, but receipt identity is not.
-
-### Pin complete verified support with a digest — sound, high confidence
-
-When: 21f3c native checkpoint.
-
-- **Choice:** Two recovered movies can have the same last timestamp while one has an empty gap.
-  The private recovery basis hashes every verified support interval in order, using sorted-key
-  JSON records separated by newlines. Re-verification uses the shared inspector and compares
-  that digest as well as the source duration. A receipt stays small even when support has gaps.
-- **Gap:** The plan required actual verified support in a bounded receipt but did not choose
-  how to retain the complete support without sending timing arrays over the wire.
-- **Reach:** A matching endpoint cannot hide changed availability, and inspection arithmetic has
-  one owner across recovery and staged admission. Whole canonical bytes and media proofs remain
-  independently pinned.
-- **Verdict:** Sound. The digest records all observed support while avoiding a second support
-  representation or an unbounded receipt.
-- **Confidence:** High.
-
-## 21f3 — Empty allocated-source recovery correction
-
-### Empty allocations report one fixed absence fact — sound, medium confidence
-
-When: empty allocated-source native correction.
-
-- **Choice:** A take was allocated, but native startup left its private source directory empty.
-  After managed reconciliation proves capture idle and owns that directory exclusively, the
-  reply says inputs are closed and the source is unavailable with `NO_SOURCE_MEDIA`. Its media
-  receipt has zero duration, no tracks and an explicit missing-journal diagnostic. It does not
-  invent requested tracks or a source receipt to explain an allocation that never wrote a journal.
-- **Gap:** The plan specified an unavailable zero-media result but left its bounded diagnostic
-  and empty-track representation unspecified.
-- **Reach:** The service can settle the never-started take without a fabricated completion or
-  source publication. Directory-only recovery retains its existing per-track diagnostics.
-- **Verdict:** Sound. The result describes complete observed absence; any retained member refuses
-  before this fact can be returned.
-- **Confidence:** Medium. The diagnostic wording remains a product contract once persisted.
-
-### Preserve journal-only callers while exposing typed absence — sound, high confidence
-
-When: empty allocated-source native correction.
-
-- **Choice:** A missing capture journal now has a typed internal distinction inside the existing
-  journal lease owner. The authority-requested recovery caller can receive no journal lease and
-  then prove directory emptiness. Existing journal-only callers still receive their previous
-  `JOURNAL_UNAVAILABLE` error; a missing directory, permissions error or live journal owner never
-  becomes this absence result.
-- **Gap:** The plan required a typed absence trigger without specifying how to preserve existing
-  journal-only error behavior.
-- **Reach:** Absence of a journal is explicitly weaker than source closure. Future callers must
-  perform their own authorized observation rather than interpreting the optional lease as success.
-- **Verdict:** Sound. One owner classifies the filesystem result and no public error or source
-  authority check is relaxed.
-- **Confidence:** High.
-
-## 21f3 — Atomic public camera selection
-
-### Keep receipt identity separate from current donor availability — sound, high confidence
-
-When: 21f3 capture publication persistence.
-
-- **Choice:** Keep each source's last accepted publication receipt beside its
-  latest native observation in the recording's existing publication JSON. The
-  receipt prevents a retry from silently replacing source identity. The current
-  observation decides whether donor work may proceed; a receipt saved earlier
-  does not overrule a new read failure. Already-ready acquisitions own their
-  copies independently.
-- **Gap:** Native can report a published source as pending or unavailable when a
-  retry detects an operational refusal or changed authority. Freezing the whole
-  outcome would retain stale success; forgetting its receipt would lose the
-  identity a later retry must preserve.
-- **Reach:** One bounded JSON value on the existing recording row, with no new
-  lifecycle, ownership table or queue. Public discovery exposes the current
-  typed observation rather than internal receipt-history storage.
-- **Verdict:** Sound. It preserves the native publisher's existing availability
-  changes and immutable source authority through the same capture-facts owner.
-- **Confidence:** High.
-
-### Allocate every selected source destination before starting inputs — sound, high confidence
-
-When: 21f3 empty-start crash verification.
-
-- **Choice:** The existing service allocation step creates a private directory
-  for each allocated source before forwarding native start. The bound camera
-  writer accepts an existing directory only when it is owned, private and empty;
-  probe destinations keep their existing creation behavior.
-- **Gap:** Creating the camera destination during input preparation left a
-  selected take with a missing camera path if the controller died beforehand.
-  Missing storage is not proof of an empty source. Simply accepting any existing
-  directory would also permit the mapping writer to truncate retained evidence.
-- **Reach:** Recovery can close genuinely empty allocated sources through its
-  existing authority check. Retained mapping and unknown members refuse before
-  any camera member is opened, and replay keeps the original allocation.
-- **Verdict:** Sound. Allocation owns destinations; native owns recovery and
-  publication. No missing-directory fallback or second lifecycle is introduced.
-- **Confidence:** High. Actual controller crash and retained-member controls
-  exercise both sides of the boundary.
-
-### Keep completion interpretation in native verification — sound, high confidence
-
-When: 21f3 recovered-source admission review.
-
-- **Choice:** The importer compares the complete native-verified publication
-  authority with the allocated receipt, while retaining generic evidence exactly
-  as normalized. An original completion in an untrusted journal tail does not
-  override native's recovered support.
-- **Gap:** Rechecking completion duration in TypeScript rejected valid recovered
-  authority when the original completion extended beyond retained media.
-- **Reach:** Admission preserves both facts: usable support comes from verified
-  canonical media, and generic evidence still records the original completion.
-  Private recovery authority is removed before the acquisition becomes ready.
-- **Verdict:** Sound. The component that verifies the media and journal owns the
-  completion mode; consumers do not recreate that judgment from one receipt field.
-- **Confidence:** High. The public recovery control preserves the journal bytes
-  and original completion while admitting the shorter verified source.
-
-## 12b — Selected-model preparation verification
-
-### Serve verified local bytes at the external fetch boundary — sound, medium confidence
-
-When: generic model readiness and public preparation checkpoints.
-
-- **Choice:** When a scratch service receives `model.prepare`, its ordinary
-  preparation owner requests every registered model file, verifies the bytes and
-  writes its own receipt. The test supplies those exact bytes from the already
-  verified local model directory at the fetch boundary. A deliberate HTTP failure
-  and a held response make failure, retry and preparing observable. The owner's
-  implementation and public routes run normally; no ready receipt is fabricated.
-- **Gap:** The adoption plan required actual preparation and public state behavior
-  but did not specify whether this proof must contact the live hosting service.
-- **Reach:** This verifies local preparation and transport behavior reproducibly
-  while preserving the selected model and personal files. It cannot establish
-  current host availability, credentials or a live network transfer; those claims
-  remain separate. A live-download check can use the same production owner later.
-- **Verdict:** Sound. The external response is a declared fixture, while byte
-  verification, receipt creation, status, retry and reopen retain their real owner.
-  Existing actual inference supplies the separate execution proof.
-- **Confidence:** Medium. This is sufficient for selected-baseline adoption, but
-  deployment environments can still require a separate live-download check.
-
-## 24z — Historical query owner attribution
-
-### Keep CPU diagnosis separate from latency acceptance — sound, medium confidence
-
-When: bounded owner-profile dispatch.
-
-- **Choice:** After heavy build and media work ends, sample the retained query once
-  per fixture arm even though ordinary foreground and background apps remain
-  active. Use the samples to identify which existing script owners perform work;
-  retain the host context and treat elapsed time as diagnostic only. A latency
-  acceptance run still needs its own appropriate conditions and unchanged budget.
-- **Gap:** The earlier measurement was contended, and waiting for a completely
-  inactive personal computer would delay useful owner diagnosis. The plan needed
-  a distinction between locating work and establishing its latency guarantee.
-- **Reach:** The profile can justify investigating redundant metadata reads. It
-  cannot explain the original slow cohort, prove source-cardinality causality or
-  substitute for a warm p95 measurement after an actual owner change.
-- **Verdict:** Sound. Exact results, bounds and native-call exclusions remain
-  checked; foreground activity limits the interpretation instead of disappearing
-  from the report or weakening the performance requirement.
-- **Confidence:** Medium. Sampling and host activity affect precision; source
-  inspection and contract tests must support any optimization selected from it.
-
-## 23i — App-owned process and discovery
-
-### Share the app-owned socket across composition roots — sound, high confidence
-
-When: 23i process and consumer preservation.
-
-- **Choice:** The fresh project service uses the existing protocol's runtime
-  directory for its socket and startup lock. Its catalog, originals and prepared
-  models still live in the separate fresh library.
-- **Gap:** The temporary service bound a library-local socket, while ordinary
-  CLI/MCP discovery looked for the app-owned socket outside that library. An
-  agent could call the service only by supplying a special socket path. Adding
-  a second listener or discovery fallback would leave two authorities to retire.
-- **Reach:** Both composition roots compete for the same startup ownership when
-  deliberately pointed at one home. A ready project service is discoverable by
-  the existing clients; no extra path selection or automatic engine switch is
-  introduced. The installed composition and app bundler stay unchanged until
-  hard cutover.
-- **Verdict:** Sound. One app has one service socket, and persistent catalog
-  placement does not need to change that transport contract.
-- **Confidence:** High. Existing discovery, startup locking and app health
-  consumers already define the shared authority.
-
-## 09c — Standalone audio export
-
-The [audio export ledger](assets/09c-audio-export/choices.md) is the canonical
-record for full-PCM reuse and disk cost, separate mixing/encoding identities,
-demonstrated formats, the fresh-catalog policy and existing native consumer
-semantics. Its [native ledger](assets/09c-native-audio-file/choices.md) owns the
-standard M4A timeline, presented content versus decoder padding, and bounded
-whole-file conversion. These choices were reviewed during root integration;
-all remain sound. The two medium-confidence tradeoffs are PCM temporary disk
-cost and using the existing MP4 mux for an AAC-only M4A file. No editorial choice
-or new permission gate is delegated to the product.
-
-## 24z1 — Fresh source metadata batches
-
-The [metadata owner ledger](assets/24z1-source-metadata-resolution/choices.md)
-records sharing complete source facts only within a synchronous validation phase,
-separating those facts from file-address resolution, and preserving scene
-preparation ordering. All three remain sound with high confidence after root
-integration. No map survives a publication await or another request; full source
-support, acquisition authority and both dependency checks remain required.
-
-## Prepared admission and caller preparation
-
-The [prepared admission ledger](assets/24z2-prepared-admission/choices.md)
-owns first-encounter resource order and real database-work observation through
-queued recovery. The [capacity ledger](assets/24z3-prepared-capacity/choices.md)
-owns the tiny declared-duration test of the native boundary. These remain sound,
-with high confidence: resources are deduplicated without erasing clip occurrences,
-and the boundary test drives actual admission without rendering a multi-GiB file.
-
-### Keep readiness checking separate from the caller's inference workflow
-
-- **When:** 25a integration.
-- **Choice:** A caller needs a prepared model before generating speech. A bounded
-  checker exercises public preparation and reopen in the existing isolated library,
-  preserving the empty fixture project. The fresh caller then discovers and chooses
-  its generation/edit calls independently. Running a scripted generation in this
-  checker would prime or substitute for that consumer journey.
-- **Gap:** The plan required model readiness and independent caller acceptance but
-  did not specify how to establish readiness without running the caller's task.
-- **Reach:** The maintained checker uses existing model and transport owners; it
-  adds no production provider, receipt-copy path or inference defaults. Its separate
-  [readiness evidence](assets/25a-model-readiness/README.md) cannot stand in for
-  generated-word, delivery, listening or installed acceptance.
-- **Verdict:** Sound; each check establishes its own prerequisite without assigning
-  editorial choices to the toolkit or falsely declaring the whole journey done.
-- **Confidence:** High.
-
-## Window bindings and source-caller evidence
-
-The [binding ledger](assets/24z4-prepared-bindings/choices.md) owns its tiny
-repeated-stream fixture and scratch path relocation control. It remains sound,
-with high confidence: each execution window must resolve current paths while
-preserving every clip occurrence and distinct stream. This adds no persistent cache.
-
-### Preserve binary evidence once while retaining every filename identity
-
-- **When:** 25b source-caller evidence banking.
-- **Choice:** Split, undo and held-frame checks intentionally produce identical
-  files. The evidence stores one blob for each distinct byte digest and a mapping
-  from every captured filename to that blob. All request/reply identities and frame
-  names remain inspectable; duplicate audio bytes do not multiply repository cost.
-  The large editable package stays at its verified local path, with complete member
-  digests and all package metadata banked. Its original media already have retained
-  source authorities; copying them into Git again would add hundreds of megabytes.
-- **Gap:** The plan required durable output proof but did not define storage for
-  duplicate artifacts or a package containing the full retained four-minute take.
-- **Reach:** Future reviewers can inspect each delivered unique artifact and every
-  filename mapping. The packet records the actual package hash/member CRC checks;
-  it does not pretend the full package blob is included in Git or that a metadata
-  manifest alone proves output correctness.
-- **Verdict:** Sound; full artifact identity and comparisons survive without
-  redundant original media. The local complete package must remain preserved.
-- **Confidence:** High.
-
-## Service asset presence
-
-The [presence ledger](assets/24z5-service-asset-presence/choices.md) owns tiny
-successful retry/publication and corruption-after-publication controls. Both are
-sound, with high confidence. Presence asks only whether the asset row exists;
-source inspection still parses and validates physical detail. Missing rows retain
-the original error. This deliberately removes incidental parser failures from
-presence-only checks; it does not claim parity for damaged catalogs or prove that
-an underlying file exists.
-
-
-## Composition append runs
-
-### Validate an append run while preserving every earlier refusal
-
-- **When:** 24z6 composition correction.
-- **Choice:** When a caller creates tracks and places clips in one batch, build
-  that append-only run and validate its complete candidate once. Keep the same
-  identities and each operation's receipt. A clip referring to a track that does
-  not exist yet stays on the ordinary scalar path: a later track creation must
-  not turn an invalid earlier operation into an accepted batch. Stateful noise
-  processing also keeps its ordinary path because membership can alter receipts.
-- **Gap:** The plan required atomic batches and bounded work but did not prescribe
-  which independent authored operations may share full composition validation.
-- **Reach:** The existing editor and prefix-error search remain the only owners;
-  no API, cache or alternate validator is added. Tests compare complete receipts
-  and errors against ordinary execution. The scratch internal-call observer is
-  retained as diagnostic evidence, not a permanent implementation-coupled test.
-- **Verdict:** Sound; successful append validation avoids quadratic prefix visits while first-error and
-  processing semantics remain intact. General performance budgets remain open.
-- **Confidence:** High.
-
-
-## Demanded source-frame support
-
-### Send only the requested interval while retaining complete source authority
-
-- **When:** 24z8 source-frame transport correction.
-- **Choice:** A caller requests a picture at one timestamp. The core still validates
-  the entire source and selected support, and stores the complete support digest.
-  The worker receives just the admitted interval containing that timestamp. It
-  checks point admission and decodes the same physical sample; it does not choose
-  pictures from the list of support intervals. Screenshot indexing still receives
-  complete support, including when its metadata-only timestamp is in a gap.
-- **Gap:** The plan specified bounded control messages but did not require sending
-  every support interval for a one-point native request. The full list overflowed
-  the existing bound before the worker could respond.
-- **Reach:** Worker support rows are bounded to one without increasing a limit,
-  adding a file handoff or changing the native picture implementation. Core support
-  work remains proportional to source metadata. Tests preserve complete authority,
-  including refusal when a later, unrequested support interval changes.
-- **Verdict:** Sound; full/narrow frozen-native requests preserve complete receipts
-  and image bytes, while the public segment-rich request reaches the worker edge.
-- **Confidence:** High.
-
-
-## Read-only scene-event source resolution
-
-The [24z7 choices](assets/24z7-source-event-resolution/choices.md) are sound, with
-high confidence. One synchronous lookup owner shares authoritative catalog rows;
-every later validation phase starts fresh. Scene-status facts omit the unused
-filename lookup while actual processing retains file-addressed selection. Complete
-synthetic producer catalogs remain evidence rather than deployable libraries. Root
-independently verified the archived hardlinks and both merged consumer groups;
-these choices establish neither public scene-event transport nor a latency budget.
-
-## Source-index plan reuse
-
-The [24z9 choices](assets/24z9-source-index-plan-resolution/choices.md) are sound,
-with high confidence. A source-index request passes freshly normalized frame
-options into its existing recipe helper. Execution resolves a separate fresh plan
-and uses its complete source support, including when timestamp zero is in a gap.
-The diagnostic uses the executor's existing cancellation boundary to isolate
-synchronous read work, then verifies ordinary generation and PNG delivery
-separately. Neither choice adds a public contract, cache or alternate source owner.
-## Portable relocation verification
-
-The [24z10 ledger](assets/24z10-portable-index-relocation/choices.md) owns the
-rejected transaction override and its corrected decision: preserve every ordinary
-write and use the runner's setup lifecycle. Its sound choices separate authored
-setup from relocation, retain complete value proofs and avoid an unjustified
-production optimization. Confidence is high. The passing relocated-data gate
-does not turn the original whole-setup timeout into a product latency pass.
-
-
-## Paired public edit-state preservation
-
-The [23j ledger](assets/23j-state-preservation/choices.md) owns five sound choices.
-The medium-confidence source-mapping oracle and operation-specific failure/no-op
-cases compare shared guarantees without inventing identical representations.
-High-confidence fixture reuse, real socket acknowledgement loss and fenced native
-startup preserve genuine inputs and separate the replay mutant from the accepted
-producer. The SDK supplement pins current installed code only; neither it nor SDK
-close resolution substitutes for historical adapter exit evidence.
-
-
-## Complete operation-result delivery
-
-The [24z11 choices](assets/24z11-operation-result-delivery/choices.md) own four sound
-decisions. The medium-confidence conservative byte budget trades some inline
-replies for complete chunked delivery; the controlled replay fixture proves exact
-saved bytes without claiming old admissions/history. The outer transport preference
-and explicit existing lease owner have high confidence. No choice increases a
-limit, adds an operation endpoint or authorizes uncertain-write retries. These
-architecture judgments remain separate from the original whole-body deadline
-failure. The [setup-correction ledger](assets/24z11-receipt-setup-correction/choices.md)
-records the measured runner-lifecycle decision; the current merged check passes
-without changing deadlines or product behavior.
-
-
-## External-caller acceptance ownership
-
-### Correct the undefined one-shot executor promise
-
-- **When:** Acceptance maintenance after 24z11 integration.
-- **Choice:** The earlier plan named a Node command that supposedly ran a fresh
-  external caller, but supplied no caller or handoff interface. Implementing that
-  placeholder as the developer's preferred edit script would make the harness do
-  the caller's work and would fail the acceptance requirement it was meant to test.
-- **Gap:** A proposed probe command became an implementation TODO without defining
-  who would independently discover the toolkit and choose its calls. The actual
-  preparer intentionally creates unedited inputs and rejects execution mode.
-- **Reach:** Preparation stays with the current harness. The release checkpoint
-  still requires a fresh external caller through installed CLI/MCP and complete
-  delivery/recovery evidence. The completed source CLI journey is reused; no
-  default agent provider or automatic editorial script is added.
-- **Verdict:** Unsound planned mechanism, corrected. Judge the external caller's
-  actual results rather than adding an undefined executor to satisfy a placeholder.
-- **Confidence:** High; this preserves the user's explicit zero-editorial product
-  boundary and avoids repeating a completed caller cohort.
-
-### Use representative independent MCP coverage alongside the primary CLI journey
-
-- **When:** Remaining slice25 checkpoint reslice.
-- **Choice:** The fresh caller must independently interpret MCP schemas, inspect a
-  pinned revision, handle explicit replay/errors and receive real default-SDK
-  delivery. It need not synthesize and render every completed fixture effect again
-  merely to repeat the same work through another adapter.
-- **Gap:** The spec required CLI and MCP but did not prescribe duplicating every
-  effect. The retained caller uses CLI; preparation's MCP calls cannot stand in
-  for independent caller use.
-- **Reach:** The installed checkpoint retains both interfaces and complete outputs,
-  with unchanged accepted media/recipes reused. Physical/listening/final-scale
-  requirements remain open; this decision does not turn source proof into release.
-- **Verdict:** Sound; representative discovery, state/error and delivery checks
-  verify the distinct caller boundary while avoiding a redundant full media run.
-- **Confidence:** Medium; exact checkpoint inputs inherit the frozen brief and
-  pinned candidate, and broader coverage remains possible if a named gap emerges.
-
-## MCP media admission and composed consumer proof
-
-The [24z12 choices](assets/24z12-mcp-media-admission/choices.md) own conservative
-JSON quoting, retained socket selection and current owned failure costs. Root
-review found these sound within the approved producer/default-client scope; the
-shared handoff retains their bounds. The [23k planning choices](assets/23k-source-consumer-bridge/choices.md)
-own the separate actual-page and historical-ready fixtures, including public empty
-projects when no suitable paging input exists. Neither choice establishes live
-default-preview readiness, presentation or release acceptance.
-
-## Merged evaluator policy and partial-word planning
-
-The [12g ledger](assets/12g-evaluator-policy/choices.md) owns synthetic CLI contract
-inputs and the unchanged metric oracle; they establish scorer policy rather than
-human quality. The [23m ledger](assets/23m-paired-partial-words-and-absent-role/choices.md)
-owns pagination and the partial-search negative control. Root review accepts their
-existing-owner boundaries: compare distinct public representations in the harness,
-keep real model readiness separate from frozen inference output, and retain absent
-roles as source facts. No product compatibility layer or editorial policy follows.
-
-The [23l ledger](assets/23l-paired-edited-frames/choices.md) owns the declared 60 fps
-fixture and independently qualified sample references. Independent review resolved
-the missing old-selector pixel oracle: the reference set now covers both selectors,
-without forcing their different selections to agree or inventing a color tolerance.
-
-## Preserve pinned workers outside temporary storage
-
-- **When:** paired-media pickup after23k integration.
-- **Choice:** keep a byte-identical private copy of each currently pinned recording
-  and project worker in a directory keyed by its content hash. If temporary files
-  disappear, the actual accepted bytes remain available without a rebuild or
-  substitute executable. Original paths and installed files are unchanged.
-- **Gap:** current worker authority names a temporary path; a previous unrelated
-  cohort already lost its different frozen worker. The plan did not specify where
-  offline recovery copies belong.
-- **Reach:** only verification artifacts are added, outside Git; no runtime
-  selection, installation or execution changes. Missing older cohort bytes remain
-  missing, and these copies do not acquire that cohort's timing verdict.
-- **Verdict:** Sound; durable exact bytes preserve the user's frozen-worker rule
-  without modifying or replacing either original.
-- **Confidence:** High.
-
-The [23n ledger](assets/23n-parakeet-model-readiness/choices.md) owns pinned current
-source bundles and one complete preserved inventory. Root and independent review
-confirm genuine existing-owner preparation. Failure-path checker corrections
-retain the successful producer and use separate actual-child controls; no model
-selection, download policy or speech-quality verdict changes.
-
-The [23n lifecycle ledger](assets/23n-parakeet-readiness-lifecycle/choices.md) owns
-one scenario process owner and separate startup/cleanup failure evidence. The
-original successful producer remains immutable; current controls validate the
-repair without model preparation or a product transport change.
-
-The implemented [23m ledger](assets/23m-paired-partial-words-and-absent-role/choices.md)
-retains reconstruction provenance and distinct runtime/verifier identities. Root
-and independent review accept those boundaries; neither reconstructed RPC bytes
-nor saved-verifier success implies a new inference or speech-quality verdict.
-
-The [23l ledger](assets/23l-paired-edited-frames/choices.md) owns the matched-selector
-and storage decisions. Root accepts compact storage only with exact reconstruction
-and immutable full archives retained separately; visual equivalence supplies no
-numerical tolerance or new production color policy.
-
-The [color-path audit ledger](assets/23l-color-path-audit/choices.md) limits attribution
-to retained encoded samples and rejects an oracle-only explanation. Root verified
-its exact archive/source/reference pins; missing intermediate buffers still prevent
-a production correction or numerical acceptance policy.
-
-The [current cardinality ledger](assets/24z-current-preparation/choices.md) retains
-fresh public admission instead of migrating the frozen seed, untimed correctness
-and distinct prospective process observation. Root verified actual retained modules
-and unchanged sources; preparation inherits no historical p95 verdict.
-
-The [12h case ledger](assets/12h-retained-sentence-recognition/choices.md) retains
-reuse of the genuine emitted Models owner and compact evidence storage. Root
-verified their actual bindings. Clock mapping, one-attempt stopping and retention
-of failed timing follow the explicit plan; they add no editorial or adoption rule.
-
-The [CLI selection ledger](assets/24z13-cli-delivery-selection/choices.md) records
-fixture sharing and reuse of unchanged runtime authority. Root and independent
-review confirm one caller-owned selection with preserved batch behavior; this adds
-no service-instance identity, retry policy or delivery owner.
-
-The [12i preparation ledger](assets/12i-sentence-alignment-preparation/choices.md)
-records isolated reconstruction from exact model bytes and package versions.
-Root verified the new complete inventory while keeping historical binary identity
-unavailable. Preparation supplies no alignment or adoption verdict.
-
-The [12i result ledger](assets/12i-retained-sentence-alignment/choices.md) owns
-synchronous process observation and read-only saved verification. Root accepts
-those mechanisms while preserving the original inventory failure and keeping
-numerical qualification separate from adoption. The
-[inventory support ledger](assets/12i-model-inventory-support/choices.md) owns one
-root-relative inventory computation and its pinned direct-script dependency.
-Current consumers preserve that layout; frozen runners remain unchanged.
-
-The [image-stage ledger](assets/23l-image-color-stages/choices.md) owns the
-standalone boundary observer and lossless duplicate storage. Root accepts those
-choices for the fixed-image mechanism question. Preserved samples and method
-restoration constrain the observation; they establish no historical decoder cause,
-worker-binary equivalence or new pixel tolerance.
-
-The [PNG publication ledger](assets/23l2-project-png-publication/choices.md) owns
-transient graph preparation, distinct still/movie targets and reuse of complete
-stage samples. Root accepts these choices: the correction preserves requested
-operations without an identity bypass, extra graph cache or new public operation.
-Focused movie controls retain their stated limits; they imply no full pixel parity.
-
-The [source-color ledger](assets/23l2-project-source-colors/choices.md) owns the
-video-only normalization rule, preserving still-image precision and movie behavior.
-The [native correspondence ledger](assets/23l2-native-png-correspondence/choices.md)
-keeps isolated transport, complete saved references and truthful publication fields
-separate from installed adoption. Root accepts those choices after checking every
-complete RGBA output and the merged source bindings.
-
-- **Sound, high confidence — advance the existing picture cache identity.**
-  When a caller asks for the same frame after the PNG correction, earlier cached
-  pixels must not answer the new renderer. The existing implementation identity
-  already separates those jobs and cache files; advancing it preserves old bytes
-  and causes current demand to regenerate. Reusing the old identity would conceal
-  the corrected behavior. The plan did not name the new identity value. This adds
-  no cache owner, storage format, migration or automatic edit and leaves movie and
-  audio identities unchanged.
-
-The [external lexical diagnostic ledger](assets/12j-external-lexical-diagnostic/choices.md)
-owns enriched full-utterance sampling, original human-checked transcripts and a
-lexical-only shared scorer. Root accepts these choices while retaining sampling
-bias, fragment ambiguity and the separate untouched timed-acceptance contract.
-
-## Camera publication scheduling
-
-The [20f reviewed decisions](assets/20f-camera-publication-overlap/choices.md)
-record one-segment qualification, the shared native timing walk, joined raw-first
-arbitration and observation-only cancellation. No qualified physical-interruption
-or performance claim is adopted from the compact controls.
-
-## Independent source MCP fixture
-
-**Sound — medium confidence: use a tiny still-image hold for the representative
-MCP checkpoint.** Parent25 names discovery, revision/replay/error handling and
-media delivery but leaves its compact MCP fixture open. A fresh caller splits one
-explicit one-second image clip, checks both revisions and receives the already
-accepted raw-source PNG. This exercises those interfaces without generating
-speech or replaying the complete thirteen-effect journey. It constrains only this
-verification fixture; no product default, editorial rule, installed discovery or
-new integrated-output quality is inferred. The later installed gate keeps its
-original coverage.
-
-## Qualified compressed-camera interruption
-
-The [supplemental decisions](assets/20f-camera-publication-overlap/h264-interruption/review.md)
-record the single structurally invalid final-presented H264 packet, the probe-only
-actor callback correction and the separation of physical and container identity.
-The original valid-BGRA corruption was not repurposed as interruption proof.
-
-## Retained camera metadata correspondence
-
-**Sound, high confidence — check the scheduling predicate without repeating physical verification.**
-The retained take might contain multiple occupied segments or mapping/native
-sample disagreement, either of which would keep publication on the sequential
-path. The external metadata probe uses the existing mapping parser, rational
-conversion and native sample inventory to compare every frame and exact support.
-It links already compiled isolated modules, using their enabled testable access;
-no production visibility or scheduling hook is added. This answers eligibility
-only. Actual publication must still prove both decoded streams, reader cleanup
-and resources before it can establish full-take adoption or performance. The
-technical gap did not require another accepted decode cohort, and this choice
-changes no product or digest contract.
-
-## Camera critical-path audit
-
-**Sound, high confidence — leave unsupported stop strategies unselected.**
-Overlapping the complete streams cannot by itself establish ten-second stop when
-one stream's saved digest already takes longer. The source trace finds no redundant
-fresh decode to delete; re-verification protects separate recovery paths. A paired
-byte comparison changes the mandated two-digest traversal, and incremental capture
-verification needs new timing, backlog and recovery guarantees. Neither is adopted
-from speculation. This keeps the stop requirement and full picture checks intact,
-without spending another full-take run on an unchanged or unsupported mechanism.
-The scheduling implementation remains usable within its proved scope; release
-performance still needs a supported mechanism and its own evidence.
-
-## Authored positive-system public correspondence
-
-**Sound, medium confidence — author a valid old inspection package through its existing format owners.**
-The retained source has genuine system publication and failed narration, but no
-previously admitted old public recording with positive system audio. An explicitly
-authored portable document lets the old public reader inspect those original
-facts without creating recording rows or a new importer. Its source pages,
-manifest, archive and actual clean images use the historical format owners. This
-is inspection-format correspondence, not proof of automatic recording export.
-Creation labels describe the authored fixture. The historical schema cannot carry
-publication receipts, so those originals stay with external capture authority
-rather than being mislabeled as a supported old-format member. The choice fills a
-verification-fixture gap and adds no product editing or serialization surface.
-
-**Sound, high confidence — retain actual capture failure and sample-clock differences.**
-Both roles were requested, but narration actually failed. The fixture exposes
-that failure and selects only successful system acquisition. The project explicitly
-places that stream at its capture offset; legacy mono and current stereo are
-compared after the documented unity duplication. A window crossing the real hole
-has equal sample membership under old nearest and new absolute-floor clocks.
-That one equality cannot establish every rounding boundary or distinguish two
-competing roles whose original offered content was the same.
-
-**Sound, high confidence — resume only the split that never dispatched.**
-The original producer completed package admission, acquisition, placement and both
-initial excerpts, then failed on its own result-field assumption. A successor
-confirms the existing revision and performs only the pending explicit split.
-Complete saved sample and document comparisons qualify the earlier successful
-outputs; no accepted media work is repeated. Original failed exits and the
-restarted recorder's overwritten pre-split native-recipe limitation remain
-visible. Separate observer output locations preserve future resumed producers;
-no missing recipe identity is reconstructed as original evidence.
-
-## Independent manual-word timing reference
-
-The [case decisions](assets/12k-independent-word-timing/choices.md) own fixed
-whole-example selection, spoken timing coordinates and the corrected reference
-restoration. Root's initial choice of a preparation-only model directory was an
-unsound reproduction assumption: matching weights and preparation do not prove
-that operation's previously executed runtime. The correction uses the actual
-successful 12j directory after complete byte/receipt qualification, changes no
-recipe or bound, and performs only the recognition that had not completed.
-Success does not identify what caused the first timeout. Human annotations and
-full scoring stay in private noncommercial research storage; only our outputs,
-aggregate measurements and identity pointers enter the repository. Neither a
-passed numerical example nor that runtime correction selects a new speech recipe.
-
-## Independent supplied-text timing
-
-The [case choices](assets/12l-independent-supplied-text-timing/choices.md) own the
-phase-separated processes. Root selected a whole-source format bridge through the
-existing native reader because the preserved aligner's finite converter accepts
-Float32 rather than the corpus's Int16 input. Complete sample equality is required
-before conversion; its declared terminal clock remains distinct from saved ASR.
-Only saved recognized text enters inference, so manual marks cannot tune the
-candidate. Verdict: sound, high confidence. This is an isolated comparison, not a new public conversion owner
-or a speech recipe adoption. The copied numerical runner and inventory helper
-remain frozen evidence; the current generic tooling owns future work.
-
-## Camera prefix setup
-
-[20g case choices](assets/20g-camera-raw-prefix/report.json) disclose the fragment
-observer and conservative tail. Root rejected the provisional MP4 box ordering
-before media; retained MOV and native capability evidence instead qualify the
-observer. A coordination interruption during compilation remains separate from
-the corrected compiler deadline, with neither interpreted as physical instability.
-The empty private SDK cache is a low-confidence preparation choice: it isolates
-compilation but may repeat unchanged platform work. Restoring the actual working
-compile/cache reference for a bounded diagnostic is sound, high confidence; it
-preserves the source, numeric recipe and deadline rather than tuning a failed
-physical case. Cache writes near the deadline do not identify the sole cause.
-No canonical alias, remux or incremental verification architecture is selected.
-
-## Camera physical-prefix continuation
-
-**Unsound, high confidence — assertions ran before durable failure observations.**
-When the second active movie snapshot differed, the probe threw before saving that
-snapshot. Writer cleanup then deleted the unfinished movie. Only the row number
-survived, so a later reviewer cannot identify whether timing, endpoints or pixels
-changed. The plan required exact evidence but did not specify persistence order.
-The corrected decision is to persist both complete operands before asserting and
-retain bounded, explicitly unverified failed output before cancellation. It belongs
-in the observation owner and test skill; it cannot recover historical missing data
-or turn the failed case into a pass.
-
-**Sound, high confidence — separate candidate failure from intentional interruption.**
-The ordinary case preserved every field in its selected early pictures. The next
-case failed before the controller's planned kill, so the recovery reader never
-ran. Root keeps these outcomes separate rather than using the ordinary pass to
-approve the general rule or treating a normally exited process as a crash test.
-This constrains future incremental verification: a candidate must establish its
-dependency and endpoint boundary, not merely discard more trailing pictures until
-one example passes. No writer setting, picture digest or stop deadline changes.
-
-**Sound, high confidence — scope executable invocation to its actual phase.**
-The compile-only diagnostic did not run media. A later, separately authorized
-controller reused its exact qualified binary without recompilation. The evidence
-hub names both phases so the earlier “not invoked” statement cannot obscure actual
-later execution. Both original failures stay intact, and successful warm preparation
-does not establish why the cold compilation timed out.
-
-## Camera observer qualification
-
-**Sound, high confidence — exercise failure retention without running media.**
-When a comparison rejects a picture, its observations must survive cleanup. A
-separate executable calls the successor's exact observation functions on authored
-bytes and picture tuples. The media method is typechecked but has no entry
-decorator and never runs. This avoids testing a Python imitation or repeating a
-writer case merely to test filesystem behavior. Its passed evidence cannot be
-promoted into a live-cancellation or prefix-stability verdict.
-
-**Sound, high confidence — qualify native facts before choosing a boundary.**
-An SDK field can compile yet return unknown information on the real container.
-The next observation reads the already retained closed movie's complete cursor
-inventory without decoding or writing media. It preserves unknown flags and the
-timing owner's decode-duration meaning instead of treating configuration as an
-observed refresh boundary. The result may justify a new candidate; it does not
-approve that candidate or change the required digests and stop deadline.
-
-## Native camera fact interpretation
-
-**Sound, high confidence — preserve clock differences and conservative answers.**
-The writer's native clock rounds some source timestamps. The metadata comparison
-uses the existing clock owner for correspondence while retaining every original
-tick and flag; it does not pretend the representations are byte-identical. Native
-refresh flags exist, but the reordering queries still answer “may” on those rows.
-Those facts remain observations rather than a silent permission to commit pixels.
-This constrains any future prefix algorithm without changing the writer or digest.
-
-**Sound, high confidence — leave the timing owner unchanged without a demonstrated defect.**
-One native decode duration is much longer than a normal frame, but it exactly spans
-the gap to the next presented picture. Every other interior endpoint also matches
-its next presentation timestamp. Treating the large value as a bug would replace
-truthful held-picture support with a guessed short duration. The general API meaning
-still needs qualification; this one fixture does not justify a speculative fix or
-explain the missing historical failed tuple.
-
-## Growing canonical feasibility
-
-**Sound, medium confidence — qualify a distinct compressed candidate before moving its verification into capture.**
-The stop path currently creates a canonical movie after the raw writer closes, so
-its complete picture scan cannot start earlier. A second writer could copy encoded
-samples into its own growing movie without choosing another encoder or aliasing
-the raw file. The existing movie muxer already uses the native compressed-copy
-seam. This is a candidate to qualify, not an adopted camera pipeline: copied
-samples must arrive once in decode order, and the candidate must prove its own
-bytes, colors, timing and support through append and closure. Assembled exports
-or a second raw-file name would not supply that independent physical proof.
-Camera publication remains with its current owner; interruption, backlog and the
-unchanged stop deadline require later evidence.
-
-## IDR fixture qualification
-
-**Sound, medium confidence — use codec closure, not a larger discarded tail.**
-A complete IDR resets earlier picture references. With prior-picture output
-enabled and unchanged parameters, it can drain the preceding coded sequence.
-The fixed raw fixture physically decodes that IDR and compares all earlier
-picture, encoded-payload, clock and support fields through later appends and a
-terminal state. The longer fixed feed makes another active fragment possible;
-it does not change the old case or turn buffer capacity into an elapsed-time bound.
-This qualifies the measured tiny sequences, while a general growing-file and
-backlog contract remains open.
-
-**Unsound, high confidence — assume the query shares its parent's process group.**
-The supervisor used a shared-group assumption to decide which owned query it could
-terminate on a deadline. Actual receipts show Foundation gave each query its own
-group, so that guard would ignore the child. The corrected decision is to observe
-the child's live parent and actual captured group, terminate it, and prove native
-reap in a nonmedia fixture before reusing the controller. Every measured query
-completed normally; preserve those passed picture comparisons and the unqualified
-cleanup path separately. Rewriting the executed source would hide the mistake.
-
-**Sound, medium confidence — shorten only the new canonical candidate's fragment interval.**
-The next passthrough experiment uses a retained seven-second input. Shorter
-candidate fragments make two active observations possible within that fixed input;
-the raw camera writer keeps its existing settings. These are fixed container
-parameters for a new question, not a new encoder recipe or a guarantee of output
-timing. Missing complete fragments fail the case without parameter tuning.
-
-## Compressed source admission
-
-**Unsound, high confidence — equate a returned buffer with one complete media sample.**
-The prototype required each compressed reader buffer to have data, a format and
-exactly one sample, then used buffer position as sample position. The SDK also
-permits zero-sample markers and grouped samples; markers can affect duration.
-The first buffer hit this combined guard without retaining its individual fields,
-so the original failed operand is unknown. The corrected decision is to record
-complete buffer facts first, keep every buffer intact, and separately map actual
-media samples to the saved decode inventory. A metadata-only observation resolves
-the missing prerequisite without changing the failed source or claiming that a
-marker caused it. Candidate container preservation remains unqualified.
-
-## Stored-sample camera transfer
-
-**Sound, medium confidence — test unchanged stored samples before inventing marker handling.**
-A partial compressed reader adds metadata about where its read begins and ends.
-A stored-sample generator supplies the encoded samples directly, with two boundary
-metadata differences in the retained fixture. The fixed transfer keeps those actual
-objects unchanged and makes the finished candidate recover the original reader's
-facts, pictures and duration. This avoids inventing reset or trim markers from one
-example. The plan left the compressed acquisition API unresolved; production adoption
-still requires general live eligibility, lifetime and backlog proof. The result
-settles this fixed transfer choice, not permission to drop arbitrary reader markers.
-
-## Continuing camera verification
-
-**Sound, medium confidence — use file events to finish background catch-up.**
-During recording, a written observation row requests verification. The movie
-writer can emit its fragment later, after that request has finished. File-write
-notifications request the latest written boundary again; one worker keeps only
-the newest pending request. The plan required background progress but left its
-wakeup mechanism open. This avoids timer polling and an accumulating queue;
-sustained event cadence and backlog still need measurement.
-
-**Sound, medium confidence — qualify private filesystem clones rather than assume an atomic snapshot.**
-Verification must read while the encoder keeps writing. An owned filesystem clone
-isolates later writes, but the clone operation does not promise a single instant
-of writer state. Native storage, clocks, mapping and actual decoded pictures must
-qualify each prefix, and later encoded bytes must still bind the cached picture
-proof. The plan required immutable views without selecting the filesystem
-primitive. Unsupported or incomplete clones retain the original publication path;
-no copy or clone alone certifies pictures.
-
-**Sound, medium confidence — physically qualify refresh boundaries without a fixture-specific bit parser.**
-An unfinished fragment can contain a later picture before intervening pictures
-are available. The implementation uses the SDK's complete decoder-refresh flag,
-actual decode/presentation order and physical output through that refresh picture
-to qualify an earlier complete prefix. The refresh picture itself stays outside
-the committed hash and transfer because its open timing can still change.
-This changes the experimental fixture-specific codec-bit predicate into observed
-physical qualification; it is not a generic codec parser. Future work must retain
-encoded-prefix rebinding and full-scan fallback rather than infer safety from
-fragment boundaries or configured keyframe cadence.
-
-**Sound, medium confidence — bound private writer backpressure without changing the public deadline.**
-If the speculative movie writer stops accepting samples, its worker checks
-cancellation and stops waiting after thirty seconds. The plan required bounded
-work but left this internal refusal bound unspecified. Refusal returns to normal
-publication; it does not establish that stop completes within ten seconds.
-The value remains an internal guard whose drain and backlog cost must be measured,
-not a new caller setting or a relaxed release requirement.
-
-**Sound, medium confidence — keep bounded diagnostic movies for the stop measurement.**
-During the long prerecorded check, each new reader records its actual time range.
-The test keeps only the two latest immutable movie views for each media role and
-for recording versus stop, plus separate copies taken immediately before Stop.
-Older log entries retain their clocks, but their rotating movie paths do not
-promise that the older movie still exists. The plan required failure operands
-without choosing their retention policy. Keeping every view would accumulate
-large media throughout the take; keeping none would lose the failing tail.
-This choice applies only to the test's scratch evidence, adds no product storage
-policy, and records the copy overhead in its measurement.
-
-## Current source-query window
-
-**Sound, medium confidence — measure the window the user offered and disclose its load.**
-The user says the computer is relatively free but still has some load. One browser
-renderer uses roughly a CPU core at the recorded preflight. The run proceeds in
-that offered window and retains its failing latency values; it does not call the
-host isolated or attribute the failure to the browser. The plan had expected an
-isolated preflight, while the user's newer authorization explicitly accepts some
-load. This choice supplies useful current output and profiling evidence without
-changing the speed target. A later performance claim must retain its own observed
-conditions.
-
-**Sound, high confidence — bind the existing short profile to the actual current runtime.**
-After a current query fails its speed target, the existing profiling entry still
-expects historical sources and a historical native executable. A private copy of
-that entry binds the exact current fixture, emitted code, SDK and native files
-that produced the failure. Its imports point to those pinned original helpers;
-query scoring, output checks and limits stay unchanged. The historical runtime
-and report remain intact. The plan left this current profile binding unspecified.
-This adds no product API or production runner; its executed source is retained
-with the diagnostic so future work can distinguish current attribution from the
-historical experiment.
-
-**Sound, medium confidence — use a separately authored built-in-camera shutdown fixture.**
-The original iPhone selection is unavailable in current discovery. Its planned
-check is not started. The developer instead submits a new explicit request for
-the available built-in camera to exercise pause/resume and graceful app shutdown.
-This does not change the product's refusal to substitute an unavailable selected
-device, nor the user's recording settings. The plan left the development fixture
-device unspecified after the user authorized necessary checks. This supplies a
-local lifecycle result; future iPhone synchronization and sustained physical
-acceptance must still be qualified independently.
-
-## Synchronous source metadata batching
-
-**Sound, medium confidence — retain requested raw acquisition rows for one validation phase.**
-When a page validates many sources, the existing acquisition store fetches their
-raw metadata strings together. The existing selection reader decodes a row only
-when that source is reached, so a later missing or malformed row cannot hide an
-earlier failure. Raw strings remain beside decoded metadata until that phase
-ends. The plan left the batching mechanism unspecified; SQLite's existing
-JSON-array reader avoids another table or parameter-count rule. This trades
-bounded temporary memory for fewer database calls without a cache across awaits.
-The current measured result still leaves the larger latency gate open.
-
-**Sound, high confidence — reconstruct all asset segments with one ordered read.**
-A video asset may describe several streams. Its existing metadata owner reads
-all segment rows together, groups them by stream, and decodes them in the original
-header order. A bad later stream therefore still cannot precede an earlier error.
-Image/font assets without segment declarations perform no segment read. The plan
-left SQL shape unspecified. This replaces repeated queries inside the same owner
-and adds no public operation or stored representation.
-
-
-## Project inspection dependency delivery
-
-**Sound, medium confidence — return full source facts once per pinned query.**
-When a caller inspects a project with many sources, the first page supplies all
-source dependencies: the metadata used to check that evidence is current. Later
-pages return the immutable query manifest's ID instead of repeating that array.
-The caller retains the first array; if it needs another copy, it repeats the
-original first-page request and verifies the same manifest ID before combining
-results. Every source is still checked before reading and after saving a page;
-a changed source refuses the continuation. The plan required complete metadata
-but had repeated it on every page. This named format correction applies to all
-paginated project evidence, including terminal pages, while source-only reads
-remain unchanged. It changes an external response format without adding a cache,
-endpoint or SDK setting. The optional preference was unanswered, so the agent
-proceeded on this reversible documented assumption; silence was not approval.
-Reverting the delivery shape would restore repeated arrays and require fresh
-performance proof. Landed in0d413958; later consumers and docs follow this contract.
-
-**Sound, high confidence — measure the exact response that is returned.**
-A continuation's response-size guard now counts its manifest reference, using the
-same local value that is returned to the caller. It cannot reject a small page
-because of full metadata absent from that page. The existing return owner infers
-the array-or-reference type, and tests narrow that type before reading source
-fields. The plan left the implementation seam unspecified; no second schema or
-helper owns the format. This constrains future page consumers to preserve the
-same reference identity and first-page source facts.
-
-
-## Native presenter observation
-
-**Sound, medium confidence — separate native dispatch from capture-enabled presenter pixels.**
-The staged app opens the selected revision's movie, but its window excludes
-external capture. A generated control window turns blank in this capture tool
-under that same sharing mode and becomes readable when capture is allowed. The
-pixel check therefore compiles the exact production presenter in a standalone
-fixture, uses the actual ready movie and permits capture of only that test window.
-The presenting protocol is generated verbatim from its existing owner, rather
-than maintained as a second schema. The product and source media are unchanged.
-The plan required concrete presentation without choosing an observation method.
-This combines real staged-app dispatch/readiness with representative presenter
-pixels; it does not claim direct protected-app screenshots, installed acceptance,
-continuous playback or listening. Future review must preserve that named difference
-and those limits rather than disable capture exclusion in the product. Banked in
-the presenter-pixels acceptance packet.
-
-## Independent transcript reference selection
-
-**Sound, high confidence — keep transcript text separate from automatic word times.**
-When a corpus publisher has people check the words but a program assign each
-word's time, those words can independently test recognition while the times
-cannot independently test our timing program. The AMI packet therefore keeps
-human-checked words and occurrence IDs in a lexical reference, and preserves
-publisher times in a separate locator file. The selection includes complete
-segments with ordinary neighbors and zero-uh/um controls before any model output
-is examined. It assigns no unwanted-repetition, required-word or removal intent.
-The plan required independent reference data without prescribing its source;
-this adds licensed lexical availability without another model trial or invented
-acoustic truth. Future timing work still needs independently reviewed edges,
-and future model evaluation must not treat publisher “unseen” metadata as proof
-of exclusion from model training. No engine, scorer or selected recipe changes.
-Banked in the AMI reference-preparation packet.
-
-## Sustained physical fixture
-
-**Sound, high confidence — test sustained shutdown with a separate explicit capture.**
-The saved four-minute iPhone take can test replay and clock evidence, but cannot
-recreate a live device draining at Stop. The accepted short capture also cannot
-show sustained shutdown cost. With the user's permission to run necessary checks
-and the offered computer window, the developer therefore captured one isolated
-205-second built-in-camera/microphone/display fixture with pause/resume. This is
-an explicit test selection, not a fallback for the original iPhone or an editing
-project. Original sources and the installed library stayed intact. The plan left
-the sustained-drain fixture choice unspecified; this supplies that missing
-physical dimension without assigning the user another recording task. The
-failure remains a failure and calls for a focused correction before recapture.
-Future synchronization work must still use its own event and uncertainty evidence.
-
-## Independent captured-source scheduling
-
-**Sound, high confidence — publish siblings independently and join both before release.**
-When camera verification takes longer than primary screen/audio publication, the
-caller can use the primary source as soon as its own proof is complete. The native
-owner now starts the two source publications together, reports each actual result
-and waits for both before releasing their journals. Reversing their serial order
-would merely make the other source wait. The plan left execution ordering open;
-this choice removes that artificial dependency without adding a scheduler or
-changing source contracts. If both fail, the existing camera-first error precedence
-remains stable regardless of completion order. Primary audio roles retain their
-sequential platform budget. This does not reduce either source's proof work or
-establish a causal improvement in physical shutdown time.
-
-**Sound, high confidence — freeze source evidence through the queue that appends it.**
-A publication update can append to the live take journal while the primary source
-is being proved. The writer's existing queue therefore copies and validates the
-primary source's immutable journal prefix before publication. Later take reports
-remain legal without becoming part of that already-published proof. This uses the
-existing publication owner, joins the queued copy before cancellation can release
-authority and never rebuilds missing evidence for an existing receipt. The plan
-specified immutable source evidence without prescribing the queue boundary.
-Future lifecycle reporting must preserve this single writer owner. No cached
-success or skipped verification is introduced; queue-owned copy IO may briefly
-delay another journal append.
-
-**Sound, high confidence — camera publication owns its verification wait.**
-A camera reader can still be checking an immutable acquisition snapshot after the
-physical encoder closes. The primary source has no need for that camera proof,
-so camera publication now waits for it while primary publication proceeds. The
-closed camera retains the same verification object and final byte identities;
-the wait occurs before checking cancellation, so even an already-canceled Stop
-cannot return with that reader running. Direct lease publishers retain their
-own idempotent join. The plan required independent usable sources without fixing
-this internal placement. This landed in `e9f0597e` and constrains future
-cancellation and discard to retain the same joined lifetime. It does not reduce
-the camera's own proof work or claim the physical shutdown budget is met.
-
-**Sound, high confidence — isolate remaining proof cost with fresh retained operands.**
-To learn what camera publication costs after a checkpoint, the test clones only
-the saved raw media, mapping, closed marker and journal into a private directory.
-It primes new verification state before timing one publication; existing receipts
-and canonical media are excluded so cached success cannot answer the question.
-Both actual priming readers and resumed final readers are required. The plan
-left the diagnostic method open. This avoids another hardware recording while
-preserving the exact picture digest, timing, source binding and original donor.
-The debug consumer's timing is confined to this operation; it does not predict
-live shutdown or release performance. No production mechanism is added.
-
-**Sound, high confidence — compare pictures and clocks separately from rebuilt containers.**
-The fresh MOV writer can change container metadata while delivering the same
-ordered pictures at exactly the same times. This measurement therefore requires
-the original complete picture hash, support, count, scale and source clock facts,
-and records both container identities without requiring equality. The cloned
-journal also retains a terminal suffix beyond the earlier receipt's prefix, so
-receipt JSON byte equality is outside the claim. The plan required preservation
-without prescribing diagnostic container equality. This is a named scope, not a
-pixel tolerance or permission to skip any source validation. Banked with the
-retained camera publication result.
-
-## Retained camera diagnostic priority
-
-**Unsound, high confidence — requiring exact historical PNG equality before release work.**
-When the first camera image differed from a historical PNG, development treated
-byte-identical RGB output as the next prerequisite. Two decoders can select the
-same encoded picture while their color conversions produce different RGB bytes;
-the historical producer also lacks the identity needed to attribute its output.
-The plan requires picture correspondence and measured physical timing, without
-requiring identical output from unspecified converters. The corrected decision
-is to prove the selected encoded sample through its actual clock and packet
-identity, keep missing historical attribution explicit, and pursue only evidence
-that can resolve the required physical uncertainty. An optional exact-pixel
-diagnostic cannot become a new release requirement or postpone independent
-consumer work. This correction applies to the current correspondence pass; it
-changes no product behavior, pixel tolerance or synchronization requirement.
-
-**Sound, high confidence — stop diagnostic decoding at the first failed prerequisite.**
-A temporary packet view could preserve compressed pictures while moving their
-clocks. Before decoding it, the experiment therefore compares complete ordered
-packet bytes and timing against the original source. A clock mismatch ends that
-attempt instead of compensating for it, trying settings repeatedly or comparing
-the wrong picture. The plan left the bounded diagnostic method unspecified.
-This is an experimental safety boundary, not a second production media owner;
-future product timing continues to use the existing native timing contract.
-
-## Cutover implementation prerequisites
-
-**Unsound, high confidence — waiting for inherited acceptance before isolated cutover work.**
-The old release has incomplete speech and physical timing acceptance. Development
-treated those pending claims as prerequisites for moving the default repository
-service to the already verified project composition. The plan instead requires
-preserving verified behavior while keeping inherited pending claims pending.
-The corrected decision is to complete isolated service, shared-contract and
-consumer ports from their qualified owners, then judge installed and final release
-acceptance separately. This correction belongs to the canonical service pass; it
-does not permit deleting an owner whose actual consumer or preservation contract
-still depends on it, replacing the installed app or claiming physical acceptance.
-
-**Sound, high confidence — compose existing fault proofs instead of adding a cross-product.**
-A native consumer uses a scripted service response to test lease expiry and retry,
-while the real service separately proves pinned output and committed-file recovery.
-Development briefly proposed repeating every service fault through the live player.
-The preservation contract requires those guarantees, without prescribing that
-extra combination. The saved correspondence therefore reuses complementary
-consumer, owner and public proofs with their limits intact. Changed surrounding
-code still needs its affected checks and final integrated acceptance; this choice
-does not make historical tests into fresh executions or turn numerical checks into
-listening evidence. It avoids adding a new release gate where the plan left only
-verification method open.
-
-## Canonical service diagnostics
-
-**Sound, high confidence — retain the qualified owner's shutdown error instead of an old log wrapper.**
-If another process holds the fresh catalog during shutdown, the service still
-reports the catalog lock error and closes its other owners. The reused project
-composition writes that error directly, without the old composition's
-`shutdown failed:` prefix. The plan specified failure visibility and process
-closure without prescribing that stderr prefix. Keeping a second startup/logger
-path just to reproduce the prefix would preserve an obsolete owner. Future
-structured operation errors retain their codes; diagnostics consumers must use
-the reported reason rather than assume the removed prefix. This named output
-difference belongs to the canonical-entry pass.
-
-## Presentation timing ownership
-
-**Sound, high confidence — keep source-range mapping with numeric presentation timing.**
-When a caller previews a project with recorded pointer evidence, the native worker
-needs each selected source range paired with its cumulative playback range. That
-small mapping was implemented inside the old recording-edit interpreter, so
-deleting the interpreter would also break project pointer preparation. The mapping
-now lives with the existing presentation-time arithmetic, and all consumers import
-it directly. Its numbers and native request shape stay unchanged; no forwarding
-module, new editing model or compatibility alias remains. The plan required one
-owner and obsolete interpreter removal without choosing the numeric helper's home.
-This placement lets source and project presentation survive that removal without
-depending on recording revision history. The decision belongs to the presentation
-timing prerequisite pass; it adds one package export and no dependency or persisted
-format.
-
-## Publication cleanup checkpoints
-
-**Sound, medium confidence — preserve generic fault fixtures before removing their obsolete setup.**
-An old export test constructs a recording edit but then checks a useful guarantee,
-such as preserving an acknowledged external file after its destination moves.
-Deleting every recording-based test would also delete that guarantee. The
-project-only publication pass therefore rehomes proven generic cases first and
-keeps the broader old fixture suite visibly pending until its remaining guarantees
-use actual project owners. Existing SQL columns are removed with the coordinated
-core/schema purge, rather than changing the format twice during these ports. The
-plan specified the final single-owner architecture without prescribing this
-checkpoint boundary. This is temporary implementation ordering, not compatibility:
-no recording export writer or export selector survives, and old fixtures are not
-claimed green. This choice belongs to `6d93a9c4` and constrains the next deletion
-pass to account for recovery, deletion and workspace obligations before removing
-their only surviving test setup.
-
-**Sound, high confidence — workspace identity belongs to the workspace owner.**
-A project package export must verify that its temporary directory still names the
-same filesystem object before using or retiring it. That check lived inside the
-old recording-package assembler, making an unrelated project exporter depend on
-the obsolete assembler. The exact check and its reservation shape now live with
-the existing package-workspace operations; both callers consume them directly
-until the old assembler is deleted. The plan required one owner without choosing
-this helper's home. The move adds no validation rule, forwarding wrapper or
-publication mechanism. Future package consumers share the same directory identity
-contract through that owner. This choice belongs to `6d93a9c4`.
-
-## Project fixture preservation
-
-**Sound, medium confidence — control media edges while keeping publication and archive owners real.**
-When a test asks whether deleting a project preserves an acknowledged external
-file, decoding another movie does not answer that question. The publication
-fixture supplies controlled rendered bytes; the registry fixture admits a small
-file with controlled probe metadata, then authors its project through the actual
-stores. Both still use real catalog, queue, filesystem and native publication or
-archive lifetimes. In the registry deletion case there are no exports, so that
-one external retirement edge is empty; actual export deletion belongs to the
-publication fixture. A rendered source alternative would spend more time without
-changing these lifetime assertions. The plan required preserving guarantees but
-left fixture inputs open. This choice belongs to `cd24e68f` and `bfe782fe`; future
-readers must not treat these byte/lifetime checks as media validity or listening
-evidence. It adds no production behavior.
-
-**Sound, high confidence — one shared publication fixture, local registry authoring.**
-Recovery, storage and deletion tests need the same project, queue and publication
-owner. They now share one fixture so fixes to shutdown or restart setup reach
-every publication case. Registry tests author a different portable archive and
-keep their existing local fixture; forcing both into a universal helper would
-join different responsibilities. The plan left support-code placement open.
-This choice belongs to the fixture preservation passes and keeps one setup owner
-per tested contract without a new production abstraction.
-
-**Sound, high confidence — reap crash-fixture children on a failed handshake.**
-A test deliberately kills its service child at a named publication boundary.
-If that boundary never arrives, the fixture now kills and waits for the actual
-child before reporting failure. Otherwise a failed assertion could leave native
-work and private directories alive for the next case. The plan required real
-process-death proof without choosing the helper's failure cleanup. This decision
-belongs to `bfe782fe` and applies only to test resource lifetime; it does not add
-a production retry or change a publication boundary.
-
-**Sound, medium confidence — keep one source queue policy local to its lifetime fixture.**
-A capture deletion test holds native recovery open while another capture's
-source job waits. That job names a capture with no editing revision. The fixture
-now checks the real capture store's availability, deletion and physical activity,
-and returns the explicit null revision identity. It does not use the abandoned
-recording-edit target policy. The plan left fixture wiring open; creating a new
-production policy helper for this single consumer would add an owner the product
-does not need. This choice belongs to `fc05469a`; future queue fixtures must use
-their actual source or project identity rather than borrow an editing interpreter.
-
-**Sound, high confidence — observe shutdown after an event-loop turn while its worker stays held.**
-When shutdown must wait for recovery, the test keeps that recovery promise open
-and observes whether shutdown has returned. A single promise callback can run
-before an incorrectly early shutdown has resumed, making the check meaningless.
-One event-loop turn lets such a return become observable while the worker remains
-held. There is no sleep or elapsed-time threshold. The plan required the drain
-guarantee without prescribing how the test observes it. This choice belongs to
-`fc05469a`; releasing the held worker and draining the service in failure cleanup
-keeps the test from leaving work alive after an assertion fails.
-
-**Sound, medium confidence — inject a real late database failure with valid capture input.**
-A terminal capture report attaches its source duration and then writes its state.
-If the second write fails, callers must still see the original capture facts.
-The source fixture uses a SQLite trigger to refuse that later write, submits a
-valid report, then removes the trigger and successfully submits the same report.
-The alternative malformed input would make the proof depend on where validation
-or argument binding happens. The plan required atomic rollback without choosing
-the failure seam. This decision belongs to `ada67e60`; it keeps the real database
-and transaction owner in the test without a production fault hook or fake store.
-
-## Removing mixed core dependencies
-
-**Sound, high confidence — common movie validation has an independent owner.**
-Both recording and project renderers return the same video facts. Their shared
-validator now lives in a small rendered-movie module with a direct core export.
-Recording-specific audio stays in its existing receipt; project audio extends
-the common video facts independently. The plan required one owner without
-choosing this module boundary. The extraction preserves fields, errors and
-rendition policy, and adds no service operation or media default. This choice
-belongs to `7c0986fa`; the old preview inspection classes remain pending mapped
-removal rather than being hidden behind a forwarding wrapper.
-
-**Sound, high confidence — source consumers load only their actual type owner.**
-The unchanged native normalization declaration lives with source admission,
-which already owns that operation. Cache and source-evidence policies use capture
-facts and explicit type imports, removing obsolete empty runtime imports of the
-editing library. The plan required source/edit separation without prescribing
-these import details. This choice belongs to `d31d12d7` and `1f654da7`; it adds
-no endpoint, schema or new dependency. Frozen raw-cursor provenance remains a
-separate consumed contract, rather than being mistaken for a live recording
-editing revision and deleted during a fixture port.
-
-**Sound, high confidence — failed crash-fixture handshakes retire the owned process group.**
-The archive-survival fixture deliberately kills a service while its native child
-is stopped. If that child never publishes its marker, marker-based cleanup cannot
-find it. The fixture now creates its own process group and knows its identity
-before the worker starts. Failure cleanup kills and drains only that group.
-The plan required actual child-lifetime evidence without prescribing failure
-cleanup. This choice belongs to `0508b09f`; it adds no production process search,
-retry or termination policy.
-
-**Sound, medium confidence — keep a controlled admission policy in the queue discard test.**
-The queue must refuse late results when its domain owner becomes unavailable.
-Current service admission refuses work on a live source, so its normal policy
-cannot reach the original canceled-capture scenario. This one existing test
-explicitly admits that capture through a local domain policy, then uses its real
-canceled transition to test queued suppression and late-result refusal.
-The plan required preserving queue lifetimes without choosing this test seam.
-This choice belongs to `b8ee55c0`; it proves the generic queue guarantee and
-does not authorize live source work through the product. Normal fixture policy
-uses current capture availability and real project revision validation.
-
-**Sound, high confidence — ScreenshotIndex owns shared sampling defaults.**
-Source and project screenshot sampling need the same limits and timing defaults,
-without borrowing a recording edit selector. The exact frozen policy now lives
-with the existing screenshot metadata and coverage owner, and each consumer
-imports it directly. The plan required one owner without prescribing this
-constant's home. This choice belongs to `a1451a3a`; it adds no module, package
-export, wrapper, default or selection rule. The old selector retains its algorithm
-until its remaining consumers are accounted for.
-
-**Sound, medium confidence — adopting a package transfers media lifetime to the recipient library.**
-A caller opens an archive, adopts its project into a new library, then requests
-a frame or audio from the imported source. The source and delivered bytes belong
-to that library, so closing the archive handle leaves the delivery readable.
-Closing the service releases its open delivery files and waits for native media
-work to settle. The alternative would keep a second inspection engine attached
-to an opened but unadopted archive and reproduce its old delayed close behavior.
-The plan required preserving useful package-media guarantees without prescribing that
-obsolete interface. This choice belongs to `ed026bea`; direct unadopted package
-media selectors and their old close window are retired, while adopted media
-uses the existing managed-source operations. No new endpoint or default is added.
-
-**Sound, high confidence — recovery fixtures supply the current source authority.**
-When a restarted service settles a recording, it requires both closed inputs and
-a receipt describing the published source files. The lifecycle fixture writes
-small scripted files and supplies their actual sizes and hashes in that receipt.
-It then checks the same recovery states and failure precedence as before.
-Returning only a duration would fail admission before those assertions could
-exercise recovery; weakening the production requirement would remove a real
-safeguard. The plan required preserving lifecycle guarantees without choosing
-these fixture bytes. This choice belongs to `ea62d9bd`; it proves service
-settlement, without claiming that scripted video bytes are valid native media.
-
-**Sound, medium confidence — archive bounds follow the current metadata representation.**
-A project archive carries separate history files, which the current metadata
-reader loads within its own working-memory budget. The generic native ZIP parser
-checks container and member limits; the canonical manifest parser also limits
-history count. Reapplying the old recording rule that adds all revision bytes
-to one native inline receipt would reject projects the current format deliberately
-supports. The plan required preserving bounded work without prescribing this
-fixture adaptation. This choice belongs to `702cc47c`; the old inline revision-byte
-assertion retires, while current history and container bounds remain enforced.
-It changes the preserved test contract explicitly, without loosening production
-limits or adding a second reader.
-
-**Sound, medium confidence — keep the actual default process boundary in capture tests.**
-A service restart must recover a take and answer through its real socket and
-private controller pipe. The test launches the default service entry and supplies
-a small controlled native worker that writes the required source receipts and
-answers startup and file operations. An in-process substitute would run faster
-but would remove the process restart, pipe and controller-deadline guarantees.
-The plan required preserving those guarantees without prescribing this updated
-worker fixture. This choice belongs to `00826d81`; the worker is test setup,
-and its scripted bytes establish no physical recording or native media validity.
-
-**Sound, medium confidence — package reservations charge only storage they can use.**
-Opening a large archive reserves space for its copied bytes and extracted files.
-Canonical package handles retain metadata and source files; media work happens
-after adoption through the managed library. The removed inspection engine also
-reserved 128 MiB per handle for private rendered outputs it could create.
-Keeping that allowance after removing the engine would reject two reservations
-that exactly fit the unchanged 64 GiB pool. The plan required retiring the old
-engine without specifying this accounting consequence. This choice belongs to
-`ae0ee473`; two exact 32 GiB reservations fit, a third is refused, and cancellation
-releases their actual charges. Owner limits and copy/extraction bounds remain.
-
-**Sound, medium confidence — shutdown proof waits for actual owned directory work.**
-The old deletion fixture paused an editing-cache startup promise. Current donor
-deletion instead owns source borrowers and directory acquisition. Its fixture
-holds that existing directory callback, first observes that it entered, then
-requests shutdown and checks that shutdown waits without removing source bytes.
-Closing before entry may legitimately abort immediately. The plan required the
-shutdown guarantee without prescribing this causal setup. This choice belongs
-to `3829aa5f`; the old startup gate retires explicitly, with no new production
-promise or observer added.
-
-**Sound, high confidence — deletion revokes a real delivery resource directly.**
-As soon as a donor is marked for deletion, callers must lose any delivery owned
-by it while unfinished work drains. The coordinator fixture opens an actual file
-descriptor over scripted donor bytes through the existing delivery owner, then
-checks immediate token refusal and one final directory removal. Recreating the
-old recording cache pipeline would preserve an unused owner solely for setup.
-The plan required revocation without choosing this fixture resource. This choice
-belongs to `3829aa5f`; it proves generic delivery lifetime, without claiming that
-current source-frame operations issue recording-owned tokens.
-
-**Sound, medium confidence — source-job continuity uses an actual managed import.**
-A caller imports source bytes, sees a retryable preparation failure, retries,
-cancels an entered worker, and reopens the service. The same public job retains
-its target and cancellation; another retry keeps the job ID and creates a new
-attempt. The alternative would retain an obsolete recording-edit target solely
-for this test. The plan required public continuation without choosing the current
-job kind. This choice belongs to `e62c0147`; it preserves the generic lifetime
-contract while capture/acquisition-specific recovery keeps its separate proof.
-
-**Sound, high confidence — timeout proof holds an actual committed reply.**
-An edit can commit while the caller loses its answer. The test forwards a real
-request to the canonical service, observes its successful reply, and holds that
-reply until the actual client times out. Retrying the same request ID then returns
-the exact saved result without adding history. A simulated success could pass
-without any mutation. The plan required this contract without choosing the test
-network edge. This choice belongs to `e62c0147`; it adds no product retry or
-transport behavior and keeps framing tests on the same real catalog.
-
-**Sound, high confidence — model metadata readiness stays separate from inference.**
-A ready-model request must return existing metadata without downloading or
-starting another transcription. The fixture creates sparse files at registered
-sizes and matching filesystem receipts, then supplies one controlled speech
-answer. It checks the resulting words and exact selected-source request. Requiring
-real weights for this metadata contract would add expensive unrelated work.
-The plan required preserving readiness/idempotence without selecting fixture
-bytes. This choice belongs to `e62c0147`; it proves metadata and service behavior,
-while actual recognition quality remains a separate acceptance gate.
-
-**Sound, high confidence — shared test setup owns canonical service handoff.**
-Both the existing service suite and the new contract cases need the same socket
-composition and descriptor-backed probe handoff. They consume one test-only
-fixture rather than copying that setup or adding a product adapter. Reopening
-uses the existing temporary library. The plan did not prescribe its test-file
-placement. This choice belongs to `e62c0147`; existing build exclusions keep the
-fixture out of production output, and default-entry discovery reuses its existing
-subprocess owner without extracting the capture suite.
-
-**Sound, high confidence — render guarantees belong to the shared attempt lifetime.**
-A worker times out or returns after cancellation while files are still staged.
-The existing attempt owner waits for its child, rejects late consumption and
-cleans the private files; effects already committed by a consumer remain that
-consumer's responsibility. These assertions now exercise that owner directly.
-The alternative would retain an unused preview adapter to reach the same lifetime.
-The plan required preserving guarantees without selecting every test seam.
-This choice belongs to `89ed3737`; duplicate abort/startup cases are removed only
-where current cases retain their exact child/staging observations. The old movie
-wrapper remains for identified native labs until those independent ports finish.
-
-
-**Sound, medium confidence — PNG inspection retains managed paths rather than the old descriptor pair.**
-A caller imports source bytes and requests a frame by asset and stream ID. The
-job retains the managed asset while the current native decoder reads its owned
-path, then atomically publishes a new output file. The removed direct package
-inspection engine instead decoded an inherited video file handle and wrote PNGs
-through another handle, so it could work after both names moved. Keeping that
-old internal request shape would require adding unused support to the current
-physical-support decoder. The plan required matching useful guarantees without
-specifying this internal difference. This choice belongs to `34a76ca0`: the old PNG input/output handle pair retires explicitly, including
-its same-handle alias case. Current path alias/no-clobber refusal, owned-source
-independence and generic descriptor lifetimes for audio, probing, source export
-and archive/publication remain. The failed unsupported-input trial is evidence
-of this difference, never a claimed parity pass.
-
-**Sound, high confidence — unchanged native code uses its existing pinned worker.**
-A test adds wire refusals and file-lifetime assertions while the native sources
-remain unchanged. Running the preserved worker against tiny owned fixtures gives
-actual operation feedback without rebuilding that same code. The alternative
-would repeat an expensive build that cannot answer another question. The plan
-required native proof without prescribing this iteration seam. This choice
-belongs to `34a76ca0`; the worker hash, unchanged native
-source pins and terminal results are recorded, while boundary mutations are
-labelled as test-oracle controls. A native source change still requires a build
-and the affected checks; this evidence never stands in for changed code.
-
-
-**Sound, medium confidence — transcript portability keeps raw source evidence rather than edited page files.**
-A caller transfers a project's selected transcript generation. Current adoption
-reads the original raw transcript receipt and reconstructs bounded indexed rows;
-the recipient can use it without preparing speech models. The removed recording
-package instead carried separate mutable word/gap pages, sometimes already
-projected through edits. Keeping that carrier would leave two transcript formats
-and another editor interpretation. The plan required portability without choosing
-this obsolete representation's fate. This choice belongs to `f5d40100`; page-file
-identity and edited-page rules retire explicitly, while raw hashes, bounds,
-ordering, non-overlap, cursor identity and computed project occurrences remain
-with their current owners.
-
-**Sound, high confidence — recording source storage survives removal of recording edits.**
-A stored raw transcript may identify the capture source that produced it, even
-though a project owns every edit. Its generic storage tests still protect
-namespace, cancellation, reclaim and raw provenance using capture facts.
-Deleting them because their identity mentions a recording would erase source
-lifetime proof. The plan required owner removal without prescribing every source
-namespace. This choice belongs to `f5d40100`; the generic store and its existing
-ownership/interruption tests remain byte-identical. Selected-source processing
-requires its actual asset/acquisition domain, and project rows derive from its
-source contract rather than the deleted recording projector.
-
-**Sound, medium confidence — current scene/index preparation keeps its selected-source policy.**
-A caller explicitly retries a failed source index. The current owner also retries
-its failed scene prerequisite; an ordinary read still leaves that failure alone.
-The old recording index required another preparation call and used one global
-background frame slot. Keeping those rules would recreate a retired pipeline:
-current index parents use the shared heavy-work lane and their frame children
-use separate capacity. Likewise, physical source support replaces the old
-nearest-future recording sample rule. The plan required useful guarantees to
-survive without choosing every obsolete scheduling rule's fate. This choice
-belongs to `26351af2`; partial-publication, explicit retry, cancellation, pinned
-references and bounded work remain, while those old policies retire explicitly.
-It constrains fixture ports, not editorial decisions or source lifetime.
-
-**Sound, high confidence — retained PNG metadata belongs to its existing file owner.**
-A source or project index retains an image with its path, byte count, media type
-and dimensions. Those facts describe a file regardless of which renderer made
-it. The existing retained-image validator owns that receipt, and renderer-specific
-receipts derive from it. Keeping the type attached to the recording renderer
-would make generic readers depend on an obsolete edit interpreter. The plan did
-not prescribe this type's home. This choice belongs to `26351af2`; runtime PNG
-validation stays unchanged. Generic index defaults no longer silently choose
-recording records, while pending old consumers explicitly name their domain.
-
-**Sound, high confidence — query observations follow the existing batching owner.**
-An index resolves two streams from one asset. The asset store already reads all
-their segments in one query per phase. A test watching the former query spelling
-reported zero reads; watching the actual table shows three ready phases and one
-execution phase. Keeping the old six/two counts would test a query pattern the
-product no longer uses. The plan required bounded fresh resolution without
-specifying this test observer. This choice belongs to `26351af2`; the observer
-recognizes the table independently of selected columns. Complete metadata,
-freshness, acquisition/header counts and error order remain asserted, and no
-production query or performance limit changes.
-
-**Sound, high confidence — media response tolerance excludes retired ownership.**
-The service returns a timestamp batch belonging to a project or selected source.
-The CLI/MCP adapter accepts added response fields, but refuses a recording-only
-or package-only owner before reading or closing any media lease. Ignoring the
-retired selector could otherwise consume a result that cannot identify the
-current requested target. The plan required consumer cutover without prescribing
-this response-validation boundary. This choice belongs to `d9b15a48`; current
-selection order, duplicates, per-item errors and lease behavior stay unchanged.
-The private project parser has its current owner's name, with no new protocol
-version or compatibility adapter.
-
-**Sound, high confidence — cursor diagnostics keep the capture clock at the source API boundary.**
-A captured picture can begin at a positive container timestamp. The cursor lab
-already labels its observations on that capture clock, while selected-source
-inspection measures time from the probed asset origin. The helper subtracts that
-origin when requesting a picture and reports the returned exact native sample
-timestamp on the original clock. Adding the origin to an already rounded reply
-could round twice and change a label. The plan required caller cutover without
-specifying this conversion. This choice belongs to `72ae1fab`; one bounded probe
-supplies stream identity and support through the existing source-selection owner.
-It preserves diagnostics without rebuilding availability or selecting another
-stream, and leaves physical geometry qualification to its separate gate.
-
-**Sound, high confidence — owner-death proof observes real work before interruption.**
-A native media worker loses its parent while writing an output. The old fixture
-waited a fixed time during a long video decode; it could not distinguish decode
-from startup. The replacement observes nonzero PCM in the current audio writer's
-private staging file, checks that no reply or final file exists, then kills the
-parent. The independent parent watcher must end that worker within the original
-deadline. The plan required generic worker lifetime without prescribing this
-operand. This choice belongs to `f272b2fa`; a short owned audio fixture replaces
-the expensive video setup. It proves generic parent lifetime, without claiming
-video teardown equivalence or cleanup after a hard process exit. Those private
-files still belong to their caller's attempt.
-
-**Sound, medium confidence — namespace proof deliberately collides two actual owners.**
-A source and project can occupy different namespaces even if their identifier
-text matches. The storage test creates both through their actual owners with one
-chosen identifier, removes the source generation, and checks that the project
-generation and its file survive. Project creation normally generates a UUID;
-source identifiers come from content hashes. A narrowly scoped test-only entropy
-mock supplies the collision during project creation and is restored immediately.
-Using different identifiers could miss a query that forgot the owner kind. The
-plan required retaining namespace isolation without prescribing this setup.
-This choice belongs to `7acb8ef5`; it tests generic storage keys, not public ID
-formatting, and adds no production ID provider or synthetic index domain.
-
-**Sound, high confidence — portable index proof uses the managed generation owner.**
-A recipient adopts retained images and coverage, the donor disappears, and the
-recipient restarts before reading every row and image. The current managed store
-and shared reader carry that lifetime and paging guarantee. Keeping a separate
-unconsumed index page format would preserve another representation only to keep
-an old test running. The plan required portability without prescribing the old
-carrier's fate. This choice belongs to `7acb8ef5`; the old index carrier retires,
-while independent scene semantic oracles await transfer from their orphan chain.
-It preserves raw source provenance without claiming that every source-labelled
-wrapper has a current product consumer.
-
-**Sound, high confidence — receipt refusal follows the current source authority.**
-A stored image must belong to the support selected for its source. The current
-receipt carries a support digest, the hash of those selected ranges; a mismatch
-is refused. The removed recording renderer instead carried its old source
-evidence generation and annotation policy. Adding those fields to current raw
-frames would rebuild a compatibility model. The plan required useful receipt
-refusal without specifying this obsolete representation's fate. This choice
-belongs to `7acb8ef5`; the test now targets the current support digest, and the
-old annotated-generation semantics retire explicitly. Generic file safety and
-published source/project generation identity remain independently protected.
-
-
-**Sound, medium confidence — the scale cache caller admits a selected source.**
-The preserved generated input enters through the public asset import job. The
-caller discovers its video stream and requests that source directly. Manufacturing
-recording rows and canceled evidence jobs would restore removed prerequisites.
-This choice belongs to `bf84214f`; the cache, CLI, eviction, restart and source-hash
-oracles stay intact. Syntax and current contract correspondence pass; the
-30-minute execution remains deferred to the scale gate.
-
-**Sound, high confidence — portable scene semantics belong to the current staged store.**
-A self-consistent archive hash cannot validate its scene grid, clock or predecessor
-continuity. Those checks now exercise the managed store that admits portable
-source generations. Generic member integrity remains with the project archive
-owner. This choice belongs to `bf84214f`; standalone scene/event carriers and their
-orphan adapter retire after their useful guarantees are mapped to current owners.
-Raw capture facts and shared raster/pointer algorithms survive.
-
-**Sound, medium confidence — delivered cursor size follows the compiled geometry.**
-A source-sized cursor raster shrinks through the clip, its ancestors and final
-image delivery. The existing executor traces that same geometry back to the
-visible source region and passes its smallest-axis delivery scale to the existing
-sizing owner. This choice belongs to `8d423c29`; no cursor recipe, history or
-constant changes. Actual reductions, crop and rotated coverage preserve the old
-floors and cap. Full-size and unannotated frames are unchanged. Independent
-comparison resolves the suspected crop regression against the old renderer;
-its tiny 32-pixel glyph remains difficult to recognize. Focused executable proof
-does not establish every transform or installed playback.
-
-
-**Sound, high confidence — the caller fixture requires explicit cuts before preparation.**
-The release journey receives a caller-selected plan and rejects invalid support
-or overlapping mapped ranges before transcript, index or media work. Search and
-filler classifications remain evidence. The caller compares normalized availability
-in asset time and converts each cut once into the authored project clock. This
-choice belongs to `d2e3fc16` and `5c9517bd`; it preserves the product's zero-editorial
-decision boundary without adding a toolkit policy. Audio excerpts retain their
-requested context across support gaps and record unavailable intervals. A proposed
-context clamp was rejected after inspecting the actual audio owner. Controlled
-caller checks pass; no personal editing or installed/media acceptance is implied.
-
-**Sound, medium confidence — native frame callers inspect selected source pictures.**
-A caller asks for a source time and receives the picture containing that time.
-The retired recording selector instead interpreted a caller-authored revision,
-mapped its kept spans and applied nearest-picture and annotation defaults.
-Keeping that recording-specific interpreter in an adapter would create a
-compatibility owner beside explicit source/project inspection. This choice belongs to `5019f7bb`; current
-source/project tests preserve useful pin, retry and lifetime guarantees, and the
-native callers preserve their pixel and cache checks. Their generated source
-metadata follows existing fixture practice; actual native execution remains open.
-The plan required preservation without prescribing the obsolete selector's fate.
-
-**Sound, high confidence — concurrent frame attempts have no scheduling contract.**
-When a batch contains valid and invalid requests, each item keeps its result and
-the public response keeps caller order, including duplicates. The worker may
-start independent requests in either order. Tests compare all attempts without
-inventing an execution sequence that clients cannot observe. This choice belongs
-to `5019f7bb`; the actual service owns jobs, cache and delivery while a fixed PNG
-controls only the native edge. It creates no new queue or decoder-quality claim.
-
-**Sound, high confidence — preserve resampling boundaries without restoring an automatic mix.**
-A selected interval contains two impulses exactly on its admitted sample cells;
-impulses just outside it must contribute nothing. A small explicit composition
-tests that distinction with the inherited source offset and output frame quota.
-Restoring the old recording mix and fades solely for this check would restore a
-retired policy owner. This choice belongs to `2ab9dbdc`; independent positive and
-negative controls retain the numerical contract, while codec and whole-movie
-guarantees stay with their separate checks. The plan required endpoint preservation
-without requiring the obsolete whole-recording recipe.
-
-**Sound, high confidence — native movie fixtures author their output clock and mix explicitly.**
-The generated long recording contains gaps and numbered pictures. Its current
-fixture chooses a one-frame-per-second project canvas, explicit retained source
-ranges and a gain of one half on each audio track. The old recording renderer
-derived picture events and mixing from recording roles. This choice belongs to
-`7d6c6c74`; it retires that interpreter without introducing a replacement policy.
-The documented composition clock floors absolute audio sample boundaries.
-Original movie duration, audio-track duration, independent signal and memory
-limits stay intact. Native execution remains a separate obligation.
-
-**Sound, high confidence — the WAV comparison uses current composition processing with an independent signal check.**
-The same authored clips produce a standalone WAV and an encoded movie. Comparing
-their decoded audio detects encoding or assembly errors but cannot expose a DSP
-error shared by both outputs. The fixture also compares decoded samples against
-the independently generated chirps, preserving that second authority. This choice
-belongs to `7d6c6c74`; the removed audio executable's recording mix is unnecessary
-as a runtime reference. Historical source and phase evidence remains preserved.
-
-
-**Sound, high confidence — inspection fixtures author their audio and picture targets.**
-A fixture with narration, system sound and a silent interval creates explicit
-clips and gains, then asks the project audio or preview owner for output. It no
-longer asks a recording-role planner to choose a mix or interpreted picture
-range. This choice belongs to `1c3f3c40`; the plan required removing that owner
-without prescribing every fixture's authoring. Independent tones preserve the
-silent-interval check, while the actual encoded-media gates remain executable.
-Future callers use the same explicit source/project contracts.
-
-**Sound, high confidence — consume delivered files while their leases remain open.**
-A service result lends a cached file until the caller closes its delivery token.
-The caller now copies or decodes that file before closing the token, including
-when reading fails. Closing first would let retirement race the read. This
-choice belongs to `1c3f3c40`; it follows the existing lifetime contract and adds
-no replacement cache or retry mechanism. Polling a failed preview never retries
-it; the caller explicitly requests the retry.
-
-### Capture/source caller ownership pass (886c24f5 baseline)
-
-**Sound, medium confidence — reuse current proofs instead of cloning retired policy labs.**
-When an old recording-index or timeline lab prepares an automatic editing history,
-porting that setup would preserve a second editing owner. This pass retires those
-labs and points at current project edits, source index, source evidence, storage
-and transcript proof banks. Sparse native scene pixels, stopped-worker deletion,
-orphan source lifetimes, trail pixels and capture recovery still have actual native
-callers; their execution remains pending. The gap was which old assertions deserved
-another live gate. This choice constrains later closure to match each unique native
-claim rather than treating syntax as proof or rerunning every obsolete workflow.
-
-**Sound, medium confidence — the movie caller consumes a retained paused take.**
-A caller that checks pause/source intervals now names an existing donor directory,
-admits it explicitly and authors the full and cut projects. It never asks capture
-to make another recording. Its authored canvas uses 30 fps; this checks the current
-composition preview contract when executed, not equivalence to the retired variable
-source-clock movie path. The gap was how to preserve this useful caller while new
-capture was forbidden. Future execution must name an actual paused donor and must
-not claim original-clock timing or listening quality from this syntax-only port.
-
-**Sound, high confidence — source facts and admission stay separate in fixtures.**
-A generated donor first receives capture identity and terminal facts in the canonical
-catalog. The fixture then explicitly imports the source and waits for that job; it
-never creates a project or marks fake preparation jobs canceled. An existing library
-may already contain projects, so importing a take asserts that its project list stays
-unchanged. The gap was the shared setup required by live native callers. The shared
-public-service fixture now owns that setup, while actual edits remain visible at each
-caller. This preserves the product's zero-editorial-decision boundary.
-
-**Sound, medium confidence — current orphan acquisition refusal is workspace-wide.**
-An orphan native child holding an acquisition workspace causes acquisition recovery
-to refuse with ACQUISITION_BUSY; an orphan holding its capture donor causes removal
-to refuse with RECORDING_BUSY. After the actual child is gone, recovery or explicit
-deletion can proceed. The old per-recording processing cleanup policy is retired,
-rather than rebuilt beside acquisition recovery. The gap was how to retain the
-valuable cross-process lifetime assertion after its recording-processing owner lost
-its callers. These native checks are ported recipes, not newly observed outcomes.
-
-
-**Sound, high confidence — preserve prior catalog history as immutable input.**
-When new code opens an old recording catalog, it refuses the format before
-creating tables and leaves the file unchanged. The refusal test uses a real
-format-22 catalog containing caller-authored cut, trim, replay and undo state,
-created before its owner was removed. This choice belongs to the core/schema
-closure after `8e98a26f`; the plan required refusal without specifying fixture
-construction. Keeping the immutable file avoids retaining a second edit engine
-solely to generate old test data. Project revision history remains current.
-
-**Sound, high confidence — recording jobs retain source identity alone.**
-A cleanup job for a settled capture persists its capture identity and a null
-revision. A project job persists its explicit project revision. Existing domain
-admission refuses recording edit selectors; new-format decoding follows these
-accepted writers. This choice belongs to the core/schema closure after
-`8e98a26f`; it removes the obsolete original-revision backfill and its unused
-busy observer rather than recreating a recording edit owner. Current capture
-admission and queue capacity keep their existing owners. Frozen comparison
-harnesses remain in their original evidence archives, outside current callers.
-
-
-### Native owner closure (`080ed72d`)
-
-### Keep the long PCM oracle at selected-source spans
-
-When transcription selects several pieces of one source, its existing stream still uses cumulative sample positions and join conditioning. The migrated10/300-second consumer calls that live stream with the same three pieces, so its independent tone/edge/sample and memory tests retain their meaning. A composition port would instead require authored fades and a different project clock.
-
-Gap: The instruction allowed a current source or composition owner but did not pick one.
-
-Reach: This proves selected-source streaming, not composition fades. The1s generated control is byte-identical to the frozen worker; the10/300 scale remains pending.
-
-Verdict: **sound**. The choice preserves the current owner and keeps the evidence boundary explicit. Confidence: **medium**.
-
-### Observe pointer mutation at the real writer boundary
-
-A valid compiled held-picture request succeeds first. The failure trial waits until the video writer exists, which occurs after pointer receipt preflight, then changes the retained pointer file. The persistent helper accepts only INVALID_REQUEST with digest mismatch or file-version change: which message appears depends on whether the reader already buffered the old rows.
-
-Gap: The retired operation had a file observer; the current operation has nested movie/video staging.
-
-Reach: This proves rejection after preflight without adding a production test hook. It does not prove an exact SDK finishing callback or sibling encoder cancellation.
-
-Verdict: **sound**. The choice preserves the current owner and keeps the evidence boundary explicit. Confidence: **medium**.
-
-### Give the text-fidelity fixture an explicit60fps compiler clock
-
-For a review point during scrolling, the compiler selects a60fps output frame and the source instant that feeds it. The reference PNG reads that source layer, and the delivered PNG reads the output frame. Their source and output timestamps are recorded separately because captured variable timestamps need not equal the authored frame grid. A shared source-compiled directory keeps these references separate from old nearest-sample artifacts.
-
-Gap: The retired renderer inferred event times; the current compiler requires an authored frame rate.
-
-Reach: The small generated adapter proves wiring, frame count, dimensions and timestamp mapping. Real browser capture, OCR and readability are not rerun or claimed.
-
-Verdict: **sound**. The choice preserves the current owner and keeps the evidence boundary explicit. Confidence: **medium**.
-
-### Use21us for the one-cell project movie
-
-At48kHz, one cell lasts20.833us. The old recording path rounded20us to one cell; a compiled project floors its sample grid, so21us is the smallest whole-microsecond window that contains one cell. The current test preserves the same nonzero-native/zero-FFmpeg diagnostic and original one-cell endpoint allowance. It separately records movie and AAC edit clocks instead of requiring those two clocks to have identical duration.
-
-Gap: The old tiny fixture could not be copied literally under the already-chosen floor project clock.
-
-Reach: Future readers must distinguish exact movie presentation from codec sample rounding; long-case exact edit-list checks remain unchanged.
-
-Verdict: **sound**. The choice preserves the current owner and keeps the evidence boundary explicit. Confidence: **high**.
-
-### Keep current ASR separate from historical audition evidence
-
-The speech reproduction still invokes the current transcription operation. Its retained audition cuts use the exact worker already pinned by the12d evidence. The fixed sentence packet likewise refuses any other worker; source CLI-parity audio instead uses the moved live selected-source helper.
-
-Gap: Old scripts mixed current transcription with retired recording excerpt calls.
-
-Reach: Historical outputs cannot accidentally become current composition evidence. Reproduction now requires the recorded baseline explicitly; no models or speech runs were executed here.
-
-Verdict: **sound**. The choice preserves the current owner and keeps the evidence boundary explicit. Confidence: **high**.
-
-### Use the existing provenance manifest for comparison workers
-
-The audio phase and pointer comparison harnesses must hash their explicit baseline before creating fixtures. They accept only the canonical retained worker listed by the existing preservation manifest, rather than any different executable or the current worker.
-
-Gap: The old pointer caller silently fell back to the current executable; the audio caller always used it.
-
-Reach: The independent comparison remains pinned across future current-worker changes. No new baseline registry or compatibility operation is introduced.
-
-Verdict: **sound**. The choice preserves the current owner and keeps the evidence boundary explicit. Confidence: **high**.
-
-### Simplify private PCM state while preserving selected-source contracts
-
-After role mixing disappears, every remaining AudioPCMStream holds one SourceTrack. The private arrays, channel promotion and half-gain branch are removed; selected-source report/source-URL shapes stay intact for their current consumers. Source-window and transcription-span clocks keep their existing independent policies.
-
-Gap: Removing only the public role overload would leave a dead two-track mixer inside the source owner.
-
-Reach: One source owns decoding and unit gain; composition owns authored summation and processing. Default SourceAudio and exact old/current PCM controls pass.
-
-Verdict: **sound**. The choice preserves the current owner and keeps the evidence boundary explicit. Confidence: **high**.
-
-## Repository format boundary — implementation-end verification
-
-### Preserve published artifact bytes during formatting
-
-When the formatter reaches the registered voice profile, rearranging whitespace changes its file digest even though the parsed settings are equal. The runtime artifact publishes those exact bytes, so formatting the source would break its identity check without changing any voice setting. The existing formatter ignore file now also protects the two published model metadata files and frozen vendor provenance. Ordinary code still uses the formatter. The existing captured HTML exception remains intact.
-
-Gap: The default formatting command previously included these frozen byte operands.
-
-Reach: Updating a published profile or inventory remains an explicit artifact change, rather than a side effect of formatting. This introduces no runtime option or alternative profile.
-
-Verdict: **sound**. Artifact identity takes precedence over cosmetic whitespace. Confidence: **high**.
-
-## Default-gate fixture ownership — implementation-end recovery
-
-### Use the built candidate for the current library/preview check
-
-An ordinary repository test run builds a candidate app, then checks the actual metadata service and the native library/preview controllers. This fixture now uses that candidate's service configuration and worker by default, and hashes every producer before execution. It keeps the complete archived historical replies as the separate controller-input reference; those replies do not require a historical producer for the live metadata half. An explicitly supplied historical worker still must match the original frozen digest. The alternative required private environment paths in every ordinary run and failed before checking any contract.
-
-Gap: The composed historical check was included in the default suite while its executable inputs could only be supplied externally.
-
-Reach: A fresh repository build can execute this same coverage without selecting the installed app or its library. Historical reproduction keeps its pinned-worker guard. No product configuration or discovery rule changes.
-
-Verdict: **sound**. The producer matches the gate's scope while historical input fidelity remains independently pinned. Confidence: **high**.
-
-### Distinguish native discard acknowledgement from service cancellation
-
-When cancel arrives while the native controller's finalizing report is held, publication has not begun. The native reply acknowledges that finalizing event after closing the input; the service separately owns canceled state and donor retirement. The fixture keeps the closed journal and proves its bytes cannot change after the next take begins, with idle/null old ownership and exact replacement identity. Accepting either complete or finalizing would conceal which race occurred.
-
-Gap: The old fixture expected completed publication despite cancel-before-publication.
-
-Reach: Future observers must distinguish resource release from the service's durable state. No device or service behavior changes.
-
-Verdict: **sound**. The selected branch is exact and ownership remains independently observable. Confidence: **high**.
-
-## Current caller fixture contracts
-
-### Exercise frame edits through an explicitly authored project
-
-The frame fixture now admits captured source facts, verifies that admission made
-no project, then creates its own project for crop and cut requests. A crop is an
-authored geometry step; source inspection retains its separate endpoint contract.
-Requested project time, requested source time and the containing physical sample
-remain distinct. No implicit editing project or recording-revision adapter returns.
-
-Gap: The retired recording frame interface combined evidence and edits in one selector.
-
-Reach: Future fixture authors must express edits through the same public project
-contract as callers. Generated source coverage establishes the downstream path;
-the physical capture precondition remains independently required.
-
-Verdict: **sound**. One existing owner carries each contract. Confidence: **high**; the physical prefix now executes through the same authored project contract.
-
-### Hold the actual reader at its existing descriptor barrier
-
-The deletion fixture uses the canonical service and a real native reader held
-at the existing descriptor barrier. It requires the reader's actual canceled
-result before fixture cleanup, so a timeout cannot impersonate successful
-cancellation. The helper path resolves relative to the fixture, independent of
-the command's working directory.
-
-Gap: Polling for a fast child could miss it entirely; merely observing eventual
-process death could accept a reader that ignored deletion until its timeout.
-
-Reach: The fixture proves service cancellation and deletion ordering deterministically.
-App host child ownership remains a separate check. No production hook, timeout
-extension or alternate worker operation is introduced.
-
-Verdict: **sound**. Existing injection and lifetime ownership suffice. Confidence: **high**.
-
-### Separate finalization progress from lifecycle transitions
-
-Publication can report progress several times while the take remains finalizing.
-The fixture retains every journal row and checks sequence, identity, duration and
-immutable published bytes. Its state-transition comparison collapses only
-adjacent finalizing rows, preserving the exact pause/resume/finalize/complete chain.
-
-Gap: The old assertion counted every progress report as a new lifecycle transition.
-
-Reach: More publication progress cannot masquerade as a different state machine,
-and duplicate reports in other states remain visible failures. The product and
-journal format are unchanged.
-
-Verdict: **sound**. State and progress have separate observable contracts. Confidence: **high**.
-
-## Exact movie support and authored sample clocks
-
-### Finalize only the native writer's bounded movie header
-
-When a requested movie ends between audio samples, its floor-counted PCM ends
-slightly earlier. The native mux now declares that fractional remainder as an
-empty presentation segment in the movie header. It leaves encoded audio, video
-and their byte offsets intact. The alternative of adding an audio sample would
-change the declared PCM quota; exporting the movie again would unnecessarily
-rewrite media. The finalizer accepts the native writer's fixed clock grammar,
-with one audio track and a header bounded to 64 MiB. It refuses ambiguous,
-unrepresentable or larger missing intervals instead of concealing lost audio.
-
-When: native soundtrack support pass, `dd7d82c5`.
-
-Gap: The spec required exact presentation and unchanged PCM but did not choose
-how to represent the remainder when the platform exporter omitted it.
-
-Reach: This is a private finalization rule for movies produced here, not a
-general movie repair or import parser. Supporting another writer's grammar
-requires an explicit extension; the metadata memory bound remains visible.
-
-Verdict: **sound**. Bounded header work preserves the media contract and avoids
-a second encoding path. Confidence: **medium**; the fixed grammar and metadata
-ceiling are implementation choices the project now owns.
-
-### Bind finalization to the file the writer created
-
-If another process replaces the staging pathname after the writer opens its
-movie, reopening that pathname could modify unrelated bytes. The mux retains
-the writer's file descriptor, the operating system's handle to that exact file,
-and verifies that its locator still names the same file before finalization.
-Replacing the pathname therefore causes refusal rather than a write to the
-replacement. Cleanup and publication still need their own common owner; this
-rule does not claim to resolve those separate pathname operations.
-
-When: native soundtrack support pass, `dd7d82c5`.
-
-Gap: The plan specified attempt ownership but not how header finalization would
-retain the writer's actual output identity.
-
-Reach: Native movie finalization uses held file identity. It adds no public
-operation, retry policy or generalized filesystem watcher.
-
-Verdict: **sound**. The writer's existing file handle is the relevant authority.
-Confidence: **high**.
-
-### Derive independent audio expectations from authored sample boundaries
-
-A fixture cuts several source ranges and places them next to one another.
-At 48 kHz, the contract floors each authored boundary to a whole sample. Its
-independent signal check now floors the authored source start and placement
-start separately, then maps the output sample back to its source sample.
-Using an unrounded time difference instead compared the correct output with a
-signal about one sample earlier. Reading the compiler's expected PCM would
-instead make this check depend on the implementation it is judging.
-
-When: original movie-scale recovery, after `dd7d82c5`.
-
-Gap: The fixture's analytic signal oracle had not represented the declared
-discrete boundary rule.
-
-Reach: The independent oracle consumes only authored ranges and the declared
-sample rate. The original error limit stays unchanged; no media processing or
-caller-visible timing rule changes.
-
-Verdict: **sound**. The expectation independently expresses the existing
-contract instead of accepting the compiler's own answer. Confidence: **high**.
-
-## Staged-output directory ownership
-
-### Retire a renamed output within its retained parent
-
-If a private staging directory is renamed and unrelated files appear at its
-former name, cleanup now clears the directory it originally opened. It scans
-the retained parent once to find that same directory by filesystem identity and
-remove its empty entry. It leaves the replacement untouched. If someone moves
-the owned directory outside that parent, cleanup still clears its held contents
-but does not search the filesystem for the empty directory's new name.
-
-When: staged-output ownership pass, `9e2c3efd`.
-
-Gap: The plan required owned cleanup without specifying how to find a renamed
-staging directory or how far cleanup could search.
-
-Reach: Cleanup stays bounded to the original parent and held staging directory.
-It adds no filesystem watcher or global search policy.
-
-Verdict: **sound**. A single local scan preserves unrelated bytes and keeps
-cleanup simple. Confidence: **medium**; movement outside the parent deliberately
-has a narrower retirement guarantee.
-
-### Keep one publisher with the identity each producer actually knows
-
-A direct write knows which file it created, so publication verifies that file's
-identity. A platform writer assembles media through its own URL and provides no
-earlier file identity to NewFile. Both now publish through the same retained
-directory implementation; resuming a retained attempt opens its roots at resume.
-This removes publication through a replacement staging directory but does not
-claim protection against every concurrent replacement of an external writer's
-leaf file. Adding a new writer-registration protocol would be a separate contract.
-
-When: staged-output ownership pass, `9e2c3efd`.
-
-Gap: The plan did not specify how directly written and externally assembled
-files would share publication while retaining different identity evidence.
-
-Reach: Publication has one implementation. Existing native writer-specific
-identity checks remain useful; no unsupported stronger guarantee is advertised.
-
-Verdict: **sound**. Each path uses its available authority without creating a
-second publication protocol. Confidence: **medium**; arbitrary concurrent leaf
-replacement remains outside this correction.
-
-### Undo only a destination link created by the failed publication
-
-Publication links the completed file into the selected parent, then checks the
-exact requested locator before returning its receipt. If that final check fails,
-it removes only a link created by this invocation that still names the selected
-file. A retry that finds the same file already published succeeds, and a failed
-retry never deletes that preexisting file. Removing every destination on failure
-would destroy an earlier successful publication.
-
-When: staged-output ownership pass, `9e2c3efd`.
-
-Gap: The plan required exact receipts and retries but left late failed-receipt
-rollback unspecified.
-
-Reach: Fresh publication and retained retries share no-overwrite and same-file
-idempotence. Unrelated destination occupants are never removed.
-
-Verdict: **sound**. Rollback owns only the new link, not the destination name.
-Confidence: **high**.
-
-### Close handles on release; discard bytes only when explicitly requested
-
-A camera publication can fail after producing useful candidate bytes needed for
-recovery. Releasing its NewFile now closes the retained directory handles but
-keeps those bytes. Explicit discard cleans the owned staging directory. Automatic
-destructor cleanup would silently erase the candidate the camera owner retained.
-Directory scanning and removal use the existing shared filesystem primitive,
-now owned by the media module; recording locks and request identities remain
-with their existing storage owners.
-
-When: staged-output ownership pass, `9e2c3efd`.
-
-Gap: Retained handles needed a release rule, and moving common directory cleanup
-into the media owner needed a boundary that preserved recovery semantics.
-
-Reach: Recovery and discard remain explicit caller decisions. There is one
-directory scanner/remover rather than parallel media and storage copies.
-
-Verdict: **sound**. Handle lifetime does not imply permission to delete retained
-media. Confidence: **high**.
-
-## Bounded deep/wide reorder queries
-
-### Author with complete CLI receipts; measure the default MCP reader
-
-When thousands of clips are placed, an edit receipt can become a reference to
-the complete result rather than inline data. The new narrow scale fixture uses
-the existing CLI result-delivery owner for setup and undo, then an unconfigured
-MCP SDK client for every bounded timeline query. Rebuilding result assembly inside
-the older harness wrapper would create another owner. The original long-project
-case keeps its existing transport and diagnostics.
-
-When: reorder-query checkpoint, `22cf96fd`.
-
-Gap: The older harness assumed inline edit receipts; the missing acceptance
-dimension concerned default bounded reads rather than authoring transport.
-
-Reach: The narrow case preserves the actual default reader limits and avoids
-unrelated audio/preview work. It adds a harness case, not a product operation.
-
-Verdict: **sound**. Each existing transport owner carries its relevant contract.
-Confidence: **high**.
-
-### Swap clear destinations and derive expected cuts from the requests
-
-A same-track swap would temporarily overlap clips after the first move, which
-the product correctly refuses. The fixture swaps equal-length clips on different
-tracks whose destinations are clear. One edit contains both moves without ripple.
-It derives the expected timeline rows from the requested positions, requested
-track identities and returned clip labels, rather than a returned composition.
-Reading the earlier revision still gives the original rows, and undo restores
-them. This tests placement invalidation; it does not claim processor reorder or
-same-track swap semantics.
-
-When: reorder-query checkpoint, `22cf96fd`.
-
-Gap: The plan named reorder invalidation but did not select a valid authored
-swap or an independent result oracle for the large routing fixture.
-
-Reach: The expected rows describe this fixture's separated clips. They are not
-a second general timeline evaluator or a new edit semantic.
-
-Verdict: **sound**. Valid explicit edits expose stale placement data without
-depending on the compiler's own answer. Confidence: **high**.
-
-## Continuous playback and exact finishing cancellation
-
-### Reuse immutable encoded media for the player checkpoint
-
-The six-second generated movie already has independent frame, timestamp and
-audio checks. The new player test extracts that exact movie from its durable
-evidence archive and verifies its digest before and after playback. It controls
-only the ready project/revision/lease receipt while the real native controller,
-window and player advance to the end. Rebuilding the media or repeating the
-backend lease tests would answer questions already covered elsewhere.
-
-When: continuous-player checkpoint, `f6427f7b`.
-
-Gap: The plan required continuous presentation but did not select reusable media
-or the narrow boundary for observing it.
-
-Reach: This test depends on a durable archive member. Closing or relocating the
-spec must preserve or deliberately relocate that fixture address. It does not
-claim a new backend, moving-pointer or listening result.
-
-Verdict: **sound**. The fixture isolates actual player progress without new
-render work. Confidence: **medium**; the archive dependency is a maintenance
-choice rather than a product contract.
-
-### Mute the assigned player before production playback starts
-
-The production window starts playback when its player is assigned. The test
-observes that same assignment synchronously and mutes the player before play,
-then checks the muted player's identity. Counting observer notifications would
-incorrectly reject multiple notifications about the same player. Adding a
-production mute flag solely for this check would expand the product interface.
-
-When: continuous-player checkpoint, `f6427f7b`.
-
-Gap: The test needed actual playback without making sound on the user's machine.
-
-Reach: The test uses the existing main-actor assignment boundary. The production
-controller and presenter remain unchanged, and muted playback supplies no
-speaker or listening claim.
-
-Verdict: **sound**. Observation keeps the test quiet without a production hook.
-Confidence: **medium**; it relies on the existing synchronous assignment boundary.
-
-### Observe real SDK finishing without holding or fabricating completion
-
-A caller cancels after the original writer-finishing method starts and before
-its completion callback arrives. A test-only observer forwards the original
-method and callback on their original executors, identifies the exact mux writer,
-and requires that it is still writing with no completed callback at cancellation.
-It waits for callback drain before restoring observation. Already completed or
-missed timing is not accepted. A fabricated delayed completion would make this
-case easier but could only prove the fabricated boundary.
-
-When: finishing-cancellation checkpoint, `aa07b28e`.
-
-Gap: Process abort and cancellation on method entry did not establish cancellation
-after actual SDK finishing had begun.
-
-Reach: This adds an executable test boundary with an explicit SDK ABI check,
-not a production hook, delay or runtime option. Sibling-pump failure remains a
-different contract.
-
-Verdict: **sound**. Actual SDK progress and drained completion identify the
-required phase. Confidence: **high**.
-
-### Classify the cancellation error once at the shared native boundary
-
-Swift cancellation previously fell through the movie operation's unexpected
-error mapper and became a retryable decode failure. NativeWire now recognizes
-the actual CancellationError type and returns CANCELED with the existing failure
-receipt and operation details. It does not overwrite a genuine decode error
-merely because a task happens to be canceled, and it adds no movie-specific mapper
-or automatic retry. A fresh attempt remains the caller's explicit decision.
-
-When: finishing-cancellation checkpoint, `aa07b28e`.
-
-Gap: The shared responder had no cancellation classification despite operations
-propagating Swift cancellation.
-
-Reach: All native operations share the same typed cancellation meaning while
-their known media, capture and storage errors keep their existing classification.
-
-Verdict: **sound**. One error owner preserves cancellation without hiding real
-operational failures. Confidence: **high**.
-
-### Control SDK readiness to exercise an unfinished sibling
-
-A movie contains both video and audio. In the tiny natural fixture, video can
-finish before the first audio block, so failing that video path would not exercise
-an unfinished sibling. The test temporarily reports video as not ready until the
-SDK has accepted an audio block, and can hold subsequent audio readiness until
-video reaches the selected append. It records the SDK's original readiness answer,
-forwards the original sample to the SDK, and triggers a real writer cancellation
-only while both inputs are unfinished and some audio remains. The caller task
-stays uncanceled. It then requires the first video error, prompt drain, unchanged
-sources and no published output before restoring all observed methods. Merely
-asserting a failure after both inputs finish would leave the sibling contract
-untested; claiming this controlled sequence occurred naturally would overstate it.
-
-When: controlled sibling-pump checkpoint, `cb28174a`.
-
-Gap: Existing media did not reliably overlap the two pumps under natural scheduling.
-
-Reach: This is a test-only SDK scheduling boundary with no product hook. Its
-explicit interleave proves the failure contract, not natural schedule frequency.
-
-Verdict: **sound**. The controlled condition is declared and original SDK work
-still supplies the failure. Confidence: **medium**.
-
-### Keep pointer placement and color preservation as separate claims
-
-A generated movie shows a white pointer moving between two known positions,
-then holding while the same source picture remains visible. The check compares
-its white core with the same-clock PNG inside the known glyph neighborhood,
-using existing thresholds and independently retained hotspot geometry. Whole
-frames and enlarged crops remain available to review. A clean movie without a
-pointer must fail the same predicate. Unrelated white text elsewhere in the
-picture cannot substitute for the glyph. The observed color difference between
-movie and PNG remains an open preservation question; a positional pass does not
-approve that difference or transfer to colored trails and arbitrary gestures.
-
-When: moving-pointer checkpoint, `f77e114d`.
-
-Gap: The existing reference contains other white pixels and a different background;
-a whole-image equality claim would conflate pointer geometry with color fidelity.
-
-Reach: The permanent scenario guards explicit pointer motion and held state while
-broader color, trail and presentation gates keep their existing requirements.
-
-Verdict: **sound**. Localized geometry evidence remains independently falsifiable
-and its wider limits are explicit. Confidence: **medium**.
-
-### Compare source membership in its original pixel domain
-
-The original source-membership check compares raw decoded RGB samples with the
-authored RGB fixture. A PNG reader also converts declared profiles into sRGB,
-which changes those values. The new checkpoint keeps the original raw comparison
-and its original bound, and retains the sRGB comparison as a separate diagnostic.
-Substituting one domain for the other and adjusting the bound until it passes
-would hide a color-contract change. No transformed image replaces the original
-operand, and the differing movie/PNG colors remain unverified.
-
-When: moving-pointer checkpoint, `f77e114d`.
-
-Gap: The new same-clock PNG companion uses a different declared color domain from
-the inherited source-membership oracle.
-
-Reach: Existing membership and color-preservation contracts retain their distinct
-operands; future color work must resolve the actual profiles and complete images.
-
-Verdict: **sound**. It preserves the inherited test without manufacturing color
-parity. Confidence: **high**.
-
-### Read large operation results once through the shared journey transport
-
-When a caller submits a large edit or asks for a broad query, MCP can return a
-lease for the complete JSON response instead of its body. The operation has
-already run. The shared test-journey transport now reads bounded chunks through
-the advertised artifact API, verifies the byte count, digest and original response
-identity, and returns the same data or error as an inline response. Switching each
-large call to another transport would leave future large responses unhandled;
-repeating the operation to retrieve its result would risk repeating a mutation.
-The temporary per-call exceptions were removed. The existing protocol defines
-all size and chunk limits; no server, client capacity or production API changed.
-
-When: combined-scale consumer checkpoint, `f19cae7d`.
-
-Gap: The shared fixture transport understood only inline results; the existing
-public delivery contract had no reusable MCP consumer in this harness.
-
-Reach: All journeys sharing the helper can consume complete results, including
-large failures, without changing operation or replay semantics. The focused
-regression runs in the existing package test list.
-
-Verdict: **sound**. One harness consumer follows the existing public contract.
-Confidence: **high**.
-
-### Close the outer result lease while preserving nested media and errors
-
-If reading a complete JSON result fails, the harness still closes that result's
-lease. If closing also fails, it retains both errors for diagnosis. A media lease
-inside the decoded result stays open for its caller to consume; closing the JSON
-snapshot is not permission to close the media it describes. Ignoring the first
-error or closing every token found in the body would hide a delivery failure or
-break a legitimate later media read.
-
-When: combined-scale consumer checkpoint, `f19cae7d`.
-
-Gap: A new result consumer needed an explicit cleanup and error-precedence rule.
-
-Reach: The shared harness owns only its outer response lease, and failure evidence
-remains available even when cleanup also fails.
-
-Verdict: **sound**. Ownership stays narrow and failures remain inspectable.
-Confidence: **high**.
-
-### Capture the first large exchange without adding cost to warm repetitions
-
-The scale observer records the first large setup, query and preview-layout
-exchange, including the descriptor, chunks, complete body and lease closure.
-It disables this existing optional diagnostic hook for warm repetitions. Those
-measurements still include actual chunk retrieval, decoding and validation;
-they exclude copying the same diagnostic body into a growing report. Recording
-every repeated multi-megabyte body would measure report accumulation as well as
-the public query. Cold/setup measurements explicitly include capture overhead.
-
-When: combined-scale consumer checkpoint, `f19cae7d`.
-
-Gap: The earlier failures retained successful operation traces without the actual
-carrier, so their carrier explanation was inference. The new check needed direct
-evidence without changing the repeated measurement's work.
-
-Reach: Saved evidence can independently verify the delivery contract while warm
-query timings remain scoped to the original complete-result consumer.
-
-Verdict: **sound**. Observation is declared and the measured reads remain real.
-Confidence: **high**.
-
-
-### Qualify the frozen trail pair under current explicit encoder defaults
-
-A frozen request names H264/Rec709 but omits the old encoder's other settings.
-The current primitive requires resolved settings, so this checkpoint uses the
-existing balanced defaults without overrides. The full and clipped outputs must
-still pass the original strict color mask and subpixel centroid rule. Selecting
-old-looking settings until it passes would invent a historical recipe; accepting
-current paired agreement does not establish old encoded-byte equivalence.
-
-When: current colored-trail evidence checkpoint.
-
-Gap: Historical implicit AVFoundation defaults cannot be reconstructed from the
-retained packet's declared profile alone.
-
-Reach: The [canonical bank](assets/23-owner-fixture-ports/current-colored-trail-verification.json)
-closes this fixed paired current contract while keeping the original failure and
-broader color/player acceptance separate. No threshold, profile recipe or public
-format changes.
-
-Verdict: **sound**. Current production settings answer the paired question without
-inventing historical encoder authority. Confidence: **medium**.
-
-### Use the existing video-only owner for a video-only graph
-
-The first current experiment requested movie composition with an empty audio
-schedule. That owner requires an audio/output tap; the frozen video graph had
-neither and refused before encoding. The corrected decision is the existing registered
-video-only primitive, with no added audio. The refused attempt stays separate;
-it establishes no trail or encoder result and does not justify a product fix.
-
-When: current colored-trail evidence checkpoint.
-
-Gap: The first preparation selected a broader operation than the frozen graph
-supported.
-
-Reach: No second rendering pipeline or audio graph is needed to carry the
-original video/pointer graph through the current native owner.
-
-Verdict: **unsound** original movie-owner selection, corrected through the
-existing video-only owner. Confidence: **high**.
-
-### Port only the required media tag and normalize declared nil omissions
-
-The old frame layers omitted their media kind. Private copies identify them as
-video, backed by the frozen video track; removing that tag reproduces every
-original frame. All geometry, processing, pointer bytes and clocks remain fixed.
-The existing strict settings schema also accounts for Swift's omitted nil fields,
-while every resolved value must equal the plan. Treating either mismatch as a
-pixel defect or accepting arbitrary missing fields would weaken attribution.
-
-When: current colored-trail evidence checkpoint.
-
-Gap: Frozen input and current wire serialization differ in these named fields.
-
-Reach: This is private fixture preparation, not a production compatibility
-adapter or public format change.
-
-Verdict: **sound**. Source-backed tagging and the existing schema preserve the
-actual graph and exact resolved settings. Confidence: **high**.
-
-### Carry the app's existing scratch preferences selection through discovery
-
-A check starts a private installed app through the ordinary client launcher and
-selects a scratch library plus scratch preferences. The launcher already carries
-the library location across macOS launch, but previously dropped the preferences
-selection, leaving the app to use its personal defaults domain. Discovery now
-carries that existing selection when supplied. With no selection, the launch
-still uses the app's ordinary defaults. A separate launch wrapper or temporary
-global environment would create another owner for this boundary.
-
-When: isolated installed/default-discovery preparation.
-
-Gap: The client and native app already supported different halves of the scratch
-launch contract; their existing preferences selection was not connected.
-
-Reach: Cold-launch checks can use the ordinary client path without reading or
-writing personal app preferences. The app still owns preference interpretation;
-no new setting, launch retry, validation owner or public operation is introduced.
-
-Verdict: **sound**. Passing the existing selection closes the actual launch
-boundary with the platform's existing environment transport. Confidence: **high**.
-
-### Verify private installed discovery while preserving the personal installation
-
-When: current installed/default-discovery evidence checkpoint.
-
-The choice: Install the current candidate at private supported app/launcher paths
-and let an ordinary CLI request cold-launch it. Another app with the same bundle
-identity is already running, so success requires the exact private executable and
-its bundled service child. A response from the older personal app would not prove
-the candidate works. Compare personal process, bundle, preference and qualified
-library manifests before and after; terminate only the private processes.
-
-The gap: Installed discovery needed current evidence without replacing the user's
-working app or opening its older catalog.
-
-The reach: Private cold discovery and default CLI/MCP pass in the
-[canonical bank](assets/23-owner-fixture-ports/current-installed-discovery-verification.json).
-Large personal media/model files have metadata equality only; no full-content
-claim follows. Personal replacement and the independent caller remain separate.
-
-Verdict: **sound**. The supported private installation proves the actual launch
-boundary while preserving the user's working state. Confidence: **high**.
-
-### Keep cached-build storage evidence narrower than heavy-build contention
-
-When: current installed/default-discovery evidence banking.
-
-The choice: Retain the unchanged storage case that passed while the required
-candidate build ran, but label the Swift builds as cache hits. The earlier failure
-happened under heavy compilation; a short cached build does not reproduce that
-pressure even though the commands overlapped.
-
-The gap: The required build supplied an actual concurrent check, but its workload
-was smaller than the original failing condition.
-
-The reach: Reuse this bounded result without manufacturing another build for load;
-the original heavy-contention guarantee stays unverified.
-
-Verdict: **sound**. The claim follows the observed workload. Confidence: **high**.
-
-### Retain complete long PCM locally without multiplying every checkout
-
-When: current long learned-routing bank.
-
-The choice: A reviewer can inspect the requests, source snapshots, reports and
-member hashes from the small Git archive. The complete generated dry and wet
-audio remains in two verified archives under the durable local artifact directory.
-Those files share storage with the verified cache copies. Adding the larger
-archive to ordinary Git would copy it into every parallel checkout.
-
-The gap: The plan requires complete retained operands, but did not specify how
-to distribute a new two-hour full-sample result.
-
-The reach: A cross-machine reviewer needs the named full archives to audit every
-sample; the small Git packet is not a substitute. No generated operand was
-discarded, and this adds no product storage format or dependency.
-
-Verdict: **sound**. Complete evidence remains available without multiplying large
-media during iteration. Confidence: **medium**; local retention requires explicit
-transfer when another machine needs the complete operands.
-
-### Judge the installed caller's required requests separately from extra failures
-
-When: fresh installed external-caller bank.
-
-The choice: The caller received the complete requested image, then tried an
-extra read of its already consumed delivery token. That read failed and the
-outer script exited nonzero. The bank accepts the completed required requests
-while preserving this failure, the separate helper failures and all process
-journals. It does not label the whole script green or extend the token's lifetime.
-
-The gap: The bounded brief did not require that additional read; one script exit
-would otherwise hide the difference between failed delivery and a failed extra
-expectation after delivery.
-
-The reach: Later reviewers must judge each declared contract from its complete
-output and actual terminal evidence. Transcribed outer tool observations remain
-distinct from original child-process journals; neither stands in for the other.
-
-Verdict: **sound**. The verdict follows the requested contract and keeps every
-observed failure visible. Confidence: **high**.
-
-
-### Prove installed voice execution with one unchanged frozen request
-
-When: installed voice runtime checkpoint.
-
-The choice: An external caller launched from an ordinary directory must be able
-to synthesize through the app’s managed Python runtime, not depend on this checkout.
-The checkpoint prepares the existing local model/runtime through the public owner,
-then requests the already frozen word `paid` once and compares its complete PCM.
-Delivering an old generated asset would not exercise that execution path; a new
-voice recipe or quality campaign would answer a different question.
-
-The gap: Installed inference needed a concrete bounded input after the source-only
-path audit; the plan did not choose that input or require another whole workflow.
-
-The reach: This supplies one installed execution case without choosing a new model,
-changing defaults or generalizing its voice quality. ASR remains a separate scope.
-
-Verdict: **sound**. It isolates the missing packaging/runtime contract and preserves
-the accepted recipe. Confidence: **high**.
-
-### Review authored temporal boundaries in the saved encoded output
-
-When: saved workflow temporal review.
-
-The choice: To check a caption’s start, examine the last encoded frame before its
-authored boundary and the first frame after it, using the movie’s existing frame
-clock. Do the same for its end and the still/zoom windows. Compare existing
-same-clock PNG references and preserve full frames beside enlarged details.
-Six interior stills alone would not reveal a caption leaking beyond its window.
-
-The gap: Whole-workflow acceptance called for a temporal contact sheet but did not
-choose the boundary samples. The source output and authored revision already exist.
-
-The reach: The packet establishes those discrete boundaries. It does not invent
-smooth fades, retune caller-owned layout, prove uninterrupted playback or replace
-listening. The global clock and source references remain unchanged.
-
-Verdict: **sound**. It adds the missing observations without repeating rendering
-or changing the requested content. Confidence: **high**.
+**When:** Origin in `9b839582`; prior ledger location 198–212.
+
+The same file bytes are admitted from many paths. They remain one asset; origin inspection is paged separately from compact asset summaries and full immutable stream metadata. Provenance pagination uses the existing lexical key, so a newly inserted earlier origin appears on a refreshed traversal.
+
+**Gap:** Metadata inspection did not define response and provenance pagination boundaries.
+
+**Reach:** Growing import history cannot inflate every ordinary asset read.
+
+**Verdict:** sound. **Confidence:** high.
+
+**Owner:** [assets.ts](../../packages/core/src/assets.ts).
+
+### Trim only the addressed end windows
+
+**When:** Origin in `9b839582`; prior ledger location 254–272.
+
+A one-second video is trimmed to its middle and linked audio extends farther than the video. The trim removes those same end windows from the linked audio, leaving its unrelated extra tail. Removing that tail requires another explicit edit.
+
+**Gap:** Linked trim did not specify whether it redefined the entire synchronization group envelope.
+
+**Reach:** A local trim cannot silently shorten content outside its addressed occurrence.
+
+**Verdict:** sound. **Confidence:** high.
+
+**Owner:** [edits.ts](../../packages/composition/src/edits.ts).
+
+### Ripple collapses only explicitly authorized windows
+
+**When:** Origin in `9b839582`; prior ledger location 273–289.
+
+An agent closes a half-second gap on named tracks. A different unselected clip crossing that window is a refusal, not permission to silently trim it. Fixed overlays stay fixed and their affected anchors are reported; attached overlays follow their root once.
+
+**Gap:** Empty-time ripple and unaddressed crossing content were unspecified.
+
+**Reach:** Future conveniences must name the extra affected content and ripple scope.
+
+**Verdict:** sound. **Confidence:** high.
+
+**Owner:** [edits.ts](../../packages/composition/src/edits.ts).
+
+### Reanchor without changing the resolved interval
+
+**When:** Origin in `9b839582`; prior ledger location 311–322.
+
+A caller changes which clip a title follows. Reanchor accepts an attachment only when it resolves to the title’s existing exact interval; move or retime performs a deliberate timing change separately. Detach freezes that interval including fractions.
+
+**Gap:** Attachment mutation did not specify whether timing could change implicitly.
+
+**Reach:** Dependencies and timing have separate explicit edit meanings, composable in one batch.
+
+**Verdict:** sound. **Confidence:** high.
+
+**Owner:** [edits.ts](../../packages/composition/src/edits.ts).
+
+### Copies preserve only dependencies inside the copied set
+
+**When:** Origin in `9b839582`; prior ledger location 344–357.
+
+A caller copies an overlay alone to a later point. The new occurrence becomes independent at that destination rather than staying trapped in its old parent. Copying the parent too preserves the relationship between their new copies. Linked copying is explicit.
+
+**Gap:** External parents and copied attachment dependencies were unspecified.
+
+**Reach:** Copies are usable at the requested destination without altering originals; the caller may reanchor afterward.
+
+**Verdict:** sound. **Confidence:** high.
+
+**Owner:** [edits.ts](../../packages/composition/src/edits.ts).
+
+### Insert opens time and reuses ordinary placement
+
+**When:** Origin in `9b839582`; prior ledger location 369–380.
+
+An agent inserts a two-source interlude. One operation opens a named duration on explicit ripple tracks, then ordinary place operations insert its streams in the same transaction. An invalid placement rolls back the opening too. A trailing empty gap alone does not extend project duration.
+
+**Gap:** Insertion did not prescribe whether it carried a second placement schema.
+
+**Reach:** Video, audio and layered inserts use one placement owner and one atomic commit.
+
+**Verdict:** sound. **Confidence:** high.
+
+**Owner:** [edits.ts](../../packages/composition/src/edits.ts).
+
+### Replacement keeps occurrence identity and changes source authority
+
+**When:** Origin in `9b839582`; prior ledger location 416–428;815–836.
+
+An agent replaces narration on one occurrence. The clip ID and chosen timing remain addressable, but an actual changed media binding or selection removes descendants attached to the old content. The agent can detach a title first. Keeping processing is distinct from keeping old source-dependent attachments.
+
+**Gap:** Replacement identity and old dependency consequences were unspecified.
+
+**Reach:** Revision pinning separates evidence about old and new media without allocating a replacement occurrence ID.
+
+**Verdict:** sound. **Confidence:** high.
+
+**Owner:** [edits.ts](../../packages/composition/src/edits.ts).
+
+### Replacing text constructs a media clip instead of inheriting text provenance
+
+**When:** Origin in `1b6aa64f`; prior ledger location current whole-spec caption-to-media replacement.
+
+A caller replaces a seeded caption with a still or video. The replacement keeps common occurrence fields and the caller’s new binding, but retires the caption’s transcript seed and text source. A pitch policy survives only when compatible with the resulting audio kind; a video never inherits an audio-only pitch field.
+
+**Gap:** Cross-kind replacement exposed fields meaningful only to the retired source kind.
+
+**Reach:** Future clip variants must define their own fields instead of spreading obsolete source metadata into another kind.
+
+**Verdict:** sound. **Confidence:** high.
+
+**Owner:** [replace.ts](../../packages/composition/src/replace.ts).
+
+### Ripple replacement adopts natural supplied duration
+
+**When:** Origin in `9b839582`; prior ledger location 429–439.
+
+Two seconds of narration are replaced by a one-second selected source using ripple fit. That audio occurrence becomes one second and named later roots shift, while linked video remains unchanged and the timing link splits. A timeless image has no natural duration to borrow.
+
+**Gap:** Ripple fit did not define its duration basis or linked-video consequence.
+
+**Reach:** Ripple remains distinct from stretch-to-target and does not silently retime another plane.
+
+**Verdict:** sound. **Confidence:** high.
+
+**Owner:** [edits.ts](../../packages/composition/src/edits.ts).
+
+### Authored silence is an asset-free occurrence
+
+**When:** Origin in `9b839582`; prior ledger location 440–452.
+
+A caller wants a final three-second silence that contributes to project duration. It is an ordinary audio clip with identity and placement but no pretend WAV, stream, source clock or pitch policy. Source mapping omits it; composition inspection shows its interval.
+
+**Gap:** The original media-only clip model had no durable shape for explicit silence.
+
+**Reach:** Normal edits and normalized attachments can address silence without inventing captured samples.
+
+**Verdict:** sound. **Confidence:** high.
+
+**Owner:** [README.md](../../packages/composition/README.md).
+
+### Audio routing ties use stable identity
+
+**When:** Origin in `9b839582`; prior ledger location 467–479.
+
+Two audio siblings have equal order. Kind and ID break ties consistently even if stored arrays are rearranged; this affects evidence ordering rather than voice priority or gain. Visual siblings instead require unique orders.
+
+**Gap:** Canonical audio ordering did not specify tie keys.
+
+**Reach:** Routing, evidence rank and compilation share deterministic ordering without relying on storage order.
+
+**Verdict:** sound. **Confidence:** high.
+
+**Owner:** [routing.ts](../../packages/composition/src/routing.ts).
+
+### Processing steps have project-wide identity and copy lineage
+
+**When:** Origin in `9b839582`; prior ledger location 480–493.
+
+A clip splits with an existing processor. The first retained piece keeps its step ID; added pieces receive distinct IDs and receipts map old to new. An agent edits one fragment without silently changing its neighbor.
+
+**Gap:** Step uniqueness and lineage representation were unspecified.
+
+**Reach:** Prepared dependencies and later get/set operations identify a single owned instance.
+
+**Verdict:** sound. **Confidence:** high.
+
+**Owner:** [processing.ts](../../packages/composition/src/processing.ts).
+
+### Gain is a finite linear multiplier without automatic limiting
+
+**When:** Origin in `9b839582`; prior ledger location 494–505;2288–2306.
+
+An agent submits gain zero to silence a track or gain above one to amplify it. The authored multiplier is finite and nonnegative, with no hidden upper clamp; execution preserves explicit stack order and inspection reports clipping. Authoring support alone does not prove a native executor exists.
+
+**Gap:** Gain representation and authoring-versus-execution capability were unspecified.
+
+**Reach:** Decibel conveniences must convert at the shared boundary; no automatic normalization follows.
+
+**Verdict:** sound. **Confidence:** high.
+
+**Owner:** [processing.ts](../../packages/composition/src/processing.ts).
+
+### Mutations share one request namespace per project
+
+**When:** Origin in `9b839582`; prior ledger location 506–520.
+
+An edit request commits but the caller loses the response. Repeating its request ID replays its stored result; reusing that ID for undo conflicts. Canonical object-key ordering permits equivalent JSON objects, while operation/list order remains meaningful. Create requests have their own catalog-wide namespace.
+
+**Gap:** Replay identity across mutation names was unspecified.
+
+**Reach:** CLI and MCP share identities and cannot accidentally reinterpret an edit as another mutation.
+
+**Verdict:** sound. **Confidence:** high.
+
+**Owner:** [projects.ts](../../packages/core/src/projects.ts).
+
+### Every retained revision owns its media dependencies
+
+**When:** Origin in `9b839582`; prior ledger location 521–530;585–603.
+
+A caller removes a clip from today’s edit and then undoes. Earlier revisions still hold the asset and evidence resources they require. Project deletion retires those references through the existing lifecycle; deleting the project does not delete independently admitted originals.
+
+**Gap:** History retention did not choose a reference owner.
+
+**Reach:** Undo, old output and package closure follow immutable revision roots instead of reconstructing past use.
+
+**Verdict:** sound. **Confidence:** high.
+
+**Owner:** [projects.ts](../../packages/core/src/projects.ts).
+
+### Build disposable indexes once for an immutable revision
+
+**When:** Origin in `9b839582`; prior ledger location 531–553;3210–3218;4305–4325.
+
+Several previews inspect the same revision. A compiler owns one interval index and source support intersection for that frozen revision; bounded evidence context reuse avoids parsing it for every page. A page-local projection cache dies after the page and no mutable old graph becomes authority.
+
+**Gap:** The plan did not prescribe index lifetime.
+
+**Reach:** Query cost improves without another persistent cache or invalidation registry.
+
+**Verdict:** sound. **Confidence:** high.
+
+**Owner:** [project-evidence.ts](../../packages/core/src/project-evidence.ts).
+
+### Prune only branches that cannot contribute
+
+**When:** Origin in `9b839582`; prior ledger location 543–553.
+
+A short preview omits unrelated clips and their empty processing branches while keeping contributing ancestors through output. Current processors cannot generate independent signal from an empty branch. A later signal generator or tail-producing effect must explicitly extend this planning rule.
+
+**Gap:** Window planning did not specify safe graph pruning.
+
+**Reach:** New processor admission must account for tails or source-free output rather than inherit an invalid optimization.
+
+**Verdict:** sound. **Confidence:** high.
+
+**Owner:** [processing-plan.ts](../../packages/composition/src/processing-plan.ts).
+
+### Keep the full source mapping beside each bounded output window
+
+**When:** Origin in `9b839582`; prior ledger location 535–542;554–574.
+
+A preview selects the latter half of a retimed clip. Its worker records still include the original selected source interval and placement, then restrict output to the requested samples. Restarting the mapping at the preview boundary would change stretch phase and gain timing.
+
+**Gap:** Phase preservation did not prescribe worker record shape.
+
+**Reach:** Preparation and direct consumers share original mapping rather than treating windows as newly authored clips.
+
+**Verdict:** sound. **Confidence:** high.
+
+**Owner:** [compiled-records.ts](../../packages/composition/src/compiled-records.ts).
+
+### Dry means before only the named target stack
+
+**When:** Origin in `9b839582`; prior ledger location 554–574.
+
+An agent asks for a dry group tap. Its child tracks are still processed, but the group’s own steps and all parent stacks are excluded. An after-step tap includes that named step but not later steps. Raw immutable source inspection is a different request.
+
+**Gap:** Tap names needed exact stack boundaries.
+
+**Reach:** All audio/picture consumers expose the same target meaning.
+
+**Verdict:** sound. **Confidence:** high.
+
+**Owner:** [processing-plan.ts](../../packages/composition/src/processing-plan.ts).
+
+### Deleted projects cannot replay availability
+
+**When:** Origin in `9b839582`; prior ledger location 585–603.
+
+A caller retries an old successful edit after deleting its project. The project returns NOT_FOUND before consulting the edit receipt. Retrying creation can describe the historical creation but never resurrects its rows. A live project still checks replay before stale-head refusal.
+
+**Gap:** Replay versus retirement precedence was unspecified.
+
+**Reach:** Receipts cannot imply usable deleted work, while ordinary lost-reply recovery stays intact.
+
+**Verdict:** sound. **Confidence:** high.
+
+**Owner:** [projects.ts](../../packages/core/src/projects.ts).
+
+### Retirement remains retryable while a reader holds bytes
+
+**When:** Origin in `9b839582`; prior ledger location 662–673;733–764.
+
+A project is deleted while an existing preview read holds a cache lease. New reads and tokens are fenced immediately; that read drains and references remain until actual removal succeeds. Explicit retry or startup recovery completes retirement without a polling janitor.
+
+**Gap:** Busy-read deletion semantics were unspecified.
+
+**Reach:** Output delivery, cache and revision retirement share the same ownership coordinator.
+
+**Verdict:** sound. **Confidence:** high.
+
+**Owner:** [project-deletion.ts](../../apps/service/src/project-deletion.ts).
+
+### Preview preserves the already visible frame
+
+**When:** Origin in `9b839582`; prior ledger location 604–627;1812–1826;4071–4094.
+
+A window starts between project frame instants after the sampled clip has ended. Its first picture is still the prior globally sampled picture; only that picture’s displayed interval is clipped. The compiler admits the dependency needed for that sample rather than selecting only clips whose starts fall in the window.
+
+**Gap:** The first bounded compiler rule confused sample time with displayed interval.
+
+**Reach:** Full movies, partial previews, demanded frames and index coverage retain one frame phase.
+
+**Verdict:** sound. **Confidence:** high.
+
+**Owner:** [compiler.ts](../../packages/composition/src/compiler.ts).
+
+### Missing parent support retains its distinct reason
+
+**When:** Origin in `9b839582`; prior ledger location 604–627;1873–1893.
+
+A child file contains a usable picture but its attached parent was not acquired. Native validates the child’s physical selection then suppresses its contribution, leaving background or other layers. The receipt says ancestor-unavailable; an empty edit in the child cannot repair the missing parent.
+
+**Gap:** Availability precedence and executable handling needed definition.
+
+**Reach:** Evidence never hides the dependency that prevented a layer from contributing.
+
+**Verdict:** sound. **Confidence:** high.
+
+**Owner:** [CompositionPictureExecutor.swift](../../helpers/mac/Sources/ScreenRecorderFrames/CompositionPictureExecutor.swift).
+
+### Disposable derivatives carry typed owner identities
+
+**When:** Origin in `9b839582`; prior ledger location 628–641.
+
+A source asset and project have identical ID text. Cache reservation, publication, reading and purge include owner kind, so one cannot retire the other’s file. The job/cache infrastructure remains shared instead of adding domain-specific lease stores.
+
+**Gap:** Cache generalization needed explicit ownership independent of byte identity.
+
+**Reach:** Current source/project/capture consumers retain isolated lifetime without a second cache.
+
+**Verdict:** sound. **Confidence:** high.
+
+**Owner:** [cache.ts](../../packages/core/src/cache.ts).
+
+### Resampling context comes only from current retained media
+
+**When:** Origin in `9b839582`; prior ledger location 642–661.
+
+A pure split leaves the selected continuous source run intact, so both children preserve filter phase. Removing actual material shrinks the run, preventing excluded neighboring samples from entering the filter. Exact source bounds and absolute output bounds travel with the compiled context; post-resampling gain does not split it.
+
+**Gap:** Fixed whole-asset margins leaked excluded samples while naive split resets changed output.
+
+**Reach:** One derived context owner governs cut isolation without authored continuity groups.
+
+**Verdict:** sound. **Confidence:** high.
+
+**Owner:** [audio-context.ts](../../packages/composition/src/audio-context.ts).
+
+### One attempt owns child workers and private staging
+
+**When:** Origin in `9b839582`; prior ledger location 674–702;1079–1100;1148–1177.
+
+Audio and video consumers use the locked render attempt for private files, cancellation and child lifetime. A child killed outright cannot clean its files; the existing attempt/root ownership handles recovery after it exits. No per-operation janitor interprets private names.
+
+**Gap:** Shared rendering needed an explicit lifetime seam independent of edit interpretation.
+
+**Reach:** Every native consumer must inherit the actual file authority and drain its child before cleanup.
+
+**Verdict:** sound. **Confidence:** high.
+
+**Owner:** [project-render.ts](../../apps/service/src/project-render.ts).
+
+### Stream compiled frames rather than whole native schedules
+
+**When:** Origin in `9b839582`; prior ledger location 685–702.
+
+A long project sends sealed picture records to the worker one at a time. Native executes compiled numeric instructions instead of interpreting editing commands or retaining every output frame. Current codec/color capabilities govern admission and unsupported declared profiles refuse.
+
+**Gap:** The worker-binding transport and first executable profile needed definition.
+
+**Reach:** Future profiles retain identity and fidelity requirements without creating a second editor.
+
+**Verdict:** sound. **Confidence:** high.
+
+**Owner:** [CompositionVideoRenderer.swift](../../helpers/mac/Sources/ScreenRecorderFrames/CompositionVideoRenderer.swift).
+
+### PCM blocks are the audio assembly boundary
+
+**When:** Origin in `9b839582`; prior ledger location 703–711;7697–7706.
+
+Project mixing exposes bounded PCM blocks with format and positions; the movie mux remains the H.264-copy/AAC clock owner and WAV uses the same samples. This boundary carries no recording roles or editorial plan. Authored summation belongs to composition, selected-source reading to its source owner.
+
+**Gap:** Independent producers needed a shared consumption seam.
+
+**Reach:** Audio and movie outputs cannot acquire separate mixers merely because their containers differ.
+
+**Verdict:** sound. **Confidence:** high.
+
+**Owner:** [MovieMux.swift](../../helpers/mac/Sources/ScreenRecorderWire/MovieMux.swift).
+
+### Only the calculated sample deficit may be synthetic zero
+
+**When:** Origin in `9b839582`; prior ledger location 712–732.
+
+A fractional selection can owe one more output sample than its retained source conversion supplies. After the decoder reaches the declared selection end, only that calculated deficit may be zero-filled. Actual truncation still fails and excluded real audio never fills the tail.
+
+**Gap:** Discrete source/output endpoint clocks needed an explicit bounded deficit policy.
+
+**Reach:** Exact output count is preserved without hidden neighboring audio or arbitrary padding.
+
+**Verdict:** sound. **Confidence:** high.
+
+**Owner:** [AudioSource.swift](../../helpers/mac/Sources/ScreenRecorderAudio/AudioSource.swift).
+
+### Reuse unchanged rendered pixels only within the attempt
+
+**When:** Origin in `9b839582`; prior ledger location 712–732;1914–1942.
+
+A held image repeats across many frames. Native keeps one immutable rendered result keyed by actual source sample, reader, background and relevant processing, while each emitted frame retains its own time. New image-changing processing must affect reuse identity or disable it.
+
+**Gap:** Rendering bounds did not prescribe residency and reuse.
+
+**Reach:** The optimization adds bounded temporary buffers, not persistent picture authority.
+
+**Verdict:** sound. **Confidence:** high.
+
+**Owner:** [CompositionPictureExecutor.swift](../../helpers/mac/Sources/ScreenRecorderFrames/CompositionPictureExecutor.swift).
+
+### Pin resolved requests before asynchronous work
+
+**When:** Origin in `9b839582`; prior ledger location 733–764;4029–4070.
+
+An agent asks for current preview, then edits while native metadata preflight runs. The old revision, range, tap and rendition remain the admitted request; new work is committed only after rechecking owner availability. There is no SQL transaction held across the worker await.
+
+**Gap:** Asynchronous validation needed immutable intent and transaction placement.
+
+**Reach:** Audio, preview, preparation and export cannot follow a moving head halfway through admission.
+
+**Verdict:** sound. **Confidence:** high.
+
+**Owner:** [project-preview.ts](../../packages/core/src/project-preview.ts).
+
+### Retained published bytes do not require the old executor
+
+**When:** Origin in `9b839582`; prior ledger location 765–779;1943–1972;3326–3347.
+
+An export has already pinned complete cached or prepared output. It may publish those bytes when the renderer/model is unavailable. Regeneration after loss instead requires its original implementation and explicit permitted retry; unrelated decode failures do not gain retry authority.
+
+**Gap:** Deployment availability and retained-output recovery needed separate ownership.
+
+**Reach:** Saved outputs remain independent of live execution without silent recipe substitution.
+
+**Verdict:** sound. **Confidence:** high.
+
+**Owner:** [prepared-audio.ts](../../packages/core/src/prepared-audio.ts).
+
+### Project export pins one project and one physical destination
+
+**When:** Origin in `9b839582`; prior ledger location 765–796;5687–5728.
+
+The app chooses a folder through an alias. Before the first export request it resolves the physical folder, pins project revision and destination in the existing intent, and resends those same values. Changing the alias afterward cannot redirect the export; discovery cursors bind the current project filter.
+
+**Gap:** Chooser aliases, intent replay and discovery filtering needed one meaning.
+
+**Reach:** Current export is project-only; recording source lifetime never becomes a second editing/export owner.
+
+**Verdict:** sound. **Confidence:** high.
+
+**Owner:** [exports.ts](../../apps/service/src/exports.ts).
+
+### Close admission before draining service work
+
+**When:** Origin in `9b839582`; prior ledger location 781–796.
+
+Shutdown first stops new exports and signals owned cancellation, then waits for accepted requests and workers before closing storage. Waiting before cancellation could leave the very work being awaited without the signal needed to end it.
+
+**Gap:** Shutdown ordering was unspecified.
+
+**Reach:** Existing owners retain one drain sequence instead of a second timeout or shutdown manager.
+
+**Verdict:** sound. **Confidence:** high.
+
+**Owner:** [project-service.ts](../../apps/service/src/project-service.ts).
+
+### A word fragment belongs to one occurrence
+
+**When:** Origin in `9b839582`; prior ledger location 797–814.
+
+A source word is split through two edited clips. Each occurrence returns its own exact partial fragment; the reader never fuses them into an invented whole word. A wholly removed range returns no word, while unavailable support remains separately inspectable.
+
+**Gap:** Empty/partial word projection shape was unspecified.
+
+**Reach:** Search cannot upgrade partial speech and source absence is not proof of silence.
+
+**Verdict:** sound. **Confidence:** high.
+
+**Owner:** [source-projection.ts](../../packages/composition/src/source-projection.ts).
+
+### Capture contexts constrain bytes but do not guarantee them
+
+**When:** Origin in `9b839582`; prior ledger location 815–836.
+
+An acquisition receipt records support beyond a physical file endpoint. Validation retains the raw context but uses only the intersection for the selected stream. A context may describe unused siblings without forcing their assets into every project.
+
+**Gap:** Context validation scope and broader journal support were unspecified.
+
+**Reach:** Evidence preserves provenance while rendering reads only physical available media.
+
+**Verdict:** sound. **Confidence:** high.
+
+**Owner:** [source-projection.ts](../../packages/composition/src/source-projection.ts).
+
+### Imported streams are not recording roles
+
+**When:** Origin in `9b839582`; prior ledger location 837–857;7697–7706.
+
+A selected imported audio stream returns the same neutral PCM facts as captured audio; only real capture receipts add microphone/system provenance. A file with two audio streams requires explicit stream selection, and omission is an invalid request rather than choosing the first.
+
+**Gap:** Shared source-report shape and omission error category were unspecified.
+
+**Reach:** One decoder can serve imported/captured evidence without inventing narration.
+
+**Verdict:** sound. **Confidence:** high.
+
+**Owner:** [AudioPCMStream.swift](../../helpers/mac/Sources/ScreenRecorderAudio/AudioPCMStream.swift).
+
+### Failed multi-source admission preserves valid admitted assets
+
+**When:** Origin in `9b839582`; prior ledger location 858–889.
+
+Video admission can succeed before another stream makes acquisition fail. The incomplete context stays unavailable and releases its references, but valid immutable assets remain because another project may already use them.
+
+**Gap:** Rollback visibility for successful member imports was unspecified.
+
+**Reach:** Asset lifetime remains with the actual asset owner rather than destructive context rollback.
+
+**Verdict:** sound. **Confidence:** high.
+
+**Owner:** [acquisitions.ts](../../packages/core/src/acquisitions.ts).
+
+### Recover abandoned preparation before releasing the queue
+
+**When:** Origin in `9b839582`; prior ledger location 858–889;3739–3754.
+
+Startup holds exclusive service ownership, resolves abandoned acquisition files/generations/references, constructs every execution owner, and only then starts the shared queue. Reversing this could erase the files a resumed job just created or execute before its handler exists.
+
+**Gap:** Recovery and construction ordering were unspecified.
+
+**Reach:** New owners join one assembly barrier rather than invent per-feature retries.
+
+**Verdict:** sound. **Confidence:** high.
+
+**Owner:** [project-service.ts](../../apps/service/src/project-service.ts).
+
+### Support digests supplement explicit source identity
+
+**When:** Origin in `9b839582`; prior ledger location 890–908.
+
+Two contexts retain the same samples but have different capture provenance. Preparation keys preserve asset, stream and optional acquisition alongside a compact support digest. The digest never replaces those selectors.
+
+**Gap:** Compact input shape and source identity needed separation.
+
+**Reach:** Equal support cannot silently swap origins or selected streams.
+
+**Verdict:** sound. **Confidence:** high.
+
+**Owner:** [source-selection.ts](../../packages/core/src/source-selection.ts).
+
+### Source phrase matching stops at inference-segment boundaries
+
+**When:** Origin in `9b839582`; prior ledger location 909–933.
+
+A capture gap leaves two recognized words adjacent in stored order. Source search does not match them as one continuous phrase because their retained segment identity differs. Project phrase matching separately uses authored continuity on each track.
+
+**Gap:** Acquisition-gap search needed an explicit boundary representation.
+
+**Reach:** Source token adjacency and edited playback adjacency keep their distinct meanings.
+
+**Verdict:** sound. **Confidence:** high.
+
+**Owner:** [transcript.ts](../../packages/core/src/transcript.ts).
+
+### Attach job references in its admission transaction
+
+**When:** Origin in `9b839582`; prior ledger location 909–933.
+
+Preparing a source stores its actual assigned job ID and asset/acquisition references together. If a reference write fails, queue admission rolls back too. No separate guessed dependency identity is used.
+
+**Gap:** Preparation references needed the real queue identity during atomic admission.
+
+**Reach:** Cancellation, retirement and retry follow one job’s actual dependencies.
+
+**Verdict:** sound. **Confidence:** high.
+
+**Owner:** [jobs.ts](../../packages/core/src/jobs.ts).
+
+### The final canceled model consumer waits for cleanup
+
+**When:** Origin in `9b839582`; prior ledger location 909–933.
+
+Two callers share one model preparation. One cancel returns promptly if the other still needs it. Canceling the last caller waits for temporary-file cleanup before its promise settles, so storage ownership cannot be released while the downloader still writes.
+
+**Gap:** Shared cancellation settlement timing was unspecified.
+
+**Reach:** Service shutdown can trust awaiting the model owner without another cleanup tracker.
+
+**Verdict:** sound. **Confidence:** high.
+
+**Owner:** [models.ts](../../packages/core/src/models.ts).
+
+### Word ordering is a portable admission invariant
+
+**When:** Origin in `9b839582`; prior ledger location 934–954.
+
+A late word query seeks the immediately preceding row and selected window because stored word rows are nonoverlapping. Package admission enforces that invariant across page boundaries too, rather than making readers scan backward by the longest word anywhere.
+
+**Gap:** Bounded seeking needed a general data invariant.
+
+**Reach:** Imported evidence and local ingestion permit the same indexed reads.
+
+**Verdict:** sound. **Confidence:** high.
+
+**Owner:** [transcript.ts](../../packages/core/src/transcript.ts).
+
+### Select occurrence envelopes before available fragments
+
+**When:** Origin in `9b839582`; prior ledger location 934–954.
+
+A query falls entirely inside an acquisition hole. It still names the clip and context with empty available fragments instead of dropping the occurrence. That shows why evidence is missing and prevents phrases spanning the hole.
+
+**Gap:** Envelope selection and fragment filtering were ambiguous.
+
+**Reach:** Canonical mapping supplies absence reasons without each query rebuilding timeline arithmetic.
+
+**Verdict:** sound. **Confidence:** high.
+
+**Owner:** [source-projection.ts](../../packages/composition/src/source-projection.ts).
+
+### A project retry does not retranscribe every source
+
+**When:** Origin in `9b839582`; prior ledger location 998–1016;1518–1533.
+
+A failed project query names several sources with different problems. Explicit project retry rebuilds its own manifest; source retry uses the returned source selection after diagnosis. Ordinary reads leave terminal failures alone.
+
+**Gap:** The plan did not specify retry fanout.
+
+**Reach:** Expensive inference and failed dependency recovery remain explicit requests.
+
+**Verdict:** sound. **Confidence:** high.
+
+**Owner:** [project-evidence.ts](../../packages/core/src/project-evidence.ts).
+
+### Source windows and project windows keep their own sample policies
+
+**When:** Origin in `9b839582`; prior ledger location 955–1016;7637–7646;7697–7706.
+
+A caller requests a later source excerpt and compares it with the same selected interval of the full source. Source extraction preserves its physical origin and absolute source clock. Project mixing instead follows authored placement, and transcription spans have cumulative source timing/join conditioning. None is a fake one-span recording edit.
+
+**Gap:** Source producer integration could have reused a semantically different recording clock.
+
+**Reach:** Consumers share decoding while retaining their actual window/placement contracts.
+
+**Verdict:** sound. **Confidence:** high.
+
+**Owner:** [AudioPCMStream.swift](../../helpers/mac/Sources/ScreenRecorderAudio/AudioPCMStream.swift).
+
+### Refuse unknown rates and layouts instead of silently remapping
+
+**When:** Origin in `9b839582`; prior ledger location 955–979;2605–2621.
+
+An admitted source may report a fractional rate or unusual channel layout. Original metadata remains importable, but current execution validates its finite integral supported rate and requested layout before decoding. Unsupported raw layouts refuse; project stereo mapping remains its explicit separate contract.
+
+**Gap:** Admission and executable-domain boundaries were previously conflated.
+
+**Reach:** A later rate/layout extension requires its own execution identity and sample proof rather than rounding.
+
+**Verdict:** sound. **Confidence:** high.
+
+**Owner:** [AudioSource.swift](../../helpers/mac/Sources/ScreenRecorderAudio/AudioSource.swift).
+
+### Large audio is an artifact rather than a giant inline message
+
+**When:** Origin in `9b839582`; prior ledger location 1038–1052.
+
+A whole source WAV can be a gigabyte. CLI streams it to the selected file and MCP returns the existing renewable delivery token once it exceeds inline bounds. Small excerpts can remain inline; bounded artifact reads carry the full audio without allocating a giant message.
+
+**Gap:** Full delivery did not prescribe MCP representation.
+
+**Reach:** Audio uses the same read/renew/close transport as other media rather than another download protocol.
+
+**Verdict:** sound. **Confidence:** high.
+
+**Owner:** [operations.ts](../../packages/protocol/src/operations.ts).
+
+### Phrase ordering follows the first contributing word
+
+**When:** Origin in `9b839582`; prior ledger location 1053–1078.
+
+Two tracks speak at different rates. The merger orders complete matches by each phrase’s first word, not when its last word becomes available. Each track is searched independently and checkpoints can advance with empty pages while an earlier lane is scanned.
+
+**Gap:** Stable project ordering did not choose a phrase merge mechanism.
+
+**Reach:** Simultaneous tracks cannot interleave into invented phrases or reorder by finish time.
+
+**Verdict:** sound. **Confidence:** high.
+
+**Owner:** [project-transcript.ts](../../packages/core/src/project-transcript.ts).
+
+### Inspection clipping does not change editorial partiality
+
+**When:** Origin in `9b839582`; prior ledger location 1053–1078.
+
+A caller inspects a narrow time inside a retained whole word. The result keeps that word’s complete editorial fragments so the caller can make a later cut. A genuinely trimmed word stays partial; synthetic support gaps describe the inspected window because they have no original word row.
+
+**Gap:** Display clipping and edit-induced partiality needed distinct meanings.
+
+**Reach:** Query windows cannot erase recoverable boundaries or imply an editorial cut.
+
+**Verdict:** sound. **Confidence:** high.
+
+**Owner:** [project-transcript.ts](../../packages/core/src/project-transcript.ts).
+
+### Audio and picture admission select their actual media plane
+
+**When:** Origin in `9b839582`; prior ledger location 1079–1115.
+
+A track audio request does not fail because an unrelated picture processor is unavailable. A demanded project still does not need speech stretch readiness. Movie work selects both planes; every path still uses the same compiler/source-binding owner.
+
+**Gap:** Shared planning did not prescribe independent plane selection.
+
+**Reach:** Inspectors do not gain a second mixer or clock merely to avoid unrelated execution requirements.
+
+**Verdict:** sound. **Confidence:** high.
+
+**Owner:** [project-window.ts](../../packages/core/src/project-window.ts).
+
+### Decoder recovery uses packet-sized context and finite demand
+
+**When:** Origin in `9b839582`; prior ledger location 1116–1147;3582–3593;2700–2710.
+
+A late request can miss samples near a compressed packet. The reader uses bounded packet lookbehind, discards it before conversion, and permits only the established progress-based premature-end retry. The caller supplies the finite actual decode end; adjacent requests consume buffered samples or extend coverage separately from failure recovery.
+
+**Gap:** Seek context and coverage extension were unspecified.
+
+**Reach:** Unknown/oversized metadata refuses and no infinite decode range conceals unbounded read-ahead.
+
+**Verdict:** sound. **Confidence:** high.
+
+**Owner:** [AudioSource.swift](../../helpers/mac/Sources/ScreenRecorderAudio/AudioSource.swift).
+
+### Source sample addresses survive ambiguous decoder timestamps
+
+**When:** Origin in `9b839582`; prior ledger location 2700–2710;assets/08-native-sample-address/choices.md.
+
+After a seek, the same rounded timestamp may describe distinct returned sample payloads. The reader retains each physical run’s sample origin and counts samples, seeking strictly inside the already selected native sample cell when needed. It does not fit an offset from the failing example.
+
+**Gap:** Timestamps alone could not identify sample payload.
+
+**Reach:** Selected sample identity remains exact through source masks and fractional placement.
+
+**Verdict:** sound. **Confidence:** high.
+
+**Owner:** [AudioSource.swift](../../helpers/mac/Sources/ScreenRecorderAudio/AudioSource.swift).
+
+### New execution identity does not rewrite portable evidence
+
+**When:** Origin in `9b839582`; prior ledger location 1116–1177;3053–3063;3507–3515;3755–3767;6453–6473.
+
+A decoder, processor or supported work domain changes. New requests include the changed execution recipe so old ready jobs/refusals cannot answer them. Retained transcripts, audio and pictures keep their recorded generation/model identity and format; saved evidence is not relabeled as current output.
+
+**Gap:** Cache invalidation and portable-format lifetime needed independent ownership.
+
+**Reach:** Implementation releases cannot silently recompute or invalidate historical evidence.
+
+**Verdict:** sound. **Confidence:** high.
+
+**Owner:** [prepared-audio.ts](../../packages/core/src/prepared-audio.ts).
+
+### Raw source pictures have source receipts
+
+**When:** Origin in `9b839582`; prior ledger location 1178–1192.
+
+An agent selects the second stream of an asset at a source time. The result identifies the actual physical sample and source support, not a made-up project/revision/canvas. Source absence and acquisition exclusion are distinct responses rather than synthetic black source PNGs.
+
+**Gap:** Raw inspection receipt and gap shape were unspecified.
+
+**Reach:** Source evidence remains independent of authored composition while sharing native orientation/publication.
+
+**Verdict:** sound. **Confidence:** high.
+
+**Owner:** [frame-inspection.ts](../../packages/core/src/frame-inspection.ts).
+
+### Picture receipts preserve request and exact physical clocks
+
+**When:** Origin in `9b839582`; prior ledger location 1116–1177;1812–1826; 1104–1115;1812–1826.
+
+A project frame samples inside one source picture. Its receipt retains requested exact source time and the native value/timescale/origin alongside a rounded convenience label. The public project receipt describes the full displayed output interval; native admission still validates the demanded window first. A point request at 75,001 microseconds in a twenty-fps project internally asks for a one-microsecond window and samples the picture already visible from 50,000. Its returned receipt reports the full displayed frame interval separately from that point request; the source physical sample is another clock.
+
+**Gap:** Receipt projection did not distinguish physical sample, query and display clocks. Point-inspection representation had not prescribed how to reuse movie scheduling.
+
+**Reach:** A rounded label cannot become a false exact boundary or alternate frame selector. Direct pictures never add a second nearest-frame policy.
+
+**Verdict:** sound. **Confidence:** high.
+
+**Owner:** [frame-inspection.ts](../../packages/core/src/frame-inspection.ts).
+
+### Deliver image size after composing the actual canvas
+
+**When:** Origin in `9b839582`; prior ledger location 1116–1177;2167–2174.
+
+A caller requests a small PNG of a large authored output. Native orients and composes at the movie canvas first, then scales the completed picture through the existing PNG delivery path. Scaling inputs first or applying source-edge sampling a second time would create another framing route.
+
+**Gap:** Picture sizing versus source/composition order was unspecified.
+
+**Reach:** Direct pictures and movies use the same layout while delivery dimensions remain explicit.
+
+**Verdict:** sound. **Confidence:** high.
+
+**Owner:** [CompositionFrameRenderer.swift](../../helpers/mac/Sources/ScreenRecorderFrames/CompositionFrameRenderer.swift).
+
+### Numerical measurements survive eviction of disposable audio
+
+**When:** Origin in `9b839582`; prior ledger location 1211–1234;1360–1391.
+
+A waveform already records a completed audio recipe. Evicting the WAV does not invalidate those measurements or their plotted image. If rebuilding needs missing audio, explicit retry follows the existing dependency chain; an ordinary read does not restart canceled work.
+
+**Gap:** Multistage measurement/cache lifetime was unspecified.
+
+**Reach:** Useful evidence remains independent of retaining large temporary WAV files indefinitely.
+
+**Verdict:** sound. **Confidence:** high.
+
+**Owner:** [acoustic-inspection.ts](../../packages/core/src/acoustic-inspection.ts).
+
+### Spectral analysis retains linear power before display contrast
+
+**When:** Origin in `9b839582`; prior ledger location 1290–1325.
+
+A caller inspects hum or a consonant. Numerical spectra preserve per-channel linear density and DC energy with defined Hann/rectangular window normalization. Images then use a labeled fixed decibel scale rather than changing or flooring the measured data.
+
+**Gap:** Normalization/window/display conventions were unspecified.
+
+**Reach:** Measurements remain comparable independently of image contrast.
+
+**Verdict:** sound. **Confidence:** high.
+
+**Owner:** [audio-spectrum.ts](../../packages/core/src/audio-spectrum.ts).
+
+### Spectral windows use one global grid with explicit missing context
+
+**When:** Origin in `9b839582`; prior ledger location 1290–1307;1360–1391.
+
+A narrow spectrogram view shares identical overlapping columns with the same full audio. Its FFT may require surrounding samples, acquired through the existing selected audio owner and masks; missing context is reported separately from displayed availability.
+
+**Gap:** Edge-window and full/range analysis context semantics were unspecified.
+
+**Reach:** No invented neighboring audio or hidden widened selection becomes acoustic evidence.
+
+**Verdict:** sound. **Confidence:** high.
+
+**Owner:** [audio-spectrum.ts](../../packages/core/src/audio-spectrum.ts).
+
+### Bound visible labels while retaining full provenance
+
+**When:** Origin in `9b839582`; prior ledger location 1318–1325.
+
+A very long clip identifier cannot fit in a bounded waveform image. The visible label explicitly tells the caller that full text is in the receipt, which retains the complete provenance. Plotting accepts measurements and cannot reopen or remix audio.
+
+**Gap:** Image label overflow and plotting execution owner were unspecified.
+
+**Reach:** Agents can resolve identity without another audio decoder or silent text truncation.
+
+**Verdict:** sound. **Confidence:** high.
+
+**Owner:** [AcousticImage.swift](../../helpers/mac/Sources/ScreenRecorderFrames/AcousticImage.swift).
+
+### Touching availability declarations do not create edit joins
+
+**When:** Origin in `9b839582`; prior ledger location 1235–1245.
+
+Support from zero to one second and one to two seconds is continuous for selected audio decoding. A one-microsecond gap stays excluded and overlapping declarations refuse. Joining support declarations does not introduce a fade or erase real physical container boundaries.
+
+**Gap:** Adjacent support declaration handling was unspecified.
+
+**Reach:** Availability normalization remains independent of caller-authored cuts.
+
+**Verdict:** sound. **Confidence:** high.
+
+**Owner:** [AudioSource.swift](../../helpers/mac/Sources/ScreenRecorderAudio/AudioSource.swift).
+
+### Completion facts keep their verified endpoint
+
+**When:** Origin in `9b839582`; prior ledger location 1246–1269;3377–3399.
+
+A selected microphone ends before finalized video. Capture completion stays at the actual verified video endpoint, not an invented earlier failure onset. Damaged/contradictory journal facts remain visible but cannot publish a trusted marker.
+
+**Gap:** The journal fact authorizing interruption time was unspecified.
+
+**Reach:** Failure codes/messages and terminal facts retain provenance independently of source duration.
+
+**Verdict:** sound. **Confidence:** high.
+
+**Owner:** [capture-source-read.ts](../../packages/core/src/capture-source-read.ts).
+
+### Closing endpoint events belong to the preceding query range
+
+**When:** Origin in `9b839582`; prior ledger location 1246–1269.
+
+A completion at two seconds appears in a one-to-two-second query and is not repeated by a query starting at two. Ordinary observations remain start-inclusive/end-exclusive. At a clip boundary, prior endpoint and next opening merge by the existing exact ordering.
+
+**Gap:** Completion endpoint query/pagination ownership was unspecified.
+
+**Reach:** Final markers neither disappear nor recur across adjacent pages.
+
+**Verdict:** sound. **Confidence:** high.
+
+**Owner:** [project-events.ts](../../packages/core/src/project-events.ts).
+
+### Scene sampling distinguishes observations and physical support
+
+**When:** Origin in `9b839582`; prior ledger location 1270–1289;1392–1410;1496–1517.
+
+Two observed pictures can have a physical hole between them. Stillness resets across that hole even if endpoint pictures match; touching support stays continuous. Scene rows retain exact sample clocks and observation request times rather than inventing an unseen semantic cut.
+
+**Gap:** Chunk overlap and sampled-time versus physical-time meaning were unspecified.
+
+**Reach:** Sparse scenes never certify all unobserved pixels or turn unavailable samples into missing intervals.
+
+**Verdict:** sound. **Confidence:** high.
+
+**Owner:** [source-scenes.ts](../../packages/core/src/source-scenes.ts).
+
+### Scene continuations count examined samples
+
+**When:** Origin in `9b839582`; prior ledger location 1326–1345.
+
+Several samples share one rounded displayed microsecond. A page considers a bounded number, filters membership with exact time and advances past the last examined ordinal even if it returns no rows. A late cursor seeks directly instead of rescanning earlier chunks.
+
+**Gap:** Bounded range traversal and tied rounded labels needed a continuation rule.
+
+**Reach:** Consumers must follow nonempty cursors on empty pages; exact clocks still determine membership.
+
+**Verdict:** sound. **Confidence:** high.
+
+**Owner:** [source-scene-chunks.ts](../../packages/core/src/source-scene-chunks.ts).
+
+### Selected-source generations are prepared on demand
+
+**When:** Origin in `9b839582`; prior ledger location 1193–1210;1346–1359.
+
+An agent’s first scene request queues one scan of that stream and acquisition support; later overlapping requests use its retained generation. Merely importing the asset does not automatically start scene analysis. A canceled request stays explicitly retryable; deletion permanently fences and drains its work.
+
+**Gap:** Generation scope and preparation scheduling were unspecified.
+
+**Reach:** One heavy queue and reference graph own current source analysis.
+
+**Verdict:** sound. **Confidence:** high.
+
+**Owner:** [scene-processing.ts](../../packages/core/src/scene-processing.ts).
+
+### Finished indexes own copied results rather than all inputs forever
+
+**When:** Origin in `9b839582`; prior ledger location 1518–1533;1761–1791;1943–1972.
+
+A queued screenshot index pins its exact earlier scene/history prerequisites. Once it has copied its PNGs and coverage, successful/permanent settlement releases preparation-only references; ordinary source/result dependencies retain their own lifetime. Explicit retry follows failed prerequisites once, while reads never restart them.
+
+**Gap:** Input versus retained-result ownership and retry fanout were unspecified.
+
+**Reach:** One resource-reference owner avoids retaining every intermediate or inventing another queue.
+
+**Verdict:** sound. **Confidence:** high.
+
+**Owner:** [index-processing.ts](../../packages/core/src/index-processing.ts).
+
+### Known gaps have no retained image reference
+
+**When:** Origin in `9b839582`; prior ledger location 1454–1495;1718–1748.
+
+An index reports a source acquisition hole without pointing at the previous PNG as if it represented that interval. A point with no native picture records that exact observation; a failed decode remains a failure. An all-unavailable source index can finish with no images and explained coverage.
+
+**Gap:** Retained coverage, empty results and failure classification were unspecified.
+
+**Reach:** Completion means truthful evidence is available, not that a representative picture must exist.
+
+**Verdict:** sound. **Confidence:** high.
+
+**Owner:** [source-index.ts](../../packages/core/src/source-index.ts).
+
+### Cut ties use the arriving occurrence
+
+**When:** Origin in `9b839582`; prior ledger location 1558–1577.
+
+A captured event and editorial cut share project time. The cut sorts with the arriving clip; an exit uses the departing clip, and its ordinal precedes source observations for that same clip. A source-free project can still declare its revision-derived cuts ready.
+
+**Gap:** Stable event ordering and readiness location were unspecified.
+
+**Reach:** Future event kinds cannot reshuffle established source rows or invent source provenance for authored silence.
+
+**Verdict:** sound. **Confidence:** high.
+
+**Owner:** [project-events.ts](../../packages/core/src/project-events.ts).
+
+### Select each observed scene side toward its own support
+
+**When:** Origin in `9b839582`; prior ledger location 1578–1594;1646–1666.
+
+A source scene changes between two observations but the project uses a coarser frame grid. The old side selects at-or-before its observation and the new side at-or-after, omitting a side outside that occurrence’s support. Shared compiler neighbors select authored boundaries.
+
+**Gap:** Directional rounding and boundary neighbor selection were unspecified.
+
+**Reach:** A new-side explanation cannot silently point at the old sampled picture or neighboring clip.
+
+**Verdict:** sound. **Confidence:** high.
+
+**Owner:** [project-index-selection.ts](../../packages/core/src/project-index-selection.ts).
+
+### One geometry primitive uses actual native source extents
+
+**When:** Origin in `9b839582`; prior ledger location 1629–1645;2110–2125;assets/15-layer-geometry/choices.md.
+
+A caller positions and rotates a presenter using the same rectangle/angle fields as static geometry. Native orientation supplies actual transformed support; TypeScript does not reinterpret preferred transforms. Odd source/canvas geometry stays valid, with codec restrictions at encoding.
+
+**Gap:** Position representation and orientation-owner boundary were unspecified.
+
+**Reach:** Animation and nested geometry cannot acquire parallel translation or orientation policies.
+
+**Verdict:** sound. **Confidence:** high.
+
+**Owner:** [geometry.ts](../../packages/composition/src/geometry.ts).
+
+### Source sampling and geometric coverage have separate jobs
+
+**When:** Origin in `9b839582`; prior ledger location 1629–1645;2194–2201;assets/15-layer-geometry/choices.md.
+
+A crop can extend outside a source. Source pixel-center clamping avoids foreign colors and dark fringes; destination coverage establishes alpha. Parent geometry materializes its preceding canvas in the chosen premultiplied linear representation, rather than relying on optimizer-sensitive crop masks.
+
+**Gap:** Native geometric sampling/mask mechanism was unspecified.
+
+**Reach:** One picture executor applies compiled primitives and explicitly accounts for every intermediate surface.
+
+**Verdict:** sound. **Confidence:** high.
+
+**Owner:** [CompositionPictureExecutor.swift](../../helpers/mac/Sources/ScreenRecorderFrames/CompositionPictureExecutor.swift).
+
+### Public picture receipts expose evidence rather than private draw instructions
+
+**When:** Origin in `9b839582`; prior ledger location 1718–1748.
+
+An agent sees a physical picture’s layers and times, but authored placement is inspected through processing.get. Core first verifies the worker’s complete graph and ordered physical provenance; it then omits renderer-coordinate metadata that could be mistaken for authored geometry.
+
+**Gap:** Public evidence and private native instruction representations were conflated.
+
+**Reach:** Agents cannot infer another edit from an internal lower-left coordinate; repeated layers retain their own provenance.
+
+**Verdict:** sound. **Confidence:** high.
+
+**Owner:** [frame-inspection.ts](../../packages/core/src/frame-inspection.ts).
+
+### Pointer steps require the actual acquisition-bound clip
+
+**When:** Origin in `9b839582`; prior ledger location 1693–1717;2005–2019;1749–1760.
+
+A group can combine several sources, so a pointer step belongs on the selected acquisition-bound video clip rather than guessing a group member. At each stack position, the overlay reuses the geometric prefix without inheriting earlier opacity, then later steps process the combined result. Disabled steps still carry their actual typed authored metadata through the strict native boundary; bypass does not erase fields needed to decode that stack.
+
+**Gap:** Target ownership and ordered overlay geometry needed definition.
+
+**Reach:** Capability discovery and atomic replacement validation share one source-binding rule.
+
+**Verdict:** sound. **Confidence:** high.
+
+**Owner:** [composition-pointer.ts](../../packages/core/src/composition-pointer.ts).
+
+### Pointer prerequisite repair yields the heavy lane once
+
+**When:** Origin in `9b839582`; prior ledger location 1943–1972.
+
+An index occupies the heavy lane while its frame children need prepared pointer history. It admits history first and holds cache descriptors. Lost prerequisites release the lane for the existing bounded readmission; repeated loss fails, and ordinary reads/pressure do not create no-progress wakeups.
+
+**Gap:** Nested work and disappearing inputs needed deadlock-free ownership.
+
+**Reach:** Only actual transitions wake waiting parents; no polling retry loop is introduced.
+
+**Verdict:** sound. **Confidence:** high.
+
+**Owner:** [pointer-preparation.ts](../../packages/core/src/pointer-preparation.ts).
+
+### Still images have no invented source clock
+
+**When:** Origin in `9b839582`; prior ledger location 1847–1872;1894–1942.
+
+A photograph is admitted as one complete PNG/JPEG frame with orientation and alpha. Raw inspection omits time and rejects video-time/acquisition selectors; animation or incomplete decode refuses. Project placement uses an ordinary hold at zero, while compiled receipts identify a timeless image rather than a physical sample at zero.
+
+**Gap:** Image admission/composition needed shapes distinct from sampled video.
+
+**Reach:** Source and project images share sizing/publication without fabricated duration or capture provenance.
+
+**Verdict:** sound. **Confidence:** high.
+
+**Owner:** [StillImageSource.swift](../../helpers/mac/Sources/ScreenRecorderMedia/StillImageSource.swift).
+
+### Raw image delivery is independent of a referencing project
+
+**When:** Origin in `9b839582`; prior ledger location 1894–1913.
+
+A caller deletes a project that used a photograph. The admitted asset and its separate raw PNG lease remain usable because they are asset-owned, while project-owned outputs are revoked. No absent asset-delete API is invented just for a fixture.
+
+**Gap:** Raw inspection lifetime and test deletion scope were unspecified.
+
+**Reach:** Independent originals do not inherit another project’s retirement.
+
+**Verdict:** sound. **Confidence:** high.
+
+**Owner:** [frame-inspection.ts](../../packages/core/src/frame-inspection.ts).
+
+### Animation preserves the original function and clock
+
+**When:** Origin in `9b839582`; prior ledger location 2020–2061;2076–2090;2202–2233.
+
+A curved zoom is split halfway. Both children retain original keys and exact evaluation intervals instead of restarting easing from the split value. Numeric programs are compiled from those authoring fields, while native receives resolved visual scalars or shared audio coefficients.
+
+**Gap:** Storage and worker lowering did not choose a restriction representation.
+
+**Reach:** No second native easing evaluator or editable numerical program competes with authored curves.
+
+**Verdict:** sound. **Confidence:** high.
+
+**Owner:** [curve.ts](../../packages/composition/src/curve.ts).
+
+### Validate complete curve domains without arbitrary clipping
+
+**When:** Origin in `9b839582`; prior ledger location 2037–2061;2076–2090;2150–2166.
+
+An opacity curve can have an easing handle outside zero-to-one while all resulting values remain valid. Validate its actual extrema rather than forbid such handles or clamp invalid alpha. Signed/zero scale stays valid; width/height remain strictly positive and pivot in zero-to-one. A crop can extend beyond its source as static geometry allows. Size extrema use the smallest positive representable bound rather than an arbitrary epsilon that would reject otherwise positive authored values.
+
+**Gap:** Animated physical bounds and overshoot validation were unspecified.
+
+**Reach:** Animation inherits existing static semantics and finite matrix emission checks.
+
+**Verdict:** sound. **Confidence:** high.
+
+**Owner:** [temporal-processing.ts](../../packages/composition/src/temporal-processing.ts).
+
+### One scalar numerical program owns precision
+
+**When:** Origin in `9b839582`; prior ledger location 2202–2233.
+
+A steep envelope near an endpoint can magnify a tiny timing error. Exact clock lowering remains in the BigInt owner, with a fixed global sample origin and key-sized polynomial program shared with native. The root solver stops only when floating bounds can no longer narrow; authored endpoints bypass search.
+
+**Gap:** Native arithmetic representation and solver termination were unspecified.
+
+**Reach:** No fixed-width rational restriction or duration-sized gain array is introduced.
+
+**Verdict:** sound. **Confidence:** high.
+
+**Owner:** [scalar-program.ts](../../packages/composition/src/scalar-program.ts).
+
+### Package adoption remaps outer identity and preserves inner identity
+
+**When:** Origin in `9b839582`; prior ledger location 2062–2075;2126–2149.
+
+A caller adopts the same archive twice. Each receives fresh project/revision IDs, while clip, track, processor and acquisition identities retain their within-document meaning. The receipt maps donor revisions; conflicting retained acquisition evidence must match complete metadata and hashes, not silently remap.
+
+**Gap:** Collision and adoption identity scope were unspecified.
+
+**Reach:** Independent project copies share immutable resources without sharing project lifecycle.
+
+**Verdict:** sound. **Confidence:** high.
+
+**Owner:** [projects.ts](../../packages/core/src/projects.ts).
+
+### Portable publication is one atomic project transaction
+
+**When:** Origin in `9b839582`; prior ledger location 2062–2075;2091–2150;2175–2193;2234–2255;2392–2414.
+
+A package copies/hashes media and stages normalized scene/transcript/index rows before its adoption transaction. The transaction publishes all assets, references and retained history together; failed work stays invisible and existing owner recovery removes abandoned staging. A result returns durable IDs instead of a potentially oversized document.
+
+**Gap:** Staging/publication sequencing and result shape were unspecified.
+
+**Reach:** No partly imported project or fabricated completed worker can look ready.
+
+**Verdict:** sound. **Confidence:** high.
+
+**Owner:** [project-packages.ts](../../apps/service/src/project-packages.ts).
+
+### Historical export stops at the selected moment
+
+**When:** Origin in `9b839582`; prior ledger location 2062–2075;2091–2109;2497–2509.
+
+A project has revisions A, B and C, and the caller exports B. The recipient opens B with history and the actual undo state through B; C stays only in the donor. Undo/restore append revisions, so history alone cannot replace the active undo stack.
+
+**Gap:** Historical head selection and the later-history branch meaning were unspecified.
+
+**Reach:** Adopted projects continue the ordinary sequence without an invented branching model.
+
+**Verdict:** sound. **Confidence:** high.
+
+**Owner:** [projects.ts](../../packages/core/src/projects.ts).
+
+### Retained package resources preserve producer authority
+
+**When:** Origin in `9b839582`; prior ledger location 2175–2193;2234–2255;2392–2414;7340–7414.
+
+A recipient lacking speech models or a pointer executor reads retained words and PNGs immediately. Imported published results retain original sampler/model/decoder identity and need no fake donor job. Raw transcript bytes plus reconstructed bounded receipt/index retain one ingestion format; regeneration is a separate explicit request.
+
+**Gap:** Portable readiness and retained generation validation were unspecified.
+
+**Reach:** Reading saved evidence cannot grant execution readiness or relabel it as current inference.
+
+**Verdict:** sound. **Confidence:** high.
+
+**Owner:** [project-packages.ts](../../apps/service/src/project-packages.ts).
+
+### Prepared audio publishes with queue settlement
+
+**When:** Origin in `9b839582`; prior ledger location 2265–2287.
+
+File preparation finishes privately, then the existing synchronous queue fence publishes its asset/receipt and revision references in the settlement transaction. Cancellation or a newer attempt blocks publication. Identical PCM assets may share bytes, but their source histories remain on separate publication/reference records.
+
+**Gap:** Durable preparation did not choose atomic readiness and provenance ownership.
+
+**Reach:** One queue/result graph owns prepared output without a second cache or global asset-level history.
+
+**Verdict:** sound. **Confidence:** high.
+
+**Owner:** [prepared-audio.ts](../../packages/core/src/prepared-audio.ts).
+
+### Local file identity is distinct from retained recipe identity
+
+**When:** Origin in `9b839582`; prior ledger location 2265–2287.
+
+A prepared file’s exact local filesystem identity is captured after dropping its staging hard link. Bounded readers refuse a substituted file rather than regenerate different bytes. Relocation adopts a new local file identity while preserving content and recipe.
+
+**Gap:** Prepared immutable reads and relocation required different identity domains.
+
+**Reach:** History/recipe portability does not weaken current filesystem authority.
+
+**Verdict:** sound. **Confidence:** high.
+
+**Owner:** [prepared-audio.ts](../../packages/core/src/prepared-audio.ts).
+
+### Prepared consumers select by complete recipe and pin their choice
+
+**When:** Origin in `9b839582`; prior ledger location 3326–3347.
+
+A moved project holds its saved processed PCM. Consumers compare the full revision recipe including upstream/model/state/rendition, report distinct matching policies as ambiguity, and refuse a broken match. Admission pins retained resource ID or explicit produced mode so later publication cannot change queued work.
+
+**Gap:** Candidate selection and queued produced-versus-retained behavior were unspecified.
+
+**Reach:** Offline playback preserves the recorded sound rather than selecting the newest policy.
+
+**Verdict:** sound. **Confidence:** high.
+
+**Owner:** [prepared-audio.ts](../../packages/core/src/prepared-audio.ts).
+
+### Output requests freeze resolved values separately from authoring
+
+**When:** Origin in `9b839582`; prior ledger location 2335–2351;2415–2444;assets/09c-audio-export/choices.md.
+
+An export asks for a preset and defaults later change. Replay uses the original resolved encoder settings, while a new export can resolve the new default. Equivalent resolved settings share rendering; original request identity still distinguishes replay. Mixing retains its 48-kHz stereo clock before requested output conversion.
+
+**Gap:** Preset/replay identity and mix-versus-delivery format were unspecified.
+
+**Reach:** Format changes cannot silently retime authored envelopes or invalidate an unchanged PCM mix.
+
+**Verdict:** sound. **Confidence:** high.
+
+**Owner:** [output-settings.ts](../../packages/composition/src/output-settings.ts).
+
+### Encoder selection distinguishes hard requirements from preferences
+
+**When:** Origin in `9b839582`; prior ledger location 2415–2444.
+
+A caller supplies a 64-bit GPU ID as an exact decimal string and chooses required hardware/software/GPU or an allowed preference. Preflight and actual writer enforce that request; receipts do not invent selected-session telemetry the SDK cannot observe. Null means leave a nullable encoder property unspecified, not silently ignore an unsupported explicit value.
+
+**Gap:** Wire identity, hard selection and observable telemetry were unspecified.
+
+**Reach:** Capabilities can disclose non-executable SDK knobs without presenting them as working controls.
+
+**Verdict:** sound. **Confidence:** high.
+
+**Owner:** [output-settings.ts](../../packages/composition/src/output-settings.ts).
+
+### Verify encoded headers before publishing
+
+**When:** Origin in `9b839582`; prior ledger location 2335–2351.
+
+A caller requests a H.264 profile and explicit level. Native reads bounded output metadata to verify the actual sequence parameters rather than merely echo the requested dictionary. Auto-level reports the encoder’s selected level.
+
+**Gap:** Settings enforcement needed an output observation boundary.
+
+**Reach:** Configuration acceptance alone cannot become proof that the writer honored the request.
+
+**Verdict:** sound. **Confidence:** high.
+
+**Owner:** [CompositionVideoOperation.swift](../../helpers/mac/Sources/ScreenRecorderWire/CompositionVideoOperation.swift).
+
+### Text is an ordinary visual clip
+
+**When:** Origin in `9b839582`; prior ledger location 2469–2496.
+
+A title follows video through the existing attachment graph and normal splits/moves/copies. Its literal text/style/font source has no playable stream or invented source clock; layout reuse compares exact UTF-16 code units so visually equivalent spellings cannot corrupt character ranges.
+
+**Gap:** The plan did not prescribe a separate caption graph or literal layout cache identity.
+
+**Reach:** One clip/asset/reference owner carries text rather than a parallel caption timeline.
+
+**Verdict:** sound. **Confidence:** high.
+
+**Owner:** [schema.ts](../../packages/composition/src/schema.ts).
+
+### Preserve alpha and refuse silent font substitution
+
+**When:** Origin in `9b839582`; prior ledger location 2469–2496.
+
+A transparent PNG remains transparent; an H.264 movie requires opaque final pixels rather than secretly applying a matte. Native text refuses missing glyph zero and runs supplied by another font, while requested finite-box clipping remains explicit layout behavior.
+
+**Gap:** Shared picture/movie admission and missing-glyph semantics were unspecified.
+
+**Reach:** A successful render cannot hide a substituted face, missing character or background.
+
+**Verdict:** sound. **Confidence:** high.
+
+**Owner:** [CompositionPictureExecutor.swift](../../helpers/mac/Sources/ScreenRecorderFrames/CompositionPictureExecutor.swift).
+
+### Caption seeds retain evidence without freezing display text
+
+**When:** Origin in `9b839582`; prior ledger location 2543–2571.
+
+An agent seeds a caption from selected spoken occurrences, then changes spelling or deletes that original clip. The caption keeps original word/generation provenance while edited text is independent. Package validation checks retained history, not whether the original occurrence still exists today.
+
+**Gap:** Transcript-seed lifetime after later edits was unspecified.
+
+**Reach:** Display corrections never rewrite source speech evidence.
+
+**Verdict:** sound. **Confidence:** high.
+
+**Owner:** [text-seeds.ts](../../packages/core/src/text-seeds.ts).
+
+### Public preparation pins an explicit revision
+
+**When:** Origin in `9b839582`; prior ledger location 2528–2542.
+
+An agent asks audio.prepare for a named revision. Existing job identity joins repeated requests and the retained result is an ordinary audio asset with its own published recipe. Editing current head does not change the old preparation; no extra request-intent table is added.
+
+**Gap:** The public full-output preparation entry point and missing-revision semantics were unspecified.
+
+**Reach:** Preparation remains distinct from a separately retained excerpt or a raw source read.
+
+**Verdict:** sound. **Confidence:** high.
+
+**Owner:** [audio-inspection.ts](../../packages/core/src/audio-inspection.ts).
+
+### Strict discovery describes authorable input accurately
+
+**When:** Origin in `1b6aa64f`; prior ledger location 2456–2468;2590–2604;current cfa5d257.
+
+A curve’s parsed keys are frozen internally, but callers must supply them. Shared CLI/MCP schema export removes misleading readOnly input annotations without weakening runtime validation. Capability discovery accepts the same strict empty-parameter shape on both adapters; extra fields refuse.
+
+**Gap:** Schema-library immutability annotations and empty discovery argument validation were unspecified.
+
+**Reach:** Agents learn the actual contract from one schema registry, including exact-time wording.
+
+**Verdict:** sound. **Confidence:** high.
+
+**Owner:** [operations.ts](../../packages/protocol/src/operations.ts).
+
+### Captured time separates raw provenance from admitted placement
+
+**When:** Origin in `9b839582`; prior ledger location 2634–2651;2676–2687.
+
+A device offers a buffer at a fractional host-clock phase. CaptureClock keeps raw timestamp provenance separately and classifies its samples on one declared admitted timeline; exact admitted addresses/support, not arbitrary raw nanoseconds through MOV, authorize later playback. Half-cell ties follow the named away-from-zero rule.
+
+**Gap:** Physical platform timescales cannot preserve every raw timestamp under the public source contract.
+
+**Reach:** Writer, canonical materializer and recovery share one clock rather than reader-specific fitted offsets.
+
+**Verdict:** sound. **Confidence:** high.
+
+**Owner:** [CaptureClock.swift](../../helpers/mac/Sources/ScreenRecorderCapture/CaptureClock.swift).
+
+### Media acceptance commits prospective clock state
+
+**When:** Origin in `9b839582`; prior ledger location 2676–2699.
+
+The first offered buffer is rejected by the media writer. Its prospective phase cannot become the phase of later accepted audio. If the writer accepts bytes and the subsequent journal append fails, native still finalizes those bytes but claims no acquisition for the unjournaled buffer.
+
+**Gap:** Accepted-media state and journal failure ordering were unspecified.
+
+**Reach:** Accepted is not durable or journaled; recovery cannot fabricate support from a counter alone.
+
+**Verdict:** sound. **Confidence:** high.
+
+**Owner:** [CaptureClock.swift](../../helpers/mac/Sources/ScreenRecorderCapture/CaptureClock.swift).
+
+### Mapping records alone never authorize source admission
+
+**When:** Origin in `9b839582`; prior ledger location 2711–2721.
+
+A packed journal says the writer accepted audio whose tail is not represented in the usable container. Internal publication consumes the exact physical mappings, but ordinary source evidence refuses packed staging until canonical materialization proves represented samples.
+
+**Gap:** Accepted-versus-durable staging needed a trust boundary.
+
+**Reach:** No summary or mapping array substitutes for verified source-time media.
+
+**Verdict:** sound. **Confidence:** high.
+
+**Owner:** [CaptureAudioMaterializer.swift](../../helpers/mac/Sources/ScreenRecorderCapture/CaptureAudioMaterializer.swift).
+
+### Recovery binds the exact validated journal prefix
+
+**When:** Origin in `9b839582`; prior ledger location 2722–2731;5285–5304.
+
+Lifecycle rows are appended after a candidate was prepared. Recovery keeps the original validated prefix’s byte length and digest, not a whole-file hash that changes or a reserialized sequence number. Later rows cannot expand the pinned attempt’s authority.
+
+**Gap:** Growing journal provenance needed an immutable token.
+
+**Reach:** One parser owns torn-tail/sequence interpretation for capture, retry and package verification.
+
+**Verdict:** sound. **Confidence:** high.
+
+**Owner:** [CaptureJournal.swift](../../helpers/mac/Sources/ScreenRecorderCapture/CaptureJournal.swift).
+
+### Normalize PCM representation at the track boundary
+
+**When:** Origin in `9b839582`; prior ledger location 2763–2777.
+
+A microphone changes from integer or planar PCM representation to floating interleaved bytes while keeping rate/channels. One current converter produces the established Float32 representation with an identity channel map; rate/channel changes refuse. A format cache cannot misread new bytes as the first representation.
+
+**Gap:** Accepted format changes lacked a representation owner.
+
+**Reach:** Capture supports equivalent representations without another timing or channel policy.
+
+**Verdict:** sound. **Confidence:** high.
+
+**Owner:** [CapturePCM.swift](../../helpers/mac/Sources/ScreenRecorderCapture/CapturePCM.swift).
+
+### The journal inode owns publication exclusion
+
+**When:** Origin in `9b839582`; prior ledger location 2833–2843.
+
+Two processes try to finish the same take. An OS file lock on the existing journal inode and pinned directory/file identities allows one publisher; process exit releases it. Close-on-exec and explicitly inherited authority avoid a PID registry or stale-lock cleaner.
+
+**Gap:** Cross-process publication exclusion needed a concrete owner.
+
+**Reach:** Every retry/materializer must hold the same original journal authority.
+
+**Verdict:** sound. **Confidence:** high.
+
+**Owner:** [CaptureJournalLease.swift](../../helpers/mac/Sources/ScreenRecorderCapture/CaptureJournalLease.swift).
+
+### Retain uncertain working audio even when a prefix is useful
+
+**When:** Origin in `9b839582`; prior ledger location 2860–2873;3348–3376.
+
+The journal records more accepted frames than the container decodes. A verified canonical prefix may publish, but automatic working-byte cleanup requires accepted, represented and completely decoded counts to agree with no unresolved tail. Missing journals and unjournaled physical tails remain retained.
+
+**Gap:** Earlier cleanup counting could mistake partial representation for complete preservation.
+
+**Reach:** Publication availability and permission to reclaim evidence remain separate facts.
+
+**Verdict:** sound. **Confidence:** high.
+
+**Owner:** [CaptureAudioMaterializer.swift](../../helpers/mac/Sources/ScreenRecorderCapture/CaptureAudioMaterializer.swift).
+
+### Complete verification uses bounded batches without shortening coverage
+
+**When:** Origin in `9b839582`; prior ledger location 2874–2889.
+
+A fragmented take would make one native reader spend too long setting up before cancellation. Canonical verification walks small occupied-run batches and maintains one continuous sample hash and exact placement/format check across them. Every sample is still required.
+
+**Gap:** Long verification needed cancellable setup and bounded response work.
+
+**Reach:** Batch size bounds working setup, not recording duration or a reduced preservation requirement.
+
+**Verdict:** sound. **Confidence:** high.
+
+**Owner:** [CaptureAudioMaterializer.swift](../../helpers/mac/Sources/ScreenRecorderCapture/CaptureAudioMaterializer.swift).
+
+### Unfinished publication is private and inspectable
+
+**When:** Origin in `9b839582`; prior ledger location 2890–2903.
+
+Stop leaves a private per-role attempt with immutable input intent and an optional prepared receipt. Before that receipt a candidate can be rebuilt; afterward retry verifies the same candidate. Unexpected files remain retained instead of recursive deletion, and published source stays available while cleanup is unresolved.
+
+**Gap:** On-disk retry boundaries and unexpected-member cleanup were unspecified.
+
+**Reach:** No second job manager or implicit evidence deletion follows from cancellation.
+
+**Verdict:** sound. **Confidence:** high.
+
+**Owner:** [CaptureSourcePublication.swift](../../helpers/mac/Sources/ScreenRecorderCapture/CaptureSourcePublication.swift).
+
+### Learned state uses current membership and ordered prefixes
+
+**When:** Origin in `9b839582`; prior ledger location 2732–2762;2793–2818;2844–2859.
+
+A clip splits with a stateful denoiser. The engine shares continuity using an allocated token on related pieces, while copies use fresh tokens. Current enabled membership and each step’s actual upstream prefix define connected prerequisites; equal adjacent configurations are not membership. Existing tokens reserve their IDs even after their original member disappears; get/set omission preserves engine-owned metadata and a caller cannot manufacture a fresh shared grouping token.
+
+**Gap:** State instance identity, split/copy continuity and upstream dependency meaning were unspecified.
+
+**Reach:** Matching settings cannot reconnect unrelated histories or reuse a stale state graph.
+
+**Verdict:** sound. **Confidence:** high.
+
+**Owner:** [processing-state.ts](../../packages/composition/src/processing-state.ts).
+
+### State repair removes invalid changed membership monotonically
+
+**When:** Origin in `9b839582`; prior ledger location 2732–2762.
+
+An edit moves members of a shared state domain across incompatible tracks or creates a dependency cycle. Normalization detaches shared state on participating changed occurrences until the graph is valid; each iteration removes membership, so it cannot repeat unchanged. Unchanged members and valid whole-group moves retain it; invalid imported graphs refuse.
+
+**Gap:** The plan did not choose minimal repair versus simple bounded normalization.
+
+**Reach:** Receipts disclose continuity changes instead of silently retaining impossible dependencies.
+
+**Verdict:** sound. **Confidence:** high.
+
+**Owner:** [processing-state.ts](../../packages/composition/src/processing-state.ts).
+
+### Parent state extent and authored activation are distinct
+
+**When:** Origin in `9b839582`; prior ledger location 2793–2818;2844–2859.
+
+A parent audio processor spans its structural audio children including internal timeline gaps. Its explicit processing window controls activation; missing source support is still missing evidence, not permission to reset the detector or feed invented samples. A short output window can require earlier eligible input.
+
+**Gap:** Parent/window state semantics and range prerequisite expansion were unspecified.
+
+**Reach:** Each ordered stateful prefix expands only its own connected domain.
+
+**Verdict:** sound. **Confidence:** high.
+
+**Owner:** [processing-state.ts](../../packages/composition/src/processing-state.ts).
+
+### Native input provenance must justify channel policy
+
+**When:** Origin in `9b839582`; prior ledger location 2844–2859.
+
+An audio stream’s admitted rate/channels travel with selected state inputs. Mono duplication, common scalar gain, authored silence and sum retain only their justified channel relation. Native opening verifies actual formats; stereo output alone cannot establish a dual-mono source.
+
+**Gap:** Compiler metadata could not prove native channel facts.
+
+**Reach:** Unknown provenance stays unknown, and consumed unavailable support blocks new learned preparation.
+
+**Verdict:** sound. **Confidence:** high.
+
+**Owner:** [CompositionAudioPlan.swift](../../helpers/mac/Sources/ScreenRecorderAudio/CompositionAudioPlan.swift).
+
+### Denoise strength is an explicit continuous wet/dry blend
+
+**When:** Origin in `9b839582`; prior ledger location 3460–3470;3507–3515.
+
+An agent fades denoising into a sentence. Mix zero selects the immediate input, one selects learned output and values between blend linearly at the existing parameter clock. Learned state stays continuous through zero mix so fading back does not restart acoustic history.
+
+**Gap:** Strength automation did not specify a parameter or model tuning rule.
+
+**Reach:** The fixed model recipe stays unchanged; new request identities capture the changed consumer mix.
+
+**Verdict:** sound. **Confidence:** high.
+
+**Owner:** [CompositionState.swift](../../helpers/mac/Sources/ScreenRecorderAudio/CompositionState.swift).
+
+### Publication-backed package clocks are verified against actual media
+
+**When:** Origin in `9b839582`; prior ledger location 2928–2943;3004–3015;6033–6050.
+
+An archive keeps every audio byte but shifts claimed start time by one microsecond. Admission probes the held canonical media and checks publication/journal proof against normalized support; file hashes alone cannot certify its clock. Completion mode remains native’s media-verification judgment.
+
+**Gap:** Portable receipt integrity did not establish that its timing described the file.
+
+**Reach:** Project metadata cannot recreate recovery judgments from one rounded duration.
+
+**Verdict:** sound. **Confidence:** high.
+
+**Owner:** [acquisitions.ts](../../packages/core/src/acquisitions.ts).
+
+### Source availability and cleanup report separate outcomes
+
+**When:** Origin in `9b839582`; prior ledger location 2944–2956;3348–3376.
+
+Canonical media is usable, but removing working files fails. Capture reports the usable terminal outcome plus bounded cleanupFailure rather than mislabeling successful capture as failure. Existing capture failure wins independently. Explicit cleanup joins the recording’s existing source-owned job and can report retained evidence.
+
+**Gap:** Completion/cleanup result shape and explicit reclaim operation were unspecified.
+
+**Reach:** A cleanup warning neither deletes uncertain bytes nor makes available sources unusable.
+
+**Verdict:** sound. **Confidence:** high.
+
+**Owner:** [capture-store.ts](../../packages/core/src/capture-store.ts).
+
+### Stop acknowledgments retain their authored lifecycle sequence
+
+**When:** Origin in `9b839582`; prior ledger location 2957–2982.
+
+Repeated Stop arrives while a prior finalizing acknowledgment is waiting for service report. The controller retains that earlier receipt rather than mixing its state with a later terminal sequence. A lost start reply may legitimately advance preparing directly to native-proved finalizing.
+
+**Gap:** Acknowledgment interleavings and the preparing-to-finalizing jump were unspecified.
+
+**Reach:** One event sequence has one meaning and recovery cannot override a still-owned writer from missing intermediate replies.
+
+**Verdict:** sound. **Confidence:** high.
+
+**Owner:** [CaptureController.swift](../../apps/macos/Sources/ScreenRecorder/CaptureController.swift).
+
+### Cancellation belongs to the existing termination task
+
+**When:** Origin in `9b839582`; prior ledger location 2957–2982;5059–5077.
+
+Cancel arrives while a finalizing report is held before publication starts. Native retains it for the existing sink, transfers it to the owned termination when created and clears it for a new take. Physical encoder/input closure still completes; cancellation ends publication or optional cleanup, not authority over a later take.
+
+**Gap:** Cancellation could disappear across the report/termination await boundary.
+
+**Reach:** Transport disconnect is not shared capture cancellation and no new task registry is needed.
+
+**Verdict:** sound. **Confidence:** high.
+
+**Owner:** [CaptureTermination.swift](../../helpers/mac/Sources/ScreenRecorderCapture/CaptureTermination.swift).
+
+### Source-owned jobs need no fictional recording edit revision
+
+**When:** Origin in `9b839582`; prior ledger location 3305–3325;7618–7634.
+
+A settled capture has recoverable audio but no playable editing revision. Cleanup jobs use its actual capture identity and null revision; project execution jobs require their explicit retained revision. Current admission rejects obsolete recording edit selectors.
+
+**Gap:** Non-editing source work needed a queue target representation.
+
+**Reach:** Cancellation/deletion/retry can manage incomplete sources without reviving a recording editor.
+
+**Verdict:** sound. **Confidence:** high.
+
+**Owner:** [jobs.ts](../../packages/core/src/jobs.ts).
+
+### Capture finalization failure stays with its durable lifecycle
+
+**When:** Origin in `9b839582`; prior ledger location 3188–3198;3377–3386.
+
+A take remains finalizing while source recovery runs. The existing capture service owns one cancellable attempt and bounded persisted error; explicit retry clears it when work begins and terminal settlement clears it. Reads expose that stored error without a second preparation registry for a take.
+
+**Gap:** Responsive recovery needed durable failure storage before editable media existed.
+
+**Reach:** Restart, stop and deletion coordinate through one capture owner.
+
+**Verdict:** sound. **Confidence:** high.
+
+**Owner:** [capture-store.ts](../../packages/core/src/capture-store.ts).
+
+### Old normalization receipts retain their exact declared grammar
+
+**When:** Origin in `9b839582`; prior ledger location 3387–3399.
+
+A historical source receipt omitted a raw terminal message that a newer normalizer exposes. Verification recognizes that original receipt version and compares all its original fields/hash; new receipts include the message/version. It does not broadly ignore arbitrary differences or rewrite old bytes.
+
+**Gap:** Immutable receipt verification needed a narrow version boundary.
+
+**Reach:** Generic source proofs can remain historical evidence without accepting incomplete new-format authority.
+
+**Verdict:** sound. **Confidence:** high.
+
+**Owner:** [source-admission.ts](../../packages/core/src/source-admission.ts).
+
+### Primary and camera publication proceed independently and join
+
+**When:** Origin in `9b839582`; prior ledger location 5039–5058;6911–6970.
+
+Camera verification takes longer than primary screen/audio publication. Native starts both independent publications, reports each actual outcome and joins both before releasing journals. Primary audio roles retain sequential budgeting, and simultaneous failures keep camera-first precedence independent of finish order.
+
+**Gap:** Independent source progress/error arbitration was unspecified.
+
+**Reach:** An available sibling is not hidden by another’s failure; no second finalization owner is added.
+
+**Verdict:** sound. **Confidence:** high.
+
+**Owner:** [NativeCapture.swift](../../helpers/mac/Sources/ScreenRecorderCapture/NativeCapture.swift).
+
+### Terminal source conflicts do not become success on another retry
+
+**When:** Origin in `9b839582`; prior ledger location 5078–5097.
+
+A conflicting file blocks camera publication while primary audio fails operationally. Removing that conflict before retrying primary does not upgrade the already terminal closed-camera result. Successfully published sources instead reverify their complete inputs/proof/bytes until take settlement.
+
+**Gap:** Settled sibling outcomes versus unfinished operational retries were unspecified.
+
+**Reach:** Retry cannot replace source authority or invent represented pictures.
+
+**Verdict:** sound. **Confidence:** high.
+
+**Owner:** [ClosedCameraSource.swift](../../helpers/mac/Sources/ScreenRecorderCapture/ClosedCameraSource.swift).
+
+### An uncertain terminal journal append is never repeated
+
+**When:** Origin in `9b839582`; prior ledger location 5098–5116.
+
+A finished row may reach disk before synchronization reports failure. The owner remembers that append attempt and later metadata/result retry cannot append a second finish record. Journal failure also cannot skip physical encoder finish.
+
+**Gap:** Failure after a potentially effective journal write needed a retry boundary.
+
+**Reach:** Recovery sees actual complete or incomplete evidence, never fabricated repaired history.
+
+**Verdict:** sound. **Confidence:** high.
+
+**Owner:** [CaptureJournal.swift](../../helpers/mac/Sources/ScreenRecorderCapture/CaptureJournal.swift).
+
+### Stale startup cleanup owns only its returned resources
+
+**When:** Origin in `9b839582`; prior ledger location 5178–5199.
+
+A screen lookup or camera start returns after the old take was discarded and another began. Generation checks fence each await and cleanup releases only the obsolete prepared input. Failed active startup joins the existing termination; it cannot clear newer take state.
+
+**Gap:** Async startup resource authority was unspecified.
+
+**Reach:** Selected inputs share one lifecycle without stale callbacks acquiring a new take.
+
+**Verdict:** sound. **Confidence:** high.
+
+**Owner:** [NativeCapture.swift](../../helpers/mac/Sources/ScreenRecorderCapture/NativeCapture.swift).
+
+### Input drain joins every attempted SDK start
+
+**When:** Origin in `9b839582`; prior ledger location 5200–5221.
+
+An SDK start can acquire resources before returning success or failure. The resource owner records the attempt before awaiting, then one cached drain joins startup and independently stops each attempted stream once. Once drain owns inputs, no later system-audio start is permitted.
+
+**Gap:** Partial startup and discard interleavings lacked physical resource accounting.
+
+**Reach:** A start error is never evidence that no cleanup is required.
+
+**Verdict:** sound. **Confidence:** high.
+
+**Owner:** [CaptureInputSession.swift](../../helpers/mac/Sources/ScreenRecorderCapture/CaptureInputSession.swift).
+
+### Picture digests retain their original serialization timescale
+
+**When:** Origin in `9b839582`; prior ledger location 5305–5326.
+
+A camera receipt’s picture digest serialized timestamps at a native tick rate. New receipts retain that exact rate and rational support. An old unbound receipt can qualify it only from held verified original raw media; guessing the canonical movie rate or rewriting history refuses.
+
+**Gap:** Historical digest metadata omitted its time serialization basis.
+
+**Reach:** Raw-less new sources can be portable without promoting unverifiable old sources.
+
+**Verdict:** sound. **Confidence:** high.
+
+**Owner:** [CameraMedia.swift](../../helpers/mac/Sources/ScreenRecorderCapture/CameraMedia.swift).
+
+### Acquisition observations grow but never change their earlier meaning
+
+**When:** Origin in `9b839582`; prior ledger location 5530–5556.
+
+Admission reserves its acquisition/job before all source files are openable. It freezes each observed file identity, distinguishes not-observed from observed-absent, and later retry validates existing observations before adding new ones. The job input stays constant instead of encoding a growing map into a new identity.
+
+**Gap:** Durable partial progress needed an acquisition-owned representation.
+
+**Reach:** A retry cannot import changed bytes or newly appearing optional media; explicit imports keep their stricter initial freeze.
+
+**Verdict:** sound. **Confidence:** high.
+
+**Owner:** [acquisitions.ts](../../packages/core/src/acquisitions.ts).
+
+### The shared capture store authorizes admission eligibility
+
+**When:** Origin in `9b839582`; prior ledger location 5557–5579.
+
+An admission caller cannot pass a fabricated complete take. Inside the queue transaction it reads the same catalog’s capture/source allocation and verified publication; active or canceled inputs refuse. The normalized journal must independently name that allocated source.
+
+**Gap:** Capture facts and acquisition admission needed one authoritative lookup.
+
+**Reach:** No copied lifecycle object or second catalog connection supplies closure authority.
+
+**Verdict:** sound. **Confidence:** high.
+
+**Owner:** [acquisitions.ts](../../packages/core/src/acquisitions.ts).
+
+### Discovery reads source admissions without starting work
+
+**When:** Origin in `9b839582`; prior ledger location 5638–5686.
+
+A capture reply exposes bounded primary/camera entries with actual allocated source, acquisition and job IDs. Null IDs distinguish unadmitted work; durable conflicts are explicit. Reads cannot import or retry. Existing startup/capacity notifications recover only settled sources with no intent, leaving failed/canceled existing jobs for explicit retry.
+
+**Gap:** Durable admission discovery and missed notifications needed a representation.
+
+**Reach:** Capture success survives queue pressure without a new backlog table or timer.
+
+**Verdict:** sound. **Confidence:** high.
+
+**Owner:** [capture-sources.ts](../../apps/service/src/capture-sources.ts).
+
+### Preserve historical receipts separately from current availability
+
+**When:** Origin in `9b839582`; prior ledger location 5817–5836;5990–6012.
+
+A source published earlier but a retry now finds changed or unreadable authority. Its last accepted receipt stays pinned to prevent silent replacement, while current observation governs donor access. A canceled later attempt cannot erase settled progress; an independently ready acquisition retains its own copies.
+
+**Gap:** One frozen outcome could either hide current failures or lose immutable identity.
+
+**Reach:** Historical success never overrides current availability and cancel never rewrites earlier facts.
+
+**Verdict:** sound. **Confidence:** high.
+
+**Owner:** [capture-store.ts](../../packages/core/src/capture-store.ts).
+
+### Allocate all selected source directories before inputs start
+
+**When:** Origin in `9b839582`; prior ledger location 6013–6032.
+
+An allocated take may crash before native camera preparation. Service allocation first creates every selected private destination; a bound writer accepts only an owned private empty existing directory. Retained members refuse before any mapping file can be truncated.
+
+**Gap:** Late destination creation made missing storage indistinguishable from never-written source.
+
+**Reach:** Empty-source recovery can observe real absence rather than invent it from a missing path.
+
+**Verdict:** sound. **Confidence:** high.
+
+**Owner:** [project-service.ts](../../apps/service/src/project-service.ts).
+
+### Camera origin preserves fractional first-picture support
+
+**When:** Origin in `9b839582`; prior ledger location 5875–5895.
+
+Camera arrives before primary with first timestamp 1,000,000.75 microseconds. It keeps a downward whole-microsecond origin and exact relative 0.75-microsecond picture time, rather than rounding the origin forward and rejecting valid negative-relative onset. An established primary retains its existing conversion.
+
+**Gap:** Independent camera-first support needed an integer-origin conversion rule.
+
+**Reach:** Mapping preserves exact accepted timing without inventing physical alignment or widening the journal clock.
+
+**Verdict:** sound. **Confidence:** high.
+
+**Owner:** [CameraWriter.swift](../../helpers/mac/Sources/ScreenRecorderCapture/CameraWriter.swift).
+
+### Camera acquisition order does not use nominal duration as outage
+
+**When:** Origin in `9b839582`; prior ledger location 3856–3893.
+
+A camera’s next PTS follows its previous PTS by slightly less than that callback’s nominal duration. Native accepts strictly ordered timestamps, retains the nominal duration as evidence and uses verified bounded presentation support. It does not discard a valid frame for overlap or manufacture a hole.
+
+**Gap:** Callback duration did not establish acquisition ordering or actual outage boundaries.
+
+**Reach:** Held presentation stays distinct from newly acquired pictures and physical sync remains separate.
+
+**Verdict:** sound. **Confidence:** high.
+
+**Owner:** [CameraWriter.swift](../../helpers/mac/Sources/ScreenRecorderCapture/CameraWriter.swift).
+
+### Removal requires the held donor directory identity
+
+**When:** Origin in `9b839582`; prior ledger location 5768–5791.
+
+The donor pathname is replaced after service opens it. Native deletion compares the requested entry to the held descriptor and refuses the mismatch, preserving both old and replacement directories. Existing targets without a descriptor refuse; an already absent target is harmless.
+
+**Gap:** Native removal previously lacked enforcement of supplied directory authority.
+
+**Reach:** No unanchored fallback can remove unrelated replacement media.
+
+**Verdict:** sound. **Confidence:** high.
+
+**Owner:** [capture-sources.ts](../../apps/service/src/capture-sources.ts).
+
+### Borrower cancellation does not permanently delete an acquisition
+
+**When:** Origin in `9b839582`; prior ledger location 5746–5767.
+
+Discard races native completion and can be refused because the take already settled. In-flight acquisition borrowers are canceled through ordinary queue cancellation, preserving explicit retry if completion wins. Ready acquisitions remain independent and donor retirement holds its real directory.
+
+**Gap:** The shared retirement fence needed cancellation rather than premature permanent deletion.
+
+**Reach:** Capture completion cannot be erased by an earlier guessed canceled state.
+
+**Verdict:** sound. **Confidence:** high.
+
+**Owner:** [capture-sources.ts](../../apps/service/src/capture-sources.ts).
+
+### Hash camera pixels directly under their existing lock
+
+**When:** Origin in `9b839582`; prior ledger location 4548–4574.
+
+Verification already owns a read-only BGRA pixel buffer. Synchronous hashing views that memory, grouping contiguous visible rows when possible and excluding stride padding, then releases the lock. Timestamp/dimension serialization stays unchanged.
+
+**Gap:** The digest contract fixed content but not memory/call granularity.
+
+**Reach:** No lifetime-spanning pointer cache or planar-image policy is introduced.
+
+**Verdict:** sound. **Confidence:** high.
+
+**Owner:** [CameraMedia.swift](../../helpers/mac/Sources/ScreenRecorderCapture/CameraMedia.swift).
+
+### Freeze primary proof on its actual journal writer queue
+
+**When:** Origin in `9b839582`; prior ledger location 6911–6970.
+
+Camera/primary progress reports can append live journal rows while primary verification runs. The existing writer queue copies/validates the primary’s immutable prefix before publication. Later reports remain legal but cannot expand that earlier proof; cancellation joins the queued copy before releasing authority.
+
+**Gap:** Concurrent reporting needed an immutable source journal boundary.
+
+**Reach:** Only the journal writer owns this copy and it never rebuilds missing evidence for an existing receipt.
+
+**Verdict:** sound. **Confidence:** high.
+
+**Owner:** [NativeCapture.swift](../../helpers/mac/Sources/ScreenRecorderCapture/NativeCapture.swift).
+
+### Retain exact generation before altering reference or joins
+
+**When:** Origin in `9b839582`; prior ledger location 239–253;301–310;323–343;3594–3605.
+
+A caller generates a phrase from one explicit local reference and transcript. The complete output is admitted at its verified frame-count/rate duration, not silently squeezed into a slot. Any trim, gain, fade, stretch or ambience is a separate explicit composition. Reference copies from different origins can share bytes without proving origin-lifetime behavior.
+
+**Gap:** The reproduction needed bounded requests and a clear generated-duration/join boundary.
+
+**Reach:** Generation remains an immutable source rather than an automatic replacement editor.
+
+**Verdict:** sound. **Confidence:** high.
+
+**Owner:** [voice-generation.ts](../../packages/core/src/voice-generation.ts).
+
+### Completed generation resolves before live model readiness
+
+**When:** Origin in `9b839582`; prior ledger location 3626–3649.
+
+A caller repeats an exact already completed generation after deleting installed models. It receives its retained audio/reference provenance without another inference or implicit installation. A request that actually requires synthesis checks the existing local model owner.
+
+**Gap:** Replay admission ordering relative to model readiness was unspecified.
+
+**Reach:** Model absence cannot invalidate existing bytes or alter saved request defaults.
+
+**Verdict:** sound. **Confidence:** high.
+
+**Owner:** [voice-generation.ts](../../packages/core/src/voice-generation.ts).
+
+### Voice origin selection is an explicit complete object
+
+**When:** Origin in `9b839582`; prior ledger location 3706–3726.
+
+The same reference asset came from two extracted projects. A caller echoes one stored typed origin object, which is validated and frozen with the request; omission selects no origin. Canonical record-key ordering preserves equivalent metadata, and generated provenance stores the derived origin hash without recursively expanding histories.
+
+**Gap:** Stable attribution selection did not require a new hash-selector registry.
+
+**Reach:** Later origins cannot redirect old requests or keep donor projects alive merely for attribution.
+
+**Verdict:** sound. **Confidence:** high.
+
+**Owner:** [voice-generation.ts](../../packages/core/src/voice-generation.ts).
+
+### Durable excerpts are separate from full-output preparation
+
+**When:** Origin in `9b839582`; prior ledger location 3690–3705.
+
+An agent keeps seven seconds of processed project audio as a new asset with audio.extract. It remains usable after deleting the donor project; historical extraction metadata describes where it came from but does not retain the project. audio.prepare separately retains its full pinned recipe/result.
+
+**Gap:** Two useful lifetimes needed distinct public operation meanings.
+
+**Reach:** Shared rendering/conversion/job publication does not create a separate voice-reference store.
+
+**Verdict:** sound. **Confidence:** high.
+
+**Owner:** [audio-extraction.ts](../../packages/core/src/audio-extraction.ts).
+
+### Finite audio conversion owns support, channel mapping and quota
+
+**When:** Origin in `9b839582`; prior ledger location linked19e1 finite conversion decisions;03d duration receipt.
+
+A complete selected Float32 file is converted for a voice reference or delivery. Its verified frame count bounds filter support; the separately floored output quota determines published length. Phase is continuous from selected frame zero; stereo-to-mono averages in Double then rounds once, mono-to-stereo duplicates, nonfinite output refuses. The converter may normalize signed zero.
+
+**Gap:** Canonical conversion and exact-byte reuse needed a single numerical owner.
+
+**Reach:** No clipping, normalization or reapplication of contributor masks is hidden inside conversion; byte-preserving reuse remains a separate verified path.
+
+**Verdict:** sound. **Confidence:** high.
+
+**Owner:** [SelectedAudioConversion.swift](../../helpers/mac/Sources/ScreenRecorderAudio/SelectedAudioConversion.swift).
+
+### Standalone encoding advertises its actual admitted formats
+
+**When:** Origin in `9b839582`; prior ledger location assets/09c-audio-export/choices.md.
+
+An agent asks output capabilities before choosing AAC mono/stereo at supported rates or WAV. Source import support and platform converter inventory do not grant MP3/FLAC/ALAC encoding. Native consumer status recognizes Audio and its real destination through the existing export UI without a new picker.
+
+**Gap:** First-class audio output did not imply every codec or a new GUI workflow.
+
+**Reach:** The public encoder domain stays truthful and independent of visual preparation.
+
+**Verdict:** sound. **Confidence:** high.
+
+**Owner:** [output-settings.ts](../../packages/composition/src/output-settings.ts).
+
+### Active audio resources are bounded by simultaneous work
+
+**When:** Origin in `9b839582`; prior ledger location 3064–3080.
+
+Ten thousand sequential short clips do not open ten thousand source readers. The mixer schedules only simultaneously readable occurrences, while separate structural plan bounds constrain total metadata. Completed state/prepared work can continue across source silence under its compiled recipe.
+
+**Gap:** The earlier whole-plan decoder count bounded the wrong resource.
+
+**Reach:** Large sequential projects stay possible without unbounded overlapping readers or another mixer.
+
+**Verdict:** sound. **Confidence:** high.
+
+**Owner:** [CompositionAudio.swift](../../helpers/mac/Sources/ScreenRecorderAudio/CompositionAudio.swift).
+
+### Store physical segment rows once and page them by ordinal
+
+**When:** Origin in `9b839582`; prior ledger location 3119–3129;3151–3165.
+
+A fragmented source contains occupied runs plus gaps at edges and between runs. Asset metadata stores its physical rows in an indexed table, preserving optional-versus-empty array meaning in its header. Stream summaries remain small; page reads do not parse the whole huge metadata string.
+
+**Gap:** Probe cardinality and public/persisted representation were unspecified.
+
+**Reach:** The common 200,001-row capacity preserves gaps rather than discarding them for a canonical-only exception.
+
+**Verdict:** sound. **Confidence:** high.
+
+**Owner:** [assets.ts](../../packages/core/src/assets.ts).
+
+### Public operation and job receipts have one compact owner
+
+**When:** Origin in `9b839582`; prior ledger location 3130–3150.
+
+A large edit returns its committed document only at revision.document, not a duplicate edit.document. Public job status returns the fingerprint of its complete internal recipe, not the entire plan. Historical saved meaning/IDs survive the development projection change without promising prior response byte identity.
+
+**Gap:** Redundant document/recipe ownership overflowed bounded public delivery.
+
+**Reach:** Receipts remain inspectable without raising transport limits or exposing a private recipe escape hatch.
+
+**Verdict:** sound. **Confidence:** high.
+
+**Owner:** [projects.ts](../../packages/core/src/projects.ts).
+
+### Recipe fingerprints accelerate lookup without replacing equality
+
+**When:** Origin in `9b839582`; prior ledger location 3232–3282.
+
+Polling a job uses a stored short SHA-256 and compact indexed summaries rather than reading a multi-megabyte recipe repeatedly. Admission/publication still compares full canonical inputs and refuses collisions. Export recovery uses its own bounded ordered index; execution retains the complete original snapshot.
+
+**Gap:** Lookup/index shape and status work were unspecified.
+
+**Reach:** Derived SQLite summaries are not another execution registry.
+
+**Verdict:** sound. **Confidence:** high.
+
+**Owner:** [jobs.ts](../../packages/core/src/jobs.ts).
+
+### Owner-presence checks do not deserialize media plans
+
+**When:** Origin in `9b839582`; prior ledger location 3256–3264;3727–3738;6196–6206.
+
+A cache/job status needs to know whether its asset or pinned revision exists. It checks that row under a nondeleted owner without parsing every media segment/document. Actual preparation/inspection still resolves and validates complete metadata/file authority.
+
+**Gap:** Presence-only consumers had incidental expensive parser work.
+
+**Reach:** Missing/deleted owners retain their error semantics without a mutable model cache.
+
+**Verdict:** sound. **Confidence:** high.
+
+**Owner:** [project-service.ts](../../apps/service/src/project-service.ts).
+
+### Batch only independent edits while preserving earlier refusals
+
+**When:** Origin in `9b839582`; prior ledger location 3094–3104;3283–3295;3471–3478;6207–6228.
+
+Many stateless stacks or append placements can share one full candidate validation, but repeated targets, symbolic forward dependencies and stateful normalization keep ordinary sequential processing. A later track creation cannot legalize an earlier placement that referred to a missing track. Failure search reports the same earliest invalid prefix and receipts/IDs stay ordered.
+
+**Gap:** Fast-path eligibility was unspecified.
+
+**Reach:** One editor/validator avoids quadratic work without changing atomic semantics or hiding intermediate invalidity.
+
+**Verdict:** sound. **Confidence:** high.
+
+**Owner:** [edits.ts](../../packages/composition/src/edits.ts).
+
+### Metadata sharing ends at each synchronous validation phase
+
+**When:** Origin in `9b839582`; prior ledger location 6133–6141;6252–6261;6813–6861.
+
+Many source selections read their asset/acquisition rows together and decode a row only when its source is reached. All streams’ physical segments are read once in header order, so later malformed metadata cannot hide earlier failure. A publication await or new request ends reuse; fresh status checks remain required.
+
+**Gap:** Batching needed error-order and freshness boundaries.
+
+**Reach:** No cross-request map or stale evidence cache becomes source authority.
+
+**Verdict:** sound. **Confidence:** high.
+
+**Owner:** [source-selection.ts](../../packages/core/src/source-selection.ts).
+
+### Deduplicate retained resources without deduplicating occurrences
+
+**When:** Origin in `9b839582`; prior ledger location 6142–6150;6169–6175;assets/24z2-prepared-admission/choices.md.
+
+Four clips use two media sources. Admission retains first-encounter asset/acquisition resources separately by kind, but recipes keep all four occurrence mappings. File-address resolution is a separate current-window step; moving a scratch asset path cannot leave execution bound to an older locator.
+
+**Gap:** Unique resource ordering and current execution binding were unspecified.
+
+**Reach:** Equal textual IDs in different resource kinds remain distinct and no persistent binding cache is added.
+
+**Verdict:** sound. **Confidence:** high.
+
+**Owner:** [prepared-audio.ts](../../packages/core/src/prepared-audio.ts).
+
+### Demanded frames transport only the contributing support interval
+
+**When:** Origin in `9b839582`; prior ledger location 6229–6251.
+
+A raw picture asks for one instant in a segment-rich source. Core validates complete selected support/digest; the worker receives only the interval containing that point. Indexing separately receives full support, including when time zero is a gap.
+
+**Gap:** A point request did not need every support row in its bounded control message.
+
+**Reach:** Transport narrowing cannot weaken later-unrequested interval authority or native sample selection.
+
+**Verdict:** sound. **Confidence:** high.
+
+**Owner:** [frame-inspection.ts](../../packages/core/src/frame-inspection.ts).
+
+### Skip absent evidence only when no publication can contribute
+
+**When:** Origin in `9b839582`; prior ledger location 3479–3487.
+
+A project has editorial cuts but imported sources with no capture/scene rows. The event merger omits those empty lanes without spending source-read work. Publication pins remain; newly published evidence invalidates the manifest and a missing file behind a publication still fails.
+
+**Gap:** Large occurrence traversal needed a no-contributor rule.
+
+**Reach:** Absence shortcuts cannot suppress a real published failure or imply unchanged future status.
+
+**Verdict:** sound. **Confidence:** high.
+
+**Owner:** [project-events.ts](../../packages/core/src/project-events.ts).
+
+### Audio identification and decoder demand are separate finite scopes
+
+**When:** Origin in `9b839582`; prior ledger location 3562–3581.
+
+An inherited handle has no filename and ID3 may precede more than MP3. Known signatures choose a route; AudioToolbox identifies ambiguous input through owned positional reads within a finite allowance. Whole-file streaming can continue afterward, while inspection charges all its reads to its existing ceiling.
+
+**Gap:** Descriptor-based format detection and streaming recognition cost were unspecified.
+
+**Reach:** No hand-written tag/frame parser, direct descriptor URL bypass or infinite malformed-header scan is added.
+
+**Verdict:** sound. **Confidence:** high.
+
+**Owner:** [AudioSource.swift](../../helpers/mac/Sources/ScreenRecorderAudio/AudioSource.swift).
+
+### Tell the loader when local bytes are complete
+
+**When:** Origin in `9b839582`; prior ledger location 3528–3549;3582–3593.
+
+A local clip is already fully present in the owned file. The loader declares available-on-demand data so platform metadata can seek directly, retaining the same descriptor and inspection budget. Decoding receives its actual finite selected end, independent of metadata identification.
+
+**Gap:** Platform metadata-loading mechanism was unspecified.
+
+**Reach:** Local availability does not authorize unconstrained decoder read-ahead.
+
+**Verdict:** sound. **Confidence:** high.
+
+**Owner:** [AudioSource.swift](../../helpers/mac/Sources/ScreenRecorderAudio/AudioSource.swift).
+
+### Report decoded work and source I/O without claiming hidden totals
+
+**When:** Origin in `9b839582`; prior ledger location 3516–3527.
+
+A short excerpt can decode few samples but read much of its file. Native reports decoded frames and successful positional-loader reads separately; retired readers are counted once. Pathname and retained-PCM paths explicitly report unknown I/O rather than partial telemetry as a total.
+
+**Gap:** Performance measurements needed existing-owner accounting.
+
+**Reach:** Future resource claims must state the observed domain rather than infer work from output duration.
+
+**Verdict:** sound. **Confidence:** high.
+
+**Owner:** [AudioSource.swift](../../helpers/mac/Sources/ScreenRecorderAudio/AudioSource.swift).
+
+### One native error owner classifies actual cancellation
+
+**When:** Origin in `9b839582`; prior ledger location 8055–8074.
+
+Swift CancellationError reaches the shared NativeWire responder and maps to CANCELED with its operation details. A genuine decode error is not overwritten just because its task is also canceled; retry stays explicit.
+
+**Gap:** Shared error mapping omitted the actual cancellation type.
+
+**Reach:** All native operations retain the same failure meaning without movie-local retry/error shims.
+
+**Verdict:** sound. **Confidence:** high.
+
+**Owner:** [Wire.swift](../../helpers/mac/Sources/ScreenRecorderWire/Wire.swift).
+
+### One retained directory publisher has explicit release and discard
+
+**When:** Origin in `9b839582`; prior ledger location 7860–7945.
+
+A camera candidate needs to survive a failed publication for recovery. Releasing its file owner closes handles but retains bytes; explicit discard clears only its owned staging contents. Publication rollback removes only a new destination link created by that invocation that still names its selected file, never a prior successful retry link.
+
+**Gap:** Retained handle lifetime and late receipt rollback were unspecified.
+
+**Reach:** One publisher/scanner preserves recovered candidates and unrelated destination bytes.
+
+**Verdict:** sound. **Confidence:** high.
+
+**Owner:** [OutputFile.swift](../../helpers/mac/Sources/ScreenRecorderMedia/OutputFile.swift).
+
+### Movie header finalization keeps the writer’s exact file handle
+
+**When:** Origin in `9b839582`; prior ledger location 7817–7837.
+
+An unrelated process replaces a movie’s staging pathname after the writer opens it. The mux keeps that descriptor and verifies the locator before bounded header finalization, refusing rather than editing replacement bytes. Cleanup/publication still follow their common directory owner.
+
+**Gap:** Header repair needed the original writer output identity.
+
+**Reach:** No new filesystem watcher or generalized import-repair operation appears.
+
+**Verdict:** sound. **Confidence:** high.
+
+**Owner:** [MovieAudioTail.swift](../../helpers/mac/Sources/ScreenRecorderWire/MovieAudioTail.swift).
+
+### One app-owned socket launches the canonical service
+
+**When:** Origin in `9b839582`; prior ledger location 6098–6120;8269–8290.
+
+The default CLI discovers the app’s existing runtime socket and startup lock; the app owns one canonical project service child. Missing responses do not select another engine or retry mutations. Explicit scratch-home/preferences selection travels through the same launcher when supplied.
+
+**Gap:** Temporary library-local socket and scratch preference halves did not match ordinary discovery.
+
+**Reach:** There is no second listener, discovery fallback, daemon or implicit project creation.
+
+**Verdict:** sound. **Confidence:** high.
+
+**Owner:** [main.ts](../../apps/service/src/main.ts).
+
+### Unanswered export actions remain uncertainty rather than success
+
+**When:** Origin in `9b839582`; prior ledger location 5445–5506.
+
+A retry reply times out or cannot be decoded. Native keeps the last readable receipt plus read failure and polls authoritative status, even if the old state was stopped. A definite refusal remains an action failure instead of polling forever. Discovery retains its first traversal error while admitting later valid items.
+
+**Gap:** Consumer state could not distinguish refused action from unreadable observation.
+
+**Reach:** No extra mutation/retry queue is created and later status cannot erase an independent refusal.
+
+**Verdict:** sound. **Confidence:** high.
+
+**Owner:** [ExportController.swift](../../apps/macos/Sources/ScreenRecorder/ExportController.swift).
+
+### The presenter owns the platform surface, not service lifetime
+
+**When:** Origin in `9b839582`; prior ledger location 5580–5637.
+
+PreviewController validates project/revision/lease before giving a movie to its concrete window/player presenter. Closing, player failure and stale callbacks return to the same generation-fenced controller. A controlled presenter can observe requests without becoming a second decoder, token owner or playback policy.
+
+**Gap:** Platform objects and service state needed a testable boundary.
+
+**Reach:** Native project presentation remains one controller with explicit resource ownership.
+
+**Verdict:** sound. **Confidence:** high.
+
+**Owner:** [PreviewController.swift](../../apps/macos/Sources/ScreenRecorder/PreviewController.swift).
+
+### Automatic reads remain on the selected socket
+
+**When:** Origin in `9b839582`; prior ledger location assets/24z12-mcp-media-admission/choices.md;assets/24z13-cli-delivery-selection/choices.md.
+
+A media call discovers one service socket, then uses that path and cancellation signal for every read. If the listener disappears, later items return ordinary connection errors; the client does not rediscover/launch a different app to consume the old lease. Restart token expiry stays service-owned.
+
+**Gap:** Discovery versus multi-item delivery needed a lifetime boundary.
+
+**Reach:** Batch order, duplicates and per-item failures retain current adapter meaning without an invented instance ID.
+
+**Verdict:** sound. **Confidence:** high.
+
+**Owner:** [README.md](../../apps/cli/README.md).
+
+### Complete operation results use one outer delivery lease
+
+**When:** Origin in `9b839582`; prior ledger location 6292–6305;8143–8185.
+
+A large edit has already run when its JSON result becomes an artifact reference. One shared consumer reads bounded chunks, verifies count/digest/response identity and returns the same typed data/error as inline delivery. Finally it closes only that outer lease; media tokens inside the JSON remain with their caller. Reading and cleanup failures both remain inspectable.
+
+**Gap:** Legal service frames can exceed MCP quoted/structured wrapper capacity.
+
+**Reach:** Retrieving results never reruns a mutation or closes unrelated nested media.
+
+**Verdict:** sound. **Confidence:** high.
+
+**Owner:** [operations.ts](../../packages/protocol/src/operations.ts).
+
+### Normalize decoded video at its existing image boundary
+
+**When:** Origin in `9b839582`; prior ledger location 6410–6452;assets/23l2-project-source-colors/choices.md.
+
+A raw video frame and the same decoded picture in a project PNG should carry corresponding source colors while every authored graph operation still runs. FrameImage normalizes all available decoded video readers at that boundary. ImageIO stills keep their existing precision/path; they are not rasterized again simply because video requires this correction.
+
+**Gap:** The project/raw picture discrepancy needed one general source representation owner.
+
+**Reach:** The rule adds no identity-source shortcut, new public API or unrelated still-image quantization.
+
+**Verdict:** sound. **Confidence:** high.
+
+**Owner:** [FrameImage.swift](../../helpers/mac/Sources/ScreenRecorderFrames/FrameImage.swift).
+
+### Every edited selector gets its own qualified physical reference
+
+**When:** Origin in `9b839582`; prior ledger location 6355–6369;assets/23l-paired-edited-frames/choices.md.
+
+Old recording selection and current globally sampled projects can choose different pictures at a join. Each bounded comparison resolves its physical sample using independent complete support and retains a reference for that selector. Integer requests name proven containing samples, not guessed nearest pictures.
+
+**Gap:** Preservation did not imply identical selectors or source clocks.
+
+**Reach:** A reference mismatch cannot be hidden by forcing two different selections to agree.
+
+**Verdict:** sound. **Confidence:** high.
+
+**Owner:** [choices.md](assets/23l-paired-edited-frames/choices.md).
+
+### Independent sample oracles consume authored boundaries
+
+**When:** Origin in `9b839582`; prior ledger location 3064–3080;3178–3187;4125–4199;7530–7564;7838–7859;3997–4013;2983–2997.
+
+A fixture cuts and reorders known tones or impulses. Its oracle derives source and placement sample indices from explicit authored ranges and the declared sample rate, not compiler-produced expected PCM. Gain is applied to an already independent dry stem; learned output is judged only after its upstream prefix matches retained samples. The linked-stereo file stretch reference accesses complete planar channel vectors from the same selected engine, providing a different addressing layout; its measured channel residuals are not replaced by a perfect-coherence promise.
+
+**Gap:** Numeric delivery checks needed independent inputs without duplicating every DSP algorithm.
+
+**Reach:** A shared wrong mix cannot certify itself through WAV/movie or native/TypeScript agreement.
+
+**Verdict:** sound. **Confidence:** high.
+
+**Owner:** [README.md](../../packages/test-harness/editing/README.md).
+
+### Codec oracles encode expected PCM for the same requested window
+
+**When:** Origin in `9b839582`; prior ledger location 4180–4199;4275–4304.
+
+An edited movie contains retimed and processed audio. The fixture builds an independently expected PCM source in a plain unit-rate project and encodes that exact selected window with matching settings. Cropping a full AAC reference is not equivalent to encoding a short range because codec tails can differ.
+
+**Gap:** Movie-versus-WAV agreement alone could share the same incorrect mix.
+
+**Reach:** Lossy delivery remains distinct from exact upstream PCM and audible quality.
+
+**Verdict:** sound. **Confidence:** high.
+
+**Owner:** [README.md](../../packages/test-harness/editing/README.md).
+
+### Fault fixtures change the real boundary they claim to test
+
+**When:** Origin in `9b839582`; prior ledger location 3296–3304;6281–6291;7078–7141;7268–7339;7741–7790;5327–5343;6271–6280.
+
+An edit actually commits, then a small socket proxy withholds its recorded successful response so the client experiences reply loss. Retry reads the true saved receipt. Filesystem limits, SQLite triggers or held descriptors inject their named faults after valid inputs, rather than malformed setup failing before the contract. A growing mapping file is observed through its actual reader’s captured byte boundary; portable relocation uses ordinary writes and the runner’s setup lifecycle rather than overriding transactions. Reset after a timed-out committed edit uses public restore and its required fresh revision/request IDs, preserving the original receipt instead of rewriting catalog history.
+
+**Gap:** Repeatable crash/acknowledgment/rollback proof needed fault placement.
+
+**Reach:** Controlled fixtures add no production failure flags and preserve the accepted producer separately from falsification.
+
+**Verdict:** sound. **Confidence:** high.
+
+**Owner:** [README.md](../../packages/test-harness/editing/README.md).
+
+### Owned process cleanup uses observed children and groups
+
+**When:** Origin in `9b839582`; prior ledger location 6678–6705;7163–7180;7078–7141;7420–7449;7759–7775.
+
+A fault fixture starts its own process group or captures a child’s actual group and live parent, waits for the named work boundary, then kills and reaps only its owned descendants on failure. A bare historical PID or assumed inherited group cannot authorize cleanup.
+
+**Gap:** Failed handshakes and Foundation child groups made marker-only cleanup unreliable.
+
+**Reach:** Tests do not leave unrelated native work alive or add production process searches.
+
+**Verdict:** sound. **Confidence:** high.
+
+**Owner:** [README.md](../../packages/test-harness/editing/README.md).
+
+### Keep finite acoustic research references independent
+
+**When:** Origin in `9b839582`; prior ledger location 1411–1453;1667–1681;6560–6585;6879–6895.
+
+A corpus’s human-checked text can evaluate recognition but its automatically assigned times cannot independently evaluate word boundaries. Full supplied-text alignment uses saved recognized text, never human timing labels as input. Research-restricted source/output stays in declared private storage; hashes and aggregate evidence retain identity.
+
+**Gap:** Alternative evaluation needed independent reference and artifact ownership.
+
+**Reach:** Publisher unseen metadata does not prove held-out training exclusion, and a numerical example never selects a new recipe.
+
+**Verdict:** sound. **Confidence:** high.
+
+**Owner:** [speech-readiness.md](assets/acceptance-maintenance/speech-readiness.md).
+
+### Save annotation snapshots with bound bytes and clock
+
+**When:** Origin in `9b839582`; prior ledger location 4733–4755;4756–4769;4784–4826;4904–4917.
+
+The marking page loads the complete small clip before enabling work, so seeking survives a later server stop. A completed Next saves a new local snapshot, with fields frozen during save and values retained on failure. Audio/source hashes and exact source-clock interval bind exported word targets; partial/skipped edges remain unknown and reopening does not invent autosaved authority.
+
+**Gap:** Media/server lifetime, save concurrency and export schema were unspecified.
+
+**Reach:** Submitted marks cannot overwrite original evidence or inherit confirmation after an unreviewed edit.
+
+**Verdict:** sound. **Confidence:** high.
+
+**Owner:** [choices.md](assets/12d-marking-page-ui/choices.md).
+
+### Representative MCP coverage owns the adapter boundary
+
+**When:** Origin in `9b839582`; prior ledger location 6327–6354;6481–6492.
+
+A fresh independent MCP caller discovers schemas, reads a pinned revision, exercises replay/refusal and receives complete default-SDK delivery using a tiny authored still-image hold. It does not repeat every already completed CLI effect merely to duplicate media work; model readiness remains a separate prerequisite.
+
+**Gap:** CLI/MCP acceptance did not prescribe duplicating a full effect journey.
+
+**Reach:** Public composition scope remains broad while distinct adapter behavior has its own concrete request.
+
+**Verdict:** sound. **Confidence:** high.
+
+**Owner:** [choices.md](assets/25-input-preparation/choices.md).
+
+### Private installation proof names the exact candidate
+
+**When:** Origin in `9b839582`; prior ledger location 8269–8312.
+
+A private supported app/launcher is cold-launched through ordinary discovery with scratch library/preferences. Its exact executable and service child must supply the answer even when a personal app shares its bundle ID. Qualified original manifests and owned process identities remain separate; only the private processes are terminated.
+
+**Gap:** Installed discovery needed isolated observation without using the personal library.
+
+**Reach:** An older live app’s response cannot establish the candidate’s launch/runtime contract.
+
+**Verdict:** sound. **Confidence:** high.
+
+**Owner:** [README.md](assets/23-owner-fixture-ports/README.md).
+
+### Current fixtures use real owners without reviving retired carriers
+
+**When:** Origin in `9b839582`; prior ledger location 6971–7141;7142–7706;7719–7790;4377–4409;5406–5444.
+
+A preservation check now authors explicit projects/source selections and exercises current catalog, queue, lease/publication/archive owners. Controlled media responses are appropriate when only lifetime is judged; independent native/sample/color cases retain their actual media boundary. Shared fixture setup is reused per contract rather than a universal wrapper or old recording editor. New supported-color fixtures preserve old refused media unchanged, and a tiny stretched replacement explicitly tests plane isolation rather than representative visual quality. Populated source-event fixtures combine declared synthetic scenes with unchanged captured journal authority, not invented acquisition events. Lifecycle oracles retain every journal row and collapse only adjacent finalizing progress for their state-transition comparison; other duplicate transitions remain visible.
+
+**Gap:** Owner cutover left useful guarantees inside obsolete fixtures.
+
+**Reach:** A typecheck, scripted payload or borrowed proof never becomes evidence of a different native operation.
+
+**Verdict:** sound. **Confidence:** high.
+
+**Owner:** [README.md](../../packages/test-harness/editing/README.md).
+
+### Formatting respects published artifact byte identity
+
+**When:** Origin in `9b839582`; prior ledger location 7707–7718.
+
+A registered profile is hashed into its prepared runtime inventory. Cosmetic formatting would change those bytes even if parsed settings match, so the existing ignore list protects published model metadata and frozen vendor provenance. Updating them remains an explicit artifact change.
+
+**Gap:** Default formatting did not distinguish code style from published byte operands.
+
+**Reach:** Ordinary formatting cannot silently replace a runtime profile/inventory.
+
+**Verdict:** sound. **Confidence:** high.
+
+**Owner:** [.prettierignore](../../.prettierignore).
+
+### Fixture outcomes follow declared requests without rewriting failures
+
+**When:** Origin in `9b839582`; prior ledger location 8351–8411.
+
+A caller completes its required image delivery and then performs an extra read of the consumed token. The extra failure remains in process evidence but does not invent a failed required delivery or extend the token lifetime. Saved temporal review selects frames immediately around authored caption/still/zoom boundaries, rather than inferring boundaries from interior stills.
+
+**Gap:** A whole script exit and sparse snapshots did not identify the exact requested contract.
+
+**Reach:** Required effects, extra expectations, continuous playback and listening remain separately attributable.
+
+**Verdict:** sound. **Confidence:** high.
+
+**Owner:** [README.md](assets/23-owner-fixture-ports/README.md).
+
+### Changed source bindings require repair of source-anchored processors
+
+**When:** Origin in `9b839582`; prior ledger location 416–466; source-domain replacement invariant.
+
+A replaced clip has a processor whose activity window names the old source’s content. Changing that media selection or adding padding cannot silently reinterpret the window against new bytes. Replacement asks the caller to repair/reset those source-domain steps while separately applying its requested keep/reset policy.
+
+**Gap:** Processing retention could otherwise preserve settings whose time anchor no longer describes the source.
+
+**Reach:** Media replacement must keep identity and processor timing authority coherent rather than silently delete or retarget a source window.
+
+**Verdict:** sound. **Confidence:** high.
+
+**Owner:** [replace.ts](../../packages/composition/src/replace.ts).
+
+### File pages preserve complete-run stretch semantics
+
+**When:** Origin in `9b839582`; prior ledger location 3957–3973.
+
+A long selected run must keep the chosen stretch algorithm’s complete-input behavior without mapping entire input/output arrays into memory. Its unchanged adapter receives indexed file pages and preserves exact tail correction and selected context; input can be revisited and temporary disk grows with output. Bounded checks do not interrupt every blocked OS call or upstream loop.
+
+**Gap:** The research array adapter did not define production memory strategy.
+
+**Reach:** Native preparation uses the selected recipe rather than substituting independent processing chunks or a duration-based engine switch.
+
+**Verdict:** sound. **Confidence:** high.
+
+**Owner:** [CompositionRetime.swift](../../helpers/mac/Sources/ScreenRecorderAudio/CompositionRetime.swift).
+
+### The stretch caller owns descriptors and publication
+
+**When:** Origin in `9b839582`; prior ledger location 3974–3990.
+
+Preparation receives an immutable input descriptor and a distinct empty read/write output descriptor. One checked recipe underlies file/array entry points; invalid aliases or unsafe derived seeks refuse. The caller discards partial output on failure and publishes only after complete success, while the library opens no paths or derivative registry.
+
+**Gap:** The processor needed a finite cancellable file contract and an explicit publication boundary.
+
+**Reach:** Prepared-audio/job owners retain publication and source identity without another cache or queue.
+
+**Verdict:** sound. **Confidence:** high.
+
+**Owner:** [CompositionRetime.swift](../../helpers/mac/Sources/ScreenRecorderAudio/CompositionRetime.swift).
+
+### Prepared-run readers open only for active block work
+
+**When:** Origin in `9b839582`; prior ledger location 4014–4028.
+
+A timeline contains hundreds of prepared retimed runs. After preparation their writer descriptors close, retaining immutable scratch paths; each bounded read opens its current file and closes afterward. Holding one descriptor for every run would exhaust the app’s ordinary descriptor budget even when one plays.
+
+**Gap:** The complete-run preparation lifetime did not specify later reader residency.
+
+**Reach:** File-open cost buys simple bounded descriptor use without a reader cache or product clip cap.
+
+**Verdict:** sound. **Confidence:** high.
+
+**Owner:** [CompositionRetime.swift](../../helpers/mac/Sources/ScreenRecorderAudio/CompositionRetime.swift).
+
+### Owned camera peers report explicit empty and unknown facts
+
+**When:** Origin in `9b839582`; prior ledger location 5009–5018.
+
+A native device reply has no available cameras and permission is unknown. It must send an explicit empty camera list and unknown permission value. Missing fields are an invalid owned-peer response, not evidence of no device or a denial; current camera selection still uses its actual validated lifecycle.
+
+**Gap:** New device fields had no omission rule.
+
+**Reach:** Every owned producer/consumer shares truthful camera facts without a compatibility fallback.
+
+**Verdict:** sound. **Confidence:** high.
+
+**Owner:** [capture.ts](../../packages/protocol/src/capture.ts).
+
+### Source-index helpers consume the fresh normalized plan
+
+**When:** Origin in `9b839582`; prior ledger location 6262–6270.
+
+A source-index request computes its selected frame options once and passes them to the existing recipe helper. Its later executor independently resolves a fresh plan and full source support, including a gap at timestamp zero. A diagnostic can stop at the existing cancellation boundary without changing ordinary execution.
+
+**Gap:** Internal normalized-option reuse and bounded diagnostic setup were unspecified.
+
+**Reach:** One recipe owner avoids repeat lookup without retaining paths/status across execution or adding another cache.
+
+**Verdict:** sound. **Confidence:** high.
+
+**Owner:** [source-index-selection.ts](../../packages/core/src/source-index-selection.ts).
+
+### Frozen and actual speech use one bounded public fixture journey
+
+**When:** Origin in `9b839582`; prior ledger location 5151–5168.
+
+A developer supplies either frozen speech replies or the explicitly prepared real model directory to the same public admission/transcript/edit/restart journey. The fixture readiness declaration stays distinct from genuine production preparation. Its request record reserves each native attempt and exact request before dispatch, then saves success or error in order; failed launch still consumes an attempt.
+
+**Gap:** Public parity did not specify duplicate runners or durable failed-attempt accounting.
+
+**Reach:** One fixture operation sequence cannot drift into a second inference policy or hide failure by counting only successes.
+
+**Verdict:** sound. **Confidence:** high.
+
+**Owner:** [README.md](../../packages/test-harness/editing/README.md).
+
+### Prerecorded pause and terminal fixtures exercise actual timing owners
+
+**When:** Origin in `9b839582`; prior ledger location 3411–3429.
+
+A deterministic decoded input waits for the recorder’s actual pause/resume, excludes offered buffers intersecting that observed interval, and independently derives expected source placement for both roles. Separate copied states omit or tear a terminal journal suffix after publication; recovery retains sources without inventing a completed finish.
+
+**Gap:** Offline pause and interrupted persistence needed concrete controlled operands.
+
+**Reach:** These fixtures verify writer/recovery mechanics, not live device synchronization, hardware power loss or listening.
+
+**Verdict:** sound. **Confidence:** high.
+
+**Owner:** [CaptureJournal.swift](../../helpers/mac/Sources/ScreenRecorderCapture/CaptureJournal.swift).
+
+### Stale export discovery resweeps through its existing generation
+
+**When:** Origin in `9b839582`; prior ledger location 5729–5745.
+
+A status reply arrives after a newer discovery/deletion operation changed native export state. The bounded generation counter rejects that old traversal, and the existing pending-sweep flag requests one current resweep. It does not publish stale rows or create an accumulating parallel catalog/retry loop.
+
+**Gap:** Concurrent discovery mutation did not specify snapshot validity.
+
+**Reach:** The existing consumer remains the sole asynchronous export writer.
+
+**Verdict:** sound. **Confidence:** high.
+
+**Owner:** [ExportController.swift](../../apps/macos/Sources/ScreenRecorder/ExportController.swift).
