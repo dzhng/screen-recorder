@@ -1,3 +1,4 @@
+import { MediaFrameInspection } from "@screenrec/core/frame-inspection";
 import { ProjectPackages } from "../../dist/project-packages.js";
 import { AcquisitionImporter } from "@screenrec/core/acquisitions";
 import { SourceEvidenceStore } from "@screenrec/core/evidence";
@@ -51,7 +52,17 @@ export async function until(run) {
 }
 export async function fixture(
   t,
-  { render, wrap = (value) => value, admission = true, existing } = {},
+  {
+    render,
+    sourceSample,
+    sourceFrame,
+    projectFrame,
+    transcriptionModels,
+    transcribe,
+    wrap = (value) => value,
+    admission = true,
+    existing,
+  } = {},
 ) {
   const home = existing?.home ?? (await mkdtemp("/tmp/screenrec-project-export-")),
     output = existing?.output ?? (await mkdtemp("/tmp/screenrec-project-destination-"));
@@ -73,11 +84,18 @@ export async function fixture(
   );
   const projects = new ProjectStore(catalog, assets, transcriptRecords, acquisitions),
     cache = new DerivedCache(catalog, home, (owner) => {
-      assert.equal(owner.kind, "project");
-      projects.get(owner.projectId);
+      if (owner.kind === "asset") assets.get(owner.assetId);
+      else {
+        assert.equal(owner.kind, "project");
+        projects.get(owner.projectId);
+      }
     });
   await cache.reconcile();
-  let preview,
+  let frames,
+    indexes,
+    transcripts,
+    sceneProcessing,
+    preview,
     exports,
     recoverOnCapacity = false;
   const recoveryErrors = [];
@@ -89,20 +107,34 @@ export async function fixture(
     },
     targets: {
       pin(target) {
+        if (target.kind === "asset") {
+          assets.get(target.assetId);
+          return target;
+        }
         assert.equal(target.kind, "project");
         return {
           ...target,
           revisionId: projects.revision(target.projectId, target.revisionId).id,
         };
       },
-      isAvailable: (target) => target.kind === "project" && !projects.isDeleting(target.projectId),
+      isAvailable: (target) =>
+        (target.kind === "asset" && assets.has(target.assetId)) ||
+        (target.kind === "project" && !projects.isDeleting(target.projectId)),
       isDeleting: (owner) => owner.kind === "project" && projects.isDeleting(owner.projectId),
       isCapturing: () => false,
     },
     execute: (execution) =>
-      execution.job.artifact === "preview"
-        ? preview.execute(execution)
-        : exports.execute(execution),
+      execution.job.artifact === "frame"
+        ? frames.execute(execution)
+        : execution.job.artifact === "screenshot-index"
+          ? indexes.execute(execution)
+          : execution.job.artifact === "transcript"
+            ? transcripts.execute(execution)
+            : execution.job.artifact === "source-scenes"
+              ? sceneProcessing.execute(execution)
+              : execution.job.artifact === "preview"
+                ? preview.execute(execution)
+                : exports.execute(execution),
   });
   const ordinary = async ({ window, output, settings }, signal) => {
     signal.throwIfAborted();
@@ -158,6 +190,14 @@ export async function fixture(
     project: domain,
   });
   const scenes = new SceneEvidenceStore(catalog, assetSceneOwner(assets, acquisitions));
+  const projectRenderer = {
+    implementationId: "package-fixture-project-frame",
+    render:
+      projectFrame ??
+      (async () => {
+        throw new Error("Project frame rendering was not requested");
+      }),
+  };
   const index = new ScreenshotIndexStore(
     catalog,
     home,
@@ -168,7 +208,7 @@ export async function fixture(
         scenes,
         isDeleting: (id) => projects.isDeleting(id),
       },
-      { implementationId: "unused-index" },
+      projectRenderer,
     ),
   );
   const delivery = new DerivativeDelivery();
@@ -177,34 +217,76 @@ export async function fixture(
     acquisitions.intent(identity.owner.acquisitionId);
   });
   const acquisitionImports = new AcquisitionImporter(catalog, acquisitions, assets, evidence, home);
-  const sceneProcessing = new SceneProcessing({
+  sceneProcessing = new SceneProcessing({
     jobs,
     evidence: scenes,
     asset: {
       assets,
       acquisitions,
       implementationId: "package-fixture-scenes",
-      sample: async () => {
-        throw new Error("Scene rendering was not requested");
-      },
+      sample:
+        sourceSample ??
+        (async () => {
+          throw new Error("Scene rendering was not requested");
+        }),
     },
   });
   const models = new Models(home);
-  const transcripts = new TranscriptProcessing({
+  transcripts = new TranscriptProcessing({
     jobs,
     transcripts: transcriptRecords,
-    models: models.transcription("parakeet"),
+    models: transcriptionModels ?? models.transcription("parakeet"),
     asset: { assets, acquisitions },
-    transcribe: async () => {
-      throw new Error("Transcription was not requested");
+    transcribe:
+      transcribe ??
+      (async () => {
+        throw new Error("Transcription was not requested");
+      }),
+  });
+  frames = new MediaFrameInspection({
+    assets,
+    acquisitions,
+    jobs,
+    cache,
+    project: { projects, renderer: projectRenderer },
+    sourceRenderer: {
+      implementationId: "package-fixture-frame",
+      render:
+        sourceFrame ??
+        (async () => {
+          throw new Error("Source frame rendering was not requested");
+        }),
     },
   });
   const sourceIndex = new ScreenshotIndexStore(
     catalog,
     home,
-    sourceIndexDomain((selection) => selectSource(assets, acquisitions, selection), scenes, null),
+    sourceIndexDomain((selection) => selectSource(assets, acquisitions, selection), scenes, frames),
   );
-  const indexes = new IndexProcessing({ jobs });
+  indexes = new IndexProcessing({
+    jobs,
+    project: {
+      catalog,
+      assets,
+      acquisitions,
+      projects,
+      scenes: sceneProcessing,
+      records: scenes,
+      frames,
+      cache,
+      index,
+    },
+    asset: {
+      catalog,
+      assets,
+      acquisitions,
+      scenes: sceneProcessing,
+      records: scenes,
+      frames,
+      cache,
+      index: sourceIndex,
+    },
+  });
   const packages = new ProjectPackages({
     directory: home,
     projects,
@@ -323,6 +405,14 @@ export async function fixture(
     deletion,
     storage,
     packages,
+    scenes,
+    sceneProcessing,
+    transcripts,
+    transcriptRecords,
+    sourceIndex,
+    frames,
+    projectIndex: index,
+    indexes,
     replaceRenderer(implementationId) {
       preview = new ProjectPreviewInspection(
         projects,
