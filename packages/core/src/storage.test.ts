@@ -14,7 +14,7 @@ import {
 import { join } from "node:path";
 import { randomUUID } from "node:crypto";
 import { setImmediate } from "node:timers/promises";
-import { RevisionStore } from "./library.js";
+import { CaptureStore } from "./capture-store.js";
 import { DerivedCache, recordingCacheOwnerCheck } from "./cache.js";
 import { ManagedStorage } from "./storage.js";
 
@@ -31,7 +31,7 @@ afterEach(async () => {
 async function fixture(cacheBudget?: number) {
   const home = await mkdtemp("/tmp/screenrec-storage-");
   cleanups.push(() => rm(home, { recursive: true, force: true }));
-  const store = new RevisionStore(join(home, "library.sqlite"), {
+  const store = new CaptureStore(join(home, "library.sqlite"), {
     now: () => "fixture",
     newId: randomUUID,
   });

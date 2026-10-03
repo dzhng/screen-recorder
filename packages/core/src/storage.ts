@@ -2,8 +2,7 @@ import { lstat, open, opendir } from "node:fs/promises";
 import { constants, lstatSync, realpathSync } from "node:fs";
 import { basename, join } from "node:path";
 import { setImmediate } from "node:timers/promises";
-import { type RevisionStore } from "./library.js";
-import { type Recording } from "./capture-store.js";
+import type { CaptureStore, Recording } from "./capture-store.js";
 import { CatalogError } from "./catalog.js";
 import type { DerivedCache } from "./cache.js";
 import { O_NOFOLLOW_ANY } from "./files.js";
@@ -26,7 +25,7 @@ export class ManagedStorage {
   private readonly lifetime = new AbortController();
   private readonly active = new Map<string | undefined, Promise<StorageUsage>>();
   constructor(
-    private readonly store: RevisionStore | null,
+    private readonly store: CaptureStore | null,
     private readonly cache: DerivedCache,
     home: string,
     private readonly exportUsage?: (

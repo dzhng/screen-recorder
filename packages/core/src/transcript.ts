@@ -18,7 +18,7 @@ import { lstat, mkdir, open, opendir, rm } from "node:fs/promises";
 import { basename, dirname, join, resolve } from "node:path";
 import { setImmediate } from "node:timers/promises";
 import { z } from "zod";
-import { type RevisionStore } from "./library.js";
+import type { CaptureStore } from "./capture-store.js";
 import { CatalogError, type Catalog } from "./catalog.js";
 import { ownerIdentity, type JobOwner } from "./jobs.js";
 import type { PageQuery } from "./ordered-pages.js";
@@ -201,7 +201,7 @@ export function recordingTranscript(metadata: TranscriptMetadata): RecordingTran
     narration: { source: track.source, sourceOffsetUs: track.sourceOffsetUs },
   };
 }
-export function recordingTranscriptOwner(store: RevisionStore) {
+export function recordingTranscriptOwner(store: CaptureStore) {
   return (identity: TranscriptIdentity, source: TranscriptSource): void => {
     if (identity.owner.kind !== "recording" || source.kind !== "recording")
       throw new CatalogError("INVALID_EVIDENCE", "Recording transcript requires a recording owner");

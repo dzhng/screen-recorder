@@ -31,12 +31,25 @@ the project filter. Revision pins, explicit replay/recovery, staging and typed
 source/project deletion safeguards survive. The numeric presentation plan also
 has its own existing owner, independent of the obsolete recording interpreter.
 
-The next pass is underway in the managed `service-composition` worktree on
-`codex/package-owner-purge`. Rehome valuable publication, recovery and shared
-package-registry fixtures to actual project/source owners before deleting their
+The [fixture preservation checkpoint](assets/23-owner-fixture-ports/README.md)
+ports registry, publication/capture lifetimes, preview pin combinations and
+source-only core lifecycle fixtures to actual project/source owners. Package
+workspace cleanup, process-death recovery and retained-generation references are
+also transferred, including surviving archive writers, substituted inputs and
+mutation during source copying. Abandonment resource lifetimes and normalized
+acquisition-member receipt refusal and actual bundled startup are also transferred.
+Continue real package frame/audio retry and drain and the remaining generic archive
+fixture in the managed
+`service-composition` worktree on `codex/package-owner-purge`. In parallel, remove
+mixed core dependencies and port generic fixtures from `RevisionStore` to their
+actual source/project owners; generic cache, source evidence and queue fixtures
+already use capture facts. Queue edit-revision cases use actual projects.
+Source normalization types belong to source admission, and common movie receipt
+validation has a separate owner. Editing/history belongs to `ProjectStore`.
+The matched map governs deletion of the
 obsolete recording package/span consumers. Keep generic archive/registry,
 workspace, native publication and source-lifetime contracts. The broader old
-fixtures are pending, not green or permission to restore an old production engine.
+fixtures remain pending; do not restore an old production engine.
 
 Then remove mixed old core branches and `RevisionStore`, including the actual
 recording revision field in its type, queries and schema. Do not hide it in a

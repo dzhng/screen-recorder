@@ -3,10 +3,10 @@ import { afterEach, expect, test } from "vitest";
 import { mkdtempSync, rmSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
-import { RevisionStore } from "./library.js";
+import { CaptureStore } from "./capture-store.js";
 import { SourceSceneAnalysis, scenePolicy } from "./scenes.js";
 import { SceneEvidenceStore, sceneBoundaries } from "./scene-evidence.js";
-const stores: RevisionStore[] = [],
+const stores: CaptureStore[] = [],
   roots: string[] = [];
 afterEach(() => {
   stores.splice(0).forEach((s) => s.close());
@@ -18,7 +18,7 @@ function fixture(durationUs = 20_000_000, sparse = false) {
   const path = join(root, "catalog.sqlite");
   let id = 0;
   const providers = { now: () => "", newId: () => String(++id) };
-  const store = new RevisionStore(path, providers);
+  const store = new CaptureStore(path, providers);
   stores.push(store);
   const recording = store.allocate().recording;
   store.registerSource(recording.recordingId, durationUs);
@@ -76,7 +76,7 @@ test("only contiguous complete evidence becomes readable and survives reopening"
   f.evidence.append(f.identity, f.source, second);
   const metadata = f.evidence.finish(f.identity);
   f.store.close();
-  const reopened = new RevisionStore(f.path, f.providers);
+  const reopened = new CaptureStore(f.path, f.providers);
   stores.push(reopened);
   const page = new SceneEvidenceStore(reopened, recordingSceneOwner(reopened)).page({
     identity: f.identity,
@@ -202,7 +202,7 @@ test("restart leaves partial attempts unreadable and separates source generation
     chunk = await f.report(0, 10_000_000);
   f.evidence.append(f.identity, f.source, chunk);
   f.store.close();
-  const reopened = new RevisionStore(f.path, f.providers);
+  const reopened = new CaptureStore(f.path, f.providers);
   stores.push(reopened);
   const evidence = new SceneEvidenceStore(reopened, recordingSceneOwner(reopened));
   expect(() => evidence.page({ identity: f.identity })).toThrow("complete");

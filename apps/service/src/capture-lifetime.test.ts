@@ -2,7 +2,7 @@ import { expect, test } from "vitest";
 import { mkdir, mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
 import { createHash, randomUUID } from "node:crypto";
 import { join } from "node:path";
-import { RevisionStore } from "@screenrec/core/library";
+import { CaptureStore } from "@screenrec/core/capture-store";
 import type { OperationResult } from "@screenrec/protocol";
 import { CaptureService } from "./capture.js";
 
@@ -20,7 +20,7 @@ const idleNative: OperationResult = {
 
 test("closing capture aborts recovery and waits for its worker before releasing the catalog", async () => {
   const home = await mkdtemp("/tmp/screenrec-capture-close-");
-  const store = new RevisionStore(join(home, "library.sqlite"), {
+  const store = new CaptureStore(join(home, "library.sqlite"), {
     now: () => new Date().toISOString(),
     newId: randomUUID,
   });
@@ -53,7 +53,7 @@ test("closing capture aborts recovery and waits for its worker before releasing 
     const closing = service.close().then(() => {
       closed = true;
     });
-    await Promise.resolve();
+    await new Promise<void>((resolve) => setImmediate(resolve));
     expect(signal?.aborted).toBe(true);
     expect(closed).toBe(false);
     finish({
@@ -68,6 +68,11 @@ test("closing capture aborts recovery and waits for its worker before releasing 
     });
     await expect(service.reconcileStranded()).rejects.toMatchObject({ code: "SERVICE_STOPPED" });
   } finally {
+    finish?.({
+      ok: false,
+      error: { code: "CANCELED", message: "fixture ended", retryable: true, details: {} },
+    });
+    await service.close();
     store.close();
     await rm(home, { recursive: true, force: true });
   }
@@ -75,7 +80,7 @@ test("closing capture aborts recovery and waits for its worker before releasing 
 
 test("deletion quiescence waits behind a held start and keeps source files", async () => {
   const home = await mkdtemp("/tmp/screenrec-capture-delete-");
-  const store = new RevisionStore(join(home, "library.sqlite"), {
+  const store = new CaptureStore(join(home, "library.sqlite"), {
     now: () => new Date().toISOString(),
     newId: randomUUID,
   });
@@ -184,7 +189,7 @@ test.each(["TIMEOUT", "SERVICE_STOPPED", "INVALID_STATE"])(
   "deletion preserves intent when %s does not prove native closure",
   async (code) => {
     const home = await mkdtemp("/tmp/screenrec-capture-uncertain-");
-    const store = new RevisionStore(join(home, "library.sqlite"), {
+    const store = new CaptureStore(join(home, "library.sqlite"), {
       now: () => new Date().toISOString(),
       newId: randomUUID,
     });
@@ -227,7 +232,7 @@ test.each(["TIMEOUT", "SERVICE_STOPPED", "INVALID_STATE"])(
 
 test("deletion waits for running recovery and does not admit recovery for another marked take", async () => {
   const home = await mkdtemp("/tmp/screenrec-capture-recover-delete-");
-  const store = new RevisionStore(join(home, "library.sqlite"), {
+  const store = new CaptureStore(join(home, "library.sqlite"), {
     now: () => new Date().toISOString(),
     newId: randomUUID,
   });
@@ -302,7 +307,7 @@ test("deletion waits for running recovery and does not admit recovery for anothe
 
 test("a marked finished take neither starts replacement capture nor touches native to quiesce", async () => {
   const home = await mkdtemp("/tmp/screenrec-capture-finished-delete-");
-  const store = new RevisionStore(join(home, "library.sqlite"), {
+  const store = new CaptureStore(join(home, "library.sqlite"), {
     now: () => new Date().toISOString(),
     newId: randomUUID,
   });
@@ -345,9 +350,9 @@ test("a marked finished take neither starts replacement capture nor touches nati
 });
 
 test("proved native closure releases heavy work while deletion files and intent remain", async () => {
-  const { JobQueue, recordingJobTargets } = await import("@screenrec/core/jobs");
+  const { JobQueue } = await import("@screenrec/core/jobs");
   const home = await mkdtemp("/tmp/screenrec-capture-priority-delete-");
-  const store = new RevisionStore(join(home, "library.sqlite"), {
+  const store = new CaptureStore(join(home, "library.sqlite"), {
     now: () => new Date().toISOString(),
     newId: randomUUID,
   });
@@ -371,12 +376,23 @@ test("proved native closure releases heavy work while deletion files and intent 
   let finish!: (result: OperationResult) => void;
   const queue = new JobQueue({
     store,
-    targets: recordingJobTargets(store),
+    targets: {
+      pin(target) {
+        if (target.kind !== "recording" || target.revisionId !== null)
+          throw new Error("Expected source-owned capture work");
+        if (!store.isAvailable(target.recordingId))
+          throw new Error("Capture source is unavailable");
+        return { ...target, revisionId: null };
+      },
+      isAvailable: (target) => target.kind === "recording" && store.isAvailable(target.recordingId),
+      isDeleting: (owner) => owner.kind === "recording" && store.isDeleting(owner.recordingId),
+      isCapturing: () => store.isCapturing(),
+    },
     providers: { newId: randomUUID },
     execute: async () => "other recording processed",
   });
   const job = queue.submit({
-    target: { kind: "recording" as const, recordingId: other.recordingId },
+    target: { kind: "recording" as const, recordingId: other.recordingId, revisionId: null },
     artifact: "source",
     input: "other",
     lane: "heavy",
@@ -441,7 +457,7 @@ test.each(["complete", "interrupted"] as const)(
   "cancel joining %s finalization retains the finished recording",
   async (state) => {
     const home = await mkdtemp("/tmp/screenrec-capture-terminal-race-");
-    const store = new RevisionStore(join(home, "library.sqlite"), {
+    const store = new CaptureStore(join(home, "library.sqlite"), {
       now: () => new Date().toISOString(),
       newId: randomUUID,
     });
@@ -495,7 +511,7 @@ test.each(["complete", "interrupted"] as const)(
       expect(store.get(recording.recordingId)).toMatchObject({
         state,
         sourceDurationUs: 20,
-        currentRevisionId: "r0",
+        currentRevisionId: null,
       });
       expect(await readFile(join(source, "sentinel"), "utf8")).toBe("finished media stays");
     } finally {
@@ -515,7 +531,7 @@ test.each(["media", "empty", "failed", "ambiguous"] as const)(
   async (mode) => {
     const finished = mode !== "empty";
     const home = await mkdtemp("/tmp/screenrec-cancel-missed-report-");
-    const store = new RevisionStore(join(home, "library.sqlite"), {
+    const store = new CaptureStore(join(home, "library.sqlite"), {
       now: () => new Date().toISOString(),
       newId: randomUUID,
     });

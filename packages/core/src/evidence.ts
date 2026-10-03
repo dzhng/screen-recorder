@@ -1,6 +1,6 @@
 import { createReadStream } from "node:fs";
 import { setImmediate } from "node:timers/promises";
-import { type RevisionStore } from "./library.js";
+import type { CaptureStore } from "./capture-store.js";
 import { CatalogError, type Catalog } from "./catalog.js";
 import { SourceEvidenceReader, type RecordQuery, type EvidenceIndex } from "./evidence-read.js";
 import { selectionRangeSchema, type SelectionRange } from "@screenrec/composition";
@@ -11,7 +11,7 @@ export type EvidenceOwner =
 export function evidenceOwnerKey(owner: EvidenceOwner): [EvidenceOwner["kind"], string] {
   return [owner.kind, owner.kind === "recording" ? owner.recordingId : owner.acquisitionId];
 }
-export function recordingEvidenceOwner(store: RevisionStore): (identity: EvidenceIdentity) => void {
+export function recordingEvidenceOwner(store: CaptureStore): (identity: EvidenceIdentity) => void {
   return ({ owner, sourceId }) => {
     if (owner.kind !== "recording") invalid("Recording evidence requires a recording owner");
     const recording = store.get(owner.recordingId);

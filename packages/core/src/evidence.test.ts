@@ -2,10 +2,10 @@ import { test, expect, afterEach, vi } from "vitest";
 import { mkdtempSync, rmSync, writeFileSync, readFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { dirname, join } from "node:path";
-import { RevisionStore } from "./library.js";
+import { CaptureStore } from "./capture-store.js";
 import { recordingEvidenceOwner, SourceEvidenceStore } from "./evidence.js";
 const roots: string[] = [];
-const stores: RevisionStore[] = [];
+const stores: CaptureStore[] = [];
 afterEach(() => {
   stores.splice(0).forEach((s) => s.close());
   roots.splice(0).forEach((p) => rmSync(p, { recursive: true, force: true }));
@@ -14,7 +14,7 @@ function fixture(times = [0, 10, 10, 20]) {
   const root = mkdtempSync(join(tmpdir(), "evidence-"));
   roots.push(root);
   let id = 0;
-  const store = new RevisionStore(join(root, "library.sqlite"), {
+  const store = new CaptureStore(join(root, "library.sqlite"), {
     now: () => "",
     newId: () => `id-${++id}`,
   });
@@ -655,7 +655,7 @@ test("recording purge reclaims complete and unfinished generations across restar
     .run(sibling.recordingId, sibling.sourceId, "sibling");
   f.store.markDeleting(f.identity.owner.recordingId);
   f.store.close();
-  const reopened = new RevisionStore(join(dirname(f.file), "library.sqlite"), {
+  const reopened = new CaptureStore(join(dirname(f.file), "library.sqlite"), {
     now: () => "",
     newId: () => "unused",
   });

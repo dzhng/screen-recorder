@@ -1,6 +1,5 @@
-import type { MediaProbe } from "./assets.js";
-import type { CapturePublishedSource, CaptureSourceAuthority } from "./capture-publication.js";
-import { openDirectoryLease, type IdentifiedFile } from "./files.js";
+import type { SourceExporter } from "./source-admission.js";
+import { openDirectoryLease } from "./files.js";
 import { readRawCursor, type RawCursorOptions } from "./raw-cursor.js";
 import { lstat, mkdir, opendir, rm } from "node:fs/promises";
 import { basename, dirname, join } from "node:path";
@@ -8,25 +7,10 @@ import { type RevisionStore } from "./library.js";
 import { isSettled } from "./capture-store.js";
 import { CatalogError } from "./catalog.js";
 import type { JobExecution, JobQueue } from "./jobs.js";
-import type {
-  SourceEvidenceMetadata,
-  SourceEvidenceReceipt,
-  SourceEvidenceStore,
-} from "./evidence.js";
+import type { SourceEvidenceMetadata, SourceEvidenceStore } from "./evidence.js";
 
 export const sourceArtifact = "source-evidence";
 export const sourcePolicy = "native-source-v2";
-
-export type SourceExporter = (
-  directory: string,
-  output: string,
-  signal: AbortSignal,
-  canonical?: Partial<
-    Record<"video" | "narration" | "system", IdentifiedFile & { metadata?: MediaProbe }>
-  >,
-  lifetimes?: readonly number[],
-  sourceAuthority?: CaptureSourceAuthority,
-) => Promise<SourceEvidenceReceipt & { verifiedSourceAuthority?: CapturePublishedSource }>;
 
 /** Source processing pins r0; edits only change how later readers project this evidence. */
 export class SourceProcessing {

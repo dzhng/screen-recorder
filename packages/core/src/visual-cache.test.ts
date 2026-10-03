@@ -1,7 +1,7 @@
 import { afterEach, expect, test } from "vitest";
 import { mkdtemp, rm } from "node:fs/promises";
 import { basename, join } from "node:path";
-import { RevisionStore } from "./library.js";
+import { CaptureStore } from "./capture-store.js";
 import { DerivedCache, recordingCacheOwnerCheck } from "./cache.js";
 import { VisualObservationCache } from "./visual-cache.js";
 import type { VisualSampler } from "./scenes.js";
@@ -19,7 +19,7 @@ const request = {
 const signal = () => new AbortController().signal;
 async function fixture(budget = 1024 ** 3) {
   const home = await mkdtemp("/tmp/visual-cache-");
-  const store = new RevisionStore(join(home, "library.sqlite"), {
+  const store = new CaptureStore(join(home, "library.sqlite"), {
     now: () => "",
     newId: (() => {
       let id = 0;
@@ -146,7 +146,7 @@ test("a new database connection reuses persisted observations after cache reconc
     { ...request, atSourceUs: [0, 2, 4] },
     signal(),
   );
-  const reopened = new RevisionStore(join(f.home, "library.sqlite"), {
+  const reopened = new CaptureStore(join(f.home, "library.sqlite"), {
     now: () => "",
     newId: (() => {
       let id = 0;

@@ -1,3 +1,4 @@
+import { selectionPolicy } from "./screenshot-index.js";
 import { CatalogError } from "./catalog.js";
 import type { EvidenceIdentity, RawCursorSample } from "./evidence.js";
 import type { RecordingSceneEvidenceIdentity } from "./scene-evidence.js";
@@ -6,16 +7,6 @@ import { trailPolicy } from "./trails.js";
 import { type TimelineRevision } from "./timeline.js";
 import { renderPlan, type RenderSpan, type TimeRange } from "./presentation-time.js";
 
-export const selectionPolicy = Object.freeze({
-  id: "sampled-evidence-selection-v2",
-  coverageUs: 5_000_000,
-  ordinarySpacingUs: 1_000_000,
-  idleUs: 300_000,
-  continuousUs: 2_000_000,
-  motionToleranceFraction: 0.001,
-  burstDistanceFraction: 0.01,
-  maximumPendingCandidates: 5000,
-});
 type Cursor = Pick<
   RawCursorSample,
   "sourceUs" | "x" | "y" | "buttons" | "eligibility" | "geometryEpoch"

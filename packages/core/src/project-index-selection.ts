@@ -17,7 +17,7 @@ import {
   type ValidatedComposition,
 } from "@screenrec/composition";
 import { CatalogError } from "./catalog.js";
-import { selectionPolicy } from "./selection.js";
+import { selectionPolicy } from "./screenshot-index.js";
 import { observedSceneBoundary, type SourceSceneChunk } from "./source-scene-chunks.js";
 import type { SceneSampleClock } from "./source-scenes.js";
 import type { TimeRange } from "./presentation-time.js";

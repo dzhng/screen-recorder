@@ -10,7 +10,7 @@ import { join } from "node:path";
 import { createHash, randomUUID } from "node:crypto";
 import { fileAccess } from "./files.js";
 import { TimelineInspection } from "./timeline-inspection.js";
-import { RevisionStore } from "./library.js";
+import { CaptureStore } from "./capture-store.js";
 import { CatalogError } from "./catalog.js";
 import { recordingEvidenceOwner, SourceEvidenceStore } from "./evidence.js";
 import { SourceSceneAnalysis, scenePolicy } from "./scenes.js";
@@ -25,7 +25,7 @@ import {
   validateTimelineEventPages,
 } from "./event-pages.js";
 const roots: string[] = [],
-  stores: RevisionStore[] = [];
+  stores: CaptureStore[] = [];
 afterEach(() => {
   stores.splice(0).forEach((s) => s.close());
   roots.splice(0).forEach((p) => rmSync(p, { recursive: true, force: true }));
@@ -33,7 +33,7 @@ afterEach(() => {
 async function fixture(staticScenes = false, sourceCount = 520, duration = 2_600_000_000) {
   const root = mkdtempSync(join(tmpdir(), "event-pages-"));
   roots.push(root);
-  const store = new RevisionStore(join(root, "db"), { now: () => "fixture", newId: randomUUID });
+  const store = new CaptureStore(join(root, "db"), { now: () => "fixture", newId: randomUUID });
   stores.push(store);
   const recording = store.allocate().recording,
     sourceIdentity = {

@@ -30,6 +30,17 @@ import type { MaterializedFrame } from "./frame-materialization.js";
 import type { SelectedCandidate, SelectionCoverage } from "./selection.js";
 import { editedToSource, sourceToEdited } from "./timeline.js";
 
+export const selectionPolicy = Object.freeze({
+  id: "sampled-evidence-selection-v2",
+  coverageUs: 5_000_000,
+  ordinarySpacingUs: 1_000_000,
+  idleUs: 300_000,
+  continuousUs: 2_000_000,
+  motionToleranceFraction: 0.001,
+  burstDistanceFraction: 0.01,
+  maximumPendingCandidates: 5000,
+});
+
 export type ScreenshotIndexIdentity = {
   recordingId: string;
   sourceId: string;

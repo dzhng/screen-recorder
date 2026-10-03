@@ -13,7 +13,7 @@ import {
 } from "node:fs";
 import { basename, dirname, join } from "node:path";
 import { openedFile, retainedFileRead, type OpenedFile, type RetainedRead } from "./files.js";
-import { type RevisionStore } from "./library.js";
+import type { CaptureStore } from "./capture-store.js";
 import { CatalogError, type Catalog } from "./catalog.js";
 import { ownerIdentity, ownerFromIdentity, type JobOwner } from "./jobs.js";
 
@@ -370,7 +370,7 @@ export class DerivedCache {
 }
 
 /** Recording integration policy; project/asset services supply their own domain checks. */
-export function recordingCacheOwnerCheck(store: RevisionStore): (owner: JobOwner) => void {
+export function recordingCacheOwnerCheck(store: CaptureStore): (owner: JobOwner) => void {
   return (owner) => {
     if (owner.kind !== "recording")
       throw new CatalogError("INVALID_REQUEST", "Expected a recording cache owner");

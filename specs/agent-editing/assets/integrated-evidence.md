@@ -184,6 +184,31 @@
   The project cursor schema/producer/native replay agree; one merged wire check
   passes. Original failures, native-cell visual limits and retrospective broker
   evidence are explicit. Legacy fixture/core/schema purge remains pending.
+- [Fixture preservation](23-owner-fixture-ports/README.md) rehomes registry
+  lifetimes and publication recovery/storage to actual project/source fixtures.
+  The terminal 14-case registry and 41-case publication runs pass; root verified
+  archived payloads and committed source identities without repeating them.
+  Later destination-lifetime ports pass their affected 32 cases, and all 14
+  capture lifetime rows now use actual capture facts. The strengthened held-worker
+  shutdown oracle catches the deliberate missing-drain fault. Preview pin
+  combinations pass 22 affected cases; source lifecycle fixtures pass 21; actual
+  package cleanup/process-death ports pass the changed fixture's 59-case cohort.
+  Generation retention passes the repaired 63-case affected cohort, including active
+  cleanup, cancellation, retry, release and independent recipient adoption. Generic
+  cache/evidence fixture ports retain all 46 cases; normalization type emission
+  parity and common movie-validation extraction are separately banked. Outstanding
+  generic archive-writer fixture and real media retry/drain guarantees
+  remain in the map before obsolete-owner
+  deletion. Later grouped source fixtures retain 62 cases; queue fixture ports
+  retain all 73 cases and four actual project-revision guarantees, with a separate
+  final check after request-label changes. Package-boundary
+  controls cover native archive survival, input substitution and actual source
+  copy mutation; the 28-case cohort predates a separately checked cleanup repair.
+  Later abandonment/resource and normalized-member refusal ports pass 19
+  affected cases. Actual bundled startup passes its one persisted-waiter case,
+  with a decisive cache-order failure control. Shared index policy extraction
+  separately retains 25 output/refusal cases and exact executable bodies. No
+  media quality or release acceptance follows.
 - [Ordered moves and spectrogram duration](24-spectrogram-duration/README.md)
   verifies the original500-operation request and matched memory scaling. Reuse
   its evidence; it does not substitute for quality or physical gates.

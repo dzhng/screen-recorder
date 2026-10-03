@@ -1,8 +1,8 @@
 import { expect, test } from "vitest";
 import { mkdtemp, mkdir, readFile, rm, writeFile } from "node:fs/promises";
-import { randomUUID } from "node:crypto";
+import { createHash, randomUUID } from "node:crypto";
 import { join } from "node:path";
-import { RevisionStore } from "@screenrec/core/library";
+import { CaptureStore } from "@screenrec/core/capture-store";
 import type { OperationResult } from "@screenrec/protocol";
 import { CaptureService, sourceDirectory } from "./capture.js";
 
@@ -18,11 +18,54 @@ const idleNative: OperationResult = {
   },
 };
 
+// Scripted publisher bytes exercise service settlement, not native media validity.
+async function recoveredSource(
+  home: string,
+  recordingId: string,
+  sourceId: string,
+  durationUs: number,
+) {
+  const journal = { header: { sessionID: sourceId } };
+  const journalBytes = Buffer.from(JSON.stringify(journal));
+  const video = Buffer.from("scripted canonical video bytes");
+  const directory = sourceDirectory(home, recordingId);
+  await mkdir(directory, { recursive: true });
+  await writeFile(join(directory, "source.journal.jsonl"), journalBytes);
+  await writeFile(join(directory, "video.mov"), video);
+  return {
+    durationUs,
+    journal,
+    inputsClosed: true,
+    sourcePublication: {
+      state: "published" as const,
+      source: {
+        kind: "primary" as const,
+        sourceId,
+        sourceDurationUs: durationUs,
+        originHostUs: 0,
+        journal: {
+          file: "source.journal.jsonl" as const,
+          bytes: journalBytes.length,
+          sha256: createHash("sha256").update(journalBytes).digest("hex"),
+          lastSequence: 2,
+          layout: 2 as const,
+        },
+        members: {
+          "video.mov": {
+            bytes: String(video.length),
+            sha256: createHash("sha256").update(video).digest("hex"),
+          },
+        },
+      },
+    },
+  };
+}
+
 // This pins the service half of asynchronous stop. The native termination/publisher and
 // full controller deadline gates are separate: this fixture neither captures nor verifies media.
 test("finalizing acknowledgment releases control order while cancellation waits for actual unwind", async () => {
   const home = await mkdtemp("/tmp/screenrec-finalizing-queue-");
-  const store = new RevisionStore(join(home, "library.sqlite"), {
+  const store = new CaptureStore(join(home, "library.sqlite"), {
     now: () => new Date().toISOString(),
     newId: randomUUID,
   });
@@ -102,7 +145,7 @@ test("finalizing acknowledgment releases control order while cancellation waits 
 
 test("unproved start keeps finalizing media out of recovery until the native terminal report", async () => {
   const home = await mkdtemp("/tmp/screenrec-unproved-finalizing-");
-  const store = new RevisionStore(join(home, "library.sqlite"), {
+  const store = new CaptureStore(join(home, "library.sqlite"), {
     now: () => new Date().toISOString(),
     newId: randomUUID,
   });
@@ -160,7 +203,7 @@ test.each(["cleanup", "completion", "role"] as const)(
   "recovery retains cleanup detail with %s precedence",
   async (mode) => {
     const home = await mkdtemp("/tmp/screenrec-recovery-cleanup-");
-    const store = new RevisionStore(join(home, "library.sqlite"), {
+    const store = new CaptureStore(join(home, "library.sqlite"), {
       now: () => new Date().toISOString(),
       newId: randomUUID,
     });
@@ -170,6 +213,7 @@ test.each(["cleanup", "completion", "role"] as const)(
       sequence: 1,
       state: "finalizing",
     });
+    const recovered = await recoveredSource(home, recording.recordingId, recording.sourceId, 1234);
     const logs: string[] = [];
     const service = new CaptureService(
       store,
@@ -184,9 +228,9 @@ test.each(["cleanup", "completion", "role"] as const)(
       async () => ({
         ok: true,
         data: {
-          durationUs: 1234,
+          ...recovered,
           journal: {
-            header: {},
+            ...recovered.journal,
             completion: { failureCode: mode === "completion" ? "JOURNAL_FAILED" : null },
           },
           tracks:
@@ -223,7 +267,7 @@ test.each(["cleanup", "completion", "role"] as const)(
 
 test("absent-native recovery acknowledges finalizing before media finishes and retains failure for retry", async () => {
   const home = await mkdtemp("/tmp/screenrec-recovery-continuation-");
-  const store = new RevisionStore(join(home, "library.sqlite"), {
+  const store = new CaptureStore(join(home, "library.sqlite"), {
     now: () => new Date().toISOString(),
     newId: randomUUID,
   });
@@ -308,7 +352,7 @@ test.each(["recording", "finalizing", "idle"] as const)(
   "service restart does not fence a surviving native take in %s",
   async (state) => {
     const home = await mkdtemp("/tmp/screenrec-survived-native-");
-    const store = new RevisionStore(join(home, "library.sqlite"), {
+    const store = new CaptureStore(join(home, "library.sqlite"), {
       now: () => new Date().toISOString(),
       newId: randomUUID,
     });
@@ -373,7 +417,7 @@ test.each(["recording", "finalizing", "idle"] as const)(
 
 test("explicit stop retries retained recovery failure and completed result wins cancellation", async () => {
   const home = await mkdtemp("/tmp/screenrec-recovery-retry-");
-  const store = new RevisionStore(join(home, "library.sqlite"), {
+  const store = new CaptureStore(join(home, "library.sqlite"), {
     now: () => new Date().toISOString(),
     newId: randomUUID,
   });
@@ -433,7 +477,7 @@ test("explicit stop retries retained recovery failure and completed result wins 
     await expect.poll(() => attempts).toBe(2);
     complete({
       ok: true,
-      data: { durationUs: 10, journal: { header: { sessionID: take.sourceId } } },
+      data: await recoveredSource(home, take.recordingId, take.sourceId, 10),
     });
     await expect.poll(() => store.get(take.recordingId).state).toBe("interrupted");
     await expect(service.cancel(take.recordingId)).rejects.toMatchObject({ code: "INVALID_STATE" });
@@ -455,7 +499,7 @@ test("explicit stop retries retained recovery failure and completed result wins 
 
 test("status follows the active recovery ahead of an older retained failure", async () => {
   const home = await mkdtemp("/tmp/screenrec-recovery-status-");
-  const store = new RevisionStore(join(home, "library.sqlite"), {
+  const store = new CaptureStore(join(home, "library.sqlite"), {
     now: () => new Date().toISOString(),
     newId: randomUUID,
   });
@@ -493,7 +537,10 @@ test("status follows the active recovery ahead of an older retained failure", as
     expect(await service.status()).toMatchObject({
       recording: { recordingId: selected.recordingId, finalizationError: null },
     });
-    finish({ ok: true, data: { durationUs: 10, journal: { header: {} } } });
+    finish({
+      ok: true,
+      data: await recoveredSource(home, selected.recordingId, selected.sourceId, 10),
+    });
     await expect.poll(() => store.get(selected.recordingId).state).toBe("interrupted");
     expect(await service.status()).toMatchObject({
       recording: { recordingId: older.recordingId, finalizationError: { code: "OLDER_FAILURE" } },
@@ -511,7 +558,7 @@ test("status follows the active recovery ahead of an older retained failure", as
 
 test("startup drains each recovery before continuing past a retained failure", async () => {
   const home = await mkdtemp("/tmp/screenrec-recovery-startup-");
-  const store = new RevisionStore(join(home, "library.sqlite"), {
+  const store = new CaptureStore(join(home, "library.sqlite"), {
     now: () => new Date().toISOString(),
     newId: randomUUID,
   });
@@ -535,7 +582,10 @@ test("startup drains each recovery before continuing past a retained failure", a
     async () => {
       attempts++;
       if (attempts === 1) return held;
-      return { ok: true, data: { durationUs: 20, journal: { header: {} } } };
+      return {
+        ok: true,
+        data: await recoveredSource(home, second.recordingId, second.sourceId, 20),
+      };
     },
   );
   const startup = service.reconcileStranded();
@@ -571,7 +621,7 @@ test("startup drains each recovery before continuing past a retained failure", a
 
 test("native finalization failures persist until a reported new attempt or terminal outcome", async () => {
   const home = await mkdtemp("/tmp/screenrec-native-finalization-error-");
-  const store = new RevisionStore(join(home, "library.sqlite"), {
+  const store = new CaptureStore(join(home, "library.sqlite"), {
     now: () => new Date().toISOString(),
     newId: randomUUID,
   });

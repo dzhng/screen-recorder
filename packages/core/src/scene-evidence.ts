@@ -15,7 +15,7 @@ import type { AssetStore } from "./assets.js";
 import type { AcquisitionStore } from "./acquisitions.js";
 import { selectSource } from "./source-selection.js";
 import { setImmediate } from "node:timers/promises";
-import { type RevisionStore } from "./library.js";
+import type { CaptureStore } from "./capture-store.js";
 import { CatalogError, type Catalog } from "./catalog.js";
 import {
   scenePolicy,
@@ -120,7 +120,7 @@ export function recordingSceneMetadata({
     invalid("Recording scene view requires a recording source");
   return { ...metadata, recordingId: owner.recordingId, durationUs: source.durationUs };
 }
-export function recordingSceneOwner(store: RevisionStore) {
+export function recordingSceneOwner(store: CaptureStore) {
   return (identity: SceneEvidenceIdentity, source: SceneSource): void => {
     if (identity.owner.kind !== "recording" || source.kind !== "recording")
       invalid("Scene identity requires a recording source");

@@ -1,0 +1,239 @@
+{
+  "commit": "0508b09f9f01c07a78f1486dcc648802a39a6b95",
+  "parent": "d2b6c76c89aebe79e9cecbdf3fc1bc53c4bce29c",
+  "scope": "Three actual project-package publication boundaries: substituted input locator refusal, selected source descriptor-copy mutation refusal, and surviving native archive child fencing project retirement after actual owner SIGKILL.",
+  "files": {
+    "apps/service/tests/fixtures/project-export-crash.mjs": "14f54ec92803967c70a989cc17e26e2872e5552f869d4ffcc48615077c6a63a9",
+    "apps/service/tests/project-package-boundaries.mjs": "e49a0a52de65a6d54ee9365e97464d66e7aaa7e0aa16acdd5d02545bd7b25d7e"
+  },
+  "verification": [
+    {
+      "command": "SCREENREC_NATIVE=/Users/david/dev/screen-recorder/helpers/mac/.build/debug/screenrec-native node --test --test-timeout=20000 apps/service/tests/project-export-recovery.mjs apps/service/tests/project-package-export.mjs apps/service/tests/project-package-boundaries.mjs",
+      "passed": 28,
+      "failed": 0,
+      "exitCode": 0,
+      "durationMs": 11424.8635,
+      "log": "owner-suites.log",
+      "scope": "Changed shared crash helper and new boundary file; before final owned-group cleanup review repair.",
+      "sourceSnapshots": {
+        "apps/service/tests/fixtures/project-export-crash.mjs": "14f54ec92803967c70a989cc17e26e2872e5552f869d4ffcc48615077c6a63a9",
+        "apps/service/tests/project-package-boundaries.mjs": "d3f54c84fb527c5072f9ab64faa132693b92309694692bd9c92d4bdefa4f85cb"
+      },
+      "sourceSnapshotProvenance": "Boundary file reconstructed from retained exact prototype inputs and the recorded promotion/format steps; not a contemporaneous hash. Crash helper unchanged by group review, copied directly."
+    },
+    {
+      "command": "SCREENREC_NATIVE=/Users/david/dev/screen-recorder/helpers/mac/.build/debug/screenrec-native node --test --test-name-pattern=\"surviving native project package writer\" apps/service/tests/project-package-boundaries.mjs",
+      "actualNamePattern": "surviving native project package writer",
+      "passed": 1,
+      "failed": 0,
+      "exitCode": 0,
+      "durationMs": 2229.17375,
+      "log": "survivor-owned-group-green.log",
+      "scope": "Only affected case after owned process-group failure cleanup and stopped native PID/command assertion repair.",
+      "sourceSnapshots": {
+        "apps/service/tests/fixtures/project-export-crash.mjs": "14f54ec92803967c70a989cc17e26e2872e5552f869d4ffcc48615077c6a63a9",
+        "apps/service/tests/project-package-boundaries.mjs": "e49a0a52de65a6d54ee9365e97464d66e7aaa7e0aa16acdd5d02545bd7b25d7e"
+      }
+    }
+  ],
+  "mutations": [
+    {
+      "case": "locator",
+      "fault": "Omit input checkWorkspace in MediaExports.preparePackage; incorrectly commits.",
+      "red": "locator-final-red.log",
+      "restored": "locator-final-restored.log",
+      "redExit": 1,
+      "restoredExit": 0
+    },
+    {
+      "case": "copy",
+      "fault": "Omit post-read mtime/ctime validation in copyImportedFile; incorrectly commits copied old bytes despite changed source.",
+      "red": "copy-final-red.log",
+      "restored": "copy-final-restored.log",
+      "redExit": 1,
+      "restoredExit": 0
+    },
+    {
+      "case": "survivor",
+      "fault": "Prematurely clear assembly and skip native workspace removal in cleanupAssembly; incorrectly permits project retirement while native writer survives.",
+      "red": "survivor-final-red.log",
+      "restored": "survivor-final-restored.log",
+      "redExit": 1,
+      "restoredExit": 0
+    }
+  ],
+  "native": {
+    "path": "/Users/david/dev/screen-recorder/helpers/mac/.build/debug/screenrec-native",
+    "sha256": "8a0c7732f3c1f99e074048f2ac3b8b29beb613462fb5ce769a134b1cbfdea186",
+    "rebuilt": false
+  },
+  "notes": [
+    "All faults applied only to isolated emitted JavaScript and restored exactly; no production source changes or legacy deletions.",
+    "Original outside-repo prototypes, first green/red/restored logs, promoted source run and final targeted controls all retained.",
+    "copy case wraps the actual FileHandle.read promise, observes target inode, changes one byte via a pre-opened write descriptor, and restores the exact prototype method in finally. No fake copy implementation or production hook.",
+    "Native survivor is the actual archive.write child, stopped by the shared pread interposer. PPID/PGID/state/command assert exact ownership and binary. Owner SIGKILL is observed. Project deletion remains retryable with reservation/payload held, then succeeds after native SIGKILL while independent source asset remains.",
+    "Failure cleanup knows the detached owner process group before any native marker arrives, kills only that exact owned group, drains owner closure and checks group disappearance. This replaces the initial marker-dependent cleanup hook.",
+    "No full suite, native rebuild, media encode/decode/quality, new capture, model download, application launch or installed change.",
+    "Acquisition normalized-member receipt mutation, remaining abandonment resource reference clauses V1005/1061/1212, actual bundled startup ordering and real frame/audio retry/drain are not claimed."
+  ],
+  "gitBlobs": {
+    "apps/service/tests/fixtures/project-export-crash.mjs": "372c1657661a6ade3d8642d1d9a56ac74d7e747c",
+    "apps/service/tests/project-package-boundaries.mjs": "8511f3019daf8dfe56e798cadf7ffa10b1465c0d"
+  },
+  "inputs": {
+    "apps/macos/tests/fixtures/archive-copy-barrier.c": {
+      "sha256": "51bae03dc11eb898d62e26170de5e9fc5558172f34a5a8769f2cda81cbe3879a",
+      "gitBlob": "2e5da595c103f2e1735144e5c4a894508079401c"
+    }
+  },
+  "review": "Root review clean after detached owned-group cleanup and PPID/PGID/stopped-state/exact-command repair. Final affected survivor recheck is separate from the earlier 28-case cohort.",
+  "bank": {
+    "archive": "package-boundaries-evidence.tar.gz",
+    "bytes": 13270,
+    "sha256": "2925911d7e0a876e39eef8ab4ecc9f622cabb73c0a88a6f1f8cbf0b784870657",
+    "payloads": [
+      {
+        "path": "project-package-boundaries-next/copy-final-red.log",
+        "bytes": 1180,
+        "sha256": "1f903787f5d06840eb43608172c353a69b58644fbfc8fd0cfe9299d9e42f48be"
+      },
+      {
+        "path": "project-package-boundaries-next/copy-final-restored.log",
+        "bytes": 390,
+        "sha256": "186903b85cebe21b74c353cfa47fe5dac8e405264b9330c0584e0af1a62f3482"
+      },
+      {
+        "path": "project-package-boundaries-next/copy-green.log",
+        "bytes": 390,
+        "sha256": "a29615c0ce56c617c39b82ae29d96f17b1d80d850d14d6166cd912d7b3b4f87d"
+      },
+      {
+        "path": "project-package-boundaries-next/copy-probe.mjs",
+        "bytes": 1836,
+        "sha256": "86c5c924944f76323788ad672b415e5660db1d28cdb08580a824d0eb5054b1f7"
+      },
+      {
+        "path": "project-package-boundaries-next/copy-red.log",
+        "bytes": 1204,
+        "sha256": "69fac0c132e98d261b473048b7d79ea2afa563f43058f20e3ac37cabf2d4db7c"
+      },
+      {
+        "path": "project-package-boundaries-next/copy-restored.log",
+        "bytes": 390,
+        "sha256": "a798207f37e05b3db6670743e6e92d69da13db8f01e4398cea05fd010b834df0"
+      },
+      {
+        "path": "project-package-boundaries-next/dispositions.md",
+        "bytes": 1050,
+        "sha256": "76798889b92f87ed1ec503d4ba2906ffb50599f1a73d6a22f8fb4a5954d3bb95"
+      },
+      {
+        "path": "project-package-boundaries-next/inputs/apps/macos/tests/fixtures/archive-copy-barrier.c",
+        "bytes": 1041,
+        "sha256": "51bae03dc11eb898d62e26170de5e9fc5558172f34a5a8769f2cda81cbe3879a"
+      },
+      {
+        "path": "project-package-boundaries-next/locator-final-red.log",
+        "bytes": 1193,
+        "sha256": "cb2e2d6874f594ec9310911be55bf1a7676dbb60c20d68617a3d304c448c1085"
+      },
+      {
+        "path": "project-package-boundaries-next/locator-final-restored.log",
+        "bytes": 396,
+        "sha256": "c2ecb165122c6ec5b4669e2c500882c915184df2c1cdb1f9b93f17279e5a01fe"
+      },
+      {
+        "path": "project-package-boundaries-next/locator-green.log",
+        "bytes": 397,
+        "sha256": "df7ac7b5d281ab6eb9b90674353f2f34fcf3eb7848e9f5824c2bc58fe44367cb"
+      },
+      {
+        "path": "project-package-boundaries-next/locator-probe.mjs",
+        "bytes": 2239,
+        "sha256": "311f1a1e7700ab9ae94703fcee3a813d52d0bc299e83f4ed832c539dbe913aba"
+      },
+      {
+        "path": "project-package-boundaries-next/locator-red.log",
+        "bytes": 1224,
+        "sha256": "7581ba5aeee67b2419c2e66eb82ba993107f40f3ac01bd9f712f93ea9060fa7b"
+      },
+      {
+        "path": "project-package-boundaries-next/locator-restored.log",
+        "bytes": 398,
+        "sha256": "9063ecbe8f7ae35e688dbb899c597e111c1592d33c8549866e8fb599a7b76a77"
+      },
+      {
+        "path": "project-package-boundaries-next/owner-suites.log",
+        "bytes": 5910,
+        "sha256": "8e323758627ecbaf4f4744930629e1e89543baa3627baa6deed23b404492e4cc"
+      },
+      {
+        "path": "project-package-boundaries-next/promoted-green.log",
+        "bytes": 775,
+        "sha256": "d685f9c92c6bf7f25447ef27bc89730ad3431a6b2cd1ca58f56dbeab68a3c9e7"
+      },
+      {
+        "path": "project-package-boundaries-next/report.json",
+        "bytes": 5804,
+        "sha256": "1e77db995982a9d33c4675b989a88b645a9cca6a24943358ffc1aa1140470a70"
+      },
+      {
+        "path": "project-package-boundaries-next/source/apps/service/tests/fixtures/project-export-crash.mjs",
+        "bytes": 5535,
+        "sha256": "14f54ec92803967c70a989cc17e26e2872e5552f869d4ffcc48615077c6a63a9"
+      },
+      {
+        "path": "project-package-boundaries-next/source/apps/service/tests/project-package-boundaries.mjs",
+        "bytes": 7935,
+        "sha256": "e49a0a52de65a6d54ee9365e97464d66e7aaa7e0aa16acdd5d02545bd7b25d7e"
+      },
+      {
+        "path": "project-package-boundaries-next/source-before-group-review/apps/service/tests/fixtures/project-export-crash.mjs",
+        "bytes": 5535,
+        "sha256": "14f54ec92803967c70a989cc17e26e2872e5552f869d4ffcc48615077c6a63a9"
+      },
+      {
+        "path": "project-package-boundaries-next/source-before-group-review/apps/service/tests/project-package-boundaries.mjs",
+        "bytes": 7454,
+        "sha256": "d3f54c84fb527c5072f9ab64faa132693b92309694692bd9c92d4bdefa4f85cb"
+      },
+      {
+        "path": "project-package-boundaries-next/survivor-final-red.log",
+        "bytes": 1253,
+        "sha256": "bdc7fabd95964bb14f6a3af39c8aea6ecdf97601d33c2ed3250578f8f31336c0"
+      },
+      {
+        "path": "project-package-boundaries-next/survivor-final-restored.log",
+        "bytes": 553,
+        "sha256": "4a6f5348ae2e70e7279c114d3b5bf7a41c09c2ac3859ec1389e22600b2a0c5be"
+      },
+      {
+        "path": "project-package-boundaries-next/survivor-green1.log",
+        "bytes": 556,
+        "sha256": "37e4ee93d19f66f0bdc2baa4e8f0a5fbfc12bf52b1d3e0cbdd8b205abea54b5b"
+      },
+      {
+        "path": "project-package-boundaries-next/survivor-owned-group-green.log",
+        "bytes": 557,
+        "sha256": "215bdea4323234a35750bdc0ed4494d563cbc6a0e707511ace7bcdc42b5b02ca"
+      },
+      {
+        "path": "project-package-boundaries-next/survivor-probe.mjs",
+        "bytes": 4111,
+        "sha256": "7228e3069d86d03b4840937161086c5773a1fe7bec9206f058b04ce903a77116"
+      },
+      {
+        "path": "project-package-boundaries-next/survivor-red.log",
+        "bytes": 1287,
+        "sha256": "c4b18e1da09393a57e2b380194015ffdacb2166f8c69e02c0e28116414380817"
+      },
+      {
+        "path": "project-package-boundaries-next/survivor-restored.log",
+        "bytes": 558,
+        "sha256": "9be88ce18903d5ca6da95a91846836ec58490349a1a18e53ee7c7b2c3d51d507"
+      }
+    ],
+    "rootVerification": "Archive checksum and all payload metadata read; committed source/input pins independently verified; code review repaired process-group failure cleanup. Earlier cohort and final targeted check remain separate; no runtime rerun."
+  },
+  "integratedCommit": "6e9c3a45c8dfe7d0d7933460ac2a3b2144b2fa17"
+}

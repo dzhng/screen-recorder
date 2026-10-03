@@ -1,0 +1,664 @@
+{
+  "base": "d26992a1e557bcb4bda90b73f1d7896fe9563e8e",
+  "branch": "codex/package-registry-owner",
+  "sourcePins": [
+    {
+      "path": "/Users/david/dev/screen-recorder/apps/service/README.md",
+      "bytes": 8960,
+      "sha256": "6c12fd5189c6f273b729b16bd2e0fc11511c5afb1a8eba7e39503bfe81ddf7c3"
+    },
+    {
+      "path": "/Users/david/dev/screen-recorder/apps/service/src/package-archive.ts",
+      "bytes": 19109,
+      "sha256": "8a2ca3c86447cefff6894dc88f347b3d40f9cb62ef7a155f96426ce6e785a762"
+    },
+    {
+      "path": "/Users/david/dev/screen-recorder/apps/service/src/package-media.ts",
+      "bytes": 10543,
+      "sha256": "64ac480096f24582e0974eecced139f9688ee9e6062cd892dc55fc500125f663"
+    },
+    {
+      "path": "/Users/david/dev/screen-recorder/apps/service/src/package-registry.ts",
+      "bytes": 14470,
+      "sha256": "f29656efde06561773c7e725a59a53c888a300dca129da200436fe99d01f9130"
+    },
+    {
+      "path": "/Users/david/dev/screen-recorder/apps/service/src/package-source.ts",
+      "bytes": 4949,
+      "sha256": "e755fffd3343895dc14eb7da55820953ebc7879c4bfdc1941730e292efa163a8"
+    },
+    {
+      "path": "/Users/david/dev/screen-recorder/apps/service/src/package-transcript.ts",
+      "bytes": 5006,
+      "sha256": "1ce74b4ba404c422dd48bda92fe4b3c3c2dc584cc85b3b877eacd9329508fdb7"
+    },
+    {
+      "path": "/Users/david/dev/screen-recorder/apps/service/src/packages.ts",
+      "bytes": 11790,
+      "sha256": "78ad82c6924035ab9ff65f489eb5edbd523927dbfd9797b2411f93bdae9982f0"
+    },
+    {
+      "path": "/Users/david/dev/screen-recorder/apps/service/tests/package-registry.mjs",
+      "bytes": 32467,
+      "sha256": "af0a0ee300df5f39d40b42164ff7bd7d0a863b8754073807c470f614d1f155f6"
+    }
+  ],
+  "native": {
+    "path": "/Users/david/dev/screen-recorder/helpers/mac/.build/debug/screenrec-native",
+    "bytes": 27520192,
+    "sha256": "8a0c7732f3c1f99e074048f2ac3b8b29beb613462fb5ce769a134b1cbfdea186",
+    "beforeAfter": "same across all run process.json native hashes and final check"
+  },
+  "final": {
+    "pid": 10027,
+    "exit": 0,
+    "waited": true,
+    "end": 1790984802.9721742
+  },
+  "testReport": {
+    "pass": 14,
+    "fail": 0,
+    "durationMs": 5691.131625
+  },
+  "runtimeChanges": false,
+  "originalDirectTestNames": [
+    "registry reserves before extraction, charges copied bytes, and closes without library rows",
+    "64 GiB admission pool rejects two maximum sparse inputs before extraction and releases canceled queue work",
+    "four same-content resource owners stay independent and failed close retains its slot and charge",
+    "one handle makes more than 32 requests and bounded terminal receipts expire without resurrection",
+    "failed validation cleans up, while an unconfirmed nonempty creation keeps its reservation until explicit retry",
+    "same-provenance library deletion and package close revoke only their own delivery namespaces",
+    "startup remains blocked by a killed owner's actual native child while library jobs continue",
+    "close fences delivery and drains an actual native media worker before removing its directory",
+    "correctly hashed malformed payload is admitted structurally and rejected by the shared lazy reader",
+    "default peak reservations block a fourth pending open but validated steady bytes allow it",
+    "failed context work can retry and canceled queued work never consumes execution",
+    "partial copy cancellation drains the actual worker before returning reservation and removing its tree"
+  ],
+  "currentDirectTestNames": [
+    "registry reserves before extraction, charges copied bytes, and closes without changing authored library state",
+    "64 GiB admission pool rejects two maximum sparse inputs before extraction and releases canceled queue work",
+    "four same-content resource owners stay independent and failed close retains its slot and charge",
+    "one handle makes more than 32 requests and bounded terminal receipts expire without resurrection",
+    "failed validation cleans up, while an unconfirmed nonempty creation keeps its reservation until explicit retry",
+    "same-provenance project deletion and package close revoke only their own delivery namespaces",
+    "startup remains blocked by a killed owner's actual native child while library jobs continue",
+    "close fences delivery and drains an actual native media worker before removing its directory",
+    "correctly hashed malformed project resource metadata fails before readiness and releases its owner",
+    "default peak reservations block a fourth pending open but validated steady bytes allow it",
+    "failed context work can retry and canceled queued work never consumes execution",
+    "partial copy cancellation drains the actual worker before returning reservation and removing its tree"
+  ],
+  "parameterizedHydrationCases": [
+    "failure",
+    "cancellation"
+  ],
+  "preservation": [
+    {
+      "contract": "admission/steady bytes, capacity, receipts, failures/retry, cancellation, native drain/recovery",
+      "disposition": "retained in same 14-case owner"
+    },
+    {
+      "contract": "same-provenance deletion",
+      "disposition": "actual managed ProjectDeletion and project delivery namespace; two retained package handles survive independently; source asset intact"
+    },
+    {
+      "contract": "lazy malformed recording source payload becomes ready",
+      "disposition": "obsolete for current project contract; replaced with exact correctly-hashed canonical typed resource metadata refusal before readiness; original source retained"
+    }
+  ],
+  "setupFailures": [
+    "project-first: controlled probe omitted oriented dimensions; actual ProjectStore place refused before archive creation",
+    "metadata-refusal: test incorrectly expected structured error, registry public status is string",
+    "namespace: JSON boundary plain object differs from SQLite null-prototype reference rows; fixture now preserves JSON value identity"
+  ],
+  "falsifications": {
+    "recordingValidator": "recording-validator-control exit1 expected manifest refusal",
+    "packageRevocation": "lease-revocation-control exit1 exact ARTIFACT_EXPIRED oracle catches closed-file error",
+    "ineffectiveAttempt": "lease-revocation-falsification exit0; mutation script failed before change, not red evidence"
+  },
+  "checks": {
+    "serviceEmit": "exit0 service-build.log",
+    "serviceTypes": "exit0 types.log",
+    "lint": "exit0 lint.log plus final test targeted tool exit0",
+    "format": "exit0 format.log plus final test targeted tool exit0",
+    "diffCheck": "exit0"
+  },
+  "limits": [
+    "controlled media probe; source bytes are not playable media",
+    "held media.frame child constructor stopped before decode",
+    "no renderer/model/capture/fullsuite/installed runtime",
+    "root independent review pending at record creation",
+    "original setup failures and ineffective mutation retained; no causal product defect claimed"
+  ],
+  "commit": "cd24e68f1d23baf2656adf6c53e9d2ca1252b7b9",
+  "trackedCheckout": "clean",
+  "review": "Self shape/code/docs review clean; root independent review owns integration.",
+  "executedRuntimeParity": {
+    "apps/service/dist/package-registry.js": true,
+    "apps/service/dist/package-archive.js": true,
+    "helpers/mac/.build/debug/screenrec-native": true
+  },
+  "archive": {
+    "archive": {
+      "path": "registry-evidence.tar.gz",
+      "bytes": 191601,
+      "sha256": "43f42dd10df1d4ce5ff7e08cae33747b4af3bcb63696d73463d9fc26ba608259"
+    },
+    "members": [
+      {
+        "path": "baseline/process.json",
+        "bytes": 672,
+        "sha256": "264d39c2235953cc9e5bb8bba1da213b6c6581a46bf8d550f7a176aade43269f"
+      },
+      {
+        "path": "baseline/stderr",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "baseline/stdout",
+        "bytes": 393,
+        "sha256": "0cd33040f5d5b5dfbe324dc6b29a0ecaf0a681ea57277882fa625f4bb9317c68"
+      },
+      {
+        "path": "baseline/terminal.json",
+        "bytes": 77,
+        "sha256": "8e905d5732a3ae5a5844ce4ba609ae40102fa97c42e13965ce0695510965fa85"
+      },
+      {
+        "path": "choices.md",
+        "bytes": 2576,
+        "sha256": "66ee930551191b38b246fbd9a9ad0ed54029e2e8345800d20031cdb82cade0ca"
+      },
+      {
+        "path": "controls.json",
+        "bytes": 1421,
+        "sha256": "75b0d05fd1b63879c5eef538a6f28b52d9c988bb496097635c5dd36cb94b4979"
+      },
+      {
+        "path": "final-owner-wiring/executed/apps/service/dist/package-archive.js",
+        "bytes": 16709,
+        "sha256": "da2ef55e41879d68d09196d4974be973fa941c2c274228c9bcc9e10c9424b906"
+      },
+      {
+        "path": "final-owner-wiring/executed/apps/service/dist/package-registry.js",
+        "bytes": 12682,
+        "sha256": "2395a41e051b40561742d2399c6574c7c432c1d071e4321f7709137b0aef7620"
+      },
+      {
+        "path": "final-owner-wiring/executed/apps/service/tests/package-registry.mjs",
+        "bytes": 32467,
+        "sha256": "af0a0ee300df5f39d40b42164ff7bd7d0a863b8754073807c470f614d1f155f6"
+      },
+      {
+        "path": "final-owner-wiring/process.json",
+        "bytes": 610,
+        "sha256": "057d0a8beb8841c34785f2aef248f777a25a61c386d62e9e6431f5bb179bd827"
+      },
+      {
+        "path": "final-owner-wiring/stderr",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "final-owner-wiring/stdout",
+        "bytes": 2302,
+        "sha256": "01dac3ddf3e82e835c7e391ca08e142400d85a1ee0c9b1574e84de51f54bf90f"
+      },
+      {
+        "path": "final-owner-wiring/terminal.json",
+        "bytes": 78,
+        "sha256": "9a5c1927a25d02af25371f257613ea5f88e8e6b43efb9786bdd8c7106649d63b"
+      },
+      {
+        "path": "final-registry/executed/apps/service/dist/package-archive.js",
+        "bytes": 16709,
+        "sha256": "da2ef55e41879d68d09196d4974be973fa941c2c274228c9bcc9e10c9424b906"
+      },
+      {
+        "path": "final-registry/executed/apps/service/dist/package-registry.js",
+        "bytes": 12682,
+        "sha256": "2395a41e051b40561742d2399c6574c7c432c1d071e4321f7709137b0aef7620"
+      },
+      {
+        "path": "final-registry/executed/apps/service/tests/package-registry.mjs",
+        "bytes": 32385,
+        "sha256": "b22f1d378f3e842c2b5e15ebdc33f495baf8ffa68c2ff40171df1cdcf9387589"
+      },
+      {
+        "path": "final-registry/process.json",
+        "bytes": 609,
+        "sha256": "9137f5fdbf35da4828a0f5defe5b58ffc9289b6046705706aa6a7d453942d2f4"
+      },
+      {
+        "path": "final-registry/stderr",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "final-registry/stdout",
+        "bytes": 2291,
+        "sha256": "706cf681eebc4e09d202b8c6c9b9da51232a3f6601d5fff9e224e9da2e9fbb53"
+      },
+      {
+        "path": "final-registry/terminal.json",
+        "bytes": 76,
+        "sha256": "822148a2f87c0d3118e2ff5eefbb1a2676cca1129a1e1bab8a615dea35b6feff"
+      },
+      {
+        "path": "final-sources/apps/service/README.md",
+        "bytes": 8960,
+        "sha256": "6c12fd5189c6f273b729b16bd2e0fc11511c5afb1a8eba7e39503bfe81ddf7c3"
+      },
+      {
+        "path": "final-sources/apps/service/src/package-archive.ts",
+        "bytes": 19109,
+        "sha256": "8a2ca3c86447cefff6894dc88f347b3d40f9cb62ef7a155f96426ce6e785a762"
+      },
+      {
+        "path": "final-sources/apps/service/src/package-media.ts",
+        "bytes": 10543,
+        "sha256": "64ac480096f24582e0974eecced139f9688ee9e6062cd892dc55fc500125f663"
+      },
+      {
+        "path": "final-sources/apps/service/src/package-registry.ts",
+        "bytes": 14470,
+        "sha256": "f29656efde06561773c7e725a59a53c888a300dca129da200436fe99d01f9130"
+      },
+      {
+        "path": "final-sources/apps/service/src/package-source.ts",
+        "bytes": 4949,
+        "sha256": "e755fffd3343895dc14eb7da55820953ebc7879c4bfdc1941730e292efa163a8"
+      },
+      {
+        "path": "final-sources/apps/service/src/package-transcript.ts",
+        "bytes": 5006,
+        "sha256": "1ce74b4ba404c422dd48bda92fe4b3c3c2dc584cc85b3b877eacd9329508fdb7"
+      },
+      {
+        "path": "final-sources/apps/service/src/packages.ts",
+        "bytes": 11790,
+        "sha256": "78ad82c6924035ab9ff65f489eb5edbd523927dbfd9797b2411f93bdae9982f0"
+      },
+      {
+        "path": "final-sources/apps/service/tests/package-registry.mjs",
+        "bytes": 32467,
+        "sha256": "af0a0ee300df5f39d40b42164ff7bd7d0a863b8754073807c470f614d1f155f6"
+      },
+      {
+        "path": "finish-port.py",
+        "bytes": 6208,
+        "sha256": "d351f1c0c122fd77394c71f02aa332936ce081d87fb073ab378962041b21c543"
+      },
+      {
+        "path": "format.log",
+        "bytes": 202,
+        "sha256": "83c4660286cd37a4c246ab895f2f216b7d55bc90d206456a2c920b84ad877088"
+      },
+      {
+        "path": "lease-revocation-control/executed/apps/service/dist/package-archive.js",
+        "bytes": 16709,
+        "sha256": "da2ef55e41879d68d09196d4974be973fa941c2c274228c9bcc9e10c9424b906"
+      },
+      {
+        "path": "lease-revocation-control/executed/apps/service/dist/package-registry.js",
+        "bytes": 12632,
+        "sha256": "1e4c965d790d660217f51275309e8e415c6286dca067101d547411f9eae340a7"
+      },
+      {
+        "path": "lease-revocation-control/executed/apps/service/tests/package-registry.mjs",
+        "bytes": 32385,
+        "sha256": "b22f1d378f3e842c2b5e15ebdc33f495baf8ffa68c2ff40171df1cdcf9387589"
+      },
+      {
+        "path": "lease-revocation-control/process.json",
+        "bytes": 669,
+        "sha256": "667c4a43a64283c5d35431d765521e3ca91cc3c5f115e3b95b53165edde9c2b2"
+      },
+      {
+        "path": "lease-revocation-control/stderr",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "lease-revocation-control/stdout",
+        "bytes": 2207,
+        "sha256": "a150af7ae012009b79404f7566245e6e05ef9bcbf28290cbd954dc168c5d4aad"
+      },
+      {
+        "path": "lease-revocation-control/terminal.json",
+        "bytes": 76,
+        "sha256": "b05811e9e5cd4a729e9c121ec2741d22d0b5d2fd82641f9365debd7c927afec6"
+      },
+      {
+        "path": "lease-revocation-falsification/executed/apps/service/dist/package-archive.js",
+        "bytes": 16709,
+        "sha256": "da2ef55e41879d68d09196d4974be973fa941c2c274228c9bcc9e10c9424b906"
+      },
+      {
+        "path": "lease-revocation-falsification/executed/apps/service/dist/package-registry.js",
+        "bytes": 12682,
+        "sha256": "2395a41e051b40561742d2399c6574c7c432c1d071e4321f7709137b0aef7620"
+      },
+      {
+        "path": "lease-revocation-falsification/executed/apps/service/tests/package-registry.mjs",
+        "bytes": 32385,
+        "sha256": "b22f1d378f3e842c2b5e15ebdc33f495baf8ffa68c2ff40171df1cdcf9387589"
+      },
+      {
+        "path": "lease-revocation-falsification/process.json",
+        "bytes": 669,
+        "sha256": "1d6228d530c0d2422fb43495f849aa47757e47617f81b2e9cb87dff02a88e4b5"
+      },
+      {
+        "path": "lease-revocation-falsification/stderr",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "lease-revocation-falsification/stdout",
+        "bytes": 395,
+        "sha256": "9e8f344e8ce646c0020d5d6a278795e951ae725285e90c3ff520bad389b8056f"
+      },
+      {
+        "path": "lease-revocation-falsification/terminal.json",
+        "bytes": 76,
+        "sha256": "f3bff4a1fd2a04d7696f03ff19364e4dbdd80bf6e1b20622a38160bd5090bcbe"
+      },
+      {
+        "path": "lint.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "metadata-corrected/executed/apps/service/dist/package-archive.js",
+        "bytes": 16709,
+        "sha256": "da2ef55e41879d68d09196d4974be973fa941c2c274228c9bcc9e10c9424b906"
+      },
+      {
+        "path": "metadata-corrected/executed/apps/service/dist/package-registry.js",
+        "bytes": 12682,
+        "sha256": "2395a41e051b40561742d2399c6574c7c432c1d071e4321f7709137b0aef7620"
+      },
+      {
+        "path": "metadata-corrected/executed/apps/service/tests/package-registry.mjs",
+        "bytes": 31693,
+        "sha256": "e1a96056e60351c3fc0fc48c8491537cde8c36d1ff1f5c70cf5e6f4b1fe6becd"
+      },
+      {
+        "path": "metadata-corrected/process.json",
+        "bytes": 671,
+        "sha256": "b450ae8e0287e25d66c87fbb6c0417e8b785c55fc1d85266443d78f966250809"
+      },
+      {
+        "path": "metadata-corrected/stderr",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "metadata-corrected/stdout",
+        "bytes": 401,
+        "sha256": "a6e378574c02f2d9b83e8ceaad21a045f50b0918c9c2e2dc2e7af830baced55b"
+      },
+      {
+        "path": "metadata-corrected/terminal.json",
+        "bytes": 77,
+        "sha256": "66a1e2590c9a863e3754968f2260b0d9aaf5333c7d20808e35b007b0f9a9175c"
+      },
+      {
+        "path": "metadata-refusal/process.json",
+        "bytes": 671,
+        "sha256": "53397edf15e12afd70bf993faf3e79c6aa41dd827537198dd3269b817321eb54"
+      },
+      {
+        "path": "metadata-refusal/stderr",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "metadata-refusal/stdout",
+        "bytes": 1165,
+        "sha256": "021e142d2b6ebe56226a061e65b6356bc56027233693472d3f34eaf2558c4694"
+      },
+      {
+        "path": "metadata-refusal/terminal.json",
+        "bytes": 76,
+        "sha256": "78d9cefebf564400a85476324329f0c28733aa425d8bf9d4072e18b2f19fcee6"
+      },
+      {
+        "path": "namespace/executed/apps/service/dist/package-archive.js",
+        "bytes": 16709,
+        "sha256": "da2ef55e41879d68d09196d4974be973fa941c2c274228c9bcc9e10c9424b906"
+      },
+      {
+        "path": "namespace/executed/apps/service/dist/package-registry.js",
+        "bytes": 12682,
+        "sha256": "2395a41e051b40561742d2399c6574c7c432c1d071e4321f7709137b0aef7620"
+      },
+      {
+        "path": "namespace/executed/apps/service/tests/package-registry.mjs",
+        "bytes": 31693,
+        "sha256": "e1a96056e60351c3fc0fc48c8491537cde8c36d1ff1f5c70cf5e6f4b1fe6becd"
+      },
+      {
+        "path": "namespace/process.json",
+        "bytes": 670,
+        "sha256": "44da910a4a63bf40b0e696e35fbdc98e896a55af947324c7dd0d2f3ce6c1ebbf"
+      },
+      {
+        "path": "namespace/stderr",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "namespace/stdout",
+        "bytes": 2224,
+        "sha256": "f4a2adf9360281f0b0e9d98e15f5836f885f1ad1c29f12b68ff80af1e0be1a00"
+      },
+      {
+        "path": "namespace/terminal.json",
+        "bytes": 76,
+        "sha256": "6542ea2f8cbdf4c3ff4a5b32df03207f0f4abd690b9dcfb0833566ba5b28a091"
+      },
+      {
+        "path": "namespace-corrected/executed/apps/service/dist/package-archive.js",
+        "bytes": 16709,
+        "sha256": "da2ef55e41879d68d09196d4974be973fa941c2c274228c9bcc9e10c9424b906"
+      },
+      {
+        "path": "namespace-corrected/executed/apps/service/dist/package-registry.js",
+        "bytes": 12682,
+        "sha256": "2395a41e051b40561742d2399c6574c7c432c1d071e4321f7709137b0aef7620"
+      },
+      {
+        "path": "namespace-corrected/executed/apps/service/tests/package-registry.mjs",
+        "bytes": 31843,
+        "sha256": "4501a5ccb5638cc746c01d0a67b0f02830c52936b16faf06cf8d7599cbd44859"
+      },
+      {
+        "path": "namespace-corrected/process.json",
+        "bytes": 669,
+        "sha256": "51cf2c56d8f485d975473732f53f1b12e4e654b343f9e04d82e9fbc4a495905c"
+      },
+      {
+        "path": "namespace-corrected/stderr",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "namespace-corrected/stdout",
+        "bytes": 395,
+        "sha256": "02f5131ee72c0bd1b986e4051671f30243b0bf84b67c7c75071c46383fd9ec92"
+      },
+      {
+        "path": "namespace-corrected/terminal.json",
+        "bytes": 77,
+        "sha256": "4df53d473c99fc9a98258602ba60e862fb33bbad5b46027e0e5cd2fb13b8368c"
+      },
+      {
+        "path": "original-tests.mjs",
+        "bytes": 30083,
+        "sha256": "759e3fda197de3b7a0461aff47d4d1ebf69a2c61c91289a85e89b21397c98ada"
+      },
+      {
+        "path": "port.py",
+        "bytes": 4964,
+        "sha256": "31ce1abde78d327726e02d987bef1e492e49bb1affc9132bf711c54168daaa7e"
+      },
+      {
+        "path": "ported-file/executed/apps/service/dist/package-archive.js",
+        "bytes": 16709,
+        "sha256": "da2ef55e41879d68d09196d4974be973fa941c2c274228c9bcc9e10c9424b906"
+      },
+      {
+        "path": "ported-file/executed/apps/service/dist/package-registry.js",
+        "bytes": 12682,
+        "sha256": "2395a41e051b40561742d2399c6574c7c432c1d071e4321f7709137b0aef7620"
+      },
+      {
+        "path": "ported-file/executed/apps/service/tests/package-registry.mjs",
+        "bytes": 31843,
+        "sha256": "4501a5ccb5638cc746c01d0a67b0f02830c52936b16faf06cf8d7599cbd44859"
+      },
+      {
+        "path": "ported-file/process.json",
+        "bytes": 608,
+        "sha256": "cf9ced9e9603f40abc0da8fc97009f693440f495c35272ee5492a9fc2014f038"
+      },
+      {
+        "path": "ported-file/stderr",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "ported-file/stdout",
+        "bytes": 2119,
+        "sha256": "6966b36c2b393cc853df7552cf6c05a30e8b33638d96e9ab9b93b246b09e6fd6"
+      },
+      {
+        "path": "ported-file/terminal.json",
+        "bytes": 76,
+        "sha256": "ed84ba91b7b8e73a3942f70f45dfe101d021d7d1edbd21a6b15d712d6d398a53"
+      },
+      {
+        "path": "project-first/process.json",
+        "bytes": 673,
+        "sha256": "8b3985e8f8ea9603796657a5393a86531317041808a65e40adf13623d49df2da"
+      },
+      {
+        "path": "project-first/stderr",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "project-first/stdout",
+        "bytes": 2160,
+        "sha256": "ee01ea4bfd148d9b8c1c3ef48517b96bdbe273ea13b5ad2f29215f9a29351d1c"
+      },
+      {
+        "path": "project-first/terminal.json",
+        "bytes": 77,
+        "sha256": "c4f2043ed8a80a01257a2115c43837faeab62780aeb4198326f0de0c2a842349"
+      },
+      {
+        "path": "project-first-corrected/process.json",
+        "bytes": 673,
+        "sha256": "5e03b866530a7d5ea75e56205602e7ccf29348cece57e38960c35619b47a8feb"
+      },
+      {
+        "path": "project-first-corrected/stderr",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "project-first-corrected/stdout",
+        "bytes": 393,
+        "sha256": "0c2f77372b5f95fba62f657caeec846367efcf8be0a5315c6b4a3e71b83ff242"
+      },
+      {
+        "path": "project-first-corrected/terminal.json",
+        "bytes": 77,
+        "sha256": "e4b69ecef6ae5cb2431484ea580f84f9a1f2d0ee1afdf4dec925a42b867d608e"
+      },
+      {
+        "path": "recording-validator-control/executed/apps/service/dist/package-archive.js",
+        "bytes": 16709,
+        "sha256": "da2ef55e41879d68d09196d4974be973fa941c2c274228c9bcc9e10c9424b906"
+      },
+      {
+        "path": "recording-validator-control/executed/apps/service/dist/package-registry.js",
+        "bytes": 12682,
+        "sha256": "2395a41e051b40561742d2399c6574c7c432c1d071e4321f7709137b0aef7620"
+      },
+      {
+        "path": "recording-validator-control/executed/apps/service/tests/package-registry.mjs",
+        "bytes": 32196,
+        "sha256": "84f8a753beb0faa780731852fa22a6f703cccdbf414c93cb17d7bca147839eda"
+      },
+      {
+        "path": "recording-validator-control/process.json",
+        "bytes": 673,
+        "sha256": "9f43b3111caf10983fac8d7f49e2a22c522e79cdf2241b24b99bc5f3805ec484"
+      },
+      {
+        "path": "recording-validator-control/stderr",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "recording-validator-control/stdout",
+        "bytes": 1373,
+        "sha256": "4158288ba2c0832b83b9bbf3ca5440a7dde97176cc68720a13843753f819a02e"
+      },
+      {
+        "path": "recording-validator-control/terminal.json",
+        "bytes": 76,
+        "sha256": "21b7dd015486c7d1b9341ba316ce40413bd5d40a494d4ae9082ab5cf73b6e4ab"
+      },
+      {
+        "path": "registry-before-falsification.js",
+        "bytes": 12682,
+        "sha256": "2395a41e051b40561742d2399c6574c7c432c1d071e4321f7709137b0aef7620"
+      },
+      {
+        "path": "review.md",
+        "bytes": 2428,
+        "sha256": "9cc44141026906797dd22c6a19522d546e69d4ecad879d82f1fefe0a614ff6cc"
+      },
+      {
+        "path": "run.py",
+        "bytes": 1295,
+        "sha256": "6f147cc7e56f92a97cfcea8fd1ef71c6e75ec1bbe7c2d1361c69b61086b3bcf7"
+      },
+      {
+        "path": "service-build.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "settled-before-falsification.mjs",
+        "bytes": 32138,
+        "sha256": "a4e5be1ddbf9aaa20b625f24032824531b52aaf005923f5e5d8eac2d02a3175d"
+      },
+      {
+        "path": "types.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "verification.json",
+        "bytes": 7318,
+        "sha256": "ac5514cb267ab44366f956af3e1418c308534eb47f5e24ed7db4c55b8c371681"
+      }
+    ],
+    "verification": "/tmp/screenrec-package-registry-port/verification.json"
+  },
+  "rootReview": {
+    "result": "clean",
+    "sourceCommit": "cd24e68f1d23baf2656adf6c53e9d2ca1252b7b9",
+    "verifiedArchiveMembers": 101,
+    "sourcePinsMatchCommittedBlobs": true,
+    "integration": "main fast-forward; no runtime source behavior changes or additional test run"
+  }
+}

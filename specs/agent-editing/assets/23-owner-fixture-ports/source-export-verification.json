@@ -1,0 +1,633 @@
+{
+  "base": "29875fdaff5794debfad30694791fe5d9b20a837",
+  "sources": [
+    {
+      "path": "packages/core/src/processing.ts",
+      "bytes": 11007,
+      "sha256": "5b2a4f726c991f5856845f666cbe70dc8866d36a305ba5dcb86a888db694c5e4"
+    },
+    {
+      "path": "packages/core/src/source-admission.ts",
+      "bytes": 5156,
+      "sha256": "cea07673b24a1ef9b372588e8db12215a0352ac4c59e13decfb0545a9ad45f6e"
+    },
+    {
+      "path": "packages/core/src/acquisitions.ts",
+      "bytes": 51055,
+      "sha256": "0a9bd61e64df9d9d6858f3f6f8d86dc2dafa3deaf05b740b8b91e2f114c4c0b7"
+    },
+    {
+      "path": "packages/core/src/acquisitions.test.ts",
+      "bytes": 28320,
+      "sha256": "b4c003afe73e3b6112b8d4d01db8c3c00e4b170ec2ddd68a8ccb5004483426bf"
+    },
+    {
+      "path": "packages/core/src/capture-acquisition.test.ts",
+      "bytes": 22841,
+      "sha256": "d3ed24890b15443501f295a03a7d96bb65475bba6eab5abb3a3d9e754dedd99b"
+    },
+    {
+      "path": "apps/service/src/package-source.ts",
+      "bytes": 4906,
+      "sha256": "d9b981dc2600df890cb8c4e492eac528d37a16fe223dca243bff17b81c9435cf"
+    },
+    {
+      "path": "apps/service/src/source-export.ts",
+      "bytes": 5237,
+      "sha256": "12657d9e1c3dc819191cd2024d3de24a24facc4c848d9d0b88e17b317a4f30ab"
+    }
+  ],
+  "typeDeclaration": {
+    "exactBeforeAfterEqual": true,
+    "sha256": "569d14dde8ac70897188d86093f706b866acbac411d8ec110a737bcd852f499e",
+    "owner": "packages/core/src/source-admission.ts",
+    "oldOwner": "packages/core/src/processing.ts",
+    "reexportOrAlias": false
+  },
+  "runtime": [
+    {
+      "path": "packages/core/dist/processing.js",
+      "bytes": 11432,
+      "sha256": "840e2dc0be27a3e18f0a198c2ff53098fd9ea77267a41bac5b27b6190248f3c4",
+      "afterSha256": "840e2dc0be27a3e18f0a198c2ff53098fd9ea77267a41bac5b27b6190248f3c4",
+      "equalBytes": true
+    },
+    {
+      "path": "packages/core/dist/source-admission.js",
+      "bytes": 4048,
+      "sha256": "813ce5fd515f75c26781d4794db31d08bfff208beb23dc9c74dfb05cf88e7a6d",
+      "afterSha256": "813ce5fd515f75c26781d4794db31d08bfff208beb23dc9c74dfb05cf88e7a6d",
+      "equalBytes": true
+    },
+    {
+      "path": "packages/core/dist/acquisitions.js",
+      "bytes": 48379,
+      "sha256": "a769e6fb81bf45929e93570f9eb4f753b06db4761e066d2b7365346fb8663b20",
+      "afterSha256": "a769e6fb81bf45929e93570f9eb4f753b06db4761e066d2b7365346fb8663b20",
+      "equalBytes": true
+    },
+    {
+      "path": "apps/service/dist/package-source.js",
+      "bytes": 4498,
+      "sha256": "9e8370a17e2137ac3b46822b80bd61c47e47b5724386dbc51d99cce48351d339",
+      "afterSha256": "9e8370a17e2137ac3b46822b80bd61c47e47b5724386dbc51d99cce48351d339",
+      "equalBytes": true
+    },
+    {
+      "path": "apps/service/dist/source-export.js",
+      "bytes": 5117,
+      "sha256": "8da1005559b5c5b816555f4359a050af8a40fb857173e045bfcf96c2e80d8f21",
+      "afterSha256": "8da1005559b5c5b816555f4359a050af8a40fb857173e045bfcf96c2e80d8f21",
+      "equalBytes": true
+    }
+  ],
+  "checks": {
+    "core-build": {
+      "pid": 42888,
+      "end": 1790988300.190805,
+      "exit": 0,
+      "waited": true,
+      "deadlineExpired": false
+    },
+    "service-build": {
+      "pid": 43098,
+      "end": 1790988304.80231,
+      "exit": 0,
+      "waited": true,
+      "deadlineExpired": false
+    },
+    "core-types": {
+      "pid": 43243,
+      "end": 1790988332.558644,
+      "exit": 0,
+      "waited": true,
+      "deadlineExpired": false
+    },
+    "service-types": {
+      "pid": 43240,
+      "end": 1790988324.680216,
+      "exit": 0,
+      "waited": true,
+      "deadlineExpired": false
+    },
+    "lint": {
+      "pid": 43242,
+      "end": 1790988322.1788979,
+      "exit": 0,
+      "waited": true,
+      "deadlineExpired": false
+    },
+    "format": {
+      "pid": 43241,
+      "end": 1790988322.119849,
+      "exit": 0,
+      "waited": true,
+      "deadlineExpired": false
+    }
+  },
+  "diffCheck": "exit0",
+  "review": "shape/code/docs clean; no runtime/export/path/schema mechanism changed",
+  "scope": {
+    "actualTSPaths": 7,
+    "originalPromptCount": 8,
+    "countRationale": "repo-wide actual definition/direct consumption scope7, including old/new owner; no arbitrary8th edit added"
+  },
+  "limitations": [
+    "type-only build/emission parity, no behavioral test/native/media/model/capture/full suite",
+    "only5 emitted runtime counterparts affected by production type/import changes;2 test paths separately typechecked",
+    "no new package export/path/dependency; existing source-admission path owns this native source contract",
+    "obsolete SourceProcessing/class family remains for separately mapped purge",
+    "known unsupported Codex CLI review already banked by root; no retry/model override; self/root review instead"
+  ],
+  "commit": "d31d12d7334644c8538b4e7abfa88f2b33fc5b48",
+  "rootReview": "clean exact declaration/imports/runtime proof",
+  "bank": {
+    "archive": "source-export-evidence.tar.gz",
+    "sha256": "ca97ec2eea50e8d9d285c67c916442a725d51a321658cc757c44a0224dce98ed",
+    "bytes": 266345,
+    "payloads": [
+      {
+        "path": "after-runtime/apps/service/dist/package-source.js",
+        "bytes": 4498,
+        "sha256": "9e8370a17e2137ac3b46822b80bd61c47e47b5724386dbc51d99cce48351d339"
+      },
+      {
+        "path": "after-runtime/apps/service/dist/source-export.js",
+        "bytes": 5117,
+        "sha256": "8da1005559b5c5b816555f4359a050af8a40fb857173e045bfcf96c2e80d8f21"
+      },
+      {
+        "path": "after-runtime/packages/core/dist/acquisitions.js",
+        "bytes": 48379,
+        "sha256": "a769e6fb81bf45929e93570f9eb4f753b06db4761e066d2b7365346fb8663b20"
+      },
+      {
+        "path": "after-runtime/packages/core/dist/processing.js",
+        "bytes": 11432,
+        "sha256": "840e2dc0be27a3e18f0a198c2ff53098fd9ea77267a41bac5b27b6190248f3c4"
+      },
+      {
+        "path": "after-runtime/packages/core/dist/source-admission.js",
+        "bytes": 4048,
+        "sha256": "813ce5fd515f75c26781d4794db31d08bfff208beb23dc9c74dfb05cf88e7a6d"
+      },
+      {
+        "path": "after-sources/apps/service/src/package-source.ts",
+        "bytes": 4906,
+        "sha256": "d9b981dc2600df890cb8c4e492eac528d37a16fe223dca243bff17b81c9435cf"
+      },
+      {
+        "path": "after-sources/apps/service/src/source-export.ts",
+        "bytes": 5237,
+        "sha256": "12657d9e1c3dc819191cd2024d3de24a24facc4c848d9d0b88e17b317a4f30ab"
+      },
+      {
+        "path": "after-sources/packages/core/src/acquisitions.test.ts",
+        "bytes": 28320,
+        "sha256": "b4c003afe73e3b6112b8d4d01db8c3c00e4b170ec2ddd68a8ccb5004483426bf"
+      },
+      {
+        "path": "after-sources/packages/core/src/acquisitions.ts",
+        "bytes": 51055,
+        "sha256": "0a9bd61e64df9d9d6858f3f6f8d86dc2dafa3deaf05b740b8b91e2f114c4c0b7"
+      },
+      {
+        "path": "after-sources/packages/core/src/capture-acquisition.test.ts",
+        "bytes": 22841,
+        "sha256": "d3ed24890b15443501f295a03a7d96bb65475bba6eab5abb3a3d9e754dedd99b"
+      },
+      {
+        "path": "after-sources/packages/core/src/processing.ts",
+        "bytes": 11007,
+        "sha256": "5b2a4f726c991f5856845f666cbe70dc8866d36a305ba5dcb86a888db694c5e4"
+      },
+      {
+        "path": "after-sources/packages/core/src/source-admission.ts",
+        "bytes": 5156,
+        "sha256": "cea07673b24a1ef9b372588e8db12215a0352ac4c59e13decfb0545a9ad45f6e"
+      },
+      {
+        "path": "before-runtime/apps/service/dist/package-source.js",
+        "bytes": 4498,
+        "sha256": "9e8370a17e2137ac3b46822b80bd61c47e47b5724386dbc51d99cce48351d339"
+      },
+      {
+        "path": "before-runtime/apps/service/dist/source-export.js",
+        "bytes": 5117,
+        "sha256": "8da1005559b5c5b816555f4359a050af8a40fb857173e045bfcf96c2e80d8f21"
+      },
+      {
+        "path": "before-runtime/packages/core/dist/acquisitions.js",
+        "bytes": 48379,
+        "sha256": "a769e6fb81bf45929e93570f9eb4f753b06db4761e066d2b7365346fb8663b20"
+      },
+      {
+        "path": "before-runtime/packages/core/dist/processing.js",
+        "bytes": 11432,
+        "sha256": "840e2dc0be27a3e18f0a198c2ff53098fd9ea77267a41bac5b27b6190248f3c4"
+      },
+      {
+        "path": "before-runtime/packages/core/dist/source-admission.js",
+        "bytes": 4048,
+        "sha256": "813ce5fd515f75c26781d4794db31d08bfff208beb23dc9c74dfb05cf88e7a6d"
+      },
+      {
+        "path": "before-sources/apps/service/src/package-source.ts",
+        "bytes": 4949,
+        "sha256": "e755fffd3343895dc14eb7da55820953ebc7879c4bfdc1941730e292efa163a8"
+      },
+      {
+        "path": "before-sources/apps/service/src/source-export.ts",
+        "bytes": 5282,
+        "sha256": "7fe647799ea64a69fc15753c27c58f4c6ee670ed9720271bec833895e31aff60"
+      },
+      {
+        "path": "before-sources/packages/core/src/acquisitions.test.ts",
+        "bytes": 28314,
+        "sha256": "716034deb5c3df1bd53797d39471d24ed329fe49a14f4580cb0f7116c9c36b01"
+      },
+      {
+        "path": "before-sources/packages/core/src/acquisitions.ts",
+        "bytes": 51087,
+        "sha256": "92de9962e854246b269832dced0ed1305a2a45a60cbd98581f8d7113543580a6"
+      },
+      {
+        "path": "before-sources/packages/core/src/capture-acquisition.test.ts",
+        "bytes": 22835,
+        "sha256": "1f27951802488968c34a8b5152c7bbf168ef1477598a908c280f81e6dd3f08ab"
+      },
+      {
+        "path": "before-sources/packages/core/src/processing.ts",
+        "bytes": 11520,
+        "sha256": "c6a247438eda0ea6a6236dde0a57f91f78f138b41e3b9064f2c75a1b0889809c"
+      },
+      {
+        "path": "before-sources/packages/core/src/source-admission.ts",
+        "bytes": 4688,
+        "sha256": "7d3d863e77a0ce3555e9ebef0e609f4c0fc0f5c58f3345913fb1287d28cfb17d"
+      },
+      {
+        "path": "before.json",
+        "bytes": 2358,
+        "sha256": "0787c3d6c85261f939f6c4713082b1e2d4d3895b9899cc23b3b75203a80c02f1"
+      },
+      {
+        "path": "choices.md",
+        "bytes": 1229,
+        "sha256": "17201aceb59aa8d18187fc918eb3b08d28b31533ae9d3c10292414646b7bcac6"
+      },
+      {
+        "path": "core-build/process.json",
+        "bytes": 1411,
+        "sha256": "a20296a3e01331629957f906e4a74fa9791415e46816aa5d3d5dc11d35f9be47"
+      },
+      {
+        "path": "core-build/sources/apps/service/src/package-source.ts",
+        "bytes": 4906,
+        "sha256": "d9b981dc2600df890cb8c4e492eac528d37a16fe223dca243bff17b81c9435cf"
+      },
+      {
+        "path": "core-build/sources/apps/service/src/source-export.ts",
+        "bytes": 5237,
+        "sha256": "12657d9e1c3dc819191cd2024d3de24a24facc4c848d9d0b88e17b317a4f30ab"
+      },
+      {
+        "path": "core-build/sources/packages/core/src/acquisitions.test.ts",
+        "bytes": 28320,
+        "sha256": "b4c003afe73e3b6112b8d4d01db8c3c00e4b170ec2ddd68a8ccb5004483426bf"
+      },
+      {
+        "path": "core-build/sources/packages/core/src/acquisitions.ts",
+        "bytes": 51055,
+        "sha256": "0a9bd61e64df9d9d6858f3f6f8d86dc2dafa3deaf05b740b8b91e2f114c4c0b7"
+      },
+      {
+        "path": "core-build/sources/packages/core/src/capture-acquisition.test.ts",
+        "bytes": 22841,
+        "sha256": "d3ed24890b15443501f295a03a7d96bb65475bba6eab5abb3a3d9e754dedd99b"
+      },
+      {
+        "path": "core-build/sources/packages/core/src/processing.ts",
+        "bytes": 11007,
+        "sha256": "5b2a4f726c991f5856845f666cbe70dc8866d36a305ba5dcb86a888db694c5e4"
+      },
+      {
+        "path": "core-build/sources/packages/core/src/source-admission.ts",
+        "bytes": 5156,
+        "sha256": "cea07673b24a1ef9b372588e8db12215a0352ac4c59e13decfb0545a9ad45f6e"
+      },
+      {
+        "path": "core-build/stderr",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "core-build/stdout",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "core-build/terminal.json",
+        "bytes": 105,
+        "sha256": "2ac1f9079116f7ded4c796c462bfc907c4672164098613e6edb365a32cc9e011"
+      },
+      {
+        "path": "core-types/process.json",
+        "bytes": 1417,
+        "sha256": "63dfae690fdf148ef8affb25bf1764ae92493d521021c741ea406bf38ca73e81"
+      },
+      {
+        "path": "core-types/sources/apps/service/src/package-source.ts",
+        "bytes": 4906,
+        "sha256": "d9b981dc2600df890cb8c4e492eac528d37a16fe223dca243bff17b81c9435cf"
+      },
+      {
+        "path": "core-types/sources/apps/service/src/source-export.ts",
+        "bytes": 5237,
+        "sha256": "12657d9e1c3dc819191cd2024d3de24a24facc4c848d9d0b88e17b317a4f30ab"
+      },
+      {
+        "path": "core-types/sources/packages/core/src/acquisitions.test.ts",
+        "bytes": 28320,
+        "sha256": "b4c003afe73e3b6112b8d4d01db8c3c00e4b170ec2ddd68a8ccb5004483426bf"
+      },
+      {
+        "path": "core-types/sources/packages/core/src/acquisitions.ts",
+        "bytes": 51055,
+        "sha256": "0a9bd61e64df9d9d6858f3f6f8d86dc2dafa3deaf05b740b8b91e2f114c4c0b7"
+      },
+      {
+        "path": "core-types/sources/packages/core/src/capture-acquisition.test.ts",
+        "bytes": 22841,
+        "sha256": "d3ed24890b15443501f295a03a7d96bb65475bba6eab5abb3a3d9e754dedd99b"
+      },
+      {
+        "path": "core-types/sources/packages/core/src/processing.ts",
+        "bytes": 11007,
+        "sha256": "5b2a4f726c991f5856845f666cbe70dc8866d36a305ba5dcb86a888db694c5e4"
+      },
+      {
+        "path": "core-types/sources/packages/core/src/source-admission.ts",
+        "bytes": 5156,
+        "sha256": "cea07673b24a1ef9b372588e8db12215a0352ac4c59e13decfb0545a9ad45f6e"
+      },
+      {
+        "path": "core-types/stderr",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "core-types/stdout",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "core-types/terminal.json",
+        "bytes": 105,
+        "sha256": "b95b4d5bb55dbac5f5103187c82338727bee29cc9c4afca852d4f2121c91a7cd"
+      },
+      {
+        "path": "format/process.json",
+        "bytes": 1691,
+        "sha256": "64a212e51e6146d60a263df36b4052f42e595f4be2dbc88e56ca68a8b2d239bc"
+      },
+      {
+        "path": "format/sources/apps/service/src/package-source.ts",
+        "bytes": 4906,
+        "sha256": "d9b981dc2600df890cb8c4e492eac528d37a16fe223dca243bff17b81c9435cf"
+      },
+      {
+        "path": "format/sources/apps/service/src/source-export.ts",
+        "bytes": 5237,
+        "sha256": "12657d9e1c3dc819191cd2024d3de24a24facc4c848d9d0b88e17b317a4f30ab"
+      },
+      {
+        "path": "format/sources/packages/core/src/acquisitions.test.ts",
+        "bytes": 28320,
+        "sha256": "b4c003afe73e3b6112b8d4d01db8c3c00e4b170ec2ddd68a8ccb5004483426bf"
+      },
+      {
+        "path": "format/sources/packages/core/src/acquisitions.ts",
+        "bytes": 51055,
+        "sha256": "0a9bd61e64df9d9d6858f3f6f8d86dc2dafa3deaf05b740b8b91e2f114c4c0b7"
+      },
+      {
+        "path": "format/sources/packages/core/src/capture-acquisition.test.ts",
+        "bytes": 22841,
+        "sha256": "d3ed24890b15443501f295a03a7d96bb65475bba6eab5abb3a3d9e754dedd99b"
+      },
+      {
+        "path": "format/sources/packages/core/src/processing.ts",
+        "bytes": 11007,
+        "sha256": "5b2a4f726c991f5856845f666cbe70dc8866d36a305ba5dcb86a888db694c5e4"
+      },
+      {
+        "path": "format/sources/packages/core/src/source-admission.ts",
+        "bytes": 5156,
+        "sha256": "cea07673b24a1ef9b372588e8db12215a0352ac4c59e13decfb0545a9ad45f6e"
+      },
+      {
+        "path": "format/stderr",
+        "bytes": 91,
+        "sha256": "01f25de219844d53f81b996d6b73e782203533bfc6eba81e44b98acc0039ad42"
+      },
+      {
+        "path": "format/stdout",
+        "bytes": 112,
+        "sha256": "a5a41d8da1457de10c4693cb2fd0f7b74692a9634e49ef240812d8ffca1f4aae"
+      },
+      {
+        "path": "format/terminal.json",
+        "bytes": 105,
+        "sha256": "7b623251316654d1cae83ed910e780294686c930284e03e3beaac72d4b324eb6"
+      },
+      {
+        "path": "lint/process.json",
+        "bytes": 1676,
+        "sha256": "6e553c3cd0cffe6e75534e1087938d60a5aa9262f1588fd7ae1a7d60a5598d54"
+      },
+      {
+        "path": "lint/sources/apps/service/src/package-source.ts",
+        "bytes": 4906,
+        "sha256": "d9b981dc2600df890cb8c4e492eac528d37a16fe223dca243bff17b81c9435cf"
+      },
+      {
+        "path": "lint/sources/apps/service/src/source-export.ts",
+        "bytes": 5237,
+        "sha256": "12657d9e1c3dc819191cd2024d3de24a24facc4c848d9d0b88e17b317a4f30ab"
+      },
+      {
+        "path": "lint/sources/packages/core/src/acquisitions.test.ts",
+        "bytes": 28320,
+        "sha256": "b4c003afe73e3b6112b8d4d01db8c3c00e4b170ec2ddd68a8ccb5004483426bf"
+      },
+      {
+        "path": "lint/sources/packages/core/src/acquisitions.ts",
+        "bytes": 51055,
+        "sha256": "0a9bd61e64df9d9d6858f3f6f8d86dc2dafa3deaf05b740b8b91e2f114c4c0b7"
+      },
+      {
+        "path": "lint/sources/packages/core/src/capture-acquisition.test.ts",
+        "bytes": 22841,
+        "sha256": "d3ed24890b15443501f295a03a7d96bb65475bba6eab5abb3a3d9e754dedd99b"
+      },
+      {
+        "path": "lint/sources/packages/core/src/processing.ts",
+        "bytes": 11007,
+        "sha256": "5b2a4f726c991f5856845f666cbe70dc8866d36a305ba5dcb86a888db694c5e4"
+      },
+      {
+        "path": "lint/sources/packages/core/src/source-admission.ts",
+        "bytes": 5156,
+        "sha256": "cea07673b24a1ef9b372588e8db12215a0352ac4c59e13decfb0545a9ad45f6e"
+      },
+      {
+        "path": "lint/stderr",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "lint/stdout",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "lint/terminal.json",
+        "bytes": 106,
+        "sha256": "636d403413b27e5f4005a146ee8e6caa50dfa93eb0ac502ba43c70daa39767e6"
+      },
+      {
+        "path": "review.md",
+        "bytes": 991,
+        "sha256": "eefd5b2ab87559146e0f17bd256539afc99529abed95598334a91bf9af9988ff"
+      },
+      {
+        "path": "run.py",
+        "bytes": 1512,
+        "sha256": "e38fd322d7fe729cdda4f08cc752bf20545ffee49bf743752ed63478b587660a"
+      },
+      {
+        "path": "runtime-parity.json",
+        "bytes": 1358,
+        "sha256": "23d8bf93a41e0a0ae1959eb23978bce8f8107775930b49ab2b17a10e0137071e"
+      },
+      {
+        "path": "service-build/process.json",
+        "bytes": 1411,
+        "sha256": "5152b4445e31193b1c627a631babcfe340c9d004f78c0a842465c58859eaeabb"
+      },
+      {
+        "path": "service-build/sources/apps/service/src/package-source.ts",
+        "bytes": 4906,
+        "sha256": "d9b981dc2600df890cb8c4e492eac528d37a16fe223dca243bff17b81c9435cf"
+      },
+      {
+        "path": "service-build/sources/apps/service/src/source-export.ts",
+        "bytes": 5237,
+        "sha256": "12657d9e1c3dc819191cd2024d3de24a24facc4c848d9d0b88e17b317a4f30ab"
+      },
+      {
+        "path": "service-build/sources/packages/core/src/acquisitions.test.ts",
+        "bytes": 28320,
+        "sha256": "b4c003afe73e3b6112b8d4d01db8c3c00e4b170ec2ddd68a8ccb5004483426bf"
+      },
+      {
+        "path": "service-build/sources/packages/core/src/acquisitions.ts",
+        "bytes": 51055,
+        "sha256": "0a9bd61e64df9d9d6858f3f6f8d86dc2dafa3deaf05b740b8b91e2f114c4c0b7"
+      },
+      {
+        "path": "service-build/sources/packages/core/src/capture-acquisition.test.ts",
+        "bytes": 22841,
+        "sha256": "d3ed24890b15443501f295a03a7d96bb65475bba6eab5abb3a3d9e754dedd99b"
+      },
+      {
+        "path": "service-build/sources/packages/core/src/processing.ts",
+        "bytes": 11007,
+        "sha256": "5b2a4f726c991f5856845f666cbe70dc8866d36a305ba5dcb86a888db694c5e4"
+      },
+      {
+        "path": "service-build/sources/packages/core/src/source-admission.ts",
+        "bytes": 5156,
+        "sha256": "cea07673b24a1ef9b372588e8db12215a0352ac4c59e13decfb0545a9ad45f6e"
+      },
+      {
+        "path": "service-build/stderr",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "service-build/stdout",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "service-build/terminal.json",
+        "bytes": 104,
+        "sha256": "56076ed9f62c5bd915094b9b986e283079f9f698d210984a45722a00bb1fc29f"
+      },
+      {
+        "path": "service-types/process.json",
+        "bytes": 1416,
+        "sha256": "3fa2e1aa163b6081269510ce28802a808c4a62a3021f1a9f4d2457e139d128ad"
+      },
+      {
+        "path": "service-types/sources/apps/service/src/package-source.ts",
+        "bytes": 4906,
+        "sha256": "d9b981dc2600df890cb8c4e492eac528d37a16fe223dca243bff17b81c9435cf"
+      },
+      {
+        "path": "service-types/sources/apps/service/src/source-export.ts",
+        "bytes": 5237,
+        "sha256": "12657d9e1c3dc819191cd2024d3de24a24facc4c848d9d0b88e17b317a4f30ab"
+      },
+      {
+        "path": "service-types/sources/packages/core/src/acquisitions.test.ts",
+        "bytes": 28320,
+        "sha256": "b4c003afe73e3b6112b8d4d01db8c3c00e4b170ec2ddd68a8ccb5004483426bf"
+      },
+      {
+        "path": "service-types/sources/packages/core/src/acquisitions.ts",
+        "bytes": 51055,
+        "sha256": "0a9bd61e64df9d9d6858f3f6f8d86dc2dafa3deaf05b740b8b91e2f114c4c0b7"
+      },
+      {
+        "path": "service-types/sources/packages/core/src/capture-acquisition.test.ts",
+        "bytes": 22841,
+        "sha256": "d3ed24890b15443501f295a03a7d96bb65475bba6eab5abb3a3d9e754dedd99b"
+      },
+      {
+        "path": "service-types/sources/packages/core/src/processing.ts",
+        "bytes": 11007,
+        "sha256": "5b2a4f726c991f5856845f666cbe70dc8866d36a305ba5dcb86a888db694c5e4"
+      },
+      {
+        "path": "service-types/sources/packages/core/src/source-admission.ts",
+        "bytes": 5156,
+        "sha256": "cea07673b24a1ef9b372588e8db12215a0352ac4c59e13decfb0545a9ad45f6e"
+      },
+      {
+        "path": "service-types/stderr",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "service-types/stdout",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "service-types/terminal.json",
+        "bytes": 105,
+        "sha256": "5d0b3b87c026ac7621faef64886bf45e8f7c4dcd3ff72805a365f1a9066b62b3"
+      },
+      {
+        "path": "verification.json",
+        "bytes": 4890,
+        "sha256": "09ad9a9085cd2311a8135a209f5f81ad59cf498b87451e248eeeaee0e98eeebf"
+      }
+    ],
+    "rootVerification": "Every archived payload hash and size rechecked after restart; sources checked against named committed tree; no runtime rerun."
+  },
+  "integratedCommit": "d31d12d7334644c8538b4e7abfa88f2b33fc5b48"
+}

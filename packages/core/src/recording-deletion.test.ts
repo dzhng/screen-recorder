@@ -3,12 +3,12 @@ import { mkdtempSync, writeFileSync, existsSync, rmSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { basename, join } from "node:path";
 import { randomUUID } from "node:crypto";
-import { RevisionStore } from "./library.js";
+import { CaptureStore } from "./capture-store.js";
 import { DerivedCache, recordingCacheOwnerCheck, type RemoveCacheFiles } from "./cache.js";
 
 test("deletion intent fences derivative access before selective cleanup", async () => {
   const home = mkdtempSync(join(tmpdir(), "recording-deletion-"));
-  const store = new RevisionStore(join(home, "library.sqlite"), {
+  const store = new CaptureStore(join(home, "library.sqlite"), {
     now: () => "",
     newId: randomUUID,
   });

@@ -25,7 +25,7 @@ import { ProjectStore } from "./projects.js";
 import type { Job, JobAdmission, JobExecution, JobQueue } from "./jobs.js";
 import type { DerivedCache } from "./cache.js";
 import { submitCachedDerivative } from "./cached-derivative.js";
-import { checkRenderedPreview, type RenderedMovie } from "./preview.js";
+import { checkRenderedMovie, type RenderedMovie } from "./rendered-movie.js";
 
 export type ProjectPreviewInput = {
   /** Internal immutable preparation binding; never a public selector. */
@@ -38,7 +38,7 @@ export type ProjectPreviewInput = {
   implementationId?: string | undefined;
   retimeImplementationId?: string | undefined;
 };
-export type CompositionMovie = Omit<RenderedMovie, "audio"> & {
+export type CompositionMovie = RenderedMovie & {
   settings: OutputSettings;
   encodedVideo: { profile: OutputSettings["video"]["profile"]; level: string };
   audio?: { frames: number; sampleRate: number; channels: number };
@@ -290,7 +290,7 @@ export class ProjectPreviewInspection {
         )
       )
         throw new CatalogError("INVALID_RESPONSE", "Renderer changed the pinned output settings");
-      checkRenderedPreview(movie, {
+      checkRenderedMovie(movie, {
         file: output.path,
         durationUs: options.data.range.endUs - options.data.range.startUs,
         maxLongEdge: null,

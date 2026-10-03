@@ -9,11 +9,10 @@ import { RevisionStore } from "./library.js";
 import { SceneEvidenceStore } from "./scene-evidence.js";
 import { SourceSceneAnalysis, scenePolicy } from "./scenes.js";
 import { FileSceneEvidence, writeSceneEvidencePages } from "./scene-pages.js";
-import { ScreenshotIndexStore, recordingIndexDomain } from "./screenshot-index.js";
+import { selectionPolicy, ScreenshotIndexStore, recordingIndexDomain } from "./screenshot-index.js";
 import { FileScreenshotIndex, writeScreenshotIndexPages } from "./index-pages.js";
 import { framePolicy } from "./frame-materialization.js";
 import { trailPolicy } from "./trails.js";
-import { selectionPolicy } from "./selection.js";
 const roots: string[] = [],
   stores = new Set<RevisionStore>();
 afterEach(() => {

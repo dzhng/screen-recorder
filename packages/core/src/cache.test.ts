@@ -16,7 +16,7 @@ import {
 } from "node:fs";
 import { tmpdir } from "node:os";
 import { basename, join } from "node:path";
-import { RevisionStore } from "./library.js";
+import { CaptureStore } from "./capture-store.js";
 import { DerivedCache, recordingCacheOwnerCheck, type RemoveCacheFiles } from "./cache.js";
 const cleanups: (() => void)[] = [];
 afterEach(() =>
@@ -27,7 +27,7 @@ afterEach(() =>
 );
 async function fixture(budget: number | null = 8) {
   const home = mkdtempSync(join(tmpdir(), "derived-cache-"));
-  const store = new RevisionStore(join(home, "library.sqlite"), {
+  const store = new CaptureStore(join(home, "library.sqlite"), {
     now: () => "",
     newId: (() => {
       let id = 0;
@@ -208,7 +208,7 @@ test("eviction progresses past a batch of readers to a later disposable file", a
 test("reopening the catalog retains cache content and LRU, removing only owned orphan names", async () => {
   const home = mkdtempSync(join(tmpdir(), "derived-reopen-"));
   const connect = () =>
-    new RevisionStore(join(home, "library.sqlite"), {
+    new CaptureStore(join(home, "library.sqlite"), {
       now: () => "",
       newId: (() => {
         let id = 0;

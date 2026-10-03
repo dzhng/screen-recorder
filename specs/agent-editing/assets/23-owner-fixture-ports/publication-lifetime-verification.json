@@ -1,0 +1,305 @@
+{
+  "base": "c920fe958afd1d2bb59fea8d5063d3315fd02183",
+  "commit": "29d4f90749e36d8e0fa1748b3c27b9ab7f460448",
+  "combined": {
+    "tests": 32,
+    "pass": 32,
+    "exitCode": 0,
+    "durationMs": 2925.655875,
+    "log": "owner-suites.log"
+  },
+  "proof": [
+    {
+      "oldVideoExportLine": 1693,
+      "currentTest": "committed history survives",
+      "deliberateDefect": "receipt nulled in retry",
+      "redOracle": "receipt differs",
+      "evidence": "tool transcript",
+      "restoredGreen": true
+    },
+    {
+      "oldVideoExportLine": 1941,
+      "currentTest": "one unsafe export staging entry",
+      "deliberateDefect": "retireOwner throws first failure immediately",
+      "redOracle": "second intent remains",
+      "evidence": "tool transcript",
+      "restoredGreen": true
+    },
+    {
+      "oldVideoExportLine": 1979,
+      "currentTest": "an unreadable unrelated destination",
+      "deliberateDefect": "retirement reconciles external file",
+      "redOracle": "permission-denied DELETE_FAILED",
+      "evidence": "tool transcript",
+      "restoredGreen": true
+    },
+    {
+      "oldVideoExportLine": 1742,
+      "currentTest": "lost retirement acknowledgement",
+      "deliberateDefect": "absent staging opened during retirement",
+      "redOracle": "ENOENT DELETE_FAILED",
+      "evidence": "lost-retirement",
+      "restoredGreen": true
+    },
+    {
+      "oldVideoExportLine": 1318,
+      "currentTest": "canceled intents keep exact-retry pins",
+      "deliberateDefect": "allowance increased32to33",
+      "redOracle": "missing LIMIT_EXCEEDED",
+      "evidence": "bounded-canceled",
+      "restoredGreen": true
+    },
+    {
+      "oldVideoExportLine": 1885,
+      "currentTest": "managed source directories cannot",
+      "deliberateDefect": "native external-directory check bypassed",
+      "redOracle": "missing INVALID_STORAGE",
+      "evidence": "managed-directory",
+      "restoredGreen": true
+    },
+    {
+      "oldVideoExportLine": 2217,
+      "currentTest": "export kind is persisted",
+      "deliberateDefect": "kind fixed to video in request identity",
+      "redOracle": "missing REQUEST_CONFLICT",
+      "evidence": "kind-replay",
+      "restoredGreen": true
+    },
+    {
+      "oldVideoExportLine": 3298,
+      "currentTest": "shutdown fences and drains",
+      "deliberateDefect": "close skips creating calls",
+      "redOracle": "closed prematurely",
+      "evidence": "admission-close",
+      "restoredGreen": true
+    },
+    {
+      "oldVideoExportLine": 2145,
+      "currentTest": "abandonment drains in-flight",
+      "deliberateDefect": "remove skips creating calls",
+      "redOracle": "removed prematurely",
+      "evidence": "admission-abandon",
+      "restoredGreen": true
+    },
+    {
+      "oldVideoExportLine": 1278,
+      "currentTest": "polling and export retry leave",
+      "deliberateDefect": "replay retries preview automatically",
+      "redOracle": "failed attempt identity changed",
+      "evidence": "failed-replay",
+      "restoredGreen": true
+    },
+    {
+      "oldVideoExportLine": 1536,
+      "currentTest": "project export pins an omitted revision",
+      "deliberateDefect": "status receipt hash zeroed",
+      "redOracle": "independent hash differs",
+      "evidence": "receipt-hash",
+      "restoredGreen": true
+    }
+  ],
+  "sources": [
+    {
+      "path": "apps/service/tests/project-export.mjs",
+      "sha256": "0bb0f25d452fdc696e2180234df63570d78fb43b419497f4258d0c09b18958ca",
+      "gitBlob": "af27f734115308979696b99744203d908af63cc1"
+    },
+    {
+      "path": "apps/service/tests/project-export-lifetime.mjs",
+      "sha256": "37bcde1be33a7d0c47f39e3e0a41173920d0f3f663c667fefffc869b3b110fa4",
+      "gitBlob": "e260ff5de5e27f4026b0c121219a404eca618cda"
+    }
+  ],
+  "checks": [
+    "targeted lint clean",
+    "targeted formatter clean",
+    "git diff --check clean"
+  ],
+  "scope": "Nine new tests; two existing tests strengthened. Production source unchanged. No oldtest/leaf deletion.",
+  "limits": [
+    "First3 individualproofs transcribed from tooloutputs, not retained stdout; subsequent proof logs contemporaneous.",
+    "Initial temporaryhelper missing caused zero selected test proof; excluded.",
+    "No complete suite, media render, native rebuild, model, capture, or installed-state mutation."
+  ],
+  "remaining": [
+    "V1005,1061,1212 resource-reference lifecycle assertions move with currentProjectPackages pin tests",
+    "V1424 old recording-generation retention retired; corresponding currentresource pin preservation remains",
+    "V1501 waiting pin+V1817combined canceled evicted edited revision+V1372exportattempt change still need accounting",
+    "V3361bundledstartup cache ordering remains",
+    "Package workspace+resource pins+copy receipt mutation remain per exhaustive map"
+  ],
+  "review": "Root2filedelta clean, exactoldrows compared;32green reused, no rerun.",
+  "native": {
+    "path": "/Users/david/dev/screen-recorder/helpers/mac/.build/debug/screenrec-native",
+    "sha256": "8a0c7732f3c1f99e074048f2ac3b8b29beb613462fb5ce769a134b1cbfdea186",
+    "timing": "retrospective metadata, immutable readonly reuse confirmed byroot"
+  },
+  "rootIntegration": {
+    "commit": "3d1f5d8c",
+    "review": "clean",
+    "bothSourcesMatchGitBlobs": true,
+    "checksReused": "32-case final terminal run; no production change"
+  },
+  "archive": {
+    "path": "publication-lifetime-evidence.tar.gz",
+    "bytes": 26465,
+    "sha256": "83a5c3ff229fe13ff645b8143ece7a3f3bfff1d505af2591adb8a7ddb7fde867",
+    "members": [
+      {
+        "path": "lifetime-next-c920fe95/admission-abandon-green1.log",
+        "bytes": 381,
+        "sha256": "d0ecf5fe149cbcbd1361efa38450b2f818132d7f7b11a54e22ab4d5f78475f93"
+      },
+      {
+        "path": "lifetime-next-c920fe95/admission-abandon-green2.log",
+        "bytes": 381,
+        "sha256": "c04b1a77e69c49aa4c5b2d19640f7948e49a3fee1078e705c665559f7908ad5c"
+      },
+      {
+        "path": "lifetime-next-c920fe95/admission-abandon-red.log",
+        "bytes": 1137,
+        "sha256": "471e22599db514aaa26a8d943fe52c63d290823a5160cd1ba150861b82b93c8b"
+      },
+      {
+        "path": "lifetime-next-c920fe95/admission-close-green1.log",
+        "bytes": 381,
+        "sha256": "36495a6a4704f1994f578de452c59f1a2aeab8ba44a4c53b75d873424a75a90b"
+      },
+      {
+        "path": "lifetime-next-c920fe95/admission-close-green2.log",
+        "bytes": 381,
+        "sha256": "476adbc97f2f3e2735ec2ec7bf08dfc75b8b69e532abbefaad57824ff12d3b49"
+      },
+      {
+        "path": "lifetime-next-c920fe95/admission-close-red.log",
+        "bytes": 1141,
+        "sha256": "a6196658458c8b0b30912e7e06d4dbe025d28fc243acd6efdef3ea6ce52d8e6c"
+      },
+      {
+        "path": "lifetime-next-c920fe95/bounded-canceled-green1.log",
+        "bytes": 383,
+        "sha256": "5bf483712fbdc2f4730725d74e7d089ce50955a40efd8ead7393111878eb8046"
+      },
+      {
+        "path": "lifetime-next-c920fe95/bounded-canceled-green2.log",
+        "bytes": 383,
+        "sha256": "83598871116db20890ab50f8b6312bf50e53b9f8d2e4d5d2c156f55aa334a7c9"
+      },
+      {
+        "path": "lifetime-next-c920fe95/bounded-canceled-red.log",
+        "bytes": 1106,
+        "sha256": "3bcba7267907cbd0e83c328d7fa67f252d2d5d45fb2c27d94f3b41ad6c221f76"
+      },
+      {
+        "path": "lifetime-next-c920fe95/dispositions.md",
+        "bytes": 2696,
+        "sha256": "dbc041ca60a5219df4ea48b2f761aa8db7ff3a0fd29040361049e7fdf66be4ec"
+      },
+      {
+        "path": "lifetime-next-c920fe95/failed-replay-green1.log",
+        "bytes": 378,
+        "sha256": "790c0ad2bbd5c04d5c459d740b103d7e8a184402cd93990457e8732ec4ff2b8b"
+      },
+      {
+        "path": "lifetime-next-c920fe95/failed-replay-green2.log",
+        "bytes": 378,
+        "sha256": "b8c8dcaa6df7dd6e9fb2a9f3d9103b9060f89c9817a28288cd2b8082c600f068"
+      },
+      {
+        "path": "lifetime-next-c920fe95/failed-replay-red.log",
+        "bytes": 1245,
+        "sha256": "7601ea70443768ac86f79fcf811c3300b8a10ae119424926bc1882e54474d41f"
+      },
+      {
+        "path": "lifetime-next-c920fe95/kind-replay-green1.log",
+        "bytes": 378,
+        "sha256": "c98bff6832204d907265d85f2d7a3902181eaf703002d55bfd91243e9ef99d01"
+      },
+      {
+        "path": "lifetime-next-c920fe95/kind-replay-green2.log",
+        "bytes": 378,
+        "sha256": "1337f6053feec62a1cbd73153dd2c6614c07c55135523ba90a2b57e62f797eef"
+      },
+      {
+        "path": "lifetime-next-c920fe95/kind-replay-red.log",
+        "bytes": 1088,
+        "sha256": "fc115ac50df104b8d90a7bde26d321cca0623d091f5889bce6e7c3ecd06eef2b"
+      },
+      {
+        "path": "lifetime-next-c920fe95/lost-retirement-green1.log",
+        "bytes": 401,
+        "sha256": "66e13b892196cbb033ec71b244bf789b7bd2ac95f4664de6d750d6c9345e336c"
+      },
+      {
+        "path": "lifetime-next-c920fe95/lost-retirement-green2.log",
+        "bytes": 399,
+        "sha256": "2091103a0e6b13ed84f1f08f28dda6604e47387aa0c094b9239a50760d59626a"
+      },
+      {
+        "path": "lifetime-next-c920fe95/lost-retirement-red.log",
+        "bytes": 1412,
+        "sha256": "daf54f155f02555a62de046f051e7b73ab82ce938b54b73388efaf1acb63b16a"
+      },
+      {
+        "path": "lifetime-next-c920fe95/managed-directory-green1.log",
+        "bytes": 379,
+        "sha256": "6c0e83c1921e500c502b1216b5b073b646faeed9684dbba450881838820bb93f"
+      },
+      {
+        "path": "lifetime-next-c920fe95/managed-directory-green2.log",
+        "bytes": 379,
+        "sha256": "89944f031f70316db44bff3d06aafb512e9f440164b364470562a5feb69f64ec"
+      },
+      {
+        "path": "lifetime-next-c920fe95/managed-directory-red.log",
+        "bytes": 1060,
+        "sha256": "47c2e7fbec22c76b6c6376c051c36a1e0f338ea26d9d55cb7df7286b209fbfe3"
+      },
+      {
+        "path": "lifetime-next-c920fe95/manifest.json",
+        "bytes": 4490,
+        "sha256": "d0811d85960dc840e69eff4366b64d148cef6bb1025f41a44887a7f430022449"
+      },
+      {
+        "path": "lifetime-next-c920fe95/owner-suites.log",
+        "bytes": 3657,
+        "sha256": "8d3056311048593103ea4418fa8700ecf5e58c78f90ea334de191754e078e4b3"
+      },
+      {
+        "path": "lifetime-next-c920fe95/prior-contract-map.md",
+        "bytes": 26336,
+        "sha256": "a47379c9f7520032c614fef8fb1ca69c33d3f792a63ed6ef5f43723c01976ad5"
+      },
+      {
+        "path": "lifetime-next-c920fe95/receipt-hash-green1.log",
+        "bytes": 411,
+        "sha256": "c6338a378724f5730c2dd85a36707ffa64c16e80aebc88178cb284d2c9295735"
+      },
+      {
+        "path": "lifetime-next-c920fe95/receipt-hash-green2.log",
+        "bytes": 411,
+        "sha256": "1fbaff269a12571028a932329e3924cc3f8d5d9b83a8a712a6545c672b74d02d"
+      },
+      {
+        "path": "lifetime-next-c920fe95/receipt-hash-red.log",
+        "bytes": 1418,
+        "sha256": "c930728397f79476d678fde05cb00b4a297fce2c2e9929b31c6fa77aab7007c4"
+      },
+      {
+        "path": "lifetime-next-c920fe95/report.json",
+        "bytes": 5152,
+        "sha256": "d9d52e3b386f201d0b176222fdd4968b3652de51e240cb5038beec74895f6b00"
+      },
+      {
+        "path": "lifetime-next-c920fe95/sources/apps/service/tests/project-export-lifetime.mjs",
+        "bytes": 18170,
+        "sha256": "37bcde1be33a7d0c47f39e3e0a41173920d0f3f663c667fefffc869b3b110fa4"
+      },
+      {
+        "path": "lifetime-next-c920fe95/sources/apps/service/tests/project-export.mjs",
+        "bytes": 26623,
+        "sha256": "0bb0f25d452fdc696e2180234df63570d78fb43b419497f4258d0c09b18958ca"
+      }
+    ]
+  }
+}

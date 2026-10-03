@@ -1,0 +1,312 @@
+{
+  "commit": "d2b6c76c89aebe79e9cecbdf3fc1bc53c4bce29c",
+  "parent": "1c9f46a69d8720ebc2a62fd68d3e4900f496332e",
+  "scope": "Four actual package scene/transcript/source-index/project-index generation pin lifetimes during queued admission, active exporter cleanup, cancellation, replacement, retry, release/reclaim and separate-library adoption.",
+  "files": {
+    "apps/service/tests/fixtures/project-export.mjs": "dc0047c56d49d472ae0d2b4238886e7e28ca8f75ef2d160cfebc0f0f4535a60d",
+    "apps/service/tests/project-package-export.mjs": "bfc550af93d2d58899690aa7fd8a6638fb12a82bd4bf61ab0f1a74999375ba5b"
+  },
+  "verification": {
+    "command": "SCREENREC_NATIVE=/Users/david/dev/screen-recorder/helpers/mac/.build/debug/screenrec-native node --test --test-timeout=20000 apps/service/tests/project-export.mjs apps/service/tests/project-export-lifetime.mjs apps/service/tests/project-export-recovery.mjs apps/service/tests/project-export-storage.mjs apps/service/tests/project-package-export.mjs",
+    "exitCode": 0,
+    "passed": 63,
+    "failed": 0,
+    "durationMs": 14923.841125,
+    "log": "owner-suites.log"
+  },
+  "mutations": [
+    {
+      "case": "scene",
+      "fault": "Release scene-generation references in MediaExports.cancel",
+      "green": "scene-green.log",
+      "red": "scene-red.log",
+      "restored": "scene-restored.log",
+      "redExit": 1,
+      "restoredExit": 0
+    },
+    {
+      "case": "transcript",
+      "fault": "Release transcript-generation references in MediaExports.cancel",
+      "green": "transcript-green.log",
+      "red": "transcript-red.log",
+      "restored": "transcript-restored.log",
+      "redExit": 1,
+      "restoredExit": 0
+    },
+    {
+      "case": "index",
+      "fault": "Release index-generation references in MediaExports.cancel",
+      "green": "index-green1.log",
+      "red": "index-red.log",
+      "restored": "index-restored.log",
+      "redExit": 1,
+      "restoredExit": 0
+    },
+    {
+      "case": "project-index",
+      "fault": "Release index-generation references in MediaExports.cancel",
+      "green": "project-index-green1.log",
+      "red": "project-index-red.log",
+      "restored": "project-index-restored.log",
+      "redExit": 1,
+      "restoredExit": 0
+    },
+    {
+      "case": "scene active exporter",
+      "fault": "Release scene-generation references at entry to MediaExports.execute before publication work",
+      "green": "scene-active-green.log",
+      "red": "scene-active-red.log",
+      "restored": "scene-active-restored.log",
+      "redExit": 1,
+      "restoredExit": 0
+    },
+    {
+      "case": "transcript active exporter",
+      "fault": "Release transcript-generation references at entry to MediaExports.execute before publication work",
+      "green": "transcript-active-green.log",
+      "red": "transcript-active-red.log",
+      "restored": "transcript-active-restored.log",
+      "redExit": 1,
+      "restoredExit": 0
+    },
+    {
+      "case": "index active exporter",
+      "fault": "Release index-generation references at entry to MediaExports.execute before publication work",
+      "green": "index-active-green1.log",
+      "red": "index-active-red.log",
+      "restored": "index-active-restored.log",
+      "redExit": 1,
+      "restoredExit": 0
+    },
+    {
+      "case": "project-index active exporter",
+      "fault": "Release index-generation references at entry to MediaExports.execute before publication work",
+      "green": "project-index-active-green.log",
+      "red": "project-index-active-red.log",
+      "restored": "project-index-active-restored.log",
+      "redExit": 1,
+      "restoredExit": 0
+    }
+  ],
+  "notes": [
+    "All faults applied only to isolated dist/exports.js and restored exactly. No production source changes or legacy deletions.",
+    "Real scene/transcript/index/frame processing, stores, queue, cache, export and package registry/adoption owners. External raster/frame/transcriber and fixed model readiness/pins inputs make retained generation evidence deterministic without downloads.",
+    "PNG payload is a fixed valid 1x1 fixture; no real source decoding, native frame/audio validity or screenshot appearance claim.",
+    "Same-library older scene adoption correctly conflicts with newer publication; final tests use separate recipient libraries. Initial scene-green1.log documents that experiment, not a pass.",
+    "Transcript wordRecords returns empty after reclaim; final absence proof uses retainedGeneration NOT_FOUND. transcript-green1.log documents the rejected assertion.",
+    "Fixture-red logs are wiring gaps; red mutation logs establish behavior sensitivity.",
+    "Source/project index paths share the identical lifecycle test with domain-specific actual owner/identity/read choices. Project adoption resolves the remapped project index generation.",
+    "Native surviving writer, unsafe workspace substitution, source copy mutation, real media frame/audio failure retry/drain and bundled startup remain outside this checkpoint.",
+    "Root review identified missing active-phase preservation in the initial four cases. Final cases use a real preview heavy-lane barrier, queue regeneration before package admission, assert queued old pins, release preview, and hold the actual package archive boundary while checking cleanup with the exporter running. Existing post-cancel replacement remains.",
+    "Distinct valid generated 1x1 black/white grayscale PNGs and explicit frame-cache eviction distinguish old packaged bytes from replacement index bytes. Separate recipient adoption verifies the original black PNG after donor reclaim.",
+    "scene-rejected-cleanup-fault.log is NOT falsification proof: ignoring scene references during regeneration removed evidence before archive entry and left the observer waiting. Stopped that run, restored production, removed verified fixture scratch home/output, then used the active-export-entry premature-release defect for all four actual red proofs.",
+    "owner-suites-before-active-review.log is superseded by final owner-suites.log (63/63, 14923.841125ms)."
+  ],
+  "gitBlobs": {
+    "apps/service/tests/fixtures/project-export.mjs": "f2aa5589cce2582534a4f9a546017982ed63af0f",
+    "apps/service/tests/project-package-export.mjs": "93b02beb344bdab22262c45a05d8b71197b71465"
+  },
+  "review": "Root final review clean after active-phase and distinct replacement PNG preservation repairs. Final 63/63 reused.",
+  "bank": {
+    "archive": "package-generations-evidence.tar.gz",
+    "bytes": 20829,
+    "sha256": "91ca40122cbcdd7266dd9d005a406f32d3abeed56700c6a4013f46a7b63e2a1e",
+    "payloads": [
+      {
+        "path": "project-package-generations-1c9f46a6/dispositions.md",
+        "bytes": 1737,
+        "sha256": "4ceb9845fbad50504bb24bfdde2ada74c5259a89e64ebc2037286b280d189c1f"
+      },
+      {
+        "path": "project-package-generations-1c9f46a6/index-active-green1.log",
+        "bytes": 384,
+        "sha256": "9caa9e0a98a0553dd64da20e605cf72812c9fb8a44a9ff66fb0a9170764359a2"
+      },
+      {
+        "path": "project-package-generations-1c9f46a6/index-active-red.log",
+        "bytes": 1543,
+        "sha256": "1ff66d61d0efb2000a398365766853de1df36b71b19e0af797502cfc27dd0721"
+      },
+      {
+        "path": "project-package-generations-1c9f46a6/index-active-restored.log",
+        "bytes": 385,
+        "sha256": "166f0fde926a62cd590d5aa9ad69b3e7efa8badc00d200e710dd8f5ee284b8f7"
+      },
+      {
+        "path": "project-package-generations-1c9f46a6/index-fixture-red.log",
+        "bytes": 950,
+        "sha256": "0428dc68ad5b772741b45b1ecd5b43d58f39046c06fe5efc59b393403d9ee66b"
+      },
+      {
+        "path": "project-package-generations-1c9f46a6/index-green1.log",
+        "bytes": 385,
+        "sha256": "9d2ad8aeba740ad8db3ca057dd8bcf454cdfd4a1c980ee2477421fe3c78057a3"
+      },
+      {
+        "path": "project-package-generations-1c9f46a6/index-red.log",
+        "bytes": 1467,
+        "sha256": "21abca0127546809f4c20ae062b0783af0a92f9bb8c80e22fde5efc54647d315"
+      },
+      {
+        "path": "project-package-generations-1c9f46a6/index-restored.log",
+        "bytes": 384,
+        "sha256": "be22ce102a1b3e882ecbfd92e8a2d0f20cc834738312a123e1d3eec85b5bff80"
+      },
+      {
+        "path": "project-package-generations-1c9f46a6/owner-suites-before-active-review.log",
+        "bytes": 9609,
+        "sha256": "ba42a15357a318bf9f9ed367d6c2b8f9cc4161a632b2bbc31a9b88db3cee64ca"
+      },
+      {
+        "path": "project-package-generations-1c9f46a6/owner-suites.log",
+        "bytes": 9595,
+        "sha256": "686022b25c152324b78dc5202899ea2158e091d2db474abb207d58ebccdd9c99"
+      },
+      {
+        "path": "project-package-generations-1c9f46a6/project-index-active-green.log",
+        "bytes": 386,
+        "sha256": "68e1e4a033460733cea178ba7d2491ca8e2f6237e9ecede0aa2e588c6d1cc688"
+      },
+      {
+        "path": "project-package-generations-1c9f46a6/project-index-active-red.log",
+        "bytes": 1493,
+        "sha256": "d61f4b5c5c4e300307280b41ce0da539c4d87ad501caaf83a833cdcacec5e9dd"
+      },
+      {
+        "path": "project-package-generations-1c9f46a6/project-index-active-restored.log",
+        "bytes": 386,
+        "sha256": "3673e4abc04bd606ec758e5165393a04ddcb9045be07944027e55c2c5fe09111"
+      },
+      {
+        "path": "project-package-generations-1c9f46a6/project-index-fixture-red.log",
+        "bytes": 1599,
+        "sha256": "ca823e589821883a46bfbea76c706e22c7efa93c8eb81fec5c18b144c5351e4f"
+      },
+      {
+        "path": "project-package-generations-1c9f46a6/project-index-green1.log",
+        "bytes": 387,
+        "sha256": "6da91a1d12db56b908e4685898c3bdfe135a6d42cbad03cbd8e7c482d5d51265"
+      },
+      {
+        "path": "project-package-generations-1c9f46a6/project-index-red.log",
+        "bytes": 1468,
+        "sha256": "316b5bd94706ad609498cc0ef22f72e94d45eb8c5387f8e02512fcc8b5806cd4"
+      },
+      {
+        "path": "project-package-generations-1c9f46a6/project-index-restored.log",
+        "bytes": 387,
+        "sha256": "675eaba3ddceb24da58f2d5b7fc3ec5b29303589094d7cb43a39fd079c70f344"
+      },
+      {
+        "path": "project-package-generations-1c9f46a6/report.json",
+        "bytes": 6412,
+        "sha256": "1bd68acb5f7a335db80cef9356f2fc2fa7a05bfeac856047a81a0806f4cdecef"
+      },
+      {
+        "path": "project-package-generations-1c9f46a6/scene-active-green.log",
+        "bytes": 383,
+        "sha256": "22e7b6f61fa37163c14175880bc9057ac68fd3984146c2e4c8a853d1b1149b3e"
+      },
+      {
+        "path": "project-package-generations-1c9f46a6/scene-active-red.log",
+        "bytes": 1541,
+        "sha256": "675a6c0abd3f13b436e0ce8033d78e67e22c41355d22739c39d33ee1317e8439"
+      },
+      {
+        "path": "project-package-generations-1c9f46a6/scene-active-restored.log",
+        "bytes": 383,
+        "sha256": "da79ba3753123f3956b1812a68a3713ae5674b12561511987751efc0b79d169c"
+      },
+      {
+        "path": "project-package-generations-1c9f46a6/scene-fixture-red.log",
+        "bytes": 948,
+        "sha256": "a69768fab9712c62660d120006e53b078d2d6be99166922ba66fa84aecba70a6"
+      },
+      {
+        "path": "project-package-generations-1c9f46a6/scene-green.log",
+        "bytes": 385,
+        "sha256": "8e341a796e26ae4b08c433c7fc6a6121c75338a9570b95b72870f7ff316dca05"
+      },
+      {
+        "path": "project-package-generations-1c9f46a6/scene-green1.log",
+        "bytes": 1497,
+        "sha256": "30fe42b44232b377c4d1b39da1d4e3ebef4dc599591ea8695009caf20c80e2d8"
+      },
+      {
+        "path": "project-package-generations-1c9f46a6/scene-green2.log",
+        "bytes": 384,
+        "sha256": "14228cfa61fa2f9e117ab29f4e5909eb283dbd6c9be265ec8c5609115868ca3e"
+      },
+      {
+        "path": "project-package-generations-1c9f46a6/scene-red.log",
+        "bytes": 1598,
+        "sha256": "0756605092c22d70bad80aa4bf4337afade7fc21c8283645282ced6b01100a7e"
+      },
+      {
+        "path": "project-package-generations-1c9f46a6/scene-rejected-cleanup-fault.log",
+        "bytes": 579,
+        "sha256": "97113eb42b856406f1a60f88c04394be17b3ac4526cc00f803627b44a0557567"
+      },
+      {
+        "path": "project-package-generations-1c9f46a6/scene-restored.log",
+        "bytes": 384,
+        "sha256": "034e74969d30c8631096e47c6efad0679669cca9ac7e13567d0ae2bbe940fafc"
+      },
+      {
+        "path": "project-package-generations-1c9f46a6/source/apps/service/tests/fixtures/project-export.mjs",
+        "bytes": 13535,
+        "sha256": "dc0047c56d49d472ae0d2b4238886e7e28ca8f75ef2d160cfebc0f0f4535a60d"
+      },
+      {
+        "path": "project-package-generations-1c9f46a6/source/apps/service/tests/project-package-export.mjs",
+        "bytes": 27227,
+        "sha256": "bfc550af93d2d58899690aa7fd8a6638fb12a82bd4bf61ab0f1a74999375ba5b"
+      },
+      {
+        "path": "project-package-generations-1c9f46a6/transcript-active-green.log",
+        "bytes": 383,
+        "sha256": "67a66afb99eb12bf080dec3e78356e581dbe554a155828d03b8fd74895ceea7f"
+      },
+      {
+        "path": "project-package-generations-1c9f46a6/transcript-active-red.log",
+        "bytes": 1551,
+        "sha256": "2a47733a85ca8ec510d0e4cef3a25e959cae9247910dbb507295ef8af78114c9"
+      },
+      {
+        "path": "project-package-generations-1c9f46a6/transcript-active-restored.log",
+        "bytes": 382,
+        "sha256": "9137eac2f68482ab136a183e1ddea6e387be907cd172b6cb604df5ff842efd8a"
+      },
+      {
+        "path": "project-package-generations-1c9f46a6/transcript-fixture-red.log",
+        "bytes": 944,
+        "sha256": "e2e33c8fe480de00f75924b643a29a0a1fce9f1326e2ecd6a0ea322a4e9e537e"
+      },
+      {
+        "path": "project-package-generations-1c9f46a6/transcript-green.log",
+        "bytes": 382,
+        "sha256": "ae7960f3bed0f15acfa26f33b947e414b51acaa8016508305e7456107cec7201"
+      },
+      {
+        "path": "project-package-generations-1c9f46a6/transcript-green1.log",
+        "bytes": 1090,
+        "sha256": "ca7a18bd6b629e9cfef4a3e0b80b3e89ab8e17c07e3d073f5ad435ec9a9cd0ea"
+      },
+      {
+        "path": "project-package-generations-1c9f46a6/transcript-red.log",
+        "bytes": 1467,
+        "sha256": "3d21c3a5260fe48e54bddc019d2600584789848f659a8103961b5bd8be117bef"
+      },
+      {
+        "path": "project-package-generations-1c9f46a6/transcript-restored.log",
+        "bytes": 385,
+        "sha256": "9b7a4a4c288f61ce7c7a5bd37ac4b5422f563290b914cfd04c4c04be912d6bab"
+      }
+    ],
+    "rootVerification": "Archive checksum, member bytes and both source pins independently rechecked; final existing terminal run reused."
+  },
+  "integratedCommit": "3b174eb8",
+  "rootClarifications": [
+    "The accepted premature-release controls touched only isolated dist/exports.js. The excluded early-cleanup experiment touched core/dist/scene-evidence.js; both were restored. Frozen original report and logs remain unchanged in the archive."
+  ]
+}

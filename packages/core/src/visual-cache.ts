@@ -1,5 +1,5 @@
 import { writeFile } from "node:fs/promises";
-import type { RevisionStore } from "./library.js";
+import type { CaptureStore } from "./capture-store.js";
 import { CatalogError } from "./catalog.js";
 import type { DerivedCache } from "./cache.js";
 import {
@@ -37,7 +37,7 @@ function combine(
 /** Reuses bounded native observations; retained scene conclusions belong to scene evidence. */
 export class VisualObservationCache {
   constructor(
-    private readonly store: RevisionStore,
+    private readonly store: CaptureStore,
     private readonly cache: DerivedCache,
     private readonly decode: VisualSampler,
   ) {

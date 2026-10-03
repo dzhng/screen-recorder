@@ -1,0 +1,532 @@
+{
+  "base": "ed697d35",
+  "scope": "Grouped actual-source CaptureStore fixtures and source-only transcript acceptance/visual cache store types. No behavior/test oracle changes.",
+  "sourceAndEmit": [
+    {
+      "path": "packages/core/src/event-pages.test.ts",
+      "beforeSha256": "76b7be4558cbd809d66bb1948d20d36123c6ea3d665c6a810e47025e0177fbf7",
+      "afterSha256": "e4331f9865d659e4c3b0a0284eaa5b59435c9f4470f047771eb202db1d91e119",
+      "bytes": 15511,
+      "exactOwnerReplacementOnly": true,
+      "declarations": 6
+    },
+    {
+      "path": "packages/core/src/scene-ownership.test.ts",
+      "beforeSha256": "29d4a36e08f05839401824790808bac3ce9f133efe7b16e2f7d808fd72523c75",
+      "afterSha256": "77d1b689ed54cf44e489604aa97223c98f9ca58c9c13dc38956063fd0e5dcf53",
+      "bytes": 11947,
+      "exactOwnerReplacementOnly": true,
+      "declarations": 4
+    },
+    {
+      "path": "packages/core/src/trails.test.ts",
+      "beforeSha256": "c4bd5c2c485dd653c21e7cc46becc37d23d3ec3f3a6a981e0bf77b8912ad1990",
+      "afterSha256": "9904b5aa3a7f173296a50e27303bbf0498011d717336c86663ee48066bad12d8",
+      "bytes": 42492,
+      "exactOwnerReplacementOnly": true,
+      "declarations": 31
+    },
+    {
+      "path": "packages/core/src/visual-cache.test.ts",
+      "beforeSha256": "9f9c37b14f88448e98e2201208661038966ae74da5f6aa2388744009ac732957",
+      "afterSha256": "43a9846890eb5a058cb2d29aeb07742a45af97727ceeb334a5ece1a8d26a329c",
+      "bytes": 14148,
+      "exactOwnerReplacementOnly": true,
+      "declarations": 14
+    },
+    {
+      "path": "packages/core/src/transcript-ownership.test.ts",
+      "beforeSha256": "2c34508044978bc06be5e207d0cea1a9f5197da60711d2bf628c04e49d37a00e",
+      "afterSha256": "fd6846f98acb096853fd5d59024cdce6db89385e39f90204bfaf83b507e1619f",
+      "bytes": 11935,
+      "exactOwnerReplacementOnly": true,
+      "declarations": 5
+    },
+    {
+      "path": "packages/core/src/visual-cache.ts",
+      "beforeSha256": "3536e0d44ef73ff8353620143d99a5f7babf8cb77a3936d70d3f654654e0e86f",
+      "afterSha256": "7cd035eba79d5d90229c9f7b54c92582927c121b4047df9528ca8189960ff439",
+      "bytes": 6546,
+      "exactOwnerReplacementOnly": true
+    },
+    {
+      "path": "packages/core/src/transcript.ts",
+      "beforeSha256": "adb9dc302360ec7b353a5ea924a44cf86840ea517e22f855f3ed77d08e688d24",
+      "afterSha256": "64b61003a47f79b70f22b8a8628d7a7da4080d0c5d3b1bca58a09b2251022e20",
+      "bytes": 41218,
+      "exactOwnerReplacementOnly": true
+    },
+    {
+      "path": "packages/core/dist/visual-cache.js",
+      "beforeSha256": "d70e0be0945447fd2e3d3343a99a1cd4ea0c800760adde830a93877a5dc3e975",
+      "afterSha256": "d70e0be0945447fd2e3d3343a99a1cd4ea0c800760adde830a93877a5dc3e975",
+      "bytes": 6487,
+      "byteEqual": true
+    },
+    {
+      "path": "packages/core/dist/transcript.js",
+      "beforeSha256": "428f91350ae18d8edc32417e57a2fd7cfeebc1988cd256c9339ffc8d4a96869a",
+      "afterSha256": "b2db2f87eb0819c1aab0bc1a6a94c189ba5c8770de88b46b41fe468417f62c26",
+      "bytes": 36115,
+      "byteEqual": false,
+      "exactObsoleteEmptyImportDeletionOnly": true
+    }
+  ],
+  "phases": {
+    "lint": {
+      "pid": 60063,
+      "end": 1790989322.526361,
+      "exit": 0,
+      "waited": true,
+      "deadlineExpired": false
+    },
+    "types": {
+      "pid": 60062,
+      "end": 1790989324.105705,
+      "exit": 0,
+      "waited": true,
+      "deadlineExpired": false
+    },
+    "affected-files": {
+      "pid": 59221,
+      "end": 1790989312.902668,
+      "exit": 0,
+      "waited": true,
+      "deadlineExpired": false
+    },
+    "format": {
+      "pid": 60061,
+      "end": 1790989322.52638,
+      "exit": 0,
+      "waited": true,
+      "deadlineExpired": false
+    },
+    "build": {
+      "pid": 60060,
+      "end": 1790989323.7142148,
+      "exit": 0,
+      "waited": true,
+      "deadlineExpired": false
+    }
+  },
+  "declarations": 60,
+  "passedCases": 62,
+  "preservation": "Every test body/assertion identical except store imported binding/constructor/type. Visual cache JS byte-equal; transcript JS exact minus obsolete empty library import.",
+  "limits": [
+    "Source analysis/decoder/transcriber edges are controlled fixtures; retained306-word transcript is read from saved JSON, no new inference.",
+    "Existing pure createRevision numeric/presentation neighbors retained without recording-edit store.",
+    "Mixed transcript-pages/selection-evidence/portable-index still use actual edits/revisions and are excluded, as is genuine recordingJobTargets revision branch.",
+    "No schema/public field/response change, native/model/media/capture/fullsuite or installed claim.",
+    "No new behavior/oracle, so no redundant per-spelling deliberate faults; reuse prior reviewed acceptance/lifetime falsifications.",
+    "Known configured-model Codex environment rejection not retried by parent instruction."
+  ],
+  "integratedCommit": "2a5eecc4514162dcf5cf5e569864c354bf668144",
+  "bank": {
+    "archive": "source-evidence-fixtures-evidence.tar.gz",
+    "bytes": 250846,
+    "sha256": "ecd35ac7a7ac671f8be20c29c0eadc7de6e0d1fd90bc88934fe22a19d2733f87",
+    "payloads": [
+      {
+        "path": "affected-files/process.json",
+        "bytes": 1623,
+        "sha256": "e42cd451561b80ad7bc070cad052ce29422b031bede0eb859c67da0fcbbbce30"
+      },
+      {
+        "path": "affected-files/sources/packages/core/src/event-pages.test.ts",
+        "bytes": 15511,
+        "sha256": "e4331f9865d659e4c3b0a0284eaa5b59435c9f4470f047771eb202db1d91e119"
+      },
+      {
+        "path": "affected-files/sources/packages/core/src/scene-ownership.test.ts",
+        "bytes": 11947,
+        "sha256": "77d1b689ed54cf44e489604aa97223c98f9ca58c9c13dc38956063fd0e5dcf53"
+      },
+      {
+        "path": "affected-files/sources/packages/core/src/trails.test.ts",
+        "bytes": 42492,
+        "sha256": "9904b5aa3a7f173296a50e27303bbf0498011d717336c86663ee48066bad12d8"
+      },
+      {
+        "path": "affected-files/sources/packages/core/src/transcript-ownership.test.ts",
+        "bytes": 11935,
+        "sha256": "fd6846f98acb096853fd5d59024cdce6db89385e39f90204bfaf83b507e1619f"
+      },
+      {
+        "path": "affected-files/sources/packages/core/src/transcript.ts",
+        "bytes": 41218,
+        "sha256": "64b61003a47f79b70f22b8a8628d7a7da4080d0c5d3b1bca58a09b2251022e20"
+      },
+      {
+        "path": "affected-files/sources/packages/core/src/visual-cache.test.ts",
+        "bytes": 14148,
+        "sha256": "43a9846890eb5a058cb2d29aeb07742a45af97727ceeb334a5ece1a8d26a329c"
+      },
+      {
+        "path": "affected-files/sources/packages/core/src/visual-cache.ts",
+        "bytes": 6546,
+        "sha256": "7cd035eba79d5d90229c9f7b54c92582927c121b4047df9528ca8189960ff439"
+      },
+      {
+        "path": "affected-files/stderr",
+        "bytes": 845,
+        "sha256": "0c08a1fc1724bae1f93e2f37094078da87cc1c53d6c3766d10e1314cb60fc199"
+      },
+      {
+        "path": "affected-files/stdout",
+        "bytes": 183,
+        "sha256": "40f71e41886cc7d23d179838ff211d00034279a1f286f6a0bd4c8888cad07ddf"
+      },
+      {
+        "path": "affected-files/terminal.json",
+        "bytes": 105,
+        "sha256": "1714d6fbdffd7bce1e501567fc70ec2f4aeccb770d57a73b89298660b702d503"
+      },
+      {
+        "path": "after/packages/core/dist/transcript.js",
+        "bytes": 36115,
+        "sha256": "b2db2f87eb0819c1aab0bc1a6a94c189ba5c8770de88b46b41fe468417f62c26"
+      },
+      {
+        "path": "after/packages/core/dist/visual-cache.js",
+        "bytes": 6487,
+        "sha256": "d70e0be0945447fd2e3d3343a99a1cd4ea0c800760adde830a93877a5dc3e975"
+      },
+      {
+        "path": "after/packages/core/src/event-pages.test.ts",
+        "bytes": 15511,
+        "sha256": "e4331f9865d659e4c3b0a0284eaa5b59435c9f4470f047771eb202db1d91e119"
+      },
+      {
+        "path": "after/packages/core/src/scene-ownership.test.ts",
+        "bytes": 11947,
+        "sha256": "77d1b689ed54cf44e489604aa97223c98f9ca58c9c13dc38956063fd0e5dcf53"
+      },
+      {
+        "path": "after/packages/core/src/trails.test.ts",
+        "bytes": 42492,
+        "sha256": "9904b5aa3a7f173296a50e27303bbf0498011d717336c86663ee48066bad12d8"
+      },
+      {
+        "path": "after/packages/core/src/transcript-ownership.test.ts",
+        "bytes": 11935,
+        "sha256": "fd6846f98acb096853fd5d59024cdce6db89385e39f90204bfaf83b507e1619f"
+      },
+      {
+        "path": "after/packages/core/src/transcript.ts",
+        "bytes": 41218,
+        "sha256": "64b61003a47f79b70f22b8a8628d7a7da4080d0c5d3b1bca58a09b2251022e20"
+      },
+      {
+        "path": "after/packages/core/src/visual-cache.test.ts",
+        "bytes": 14148,
+        "sha256": "43a9846890eb5a058cb2d29aeb07742a45af97727ceeb334a5ece1a8d26a329c"
+      },
+      {
+        "path": "after/packages/core/src/visual-cache.ts",
+        "bytes": 6546,
+        "sha256": "7cd035eba79d5d90229c9f7b54c92582927c121b4047df9528ca8189960ff439"
+      },
+      {
+        "path": "before/packages/core/dist/transcript.js",
+        "bytes": 36146,
+        "sha256": "428f91350ae18d8edc32417e57a2fd7cfeebc1988cd256c9339ffc8d4a96869a"
+      },
+      {
+        "path": "before/packages/core/dist/visual-cache.js",
+        "bytes": 6487,
+        "sha256": "d70e0be0945447fd2e3d3343a99a1cd4ea0c800760adde830a93877a5dc3e975"
+      },
+      {
+        "path": "before/packages/core/src/event-pages.test.ts",
+        "bytes": 15508,
+        "sha256": "76b7be4558cbd809d66bb1948d20d36123c6ea3d665c6a810e47025e0177fbf7"
+      },
+      {
+        "path": "before/packages/core/src/scene-ownership.test.ts",
+        "bytes": 11943,
+        "sha256": "29d4a36e08f05839401824790808bac3ce9f133efe7b16e2f7d808fd72523c75"
+      },
+      {
+        "path": "before/packages/core/src/trails.test.ts",
+        "bytes": 42488,
+        "sha256": "c4bd5c2c485dd653c21e7cc46becc37d23d3ec3f3a6a981e0bf77b8912ad1990"
+      },
+      {
+        "path": "before/packages/core/src/transcript-ownership.test.ts",
+        "bytes": 11931,
+        "sha256": "2c34508044978bc06be5e207d0cea1a9f5197da60711d2bf628c04e49d37a00e"
+      },
+      {
+        "path": "before/packages/core/src/transcript.ts",
+        "bytes": 41214,
+        "sha256": "adb9dc302360ec7b353a5ea924a44cf86840ea517e22f855f3ed77d08e688d24"
+      },
+      {
+        "path": "before/packages/core/src/visual-cache.test.ts",
+        "bytes": 14145,
+        "sha256": "9f9c37b14f88448e98e2201208661038966ae74da5f6aa2388744009ac732957"
+      },
+      {
+        "path": "before/packages/core/src/visual-cache.ts",
+        "bytes": 6542,
+        "sha256": "3536e0d44ef73ff8353620143d99a5f7babf8cb77a3936d70d3f654654e0e86f"
+      },
+      {
+        "path": "before.json",
+        "bytes": 1458,
+        "sha256": "1d1b3eab2b36f582c4c051e42f3143c352a16809dd020f2daf5a1e74e1d68555"
+      },
+      {
+        "path": "build/process.json",
+        "bytes": 1420,
+        "sha256": "5c28fe085a99f942ff3d322f19e337ae4e1d90ad5a6ecf2032d7c93ed9611415"
+      },
+      {
+        "path": "build/sources/packages/core/src/event-pages.test.ts",
+        "bytes": 15511,
+        "sha256": "e4331f9865d659e4c3b0a0284eaa5b59435c9f4470f047771eb202db1d91e119"
+      },
+      {
+        "path": "build/sources/packages/core/src/scene-ownership.test.ts",
+        "bytes": 11947,
+        "sha256": "77d1b689ed54cf44e489604aa97223c98f9ca58c9c13dc38956063fd0e5dcf53"
+      },
+      {
+        "path": "build/sources/packages/core/src/trails.test.ts",
+        "bytes": 42492,
+        "sha256": "9904b5aa3a7f173296a50e27303bbf0498011d717336c86663ee48066bad12d8"
+      },
+      {
+        "path": "build/sources/packages/core/src/transcript-ownership.test.ts",
+        "bytes": 11935,
+        "sha256": "fd6846f98acb096853fd5d59024cdce6db89385e39f90204bfaf83b507e1619f"
+      },
+      {
+        "path": "build/sources/packages/core/src/transcript.ts",
+        "bytes": 41218,
+        "sha256": "64b61003a47f79b70f22b8a8628d7a7da4080d0c5d3b1bca58a09b2251022e20"
+      },
+      {
+        "path": "build/sources/packages/core/src/visual-cache.test.ts",
+        "bytes": 14148,
+        "sha256": "43a9846890eb5a058cb2d29aeb07742a45af97727ceeb334a5ece1a8d26a329c"
+      },
+      {
+        "path": "build/sources/packages/core/src/visual-cache.ts",
+        "bytes": 6546,
+        "sha256": "7cd035eba79d5d90229c9f7b54c92582927c121b4047df9528ca8189960ff439"
+      },
+      {
+        "path": "build/stderr",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "build/stdout",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "build/terminal.json",
+        "bytes": 106,
+        "sha256": "dd54069a293ba9faae606f1f44d572829fa5d88e90f96e92a9a50f2e76430aa4"
+      },
+      {
+        "path": "choices.md",
+        "bytes": 1256,
+        "sha256": "f2580396edd5142b943a967ef521284eb3ceb6f5e715b6c5e779c0d7573fafcb"
+      },
+      {
+        "path": "committed-source-check.json",
+        "bytes": 1330,
+        "sha256": "49cc16f8fe434f6ec540de14da9a2bea6ca39f9fdb21769878d265abb45cca22"
+      },
+      {
+        "path": "format/process.json",
+        "bytes": 1706,
+        "sha256": "430f2e692ec50553653574150e9ebccfd47bdae3e045136263b838e528fc9faf"
+      },
+      {
+        "path": "format/sources/packages/core/src/event-pages.test.ts",
+        "bytes": 15511,
+        "sha256": "e4331f9865d659e4c3b0a0284eaa5b59435c9f4470f047771eb202db1d91e119"
+      },
+      {
+        "path": "format/sources/packages/core/src/scene-ownership.test.ts",
+        "bytes": 11947,
+        "sha256": "77d1b689ed54cf44e489604aa97223c98f9ca58c9c13dc38956063fd0e5dcf53"
+      },
+      {
+        "path": "format/sources/packages/core/src/trails.test.ts",
+        "bytes": 42492,
+        "sha256": "9904b5aa3a7f173296a50e27303bbf0498011d717336c86663ee48066bad12d8"
+      },
+      {
+        "path": "format/sources/packages/core/src/transcript-ownership.test.ts",
+        "bytes": 11935,
+        "sha256": "fd6846f98acb096853fd5d59024cdce6db89385e39f90204bfaf83b507e1619f"
+      },
+      {
+        "path": "format/sources/packages/core/src/transcript.ts",
+        "bytes": 41218,
+        "sha256": "64b61003a47f79b70f22b8a8628d7a7da4080d0c5d3b1bca58a09b2251022e20"
+      },
+      {
+        "path": "format/sources/packages/core/src/visual-cache.test.ts",
+        "bytes": 14148,
+        "sha256": "43a9846890eb5a058cb2d29aeb07742a45af97727ceeb334a5ece1a8d26a329c"
+      },
+      {
+        "path": "format/sources/packages/core/src/visual-cache.ts",
+        "bytes": 6546,
+        "sha256": "7cd035eba79d5d90229c9f7b54c92582927c121b4047df9528ca8189960ff439"
+      },
+      {
+        "path": "format/stderr",
+        "bytes": 91,
+        "sha256": "01f25de219844d53f81b996d6b73e782203533bfc6eba81e44b98acc0039ad42"
+      },
+      {
+        "path": "format/stdout",
+        "bytes": 111,
+        "sha256": "c456516c3a246c4170523903c8dc7ecf386eeb469f7c37f3d778cf9f04f2f842"
+      },
+      {
+        "path": "format/terminal.json",
+        "bytes": 104,
+        "sha256": "17e6f90f3d03d2f2d4d48b741402b5961224ed243c1acbad4d8b71a26e0612cb"
+      },
+      {
+        "path": "lint/process.json",
+        "bytes": 1692,
+        "sha256": "4cfa855f18cc579f3d7b4e6af5786369aaf01d6a0df374627c20dfc404766483"
+      },
+      {
+        "path": "lint/sources/packages/core/src/event-pages.test.ts",
+        "bytes": 15511,
+        "sha256": "e4331f9865d659e4c3b0a0284eaa5b59435c9f4470f047771eb202db1d91e119"
+      },
+      {
+        "path": "lint/sources/packages/core/src/scene-ownership.test.ts",
+        "bytes": 11947,
+        "sha256": "77d1b689ed54cf44e489604aa97223c98f9ca58c9c13dc38956063fd0e5dcf53"
+      },
+      {
+        "path": "lint/sources/packages/core/src/trails.test.ts",
+        "bytes": 42492,
+        "sha256": "9904b5aa3a7f173296a50e27303bbf0498011d717336c86663ee48066bad12d8"
+      },
+      {
+        "path": "lint/sources/packages/core/src/transcript-ownership.test.ts",
+        "bytes": 11935,
+        "sha256": "fd6846f98acb096853fd5d59024cdce6db89385e39f90204bfaf83b507e1619f"
+      },
+      {
+        "path": "lint/sources/packages/core/src/transcript.ts",
+        "bytes": 41218,
+        "sha256": "64b61003a47f79b70f22b8a8628d7a7da4080d0c5d3b1bca58a09b2251022e20"
+      },
+      {
+        "path": "lint/sources/packages/core/src/visual-cache.test.ts",
+        "bytes": 14148,
+        "sha256": "43a9846890eb5a058cb2d29aeb07742a45af97727ceeb334a5ece1a8d26a329c"
+      },
+      {
+        "path": "lint/sources/packages/core/src/visual-cache.ts",
+        "bytes": 6546,
+        "sha256": "7cd035eba79d5d90229c9f7b54c92582927c121b4047df9528ca8189960ff439"
+      },
+      {
+        "path": "lint/stderr",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "lint/stdout",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "lint/terminal.json",
+        "bytes": 105,
+        "sha256": "bfb037550d5a02e8a8d42a8fa7de93bdbee90c0c041a3b46a572e65f475707b4"
+      },
+      {
+        "path": "parity.json",
+        "bytes": 2782,
+        "sha256": "7a5862f86b4b0b9e0a9696d3730b58c9b2f2ba0d9fccaf7fbab313d7d406915d"
+      },
+      {
+        "path": "review.md",
+        "bytes": 1215,
+        "sha256": "adf83a4ca83ae00a45403eaafc7e8de3b0de63b562394e96d66a0f4816b17a35"
+      },
+      {
+        "path": "run.py",
+        "bytes": 1525,
+        "sha256": "df3125b6a737c8aee1a1eb99f9540c6846343d634e1ea1e513fcc51fe4da6f01"
+      },
+      {
+        "path": "types/process.json",
+        "bytes": 1426,
+        "sha256": "57879650be15bb3a61c4d688dd3709eb0260f6e7901e80813913d0c14e844c5c"
+      },
+      {
+        "path": "types/sources/packages/core/src/event-pages.test.ts",
+        "bytes": 15511,
+        "sha256": "e4331f9865d659e4c3b0a0284eaa5b59435c9f4470f047771eb202db1d91e119"
+      },
+      {
+        "path": "types/sources/packages/core/src/scene-ownership.test.ts",
+        "bytes": 11947,
+        "sha256": "77d1b689ed54cf44e489604aa97223c98f9ca58c9c13dc38956063fd0e5dcf53"
+      },
+      {
+        "path": "types/sources/packages/core/src/trails.test.ts",
+        "bytes": 42492,
+        "sha256": "9904b5aa3a7f173296a50e27303bbf0498011d717336c86663ee48066bad12d8"
+      },
+      {
+        "path": "types/sources/packages/core/src/transcript-ownership.test.ts",
+        "bytes": 11935,
+        "sha256": "fd6846f98acb096853fd5d59024cdce6db89385e39f90204bfaf83b507e1619f"
+      },
+      {
+        "path": "types/sources/packages/core/src/transcript.ts",
+        "bytes": 41218,
+        "sha256": "64b61003a47f79b70f22b8a8628d7a7da4080d0c5d3b1bca58a09b2251022e20"
+      },
+      {
+        "path": "types/sources/packages/core/src/visual-cache.test.ts",
+        "bytes": 14148,
+        "sha256": "43a9846890eb5a058cb2d29aeb07742a45af97727ceeb334a5ece1a8d26a329c"
+      },
+      {
+        "path": "types/sources/packages/core/src/visual-cache.ts",
+        "bytes": 6546,
+        "sha256": "7cd035eba79d5d90229c9f7b54c92582927c121b4047df9528ca8189960ff439"
+      },
+      {
+        "path": "types/stderr",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "types/stdout",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "types/terminal.json",
+        "bytes": 105,
+        "sha256": "eafe0543ccf2a086db0cd2612a3d39eb641bbed14e0f223aa98bdc963b806e33"
+      },
+      {
+        "path": "verification.json",
+        "bytes": 4870,
+        "sha256": "75a1ffc72141afc7c8846735f2a61a04b5e7fd0764863e47c490fc21aede89c8"
+      }
+    ],
+    "rootVerification": "All archive members and seven committed source pins independently verified; exact diff reviewed; prior terminal checks reused."
+  }
+}

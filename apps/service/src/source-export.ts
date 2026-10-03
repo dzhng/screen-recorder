@@ -4,11 +4,10 @@ import { lstat, open, type FileHandle } from "node:fs/promises";
 import { isDeepStrictEqual } from "node:util";
 import { dirname, join } from "node:path";
 import { readMediaProbe } from "./media-probe.js";
-import { sourcePublicationMembers } from "@screenrec/core/source-admission";
+import { sourcePublicationMembers, type SourceExporter } from "@screenrec/core/source-admission";
 import { publicationDeadlineMs } from "./publication.js";
 import { CatalogError } from "@screenrec/core/catalog";
 import { fileIdentity } from "@screenrec/core/files";
-import type { SourceExporter } from "@screenrec/core/processing";
 import type { SourceEvidenceReceipt } from "@screenrec/core/evidence";
 import { MAX_MEDIA_TIMEOUT_MS, nativeResult, type MediaWorker } from "./worker.js";
 

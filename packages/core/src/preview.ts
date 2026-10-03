@@ -1,6 +1,7 @@
 import { evidenceRecordingId } from "./evidence.js";
 import { join } from "node:path";
 import { type RevisionStore } from "./library.js";
+import { checkRenderedMovie, type RenderedMovie } from "./rendered-movie.js";
 import { CatalogError } from "./catalog.js";
 import type { JobExecution, JobQueue } from "./jobs.js";
 import {
@@ -33,15 +34,7 @@ export type PreviewRequest = {
   sourceEvidence?: SourceEvidenceMetadata;
   rendition?: PreviewRendition;
 };
-export type RenderedMovie = {
-  file: string;
-  mediaType: "video/mp4";
-  codec: "h264";
-  durationUs: number;
-  width: number;
-  height: number;
-  frameCount: number;
-  bytes: number;
+export type PreviewMovie = RenderedMovie & {
   audio?: {
     codec?: "aac";
     frames: number;
@@ -62,8 +55,8 @@ export type PreviewRenderer = (
     maxLongEdge: number | null;
   },
   signal: AbortSignal,
-) => Promise<RenderedMovie>;
-export type PreviewArtifact = RenderedMovie & {
+) => Promise<PreviewMovie>;
+export type PreviewArtifact = PreviewMovie & {
   /** What the movie was rendered under, so a client can tell a rendition from the capture. */
   maxLongEdge: number | null;
   cacheId: string;
@@ -126,39 +119,6 @@ export abstract class PreviewInspectionBase<
       });
     });
   }
-}
-
-/**
- * Whether a renderer answered with the movie that was asked for. A rendition that ignored its
- * bound, or that came back as something other than the pinned edit, is refused rather than
- * published: this is what stands between a native receipt and somebody's library.
- */
-export function checkRenderedPreview(
-  movie: Omit<RenderedMovie, "audio">,
-  expected: { file: string; durationUs: number; maxLongEdge: number | null },
-): void {
-  if (
-    movie.file !== expected.file ||
-    movie.mediaType !== "video/mp4" ||
-    movie.codec !== "h264" ||
-    movie.durationUs !== expected.durationUs ||
-    ![movie.width, movie.height, movie.frameCount, movie.bytes].every(
-      (value) => Number.isSafeInteger(value) && value > 0,
-    )
-  )
-    throw new CatalogError("INVALID_RESPONSE", "Renderer returned an unrelated preview");
-  // The movie's own dimensions are the receipt: a bounded rendition is whatever the source scaled
-  // down to, but it cannot be larger than what was asked for, nor an odd size H.264 cannot encode.
-  if (
-    expected.maxLongEdge !== null &&
-    (Math.max(movie.width, movie.height) > expected.maxLongEdge ||
-      movie.width % 2 !== 0 ||
-      movie.height % 2 !== 0)
-  )
-    throw new CatalogError(
-      "INVALID_RESPONSE",
-      `Preview is ${movie.width}x${movie.height}, not the rendition bounded to ${expected.maxLongEdge}`,
-    );
 }
 
 /** The long edge a rendition renders to, or null for the capture's own resolution. */
@@ -243,7 +203,7 @@ export class PreviewInspection extends PreviewInspectionBase<
         signal,
       );
       signal.throwIfAborted();
-      checkRenderedPreview(movie, {
+      checkRenderedMovie(movie, {
         file: output.path,
         durationUs: revision.durationUs,
         maxLongEdge,

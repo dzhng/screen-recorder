@@ -13,7 +13,7 @@ import { join } from "node:path";
 import { randomUUID } from "node:crypto";
 import { tmpdir } from "node:os";
 import { DerivedCache, recordingCacheOwnerCheck } from "@screenrec/core/cache";
-import { RevisionStore } from "@screenrec/core/library";
+import { CaptureStore } from "@screenrec/core/capture-store";
 import { DerivativeDelivery } from "./delivery.js";
 const cleanups: (() => void)[] = [];
 afterEach(() => {
@@ -25,7 +25,7 @@ afterEach(() => {
 });
 async function fixture(data = Buffer.from("screen evidence")) {
   const home = mkdtempSync(join(tmpdir(), "derivative-delivery-"));
-  const store = new RevisionStore(join(home, "library.sqlite"), {
+  const store = new CaptureStore(join(home, "library.sqlite"), {
     now: () => "",
     newId: randomUUID,
   });

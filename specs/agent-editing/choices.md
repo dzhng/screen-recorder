@@ -7088,3 +7088,118 @@ until the old assembler is deleted. The plan required one owner without choosing
 this helper's home. The move adds no validation rule, forwarding wrapper or
 publication mechanism. Future package consumers share the same directory identity
 contract through that owner. This choice belongs to `6d93a9c4`.
+
+## Project fixture preservation
+
+**Sound, medium confidence — control media edges while keeping publication and archive owners real.**
+When a test asks whether deleting a project preserves an acknowledged external
+file, decoding another movie does not answer that question. The publication
+fixture supplies controlled rendered bytes; the registry fixture admits a small
+file with controlled probe metadata, then authors its project through the actual
+stores. Both still use real catalog, queue, filesystem and native publication or
+archive lifetimes. In the registry deletion case there are no exports, so that
+one external retirement edge is empty; actual export deletion belongs to the
+publication fixture. A rendered source alternative would spend more time without
+changing these lifetime assertions. The plan required preserving guarantees but
+left fixture inputs open. This choice belongs to `cd24e68f` and `bfe782fe`; future
+readers must not treat these byte/lifetime checks as media validity or listening
+evidence. It adds no production behavior.
+
+**Sound, high confidence — one shared publication fixture, local registry authoring.**
+Recovery, storage and deletion tests need the same project, queue and publication
+owner. They now share one fixture so fixes to shutdown or restart setup reach
+every publication case. Registry tests author a different portable archive and
+keep their existing local fixture; forcing both into a universal helper would
+join different responsibilities. The plan left support-code placement open.
+This choice belongs to the fixture preservation passes and keeps one setup owner
+per tested contract without a new production abstraction.
+
+**Sound, high confidence — reap crash-fixture children on a failed handshake.**
+A test deliberately kills its service child at a named publication boundary.
+If that boundary never arrives, the fixture now kills and waits for the actual
+child before reporting failure. Otherwise a failed assertion could leave native
+work and private directories alive for the next case. The plan required real
+process-death proof without choosing the helper's failure cleanup. This decision
+belongs to `bfe782fe` and applies only to test resource lifetime; it does not add
+a production retry or change a publication boundary.
+
+**Sound, medium confidence — keep one source queue policy local to its lifetime fixture.**
+A capture deletion test holds native recovery open while another capture's
+source job waits. That job names a capture with no editing revision. The fixture
+now checks the real capture store's availability, deletion and physical activity,
+and returns the explicit null revision identity. It does not use the abandoned
+recording-edit target policy. The plan left fixture wiring open; creating a new
+production policy helper for this single consumer would add an owner the product
+does not need. This choice belongs to `fc05469a`; future queue fixtures must use
+their actual source or project identity rather than borrow an editing interpreter.
+
+**Sound, high confidence — observe shutdown after an event-loop turn while its worker stays held.**
+When shutdown must wait for recovery, the test keeps that recovery promise open
+and observes whether shutdown has returned. A single promise callback can run
+before an incorrectly early shutdown has resumed, making the check meaningless.
+One event-loop turn lets such a return become observable while the worker remains
+held. There is no sleep or elapsed-time threshold. The plan required the drain
+guarantee without prescribing how the test observes it. This choice belongs to
+`fc05469a`; releasing the held worker and draining the service in failure cleanup
+keeps the test from leaving work alive after an assertion fails.
+
+**Sound, medium confidence — inject a real late database failure with valid capture input.**
+A terminal capture report attaches its source duration and then writes its state.
+If the second write fails, callers must still see the original capture facts.
+The source fixture uses a SQLite trigger to refuse that later write, submits a
+valid report, then removes the trigger and successfully submits the same report.
+The alternative malformed input would make the proof depend on where validation
+or argument binding happens. The plan required atomic rollback without choosing
+the failure seam. This decision belongs to `ada67e60`; it keeps the real database
+and transaction owner in the test without a production fault hook or fake store.
+
+## Removing mixed core dependencies
+
+**Sound, high confidence — common movie validation has an independent owner.**
+Both recording and project renderers return the same video facts. Their shared
+validator now lives in a small rendered-movie module with a direct core export.
+Recording-specific audio stays in its existing receipt; project audio extends
+the common video facts independently. The plan required one owner without
+choosing this module boundary. The extraction preserves fields, errors and
+rendition policy, and adds no service operation or media default. This choice
+belongs to `7c0986fa`; the old preview inspection classes remain pending mapped
+removal rather than being hidden behind a forwarding wrapper.
+
+**Sound, high confidence — source consumers load only their actual type owner.**
+The unchanged native normalization declaration lives with source admission,
+which already owns that operation. Cache and source-evidence policies use capture
+facts and explicit type imports, removing obsolete empty runtime imports of the
+editing library. The plan required source/edit separation without prescribing
+these import details. This choice belongs to `d31d12d7` and `1f654da7`; it adds
+no endpoint, schema or new dependency. Frozen raw-cursor provenance remains a
+separate consumed contract, rather than being mistaken for a live recording
+editing revision and deleted during a fixture port.
+
+**Sound, high confidence — failed crash-fixture handshakes retire the owned process group.**
+The archive-survival fixture deliberately kills a service while its native child
+is stopped. If that child never publishes its marker, marker-based cleanup cannot
+find it. The fixture now creates its own process group and knows its identity
+before the worker starts. Failure cleanup kills and drains only that group.
+The plan required actual child-lifetime evidence without prescribing failure
+cleanup. This choice belongs to `0508b09f`; it adds no production process search,
+retry or termination policy.
+
+**Sound, medium confidence — keep a controlled admission policy in the queue discard test.**
+The queue must refuse late results when its domain owner becomes unavailable.
+Current service admission refuses work on a live source, so its normal policy
+cannot reach the original canceled-capture scenario. This one existing test
+explicitly admits that capture through a local domain policy, then uses its real
+canceled transition to test queued suppression and late-result refusal.
+The plan required preserving queue lifetimes without choosing this test seam.
+This choice belongs to `b8ee55c0`; it proves the generic queue guarantee and
+does not authorize live source work through the product. Normal fixture policy
+uses current capture availability and real project revision validation.
+
+**Sound, high confidence — ScreenshotIndex owns shared sampling defaults.**
+Source and project screenshot sampling need the same limits and timing defaults,
+without borrowing a recording edit selector. The exact frozen policy now lives
+with the existing screenshot metadata and coverage owner, and each consumer
+imports it directly. The plan required one owner without prescribing this
+constant's home. This choice belongs to `a1451a3a`; it adds no module, package
+export, wrapper, default or selection rule. The old selector retains its algorithm
+until its remaining consumers are accounted for.

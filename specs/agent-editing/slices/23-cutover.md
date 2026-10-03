@@ -56,8 +56,15 @@ catalog/media sentinels. The [shared-contract and publication passes](../assets/
 now remove obsolete recording-composition selectors/native actions and the
 recording export branch. Recordings retain source lifetime; projects own editable
 composition and media delivery. The project cursor producer, strict schema and
-native opaque replay agree. Legacy fixture rehoming and orphan package-owner
-deletion are next, followed by actual core/schema removal. Preserve valuable
+native opaque replay agree. The [fixture preservation checkpoint](../assets/23-owner-fixture-ports/README.md)
+rehomes registry/publication/capture lifetimes, preview pin combinations, package
+workspace recovery, source lifecycle fixtures and retained-generation references.
+Generic cache/evidence/queue fixtures use capture facts and project revisions;
+common source-export types and
+movie validation no longer load their old editing owners. Remaining
+real package frame/audio retry and drain and generic archive fixture ports precede
+orphan package-owner deletion and actual
+core/schema removal. Preserve valuable
 source/project guarantees rather than restore the deleted engine. Missing
 inherited acoustic or physical acceptance does not block these ports; matched
 verified guarantees and actual consumer dependencies still govern deletion.

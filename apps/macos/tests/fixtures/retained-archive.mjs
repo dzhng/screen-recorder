@@ -12,7 +12,7 @@ import {
   FileTimelineEvents,
   validateTimelineEventPages,
 } from "@screenrec/core/event-pages";
-import { selectionPolicy } from "@screenrec/core/selection";
+import { selectionPolicy } from "@screenrec/core/screenshot-index";
 async function files(root, prefix = "") {
   const result = [];
   for (const name of (await readdir(join(root, prefix))).sort()) {
