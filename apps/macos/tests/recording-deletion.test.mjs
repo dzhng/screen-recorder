@@ -58,15 +58,18 @@ test(
       }
     };
     const reference = { recordingId: take.recordingId };
-    const before = await cliCall("storage.usage", reference);
-    assert.equal(before.ok, true);
-    assert.equal(before.data.recordingId, take.recordingId);
+    const before = await cliCall("storage.usage", {});
+    assert.equal(before.ok, true, JSON.stringify(before));
+    assert.equal(before.data.recordingId, null);
+    const identityBefore = await cliCall("recording.get", reference);
+    assert.equal(identityBefore.ok, true, JSON.stringify(identityBefore));
+    assert.equal(identityBefore.data.recordingId, take.recordingId);
     assert.ok(before.data.totalBytes > 0);
     const cliResult = await cliCall("recording.delete", reference);
     assert.equal(cliResult.ok, true);
     assert.deepEqual(cliResult.data, { recordingId: take.recordingId, deleted: true });
     assert.equal(existsSync(directory), false);
-    assert.equal((await cliCall("storage.usage", reference)).error.code, "NOT_FOUND");
+    assert.equal((await cliCall("recording.get", reference)).error.code, "NOT_FOUND");
     assert.equal(
       (await call("recording.get", { recordingId: take.recordingId })).error.code,
       "NOT_FOUND",
@@ -90,10 +93,16 @@ test(
       assert.ok((await client.listTools()).tools.some((tool) => tool.name === "recording.delete"));
       const usage = await client.callTool({
         name: "storage.usage",
+        arguments: {},
+      });
+      assert.equal(usage.structuredContent.ok, true, JSON.stringify(usage.structuredContent));
+      assert.equal(usage.structuredContent.data.recordingId, null);
+      const replacementBefore = await client.callTool({
+        name: "recording.get",
         arguments: { recordingId: replacement.recordingId },
       });
-      assert.equal(usage.structuredContent.ok, true);
-      assert.equal(usage.structuredContent.data.recordingId, replacement.recordingId);
+      assert.equal(replacementBefore.structuredContent.ok, true);
+      assert.equal(replacementBefore.structuredContent.data.recordingId, replacement.recordingId);
       assert.ok(usage.structuredContent.data.totalBytes > 0);
       const result = await client.callTool({
         name: "recording.delete",
@@ -105,7 +114,7 @@ test(
         deleted: true,
       });
       const absent = await client.callTool({
-        name: "storage.usage",
+        name: "recording.get",
         arguments: { recordingId: replacement.recordingId },
       });
       assert.equal(absent.structuredContent.error.code, "NOT_FOUND");

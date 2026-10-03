@@ -57,7 +57,7 @@ function find(rows, item) {
 }
 
 function takes(home) {
-  const recordings = join(home, "recordings");
+  const recordings = join(home, "library", "recordings");
   return existsSync(recordings) ? readdirSync(recordings) : [];
 }
 
