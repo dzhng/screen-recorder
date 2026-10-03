@@ -8,7 +8,13 @@ import { dirname, join } from "node:path";
 import { setTimeout as delay } from "node:timers/promises";
 import { promisify } from "node:util";
 import { Client } from "@modelcontextprotocol/sdk/client/index.js";
-import { RESPONSE_FRAME_BYTES } from "@screenrec/protocol";
+import {
+  ARTIFACT_CHUNK_BYTES,
+  RESPONSE_FRAME_BYTES,
+  deliveredResponseSchema,
+  responseSchema,
+} from "@screenrec/protocol";
+import { z } from "zod";
 import { StdioClientTransport } from "@modelcontextprotocol/sdk/client/stdio.js";
 import { cliReply } from "./first-preview-transport.mjs";
 
@@ -27,6 +33,86 @@ export async function poll(read, done, label) {
     assert.ok(performance.now() < deadline, `${label}: deadline`);
     await delay(100);
   }
+}
+
+const deliveryChunk = z.object({
+  data: z.string(),
+  offset: z.int().nonnegative(),
+  nextOffset: z.int().nonnegative(),
+  eof: z.boolean(),
+});
+
+/** Consume the public complete-result lease without reissuing the original operation. */
+async function completeMcpResult(client, descriptor, exchange) {
+  const token = descriptor.resultDelivery?.token;
+  assert.ok(typeof token === "string" && token.length > 0, "Result delivery needs a lease token");
+  let failure, response;
+  try {
+    const { resultDelivery: delivery } = deliveredResponseSchema.parse(descriptor);
+    const chunks = [];
+    for (let offset = 0; offset < delivery.bytes;) {
+      const reply = await client.callTool({
+        name: "artifact.read",
+        arguments: {
+          token,
+          offset,
+          maxBytes: Math.min(ARTIFACT_CHUNK_BYTES, delivery.bytes - offset),
+        },
+      });
+      if (exchange) (exchange.reads ??= []).push(structuredClone(reply));
+      const read = responseSchema.parse(reply.structuredContent);
+      assert.ok(read.ok, `Result delivery read failed: ${JSON.stringify(read)}`);
+      const part = deliveryChunk.parse(read.data);
+      assert.ok(
+        part.data.length <= 4 * Math.ceil(ARTIFACT_CHUNK_BYTES / 3),
+        "Oversized result chunk",
+      );
+      const decoded = Buffer.from(part.data, "base64");
+      assert.ok(
+        part.offset === offset &&
+          decoded.length > 0 &&
+          decoded.length <= ARTIFACT_CHUNK_BYTES &&
+          part.nextOffset === offset + decoded.length &&
+          part.nextOffset <= delivery.bytes &&
+          part.eof === (part.nextOffset === delivery.bytes) &&
+          decoded.toString("base64") === part.data,
+        "Result delivery chunk must advance within its declared bytes",
+      );
+      chunks.push(decoded);
+      offset = part.nextOffset;
+    }
+    const bytes = Buffer.concat(chunks);
+    const text = bytes.toString("utf8");
+    if (exchange) exchange.completeText = text;
+    assert.equal(bytes.length, delivery.bytes);
+    assert.equal(hash(bytes), delivery.sha256, "Result delivery digest mismatch");
+    const complete = JSON.parse(text);
+    if (exchange) exchange.completeResponse = structuredClone(complete);
+    response = responseSchema.parse(complete);
+    assert.deepEqual(
+      { id: response.id, ok: response.ok },
+      { id: descriptor.id, ok: descriptor.ok },
+      "Complete result must match its descriptor",
+    );
+  } catch (error) {
+    failure = error;
+  } finally {
+    try {
+      const closed = await client.callTool({ name: "artifact.close", arguments: { token } });
+      if (exchange) exchange.closeResponse = structuredClone(closed);
+      const response = responseSchema.parse(closed.structuredContent);
+      assert.ok(
+        response.ok && response.data?.closed === true,
+        "Result delivery lease did not close",
+      );
+    } catch (closeFailure) {
+      failure = failure
+        ? new AggregateError([failure, closeFailure], "Result read and lease close failed")
+        : closeFailure;
+    }
+  }
+  if (failure) throw failure;
+  return response;
 }
 
 /** Copies already prepared, hash-pinned files. No network fetch or preparation operation. */
@@ -119,8 +205,13 @@ export class JourneyService {
             JSON.stringify(params),
             ...(output ? ["--output", output] : []),
           ]);
-    this.report.exchanges?.push({ request, response: structuredClone(reply) });
-    const response = transport === "mcp" ? reply.structuredContent : reply;
+    const exchange = this.report.exchanges
+      ? { request, response: structuredClone(reply) }
+      : undefined;
+    if (exchange) this.report.exchanges.push(exchange);
+    let response = transport === "mcp" ? reply.structuredContent : reply;
+    if (transport === "mcp" && response?.resultDelivery)
+      response = await completeMcpResult(this.mcp, response, exchange);
     assert.equal(response?.ok, !error, `${operation}: ${JSON.stringify(response)}`);
     this.report.trace.push({
       operation,
