@@ -15,6 +15,9 @@ func verifySourceStream(in directory: URL) async throws {
         expected.append(contentsOf: UnsafeBufferPointer(start: buffer.floatChannelData![0],
             count: Int(buffer.frameLength) * 2))
     }
+    try expected.withUnsafeBufferPointer {
+        try Data(buffer: $0).write(to: directory.appendingPathComponent("stream-expected.f32"))
+    }
     let selection = AudioSourceSelection(source: source.path, sourceOffsetUs: ExactTime(0),
         available: [ExactRange(startUs: 0, endUs: 600_000)])
     let range = ExactRange(startUs: 0, endUs: 600_000)
@@ -24,19 +27,26 @@ func verifySourceStream(in directory: URL) async throws {
         && stream.frames == 28_800)
     var actual: [Float] = []
     var blockFrames: [Int] = []
+    var invalidBlock: [String: Int64]?
     try await stream.consume { block in
-        precondition(block.startFrame == Int64(actual.count / 2)
-            && block.frameCount > 0 && block.frameCount <= AudioPCMStream.maximumBlockFrames
-            && block.samples.count == block.frameCount * 2,
-            "Selected-source blocks must be contiguous, bounded and contain only their declared frames")
+        let expectedStart = Int64(actual.count / 2)
+        if invalidBlock == nil && (block.startFrame != expectedStart || block.frameCount <= 0
+            || block.frameCount > AudioPCMStream.maximumBlockFrames
+            || block.samples.count != block.frameCount * 2) {
+            invalidBlock = ["startFrame": block.startFrame, "expectedStartFrame": expectedStart,
+                "frameCount": Int64(block.frameCount), "sampleCount": Int64(block.samples.count)]
+        }
         actual.append(contentsOf: block.samples)
         blockFrames.append(block.frameCount)
         await Task.yield()
     }
-    for (name, values) in [("expected", expected), ("actual", actual)] {
-        try values.withUnsafeBufferPointer {
-            try Data(buffer: $0).write(to: directory.appendingPathComponent("stream-" + name + ".f32"))
-        }
+    try actual.withUnsafeBufferPointer {
+        try Data(buffer: $0).write(to: directory.appendingPathComponent("stream-actual.f32"))
+    }
+    if let invalidBlock {
+        try JSONSerialization.data(withJSONObject: invalidBlock, options: [.prettyPrinted, .sortedKeys])
+            .write(to: directory.appendingPathComponent("stream-invalid-block.json"))
+        preconditionFailure("Selected-source blocks must be contiguous and bounded: \(invalidBlock)")
     }
     precondition(actual == expected && actual.count == 57_600
         && actual.allSatisfy { $0.isFinite } && actual.contains { abs($0) > 0.05 })
