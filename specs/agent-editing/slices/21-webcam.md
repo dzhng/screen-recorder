@@ -62,7 +62,7 @@ acceptance pass.
 
 Expose camera discovery/selection in CLI/MCP while retaining current menu-bar recording controls. Preserve pause, cancel, restart, interruption/recovery, microphone/system selection and raw cursor evidence. Do not introduce an editing UI. Camera media stays independent for later agent-selected layouts.
 
-Create this planned probe in this slice:
+The existing probe owns the capture-to-project fixture:
 
 ```sh
 node packages/test-harness/editing/webcam.mjs --case capture-to-project

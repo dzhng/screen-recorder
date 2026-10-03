@@ -1,56 +1,28 @@
 # 20 — Prove screen and camera timing
 
-Status: [offline clock/separate-source prerequisite](20a-offline-clock.md) verified through its exact PCM/recovery/publication children; [selected-device probe preparation](20e-selected-device-probe.md) is verified offline; a real user-shortened take is retained under [fixtures](../../../fixtures/screen-camera-timing/README.md), with ordinary import verified. Graceful probe stop is offline-verified; [20e2](20e2-camera-presentation.md) corrects camera admission/presentation and verifies saved-take recovery. [Physical-event evidence](../assets/20-physical-sync/README.md) matches flashes/beeps, but camera visibility and measurement uncertainty do not establish the one-frame bound. The [bounded camera hashing pass](../assets/20e-camera-picture-hashing/README.md) preserves complete decoded-picture verification while reducing offline fresh publication to a23.970-second mean; it still exceeds ten seconds. Physical timing and interruption acceptance remain open. Dependencies: [00](./00-corpus.md).
+Status: physical synchronization and the remaining actual device-loss/selection
+observations are open. The retained [physical take](../../../fixtures/screen-camera-timing/README.md)
+already satisfies the user’s requested duration; the
+[retained marker analysis](../assets/20-retained-marker-resolution/README.md)
+reached its stopping condition without establishing the one-frame bound.
 
-The [20f scheduling correction](20f-camera-publication-overlap.md) now overlaps
-the complete raw/canonical scans for qualified closed inputs. Compact preservation
-and actual reader cancellation pass. A [single qualified H264 interruption](../assets/20f-camera-publication-overlap/h264-interruption/README.md) now verifies
-actual prefix fallback. [Retained-take metadata eligibility](../assets/20f-camera-publication-overlap/retained-eligibility/README.md)
-passes; actual full-take overlap/adoption/measurement, peak decoder memory and stop
-latency remain open.
+The [shared clock/materialization owners](20a-offline-clock.md) and
+[continuing camera verification](20m-camera-continuing-verification.md) are
+implemented with scoped preservation and retained-source Stop proof. The
+[sustained physical confirmation](../assets/20-sustained-physical-stop/verification-confirmation/README.md)
+passes the original completed-publication and app/service shutdown deadline on
+one explicit built-in-device recipe. The
+[saved acquisition recovery](../assets/20-sustained-physical-stop/acquisition-recovery/README.md)
+separately passes one retry of the camera import interrupted by that quit.
 
-[20g raw-prefix feasibility](20g-camera-raw-prefix.md) has mixed physical evidence:
-one ordinary prefix remains identical, but the separate candidate fails before
-intentional interruption. Missing later operands prevent diagnosing that mismatch;
-no general prefix rule, recovery mechanism or stop improvement is qualified.
-
-[20h](20h-camera-idr-fence.md) subsequently qualifies complete-IDR prefixes in two
-fixed tiny raw cases, preserving the original failure separately. Its original exceptional
-timeout path remains unqualified; the separately qualified supervisor is retained with
-[20i evidence](20i-growing-canonical-feasibility.md). [20i](20i-growing-canonical-feasibility.md)
-now qualifies one distinct intact-buffer growing MOV case; [20j](20j-camera-range-digests.md)
-qualifies fixed range/digest-state continuation. [20k](20k-camera-cursor-buffers.md)
-and [20l](20l-camera-cursor-transfer.md) qualify stored samples and unchanged fixed
-transfer. [20m](20m-camera-continuing-verification.md) now connects continuing
-verification to production capture; its focused consumers verify pre-stop work,
-same-candidate publication and failure/retry preservation. Its retained four-minute
-replay preserves all 4,428 pictures and completes the durable stop result in
-6.683 seconds. This passes the ten-second target on that prerecorded path;
-physical input drain, AppKit shutdown and general performance remain open.
-None of these prerecorded cases establishes physical synchronization.
-
-The original [sustained public physical capture](../assets/20-sustained-physical-stop/README.md)
-reaches more than 200 active seconds with pause/resume and no dropped samples,
-but fails the unchanged ten-second completed-stop deadline. Camera publication
-settles while primary publication remains pending; later successful cleanup is
-not a deadline pass. [Independent source publication](../assets/20-sustained-physical-stop/scheduling/README.md)
-subsequently passes its controlled readiness/recovery contract, but the
-[changed-candidate confirmation](../assets/20-sustained-physical-stop/independent-confirmation/README.md)
-also fails the original deadline. The
-[verification ownership correction](../assets/20-sustained-physical-stop/verification-closure/README.md)
-now proves independent primary readiness and joined cancellation; physical
-closure and final identity pins stay intact. The
-[retained-source measurement](../assets/20-sustained-physical-stop/retained-publication-cost/README.md)
-qualifies exact pictures/clocks, priming and resumed final readers, separately
-from the changed-candidate physical confirmation. Public `inputsClosed` alone does not
-identify hardware drainage. No unchanged recapture or budget relaxation is queued.
-The [joined-verification physical confirmation](../assets/20-sustained-physical-stop/verification-confirmation/README.md)
-now passes one unchanged recipe: both sources publish at 9.172 seconds and actual
-app/service exit is observed at 9.215 seconds. Primary acquisition is ready;
-camera acquisition is interrupted by requested quit. Physical synchronization and
-general timing remain separate open contracts. [Saved acquisition recovery](../assets/20-sustained-physical-stop/acquisition-recovery/README.md)
-separately verifies one reopen/retry of this interrupted camera import with the
-primary receipt unchanged; broader lifecycle acceptance is not implied.
+The [earlier camera hashing measurement](../assets/20e-camera-picture-hashing/README.md),
+[prefix experiments](20g-camera-raw-prefix.md) and
+[original failed sustained captures](../assets/20-sustained-physical-stop/README.md)
+retain their original scopes and failures. Those historical cold-publication
+measurements do not replace the later continuing-publication Stop verdict.
+Scoped Stop and saved recovery do not establish physical synchronization, every
+device-loss case or a general latency guarantee. No new recording is queued.
+Dependencies: [00](00-corpus.md).
 
 ## Contract
 
@@ -84,7 +56,7 @@ Feature-owned native capture reproduction using ScreenCaptureKit and AVCaptureSe
 
 Reproduce documented device capture with an explicit selected camera. Measure start offsets, pause/resume and drift with a shared visible/audible event. Retain raw timestamps and gaps. Use supplied prerecorded media for plumbing while real device permission/input is unavailable, without claiming the physical gate passed.
 
-Create this planned probe in this slice:
+The existing probe owns controlled clock reproduction:
 
 ```sh
 node packages/test-harness/editing/camera-reproduction.mjs --case shared-clock

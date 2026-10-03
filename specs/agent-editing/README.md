@@ -256,10 +256,10 @@ implementation readiness from acceptance prerequisites.
 - [x] [20e — Prepare selected-device clock reproduction](slices/20e-selected-device-probe.md)
 - [x] [20e1 — Durable camera gap materialization](slices/20e1-camera-gap-materialization.md)
 - [x] [20e2 — Ordered camera acquisition and native display support](slices/20e2-camera-presentation.md)
-- [x] [20f — Qualified camera publication scheduling](slices/20f-camera-publication-overlap.md) — scoped preservation and qualified interrupted-prefix fallback pass; retained-take adoption/performance remain open
+- [x] [20f — Qualified camera publication scheduling](slices/20f-camera-publication-overlap.md) — scoped preservation and qualified interrupted-prefix fallback pass; production continuation and retained-stop proof belong to20m
 - [x] [20g — Raw camera prefix feasibility](slices/20g-camera-raw-prefix.md) — experiment concluded with mixed evidence; one-picture-tail hypothesis rejected, superseded by20h/20m qualification; no physical acceptance claim
 - [x] [20h — Complete-IDR raw camera fence](slices/20h-camera-idr-fence.md) — two fixed prefix cases pass; exceptional timeout cleanup remains unqualified
-- [x] [20i — Independent growing canonical MOV](slices/20i-growing-canonical-feasibility.md) — fixed intact-buffer prefix/closure and all197 correspondence pass; live production/backlog/recovery/stop remain open
+- [x] [20i — Independent growing canonical MOV](slices/20i-growing-canonical-feasibility.md) — fixed intact-buffer experiment passes;20m owns production continuation, while the sustained Stop/saved recovery banks own their completed physical/reopen cases; broader physical acceptance remains20/21
 - [x] [20j — Resume decoded camera verification](slices/20j-camera-range-digests.md) — fixed ranges and both continuing digest projections pass;20m supplies production lifetime and retained-stop proof
 - [x] [20k — Cursor-bounded compressed camera samples](slices/20k-camera-cursor-buffers.md) — stored native bytes/clocks/format pass; full-reader boundary differences retained
 - [x] [20l — Unchanged cursor-sample camera transfer](slices/20l-camera-cursor-transfer.md) — fixed active-prefix/full-output proof;20m supplies production adoption and retained-stop proof
