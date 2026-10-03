@@ -151,6 +151,9 @@ public enum NativeWire {
             if let operation = operations[name] {
                 do {
                     response = ["id": id, "ok": true, "data": try await operation.run(params)]
+                } catch is CancellationError {
+                    response = failed(id: id, NativeFailure("CANCELED", "Operation canceled."),
+                        details: operation.details())
                 } catch {
                     // Unclassified capture failures are final. Operation owners translate
                     // their known operational errors before reaching this fallback.

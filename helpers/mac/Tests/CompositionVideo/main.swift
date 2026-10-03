@@ -1,6 +1,11 @@
 import Foundation
 @testable import ScreenRecorderWire
 
+if CommandLine.arguments[1] == "--finish-cancel" {
+    try await checkMovieFinishingCancellation(requestFile: CommandLine.arguments[2])
+    exit(0)
+}
+
 if CommandLine.arguments[1] == "--audio-tail" {
     try await checkMovieAudioTail(at: URL(fileURLWithPath: CommandLine.arguments[2]))
     exit(0)
