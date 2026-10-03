@@ -1,0 +1,1000 @@
+{
+  "base": "2a5eecc4",
+  "executionParent": "6e9c3a45c8dfe7d0d7933460ac2a3b2144b2fa17",
+  "scope": "Only jobs.test.ts; actual CaptureStore source-null generic queue fixtures and actual ProjectStore revision guarantees.",
+  "finalPins": [
+    {
+      "path": "packages/core/src/jobs.test.ts",
+      "bytes": 105750,
+      "sha256": "f282c940dee6fa458c6ac6a8dacd74191ccc63c173597cf9b862567eb709169e"
+    },
+    {
+      "path": "packages/core/src/jobs.ts",
+      "bytes": 58442,
+      "sha256": "3a8a22834cbffe806ee11ac1b7d1dccfa7de4d9bf5d0365c731659eea26debda"
+    }
+  ],
+  "invariantOwnerPins": [
+    {
+      "commit": "6e9c3a45c8dfe7d0d7933460ac2a3b2144b2fa17",
+      "path": "packages/core/src/capture-store.ts",
+      "bytes": 21711,
+      "sha256": "8479c426c03d373fb8c5c5508e78a15316045cf3cca43f0a9551840d012c07cf"
+    },
+    {
+      "commit": "6e9c3a45c8dfe7d0d7933460ac2a3b2144b2fa17",
+      "path": "packages/core/src/projects.ts",
+      "bytes": 29738,
+      "sha256": "3756a56e033564a4f7bc1c88324e5da519c0325bc93311be3abe13dea39474b3"
+    },
+    {
+      "commit": "6e9c3a45c8dfe7d0d7933460ac2a3b2144b2fa17",
+      "path": "packages/core/src/project-store.fixture.ts",
+      "bytes": 695,
+      "sha256": "e93e6d960e673de53cc8061db4a7e5c149e65b7d22a458611cb0be85aff418e8"
+    },
+    {
+      "commit": "6e9c3a45c8dfe7d0d7933460ac2a3b2144b2fa17",
+      "path": "packages/core/src/assets.ts",
+      "bytes": 30641,
+      "sha256": "58be806e8d5f611ffd91be63672c1816823dbab4316612cdafc5cce82367a731"
+    }
+  ],
+  "phases": {
+    "lint": {
+      "pid": 65854,
+      "end": 1790989788.350145,
+      "exit": 0,
+      "waited": true,
+      "deadlineExpired": false
+    },
+    "types": {
+      "pid": 65853,
+      "end": 1790989789.868309,
+      "exit": 0,
+      "waited": true,
+      "deadlineExpired": false
+    },
+    "final-format": {
+      "pid": 66205,
+      "end": 1790989836.950579,
+      "exit": 0,
+      "waited": true,
+      "deadlineExpired": false
+    },
+    "omitted-revision-key-red": {
+      "pid": 65481,
+      "end": 1790989753.97211,
+      "exit": 1,
+      "waited": true,
+      "deadlineExpired": false
+    },
+    "reused-generation-red": {
+      "pid": 65567,
+      "end": 1790989773.722552,
+      "exit": 1,
+      "waited": true,
+      "deadlineExpired": false
+    },
+    "project-revision-oracles": {
+      "pid": 63920,
+      "end": 1790989604.7134788,
+      "exit": 0,
+      "waited": true,
+      "deadlineExpired": false
+    },
+    "generic-source-smoke": {
+      "pid": 64144,
+      "end": 1790989617.1452181,
+      "exit": 0,
+      "waited": true,
+      "deadlineExpired": false
+    },
+    "jobs-file": {
+      "pid": 64612,
+      "end": 1790989666.637314,
+      "exit": 0,
+      "waited": true,
+      "deadlineExpired": false
+    },
+    "final-revision-labels": {
+      "pid": 66192,
+      "end": 1790989836.8190851,
+      "exit": 0,
+      "waited": true,
+      "deadlineExpired": false
+    },
+    "cross-revision-publication-red": {
+      "pid": 65544,
+      "end": 1790989764.9949582,
+      "exit": 1,
+      "waited": true,
+      "deadlineExpired": false
+    },
+    "restored-revision-oracles": {
+      "pid": 65577,
+      "end": 1790989774.6593,
+      "exit": 0,
+      "waited": true,
+      "deadlineExpired": false
+    },
+    "format": {
+      "pid": 65852,
+      "end": 1790989788.352281,
+      "exit": 0,
+      "waited": true,
+      "deadlineExpired": false
+    },
+    "original-revision-oracles": {
+      "pid": 62414,
+      "end": 1790989505.7884002,
+      "exit": 0,
+      "waited": true,
+      "deadlineExpired": false
+    }
+  },
+  "coverage": {
+    "originalDeclarations": 72,
+    "currentDeclarations": 72,
+    "wholeFileCasesPassed": 73,
+    "wholeFilePhase": "jobs-file",
+    "finalSourceDifferenceFromWholeRun": "Only requestId cut-1\u2192resize-1 and cut\u2192resize in three existing actual project rows; no inputs/algorithm/policy/assertions changed.",
+    "finalAffectedProjectRows": "final-revision-labels actual4passed",
+    "directNamedRows": [
+      {
+        "originalName": "identical work retains its published result without another automatic attempt",
+        "currentName": "identical work retains its published result without another automatic attempt",
+        "disposition": "Preserved generic queue contract; explicit source-null CaptureStore fixture or unchanged controlled managed context."
+      },
+      {
+        "originalName": "a restart fails the interrupted attempt, whose late answer cannot overwrite its retry",
+        "currentName": "a restart fails the interrupted attempt, whose late answer cannot overwrite its retry",
+        "disposition": "Preserved generic queue contract; explicit source-null CaptureStore fixture or unchanged controlled managed context."
+      },
+      {
+        "originalName": "an edit during processing does not move the revision the work was admitted for",
+        "currentName": "an edit during processing does not move the revision the work was admitted for",
+        "disposition": "Transferred to actual empty caller-authored ProjectStore revision plus canvas.set; explicit old/new revision selections retain target/input/generation/late-result assertions."
+      },
+      {
+        "originalName": "one heavy and two frame attempts run at once",
+        "currentName": "one heavy and two frame attempts run at once",
+        "disposition": "Preserved generic queue contract; explicit source-null CaptureStore fixture or unchanged controlled managed context."
+      },
+      {
+        "originalName": "a new heavy job waits while a take is capturing; frame work does not",
+        "currentName": "a new heavy job waits while a take is capturing; frame work does not",
+        "disposition": "Preserved generic queue contract; explicit source-null CaptureStore fixture or unchanged controlled managed context."
+      },
+      {
+        "originalName": "canceling a running job frees its lane only once the work settles",
+        "currentName": "canceling a running job frees its lane only once the work settles",
+        "disposition": "Preserved generic queue contract; explicit source-null CaptureStore fixture or unchanged controlled managed context."
+      },
+      {
+        "originalName": "work that outlives a discarded take publishes nothing and does not revive it",
+        "currentName": "domain-admitted work that outlives a discarded capture publishes nothing and does not revive it",
+        "disposition": "Named current contract port: controlled domain admission still lets real canceled CaptureStore state suppress live/queued publication; current service live-source admission remains refused."
+      },
+      {
+        "originalName": "waiting work is bounded, while work already admitted still answers",
+        "currentName": "waiting work is bounded, while work already admitted still answers",
+        "disposition": "Preserved generic queue contract; explicit source-null CaptureStore fixture or unchanged controlled managed context."
+      },
+      {
+        "originalName": "a validated absence is not retryable, while an ordinary failure is",
+        "currentName": "a validated absence is not retryable, while an ordinary failure is",
+        "disposition": "Preserved generic queue contract; explicit source-null CaptureStore fixture or unchanged controlled managed context."
+      },
+      {
+        "originalName": "an unchanged failed request needs explicit retry, including after reopen",
+        "currentName": "an unchanged failed request needs explicit retry, including after reopen",
+        "disposition": "Preserved generic queue contract; explicit source-null CaptureStore fixture or unchanged controlled managed context."
+      },
+      {
+        "originalName": "the same parameters on an edited revision never reuse the old running job",
+        "currentName": "the same parameters on an edited revision never reuse the old running job",
+        "disposition": "Transferred to actual empty caller-authored ProjectStore revision plus canvas.set; explicit old/new revision selections retain target/input/generation/late-result assertions."
+      },
+      {
+        "originalName": "out-of-order results retain their own revision and input identities",
+        "currentName": "out-of-order results retain their own revision and input identities",
+        "disposition": "Transferred to actual empty caller-authored ProjectStore revision plus canvas.set; explicit old/new revision selections retain target/input/generation/late-result assertions."
+      },
+      {
+        "originalName": "a permanent processing error is failed rather than unavailable",
+        "currentName": "a permanent processing error is failed rather than unavailable",
+        "disposition": "Preserved generic queue contract; explicit source-null CaptureStore fixture or unchanged controlled managed context."
+      },
+      {
+        "originalName": "shutdown rejects late success and leaves the attempt explicitly retryable",
+        "currentName": "shutdown rejects late success and leaves the attempt explicitly retryable",
+        "disposition": "Preserved generic queue contract; explicit source-null CaptureStore fixture or unchanged controlled managed context."
+      },
+      {
+        "originalName": "shutdown still stops running work when the catalog cannot record the interruption",
+        "currentName": "shutdown still stops running work when the catalog cannot record the interruption",
+        "disposition": "Preserved generic queue contract; explicit source-null CaptureStore fixture or unchanged controlled managed context."
+      },
+      {
+        "originalName": "an executor submitting dependent work cannot exceed the frame capacity",
+        "currentName": "an executor submitting dependent work cannot exceed the frame capacity",
+        "disposition": "Preserved generic queue contract; explicit source-null CaptureStore fixture or unchanged controlled managed context."
+      },
+      {
+        "originalName": "explicit retry of canceled work waits for its old executor to release capacity",
+        "currentName": "explicit retry of canceled work waits for its old executor to release capacity",
+        "disposition": "Preserved generic queue contract; explicit source-null CaptureStore fixture or unchanged controlled managed context."
+      },
+      {
+        "originalName": "regenerating an evicted artifact preserves its revision and cannot invalidate a newer publication",
+        "currentName": "regenerating an evicted artifact preserves its revision and cannot invalidate a newer publication",
+        "disposition": "Transferred to actual empty caller-authored ProjectStore revision plus canvas.set; explicit old/new revision selections retain target/input/generation/late-result assertions."
+      },
+      {
+        "originalName": "cache regeneration preserves the published artifact when queue admission is full",
+        "currentName": "cache regeneration preserves the published artifact when queue admission is full",
+        "disposition": "Preserved generic queue contract; explicit source-null CaptureStore fixture or unchanged controlled managed context."
+      },
+      {
+        "originalName": "an artifact stays busy while queued and until a canceled executor settles",
+        "currentName": "an artifact stays busy while queued and until a canceled executor settles",
+        "disposition": "Preserved generic queue contract; explicit source-null CaptureStore fixture or unchanged controlled managed context."
+      },
+      {
+        "originalName": "recording deletion drains only its held attempts and fences queued and late publication",
+        "currentName": "recording deletion drains only its held attempts and fences queued and late publication",
+        "disposition": "Preserved generic queue contract; explicit source-null CaptureStore fixture or unchanged controlled managed context."
+      },
+      {
+        "originalName": "startup skips deletion-marked queued work and runs the next recording",
+        "currentName": "startup skips deletion-marked queued work and runs the next recording",
+        "disposition": "Preserved generic queue contract; explicit source-null CaptureStore fixture or unchanged controlled managed context."
+      },
+      {
+        "originalName": "intent alone fences an executor resolving before cancellation is requested",
+        "currentName": "intent alone fences an executor resolving before cancellation is requested",
+        "disposition": "Preserved generic queue contract; explicit source-null CaptureStore fixture or unchanged controlled managed context."
+      },
+      {
+        "originalName": "forgetting a recording refuses closing executors and removes only its drained jobs",
+        "currentName": "forgetting a recording refuses closing executors and removes only its drained jobs",
+        "disposition": "Preserved generic queue contract; explicit source-null CaptureStore fixture or unchanged controlled managed context."
+      },
+      {
+        "originalName": "forgetting a large ready history yields and preserves another recording's publication",
+        "currentName": "forgetting a large ready history yields and preserves another recording's publication",
+        "disposition": "Preserved generic queue contract; explicit source-null CaptureStore fixture or unchanged controlled managed context."
+      },
+      {
+        "originalName": "forget refuses intent-marked work still queued behind capture priority",
+        "currentName": "forget refuses intent-marked work still queued behind capture priority",
+        "disposition": "Preserved generic queue contract; explicit source-null CaptureStore fixture or unchanged controlled managed context."
+      },
+      {
+        "originalName": "library and same-provenance package contexts share FIFO heavy admission and one slot",
+        "currentName": "library and same-provenance package contexts share FIFO heavy admission and one slot",
+        "disposition": "Preserved generic queue contract; explicit source-null CaptureStore fixture or unchanged controlled managed context."
+      },
+      {
+        "originalName": "package serialization spends no frame slot and canceled attempts retain capacity until terminal",
+        "currentName": "package serialization spends no frame slot and canceled attempts retain capacity until terminal",
+        "disposition": "Preserved generic queue contract; explicit source-null CaptureStore fixture or unchanged controlled managed context."
+      },
+      {
+        "originalName": "capture blocks package heavy work while frame work proceeds",
+        "currentName": "capture blocks package heavy work while frame work proceeds",
+        "disposition": "Preserved generic queue contract; explicit source-null CaptureStore fixture or unchanged controlled managed context."
+      },
+      {
+        "originalName": "closing capabilities cannot be forged, transferred or resurrected by late answers",
+        "currentName": "closing capabilities cannot be forged, transferred or resurrected by late answers",
+        "disposition": "Preserved generic queue contract; explicit source-null CaptureStore fixture or unchanged controlled managed context."
+      },
+      {
+        "originalName": "terminal metadata can be released for unlimited sequential requests, never active attempts",
+        "currentName": "terminal metadata can be released for unlimited sequential requests, never active attempts",
+        "disposition": "Preserved generic queue contract; explicit source-null CaptureStore fixture or unchanged controlled managed context."
+      },
+      {
+        "originalName": "library deletion cannot cancel two package contexts with identical provenance inputs",
+        "currentName": "library deletion cannot cancel two package contexts with identical provenance inputs",
+        "disposition": "Preserved generic queue contract; explicit source-null CaptureStore fixture or unchanged controlled managed context."
+      },
+      {
+        "originalName": "global waiting admission counts both owners and cancellation releases only queued admission",
+        "currentName": "global waiting admission counts both owners and cancellation releases only queued admission",
+        "disposition": "Preserved generic queue contract; explicit source-null CaptureStore fixture or unchanged controlled managed context."
+      },
+      {
+        "originalName": "retry pins a new attempt while stale package completion cannot publish or free its successor",
+        "currentName": "retry pins a new attempt while stale package completion cannot publish or free its successor",
+        "disposition": "Preserved generic queue contract; explicit source-null CaptureStore fixture or unchanged controlled managed context."
+      },
+      {
+        "originalName": "oversized result metadata fails explicitly and queue shutdown invalidates package capabilities",
+        "currentName": "oversized result metadata fails explicitly and queue shutdown invalidates package capabilities",
+        "disposition": "Preserved generic queue contract; explicit source-null CaptureStore fixture or unchanged controlled managed context."
+      },
+      {
+        "originalName": "32 deferred jobs leave capacity for their shared prerequisite and never spin on replay",
+        "currentName": "32 deferred jobs leave capacity for their shared prerequisite and never spin on replay",
+        "disposition": "Preserved generic queue contract; explicit source-null CaptureStore fixture or unchanged controlled managed context."
+      },
+      {
+        "originalName": "a lost prerequisite readmits a deferred job once, and only an explicit retry renews that",
+        "currentName": "a lost prerequisite readmits a deferred job once, and only an explicit retry renews that",
+        "disposition": "Preserved generic queue contract; explicit source-null CaptureStore fixture or unchanged controlled managed context."
+      },
+      {
+        "originalName": "deferred cancellation and restart preserve identity until explicit retry",
+        "currentName": "deferred cancellation and restart preserve identity until explicit retry",
+        "disposition": "Preserved generic queue contract; explicit source-null CaptureStore fixture or unchanged controlled managed context."
+      },
+      {
+        "originalName": "admission failures stay terminal, isolate siblings, and never retry dependencies",
+        "currentName": "admission failures stay terminal, isolate siblings, and never retry dependencies",
+        "disposition": "Preserved generic queue contract; explicit source-null CaptureStore fixture or unchanged controlled managed context."
+      },
+      {
+        "originalName": "ready admission respects package capacity, FIFO and capture while frame work progresses",
+        "currentName": "ready admission respects package capacity, FIFO and capture while frame work progresses",
+        "disposition": "Preserved generic queue contract; explicit source-null CaptureStore fixture or unchanged controlled managed context."
+      },
+      {
+        "originalName": "deletion fences waiting jobs before admission and forgets them after drain",
+        "currentName": "deletion fences waiting jobs before admission and forgets them after drain",
+        "disposition": "Preserved generic queue contract; explicit source-null CaptureStore fixture or unchanged controlled managed context."
+      },
+      {
+        "originalName": "dependency owners can cancel a waiting sibling without admitting its stale snapshot",
+        "currentName": "dependency owners can cancel a waiting sibling without admitting its stale snapshot",
+        "disposition": "Preserved generic queue contract; explicit source-null CaptureStore fixture or unchanged controlled managed context."
+      },
+      {
+        "originalName": "regeneration re-admits deferred work without an unrelated wake and ignores stale generations",
+        "currentName": "regeneration re-admits deferred work without an unrelated wake and ignores stale generations",
+        "disposition": "Preserved generic queue contract; explicit source-null CaptureStore fixture or unchanged controlled managed context."
+      },
+      {
+        "originalName": "single-job retirement drains older canceled attempts before forgetting identity and result",
+        "currentName": "single-job retirement drains older canceled attempts before forgetting identity and result",
+        "disposition": "Preserved generic queue contract; explicit source-null CaptureStore fixture or unchanged controlled managed context."
+      },
+      {
+        "originalName": "import preparation needs no recording and retries the frozen input",
+        "currentName": "import preparation needs no recording and retries the frozen input",
+        "disposition": "Preserved generic queue contract; explicit source-null CaptureStore fixture or unchanged controlled managed context."
+      },
+      {
+        "originalName": "managed targets retain distinct kind and revision identities after restart",
+        "currentName": "managed targets retain distinct kind and revision identities after restart",
+        "disposition": "Preserved generic queue contract; explicit source-null CaptureStore fixture or unchanged controlled managed context."
+      },
+      {
+        "originalName": "typed preparation failures survive restart and attempt transitions clear error codes",
+        "currentName": "typed preparation failures survive restart and attempt transitions clear error codes",
+        "disposition": "Preserved generic queue contract; explicit source-null CaptureStore fixture or unchanged controlled managed context."
+      },
+      {
+        "originalName": "deleting a project drains every pinned revision without touching a same-named asset",
+        "currentName": "deleting a project drains every pinned revision without touching a same-named asset",
+        "disposition": "Preserved generic queue contract; explicit source-null CaptureStore fixture or unchanged controlled managed context."
+      },
+      {
+        "originalName": "an import job runs on the shared Catalog without a recording store",
+        "currentName": "an import job runs on the shared Catalog without a recording store",
+        "disposition": "Preserved generic queue contract; explicit source-null CaptureStore fixture or unchanged controlled managed context."
+      },
+      {
+        "originalName": "failure diagnostics remain bounded and cannot break settlement",
+        "currentName": "failure diagnostics remain bounded and cannot break settlement",
+        "disposition": "Preserved generic queue contract; explicit source-null CaptureStore fixture or unchanged controlled managed context."
+      },
+      {
+        "originalName": "admission rolls back domain writes when capacity is exhausted",
+        "currentName": "admission rolls back domain writes when capacity is exhausted",
+        "disposition": "Preserved generic queue contract; explicit source-null CaptureStore fixture or unchanged controlled managed context."
+      },
+      {
+        "originalName": "acquisition jobs retain their domain across restart and retirement without affecting same-named assets",
+        "currentName": "acquisition jobs retain their domain across restart and retirement without affecting same-named assets",
+        "disposition": "Preserved generic queue contract; explicit source-null CaptureStore fixture or unchanged controlled managed context."
+      },
+      {
+        "originalName": "preparation inputs survive canceled workers and explicit retry but retire with success",
+        "currentName": "preparation inputs survive canceled workers and explicit retry but retire with success",
+        "disposition": "Preserved generic queue contract; explicit source-null CaptureStore fixture or unchanged controlled managed context."
+      },
+      {
+        "originalName": "retryable failures and restart keep inputs while permanent failures release them",
+        "currentName": "retryable failures and restart keep inputs while permanent failures release them",
+        "disposition": "Preserved generic queue contract; explicit source-null CaptureStore fixture or unchanged controlled managed context."
+      },
+      {
+        "originalName": "an older canceled worker pins inputs after a concurrent retry publishes",
+        "currentName": "an older canceled worker pins inputs after a concurrent retry publishes",
+        "disposition": "Preserved generic queue contract; explicit source-null CaptureStore fixture or unchanged controlled managed context."
+      },
+      {
+        "originalName": "deleting a drained owner reclaims all ordinary and input reference pages",
+        "currentName": "deleting a drained owner reclaims all ordinary and input reference pages",
+        "disposition": "Preserved generic queue contract; explicit source-null CaptureStore fixture or unchanged controlled managed context."
+      },
+      {
+        "originalName": "settling one job cannot release a scene still pinned by another retryable job",
+        "currentName": "settling one job cannot release a scene still pinned by another retryable job",
+        "disposition": "Preserved generic queue contract; explicit source-null CaptureStore fixture or unchanged controlled managed context."
+      },
+      {
+        "originalName": "cache-loss readmission restores transient inputs transactionally and ready replay retains none",
+        "currentName": "cache-loss readmission restores transient inputs transactionally and ready replay retains none",
+        "disposition": "Preserved generic queue contract; explicit source-null CaptureStore fixture or unchanged controlled managed context."
+      },
+      {
+        "originalName": "regeneration admission failure rolls back references, attempt and published artifact",
+        "currentName": "regeneration admission failure rolls back references, attempt and published artifact",
+        "disposition": "Preserved generic queue contract; explicit source-null CaptureStore fixture or unchanged controlled managed context."
+      },
+      {
+        "originalName": "permanent admission size limits fail while transient queue pressure remains waiting",
+        "currentName": "permanent admission size limits fail while transient queue pressure remains waiting",
+        "disposition": "Preserved generic queue contract; explicit source-null CaptureStore fixture or unchanged controlled managed context."
+      },
+      {
+        "originalName": "nested deferred children start without an external wake or recursive admission",
+        "currentName": "nested deferred children start without an external wake or recursive admission",
+        "disposition": "Preserved generic queue contract; explicit source-null CaptureStore fixture or unchanged controlled managed context."
+      },
+      {
+        "originalName": "retained publications survive restart without invented jobs and precede later real generations",
+        "currentName": "retained publications survive restart without invented jobs and precede later real generations",
+        "disposition": "Preserved generic queue contract; explicit source-null CaptureStore fixture or unchanged controlled managed context."
+      },
+      {
+        "originalName": "compact job inspection preserves publication and recipe identity through restart",
+        "currentName": "compact job inspection preserves publication and recipe identity through restart",
+        "disposition": "Preserved generic queue contract; explicit source-null CaptureStore fixture or unchanged controlled managed context."
+      },
+      {
+        "originalName": "digest candidates never merge different exact recipes at admission, adoption or publication",
+        "currentName": "digest candidates never merge different exact recipes at admission, adoption or publication",
+        "disposition": "Preserved generic queue contract; explicit source-null CaptureStore fixture or unchanged controlled managed context."
+      },
+      {
+        "originalName": "inspection keeps a previous publication during replacement and hides it after owner loss",
+        "currentName": "inspection keeps a previous publication during replacement and hides it after owner loss",
+        "disposition": "Preserved generic queue contract; explicit source-null CaptureStore fixture or unchanged controlled managed context."
+      },
+      {
+        "originalName": "source-owned recording jobs retain null identity without manufacturing a revision",
+        "currentName": "source-owned recording jobs retain null identity without manufacturing a revision",
+        "disposition": "Preserved generic queue contract; explicit source-null CaptureStore fixture or unchanged controlled managed context."
+      },
+      {
+        "originalName": "source targets stay distinct from omitted and explicit revisions",
+        "currentName": "source targets stay distinct from explicit project revisions and refuse recording edit selectors",
+        "disposition": "Named current contract port: source-null vs explicit actual project revision identity/refusal replaces retired implicit recording r0 edit selection."
+      },
+      {
+        "originalName": "source-owned targets survive reopen, retry, cancellation and owner deletion fencing",
+        "currentName": "source-owned targets survive reopen, retry, cancellation and owner deletion fencing",
+        "disposition": "Preserved generic queue contract; explicit source-null CaptureStore fixture or unchanged controlled managed context."
+      },
+      {
+        "originalName": "source-owned work refuses live or discarded recordings without pinning a revision",
+        "currentName": "source-owned work refuses live or discarded recordings without pinning a revision",
+        "disposition": "Preserved generic queue contract; explicit source-null CaptureStore fixture or unchanged controlled managed context."
+      },
+      {
+        "originalName": "persisted queued work and dependency admission wait for an assembled owner's explicit start",
+        "currentName": "persisted queued work and dependency admission wait for an assembled owner's explicit start",
+        "disposition": "Preserved generic queue contract; explicit source-null CaptureStore fixture or unchanged controlled managed context."
+      },
+      {
+        "originalName": "ordinary scheduling resumes durable queued work after retryable activation contention",
+        "currentName": "ordinary scheduling resumes durable queued work after retryable activation contention",
+        "disposition": "Preserved generic queue contract; explicit source-null CaptureStore fixture or unchanged controlled managed context."
+      }
+    ],
+    "parameterRow": "Existing table-driven nested terminal UNAVAILABLE/LIMIT_EXCEEDED admission case remains, accounting for73cases vs72declarations."
+  },
+  "controls": [
+    {
+      "phase": "omitted-revision-key-red",
+      "effect": "Queue existing() lookup ignores revision identity; first3 revision oracles fail."
+    },
+    {
+      "phase": "cross-revision-publication-red",
+      "effect": "Late old result deletes other revisions/inputs of same artifact; actual new-revision-pixels publication becomes null, OOO row fails."
+    },
+    {
+      "phase": "reused-generation-red",
+      "effect": "Regenerate retains generation1 instead of2; regeneration row fails."
+    }
+  ],
+  "restoration": {
+    "jobsTsByteEqualOriginal": true,
+    "sha256": "3a8a22834cbffe806ee11ac1b7d1dccfa7de4d9bf5d0365c731659eea26debda",
+    "restoredFourPhase": "restored-revision-oracles"
+  },
+  "namedPolicy": "Fixture now calls actual CaptureStore.isCapturing (inputsClosed semantics), not old unsettled().length. Real ProjectStore requireRevision/hasRevision validates authored revision rows. Source work must be settled/noncanceled, undeleted, explicit null. This is the current production contract; fixture policy is not byte-parity with retired revision policy.",
+  "setupLimit": "Initial optional TypeScript AST locator failed MODULE_NOT_FOUND before editing target literals; existing project row proof stillpassed. Preserved source-targets.cjs; correction uses plain fixture literal transform. No production/tool dependency installed.",
+  "limits": [
+    "No queue algorithm/type/schema/public helper changes committed.",
+    "Current source-null proof asserts currentRevisionId null and empty project/project_revisions; joint field purge must replace obsolete field assertion while retaining empty project row proof.",
+    "Two existing managed synthetic-ID cases explicitly vouch for their names; onlyfourrevisionrows plus new source/project distinction use real ProjectStore revisions.",
+    "Controlled executors resolve fixture strings, no rendering/inference/native/capture.",
+    "No full suite, performance/adoption/installed claim.",
+    "Known configured Codex review environment failure is not retried by parent instruction."
+  ],
+  "integratedCommit": "b8ee55c08c0539fa2dcb9c8ac6f945643ddd223c",
+  "bank": {
+    "archive": "source-project-jobs-evidence.tar.gz",
+    "bytes": 505041,
+    "sha256": "ec1bae66e3633885102382c0302b8b681f50442e7e0161d58740a64d7294310f",
+    "payloads": [
+      {
+        "path": "after/packages/core/src/jobs.test.ts",
+        "bytes": 105750,
+        "sha256": "f282c940dee6fa458c6ac6a8dacd74191ccc63c173597cf9b862567eb709169e"
+      },
+      {
+        "path": "after/packages/core/src/jobs.ts",
+        "bytes": 58442,
+        "sha256": "3a8a22834cbffe806ee11ac1b7d1dccfa7de4d9bf5d0365c731659eea26debda"
+      },
+      {
+        "path": "before/packages/core/src/jobs.test.ts",
+        "bytes": 101256,
+        "sha256": "9f50f614ff876639cdf8a8182a14614ce6fed2e449484c7110a2c5e44b8def09"
+      },
+      {
+        "path": "before/packages/core/src/jobs.ts",
+        "bytes": 58442,
+        "sha256": "3a8a22834cbffe806ee11ac1b7d1dccfa7de4d9bf5d0365c731659eea26debda"
+      },
+      {
+        "path": "before.json",
+        "bytes": 310,
+        "sha256": "9492858545f1c4d89e01b88b4b9ab941da282f89c3aeb9e0b5258d45ba1583f3"
+      },
+      {
+        "path": "choices.md",
+        "bytes": 1857,
+        "sha256": "6665b8c8e4d1340376029ecf62c51de1c5e1c41eac2d514f7846bcbd916a9edd"
+      },
+      {
+        "path": "committed-source-check.json",
+        "bytes": 417,
+        "sha256": "8abbf41ecebb10bbf2499d5845f68f36689c15f7c8cde5d4d843af873f4ee07c"
+      },
+      {
+        "path": "coverage.json",
+        "bytes": 26627,
+        "sha256": "66b4ae6e73ee6fba6135cc8647d30f8a0cc1c7ea3d7a771b142575c2c7fb0e27"
+      },
+      {
+        "path": "cross-revision-publication-red/process.json",
+        "bytes": 585,
+        "sha256": "25a2369a0f7a32a35b4cd9fc54cd882e07d60f630883ed421239fb54aec045cc"
+      },
+      {
+        "path": "cross-revision-publication-red/sources/packages/core/src/jobs.test.ts",
+        "bytes": 105741,
+        "sha256": "bcb65c9da0eb19c9b2424ae81cf3df750db0d089124a3556ef7a8144de8b3841"
+      },
+      {
+        "path": "cross-revision-publication-red/sources/packages/core/src/jobs.ts",
+        "bytes": 58598,
+        "sha256": "1b38a67e9d3883e87a4ff7b14b54f33a590f5461040b66f7feb8824bfc259d74"
+      },
+      {
+        "path": "cross-revision-publication-red/stderr",
+        "bytes": 965,
+        "sha256": "54c1d74625130b0531c07ceb2ad8892995b5fcb8f39f75f2da7a76777897f29f"
+      },
+      {
+        "path": "cross-revision-publication-red/stdout",
+        "bytes": 350,
+        "sha256": "9579f1bdc88fafb3750d68958984d934a6d9f1d07e5f0b718fb0e56fa24a5a3a"
+      },
+      {
+        "path": "cross-revision-publication-red/terminal.json",
+        "bytes": 106,
+        "sha256": "5cbc46895dd40415fe108a5f29039503f630896cc257dcab8fd715fd9f6997ce"
+      },
+      {
+        "path": "final-format/process.json",
+        "bytes": 549,
+        "sha256": "2eae2aeac171c1089ce3f1dfb636b03abbb33d1a89f66b16604f795cfba80c6f"
+      },
+      {
+        "path": "final-format/sources/packages/core/src/jobs.test.ts",
+        "bytes": 105750,
+        "sha256": "f282c940dee6fa458c6ac6a8dacd74191ccc63c173597cf9b862567eb709169e"
+      },
+      {
+        "path": "final-format/sources/packages/core/src/jobs.ts",
+        "bytes": 58442,
+        "sha256": "3a8a22834cbffe806ee11ac1b7d1dccfa7de4d9bf5d0365c731659eea26debda"
+      },
+      {
+        "path": "final-format/stderr",
+        "bytes": 91,
+        "sha256": "01f25de219844d53f81b996d6b73e782203533bfc6eba81e44b98acc0039ad42"
+      },
+      {
+        "path": "final-format/stdout",
+        "bytes": 112,
+        "sha256": "69e086bec95c9f61290e5160cf53c1a75ed7ab685c8a23fceb694280c5dbd630"
+      },
+      {
+        "path": "final-format/terminal.json",
+        "bytes": 105,
+        "sha256": "c9d3975dff0b492bcc0d7c4428191cbc16e7a574f84c6d72e2ed4b64e11ae686"
+      },
+      {
+        "path": "final-revision-labels/process.json",
+        "bytes": 680,
+        "sha256": "ff1585f3e6bb2255609ce05f9bc745fe19a3cf42c2469e0503758ab94ba52152"
+      },
+      {
+        "path": "final-revision-labels/sources/packages/core/src/jobs.test.ts",
+        "bytes": 105750,
+        "sha256": "f282c940dee6fa458c6ac6a8dacd74191ccc63c173597cf9b862567eb709169e"
+      },
+      {
+        "path": "final-revision-labels/sources/packages/core/src/jobs.ts",
+        "bytes": 58442,
+        "sha256": "3a8a22834cbffe806ee11ac1b7d1dccfa7de4d9bf5d0365c731659eea26debda"
+      },
+      {
+        "path": "final-revision-labels/stderr",
+        "bytes": 169,
+        "sha256": "bdd884f0cf6c0caaa77a240add4675bebe33e2dc538a403e99c7297118d9da12"
+      },
+      {
+        "path": "final-revision-labels/stdout",
+        "bytes": 196,
+        "sha256": "27a1d962032caa8d7daf52a1d5763b869f6a51a7c52202fde0fe671456e37353"
+      },
+      {
+        "path": "final-revision-labels/terminal.json",
+        "bytes": 106,
+        "sha256": "9fccb4b0d5fd0a5cd12bb36a9b4d9330fade20ff83791242182f7c3810467d76"
+      },
+      {
+        "path": "format/process.json",
+        "bytes": 549,
+        "sha256": "29f6c329d3378eea31e1ca6d0d253626fbd4f8c8bf8e64b944da0437c01fd304"
+      },
+      {
+        "path": "format/sources/packages/core/src/jobs.test.ts",
+        "bytes": 105741,
+        "sha256": "bcb65c9da0eb19c9b2424ae81cf3df750db0d089124a3556ef7a8144de8b3841"
+      },
+      {
+        "path": "format/sources/packages/core/src/jobs.ts",
+        "bytes": 58442,
+        "sha256": "3a8a22834cbffe806ee11ac1b7d1dccfa7de4d9bf5d0365c731659eea26debda"
+      },
+      {
+        "path": "format/stderr",
+        "bytes": 91,
+        "sha256": "01f25de219844d53f81b996d6b73e782203533bfc6eba81e44b98acc0039ad42"
+      },
+      {
+        "path": "format/stdout",
+        "bytes": 112,
+        "sha256": "da293a14487a2caa3e6104ba06a16be77c8f074d9d8aff894eaa7ad6b90066f8"
+      },
+      {
+        "path": "format/terminal.json",
+        "bytes": 105,
+        "sha256": "497bd78cc613d81769e810e28dbea0102a6d6f2b4f34f5f12bdcece9268d55f7"
+      },
+      {
+        "path": "generic-source-smoke/process.json",
+        "bytes": 656,
+        "sha256": "7ca873fe4f1627bcba741dc1de8fe7aea0cd4b521dfb8e6b54bed37cc08e6301"
+      },
+      {
+        "path": "generic-source-smoke/sources/packages/core/src/jobs.test.ts",
+        "bytes": 105741,
+        "sha256": "bcb65c9da0eb19c9b2424ae81cf3df750db0d089124a3556ef7a8144de8b3841"
+      },
+      {
+        "path": "generic-source-smoke/sources/packages/core/src/jobs.ts",
+        "bytes": 58442,
+        "sha256": "3a8a22834cbffe806ee11ac1b7d1dccfa7de4d9bf5d0365c731659eea26debda"
+      },
+      {
+        "path": "generic-source-smoke/stderr",
+        "bytes": 169,
+        "sha256": "d91398c27f86a625a804ede92371dbf6568cb29f14ec19c6d1c3183e96cc89ba"
+      },
+      {
+        "path": "generic-source-smoke/stdout",
+        "bytes": 450,
+        "sha256": "eb84373305aafb70eb075221750caca784fce980e42d73f759b7e915be431c4a"
+      },
+      {
+        "path": "generic-source-smoke/terminal.json",
+        "bytes": 106,
+        "sha256": "e8049ce83d77dd3faa2442156c9e161f5c0a952e1f8eb72a204cd82a494d3981"
+      },
+      {
+        "path": "jobs-file/process.json",
+        "bytes": 546,
+        "sha256": "bf85d078bfab335461ba8e48780f8db2dc8f5cdaf8317e49b1ee3f9de2f6a6aa"
+      },
+      {
+        "path": "jobs-file/sources/packages/core/src/jobs.test.ts",
+        "bytes": 105741,
+        "sha256": "bcb65c9da0eb19c9b2424ae81cf3df750db0d089124a3556ef7a8144de8b3841"
+      },
+      {
+        "path": "jobs-file/sources/packages/core/src/jobs.ts",
+        "bytes": 58442,
+        "sha256": "3a8a22834cbffe806ee11ac1b7d1dccfa7de4d9bf5d0365c731659eea26debda"
+      },
+      {
+        "path": "jobs-file/stderr",
+        "bytes": 169,
+        "sha256": "0e91833ec6e1f4500e52ce467acc261833e2ec37709ce846d3424b527f32d3f9"
+      },
+      {
+        "path": "jobs-file/stdout",
+        "bytes": 184,
+        "sha256": "c707881f0e5e99e9566ee0f35aa4a4d1a76a83d8123a17a2b820bd69273fdb82"
+      },
+      {
+        "path": "jobs-file/terminal.json",
+        "bytes": 105,
+        "sha256": "dfc24ee4c31bbb1c684189fc6964b5534d2965865d620ee8faf87ee87c123d6e"
+      },
+      {
+        "path": "lint/process.json",
+        "bytes": 536,
+        "sha256": "288c7d7e90a8dcb38461ac5070abbcc778d03c8c97f3ea5b1b5fb5fda0a3e2ca"
+      },
+      {
+        "path": "lint/sources/packages/core/src/jobs.test.ts",
+        "bytes": 105741,
+        "sha256": "bcb65c9da0eb19c9b2424ae81cf3df750db0d089124a3556ef7a8144de8b3841"
+      },
+      {
+        "path": "lint/sources/packages/core/src/jobs.ts",
+        "bytes": 58442,
+        "sha256": "3a8a22834cbffe806ee11ac1b7d1dccfa7de4d9bf5d0365c731659eea26debda"
+      },
+      {
+        "path": "lint/stderr",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "lint/stdout",
+        "bytes": 160,
+        "sha256": "e9a165054adfa8a27441643b0337b67efb052b3b29906755160a7898558e9058"
+      },
+      {
+        "path": "lint/terminal.json",
+        "bytes": 105,
+        "sha256": "da896111d99abc7c1fe8e7b7fbab44860664a072d48826987022ac3c528a0ed3"
+      },
+      {
+        "path": "omitted-revision-key-red/process.json",
+        "bytes": 648,
+        "sha256": "6b55f4c262df0ea82f83f1cf6eb066c93cc62a7300103bf29a5edcb1f412325b"
+      },
+      {
+        "path": "omitted-revision-key-red/sources/packages/core/src/jobs.test.ts",
+        "bytes": 105741,
+        "sha256": "bcb65c9da0eb19c9b2424ae81cf3df750db0d089124a3556ef7a8144de8b3841"
+      },
+      {
+        "path": "omitted-revision-key-red/sources/packages/core/src/jobs.ts",
+        "bytes": 58443,
+        "sha256": "c917ff36bbf8c0db5a23bc0815756d3700554147a137a867af59174af96194b9"
+      },
+      {
+        "path": "omitted-revision-key-red/stderr",
+        "bytes": 2701,
+        "sha256": "e1870326ab53250eb0912e5d92e71a0c2aff783b816121c027685409aa31d34e"
+      },
+      {
+        "path": "omitted-revision-key-red/stdout",
+        "bytes": 537,
+        "sha256": "306dc9b35fd9951054f05890bf234c69efc0a77594ef4df8b58f743ee9889799"
+      },
+      {
+        "path": "omitted-revision-key-red/terminal.json",
+        "bytes": 104,
+        "sha256": "6b9685809e894d90945c25c08c2f25e62e51a976012b3e6d5a962e1247d6b41d"
+      },
+      {
+        "path": "original-revision-oracles/process.json",
+        "bytes": 681,
+        "sha256": "a6659b0532e090b219da47ec0a1741342df660887139bca0b6544c9cfe5f9003"
+      },
+      {
+        "path": "original-revision-oracles/sources/packages/core/src/jobs.test.ts",
+        "bytes": 101256,
+        "sha256": "9f50f614ff876639cdf8a8182a14614ce6fed2e449484c7110a2c5e44b8def09"
+      },
+      {
+        "path": "original-revision-oracles/sources/packages/core/src/jobs.ts",
+        "bytes": 58442,
+        "sha256": "3a8a22834cbffe806ee11ac1b7d1dccfa7de4d9bf5d0365c731659eea26debda"
+      },
+      {
+        "path": "original-revision-oracles/stderr",
+        "bytes": 169,
+        "sha256": "1bcca44e1680448f2df45db95e592aa51c749547366f20a9c9960fad9a13b25b"
+      },
+      {
+        "path": "original-revision-oracles/stdout",
+        "bytes": 207,
+        "sha256": "c09fdab663164bf388dff69291728ce5a1f22d8093d1a2baf96418dbd307c214"
+      },
+      {
+        "path": "original-revision-oracles/terminal.json",
+        "bytes": 106,
+        "sha256": "84e498ae4ca21a177e8d4d03809ce1a8a220bb794b10d19cf1d3f6f6017e3e56"
+      },
+      {
+        "path": "port.py",
+        "bytes": 9358,
+        "sha256": "4350ec636a0a973c34ee35529e86113eba5d57b4ba3cd4e3b4493d4c1424f097"
+      },
+      {
+        "path": "project-revision-oracles/process.json",
+        "bytes": 682,
+        "sha256": "13eabcafcada15c22a8cb472d1e472bf7d478921ef52512cd3b7908ab1c93397"
+      },
+      {
+        "path": "project-revision-oracles/sources/packages/core/src/jobs.test.ts",
+        "bytes": 104388,
+        "sha256": "dd4a933c2238e561cc7d1f4b28f8a9b5a6f45229786f3b2e32fe9cd9e2299a2a"
+      },
+      {
+        "path": "project-revision-oracles/sources/packages/core/src/jobs.ts",
+        "bytes": 58442,
+        "sha256": "3a8a22834cbffe806ee11ac1b7d1dccfa7de4d9bf5d0365c731659eea26debda"
+      },
+      {
+        "path": "project-revision-oracles/stderr",
+        "bytes": 169,
+        "sha256": "1b56690ad757aa62047ddf4fbdb79dcefc22c5c6df53d10f24f86c686b4d90aa"
+      },
+      {
+        "path": "project-revision-oracles/stdout",
+        "bytes": 450,
+        "sha256": "577c14c7908e7f3e642d980191c8eb42cc019dcea46f2ca8d78d8a5d03c6266d"
+      },
+      {
+        "path": "project-revision-oracles/terminal.json",
+        "bytes": 106,
+        "sha256": "af2020dd060ed428c9c4b45efbc47998922d89f160e9cffa6d0042de68c43f7e"
+      },
+      {
+        "path": "restored-revision-oracles/process.json",
+        "bytes": 681,
+        "sha256": "da28e530696affb5688e36a01cb501f52cac05aa375673017c0b20367aa23073"
+      },
+      {
+        "path": "restored-revision-oracles/sources/packages/core/src/jobs.test.ts",
+        "bytes": 105741,
+        "sha256": "bcb65c9da0eb19c9b2424ae81cf3df750db0d089124a3556ef7a8144de8b3841"
+      },
+      {
+        "path": "restored-revision-oracles/sources/packages/core/src/jobs.ts",
+        "bytes": 58442,
+        "sha256": "3a8a22834cbffe806ee11ac1b7d1dccfa7de4d9bf5d0365c731659eea26debda"
+      },
+      {
+        "path": "restored-revision-oracles/stderr",
+        "bytes": 169,
+        "sha256": "396050faaf79c28107e60b3f5100f3635a1cd136a4a89874b45cc9333f71d24c"
+      },
+      {
+        "path": "restored-revision-oracles/stdout",
+        "bytes": 196,
+        "sha256": "193ccb8796dec27ea21d1e3ac5982927099f1456ea3cd264311c6785e0305ce1"
+      },
+      {
+        "path": "restored-revision-oracles/terminal.json",
+        "bytes": 103,
+        "sha256": "b4eae2b2133bed030538cf397ebf37a947fc01604a04e7ec8e9e984e3d177ecc"
+      },
+      {
+        "path": "reused-generation-red/process.json",
+        "bytes": 596,
+        "sha256": "cc7b716078973a8b1e2a5aa7795e07289845c407fb8f35c8666f5b663ea14742"
+      },
+      {
+        "path": "reused-generation-red/sources/packages/core/src/jobs.test.ts",
+        "bytes": 105741,
+        "sha256": "bcb65c9da0eb19c9b2424ae81cf3df750db0d089124a3556ef7a8144de8b3841"
+      },
+      {
+        "path": "reused-generation-red/sources/packages/core/src/jobs.ts",
+        "bytes": 58440,
+        "sha256": "1b8d39bd373fdce75966821feb9647aad0651c5f776a680d5f9272c41696b5f1"
+      },
+      {
+        "path": "reused-generation-red/stderr",
+        "bytes": 1090,
+        "sha256": "19904f8262bc3203e5a19f03397b3ac44db6f7bca6a5b993e6367e04b5db453f"
+      },
+      {
+        "path": "reused-generation-red/stdout",
+        "bytes": 380,
+        "sha256": "efd5faf6ce085daeedb0d7cac64ea36d485763a81be6bca12321e04354478f5f"
+      },
+      {
+        "path": "reused-generation-red/terminal.json",
+        "bytes": 105,
+        "sha256": "bdd6d0064d2c0bb07f400cbcc909027ec2b4d9df28ade927efb56e2b9429edc5"
+      },
+      {
+        "path": "review.md",
+        "bytes": 2014,
+        "sha256": "b88a8d9d4fe4e87ab957f81c1c5db3747ba7dbfc7d947ef4e643bb709bc441cb"
+      },
+      {
+        "path": "run.py",
+        "bytes": 1302,
+        "sha256": "525fd53348728f947165bfabfb95510aafabce0c50db4ebb249155213b009efe"
+      },
+      {
+        "path": "source-targets.cjs",
+        "bytes": 1397,
+        "sha256": "74086b7069c5069834b273df4b897a75ffc4349827b0387c6940d6eea35a64aa"
+      },
+      {
+        "path": "source-targets.py",
+        "bytes": 686,
+        "sha256": "15f0b5e3b6b2a2c105d79c4a91f2ccca4cc6127a3b342261c2df34f4aebbe7c4"
+      },
+      {
+        "path": "types/process.json",
+        "bytes": 545,
+        "sha256": "4a76e264d605d011483a15b0a88af43fac742e1bee44abe47a4fbd6d441da8a9"
+      },
+      {
+        "path": "types/sources/packages/core/src/jobs.test.ts",
+        "bytes": 105741,
+        "sha256": "bcb65c9da0eb19c9b2424ae81cf3df750db0d089124a3556ef7a8144de8b3841"
+      },
+      {
+        "path": "types/sources/packages/core/src/jobs.ts",
+        "bytes": 58442,
+        "sha256": "3a8a22834cbffe806ee11ac1b7d1dccfa7de4d9bf5d0365c731659eea26debda"
+      },
+      {
+        "path": "types/stderr",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "types/stdout",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "types/terminal.json",
+        "bytes": 105,
+        "sha256": "b9f68f7801687c61e69b3ed78b8a09ced3026855f92b09028f69d06ddc8d1350"
+      },
+      {
+        "path": "verification.json",
+        "bytes": 33020,
+        "sha256": "3c057c2df013e67c1f6dddec3c67f09a4df3a38331ed2d5c540e3bf9cba420d5"
+      }
+    ],
+    "rootVerification": "Every archived payload hash/size independently verified; exact fixture and four project-oracle diffs reviewed; 71 direct declarations preserved with two named replacements; original terminal runs reused. Final test/queue hashes and all four invariant owner pins independently checked against named commits."
+  }
+}

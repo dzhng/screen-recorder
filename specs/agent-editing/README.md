@@ -35,12 +35,14 @@ The [fixture preservation checkpoint](assets/23-owner-fixture-ports/README.md)
 ports registry, publication/capture lifetimes, preview pin combinations and
 source-only core lifecycle fixtures to actual project/source owners. Package
 workspace cleanup, process-death recovery and retained-generation references are
-also transferred. Continue surviving native workspace children,
-member/substitution refusal, real package frame/audio retry and drain, and
-bundled startup guarantees in the managed
+also transferred, including surviving archive writers, substituted inputs and
+mutation during source copying. Continue abandonment resource references,
+normalized acquisition-member mutation, real package frame/audio retry and drain,
+and bundled startup guarantees in the managed
 `service-composition` worktree on `codex/package-owner-purge`. In parallel, remove
 mixed core dependencies and port generic fixtures from `RevisionStore` to their
-actual source/project owners; cache and source evidence already use capture facts.
+actual source/project owners; generic cache, source evidence and queue fixtures
+already use capture facts. Queue edit-revision cases use actual projects.
 Source normalization types belong to source admission, and common movie receipt
 validation has a separate owner. Editing/history belongs to `ProjectStore`.
 The matched map governs deletion of the

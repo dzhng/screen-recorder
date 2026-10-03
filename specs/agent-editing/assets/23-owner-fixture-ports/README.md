@@ -100,12 +100,37 @@ The [scene fixture bank](source-scene-verification.json) and
 identity and evidence lifetime fixtures to capture facts. Scene processing that
 actually interprets recording edits remains separately pending.
 
-Remaining native workspace-child recovery, real package frame/audio failure
-retry and worker drain, substitution/member mutation refusal and actual bundled
-startup ordering must be accounted for
-before the old fixture and package family can be removed. Aggregate library
-storage replaces the obsolete per-recording allocation query; external committed
-files remain excluded. Neither port changes that storage policy.
+The [source evidence fixture bank](source-evidence-fixtures-verification.json)
+and [62-case proof](source-evidence-fixtures-evidence.tar.gz) transfer adjacent
+event, scene ownership, pointing trail, transcript ownership and visual cache
+fixtures to capture facts. Their assertions are unchanged. Stored edit-revision
+fixtures remain separately mapped.
+
+The [queue fixture bank](source-project-jobs-verification.json) and
+[original 73-case run and controls](source-project-jobs-evidence.tar.gz) preserve
+scheduling, capacity, cancellation, recovery and input references on capture
+facts. Four edit-revision guarantees now use actual project revisions. One
+named domain control admits live capture work to test late canceled-state
+suppression; current service admission still refuses live source work. The final
+source differs from the full run only in three request labels, with all four
+affected cases checked afterward. Queue implementation bytes are unchanged.
+
+The [package boundary bank](package-boundaries-verification.json) retains
+[actual descriptor-copy and native-child controls](package-boundaries-evidence.tar.gz).
+A substituted input directory cannot publish or be retired as owned; mutation
+after a real source read refuses publication. A stopped native archive writer
+surviving its owner's death keeps the workspace and project retirement fenced.
+The affected cohort passes 28 cases before a cleanup review repair; the final
+native-survivor case passes separately afterward. Owned process-group cleanup
+is registered before the barrier handshake; its missing-handshake path was
+code-reviewed, without a separate fault run. No full final-cohort rerun is claimed.
+
+Remaining abandonment resource-reference clauses, normalized acquisition-member
+mutation, real package frame/audio failure retry and worker drain, and actual
+bundled startup ordering must be accounted for before the old fixture and package
+family can be removed. Aggregate library storage replaces the obsolete
+per-recording allocation query; external committed files remain excluded.
+Neither port changes that storage policy.
 
 Fixture media bytes and probe results are controlled; filesystem/archive and
 canonical metadata owners are real. These checks do not prove media decoding,

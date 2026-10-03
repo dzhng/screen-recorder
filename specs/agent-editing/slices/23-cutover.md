@@ -59,9 +59,11 @@ composition and media delivery. The project cursor producer, strict schema and
 native opaque replay agree. The [fixture preservation checkpoint](../assets/23-owner-fixture-ports/README.md)
 rehomes registry/publication/capture lifetimes, preview pin combinations, package
 workspace recovery, source lifecycle fixtures and retained-generation references.
-Generic cache/evidence fixtures use capture facts; common source-export types and
+Generic cache/evidence/queue fixtures use capture facts and project revisions;
+common source-export types and
 movie validation no longer load their old editing owners. Remaining
-native-child/mutation, real package frame/audio retry and drain, and bundled startup ports precede
+abandonment references, normalized acquisition-member mutation, real package
+frame/audio retry and drain, and bundled startup ports precede
 orphan package-owner deletion and actual
 core/schema removal. Preserve valuable
 source/project guarantees rather than restore the deleted engine. Missing

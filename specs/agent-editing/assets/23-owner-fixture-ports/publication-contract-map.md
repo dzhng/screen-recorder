@@ -57,8 +57,11 @@ fixture passes the affected 59-case cohort. The [generation bank](package-genera
 at `d2b6c76c` transfers V2298/V2792/V2947 active-export, canceled retry,
 commit-release and recipient recovery guarantees through four current resource
 owners; its repaired 63-case cohort passes. Resource-reference portions of
-V1005/1061/1212, surviving native writer, unsafe workspace/mutated member and
-actual bundled startup guarantees remain pending. The positive
+V1005/1061/1212, normalized acquisition-member mutation and actual bundled
+startup guarantees remain pending. The [boundary bank](package-boundaries-verification.json)
+transfers V3063/V3162/V3219 at `0508b09f`: native archive survival,
+input substitution and mutation during actual descriptor copying. Its earlier
+28-case cohort and final targeted cleanup-repair check have separate identities. The positive
 `package-media-failures.mjs` contract also needs transfer: injected native
 frame/audio failure must retry with the same job and a new generation, deliver
 actual PNG/RIFF content, drain a held native worker on close and revoke private
@@ -75,6 +78,9 @@ or controlled-byte rendering does not replace it.
 | 2298 | Transferred: selected scene generation survives active/canceled export and releases after commit | `project-package-export.mjs` |
 | 2792 | Transferred: selected transcript generation and raw bytes retain/release through actual package lifecycle | `project-package-export.mjs` |
 | 2947 | Transferred: selected source/project index images survive replacement/cleanup and recipient adoption | `project-package-export.mjs` |
+| 3063 | Transferred: actual native archive writer surviving owner death fences project retirement | `project-package-boundaries.mjs` |
+| 3162 | Transferred: substituted input directory refuses publication and cleanup | `project-package-boundaries.mjs` |
+| 3219 | Transferred: source mutation during actual descriptor copy refuses publication | `project-package-boundaries.mjs` |
 
 ## Initial inventory and correspondence
 

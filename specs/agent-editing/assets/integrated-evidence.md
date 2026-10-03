@@ -197,8 +197,14 @@
   cleanup, cancellation, retry, release and independent recipient adoption. Generic
   cache/evidence fixture ports retain all 46 cases; normalization type emission
   parity and common movie-validation extraction are separately banked. Outstanding
-  native-child/mutation/startup guarantees remain in the map before obsolete-owner
-  deletion; no media or release acceptance follows.
+  abandonment/normalized-member/startup and real media retry/drain guarantees
+  remain in the map before obsolete-owner
+  deletion. Later grouped source fixtures retain 62 cases; queue fixture ports
+  retain all 73 cases and four actual project-revision guarantees, with a separate
+  final check after request-label changes. Package-boundary
+  controls cover native archive survival, input substitution and actual source
+  copy mutation; the 28-case cohort predates a separately checked cleanup repair.
+  No media or release acceptance follows.
 - [Ordered moves and spectrogram duration](24-spectrogram-duration/README.md)
   verifies the original500-operation request and matched memory scaling. Reuse
   its evidence; it does not substitute for quality or physical gates.

@@ -7174,3 +7174,23 @@ these import details. This choice belongs to `d31d12d7` and `1f654da7`; it adds
 no endpoint, schema or new dependency. Frozen raw-cursor provenance remains a
 separate consumed contract, rather than being mistaken for a live recording
 editing revision and deleted during a fixture port.
+
+**Sound, high confidence — failed crash-fixture handshakes retire the owned process group.**
+The archive-survival fixture deliberately kills a service while its native child
+is stopped. If that child never publishes its marker, marker-based cleanup cannot
+find it. The fixture now creates its own process group and knows its identity
+before the worker starts. Failure cleanup kills and drains only that group.
+The plan required actual child-lifetime evidence without prescribing failure
+cleanup. This choice belongs to `0508b09f`; it adds no production process search,
+retry or termination policy.
+
+**Sound, medium confidence — keep a controlled admission policy in the queue discard test.**
+The queue must refuse late results when its domain owner becomes unavailable.
+Current service admission refuses work on a live source, so its normal policy
+cannot reach the original canceled-capture scenario. This one existing test
+explicitly admits that capture through a local domain policy, then uses its real
+canceled transition to test queued suppression and late-result refusal.
+The plan required preserving queue lifetimes without choosing this test seam.
+This choice belongs to `b8ee55c0`; it proves the generic queue guarantee and
+does not authorize live source work through the product. Normal fixture policy
+uses current capture availability and real project revision validation.
