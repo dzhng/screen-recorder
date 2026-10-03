@@ -4,7 +4,6 @@ import { join } from "node:path";
 import { CaptureStore } from "./capture-store.js";
 import { AssetStore } from "./assets.js";
 import { AcquisitionStore, AcquisitionImporter } from "./acquisitions.js";
-import { writeSceneEvidencePages } from "./scene-pages.js";
 import { SourceEvidenceStore } from "./evidence.js";
 import { SourceSceneAnalysis, scenePolicy } from "./scenes.js";
 import { SelectedSourceSceneAnalysis, sourceScenePolicy } from "./source-scenes.js";
@@ -168,9 +167,12 @@ test("real recording and asset owners with identical IDs and attempts retain the
     durationUs: 1000000,
     boundaryCount: 1,
   });
+  async function* capturedChunks() {
+    yield f.recordingChunk;
+  }
   await expect(
-    writeSceneEvidencePages(f.evidence, f.identity, join(f.home, "asset-package")),
-  ).rejects.toThrow("recording source");
+    f.evidence.stagePortable(captured, capturedChunks(), new AbortController().signal),
+  ).rejects.toMatchObject({ name: "ZodError" });
   expect(f.evidence.sourcePage({ identity: f.identity }).chunks).toEqual([f.chunk]);
   await f.evidence.remove(f.identity);
   expect(() => f.evidence.sourcePage({ identity: f.identity })).toThrow("complete");

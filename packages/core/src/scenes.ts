@@ -255,6 +255,11 @@ export function analyzeSceneObservations(
   };
 }
 
+export type VisualScene = ReturnType<typeof analyzeSceneObservations> & {
+  reference: VisualSample;
+  futureComparison: VisualComparison | null;
+};
+
 /** Canonical source evidence keeps its rounding envelope across every chunk and coverage window. */
 export class SourceSceneAnalysis {
   private throughUs = 0;

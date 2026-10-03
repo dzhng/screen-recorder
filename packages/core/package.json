@@ -80,10 +80,6 @@
       "types": "./dist/evidence-pages.d.ts",
       "default": "./dist/evidence-pages.js"
     },
-    "./scene-pages": {
-      "types": "./dist/scene-pages.d.ts",
-      "default": "./dist/scene-pages.js"
-    },
     "./presentation-evidence": {
       "types": "./dist/presentation-evidence.d.ts",
       "default": "./dist/presentation-evidence.js"
@@ -116,10 +112,6 @@
       "types": "./dist/index-read.d.ts",
       "default": "./dist/index-read.js"
     },
-    "./event-pages": {
-      "types": "./dist/event-pages.d.ts",
-      "default": "./dist/event-pages.js"
-    },
     "./retained-image": {
       "types": "./dist/retained-image.d.ts",
       "default": "./dist/retained-image.js"
@@ -135,10 +127,6 @@
     "./evidence-read": {
       "types": "./dist/evidence-read.d.ts",
       "default": "./dist/evidence-read.js"
-    },
-    "./timeline-inspection": {
-      "types": "./dist/timeline-inspection.d.ts",
-      "default": "./dist/timeline-inspection.js"
     },
     "./derivative-inspection": {
       "types": "./dist/derivative-inspection.d.ts",

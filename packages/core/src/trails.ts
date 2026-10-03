@@ -8,6 +8,7 @@ import {
   compareVisualSamples,
   compareVisualRasters,
   type VisualSampler,
+  type VisualScene,
 } from "./scenes.js";
 import {
   comparePresentationTimes,
@@ -45,7 +46,6 @@ export type PointerResetFloor = {
   allowAtBoundary: boolean;
   reason: TrailCutoff["reason"];
 };
-export type TrailScene = Awaited<ReturnType<typeof analyzeFrameScene>>;
 type CursorObservation = RawCursorSample & { sequence: number };
 
 /** Core selects temporal evidence; the native overlay only draws these already-clipped points. */
@@ -94,13 +94,13 @@ export async function planVisualTrail(
   dependencies: {
     evidence: SourceTrailRead;
     identity: EvidenceIdentity;
-    scene: TrailScene;
+    scene: VisualScene;
     resetFloor?: PointerResetFloor;
     presentationClock?: { at: PresentationInstant; sampleTime: PresentationTime };
     readScene: (
       at: number,
       trailUs: number,
-    ) => Promise<{ scene: TrailScene | null; presentationTime?: PresentationTime }>;
+    ) => Promise<{ scene: VisualScene | null; presentationTime?: PresentationTime }>;
   },
   signal: AbortSignal,
 ) {
@@ -200,7 +200,7 @@ export async function planVisualTrail(
     (pause) => pause.atSourceUs > at && pause.atSourceUs <= selectedAt,
   );
   const veto = incompatible || scene.futureComparison?.boundary || futurePause;
-  let stalePointerScene: Awaited<ReturnType<typeof analyzeFrameScene>> | null = null;
+  let stalePointerScene: VisualScene | null = null;
   let missingPriorPicture = false;
   let stalePointerComparison: ReturnType<typeof compareVisualSamples> | null = null;
   const eligible = (observation: CursorObservation) =>

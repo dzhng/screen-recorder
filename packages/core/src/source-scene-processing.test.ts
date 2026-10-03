@@ -1,5 +1,5 @@
 import { fromTime, compare, type TimeValue } from "@screenrec/composition";
-import { randomUUID } from "node:crypto";
+import { createHash, randomUUID } from "node:crypto";
 import { mkdtemp, rm, writeFile } from "node:fs/promises";
 import { join } from "node:path";
 import { afterEach, expect, test, vi } from "vitest";
@@ -11,6 +11,7 @@ import { JobQueue } from "./jobs.js";
 import { SceneProcessing } from "./scene-processing.js";
 import { SceneEvidenceStore, assetSceneOwner, sceneGenerationResource } from "./scene-evidence.js";
 import type { SourceVisualSampler } from "./source-scenes.js";
+import type { SourceSceneChunk } from "./source-scene-chunks.js";
 const cleanup: (() => Promise<void>)[] = [];
 afterEach(async () => {
   for (const fn of cleanup.splice(0).reverse()) await fn();
@@ -132,13 +133,19 @@ async function fixture(durationUs: TimeValue = 1000000) {
     });
   }
   start();
-  cleanup.push(async () => {
+  let disposed = false;
+  const dispose = async () => {
+    if (disposed) return;
     control.release();
     await jobs.close();
     catalog.close();
+    disposed = true;
     await rm(home, { recursive: true, force: true });
-  });
+  };
+  cleanup.push(dispose);
   return {
+    home,
+    dispose,
     asset,
     selection: { assetId: asset.id, streamId: "v1" },
     requests,
@@ -408,6 +415,128 @@ test("portable scene publication restores real selectors and survives restart wi
     historical,
   );
   expect(receiver.requests).toEqual([]);
+});
+
+test("portable scene admission refuses semantic changes even when the JSON inventory hash matches", async () => {
+  const donor = await fixture(24_000_000),
+    receiver = await fixture(24_000_000);
+  donor.processing.prepareSource(donor.selection);
+  await donor.jobs.idle();
+  const metadata = donor.processing.sourceStatus(donor.selection).published!.evidence,
+    original = donor.evidence.sourcePage({ identity: metadata }).chunks;
+  expect(original.map((chunk) => chunk.range)).toEqual([
+    { startUs: 0, endUs: 10_000_000 },
+    { startUs: 10_000_000, endUs: 20_000_000 },
+    { startUs: 20_000_000, endUs: 24_000_000 },
+  ]);
+  for (const mutate of [
+    (chunk: SourceSceneChunk) => {
+      chunk.coverage[1]!.requestedSourceUs++;
+    },
+    (chunk: SourceSceneChunk) => {
+      const point = chunk.coverage[1]!;
+      if (point.status !== "available") throw new Error("available fixture point required");
+      point.actualSourceUs++;
+    },
+    (chunk: SourceSceneChunk) => {
+      const point = chunk.coverage[2]!;
+      if (point.status !== "available") throw new Error("available fixture point required");
+      point.sample = { ...point.sample, value: "-250000", endValue: "-249999" };
+      point.actualSourceUs = 0;
+    },
+    (chunk: SourceSceneChunk) => {
+      chunk.comparisons[0]!.current = chunk.comparisons[0]!.previous;
+    },
+  ]) {
+    const rows = structuredClone(original);
+    mutate(rows[0]!);
+    const bytes = Buffer.from(JSON.stringify(rows)),
+      descriptor = {
+        bytes: bytes.length,
+        sha256: createHash("sha256").update(bytes).digest("hex"),
+      };
+    await writeFile(join(receiver.home, "scene-member.json"), bytes);
+    const retained = await (
+      await import("node:fs/promises")
+    ).readFile(join(receiver.home, "scene-member.json"));
+    expect(retained.length).toBe(descriptor.bytes);
+    expect(createHash("sha256").update(retained).digest("hex")).toBe(descriptor.sha256);
+    async function* chunks() {
+      yield* JSON.parse(retained.toString()) as SourceSceneChunk[];
+    }
+    await expect(
+      receiver.evidence.stagePortable(metadata, chunks(), new AbortController().signal),
+    ).rejects.toMatchObject({ code: "INVALID_EVIDENCE" });
+    expect(receiver.evidence.portableGenerations(receiver.asset.id)).toEqual([]);
+  }
+  async function* chunks() {
+    yield* original;
+  }
+  const stage = await receiver.evidence.stagePortable(
+    metadata,
+    chunks(),
+    new AbortController().signal,
+  );
+  receiver.catalog.transaction(() => stage.publish());
+  await stage.close();
+  await donor.dispose();
+  await receiver.reopen();
+  expect(receiver.evidence.sourcePage({ identity: metadata }).chunks).toEqual(original);
+  expect(receiver.requests).toEqual([]);
+});
+
+test("portable scene chunks must continue their predecessor and cover the complete selected source", async () => {
+  const donor = await fixture(24_000_000),
+    receiver = await fixture(24_000_000);
+  donor.processing.prepareSource(donor.selection);
+  await donor.jobs.idle();
+  const metadata = donor.processing.sourceStatus(donor.selection).published!.evidence,
+    original = donor.evidence.sourcePage({ identity: metadata }).chunks,
+    repeated = structuredClone(original);
+  repeated[1]!.comparisons.unshift(repeated[0]!.comparisons.at(-1)!);
+  for (const rows of [repeated, [original[0]!, original[2]!], original.slice(0, 2)]) {
+    async function* chunks() {
+      yield* rows;
+    }
+    const inventory = {
+      ...metadata,
+      chunkCount: rows.length,
+      comparisonCount: rows.reduce((count, chunk) => count + chunk.comparisons.length, 0),
+      boundaryCount: rows.reduce(
+        (count, chunk) => count + chunk.comparisons.filter((pair) => pair.boundary).length,
+        0,
+      ),
+    };
+    await expect(
+      receiver.evidence.stagePortable(inventory, chunks(), new AbortController().signal),
+    ).rejects.toMatchObject({ code: "INVALID_EVIDENCE" });
+    expect(receiver.evidence.portableGenerations(receiver.asset.id)).toEqual([]);
+  }
+  async function* chunks() {
+    yield* original;
+  }
+  await expect(
+    receiver.evidence.stagePortable(
+      { ...metadata, policy: "future-scene" },
+      chunks(),
+      new AbortController().signal,
+    ),
+  ).rejects.toMatchObject({ name: "ZodError" });
+  await expect(
+    receiver.evidence.stagePortable(
+      { ...metadata, source: { ...metadata.source, streamId: "v2" } },
+      chunks(),
+      new AbortController().signal,
+    ),
+  ).rejects.toMatchObject({ code: "INVALID_EVIDENCE" });
+  const stage = await receiver.evidence.stagePortable(
+    metadata,
+    chunks(),
+    new AbortController().signal,
+  );
+  receiver.catalog.transaction(() => stage.publish());
+  await stage.close();
+  expect(receiver.evidence.sourcePage({ identity: metadata }).chunks).toEqual(original);
 });
 
 test("portable scene cancellation and rollback clean pending rows while retained references protect completed rows", async () => {

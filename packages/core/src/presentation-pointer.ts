@@ -5,8 +5,8 @@ import {
   type PresentationPicture,
   type PresentationRecord,
 } from "./presentation-evidence.js";
-import { analyzeSceneObservations } from "./scenes.js";
-import { planVisualTrail, type TrailScene, type PointerResetFloor } from "./trails.js";
+import { analyzeSceneObservations, type VisualScene } from "./scenes.js";
+import { planVisualTrail, type PointerResetFloor } from "./trails.js";
 import {
   comparePresentationTimes,
   floorMicroseconds,
@@ -22,7 +22,7 @@ function pointScene(
   kept: TimeRange,
   source: PresentationEvidence,
   trailUs = 0,
-): TrailScene {
+): VisualScene {
   const sample = {
     requestedSourceUs: at,
     actualSourceUs: picture.actualSourceUs,
