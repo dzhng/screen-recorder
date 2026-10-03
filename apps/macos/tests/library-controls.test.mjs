@@ -23,7 +23,7 @@ import ScreenRecorderControls
     static var exchanges: [[String: Any]] = []
     var next: Any = ["afterSequence": 7]
     var projects: [[String: Any]] = [["projectId": "same", "title": "Caller project", "createdAt": "2026-10-01T01:00:00Z", "currentRevisionId": "r-project"]]
-    var recording: [String: Any] = ["recordingId": "same", "createdAt": "2026-10-01T01:00:00Z", "state": "complete", "sourceId": "source-one", "creationSequence": 1, "lifecycleSequence": 3, "interruptionReason": NSNull(), "interruptionMessage": NSNull(), "finalizationError": NSNull(), "sourceDurationUs": 9000000, "currentRevisionId": NSNull(), "sourceAdmissions": []]
+    var recording: [String: Any] = ["recordingId": "same", "createdAt": "2026-10-01T01:00:00Z", "state": "complete", "sourceId": "source-one", "creationSequence": 1, "lifecycleSequence": 3, "interruptionReason": NSNull(), "interruptionMessage": NSNull(), "finalizationError": NSNull(), "sourceDurationUs": 9000000, "sourceAdmissions": []]
     var deletes: [MediaTarget] = []
     var deletedTargets: Set<MediaTarget> = []
     var wrongDelete = false
@@ -122,7 +122,6 @@ import ScreenRecorderControls
 
         // Recording facts remain readable without any composition or artifact polling.
         script.deletedTargets.remove(.recording("same"))
-        script.recording.removeValue(forKey: "currentRevisionId")
         library.refreshRecordings()
         await until { library.state.recent.count == 1 }
         let lastTake = library.state.recent
