@@ -24,7 +24,7 @@ enum RenderWorkspace {
             try ManagedFiles.lockPrivateDirectory(4, shared: true)
             try ManagedFiles.removeOwnedDirectory(4, name, 3, expected)
         } else {
-            try ManagedFiles.removeContents(3)
+            try DirectoryContents.removeContents(3)
         }
     }
 }

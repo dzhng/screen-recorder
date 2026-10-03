@@ -37,7 +37,7 @@ struct InodeIdentity: Codable, Equatable {
     /// Fails unless `fd` still names this identity.
     func check(_ fd: Int32) throws {
         var info = stat()
-        guard fstat(fd, &info) == 0 else { throw Descriptors.failure("Inspect directory") }
+        guard fstat(fd, &info) == 0 else { throw DirectoryContents.failure("Inspect directory") }
         guard Self(info) == self else {
             throw NativeFailure("INVALID_STORAGE", "Managed directory identity changed.")
         }
@@ -52,39 +52,9 @@ struct InodeIdentity: Codable, Equatable {
 /// Descriptor-relative primitives shared by every storage operation. They never resolve a path
 /// above the descriptor they are given.
 enum Descriptors {
-    /// Calls `body` with each entry name other than `.` and `..`, stopping when it returns false.
-    /// `failing` names what an enumeration error means to the calling operation.
-    static func forEachName(
-        in fd: Int32, failing: (String) -> NativeFailure = failure,
-        _ body: (UnsafePointer<CChar>) throws -> Bool
-    ) throws {
-        let scan = openat(fd, ".", O_RDONLY | O_DIRECTORY | O_NOFOLLOW | O_CLOEXEC)
-        guard scan >= 0 else { throw failing("Open owned directory") }
-        guard let stream = fdopendir(scan) else {
-            close(scan)
-            throw failing("Enumerate owned directory")
-        }
-        defer { closedir(stream) }
-        while true {
-            errno = 0
-            guard let entry = readdir(stream) else {
-                if errno != 0 { throw failing("Read owned directory") }
-                return
-            }
-            let proceed = try withUnsafePointer(to: &entry.pointee.d_name) { pointer in
-                try pointer.withMemoryRebound(
-                    to: CChar.self, capacity: MemoryLayout.size(ofValue: entry.pointee.d_name)
-                ) { name in
-                    strcmp(name, ".") == 0 || strcmp(name, "..") == 0 ? true : try body(name)
-                }
-            }
-            guard proceed else { return }
-        }
-    }
-
-    static func isEmpty(_ fd: Int32, failing: (String) -> NativeFailure = failure) throws -> Bool {
+    static func isEmpty(_ fd: Int32, failing: (String) -> NativeFailure = DirectoryContents.failure) throws -> Bool {
         var empty = true
-        try forEachName(in: fd, failing: failing) { _ in
+        try DirectoryContents.forEachName(in: fd, failing: failing) { _ in
             empty = false
             return false
         }
@@ -103,13 +73,5 @@ enum Descriptors {
             }
             return true
         }
-    }
-
-    /// A filesystem call that failed: a link or non-directory where a directory was pinned is a
-    /// storage violation, anything else is an I/O failure that may succeed later.
-    static func failure(_ action: String) -> NativeFailure {
-        let number = errno
-        let code = number == ELOOP || number == ENOTDIR ? "INVALID_STORAGE" : "DELETE_FAILED"
-        return NativeFailure(code, "\(action): \(String(cString: strerror(number))).", retryable: true)
     }
 }

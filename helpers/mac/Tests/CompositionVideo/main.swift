@@ -1,6 +1,16 @@
 import Foundation
 import ScreenRecorderWire
 
+if CommandLine.arguments[1] == "--new-file-cleanup" {
+    try checkNewFileCleanup(at: URL(fileURLWithPath: CommandLine.arguments[2]))
+    exit(0)
+}
+
+if CommandLine.arguments[1] == "--new-file-publish" {
+    try checkNewFilePublication(at: URL(fileURLWithPath: CommandLine.arguments[2]))
+    exit(0)
+}
+
 let requestFile = CommandLine.arguments[1]
 let operation =
     CommandLine.arguments.count > 2 ? CommandLine.arguments[2] : "media.renderCompositionVideo"
