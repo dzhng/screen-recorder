@@ -1,0 +1,63 @@
+{
+  "status": "Diagnostic native first-frame color-path qualification; full parity remains open",
+  "archive": "native-movie-color-31dc168d.tar.gz",
+  "sha256": "2ba872d8e2c45045dd86b3dacac235519621d310192a4bbf17b999a203e7cdf5",
+  "bytes": 53374,
+  "hashedPayloads": 17,
+  "reportMember": "native-movie-color-31dc168d/report.json",
+  "manifestMember": "native-movie-color-31dc168d/manifest.json",
+  "report": {
+    "status": "Diagnostic only; no new acceptance threshold",
+    "nativeDecode": {
+      "height": 180,
+      "outputProfile": "kCGColorSpaceSRGB",
+      "opaque": true,
+      "sourceProfile": "kCGColorSpaceSRGB",
+      "sourceProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e",
+      "width": 320
+    },
+    "nativeRGBASHA256": "baa508f603ceeb7318dd95b2fa0d6897dc0c47151299a0c97e6669dfe089b8d7",
+    "backgroundAt20x100": {
+      "nativeMovie": [
+        67,
+        46,
+        108,
+        255
+      ],
+      "nativeCompanion": [
+        68,
+        47,
+        109,
+        255
+      ],
+      "ffmpegPNG": [
+        48,
+        28,
+        88,
+        255
+      ]
+    },
+    "completeComparisons": {
+      "native-companion": {
+        "rgbMeanAbsoluteDifference": 1.0147569444444444,
+        "maximumChannelDifference": 32,
+        "differingChannels": 163808,
+        "rgbaSHA256": "4f7e4623b7fc5130e7d17a6f03e86edd5f45bf97f6577d2cd6347545fd39e112"
+      },
+      "ffmpeg-surrogate": {
+        "rgbMeanAbsoluteDifference": 17.950885416666665,
+        "maximumChannelDifference": 98,
+        "differingChannels": 168122,
+        "rgbaSHA256": "8082be68a16c7767c20635d4b82dd05a6976ef3a1e2b0e192e7c1f3281cbaf3f"
+      }
+    },
+    "scope": "One actual encoded movie sample through existing AVFoundation sourceFrame + existing independent pixel reader; no re-encode or new transform. Does not establish player display, full source/movie color parity or other frames.",
+    "disposition": "Actual native movie first-frame decode is close to the native companion, while the saved FFmpeg PNG/display route introduces the large background difference. This supports a surrogate contribution; no color acceptance threshold, all-frame parity or player-display claim follows.",
+    "input": "pointer.mp4",
+    "nativeRequest": "request.json",
+    "nativeReceipt": "reply.json",
+    "process": "process.json",
+    "pixelProcess": "pixel-process.json",
+    "workerRetention": "Exact worker40ece and pixel reader remain immutable in current-moving-pointer private bank; no worker build or movie render."
+  }
+}
