@@ -47,7 +47,8 @@ Without `--socket`, the [client](../../packages/client/src/discovery.ts) finds t
 service under `SCREENREC_HOME` (default `~/.screen-recorder`) and, when needed,
 asks macOS to launch `~/Applications/Screen Recorder.app`. Set `SCREENREC_APP` to an
 absolute bundle path to select another installation. Discovery has one ten-second
-budget and one launch attempt; it carries the resolved home into the app. An
+budget and one launch attempt; it carries the resolved home and any scratch
+preferences selection into the app. An
 already-running app keeps its original home, so a different requested home can
 time out: quit/relaunch it with that home or connect to the intended service.
 

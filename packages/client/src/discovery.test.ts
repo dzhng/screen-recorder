@@ -205,6 +205,27 @@ it("launches the personal app once and reaches the service it opens for that hom
   expect(launcherRuns).toHaveLength(1);
 });
 
+it("carries the selected scratch preferences into the app it launches", async () => {
+  const home = await personalHome();
+  const preferences = join(home, "preferences");
+  const receipt = join(home, "preferences-received.json");
+  const app = await appBundle(`
+require("node:fs").writeFileSync(${JSON.stringify(receipt)}, JSON.stringify({
+  preferences: process.env.SCREENREC_DEFAULTS ?? null,
+  serviceLaunch: process.env.SCREENREC_SERVICE_LAUNCH,
+}));
+${SERVES_ITS_HOME}`);
+  expect(
+    await resolveServiceSocket({
+      env: { SCREENREC_HOME: home, SCREENREC_APP: app.path, SCREENREC_DEFAULTS: preferences },
+    }),
+  ).toBe(socketIn(home));
+  expect(JSON.parse(await readFile(receipt, "utf8"))).toEqual({
+    preferences,
+    serviceLaunch: "1",
+  });
+});
+
 it.each([
   ["a bundle that is not installed", (app: string) => join(app, "..", "Missing.app")],
   ["a relative override", () => "ScreenRecorder.app"],

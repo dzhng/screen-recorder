@@ -8279,3 +8279,25 @@ adapter or public format change.
 
 Verdict: **sound**. Source-backed tagging and the existing schema preserve the
 actual graph and exact resolved settings. Confidence: **high**.
+
+### Carry the app's existing scratch preferences selection through discovery
+
+A check starts a private installed app through the ordinary client launcher and
+selects a scratch library plus scratch preferences. The launcher already carries
+the library location across macOS launch, but previously dropped the preferences
+selection, leaving the app to use its personal defaults domain. Discovery now
+carries that existing selection when supplied. With no selection, the launch
+still uses the app's ordinary defaults. A separate launch wrapper or temporary
+global environment would create another owner for this boundary.
+
+When: isolated installed/default-discovery preparation.
+
+Gap: The client and native app already supported different halves of the scratch
+launch contract; their existing preferences selection was not connected.
+
+Reach: Cold-launch checks can use the ordinary client path without reading or
+writing personal app preferences. The app still owns preference interpretation;
+no new setting, launch retry, validation owner or public operation is introduced.
+
+Verdict: **sound**. Passing the existing selection closes the actual launch
+boundary with the platform's existing environment transport. Confidence: **high**.

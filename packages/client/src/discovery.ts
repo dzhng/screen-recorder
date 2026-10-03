@@ -87,7 +87,7 @@ async function discover(
     );
   // Always carry the resolved home, including the default/empty-env case. LaunchServices
   // may inherit a different environment; an already-running app retains its original home.
-  await launch(bundle, personalHome(env), signal);
+  await launch(bundle, personalHome(env), env.SCREENREC_DEFAULTS, signal);
   while (true) {
     await delay(100, undefined, { signal });
     if (await answering(socketPath, signal)) return socketPath;
@@ -108,7 +108,12 @@ async function answering(socketPath: string, signal: AbortSignal): Promise<boole
   }
 }
 
-function launch(bundle: string, home: string, signal: AbortSignal): Promise<void> {
+function launch(
+  bundle: string,
+  home: string,
+  preferences: string | undefined,
+  signal: AbortSignal,
+): Promise<void> {
   signal.throwIfAborted();
   return new Promise((resolveLaunch, reject) => {
     // No --args: ordinary launch starts the menu-bar service, never a capture probe. This launch
@@ -124,6 +129,7 @@ function launch(bundle: string, home: string, signal: AbortSignal): Promise<void
         `SCREENREC_HOME=${home}`,
         "--env",
         "SCREENREC_SERVICE_LAUNCH=1",
+        ...(preferences === undefined ? [] : ["--env", `SCREENREC_DEFAULTS=${preferences}`]),
       ],
       {
         stdio: ["ignore", "ignore", "pipe"],
