@@ -47,6 +47,7 @@ controlled replies prove their contracts without becoming decode or quality proo
 | Recorded silence, missing samples and late stream consumer failure | [Native audio](source-native-audio-contracts-verification.json) |
 | Resampling exclusion and admitted source endpoints | [Audio endpoints](composition-audio-endpoints-verification.json) |
 | Current movie lifetime and scale caller contracts | [Movie caller ports](movie-harness-cutover-verification.json) |
+| Explicit audio/preview inspection and shared render consumption | [Audio/preview owner removal](audio-preview-owner-purge-verification.json) |
 
 ## Ownership and proof limits
 
@@ -95,7 +96,14 @@ remain runtime gates. Syntax and synthetic fixture compilation establish no
 native movie result. Recovered in-process finishing hooks document a historical
 phase contract; a current process-abort check is not equivalent evidence.
 
-Remaining obligations include orphan audio/preview/processing/span owners,
+Audio and preview callers now author explicit source/project targets. Recording
+audio, preview and derivative owners are removed. Current preview tests preserve
+explicit retry without polling-triggered retries; generic render file and attempt
+lifetimes remain unchanged. Forty earlier current-owner cases, one final relocated
+report case and sixteen controlled render cases pass. Two unchanged native cleanup
+cases and actual macOS media bodies remain unrun.
+
+Remaining obligations include orphan processing/span owners,
 current-source scale execution, unmatched movie/lifetime contracts and the actual
 schema purge. The explicit caller harness uses current operations through controlled
 replies; installed and actual media execution remain open. Installed switching, continuous playback, physical capture

@@ -21,7 +21,7 @@ Implement the remaining primitives through their existing owners. Read
 The external caller makes every editorial decision. Read or edit the consumer
 [screenrec skill](../../skills/screenrec/SKILL.md) from that caller's perspective.
 
-**Next pickup: port remaining audio/preview harness consumers and remove their recording owners, then close processing/span ownership and purge the recording revision schema.**
+**Next pickup: integrate capture/source caller ports, then close processing/span ownership and purge the recording revision schema.**
 The [canonical service](assets/23-canonical-service/README.md),
 [shared contracts](assets/23-composition-contract/README.md) and
 [fixture/owner closure](assets/23-owner-fixture-ports/README.md) are merged.
@@ -57,7 +57,7 @@ inspection, preserving cache, CLI, eviction, restart and retry oracles. Its
 orphan adapter are removed; matching-hash semantics and chunk continuity now use
 the current portable scene store. Shared raster/pointer JavaScript is unchanged.
 Preserve portable generations, exact time and render-workspace lifetimes. Remove
-orphan recording audio/preview/processing/span classes and `RevisionStore` through the current dependency
+orphan recording processing/span classes and `RevisionStore` through the current dependency
 map. Source normalization and common movie validation already have independent
 owners. The
 [explicit caller checkpoint](assets/23-owner-fixture-ports/personal-release-caller-verification.json)
@@ -98,6 +98,11 @@ compositions. Original numerical, pixel and memory gates remain; native executio
 is pending. Compilation of synthetic fixtures establishes no decoder or movie
 quality result. Missing historical finishing hooks remain a separately qualified
 phase obligation.
+The [audio/preview checkpoint](assets/23-owner-fixture-ports/audio-preview-owner-purge-verification.json)
+removes recording audio, preview and derivative owners. Explicit source/project
+callers retain numerical and media gates; current preview explicit retry and
+controlled shared-render lifetimes pass. Actual macOS media and two native cleanup
+cases remain unrun.
 Historical maps are prerequisites, not verification runs.
 
 The final joint purge removes the actual recording revision field from its type,

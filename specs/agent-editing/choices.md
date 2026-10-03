@@ -7567,3 +7567,21 @@ error shared by both outputs. The fixture also compares decoded samples against
 the independently generated chirps, preserving that second authority. This choice
 belongs to `7d6c6c74`; the removed audio executable's recording mix is unnecessary
 as a runtime reference. Historical source and phase evidence remains preserved.
+
+
+**Sound, high confidence — inspection fixtures author their audio and picture targets.**
+A fixture with narration, system sound and a silent interval creates explicit
+clips and gains, then asks the project audio or preview owner for output. It no
+longer asks a recording-role planner to choose a mix or interpreted picture
+range. This choice belongs to `1c3f3c40`; the plan required removing that owner
+without prescribing every fixture's authoring. Independent tones preserve the
+silent-interval check, while the actual encoded-media gates remain executable.
+Future callers use the same explicit source/project contracts.
+
+**Sound, high confidence — consume delivered files while their leases remain open.**
+A service result lends a cached file until the caller closes its delivery token.
+The caller now copies or decodes that file before closing the token, including
+when reading fails. Closing first would let retirement race the read. This
+choice belongs to `1c3f3c40`; it follows the existing lifetime contract and adds
+no replacement cache or retry mechanism. Polling a failed preview never retries
+it; the caller explicitly requests the retry.

@@ -1,0 +1,94 @@
+{
+  "checkpoint": "current-audio-preview-owner-removal",
+  "commit": "1c3f3c40d38950d33f1437f2451cc8809aee875b",
+  "integratedCommit": "99524c7181c05849561759b18279797488410f8c",
+  "archive": {
+    "file": "audio-preview-owner-purge-evidence.tar.gz",
+    "bytes": 147138,
+    "sha256": "11aa832ab886c448ad1615e226548cba3e1f61ecf5b34373c736895270ce427f",
+    "payloads": 113,
+    "reportMember": "report.json",
+    "manifest": "audio-preview-owner-purge-manifest.json"
+  },
+  "sourcePins": [
+    {
+      "path": "apps/macos/tests/audio-inspection.test.mjs",
+      "sha256": "23176f9c4e8f6782ab2df8e0575d53e020206bb14d3193cc29ef85f6653c365a",
+      "bytes": 15489
+    },
+    {
+      "path": "apps/macos/tests/preview-inspection.test.mjs",
+      "sha256": "ab13cd19c0d806a97a42dd22410964fc4b7c9f78f71e977a715ac96da2182401",
+      "bytes": 12824
+    },
+    {
+      "path": "apps/service/src/render.test.ts",
+      "sha256": "55290d62183ac9c633f3823a15cd77e56218e25865b776e0810266a1dceda976",
+      "bytes": 24265
+    },
+    {
+      "path": "apps/service/src/render.ts",
+      "sha256": "140f828a64a10cebc7b22b2d713c088eee105e1c6c5d4a527317b60164f963ac",
+      "bytes": 6827
+    },
+    {
+      "path": "packages/core/package.json",
+      "sha256": "f1f62a2d21db39af0491673380d32c50bfe58c361b153ad1e46eb8268ca690b3",
+      "bytes": 8097
+    },
+    {
+      "path": "packages/core/src/audio.test.ts",
+      "deleted": true
+    },
+    {
+      "path": "packages/core/src/audio.ts",
+      "deleted": true
+    },
+    {
+      "path": "packages/core/src/derivative-inspection.ts",
+      "deleted": true
+    },
+    {
+      "path": "packages/core/src/evidence-pages.test.ts",
+      "sha256": "bfa34c32021ae7f4907a48001a1efece93832e9ea401ba9156c1fecb5f8e45dc",
+      "bytes": 15599
+    },
+    {
+      "path": "packages/core/src/preview.test.ts",
+      "deleted": true
+    },
+    {
+      "path": "packages/core/src/preview.ts",
+      "deleted": true
+    },
+    {
+      "path": "packages/core/src/project-preview.test.ts",
+      "sha256": "f4e5f34102cf2b450102167d1889eef9e28870a7437f6abb0f17dc05336ad6ce",
+      "bytes": 23260
+    },
+    {
+      "path": "packages/test-harness/render-timing.mjs",
+      "sha256": "a90edd8c23fbb532346a87665ebf38df6fd4865d8e5dd3fc4044766401a1e341",
+      "bytes": 17616
+    }
+  ],
+  "rootVerification": {
+    "allPayloadsMatched": 113,
+    "allCurrentSourceAndDeletionPinsMatched": 13,
+    "settledDiffReviewed": true
+  },
+  "contract": "Audio and movie inspection use explicit source/project targets. Shared render attempt/file lifetimes survive removal of recording-role planners and derivative owners.",
+  "proof": {
+    "coreCases": "40 earlier current-owner cases passed; final report-enabled relocated-page case passed after removing stale optional planner field",
+    "renderCases": "16 controlled-process cases passed after restoring accidentally removed shared withRenderedFile; two unchanged actual-native cases remain unrun",
+    "retry": "Actual ProjectPreview explicit-retry suppression red then exact production restored green; failed output reclaimed and same revision/job retained",
+    "preservedBodies": "Four shared render declarations and four live core emits byte-identical",
+    "finalCallerCorrections": "Reads remain inside delivery leases; source-file restoration always closes service; final syntax/lint/format only"
+  },
+  "limits": [
+    "MacOS audio/preview and render-timing native bodies unrun",
+    "Parallel current acquisition fixture helper must be integrated before these callers execute",
+    "Native cleanup, movie phase and numerical/scale obligations remain separately qualified",
+    "Recording processing/span owners and actual schema purge remain unfinished; no installed switch/full-suite/model/capture claim"
+  ]
+}
