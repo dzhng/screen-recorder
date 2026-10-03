@@ -16,6 +16,14 @@
       "bytes": 11261136,
       "sha256": "c3402dd667a46da62da7603102ce6f9bbdbebe04442bcaf6e7fe45157e18ff4b",
       "executed": false
+    },
+    {
+      "scope": "canonical worker used by retained package/native/archive proofs",
+      "source": "/Users/david/dev/screen-recorder/helpers/mac/.build/debug/screenrec-native",
+      "preserved": "/Users/david/.codex/artifacts/screen-recorder/frozen-native-workers/8a0c7732f3c1f99e074048f2ac3b8b29beb613462fb5ce769a134b1cbfdea186/screenrec-native",
+      "bytes": 27520192,
+      "sha256": "8a0c7732f3c1f99e074048f2ac3b8b29beb613462fb5ce769a134b1cbfdea186",
+      "executed": false
     }
   ]
 }

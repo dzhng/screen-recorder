@@ -1,0 +1,2397 @@
+{
+  "baseline": "2b718cd4",
+  "commit": "e62c01470389533f70a63bfe40ef36366331c0c7",
+  "codePaths": 9,
+  "productionChanges": false,
+  "diff": {
+    "added": 696,
+    "deleted": 1099
+  },
+  "coverage": "coverage-before-deletion.json",
+  "sourcePins": "committed-pins.json",
+  "phases": [
+    {
+      "phase": "build-final",
+      "pid": 20612,
+      "end": 1790994278.664962,
+      "exit": 0,
+      "waited": true,
+      "deadlineExpired": false,
+      "start": 1790994278.404184,
+      "boundSeconds": 30,
+      "argv": [
+        "node",
+        "node_modules/typescript/bin/tsc",
+        "-p",
+        "apps/service/tsconfig.json"
+      ]
+    },
+    {
+      "phase": "current-owner-cohort",
+      "pid": 19690,
+      "end": 1790994178.878746,
+      "exit": 0,
+      "waited": true,
+      "deadlineExpired": false,
+      "start": 1790994169.376818,
+      "boundSeconds": 30,
+      "argv": [
+        "node",
+        "node_modules/vitest/vitest.mjs",
+        "run",
+        "apps/service/src/project-contracts.test.ts",
+        "apps/service/src/project-service.test.ts"
+      ]
+    },
+    {
+      "phase": "discovery-current-fields",
+      "pid": 18436,
+      "end": 1790993957.234924,
+      "exit": 0,
+      "waited": true,
+      "deadlineExpired": false,
+      "start": 1790993955.7674088,
+      "boundSeconds": 30,
+      "argv": [
+        "node",
+        "node_modules/vitest/vitest.mjs",
+        "run",
+        "apps/service/src/capture.test.ts",
+        "-t",
+        "pages source capture facts"
+      ]
+    },
+    {
+      "phase": "discovery-first",
+      "pid": 17501,
+      "end": 1790993790.3047192,
+      "exit": 1,
+      "waited": true,
+      "deadlineExpired": false,
+      "start": 1790993789.785764,
+      "boundSeconds": 30,
+      "argv": [
+        "node",
+        "node_modules/vitest/vitest.mjs",
+        "run",
+        "apps/service/src/capture.test.ts",
+        "-t",
+        "pages source capture facts"
+      ]
+    },
+    {
+      "phase": "discovery-lifecycle-corrected",
+      "pid": 17784,
+      "end": 1790993845.5867379,
+      "exit": 1,
+      "waited": true,
+      "deadlineExpired": false,
+      "start": 1790993844.3434792,
+      "boundSeconds": 30,
+      "argv": [
+        "node",
+        "node_modules/vitest/vitest.mjs",
+        "run",
+        "apps/service/src/capture.test.ts",
+        "-t",
+        "pages source capture facts"
+      ]
+    },
+    {
+      "phase": "filler-public-defect",
+      "pid": 19101,
+      "end": 1790994085.926931,
+      "exit": 1,
+      "waited": true,
+      "deadlineExpired": false,
+      "start": 1790994084.430104,
+      "boundSeconds": 30,
+      "argv": [
+        "node",
+        "node_modules/vitest/vitest.mjs",
+        "run",
+        "apps/service/src/project-contracts.test.ts",
+        "-t",
+        "selected-source transcript preserves"
+      ]
+    },
+    {
+      "phase": "format-final",
+      "pid": 20613,
+      "end": 1790994278.444844,
+      "exit": 0,
+      "waited": true,
+      "deadlineExpired": false,
+      "start": 1790994278.404214,
+      "boundSeconds": 30,
+      "argv": [
+        "node",
+        "node_modules/oxfmt/bin/oxfmt",
+        "--check",
+        "apps/service/src/capture.test.ts",
+        "apps/service/src/project-service.test.ts",
+        "apps/service/src/project-service.fixture.ts",
+        "apps/service/src/project-contracts.test.ts"
+      ]
+    },
+    {
+      "phase": "framing-restored",
+      "pid": 17131,
+      "end": 1790993704.953296,
+      "exit": 0,
+      "waited": true,
+      "deadlineExpired": false,
+      "start": 1790993703.559274,
+      "boundSeconds": 30,
+      "argv": [
+        "node",
+        "node_modules/vitest/vitest.mjs",
+        "run",
+        "apps/service/src/project-contracts.test.ts"
+      ]
+    },
+    {
+      "phase": "jobs-current-source",
+      "pid": 18872,
+      "end": 1790994014.297028,
+      "exit": 0,
+      "waited": true,
+      "deadlineExpired": false,
+      "start": 1790994012.696148,
+      "boundSeconds": 30,
+      "argv": [
+        "node",
+        "node_modules/vitest/vitest.mjs",
+        "run",
+        "apps/service/src/project-contracts.test.ts",
+        "-t",
+        "ready and canceled"
+      ]
+    },
+    {
+      "phase": "jobs-first",
+      "pid": 18449,
+      "end": 1790993979.383712,
+      "exit": 1,
+      "waited": true,
+      "deadlineExpired": false,
+      "start": 1790993977.942086,
+      "boundSeconds": 30,
+      "argv": [
+        "node",
+        "node_modules/vitest/vitest.mjs",
+        "run",
+        "apps/service/src/project-contracts.test.ts",
+        "-t",
+        "ready and canceled"
+      ]
+    },
+    {
+      "phase": "lint-final",
+      "pid": 20614,
+      "end": 1790994278.4847791,
+      "exit": 0,
+      "waited": true,
+      "deadlineExpired": false,
+      "start": 1790994278.4042408,
+      "boundSeconds": 30,
+      "argv": [
+        "node",
+        "node_modules/oxlint/bin/oxlint",
+        "apps/service/src/capture.test.ts",
+        "apps/service/src/project-service.test.ts",
+        "apps/service/src/project-service.fixture.ts",
+        "apps/service/src/project-contracts.test.ts"
+      ]
+    },
+    {
+      "phase": "oversized-corrected",
+      "pid": 16957,
+      "end": 1790993681.759757,
+      "exit": 0,
+      "waited": true,
+      "deadlineExpired": false,
+      "start": 1790993680.6082828,
+      "boundSeconds": 30,
+      "argv": [
+        "node",
+        "node_modules/vitest/vitest.mjs",
+        "run",
+        "apps/service/src/project-contracts.test.ts",
+        "-t",
+        "oversized independently"
+      ]
+    },
+    {
+      "phase": "oversized-defect",
+      "pid": 16987,
+      "end": 1790993695.6081228,
+      "exit": 1,
+      "waited": true,
+      "deadlineExpired": false,
+      "start": 1790993694.238813,
+      "boundSeconds": 30,
+      "argv": [
+        "node",
+        "node_modules/vitest/vitest.mjs",
+        "run",
+        "apps/service/src/project-contracts.test.ts",
+        "-t",
+        "oversized independently"
+      ]
+    },
+    {
+      "phase": "oversized-first",
+      "pid": 16939,
+      "end": 1790993663.012866,
+      "exit": 1,
+      "waited": true,
+      "deadlineExpired": false,
+      "start": 1790993661.650573,
+      "boundSeconds": 30,
+      "argv": [
+        "node",
+        "node_modules/vitest/vitest.mjs",
+        "run",
+        "apps/service/src/project-contracts.test.ts",
+        "-t",
+        "oversized independently"
+      ]
+    },
+    {
+      "phase": "package-attribution",
+      "pid": 17564,
+      "end": 1790993811.4766111,
+      "exit": 1,
+      "waited": true,
+      "deadlineExpired": false,
+      "start": 1790993810.516203,
+      "boundSeconds": 30,
+      "argv": [
+        "node",
+        "node_modules/vitest/vitest.mjs",
+        "run",
+        "apps/service/src/project-contracts.test.ts",
+        "-t",
+        "package-root refusal"
+      ]
+    },
+    {
+      "phase": "package-current-root",
+      "pid": 17774,
+      "end": 1790993844.3176162,
+      "exit": 0,
+      "waited": true,
+      "deadlineExpired": false,
+      "start": 1790993843.379408,
+      "boundSeconds": 30,
+      "argv": [
+        "node",
+        "node_modules/vitest/vitest.mjs",
+        "run",
+        "apps/service/src/project-contracts.test.ts",
+        "-t",
+        "package-root refusal"
+      ]
+    },
+    {
+      "phase": "package-first",
+      "pid": 17508,
+      "end": 1790993791.3319402,
+      "exit": 1,
+      "waited": true,
+      "deadlineExpired": false,
+      "start": 1790993790.369947,
+      "boundSeconds": 30,
+      "argv": [
+        "node",
+        "node_modules/vitest/vitest.mjs",
+        "run",
+        "apps/service/src/project-contracts.test.ts",
+        "-t",
+        "package-root refusal"
+      ]
+    },
+    {
+      "phase": "source-barrier-final",
+      "pid": 20385,
+      "end": 1790994244.548525,
+      "exit": 0,
+      "waited": true,
+      "deadlineExpired": false,
+      "start": 1790994243.34779,
+      "boundSeconds": 30,
+      "argv": [
+        "node",
+        "node_modules/vitest/vitest.mjs",
+        "run",
+        "apps/service/src/project-contracts.test.ts",
+        "apps/service/src/capture.test.ts",
+        "-t",
+        "ready and canceled|pages source capture facts"
+      ]
+    },
+    {
+      "phase": "timeout-causal-defect",
+      "pid": 19084,
+      "end": 1790994067.7282822,
+      "exit": 1,
+      "waited": true,
+      "deadlineExpired": false,
+      "start": 1790994066.184843,
+      "boundSeconds": 30,
+      "argv": [
+        "node",
+        "node_modules/vitest/vitest.mjs",
+        "run",
+        "apps/service/src/project-contracts.test.ts",
+        "-t",
+        "client TIMEOUT"
+      ]
+    },
+    {
+      "phase": "timeout-first",
+      "pid": 17191,
+      "end": 1790993727.099135,
+      "exit": 0,
+      "waited": true,
+      "deadlineExpired": false,
+      "start": 1790993725.898072,
+      "boundSeconds": 30,
+      "argv": [
+        "node",
+        "node_modules/vitest/vitest.mjs",
+        "run",
+        "apps/service/src/project-contracts.test.ts",
+        "-t",
+        "client TIMEOUT"
+      ]
+    },
+    {
+      "phase": "transcript-canonical-directory",
+      "pid": 18906,
+      "end": 1790994032.068345,
+      "exit": 0,
+      "waited": true,
+      "deadlineExpired": false,
+      "start": 1790994030.412317,
+      "boundSeconds": 30,
+      "argv": [
+        "node",
+        "node_modules/vitest/vitest.mjs",
+        "run",
+        "apps/service/src/project-contracts.test.ts",
+        "-t",
+        "selected-source transcript preserves"
+      ]
+    },
+    {
+      "phase": "transcript-first",
+      "pid": 18409,
+      "end": 1790993947.6729941,
+      "exit": 1,
+      "waited": true,
+      "deadlineExpired": false,
+      "start": 1790993946.0252318,
+      "boundSeconds": 30,
+      "argv": [
+        "node",
+        "node_modules/vitest/vitest.mjs",
+        "run",
+        "apps/service/src/project-contracts.test.ts",
+        "-t",
+        "selected-source transcript preserves"
+      ]
+    },
+    {
+      "phase": "transcript-generation-corrected",
+      "pid": 18624,
+      "end": 1790993989.7340171,
+      "exit": 1,
+      "waited": true,
+      "deadlineExpired": false,
+      "start": 1790993988.2444959,
+      "boundSeconds": 30,
+      "argv": [
+        "node",
+        "node_modules/vitest/vitest.mjs",
+        "run",
+        "apps/service/src/project-contracts.test.ts",
+        "-t",
+        "selected-source transcript preserves"
+      ]
+    },
+    {
+      "phase": "types-final",
+      "pid": 20562,
+      "end": 1790994262.5543811,
+      "exit": 0,
+      "waited": true,
+      "deadlineExpired": false,
+      "start": 1790994262.23331,
+      "boundSeconds": 30,
+      "argv": [
+        "node",
+        "node_modules/typescript/bin/tsc",
+        "-p",
+        "apps/service/tsconfig.check.json"
+      ]
+    },
+    {
+      "phase": "types-initial",
+      "pid": 18881,
+      "end": 1790994014.937323,
+      "exit": 1,
+      "waited": true,
+      "deadlineExpired": false,
+      "start": 1790994014.341144,
+      "boundSeconds": 30,
+      "argv": [
+        "node",
+        "node_modules/typescript/bin/tsc",
+        "-p",
+        "apps/service/tsconfig.check.json"
+      ]
+    },
+    {
+      "phase": "utf8-defect",
+      "pid": 17213,
+      "end": 1790993745.758184,
+      "exit": 1,
+      "waited": true,
+      "deadlineExpired": false,
+      "start": 1790993744.842473,
+      "boundSeconds": 30,
+      "argv": [
+        "node",
+        "node_modules/vitest/vitest.mjs",
+        "run",
+        "apps/service/src/project-contracts.test.ts",
+        "-t",
+        "invalid UTF-8"
+      ]
+    }
+  ],
+  "proof": {
+    "currentOwnerCohort": {
+      "phase": "current-owner-cohort",
+      "pid": 19690,
+      "exit": 0,
+      "tests": 24,
+      "scope": "18 existing project-service cases plus six new current public cases; before the later source-ID/probe-entry strengthening"
+    },
+    "finalStrengthening": {
+      "phase": "source-barrier-final",
+      "pid": 20385,
+      "exit": 0,
+      "tests": 2,
+      "scope": "final exact source IDs/default-entry restart and failed/retried running-probe cancellation/restart"
+    },
+    "types": {
+      "pid": 20562,
+      "exit": 0
+    },
+    "build": {
+      "pid": 20612,
+      "exit": 0
+    },
+    "lint": {
+      "pid": 20614,
+      "exit": 0
+    },
+    "format": {
+      "pid": 20613,
+      "exit": 0
+    },
+    "productionEmits": "service-emits-parity.json",
+    "productionRestoration": "production-restored.json",
+    "fixtureEmission": "existing tsconfig excludes src/**/*.fixture.ts and tests; actual dist has no new fixture/test emits"
+  },
+  "dispositions": [
+    "automatic recording r0/span and readiness/edit history representation retired; current projects retain explicit edits",
+    "automatic narrated-recording startup/fixed-role transcription and recording-cut projection retired; selected source transcript owns evidence, current project projection proofs reused",
+    "recording revision job r0 and unsupported proof artifact retired; actual managed import-source jobs retain public scheduling/restart guarantees",
+    "old package recovery state replaced by current empty usage/admissions; library/packages actual owner locator"
+  ],
+  "limits": [
+    "sparse model files/stat receipts are controlled metadata readiness only, not real weights, native validation, preparation/download or inference",
+    "speech and probe edges scripted; no native decode or source media validity proof",
+    "source discovery uses actual default-entry subprocess; six new contracts use actual canonical listener/in-process composition",
+    "no full suite, capture cohort, media/model work, installed switch or release closure",
+    "early framing/timeout sensitivity controls predate separate complete operand writer; retained runner diagnostics and executed sources remain exact; final cohort stores complete operands",
+    "process records identify actual waited test/check runner PIDs; existing default service helper awaits its own child exit, no separate new child-PID telemetry claim"
+  ],
+  "bank": {
+    "archive": "public-service-contracts-evidence.tar.gz",
+    "bytes": 766261,
+    "sha256": "25cd9601d1f8da73a36d7adb59c3110fb04849e8f2d39f499127b7551102c8dc",
+    "payloads": [
+      {
+        "path": "before/apps/service/fixtures/call.mjs",
+        "bytes": 179,
+        "sha256": "dc3da3718b0d60449f23f5b0921e63275c087f779732f0b36c994b8a64acca15"
+      },
+      {
+        "path": "before/apps/service/fixtures/edit-server.mjs",
+        "bytes": 1864,
+        "sha256": "dfc1417f3af8ee8a5b9a1a2b3a82d8f2d21676d94a8ce5d687781db005ca7dca"
+      },
+      {
+        "path": "before/apps/service/fixtures/speech-worker.mjs",
+        "bytes": 3856,
+        "sha256": "84ac0411d471e995fc961d0288202f90d8ff7165a7f4319aae61027ae3eddf23"
+      },
+      {
+        "path": "before/apps/service/src/capture.test.ts",
+        "bytes": 44810,
+        "sha256": "3a024a567499e2ba4c24af0d9a14e233236eaaf78bd83ec49b14f1f41905ca5b"
+      },
+      {
+        "path": "before/apps/service/src/operations.test.ts",
+        "bytes": 22751,
+        "sha256": "7d996a9755562fba0247aa5012e153317f0cce9ab322cf724640ecd52af4f4f7"
+      },
+      {
+        "path": "before/apps/service/src/project-service.test.ts",
+        "bytes": 46698,
+        "sha256": "efb8111eb1464f5cf9f017e96d283046e88c9510cd7d1f99ffbd4084e03c3f1b"
+      },
+      {
+        "path": "before/apps/service/src/round-trip.test.ts",
+        "bytes": 6210,
+        "sha256": "bc45748d363e5214b012fbd363a095007f6100e325018e8e664da4cbbee572d2"
+      },
+      {
+        "path": "before.json",
+        "bytes": 969,
+        "sha256": "be340a2e7c4fb876caa5d453f3d67c3336269ac6285662de126259c3cc202572"
+      },
+      {
+        "path": "build-final/process.json",
+        "bytes": 2034,
+        "sha256": "fc21f3bbca9740c20eb5565bcaa20194de74f1e23fc659927a4362f5a5db9e9d"
+      },
+      {
+        "path": "build-final/sources/apps/service/src/capture.test.ts",
+        "bytes": 47612,
+        "sha256": "51be24bce0507fae582252a7324da72891305c46a8d71e0a7cd21c464a9353fb"
+      },
+      {
+        "path": "build-final/sources/apps/service/src/index.ts",
+        "bytes": 7136,
+        "sha256": "19a7f90f7f042c8ae52a1fe646d7fcb54ce8b63bc2b371e00bfe5d9316f497f7"
+      },
+      {
+        "path": "build-final/sources/apps/service/src/project-contracts.test.ts",
+        "bytes": 19540,
+        "sha256": "4e6ad67b951d112eed68ba1f77502dcd617082cbe37917afa3abce16e11732df"
+      },
+      {
+        "path": "build-final/sources/apps/service/src/project-service.fixture.ts",
+        "bytes": 3595,
+        "sha256": "487d70ab93361d8327bfeaa2012f4cf2becbf50c43c454ee263e2a6a7fbac670"
+      },
+      {
+        "path": "build-final/sources/apps/service/src/project-service.test.ts",
+        "bytes": 43851,
+        "sha256": "fb0f76c8619bac5eda9a047ea64292b69626e1d865aac901fc701b0152d97276"
+      },
+      {
+        "path": "build-final/sources/packages/client/dist/transport.js",
+        "bytes": 3087,
+        "sha256": "5b01b817cbf05d08a2438287f1a67f1029ef74c7854e9659dfc4539dfbb6ca04"
+      },
+      {
+        "path": "build-final/sources/packages/core/dist/word-kind.js",
+        "bytes": 670,
+        "sha256": "474494e8ab46251d37276ea7afb106edbeefbb03b05f731f3494b0c3ac6b944e"
+      },
+      {
+        "path": "build-final/sources/packages/protocol/dist/framing.js",
+        "bytes": 5431,
+        "sha256": "0880bdc558a1e3a02ec9547b9e9b8aedb401f5bf87691d889bba74dd3140332b"
+      },
+      {
+        "path": "build-final/stderr",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "build-final/stdout",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "build-final/terminal.json",
+        "bytes": 105,
+        "sha256": "2204fd1f57e655464a84926c2651c2dd23c89ac3cbac22b1e6c27971be2ef026"
+      },
+      {
+        "path": "choices.md",
+        "bytes": 2169,
+        "sha256": "efef2184c26b769515eef6d7c6e00f2faa7e5c0f818959dcd6b00d9abf44449c"
+      },
+      {
+        "path": "committed-pins.json",
+        "bytes": 895,
+        "sha256": "8a0cbdf162bae027c2d8b0dcaf3ff9b6f078d541ce4e1d12a5527e9f6a0077b2"
+      },
+      {
+        "path": "coverage-before-deletion.json",
+        "bytes": 5458,
+        "sha256": "b4c25b5e42152d08c50fb7d6c9cb358a8bf3093edf32a0e64a79312c968d62ab"
+      },
+      {
+        "path": "current-owner-cohort/process.json",
+        "bytes": 2508,
+        "sha256": "e7aba1b1360650a92761aea896e4a7eb8fca8acda7bb998fa0994b1dd8e5ab40"
+      },
+      {
+        "path": "current-owner-cohort/sources/apps/service/fixtures/call.mjs",
+        "bytes": 179,
+        "sha256": "dc3da3718b0d60449f23f5b0921e63275c087f779732f0b36c994b8a64acca15"
+      },
+      {
+        "path": "current-owner-cohort/sources/apps/service/fixtures/edit-server.mjs",
+        "bytes": 1864,
+        "sha256": "dfc1417f3af8ee8a5b9a1a2b3a82d8f2d21676d94a8ce5d687781db005ca7dca"
+      },
+      {
+        "path": "current-owner-cohort/sources/apps/service/fixtures/speech-worker.mjs",
+        "bytes": 3856,
+        "sha256": "84ac0411d471e995fc961d0288202f90d8ff7165a7f4319aae61027ae3eddf23"
+      },
+      {
+        "path": "current-owner-cohort/sources/apps/service/src/capture.test.ts",
+        "bytes": 47416,
+        "sha256": "9163f8d86e1d62aa52de86581217188c024874df013691b78a68ea1ae4e12462"
+      },
+      {
+        "path": "current-owner-cohort/sources/apps/service/src/index.ts",
+        "bytes": 7136,
+        "sha256": "19a7f90f7f042c8ae52a1fe646d7fcb54ce8b63bc2b371e00bfe5d9316f497f7"
+      },
+      {
+        "path": "current-owner-cohort/sources/apps/service/src/operations.test.ts",
+        "bytes": 22751,
+        "sha256": "7d996a9755562fba0247aa5012e153317f0cce9ab322cf724640ecd52af4f4f7"
+      },
+      {
+        "path": "current-owner-cohort/sources/apps/service/src/project-contracts.test.ts",
+        "bytes": 19404,
+        "sha256": "a2a10d1952ce49b2ab57eb11450baefb48db867e6b238818186a45df555a723d"
+      },
+      {
+        "path": "current-owner-cohort/sources/apps/service/src/project-service.fixture.ts",
+        "bytes": 3595,
+        "sha256": "487d70ab93361d8327bfeaa2012f4cf2becbf50c43c454ee263e2a6a7fbac670"
+      },
+      {
+        "path": "current-owner-cohort/sources/apps/service/src/project-service.test.ts",
+        "bytes": 43851,
+        "sha256": "fb0f76c8619bac5eda9a047ea64292b69626e1d865aac901fc701b0152d97276"
+      },
+      {
+        "path": "current-owner-cohort/sources/apps/service/src/round-trip.test.ts",
+        "bytes": 6210,
+        "sha256": "bc45748d363e5214b012fbd363a095007f6100e325018e8e664da4cbbee572d2"
+      },
+      {
+        "path": "current-owner-cohort/sources/packages/client/dist/transport.js",
+        "bytes": 3087,
+        "sha256": "5b01b817cbf05d08a2438287f1a67f1029ef74c7854e9659dfc4539dfbb6ca04"
+      },
+      {
+        "path": "current-owner-cohort/sources/packages/core/dist/word-kind.js",
+        "bytes": 670,
+        "sha256": "474494e8ab46251d37276ea7afb106edbeefbb03b05f731f3494b0c3ac6b944e"
+      },
+      {
+        "path": "current-owner-cohort/sources/packages/protocol/dist/framing.js",
+        "bytes": 5431,
+        "sha256": "0880bdc558a1e3a02ec9547b9e9b8aedb401f5bf87691d889bba74dd3140332b"
+      },
+      {
+        "path": "current-owner-cohort/stderr",
+        "bytes": 338,
+        "sha256": "53a72b9fda7717416f016e4aa3e5cfb0775a62e29d1afc47f52025e12453c219"
+      },
+      {
+        "path": "current-owner-cohort/stdout",
+        "bytes": 438,
+        "sha256": "7b2b1153c32f32567e2d77ec36c2253b3a4324d3e70dee7cc936dc7be44152fe"
+      },
+      {
+        "path": "current-owner-cohort/terminal.json",
+        "bytes": 105,
+        "sha256": "93c40d9c808e91865369006147fc9d08ff1bc08cca997b5984092e04a6ad8c8a"
+      },
+      {
+        "path": "discovery-current-fields/process.json",
+        "bytes": 1666,
+        "sha256": "8aa3d4283c0403927c5b6a7c2db534009ed4d87b2cd612fdb1ae7cc13a549b31"
+      },
+      {
+        "path": "discovery-current-fields/sources/apps/service/fixtures/call.mjs",
+        "bytes": 179,
+        "sha256": "dc3da3718b0d60449f23f5b0921e63275c087f779732f0b36c994b8a64acca15"
+      },
+      {
+        "path": "discovery-current-fields/sources/apps/service/fixtures/edit-server.mjs",
+        "bytes": 1864,
+        "sha256": "dfc1417f3af8ee8a5b9a1a2b3a82d8f2d21676d94a8ce5d687781db005ca7dca"
+      },
+      {
+        "path": "discovery-current-fields/sources/apps/service/fixtures/speech-worker.mjs",
+        "bytes": 3856,
+        "sha256": "84ac0411d471e995fc961d0288202f90d8ff7165a7f4319aae61027ae3eddf23"
+      },
+      {
+        "path": "discovery-current-fields/sources/apps/service/src/operations.test.ts",
+        "bytes": 22751,
+        "sha256": "7d996a9755562fba0247aa5012e153317f0cce9ab322cf724640ecd52af4f4f7"
+      },
+      {
+        "path": "discovery-current-fields/sources/apps/service/src/project-contracts.test.ts",
+        "bytes": 13847,
+        "sha256": "162003ee8bf9fe98a30b6285326bc887316cff482b28d047e88250a624be439a"
+      },
+      {
+        "path": "discovery-current-fields/sources/apps/service/src/project-service.fixture.ts",
+        "bytes": 3593,
+        "sha256": "126201c5f9d9a343992a1fe2416ad8a85a17a4f19997cccf96210c4e535e2494"
+      },
+      {
+        "path": "discovery-current-fields/sources/apps/service/src/project-service.test.ts",
+        "bytes": 43810,
+        "sha256": "2f0b10f27623b3ddbeac2b1ccc9a382399f41dd8d103d620a7df0c1008faa631"
+      },
+      {
+        "path": "discovery-current-fields/sources/apps/service/src/round-trip.test.ts",
+        "bytes": 6210,
+        "sha256": "bc45748d363e5214b012fbd363a095007f6100e325018e8e664da4cbbee572d2"
+      },
+      {
+        "path": "discovery-current-fields/stderr",
+        "bytes": 169,
+        "sha256": "631d7a42ed18b141f8e2b108806447db357f3f497cf01282e62ca851cb2da141"
+      },
+      {
+        "path": "discovery-current-fields/stdout",
+        "bytes": 195,
+        "sha256": "8133c9e6ac376ed289633ec8c21e0994c43a91ef531c59fb80827597aa29d513"
+      },
+      {
+        "path": "discovery-current-fields/terminal.json",
+        "bytes": 105,
+        "sha256": "fcf8fe2180b0c9c6f7f9b4953bab976580741af868022fe1f03b7c30be9068b5"
+      },
+      {
+        "path": "discovery-first/process.json",
+        "bytes": 1664,
+        "sha256": "95abbe39814af1c90adcfdcd6097510619a13e2c4feda8cca4982b6e96438a23"
+      },
+      {
+        "path": "discovery-first/sources/apps/service/fixtures/call.mjs",
+        "bytes": 179,
+        "sha256": "dc3da3718b0d60449f23f5b0921e63275c087f779732f0b36c994b8a64acca15"
+      },
+      {
+        "path": "discovery-first/sources/apps/service/fixtures/edit-server.mjs",
+        "bytes": 1864,
+        "sha256": "dfc1417f3af8ee8a5b9a1a2b3a82d8f2d21676d94a8ce5d687781db005ca7dca"
+      },
+      {
+        "path": "discovery-first/sources/apps/service/fixtures/speech-worker.mjs",
+        "bytes": 3856,
+        "sha256": "84ac0411d471e995fc961d0288202f90d8ff7165a7f4319aae61027ae3eddf23"
+      },
+      {
+        "path": "discovery-first/sources/apps/service/src/operations.test.ts",
+        "bytes": 22751,
+        "sha256": "7d996a9755562fba0247aa5012e153317f0cce9ab322cf724640ecd52af4f4f7"
+      },
+      {
+        "path": "discovery-first/sources/apps/service/src/project-contracts.test.ts",
+        "bytes": 5892,
+        "sha256": "0cffc1b8009184f629d3f2a9a8f2305bfc9b0ec7633b06abaa1a731e227c2543"
+      },
+      {
+        "path": "discovery-first/sources/apps/service/src/project-service.fixture.ts",
+        "bytes": 3593,
+        "sha256": "126201c5f9d9a343992a1fe2416ad8a85a17a4f19997cccf96210c4e535e2494"
+      },
+      {
+        "path": "discovery-first/sources/apps/service/src/project-service.test.ts",
+        "bytes": 43758,
+        "sha256": "ce7916fa4cd572fe205dd033a330db0af5b351a60b44988cdb668fd94f203a98"
+      },
+      {
+        "path": "discovery-first/sources/apps/service/src/round-trip.test.ts",
+        "bytes": 6210,
+        "sha256": "bc45748d363e5214b012fbd363a095007f6100e325018e8e664da4cbbee572d2"
+      },
+      {
+        "path": "discovery-first/stderr",
+        "bytes": 834,
+        "sha256": "015837f0870c956e6e3c35e21adcc97f697cd4417c46cf74740bf5ef5c2fe739"
+      },
+      {
+        "path": "discovery-first/stdout",
+        "bytes": 378,
+        "sha256": "228f34547efff9a0de35b5dc439dba59ca4afd07c13b445c2f051d1b165a0641"
+      },
+      {
+        "path": "discovery-first/terminal.json",
+        "bytes": 106,
+        "sha256": "1992e8f2b51e21dcfbed0700a5d53dfa1902a971c159d7296b0aa3b63e65b45e"
+      },
+      {
+        "path": "discovery-lifecycle-corrected/process.json",
+        "bytes": 1665,
+        "sha256": "6da1d160ee01efde930d84a01d528659d23e3f4363a32e6ecd46371a40360ef7"
+      },
+      {
+        "path": "discovery-lifecycle-corrected/sources/apps/service/fixtures/call.mjs",
+        "bytes": 179,
+        "sha256": "dc3da3718b0d60449f23f5b0921e63275c087f779732f0b36c994b8a64acca15"
+      },
+      {
+        "path": "discovery-lifecycle-corrected/sources/apps/service/fixtures/edit-server.mjs",
+        "bytes": 1864,
+        "sha256": "dfc1417f3af8ee8a5b9a1a2b3a82d8f2d21676d94a8ce5d687781db005ca7dca"
+      },
+      {
+        "path": "discovery-lifecycle-corrected/sources/apps/service/fixtures/speech-worker.mjs",
+        "bytes": 3856,
+        "sha256": "84ac0411d471e995fc961d0288202f90d8ff7165a7f4319aae61027ae3eddf23"
+      },
+      {
+        "path": "discovery-lifecycle-corrected/sources/apps/service/src/operations.test.ts",
+        "bytes": 22751,
+        "sha256": "7d996a9755562fba0247aa5012e153317f0cce9ab322cf724640ecd52af4f4f7"
+      },
+      {
+        "path": "discovery-lifecycle-corrected/sources/apps/service/src/project-contracts.test.ts",
+        "bytes": 7232,
+        "sha256": "bad2ab7b772e5a6545a214ff4229f3540f1ae5519e46fff621894cd8aecb652e"
+      },
+      {
+        "path": "discovery-lifecycle-corrected/sources/apps/service/src/project-service.fixture.ts",
+        "bytes": 3593,
+        "sha256": "126201c5f9d9a343992a1fe2416ad8a85a17a4f19997cccf96210c4e535e2494"
+      },
+      {
+        "path": "discovery-lifecycle-corrected/sources/apps/service/src/project-service.test.ts",
+        "bytes": 43758,
+        "sha256": "ce7916fa4cd572fe205dd033a330db0af5b351a60b44988cdb668fd94f203a98"
+      },
+      {
+        "path": "discovery-lifecycle-corrected/sources/apps/service/src/round-trip.test.ts",
+        "bytes": 6210,
+        "sha256": "bc45748d363e5214b012fbd363a095007f6100e325018e8e664da4cbbee572d2"
+      },
+      {
+        "path": "discovery-lifecycle-corrected/stderr",
+        "bytes": 1381,
+        "sha256": "c7534b5ec5561de97bf5a8d28dcf1c0e31efc2d528da58abb3e817ce68dd2ba6"
+      },
+      {
+        "path": "discovery-lifecycle-corrected/stdout",
+        "bytes": 371,
+        "sha256": "2162671d27f046c58969610411bcc00babbe520d0f407bb36d1c9e70219530e2"
+      },
+      {
+        "path": "discovery-lifecycle-corrected/terminal.json",
+        "bytes": 106,
+        "sha256": "ed517779ae93f165885b1dc243e51da4e18cbc752866229a60692446995e80df"
+      },
+      {
+        "path": "filler-defect-operands/source-transcript.json",
+        "bytes": 7673,
+        "sha256": "3f73eb2843439afb78d8736c243559ac7999e26c835c59d86542c5c3bed2853e"
+      },
+      {
+        "path": "filler-public-defect/process.json",
+        "bytes": 2514,
+        "sha256": "2e285d0560eaead59035cde92bffd0a63c095a984319f54b9487de0c00338f6e"
+      },
+      {
+        "path": "filler-public-defect/sources/apps/service/fixtures/call.mjs",
+        "bytes": 179,
+        "sha256": "dc3da3718b0d60449f23f5b0921e63275c087f779732f0b36c994b8a64acca15"
+      },
+      {
+        "path": "filler-public-defect/sources/apps/service/fixtures/edit-server.mjs",
+        "bytes": 1864,
+        "sha256": "dfc1417f3af8ee8a5b9a1a2b3a82d8f2d21676d94a8ce5d687781db005ca7dca"
+      },
+      {
+        "path": "filler-public-defect/sources/apps/service/fixtures/speech-worker.mjs",
+        "bytes": 3856,
+        "sha256": "84ac0411d471e995fc961d0288202f90d8ff7165a7f4319aae61027ae3eddf23"
+      },
+      {
+        "path": "filler-public-defect/sources/apps/service/src/capture.test.ts",
+        "bytes": 47254,
+        "sha256": "11ce0d4465cf270947872af2840fd3b742c4fc9ff882b8a77357d47fe805bcc4"
+      },
+      {
+        "path": "filler-public-defect/sources/apps/service/src/index.ts",
+        "bytes": 7136,
+        "sha256": "19a7f90f7f042c8ae52a1fe646d7fcb54ce8b63bc2b371e00bfe5d9316f497f7"
+      },
+      {
+        "path": "filler-public-defect/sources/apps/service/src/operations.test.ts",
+        "bytes": 22751,
+        "sha256": "7d996a9755562fba0247aa5012e153317f0cce9ab322cf724640ecd52af4f4f7"
+      },
+      {
+        "path": "filler-public-defect/sources/apps/service/src/project-contracts.test.ts",
+        "bytes": 18114,
+        "sha256": "f6fb53740a24e4d1182eba93775d679368ce4f4ee1923ab585c6360820eefb72"
+      },
+      {
+        "path": "filler-public-defect/sources/apps/service/src/project-service.fixture.ts",
+        "bytes": 3593,
+        "sha256": "126201c5f9d9a343992a1fe2416ad8a85a17a4f19997cccf96210c4e535e2494"
+      },
+      {
+        "path": "filler-public-defect/sources/apps/service/src/project-service.test.ts",
+        "bytes": 43810,
+        "sha256": "2f0b10f27623b3ddbeac2b1ccc9a382399f41dd8d103d620a7df0c1008faa631"
+      },
+      {
+        "path": "filler-public-defect/sources/apps/service/src/round-trip.test.ts",
+        "bytes": 6210,
+        "sha256": "bc45748d363e5214b012fbd363a095007f6100e325018e8e664da4cbbee572d2"
+      },
+      {
+        "path": "filler-public-defect/sources/packages/client/dist/transport.js",
+        "bytes": 3087,
+        "sha256": "5b01b817cbf05d08a2438287f1a67f1029ef74c7854e9659dfc4539dfbb6ca04"
+      },
+      {
+        "path": "filler-public-defect/sources/packages/core/dist/word-kind.js",
+        "bytes": 670,
+        "sha256": "c3a852b9d2a1ed5a1d606e172cf4be4bce2ff5e62b1b6c3564f584d0f1aec50a"
+      },
+      {
+        "path": "filler-public-defect/sources/packages/protocol/dist/framing.js",
+        "bytes": 5431,
+        "sha256": "0880bdc558a1e3a02ec9547b9e9b8aedb401f5bf87691d889bba74dd3140332b"
+      },
+      {
+        "path": "filler-public-defect/stderr",
+        "bytes": 1196,
+        "sha256": "490157d0b598280a68cc0f5f56996ce228177c79b42f8e846b24e01b236667e6"
+      },
+      {
+        "path": "filler-public-defect/stdout",
+        "bytes": 391,
+        "sha256": "6963dc501f9d5e23938e0b0aa4190b8ee70e71856e4b31995cfdb6180b70bce2"
+      },
+      {
+        "path": "filler-public-defect/terminal.json",
+        "bytes": 105,
+        "sha256": "630bd5fca8eb5ef6a29e7248ca1b7f9342cb287108698cbb422dfd26a325ffe6"
+      },
+      {
+        "path": "final-barrier-operands/source-jobs.json",
+        "bytes": 3237,
+        "sha256": "7bda127439442c47e3c5b8b59bdff556acb8b453b1f440cb0ba126ebd2387227"
+      },
+      {
+        "path": "final-operands/framing-state.json",
+        "bytes": 2368,
+        "sha256": "6aca082931489a6c6c08ea9d0980b0d1d17793aa71e818d59a6486fb186e1da8"
+      },
+      {
+        "path": "final-operands/oversized-state.json",
+        "bytes": 2368,
+        "sha256": "0340dd170f84d40950dd252b8b811c586290bb5389c90d1d9ea571404bfa7f90"
+      },
+      {
+        "path": "final-operands/package-refusal.json",
+        "bytes": 190,
+        "sha256": "b24ebb7f751306b57df0d8830c87018e8d97a232336a122163da3c127edc1e1e"
+      },
+      {
+        "path": "final-operands/source-jobs.json",
+        "bytes": 3237,
+        "sha256": "42f2301ca1e3a41181a8167bb4275126a38cffd610ee13154df10fa40d196826"
+      },
+      {
+        "path": "final-operands/source-transcript.json",
+        "bytes": 7673,
+        "sha256": "5637f17a45dd94ed13682dae143beb13cbe8aa7875ae0633fdf9379ab5a4d52e"
+      },
+      {
+        "path": "final-operands/timeout-commit.json",
+        "bytes": 4745,
+        "sha256": "c993ebd6ef889ad3760e177e6bfaf1620a1a3489506a404a3d373b093a7a6079"
+      },
+      {
+        "path": "final-pins.json",
+        "bytes": 663,
+        "sha256": "85a6e578d4210b713eabefb87bdfbd4f82af0bbdfb5af14a1c6bcb387dc476d7"
+      },
+      {
+        "path": "final-source/apps/service/src/capture.test.ts",
+        "bytes": 47612,
+        "sha256": "51be24bce0507fae582252a7324da72891305c46a8d71e0a7cd21c464a9353fb"
+      },
+      {
+        "path": "final-source/apps/service/src/project-contracts.test.ts",
+        "bytes": 19540,
+        "sha256": "4e6ad67b951d112eed68ba1f77502dcd617082cbe37917afa3abce16e11732df"
+      },
+      {
+        "path": "final-source/apps/service/src/project-service.fixture.ts",
+        "bytes": 3595,
+        "sha256": "487d70ab93361d8327bfeaa2012f4cf2becbf50c43c454ee263e2a6a7fbac670"
+      },
+      {
+        "path": "final-source/apps/service/src/project-service.test.ts",
+        "bytes": 43851,
+        "sha256": "fb0f76c8619bac5eda9a047ea64292b69626e1d865aac901fc701b0152d97276"
+      },
+      {
+        "path": "format-final/process.json",
+        "bytes": 2191,
+        "sha256": "6a5183f9ceb5058cfd562305acb389e227a97d953eddd28c008d697c524999f7"
+      },
+      {
+        "path": "format-final/sources/apps/service/src/capture.test.ts",
+        "bytes": 47612,
+        "sha256": "51be24bce0507fae582252a7324da72891305c46a8d71e0a7cd21c464a9353fb"
+      },
+      {
+        "path": "format-final/sources/apps/service/src/index.ts",
+        "bytes": 7136,
+        "sha256": "19a7f90f7f042c8ae52a1fe646d7fcb54ce8b63bc2b371e00bfe5d9316f497f7"
+      },
+      {
+        "path": "format-final/sources/apps/service/src/project-contracts.test.ts",
+        "bytes": 19540,
+        "sha256": "4e6ad67b951d112eed68ba1f77502dcd617082cbe37917afa3abce16e11732df"
+      },
+      {
+        "path": "format-final/sources/apps/service/src/project-service.fixture.ts",
+        "bytes": 3595,
+        "sha256": "487d70ab93361d8327bfeaa2012f4cf2becbf50c43c454ee263e2a6a7fbac670"
+      },
+      {
+        "path": "format-final/sources/apps/service/src/project-service.test.ts",
+        "bytes": 43851,
+        "sha256": "fb0f76c8619bac5eda9a047ea64292b69626e1d865aac901fc701b0152d97276"
+      },
+      {
+        "path": "format-final/sources/packages/client/dist/transport.js",
+        "bytes": 3087,
+        "sha256": "5b01b817cbf05d08a2438287f1a67f1029ef74c7854e9659dfc4539dfbb6ca04"
+      },
+      {
+        "path": "format-final/sources/packages/core/dist/word-kind.js",
+        "bytes": 670,
+        "sha256": "474494e8ab46251d37276ea7afb106edbeefbb03b05f731f3494b0c3ac6b944e"
+      },
+      {
+        "path": "format-final/sources/packages/protocol/dist/framing.js",
+        "bytes": 5431,
+        "sha256": "0880bdc558a1e3a02ec9547b9e9b8aedb401f5bf87691d889bba74dd3140332b"
+      },
+      {
+        "path": "format-final/stderr",
+        "bytes": 91,
+        "sha256": "01f25de219844d53f81b996d6b73e782203533bfc6eba81e44b98acc0039ad42"
+      },
+      {
+        "path": "format-final/stdout",
+        "bytes": 111,
+        "sha256": "13c2b2dd5987b083e840de33bc5e78e23b72aee55e9bfe8b180dce9712552635"
+      },
+      {
+        "path": "format-final/terminal.json",
+        "bytes": 105,
+        "sha256": "812a77a9921b34563e780cb27e403a36d84723849dda11996bc63fe9c0147d36"
+      },
+      {
+        "path": "framing-defect.js",
+        "bytes": 5433,
+        "sha256": "9c82c30ea38324c5f0cfbc42d6808a746e8255a2cfcfee6e17ff4709c15aaff7"
+      },
+      {
+        "path": "framing-restored/process.json",
+        "bytes": 1630,
+        "sha256": "8cceb86609841eaf7731f3689f59d33d976ee366a9919cf6e6829eb239c7d8d5"
+      },
+      {
+        "path": "framing-restored/sources/apps/service/fixtures/call.mjs",
+        "bytes": 179,
+        "sha256": "dc3da3718b0d60449f23f5b0921e63275c087f779732f0b36c994b8a64acca15"
+      },
+      {
+        "path": "framing-restored/sources/apps/service/fixtures/edit-server.mjs",
+        "bytes": 1864,
+        "sha256": "dfc1417f3af8ee8a5b9a1a2b3a82d8f2d21676d94a8ce5d687781db005ca7dca"
+      },
+      {
+        "path": "framing-restored/sources/apps/service/fixtures/speech-worker.mjs",
+        "bytes": 3856,
+        "sha256": "84ac0411d471e995fc961d0288202f90d8ff7165a7f4319aae61027ae3eddf23"
+      },
+      {
+        "path": "framing-restored/sources/apps/service/src/operations.test.ts",
+        "bytes": 22751,
+        "sha256": "7d996a9755562fba0247aa5012e153317f0cce9ab322cf724640ecd52af4f4f7"
+      },
+      {
+        "path": "framing-restored/sources/apps/service/src/project-contracts.test.ts",
+        "bytes": 3530,
+        "sha256": "a3f000e7fef46236699d15c0896be5a329a9a10ef774dd5864208eea6564adaf"
+      },
+      {
+        "path": "framing-restored/sources/apps/service/src/project-service.fixture.ts",
+        "bytes": 3593,
+        "sha256": "126201c5f9d9a343992a1fe2416ad8a85a17a4f19997cccf96210c4e535e2494"
+      },
+      {
+        "path": "framing-restored/sources/apps/service/src/project-service.test.ts",
+        "bytes": 43758,
+        "sha256": "ce7916fa4cd572fe205dd033a330db0af5b351a60b44988cdb668fd94f203a98"
+      },
+      {
+        "path": "framing-restored/sources/apps/service/src/round-trip.test.ts",
+        "bytes": 6210,
+        "sha256": "bc45748d363e5214b012fbd363a095007f6100e325018e8e664da4cbbee572d2"
+      },
+      {
+        "path": "framing-restored/stderr",
+        "bytes": 169,
+        "sha256": "1fb2ab54a5f32d0b3f74b341d7225541a4a7eef461d3ee6fa3cac83f6a031327"
+      },
+      {
+        "path": "framing-restored/stdout",
+        "bytes": 181,
+        "sha256": "261b409c0b1d06a830024607d85b7cb8ed9a7940495fca5762f575ab98acb9ef"
+      },
+      {
+        "path": "framing-restored/terminal.json",
+        "bytes": 105,
+        "sha256": "282af75d959194f9c49965d951833d923e3dadb568a5435a0b34e78f9d90a7b6"
+      },
+      {
+        "path": "framing.original.js",
+        "bytes": 5431,
+        "sha256": "0880bdc558a1e3a02ec9547b9e9b8aedb401f5bf87691d889bba74dd3140332b"
+      },
+      {
+        "path": "jobs-current-operands/source-jobs.json",
+        "bytes": 3237,
+        "sha256": "a7ca9f28727f8af79f21d4eb184b7676c4820c945493998dc87d3f51399bac74"
+      },
+      {
+        "path": "jobs-current-source/process.json",
+        "bytes": 1667,
+        "sha256": "14fc00ac5ed51f97dcb27b1689b468e7b34591c0e7a149f3d2c0a161cacf72c9"
+      },
+      {
+        "path": "jobs-current-source/sources/apps/service/fixtures/call.mjs",
+        "bytes": 179,
+        "sha256": "dc3da3718b0d60449f23f5b0921e63275c087f779732f0b36c994b8a64acca15"
+      },
+      {
+        "path": "jobs-current-source/sources/apps/service/fixtures/edit-server.mjs",
+        "bytes": 1864,
+        "sha256": "dfc1417f3af8ee8a5b9a1a2b3a82d8f2d21676d94a8ce5d687781db005ca7dca"
+      },
+      {
+        "path": "jobs-current-source/sources/apps/service/fixtures/speech-worker.mjs",
+        "bytes": 3856,
+        "sha256": "84ac0411d471e995fc961d0288202f90d8ff7165a7f4319aae61027ae3eddf23"
+      },
+      {
+        "path": "jobs-current-source/sources/apps/service/src/operations.test.ts",
+        "bytes": 22751,
+        "sha256": "7d996a9755562fba0247aa5012e153317f0cce9ab322cf724640ecd52af4f4f7"
+      },
+      {
+        "path": "jobs-current-source/sources/apps/service/src/project-contracts.test.ts",
+        "bytes": 17412,
+        "sha256": "dc5fd9a3a41485ab2c5662f9e586e31812a9b0d6be1bd45fbccf2065c6166bfb"
+      },
+      {
+        "path": "jobs-current-source/sources/apps/service/src/project-service.fixture.ts",
+        "bytes": 3593,
+        "sha256": "126201c5f9d9a343992a1fe2416ad8a85a17a4f19997cccf96210c4e535e2494"
+      },
+      {
+        "path": "jobs-current-source/sources/apps/service/src/project-service.test.ts",
+        "bytes": 43810,
+        "sha256": "2f0b10f27623b3ddbeac2b1ccc9a382399f41dd8d103d620a7df0c1008faa631"
+      },
+      {
+        "path": "jobs-current-source/sources/apps/service/src/round-trip.test.ts",
+        "bytes": 6210,
+        "sha256": "bc45748d363e5214b012fbd363a095007f6100e325018e8e664da4cbbee572d2"
+      },
+      {
+        "path": "jobs-current-source/stderr",
+        "bytes": 169,
+        "sha256": "50908c09f12be461306d6e0f594c18a308c7f13e2999def691745d3a43720f6a"
+      },
+      {
+        "path": "jobs-current-source/stdout",
+        "bytes": 193,
+        "sha256": "0e289be18b177b19e3eb18b2f5ec80c3952b85b9391c52c02c7250cd08aceb3b"
+      },
+      {
+        "path": "jobs-current-source/terminal.json",
+        "bytes": 105,
+        "sha256": "8143e2097d6a4a018d0d197b4b3ef2edcb62e95ff9b39056a5a1ac3954d47bc6"
+      },
+      {
+        "path": "jobs-first/process.json",
+        "bytes": 1667,
+        "sha256": "296ad781015ad541885ba5bafb0e7ed7a7404d4d790366dd30ff1ca0f4ed3ff6"
+      },
+      {
+        "path": "jobs-first/sources/apps/service/fixtures/call.mjs",
+        "bytes": 179,
+        "sha256": "dc3da3718b0d60449f23f5b0921e63275c087f779732f0b36c994b8a64acca15"
+      },
+      {
+        "path": "jobs-first/sources/apps/service/fixtures/edit-server.mjs",
+        "bytes": 1864,
+        "sha256": "dfc1417f3af8ee8a5b9a1a2b3a82d8f2d21676d94a8ce5d687781db005ca7dca"
+      },
+      {
+        "path": "jobs-first/sources/apps/service/fixtures/speech-worker.mjs",
+        "bytes": 3856,
+        "sha256": "84ac0411d471e995fc961d0288202f90d8ff7165a7f4319aae61027ae3eddf23"
+      },
+      {
+        "path": "jobs-first/sources/apps/service/src/operations.test.ts",
+        "bytes": 22751,
+        "sha256": "7d996a9755562fba0247aa5012e153317f0cce9ab322cf724640ecd52af4f4f7"
+      },
+      {
+        "path": "jobs-first/sources/apps/service/src/project-contracts.test.ts",
+        "bytes": 16801,
+        "sha256": "5a88107d053083261231771dd628181706d2c02623a7c242f78c43dd1c83f5a3"
+      },
+      {
+        "path": "jobs-first/sources/apps/service/src/project-service.fixture.ts",
+        "bytes": 3593,
+        "sha256": "126201c5f9d9a343992a1fe2416ad8a85a17a4f19997cccf96210c4e535e2494"
+      },
+      {
+        "path": "jobs-first/sources/apps/service/src/project-service.test.ts",
+        "bytes": 43810,
+        "sha256": "2f0b10f27623b3ddbeac2b1ccc9a382399f41dd8d103d620a7df0c1008faa631"
+      },
+      {
+        "path": "jobs-first/sources/apps/service/src/round-trip.test.ts",
+        "bytes": 6210,
+        "sha256": "bc45748d363e5214b012fbd363a095007f6100e325018e8e664da4cbbee572d2"
+      },
+      {
+        "path": "jobs-first/stderr",
+        "bytes": 1204,
+        "sha256": "c4e3547fef3f20143c8779bbd06fcee7f8e5a31c12e21feeb437a53fbeff32e6"
+      },
+      {
+        "path": "jobs-first/stdout",
+        "bytes": 371,
+        "sha256": "9f9530bb537a1b8b892039bb9f112fdcf9b84bc47715aaf73e496f085da1d8ee"
+      },
+      {
+        "path": "jobs-first/terminal.json",
+        "bytes": 105,
+        "sha256": "0f80daa86acc381e4ce52d5920ec6d85ef888cc0c29c70bf3cfab9bc38ef61a0"
+      },
+      {
+        "path": "lint-final/process.json",
+        "bytes": 2179,
+        "sha256": "238a08cd9c8831de2d3b684a0dc3f5f2b4b9deb5e15338307d163c016cd89a30"
+      },
+      {
+        "path": "lint-final/sources/apps/service/src/capture.test.ts",
+        "bytes": 47612,
+        "sha256": "51be24bce0507fae582252a7324da72891305c46a8d71e0a7cd21c464a9353fb"
+      },
+      {
+        "path": "lint-final/sources/apps/service/src/index.ts",
+        "bytes": 7136,
+        "sha256": "19a7f90f7f042c8ae52a1fe646d7fcb54ce8b63bc2b371e00bfe5d9316f497f7"
+      },
+      {
+        "path": "lint-final/sources/apps/service/src/project-contracts.test.ts",
+        "bytes": 19540,
+        "sha256": "4e6ad67b951d112eed68ba1f77502dcd617082cbe37917afa3abce16e11732df"
+      },
+      {
+        "path": "lint-final/sources/apps/service/src/project-service.fixture.ts",
+        "bytes": 3595,
+        "sha256": "487d70ab93361d8327bfeaa2012f4cf2becbf50c43c454ee263e2a6a7fbac670"
+      },
+      {
+        "path": "lint-final/sources/apps/service/src/project-service.test.ts",
+        "bytes": 43851,
+        "sha256": "fb0f76c8619bac5eda9a047ea64292b69626e1d865aac901fc701b0152d97276"
+      },
+      {
+        "path": "lint-final/sources/packages/client/dist/transport.js",
+        "bytes": 3087,
+        "sha256": "5b01b817cbf05d08a2438287f1a67f1029ef74c7854e9659dfc4539dfbb6ca04"
+      },
+      {
+        "path": "lint-final/sources/packages/core/dist/word-kind.js",
+        "bytes": 670,
+        "sha256": "474494e8ab46251d37276ea7afb106edbeefbb03b05f731f3494b0c3ac6b944e"
+      },
+      {
+        "path": "lint-final/sources/packages/protocol/dist/framing.js",
+        "bytes": 5431,
+        "sha256": "0880bdc558a1e3a02ec9547b9e9b8aedb401f5bf87691d889bba74dd3140332b"
+      },
+      {
+        "path": "lint-final/stderr",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "lint-final/stdout",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "lint-final/terminal.json",
+        "bytes": 106,
+        "sha256": "13094d01bee6390391ab2899196c605f3bdd01a0fc544cfe5f6ce8a92b5251c6"
+      },
+      {
+        "path": "listener.original.ts",
+        "bytes": 7136,
+        "sha256": "19a7f90f7f042c8ae52a1fe646d7fcb54ce8b63bc2b371e00bfe5d9316f497f7"
+      },
+      {
+        "path": "oversized-corrected/process.json",
+        "bytes": 1672,
+        "sha256": "0c3364a327e1993f1102199b7d8547b07efec224234b579b9a3a7c5d04602ea0"
+      },
+      {
+        "path": "oversized-corrected/sources/apps/service/fixtures/call.mjs",
+        "bytes": 179,
+        "sha256": "dc3da3718b0d60449f23f5b0921e63275c087f779732f0b36c994b8a64acca15"
+      },
+      {
+        "path": "oversized-corrected/sources/apps/service/fixtures/edit-server.mjs",
+        "bytes": 1864,
+        "sha256": "dfc1417f3af8ee8a5b9a1a2b3a82d8f2d21676d94a8ce5d687781db005ca7dca"
+      },
+      {
+        "path": "oversized-corrected/sources/apps/service/fixtures/speech-worker.mjs",
+        "bytes": 3856,
+        "sha256": "84ac0411d471e995fc961d0288202f90d8ff7165a7f4319aae61027ae3eddf23"
+      },
+      {
+        "path": "oversized-corrected/sources/apps/service/src/operations.test.ts",
+        "bytes": 22751,
+        "sha256": "7d996a9755562fba0247aa5012e153317f0cce9ab322cf724640ecd52af4f4f7"
+      },
+      {
+        "path": "oversized-corrected/sources/apps/service/src/project-contracts.test.ts",
+        "bytes": 2934,
+        "sha256": "9755d32feb2114b64ffe2c24a20a2e00d857751bc4123be6ae3923d49c1defe4"
+      },
+      {
+        "path": "oversized-corrected/sources/apps/service/src/project-service.fixture.ts",
+        "bytes": 3593,
+        "sha256": "126201c5f9d9a343992a1fe2416ad8a85a17a4f19997cccf96210c4e535e2494"
+      },
+      {
+        "path": "oversized-corrected/sources/apps/service/src/project-service.test.ts",
+        "bytes": 43758,
+        "sha256": "ce7916fa4cd572fe205dd033a330db0af5b351a60b44988cdb668fd94f203a98"
+      },
+      {
+        "path": "oversized-corrected/sources/apps/service/src/round-trip.test.ts",
+        "bytes": 6210,
+        "sha256": "bc45748d363e5214b012fbd363a095007f6100e325018e8e664da4cbbee572d2"
+      },
+      {
+        "path": "oversized-corrected/stderr",
+        "bytes": 169,
+        "sha256": "5dd13bc1412568f23314bcb8563b7ac5d5a8b8ad4e1adae177453593bc4e3b61"
+      },
+      {
+        "path": "oversized-corrected/stdout",
+        "bytes": 181,
+        "sha256": "19f5fc72e9268a99b3863fdecfc026fcaea90d16f811f46ed0d46c27e30dfaa9"
+      },
+      {
+        "path": "oversized-corrected/terminal.json",
+        "bytes": 105,
+        "sha256": "ffcabf84b115f852762a5efba3e6e2e3afed071688a3f90b247788697432b359"
+      },
+      {
+        "path": "oversized-defect/listener.ts",
+        "bytes": 7140,
+        "sha256": "047f59ca2ea846036b23d93ca7dbe53fd0132ee9f5f7748fcdc76b16b10765f9"
+      },
+      {
+        "path": "oversized-defect/process.json",
+        "bytes": 1671,
+        "sha256": "09d8a2d6317bb7d1a80eb5156c7afd912e08783629ca024ffdadcfe181bb8732"
+      },
+      {
+        "path": "oversized-defect/sources/apps/service/fixtures/call.mjs",
+        "bytes": 179,
+        "sha256": "dc3da3718b0d60449f23f5b0921e63275c087f779732f0b36c994b8a64acca15"
+      },
+      {
+        "path": "oversized-defect/sources/apps/service/fixtures/edit-server.mjs",
+        "bytes": 1864,
+        "sha256": "dfc1417f3af8ee8a5b9a1a2b3a82d8f2d21676d94a8ce5d687781db005ca7dca"
+      },
+      {
+        "path": "oversized-defect/sources/apps/service/fixtures/speech-worker.mjs",
+        "bytes": 3856,
+        "sha256": "84ac0411d471e995fc961d0288202f90d8ff7165a7f4319aae61027ae3eddf23"
+      },
+      {
+        "path": "oversized-defect/sources/apps/service/src/operations.test.ts",
+        "bytes": 22751,
+        "sha256": "7d996a9755562fba0247aa5012e153317f0cce9ab322cf724640ecd52af4f4f7"
+      },
+      {
+        "path": "oversized-defect/sources/apps/service/src/project-contracts.test.ts",
+        "bytes": 2934,
+        "sha256": "9755d32feb2114b64ffe2c24a20a2e00d857751bc4123be6ae3923d49c1defe4"
+      },
+      {
+        "path": "oversized-defect/sources/apps/service/src/project-service.fixture.ts",
+        "bytes": 3593,
+        "sha256": "126201c5f9d9a343992a1fe2416ad8a85a17a4f19997cccf96210c4e535e2494"
+      },
+      {
+        "path": "oversized-defect/sources/apps/service/src/project-service.test.ts",
+        "bytes": 43758,
+        "sha256": "ce7916fa4cd572fe205dd033a330db0af5b351a60b44988cdb668fd94f203a98"
+      },
+      {
+        "path": "oversized-defect/sources/apps/service/src/round-trip.test.ts",
+        "bytes": 6210,
+        "sha256": "bc45748d363e5214b012fbd363a095007f6100e325018e8e664da4cbbee572d2"
+      },
+      {
+        "path": "oversized-defect/stderr",
+        "bytes": 3590,
+        "sha256": "485f9a8eac6768f17a6660778ce6f2598dd98eadb4f71de7d9cf0338e503529e"
+      },
+      {
+        "path": "oversized-defect/stdout",
+        "bytes": 330,
+        "sha256": "6ca683f7311786850d1b59af1c55f3a7fc515cd336d830148e5ffebc0473001b"
+      },
+      {
+        "path": "oversized-defect/terminal.json",
+        "bytes": 106,
+        "sha256": "29a1f2cbb551ea4aabc51f425e65a6682969e062f650f78cbf12216bdc2c4926"
+      },
+      {
+        "path": "oversized-first/process.json",
+        "bytes": 1671,
+        "sha256": "b31a963d78db588f5c23343d0eb8c7a6a86ba328a75684250874976373f5feb2"
+      },
+      {
+        "path": "oversized-first/sources/apps/service/fixtures/call.mjs",
+        "bytes": 179,
+        "sha256": "dc3da3718b0d60449f23f5b0921e63275c087f779732f0b36c994b8a64acca15"
+      },
+      {
+        "path": "oversized-first/sources/apps/service/fixtures/edit-server.mjs",
+        "bytes": 1864,
+        "sha256": "dfc1417f3af8ee8a5b9a1a2b3a82d8f2d21676d94a8ce5d687781db005ca7dca"
+      },
+      {
+        "path": "oversized-first/sources/apps/service/fixtures/speech-worker.mjs",
+        "bytes": 3856,
+        "sha256": "84ac0411d471e995fc961d0288202f90d8ff7165a7f4319aae61027ae3eddf23"
+      },
+      {
+        "path": "oversized-first/sources/apps/service/src/operations.test.ts",
+        "bytes": 22751,
+        "sha256": "7d996a9755562fba0247aa5012e153317f0cce9ab322cf724640ecd52af4f4f7"
+      },
+      {
+        "path": "oversized-first/sources/apps/service/src/project-contracts.test.ts",
+        "bytes": 2944,
+        "sha256": "0f4fe10109e8d314820e5a788ed1ea936d0d209383c47e64a46222aabb3c006a"
+      },
+      {
+        "path": "oversized-first/sources/apps/service/src/project-service.fixture.ts",
+        "bytes": 3593,
+        "sha256": "126201c5f9d9a343992a1fe2416ad8a85a17a4f19997cccf96210c4e535e2494"
+      },
+      {
+        "path": "oversized-first/sources/apps/service/src/project-service.test.ts",
+        "bytes": 43758,
+        "sha256": "ce7916fa4cd572fe205dd033a330db0af5b351a60b44988cdb668fd94f203a98"
+      },
+      {
+        "path": "oversized-first/sources/apps/service/src/round-trip.test.ts",
+        "bytes": 6210,
+        "sha256": "bc45748d363e5214b012fbd363a095007f6100e325018e8e664da4cbbee572d2"
+      },
+      {
+        "path": "oversized-first/stderr",
+        "bytes": 892,
+        "sha256": "24d9dc9e031222192767b806ecac1c9cdb6f69fc6d4694ce88880881ecb0271c"
+      },
+      {
+        "path": "oversized-first/stdout",
+        "bytes": 330,
+        "sha256": "39fd10162da39495495003ad09828263f853ff970c72a8b6c210710f47878f47"
+      },
+      {
+        "path": "oversized-first/terminal.json",
+        "bytes": 105,
+        "sha256": "325c8c8abe2f7ad4600130e5ca8806aa1d277ae82b8290b7a0c79d1b265006ff"
+      },
+      {
+        "path": "package-attribution/process.json",
+        "bytes": 1668,
+        "sha256": "b1cf69b319bdccf6646be48bc8cac259aeef9578f1735e3aa95b6d06d75557ab"
+      },
+      {
+        "path": "package-attribution/sources/apps/service/fixtures/call.mjs",
+        "bytes": 179,
+        "sha256": "dc3da3718b0d60449f23f5b0921e63275c087f779732f0b36c994b8a64acca15"
+      },
+      {
+        "path": "package-attribution/sources/apps/service/fixtures/edit-server.mjs",
+        "bytes": 1864,
+        "sha256": "dfc1417f3af8ee8a5b9a1a2b3a82d8f2d21676d94a8ce5d687781db005ca7dca"
+      },
+      {
+        "path": "package-attribution/sources/apps/service/fixtures/speech-worker.mjs",
+        "bytes": 3856,
+        "sha256": "84ac0411d471e995fc961d0288202f90d8ff7165a7f4319aae61027ae3eddf23"
+      },
+      {
+        "path": "package-attribution/sources/apps/service/src/operations.test.ts",
+        "bytes": 22751,
+        "sha256": "7d996a9755562fba0247aa5012e153317f0cce9ab322cf724640ecd52af4f4f7"
+      },
+      {
+        "path": "package-attribution/sources/apps/service/src/project-contracts.test.ts",
+        "bytes": 7224,
+        "sha256": "47b1458f90e76fd4fb664c13920dd6a1683d48e220f11deb5ebb7cb518018648"
+      },
+      {
+        "path": "package-attribution/sources/apps/service/src/project-service.fixture.ts",
+        "bytes": 3593,
+        "sha256": "126201c5f9d9a343992a1fe2416ad8a85a17a4f19997cccf96210c4e535e2494"
+      },
+      {
+        "path": "package-attribution/sources/apps/service/src/project-service.test.ts",
+        "bytes": 43758,
+        "sha256": "ce7916fa4cd572fe205dd033a330db0af5b351a60b44988cdb668fd94f203a98"
+      },
+      {
+        "path": "package-attribution/sources/apps/service/src/round-trip.test.ts",
+        "bytes": 6210,
+        "sha256": "bc45748d363e5214b012fbd363a095007f6100e325018e8e664da4cbbee572d2"
+      },
+      {
+        "path": "package-attribution/stderr",
+        "bytes": 1055,
+        "sha256": "75403de14ea2e068b588fbc9202309ce3ede79b8c1a28e37ded673eee936d72d"
+      },
+      {
+        "path": "package-attribution/stdout",
+        "bytes": 364,
+        "sha256": "5296c01ae54f71ef94eab433b1ccb29038b81e15a19d803d8a54afb5826bf25c"
+      },
+      {
+        "path": "package-attribution/terminal.json",
+        "bytes": 106,
+        "sha256": "642fc51c9c05c1568ae89e3219901e7b685a5f571a9750e14b71279f2c11001c"
+      },
+      {
+        "path": "package-current-root/process.json",
+        "bytes": 1668,
+        "sha256": "8574320054a962640d7e34a744d13cad64b16d10b5d15b0b3d1737f9af413c4e"
+      },
+      {
+        "path": "package-current-root/sources/apps/service/fixtures/call.mjs",
+        "bytes": 179,
+        "sha256": "dc3da3718b0d60449f23f5b0921e63275c087f779732f0b36c994b8a64acca15"
+      },
+      {
+        "path": "package-current-root/sources/apps/service/fixtures/edit-server.mjs",
+        "bytes": 1864,
+        "sha256": "dfc1417f3af8ee8a5b9a1a2b3a82d8f2d21676d94a8ce5d687781db005ca7dca"
+      },
+      {
+        "path": "package-current-root/sources/apps/service/fixtures/speech-worker.mjs",
+        "bytes": 3856,
+        "sha256": "84ac0411d471e995fc961d0288202f90d8ff7165a7f4319aae61027ae3eddf23"
+      },
+      {
+        "path": "package-current-root/sources/apps/service/src/operations.test.ts",
+        "bytes": 22751,
+        "sha256": "7d996a9755562fba0247aa5012e153317f0cce9ab322cf724640ecd52af4f4f7"
+      },
+      {
+        "path": "package-current-root/sources/apps/service/src/project-contracts.test.ts",
+        "bytes": 7232,
+        "sha256": "bad2ab7b772e5a6545a214ff4229f3540f1ae5519e46fff621894cd8aecb652e"
+      },
+      {
+        "path": "package-current-root/sources/apps/service/src/project-service.fixture.ts",
+        "bytes": 3593,
+        "sha256": "126201c5f9d9a343992a1fe2416ad8a85a17a4f19997cccf96210c4e535e2494"
+      },
+      {
+        "path": "package-current-root/sources/apps/service/src/project-service.test.ts",
+        "bytes": 43758,
+        "sha256": "ce7916fa4cd572fe205dd033a330db0af5b351a60b44988cdb668fd94f203a98"
+      },
+      {
+        "path": "package-current-root/sources/apps/service/src/round-trip.test.ts",
+        "bytes": 6210,
+        "sha256": "bc45748d363e5214b012fbd363a095007f6100e325018e8e664da4cbbee572d2"
+      },
+      {
+        "path": "package-current-root/stderr",
+        "bytes": 169,
+        "sha256": "c56676a3d2138854c2c38e72816d6af8c0a951e1b1c600293056a484f9ba2ba6"
+      },
+      {
+        "path": "package-current-root/stdout",
+        "bytes": 193,
+        "sha256": "858534035e2d74543ce86cfb91a52363b01b2c29399e6f44d068bfbfa9250298"
+      },
+      {
+        "path": "package-current-root/terminal.json",
+        "bytes": 106,
+        "sha256": "bdc08ff22dc59d0d8038c2103cf647929e2beca1f26d10f5dd5c490b036cb242"
+      },
+      {
+        "path": "package-first/process.json",
+        "bytes": 1668,
+        "sha256": "aa38e420ea70d7098c4a3911b8499af77ffc855452e750b00d4c2e4c8f52c018"
+      },
+      {
+        "path": "package-first/sources/apps/service/fixtures/call.mjs",
+        "bytes": 179,
+        "sha256": "dc3da3718b0d60449f23f5b0921e63275c087f779732f0b36c994b8a64acca15"
+      },
+      {
+        "path": "package-first/sources/apps/service/fixtures/edit-server.mjs",
+        "bytes": 1864,
+        "sha256": "dfc1417f3af8ee8a5b9a1a2b3a82d8f2d21676d94a8ce5d687781db005ca7dca"
+      },
+      {
+        "path": "package-first/sources/apps/service/fixtures/speech-worker.mjs",
+        "bytes": 3856,
+        "sha256": "84ac0411d471e995fc961d0288202f90d8ff7165a7f4319aae61027ae3eddf23"
+      },
+      {
+        "path": "package-first/sources/apps/service/src/operations.test.ts",
+        "bytes": 22751,
+        "sha256": "7d996a9755562fba0247aa5012e153317f0cce9ab322cf724640ecd52af4f4f7"
+      },
+      {
+        "path": "package-first/sources/apps/service/src/project-contracts.test.ts",
+        "bytes": 6719,
+        "sha256": "0725f75b66fc17e22401ccd0b1ee680c3a3ba2d948468a20df51298f268c3993"
+      },
+      {
+        "path": "package-first/sources/apps/service/src/project-service.fixture.ts",
+        "bytes": 3593,
+        "sha256": "126201c5f9d9a343992a1fe2416ad8a85a17a4f19997cccf96210c4e535e2494"
+      },
+      {
+        "path": "package-first/sources/apps/service/src/project-service.test.ts",
+        "bytes": 43758,
+        "sha256": "ce7916fa4cd572fe205dd033a330db0af5b351a60b44988cdb668fd94f203a98"
+      },
+      {
+        "path": "package-first/sources/apps/service/src/round-trip.test.ts",
+        "bytes": 6210,
+        "sha256": "bc45748d363e5214b012fbd363a095007f6100e325018e8e664da4cbbee572d2"
+      },
+      {
+        "path": "package-first/stderr",
+        "bytes": 1150,
+        "sha256": "2ccb2c967965c0862509da52168917f6a3fbb346defc6544cd0f28455ccb2269"
+      },
+      {
+        "path": "package-first/stdout",
+        "bytes": 364,
+        "sha256": "59b4f99854853fad553a50d288a681056f7ffa26e38b211bb3b721574bb59b3c"
+      },
+      {
+        "path": "package-first/terminal.json",
+        "bytes": 106,
+        "sha256": "515fafe38401ab78ebd7b5c05c568729958d952efd8b777c0b4aca22675ea587"
+      },
+      {
+        "path": "package-operands/package-refusal.json",
+        "bytes": 165,
+        "sha256": "fe73aa29ed2f7f1f210fd13cea13c2c8be0bef63579d3116bbdf12f155445c7c"
+      },
+      {
+        "path": "production-restored.json",
+        "bytes": 657,
+        "sha256": "79769e44d064008865142e674625cbe8358e9bffd00d5e2f92c22b4697fcc239"
+      },
+      {
+        "path": "report.json",
+        "bytes": 13987,
+        "sha256": "e87c5b92f4c6bdf81d37a7f3c65385a1bbb685d02d7d1bd5c2e63dd672be12d9"
+      },
+      {
+        "path": "review.md",
+        "bytes": 2114,
+        "sha256": "34fd08c6f3aed9bcbacbcc6f9f4383f698ce8c6ec1596ee6a24b96cfcb8b3e05"
+      },
+      {
+        "path": "run.py",
+        "bytes": 1816,
+        "sha256": "aac6f297563d55320dfe253b20946278329bd84d5388c5c1e55598b5f3820790"
+      },
+      {
+        "path": "service-emits-before.json",
+        "bytes": 5215,
+        "sha256": "bf28e99c4eb05d4aed166471082155cd895e8bda6bde14d7c98910373ce53586"
+      },
+      {
+        "path": "service-emits-parity.json",
+        "bytes": 8599,
+        "sha256": "762082c4e2aa38e87427c5d314ce3fb92ec006d0fa3b97cf9ae200dae1e233c0"
+      },
+      {
+        "path": "source-barrier-final/process.json",
+        "bytes": 2562,
+        "sha256": "ababf3437bc30f5f1a908488af783febfe54c8045210d1d58553785ca35f7690"
+      },
+      {
+        "path": "source-barrier-final/sources/apps/service/fixtures/call.mjs",
+        "bytes": 179,
+        "sha256": "dc3da3718b0d60449f23f5b0921e63275c087f779732f0b36c994b8a64acca15"
+      },
+      {
+        "path": "source-barrier-final/sources/apps/service/fixtures/edit-server.mjs",
+        "bytes": 1864,
+        "sha256": "dfc1417f3af8ee8a5b9a1a2b3a82d8f2d21676d94a8ce5d687781db005ca7dca"
+      },
+      {
+        "path": "source-barrier-final/sources/apps/service/fixtures/speech-worker.mjs",
+        "bytes": 3856,
+        "sha256": "84ac0411d471e995fc961d0288202f90d8ff7165a7f4319aae61027ae3eddf23"
+      },
+      {
+        "path": "source-barrier-final/sources/apps/service/src/capture.test.ts",
+        "bytes": 47612,
+        "sha256": "51be24bce0507fae582252a7324da72891305c46a8d71e0a7cd21c464a9353fb"
+      },
+      {
+        "path": "source-barrier-final/sources/apps/service/src/index.ts",
+        "bytes": 7136,
+        "sha256": "19a7f90f7f042c8ae52a1fe646d7fcb54ce8b63bc2b371e00bfe5d9316f497f7"
+      },
+      {
+        "path": "source-barrier-final/sources/apps/service/src/operations.test.ts",
+        "bytes": 22751,
+        "sha256": "7d996a9755562fba0247aa5012e153317f0cce9ab322cf724640ecd52af4f4f7"
+      },
+      {
+        "path": "source-barrier-final/sources/apps/service/src/project-contracts.test.ts",
+        "bytes": 19540,
+        "sha256": "4e6ad67b951d112eed68ba1f77502dcd617082cbe37917afa3abce16e11732df"
+      },
+      {
+        "path": "source-barrier-final/sources/apps/service/src/project-service.fixture.ts",
+        "bytes": 3595,
+        "sha256": "487d70ab93361d8327bfeaa2012f4cf2becbf50c43c454ee263e2a6a7fbac670"
+      },
+      {
+        "path": "source-barrier-final/sources/apps/service/src/project-service.test.ts",
+        "bytes": 43851,
+        "sha256": "fb0f76c8619bac5eda9a047ea64292b69626e1d865aac901fc701b0152d97276"
+      },
+      {
+        "path": "source-barrier-final/sources/apps/service/src/round-trip.test.ts",
+        "bytes": 6210,
+        "sha256": "bc45748d363e5214b012fbd363a095007f6100e325018e8e664da4cbbee572d2"
+      },
+      {
+        "path": "source-barrier-final/sources/packages/client/dist/transport.js",
+        "bytes": 3087,
+        "sha256": "5b01b817cbf05d08a2438287f1a67f1029ef74c7854e9659dfc4539dfbb6ca04"
+      },
+      {
+        "path": "source-barrier-final/sources/packages/core/dist/word-kind.js",
+        "bytes": 670,
+        "sha256": "474494e8ab46251d37276ea7afb106edbeefbb03b05f731f3494b0c3ac6b944e"
+      },
+      {
+        "path": "source-barrier-final/sources/packages/protocol/dist/framing.js",
+        "bytes": 5431,
+        "sha256": "0880bdc558a1e3a02ec9547b9e9b8aedb401f5bf87691d889bba74dd3140332b"
+      },
+      {
+        "path": "source-barrier-final/stderr",
+        "bytes": 338,
+        "sha256": "f2a402959c284cb8e33c52a3805eec9527d3eb51c89cbae5ab273a49a3761f05"
+      },
+      {
+        "path": "source-barrier-final/stdout",
+        "bytes": 196,
+        "sha256": "1e2f535585679c2fdd3a385c1d86b884902b38a8ef0dd4e14f7f36b14b582fbc"
+      },
+      {
+        "path": "source-barrier-final/terminal.json",
+        "bytes": 105,
+        "sha256": "118b4712158b53c9a7c50d021ab3f5917c2f35a7ff4e6a5604da1a53513cbc1c"
+      },
+      {
+        "path": "source.diff",
+        "bytes": 69761,
+        "sha256": "b799f7384081e383f3a125699b418dce40f5851a93bf5d68dfd2fe113d14cc15"
+      },
+      {
+        "path": "timeout-causal-defect/process.json",
+        "bytes": 2492,
+        "sha256": "1da7e931e053f14cf6c6292bb853ddbf1ada062b6624d9b394c62e4b36e9b3c6"
+      },
+      {
+        "path": "timeout-causal-defect/sources/apps/service/fixtures/call.mjs",
+        "bytes": 179,
+        "sha256": "dc3da3718b0d60449f23f5b0921e63275c087f779732f0b36c994b8a64acca15"
+      },
+      {
+        "path": "timeout-causal-defect/sources/apps/service/fixtures/edit-server.mjs",
+        "bytes": 1864,
+        "sha256": "dfc1417f3af8ee8a5b9a1a2b3a82d8f2d21676d94a8ce5d687781db005ca7dca"
+      },
+      {
+        "path": "timeout-causal-defect/sources/apps/service/fixtures/speech-worker.mjs",
+        "bytes": 3856,
+        "sha256": "84ac0411d471e995fc961d0288202f90d8ff7165a7f4319aae61027ae3eddf23"
+      },
+      {
+        "path": "timeout-causal-defect/sources/apps/service/src/capture.test.ts",
+        "bytes": 47254,
+        "sha256": "11ce0d4465cf270947872af2840fd3b742c4fc9ff882b8a77357d47fe805bcc4"
+      },
+      {
+        "path": "timeout-causal-defect/sources/apps/service/src/index.ts",
+        "bytes": 7136,
+        "sha256": "19a7f90f7f042c8ae52a1fe646d7fcb54ce8b63bc2b371e00bfe5d9316f497f7"
+      },
+      {
+        "path": "timeout-causal-defect/sources/apps/service/src/operations.test.ts",
+        "bytes": 22751,
+        "sha256": "7d996a9755562fba0247aa5012e153317f0cce9ab322cf724640ecd52af4f4f7"
+      },
+      {
+        "path": "timeout-causal-defect/sources/apps/service/src/project-contracts.test.ts",
+        "bytes": 18102,
+        "sha256": "ada92773a1f57967bc800d56952094e76f363d358dc4a6aa36a88ad11a114354"
+      },
+      {
+        "path": "timeout-causal-defect/sources/apps/service/src/project-service.fixture.ts",
+        "bytes": 3593,
+        "sha256": "126201c5f9d9a343992a1fe2416ad8a85a17a4f19997cccf96210c4e535e2494"
+      },
+      {
+        "path": "timeout-causal-defect/sources/apps/service/src/project-service.test.ts",
+        "bytes": 43810,
+        "sha256": "2f0b10f27623b3ddbeac2b1ccc9a382399f41dd8d103d620a7df0c1008faa631"
+      },
+      {
+        "path": "timeout-causal-defect/sources/apps/service/src/round-trip.test.ts",
+        "bytes": 6210,
+        "sha256": "bc45748d363e5214b012fbd363a095007f6100e325018e8e664da4cbbee572d2"
+      },
+      {
+        "path": "timeout-causal-defect/sources/packages/client/dist/transport.js",
+        "bytes": 3096,
+        "sha256": "5d1a603d8e0a73b40dc9b416527842195d386b168e4c4764c27372e6663ec389"
+      },
+      {
+        "path": "timeout-causal-defect/sources/packages/core/dist/word-kind.js",
+        "bytes": 670,
+        "sha256": "474494e8ab46251d37276ea7afb106edbeefbb03b05f731f3494b0c3ac6b944e"
+      },
+      {
+        "path": "timeout-causal-defect/sources/packages/protocol/dist/framing.js",
+        "bytes": 5431,
+        "sha256": "0880bdc558a1e3a02ec9547b9e9b8aedb401f5bf87691d889bba74dd3140332b"
+      },
+      {
+        "path": "timeout-causal-defect/stderr",
+        "bytes": 1074,
+        "sha256": "5d49086737fdd0010d43ad213d7317915e53fc8d3eb476a3890335e83863ebd9"
+      },
+      {
+        "path": "timeout-causal-defect/stdout",
+        "bytes": 374,
+        "sha256": "8e86e31056f7e009653e3caf1b0736ead9b3299fd4cb15eaae30015bbe8fa575"
+      },
+      {
+        "path": "timeout-causal-defect/terminal.json",
+        "bytes": 106,
+        "sha256": "f5d420587d6b2897ac7dc05eb6c8561ad1acf63d1cba8d9e6789c00276afe152"
+      },
+      {
+        "path": "timeout-first/process.json",
+        "bytes": 1662,
+        "sha256": "eda755418de6aabfd30f17ff0c02883fdc968fa249ef9b5f6bd81e94e0000e7d"
+      },
+      {
+        "path": "timeout-first/sources/apps/service/fixtures/call.mjs",
+        "bytes": 179,
+        "sha256": "dc3da3718b0d60449f23f5b0921e63275c087f779732f0b36c994b8a64acca15"
+      },
+      {
+        "path": "timeout-first/sources/apps/service/fixtures/edit-server.mjs",
+        "bytes": 1864,
+        "sha256": "dfc1417f3af8ee8a5b9a1a2b3a82d8f2d21676d94a8ce5d687781db005ca7dca"
+      },
+      {
+        "path": "timeout-first/sources/apps/service/fixtures/speech-worker.mjs",
+        "bytes": 3856,
+        "sha256": "84ac0411d471e995fc961d0288202f90d8ff7165a7f4319aae61027ae3eddf23"
+      },
+      {
+        "path": "timeout-first/sources/apps/service/src/operations.test.ts",
+        "bytes": 22751,
+        "sha256": "7d996a9755562fba0247aa5012e153317f0cce9ab322cf724640ecd52af4f4f7"
+      },
+      {
+        "path": "timeout-first/sources/apps/service/src/project-contracts.test.ts",
+        "bytes": 5892,
+        "sha256": "0cffc1b8009184f629d3f2a9a8f2305bfc9b0ec7633b06abaa1a731e227c2543"
+      },
+      {
+        "path": "timeout-first/sources/apps/service/src/project-service.fixture.ts",
+        "bytes": 3593,
+        "sha256": "126201c5f9d9a343992a1fe2416ad8a85a17a4f19997cccf96210c4e535e2494"
+      },
+      {
+        "path": "timeout-first/sources/apps/service/src/project-service.test.ts",
+        "bytes": 43758,
+        "sha256": "ce7916fa4cd572fe205dd033a330db0af5b351a60b44988cdb668fd94f203a98"
+      },
+      {
+        "path": "timeout-first/sources/apps/service/src/round-trip.test.ts",
+        "bytes": 6210,
+        "sha256": "bc45748d363e5214b012fbd363a095007f6100e325018e8e664da4cbbee572d2"
+      },
+      {
+        "path": "timeout-first/stderr",
+        "bytes": 169,
+        "sha256": "675072bcd74a3baff2fd439dbffc178e18bf06145235c0da1adbb79594c00518"
+      },
+      {
+        "path": "timeout-first/stdout",
+        "bytes": 194,
+        "sha256": "bbcb2e172535b7e8b4b70df10d50b8720bfb86530119d057a56e91160210bfbc"
+      },
+      {
+        "path": "timeout-first/terminal.json",
+        "bytes": 105,
+        "sha256": "2d25db9e88468c3fc14dbbf22687adffab720f62d33f1f20e2862d1a781b83b2"
+      },
+      {
+        "path": "transcript-canonical-directory/process.json",
+        "bytes": 1685,
+        "sha256": "1e835e86e28c9e4c2ad0e5a1b3f94c0469998d0d3713fca9456db26ac44efff1"
+      },
+      {
+        "path": "transcript-canonical-directory/sources/apps/service/fixtures/call.mjs",
+        "bytes": 179,
+        "sha256": "dc3da3718b0d60449f23f5b0921e63275c087f779732f0b36c994b8a64acca15"
+      },
+      {
+        "path": "transcript-canonical-directory/sources/apps/service/fixtures/edit-server.mjs",
+        "bytes": 1864,
+        "sha256": "dfc1417f3af8ee8a5b9a1a2b3a82d8f2d21676d94a8ce5d687781db005ca7dca"
+      },
+      {
+        "path": "transcript-canonical-directory/sources/apps/service/fixtures/speech-worker.mjs",
+        "bytes": 3856,
+        "sha256": "84ac0411d471e995fc961d0288202f90d8ff7165a7f4319aae61027ae3eddf23"
+      },
+      {
+        "path": "transcript-canonical-directory/sources/apps/service/src/operations.test.ts",
+        "bytes": 22751,
+        "sha256": "7d996a9755562fba0247aa5012e153317f0cce9ab322cf724640ecd52af4f4f7"
+      },
+      {
+        "path": "transcript-canonical-directory/sources/apps/service/src/project-contracts.test.ts",
+        "bytes": 17438,
+        "sha256": "bf1465f00f06a177c7ddf8cc1b2b54d3380363584d277cba84fedc61fb9cd746"
+      },
+      {
+        "path": "transcript-canonical-directory/sources/apps/service/src/project-service.fixture.ts",
+        "bytes": 3593,
+        "sha256": "126201c5f9d9a343992a1fe2416ad8a85a17a4f19997cccf96210c4e535e2494"
+      },
+      {
+        "path": "transcript-canonical-directory/sources/apps/service/src/project-service.test.ts",
+        "bytes": 43810,
+        "sha256": "2f0b10f27623b3ddbeac2b1ccc9a382399f41dd8d103d620a7df0c1008faa631"
+      },
+      {
+        "path": "transcript-canonical-directory/sources/apps/service/src/round-trip.test.ts",
+        "bytes": 6210,
+        "sha256": "bc45748d363e5214b012fbd363a095007f6100e325018e8e664da4cbbee572d2"
+      },
+      {
+        "path": "transcript-canonical-directory/stderr",
+        "bytes": 169,
+        "sha256": "4f9b80f4b149845e4953ed08b38a147b5d1da02430e0a21cdad341e955d58d97"
+      },
+      {
+        "path": "transcript-canonical-directory/stdout",
+        "bytes": 194,
+        "sha256": "2b7d6fe38de081b5671fa6c5c46a77219a4b4fc0add4713d4ca1cfff163e5a75"
+      },
+      {
+        "path": "transcript-canonical-directory/terminal.json",
+        "bytes": 105,
+        "sha256": "32dbc5dae7b66b977ef0d312d9503b538a3b7fd077dcb3d320f3a8f9ce16e087"
+      },
+      {
+        "path": "transcript-canonical-operands/source-transcript.json",
+        "bytes": 7673,
+        "sha256": "b3b773518354114928ad17233e539534939e64b84ec996f96eeea20e41328569"
+      },
+      {
+        "path": "transcript-first/process.json",
+        "bytes": 1686,
+        "sha256": "c69ad5978f4cf1a65234f0739de4cfe9c80309ec20f549c4a0702ff2c706d202"
+      },
+      {
+        "path": "transcript-first/sources/apps/service/fixtures/call.mjs",
+        "bytes": 179,
+        "sha256": "dc3da3718b0d60449f23f5b0921e63275c087f779732f0b36c994b8a64acca15"
+      },
+      {
+        "path": "transcript-first/sources/apps/service/fixtures/edit-server.mjs",
+        "bytes": 1864,
+        "sha256": "dfc1417f3af8ee8a5b9a1a2b3a82d8f2d21676d94a8ce5d687781db005ca7dca"
+      },
+      {
+        "path": "transcript-first/sources/apps/service/fixtures/speech-worker.mjs",
+        "bytes": 3856,
+        "sha256": "84ac0411d471e995fc961d0288202f90d8ff7165a7f4319aae61027ae3eddf23"
+      },
+      {
+        "path": "transcript-first/sources/apps/service/src/operations.test.ts",
+        "bytes": 22751,
+        "sha256": "7d996a9755562fba0247aa5012e153317f0cce9ab322cf724640ecd52af4f4f7"
+      },
+      {
+        "path": "transcript-first/sources/apps/service/src/project-contracts.test.ts",
+        "bytes": 13847,
+        "sha256": "162003ee8bf9fe98a30b6285326bc887316cff482b28d047e88250a624be439a"
+      },
+      {
+        "path": "transcript-first/sources/apps/service/src/project-service.fixture.ts",
+        "bytes": 3593,
+        "sha256": "126201c5f9d9a343992a1fe2416ad8a85a17a4f19997cccf96210c4e535e2494"
+      },
+      {
+        "path": "transcript-first/sources/apps/service/src/project-service.test.ts",
+        "bytes": 43810,
+        "sha256": "2f0b10f27623b3ddbeac2b1ccc9a382399f41dd8d103d620a7df0c1008faa631"
+      },
+      {
+        "path": "transcript-first/sources/apps/service/src/round-trip.test.ts",
+        "bytes": 6210,
+        "sha256": "bc45748d363e5214b012fbd363a095007f6100e325018e8e664da4cbbee572d2"
+      },
+      {
+        "path": "transcript-first/stderr",
+        "bytes": 1275,
+        "sha256": "afd8315aeca9f8056b65fba602285f97525c9265294764e71d11e8eabccfab7a"
+      },
+      {
+        "path": "transcript-first/stdout",
+        "bytes": 391,
+        "sha256": "5124de0bffee8ce98dbaff02e4b4104a177cea5b58e772dcba0a93246194187a"
+      },
+      {
+        "path": "transcript-first/terminal.json",
+        "bytes": 106,
+        "sha256": "0aa254d868372af0b924b677feaaa727f2f46ca1dc9dcdc27d669d1b9cb3cb87"
+      },
+      {
+        "path": "transcript-generation-corrected/process.json",
+        "bytes": 1686,
+        "sha256": "aa99e0a3203e30f56aff885bc41fe27fc45d97b26e22d1bf207b34c4e3384f46"
+      },
+      {
+        "path": "transcript-generation-corrected/sources/apps/service/fixtures/call.mjs",
+        "bytes": 179,
+        "sha256": "dc3da3718b0d60449f23f5b0921e63275c087f779732f0b36c994b8a64acca15"
+      },
+      {
+        "path": "transcript-generation-corrected/sources/apps/service/fixtures/edit-server.mjs",
+        "bytes": 1864,
+        "sha256": "dfc1417f3af8ee8a5b9a1a2b3a82d8f2d21676d94a8ce5d687781db005ca7dca"
+      },
+      {
+        "path": "transcript-generation-corrected/sources/apps/service/fixtures/speech-worker.mjs",
+        "bytes": 3856,
+        "sha256": "84ac0411d471e995fc961d0288202f90d8ff7165a7f4319aae61027ae3eddf23"
+      },
+      {
+        "path": "transcript-generation-corrected/sources/apps/service/src/operations.test.ts",
+        "bytes": 22751,
+        "sha256": "7d996a9755562fba0247aa5012e153317f0cce9ab322cf724640ecd52af4f4f7"
+      },
+      {
+        "path": "transcript-generation-corrected/sources/apps/service/src/project-contracts.test.ts",
+        "bytes": 16801,
+        "sha256": "5a88107d053083261231771dd628181706d2c02623a7c242f78c43dd1c83f5a3"
+      },
+      {
+        "path": "transcript-generation-corrected/sources/apps/service/src/project-service.fixture.ts",
+        "bytes": 3593,
+        "sha256": "126201c5f9d9a343992a1fe2416ad8a85a17a4f19997cccf96210c4e535e2494"
+      },
+      {
+        "path": "transcript-generation-corrected/sources/apps/service/src/project-service.test.ts",
+        "bytes": 43810,
+        "sha256": "2f0b10f27623b3ddbeac2b1ccc9a382399f41dd8d103d620a7df0c1008faa631"
+      },
+      {
+        "path": "transcript-generation-corrected/sources/apps/service/src/round-trip.test.ts",
+        "bytes": 6210,
+        "sha256": "bc45748d363e5214b012fbd363a095007f6100e325018e8e664da4cbbee572d2"
+      },
+      {
+        "path": "transcript-generation-corrected/stderr",
+        "bytes": 1711,
+        "sha256": "1518b0139f263f859162242b11d28f30aac634bdd3cef2b7aa7f7670debfb999"
+      },
+      {
+        "path": "transcript-generation-corrected/stdout",
+        "bytes": 391,
+        "sha256": "eb9683a65a1aedca483cbf8e4a697c7a283ade49bb0e86678447548c46ba9a4a"
+      },
+      {
+        "path": "transcript-generation-corrected/terminal.json",
+        "bytes": 106,
+        "sha256": "960b9f62bd29fda861affd32451335f6a20a2338083567cdc4080972baa06d13"
+      },
+      {
+        "path": "transcript-operands/source-transcript.json",
+        "bytes": 7673,
+        "sha256": "4a723a931d0cf2deca00c802cf047dd8fe6116605abbc987ae88090bad0e67c4"
+      },
+      {
+        "path": "transport.original.js",
+        "bytes": 3087,
+        "sha256": "5b01b817cbf05d08a2438287f1a67f1029ef74c7854e9659dfc4539dfbb6ca04"
+      },
+      {
+        "path": "types-final/process.json",
+        "bytes": 2039,
+        "sha256": "dae1951d4e0bdf34991ea27eadf8a6dff12c7d6193d5b12b8ee9384b961f7910"
+      },
+      {
+        "path": "types-final/sources/apps/service/src/capture.test.ts",
+        "bytes": 47612,
+        "sha256": "51be24bce0507fae582252a7324da72891305c46a8d71e0a7cd21c464a9353fb"
+      },
+      {
+        "path": "types-final/sources/apps/service/src/index.ts",
+        "bytes": 7136,
+        "sha256": "19a7f90f7f042c8ae52a1fe646d7fcb54ce8b63bc2b371e00bfe5d9316f497f7"
+      },
+      {
+        "path": "types-final/sources/apps/service/src/project-contracts.test.ts",
+        "bytes": 19540,
+        "sha256": "4e6ad67b951d112eed68ba1f77502dcd617082cbe37917afa3abce16e11732df"
+      },
+      {
+        "path": "types-final/sources/apps/service/src/project-service.fixture.ts",
+        "bytes": 3595,
+        "sha256": "487d70ab93361d8327bfeaa2012f4cf2becbf50c43c454ee263e2a6a7fbac670"
+      },
+      {
+        "path": "types-final/sources/apps/service/src/project-service.test.ts",
+        "bytes": 43851,
+        "sha256": "fb0f76c8619bac5eda9a047ea64292b69626e1d865aac901fc701b0152d97276"
+      },
+      {
+        "path": "types-final/sources/packages/client/dist/transport.js",
+        "bytes": 3087,
+        "sha256": "5b01b817cbf05d08a2438287f1a67f1029ef74c7854e9659dfc4539dfbb6ca04"
+      },
+      {
+        "path": "types-final/sources/packages/core/dist/word-kind.js",
+        "bytes": 670,
+        "sha256": "474494e8ab46251d37276ea7afb106edbeefbb03b05f731f3494b0c3ac6b944e"
+      },
+      {
+        "path": "types-final/sources/packages/protocol/dist/framing.js",
+        "bytes": 5431,
+        "sha256": "0880bdc558a1e3a02ec9547b9e9b8aedb401f5bf87691d889bba74dd3140332b"
+      },
+      {
+        "path": "types-final/stderr",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "types-final/stdout",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "types-final/terminal.json",
+        "bytes": 106,
+        "sha256": "63a631a57385c4f1732073600ca8ba5c8b434a9e4ce2d9956902494334056c2d"
+      },
+      {
+        "path": "types-initial/process.json",
+        "bytes": 1621,
+        "sha256": "a362b65b4b9a152ca2c64868ece61b78668e1a26f14284c04957f8cdd56fd324"
+      },
+      {
+        "path": "types-initial/sources/apps/service/fixtures/call.mjs",
+        "bytes": 179,
+        "sha256": "dc3da3718b0d60449f23f5b0921e63275c087f779732f0b36c994b8a64acca15"
+      },
+      {
+        "path": "types-initial/sources/apps/service/fixtures/edit-server.mjs",
+        "bytes": 1864,
+        "sha256": "dfc1417f3af8ee8a5b9a1a2b3a82d8f2d21676d94a8ce5d687781db005ca7dca"
+      },
+      {
+        "path": "types-initial/sources/apps/service/fixtures/speech-worker.mjs",
+        "bytes": 3856,
+        "sha256": "84ac0411d471e995fc961d0288202f90d8ff7165a7f4319aae61027ae3eddf23"
+      },
+      {
+        "path": "types-initial/sources/apps/service/src/operations.test.ts",
+        "bytes": 22751,
+        "sha256": "7d996a9755562fba0247aa5012e153317f0cce9ab322cf724640ecd52af4f4f7"
+      },
+      {
+        "path": "types-initial/sources/apps/service/src/project-contracts.test.ts",
+        "bytes": 17412,
+        "sha256": "dc5fd9a3a41485ab2c5662f9e586e31812a9b0d6be1bd45fbccf2065c6166bfb"
+      },
+      {
+        "path": "types-initial/sources/apps/service/src/project-service.fixture.ts",
+        "bytes": 3593,
+        "sha256": "126201c5f9d9a343992a1fe2416ad8a85a17a4f19997cccf96210c4e535e2494"
+      },
+      {
+        "path": "types-initial/sources/apps/service/src/project-service.test.ts",
+        "bytes": 43810,
+        "sha256": "2f0b10f27623b3ddbeac2b1ccc9a382399f41dd8d103d620a7df0c1008faa631"
+      },
+      {
+        "path": "types-initial/sources/apps/service/src/round-trip.test.ts",
+        "bytes": 6210,
+        "sha256": "bc45748d363e5214b012fbd363a095007f6100e325018e8e664da4cbbee572d2"
+      },
+      {
+        "path": "types-initial/stderr",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "types-initial/stdout",
+        "bytes": 240,
+        "sha256": "88766508983f72e0255dbb1445a9cf93dfc67c76de1687d3cb221c1dcfc26b7b"
+      },
+      {
+        "path": "types-initial/terminal.json",
+        "bytes": 105,
+        "sha256": "0470a8b51d0ebb40b030ba1020a592cd5449b445ed7ffcb36006b90a2f31fbba"
+      },
+      {
+        "path": "utf8-defect/process.json",
+        "bytes": 1661,
+        "sha256": "a63554eea8274ac663de20a141e53fae9a96c1c07845674e24411fc5f0a3b2b5"
+      },
+      {
+        "path": "utf8-defect/sources/apps/service/fixtures/call.mjs",
+        "bytes": 179,
+        "sha256": "dc3da3718b0d60449f23f5b0921e63275c087f779732f0b36c994b8a64acca15"
+      },
+      {
+        "path": "utf8-defect/sources/apps/service/fixtures/edit-server.mjs",
+        "bytes": 1864,
+        "sha256": "dfc1417f3af8ee8a5b9a1a2b3a82d8f2d21676d94a8ce5d687781db005ca7dca"
+      },
+      {
+        "path": "utf8-defect/sources/apps/service/fixtures/speech-worker.mjs",
+        "bytes": 3856,
+        "sha256": "84ac0411d471e995fc961d0288202f90d8ff7165a7f4319aae61027ae3eddf23"
+      },
+      {
+        "path": "utf8-defect/sources/apps/service/src/operations.test.ts",
+        "bytes": 22751,
+        "sha256": "7d996a9755562fba0247aa5012e153317f0cce9ab322cf724640ecd52af4f4f7"
+      },
+      {
+        "path": "utf8-defect/sources/apps/service/src/project-contracts.test.ts",
+        "bytes": 5892,
+        "sha256": "0cffc1b8009184f629d3f2a9a8f2305bfc9b0ec7633b06abaa1a731e227c2543"
+      },
+      {
+        "path": "utf8-defect/sources/apps/service/src/project-service.fixture.ts",
+        "bytes": 3593,
+        "sha256": "126201c5f9d9a343992a1fe2416ad8a85a17a4f19997cccf96210c4e535e2494"
+      },
+      {
+        "path": "utf8-defect/sources/apps/service/src/project-service.test.ts",
+        "bytes": 43758,
+        "sha256": "ce7916fa4cd572fe205dd033a330db0af5b351a60b44988cdb668fd94f203a98"
+      },
+      {
+        "path": "utf8-defect/sources/apps/service/src/round-trip.test.ts",
+        "bytes": 6210,
+        "sha256": "bc45748d363e5214b012fbd363a095007f6100e325018e8e664da4cbbee572d2"
+      },
+      {
+        "path": "utf8-defect/stderr",
+        "bytes": 3540,
+        "sha256": "ff0d4922239b713c341bd73a0b245a1ce4096a459f36d69277a916a0148cacfb"
+      },
+      {
+        "path": "utf8-defect/stdout",
+        "bytes": 361,
+        "sha256": "e793c656544a693f986f48272c2c0969cefaa8df61ef632a052a63a94bb79dba"
+      },
+      {
+        "path": "utf8-defect/terminal.json",
+        "bytes": 105,
+        "sha256": "bc5b72004411e278ed5aee188a2d5b91e0733cbe7afe260589131825b115c116"
+      },
+      {
+        "path": "word-kind.original.js",
+        "bytes": 670,
+        "sha256": "474494e8ab46251d37276ea7afb106edbeefbb03b05f731f3494b0c3ac6b944e"
+      }
+    ],
+    "rootVerification": "Every payload and four final source pins independently checked; restored production operands and 32 unchanged service JavaScript emissions checked. Render emission changed only in the separately reviewed render pass. No tests repeated."
+  }
+}

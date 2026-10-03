@@ -1,0 +1,48 @@
+{
+  "kind": "read-only-native-build-and-caller-dependency-audit",
+  "baselineCommit": "2b718cd4328e53b3fdb36ba812154efbbd29c2bc",
+  "verificationRun": false,
+  "scope": [
+    "Native source and operation registrations, known direct worker consumers, CLI/MCP response branches and personal-release caller prerequisites.",
+    "Shared presentation, PCM, mux, descriptor and render-workspace primitives must survive removal of old registered engines.",
+    "Inventories locate callers, not a completed test-guarantee transfer. Reconfirm each current consumer before removal."
+  ],
+  "bank": {
+    "archive": "native-consumer-audit-evidence.tar.gz",
+    "bytes": 20685,
+    "sha256": "e4d364c3a4ee9727343f8ebaa4f8dbb0030e7c13bbb4cae5da0c32c68b6e92f7",
+    "payloads": [
+      {
+        "path": "map.md",
+        "bytes": 8349,
+        "sha256": "a9a5f75e34e6585869a39c5e00a3cb95b5ce6d52a8131347128e7e8581883d7a"
+      },
+      {
+        "path": "source-pins.json",
+        "bytes": 37671,
+        "sha256": "e631efa8ed05cb79c2437c9e248b5032b861a56de3ce8bcc99c0f432e74905b9"
+      },
+      {
+        "path": "old-native-consumers.txt",
+        "bytes": 9393,
+        "sha256": "c70e2a64f1a050435fe39df4fff552e69d108f7c64ff7a08810e9c60575ca572"
+      },
+      {
+        "path": "cli-retired-selectors.txt",
+        "bytes": 344,
+        "sha256": "c5c6e74f96a05612b1a9786d408cd7496c1e0b9ccab149d7244020d2c5a6bab3"
+      },
+      {
+        "path": "archive-callers.txt",
+        "bytes": 3295,
+        "sha256": "b0ccdf8f9d498e9b03f39115f66b5008cdb392e7e52a3476cf60669e132a21c6"
+      },
+      {
+        "path": "native-shared.txt",
+        "bytes": 6063,
+        "sha256": "99c50178a2eb38712feb1c2756661d7d1dcbdbb00f25292d379b19e46a8939f9"
+      }
+    ],
+    "rootVerification": "All 149 historical source pins independently checked; full map read. No runtime or deletion authority claimed."
+  }
+}

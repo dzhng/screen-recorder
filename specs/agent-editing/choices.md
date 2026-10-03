@@ -7279,3 +7279,51 @@ old recording cache pipeline would preserve an unused owner solely for setup.
 The plan required revocation without choosing this fixture resource. This choice
 belongs to `3829aa5f`; it proves generic delivery lifetime, without claiming that
 current source-frame operations issue recording-owned tokens.
+
+**Sound, medium confidence — source-job continuity uses an actual managed import.**
+A caller imports source bytes, sees a retryable preparation failure, retries,
+cancels an entered worker, and reopens the service. The same public job retains
+its target and cancellation; another retry keeps the job ID and creates a new
+attempt. The alternative would retain an obsolete recording-edit target solely
+for this test. The plan required public continuation without choosing the current
+job kind. This choice belongs to `e62c0147`; it preserves the generic lifetime
+contract while capture/acquisition-specific recovery keeps its separate proof.
+
+**Sound, high confidence — timeout proof holds an actual committed reply.**
+An edit can commit while the caller loses its answer. The test forwards a real
+request to the canonical service, observes its successful reply, and holds that
+reply until the actual client times out. Retrying the same request ID then returns
+the exact saved result without adding history. A simulated success could pass
+without any mutation. The plan required this contract without choosing the test
+network edge. This choice belongs to `e62c0147`; it adds no product retry or
+transport behavior and keeps framing tests on the same real catalog.
+
+**Sound, high confidence — model metadata readiness stays separate from inference.**
+A ready-model request must return existing metadata without downloading or
+starting another transcription. The fixture creates sparse files at registered
+sizes and matching filesystem receipts, then supplies one controlled speech
+answer. It checks the resulting words and exact selected-source request. Requiring
+real weights for this metadata contract would add expensive unrelated work.
+The plan required preserving readiness/idempotence without selecting fixture
+bytes. This choice belongs to `e62c0147`; it proves metadata and service behavior,
+while actual recognition quality remains a separate acceptance gate.
+
+**Sound, high confidence — shared test setup owns canonical service handoff.**
+Both the existing service suite and the new contract cases need the same socket
+composition and descriptor-backed probe handoff. They consume one test-only
+fixture rather than copying that setup or adding a product adapter. Reopening
+uses the existing temporary library. The plan did not prescribe its test-file
+placement. This choice belongs to `e62c0147`; existing build exclusions keep the
+fixture out of production output, and default-entry discovery reuses its existing
+subprocess owner without extracting the capture suite.
+
+**Sound, high confidence — render guarantees belong to the shared attempt lifetime.**
+A worker times out or returns after cancellation while files are still staged.
+The existing attempt owner waits for its child, rejects late consumption and
+cleans the private files; effects already committed by a consumer remain that
+consumer's responsibility. These assertions now exercise that owner directly.
+The alternative would retain an unused preview adapter to reach the same lifetime.
+The plan required preserving guarantees without selecting every test seam.
+This choice belongs to `89ed3737`; duplicate abort/startup cases are removed only
+where current cases retain their exact child/staging observations. The old movie
+wrapper remains for identified native labs until those independent ports finish.

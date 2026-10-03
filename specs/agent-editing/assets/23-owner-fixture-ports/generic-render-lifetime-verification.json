@@ -1,0 +1,1451 @@
+{
+  "commit": "3da1ffbeaa5608bec65e4bd902d69fa567021683",
+  "baseCommit": "2b718cd4328e53b3fdb36ba812154efbbd29c2bc",
+  "scope": "Generic TS render lifetime ports and orphan preview adapter removal; no current runtime behavior change",
+  "files": [
+    {
+      "path": "apps/service/src/render.ts",
+      "bytes": 10228,
+      "sha256": "a6f55364015a17268a948d5f7c2c5006f59b3759802e40fff4c57b5b36a61948",
+      "gitBlob": "4ec6ca8c9f8d24d9441d2cc0591fc6b3da0369e2"
+    },
+    {
+      "path": "apps/service/src/render.test.ts",
+      "bytes": 26066,
+      "sha256": "cc3445a339c0714b2f81c93e765bc705b019c8c393c394c944c6c25517d17aa7",
+      "gitBlob": "28d0f651c0f437e7d998851c4b9bd1635076f90c"
+    }
+  ],
+  "unchangedGenericImplementation": [
+    {
+      "scope": "workspace",
+      "sha256": "97875548cc921dbec66a0bbe6a82ddcc60f8b6e4bc590fd60b00ff4b2bfddc25",
+      "exactBaseBytes": true
+    },
+    {
+      "scope": "rendered-file",
+      "sha256": "105c0e9225f19a68b9a9c522109c43e05b06f1be008fbd06ab4ca483230aa7f6",
+      "exactBaseBytes": true
+    }
+  ],
+  "checks": [
+    {
+      "phase": "before-consume-control",
+      "exit": 1,
+      "end": 1790994257.985076,
+      "seconds": 0.6548411846160889,
+      "waited": true,
+      "process": {
+        "argv": [
+          "node_modules/.bin/vitest",
+          "run",
+          "apps/service/src/render.test.ts",
+          "-t",
+          "abort after native publication"
+        ],
+        "pid": 20530,
+        "start": 1790994257.3302348,
+        "sourcePins": [
+          {
+            "path": "apps/service/src/render.ts",
+            "sha256": "30f93f54e1b7ea154c011efd7c6642617871c1c382b659be1884ccf2bbb50373"
+          },
+          {
+            "path": "apps/service/src/render.test.ts",
+            "sha256": "25aa6dc5c36f1519e8fbb14fa5fbff95132df8ec7d466983f5e01f3cf011a25a"
+          }
+        ],
+        "control": [
+          "consume-fence"
+        ]
+      }
+    },
+    {
+      "phase": "before-consume-green",
+      "exit": 0,
+      "end": 1790994254.4190478,
+      "seconds": 0.6425440311431885,
+      "waited": true,
+      "process": {
+        "argv": [
+          "node_modules/.bin/vitest",
+          "run",
+          "apps/service/src/render.test.ts",
+          "-t",
+          "abort after native publication"
+        ],
+        "pid": 20442,
+        "start": 1790994253.776505,
+        "sourcePins": [
+          {
+            "path": "apps/service/src/render.ts",
+            "sha256": "1374cfd10964ceb28bbd1c3fa66ef9543b9dd28f997f51d76d3e08f098b35b1e"
+          },
+          {
+            "path": "apps/service/src/render.test.ts",
+            "sha256": "25aa6dc5c36f1519e8fbb14fa5fbff95132df8ec7d466983f5e01f3cf011a25a"
+          }
+        ],
+        "control": []
+      }
+    },
+    {
+      "phase": "before-consume-restored",
+      "exit": 0,
+      "end": 1790994261.878222,
+      "seconds": 0.6165499687194824,
+      "waited": true,
+      "process": {
+        "argv": [
+          "node_modules/.bin/vitest",
+          "run",
+          "apps/service/src/render.test.ts",
+          "-t",
+          "abort after native publication"
+        ],
+        "pid": 20548,
+        "start": 1790994261.261672,
+        "sourcePins": [
+          {
+            "path": "apps/service/src/render.ts",
+            "sha256": "1374cfd10964ceb28bbd1c3fa66ef9543b9dd28f997f51d76d3e08f098b35b1e"
+          },
+          {
+            "path": "apps/service/src/render.test.ts",
+            "sha256": "25aa6dc5c36f1519e8fbb14fa5fbff95132df8ec7d466983f5e01f3cf011a25a"
+          }
+        ],
+        "control": []
+      }
+    },
+    {
+      "phase": "consumer-control",
+      "exit": 1,
+      "end": 1790994277.2622862,
+      "seconds": 0.5958819389343262,
+      "waited": true,
+      "process": {
+        "argv": [
+          "node_modules/.bin/vitest",
+          "run",
+          "apps/service/src/render.test.ts",
+          "-t",
+          "successful consumption"
+        ],
+        "pid": 20603,
+        "start": 1790994276.6664052,
+        "sourcePins": [
+          {
+            "path": "apps/service/src/render.ts",
+            "sha256": "183dcb95cb6e680375e9fc7a82610406f15917e2c1d87c27fd2a84d40e4662c7"
+          },
+          {
+            "path": "apps/service/src/render.test.ts",
+            "sha256": "ce08ca8acfd734c89b8b71457bfab75b3f7a1fcbb5a587ab08578f9989075108"
+          }
+        ],
+        "control": [
+          "cleanup"
+        ]
+      }
+    },
+    {
+      "phase": "consumer-green",
+      "exit": 0,
+      "end": 1790994270.313534,
+      "seconds": 0.6621520519256592,
+      "waited": true,
+      "process": {
+        "argv": [
+          "node_modules/.bin/vitest",
+          "run",
+          "apps/service/src/render.test.ts",
+          "-t",
+          "successful consumption"
+        ],
+        "pid": 20587,
+        "start": 1790994269.651382,
+        "sourcePins": [
+          {
+            "path": "apps/service/src/render.ts",
+            "sha256": "1374cfd10964ceb28bbd1c3fa66ef9543b9dd28f997f51d76d3e08f098b35b1e"
+          },
+          {
+            "path": "apps/service/src/render.test.ts",
+            "sha256": "ce08ca8acfd734c89b8b71457bfab75b3f7a1fcbb5a587ab08578f9989075108"
+          }
+        ],
+        "control": []
+      }
+    },
+    {
+      "phase": "consumer-restored",
+      "exit": 0,
+      "end": 1790994281.063217,
+      "seconds": 0.6045777797698975,
+      "waited": true,
+      "process": {
+        "argv": [
+          "node_modules/.bin/vitest",
+          "run",
+          "apps/service/src/render.test.ts",
+          "-t",
+          "successful consumption"
+        ],
+        "pid": 20651,
+        "start": 1790994280.4586391,
+        "sourcePins": [
+          {
+            "path": "apps/service/src/render.ts",
+            "sha256": "1374cfd10964ceb28bbd1c3fa66ef9543b9dd28f997f51d76d3e08f098b35b1e"
+          },
+          {
+            "path": "apps/service/src/render.test.ts",
+            "sha256": "ce08ca8acfd734c89b8b71457bfab75b3f7a1fcbb5a587ab08578f9989075108"
+          }
+        ],
+        "control": []
+      }
+    },
+    {
+      "phase": "current-abort-green",
+      "exit": 0,
+      "end": 1790994351.508522,
+      "seconds": 0.6319930553436279,
+      "waited": true,
+      "process": {
+        "argv": [
+          "node_modules/.bin/vitest",
+          "run",
+          "apps/service/src/render.test.ts",
+          "-t",
+          "audio abort reclaims"
+        ],
+        "pid": 20999,
+        "start": 1790994350.876529,
+        "sourcePins": [
+          {
+            "path": "apps/service/src/render.ts",
+            "sha256": "1374cfd10964ceb28bbd1c3fa66ef9543b9dd28f997f51d76d3e08f098b35b1e"
+          },
+          {
+            "path": "apps/service/src/render.test.ts",
+            "sha256": "1cf2b57406db395e3b2d6764412e9c988b26ee6c39095d870e0728161acf8077"
+          }
+        ],
+        "control": []
+      }
+    },
+    {
+      "phase": "during-consume-control",
+      "exit": 1,
+      "end": 1790994298.053834,
+      "seconds": 0.6027121543884277,
+      "waited": true,
+      "process": {
+        "argv": [
+          "node_modules/.bin/vitest",
+          "run",
+          "apps/service/src/render.test.ts",
+          "-t",
+          "abort during consumption"
+        ],
+        "pid": 20712,
+        "start": 1790994297.4511218,
+        "sourcePins": [
+          {
+            "path": "apps/service/src/render.ts",
+            "sha256": "bbef6dc35e3607c65267a0bd9b507fb7d72043f989aa9ee933bbe7fa9bcd16d9"
+          },
+          {
+            "path": "apps/service/src/render.test.ts",
+            "sha256": "f8cc297ffc5c23dab3343245f2d0479522521bb4589ce93e73eec5acd96c0481"
+          }
+        ],
+        "control": [
+          "cancellation"
+        ]
+      }
+    },
+    {
+      "phase": "during-consume-green",
+      "exit": 0,
+      "end": 1790994288.236348,
+      "seconds": 0.60542893409729,
+      "waited": true,
+      "process": {
+        "argv": [
+          "node_modules/.bin/vitest",
+          "run",
+          "apps/service/src/render.test.ts",
+          "-t",
+          "abort during consumption"
+        ],
+        "pid": 20670,
+        "start": 1790994287.630919,
+        "sourcePins": [
+          {
+            "path": "apps/service/src/render.ts",
+            "sha256": "1374cfd10964ceb28bbd1c3fa66ef9543b9dd28f997f51d76d3e08f098b35b1e"
+          },
+          {
+            "path": "apps/service/src/render.test.ts",
+            "sha256": "f8cc297ffc5c23dab3343245f2d0479522521bb4589ce93e73eec5acd96c0481"
+          }
+        ],
+        "control": []
+      }
+    },
+    {
+      "phase": "during-consume-restored",
+      "exit": 0,
+      "end": 1790994301.992578,
+      "seconds": 0.6500170230865479,
+      "waited": true,
+      "process": {
+        "argv": [
+          "node_modules/.bin/vitest",
+          "run",
+          "apps/service/src/render.test.ts",
+          "-t",
+          "abort during consumption"
+        ],
+        "pid": 20844,
+        "start": 1790994301.342562,
+        "sourcePins": [
+          {
+            "path": "apps/service/src/render.ts",
+            "sha256": "1374cfd10964ceb28bbd1c3fa66ef9543b9dd28f997f51d76d3e08f098b35b1e"
+          },
+          {
+            "path": "apps/service/src/render.test.ts",
+            "sha256": "f8cc297ffc5c23dab3343245f2d0479522521bb4589ce93e73eec5acd96c0481"
+          }
+        ],
+        "control": []
+      }
+    },
+    {
+      "phase": "final-render-file",
+      "exit": 0,
+      "end": 1790994365.246424,
+      "seconds": 4.396853923797607,
+      "waited": true,
+      "process": {
+        "argv": [
+          "node_modules/.bin/vitest",
+          "run",
+          "apps/service/src/render.test.ts",
+          "-t",
+          ""
+        ],
+        "pid": 21122,
+        "start": 1790994360.84957,
+        "sourcePins": [
+          {
+            "path": "apps/service/src/render.ts",
+            "sha256": "e4e087b6c43ec45fdaf51188e21ef20c3970122ce6db85268e8bc43997196ab9"
+          },
+          {
+            "path": "apps/service/src/render.test.ts",
+            "sha256": "cc3445a339c0714b2f81c93e765bc705b019c8c393c394c944c6c25517d17aa7"
+          }
+        ],
+        "control": []
+      }
+    },
+    {
+      "phase": "private-root-control",
+      "exit": 1,
+      "end": 1790994321.664791,
+      "seconds": 0.4317281246185303,
+      "waited": true,
+      "process": {
+        "argv": [
+          "node_modules/.bin/vitest",
+          "run",
+          "apps/service/src/render.test.ts",
+          "-t",
+          "refuses non-private"
+        ],
+        "pid": 20899,
+        "start": 1790994321.233063,
+        "sourcePins": [
+          {
+            "path": "apps/service/src/render.ts",
+            "sha256": "b8b3abc3aa7dce1ebf281d27ebf1d84331f3b1a77a39e366e84332bed98acfea"
+          },
+          {
+            "path": "apps/service/src/render.test.ts",
+            "sha256": "97bf131b4a0b3ed3b338a962afb9a6b9d4dca09e805414d02d81e128d6178738"
+          }
+        ],
+        "control": [
+          "private-root"
+        ]
+      }
+    },
+    {
+      "phase": "private-root-green",
+      "exit": 0,
+      "end": 1790994310.380575,
+      "seconds": 0.4290938377380371,
+      "waited": true,
+      "process": {
+        "argv": [
+          "node_modules/.bin/vitest",
+          "run",
+          "apps/service/src/render.test.ts",
+          "-t",
+          "refuses non-private"
+        ],
+        "pid": 20881,
+        "start": 1790994309.951481,
+        "sourcePins": [
+          {
+            "path": "apps/service/src/render.ts",
+            "sha256": "1374cfd10964ceb28bbd1c3fa66ef9543b9dd28f997f51d76d3e08f098b35b1e"
+          },
+          {
+            "path": "apps/service/src/render.test.ts",
+            "sha256": "97bf131b4a0b3ed3b338a962afb9a6b9d4dca09e805414d02d81e128d6178738"
+          }
+        ],
+        "control": []
+      }
+    },
+    {
+      "phase": "private-root-restored",
+      "exit": 0,
+      "end": 1790994325.364149,
+      "seconds": 0.4301581382751465,
+      "waited": true,
+      "process": {
+        "argv": [
+          "node_modules/.bin/vitest",
+          "run",
+          "apps/service/src/render.test.ts",
+          "-t",
+          "refuses non-private"
+        ],
+        "pid": 20911,
+        "start": 1790994324.933992,
+        "sourcePins": [
+          {
+            "path": "apps/service/src/render.ts",
+            "sha256": "1374cfd10964ceb28bbd1c3fa66ef9543b9dd28f997f51d76d3e08f098b35b1e"
+          },
+          {
+            "path": "apps/service/src/render.test.ts",
+            "sha256": "97bf131b4a0b3ed3b338a962afb9a6b9d4dca09e805414d02d81e128d6178738"
+          }
+        ],
+        "control": []
+      }
+    },
+    {
+      "phase": "producer-control",
+      "exit": 1,
+      "end": 1790994338.7115362,
+      "seconds": 0.6367988586425781,
+      "waited": true,
+      "process": {
+        "argv": [
+          "node_modules/.bin/vitest",
+          "run",
+          "apps/service/src/render.test.ts",
+          "-t",
+          "producer cancellation"
+        ],
+        "pid": 20957,
+        "start": 1790994338.074738,
+        "sourcePins": [
+          {
+            "path": "apps/service/src/render.ts",
+            "sha256": "183dcb95cb6e680375e9fc7a82610406f15917e2c1d87c27fd2a84d40e4662c7"
+          },
+          {
+            "path": "apps/service/src/render.test.ts",
+            "sha256": "2ab2ea1c2b6743f438ffa8cead9bfa4e7cbcf6e64e4d6145edc424b0a8a50004"
+          }
+        ],
+        "control": [
+          "cleanup"
+        ]
+      }
+    },
+    {
+      "phase": "producer-green",
+      "exit": 0,
+      "end": 1790994334.549869,
+      "seconds": 0.6521599292755127,
+      "waited": true,
+      "process": {
+        "argv": [
+          "node_modules/.bin/vitest",
+          "run",
+          "apps/service/src/render.test.ts",
+          "-t",
+          "producer cancellation"
+        ],
+        "pid": 20939,
+        "start": 1790994333.8977091,
+        "sourcePins": [
+          {
+            "path": "apps/service/src/render.ts",
+            "sha256": "1374cfd10964ceb28bbd1c3fa66ef9543b9dd28f997f51d76d3e08f098b35b1e"
+          },
+          {
+            "path": "apps/service/src/render.test.ts",
+            "sha256": "2ab2ea1c2b6743f438ffa8cead9bfa4e7cbcf6e64e4d6145edc424b0a8a50004"
+          }
+        ],
+        "control": []
+      }
+    },
+    {
+      "phase": "producer-restored",
+      "exit": 0,
+      "end": 1790994342.554013,
+      "seconds": 0.6472988128662109,
+      "waited": true,
+      "process": {
+        "argv": [
+          "node_modules/.bin/vitest",
+          "run",
+          "apps/service/src/render.test.ts",
+          "-t",
+          "producer cancellation"
+        ],
+        "pid": 20973,
+        "start": 1790994341.9067142,
+        "sourcePins": [
+          {
+            "path": "apps/service/src/render.ts",
+            "sha256": "1374cfd10964ceb28bbd1c3fa66ef9543b9dd28f997f51d76d3e08f098b35b1e"
+          },
+          {
+            "path": "apps/service/src/render.test.ts",
+            "sha256": "2ab2ea1c2b6743f438ffa8cead9bfa4e7cbcf6e64e4d6145edc424b0a8a50004"
+          }
+        ],
+        "control": []
+      }
+    },
+    {
+      "phase": "response-control",
+      "exit": 1,
+      "end": 1790994239.367886,
+      "seconds": 0.8334510326385498,
+      "waited": true,
+      "process": {
+        "argv": [
+          "node_modules/.bin/vitest",
+          "run",
+          "apps/service/src/render.test.ts",
+          "-t",
+          "response closes the process"
+        ],
+        "pid": 20262,
+        "start": 1790994238.534435,
+        "sourcePins": [
+          {
+            "path": "apps/service/src/render.ts",
+            "sha256": "183dcb95cb6e680375e9fc7a82610406f15917e2c1d87c27fd2a84d40e4662c7"
+          },
+          {
+            "path": "apps/service/src/render.test.ts",
+            "sha256": "8b097e10d7feaeac538e95e5f33367facccfba8d482a8c3a5756e690d7b21cd6"
+          }
+        ],
+        "control": [
+          "cleanup"
+        ]
+      }
+    },
+    {
+      "phase": "response-green",
+      "exit": 0,
+      "end": 1790994232.091093,
+      "seconds": 0.8906738758087158,
+      "waited": true,
+      "process": {
+        "argv": [
+          "node_modules/.bin/vitest",
+          "run",
+          "apps/service/src/render.test.ts",
+          "-t",
+          "response closes the process"
+        ],
+        "pid": 20230,
+        "start": 1790994231.2004192,
+        "sourcePins": [
+          {
+            "path": "apps/service/src/render.ts",
+            "sha256": "1374cfd10964ceb28bbd1c3fa66ef9543b9dd28f997f51d76d3e08f098b35b1e"
+          },
+          {
+            "path": "apps/service/src/render.test.ts",
+            "sha256": "8b097e10d7feaeac538e95e5f33367facccfba8d482a8c3a5756e690d7b21cd6"
+          }
+        ],
+        "control": []
+      }
+    },
+    {
+      "phase": "response-restored",
+      "exit": 0,
+      "end": 1790994246.96268,
+      "seconds": 0.9002010822296143,
+      "waited": true,
+      "process": {
+        "argv": [
+          "node_modules/.bin/vitest",
+          "run",
+          "apps/service/src/render.test.ts",
+          "-t",
+          "response closes the process"
+        ],
+        "pid": 20412,
+        "start": 1790994246.06248,
+        "sourcePins": [
+          {
+            "path": "apps/service/src/render.ts",
+            "sha256": "1374cfd10964ceb28bbd1c3fa66ef9543b9dd28f997f51d76d3e08f098b35b1e"
+          },
+          {
+            "path": "apps/service/src/render.test.ts",
+            "sha256": "8b097e10d7feaeac538e95e5f33367facccfba8d482a8c3a5756e690d7b21cd6"
+          }
+        ],
+        "control": []
+      }
+    },
+    {
+      "phase": "timeout-control",
+      "exit": 1,
+      "end": 1790994219.79886,
+      "seconds": 1.008579969406128,
+      "waited": true,
+      "process": {
+        "argv": [
+          "node_modules/.bin/vitest",
+          "run",
+          "apps/service/src/render.test.ts",
+          "-t",
+          "deadline failure"
+        ],
+        "pid": 20168,
+        "start": 1790994218.790281,
+        "sourcePins": [
+          {
+            "path": "apps/service/src/render.ts",
+            "sha256": "183dcb95cb6e680375e9fc7a82610406f15917e2c1d87c27fd2a84d40e4662c7"
+          },
+          {
+            "path": "apps/service/src/render.test.ts",
+            "sha256": "7d1cb47de60d693d41894a017487eb71ce6b3233977eff436fbc12b1fa53d50d"
+          }
+        ],
+        "control": [
+          "cleanup"
+        ]
+      }
+    },
+    {
+      "phase": "timeout-restored",
+      "exit": 0,
+      "end": 1790994224.534987,
+      "seconds": 1.0011520385742188,
+      "waited": true,
+      "process": {
+        "argv": [
+          "node_modules/.bin/vitest",
+          "run",
+          "apps/service/src/render.test.ts",
+          "-t",
+          "deadline failure"
+        ],
+        "pid": 20191,
+        "start": 1790994223.533835,
+        "sourcePins": [
+          {
+            "path": "apps/service/src/render.ts",
+            "sha256": "1374cfd10964ceb28bbd1c3fa66ef9543b9dd28f997f51d76d3e08f098b35b1e"
+          },
+          {
+            "path": "apps/service/src/render.test.ts",
+            "sha256": "7d1cb47de60d693d41894a017487eb71ce6b3233977eff436fbc12b1fa53d50d"
+          }
+        ],
+        "control": []
+      }
+    }
+  ],
+  "finalFile": {
+    "passed": 18,
+    "skipped": 2,
+    "reason": "existing SCREENREC_NATIVE opt-in cases; no native worker run requested",
+    "sourcePhase": "Final test run preceded only adding the missing type-only writePointerSchedule import. Generic implementation bytes unchanged; subsequent build/type checks cover final source."
+  },
+  "builds": {
+    "workspacePrerequisites": "composition/protocol/core/client emitted within this checkout; external node_modules shared, workspace links local",
+    "serviceBuild": 0,
+    "serviceTypes": 0,
+    "firstTypeFailure": "excluded-missing-client-types.log is missing local client emission, not regression evidence; fixed by local client build",
+    "finalServiceBuild": {
+      "exit": 0,
+      "seconds": 0.259552001953125,
+      "log": "final-service-build.log"
+    }
+  },
+  "verification": "oxfmt/oxlint two files and git diff --check passed; no native build/run, models, capture, broad cohort or installed switch",
+  "review": "Self shape/diff/docs review and root independent two-file review clean. Root confirmed removal consumers, retained lab seam and exact busy/staging/child-close oracles. No new local Codex review run: prior configured-model environment failure is not repeated unchanged.",
+  "retained": "withRenderedMedia/renderDeadlineMs remain for named movie-lifetime/render-timing executable fixtures. Type-only PreviewMovie/AudioTrackPlan/writePointerSchedule imports remain for that existing arm. No replacement compatibility owner.",
+  "integratedCommit": "89ed3737",
+  "rootMergedBuild": {
+    "command": "bun run build",
+    "cwd": "apps/service",
+    "exit": 0,
+    "seconds": 0.10764375,
+    "provenance": "Tool-observed terminal completion; no separate saved PID journal or stdout archive."
+  },
+  "bank": {
+    "archive": "generic-render-lifetime-evidence.tar.gz",
+    "bytes": 249872,
+    "sha256": "f64e405d73d10c08c22130d9115cfaa880826caaa732cc123175ad8fb0e93a4c",
+    "payloads": [
+      {
+        "path": "generic-render-lifetime-2b718cd4/baseline/apps/service/src/render.test.ts",
+        "bytes": 26820,
+        "sha256": "1b18d90487c81cc91ddd5c1c928dc8a34d690d6e666311afdede2cbda255b4e1"
+      },
+      {
+        "path": "generic-render-lifetime-2b718cd4/baseline/apps/service/src/render.ts",
+        "bytes": 12602,
+        "sha256": "1374cfd10964ceb28bbd1c3fa66ef9543b9dd28f997f51d76d3e08f098b35b1e"
+      },
+      {
+        "path": "generic-render-lifetime-2b718cd4/before-consume-control/apps/service/src/render.test.ts",
+        "bytes": 27332,
+        "sha256": "25aa6dc5c36f1519e8fbb14fa5fbff95132df8ec7d466983f5e01f3cf011a25a"
+      },
+      {
+        "path": "generic-render-lifetime-2b718cd4/before-consume-control/apps/service/src/render.ts",
+        "bytes": 12573,
+        "sha256": "30f93f54e1b7ea154c011efd7c6642617871c1c382b659be1884ccf2bbb50373"
+      },
+      {
+        "path": "generic-render-lifetime-2b718cd4/before-consume-control/process.json",
+        "bytes": 543,
+        "sha256": "0d86a82d7aca2b3b01cd2d7413e3b4c2544c90742a6a5620c214009d89a0bda9"
+      },
+      {
+        "path": "generic-render-lifetime-2b718cd4/before-consume-control/stderr",
+        "bytes": 829,
+        "sha256": "248eaa68c94f2abe2a3a33d97e435bf9986dc8ecc28b419fb980b466ee4b7d4a"
+      },
+      {
+        "path": "generic-render-lifetime-2b718cd4/before-consume-control/stdout",
+        "bytes": 394,
+        "sha256": "5268deffec9fd6738475689138220f5e319b5560509c8126e360783f5511caaf"
+      },
+      {
+        "path": "generic-render-lifetime-2b718cd4/before-consume-control/terminal.json",
+        "bytes": 85,
+        "sha256": "b059685247f3c00be52c19b4e8367874f90f9d5e274fb43006de14c2d9ac9a63"
+      },
+      {
+        "path": "generic-render-lifetime-2b718cd4/before-consume-green/apps/service/src/render.test.ts",
+        "bytes": 27332,
+        "sha256": "25aa6dc5c36f1519e8fbb14fa5fbff95132df8ec7d466983f5e01f3cf011a25a"
+      },
+      {
+        "path": "generic-render-lifetime-2b718cd4/before-consume-green/apps/service/src/render.ts",
+        "bytes": 12602,
+        "sha256": "1374cfd10964ceb28bbd1c3fa66ef9543b9dd28f997f51d76d3e08f098b35b1e"
+      },
+      {
+        "path": "generic-render-lifetime-2b718cd4/before-consume-green/process.json",
+        "bytes": 519,
+        "sha256": "d8d8667511cfda7ac2488a3cf692c3314ab7144019efe5848f1267b627fde6e4"
+      },
+      {
+        "path": "generic-render-lifetime-2b718cd4/before-consume-green/stderr",
+        "bytes": 169,
+        "sha256": "1f75e65ee34d7394f400c1c31fe192e87858fb233a0fabd3387596420ebfcd39"
+      },
+      {
+        "path": "generic-render-lifetime-2b718cd4/before-consume-green/stdout",
+        "bytes": 233,
+        "sha256": "1a5f3cc310011496aff1e76aff07847d72be4d38e1eb8096cc29693f580b7ecc"
+      },
+      {
+        "path": "generic-render-lifetime-2b718cd4/before-consume-green/terminal.json",
+        "bytes": 86,
+        "sha256": "af0661f56d13e34620bbe146f7dfb0b56f6c88fd025cfd8bf278c33e0b0d104b"
+      },
+      {
+        "path": "generic-render-lifetime-2b718cd4/before-consume-restored/apps/service/src/render.test.ts",
+        "bytes": 27332,
+        "sha256": "25aa6dc5c36f1519e8fbb14fa5fbff95132df8ec7d466983f5e01f3cf011a25a"
+      },
+      {
+        "path": "generic-render-lifetime-2b718cd4/before-consume-restored/apps/service/src/render.ts",
+        "bytes": 12602,
+        "sha256": "1374cfd10964ceb28bbd1c3fa66ef9543b9dd28f997f51d76d3e08f098b35b1e"
+      },
+      {
+        "path": "generic-render-lifetime-2b718cd4/before-consume-restored/process.json",
+        "bytes": 519,
+        "sha256": "5c4661db55e13c808ec307479b05eb3bdd5f046936e215fd330a6fd732f53531"
+      },
+      {
+        "path": "generic-render-lifetime-2b718cd4/before-consume-restored/stderr",
+        "bytes": 169,
+        "sha256": "8664f5a68408fdb5cdc4de4b2f56ca9c1958bda2914a10a92fa1b95bb3bc7ecc"
+      },
+      {
+        "path": "generic-render-lifetime-2b718cd4/before-consume-restored/stdout",
+        "bytes": 233,
+        "sha256": "1288e7a61ccc6b955e5fbe7a0fa34830c2495402e6a8cbbaf1b4fce4b3e6e56d"
+      },
+      {
+        "path": "generic-render-lifetime-2b718cd4/before-consume-restored/terminal.json",
+        "bytes": 85,
+        "sha256": "0bf954e7c7bc2771dfd1eb0d8a5da3fb8dbba4d9d98df110bfe5ec3dc60dca29"
+      },
+      {
+        "path": "generic-render-lifetime-2b718cd4/client-build.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "generic-render-lifetime-2b718cd4/consumer-control/apps/service/src/render.test.ts",
+        "bytes": 27501,
+        "sha256": "ce08ca8acfd734c89b8b71457bfab75b3f7a1fcbb5a587ab08578f9989075108"
+      },
+      {
+        "path": "generic-render-lifetime-2b718cd4/consumer-control/apps/service/src/render.ts",
+        "bytes": 12630,
+        "sha256": "183dcb95cb6e680375e9fc7a82610406f15917e2c1d87c27fd2a84d40e4662c7"
+      },
+      {
+        "path": "generic-render-lifetime-2b718cd4/consumer-control/process.json",
+        "bytes": 529,
+        "sha256": "3ce38b63f8731911344470ac0424d03101b6c89cad7e4389f35272b58f6bc761"
+      },
+      {
+        "path": "generic-render-lifetime-2b718cd4/consumer-control/stderr",
+        "bytes": 820,
+        "sha256": "84c49b1032f1d472ea1d9e1780a2d88c1abc7c035a91af8facde18b32f2b5685"
+      },
+      {
+        "path": "generic-render-lifetime-2b718cd4/consumer-control/stdout",
+        "bytes": 399,
+        "sha256": "f7eb5c3ddab8d83a42f67daed27d19bdb71a168f71c0915b51e88b055880e572"
+      },
+      {
+        "path": "generic-render-lifetime-2b718cd4/consumer-control/terminal.json",
+        "bytes": 86,
+        "sha256": "4bbc21c7fd99c8bfe457ee64afaa720fdacc73762224c57e2d506b53542b808a"
+      },
+      {
+        "path": "generic-render-lifetime-2b718cd4/consumer-green/apps/service/src/render.test.ts",
+        "bytes": 27501,
+        "sha256": "ce08ca8acfd734c89b8b71457bfab75b3f7a1fcbb5a587ab08578f9989075108"
+      },
+      {
+        "path": "generic-render-lifetime-2b718cd4/consumer-green/apps/service/src/render.ts",
+        "bytes": 12602,
+        "sha256": "1374cfd10964ceb28bbd1c3fa66ef9543b9dd28f997f51d76d3e08f098b35b1e"
+      },
+      {
+        "path": "generic-render-lifetime-2b718cd4/consumer-green/process.json",
+        "bytes": 511,
+        "sha256": "a4929042863c42677540c27fa879e299ead7eec9276d617afa7cdc7de8a8eb10"
+      },
+      {
+        "path": "generic-render-lifetime-2b718cd4/consumer-green/stderr",
+        "bytes": 169,
+        "sha256": "f693ff3dd1e614707999cea6b302157de0b27b7180a4d6efb8a531cef4261f22"
+      },
+      {
+        "path": "generic-render-lifetime-2b718cd4/consumer-green/stdout",
+        "bytes": 233,
+        "sha256": "8f8461ca7f414f274ce83834664ad89a944f8dd99f6426918c087dabc7c6e2b3"
+      },
+      {
+        "path": "generic-render-lifetime-2b718cd4/consumer-green/terminal.json",
+        "bytes": 85,
+        "sha256": "e75f9314b65c1df60b342404d40e36fc7b2537cc870d0c5e85d1d44d1f06a536"
+      },
+      {
+        "path": "generic-render-lifetime-2b718cd4/consumer-restored/apps/service/src/render.test.ts",
+        "bytes": 27501,
+        "sha256": "ce08ca8acfd734c89b8b71457bfab75b3f7a1fcbb5a587ab08578f9989075108"
+      },
+      {
+        "path": "generic-render-lifetime-2b718cd4/consumer-restored/apps/service/src/render.ts",
+        "bytes": 12602,
+        "sha256": "1374cfd10964ceb28bbd1c3fa66ef9543b9dd28f997f51d76d3e08f098b35b1e"
+      },
+      {
+        "path": "generic-render-lifetime-2b718cd4/consumer-restored/process.json",
+        "bytes": 512,
+        "sha256": "e8b103b6dc1f0f7faee9b570cbe3c65e5a7a89db9f3ba11962a4bcc63e73c612"
+      },
+      {
+        "path": "generic-render-lifetime-2b718cd4/consumer-restored/stderr",
+        "bytes": 169,
+        "sha256": "d120c7ecad4c1f106ba1d17ec2e53c64fba4d52d5d36cbdc48bd1dfa1e5eb189"
+      },
+      {
+        "path": "generic-render-lifetime-2b718cd4/consumer-restored/stdout",
+        "bytes": 233,
+        "sha256": "a85109baf331170e6959a95dcdd8432dbda2271fb2c203e4859ac1474a9eedce"
+      },
+      {
+        "path": "generic-render-lifetime-2b718cd4/consumer-restored/terminal.json",
+        "bytes": 85,
+        "sha256": "db754b002638a54954876b0599923bec684937f9208367c49a71150051f0b625"
+      },
+      {
+        "path": "generic-render-lifetime-2b718cd4/current-abort-green/apps/service/src/render.test.ts",
+        "bytes": 27873,
+        "sha256": "1cf2b57406db395e3b2d6764412e9c988b26ee6c39095d870e0728161acf8077"
+      },
+      {
+        "path": "generic-render-lifetime-2b718cd4/current-abort-green/apps/service/src/render.ts",
+        "bytes": 12602,
+        "sha256": "1374cfd10964ceb28bbd1c3fa66ef9543b9dd28f997f51d76d3e08f098b35b1e"
+      },
+      {
+        "path": "generic-render-lifetime-2b718cd4/current-abort-green/process.json",
+        "bytes": 509,
+        "sha256": "8040777f3650186d8effb92cc709ef10dd13b5a373ddfbc9bed8edcf747c0a5f"
+      },
+      {
+        "path": "generic-render-lifetime-2b718cd4/current-abort-green/stderr",
+        "bytes": 169,
+        "sha256": "8177f981d1590ceea2efd30c33fbc85b7bb1ca5bc3693779a0c193e9c3cae1b9"
+      },
+      {
+        "path": "generic-render-lifetime-2b718cd4/current-abort-green/stdout",
+        "bytes": 233,
+        "sha256": "2c9cc8a37d99ba291220f77f88c0d43adba83c966b5f68abcb2f2acdf68f5f08"
+      },
+      {
+        "path": "generic-render-lifetime-2b718cd4/current-abort-green/terminal.json",
+        "bytes": 85,
+        "sha256": "aa727cb522735f01fe5330dadfbfc6a740d1f3450ddba25b8f8cc29a284b174d"
+      },
+      {
+        "path": "generic-render-lifetime-2b718cd4/dispositions.md",
+        "bytes": 3523,
+        "sha256": "206e60119d5c9ac88b3253b975bf0a2c426a4cc24f8d4e8b0ed0f9e06a80bf42"
+      },
+      {
+        "path": "generic-render-lifetime-2b718cd4/during-consume-control/apps/service/src/render.test.ts",
+        "bytes": 27667,
+        "sha256": "f8cc297ffc5c23dab3343245f2d0479522521bb4589ce93e73eec5acd96c0481"
+      },
+      {
+        "path": "generic-render-lifetime-2b718cd4/during-consume-control/apps/service/src/render.ts",
+        "bytes": 12422,
+        "sha256": "bbef6dc35e3607c65267a0bd9b507fb7d72043f989aa9ee933bbe7fa9bcd16d9"
+      },
+      {
+        "path": "generic-render-lifetime-2b718cd4/during-consume-control/process.json",
+        "bytes": 536,
+        "sha256": "11db2697525b78a828ef1935f24dc6c3d8fbc7241bdfd69c1135a4b2128376ca"
+      },
+      {
+        "path": "generic-render-lifetime-2b718cd4/during-consume-control/stderr",
+        "bytes": 851,
+        "sha256": "b8c39a33db235d7ff2122396f14bd1042f8a0fdf198509ba241c19da2ae46d09"
+      },
+      {
+        "path": "generic-render-lifetime-2b718cd4/during-consume-control/stdout",
+        "bytes": 410,
+        "sha256": "304743f3072ffdfb435e240faaf39067efbf59c040dfa720e5768e711c1b5524"
+      },
+      {
+        "path": "generic-render-lifetime-2b718cd4/during-consume-control/terminal.json",
+        "bytes": 85,
+        "sha256": "746c9193970e85a1bff5e1e0f886391da1c17380e915977bd4cc5bb1ecad1f1b"
+      },
+      {
+        "path": "generic-render-lifetime-2b718cd4/during-consume-green/apps/service/src/render.test.ts",
+        "bytes": 27667,
+        "sha256": "f8cc297ffc5c23dab3343245f2d0479522521bb4589ce93e73eec5acd96c0481"
+      },
+      {
+        "path": "generic-render-lifetime-2b718cd4/during-consume-green/apps/service/src/render.ts",
+        "bytes": 12602,
+        "sha256": "1374cfd10964ceb28bbd1c3fa66ef9543b9dd28f997f51d76d3e08f098b35b1e"
+      },
+      {
+        "path": "generic-render-lifetime-2b718cd4/during-consume-green/process.json",
+        "bytes": 513,
+        "sha256": "eaf054b9d3a70e68ea0c952cc95350eeae7bbf4fef7fa1decc1a194bb20d2064"
+      },
+      {
+        "path": "generic-render-lifetime-2b718cd4/during-consume-green/stderr",
+        "bytes": 169,
+        "sha256": "78fb575df442bef4ae2f1fca391bc18b5adefe5771e473cda363473f05b99626"
+      },
+      {
+        "path": "generic-render-lifetime-2b718cd4/during-consume-green/stdout",
+        "bytes": 233,
+        "sha256": "602c6b9cc2ea4b65ae24a818fd89a15886a52de2ebe64a4eb452efb038c894b4"
+      },
+      {
+        "path": "generic-render-lifetime-2b718cd4/during-consume-green/terminal.json",
+        "bytes": 83,
+        "sha256": "da614b542ffb04055279e6a5a3f68e49068baa768ff093c550a4a3db6636da04"
+      },
+      {
+        "path": "generic-render-lifetime-2b718cd4/during-consume-restored/apps/service/src/render.test.ts",
+        "bytes": 27667,
+        "sha256": "f8cc297ffc5c23dab3343245f2d0479522521bb4589ce93e73eec5acd96c0481"
+      },
+      {
+        "path": "generic-render-lifetime-2b718cd4/during-consume-restored/apps/service/src/render.ts",
+        "bytes": 12602,
+        "sha256": "1374cfd10964ceb28bbd1c3fa66ef9543b9dd28f997f51d76d3e08f098b35b1e"
+      },
+      {
+        "path": "generic-render-lifetime-2b718cd4/during-consume-restored/process.json",
+        "bytes": 513,
+        "sha256": "913a16a8cd974f15e205dbb2d807b56e5e84819a5dc84963e4a178a714dbdcaf"
+      },
+      {
+        "path": "generic-render-lifetime-2b718cd4/during-consume-restored/stderr",
+        "bytes": 169,
+        "sha256": "2d9378e916723274c81091a1a43df991cb1e0bd8bdebed1680da8a4cafa97a64"
+      },
+      {
+        "path": "generic-render-lifetime-2b718cd4/during-consume-restored/stdout",
+        "bytes": 233,
+        "sha256": "260e1116a9895e27d244adb35d0258d173f965d85af2be789a53632e083b2c14"
+      },
+      {
+        "path": "generic-render-lifetime-2b718cd4/during-consume-restored/terminal.json",
+        "bytes": 85,
+        "sha256": "48aec848ae4d74339b1c48f30d2fc4fb0bf19591af7cdc263dc247607159440f"
+      },
+      {
+        "path": "generic-render-lifetime-2b718cd4/excluded-missing-client-types.log",
+        "bytes": 1802,
+        "sha256": "b461c21b308343a8b3836ed3ff5e3a9ed15224030c4af2a1578ec87d657cb4fc"
+      },
+      {
+        "path": "generic-render-lifetime-2b718cd4/final/apps/service/src/render.test.ts",
+        "bytes": 26066,
+        "sha256": "cc3445a339c0714b2f81c93e765bc705b019c8c393c394c944c6c25517d17aa7"
+      },
+      {
+        "path": "generic-render-lifetime-2b718cd4/final/apps/service/src/render.ts",
+        "bytes": 10228,
+        "sha256": "a6f55364015a17268a948d5f7c2c5006f59b3759802e40fff4c57b5b36a61948"
+      },
+      {
+        "path": "generic-render-lifetime-2b718cd4/final-render-file/apps/service/src/render.test.ts",
+        "bytes": 26066,
+        "sha256": "cc3445a339c0714b2f81c93e765bc705b019c8c393c394c944c6c25517d17aa7"
+      },
+      {
+        "path": "generic-render-lifetime-2b718cd4/final-render-file/apps/service/src/render.ts",
+        "bytes": 10150,
+        "sha256": "e4e087b6c43ec45fdaf51188e21ef20c3970122ce6db85268e8bc43997196ab9"
+      },
+      {
+        "path": "generic-render-lifetime-2b718cd4/final-render-file/process.json",
+        "bytes": 488,
+        "sha256": "bac1e3e1316bd185cb100ecce730cfd1dfa434514a2afda6d659597cd149fc6f"
+      },
+      {
+        "path": "generic-render-lifetime-2b718cd4/final-render-file/stderr",
+        "bytes": 169,
+        "sha256": "3c3b32c3c8bf81c19dadb58d5ab67432ade4d3d57b17125817e14468f9edf623"
+      },
+      {
+        "path": "generic-render-lifetime-2b718cd4/final-render-file/stdout",
+        "bytes": 231,
+        "sha256": "41ee3f58ca9bc9c5fa0bbcac8563d86da52967b9e43b2329cdaf90eaa2f3ea10"
+      },
+      {
+        "path": "generic-render-lifetime-2b718cd4/final-render-file/terminal.json",
+        "bytes": 84,
+        "sha256": "a0b66fb85680f8f1efbf1b691d3fd024ccf96b64bda6d8de90b90c6c881647d0"
+      },
+      {
+        "path": "generic-render-lifetime-2b718cd4/final-service-build.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "generic-render-lifetime-2b718cd4/final.diff",
+        "bytes": 13825,
+        "sha256": "75858a74b8cb14ad1d9004368d45acae22425aae5c75cb47dc1988d383bf71df"
+      },
+      {
+        "path": "generic-render-lifetime-2b718cd4/private-root-control/apps/service/src/render.test.ts",
+        "bytes": 27673,
+        "sha256": "97bf131b4a0b3ed3b338a962afb9a6b9d4dca09e805414d02d81e128d6178738"
+      },
+      {
+        "path": "generic-render-lifetime-2b718cd4/private-root-control/apps/service/src/render.ts",
+        "bytes": 12493,
+        "sha256": "b8b3abc3aa7dce1ebf281d27ebf1d84331f3b1a77a39e366e84332bed98acfea"
+      },
+      {
+        "path": "generic-render-lifetime-2b718cd4/private-root-control/process.json",
+        "bytes": 530,
+        "sha256": "e7335670954225881150afb9fb042e358548a893efcb54bf1489628f0d55eb56"
+      },
+      {
+        "path": "generic-render-lifetime-2b718cd4/private-root-control/stderr",
+        "bytes": 909,
+        "sha256": "e4149f1298d4ad911704da7866c4779e34395daf9cc636bb88ced8a8de3a8932"
+      },
+      {
+        "path": "generic-render-lifetime-2b718cd4/private-root-control/stdout",
+        "bytes": 394,
+        "sha256": "c67c3bcc9499385b5344a0c602064befd16e93dde7f4f445e2b0acbd4f0c934a"
+      },
+      {
+        "path": "generic-render-lifetime-2b718cd4/private-root-control/terminal.json",
+        "bytes": 85,
+        "sha256": "fddd51b2d2efbfe523b47199c02452c5b3f2d2e212755b63c6276a1a7ede3e25"
+      },
+      {
+        "path": "generic-render-lifetime-2b718cd4/private-root-green/apps/service/src/render.test.ts",
+        "bytes": 27673,
+        "sha256": "97bf131b4a0b3ed3b338a962afb9a6b9d4dca09e805414d02d81e128d6178738"
+      },
+      {
+        "path": "generic-render-lifetime-2b718cd4/private-root-green/apps/service/src/render.ts",
+        "bytes": 12602,
+        "sha256": "1374cfd10964ceb28bbd1c3fa66ef9543b9dd28f997f51d76d3e08f098b35b1e"
+      },
+      {
+        "path": "generic-render-lifetime-2b718cd4/private-root-green/process.json",
+        "bytes": 508,
+        "sha256": "f936e8d948962c329f72a8a2e6692848a62bc1a3ed46ecb506bd38cd6d575e76"
+      },
+      {
+        "path": "generic-render-lifetime-2b718cd4/private-root-green/stderr",
+        "bytes": 169,
+        "sha256": "71d54a4f55d86deae968874f177a4846e4a8af333268c9777c0c0db1b11c8397"
+      },
+      {
+        "path": "generic-render-lifetime-2b718cd4/private-root-green/stdout",
+        "bytes": 243,
+        "sha256": "d9970449e695f3c723b1f8911827f5ceab699d63a2664bca4e96bfa0f5d204f7"
+      },
+      {
+        "path": "generic-render-lifetime-2b718cd4/private-root-green/terminal.json",
+        "bytes": 85,
+        "sha256": "39164f71e7145c8ae9b0dca41879d3ddeeaf27562a091f38857b9846fec10694"
+      },
+      {
+        "path": "generic-render-lifetime-2b718cd4/private-root-restored/apps/service/src/render.test.ts",
+        "bytes": 27673,
+        "sha256": "97bf131b4a0b3ed3b338a962afb9a6b9d4dca09e805414d02d81e128d6178738"
+      },
+      {
+        "path": "generic-render-lifetime-2b718cd4/private-root-restored/apps/service/src/render.ts",
+        "bytes": 12602,
+        "sha256": "1374cfd10964ceb28bbd1c3fa66ef9543b9dd28f997f51d76d3e08f098b35b1e"
+      },
+      {
+        "path": "generic-render-lifetime-2b718cd4/private-root-restored/process.json",
+        "bytes": 508,
+        "sha256": "fbdbdc8366a784754a5582fd0a12b4a808ac8bed7aef2338eaa501f756c6091d"
+      },
+      {
+        "path": "generic-render-lifetime-2b718cd4/private-root-restored/stderr",
+        "bytes": 169,
+        "sha256": "cfa4fb7d8fc8cb538496816c92cd631cbb37e3961504e98dbdfa5590b4b49479"
+      },
+      {
+        "path": "generic-render-lifetime-2b718cd4/private-root-restored/stdout",
+        "bytes": 243,
+        "sha256": "3c2617bfbd5372929753f2622066057c784e9f096e5c27e66579bf44d2437f0a"
+      },
+      {
+        "path": "generic-render-lifetime-2b718cd4/private-root-restored/terminal.json",
+        "bytes": 85,
+        "sha256": "f0740cff495ef52e8366cb60d2fc048a937ab045989254b799cf1d93535a49ae"
+      },
+      {
+        "path": "generic-render-lifetime-2b718cd4/producer-control/apps/service/src/render.test.ts",
+        "bytes": 27409,
+        "sha256": "2ab2ea1c2b6743f438ffa8cead9bfa4e7cbcf6e64e4d6145edc424b0a8a50004"
+      },
+      {
+        "path": "generic-render-lifetime-2b718cd4/producer-control/apps/service/src/render.ts",
+        "bytes": 12630,
+        "sha256": "183dcb95cb6e680375e9fc7a82610406f15917e2c1d87c27fd2a84d40e4662c7"
+      },
+      {
+        "path": "generic-render-lifetime-2b718cd4/producer-control/process.json",
+        "bytes": 527,
+        "sha256": "94e1ca7650b626db5052550774f41a884ee864e3812a9a708424c5f4f624022b"
+      },
+      {
+        "path": "generic-render-lifetime-2b718cd4/producer-control/stderr",
+        "bytes": 775,
+        "sha256": "66108392cb65aaba965346664e574d4385f698a71ab4218fcc2aacca96c6b846"
+      },
+      {
+        "path": "generic-render-lifetime-2b718cd4/producer-control/stdout",
+        "bytes": 387,
+        "sha256": "2efb2b2fffe9ed6d595e3ce067d2bf1f56265734079dc3522ddeebc1b9b1f4ff"
+      },
+      {
+        "path": "generic-render-lifetime-2b718cd4/producer-control/terminal.json",
+        "bytes": 86,
+        "sha256": "4fbb2dfcc4fa566e1fd3de04dbd6b1b3a9e3d3c0b8e61822fe855dd5359efe3a"
+      },
+      {
+        "path": "generic-render-lifetime-2b718cd4/producer-green/apps/service/src/render.test.ts",
+        "bytes": 27409,
+        "sha256": "2ab2ea1c2b6743f438ffa8cead9bfa4e7cbcf6e64e4d6145edc424b0a8a50004"
+      },
+      {
+        "path": "generic-render-lifetime-2b718cd4/producer-green/apps/service/src/render.ts",
+        "bytes": 12602,
+        "sha256": "1374cfd10964ceb28bbd1c3fa66ef9543b9dd28f997f51d76d3e08f098b35b1e"
+      },
+      {
+        "path": "generic-render-lifetime-2b718cd4/producer-green/process.json",
+        "bytes": 511,
+        "sha256": "7dc1dd730b3eff8cf04cf9fcfd99bfd5e48e2916b2ab85a9ea1689988ebb7722"
+      },
+      {
+        "path": "generic-render-lifetime-2b718cd4/producer-green/stderr",
+        "bytes": 169,
+        "sha256": "94a825cd135629c8d243c2e96aee173d288d6b9c0fdc840e1867728a4c041810"
+      },
+      {
+        "path": "generic-render-lifetime-2b718cd4/producer-green/stdout",
+        "bytes": 233,
+        "sha256": "7249d596c7d5751bdf808cf4a5eec706d7d645ce51ea20215e34b6bbeb274576"
+      },
+      {
+        "path": "generic-render-lifetime-2b718cd4/producer-green/terminal.json",
+        "bytes": 85,
+        "sha256": "7cda8ec70b7afb6fc673a6972f30dd2adf74d861ac65b0a46d58a8acf28e960d"
+      },
+      {
+        "path": "generic-render-lifetime-2b718cd4/producer-restored/apps/service/src/render.test.ts",
+        "bytes": 27409,
+        "sha256": "2ab2ea1c2b6743f438ffa8cead9bfa4e7cbcf6e64e4d6145edc424b0a8a50004"
+      },
+      {
+        "path": "generic-render-lifetime-2b718cd4/producer-restored/apps/service/src/render.ts",
+        "bytes": 12602,
+        "sha256": "1374cfd10964ceb28bbd1c3fa66ef9543b9dd28f997f51d76d3e08f098b35b1e"
+      },
+      {
+        "path": "generic-render-lifetime-2b718cd4/producer-restored/process.json",
+        "bytes": 511,
+        "sha256": "9e2964ef50f4742401e00f29c544dc1aff7d1dee5165be6a81fe3dd2987ddd39"
+      },
+      {
+        "path": "generic-render-lifetime-2b718cd4/producer-restored/stderr",
+        "bytes": 169,
+        "sha256": "a2e73a03b0e443e309fa1ae33a7c55edee6e3fa5dce72053b93845d019a2fab2"
+      },
+      {
+        "path": "generic-render-lifetime-2b718cd4/producer-restored/stdout",
+        "bytes": 233,
+        "sha256": "44a13fbd17233ebe4dbeba86d226986c29a778869e7efef9afa8fb51532ebb8c"
+      },
+      {
+        "path": "generic-render-lifetime-2b718cd4/producer-restored/terminal.json",
+        "bytes": 85,
+        "sha256": "2c60b71ce08cf3333db440d37c38b4948a83b6efcd49f9926cf0070afc900d24"
+      },
+      {
+        "path": "generic-render-lifetime-2b718cd4/report.json",
+        "bytes": 20669,
+        "sha256": "8cce5c568382b5dcd1d5bc2e904f74e16b78262fc7163714bdd0aca9e98f3efc"
+      },
+      {
+        "path": "generic-render-lifetime-2b718cd4/response-control/apps/service/src/render.test.ts",
+        "bytes": 27166,
+        "sha256": "8b097e10d7feaeac538e95e5f33367facccfba8d482a8c3a5756e690d7b21cd6"
+      },
+      {
+        "path": "generic-render-lifetime-2b718cd4/response-control/apps/service/src/render.ts",
+        "bytes": 12630,
+        "sha256": "183dcb95cb6e680375e9fc7a82610406f15917e2c1d87c27fd2a84d40e4662c7"
+      },
+      {
+        "path": "generic-render-lifetime-2b718cd4/response-control/process.json",
+        "bytes": 533,
+        "sha256": "32ef96f5c992724ed6605cd3357535bc1eb3d723326cd25e46597d121930a484"
+      },
+      {
+        "path": "generic-render-lifetime-2b718cd4/response-control/stderr",
+        "bytes": 1380,
+        "sha256": "3682d55ef132a76f4bae423a78664af9257d1e12fe06fca6af6a5d93ac9b670c"
+      },
+      {
+        "path": "generic-render-lifetime-2b718cd4/response-control/stdout",
+        "bytes": 470,
+        "sha256": "db2c6ccc49ef6636059a4268965d5aecbe9914fa3644a72e448d346749298021"
+      },
+      {
+        "path": "generic-render-lifetime-2b718cd4/response-control/terminal.json",
+        "bytes": 85,
+        "sha256": "1f580069a2360dbb9609aa6e3bcfc25a82f47aed6909b8edaa22acf0d6032ba4"
+      },
+      {
+        "path": "generic-render-lifetime-2b718cd4/response-green/apps/service/src/render.test.ts",
+        "bytes": 27166,
+        "sha256": "8b097e10d7feaeac538e95e5f33367facccfba8d482a8c3a5756e690d7b21cd6"
+      },
+      {
+        "path": "generic-render-lifetime-2b718cd4/response-green/apps/service/src/render.ts",
+        "bytes": 12602,
+        "sha256": "1374cfd10964ceb28bbd1c3fa66ef9543b9dd28f997f51d76d3e08f098b35b1e"
+      },
+      {
+        "path": "generic-render-lifetime-2b718cd4/response-green/process.json",
+        "bytes": 517,
+        "sha256": "af38dd35695da561624d30943114529b5f8bb05023145257f4c9b72866c1b55c"
+      },
+      {
+        "path": "generic-render-lifetime-2b718cd4/response-green/stderr",
+        "bytes": 169,
+        "sha256": "0f0f2bfced1ba846fb5ff05f215a7dac9328905a43e7b0725673633303242799"
+      },
+      {
+        "path": "generic-render-lifetime-2b718cd4/response-green/stdout",
+        "bytes": 232,
+        "sha256": "a8c3125e7a2179438808bd0804232e782ff296f1ae602c277f3ca4b01947fe51"
+      },
+      {
+        "path": "generic-render-lifetime-2b718cd4/response-green/terminal.json",
+        "bytes": 85,
+        "sha256": "da967f447fb75ba396de9597ae818f4b11a5b739d7718a9d25584f3878ecb364"
+      },
+      {
+        "path": "generic-render-lifetime-2b718cd4/response-restored/apps/service/src/render.test.ts",
+        "bytes": 27166,
+        "sha256": "8b097e10d7feaeac538e95e5f33367facccfba8d482a8c3a5756e690d7b21cd6"
+      },
+      {
+        "path": "generic-render-lifetime-2b718cd4/response-restored/apps/service/src/render.ts",
+        "bytes": 12602,
+        "sha256": "1374cfd10964ceb28bbd1c3fa66ef9543b9dd28f997f51d76d3e08f098b35b1e"
+      },
+      {
+        "path": "generic-render-lifetime-2b718cd4/response-restored/process.json",
+        "bytes": 515,
+        "sha256": "294c4f3a69363ef2b99e761e139272f58956bb83380220fa1685b45b4f0221d2"
+      },
+      {
+        "path": "generic-render-lifetime-2b718cd4/response-restored/stderr",
+        "bytes": 169,
+        "sha256": "aea9d9160e85585372d8bf6013ab8de96fda0ddbe0fb628e78f7e406ae26ee16"
+      },
+      {
+        "path": "generic-render-lifetime-2b718cd4/response-restored/stdout",
+        "bytes": 232,
+        "sha256": "c3a091d55cf26d81b182dbb04413730786999f3a62f882f63980e459791fa2c3"
+      },
+      {
+        "path": "generic-render-lifetime-2b718cd4/response-restored/terminal.json",
+        "bytes": 84,
+        "sha256": "6de64645df86141684419fca4ce86de811b73362b70b8c81190eeaba39a90cd2"
+      },
+      {
+        "path": "generic-render-lifetime-2b718cd4/run.py",
+        "bytes": 2357,
+        "sha256": "751c72cea44a89ecd9d8cc3b849407157bec8736a107d3ee1ab335cb15e6dc7f"
+      },
+      {
+        "path": "generic-render-lifetime-2b718cd4/service-build.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "generic-render-lifetime-2b718cd4/service-types.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "generic-render-lifetime-2b718cd4/timeout-control/apps/service/src/render.test.ts",
+        "bytes": 26986,
+        "sha256": "7d1cb47de60d693d41894a017487eb71ce6b3233977eff436fbc12b1fa53d50d"
+      },
+      {
+        "path": "generic-render-lifetime-2b718cd4/timeout-control/apps/service/src/render.ts",
+        "bytes": 12630,
+        "sha256": "183dcb95cb6e680375e9fc7a82610406f15917e2c1d87c27fd2a84d40e4662c7"
+      },
+      {
+        "path": "generic-render-lifetime-2b718cd4/timeout-control/process.json",
+        "bytes": 522,
+        "sha256": "557ea4c92ceab600cc11cf3d93b20abd201d069086539129a589c9f51179f192"
+      },
+      {
+        "path": "generic-render-lifetime-2b718cd4/timeout-control/stderr",
+        "bytes": 842,
+        "sha256": "64dcc9c2269780cc02bf42fb278ee09d752e7f162e4e7a29a025c6e3598d6de0"
+      },
+      {
+        "path": "generic-render-lifetime-2b718cd4/timeout-control/stdout",
+        "bytes": 393,
+        "sha256": "0c12c6fbcad65e94817918d6415e513fb3fb61f35af6b8a668ab7fdf9a507ba3"
+      },
+      {
+        "path": "generic-render-lifetime-2b718cd4/timeout-control/terminal.json",
+        "bytes": 83,
+        "sha256": "72b0b292e17e0a32558dded9e81480ec0b5b503371298a6aa41b04c8e0a5b4f1"
+      },
+      {
+        "path": "generic-render-lifetime-2b718cd4/timeout-green.log",
+        "bytes": 402,
+        "sha256": "4ca196b4bfdc1d9a991689b5d768f94ef74b1e1f573b8b1dc6ebae4b3dc2d57c"
+      },
+      {
+        "path": "generic-render-lifetime-2b718cd4/timeout-restored/apps/service/src/render.test.ts",
+        "bytes": 26986,
+        "sha256": "7d1cb47de60d693d41894a017487eb71ce6b3233977eff436fbc12b1fa53d50d"
+      },
+      {
+        "path": "generic-render-lifetime-2b718cd4/timeout-restored/apps/service/src/render.ts",
+        "bytes": 12602,
+        "sha256": "1374cfd10964ceb28bbd1c3fa66ef9543b9dd28f997f51d76d3e08f098b35b1e"
+      },
+      {
+        "path": "generic-render-lifetime-2b718cd4/timeout-restored/process.json",
+        "bytes": 505,
+        "sha256": "86cbf9d8a6649fab37f3668903a5400e1275054cfd01d1c0eee69305850f9a17"
+      },
+      {
+        "path": "generic-render-lifetime-2b718cd4/timeout-restored/stderr",
+        "bytes": 169,
+        "sha256": "7d4ea02a4d545de2003af367da2bfa1be57211693ef040de90c5a952ea2991ec"
+      },
+      {
+        "path": "generic-render-lifetime-2b718cd4/timeout-restored/stdout",
+        "bytes": 233,
+        "sha256": "3fc00e0dd71b0c088a490190cb21cd6aa9a460bcead485f729ee2a4d9e8e89cc"
+      },
+      {
+        "path": "generic-render-lifetime-2b718cd4/timeout-restored/terminal.json",
+        "bytes": 85,
+        "sha256": "2ed927afadf4b56652676c628c05bb33adc1ae488e7d2c6e1c247c71e8213ba0"
+      }
+    ],
+    "rootVerification": "Every payload and both final source pins independently checked. Root read complete source delta, busy/staging and child-close oracles; merged service build passes without repeating runtime tests."
+  }
+}

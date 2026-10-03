@@ -236,8 +236,43 @@ historical source map, not a runtime pass or permission to delete a file without
 confirming its current consumers. The implementation lane uses it to transfer
 unique guarantees through existing owners.
 
+The [native/caller dependency audit](native-consumer-audit.json) retains
+[operation consumers and shared-owner prerequisites](native-consumer-audit-evidence.tar.gz).
+Its caller inventories locate remaining worker tests, response-parser branches
+and the personal-release workflow; they do not replace a matched guarantee audit.
+Shared presentation, PCM, mux and workspace primitives remain live even where
+their declarations happen to sit beside an obsolete renderer. Preserve the
+frozen worker before any native rebuild and transfer unique guarantees through
+current source/composition owners before removing old operation registrations.
+
 Most fixture media bytes and probe results are controlled; filesystem/archive
 and canonical metadata owners are real. The adopted media checkpoint additionally
 uses actual small native frame/audio extraction. These checks do not prove
 rendering quality, listening or installed behavior. No source recording,
 accepted audition, native worker or installed library changed.
+
+The [matched native guarantee map](native-guarantee-map.json) retains
+[declaration anchors and historical source pins](native-guarantee-map-evidence.tar.gz).
+It separates existing source/composition proof from unique descriptor, render
+lifetime, movie numerical and caller guarantees that still need ports. Retired
+implicit edits and old rendering policies have explicit dispositions. This is
+source analysis; no native execution or output-quality acceptance is claimed.
+
+The [public service contract bank](public-service-contracts-verification.json)
+retains [originals, failure controls and final source operands](public-service-contracts-evidence.tar.gz).
+Current source/project operations preserve transport refusal, committed timeout
+and exact replay, discovery across restart, package-root failure isolation and
+transcript/job idempotence. Sparse model files prove metadata readiness through a
+controlled speech edge; they are not inference evidence. The current-owner cohort
+passes before later source-identity and running-probe strengthening, whose two
+final cases pass separately. The old suites and their dedicated helpers are removed.
+
+The [generic render lifetime bank](generic-render-lifetime-verification.json)
+retains [matched assertions, deliberate faults and restored runs](generic-render-lifetime-evidence.tar.gz).
+The shared attempt owner preserves timeout, malformed/crashed worker drain,
+pre-consumption cancellation and committed consumer effects. Duplicate wrappers
+lose their tests; existing child-close, concurrent and busy-workspace guarantees
+remain. The orphan preview adapter is removed. The old movie wrapper and deadline
+remain for named native labs, pending their matched ports. The focused controlled
+worker suite passes with native opt-ins unrun; its last source difference is a
+type-only import covered by final build/types. No native-quality claim is made.

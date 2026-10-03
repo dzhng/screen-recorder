@@ -21,7 +21,7 @@ Implement the remaining primitives through their existing owners. Read
 The external caller makes every editorial decision. Read or edit the consumer
 [screenrec skill](../../skills/screenrec/SKILL.md) from that caller's perspective.
 
-**Next pickup: finish public service fixtures, then purge old core branches/schema.**
+**Next pickup: purge recording specializations from core evidence owners, then schema.**
 The [canonical service](assets/23-canonical-service/README.md),
 [shared contracts](assets/23-composition-contract/README.md) and
 [fixture/owner closure](assets/23-owner-fixture-ports/README.md) are merged.
@@ -31,20 +31,28 @@ Generic archive/registry, publication, resource pins and source-deletion
 guarantees remain with their actual owners. Adopted media uses a fresh recipient;
 capture creates facts without authoring a project.
 
-Use the [matched dependency audit](assets/23-owner-fixture-ports/service-dependency-audit.json)
-to transfer the remaining unique public service/transport guarantees as one
-coherent pass: framing and timeout after commit, source discovery and job
-continuity, package-root isolation and selected-source transcript idempotence.
-Existing public project replay/history/concurrency proof is reused; do not
-recreate recording edits or duplicate that matrix. Remove the old service
-fixtures and their dedicated helpers after those guarantees survive.
+The [public service contract bank](assets/23-owner-fixture-ports/public-service-contracts-verification.json)
+closes the obsolete service suites and their dedicated helpers. Framing refusal,
+committed timeout/replay, source discovery/restart, package-root isolation and
+selected-source transcript/job continuity now use current owners. Existing public
+project replay/history/concurrency proof remains reused. The
+[generic render lifetime bank](assets/23-owner-fixture-ports/generic-render-lifetime-verification.json)
+puts unique cancellation and cleanup guarantees on the shared attempt owner.
+Its orphan preview adapter is removed; the old movie wrapper remains only for
+named native lab consumers awaiting their matched ports.
 
-Then remove recording specializations from the existing transcript, scene and
+Remove recording specializations from the existing transcript, scene and
 index owners, preserving generic readers, portable generations, shared raster/
 pointer algorithms, exact time and render-workspace lifetimes. Remove orphan
 recording media/span classes and `RevisionStore` through the current dependency
 map. Source normalization and common movie validation already have independent
 owners. The personal-release script's old selectors also need caller cutover.
+The [native consumer audit](assets/23-owner-fixture-ports/native-consumer-audit.json)
+and [matched guarantee map](assets/23-owner-fixture-ports/native-guarantee-map.json)
+separate current shared primitives from obsolete engines. Generic render lifetime
+ports can proceed independently; source/descriptor and compiled movie guarantees
+must survive before removing their old native registrations. Historical source
+maps are prerequisites, not verification runs.
 
 The final joint purge removes the actual recording revision field from its type,
 queries and schema, bumps the fresh catalog format and refuses prior formats
@@ -59,7 +67,7 @@ implementation ports. The installed switch and final release gates remain separa
 | --- | --- | --- |
 | [12 speech](slices/12-speech-evidence.md) | Selected baseline, human comparisons, lexical diagnostics and accepted explicit cut | Broader independent acoustic/reference coverage, joins/listening and warm resource evidence; no replacement selected |
 | [20 / 21 capture](slices/21-webcam.md#implementation-graph) | Continuing verification, retained replay, brief and sustained physical lifecycle, independent readiness, saved import recovery and support | Physical event uncertainty/synchronization and remaining interruption/lifecycle acceptance |
-| [23 cutover](slices/23-cutover.md) | Source/headless ports, paired state/recovery, canonical service, shared contracts, native menu cells, project publication, package/source owner closure and signed isolated candidate | Remaining core/service fixtures and schema purge, continuous playback and installed switching |
+| [23 cutover](slices/23-cutover.md) | Source/headless ports, paired state/recovery, canonical service, shared contracts, native menu cells, project publication, package/source owner closure and signed isolated candidate | Remaining core/native/caller fixtures and schema purge, continuous playback and installed switching |
 | [24 scale](slices/24-scale.md) | [Source-cardinality query gate](assets/24z-current-preparation/manifest-reference.json) and other declared child scopes | General final scale after cutover; no original whole-setup timing pass |
 | [25 caller](slices/25-agent-acceptance.md) | Source CLI and independent source MCP declared scopes | Installed/default discovery and full listening/physical/final release acceptance |
 

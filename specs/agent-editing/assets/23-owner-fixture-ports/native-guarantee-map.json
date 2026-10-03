@@ -1,0 +1,38 @@
+{
+  "kind": "read-only-matched-native-and-render-guarantee-map",
+  "baselineCommit": "2b718cd4328e53b3fdb36ba812154efbbd29c2bc",
+  "verificationRun": false,
+  "scope": [
+    "Matches existing source/composition oracles to unique guarantees held by retired native operation consumers and the old TS render wrapper.",
+    "Historical fixed-role, automatic editing, nearest-frame and event-driven sample semantics have explicit retirement dispositions.",
+    "Implementation and quality gates remain open; source inventories are neither runtime proof nor deletion authority."
+  ],
+  "bank": {
+    "archive": "native-guarantee-map-evidence.tar.gz",
+    "bytes": 22335,
+    "sha256": "dfdb09e41cc1b2f57bfea9284d238bb008d0c5f608822d3ef863b50ec1d4dca1",
+    "payloads": [
+      {
+        "path": "declarations.json",
+        "bytes": 26099,
+        "sha256": "a42689486813dab3ffb0a3929566d10e7ae5d6b232f4f5d5747a2163be2e9158"
+      },
+      {
+        "path": "direct-consumers.json",
+        "bytes": 9471,
+        "sha256": "b7ae6bcffcd95657e8a65b84c409a5587d5646d5ce82b0ec088ce266a241b92a"
+      },
+      {
+        "path": "map.md",
+        "bytes": 23862,
+        "sha256": "d1fc6a224f0191f0a2a4fad911713d90fa543135e576ce0dd295a98ef4c1f6cb"
+      },
+      {
+        "path": "source-pins.json",
+        "bytes": 15711,
+        "sha256": "8fea3bae367798c8af75a5d6c61ad18b782359e534d96d3b845e6be52c504b93"
+      }
+    ],
+    "rootVerification": "All 64 source pins independently checked against baseline; full matched map read."
+  }
+}
