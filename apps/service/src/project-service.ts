@@ -815,9 +815,6 @@ export async function startProjectService(options: {
             if (state.state !== "ready" && state.state !== "preparing") {
               const preparing = models
                 .prepare(modelId, modelLifetime.signal, operation.params)
-                .then(() => {
-                  transcripts.resume();
-                })
                 .catch((error) => {
                   if (!modelLifetime.signal.aborted) console.error(error);
                 });

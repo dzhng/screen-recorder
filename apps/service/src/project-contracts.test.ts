@@ -7,7 +7,7 @@ import { afterEach, expect, test } from "vitest";
 import { createHash } from "node:crypto";
 import { Models, parakeetModel } from "@screenrec/core/models";
 import type { SpeechTranscriptionRequest } from "@screenrec/core/transcript";
-import type { TranscriptRow } from "@screenrec/core/transcript-read";
+import type { SourceTranscriptRow } from "@screenrec/core/transcript-read";
 import { callLocal } from "@screenrec/client";
 import {
   REQUEST_FRAME_BYTES,
@@ -330,7 +330,7 @@ test("selected-source transcript preserves filler, phrase and ready retry throug
   if (!pending.ok) throw new Error(JSON.stringify(pending));
   const jobId = (pending.data as { jobId: string }).jobId;
   await f.job(jobId, "ready");
-  const rows: TranscriptRow[] = [];
+  const rows: SourceTranscriptRow[] = [];
   let cursor: unknown;
   let generation: string | undefined;
   do {
@@ -342,7 +342,7 @@ test("selected-source transcript preserves filler, phrase and ready retry throug
     if (!page.ok) throw new Error(JSON.stringify(page));
     const data = page.data as {
       generation: string;
-      page: { rows: TranscriptRow[]; nextCursor: unknown };
+      page: { rows: SourceTranscriptRow[]; nextCursor: unknown };
     };
     generation ??= data.generation;
     expect(data.generation).toBe(generation);

@@ -279,3 +279,53 @@ test("one long early word cannot make a late source window scan the short-word p
     { ordinal: 1, text: "hay" },
   ]);
 });
+
+test("source pagination and phrase matches retain exact ordinals across storage batches", async () => {
+  const words = Array.from({ length: 3000 }, (_, index) => ({
+    text: `word${index % 1000}`,
+    startUs: index * 3000,
+    endUs: index * 3000 + 2000,
+  }));
+  const selected = words.filter((word) => word.startUs < 4500000 || word.startUs >= 4600000);
+  const { read } = await fixture(
+    [
+      { startUs: 0, endUs: 4500000, words: words.filter((word) => word.startUs < 4500000) },
+      { startUs: 4600000, endUs: 10000000, words: words.filter((word) => word.startUs >= 4600000) },
+    ],
+    10000000,
+  );
+  const rows: SourceTranscriptRow[] = [];
+  let cursor: unknown;
+  let pages = 0;
+  do {
+    const page = read.page({ limit: 1000, ...(cursor ? { cursor } : {}) });
+    rows.push(...page.rows);
+    cursor = page.nextCursor;
+    pages++;
+  } while (cursor);
+  expect(pages).toBe(3);
+  expect(
+    rows.flatMap((row) => (row.type === "word" ? [[row.text, row.sourceRange.startUs]] : [])),
+  ).toEqual(selected.map((word) => [word.text, word.startUs]));
+  const gap = rows.findIndex((row) => row.type === "gap");
+  expect(rows.filter((row) => row.type === "gap")).toEqual([
+    {
+      type: "gap",
+      reason: "not_acquired",
+      sourceRange: { startUs: 4500000, endUs: 4600000 },
+      partial: false,
+    },
+  ]);
+  expect(rows.slice(gap - 1, gap + 2).map((row) => (row.type === "word" ? row.id : "gap"))).toEqual(
+    ["w1499", "gap", "w1500"],
+  );
+  const first = read.search({ text: "WORD999 word0", limit: 1 });
+  expect(first.entries).toEqual([
+    { wordIds: ["w999", "w1000"], sourceRange: { startUs: 2997000, endUs: 3002000 } },
+  ]);
+  const second = read.search({ text: "WORD999 word0", cursor: first.nextCursor });
+  expect(second.entries).toEqual([
+    { wordIds: ["w1965", "w1966"], sourceRange: { startUs: 5997000, endUs: 6002000 } },
+  ]);
+  expect(second.nextCursor).toBeNull();
+});

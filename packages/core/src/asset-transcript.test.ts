@@ -7,14 +7,19 @@ import {
   type TimeValue,
 } from "@screenrec/composition";
 import { createHash, randomUUID } from "node:crypto";
-import { mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
+import { mkdir, mkdtemp, readFile, readdir, rm, writeFile } from "node:fs/promises";
 import { join } from "node:path";
 import { afterEach, expect, test } from "vitest";
 import { Catalog } from "./catalog.js";
 import { AssetStore } from "./assets.js";
 import { AcquisitionStore } from "./acquisitions.js";
 import { JobQueue } from "./jobs.js";
-import { TranscriptStore, type SpeechTranscriber } from "./transcript.js";
+import { SourceTranscriptRead } from "./transcript-read.js";
+import {
+  TranscriptStore,
+  type SpeechTranscriber,
+  type SpeechTranscriptionReceipt,
+} from "./transcript.js";
 import {
   TranscriptProcessing,
   assetTranscriptOwner,
@@ -30,6 +35,7 @@ async function fixture(
     startUs: 100,
     endUs: 1000,
   },
+  native?: SpeechTranscriber,
 ) {
   const home = await mkdtemp("/tmp/asset-transcript-");
   const catalog = new Catalog(join(home, "catalog.sqlite"));
@@ -102,6 +108,7 @@ async function fixture(
     asset: { assets, acquisitions },
     transcribe: async (request, signal) => {
       requests.push(request);
+      if (native) return native(request, signal);
       if (control.hold)
         await new Promise((_, reject) =>
           signal.addEventListener("abort", () => reject(signal.reason), { once: true }),
@@ -231,6 +238,10 @@ test("cancelled attempts are not revived by reads; cleanup preserves other publi
   f.processing.prepareSource(first);
   await expect.poll(() => f.requests.length).toBe(2);
   const id = f.processing.sourceStatus(first).jobId!;
+  const attempt = f.jobs.job(id).attemptId;
+  expect(f.processing.retrySource(first)).toMatchObject({ state: "processing", jobId: id });
+  expect(f.jobs.job(id).attemptId).toBe(attempt);
+  expect(f.requests).toHaveLength(2);
   await f.jobs.drainJob(id);
   f.processing.publishedSource(first);
   expect(f.requests).toHaveLength(2);
@@ -557,4 +568,241 @@ test("fractional decoded segments survive portable receipts while words keep obs
   } finally {
     await stage.close();
   }
+});
+
+async function retainOutput(name: string, value: unknown) {
+  const directory = process.env.SCREENREC_TRANSCRIPT_TEST_OUTPUT;
+  if (!directory) return;
+  await mkdir(directory, { recursive: true });
+  await writeFile(join(directory, `${name}.json`), JSON.stringify(value, null, 2) + "\n");
+}
+type NativeWord = {
+  text: string;
+  source: { startUs: number; endUs: number };
+  confidence: number | null;
+};
+type NativeLine = SpeechTranscriptionReceipt["segments"][number] & { words: NativeWord[] };
+function nativeTranscript(
+  corrupt?: (lines: NativeLine[], receipt: SpeechTranscriptionReceipt) => void,
+  label = "positive",
+): SpeechTranscriber {
+  return async (request) => {
+    const lines: NativeLine[] = [
+      {
+        ordinal: 0,
+        source: { startUs: 500000, endUs: 4000000 },
+        state: "transcribed",
+        wordCount: 4,
+        words: [
+          { text: "Um,", source: { startUs: 1000000, endUs: 1300000 }, confidence: null },
+          { text: "hello", source: { startUs: 1400000, endUs: 1900000 }, confidence: 0.75 },
+          { text: "world.", source: { startUs: 2000000, endUs: 2600000 }, confidence: 0.75 },
+          { text: "uh-huh", source: { startUs: 3000000, endUs: 3400000 }, confidence: 0.75 },
+        ],
+      },
+      {
+        ordinal: 1,
+        source: { startUs: 5500000, endUs: 8000000 },
+        state: "transcribed",
+        wordCount: 3,
+        words: [
+          { text: "Hello", source: { startUs: 6000000, endUs: 6500000 }, confidence: null },
+          { text: "World", source: { startUs: 6600000, endUs: 7000000 }, confidence: 0.75 },
+          { text: "Uhm.", source: { startUs: 7200000, endUs: 7200000 }, confidence: 0.75 },
+        ],
+      },
+      {
+        ordinal: 2,
+        source: { startUs: 8500000, endUs: 8600000 },
+        state: "skipped",
+        reason: "too_short",
+        wordCount: 0,
+        words: [],
+      },
+    ];
+    const receipt: SpeechTranscriptionReceipt = {
+      output: { file: request.output, bytes: 0, sha256: "" },
+      engine: {
+        runtime: "FluidAudio",
+        runtimeVersion: "0.15.7",
+        decoder: "parakeet-tdt-batch",
+        encoderPrecision: "int8",
+        computeUnits: "cpuAndNeuralEngine",
+      },
+      segments: lines.map(({ words, ...line }) => structuredClone(line)),
+      wordCount: 7,
+    };
+    corrupt?.(lines, receipt);
+    const raw = lines.map((line) => JSON.stringify(line) + "\n").join("");
+    await writeFile(request.output, raw);
+    receipt.output.bytes = Buffer.byteLength(raw);
+    if (!receipt.output.sha256)
+      receipt.output.sha256 = createHash("sha256").update(raw).digest("hex");
+    await retainOutput(`native-${label}`, { request, raw, receipt });
+    return receipt;
+  };
+}
+test("selected transcript native refusal leaves no generation, indexed row or output", async () => {
+  const cases: [string, (lines: NativeLine[], receipt: SpeechTranscriptionReceipt) => void][] = [
+    [
+      "Transcript word lies outside its segment",
+      (lines) => {
+        lines[0]!.words[0]!.source.startUs = 100000;
+      },
+    ],
+    [
+      "Transcript word range is reversed",
+      (lines) => {
+        lines[0]!.words[1]!.source.endUs = 1000000;
+      },
+    ],
+    [
+      "Transcript words must be ordered by start",
+      (lines) => {
+        const words = lines[0]!.words;
+        [words[1], words[2]] = [words[2]!, words[1]!];
+      },
+    ],
+    [
+      "Transcript words must not overlap",
+      (lines) => {
+        lines[0]!.words[1]!.source.endUs = lines[0]!.words[2]!.source.endUs;
+      },
+    ],
+    [
+      "Transcription segment ordinals must be unique and ordered",
+      (lines, receipt) => {
+        lines[1]!.ordinal = 0;
+        receipt.segments[1]!.ordinal = 0;
+      },
+    ],
+    [
+      "Transcription segment ordinals must be unique and ordered",
+      (lines, receipt) => {
+        [lines[0], lines[1]] = [lines[1]!, lines[0]!];
+        [receipt.segments[0], receipt.segments[1]] = [receipt.segments[1]!, receipt.segments[0]!];
+      },
+    ],
+    [
+      "Raw transcript segment differs from its receipt",
+      (lines) => {
+        [lines[0], lines[1]] = [lines[1]!, lines[0]!];
+      },
+    ],
+    [
+      "Transcription segment does not lie in an acquired source interval",
+      (...[, receipt]) => {
+        receipt.segments[0]!.source = { startUs: 0, endUs: 4000000 };
+      },
+    ],
+    [
+      "Raw transcript does not match its receipt",
+      (...[, receipt]) => {
+        receipt.output.sha256 = "f".repeat(64);
+      },
+    ],
+  ];
+  for (const [index, [reason, corrupt]] of cases.entries()) {
+    const f = await fixture(
+      { originUs: 250000, startUs: 500000, endUs: 10000000 },
+      nativeTranscript(corrupt, String(index)),
+    );
+    f.processing.prepareSource(f.selection);
+    await f.jobs.idle();
+    const status = f.processing.sourceStatus(f.selection);
+    await retainOutput(`state-${index}`, {
+      expected: { state: "failed", reason, retryable: true, published: null },
+      status,
+      tables: Object.fromEntries(
+        [
+          "transcript_generations",
+          "transcript_words",
+          "transcript_segments",
+          "transcript_gaps",
+        ].map((name) => [name, f.catalog.catalog.prepare(`SELECT * FROM ${name}`).all()]),
+      ),
+    });
+    expect(status, reason).toMatchObject({
+      state: "failed",
+      reason,
+      retryable: true,
+      published: null,
+    });
+    expect(
+      f.catalog.catalog
+        .prepare(
+          "SELECT (SELECT COUNT(*) FROM transcript_generations)+(SELECT COUNT(*) FROM transcript_words)+(SELECT COUNT(*) FROM transcript_segments)+(SELECT COUNT(*) FROM transcript_gaps) AS n",
+        )
+        .get(),
+      reason,
+    ).toEqual({ n: 0 });
+    expect(await readdir(join(f.home, "transcripts", "assets", f.asset.id)), reason).toEqual([]);
+    await expect(readFile(f.requests[0]!.output)).rejects.toMatchObject({ code: "ENOENT" });
+  }
+});
+
+test("selected decoded segments retain gaps, kinds, null confidence and instantaneous words", async () => {
+  const f = await fixture(
+    { originUs: 250000, startUs: 500000, endUs: 10000000 },
+    nativeTranscript(),
+  );
+  f.processing.prepareSource(f.selection);
+  await f.jobs.idle();
+  const status = f.processing.sourceStatus(f.selection);
+  expect(status).toMatchObject({
+    state: "ready",
+    published: { transcript: { segmentCount: 3, wordCount: 7, gapCount: 5 } },
+  });
+  const metadata = status.published!.transcript;
+  const read = new SourceTranscriptRead(f.transcripts, metadata);
+  const rows = read.page({}).rows;
+  expect(rows.map((row) => (row.type === "word" ? row.text : row.reason))).toEqual([
+    "not_acquired",
+    "Um,",
+    "hello",
+    "world.",
+    "uh-huh",
+    "not_acquired",
+    "Hello",
+    "World",
+    "Uhm.",
+    "not_acquired",
+    "too_short",
+    "not_acquired",
+  ]);
+  expect(rows[1]).toEqual({
+    type: "word",
+    id: "w0",
+    ordinal: 0,
+    text: "Um,",
+    kind: "filler",
+    confidence: null,
+    segment: 0,
+    sourceRange: { startUs: 1000000, endUs: 1300000 },
+    partial: false,
+  });
+  expect(rows[4]).toMatchObject({ id: "w3", kind: "vocalization", confidence: 0.75 });
+  expect(rows[8]).toMatchObject({
+    id: "w6",
+    text: "Uhm.",
+    kind: "filler",
+    instant: true,
+    sourceRange: { startUs: 7200000, endUs: 7200001 },
+    segment: 1,
+  });
+  expect(
+    rows.filter((row) => row.type === "gap").map((row) => [row.reason, row.sourceRange]),
+  ).toEqual([
+    ["not_acquired", { startUs: 0, endUs: 500000 }],
+    ["not_acquired", { startUs: 4000000, endUs: 5500000 }],
+    ["not_acquired", { startUs: 8000000, endUs: 8500000 }],
+    ["too_short", { startUs: 8500000, endUs: 8600000 }],
+    ["not_acquired", { startUs: 8600000, endUs: 10000000 }],
+  ]);
+  const raw = await readFile(f.requests[0]!.output);
+  expect(metadata.raw).toEqual({
+    bytes: raw.length,
+    sha256: createHash("sha256").update(raw).digest("hex"),
+  });
+  expect(f.requests).toHaveLength(1);
 });

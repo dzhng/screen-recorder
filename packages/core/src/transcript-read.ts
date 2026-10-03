@@ -2,75 +2,18 @@ import { round, fromTime } from "@screenrec/composition";
 import { z } from "zod";
 import { CatalogError } from "./catalog.js";
 import { comparePageKeys, type PageBound } from "./ordered-pages.js";
-import {
-  projectSourceRanges,
-  projectWords,
-  TimelineError,
-  trimSpans,
-  type TimelineRevision,
-} from "./timeline.js";
-import { type RenderSpan, type TimeRange } from "./presentation-time.js";
-import { recordingTranscriptIdentity } from "./transcript.js";
+import type { TimeRange } from "./presentation-time.js";
 import type {
   TranscriptIdentity,
   TranscriptMetadata,
   GapReason,
   TranscriptGapRecord,
-  RecordingTranscriptMetadata,
   TranscriptRecords,
   TranscriptWordRecord,
 } from "./transcript.js";
 import { foldWord, type WordKind } from "./word-kind.js";
 
 const time = z.number().int().nonnegative().max(Number.MAX_SAFE_INTEGER);
-const reference = {
-  recordingId: z.string().min(1),
-  revisionId: z.string().min(1),
-  generation: z.string().min(1),
-  afterSourceUs: time,
-  /** The last returned word, or null when the last row was a gap. */
-  afterOrdinal: time.nullable(),
-};
-const pageCursorSchema = z.strictObject({
-  ...reference,
-  range: z.strictObject({ startUs: time, endUs: time }).nullable(),
-});
-const searchCursorSchema = z.strictObject({
-  ...reference,
-  text: z.string(),
-  afterOrdinal: time,
-});
-export type TranscriptPageCursor = z.infer<typeof pageCursorSchema>;
-export type TranscriptSearchCursor = z.infer<typeof searchCursorSchema>;
-
-export type TranscriptWordRow = {
-  type: "word";
-  id: string;
-  ordinal: number;
-  text: string;
-  kind: WordKind;
-  sourceRange: TimeRange;
-  instant?: true;
-  confidence: number | null;
-  segment: number;
-  partial: boolean;
-  fragments: RenderSpan[];
-};
-export type TranscriptGapRow = {
-  type: "gap";
-  sourceRange: TimeRange;
-  reason: GapReason;
-  partial: boolean;
-  fragments: RenderSpan[];
-};
-export type TranscriptRow = TranscriptWordRow | TranscriptGapRow;
-export type TranscriptSearchEntry = {
-  wordIds: string[];
-  sourceRange: TimeRange;
-  partial: boolean;
-  fragments: RenderSpan[];
-};
-
 /** Literal search examines at most this many start words per call, then returns a continuation. */
 const searchBudget = 10_000;
 const batch = 256;
@@ -87,176 +30,10 @@ function parse<T>(schema: z.ZodType<T>, value: unknown): T {
   return parsed.data;
 }
 const wordId = (ordinal: number) => `w${ordinal}`;
-/** The identity every transcript continuation carries, before its reader validates the rest. */
-export function transcriptContinuation(value: unknown) {
-  return parse(
-    z.object({ recordingId: reference.recordingId, revisionId: reference.revisionId }),
-    value,
-  );
-}
-
-/**
- * Pages and searches one published transcript generation as projected through one revision. Storage
- * adapters only answer bounded ordered record queries, so the SQLite library and portable packages
- * share these semantics.
- */
-export class TranscriptRead {
-  constructor(
-    private readonly records: TranscriptRecords,
-    private readonly metadata: RecordingTranscriptMetadata,
-    private readonly revision: TimelineRevision,
-  ) {}
-
-  private traversal() {
-    return new TranscriptTraversal(this.records, recordingTranscriptIdentity(this.metadata));
-  }
-
-  private reference() {
-    return {
-      recordingId: this.metadata.recordingId,
-      revisionId: this.revision.id,
-      generation: this.metadata.generation,
-    };
-  }
-
-  private continuation<T extends { recordingId: string; revisionId: string; generation: string }>(
-    cursor: T | undefined,
-  ): T | undefined {
-    const expected = this.reference();
-    if (
-      cursor &&
-      (cursor.recordingId !== expected.recordingId ||
-        cursor.revisionId !== expected.revisionId ||
-        cursor.generation !== expected.generation)
-    )
-      throw new CatalogError(
-        "ARTIFACT_CHANGED",
-        "Transcript continuation belongs to another revision or generation",
-        expected,
-      );
-    return cursor;
-  }
-
-  /** Words and gaps in source order, restricted to those retained inside an optional playback range. */
-  page(input: { range?: TimeRange | undefined; cursor?: unknown; limit?: number | undefined }) {
-    const count = limit(input.limit, 250, 1000);
-    const cursor = this.continuation(
-      input.cursor === undefined ? undefined : parse(pageCursorSchema, input.cursor),
-    );
-    const range = input.range ?? cursor?.range ?? null;
-    if (
-      cursor &&
-      (cursor.range?.startUs !== range?.startUs || cursor.range?.endUs !== range?.endUs)
-    )
-      throw new CatalogError("ARTIFACT_CHANGED", "Transcript continuation used another range");
-    let spans: readonly TimeRange[];
-    try {
-      spans = range ? trimSpans(this.revision, range) : this.revision.spans;
-    } catch (error) {
-      if (error instanceof TimelineError) throw new CatalogError("INVALID_RANGE", error.message);
-      throw error;
-    }
-    const { records, more, after } = this.traversal().page(
-      spans,
-      count,
-      cursor ? { sourceUs: cursor.afterSourceUs, ordinal: cursor.afterOrdinal } : null,
-    );
-    const rows: TranscriptRow[] = projectSourceRanges(this.revision, records).map((row) =>
-      "ordinal" in row
-        ? {
-            type: "word",
-            id: wordId(row.ordinal),
-            ordinal: row.ordinal,
-            text: row.text,
-            kind: row.kind,
-            sourceRange: { startUs: row.startUs, endUs: row.endUs },
-            ...(row.instant ? { instant: true as const } : {}),
-            confidence: row.confidence,
-            segment: row.segment,
-            partial: row.partial,
-            fragments: row.fragments,
-          }
-        : {
-            type: "gap",
-            sourceRange: { startUs: row.startUs, endUs: row.endUs },
-            reason: row.reason,
-            partial: row.partial,
-            fragments: row.fragments,
-          },
-    );
-    return {
-      rows,
-      nextCursor:
-        more && after
-          ? ({
-              ...this.reference(),
-              range,
-              afterSourceUs: after.sourceUs,
-              afterOrdinal: after.ordinal,
-            } satisfies TranscriptPageCursor)
-          : null,
-    };
-  }
-
-  /** Literal, case-folded match over consecutive source words; a word removed by the revision never matches. */
-  search(input: { text: string; cursor?: unknown; limit?: number | undefined }) {
-    const count = limit(input.limit, 100, 500);
-    const terms = transcriptSearchTerms(input.text);
-    const cursor = this.continuation(
-      input.cursor === undefined ? undefined : parse(searchCursorSchema, input.cursor),
-    );
-    if (cursor && cursor.text !== input.text)
-      throw new CatalogError("ARTIFACT_CHANGED", "Transcript continuation searched other text");
-    const result = this.traversal().search(
-      terms,
-      count,
-      cursor ? { startUs: cursor.afterSourceUs, ordinal: cursor.afterOrdinal } : null,
-      (phrase) => {
-        const projected = projectWords(
-          this.revision,
-          phrase.map((word) => ({ ...word, id: wordId(word.ordinal) })),
-        );
-        if (projected.length !== phrase.length) return null;
-        // Ends need not grow with starts, so the phrase ends where its latest word does.
-        const sourceRange = {
-          startUs: phrase[0]!.startUs,
-          endUs: Math.max(...phrase.map((word) => word.endUs)),
-        };
-        const { partial, fragments } = projectSourceRanges(this.revision, [sourceRange])[0]!;
-        return {
-          wordIds: projected.map((word) => word.id),
-          sourceRange,
-          partial,
-          fragments,
-        };
-      },
-    );
-    return this.searchPage(result.entries, input.text, result.last);
-  }
-
-  private searchPage(
-    entries: TranscriptSearchEntry[],
-    text: string,
-    last: TranscriptWordRecord | null,
-  ) {
-    return {
-      entries,
-      nextCursor: last
-        ? ({
-            ...this.reference(),
-            text,
-            afterSourceUs: last.startUs,
-            afterOrdinal: last.ordinal,
-          } satisfies TranscriptSearchCursor)
-        : null,
-    };
-  }
-}
-
 type SourceRecord = TranscriptWordRecord | TranscriptGapRecord;
 type AfterRecord = { sourceUs: number; ordinal: number | null } | null;
 
-/** Bounded ordered traversal shared by source, recording and portable-package readers. */
+/** Bounded ordered traversal shared by source and project evidence readers. */
 class TranscriptTraversal {
   constructor(
     private readonly records: TranscriptRecords,
@@ -413,10 +190,23 @@ const sourceSearchCursor = z.strictObject({
 });
 export type SourceTranscriptPageCursor = z.infer<typeof sourcePageCursor>;
 export type SourceTranscriptSearchCursor = z.infer<typeof sourceSearchCursor>;
-export type SourceTranscriptRow =
-  | Omit<TranscriptWordRow, "fragments">
-  | Omit<TranscriptGapRow, "fragments">;
-export type SourceTranscriptSearchEntry = Omit<TranscriptSearchEntry, "fragments" | "partial">;
+export type SourceTranscriptRow = {
+  sourceRange: TimeRange;
+  partial: boolean;
+} & (
+  | {
+      type: "word";
+      id: string;
+      ordinal: number;
+      text: string;
+      kind: WordKind;
+      instant?: true;
+      confidence: number | null;
+      segment: number;
+    }
+  | { type: "gap"; reason: GapReason }
+);
+export type SourceTranscriptSearchEntry = { wordIds: string[]; sourceRange: TimeRange };
 
 /** Reads immutable source-clock evidence without inventing an editing revision. */
 export class SourceTranscriptRead {

@@ -5,29 +5,19 @@ import { isDeepStrictEqual } from "node:util";
 import type { AssetStore } from "./assets.js";
 import type { AcquisitionStore } from "./acquisitions.js";
 import { selectSource, sourceSelectionSchema, type SourceSelection } from "./source-selection.js";
-import { join } from "node:path";
-import { type RevisionStore } from "./library.js";
-import { isSettled, type Recording } from "./capture-store.js";
 import { CatalogError } from "./catalog.js";
 import { retainedPublicationSchema, type JobExecution, type JobQueue } from "./jobs.js";
-import { planAudioTracks } from "./audio.js";
-import type { SourceAudioRead, SourceEvidenceMetadata } from "./evidence.js";
-import { sourceArtifact, sourcePolicy, type SourceProcessing } from "./processing.js";
-import type { TimeRange } from "./presentation-time.js";
 import type { Models } from "./models.js";
 import {
   transcriptPolicy,
   portableTranscript,
   type PortableTranscript,
-  recordingTranscript,
   type SpeechTranscriber,
-  type RecordingTranscriptMetadata,
   type TranscriptStore,
   type TranscriptIdentity,
   type TranscriptSource,
   type TranscriptMetadata,
 } from "./transcript.js";
-import { TranscriptRead, transcriptContinuation } from "./transcript-read.js";
 
 const artifact = "transcript";
 // Native PCM decoding is an execution input, separate from portable transcript schema policy.
@@ -37,28 +27,13 @@ export type PortableTranscriptPublication = z.infer<typeof retainedPublicationSc
 /** The model owner as transcription sees it: readiness, the verified file list and its pins. */
 export type TranscriptionModels = ReturnType<Models["transcription"]>;
 
-type ReadInput = {
-  recordingId: string;
-  revisionId?: string | undefined;
-  cursor?: unknown;
-  limit?: number | undefined;
-};
-
-type RecordingDomain = {
-  store: RevisionStore;
-  source: Pick<SourceProcessing, "status" | "prepare">;
-  evidence: SourceAudioRead;
-  home: string;
-  retained?: ((recordingId: string, generation: string) => boolean) | undefined;
-};
 type AssetDomain = { assets: AssetStore; acquisitions: AcquisitionStore };
 export type TranscriptProcessingOptions = {
   jobs: JobQueue;
   transcripts: TranscriptStore;
   models: TranscriptionModels;
   transcribe: SpeechTranscriber;
-  recording?: RecordingDomain;
-  asset?: AssetDomain;
+  asset: AssetDomain;
 };
 function selectedAudio(domain: AssetDomain, selection: SourceSelection) {
   const selected = selectSource(domain.assets, domain.acquisitions, selection);
@@ -98,151 +73,22 @@ export function assetTranscriptOwner(assets: AssetStore, acquisitions: Acquisiti
   };
 }
 
-/** Source transcripts share one queue, model owner and raw indexer across actual source domains. */
+/** Selected sources share one queue, model owner and raw indexer. */
 export class TranscriptProcessing {
   private readonly jobs: JobQueue;
   private readonly transcripts: TranscriptStore;
   private readonly models: TranscriptionModels;
   private readonly transcribe: SpeechTranscriber;
-  constructor(private readonly options: TranscriptProcessingOptions) {
+  private readonly asset: AssetDomain;
+  constructor(options: TranscriptProcessingOptions) {
     ({
       jobs: this.jobs,
       transcripts: this.transcripts,
       models: this.models,
       transcribe: this.transcribe,
+      asset: this.asset,
     } = options);
   }
-  private get recording() {
-    if (!this.options.recording)
-      throw new CatalogError("UNSUPPORTED_JOB", "Recording transcription is unavailable");
-    return this.options.recording;
-  }
-  private get asset() {
-    if (!this.options.asset)
-      throw new CatalogError("UNSUPPORTED_JOB", "Asset transcription is unavailable");
-    return this.options.asset;
-  }
-
-  /** Changed model or decoder execution identifies new work, never a retry of an old recipe. */
-  private get input() {
-    return `${transcriptPolicy}:${decoderExecution}:${this.models.modelDigest}`;
-  }
-
-  private identity(recordingId: string) {
-    return {
-      target: { kind: "recording" as const, recordingId: recordingId, revisionId: "r0" },
-      artifact,
-      input: this.input,
-    };
-  }
-
-  /** Planning with no spans reads only the header and whether narration was ever acquired. */
-  private narration(recording: Recording, evidence: SourceEvidenceMetadata, spans: TimeRange[]) {
-    return planAudioTracks(
-      {
-        recordingId: recording.recordingId,
-        sourceId: recording.sourceId,
-        sourceEvidence: evidence,
-        spans,
-        track: "narration",
-      },
-      this.recording.evidence,
-      (role) =>
-        join(this.recording.home, "recordings", recording.recordingId, "source", `${role}.mov`),
-    ).tracks[0];
-  }
-
-  status(recordingId: string) {
-    const recording = this.recording.store.get(recordingId);
-    const identity = { recordingId, sourceId: recording.sourceId, sourceRevisionId: "r0" };
-    const blocked = (
-      state: string,
-      reason: string | null,
-      retryable: boolean,
-      dependencies: {
-        artifact: "source";
-        state: string;
-        reason: string | null;
-        retryable: boolean;
-        jobId: string | null;
-      }[] = [],
-    ) => ({ ...identity, state, reason, retryable, jobId: null, published: null, dependencies });
-    if (!isSettled(recording.state))
-      return blocked("not_requested", "capture_not_finalized", false);
-    if (recording.state === "canceled" || recording.sourceDurationUs === null)
-      return blocked("unavailable", "no_usable_video", false);
-    const source = this.recording.source.status(recordingId);
-    if (!source.published)
-      return blocked(source.state, source.reason, source.retryable, [
-        {
-          artifact: "source",
-          state: source.state,
-          reason: source.reason,
-          retryable: source.retryable,
-          jobId: source.jobId,
-        },
-      ]);
-    if (!this.narration(recording, source.published.evidence, []))
-      return blocked("unavailable", "no_narration", false);
-    const status = this.jobs.status(this.identity(recordingId));
-    // A published or attempted transcript stays visible; only starting one needs prepared models.
-    if (status.state === "not_requested" && this.models.status().state !== "ready")
-      return blocked("unavailable", "model_not_prepared", true);
-    return {
-      ...identity,
-      state: status.state as string,
-      reason: status.reason,
-      retryable: status.retryable,
-      jobId: status.jobId,
-      published: status.published
-        ? {
-            generation: status.published.generation,
-            transcript: JSON.parse(status.published.result) as RecordingTranscriptMetadata,
-          }
-        : null,
-      dependencies: [],
-    };
-  }
-
-  prepare(recordingId: string): void {
-    this.recording.source.prepare(recordingId);
-    const status = this.status(recordingId);
-    if (status.state === "not_requested" && status.reason === null && !status.dependencies.length)
-      this.jobs.submit({ ...this.identity(recordingId), lane: "heavy" });
-  }
-
-  /** Background admission waits for prepared models and a published source, one take at a time. */
-  resume(): void {
-    if (!this.options.recording || this.models.status().state !== "ready") return;
-    this.jobs.backfill(
-      { artifact, input: this.input, lane: "heavy" },
-      { artifact: sourceArtifact, input: sourcePolicy },
-    );
-  }
-
-  retry(recordingId: string) {
-    this.prepare(recordingId);
-    const status = this.status(recordingId);
-    if (!status.jobId)
-      throw new CatalogError(
-        status.reason === "model_not_prepared"
-          ? "MODEL_NOT_PREPARED"
-          : status.state === "unavailable"
-            ? "UNAVAILABLE"
-            : "NOT_READY",
-        status.reason ?? "Transcript is not ready to start",
-        { state: status.state, reason: status.reason, dependencies: status.dependencies },
-        status.retryable,
-      );
-    if (
-      ["failed", "unavailable", "canceled"].includes(this.jobs.job(status.jobId).state) &&
-      this.models.status().state !== "ready"
-    )
-      throw new CatalogError("MODEL_NOT_PREPARED", "Speech models are not prepared", {}, true);
-    this.jobs.retry(status.jobId);
-    return this.status(recordingId);
-  }
-
   private execution() {
     return { modelDigest: this.models.modelDigest, pins: this.models.pins, decoderExecution };
   }
@@ -432,7 +278,7 @@ export class TranscriptProcessing {
     );
   }
 
-  private async executeSource({ job, signal }: JobExecution): Promise<string> {
+  async execute({ job, signal }: JobExecution): Promise<string> {
     if (job.target.kind !== "asset" || job.artifact !== artifact)
       throw new CatalogError("UNSUPPORTED_JOB", "Transcript processor cannot execute this job");
     const selection = sourceSelectionSchema.parse(JSON.parse(job.input).selection);
@@ -488,142 +334,24 @@ export class TranscriptProcessing {
     }
   }
 
-  /** Resolves the revision once and the published generation a continuation must still name. */
-  private resolve(input: ReadInput) {
-    const cursor = input.cursor === undefined ? undefined : transcriptContinuation(input.cursor);
-    if (
-      cursor &&
-      (cursor.recordingId !== input.recordingId ||
-        (input.revisionId !== undefined && input.revisionId !== cursor.revisionId))
-    )
-      throw new CatalogError(
-        "ARTIFACT_CHANGED",
-        "Transcript continuation belongs to another recording or revision",
-      );
-    const revision = this.recording.store.revision(
-      input.recordingId,
-      input.revisionId ?? cursor?.revisionId,
-    );
-    this.prepare(input.recordingId);
-    const status = this.status(input.recordingId);
-    if (!status.published) {
-      if (cursor)
-        throw new CatalogError("ARTIFACT_CHANGED", "Transcript generation is no longer published");
-      return { status: { ...status, revisionId: revision.id, page: null } };
-    }
-    const transcript = status.published.transcript;
-    return {
-      reference: {
-        recordingId: input.recordingId,
-        sourceId: transcript.sourceId,
-        revisionId: revision.id,
-        generation: transcript.generation,
-        state: "ready" as const,
-      },
-      transcript,
-      read: new TranscriptRead(this.transcripts, transcript, revision),
-    };
-  }
-
-  get(input: ReadInput & { range?: TimeRange | undefined }) {
-    const target = this.resolve(input);
-    if (target.status) return target.status;
-    const page = target.read.page(input);
-    return { ...target.reference, page: { transcript: target.transcript, ...page } };
-  }
-
-  search(input: ReadInput & { text: string }) {
-    const target = this.resolve(input);
-    if (target.status) return target.status;
-    const page = target.read.search(input);
-    return { ...target.reference, page: { transcript: target.transcript, ...page } };
-  }
-
   async cleanup(signal: AbortSignal): Promise<void> {
-    if (this.options.recording)
-      await this.recording.store.forEachRecording(signal, ({ recordingId }) =>
-        this.cleanupRecording(recordingId, signal),
-      );
-    if (this.options.asset) {
-      let afterSequence = 0;
-      let failure: unknown;
-      for (;;) {
-        signal.throwIfAborted();
-        const page = this.asset.assets.list({ afterSequence, limit: 100 });
-        for (const asset of page.assets) {
-          try {
-            await this.cleanupAsset(asset.id, signal);
-          } catch (error) {
-            signal.throwIfAborted();
-            failure ??= error;
-          }
+    let afterSequence = 0;
+    let failure: unknown;
+    for (;;) {
+      signal.throwIfAborted();
+      const page = this.asset.assets.list({ afterSequence, limit: 100 });
+      for (const asset of page.assets) {
+        try {
+          await this.cleanupAsset(asset.id, signal);
+        } catch (error) {
+          signal.throwIfAborted();
+          failure ??= error;
         }
-        if (!page.nextCursor) break;
-        afterSequence = page.nextCursor.afterSequence;
-        await setImmediate(undefined, { signal });
       }
-      if (failure) throw failure;
+      if (!page.nextCursor) break;
+      afterSequence = page.nextCursor.afterSequence;
+      await setImmediate(undefined, { signal });
     }
-  }
-
-  private cleanupRecording(recordingId: string, signal: AbortSignal) {
-    return this.transcripts.reclaim(
-      { kind: "recording", recordingId },
-      (generation) =>
-        this.jobs.retainsAttempt(
-          { kind: "recording", recordingId: recordingId },
-          artifact,
-          generation,
-        ) || !!this.recording.retained?.(recordingId, generation),
-      signal,
-    );
-  }
-
-  async execute({ job, signal }: JobExecution): Promise<string> {
-    if (job.target.kind === "asset") return this.executeSource({ job, signal });
-    if (job.target.kind !== "recording")
-      throw new CatalogError("UNSUPPORTED_JOB", "Recording processing needs a recording target");
-    if (job.artifact !== artifact || job.target.revisionId !== "r0" || job.input !== this.input)
-      throw new CatalogError("UNSUPPORTED_JOB", "Transcript processor cannot execute this job");
-    const recording = this.recording.store.get(job.target.recordingId);
-    if (
-      !isSettled(recording.state) ||
-      recording.state === "canceled" ||
-      recording.sourceDurationUs === null
-    )
-      throw new CatalogError("UNAVAILABLE", "no_usable_video");
-    const source = this.recording.source.status(job.target.recordingId).published;
-    if (!source) throw new CatalogError("NOT_READY", "Source evidence is not published", {}, true);
-    const track = this.narration(recording, source.evidence, [
-      { startUs: 0, endUs: recording.sourceDurationUs },
-    ]);
-    if (!track?.available.length) throw new CatalogError("UNAVAILABLE", "no_narration");
-    if (this.models.status().state !== "ready")
-      throw new CatalogError("MODEL_NOT_PREPARED", "Speech models are not prepared", {}, true);
-    await this.cleanupRecording(job.target.recordingId, signal);
-    signal.throwIfAborted();
-    const identity = {
-      owner: { kind: "recording" as const, recordingId: job.target.recordingId },
-      sourceId: recording.sourceId,
-      generation: job.attemptId,
-    };
-    return JSON.stringify(
-      recordingTranscript(
-        await this.transcribeSource(
-          identity,
-          {
-            kind: "recording",
-            sourceGeneration: source.evidence.generation,
-            durationUs: recording.sourceDurationUs,
-          },
-          {
-            source: track.source,
-            sourceOffsetUs: track.sourceOffsetUs,
-            available: track.available,
-          },
-          signal,
-        ),
-      ),
-    );
+    if (failure) throw failure;
   }
 }
