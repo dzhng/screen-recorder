@@ -21,7 +21,7 @@ Implement the remaining primitives through their existing owners. Read
 The external caller makes every editorial decision. Read or edit the consumer
 [screenrec skill](../../skills/screenrec/SKILL.md) from that caller's perspective.
 
-**Next pickup: remove orphan recording media/span owners through their remaining contract map, then purge the recording revision schema.**
+**Next pickup: port remaining audio/preview harness consumers and remove their recording owners, then close processing/span ownership and purge the recording revision schema.**
 The [canonical service](assets/23-canonical-service/README.md),
 [shared contracts](assets/23-composition-contract/README.md) and
 [fixture/owner closure](assets/23-owner-fixture-ports/README.md) are merged.
@@ -57,7 +57,7 @@ inspection, preserving cache, CLI, eviction, restart and retry oracles. Its
 orphan adapter are removed; matching-hash semantics and chunk continuity now use
 the current portable scene store. Shared raster/pointer JavaScript is unchanged.
 Preserve portable generations, exact time and render-workspace lifetimes. Remove
-orphan recording media/span classes and `RevisionStore` through the current dependency
+orphan recording audio/preview/processing/span classes and `RevisionStore` through the current dependency
 map. Source normalization and common movie validation already have independent
 owners. The
 [explicit caller checkpoint](assets/23-owner-fixture-ports/personal-release-caller-verification.json)
@@ -81,8 +81,17 @@ compiled geometry, including authored and ancestor reduction. Crop and rotated
 coverage preserve the established size cap; the tiny glyph remains difficult to
 recognize at 32 pixels. Complete comparisons and an independent visual review
 preserve full-size and clean output. This is focused test-executable proof;
-production-worker and installed acceptance remain separate. Remaining audio/movie
-and old-family lifetime guarantees still precede native registration removal.
+production-worker and installed acceptance remain separate. The
+[frame owner checkpoint](assets/23-owner-fixture-ports/frame-owner-purge-verification.json)
+removes recording frame/materialization/selectors after current batch failure,
+retry and delivery guarantees are preserved. Sparse/index native caller ports
+retain their pixel/cache gates but have only syntax proof. The
+[native audio checkpoint](assets/23-owner-fixture-ports/source-native-audio-contracts-verification.json)
+preserves recorded silence versus missing samples and late consumer failure with
+exact PCM. The [resampling endpoint checkpoint](assets/23-owner-fixture-ports/composition-audio-endpoints-verification.json)
+preserves both admitted boundaries and excludes their adjacent source samples.
+These are focused test-executable results; remaining movie and old-family lifetime
+guarantees still precede native registration removal.
 Historical maps are prerequisites, not verification runs.
 
 The final joint purge removes the actual recording revision field from its type,

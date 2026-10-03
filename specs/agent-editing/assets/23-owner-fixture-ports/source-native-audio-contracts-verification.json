@@ -1,0 +1,65 @@
+{
+  "checkpoint": "selected-source-occupancy-and-stream-failure",
+  "commits": [
+    "b3732a539de1ce8be7f256f90f5c2ca28b5aa2fc",
+    "8a3cc0cf8f8d1f32c2504cc4148a1bbad6a32b90"
+  ],
+  "integratedCommits": [
+    "622d69c5",
+    "e1c26199"
+  ],
+  "archives": [
+    {
+      "file": "source-native-audio-contracts-evidence.tar.gz",
+      "bytes": 15639164,
+      "sha256": "6e5cb05b8fff6bd63202fa4961a1e473294436349d96be77bd8894618b6f2b59",
+      "payloads": 103,
+      "reportMember": "source-audio-occupancy-8d423c29/report.json",
+      "manifest": "source-native-audio-contracts-manifest.json"
+    },
+    {
+      "file": "source-audio-diagnostics-evidence.tar.gz",
+      "bytes": 3888173,
+      "sha256": "8b842b47fc287b84e63a5ac0f7834673ffa99df422a985fb179a9bfc63033a97",
+      "payloads": 14,
+      "reportMember": "source-audio-diagnostics-b3732a53/report.json",
+      "manifest": "source-audio-diagnostics-manifest.json"
+    }
+  ],
+  "sourcePins": [
+    {
+      "path": "helpers/mac/Tests/SourceAudio/main.swift",
+      "sha256": "556ac02fa3ce4e03bdd7321b68fd6c5147284fa35ffc78d054b0fb155ea3293d",
+      "gitBlob": "a1b8cd548b1597bcc0d603d1da85f5ac137bbb22"
+    },
+    {
+      "path": "helpers/mac/Tests/SourceAudio/SourceOccupancyTests.swift",
+      "sha256": "d3688bf7f5d059d49108d7447a86a367b6275115ae599bf7cdb17a4835d6be5a",
+      "gitBlob": "5822441dcd2a2a76450dae465973b93ac1daf0fa"
+    },
+    {
+      "path": "helpers/mac/Tests/SourceAudio/SourceStreamTests.swift",
+      "sha256": "0db888665afe28a13d52f11433d347f0e76a9095bdd63bb7f8beae5be631f865",
+      "gitBlob": "eaf4a2a6ca620a1cb97df3df408b5eca4e2e6b85"
+    }
+  ],
+  "rootVerification": {
+    "allPayloadsMatched": 117,
+    "allCurrentTestSourcePinsMatched": 3,
+    "settledDiffReviewed": true
+  },
+  "contract": "Recorded quiet samples remain available; an empty container edit is unavailable. A consumer failure after successful blocks propagates the original error and stops further delivery.",
+  "proof": {
+    "nativeOccupancyFloats": 96000,
+    "nativeStreamFloats": 57600,
+    "failurePrefixFloats": 49152,
+    "productionControls": "Quiet mislabeled missing; sink error swallowed. Actual red executions retained, production restored unchanged.",
+    "diagnosticFollowup": "Only affected stream selector rerun; exact PCM unchanged. Failure-artifact branch source-reviewed, not independently fault-injected."
+  },
+  "limits": [
+    "Focused native test executable, not production worker or installed acceptance",
+    "32 named audio/media source pins match preserved worker; changed Frames modules are outside this correspondence",
+    "Original short-read reference setup failures excluded; chunked independent AVAudioFile reference used",
+    "Generic descriptor, WAVE budget and codec proofs remain in their existing banks; no universal movie claim"
+  ]
+}

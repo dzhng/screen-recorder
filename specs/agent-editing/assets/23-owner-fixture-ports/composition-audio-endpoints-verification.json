@@ -1,0 +1,49 @@
+{
+  "checkpoint": "resampling-source-endpoints",
+  "commit": "2ab9dbdcac9740d2cf76400c59e727d082aecea9",
+  "integratedCommit": "27b07206dcf9fad60d473691c4d8c9de78c9c4d1",
+  "archive": {
+    "file": "composition-audio-endpoints-evidence.tar.gz",
+    "bytes": 15139711,
+    "sha256": "b55cf5aa66ddc881c58a5070b71e2341c9e0c66c254f3fb510cefbe322d23122",
+    "payloads": 143,
+    "reportMember": "composition-audio-endpoints-8a3cc0cf/report.json",
+    "manifest": "composition-audio-endpoints-manifest.json"
+  },
+  "sourcePins": [
+    {
+      "path": "helpers/mac/Tests/CompositionAudio/main.swift",
+      "sha256": "e774b053365c022575f151a4fdb48adbf4853798e550ce1652d5d138064e3a66",
+      "gitBlob": "b7bf048a3c0a84dea973e07ea171b9b1815a5d04"
+    },
+    {
+      "path": "helpers/mac/Tests/CompositionAudio/ResamplingEndpointTests.swift",
+      "sha256": "2d11c74a51cb25734c40dc8bfa383409cd3a7c3505aabfadb37b1f97c60fc48f",
+      "gitBlob": "a8df71034ee3c6441fa94b52936024d876e838cd"
+    }
+  ],
+  "rootVerification": {
+    "allPayloadsMatched": 143,
+    "allCurrentTestSourcePinsMatched": 2,
+    "settledDiffReviewed": true
+  },
+  "contract": "Resampling excludes samples immediately outside the admitted source interval and preserves impulses on both admitted boundaries.",
+  "proof": {
+    "outputFrames": 167999,
+    "sourceRangeUs": [
+      2375000,
+      5874983
+    ],
+    "nativeAdmittedFrames": [
+      104738,
+      259087
+    ],
+    "productionControls": "Move native start +1, end -1 and end +1; three actual red executions. Fixture CAF bytes and normalized requests unchanged.",
+    "finalRunner": "Current small CompositionAudio target default runner exit0; all four PCMs byte-identical to initial unchanged-production outputs"
+  },
+  "limits": [
+    "No production change remains; test executable proof only",
+    "Historical 09c audio comparison matches 29/31 source pins; current 8a audio correspondence is limited to 32 named paths",
+    "No codec-wide, whole-movie, installed, playback or listening acceptance"
+  ]
+}

@@ -7520,3 +7520,32 @@ decision boundary without adding a toolkit policy. Audio excerpts retain their
 requested context across support gaps and record unavailable intervals. A proposed
 context clamp was rejected after inspecting the actual audio owner. Controlled
 caller checks pass; no personal editing or installed/media acceptance is implied.
+
+**Sound, medium confidence — native frame callers inspect selected source pictures.**
+A caller asks for a source time and receives the picture containing that time.
+The retired recording selector instead interpreted a caller-authored revision,
+mapped its kept spans and applied nearest-picture and annotation defaults.
+Keeping that recording-specific interpreter in an adapter would create a
+compatibility owner beside explicit source/project inspection. This choice belongs to `5019f7bb`; current
+source/project tests preserve useful pin, retry and lifetime guarantees, and the
+native callers preserve their pixel and cache checks. Their generated source
+metadata follows existing fixture practice; actual native execution remains open.
+The plan required preservation without prescribing the obsolete selector's fate.
+
+**Sound, high confidence — concurrent frame attempts have no scheduling contract.**
+When a batch contains valid and invalid requests, each item keeps its result and
+the public response keeps caller order, including duplicates. The worker may
+start independent requests in either order. Tests compare all attempts without
+inventing an execution sequence that clients cannot observe. This choice belongs
+to `5019f7bb`; the actual service owns jobs, cache and delivery while a fixed PNG
+controls only the native edge. It creates no new queue or decoder-quality claim.
+
+**Sound, high confidence — preserve resampling boundaries without restoring an automatic mix.**
+A selected interval contains two impulses exactly on its admitted sample cells;
+impulses just outside it must contribute nothing. A small explicit composition
+tests that distinction with the inherited source offset and output frame quota.
+Restoring the old recording mix and fades solely for this check would restore a
+retired policy owner. This choice belongs to `2ab9dbdc`; independent positive and
+negative controls retain the numerical contract, while codec and whole-movie
+guarantees stay with their separate checks. The plan required endpoint preservation
+without requiring the obsolete whole-recording recipe.

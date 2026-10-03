@@ -81,8 +81,16 @@ full-size and clean frames are unchanged. Tiny crops retain the established
 rasterization limit. The
 [explicit caller checkpoint](../assets/23-owner-fixture-ports/personal-release-caller-verification.json)
 ports the personal-release harness through controlled, validated operation
-replies; installed and real media execution remain open. Remaining core media/span
-owners and native audio/movie/lifetime guarantees precede actual schema removal.
+replies; installed and real media execution remain open. The
+[frame owner checkpoint](../assets/23-owner-fixture-ports/frame-owner-purge-verification.json)
+removes recording frame/materialization/selectors with current service isolation,
+retry and delivery proof; its sparse/index native callers remain syntax-only.
+[Native audio](../assets/23-owner-fixture-ports/source-native-audio-contracts-verification.json)
+and [resampling endpoints](../assets/23-owner-fixture-ports/composition-audio-endpoints-verification.json)
+preserve physical occupancy, late consumer failure, exact PCM and both selected
+source boundaries through focused native executables. Remaining audio/preview,
+processing/span owners and unmatched movie/lifetime guarantees precede actual
+schema removal.
 Preserve valuable source/project guarantees through current owners. Missing inherited acoustic
 or physical acceptance does not block these ports; matched
 verified guarantees and actual consumer dependencies still govern deletion.

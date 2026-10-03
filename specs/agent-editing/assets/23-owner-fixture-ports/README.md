@@ -43,6 +43,9 @@ controlled replies prove their contracts without becoming decode or quality proo
 | Portable scene semantics, orphan carrier closure and source-cache scale caller | [Current owners](source-cache-carrier-closure-verification.json) |
 | Delivered cursor/trail readability and crop sizing | [Compiled pictures](composition-pointer-readability-verification.json) |
 | Caller-selected cuts, source/project clocks and adopted inspection | [Explicit caller](personal-release-caller-verification.json) |
+| Independent source-frame failures, retry and delivery ownership | [Frame owner removal](frame-owner-purge-verification.json) |
+| Recorded silence, missing samples and late stream consumer failure | [Native audio](source-native-audio-contracts-verification.json) |
+| Resampling exclusion and admitted source endpoints | [Audio endpoints](composition-audio-endpoints-verification.json) |
 
 ## Ownership and proof limits
 
@@ -74,9 +77,20 @@ geometry to the existing cursor/trail sizing owner. Complete comparisons preserv
 full-size and clean output; tight crop glyphs match the established reference but
 remain difficult to recognize at 32 pixels. No new sizing recipe is introduced.
 
-Remaining obligations include orphan core media/span owners, current-source scale
-execution, audio/movie numerical and lifetime contracts and the actual schema
-purge. The explicit caller harness uses current operations through controlled
+Recording frame/materialization/selectors are removed after their useful checks
+move to current source/project owners. Service batches isolate bad admissions,
+unreadable cached items and failed jobs without starving valid siblings. The
+native sparse/index callers retain their actual pixel and cache gates, with
+syntax scope until execution.
+
+Focused native audio checks preserve physical occupancy, exact PCM and late
+consumer failure. Composition resampling preserves admitted boundary impulses
+while excluding adjacent samples. These checks use current test executables;
+they do not establish whole-movie or production-worker acceptance.
+
+Remaining obligations include orphan audio/preview/processing/span owners,
+current-source scale execution, unmatched movie/lifetime contracts and the actual
+schema purge. The explicit caller harness uses current operations through controlled
 replies; installed and actual media execution remain open. Installed switching, continuous playback, physical capture
 and speech/listening acceptance remain separate release gates. No source recording
 or accepted audition is changed by these fixture ports.

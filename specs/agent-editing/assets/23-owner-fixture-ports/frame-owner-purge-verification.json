@@ -1,0 +1,99 @@
+{
+  "checkpoint": "current-source-frame-owner-removal",
+  "commits": [
+    "5019f7bb6b013fba74f0199a3ff8c9aee42437b0",
+    "60fceb65dc1b2f89498355c62bbee59f9ca01098"
+  ],
+  "archives": [
+    {
+      "file": "frame-owner-purge-evidence.tar.gz",
+      "bytes": 112247,
+      "sha256": "779d2bc40be8c7b0e28bbd49abca07694eeb40a52455cc524c9bb0551d5518af",
+      "payloads": 113,
+      "reportMember": "report.json",
+      "manifest": "frame-owner-purge-manifest.json"
+    },
+    {
+      "file": "frame-owner-lease-cleanup-evidence.tar.gz",
+      "bytes": 7013,
+      "sha256": "3210e43ffb6806edb286c4662cc126e0bf947b7703d4212ccc2728c07fb2da9a",
+      "payloads": 16,
+      "reportMember": "report.json",
+      "manifest": "frame-owner-lease-cleanup-manifest.json"
+    }
+  ],
+  "sourcePins": [
+    {
+      "path": "apps/macos/tests/index-inspection.test.mjs",
+      "sha256": "cbbc66f4726ac661125f51dc4c314b835f5654ccc46976c8fb86aa54c26d32cd"
+    },
+    {
+      "path": "apps/macos/tests/sparse-frame-inspection.test.mjs",
+      "sha256": "72e252d5a07e05bd147992c42c672ebeb4f8bf2b3ffe00b4760013ce82043852",
+      "bytes": 13017
+    },
+    {
+      "path": "packages/core/package.json",
+      "sha256": "ddba42d4916a912d3cca5df84cb1f79b40ea0e967a26d94ab187842c429efead",
+      "bytes": 8436
+    },
+    {
+      "path": "packages/core/src/frame-materialization.ts",
+      "deleted": true,
+      "baseSha256": "55cf507b2dd5ef3a7d37d8fee761eef6d621dec72b813c7e3498e57e7f1c6813"
+    },
+    {
+      "path": "packages/core/src/frames.test.ts",
+      "deleted": true,
+      "baseSha256": "724bf93dab0740f4368790a5dbbe9ba5c0644444c0033c2dd4a4f85d9ce1c6d3"
+    },
+    {
+      "path": "packages/core/src/frames.ts",
+      "deleted": true,
+      "baseSha256": "8d08c77e78228a3630a95c384a26b10b0ef04015be5076e8975bfea0a55d65b2"
+    },
+    {
+      "path": "packages/core/src/selection-evidence.test.ts",
+      "deleted": true,
+      "baseSha256": "0511909747f0c4992984675749a03643de75b1f49b05c1c57ab2e4000b4ba02e"
+    },
+    {
+      "path": "packages/core/src/selection-evidence.ts",
+      "deleted": true,
+      "baseSha256": "47977cd6e6b414d23db633c860f26f65e4a91b1bf8384d04902edb1ee63e0e5f"
+    },
+    {
+      "path": "packages/core/src/selection.test.ts",
+      "deleted": true,
+      "baseSha256": "c0d469d32dc1c67bf1ee1642f8f5322785146ff2bc3da2e04c3d3d44d249b5f7"
+    },
+    {
+      "path": "packages/core/src/selection.ts",
+      "deleted": true,
+      "baseSha256": "a3217390fc421ecc1d824caa324b8c28c0963422bd036706d0fe7b5c8f3caac4"
+    },
+    {
+      "path": "apps/service/src/frame-batch.test.ts",
+      "sha256": "9025906e7a523afeb00bc0c2f11039bd535c75dbfc703ea0732fd560a51e47ac"
+    }
+  ],
+  "rootVerification": {
+    "allPayloadsMatched": 129,
+    "allCurrentSourceAndDeletionPinsMatched": 11,
+    "settledDiffReviewed": true
+  },
+  "proof": {
+    "earlierCurrentCases": 35,
+    "finalAfterFixtureCleanup": 3,
+    "actualFinalPID": 85388,
+    "finalExit": 0,
+    "nativeCallers": "Syntax only; generated recipes and complete pixel/cache/CLI/MCP oracles ported but not executed",
+    "controlledNativeEdge": "Fixed valid PNG and metadata; actual service socket, source/job/cache/delivery owners"
+  },
+  "contract": "Selected source picture requests preserve ordered duplicates, independent admission/cache failures, explicit retry generation and delivery ownership. Capture does not select edited playback frames.",
+  "limits": [
+    "No native decoding or picture quality claim from controlled PNGs",
+    "Sparse-frame and index native runtime gates remain open",
+    "Remaining audio/preview/processing/span owners and catalog schema require separate closure"
+  ]
+}

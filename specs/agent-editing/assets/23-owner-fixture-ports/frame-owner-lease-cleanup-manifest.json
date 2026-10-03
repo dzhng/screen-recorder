@@ -1,0 +1,89 @@
+{
+  "commit": "60fceb65dc1b2f89498355c62bbee59f9ca01098",
+  "payloads": [
+    {
+      "path": "batch-three/process.json",
+      "bytes": 224,
+      "sha256": "742d474da0a5675dcf416b0aef523e66f9639198177ee513781287fcf62bae72"
+    },
+    {
+      "path": "batch-three/stderr",
+      "bytes": 169,
+      "sha256": "cc9370cea54c8866d80254668aea94186da385163f42372d914a19784e622aea"
+    },
+    {
+      "path": "batch-three/stdout",
+      "bytes": 182,
+      "sha256": "fe2c67b9ed882b7ac777f2684d64f7a9e574287cfb3df41cca77506e39cf7b89"
+    },
+    {
+      "path": "batch-three/terminal.json",
+      "bytes": 105,
+      "sha256": "74e03639d8fff1c4c3bd0944de123954b6e888f07d87f72205e6553057c48878"
+    },
+    {
+      "path": "commit/process.json",
+      "bytes": 211,
+      "sha256": "bd5871400a95f299b037c1acd73bdcf7960862d66875f53f515186fef439135a"
+    },
+    {
+      "path": "commit/stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "commit/stdout",
+      "bytes": 137,
+      "sha256": "0627b64db0c5af1bf0a8e8bfd09c891d0262b04dafcfe50050641834e691b4de"
+    },
+    {
+      "path": "commit/terminal.json",
+      "bytes": 105,
+      "sha256": "46856a7b5c92866f88bb1658943344d9efb40ce84454fb75e92266794b6e61a3"
+    },
+    {
+      "path": "index-syntax/process.json",
+      "bytes": 195,
+      "sha256": "3982a6eeb734f1a162531b2241ef37471e0d591a9a137536642fdc1f6623f486"
+    },
+    {
+      "path": "index-syntax/stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "index-syntax/stdout",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "index-syntax/terminal.json",
+      "bytes": 105,
+      "sha256": "241004e1ba5a22a2e1386b57d4dea189b9682b35cf20f58be8b8b24bb0068dcc"
+    },
+    {
+      "path": "report.json",
+      "bytes": 1311,
+      "sha256": "ba545e7d745219e2dac2fb5f45e907dd72b92fe2eda62d9a120d040544c9e77f"
+    },
+    {
+      "path": "run.py",
+      "bytes": 955,
+      "sha256": "495065cfb784bb546f6eb14d0c6f432d35550e59a8d4681d178e71f117009381"
+    },
+    {
+      "path": "sources/apps/macos/tests/index-inspection.test.mjs",
+      "bytes": 6509,
+      "sha256": "cbbc66f4726ac661125f51dc4c314b835f5654ccc46976c8fb86aa54c26d32cd"
+    },
+    {
+      "path": "sources/apps/service/src/frame-batch.test.ts",
+      "bytes": 8839,
+      "sha256": "9025906e7a523afeb00bc0c2f11039bd535c75dbfc703ea0732fd560a51e47ac"
+    }
+  ],
+  "archive": {
+    "bytes": 7013,
+    "sha256": "3210e43ffb6806edb286c4662cc126e0bf947b7703d4212ccc2728c07fb2da9a"
+  }
+}
