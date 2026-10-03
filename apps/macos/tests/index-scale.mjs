@@ -14,7 +14,7 @@ import { app, launchReady, socketPath, temporary } from "./harness.mjs";
 // Explicit long-running lab, excluded from the default native test glob. Build first.
 // SCREENREC_INDEX_SCALE_EVIDENCE: empty absolute output directory (default: fresh /tmp directory).
 // SCREENREC_INDEX_SCALE_VIDEO: optional absolute path to the preserved generated fixture;
-// copied read-only into this run's disposable recording. Its hash identifies comparable runs.
+// copied read-only into this run's disposable source fixture. Its hash identifies comparable runs.
 const durationUs = 1_800_000_000;
 // This bounds the measurement run; the fixture duration is not a processing-time SLA.
 const timeoutMs = 45 * 60_000;

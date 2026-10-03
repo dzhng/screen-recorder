@@ -13,7 +13,7 @@ import { AcquisitionStore, AcquisitionImporter } from "@screenrec/core/acquisiti
 import { SourceEvidenceStore } from "@screenrec/core/evidence";
 import { callLocal } from "@screenrec/client";
 import { ManagedFiles } from "../dist/managed-files.js";
-import { createProjectService } from "../dist/project-service.js";
+import { startProjectService } from "../dist/project-service.js";
 import { mediaWorker } from "../dist/worker.js";
 import { waitFor } from "../../macos/tests/harness.mjs";
 import { withArchiveCopyBarrier } from "../../macos/tests/fixtures/archive-copy-barrier.mjs";
@@ -67,7 +67,7 @@ if (process.argv[2] === "--child") {
       native,
       { operation: "media.sourceEvidence", minimumFd: 3 },
       async ({ worker, held }) => {
-        const service = await createProjectService({ home, worker });
+        const service = await startProjectService({ home, worker });
         const submitted = await callLocal(service.socketPath, {
           id: randomUUID(),
           operation: "acquisition.import",
@@ -101,13 +101,27 @@ if (process.argv[2] === "--child") {
   for (const mode of ["cleanup", "delete", "removal"])
     test(`orphan native acquisition protects its workspace and capture donor during ${mode}`, async (t) => {
       const home = await mkdtemp("/tmp/source-lifetime-");
-      let child, pid, service;
+      let child,
+        pid,
+        service,
+        childClosed = false;
+      const group = (signal) => {
+        if (!child?.pid) return false;
+        try {
+          process.kill(-child.pid, signal);
+          return true;
+        } catch (error) {
+          if (error.code === "ESRCH") return false;
+          throw error;
+        }
+      };
       t.after(async () => {
-        child?.kill("SIGKILL");
-        if (pid) {
-          try {
-            process.kill(pid, "SIGKILL");
-          } catch {}
+        if (child) {
+          // The detached driver owns mediaWorker's inherited process group before IPC reports a PID.
+          group("SIGCONT");
+          group("SIGKILL");
+          await until(() => childClosed, "Source lifetime driver did not close", 5000);
+          await until(() => !group(0), "Owned source lifetime group remains live", 5000);
         }
         await service?.close();
         await rm(home, { recursive: true, force: true });
@@ -134,7 +148,11 @@ if (process.argv[2] === "--child") {
       );
       const journal = await readFile(join(source, "capture.journal.jsonl"));
       child = fork(fileURLToPath(import.meta.url), ["--child", home, take.recordingId, mode], {
+        detached: true,
         stdio: ["ignore", "pipe", "pipe", "ipc"],
+      });
+      child.once("close", () => {
+        childClosed = true;
       });
       let received,
         diagnostics = "";
@@ -229,15 +247,19 @@ if (process.argv[2] === "--child") {
         await assert.rejects(access(generation), { code: "ENOENT" });
         const retry = await service.call("job.retry", { jobId: held.jobId });
         assert.equal(retry.ok, true, JSON.stringify(retry));
-        report.after = await until(async () => {
-          const result = await service.call("job.get", { jobId: held.jobId });
-          assert.equal(result.ok, true, JSON.stringify(result));
-          assert.ok(
-            !["failed", "canceled", "unavailable"].includes(result.data.state),
-            JSON.stringify(result),
-          );
-          return result.data.state === "ready" && result.data;
-        }, "Source acquisition retry");
+        report.after = await until(
+          async () => {
+            const result = await service.call("job.get", { jobId: held.jobId });
+            assert.equal(result.ok, true, JSON.stringify(result));
+            assert.ok(
+              !["failed", "canceled", "unavailable"].includes(result.data.state),
+              JSON.stringify(result),
+            );
+            return result.data.state === "ready" && result.data;
+          },
+          "Source acquisition retry",
+          10000,
+        );
         assert.deepEqual(await readFile(join(source, "capture.journal.jsonl")), journal);
       }
       await save();

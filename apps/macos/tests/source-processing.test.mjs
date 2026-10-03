@@ -84,7 +84,8 @@ test("explicit source admission supports both spellings of an absolute temporary
       await service.close();
       service = await startPublicService(home, native);
       const again = await service.call("cursor.raw", request);
-      assert.deepEqual(again, raw);
+      assert.equal(again.ok, true, JSON.stringify(again));
+      assert.deepEqual(again.data, raw.data);
     } finally {
       await service.close();
     }

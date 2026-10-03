@@ -1,7 +1,8 @@
 import { DatabaseSync } from "node:sqlite";
 import { setTimeout as delay } from "node:timers/promises";
 
-/** One SQLite snapshot. A transient writer lock leaves an explicit missing measurement;
+/** Current DerivedCache and ScreenshotIndexStore share this catalog snapshot, including
+ * selected-source index entries. A transient writer lock leaves an explicit missing measurement;
  * callers can keep observing the render and require a complete snapshot at completion. */
 export async function indexScaleMetrics(database, waitMs = 1000) {
   const deadline = performance.now() + waitMs;

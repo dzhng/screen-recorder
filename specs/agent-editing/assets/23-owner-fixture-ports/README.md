@@ -47,7 +47,8 @@ controlled replies prove their contracts without becoming decode or quality proo
 | Recorded silence, missing samples and late stream consumer failure | [Native audio](source-native-audio-contracts-verification.json) |
 | Resampling exclusion and admitted source endpoints | [Audio endpoints](composition-audio-endpoints-verification.json) |
 
-[Capture/source caller ports](capture-source-caller-verification.json) bind the remaining
+[Capture/source caller ports](capture-source-caller-verification.json) and their
+[review corrections](capture-source-caller-followup-verification.json) bind the remaining
 source, capture, recovery and pointer callers to current acquisition/project owners.
 Only their syntax and the unchanged pure presentation algorithms ran in that pass;
 actual native scene, scale, trail, orphan-worker and retained paused-movie gates

@@ -1,20 +1,37 @@
 import assert from "node:assert/strict";
 import { mkdtempSync, rmSync } from "node:fs";
 import { join } from "node:path";
-import { DatabaseSync } from "node:sqlite";
 import { test } from "node:test";
 import { indexScaleMetrics } from "./fixtures/index-scale-metrics.mjs";
+import { Catalog } from "../../../packages/core/dist/catalog.js";
+import { DerivedCache } from "../../../packages/core/dist/cache.js";
+import { ScreenshotIndexStore } from "../../../packages/core/dist/screenshot-index.js";
+import { AssetStore } from "../../../packages/core/dist/assets.js";
+import { AcquisitionStore } from "../../../packages/core/dist/acquisitions.js";
+import { SceneEvidenceStore, assetSceneOwner } from "../../../packages/core/dist/scene-evidence.js";
+import { sourceIndexDomain } from "../../../packages/core/dist/source-index.js";
+import { selectSource } from "../../../packages/core/dist/source-selection.js";
 
 function fixture(t) {
   const home = mkdtempSync("/tmp/screenrec-scale-metrics-lock-");
-  const database = join(home, "library.sqlite");
-  const writer = new DatabaseSync(database);
-  writer.exec(`CREATE TABLE derived_cache(bytes INTEGER);
-    CREATE TABLE screenshot_index_entries(bytes INTEGER,candidate TEXT,frame TEXT);
-    INSERT INTO derived_cache VALUES(37);
-    INSERT INTO screenshot_index_entries VALUES(81,'{"requestedSourceUs":100}','{}');`);
+  const database = join(home, "catalog.sqlite");
+  const catalog = new Catalog(database);
+  new DerivedCache(catalog, home, () => {});
+  const assets = new AssetStore(catalog, home),
+    acquisitions = new AcquisitionStore(catalog);
+  const scenes = new SceneEvidenceStore(catalog, assetSceneOwner(assets, acquisitions));
+  new ScreenshotIndexStore(
+    catalog,
+    home,
+    sourceIndexDomain((selection) => selectSource(assets, acquisitions, selection), scenes, null),
+  );
+  const writer = catalog.catalog;
+  // Controlled measurement rows, not a PNG publication; schema comes from current owners.
+  writer.exec(`INSERT INTO derived_cache(id,ownerKind,ownerId,bytes,touched) VALUES('cache','asset','asset',37,0);
+    INSERT INTO screenshot_index_entries(ownerKind,ownerId,generation,ordinal,bytes,candidate,frame,device,inode,modified)
+    VALUES('asset','asset','generation',0,81,'{"requestedSourceUs":100}','{}',0,0,0);`);
   t.after(() => {
-    writer.close();
+    catalog.close();
     rmSync(home, { recursive: true });
   });
   return { database, writer };

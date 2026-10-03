@@ -1,0 +1,81 @@
+{
+  "checkpoint": "capture/source caller review corrections",
+  "baseCommit": "b17e414308643df76ccebf6ff9a092d6073dfae5",
+  "originalReport": "capture-source-caller-verification.json",
+  "archive": {
+    "file": "capture-source-caller-followup-evidence.tar.gz",
+    "bytes": 105806,
+    "sha256": "3a7c587a35b86e4e5c0dd22f4e42b4f11be87d1f35be8f21a1dda3b928243df3",
+    "hashedPayloads": 66,
+    "memberCount": 67,
+    "manifest": "manifest.json"
+  },
+  "implementationReport": "report.json",
+  "sourcePins": [
+    {
+      "path": "apps/macos/tests/fixtures/index-scale-metrics.mjs",
+      "sha256": "43a82b59c5f184c76ecdeed478eb834bb0df61683cbf7b134b2f330e2b395d60"
+    },
+    {
+      "path": "apps/macos/tests/index-scale-metrics.test.mjs",
+      "sha256": "1f997225431e43150570614f9df80e87186cb3047f6c3156bdbe7bdb9a40985e"
+    },
+    {
+      "path": "apps/macos/tests/index-scale.mjs",
+      "sha256": "2123c14c6b9dafa24a3b10363930b70528db9b963f332c49d9e43d9802219e49"
+    },
+    {
+      "path": "apps/macos/tests/source-processing.test.mjs",
+      "sha256": "c39a8c810dfe58d36fd0828fb410476c2ec59424459a612527225dd67a3646b3"
+    },
+    {
+      "path": "apps/service/tests/source-lifetime.mjs",
+      "sha256": "373e49f14a950c050a5581f77e5301d14e7206bb487a633d85db73475ea60208"
+    },
+    {
+      "path": "specs/agent-editing/assets/23-owner-fixture-ports/README.md",
+      "sha256": "6ecaf96479b050fa17583cfff048612bc5d66d813b1e091089c2aa1dd0dd7ad9"
+    }
+  ],
+  "ownerPins": [
+    {
+      "path": "apps/service/src/project-service.ts",
+      "sha256": "27b0d12f956a9e14910c46eeb943072aef823af84acdabd71b4465ef537dbfdc"
+    },
+    {
+      "path": "apps/service/src/worker.ts",
+      "sha256": "b195f3c83ffc35345294d9e7c41befee0d933ed9af16946cafaaaa5c8b2beff3"
+    },
+    {
+      "path": "packages/core/src/catalog.ts",
+      "sha256": "4bf2e2f86003d21e811fcb3e9516c66359798fa28dd4eb0800172be6723ab236"
+    },
+    {
+      "path": "packages/core/src/cache.ts",
+      "sha256": "1695c8685ffa88c7cb5e517961bace112b84a01b557de5de57f75648f452e8d1"
+    },
+    {
+      "path": "packages/core/src/screenshot-index.ts",
+      "sha256": "7bfc4af418774db71ec5d25bd6fba25315462abe422a80dabb3ff578b5ee6268"
+    },
+    {
+      "path": "packages/core/src/source-index.ts",
+      "sha256": "8e31cc6d9cd5ded498aef77b9e89df26abbb5f2fae51761913ae0a45ab70f59e"
+    }
+  ],
+  "proof": {
+    "linkerBefore": "before-linker-process.json +before-linker-terminal.json captured nonexistent createProjectService export, not a product or native regression.",
+    "linkerFinal": "final-linker-process.json +final-linker-terminal.json +final-linker-result.json:3entries compiled. Packages external; local dist imports resolved to owning source by frozen linker.mjs. Source-lifetime/source-processing bundles never executed.",
+    "metrics": "metrics-owner-process.json +metrics-owner-terminal.json:3cheap current-owner snapshot/lock/error tests passed.",
+    "syntax": "final-syntax.json:5changed mjs files passed",
+    "lint": "final-lint-process.json +final-lint-terminal.json",
+    "format": "final-format-process.json +final-format-terminal.json",
+    "setupFailures": "metrics attempt named wrong emitted output path; metrics-current attempted execution failed resolving zod before case bodies. Corrected emitted path and linked existing core dependencies; neither is red product behavior proof."
+  },
+  "correction": "Root initial inference that screenshot_index_entries was retired was incorrect: current ScreenshotIndexStore creates/consumes it and current source-index candidate retains requestedSourceUs; metrics SQL was already compatible and has no new production statistics API/table.",
+  "limits": [
+    "Native teardown/lifetime, raw restart, trail/source capture/media and30minute scale execution remain deferred.",
+    "Compile succeeds without proving external package runtime exports or production/installed acceptance.",
+    "Original sourcecaller bank and choices retained; this report overrides only changed5sourcepins and qualifies the four caller corrections."
+  ]
+}
