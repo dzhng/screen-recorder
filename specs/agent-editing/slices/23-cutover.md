@@ -13,8 +13,11 @@ pass with a standalone capture-only override. Ordinary protected-app screenshots
 continuous A/V/pointer preservation and installed release acceptance remain separate.
 The [canonical service composition](../assets/23-canonical-service/README.md)
 now uses the fresh project owner through the default entry and removes its
-separate development entry. Broader obsolete-owner removal and installed switching
-remain incomplete.
+separate development entry. Obsolete core/native owners and the recording revision schema are removed.
+The [current worker/service smoke](../assets/23-owner-fixture-ports/current-worker-service-verification.json)
+passes its generated-source audio/preview, restart and native cleanup scope.
+The once-at-implementation-end repository gate, unmatched current runtime
+contracts and installed switching remain incomplete.
 The [current preservation correspondence](../assets/acceptance-maintenance/cutover-preservation.md)
 maps saved outcomes and actual service/native-consumer cases without adding another
 UI or repeating accepted media cohorts. [Pinned preview/export recovery](../assets/acceptance-maintenance/cutover-outcomes.md#pinned-previewexport-and-recovery)

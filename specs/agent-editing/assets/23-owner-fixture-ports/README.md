@@ -49,6 +49,8 @@ controlled replies prove their contracts without becoming decode or quality proo
 | Current movie lifetime and scale caller contracts | [Movie caller ports](movie-harness-cutover-verification.json) |
 | Explicit audio/preview inspection and shared render consumption | [Audio/preview owner removal](audio-preview-owner-purge-verification.json) |
 | Capture facts without recording edits, source jobs and prior-catalog refusal | [Core/schema](core-owner-verification.json), [contract map](core-owner-contract-map.md) |
+| Current native engines, selected PCM and preserved small movie/picture contracts | [Native owner closure](native-owner-purge-verification.json), [dispositions](native-owner-dispositions.md) |
+| Current production worker, source/audio/preview delivery and native cleanup | [Service smoke](current-worker-service-verification.json) |
 
 [Capture/source caller ports](capture-source-caller-verification.json) and their
 [review corrections](capture-source-caller-followup-verification.json) and
@@ -119,7 +121,14 @@ processing/span owners and the actual recording revision field. Prior-format
 refusal preserves a real old catalog byte-for-byte. Current capture responses,
 source job identity and the surviving pointer schedule pass focused checks.
 
-Remaining obligations include native engine closure,
+The native owner bank removes four recording render operations while preserving
+current source/composition engines. Exact picture and selected PCM comparisons
+and small movie controls retain their named scope. The current service smoke
+also executes source restart, audio and preview delivery and two native cleanup
+cases. Receipt clocks and path identity follow current contracts. Source-attached
+pointer history survives cuts and trims; source pauses still reset held state.
+
+Remaining obligations include unmatched movie/lifetime phases,
 current-source scale execution, unmatched movie/lifetime contracts and the actual
 schema purge. The explicit caller harness uses current operations through controlled
 replies; installed and actual media execution remain open. Installed switching, continuous playback, physical capture

@@ -59,7 +59,9 @@ test("explicit source admission supports both spellings of an absolute temporary
     try {
       const { acquisition } = await importAcquisition(service, source);
       assert.ok(
-        acquisition.evidence.receipt.file.startsWith((await realpath(home)) + "/"),
+        (await realpath(acquisition.evidence.receipt.file)).startsWith(
+          (await realpath(home)) + "/",
+        ),
         acquisition.evidence.receipt.file,
       );
       assert.ok(
@@ -82,7 +84,7 @@ test("explicit source admission supports both spellings of an absolute temporary
         [0, 100_000, 800_000],
       );
       await service.close();
-      service = await startPublicService(home, native);
+      service = await startPublicService(canonical ? aliased : await realpath(home), native);
       const again = await service.call("cursor.raw", request);
       assert.equal(again.ok, true, JSON.stringify(again));
       assert.deepEqual(again.data, raw.data);

@@ -188,7 +188,9 @@ test("public project audio preserves explicit cuts, captured support, pinned rev
     const ready = await audio(params),
       excerpt = ready.published.audio;
     assert.equal(excerpt.frames, 96000);
-    assert.equal(excerpt.durationUs, 2000000);
+    assert.equal(excerpt.sampleRate, 48000);
+    assert.deepEqual(excerpt.range, params.range);
+    assert.deepEqual(excerpt.sampleRange, { start: 24000, end: 120000 });
     const right = edited.revision.document.clips.find(
       (clip) =>
         clip.assetId === binding(acquisition, "narration").assetId &&

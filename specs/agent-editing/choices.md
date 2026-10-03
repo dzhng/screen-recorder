@@ -7644,3 +7644,76 @@ accepted writers. This choice belongs to the core/schema closure after
 busy observer rather than recreating a recording edit owner. Current capture
 admission and queue capacity keep their existing owners. Frozen comparison
 harnesses remain in their original evidence archives, outside current callers.
+
+
+### Native owner closure (`080ed72d`)
+
+### Keep the long PCM oracle at selected-source spans
+
+When transcription selects several pieces of one source, its existing stream still uses cumulative sample positions and join conditioning. The migrated10/300-second consumer calls that live stream with the same three pieces, so its independent tone/edge/sample and memory tests retain their meaning. A composition port would instead require authored fades and a different project clock.
+
+Gap: The instruction allowed a current source or composition owner but did not pick one.
+
+Reach: This proves selected-source streaming, not composition fades. The1s generated control is byte-identical to the frozen worker; the10/300 scale remains pending.
+
+Verdict: **sound**. The choice preserves the current owner and keeps the evidence boundary explicit. Confidence: **medium**.
+
+### Observe pointer mutation at the real writer boundary
+
+A valid compiled held-picture request succeeds first. The failure trial waits until the video writer exists, which occurs after pointer receipt preflight, then changes the retained pointer file. The persistent helper accepts only INVALID_REQUEST with digest mismatch or file-version change: which message appears depends on whether the reader already buffered the old rows.
+
+Gap: The retired operation had a file observer; the current operation has nested movie/video staging.
+
+Reach: This proves rejection after preflight without adding a production test hook. It does not prove an exact SDK finishing callback or sibling encoder cancellation.
+
+Verdict: **sound**. The choice preserves the current owner and keeps the evidence boundary explicit. Confidence: **medium**.
+
+### Give the text-fidelity fixture an explicit60fps compiler clock
+
+For a review point during scrolling, the compiler selects a60fps output frame and the source instant that feeds it. The reference PNG reads that source layer, and the delivered PNG reads the output frame. Their source and output timestamps are recorded separately because captured variable timestamps need not equal the authored frame grid. A shared source-compiled directory keeps these references separate from old nearest-sample artifacts.
+
+Gap: The retired renderer inferred event times; the current compiler requires an authored frame rate.
+
+Reach: The small generated adapter proves wiring, frame count, dimensions and timestamp mapping. Real browser capture, OCR and readability are not rerun or claimed.
+
+Verdict: **sound**. The choice preserves the current owner and keeps the evidence boundary explicit. Confidence: **medium**.
+
+### Use21us for the one-cell project movie
+
+At48kHz, one cell lasts20.833us. The old recording path rounded20us to one cell; a compiled project floors its sample grid, so21us is the smallest whole-microsecond window that contains one cell. The current test preserves the same nonzero-native/zero-FFmpeg diagnostic and original one-cell endpoint allowance. It separately records movie and AAC edit clocks instead of requiring those two clocks to have identical duration.
+
+Gap: The old tiny fixture could not be copied literally under the already-chosen floor project clock.
+
+Reach: Future readers must distinguish exact movie presentation from codec sample rounding; long-case exact edit-list checks remain unchanged.
+
+Verdict: **sound**. The choice preserves the current owner and keeps the evidence boundary explicit. Confidence: **high**.
+
+### Keep current ASR separate from historical audition evidence
+
+The speech reproduction still invokes the current transcription operation. Its retained audition cuts use the exact worker already pinned by the12d evidence. The fixed sentence packet likewise refuses any other worker; source CLI-parity audio instead uses the moved live selected-source helper.
+
+Gap: Old scripts mixed current transcription with retired recording excerpt calls.
+
+Reach: Historical outputs cannot accidentally become current composition evidence. Reproduction now requires the recorded baseline explicitly; no models or speech runs were executed here.
+
+Verdict: **sound**. The choice preserves the current owner and keeps the evidence boundary explicit. Confidence: **high**.
+
+### Use the existing provenance manifest for comparison workers
+
+The audio phase and pointer comparison harnesses must hash their explicit baseline before creating fixtures. They accept only the canonical retained worker listed by the existing preservation manifest, rather than any different executable or the current worker.
+
+Gap: The old pointer caller silently fell back to the current executable; the audio caller always used it.
+
+Reach: The independent comparison remains pinned across future current-worker changes. No new baseline registry or compatibility operation is introduced.
+
+Verdict: **sound**. The choice preserves the current owner and keeps the evidence boundary explicit. Confidence: **high**.
+
+### Simplify private PCM state while preserving selected-source contracts
+
+After role mixing disappears, every remaining AudioPCMStream holds one SourceTrack. The private arrays, channel promotion and half-gain branch are removed; selected-source report/source-URL shapes stay intact for their current consumers. Source-window and transcription-span clocks keep their existing independent policies.
+
+Gap: Removing only the public role overload would leave a dead two-track mixer inside the source owner.
+
+Reach: One source owns decoding and unit gain; composition owns authored summation and processing. Default SourceAudio and exact old/current PCM controls pass.
+
+Verdict: **sound**. The choice preserves the current owner and keeps the evidence boundary explicit. Confidence: **high**.

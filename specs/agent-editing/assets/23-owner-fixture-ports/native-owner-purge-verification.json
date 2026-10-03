@@ -1,0 +1,280 @@
+{
+  "checkpoint": "native recording owner removal",
+  "commit": "080ed72dc6d1803ab1ba0bbdd2f477c91f0c4256",
+  "integratedCommit": "62b930e1f0cf8eeedf926678132718be285df559",
+  "archive": {
+    "file": "native-owner-purge-evidence.tar.gz",
+    "sha256": "c453a31a289caccc387a3f83e6764261a5aaf1b1f927d59d394b2ae00aaa6c9e",
+    "bytes": 19085499,
+    "payloads": 863,
+    "fileMembersIncludingHashList": 864,
+    "manifest": "native-owner-purge-manifest.json",
+    "reportMember": "native-owner-purge-6788b688/report.json",
+    "reportSha256": "5e5c598f39c8d4b494b1d979106dbda02767ce90a986dbead73cc20cedccd5c5"
+  },
+  "worker": {
+    "product": "screenrec-native",
+    "path": "/Users/david/.codex/worktrees/source-native-consumers/screen-recorder/helpers/mac/.build/debug/screenrec-native",
+    "sha256": "479676ca8fde43b0ae44bc308a4e71fd84f3e6a80c3e51f317253ebb5a3cdd8d",
+    "bytes": 30020304,
+    "preserved": "/Users/david/.codex/artifacts/screen-recorder/frozen-native-workers/479676ca8fde43b0ae44bc308a4e71fd84f3e6a80c3e51f317253ebb5a3cdd8d/screenrec-native"
+  },
+  "sourcePins": [
+    {
+      "path": "apps/macos/tests/scene-analysis.test.mjs",
+      "deleted": true
+    },
+    {
+      "path": "helpers/mac/Package.swift",
+      "bytes": 3668,
+      "sha256": "8e782db269a3542f6861a9b74f3e530438c41657f0f2e5e5af3a2c41de045b70"
+    },
+    {
+      "path": "helpers/mac/README.md",
+      "bytes": 28483,
+      "sha256": "4f66b693997ad33b3ee5988654f38857aabc0888578a4657c9bc8d69e85db564"
+    },
+    {
+      "path": "helpers/mac/Sources/ScreenRecorderAudio/AudioPCMStream.swift",
+      "bytes": 10421,
+      "sha256": "f46951853f350d2b7e0446c57c3cb3dc760731725ac182b0f71e2d1e696e12e5"
+    },
+    {
+      "path": "helpers/mac/Sources/ScreenRecorderAudio/AudioTypes.swift",
+      "bytes": 1972,
+      "sha256": "9d87e8c352e10361c39b73e90d9546e28f06def09540c12b515d72d73fe9edb2"
+    },
+    {
+      "path": "helpers/mac/Sources/ScreenRecorderAudio/AudioWave.swift",
+      "bytes": 3398,
+      "sha256": "4f6f9b899bb3cbf2055ecdba847e470e021fdc53b3ddf4a81641c651511a90cd"
+    },
+    {
+      "path": "helpers/mac/Sources/ScreenRecorderAudio/ExcerptLayout.swift",
+      "bytes": 6782,
+      "sha256": "08a082de4161710ede19e0af17d624f9d7793f1b8097377c498761aae1d53b59"
+    },
+    {
+      "path": "helpers/mac/Sources/ScreenRecorderFrames/CompositionFrameRenderer.swift",
+      "bytes": 3238,
+      "sha256": "b2f37a6d1302cc0404f37a9085597952d4bdb4f9542288dbf3ae4a26dbac5817"
+    },
+    {
+      "path": "helpers/mac/Sources/ScreenRecorderFrames/FrameImage.swift",
+      "bytes": 4583,
+      "sha256": "afefa77e690cfff7ec719d77133327f627e68da97c3886e0e292d56e65a28e02"
+    },
+    {
+      "path": "helpers/mac/Sources/ScreenRecorderFrames/FrameSource.swift",
+      "deleted": true
+    },
+    {
+      "path": "helpers/mac/Sources/ScreenRecorderFrames/FrameTypes.swift",
+      "bytes": 4910,
+      "sha256": "9241e634b85b39f9557a7f7c9af4ac8298b40aa1b4e32c529c8f714256123386"
+    },
+    {
+      "path": "helpers/mac/Sources/ScreenRecorderFrames/MovieClock.swift",
+      "bytes": 791,
+      "sha256": "d6b73cf25e5d9da0ab7a96729fc36c2ca465b8d454ebc48cd98f6dc046b3bc5a"
+    },
+    {
+      "path": "helpers/mac/Sources/ScreenRecorderFrames/PointerSchedule.swift",
+      "deleted": true
+    },
+    {
+      "path": "helpers/mac/Sources/ScreenRecorderFrames/PresentationEvidence.swift",
+      "bytes": 7870,
+      "sha256": "217c6fff19a83da97c6880d88898dfb21baaea4fe8c3511d76d609484c558170"
+    },
+    {
+      "path": "helpers/mac/Sources/ScreenRecorderFrames/PresentationSource.swift",
+      "bytes": 9491,
+      "sha256": "1fb23f9d3a6fe637e3482d533f4714c1f9007b85318e3ccf5adce536921df291"
+    },
+    {
+      "path": "helpers/mac/Sources/ScreenRecorderFrames/SampleSelection.swift",
+      "deleted": true
+    },
+    {
+      "path": "helpers/mac/Sources/ScreenRecorderFrames/SourceFrameRenderer.swift",
+      "bytes": 3858,
+      "sha256": "2ff63a43049f6dee6c617a5caffa64bdb31704dd188089c0a14097ec835b972d"
+    },
+    {
+      "path": "helpers/mac/Sources/ScreenRecorderFrames/SourceVisualSamples.swift",
+      "bytes": 6002,
+      "sha256": "55855b9562bcd4b6c1baee9ded5048df2a9c93ee31dfc61027a755affd86d2f9"
+    },
+    {
+      "path": "helpers/mac/Sources/ScreenRecorderFrames/VideoRenderer.swift",
+      "deleted": true
+    },
+    {
+      "path": "helpers/mac/Sources/ScreenRecorderFrames/VisualSamples.swift",
+      "deleted": true
+    },
+    {
+      "path": "helpers/mac/Sources/ScreenRecorderWire/AudioOperation.swift",
+      "deleted": true
+    },
+    {
+      "path": "helpers/mac/Sources/ScreenRecorderWire/FrameOperation.swift",
+      "deleted": true
+    },
+    {
+      "path": "helpers/mac/Sources/ScreenRecorderWire/MovieOperation.swift",
+      "deleted": true
+    },
+    {
+      "path": "helpers/mac/Sources/ScreenRecorderWire/Wire.swift",
+      "bytes": 11175,
+      "sha256": "c9a9cdf82119739c67843111e85f8252bf2b553cb8f90442793e59ae7d02ebd0"
+    },
+    {
+      "path": "helpers/mac/Tests/CompositionVideo/main.swift",
+      "bytes": 4718,
+      "sha256": "9969cd341c71d8ce8dfcaa5819420d93b1a54acc84363876da409abd74d24555"
+    },
+    {
+      "path": "helpers/mac/Tests/ScreenRecorderAudioTests/FixtureAudio.swift",
+      "deleted": true
+    },
+    {
+      "path": "helpers/mac/Tests/ScreenRecorderAudioTests/main.swift",
+      "deleted": true
+    },
+    {
+      "path": "helpers/mac/Tests/ScreenRecorderFrameTests/CompositionPointerTests.swift",
+      "bytes": 16848,
+      "sha256": "474cae773fa30141b3e9a2f908d4da8528a75501bd190eadccd97d309549c948"
+    },
+    {
+      "path": "helpers/mac/Tests/ScreenRecorderFrameTests/main.swift",
+      "bytes": 2283,
+      "sha256": "460cccff5bb89566136f7a0bc9d375a3428e52f9ec6c1220fb981029f338f6c7"
+    },
+    {
+      "path": "helpers/mac/Tests/SourceAudio/StreamingTests.swift",
+      "bytes": 5051,
+      "sha256": "f30da6c365ca7b2c95d9915e4805397652107c7c05628bafba313ae1274f4975"
+    },
+    {
+      "path": "helpers/mac/Tests/SourceAudio/main.swift",
+      "bytes": 33965,
+      "sha256": "354777181070bb3bd0f5fe79dd6f9043e5bb3b72a65fed0c4fe5bcacaccaa85b"
+    },
+    {
+      "path": "helpers/mac/Tests/TextFidelity/render.mjs",
+      "bytes": 9060,
+      "sha256": "48081fd7a901977a2528e954068b45c82a77f72b4ff04f3e283ea4bb8cddc81c"
+    },
+    {
+      "path": "helpers/mac/Tests/audio-file-movie.mjs",
+      "deleted": true
+    },
+    {
+      "path": "helpers/mac/Tests/audio.test.mjs",
+      "deleted": true
+    },
+    {
+      "path": "helpers/mac/Tests/descriptor-media.test.mjs",
+      "bytes": 7711,
+      "sha256": "b2a06cdfb37c05cbcb3ab691c07133924578aff3913c2039974a922534c1c9ef"
+    },
+    {
+      "path": "helpers/mac/Tests/frames.test.mjs",
+      "deleted": true
+    },
+    {
+      "path": "helpers/mac/Tests/movie-render.test.mjs",
+      "deleted": true
+    },
+    {
+      "path": "helpers/mac/Tests/pointer-movie.test.mjs",
+      "deleted": true
+    },
+    {
+      "path": "helpers/mac/Tests/render-membership.mjs",
+      "bytes": 9660,
+      "sha256": "ac34d22289b8d6fc6983fbb6c6d340f67e5a1c47a726f443e09a76013fa4136d"
+    },
+    {
+      "path": "helpers/mac/Tests/speech-lab.mjs",
+      "bytes": 11041,
+      "sha256": "6b7b8f505822235a0416178b9c6fba368dd6e3f4694f025acddde4f4c308716c"
+    },
+    {
+      "path": "helpers/mac/Tests/streaming-audio.mjs",
+      "bytes": 5043,
+      "sha256": "9ec22d7756e5748085199cddd7141e829c32887fe250fb9613dd836b8e60745a"
+    },
+    {
+      "path": "helpers/mac/Tests/video-render.test.mjs",
+      "bytes": 10142,
+      "sha256": "bee5d397656e10906c292ee9b659890e87426091a193d991e2211bd3776d0949"
+    },
+    {
+      "path": "helpers/mac/Tests/visual-samples.test.mjs",
+      "deleted": true
+    },
+    {
+      "path": "helpers/mac/Tests/wire.test.mjs",
+      "bytes": 3915,
+      "sha256": "54453456e58efa35ef486b1422ab5cdfec806d9751669410db104362443fa11b"
+    },
+    {
+      "path": "packages/protocol/fixtures/native-requests.json",
+      "bytes": 6865,
+      "sha256": "ba58b34a94c9dd6d9555d1ab55f23f46b7d56a70f6ca752d7b4357592d9ad982"
+    },
+    {
+      "path": "packages/test-harness/editing/audio-mix.mjs",
+      "bytes": 34480,
+      "sha256": "1df50b62261f01958c3913a755fbe5ff13f03e9c35c5a08975ed43d25c8c1d5a"
+    },
+    {
+      "path": "packages/test-harness/editing/composition-movie.mjs",
+      "bytes": 22719,
+      "sha256": "6c46061a0f80a228805dd4ac4b985025bf19e61f56ec72a7fc9a5c3e80bd8e25"
+    },
+    {
+      "path": "packages/test-harness/editing/pointer-native.mjs",
+      "bytes": 31856,
+      "sha256": "db235d8f58be1a5cec106e94772f3b5931cb8f5e85ab18a9bb0b58167d6666f9"
+    },
+    {
+      "path": "packages/test-harness/editing/selected-source-transcription.mjs",
+      "bytes": 8916,
+      "sha256": "12df24e50c86b7f18c3dc6a10d875f7a8d6ed33eeba4cd49506fc2c696b561be"
+    },
+    {
+      "path": "packages/test-harness/editing/speech-reproduction.mjs",
+      "bytes": 8883,
+      "sha256": "698187a4ea0047434dddce4fd40e237e9050aac98ba616654ed86ca000bf783c"
+    },
+    {
+      "path": "packages/test-harness/editing/speech-sentence-packet.mjs",
+      "bytes": 11812,
+      "sha256": "cadcde529dc60e9468525b2558d10c5ef60edf36bcc00d17cc88099eeed7fe78"
+    },
+    {
+      "path": "packages/test-harness/editing/video.mjs",
+      "bytes": 22577,
+      "sha256": "c12c02e7b6a2d0d5bf7dd502e83a7e83cd6858c4ca1bfa38c99ac5f9e341124b"
+    }
+  ],
+  "rootVerification": {
+    "allPayloadsMatchedLooseBank": 863,
+    "archivedHashListAlsoMatched": true,
+    "mergedChangedPathsMatched": 52,
+    "mergedNativeSourcePinsMatched": 116,
+    "independentCoverageAndCodeReview": "clean; typed post-preflight pointer mutation refusal strengthened"
+  },
+  "proof": "Current small frame/source/composition/selected audio defaults, encoded movie poison/endpoints/priming and publication controls, exact source PNG/grid and one-second complete-WAV preservation, real wire retirement. Final worker source pins and final output correspondence retained.",
+  "limits": [
+    "Long10/300 PCM/movie RSS, inference and real-capture TextFidelity/OCR not executed in this pass.",
+    "Historical in-process SDK finishing/sibling-hook phase remains separately qualified; process abort is not equivalent.",
+    "Default full-suite, installed switching and continuous/physical/listening acceptance remain separate."
+  ]
+}

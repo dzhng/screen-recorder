@@ -1,0 +1,64 @@
+{
+  "checkpoint": "current production-worker/service smoke",
+  "serviceBase": "2b2f9e65",
+  "nativeCommit": "080ed72d",
+  "integratedNativeCommit": "62b930e1",
+  "nativeWorkerSha256": "479676ca8fde43b0ae44bc308a4e71fd84f3e6a80c3e51f317253ebb5a3cdd8d",
+  "finalCallerPins": [
+    {
+      "path": "apps/macos/tests/audio-inspection.test.mjs",
+      "bytes": 15612,
+      "sha256": "7543ef7803769e5a3fdbbd098185752539d8d2455d6fd45dedbd0ea6fe92b818"
+    },
+    {
+      "path": "apps/macos/tests/preview-inspection.test.mjs",
+      "bytes": 13024,
+      "sha256": "4b1472a0ec6f4a090c8a6cf48169cdd272b9143db6062368d222d51128a6cc5b"
+    },
+    {
+      "path": "apps/macos/tests/source-processing.test.mjs",
+      "bytes": 3502,
+      "sha256": "b770e156f91c9032d98155bd24ac7002dc3802ad548fc86f78d348977d8838a4"
+    }
+  ],
+  "proof": {
+    "nativeCleanup": {
+      "cases": 2,
+      "exitCode": 0,
+      "seconds": 0.9831268787384033
+    },
+    "publicSelectedAudio": {
+      "cases": 2,
+      "initialSmokePassed": true,
+      "qualification": "Unchanged selected unity/refusal and failed-native explicit retry cases; no broad repeat"
+    },
+    "publicCorrectedCases": {
+      "cases": 3,
+      "exitCodes": [
+        0,
+        0,
+        0
+      ]
+    },
+    "serviceAndEmitPins": "public-media-process.json captures unchanged original source/emission pins before/after initial actual runtime. Final-source files bind corrected cases."
+  },
+  "findings": {
+    "audioReceipt": "Existing current clock is range/sampleRange/sampleRate. Exact [500000,2500000)us == [24000,120000)48k cells and96000frames; no duration alias added.",
+    "sourceAlias": "Receipt may retain /tmp spelling. Canonical file containment is checked through realpath and service restarts under the alternate spelling of the same actual home; exact cursor pages unchanged.",
+    "pointer": "Source-attached history survives cut/trim per accepted15-pointer-lifecycle. Old recording cut-reset assertion retired; current cut maps original source point and actual pause resets it. No production pointer change."
+  },
+  "limits": [
+    "Generated fixtures; no physical capture, model inference, listening, UI, full suite or installed switch.",
+    "Temporary media outputs removed by existing harness cleanup; this bank preserves producer inputs and actual process/exit journals, not a retained screenshot/audio output corpus."
+  ],
+  "archive": {
+    "file": "current-worker-service-evidence.tar.gz",
+    "bytes": 12462,
+    "sha256": "c46043e459b990e4d22b328dc1f46c8884cad67c2479bf86c21041db3ee4a15f",
+    "payloads": 15,
+    "manifest": "manifest.json"
+  },
+  "rootVerification": {
+    "allArchivePayloadsMatched": 15
+  }
+}

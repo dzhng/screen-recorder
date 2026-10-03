@@ -270,12 +270,17 @@ test("public project preview pins an explicitly authored pointer movie through e
     );
     assert.equal(download.ok, true, JSON.stringify(download));
     assert.ok(pointerPixels(editedFile, 0.5, 40, 50) > 10);
-    assert.equal(pointerPixels(editedFile, 1, 40, 50), 0, "cut clears earlier retained pointer");
     assert.equal(
-      pointerPixels(editedFile, 1, 100, 90),
+      pointerPixels(editedFile, 1, 40, 50),
       0,
-      "deleted pointer cannot leak across cut",
+      "the mapped source instant has a later pointer",
     );
+    assert.ok(pointerPixels(output, 2, 100, 90) > 10);
+    assert.ok(
+      pointerPixels(editedFile, 1, 100, 90) > 10,
+      "cut retains the selected source instant's pointer history",
+    );
+    assert.equal(pointerPixels(editedFile, 1.5, 100, 90), 0, "source pause clears held pointer");
     assert.ok(pointerPixels(editedFile, 2.1, 200, 40) > 10);
     await service.close();
     const library = join(home, "library"),

@@ -21,13 +21,18 @@ caller makes every editorial decision. Read the [contracts](contracts.md),
 [journeys](journeys.md) and [processing](processing.md). Read or edit the consumer
 [screenrec skill](../../skills/screenrec/SKILL.md) from that caller's perspective.
 
-**Next pickup: integrate the native owner-removal pass, then verify the pinned
-current production worker and default service entry.** Core/schema closure
+**Next pickup: run the once-at-implementation-end repository gate, then close
+only unmatched current runtime/release contracts.** Core/schema closure
 removes recording revisions from the actual type, query and schema. The fresh
 catalog is format23 and refuses prior catalogs without migration or byte mutation.
 Projects retain their edit/history owner; capture/source facts and raw provenance
 remain intact. The [owner closure registry](assets/23-owner-fixture-ports/README.md)
-is the canonical bank of preserved guarantees and precise proof limits.
+is the canonical bank of preserved guarantees and precise proof limits. Native
+engine closure is integrated and its exact pinned worker passes current
+source/audio/preview service and native cleanup smoke. The broad gate is next;
+it has not run yet. Automated temporary capture fixtures in that default gate
+are authorized, distinct from repeating the unchanged physical marker/Stop
+experiment or asking the user for another recording.
 
 Continue in this order:
 
