@@ -321,7 +321,7 @@ test("sparse source pictures preserve containing-sample timing, full resolution 
     await cache.reconcile();
     // Other producers may retain observations too. Make the target frame the oldest item
     // explicitly so this test controls eviction independently of background admission timing.
-    for (const row of catalog
+    for (const row of catalog.catalog
       .prepare("SELECT id FROM derived_cache WHERE id != ? ORDER BY id")
       .all(boundary.published.frame.cacheId)) {
       const read = cache.acquire(row.id);
