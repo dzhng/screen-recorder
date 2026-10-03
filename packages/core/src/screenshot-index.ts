@@ -1,6 +1,5 @@
 import { ResourceReferences } from "./references.js";
 import { ownerIdentity, type JobOwner } from "./jobs.js";
-import { evidenceRecordingId } from "./evidence.js";
 import {
   copyImportedFile,
   hashFile,
@@ -22,13 +21,7 @@ import { open } from "node:fs/promises";
 import { constants } from "node:fs";
 import { setImmediate } from "node:timers/promises";
 import { isDeepStrictEqual } from "node:util";
-import { type RevisionStore } from "./library.js";
 import { CatalogError, type Catalog } from "./catalog.js";
-import type { EvidenceIdentity } from "./evidence.js";
-import type { RecordingSceneEvidenceIdentity } from "./scene-evidence.js";
-import type { MaterializedFrame } from "./frame-materialization.js";
-import type { SelectedCandidate, SelectionCoverage } from "./selection.js";
-import { editedToSource, sourceToEdited } from "./timeline.js";
 
 export const selectionPolicy = Object.freeze({
   id: "sampled-evidence-selection-v2",
@@ -41,28 +34,11 @@ export const selectionPolicy = Object.freeze({
   maximumPendingCandidates: 5000,
 });
 
-export type ScreenshotIndexIdentity = {
-  recordingId: string;
-  sourceId: string;
-  revisionId: string;
-  generation: string;
-  sourceIdentity: EvidenceIdentity;
-  sceneIdentity: RecordingSceneEvidenceIdentity;
-  selectionPolicy: string;
-  framePolicy: string;
-  trailPolicy: string;
-};
 export type IndexRecords = {
   identity: { generation: string };
   candidate: { ordinal: number };
   frame: RetainedImage;
   coverage: { ordinal: number | null };
-};
-export type RecordingIndexRecords = {
-  identity: ScreenshotIndexIdentity;
-  candidate: SelectedCandidate;
-  frame: MaterializedFrame;
-  coverage: SelectionCoverage;
 };
 export type ScreenshotIndexMetadata<D extends IndexRecords = IndexRecords> = D["identity"] & {
   durationUs: number;
@@ -75,7 +51,7 @@ export type ScreenshotIndexEntry<D extends IndexRecords = IndexRecords> = {
   frame: D["frame"];
   coverageCount: number;
 };
-export type IndexOwner = Extract<JobOwner, { kind: "recording" | "asset" | "project" }>;
+export type IndexOwner = Extract<JobOwner, { kind: "asset" | "project" }>;
 export type PortableIndexRecord<D extends IndexRecords> =
   | {
       kind: "entry";
@@ -145,35 +121,6 @@ const integer = (n: number) => Number.isSafeInteger(n) && n >= 0;
 function invalid(message: string): never {
   throw new CatalogError("INVALID_EVIDENCE", message);
 }
-function sourceIdentity({ owner, sourceId, generation }: EvidenceIdentity): EvidenceIdentity {
-  return { owner, sourceId, generation };
-}
-function sceneIdentity(identity: RecordingSceneEvidenceIdentity): RecordingSceneEvidenceIdentity {
-  const { recordingId, sourceId, generation, policy } = identity;
-  return { recordingId, sourceId, generation, policy };
-}
-function pinnedIdentity(identity: ScreenshotIndexIdentity): ScreenshotIndexIdentity {
-  const {
-    recordingId,
-    sourceId,
-    revisionId,
-    generation,
-    selectionPolicy,
-    framePolicy,
-    trailPolicy,
-  } = identity;
-  return {
-    recordingId,
-    sourceId,
-    revisionId,
-    generation,
-    sourceIdentity: sourceIdentity(identity.sourceIdentity),
-    sceneIdentity: sceneIdentity(identity.sceneIdentity),
-    selectionPolicy,
-    framePolicy,
-    trailPolicy,
-  };
-}
 function metadata<D extends IndexRecords>(row: Generation): ScreenshotIndexMetadata<D> {
   return {
     ...JSON.parse(row.identity),
@@ -200,121 +147,6 @@ function missing(error: unknown) {
   return (error as NodeJS.ErrnoException).code === "ENOENT";
 }
 
-export function validateIndexEntry(
-  identity: ScreenshotIndexIdentity,
-  revision: import("./timeline.js").TimelineRevision,
-  candidate: SelectedCandidate,
-  frame: MaterializedFrame,
-  path: string,
-): void {
-  const mapped = editedToSource(revision, candidate.requestedPlaybackUs);
-  if (
-    !mapped ||
-    !isDeepStrictEqual(candidate.kept, mapped.span.source) ||
-    candidate.requestedSourceUs !== mapped.sourceUs ||
-    !isDeepStrictEqual(
-      sourceIdentity(candidate.sourceIdentity),
-      sourceIdentity(identity.sourceIdentity),
-    ) ||
-    !isDeepStrictEqual(
-      sceneIdentity(candidate.sceneIdentity),
-      sceneIdentity(identity.sceneIdentity),
-    ) ||
-    (frame.sourceEvidence !== null &&
-      (evidenceRecordingId(frame.sourceEvidence) !== identity.recordingId ||
-        frame.sourceEvidence.sourceId !== identity.sourceId ||
-        frame.sourceEvidence.generation !== identity.sourceIdentity.generation)) ||
-    (frame.annotation !== null &&
-      (frame.annotation.policy !== identity.trailPolicy ||
-        frame.annotation.scene.policy !== identity.sceneIdentity.policy)) ||
-    frame.file !== path ||
-    frame.recordingId !== identity.recordingId ||
-    frame.sourceId !== identity.sourceId ||
-    frame.revisionId !== identity.revisionId ||
-    frame.requestedSourceUs !== candidate.requestedSourceUs ||
-    frame.requestedPlaybackUs !== candidate.requestedPlaybackUs ||
-    !isDeepStrictEqual(frame.kept, candidate.kept) ||
-    !integer(frame.actualSourceUs) ||
-    frame.actualSourceUs < candidate.kept.startUs ||
-    frame.actualSourceUs >= candidate.kept.endUs ||
-    frame.actualPlaybackUs !== sourceToEdited(revision, frame.actualSourceUs) ||
-    frame.distanceUs !== Math.abs(frame.actualSourceUs - frame.requestedSourceUs)
-  )
-    invalid("Selected image receipt does not match its candidate");
-}
-
-export function recordingIndexDomain(store: RevisionStore): IndexDomain<RecordingIndexRecords> {
-  return {
-    owner: (identity) => ({ kind: "recording", recordingId: identity.recordingId }),
-    pin: pinnedIdentity,
-    begin(identity) {
-      const recording = store.get(identity.recordingId);
-      const revision = store.revision(identity.recordingId, identity.revisionId);
-      if (
-        recording.sourceId !== identity.sourceId ||
-        recording.state === "canceled" ||
-        evidenceRecordingId(identity.sourceIdentity) !== identity.recordingId ||
-        identity.sceneIdentity.recordingId !== identity.recordingId ||
-        [identity.sourceIdentity, identity.sceneIdentity].some(
-          (value) => value.sourceId !== identity.sourceId || !value.generation,
-        ) ||
-        !identity.selectionPolicy ||
-        !identity.framePolicy ||
-        !identity.trailPolicy ||
-        !identity.generation
-      )
-        invalid("Index identity does not match source");
-      return revision.durationUs;
-    },
-    candidate(identity, candidate, frame, path) {
-      validateIndexEntry(
-        identity,
-        store.revision(identity.recordingId, identity.revisionId),
-        candidate,
-        frame,
-        path,
-      );
-    },
-    coverage(identity, candidate, coverage) {
-      if (!candidate) invalid("Recording coverage requires a retained candidate");
-      const { source, playback } = coverage;
-      if (
-        ![source.startUs, source.endUs, playback.startUs, playback.endUs].every(integer) ||
-        playback.endUs <= playback.startUs ||
-        source.endUs - source.startUs !== playback.endUs - playback.startUs ||
-        source.startUs < candidate.kept.startUs ||
-        source.endUs > candidate.kept.endUs ||
-        sourceToEdited(
-          store.revision(identity.recordingId, identity.revisionId),
-          source.startUs,
-        ) !== playback.startUs
-      )
-        invalid("Index coverage must progress contiguously inside its retained span");
-      return playback;
-    },
-    merge(before, next) {
-      if (
-        before.ordinal !== next.ordinal ||
-        before.equality !== next.equality ||
-        before.source.endUs !== next.source.startUs ||
-        before.playback.endUs !== next.playback.startUs
-      )
-        return null;
-      return {
-        ...before,
-        source: { startUs: before.source.startUs, endUs: next.source.endUs },
-        playback: { startUs: before.playback.startUs, endUs: next.playback.endUs },
-      };
-    },
-    finish(identity, candidateCount) {
-      if (candidateCount === 0) invalid("Index coverage is incomplete");
-      if (store.get(identity.recordingId).state === "canceled")
-        invalid("Canceled recording cannot finish an index");
-    },
-    isDeleting: (owner) => owner.kind === "recording" && store.isDeleting(owner.recordingId),
-  };
-}
-
 /** Owns retained rows and PNGs; only the job queue can publish a finished generation. */
 export class ScreenshotIndexStore<
   D extends IndexRecords = IndexRecords,
@@ -322,15 +154,6 @@ export class ScreenshotIndexStore<
   private readonly home: string;
   private readonly device: number;
   private readonly references: ResourceReferences;
-  hasGenerations(owner: JobOwner): boolean {
-    return Boolean(
-      this.store.catalog
-        .prepare(
-          "SELECT 1 FROM screenshot_index_generations WHERE ownerKind=? AND ownerId=? LIMIT 1",
-        )
-        .get(...ownerIdentity(owner)),
-    );
-  }
   /** Startup runs before queue admission, including owners absent from the asset/project catalog. */
   async recoverPending(ownerKind: IndexOwner["kind"], signal: AbortSignal): Promise<void> {
     let cursor = 0;
@@ -450,9 +273,10 @@ export class ScreenshotIndexStore<
     if (!home.isDirectory() || home.dev !== this.device) invalid("Retained index home changed");
     let path = this.home;
     const parts = [
-      ...(kind === "recording"
-        ? ["recordings", id, "evidence", "index"]
-        : ["evidence", "index", kind, id]),
+      "evidence",
+      "index",
+      kind,
+      id,
       createHash("sha256").update(identity.generation).digest("hex"),
     ];
     for (const [partIndex, segment] of parts.entries()) {
@@ -1023,27 +847,6 @@ export class ScreenshotIndexStore<
     this.store.catalog
       .prepare(`DELETE FROM screenshot_index_generations WHERE ${where}`)
       .run(...this.key(identity));
-  }
-  /** Called only after deletion has quiesced readers/producers and removed the owned tree. */
-  async forgetOwner(owner: IndexOwner, signal: AbortSignal): Promise<void> {
-    if (!this.domain.isDeleting(owner))
-      throw new CatalogError("INVALID_STATE", "Recording deletion has not been requested");
-    for (const table of [
-      "screenshot_index_entries",
-      "screenshot_index_coverage",
-      "screenshot_index_generations",
-    ]) {
-      for (;;) {
-        signal.throwIfAborted();
-        const result = this.store.catalog
-          .prepare(
-            `DELETE FROM ${table} WHERE rowid IN (SELECT rowid FROM ${table} WHERE ownerKind=? AND ownerId=? LIMIT 100)`,
-          )
-          .run(...ownerIdentity(owner));
-        if (Number(result.changes) < 100) break;
-        await setImmediate();
-      }
-    }
   }
   async reclaim(
     owner: IndexOwner,

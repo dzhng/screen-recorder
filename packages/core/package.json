@@ -84,10 +84,6 @@
       "types": "./dist/scene-pages.d.ts",
       "default": "./dist/scene-pages.js"
     },
-    "./index-pages": {
-      "types": "./dist/index-pages.d.ts",
-      "default": "./dist/index-pages.js"
-    },
     "./presentation-evidence": {
       "types": "./dist/presentation-evidence.d.ts",
       "default": "./dist/presentation-evidence.js"

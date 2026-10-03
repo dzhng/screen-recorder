@@ -2,8 +2,10 @@ import { createHash, randomUUID } from "node:crypto";
 import { JobQueue } from "./jobs.js";
 import { DerivedCache } from "./cache.js";
 import { MediaFrameInspection } from "./frame-inspection.js";
-import { RevisionStore } from "./library.js";
-import { afterEach, expect, test } from "vitest";
+import { projectStoreFixture } from "./project-store.fixture.js";
+import { projectIndexDomain, projectIndexPlan } from "./project-index.js";
+import { projectComposition } from "./project-window.js";
+import { afterEach, expect, test, vi } from "vitest";
 import { mkdtemp, rm, writeFile, readFile } from "node:fs/promises";
 import { join } from "node:path";
 import { Catalog, CatalogError } from "./catalog.js";
@@ -12,16 +14,17 @@ import { AcquisitionStore } from "./acquisitions.js";
 import { SceneEvidenceStore, assetSceneOwner, sourceSceneDescriptor } from "./scene-evidence.js";
 import { SelectedSourceSceneAnalysis, sourceScenePolicy } from "./source-scenes.js";
 import { selectSource } from "./source-selection.js";
-import {
-  ScreenshotIndexStore,
-  recordingIndexDomain,
-  type PortableIndexRecord,
-} from "./screenshot-index.js";
+import { ScreenshotIndexStore, type PortableIndexRecord } from "./screenshot-index.js";
 import {
   sourceIndexDomain,
   type SourceIndexIdentity,
   type SourceIndexRecords,
 } from "./source-index.js";
+const namespaceEntropy = vi.hoisted<{ id: string | null }>(() => ({ id: null }));
+vi.mock("node:crypto", async (original) => {
+  const actual = await original<typeof import("node:crypto")>();
+  return { ...actual, randomUUID: () => namespaceEntropy.id ?? actual.randomUUID() };
+});
 const noFrameRequests = {
   sourceUnavailable(): never {
     throw new Error("No demanded frames in this fixture");
@@ -285,57 +288,59 @@ test("source support cannot be mislabeled unavailable and incomplete generations
   expect(f.catalog.catalog.prepare("SELECT * FROM screenshot_index_generations").all()).toEqual([]);
 });
 
-test("asset and recording indexes with equal IDs and attempts reclaim independently", async () => {
+test("asset and project indexes with equal fixture IDs and attempts reclaim independently", async () => {
   const f = await fixture();
   f.index.begin(f.identity);
-  const recordingStore = new RevisionStore(join(f.home, "catalog.sqlite"), {
-    now: () => "fixture",
-    newId: () => f.identity.assetId,
-  });
+  const projects = projectStoreFixture(f.catalog, f.assets, f.home, f.acquisitions);
+  // Controlled entropy keeps the generic owner-kind collision oracle; this is not a public ID-format claim.
+  namespaceEntropy.id = f.identity.assetId;
+  let projectId: string;
   try {
-    const recording = recordingStore.allocate().recording;
-    recordingStore.registerSource(recording.recordingId, 1000000);
-    const identity = {
-      recordingId: recording.recordingId,
-      sourceId: recording.sourceId,
-      revisionId: "r0",
-      generation: f.identity.generation,
-      sourceIdentity: {
-        owner: { kind: "recording" as const, recordingId: recording.recordingId },
-        sourceId: recording.sourceId,
-        generation: "source",
+    projectId = projects.create({
+      requestId: "namespace-project",
+      canvas: {
+        width: 1,
+        height: 1,
+        fps: { numerator: 1, denominator: 1 },
+        background: "#000000ff",
       },
-      sceneIdentity: {
-        recordingId: recording.recordingId,
-        sourceId: recording.sourceId,
-        generation: "scenes",
-        policy: "nearest",
-      },
-      selectionPolicy: "recording",
-      framePolicy: "recording",
-      trailPolicy: "recording",
-    };
-    const retained = new ScreenshotIndexStore(
-      recordingStore,
-      f.home,
-      recordingIndexDomain(recordingStore),
-    );
-    retained.begin(identity);
-    const path = retained.outputPath(identity, 0);
-    await writeFile(path, png);
-    await f.index.reclaim({ kind: "asset", assetId: f.identity.assetId }, () => false);
-    expect(await readFile(retained.outputPath(identity, 0))).toEqual(png);
-    expect(
-      f.catalog.catalog
-        .prepare("SELECT ownerKind,ownerId,generation FROM screenshot_index_generations")
-        .all(),
-    ).toEqual([
-      { ownerKind: "recording", ownerId: f.identity.assetId, generation: f.identity.generation },
-    ]);
-    await retained.remove(identity);
+    }).project.projectId;
   } finally {
-    recordingStore.close();
+    namespaceEntropy.id = null;
   }
+  expect(projectId).toBe(f.identity.assetId);
+  const composition = projectComposition(projects, f.assets, { projectId });
+  const identity = {
+    ...projectIndexPlan(composition, {}, { implementationId: "project-frame" }).identity,
+    generation: f.identity.generation,
+    scenes: [],
+  };
+  const retained = new ScreenshotIndexStore(
+    f.catalog,
+    f.home,
+    projectIndexDomain(
+      {
+        composition: (input) => projectComposition(projects, f.assets, input),
+        source: (selection) => selectSource(f.assets, f.acquisitions, selection),
+        scenes: f.scenes,
+        isDeleting: (input) => projects.isDeleting(input),
+      },
+      { implementationId: "project-frame" },
+    ),
+  );
+  retained.begin(identity);
+  const path = retained.outputPath(identity, 0);
+  await writeFile(path, png);
+  await f.index.reclaim({ kind: "asset", assetId: f.identity.assetId }, () => false);
+  expect(await readFile(retained.outputPath(identity, 0))).toEqual(png);
+  expect(
+    f.catalog.catalog
+      .prepare("SELECT ownerKind,ownerId,generation FROM screenshot_index_generations")
+      .all(),
+  ).toEqual([
+    { ownerKind: "project", ownerId: f.identity.assetId, generation: f.identity.generation },
+  ]);
+  await retained.remove(identity);
 });
 
 test("a pinned unavailable observation is retained without claiming neighboring pixels are absent", async () => {

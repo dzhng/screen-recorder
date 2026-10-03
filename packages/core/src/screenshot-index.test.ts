@@ -1,7 +1,5 @@
-import { afterEach, expect, test } from "vitest";
+import { expect, test } from "vitest";
 import {
-  mkdtempSync,
-  rmSync,
   writeFileSync,
   unlinkSync,
   symlinkSync,
@@ -12,124 +10,31 @@ import {
   mkdirSync,
 } from "node:fs";
 import { execFileSync, spawnSync } from "node:child_process";
-import { tmpdir } from "node:os";
 import { join } from "node:path";
-import { DerivedCache, recordingCacheOwnerCheck } from "./cache.js";
-import { RevisionStore } from "./library.js";
-import { ScreenshotIndexStore, recordingIndexDomain } from "./screenshot-index.js";
-import type { SelectedCandidate } from "./selection.js";
-import type { MaterializedFrame } from "./frame-materialization.js";
-const stores: RevisionStore[] = [],
-  roots: string[] = [];
-afterEach(() => {
-  stores.splice(0).forEach((s) => s.close());
-  roots.splice(0).forEach((p) => rmSync(p, { recursive: true, force: true }));
-});
-function fixture() {
-  const home = mkdtempSync(join(tmpdir(), "selected-index-"));
-  roots.push(home);
-  const path = join(home, "catalog.sqlite");
-  let id = 0;
-  const providers = { now: () => "", newId: () => String(++id) };
-  const catalog = new RevisionStore(path, providers);
-  stores.push(catalog);
-  const recording = catalog.allocate().recording;
-  catalog.registerSource(recording.recordingId, 10_000_000);
-  const sourceIdentity = {
-    owner: { kind: "recording" as const, recordingId: recording.recordingId },
-    sourceId: recording.sourceId,
-    generation: "source-1",
-  };
-  const identity = {
-    recordingId: sourceIdentity.owner.recordingId,
-    sourceId: sourceIdentity.sourceId,
-    generation: "index-1",
-    revisionId: "r0",
-    sourceIdentity,
-    sceneIdentity: {
-      recordingId: sourceIdentity.owner.recordingId,
-      sourceId: sourceIdentity.sourceId,
-      generation: "scene-1",
-      policy: "scene-v1",
-    },
-    selectionPolicy: "selection-v1",
-    framePolicy: "frame-v2",
-    trailPolicy: "trail-v1",
-  };
-  const index = new ScreenshotIndexStore(catalog, home, recordingIndexDomain(catalog));
-  return { home, path, providers, catalog, identity, index };
-}
-const png = Buffer.from(
-  "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+a7l8AAAAASUVORK5CYII=",
-  "base64",
-);
-function add(
-  f: ReturnType<typeof fixture>,
-  ordinal = 0,
-  at = 0,
-  mutate: (frame: MaterializedFrame) => void = () => {},
-) {
-  const candidate: SelectedCandidate = {
-    kind: "candidate",
-    ordinal,
-    requestedSourceUs: at,
-    requestedPlaybackUs: at,
-    kept: { startUs: 0, endUs: 10_000_000 },
-    reasons: [{ kind: "first", eventSourceUs: at }],
-    sourceIdentity: f.identity.sourceIdentity,
-    sceneIdentity: f.identity.sceneIdentity,
-  };
-  const file = f.index.outputPath(f.identity, ordinal);
-  writeFileSync(file, png);
-  const frame: MaterializedFrame = {
-    file,
-    mediaType: "image/png",
-    requestedSourceUs: at,
-    actualSourceUs: at,
-    distanceUs: 0,
-    width: 1,
-    height: 1,
-    sourceWidth: 1,
-    sourceHeight: 1,
-    bytes: png.length,
-    recordingId: f.identity.recordingId,
-    sourceId: f.identity.sourceId,
-    revisionId: "r0",
-    requestedPlaybackUs: at,
-    actualPlaybackUs: at,
-    kept: candidate.kept,
-    clean: true,
-    annotation: null,
-    sourceEvidence: null,
-  };
-  mutate(frame);
-  f.index.appendCandidate(f.identity, candidate, frame);
-  return { candidate, frame };
-}
+import { DerivedCache } from "./cache.js";
+import { Catalog } from "./catalog.js";
+import { fixture, add, cover, png } from "./retained-source-index.fixture.js";
 test("complete selected images and explicit coverage survive a catalog restart", async () => {
-  const f = fixture();
+  const f = await fixture();
   f.index.begin(f.identity);
   const first = add(f);
   expect(() => f.index.page({ identity: f.identity })).toThrow("complete");
   f.index.appendCoverage(f.identity, {
-    kind: "coverage",
+    state: "available",
     ordinal: 0,
     source: { startUs: 0, endUs: 5_000_000 },
-    playback: { startUs: 0, endUs: 5_000_000 },
     equality: "sampled",
   });
   f.index.appendCoverage(f.identity, {
-    kind: "coverage",
+    state: "available",
     ordinal: 0,
     source: { startUs: 5_000_000, endUs: 10_000_000 },
-    playback: { startUs: 5_000_000, endUs: 10_000_000 },
     equality: "sampled",
   });
   const metadata = await f.index.finish(f.identity);
   f.catalog.close();
-  const reopened = new RevisionStore(f.path, f.providers);
-  stores.push(reopened);
-  const index = new ScreenshotIndexStore(reopened, f.home, recordingIndexDomain(reopened));
+  const reopened = new Catalog(f.path);
+  const index = f.reopenedIndex(reopened);
   expect(index.page({ identity: f.identity })).toEqual({
     metadata,
     entries: [{ candidate: first.candidate, frame: first.frame, coverageCount: 1 }],
@@ -138,10 +43,9 @@ test("complete selected images and explicit coverage survive a catalog restart",
   expect(index.coveragePage({ identity: f.identity }).coverage).toEqual([
     {
       sequence: 0,
-      kind: "coverage",
+      state: "available",
       ordinal: 0,
       source: { startUs: 0, endUs: 10_000_000 },
-      playback: { startUs: 0, endUs: 10_000_000 },
       equality: "sampled",
     },
   ]);
@@ -152,7 +56,7 @@ test("complete selected images and explicit coverage survive a catalog restart",
   lease.release();
 });
 test("retained images remain readable and removable after a device number changes", async () => {
-  const f = fixture();
+  const f = await fixture();
   f.index.begin(f.identity);
   const image = add(f);
   cover(f);
@@ -163,9 +67,8 @@ test("retained images remain readable and removable after a device number change
     UPDATE screenshot_index_entries SET device=device+1;
   `);
   f.catalog.close();
-  const reopened = new RevisionStore(f.path, f.providers);
-  stores.push(reopened);
-  const index = new ScreenshotIndexStore(reopened, f.home, recordingIndexDomain(reopened));
+  const reopened = new Catalog(f.path);
+  const index = f.reopenedIndex(reopened);
   const lease = index.openRead(f.identity, 0);
   try {
     const bytes = Buffer.alloc(lease.bytes);
@@ -177,23 +80,8 @@ test("retained images remain readable and removable after a device number change
   await index.remove(f.identity);
   expect(existsSync(image.frame.file)).toBe(false);
 });
-function cover(
-  f: ReturnType<typeof fixture>,
-  ordinal = 0,
-  startUs = 0,
-  endUs = 10_000_000,
-  equality: "sampled" | "unproven" = "sampled",
-) {
-  f.index.appendCoverage(f.identity, {
-    kind: "coverage",
-    ordinal,
-    source: { startUs, endUs },
-    playback: { startUs, endUs },
-    equality,
-  });
-}
 test("pages and filtered coverage remain bounded and reject unrelated anchors", async () => {
-  const f = fixture();
+  const f = await fixture();
   f.index.begin(f.identity);
   add(f);
   add(f, 1, 1_000_000);
@@ -209,14 +97,20 @@ test("pages and filtered coverage remain bounded and reject unrelated anchors", 
   expect(second.entries[0]?.candidate.ordinal).toBe(1);
   expect(second.nextOrdinal).toBeNull();
   const coverage = f.index.coveragePage({ identity: f.identity, candidateOrdinal: 0, limit: 1 });
-  expect(coverage.coverage[0]?.playback).toEqual({ startUs: 0, endUs: 2_000_000 });
+  expect(coverage.coverage[0]?.source).toEqual({ startUs: 0, endUs: 2_000_000 });
   expect(coverage.nextSequence).toBe(0);
   const next = f.index.coveragePage({
     identity: f.identity,
     candidateOrdinal: 0,
     afterSequence: 0,
   });
-  expect(next.coverage.map((c) => [c.sequence, c.playback, c.equality])).toEqual([
+  expect(
+    next.coverage.map((c) => [
+      c.sequence,
+      c.source,
+      c.state === "available" ? c.equality : c.state,
+    ]),
+  ).toEqual([
     [2, { startUs: 3_000_000, endUs: 6_000_000 }, "sampled"],
     [3, { startUs: 6_000_000, endUs: 10_000_000 }, "unproven"],
   ]);
@@ -227,11 +121,13 @@ test("pages and filtered coverage remain bounded and reject unrelated anchors", 
   expect(() =>
     f.index.coveragePage({ identity: f.identity, candidateOrdinal: 0, afterSequence: 1 }),
   ).toThrow("outside");
-  expect(() => f.index.page({ identity: { ...f.identity, revisionId: "r1" } })).toThrow("identity");
-  expect(() => f.index.openRead({ ...f.identity, sourceId: "other" }, 0)).toThrow("identity");
+  expect(() => f.index.page({ identity: { ...f.identity, streamId: "other" } })).toThrow(
+    "identity",
+  );
+  expect(() => f.index.openRead({ ...f.identity, streamId: "other" }, 0)).toThrow("identity");
 });
 test("incomplete coverage and missing retained files cannot become complete", async () => {
-  const f = fixture();
+  const f = await fixture();
   f.index.begin(f.identity);
   const image = add(f);
   cover(f, 0, 0, 4_000_000);
@@ -244,17 +140,17 @@ test("incomplete coverage and missing retained files cannot become complete", as
   await f.index.remove(f.identity);
 });
 test("removing a generation that begin refused succeeds without replacing the refusal", async () => {
-  const f = fixture();
+  const f = await fixture();
   const refused = {
     ...f.identity,
-    sourceIdentity: { ...f.identity.sourceIdentity, sourceId: "x" },
+    scenes: { ...f.identity.scenes, source: { ...f.identity.scenes.source, supportDigest: "x" } },
   };
-  expect(() => f.index.begin(refused)).toThrow("does not match source");
+  expect(() => f.index.begin(refused)).toThrow("does not match published scenes");
   await expect(f.index.remove(refused)).resolves.toBeUndefined();
   await expect(f.index.remove(refused)).resolves.toBeUndefined();
 });
 test("canceling final validation hides partial evidence and prevents late appends", async () => {
-  const f = fixture();
+  const f = await fixture();
   f.index.begin(f.identity);
   add(f);
   cover(f);
@@ -264,11 +160,11 @@ test("canceling final validation hides partial evidence and prevents late append
   controller.abort();
   await expect(finishing).rejects.toThrow();
   expect(() => f.index.page({ identity: f.identity })).toThrow("complete");
-  await f.index.reclaim({ kind: "recording", recordingId: f.identity.recordingId }, () => false);
+  await f.index.reclaim({ kind: "asset", assetId: f.identity.assetId }, () => false);
   expect(() => f.index.outputPath(f.identity, 0)).toThrow("identity");
 });
 test("an acquired read survives deletion while new reads fail", async () => {
-  const f = fixture();
+  const f = await fixture();
   f.index.begin(f.identity);
   const image = add(f);
   cover(f);
@@ -287,7 +183,7 @@ test("an acquired read survives deletion while new reads fail", async () => {
   expect(() => read.read(bytes, 0)).toThrow("released");
 });
 test("retained evidence survives derived cache eviction and owner-directed reclamation", async () => {
-  const f = fixture();
+  const f = await fixture();
   f.index.begin(f.identity);
   const image = add(f);
   cover(f);
@@ -295,14 +191,17 @@ test("retained evidence survives derived cache eviction and owner-directed recla
   const cache = new DerivedCache(
     f.catalog,
     f.home,
-    recordingCacheOwnerCheck(f.catalog),
+    (owner) => {
+      if (owner.kind !== "asset") throw new Error("asset only");
+      f.assets.get(owner.assetId);
+    },
     png.length,
   );
   await cache.reconcile();
-  const reserved = cache.reserve({ kind: "recording", recordingId: f.identity.recordingId });
+  const reserved = cache.reserve({ kind: "asset", assetId: f.identity.assetId });
   writeFileSync(reserved.path, png);
   await cache.publish(reserved.id);
-  const later = cache.reserve({ kind: "recording", recordingId: f.identity.recordingId });
+  const later = cache.reserve({ kind: "asset", assetId: f.identity.assetId });
   writeFileSync(later.path, png);
   await cache.publish(later.id);
   expect(cache.acquire(reserved.id)).toBeNull();
@@ -314,7 +213,7 @@ test("retained evidence survives derived cache eviction and owner-directed recla
   const stray = f.index.outputPath(partial, 0);
   writeFileSync(stray, png);
   await f.index.reclaim(
-    { kind: "recording", recordingId: f.identity.recordingId },
+    { kind: "asset", assetId: f.identity.assetId },
     (id) => id.generation === f.identity.generation,
   );
   expect(existsSync(stray)).toBe(false);
@@ -323,7 +222,7 @@ test("retained evidence survives derived cache eviction and owner-directed recla
 test.for([false, true])(
   "replaced, symlinked and hard-linked images are refused (remounted: %s)",
   async (remounted) => {
-    const f = fixture();
+    const f = await fixture();
     f.index.begin(f.identity);
     const image = add(f);
     cover(f);
@@ -350,7 +249,7 @@ test.for([false, true])(
   },
 );
 test("a replaced generation directory is refused even after a device number changes", async () => {
-  const f = fixture();
+  const f = await fixture();
   f.index.begin(f.identity);
   const image = add(f);
   cover(f);
@@ -368,7 +267,7 @@ test("a replaced generation directory is refused even after a device number chan
   expect(readFileSync(image.frame.file)).toEqual(png);
 });
 test("a substituted FIFO is rejected without blocking file validation", async () => {
-  const f = fixture();
+  const f = await fixture();
   f.index.begin(f.identity);
   const image = add(f);
   cover(f);
@@ -392,11 +291,18 @@ test("a substituted FIFO is rejected without blocking file validation", async ()
      specifier=new URL(specifier.slice(0,-3)+'.ts',context.parentURL).href;
    return next(specifier,context);
  }});
- const { RevisionStore } = await import(${JSON.stringify(new URL("./library.ts", import.meta.url).href)});
- const { ScreenshotIndexStore, recordingIndexDomain } = await import(${JSON.stringify(new URL("./screenshot-index.ts", import.meta.url).href)});
- const catalog=new RevisionStore(${JSON.stringify(f.path)});
+ const { Catalog } = await import(${JSON.stringify(new URL("./catalog.ts", import.meta.url).href)});
+ const { ScreenshotIndexStore } = await import(${JSON.stringify(new URL("./screenshot-index.ts", import.meta.url).href)});
+ const catalog=new Catalog(${JSON.stringify(f.path)});
  try {
-   new ScreenshotIndexStore(catalog,${JSON.stringify(f.home)},recordingIndexDomain(catalog)).openRead(${JSON.stringify(f.identity)},0);
+   const { AssetStore } = await import(${JSON.stringify(new URL("./assets.ts", import.meta.url).href)});
+   const { AcquisitionStore } = await import(${JSON.stringify(new URL("./acquisitions.ts", import.meta.url).href)});
+   const { selectSource } = await import(${JSON.stringify(new URL("./source-selection.ts", import.meta.url).href)});
+   const { SceneEvidenceStore, assetSceneOwner } = await import(${JSON.stringify(new URL("./scene-evidence.ts", import.meta.url).href)});
+   const { sourceIndexDomain } = await import(${JSON.stringify(new URL("./source-index.ts", import.meta.url).href)});
+   const assets=new AssetStore(catalog,${JSON.stringify(f.home)}),acquisitions=new AcquisitionStore(catalog);
+   new ScreenshotIndexStore(catalog,${JSON.stringify(f.home)},sourceIndexDomain(
+     s=>selectSource(assets,acquisitions,s),new SceneEvidenceStore(catalog,assetSceneOwner(assets,acquisitions)),null)).openRead(${JSON.stringify(f.identity)},0);
    process.exitCode=1;
  } catch(error) {
    console.log(JSON.stringify({code:error.code,message:error.message}));
@@ -414,7 +320,7 @@ test("a substituted FIFO is rejected without blocking file validation", async ()
   });
 });
 test("one damaged generation does not starve unrelated reclamation", async () => {
-  const f = fixture();
+  const f = await fixture();
   f.index.begin(f.identity);
   const image = add(f);
   cover(f);
@@ -425,14 +331,14 @@ test("one damaged generation does not starve unrelated reclamation", async () =>
   writeFileSync(nextPath, png);
   writeFileSync(join(image.frame.file, "..", "unexpected.txt"), "foreign file");
   const error = await f.index
-    .reclaim({ kind: "recording", recordingId: f.identity.recordingId }, () => false)
+    .reclaim({ kind: "asset", assetId: f.identity.assetId }, () => false)
     .catch((error) => error);
   expect(error).toBeInstanceOf(Error);
   expect(existsSync(nextPath)).toBe(false);
   expect(() => f.index.page({ identity: f.identity })).toThrow("complete");
 });
 test("candidate and coverage pages cap work independently at 50 by default and 200 maximum", async () => {
-  const f = fixture();
+  const f = await fixture();
   f.index.begin(f.identity);
   for (let i = 0; i < 205; i++) add(f, i, i * 1000);
   for (let i = 0; i < 205; i++)
@@ -457,27 +363,17 @@ test("candidate and coverage pages cap work independently at 50 by default and 2
       .coverage.map((c) => c.sequence),
   ).toEqual([200, 201, 202, 203, 204]);
 });
-test("a rendered receipt cannot silently change pinned source evidence", () => {
-  const f = fixture();
+test("a rendered receipt cannot silently change pinned source support", async () => {
+  const f = await fixture();
   f.index.begin(f.identity);
   expect(() =>
     add(f, 0, 0, (frame) => {
-      frame.sourceEvidence = {
-        ...f.identity.sourceIdentity,
-        generation: "different-source-attempt",
-        integrity: {
-          finished: true,
-          incompleteTail: false,
-          invalidAtSequence: null,
-          lastSequence: 0,
-          openPauseHostUs: null,
-        },
-      };
+      frame.supportDigest = "different-source-support";
     }),
   ).toThrow("receipt");
 });
 test("compact finish metadata is a usable pinned identity for pages and reads", async () => {
-  const f = fixture();
+  const f = await fixture();
   f.index.begin(f.identity);
   add(f);
   cover(f);
@@ -486,70 +382,7 @@ test("compact finish metadata is a usable pinned identity for pages and reads", 
   const read = f.index.openRead(metadata, 0);
   expect(read.bytes).toBe(png.length);
   read.release();
-  expect(() => f.index.page({ identity: { ...metadata, framePolicy: "different" } })).toThrow(
+  expect(() => f.index.page({ identity: { ...metadata, implementationId: "different" } })).toThrow(
     "identity",
   );
-});
-
-test("forgetRecording removes all target generation metadata without removing files or sibling evidence", async () => {
-  const f = fixture();
-  f.index.begin(f.identity);
-  const ready = add(f);
-  cover(f);
-  await f.index.finish(f.identity);
-  const unfinished = { ...f, identity: { ...f.identity, generation: "unfinished" } };
-  f.index.begin(unfinished.identity);
-  const pending = add(unfinished);
-  cover(unfinished);
-  const recording = f.catalog.allocate().recording;
-  f.catalog.registerSource(recording.recordingId, 10_000_000);
-  const sourceIdentity = {
-    ...f.identity.sourceIdentity,
-    owner: { kind: "recording" as const, recordingId: recording.recordingId },
-    sourceId: recording.sourceId,
-  };
-  const sibling = {
-    ...f,
-    identity: {
-      ...f.identity,
-      recordingId: recording.recordingId,
-      sourceId: recording.sourceId,
-      generation: "sibling-index",
-      sourceIdentity,
-      sceneIdentity: {
-        ...f.identity.sceneIdentity,
-        recordingId: recording.recordingId,
-        sourceId: recording.sourceId,
-      },
-    },
-  };
-  f.index.begin(sibling.identity);
-  const retained = add(sibling);
-  cover(sibling);
-  await f.index.finish(sibling.identity);
-  const siblingPage = f.index.page({ identity: sibling.identity });
-  const siblingCoverage = f.index.coveragePage({ identity: sibling.identity });
-  const signal = new AbortController().signal;
-  await expect(
-    f.index.forgetOwner({ kind: "recording", recordingId: f.identity.recordingId }, signal),
-  ).rejects.toMatchObject({
-    code: "INVALID_STATE",
-  });
-  f.catalog.markDeleting(f.identity.recordingId);
-  await f.index.forgetOwner({ kind: "recording", recordingId: f.identity.recordingId }, signal);
-  for (const table of [
-    "screenshot_index_entries",
-    "screenshot_index_coverage",
-    "screenshot_index_generations",
-  ]) {
-    expect(
-      f.catalog.catalog
-        .prepare(`SELECT * FROM ${table} WHERE ownerKind='recording' AND ownerId=?`)
-        .all(f.identity.recordingId),
-    ).toEqual([]);
-  }
-  expect(f.index.page({ identity: sibling.identity })).toEqual(siblingPage);
-  expect(f.index.coveragePage({ identity: sibling.identity })).toEqual(siblingCoverage);
-  for (const { frame } of [ready, pending, retained]) expect(readFileSync(frame.file)).toEqual(png);
-  await f.index.forgetOwner({ kind: "recording", recordingId: f.identity.recordingId }, signal);
 });
