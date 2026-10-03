@@ -23,7 +23,11 @@ first-original-video red/green and the distinct small preservation controls.
 The [native correspondence record](../assets/23l2-native-png-correspondence/README.md)
 qualifies all fourteen existing composition requests through an isolated linked
 candidate worker, with exact metadata and complete selected-reference pixels.
-Installed-worker and broader release acceptance remain separate.
+The [current production-worker bank](../assets/23-owner-fixture-ports/current-production-png-verification.json)
+replays those same requests through the built official candidate, retaining exact
+receipts, full selected-reference RGBA and historical candidate PNG bytes.
+The prior unprimed static review therefore remains applicable. Personal installed,
+motion/listening and broader release acceptance remain separate.
 
 Current demanded pictures use the existing renderer implementation identity to
 separate derivatives produced before this output correction. The cache owner
