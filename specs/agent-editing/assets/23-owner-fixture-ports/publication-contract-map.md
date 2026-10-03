@@ -53,9 +53,17 @@ exact source identities and failure controls. The [pinned retry bank](publicatio
 V1501 and V1817 at `8533350d`, with 22 affected cases passing. The
 [package publication bank](package-publication-verification.json) completes
 V2391 and the five V3018 process-death rows at `e97012e8`; its changed shared
-fixture passes the affected 59-case cohort. Resource-reference portions of
+fixture passes the affected 59-case cohort. The [generation bank](package-generations-verification.json)
+at `d2b6c76c` transfers V2298/V2792/V2947 active-export, canceled retry,
+commit-release and recipient recovery guarantees through four current resource
+owners; its repaired 63-case cohort passes. Resource-reference portions of
 V1005/1061/1212, surviving native writer, unsafe workspace/mutated member and
-actual bundled startup guarantees remain pending.
+actual bundled startup guarantees remain pending. The positive
+`package-media-failures.mjs` contract also needs transfer: injected native
+frame/audio failure must retry with the same job and a new generation, deliver
+actual PNG/RIFF content, drain a held native worker on close and revoke private
+delivery while leaving source bytes intact. Lower-level archive-child recovery
+or controlled-byte rendering does not replace it.
 
 | Original V line | Current disposition | Current suite in `apps/service/tests/` |
 | --- | --- | --- |
@@ -64,6 +72,9 @@ actual bundled startup guarantees remain pending.
 | 1817 | Transferred: canceled, evicted and edited export retains exact old bytes | `project-export.mjs` |
 | 2391 | Transferred: counted committed workspace cleanup without republishing | `project-package-export.mjs` |
 | 3018 create/copy/write/commit/cleanup | Transferred: five actual process-death workspace boundaries | `project-package-export.mjs` |
+| 2298 | Transferred: selected scene generation survives active/canceled export and releases after commit | `project-package-export.mjs` |
+| 2792 | Transferred: selected transcript generation and raw bytes retain/release through actual package lifecycle | `project-package-export.mjs` |
+| 2947 | Transferred: selected source/project index images survive replacement/cleanup and recipient adoption | `project-package-export.mjs` |
 
 ## Initial inventory and correspondence
 
@@ -168,4 +179,4 @@ This appendix refines the initial map without introducing new scenarios. No test
 - V2535 `missing-proof`: `capture-canonical-admission.mjs:76–91` deletes narration publication proof before acquisition.import; admission fails and asset.list stays empty. Project package-specific proof tampering at `:287–316` changes acceptedFrames, updates all declared hashes/receipt metadata, and requires package.open failure matching represented-prefix/publication. The exact package missing-proof row is not present; source admission and package tampering are adjacent but should not be reported as identical assertions.
 - V2535 `audio-pages`: the recording-specific `evidence/source/pages.json` layout is gone. Existing surviving semantic checks include `capture-canonical-admission.mjs:318–360` changing asset origin, binding offset and available intervals coherently; package.open must still fail for changed physical clock meaning. `packages/core/src/acquisitions.test.ts:685–720` parameter rows layout/duplicate-role/support forge portable acquisition metadata; support shifts start by one microsecond; each fails INVALID_PACKAGE and the original passes. None is the exact old normalized-audio-row forgery. Native verification still independently replays normalized evidence in `AcquisitionImporter.verifyPortable` (`acquisitions.ts:691–775`).
 
-Preservation conclusion: current fixtures cover revision/content identity and canonical layout downgrade. They do not cover MediaExports acquiring, retaining through canceled/active export, and releasing package resource references; they do not exercise normalized member mutation after export pin. Preserve only these actual old contracts, using the current owners; do not recreate retired recording source-generation machinery or expand the case cross-product.
+Initial preservation conclusion (before `d2b6c76c`): revision/content identity and canonical layout downgrade were covered, but actual export resource-reference lifetime was missing. The later generation bank now supplies active/canceled retention and commit release through the current owners. Normalized member mutation after export pin remains pending. Do not recreate retired recording source-generation machinery or expand the case cross-product.

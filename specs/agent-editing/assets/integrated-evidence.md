@@ -193,7 +193,11 @@
   shutdown oracle catches the deliberate missing-drain fault. Preview pin
   combinations pass 22 affected cases; source lifecycle fixtures pass 21; actual
   package cleanup/process-death ports pass the changed fixture's 59-case cohort.
-  Outstanding generation/native-child/mutation/startup guarantees remain in the map before obsolete-owner
+  Generation retention passes the repaired 63-case affected cohort, including active
+  cleanup, cancellation, retry, release and independent recipient adoption. Generic
+  cache/evidence fixture ports retain all 46 cases; normalization type emission
+  parity and common movie-validation extraction are separately banked. Outstanding
+  native-child/mutation/startup guarantees remain in the map before obsolete-owner
   deletion; no media or release acceptance follows.
 - [Ordered moves and spectrogram duration](24-spectrogram-duration/README.md)
   verifies the original500-operation request and matched memory scaling. Reuse

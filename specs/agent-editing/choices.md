@@ -7152,3 +7152,25 @@ The alternative malformed input would make the proof depend on where validation
 or argument binding happens. The plan required atomic rollback without choosing
 the failure seam. This decision belongs to `ada67e60`; it keeps the real database
 and transaction owner in the test without a production fault hook or fake store.
+
+## Removing mixed core dependencies
+
+**Sound, high confidence — common movie validation has an independent owner.**
+Both recording and project renderers return the same video facts. Their shared
+validator now lives in a small rendered-movie module with a direct core export.
+Recording-specific audio stays in its existing receipt; project audio extends
+the common video facts independently. The plan required one owner without
+choosing this module boundary. The extraction preserves fields, errors and
+rendition policy, and adds no service operation or media default. This choice
+belongs to `7c0986fa`; the old preview inspection classes remain pending mapped
+removal rather than being hidden behind a forwarding wrapper.
+
+**Sound, high confidence — source consumers load only their actual type owner.**
+The unchanged native normalization declaration lives with source admission,
+which already owns that operation. Cache and source-evidence policies use capture
+facts and explicit type imports, removing obsolete empty runtime imports of the
+editing library. The plan required source/edit separation without prescribing
+these import details. This choice belongs to `d31d12d7` and `1f654da7`; it adds
+no endpoint, schema or new dependency. Frozen raw-cursor provenance remains a
+separate consumed contract, rather than being mistaken for a live recording
+editing revision and deleted during a fixture port.

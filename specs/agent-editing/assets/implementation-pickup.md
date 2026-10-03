@@ -20,11 +20,13 @@ Historical workers and measurements retain their own identities below.
 Follow the [live remaining-work plan](../README.md#next-agent-prompt).
 The [shared-contract/publication bank](23-composition-contract/README.md) records
 the merged project-only composition boundary and exact cursor replay. Legacy
-publication generation/native-child/mutation/startup ports remain in the
+publication native-child/mutation/startup and real package frame/audio retry/drain ports remain in the
 [fixture preservation map](23-owner-fixture-ports/README.md); registry,
 recovery/storage/destination, capture lifetime, preview pins, package workspace
-recovery and source lifecycle fixture ports are merged. Mixed core dependencies
-and generic fixtures proceed in parallel. Orphan package owners and actual old core/schema
+recovery, generation retention and source lifecycle fixture ports are merged.
+Generic cache/evidence fixtures use capture facts; normalization types and movie
+validation have independent owners. Remaining mixed core dependencies and generic
+fixtures proceed in parallel. Orphan package owners and actual old core/schema
 removal follow that accounting; installed state and broader acceptance remain separate.
 The [retained encoded camera binding](20-camera-picture-correspondence/encoded-binding/README.md)
 qualifies one native sample/packet/decoded-frame identity. PNG selection and the

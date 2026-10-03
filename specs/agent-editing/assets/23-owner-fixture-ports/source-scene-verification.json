@@ -1,0 +1,410 @@
+{
+  "base": "7c0986fa",
+  "scope": "Source-only scene evidence fixtures and recording scene get/state/sourceId/duration policy consume actual CaptureStore.",
+  "sourcesAndEmit": [
+    {
+      "path": "packages/core/src/scene-evidence.ts",
+      "beforeSha256": "eb92dc8ac62bcfacb6c31414502eb5f3a64869ab058a4fbcbf314af599ca9e79",
+      "afterSha256": "66132137303086bccf308de36ff6072006d1a4fd8f8b5cb31697b3ae5c329b90",
+      "bytes": 30501,
+      "exactOwnerReplacementOnly": true
+    },
+    {
+      "path": "packages/core/src/scene-evidence.test.ts",
+      "beforeSha256": "3f2529c399f94aaccdf96f52ac613824c76b2bec92e356a715048d4e9548fb33",
+      "afterSha256": "ced1d3c3a095d035e70e5abe4e6d6a0771b2f230ee356d3bffc53aff8868c5c7",
+      "bytes": 9463,
+      "exactOwnerReplacementOnly": true,
+      "declarations": 5
+    },
+    {
+      "path": "packages/core/dist/scene-evidence.js",
+      "beforeSha256": "93bbe487360c665ddf0415f68d5003e54fe409b1908199ffa12881c5fbc91191",
+      "afterSha256": "a40bcc6a4fbb30494b942c1c9e3dcfd7637f9d7c883361b7a0e2b895d189c6cf",
+      "bytes": 26854,
+      "byteEqual": false,
+      "exactObsoleteEmptyImportDeletionOnly": true
+    }
+  ],
+  "phases": {
+    "lint": {
+      "pid": 56682,
+      "end": 1790989160.599181,
+      "exit": 0,
+      "waited": true,
+      "deadlineExpired": false
+    },
+    "types": {
+      "pid": 56684,
+      "end": 1790989162.803103,
+      "exit": 0,
+      "waited": true,
+      "deadlineExpired": false
+    },
+    "source-identity-restored": {
+      "pid": 56651,
+      "end": 1790989152.814687,
+      "exit": 0,
+      "waited": true,
+      "deadlineExpired": false
+    },
+    "initial-identity": {
+      "pid": 56439,
+      "end": 1790989133.286349,
+      "exit": 0,
+      "waited": true,
+      "deadlineExpired": false
+    },
+    "source-identity-red": {
+      "pid": 56588,
+      "end": 1790989143.486818,
+      "exit": 1,
+      "waited": true,
+      "deadlineExpired": false
+    },
+    "format": {
+      "pid": 56686,
+      "end": 1790989160.605891,
+      "exit": 0,
+      "waited": true,
+      "deadlineExpired": false
+    },
+    "scene-file": {
+      "pid": 56685,
+      "end": 1790989162.075617,
+      "exit": 0,
+      "waited": true,
+      "deadlineExpired": false
+    },
+    "build": {
+      "pid": 56683,
+      "end": 1790989162.219768,
+      "exit": 0,
+      "waited": true,
+      "deadlineExpired": false
+    }
+  },
+  "coverage": "All5 unchanged declarations, including contiguous publication, sparse future comparison correspondence, source identity/dimensions/refusal,30minute logical paging/removal fences and partial/reopen/generation/canceled reclamation. Sampler supplies controlled1x1 RGB values; no media decode.",
+  "falsification": "Removing sourceId equality lets wrong-source append proceed; actual red56588 fails at wrong-source refusal. Original restored56651 green; mutation absent final.",
+  "moduleDifference": "Only obsolete empty library runtime import removed; all remaining JS bytes exact.",
+  "limits": [
+    "No JobQueue editing targets, mixed SceneProcessing/transcript timeline interpreter or schema/public format changes.",
+    "No native/media/model/capture/fullsuite. Logical30minute chunks are synthetic reports, not30minute decode.",
+    "Known Codex configured-model review environment rejection is not retried by parent instruction."
+  ],
+  "choices": "Explicit type import/actual source owner are prescribed dependency removal; no new architecture or uncertain behavior choice.",
+  "bank": {
+    "archive": "source-scene-evidence.tar.gz",
+    "bytes": 107360,
+    "sha256": "7d61e2722a97531ca891ae83395a5f53eb848e22b7b78a4ca44e9ada4618eb21",
+    "payloads": [
+      {
+        "path": "after/packages/core/dist/scene-evidence.js",
+        "bytes": 26854,
+        "sha256": "a40bcc6a4fbb30494b942c1c9e3dcfd7637f9d7c883361b7a0e2b895d189c6cf"
+      },
+      {
+        "path": "after/packages/core/src/scene-evidence.test.ts",
+        "bytes": 9463,
+        "sha256": "ced1d3c3a095d035e70e5abe4e6d6a0771b2f230ee356d3bffc53aff8868c5c7"
+      },
+      {
+        "path": "after/packages/core/src/scene-evidence.ts",
+        "bytes": 30501,
+        "sha256": "66132137303086bccf308de36ff6072006d1a4fd8f8b5cb31697b3ae5c329b90"
+      },
+      {
+        "path": "before/packages/core/dist/scene-evidence.js",
+        "bytes": 26885,
+        "sha256": "93bbe487360c665ddf0415f68d5003e54fe409b1908199ffa12881c5fbc91191"
+      },
+      {
+        "path": "before/packages/core/src/scene-evidence.test.ts",
+        "bytes": 9462,
+        "sha256": "3f2529c399f94aaccdf96f52ac613824c76b2bec92e356a715048d4e9548fb33"
+      },
+      {
+        "path": "before/packages/core/src/scene-evidence.ts",
+        "bytes": 30497,
+        "sha256": "eb92dc8ac62bcfacb6c31414502eb5f3a64869ab058a4fbcbf314af599ca9e79"
+      },
+      {
+        "path": "before.json",
+        "bytes": 490,
+        "sha256": "a1addb4c5d0ad6405a2a93ea9119e631b9f53114dddfeb175463402d700445b4"
+      },
+      {
+        "path": "build/process.json",
+        "bytes": 557,
+        "sha256": "a2ecd7b21cb6efb3fd57872c9b40f3692498c68a525dbf2f6f6fc2201d188508"
+      },
+      {
+        "path": "build/sources/packages/core/src/scene-evidence.test.ts",
+        "bytes": 9463,
+        "sha256": "ced1d3c3a095d035e70e5abe4e6d6a0771b2f230ee356d3bffc53aff8868c5c7"
+      },
+      {
+        "path": "build/sources/packages/core/src/scene-evidence.ts",
+        "bytes": 30501,
+        "sha256": "66132137303086bccf308de36ff6072006d1a4fd8f8b5cb31697b3ae5c329b90"
+      },
+      {
+        "path": "build/stderr",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "build/stdout",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "build/terminal.json",
+        "bytes": 105,
+        "sha256": "55c8850a447db9c1017f76e9223e450ceb6e1aa7443c08c3ff1fccd66cdd2539"
+      },
+      {
+        "path": "choices.md",
+        "bytes": 1008,
+        "sha256": "d8f16112f80f6a06b4ce9002bfae806b45ee2f7274984b263709abb16f43f9d7"
+      },
+      {
+        "path": "committed-source-check.json",
+        "bytes": 437,
+        "sha256": "1325c573fa4520f5c1ce206b0078e8d254bbbe7d81cf89efc0335dddd13604d8"
+      },
+      {
+        "path": "format/process.json",
+        "bytes": 620,
+        "sha256": "5dce3e2299b9315a03ea2959161134b664da8d2f42387605f45ded40b5213a4f"
+      },
+      {
+        "path": "format/sources/packages/core/src/scene-evidence.test.ts",
+        "bytes": 9463,
+        "sha256": "ced1d3c3a095d035e70e5abe4e6d6a0771b2f230ee356d3bffc53aff8868c5c7"
+      },
+      {
+        "path": "format/sources/packages/core/src/scene-evidence.ts",
+        "bytes": 30501,
+        "sha256": "66132137303086bccf308de36ff6072006d1a4fd8f8b5cb31697b3ae5c329b90"
+      },
+      {
+        "path": "format/stderr",
+        "bytes": 91,
+        "sha256": "01f25de219844d53f81b996d6b73e782203533bfc6eba81e44b98acc0039ad42"
+      },
+      {
+        "path": "format/stdout",
+        "bytes": 111,
+        "sha256": "50567b9c19426665287f37a68f8aa2db70aacc327e527001192a6b4fcce4e007"
+      },
+      {
+        "path": "format/terminal.json",
+        "bytes": 105,
+        "sha256": "10e576b4cc979256708506cd5addd03fc59fdc182c1128bf6d052c3afbc9ec35"
+      },
+      {
+        "path": "initial-identity/process.json",
+        "bytes": 616,
+        "sha256": "f4b07e739f6d0b9c50bcf968497c29c1988b19159f7837eb2d72c5b2057dae93"
+      },
+      {
+        "path": "initial-identity/sources/packages/core/src/scene-evidence.test.ts",
+        "bytes": 9463,
+        "sha256": "ced1d3c3a095d035e70e5abe4e6d6a0771b2f230ee356d3bffc53aff8868c5c7"
+      },
+      {
+        "path": "initial-identity/sources/packages/core/src/scene-evidence.ts",
+        "bytes": 30497,
+        "sha256": "eb92dc8ac62bcfacb6c31414502eb5f3a64869ab058a4fbcbf314af599ca9e79"
+      },
+      {
+        "path": "initial-identity/stderr",
+        "bytes": 169,
+        "sha256": "76d9164e329fd4cfb75e2d5965cea30088c2b380a4d72b78a78567093177ecb4"
+      },
+      {
+        "path": "initial-identity/stdout",
+        "bytes": 204,
+        "sha256": "56d241db654c38f67797786692fa85d2290f76734c3eb295ac5be0bc339392b7"
+      },
+      {
+        "path": "initial-identity/terminal.json",
+        "bytes": 105,
+        "sha256": "ec1eeb8e0a88ea274c8e6095f9f864a42a0e5430abbde343b125d1f1a6d3071c"
+      },
+      {
+        "path": "lint/process.json",
+        "bytes": 606,
+        "sha256": "314a5b6faaaeafb21ad824d2c478eabd7bdfa02cc605b541de6e181e72ad17d0"
+      },
+      {
+        "path": "lint/sources/packages/core/src/scene-evidence.test.ts",
+        "bytes": 9463,
+        "sha256": "ced1d3c3a095d035e70e5abe4e6d6a0771b2f230ee356d3bffc53aff8868c5c7"
+      },
+      {
+        "path": "lint/sources/packages/core/src/scene-evidence.ts",
+        "bytes": 30501,
+        "sha256": "66132137303086bccf308de36ff6072006d1a4fd8f8b5cb31697b3ae5c329b90"
+      },
+      {
+        "path": "lint/stderr",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "lint/stdout",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "lint/terminal.json",
+        "bytes": 105,
+        "sha256": "a9e15f50e2bec5aa2235765e5052e9cb745ce5935a0e95279c502f2bfeb132de"
+      },
+      {
+        "path": "parity.json",
+        "bytes": 944,
+        "sha256": "8de65549428083e024e4de3348efeb01072770addcd9a9ffa5a441850cf3b0fd"
+      },
+      {
+        "path": "review.md",
+        "bytes": 965,
+        "sha256": "b8c125d540d86bc22d046d0936a171ebaa09a875075ab5b2d0e5762e2a565fb0"
+      },
+      {
+        "path": "run.py",
+        "bytes": 1322,
+        "sha256": "724e3ac4034f913214d4f2a9d5351cfd9ff4ba7cc1f78cf59814a34195798a47"
+      },
+      {
+        "path": "scene-file/process.json",
+        "bytes": 574,
+        "sha256": "daefda4830ab2eb5cb034db2c8bb37b2520806f68bbddb2ec3f74ce3f62c2345"
+      },
+      {
+        "path": "scene-file/sources/packages/core/src/scene-evidence.test.ts",
+        "bytes": 9463,
+        "sha256": "ced1d3c3a095d035e70e5abe4e6d6a0771b2f230ee356d3bffc53aff8868c5c7"
+      },
+      {
+        "path": "scene-file/sources/packages/core/src/scene-evidence.ts",
+        "bytes": 30501,
+        "sha256": "66132137303086bccf308de36ff6072006d1a4fd8f8b5cb31697b3ae5c329b90"
+      },
+      {
+        "path": "scene-file/stderr",
+        "bytes": 169,
+        "sha256": "522f1a3f657912619f58d6259a4fd220e387a1d215d69a0fa78a0228f8ca1616"
+      },
+      {
+        "path": "scene-file/stdout",
+        "bytes": 182,
+        "sha256": "10b33718af75009802d9774e00b099c7400ee553b6e2ed7e95b6fa7badc035da"
+      },
+      {
+        "path": "scene-file/terminal.json",
+        "bytes": 105,
+        "sha256": "77ba0554c38e6639236dbd93b55dbae270b02dae58d526ce5f950781f44d8627"
+      },
+      {
+        "path": "source-identity-red/process.json",
+        "bytes": 617,
+        "sha256": "fde3f8d63e91d3b4f47cfa53872ef79cd0c75eefc6c19cada80b14321289be19"
+      },
+      {
+        "path": "source-identity-red/sources/packages/core/src/scene-evidence.test.ts",
+        "bytes": 9463,
+        "sha256": "ced1d3c3a095d035e70e5abe4e6d6a0771b2f230ee356d3bffc53aff8868c5c7"
+      },
+      {
+        "path": "source-identity-red/sources/packages/core/src/scene-evidence.ts",
+        "bytes": 30447,
+        "sha256": "14a1ed57c2ca3fa52895f0c088737cdb27785416130ee24ee6f3fc5efcf302e7"
+      },
+      {
+        "path": "source-identity-red/stderr",
+        "bytes": 953,
+        "sha256": "df918cf76e4ff0bb77dbe103698a4677e7ccbbeeb2542bcdad620b61412fa55b"
+      },
+      {
+        "path": "source-identity-red/stdout",
+        "bytes": 373,
+        "sha256": "92b2fabde08a3e0024fccc7084072d04160158cf3d8f02859a05dc004632b266"
+      },
+      {
+        "path": "source-identity-red/terminal.json",
+        "bytes": 105,
+        "sha256": "fec3f0c1a2e8fc62d89c03822854f4e8aca176bee7d2c83985a00b8c2ddbaabf"
+      },
+      {
+        "path": "source-identity-restored/process.json",
+        "bytes": 616,
+        "sha256": "b9166acc43dac9130fb041a28628cf8679aa246aa1209b7d792d25e38d5edd1f"
+      },
+      {
+        "path": "source-identity-restored/sources/packages/core/src/scene-evidence.test.ts",
+        "bytes": 9463,
+        "sha256": "ced1d3c3a095d035e70e5abe4e6d6a0771b2f230ee356d3bffc53aff8868c5c7"
+      },
+      {
+        "path": "source-identity-restored/sources/packages/core/src/scene-evidence.ts",
+        "bytes": 30497,
+        "sha256": "eb92dc8ac62bcfacb6c31414502eb5f3a64869ab058a4fbcbf314af599ca9e79"
+      },
+      {
+        "path": "source-identity-restored/stderr",
+        "bytes": 169,
+        "sha256": "22a3f170180e17be1f130447ff537722e3aa248f2ee644873e8f987033771706"
+      },
+      {
+        "path": "source-identity-restored/stdout",
+        "bytes": 204,
+        "sha256": "d2d79e0557eef355774eb832df0099f7d377cf61e93ef7c9da85aa63494534fe"
+      },
+      {
+        "path": "source-identity-restored/terminal.json",
+        "bytes": 105,
+        "sha256": "e13ff0053e5299d12bd9b826c57c48f752930f44db0a70b0034f5b3d7b910002"
+      },
+      {
+        "path": "types/process.json",
+        "bytes": 563,
+        "sha256": "41ae84441a37cee553377007ee31092302751b09fdc848920d3e6fde32ad8f2e"
+      },
+      {
+        "path": "types/sources/packages/core/src/scene-evidence.test.ts",
+        "bytes": 9463,
+        "sha256": "ced1d3c3a095d035e70e5abe4e6d6a0771b2f230ee356d3bffc53aff8868c5c7"
+      },
+      {
+        "path": "types/sources/packages/core/src/scene-evidence.ts",
+        "bytes": 30501,
+        "sha256": "66132137303086bccf308de36ff6072006d1a4fd8f8b5cb31697b3ae5c329b90"
+      },
+      {
+        "path": "types/stderr",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "types/stdout",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "types/terminal.json",
+        "bytes": 105,
+        "sha256": "af63a6e89c8b2b6c0cc084b09ef7d372600b064a87ff970608d322e5f82858ac"
+      },
+      {
+        "path": "verification.json",
+        "bytes": 3488,
+        "sha256": "13e316888c1333609bfad012bffacdd405575c0db1c922a7cff295dc282ba214"
+      }
+    ],
+    "rootVerification": "Every archived payload and both committed source hashes independently rechecked; direct diff reviewed; existing terminal run reused."
+  },
+  "integratedCommit": "b1c153d359a17e9e2e0db93f5a5e10e2fd165b0f"
+}

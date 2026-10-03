@@ -51,7 +51,7 @@ The [pinned retry bank](publication-pinned-verification.json) preserves the
 [affected export run](publication-pinned-evidence.tar.gz) across held preparation,
 concurrent edits, cancellation and preview eviction. These combinations remain
 bound to the original project revision and bytes. Portable resource-reference
-lifetime is a separate pending contract.
+lifetime is established by the later generation checkpoint below.
 
 The [source fixture bank](capture-source-verification.json) maps all source-only
 claims from the old mixed library suite onto capture facts. Its
@@ -70,8 +70,39 @@ process-death boundaries retain recovery obligations. The changed shared fixture
 passes its affected 59-case cohort. This asset-only checkpoint does not establish
 generation cleanup, surviving native-child recovery or positive media inspection.
 
-Remaining retained-generation resource pins, native workspace-child recovery,
-substitution/member mutation refusal and actual bundled startup ordering must be accounted for
+The [generation retention bank](package-generations-verification.json) retains
+[original failures, repaired controls and the final 63-case affected run](package-generations-evidence.tar.gz).
+Actual package admission pins scene, transcript and source/project index
+generations while replacement and cleanup proceed. Those pins survive active
+export and cancellation, then release after commit. A separate recipient adopts
+the originally selected data after donor reclaim; distinct index images prevent
+a replacement from silently satisfying the comparison. The first cases omitted
+active-export cleanup; their results remain separate from the repaired cases.
+
+The [source-export type bank](source-export-verification.json) and
+[original emission snapshots](source-export-evidence.tar.gz) move the unchanged
+native normalization contract to source admission. All five affected emitted
+modules remain byte-identical. The [cache/evidence fixture bank](source-cache-verification.json)
+and [46-case evidence](source-cache-evidence.tar.gz) use actual capture facts,
+preserving held readers and bounded evidence pages. Removing type-only imports
+also removes the old empty runtime library imports; the algorithm bodies match.
+
+The [rendered-movie bank](rendered-movie-verification.json) and
+[validator and publication proof](rendered-movie-evidence.tar.gz) give common
+video receipt validation its own owner. Both callers retain the same fields,
+errors and rendition policy; recording-specific audio remains with its existing
+receipt until mapped removal. The unchanged 14-case project-preview suite passes.
+Neither this extraction nor the type ports establish actual rendered-media
+quality or complete removal of the old interpreter.
+
+The [scene fixture bank](source-scene-verification.json) and
+[unchanged five-case proof](source-scene-evidence.tar.gz) move source-scene
+identity and evidence lifetime fixtures to capture facts. Scene processing that
+actually interprets recording edits remains separately pending.
+
+Remaining native workspace-child recovery, real package frame/audio failure
+retry and worker drain, substitution/member mutation refusal and actual bundled
+startup ordering must be accounted for
 before the old fixture and package family can be removed. Aggregate library
 storage replaces the obsolete per-recording allocation query; external committed
 files remain excluded. Neither port changes that storage policy.
