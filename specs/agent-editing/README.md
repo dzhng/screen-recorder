@@ -21,7 +21,7 @@ Implement the remaining primitives through their existing owners. Read
 The external caller makes every editorial decision. Read or edit the consumer
 [screenrec skill](../../skills/screenrec/SKILL.md) from that caller's perspective.
 
-**Next pickup: remove recording specializations from scene/index owners, then schema.**
+**Next pickup: port remaining generic recording-index consumers, then remove their old owners and schema.**
 The [canonical service](assets/23-canonical-service/README.md),
 [shared contracts](assets/23-composition-contract/README.md) and
 [fixture/owner closure](assets/23-owner-fixture-ports/README.md) are merged.
@@ -43,13 +43,21 @@ named native lab consumers awaiting their matched ports.
 
 The [transcript owner bank](assets/23-owner-fixture-ports/transcript-owner-purge-verification.json)
 closes recording-only processing/projection and its paged package carrier.
-Generic source storage and raw provenance remain. Remove recording specializations
-from scene/index owners, preserving generic readers, portable generations, shared raster/
-pointer algorithms, exact time and render-workspace lifetimes. Remove orphan
+The [scene/index producer bank](assets/23-owner-fixture-ports/scene-index-owner-purge-verification.json)
+closes their recording executors while preserving selected-source/project bodies.
+Generic source storage, readers and raw provenance remain. Port the remaining
+recording-index domain/page/lifetime fixtures and actual macOS deletion/restart
+consumers. The old `frame-cache-scale.mjs` consumer is unported and is not claimed
+functional; its current-source scale port belongs before final scale acceptance.
+Preserve portable generations, shared raster/pointer algorithms, exact time and
+render-workspace lifetimes. Remove orphan
 recording media/span classes and `RevisionStore` through the current dependency
 map. Source normalization and common movie validation already have independent
 owners. The [caller audit](assets/23-owner-fixture-ports/caller-cutover-audit.json)
-owns the shared CLI/MCP response cleanup and explicit personal-release caller cutover.
+owns the explicit personal-release caller cutover. The
+[batch response bank](assets/23-owner-fixture-ports/batch-owner-contract-verification.json)
+closes shared CLI/MCP recording/package response branches; merged source MCP
+delivery passes its selected duplicate/partial-failure case.
 The [native consumer audit](assets/23-owner-fixture-ports/native-consumer-audit.json)
 and [matched guarantee map](assets/23-owner-fixture-ports/native-guarantee-map.json)
 separate current shared primitives from obsolete engines.

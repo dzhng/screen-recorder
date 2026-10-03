@@ -306,3 +306,19 @@ normalization. The initial affected cohort precedes later retry/assertion and
 operand-writer changes, whose narrow final proofs remain separately identified.
 Project neighbors and public selected-source reads pass against the compiled core.
 No speech accuracy, native decode, schema purge or installed acceptance is claimed.
+
+The [scene/index producer bank](scene-index-owner-purge-verification.json) retains
+[matched dispositions, exact source bodies and original process records](scene-index-owner-purge-evidence.tar.gz).
+Selected-source/project execution and generic PNG storage keep their contracts.
+Two stale metadata-observer failures are preserved; the final observer counts
+the existing per-asset batching without changing production queries or freshness.
+The old recording domain/page/lifetime fixtures and macOS scale consumer remain
+explicitly pending. This producer removal does not establish their functionality.
+
+The [batch response bank](batch-owner-contract-verification.json) retains
+[the actor's transcribed outcomes and exact sources](batch-owner-contract-evidence.tar.gz),
+separately from [contemporaneous merged MCP proof](batch-owner-merged-evidence.tar.gz).
+The shared CLI/MCP media adapter rejects retired owner shapes before consuming
+leases, while current source/project responses retain additive-field tolerance.
+The original deep-worktree socket setup failure remains distinct from the passing
+short-primary duplicate-source case. No native or installed acceptance is claimed.

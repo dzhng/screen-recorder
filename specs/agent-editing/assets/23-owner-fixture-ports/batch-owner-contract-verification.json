@@ -1,0 +1,53 @@
+{
+  "baseline": "891ae2bf",
+  "implementationCommit": "3f8673c80ea53da9c9749d9a24b4a5920677ae81",
+  "finalCommit": "59528de7e2d05ee2abefd8a3f99009c7317f5acd",
+  "integratedAt": "8e43bce6",
+  "contract": "Shared CLI/MCP batch delivery accepts source/project owners and rejects retired recording/package response shapes before artifact reads or closes. Additive response fields and per-item ordering/errors remain unchanged.",
+  "actorEvidence": {
+    "path": "batch-owner-contract-evidence.tar.gz",
+    "bytes": 15580,
+    "sha256": "f97a7b034b0d89495f8374cd49e45f7b22ee1253be27578360a39cd835cc3506",
+    "members": 6,
+    "report": "RUNS.md",
+    "evidenceKind": "Tool-observed outcomes transcribed after execution; no contemporaneous actor stdout/PID journal."
+  },
+  "rootMergedEvidence": {
+    "path": "batch-owner-merged-evidence.tar.gz",
+    "bytes": 12457,
+    "sha256": "6c66b4ce3f932176cefeb3c067d911ae64543cb2740839f2034330111ac44bbc",
+    "evidenceKind": "Contemporaneous bounded CLI-build and selected MCP-source-batch process/stdout/stderr/terminal records, plus final source operands.",
+    "outcome": "CLI build exit0; actual MCP admitted duplicate source batch1/1 pass,13 untouched cases not run."
+  },
+  "sourcePins": {
+    "baseline/apps/cli/src/artifact-delivery.ts": {
+      "git_blob": "f9ef40e0fdcfb1aa5139daa81f302890fa1df211",
+      "sha256": "c61a68a567c6fc5963bf6175f44f1fc32823c2c1a57b38ed7bb005290a35af51",
+      "bytes": 12425
+    },
+    "baseline/apps/cli/src/artifact-delivery.test.ts": {
+      "git_blob": "af398cf4f2c4b67a0ff11d37f0d59cb8d7a81e77",
+      "sha256": "4bff240f8290c0ddf924affb7be2280a5b54c39a5124c410fd3128cb229ec042",
+      "bytes": 12705
+    },
+    "committed/apps/cli/src/artifact-delivery.ts": {
+      "git_blob": "c66b387df6d364e8012472ee4bcfd1df6a492ccf",
+      "sha256": "736287af1bf9d7377821dbe7168ae0028e9ce372c1067b86c5253f4c214c58c5",
+      "bytes": 12064
+    },
+    "committed/apps/cli/src/artifact-delivery.test.ts": {
+      "git_blob": "faac6a07cd3ad624d369c84df08dc80cef77a970",
+      "sha256": "7736ca9b2029ca9277d4db5c5b04d49862bf3a2e6fcefd3489f1654141bc3991",
+      "bytes": 13510
+    },
+    "RUNS.md": {
+      "sha256": "1285b49da3ac43612688813b2f9b423794b3d263a2ccc116d442a11b60a87df1",
+      "bytes": 5227
+    }
+  },
+  "limits": [
+    "Original deep-worktree MCP setup EINVAL is preserved separately from successful short-primary selected check.",
+    "No full suite, native decode, capture, model, installed-release or media-quality claim.",
+    "Configured Codex review400 produced no review verdict and must not be retried unchanged."
+  ]
+}

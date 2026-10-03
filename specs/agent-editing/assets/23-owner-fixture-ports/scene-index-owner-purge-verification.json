@@ -1,0 +1,118 @@
+{
+  "base": "891ae2bf",
+  "commit": "26351af297cefdc7ee0184221c1bde6c21734dba",
+  "scope": "Remove obsolete recording scene/index producer specializations from existing owners; preserve source/project execution and generic PNG storage/reader behavior. No schema,format,public operation, native/media/inference or installed change.",
+  "cohort": {
+    "producer-current": "33/35, stale metadata observer readszero segments due old SQLprefix; scene10+project9 pass.",
+    "producer-final": "33/35, corrected SQLprefix observes3/1 segments vs stale6/2; same complete-output assertions pass.",
+    "source-index-final": "16/16 against final changed test expectations; source/prod methods unchanged from previousphase.",
+    "generic-png-portable": "22/22 after generic default/type-only port.",
+    "metadata-observer-final": "2/2 against final broader table identity predicate, after final16 source-index cohort; unchanged complete values/errors and3/1 segment reads. Other14 rows unaffected by this observer-only edit."
+  },
+  "parity": {
+    "processorMethods": "42 exact retained method declarations/bodies; execute body promoted directly from former executeSource, analyze loop same.",
+    "sharedEmittedJS": "Six exact byte-equal outputs after build: retained-image,screenshot-index,screenshot-index-read,index-read,index-pages,frame-materialization."
+  },
+  "limits": [
+    "Scripted sampler/frame receipts verify owner policy, complete metadata, rows and controlled PNG lifetime, not media validity or pixel rendering.",
+    "No fullsuite/native/model/capture24/installed execution.",
+    "Generic recording index domain/pages/MaterializedFrame-specific validators and recording scene source evidence remain pending matched port; legitimate raw recording/r0 provenance stays.",
+    "Known old macOS frame-cache-scale fixture remains unported and not claimed functional.",
+    "No modules deleted in this wave (two tests only), so no orphan production emits removed."
+  ],
+  "structuralCost": {
+    "paths": 13,
+    "production": {
+      "added": 68,
+      "deleted": 524
+    },
+    "tests": {
+      "added": 127,
+      "deleted": 690
+    },
+    "total": {
+      "added": 195,
+      "deleted": 1214
+    }
+  },
+  "evidence": {
+    "path": "scene-index-owner-purge-evidence.tar.gz",
+    "bytes": 1078413,
+    "sha256": "7dd4d2174c314d04db79e037422b7a554ea26f4ba862b1f7611ad237753de429",
+    "payloadCount": 425,
+    "report": "report.json",
+    "coverage": "coverage.json",
+    "review": "review.md",
+    "choices": "choices.md"
+  },
+  "rootVerification": {
+    "archiveMembersChecked": 425,
+    "committedSourceOrDeletionBindings": [
+      {
+        "path": "packages/core/src/frame-materialization.ts",
+        "sha256": "55cf507b2dd5ef3a7d37d8fee761eef6d621dec72b813c7e3498e57e7f1c6813",
+        "matchesCommittedBlob": true
+      },
+      {
+        "path": "packages/core/src/index-pages.ts",
+        "sha256": "e00544e2bb88bffbcc53f497490a6707fc13cb1eb39e5462e1656b0fd03c1931",
+        "matchesCommittedBlob": true
+      },
+      {
+        "path": "packages/core/src/index-processing.test.ts",
+        "deletedInCommit": true
+      },
+      {
+        "path": "packages/core/src/index-processing.ts",
+        "sha256": "53abf8837f8edbda80d7966b70dc5cf79d290c2232d0258358e11ca89140c24d",
+        "matchesCommittedBlob": true
+      },
+      {
+        "path": "packages/core/src/index-read.ts",
+        "sha256": "b24dc9aae74cc4ede1c9472c8b3d9350c51f61c24ca79d58a6fb51fe71c20769",
+        "matchesCommittedBlob": true
+      },
+      {
+        "path": "packages/core/src/portable-index.test.ts",
+        "sha256": "9c29ef1d176c8632ba0794d6615435391331ff157e987fa8aae532b2860cd302",
+        "matchesCommittedBlob": true
+      },
+      {
+        "path": "packages/core/src/retained-image.ts",
+        "sha256": "98b0e829d214988b1afe84f354254e7eb52cb274a3bc0f7c1e7dd58e24e7f703",
+        "matchesCommittedBlob": true
+      },
+      {
+        "path": "packages/core/src/scene-processing.test.ts",
+        "deletedInCommit": true
+      },
+      {
+        "path": "packages/core/src/scene-processing.ts",
+        "sha256": "2f976ea3b45e39e0239f398098b33da535e8344197c7e24707c317f06af9d825",
+        "matchesCommittedBlob": true
+      },
+      {
+        "path": "packages/core/src/screenshot-index-read.ts",
+        "sha256": "9386c5238e8ec2349ea27d2d347c02b2653e4678a705c23889d718228f9c8003",
+        "matchesCommittedBlob": true
+      },
+      {
+        "path": "packages/core/src/screenshot-index.ts",
+        "sha256": "a67b5cb997a3e72ff0ddc9a22234123c1a45fb38637b84ab29b0433396cfad9c",
+        "matchesCommittedBlob": true
+      },
+      {
+        "path": "packages/core/src/source-index-processing.test.ts",
+        "sha256": "ad0b420f67c0bf0927f2d763f79b9c8bd187a118c383b38568d5209523b5c352",
+        "matchesCommittedBlob": true
+      },
+      {
+        "path": "packages/core/src/source-scene-processing.test.ts",
+        "sha256": "daef99a3be5fe6bbe829018944d20bdc0bbf49149c106b7f248368e84567687b",
+        "matchesCommittedBlob": true
+      }
+    ],
+    "finalSourceEmissionOrDeletionBindingsChecked": 21,
+    "scope": "Exact payloads and current source/emits; producer cohort and later observer cases separately identified, no repeated runtime."
+  }
+}

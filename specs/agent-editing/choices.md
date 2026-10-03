@@ -7377,3 +7377,48 @@ namespace. This choice belongs to `f5d40100`; the generic store and its existing
 ownership/interruption tests remain byte-identical. Selected-source processing
 requires its actual asset/acquisition domain, and project rows derive from its
 source contract rather than the deleted recording projector.
+
+**Sound, medium confidence — current scene/index preparation keeps its selected-source policy.**
+A caller explicitly retries a failed source index. The current owner also retries
+its failed scene prerequisite; an ordinary read still leaves that failure alone.
+The old recording index required another preparation call and used one global
+background frame slot. Keeping those rules would recreate a retired pipeline:
+current index parents use the shared heavy-work lane and their frame children
+use separate capacity. Likewise, physical source support replaces the old
+nearest-future recording sample rule. The plan required useful guarantees to
+survive without choosing every obsolete scheduling rule's fate. This choice
+belongs to `26351af2`; partial-publication, explicit retry, cancellation, pinned
+references and bounded work remain, while those old policies retire explicitly.
+It constrains fixture ports, not editorial decisions or source lifetime.
+
+**Sound, high confidence — retained PNG metadata belongs to its existing file owner.**
+A source or project index retains an image with its path, byte count, media type
+and dimensions. Those facts describe a file regardless of which renderer made
+it. The existing retained-image validator owns that receipt, and renderer-specific
+receipts derive from it. Keeping the type attached to the recording renderer
+would make generic readers depend on an obsolete edit interpreter. The plan did
+not prescribe this type's home. This choice belongs to `26351af2`; runtime PNG
+validation stays unchanged. Generic index defaults no longer silently choose
+recording records, while pending old consumers explicitly name their domain.
+
+**Sound, high confidence — query observations follow the existing batching owner.**
+An index resolves two streams from one asset. The asset store already reads all
+their segments in one query per phase. A test watching the former query spelling
+reported zero reads; watching the actual table shows three ready phases and one
+execution phase. Keeping the old six/two counts would test a query pattern the
+product no longer uses. The plan required bounded fresh resolution without
+specifying this test observer. This choice belongs to `26351af2`; the observer
+recognizes the table independently of selected columns. Complete metadata,
+freshness, acquisition/header counts and error order remain asserted, and no
+production query or performance limit changes.
+
+**Sound, high confidence — media response tolerance excludes retired ownership.**
+The service returns a timestamp batch belonging to a project or selected source.
+The CLI/MCP adapter accepts added response fields, but refuses a recording-only
+or package-only owner before reading or closing any media lease. Ignoring the
+retired selector could otherwise consume a result that cannot identify the
+current requested target. The plan required consumer cutover without prescribing
+this response-validation boundary. This choice belongs to `d9b15a48`; current
+selection order, duplicates, per-item errors and lease behavior stay unchanged.
+The private project parser has its current owner's name, with no new protocol
+version or compatibility adapter.
