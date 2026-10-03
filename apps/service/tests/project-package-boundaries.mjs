@@ -15,7 +15,7 @@ import {
 } from "node:fs/promises";
 import { join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
-import { fixture, until, nativeBinary } from "./fixtures/project-export.mjs";
+import { fixture, until, nativeBinary, gate } from "./fixtures/project-export.mjs";
 
 test("substituted project package input blocks publication and cleanup until owned identity returns", async (t) => {
   let f,
@@ -210,3 +210,131 @@ test(
     assert.equal(await readFile(f.assets.path(f.asset.id), "utf8"), "source identity");
   },
 );
+
+test("project package refuses a normalized acquisition member changed after its frozen pin", async (t) => {
+  const entered = gate(),
+    release = gate();
+  t.after(() => release.resolve());
+  const f = await fixture(t, {
+    render: async (request, signal, render) => {
+      entered.resolve();
+      await release.promise;
+      return render(request, signal);
+    },
+  });
+  const donor = join(f.home, "capture-donor");
+  await mkdir(donor);
+  const journal = JSON.stringify({
+    sessionID: "package-receipt",
+    intervals: [{ startUs: 0, endUs: 1000000 }],
+  });
+  await writeFile(join(donor, "capture.journal.jsonl"), journal);
+  await writeFile(join(donor, "video.mov"), "captured video");
+  await writeFile(join(donor, "narration.mov"), "captured audio");
+  await f.acquisitionImports.recover(new AbortController().signal);
+  const prepared = await f.acquisitionImports.prepareImport("capture", donor);
+  const intent = f.acquisitions.admitImport(prepared);
+  const acquired = await f.acquisitionImports.executeImport(
+    intent.acquisitionId,
+    "capture-attempt",
+    {
+      exportSource: async (directory, output) => {
+        const input = JSON.parse(await readFile(join(directory, "capture.journal.jsonl"), "utf8"));
+        const body = input.intervals
+          .map(
+            (interval) =>
+              JSON.stringify({ event: "audioAcquired", data: { role: "narration", ...interval } }) +
+              "\n",
+          )
+          .join("");
+        await writeFile(output, body);
+        return {
+          file: output,
+          journal: "capture.journal.jsonl",
+          header: { sessionID: input.sessionID },
+          cursorSamples: 0,
+          geometryRecords: 0,
+          displaySpaces: 0,
+          pauseEvents: 0,
+          audioIntervals: input.intervals.length,
+          lastSequence: input.intervals.length,
+          incompleteTail: false,
+          finished: true,
+          bytes: Buffer.byteLength(body),
+        };
+      },
+      probe: async (path) => {
+        const kind = (await readFile(path, "utf8")) === "captured video" ? "video" : "audio";
+        return {
+          originUs: 0,
+          streams: [
+            {
+              id: "track:1",
+              kind,
+              codec: "fixture",
+              ...(kind === "video"
+                ? { width: 160, height: 96, orientedWidth: 160, orientedHeight: 96 }
+                : {}),
+              decodable: true,
+              startUs: 0,
+              endUs: 1000000,
+              segments: [{ startUs: 0, endUs: 1000000, empty: false }],
+            },
+          ],
+        };
+      },
+    },
+    new AbortController().signal,
+  );
+  const video = acquired.bindings.find((binding) => binding.sourceRoles.includes("video"));
+  assert.ok(video);
+  f.projects.apply(f.projectId, {
+    requestId: "capture-context",
+    expectedRevisionId: f.placed.revision.id,
+    operations: [
+      { operation: "track.add", track: { kind: "video", order: 1 }, label: "capture" },
+      {
+        operation: "place",
+        clip: {
+          trackId: { label: "capture" },
+          assetId: video.assetId,
+          streamId: video.streamId,
+          acquisitionId: acquired.id,
+          source: { kind: "range", range: { startUs: 0, endUs: 1000000 } },
+          placement: { kind: "project", range: { startUs: 0, endUs: 1000000 } },
+        },
+      },
+    ],
+  });
+  const normalized = acquired.evidence.receipt.file;
+  const original = await readFile(normalized, "utf8"),
+    altered = original + "\n";
+  assert.equal(Buffer.byteLength(original), acquired.evidence.receipt.bytes);
+  assert.equal(Buffer.byteLength(altered), acquired.evidence.receipt.bytes + 1);
+  await chmod(normalized, 0o600);
+  await f.preview.request({ projectId: f.projectId, revisionId: f.placed.revision.id });
+  await entered.promise;
+  const request = { ...f.request(), kind: "processed-package", leaf: "changed-normalized.zip" };
+  await f.exports.create(request);
+  assert.equal(f.exports.status(request.exportId).state, "queued");
+  const pinned = JSON.parse(
+    f.catalog.catalog
+      .prepare("SELECT snapshot FROM export_intents WHERE exportId=?")
+      .get(request.exportId).snapshot,
+  ).acquisitionFiles[acquired.id].normalized;
+  assert.equal(pinned.bytes, acquired.evidence.receipt.bytes);
+  await writeFile(normalized, altered);
+  assert.equal((await stat(normalized)).size, pinned.bytes + 1);
+  assert.equal(f.acquisitions.get(acquired.id).evidence.receipt.bytes, pinned.bytes);
+  release.resolve();
+  await f.jobs.idle();
+  const failed = f.exports.status(request.exportId);
+  assert.equal(failed.state, "failed", JSON.stringify(failed));
+  assert.equal(f.jobs.job(failed.jobId).errorCode, "SOURCE_CHANGED");
+  await assert.rejects(stat(join(f.output, request.leaf)), { code: "ENOENT" });
+  await f.exports.abandon(request.exportId);
+  assert.deepEqual(await readdir(f.output), []);
+  assert.equal(await readFile(normalized, "utf8"), altered);
+  assert.equal(await readFile(f.acquisitionImports.journalPath(acquired.id), "utf8"), journal);
+  assert.equal(await readFile(f.assets.path(video.assetId), "utf8"), "captured video");
+});

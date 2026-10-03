@@ -405,6 +405,8 @@ export async function fixture(
     deletion,
     storage,
     packages,
+    acquisitions,
+    acquisitionImports,
     scenes,
     sceneProcessing,
     transcripts,
