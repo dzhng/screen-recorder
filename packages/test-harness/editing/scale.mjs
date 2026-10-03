@@ -1,14 +1,16 @@
+import { reorderQuery } from "./scale-reorder-query.mjs";
 import { routingTopology } from "./routing-topology.mjs";
 import assert from "node:assert/strict";
 import { previewScale } from "./preview-scale.mjs";
-import { mkdtemp, mkdir, readFile, readdir, writeFile } from "node:fs/promises";
+import { mkdtemp, mkdir, readFile, readdir, rm, writeFile } from "node:fs/promises";
 import { join, resolve } from "node:path";
 import { parseArgs } from "node:util";
 import { JourneyService, poll, hash, run } from "./source-evidence-fixture.mjs";
 import { writeSourceWave, sourcePeriod, waveHeader } from "./audio-project-fixture.mjs";
 
 const { values } = parseArgs({ options: { case: { type: "string" }, out: { type: "string" } } });
-assert.equal(values.case, "long-project");
+assert.ok(["long-project", "reorder-query"].includes(values.case));
+const queryOnly = values.case === "reorder-query";
 assert.ok(process.env.SCREENREC_NATIVE);
 const out = values.out ? resolve(values.out) : await mkdtemp("/tmp/routing-scale-");
 await mkdir(out, { recursive: true });
@@ -23,7 +25,7 @@ const report = {
 };
 const service = new JourneyService(home, report, join(out, "native"));
 const call = (operation, params, extra = {}) =>
-  service.call(operation, params, { transport: "mcp", ...extra });
+  service.call(operation, params, { transport: queryOnly ? "cli" : "mcp", ...extra });
 const save = (name, value) => writeFile(join(out, name), JSON.stringify(value, null, 2));
 let sampledRSS = 0,
   sampling = false;
@@ -43,6 +45,7 @@ try {
   await service.start();
   const source = join(out, "source.wav");
   await writeSourceWave(source, { source: 0, seconds: 1 });
+  const sourceHash = hash(await readFile(source));
   const imported = await call("asset.import", { path: source, requestId: "source" });
   const ready = await poll(
     () => call("job.get", { jobId: imported.jobId }),
@@ -51,10 +54,12 @@ try {
   );
   const asset = await call("asset.get", { assetId: ready.result.assetId });
   const period = sourcePeriod(0);
-  for (const [seconds, occurrences] of [
-    [300, 500],
-    [7200, 10000],
-  ]) {
+  for (const [seconds, occurrences] of queryOnly
+    ? [[7200, 10000]]
+    : [
+        [300, 500],
+        [7200, 10000],
+      ]) {
     const depth = 128,
       width = 32,
       durationUs = seconds * 1e6;
@@ -88,6 +93,7 @@ try {
     const topology = routingTopology(depth, width);
     const topologyResult = await apply(topology, "topology"),
       tracks = Array.from({ length: width }, (_, i) => topologyResult.edit.labels[`t${i}`]);
+    const authored = [];
     const sequential = occurrences - width,
       endSequential = durationUs - 1e6;
     for (let first = 0; first < occurrences; first += 500) {
@@ -99,6 +105,7 @@ try {
           i < sequential ? Math.floor(((i + 1) * endSequential) / sequential) : durationUs;
         operations.push({
           operation: "place",
+          ...(queryOnly ? { label: `clip${i}` } : {}),
           clip: {
             trackId: tracks[i < sequential ? i % width : i - sequential],
             assetId: asset.id,
@@ -108,10 +115,23 @@ try {
           },
         });
       }
-      await apply(operations, `place-${first}`);
+      const placed = await apply(operations, `place-${first}`);
+      if (queryOnly)
+        for (const op of operations) {
+          authored.push({
+            clipId: placed.edit.labels[op.label],
+            trackId: op.clip.trackId,
+            trackRank: tracks.indexOf(op.clip.trackId),
+            ...op.clip.placement.range,
+          });
+        }
     }
     const selection = { projectId, revisionId };
     result.selection = selection;
+    if (queryOnly) {
+      await reorderQuery({ service, save, result, apply, selection, authored, asset });
+      continue;
+    }
     const query = { ...selection, range: { startUs: 0, endUs: endSequential }, limit: 250 };
     const read250 = async () => {
       const rows = [];
@@ -220,16 +240,17 @@ try {
       assert.equal((await call("asset.get", { assetId: asset.id })).id, asset.id);
     }
   }
-  report.preview = await previewScale(
-    service,
-    out,
-    report.limits,
-    report.cases.at(-1).selection,
-    report.cases.at(-1).seconds * 1e6,
-  );
+  if (!queryOnly)
+    report.preview = await previewScale(
+      service,
+      out,
+      report.limits,
+      report.cases.at(-1).selection,
+      report.cases.at(-1).seconds * 1e6,
+    );
   report.observations.sampledServicePeakRSS = sampledRSS;
   const mixes = [];
-  for (const name of await readdir(join(out, "native")))
+  for (const name of queryOnly ? [] : await readdir(join(out, "native")))
     if (name.startsWith("mix-")) {
       const value = JSON.parse(await readFile(join(out, "native", name), "utf8"));
       assert.equal(
@@ -246,10 +267,13 @@ try {
       });
     }
   report.observations.mixes = mixes;
+  assert.equal(hash(await readFile(source)), sourceHash, "Source bytes must remain intact");
+  report.observations.sourceSha256 = sourceHash;
   const renders = await readdir(join(home, "library/render"), { recursive: true }).catch(() => []);
   assert.equal(renders.length, 0, "Canceled and completed work must reclaim render staging");
   report.passed =
-    report.cases.every((value) => value.inspection.withinBudget) && report.preview.withinBudget;
+    report.cases.every((value) => value.inspection.withinBudget) &&
+    (queryOnly || report.preview.withinBudget);
   await save("report.json", report);
   assert.ok(
     report.passed,
@@ -262,5 +286,6 @@ try {
   clearInterval(timer);
   await service.stop();
   await save("report.json", report);
+  if (queryOnly) await rm(home, { recursive: true, force: true });
 }
 console.log(out);
