@@ -25,6 +25,7 @@ import {
   setDefault,
   socketPath,
   temporary,
+  waitFor,
 } from "./harness.mjs";
 
 const { values } = parseArgs({
@@ -137,8 +138,19 @@ for (const moment of moments) {
 
   const source = join(home, "library", "recordings", started.recordingId, "source");
   const second = await app(home);
-  await second.instance.waitFor(/reconciliation complete/);
-  const recovered = await succeeds(home, "recording.get", { recordingId: started.recordingId });
+  const recovered = await waitFor(
+    async () => {
+      const facts = await succeeds(home, "recording.get", { recordingId: started.recordingId });
+      return (
+        ["complete", "interrupted", "canceled"].includes(facts.state) &&
+        (facts.sourceDurationUs === null ||
+          facts.sourceAdmissions.some((source) => source.kind === "primary")) &&
+        facts
+      );
+    },
+    20_000,
+    () => "Recovered recording/source facts did not settle",
+  );
   second.instance.kill("SIGTERM");
   await second.instance.exited;
 
