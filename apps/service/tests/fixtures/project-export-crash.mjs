@@ -111,6 +111,26 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
             process.send({ gap });
             await new Promise(() => {});
           }
+          if (gap === "package-survivor" && op === "archive.write") {
+            const environment = {
+              DYLD_INSERT_LIBRARIES: existing.library,
+              SCREENREC_TEST_COPY_BARRIER: existing.marker,
+              SCREENREC_TEST_COPY_PARTIAL: "0",
+              SCREENREC_TEST_COPY_MIN_FD: "6",
+            };
+            const previous = Object.fromEntries(
+              Object.keys(environment).map((key) => [key, process.env[key]]),
+            );
+            Object.assign(process.env, environment);
+            try {
+              return run(op, ...args);
+            } finally {
+              for (const key of Object.keys(environment)) {
+                if (previous[key] === undefined) delete process.env[key];
+                else process.env[key] = previous[key];
+              }
+            }
+          }
           const result = await run(op, ...args);
           if (
             (gap === "commit" && op === "publication.commit") ||
