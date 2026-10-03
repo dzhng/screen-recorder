@@ -6,12 +6,12 @@ import { retainedFileRead, O_NOFOLLOW_ANY } from "@screenrec/core/files";
 import { CatalogError } from "@screenrec/core/catalog";
 import {
   PreviewInspectionBase,
-  checkRenderedPreview,
   previewBoundFor,
   type PreviewOptions,
   type PreviewRenderer,
-  type RenderedMovie,
+  type PreviewMovie,
 } from "@screenrec/core/preview";
+import { checkRenderedMovie } from "@screenrec/core/rendered-movie";
 import { renderPlan } from "@screenrec/core/presentation-time";
 import { PackageMediaContext, type PackageTarget } from "./package-media.js";
 
@@ -28,7 +28,7 @@ import { PackageMediaContext, type PackageTarget } from "./package-media.js";
  * movie is read through a lease the package owns, and both go when the package closes. The whole
  * parent is cleared at startup, so a service that dies mid-render leaves nothing behind either.
  */
-export type PackagePreviewArtifact = RenderedMovie & {
+export type PackagePreviewArtifact = PreviewMovie & {
   maxLongEdge: number | null;
   recordingId: string;
   sourceId: string;
@@ -102,7 +102,7 @@ export class PackagePreviewInspection extends PreviewInspectionBase<
           signal,
         );
         signal.throwIfAborted();
-        checkRenderedPreview(movie, {
+        checkRenderedMovie(movie, {
           file,
           durationUs: revision.durationUs,
           maxLongEdge,

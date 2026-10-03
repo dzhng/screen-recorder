@@ -100,6 +100,10 @@
       "types": "./dist/presentation-time.d.ts",
       "default": "./dist/presentation-time.js"
     },
+    "./rendered-movie": {
+      "types": "./dist/rendered-movie.d.ts",
+      "default": "./dist/rendered-movie.js"
+    },
     "./preview": {
       "types": "./dist/preview.d.ts",
       "default": "./dist/preview.js"

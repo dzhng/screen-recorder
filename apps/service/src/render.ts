@@ -4,7 +4,7 @@ import { basename, join } from "node:path";
 import type { DirectoryIdentity } from "@screenrec/core/cache";
 import { CatalogError } from "@screenrec/core/catalog";
 import type { AudioTrackPlan } from "@screenrec/core/audio";
-import type { PreviewRenderer, RenderedMovie } from "@screenrec/core/preview";
+import type { PreviewRenderer, PreviewMovie } from "@screenrec/core/preview";
 import {
   PresentationEvidence,
   presentationLimits,
@@ -229,7 +229,7 @@ export async function withRenderedMedia<T>(
     ) => Promise<Awaited<ReturnType<typeof writePointerSchedule>>>;
   },
   signal: AbortSignal,
-  consume: (video: RenderedMovie) => Promise<T>,
+  consume: (video: PreviewMovie) => Promise<T>,
 ): Promise<T> {
   return withRenderAttempt(
     worker,
@@ -252,7 +252,7 @@ export async function withRenderedMedia<T>(
         { signal, timeoutMs: renderDeadlineMs(request.plan, request.tracks.length > 0) },
       );
       if (signal.aborted) throw new CatalogError("CANCELED", "Media render was canceled");
-      const receipt = nativeResult(response) as RenderedMovie;
+      const receipt = nativeResult(response) as PreviewMovie;
       if (
         receipt.file !== file ||
         receipt.durationUs !== request.plan.at(-1)?.playback.endUs ||
