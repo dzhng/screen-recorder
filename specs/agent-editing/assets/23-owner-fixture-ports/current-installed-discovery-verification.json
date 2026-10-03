@@ -1,0 +1,412 @@
+{
+  "status": "PASS scoped private installed cold default discovery and ready CLI/default SDK MCP",
+  "sourceCommit": "e825294c",
+  "archive": {
+    "path": "private-default-discovery-e825294c-evidence.tar.gz",
+    "bytes": 11176385,
+    "sha256": "c088870298d062aef094a51f41cc607e0008371059daeda7d96c596c896d15b1",
+    "members": [
+      {
+        "path": "private-cold-install-e825294c/candidate-before.json",
+        "bytes": 2558,
+        "sha256": "cb238e385d0b116941db92b423e5766f9be48086b1aa86ae12a57c7dc347b26d"
+      },
+      {
+        "path": "private-cold-install-e825294c/capsule/apps/macos/tests/personal-install.test.mjs",
+        "bytes": 5464,
+        "sha256": "43e17a7510e863cd31363b935c054d0f8d642ff60a6685b8cb4182f02d5674ff"
+      },
+      {
+        "path": "private-cold-install-e825294c/capsule/dist/ScreenRecorder.app/Contents/Info.plist",
+        "bytes": 1228,
+        "sha256": "afb159ee869e48bed7342aee196ca07c28874e88ead9f261836dfb0ffd01aabf"
+      },
+      {
+        "path": "private-cold-install-e825294c/capsule/dist/ScreenRecorder.app/Contents/MacOS/ScreenRecorder",
+        "bytes": 6320416,
+        "sha256": "722185bfdc3d6e96e9f54210764ca4cf0cba51ee61b06edc31a683472ada964a"
+      },
+      {
+        "path": "private-cold-install-e825294c/capsule/dist/ScreenRecorder.app/Contents/MacOS/screenrec-native",
+        "bytes": 19979280,
+        "sha256": "40ece2d269b48a1aed5846e3e0a64bb1ece8f42f1f8e9996b47adbddb265dc55"
+      },
+      {
+        "path": "private-cold-install-e825294c/capsule/dist/ScreenRecorder.app/Contents/Resources/AppIcon.icns",
+        "bytes": 522035,
+        "sha256": "26287a37a599c208040ebdbcd8d91705b2e5e43452d0fee7d85e2da4c7b95725"
+      },
+      {
+        "path": "private-cold-install-e825294c/capsule/dist/ScreenRecorder.app/Contents/Resources/ThirdParty/RNNoise/COPYING",
+        "bytes": 1612,
+        "sha256": "45d37ca1cdb278c088e1aa85e0e65ca3a534ed86a28dcc96ca16810248a61d35"
+      },
+      {
+        "path": "private-cold-install-e825294c/capsule/dist/ScreenRecorder.app/Contents/Resources/ThirdParty/RNNoise/provenance.json",
+        "bytes": 2899,
+        "sha256": "350efedc54fe089a045ade892c385d487dd3bdb98f873d6a173010fe796d4ec1"
+      },
+      {
+        "path": "private-cold-install-e825294c/capsule/dist/ScreenRecorder.app/Contents/Resources/cli/main.mjs",
+        "bytes": 1148904,
+        "sha256": "594d122c51aa005091a2c7a497f77c5b539b4be912fad07bc756188d110b907e"
+      },
+      {
+        "path": "private-cold-install-e825294c/capsule/dist/ScreenRecorder.app/Contents/Resources/service/main.mjs",
+        "bytes": 4078021,
+        "sha256": "197df7baa07fc2f45603f1579b36757b9a2fcb919eccb0e6c08864d1688ae959"
+      },
+      {
+        "path": "private-cold-install-e825294c/capsule/dist/ScreenRecorder.app/Contents/Resources/service/runtime.json",
+        "bytes": 151,
+        "sha256": "f5fc815c701e74e21efaa34a6f5af20cab81ea8bc410e772feb39cf547b31ef0"
+      },
+      {
+        "path": "private-cold-install-e825294c/capsule/dist/ScreenRecorder.app/Contents/_CodeSignature/CodeResources",
+        "bytes": 3918,
+        "sha256": "a5782d0af7d5aee6e2566fa41b934d0dfa006a8b47e976b960ddd943a7f4b119"
+      },
+      {
+        "path": "private-cold-install-e825294c/capsule/packages/client/src/discovery.test.ts",
+        "bytes": 15396,
+        "sha256": "6ae6a892ed5ae32d6cfbd48234cf7a94a956667e26ce7065f0d356b90785d18f"
+      },
+      {
+        "path": "private-cold-install-e825294c/capsule/packages/client/src/discovery.ts",
+        "bytes": 5798,
+        "sha256": "5a0733d27e5a94bff4ba86b3a9fb42edb60289ef7946205aefb2e59db7f357de"
+      },
+      {
+        "path": "private-cold-install-e825294c/capsule/scripts/install-personal.mjs",
+        "bytes": 5941,
+        "sha256": "0d49c58464808e3d120e22192df2d3a1ef942ff1fa084aa2b080b2c0242e6aec"
+      },
+      {
+        "path": "private-cold-install-e825294c/capsule/scripts/signing-identity.mjs",
+        "bytes": 5132,
+        "sha256": "63fae16c033e927bbab037dd44001919f6130651df9e470f5b026c107cf16592"
+      },
+      {
+        "path": "private-cold-install-e825294c/choices.json",
+        "bytes": 1272,
+        "sha256": "d05772aeabd40a88270fd520d8d09aac1c66a6c44f11314196724efa5390ec14"
+      },
+      {
+        "path": "private-cold-install-e825294c/cold-launch.json",
+        "bytes": 1234,
+        "sha256": "2d3214a8095854f064398ff1feced1119472ed3f127af1e424b2a612a809fe64"
+      },
+      {
+        "path": "private-cold-install-e825294c/commands.json",
+        "bytes": 5328,
+        "sha256": "edf8b7738f467835e3e69a85c51fcc5149ed8fd1045eddae44bc291b85631cf0"
+      },
+      {
+        "path": "private-cold-install-e825294c/installed-launcher",
+        "bytes": 167,
+        "sha256": "fa0836c614530930866f00048bc633986234fc7a22027b961964e71f8fe13741"
+      },
+      {
+        "path": "private-cold-install-e825294c/installed.json",
+        "bytes": 6125,
+        "sha256": "be1556ea37094a1e63a5fc75cb005df997e725e7282e287e8265d0e5cddaa9c1"
+      },
+      {
+        "path": "private-cold-install-e825294c/manifest.json",
+        "bytes": 5600,
+        "sha256": "d3dce032ed7d2cf2122c667667570e0086052751e7e59fc972dda1078eb9ad79"
+      },
+      {
+        "path": "private-cold-install-e825294c/mcp-replies.json",
+        "bytes": 1633,
+        "sha256": "76916e1440e0b804a3ce3094b9aaadc6eefc11778e64c00a3bc8791c7f09ceb7"
+      },
+      {
+        "path": "private-cold-install-e825294c/mcp-tools.json",
+        "bytes": 317909,
+        "sha256": "f60a99e054aa3d2871241f5a01a54969aa054eabe376a8c039f240eb6f00b941"
+      },
+      {
+        "path": "private-cold-install-e825294c/personal-after.json",
+        "bytes": 387413,
+        "sha256": "8544f1fd0e115e67910364a71a9fffed00515f10d418fc42766e67cd979e6fff"
+      },
+      {
+        "path": "private-cold-install-e825294c/personal-before.json",
+        "bytes": 387413,
+        "sha256": "8544f1fd0e115e67910364a71a9fffed00515f10d418fc42766e67cd979e6fff"
+      },
+      {
+        "path": "private-cold-install-e825294c/plan.json",
+        "bytes": 3279,
+        "sha256": "4a6651a20edb79e7535a0924bb096ba969e291f9585145f56d691d7471182fea"
+      },
+      {
+        "path": "private-cold-install-e825294c/pointers.json",
+        "bytes": 737,
+        "sha256": "bb8f010eb59eaf602cdf9c768cea0572cbc8fd1a9fff2d382524784ffdba5284"
+      },
+      {
+        "path": "private-cold-install-e825294c/process.json",
+        "bytes": 84,
+        "sha256": "140e6295b78d3a62f7cfc1124cb51afeb0f579b5ba51785a6d8fd7a4dbe007a2"
+      },
+      {
+        "path": "private-cold-install-e825294c/producer.log",
+        "bytes": 219,
+        "sha256": "f8ce8b8c0c0e5b4f891695ea68570398559cc6baf9e5246abacf88b09eb0233e"
+      },
+      {
+        "path": "private-cold-install-e825294c/producer.mjs",
+        "bytes": 13146,
+        "sha256": "1fd166489218c444185d6b45cf0f2bb13fc07e0ca8df62d2ba83f47af56208da"
+      },
+      {
+        "path": "private-cold-install-e825294c/qualifications.json",
+        "bytes": 2971,
+        "sha256": "5b108ec0611fb5f2821ddcc088a3c997d0988e5e95de70fcb2c84466f7cef704"
+      },
+      {
+        "path": "private-cold-install-e825294c/report.json",
+        "bytes": 10698,
+        "sha256": "661ce6590373fde644bd0b35c1037e8a727a275feeb0b3d4f6d5103893d12517"
+      },
+      {
+        "path": "private-cold-install-e825294c/retained-home/library/catalog.sqlite",
+        "bytes": 372736,
+        "sha256": "a0f084b7f7774ba77f12278a4a99adcc758ee24889ddf903b99601f076943996"
+      },
+      {
+        "path": "private-cold-install-e825294c/retained-home/run/service.lock",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "private-cold-install-e825294c/supervise.py",
+        "bytes": 1627,
+        "sha256": "3dc78cff598d691389dc004035feb344b5fce1b5515f07c752fb77a080c588da"
+      },
+      {
+        "path": "discovery-preferences-f01edcaa/candidate-build.log",
+        "bytes": 677,
+        "sha256": "fd8fcc0040dabc9efdb39503a28b3f9d097cf067a3418d846d4b0f26ff43b16d"
+      },
+      {
+        "path": "discovery-preferences-f01edcaa/candidate-pins.json",
+        "bytes": 2170,
+        "sha256": "8fd956a621ac3408d64863ccc5a216cb849693fcafa88caf15bbcfd9b9bbe7f1"
+      },
+      {
+        "path": "discovery-preferences-f01edcaa/change.patch",
+        "bytes": 3688,
+        "sha256": "4879c2f69b1b50299f11e4dabd1927acf4e126551387ffe28a92382537d6f9c2"
+      },
+      {
+        "path": "discovery-preferences-f01edcaa/discovery-after.ts",
+        "bytes": 5798,
+        "sha256": "5a0733d27e5a94bff4ba86b3a9fb42edb60289ef7946205aefb2e59db7f357de"
+      },
+      {
+        "path": "discovery-preferences-f01edcaa/discovery-before.ts",
+        "bytes": 5636,
+        "sha256": "59fb0959ede21ad7be1f286647af9cc007b9ac12b66156a3e7b2bcbd3abe1128"
+      },
+      {
+        "path": "discovery-preferences-f01edcaa/discovery.test.ts",
+        "bytes": 15396,
+        "sha256": "6ae6a892ed5ae32d6cfbd48234cf7a94a956667e26ce7065f0d356b90785d18f"
+      },
+      {
+        "path": "discovery-preferences-f01edcaa/results.json",
+        "bytes": 1436,
+        "sha256": "f040b907e9b96e369f4501955040b81664461ba4bc7247fde387618c9ad1d470"
+      },
+      {
+        "path": "discovery-preferences-f01edcaa/storage-during-candidate-build.log",
+        "bytes": 379,
+        "sha256": "d87271c172a527f4442a39fbfb67c23564f40b7c694b195257b658698d1f638e"
+      },
+      {
+        "path": "private-ready-install-f01edcaa/candidate-before.json",
+        "bytes": 2186,
+        "sha256": "0075bebb78a6c7f0203067a478b33c6f6062aba2016242a30123a536a7d4d37c"
+      },
+      {
+        "path": "private-ready-install-f01edcaa/plan.json",
+        "bytes": 1781,
+        "sha256": "7b5c485214ad43fb0e8d892662876fc580411097edcd97197aa8f38effa7906c"
+      },
+      {
+        "path": "private-ready-install-f01edcaa/producer.mjs",
+        "bytes": 12009,
+        "sha256": "0176c913f4de256a19431056fe745ccd35c004126d9c5b65bb8f1be03aaadf8b"
+      }
+    ],
+    "allPayloadsRehashed": true
+  },
+  "process": {
+    "pid": 69261,
+    "exit": 0,
+    "timeout": false,
+    "seconds": 3.0145958329994755
+  },
+  "coldLaunch": {
+    "startupMs": 1298.3397499999999,
+    "app": {
+      "pid": 69374,
+      "ppid": 1,
+      "command": "/private/tmp/sr-cold-l8iPzi/Applications/Screen Recorder.app/Contents/MacOS/ScreenRecorder"
+    },
+    "service": {
+      "pid": 69377,
+      "ppid": 69374,
+      "command": "/Users/david/.nvm/versions/node/v24.14.0/bin/node /private/tmp/sr-cold-l8iPzi/Applications/Screen Recorder.app/Contents/Resources/service/main.mjs"
+    },
+    "reply": {
+      "ok": true,
+      "data": {
+        "status": "ready",
+        "pid": 69377,
+        "socketPath": "/private/tmp/sr-cold-l8iPzi/home/run/service.sock",
+        "home": "/private/tmp/sr-cold-l8iPzi/home",
+        "node": "24.14.0",
+        "uptimeMs": 136
+      },
+      "id": "18ac56a9-274d-4588-bbce-10e929b73e9d"
+    },
+    "identity": "com.david.screenrec.personal",
+    "mode": "Supported private --app/--bin installation, first no--socket CLI from / launches through ordinary open -g -a; no prelaunch. Existing absolute SCREENREC_DEFAULTS forwarded to private suite."
+  },
+  "publicChecks": {
+    "cli": {
+      "health": {
+        "status": "ready",
+        "pid": 69377,
+        "socketPath": "/private/tmp/sr-cold-l8iPzi/home/run/service.sock",
+        "home": "/private/tmp/sr-cold-l8iPzi/home",
+        "node": "24.14.0",
+        "uptimeMs": 246
+      },
+      "capture": {
+        "device": {
+          "state": "idle",
+          "recordingId": null,
+          "sourceId": null,
+          "elapsedUs": null,
+          "selection": null,
+          "permissions": {
+            "screen": true,
+            "microphone": "authorized",
+            "camera": "not_determined"
+          }
+        },
+        "recording": null
+      },
+      "recordings": {
+        "recordings": [],
+        "nextCursor": null
+      }
+    },
+    "mcp": {
+      "defaultTransport": true,
+      "tools": 79,
+      "health": {
+        "ok": true,
+        "data": {
+          "status": "ready",
+          "pid": 69377,
+          "socketPath": "/private/tmp/sr-cold-l8iPzi/home/run/service.sock",
+          "home": "/private/tmp/sr-cold-l8iPzi/home",
+          "node": "24.14.0",
+          "uptimeMs": 443
+        },
+        "id": "e7a032a5-9bc7-4640-8de1-7aaf39b70d4a"
+      },
+      "capture": {
+        "ok": true,
+        "data": {
+          "device": {
+            "state": "idle",
+            "recordingId": null,
+            "sourceId": null,
+            "elapsedUs": null,
+            "selection": null,
+            "permissions": {
+              "screen": true,
+              "microphone": "authorized",
+              "camera": "not_determined"
+            }
+          },
+          "recording": null
+        },
+        "id": "1b43910c-c3b2-4038-97c8-7956eb8e901c"
+      }
+    },
+    "mcpPid": 69383,
+    "freshCatalogFormat": 23
+  },
+  "protection": {
+    "personalProcesses": [
+      811,
+      850
+    ],
+    "beforeAndAfterIdentical": true,
+    "scope": "Full personal bundle hashes; effective/on-disk preference hashes; library metadata plus catalog/WAL and files <=1MiB hashes. Larger media/model content hashes not compared. Sockets/shm excluded. No OS-wide no-write claim.",
+    "candidateUnchanged": true,
+    "ownedChildrenDrained": true,
+    "scratchRemoved": true
+  },
+  "retention": "Raw commands/CLI replies, SDK tools/replies, process identities, fresh home/catalog, complete source candidate/installer capsule and installed signed-file hashes. Actual installed re-signed binary bytes not retained. Warm-only plan was never dispatched. No personal bundle/preference contents archived.",
+  "discoveryFix": "Root-owned existing preferences transport: original red observation and all15green/typecheck/review evidence in discovery-preferences-f01edcaa/results.json; original full red tool output is referenced/transcribed, not a retained raw log.",
+  "cachedBuildStorage": {
+    "result": "Original unmodified5s largefile/reservation fairness case passed in540ms while official candidate build ran.",
+    "build": "Swift native/app builds were cached1.26s/.25s; exact child-overlap intervals unobserved.",
+    "limit": "Actual cached-build conjunction only, not the original heavy-compile contention contract or general load immunity."
+  },
+  "nextCaller": {
+    "status": "Prepared technical request only; independent installed caller not executed by this bank.",
+    "scope": "Using the installed CLI as the primary interface and independent advertised MCP schemas through an unconfigured default SDK, split the supplied one-second hold clip at 500000 microseconds while preserving its source selection, empty processing, placement support and all unrelated document fields. Inspect both prior and current revisions; recover the same mutation by replaying its saved identity, including representative MCP use; demonstrate refusal of a different stale mutation without document change. Receive the complete supplied raw-source PNG through MCP. Retain original discovery, commands, complete requests/replies, received PNG bytes and actual child terminal outcomes. Report limits. No other edits, models, generation, capture, playback or composition renders.",
+    "fixture": {
+      "freshHome": "New empty home initialized by current installed candidate to catalog23. Never open/migrate original25c catalog22.",
+      "canvas": {
+        "width": 160,
+        "height": 96,
+        "fps": {
+          "numerator": 30,
+          "denominator": 1
+        },
+        "background": "#000000ff"
+      },
+      "track": "One video track, order0, empty processing",
+      "clip": "One hold at source time0 over project[0,1000000)us",
+      "source": "/Users/david/dev/screen-recorder/specs/agent-editing/assets/10d-still-image-native/sources/png-1.png",
+      "assetId": "c22686998b3cf2f836f9c35bb281e3248ef38b652141591075f18d760823fe97",
+      "sourceBytes": 353,
+      "selectionStreamId": "image:0, verify advertised fresh asset metadata",
+      "acceptedRawPNG": "/Users/david/dev/screen-recorder/specs/agent-editing/assets/10d-still-image-native/png-1.png",
+      "acceptedRawPNGBytes": 329,
+      "acceptedRawPNGSHA256": "0c6b78bd6f1ef24e20f2c1cd4a8854511a7fb0be74d6f1a84c5308e7eb5b6b8d"
+    },
+    "freshCatalog": "Currentformat23 via public fixture preparation; original25c home is22 and must not be booted or copied.",
+    "fullWorkflowReuse": {
+      "package": "/Users/david/.codex/artifacts/screen-recorder/25b-fresh-caller/primitive-fixture.zip",
+      "bytes": 650728645,
+      "historicalVerifiedSHA256": "45ae2611531762386b09b6850b8ed24061d5b6511e9f52852ef536d5ee5a5616",
+      "currentReadOnlyValidation": "Current packagev3 JSON meaning accepted51revisions+14resources including referenced member JSON hashes. Full ZIP bytes not rehashed by this preflight, native ZIP/media not checked.",
+      "inputArchive": "/Users/david/dev/screen-recorder/specs/agent-editing/assets/25-input-preparation/evidence.tar.gz",
+      "inputMembers": [
+        "current/caller-inputs.json",
+        "current/fixture-brief.md"
+      ],
+      "recipesAndOutputs": "/Users/david/dev/screen-recorder/specs/agent-editing/assets/25b-fresh-caller/evidence.tar.gz",
+      "artifactAliases": "artifact-aliases.json within25b evidence archive maps accepted media bytes in media.tar.gz",
+      "usage": "Reuse already accepted effects/assets instead of re-executing13effect/model journey. Actual installed import/delivery is a separate possible bounded bridge, not covered by this compact checkpoint or current metadata parse."
+    },
+    "lifecycle": "Reuse supported private cold installation with isolated home/preferences and exact PID/parent verification; never replace personal app."
+  },
+  "limits": [
+    "Private installation/default discovery is passed; personal installation replacement, integrated listening/physical/visual quality and full external-caller/release acceptance remain open.",
+    "No capture, playback, focus request, new model inference, synthesis, repeated installer refusal/reinstall or full suite in this check.",
+    "25b current JSON-only package preflight is not actual installed package import or media verification."
+  ]
+}

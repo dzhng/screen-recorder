@@ -30,6 +30,10 @@ passes its original native-sRGB predicate and matched visual review in the
 [canonical bank](23-owner-fixture-ports/current-colored-trail-verification.json);
 historical defaults and wider color/player claims stay separate. The combined
 scale contract passes in its current owner bank.
+The [private installed discovery bank](23-owner-fixture-ports/current-installed-discovery-verification.json)
+passes cold ordinary discovery and CLI/default MCP while preserving the personal
+app and state. It owns the compact next-caller brief and the qualified cached-build
+storage result; personal replacement and full external-caller acceptance remain open.
 The [retained encoded camera binding](20-camera-picture-correspondence/encoded-binding/README.md)
 qualifies one native sample/packet/decoded-frame identity. PNG selection and the
 finite-view clock gate failed separately; original pixel failure and physical

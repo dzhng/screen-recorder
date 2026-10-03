@@ -21,7 +21,7 @@ caller makes every editorial decision. Read the [contracts](contracts.md),
 [journeys](journeys.md) and [processing](processing.md). Read or edit the consumer
 [screenrec skill](../../skills/screenrec/SKILL.md) from that caller's perspective.
 
-**Next pickup: remaining presentation and installed/default caller acceptance.**
+**Next pickup: remaining presentation and fresh installed caller acceptance.**
 The product uses one project composition owner and a fresh format23 catalog; prior catalogs are refused
 without migration or byte mutation. The
 [owner closure registry](assets/23-owner-fixture-ports/README.md) is the canonical
@@ -54,12 +54,12 @@ Continue in this order:
    arbitrary gesture, perceptual synchronization or listening acceptance.
    The observed movie/PNG color difference remains unresolved; no threshold or
    reference was changed to close it.
-3. Prepare the concrete candidate for installed/default discovery and the bounded
-   [external-caller checkpoint](slices/25-agent-acceptance.md). Reuse the source
-   CLI/MCP workflow and accepted media rather than repeat every effect. Preserve
-   the installed app, library and span history until the reviewed switch; use a
-   deliberately fresh library with no migration. Test executables and isolated
-   output do not establish installed acceptance.
+3. Reuse the passed [private installed/default-discovery bank](assets/23-owner-fixture-ports/current-installed-discovery-verification.json)
+   for the bounded [fresh external-caller checkpoint](slices/25-agent-acceptance.md).
+   Its compact next-caller request uses fresh public fixture preparation and the
+   accepted source CLI/MCP recipes, without repeating every effect. Preserve the
+   personal app, library and span history until the reviewed switch; private
+   installation does not establish personal replacement or full caller acceptance.
 
 | Owner | Remaining acceptance |
 | --- | --- |
@@ -67,7 +67,7 @@ Continue in this order:
 | [20 / 21 capture](slices/21-webcam.md#implementation-graph) | Physical event uncertainty/synchronization and remaining lifecycle scope |
 | [23 cutover](slices/23-cutover.md) | Broader source/pointer/color presentation, listening and installed switching |
 | [24 scale](slices/24-scale.md) | Long learned interactions, known contention and final installed measurement |
-| [25 caller](slices/25-agent-acceptance.md) | Installed/default discovery and final release scope |
+| [25 caller](slices/25-agent-acceptance.md) | Fresh installed caller and final release scope |
 
 The [evidence index](assets/integrated-evidence.md),
 [implementation pickup](assets/implementation-pickup.md) and

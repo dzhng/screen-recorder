@@ -8301,3 +8301,42 @@ no new setting, launch retry, validation owner or public operation is introduced
 
 Verdict: **sound**. Passing the existing selection closes the actual launch
 boundary with the platform's existing environment transport. Confidence: **high**.
+
+### Verify private installed discovery while preserving the personal installation
+
+When: current installed/default-discovery evidence checkpoint.
+
+The choice: Install the current candidate at private supported app/launcher paths
+and let an ordinary CLI request cold-launch it. Another app with the same bundle
+identity is already running, so success requires the exact private executable and
+its bundled service child. A response from the older personal app would not prove
+the candidate works. Compare personal process, bundle, preference and qualified
+library manifests before and after; terminate only the private processes.
+
+The gap: Installed discovery needed current evidence without replacing the user's
+working app or opening its older catalog.
+
+The reach: Private cold discovery and default CLI/MCP pass in the
+[canonical bank](assets/23-owner-fixture-ports/current-installed-discovery-verification.json).
+Large personal media/model files have metadata equality only; no full-content
+claim follows. Personal replacement and the independent caller remain separate.
+
+Verdict: **sound**. The supported private installation proves the actual launch
+boundary while preserving the user's working state. Confidence: **high**.
+
+### Keep cached-build storage evidence narrower than heavy-build contention
+
+When: current installed/default-discovery evidence banking.
+
+The choice: Retain the unchanged storage case that passed while the required
+candidate build ran, but label the Swift builds as cache hits. The earlier failure
+happened under heavy compilation; a short cached build does not reproduce that
+pressure even though the commands overlapped.
+
+The gap: The required build supplied an actual concurrent check, but its workload
+was smaller than the original failing condition.
+
+The reach: Reuse this bounded result without manufacturing another build for load;
+the original heavy-contention guarantee stays unverified.
+
+Verdict: **sound**. The claim follows the observed workload. Confidence: **high**.

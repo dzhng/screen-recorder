@@ -16,6 +16,9 @@ now uses the fresh project owner through the default entry and removes its
 separate development entry. Obsolete core/native owners and the recording revision schema are removed.
 The [current worker/service smoke](../assets/23-owner-fixture-ports/current-worker-service-verification.json)
 passes its generated-source audio/preview, restart and native cleanup scope.
+The [private installed discovery bank](../assets/23-owner-fixture-ports/current-installed-discovery-verification.json)
+passes ordinary cold discovery and CLI/default MCP with the personal app and state
+preserved. It does not close personal replacement or fresh external-caller acceptance.
 The implementation-end repository gate has run; its
 [focused recovery bank](../assets/23-owner-fixture-ports/default-gate-recovery-verification.json)
 retains original failures and subsequent passes. The

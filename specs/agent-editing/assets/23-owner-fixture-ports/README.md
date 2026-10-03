@@ -70,6 +70,7 @@ controlled replies prove their contracts without becoming decode or quality proo
 | Native first-frame decode versus the saved PNG surrogate, diagnostic only | [Native color-path qualification](current-native-movie-color-verification.json) |
 | Current fixed full/clipped fading trail at matched source clocks | [Current colored-trail pair](current-colored-trail-verification.json) |
 | Current combined long-project query, late audio, queue/restart and warm preview | [Combined scale](current-combined-scale-verification.json) |
+| Private installed cold default discovery, CLI/default MCP and personal-state protection | [Installed discovery](current-installed-discovery-verification.json) |
 
 [Capture/source caller ports](capture-source-caller-verification.json) and their
 [review corrections](capture-source-caller-followup-verification.json) and

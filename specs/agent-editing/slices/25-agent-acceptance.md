@@ -3,7 +3,8 @@
 Status: the [fresh source-caller workflow](25b-fresh-caller.md) is executed and
 verified in its controlled source CLI scope. The [25c independent source MCP
 checkpoint](25c-source-mcp-caller.md) now passes its compact schema/revision/replay/
-error/image-delivery scope. Full installed/default discovery and release acceptance
+error/image-delivery scope. [Private installed/default discovery](../assets/23-owner-fixture-ports/current-installed-discovery-verification.json)
+now passes; fresh installed caller, personal replacement and full release acceptance
 remain open.
 [Input preparation](../assets/25-input-preparation/README.md) and
 [registered voice readiness](25a-model-readiness.md) supplied the isolated caller;
@@ -18,7 +19,7 @@ separate verdicts; the source journey cannot silently close the parent release g
 
 [25c](25c-source-mcp-caller.md) isolates the representative source MCP caller
 checkpoint without repeating25b. Its explicit-socket scope leaves this parent's
-installed/default-discovery and full release requirements unchanged.
+fresh installed-caller and full release requirements unchanged.
 
 ## Contract
 
