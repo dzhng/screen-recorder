@@ -9,6 +9,9 @@ import {
   mkdtempSync,
   openSync,
   readFileSync,
+  readSync,
+  readdirSync,
+  fstatSync,
   rmSync,
   writeSync,
 } from "node:fs";
@@ -173,10 +176,8 @@ test("a worker started with no living owner refuses the work waiting on its stdi
 test("an owner that dies mid-operation ends the worker and leaves the source untouched", async () => {
   const fixture = harness();
   const directory = mkdtempSync(join(tmpdir(), "screenrec-lifetime-media-"));
-  const source = join(directory, "source.mov");
-  const output = join(directory, "frame.png");
-  // One keyframe at the front and a frame requested at the very end: the decode has to walk
-  // the whole take, so the worker is measurably still inside AVFoundation when its owner dies.
+  const source = join(directory, "source.wav");
+  const output = join(directory, "audio.wav");
   const encode = spawnSync(
     "ffmpeg",
     [
@@ -185,18 +186,11 @@ test("an owner that dies mid-operation ends the worker and leaves the source unt
       "-f",
       "lavfi",
       "-i",
-      "testsrc2=size=320x180:rate=30:duration=400",
-      "-an",
-      "-c:v",
-      "libx264",
-      "-preset",
-      "ultrafast",
-      "-crf",
-      "40",
-      "-g",
-      "12000",
-      "-pix_fmt",
-      "yuv420p",
+      "sine=frequency=440:sample_rate=192000:duration=30",
+      "-ac",
+      "2",
+      "-c:a",
+      "pcm_f32le",
       source,
     ],
     { encoding: "utf8", timeout: 60_000 },
@@ -214,25 +208,60 @@ test("an owner that dies mid-operation ends the worker and leaves the source unt
     workerPid = JSON.parse(await fixture.nextResponse(0, 10_000)).workerPid;
     fixture.request(
       JSON.stringify({
-        id: "lifetime-frame",
-        operation: "media.frame",
+        id: "lifetime-audio",
+        operation: "media.sourceAudio",
         params: {
-          source,
+          source: {
+            source,
+            sourceOffsetUs: 0,
+            available: [{ startUs: 0, endUs: 30_000_000 }],
+          },
           output,
-          atSourceUs: 399_500_000,
-          kept: { startUs: 0, endUs: 400_000_000 },
-          maxLongEdge: 320,
+          range: { startUs: 0, endUs: 30_000_000 },
         },
       }),
     );
-    await delay(250);
-    // Read rather than assumed: the worker owes a response it has not produced, so the kill
-    // below lands inside the operation instead of after it.
-    assert.deepEqual(
-      fixture.responses().length,
-      1,
-      "the decode finished before it was interrupted",
-    );
+    const deadline = Date.now() + 10_000;
+    let progress;
+    while (!progress) {
+      assert.equal(fixture.responses().length, 1, "the audio finished before it was interrupted");
+      assert.ok(Date.now() < deadline, "source audio never wrote nonzero PCM before the deadline");
+      for (const name of readdirSync(directory).filter((name) =>
+        name.startsWith(".screenrec-output-"),
+      )) {
+        const staged = join(directory, name, "mix.wav");
+        if (!existsSync(staged)) continue;
+        const handle = openSync(staged, "r");
+        try {
+          const bytes = Buffer.alloc(64 * 1024);
+          const read = readSync(handle, bytes, 0, bytes.length, 0);
+          if (bytes.toString("ascii", 0, 4) !== "RIFF" || bytes.toString("ascii", 8, 12) !== "WAVE")
+            continue;
+          for (let position = 12; position + 8 <= read;) {
+            const tag = bytes.toString("ascii", position, position + 4);
+            const size = bytes.readUInt32LE(position + 4);
+            position += 8;
+            if (tag === "data") {
+              // AVAudioFile can leave the data length unfinished while appending PCM.
+              for (let offset = position; offset + 4 <= read; offset += 4) {
+                const sample = bytes.readFloatLE(offset);
+                if (Number.isFinite(sample) && Math.abs(sample) > 0.05) {
+                  progress = { bytes: fstatSync(handle).size, sample };
+                  break;
+                }
+              }
+              break;
+            }
+            position += size + (size % 2);
+          }
+        } finally {
+          closeSync(handle);
+        }
+      }
+      if (!progress) await delay(5);
+    }
+    assert.equal(existsSync(output), false, "the audio was already published");
+    assert.deepEqual(fixture.responses().length, 1, "the audio finished before it was interrupted");
     assert.equal(alive(workerPid), true);
 
     parent.kill("SIGKILL");
@@ -245,8 +274,9 @@ test("an owner that dies mid-operation ends the worker and leaves the source unt
     );
     assert.match(fixture.diagnostics(), new RegExp(`owning parent ${parent.pid} exited`));
     assert.deepEqual(fixture.responses().slice(1), [], "abandoned work reports no result");
-    assert.equal(existsSync(output), false, "an unfinished frame is never left at the output path");
+    assert.equal(existsSync(output), false, "unfinished audio is never left at the output path");
     assert.equal(createHash("sha256").update(readFileSync(source)).digest("hex"), sourceDigest);
+    console.log({ observedPCM: progress, parentExitMs: elapsed });
   } finally {
     if (alive(parent.pid)) parent.kill("SIGKILL");
     if (workerPid && alive(workerPid)) process.kill(workerPid, "SIGKILL");

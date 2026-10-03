@@ -175,6 +175,11 @@ func movie(_ sources: [URL], name: String) async throws -> (URL, [String]) {
     return (url, tracks.map { "track:\($0.trackID)" })
 }
 var cases = 0
+try await verifyDescriptorLifetime(
+    source: fixture(rate: 48_000, channels: 1, name: "descriptor-lifetime", seconds: 0.1),
+    parent: directory)
+if CommandLine.arguments.contains("--descriptor-lifetime") { exit(0) }
+
 for rate in [44_100, 48_000] {
     let clean = try fixture(rate: Double(rate), channels: 2, name: "clean-\(rate)")
     let poison = try fixture(rate: Double(rate), channels: 2, name: "poison-\(rate)", poison: true)

@@ -940,5 +940,3 @@ precondition(
 print(String(format: "PASS decoded frame 7 matches its generated reference, mean difference %.4f", difference))
 
 try await verifyPresentationPublicationRace(source: stepsFixture, parent: evidence)
-
-try await verifyDescriptorLifetime(source: stepsFixture, parent: evidence)
