@@ -21,7 +21,7 @@ import Foundation
                 "segments": segments.map {
                     [
                         "empty": $0.isEmpty,
-                        "sourceStartUs": $0.timeMapping.source.start.seconds * 1e6,
+                        "sourceStartUs": $0.isEmpty ? NSNull() : NSNumber(value: $0.timeMapping.source.start.seconds * 1e6),
                         "targetStartUs": $0.timeMapping.target.start.seconds * 1e6,
                         "durationUs": $0.timeMapping.target.duration.seconds * 1e6,
                     ]

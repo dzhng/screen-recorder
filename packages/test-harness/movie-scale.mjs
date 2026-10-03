@@ -337,7 +337,7 @@ for (const seconds of [10, 300]) {
   await writeFile(join(dir, `${seconds}-reference.json`), referenceReceipt);
   const referenceReply = JSON.parse(referenceReceipt);
   assert.equal(referenceReply.ok, true, JSON.stringify(referenceReply));
-  const pcm = referenceReply.data.report;
+  const pcm = referenceReply.data;
   assert.equal(pcm.frames, reply.data.audio.frames);
   assert.deepEqual(pcm.unavailable, reply.data.audio.unavailable);
   const expectedUnavailable = {

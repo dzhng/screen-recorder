@@ -1,4 +1,5 @@
 @preconcurrency import AVFoundation
+import Darwin
 import Foundation
 import ScreenRecorderAudio
 import ScreenRecorderFrames
@@ -39,11 +40,18 @@ enum MovieMux {
         let rate: Int
         let channels: Int
         private var firstFailure: NativeFailure?
+        private var audioEnd: Int64 = 0
+        private var outputFile: FileHandle?
 
         init(
             video: URL, rate: Int, channels: Int, output: URL,
             settings outputSettings: OutputSettings.Audio?
         ) async throws {
+            let parent = open(output.deletingLastPathComponent().path,
+                O_RDONLY | O_DIRECTORY | O_NOFOLLOW | O_CLOEXEC)
+            guard parent >= 0 else { throw failure("Cannot bind movie staging directory.") }
+            let directory = FileHandle(fileDescriptor: parent, closeOnDealloc: true)
+            defer { try? directory.close() }
             let asset = AVURLAsset(url: video)
             guard let track = try await asset.loadTracks(withMediaType: .video).first,
                 let description = try await track.load(.formatDescriptions).first
@@ -82,6 +90,14 @@ enum MovieMux {
                 writer.cancelWriting()
                 throw failure("Cannot start movie assembly.")
             }
+            let descriptor = openat(parent, output.lastPathComponent,
+                O_RDWR | O_NONBLOCK | O_NOFOLLOW | O_CLOEXEC)
+            guard descriptor >= 0 else {
+                reader.cancelReading()
+                writer.cancelWriting()
+                throw failure("Cannot bind the movie writer's output file.")
+            }
+            outputFile = FileHandle(fileDescriptor: descriptor, closeOnDealloc: true)
             writer.startSession(atSourceTime: .zero)
         }
 
@@ -92,6 +108,7 @@ enum MovieMux {
                 throw failure(
                     "Cannot encode AAC: \(writer.error?.localizedDescription ?? "writer failed").")
             }
+            audioEnd = block.startFrame + Int64(block.frameCount)
         }
 
         func finishAudio() { sound.markAsFinished() }
@@ -122,6 +139,9 @@ enum MovieMux {
         }
 
         func finish(durationUs: Int64) async throws {
+            defer {
+                try? outputFile?.close()
+            }
             writer.endSession(atSourceTime: CMTime(value: durationUs, timescale: 1_000_000))
             await writer.finishWriting()
             guard writer.status == .completed else {
@@ -129,11 +149,17 @@ enum MovieMux {
                     "Cannot finish movie: \(writer.error?.localizedDescription ?? "writer failed")."
                 )
             }
+            if Int128(audioEnd) * 1_000_000 < Int128(durationUs) * Int128(rate) {
+                guard let outputFile else { throw failure("Movie output binding is missing.") }
+                try MovieAudioTail.extend(outputFile, at: writer.outputURL, durationUs: durationUs,
+                    pcmFrames: audioEnd, rate: rate)
+            }
         }
 
         func cancel() {
             reader.cancelReading()
             if writer.status == .writing { writer.cancelWriting() }
+            try? outputFile?.close()
         }
 
         private func ready(_ input: AVAssetWriterInput) async throws {
