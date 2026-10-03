@@ -18,20 +18,14 @@ Historical workers and measurements retain their own identities below.
 ## Current pickup
 
 Follow the [live remaining-work plan](../README.md#next-agent-prompt).
-The [shared-contract/publication bank](23-composition-contract/README.md) records
-the merged project-only composition boundary and exact cursor replay. Legacy
-publication real package frame/audio retry/drain and generic archive-writer
-fixture ports remain in the
-[fixture preservation map](23-owner-fixture-ports/README.md); registry,
-recovery/storage/destination, capture lifetime, preview pins, package workspace
-recovery, generation retention, source lifecycle and archive survival/substitution/
-copy-mutation, abandonment-reference, normalized-member and bundled-startup
-fixture ports are merged.
-Generic cache/evidence/queue fixtures use capture facts and actual project
-revisions; normalization types and movie
-validation have independent owners. Remaining mixed core dependencies and generic
-fixtures proceed in parallel. Orphan package owners and actual old core/schema
-removal follow that accounting; installed state and broader acceptance remain separate.
+The [owner closure registry](23-owner-fixture-ports/README.md) owns current
+shared-contract, publication, core/schema, native and consumer preservation.
+Obsolete recording composition/revision owners are removed. The fresh catalog is
+format23 and refuses earlier catalogs without migration or byte mutation; current
+capture/source facts retain their independent lifetime. Read each bank for its
+actual runtime and claim, rather than rebuilding or rerunning matched cohorts.
+The live handoff owns the remaining combined-scale, broader presentation and
+installed/default-caller work.
 The [retained encoded camera binding](20-camera-picture-correspondence/encoded-binding/README.md)
 qualifies one native sample/packet/decoded-frame identity. PNG selection and the
 finite-view clock gate failed separately; original pixel failure and physical
@@ -121,7 +115,8 @@ It adds no project authoring interface or installed cutover.
 [20](../slices/20-camera-reproduction.md) retains the unresolved physical question
 and its retained-data stopping condition. None of these preparation passes
 approves synchronized physical capture, live shutdown or installed cutover.
-No new capture or worker/app replacement is authorized.
+These historical passes authorize no repeated physical capture or installed-app
+replacement; isolated checks follow the live handoff.
 
 The [generation/ambience matrix](19-acceptance/README.md),
 [finite denoise matrix](denoise-acceptance/README.md),
@@ -205,8 +200,8 @@ historical rejected callbacks remain in the Git LFS fixture. Historical workers
 and the installed app stay intact; isolated signed candidates have their own pins.
 
 The [ordered-move/spectrogram checkpoint](24-spectrogram-duration/README.md) is
-integrated and root-verified. Root source includes the move fix; rebuild JavaScript
-before new execution. Existing completed speech/processing, transfer and cutover
+integrated and root-verified. The current bank owns compiled-runtime selection;
+this historical pass is no standing rebuild instruction. Existing completed speech/processing, transfer and cutover
 preparatory evidence below remains scoped; do not repeat it instead of resolving
 its remaining quality, retiming or physical prerequisites.
 
@@ -259,7 +254,8 @@ its remaining quality, retiming or physical prerequisites.
 - **Routing scale24k:** integrated and reverified on root, including89 composition
   and30 core tests and the full scoped public journey. [Warm1080p preview](../slices/24l-preview-budget.md) also passes on root.
   Fixed-size timeline duration-doubling memory also passes [24m](../slices/24m-query-duration-memory.md).
-  Continue actual decoded-work measurement and remaining query families/history.
+  Later decoder/query/history banks own their completed scopes; the live handoff
+  names the remaining integrated dimensions.
 - **History queries24r:** the [public history scale check](../slices/24r-history-query-scale.md) passes with real compact revisions and fresh services. Existing cursors exclude new edits; fixed250-row query memory remains stable between5,000 and10,000 revisions. This does not close arbitrary document-size, package-history or job-retirement gates.
 - **Streaming24s:** the original debug300-second streaming harness now passes unchanged, including its60-second child deadlines and memory/sample/sink checks. Storage-inventory contention remains separate and unresolved.
 - **Job retirement24t:** integrated;513 real source jobs retire through the existing
@@ -390,7 +386,7 @@ The [current checklist](../README.md#global-checklist) owns completion; the
 [audio/stretch audit](acceptance-maintenance/README.md) records historical checkpoints.
 08/11,13/14,16 and generic22 acceptance are verified. [18's fixed voice matrix](../slices/18-voice-reproduction.md)
 and the frozen local denoise and generation/ambience matrices are accepted.
-Current-baseline12b public parity proceeds independently of broader12 acoustic
+Current-baseline12b public parity and adoption are complete, distinct from broader12 acoustic
 characterization; any alternate adoption needs its own evidence. Physical20/21,
 cutover23, final24 and external-caller25 acceptance remain open. Segmentation
 stays a future placeholder. Isolated checkpoints do not establish physical capture
@@ -436,8 +432,9 @@ voice approval to unreviewed ambience or speech-processing recipes.
 ## Recent integrated evidence
 
 [20d7](20d7-terminal-diagnostics/README.md) preserves bounded terminal diagnostics
-through public restart and historical/current package proof. Catalog19 and
-source-policy-v2 are current; older catalogs remain immutable.
+through public restart and historical/current package proof in its retained
+catalog19/source-policy-v2 scope. Current schema authority is the owner closure
+registry above; older catalogs remain immutable.
 [20d8](20d8-pause-terminal-boundaries/README.md) verifies both-role pause and
 absent/torn-terminal recovery through native and public owners.
 

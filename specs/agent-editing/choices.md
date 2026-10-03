@@ -8085,3 +8085,71 @@ their known media, capture and storage errors keep their existing classification
 
 Verdict: **sound**. One error owner preserves cancellation without hiding real
 operational failures. Confidence: **high**.
+
+### Control SDK readiness to exercise an unfinished sibling
+
+A movie contains both video and audio. In the tiny natural fixture, video can
+finish before the first audio block, so failing that video path would not exercise
+an unfinished sibling. The test temporarily reports video as not ready until the
+SDK has accepted an audio block, and can hold subsequent audio readiness until
+video reaches the selected append. It records the SDK's original readiness answer,
+forwards the original sample to the SDK, and triggers a real writer cancellation
+only while both inputs are unfinished and some audio remains. The caller task
+stays uncanceled. It then requires the first video error, prompt drain, unchanged
+sources and no published output before restoring all observed methods. Merely
+asserting a failure after both inputs finish would leave the sibling contract
+untested; claiming this controlled sequence occurred naturally would overstate it.
+
+When: controlled sibling-pump checkpoint, `cb28174a`.
+
+Gap: Existing media did not reliably overlap the two pumps under natural scheduling.
+
+Reach: This is a test-only SDK scheduling boundary with no product hook. Its
+explicit interleave proves the failure contract, not natural schedule frequency.
+
+Verdict: **sound**. The controlled condition is declared and original SDK work
+still supplies the failure. Confidence: **medium**.
+
+### Keep pointer placement and color preservation as separate claims
+
+A generated movie shows a white pointer moving between two known positions,
+then holding while the same source picture remains visible. The check compares
+its white core with the same-clock PNG inside the known glyph neighborhood,
+using existing thresholds and independently retained hotspot geometry. Whole
+frames and enlarged crops remain available to review. A clean movie without a
+pointer must fail the same predicate. Unrelated white text elsewhere in the
+picture cannot substitute for the glyph. The observed color difference between
+movie and PNG remains an open preservation question; a positional pass does not
+approve that difference or transfer to colored trails and arbitrary gestures.
+
+When: moving-pointer checkpoint, `f77e114d`.
+
+Gap: The existing reference contains other white pixels and a different background;
+a whole-image equality claim would conflate pointer geometry with color fidelity.
+
+Reach: The permanent scenario guards explicit pointer motion and held state while
+broader color, trail and presentation gates keep their existing requirements.
+
+Verdict: **sound**. Localized geometry evidence remains independently falsifiable
+and its wider limits are explicit. Confidence: **medium**.
+
+### Compare source membership in its original pixel domain
+
+The original source-membership check compares raw decoded RGB samples with the
+authored RGB fixture. A PNG reader also converts declared profiles into sRGB,
+which changes those values. The new checkpoint keeps the original raw comparison
+and its original bound, and retains the sRGB comparison as a separate diagnostic.
+Substituting one domain for the other and adjusting the bound until it passes
+would hide a color-contract change. No transformed image replaces the original
+operand, and the differing movie/PNG colors remain unverified.
+
+When: moving-pointer checkpoint, `f77e114d`.
+
+Gap: The new same-clock PNG companion uses a different declared color domain from
+the inherited source-membership oracle.
+
+Reach: Existing membership and color-preservation contracts retain their distinct
+operands; future color work must resolve the actual profiles and complete images.
+
+Verdict: **sound**. It preserves the inherited test without manufacturing color
+parity. Confidence: **high**.

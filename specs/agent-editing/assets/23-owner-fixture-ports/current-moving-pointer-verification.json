@@ -1,0 +1,430 @@
+{
+  "status": "scoped-current-no-trail-white-pointer-movie-sequence-pass",
+  "worker": {
+    "worker": "/Users/david/.cache/screen-recorder/verification/moving-pointer-preview-7f717b0d/screenrec-native",
+    "sha256": "40ece2d269b48a1aed5846e3e0a64bb1ece8f42f1f8e9996b47adbddb265dc55",
+    "bytes": 19979280,
+    "source": "/Users/david/dev/screen-recorder/dist/ScreenRecorder.app/Contents/MacOS/screenrec-native",
+    "head": "7f717b0d39aa50108894b0f3da75a529a256809b"
+  },
+  "phases": [
+    {
+      "name": "first",
+      "process": {
+        "argv": [
+          "/Users/david/.nvm/versions/node/v24.14.0/bin/node",
+          "--test",
+          "/Users/david/.codex/worktrees/continuous-preview/screen-recorder/packages/test-harness/editing/moving-pointer-movie.mjs"
+        ],
+        "cwd": "/Users/david/.codex/worktrees/continuous-preview/screen-recorder",
+        "sourceSHA": "93584e195bb46b6f1f13eee7124d674511fd2bc91933b584c8d938676ea4603a",
+        "start": 1791013384.523676,
+        "boundSeconds": 120,
+        "pid": 17004,
+        "exit": 1,
+        "end": 1791013384.599395,
+        "elapsed": 0.07571911811828613
+      },
+      "outcome": "import-only setup failure; no native work"
+    },
+    {
+      "name": "linked",
+      "process": {
+        "argv": [
+          "/Users/david/.nvm/versions/node/v24.14.0/bin/node",
+          "--test",
+          "/Users/david/.codex/worktrees/continuous-preview/screen-recorder/packages/test-harness/editing/moving-pointer-movie.mjs"
+        ],
+        "cwd": "/Users/david/.codex/worktrees/continuous-preview/screen-recorder",
+        "sourceSHA": "93584e195bb46b6f1f13eee7124d674511fd2bc91933b584c8d938676ea4603a",
+        "start": 1791013396.726836,
+        "boundSeconds": 120,
+        "pid": 17038,
+        "exit": 1,
+        "end": 1791013399.7718568,
+        "elapsed": 3.045020818710327
+      },
+      "outcome": "complete-media fixture receipt spelling failure; missing-pointer control meaningful red; original retained"
+    },
+    {
+      "name": "owner-corrected",
+      "process": {
+        "argv": [
+          "/Users/david/.nvm/versions/node/v24.14.0/bin/node",
+          "--test",
+          "/Users/david/.codex/worktrees/continuous-preview/screen-recorder/packages/test-harness/editing/moving-pointer-movie.mjs"
+        ],
+        "cwd": "/Users/david/.codex/worktrees/continuous-preview/screen-recorder",
+        "sourceSHA": "a9b813446e620638443caecdb9cecb46620db35c929a2ad4af53c7e47f72c988",
+        "start": 1791013475.405112,
+        "boundSeconds": 120,
+        "pid": 17339,
+        "exit": 0,
+        "end": 1791013478.2287822,
+        "elapsed": 2.8236701488494873
+      },
+      "outcome": "current receipt + original rawRGB membership; green"
+    },
+    {
+      "name": "final",
+      "process": {
+        "argv": [
+          "/Users/david/.nvm/versions/node/v24.14.0/bin/node",
+          "--test",
+          "/Users/david/.codex/worktrees/continuous-preview/screen-recorder/packages/test-harness/editing/moving-pointer-movie.mjs"
+        ],
+        "cwd": "/Users/david/.codex/worktrees/continuous-preview/screen-recorder",
+        "sourceSHA": "040b674e1ade69407e7d7061678a44be6f7f5b2c5e2de3b973a2150281362bb7",
+        "start": 1791013566.7082958,
+        "boundSeconds": 120,
+        "pid": 18002,
+        "exit": 0,
+        "end": 1791013569.279904,
+        "elapsed": 2.571608066558838
+      },
+      "outcome": "strengthened exact hotspot/admitted-byte binding + cleanup; green"
+    }
+  ],
+  "sourceSHA": "c21c9bc0a04591563532d310d366d8a245a77e1386859f7422f80778b23265e0",
+  "sourceRGBSHA": "8a553756bf87e5808b332f6431d1693c00f2703748f43e7de7bda1ddad6a5cf2",
+  "admittedSourceBeforeAfter": [
+    "c21c9bc0a04591563532d310d366d8a245a77e1386859f7422f80778b23265e0",
+    "c21c9bc0a04591563532d310d366d8a245a77e1386859f7422f80778b23265e0"
+  ],
+  "exactPreparedMovieRows": [
+    {
+      "frameIndex": 10,
+      "sampleAtUs": 1000000,
+      "clipId": "clip:fa360e9360ebc246b5933857d3b59083851beb4d4a6e5e7fad3aa2188d352bfe:1",
+      "stepId": "processingStep:f86dff239c21e59bd63e69ad168089634f03641504b0f693a14c4b2cd719fd09:0",
+      "trailUs": 0,
+      "assetId": "c21c9bc0a04591563532d310d366d8a245a77e1386859f7422f80778b23265e0",
+      "streamId": "track:1",
+      "requestedSourceUs": 1000000,
+      "captureUs": 1000000,
+      "clockOffsetUs": 0,
+      "sourceToAssetOffsetUs": 0,
+      "width": 320,
+      "height": 180,
+      "start": {
+        "value": "16384",
+        "timescale": 16384
+      },
+      "end": {
+        "value": "32768",
+        "timescale": 16384
+      },
+      "status": "picture",
+      "sampleTime": {
+        "value": "16384",
+        "timescale": 16384
+      },
+      "overlay": {
+        "trail": [],
+        "trailUs": 0,
+        "pointer": {
+          "atSourceUs": 1000000,
+          "x": 64,
+          "y": 40
+        }
+      }
+    },
+    {
+      "frameIndex": 11,
+      "sampleAtUs": 1100000,
+      "clipId": "clip:fa360e9360ebc246b5933857d3b59083851beb4d4a6e5e7fad3aa2188d352bfe:1",
+      "stepId": "processingStep:f86dff239c21e59bd63e69ad168089634f03641504b0f693a14c4b2cd719fd09:0",
+      "trailUs": 0,
+      "assetId": "c21c9bc0a04591563532d310d366d8a245a77e1386859f7422f80778b23265e0",
+      "streamId": "track:1",
+      "requestedSourceUs": 1100000,
+      "captureUs": 1100000,
+      "clockOffsetUs": 0,
+      "sourceToAssetOffsetUs": 0,
+      "width": 320,
+      "height": 180,
+      "start": {
+        "value": "16384",
+        "timescale": 16384
+      },
+      "end": {
+        "value": "32768",
+        "timescale": 16384
+      },
+      "status": "picture",
+      "sampleTime": {
+        "value": "16384",
+        "timescale": 16384
+      },
+      "overlay": {
+        "trail": [],
+        "trailUs": 0,
+        "pointer": {
+          "atSourceUs": 1100000,
+          "x": 84,
+          "y": 44
+        }
+      }
+    },
+    {
+      "frameIndex": 12,
+      "sampleAtUs": 1200000,
+      "clipId": "clip:fa360e9360ebc246b5933857d3b59083851beb4d4a6e5e7fad3aa2188d352bfe:1",
+      "stepId": "processingStep:f86dff239c21e59bd63e69ad168089634f03641504b0f693a14c4b2cd719fd09:0",
+      "trailUs": 0,
+      "assetId": "c21c9bc0a04591563532d310d366d8a245a77e1386859f7422f80778b23265e0",
+      "streamId": "track:1",
+      "requestedSourceUs": 1200000,
+      "captureUs": 1200000,
+      "clockOffsetUs": 0,
+      "sourceToAssetOffsetUs": 0,
+      "width": 320,
+      "height": 180,
+      "start": {
+        "value": "16384",
+        "timescale": 16384
+      },
+      "end": {
+        "value": "32768",
+        "timescale": 16384
+      },
+      "status": "picture",
+      "sampleTime": {
+        "value": "16384",
+        "timescale": 16384
+      },
+      "overlay": {
+        "trail": [],
+        "trailUs": 0,
+        "pointer": {
+          "atSourceUs": 1100000,
+          "x": 84,
+          "y": 44
+        }
+      }
+    }
+  ],
+  "referenceAuthority": {
+    "whiteCriterion": {
+      "path": "/Users/david/dev/screen-recorder/packages/test-harness/editing/pointer-native.mjs",
+      "bytes": 31856,
+      "sha256": "db235d8f58be1a5cec106e94772f3b5931cb8f5e85ab18a9bb0b58167d6666f9"
+    },
+    "unitScaleGeometryReport": {
+      "path": "/Users/david/dev/screen-recorder/specs/agent-editing/assets/15-pointer-execution/report.json",
+      "bytes": 48549,
+      "sha256": "7d5b963adc9c605a36a19692bdb0d9477cd110f92c01bf66f339f75f737b3d4f"
+    },
+    "originalHotspot": {
+      "path": "/Users/david/dev/screen-recorder/specs/agent-editing/assets/06-pointer-writer/input/full.pointers.jsonl",
+      "bytes": 12978,
+      "sha256": "5579583e6a989b96913caa9ff846677ef875ec7d7f35b42fc69970baf30de183"
+    },
+    "hotspot": {
+      "atSourceUs": 900000,
+      "x": 104,
+      "y": 64
+    },
+    "whiteBounds": [
+      105,
+      67,
+      109,
+      76
+    ],
+    "offsets": [
+      1,
+      3,
+      5,
+      12
+    ]
+  },
+  "outcome": {
+    "passed": true,
+    "durationUs": 300000,
+    "frames": 3,
+    "moviePTS": [
+      0,
+      100000,
+      200000
+    ],
+    "sourceActualUs": [
+      1000000,
+      1000000,
+      1000000
+    ],
+    "requestsAtUs": [
+      1000000,
+      1100000,
+      1200000
+    ],
+    "pointerXY": [
+      {
+        "x": 64,
+        "y": 40
+      },
+      {
+        "x": 84,
+        "y": 44
+      },
+      {
+        "x": 84,
+        "y": 44
+      }
+    ],
+    "coreControl": {
+      "kind": "missing-pointer",
+      "rejected": true,
+      "operand": "clean-01.png",
+      "expected": "Movie lost white pointer core"
+    },
+    "comparison": [
+      {
+        "atUs": 1000000,
+        "completeCleanPointerMovieDifference": {
+          "changedChannels": 356,
+          "maximum": 226
+        },
+        "completeCleanPointerPNGDifference": {
+          "changedChannels": 331,
+          "maximum": 208
+        }
+      },
+      {
+        "atUs": 1100000,
+        "completeCleanPointerMovieDifference": {
+          "changedChannels": 356,
+          "maximum": 226
+        },
+        "completeCleanPointerPNGDifference": {
+          "changedChannels": 331,
+          "maximum": 208
+        }
+      },
+      {
+        "atUs": 1200000,
+        "completeCleanPointerMovieDifference": {
+          "changedChannels": 356,
+          "maximum": 226
+        },
+        "completeCleanPointerPNGDifference": {
+          "changedChannels": 331,
+          "maximum": 208
+        }
+      }
+    ],
+    "serviceClosed": true,
+    "childSpawns": 41,
+    "zeroChildCloses": 41,
+    "nativeChildren": 22
+  },
+  "limits": [
+    "three current samples; glyph placement/held-video sequence only",
+    "No arbitrary smooth gestures,magenta trails,listening,installed,wholevisual or continuous playback claim",
+    "Frozen references differ in dimensions/background/trail: no full-image equality claim",
+    "CompleteRGBA movie-vsPNG differences are diagnostics, not RGB/color equality",
+    "Runtime JS file pins are post-run observations; producer/currentworker pinned before dispatch"
+  ],
+  "visualReview": {
+    "path": "final/output/root-visual-review",
+    "unprimed": "final/output/root-visual-review/unprimed-critique.md",
+    "matchedComparison": "final/output/root-visual-review/matched-comparison.json",
+    "colorDiagnosis": "final/output/root-visual-review/color-diagnosis.json",
+    "scope": "root reviewed full movie montage +4x pointer crops; A\u2192B\u2192hold legible, positions match; no blocking pointer defect",
+    "unresolved": "Full movie/PNG color parity remains separate, as does encoded magenta-trail parity. Existing23l2 leaves movie Rec709 target unchanged; this checkpoint does not qualify full cross-representation colors."
+  },
+  "pointers": {
+    "final": "final/output/report.json",
+    "savedReview": "saved-review.json",
+    "runtimePostrunPins": "runtime-postrun-pins.json",
+    "choices": "choices.md",
+    "review": "review.md",
+    "finalSourcePins": "final-source-pins.json"
+  },
+  "colorObservation": {
+    "clean-01.png": {
+      "height": 180,
+      "width": 320,
+      "opaque": true,
+      "sourceProfile": "kCGColorSpaceITUR_709",
+      "sourceProfileSHA256": "c6f7fab7a70c5236059813295f05eb5fbf3d6f5a03335fbf1b548fce430b035b",
+      "outputProfile": "kCGColorSpaceSRGB"
+    },
+    "clean-frame-0.png": {
+      "width": 320,
+      "sourceProfile": "kCGColorSpaceSRGB",
+      "opaque": true,
+      "height": 180,
+      "sourceProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e",
+      "outputProfile": "kCGColorSpaceSRGB"
+    },
+    "pointer-01.png": {
+      "opaque": true,
+      "sourceProfileSHA256": "c6f7fab7a70c5236059813295f05eb5fbf3d6f5a03335fbf1b548fce430b035b",
+      "height": 180,
+      "sourceProfile": "kCGColorSpaceITUR_709",
+      "outputProfile": "kCGColorSpaceSRGB",
+      "width": 320
+    },
+    "pointer-frame-0.png": {
+      "sourceProfile": "kCGColorSpaceSRGB",
+      "opaque": true,
+      "outputProfile": "kCGColorSpaceSRGB",
+      "sourceProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e",
+      "width": 320,
+      "height": 180
+    },
+    "background100x20": {
+      "originalAuthoredRGB": [
+        60,
+        40,
+        100
+      ],
+      "rawFFmpegRGB": [
+        59,
+        40,
+        97
+      ],
+      "displayNormalizedDecodedMovie": [
+        48,
+        28,
+        88,
+        255
+      ],
+      "displayNormalizedNativeFrame": [
+        68,
+        47,
+        109,
+        255
+      ]
+    }
+  },
+  "colorDisposition": "Full movie/PNG color parity remains separate, as does encoded magenta-trail parity. Existing23l2 leaves movie Rec709 target unchanged; this checkpoint does not qualify full cross-representation colors.",
+  "freshVisualObservation": {
+    "source": "parent supplied independent screenshot-critique outcome; formal report parent-owned",
+    "observed": "all12full images and crops: no blocking pointer defect; same position/shape, legible, in-frame; encoded purple darker than PNG companion, mild codec fringing",
+    "scope": "pointer shape/position only; color qualification separate; no>100readability or wholevisual acceptance"
+  },
+  "commit": "f77e114d0e751636fa0d98b7d80fbc01e01091f8",
+  "archive": {
+    "path": "current-moving-pointer-evidence.tar.gz",
+    "bytes": 836684,
+    "sha256": "2b47d51260e33fe3e2864185c10cf602f984430fbeda154a292eec0bc6587406",
+    "memberCount": 442
+  },
+  "rootVerification": {
+    "payloadsIndependentlyRehashed": 442,
+    "review": "Full settled source diff, final complete montage and pointer crop; fresh critique all12 frames/crops. Narrow white-pointer acceptance; observed color discrepancy remains unresolved.",
+    "noRerun": "Unchanged executed source and release worker reused; harness-only merge does not require native rebuild."
+  },
+  "rootVisualCheckpoint": {
+    "openedUTC": "2026-10-03 07:55:21 UTC",
+    "closedUTC": "2026-10-03T08:00:41.663953+00:00",
+    "windowId": 2890,
+    "preExistingPreviewWindows": [],
+    "files": [
+      "movie-comparison.png",
+      "pointer-02-detail4x.png"
+    ],
+    "disposition": "No new user response; root accepts narrow placement/held-state proof only after >5min. Observed color difference and wider claims remain unresolved."
+  }
+}

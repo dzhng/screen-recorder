@@ -21,83 +21,45 @@ caller makes every editorial decision. Read the [contracts](contracts.md),
 [journeys](journeys.md) and [processing](processing.md). Read or edit the consumer
 [screenrec skill](../../skills/screenrec/SKILL.md) from that caller's perspective.
 
-**Next pickup: sibling-pump failure and moving-pointer presentation, then remaining
-scale and installed/default caller contracts.** Core/schema closure
-removes recording revisions from the actual type, query and schema. The fresh
-catalog is format23 and refuses prior catalogs without migration or byte mutation.
-Projects retain their edit/history owner; capture/source facts and raw provenance
-remain intact. The [owner closure registry](assets/23-owner-fixture-ports/README.md)
-is the canonical bank of preserved guarantees and precise proof limits. Native
-engine closure is integrated and its exact pinned worker passes current
-source/audio/preview service and native cleanup smoke. The broad gate has run;
-its [recovery bank](assets/23-owner-fixture-ports/default-gate-recovery-verification.json)
-separates retained package passes, focused repairs and unfinished acceptance.
-The [current caller bank](assets/23-owner-fixture-ports/current-caller-fixtures-verification.json)
-closes index/cache, source-history cut and deterministic worker-deletion fixture
-failures. The [capture/UI retry bank](assets/23-owner-fixture-ports/current-capture-ui-verification.json)
-closes all thirteen previously failed named capture/UI cases, including the
-actual frame-capture prefix. The
-[selected streaming bank](assets/23-owner-fixture-ports/current-streaming-scale-verification.json)
-passes the original10/300s PCM and memory gates. The
-[soundtrack support fix](assets/23-owner-fixture-ports/movie-audio-support-verification.json)
-preserves exact container presentation with unchanged floorPCM. The
-[original movie-scale gate](assets/23-owner-fixture-ports/current-movie-scale-verification.json)
-now passes short/long duration, AAC/source phase, frame timing and memory limits;
-its independent oracle uses the declared authored discrete sample clock.
-The [source lifetime bank](assets/23-owner-fixture-ports/current-source-lifetime-verification.json)
-closes all three retained orphan-workspace, donor and removal cases on the
-unchanged current worker; SDK finishing remains a separate contract.
-The [long-source cache bank](assets/23-owner-fixture-ports/current-long-frame-cache-verification.json)
-passes the unchanged30-minute late-seek/cache/restart companion with exact
-historical input and PNG digests. The
-[complete raw-source index bank](assets/23-owner-fixture-ports/current-complete-source-index-verification.json)
-passes all4,936PNG publications and25pages on the frozen source candidate.
-These source checks retain their separate runtime and performance scope.
-The [staged-output ownership bank](assets/23-owner-fixture-ports/staged-output-ownership-verification.json)
-closes foreign staging replacement cleanup/publication and verifies the rebuilt
-combined release worker's tiny movie contract. Its bounded cleanup and external
-writer identity limits remain explicit.
-The [finishing cancellation bank](assets/23-owner-fixture-ports/current-movie-finishing-verification.json)
-closes cancellation after SDK finishing begins, on aligned and fractional windows,
-and corrects common Swift cancellation classification. The rebuilt release keeps
-genuine decode refusal distinct. The
-[continuous player bank](assets/23-owner-fixture-ports/current-continuous-preview-verification.json)
-closes muted same-item progress, exact endpoint and teardown on retained media;
-it does not establish listening, moving-pointer or backend integration.
-Initial zero-display failures remain in the original default bank. Post-restart
-[source enumeration](assets/23-owner-fixture-ports/post-restart-source-availability.json)
-enabled the serial retry cohort; its temporary media and UI are cleaned up.
-Automated temporary capture fixtures in that default gate
-are authorized, distinct from repeating the unchanged physical marker/Stop
-experiment or asking the user for another recording.
+**Next pickup: the current combined scale contract, then remaining source
+presentation and installed/default caller acceptance.** The product uses one
+project composition owner and a fresh format23 catalog; prior catalogs are refused
+without migration or byte mutation. The
+[owner closure registry](assets/23-owner-fixture-ports/README.md) is the canonical
+bank of current preservation results, original failures and exact runtime limits.
+The repository-wide gate has run; reuse its matched passes and repair only affected
+or unmatched contracts. Do not interpret its focused recovery as a full green run.
 
 Continue in this order:
 
-1. Finish sibling-pump failure through the existing movie owner, requiring actual
-   overlap and the preserved fail-fast/drain boundary. Moving-pointer presentation
-   needs current rendered output; saved player progress does not close it. Keep
-   listening separate from muted playback. Reuse passed movie, source lifetime,
-   capture/UI and default cohorts; preserve their numerical and byte assertions.
-   The combined release candidate is built, with affected tiny movie and output
-   ownership proof. Test executables alone do not establish installed acceptance.
-2. Check remaining [scale](slices/24-scale.md) dimensions and current scale
-   callers after cutover. Reuse passed child cohorts and matched banks; no
-   original whole-setup timing pass is implied. The
-   [current reorder query](assets/23-owner-fixture-ports/current-reorder-query-verification.json)
-   closes deep/wide 10k placement invalidation, pinned history and undo through
-   default MCP; media interactions and contention remain separate.
-3. Verify continuous A/V/pointer presentation on a concrete isolated candidate,
-   then installed/default discovery and the bounded [caller](slices/25-agent-acceptance.md)
-   checkpoint. Prepare the reviewable candidate before installed replacement.
-   Preserve the installed library and span history; use a deliberately fresh
-   library, with no migration.
+1. Run the existing combined [scale contract](slices/24-scale.md) once on the
+   pinned current release: late-window audio in deep/wide long projects,
+   queue cancellation/restart and bounded preview. Preserve original budgets.
+   Reuse the separate query, movie, streaming, cache and index banks. The known
+   storage deadline under native-build contention waits for an already-required
+   build; do not create a build solely to generate load. Long learned-processing
+   interactions remain distinct from this raw-audio route.
+2. Preserve the newly verified boundaries: SDK finishing cancellation, actual
+   muted same-item playback to its exact endpoint, first sibling video failure
+   under explicitly controlled readiness, and three current white-pointer movie
+   samples moving then holding over one source picture. Controlled readiness is
+   not natural scheduling proof. Pointer placement is not whole-color, magenta
+   trail, arbitrary gesture, perceptual synchronization or listening acceptance.
+   The observed movie/PNG color difference remains unresolved; no threshold or
+   reference was changed to close it.
+3. Prepare the concrete candidate for installed/default discovery and the bounded
+   [external-caller checkpoint](slices/25-agent-acceptance.md). Reuse the source
+   CLI/MCP workflow and accepted media rather than repeat every effect. Preserve
+   the installed app, library and span history until the reviewed switch; use a
+   deliberately fresh library with no migration. Test executables and isolated
+   output do not establish installed acceptance.
 
 | Owner | Remaining acceptance |
 | --- | --- |
 | [12 speech](slices/12-speech-evidence.md) | Broader independent acoustic/reference coverage, joins/listening and warm resources |
 | [20 / 21 capture](slices/21-webcam.md#implementation-graph) | Physical event uncertainty/synchronization and remaining lifecycle scope |
-| [23 cutover](slices/23-cutover.md) | Sibling failure, moving-pointer presentation and installed switching |
-| [24 scale](slices/24-scale.md) | Missing integrated scale dimensions |
+| [23 cutover](slices/23-cutover.md) | Broader source/pointer/color presentation, listening and installed switching |
+| [24 scale](slices/24-scale.md) | Current combined route, learned interactions and known contention |
 | [25 caller](slices/25-agent-acceptance.md) | Installed/default discovery and final release scope |
 
 The [evidence index](assets/integrated-evidence.md),

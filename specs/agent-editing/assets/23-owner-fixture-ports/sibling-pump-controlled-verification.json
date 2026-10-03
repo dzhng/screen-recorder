@@ -1,0 +1,102 @@
+{
+  "implementationReport": "/Users/david/.cache/screen-recorder/verification/sibling-pump-controlled-aa07b28e/report.json",
+  "reportMember": "sibling-pump-controlled-aa07b28e/report.json",
+  "archive": "sibling-pump-controlled-aa07b28e.tar.gz",
+  "sha256": "c2db6334b3d9ad576bc50375b14bc02f3ad700d05b67bc5ec9eefa0faa61375d",
+  "bytes": 131982,
+  "hashedPayloads": 44,
+  "archiveFilesIncludingManifest": 45,
+  "manifestMember": "sibling-pump-controlled-aa07b28e/manifest.json",
+  "commit": "cb28174a0b8e880a80ba071983c4c89706556da0",
+  "sourcePins": [
+    {
+      "path": "helpers/mac/Tests/CompositionVideo/main.swift",
+      "bytes": 5563,
+      "sha256": "173eeee3b78177e33428fc9757d949911d62947d59c27e9f41f3c03dcdb9c1ad"
+    },
+    {
+      "path": "helpers/mac/Tests/CompositionVideo/MoviePumpTests.swift",
+      "bytes": 14435,
+      "sha256": "14f413ebfd5d5908743277f2cf714c762863ad012f1f670ca8082d8edb2f865c"
+    }
+  ],
+  "testedSourcePins": [
+    {
+      "path": "/Users/david/.cache/screen-recorder/verification/sibling-pump-controlled-aa07b28e/tested-main.swift",
+      "bytes": 5563,
+      "sha256": "173eeee3b78177e33428fc9757d949911d62947d59c27e9f41f3c03dcdb9c1ad",
+      "repositoryPath": "helpers/mac/Tests/CompositionVideo/main.swift"
+    },
+    {
+      "path": "/Users/david/.cache/screen-recorder/verification/sibling-pump-controlled-aa07b28e/tested-MoviePumpTests.swift",
+      "bytes": 14497,
+      "sha256": "ef2463a2774f6652eeff9469026ec44a2c8b690720b33ee7afc42efd2ceabd92",
+      "repositoryPath": "helpers/mac/Tests/CompositionVideo/MoviePumpTests.swift"
+    }
+  ],
+  "runtimePins": [
+    {
+      "path": "/Users/david/.cache/screen-recorder/verification/sibling-pump-controlled-aa07b28e/ScreenRecorderCompositionVideoTests",
+      "bytes": 30131920,
+      "sha256": "9f81e09f04dac2ed978fccd45be59a4f4b144b242bcb0343328820f73739aac5"
+    },
+    {
+      "path": "/Users/david/.cache/screen-recorder/verification/sibling-pump-controlled-aa07b28e/mutant-helper",
+      "bytes": 30133680,
+      "sha256": "c4af31313421e06eac62a501ba027549781338fc59fe76d2708fbf96425fa96e"
+    },
+    {
+      "path": "/Users/david/.cache/screen-recorder/verification/movie-finishing-cancellation-72a737a4/wire/ScreenRecorderWire.o",
+      "bytes": 2411984,
+      "sha256": "00a560bb432f26da61af5ea972b4147b26ba2b34649ab5ce3248d3515e339499"
+    },
+    {
+      "path": "/Users/david/.cache/screen-recorder/verification/movie-finishing-cancellation-72a737a4/wire/ScreenRecorderWire.swiftmodule",
+      "bytes": 308192,
+      "sha256": "52b72d16438b869b73fc1bfef46bcfd9bc58c039204a9129acf8c1339b6fe39f"
+    },
+    {
+      "path": "/Users/david/.cache/screen-recorder/verification/sibling-pump-controlled-aa07b28e/mutant/ScreenRecorderWire.o",
+      "bytes": 2409376,
+      "sha256": "8c0890362186af5cf8255130fbc420ffe29399ef095c18f8b124018b18447316"
+    },
+    {
+      "path": "/Users/david/.cache/screen-recorder/verification/sibling-pump-controlled-aa07b28e/mutant/ScreenRecorderWire.swiftmodule",
+      "bytes": 308192,
+      "sha256": "52b72d16438b869b73fc1bfef46bcfd9bc58c039204a9129acf8c1339b6fe39f"
+    }
+  ],
+  "executedCurrentBinarySHA256": "110b9cc0197b6586f28a558b9cb57679a375dac6bd3adf458b21565d80ccc413",
+  "qualifiedSiblingPumpProof": true,
+  "schedulingQualification": "Declared test-only readiness interleave, not natural overlap: invoke original getter, deliver false for video until accepted audio, optionally hold subsequent audio readiness until selected video handoff; release both before fault. Production async ready waits are unchanged. Audio hold was not encountered in these qualifying runs and is reported false.",
+  "proofScope": "Existing CompositionVideo native test executable with real SDK calls and retained synthetic 1-second operands. No production worker/installed acceptance, visual/acoustic judgment, physical capture, scale, or natural scheduling claim. Natural tiny/1-second recon is separately nonqualifying.",
+  "naturalRecon": {
+    "implementationReport": "/Users/david/.cache/screen-recorder/verification/sibling-pump-recon-aa07b28e/report.json",
+    "qualifiedSiblingPumpProof": false,
+    "archive": "sibling-pump-recon-aa07b28e.tar.gz",
+    "sha256": "17006a3f9e33011b7efbc32f144d38f2a8b87f55e23fba86005cfd47ff988eec",
+    "hashedPayloads": 16,
+    "archiveFilesIncludingManifest": 17,
+    "reportMember": "sibling-pump-recon-aa07b28e/report.json",
+    "manifestMember": "sibling-pump-recon-aa07b28e/manifest.json"
+  },
+  "finalSourceQualification": "final-helper-link.json exit 0; cleanup removed unused duplicate events collection and Decodable conformance only; no body rerun warranted.",
+  "executedBinaryRetention": "Run logs pin the executed 110b9cc0 binary; its path was later replaced by the final semantic-free cleanup relink. Final 9f81e09f binary is compile/link-only, not a body replay. Exact executed test-source snapshots are retained separately.",
+  "rootVerification": {
+    "archivesIndependentlyRehashed": [
+      {
+        "archive": "sibling-pump-controlled-aa07b28e.tar.gz",
+        "payloads": 44,
+        "sha256": "c2db6334b3d9ad576bc50375b14bc02f3ad700d05b67bc5ec9eefa0faa61375d"
+      },
+      {
+        "archive": "sibling-pump-recon-aa07b28e.tar.gz",
+        "payloads": 16,
+        "sha256": "17006a3f9e33011b7efbc32f144d38f2a8b87f55e23fba86005cfd47ff988eec"
+      }
+    ],
+    "settledSourceAndCurrentPrivateRuntimeRehashed": true,
+    "productionChanges": false,
+    "qualification": "Exact tested source snapshots/run logs retained; final semantic-free relink is compile-only and executed current binary itself no longer retained. Controlled SDK schedule is explicit, not natural overlap."
+  }
+}
