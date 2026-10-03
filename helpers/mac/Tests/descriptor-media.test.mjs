@@ -5,6 +5,7 @@ import {
   openSync,
   closeSync,
   readFileSync,
+  readdirSync,
   rmSync,
   renameSync,
   existsSync,
@@ -245,4 +246,117 @@ test("malformed ID3 and sync-looking input fail without publishing selected audi
       } finally { closeSync(fd); }
     }
   } finally { rmSync(dir, { recursive: true, force: true }); }
+});
+
+test("selected source audio fills a renamed WAVE handle after its input is unlinked", () => {
+  const dir = mkdtempSync(join(tmpdir(), "descriptor-selected-wave-"));
+  let sourceFD, outputFD;
+  try {
+    const source = join(dir, "source.wav"),
+      output = join(dir, "ordinary.wav"),
+      inheritedOutput = join(dir, "handle.wav");
+    run("ffmpeg", [
+      "-v",
+      "error",
+      "-nostdin",
+      "-f",
+      "lavfi",
+      "-i",
+      "sine=frequency=997:sample_rate=44100:duration=2",
+      "-c:a",
+      "pcm_f32le",
+      source,
+    ]);
+    const before = readFileSync(source);
+    const params = {
+      source: { source, sourceOffsetUs: 0, available: [{ startUs: 0, endUs: 2000000 }] },
+      range: { startUs: 750000, endUs: 1350000 },
+      output,
+    };
+    const ordinary = request("media.sourceAudio", params);
+    assert.equal(ordinary.ok, true, JSON.stringify(ordinary));
+    assert.equal(ordinary.data.frames, 26460);
+    assert.equal(ordinary.data.sampleRate, 44100);
+    assert.equal(ordinary.data.channels, 1);
+    sourceFD = openSync(source, "r");
+    outputFD = openSync(inheritedOutput, "w+");
+    renameSync(inheritedOutput, inheritedOutput + ".moved");
+    rmSync(source);
+    const inherited = request(
+      "media.sourceAudio",
+      {
+        ...params,
+        source: { ...params.source, source: "/dev/fd/3" },
+        output: "/dev/fd/4",
+      },
+      [sourceFD, outputFD],
+    );
+    assert.equal(inherited.ok, true, JSON.stringify(inherited));
+    assert.equal(inherited.data.frames, ordinary.data.frames);
+    assert.deepEqual(inherited.data.sampleRange, ordinary.data.sampleRange);
+    assert.deepEqual(readFileSync(inheritedOutput + ".moved"), readFileSync(output));
+    const pcm = run(
+      "ffmpeg",
+      ["-v", "error", "-i", inheritedOutput + ".moved", "-f", "f32le", "-"],
+      { encoding: null },
+    );
+    assert.equal(pcm.length, 26460 * 4);
+    let peak = 0;
+    for (let offset = 0; offset < pcm.length; offset += 4) {
+      const sample = pcm.readFloatLE(offset);
+      assert.ok(Number.isFinite(sample));
+      peak = Math.max(peak, Math.abs(sample));
+    }
+    assert.ok(peak > 0.05, "Selected WAVE must contain the source tone");
+    assert.deepEqual(readFileSync(sourceFD), before);
+  } finally {
+    if (sourceFD !== undefined) closeSync(sourceFD);
+    if (outputFD !== undefined) closeSync(outputFD);
+    rmSync(dir, { recursive: true, force: true });
+  }
+});
+
+test("selected source audio refuses inherited input beyond its inspection byte budget", () => {
+  const dir = mkdtempSync(join(tmpdir(), "descriptor-source-budget-"));
+  let sourceFD;
+  try {
+    const source = join(dir, "large.wav"),
+      output = join(dir, "output.wav");
+    run("ffmpeg", [
+      "-v",
+      "error",
+      "-nostdin",
+      "-f",
+      "lavfi",
+      "-i",
+      "anullsrc=r=192000:cl=stereo",
+      "-t",
+      "30",
+      "-c:a",
+      "pcm_f64le",
+      source,
+    ]);
+    sourceFD = openSync(source, "r");
+    const result = request(
+      "media.sourceAudio",
+      {
+        source: {
+          source: "/dev/fd/3",
+          sourceOffsetUs: 0,
+          available: [{ startUs: 0, endUs: 30000000 }],
+        },
+        range: { startUs: 0, endUs: 30000000 },
+        output,
+      },
+      [sourceFD],
+    );
+    assert.equal(result.ok, false);
+    assert.equal(result.error.code, "LIMIT_EXCEEDED");
+    assert.match(result.error.message, /byte budget/);
+    assert.equal(existsSync(output), false);
+    assert.deepEqual(readdirSync(dir), ["large.wav"]);
+  } finally {
+    if (sourceFD !== undefined) closeSync(sourceFD);
+    rmSync(dir, { recursive: true, force: true });
+  }
 });

@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { spawnSync } from "node:child_process";
-import { mkdtempSync, rmSync } from "node:fs";
+import { mkdtempSync, readFileSync, readdirSync, rmSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -151,6 +151,72 @@ test("selected scene grids retain exact clocks and reset across physical and acq
       { asset: { ...base.asset, streamId: "track:404" } },
     ])
       assert.equal(call(changes).ok, false);
+  } finally {
+    rmSync(dir, { recursive: true, force: true });
+  }
+});
+
+test("selected scene grids deliver all 52 clean color samples within inspection bounds", (t) => {
+  const dir = mkdtempSync(join(tmpdir(), "source-scenes-bounds-"));
+  try {
+    const source = join(dir, "source.mov");
+    run("ffmpeg", [
+      "-v",
+      "error",
+      "-nostdin",
+      "-f",
+      "lavfi",
+      "-i",
+      "color=c=red:size=160x90:rate=10:duration=11",
+      "-an",
+      "-c:v",
+      "libx264",
+      source,
+    ]);
+    const before = readFileSync(source);
+    const params = {
+      asset: { assetId: "fixture", streamId: "track:1", path: source, originUs: 0 },
+      available: [{ startUs: 0, endUs: 11000000 }],
+      atSourceUs: Array.from({ length: 52 }, (_, index) => index * 200000),
+    };
+    const start = performance.now();
+    const result = spawnSync("/usr/bin/time", ["-l", native], {
+      input: JSON.stringify({ id: "grid", operation: "media.sourceVisualSamples", params }) + "\n",
+      encoding: "utf8",
+      timeout: 30000,
+      maxBuffer: 8 * 1024 * 1024,
+    });
+    const elapsedMs = performance.now() - start;
+    assert.equal(result.status, 0, result.stderr || String(result.error));
+    const reply = JSON.parse(result.stdout);
+    assert.equal(reply.ok, true, JSON.stringify(reply));
+    const data = reply.data;
+    assert.deepEqual([data.sourceWidth, data.sourceHeight], [160, 90]);
+    assert.equal(data.samples.length, 52);
+    for (const [index, sample] of data.samples.entries()) {
+      assert.equal(sample.status, "available");
+      assert.equal(sample.requestedSourceUs, index * 200000);
+      assert.equal(sample.actualSourceUs, index * 200000);
+      assert.equal(sample.continuousFromPrevious, index > 0);
+      assert.deepEqual([sample.width, sample.height], [64, 36]);
+      const rgb = Buffer.from(sample.rgbBase64, "base64");
+      assert.equal(rgb.length, 64 * 36 * 3);
+      for (let offset = 0; offset < rgb.length; offset += 3)
+        assert.ok(
+          rgb[offset] > 220 && rgb[offset + 1] < 60 && rgb[offset + 2] < 40,
+          `sample ${index}, pixel ${offset / 3}: expected clean sRGB red`,
+        );
+    }
+    const rss = Number(result.stderr.match(/(\d+)\s+maximum resident set size/)?.[1]);
+    assert.ok(Number.isFinite(rss));
+    assert.ok(rss < 256 * 1024 * 1024, `peak RSS ${rss}`);
+    assert.ok(elapsedMs < 30000);
+    assert.ok(Buffer.byteLength(result.stdout) < 8 * 1024 * 1024);
+    assert.deepEqual(readFileSync(source), before);
+    assert.deepEqual(readdirSync(dir), ["source.mov"]);
+    t.diagnostic(
+      `52 source samples: ${elapsedMs.toFixed(1)}ms, ${rss} peak RSS bytes, ${Buffer.byteLength(result.stdout)} response bytes`,
+    );
   } finally {
     rmSync(dir, { recursive: true, force: true });
   }
