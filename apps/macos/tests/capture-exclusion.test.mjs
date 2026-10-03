@@ -69,7 +69,7 @@ async function displayTake(origin) {
   instance.kill("SIGTERM");
   await instance.exited;
   return {
-    video: join(home, "recordings", started.recordingId, "source", "video.mov"),
+    video: join(home, "library", "recordings", started.recordingId, "source", "video.mov"),
     display,
     controls: { x: Number(x), y: Number(y), width: Number(width), height: Number(height) },
   };

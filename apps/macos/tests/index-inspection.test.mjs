@@ -159,7 +159,9 @@ test("bundled source index retains selected images, pinned continuation and cach
   assert.deepEqual(await instance.reap(), []);
   const reopened = new Catalog(join(library, "catalog.sqlite"));
   const reopenedAssets = new AssetStore(reopened, library);
-  assert.ok(reopened.prepare("SELECT COUNT(*) AS count FROM derived_cache").get().count > 0);
+  assert.ok(
+    reopened.catalog.prepare("SELECT COUNT(*) AS count FROM derived_cache").get().count > 0,
+  );
   await new DerivedCache(
     reopened,
     library,
@@ -169,7 +171,10 @@ test("bundled source index retains selected images, pinned continuation and cach
     },
     1,
   ).reconcile();
-  assert.equal(reopened.prepare("SELECT COUNT(*) AS count FROM derived_cache").get().count, 0);
+  assert.equal(
+    reopened.catalog.prepare("SELECT COUNT(*) AS count FROM derived_cache").get().count,
+    0,
+  );
   reopened.close();
   ({ instance } = await launchReady(home));
   assert.deepEqual((await read(reference)).bytes, first.bytes);

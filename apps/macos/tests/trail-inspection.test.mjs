@@ -317,7 +317,7 @@ test("explicit pointer steps preserve held-frame gesture pixels and reach CLI an
   }
 });
 
-test("explicit project cut clips retained history while its pinned historical revision preserves the gesture", async () => {
+test("explicit project cut follows source history while its pinned historical revision preserves the gesture", async () => {
   const home = temporary("/tmp/scr-trail-cut-"),
     source = await fixture(home, undefined, 500_000);
   const service = await startPublicService(home, process.env.SCREENREC_NATIVE);
@@ -335,7 +335,8 @@ test("explicit project cut clips retained history while its pinned historical re
     const cut = await deliver("cut", { revisionId: revised, atUs: 500_000 });
     const clean = await deliver("cut-clean", { atUs: 500_000, clean: true });
     const oldCircle = { x: 360, y: 240, width: 120, height: 240 };
-    assert.equal(differences(clean.rgb, cut.rgb, oldCircle), 0);
+    assert.deepEqual(cut.rgb, historical.rgb);
+    assert.ok(differences(clean.rgb, cut.rgb, oldCircle) > 100);
     assert.ok(differences(clean.rgb, cut.rgb) > 100);
     const pinned = await deliver("historical", { revisionId: historical.params.revisionId });
     assert.deepEqual(pinned.frame, historical.frame);
