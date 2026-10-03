@@ -17,15 +17,36 @@ import { tmpdir } from "node:os";
 import { promisify } from "node:util";
 import { setTimeout as delay } from "node:timers/promises";
 import { test } from "node:test";
-import { mediaWorker } from "../../apps/service/dist/worker.js";
-import { clearRenderWorkspace, withRenderedMedia } from "../../apps/service/dist/render.js";
+import {
+  createCompiler,
+  validateComposition,
+  resolveOutputSettings,
+} from "../composition/dist/index.js";
+import { projectMovieRenderer } from "../../apps/service/dist/project-render.js";
+import { nativeProcessing } from "../../apps/service/dist/native-processing.js";
+import { mediaWorker, nativeResult } from "../../apps/service/dist/worker.js";
+import { clearRenderWorkspace, withRenderAttempt } from "../../apps/service/dist/render.js";
 const execute = promisify(execFile);
 const native = await realpath(
   process.env.SCREENREC_NATIVE ??
     new URL("../../helpers/mac/.build/debug/screenrec-native", import.meta.url).pathname,
 );
-const lifetime = new URL("../../helpers/mac/.build/debug/ScreenRecorderMovieTests", import.meta.url)
-  .pathname;
+function compile(fixture, endUs, output) {
+  const model = validateComposition(fixture.document, fixture.assets);
+  const window = createCompiler(model, "movie-lifetime").window({
+    range: { startUs: 0, endUs },
+    rendition: { sampleRate: 48000, channels: 2 },
+    tap: { target: { kind: "output" }, point: { kind: "processed" } },
+  });
+  return {
+    model,
+    window,
+    assets: fixture.bindings,
+    fonts: [],
+    output,
+    settings: resolveOutputSettings(),
+  };
+}
 async function command(file, args) {
   return (await execute(file, args, { timeout: 60000, maxBuffer: 4 * 1024 * 1024 })).stdout;
 }
@@ -76,18 +97,30 @@ async function nativePid(parent = process.pid) {
 async function orphanedWorker(request, preparation, nativeWorker) {
   const renderURL = new URL("../../apps/service/dist/render.js", import.meta.url).href;
   const workerURL = new URL("../../apps/service/dist/worker.js", import.meta.url).href;
+  const projectURL = new URL("../../apps/service/dist/project-render.js", import.meta.url).href;
+  const compositionURL = new URL("../composition/dist/index.js", import.meta.url).href;
   const code = `
-    import {withRenderedMedia} from ${JSON.stringify(renderURL)};
+    import {withRenderAttempt} from ${JSON.stringify(renderURL)};
+    import {projectMovieRenderer} from ${JSON.stringify(projectURL)};
+    import {createCompiler,validateComposition,resolveOutputSettings} from ${JSON.stringify(compositionURL)};
     import {mediaWorker} from ${JSON.stringify(workerURL)};
     import {join} from 'node:path';
     const request=${JSON.stringify(request)};
-    if(${preparation}) request.preparePointer=async(directory, worker, signal)=>{
-      await worker('media.presentationEvidence',{source:request.source,plan:request.plan,
-        output:join(directory,'presentation.jsonl'),maxBytes:64000000},{signal});
-      throw new Error('Preparation completed before orphan proof');
-    };
-    await withRenderedMedia(mediaWorker({SCREENREC_NATIVE:${JSON.stringify(native)}}),
-      request,new AbortController().signal,async()=>{throw new Error('Render completed before orphan proof')});
+    const worker=mediaWorker({SCREENREC_NATIVE:${JSON.stringify(native)}});
+    const signal=new AbortController().signal;
+    if(${preparation}) {
+      await withRenderAttempt(worker,request.attemptParent,signal,async(directory,execute)=>{
+        await execute('media.presentationEvidence',{source:request.source,
+          plan:[{source:{startUs:0,endUs:60000000},playback:{startUs:0,endUs:60000000}}],
+          output:join(directory,'presentation.jsonl'),maxBytes:64000000},{signal});
+        throw new Error('Preparation completed before orphan proof');
+      },async()=>{throw new Error('Preparation consumed before orphan proof')});
+    } else {
+      const compile=${compile.toString()};
+      await projectMovieRenderer(worker,request.attemptParent).render(
+        compile(request.fixture,60000000,request.output),signal);
+      throw new Error('Render completed before orphan proof');
+    }
   `;
   const owner = spawn(process.execPath, ["--input-type=module", "-e", code], {
     stdio: ["ignore", "ignore", "pipe"],
@@ -144,16 +177,12 @@ async function orphanedWorker(request, preparation, nativeWorker) {
       { code: "RENDER_WORKSPACE_BUSY", retryable: true },
     );
     const busyMs = Date.now() - began;
-    const short = {
-      ...request,
-      plan: [{ source: { startUs: 0, endUs: 1000000 }, playback: { startUs: 0, endUs: 1000000 } }],
-    };
-    const concurrentBytes = await withRenderedMedia(
-      nativeWorker,
+    const short = compile(request.fixture, 1000000, request.output + "-concurrent.mp4");
+    const concurrent = await projectMovieRenderer(nativeWorker, request.attemptParent).render(
       short,
       new AbortController().signal,
-      async (media) => (await readFile(media.file)).length,
     );
+    const concurrentBytes = (await readFile(concurrent.file)).length;
     assert.ok(concurrentBytes > 0);
     assert.deepEqual(await readdir(request.attemptParent), abandoned);
     assert.deepEqual(await stagingSnapshot(request.attemptParent), held);
@@ -174,12 +203,11 @@ async function orphanedWorker(request, preparation, nativeWorker) {
     pid = undefined;
     await clearRenderWorkspace(nativeWorker, request.attemptParent, new AbortController().signal);
     assert.deepEqual(await readdir(request.attemptParent), []);
-    const bytes = await withRenderedMedia(
-      nativeWorker,
-      short,
+    const resumed = await projectMovieRenderer(nativeWorker, request.attemptParent).render(
+      { ...short, output: request.output + "-resumed.mp4" },
       new AbortController().signal,
-      async (media) => (await readFile(media.file)).length,
     );
+    const bytes = (await readFile(resumed.file)).length;
     assert.ok(bytes > 0);
     assert.deepEqual(await readdir(request.attemptParent), []);
     return {
@@ -200,7 +228,7 @@ async function orphanedWorker(request, preparation, nativeWorker) {
 }
 
 test(
-  "real movie worker owns publication, abort/deadline cleanup and native finalization",
+  "real composition movie worker owns publication and abort/deadline cleanup",
   { timeout: 90000 },
   async () => {
     const home = await mkdtemp(join(tmpdir(), "screenrec-movie-lifetime-"));
@@ -237,16 +265,60 @@ test(
         audio,
       ]);
       const before = await Promise.all([readFile(source), readFile(audio)]);
-      const plan = [
-        { source: { startUs: 0, endUs: 60000000 }, playback: { startUs: 0, endUs: 60000000 } },
-      ];
-      const request = {
-        source,
-        plan,
-        tracks: [{ role: "system", source: audio, sourceOffsetUs: 0, available: [plan[0].source] }],
-        attemptParent: attempts,
-      };
       const run = mediaWorker({ SCREENREC_NATIVE: native });
+      const assets = [],
+        bindings = [];
+      for (const [id, path, kind] of [
+        ["video", source, "video"],
+        ["audio", audio, "audio"],
+      ]) {
+        const probe = nativeResult(await run("media.probe", { path }));
+        const stream = probe.streams.find((value) => value.kind === kind);
+        assert.ok(stream);
+        assets.push({
+          id,
+          streams: [
+            {
+              id: stream.id,
+              kind,
+              ...(kind === "video"
+                ? { width: stream.orientedWidth, height: stream.orientedHeight }
+                : {}),
+              bounds: { startUs: stream.startUs, endUs: stream.endUs },
+              available: [{ startUs: stream.startUs, endUs: stream.endUs }],
+            },
+          ],
+        });
+        bindings.push({ assetId: id, streamId: stream.id, path, originUs: probe.originUs });
+      }
+      const fixture = {
+        assets,
+        bindings,
+        document: {
+          canvas: {
+            width: 320,
+            height: 180,
+            fps: { numerator: 10, denominator: 1 },
+            background: "#000000ff",
+          },
+          tracks: [
+            { id: "video", kind: "video", order: 0 },
+            { id: "audio", kind: "audio", order: 0 },
+          ],
+          groups: [],
+          syncGroups: [],
+          processing: [],
+          clips: bindings.map((binding) => ({
+            id: binding.assetId,
+            assetId: binding.assetId,
+            streamId: binding.streamId,
+            trackId: binding.assetId,
+            source: { kind: "range", range: { startUs: 0, endUs: 60000000 } },
+            placement: { kind: "project", range: { startUs: 0, endUs: 60000000 } },
+          })),
+        },
+      };
+      const request = compile(fixture, 60000000, join(home, "canceled.mp4"));
       const controller = new AbortController();
       let observedPid, partial;
       const checked = async (...args) => {
@@ -257,9 +329,7 @@ test(
         await readFile(partial);
         return result;
       };
-      const pending = withRenderedMedia(checked, request, controller.signal, async () =>
-        assert.fail("Canceled movie consumed"),
-      );
+      const pending = projectMovieRenderer(checked, attempts).render(request, controller.signal);
       const rejected = assert.rejects(pending, { code: "CANCELED" });
       partial = await until(() => assemblyFile(attempts));
       observedPid = await until(nativePid);
@@ -267,50 +337,72 @@ test(
       await rejected;
       assert.deepEqual(await readdir(attempts), []);
       await assert.rejects(
-        withRenderedMedia(
+        projectMovieRenderer(
           (op, params, options) =>
             run(
               op,
               params,
               op === "storage.clearRenderWorkspace" ? options : { ...options, timeoutMs: 150 },
             ),
-          request,
-          new AbortController().signal,
-          async () => assert.fail("Timed out movie consumed"),
-        ),
+          attempts,
+        ).render({ ...request, output: join(home, "timeout.mp4") }, new AbortController().signal),
         { code: "MEDIA_WORKER_TIMEOUT" },
       );
       assert.deepEqual(await readdir(attempts), []);
-      const receipt = await withRenderedMedia(
-        run,
-        {
-          ...request,
-          plan: [
-            { source: { startUs: 0, endUs: 1000000 }, playback: { startUs: 0, endUs: 1000000 } },
-          ],
-        },
+      const receipt = await projectMovieRenderer(run, attempts).render(
+        compile(fixture, 1000000, join(home, "success.mp4")),
         new AbortController().signal,
-        async (media) => {
-          assert.ok((await readFile(media.file)).length > 0);
-          return media;
-        },
       );
+      assert.ok((await readFile(receipt.file)).length > 0);
       assert.equal(receipt.audio.frames, 48000);
-      assert.equal(receipt.audio.codec, "aac");
+      const audioProbe = JSON.parse(
+        await command("ffprobe", [
+          "-v",
+          "error",
+          "-select_streams",
+          "a",
+          "-show_entries",
+          "stream=codec_name",
+          "-of",
+          "json",
+          receipt.file,
+        ]),
+      );
+      assert.deepEqual(
+        audioProbe.streams.map((stream) => stream.codec_name),
+        ["aac"],
+      );
       assert.deepEqual(await readdir(attempts), []);
       await assert.rejects(
-        withRenderedMedia(
-          run,
-          { ...request, tracks: [{ ...request.tracks[0], source: join(home, "missing.mov") }] },
+        projectMovieRenderer(run, attempts).render(
+          {
+            ...request,
+            output: join(home, "failed.mp4"),
+            assets: bindings.map((binding) =>
+              binding.assetId === "audio"
+                ? { ...binding, path: join(home, "missing.mov") }
+                : binding,
+            ),
+          },
           new AbortController().signal,
-          async () => assert.fail("Failed movie consumed"),
         ),
         { code: "NATIVE_DECODE_FAILED" },
       );
       assert.deepEqual(await readdir(attempts), []);
       const restart = [];
       for (const preparation of [false, true])
-        restart.push(await orphanedWorker(request, preparation, run));
+        restart.push(
+          await orphanedWorker(
+            {
+              fixture,
+              source,
+              attemptParent: attempts,
+              output: join(home, `orphan-${preparation}.mp4`),
+            },
+            preparation,
+            run,
+          ),
+        );
       const external = join(home, "external"),
         moved = join(home, "moved-attempts");
       await mkdir(external);
@@ -318,15 +410,34 @@ test(
       await symlink(external, join(attempts, "abandoned-link"));
       // Only startup admission clears stale siblings; live attempts clean their own child.
       await clearRenderWorkspace(run, attempts, new AbortController().signal);
-      await withRenderedMedia(
+      // This consumer deliberately replaces the parent after reading the artifact.
+      // Exercise the shared attempt lifetime directly because publication normally copies it.
+      const short = compile(fixture, 1000000, join(home, "replacement.mp4"));
+      await withRenderAttempt(
         run,
-        {
-          ...request,
-          plan: [
-            { source: { startUs: 0, endUs: 1000000 }, playback: { startUs: 0, endUs: 1000000 } },
-          ],
-        },
+        attempts,
         new AbortController().signal,
+        async (directory, worker) => {
+          const frames = join(directory, "frames.jsonl"),
+            file = join(directory, "movie.mp4");
+          await writeFile(
+            frames,
+            [...short.window.frames()].map((frame) => JSON.stringify(frame) + "\n").join(""),
+          );
+          return nativeResult(
+            await worker("media.renderCompositionMovie", {
+              output: file,
+              frames,
+              range: short.window.manifest.range,
+              canvas: short.window.manifest.canvas,
+              settings: short.settings,
+              processing: nativeProcessing(short.window.processing()),
+              assets: short.assets,
+              fonts: [],
+              audio: { range: short.window.manifest.sampleRange, clips: [...short.window.audio()] },
+            }),
+          );
+        },
         async (media) => {
           assert.ok((await readFile(media.file)).length > 0);
           await rename(attempts, moved);
@@ -336,14 +447,14 @@ test(
       assert.equal(await readFile(join(external, "sentinel"), "utf8"), "outside");
       assert.deepEqual(await readdir(moved), []);
       assert.deepEqual(await readdir(external), ["sentinel"]);
-      const terminal = JSON.parse(await command(lifetime, [home]));
-      assert.equal(terminal.canceledWhileFinishing, true);
-      assert.equal(terminal.failedWithinSeconds, 3);
       assert.deepEqual(await readFile(source), before[0]);
       assert.deepEqual(await readFile(audio), before[1]);
       console.log(
         JSON.stringify({
-          nativeFinalization: terminal,
+          // The deleted in-process MovieTests hook is not a worker-lifetime proof.
+          nativeFinalizationPhase:
+            "pending: exact writer-finishing cancellation and sibling-pump failure",
+
           restart,
           descriptorCleanupSurvivedReplacement: true,
           externalSentinelUnchanged: true,
