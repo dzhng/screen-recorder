@@ -70,15 +70,19 @@ export function replaceClip(
         },
       };
   }
-  const replacement = {
-    ...target.clip,
+  const replacement: MediaClip = {
+    id: target.clip.id,
+    trackId: target.clip.trackId,
+    placement: target.clip.placement,
     ...media,
     source,
+    ...(isMediaClip(target.clip) && target.clip.pitch !== undefined
+      ? { pitch: target.clip.pitch }
+      : {}),
     ...(kind === "audio" && (pitch !== undefined || fit === "stretch")
       ? { pitch: pitch ?? "preserve" }
       : {}),
   };
-  if (media.acquisitionId === undefined) delete replacement.acquisitionId;
   const changedSource =
     !isMediaClip(target.clip) ||
     target.clip.assetId !== media.assetId ||

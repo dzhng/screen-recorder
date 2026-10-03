@@ -1,5 +1,11 @@
 import { expect, test } from "vitest";
-import { applyBatch, createCompiler, documentAssetIds, validateComposition } from "./index.js";
+import {
+  applyBatch,
+  createCompiler,
+  documentAssetIds,
+  projectToSource,
+  validateComposition,
+} from "./index.js";
 const empty = {
   canvas: {
     width: 420,
@@ -40,6 +46,82 @@ const assets = [
 ];
 const context = { assets, namespace: "text" };
 const ref = (label: string) => ({ label });
+
+test("replacing a transcript-seeded caption retires its seed and keeps occurrence timing and processing", () => {
+  const range = { startUs: 250000, endUs: 1250000 };
+  const document = {
+    ...empty,
+    tracks: [{ id: "captions", kind: "video", order: 0 }],
+    clips: [
+      {
+        id: "caption",
+        trackId: "captions",
+        placement: { kind: "project", range },
+        source,
+        seed: {
+          kind: "transcript",
+          source: { assetId: "audio", streamId: "a" },
+          generation: "recognized",
+          occurrenceClipId: "narration",
+          words: [{ ordinal: 0, sourceRange: { startUs: 250000, endUs: 1250000 } }],
+        },
+      },
+    ],
+    processing: [
+      {
+        target: { kind: "clip", id: "caption" },
+        steps: [{ id: "opacity", enabled: true, processor: { type: "opacity", opacity: 0.5 } }],
+      },
+    ],
+  };
+  const mediaAssets = [
+    ...assets,
+    {
+      id: "picture",
+      streams: [
+        { id: "still", kind: "image", width: 420, height: 100 },
+        {
+          id: "movie",
+          kind: "video",
+          width: 420,
+          height: 100,
+          bounds: { startUs: 0, endUs: 1000000 },
+          available: [{ startUs: 0, endUs: 1000000 }],
+        },
+      ],
+    },
+  ];
+  for (const media of [
+    { assetId: "picture", streamId: "still", source: { kind: "hold", atUs: 0 } },
+    {
+      assetId: "picture",
+      streamId: "movie",
+      source: { kind: "range", range: { startUs: 0, endUs: 1000000 } },
+    },
+  ]) {
+    const result = applyBatch(
+      document,
+      [{ operation: "replace", clipId: "caption", kind: "video", media }],
+      { ...context, assets: mediaAssets },
+    );
+    expect(result.document.clips).toEqual([
+      {
+        id: "caption",
+        trackId: "captions",
+        placement: { kind: "project", range },
+        ...media,
+      },
+    ]);
+    expect(result.document.processing).toEqual(document.processing);
+    expect(result.createdIds).toEqual([]);
+    expect(documentAssetIds(result.document)).toEqual(["picture"]);
+    expect(
+      projectToSource(validateComposition(result.document, mediaAssets), 250000),
+    ).toMatchObject([
+      { clipId: "caption", assetId: "picture", streamId: media.streamId, sourceUs: 0 },
+    ]);
+  }
+});
 
 test("literal text uses existing anchors and survives parent split, move and retime", () => {
   const result = applyBatch(
