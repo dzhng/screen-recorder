@@ -61,11 +61,13 @@ rehomes registry/publication/capture lifetimes, preview pin combinations, packag
 workspace recovery, source lifecycle fixtures and retained-generation references.
 Generic cache/evidence/queue fixtures use capture facts and project revisions;
 common source-export types and
-movie validation no longer load their old editing owners. Remaining
-real package frame/audio retry and drain and generic archive fixture ports precede
-orphan package-owner deletion and actual
-core/schema removal. Preserve valuable
-source/project guarantees rather than restore the deleted engine. Missing
+movie validation no longer load their old editing owners. Adopted package
+frame/audio retry and actual native drain now use a fresh recipient; the archive
+writer uses current metadata hydration; hostile archive/budget fixtures use the
+same project authority; lost package replies recover through public discovery.
+Remaining registry lifetime ports precede orphan package-owner deletion and
+actual core/schema removal. Preserve valuable source/project guarantees rather
+than restore the deleted engine. Missing
 inherited acoustic or physical acceptance does not block these ports; matched
 verified guarantees and actual consumer dependencies still govern deletion.
 

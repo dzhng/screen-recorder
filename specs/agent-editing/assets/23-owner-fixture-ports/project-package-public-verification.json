@@ -1,0 +1,137 @@
+{
+  "commit": "cc5d7a9fee578758eeadffe662eff0778556d7df",
+  "baseCommit": "702cc47c9bfb4c75743d0318821836a9fb23c868",
+  "contract": "Retain old public package lost-reply recovery and invalid export-list rows through canonical socket operations",
+  "files": [
+    {
+      "path": "apps/service/tests/project-package-media.mjs",
+      "sha256": "b8eb77e38cecd72a85a35ee30e5d87f73c2571536f505d3390346cac7d634a99",
+      "gitBlob": "119feb4138107560bfce99d9561f093149703f9a"
+    },
+    {
+      "path": "apps/service/src/project-packages.ts",
+      "sha256": "e225505692ebbc23e5378e82789592bbf53f0c58ab7add61ac5dfd5ff9d33875",
+      "gitBlob": "a6c22248654a9fc50e9f92f0a512f787e852db3b"
+    },
+    {
+      "path": "packages/protocol/src/operations.ts",
+      "sha256": "109582606ffb0198567cab90587d87ee3ff31a65355543cbc27677a9ad6db03f",
+      "gitBlob": "ed94fddc9f9a6370e99b08f359dd3a054c514e6b"
+    },
+    {
+      "path": "apps/service/src/project-service.ts",
+      "sha256": "f789ae10ea3b024c8270c4d60057233754b86a2d724a283c0d8454e6f345b5dc",
+      "gitBlob": "cefc7efea29f5c066361c7292926ecb8b54b62c0"
+    }
+  ],
+  "origin": [
+    "apps/macos/tests/package-public-index.mjs:178 actual socket reply discarded then admission rediscovered",
+    "apps/macos/tests/package-public-export.mjs invalid export.list limit/type/unknown field rows"
+  ],
+  "verification": {
+    "command": "SCREENREC_NATIVE=/Users/david/dev/screen-recorder/helpers/mac/.build/debug/screenrec-native node --test apps/service/tests/project-package-media.mjs",
+    "final": {
+      "log": "owner-suite.log",
+      "exitCode": 0,
+      "passed": 2
+    },
+    "controls": [
+      {
+        "red": "list-validation-red.log",
+        "redExitCode": 1,
+        "fault": "packages/protocol/dist/operations.js export.list params strict() changed to passthrough()",
+        "failure": "Unknown typo parameter wrongly accepted by canonical socket, ok true rather than false",
+        "restored": "list-validation-restored.log",
+        "restoredExitCode": 0
+      },
+      {
+        "red": "lost-reply-red.log",
+        "redExitCode": 1,
+        "fault": "apps/service/dist/project-packages.js global status admissions always []",
+        "failure": "Socket-created admission cannot be recovered after discarded reply, zero rather than one admission",
+        "restored": "lost-reply-restored.log",
+        "restoredExitCode": 0
+      }
+    ],
+    "controlledSource": "controlled-test.mjs",
+    "controlsRestored": true
+  },
+  "scope": [
+    "One existing current media helper extended; no new fixture or expanded cross product",
+    "package.open reply is discarded at first received data, not parsed; package.status supplies the sole adopted admission identity",
+    "Three wire inputs all return INVALID_PARAMS: limit 501, unfinishedOnly string yes, and unknown typo field",
+    "Existing fresh-recipient source, native content/retry/generation, package lease continuity, service descriptor/native drain and immutable-source hashes remain in final two-case run",
+    "No production source edits; all dist defects restored; no native rebuild, recording, playback, model or full release suite"
+  ],
+  "review": "Parent reviewed actual discarded-reply discovery and strict list rows clean; no new fixture matrix or production hook.",
+  "bank": {
+    "archive": "project-package-public-evidence.tar.gz",
+    "bytes": 40102,
+    "sha256": "02d329c213d0c9f70360935bae6d9ca7fc270f9294e373b1135b59d3a7057bb6",
+    "payloads": [
+      {
+        "path": "project-package-public-702cc47c/controlled-test.mjs",
+        "bytes": 11583,
+        "sha256": "b8eb77e38cecd72a85a35ee30e5d87f73c2571536f505d3390346cac7d634a99"
+      },
+      {
+        "path": "project-package-public-702cc47c/list-validation-red.log",
+        "bytes": 1324,
+        "sha256": "b35b493493f0a5bcd3730430758ccb514e691b19a5317b00822d7a402ee3f739"
+      },
+      {
+        "path": "project-package-public-702cc47c/list-validation-restored.log",
+        "bytes": 409,
+        "sha256": "21c58acdcfb4765b4937d5e517cfee21a1812b2353751569b53533be7fddcf10"
+      },
+      {
+        "path": "project-package-public-702cc47c/lost-reply-red.log",
+        "bytes": 1189,
+        "sha256": "f7eea4a0d36d00adf91284b31f8c5127168d6c98af3fda3ccd65d49204484f7b"
+      },
+      {
+        "path": "project-package-public-702cc47c/lost-reply-restored.log",
+        "bytes": 405,
+        "sha256": "d73e7b1a7e18cf346bbfe15c3f741f3bf248acc56319f60bb85850565072ad25"
+      },
+      {
+        "path": "project-package-public-702cc47c/owner-suite.log",
+        "bytes": 534,
+        "sha256": "501da3317b6958ea2451d26409c16f286f4f89f45bc6dce4ac7e487ef24f9c3b"
+      },
+      {
+        "path": "project-package-public-702cc47c/public-green.log",
+        "bytes": 410,
+        "sha256": "a9ce620070569f70836f210fba0eb23460cc67a4e5b8c5b636a7d836bb0c8dde"
+      },
+      {
+        "path": "project-package-public-702cc47c/report.json",
+        "bytes": 3294,
+        "sha256": "bd22aeaec71b8594e651a39f8c873ac5bd9e68704711ff3ac917940edbeb80d3"
+      },
+      {
+        "path": "project-package-public-702cc47c/source/apps/service/src/project-packages.ts",
+        "bytes": 46289,
+        "sha256": "e225505692ebbc23e5378e82789592bbf53f0c58ab7add61ac5dfd5ff9d33875"
+      },
+      {
+        "path": "project-package-public-702cc47c/source/apps/service/src/project-service.ts",
+        "bytes": 51665,
+        "sha256": "f789ae10ea3b024c8270c4d60057233754b86a2d724a283c0d8454e6f345b5dc"
+      },
+      {
+        "path": "project-package-public-702cc47c/source/apps/service/tests/project-package-media.mjs",
+        "bytes": 11583,
+        "sha256": "b8eb77e38cecd72a85a35ee30e5d87f73c2571536f505d3390346cac7d634a99"
+      },
+      {
+        "path": "project-package-public-702cc47c/source/packages/protocol/src/operations.ts",
+        "bytes": 47752,
+        "sha256": "109582606ffb0198567cab90587d87ee3ff31a65355543cbc27677a9ad6db03f"
+      }
+    ],
+    "rootVerification": "Actual raw-socket discard/discovery and exact invalid-param delta reviewed; archive, all payloads and committed source independently checked; prior focused terminal results reused.",
+    "checkpointReview": "Independent source lane read-only review found handoff, named retirements and proof limits coherent, including full instrumented versus final narrow capture sources. Acquisition lane separately reviewed the first three banks and two wording findings were corrected. Root reviewed the actual later deltas, all six archive manifests and historical source pins. No runtime rerun for this evidence/docs checkpoint."
+  },
+  "integratedCommit": "aef532bf4c277ae0deae2450ee618bacca1fd345"
+}

@@ -7203,3 +7203,48 @@ imports it directly. The plan required one owner without prescribing this
 constant's home. This choice belongs to `a1451a3a`; it adds no module, package
 export, wrapper, default or selection rule. The old selector retains its algorithm
 until its remaining consumers are accounted for.
+
+**Sound, medium confidence — adopting a package transfers media lifetime to the recipient library.**
+A caller opens an archive, adopts its project into a new library, then requests
+a frame or audio from the imported source. The source and delivered bytes belong
+to that library, so closing the archive handle leaves the delivery readable.
+Closing the service releases its open delivery files and waits for native media
+work to settle. The alternative would keep a second inspection engine attached
+to an opened but unadopted archive and reproduce its old delayed close behavior.
+The plan required preserving useful package-media guarantees without prescribing that
+obsolete interface. This choice belongs to `ed026bea`; direct unadopted package
+media selectors and their old close window are retired, while adopted media
+uses the existing managed-source operations. No new endpoint or default is added.
+
+**Sound, high confidence — recovery fixtures supply the current source authority.**
+When a restarted service settles a recording, it requires both closed inputs and
+a receipt describing the published source files. The lifecycle fixture writes
+small scripted files and supplies their actual sizes and hashes in that receipt.
+It then checks the same recovery states and failure precedence as before.
+Returning only a duration would fail admission before those assertions could
+exercise recovery; weakening the production requirement would remove a real
+safeguard. The plan required preserving lifecycle guarantees without choosing
+these fixture bytes. This choice belongs to `ea62d9bd`; it proves service
+settlement, without claiming that scripted video bytes are valid native media.
+
+**Sound, medium confidence — archive bounds follow the current metadata representation.**
+A project archive carries separate history files, which the current metadata
+reader loads within its own working-memory budget. The generic native ZIP parser
+checks container and member limits; the canonical manifest parser also limits
+history count. Reapplying the old recording rule that adds all revision bytes
+to one native inline receipt would reject projects the current format deliberately
+supports. The plan required preserving bounded work without prescribing this
+fixture adaptation. This choice belongs to `702cc47c`; the old inline revision-byte
+assertion retires, while current history and container bounds remain enforced.
+It changes the preserved test contract explicitly, without loosening production
+limits or adding a second reader.
+
+**Sound, medium confidence — keep the actual default process boundary in capture tests.**
+A service restart must recover a take and answer through its real socket and
+private controller pipe. The test launches the default service entry and supplies
+a small controlled native worker that writes the required source receipts and
+answers startup and file operations. An in-process substitute would run faster
+but would remove the process restart, pipe and controller-deadline guarantees.
+The plan required preserving those guarantees without prescribing this updated
+worker fixture. This choice belongs to `00826d81`; the worker is test setup,
+and its scripted bytes establish no physical recording or native media validity.

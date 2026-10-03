@@ -1,0 +1,377 @@
+{
+  "commit": "702cc47c9bfb4c75743d0318821836a9fb23c868",
+  "baseCommit": "c55a17966a8600a69470214dce6dc06e9f1e98f5",
+  "contract": "Preserve generic ZIP extraction hostile inputs, bounds, descriptor identity and cleanup against canonical project package bytes",
+  "files": [
+    {
+      "path": "apps/service/tests/package-archive.mjs",
+      "sha256": "4b8b36c7e42939e2b1b28e33bdfd98682720fedca512e8aa58a21f450103cca2",
+      "gitBlob": "417025cd7ee631bc0866d10ada0ff726fa9dca43"
+    },
+    {
+      "path": "apps/service/tests/fixtures/project-archive.mjs",
+      "sha256": "0c419c705f2b885cf232e99fa93233a8b99e85a2a05b62a31a64eb2b57495a5c",
+      "gitBlob": "715cf3dc06fd17095d797cb4f1b7b9f3d6798bb6"
+    },
+    {
+      "path": "apps/service/tests/package-registry.mjs",
+      "sha256": "7a6236c1850749f81b623444b781bd90a1250db5870a14051891b619f4ba4ca0",
+      "gitBlob": "1e2f9ebd90a16dce5ee1e0b11d64ef9bc1e01caa"
+    },
+    {
+      "path": "apps/macos/tests/fixtures/package-archive.py",
+      "sha256": "28b9742fdcef9d076ef1e5e5f786f0a1d8a41b6d99ebbbba8321693c33b0f940",
+      "gitBlob": "dd4f61472e0d4a0e64c04f944a09976a7e42545a"
+    },
+    {
+      "path": "packages/test-harness/package.json",
+      "sha256": "ef3dedb51ebb16ce421a90b4e84f72efa66b0ab8397d499f2460ee83dca3c156",
+      "gitBlob": "46fbad0f42542348ea9c1d38a5ab80ac718d8291"
+    },
+    {
+      "path": "apps/service/src/package-archive.ts",
+      "sha256": "8a2ca3c86447cefff6894dc88f347b3d40f9cb62ef7a155f96426ce6e785a762",
+      "gitBlob": "9573fc76ec39025428be9fe08b1b6ad901932b66"
+    },
+    {
+      "path": "packages/core/src/project-package.ts",
+      "sha256": "a3a709af49e6096e7ef4ae8b5e0d1525c3da664bc3238f05721b9bc43bafe04a",
+      "gitBlob": "ff5174fc4a3c7da24c41f0d5eb55c751c53b45bd"
+    }
+  ],
+  "declarations": {
+    "expandedCount": 43,
+    "standaloneCount": 17,
+    "nativeContainerRows": [
+      "extra",
+      "bad-central",
+      "bad-local",
+      "undercount",
+      "undercount-bad",
+      "crc",
+      "hash",
+      "mac",
+      "duplicate",
+      "case",
+      "directory",
+      "file-directory",
+      "symlink",
+      "fifo",
+      "absolute",
+      "parent",
+      "backslash",
+      "nul",
+      "nul-empty",
+      "unicode-duplicate",
+      "unicode-parent",
+      "encrypted",
+      "size-lie"
+    ],
+    "initialParserBudgetRows": [
+      "metadata-many",
+      "metadata-large",
+      "metadata-default"
+    ],
+    "sourceDeclarations": [
+      {
+        "before": "native archive verifies inventory and pinned old revision with all admitted history, then empties workspace",
+        "after": "native archive verifies inventory and pinned project revision with admitted history, then empties workspace",
+        "disposition": "preserved at the generic service archive owner"
+      },
+      {
+        "before": "hostile ${mode} fails with no remaining extracted files",
+        "after": "hostile ${mode} fails with no remaining extracted files",
+        "disposition": "preserved at the generic service archive owner"
+      },
+      {
+        "before": "safe parser Unicode alias is inventoried by effective ASCII name",
+        "after": "safe parser Unicode alias is inventoried by effective ASCII name",
+        "disposition": "preserved at the generic service archive owner"
+      },
+      {
+        "before": "actual expansion, member, manifest and entry counts enforce exact bounds",
+        "after": "actual expansion, member, manifest and entry counts enforce exact bounds",
+        "disposition": "preserved at the generic service archive owner"
+      },
+      {
+        "before": "initial parser input budget rejects ${mode} before unbounded metadata intake",
+        "after": "initial parser input budget rejects ${mode} before unbounded metadata intake",
+        "disposition": "preserved at the generic service archive owner"
+      },
+      {
+        "before": "retained workspace descriptor survives ancestor replacement without touching external sentinel",
+        "after": "retained workspace descriptor survives ancestor replacement without touching external sentinel",
+        "disposition": "preserved at the generic service archive owner"
+      },
+      {
+        "before": "nonempty workspace admission preserves existing files",
+        "after": "nonempty workspace admission preserves existing files",
+        "disposition": "preserved at the generic service archive owner"
+      },
+      {
+        "before": "killed stopped parser is reaped before cleanup through parent-retained root FD",
+        "after": "killed stopped parser is reaped before cleanup through parent-retained root FD",
+        "disposition": "preserved at the generic service archive owner"
+      },
+      {
+        "before": "inner directory replacement fails without following its symlink outside workspace",
+        "after": "inner directory replacement fails without following its symlink outside workspace",
+        "disposition": "preserved at the generic service archive owner"
+      },
+      {
+        "before": "opened input descriptor retains source bytes across pathname replacement",
+        "after": "opened input descriptor retains source bytes across pathname replacement",
+        "disposition": "preserved at the generic service archive owner"
+      },
+      {
+        "before": "admission rejects changed input before copy and preserves independent descriptor reads",
+        "after": "admission rejects changed input before copy and preserves independent descriptor reads",
+        "disposition": "preserved at the generic service archive owner"
+      },
+      {
+        "before": "copy rejects an in-place input change at a confirmed syscall barrier",
+        "after": "copy rejects an in-place input change at a confirmed syscall barrier",
+        "disposition": "preserved at the generic service archive owner"
+      },
+      {
+        "before": "partial copy barrier cancels after actual snapshot bytes and drains the native worker",
+        "after": "partial copy barrier cancels after actual snapshot bytes and drains the native worker",
+        "disposition": "preserved at the generic service archive owner"
+      },
+      {
+        "before": "copy barrier callback failure drains inspection cleanup before fixture removal",
+        "after": "copy barrier callback failure drains inspection cleanup before fixture removal",
+        "disposition": "preserved at the generic service archive owner"
+      },
+      {
+        "before": "copy barrier reports preparation failure instead of leaving its wait pending",
+        "after": "copy barrier reports preparation failure instead of leaving its wait pending",
+        "disposition": "preserved at the generic service archive owner"
+      },
+      {
+        "before": "workspace lock survives preparation worker exit and refuses a second open owner",
+        "after": "workspace lock survives preparation worker exit and refuses a second open owner",
+        "disposition": "preserved at the generic service archive owner"
+      },
+      {
+        "before": "cleanup ownership loss is explicit and original descriptor supports recovery",
+        "after": "cleanup ownership loss is explicit and original descriptor supports recovery",
+        "disposition": "preserved at the generic service archive owner"
+      },
+      {
+        "before": "bounded receipt rejects metadata that cannot fit the existing transport",
+        "after": "bounded receipt rejects metadata that cannot fit the existing transport",
+        "disposition": "preserved at the generic service archive owner"
+      },
+      {
+        "before": "native file-size fault leaves workspace empty after worker termination",
+        "after": "native file-size fault leaves workspace empty after worker termination",
+        "disposition": "preserved at the generic service archive owner"
+      }
+    ],
+    "exactLimitRows": {
+      "preserved": [
+        "expandedBytes",
+        "memberBytes",
+        "manifestBytes",
+        "entries",
+        "compressedBytes",
+        "history",
+        "pathBytes",
+        "componentBytes",
+        "depth"
+      ],
+      "retired": {
+        "revisionBytes": "Current project parser explicitly disables native inline revision receipt; current metadata hydration owns its aggregate working-memory budget. Do not reimpose recording inline revision budget."
+      },
+      "history": "Current canonical manifest parser preserves exact history count bound and reports INVALID_PACKAGE; native generic byte limits report LIMIT_EXCEEDED."
+    }
+  },
+  "verification": {
+    "final": {
+      "command": "SCREENREC_NATIVE=/Users/david/dev/screen-recorder/helpers/mac/.build/debug/screenrec-native SCREENREC_ARCHIVE_EVIDENCE=<bank>/native-cases.json node --test apps/service/tests/package-archive.mjs",
+      "log": "owner-suite.log",
+      "exitCode": 0,
+      "passed": 43,
+      "durationMs": 10233.686125
+    },
+    "siblingFixture": {
+      "command": "SCREENREC_NATIVE=/Users/david/dev/screen-recorder/helpers/mac/.build/debug/screenrec-native node --test --test-name-pattern=\"registry reserves before extraction\" apps/service/tests/package-registry.mjs",
+      "log": "registry-fixture.log",
+      "exitCode": 0,
+      "passed": 1
+    },
+    "controls": [
+      {
+        "red": "history-red.log",
+        "redExitCode": 1,
+        "fault": "Omit manifest.revisions.length > limits.history from packages/core/dist/project-package.js",
+        "failure": "Missing expected rejection: history",
+        "restored": "history-restored.log",
+        "restoredExitCode": 0
+      },
+      {
+        "red": "cleanup-red.log",
+        "redExitCode": 1,
+        "fault": "Omit await close(failure) in apps/service/dist/package-archive.js",
+        "failure": "Failed extraction leaves .input and content instead of empty workspace",
+        "restored": "cleanup-restored.log",
+        "restoredExitCode": 0
+      }
+    ],
+    "controlledSource": "controlled-test.mjs",
+    "initialRun": {
+      "log": "initial-41-of-43.log",
+      "exitCode": 1,
+      "passed": 41,
+      "failures": [
+        "Ancestor replacement assertion retained obsolete manifest.snapshot.revisionId",
+        "Inner directory barrier used a sole asset, so there was no later traversal of replaced parent directory"
+      ]
+    },
+    "repair": "Canonical revision identity assertion; only inner-directory case supplies two actual referenced assets so second member requires post-replacement traversal. Two repaired cases pass in directory-repair.log; full final 43/43 follows.",
+    "phaseNote": "Controls precede two fixture repairs; controlled source snapshot retained. Final source is paired to final 43-case log. No broad native rebuild/capture/media/render/full release run.",
+    "restartCheck": "Persistent final logs/source intact; no matching native/test processes; frozen native SHA unchanged; dist history/cleanup mutations confirmed restored."
+  },
+  "native": {
+    "path": "/Users/david/dev/screen-recorder/helpers/mac/.build/debug/screenrec-native",
+    "sha256": "8a0c7732f3c1f99e074048f2ac3b8b29beb613462fb5ce769a134b1cbfdea186"
+  },
+  "decisions": [
+    "Shared project archive fixture extracted from registry; actual AssetStore/ProjectStore/AcquisitionStore/TranscriptStore build metadata, while edge source bytes and probe metadata remain controlled. No decode required.",
+    "Python hostile fixture writer requires explicit media member; no fallback recording path or old manifest authority remains in moved suite.",
+    "Registry fixture construction consumes shared owner helper; standalone sibling assertion validates unchanged snapshot/assets and accounting.",
+    "lab:package-archive points to current service owner; lab:exports glob already discovers its new path."
+  ],
+  "review": "Parent read-only review clean: all declarations/hostile rows retained, two-asset directory barrier restores later traversal, canonical history error and retired inline revision byte limit explicit, both Python callers updated, shared actual owner fixture justified. Self review verifies no production source mutation and limits/source pins.",
+  "bank": {
+    "archive": "project-archive-extraction-evidence.tar.gz",
+    "bytes": 49827,
+    "sha256": "e39a0647a4bca28c778ae1ab1f4ecac3996d2f0c5471957b758235eb49036dae",
+    "payloads": [
+      {
+        "path": "project-archive-extraction-c55a1796/before/apps/macos/tests/fixtures/archive-contents.mjs",
+        "bytes": 2566,
+        "sha256": "419d3f388081b9164467b9f5a95f07a9ce96f84511f973409b2bc88362b2d907"
+      },
+      {
+        "path": "project-archive-extraction-c55a1796/before/apps/macos/tests/fixtures/package-archive.py",
+        "bytes": 3587,
+        "sha256": "17b7d9180aee378851b9c1c2116f8cfd5c296bfce1e99e8349277d0e7fa6009b"
+      },
+      {
+        "path": "project-archive-extraction-c55a1796/before/apps/macos/tests/package-archive.mjs",
+        "bytes": 18899,
+        "sha256": "8ab690e2ae04349d3347cc4fd763f36564a42de3c4942dca8875c1cb0a6de443"
+      },
+      {
+        "path": "project-archive-extraction-c55a1796/before/apps/service/tests/package-registry.mjs",
+        "bytes": 32467,
+        "sha256": "af0a0ee300df5f39d40b42164ff7bd7d0a863b8754073807c470f614d1f155f6"
+      },
+      {
+        "path": "project-archive-extraction-c55a1796/cleanup-red.log",
+        "bytes": 1936,
+        "sha256": "42c7bdf3410686db88ff86f644e053482ef55b9da2a6bdf94b42f6f41301878c"
+      },
+      {
+        "path": "project-archive-extraction-c55a1796/cleanup-restored.log",
+        "bytes": 358,
+        "sha256": "4f7de7c0ca663b886549fd7ce9b53b9d6eebfe7f414021615d7db7919b6977bb"
+      },
+      {
+        "path": "project-archive-extraction-c55a1796/container-green.log",
+        "bytes": 2205,
+        "sha256": "5d28c0003dc0d650104437865636b99df290a93a99647c8ae0eb577b8112cf6e"
+      },
+      {
+        "path": "project-archive-extraction-c55a1796/controlled-test.mjs",
+        "bytes": 19459,
+        "sha256": "70bc0a38fbef918478371cf385846cf793b69759dccbc95266cf113a14db9b6e"
+      },
+      {
+        "path": "project-archive-extraction-c55a1796/directory-repair.log",
+        "bytes": 498,
+        "sha256": "e21b143538313d68c54906feeaff809d5e199684ddee44fd6bc884138e245e36"
+      },
+      {
+        "path": "project-archive-extraction-c55a1796/history-red.log",
+        "bytes": 1049,
+        "sha256": "e46d5f0fdb5210cb374f6c84ce5c2b8d2fde555aff5e1f8d8871ad8b5e1f14ee"
+      },
+      {
+        "path": "project-archive-extraction-c55a1796/history-restored.log",
+        "bytes": 376,
+        "sha256": "4a246bcdc83bf27d3580a3a9120d1b23e0e2e46452c06f598deb14401407a205"
+      },
+      {
+        "path": "project-archive-extraction-c55a1796/initial-41-of-43.log",
+        "bytes": 5392,
+        "sha256": "d2375651adf1fbf6116f1575ea8fd6a2a62c51f901373cd0d23bc12ddb315c4f"
+      },
+      {
+        "path": "project-archive-extraction-c55a1796/initial-native-cases.json",
+        "bytes": 2708,
+        "sha256": "88b8013f37ec209030f678ce9a09901694c455b5b6eb65b864b62ca659f23d69"
+      },
+      {
+        "path": "project-archive-extraction-c55a1796/native-cases.json",
+        "bytes": 2822,
+        "sha256": "1fbaef4beacaac98d1adea65dbc5dd6082d4391db6a644c325e3f5e76a268158"
+      },
+      {
+        "path": "project-archive-extraction-c55a1796/owner-suite.log",
+        "bytes": 3962,
+        "sha256": "7d5cfd3a6f3dd67fc7c777290577011b16b5c39a1f3abf1f0ab33d3d4af40879"
+      },
+      {
+        "path": "project-archive-extraction-c55a1796/registry-fixture.log",
+        "bytes": 413,
+        "sha256": "57297068dabbb383803a3046a75259915efb307102e7d49277a7fcc4bc101734"
+      },
+      {
+        "path": "project-archive-extraction-c55a1796/report.json",
+        "bytes": 12101,
+        "sha256": "3b2b10106153d9683e3b2a119c7d364321a9eb83543c0372d6a86134eabceb92"
+      },
+      {
+        "path": "project-archive-extraction-c55a1796/source/apps/macos/tests/fixtures/package-archive.py",
+        "bytes": 3571,
+        "sha256": "28b9742fdcef9d076ef1e5e5f786f0a1d8a41b6d99ebbbba8321693c33b0f940"
+      },
+      {
+        "path": "project-archive-extraction-c55a1796/source/apps/service/src/package-archive.ts",
+        "bytes": 19109,
+        "sha256": "8a2ca3c86447cefff6894dc88f347b3d40f9cb62ef7a155f96426ce6e785a762"
+      },
+      {
+        "path": "project-archive-extraction-c55a1796/source/apps/service/tests/fixtures/project-archive.mjs",
+        "bytes": 3594,
+        "sha256": "0c419c705f2b885cf232e99fa93233a8b99e85a2a05b62a31a64eb2b57495a5c"
+      },
+      {
+        "path": "project-archive-extraction-c55a1796/source/apps/service/tests/package-archive.mjs",
+        "bytes": 19527,
+        "sha256": "4b8b36c7e42939e2b1b28e33bdfd98682720fedca512e8aa58a21f450103cca2"
+      },
+      {
+        "path": "project-archive-extraction-c55a1796/source/apps/service/tests/package-registry.mjs",
+        "bytes": 29782,
+        "sha256": "7a6236c1850749f81b623444b781bd90a1250db5870a14051891b619f4ba4ca0"
+      },
+      {
+        "path": "project-archive-extraction-c55a1796/source/packages/core/src/project-package.ts",
+        "bytes": 20707,
+        "sha256": "a3a709af49e6096e7ef4ae8b5e0d1525c3da664bc3238f05721b9bc43bafe04a"
+      },
+      {
+        "path": "project-archive-extraction-c55a1796/source/packages/test-harness/package.json",
+        "bytes": 948,
+        "sha256": "ef3dedb51ebb16ce421a90b4e84f72efa66b0ab8397d499f2460ee83dca3c156"
+      }
+    ],
+    "rootVerification": "Full actual source delta and declaration/parameter inventory reviewed; archive, every payload and committed source independently hashed. Existing focused terminal outcomes reused.",
+    "checkpointReview": "Independent source lane read-only review found handoff, named retirements and proof limits coherent, including full instrumented versus final narrow capture sources. Acquisition lane separately reviewed the first three banks and two wording findings were corrected. Root reviewed the actual later deltas, all six archive manifests and historical source pins. No runtime rerun for this evidence/docs checkpoint."
+  },
+  "integratedCommit": "aef532bf4c277ae0deae2450ee618bacca1fd345"
+}

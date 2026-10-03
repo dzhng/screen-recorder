@@ -1,0 +1,245 @@
+{
+  "commit": "ed026beab6de01bb63eeaa1c1bd6fa0bf69020ae",
+  "baseCommit": "b6bc6d5d17fdc19c5f390b85760752f007d9235f",
+  "contract": "Transfer retained package-media-failures positive retry/content/lifetime guarantees to adopted managed-source owners",
+  "files": [
+    {
+      "path": "apps/service/tests/project-package-media.mjs",
+      "sha256": "64f0b25b5bd7cdc3bfcc9fb8592c46eeac1ecf75ac3cee98ac22e7b467c9eecb",
+      "gitBlob": "44cfc3b7442598134932437e1905d899d6c88697"
+    },
+    {
+      "path": "apps/service/tests/fixtures/native-start-barrier.c",
+      "sha256": "b8c0219ace51184038ef258559111f3159f2f602d400ccc02f102b3ddca5250a",
+      "gitBlob": "c28e60296873b4d2efa6acc66d90b39999ae2ea0"
+    },
+    {
+      "path": "apps/service/src/project-service.ts",
+      "sha256": "f789ae10ea3b024c8270c4d60057233754b86a2d724a283c0d8454e6f345b5dc",
+      "gitBlob": "cefc7efea29f5c066361c7292926ecb8b54b62c0"
+    },
+    {
+      "path": "apps/service/src/delivery.ts",
+      "sha256": "b67ff2eacc2454c7c6c72b90f6e458a0daf7015d264780ba79dff42c22cdb12e",
+      "gitBlob": "adbdf9e7e5fbf32a1de98d9b3363c0e7a0c460fc"
+    },
+    {
+      "path": "packages/core/src/jobs.ts",
+      "sha256": "3a8a22834cbffe806ee11ac1b7d1dccfa7de4d9bf5d0365c731659eea26debda",
+      "gitBlob": "1a61a60ecfed886cf40270beab8fec46625059fd"
+    },
+    {
+      "path": "packages/core/src/cache.ts",
+      "sha256": "92c2f4f2667b7ba34f71198514a4070ef17e42041bc53fafcbe856c90a236b38",
+      "gitBlob": "e1609b7fd29089f1dd1adeec3ac69ddf604a4f1b"
+    },
+    {
+      "path": "packages/core/src/frame-inspection.ts",
+      "sha256": "ff5fa3141cf5adce9b8667b557b69cd4202e74f06c3b31bf1cbcc5cb64cbedcd",
+      "gitBlob": "e5d3d399808636936a3f1d0d9ac2cf778505f05b"
+    },
+    {
+      "path": "packages/core/src/audio-inspection.ts",
+      "sha256": "a34c0393e1975d73f925fe418edb4d82dbcda8508fd5f9d7fd1f6ac7ead70fc8",
+      "gitBlob": "34fea337d60ba38f2af630abe78832cdb354c7ae"
+    }
+  ],
+  "verification": {
+    "command": "SCREENREC_NATIVE=/Users/david/dev/screen-recorder/helpers/mac/.build/debug/screenrec-native node --test apps/service/tests/project-package-media.mjs",
+    "final": {
+      "log": "owner-suite.log",
+      "exitCode": 0,
+      "passed": 2
+    },
+    "controls": [
+      {
+        "case": "frame generation",
+        "red": "frame-generation-red.log",
+        "restored": "frame-generation-restored.log",
+        "fault": "packages/core/dist/jobs.js requeue UPDATE generation=generation+1 replaced with generation=generation",
+        "failure": "published.generation 1 != 2",
+        "redExitCode": 1,
+        "restoredExitCode": 0
+      },
+      {
+        "case": "audio generation",
+        "red": "audio-generation-red.log",
+        "restored": "audio-generation-restored.log",
+        "fault": "same jobs requeue generation mutation",
+        "failure": "published.generation 1 != 2",
+        "redExitCode": 1,
+        "restoredExitCode": 0
+      },
+      {
+        "case": "global delivery disposal",
+        "red": "frame-delivery-red.log",
+        "restored": "frame-delivery-restored.log",
+        "fault": "apps/service/dist/project-service.js omit delivery.dispose()",
+        "failure": "Unexpired inode-matched file descriptor 20 remains open",
+        "redExitCode": 1,
+        "restoredExitCode": 0
+      },
+      {
+        "case": "global native drain",
+        "red": "frame-drain-red.log",
+        "restored": "frame-drain-restored.log",
+        "fault": "apps/service/dist/project-service.js omit jobs.close() from awaited close owners",
+        "failure": "native operation has not settled on service close; subsequent asynchronous database-is-not-open diagnostic",
+        "redExitCode": 1,
+        "restoredExitCode": 0
+      }
+    ],
+    "controlsRestored": true,
+    "phaseNote": "Controls used the initial populated-producer-library fixture before final formatting, adopted revision readback and cleanup error collection. A later reviewed producer-only source and paired 2-case log are retained as producer-only-reviewed.mjs / producer-only-owner-suite.log. Final owner-suite.log and source snapshot use a fresh empty recipient service for package.open/adopt and all media work. Retry generation, descriptor disposal and actual native-drain controls are reused because those bodies are unchanged. Initial exploratory invalid artifact.read length parameter was corrected before controls and is not failure proof.",
+    "producerOnlyPhase": {
+      "source": "producer-only-reviewed.mjs",
+      "sha256": "507fedd5df717481c2d24c9f06836e9438937826c7486ad1cf50ec154bd284a7",
+      "log": "producer-only-owner-suite.log",
+      "exitCode": 0,
+      "scope": "Does not prove portable source transfer into an empty recipient; superseded by final two-case run"
+    }
+  },
+  "native": {
+    "path": "/Users/david/dev/screen-recorder/helpers/mac/.build/debug/screenrec-native",
+    "sha256": "8a0c7732f3c1f99e074048f2ac3b8b29beb613462fb5ce769a134b1cbfdea186"
+  },
+  "fixture": {
+    "path": "specs/agent-editing/assets/03d-consumer-cutover/mixed-av.mov.gz",
+    "compressedSHA256": "1469b8ca32813fc44fd7beaebd3c65a9c92632e52ba82788f37c7571b175d4b3",
+    "authority": "paired mixed-av-oracle.json.gz fixtureSha256 verifies expanded actual native media"
+  },
+  "disposition": [
+    "Canonical socket import/project edit/package export occur in producer service; producer closes. Fresh empty recipient service opens/adopts the archive; adopted recipient revision and asset metadata supply media selectors.",
+    "Explicit first frame/audio native failure is retryable; retry retains job ID and publishes generation 2 with actual PNG/RIFF bytes",
+    "Closing package handle after ready derivative delivery leaves that same managed-source lease readable",
+    "Global recipient service close revokes actual unexpired descriptor immediately and drains separately held native SIGSTOP worker before returning; donor, producer-managed asset, recipient-managed asset and archive hashes unchanged.",
+    "Old direct unadopted packageHandle frame/audio selector and its delayed package-close revocation window are retired, not carried into the adopted owner contract"
+  ],
+  "scope": [
+    "No app launch, UI focus, recording/capture, playback, models or full release run",
+    "Actual small native frame/audio extraction and archive operations only; corpus reused without fetch or copies of large media",
+    "Private scratch homes and bounded worker timeout; test tears down actual native process and all scratch files"
+  ],
+  "review": "Parent reviewed full initial file, required fresh recipient correction, then reviewed final delta and hashes clean.",
+  "bank": {
+    "archive": "project-package-media-evidence.tar.gz",
+    "bytes": 54967,
+    "sha256": "ec528d131a392564c874b8073745a85126f25e9eb38462c54908ca692cd11ca2",
+    "payloads": [
+      {
+        "path": "project-package-media-b6bc6d5d/audio-generation-red.log",
+        "bytes": 1221,
+        "sha256": "a763afcbeb852c6ae1622d925ab3a8055c5022cfcccbf72fdac9f91d59d61af3"
+      },
+      {
+        "path": "project-package-media-b6bc6d5d/audio-generation-restored.log",
+        "bytes": 408,
+        "sha256": "a440b1ede3407fb0f1ec95b4e3636681650c44a317f4d16eb112a47b419b94fc"
+      },
+      {
+        "path": "project-package-media-b6bc6d5d/audio-green.log",
+        "bytes": 408,
+        "sha256": "c8abea8685378c4972826a332aea092c580a204c0a5f67474e6abdfc84def34b"
+      },
+      {
+        "path": "project-package-media-b6bc6d5d/frame-delivery-red.log",
+        "bytes": 1203,
+        "sha256": "694182aee0823b769f3543aaa0a94bfa04c55dbc23bf01247340fe9c4e71cbf6"
+      },
+      {
+        "path": "project-package-media-b6bc6d5d/frame-delivery-restored.log",
+        "bytes": 409,
+        "sha256": "e8d06e14cfa744fa72df5f7fccb454ce80dd091cee1c8c81025631e20f9db979"
+      },
+      {
+        "path": "project-package-media-b6bc6d5d/frame-drain-red.log",
+        "bytes": 1536,
+        "sha256": "1ea68c13470d563c9f5ff2ea2e7c858539a8411c608f105c156b82d18950bd27"
+      },
+      {
+        "path": "project-package-media-b6bc6d5d/frame-drain-restored.log",
+        "bytes": 408,
+        "sha256": "027c9f5f8878f88baffc8c67bb1766ef3404ddf687c8e4949e3c176f16f5ef91"
+      },
+      {
+        "path": "project-package-media-b6bc6d5d/frame-generation-red.log",
+        "bytes": 1222,
+        "sha256": "bcdb5eef802447c76eef6a93e5a4288a7ca9a908bfcda3a9f8a554d7522372ca"
+      },
+      {
+        "path": "project-package-media-b6bc6d5d/frame-generation-restored.log",
+        "bytes": 405,
+        "sha256": "81bf2db39dc1780bc0f3cd10f3a7a59e1d6cc74955f14be7aff36daa4e7785b2"
+      },
+      {
+        "path": "project-package-media-b6bc6d5d/frame-green.log",
+        "bytes": 409,
+        "sha256": "678e6d13efd25e0946dfb99f44048192470955674fa7afb14c2099171f2d59ce"
+      },
+      {
+        "path": "project-package-media-b6bc6d5d/owner-suite.log",
+        "bytes": 534,
+        "sha256": "2836c8305c90d5c1254eae3b601cb1becd8c3cc6200d73bc3386c3c86c95168c"
+      },
+      {
+        "path": "project-package-media-b6bc6d5d/producer-only-owner-suite.log",
+        "bytes": 531,
+        "sha256": "f08e459323584730c7fedbd48d5aa6d14c1d9f849fe166b1212ba1edecc579f3"
+      },
+      {
+        "path": "project-package-media-b6bc6d5d/producer-only-reviewed.mjs",
+        "bytes": 9933,
+        "sha256": "507fedd5df717481c2d24c9f06836e9438937826c7486ad1cf50ec154bd284a7"
+      },
+      {
+        "path": "project-package-media-b6bc6d5d/report.json",
+        "bytes": 6647,
+        "sha256": "2328dc0fe8cc143f59efe3a2dc911b4ceaa102749814394b38e06afba9a57a5f"
+      },
+      {
+        "path": "project-package-media-b6bc6d5d/source/apps/service/src/delivery.ts",
+        "bytes": 4907,
+        "sha256": "b67ff2eacc2454c7c6c72b90f6e458a0daf7015d264780ba79dff42c22cdb12e"
+      },
+      {
+        "path": "project-package-media-b6bc6d5d/source/apps/service/src/project-service.ts",
+        "bytes": 51665,
+        "sha256": "f789ae10ea3b024c8270c4d60057233754b86a2d724a283c0d8454e6f345b5dc"
+      },
+      {
+        "path": "project-package-media-b6bc6d5d/source/apps/service/tests/fixtures/native-start-barrier.c",
+        "bytes": 426,
+        "sha256": "b8c0219ace51184038ef258559111f3159f2f602d400ccc02f102b3ddca5250a"
+      },
+      {
+        "path": "project-package-media-b6bc6d5d/source/apps/service/tests/project-package-media.mjs",
+        "bytes": 10320,
+        "sha256": "64f0b25b5bd7cdc3bfcc9fb8592c46eeac1ecf75ac3cee98ac22e7b467c9eecb"
+      },
+      {
+        "path": "project-package-media-b6bc6d5d/source/packages/core/src/audio-inspection.ts",
+        "bytes": 34672,
+        "sha256": "a34c0393e1975d73f925fe418edb4d82dbcda8508fd5f9d7fd1f6ac7ead70fc8"
+      },
+      {
+        "path": "project-package-media-b6bc6d5d/source/packages/core/src/cache.ts",
+        "bytes": 14522,
+        "sha256": "92c2f4f2667b7ba34f71198514a4070ef17e42041bc53fafcbe856c90a236b38"
+      },
+      {
+        "path": "project-package-media-b6bc6d5d/source/packages/core/src/frame-inspection.ts",
+        "bytes": 33453,
+        "sha256": "ff5fa3141cf5adce9b8667b557b69cd4202e74f06c3b31bf1cbcc5cb64cbedcd"
+      },
+      {
+        "path": "project-package-media-b6bc6d5d/source/packages/core/src/jobs.ts",
+        "bytes": 58442,
+        "sha256": "3a8a22834cbffe806ee11ac1b7d1dccfa7de4d9bf5d0365c731659eea26debda"
+      }
+    ],
+    "rootVerification": "Archive checksum, all archived payload hashes, final executed source snapshots and historical commit source independently checked; prior focused terminal results reused.",
+    "checkpointReview": "Independent source lane read-only review found handoff, named retirements and proof limits coherent, including full instrumented versus final narrow capture sources. Acquisition lane separately reviewed the first three banks and two wording findings were corrected. Root reviewed the actual later deltas, all six archive manifests and historical source pins. No runtime rerun for this evidence/docs checkpoint."
+  },
+  "integrationNote": "Historical cache.ts pin predates 1f654da7. That named owner/type extraction removes an obsolete empty runtime import while preserving the executable cache body; no broader merged runtime claim is inferred.",
+  "integratedCommit": "aef532bf4c277ae0deae2450ee618bacca1fd345"
+}

@@ -1,0 +1,1330 @@
+{
+  "base": "ee597d0e",
+  "scope": "Five fact-only CaptureStore fixture/ManagedStorage type ports; recovery success fixtures repaired to current closure/publication envelope",
+  "finalAffectedCases": 43,
+  "initialAffected": {
+    "passed": 37,
+    "failed": 6,
+    "failure": "Current recovery success fixtures omitted closure/publication authority"
+  },
+  "attribution": "Saved public state from PID85898 confirms Source recovery omitted closure authority; no CaptureStore fault or historical baseline execution claim",
+  "assertions": "All original assertions and test rows unchanged, complete diff reviewed; expectation-bearing line comparison is a review aid only",
+  "runtime": "ManagedStorage body exact except removal of empty library/capture-store imports; only constructor type changed",
+  "limits": [
+    "Scripted journal/video bytes; no native media validity or capture proof",
+    "No native/media/model/full suite",
+    "Original failure and throwaway attribution source retained",
+    "Optional TypeScript-AST review helper failed before parsing: installed TypeScript7 package lacks lib/typescript.js; no install/retry, complete diff reviewed instead",
+    "Previously banked local Codex review environment failure not retried; self/root review used"
+  ],
+  "checks": [
+    {
+      "phase": "affected-files",
+      "process": {
+        "argv": [
+          "node_modules/.bin/vitest",
+          "run",
+          "apps/service/src/capture-finalizing.test.ts",
+          "apps/service/src/delivery.test.ts",
+          "packages/core/src/recording-deletion.test.ts",
+          "packages/core/src/storage.test.ts"
+        ],
+        "pid": 80821,
+        "start": 1790990877.778229,
+        "sources": [
+          {
+            "path": "apps/service/src/capture-finalizing.test.ts",
+            "bytes": 20342,
+            "sha256": "ed6a0ecdab4cdc9b5fddd24ee074ffacd25c19ea2859e6a4d54be86cddd39599"
+          },
+          {
+            "path": "apps/service/src/delivery.test.ts",
+            "bytes": 15250,
+            "sha256": "e22c1adb98f7c55d6aaef80c99fdb58b55765df10ede67731c354ec7369df44b"
+          },
+          {
+            "path": "packages/core/src/recording-deletion.test.ts",
+            "bytes": 2774,
+            "sha256": "b330cb0a357b606825aa2905124c54f678d9cc11b3b9be824b26ce9452cf2065"
+          },
+          {
+            "path": "packages/core/src/storage.test.ts",
+            "bytes": 19610,
+            "sha256": "40445e33ca9b38098f094ae670e5d8b01f667180d08c44f055658f417c49d5b7"
+          },
+          {
+            "path": "packages/core/src/storage.ts",
+            "bytes": 10739,
+            "sha256": "04d3a3e48ec3e69da6aee67af3e493ae5047c947df01007bc914a3778a9d1cc3"
+          }
+        ],
+        "boundSeconds": 30,
+        "terminationGraceSeconds": 2
+      },
+      "terminal": {
+        "pid": 80821,
+        "end": 1790990883.788002,
+        "exit": 1,
+        "waited": true,
+        "deadlineExpired": false
+      }
+    },
+    {
+      "phase": "recovery-attribution",
+      "process": {
+        "argv": [
+          "node_modules/.bin/vitest",
+          "run",
+          "apps/service/src/capture-finalizing.test.ts",
+          "-t",
+          "recovery retains cleanup detail with cleanup precedence"
+        ],
+        "pid": 85898,
+        "start": 1790991047.2458491,
+        "sources": [
+          {
+            "path": "apps/service/src/capture-finalizing.test.ts",
+            "bytes": 20467,
+            "sha256": "3cab080ebc6e25838e82dd18fb5af02025ff7fd4393e27acce1c5361cba67e1c"
+          },
+          {
+            "path": "apps/service/src/delivery.test.ts",
+            "bytes": 15250,
+            "sha256": "e22c1adb98f7c55d6aaef80c99fdb58b55765df10ede67731c354ec7369df44b"
+          },
+          {
+            "path": "packages/core/src/recording-deletion.test.ts",
+            "bytes": 2774,
+            "sha256": "b330cb0a357b606825aa2905124c54f678d9cc11b3b9be824b26ce9452cf2065"
+          },
+          {
+            "path": "packages/core/src/storage.test.ts",
+            "bytes": 19610,
+            "sha256": "40445e33ca9b38098f094ae670e5d8b01f667180d08c44f055658f417c49d5b7"
+          },
+          {
+            "path": "packages/core/src/storage.ts",
+            "bytes": 10739,
+            "sha256": "04d3a3e48ec3e69da6aee67af3e493ae5047c947df01007bc914a3778a9d1cc3"
+          }
+        ],
+        "boundSeconds": 30,
+        "terminationGraceSeconds": 2
+      },
+      "terminal": {
+        "pid": 85898,
+        "end": 1790991049.849787,
+        "exit": 1,
+        "waited": true,
+        "deadlineExpired": false
+      }
+    },
+    {
+      "phase": "recovery-corrected",
+      "process": {
+        "argv": [
+          "node_modules/.bin/vitest",
+          "run",
+          "apps/service/src/capture-finalizing.test.ts",
+          "-t",
+          "recovery retains cleanup detail with cleanup precedence"
+        ],
+        "pid": 86338,
+        "start": 1790991078.0609028,
+        "sources": [
+          {
+            "path": "apps/service/src/capture-finalizing.test.ts",
+            "bytes": 21858,
+            "sha256": "44e4402f37090646cec0e66cf3c30f064f1b080dc5aded04c462afcaf500095b"
+          },
+          {
+            "path": "apps/service/src/delivery.test.ts",
+            "bytes": 15250,
+            "sha256": "e22c1adb98f7c55d6aaef80c99fdb58b55765df10ede67731c354ec7369df44b"
+          },
+          {
+            "path": "packages/core/src/recording-deletion.test.ts",
+            "bytes": 2774,
+            "sha256": "b330cb0a357b606825aa2905124c54f678d9cc11b3b9be824b26ce9452cf2065"
+          },
+          {
+            "path": "packages/core/src/storage.test.ts",
+            "bytes": 19610,
+            "sha256": "40445e33ca9b38098f094ae670e5d8b01f667180d08c44f055658f417c49d5b7"
+          },
+          {
+            "path": "packages/core/src/storage.ts",
+            "bytes": 10739,
+            "sha256": "04d3a3e48ec3e69da6aee67af3e493ae5047c947df01007bc914a3778a9d1cc3"
+          }
+        ],
+        "boundSeconds": 30,
+        "terminationGraceSeconds": 2
+      },
+      "terminal": {
+        "pid": 86338,
+        "end": 1790991079.6473558,
+        "exit": 0,
+        "waited": true,
+        "deadlineExpired": false
+      }
+    },
+    {
+      "phase": "core-build",
+      "process": {
+        "argv": [
+          "node_modules/.bin/tsc",
+          "-p",
+          "packages/core/tsconfig.json"
+        ],
+        "pid": 81351,
+        "start": 1790990902.99023,
+        "sources": [
+          {
+            "path": "apps/service/src/capture-finalizing.test.ts",
+            "bytes": 20342,
+            "sha256": "ed6a0ecdab4cdc9b5fddd24ee074ffacd25c19ea2859e6a4d54be86cddd39599"
+          },
+          {
+            "path": "apps/service/src/delivery.test.ts",
+            "bytes": 15250,
+            "sha256": "e22c1adb98f7c55d6aaef80c99fdb58b55765df10ede67731c354ec7369df44b"
+          },
+          {
+            "path": "packages/core/src/recording-deletion.test.ts",
+            "bytes": 2774,
+            "sha256": "b330cb0a357b606825aa2905124c54f678d9cc11b3b9be824b26ce9452cf2065"
+          },
+          {
+            "path": "packages/core/src/storage.test.ts",
+            "bytes": 19610,
+            "sha256": "40445e33ca9b38098f094ae670e5d8b01f667180d08c44f055658f417c49d5b7"
+          },
+          {
+            "path": "packages/core/src/storage.ts",
+            "bytes": 10739,
+            "sha256": "04d3a3e48ec3e69da6aee67af3e493ae5047c947df01007bc914a3778a9d1cc3"
+          }
+        ],
+        "boundSeconds": 30,
+        "terminationGraceSeconds": 2
+      },
+      "terminal": {
+        "pid": 81351,
+        "end": 1790990903.9723158,
+        "exit": 0,
+        "waited": true,
+        "deadlineExpired": false
+      }
+    },
+    {
+      "phase": "core-types",
+      "process": {
+        "argv": [
+          "node_modules/.bin/tsc",
+          "-p",
+          "packages/core/tsconfig.check.json"
+        ],
+        "pid": 81348,
+        "start": 1790990902.990141,
+        "sources": [
+          {
+            "path": "apps/service/src/capture-finalizing.test.ts",
+            "bytes": 20342,
+            "sha256": "ed6a0ecdab4cdc9b5fddd24ee074ffacd25c19ea2859e6a4d54be86cddd39599"
+          },
+          {
+            "path": "apps/service/src/delivery.test.ts",
+            "bytes": 15250,
+            "sha256": "e22c1adb98f7c55d6aaef80c99fdb58b55765df10ede67731c354ec7369df44b"
+          },
+          {
+            "path": "packages/core/src/recording-deletion.test.ts",
+            "bytes": 2774,
+            "sha256": "b330cb0a357b606825aa2905124c54f678d9cc11b3b9be824b26ce9452cf2065"
+          },
+          {
+            "path": "packages/core/src/storage.test.ts",
+            "bytes": 19610,
+            "sha256": "40445e33ca9b38098f094ae670e5d8b01f667180d08c44f055658f417c49d5b7"
+          },
+          {
+            "path": "packages/core/src/storage.ts",
+            "bytes": 10739,
+            "sha256": "04d3a3e48ec3e69da6aee67af3e493ae5047c947df01007bc914a3778a9d1cc3"
+          }
+        ],
+        "boundSeconds": 30,
+        "terminationGraceSeconds": 2
+      },
+      "terminal": {
+        "pid": 81348,
+        "end": 1790990904.292216,
+        "exit": 0,
+        "waited": true,
+        "deadlineExpired": false
+      }
+    },
+    {
+      "phase": "lint",
+      "process": {
+        "argv": [
+          "node_modules/.bin/oxlint",
+          "apps/service/src/capture-finalizing.test.ts",
+          "apps/service/src/delivery.test.ts",
+          "packages/core/src/recording-deletion.test.ts",
+          "packages/core/src/storage.test.ts",
+          "packages/core/src/storage.ts"
+        ],
+        "pid": 81350,
+        "start": 1790990902.9902248,
+        "sources": [
+          {
+            "path": "apps/service/src/capture-finalizing.test.ts",
+            "bytes": 20342,
+            "sha256": "ed6a0ecdab4cdc9b5fddd24ee074ffacd25c19ea2859e6a4d54be86cddd39599"
+          },
+          {
+            "path": "apps/service/src/delivery.test.ts",
+            "bytes": 15250,
+            "sha256": "e22c1adb98f7c55d6aaef80c99fdb58b55765df10ede67731c354ec7369df44b"
+          },
+          {
+            "path": "packages/core/src/recording-deletion.test.ts",
+            "bytes": 2774,
+            "sha256": "b330cb0a357b606825aa2905124c54f678d9cc11b3b9be824b26ce9452cf2065"
+          },
+          {
+            "path": "packages/core/src/storage.test.ts",
+            "bytes": 19610,
+            "sha256": "40445e33ca9b38098f094ae670e5d8b01f667180d08c44f055658f417c49d5b7"
+          },
+          {
+            "path": "packages/core/src/storage.ts",
+            "bytes": 10739,
+            "sha256": "04d3a3e48ec3e69da6aee67af3e493ae5047c947df01007bc914a3778a9d1cc3"
+          }
+        ],
+        "boundSeconds": 30,
+        "terminationGraceSeconds": 2
+      },
+      "terminal": {
+        "pid": 81350,
+        "end": 1790990903.062359,
+        "exit": 0,
+        "waited": true,
+        "deadlineExpired": false
+      }
+    },
+    {
+      "phase": "format",
+      "process": {
+        "argv": [
+          "node_modules/.bin/oxfmt",
+          "--check",
+          "apps/service/src/capture-finalizing.test.ts",
+          "apps/service/src/delivery.test.ts",
+          "packages/core/src/recording-deletion.test.ts",
+          "packages/core/src/storage.test.ts",
+          "packages/core/src/storage.ts"
+        ],
+        "pid": 81349,
+        "start": 1790990902.990125,
+        "sources": [
+          {
+            "path": "apps/service/src/capture-finalizing.test.ts",
+            "bytes": 20342,
+            "sha256": "ed6a0ecdab4cdc9b5fddd24ee074ffacd25c19ea2859e6a4d54be86cddd39599"
+          },
+          {
+            "path": "apps/service/src/delivery.test.ts",
+            "bytes": 15250,
+            "sha256": "e22c1adb98f7c55d6aaef80c99fdb58b55765df10ede67731c354ec7369df44b"
+          },
+          {
+            "path": "packages/core/src/recording-deletion.test.ts",
+            "bytes": 2774,
+            "sha256": "b330cb0a357b606825aa2905124c54f678d9cc11b3b9be824b26ce9452cf2065"
+          },
+          {
+            "path": "packages/core/src/storage.test.ts",
+            "bytes": 19610,
+            "sha256": "40445e33ca9b38098f094ae670e5d8b01f667180d08c44f055658f417c49d5b7"
+          },
+          {
+            "path": "packages/core/src/storage.ts",
+            "bytes": 10739,
+            "sha256": "04d3a3e48ec3e69da6aee67af3e493ae5047c947df01007bc914a3778a9d1cc3"
+          }
+        ],
+        "boundSeconds": 30,
+        "terminationGraceSeconds": 2
+      },
+      "terminal": {
+        "pid": 81349,
+        "end": 1790990903.0643861,
+        "exit": 0,
+        "waited": true,
+        "deadlineExpired": false
+      }
+    },
+    {
+      "phase": "final-affected",
+      "process": {
+        "argv": [
+          "node_modules/.bin/vitest",
+          "run",
+          "apps/service/src/capture-finalizing.test.ts",
+          "apps/service/src/delivery.test.ts",
+          "packages/core/src/recording-deletion.test.ts",
+          "packages/core/src/storage.test.ts"
+        ],
+        "pid": 86479,
+        "start": 1790991096.598733,
+        "sources": [
+          {
+            "path": "apps/service/src/capture-finalizing.test.ts",
+            "bytes": 21869,
+            "sha256": "1eaa72363886cb4edd7bfeb367b82885a084eb2951f18ff3c96b35ebde828ab3"
+          },
+          {
+            "path": "apps/service/src/delivery.test.ts",
+            "bytes": 15250,
+            "sha256": "e22c1adb98f7c55d6aaef80c99fdb58b55765df10ede67731c354ec7369df44b"
+          },
+          {
+            "path": "packages/core/src/recording-deletion.test.ts",
+            "bytes": 2774,
+            "sha256": "b330cb0a357b606825aa2905124c54f678d9cc11b3b9be824b26ce9452cf2065"
+          },
+          {
+            "path": "packages/core/src/storage.test.ts",
+            "bytes": 19610,
+            "sha256": "40445e33ca9b38098f094ae670e5d8b01f667180d08c44f055658f417c49d5b7"
+          },
+          {
+            "path": "packages/core/src/storage.ts",
+            "bytes": 10739,
+            "sha256": "04d3a3e48ec3e69da6aee67af3e493ae5047c947df01007bc914a3778a9d1cc3"
+          }
+        ],
+        "boundSeconds": 30,
+        "terminationGraceSeconds": 2
+      },
+      "terminal": {
+        "pid": 86479,
+        "end": 1790991098.472167,
+        "exit": 0,
+        "waited": true,
+        "deadlineExpired": false
+      }
+    },
+    {
+      "phase": "service-types",
+      "process": {
+        "argv": [
+          "node_modules/.bin/tsc",
+          "-p",
+          "apps/service/tsconfig.check.json"
+        ],
+        "pid": 86480,
+        "start": 1790991096.600577,
+        "sources": [
+          {
+            "path": "apps/service/src/capture-finalizing.test.ts",
+            "bytes": 21869,
+            "sha256": "1eaa72363886cb4edd7bfeb367b82885a084eb2951f18ff3c96b35ebde828ab3"
+          },
+          {
+            "path": "apps/service/src/delivery.test.ts",
+            "bytes": 15250,
+            "sha256": "e22c1adb98f7c55d6aaef80c99fdb58b55765df10ede67731c354ec7369df44b"
+          },
+          {
+            "path": "packages/core/src/recording-deletion.test.ts",
+            "bytes": 2774,
+            "sha256": "b330cb0a357b606825aa2905124c54f678d9cc11b3b9be824b26ce9452cf2065"
+          },
+          {
+            "path": "packages/core/src/storage.test.ts",
+            "bytes": 19610,
+            "sha256": "40445e33ca9b38098f094ae670e5d8b01f667180d08c44f055658f417c49d5b7"
+          },
+          {
+            "path": "packages/core/src/storage.ts",
+            "bytes": 10739,
+            "sha256": "04d3a3e48ec3e69da6aee67af3e493ae5047c947df01007bc914a3778a9d1cc3"
+          }
+        ],
+        "boundSeconds": 30,
+        "terminationGraceSeconds": 2
+      },
+      "terminal": {
+        "pid": 86480,
+        "end": 1790991097.2279282,
+        "exit": 0,
+        "waited": true,
+        "deadlineExpired": false
+      }
+    },
+    {
+      "phase": "final-lint",
+      "process": {
+        "argv": [
+          "node_modules/.bin/oxlint",
+          "apps/service/src/capture-finalizing.test.ts",
+          "apps/service/src/delivery.test.ts",
+          "packages/core/src/recording-deletion.test.ts",
+          "packages/core/src/storage.test.ts",
+          "packages/core/src/storage.ts"
+        ],
+        "pid": 86481,
+        "start": 1790991096.600953,
+        "sources": [
+          {
+            "path": "apps/service/src/capture-finalizing.test.ts",
+            "bytes": 21869,
+            "sha256": "1eaa72363886cb4edd7bfeb367b82885a084eb2951f18ff3c96b35ebde828ab3"
+          },
+          {
+            "path": "apps/service/src/delivery.test.ts",
+            "bytes": 15250,
+            "sha256": "e22c1adb98f7c55d6aaef80c99fdb58b55765df10ede67731c354ec7369df44b"
+          },
+          {
+            "path": "packages/core/src/recording-deletion.test.ts",
+            "bytes": 2774,
+            "sha256": "b330cb0a357b606825aa2905124c54f678d9cc11b3b9be824b26ce9452cf2065"
+          },
+          {
+            "path": "packages/core/src/storage.test.ts",
+            "bytes": 19610,
+            "sha256": "40445e33ca9b38098f094ae670e5d8b01f667180d08c44f055658f417c49d5b7"
+          },
+          {
+            "path": "packages/core/src/storage.ts",
+            "bytes": 10739,
+            "sha256": "04d3a3e48ec3e69da6aee67af3e493ae5047c947df01007bc914a3778a9d1cc3"
+          }
+        ],
+        "boundSeconds": 30,
+        "terminationGraceSeconds": 2
+      },
+      "terminal": {
+        "pid": 86481,
+        "end": 1790991096.688467,
+        "exit": 0,
+        "waited": true,
+        "deadlineExpired": false
+      }
+    },
+    {
+      "phase": "final-format",
+      "process": {
+        "argv": [
+          "node_modules/.bin/oxfmt",
+          "--check",
+          "apps/service/src/capture-finalizing.test.ts",
+          "apps/service/src/delivery.test.ts",
+          "packages/core/src/recording-deletion.test.ts",
+          "packages/core/src/storage.test.ts",
+          "packages/core/src/storage.ts"
+        ],
+        "pid": 86482,
+        "start": 1790991096.6010299,
+        "sources": [
+          {
+            "path": "apps/service/src/capture-finalizing.test.ts",
+            "bytes": 21869,
+            "sha256": "1eaa72363886cb4edd7bfeb367b82885a084eb2951f18ff3c96b35ebde828ab3"
+          },
+          {
+            "path": "apps/service/src/delivery.test.ts",
+            "bytes": 15250,
+            "sha256": "e22c1adb98f7c55d6aaef80c99fdb58b55765df10ede67731c354ec7369df44b"
+          },
+          {
+            "path": "packages/core/src/recording-deletion.test.ts",
+            "bytes": 2774,
+            "sha256": "b330cb0a357b606825aa2905124c54f678d9cc11b3b9be824b26ce9452cf2065"
+          },
+          {
+            "path": "packages/core/src/storage.test.ts",
+            "bytes": 19610,
+            "sha256": "40445e33ca9b38098f094ae670e5d8b01f667180d08c44f055658f417c49d5b7"
+          },
+          {
+            "path": "packages/core/src/storage.ts",
+            "bytes": 10739,
+            "sha256": "04d3a3e48ec3e69da6aee67af3e493ae5047c947df01007bc914a3778a9d1cc3"
+          }
+        ],
+        "boundSeconds": 30,
+        "terminationGraceSeconds": 2
+      },
+      "terminal": {
+        "pid": 86482,
+        "end": 1790991096.688888,
+        "exit": 0,
+        "waited": true,
+        "deadlineExpired": false
+      }
+    }
+  ],
+  "parity": {
+    "tests": [
+      {
+        "path": "apps/service/src/capture-finalizing.test.ts",
+        "expectationBearingLines": 61,
+        "linesExact": true,
+        "allAssertionsUnchanged": "confirmed by complete diff review"
+      },
+      {
+        "path": "apps/service/src/delivery.test.ts",
+        "expectationBearingLines": 75,
+        "linesExact": true,
+        "allAssertionsUnchanged": "confirmed by complete diff review"
+      },
+      {
+        "path": "packages/core/src/recording-deletion.test.ts",
+        "expectationBearingLines": 12,
+        "linesExact": true,
+        "allAssertionsUnchanged": "confirmed by complete diff review"
+      },
+      {
+        "path": "packages/core/src/storage.test.ts",
+        "expectationBearingLines": 48,
+        "linesExact": true,
+        "allAssertionsUnchanged": "confirmed by complete diff review"
+      }
+    ],
+    "storage": {
+      "beforeSha256": "273e2dc41c748aced5d0535a8ba8f676676d50db10f0ee80c759eb700bd88267",
+      "afterSha256": "2e3f372f2b2564c784bf0401733652b25bd7c479eb475ef23d003db54e45b95a",
+      "removedImports": [
+        "import {} from \"./library.js\";\n",
+        "import {} from \"./capture-store.js\";\n"
+      ],
+      "remainingBodyExact": true
+    },
+    "finalPins": [
+      {
+        "path": "apps/service/src/capture-finalizing.test.ts",
+        "bytes": 21869,
+        "sha256": "1eaa72363886cb4edd7bfeb367b82885a084eb2951f18ff3c96b35ebde828ab3"
+      },
+      {
+        "path": "apps/service/src/delivery.test.ts",
+        "bytes": 15250,
+        "sha256": "e22c1adb98f7c55d6aaef80c99fdb58b55765df10ede67731c354ec7369df44b"
+      },
+      {
+        "path": "packages/core/src/recording-deletion.test.ts",
+        "bytes": 2774,
+        "sha256": "b330cb0a357b606825aa2905124c54f678d9cc11b3b9be824b26ce9452cf2065"
+      },
+      {
+        "path": "packages/core/src/storage.test.ts",
+        "bytes": 19610,
+        "sha256": "40445e33ca9b38098f094ae670e5d8b01f667180d08c44f055658f417c49d5b7"
+      },
+      {
+        "path": "packages/core/src/storage.ts",
+        "bytes": 10739,
+        "sha256": "04d3a3e48ec3e69da6aee67af3e493ae5047c947df01007bc914a3778a9d1cc3"
+      },
+      {
+        "path": "packages/core/dist/storage.js",
+        "bytes": 11022,
+        "sha256": "2e3f372f2b2564c784bf0401733652b25bd7c479eb475ef23d003db54e45b95a"
+      }
+    ]
+  },
+  "commit": "ea62d9bd91c28da1e950d7ef770e85fc2f4273f6",
+  "sourcePins": [
+    {
+      "path": "apps/service/src/capture-finalizing.test.ts",
+      "bytes": 21869,
+      "sha256": "1eaa72363886cb4edd7bfeb367b82885a084eb2951f18ff3c96b35ebde828ab3"
+    },
+    {
+      "path": "apps/service/src/delivery.test.ts",
+      "bytes": 15250,
+      "sha256": "e22c1adb98f7c55d6aaef80c99fdb58b55765df10ede67731c354ec7369df44b"
+    },
+    {
+      "path": "packages/core/src/recording-deletion.test.ts",
+      "bytes": 2774,
+      "sha256": "b330cb0a357b606825aa2905124c54f678d9cc11b3b9be824b26ce9452cf2065"
+    },
+    {
+      "path": "packages/core/src/storage.test.ts",
+      "bytes": 19610,
+      "sha256": "40445e33ca9b38098f094ae670e5d8b01f667180d08c44f055658f417c49d5b7"
+    },
+    {
+      "path": "packages/core/src/storage.ts",
+      "bytes": 10739,
+      "sha256": "04d3a3e48ec3e69da6aee67af3e493ae5047c947df01007bc914a3778a9d1cc3"
+    }
+  ],
+  "exactExecutedSource": true,
+  "files": [
+    {
+      "path": "apps/service/src/capture-finalizing.test.ts",
+      "bytes": 21869,
+      "sha256": "1eaa72363886cb4edd7bfeb367b82885a084eb2951f18ff3c96b35ebde828ab3"
+    },
+    {
+      "path": "apps/service/src/delivery.test.ts",
+      "bytes": 15250,
+      "sha256": "e22c1adb98f7c55d6aaef80c99fdb58b55765df10ede67731c354ec7369df44b"
+    },
+    {
+      "path": "packages/core/src/recording-deletion.test.ts",
+      "bytes": 2774,
+      "sha256": "b330cb0a357b606825aa2905124c54f678d9cc11b3b9be824b26ce9452cf2065"
+    },
+    {
+      "path": "packages/core/src/storage.test.ts",
+      "bytes": 19610,
+      "sha256": "40445e33ca9b38098f094ae670e5d8b01f667180d08c44f055658f417c49d5b7"
+    },
+    {
+      "path": "packages/core/src/storage.ts",
+      "bytes": 10739,
+      "sha256": "04d3a3e48ec3e69da6aee67af3e493ae5047c947df01007bc914a3778a9d1cc3"
+    }
+  ],
+  "contract": "Five fact-only CaptureStore fixture/ManagedStorage type ports; recovery success fixtures repaired to current closure/publication envelope",
+  "bank": {
+    "archive": "capture-delivery-storage-evidence.tar.gz",
+    "bytes": 215111,
+    "sha256": "a8ff83b73fda7fcd759b021380fd338888ed87352fd930ff3f617377c5c10736",
+    "payloads": [
+      {
+        "path": "affected-files/process.json",
+        "bytes": 1225,
+        "sha256": "1c3e88925d9883685834b6534eb88e227f323d196caa09b5bc065dbfeb482ac3"
+      },
+      {
+        "path": "affected-files/sources/apps/service/src/capture-finalizing.test.ts",
+        "bytes": 20342,
+        "sha256": "ed6a0ecdab4cdc9b5fddd24ee074ffacd25c19ea2859e6a4d54be86cddd39599"
+      },
+      {
+        "path": "affected-files/sources/apps/service/src/delivery.test.ts",
+        "bytes": 15250,
+        "sha256": "e22c1adb98f7c55d6aaef80c99fdb58b55765df10ede67731c354ec7369df44b"
+      },
+      {
+        "path": "affected-files/sources/packages/core/src/recording-deletion.test.ts",
+        "bytes": 2774,
+        "sha256": "b330cb0a357b606825aa2905124c54f678d9cc11b3b9be824b26ce9452cf2065"
+      },
+      {
+        "path": "affected-files/sources/packages/core/src/storage.test.ts",
+        "bytes": 19610,
+        "sha256": "40445e33ca9b38098f094ae670e5d8b01f667180d08c44f055658f417c49d5b7"
+      },
+      {
+        "path": "affected-files/sources/packages/core/src/storage.ts",
+        "bytes": 10739,
+        "sha256": "04d3a3e48ec3e69da6aee67af3e493ae5047c947df01007bc914a3778a9d1cc3"
+      },
+      {
+        "path": "affected-files/stderr",
+        "bytes": 6190,
+        "sha256": "d2aa3700bd05994a0c918c7cb22ab054b9ee98cdeb13de0dee54efce773f6d36"
+      },
+      {
+        "path": "affected-files/stdout",
+        "bytes": 754,
+        "sha256": "4634b8057e8878b3d6b17e9b956c053af86f5545a9e6013a7303f7170fff71e8"
+      },
+      {
+        "path": "affected-files/terminal.json",
+        "bytes": 105,
+        "sha256": "3ecc61597f4470b0da0a14cc3874e58d2cb02b6fcd4f30bb5b7a447df1a13c01"
+      },
+      {
+        "path": "before/apps/service/src/capture-finalizing.test.ts",
+        "bytes": 20346,
+        "sha256": "ec617a8e52e3656cb24743ba9dab148058ae07ffd561feed5bbcf0b1b1a1b2c4"
+      },
+      {
+        "path": "before/apps/service/src/delivery.test.ts",
+        "bytes": 15246,
+        "sha256": "9e5d0271630f7269c8281187ecd1968a95122f9277137d80c03e1265cf5e5749"
+      },
+      {
+        "path": "before/packages/core/dist/storage.js",
+        "bytes": 11090,
+        "sha256": "273e2dc41c748aced5d0535a8ba8f676676d50db10f0ee80c759eb700bd88267"
+      },
+      {
+        "path": "before/packages/core/src/recording-deletion.test.ts",
+        "bytes": 2770,
+        "sha256": "f3ca6407fe89f99091fc8e7593bdb7d0de43ae069eb120244910447544fa6937"
+      },
+      {
+        "path": "before/packages/core/src/storage.test.ts",
+        "bytes": 19606,
+        "sha256": "3792f0294e3bd39846f93e0386e6e2f60b2350c468111f4d8c87d6dcdd911ab8"
+      },
+      {
+        "path": "before/packages/core/src/storage.ts",
+        "bytes": 10777,
+        "sha256": "b5db772b5e356922bd0865ab1ade79c3bd625c8fd28a83a23ef6f6f8a544d7c9"
+      },
+      {
+        "path": "before-attribution.ts",
+        "bytes": 20342,
+        "sha256": "ed6a0ecdab4cdc9b5fddd24ee074ffacd25c19ea2859e6a4d54be86cddd39599"
+      },
+      {
+        "path": "before.json",
+        "bytes": 967,
+        "sha256": "e035f4338a083af2faf59bbd978d1689ed0ec1bf15c30f22e916b1d0357c2d7e"
+      },
+      {
+        "path": "check-parity.mjs",
+        "bytes": 2099,
+        "sha256": "f06ee308d8a32370ae69c95cea9e3f9f27e102265582acdebdd154f3312fd6a4"
+      },
+      {
+        "path": "check-parity.py",
+        "bytes": 1747,
+        "sha256": "7b30549f983242976b15b55e463132bdbe171d1daef9d9fc0f1408dd4c617e14"
+      },
+      {
+        "path": "choices.md",
+        "bytes": 1544,
+        "sha256": "59636f970e16151333401f544a61cd97ccbce5c8b6974bf421cda91ade0cf638"
+      },
+      {
+        "path": "core-build/process.json",
+        "bytes": 1070,
+        "sha256": "9850303e9a4d912f150d95882335b0f015dcc43182ab2583114b3dc5bc369fc6"
+      },
+      {
+        "path": "core-build/sources/apps/service/src/capture-finalizing.test.ts",
+        "bytes": 20342,
+        "sha256": "ed6a0ecdab4cdc9b5fddd24ee074ffacd25c19ea2859e6a4d54be86cddd39599"
+      },
+      {
+        "path": "core-build/sources/apps/service/src/delivery.test.ts",
+        "bytes": 15250,
+        "sha256": "e22c1adb98f7c55d6aaef80c99fdb58b55765df10ede67731c354ec7369df44b"
+      },
+      {
+        "path": "core-build/sources/packages/core/src/recording-deletion.test.ts",
+        "bytes": 2774,
+        "sha256": "b330cb0a357b606825aa2905124c54f678d9cc11b3b9be824b26ce9452cf2065"
+      },
+      {
+        "path": "core-build/sources/packages/core/src/storage.test.ts",
+        "bytes": 19610,
+        "sha256": "40445e33ca9b38098f094ae670e5d8b01f667180d08c44f055658f417c49d5b7"
+      },
+      {
+        "path": "core-build/sources/packages/core/src/storage.ts",
+        "bytes": 10739,
+        "sha256": "04d3a3e48ec3e69da6aee67af3e493ae5047c947df01007bc914a3778a9d1cc3"
+      },
+      {
+        "path": "core-build/stderr",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "core-build/stdout",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "core-build/terminal.json",
+        "bytes": 106,
+        "sha256": "1b22aec0b0a25b660b02299de10254dbcdcb12a5c70ffd2641fcbd57e0fb1c1a"
+      },
+      {
+        "path": "core-types/process.json",
+        "bytes": 1077,
+        "sha256": "e2a490240a4654449f1229da81436e4c42b76255e7e0145e81b34059f3ffbb8d"
+      },
+      {
+        "path": "core-types/sources/apps/service/src/capture-finalizing.test.ts",
+        "bytes": 20342,
+        "sha256": "ed6a0ecdab4cdc9b5fddd24ee074ffacd25c19ea2859e6a4d54be86cddd39599"
+      },
+      {
+        "path": "core-types/sources/apps/service/src/delivery.test.ts",
+        "bytes": 15250,
+        "sha256": "e22c1adb98f7c55d6aaef80c99fdb58b55765df10ede67731c354ec7369df44b"
+      },
+      {
+        "path": "core-types/sources/packages/core/src/recording-deletion.test.ts",
+        "bytes": 2774,
+        "sha256": "b330cb0a357b606825aa2905124c54f678d9cc11b3b9be824b26ce9452cf2065"
+      },
+      {
+        "path": "core-types/sources/packages/core/src/storage.test.ts",
+        "bytes": 19610,
+        "sha256": "40445e33ca9b38098f094ae670e5d8b01f667180d08c44f055658f417c49d5b7"
+      },
+      {
+        "path": "core-types/sources/packages/core/src/storage.ts",
+        "bytes": 10739,
+        "sha256": "04d3a3e48ec3e69da6aee67af3e493ae5047c947df01007bc914a3778a9d1cc3"
+      },
+      {
+        "path": "core-types/stderr",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "core-types/stdout",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "core-types/terminal.json",
+        "bytes": 105,
+        "sha256": "f175a4d0965fabd057d2bcaee677f740a02764f3d6b07a3da822dcf8bbbb18af"
+      },
+      {
+        "path": "final/apps/service/src/capture-finalizing.test.ts",
+        "bytes": 21869,
+        "sha256": "1eaa72363886cb4edd7bfeb367b82885a084eb2951f18ff3c96b35ebde828ab3"
+      },
+      {
+        "path": "final/apps/service/src/delivery.test.ts",
+        "bytes": 15250,
+        "sha256": "e22c1adb98f7c55d6aaef80c99fdb58b55765df10ede67731c354ec7369df44b"
+      },
+      {
+        "path": "final/packages/core/dist/storage.js",
+        "bytes": 11022,
+        "sha256": "2e3f372f2b2564c784bf0401733652b25bd7c479eb475ef23d003db54e45b95a"
+      },
+      {
+        "path": "final/packages/core/src/recording-deletion.test.ts",
+        "bytes": 2774,
+        "sha256": "b330cb0a357b606825aa2905124c54f678d9cc11b3b9be824b26ce9452cf2065"
+      },
+      {
+        "path": "final/packages/core/src/storage.test.ts",
+        "bytes": 19610,
+        "sha256": "40445e33ca9b38098f094ae670e5d8b01f667180d08c44f055658f417c49d5b7"
+      },
+      {
+        "path": "final/packages/core/src/storage.ts",
+        "bytes": 10739,
+        "sha256": "04d3a3e48ec3e69da6aee67af3e493ae5047c947df01007bc914a3778a9d1cc3"
+      },
+      {
+        "path": "final-affected/process.json",
+        "bytes": 1225,
+        "sha256": "8c61658adf7645980fe0c679de3525d14ec93c821368bdeecd49457908fd32cf"
+      },
+      {
+        "path": "final-affected/sources/apps/service/src/capture-finalizing.test.ts",
+        "bytes": 21869,
+        "sha256": "1eaa72363886cb4edd7bfeb367b82885a084eb2951f18ff3c96b35ebde828ab3"
+      },
+      {
+        "path": "final-affected/sources/apps/service/src/delivery.test.ts",
+        "bytes": 15250,
+        "sha256": "e22c1adb98f7c55d6aaef80c99fdb58b55765df10ede67731c354ec7369df44b"
+      },
+      {
+        "path": "final-affected/sources/packages/core/src/recording-deletion.test.ts",
+        "bytes": 2774,
+        "sha256": "b330cb0a357b606825aa2905124c54f678d9cc11b3b9be824b26ce9452cf2065"
+      },
+      {
+        "path": "final-affected/sources/packages/core/src/storage.test.ts",
+        "bytes": 19610,
+        "sha256": "40445e33ca9b38098f094ae670e5d8b01f667180d08c44f055658f417c49d5b7"
+      },
+      {
+        "path": "final-affected/sources/packages/core/src/storage.ts",
+        "bytes": 10739,
+        "sha256": "04d3a3e48ec3e69da6aee67af3e493ae5047c947df01007bc914a3778a9d1cc3"
+      },
+      {
+        "path": "final-affected/stderr",
+        "bytes": 676,
+        "sha256": "4ea84940a63adb5993b1fe9aff6a51e8f334cd33d36a9f11d059530077f884aa"
+      },
+      {
+        "path": "final-affected/stdout",
+        "bytes": 183,
+        "sha256": "9858d8458e7d95d9b3c4f97631c85c7e129bc59106e9fc4d688a71bee8604b30"
+      },
+      {
+        "path": "final-affected/terminal.json",
+        "bytes": 105,
+        "sha256": "1fe6cd400e1ffa0c9970617089147da0a0be4614aa3060c7696222bc30de34fc"
+      },
+      {
+        "path": "final-format/process.json",
+        "bytes": 1265,
+        "sha256": "52a3482ee5953a4a13f89859501a9b8816bc6e42cac5cff1b2229c4b91b2641d"
+      },
+      {
+        "path": "final-format/sources/apps/service/src/capture-finalizing.test.ts",
+        "bytes": 21869,
+        "sha256": "1eaa72363886cb4edd7bfeb367b82885a084eb2951f18ff3c96b35ebde828ab3"
+      },
+      {
+        "path": "final-format/sources/apps/service/src/delivery.test.ts",
+        "bytes": 15250,
+        "sha256": "e22c1adb98f7c55d6aaef80c99fdb58b55765df10ede67731c354ec7369df44b"
+      },
+      {
+        "path": "final-format/sources/packages/core/src/recording-deletion.test.ts",
+        "bytes": 2774,
+        "sha256": "b330cb0a357b606825aa2905124c54f678d9cc11b3b9be824b26ce9452cf2065"
+      },
+      {
+        "path": "final-format/sources/packages/core/src/storage.test.ts",
+        "bytes": 19610,
+        "sha256": "40445e33ca9b38098f094ae670e5d8b01f667180d08c44f055658f417c49d5b7"
+      },
+      {
+        "path": "final-format/sources/packages/core/src/storage.ts",
+        "bytes": 10739,
+        "sha256": "04d3a3e48ec3e69da6aee67af3e493ae5047c947df01007bc914a3778a9d1cc3"
+      },
+      {
+        "path": "final-format/stderr",
+        "bytes": 91,
+        "sha256": "01f25de219844d53f81b996d6b73e782203533bfc6eba81e44b98acc0039ad42"
+      },
+      {
+        "path": "final-format/stdout",
+        "bytes": 111,
+        "sha256": "0f6812ee923edeefcf09648cc455c458b99c8feffbc61303b08ec9798d4cfda5"
+      },
+      {
+        "path": "final-format/terminal.json",
+        "bytes": 105,
+        "sha256": "dd4af29b3a71bc23f45f87b346f2e5908bb1a78d59170203e20dead0edb90a8a"
+      },
+      {
+        "path": "final-lint/process.json",
+        "bytes": 1250,
+        "sha256": "896e95815b8c6523cb0f6ccbd631595ffcb8b8fa508cf4795c3610d8b6e33ba6"
+      },
+      {
+        "path": "final-lint/sources/apps/service/src/capture-finalizing.test.ts",
+        "bytes": 21869,
+        "sha256": "1eaa72363886cb4edd7bfeb367b82885a084eb2951f18ff3c96b35ebde828ab3"
+      },
+      {
+        "path": "final-lint/sources/apps/service/src/delivery.test.ts",
+        "bytes": 15250,
+        "sha256": "e22c1adb98f7c55d6aaef80c99fdb58b55765df10ede67731c354ec7369df44b"
+      },
+      {
+        "path": "final-lint/sources/packages/core/src/recording-deletion.test.ts",
+        "bytes": 2774,
+        "sha256": "b330cb0a357b606825aa2905124c54f678d9cc11b3b9be824b26ce9452cf2065"
+      },
+      {
+        "path": "final-lint/sources/packages/core/src/storage.test.ts",
+        "bytes": 19610,
+        "sha256": "40445e33ca9b38098f094ae670e5d8b01f667180d08c44f055658f417c49d5b7"
+      },
+      {
+        "path": "final-lint/sources/packages/core/src/storage.ts",
+        "bytes": 10739,
+        "sha256": "04d3a3e48ec3e69da6aee67af3e493ae5047c947df01007bc914a3778a9d1cc3"
+      },
+      {
+        "path": "final-lint/stderr",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "final-lint/stdout",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "final-lint/terminal.json",
+        "bytes": 105,
+        "sha256": "18f997c486de5890142d695e008bd9831f35f28e9265c82268e06353936b1353"
+      },
+      {
+        "path": "finalize.py",
+        "bytes": 6351,
+        "sha256": "b4787bf3e9d66d6a07f3f1921bea8938ef249f35e80ad169add049d588106845"
+      },
+      {
+        "path": "format/process.json",
+        "bytes": 1264,
+        "sha256": "72e64a9237b25da55378f498c2ab5ed9b503f06a6cb1c388f4f64dc0286f4be3"
+      },
+      {
+        "path": "format/sources/apps/service/src/capture-finalizing.test.ts",
+        "bytes": 20342,
+        "sha256": "ed6a0ecdab4cdc9b5fddd24ee074ffacd25c19ea2859e6a4d54be86cddd39599"
+      },
+      {
+        "path": "format/sources/apps/service/src/delivery.test.ts",
+        "bytes": 15250,
+        "sha256": "e22c1adb98f7c55d6aaef80c99fdb58b55765df10ede67731c354ec7369df44b"
+      },
+      {
+        "path": "format/sources/packages/core/src/recording-deletion.test.ts",
+        "bytes": 2774,
+        "sha256": "b330cb0a357b606825aa2905124c54f678d9cc11b3b9be824b26ce9452cf2065"
+      },
+      {
+        "path": "format/sources/packages/core/src/storage.test.ts",
+        "bytes": 19610,
+        "sha256": "40445e33ca9b38098f094ae670e5d8b01f667180d08c44f055658f417c49d5b7"
+      },
+      {
+        "path": "format/sources/packages/core/src/storage.ts",
+        "bytes": 10739,
+        "sha256": "04d3a3e48ec3e69da6aee67af3e493ae5047c947df01007bc914a3778a9d1cc3"
+      },
+      {
+        "path": "format/stderr",
+        "bytes": 91,
+        "sha256": "01f25de219844d53f81b996d6b73e782203533bfc6eba81e44b98acc0039ad42"
+      },
+      {
+        "path": "format/stdout",
+        "bytes": 111,
+        "sha256": "9a1f12b47733e4152ef69e17dbd1b518a79488a71dfa0eb11ffd41e8b041e5ec"
+      },
+      {
+        "path": "format/terminal.json",
+        "bytes": 106,
+        "sha256": "230717b1b40aa147964ec14f532ea4a85e4d70b992c068d7b544483848a5cdb4"
+      },
+      {
+        "path": "lint/process.json",
+        "bytes": 1251,
+        "sha256": "218c598050805d9643c5af66cac735916b0deebae86886ac88219c6b0b62146b"
+      },
+      {
+        "path": "lint/sources/apps/service/src/capture-finalizing.test.ts",
+        "bytes": 20342,
+        "sha256": "ed6a0ecdab4cdc9b5fddd24ee074ffacd25c19ea2859e6a4d54be86cddd39599"
+      },
+      {
+        "path": "lint/sources/apps/service/src/delivery.test.ts",
+        "bytes": 15250,
+        "sha256": "e22c1adb98f7c55d6aaef80c99fdb58b55765df10ede67731c354ec7369df44b"
+      },
+      {
+        "path": "lint/sources/packages/core/src/recording-deletion.test.ts",
+        "bytes": 2774,
+        "sha256": "b330cb0a357b606825aa2905124c54f678d9cc11b3b9be824b26ce9452cf2065"
+      },
+      {
+        "path": "lint/sources/packages/core/src/storage.test.ts",
+        "bytes": 19610,
+        "sha256": "40445e33ca9b38098f094ae670e5d8b01f667180d08c44f055658f417c49d5b7"
+      },
+      {
+        "path": "lint/sources/packages/core/src/storage.ts",
+        "bytes": 10739,
+        "sha256": "04d3a3e48ec3e69da6aee67af3e493ae5047c947df01007bc914a3778a9d1cc3"
+      },
+      {
+        "path": "lint/stderr",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "lint/stdout",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "lint/terminal.json",
+        "bytes": 105,
+        "sha256": "40976c248e929cb4e1da57c17f57371d277865c9f91511eaebe97d43c0b21bdc"
+      },
+      {
+        "path": "parity.json",
+        "bytes": 2217,
+        "sha256": "bfeef80d74fa1823dc6c364cba9b5c35c4b007130a9903316c9a04730d94f6cc"
+      },
+      {
+        "path": "recovery-attribution/process.json",
+        "bytes": 1165,
+        "sha256": "7f124cfc6ef385a4dbd1f49f5b825140ca9ff38f1b65f7e3a457c011a9a55c20"
+      },
+      {
+        "path": "recovery-attribution/sources/apps/service/src/capture-finalizing.test.ts",
+        "bytes": 20467,
+        "sha256": "3cab080ebc6e25838e82dd18fb5af02025ff7fd4393e27acce1c5361cba67e1c"
+      },
+      {
+        "path": "recovery-attribution/sources/apps/service/src/delivery.test.ts",
+        "bytes": 15250,
+        "sha256": "e22c1adb98f7c55d6aaef80c99fdb58b55765df10ede67731c354ec7369df44b"
+      },
+      {
+        "path": "recovery-attribution/sources/packages/core/src/recording-deletion.test.ts",
+        "bytes": 2774,
+        "sha256": "b330cb0a357b606825aa2905124c54f678d9cc11b3b9be824b26ce9452cf2065"
+      },
+      {
+        "path": "recovery-attribution/sources/packages/core/src/storage.test.ts",
+        "bytes": 19610,
+        "sha256": "40445e33ca9b38098f094ae670e5d8b01f667180d08c44f055658f417c49d5b7"
+      },
+      {
+        "path": "recovery-attribution/sources/packages/core/src/storage.ts",
+        "bytes": 10739,
+        "sha256": "04d3a3e48ec3e69da6aee67af3e493ae5047c947df01007bc914a3778a9d1cc3"
+      },
+      {
+        "path": "recovery-attribution/stderr",
+        "bytes": 2097,
+        "sha256": "010d5495c3d44864cbb199dc7feff64a25bbbe0063bfa415589702cb47bd0702"
+      },
+      {
+        "path": "recovery-attribution/stdout",
+        "bytes": 355,
+        "sha256": "885d9b718cfe456a0288564a811fe7debe423f70bd7c64713e53f43ee1453f26"
+      },
+      {
+        "path": "recovery-attribution/terminal.json",
+        "bytes": 105,
+        "sha256": "c78a56bc95d09668bdf6317c47ecdd087c4b1cfa453bbe2c272c099467ad9b1c"
+      },
+      {
+        "path": "recovery-corrected/process.json",
+        "bytes": 1165,
+        "sha256": "facc0450c9c8a201bd1f7dc1a423f46ea73f1d231d3e6802155d021c3d76e518"
+      },
+      {
+        "path": "recovery-corrected/sources/apps/service/src/capture-finalizing.test.ts",
+        "bytes": 21858,
+        "sha256": "44e4402f37090646cec0e66cf3c30f064f1b080dc5aded04c462afcaf500095b"
+      },
+      {
+        "path": "recovery-corrected/sources/apps/service/src/delivery.test.ts",
+        "bytes": 15250,
+        "sha256": "e22c1adb98f7c55d6aaef80c99fdb58b55765df10ede67731c354ec7369df44b"
+      },
+      {
+        "path": "recovery-corrected/sources/packages/core/src/recording-deletion.test.ts",
+        "bytes": 2774,
+        "sha256": "b330cb0a357b606825aa2905124c54f678d9cc11b3b9be824b26ce9452cf2065"
+      },
+      {
+        "path": "recovery-corrected/sources/packages/core/src/storage.test.ts",
+        "bytes": 19610,
+        "sha256": "40445e33ca9b38098f094ae670e5d8b01f667180d08c44f055658f417c49d5b7"
+      },
+      {
+        "path": "recovery-corrected/sources/packages/core/src/storage.ts",
+        "bytes": 10739,
+        "sha256": "04d3a3e48ec3e69da6aee67af3e493ae5047c947df01007bc914a3778a9d1cc3"
+      },
+      {
+        "path": "recovery-corrected/stderr",
+        "bytes": 169,
+        "sha256": "6941f8cfa261663670c5bf9f684f18e44a7b84955ea7bb13d5704d0c80ee420b"
+      },
+      {
+        "path": "recovery-corrected/stdout",
+        "bytes": 196,
+        "sha256": "40a93e421019958ee05f19dec96c8791b28f2e3e41112527876a398655f25e4f"
+      },
+      {
+        "path": "recovery-corrected/terminal.json",
+        "bytes": 106,
+        "sha256": "772695cf0750ec759c76059befde4f9f40fd947824e293898731dc5f2d8b7baf"
+      },
+      {
+        "path": "report.json",
+        "bytes": 21732,
+        "sha256": "7ac6821da57550ce42f42a35cbbb6fa4af4acec252fcea99651b878da81ec465"
+      },
+      {
+        "path": "review.md",
+        "bytes": 1384,
+        "sha256": "08c69b48d21821611cdc129b118bbe5c47bbd0aaac8bd20c50175124d7f0801f"
+      },
+      {
+        "path": "run.py",
+        "bytes": 1440,
+        "sha256": "8bca56c7d5b0bc30e79d149b322b32abdf67c515ffdcba0a49281672df5d6370"
+      },
+      {
+        "path": "service-types/process.json",
+        "bytes": 1076,
+        "sha256": "bcf000368f289697ece047da83373b87d644d3a7bd38d8b16d2eea3df50b46a1"
+      },
+      {
+        "path": "service-types/sources/apps/service/src/capture-finalizing.test.ts",
+        "bytes": 21869,
+        "sha256": "1eaa72363886cb4edd7bfeb367b82885a084eb2951f18ff3c96b35ebde828ab3"
+      },
+      {
+        "path": "service-types/sources/apps/service/src/delivery.test.ts",
+        "bytes": 15250,
+        "sha256": "e22c1adb98f7c55d6aaef80c99fdb58b55765df10ede67731c354ec7369df44b"
+      },
+      {
+        "path": "service-types/sources/packages/core/src/recording-deletion.test.ts",
+        "bytes": 2774,
+        "sha256": "b330cb0a357b606825aa2905124c54f678d9cc11b3b9be824b26ce9452cf2065"
+      },
+      {
+        "path": "service-types/sources/packages/core/src/storage.test.ts",
+        "bytes": 19610,
+        "sha256": "40445e33ca9b38098f094ae670e5d8b01f667180d08c44f055658f417c49d5b7"
+      },
+      {
+        "path": "service-types/sources/packages/core/src/storage.ts",
+        "bytes": 10739,
+        "sha256": "04d3a3e48ec3e69da6aee67af3e493ae5047c947df01007bc914a3778a9d1cc3"
+      },
+      {
+        "path": "service-types/stderr",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "service-types/stdout",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "service-types/terminal.json",
+        "bytes": 106,
+        "sha256": "b48ececc3d343a21d0a9937bb111ab96e21608bc336e70f258f15dc8f5c359e4"
+      },
+      {
+        "path": "source.diff",
+        "bytes": 12991,
+        "sha256": "67d363eef6bddac0105d0d58db5c8c00d2ea212f4fac46744b42b79bc1aa7006"
+      },
+      {
+        "path": "unchanged-owners/apps/service/src/capture.ts",
+        "bytes": 35699,
+        "sha256": "ace477b536d810d01c56d7bf8028f870ca10b54090670b982bf052be9dff50f7"
+      },
+      {
+        "path": "unchanged-owners/packages/core/src/capture-store.ts",
+        "bytes": 21711,
+        "sha256": "8479c426c03d373fb8c5c5508e78a15316045cf3cca43f0a9551840d012c07cf"
+      }
+    ],
+    "rootVerification": "Archive checksum, all archived payload hashes, final executed source snapshots and historical commit source independently checked; prior focused terminal results reused.",
+    "checkpointReview": "Independent source lane read-only review found handoff, named retirements and proof limits coherent, including full instrumented versus final narrow capture sources. Acquisition lane separately reviewed the first three banks and two wording findings were corrected. Root reviewed the actual later deltas, all six archive manifests and historical source pins. No runtime rerun for this evidence/docs checkpoint."
+  },
+  "integratedCommit": "aef532bf4c277ae0deae2450ee618bacca1fd345"
+}

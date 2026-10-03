@@ -1,0 +1,134 @@
+{
+  "commit": "687e2781cc2079411176afb7b48d909250e280f3",
+  "baseCommit": "ed026beab6de01bb63eeaa1c1bd6fa0bf69020ae",
+  "contract": "Generic archive writer/publication/independent reader uses the current project manifest and real project/asset owners",
+  "files": [
+    {
+      "path": "apps/service/tests/archive-write.mjs",
+      "sha256": "6d0fd89438e8af05a40d7ed3c25fd6da9cf71179972873f30e41c21e0bd6e1ec",
+      "gitBlob": "b46c6dd758b341252da6929a30ac7f5667cb9bc5"
+    },
+    {
+      "path": "apps/service/tests/fixtures/project-export.mjs",
+      "sha256": "dfe673642082e00676abb71080517311b623c77f554fa497a5a271c91e734adf",
+      "gitBlob": "cd712e87d58b7ce2b2fb9ef34816fa5d37f33a50"
+    },
+    {
+      "path": "packages/core/src/project-package.ts",
+      "sha256": "a3a709af49e6096e7ef4ae8b5e0d1525c3da664bc3238f05721b9bc43bafe04a",
+      "gitBlob": "ff5174fc4a3c7da24c41f0d5eb55c751c53b45bd"
+    },
+    {
+      "path": "apps/service/src/project-package-metadata.ts",
+      "sha256": "2787f1b326a32cdfe5f30a02f3da723bf2172cdd3b99810dc92d53a3cf828b75",
+      "gitBlob": "dfe90ed79ab9897aa8dc39aa215ded4c10d22256"
+    },
+    {
+      "path": "apps/service/src/archive-write.ts",
+      "sha256": "c1669b8c2c487c67ad7e1376e94409496e5323579445030520c31b9258256a63",
+      "gitBlob": "eba37a63eecf12472d23ad95018e01fc1517963d"
+    },
+    {
+      "path": "apps/service/src/package-archive.ts",
+      "sha256": "8a2ca3c86447cefff6894dc88f347b3d40f9cb62ef7a155f96426ce6e785a762",
+      "gitBlob": "9573fc76ec39025428be9fe08b1b6ad901932b66"
+    }
+  ],
+  "verification": {
+    "command": "SCREENREC_NATIVE=/Users/david/dev/screen-recorder/helpers/mac/.build/debug/screenrec-native node --test --test-name-pattern=\"streamed ZIP publishes\" apps/service/tests/archive-write.mjs",
+    "final": {
+      "log": "reader-restored.log",
+      "exitCode": 0,
+      "passed": 1
+    },
+    "control": {
+      "red": "reader-red.log",
+      "redExitCode": 1,
+      "fault": "packages/core/dist/project-package.js resolveProjectPackage returned snapshot undo=[] instead of retained undo identity",
+      "failure": "Exact hydrated snapshot mismatch on undo list",
+      "restored": true,
+      "restoredExitCode": 0,
+      "controlledTest": "controlled-test.mjs",
+      "controlledTestSHA256": "6d0fd89438e8af05a40d7ed3c25fd6da9cf71179972873f30e41c21e0bd6e1ec"
+    },
+    "excluded": "excluded-unresolved-reader.log used verifyPackageArchive which intentionally returns unresolved parsed receipt and closes extraction. Corrected test uses actual openPackageArchive hydration resolver."
+  },
+  "scope": [
+    "Only imports, obsolete fixture default and first generic writer case changed",
+    "All 12 following generic cases are byte-for-byte unchanged versus parent commit; their expensive 128 MiB/native-memory tests not rerun",
+    "No production source change; all deliberate dist faults restored",
+    "Current manifest is built from actual ProjectPackages.pin snapshot/resource owners; current parser and resolver independently read archive bytes; exact snapshot/inventory SHA/extracted asset bytes asserted",
+    "Writer expanded-byte/hash receipts, atomic Publication commit/ack, private ZIP cleanup and independent native archive reading preserved"
+  ],
+  "review": "Parent reviewed single first-case diff and independent canonical metadata readback clean; later 12 generic cases unchanged.",
+  "bank": {
+    "archive": "project-archive-reader-evidence.tar.gz",
+    "bytes": 25873,
+    "sha256": "1db3493d7121869c721450eac4cc1482b4c690ee0dca2827daec4c5439dbfadc",
+    "payloads": [
+      {
+        "path": "project-archive-reader-b6bc6d5d/controlled-test.mjs",
+        "bytes": 14814,
+        "sha256": "6d0fd89438e8af05a40d7ed3c25fd6da9cf71179972873f30e41c21e0bd6e1ec"
+      },
+      {
+        "path": "project-archive-reader-b6bc6d5d/excluded-unresolved-reader.log",
+        "bytes": 4471,
+        "sha256": "e8674e5391c31de8d0d0cb89a5101a3a31496a53956ca65c1080cde1019b580a"
+      },
+      {
+        "path": "project-archive-reader-b6bc6d5d/reader-green.log",
+        "bytes": 387,
+        "sha256": "2eb281da71882b199a99bef58397b573b54b8350b02c93291ea6e7c73efbb58f"
+      },
+      {
+        "path": "project-archive-reader-b6bc6d5d/reader-red.log",
+        "bytes": 1998,
+        "sha256": "26f881d85374fcacf7736198fed8a2df4a74ff6bc3812dc6c3618f3d45734d9f"
+      },
+      {
+        "path": "project-archive-reader-b6bc6d5d/reader-restored.log",
+        "bytes": 384,
+        "sha256": "b768981d23313aedd313858cf04360e384c668c29e39ee9493ca6d013368cb1d"
+      },
+      {
+        "path": "project-archive-reader-b6bc6d5d/report.json",
+        "bytes": 3387,
+        "sha256": "7625bc34fb59b1e82b4bd5b932f735056375180a352b1ec73879dd58aea07dfd"
+      },
+      {
+        "path": "project-archive-reader-b6bc6d5d/source/apps/service/src/archive-write.ts",
+        "bytes": 3507,
+        "sha256": "c1669b8c2c487c67ad7e1376e94409496e5323579445030520c31b9258256a63"
+      },
+      {
+        "path": "project-archive-reader-b6bc6d5d/source/apps/service/src/package-archive.ts",
+        "bytes": 19109,
+        "sha256": "8a2ca3c86447cefff6894dc88f347b3d40f9cb62ef7a155f96426ce6e785a762"
+      },
+      {
+        "path": "project-archive-reader-b6bc6d5d/source/apps/service/src/project-package-metadata.ts",
+        "bytes": 2136,
+        "sha256": "2787f1b326a32cdfe5f30a02f3da723bf2172cdd3b99810dc92d53a3cf828b75"
+      },
+      {
+        "path": "project-archive-reader-b6bc6d5d/source/apps/service/tests/archive-write.mjs",
+        "bytes": 14814,
+        "sha256": "6d0fd89438e8af05a40d7ed3c25fd6da9cf71179972873f30e41c21e0bd6e1ec"
+      },
+      {
+        "path": "project-archive-reader-b6bc6d5d/source/apps/service/tests/fixtures/project-export.mjs",
+        "bytes": 13577,
+        "sha256": "dfe673642082e00676abb71080517311b623c77f554fa497a5a271c91e734adf"
+      },
+      {
+        "path": "project-archive-reader-b6bc6d5d/source/packages/core/src/project-package.ts",
+        "bytes": 20707,
+        "sha256": "a3a709af49e6096e7ef4ae8b5e0d1525c3da664bc3238f05721b9bc43bafe04a"
+      }
+    ],
+    "rootVerification": "Archive checksum, all archived payload hashes, final executed source snapshots and historical commit source independently checked; prior focused terminal results reused.",
+    "checkpointReview": "Independent source lane read-only review found handoff, named retirements and proof limits coherent, including full instrumented versus final narrow capture sources. Acquisition lane separately reviewed the first three banks and two wording findings were corrected. Root reviewed the actual later deltas, all six archive manifests and historical source pins. No runtime rerun for this evidence/docs checkpoint."
+  },
+  "integratedCommit": "aef532bf4c277ae0deae2450ee618bacca1fd345"
+}

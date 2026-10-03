@@ -38,12 +38,20 @@ workspace cleanup, process-death recovery and retained-generation references are
 also transferred, including surviving archive writers, substituted inputs and
 mutation during source copying. Abandonment resource lifetimes and normalized
 acquisition-member receipt refusal and actual bundled startup are also transferred.
-Continue real package frame/audio retry and drain and the remaining generic archive
-fixture in the managed
-`service-composition` worktree on `codex/package-owner-purge`. In parallel, remove
+Adopted package frame/audio retry and actual worker drain now use a fresh
+recipient library. The generic archive writer and hostile extraction/budget
+fixtures use current project metadata. Lost package replies recover through
+public discovery. Preserve the remaining registry lifetime guarantees, then remove
+orphan package owners in the managed `service-composition` worktree on
+`codex/package-owner-purge`. In parallel, remove
 mixed core dependencies and port generic fixtures from `RevisionStore` to their
 actual source/project owners; generic cache, source evidence and queue fixtures
-already use capture facts. Queue edit-revision cases use actual projects.
+already use capture facts, including delivery and storage. The default capture
+fixture preserves lifecycle, recovery and admission without automatic projects.
+Next, preserve unique deletion guarantees through the actual captured-source
+owner and remove the obsolete artifact-retirement branch. Transfer the remaining
+public service/transport guarantees together before removing their old fixtures.
+Queue edit-revision cases use actual projects.
 Source normalization types belong to source admission, and common movie receipt
 validation has a separate owner. Editing/history belongs to `ProjectStore`.
 The matched map governs deletion of the

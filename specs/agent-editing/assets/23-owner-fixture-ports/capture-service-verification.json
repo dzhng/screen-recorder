@@ -1,0 +1,1183 @@
+{
+  "base": "ea62d9bd",
+  "scope": "One current-service capture fixture port; production unchanged",
+  "declarations": {
+    "before": 24,
+    "after": 24,
+    "onlyTitleChange": "no video without inventing a timeline -> no video without authoring a project"
+  },
+  "finalSource": {
+    "path": "apps/service/src/capture.test.ts",
+    "bytes": 44810,
+    "sha256": "3a024a567499e2ba4c24af0d9a14e233236eaaf78bd83ec49b14f1f41905ca5b"
+  },
+  "proof": {
+    "fullInstrumentedCohort": {
+      "phase": "owner-cohort",
+      "pid": 95800,
+      "cases": 24,
+      "exit": 0,
+      "vitestDurationSeconds": 113.12,
+      "sourceSha256": "b7341f8e9e53e9af5147e2546895c6e0dc37a5a543b52cea3d9aefdfe046f268"
+    },
+    "finalLoggingFreeCases": {
+      "phase": "logging-free-focused",
+      "pid": 99566,
+      "cases": 2,
+      "exit": 0
+    },
+    "instrumentedProcesses": {
+      "spawns": 35,
+      "exitEvents": 35,
+      "closeEvents": 35,
+      "samePids": true,
+      "exit0": 31,
+      "intentionalSigkill": 4
+    }
+  },
+  "namedDispositions": [
+    "Three obsolete revision.get expectations replaced by current public project.list empty; one old r0 scalar on unproved-stop recovery becomes null",
+    "Five obsolete reconciliation complete waits replaced by actual recording.get recovery outcomes at original5s diagnostic bound; persisted cleanup uses actual job.get ready outcome/result",
+    "All controller timing, number/refusal, admission/replay, diagnostic/retry, file cleanup, surviving native report, cancellation/restart, audio-choice and cleanup-order guarantees retained"
+  ],
+  "changesAfterFullCohort": [
+    "Explicit null return in the already-null-validated seed target; behavior exercised by narrow cleanup pass",
+    "Optional evidence record/logging removed after root shape review; instrumented source and complete traces retained privately. Final two cases/types/lint/format run on logging-free source. No claim of full24 on final exact bytes."
+  ],
+  "failures": [
+    "Original queued cleanup case timed out5s. No single-cause attribution; original source/logs retained",
+    "First four recovery cases:3pass/1red because my public-state replacement used default1s poll for existing1.2s fixture delay. Restored original5s wait bound and narrow case passed",
+    "First typecheck refused optional revisionId return; explicit validated null fixed without production change",
+    "Unwanted project control: actual public project.create succeeded; empty project.list assertion failed as intended. Complete public reply operands retained; control removed."
+  ],
+  "checks": [
+    {
+      "phase": "cleanup-corrected",
+      "process": {
+        "argv": [
+          "node_modules/.bin/vitest",
+          "run",
+          "apps/service/src/capture.test.ts",
+          "-t",
+          "resumes persisted queued cleanup"
+        ],
+        "pid": 93859,
+        "start": 1790991526.42902,
+        "sources": [
+          {
+            "path": "apps/service/src/capture.test.ts",
+            "bytes": 44833,
+            "sha256": "15a6f9b1b6284761563a1787fefcc99f2d24387b726b806c480f8bcc49eb0869"
+          }
+        ],
+        "boundSeconds": 30,
+        "terminationGraceSeconds": 2
+      },
+      "terminal": {
+        "pid": 93859,
+        "end": 1790991527.718552,
+        "exit": 0,
+        "waited": true,
+        "deadlineExpired": false
+      }
+    },
+    {
+      "phase": "delayed-recovery-corrected",
+      "process": {
+        "argv": [
+          "node_modules/.bin/vitest",
+          "run",
+          "apps/service/src/capture.test.ts",
+          "-t",
+          "settles a stranded take with no recoverable video"
+        ],
+        "pid": 95172,
+        "start": 1790991618.719925,
+        "sources": [
+          {
+            "path": "apps/service/src/capture.test.ts",
+            "bytes": 44614,
+            "sha256": "318715dec55e493888b694a0d5beb3fac11570e53d52730f7df01889c182c893"
+          }
+        ],
+        "boundSeconds": 30,
+        "terminationGraceSeconds": 2
+      },
+      "terminal": {
+        "pid": 95172,
+        "end": 1790991621.0124722,
+        "exit": 0,
+        "waited": true,
+        "deadlineExpired": false
+      }
+    },
+    {
+      "phase": "final-focused",
+      "process": {
+        "argv": [
+          "node_modules/.bin/vitest",
+          "run",
+          "apps/service/src/capture.test.ts",
+          "-t",
+          "settles a stranded take from its own recovered media|resumes persisted queued cleanup"
+        ],
+        "pid": 98803,
+        "start": 1790991819.394925,
+        "sources": [
+          {
+            "path": "apps/service/src/capture.test.ts",
+            "bytes": 45616,
+            "sha256": "bb958729561c3f890005b44d26827a412cc646a78b154a8ce583b6b50e06748b"
+          }
+        ],
+        "boundSeconds": 30,
+        "terminationGraceSeconds": 2
+      },
+      "terminal": {
+        "pid": 98803,
+        "end": 1790991825.353557,
+        "exit": 0,
+        "waited": true,
+        "deadlineExpired": false
+      }
+    },
+    {
+      "phase": "final-format",
+      "process": {
+        "argv": [
+          "node_modules/.bin/oxfmt",
+          "--check",
+          "apps/service/src/capture.test.ts"
+        ],
+        "pid": 98807,
+        "start": 1790991819.606554,
+        "sources": [
+          {
+            "path": "apps/service/src/capture.test.ts",
+            "bytes": 45616,
+            "sha256": "bb958729561c3f890005b44d26827a412cc646a78b154a8ce583b6b50e06748b"
+          }
+        ],
+        "boundSeconds": 30,
+        "terminationGraceSeconds": 2
+      },
+      "terminal": {
+        "pid": 98807,
+        "end": 1790991819.844206,
+        "exit": 0,
+        "waited": true,
+        "deadlineExpired": false
+      }
+    },
+    {
+      "phase": "final-lint",
+      "process": {
+        "argv": [
+          "node_modules/.bin/oxlint",
+          "apps/service/src/capture.test.ts"
+        ],
+        "pid": 98805,
+        "start": 1790991819.499882,
+        "sources": [
+          {
+            "path": "apps/service/src/capture.test.ts",
+            "bytes": 45616,
+            "sha256": "bb958729561c3f890005b44d26827a412cc646a78b154a8ce583b6b50e06748b"
+          }
+        ],
+        "boundSeconds": 30,
+        "terminationGraceSeconds": 2
+      },
+      "terminal": {
+        "pid": 98805,
+        "end": 1790991819.904974,
+        "exit": 0,
+        "waited": true,
+        "deadlineExpired": false
+      }
+    },
+    {
+      "phase": "final-types",
+      "process": {
+        "argv": [
+          "node_modules/.bin/tsc",
+          "-p",
+          "apps/service/tsconfig.check.json"
+        ],
+        "pid": 98802,
+        "start": 1790991819.391878,
+        "sources": [
+          {
+            "path": "apps/service/src/capture.test.ts",
+            "bytes": 45616,
+            "sha256": "bb958729561c3f890005b44d26827a412cc646a78b154a8ce583b6b50e06748b"
+          }
+        ],
+        "boundSeconds": 30,
+        "terminationGraceSeconds": 2
+      },
+      "terminal": {
+        "pid": 98802,
+        "end": 1790991821.616422,
+        "exit": 0,
+        "waited": true,
+        "deadlineExpired": false
+      }
+    },
+    {
+      "phase": "format",
+      "process": {
+        "argv": [
+          "node_modules/.bin/oxfmt",
+          "--check",
+          "apps/service/src/capture.test.ts"
+        ],
+        "pid": 95980,
+        "start": 1790991662.185528,
+        "sources": [
+          {
+            "path": "apps/service/src/capture.test.ts",
+            "bytes": 45591,
+            "sha256": "b7341f8e9e53e9af5147e2546895c6e0dc37a5a543b52cea3d9aefdfe046f268"
+          }
+        ],
+        "boundSeconds": 30,
+        "terminationGraceSeconds": 2
+      },
+      "terminal": {
+        "pid": 95980,
+        "end": 1790991662.322556,
+        "exit": 0,
+        "waited": true,
+        "deadlineExpired": false
+      }
+    },
+    {
+      "phase": "initial-red",
+      "process": {
+        "argv": [
+          "node_modules/.bin/vitest",
+          "run",
+          "apps/service/src/capture.test.ts",
+          "-t",
+          "resumes persisted queued cleanup"
+        ],
+        "pid": 92301,
+        "start": 1790991437.606922,
+        "sources": [
+          {
+            "path": "apps/service/src/capture.test.ts",
+            "bytes": 41314,
+            "sha256": "34191464f9562c77cf9ee955c5ae112ed6b91d1cdae51702b5706a1019e99607"
+          }
+        ],
+        "boundSeconds": 30,
+        "terminationGraceSeconds": 2
+      },
+      "terminal": {
+        "pid": 92301,
+        "end": 1790991444.0284119,
+        "exit": 1,
+        "waited": true,
+        "deadlineExpired": false
+      }
+    },
+    {
+      "phase": "lint",
+      "process": {
+        "argv": [
+          "node_modules/.bin/oxlint",
+          "apps/service/src/capture.test.ts"
+        ],
+        "pid": 95977,
+        "start": 1790991662.165604,
+        "sources": [
+          {
+            "path": "apps/service/src/capture.test.ts",
+            "bytes": 45591,
+            "sha256": "b7341f8e9e53e9af5147e2546895c6e0dc37a5a543b52cea3d9aefdfe046f268"
+          }
+        ],
+        "boundSeconds": 30,
+        "terminationGraceSeconds": 2
+      },
+      "terminal": {
+        "pid": 95977,
+        "end": 1790991662.247794,
+        "exit": 0,
+        "waited": true,
+        "deadlineExpired": false
+      }
+    },
+    {
+      "phase": "logging-free-focused",
+      "process": {
+        "argv": [
+          "node_modules/.bin/vitest",
+          "run",
+          "apps/service/src/capture.test.ts",
+          "-t",
+          "settles a stranded take from its own recovered media|resumes persisted queued cleanup"
+        ],
+        "pid": 99566,
+        "start": 1790991901.39485,
+        "sources": [
+          {
+            "path": "apps/service/src/capture.test.ts",
+            "bytes": 44810,
+            "sha256": "3a024a567499e2ba4c24af0d9a14e233236eaaf78bd83ec49b14f1f41905ca5b"
+          }
+        ],
+        "boundSeconds": 30,
+        "terminationGraceSeconds": 2
+      },
+      "terminal": {
+        "pid": 99566,
+        "end": 1790991906.324938,
+        "exit": 0,
+        "waited": true,
+        "deadlineExpired": false
+      }
+    },
+    {
+      "phase": "logging-free-format",
+      "process": {
+        "argv": [
+          "node_modules/.bin/oxfmt",
+          "--check",
+          "apps/service/src/capture.test.ts"
+        ],
+        "pid": 99571,
+        "start": 1790991901.429879,
+        "sources": [
+          {
+            "path": "apps/service/src/capture.test.ts",
+            "bytes": 44810,
+            "sha256": "3a024a567499e2ba4c24af0d9a14e233236eaaf78bd83ec49b14f1f41905ca5b"
+          }
+        ],
+        "boundSeconds": 30,
+        "terminationGraceSeconds": 2
+      },
+      "terminal": {
+        "pid": 99571,
+        "end": 1790991901.603415,
+        "exit": 0,
+        "waited": true,
+        "deadlineExpired": false
+      }
+    },
+    {
+      "phase": "logging-free-lint",
+      "process": {
+        "argv": [
+          "node_modules/.bin/oxlint",
+          "apps/service/src/capture.test.ts"
+        ],
+        "pid": 99569,
+        "start": 1790991901.404499,
+        "sources": [
+          {
+            "path": "apps/service/src/capture.test.ts",
+            "bytes": 44810,
+            "sha256": "3a024a567499e2ba4c24af0d9a14e233236eaaf78bd83ec49b14f1f41905ca5b"
+          }
+        ],
+        "boundSeconds": 30,
+        "terminationGraceSeconds": 2
+      },
+      "terminal": {
+        "pid": 99569,
+        "end": 1790991901.625628,
+        "exit": 0,
+        "waited": true,
+        "deadlineExpired": false
+      }
+    },
+    {
+      "phase": "logging-free-types",
+      "process": {
+        "argv": [
+          "node_modules/.bin/tsc",
+          "-p",
+          "apps/service/tsconfig.check.json"
+        ],
+        "pid": 99567,
+        "start": 1790991901.401292,
+        "sources": [
+          {
+            "path": "apps/service/src/capture.test.ts",
+            "bytes": 44810,
+            "sha256": "3a024a567499e2ba4c24af0d9a14e233236eaaf78bd83ec49b14f1f41905ca5b"
+          }
+        ],
+        "boundSeconds": 30,
+        "terminationGraceSeconds": 2
+      },
+      "terminal": {
+        "pid": 99567,
+        "end": 1790991902.9704618,
+        "exit": 0,
+        "waited": true,
+        "deadlineExpired": false
+      }
+    },
+    {
+      "phase": "owner-cohort",
+      "process": {
+        "argv": [
+          "node_modules/.bin/vitest",
+          "run",
+          "apps/service/src/capture.test.ts"
+        ],
+        "pid": 95800,
+        "start": 1790991652.30799,
+        "sources": [
+          {
+            "path": "apps/service/src/capture.test.ts",
+            "bytes": 45591,
+            "sha256": "b7341f8e9e53e9af5147e2546895c6e0dc37a5a543b52cea3d9aefdfe046f268"
+          }
+        ],
+        "boundSeconds": 480,
+        "terminationGraceSeconds": 2
+      },
+      "terminal": {
+        "pid": 95800,
+        "end": 1790991765.8168871,
+        "exit": 0,
+        "waited": true,
+        "deadlineExpired": false
+      }
+    },
+    {
+      "phase": "recovery-facts",
+      "process": {
+        "argv": [
+          "node_modules/.bin/vitest",
+          "run",
+          "apps/service/src/capture.test.ts",
+          "-t",
+          "settles a stranded take from its own recovered media|recovery keeps diagnostic code|settles a stranded take with no recoverable video|gives concurrent start requests"
+        ],
+        "pid": 94414,
+        "start": 1790991575.604154,
+        "sources": [
+          {
+            "path": "apps/service/src/capture.test.ts",
+            "bytes": 44385,
+            "sha256": "8fe5521930c8510f046795b0affccd999f4528d9ebde2e413a5266f84ebe6edb"
+          }
+        ],
+        "boundSeconds": 30,
+        "terminationGraceSeconds": 2
+      },
+      "terminal": {
+        "pid": 94414,
+        "end": 1790991580.961888,
+        "exit": 1,
+        "waited": true,
+        "deadlineExpired": false
+      }
+    },
+    {
+      "phase": "service-types",
+      "process": {
+        "argv": [
+          "node_modules/.bin/tsc",
+          "-p",
+          "apps/service/tsconfig.check.json"
+        ],
+        "pid": 95976,
+        "start": 1790991662.165557,
+        "sources": [
+          {
+            "path": "apps/service/src/capture.test.ts",
+            "bytes": 45591,
+            "sha256": "b7341f8e9e53e9af5147e2546895c6e0dc37a5a543b52cea3d9aefdfe046f268"
+          }
+        ],
+        "boundSeconds": 30,
+        "terminationGraceSeconds": 2
+      },
+      "terminal": {
+        "pid": 95976,
+        "end": 1790991662.76405,
+        "exit": 1,
+        "waited": true,
+        "deadlineExpired": false
+      }
+    },
+    {
+      "phase": "unwanted-project-red",
+      "process": {
+        "argv": [
+          "node_modules/.bin/vitest",
+          "run",
+          "apps/service/src/capture.test.ts",
+          "-t",
+          "settles a stranded take from its own recovered media"
+        ],
+        "pid": 98610,
+        "start": 1790991788.7749498,
+        "sources": [
+          {
+            "path": "apps/service/src/capture.test.ts",
+            "bytes": 45846,
+            "sha256": "9d1049f912d778ac7e7c841899e0ff5cd8ee96204391d2bd642a921590a28ddf"
+          }
+        ],
+        "boundSeconds": 30,
+        "terminationGraceSeconds": 2
+      },
+      "terminal": {
+        "pid": 98610,
+        "end": 1790991791.099905,
+        "exit": 1,
+        "waited": true,
+        "deadlineExpired": false
+      }
+    }
+  ],
+  "runtime": [
+    {
+      "path": "apps/service/dist/main.js",
+      "bytes": 1115,
+      "sha256": "69df222d8c20472e2aacc696b5a376712ab8dfd54eb4795ec0ffd3df88e22e5d",
+      "phase": "closeout collected; primary production-code lease unchanged"
+    },
+    {
+      "path": "apps/service/dist/project-service.js",
+      "bytes": 58415,
+      "sha256": "be0dbe4d64bc1ad04da7d8f5c59521fa153347be83d577fd1445eb3465aa09ac",
+      "phase": "closeout collected; primary production-code lease unchanged"
+    },
+    {
+      "path": "apps/service/dist/capture.js",
+      "bytes": 34865,
+      "sha256": "16b30fb29552610304dede22ff0ba96219f52616a0caf612943a040efaf84e15",
+      "phase": "closeout collected; primary production-code lease unchanged"
+    },
+    {
+      "path": "apps/service/dist/capture-cleanup.js",
+      "bytes": 4252,
+      "sha256": "04c2d2afd9809fb566a30740bcf33bbff097cca038ecf0ee19195b03450f87a0",
+      "phase": "closeout collected; primary production-code lease unchanged"
+    },
+    {
+      "path": "apps/service/src/project-service.ts",
+      "bytes": 51665,
+      "sha256": "f789ae10ea3b024c8270c4d60057233754b86a2d724a283c0d8454e6f345b5dc",
+      "phase": "closeout collected; primary production-code lease unchanged"
+    },
+    {
+      "path": "apps/service/src/capture.ts",
+      "bytes": 35699,
+      "sha256": "ace477b536d810d01c56d7bf8028f870ca10b54090670b982bf052be9dff50f7",
+      "phase": "closeout collected; primary production-code lease unchanged"
+    },
+    {
+      "path": "packages/core/dist/capture-store.js",
+      "bytes": 19349,
+      "sha256": "0209c28fec02ee3f05719d6ef73596d48b5e74600bfbd32d2437988ed1bad9f2",
+      "phase": "closeout collected; primary production-code lease unchanged"
+    },
+    {
+      "path": "packages/core/dist/jobs.js",
+      "bytes": 52766,
+      "sha256": "6ffa710b733ca2ced277e42a84f013a09bfc04886e2128c0145c14e475914292",
+      "phase": "closeout collected; primary production-code lease unchanged"
+    },
+    {
+      "path": "packages/core/src/capture-store.ts",
+      "bytes": 21711,
+      "sha256": "8479c426c03d373fb8c5c5508e78a15316045cf3cca43f0a9551840d012c07cf",
+      "phase": "closeout collected; primary production-code lease unchanged"
+    },
+    {
+      "path": "packages/core/src/jobs.ts",
+      "bytes": 58442,
+      "sha256": "3a8a22834cbffe806ee11ac1b7d1dccfa7de4d9bf5d0365c731659eea26debda",
+      "phase": "closeout collected; primary production-code lease unchanged"
+    }
+  ],
+  "limits": [
+    "Scripted publisher/filesystem/native edges; no physical media validity, native worker adoption, capture, model or inference",
+    "No production/public API/schema/budget changes; no full suite",
+    "Current emitted entry and actual child commands are observed; runtime hashes separately labelled closeout collection, not pre-execution pinning",
+    "No installed-release, complete cutover, hidden catalog migration or edit/history preservation claim",
+    "Native worker process internals not individually logged; actual service child exit+close evidence is from instrumented cohort only",
+    "Previously banked local Codex review environmental failure not retried; self/root review used"
+  ],
+  "commit": "00826d819d9d078d56308bd6bcd86ca70ca4a701",
+  "bank": {
+    "archive": "capture-service-evidence.tar.gz",
+    "bytes": 312626,
+    "sha256": "f80fc06edfe46003689b0c68ac67421cdaa5113585e51ba6019c569412807f5e",
+    "payloads": [
+      {
+        "path": "before.json",
+        "bytes": 146,
+        "sha256": "11c58e185aa1c36a3987f4eeb8a70e260d0d49060a67749162b6b897f89d50ae"
+      },
+      {
+        "path": "before.ts",
+        "bytes": 41314,
+        "sha256": "34191464f9562c77cf9ee955c5ae112ed6b91d1cdae51702b5706a1019e99607"
+      },
+      {
+        "path": "choices.md",
+        "bytes": 2044,
+        "sha256": "3e37c748f5ce57a3662868651b0393e40f61d57f05d7a019b9de8e5e8be4a9c4"
+      },
+      {
+        "path": "cleanup-corrected/process.json",
+        "bytes": 437,
+        "sha256": "09f2e08d60bf67567f1d50d0b139e246480d45a7bb1f0c061bfb924b6bc7c305"
+      },
+      {
+        "path": "cleanup-corrected/sources/apps/service/src/capture.test.ts",
+        "bytes": 44833,
+        "sha256": "15a6f9b1b6284761563a1787fefcc99f2d24387b726b806c480f8bcc49eb0869"
+      },
+      {
+        "path": "cleanup-corrected/stderr",
+        "bytes": 169,
+        "sha256": "8fb235484920cd3ddb3d391dc40c2738053d0d59d30e3a1fc6cbdda6cc9d4063"
+      },
+      {
+        "path": "cleanup-corrected/stdout",
+        "bytes": 195,
+        "sha256": "b07efefaae7bc9beeea57c3e56d2127d365cb90f4a4cd3f998b690955267dc02"
+      },
+      {
+        "path": "cleanup-corrected/terminal.json",
+        "bytes": 105,
+        "sha256": "89da4599270fc418675851d7862a0a670e43082e877a940d0d6273751e1df105"
+      },
+      {
+        "path": "closeout-authority/apps/service/dist/capture-cleanup.js",
+        "bytes": 4252,
+        "sha256": "04c2d2afd9809fb566a30740bcf33bbff097cca038ecf0ee19195b03450f87a0"
+      },
+      {
+        "path": "closeout-authority/apps/service/dist/capture.js",
+        "bytes": 34865,
+        "sha256": "16b30fb29552610304dede22ff0ba96219f52616a0caf612943a040efaf84e15"
+      },
+      {
+        "path": "closeout-authority/apps/service/dist/main.js",
+        "bytes": 1115,
+        "sha256": "69df222d8c20472e2aacc696b5a376712ab8dfd54eb4795ec0ffd3df88e22e5d"
+      },
+      {
+        "path": "closeout-authority/apps/service/dist/project-service.js",
+        "bytes": 58415,
+        "sha256": "be0dbe4d64bc1ad04da7d8f5c59521fa153347be83d577fd1445eb3465aa09ac"
+      },
+      {
+        "path": "closeout-authority/apps/service/src/capture.ts",
+        "bytes": 35699,
+        "sha256": "ace477b536d810d01c56d7bf8028f870ca10b54090670b982bf052be9dff50f7"
+      },
+      {
+        "path": "closeout-authority/apps/service/src/project-service.ts",
+        "bytes": 51665,
+        "sha256": "f789ae10ea3b024c8270c4d60057233754b86a2d724a283c0d8454e6f345b5dc"
+      },
+      {
+        "path": "closeout-authority/packages/core/dist/capture-store.js",
+        "bytes": 19349,
+        "sha256": "0209c28fec02ee3f05719d6ef73596d48b5e74600bfbd32d2437988ed1bad9f2"
+      },
+      {
+        "path": "closeout-authority/packages/core/dist/jobs.js",
+        "bytes": 52766,
+        "sha256": "6ffa710b733ca2ced277e42a84f013a09bfc04886e2128c0145c14e475914292"
+      },
+      {
+        "path": "closeout-authority/packages/core/src/capture-store.ts",
+        "bytes": 21711,
+        "sha256": "8479c426c03d373fb8c5c5508e78a15316045cf3cca43f0a9551840d012c07cf"
+      },
+      {
+        "path": "closeout-authority/packages/core/src/jobs.ts",
+        "bytes": 58442,
+        "sha256": "3a8a22834cbffe806ee11ac1b7d1dccfa7de4d9bf5d0365c731659eea26debda"
+      },
+      {
+        "path": "cohort-to-instrumented-final.diff",
+        "bytes": 563,
+        "sha256": "afc413f9da78a74bb354b9d02e1250bab97ef005314357cc74d30a8b6bd0342f"
+      },
+      {
+        "path": "coverage.md",
+        "bytes": 1526,
+        "sha256": "f582787dd40824c52bf6b67c02a3f47228327f2adf39662f12eef25348a12cd1"
+      },
+      {
+        "path": "delayed-recovery-corrected/process.json",
+        "bytes": 455,
+        "sha256": "93240d8fe481ea47823267261edf05986420a3d7d1eea257c6c0e50b9f226d20"
+      },
+      {
+        "path": "delayed-recovery-corrected/sources/apps/service/src/capture.test.ts",
+        "bytes": 44614,
+        "sha256": "318715dec55e493888b694a0d5beb3fac11570e53d52730f7df01889c182c893"
+      },
+      {
+        "path": "delayed-recovery-corrected/stderr",
+        "bytes": 169,
+        "sha256": "ae591c6c9f34b4fb563e24558b22fe6220d775012cb079e30074465e97cfd069"
+      },
+      {
+        "path": "delayed-recovery-corrected/stdout",
+        "bytes": 194,
+        "sha256": "eb6399ecbaa0665f0e3ff54758b83d2c29f0fea510a905d5027dcc0e2fae2734"
+      },
+      {
+        "path": "delayed-recovery-corrected/terminal.json",
+        "bytes": 106,
+        "sha256": "c1c50acdffb39678cdd5461218b48a40043f600212432863d4689ddfd2b3b777"
+      },
+      {
+        "path": "final-focused/process.json",
+        "bytes": 491,
+        "sha256": "0dd0ae0e20bf9619903e4c74744072c8d49615fcc47198109388cebc21f2e9ea"
+      },
+      {
+        "path": "final-focused/service-events.jsonl",
+        "bytes": 8845,
+        "sha256": "6959eb804dc8d08ea4503ea691ba0b86dad557d7f884375a05a23125805d2c0d"
+      },
+      {
+        "path": "final-focused/sources/apps/service/src/capture.test.ts",
+        "bytes": 45616,
+        "sha256": "bb958729561c3f890005b44d26827a412cc646a78b154a8ce583b6b50e06748b"
+      },
+      {
+        "path": "final-focused/stderr",
+        "bytes": 169,
+        "sha256": "05bb95703cbe5d3b6dec077a9ca9f0ef4511f598bb5217aeb9badd02dbf6ccaf"
+      },
+      {
+        "path": "final-focused/stdout",
+        "bytes": 195,
+        "sha256": "cfcf7f830a7535bf779b5c777c8d8df5bc09d812c7d7565a7eba40ce3aa4a97d"
+      },
+      {
+        "path": "final-focused/terminal.json",
+        "bytes": 105,
+        "sha256": "bde1a5d6e551ea2c91161d3e9f6d101f53aaac1b112277ce97cdea045e59c92b"
+      },
+      {
+        "path": "final-format/process.json",
+        "bytes": 391,
+        "sha256": "716c2b3128f47b1ec5543954991b5fa7cad12177c96b1b440023265294d4855c"
+      },
+      {
+        "path": "final-format/sources/apps/service/src/capture.test.ts",
+        "bytes": 45616,
+        "sha256": "bb958729561c3f890005b44d26827a412cc646a78b154a8ce583b6b50e06748b"
+      },
+      {
+        "path": "final-format/stderr",
+        "bytes": 91,
+        "sha256": "01f25de219844d53f81b996d6b73e782203533bfc6eba81e44b98acc0039ad42"
+      },
+      {
+        "path": "final-format/stdout",
+        "bytes": 112,
+        "sha256": "2a1273a82bda2a6dabb19e55c6c485902e666feb668ff8c3935cdfa53af63334"
+      },
+      {
+        "path": "final-format/terminal.json",
+        "bytes": 105,
+        "sha256": "78a3758593a0688866e2e110b092d2372220c66f7f2a50635b61f6e9ad80aca6"
+      },
+      {
+        "path": "final-lint/process.json",
+        "bytes": 377,
+        "sha256": "e8144f48dd0b591dddb362fe0bd148d968a2f3b75661ec22d636199dcffea5a4"
+      },
+      {
+        "path": "final-lint/sources/apps/service/src/capture.test.ts",
+        "bytes": 45616,
+        "sha256": "bb958729561c3f890005b44d26827a412cc646a78b154a8ce583b6b50e06748b"
+      },
+      {
+        "path": "final-lint/stderr",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "final-lint/stdout",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "final-lint/terminal.json",
+        "bytes": 105,
+        "sha256": "ae896d5b104495871042137522cfa532df66007df1e8b98a65e7d6f6dc6907d6"
+      },
+      {
+        "path": "final-types/process.json",
+        "bytes": 384,
+        "sha256": "0803a66619b394c66ded722ea17aae7613d428f7649f0656e2bbf0a3a775a5b1"
+      },
+      {
+        "path": "final-types/sources/apps/service/src/capture.test.ts",
+        "bytes": 45616,
+        "sha256": "bb958729561c3f890005b44d26827a412cc646a78b154a8ce583b6b50e06748b"
+      },
+      {
+        "path": "final-types/stderr",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "final-types/stdout",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "final-types/terminal.json",
+        "bytes": 105,
+        "sha256": "10ca305aa685c95ab9401903ef6568eb9e1076d7d26edf6bdf923a0e660bc19c"
+      },
+      {
+        "path": "final.ts",
+        "bytes": 44810,
+        "sha256": "3a024a567499e2ba4c24af0d9a14e233236eaaf78bd83ec49b14f1f41905ca5b"
+      },
+      {
+        "path": "finalize.py",
+        "bytes": 11508,
+        "sha256": "018a4fe7ec87af2e8eeaeed84b7b6cab227de8d3d6398ddbe8f5890289958a05"
+      },
+      {
+        "path": "format/process.json",
+        "bytes": 391,
+        "sha256": "ca32914ea2d4cd233462f8efe4ee75dd91ea46f4f4012f4f42df7e1ef093322a"
+      },
+      {
+        "path": "format/sources/apps/service/src/capture.test.ts",
+        "bytes": 45591,
+        "sha256": "b7341f8e9e53e9af5147e2546895c6e0dc37a5a543b52cea3d9aefdfe046f268"
+      },
+      {
+        "path": "format/stderr",
+        "bytes": 91,
+        "sha256": "01f25de219844d53f81b996d6b73e782203533bfc6eba81e44b98acc0039ad42"
+      },
+      {
+        "path": "format/stdout",
+        "bytes": 112,
+        "sha256": "d218b3e70d017809ce09e891b98c6277653f995e91bc64dc0578a9a64d8fcae1"
+      },
+      {
+        "path": "format/terminal.json",
+        "bytes": 105,
+        "sha256": "e7b3e85af087d2cc5270fe2408070d9bb21b5efd456861ba0aa04ab3fa98573a"
+      },
+      {
+        "path": "initial-red/process.json",
+        "bytes": 438,
+        "sha256": "4662472b3abea3c71fde9a5e5ecae65181f28f264586fef755ba2d5a50b112e0"
+      },
+      {
+        "path": "initial-red/sources/apps/service/src/capture.test.ts",
+        "bytes": 41314,
+        "sha256": "34191464f9562c77cf9ee955c5ae112ed6b91d1cdae51702b5706a1019e99607"
+      },
+      {
+        "path": "initial-red/stderr",
+        "bytes": 890,
+        "sha256": "6b6acca52fa406267c650d21be63a33305fcf3355613c6af007cee6b78ca5ae7"
+      },
+      {
+        "path": "initial-red/stdout",
+        "bytes": 383,
+        "sha256": "2deb9fad65fa196a493b701fe289e3b56cb1a1dad7ec1f4fb9a3b3ca3de6c6de"
+      },
+      {
+        "path": "initial-red/terminal.json",
+        "bytes": 106,
+        "sha256": "4832eeba9d7a9d584f8924c4a17d717a277cffe712499644ace1aa5445d4a31b"
+      },
+      {
+        "path": "instrumented-final.ts",
+        "bytes": 45616,
+        "sha256": "bb958729561c3f890005b44d26827a412cc646a78b154a8ce583b6b50e06748b"
+      },
+      {
+        "path": "instrumented-to-final.diff",
+        "bytes": 2925,
+        "sha256": "d1450e80bbd3a8d786839152e51788a36426eaa0ba2c6eb2d875c63fec34ea11"
+      },
+      {
+        "path": "lint/process.json",
+        "bytes": 377,
+        "sha256": "b0fd80c7d92452172232a2274e0535c19f9c0e83df7966281294be201ce3700d"
+      },
+      {
+        "path": "lint/sources/apps/service/src/capture.test.ts",
+        "bytes": 45591,
+        "sha256": "b7341f8e9e53e9af5147e2546895c6e0dc37a5a543b52cea3d9aefdfe046f268"
+      },
+      {
+        "path": "lint/stderr",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "lint/stdout",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "lint/terminal.json",
+        "bytes": 105,
+        "sha256": "3c67003e82d85227792c7d0b362971581ecce098895e0614b1cb02d337841d8b"
+      },
+      {
+        "path": "logging-free-focused/process.json",
+        "bytes": 490,
+        "sha256": "cef5220190c8f32cbab17fb915e872eb4fdeafcc54b485b09c79919ae7189efd"
+      },
+      {
+        "path": "logging-free-focused/sources/apps/service/src/capture.test.ts",
+        "bytes": 44810,
+        "sha256": "3a024a567499e2ba4c24af0d9a14e233236eaaf78bd83ec49b14f1f41905ca5b"
+      },
+      {
+        "path": "logging-free-focused/stderr",
+        "bytes": 169,
+        "sha256": "27076613c3a1f6a7a422c63617cf16dd5a354868b30f3e2acbfe1f8b174e7255"
+      },
+      {
+        "path": "logging-free-focused/stdout",
+        "bytes": 195,
+        "sha256": "71eea5da443537eda49be9d7b1a49c6cd1a25f829c0c6e5881c2c751190a7259"
+      },
+      {
+        "path": "logging-free-focused/terminal.json",
+        "bytes": 105,
+        "sha256": "93ade6bb6964423d48662741897f0b332ffc5c2dab8478e2d99289eeacb9e371"
+      },
+      {
+        "path": "logging-free-format/process.json",
+        "bytes": 391,
+        "sha256": "5cbb629288033777e9c948661a8f373b0fe2f4cf16232c74d6505e8e157d817d"
+      },
+      {
+        "path": "logging-free-format/sources/apps/service/src/capture.test.ts",
+        "bytes": 44810,
+        "sha256": "3a024a567499e2ba4c24af0d9a14e233236eaaf78bd83ec49b14f1f41905ca5b"
+      },
+      {
+        "path": "logging-free-format/stderr",
+        "bytes": 91,
+        "sha256": "01f25de219844d53f81b996d6b73e782203533bfc6eba81e44b98acc0039ad42"
+      },
+      {
+        "path": "logging-free-format/stdout",
+        "bytes": 111,
+        "sha256": "ddd4a43f377e7a4a5c81c95c96921b9a5b5ca3f27628cc7b069cb449f225e0c3"
+      },
+      {
+        "path": "logging-free-format/terminal.json",
+        "bytes": 105,
+        "sha256": "75979d3bd6bdd28e9eb1ab5c9599ed095593ada2f8b3856c9d73f69e3b6f4368"
+      },
+      {
+        "path": "logging-free-lint/process.json",
+        "bytes": 377,
+        "sha256": "61c5983081df4b71e605f9dc8c592f66cf618975d0d25d64a11f847e3aeb665d"
+      },
+      {
+        "path": "logging-free-lint/sources/apps/service/src/capture.test.ts",
+        "bytes": 44810,
+        "sha256": "3a024a567499e2ba4c24af0d9a14e233236eaaf78bd83ec49b14f1f41905ca5b"
+      },
+      {
+        "path": "logging-free-lint/stderr",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "logging-free-lint/stdout",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "logging-free-lint/terminal.json",
+        "bytes": 105,
+        "sha256": "e498c1efd48252e9449ea597c3c39755b8b4e72571de50b55a9e64383117636e"
+      },
+      {
+        "path": "logging-free-types/process.json",
+        "bytes": 384,
+        "sha256": "bbd649f5bc38bbf1940e8c53c5e1e4ba838babd165efa10a82899653eb5bc94e"
+      },
+      {
+        "path": "logging-free-types/sources/apps/service/src/capture.test.ts",
+        "bytes": 44810,
+        "sha256": "3a024a567499e2ba4c24af0d9a14e233236eaaf78bd83ec49b14f1f41905ca5b"
+      },
+      {
+        "path": "logging-free-types/stderr",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "logging-free-types/stdout",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "logging-free-types/terminal.json",
+        "bytes": 106,
+        "sha256": "9c4641709c217de0a2d7252b1b3a3c905d4831c9cbcd22fbe237b867fa531097"
+      },
+      {
+        "path": "owner-cohort/process.json",
+        "bytes": 388,
+        "sha256": "9125bd1dba1d7beb253fab897c2f83b776b2d7573e6b128bbfdee6c96a1dff03"
+      },
+      {
+        "path": "owner-cohort/service-events.jsonl",
+        "bytes": 399074,
+        "sha256": "e8a8e57651f44b91548a00d7196e75980c2fe831bc164edd871b5e7307ae038c"
+      },
+      {
+        "path": "owner-cohort/sources/apps/service/src/capture.test.ts",
+        "bytes": 45591,
+        "sha256": "b7341f8e9e53e9af5147e2546895c6e0dc37a5a543b52cea3d9aefdfe046f268"
+      },
+      {
+        "path": "owner-cohort/stderr",
+        "bytes": 169,
+        "sha256": "afd072c4b5482ac5de13cefbe724d7b22046b6fb1dea17fc15704ce27741264e"
+      },
+      {
+        "path": "owner-cohort/stdout",
+        "bytes": 173,
+        "sha256": "0adf67e78ef970449d974b57720122c2a6f6c8d7c284929fa56a1f6ca2f83d9c"
+      },
+      {
+        "path": "owner-cohort/terminal.json",
+        "bytes": 106,
+        "sha256": "24e4564ffe70a7fcc14f84666c75719f859f77d4681849c51a1133409b3c99a0"
+      },
+      {
+        "path": "pre-control.ts",
+        "bytes": 45616,
+        "sha256": "bb958729561c3f890005b44d26827a412cc646a78b154a8ce583b6b50e06748b"
+      },
+      {
+        "path": "recovery-facts/process.json",
+        "bytes": 571,
+        "sha256": "1bcc38428cf188d859bafe58a31c988cdceb8fc99ae32935bdfe9c1231837fa0"
+      },
+      {
+        "path": "recovery-facts/sources/apps/service/src/capture.test.ts",
+        "bytes": 44385,
+        "sha256": "8fe5521930c8510f046795b0affccd999f4528d9ebde2e413a5266f84ebe6edb"
+      },
+      {
+        "path": "recovery-facts/stderr",
+        "bytes": 1255,
+        "sha256": "0e46c19e07909763cb9f0423c26c6c041f5fa227bff6d8dfe96db700e1b26e60"
+      },
+      {
+        "path": "recovery-facts/stdout",
+        "bytes": 377,
+        "sha256": "08f216ff5284b49c3c5a4b7f06767861b0a7e0bcdfa0f6008359e531c69d079a"
+      },
+      {
+        "path": "recovery-facts/terminal.json",
+        "bytes": 105,
+        "sha256": "315186c6dd10f6c9883c9c0853b4f951af21d243e44a78fafdac7e2600703912"
+      },
+      {
+        "path": "report.json",
+        "bytes": 18595,
+        "sha256": "862f5e48d937e2efe0738e498bc7c600006f2afc6e3239f898b68c717cff4991"
+      },
+      {
+        "path": "review.md",
+        "bytes": 1282,
+        "sha256": "2230f782186513ba4b562409382f97b47d2e79fa636daaec3fb1e3007ab58667"
+      },
+      {
+        "path": "run.py",
+        "bytes": 1454,
+        "sha256": "b0eda5f3d0c77338779a6e70aa00df7a087bae9fa178f06cdfc7b872bc17e0fc"
+      },
+      {
+        "path": "service-types/process.json",
+        "bytes": 384,
+        "sha256": "f40712aa711f401be7a4b7a9c2beab766b35105f50f9fecd3368f6058e75d03d"
+      },
+      {
+        "path": "service-types/sources/apps/service/src/capture.test.ts",
+        "bytes": 45591,
+        "sha256": "b7341f8e9e53e9af5147e2546895c6e0dc37a5a543b52cea3d9aefdfe046f268"
+      },
+      {
+        "path": "service-types/stderr",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "service-types/stdout",
+        "bytes": 1037,
+        "sha256": "ad3e939c7b3f50ce7ca46547ff92b882ea9ea9f3756cc79287fe5f456dbdecfb"
+      },
+      {
+        "path": "service-types/terminal.json",
+        "bytes": 104,
+        "sha256": "1046d567f26235814bab40bbfda555288754808922c99468a129fec5542ce78c"
+      },
+      {
+        "path": "source.diff",
+        "bytes": 18821,
+        "sha256": "0fa085ddd5136bbd131385dedfa9531e8f66314a53c2f8257ad8ce25219a0c66"
+      },
+      {
+        "path": "unwanted-project-red/process.json",
+        "bytes": 459,
+        "sha256": "a00b2e6940703dc8fe94885ca350604bdb9f9ac12212316fa23788176fccf25b"
+      },
+      {
+        "path": "unwanted-project-red/service-events.jsonl",
+        "bytes": 7086,
+        "sha256": "962d9a6b4d3c999904f9abff38f8e9d507a3ff5f4d268d8674a15ade19dcd827"
+      },
+      {
+        "path": "unwanted-project-red/sources/apps/service/src/capture.test.ts",
+        "bytes": 45846,
+        "sha256": "9d1049f912d778ac7e7c841899e0ff5cd8ee96204391d2bd642a921590a28ddf"
+      },
+      {
+        "path": "unwanted-project-red/stderr",
+        "bytes": 1304,
+        "sha256": "6f9e20b8712caac6bdb2f7e889c7f81960b57b4ef5df3a970578696c2688fe5f"
+      },
+      {
+        "path": "unwanted-project-red/stdout",
+        "bytes": 370,
+        "sha256": "c04bc9cc7451ec962cda89ccd65957a7bbbebf177b3fe000cb760d1ecc9597a1"
+      },
+      {
+        "path": "unwanted-project-red/terminal.json",
+        "bytes": 105,
+        "sha256": "127d3ef8a958b7fc8dde2a4be8ecd39797c2d0c146399c4406d2a2c55ad8b3c3"
+      }
+    ],
+    "rootVerification": "Full source delta reviewed; all archive members and final committed/narrow-executed source matched independently. Instrumented full cohort versus final two-case source distinction preserved.",
+    "checkpointReview": "Independent source lane read-only review found handoff, named retirements and proof limits coherent, including full instrumented versus final narrow capture sources. Acquisition lane separately reviewed the first three banks and two wording findings were corrected. Root reviewed the actual later deltas, all six archive manifests and historical source pins. No runtime rerun for this evidence/docs checkpoint."
+  },
+  "integratedCommit": "aef532bf4c277ae0deae2450ee618bacca1fd345"
+}

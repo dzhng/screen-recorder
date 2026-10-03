@@ -151,12 +151,62 @@ reconciliation after queue startup makes that export fail; restoration passes.
 EOF drains the owned process group. Controlled bytes prove ordering and
 publication identity, without a rendered-video verdict.
 
-Remaining real package frame/audio failure retry and worker drain, and the generic
-archive writer's old-manifest fixture must be accounted for before the old fixture and package family can be removed. Aggregate
-library storage replaces the obsolete per-recording allocation query; external
-committed files remain excluded. Neither port changes that storage policy.
+The [capture/delivery/storage bank](capture-delivery-storage-verification.json)
+retains [original recovery failures and the corrected focused run](capture-delivery-storage-evidence.tar.gz).
+Source fixtures use capture facts without changing their assertions. Scripted
+recovery supplies the current closure and source-publication authority, rather
+than bypassing it. Storage's executable body is unchanged apart from removing
+obsolete empty imports. Aggregate library storage still excludes external
+committed files.
 
-Fixture media bytes and probe results are controlled; filesystem/archive and
-canonical metadata owners are real. These checks do not prove media decoding,
-rendering, listening or installed behavior. No source recording, accepted
-audition, native worker or installed library changed.
+The [default capture bank](capture-service-verification.json) retains
+[all lifecycle declarations and actual subprocess observations](capture-service-evidence.tar.gz)
+through the canonical entry and library. A controlled worker supplies current
+startup, source-publication and file operations; this preserves the pipe/socket,
+restart and controller boundary without a physical recording. Recovery waits for
+public persisted facts at the original deadline. Automatic recording revisions
+retire explicitly, and capture must leave the project list empty. The instrumented
+full cohort passes; final logging-free source has a separately checked source-null
+seed correction and both affected cases pass. No full-cohort claim is made for
+those final exact bytes. The one-off observer stays only in archived evidence.
+
+The [adopted media bank](project-package-media-verification.json) retains
+[actual frame/audio retry, descriptor and native-drain evidence](project-package-media-evidence.tar.gz).
+A fresh recipient adopts the archive and inspects its managed source. Explicit
+retry preserves job identity and advances generation; closing the package handle
+leaves the managed-source lease readable. Closing the service releases the actual
+unexpired descriptor and awaits a held native worker. Original, donor-managed,
+recipient-managed and archive bytes remain unchanged. Earlier producer-only
+evidence is separate and does not prove relocation. Direct unadopted package
+media selectors and their delayed package-close lease window are explicitly
+retired; current managed-source delivery has its own lifetime.
+
+The [generic writer bank](project-archive-reader-verification.json) retains
+[current metadata readback and its failure control](project-archive-reader-evidence.tar.gz).
+The existing no-clobber publication and private cleanup guarantees now accompany
+independently hydrated project history and exact extracted asset bytes. Only the
+first case changed; the other generic writer cases are unchanged and were not
+rerun.
+
+The [generic extraction bank](project-archive-extraction-verification.json) retains
+[all hostile-input, budget, identity and cleanup cases](project-archive-extraction-evidence.tar.gz)
+under the service's archive owner. A shared fixture constructs actual project
+and asset metadata; mutations target its explicit asset member. The directory
+substitution case includes a second referenced asset so the parser must traverse
+the replaced directory again. Current project history count remains bounded;
+the old native inline revision-byte rule retires with that receipt format.
+Metadata hydration retains its separate working-memory budget. Initial fixture
+failures and their repairs remain separate from the final complete run.
+The [public detail bank](project-package-public-verification.json) retains
+[lost-reply discovery and invalid-list proofs](project-package-public-evidence.tar.gz)
+in the existing adopted-media fixture. A real socket discards package admission's
+reply without parsing it; public discovery recovers exactly one admission and
+adoption uses that identity. The three preserved invalid export-list requests
+remain structured parameter errors. Registry lifetime guarantees must still be
+accounted for before deleting the old package family.
+
+Most fixture media bytes and probe results are controlled; filesystem/archive
+and canonical metadata owners are real. The adopted media checkpoint additionally
+uses actual small native frame/audio extraction. These checks do not prove
+rendering quality, listening or installed behavior. No source recording,
+accepted audition, native worker or installed library changed.
