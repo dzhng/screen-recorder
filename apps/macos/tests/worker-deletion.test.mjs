@@ -3,10 +3,11 @@ import { execFileSync, spawnSync } from "node:child_process";
 import { randomUUID, createHash } from "node:crypto";
 import { existsSync } from "node:fs";
 import { mkdir, readFile, writeFile } from "node:fs/promises";
-import { join, resolve } from "node:path";
+import { join } from "node:path";
 import { DatabaseSync } from "node:sqlite";
 import { test } from "node:test";
 import { setTimeout as delay } from "node:timers/promises";
+import { fileURLToPath } from "node:url";
 import { callLocal } from "@screenrec/client";
 import { CaptureStore } from "@screenrec/core/capture-store";
 import { importAcquisition } from "./fixtures/public-service.mjs";
@@ -105,7 +106,8 @@ test(
     const home = temporary("/tmp/scr-worker-delete-");
     const sibling = await generated(home, 2);
     const native =
-      process.env.SCREENREC_NATIVE ?? resolve("helpers/mac/.build/debug/screenrec-native");
+      process.env.SCREENREC_NATIVE ??
+      fileURLToPath(new URL("../../../helpers/mac/.build/debug/screenrec-native", import.meta.url));
     const directWorker = mediaWorker({ SCREENREC_NATIVE: native });
     let report;
     await withArchiveCopyBarrier(
@@ -113,13 +115,16 @@ test(
       native,
       { operation: "media.sourceEvidence", minimumFd: 3 },
       async ({ worker: heldWorker, held }) => {
-        let holdTarget = false;
+        let holdTarget = false,
+          heldTargetResult;
         const service = await startProjectService({
           home,
-          worker: (operation, params, options) =>
-            holdTarget
-              ? heldWorker(operation, params, options)
-              : directWorker(operation, params, options),
+          worker: async (operation, params, options) => {
+            if (!holdTarget) return directWorker(operation, params, options);
+            const result = await heldWorker(operation, params, options);
+            if (operation === "media.sourceEvidence") heldTargetResult = result;
+            return result;
+          },
         });
         try {
           const servicePid = process.pid;
@@ -268,6 +273,12 @@ test(
           assert.deepEqual(result.data, { recordingId: take.recordingId, deleted: true });
           assert.equal(alive(worker.pid), false);
           assert.equal(existsSync(take.directory), false);
+          assert.equal(heldTargetResult?.ok, false, JSON.stringify(heldTargetResult));
+          assert.equal(
+            heldTargetResult.error.code,
+            "CANCELED",
+            "Deletion must cancel the held native reader before fixture cleanup, rather than wait for its timeout",
+          );
           assert.equal(
             (await call("recording.get", { recordingId: take.recordingId })).error.code,
             "NOT_FOUND",
@@ -292,6 +303,7 @@ test(
             sawDirectoryRemoved,
             deleted: result.data,
             workerGone: !alive(worker.pid),
+            heldTargetResult,
             directoryGone: !existsSync(take.directory),
             siblingImageSha256: digest(siblingImage),
             siblingSourceSha256: siblingHash,
