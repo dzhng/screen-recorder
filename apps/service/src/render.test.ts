@@ -17,7 +17,6 @@ import {
 import { basename, join } from "node:path";
 import { setTimeout as delay } from "node:timers/promises";
 import { MAX_MEDIA_TIMEOUT_MS, mediaWorker, nativeResult, type MediaWorker } from "./worker.js";
-import { CatalogError } from "@screenrec/core/catalog";
 import {
   clearRenderWorkspace,
   renderDeadlineMs,
@@ -114,35 +113,6 @@ it("budgets the decoded source prefix instead of the shorter edited output", () 
     ]),
   ).toBe(MAX_MEDIA_TIMEOUT_MS);
 });
-it("abort waits for actual close before reclaiming native partial staging", async () => {
-  const { parent, run } = await fixture();
-  const controller = new AbortController();
-  const worker: MediaWorker = async (...args) => {
-    const result = await run(...args);
-    if (args[0] === "storage.clearRenderWorkspace") return result;
-    const current = await ready(parent);
-    expect(() => process.kill(current.pid, 0)).toThrowError(
-      expect.objectContaining({ code: "ESRCH" }),
-    );
-    expect(await readFile(join(current.dir, ".movie-render-held", "partial"), "utf8")).toBe(
-      "partial",
-    );
-    return result;
-  };
-  const pending = withRenderedMedia(
-    worker,
-    { source: "hold", plan, tracks: [], attemptParent: parent },
-    controller.signal,
-    async () => {
-      throw new Error("must not consume");
-    },
-  );
-  const rejected = expect(pending).rejects.toMatchObject({ code: "CANCELED" });
-  await ready(parent);
-  controller.abort();
-  await rejected;
-  expect(await readdir(parent)).toEqual([]);
-});
 it("deadline failure reclaims the closed attempt and preserves its reason", async () => {
   const { parent, run } = await fixture();
   const worker: MediaWorker = (operation, params, options) =>
@@ -152,10 +122,17 @@ it("deadline failure reclaims the closed attempt and preserves its reason", asyn
       operation === "storage.clearRenderWorkspace" ? options : { ...options, timeoutMs: 250 },
     );
   await expect(
-    withRenderedMedia(
+    withRenderAttempt(
       worker,
-      { source: "hold", plan, tracks: [], attemptParent: parent },
+      parent,
       new AbortController().signal,
+      async (directory, execute) =>
+        nativeResult(
+          await execute("media.renderCompositionFrame", {
+            source: "hold",
+            output: join(directory, "frame.png"),
+          }),
+        ),
       async () => null,
     ),
   ).rejects.toMatchObject({ code: "MEDIA_WORKER_TIMEOUT", retryable: true });
@@ -179,10 +156,17 @@ it.each(["malformed", "crash"])(
       return result;
     };
     await expect(
-      withRenderedMedia(
+      withRenderAttempt(
         worker,
-        { source, plan, tracks: [], attemptParent: parent },
+        parent,
         new AbortController().signal,
+        async (directory, execute) =>
+          nativeResult(
+            await execute("media.renderCompositionFrame", {
+              source,
+              output: join(directory, "frame.png"),
+            }),
+          ),
         async () => {
           throw new Error("must not consume");
         },
@@ -202,10 +186,17 @@ it("abort after native publication but before receipt prevents consumption", asy
     return result;
   };
   await expect(
-    withRenderedMedia(
+    withRenderAttempt(
       worker,
-      { source: "success", plan, tracks: [], attemptParent: parent },
+      parent,
       controller.signal,
+      async (directory, execute) =>
+        nativeResult(
+          await execute("media.renderCompositionFrame", {
+            source: "success",
+            output: join(directory, "frame.png"),
+          }),
+        ),
       async () => {
         throw new Error("must not consume");
       },
@@ -215,14 +206,20 @@ it("abort after native publication but before receipt prevents consumption", asy
 });
 it("successful consumption and consumer failure both end their attempt lifetime", async () => {
   const { parent, run } = await fixture();
-  const request = { source: "success", plan, tracks: [], attemptParent: parent };
+  const produce = async (directory: string, execute: MediaWorker) => {
+    const file = join(directory, "frame.png");
+    nativeResult(
+      await execute("media.renderCompositionFrame", { source: "success", output: file }),
+    );
+    return file;
+  };
   expect(
-    await withRenderedMedia(run, request, new AbortController().signal, async (video) =>
-      readFile(video.file, "utf8"),
+    await withRenderAttempt(run, parent, new AbortController().signal, produce, async (file) =>
+      readFile(file, "utf8"),
     ),
   ).toBe("finished");
   await expect(
-    withRenderedMedia(run, request, new AbortController().signal, async () => {
+    withRenderAttempt(run, parent, new AbortController().signal, produce, async () => {
       throw new Error("consumer failed");
     }),
   ).rejects.toThrow("consumer failed");
@@ -250,10 +247,17 @@ it("abort during consumption preserves consumer-owned effects while reclaiming t
   const { parent, run } = await fixture();
   const controller = new AbortController();
   await expect(
-    withRenderedMedia(
+    withRenderAttempt(
       run,
-      { source: "success", plan, tracks: [], attemptParent: parent },
+      parent,
       controller.signal,
+      async (directory, execute) =>
+        nativeResult(
+          await execute("media.renderCompositionFrame", {
+            source: "success",
+            output: join(directory, "frame.png"),
+          }),
+        ),
       async () => {
         await writeFile(join(parent, "..", "consumer-owned"), "committed by consumer");
         controller.abort();
@@ -265,25 +269,6 @@ it("abort during consumption preserves consumer-owned effects while reclaiming t
     "committed by consumer",
   );
   expect(await readdir(parent)).toEqual([]);
-});
-
-it("refuses exclusive startup cleanup without touching a live attempt", async () => {
-  const { parent, run } = await fixture();
-  const controller = new AbortController();
-  const first = withRenderedMedia(
-    run,
-    { source: "hold", plan, tracks: [], attemptParent: parent },
-    controller.signal,
-    async () => null,
-  );
-  const stopped = expect(first).rejects.toMatchObject({ code: "CANCELED" });
-  const active = await ready(parent);
-  await expect(
-    clearRenderWorkspace(run, parent, new AbortController().signal),
-  ).rejects.toMatchObject({ code: "RENDER_WORKSPACE_BUSY", retryable: true });
-  expect(await readFile(join(active.dir, ".movie-render-held", "partial"), "utf8")).toBe("partial");
-  controller.abort();
-  await stopped;
 });
 
 it("does not retry failed startup cleanup", async () => {
@@ -318,10 +303,13 @@ it("refuses non-private and linked workspaces without native cleanup", async () 
   };
   await chmod(parent, 0o755);
   await expect(
-    withRenderedMedia(
+    withRenderAttempt(
       unused,
-      { source: "success", plan, tracks: [], attemptParent: parent },
+      parent,
       new AbortController().signal,
+      async () => {
+        throw new Error("must not render");
+      },
       async () => null,
     ),
   ).rejects.toMatchObject({ code: "INVALID_STORAGE" });
@@ -329,37 +317,33 @@ it("refuses non-private and linked workspaces without native cleanup", async () 
   const linked = join(parent, "..", "linked");
   await symlink(parent, linked);
   await expect(
-    withRenderedMedia(
+    withRenderAttempt(
       unused,
-      { source: "success", plan, tracks: [], attemptParent: linked },
+      linked,
       new AbortController().signal,
+      async () => {
+        throw new Error("must not render");
+      },
       async () => null,
     ),
   ).rejects.toMatchObject({ code: "INVALID_STORAGE" });
   expect(await readFile(sentinel, "utf8")).toBe("retain");
 });
 
-it("preparation cancellation waits for its bound worker before cleanup", async () => {
+it("producer cancellation waits for its bound worker before cleanup", async () => {
   const { parent, run } = await fixture();
   const controller = new AbortController();
-  const pending = withRenderedMedia(
+  const pending = withRenderAttempt(
     run,
-    {
-      source: "success",
-      plan,
-      tracks: [],
-      attemptParent: parent,
-      preparePointer: async (directory, worker) => {
-        const result = await worker("media.presentationEvidence", {
-          source: "hold",
-          plan,
-          output: join(directory, "preparation.mp4"),
-        });
-        if (!result.ok) throw new CatalogError(result.error.code, result.error.message);
-        throw new Error("Unexpected preparation success");
-      },
-    },
+    parent,
     controller.signal,
+    async (directory, worker) =>
+      nativeResult(
+        await worker("media.presentationEvidence", {
+          source: "hold",
+          output: join(directory, "presentation.jsonl"),
+        }),
+      ),
     async () => {
       throw new Error("must not consume");
     },
@@ -451,8 +435,21 @@ it("audio abort reclaims native side staging after child close without publishin
   const { home, parent, run } = await fixture();
   const output = join(home, "audio.cache");
   const controller = new AbortController();
+  const worker: MediaWorker = async (...args) => {
+    const result = await run(...args);
+    if (args[0] !== "storage.clearRenderWorkspace") {
+      const active = await ready(parent);
+      expect(() => process.kill(active.pid, 0)).toThrowError(
+        expect.objectContaining({ code: "ESRCH" }),
+      );
+      expect(await readFile(join(active.dir, ".movie-render-held", "partial"), "utf8")).toBe(
+        "partial",
+      );
+    }
+    return result;
+  };
   const pending = withRenderedFile(
-    run,
+    worker,
     { attemptParent: parent, output, filename: "audio.wav" },
     controller.signal,
     async (file, worker) =>

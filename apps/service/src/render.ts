@@ -4,13 +4,8 @@ import { basename, join } from "node:path";
 import type { DirectoryIdentity } from "@screenrec/core/cache";
 import { CatalogError } from "@screenrec/core/catalog";
 import type { AudioTrackPlan } from "@screenrec/core/audio";
-import type { PreviewRenderer, PreviewMovie } from "@screenrec/core/preview";
-import {
-  PresentationEvidence,
-  presentationLimits,
-  type PresentationReceipt,
-} from "@screenrec/core/presentation-evidence";
-import { writePointerSchedule } from "@screenrec/core/pointer-schedule";
+import type { PreviewMovie } from "@screenrec/core/preview";
+import type { writePointerSchedule } from "@screenrec/core/pointer-schedule";
 import type { RenderSpan } from "@screenrec/core/presentation-time";
 import { O_EXLOCK, O_SHLOCK, O_NOFOLLOW_ANY } from "@screenrec/core/files";
 import { MAX_MEDIA_TIMEOUT_MS, nativeConfirmed, nativeResult, type MediaWorker } from "./worker.js";
@@ -138,72 +133,6 @@ export async function clearRenderWorkspace(
     { lock: "exclusive", inherited: [] },
     async ({ clear }) => clear(),
   );
-}
-
-/**
- * The playable preview of a pinned revision: the observed pointer is scheduled from the source's
- * own presentation evidence, then the movie is rendered and copied to the preview's output, all
- * inside one locked attempt in the service's private render workspace.
- */
-/** What a preview's pointer schedule is read from: a library's evidence, or a package's own. */
-export type PreviewEvidence = Parameters<typeof writePointerSchedule>[0]["evidence"];
-
-export function previewRenderer(
-  worker: MediaWorker,
-  workspace: string,
-  evidence: PreviewEvidence,
-): PreviewRenderer {
-  return async (request, signal) => {
-    await mkdir(workspace, { recursive: true, mode: 0o700 });
-    return withRenderedMedia(
-      worker,
-      {
-        source: request.source,
-        plan: request.plan,
-        tracks: request.tracks,
-        maxLongEdge: request.maxLongEdge,
-        attemptParent: workspace,
-        preparePointer: async (attempt, execute, signal) => {
-          const response = await execute(
-            "media.presentationEvidence",
-            {
-              source: request.source,
-              plan: request.plan,
-              output: join(attempt, "presentation.jsonl"),
-              ...presentationLimits,
-            },
-            { signal, timeoutMs: renderDeadlineMs(request.plan) },
-          );
-          const presentation = await PresentationEvidence.open(
-            nativeResult(response) as PresentationReceipt,
-            request.revision.spans,
-            signal,
-          );
-          try {
-            return await writePointerSchedule(
-              {
-                presentation,
-                revisionId: request.revision.id,
-                evidence,
-                identity: request.sourceEvidence,
-                output: join(attempt, "pointer.jsonl"),
-                maxBytes: 128 * 1024 ** 2,
-                maxEvents: 1_000_000,
-              },
-              signal,
-            );
-          } finally {
-            await presentation.close();
-          }
-        },
-      },
-      signal,
-      async (movie) => {
-        await copyFile(movie.file, request.output, constants.COPYFILE_EXCL);
-        return { ...movie, file: request.output };
-      },
-    );
-  };
 }
 
 /** One service-owned attempt lifetime. The consumer must finish retaining/using
