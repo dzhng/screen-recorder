@@ -2,7 +2,11 @@
 
 Status: bounded cohort verified through the original run and same-publication
 continuation; [evidence and limits](../assets/24v-learned-routing-scale/README.md).
-The corrected fresh harness was not rerun. Dependencies: [24k](24k-routing-scale.md),
+The corrected short harness was not rerun. The separate
+[current long continuation](../assets/23-owner-fixture-ports/current-long-learned-routing-verification.json)
+now verifies full learned processing through the original long-project routing;
+it preserves this short cohort's qualification and the historical asset-selector boundary.
+Dependencies: [24k](24k-routing-scale.md),
 [24f](24f-successful-learned-scale.md), [15a3a](15a3a-unit-rate-combined.md).
 
 The existing topology gate uses only gain; the learned-duration gate is shallow.

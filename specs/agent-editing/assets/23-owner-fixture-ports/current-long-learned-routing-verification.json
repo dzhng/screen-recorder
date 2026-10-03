@@ -1,0 +1,293 @@
+{
+  "status": "PASS current five-minute and full two-hour learned processing on original deep/wide distributed routing",
+  "implementationCommit": "c237044c85efe338f454c70be376f144ada7e29c",
+  "base": "88d09f9a5be1dfe5a1a20cf64ad8d69d718d481c",
+  "cases": [
+    {
+      "cohort": "five-minute",
+      "passed": true,
+      "fixture": {
+        "seconds": 300,
+        "occurrences": 500,
+        "depth": 128,
+        "width": 32,
+        "rootGainSteps": 128
+      },
+      "reportMember": "five-minute-checkpoint/ceil-continuation/five-minute/report.json",
+      "process": {
+        "exit": 0,
+        "timedOut": false,
+        "wholeCaseSeconds": 11.380608081817627,
+        "wholeCaseStopSeconds": 3600
+      },
+      "stateSampleRanges": [
+        {
+          "start": 0,
+          "end": 14400000
+        }
+      ],
+      "actualStateClipCount": 500,
+      "actualUnavailableRows": 500,
+      "nonemptyUnavailableRanges": 0,
+      "dryPCM": {
+        "frames": 14400000,
+        "sha256": "b3f55c3f081a804c25a61c51362b8ecf1b98d7661274e07d4018cef72260b004",
+        "exact": true
+      },
+      "wetPCM": {
+        "frames": 14400000,
+        "sha256": "3c3603050a18ae1fa97decb50f1f073c9bbead1296645c454c9aad2e47987e1a",
+        "fileSha256": "c1715b83be7dde52af9c372720074249fbeaf142d1e2cbeb3acbeedfb4ebbd72",
+        "exact": true
+      },
+      "cached250RowP95Ms": 16.015416000000187,
+      "nativePreparationPeakResidentBytes": 94683136,
+      "observations": {
+        "prepareMs": 3722.1607089999998,
+        "independentCAndComparisonMs": 2389.7084590000004,
+        "sampledServicePeakRSS": 330072064,
+        "controllerPeakRSS": 214794240
+      },
+      "retainedRestart": {
+        "learnedCapabilitiesUnavailable": true,
+        "mixingUnavailable": false,
+        "selector": "matching-project-output",
+        "lateExact": true,
+        "renderScratchEmpty": true
+      },
+      "retainedSampleRange": {
+        "start": 14352000,
+        "end": 14400000
+      },
+      "sourceWork": {
+        "decoded": [
+          {
+            "float32Bytes": 127107744,
+            "frames": 15888468,
+            "sampleRate": 48000
+          }
+        ],
+        "descriptorDeliveredBytes": 0,
+        "descriptorInputs": 0,
+        "descriptorReadBytes": 0,
+        "preparedRetimeRuns": 0,
+        "unknownReadInputs": 1
+      },
+      "sourceBytesUnchanged": true,
+      "ownedProcessGroupGone": true,
+      "renderScratchEmpty": true
+    },
+    {
+      "cohort": "two-hour",
+      "passed": true,
+      "fixture": {
+        "seconds": 7200,
+        "occurrences": 10000,
+        "depth": 128,
+        "width": 32,
+        "rootGainSteps": 128
+      },
+      "reportMember": "two-hour-checkpoint/two-hour/report.json",
+      "process": {
+        "exit": 0,
+        "timedOut": false,
+        "wholeCaseSeconds": 302.7345268726349,
+        "wholeCaseStopSeconds": 3600
+      },
+      "stateSampleRanges": [
+        {
+          "start": 0,
+          "end": 345600000
+        }
+      ],
+      "actualStateClipCount": 10000,
+      "actualUnavailableRows": 10000,
+      "nonemptyUnavailableRanges": 0,
+      "dryPCM": {
+        "frames": 345600000,
+        "sha256": "a1bafcb6265760155018f38fefbb2d39f4c8a401fd751fb894134fc2531236e8",
+        "exact": true
+      },
+      "wetPCM": {
+        "frames": 345600000,
+        "sha256": "863a9bc75bc8a7de16f05a37b3037045b4d3d041a8f644a2f3d2d334c87175f7",
+        "fileSha256": "7e0a1ff061de4d506a66b806f216fa8fa458ad11b72b9fd36952da5ce93df16f",
+        "exact": true
+      },
+      "cached250RowP95Ms": 133.20287500000268,
+      "nativePreparationPeakResidentBytes": 460734464,
+      "observations": {
+        "prepareMs": 120308.15724999999,
+        "independentCAndComparisonMs": 77942.204291,
+        "sampledServicePeakRSS": 1866579968,
+        "controllerPeakRSS": 617267200
+      },
+      "retainedRestart": {
+        "learnedCapabilitiesUnavailable": true,
+        "mixingUnavailable": false,
+        "selector": "matching-project-output",
+        "lateExact": true,
+        "renderScratchEmpty": true
+      },
+      "retainedSampleRange": {
+        "start": 345552000,
+        "end": 345600000
+      },
+      "sourceWork": {
+        "decoded": [
+          {
+            "float32Bytes": 2776783744,
+            "frames": 347097968,
+            "sampleRate": 48000
+          }
+        ],
+        "descriptorDeliveredBytes": 0,
+        "descriptorInputs": 0,
+        "descriptorReadBytes": 0,
+        "preparedRetimeRuns": 0,
+        "unknownReadInputs": 1
+      },
+      "sourceBytesUnchanged": true,
+      "ownedProcessGroupGone": true,
+      "renderScratchEmpty": true
+    }
+  ],
+  "limits": {
+    "cached250RowP95Ms": 250,
+    "nativePreparationPeakResidentBytes": 4294967296,
+    "researchWholeCaseStopSeconds": 3600,
+    "learnedPreparationTimeSLA": null
+  },
+  "metadataArchive": {
+    "path": "long-learned-routing-c237044c-metadata.tar.gz",
+    "bytes": 2693885,
+    "sha256": "085f8e20d9f967f53ae8afe463be80ee17b6eb65d9321955c15c070cbf4fa2d2",
+    "payloadCount": 114,
+    "fileCountIncludingManifest": 115,
+    "manifestMember": "manifest.json",
+    "manifestSha256": "6117ee0fe79aedb9d0c43305238c758eb0e8a1d20f771c1b6354c2cb1c3086f2",
+    "everyMetadataPayloadIndependentlyRehashed": true
+  },
+  "fullPayloadArchives": [
+    {
+      "cohort": "five-minute",
+      "localPath": "/Users/david/.codex/artifacts/screen-recorder/long-learned-routing-c237044c/long-learned-routing-300-c237044c.tar.gz",
+      "sha256": "55ad87ce0221b0867710d560c8fab4eccda63b54191d7bb86b821373d9943c2e",
+      "bytes": 72316613,
+      "payloadCount": 72,
+      "fileCountIncludingManifest": 73,
+      "manifestMember": "checkpoint/manifest.json",
+      "samePhysicalFileAsVerifiedCacheArchive": true,
+      "availability": "Present on the verification host; not stored in Git. Full PCM audit needs this archive, not the metadata archive."
+    },
+    {
+      "cohort": "two-hour",
+      "localPath": "/Users/david/.codex/artifacts/screen-recorder/long-learned-routing-c237044c/long-learned-routing-two-hour-c237044c.tar.gz",
+      "sha256": "522f0609c71338a193c9e2acdbe65b24ae001f9e65282c0a2c8a77c14115aa45",
+      "bytes": 1575100500,
+      "payloadCount": 60,
+      "fileCountIncludingManifest": 61,
+      "manifestMember": "checkpoint/manifest.json",
+      "samePhysicalFileAsVerifiedCacheArchive": true,
+      "availability": "Present on the verification host; not stored in Git. Full PCM audit needs this archive, not the metadata archive."
+    }
+  ],
+  "fullPayloadVerification": "Actor independently streamed every original archived payload. Root separately verified archive hashes and hardlink identity; no repeated full-media decompression or DSP. Root verification is retained in metadata.",
+  "sourcePins": [
+    {
+      "path": "packages/test-harness/editing/README.md",
+      "bytes": 3089,
+      "sha256": "9ac5eeb800b22a810fdc1d1066bcea1dfd73b9b7a3188744cc26133c5f5a32a9"
+    },
+    {
+      "path": "packages/test-harness/editing/denoise-scale.mjs",
+      "bytes": 10415,
+      "sha256": "1adbd554df5fc9cef767e188517fab11fa53f3a018dc5b8f07e9034a97a0e75a"
+    },
+    {
+      "path": "packages/test-harness/editing/denoise-topology.mjs",
+      "bytes": 15309,
+      "sha256": "2cbf47bfbfbd554e0a06e857350bd0b8f53b6aa163bda65cfa5ae019eb48e370"
+    },
+    {
+      "path": "packages/test-harness/editing/routing-topology.mjs",
+      "bytes": 1847,
+      "sha256": "ff2c652f774f61476f784cf15ebb895f81475c59b82b064758f113334c97a237"
+    },
+    {
+      "path": "packages/test-harness/editing/scale.mjs",
+      "bytes": 11098,
+      "sha256": "4f406c47783e1f498c1ba73ca9d1a1ff94fd955c1168f70d3f182a57fe76ca22"
+    },
+    {
+      "path": "packages/test-harness/editing/denoise-pcm.mjs",
+      "bytes": 3986,
+      "sha256": "5677a17e8da089e4df72dcffe3689fd73acc7d352ef5e7aff6653a673954918c"
+    },
+    {
+      "path": "packages/test-harness/editing/denoise-routing.mjs",
+      "bytes": 1665,
+      "sha256": "7a4f78f1daae380346e76b7aee901e8901d6cc3385b3eb166cf598c03c292972"
+    },
+    {
+      "path": "packages/test-harness/editing/denoise-routing.test.mjs",
+      "bytes": 3165,
+      "sha256": "17bc27b03ad637545a55697866c790d7077f7bb4f40f2ad7869caf5474307021"
+    },
+    {
+      "path": "packages/test-harness/package.json",
+      "bytes": 978,
+      "sha256": "9084d44440f99be452921a3f8d2c6db99bb786acac5171a51a9c6741325b38c9"
+    }
+  ],
+  "runtime": {
+    "nativeSha256": "40ece2d269b48a1aed5846e3e0a64bb1ece8f42f1f8e9996b47adbddb265dc55",
+    "frozenCReferenceSha256": "697657e249b178c415d379511ba4041687055c7cf5d347af80a2d3a08cb6c5ee",
+    "node": {
+      "path": "/Users/david/.nvm/versions/node/v24.14.0/bin/node",
+      "bytes": 119133456,
+      "sha256": "20a18709f0154d668f1bd6f6ea8c2a7ae001447b4b2c339732f22e57a8767a55"
+    },
+    "sourceAssetSha256": "7216ee4f02580d52c2ae3ce5a59588b68d4e874a8cf2053e4b61b63f782281d4",
+    "twoHourPinRowsUnchanged": 1905,
+    "distinctPinPaths": 1902,
+    "allRuntimePinsMember": "two-hour-checkpoint/after-pins.json",
+    "productSourceQualificationMember": "two-hour-checkpoint/product-source-pins.json"
+  },
+  "originalAuthoring": "All 500 and all 10000 source ranges, placement clocks and track ranks deep-equal retained original combined input, not only a prefix. Sequential occurrences plus final32 simultaneous lanes; not32 continuously active. Pure preflight retains both complete comparisons.",
+  "firstRed": {
+    "reportMember": "five-minute-checkpoint/five-minute/report.json",
+    "diagnosisMember": "five-minute-checkpoint/first-red-diagnosis.json",
+    "scope": "Independent fixture oracle floored a fractional source end and discarded its intersecting cell. Existing processing contract floors project endpoints and ceils source end. Hand fractional unit rejects old floor; correction changes fixture only. No RNNoise or C run occurred in this red."
+  },
+  "pureChecks": {
+    "members": [
+      "five-minute-checkpoint/pure-missing-lane-red.log",
+      "five-minute-checkpoint/pure-compensation-red.log",
+      "five-minute-checkpoint/pure-source-floor-red.log",
+      "five-minute-checkpoint/pure-source-ceil-green.log",
+      "five-minute-checkpoint/pure-shared-run-green.log"
+    ],
+    "mutantQualificationMember": "two-hour-checkpoint/mutant-scope.json",
+    "scope": "Bounded hand-authored routing, missing lane, stereo/frame-count,960-frame compensation, wrong final channel and short-read oracles. Earlier restored mutant bytes are qualified separately from saved snapshots."
+  },
+  "scopeQualifications": [
+    "Current native full state/output is executed, not inherited prepared-corpus equivalence or a late-window-only learned proof.",
+    "Five-minute media precedes execution-only shared process runner cleanup; narrow final helper pass qualifies that cleanup. Two-hour media used final settled source.",
+    "Matching project replay disables only audioCapabilities; mixCompositionAudio remains available to consume prepared descriptor. No fresh state is sent. Historical retained asset selector is a separate cohort.",
+    "Frozen source snapshots bind the tested fixture; source/runtime qualification does not imply the entire current product source tree was rebuilt. Explicit socket bypasses later client cold preference changes.",
+    "Configured MCP SDK receive boundary is retained; no default SDK capacity claim.",
+    "SourceWork is decoded frame/Float32 work with unknownReadInputs1, not actual disk bytes. Sampled service/controller peaks are observations, separate from native receipt peak budget.",
+    "No causal speedup follows preparation times versus differently loaded historical shallow cohorts.",
+    "Installed acceptance, listening/protected-speech quality, arbitrary learned stacks/models, broader source/history cardinality, concurrent native-build load and whole-spec completion remain separate.",
+    "Copied checkpoint/review.json is the historical pre-dispatch review; final completed reports above govern runtime verdict.",
+    "No default short DSP, historical shallow full DSP, full suite, capture or model acquisition was repeated for this pass."
+  ],
+  "bankReview": {
+    "shape": "One canonical verification wrapper; small portable metadata archive points to exact durable local full archives without duplicating PCM. Existing slice24 owns contract status; shared handoff/registry/choices unchanged.",
+    "diff": "Source pins, report members, archive counts/digests, original red and before/after source qualification checked. Root full-archive verification and same inode bindings retained.",
+    "docs": "Changed slice links resolve. Original combined, shallow learned and short routing evidence retain their distinct scope; new matched long learned interaction is named separately.",
+    "verdict": "clean",
+    "checks": "Metadata/source/link inspection only; no DSP, model, capture or test rerun."
+  }
+}
