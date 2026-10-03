@@ -52,6 +52,7 @@ controlled replies prove their contracts without becoming decode or quality proo
 | Current native engines, selected PCM and preserved small movie/picture contracts | [Native owner closure](native-owner-purge-verification.json), [dispositions](native-owner-dispositions.md) |
 | Current production worker, source/audio/preview delivery and native cleanup | [Service smoke](current-worker-service-verification.json) |
 | One implementation-end repository run, focused recovery and current movie contracts | [Default gate recovery](default-gate-recovery-verification.json) |
+| Private donor fixture creation and cancellation ownership corrections | [Capture fixtures](capture-fixture-contracts-verification.json) |
 
 [Capture/source caller ports](capture-source-caller-verification.json) and their
 [review corrections](capture-source-caller-followup-verification.json) and

@@ -7741,3 +7741,13 @@ Gap: The composed historical check was included in the default suite while its e
 Reach: A fresh repository build can execute this same coverage without selecting the installed app or its library. Historical reproduction keeps its pinned-worker guard. No product configuration or discovery rule changes.
 
 Verdict: **sound**. The producer matches the gate's scope while historical input fidelity remains independently pinned. Confidence: **high**.
+
+### Distinguish native discard acknowledgement from service cancellation
+
+When cancel arrives while the native controller's finalizing report is held, publication has not begun. The native reply acknowledges that finalizing event after closing the input; the service separately owns canceled state and donor retirement. The fixture keeps the closed journal and proves its bytes cannot change after the next take begins, with idle/null old ownership and exact replacement identity. Accepting either complete or finalizing would conceal which race occurred.
+
+Gap: The old fixture expected completed publication despite cancel-before-publication.
+
+Reach: Future observers must distinguish resource release from the service's durable state. No device or service behavior changes.
+
+Verdict: **sound**. The selected branch is exact and ownership remains independently observable. Confidence: **high**.

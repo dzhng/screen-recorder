@@ -1,0 +1,62 @@
+{
+  "commit": "02e8e8d20c0381d266d95397f5217cf7f22c79c3",
+  "integratedCommit": "69f61574",
+  "archive": {
+    "file": "capture-fixture-contracts-evidence.tar.gz",
+    "bytes": 29645,
+    "sha256": "3af9aaa2d581547e17a1dea7304a99b76793adedd44b81468c2b81cc9992047c",
+    "payloads": 17,
+    "manifestAdditionalFile": true
+  },
+  "sourcePins": [
+    {
+      "path": "apps/macos/tests/capture-terminal.test.mjs",
+      "sha256": "8763e2fe535edefd1879afb51dc798bc0bc160ae4af72448f11a58178f71e87a",
+      "bytes": 6242
+    },
+    {
+      "path": "apps/macos/tests/deletion-restart.test.mjs",
+      "sha256": "70a747139f8f0b9a247ff610c44d16f04855fd147d8712e5a32508b5808f635f",
+      "bytes": 6125
+    },
+    {
+      "path": "apps/macos/tests/recording-deletion.test.mjs",
+      "sha256": "8094b75de82852be1be6fe31c5d33f377e35b8d8ec44e43c1bb2468083f37e7d",
+      "bytes": 4905
+    }
+  ],
+  "candidate": [
+    {
+      "path": "/Users/david/dev/screen-recorder/dist/ScreenRecorder.app/Contents/MacOS/ScreenRecorder",
+      "sha256": "2de81ba3676a8e52cb7787b8103dd91e803b1dbb67c20f565881e8740b3c6d73",
+      "bytes": 6298128
+    },
+    {
+      "path": "/Users/david/dev/screen-recorder/dist/ScreenRecorder.app/Contents/MacOS/screenrec-native",
+      "sha256": "cd61f880baee5f9e7df4f0a158429ca0e65a6cbd83fbc5d7d773c1e190e4f384",
+      "bytes": 19931920
+    },
+    {
+      "path": "/Users/david/dev/screen-recorder/dist/ScreenRecorder.app/Contents/Resources/service/main.mjs",
+      "sha256": "d8336b61ef2955ee1bf390290954f05f85aab82106bd58c66036cca15965ee83",
+      "bytes": 4079323
+    },
+    {
+      "path": "/Users/david/dev/screen-recorder/dist/ScreenRecorder.app/Contents/Resources/service/runtime.json",
+      "sha256": "f5fc815c701e74e21efaa34a6f5af20cab81ea8bc410e772feb39cf547b31ef0",
+      "bytes": 151
+    }
+  ],
+  "proof": {
+    "deletionRestartPassed": true,
+    "secondsTest": 0.52484,
+    "rootIntegration": "All17payloads and3finalsourcepins matched; candidate code unchanged, no unrelated rerun",
+    "captureTerminal": "Source-reviewed correction retains exact pre-publication discard receipt, idle/null old owner, replacement source identity and journal byte stability; edited body unrun",
+    "recordingDeletion": "Current library path corrected; edited capture body unrun"
+  },
+  "limits": [
+    "No production change, deadline or skip. Display availability remains zero in current root observation.",
+    "Configured independentCLIreview failed before verdict; ownreview and root diffreview used, no model override.",
+    "Existing default injected-input controller checks support branch interpretation but are not fresh proof of edited app capture fixture."
+  ]
+}
