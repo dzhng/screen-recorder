@@ -1,0 +1,86 @@
+{
+  "passed": true,
+  "commit": "22cf96fd91436fc5b23fb72630f09a50cbf36f5f",
+  "base": "72a737a41170e1928b7c344884cbef8107f4fcc6",
+  "entry": "node packages/test-harness/editing/scale.mjs --case reorder-query --out DIRECTORY",
+  "finalReport": "reviewed/report.json",
+  "finalReportSha256": "5694fdf6ff3c0a33f7e15a57ab44ec52a00c71a704b8e83b290e4df0aac2f096",
+  "inspection": {
+    "samples": [
+      21.528792000000067,
+      18.432874999999513,
+      18.190708000000086,
+      19.007666999999856,
+      19.662749999999505,
+      21.443999999999505,
+      19.372957999999926,
+      19.589249999999993,
+      20.334584000000177,
+      19.930707999999868,
+      20.90533400000004,
+      19.16083399999934,
+      18.85279200000059,
+      20.242999999999483,
+      19.23791700000038,
+      20.694792000000234,
+      22.50129199999992,
+      19.290917000000263,
+      20.29829200000131,
+      21.16479199999958
+    ],
+    "p95Ms": 21.528792000000067,
+    "rows": 250,
+    "callsPerSample": 2,
+    "withinBudget": true,
+    "defaultMcpReceiveBuffer": true
+  },
+  "topology": {
+    "occurrences": 10000,
+    "seconds": 7200,
+    "depth": 128,
+    "width": 32
+  },
+  "proof": [
+    "Exact250 independently authored complete cut rows before and after one explicit two-move edit",
+    "Old revision remains byte-for-byte equivalent in returned rows",
+    "Undo yields exactly original250 rows",
+    "Stale prior rows and changed+1us authored position both fail equality",
+    "Source WAV input hash unchanged",
+    "324 frozen compiled operands unchanged",
+    "scratch homes removed and service/client shutdown complete"
+  ],
+  "scope": [
+    "No production code change",
+    "Only media import/probe and public edit/query work; no audio render/movie/model/scene/preview/capture preparation",
+    "Query timing covers both default SDK pages; oracle checks and diagnostic writes outside clock",
+    "Budget unchanged:20warm samples,250rows,p95<=250ms",
+    "No installed-app or continuous playback claim",
+    "No all-suite or original full long-project case rerun",
+    "No current HEAD native claim: reused frozen cd61 native for source probe; compiled operands are byte-pinned snapshots, not inferred from worktreeHEAD"
+  ],
+  "earlierRuns": {
+    "run": "Existing MCP wrapper inline-result assumption failed at5500clips; not production bug",
+    "cli-setup": "Same-track intermediate overlap correctly refused; before-query oracle passed",
+    "valid-swap": "Green before final review corrections",
+    "final": "Green after source hash and missing-directory scope corrections",
+    "reviewed": "Authoritative final exactsource green"
+  },
+  "review": {
+    "rootIndependent": "rank from requested track identity; equal span comparison; preserve long-case missing-directory failure; all fixed",
+    "local": "syntax,oxlint,diff check pass",
+    "codexCLI": "Not repeated: previously observed unsupported configured model/account failure unchanged"
+  },
+  "limits": {
+    "externalDependencies": "Installed dependencies shared by resolved realpath. Post-run package manifest pins only; no complete before/after external-byte attestation.",
+    "sourceBytes": "Input WAV before/after hash checked; no separate admitted media-file rehash."
+  },
+  "choices": "choices.json",
+  "evidence": {
+    "file": "current-reorder-query-evidence.tar.gz",
+    "bytes": 2236739,
+    "sha256": "78a241f064f3ee29c906897d9a36afe0a06751daad9009861150ab289ead94a3",
+    "hashedPayloads": 476,
+    "independentlyVerified": true
+  },
+  "rootReview": "Default SDK receipt pages are exact independently authored rows; requested track identity supplies rank. Original long-project path retains mandatory native diagnostics; new case avoids unrelated preview/audio work. No production changes or general peak/contention/installed claim."
+}

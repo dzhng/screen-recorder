@@ -75,7 +75,10 @@ Continue in this order:
    ownership proof. Test executables alone do not establish installed acceptance.
 2. Check remaining [scale](slices/24-scale.md) dimensions and current scale
    callers after cutover. Reuse passed child cohorts and matched banks; no
-   original whole-setup timing pass is implied.
+   original whole-setup timing pass is implied. The
+   [current reorder query](assets/23-owner-fixture-ports/current-reorder-query-verification.json)
+   closes deep/wide 10k placement invalidation, pinned history and undo through
+   default MCP; media interactions and contention remain separate.
 3. Verify continuous A/V/pointer presentation on a concrete isolated candidate,
    then installed/default discovery and the bounded [caller](slices/25-agent-acceptance.md)
    checkpoint. Prepare the reviewable candidate before installed replacement.

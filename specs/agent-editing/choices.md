@@ -7956,3 +7956,47 @@ directory scanner/remover rather than parallel media and storage copies.
 
 Verdict: **sound**. Handle lifetime does not imply permission to delete retained
 media. Confidence: **high**.
+
+## Bounded deep/wide reorder queries
+
+### Author with complete CLI receipts; measure the default MCP reader
+
+When thousands of clips are placed, an edit receipt can become a reference to
+the complete result rather than inline data. The new narrow scale fixture uses
+the existing CLI result-delivery owner for setup and undo, then an unconfigured
+MCP SDK client for every bounded timeline query. Rebuilding result assembly inside
+the older harness wrapper would create another owner. The original long-project
+case keeps its existing transport and diagnostics.
+
+When: reorder-query checkpoint, `22cf96fd`.
+
+Gap: The older harness assumed inline edit receipts; the missing acceptance
+dimension concerned default bounded reads rather than authoring transport.
+
+Reach: The narrow case preserves the actual default reader limits and avoids
+unrelated audio/preview work. It adds a harness case, not a product operation.
+
+Verdict: **sound**. Each existing transport owner carries its relevant contract.
+Confidence: **high**.
+
+### Swap clear destinations and derive expected cuts from the requests
+
+A same-track swap would temporarily overlap clips after the first move, which
+the product correctly refuses. The fixture swaps equal-length clips on different
+tracks whose destinations are clear. One edit contains both moves without ripple.
+It derives the expected timeline rows from the requested positions, requested
+track identities and returned clip labels, rather than a returned composition.
+Reading the earlier revision still gives the original rows, and undo restores
+them. This tests placement invalidation; it does not claim processor reorder or
+same-track swap semantics.
+
+When: reorder-query checkpoint, `22cf96fd`.
+
+Gap: The plan named reorder invalidation but did not select a valid authored
+swap or an independent result oracle for the large routing fixture.
+
+Reach: The expected rows describe this fixture's separated clips. They are not
+a second general timeline evaluator or a new edit semantic.
+
+Verdict: **sound**. Valid explicit edits expose stale placement data without
+depending on the compiler's own answer. Confidence: **high**.

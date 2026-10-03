@@ -62,6 +62,7 @@ controlled replies prove their contracts without becoming decode or quality proo
 | Original short/long movie duration, phase, pixels and native memory gates | [Current movie scale](current-movie-scale-verification.json) |
 | Complete raw-source scene/index publication, paging and retained PNG growth | [Current complete index](current-complete-source-index-verification.json) |
 | Owned staging replacement, common publication and rebuilt release tiny movie | [Staged output ownership](staged-output-ownership-verification.json) |
+| Deep/wide 10k-project placement invalidation, pinned queries and undo | [Current reorder query](current-reorder-query-verification.json) |
 
 [Capture/source caller ports](capture-source-caller-verification.json) and their
 [review corrections](capture-source-caller-followup-verification.json) and

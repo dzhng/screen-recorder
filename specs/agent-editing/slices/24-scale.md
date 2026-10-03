@@ -13,6 +13,11 @@ candidate; sampled RSS and one foreground timing are not general p95 or peak bud
 The [current movie-scale bank](../assets/23-owner-fixture-ports/current-movie-scale-verification.json)
 passes exact support and original short/long phase/frame/memory gates. Remaining
 integrated dimensions and installed production acceptance stay separate. The
+[current reorder query](../assets/23-owner-fixture-ports/current-reorder-query-verification.json)
+combines a two-hour/deep/wide 10k project with independently authored placement
+changes, pinned old queries and undo through default MCP. Its warm query budget
+passes; this is metadata inspection, not integrated media, contention or installed proof.
+The
 [two-hour learned checkpoint](24f-successful-learned-scale.md) passes complete
 PCM comparison; [complete prepared-package transfer](24j-prepared-package-scale.md)
 passes full-file ownership and new receiver edit/undo without repeated DSP.
