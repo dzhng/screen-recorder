@@ -32,7 +32,7 @@
     },
     "apps/macos": {
       "name": "@screenrec/macos",
-      "version": "0.1.0",
+      "version": "0.1.1",
       "dependencies": {
         "@screenrec/service": "workspace:*",
       },
