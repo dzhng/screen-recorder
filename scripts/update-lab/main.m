@@ -26,7 +26,7 @@
     self.root = NSProcessInfo.processInfo.environment[@"SCREENREC_UPDATE_LAB"] ?: NSBundle.mainBundle.infoDictionary[@"LabRoot"];
     self.version = NSBundle.mainBundle.infoDictionary[@"CFBundleVersion"];
     self.busy = YES;
-    [self record:@"launch" fields:@{@"arguments":NSProcessInfo.processInfo.arguments, @"environmentPreserved":@(NSProcessInfo.processInfo.environment[@"SCREENREC_UPDATE_LAB"] != nil)}];
+    [self record:@"launch" fields:@{@"arguments":NSProcessInfo.processInfo.arguments, @"environmentPreserved":@(NSProcessInfo.processInfo.environment[@"SCREENREC_UPDATE_LAB"] != nil), @"frameworkVersion":[NSBundle bundleForClass:SPUUpdater.class].infoDictionary[@"CFBundleShortVersionString"] ?: @"missing"}];
     if ([[NSFileManager defaultManager] fileExistsAtPath:[self.root stringByAppendingPathComponent:@"stop"]]) {
         [self record:@"stoppedLaunch" fields:@{}];
         [NSApp terminate:nil];

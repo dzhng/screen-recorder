@@ -187,3 +187,22 @@
 - **Verdict:** sound; the receipt binds compiled adapter bytes and the test
   claims only the observed CLI/MCP lock lifetime.
 - **Confidence:** high.
+
+### Bind a framework input to its complete self-contained tree
+
+- **When:** native framework-input harness checkpoint.
+- **The choice:** a developer can select a separately built Sparkle framework.
+  The receipt hashes every file's bytes and permissions, plus directory
+  permissions and symlink targets, in stable path order. A symlink is a path
+  pointing at another file; links must resolve inside the framework so all
+  referenced bytes are included. Otherwise an external executable could change
+  while the recorded fingerprint stayed the same. Hashing only the main library
+  would also leave installer helpers and resources unbound.
+- **The gap:** the plan required immutable dependency identity without choosing
+  a fingerprint for a separately built framework directory.
+- **The reach:** the builder and native lab share this calculation. The input
+  fingerprint describes the supplied framework before fixture bundle signing;
+  it does not claim that later signing leaves those bytes unchanged.
+- **Verdict:** sound; one calculation binds the actual self-contained input
+  rather than its version label or only one executable.
+- **Confidence:** high.

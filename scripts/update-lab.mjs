@@ -15,8 +15,14 @@ import { createServer } from "node:http";
 import { join } from "node:path";
 import { tmpdir, homedir } from "node:os";
 import { setTimeout as delay } from "node:timers/promises";
+import { parseArgs } from "node:util";
+import { frameworkIdentity } from "./sparkle/framework.mjs";
 
-const scenario = process.argv[2];
+const { values, positionals } = parseArgs({
+  allowPositionals: true,
+  options: { framework: { type: "string" } },
+});
+const scenario = positionals[0];
 if (
   ![
     "stopped-launch",
@@ -95,6 +101,8 @@ async function run(command, args) {
 const root = mkdtempSync(join(tmpdir(), "screenrec-update-lab-"));
 const frameworkRoot = join(root, "sparkle");
 const id = `dev.screenrec.update-lab.${randomUUID()}`;
+const lockDirectory = join(homedir(), "Library", "Caches", id);
+const lockPath = join(lockDirectory, "launch.lock");
 const eventsPath = join(root, "events.jsonl");
 const events = () =>
   existsSync(eventsPath)
@@ -117,6 +125,9 @@ const receipt = {
     runnerSha256: createHash("sha256").update(readFileSync("scripts/update-lab.mjs")).digest("hex"),
     appSourceSha256: createHash("sha256")
       .update(readFileSync("scripts/update-lab/main.m"))
+      .digest("hex"),
+    frameworkIdentitySha256: createHash("sha256")
+      .update(readFileSync("scripts/sparkle/framework.mjs"))
       .digest("hex"),
   },
   inputs: {
@@ -146,6 +157,8 @@ try {
   receipt.platform = (await run("sw_vers", ["-productVersion"])).trim();
   receipt.architecture = process.arch;
   receipt.source.revision = (await run("git", ["rev-parse", "HEAD"])).trim();
+  mkdirSync(lockDirectory, { recursive: true, mode: 0o700 });
+  writeFileSync(lockPath, "", { flag: "wx", mode: 0o600 });
   if (!existsSync(distribution)) {
     const incoming = `${distribution}.${randomUUID()}`;
     try {
@@ -165,6 +178,13 @@ try {
   if (interrupted) throw interrupted;
   mkdirSync(frameworkRoot);
   await run("tar", ["-xf", distribution, "-C", frameworkRoot]);
+  if (values.framework) {
+    const framework = join(frameworkRoot, "Sparkle.framework");
+    rmSync(framework, { recursive: true });
+    await run("ditto", [values.framework, framework]);
+    receipt.sparkle.engine = "provided-framework";
+    receipt.sparkle.frameworkSha256 = frameworkIdentity(framework).sha256;
+  } else receipt.sparkle.engine = "upstream";
   writeFileSync(
     keyPath,
     privateKey.export({ type: "pkcs8", format: "der" }).subarray(-32).toString("base64"),
@@ -186,7 +206,7 @@ try {
   });
   await new Promise((resolveListen, reject) => {
     server.once("error", reject);
-    server.listen(Number(process.argv[3] ?? 0), "127.0.0.1", resolveListen);
+    server.listen(Number(positionals[1] ?? 0), "127.0.0.1", resolveListen);
   });
   const url = `http://127.0.0.1:${server.address().port}`;
   const executable = join(root, "UpdateLab");
@@ -232,6 +252,7 @@ try {
       SURequireSignedFeed: true,
       SUVerifyUpdateBeforeExtraction: true,
       SUSignedFeedFailureExpirationInterval: 0,
+      ScreenrecLaunchLockRelativePath: `Library/Caches/${id}/launch.lock`,
       NSAppTransportSecurity: { NSAllowsLocalNetworking: true },
     };
     const plist = (obj) =>

@@ -10,6 +10,49 @@ import { mkdtempSync, mkdirSync, writeFileSync, readdirSync, rmSync, linkSync } 
 import { createHash } from "node:crypto";
 import { tmpdir } from "node:os";
 
+test(
+  "an explicit framework input runs its actual bytes and records separate provenance",
+  { timeout: 120_000 },
+  () => {
+    const scratch = mkdtempSync(join(tmpdir(), "screenrec-framework-input-"));
+    try {
+      const distribution = join(tmpdir(), "screenrec-sparkle-2.10.0.tar.xz");
+      if (!existsSync(distribution)) {
+        const prepared = spawnSync(process.execPath, ["scripts/update-lab.mjs", "stopped-launch"], {
+          encoding: "utf8",
+          timeout: 115_000,
+        });
+        assert.equal(prepared.status, 0, prepared.stdout + prepared.stderr);
+      }
+      const extracted = spawnSync("tar", ["-xf", distribution, "-C", scratch]);
+      assert.equal(extracted.status, 0, String(extracted.stderr));
+      const framework = join(scratch, "Sparkle.framework");
+      const changed = spawnSync("/usr/libexec/PlistBuddy", [
+        "-c",
+        "Set :CFBundleShortVersionString fixture-input",
+        join(framework, "Resources", "Info.plist"),
+      ]);
+      assert.equal(changed.status, 0, String(changed.stderr));
+      const result = spawnSync(
+        process.execPath,
+        ["scripts/update-lab.mjs", "stopped-launch", "--framework", framework],
+        { encoding: "utf8", timeout: 115_000 },
+      );
+      assert.equal(result.status, 0, result.stdout + result.stderr);
+      const report = JSON.parse(result.stdout);
+      assert.equal(report.sparkle.engine, "provided-framework");
+      assert.match(report.sparkle.frameworkSha256, /^[a-f0-9]{64}$/);
+      assert.equal(
+        report.events.find((event) => event.event === "launch").frameworkVersion,
+        "fixture-input",
+      );
+      assert.equal(report.archiveRequests, 0);
+    } finally {
+      rmSync(scratch, { recursive: true, force: true });
+    }
+  },
+);
+
 test("a queued relaunch exits on persistent fixture shutdown intent", { timeout: 120_000 }, () => {
   const result = spawnSync(process.execPath, ["scripts/update-lab.mjs", "stopped-launch"], {
     encoding: "utf8",

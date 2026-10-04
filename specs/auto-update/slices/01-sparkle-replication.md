@@ -93,7 +93,7 @@ on the main queue; `SPUInstallerDriver` sends cancellation asynchronously;
 `AppInstaller.finishInstallationAfterHostTermination` finishes an unrequested
 installation. There is no public acknowledgement barrier for the helper.
 
-Proposed correction, pending user decision: a small source patch in Sparkle's
+User-approved correction, still awaiting native proof: a pinned source patch in Sparkle's
 installer rejects host-termination installation unless an explicit install request
 has already been accepted. Before requesting host termination, that installer
 must hold the same external file lock that CLI entries use, exclusively, through
@@ -106,3 +106,10 @@ fixtures, including opt-out/quit races, canceled termination, crash, old clients
 and delayed replacement. Check helper progress does not steal focus, relocated
 modes/rpath and HTTPS redirects. Freeze corrected inputs and parity evidence.
 The existing signing and installed-library gates are unchanged.
+
+The runner can consume a separately built framework through `--framework`. Its
+receipt distinguishes that input from the verified upstream distribution used
+for signing tools. Changing the fixture framework's version and observing it in
+the running app proves that the runner loads the selected framework. This proves
+input selection only; protection on busy ordinary quit remains red against
+upstream, independently of the expected-defect reproduction suite.

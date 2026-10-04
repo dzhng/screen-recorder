@@ -17,12 +17,14 @@ also replaces a staged bundle on busy ordinary quit without install permission.
 No accepted updater winner exists. Cancellation at ready is asynchronous and is
 not a helper acknowledgement. Do not port this unsafe behavior to production.
 
-The next decision is whether to build a small pinned Sparkle source patch. It
-would require explicit install permission and have the installer own the CLI
-replacement lock through host exit and bundle swap. Full Xcode is needed to build
-the patched helper; this machine has only Command Line Tools. The user was asked
-for that architecture/setup decision. No production dependency or updater is
-installed while the answer is pending.
+The user approved a small pinned Sparkle source patch and full Xcode installation.
+The corrected installer must require explicit install permission and own the CLI
+replacement lock through host exit, bundle swap and relaunch acknowledgement.
+Xcode setup and the minimal patch are underway. The upstream callback currently
+announces installation before the installer lock could be acquired, and relaunch
+is asynchronous; reproduce these handshakes rather than assuming callback order
+provides exclusion. No production updater is installed until the corrected proof
+passes.
 
 Completed independent passes are integrated. [04 service admission](slices/04-service-admission.md)
 grants atomic private permits and accounts existing-owner lifetimes; repeated
