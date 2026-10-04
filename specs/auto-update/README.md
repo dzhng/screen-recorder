@@ -23,6 +23,8 @@ Answered by the user:
 - `.agents/skills/screenrec/` is the canonical project installation. Selected
   agents' skill paths, including `.claude/skills/screenrec`, link to it rather
   than holding independent copies.
+- No Apple Developer membership or Developer ID certificate is available. Paid
+  membership is not a prerequisite for automatic updates.
 
 ## Existing boundaries
 
@@ -72,13 +74,37 @@ Territory findings, checked against the published `skills` 1.7.0 package:
   or GitHub contents API can fetch only the consumer folder for a local `skills
   add`. A local-source install does not acquire GitHub update tracking by itself.
 
+## Signing and update authenticity
+
+Answered by the territory: Sparkle's [setup documentation](https://sparkle-project.org/documentation/#3-segue-for-security-concerns)
+recommends Developer ID signing and notarization "if possible", separately from
+signing update archives with Ed25519. Its [update validator](https://github.com/sparkle-project/Sparkle/blob/2.x/Sparkle/SUUpdateValidator.m)
+explicitly permits ad-hoc app signing when authenticating through the update key.
+A paid Apple Developer membership is therefore not needed for this update mechanism.
+
+Recommendation, awaiting the remaining planning decisions: use Sparkle rather than
+build another download/replacement engine. Embed the update public key in the app,
+retain the private key for release signing, and serve signed update archives over
+HTTPS through the existing tag-release workflow. The key does not depend on an
+Apple account. Its retention and backup are necessary for future signed updates.
+
+Update authenticity, Gatekeeper approval and capture permissions are distinct.
+Current releases are ad-hoc signed; [local source signing](../../scripts/signing-identity.mjs)
+can use a stable self-signed certificate, but the release packager currently
+re-signs ad hoc. Neither path is notarization. Initial launch can still require
+manual macOS approval. An actual old-to-new update must establish which signing
+choice retains screen/microphone permissions; neither archive signatures nor an
+unchanged bundle ID alone prove that behavior. No keychain trust or permission
+settings have been changed during discovery.
+
 ## Open questions
 
 Still in the known-unknowns stage of exploration:
 
 - Release discovery: the current tag workflow makes every `v0.*` tag a prerelease,
   while onboarding resolves latest stable. Settle one meaning for normal releases.
-- Updater mechanism, authenticity verification and signing setup.
+- Final updater/signing choice, signing-key custody and recovery, and proof of
+  permission continuity without paid Apple signing.
 - Lightweight skill acquisition and source tracking through `npx skills`, without
   duplicating its agent/link logic or requiring a full media-repository clone.
 - Read-only skill comparison procedure, diff format, and treatment of local extra
