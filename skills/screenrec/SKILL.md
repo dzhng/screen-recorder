@@ -1,6 +1,6 @@
 ---
 name: screenrec
-description: Install and use Screen Recorder through its CLI for an agent's recording, media inspection, non-destructive editing or export task. Use on first-run setup, missing screenrec installation, capture requests, transcript/audio/frame inspection, project edits and delivery.
+description: Install and use Screen Recorder through its CLI for an agent's recording, media inspection, non-destructive editing or export task. Use on first-run setup, missing screenrec installation, skill installation/comparison or explicit refresh, update-health questions, capture requests, transcript/audio/frame inspection, project edits and delivery.
 ---
 
 # Screenrec
@@ -30,13 +30,19 @@ Report blocked launch or permissions accurately;
 help success alone is not service readiness. Do not build from source as a
 consumer-install fallback.
 
-If this file was supplied directly, install its **entire folder**, including
-`references/`, at `~/.agents/skills/screenrec/` for Codex or
-`~/.claude/skills/screenrec/` for Claude Code. Start a new session and confirm
-skill discovery (`$screenrec` in Codex, `/screenrec` in Claude). For a remote copy,
-follow the [README's skill setup](https://github.com/dzhng/screen-recorder#1-install-the-screenrec-skill).
-A lone SKILL.md lacks required references; fetch the complete consumer skill.
-Repository `.agents/skills` are development skills, not this product skill.
+For skill installation, comparison or explicit refresh, read
+[skill lifecycle](references/skill-lifecycle.md). Install the complete folder
+through `npx skills` into a canonical project `.agents/skills/screenrec`, with
+selected agents' discovery links verified. Inspection never authorizes an update;
+preserve local content for surgical requests, and back up before explicit
+whole-folder replacement. App updating never changes these files.
+
+For update-health questions, inspect the installed `service.health --help` and
+actual reply. Explain advertised waiting/disabled state and blockers literally;
+waiting for idle does not authorize stopping work, and disabled automatic updates
+do not prove the service is unhealthy. Do not invent an updater command or kill,
+cancel, close or stop work to obtain idle. Older releases may not advertise update
+state; say so. Fixture health JSON is interpretation evidence, not native proof.
 
 ## Workflow
 

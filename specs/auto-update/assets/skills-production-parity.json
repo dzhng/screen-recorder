@@ -1,0 +1,277 @@
+{
+  "sourceRevision": "27e1554dde3744be6979e6e9c0fe7bda917281d2",
+  "commands": [
+    {
+      "block": 1,
+      "exit": 0,
+      "stdout": "\n│\n●   codex  Agent detected — installing non-interactively\n\u001b[?25l│\n◇  Source: <scratch>/source\n\u001b[?25h\u001b[?25l│\n◇  Local path validated\n\u001b[?25h\u001b[?25l│\n◇  Found 1 skill\n\u001b[?25h│\n●  Selected 1 skill: screenrec\n\n│\n◇  Installation Summary ───────╮\n│                              │\n│  ./.agents/skills/screenrec  │\n│    universal: Codex          │\n│    symlink → Claude Code     │\n│                              │\n├──────────────────────────────╯\n\u001b[?25l│\n◇  Installation complete\n\u001b[?25h\n│\n◇  Installed 1 skill ────────────╮\n│                                │\n│  ✓ ./.agents/skills/screenrec  │\n│    universal: Codex            │\n│    symlinked: Claude Code      │\n│                                │\n├────────────────────────────────╯\n\n│\n└  Done!  Review skills before use; they run with full agent permissions.\n\n",
+      "stderr": "npm notice\nnpm notice New major version of npm available! 11.19.0 -> 12.2.0\nnpm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.0\nnpm notice To update run: npm install -g npm@12.2.0\nnpm notice\n"
+    },
+    {
+      "block": 2,
+      "exit": 1,
+      "stdout": "diff -ru .agents/skills/screenrec/SKILL.md <scratch>/source/SKILL.md\n--- .agents/skills/screenrec/SKILL.md\t2026-10-04 15:06:58\n+++ <scratch>/source/SKILL.md\t2026-10-04 15:06:57\n@@ -1 +1,147 @@\n-LOCAL CUSTOMIZATION\n+---\n+name: screenrec\n+description: Install and use Screen Recorder through its CLI for an agent's recording, media inspection, non-destructive editing or export task. Use on first-run setup, missing screenrec installation, skill installation/comparison or explicit refresh, update-health questions, capture requests, transcript/audio/frame inspection, project edits and delivery.\n+---\n+\n+# Screenrec\n+\n+As the external agent using this toolkit, you make the editorial decisions for\n+the user's task. Screenrec makes zero editorial decisions; it only supplies\n+primitives. Inspect recording evidence,\n+choose edits within the user's request, then use the CLI to apply non-destructive\n+operations and verify the result. Choose treatments from the user's intent,\n+not an assumed house style.\n+Defaults and presets are starting settings, not requests to clean up every clip.\n+When the user delegates editorial judgment, make explicit, reviewable choices\n+within that scope; product flexibility is not a requirement to ask approval for\n+every edit. When the user requests alternatives, keep those alternatives open.\n+\n+## Installation\n+\n+On first use, check `command -v screenrec`, then `screenrec capture.status --help`.\n+If the command or selected app is missing, install the **latest stable GitHub\n+release** using [installation](references/installation.md): verify Apple Silicon\n+and macOS 26+, download and checksum the release ZIP and receipt, install the app\n+at `~/Applications/Screen Recorder.app` and the launcher at `~/.local/bin/screenrec`,\n+then configure PATH and verify `service.health`. Node is bundled. Linux/Docker\n+cannot run the native app; a portable JavaScript CLI bundle can independently\n+run schema/transport tests there with Node, without proving native readiness.\n+Report blocked launch or permissions accurately;\n+help success alone is not service readiness. Do not build from source as a\n+consumer-install fallback.\n+\n+For skill installation, comparison or explicit refresh, read\n+[skill lifecycle](references/skill-lifecycle.md). Install the complete folder\n+through `npx skills` into a canonical project `.agents/skills/screenrec`, with\n+selected agents' discovery links verified. Inspection never authorizes an update;\n+preserve local content for surgical requests, and back up before explicit\n+whole-folder replacement. App updating never changes these files.\n+\n+For update-health questions, inspect the installed `service.health --help` and\n+actual reply. Explain advertised waiting/disabled state and blockers literally;\n+waiting for idle does not authorize stopping work, and disabled automatic updates\n+do not prove the service is unhealthy. Do not invent an updater command or kill,\n+cancel, close or stop work to obtain idle. Older releases may not advertise update\n+state; say so. Fixture health JSON is interpretation evidence, not native proof.\n+\n+## Workflow\n+\n+1. Inspect the operation you need with `screenrec <operation> --help`. It returns\n+   its JSON description and parameter schema without launching the app. If you\n+   need to discover operation names, save `screenrec --help` to a file and select\n+   relevant entries; the full catalog is large. Use the installed CLI's schemas,\n+   even when this skill is newer than the release. Use advertised operations;\n+   do not assume proposed features exist. For JSON files, use\n+   `--params - < request.json`. Reserve `--output` for advertised media delivery;\n+   redirect stdout to save JSON metadata.\n+\n+2. Resolve the intended recording/project with discovery and inspect its state.\n+   Pin source identities and the actual editable revision. A source-only take\n+   supplies media facts; create a project explicitly when the task needs one.\n+   A stop can acknowledge `finalizing`; that is not media readiness. Follow\n+   returned `sourceAdmissions` and wait for the selected acquisition's job to be\n+   ready. Where independent publication is advertised, a ready source can be used\n+   while its sibling remains pending; publication alone is not completed admission.\n+   Pending primary publication does not block a ready camera acquisition.\n+   Never import a growing capture journal. Inspect a finalizing take's `finalizationError`;\n+   `capture.stop` explicitly retries failed recovery, while ordinary reads do not.\n+   Canceling recovery retains ambiguous media; use explicit library deletion to\n+   remove it. A completed take remains available even if it reports pending cleanup;\n+   use `recording.cleanup` on the settled recording to reclaim verified working\n+   files. Follow its job with `job.get`; explicitly retry retryable failures after\n+   the reported cause is resolved. A ready cleanup job may report retained roles:\n+   their media lacks sufficient proof for removal. Do not delete those files by\n+   hand or cancel a completed take to retry cleanup.\n+3. Inspect transcript and visual evidence to locate the requested content.\n+   Follow returned pagination cursors, including empty pages with a next cursor.\n+   Preserve the transcript generation when using word identities. An empty\n+   transcript range does not prove silence, and an omitted filler does not prove\n+   the speaker did not say it.\n+4. Inspect uncertain cut boundaries using bounded audio excerpts and nearby\n+   frames. Choose narration, system audio, or mix intentionally. Transcript word\n+   times are estimates; protect adjacent speech. Use waveform or spectrogram\n+   analysis when available, but do not equate low amplitude with safe silence.\n+   Before shaping joins, pauses, replacement speech, mixes or audio/video timing,\n+   read [editorial checks](references/editorial-checks.md). Use its failure signs\n+   to choose and verify explicit edits; the suggested remedies are optional.\n+5. Submit the requested edit against the inspected revision. Read the current\n+   schema for required identifiers and ranges. A cut accepts multiple ranges\n+   in one revision's playback coordinates; successive edits change those\n+   coordinates. After a stale-revision rejection, inspect the new state and\n+   recompute the edit instead of simply replacing the expected revision ID.\n+6. Inspect the returned revision and request its audio, frames, or playable\n+   preview around changed joins. Poll the same pinned request without `--output`\n+   while processing is pending; deliver once ready. A directory destination must\n+   not already exist, including when repeating an inspection. Check the returned\n+   job state and reason: `ok: true` and exit zero can report a failed job. Diagnose\n+   failures before an explicit supported retry.\n+   If your tools cannot listen to audio or play video, disclose that verification\n+   limit. A successful render alone does not establish a clean-sounding cut.\n+7. Export the requested revision and format only after checking the changes.\n+   Distinguish a pending export from a published artifact. Return the actual\n+   output path and any unresolved verification limits. Use history, undo, or\n+   restore for requested recovery; never modify source media or the database.\n+\n+When feedback reveals a reusable editing or review lesson, fold it into the\n+editorial checks rather than appending a session diary. Keep clip-specific\n+preferences, accepted artifact identities and unresolved verdicts with the project.\n+Reuse earlier approvals only for what was actually judged; a changed render needs\n+verification of the changed behavior, not repetition of every passed comparison.\n+\n+For capture, inspect `capture.sources` and `capture.status` for device identities\n+and existing permissions; discovery activates nothing. Use only selectors\n+advertised by the connected service's `capture.start`/`capture.restart` schemas.\n+Select a camera explicitly when the request needs it, without device fallback or\n+an automatic permission prompt. Capture publishes source facts and admission\n+outcomes; choose project layout and placement through explicit editing operations.\n+\n+## Task references\n+\n+Before importing, transcribing, inspecting media, editing, rendering or exporting,\n+read the relevant sections of [media workflows](references/media-workflows.md).\n+That reference covers source/project clocks, processing and model readiness,\n+frames/audio/timeline evidence, captions, layout and published exports.\n+For optional MCP use, read [MCP delivery](references/mcp.md); CLI is the default.\n+\n+## Invocation and identity\n+\n+- Pass structured parameters through stdin to avoid shell quoting problems:\n+  `screenrec edit.apply --params - < edit.json`. Build that file from the discovered\n+  schema and inspected identifiers, not guessed IDs.\n+- Save each attempt's request and raw JSON receipt together, including rejected\n+  attempts; do not overwrite them with a corrected request. Programmatically reuse\n+  their opaque IDs; do not retype them from memory. On `NOT_FOUND`, compare the\n+  submitted ID against the saved receipt before diagnosing lost service state.\n+- Parse the JSON envelope even on a nonzero exit. `--output` writes delivered\n+  media or JSON evidence to a file or directory according to the operation.\n+- Edit ranges are half-open in the expected revision and selected anchor domain.\n+  Media and text source/placement ranges accept exact reduced fractional\n+  microseconds; preserve returned endpoints instead of rounding. Point queries,\n+  holds and curve-key coordinates remain integer microseconds. Source and edited\n+  playback timestamps differ\n+  after cuts; use the reported mapping and retained fragments.\n+- For operations accepting `params.requestId`, reuse it with identical arguments\n+  when retrying an uncertain write. A new intended mutation or recomputed edit\n+  needs a new request ID. Export creation instead uses `exportId`; preserve it\n+  and its arguments on retries. Follow each operation's advertised retry contract.\n+  The CLI `--id` is a transport identifier, not the durable mutation identity.\nOnly in .agents/skills/screenrec: local-notes.md\nOnly in <scratch>/source/references: added.md\nOnly in .agents/skills/screenrec/references: removed.md\n",
+      "stderr": ""
+    },
+    {
+      "block": 3,
+      "exit": 1,
+      "stdout": "\n│\n●   codex  Agent detected — installing non-interactively\n\u001b[?25l│\n◇  Source: <scratch>/invalid\n\u001b[?25h\u001b[?25l│\n◇  Local path validated\n\u001b[?25h\u001b[?25l│\n◇  No skills found\n\u001b[?25h│\n└  No valid skills found. Skills require a SKILL.md with name and description.\n\n",
+      "stderr": "Replacement failed; prior entries restored from /var/folders/62/pphwbgd15b1b9q7cjgf8m9pm0000gn/T/tmp.SyXc9d0U4W\n"
+    },
+    {
+      "block": 3,
+      "exit": 0,
+      "stdout": "\n│\n●   codex  Agent detected — installing non-interactively\n\u001b[?25l│\n◇  Source: <scratch>/source\n\u001b[?25h\u001b[?25l│\n◇  Local path validated\n\u001b[?25h\u001b[?25l│\n◇  Found 1 skill\n\u001b[?25h│\n●  Selected 1 skill: screenrec\n\n│\n◇  Installation Summary ───────╮\n│                              │\n│  ./.agents/skills/screenrec  │\n│    universal: Codex          │\n│    symlink → Claude Code     │\n│                              │\n├──────────────────────────────╯\n\u001b[?25l│\n◇  Installation complete\n\u001b[?25h\n│\n◇  Installed 1 skill ────────────╮\n│                                │\n│  ✓ ./.agents/skills/screenrec  │\n│    universal: Codex            │\n│    symlinked: Claude Code      │\n│                                │\n├────────────────────────────────╯\n\n│\n└  Done!  Review skills before use; they run with full agent permissions.\n\nReplaced; backup retained at /var/folders/62/pphwbgd15b1b9q7cjgf8m9pm0000gn/T/tmp.bJonaboHYF\n",
+      "stderr": ""
+    },
+    {
+      "block": 3,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "rm: .agents/skills/screenrec/blocked/retained.txt: Permission denied\nrm: .agents/skills/screenrec/blocked: Directory not empty\nrm: .agents/skills/screenrec: Directory not empty\nCleanup failed; backup retained at /var/folders/62/pphwbgd15b1b9q7cjgf8m9pm0000gn/T/tmp.AHjl0bAGY5\n"
+    }
+  ],
+  "source": {
+    "references/editorial-checks.md": {
+      "kind": "file",
+      "sha256": "b2416ee902ebd798c1e123b0d192a3b1b5e5c1dd3f2f65bc893ad26de87e20b3",
+      "text": "# Editorial checks\n\nThese are optional techniques for your delegated editing task. You choose the\nedits and treatments; screenrec supplies primitives and makes zero editorial\ndecisions.\n\nUse these checks to catch unintended effects, not to impose a s\n<text excerpt; compare sha256 for complete bytes>\ntained files.\n- State listening/playback limitations honestly. Numerical equality verifies\n  preservation; it does not supply perception. Record precisely what the user\n  accepted, rejected or left unresolved, then update the next check accordingly.\n"
+    },
+    "references/installation.md": {
+      "kind": "file",
+      "sha256": "e713125ca0fe70b6bbebaba7bc32c823800c3e1b80c981f630a31095b6255cbe",
+      "text": "# Install the released app and CLI\n\nUse this procedure when `screenrec` or its selected app is missing. First check\n`uname -m` and `sw_vers -productVersion`: the app requires Apple Silicon (`arm64`)\nand macOS 26 or newer. On Linux, including Docker, \n<text excerpt; compare sha256 for complete bytes>\ned.\n\nReport the installed release tag, app/launcher paths and observed health result.\nIf only help passed, say so; blocked app launch is not verified service readiness.\nUse the installed CLI's schemas even when this skill is newer than that release.\n"
+    },
+    "references/mcp.md": {
+      "kind": "file",
+      "sha256": "fcd32aaa920f2773df6a6d92c4ac0ef389f76cd9a9bffa17c833ad46d25880e0",
+      "text": "# Optional MCP delivery\n\nCLI is the primary agent interface. An MCP client can instead invoke the installed\n`screenrec` launcher with `mcp` as its argument. Both expose the same operation\nregistry, revision rules and durable retry identities; MCP set\n<text excerpt; compare sha256 for complete bytes>\nthe media is empty.\n\nAn MCP receive/connection failure can follow a committed edit. If its client\ncannot receive the full receipt, replay the identical saved params through CLI\nwhen available; do not create a new mutation ID just to recover a reply.\n"
+    },
+    "references/media-workflows.md": {
+      "kind": "file",
+      "sha256": "bc52be82147c3eba5507d099484f4304cc4381e5fde68a1171ab1f64dc931beb",
+      "text": "# Media workflows\n\nRead the sections relevant to the requested operation before execution. Discover\nparameters from the installed CLI; these rules preserve media identity, clocks\nand readiness across inspection, editing and delivery.\n\n## Managed proj\n<text excerpt; compare sha256 for complete bytes>\ned from the historical package; exporting does not change the donor. Report\nunsupported dependencies instead of dropping them or substituting a flattened\nmovie. Verify the adopted project's playback and undo before presenting a transfer\nas complete.\n"
+    },
+    "references/skill-lifecycle.md": {
+      "kind": "file",
+      "sha256": "a2520dda45f03b614256a6f23169a8702bc3d2cf55b6f108d6d7f10606591773",
+      "text": "# Skill lifecycle\n\nUse the published `npx skills@1.7.0` installer. Check `node --version`,\n`npm --version` and `npx --version`; Node/npm for this command are separate from\nthe app's bundled runtime. If missing, report this prerequisite and use the\nus\n<text excerpt; compare sha256 for complete bytes>\nVerify unrelated settings and other skills remain\nunchanged. Retain the backup until the user decides it can be removed. A local\ninstall's future refresh repeats this fetch/diff/explicit-update sequence; app\nautomatic updates never edit skill files.\n"
+    },
+    "SKILL.md": {
+      "kind": "file",
+      "sha256": "9c73d56e74a18c500f80ada438db84c88e4b0f7494ee0ed08dcf18b5c5df829b",
+      "text": "---\nname: screenrec\ndescription: Install and use Screen Recorder through its CLI for an agent's recording, media inspection, non-destructive editing or export task. Use on first-run setup, missing screenrec installation, skill installation/comparison\n<text excerpt; compare sha256 for complete bytes>\nted edit\n  needs a new request ID. Export creation instead uses `exportId`; preserve it\n  and its arguments on retries. Follow each operation's advertised retry contract.\n  The CLI `--id` is a transport identifier, not the durable mutation identity.\n"
+    }
+  },
+  "installed": {
+    ".agents/skills/screenrec/references/editorial-checks.md": {
+      "kind": "file",
+      "sha256": "b2416ee902ebd798c1e123b0d192a3b1b5e5c1dd3f2f65bc893ad26de87e20b3",
+      "text": "# Editorial checks\n\nThese are optional techniques for your delegated editing task. You choose the\nedits and treatments; screenrec supplies primitives and makes zero editorial\ndecisions.\n\nUse these checks to catch unintended effects, not to impose a s\n<text excerpt; compare sha256 for complete bytes>\ntained files.\n- State listening/playback limitations honestly. Numerical equality verifies\n  preservation; it does not supply perception. Record precisely what the user\n  accepted, rejected or left unresolved, then update the next check accordingly.\n"
+    },
+    ".agents/skills/screenrec/references/installation.md": {
+      "kind": "file",
+      "sha256": "e713125ca0fe70b6bbebaba7bc32c823800c3e1b80c981f630a31095b6255cbe",
+      "text": "# Install the released app and CLI\n\nUse this procedure when `screenrec` or its selected app is missing. First check\n`uname -m` and `sw_vers -productVersion`: the app requires Apple Silicon (`arm64`)\nand macOS 26 or newer. On Linux, including Docker, \n<text excerpt; compare sha256 for complete bytes>\ned.\n\nReport the installed release tag, app/launcher paths and observed health result.\nIf only help passed, say so; blocked app launch is not verified service readiness.\nUse the installed CLI's schemas even when this skill is newer than that release.\n"
+    },
+    ".agents/skills/screenrec/references/mcp.md": {
+      "kind": "file",
+      "sha256": "fcd32aaa920f2773df6a6d92c4ac0ef389f76cd9a9bffa17c833ad46d25880e0",
+      "text": "# Optional MCP delivery\n\nCLI is the primary agent interface. An MCP client can instead invoke the installed\n`screenrec` launcher with `mcp` as its argument. Both expose the same operation\nregistry, revision rules and durable retry identities; MCP set\n<text excerpt; compare sha256 for complete bytes>\nthe media is empty.\n\nAn MCP receive/connection failure can follow a committed edit. If its client\ncannot receive the full receipt, replay the identical saved params through CLI\nwhen available; do not create a new mutation ID just to recover a reply.\n"
+    },
+    ".agents/skills/screenrec/references/media-workflows.md": {
+      "kind": "file",
+      "sha256": "bc52be82147c3eba5507d099484f4304cc4381e5fde68a1171ab1f64dc931beb",
+      "text": "# Media workflows\n\nRead the sections relevant to the requested operation before execution. Discover\nparameters from the installed CLI; these rules preserve media identity, clocks\nand readiness across inspection, editing and delivery.\n\n## Managed proj\n<text excerpt; compare sha256 for complete bytes>\ned from the historical package; exporting does not change the donor. Report\nunsupported dependencies instead of dropping them or substituting a flattened\nmovie. Verify the adopted project's playback and undo before presenting a transfer\nas complete.\n"
+    },
+    ".agents/skills/screenrec/references/skill-lifecycle.md": {
+      "kind": "file",
+      "sha256": "a2520dda45f03b614256a6f23169a8702bc3d2cf55b6f108d6d7f10606591773",
+      "text": "# Skill lifecycle\n\nUse the published `npx skills@1.7.0` installer. Check `node --version`,\n`npm --version` and `npx --version`; Node/npm for this command are separate from\nthe app's bundled runtime. If missing, report this prerequisite and use the\nus\n<text excerpt; compare sha256 for complete bytes>\nVerify unrelated settings and other skills remain\nunchanged. Retain the backup until the user decides it can be removed. A local\ninstall's future refresh repeats this fetch/diff/explicit-update sequence; app\nautomatic updates never edit skill files.\n"
+    },
+    ".agents/skills/screenrec/SKILL.md": {
+      "kind": "file",
+      "sha256": "9c73d56e74a18c500f80ada438db84c88e4b0f7494ee0ed08dcf18b5c5df829b",
+      "text": "---\nname: screenrec\ndescription: Install and use Screen Recorder through its CLI for an agent's recording, media inspection, non-destructive editing or export task. Use on first-run setup, missing screenrec installation, skill installation/comparison\n<text excerpt; compare sha256 for complete bytes>\nted edit\n  needs a new request ID. Export creation instead uses `exportId`; preserve it\n  and its arguments on retries. Follow each operation's advertised retry contract.\n  The CLI `--id` is a transport identifier, not the durable mutation identity.\n"
+    },
+    ".claude/settings.json": {
+      "kind": "file",
+      "sha256": "a4072c85bcac7aeeaaa0d42b32e3ea959128005ad3c8fe4bc6ead3aebd076dd1",
+      "text": "{\"unrelated\":true}\n"
+    },
+    ".claude/skills/screenrec": {
+      "kind": "symlink",
+      "target": "../../.agents/skills/screenrec"
+    },
+    "skills-lock.json": {
+      "kind": "file",
+      "sha256": "026ad9caf19a2f85c340b8eb683cc9d9134f40864d237dcfba1280f77398ff23",
+      "text": "{\n  \"version\": 1,\n  \"skills\": {\n    \"screenrec\": {\n      \"source\": \"../../../../../../../../var/folders/62/pphwbgd15b1b9q7cjgf8m9pm0000gn/T/skill-production-i2KAhN/source\",\n      \"sourceType\": \"local\",\n      \"computedHash\": \"026befda108ee9037e40cfbd6a47c5ec48a61d2e95e75150a7a947af58dee6e2\"\n    }\n  }\n}\n"
+    }
+  },
+  "customized": {
+    ".agents/skills/screenrec/local-notes.md": {
+      "kind": "file",
+      "sha256": "4629919173a0768363a1a6ea933659c356b63b8b2a84ec2e1308387ed474b525",
+      "text": "Local extra\n"
+    },
+    ".agents/skills/screenrec/references/editorial-checks.md": {
+      "kind": "file",
+      "sha256": "b2416ee902ebd798c1e123b0d192a3b1b5e5c1dd3f2f65bc893ad26de87e20b3",
+      "text": "# Editorial checks\n\nThese are optional techniques for your delegated editing task. You choose the\nedits and treatments; screenrec supplies primitives and makes zero editorial\ndecisions.\n\nUse these checks to catch unintended effects, not to impose a s\n<text excerpt; compare sha256 for complete bytes>\ntained files.\n- State listening/playback limitations honestly. Numerical equality verifies\n  preservation; it does not supply perception. Record precisely what the user\n  accepted, rejected or left unresolved, then update the next check accordingly.\n"
+    },
+    ".agents/skills/screenrec/references/installation.md": {
+      "kind": "file",
+      "sha256": "e713125ca0fe70b6bbebaba7bc32c823800c3e1b80c981f630a31095b6255cbe",
+      "text": "# Install the released app and CLI\n\nUse this procedure when `screenrec` or its selected app is missing. First check\n`uname -m` and `sw_vers -productVersion`: the app requires Apple Silicon (`arm64`)\nand macOS 26 or newer. On Linux, including Docker, \n<text excerpt; compare sha256 for complete bytes>\ned.\n\nReport the installed release tag, app/launcher paths and observed health result.\nIf only help passed, say so; blocked app launch is not verified service readiness.\nUse the installed CLI's schemas even when this skill is newer than that release.\n"
+    },
+    ".agents/skills/screenrec/references/mcp.md": {
+      "kind": "file",
+      "sha256": "fcd32aaa920f2773df6a6d92c4ac0ef389f76cd9a9bffa17c833ad46d25880e0",
+      "text": "# Optional MCP delivery\n\nCLI is the primary agent interface. An MCP client can instead invoke the installed\n`screenrec` launcher with `mcp` as its argument. Both expose the same operation\nregistry, revision rules and durable retry identities; MCP set\n<text excerpt; compare sha256 for complete bytes>\nthe media is empty.\n\nAn MCP receive/connection failure can follow a committed edit. If its client\ncannot receive the full receipt, replay the identical saved params through CLI\nwhen available; do not create a new mutation ID just to recover a reply.\n"
+    },
+    ".agents/skills/screenrec/references/media-workflows.md": {
+      "kind": "file",
+      "sha256": "bc52be82147c3eba5507d099484f4304cc4381e5fde68a1171ab1f64dc931beb",
+      "text": "# Media workflows\n\nRead the sections relevant to the requested operation before execution. Discover\nparameters from the installed CLI; these rules preserve media identity, clocks\nand readiness across inspection, editing and delivery.\n\n## Managed proj\n<text excerpt; compare sha256 for complete bytes>\ned from the historical package; exporting does not change the donor. Report\nunsupported dependencies instead of dropping them or substituting a flattened\nmovie. Verify the adopted project's playback and undo before presenting a transfer\nas complete.\n"
+    },
+    ".agents/skills/screenrec/references/removed.md": {
+      "kind": "file",
+      "sha256": "de1339d0cf7415e1ccc20652f5ae8380d7eb4469c84fbc08082a7c62215e2e1b",
+      "text": "Upstream deleted\n"
+    },
+    ".agents/skills/screenrec/references/skill-lifecycle.md": {
+      "kind": "file",
+      "sha256": "a2520dda45f03b614256a6f23169a8702bc3d2cf55b6f108d6d7f10606591773",
+      "text": "# Skill lifecycle\n\nUse the published `npx skills@1.7.0` installer. Check `node --version`,\n`npm --version` and `npx --version`; Node/npm for this command are separate from\nthe app's bundled runtime. If missing, report this prerequisite and use the\nus\n<text excerpt; compare sha256 for complete bytes>\nVerify unrelated settings and other skills remain\nunchanged. Retain the backup until the user decides it can be removed. A local\ninstall's future refresh repeats this fetch/diff/explicit-update sequence; app\nautomatic updates never edit skill files.\n"
+    },
+    ".agents/skills/screenrec/SKILL.md": {
+      "kind": "file",
+      "sha256": "9548bcdfd1196657de5490065b088f2e5694f3652e4b629e66a149fc8be04f94",
+      "text": "LOCAL CUSTOMIZATION\n"
+    },
+    ".claude/settings.json": {
+      "kind": "file",
+      "sha256": "a4072c85bcac7aeeaaa0d42b32e3ea959128005ad3c8fe4bc6ead3aebd076dd1",
+      "text": "{\"unrelated\":true}\n"
+    },
+    ".claude/skills/screenrec": {
+      "kind": "symlink",
+      "target": "../../.agents/skills/screenrec"
+    },
+    "skills-lock.json": {
+      "kind": "file",
+      "sha256": "026ad9caf19a2f85c340b8eb683cc9d9134f40864d237dcfba1280f77398ff23",
+      "text": "{\n  \"version\": 1,\n  \"skills\": {\n    \"screenrec\": {\n      \"source\": \"../../../../../../../../var/folders/62/pphwbgd15b1b9q7cjgf8m9pm0000gn/T/skill-production-i2KAhN/source\",\n      \"sourceType\": \"local\",\n      \"computedHash\": \"026befda108ee9037e40cfbd6a47c5ec48a61d2e95e75150a7a947af58dee6e2\"\n    }\n  }\n}\n"
+    }
+  },
+  "failedRestored": {
+    ".agents/skills/screenrec/local-notes.md": {
+      "kind": "file",
+      "sha256": "4629919173a0768363a1a6ea933659c356b63b8b2a84ec2e1308387ed474b525",
+      "text": "Local extra\n"
+    },
+    ".agents/skills/screenrec/references/editorial-checks.md": {
+      "kind": "file",
+      "sha256": "b2416ee902ebd798c1e123b0d192a3b1b5e5c1dd3f2f65bc893ad26de87e20b3",
+      "text": "# Editorial checks\n\nThese are optional techniques for your delegated editing task. You choose the\nedits and treatments; screenrec supplies primitives and makes zero editorial\ndecisions.\n\nUse these checks to catch unintended effects, not to impose a s\n<text excerpt; compare sha256 for complete bytes>\ntained files.\n- State listening/playback limitations honestly. Numerical equality verifies\n  preservation; it does not supply perception. Record precisely what the user\n  accepted, rejected or left unresolved, then update the next check accordingly.\n"
+    },
+    ".agents/skills/screenrec/references/installation.md": {
+      "kind": "file",
+      "sha256": "e713125ca0fe70b6bbebaba7bc32c823800c3e1b80c981f630a31095b6255cbe",
+      "text": "# Install the released app and CLI\n\nUse this procedure when `screenrec` or its selected app is missing. First check\n`uname -m` and `sw_vers -productVersion`: the app requires Apple Silicon (`arm64`)\nand macOS 26 or newer. On Linux, including Docker, \n<text excerpt; compare sha256 for complete bytes>\ned.\n\nReport the installed release tag, app/launcher paths and observed health result.\nIf only help passed, say so; blocked app launch is not verified service readiness.\nUse the installed CLI's schemas even when this skill is newer than that release.\n"
+    },
+    ".agents/skills/screenrec/references/mcp.md": {
+      "kind": "file",
+      "sha256": "fcd32aaa920f2773df6a6d92c4ac0ef389f76cd9a9bffa17c833ad46d25880e0",
+      "text": "# Optional MCP delivery\n\nCLI is the primary agent interface. An MCP client can instead invoke the installed\n`screenrec` launcher with `mcp` as its argument. Both expose the same operation\nregistry, revision rules and durable retry identities; MCP set\n<text excerpt; compare sha256 for complete bytes>\nthe media is empty.\n\nAn MCP receive/connection failure can follow a committed edit. If its client\ncannot receive the full receipt, replay the identical saved params through CLI\nwhen available; do not create a new mutation ID just to recover a reply.\n"
+    },
+    ".agents/skills/screenrec/references/media-workflows.md": {
+      "kind": "file",
+      "sha256": "bc52be82147c3eba5507d099484f4304cc4381e5fde68a1171ab1f64dc931beb",
+      "text": "# Media workflows\n\nRead the sections relevant to the requested operation before execution. Discover\nparameters from the installed CLI; these rules preserve media identity, clocks\nand readiness across inspection, editing and delivery.\n\n## Managed proj\n<text excerpt; compare sha256 for complete bytes>\ned from the historical package; exporting does not change the donor. Report\nunsupported dependencies instead of dropping them or substituting a flattened\nmovie. Verify the adopted project's playback and undo before presenting a transfer\nas complete.\n"
+    },
+    ".agents/skills/screenrec/references/removed.md": {
+      "kind": "file",
+      "sha256": "de1339d0cf7415e1ccc20652f5ae8380d7eb4469c84fbc08082a7c62215e2e1b",
+      "text": "Upstream deleted\n"
+    },
+    ".agents/skills/screenrec/references/skill-lifecycle.md": {
+      "kind": "file",
+      "sha256": "a2520dda45f03b614256a6f23169a8702bc3d2cf55b6f108d6d7f10606591773",
+      "text": "# Skill lifecycle\n\nUse the published `npx skills@1.7.0` installer. Check `node --version`,\n`npm --version` and `npx --version`; Node/npm for this command are separate from\nthe app's bundled runtime. If missing, report this prerequisite and use the\nus\n<text excerpt; compare sha256 for complete bytes>\nVerify unrelated settings and other skills remain\nunchanged. Retain the backup until the user decides it can be removed. A local\ninstall's future refresh repeats this fetch/diff/explicit-update sequence; app\nautomatic updates never edit skill files.\n"
+    },
+    ".agents/skills/screenrec/SKILL.md": {
+      "kind": "file",
+      "sha256": "9548bcdfd1196657de5490065b088f2e5694f3652e4b629e66a149fc8be04f94",
+      "text": "LOCAL CUSTOMIZATION\n"
+    },
+    ".claude/settings.json": {
+      "kind": "file",
+      "sha256": "a4072c85bcac7aeeaaa0d42b32e3ea959128005ad3c8fe4bc6ead3aebd076dd1",
+      "text": "{\"unrelated\":true}\n"
+    },
+    ".claude/skills/screenrec": {
+      "kind": "symlink",
+      "target": "../../.agents/skills/screenrec"
+    },
+    "skills-lock.json": {
+      "kind": "file",
+      "sha256": "026ad9caf19a2f85c340b8eb683cc9d9134f40864d237dcfba1280f77398ff23",
+      "text": "{\n  \"version\": 1,\n  \"skills\": {\n    \"screenrec\": {\n      \"source\": \"../../../../../../../../var/folders/62/pphwbgd15b1b9q7cjgf8m9pm0000gn/T/skill-production-i2KAhN/source\",\n      \"sourceType\": \"local\",\n      \"computedHash\": \"026befda108ee9037e40cfbd6a47c5ec48a61d2e95e75150a7a947af58dee6e2\"\n    }\n  }\n}\n"
+    }
+  },
+  "replaced": {
+    ".agents/skills/screenrec/references/added.md": {
+      "kind": "file",
+      "sha256": "93481734fa3d311019f3322976f0bf5f536ae301834f8362c992ffce8898266d",
+      "text": "Upstream addition\n"
+    },
+    ".agents/skills/screenrec/references/editorial-checks.md": {
+      "kind": "file",
+      "sha256": "b2416ee902ebd798c1e123b0d192a3b1b5e5c1dd3f2f65bc893ad26de87e20b3",
+      "text": "# Editorial checks\n\nThese are optional techniques for your delegated editing task. You choose the\nedits and treatments; screenrec supplies primitives and makes zero editorial\ndecisions.\n\nUse these checks to catch unintended effects, not to impose a s\n<text excerpt; compare sha256 for complete bytes>\ntained files.\n- State listening/playback limitations honestly. Numerical equality verifies\n  preservation; it does not supply perception. Record precisely what the user\n  accepted, rejected or left unresolved, then update the next check accordingly.\n"
+    },
+    ".agents/skills/screenrec/references/installation.md": {
+      "kind": "file",
+      "sha256": "e713125ca0fe70b6bbebaba7bc32c823800c3e1b80c981f630a31095b6255cbe",
+      "text": "# Install the released app and CLI\n\nUse this procedure when `screenrec` or its selected app is missing. First check\n`uname -m` and `sw_vers -productVersion`: the app requires Apple Silicon (`arm64`)\nand macOS 26 or newer. On Linux, including Docker, \n<text excerpt; compare sha256 for complete bytes>\ned.\n\nReport the installed release tag, app/launcher paths and observed health result.\nIf only help passed, say so; blocked app launch is not verified service readiness.\nUse the installed CLI's schemas even when this skill is newer than that release.\n"
+    },
+    ".agents/skills/screenrec/references/mcp.md": {
+      "kind": "file",
+      "sha256": "fcd32aaa920f2773df6a6d92c4ac0ef389f76cd9a9bffa17c833ad46d25880e0",
+      "text": "# Optional MCP delivery\n\nCLI is the primary agent interface. An MCP client can instead invoke the installed\n`screenrec` launcher with `mcp` as its argument. Both expose the same operation\nregistry, revision rules and durable retry identities; MCP set\n<text excerpt; compare sha256 for complete bytes>\nthe media is empty.\n\nAn MCP receive/connection failure can follow a committed edit. If its client\ncannot receive the full receipt, replay the identical saved params through CLI\nwhen available; do not create a new mutation ID just to recover a reply.\n"
+    },
+    ".agents/skills/screenrec/references/media-workflows.md": {
+      "kind": "file",
+      "sha256": "bc52be82147c3eba5507d099484f4304cc4381e5fde68a1171ab1f64dc931beb",
+      "text": "# Media workflows\n\nRead the sections relevant to the requested operation before execution. Discover\nparameters from the installed CLI; these rules preserve media identity, clocks\nand readiness across inspection, editing and delivery.\n\n## Managed proj\n<text excerpt; compare sha256 for complete bytes>\ned from the historical package; exporting does not change the donor. Report\nunsupported dependencies instead of dropping them or substituting a flattened\nmovie. Verify the adopted project's playback and undo before presenting a transfer\nas complete.\n"
+    },
+    ".agents/skills/screenrec/references/skill-lifecycle.md": {
+      "kind": "file",
+      "sha256": "a2520dda45f03b614256a6f23169a8702bc3d2cf55b6f108d6d7f10606591773",
+      "text": "# Skill lifecycle\n\nUse the published `npx skills@1.7.0` installer. Check `node --version`,\n`npm --version` and `npx --version`; Node/npm for this command are separate from\nthe app's bundled runtime. If missing, report this prerequisite and use the\nus\n<text excerpt; compare sha256 for complete bytes>\nVerify unrelated settings and other skills remain\nunchanged. Retain the backup until the user decides it can be removed. A local\ninstall's future refresh repeats this fetch/diff/explicit-update sequence; app\nautomatic updates never edit skill files.\n"
+    },
+    ".agents/skills/screenrec/SKILL.md": {
+      "kind": "file",
+      "sha256": "9c73d56e74a18c500f80ada438db84c88e4b0f7494ee0ed08dcf18b5c5df829b",
+      "text": "---\nname: screenrec\ndescription: Install and use Screen Recorder through its CLI for an agent's recording, media inspection, non-destructive editing or export task. Use on first-run setup, missing screenrec installation, skill installation/comparison\n<text excerpt; compare sha256 for complete bytes>\nted edit\n  needs a new request ID. Export creation instead uses `exportId`; preserve it\n  and its arguments on retries. Follow each operation's advertised retry contract.\n  The CLI `--id` is a transport identifier, not the durable mutation identity.\n"
+    },
+    ".claude/settings.json": {
+      "kind": "file",
+      "sha256": "a4072c85bcac7aeeaaa0d42b32e3ea959128005ad3c8fe4bc6ead3aebd076dd1",
+      "text": "{\"unrelated\":true}\n"
+    },
+    ".claude/skills/screenrec": {
+      "kind": "symlink",
+      "target": "../../.agents/skills/screenrec"
+    },
+    "skills-lock.json": {
+      "kind": "file",
+      "sha256": "287c990a7f4b92c8b1fe312a5d2d0127e661c7e02e5e181af0549680a49712bf",
+      "text": "{\n  \"version\": 1,\n  \"skills\": {\n    \"screenrec\": {\n      \"source\": \"../../../../../../../../var/folders/62/pphwbgd15b1b9q7cjgf8m9pm0000gn/T/skill-production-i2KAhN/source\",\n      \"sourceType\": \"local\",\n      \"computedHash\": \"267a3d460a94c001598fd80e8462da8fe6abb9b1e575f121abe8266df958ef51\"\n    }\n  }\n}\n"
+    }
+  },
+  "verdict": "Documented installer/diff/replacement/failed-add restore executed against complete controlled local folders."
+}

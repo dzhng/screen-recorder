@@ -96,3 +96,19 @@ test("README trials expose the linked consumer folder without preinstalling a sk
     await rm(scratch, { recursive: true, force: true });
   }
 });
+
+test("skill execution fixtures are staged without acceptance bars", async () => {
+  const { skillCaseFiles } = await import("./runtime/skills.mjs");
+  const cases = JSON.parse(await readFile(new URL("./cases.json", import.meta.url), "utf8"));
+  const selected = cases.filter((testCase) => testCase.fixture?.startsWith("skill-"));
+  assert.equal(selected.length, 4);
+  for (const testCase of selected) {
+    assert.ok(testCase.readme);
+    const files = skillCaseFiles(
+      { "SKILL.md": "instructions", "references/a.md": "reference" },
+      testCase.fixture,
+    );
+    assert.ok(files["work/upstream/skills/screenrec/references/a.md"]);
+    assert.ok(!JSON.stringify(files).includes(testCase.bar));
+  }
+});

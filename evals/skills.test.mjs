@@ -13,7 +13,10 @@ test("skill fixtures expose complete upstream and preserve customized installed 
   assert.ok(files["work/.agents/skills/screenrec/local-notes.md"]);
   assert.ok(files["work/.agents/skills/screenrec/references/removed.md"]);
   assert.ok(files["work/upstream/skills/screenrec/references/added.md"]);
-  assert.equal(skillCaseFiles(skill, "skill-install")["work/.agents/skills/screenrec/SKILL.md"], undefined);
+  assert.equal(
+    skillCaseFiles(skill, "skill-install")["work/.agents/skills/screenrec/SKILL.md"],
+    undefined,
+  );
   assert.ok(!Object.keys(files).some((path) => path.endsWith("cases.json")));
 });
 
@@ -31,7 +34,12 @@ test("project receipts inspect actual bytes and links without following discover
     assert.ok(!before[".claude/skills/screenrec/SKILL.md"]);
     await writeFile(join(root, ".agents/skills/screenrec/SKILL.md"), "changed");
     const after = await projectSnapshot(root);
-    assert.notEqual(before[".agents/skills/screenrec/SKILL.md"].sha256, after[".agents/skills/screenrec/SKILL.md"].sha256);
+    assert.notEqual(
+      before[".agents/skills/screenrec/SKILL.md"].sha256,
+      after[".agents/skills/screenrec/SKILL.md"].sha256,
+    );
     assert.deepEqual(before[".claude/settings.json"], after[".claude/settings.json"]);
-  } finally { await rm(root, { recursive: true, force: true }); }
+  } finally {
+    await rm(root, { recursive: true, force: true });
+  }
 });

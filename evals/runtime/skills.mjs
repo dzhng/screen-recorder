@@ -4,30 +4,45 @@ import { createHash } from "node:crypto";
 
 // Source mirrors replace acquisition only. Agents still execute the real installer.
 export function skillCaseFiles(skill, fixture) {
-  const files = Object.fromEntries(Object.entries(skill).map(([path, bytes]) => [`work/upstream/skills/screenrec/${path}`, bytes]));
+  const files = Object.fromEntries(
+    Object.entries(skill).map(([path, bytes]) => [`work/upstream/skills/screenrec/${path}`, bytes]),
+  );
   files["work/.claude/settings.json"] = '{"fixtureUnrelatedSetting":true}\n';
-  files["work/SOURCE.json"] = JSON.stringify({ kind: "controlled complete-folder mirror", acquisitionOnly: true });
   if (fixture !== "skill-install") {
-    for (const [path, bytes] of Object.entries(skill)) files[`work/.agents/skills/screenrec/${path}`] = bytes;
-    files["work/.agents/skills/screenrec/SKILL.md"] = `${skill["SKILL.md"]}\nLOCAL CUSTOMIZATION: retain this user's recording preference.\n`;
-    files["work/.agents/skills/screenrec/local-notes.md"] = "Local notes: preserve on surgical updates.\n";
+    for (const [path, bytes] of Object.entries(skill))
+      files[`work/.agents/skills/screenrec/${path}`] = bytes;
+    files["work/.agents/skills/screenrec/SKILL.md"] =
+      `${skill["SKILL.md"]}\nLOCAL CUSTOMIZATION: retain this user's recording preference.\n`;
+    files["work/.agents/skills/screenrec/local-notes.md"] =
+      "Local notes: preserve on surgical updates.\n";
     files["work/.agents/skills/screenrec/references/removed.md"] = "Deleted upstream reference.\n";
     files["work/upstream/skills/screenrec/references/added.md"] = "New upstream reference.\n";
   }
   return files;
 }
 
-export async function projectSnapshot(root) {
+export async function projectSnapshot(root, textLimit = Infinity) {
   const result = {};
   async function walk(path, relative = "") {
-    for (const entry of (await readdir(path, { withFileTypes: true })).sort((a, b) => a.name.localeCompare(b.name))) {
+    for (const entry of (await readdir(path, { withFileTypes: true })).sort((a, b) =>
+      a.name.localeCompare(b.name),
+    )) {
       const name = relative ? `${relative}/${entry.name}` : entry.name;
       const absolute = join(path, entry.name);
-      if (entry.isSymbolicLink()) result[name] = { kind: "symlink", target: await readlink(absolute) };
+      if (entry.isSymbolicLink())
+        result[name] = { kind: "symlink", target: await readlink(absolute) };
       else if (entry.isDirectory()) await walk(absolute, name);
       else if (entry.isFile()) {
         const bytes = await readFile(absolute);
-        result[name] = { kind: "file", sha256: createHash("sha256").update(bytes).digest("hex"), text: bytes.toString("utf8") };
+        const text = bytes.toString("utf8");
+        result[name] = {
+          kind: "file",
+          sha256: createHash("sha256").update(bytes).digest("hex"),
+          text:
+            text.length <= textLimit
+              ? text
+              : `${text.slice(0, textLimit / 2)}\n<text excerpt; compare sha256 for complete bytes>\n${text.slice(-textLimit / 2)}`,
+        };
       }
     }
   }
