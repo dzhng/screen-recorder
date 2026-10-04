@@ -15,6 +15,8 @@ import {
 } from "@screenrec/protocol";
 import { listenLocal } from "./index.js";
 import { claimStartup } from "./startup.js";
+import { CaptureStore } from "@screenrec/core/capture-store";
+import { randomUUID } from "node:crypto";
 
 const entry = fileURLToPath(new URL("../dist/main.js", import.meta.url));
 const cleanup: (() => Promise<void>)[] = [];
@@ -28,6 +30,8 @@ type Service = {
   send(payload: string | Buffer): void;
   request(id: string, operation?: string): void;
   awaiting(count: number): Promise<ControlMessage[]>;
+  answered(id: string): Promise<ReturnType<typeof results>[number]>;
+  progress(after: number): Promise<number>;
   closeInput(): void;
   dropOutput(): void;
   exit: Promise<{ code: number | null; signal: NodeJS.Signals | null }>;
@@ -89,6 +93,38 @@ async function startService(home: string): Promise<Service> {
     send,
     request: (id, operation = "service.health") => send(controlLine({ id, operation, params: {} })),
     awaiting,
+    answered: (id) =>
+      new Promise((resolve, reject) => {
+        const timer = setTimeout(
+          () => reject(new Error(`No answer for ${id}: ${diagnostics}`)),
+          5_000,
+        );
+        announce = () => {
+          const response = results(messages).find((result) => result.id === id);
+          if (!response) return;
+          clearTimeout(timer);
+          announce = () => {};
+          resolve(response);
+        };
+        announce();
+      }),
+    progress: (after) =>
+      new Promise((resolve, reject) => {
+        const timer = setTimeout(
+          () => reject(new Error(`No progress after frame ${after}: ${diagnostics}`)),
+          5_000,
+        );
+        announce = () => {
+          const index = messages.findIndex(
+            (message, index) => index >= after && message.event === "update.progress",
+          );
+          if (index === -1) return;
+          clearTimeout(timer);
+          announce = () => {};
+          resolve(index + 1);
+        };
+        announce();
+      }),
     closeInput: () => child.stdin.end(),
     dropOutput: () => child.stdout.destroy(),
     exit,
@@ -112,6 +148,194 @@ async function temporaryHome(): Promise<string> {
 function results(messages: ControlMessage[]) {
   return messages.flatMap((message) => (message.event === "result" ? [message.response] : []));
 }
+
+it("prepares a private replacement permit and reopens only for its current owner", async () => {
+  const service = await startService(await temporaryHome());
+  await service.awaiting(1);
+  const ask = async (id: string, operation: string, params: Record<string, unknown> = {}) => {
+    service.send(controlLine({ id, operation, params }));
+    const messages = await service.awaiting(++count);
+    return results(messages).find((response) => response.id === id)!;
+  };
+  let count = 1;
+  const first = await ask("prepare-a", "update.prepare");
+  expect(first).toMatchObject({
+    ok: true,
+    data: { kind: "prepared", permitId: expect.any(String) },
+  });
+  if (!first.ok) throw new Error(JSON.stringify(first));
+  const permitA = (first.data as { permitId: string }).permitId;
+  expect(
+    await callLocal(service.socketPath, { id: "fenced", operation: "service.health", params: {} }),
+  ).toMatchObject({ id: "fenced", ok: false, error: { code: "UPDATING", retryable: true } });
+  expect(await ask("release-a", "update.release", { permitId: permitA })).toMatchObject({
+    ok: true,
+  });
+  const second = await ask("prepare-b", "update.prepare");
+  if (!second.ok) throw new Error(JSON.stringify(second));
+  const permitB = (second.data as { permitId: string }).permitId;
+  expect(permitB).not.toEqual(permitA);
+  expect(await ask("stale-a", "update.commit", { permitId: permitA })).toMatchObject({
+    ok: false,
+    error: { code: "INVALID_PERMIT" },
+  });
+  await ask("stale-release-a", "update.release", { permitId: permitA });
+  expect(
+    await callLocal(service.socketPath, {
+      id: "still-fenced",
+      operation: "project.list",
+      params: {},
+    }),
+  ).toMatchObject({ ok: false, error: { code: "UPDATING" } });
+  await ask("release-b", "update.release", { permitId: permitB });
+  expect(
+    await callLocal(service.socketPath, { id: "open", operation: "service.health", params: {} }),
+  ).toMatchObject({ ok: true });
+  expect(
+    await callLocal(service.socketPath, { id: "public", operation: "update.prepare", params: {} }),
+  ).toMatchObject({ ok: false, error: { code: "UNKNOWN_OPERATION" } });
+});
+
+it("keeps waiting admission open and wakes when an unrelated native control call settles", async () => {
+  const service = await startService(await temporaryHome());
+  await service.awaiting(1);
+  const status = callLocal(service.socketPath, {
+    id: "status",
+    operation: "capture.status",
+    params: {},
+  });
+  const native = (await service.awaiting(2))[1];
+  if (native?.event !== "call") throw new Error("Missing native status call");
+  service.request("waiting", "update.prepare");
+  expect(await service.answered("waiting")).toMatchObject({
+    ok: true,
+    data: { kind: "blocked", blockers: expect.arrayContaining(["requests", "transport"]) },
+  });
+  expect(
+    await callLocal(service.socketPath, { id: "usable", operation: "project.list", params: {} }),
+  ).toMatchObject({ ok: true });
+  service.send(
+    JSON.stringify({
+      event: "result",
+      response: {
+        id: native.request.id,
+        ok: true,
+        data: {
+          state: "idle",
+          recordingId: null,
+          sourceId: null,
+          elapsedUs: null,
+          selection: null,
+          permissions: { screen: true, microphone: "authorized", camera: "not_determined" },
+        },
+      },
+    }) + "\n",
+  );
+  expect(await status).toMatchObject({ ok: true });
+  const messages = await service.awaiting(4);
+  expect(messages).toContainEqual({ event: "update.progress" });
+  service.request("ready", "update.prepare");
+  expect(await service.answered("ready")).toMatchObject({ ok: true, data: { kind: "prepared" } });
+});
+
+it("control disconnect invalidates permits before a successor service accepts work", async () => {
+  const home = await temporaryHome();
+  const first = await startService(home);
+  await first.awaiting(1);
+  first.request("first-permit", "update.prepare");
+  const prepared = await first.answered("first-permit");
+  expect(prepared).toMatchObject({ ok: true, data: { kind: "prepared" } });
+  if (!prepared.ok) throw new Error(JSON.stringify(prepared));
+  const permitId = (prepared.data as { permitId: string }).permitId;
+  first.closeInput();
+  expect(await first.exit).toEqual({ code: 0, signal: null });
+  const second = await startService(home);
+  await second.awaiting(1);
+  expect(second.pid).not.toBe(first.pid);
+  second.send(
+    controlLine({ id: "stale-commit", operation: "update.commit", params: { permitId } }),
+  );
+  expect(await second.answered("stale-commit")).toMatchObject({
+    ok: false,
+    error: { code: "INVALID_PERMIT" },
+  });
+  expect(
+    await callLocal(second.socketPath, { id: "successor", operation: "project.list", params: {} }),
+  ).toMatchObject({ ok: true });
+});
+
+it("startup reconciliation is a blocker while its existing native observation is outstanding", async () => {
+  const home = await temporaryHome();
+  await mkdir(join(home, "library"), { mode: 0o700 });
+  const catalog = new CaptureStore(join(home, "library/catalog.sqlite"), {
+    now: () => "fixture",
+    newId: randomUUID,
+  });
+  const take = catalog.allocate().recording;
+  catalog.close();
+  const service = await startService(home);
+  const messages = await service.awaiting(2);
+  const native = messages.find((message) => message.event === "call");
+  if (native?.event !== "call") throw new Error("Missing startup native observation");
+  service.request("startup", "update.prepare");
+  expect(await service.answered("startup")).toMatchObject({
+    ok: true,
+    data: {
+      kind: "blocked",
+      blockers: expect.arrayContaining(["startup", "capture", "transport"]),
+    },
+  });
+  service.send(
+    controlLine({
+      id: "settled-report",
+      operation: "capture.report",
+      params: {
+        recordingId: take.recordingId,
+        sourceId: take.sourceId,
+        sequence: 1,
+        state: "interrupted",
+        reason: "FIXTURE_ENDED",
+      },
+    }),
+  );
+  expect(await service.answered("settled-report")).toMatchObject({ ok: true });
+  let cursor =
+    messages.findIndex(
+      (message) => message.event === "result" && message.response.id === "settled-report",
+    ) + 1;
+  service.send(
+    JSON.stringify({
+      event: "result",
+      response: {
+        id: native.request.id,
+        ok: true,
+        data: {
+          state: "idle",
+          recordingId: null,
+          sourceId: null,
+          elapsedUs: null,
+          selection: null,
+          permissions: { screen: true, microphone: "authorized", camera: "not_determined" },
+        },
+      },
+    }) + "\n",
+  );
+  // A report can notify before the unrelated startup observation finishes. Recheck only
+  // on actual owner progress; its notification never promises the whole service is idle.
+  let prepared = false;
+  for (let check = 0; check < 4; check += 1) {
+    cursor = await service.progress(cursor);
+    const id = `settled-startup-${check}`;
+    service.request(id, "update.prepare");
+    const response = await service.answered(id);
+    expect(response.ok).toBe(true);
+    if (response.ok && (response.data as { kind: string }).kind === "prepared") {
+      prepared = true;
+      break;
+    }
+  }
+  expect(prepared).toBe(true);
+});
 
 it("validates project composition requests at the canonical wire boundary", async () => {
   const service = await startService(await temporaryHome());
@@ -280,6 +504,8 @@ it("announces its listener and answers health over both the pipe and the socket"
     home,
     node: process.versions.node,
     uptimeMs: expect.any(Number),
+    version: null,
+    update: { state: "unavailable", availableVersion: null, blockers: [], error: null },
   });
 });
 

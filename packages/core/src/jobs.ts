@@ -307,6 +307,7 @@ function failure(error: unknown): Pick<
  * a deferred job whose prerequisite was lost once. The service that owns the catalog owns one queue.
  */
 export class JobQueue {
+  onUpdateProgress: (() => void) | undefined;
   private readonly store: Catalog;
   private readonly references: ResourceReferences;
   private readonly targets: JobTargets;
@@ -323,6 +324,19 @@ export class JobQueue {
       done: Promise<void>;
     }
   >();
+  get updateBlocked(): boolean {
+    if (this.attempts.size || this.admissionScheduled || this.admitting) return true;
+    if (
+      this.store.catalog
+        .prepare("SELECT 1 FROM jobs WHERE state IN ('waiting','queued','running') LIMIT 1")
+        .get()
+    )
+      return true;
+    return [...this.activeContexts].some((context) =>
+      [...context.jobs.values()].some((job) => job.state === "queued" || job.state === "running"),
+    );
+  }
+
   private readonly contexts = new WeakMap<JobContext, ContextState>();
   private readonly activeContexts = new Set<ContextState>();
   private sequence = 0;
@@ -1108,6 +1122,7 @@ export class JobQueue {
     void setImmediate().then(() => {
       this.admissionScheduled = false;
       this.resumeAdmission();
+      this.onUpdateProgress?.();
     });
   }
 
@@ -1344,6 +1359,7 @@ export class JobQueue {
     else this.resumeAdmission();
     this.runQueued();
     if (!this.closed) this.onCapacity?.();
+    this.onUpdateProgress?.();
   }
 
   private settle(

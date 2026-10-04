@@ -6,6 +6,8 @@ import { dirname, join } from "node:path";
 import { setImmediate } from "node:timers/promises";
 import { callLocal } from "@screenrec/client";
 import { startProjectService } from "./project-service.js";
+import { projectServiceControlFixture } from "./project-service.fixture.js";
+import { once } from "node:events";
 
 vi.mock("node:fs/promises", async (importOriginal) => {
   const actual = await importOriginal<typeof import("node:fs/promises")>();
@@ -124,4 +126,53 @@ test("public shutdown aborts and drains a held library scan before releasing its
   expect(readsAfterStop).toBe(0);
   expect(stopped).toBe(true);
   await expect(descriptor!.stat()).rejects.toMatchObject({ code: "EBADF" });
+});
+
+test("a disconnected storage observation remains a blocker until its descriptor settles", async () => {
+  const f = await projectServiceControlFixture(cleanups, async () => {
+    throw Error("Storage must not execute media");
+  });
+  const path = join(f.home, "library/assets/held.bin");
+  await mkdir(dirname(path), { recursive: true });
+  await writeFile(path, "managed bytes");
+  const directory = await realpath(dirname(path));
+  const actual = await vi.importActual<typeof import("node:fs/promises")>("node:fs/promises");
+  let enter!: () => void, release!: () => void;
+  const entered = new Promise<void>((resolve) => {
+    enter = resolve;
+  });
+  const held = new Promise<void>((resolve) => {
+    release = resolve;
+  });
+  cleanups.push(async () => {
+    release();
+  });
+  let descriptor: Awaited<ReturnType<typeof actual.open>> | undefined;
+  vi.mocked(filesystem.open).mockImplementation(async (file, flags, mode) => {
+    const handle = await actual.open(file, flags, mode);
+    if (String(file).startsWith(directory + "/") && !descriptor) {
+      descriptor = handle;
+      enter();
+      await held;
+    }
+    return handle;
+  });
+  const canceled = new AbortController();
+  const observation = callLocal(
+    f.service.socketPath,
+    { id: "scan", operation: "storage.usage", params: {} },
+    { signal: canceled.signal },
+  ).catch((error) => error);
+  await entered;
+  canceled.abort();
+  expect(await observation).toMatchObject({ code: "ABORTED" });
+  expect(await f.control("update.prepare")).toMatchObject({
+    ok: true,
+    data: { kind: "blocked", blockers: expect.arrayContaining(["storage"]) },
+  });
+  const progress = once(f.events, "update.progress");
+  release();
+  await progress;
+  await expect(descriptor!.stat()).rejects.toMatchObject({ code: "EBADF" });
+  expect(await f.control("update.prepare")).toMatchObject({ ok: true, data: { kind: "prepared" } });
 });

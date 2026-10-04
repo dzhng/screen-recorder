@@ -83,7 +83,11 @@ const createFile = (path: string) =>
 class Preparation {
   readonly modelDigest: string;
   readonly pins: SpeechEnginePins;
+  get updateBlocked(): boolean {
+    return !!this.flight || !!this.verification;
+  }
   private flight: Flight | undefined;
+  onUpdateProgress: (() => void) | undefined;
   private failure: CatalogError | undefined;
   private verification: Promise<ModelStatus> | undefined;
   constructor(
@@ -150,6 +154,7 @@ class Preparation {
       return await this.verification;
     } finally {
       this.verification = undefined;
+      this.onUpdateProgress?.();
     }
   }
 
@@ -281,7 +286,10 @@ class Preparation {
       this.failure = storageFailure(error);
       throw this.failure;
     } finally {
-      if (this.flight === flight) this.flight = undefined;
+      if (this.flight === flight) {
+        this.flight = undefined;
+        this.onUpdateProgress?.();
+      }
     }
   }
 
@@ -484,6 +492,12 @@ class Preparation {
 
 /** One registry, staging recovery root, and preparation flight per immutable registered identity. */
 export class Models {
+  set onUpdateProgress(callback: (() => void) | undefined) {
+    for (const preparation of this.preparations.values()) preparation.onUpdateProgress = callback;
+  }
+  get updateBlocked(): boolean {
+    return [...this.preparations.values()].some((preparation) => preparation.updateBlocked);
+  }
   private readonly preparations = new Map<string, Preparation>();
   constructor(
     home: string,

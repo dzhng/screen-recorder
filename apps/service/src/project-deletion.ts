@@ -13,6 +13,10 @@ type Deleted = { projectId: string; deleted: true };
 
 /** Orders current project resource owners; retained revisions journal unfinished retirement. */
 export class ProjectDeletion {
+  onUpdateProgress: (() => void) | undefined;
+  get updateBlocked(): boolean {
+    return this.active.size > 0;
+  }
   private readonly active = new Map<string, Promise<Deleted>>();
   private readonly lifetime = new AbortController();
   constructor(
@@ -32,7 +36,10 @@ export class ProjectDeletion {
     if (existing) return existing;
     if (!this.store.markDeleting(projectId)) return Promise.resolve({ projectId, deleted: true });
     this.delivery.revoke({ kind: "project", id: projectId });
-    const result = this.remove(projectId).finally(() => this.active.delete(projectId));
+    const result = this.remove(projectId).finally(() => {
+      this.active.delete(projectId);
+      this.onUpdateProgress?.();
+    });
     this.active.set(projectId, result);
     return result;
   }

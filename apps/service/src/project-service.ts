@@ -1,3 +1,4 @@
+import { UpdateAdmission } from "./update-admission.js";
 import { RecordingDeletion } from "./deletion.js";
 import { CaptureCleanup } from "./capture-cleanup.js";
 import { ManagedStorage } from "@screenrec/core/storage";
@@ -66,6 +67,10 @@ import {
   serviceRuntimeDirectory,
   captureReportSchema,
   type OperationResult,
+  updateControlSchema,
+  updateControlOperations,
+  type UpdateStatus,
+  type UpdateBlocker,
 } from "@screenrec/protocol";
 import {
   listenLocal,
@@ -86,7 +91,8 @@ import { operationFailure } from "./operation-errors.js";
 export async function startProjectService(options: {
   home: string;
   worker?: MediaWorker;
-  control?: { input: Readable; output: Writable };
+  version?: string | null;
+  control?: { input: Readable; output: Writable; timeoutMs?: number };
 }) {
   const started = performance.now();
   const library = join(options.home, "library");
@@ -109,11 +115,51 @@ export async function startProjectService(options: {
   const modelLifetime = new AbortController();
   const modelPreparations = new Set<Promise<void>>();
   const pending = new Set<Promise<OperationResult>>();
+  let boundListener: LocalListener | undefined;
+  let starting = true;
+  let update: UpdateStatus = {
+    state: "unavailable",
+    availableVersion: null,
+    blockers: [],
+    error: null,
+  };
+  const admission = new UpdateAdmission(
+    () => {
+      const blockers: UpdateBlocker[] = [];
+      if (starting) blockers.push("startup");
+      if (pending.size) blockers.push("requests");
+      if (boundListener?.updateBlocked || controller?.updateBlocked) blockers.push("transport");
+      if (jobs?.updateBlocked) blockers.push("jobs");
+      if (captureControl?.updateBlocked) blockers.push("capture");
+      if (exports?.updateBlocked) blockers.push("publication");
+      if (deletion?.updateBlocked || recordingDeletion?.updateBlocked) blockers.push("deletion");
+      if (packages?.updateBlocked) blockers.push("packages");
+      if (delivery.updateBlocked) blockers.push("delivery");
+      if (modelsOwner?.updateBlocked || modelPreparations.size) blockers.push("models");
+      if (storage?.updateBlocked) blockers.push("storage");
+      return blockers;
+    },
+    () => controller?.emit({ event: "update.progress" }),
+    options.control?.timeoutMs,
+    (waiting) => {
+      const callback = waiting ? admission.progress : undefined;
+      delivery.onUpdateProgress = callback;
+      if (modelsOwner) modelsOwner.onUpdateProgress = callback;
+      if (storage) storage.onUpdateProgress = callback;
+      if (deletion) deletion.onUpdateProgress = callback;
+      if (recordingDeletion) recordingDeletion.onUpdateProgress = callback;
+      if (exports) exports.onUpdateProgress = callback;
+      if (packages) packages.onUpdateProgress = callback;
+      if (captureControl) captureControl.onUpdateProgress = callback;
+      if (jobs) jobs.onUpdateProgress = callback;
+    },
+  );
   let closing = false;
   let closed: Promise<void> | undefined;
   const close = (): Promise<void> => {
     if (closed) return closed;
     closing = true;
+    admission.close();
     closed = Promise.resolve().then(async () => {
       controller?.close();
       modelLifetime.abort();
@@ -684,6 +730,8 @@ export async function startProjectService(options: {
               ok: true,
               data: {
                 status: "ready",
+                version: options.version ?? null,
+                update,
                 pid: process.pid,
                 socketPath: serviceSocketPath(runtime),
                 home: options.home,
@@ -819,7 +867,10 @@ export async function startProjectService(options: {
                   if (!modelLifetime.signal.aborted) console.error(error);
                 });
               modelPreparations.add(preparing);
-              void preparing.finally(() => modelPreparations.delete(preparing));
+              void preparing.finally(() => {
+                modelPreparations.delete(preparing);
+                admission.progress();
+              });
             }
             return { ok: true, data: await models.status(modelId) };
           }
@@ -1262,8 +1313,14 @@ export async function startProjectService(options: {
       const task = Promise.resolve(handle(request, signal));
       pending.add(task);
       void task.then(
-        () => pending.delete(task),
-        () => pending.delete(task),
+        () => {
+          pending.delete(task);
+          admission.progress();
+        },
+        () => {
+          pending.delete(task);
+          admission.progress();
+        },
       );
       return task;
     };
@@ -1281,6 +1338,7 @@ export async function startProjectService(options: {
       worker,
       console.error,
       () => {
+        admission.progress();
         try {
           resumeCaptureSources();
         } finally {
@@ -1298,12 +1356,39 @@ export async function startProjectService(options: {
       files,
       sources: captureSources,
     });
-    listenerStarting = listenLocal({ runtimeDirectory: runtime, handler: serve, delivery });
+    listenerStarting = listenLocal({
+      runtimeDirectory: runtime,
+      handler: serve,
+      delivery,
+      admission,
+    });
     if (options.control)
       controller = openControl({
         ...options.control,
+        admission,
         dispatch: async (request) => {
           if (closing) return operationError("SERVICE_STOPPED", "Service is closing", true);
+          if (updateControlOperations.has(request.operation)) {
+            const parsed = updateControlSchema.safeParse({
+              operation: request.operation,
+              params: request.params,
+            });
+            if (!parsed.success)
+              return operationError("INVALID_PARAMS", "Invalid private update request");
+            const command = parsed.data;
+            switch (command.operation) {
+              case "update.prepare":
+                return admission.prepare();
+              case "update.commit":
+                return admission.commit(command.params.permitId);
+              case "update.release":
+                return admission.release(command.params.permitId);
+              case "update.report":
+                update = command.params.update;
+                admission.observe(update.state === "waiting");
+                return { ok: true, data: { reported: true } };
+            }
+          }
           if (request.operation !== "capture.report") return serve(request, modelLifetime.signal);
           const report = captureReportSchema.safeParse(request.params);
           if (!report.success) return operationError("INVALID_PARAMS", "Invalid capture report");
@@ -1325,6 +1410,7 @@ export async function startProjectService(options: {
           await captureCoordinator.reconcileStranded();
         })();
     const listener = await listenerStarting;
+    boundListener = listener;
     if (closing) {
       await close();
       throw new CatalogError(
@@ -1338,10 +1424,16 @@ export async function startProjectService(options: {
     void reconciliation
       .then(() => {
         if (closing) return;
+        starting = false;
+        admission.progress();
         resumeCaptureSources();
         for (const error of mediaExports.resumeRecovery()) console.error(error);
       })
-      .catch(console.error);
+      .catch((error) => {
+        starting = false;
+        admission.progress();
+        console.error(error);
+      });
     return { socketPath: listener.socketPath, assets, close };
   } catch (error) {
     await close();

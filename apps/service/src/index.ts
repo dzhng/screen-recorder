@@ -20,13 +20,18 @@ import {
   type OperationRequest,
   type OperationWireRequest,
   type OperationResult,
+  updateControlOperations,
 } from "@screenrec/protocol";
 
 export type LocalHandler = (
   request: OperationRequest,
   signal: AbortSignal,
 ) => OperationResult | Promise<OperationResult>;
-export type LocalListener = { socketPath: string; close(): Promise<void> };
+export type LocalListener = {
+  socketPath: string;
+  readonly updateBlocked: boolean;
+  close(): Promise<void>;
+};
 
 /**
  * Creates a missing runtime directory privately and refuses an existing one that is not
@@ -50,6 +55,7 @@ export async function listenLocal(options: {
   runtimeDirectory: string;
   handler: LocalHandler;
   delivery?: DerivativeDelivery;
+  admission?: { refusal(): OperationResult | undefined; progress(): void };
   readTimeoutMs?: number;
   maxConnections?: number;
   maxInFlight?: number;
@@ -62,6 +68,7 @@ export async function listenLocal(options: {
   const sockets = new Set<Socket>();
   let accepting = false;
   let inFlight = 0;
+  let accepted = 0;
   const server = createServer((socket) => {
     if (!accepting || sockets.size >= maxConnections) {
       socket.destroy();
@@ -70,13 +77,24 @@ export async function listenLocal(options: {
     sockets.add(socket);
     const reader = new JsonLineReader(REQUEST_FRAME_BYTES);
     const controller = new AbortController();
+    let active = false;
+    let handlerDone = false;
+    let socketClosed = false;
+    const settle = () => {
+      if (!active || !handlerDone || !socketClosed) return;
+      active = false;
+      accepted -= 1;
+      options.admission?.progress();
+    };
     let releaseResult: (() => void) | undefined;
     const deadline = setTimeout(() => socket.destroy(), readTimeoutMs);
     socket.on("close", () => {
+      socketClosed = true;
       clearTimeout(deadline);
       controller.abort();
       releaseResult?.();
       sockets.delete(socket);
+      settle();
     });
     socket.on("error", () => socket.destroy());
     socket.on("end", () => socket.destroy());
@@ -143,6 +161,15 @@ export async function listenLocal(options: {
         socket.setTimeout(readTimeoutMs, () => socket.destroy());
         socket.end(frame);
       };
+      if (updateControlOperations.has(operation.operation)) {
+        reply(operationError("UNKNOWN_OPERATION", "Unknown service operation"));
+        return;
+      }
+      const refusal = options.admission?.refusal();
+      if (refusal) {
+        reply(refusal);
+        return;
+      }
       if (inFlight >= maxInFlight) {
         reply(
           operationError(
@@ -166,6 +193,8 @@ export async function listenLocal(options: {
         return;
       }
       inFlight += 1;
+      active = true;
+      accepted += 1;
       void Promise.resolve()
         .then(() => options.handler(operation, controller.signal))
         .finally(() => {
@@ -174,7 +203,11 @@ export async function listenLocal(options: {
           inFlight -= 1;
         })
         .then(reply, () => reply(operationError("INTERNAL_ERROR", "Service handler failed")))
-        .finally(() => releaseResult?.());
+        .finally(() => {
+          releaseResult?.();
+          handlerDone = true;
+          settle();
+        });
     });
   });
   let closePromise: Promise<void> | undefined;
@@ -199,5 +232,11 @@ export async function listenLocal(options: {
     throw error;
   }
   accepting = true;
-  return { socketPath, close };
+  return {
+    socketPath,
+    get updateBlocked() {
+      return accepted > 0;
+    },
+    close,
+  };
 }

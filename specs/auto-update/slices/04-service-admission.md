@@ -81,3 +81,81 @@ provided each lifetime has one owner and a race test. Do not expand into a new
 public command family or long-lived drain allowlist. Inventory each mapped owner
 with coverage or a reason another owner fully covers it. Feedback changes this
 slice if waiting blocks the user's ordinary workflow or reports a false idle.
+
+## Service pass — 2026-10-04
+
+Implemented independently of the native updater. The private pipe owns strict
+prepare/commit/release/report requests and the payload-free `update.progress`
+event. Socket admission rejects private update operations and fences ordinary
+requests before delivery reservation or dispatch. Waiting leaves every ordinary
+operation usable. A service-owned UUID permit expires on the control call deadline
+unless committed; stale references never release a successor.
+
+The gate reads existing-owner evidence, including transport write/close completion;
+it does not call cancel, close previews, drain queues or mutate domain state.
+Notifications coalesce by event turn and owner subscriptions exist only while a
+candidate waits. The running service reads an optional adjacent runtime manifest
+version; standalone/personal metadata defaults to null and update state defaults
+to unavailable. Packaging of that version and native status production remain the
+later slices' work.
+
+### Owner coverage
+
+| Owner | Evidence and coverage |
+| --- | --- |
+| Socket/control acceptance and reply lifetime | Actual frames and private pipe: arrival race, held control write, write throw, disconnect, stale permits and lost preparation acknowledgement. Socket requests remain owned until handler settlement **and** actual close. |
+| Durable/context jobs and native workers | Queue snapshot includes waiting, queued, running, canceled attempts and pending admission. Service cancellation barrier and core wait/queue tests pass. The existing worker owner settles on child **close**, covering process and pipe drain; no second worker registry. |
+| Capture/report/reconciliation | Actual pipe tests cover preparation, recording, finalizing, settled report and outstanding startup observation. Native media remains a scripted edge; no desktop capture. |
+| Publication/deletion | Service export admission and disconnected deletion/storage-worker barriers; queue covers rendering/publication attempts and cleanup. Settled durable export receipts are history, not live handles. Existing recording/project deletion files remain green. |
+| Package handles | Owner-generated package metadata plus real retained extracted files through service open/status/close. Ready handle and asynchronous cleanup both block. The worker edge is scripted, so this does not certify native ZIP authentication/extraction. |
+| Delivery/result/media/preview leases | One delivery owner covers reservations and every derivative kind. Reply-created result lease, autonomous expiry, existing media lease/renew/revoke tests and result-capacity tests pass. No preview is closed to obtain idle. |
+| Models | Existing preparation/verification owner blocks through settlement and notifies without a new status request. Controlled local HTTP bytes exercise the owner; no registered model download or inference. |
+| Storage/startup | Disconnected storage observation remains owned until descriptor closure. Pre-listener recovery is unavailable externally; post-listener reconciliation has explicit startup and domain blockers. |
+
+### Verification
+
+Focused green proof: 93 service tests across eight files, 132 core owner tests
+across four files and 20 protocol tests across two files. Protocol, core and
+service builds and typechecks pass; the diff check passes. Targeted lint passes
+with one unchanged constant-condition warning in the package owner.
+
+Initial red: real `update.prepare` pipe request answered UNKNOWN_OPERATION rather
+than a permit. Regression falsifications: removing the owner inspection made seven
+service blocker tests fail; disabling the job/model snapshots made their owner
+tests fail; removing event coalescing emitted nine notifications instead of one;
+removing health projection broke both version and native-status tests; omitting startup evidence broke the real-child reconciliation case; skipping failure release kept health fenced after a failed owner snapshot. Every
+mutation was restored and the owning checks rerun green. The synchronous output
+write test first exposed a stranded transport blocker and then passed after write
+settlement handled both callback and throw.
+
+The independent Codex review found test success narrowing and a failure teardown
+that could wait before releasing a held worker. Both were corrected. Its sandbox
+could not bind sockets (EPERM); actual socket proofs above ran in this worktree.
+Shape review retained one gate and each existing owner, removed a duplicate refusal
+from the already-admitted handler, and kept the transport fence at complete-frame
+acceptance. No dependency, table, native updater, build/release modification or
+polling loop was added.
+
+Full feature acceptance and native updater integration remain OPEN; these service
+checks do not establish Sparkle install safety, launch/swap exclusion, OS signing,
+permission preservation or installed A→B acceptance. The repository-wide final
+run belongs to completion of the assembled spec, not this independent pass.
+
+### Actual envelope timeline
+
+Captured from the built service child in a disposable home. The app-side fixture
+held one native status answer; no capture or media worker was started. These are
+the actual correlated envelopes (the startup announcement is omitted).
+
+```jsonl
+{"event":"call","request":{"id":"service-1","operation":"capture.status","params":{}}}
+{"event":"result","response":{"id":"blocked","ok":true,"data":{"kind":"blocked","blockers":["requests","transport"]}}}
+{"event":"result","response":{"id":"waiting-open","ok":true,"data":{"projects":[],"nextCursor":null}}}
+{"event":"update.progress"}
+{"event":"result","response":{"id":"accepted","ok":true,"data":{"device":{"state":"idle","recordingId":null,"sourceId":null,"elapsedUs":null,"selection":null,"permissions":{"screen":true,"microphone":"authorized","camera":"not_determined"}},"recording":null}}}
+{"event":"update.progress"}
+{"event":"result","response":{"id":"permit","ok":true,"data":{"kind":"prepared","permitId":"47d71f7b-c1eb-453c-9b5f-dccaf5bdbced"}}}
+{"ok":false,"error":{"code":"UPDATING","message":"Service replacement is prepared; retry after the update","retryable":true,"details":{}},"id":"refused"}
+{"event":"result","response":{"id":"released","ok":true,"data":{"released":true}}}
+{"ok":true,"data":{"projects":[],"nextCursor":null},"id":"reopened"}
+```

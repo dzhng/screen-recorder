@@ -147,6 +147,10 @@ function summarize(row: Lifecycle, job: Job["state"] | null) {
 /** Durable external truth belongs here; execution state and retries remain in JobQueue.
  * Prerequisites wait in that queue while this owner pins their source generation. */
 export class MediaExports {
+  onUpdateProgress: (() => void) | undefined;
+  get updateBlocked(): boolean {
+    return this.creating.size > 0 || this.retiring.size > 0 || this.admittingRecovery;
+  }
   private readonly references: ResourceReferences;
   private readonly creating = new Map<Promise<unknown>, string>();
   private readonly lifetime = new AbortController();
@@ -493,7 +497,10 @@ export class MediaExports {
     return { state: "waiting", dependency: status.jobId };
   }
   create(request: Request) {
-    const pending = this.prepareIntent(request).finally(() => this.creating.delete(pending));
+    const pending = this.prepareIntent(request).finally(() => {
+      this.creating.delete(pending);
+      this.onUpdateProgress?.();
+    });
     this.creating.set(pending, request.exportId);
     return pending;
   }
@@ -1124,7 +1131,10 @@ export class MediaExports {
           true,
         );
       })
-      .finally(() => this.retiring.delete(exportId));
+      .finally(() => {
+        this.retiring.delete(exportId);
+        this.onUpdateProgress?.();
+      });
     this.retiring.set(exportId, result);
     return result;
   }

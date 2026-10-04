@@ -86,3 +86,79 @@
 Fixture names, controlled acquisition mirrors, health interpretation data, canonical
 topology and explicit overwrite semantics follow delegated or fixed slice decisions;
 they are not new product policy. No app updater implementation belongs to this pass.
+
+## Service admission pass — 2026-10-04
+
+Audited after implementation and the shape/code/docs review. All entries below
+are sound; none requires a user-only decision. Least confident first. The plan
+delegated internal naming, snapshot versus counter implementation and compact
+blocker labels; those discretionary calls are not invented policy.
+
+### Optional adjacent runtime version
+
+- **When:** service admission pass.
+- **Choice:** read `runtime.json.version` beside the running service entry. When a
+  packaged app supplies `"2.0.0"`, health reports that running release. A source
+  service or a personal build without that metadata reports null. The alternative
+  would derive a version from the checkout, executable path or a CLI process;
+  those can describe a different release from the service the caller reached.
+- **Gap:** the spec prescribed owner-derived bundle metadata but not the metadata
+  field or service loading seam. The bundle already owns an adjacent runtime
+  manifest for interpreter/control facts.
+- **Reach:** later packaging must write this optional field from its version owner.
+  This pass does not generate it or claim an old live CLI has upgraded.
+- **Verdict:** sound; reuses the existing metadata owner and preserves the specified
+  unavailable/null fallback.
+- **Confidence:** medium.
+
+### Invalid stale permit responses
+
+- **When:** service admission pass.
+- **Choice:** an expired, released, foreign or stale permit produces
+  `INVALID_PERMIT` on commit and release. For example, the app releases A, obtains
+  B, then retries releasing A after losing its earlier answer. The service refuses
+  A and keeps B fenced. Returning an idempotent release success was the unbuilt
+  alternative; it would also be safe if it never touched B.
+- **Gap:** the spec fixed invalidation and successor safety, but not the stale
+  release response. This implementation keeps only the current permit, with no
+  historical-reference cache or request replay registry.
+- **Reach:** native cleanup should treat this response as an already-invalid
+  reference, while preserving a different current permit. It must not retry
+  commitment with an invalid reference.
+- **Verdict:** sound; distinguishes absence of ownership without weakening the
+  successor invariant. Repeated release is safe but returns an error envelope.
+- **Confidence:** medium.
+
+### A second prepare does not reuse a held reference
+
+- **When:** service admission pass.
+- **Choice:** while A is prepared or committed, another prepare returns retryable
+  `UPDATING`. If A's preparation response is lost, its existing call deadline
+  releases the uncommitted fence; the app can then request a fresh reference. The
+  alternative would hand A back on another prepare, requiring a replay/ownership
+  rule the protocol never specified.
+- **Gap:** concurrent or repeated prepare response semantics were not specified.
+- **Reach:** the native coordinator owns one preparation attempt and waits for its
+  answer or deadline; the service does not create or hand over a successor while
+  a committed owner remains live.
+- **Verdict:** sound; one current reference and the existing deadline cover lost
+  acknowledgement without another registry.
+- **Confidence:** high.
+
+### Candidate waiting status owns notification subscription
+
+- **When:** service admission pass.
+- **Choice:** a blocked prepare or native `update.report` with state `waiting`
+  enables progress callbacks. A nonwaiting report, a successful preparation,
+  release or shutdown removes them. If a candidate is discarded while blocked
+  (so no permit exists), its nonwaiting report disarms notifications. The unbuilt
+  alternative would add another private watch/discard command or leave every
+  owner permanently subscribed.
+- **Gap:** the spec required subscriptions only while needed and removal on
+  discard, but did not add a separate subscription operation.
+- **Reach:** native status reporting must reflect candidate discard. Progress is
+  an invitation to recheck; the service does not re-run prepare or schedule an
+  updater loop on the app's behalf.
+- **Verdict:** sound; the existing private status contract supplies candidate
+  lifetime without creating another control surface or snapshot owner.
+- **Confidence:** high.

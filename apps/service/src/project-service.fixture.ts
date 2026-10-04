@@ -9,6 +9,44 @@ import { callLocal } from "@screenrec/client";
 import { encodeJsonLine, REQUEST_FRAME_BYTES } from "@screenrec/protocol";
 import { startProjectService } from "./project-service.js";
 import type { MediaWorker } from "./worker.js";
+import { PassThrough } from "node:stream";
+import { EventEmitter, once } from "node:events";
+import {
+  CONTROL_FRAME_BYTES,
+  JsonLineStream,
+  type ControlMessage,
+  type ControlResponse,
+} from "@screenrec/protocol";
+
+/** The same framed pipe and socket composition as the native host, with observable write completion. */
+export async function projectServiceControlFixture(
+  cleanups: (() => Promise<void>)[],
+  worker: MediaWorker,
+) {
+  const input = new PassThrough(),
+    output = new PassThrough();
+  const stream = new JsonLineStream(CONTROL_FRAME_BYTES);
+  const events = new EventEmitter();
+  let sequence = 0;
+  output.on("data", (chunk: Buffer) => {
+    for (const outcome of stream.push(chunk)) {
+      if (!outcome.ok) throw outcome.error;
+      const message = outcome.value as ControlMessage;
+      if (message.event === "result") events.emit(message.response.id!, message.response);
+      else events.emit(message.event, message);
+    }
+  });
+  const fixture = await projectServiceFixture(cleanups, worker, undefined, {
+    control: { input, output },
+  });
+  const control = async (operation: string, params: Record<string, unknown> = {}) => {
+    const id = `fixture-${++sequence}`;
+    const response = once(events, id);
+    input.write(JSON.stringify({ event: "request", request: { id, operation, params } }) + "\n");
+    return (await response)[0] as ControlResponse;
+  };
+  return { ...fixture, control, events, input, output };
+}
 
 export function probeFileFixture(home: string, worker: MediaWorker): MediaWorker {
   return async (operation, params, options) => {
@@ -41,12 +79,14 @@ export async function projectServiceFixture(
   cleanups: (() => Promise<void>)[],
   worker: MediaWorker,
   existingHome?: string,
+  serviceOptions: Pick<Parameters<typeof startProjectService>[0], "control" | "version"> = {},
 ) {
   const home = existingHome ?? (await mkdtemp(join(tmpdir(), "asset-service-")));
   if (!existingHome) cleanups.push(() => rm(home, { recursive: true, force: true }));
   const path = join(home, "source.png");
   await writeFile(path, "image bytes");
   const service = await startProjectService({
+    ...serviceOptions,
     home,
     worker: probeFileFixture(home, worker),
   });
