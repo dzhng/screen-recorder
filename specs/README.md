@@ -31,8 +31,8 @@ isolation. It is audit evidence, not a media-editing implementation plan.
 These directories hold planning questions, not unfinished implementation slices.
 Release publishing is already owned by the [tag workflow](../scripts/README.md#versioned-github-releases).
 
-[Automatic updates](auto-update/README.md) records agreed behavior and remaining
-questions for updating an installed app and CLI.
+[Automatic updates](auto-update/README.md) holds the completed four-quadrant map,
+delegated decisions and OPEN implementation proofs for installed app/CLI updates.
 
 [Editing UI](editing-ui/README.md) is a deferred client over shared operations.
 [Presenter effects](presenter-effects/README.md) retain visual intent and missing

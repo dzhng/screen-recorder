@@ -1,117 +1,163 @@
-# Automatic updates
+# Automatic updates: four-quadrant map
 
-Status: discovery in progress. These are agreed requirements and open questions;
-installed-app updating is not implemented. Publishing a release already means
-bumping the version and pushing its tag through the existing
-[release workflow](../../scripts/README.md#versioned-github-releases).
+Status: exploration complete; implementation has not started. This map settles
+product behavior and identifies technical proofs still needed. Publishing remains
+version, tag, [release](../../scripts/README.md#versioned-github-releases), without
+a tester rollout or release approval process.
 
-## Agreed behavior
+## Known knowns
 
-Answered by the user:
+Confirmed by the user:
 
-- Download updates automatically and install when recording and background work
-  are idle, with an opt-out setting. Keep updates automatic without interrupting
-  work in progress.
-- Update both the application and CLI. They are one delivered product; installing
-  a new app must leave the installed CLI usable with that same release.
-- Release publishing needs no separate tester rollout or feedback process.
-- Installed skills are not changed by automatic app/CLI updates. Skill installation
-  and updates use `npx skills` directly; their usage and latest-skill checks belong
-  in the consumer skill itself.
-- Canonical skill content comes from repository `main`, independently of app
-  releases. Resolve a specific commit when comparing its files.
-- `.agents/skills/screenrec/` is the canonical project installation. Selected
-  agents' skill paths, including `.claude/skills/screenrec`, link to it rather
-  than holding independent copies.
-- No Apple Developer membership or Developer ID certificate is available. Paid
-  membership is not a prerequisite for automatic updates.
+- Download automatically, install when idle, and provide an opt-out. Accepted
+  work must finish without interruption.
+- Update the application and actual CLI together. Skills update only explicitly.
+- Use `npx skills` directly. The canonical project folder is
+  `.agents/skills/screenrec`; other agents' skill paths link there. Whole agent
+  configuration directories remain separate.
+- Latest skill content comes from repository `main`, independently of releases.
+  The skill itself teaches installation, latest-version checks and read-only
+  comparison before explicit replacement or surgical edits.
+- No Apple Developer membership or Developer ID certificate is available or
+  required. Initial macOS approval is distinct from update authentication.
 
-## Existing boundaries
+Established by the territory:
 
-The [release packager](../../scripts/release.mjs) places CLI code, service and Node
-inside the app. Its separate launcher executes the selected app's bundled CLI.
-Replacing the app therefore updates the executable CLI code; any required launcher
-change must also be accounted for. The consumer skill is managed separately.
+- The [release packager](../../scripts/release.mjs) bundles Node, CLI, service and
+  workers in the app. Its external launcher resolves bundled executables from
+  `SCREENREC_APP` or the default location. One bundle replacement can update
+  these components together without separately installing a CLI runtime.
+- The [native app](../../apps/macos/README.md) owns the service lifetime. The
+  [library layout](../../packages/protocol/src/layout.ts) lives outside the app.
+  Source media must stay intact; installing a build must not migrate a library.
+- Existing releases contain no updater. Current
+  [onboarding](../../skills/screenrec/references/installation.md) is manual;
+  the new skill instructions described here have not shipped.
+- Sparkle supports Ed25519-authenticated updates without paid Apple signing.
+  Its [setup guide](https://sparkle-project.org/documentation/) recommends
+  Developer ID/notarization “if possible”; its
+  [validator](https://github.com/sparkle-project/Sparkle/blob/2.x/Sparkle/SUUpdateValidator.m)
+  permits ad-hoc signing authenticated by the update key. This does not prove
+  Gatekeeper or capture-permission continuity.
 
-The [app](../../apps/macos/README.md) owns the service child's lifetime. The updater
-must coordinate replacement with that owner and preserve library and source media.
-Current installation and upgrades follow the consumer skill's
-[manual installation guide](../../skills/screenrec/references/installation.md).
-No Sparkle integration exists. Released bundles are ad-hoc signed and not notarized.
+## Known unknowns: decision ledger
 
-## Explicit skill management
+The user opted into answering remaining planning choices on their behalf.
+Delegation covers this walk, not implementation. Confirmed preferences are quiet
+updates, one delivered app/CLI product, explicit skill changes, upstream tools,
+simple releases and no paid Apple prerequisite.
 
-Use [Vercel's skills CLI](https://github.com/vercel-labs/skills) directly. It owns
-agent discovery, installation, source tracking and links. No custom `screenrec
-skills` commands or second installation manager are planned. Select symlink mode;
-do not use `--copy`. Verify the resulting agent skill paths resolve to `.agents`:
-the upstream installer can fall back to copies when symlink creation fails.
-Agent configuration directories remain separate; the links are at their skill
-paths, not entire `.claude` or other configuration roots.
+Each agent entry is **Answered by the agent on your behalf**; its reason records
+which preference it follows. OPEN entries name the evidence that will resolve them.
 
-The complete consumer folder, including references, is the installation and
-comparison unit. The consumer skill must teach checking current `main`, showing
-a diff against the installed canonical folder, explicitly updating it or applying
-selected changes to preserve customization. First-run setup must also work before
-the Screen Recorder CLI is installed. `npx` needs a compatible Node/npm setup;
-that prerequisite is separate from the app's bundled runtime.
+| Question | Decision and reason | Closed by |
+| --- | --- | --- |
+| Update engine? | App-owned Sparkle; reuse its installer, scheduler and persistent preferences rather than creating another updater. | Agent: upstream tools, simplicity |
+| Scheduling and opt-out? | Automatic checks/downloads enabled; install at a safe idle opportunity. Reuse Sparkle's default interval and opt-out preferences, exposed in app settings. | User: automatic/idle/opt-out; agent: reuse defaults |
+| Stable release meaning? | Ordinary `vMAJOR.MINOR.PATCH` tags, including `v0.*`, are stable. Explicit suffixed prereleases stay out of the stable feed. | Agent: a release is a release |
+| Feed and artifacts? | Upload `appcast.xml` and a signed app-only ZIP before publishing the same stable GitHub release. Feed URL: `https://github.com/dzhng/screen-recorder/releases/latest/download/appcast.xml`. Keep the fresh-install app-plus-launcher kit. A latest-item feed suffices while automatic updates require the same library format. | Agent: existing tag workflow, no update server |
+| Signing and keys? | Embed an Ed25519 public key; back up the private key outside CI and supply it as a release secret. Use a stable self-signed app identity without paid membership. Losing the update key may require manual reinstall; do not assume Developer ID-assisted rotation. | Territory: Sparkle authentication; agent: no paid prerequisite, simple recovery |
+| App/CLI coupling and bootstrap? | Keep bundled executable paths and the launcher contract stable. One-time manual bootstrap installs the updater and coordinated launcher. Personal source builds retain their separate identity and manual installation. | Agent: one product, no parallel installers |
+| What means idle? | No pending/countdown/active/finalizing capture, accepted requests, queued/running work, model preparation, publication, deletion, retained package/delivery/preview resources or native save intent. Drain existing owners and fence new work atomically before replacement; do not cancel work to obtain idle. | Agent: no interruption; territory: lifecycle owners |
+| Requests during replacement? | Reject before dispatch with retryable `UPDATING`; accepted mutations are never automatically replayed. Pause native observation polling during the gate. Existing resources may finish/release; acquiring or renewing resources must not race committed replacement. | Agent: preserve work, avoid starvation |
+| Agent-visible state? | Add update state, available version and concrete blockers/errors to existing `service.health` through the shared protocol. During disconnected replacement, transport failure may still occur. No separate updater command family. | Agent: JSON-first CLI, one contract |
+| Library compatibility? | Automatically install only a candidate with the same catalog format, declared in authenticated candidate metadata and derived from the catalog owner. Missing/incompatible metadata blocks installation. No automatic migration, deletion or reconstruction. | Territory: catalog refuses other formats; agent: preserve library |
+| Failure recovery? | Download/authentication failure leaves the installed app intact. Failed clean drain defers installation and restores admission. Reuse and prove Sparkle's replacement recovery. After new-app startup failure, provide manual reinstall guidance using retained release assets; no custom rollback daemon or promise of postlaunch rollback. | Agent: simple recovery, preserve work |
+| Lightweight skill source? | Fetch the complete consumer folder at a resolved `main` commit with sparse checkout or GitHub contents API, then use local `npx skills add` in symlink mode for discovery/links; never `--copy`. Refresh repeats fetch → compare → explicit add. Local installs have no remote update tracking. | Agent: upstream linking without cloning media |
+| Comparison and customization? | Stage the whole folder in scratch state; display textual diffs, additions, removals and local extras. Read-only comparison changes neither installed files nor metadata. Surgical edits preserve custom files. Explicit replacement backs up and replaces the entire canonical folder through `npx skills`, including removing local extras/upstream deletions; verify links and preserve unrelated agent settings. | User: explicit/surgical updates; agent: clear overwrite semantics |
+| Safe upstream inspection? | Do not advertise `skills check` or `update --dry-run` as read-only. `check` updates; the inspected version has no implemented dry-run. | Territory: published `skills` 1.7.0 |
 
-Territory findings, checked against the published `skills` 1.7.0 package:
+## Unknown knowns: extracted context
 
-- `add` supports agent discovery and a canonical `.agents` folder with symlinks.
-  A scratch project probe installed all references, verified Claude's link and
-  explicit overwrite, and retained unrelated agent settings.
-- `update screenrec --project` refreshes a tracked project skill. `check` is an
-  alias for updating, not a read-only latest-version check. There is no implemented
-  `--dry-run`; unknown update options are ignored. Never present those invocations
-  as safe inspection.
-- A read-only review therefore needs the latest complete skill staged in scratch
-  state, followed by an ordinary diff. Installed files and their tracking metadata
-  must remain untouched until an explicit update.
-- For this repository owner, direct GitHub installation clones the whole repo
-  despite a skill subpath. The tracked spec/fixture content is about 2.8 GB. Use a
-  lightweight acquisition path before installation; the existing sparse checkout
-  or GitHub contents API can fetch only the consumer folder for a local `skills
-  add`. A local-source install does not acquire GitHub update tracking by itself.
+Two concrete proposals drew useful corrections: a tester-feedback spec added
+process the user did not want, and bespoke skill commands duplicated the upstream
+installer. Those reactions establish ordinary releases and reuse as preferences.
 
-## Signing and update authenticity
+Consumers are external agents using the skill and CLI. The runtime target is
+Apple Silicon/macOS 26+, established by [onboarding](../../README.md#agent-setup).
+Docker exercises portable agent behavior; it cannot prove macOS updates or
+permission retention. Done means quiet app/CLI replacement, a usable existing
+library, finished accepted work, and one canonical skill folder after explicit
+skill management.
 
-Answered by the territory: Sparkle's [setup documentation](https://sparkle-project.org/documentation/#3-segue-for-security-concerns)
-recommends Developer ID signing and notarization "if possible", separately from
-signing update archives with Ed25519. Its [update validator](https://github.com/sparkle-project/Sparkle/blob/2.x/Sparkle/SUUpdateValidator.m)
-explicitly permits ad-hoc app signing when authenticating through the update key.
-A paid Apple Developer membership is therefore not needed for this update mechanism.
+Illustrative proposed field inside the existing health result, using fake data;
+this is not a shipped response or final schema:
 
-Recommendation, awaiting the remaining planning decisions: use Sparkle rather than
-build another download/replacement engine. Embed the update public key in the app,
-retain the private key for release signing, and serve signed update archives over
-HTTPS through the existing tag-release workflow. The key does not depend on an
-Apple account. Its retention and backup are necessary for future signed updates.
+```json
+{"update":{"state":"waiting","availableVersion":"0.1.3","blockers":["recording"]}}
+```
 
-Update authenticity, Gatekeeper approval and capture permissions are distinct.
-Current releases are ad-hoc signed; [local source signing](../../scripts/signing-identity.mjs)
-can use a stable self-signed certificate, but the release packager currently
-re-signs ad hoc. Neither path is notarization. Initial launch can still require
-manual macOS approval. An actual old-to-new update must establish which signing
-choice retains screen/microphone permissions; neither archive signatures nor an
-unchanged bundle ID alone prove that behavior. No keychain trust or permission
-settings have been changed during discovery.
+This expresses the delegated choice to expose evidence without making agents
+manage another release lifecycle. Implemented schemas and operation help remain
+authoritative. Opt-out controls updating; it grants no capture permission and
+authorizes no skill changes, model downloads or media edits.
 
-## Open questions
+## Unknown unknowns: landmines
 
-Still in the known-unknowns stage of exploration:
+At source revision `c960af65`, read-only scans covered release/build/install/signing,
+launcher and discovery,
+catalog/library boundaries, native/service lifetime, both service transports,
+jobs/workers, model work, capture, exports, deletion, packages, delivery and native
+preview/save/countdown ownership. Sparkle docs/source and `skills` 1.7.0 were also
+inspected. This is boundary discovery, not an executed installed-upgrade test.
 
-- Release discovery: the current tag workflow makes every `v0.*` tag a prerelease,
-  while onboarding resolves latest stable. Settle one meaning for normal releases.
-- Final updater/signing choice, signing-key custody and recovery, and proof of
-  permission continuity without paid Apple signing.
-- Lightweight skill acquisition and source tracking through `npx skills`, without
-  duplicating its agent/link logic or requiring a full media-repository clone.
-- Read-only skill comparison procedure, diff format, and treatment of local extra
-  files and upstream removals.
-- Exact idle conditions, handling new requests during replacement, restart and
-  update status available to agents.
-- Recovery after failed download, replacement or startup, and compatibility of the
-  retained library with the previous version.
+| Finding and evidence | Why it bites; disposition |
+| --- | --- |
+| [Service close](../../apps/service/src/project-service.ts#L114) aborts model work and revokes leases; [job idle](../../packages/core/src/jobs.ts#L985) ignores queued jobs and shutdown interrupts attempts. | Ordinary quit/idle can destroy accepted work. **Decided:** admission/drain gate over existing owners. |
+| [Socket](../../apps/service/src/index.ts#L83), [control dispatch](../../apps/service/src/control.ts#L77) and [native controls](../../apps/macos/Sources/ScreenRecorder/RecordingControls.swift#L231) admit through different paths. | Status snapshots race new work; countdown precedes the service request. **Decided:** fence every admission path, including native intent. **OPEN:** race proof. |
+| [Launcher](../../scripts/release.mjs#L148) loads bundled Node/CLI before connecting to the service. | A service gate cannot protect file loads during replacement; running clients may retain old code. **OPEN:** coordinate launcher loading/swap and long-lived MCP/CLI clients; prove no partial bundle or unsafe mixed release. |
+| [Capture](../../apps/macos/Sources/ScreenRecorder/CaptureController.swift#L68), [save chooser](../../apps/macos/Sources/ScreenRecorder/ExportController.swift#L43), [preview](../../apps/macos/Sources/ScreenRecorder/PreviewController.swift#L88), [delivery](../../apps/service/src/delivery.ts#L22) and [package handles](../../apps/service/src/package-registry.ts#L73) outlive requests. | “No active request” is insufficient; preview renewals/polling may prevent idle. **Decided:** keep legitimate blockers, gate new acquisition, use existing release/expiry semantics; never revoke to update. |
+| [Native quit](../../apps/macos/Sources/ScreenRecorder/main.swift#L162) finalizes capture; [service shutdown](../../apps/macos/Sources/ScreenRecorder/ServiceHost.swift#L210) escalates to signals. | Updater quit could stop a recording or kill work. **Decided:** idle before updater shutdown; failed drain defers rather than forcing termination. **OPEN:** all Sparkle install paths, including ordinary quit. |
+| [Catalog](../../packages/core/src/catalog.ts#L29) refuses other persisted formats without migration. | Successful replacement can leave a library unusable. **Decided:** same-format automatic updates only; validate authenticated candidate metadata first. |
+| [Plist](../../apps/macos/Info.plist#L11) fixes build version; [builder](../../scripts/build-macos.mjs#L88) writes only display version. | Sparkle needs increasing comparable versions. **Decided:** derive stable bundle/feed versions from the app manifest and verify agreement. |
+| [Workflow](../../.github/workflows/release.yml#L88) makes all `v0.*` tags prerelease while onboarding uses latest stable. | Published versions disappear from normal discovery. **Decided:** align normal-tag publication and feed; publish all assets together from draft. |
+| [Packager](../../scripts/release.mjs#L137) re-signs ad hoc; [personal installer](../../scripts/install-personal.mjs#L97) uses separate identity and can reference host Node. | Stable signing can be overwritten; app swap cannot repair a host-bound launcher. **Decided:** preserve release signing and bootstrap once. **OPEN:** permission continuity. |
+| Sparkle [customization](https://sparkle-project.org/documentation/customization/) and [delegate](https://github.com/sparkle-project/Sparkle/blob/2.x/Sparkle/SPUUpdaterDelegate.h) provide deferred install-on-quit with an immediate-install block. | Default silent install waits for quit; a relaunch delegate is not a universal gate. **Decided:** invoke the install block only when our gate permits it; verify quit paths. |
+| [Programmatic setup](https://sparkle-project.org/documentation/programmatic-setup/) needs framework/helper embedding outside Xcode. | Lost symlinks, executable modes, rpath or incompatible library validation can break a relocated app. **OPEN:** pin Sparkle and prove packaged helper execution/signatures. |
+| Published [skills CLI](https://github.com/vercel-labs/skills) clones this whole repo for direct GitHub sources, may fall back to copies, and lacks read-only update mode. | Media clones, independent copies or accidental updates violate the contract. **Decided:** pinned lightweight fetch, scratch diff, local add and link verification. A scratch probe verified canonical installation, Claude links, references, overwrite and unrelated settings. Updated instructions/evals remain **OPEN**. |
 
-Preferences and failure scenarios remain to be explored after these questions.
+## OPEN implementation proofs
+
+Close these with evidence during implementation, not another preference interview.
+A failed proof reopens its affected decision and is recorded here.
+
+- **Sparkle integration:** pin a supported release/license; prove framework/helpers,
+  archive authentication before extraction, version ordering, GitHub redirects/feed
+  discovery, opt-out persistence and install-block behavior. Check ordinary quit
+  while an update is staged.
+- **Admission and replacement:** exercise queued/running/cancel-cleanup work,
+  leases, native intent and new arrivals at the commit boundary. Prove clean drain
+  or safe deferral, coordinated launcher loading, long-lived clients, replacement
+  failure recovery and relaunch without capture. Select launch/swap synchronization
+  only after this probe.
+- **Existing library:** upgrade a disposable populated library; show unchanged
+  original media and usable recording/project/job data. Reject incompatible or
+  missing format metadata before replacement. Empty-library smoke is insufficient;
+  do not probe on the user's library.
+- **Signing and permissions:** provision/back up keys during implementation, then
+  perform real old-to-new upgrades. Test ad-hoc bootstrap and repeated stable-identity
+  releases; observe screen/microphone permissions and Gatekeeper. If permissions
+  need user action, document it instead of claiming continuity.
+- **Failure limits:** prove failed download/signature/replacement leaves a usable
+  installation. Expose startup failure/manual recovery honestly. Establish which
+  previous releases can read the retained catalog; do not promise arbitrary
+  downgrade or Sparkle postlaunch rollback.
+- **Skill instructions/evals:** update README and consumer skill together. Verify
+  first install without app CLI, pinned read-only full-folder diff, additions/
+  removals/extras, surgical edits, backed-up replacement, agent discovery and real
+  links. Run Claude/Codex in disposable Docker projects; confirm supported
+  `npx skills` behavior/version before prescribing commands. Node/npm availability
+  for `npx` is a separate prerequisite from the app's bundled runtime.
+
+## Copyable implementation prompt
+
+> Implement automatic app and CLI updates from `specs/auto-update/README.md`.
+> Use Sparkle without paid Apple signing, ordinary stable tags and the existing
+> GitHub release workflow. Preserve accepted work/source media, prove admission
+> and launcher coordination before swapping, and block incompatible catalogs.
+> Bootstrap existing installs explicitly. Keep skill changes explicit through
+> `npx skills`, with pinned lightweight fetching, a read-only full-folder diff
+> and canonical `.agents` links; update onboarding and Docker Claude/Codex evals.
+> Write behavior tests first, close OPEN proofs with scoped evidence, and record
+> deviations in this map. Review and push to main, then tag and publish the new
+> release. Keep the release process simple.
