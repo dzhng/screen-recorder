@@ -55,11 +55,11 @@ export class UpdateAdmission {
     return { ok: true as const, data: { committed: true } };
   }
   release(id: string) {
-    if (this.permit?.id !== id)
-      return operationError("INVALID_PERMIT", "Replacement permit is no longer current");
-    clearTimeout(this.permit.timer);
-    this.permit = undefined;
-    this.observe(false);
+    if (this.permit?.id === id) {
+      clearTimeout(this.permit.timer);
+      this.permit = undefined;
+      this.observe(false);
+    }
     return { ok: true as const, data: { released: true } };
   }
   observe(waiting: boolean) {

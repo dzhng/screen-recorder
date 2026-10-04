@@ -44,7 +44,7 @@ test("contracts-only completes without invoking an agent or loading credentials"
   }
 });
 
-test("README trials expose the linked consumer folder without preinstalling a skill", async () => {
+test("README and health trials stage complete controlled inputs without preinstalling a skill", async () => {
   const scratch = await mkdtemp(join(tmpdir(), "eval-readme-"));
   try {
     const log = join(scratch, "inputs.jsonl");
@@ -55,7 +55,7 @@ test("README trials expose the linked consumer folder without preinstalling a sk
     );
     await writeFile(
       join(scratch, "docker"),
-      `#!${process.execPath}\nconst fs=require('node:fs');const cp=require('node:child_process');const args=process.argv.slice(2);if(args[0]==='build'){fs.writeFileSync(args[args.indexOf('--iidfile')+1],'fixture-image')}else if(args[0]==='run'){let data=[];process.stdin.on('data',b=>data.push(b));process.stdin.on('end',()=>{const paths=cp.execFileSync('tar',['-tf','-'],{input:Buffer.concat(data),encoding:'utf8'}).trim().split('\\n');fs.appendFileSync(${JSON.stringify(log)},JSON.stringify(paths)+'\\n');console.log(JSON.stringify({passed:6,response:JSON.stringify({pass:true,evidence:['Fixture response']})}))})}\n`,
+      `#!${process.execPath}\nconst fs=require('node:fs');const cp=require('node:child_process');const args=process.argv.slice(2);if(args[0]==='build'){fs.writeFileSync(args[args.indexOf('--iidfile')+1],'fixture-image')}else if(args[0]==='run'){let data=[];process.stdin.on('data',b=>data.push(b));process.stdin.on('end',()=>{const input=Buffer.concat(data);const paths=cp.execFileSync('tar',['-tf','-'],{input,encoding:'utf8'}).trim().split('\\n');const health=paths.includes('work/health.json')?JSON.parse(cp.execFileSync('tar',['-xOf','-','work/health.json'],{input,encoding:'utf8'})):null;fs.appendFileSync(${JSON.stringify(log)},JSON.stringify({paths,health})+'\\n');console.log(JSON.stringify({passed:6,response:JSON.stringify({pass:true,evidence:['Fixture response']})}))})}\n`,
       { mode: 0o755 },
     );
     execFileSync(
@@ -65,7 +65,7 @@ test("README trials expose the linked consumer folder without preinstalling a sk
         "--agents",
         "codex",
         "--cases",
-        "readme",
+        "readme,update-health-waiting,update-health-disabled",
         "--repeats",
         "1",
         "--cli",
@@ -84,7 +84,7 @@ test("README trials expose the linked consumer folder without preinstalling a sk
       },
     );
     const inputs = (await readFile(log, "utf8")).trim().split("\n").map(JSON.parse);
-    const runner = inputs.find((paths) => paths.includes("work/README.md"));
+    const runner = inputs.find(({ paths }) => paths.includes("work/README.md")).paths;
     assert.ok(runner.includes("work/skills/screenrec/SKILL.md"));
     assert.ok(runner.includes("work/skills/screenrec/references/installation.md"));
     assert.ok(
@@ -92,6 +92,15 @@ test("README trials expose the linked consumer folder without preinstalling a sk
         (path) => path.startsWith("work/.agents/skills/") || path.endsWith("cases.json"),
       ),
     );
+    const health = inputs.map((input) => input.health).filter(Boolean);
+    assert.equal(health.length, 2);
+    for (const evidence of health) {
+      assert.equal(evidence.fixtureOnly, true);
+      assert.equal(evidence.status, "ready");
+      assert.equal(evidence.service, undefined);
+    }
+    assert.deepEqual(health[0].update.blockers, ["capture", "delivery"]);
+    assert.equal(health[1].update.state, "disabled");
   } finally {
     await rm(scratch, { recursive: true, force: true });
   }

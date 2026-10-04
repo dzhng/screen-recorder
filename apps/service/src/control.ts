@@ -85,7 +85,7 @@ export function openControl(options: {
     const bounded = rejection(response.id, "LIMIT_EXCEEDED", oversized);
     if (write({ event: "result", response: bounded }, product)) return;
     // Even the bounded form does not fit, so the correlation ID itself is the excess.
-    emit({ event: "result", response: rejection(null, "LIMIT_EXCEEDED", oversized) });
+    write({ event: "result", response: rejection(null, "LIMIT_EXCEEDED", oversized) }, product);
   };
 
   const answer = (request: OperationRequest): void => {

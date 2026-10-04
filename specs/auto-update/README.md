@@ -24,11 +24,19 @@ the patched helper; this machine has only Command Line Tools. The user was asked
 for that architecture/setup decision. No production dependency or updater is
 installed while the answer is pending.
 
-Continue independent [04 service admission](slices/04-service-admission.md) and
-[08 skill lifecycle](slices/08-skill-lifecycle.md); [03 launcher proof](slices/03-launcher-replacement.md)
-can freeze its shared-lock result but cannot claim safe replacement until the
-installer owns the exclusive lock. Then reproduce the corrected engine before
-signing, packaging and native integration. The remaining proof gates still apply.
+Completed independent passes are integrated. [04 service admission](slices/04-service-admission.md)
+grants atomic private permits and accounts existing-owner lifetimes; repeated
+release succeeds without touching a successor, while stale commitment fails.
+[08 skill lifecycle](slices/08-skill-lifecycle.md) has documented real-installer
+and focused model proof. Its controlled health inputs now match the service's
+`status`, `version` and `update` projection; previous model receipts retain their
+original input scope. Live published-source onboarding and the final two-trial
+matrix remain open. [03 launcher proof](slices/03-launcher-replacement.md) freezes
+the shared-lock result; actual installer ownership remains open.
+
+Next, resolve and reproduce the corrected engine before signing, packaging and
+native integration. The remaining proof gates still apply. Do not repeat unchanged
+native or portable probes to imply progress past this engine gate.
 
 Use scratch app locations, defaults, keys and libraries. Never use the user's
 installed app, permission grants or recording library as fixtures. Release identity
@@ -38,7 +46,7 @@ release version before final artifacts; review/push/tag only verified source.
 - [ ] [01: prove Sparkle authentication, admission and install paths](slices/01-sparkle-replication.md)
 - [ ] [02: prove release signing and permission boundaries](slices/02-signing-identity.md)
 - [ ] [03: prove launcher and old-client replacement safety](slices/03-launcher-replacement.md)
-- [ ] [04: make service update admission atomic](slices/04-service-admission.md)
+- [x] [04: make service update admission atomic](slices/04-service-admission.md)
 - [ ] [05: package authenticated update and bootstrap artifacts](slices/05-release-artifacts.md)
 - [ ] [06: port the proven engine to native lifetime coordination](slices/06-native-coordination.md)
 - [ ] [07: expose a persistent opt-out in existing settings](slices/07-update-preference.md)
@@ -134,10 +142,10 @@ ceremony. Discovery findings do not waive a proof gate.
 
 | Preservation claim | Evidence and owner | Production parity/acceptance |
 | --- | --- | --- |
-| Supported authentication, veto, staging and quit behavior | OPEN: freeze runnable 01 with pinned feed/archive inputs | 06 replays identical inputs through production; 09 confirms assembled behavior. |
+| Supported authentication, veto, staging and quit behavior | [Frozen rejected upstream reproduction](assets/sparkle-reproduction.json); corrected engine remains OPEN | 06 replays accepted inputs through production; 09 confirms assembled behavior. |
 | Stable release identity and observed permission behavior | OPEN: 02 public identity/OS observations | 05 preserves recipe; 09 reruns only if packaging invalidates it. |
-| Complete bundle loads and safe old-client lifetime | OPEN: freeze 03 actual launcher/barrier inputs | 06 drives production entry with those barriers; 09 verifies the installed launcher. |
-| Canonical skill links/references and explicit overwrite | Limited prior report in research.json; 08 reproduces and freezes inputs | 08 compares real documented steps, then runs actual Claude/Codex project evals. |
+| Complete bundle loads and safe old-client lifetime | [Frozen reader-lock proof](assets/launcher-lifetime-proof.json); actual installer ownership remains OPEN | 06 drives production entry with those barriers; 09 verifies the installed launcher. |
+| Canonical skill links/references and explicit overwrite | [Real documented-command parity](assets/skills-production-parity.json) and [focused agent matrix](assets/skills-model-trials.json) | Published-source onboarding and final repeated matrix remain OPEN in 08/09. |
 
 Each accepted spike freezes runnable source/config/dependencies, controlled inputs,
 platform and complete positive/negative traces by commit and digest. Production

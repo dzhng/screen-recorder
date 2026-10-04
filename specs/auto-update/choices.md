@@ -17,39 +17,7 @@
   production-language proof requirement.
 - **Confidence:** medium.
 
-### Reproduce the rejected engine instead of pretending the lab is acceptance
-
-- **When:** slice 01 replication checkpoint.
-- **Choice:** When the busy app quits, upstream Sparkle replaces the app without
-  an install reply. The lab records that defect and its command exits nonzero.
-  Its test suite asserts that the defect is reproduced; the spec's acceptance
-  gate stays failed. Treating a green reproduction as safe updating would hide
-  the very failure that production must fix.
-- **Gap:** The plan did not specify how to retain a useful upstream reproduction
-  after the upstream engine failed a mandatory contract.
-- **Reach:** Future production work must first make the busy-quit command pass
-  the actual preservation requirement, with a separately accepted engine.
-- **Verdict:** sound: a retained failing gate prevents this research checkpoint
-  from becoming a false shipping claim.
-- **Confidence:** high.
-
-
-## Slice 08 — Node owns Git-free acquisition
-
-- **When:** consumer lifecycle pass.
-- **The choice:** use the already required Node runtime to recursively download the
-  GitHub contents API. On a Mac without usable Git, the agent runs one Node script:
-  it resolves `main` once, downloads every reference at that same commit, and stops
-  on missing or unsupported input. A Python implementation would add another
-  consumer prerequisite; a Git-only implementation would leave this Mac blocked.
-- **The gap:** the plan permitted recursive API retrieval without naming its runtime.
-- **The reach:** future acquisition changes keep one runtime prerequisite and preserve
-  the recorded commit across every directory/file request.
-- **Verdict:** sound; actual API and sparse-Git acquisition produced identical file
-  hashes, and controlled unavailable/incomplete API inputs fail explicitly.
-- **Confidence:** high.
-
-## Slice 08 — bounded text beside complete file hashes
+### bounded text beside complete file hashes
 
 - **When:** eval folder receipts pass.
 - **The choice:** retain complete SHA-256 file hashes and symlink targets, but give the
@@ -65,34 +33,6 @@
   compilation cache files entered receipts. The corrected fixture disables that
   disposable cache and retains hashes for every observed project/backup file.
 - **Confidence:** medium.
-
-## Slice 08 — real-installer proof is an explicit integration run
-
-- **When:** independent review closeout.
-- **The choice:** keep the registry-dependent command proof under `evals/integration`,
-  outside the fast `eval:test` file glob. A developer running the ordinary fast
-  harness checks gets deterministic offline checks. A developer proving the actual
-  documented install/replacement runs the named integration test with real
-  `npx skills@1.7.0`. Combining them would make every fast check depend on registry
-  availability because each proof uses a scratch npm home.
-- **The gap:** the plan required both model-free harness checks and actual published
-  installer execution, without deciding whether they shared the default fast command.
-- **The reach:** real installer proof remains mandatory for this slice, but future
-  harness-only edits can use the fast suite without another package download.
-- **Verdict:** sound; this separates infrastructure needs without stubbing the
-  installer or treating offline tests as proof of installation.
-- **Confidence:** high.
-
-Fixture names, controlled acquisition mirrors, health interpretation data, canonical
-topology and explicit overwrite semantics follow delegated or fixed slice decisions;
-they are not new product policy. No app updater implementation belongs to this pass.
-
-## Service admission pass — 2026-10-04
-
-Audited after implementation and the shape/code/docs review. All entries below
-are sound; none requires a user-only decision. Least confident first. The plan
-delegated internal naming, snapshot versus counter implementation and compact
-blocker labels; those discretionary calls are not invented policy.
 
 ### Optional adjacent runtime version
 
@@ -111,23 +51,70 @@ blocker labels; those discretionary calls are not invented policy.
   unavailable/null fallback.
 - **Confidence:** medium.
 
-### Invalid stale permit responses
+### Reproduce the rejected engine instead of pretending the lab is acceptance
 
-- **When:** service admission pass.
-- **Choice:** an expired, released, foreign or stale permit produces
-  `INVALID_PERMIT` on commit and release. For example, the app releases A, obtains
-  B, then retries releasing A after losing its earlier answer. The service refuses
-  A and keeps B fenced. Returning an idempotent release success was the unbuilt
-  alternative; it would also be safe if it never touched B.
+- **When:** slice 01 replication checkpoint.
+- **Choice:** When the busy app quits, upstream Sparkle replaces the app without
+  an install reply. The lab records that defect and its command exits nonzero.
+  Its test suite asserts that the defect is reproduced; the spec's acceptance
+  gate stays failed. Treating a green reproduction as safe updating would hide
+  the very failure that production must fix.
+- **Gap:** The plan did not specify how to retain a useful upstream reproduction
+  after the upstream engine failed a mandatory contract.
+- **Reach:** Future production work must first make the busy-quit command pass
+  the actual preservation requirement, with a separately accepted engine.
+- **Verdict:** sound: a retained failing gate prevents this research checkpoint
+  from becoming a false shipping claim.
+- **Confidence:** high.
+
+### Node owns Git-free acquisition
+
+- **When:** consumer lifecycle pass.
+- **The choice:** use the already required Node runtime to recursively download the
+  GitHub contents API. On a Mac without usable Git, the agent runs one Node script:
+  it resolves `main` once, downloads every reference at that same commit, and stops
+  on missing or unsupported input. A Python implementation would add another
+  consumer prerequisite; a Git-only implementation would leave this Mac blocked.
+- **The gap:** the plan permitted recursive API retrieval without naming its runtime.
+- **The reach:** future acquisition changes keep one runtime prerequisite and preserve
+  the recorded commit across every directory/file request.
+- **Verdict:** sound; actual API and sparse-Git acquisition produced identical file
+  hashes, and controlled unavailable/incomplete API inputs fail explicitly.
+- **Confidence:** high.
+
+### real-installer proof is an explicit integration run
+
+- **When:** independent review closeout.
+- **The choice:** keep the registry-dependent command proof under `evals/integration`,
+  outside the fast `eval:test` file glob. A developer running the ordinary fast
+  harness checks gets deterministic offline checks. A developer proving the actual
+  documented install/replacement runs the named integration test with real
+  `npx skills@1.7.0`. Combining them would make every fast check depend on registry
+  availability because each proof uses a scratch npm home.
+- **The gap:** the plan required both model-free harness checks and actual published
+  installer execution, without deciding whether they shared the default fast command.
+- **The reach:** real installer proof remains mandatory for this slice, but future
+  harness-only edits can use the fast suite without another package download.
+- **Verdict:** sound; this separates infrastructure needs without stubbing the
+  installer or treating offline tests as proof of installation.
+- **Confidence:** high.
+
+### Releasing an absent permit succeeds without disturbing its successor
+
+- **When:** integrated service review.
+- **Choice:** release is idempotent: repeating it reaches the same end state and
+  succeeds. For example, the app releases A, loses that answer, obtains B, then
+  retries releasing A. The service reports A released while leaving B fenced.
+  Committing A still fails with `INVALID_PERMIT`, because it no longer grants
+  permission to install. Refusing a repeated release would force the native
+  cleanup path to interpret an ordinary completed cleanup as an error.
 - **Gap:** the spec fixed invalidation and successor safety, but not the stale
-  release response. This implementation keeps only the current permit, with no
-  historical-reference cache or request replay registry.
-- **Reach:** native cleanup should treat this response as an already-invalid
-  reference, while preserving a different current permit. It must not retry
-  commitment with an invalid reference.
-- **Verdict:** sound; distinguishes absence of ownership without weakening the
-  successor invariant. Repeated release is safe but returns an error envelope.
-- **Confidence:** medium.
+  release response. Only the current permit is retained; no historical cache is
+  needed to recognize that A is already absent.
+- **Reach:** native cleanup can release its reference repeatedly. It must still
+  reject failed commitments rather than treating them as installation permission.
+- **Verdict:** sound; the simpler cleanup contract preserves successor ownership.
+- **Confidence:** high.
 
 ### A second prepare does not reuse a held reference
 

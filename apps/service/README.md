@@ -22,6 +22,23 @@ EOF or broken control output closes the listener and settles owned work. Startup
 reports readiness or a structured failure; the app does not hide failure behind
 a second daemon or an endless restart loop.
 
+## Update admission
+
+The [admission gate](src/update-admission.ts) joins evidence from existing work
+owners and transport lifetimes. Waiting for an update leaves ordinary operations
+usable. A private preparation briefly fences new requests and either returns
+blockers immediately or grants one service-owned replacement permit. Prepared
+admission returns retryable `UPDATING` before acquiring product resources; no work
+is canceled to make the service idle.
+
+Only the inherited app control pipe accepts [update coordination](../../packages/protocol/src/update.ts).
+Release is safe to repeat and never releases a successor's permit; commitment
+requires the current permit. The native app supplies update status, which health
+projects beside the running release version. Until an updater reports, update
+status is unavailable; absent runtime version metadata reports null. An unavailable updater or disabled
+automatic updating does not imply an unhealthy service. This gate provides no
+bundle-replacement, code-signing or launch-lock guarantee by itself.
+
 ## One runtime owner
 
 Never unlink a live listener's path. Recovery needs proof the prior owner is gone;

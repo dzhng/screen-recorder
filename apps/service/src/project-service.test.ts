@@ -30,6 +30,7 @@ import { EventEmitter } from "node:events";
 import { projectPackageManifest } from "@screenrec/core/project-package";
 import { fileIdentity } from "@screenrec/core/files";
 import type { ProjectSnapshot } from "@screenrec/core/projects";
+import { CONTROL_FRAME_BYTES } from "@screenrec/protocol";
 const cleanups: (() => Promise<void>)[] = [];
 afterEach(async () => {
   vi.restoreAllMocks();
@@ -131,49 +132,69 @@ test("lifetime progress coalesces in one event turn and stops when the candidate
   expect(notifications).toBe(1);
 });
 
-test("an unrelated control reply remains owned until the output write completes", async () => {
-  const input = new PassThrough(),
-    events = new EventEmitter();
-  let release = () => {};
-  const output = new Writable({
-    write(bytes, _encoding, done) {
-      const message = JSON.parse(bytes.toString());
-      if (message.event === "result" && message.response.id === "held") {
-        release = done;
-        events.emit("held");
-      } else {
-        if (message.event === "result") events.emit(message.response.id, message.response);
-        done();
-      }
-    },
-  });
-  const f = await projectServiceFixture(cleanups, async () => ({ ok: true, data: {} }), undefined, {
-    control: { input, output },
-  });
-  const held = once(events, "held");
-  input.write(
-    JSON.stringify({
+test.each(["correlated", "uncorrelated"])(
+  "the %s control reply remains owned until the output write completes",
+  async (kind) => {
+    const input = new PassThrough(),
+      events = new EventEmitter();
+    let release = () => {};
+    const output = new Writable({
+      write(bytes, _encoding, done) {
+        const message = JSON.parse(bytes.toString());
+        if (
+          message.event === "result" &&
+          message.response.id === (kind === "correlated" ? "held" : null)
+        ) {
+          release = () => {
+            release = () => {};
+            done();
+          };
+          events.emit("held");
+        } else {
+          if (message.event === "result") events.emit(message.response.id, message.response);
+          done();
+        }
+      },
+    });
+    const f = await projectServiceFixture(
+      cleanups,
+      async () => ({ ok: true, data: {} }),
+      undefined,
+      {
+        control: { input, output },
+      },
+    );
+    cleanups.push(async () => release());
+    const held = once(events, "held");
+    const request = {
       event: "request",
-      request: { id: "held", operation: "project.list", params: {} },
-    }) + "\n",
-  );
-  await held;
-  const answered = once(events, "prepare");
-  input.write(
-    JSON.stringify({
-      event: "request",
-      request: { id: "prepare", operation: "update.prepare", params: {} },
-    }) + "\n",
-  );
-  await new Promise((resolve) => setImmediate(resolve));
-  // The private reply is buffered behind the product reply, but waiting has already reopened admission.
-  expect(await f.call("project.list", {})).toMatchObject({ ok: true });
-  release();
-  expect((await answered)[0]).toMatchObject({
-    ok: true,
-    data: { kind: "blocked", blockers: ["transport"] },
-  });
-});
+      request: { id: "held", operation: "service.health", params: {} },
+    };
+    if (kind === "uncorrelated") {
+      request.request.id = "";
+      request.request.id = "i".repeat(
+        CONTROL_FRAME_BYTES - Buffer.byteLength(JSON.stringify(request) + "\n"),
+      );
+    }
+    input.write(JSON.stringify(request) + "\n");
+    await held;
+    const answered = once(events, "prepare");
+    input.write(
+      JSON.stringify({
+        event: "request",
+        request: { id: "prepare", operation: "update.prepare", params: {} },
+      }) + "\n",
+    );
+    await new Promise((resolve) => setImmediate(resolve));
+    // The private reply is buffered behind the product reply, but waiting has already reopened admission.
+    expect(await f.call("project.list", {})).toMatchObject({ ok: true });
+    release();
+    expect((await answered)[0]).toMatchObject({
+      ok: true,
+      data: { kind: "blocked", blockers: ["transport"] },
+    });
+  },
+);
 
 test("a synchronous control write failure releases its transport obligation", async () => {
   const input = new PassThrough(),
@@ -678,12 +699,15 @@ test("a lost preparation acknowledgement expires while committed ownership keeps
   await delay(60);
   expect(
     await ask("old-release", "update.release", { permitId: lost.data.permitId }),
-  ).toMatchObject({ ok: false });
+  ).toMatchObject({ ok: true, data: { released: true } });
   expect(await f.call("project.list", {})).toMatchObject({
     ok: false,
     error: { code: "UPDATING" },
   });
   await ask("release", "update.release", { permitId: next.data.permitId });
+  expect(
+    await ask("release-again", "update.release", { permitId: next.data.permitId }),
+  ).toMatchObject({ ok: true, data: { released: true } });
   expect(await f.call("project.list", {})).toMatchObject({ ok: true });
 });
 test("project service delivers complete operation results through its shared artifact owner", async () => {

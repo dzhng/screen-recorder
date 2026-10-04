@@ -21,6 +21,10 @@ returns `{kind: 'blocked', blockers}` or `{kind: 'prepared', permitId}`. The opa
 reference names one service-owned permit bound to its issuing process and control
 channel. The app never owns or reconstructs the service permit.
 
+Release is idempotent: an absent reference already has the requested end state.
+It succeeds without altering another current permit. Commitment still requires
+the current reference and fails with `INVALID_PERMIT` otherwise.
+
 Use the existing call timeout as the preparation acknowledgement deadline; an
 uncommitted lost-reply/expired permit releases its own fence. Control disconnect,
 service replacement or release invalidates the reference. A stale commit/release
@@ -140,6 +144,22 @@ Full feature acceptance and native updater integration remain OPEN; these servic
 checks do not establish Sparkle install safety, launch/swap exclusion, OS signing,
 permission preservation or installed A→B acceptance. The repository-wide final
 run belongs to completion of the assembled spec, not this independent pass.
+
+### Integrated review
+
+The primary worktree built protocol, core, client and service before exercising
+the eight owning service files; focused core/protocol checks and typechecks passed.
+Release became idempotent after the integrated shape review: a real private-pipe
+regression first failed on releasing an expired reference, then passed while
+proving that its successor stayed fenced and repeated cleanup succeeded.
+
+Independent Codex review found the null-ID fallback for an oversized control
+reply dropped product-write ownership. A held-write case through the real service
+first reproduced premature preparation; the final fallback now uses the same
+owned write path as correlated replies. Both reply variants pass. The changed
+service/lifetime files were rerun after this correction. Codex's own socket checks
+were denied by its sandbox (`EPERM`); the primary worktree's socket tests provide
+the actual integration proof. No admission or framing requirement was relaxed.
 
 ### Actual envelope timeline
 

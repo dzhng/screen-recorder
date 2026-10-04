@@ -193,14 +193,14 @@ try {
         if (testCase.fixture?.startsWith("update-health-"))
           files["work/health.json"] = JSON.stringify({
             fixtureOnly: true,
-            schemaStatus: "controlled update-state projection; native execution unverified",
+            schemaStatus: "controlled service.health projection; native execution unverified",
             version: "fixture-version",
-            service: { healthy: true },
+            status: "ready",
             update: testCase.fixture.endsWith("waiting")
               ? {
                   state: "waiting",
                   availableVersion: "fixture-next",
-                  blockers: ["active recording", "open preview"],
+                  blockers: ["capture", "delivery"],
                   error: null,
                 }
               : { state: "disabled", availableVersion: null, blockers: [], error: null },

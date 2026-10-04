@@ -105,8 +105,17 @@ installed schemas and explicitly labels the controlled update-health projection.
 - [x] Review shape, diff and docs; independent Codex review findings about rollback,
   registry coupling and backup teardown are resolved. Observer follow-up review
   is clean. [Choices](../choices.md) records the three invented decisions.
-- [ ] After integration, exercise live remote onboarding against the published
-  current consumer source, reconcile the actual health schema, and run every
+- [x] After integration, reconcile controlled health fixtures with the actual
+  service projection: `status: "ready"`, `version` and `update`, with existing
+  blocker-owner labels. The staging regression failed on the old invented
+  `service.healthy` shape, then passed with actual contract fields. Earlier model
+  receipts remain scoped to their original fixture inputs. The fresh
+  [2 health cases × 2 agents × 1 trial](../assets/health-integration-trials.json)
+  passes all four controlled interpretation tasks. It binds the dirty tree's
+  runner/contract hashes and retained raw evidence; it provides no installed
+  schema or native-update proof and is not the final repeated matrix.
+- [ ] Exercise live remote onboarding against the published current consumer
+  source and run every
   affected/current case twice freshly in both agents with final artifact hashes.
 
 Failed/superseded runs remain in ignored eval results and are excluded from the
