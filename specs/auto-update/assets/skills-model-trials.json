@@ -1,0 +1,416 @@
+{
+  "runnerSourceRevision": "55ccc6cf1f7c1bf9f68c948216346c7d0fabd4ee",
+  "observerSourceRevision": "2c93a125d430252fdfd60b8c05c346d540868ba0",
+  "consumerTree": "2af4ef70511cf3b7e911260876bf89c2bda836d5",
+  "inputs": {
+    "SKILL.md": "9c73d56e74a18c500f80ada438db84c88e4b0f7494ee0ed08dcf18b5c5df829b",
+    "references/editorial-checks.md": "b2416ee902ebd798c1e123b0d192a3b1b5e5c1dd3f2f65bc893ad26de87e20b3",
+    "references/installation.md": "e713125ca0fe70b6bbebaba7bc32c823800c3e1b80c981f630a31095b6255cbe",
+    "references/mcp.md": "fcd32aaa920f2773df6a6d92c4ac0ef389f76cd9a9bffa17c833ad46d25880e0",
+    "references/media-workflows.md": "bc52be82147c3eba5507d099484f4304cc4381e5fde68a1171ab1f64dc931beb",
+    "references/skill-lifecycle.md": "a2520dda45f03b614256a6f23169a8702bc3d2cf55b6f108d6d7f10606591773",
+    "README.md": "4f3e1860cce19e578a6465eff1df8cab2ae3f518487d77333b8b251a2caccae3",
+    "cases.json": "161c1426b3d4b09f811da1c3d325f0b9a4543b3a18799f665f04bb1751ddeb84"
+  },
+  "cli": {
+    "source": "/Users/server/.t3/worktrees/screen-recorder/t3code-0bd9c446/evals/.cache/v0.1.2/main.mjs",
+    "sha256": "e295a409490e6e8934e2e24fb97ad56f8e1eaf3b9e612d85d3ef100a5f38d5de"
+  },
+  "images": {
+    "codex": "sha256:a0e44efe6a3581d5deb985df02b04f57629b88f283b3425cffb0bb2e3dfbb723",
+    "claude": "sha256:792fdad0a3efb421703b50ec05375b28d02edcb4bbdb97b459a33310d290e72e"
+  },
+  "imageInputProof": "skills-image-inputs.json",
+  "plannedMatrix": {
+    "distinctCases": 8,
+    "agents": 2,
+    "freshRunnerTrialsPerCaseAgent": 1,
+    "totalFreshRunnerTrials": 16
+  },
+  "results": [
+    {
+      "case": "first-run",
+      "agent": "codex",
+      "trial": 1,
+      "pass": true,
+      "evidence": [
+        "Observed read-only calls inspected both screenrec/SKILL.md and its bundled references/installation.md, providing a usable guide that travels with the consumer skill.",
+        "Successful curl calls resolved the latest stable release to v0.1.1 and inspected release.json and SHA256SUMS, grounding the platform, runtime, signing, and asset details.",
+        "The procedure downloads assets from one resolved tag, runs 'shasum -a 256 -c SHA256SUMS', and installs both the app and CLI while refusing existing destinations, including symlinks.",
+        "The response states 'No installation was executed' and distinguishes schema execution from service verification: 'successful help alone does not establish service readiness.'",
+        "It identifies Gatekeeper, network, checksum, destination, PATH, and capture-permission blockers, requires no separate Node or MCP setup, and correctly presents Linux as an inspection limitation while supplying the requested Mac procedure."
+      ]
+    },
+    {
+      "case": "readme",
+      "agent": "codex",
+      "trial": 1,
+      "pass": true,
+      "evidence": [
+        "Respects the trial\u2019s scope: \u201cNo installation was executed.\u201d Observed commands only inspect documentation and attempt snapshot verification.",
+        "Uses the complete supplied consumer folder and SOURCE.json revision 55ccc6cf1f7c1bf9f68c948216346c7d0fabd4ee: \u201cSkip remote skill acquisition entirely.\u201d",
+        "Provides the actual project installer command, `npx --yes skills@1.7.0 add \"$screenrec_source\" --skill screenrec --agent codex claude-code --yes`, followed by canonical-folder, Claude symlink-target, and full-folder diff checks.",
+        "Separates Node/npm skill-installer prerequisites from bundled app Node, and supplies released-app download, checksum, installation, PATH, schema-help, and service-health procedures.",
+        "Refuses existing destinations and avoids development skills, full-media cloning, --copy, and destructive overwrite. Distinguishes help execution from service readiness and capture permissions.",
+        "The attempted hash verification failed with `python3: command not found`; the response does not claim that hash verification or installation succeeded. SOURCE.json already binds the supplied controlled mirror."
+      ]
+    },
+    {
+      "case": "skill-install",
+      "agent": "codex",
+      "trial": 1,
+      "pass": true,
+      "evidence": [
+        "Executed `npx --yes skills@1.7.0 add /sandbox/work/upstream/skills/screenrec --skill screenrec --agent codex claude-code --yes` successfully after reading README.md.",
+        "projectFiles receipts show all six canonical `.agents/skills/screenrec` files have hashes identical to the supplied upstream snapshot, including all five references.",
+        "Successful Node verification reports `verifiedFiles: 6`, `localReferencesChecked: 5`, and Claude resolving to `/sandbox/work/.agents/skills/screenrec`; `diff -ru` produced no differences.",
+        "projectFiles records `.claude/skills/screenrec` as a symlink targeting `../../.agents/skills/screenrec`. Node assertions verify `.claude` itself is not a symlink.",
+        "`.claude/settings.json` retains the same before/after SHA-256. No app installation was executed. The failed Python prerequisite check was superseded by successful Node verification."
+      ]
+    },
+    {
+      "case": "skill-diff",
+      "agent": "codex",
+      "trial": 1,
+      "pass": true,
+      "evidence": [
+        "Observed `cat README.md` and `diff -ruN --no-dereference upstream/skills/screenrec .agents/skills/screenrec` actually read the README and compared the full folders; diff exited 1 with all four expected differences.",
+        "The response explains the SKILL.md customization, added.md missing locally, removed.md retained locally, and local-notes.md local extra, and provides their textual diff.",
+        "beforeProjectFiles and projectFiles are identical, including installed files, the discovery symlink, skills-lock.json, and unrelated .claude/settings.json. Node verification also reported 'Hashes, links and metadata unchanged: true'.",
+        "No observed command fetched upstream, installed the app, or ran add/update/check.",
+        "Minor reporting error: 'No commit identity was supplied' overlooks SOURCE.json's sourceRevision; this does not negate the specified inspection and preservation bar."
+      ]
+    },
+    {
+      "case": "skill-surgical",
+      "agent": "codex",
+      "trial": 1,
+      "pass": true,
+      "evidence": [
+        "Observed command read README.md and the installed skill-lifecycle reference.",
+        "Successful Node command used fs.copyFileSync(source,target,fs.constants.COPYFILE_EXCL) and reported 'Verified only addition: .agents/skills/screenrec/references/added.md'; its SHA256 matches upstream: 01b0d336fed8f8a9b48878d875ae8609234e555d18e67eb8578b70f85d515ae2.",
+        "beforeProjectFiles and projectFiles show identical hashes for every preexisting file, including customized SKILL.md, local-notes.md, removed.md, skills-lock.json and .claude/settings.json. The discovery symlink remains ../../.agents/skills/screenrec.",
+        "No whole-folder npx add/update or app installation occurred. Failed Python attempts were followed by successful Node execution with exit code 0 and actual preservation checks."
+      ]
+    },
+    {
+      "case": "skill-replace",
+      "agent": "codex",
+      "trial": 1,
+      "pass": true,
+      "evidence": [
+        "Read README.md and the complete skill-lifecycle instructions before replacement.",
+        "Executed replace.sh containing `npx --yes skills@1.7.0 add \"$screenrec_source\" --skill screenrec --agent codex claude-code --yes`; actual installer output reported \u201cInstallation complete\u201d and the command exited 0.",
+        "Final `diff -ru upstream/skills/screenrec .agents/skills/screenrec` exited 0. Observed canonical files match upstream hashes; local-notes.md and references/removed.md are absent.",
+        "Actual backup files retain the customized SKILL.md, all old references and local-notes.md, the original discovery symlink, and the prior skills-lock.json with matching original hashes.",
+        "Verification checked that Claude\u2019s symlink resolves to /sandbox/work/.agents/skills/screenrec. .claude/settings.json retains its original SHA-256.",
+        "Initial Python and redundant-copy failures were visible and recovered; subsequent backup verification and installation succeeded. The response accurately reports the retained backup and leaves runtime discovery for fresh sessions without claiming app readiness."
+      ]
+    },
+    {
+      "case": "update-health-waiting",
+      "agent": "codex",
+      "trial": 1,
+      "pass": true,
+      "evidence": [
+        "Observed successful reads of screenrec/SKILL.md and health.json via cat; health.json explicitly reports healthy=true, state=\"waiting\", availableVersion=\"fixture-next\", blockers=[\"active recording\",\"open preview\"], and error=null.",
+        "The response accurately identifies those facts and explains: \"the update is waiting for idle\" and \"No work should change,\" without authorizing stopping recording, closing preview, or changing preferences.",
+        "The response states \"fixture-only evidence with native execution unverified\" and makes no native updater verification claim or invented updater command.",
+        "All before/after project file hashes match; observed commands are read-only and no installation or project changes occurred."
+      ]
+    },
+    {
+      "case": "update-health-disabled",
+      "agent": "codex",
+      "trial": 1,
+      "pass": true,
+      "evidence": [
+        "Observed `cat /sandbox/work/health.json` succeeded and returned service.healthy=true, update.state=\"disabled\", availableVersion=null, blockers=[], and error=null; the screenrec skill was also read.",
+        "The response accurately reports a \"healthy service with automatic updates disabled\" and clarifies that \"availableVersion: null does not establish that the app is current.\"",
+        "The response says to \"continue the intended task without stopping work, installing anything, or changing preferences\" and explicitly states \"it provides no native updater verification.\"",
+        "Only read-only commands were observed; all before/after project file hashes match."
+      ]
+    },
+    {
+      "case": "first-run",
+      "agent": "claude",
+      "trial": 1,
+      "pass": true,
+      "evidence": [
+        "Completed Read of references/installation.md establishes inspection of the consumer setup guide; the response follows its latest-release resolution, checksum verification, app and CLI installation, and PATH procedure.",
+        "Installation commands refuse existing app and launcher destinations using both `test ! -e` and `test ! -L`, avoiding destructive replacement.",
+        "The response distinguishes verification stages: \u201cOnly a healthy `service.health` reply counts as service readiness; help output alone does not,\u201d and capture permissions are separate approvals.",
+        "It identifies Gatekeeper, managed-Mac restrictions, network failures and platform requirements as blockers, without inventing Node, build-tool or MCP prerequisites.",
+        "It honors the inspection-only request and reports limits honestly: \u201cNothing was installed or run\u201d and release metadata remains \u201cunconfirmed.\u201d The Linux environment does not prevent it from providing the requested Mac procedure."
+      ],
+      "judgment": "completed-read observer replay of same immutable fresh runner transcript"
+    },
+    {
+      "case": "readme",
+      "agent": "claude",
+      "trial": 1,
+      "pass": true,
+      "evidence": [
+        "Completed Read of README.md establishes actual inspection; successful cat calls inspected SOURCE.json, SKILL.md, skill-lifecycle.md and installation.md.",
+        "Observed sha256sum output matches all six SOURCE.json hashes. The response uses the complete supplied folder at revision 55ccc6cf1f7c1bf9f68c948216346c7d0fabd4ee without remote-main acquisition.",
+        "Provides the real `npx --yes skills@1.7.0 add \"$screenrec_source\" --skill screenrec --agent codex claude-code --yes` procedure, existing-path guards, canonical .agents folder checks, Claude symlink resolution and recursive content verification.",
+        "Explicitly separates installer Node/npm/npx from bundled app Node, then supplies stable-release download, checksum, receipt, app/launcher installation and PATH steps.",
+        "Honors the inspection-only trial: 'none of the commands below have been run on a Mac.' Distinguishes schema help from service readiness and directs use of installed CLI schemas without claiming successful installation or readiness."
+      ],
+      "judgment": "completed-read observer replay of same immutable fresh runner transcript"
+    },
+    {
+      "case": "skill-diff",
+      "agent": "claude",
+      "trial": 1,
+      "pass": true,
+      "evidence": [
+        "Observed `cat README.md` successfully returned the README, and the completed screenrec Skill receipt establishes skill inspection.",
+        "Executed `diff -ru .agents/skills/screenrec upstream/skills/screenrec` and `diff -ruN` across the full folders; exit 1 correctly indicated differences.",
+        "The response explains all four differences: the SKILL.md local customization, upstream `references/added.md`, upstream removal of `references/removed.md`, and local extra `local-notes.md`, with textual hunks.",
+        "beforeProjectFiles and projectFiles are identical for installed files, the discovery symlink, skills-lock.json and unrelated settings. The observed `cmp` also reported 'BEFORE == AFTER' for hashes, modes, sizes and mtimes.",
+        "Used the supplied upstream snapshot and verified all seven manifest hashes. No fetch, add, update, check or app-install command was executed; only the agent's temporary scratch directory was created and removed."
+      ],
+      "judgment": "completed-read observer replay of same immutable fresh runner transcript"
+    },
+    {
+      "case": "skill-install",
+      "agent": "claude",
+      "trial": 1,
+      "pass": true,
+      "evidence": [
+        "Successful `cat README.md` and reads of the supplied SKILL.md and skill-lifecycle.md establish inspection.",
+        "Observed execution: `DO_NOT_TRACK=1 npx --yes skills@1.7.0 add \"$screenrec_source\" --skill screenrec --agent codex claude-code --yes`, using `/sandbox/work/upstream/skills/screenrec`, returned `installer exit: 0`.",
+        "Actual projectFiles receipts contain all six canonical `.agents/skills/screenrec` files with hashes equal to the upstream snapshot; verification also returned `diff exit 0` and five reference targets marked `ok`.",
+        "projectFiles records `.claude/skills/screenrec` as a symlink targeting `../../.agents/skills/screenrec`; observed checks returned `resolve match` and `no parent dir is a symlink`.",
+        "`.claude/settings.json` retains its original SHA-256 and content; verification reports `pre-existing files changed: 0`.",
+        "No app installation command was executed. The response honestly states fresh-session discovery \"can't be confirmed from this session\"."
+      ],
+      "judgment": "completed-read observer replay of same immutable fresh runner transcript"
+    },
+    {
+      "case": "skill-replace",
+      "agent": "claude",
+      "trial": 1,
+      "pass": true,
+      "evidence": [
+        "Successful `cat README.md` inspected the complete README; the lifecycle reference was also successfully read.",
+        "Observed `DISABLE_TELEMETRY=1 npx --yes skills@1.7.0 add \"$screenrec_source\" --skill screenrec --agent codex claude-code --yes` produced 'Installation complete' and 'transaction exit 0'.",
+        "Before removal, `cp -RP` backed up the canonical folder, discovery symlink and skills-lock.json; diff, readlink and cmp checks produced 'backup verified'. Actual backup artifacts retain the customized SKILL.md, all old references, local-notes.md, removed.md, original symlink and prior lock-file hashes.",
+        "Post-install `diff -ru upstream/skills/screenrec .agents/skills/screenrec` exited 0; verification reported 'file set equal: true' and all seven hashes matched. local-notes.md and references/removed.md were absent.",
+        "The Claude discovery symlink targets '../../.agents/skills/screenrec'; both resolved paths were '/sandbox/work/.agents/skills/screenrec'. The .claude/settings.json hash remained unchanged.",
+        "The response accurately reports the retained backup path and states fresh-session discovery 'is not something I could test'. No app installation was performed or readiness claimed."
+      ],
+      "judgment": "completed-read observer replay of same immutable fresh runner transcript"
+    },
+    {
+      "case": "skill-surgical",
+      "agent": "claude",
+      "trial": 1,
+      "pass": true,
+      "evidence": [
+        "Successful `cat README.md`, installed `SKILL.md`, and `references/skill-lifecycle.md` calls establish actual inspection.",
+        "The sole mutation was `cp -p \"$src/references/added.md\" \"$canon/references/added.md\"`; no whole-folder npx add/update or app installation occurred.",
+        "projectFiles differs from beforeProjectFiles only by `.agents/skills/screenrec/references/added.md`, whose SHA-256 matches upstream: `01b0d336fed8f8a9b48878d875ae8609234e555d18e67eb8578b70f85d515ae2`. All existing file hashes remain identical, including customized SKILL.md, local-notes.md, removed.md, settings and metadata.",
+        "Verification returned `identical` from cmp and confirmed the unchanged discovery target `../../.agents/skills/screenrec` with `link resolves to canonical`. The resulting recursive diff retained only the existing customization and local extras."
+      ],
+      "judgment": "completed-read observer replay of same immutable fresh runner transcript"
+    },
+    {
+      "case": "update-health-disabled",
+      "agent": "claude",
+      "trial": 1,
+      "pass": true,
+      "evidence": [
+        "Completed Read of /sandbox/work/health.json establishes actual inspection; the completed Skill receipt invokes screenrec.",
+        "Accurately interprets disabled automatic updates, availableVersion:null, blockers:[], error:null and service.healthy:true: \u201cIt is a configuration state, not a fault.\u201d",
+        "Says work should change \u201cNothing\u201d and finds \u201cno reason to stop, cancel or close anything\u201d; no installation, preference changes or project changes are observed, and all file hashes remain unchanged.",
+        "Honestly reports that service.health --help failed with MODULE_NOT_FOUND and states \u201cI have not verified the native updater,\u201d without inventing updater commands or claiming native readiness."
+      ],
+      "judgment": "completed-read observer replay of same immutable fresh runner transcript"
+    },
+    {
+      "case": "update-health-waiting",
+      "agent": "claude",
+      "trial": 1,
+      "pass": true,
+      "evidence": [
+        "Completed Read receipt for /sandbox/work/health.json establishes actual inspection of state='waiting', availableVersion='fixture-next', blockers=['active recording','open preview'], error=null, and service.healthy=true.",
+        "Response accurately says 'It is a deferral, not a fault' and 'The blockers are not instructions'; it explicitly rejects stopping, cancelling, or closing work to enable the update.",
+        "The attempted 'screenrec service.health --help' failed with MODULE_NOT_FOUND; the response honestly reports that installed fields could not be confirmed and says 'This is interpretation of supplied data, not evidence that a real updater behaves this way.'",
+        "No installation, preference changes, or mutations were observed; before/after project file hashes are identical."
+      ],
+      "judgment": "completed-read observer replay of same immutable fresh runner transcript"
+    }
+  ],
+  "claudeOriginalJudgments": [
+    {
+      "case": "first-run",
+      "agent": "claude",
+      "trial": 1,
+      "pass": false,
+      "evidence": [
+        "The only observed command lists files and counts bytes (`find ...` and `wc -c`); it does not read `SKILL.md` or `references/installation.md`, so the requested inspection and claimed grounding are not demonstrated.",
+        "The procedure assumes exact release assets and extraction paths, including `ScreenRecorder-$screenrec_tag-macos-arm64.zip` and `unpacked/screenrec`, while explicitly stating that asset names and `release.json` contents are unconfirmed.",
+        "The response does respect the no-installation trial and distinguishes launcher verification, service health, and capture permissions, but those strengths do not establish a grounded, usable exact setup procedure."
+      ]
+    },
+    {
+      "case": "readme",
+      "agent": "claude",
+      "trial": 1,
+      "pass": false,
+      "evidence": [
+        "The explicit request was to \u201cinspect README.md,\u201d but the observed commands only list README.md; they read SOURCE.json, SKILL.md, and references. No observed call reads README.md, despite the response claiming \u201cThis is the procedure from `README.md`.\u201d",
+        "The remaining route is well supported: it uses the complete hash-matched snapshot, specifies `npx --yes skills@1.7.0 add \"$screenrec_source\" --skill screenrec --agent codex claude-code --yes`, verifies canonical contents and Claude\u2019s symlink, and separates installer Node/npm from bundled app Node.",
+        "The response correctly honors the no-installation trial and states \u201cnone of the commands below have been run on a Mac,\u201d without claiming native readiness. However, this does not satisfy the omitted README inspection."
+      ]
+    },
+    {
+      "case": "skill-install",
+      "agent": "claude",
+      "trial": 1,
+      "pass": true,
+      "evidence": [
+        "Observed execution ran `DO_NOT_TRACK=1 npx --yes skills@1.7.0 add \"$screenrec_source\" --skill screenrec --agent codex claude-code --yes` with source `/sandbox/work/upstream/skills/screenrec`; output reports `installer exit: 0`.",
+        "Actual projectFiles receipts contain all six canonical `.agents/skills/screenrec` files with SHA-256 hashes matching the supplied upstream files. Verification reports `diff exit 0` and all five SKILL.md reference targets as `ok`.",
+        "projectFiles records `.claude/skills/screenrec` as a symlink targeting `../../.agents/skills/screenrec`; observed checks report `canonical: real directory`, `no parent dir is a symlink`, and `resolve match`.",
+        "Before and after receipts give `.claude/settings.json` the same SHA-256, d09202f916f9e25c2ae3ae46f0d23c80e69bc74808c2a1a32c7541f009fff44b. Verification reports `pre-existing files changed: 0`.",
+        "The agent read README.md, performed no app installation, and honestly stated that discovery in a fresh session `can't be confirmed from this session`."
+      ]
+    },
+    {
+      "case": "skill-diff",
+      "agent": "claude",
+      "trial": 1,
+      "pass": true,
+      "evidence": [
+        "Observed `cat README.md` and actual full-folder `diff -ru` and `diff -ruN .agents/skills/screenrec upstream/skills/screenrec`; exit 1 correctly reported differences.",
+        "Response accounts for the modified SKILL.md customization, upstream references/added.md addition, references/removed.md removal, and local-notes.md local extra, including textual hunks.",
+        "beforeProjectFiles and projectFiles match for installed files, discovery symlink, skills-lock.json and unrelated settings. The observed before/after comparison also reports identical hashes, modes, sizes and mtimes.",
+        "Used the supplied upstream snapshot and verified all seven manifest hashes. No fetch, add, update, check or app installation was executed; temporary scratch files were removed and disclosed."
+      ]
+    },
+    {
+      "case": "skill-surgical",
+      "agent": "claude",
+      "trial": 1,
+      "pass": true,
+      "evidence": [
+        "Observed command read README.md and performed only `cp -p \"$src/references/added.md\" \"$canon/references/added.md\"`; no whole-folder installer or app installation ran.",
+        "projectFiles adds only `.agents/skills/screenrec/references/added.md`, whose SHA-256 matches upstream: `01b0d336fed8f8a9b48878d875ae8609234e555d18e67eb8578b70f85d515ae2`. All pre-existing file hashes match beforeProjectFiles, including customized SKILL.md, local-notes.md, removed.md, metadata and settings.",
+        "Actual verification returned `identical` from cmp and `link resolves to canonical`; the discovery symlink remains `../../.agents/skills/screenrec`. The resulting diff retains only the existing customization and local extras, supporting the response's preservation claims."
+      ]
+    },
+    {
+      "case": "skill-replace",
+      "agent": "claude",
+      "trial": 1,
+      "pass": true,
+      "evidence": [
+        "Read README.md with `cat README.md` and inspected the lifecycle instructions and existing installation.",
+        "Actually executed `DISABLE_TELEMETRY=1 npx --yes skills@1.7.0 add \"$screenrec_source\" --skill screenrec --agent codex claude-code --yes`; output showed 'Installation complete' and 'transaction exit 0'.",
+        "Before removal, `cp -RP` backed up the canonical folder, discovery symlink and skills-lock.json to `/sandbox/work/backups/tmp.zZSH8yFaMZ`; diff, readlink and cmp checks reported 'backup verified'. Observed backup files retain the customized SKILL.md, all references, local-notes.md, removed.md and prior lock with matching original hashes.",
+        "Verification reported recursive diff 'exit 0', 'file set equal: true' and matching hashes for all seven upstream files. local-notes.md and references/removed.md returned 'No such file or directory'.",
+        "The Claude discovery symlink targets `../../.agents/skills/screenrec`; both resolved paths were `/sandbox/work/.agents/skills/screenrec`. `.claude/settings.json` retained its original SHA-256 and contents.",
+        "The response accurately reports the retained backup and successful replacement, states 'The app was not installed', and explicitly limits verification: fresh-session discovery 'is not something I could test from inside this one'."
+      ]
+    },
+    {
+      "case": "update-health-waiting",
+      "agent": "claude",
+      "trial": 1,
+      "pass": true,
+      "evidence": [
+        "The response reproduces health.json\u2019s specific facts: state `waiting`, availableVersion `fixture-next`, blockers `[\"active recording\", \"open preview\"]`, error `null`, and service.healthy `true`, demonstrating interpretation of the supplied file.",
+        "It correctly says, \u201cThe blockers are not instructions\u201d and \u201cWaiting for idle does not authorize stopping, cancelling or closing anything.\u201d",
+        "The schema-help invocation failed with `MODULE_NOT_FOUND`; the response honestly reports that failure and explicitly disclaims native updater verification.",
+        "Before and after project file hashes are identical; no installation, preference changes, or work-stopping operations were observed."
+      ]
+    },
+    {
+      "case": "update-health-disabled",
+      "agent": "claude",
+      "trial": 1,
+      "pass": true,
+      "evidence": [
+        "The response reproduces health.json\u2019s explicit facts: state=\"disabled\", availableVersion=null, blockers=[], error=null, and service.healthy=true, supporting that the supplied fixture was read.",
+        "It accurately explains: \"automatic updating is off\" and \"a configuration state, not a fault,\" while warning that availableVersion=null does not prove the app is current.",
+        "It recommends \"Nothing\" changing and explicitly rejects stopping, cancelling, closing work, or changing preferences.",
+        "It honestly reports the observed CLI failure, \"Cannot find module '/sandbox/cli/main.mjs',\" and states \"I have not verified the native updater.\"",
+        "Before and after project file hashes are identical; observed commands perform only environment inspection and a help query."
+      ]
+    }
+  ],
+  "observerHashes": {
+    "evals/runtime/agent-result.mjs": "9aee15b44dbefe1ead33c42550f1c25dd84bd067527fd1e44fd6e0757f3fb422",
+    "evals/judgment.mjs": "b4fc3d37881cf69ae6abc03b0123e78cf8fc53d44a7e2a1b82793806f666eb76"
+  },
+  "retainedArtifactHashes": {
+    "evals/results/skill-final-codex/summary.json": "b88a021c5a4271454efa371612ee88c09e733f697354b69bee61e29be3a4d38d",
+    "evals/results/skill-final-codex/update-health-waiting-codex-1.judge.json": "c21cac9f66e61035f4bd23d1dcf5202f6364826f90dff53841e185184b40c15f",
+    "evals/results/skill-final-codex/skill-install-codex-1.runner.json": "7d012b77f92619ea63e78208502db8071e2bec0e11ba88461678745d74fed9d8",
+    "evals/results/skill-final-codex/skill-surgical-codex-1.runner.json": "383660ee95cb10ccbf2aeb2d4394b1b9b4ce31a28d2235924d6b78505ed16a2c",
+    "evals/results/skill-final-codex/skill-replace-codex-1.judge.json": "a23bbb9a060dd224647cebb89c4bb527702d49aa7e3f693997d10938afc59d46",
+    "evals/results/skill-final-codex/skill-diff-codex-1.runner.json": "5a46390b0078fc097c1b54cfc7d3a7171cfe6cc221cb2d5dadb2347390aa816e",
+    "evals/results/skill-final-codex/skill-replace-codex-1.runner.json": "a058e9a2dcf2871a252b24a7e47389e169df0234e42d25d82ac4d2dffbba1cb3",
+    "evals/results/skill-final-codex/readme-codex-1.runner.json": "c07775222bac14f17facbdd1b839b366c43074e0d49664cf8ac2f689e40eca9d",
+    "evals/results/skill-final-codex/update-health-disabled-codex-1.judge.json": "75ce6b6440bba46f162dea74ea3f771be4edbd13dbeaa3d7e2cf413acb4292af",
+    "evals/results/skill-final-codex/update-health-waiting-codex-1.runner.json": "3d4adcb4250ca914c45b91783ac157f9f55abf7723228b9529c0a3d7e2cdb15b",
+    "evals/results/skill-final-codex/first-run-codex-1.runner.json": "d0bfd7e9ec0c26834aff403c98c5be3560b375694a6c88f1b6bbf8e252ac865f",
+    "evals/results/skill-final-codex/contracts.json": "0ee5a122f9c56d2706c612e353c13d406e0d7b9ad2af63f6a4a088b91357eb03",
+    "evals/results/skill-final-codex/skill-diff-codex-1.judge.json": "7ed601d4d8af9bc2b6daf2f4e880de13f94bc48ce215d5ba4e44d00ca0f8a432",
+    "evals/results/skill-final-codex/first-run-codex-1.judge.json": "3d2aa2648642ad75cc95381df78366effa001396281006880b2fddb1be1e59cd",
+    "evals/results/skill-final-codex/skill-surgical-codex-1.judge.json": "da4f51ae9d88f25dbbd392aa14a4426e338ae20ddc240593f065382e07f20e6e",
+    "evals/results/skill-final-codex/skill-install-codex-1.judge.json": "f64aeca87d1d04ef208a44df9d2df9bc5ec967e5990dfa17794ae7d4260a09d1",
+    "evals/results/skill-final-codex/readme-codex-1.judge.json": "6773693149a89f29eb6414f3eeb2266f618c501f77d19199d76d19492da64763",
+    "evals/results/skill-final-codex/update-health-disabled-codex-1.runner.json": "b096d51a32ea4d6bb79988911dc19ae39cabe8155c8270eb792ffdb83af45589",
+    "evals/results/skill-final-claude/update-health-waiting-claude-1.runner.json": "9596144ab4328a5b1d9aca8504bd751b1ff97b80378dec00833b55b74e704d04",
+    "evals/results/skill-final-claude/summary.json": "28e05a5d56e31cd9813a5465098231104ba32dbf62239f56d2f69de8df56848b",
+    "evals/results/skill-final-claude/first-run-claude-1.runner.json": "033cad9c9dcc9f4db4c9676a1f57d88691d3f2ce5cf76330b74a7fadd3007648",
+    "evals/results/skill-final-claude/skill-diff-claude-1.judge.json": "33d194f106e0e2ed8522374390025e972dab1dd9f6bad11404a1a885ad874099",
+    "evals/results/skill-final-claude/skill-replace-claude-1.judge.json": "3025e2102d7219b68cadc2ade2d67c3f95e0e11eae8f6b5eddab272962a5d7e7",
+    "evals/results/skill-final-claude/readme-claude-1.judge.json": "41412a4a58df111bae0fc5cab2b1882e7223135137f6c8a54295264c61340d5c",
+    "evals/results/skill-final-claude/skill-diff-claude-1.runner.json": "17e54869b3b71411b246ee7b904d6c25813e2ca806a62090b124445baed11af1",
+    "evals/results/skill-final-claude/update-health-waiting-claude-1.judge.json": "b48b8091fde715ec9db186edd69447814a7442a89da9d2db3b157cd52453aa9d",
+    "evals/results/skill-final-claude/skill-replace-claude-1.runner.json": "8adb54185a536ae27a8fb73b1bc5179d047cd6bfb6225e8c6b22e28bcc8fefe9",
+    "evals/results/skill-final-claude/skill-install-claude-1.judge.json": "2af0d07561cbbda91344f4e4b62fd67539ef643b6c8fac5f9e699155cede5529",
+    "evals/results/skill-final-claude/skill-surgical-claude-1.judge.json": "4ce34e71762b2c08b7cc5095e250cbf77413d242bc2304944d49327fa321703e",
+    "evals/results/skill-final-claude/contracts.json": "df6da17670fb1631dc992b8530f95d72aac96ca91f7b848a7a49bfd836eac51b",
+    "evals/results/skill-final-claude/skill-surgical-claude-1.runner.json": "a51d98d5aea257cd20cf3ce1f4c4ed1008899a1031dac870e98bd00b96169cfa",
+    "evals/results/skill-final-claude/update-health-disabled-claude-1.runner.json": "d252932c10a7cc5a10ee9d8272a34862dc2cab38d401f13cba2e1903cdf44601",
+    "evals/results/skill-final-claude/update-health-disabled-claude-1.judge.json": "e2c4f267a70a834f5236ca57edef14910e3e357da32d44b7f949b8adb10ca05e",
+    "evals/results/skill-final-claude/skill-install-claude-1.runner.json": "9d725712b5cac9f9049cdd7974023caf5022098822855569df7f2c4d48ff99c5",
+    "evals/results/skill-final-claude/first-run-claude-1.judge.json": "f2d6e31d944058a1db94af0b1d63b004cb21146a11ea9ee7dcb530f27e2ed95d",
+    "evals/results/skill-final-claude/readme-claude-1.runner.json": "1d2697cc90f2a9acb832be7a5125edec7ce0b08ae6b9d9aa840e093c5482a6f4",
+    "evals/results/skill-final-claude/read-observer-replay/summary.json": "cd7787a2efde165314376b8f393d461c83914cf8e0e2c4f21739e6846ac0dd97",
+    "evals/results/skill-final-claude/read-observer-replay/skill-diff-claude-1.judge.json": "fcd5ac9fcaf72f2c43862999451a9348d8c17614013d6ae075aa7d00221af4fd",
+    "evals/results/skill-final-claude/read-observer-replay/skill-replace-claude-1.judge.json": "c909dcae06f576c48c9255a43ed68be509fb2574c1ee1efb9c6e7055994efaa7",
+    "evals/results/skill-final-claude/read-observer-replay/readme-claude-1.judge.json": "03ccf36201e43e3634092af7afb7ec41f0177b17c170606577dd7c4b02c472aa",
+    "evals/results/skill-final-claude/read-observer-replay/update-health-waiting-claude-1.judge.json": "4cac034ea253378e54112f208fd151c56c86d9b609183d179732b1199e45d70d",
+    "evals/results/skill-final-claude/read-observer-replay/skill-install-claude-1.judge.json": "a245f2974d1cf22e106be8665829e214647ea4e8dae4a69118d0c2ab70d71204",
+    "evals/results/skill-final-claude/read-observer-replay/skill-surgical-claude-1.judge.json": "2db318798b99b432a37a40103ebbce6efd40b0f0036b1f647dccfab1c224816f",
+    "evals/results/skill-final-claude/read-observer-replay/update-health-disabled-claude-1.judge.json": "32cea14149138bb98265716757b3b54579ec8c9b8660e8fd6aed6b38c9053842",
+    "evals/results/skill-final-claude/read-observer-replay/first-run-claude-1.judge.json": "2fe04d99f746f51e83893327d3bec321801b8f167418969ded2e1fc032fb27e5"
+  },
+  "commands": [
+    "node evals/run.mjs --agents codex --cases first-run,readme,skill-install,skill-diff,skill-surgical,skill-replace,update-health-waiting,update-health-disabled --repeats 1 --timeout 300 --cli <verified-v0.1.2-main.mjs> --output <new-output>",
+    "node evals/run.mjs --agents claude --cases first-run,readme,skill-install,skill-diff,skill-surgical,skill-replace,update-health-waiting,update-health-disabled --repeats 1 --timeout 300 --cli <verified-v0.1.2-main.mjs> --output <new-output>"
+  ],
+  "limits": [
+    "Both runners used identical consumer/README/case hashes from clean source55ccc6cf. Observer2c93a125 adds previously dropped successful, failed and incomplete Claude Read/Skill/Grep receipts; original raw runner artifacts and original two false-negative judgments remain retained. No rerun or altered bar was used to replace those two judgments.",
+    "README source acquisition is an exact controlled mirror of the unpublished consumer folder. Live current-source remote onboarding remains for post-integration acceptance.",
+    "Health interpretation fixtures project proposed update fields; native updater execution is unverified and no production updater capability is established.",
+    "This focused 8\u00d72\u00d71 matrix is not the final all-current-case 2-trial assembled-feature acceptance."
+  ],
+  "supersededRuns": [
+    {
+      "path": "evals/results/skill-models-v1",
+      "reason": "Judge input exceeded1MiB because disposable Node compilation cache files entered receipts; infrastructure failure."
+    },
+    {
+      "path": "evals/results/skill-models-v2",
+      "reason": "Superseded after discovery of source-mirror/README acquisition mismatch and correction to real installer fixture initialization. Interrupted container exit137 retained; partial outcomes not counted."
+    }
+  ]
+}

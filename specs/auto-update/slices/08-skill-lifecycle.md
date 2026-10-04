@@ -64,3 +64,54 @@ Keep existing Linux refusal, portable schema/transport and failed-job semantics
 green. Delegated: fixture/case names and harness staging; supported real installer,
 canonical topology and overwrite semantics are fixed. Human feedback changes this
 slice if customization is lost or the documented workflow needs a bespoke command.
+
+## Pickup and scoped evidence — 2026-10-04
+
+Independent implementation is committed; assembled-feature acceptance remains open.
+The app updater has not shipped. Consumer guidance interprets only advertised
+installed schemas and explicitly labels the controlled update-health projection.
+
+- [x] Freeze limited prior reproduction before production comparison:
+  `27e1554d`, [runner](../assets/reproduce-skills.mjs) and
+  [complete reproduction receipt](../assets/skills-reproduction.json). The recorded
+  baseline tree and actual installer reproduce references, canonical links,
+  explicit reinstall and unchanged unrelated settings.
+- [x] Ship root onboarding and consumer lifecycle together: `55ccc6cf`.
+  [Matched baseline](../assets/skills-matched-baseline-parity.json) and
+  [current folder](../assets/skills-production-parity.json) receipts execute actual
+  documented install/diff/replacement/failed-add restore commands. Cleanup failure
+  retains the backup and reports incomplete recovery. Rollback-copy falsification
+  went red on lost local content, then green after restoration.
+- [x] Execute pinned-main sparse and Git-free API acquisition:
+  [Git receipt](../assets/skills-acquisition.json) and
+  [API receipt](../assets/skills-api-acquisition.json) fetched the same complete
+  baseline files and hashes. Controlled API tests reject unavailable/incomplete
+  inputs and enforce one commit across recursive requests. These live receipts
+  bind the then-published baseline, not publication of this new consumer folder.
+- [x] Preserve portable contracts: 19 fast model-free checks and six Docker CLI
+  controls pass. The explicit real-installer integration proof passes on macOS and
+  [unprivileged Linux](../assets/skills-linux-proof.json); it lives outside the fast
+  suite because a scratch npm home requires registry access.
+- [x] Run one fresh focused trial per case in both agents:
+  [8 cases × 2 agents × 1 trial](../assets/skills-model-trials.json). Runner consumer,
+  README and case hashes match clean `55ccc6cf`; image identities differ, while
+  [runtime module/tool hashes](../assets/skills-image-inputs.json) match, including
+  the pinned skills CLI digest. `2c93a125` fixes the observer dropping Claude's
+  successful Read/Skill/Grep evidence. Independent replay of the same saved raw
+  transcripts corrects the original two false-negative judgments; original
+  transcripts/judgments remain retained. The [replay runner](../assets/rejudge-read-evidence.mjs)
+  refuses changed case data, preserving the original acceptance bars. This is scoped evidence with explicit
+  runner and observer identities, not a fabricated single-source final run.
+- [x] Review shape, diff and docs; independent Codex review findings about rollback,
+  registry coupling and backup teardown are resolved. Observer follow-up review
+  is clean. [Choices](../choices.md) records the three invented decisions.
+- [ ] After integration, exercise live remote onboarding against the published
+  current consumer source, reconcile the actual health schema, and run every
+  affected/current case twice freshly in both agents with final artifact hashes.
+
+Failed/superseded runs remain in ignored eval results and are excluded from the
+focused matrix. Keep the two final result directories named in the matrix receipt
+when removing this worktree; they retain raw transcripts, actual project/link/
+backup receipts and separate judgments. No app install, permission grant or updater
+implementation was part of this slice. Model containers had no host mounts,
+personal skills or recording-library access.
