@@ -4,7 +4,7 @@ import { isAbsolute, join, relative as relativePath, sep } from "node:path";
 
 export function frameworkIdentity(root) {
   root = realpathSync(root);
-  const records = [];
+  const records = [["", "directory", lstatSync(root).mode & 0o777]];
   function visit(directory, prefix = "") {
     for (const name of readdirSync(directory).sort()) {
       const path = join(directory, name);
