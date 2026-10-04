@@ -129,8 +129,8 @@ Primary sources checked:
 ## Follow-on specs
 
 - [Main decision record](README.md)
-- [Small tester release](../../tester-release/README.md)
-- [Public release](../../public-release/README.md)
+- [Small tester release](https://github.com/dzhng/screen-recorder/blob/1163674d/specs/tester-release/README.md)
+- [Public release](https://github.com/dzhng/screen-recorder/blob/1163674d/specs/public-release/README.md)
 - [Editing UI](../../editing-ui/README.md)
 
 ## Copyable next request

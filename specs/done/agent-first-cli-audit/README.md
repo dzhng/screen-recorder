@@ -82,8 +82,8 @@ work produced no visual product change or media-quality claim.
 
 ## Decisions outside this closeout
 
-[Public distribution](../../public-release/README.md) still owns update channels,
-signing/notarization, recovery and compatibility questions. Tagged release
+[Automatic updates](../../auto-update/README.md) records update channels,
+signing, recovery and compatibility questions. Tagged release
 publishing does not update installed apps. The release workflow's preview policy
 and onboarding's latest-stable route need an explicit channel decision. Versioned
 skill packaging and full native agent workflows also remain separate work; sampled

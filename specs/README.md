@@ -28,13 +28,11 @@ isolation. It is audit evidence, not a media-editing implementation plan.
 
 ## Future proposals
 
-These five directories are proposals, not unfinished implementation slices. No
-implementation plan is currently active here. Automatic updating remains part of
-the public-distribution questions until its scope is agreed.
+These directories hold planning questions, not unfinished implementation slices.
+Release publishing is already owned by the [tag workflow](../scripts/README.md#versioned-github-releases).
 
-[Tester distribution](tester-release/README.md) and [public distribution](public-release/README.md)
-concern transferring the released workflow to other users. They are not instructions
-to repeat the already shipped tagged-release implementation.
+[Automatic updates](auto-update/README.md) records agreed behavior and remaining
+questions for updating an installed app and CLI.
 
 [Editing UI](editing-ui/README.md) is a deferred client over shared operations.
 [Presenter effects](presenter-effects/README.md) retain visual intent and missing
