@@ -1,0 +1,1 @@
+I found this Screen Recorder README. Set me up to use the app through my agent and its CLI on a new Apple Silicon Mac running macOS 26. Nothing is installed yet. For this trial, inspect README.md and return the exact setup procedure; do not execute installation.

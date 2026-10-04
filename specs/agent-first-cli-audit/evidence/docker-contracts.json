@@ -1,0 +1,116 @@
+{
+  "platform": "linux",
+  "node": "v24.21.0",
+  "passed": 6,
+  "outcomes": [
+    {
+      "case": "offline operation schema",
+      "exit": 0,
+      "stdout": "{\n  \"usage\": \"screenrec <operation> [--socket PATH] [--params JSON|-] [--id ID] [--output FILE|NEW_DIRECTORY] | screenrec mcp [--socket PATH]\",\n  \"service\": \"Without --socket, calls use $SCREENREC_HOME/run/service.sock (default ~/.screen-recorder) and launch the personal app once, within ten seconds, when nothing answers there. --socket connects to that path directly and never launches an app.\",\n  \"timeUnits\": \"Microseconds. Endpoints accept integers or exact reduced fractions where the operation's input schema permits them. Ranges are half-open in the selected anchor domain and expectedRevisionId.\",\n  \"mutations\": \"When the operation schema accepts requestId, supply a stable value and reuse it with identical arguments after an uncertain write. Supply expectedRevisionId only where its schema requires it.\",\n  \"operations\": [\n    {\n      \"name\": \"capture.status\",\n      \"description\": \"Read native device state, screen/microphone/camera permission facts and the active or recovering take. A finalizing take can retain finalizationError across service restart; stop explicitly retries failed recovery.\",\n      \"inputSchema\": {\n        \"$schema\": \"https://json-schema.org/draft/2020-12/schema\",\n        \"type\": \"object\",\n        \"properties\": {},\n        \"additionalProperties\": false\n      }\n    }\n  ]\n}\n",
+      "stderr": "",
+      "reply": {
+        "usage": "screenrec <operation> [--socket PATH] [--params JSON|-] [--id ID] [--output FILE|NEW_DIRECTORY] | screenrec mcp [--socket PATH]",
+        "service": "Without --socket, calls use $SCREENREC_HOME/run/service.sock (default ~/.screen-recorder) and launch the personal app once, within ten seconds, when nothing answers there. --socket connects to that path directly and never launches an app.",
+        "timeUnits": "Microseconds. Endpoints accept integers or exact reduced fractions where the operation's input schema permits them. Ranges are half-open in the selected anchor domain and expectedRevisionId.",
+        "mutations": "When the operation schema accepts requestId, supply a stable value and reuse it with identical arguments after an uncertain write. Supply expectedRevisionId only where its schema requires it.",
+        "operations": [
+          {
+            "name": "capture.status",
+            "description": "Read native device state, screen/microphone/camera permission facts and the active or recovering take. A finalizing take can retain finalizationError across service restart; stop explicitly retries failed recovery.",
+            "inputSchema": {
+              "$schema": "https://json-schema.org/draft/2020-12/schema",
+              "type": "object",
+              "properties": {},
+              "additionalProperties": false
+            }
+          }
+        ]
+      }
+    },
+    {
+      "case": "unknown operation",
+      "exit": 1,
+      "stdout": "{\"id\":\"782c08ce-2339-4348-983b-08b22d689700\",\"ok\":false,\"error\":{\"code\":\"UNKNOWN_OPERATION\",\"message\":\"Unknown service operation: made.up.operation\",\"retryable\":false,\"details\":{}}}\n",
+      "stderr": "",
+      "reply": {
+        "id": "782c08ce-2339-4348-983b-08b22d689700",
+        "ok": false,
+        "error": {
+          "code": "UNKNOWN_OPERATION",
+          "message": "Unknown service operation: made.up.operation",
+          "retryable": false,
+          "details": {}
+        }
+      }
+    },
+    {
+      "case": "malformed stdin JSON",
+      "exit": 1,
+      "stdout": "{\"id\":\"234b8df3-b7ad-4bd5-b004-f3bbc31242cc\",\"ok\":false,\"error\":{\"code\":\"INVALID_REQUEST\",\"message\":\"Unexpected end of JSON input\",\"retryable\":false,\"details\":{}}}\n",
+      "stderr": "",
+      "reply": {
+        "id": "234b8df3-b7ad-4bd5-b004-f3bbc31242cc",
+        "ok": false,
+        "error": {
+          "code": "INVALID_REQUEST",
+          "message": "Unexpected end of JSON input",
+          "retryable": false,
+          "details": {}
+        }
+      }
+    },
+    {
+      "case": "invalid parameters before transport",
+      "exit": 1,
+      "stdout": "{\"id\":\"41c8f804-89a6-495b-abe1-a65575b918b4\",\"ok\":false,\"error\":{\"code\":\"INVALID_PARAMS\",\"message\":\"Parameters do not match the operation schema.\",\"retryable\":false,\"details\":{}}}\n",
+      "stderr": "",
+      "reply": {
+        "id": "41c8f804-89a6-495b-abe1-a65575b918b4",
+        "ok": false,
+        "error": {
+          "code": "INVALID_PARAMS",
+          "message": "Parameters do not match the operation schema.",
+          "retryable": false,
+          "details": {}
+        }
+      }
+    },
+    {
+      "case": "missing explicit socket",
+      "exit": 1,
+      "stdout": "{\"id\":\"ec4c17bf-9aef-47e8-aaae-3fac6791d39d\",\"ok\":false,\"error\":{\"code\":\"CONNECTION_ERROR\",\"message\":\"connect ENOENT /tmp/absent.sock\",\"retryable\":true,\"details\":{}}}\n",
+      "stderr": "",
+      "reply": {
+        "id": "ec4c17bf-9aef-47e8-aaae-3fac6791d39d",
+        "ok": false,
+        "error": {
+          "code": "CONNECTION_ERROR",
+          "message": "connect ENOENT /tmp/absent.sock",
+          "retryable": true,
+          "details": {}
+        }
+      }
+    },
+    {
+      "case": "successful read preserves failed job state (scripted peer)",
+      "exit": 0,
+      "stdout": "{\"ok\":true,\"data\":{\"job\":{\"jobId\":\"audit-job\",\"status\":\"failed\",\"error\":{\"code\":\"AUDIT_FIXTURE_FAILURE\",\"message\":\"Scripted failure; no native service involved\",\"retryable\":false}}},\"id\":\"7a854dea-71db-4663-8d38-69ef344a6620\"}\n",
+      "stderr": "",
+      "reply": {
+        "ok": true,
+        "data": {
+          "job": {
+            "jobId": "audit-job",
+            "status": "failed",
+            "error": {
+              "code": "AUDIT_FIXTURE_FAILURE",
+              "message": "Scripted failure; no native service involved",
+              "retryable": false
+            }
+          }
+        },
+        "id": "7a854dea-71db-4663-8d38-69ef344a6620"
+      }
+    }
+  ]
+}

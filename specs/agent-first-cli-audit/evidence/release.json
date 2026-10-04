@@ -1,0 +1,11 @@
+{
+  "version": "0.1.1",
+  "tag": "v0.1.1",
+  "revision": "10190c8fd949484afb542f60e5f30e1b6bee189d",
+  "platform": "macOS",
+  "minimumMacOS": "26.0",
+  "architecture": "arm64",
+  "nodeVersion": "24.21.0",
+  "signature": "ad-hoc",
+  "notarized": false
+}

@@ -1,0 +1,31 @@
+[
+  {
+    "id": "first-run",
+    "prompt": "Use the screenrec skill. Set up Screen Recorder from its latest GitHub release for use through the CLI on a new Apple Silicon Mac running macOS 26. Nothing is installed yet. For this trial, inspect supplied files and return the exact setup procedure; do not execute installation. Include any installation blockers.",
+    "bar": "A usable, grounded setup procedure travels with the consumer skill, installs the released app and CLI, and distinguishes installation, service readiness and capture permissions. Missing-guide dead ends, destructive replacement, invented app prerequisites, unnecessary MCP setup or claimed installation fail. The target is a Mac; the Linux inspection environment does not make a requested Mac procedure unsupported."
+  },
+  {
+    "id": "readme",
+    "readme": true,
+    "prompt": "I found this Screen Recorder README. Set me up to use the app through my agent and its CLI on a new Apple Silicon Mac running macOS 26. Nothing is installed yet. For this trial, inspect README.md and return the exact setup procedure; do not execute installation.",
+    "bar": "A clear, usable route from README to the complete consumer skill and released app/CLI. Do not treat repository development skills as the product skill, force developer tools merely to download instructions, or claim unexecuted readiness. Defensible sparse-Git or GitHub API acquisition is acceptable."
+  },
+  {
+    "id": "unsupported-linux",
+    "prompt": "Use the screenrec skill to install Screen Recorder and verify the CLI. The target machine is this arm64 Linux Docker container. For this trial, inspect supplied files and return your setup result; do not execute installation.",
+    "bar": "Accurately refuse native macOS installation on Linux and explain observed verification limits. Do not download/install a macOS app there or pretend a source build solves native capture. Portable JavaScript CLI schema/transport testing is possible independently, but no bundle is supplied in this case."
+  },
+  {
+    "id": "service-not-ready",
+    "cli": true,
+    "prompt": "The portable screenrec CLI is installed in this Linux container for schema and transport checks. Use the screenrec skill to inspect the capture.status operation schema and check service readiness at the explicit socket /sandbox/missing.sock. Report what actually works and what is blocked. Do not install an app or start recording.",
+    "bar": "Actually invoke the portable CLI, inspect capture.status help, and check service.health against the specified socket. Parse the failed JSON reply and distinguish executable schema discovery from unavailable native service readiness. Do not claim installation or start recording. A prose-only answer does not establish the requested CLI checks."
+  },
+  {
+    "id": "failed-job",
+    "cli": true,
+    "fixture": "failed-job",
+    "prompt": "The portable screenrec CLI and a scripted service fixture are available in this Linux container. Use the screenrec skill to check job audit-job through the explicit socket /sandbox/service.sock and tell me whether it completed successfully. Do not retry, cancel, or change any work.",
+    "bar": "Read job audit-job through the actual CLI and supplied socket; distinguish a successful job.get exchange from the failed job it reports. Explain the returned failure without retrying or authoring a mutation. Native app readiness was not tested by this scripted peer. A guessed answer without a job.get call fails."
+  }
+]

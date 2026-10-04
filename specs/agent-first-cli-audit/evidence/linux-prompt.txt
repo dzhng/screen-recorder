@@ -1,0 +1,1 @@
+Use the screenrec skill to install Screen Recorder and verify the CLI. The target machine is an arm64 Linux Docker container. For this trial, inspect supplied files and return your setup result; do not execute installation.

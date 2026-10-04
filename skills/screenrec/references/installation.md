@@ -1,0 +1,91 @@
+# Install the released app and CLI
+
+Use this procedure when `screenrec` or its selected app is missing. First check
+`uname -m` and `sw_vers -productVersion`: the app requires Apple Silicon (`arm64`)
+and macOS 26 or newer. On Linux, including Docker, report that native installation
+is unsupported; do not install a macOS bundle there. Linux can independently run
+the portable JavaScript CLI bundle with Node for schema/transport tests; that
+does not install the macOS launcher or verify native service/capture readiness.
+A consumer install needs no
+source checkout, Bun, separate Node, Swift or MCP configuration.
+
+## Download and verify
+
+Resolve the latest stable release once, then download all assets from that tag.
+The GitHub API and release downloads below need network access; an authentication,
+rate-limit or download failure is a blocker, not evidence of installation.
+
+```sh
+(
+  set -eu
+  screenrec_download=$(mktemp -d)
+  cd "$screenrec_download"
+  curl -fL https://api.github.com/repos/dzhng/screen-recorder/releases/latest -o latest.json
+  screenrec_tag=$(/usr/bin/plutil -extract tag_name raw -o - latest.json)
+  screenrec_release="https://github.com/dzhng/screen-recorder/releases/download/$screenrec_tag"
+  curl -fL "$screenrec_release/ScreenRecorder-$screenrec_tag-macos-arm64.zip" -o "ScreenRecorder-$screenrec_tag-macos-arm64.zip"
+  curl -fL "$screenrec_release/release.json" -o release.json
+  curl -fL "$screenrec_release/SHA256SUMS" -o SHA256SUMS
+  shasum -a 256 -c SHA256SUMS
+  cat release.json
+  ditto -x -k "ScreenRecorder-$screenrec_tag-macos-arm64.zip" unpacked
+  printf 'Verified release extracted at: %s\n' "$screenrec_download/unpacked"
+)
+```
+
+Check that `release.json` names the selected tag, `arm64` and a compatible minimum
+macOS version. It also reports signing and notarization. Keep the ZIP and receipt
+until installation has been verified. Stop on checksum failure.
+
+## Install
+
+Use the verified extraction path printed above for `screenrec_unpacked`. These
+commands are for a fresh install and refuse existing destinations, including
+symlinks. For an update, quit the running app and retain the old bundle and launcher
+in a backup before replacing them. Do not replace a live app or discard its library.
+
+```sh
+(
+  set -eu
+  screenrec_unpacked="/absolute/path/printed/above/unpacked"
+  screenrec_app="$HOME/Applications/Screen Recorder.app"
+  screenrec_launcher="$HOME/.local/bin/screenrec"
+  test ! -e "$screenrec_app"
+  test ! -L "$screenrec_app"
+  test ! -e "$screenrec_launcher"
+  test ! -L "$screenrec_launcher"
+  mkdir -p "$HOME/Applications" "$HOME/.local/bin"
+  ditto "$screenrec_unpacked/Screen Recorder.app" "$screenrec_app"
+  cp "$screenrec_unpacked/screenrec" "$screenrec_launcher"
+  chmod +x "$screenrec_launcher"
+)
+```
+
+After a successful install, set PATH in the current session:
+
+```sh
+export PATH="$HOME/.local/bin:$PATH"
+```
+
+Ensure the PATH addition also reaches future agent sessions, using the user's
+shell configuration or the agent launch environment. For another app location,
+set `SCREENREC_APP` to that bundle's absolute path; the launcher defaults to
+`~/Applications/Screen Recorder.app`.
+
+## Verify installation separately from permissions
+
+1. Run `screenrec capture.status --help`. Its JSON schema proves launcher and
+   bundled runtime execution without launching the app.
+2. Run `screenrec service.health`. Inspect `ok` and the returned service status.
+   This may launch the installed app's service, but never starts capture.
+3. If macOS blocks launch, have the user try opening the installed app, then approve
+   System Settings → Privacy & Security → **Open Anyway**. This developer preview
+   is ad-hoc signed and not notarized; managed Macs may prohibit that override.
+   Do not remove quarantine attributes or disable Gatekeeper to bypass it.
+4. Discover `capture.sources` and `capture.status` before an actual recording
+   request. Screen, microphone and camera permissions are separate user actions.
+   Speech/voice model downloads require explicit preparation when requested.
+
+Report the installed release tag, app/launcher paths and observed health result.
+If only help passed, say so; blocked app launch is not verified service readiness.
+Use the installed CLI's schemas even when this skill is newer than that release.

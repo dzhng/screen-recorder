@@ -1,0 +1,1 @@
+Use the screenrec skill. Set up Screen Recorder from its latest GitHub release for use through the CLI on a new Apple Silicon Mac running macOS 26. Nothing is installed yet. For this trial, inspect supplied files and return the exact setup procedure; do not execute installation. Include any installation blockers.

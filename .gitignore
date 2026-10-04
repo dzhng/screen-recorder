@@ -6,3 +6,5 @@ dist/
 .DS_Store
 *.tsbuildinfo
 .claude/worktrees/
+evals/.cache/
+evals/results/

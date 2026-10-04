@@ -1,0 +1,9 @@
+{
+  "type": "object",
+  "properties": {
+    "pass": { "type": "boolean" },
+    "evidence": { "type": "array", "items": { "type": "string" }, "minItems": 1 }
+  },
+  "required": ["pass", "evidence"],
+  "additionalProperties": false
+}

@@ -18,6 +18,10 @@ original failures and uncertainty. Follow recorded source revisions when a histo
 code path no longer exists in the working tree. Archives, measurements and decision
 ledgers retain their original role rather than being rewritten as current success.
 
+[Agent-first CLI onboarding](agent-first-cli-audit/README.md) records consumer-skill
+and README trials in Claude/Codex, released-app checks and the limits of Docker
+isolation. It is audit evidence, not a media-editing implementation plan.
+
 ## Future proposals
 
 [Tester distribution](tester-release/README.md) and [public distribution](public-release/README.md)

@@ -1,0 +1,5 @@
+{"case": "setup-1", "skill_discovered": true, "skill_invocations": [{"skill": "screenrec"}]}
+{"case": "setup-2", "skill_discovered": true, "skill_invocations": [{"skill": "screenrec"}]}
+{"case": "readme", "skill_discovered": true, "skill_invocations": []}
+{"case": "linux", "skill_discovered": true, "skill_invocations": [{"skill": "screenrec"}]}
+{"case": "linux-2", "skill_discovered": true, "skill_invocations": [{"skill": "screenrec"}]}

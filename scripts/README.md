@@ -39,8 +39,10 @@ The [release tool](release.mjs) owns validation, explicit preparation and packag
 [Release inputs](release-inputs.json), the repository's Node version and denoiser
 provenance bind acquired bytes. Package receipts bind source and runtime identity;
 checksums bind delivered bytes. Neither is a notarization claim. The
-[recipient guide](release-notes.md) is also the release-notes template, so supported
-systems and installation instructions have one home.
+[recipient guide](release-notes.md) is also the release-notes template and links
+to [agent setup](../README.md#agent-setup). The consumer skill's
+[installation procedure](../skills/screenrec/references/installation.md) owns
+executable release-install commands and readiness checks.
 
 ## Personal source installation
 

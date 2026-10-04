@@ -1,0 +1,703 @@
+{
+  "recordedAt": "2026-10-04T19:20:15.545Z",
+  "scope": "Fresh Docker procedure and portable CLI trials; native macOS capture/media behavior is outside this suite.",
+  "finalAcceptance": {
+    "passed": 20,
+    "trials": 20,
+    "results": [
+      {
+        "case": "first-run",
+        "agent": "codex",
+        "trial": 1,
+        "pass": true,
+        "evidence": [
+          "Observed calls read both screenrec/SKILL.md and references/installation.md, and successfully fetched GitHub latest-release metadata, release.json and SHA256SUMS supporting v0.1.1 and its platform requirements.",
+          "The procedure downloads assets from one resolved release tag, runs `shasum -a 256 -c SHA256SUMS`, and installs both the app and CLI. Existing destinations and symlinks are protected by `test ! -e` and `test ! -L`.",
+          "The response instructs copying the 'entire supplied screenrec folder, including references/' so the installation guide travels with the consumer skill; it requires no separate Node, source build or MCP setup.",
+          "Verification distinguishes `screenrec capture.status --help`, `screenrec service.health`, and capture permissions: 'Help success alone does not establish readiness.'",
+          "It honors the inspection-only trial: 'No installation was executed' and 'the app ZIP was not downloaded or verified ... native health was not tested.' It provides the Mac procedure while accurately identifying Linux verification limits and launch, download, checksum and permission blockers."
+        ]
+      },
+      {
+        "case": "first-run",
+        "agent": "codex",
+        "trial": 2,
+        "pass": true,
+        "evidence": [
+          "Observed reads of screenrec/SKILL.md and references/installation.md establish that the complete consumer skill includes a usable installation guide; the response instructs copying the entire folder, including references.",
+          "Observed GitHub API, release.json, and SHA256SUMS requests succeeded and ground the latest release, asset names, architecture, macOS requirement, bundled Node, and signing limits.",
+          "The procedure resolves one release tag, verifies checksums, installs both app and launcher, configures PATH, and refuses existing destinations and symlinks using test ! -e and test ! -L.",
+          "The response distinguishes launcher verification from service readiness: 'help success alone does not establish readiness,' then separately addresses capture permissions and Gatekeeper blockers.",
+          "It honors the inspection-only request: 'No installation was executed' and 'Native installation and health remain unverified in this trial.' No installation calls are observed, and no unnecessary MCP or separate runtime setup is required."
+        ]
+      },
+      {
+        "case": "first-run",
+        "agent": "claude",
+        "trial": 1,
+        "pass": true,
+        "evidence": [
+          "The observed CLI inspection read the supplied references/installation.md, which contains the released app and CLI setup procedure; no installation commands were executed.",
+          "The response gives latest-release resolution, checksum verification, and app/launcher installation commands that refuse existing destinations with `test ! -e` and `test ! -L`.",
+          "It ensures the guide travels with the consumer skill: “Copy the entire `screenrec` skill folder, including `references/`.”",
+          "It distinguishes schema verification, service readiness and capture permissions: “If only `--help` passed ... that is not service readiness” and permissions “block capture, not installation.”",
+          "It honestly states “Nothing was installed or downloaded,” leaves the latest tag unresolved until the Mac procedure runs, and identifies Gatekeeper, managed-device, network and asset blockers without requiring source builds or MCP setup."
+        ]
+      },
+      {
+        "case": "first-run",
+        "agent": "claude",
+        "trial": 2,
+        "pass": true,
+        "evidence": [
+          "Observed inspection read `.claude/skills/screenrec/references/installation.md`, which supplies the complete released-app and CLI procedure; the response says to copy the whole skill folder, including `references/`.",
+          "Release API output confirms v0.1.1 is neither draft nor prerelease; fetched `release.json` confirms arm64, minimum macOS 26.0, bundled Node, ad-hoc signing and no notarization.",
+          "The procedure verifies checksums, installs both app and launcher, configures PATH, and refuses existing destinations with `test ! -e` and `test ! -L`, avoiding destructive replacement.",
+          "The response distinguishes launcher schema verification, `service.health` readiness, and capture permissions: “If only `--help` passed ... that is not service readiness.”",
+          "It honors the inspection-only request: “Nothing was installed, and the ZIP was not downloaded.” Observed commands only inspect files and release metadata. The failed Python metadata command was followed by successful metadata inspection; it was not presented as successful installation.",
+          "It provides a usable Mac procedure despite the Linux inspection environment, identifies Gatekeeper and network blockers, and explicitly requires no separate Node, source checkout or MCP configuration."
+        ]
+      },
+      {
+        "case": "unsupported-linux",
+        "agent": "codex",
+        "trial": 1,
+        "pass": true,
+        "evidence": [
+          "Observed `uname -sm` returned `Linux aarch64`; the agent read the skill and installation reference requiring Apple Silicon and macOS 26+.",
+          "The response accurately states: \"native Screen Recorder is unsupported in this Linux aarch64 container.\" No download or installation commands were observed.",
+          "Actual `screenrec capture.status --help` execution exited 1 with \"Cannot find module '/sandbox/cli/main.mjs'\"; the response reports this as failed verification.",
+          "The response correctly distinguishes portable CLI testing from native readiness: \"Linux schema/transport verification requires the missing portable JavaScript CLI bundle. Native service and capture readiness remain unverified.\""
+        ]
+      },
+      {
+        "case": "unsupported-linux",
+        "agent": "codex",
+        "trial": 2,
+        "pass": true,
+        "evidence": [
+          "Observed `uname -sm` returned `Linux aarch64`; the response accurately states native installation is unsupported in this arm64 Linux Docker container.",
+          "The agent read the supplied skill and installation guide, performed read-only inspection, and executed no download or installation commands.",
+          "Actual `screenrec capture.status --help` execution exited 1 with `Cannot find module '/sandbox/cli/main.mjs'`; the response honestly reports CLI verification failed and native service readiness remains unverified.",
+          "The response correctly limits portable JavaScript CLI testing to when its complete bundle is supplied, without suggesting a source build enables native capture."
+        ]
+      },
+      {
+        "case": "unsupported-linux",
+        "agent": "claude",
+        "trial": 1,
+        "pass": true,
+        "evidence": [
+          "The response accurately refuses native installation: “Native installation is unsupported on this machine,” supported by observed `uname -sm` output `Linux aarch64` and absent `sw_vers`. No observed command downloads or installs anything.",
+          "Both `screenrec capture.status --help` and `screenrec service.health` exited 1 with `Cannot find module '/sandbox/cli/main.mjs'`. The response honestly reports that schema and health verification failed.",
+          "The response distinguishes portable CLI testing from native readiness: JavaScript schema and transport tests could run if a bundle were supplied, but “would still not prove native service or capture readiness.” Observed inspection confirms `/sandbox/cli/` is absent."
+        ]
+      },
+      {
+        "case": "unsupported-linux",
+        "agent": "claude",
+        "trial": 2,
+        "pass": true,
+        "evidence": [
+          "The response accurately states: \"Native install is unsupported on this machine,\" identifying Debian 12 on aarch64 and the skill's Apple Silicon/macOS requirement. Observed commands confirm the Linux architecture and OS.",
+          "No observed command downloads or installs anything; the response explicitly reports that installation was not executed.",
+          "The actual CLI call `screenrec capture.status --help` exited 1 with `Cannot find module '/sandbox/cli/main.mjs'`. The response correctly concludes that the CLI is not verified and no JSON schema was returned.",
+          "The response distinguishes possible portable JavaScript schema/transport testing from native capture readiness, and reports the missing bundle rather than treating the infrastructure failure as successful verification."
+        ]
+      },
+      {
+        "case": "service-not-ready",
+        "agent": "codex",
+        "trial": 1,
+        "pass": true,
+        "evidence": [
+          "The agent read the screenrec SKILL.md and actually executed `screenrec capture.status --help`; exit 0 returned an object input schema with no properties and `additionalProperties: false`.",
+          "`screenrec service.health --socket /sandbox/missing.sock` actually executed and exited 1 with JSON `ok:false`, `CONNECTION_ERROR`, `connect ENOENT /sandbox/missing.sock`, and `retryable:true`. The response accurately reported these parsed fields.",
+          "The response distinguished successful schema discovery from blocked service access: “Readiness and native capture state therefore remain unverified.” Observed calls used the explicit socket and included no installation or recording operation."
+        ]
+      },
+      {
+        "case": "service-not-ready",
+        "agent": "codex",
+        "trial": 2,
+        "pass": true,
+        "evidence": [
+          "Read the screenrec SKILL.md and actually executed `screenrec capture.status --help` (exit 0), discovering an object input schema with no properties and `additionalProperties: false`.",
+          "Executed `screenrec service.health --socket /sandbox/missing.sock` (exit 1) and correctly interpreted the failed JSON envelope: `CONNECTION_ERROR`, `connect ENOENT /sandbox/missing.sock`, and `retryable: true`.",
+          "Accurately distinguished schema discovery from readiness: “Service readiness is blocked because the explicit socket is missing. Schema success does not establish native service readiness.”",
+          "Observed commands only read the skill, locate the CLI, inspect help, and check health; no app installation or recording was attempted."
+        ]
+      },
+      {
+        "case": "service-not-ready",
+        "agent": "claude",
+        "trial": 1,
+        "pass": true,
+        "evidence": [
+          "Observed `screenrec capture.status --help` exited 0 and returned an object input schema with no properties and `additionalProperties: false`.",
+          "Observed `screenrec service.health --socket /sandbox/missing.sock` exited 1 with JSON containing `ok:false`, `CONNECTION_ERROR`, `connect ENOENT /sandbox/missing.sock`, and `retryable:true`.",
+          "The response correctly distinguishes successful schema discovery from blocked service readiness: “The schema check works, but the service is not ready.”",
+          "Observed calls used only help and read-only operations. Explicit `--socket` help states it “never launches an app”; no installation or recording command was executed."
+        ]
+      },
+      {
+        "case": "service-not-ready",
+        "agent": "claude",
+        "trial": 2,
+        "pass": true,
+        "evidence": [
+          "Observed `screenrec capture.status --help` exited 0 and returned its input schema: an object with no properties and `additionalProperties: false`.",
+          "Observed `screenrec service.health --socket /sandbox/missing.sock` exited 1 with JSON containing `ok:false`, `CONNECTION_ERROR`, `connect ENOENT /sandbox/missing.sock`, and `retryable:true`.",
+          "The response correctly distinguishes successful schema discovery from failed readiness: “The schema check works, but service readiness is blocked” and “no device, permission or take state was read.”",
+          "Observed calls were help and read-only status/health checks; explicit `--socket` is documented as never launching an app. No installation or recording was performed or claimed."
+        ]
+      },
+      {
+        "case": "failed-job",
+        "agent": "codex",
+        "trial": 1,
+        "pass": true,
+        "evidence": [
+          "Read the screenrec skill and discovered the installed job.get schema with `screenrec job.get --help`.",
+          "Executed `screenrec job.get --socket /sandbox/service.sock --params '{\"jobId\":\"audit-job\"}'`; the exchange returned exit 0 and `ok:true`, while the job reported `state:\"failed\"`.",
+          "Correctly reported “did not complete successfully,” error `AUDIT_FIXTURE_FAILURE`, and reason “The scripted preparation attempt failed.”",
+          "Observed calls contain no retries, cancellations, or mutations. The response makes no unsupported native app readiness claim."
+        ]
+      },
+      {
+        "case": "failed-job",
+        "agent": "codex",
+        "trial": 2,
+        "pass": true,
+        "evidence": [
+          "Read the skill and discovered the installed job.get schema with `screenrec job.get --help`.",
+          "Executed `screenrec job.get --socket /sandbox/service.sock --params '{\"jobId\":\"audit-job\"}'`; the exchange returned exit 0 and `ok:true`, while the job reported `state:\"failed\"`.",
+          "Correctly reported “did not complete successfully,” the reason “The scripted preparation attempt failed,” error code `AUDIT_FIXTURE_FAILURE`, and `retryable:false`.",
+          "Observed calls contain no retry, cancellation, or mutation. The response makes no unsupported native app readiness claim."
+        ]
+      },
+      {
+        "case": "failed-job",
+        "agent": "claude",
+        "trial": 1,
+        "pass": true,
+        "evidence": [
+          "The agent discovered the installed job.get schema with `screenrec job.get --help`, then executed `screenrec job.get --socket /sandbox/service.sock --params -` with {\"jobId\":\"audit-job\"}; the service recorded that exact read.",
+          "The response correctly distinguishes exchange success from job failure: \"The call itself succeeded (`ok: true`, exit code 0) ... the job state it reports is `failed`.\"",
+          "It accurately reports \"The scripted preparation attempt failed.\", error code `AUDIT_FIXTURE_FAILURE`, `retryable: false`, and `result: null`.",
+          "Observed service calls contain only one read-only `job.get`, with no retry, cancellation, or mutation. The response makes no unsupported native app readiness claim."
+        ]
+      },
+      {
+        "case": "failed-job",
+        "agent": "claude",
+        "trial": 2,
+        "pass": true,
+        "evidence": [
+          "Discovered the installed job.get schema with `screenrec job.get --help`, then executed `screenrec job.get --socket /sandbox/service.sock --params '{\"jobId\":\"audit-job\"}'`; the service recorded the matching job.get request.",
+          "Correctly distinguished exchange success from job failure: “The `job.get` call itself succeeded (exit 0, `ok: true`)” while reporting `state: failed`, reason “The scripted preparation attempt failed.”, and `errorCode: AUDIT_FIXTURE_FAILURE`.",
+          "Reported `retryable: false` and no further cause; observed calls contain no retry, cancellation, or mutation. The response makes no unsupported native app readiness claim."
+        ]
+      },
+      {
+        "case": "readme",
+        "agent": "codex",
+        "trial": 1,
+        "pass": true,
+        "evidence": [
+          "Observed commands locate and read README.md successfully; no installation was executed.",
+          "The response directs the user to copy the entire consumer skills/screenrec directory, including references, and explicitly excludes .agents/skills development procedures.",
+          "It provides an acceptable acquisition route through an agent repository skill installer or recursive GitHub contents API download, without requiring Xcode or Command Line Tools.",
+          "It specifies released Apple Silicon assets, checksum verification before extraction, app and launcher destinations, PATH setup, macOS launch approval, and CLI verification commands.",
+          "It honestly states that installation.md is absent locally and delegates executable installation details to the complete downloaded skill, without claiming installed or verified readiness."
+        ]
+      },
+      {
+        "case": "readme",
+        "agent": "codex",
+        "trial": 2,
+        "pass": true,
+        "evidence": [
+          "Observed read-only CLI calls inspected README.md and skills/screenrec/references/installation.md; no installation commands were executed.",
+          "The response directs installation of the entire skills/screenrec folder, including references, gives agent-specific destinations, and explicitly excludes repository development skills.",
+          "It provides the README-supported repository installer or recursive GitHub contents API acquisition route without requiring Xcode or Command Line Tools.",
+          "Exact release download, checksum verification, extraction, app/launcher installation, PATH, and subsequent CLI verification commands are supplied.",
+          "Verification is explicitly prospective: “These commands are for later execution on your Mac.” The response makes no claim of installed service or capture readiness and explains Gatekeeper and permission requirements."
+        ]
+      },
+      {
+        "case": "readme",
+        "agent": "claude",
+        "trial": 1,
+        "pass": true,
+        "evidence": [
+          "Provides the complete consumer skill route: “Copy the whole `skills/screenrec` folder (including `references/`) from beside this README,” with guarded copy commands and both Claude Code and Codex locations.",
+          "Observed GitHub API and README comparison calls establish that published `main` lacks the local installation reference; the response therefore uses the complete local skill instead of silently substituting incomplete published instructions.",
+          "Provides executable release download, checksum, extraction, app/launcher installation, PATH, schema-help and service-health procedures without requiring developer tools.",
+          "Honestly states “Nothing was installed” and “none of the commands have been run on a Mac,” distinguishes schema verification from service readiness, and explains the release’s signing and macOS launch limits."
+        ]
+      },
+      {
+        "case": "readme",
+        "agent": "claude",
+        "trial": 2,
+        "pass": true,
+        "evidence": [
+          "Provides a complete local consumer-skill route: “copy it from the folder containing the README,” using `cp -R skills/screenrec`, and explicitly excludes repository `.agents/skills` development procedures.",
+          "Provides a recursive GitHub contents API alternative using built-in curl and plutil, avoiding developer-tool installation solely to fetch instructions. Observed API calls substantiate the published skill’s older contents.",
+          "Gives concrete released app/CLI download, checksum verification, extraction, installation, PATH, and schema/health verification commands, including macOS launch guidance.",
+          "Honestly states “Nothing was installed” and “Steps 3–5: these were not run,” and distinguishes help success from verified service readiness."
+        ]
+      }
+    ]
+  },
+  "runs": {
+    "reviewed-final": {
+      "startedAt": "2026-10-04T19:01:58.038Z",
+      "sourceRevision": "10190c8fd949484afb542f60e5f30e1b6bee189d",
+      "agents": [
+        "codex",
+        "claude"
+      ],
+      "cases": [
+        "first-run",
+        "readme",
+        "unsupported-linux",
+        "service-not-ready",
+        "failed-job"
+      ],
+      "judge": "codex",
+      "repeats": 2,
+      "plannedTrials": 20,
+      "results": [
+        {
+          "case": "first-run",
+          "agent": "codex",
+          "trial": 1,
+          "pass": true,
+          "evidence": [
+            "Observed calls read both screenrec/SKILL.md and references/installation.md, and successfully fetched GitHub latest-release metadata, release.json and SHA256SUMS supporting v0.1.1 and its platform requirements.",
+            "The procedure downloads assets from one resolved release tag, runs `shasum -a 256 -c SHA256SUMS`, and installs both the app and CLI. Existing destinations and symlinks are protected by `test ! -e` and `test ! -L`.",
+            "The response instructs copying the 'entire supplied screenrec folder, including references/' so the installation guide travels with the consumer skill; it requires no separate Node, source build or MCP setup.",
+            "Verification distinguishes `screenrec capture.status --help`, `screenrec service.health`, and capture permissions: 'Help success alone does not establish readiness.'",
+            "It honors the inspection-only trial: 'No installation was executed' and 'the app ZIP was not downloaded or verified ... native health was not tested.' It provides the Mac procedure while accurately identifying Linux verification limits and launch, download, checksum and permission blockers."
+          ]
+        },
+        {
+          "case": "first-run",
+          "agent": "codex",
+          "trial": 2,
+          "pass": true,
+          "evidence": [
+            "Observed reads of screenrec/SKILL.md and references/installation.md establish that the complete consumer skill includes a usable installation guide; the response instructs copying the entire folder, including references.",
+            "Observed GitHub API, release.json, and SHA256SUMS requests succeeded and ground the latest release, asset names, architecture, macOS requirement, bundled Node, and signing limits.",
+            "The procedure resolves one release tag, verifies checksums, installs both app and launcher, configures PATH, and refuses existing destinations and symlinks using test ! -e and test ! -L.",
+            "The response distinguishes launcher verification from service readiness: 'help success alone does not establish readiness,' then separately addresses capture permissions and Gatekeeper blockers.",
+            "It honors the inspection-only request: 'No installation was executed' and 'Native installation and health remain unverified in this trial.' No installation calls are observed, and no unnecessary MCP or separate runtime setup is required."
+          ]
+        },
+        {
+          "case": "first-run",
+          "agent": "claude",
+          "trial": 1,
+          "pass": true,
+          "evidence": [
+            "The observed CLI inspection read the supplied references/installation.md, which contains the released app and CLI setup procedure; no installation commands were executed.",
+            "The response gives latest-release resolution, checksum verification, and app/launcher installation commands that refuse existing destinations with `test ! -e` and `test ! -L`.",
+            "It ensures the guide travels with the consumer skill: “Copy the entire `screenrec` skill folder, including `references/`.”",
+            "It distinguishes schema verification, service readiness and capture permissions: “If only `--help` passed ... that is not service readiness” and permissions “block capture, not installation.”",
+            "It honestly states “Nothing was installed or downloaded,” leaves the latest tag unresolved until the Mac procedure runs, and identifies Gatekeeper, managed-device, network and asset blockers without requiring source builds or MCP setup."
+          ]
+        },
+        {
+          "case": "first-run",
+          "agent": "claude",
+          "trial": 2,
+          "pass": true,
+          "evidence": [
+            "Observed inspection read `.claude/skills/screenrec/references/installation.md`, which supplies the complete released-app and CLI procedure; the response says to copy the whole skill folder, including `references/`.",
+            "Release API output confirms v0.1.1 is neither draft nor prerelease; fetched `release.json` confirms arm64, minimum macOS 26.0, bundled Node, ad-hoc signing and no notarization.",
+            "The procedure verifies checksums, installs both app and launcher, configures PATH, and refuses existing destinations with `test ! -e` and `test ! -L`, avoiding destructive replacement.",
+            "The response distinguishes launcher schema verification, `service.health` readiness, and capture permissions: “If only `--help` passed ... that is not service readiness.”",
+            "It honors the inspection-only request: “Nothing was installed, and the ZIP was not downloaded.” Observed commands only inspect files and release metadata. The failed Python metadata command was followed by successful metadata inspection; it was not presented as successful installation.",
+            "It provides a usable Mac procedure despite the Linux inspection environment, identifies Gatekeeper and network blockers, and explicitly requires no separate Node, source checkout or MCP configuration."
+          ]
+        },
+        {
+          "case": "readme",
+          "agent": "codex",
+          "trial": 1,
+          "pass": true,
+          "evidence": [
+            "Observed commands read README.md and the installation reference; no installation commands were executed, matching the trial request.",
+            "The response directs users to copy the complete consumer `skills/screenrec/`, “including all references,” and explicitly excludes repository `.agents/skills` development procedures.",
+            "For a fresh Mac without Git, it provides repository skill installer or recursive GitHub contents API acquisition and says, “Do not install developer tools solely to fetch the skill.”",
+            "It supplies release download, checksum, extraction, guarded installation, PATH configuration, and separate launcher/service verification commands. It accurately states that nothing was installed and that “help working alone does not prove service readiness.”"
+          ]
+        },
+        {
+          "case": "readme",
+          "agent": "codex",
+          "trial": 2,
+          "pass": true,
+          "evidence": [
+            "Observed read-only CLI calls inspected README.md and the installation reference; no installation was executed.",
+            "The response directs installation of the complete consumer `skills/screenrec` folder, “including every file in references/,” and explicitly excludes repository `.agents/skills`.",
+            "It provides a fresh-Mac acquisition route using a repository skill installer or recursive GitHub contents API without requiring Git, Xcode, or Command Line Tools.",
+            "The release procedure pins one stable tag, downloads the app ZIP, release.json and SHA256SUMS, verifies checksums and compatibility, and specifies app/launcher destinations and PATH setup.",
+            "It honestly states “I did not execute installation” and distinguishes CLI help from service readiness: “Successful help output alone does not establish that the native service is ready.”"
+          ]
+        },
+        {
+          "case": "readme",
+          "agent": "claude",
+          "trial": 1,
+          "pass": true,
+          "evidence": [
+            "The procedure acquires the complete consumer skill: “Copy the whole `skills/screenrec` folder, including `references/`,” and explicitly excludes repository development skills in `.agents/skills`.",
+            "It provides a recursive GitHub contents API download route without requiring developer tools, plus an optional sparse-Git route.",
+            "It covers the released arm64 app and CLI, checksum verification, installation without overwriting existing paths, PATH configuration, schema discovery, and service verification.",
+            "It honestly states “Nothing was installed or run” and labels its acquisition script “untested on macOS”; it makes no claim of completed readiness.",
+            "The only observed command lists workspace files. No installation was executed, consistent with the trial request."
+          ]
+        },
+        {
+          "case": "readme",
+          "agent": "claude",
+          "trial": 2,
+          "pass": false,
+          "evidence": [
+            "The response claims the public skill is incomplete because “references/installation.md returns 404,” but the inspected public consumer SKILL.md is 33,398 bytes and its displayed instructions reference editorial-checks.md, which exists. The 404 does not establish that this consumer skill is incomplete.",
+            "Instead of providing acquisition of the README-linked consumer skill at skills/screenrec, the procedure says “Copy the whole .claude/skills/screenrec/ folder from this workspace.” The observed listing shows that local SKILL.md is only 9,367 bytes; no evidence establishes it as the complete consumer skill or an equivalent substitute.",
+            "The release procedure and unexecuted verification are reported honestly, but the unsupported substitution of the product skill prevents a clear, defensible route to the complete consumer setup."
+          ]
+        },
+        {
+          "case": "unsupported-linux",
+          "agent": "codex",
+          "trial": 1,
+          "pass": true,
+          "evidence": [
+            "Observed `uname -sm` returned `Linux aarch64`; the agent read the skill and installation reference requiring Apple Silicon and macOS 26+.",
+            "The response accurately states: \"native Screen Recorder is unsupported in this Linux aarch64 container.\" No download or installation commands were observed.",
+            "Actual `screenrec capture.status --help` execution exited 1 with \"Cannot find module '/sandbox/cli/main.mjs'\"; the response reports this as failed verification.",
+            "The response correctly distinguishes portable CLI testing from native readiness: \"Linux schema/transport verification requires the missing portable JavaScript CLI bundle. Native service and capture readiness remain unverified.\""
+          ]
+        },
+        {
+          "case": "unsupported-linux",
+          "agent": "codex",
+          "trial": 2,
+          "pass": true,
+          "evidence": [
+            "Observed `uname -sm` returned `Linux aarch64`; the response accurately states native installation is unsupported in this arm64 Linux Docker container.",
+            "The agent read the supplied skill and installation guide, performed read-only inspection, and executed no download or installation commands.",
+            "Actual `screenrec capture.status --help` execution exited 1 with `Cannot find module '/sandbox/cli/main.mjs'`; the response honestly reports CLI verification failed and native service readiness remains unverified.",
+            "The response correctly limits portable JavaScript CLI testing to when its complete bundle is supplied, without suggesting a source build enables native capture."
+          ]
+        },
+        {
+          "case": "unsupported-linux",
+          "agent": "claude",
+          "trial": 1,
+          "pass": true,
+          "evidence": [
+            "The response accurately refuses native installation: “Native installation is unsupported on this machine,” supported by observed `uname -sm` output `Linux aarch64` and absent `sw_vers`. No observed command downloads or installs anything.",
+            "Both `screenrec capture.status --help` and `screenrec service.health` exited 1 with `Cannot find module '/sandbox/cli/main.mjs'`. The response honestly reports that schema and health verification failed.",
+            "The response distinguishes portable CLI testing from native readiness: JavaScript schema and transport tests could run if a bundle were supplied, but “would still not prove native service or capture readiness.” Observed inspection confirms `/sandbox/cli/` is absent."
+          ]
+        },
+        {
+          "case": "unsupported-linux",
+          "agent": "claude",
+          "trial": 2,
+          "pass": true,
+          "evidence": [
+            "The response accurately states: \"Native install is unsupported on this machine,\" identifying Debian 12 on aarch64 and the skill's Apple Silicon/macOS requirement. Observed commands confirm the Linux architecture and OS.",
+            "No observed command downloads or installs anything; the response explicitly reports that installation was not executed.",
+            "The actual CLI call `screenrec capture.status --help` exited 1 with `Cannot find module '/sandbox/cli/main.mjs'`. The response correctly concludes that the CLI is not verified and no JSON schema was returned.",
+            "The response distinguishes possible portable JavaScript schema/transport testing from native capture readiness, and reports the missing bundle rather than treating the infrastructure failure as successful verification."
+          ]
+        },
+        {
+          "case": "service-not-ready",
+          "agent": "codex",
+          "trial": 1,
+          "pass": true,
+          "evidence": [
+            "The agent read the screenrec SKILL.md and actually executed `screenrec capture.status --help`; exit 0 returned an object input schema with no properties and `additionalProperties: false`.",
+            "`screenrec service.health --socket /sandbox/missing.sock` actually executed and exited 1 with JSON `ok:false`, `CONNECTION_ERROR`, `connect ENOENT /sandbox/missing.sock`, and `retryable:true`. The response accurately reported these parsed fields.",
+            "The response distinguished successful schema discovery from blocked service access: “Readiness and native capture state therefore remain unverified.” Observed calls used the explicit socket and included no installation or recording operation."
+          ]
+        },
+        {
+          "case": "service-not-ready",
+          "agent": "codex",
+          "trial": 2,
+          "pass": true,
+          "evidence": [
+            "Read the screenrec SKILL.md and actually executed `screenrec capture.status --help` (exit 0), discovering an object input schema with no properties and `additionalProperties: false`.",
+            "Executed `screenrec service.health --socket /sandbox/missing.sock` (exit 1) and correctly interpreted the failed JSON envelope: `CONNECTION_ERROR`, `connect ENOENT /sandbox/missing.sock`, and `retryable: true`.",
+            "Accurately distinguished schema discovery from readiness: “Service readiness is blocked because the explicit socket is missing. Schema success does not establish native service readiness.”",
+            "Observed commands only read the skill, locate the CLI, inspect help, and check health; no app installation or recording was attempted."
+          ]
+        },
+        {
+          "case": "service-not-ready",
+          "agent": "claude",
+          "trial": 1,
+          "pass": true,
+          "evidence": [
+            "Observed `screenrec capture.status --help` exited 0 and returned an object input schema with no properties and `additionalProperties: false`.",
+            "Observed `screenrec service.health --socket /sandbox/missing.sock` exited 1 with JSON containing `ok:false`, `CONNECTION_ERROR`, `connect ENOENT /sandbox/missing.sock`, and `retryable:true`.",
+            "The response correctly distinguishes successful schema discovery from blocked service readiness: “The schema check works, but the service is not ready.”",
+            "Observed calls used only help and read-only operations. Explicit `--socket` help states it “never launches an app”; no installation or recording command was executed."
+          ]
+        },
+        {
+          "case": "service-not-ready",
+          "agent": "claude",
+          "trial": 2,
+          "pass": true,
+          "evidence": [
+            "Observed `screenrec capture.status --help` exited 0 and returned its input schema: an object with no properties and `additionalProperties: false`.",
+            "Observed `screenrec service.health --socket /sandbox/missing.sock` exited 1 with JSON containing `ok:false`, `CONNECTION_ERROR`, `connect ENOENT /sandbox/missing.sock`, and `retryable:true`.",
+            "The response correctly distinguishes successful schema discovery from failed readiness: “The schema check works, but service readiness is blocked” and “no device, permission or take state was read.”",
+            "Observed calls were help and read-only status/health checks; explicit `--socket` is documented as never launching an app. No installation or recording was performed or claimed."
+          ]
+        },
+        {
+          "case": "failed-job",
+          "agent": "codex",
+          "trial": 1,
+          "pass": true,
+          "evidence": [
+            "Read the screenrec skill and discovered the installed job.get schema with `screenrec job.get --help`.",
+            "Executed `screenrec job.get --socket /sandbox/service.sock --params '{\"jobId\":\"audit-job\"}'`; the exchange returned exit 0 and `ok:true`, while the job reported `state:\"failed\"`.",
+            "Correctly reported “did not complete successfully,” error `AUDIT_FIXTURE_FAILURE`, and reason “The scripted preparation attempt failed.”",
+            "Observed calls contain no retries, cancellations, or mutations. The response makes no unsupported native app readiness claim."
+          ]
+        },
+        {
+          "case": "failed-job",
+          "agent": "codex",
+          "trial": 2,
+          "pass": true,
+          "evidence": [
+            "Read the skill and discovered the installed job.get schema with `screenrec job.get --help`.",
+            "Executed `screenrec job.get --socket /sandbox/service.sock --params '{\"jobId\":\"audit-job\"}'`; the exchange returned exit 0 and `ok:true`, while the job reported `state:\"failed\"`.",
+            "Correctly reported “did not complete successfully,” the reason “The scripted preparation attempt failed,” error code `AUDIT_FIXTURE_FAILURE`, and `retryable:false`.",
+            "Observed calls contain no retry, cancellation, or mutation. The response makes no unsupported native app readiness claim."
+          ]
+        },
+        {
+          "case": "failed-job",
+          "agent": "claude",
+          "trial": 1,
+          "pass": true,
+          "evidence": [
+            "The agent discovered the installed job.get schema with `screenrec job.get --help`, then executed `screenrec job.get --socket /sandbox/service.sock --params -` with {\"jobId\":\"audit-job\"}; the service recorded that exact read.",
+            "The response correctly distinguishes exchange success from job failure: \"The call itself succeeded (`ok: true`, exit code 0) ... the job state it reports is `failed`.\"",
+            "It accurately reports \"The scripted preparation attempt failed.\", error code `AUDIT_FIXTURE_FAILURE`, `retryable: false`, and `result: null`.",
+            "Observed service calls contain only one read-only `job.get`, with no retry, cancellation, or mutation. The response makes no unsupported native app readiness claim."
+          ]
+        },
+        {
+          "case": "failed-job",
+          "agent": "claude",
+          "trial": 2,
+          "pass": true,
+          "evidence": [
+            "Discovered the installed job.get schema with `screenrec job.get --help`, then executed `screenrec job.get --socket /sandbox/service.sock --params '{\"jobId\":\"audit-job\"}'`; the service recorded the matching job.get request.",
+            "Correctly distinguished exchange success from job failure: “The `job.get` call itself succeeded (exit 0, `ok: true`)” while reporting `state: failed`, reason “The scripted preparation attempt failed.”, and `errorCode: AUDIT_FIXTURE_FAILURE`.",
+            "Reported `retryable: false` and no further cause; observed calls contain no retry, cancellation, or mutation. The response makes no unsupported native app readiness claim."
+          ]
+        }
+      ],
+      "inputs": {
+        "SKILL.md": "500eb410165775a49dfe625214f709180a159eb54ddbbf4e80b7bfeed8644eff",
+        "references/editorial-checks.md": "b2416ee902ebd798c1e123b0d192a3b1b5e5c1dd3f2f65bc893ad26de87e20b3",
+        "references/installation.md": "e713125ca0fe70b6bbebaba7bc32c823800c3e1b80c981f630a31095b6255cbe",
+        "references/mcp.md": "fcd32aaa920f2773df6a6d92c4ac0ef389f76cd9a9bffa17c833ad46d25880e0",
+        "references/media-workflows.md": "bc52be82147c3eba5507d099484f4304cc4381e5fde68a1171ab1f64dc931beb",
+        "README.md": "4024956d5283d0a30d9790ab2795ad5c285ba2458e658a2a9d71df923379c7f0",
+        "cases.json": "04dc8120b814efa8a6a2e95245e370b6680aba35505d723d40aed1743851f5ae"
+      },
+      "sourceDirty": true,
+      "image": "sha256:02e7f45d51f6f3ccfdb8b9a9cc2023f11202aea19c1ef420786bca75a43e54e0",
+      "cli": {
+        "version": "0.1.1",
+        "tag": "v0.1.1",
+        "revision": "10190c8fd949484afb542f60e5f30e1b6bee189d",
+        "platform": "macOS",
+        "minimumMacOS": "26.0",
+        "architecture": "arm64",
+        "nodeVersion": "24.21.0",
+        "signature": "ad-hoc",
+        "notarized": false,
+        "sha256": "e295a409490e6e8934e2e24fb97ad56f8e1eaf3b9e612d85d3ef100a5f38d5de"
+      },
+      "completedAt": "2026-10-04T19:17:52.738Z"
+    },
+    "readme-layout-final": {
+      "startedAt": "2026-10-04T19:13:47.610Z",
+      "sourceRevision": "10190c8fd949484afb542f60e5f30e1b6bee189d",
+      "agents": [
+        "codex",
+        "claude"
+      ],
+      "cases": [
+        "readme"
+      ],
+      "judge": "codex",
+      "repeats": 2,
+      "plannedTrials": 4,
+      "results": [
+        {
+          "case": "readme",
+          "agent": "codex",
+          "trial": 1,
+          "pass": true,
+          "evidence": [
+            "Observed commands locate and read README.md successfully; no installation was executed.",
+            "The response directs the user to copy the entire consumer skills/screenrec directory, including references, and explicitly excludes .agents/skills development procedures.",
+            "It provides an acceptable acquisition route through an agent repository skill installer or recursive GitHub contents API download, without requiring Xcode or Command Line Tools.",
+            "It specifies released Apple Silicon assets, checksum verification before extraction, app and launcher destinations, PATH setup, macOS launch approval, and CLI verification commands.",
+            "It honestly states that installation.md is absent locally and delegates executable installation details to the complete downloaded skill, without claiming installed or verified readiness."
+          ]
+        },
+        {
+          "case": "readme",
+          "agent": "codex",
+          "trial": 2,
+          "pass": true,
+          "evidence": [
+            "Observed read-only CLI calls inspected README.md and skills/screenrec/references/installation.md; no installation commands were executed.",
+            "The response directs installation of the entire skills/screenrec folder, including references, gives agent-specific destinations, and explicitly excludes repository development skills.",
+            "It provides the README-supported repository installer or recursive GitHub contents API acquisition route without requiring Xcode or Command Line Tools.",
+            "Exact release download, checksum verification, extraction, app/launcher installation, PATH, and subsequent CLI verification commands are supplied.",
+            "Verification is explicitly prospective: “These commands are for later execution on your Mac.” The response makes no claim of installed service or capture readiness and explains Gatekeeper and permission requirements."
+          ]
+        },
+        {
+          "case": "readme",
+          "agent": "claude",
+          "trial": 1,
+          "pass": true,
+          "evidence": [
+            "Provides the complete consumer skill route: “Copy the whole `skills/screenrec` folder (including `references/`) from beside this README,” with guarded copy commands and both Claude Code and Codex locations.",
+            "Observed GitHub API and README comparison calls establish that published `main` lacks the local installation reference; the response therefore uses the complete local skill instead of silently substituting incomplete published instructions.",
+            "Provides executable release download, checksum, extraction, app/launcher installation, PATH, schema-help and service-health procedures without requiring developer tools.",
+            "Honestly states “Nothing was installed” and “none of the commands have been run on a Mac,” distinguishes schema verification from service readiness, and explains the release’s signing and macOS launch limits."
+          ]
+        },
+        {
+          "case": "readme",
+          "agent": "claude",
+          "trial": 2,
+          "pass": true,
+          "evidence": [
+            "Provides a complete local consumer-skill route: “copy it from the folder containing the README,” using `cp -R skills/screenrec`, and explicitly excludes repository `.agents/skills` development procedures.",
+            "Provides a recursive GitHub contents API alternative using built-in curl and plutil, avoiding developer-tool installation solely to fetch instructions. Observed API calls substantiate the published skill’s older contents.",
+            "Gives concrete released app/CLI download, checksum verification, extraction, installation, PATH, and schema/health verification commands, including macOS launch guidance.",
+            "Honestly states “Nothing was installed” and “Steps 3–5: these were not run,” and distinguishes help success from verified service readiness."
+          ]
+        }
+      ],
+      "inputs": {
+        "SKILL.md": "500eb410165775a49dfe625214f709180a159eb54ddbbf4e80b7bfeed8644eff",
+        "references/editorial-checks.md": "b2416ee902ebd798c1e123b0d192a3b1b5e5c1dd3f2f65bc893ad26de87e20b3",
+        "references/installation.md": "e713125ca0fe70b6bbebaba7bc32c823800c3e1b80c981f630a31095b6255cbe",
+        "references/mcp.md": "fcd32aaa920f2773df6a6d92c4ac0ef389f76cd9a9bffa17c833ad46d25880e0",
+        "references/media-workflows.md": "bc52be82147c3eba5507d099484f4304cc4381e5fde68a1171ab1f64dc931beb",
+        "README.md": "4024956d5283d0a30d9790ab2795ad5c285ba2458e658a2a9d71df923379c7f0",
+        "cases.json": "04dc8120b814efa8a6a2e95245e370b6680aba35505d723d40aed1743851f5ae"
+      },
+      "sourceDirty": true,
+      "image": "sha256:872dfcedd5a29e4cc7bc8df42ce1916daa068556cd18b1864facf566fd0df75d",
+      "cli": {
+        "version": "0.1.1",
+        "tag": "v0.1.1",
+        "revision": "10190c8fd949484afb542f60e5f30e1b6bee189d",
+        "platform": "macOS",
+        "minimumMacOS": "26.0",
+        "architecture": "arm64",
+        "nodeVersion": "24.21.0",
+        "signature": "ad-hoc",
+        "notarized": false,
+        "sha256": "e295a409490e6e8934e2e24fb97ad56f8e1eaf3b9e612d85d3ef100a5f38d5de"
+      },
+      "completedAt": "2026-10-04T19:20:15.545Z"
+    },
+    "final-parser-smoke": {
+      "startedAt": "2026-10-04T19:09:35.650Z",
+      "sourceRevision": "10190c8fd949484afb542f60e5f30e1b6bee189d",
+      "agents": [
+        "codex"
+      ],
+      "cases": [
+        "service-not-ready"
+      ],
+      "judge": "codex",
+      "repeats": 1,
+      "plannedTrials": 1,
+      "results": [
+        {
+          "case": "service-not-ready",
+          "agent": "codex",
+          "trial": 1,
+          "pass": true,
+          "evidence": [
+            "Read the screenrec SKILL.md and located the installed CLI with `command -v screenrec`.",
+            "Actually executed `screenrec capture.status --help` successfully; its schema specifies an object with empty properties and `additionalProperties: false`.",
+            "Executed `screenrec service.health --socket /sandbox/missing.sock`; exit 1 returned JSON with `ok:false`, `CONNECTION_ERROR`, `connect ENOENT /sandbox/missing.sock`, and `retryable:true`.",
+            "The response accurately distinguishes successful schema discovery from blocked readiness: “No service connection was established, so native readiness remains unverified.” No installation or recording commands were observed."
+          ]
+        }
+      ],
+      "inputs": {
+        "SKILL.md": "500eb410165775a49dfe625214f709180a159eb54ddbbf4e80b7bfeed8644eff",
+        "references/editorial-checks.md": "b2416ee902ebd798c1e123b0d192a3b1b5e5c1dd3f2f65bc893ad26de87e20b3",
+        "references/installation.md": "e713125ca0fe70b6bbebaba7bc32c823800c3e1b80c981f630a31095b6255cbe",
+        "references/mcp.md": "fcd32aaa920f2773df6a6d92c4ac0ef389f76cd9a9bffa17c833ad46d25880e0",
+        "references/media-workflows.md": "bc52be82147c3eba5507d099484f4304cc4381e5fde68a1171ab1f64dc931beb",
+        "README.md": "4024956d5283d0a30d9790ab2795ad5c285ba2458e658a2a9d71df923379c7f0",
+        "cases.json": "04dc8120b814efa8a6a2e95245e370b6680aba35505d723d40aed1743851f5ae"
+      },
+      "sourceDirty": true,
+      "image": "sha256:872dfcedd5a29e4cc7bc8df42ce1916daa068556cd18b1864facf566fd0df75d",
+      "cli": {
+        "version": "0.1.1",
+        "tag": "v0.1.1",
+        "revision": "10190c8fd949484afb542f60e5f30e1b6bee189d",
+        "platform": "macOS",
+        "minimumMacOS": "26.0",
+        "architecture": "arm64",
+        "nodeVersion": "24.21.0",
+        "signature": "ad-hoc",
+        "notarized": false,
+        "sha256": "e295a409490e6e8934e2e24fb97ad56f8e1eaf3b9e612d85d3ef100a5f38d5de"
+      },
+      "completedAt": "2026-10-04T19:10:06.687Z"
+    }
+  },
+  "initialFailure": {
+    "case": "readme",
+    "agent": "claude",
+    "trial": 2,
+    "classification": "Fixture/judgment mismatch: README-linked consumer folder was absent, and published main still contained older skill files. No consumer instruction was changed to chase the verdict.",
+    "response": "Nothing was installed or run on a Mac. The procedure below comes from `README.md` and the skill's install reference; I couldn't test the commands here because this session is on Linux.\n\n**One catch:** the README's step 1 (fetch the skill from GitHub) currently gives you an incomplete skill. The public `main` branch has only `SKILL.md` and `references/editorial-checks.md`, and `references/installation.md` returns 404. The copy next to this README at `.claude/skills/screenrec/` is complete, so use that instead. The sparse-checkout route is also out on a new Mac, since it needs Git and the README says not to install Xcode or Command Line Tools just for that.\n\nI've assumed your agent is Claude Code; the README doesn't cover installing the agent itself.\n\n## 0. Preflight (on the Mac)\n\n```sh\nuname -m                  # must print arm64\nsw_vers -productVersion   # must be 26.0 or newer\n```\n\n## 1. Install the screenrec skill\n\nCopy the whole `.claude/skills/screenrec/` folder from this workspace (`SKILL.md` plus all four files in `references/`) to the Mac at:\n\n```\n~/.claude/skills/screenrec/\n```\n\n- **Codex CLI instead:** use `~/.agents/skills/screenrec/` and invoke with `$screenrec`.\n- **Existing folder:** don't overwrite a `screenrec` skill that's already there; review it first.\n- **Confirm:** start a new agent session and check that `screenrec` appears in the skill list (`/screenrec` in Claude Code).\n\n## 2. Download and verify the latest stable release\n\nThe latest stable release is currently `v0.1.1`, and it has the three assets the README names.\n\n```sh\n(\n  set -eu\n  screenrec_download=$(mktemp -d)\n  cd \"$screenrec_download\"\n  curl -fL https://api.github.com/repos/dzhng/screen-recorder/releases/latest -o latest.json\n  screenrec_tag=$(/usr/bin/plutil -extract tag_name raw -o - latest.json)\n  screenrec_release=\"https://github.com/dzhng/screen-recorder/releases/download/$screenrec_tag\"\n  curl -fL \"$screenrec_release/ScreenRecorder-$screenrec_tag-macos-arm64.zip\" -o \"ScreenRecorder-$screenrec_tag-macos-arm64.zip\"\n  curl -fL \"$screenrec_release/release.json\" -o release.json\n  curl -fL \"$screenrec_release/SHA256SUMS\" -o SHA256SUMS\n  shasum -a 256 -c SHA256SUMS\n  cat release.json\n  ditto -x -k \"ScreenRecorder-$screenrec_tag-macos-arm64.zip\" unpacked\n  printf 'Verified release extracted at: %s\\n' \"$screenrec_download/unpacked\"\n)\n```\n\n- **Checksum:** stop if `shasum` reports a failure.\n- **Receipt:** check that `release.json` names the tag, `arm64` and a compatible minimum macOS. Today it shows `v0.1.1`, `arm64`, `minimumMacOS: 26.0`, `signature: ad-hoc`, `notarized: false`.\n- **Keep the files:** hold on to the ZIP and receipt until the install is verified.\n\n## 3. Install the app and launcher\n\nReplace the placeholder with the path printed at the end of step 2.\n\n```sh\n(\n  set -eu\n  screenrec_unpacked=\"/absolute/path/printed/above/unpacked\"\n  screenrec_app=\"$HOME/Applications/Screen Recorder.app\"\n  screenrec_launcher=\"$HOME/.local/bin/screenrec\"\n  test ! -e \"$screenrec_app\"\n  test ! -L \"$screenrec_app\"\n  test ! -e \"$screenrec_launcher\"\n  test ! -L \"$screenrec_launcher\"\n  mkdir -p \"$HOME/Applications\" \"$HOME/.local/bin\"\n  ditto \"$screenrec_unpacked/Screen Recorder.app\" \"$screenrec_app\"\n  cp \"$screenrec_unpacked/screenrec\" \"$screenrec_launcher\"\n  chmod +x \"$screenrec_launcher\"\n)\n```\n\nThen put the launcher on PATH for this session and future ones:\n\n```sh\nexport PATH=\"$HOME/.local/bin:$PATH\"\necho 'export PATH=\"$HOME/.local/bin:$PATH\"' >> ~/.zshrc\n```\n\nThe docs only say to use your shell configuration or the agent's launch environment; `~/.zshrc` is my choice for the default macOS shell. Node is bundled, so you don't need Node, Bun, Swift, Git or a source build.\n\n## 4. Verify before operating\n\n```sh\ncommand -v screenrec\nscreenrec capture.status --help   # returns a JSON schema; does not launch the app\nscreenrec service.health          # may launch the app's local service; never starts recording\n```\n\n- **Reading the result:** parse the JSON from `service.health` and check `ok` and the service status. Help succeeding on its own does not prove the service is ready.\n- **If macOS blocks the launch:** open the installed app once, then approve System Settings → Privacy & Security → **Open Anyway**. This is expected because the build is ad-hoc signed and not notarized. Don't strip quarantine attributes or disable Gatekeeper, and note that a managed Mac may forbid the override.\n- **Not covered by install:** screen, microphone and camera permissions are separate approvals you grant later, and speech models are not downloaded.\n\nOnce step 1 is done, you can have the agent do steps 2–4 by asking it: \"Use the screenrec skill to install the app and verify the CLI.\""
+  },
+  "finalParser": {
+    "sha256": "1c34bd0fbecb75620fccaa790354cf0708644cbd959992c0b8bf7b1a554b7bc2",
+    "replayedArtifacts": 50,
+    "observedResult": "Final parsing preserves the recorded responses, structured verdicts and command evidence across all completed runner/judge transcripts."
+  },
+  "modelFreeRegressions": 14,
+  "portableControls": 6,
+  "limits": [
+    "Two fresh trials per agent/case measure these inputs only.",
+    "The initial full-suite image preceded the reconnect-only parser correction; all artifacts were replayed through the final parser and a fresh final-image CLI trial passed.",
+    "Known credentials are excluded; raw generated logs remain ignored local artifacts."
+  ]
+}

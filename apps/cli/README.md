@@ -1,7 +1,9 @@
 # CLI and MCP adapters
 
-The adapters format the same [service operations](../service/README.md) for JSON
-command-line calls and MCP stdio. The [protocol declaration](../../packages/protocol/README.md)
+The CLI is the primary external-agent adapter, paired with the
+[consumer skill](../../skills/screenrec/SKILL.md). It formats
+[service operations](../service/README.md) as JSON command-line calls; optional
+MCP stdio exposes the same contracts. The [protocol declaration](../../packages/protocol/README.md)
 owns schemas and help; adapters never edit the catalog or infer another operation.
 [Builds and installation](../../scripts/README.md) own checkout and installed launchers.
 
