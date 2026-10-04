@@ -54,3 +54,41 @@ Internal naming/fixture paths are delegated; the fixed launcher interface, compl
 generation and safe deferral rules are not. Human review inspects the generation
 trace and demonstrated long-lived-client blocker; expectations about how quickly
 an idle MCP session must update would reopen its lifetime policy.
+
+## Launcher-only checkpoint (not complete)
+
+The [bounded runner](../../../scripts/launcher-lab.mjs) freezes the current shell
+bootstrap and a candidate descriptor-owning lock wrapper. Run its
+[focused tests](../../../scripts/launcher-lab.test.mjs) after installing workspace
+dependencies; the real-adapter case also needs Bun and clang. All bundles,
+barriers and lock files are scratch-only; no installed app or user defaults are
+used. The [receipt](../assets/launcher-lifetime-proof.json) binds source, compiled
+CLI bytes, helper, runner, Node and platform.
+
+The shell path admits a demonstrated mixture: Node loads generation A, replacement
+renames B into the same app path, and A's later resource read returns B. An inherited
+`flock` descriptor (a kernel-managed shared/exclusive file lock) survives direct
+`exec` into Node. The candidate refuses replacement while that Node process lives,
+then admits B after exit. For actual schema help, the probe rejects replacement during Node preload,
+before the CLI loads, then observes successful help after releasing the barrier.
+It does not measure exclusion during the help body. An initialized actual MCP
+session uses the same wrapper and blocks the exclusive owner while idle.
+Killing either lock owner releases exclusion without deleting its lock file.
+Disabling the exclusive lock made the test fail with replacement accepted.
+
+This establishes a useful primitive, **not** a safe Sparkle swap. The app's own
+lock would end at host termination; launchd-created helpers do not inherit its
+descriptor. The updater must demonstrably own exclusive exclusion before host
+termination and through complete replacement. A new launch then fails before
+reading Node or CLI. If a shared owner remains, the updater defers without ending
+the host. Prefer acquiring in the existing installer helper at its final install
+boundary over adding a guardian process, if the updater engine exposes that
+boundary honestly. Public Sparkle does not currently prove this handshake.
+
+Still open: actual Sparkle helper ownership, framed production `UPDATING` startup
+failure, `open -a` discovery parity, concurrent/canonical/default-path aliases,
+normal MCP EOF, canceled/failing replacement and relocation of the assembled kit.
+No production launcher changed in this checkpoint. Resolve engine ownership first;
+then port the primitive and rerun these frozen barriers through production.
+
+Checkpoint choices are recorded in the [implementation ledger](../choices.md).

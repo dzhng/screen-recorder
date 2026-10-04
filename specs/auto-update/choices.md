@@ -162,3 +162,41 @@ blocker labels; those discretionary calls are not invented policy.
 - **Verdict:** sound; the existing private status contract supplies candidate
   lifetime without creating another control surface or snapshot owner.
 - **Confidence:** high.
+
+### A launcher proof does not silently become a production launcher
+
+- **When:** slice 03 launcher-only checkpoint.
+- **The choice:** keep the measured lock wrapper in the developer lab until the
+  updater helper proves ownership through replacement. When an agent launches
+  the CLI, the wrapper acquires a shared file lock, meaning any number of CLI
+  readers may run together. An installer needs an exclusive lock, meaning every
+  reader must have ended before it can replace the app. The lock survives the
+  wrapper becoming Node through `exec`, and the kernel releases it when Node
+  exits or crashes. Installing this wrapper immediately would protect readers
+  only if Sparkle's actual installer used the same lock; it currently does not.
+- **The gap:** the plan delegates choosing a mechanism after measurement, but
+  does not prescribe where an incomplete research result belongs.
+- **The reach:** production must reuse the frozen reader lifetime while proving
+  the installer lifetime, rather than treating a successful isolated lock test
+  as evidence of Sparkle coordination.
+- **Verdict:** sound; it preserves a demonstrated useful primitive without
+  shipping an unproved safety guarantee.
+- **Confidence:** high.
+
+### Bundle the real adapter directly from unchanged source for its cheap lifetime proof
+
+- **When:** slice 03 launcher-only checkpoint.
+- **The choice:** the lab uses Bun's normal Node-target bundler and directs
+  workspace imports to their source entry points. In a scratch app, an agent
+  asks the real CLI for help and starts the real MCP server, then requests its
+  tool list and leaves it idle. This observes help entry and the initialized MCP lifetime without
+  building native recording helpers or writing package build output. The
+  alternative is a complete app build, which does more expensive work while
+  adding no evidence about whether the Node process owns the file lock.
+- **The gap:** the plan requires real adapter proof but leaves the cheapest
+  reproducible construction method open.
+- **The reach:** this is explicitly a developer proof; final packaging still
+  uses the existing app builder, and production parity must use its bytes.
+- **Verdict:** sound; the receipt binds compiled adapter bytes and the test
+  claims only the observed CLI/MCP lock lifetime.
+- **Confidence:** high.

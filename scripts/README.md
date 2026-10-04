@@ -64,3 +64,9 @@ uniquely identified scratch bundles. Its suite includes an expected defect
 reproduction; a passing lab suite does not approve the engine. The
 [active updater proof](../specs/auto-update/slices/01-sparkle-replication.md#proof-status)
 records acceptance separately from observed behavior.
+
+The [launcher lifetime lab](launcher-lab.mjs) is a disposable concurrency proof,
+not an installer. It shows why selecting Node and then reading a mutable app path
+needs exclusion covering the whole CLI process, including an idle MCP session.
+Its lock wrapper is research input until the updater's post-exit installation
+owner is proved; a passing lab is not installed-update acceptance.
