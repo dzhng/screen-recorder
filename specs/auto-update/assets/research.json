@@ -1,0 +1,44 @@
+{
+  "capturedAt": "2026-10-04",
+  "repositoryBaseline": "fff09bfcc1fb540ea026f0a85f916a50ed717304",
+  "sparkle": {
+    "version": "2.10.0",
+    "sourceCommit": "eef1a539a373c1f1a320624b1130fc5de7b2e100",
+    "release": "https://github.com/sparkle-project/Sparkle/releases/tag/2.10.0",
+    "spmArtifact": "https://github.com/sparkle-project/Sparkle/releases/download/2.10.0/Sparkle-for-Swift-Package-Manager.zip",
+    "spmArtifactSha256": "17e28312b8e18ab7cdbbe09a6fb28cc55a5479ec6c371dbc07cdecd2a14fd959",
+    "sourceFiles": [
+      {
+        "url": "https://raw.githubusercontent.com/sparkle-project/Sparkle/eef1a539a373c1f1a320624b1130fc5de7b2e100/Package.swift",
+        "sha256": "a19cb9509d49c83d64a7ef43d7c06bbb90d739ec5b7b1703689b35acbe863b43"
+      },
+      {
+        "url": "https://raw.githubusercontent.com/sparkle-project/Sparkle/eef1a539a373c1f1a320624b1130fc5de7b2e100/Sparkle/SPUUpdaterDelegate.h",
+        "sha256": "20ea4bf5273eaa6560160941d680acec6565965162737f50ea4240845a7dde24"
+      },
+      {
+        "url": "https://raw.githubusercontent.com/sparkle-project/Sparkle/eef1a539a373c1f1a320624b1130fc5de7b2e100/Sparkle/SUAppcastDriver.m",
+        "sha256": "af743b4e963d9370650561e58d07aa57083d8d13f47f0ad212e2cd3a5319b3a4"
+      },
+      {
+        "url": "https://raw.githubusercontent.com/sparkle-project/Sparkle/eef1a539a373c1f1a320624b1130fc5de7b2e100/Sparkle/SUAppcast.m",
+        "sha256": "0175c8a46be0f8a81d68ccf7f4fd5387a56cc3a794e7f06fd550b7296a35f9b4"
+      },
+      {
+        "url": "https://raw.githubusercontent.com/sparkle-project/Sparkle/eef1a539a373c1f1a320624b1130fc5de7b2e100/Sparkle/SUAppcastItem.h",
+        "sha256": "21df22d4f0ebd4eaba530f77f520a29451a057b70093efec3104ce0253026cf9"
+      }
+    ],
+    "proofScope": "Official source inspection only; no updater or permission-continuity behavior was executed."
+  },
+  "skills": {
+    "version": "1.7.0",
+    "tarball": "https://registry.npmjs.org/skills/-/skills-1.7.0.tgz",
+    "integrity": "sha512-OfePnDft+Xt9/tCoHdCUe5fkM8i+Q3QOSQO53hm7mKtsXyvc+CKOAAliVWZ484HS3cWx+6r+ob0AArixs3jYXw==",
+    "cliSha256": "fde68534019765fb69510a0038ca7df2810a6ffed4c26fef9beabdcf6cc6701c",
+    "observedProof": "skills-links-proof.json",
+    "observedProofSha256": "44563251581e6966b7a2021aef6e58d01e486f6877dd35cb72e4c2027144c4eb",
+    "proofScope": "Prior isolated local-folder installer observation; not a frozen runnable spike or Claude/Codex onboarding eval. Reproduce in slice before asserting parity.",
+    "consumerTree": "e1218298c88690876d7563b322bf31a664ceb4a3"
+  }
+}

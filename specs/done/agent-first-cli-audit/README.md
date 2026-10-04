@@ -82,9 +82,7 @@ work produced no visual product change or media-quality claim.
 
 ## Decisions outside this closeout
 
-[Automatic updates](../../auto-update/README.md) records update channels,
-signing, recovery and compatibility questions. Tagged release
-publishing does not update installed apps. The release workflow's preview policy
-and onboarding's latest-stable route need an explicit channel decision. Versioned
-skill packaging and full native agent workflows also remain separate work; sampled
-onboarding acceptance does not close them.
+[Automatic updates](../../auto-update/README.md) owns the later installed-update
+plan, stable-release policy and explicit skill-management workflow. Tagged release
+publishing alone does not update installed apps, and this sampled onboarding audit
+does not prove those later contracts or full native agent workflows.

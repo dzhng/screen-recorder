@@ -26,13 +26,16 @@ ledgers retain their original role rather than being rewritten as current succes
 and README trials in Claude/Codex, released-app checks and the limits of Docker
 isolation. It is audit evidence, not a media-editing implementation plan.
 
+## Implementation plans
+
+[Automatic updates](auto-update/README.md) holds the implementation ladder and
+handoff for installed app/CLI updates, with its completed discovery map retained
+alongside it. Planning is complete; updater implementation has not started.
+Release publishing remains owned by the [tag workflow](../scripts/README.md#versioned-github-releases).
+
 ## Future proposals
 
 These directories hold planning questions, not unfinished implementation slices.
-Release publishing is already owned by the [tag workflow](../scripts/README.md#versioned-github-releases).
-
-[Automatic updates](auto-update/README.md) holds the completed four-quadrant map,
-delegated decisions and OPEN implementation proofs for installed app/CLI updates.
 
 [Editing UI](editing-ui/README.md) is a deferred client over shared operations.
 [Presenter effects](presenter-effects/README.md) retain visual intent and missing

@@ -1,0 +1,10 @@
+{
+  "skillsVersion": "1.7.0",
+  "source": "complete local consumer skill",
+  "canonical": ".agents/skills/screenrec",
+  "claudeSymlink": true,
+  "referencesPreserved": 4,
+  "explicitReinstallReplacesEditedSkill": true,
+  "agentSettingsUnchanged": true,
+  "scope": "isolated project; no personal installation modified"
+}
