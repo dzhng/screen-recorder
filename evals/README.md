@@ -32,7 +32,7 @@ skill task, selecting an explicit fixture only when its observable evidence is
 needed. Runners never receive bars or other cases. README entry trials retain the
 repository's linked consumer folder without preinstalling the skill; direct skill
 trials use the selected agent's discovery directory. The judge receives the input,
-bar, response, observed command executions and actual CLI/service call receipts. Failed reads, failed jobs and
+bar, response, observed command executions, completed tool-read receipts and actual CLI/service call receipts. Failed reads, failed jobs and
 incomplete exchanges stay distinct; an infrastructure error stops the suite and
 never counts as a pass. Repeats are fresh sessions, not retries of a conversation.
 

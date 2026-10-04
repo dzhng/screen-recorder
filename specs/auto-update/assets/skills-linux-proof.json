@@ -1,0 +1,43 @@
+{
+  "sourceRevision": "55ccc6cf1f7c1bf9f68c948216346c7d0fabd4ee",
+  "inputHashes": {
+    "evals/integration/skill-lifecycle.test.mjs": "6378ff408e4f6da5f14cb366ee1c2c25fe2cdc8553b97bb094512d45adb36a71",
+    "evals/runtime/skills.mjs": "65d10600a54b0e78a83e06736c911910627710619a0e9ce90771e71b7aa465db",
+    "skills/screenrec/SKILL.md": "9c73d56e74a18c500f80ada438db84c88e4b0f7494ee0ed08dcf18b5c5df829b",
+    "skills/screenrec/references/mcp.md": "fcd32aaa920f2773df6a6d92c4ac0ef389f76cd9a9bffa17c833ad46d25880e0",
+    "skills/screenrec/references/editorial-checks.md": "b2416ee902ebd798c1e123b0d192a3b1b5e5c1dd3f2f65bc893ad26de87e20b3",
+    "skills/screenrec/references/media-workflows.md": "bc52be82147c3eba5507d099484f4304cc4381e5fde68a1171ab1f64dc931beb",
+    "skills/screenrec/references/skill-lifecycle.md": "a2520dda45f03b614256a6f23169a8702bc3d2cf55b6f108d6d7f10606591773",
+    "skills/screenrec/references/installation.md": "e713125ca0fe70b6bbebaba7bc32c823800c3e1b80c981f630a31095b6255cbe"
+  },
+  "network": "enabled for real pinned npx registry acquisition; no auth or host mounts",
+  "command": [
+    "docker",
+    "run",
+    "--rm",
+    "-i",
+    "--name",
+    "screenrec-skill-integration-f0d1fe57-bbbb-4246-8ae7-4dce133cf64a",
+    "--read-only",
+    "--cap-drop",
+    "ALL",
+    "--security-opt",
+    "no-new-privileges",
+    "--memory",
+    "1g",
+    "--cpus",
+    "1",
+    "--tmpfs",
+    "/sandbox:rw,nosuid,nodev,mode=1777,size=256m",
+    "--tmpfs",
+    "/tmp:rw,nosuid,nodev,mode=1777,size=128m",
+    "--entrypoint",
+    "sh",
+    "screenrec-evals:local",
+    "-c",
+    "tar -xf - -C /sandbox && mkdir -p /sandbox/home && cd /sandbox/work && git init -q && git add . && git -c user.email=fixture@example.invalid -c user.name=Fixture commit -qm fixture && node --test evals/integration/skill-lifecycle.test.mjs"
+  ],
+  "exit": 0,
+  "stdout": "\u2714 documented real installer steps preserve inspection and restore failed replacement (1057.406972ms)\n\u2139 tests 1\n\u2139 suites 0\n\u2139 pass 1\n\u2139 fail 0\n\u2139 cancelled 0\n\u2139 skipped 0\n\u2139 todo 0\n\u2139 duration_ms 1080.531767\n",
+  "stderr": ""
+}

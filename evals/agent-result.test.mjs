@@ -114,3 +114,81 @@ test("a recovered Codex connection retains its completed response and commands",
   assert.equal(result.response, "Schema discovery passed.");
   assert.equal(result.commands[0].output, '{"operations":[{"name":"capture.status"}]}');
 });
+
+test("Claude successful, failed and incomplete reads remain distinct judge evidence", () => {
+  const stdout = [
+    {
+      type: "assistant",
+      message: {
+        content: [
+          {
+            type: "tool_use",
+            id: "read-1",
+            name: "Read",
+            input: { file_path: "/skill/references/installation.md" },
+          },
+          { type: "tool_use", id: "read-2", name: "Read", input: { file_path: "/missing.md" } },
+          { type: "tool_use", id: "skill-1", name: "Skill", input: { skill: "screenrec" } },
+          {
+            type: "tool_use",
+            id: "incomplete",
+            name: "Read",
+            input: { file_path: "/unfinished.md" },
+          },
+        ],
+      },
+    },
+    {
+      type: "user",
+      message: {
+        content: [
+          {
+            type: "tool_result",
+            tool_use_id: "read-1",
+            content: "Complete installation instructions",
+          },
+          {
+            type: "tool_result",
+            tool_use_id: "read-2",
+            content: "File does not exist",
+            is_error: true,
+          },
+          { type: "tool_result", tool_use_id: "skill-1", content: "Loaded consumer skill" },
+        ],
+      },
+    },
+    { type: "result", is_error: false, result: "Procedure inspected." },
+  ]
+    .map(JSON.stringify)
+    .join("\n");
+  assert.deepEqual(agentResult("claude", stdout, 0).reads, [
+    {
+      tool: "Read",
+      input: { file_path: "/skill/references/installation.md" },
+      output: "Complete installation instructions",
+      isError: false,
+      completed: true,
+    },
+    {
+      tool: "Read",
+      input: { file_path: "/missing.md" },
+      output: "File does not exist",
+      isError: true,
+      completed: true,
+    },
+    {
+      tool: "Skill",
+      input: { skill: "screenrec" },
+      output: "Loaded consumer skill",
+      isError: false,
+      completed: true,
+    },
+    {
+      tool: "Read",
+      input: { file_path: "/unfinished.md" },
+      output: undefined,
+      isError: false,
+      completed: false,
+    },
+  ]);
+});
