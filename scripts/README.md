@@ -58,3 +58,9 @@ Probe and measurement scripts exercise selected platform or product boundaries.
 The [verification guide](../packages/test-harness/README.md) explains their evidence
 roles and how to choose a focused existing runner. Read the selected tool's inputs
 and state ownership before running a lab against a real installation.
+
+The [updater boundary lab](update-lab.mjs) reproduces pinned Sparkle behavior in
+uniquely identified scratch bundles. Its suite includes an expected defect
+reproduction; a passing lab suite does not approve the engine. The
+[active updater proof](../specs/auto-update/slices/01-sparkle-replication.md#proof-status)
+records acceptance separately from observed behavior.

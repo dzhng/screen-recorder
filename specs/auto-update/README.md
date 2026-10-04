@@ -8,29 +8,32 @@ and rationale; this ladder owns implementation order and proof status.
 
 ## Next Agent Prompt
 
-**Status:** ready to implement; no updater code has shipped. **Updated:** 2026-10-04.
+**Status:** implementation in progress; native engine acceptance is **RED**.
+**Updated:** 2026-10-04.
 
-Start at [01: Sparkle replication](slices/01-sparkle-replication.md). Read root
-README and the relevant owner READMEs, then invoke
-[write-tests](../../.agents/skills/write-tests/SKILL.md) before changing behavior.
-Reproduce the pinned upstream engine in disposable state before porting it. No
-accepted runnable Sparkle spike exists. Source research is not installed proof.
+Read [01's proof status](slices/01-sparkle-replication.md#proof-status) first.
+The committed lab authenticates and replaces scratch bundles, but upstream Sparkle
+also replaces a staged bundle on busy ordinary quit without install permission.
+No accepted updater winner exists. Cancellation at ready is asynchronous and is
+not a helper acknowledgement. Do not port this unsafe behavior to production.
 
-Use scratch app locations, defaults and libraries; never use the user's installed
-app, keychain identity, permissions or recording library as fixtures. Disposable
-signing inputs let the spike advance. Durable distribution keys and CI secrets
-are a later implementation handoff; do not invent or commit placeholder production
-keys. Permission experiments may need explicit macOS approval in an isolated test
-context; record an unavailable setup as unverified, never as success.
+The next decision is whether to build a small pinned Sparkle source patch. It
+would require explicit install permission and have the installer own the CLI
+replacement lock through host exit and bundle swap. Full Xcode is needed to build
+the patched helper; this machine has only Command Line Tools. The user was asked
+for that architecture/setup decision. No production dependency or updater is
+installed while the answer is pending.
 
-Implement in dependency order below. Do not relax idle, authentication or library
-requirements after a failed experiment. Record the failure and reslice its owner.
-Before ending each pass, update this section with the next pickup, source/evidence
-identity, active warnings and checklist. Review and commit completed slices using
-narrow checks. Before final acceptance artifacts, choose and commit the release
-version. After verification, review and push the verified source to main; tag that
-exact source commit and release through the existing workflow as requested.
-Evidence-only follow-up commits must not silently change the tagged source.
+Continue independent [04 service admission](slices/04-service-admission.md) and
+[08 skill lifecycle](slices/08-skill-lifecycle.md); [03 launcher proof](slices/03-launcher-replacement.md)
+can freeze its shared-lock result but cannot claim safe replacement until the
+installer owns the exclusive lock. Then reproduce the corrected engine before
+signing, packaging and native integration. The remaining proof gates still apply.
+
+Use scratch app locations, defaults, keys and libraries. Never use the user's
+installed app, permission grants or recording library as fixtures. Release identity
+custody and recipient TCC/Gatekeeper behavior are unverified. Choose and commit
+release version before final artifacts; review/push/tag only verified source.
 
 - [ ] [01: prove Sparkle authentication, admission and install paths](slices/01-sparkle-replication.md)
 - [ ] [02: prove release signing and permission boundaries](slices/02-signing-identity.md)

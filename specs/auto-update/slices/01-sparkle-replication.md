@@ -7,7 +7,7 @@ production integration. Depends on no other slice.
 ## Seam and artifact
 
 Use Sparkle 2.10.0 from [research identities](../assets/research.json), with a tiny
-SwiftPM app, two distinguishable versions and controlled feed/archive responses.
+native app, two distinguishable versions and controlled feed/archive responses.
 Follow [programmatic setup](https://sparkle-project.org/documentation/programmatic-setup/).
 Give lab apps a distinct bundle ID/defaults domain, such as
 `dev.screenrec.update-lab`: `SCREENREC_DEFAULTS` isolates our settings but does not
@@ -63,3 +63,46 @@ Delegated: reproduction names, HTTP fixture implementation and trace layout.
 Fixed: engine/version, trust settings, compatibility and no-interruption rules.
 Feedback changes this slice only if the actual busy/disabled experience contradicts
 the agreed behavior. Review its CLI trace/report; no visual redesign is involved.
+
+## Proof status
+
+**Incomplete — upstream engine rejected at the quit-safety gate.** The
+[lab runner](../../../scripts/update-lab.mjs) uses the supported `SPUUserDriver`
+interface and the pinned binary distribution. Its Objective-C fixture keeps the
+SDK callback boundary visible and builds with this machine's Command Line Tools;
+production remains Swift and must prove callback parity independently.
+
+Run `node --test scripts/update-lab.test.mjs` to check the reproduction. Its
+busy-quit test deliberately asserts the observed defect, so a green lab suite
+means the defect is reproduced, **not** that updater acceptance passed. Running
+`node scripts/update-lab.mjs busy-quit` exits nonzero with `verdict: rejected`.
+The output binds source hashes, feed/archive hashes, public key, platform and the
+full trace. Private keys and generated executable bundles are cleaned up; bounded
+public diagnostics remain at the reported scratch path.
+
+Observed on macOS 27.0.1 arm64: a valid signed same-format update reaches ready
+while busy, then installs/relaunches after explicit idle intent. Authentication,
+compatibility and old/equal-version refusals preserved A. Ready cancellation then
+quit preserved A in the sampled run, as did opt-out during extraction. Neither
+sample proves cancellation acknowledgement. Busy ordinary quit replaced A with B
+without an `installing` callback or install reply. Sparkle relaunch lost the
+original environment; the lab uses an isolated bundle fixture path to observe B.
+
+Pinned source explains the failure: `SPUUIBasedUpdateDriver` queues ready replies
+on the main queue; `SPUInstallerDriver` sends cancellation asynchronously;
+`AppInstaller.finishInstallationAfterHostTermination` finishes an unrequested
+installation. There is no public acknowledgement barrier for the helper.
+
+Proposed correction, pending user decision: a small source patch in Sparkle's
+installer rejects host-termination installation unless an explicit install request
+has already been accepted. Before requesting host termination, that installer
+must hold the same external file lock that CLI entries use, exclusively, through
+replacement and relaunch. A failed lock leaves the host usable and reports an
+error; there is no background guardian or new polling service. This also prevents
+new CLI processes from loading mixed old/new bundle resources after the host exits.
+
+Before acceptance, rebuild the pinned source with full Xcode and replay these
+fixtures, including opt-out/quit races, canceled termination, crash, old clients
+and delayed replacement. Check helper progress does not steal focus, relocated
+modes/rpath and HTTPS redirects. Freeze corrected inputs and parity evidence.
+The existing signing and installed-library gates are unchanged.
