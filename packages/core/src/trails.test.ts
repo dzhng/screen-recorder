@@ -361,7 +361,7 @@ test("point and observation budgets fail explicitly rather than dropping part of
 
 test("native-normalized buffered pause fixture keeps only later source-time observations", async () => {
   const nativeFixture = new URL(
-    "../../../specs/recording-for-ai/assets/trail-evidence/normalized.jsonl",
+    "../../../specs/done/recording-for-ai/assets/trail-evidence/normalized.jsonl",
     import.meta.url,
   );
   const before = readFileSync(nativeFixture, "utf8");

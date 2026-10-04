@@ -5,7 +5,7 @@ import { controlsProbe, launchReady, setDefault, temporary, waitFor } from "./ha
 
 /**
  * Writes the review copies of the Settings window, into
- * `specs/recording-for-ai/assets/settings-window` unless `SHOTS` names somewhere else.
+ * `specs/done/recording-for-ai/assets/settings-window` unless `SHOTS` names somewhere else.
  *
  *     node apps/macos/tests/settings-shots.mjs
  *
@@ -17,7 +17,7 @@ import { controlsProbe, launchReady, setDefault, temporary, waitFor } from "./ha
  */
 const out =
   process.env.SHOTS ??
-  join(import.meta.dirname, "../../../specs/recording-for-ai/assets/settings-window");
+  join(import.meta.dirname, "../../../specs/done/recording-for-ai/assets/settings-window");
 mkdirSync(out, { recursive: true });
 const title = "Screen Recorder Settings";
 

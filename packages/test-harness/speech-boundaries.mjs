@@ -36,9 +36,12 @@ const { values } = parseArgs({
     fixture: { type: "string", default: join(root, "fixtures/narrated-workbench") },
     transcript: {
       type: "string",
-      default: join(root, "specs/recording-for-ai/assets/speech/boundaries/transcript.json"),
+      default: join(root, "specs/done/recording-for-ai/assets/speech/boundaries/transcript.json"),
     },
-    out: { type: "string", default: join(root, "specs/recording-for-ai/assets/speech/boundaries") },
+    out: {
+      type: "string",
+      default: join(root, "specs/done/recording-for-ai/assets/speech/boundaries"),
+    },
     panels: { type: "string", default: "16" },
     /** How much time a panel shows, in milliseconds. Its width is fixed, so this is also its scale. */
     window: { type: "string", default: "900" },

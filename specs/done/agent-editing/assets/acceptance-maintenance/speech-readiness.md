@@ -72,7 +72,7 @@ and actual listening evidence. Numerical clocks or exact PCM cannot provide it.
 
 The full evaluator also requires its canonical/held-out, silence, technical-name,
 audition and qualifying warm-walkthrough coverage. The
-[historical resource evidence](../../../../recording-for-ai/assets/speech/boundaries/README.md)
+[historical resource evidence](../../../recording-for-ai/assets/speech/boundaries/README.md)
 retains its actual concatenated narration and model-loading scope. It cannot be
 relabeled as independently covered current warm walkthrough evidence. These are
 separate missing facts; saved-only scoring cannot make the full gate pass.

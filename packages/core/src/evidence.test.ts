@@ -491,7 +491,7 @@ async function ingestRecords(
 test("cursor predecessor retains ineligible observations and exposes stable delivery order", async () => {
   const f = fixture([]);
   const nativeFixture = new URL(
-    "../../../specs/recording-for-ai/assets/trail-evidence/normalized.jsonl",
+    "../../../specs/done/recording-for-ai/assets/trail-evidence/normalized.jsonl",
     import.meta.url,
   );
   const original = readFileSync(nativeFixture, "utf8");

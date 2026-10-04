@@ -10,7 +10,7 @@ import { z } from "zod";
 
 const run = promisify(execFile);
 const scratch = await mkdtemp(join(tmpdir(), "screenrec-image-"));
-const evidence = resolve(process.argv[2] ?? "specs/recording-for-ai/assets/client-image");
+const evidence = resolve(process.argv[2] ?? "specs/done/recording-for-ai/assets/client-image");
 await mkdir(evidence, { recursive: true });
 const serverFile = fileURLToPath(new URL("./image-probe.js", import.meta.url));
 const renderer = fileURLToPath(new URL("../fixtures/TokenImage.swift", import.meta.url));

@@ -36,7 +36,7 @@ Reproduce using the unchanged repository harness, writing to a fresh directory:
 node packages/test-harness/speech-boundaries.mjs --transcript specs/agent-editing/assets/12-speech/transcript.json --out /tmp/screenrec-workbench-wide-rerun --panels 2 --window 2400
 ```
 
-The [original panel](../../../../recording-for-ai/assets/speech/boundaries/sheet-0.png)
+The [original panel](../../../recording-for-ai/assets/speech/boundaries/sheet-0.png)
 and [text-only trial](../12-alignment-text-coverage/README.md) retain their separate
 roles. Generation decodes the actual fixture PCM without speaker playback; no
 model, production behavior or annotation was changed.

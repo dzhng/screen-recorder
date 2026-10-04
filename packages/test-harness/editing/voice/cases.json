@@ -8,7 +8,7 @@
     "sourceRange": { "startUs": 1000000, "endUs": 6000000 },
     "text": "Okay, so this is the recorder workbench.",
     "textAuthority": "inherited ASR, not independently auditioned",
-    "evidence": "specs/recording-for-ai/assets/speech/boundaries/transcript.json"
+    "evidence": "specs/done/recording-for-ai/assets/speech/boundaries/transcript.json"
   },
   "origins": ["same-take", "external-file", "past-project"],
   "replacements": [

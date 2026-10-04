@@ -5,7 +5,7 @@ import { controlsProbe, launchReady, setDefault, temporary, waitFor } from "./ha
 
 /**
  * Writes the review copies of the two panels a take puts on screen, into
- * `specs/recording-for-ai/assets/recording-overlay` unless `SHOTS` names somewhere else.
+ * `specs/done/recording-for-ai/assets/recording-overlay` unless `SHOTS` names somewhere else.
  *
  *     MODE=controls|countdown APPEARANCE=light|dark node apps/macos/tests/overlay-shots.mjs
  *
@@ -15,7 +15,7 @@ import { controlsProbe, launchReady, setDefault, temporary, waitFor } from "./ha
  */
 const out =
   process.env.SHOTS ??
-  join(import.meta.dirname, "../../../specs/recording-for-ai/assets/recording-overlay");
+  join(import.meta.dirname, "../../../specs/done/recording-for-ai/assets/recording-overlay");
 mkdirSync(out, { recursive: true });
 const appearance = process.env.APPEARANCE ?? "light";
 const mode = process.env.MODE ?? "controls";

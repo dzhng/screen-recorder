@@ -78,4 +78,4 @@ Outside coordinates remain outside rather than being clamped into the capture.
 Pointer eligibility states captured-content support, not whether macOS drew a
 cursor. Bounded sampling reports missing observations instead of retaining an
 unlimited backlog. Physical projection findings and remaining unmeasured source
-modes belong to the [recording evidence](../../../../specs/recording-for-ai/README.md).
+modes belong to the [recording evidence](../../../../specs/done/recording-for-ai/README.md).

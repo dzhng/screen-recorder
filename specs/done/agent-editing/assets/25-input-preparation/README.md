@@ -31,7 +31,7 @@ engine is added.
 At this input-only checkpoint both model statuses were absent. The subsequent
 [registered voice readiness checkpoint](../25a-model-readiness/README.md) prepares
 the same isolated library through the genuine public owner; Parakeet remains absent.
-Matching historical raw word evidence is retained in the [original transcript](../../../../recording-for-ai/assets/speech/boundaries/transcript.json),
+Matching historical raw word evidence is retained in the [original transcript](../../../recording-for-ai/assets/speech/boundaries/transcript.json),
 pinned by the [speech manifest](../12-speech/manifest.json) to the narrated source.
 That proves its historical source binding, not a current registered canonical
 receipt or supported adoption. No matching current transcript generation is

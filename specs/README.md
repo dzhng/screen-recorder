@@ -6,9 +6,13 @@ live in the code and READMEs reached from the [root guide](../README.md).
 
 ## Closed work
 
+Completed records live under `done/`. Their original build ladders remain in
+pinned Git snapshots; closure preserves accepted limitations rather than marking
+unverified historical gates as passed.
+
 [Agent editing](done/agent-editing/README.md) records the shipped toolkit's rationale,
 processing invariants, release disposition and retained evidence. The
-[original recording record](recording-for-ai/README.md) preserves its earlier design
+[original recording record](done/recording-for-ai/README.md) preserves its earlier design
 and acceptance history. Old owner names, commands and unchecked gates in that
 record are historical; they do not reactivate retired implementations or require
 another user recording.
@@ -18,11 +22,15 @@ original failures and uncertainty. Follow recorded source revisions when a histo
 code path no longer exists in the working tree. Archives, measurements and decision
 ledgers retain their original role rather than being rewritten as current success.
 
-[Agent-first CLI onboarding](agent-first-cli-audit/README.md) records consumer-skill
+[Agent-first CLI onboarding](done/agent-first-cli-audit/README.md) records consumer-skill
 and README trials in Claude/Codex, released-app checks and the limits of Docker
 isolation. It is audit evidence, not a media-editing implementation plan.
 
 ## Future proposals
+
+These five directories are proposals, not unfinished implementation slices. No
+implementation plan is currently active here. Automatic updating remains part of
+the public-distribution questions until its scope is agreed.
 
 [Tester distribution](tester-release/README.md) and [public distribution](public-release/README.md)
 concern transferring the released workflow to other users. They are not instructions

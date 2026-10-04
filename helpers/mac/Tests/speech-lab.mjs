@@ -36,7 +36,7 @@ const cli = join(cache, "source", ".build", "release", "fluidaudiocli");
 const pinned = JSON.parse(
   readFileSync(
     new URL(
-      "../../../specs/recording-for-ai/assets/speech/parakeet-synthetic.json",
+      "../../../specs/done/recording-for-ai/assets/speech/parakeet-synthetic.json",
       import.meta.url,
     ),
     "utf8",
