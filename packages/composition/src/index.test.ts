@@ -125,6 +125,9 @@ test("integer point mappings round-trip through inverse microsecond bins for man
       const model = validateComposition(document([item]), [asset()]);
       for (let at = 7; at < 7 + duration; at++) {
         const mapped = projectToSource(model, at)[0]!;
+        expect(mapped.sourceUs).toBe(
+          1 + Number((BigInt(at - 7) * BigInt(sourceDuration)) / BigInt(duration)),
+        );
         const back = sourceToProject(model, {
           assetId: mapped.assetId,
           streamId: mapped.streamId,

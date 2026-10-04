@@ -409,11 +409,12 @@ try {
   report.checks.portableWithoutDonors = true;
   report.passed = true;
 } finally {
-  await service.stop();
-  report.home = home;
-  await writeFile(join(out, "report.json"), JSON.stringify(report, null, 2));
-  await writeFile(join(out, "service.log"), service.logs.join(""));
-  if (report.passed) {
+  try {
+    await service.stop();
+    report.home = home;
+    await writeFile(join(out, "report.json"), JSON.stringify(report, null, 2));
+    await writeFile(join(out, "service.log"), service.logs.join(""));
+  } finally {
     await rm(home, { recursive: true, force: true });
     if (report.receiver) await rm(report.receiver, { recursive: true, force: true });
   }

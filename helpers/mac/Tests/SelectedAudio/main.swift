@@ -10,6 +10,11 @@ struct SelectedAudioTests {
         let directory = URL(fileURLWithPath: ProcessInfo.processInfo.environment["SCREENREC_SELECTED_AUDIO_EVIDENCE"]
             ?? NSTemporaryDirectory() + UUID().uuidString)
         try FileManager.default.createDirectory(at: directory, withIntermediateDirectories: true)
+        defer {
+            if ProcessInfo.processInfo.environment["SCREENREC_SELECTED_AUDIO_EVIDENCE"] == nil {
+                try? FileManager.default.removeItem(at: directory)
+            }
+        }
         try await run(directory)
     }
     static func wave(_ directory: URL, _ name: String, rate: Int, channels: Int, samples: [Float]) throws -> URL {

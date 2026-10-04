@@ -675,7 +675,14 @@ try {
   report.checks.deletion = { revoked, externalExportPreserved: true };
   report.passed = true;
 } finally {
-  await service.stop();
-  await writeFile(join(out, "report.json"), JSON.stringify(report, null, 2));
-  await writeFile(join(out, "service.log"), service.logs.join(""));
+  try {
+    await service.stop();
+  } finally {
+    try {
+      await writeFile(join(out, "report.json"), JSON.stringify(report, null, 2));
+      await writeFile(join(out, "service.log"), service.logs.join(""));
+    } finally {
+      await rm(home, { recursive: true, force: true });
+    }
+  }
 }

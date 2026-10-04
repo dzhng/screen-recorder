@@ -1,40 +1,25 @@
 # RNNoise native dependency
 
-This package owns only the fixed learned mono frame adapter. It has no project,
-source-selection, renderer, model-download, queue or publication authority. The
-composition audio owner supplies a selected state domain and consumes output
-through the existing prepared-audio lifecycle. This library does not select
-channels, source context or project state boundaries.
+This package owns the fixed learned mono frame adapter. The
+[native audio owner](../mac/Sources/ScreenRecorderAudio/README.md) supplies selected
+state domains and consumes paired channel output through managed preparation.
+The dependency has no project, channel-selection, model-download or publication
+authority.
 
-Sources and generated header are unchanged from the pinned upstream revision;
-[provenance](provenance.json) binds their exact bytes and the frozen model archive.
-The generated model C is large, so it is explicitly staged into ignored build
-storage. Build preparation never downloads or converts weights:
+[Provenance](provenance.json) binds vendored source and generated-model inputs.
+[Preparation](prepare.mjs) verifies and stages generated C in ignored build storage;
+it never converts or downloads weights. The [app builder](../../scripts/README.md)
+checks that prerequisite before native compilation. Runtime processing cannot
+silently prepare missing weights.
 
-```sh
-node helpers/denoise/prepare.mjs /absolute/path/to/frozen-model.tar.gz
-swift build --package-path helpers/denoise --product DenoiseParity
-python3 packages/test-harness/editing/denoise-entry-parity.py \
-  --native helpers/denoise/.build/debug/DenoiseParity \
-  --reference /absolute/path/to/frozen-rnnoise-api --out /tmp/new-parity-evidence
-```
+The adapter streams bounded frames while retaining state across chunks. The caller
+declares finite input and owns transactional cleanup on read, write or cancellation
+failure. Preview bounds do not redefine the learned-state origin.
+[Retained parity evidence](../../specs/done/agent-editing/assets/15a1-denoise-entry/README.md)
+and [verification tools](../../packages/test-harness/editing/README.md) distinguish
+fixed-recipe identity from routing, delivery and listening quality.
 
-The native audio target links this library directly. Prepare the local model
-before building native products; `scripts/build-macos.mjs` verifies staged bytes
-and vendored sources before Swift compilation. `prepare.mjs --verify` checks the
-same prerequisite without extracting an archive. No runtime command prepares or
-downloads weights. External model redistribution readiness remains unresolved;
-local personal execution does not establish a weights license grant.
-
-The adapter accepts finite mono float samples at the frozen rate, streams bounded
-frames and preserves state across read chunk boundaries. The caller declares the
-selected count and owns transactional output cleanup if reading, writing or
-cancellation fails. It must not treat preview bounds as the state origin. See the
-[retained parity evidence](../../specs/done/agent-editing/assets/15a1-denoise-entry/README.md)
-for the measured recipe; the [native audio owner](../mac/README.md) explains
-composition state and channel integration.
-
-The vendored upstream code is covered by [COPYING](COPYING). Retain that notice
-with source and binary distribution. Model provenance is retained; broader
-product distribution and acceptance are a runtime-adoption gate, not inferred
-from successful compilation. No trained weights are committed here.
+Retain the vendored [COPYING](COPYING) notice with redistribution. The pretrained
+model's license has not been explicitly clarified upstream; local execution and
+source-code licensing do not imply a confirmed weights-license grant. Model
+provenance preserves that limitation rather than silently resolving it.

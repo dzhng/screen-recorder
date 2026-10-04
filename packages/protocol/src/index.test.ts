@@ -219,6 +219,14 @@ it("raw cursor target and continuation namespaces are exclusive", () => {
     { ...fields, packageHandle: "package", revisionId: "r1" },
     { ...fields, packageHandle: "package", cursor: { recordingId: "library", ...position } },
     { ...fields, recordingId: "library", cursor: { packageHandle: "package", ...position } },
+    ...["recordingId", "packageHandle"].flatMap((field) => [
+      { ...source, ...fields, [field]: "foreign-owner" },
+      {
+        ...source,
+        ...fields,
+        cursor: { reference: "pinned", position, [field]: "foreign-owner" },
+      },
+    ]),
   ])
     expect(operationSchema.safeParse({ operation: "cursor.raw", params }).success).toBe(false);
 });

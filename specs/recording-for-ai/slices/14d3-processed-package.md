@@ -14,7 +14,7 @@ Package action uses the same export owner. The
 no-narration boundary.
 
 Root reading documents are implemented in the
-[guide writer](../../../apps/service/src/package-guide.ts). The transcript streams
+[guide writer](https://github.com/dzhng/screen-recorder/blob/d0b1dca7d1225728d4c6c3353ff26675e33e084f/apps/service/src/package-guide.ts). The transcript streams
 the pinned source words without applying edits, and the guide provides a short path
 from reading to precise inspection. Documents have a dedicated inventory role and
 only the two reserved root paths are accepted. Existing packages without documents

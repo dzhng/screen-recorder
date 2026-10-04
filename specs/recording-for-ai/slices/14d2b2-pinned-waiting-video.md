@@ -13,7 +13,7 @@ the queue admission callback only after those owners are bound.
 
 Source evidence may not exist at request time. The first successful source readiness
 selects a generation, which the intent persists before preview admission. Subsequent
-attempts pass that exact evidence to [PreviewInspection](../../../packages/core/src/preview.ts),
+attempts pass that exact evidence to [PreviewInspection](https://github.com/dzhng/screen-recorder/blob/d0b1dca7d1225728d4c6c3353ff26675e33e084f/packages/core/src/preview.ts),
 including after a newer source generation becomes current. Source cleanup consults
 one injected retention predicate in its existing owner; exports do not own a second
 cleanup process or copy evidence into another store.

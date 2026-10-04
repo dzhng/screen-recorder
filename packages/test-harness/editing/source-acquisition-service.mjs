@@ -63,7 +63,7 @@ const worker = async (operation, params, options) => {
           request: params,
           response: {
             ...result.data,
-            samples: result.data.samples.map(({ rgbBase64, ...sample }) => sample),
+            samples: result.data.samples.map(({ rgbBase64: _rgbBase64, ...sample }) => sample),
           },
         },
         null,
@@ -152,7 +152,7 @@ try {
   });
   process.send({ socketPath: service.socketPath });
 } catch (error) {
-  process.send({ error: { code: error.code, message: error.message } });
+  process.send({ error: { code: error.code, message: error.message, retryable: error.retryable } });
   process.disconnect();
   process.exitCode = 1;
 }

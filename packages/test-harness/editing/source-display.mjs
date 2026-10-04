@@ -6,7 +6,10 @@ import { join, resolve } from "node:path";
 import { createCompiler, validateComposition } from "../../composition/dist/index.js";
 import { prepareLayersFixture } from "./layers-fixture.mjs";
 const out = resolve(process.argv[2] ?? "");
-assert.ok(process.argv[2] && process.env.SCREENREC_NATIVE && process.env.SCREENREC_BASELINE_NATIVE);
+const historicalParity = process.argv.includes("--historical-parity");
+assert.ok(process.argv[2] && process.env.SCREENREC_NATIVE);
+if (historicalParity)
+  assert.ok(process.env.SCREENREC_BASELINE_NATIVE, "Historical parity requires the retired worker");
 await mkdir(out);
 const home = join(out, "fixture"),
   refs = join(out, "references");
@@ -89,7 +92,7 @@ for (const [name, path, width, height, background, extent] of [
   const pixels = {},
     receipts = {};
   for (const [label, binary] of [
-    ["before", process.env.SCREENREC_BASELINE_NATIVE],
+    ...(historicalParity ? [["before", process.env.SCREENREC_BASELINE_NATIVE]] : []),
     ["after", process.env.SCREENREC_NATIVE],
   ]) {
     const request = structuredClone(params);
@@ -111,55 +114,65 @@ for (const [name, path, width, height, background, extent] of [
   let maximum = 0,
     interiorMaximum = 0,
     interiors = 0;
-  for (let y = 0; y < height; y++)
-    for (let x = 0; x < width; x++) {
-      const at = (y * width + x) * 4;
-      let error = 0,
-        uniform = x >= 2 && y >= 2 && x < width - 2 && y < height - 2;
-      for (let c = 0; c < 4; c++)
-        error = Math.max(error, Math.abs(pixels.before[at + c] - pixels.after[at + c]));
-      maximum = Math.max(maximum, error);
-      if (error) changed.push({ x, y, error });
-      if (uniform)
-        for (let dy = -2; dy <= 2; dy++)
-          for (let dx = -2; dx <= 2; dx++)
-            for (let c = 0; c < 4; c++)
-              if (
-                Math.abs(
-                  pixels.before[((y + dy) * width + x + dx) * 4 + c] - pixels.before[at + c],
-                ) > 2
-              )
-                uniform = false;
-      if (uniform) {
-        interiors++;
-        interiorMaximum = Math.max(interiorMaximum, error);
+  if (historicalParity)
+    for (let y = 0; y < height; y++)
+      for (let x = 0; x < width; x++) {
+        const at = (y * width + x) * 4;
+        let error = 0,
+          uniform = x >= 2 && y >= 2 && x < width - 2 && y < height - 2;
+        for (let c = 0; c < 4; c++)
+          error = Math.max(error, Math.abs(pixels.before[at + c] - pixels.after[at + c]));
+        maximum = Math.max(maximum, error);
+        if (error) changed.push({ x, y, error });
+        if (uniform)
+          for (let dy = -2; dy <= 2; dy++)
+            for (let dx = -2; dx <= 2; dx++)
+              for (let c = 0; c < 4; c++)
+                if (
+                  Math.abs(
+                    pixels.before[((y + dy) * width + x + dx) * 4 + c] - pixels.before[at + c],
+                  ) > 2
+                )
+                  uniform = false;
+        if (uniform) {
+          interiors++;
+          interiorMaximum = Math.max(interiorMaximum, error);
+        }
       }
-    }
   const row = {
     name,
     probe,
     receipts,
-    changed: changed.length,
-    maximum,
-    interiors,
-    interiorMaximum,
+    historicalParity,
+    changed: historicalParity ? changed.length : null,
+    maximum: historicalParity ? maximum : null,
+    interiors: historicalParity ? interiors : null,
+    interiorMaximum: historicalParity ? interiorMaximum : null,
   };
   await writeFile(join(directory, "changed-pixels.json"), JSON.stringify(changed));
   rows.push(row);
   await writeFile(join(out, "report.json"), JSON.stringify(rows, null, 2));
-  if (name !== "white-control")
+  if (historicalParity && name !== "white-control")
     assert.deepEqual(
       await readFile(receipts.after.file),
       await readFile(receipts.before.file),
       "Source/orientation PNG parity",
     );
   if (name === "white-control") {
-    assert.ok(Math.min(...pixels.before) < 240, "Control did not reproduce incumbent fringe");
+    if (historicalParity)
+      assert.ok(Math.min(...pixels.before) < 240, "Control did not reproduce incumbent fringe");
     assert.ok(Math.min(...pixels.after) >= 253, "White over white gained a dark fringe");
   }
-  if (name === "oblique")
+  if (historicalParity && name === "oblique")
     assert.ok(interiorMaximum <= 2, "Source correction changed a stable interior");
   console.log(
-    JSON.stringify({ name, changed: changed.length, maximum, interiors, interiorMaximum }),
+    JSON.stringify({
+      name,
+      historicalParity,
+      changed: row.changed,
+      maximum: row.maximum,
+      interiors: row.interiors,
+      interiorMaximum: row.interiorMaximum,
+    }),
   );
 }

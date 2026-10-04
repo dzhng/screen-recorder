@@ -29,7 +29,7 @@ finalization-to-publication, paging, unchanged source evidence after a cut and
 reopening the same evidence after app relaunch. It does not prove transcription,
 screenshot selection, edited cursor trails, display capture or physical audio.
 
-[Core processing tests](../../../packages/core/src/processing.test.ts) cover
+[Core processing tests](https://github.com/dzhng/screen-recorder/blob/d0b1dca7d1225728d4c6c3353ff26675e33e084f/packages/core/src/processing.test.ts) cover
 finalization, explicit retry and a backlog exceeding queue admission capacity.
 The [capture lifetime test](../../../apps/service/src/capture-lifetime.test.ts)
 proves shutdown aborts recovery, waits for the worker to settle and refuses new

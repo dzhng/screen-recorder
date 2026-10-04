@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { mkdir, mkdtemp, readFile, writeFile, readdir, realpath } from "node:fs/promises";
+import { mkdir, mkdtemp, readFile, writeFile, readdir, realpath, rm } from "node:fs/promises";
 import { join, resolve } from "node:path";
 import { parseArgs } from "node:util";
 import { JourneyService, hash, poll, run } from "./source-evidence-fixture.mjs";
@@ -9,16 +9,23 @@ import { createDenoiseReference } from "./denoise-reference.mjs";
 import { authoredDryBlocks } from "./denoise-routing.mjs";
 import { writeDryReference, compareWavePCM, referenceLanes } from "./denoise-pcm.mjs";
 
+const priorUnavailableOperations = process.env.SCREENREC_TEST_UNAVAILABLE_OPERATIONS;
 const { values } = parseArgs({
-  options: { out: { type: "string" }, reference: { type: "string" },
-    case: { type: "string", default: "short" }, source: { type: "string" } },
+  options: {
+    out: { type: "string" },
+    reference: { type: "string" },
+    case: { type: "string", default: "short" },
+    source: { type: "string" },
+  },
 });
 assert(values.out && values.reference && process.env.SCREENREC_NATIVE);
 const cohorts = { short: [8, 512], "five-minute": [300, 500], "two-hour": [7200, 10000] };
 assert(Object.hasOwn(cohorts, values.case));
-const [seconds, occurrences] = cohorts[values.case], long = values.case !== "short";
+const [seconds, occurrences] = cohorts[values.case],
+  long = values.case !== "short";
 assert(!long || values.source, "Long routing reuses a retained source WAV");
-const frames = seconds * 48000, deadline = performance.now() + 3600000;
+const frames = seconds * 48000,
+  deadline = performance.now() + 3600000;
 let phase = "setup";
 const out = resolve(values.out),
   home = await realpath(await mkdtemp("/tmp/sr-learned-topology-"));
@@ -29,7 +36,9 @@ const report = {
   checks: {},
   observations: {},
   home,
-  scope: long ? "Long connected learned state with original deep/wide authored routing; no listening/disk-I/O claim" : "Eight-second deep/wide learned traversal; no two-hour or listening claim",
+  scope: long
+    ? "Long connected learned state with original deep/wide authored routing; no listening/disk-I/O claim"
+    : "Eight-second deep/wide learned traversal; no two-hour or listening claim",
   fixture: { seconds, occurrences, depth: 128, width: 32, rootGainSteps: 128 },
   nativeSha256: hash(await readFile(process.env.SCREENREC_NATIVE)),
   referenceSha256: hash(await readFile(resolve(values.reference))),
@@ -59,10 +68,22 @@ async function learnedWait(read, done, label) {
     if (done(value)) return value;
     assert(!["failed", "canceled"].includes(value.state), JSON.stringify(value));
     assert(performance.now() < deadline, "One-hour whole-case research stop");
-    await new Promise(r => setTimeout(r, 250));
+    await new Promise((r) => setTimeout(r, 250));
   }
 }
-const progress = long ? setInterval(() => console.log(JSON.stringify({ phase, elapsedSeconds: (3600000 - (deadline - performance.now())) / 1000, peakRSS })), 5000) : undefined;
+const progress = long
+  ? setInterval(
+      () =>
+        console.log(
+          JSON.stringify({
+            phase,
+            elapsedSeconds: (3600000 - (deadline - performance.now())) / 1000,
+            peakRSS,
+          }),
+        ),
+      5000,
+    )
+  : undefined;
 const pcm = (bytes) => {
   const header = waveHeader(bytes, bytes.length);
   return bytes.subarray(header.offset, header.offset + header.frames * 8);
@@ -93,7 +114,11 @@ async function audio(params, name) {
   const path = join(out, `${name}.wav`);
   await call("audio.get", params, { transport: "cli", output: path });
   if (long) {
-    report.checks[name] = { receipt: ready, sha256: await digest(path), ms: performance.now() - at };
+    report.checks[name] = {
+      receipt: ready,
+      sha256: await digest(path),
+      ms: performance.now() - at,
+    };
     return path;
   }
   const bytes = await readFile(path);
@@ -108,7 +133,10 @@ try {
     if (!long) await writeSourceWave(path, { source: i, seconds: 1 });
     if (long) {
       report.source = { path, before: await digest(path) };
-      assert.equal(report.source.before, "7216ee4f02580d52c2ae3ce5a59588b68d4e874a8cf2053e4b61b63f782281d4");
+      assert.equal(
+        report.source.before,
+        "7216ee4f02580d52c2ae3ce5a59588b68d4e874a8cf2053e4b61b63f782281d4",
+      );
     }
     const submitted = await call("asset.import", { path, requestId: `source-${i}` });
     const ready = await poll(
@@ -141,43 +169,58 @@ try {
   const topology = await apply(routingTopology(128, 32), "topology");
   const placement = [];
   const authored = long ? longRoutingPlacements(seconds, occurrences, 32) : undefined;
-  if (long) for (const clip of authored) placement.push({
-    operation: "place", clip: {
-      trackId: topology.edit.labels[`t${clip.lane}`], assetId: assets[0].id, streamId: assets[0].streams[0].id,
-      source: { kind: "range", range: { startUs: 0, endUs: clip.endUs - clip.startUs } },
-      placement: { kind: "project", range: { startUs: clip.startUs, endUs: clip.endUs } },
-    },
-  });
-  else for (let slot = 0; slot < 16; slot++)
-    for (let lane = 0; lane < 32; lane++) {
-      const asset = assets[lane % 2],
-        sourceStartUs = lane % 4 >= 2 ? 250000 : 0;
+  if (long)
+    for (const clip of authored)
       placement.push({
         operation: "place",
         clip: {
-          trackId: topology.edit.labels[`t${lane}`],
-          assetId: asset.id,
-          streamId: asset.streams[0].id,
-          source: {
-            kind: "range",
-            range: { startUs: sourceStartUs, endUs: sourceStartUs + 500000 },
-          },
-          placement: {
-            kind: "project",
-            range: { startUs: slot * 500000, endUs: (slot + 1) * 500000 },
-          },
+          trackId: topology.edit.labels[`t${clip.lane}`],
+          assetId: assets[0].id,
+          streamId: assets[0].streams[0].id,
+          source: { kind: "range", range: { startUs: 0, endUs: clip.endUs - clip.startUs } },
+          placement: { kind: "project", range: { startUs: clip.startUs, endUs: clip.endUs } },
         },
       });
-    }
+  else
+    for (let slot = 0; slot < 16; slot++)
+      for (let lane = 0; lane < 32; lane++) {
+        const asset = assets[lane % 2],
+          sourceStartUs = lane % 4 >= 2 ? 250000 : 0;
+        placement.push({
+          operation: "place",
+          clip: {
+            trackId: topology.edit.labels[`t${lane}`],
+            assetId: asset.id,
+            streamId: asset.streams[0].id,
+            source: {
+              kind: "range",
+              range: { startUs: sourceStartUs, endUs: sourceStartUs + 500000 },
+            },
+            placement: {
+              kind: "project",
+              range: { startUs: slot * 500000, endUs: (slot + 1) * 500000 },
+            },
+          },
+        });
+      }
   for (let first = 0; first < placement.length; first += 500)
-    await apply(placement.slice(first, first + 500), first === 0 ? "place-first" : first === 500 && !long ? "place-last" : `place-${first}`);
+    await apply(
+      placement.slice(first, first + 500),
+      first === 0 ? "place-first" : first === 500 && !long ? "place-last" : `place-${first}`,
+    );
   const drySelection = { projectId, revisionId: revision.id };
   let independent, expected;
   if (long) {
     phase = "independent dry";
-    independent = await writeDryReference(authoredDryBlocks(sourcePeriod(0), authored, 32, frames), out);
+    independent = await writeDryReference(
+      authoredDryBlocks(sourcePeriod(0), authored, 32, frames),
+      out,
+    );
     assert.equal(independent.frames, frames);
-    const dry = await audio({ ...drySelection, range: { startUs: 0, endUs: seconds * 1e6 } }, "dry");
+    const dry = await audio(
+      { ...drySelection, range: { startUs: 0, endUs: seconds * 1e6 } },
+      "dry",
+    );
     const sha256 = await compareWavePCM(dry, frames, [independent.dry]);
     assert.equal(sha256, independent.sha256);
     report.checks.independentDry = { ...independent, exact: true };
@@ -274,10 +317,21 @@ try {
   const referenceAt = performance.now();
   if (long) {
     phase = "independent C";
-    independent.outputs = await referenceLanes(resolve(values.reference), independent.inputs, frames, out);
+    independent.outputs = await referenceLanes(
+      resolve(values.reference),
+      independent.inputs,
+      frames,
+      out,
+    );
     phase = "complete learned comparison";
     const sha256 = await compareWavePCM(fullPath, frames, independent.outputs);
-    report.checks.independentLearned = { sha256, exact: true, frames, file: fullPath, fileSha256: await digest(fullPath) };
+    report.checks.independentLearned = {
+      sha256,
+      exact: true,
+      frames,
+      file: fullPath,
+      fileSha256: await digest(fullPath),
+    };
     assert.deepEqual(prepared.published.audio.sampleRange, { start: 0, end: frames });
     assert(prepared.published.audio.peakResidentBytes <= 4 * 1024 ** 3);
     report.checks.nativePreparationPeakRSS = prepared.published.audio.peakResidentBytes;
@@ -307,15 +361,23 @@ try {
     await compareWavePCM(lateResult, 48000, independent.outputs, (seconds - 1) * 48000);
     const requests = [];
     for (const name of await readdir(join(out, "native")))
-      if (name.startsWith("mix-")) requests.push(JSON.parse(await readFile(join(out, "native", name), "utf8")));
-    const state = requests.find(v => v.request.state)?.request.state;
+      if (name.startsWith("mix-"))
+        requests.push(JSON.parse(await readFile(join(out, "native", name), "utf8")));
+    const state = requests.find((v) => v.request.state)?.request.state;
     assert(state, "Actual learned request must retain its complete state domain");
-    assert.deepEqual(state.domains.map(d => d.sampleRange), [{ start: 0, end: frames }]);
+    assert.deepEqual(
+      state.domains.map((d) => d.sampleRange),
+      [{ start: 0, end: frames }],
+    );
     const replay = JSON.parse(await readFile(join(out, "native-restart/mix-0.json"), "utf8"));
     assert(replay.request.retained, "Project replay must use inherited prepared PCM");
     assert.equal(replay.request.state, undefined, "Prepared replay must not prepare fresh state");
-    report.checks.state = { sampleRanges: state.domains.map(d => d.sampleRange), clips: state.clips.length,
-      retainedReplay: replay.request.retained, sourceWork: requests.find(v => v.request.state).response.data?.sourceWork };
+    report.checks.state = {
+      sampleRanges: state.domains.map((d) => d.sampleRange),
+      clips: state.clips.length,
+      retainedReplay: replay.request.retained,
+      sourceWork: requests.find((v) => v.request.state).response.data?.sourceWork,
+    };
     report.source.after = await digest(report.source.path);
     assert.equal(report.source.after, report.source.before);
   } else exactPCM(lateResult, wet.subarray(((lateStartUs * 48000) / 1e6) * 8), "retained late");
@@ -332,7 +394,11 @@ try {
   report.failure = { message: error.message, stack: error.stack };
   throw error;
 } finally {
+  if (priorUnavailableOperations === undefined)
+    delete process.env.SCREENREC_TEST_UNAVAILABLE_OPERATIONS;
+  else process.env.SCREENREC_TEST_UNAVAILABLE_OPERATIONS = priorUnavailableOperations;
   clearInterval(observer);
+  while (observing) await new Promise((resolve) => setImmediate(resolve));
   if (progress) clearInterval(progress);
   try {
     await service.stop();
@@ -344,6 +410,10 @@ try {
     report.observations.sampledServicePeakRSS = peakRSS;
     report.observations.controllerPeakRSS = process.resourceUsage().maxRSS * 1024;
     report.serviceLogs = service.logs;
-    await writeFile(join(out, "report.json"), JSON.stringify(report, null, 2));
+    try {
+      await writeFile(join(out, "report.json"), JSON.stringify(report, null, 2));
+    } finally {
+      await rm(home, { recursive: true, force: true });
+    }
   }
 }

@@ -24,7 +24,7 @@ keep adjacent-speech audition and five-minute A/V drift open until actually obse
 Can the existing retained-audio execution produce the same samples and gap reports
 without allocating memory proportional to the movie duration?
 
-[AudioExcerpts](../../../helpers/mac/Sources/ScreenRecorderAudio/AudioExcerpts.swift)
+[AudioExcerpts](https://github.com/dzhng/screen-recorder/blob/d0b1dca7d1225728d4c6c3353ff26675e33e084f/helpers/mac/Sources/ScreenRecorderAudio/AudioExcerpts.swift)
 previously bounded decoding/conversion buffers but accumulated the entire mixed
 output in a Float array. The implemented PCM stream removes that duration-sized
 allocation. The excerpt writer and later movie encoder consume this one owner;

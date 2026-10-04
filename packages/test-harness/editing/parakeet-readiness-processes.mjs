@@ -6,11 +6,24 @@ import { StdioClientTransport } from "@modelcontextprotocol/sdk/client/stdio.js"
 import { JsonLineStream, CONTROL_FRAME_BYTES } from "../../protocol/dist/index.js";
 
 export async function withReadinessProcesses(
-  { report, env, serviceObserver, runtime, observer, cliLog, childLog },
+  { report, env, serviceObserver, runtime, observer, cliLog, childLog, deadlineMs = 60000 },
   verify,
   save,
 ) {
   let service, client, mcpClosed, recordMcp;
+  async function bounded(pending, label) {
+    let timer;
+    try {
+      return await Promise.race([
+        pending,
+        new Promise((_, reject) => {
+          timer = setTimeout(() => reject(new Error(`${label} deadline`)), deadlineMs);
+        }),
+      ]);
+    } finally {
+      clearTimeout(timer);
+    }
+  }
   async function start() {
     const child = spawn(process.execPath, [serviceObserver], {
       env: {
@@ -18,6 +31,7 @@ export async function withReadinessProcesses(
         SCREENREC_READINESS_SERVICE: join(runtime, "service.mjs"),
         SCREENREC_READINESS_CHILD_LOG: childLog,
       },
+      detached: true,
       stdio: ["pipe", "pipe", "pipe"],
     });
     const record = {
@@ -74,7 +88,7 @@ export async function withReadinessProcesses(
       if (error) fail(error);
     });
     service = { child, terminal, record };
-    const started = await ready;
+    const started = await bounded(ready, "Source service startup");
     const transport = new StdioClientTransport({
       command: process.execPath,
       args: [observer, "mcp", "--socket", started.socketPath],
@@ -102,18 +116,26 @@ export async function withReadinessProcesses(
     };
     const connected = client.connect(transport);
     recordMcp.pid = transport.pid;
-    await Promise.race([connected, connectionError.promise]);
+    await bounded(Promise.race([connected, connectionError.promise]), "SDK connection");
     return started.socketPath;
   }
   async function stop() {
     const failures = [];
     if (client) {
       try {
-        await client.close();
-        await mcpClosed;
+        await bounded(client.close(), "SDK close");
+        await bounded(mcpClosed, "SDK terminal");
         assert.equal(recordMcp.error, undefined, recordMcp.error?.message);
       } catch (error) {
         failures.push(error);
+        if (!recordMcp.closeObserved && recordMcp.pid) {
+          try {
+            process.kill(recordMcp.pid, "SIGKILL");
+          } catch (killError) {
+            if (killError.code !== "ESRCH") failures.push(killError);
+          }
+          await mcpClosed;
+        }
       } finally {
         client = undefined;
       }
@@ -122,7 +144,18 @@ export async function withReadinessProcesses(
       const selected = service;
       service = undefined;
       selected.child.stdin.end();
-      const exit = await selected.terminal;
+      let exit;
+      try {
+        exit = await bounded(selected.terminal, "Source service close");
+      } catch (error) {
+        failures.push(error);
+        try {
+          process.kill(-selected.child.pid, "SIGKILL");
+        } catch (killError) {
+          if (killError.code !== "ESRCH") failures.push(killError);
+        }
+        exit = await selected.terminal;
+      }
       try {
         assert.deepEqual(exit, { code: 0, signal: null }, selected.record.stderr);
         assert.equal(selected.record.error, undefined, selected.record.error?.message);
@@ -156,4 +189,42 @@ export async function withReadinessProcesses(
     await save("report.json", report);
   }
   if (failure) throw failure;
+}
+
+export async function runReadinessCommand(
+  report,
+  executable,
+  args,
+  { env = process.env, input, deadlineMs = 60000 } = {},
+) {
+  const child = spawn(executable, args, { env, detached: true, stdio: ["pipe", "pipe", "pipe"] });
+  let stdout = "",
+    stderr = "";
+  child.stdout.on("data", (bytes) => (stdout += bytes));
+  child.stderr.on("data", (bytes) => (stderr += bytes));
+  const terminal = new Promise((resolveExit, reject) => {
+    child.once("error", reject);
+    child.once("close", (code, signal) => resolveExit({ code, signal }));
+  });
+  let timedOut = false;
+  const timer = setTimeout(() => {
+    timedOut = true;
+    try {
+      process.kill(-child.pid, "SIGKILL");
+    } catch (error) {
+      if (error.code !== "ESRCH") throw error;
+    }
+  }, deadlineMs);
+  child.stdin.end(input);
+  let exit;
+  try {
+    exit = await terminal;
+  } finally {
+    clearTimeout(timer);
+  }
+  const result = { executable, args, pid: child.pid, stdout, stderr, exit };
+  report.processes.push(result);
+  if (timedOut) throw new Error("Readiness command deadline");
+  assert.deepEqual(exit, { code: 0, signal: null }, stderr || stdout);
+  return result;
 }

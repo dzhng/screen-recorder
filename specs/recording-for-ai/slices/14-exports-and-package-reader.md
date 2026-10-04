@@ -18,9 +18,9 @@ Directory fixtures below are internal checkpoints, never a third export product.
 
 ## Grounded ownership and dependency map
 
-- [timeline](../../../packages/core/src/timeline.ts) owns revisions, mappings,
+- [timeline](https://github.com/dzhng/screen-recorder/blob/d0b1dca7d1225728d4c6c3353ff26675e33e084f/packages/core/src/timeline.ts) owns revisions, mappings,
   word/event projection and render spans. Package code never repeats that algebra.
-- [materializeFrame](../../../packages/core/src/frame-materialization.ts) already
+- [materializeFrame](https://github.com/dzhng/screen-recorder/blob/d0b1dca7d1225728d4c6c3353ff26675e33e084f/packages/core/src/frame-materialization.ts) already
   receives revision, source and output explicitly. Its concrete evidence dependency,
   [trail reads](../../../packages/core/src/trails.ts) and library-relative paths are
   the portability work. FrameInspection and IndexProcessing also admit jobs; they

@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { mkdir, mkdtemp, readFile, writeFile } from "node:fs/promises";
+import { mkdir, mkdtemp, readFile, writeFile, rm } from "node:fs/promises";
 import { join, resolve } from "node:path";
 import { tmpdir } from "node:os";
 import { randomUUID } from "node:crypto";
@@ -499,7 +499,14 @@ try {
   report.checks.processingHistory = history;
   report.passed = true;
 } finally {
-  await service.stop();
-  await writeFile(join(out, "report.json"), JSON.stringify(report, null, 2));
-  await writeFile(join(out, "service.log"), service.logs.join(""));
+  try {
+    await service.stop();
+  } finally {
+    try {
+      await writeFile(join(out, "report.json"), JSON.stringify(report, null, 2));
+      await writeFile(join(out, "service.log"), service.logs.join(""));
+    } finally {
+      await rm(home, { recursive: true, force: true });
+    }
+  }
 }

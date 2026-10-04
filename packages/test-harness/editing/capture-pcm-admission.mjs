@@ -91,10 +91,6 @@ assert.notEqual(baseline.readFloatLE(4), 0, "Excluded output sample must have ob
 const expected = Buffer.from(baseline);
 expected.fill(0, 4, 8);
 assert.ok(masked.equals(expected), "Declared1us mask must exclude exactly output frame57601");
-const preservationEnv = { ...process.env };
-delete preservationEnv.SCREENREC_PCM_ADMISSION_OUTPUT;
-delete preservationEnv.SCREENREC_CAPTURE_GAP_OUTPUT;
-writeFileSync(join(out, "preservation.log"), run(binary, [], { env: preservationEnv }));
 save(join(out, "report.json"), {
   scope: "offline admitted-time candidate; production writer not connected",
   owner: owner.cases,

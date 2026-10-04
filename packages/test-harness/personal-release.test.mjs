@@ -6,6 +6,66 @@ import { spawnSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
 import test from "node:test";
 
+test("a repeated ready transcript cursor stops the caller before another page request", (t) => {
+  const directory = mkdtempSync(join(tmpdir(), "screenrec-caller-repeat-cursor-"));
+  t.after(() => rmSync(directory, { recursive: true, force: true }));
+  const trace = join(directory, "calls.jsonl");
+  const editPlan = join(directory, "edit-plan.json");
+  const cli = fileURLToPath(new URL("./personal-release-cli-fixture.mjs", import.meta.url));
+  chmodSync(cli, 0o755);
+  writeFileSync(
+    editPlan,
+    JSON.stringify({
+      cuts: [{ intent: "remove", sourceRange: { startUs: 5300000, endUs: 5400000 } }],
+    }),
+  );
+  const result = spawnSync(
+    process.execPath,
+    [
+      fileURLToPath(new URL("./personal-release.mjs", import.meta.url)),
+      "--cli",
+      cli,
+      "--recording",
+      "fixture-recording",
+      "--edit-plan",
+      editPlan,
+      "--out",
+      join(directory, "evidence"),
+    ],
+    {
+      encoding: "utf8",
+      timeout: 10000,
+      env: { ...process.env, SCREENREC_CALLER_TRACE: trace, SCREENREC_CALLER_REPEAT_CURSOR: "1" },
+    },
+  );
+  assert.equal(result.error, undefined, result.error?.message);
+  assert.notEqual(result.status, 0);
+  assert.match(result.stderr, /transcript.get continuation repeated its cursor/);
+  const calls = readFileSync(trace, "utf8").trim().split("\n").map(JSON.parse);
+  assert.deepEqual(
+    calls
+      .filter((call) => call.operation === "transcript.get")
+      .map((call) => call.params.cursor ?? null),
+    [
+      null,
+      {
+        assetId: "audio-asset",
+        streamId: "audio-stream",
+        acquisitionId: "fixture-acquisition",
+        generation: "transcript-generation",
+        supportDigest: "fixture-support",
+        afterSourceUs: 5200000,
+        afterOrdinal: 1,
+        range: null,
+      },
+    ],
+  );
+  assert.equal(
+    calls.some((call) => call.operation === "project.create"),
+    false,
+  );
+});
+
 test("personal release requires an explicit edit plan before calling the CLI", (t) => {
   const directory = mkdtempSync(join(tmpdir(), "screenrec-caller-plan-"));
   t.after(() => rmSync(directory, { recursive: true, force: true }));

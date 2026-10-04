@@ -12,7 +12,11 @@ import { classify, corpusReferences } from "./render-membership.mjs";
 // Consume the independently asserted every-frame movie corpus, including physical empty edits,
 // repeated/reordered clips, global picture phase, holds, retiming and acquisition masks.
 const root = fileURLToPath(new URL("../../../", import.meta.url));
-const [flag, input, outFlag, output, caseFlag, caseName] = process.argv.slice(2);
+// Historical movie parity is a separate experiment against a retired executor.
+const historicalParity = process.argv.includes("--historical-parity");
+const [flag, input, outFlag, output, caseFlag, caseName] = process.argv
+  .slice(2)
+  .filter((arg) => arg !== "--historical-parity");
 assert.ok(caseFlag === undefined || (caseFlag === "--case" && caseName));
 assert.equal(flag, "--rendered");
 assert.equal(outFlag, "--out");
@@ -22,7 +26,8 @@ const native = process.env.SCREENREC_NATIVE;
 const baseline = process.env.SCREENREC_BASELINE_NATIVE;
 const cancellationWorker = process.env.SCREENREC_COMPOSITION_CANCEL_TEST;
 assert.ok(cancellationWorker, "The production NativeWire cancellation test executable is required");
-assert.ok(native && baseline, "Both candidate and frozen baseline native binaries are required");
+assert.ok(native, "The current native binary is required");
+if (historicalParity) assert.ok(baseline, "Historical parity requires SCREENREC_BASELINE_NATIVE");
 await mkdir(out, { recursive: true });
 assert.deepEqual(await readdir(out), []);
 const run = (binary, args, input) => {
@@ -57,9 +62,11 @@ const refs = corpusReferences((id) =>
 const results = [],
   movieMismatches = [],
   correctedMovies = [];
-const corrections = await json(
-  join(root, "specs/done/agent-editing/assets/15-layer-geometry/corrected-movie-pixels.json"),
-);
+const corrections = historicalParity
+  ? await json(
+      join(root, "specs/done/agent-editing/assets/15-layer-geometry/corrected-movie-pixels.json"),
+    )
+  : [];
 const report = await json(join(rendered, "report.json"));
 const scenarios = caseName
   ? report.results.filter((scenario) => scenario.name === caseName)
@@ -70,41 +77,43 @@ for (const scenario of scenarios) {
   await mkdir(directory);
   const request = await json(join(rendered, scenario.name, "request.json"));
   const frames = (await readFile(request.frames, "utf8")).trim().split("\n").map(JSON.parse);
-  // The immutable baseline executable predates compiled visual instructions.
-  const frozenFrames = join(directory, "frozen-frames.jsonl");
-  await writeFile(
-    frozenFrames,
-    frames
-      .map((frame) => {
-        const old = structuredClone(frame);
-        delete old.visual;
-        old.layers.forEach((layer) => {
-          delete layer.width;
-          delete layer.height;
-          layer.placement = "contain";
-        });
-        return JSON.stringify(old) + "\n";
-      })
-      .join(""),
-  );
-  const frozen = call(baseline, "media.renderCompositionVideo", {
-    ...request,
-    frames: frozenFrames,
-    output: join(directory, "frozen.mp4"),
-  });
-  assert.equal(frozen.ok, true, JSON.stringify(frozen));
-  const oldPixels = raw(frozen.data.file),
-    currentPixels = raw(request.output);
-  if (hash(currentPixels) !== hash(oldPixels)) {
-    const observed = { case: scenario.name, before: hash(oldPixels), after: hash(currentPixels) };
-    if (
-      corrections.some(
-        (c) =>
-          c.case === observed.case && c.before === observed.before && c.after === observed.after,
+  const currentPixels = raw(request.output);
+  if (historicalParity) {
+    // The immutable baseline executable predates compiled visual instructions.
+    const frozenFrames = join(directory, "frozen-frames.jsonl");
+    await writeFile(
+      frozenFrames,
+      frames
+        .map((frame) => {
+          const old = structuredClone(frame);
+          delete old.visual;
+          old.layers.forEach((layer) => {
+            delete layer.width;
+            delete layer.height;
+            layer.placement = "contain";
+          });
+          return JSON.stringify(old) + "\n";
+        })
+        .join(""),
+    );
+    const frozen = call(baseline, "media.renderCompositionVideo", {
+      ...request,
+      frames: frozenFrames,
+      output: join(directory, "frozen.mp4"),
+    });
+    assert.equal(frozen.ok, true, JSON.stringify(frozen));
+    const oldPixels = raw(frozen.data.file);
+    if (hash(currentPixels) !== hash(oldPixels)) {
+      const observed = { case: scenario.name, before: hash(oldPixels), after: hash(currentPixels) };
+      if (
+        corrections.some(
+          (c) =>
+            c.case === observed.case && c.before === observed.before && c.after === observed.after,
+        )
       )
-    )
-      correctedMovies.push(observed);
-    else movieMismatches.push(observed);
+        correctedMovies.push(observed);
+      else movieMismatches.push(observed);
+    }
   }
   const receipts = [];
   for (const [index, frame] of frames.entries()) {
@@ -131,7 +140,7 @@ for (const scenario of scenarios) {
       assert.equal(receipt.pictures[0].clipId, layer.clipId);
       assert.equal(receipt.pictures[0].assetId, layer.assetId);
       assert.equal(receipt.pictures[0].streamId, layer.streamId);
-      assert.equal(receipt.pictures[0].requestedSourceUs, layer.sourceUs);
+      assert.deepEqual(receipt.pictures[0].requestedSourceUs, layer.sourceUs);
       if (layer.availability === "source-unavailable") {
         assert.equal(receipt.pictures[0].status, "unavailable");
         assert.equal(receipt.pictures[0].reason, "source-unavailable");
@@ -149,7 +158,16 @@ for (const scenario of scenarios) {
           receipt.pictures[0].actualSourceUs,
           Math.round((Number(sample.value) * 1e6) / sample.timescale) - sample.originUs,
         );
-        assert.ok(receipt.pictures[0].actualSourceUs <= layer.sourceUs);
+        const requested =
+          typeof layer.sourceUs === "number"
+            ? { numerator: layer.sourceUs, denominator: 1 }
+            : layer.sourceUs;
+        assert.ok(
+          (BigInt(sample.value) * 1000000n - BigInt(sample.originUs) * BigInt(sample.timescale)) *
+            BigInt(requested.denominator) <=
+            BigInt(requested.numerator) * BigInt(sample.timescale),
+          "Selected physical sample starts after the exact requested source time",
+        );
       }
     }
     receipts.push(receipt);
@@ -158,13 +176,13 @@ for (const scenario of scenarios) {
   results.push({
     name: scenario.name,
     pictures: frames.length,
-    moviePixelSHA256: hash(oldPixels),
+    moviePixelSHA256: hash(currentPixels),
     ids: scenario.ids,
   });
 }
 await writeFile(
   join(out, "movie-parity.json"),
-  JSON.stringify({ results, movieMismatches, correctedMovies }, null, 2),
+  JSON.stringify({ historicalParity, results, movieMismatches, correctedMovies }, null, 2),
 );
 const base = await json(join(rendered, "av-replacement/request.json"));
 const frame = JSON.parse((await readFile(base.frames, "utf8")).split("\n")[0]);
@@ -339,6 +357,7 @@ await writeFile(
   JSON.stringify(
     {
       results,
+      historicalParity,
       movieMismatches,
       correctedMovies,
       negatives,

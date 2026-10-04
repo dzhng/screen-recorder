@@ -1,5 +1,8 @@
 # Architecture and ownership
 
+Historical recording-design record. The [recording guide](README.md) owns its
+scope and points to current implementation; this document does not reopen old work.
+
 These are planning decisions made from the discovery map and independent drafts.
 They are intended defaults for the personal release, not claims of implemented behavior.
 

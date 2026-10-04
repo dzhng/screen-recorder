@@ -1,44 +1,19 @@
-# Small tester release
+# Tester distribution proposal
 
-Status: future-work placeholder. The first release targets David's own Mac.
+Status: future proposal. Existing tagged packages are shipped; [build and release
+ownership](../../scripts/README.md) describes that mechanism. This proposal asks
+whether the current workflow transfers to invited users without developer help.
 
-## Next Agent Prompt
+When activated, reconcile the package, [accepted release limits](../done/agent-editing/release-closeout.md)
+and tester feedback before writing implementation slices. The work may clarify
+supported configurations, permission recovery, model readiness, CLI/MCP setup and
+support expectations; it does not authorize another editing engine or hosted media.
 
-When the user activates this work, inspect the personal release and its completed
-unknowns map first. Turn this placeholder into a researched, sliced implementation
-spec before building. Update this handoff with the resulting decisions.
+Tester group, update delivery, compatibility and diagnostic collection remain
+explicit decisions. Preserve local media ownership and the existing public export
+contracts rather than restating an older fixed export roster.
 
-## Outcome
-
-A small group can install the app and independently complete the recording to AI
-inspection workflow on their Macs. This tests whether the personal workflow
-transfers to other users before a public release.
-
-## Scope to investigate
-
-- Installation and signing/distribution appropriate for invited testers.
-- Screen and microphone permission setup and recovery.
-- Local transcription model download, readiness, and failure recovery.
-- CLI and MCP setup for the selected AI clients.
-- Supported hardware/macOS versions and an end-to-end compatibility check.
-- Feedback and opt-in diagnostic collection without collecting recordings by default.
-
-## Inherited product boundaries
-
-Keep recordings local, transcribe locally, and retain data until manually deleted.
-Offer exactly two exports: video only for humans, and a complete processed package
-for AI containing source media, transcript, selected screenshots, index, and timed
-cursor data. A tester release does not imply hosted storage or remote MCP access.
-
-## Open before implementation
-
-Tester group, supported clients/platform versions, distribution method, support
-workflow, update delivery, and any compatibility or data migration requirements.
-These are candidates for planning, not approved implementation decisions.
-
-## Proposed acceptance evidence
-
-A tester installs on a fresh supported Mac, grants permissions, prepares the local
-model, records a narrated demonstration, asks their AI for the latest recording,
-retrieves additional frames, and exports both supported formats without developer
-intervention.
+Acceptance needs an actual tester completing the declared workflow from published
+guidance. Keep that user evidence separate from package relocation, controlled
+permission replies and isolated service proof. No new recording is a planning
+prerequisite when retained inputs answer the technical question.

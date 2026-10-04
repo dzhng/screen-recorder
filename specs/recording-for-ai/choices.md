@@ -1,5 +1,8 @@
 # Implementation choices
 
+Historical recording-design record. The [recording guide](README.md) owns its
+scope and points to current implementation; this document does not reopen old work.
+
 ## Bootstrap and tooling
 
 ### Local bundle identity

@@ -1,12 +1,14 @@
 import assert from "node:assert/strict";
 import { randomUUID } from "node:crypto";
-import { mkdir, mkdtemp, readFile, realpath, writeFile } from "node:fs/promises";
+import { mkdir, mkdtemp, readFile, realpath, writeFile, rm } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { DatabaseSync } from "node:sqlite";
 import { join, resolve } from "node:path";
 import { parseArgs } from "node:util";
 import { JourneyService, hash, poll, run } from "./source-evidence-fixture.mjs";
 import { exportJourney } from "./first-export.mjs";
+const priorAudioBitrate = process.env.SCREENREC_TEST_AUDIO_DEFAULT_BITRATE;
+const priorUnavailableOperations = process.env.SCREENREC_TEST_UNAVAILABLE_OPERATIONS;
 const { values } = parseArgs({
   options: { out: { type: "string" }, formats: { type: "string", default: "all" } },
 });
@@ -634,8 +636,17 @@ try {
   await kept.afterDeletion();
   report.passed = true;
 } finally {
-  await service.stop();
-  await writeFile(join(out, "service.log"), service.logs.join(""));
-  await writeFile(join(out, "report.json"), JSON.stringify(report, null, 2));
+  if (priorUnavailableOperations === undefined)
+    delete process.env.SCREENREC_TEST_UNAVAILABLE_OPERATIONS;
+  else process.env.SCREENREC_TEST_UNAVAILABLE_OPERATIONS = priorUnavailableOperations;
+  if (priorAudioBitrate === undefined) delete process.env.SCREENREC_TEST_AUDIO_DEFAULT_BITRATE;
+  else process.env.SCREENREC_TEST_AUDIO_DEFAULT_BITRATE = priorAudioBitrate;
+  try {
+    await service.stop();
+    await writeFile(join(out, "service.log"), service.logs.join(""));
+    await writeFile(join(out, "report.json"), JSON.stringify(report, null, 2));
+  } finally {
+    await rm(home, { recursive: true, force: true });
+  }
 }
 console.log(JSON.stringify({ passed: report.passed, report: join(out, "report.json") }));

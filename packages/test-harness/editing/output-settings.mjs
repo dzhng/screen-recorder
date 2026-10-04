@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { mkdir, mkdtemp, readFile, writeFile } from "node:fs/promises";
+import { mkdir, mkdtemp, readFile, writeFile, rm } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join, resolve } from "node:path";
 import { parseArgs } from "node:util";
@@ -342,8 +342,12 @@ try {
   );
   report.passed = true;
 } finally {
-  await service.stop();
-  report.logs = service.logs;
-  await writeFile(join(out, "report.json"), JSON.stringify(report, null, 2));
+  try {
+    await service.stop();
+    report.logs = service.logs;
+    await writeFile(join(out, "report.json"), JSON.stringify(report, null, 2));
+  } finally {
+    await rm(home, { recursive: true, force: true });
+  }
 }
 console.log(JSON.stringify({ passed: report.passed, checks: report.checks }));

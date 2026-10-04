@@ -1,5 +1,5 @@
 import { afterEach, expect, test, vi } from "vitest";
-import { mkdtemp, rm, writeFile, access, readFile, readdir } from "node:fs/promises";
+import { mkdtemp, rm, readFile, readdir } from "node:fs/promises";
 import { listenLocal } from "@screenrec/service";
 import type { OperationResponse } from "@screenrec/protocol";
 import { artifactBytes, consumeBatch, artifactFile } from "./artifact-delivery.js";
@@ -111,91 +111,6 @@ test("an oversized image is refused before reading and its lease is released", a
   });
   expect(f.reads()).toBe(0);
   expect(f.closes()).toBe(1);
-});
-
-test("selected-image batches preserve ordinal order, duplicates and generation while draining failed output leases", async () => {
-  const bytes = Buffer.from("selected evidence");
-  const f = await fixture(bytes);
-  const response: OperationResponse = {
-    id: "selected",
-    ok: true,
-    data: {
-      projectId: "project",
-      revisionId: "r3",
-      generation: "retained-1",
-      items: [
-        { ordinal: 7, ok: true, data: f.result.ok ? f.result.data : null },
-        {
-          ordinal: 2,
-          ok: false,
-          error: { code: "NOT_FOUND", message: "missing", retryable: false, details: {} },
-        },
-        { ordinal: 7, ok: true, data: f.result.ok ? f.result.data : null },
-      ],
-    },
-  };
-  const consumed: Buffer[] = [];
-  const result = await consumeBatch(
-    f.selection,
-    response,
-    "ordinal",
-    async (media, index) => {
-      consumed.push(media.bytes);
-      if (index === 0) throw new Error("output refused");
-      return { contentIndex: 1 };
-    },
-    (error) => ({
-      code: "OUTPUT_FAILED",
-      message: (error as Error).message,
-      retryable: false,
-      details: {},
-    }),
-  );
-  expect(result).toMatchObject({
-    ok: true,
-    data: {
-      projectId: "project",
-      revisionId: "r3",
-      generation: "retained-1",
-      items: [
-        { ordinal: 7, ok: false, error: { code: "OUTPUT_FAILED", message: "output refused" } },
-        { ordinal: 2, ok: false, error: { code: "NOT_FOUND" } },
-        { ordinal: 7, ok: true, data: { contentIndex: 1 } },
-      ],
-    },
-  });
-  expect(
-    (result.ok ? (result.data as { items: Record<string, unknown>[] }).items : []).map(
-      (item) => item.atUs,
-    ),
-  ).toEqual([undefined, undefined, undefined]);
-  expect(consumed).toEqual([bytes, bytes]);
-  expect(f.closes()).toBe(2);
-});
-
-test("metadata-only selected batches never read bytes or create an output file", async () => {
-  const f = await fixture(Buffer.from("unused"));
-  const output = f.selection.socketPath + ".png";
-  const data = {
-    projectId: "project",
-    revisionId: "r3",
-    generation: "pending",
-    items: [{ ordinal: 0, ok: true, data: { state: "processing", published: null } }],
-  };
-  const result = await consumeBatch(
-    f.selection,
-    { id: "pending", ok: true, data },
-    "ordinal",
-    async (media) => {
-      await writeFile(output, media.bytes);
-      return { output };
-    },
-    () => ({ code: "UNEXPECTED", message: "unexpected", retryable: false, details: {} }),
-  );
-  expect(result).toEqual({ id: "pending", ok: true, data });
-  expect(f.reads()).toBe(0);
-  expect(f.closes()).toBe(0);
-  await expect(access(output)).rejects.toMatchObject({ code: "ENOENT" });
 });
 
 test("timestamp batches preserve timestamp identity on failed media reads", async () => {

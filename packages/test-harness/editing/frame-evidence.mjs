@@ -194,11 +194,15 @@ try {
   });
   const revisionId = edited.revision.id;
   report.project = { projectId, revisionId };
-  assert.equal(
-    (await call("preview.get", { projectId, revisionId }, { error: true })).code,
-    "NOT_READY",
+  const unavailableRetime = "fixture-unavailable-retime";
+  const unavailablePreview = await call(
+    "preview.get",
+    { projectId, revisionId, retimeImplementationId: unavailableRetime },
+    { error: true },
   );
-  report.checks.unavailableAudioDoesNotBlockPictures = true;
+  assert.equal(unavailablePreview.code, "NOT_READY");
+  assert.equal(unavailablePreview.details.retimeImplementationId, unavailableRetime);
+  report.checks.unavailableAudioDoesNotBlockPictures = { unavailablePreview };
 
   report.checks.pictures = [];
   let firstBytes;

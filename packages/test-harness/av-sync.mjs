@@ -13,7 +13,7 @@
 import { execFileSync } from "node:child_process";
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { homedir } from "node:os";
-import { join } from "node:path";
+import { join, resolve } from "node:path";
 import { parseArgs } from "node:util";
 
 const { values } = parseArgs({
@@ -27,13 +27,19 @@ const { values } = parseArgs({
 });
 
 const cli = join(homedir(), ".local", "bin", "screenrec");
+const home = resolve(values.home);
 const call = (operation, params = {}) => {
   const answer = JSON.parse(
-    execFileSync(cli, [operation, "--params", JSON.stringify(params)], {
-      encoding: "utf8",
-      cwd: "/",
-      timeout: 120_000,
-    }),
+    execFileSync(
+      cli,
+      [operation, "--socket", join(home, "run/service.sock"), "--params", JSON.stringify(params)],
+      {
+        encoding: "utf8",
+        cwd: "/",
+        timeout: 120_000,
+        env: { ...process.env, SCREENREC_HOME: home },
+      },
+    ),
   );
   if (!answer.ok) throw new Error(`${operation}: ${JSON.stringify(answer.error)}`);
   return answer.data;
@@ -41,7 +47,7 @@ const call = (operation, params = {}) => {
 
 const recordingId = values.recording ?? call("recording.latest").recordingId;
 const recording = call("recording.get", { recordingId });
-const source = join(values.home, "recordings", recordingId, "source");
+const source = join(home, "library", "recordings", recordingId, "source");
 const video = join(source, "video.mov");
 const system = join(source, "system.mov");
 if (!existsSync(system))

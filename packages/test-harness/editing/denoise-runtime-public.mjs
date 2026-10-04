@@ -11,6 +11,7 @@ import { gunzipSync } from "node:zlib";
 import { JourneyService, hash, poll, root } from "./source-evidence-fixture.mjs";
 import { waveHeader } from "./audio-project-fixture.mjs";
 
+const priorUnavailableOperations = process.env.SCREENREC_TEST_UNAVAILABLE_OPERATIONS;
 const { values } = parseArgs({
   options: {
     out: { type: "string" },
@@ -138,7 +139,9 @@ async function projectAudio(
   };
 }
 const baseline = gunzipSync(
-  await readFile(join(root, "specs/done/agent-editing/assets/12c-matched-noise/audio/mixture.f32.gz")),
+  await readFile(
+    join(root, "specs/done/agent-editing/assets/12c-matched-noise/audio/mixture.f32.gz"),
+  ),
 );
 const outputTap = (point) => ({ target: { kind: "output" }, point });
 async function movieDelivery(selection, name) {
@@ -683,7 +686,10 @@ async function unitRateJourney() {
   });
   const rightExpected = gunzipSync(
     await readFile(
-      join(root, "specs/done/agent-editing/assets/12c-matched-noise/audio/rnnoise-reference.f32.gz"),
+      join(
+        root,
+        "specs/done/agent-editing/assets/12c-matched-noise/audio/rnnoise-reference.f32.gz",
+      ),
     ),
   );
   assert.equal(rightExpected.length, expected.length);
@@ -884,9 +890,14 @@ try {
   else await unitRateJourney();
   report.passed = true;
 } finally {
-  delete process.env.SCREENREC_TEST_UNAVAILABLE_OPERATIONS;
-  await service.stop();
-  await writeFile(join(out, "service.log"), service.logs.join("\n"));
-  await writeFile(join(out, "report.json"), JSON.stringify(report, null, 2));
-  await rm(home, { recursive: true, force: true });
+  if (priorUnavailableOperations === undefined)
+    delete process.env.SCREENREC_TEST_UNAVAILABLE_OPERATIONS;
+  else process.env.SCREENREC_TEST_UNAVAILABLE_OPERATIONS = priorUnavailableOperations;
+  try {
+    await service.stop();
+    await writeFile(join(out, "service.log"), service.logs.join("\n"));
+    await writeFile(join(out, "report.json"), JSON.stringify(report, null, 2));
+  } finally {
+    await rm(home, { recursive: true, force: true });
+  }
 }

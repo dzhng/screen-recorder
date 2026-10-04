@@ -1,63 +1,36 @@
 # Native appearance and encoding loss
 
-The [frozen experiment](../../../specs/done/agent-editing/assets/06-color/report.json)
-supports preserving the platform's decoded source appearance through native Core
-Image color management into an explicitly declared sRGB output. It does **not**
-identify the intended profile of untagged media or accept a production output
-profile. The [runner](color-reproduction.mjs) reproduces the comparison in a fresh
-output directory with `node packages/test-harness/editing/color-reproduction.mjs /tmp/fresh-color-run`.
+The [current appearance journey](encoded-appearance.mjs) separates native
+source interpretation from the encoded roundtrip. Independent platform references
+and decoded output keep a changed picture from being blamed on the wrong stage.
 
-Native appearance is the reference because replacing missing metadata with an
-assumed sRGB profile can itself change the picture. In this run VideoToolbox
-reported guessed SMPTE-C/601 interpretation for the untagged synthetic movie and
-guessed HDTV/709 for the existing recorded fixture. Explicit sRGB assignment
-changed their native-reference pixels by up to 64 and 11 channel levels,
-respectively. The already declared synthetic source was unchanged. Apple documents
-that the [CIImage color-space option](https://developer.apple.com/documentation/coreimage/ciimageoption/colorspace)
-can override the source color space; this is a distinct assumption, not neutral
-metadata repair. Destination conversion is controlled by the explicit color space
-passed to rendering, as described by [CIContext output color space](https://developer.apple.com/documentation/coreimage/cicontextoption/outputcolorspace).
+## Preserve interpretation before judging encoding
 
-The runner freezes a regular reference-pixel lattice before rendering and also
-measures every pixel, including text and edges. All comparisons retain the
-four-level channel-error gate. Native source → pre-encode output is exact for the
-synthetic inputs and within one level for the recorded frame. The rotation-only
-derivative preserves compressed video packets and has a verified display matrix;
-its native pixels exactly match an independently rotated source reference.
-Source bytes remain immutable. No real input was silently retagged.
+Missing color metadata is uncertainty. Assigning a presumed profile changes the
+source interpretation; it is not neutral metadata repair. Native decoded
+appearance is the experiment's reference, not proof of the creator's intended
+profile. Respecting declared metadata and testing an explicit interpretation of
+untagged footage are separate claims.
 
-Encoding is a separate loss. The same recorded frame, canvas and native color
-policy at two requested H.264 bitrates produced:
+Core Image's [source color-space option](https://developer.apple.com/documentation/coreimage/ciimageoption/colorspace)
+and [output color space](https://developer.apple.com/documentation/coreimage/cicontextoption/outputcolorspace)
+control different stages. The runner retains source metadata and reference,
+pre-encode and decoded output separately. Compare matched pixels over the whole
+image: a few flat patches can pass while text and edge artifacts remain.
 
-| Requested bitrate | Fixed samples passing | Channels over four levels | Maximum error | Movie bytes | Elapsed seconds | Peak RSS bytes |
-| ----------------- | --------------------: | ------------------------: | ------------: | ----------: | --------------: | -------------: |
-| 4 Mbps            |                 19/25 |                     9.92% |            89 |      47,578 |           1.334 |     88,702,976 |
-| 40 Mbps           |                 25/25 |                     1.38% |            56 |      88,411 |           1.186 |     88,817,664 |
+A bitrate improvement does not establish a universal encoding policy. Keep
+conversion error distinct from codec loss, and interpret timing or memory only
+within the measured workload. A first-frame experiment cannot establish sustained
+throughput, wide-gamut fidelity or physical-camera accuracy.
 
-The higher bitrate reduces error but still fails the whole-image four-level gate.
-The elapsed times are single observations including evidence generation, not a
-speed comparison; the output is one frame, not a sustained bitrate measurement.
-The synthetic fixed samples pass at the lower bitrate while their lossy edge
-pixels also exceed four levels. A universal bitrate cannot be selected from this
-sample. Output-profile quality, size and sustained resource tradeoffs remain open.
+## Evidence and reuse
 
-The source reference, pre-encode PNG, native-decoded roundtrip and explicit-profile
-counterexample are all retained, together with exact requests, source metadata,
-resource output and hashes. These distinguish conversion from encoding rather
-than hiding a red result behind selected patches. Frozen tests re-decode the PNGs,
-check conversion against the unchanged gate and retain explicit profile replacement
-as a failing control. Substituting that counterexample for pre-encode output was
-confirmed to make the test fail, then restored to green.
+The [frozen comparison](../../../specs/done/agent-editing/assets/06-color/report.json)
+owns exact requests, measurements and the explicit-profile counterexample.
+Its [visual review](../../../specs/done/agent-editing/assets/06-color/visual-review/README.md)
+owns the perceptual judgment. The [declared-profile follow-up](../../../specs/done/agent-editing/assets/06-rec709/README.md)
+retains matched writer and RGB attachments.
 
-Scope is the first frame of an existing captured fixture plus tagged/untagged
-synthetics and one 90° metadata rotation. It does not establish HDR/wide-gamut,
-other orientation/scaling cases, later scene behavior, intended untagged colors or
-physical-camera fidelity. The [independent visual critique](../../../specs/done/agent-editing/assets/06-color/visual-review/README.md)
-confirms the conversion result and identifies encoding artifacts. Physical/listening
-gates remain open. This is research harness code; no production executor or default was
-changed, and no capture, playback or installed application was exercised.
-
-The [explicit Rec.709 follow-up](../../../specs/done/agent-editing/assets/06-rec709/README.md)
-uses matched RGB color-space attachments and writer metadata. The current runner
-includes both profile paths. Its first-frame conversion is verified; broader
-color and production encoding-quality policy remain separate open work.
+Historical producers are available through the [evidence source snapshot](../../../specs/done/agent-editing/assets/README.md).
+Current runners own future regression checks; old results neither select production
+output settings nor establish general appearance acceptance.

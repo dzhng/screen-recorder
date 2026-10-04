@@ -1,5 +1,8 @@
 # Research, evidence, and architecture synthesis
 
+Historical recording-design record. The [recording guide](README.md) owns its
+scope and points to current implementation; this document does not reopen old work.
+
 ## What was actually checked
 
 The initial planning research checked reference repository files, installed SDK
@@ -10,7 +13,7 @@ evidence in [bootstrap verification](assets/bootstrap/verification.md) and
 image content and CLI-file ingestion with generated fixtures.
 
 Native capture and speech preparation have additional work in progress; consult
-the [current handoff](README.md#next-agent-prompt) before treating those as integrated
+the [current handoff](README.md) before treating those as integrated
 results. Synthetic speech establishes runtime plumbing only. Human filler fidelity,
 word-boundary accuracy, crash recovery and complete native audio behavior remain
 acceptance gates. Numeric targets in uncompleted slices are requirements, not

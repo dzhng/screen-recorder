@@ -1,48 +1,89 @@
-# Editing fixture corpus
+# Editing verification
 
-Run the [generator](fixtures.mjs) with `--out DIRECTORY`; add `--verify` to
-check the frozen media and real-source hashes without regenerating them.
-Run `node --test packages/test-harness/editing/fixtures.test.mjs` from the
-repository root for byte-repeatability, decoded timing/geometry/audio, and
-deliberate-tampering checks. These commands do not launch the app or play audio.
+This directory checks source and editing primitives through authored fixtures,
+compiled requests and public service journeys. Start with the contract that could
+have changed. Filenames name the subject; a runner's imports identify its shared
+setup and observers. Case selection and invocation belong to that source, not a
+second scenario catalog here.
 
-The [hand-written oracle](expected.json) is separate from the generator so a
-timing mistake cannot manufacture its own expected answer. Its composition
-scenario is input for future compiler tests, not evidence of a working editor.
-The frame sheets show every decoded numbered frame in presentation order.
+## Source facts and project meaning
 
-The MOV fixtures use H.264 High-profile YUV420 pixels and uncompressed PCM so
-later tests can inspect sample membership without AAC delay. Lossless H.264 would
-require the less portable High 4:4:4 Predictive profile; lossy color decoding
-instead has an explicit small tolerance. Separate WAVs let audio replacement
-tests choose sound independently of the picture. The existing deterministic raster
-font avoids machine-specific font rendering.
+Source evidence distinguishes media occupancy, acquisition availability and
+stream identity. A decoder holding a previous picture across a timestamp gap does
+not prove that acquisition was available. Source selection checks therefore need
+both byte identity and the evidence interval that authorizes those bytes.
 
-A timestamp gap is not an acquisition gap. The gap movie lets a decoder hold the
-preceding image while the explicit synthetic source-evidence interval says the
-content was unavailable. Native empty edit-list fixtures and real capture evidence
-remain separate gates. Transparent stills likewise expose geometry/alpha only,
-not proof that a renderer handles them.
+Project checks ask how explicit edits map those sources into a revision. The
+[composition owner](../../composition/README.md) defines that meaning; the harness
+must not invent a second edit model. Compiled-plan probes isolate lowering, while
+public journeys also test admission, delivery and persistent ownership. Passing
+one boundary does not prove the others.
 
-Real narration is hashed where it already lives, never replaced with synthetic
-speech or duplicated into this compact corpus. Independent speech labels, native
-preservation results and visual review belong to the slice's evidence report.
-The manifest records the source commit at generation and encoder versions;
-regenerating with another encoder version may change bytes without changing
-decoded content. The tests prove repeatability with the installed toolchain.
+Preservation and cutover journeys carry existing guarantees across an owner or
+contract change. Match the original operands and observable outcome instead of
+recreating the old implementation. The [preservation registry](../../../specs/done/agent-editing/assets/23-owner-fixture-ports/README.md)
+locates those scoped results and their producing code.
 
-The [first-preview journey](first-preview.mjs) imports the retained corpus and
-exercises actual CLI/MCP delivery, independent replacements, processing routes,
-range phase and render lifecycle recovery. The shared [export journey](first-export.mjs)
-checks pinned publication and recovery through those same public transports.
-[Preview evidence](../../../specs/done/agent-editing/assets/09-first-preview/README.md)
-and [export evidence](../../../specs/done/agent-editing/assets/09-first-export/README.md)
-separate decoded-media checks, visual review and explicitly controlled faults.
+## Pictures, audio and processing
 
-The [learned routing fixture](denoise-topology.mjs) keeps output-tap duration
-separate from the complete connected learned-state domain. Its dry oracle comes
-from authored source placements; the frozen independent C recipe supplies the
-learned oracle. [PCM comparisons](denoise-pcm.mjs) stream long outputs with exact
-sample checks and bounded diagnostics. A retained project tap must consume its
-matching prepared receipt; importing an older processed WAV supplies source media,
-not proof that the current processing graph ran.
+Picture checks separate source-frame membership, sampled project time, geometry
+and encoded appearance. Layer, pointer, caption and scalar-motion fixtures belong
+here because a structurally valid plan can still draw the wrong result. A decoded
+image comparison needs matched input, output time and color interpretation;
+encoding loss must not be mistaken for a composition or color-management error.
+
+Audio checks separate source addresses, placement and gain from conversion and
+encoding. Authored nonzero samples and distinguishable channels expose errors
+that silence or a symmetric fixture would hide. Exact retained PCM and lossy
+encoded output require different expectations. A/V checks compare both clocks
+against the same authored landmarks rather than merely comparing total duration.
+
+Prepared processing adds state and ownership. An output window can be short while
+a learned processor requires context from a larger connected domain. The
+[learned routing fixture](denoise-topology.mjs) anchors this distinction: the
+reference state domain must match the requested graph, not just the delivered tap.
+[Time/pitch references](stretch/README.md) explain their independent recipe role.
+
+[Speech timing](speech/README.md) needs independent audible labels;
+[generated-voice experiments](voice/README.md) distinguish runtime observations
+from lexical, identity and splice-quality evidence. Their measurement boundaries
+remain separate from caller edit intent.
+
+## Delivery, lifetime and work
+
+Public journeys exercise the complete request, readiness, delivery and publication
+contract. The [shared service fixture](source-evidence-fixture.mjs) owns real
+CLI/MCP transport and process lifetime. Follow its consumers before writing
+another startup, result receiver or shutdown loop. The [preview/export journey](first-preview.mjs)
+uses that owner while retaining publication-specific fault barriers.
+
+A held operation or crash is useful only when its timing isolates the failure
+being claimed. Cancellation, stale replies, lease revocation and publication
+before/after a commit protect different outcomes. Scale and budget probes vary
+work that can grow independently, such as timeline duration, fragmentation and
+metadata cardinality; a small output alone does not establish bounded work.
+
+## Fixture and reference authority
+
+The [corpus generator](fixtures.mjs) owns deterministic media construction.
+Its [authored oracle](expected.json) is independent so the generator cannot certify
+its own timing mistake. Frozen media keeps source hashes and encoder identity;
+a toolchain change can alter bytes without altering decoded meaning.
+
+Portable lossy picture fixtures have an explicit codec tolerance. Separate PCM
+inputs let audio membership be checked without codec delay. Declared acquisition
+holes and native empty edits remain separate inputs: a black frame or silence
+cannot establish which condition caused it.
+
+[Acceptance inputs](acceptance-inputs.mjs) bind retained marks to the original
+source identity and clock. Reuse original narration rather than making another
+copy or requesting another capture. A missing independent label leaves that
+perceptual claim unverified; it does not stop unrelated primitive verification.
+
+## Platform reproductions
+
+[Native rendering](RENDER-REPRODUCTION.md) explains temporal sample support;
+[color and encoding](COLOR-REPRODUCTION.md) explains appearance interpretation.
+These isolate platform behavior with matched operands. They are reference
+experiments, not competing product executors or evidence of general release
+acceptance. Frozen measurements and detailed outcomes live with their evidence.

@@ -1,415 +1,53 @@
 # Native capture and media
 
-This Swift package holds everything that must run natively: capture under the app's stable
-identity, and the bounded media worker the service spawns for decode, render, recovery and
-package storage. [Package.swift](Package.swift) is the roster of targets; the rule for what
-belongs where is:
+This package owns platform capture and bounded media execution. The
+[package manifest](Package.swift) defines targets and dependencies. The rule for
+placement is the platform responsibility, not a second interpretation of edits:
 
-- **ScreenRecorderCapture** is the only library the app links. It owns device state, source
-  selection, the capture clock, media writers, the acquisition journal and cursor geometry.
-- **ScreenRecorderMedia** holds primitives every native owner shares and that must not drift
-  between them: how a media file or inherited handle is opened, how asset time maps to media time,
-  the half-open microsecond span, the one failure type and new-output publication.
-- **ScreenRecorderFrames** and **ScreenRecorderAudio** decode, draw, mix and encode exactly what
-  they are given. They never interpret edits, choose cursor history or decide cuts: the composition compiler and source-evidence owners live in
-  `packages/composition` and `packages/core`.
-- **ScreenRecorderWire** is the worker boundary: request decoding, the operation table, and the
-  operations that exist only in the worker (recovery, evidence export, archives, storage).
-- **ScreenRecorderNative** is the `screenrec-native` executable around that boundary.
+- [Capture](Sources/ScreenRecorderCapture/README.md) owns selected inputs, the
+  acquisition clock, source writers, journals and cursor geometry.
+- [Media primitives](Sources/ScreenRecorderMedia/README.md) own physical support,
+  descriptor containment and new-output publication shared by native consumers.
+- [Pictures](Sources/ScreenRecorderFrames/README.md) and
+  [audio](Sources/ScreenRecorderAudio/README.md) execute compiled plans.
+- [Speech](Sources/ScreenRecorderSpeech/README.md) owns local engine execution and
+  source-bound word timing.
 
-## Compiled pictures
+The [composition compiler](../../packages/composition/README.md) owns project
+meaning; the [core source owners](../../packages/core/README.md) own admission and
+evidence identity. Native code consumes their explicit selections and requirements.
 
-Still PNGs and movie frames execute one compiled picture graph. The
-[picture executor](Sources/ScreenRecorderFrames/CompositionPictureExecutor.swift)
-prepares source evidence and owns that graph. PNG delivery passes the graph to its
-image encoder; movie delivery uses its tagged video buffer. Keeping those targets
-separate avoids quantizing still pictures through the movie color conversion.
-Pointer readability is measured in delivered pixels. The executor carries the final
-delivery size back through compiled geometry so source crops and ancestor transforms
-share the same sizing rule; a reduced thumbnail still caps the mark against visible content.
+## Owned worker lifetime
 
-Composition rendering consumes the compiler's frame stream, including the original
-sample time and clipped visible interval. Native code only resolves physical
-sample support and executes pixels; it never reconstructs cuts or frame phase.
-The [video renderer](Sources/ScreenRecorderFrames/CompositionVideoRenderer.swift)
-shares source support and orientation with existing delivery. Its wire reader
-consumes bounded JSONL records, and publication uses the existing new-file owner.
-A compiler-excluded source picture becomes background after native validation of
-its exact stream and physical timestamp, even when that occurrence's acquisition
-mask excludes existing samples. Physical empty edits also become background;
-unknown physical timing and unavailable attached ancestors still refuse. Decoder
-reuse remains keyed by media, while the exclusion applies to each compiled picture. Profile adoption evidence belongs to the
-[editing spec](../../specs/done/agent-editing/assets/07-video/README.md).
+The [wire boundary](Sources/ScreenRecorderWire/Wire.swift) owns native dispatch and
+strict decoding. Request types are authoritative; unknown fields cannot silently
+become ignored instructions. Retry meaning distinguishes a transient execution
+failure from an invalid identity or occupied output.
 
-## Device discovery
+A worker is owned work, not another service. Closing request input is not a parent
+death signal: ordinary callers close stdin after sending. The
+[parent watcher](Sources/ScreenRecorderNative/ParentLifetime.swift) observes process
+exit and rechecks identity after registration to cover reparenting races. Service
+cancellation terminates the worker; attempt ownership must therefore clean staging
+even when native cleanup cannot run.
 
-[Native capture](Sources/ScreenRecorderCapture/NativeCapture.swift) owns camera
-enumeration and authorization reporting for the public controller and selected-device
-probe. Discovery preserves device identities and order without choosing a camera,
-activating an input or requesting permission. Public camera metadata is preparation
-evidence; the recording start contract still accepts screen sources and audio choices.
+[Recovery](Sources/ScreenRecorderWire/MediaRecovery.swift) restores each source's
+proven support independently. Optional audio cannot shorten video extent, and an
+unrequested track is different from an unexplained missing one. Library reconciliation
+belongs to the service; recovery cannot manufacture completion or editorial intent.
 
-## Selected camera input
+[Normalized evidence export](Sources/ScreenRecorderWire/SourceEvidenceExport.swift)
+streams original observations and integrity disposition. Journal record order is
+not global source-time order; consumers index explicit clocks rather than inventing
+movement or treating a completion claim as new media validation.
 
-The internal [input preparation](Sources/ScreenRecorderCapture/CameraCaptureInput.swift)
-checks existing authorization before enumerating camera descriptors and opens only
-an exact selected identity. An omitted camera selection touches no camera boundary;
-an unavailable selection refuses without choosing another device. The shared input
-routes screen, microphone and whole-system audio through the [clock ingress](Sources/ScreenRecorderCapture/CaptureClockIngress.swift),
-and forwards ordinary cursor sampling. The selected-device probe supplies only
-measurement cadence, delay and cursor suppression. Pending SDK starts belong to
-the [stream operation owner](Sources/ScreenRecorderCapture/CaptureStreamInputs.swift);
-drain joins their replies and stops each attempted resource once. Preparation and
-startup checks fence obsolete generations before IO or shared-state writes. Public camera-start admission
-and durable source binding remain separate gates.
+## Verification
 
-## Companion camera closure
+The [native test runner](../../scripts/test-native.mjs) owns anonymous output outside
+the child, including on failure or signal. Explicit evidence remains caller-owned.
+Wire setup produces only required operands; numerical and public-boundary checks
+keep separate owners rather than rerunning a full behavioral suite as setup.
 
-The selected-device probe consumes the same [camera writer](Sources/ScreenRecorderCapture/CameraWriter.swift)
-and [camera publication owner](Sources/ScreenRecorderCapture/CameraMedia.swift) as the
-native capture lifecycle. Physical drain and encoder closure produce a retained
-[closed source](Sources/ScreenRecorderCapture/ClosedCameraSource.swift). Canonical
-publication can then fail or be canceled without reopening inputs or closing an
-encoder again. NativeCapture keeps both journal leases until publication settles
-or explicit discard ends that authority.
-
-Closed primary and camera sources publish independently, so a ready source does not
-inherit its sibling's publication delay. Final stop joins both before releasing
-source authority. The primary source journal freezes on its existing writer queue;
-subsequent take lifecycle reports can grow the live journal without changing that
-source's evidence.
-
-Camera verification can advance on private, immutable snapshots while acquisition
-continues. An IDR is a checkpoint only after native storage, written mapping and
-actual decoded pictures agree through the closing picture. Both ordered picture
-digests retain their original clocks; neither metadata nor encoded bytes replace
-pixel verification. The closing picture belongs to the next window. Ineligible
-snapshots and interrupted sources keep the complete raw-first publication path.
-Physical closure pins the final raw and observation bytes without waiting for
-that verification. Camera publication joins it before cancellation can return,
-validates the remaining tail and binds the final bytes; the independently closed
-primary can publish while that join waits. Discard joins it before releasing the
-journal. This scheduling preserves outputs and does not establish a completed-stop
-latency guarantee.
-
-Written observation progress stays monotonic across delayed file notifications.
-Private mapping snapshots share the media snapshot isolation instead of rewriting
-the growing journal; unchanged operands need no new snapshot. Private encoder
-backpressure reports its full-scan fallback through operational stderr.
-The opt-in [stop-scale consumer](Tests/ScreenRecorderCaptureTests/SelectedCaptureStopScale.swift)
-observes only its newly owned camera readers, records their exact ranges and keeps
-bounded unverified views for failure diagnosis. Its opt-in retained-camera consumer
-isolates final publication on a fresh closed-source clone; that measures the proof
-path and cannot establish live input drain or an app shutdown deadline.
-Prerecorded pacing starts at its
-source origin, so startup does not repay time as a callback burst.
-
-The returned camera outcome describes an independent source directory and its own
-verified video support; it never becomes another screen/audio track. Publication
-pins complete raw/observation bytes and preserves native picture presentation,
-positive start, shared pause removal and the physical terminal bound. A successful
-camera publication is verified again when another source still needs retry;
-missing/conflicting camera media remains terminal. The [21b evidence](../../specs/done/agent-editing/assets/21b-camera-source-publication/README.md)
-records the controlled scope.
-
-Read-only admission uses that same camera verifier on the caller's immutable
-canonical descriptor. A local same-byte mapping snapshot and receipt retain
-complete picture identity and exact native support after the original raw inputs
-disappear. The receipt's pre-terminal journal prefix binds source identity, shared
-origin and pauses; it permits later terminal appends and does not attest their
-payload. Complete journal retention belongs to source admission. Historical
-unbound receipts without their original digest timescale require actual raw
-authority and cannot silently become portable proof. [21d evidence](../../specs/done/agent-editing/assets/21d-captured-source-adoption/README.md)
-separates that boundary from supplied production bindings and future service
-capture allocation. Public device acquisition remains separate work.
-
-## Capture timing
-
-All delivered tracks use the ScreenCaptureKit host timestamp domain. The first complete video
-sample establishes source zero, and samples before it are omitted. Pauses remove real elapsed time
-from every track, including late samples delivered after resume; an audio buffer that intersects a
-pause boundary is omitted rather than letting speech recorded during the pause through. Omission is
-counted separately from dropped samples: dropped means writer backpressure, and intentional pause
-omission is not an encoder stall.
-
-Video is H.264 in MOV at a microsecond timescale; narration and system audio are separate float PCM
-MOV files. System audio is requested at 48 kHz stereo from a separate whole-display stream, so
-selecting a window cannot narrow audio to that application, and it excludes the recorder. The
-microphone keeps its device rate and channels. Nothing is resampled or mixed at capture. A
-submitted buffer can extend past the clipped file end, so submitted-sample statistics are not
-decoded availability.
-
-Missing requested tracks and stream failures return an interrupted take, never complete media. A
-healthy unchanged tail holds the last available frame through the stop boundary and reports how
-long it held. Stopping routinely lands while the encoder drains, so the held frame waits for the
-writer input to accept it rather than reading backpressure as a broken take; only a writer that
-stopped accepting samples, or never drains within a bounded wait, truncates the take. An
-interruption stops at the last available sample rather than inventing tail media.
-
-Hidden and minimized windows remain valid sources, and ScreenCaptureKit can deliver blank frames
-for them; these are preserved as delivered, not classified by pixel color. A closed window its
-application retains can be indistinguishable from a hidden one, so destruction is taken only from
-ScreenCaptureKit's delegate signal. On that signal, or any stream error, the native owner seals the
-clock and writers immediately and notifies `onInterruption`; the app's capture controller ends the
-take through the same joined stop or discard, so interruption never owns a second teardown. The
-take's identity comes from the service: `sourceId` is what the journal header records, while the
-session's own generation guard keeps a superseded session from interrupting a later one.
-
-The app never requests permission or starts capture at ordinary launch. Preflight only reads
-authorization; an explicit permission action invokes the macOS authorization API without starting
-capture, so a fresh install can request access before System Settings shows the toggle. Denials
-still require the user's decision in System Settings.
-
-Writers emit movie fragments while recording, so a crashed process leaves a decodable prefix. The
-first fragment bounds the vulnerable opening; a crash before it can leave no usable video. These
-are process-crash guarantees, not power-loss durability.
-
-## Acquisition journal
-
-[CaptureJournal](Sources/ScreenRecorderCapture/CaptureJournal.swift) owns ordered acquisition
-evidence beside the media. Each event's name, payload type, validation and durability live in one
-place, so the writer and every reader decode the same record the same way. Boundaries a recovery
-needs to place the take in time are synchronized when written; per-buffer audio ranges, geometry
-and cursor batches are ordinary writes whose file order still puts an epoch before the samples
-citing it. Reported device transitions are records too, so the sequence a live report carries is
-the sequence the file holds.
-
-Records are numbered from one without gaps, and a record that could not be encoded or written does
-not consume a number. A reader keeps the valid prefix and reports where the file stopped being
-believable, in one of two ways that mean different things:
-
-- `incompleteTail`: the last line has no terminator. That is a crash boundary.
-- `invalidAtSequence`: a record will not decode through its written type, breaks the numbering, or
-  is an unterminated run longer than any record the writer produces. That is corruption, and
-  nothing after it is believed.
-
-A clean ending alone does not mean a take finished. `inspect` accumulates completed pauses and
-audio ranges for recovery; `streamEvidence` delivers them through callbacks without retaining
-timing arrays, because a take samples the pointer sixty times a second.
-
-## Cursor sampling and geometry
-
-[CursorGeometry](Sources/ScreenRecorderCapture/CursorGeometry.swift) owns pointer sampling and the
-source transform. The sampler reads `NSEvent` pointer state on its own queue at a 60 Hz cadence only
-while a take records: no event tap, keyboard observation or Accessibility authorization. Its
-handoff to the capture queue is bounded, so a queue that falls behind refuses and counts readings
-instead of queueing without limit, and missed ticks are reported, never filled with movement nobody
-observed.
-
-AppKit reports the pointer in a bottom-left space anchored to the display at the global origin,
-which is not necessarily `NSScreen.main` (that follows the key window). Readings convert through
-that display's height, and each take journals the height whenever it changes, so a consumer checks
-a reading against the height the recording used rather than today's display arrangement.
-
-Geometry comes from each delivered frame's own `SCStreamFrameInfo`, including idle and blank frames
-whose pixels are never written. `contentRect` places content in the surface in points,
-`scaleFactor` converts surface points to output pixels, and `contentScale` is the source-point to
-surface-point ratio: a window that grows past the surface is letterboxed rather than rescaling the
-take, so fixed output dimensions do not imply fixed source geometry. Measured on this host, a
-window's `screenRect` is its frame in global display points with a top-left origin, including on a
-display whose global origin is negative. Display and region captures fall back to the request's own
-global rect, a fallback not yet measured against a display or region take; if such a frame does
-report a screen rect, the frame wins.
-
-Geometry that differs from the current one opens the next epoch, and every sample cites the epoch
-it was projected through. A reading is projected through the geometry in effect when it was taken,
-not when it was written: frames report placement milliseconds after the moment they describe, and
-the sampler enqueues independently of frames, so only a reading the track has been handed lets
-earlier geometry be forgotten. Retention is also bounded by count, because a paused cadence stops
-that watermark. A sample no retained geometry covers cites epoch 0. Output-pixel coordinates are
-never clamped: a point outside the capture keeps its projected coordinates and is marked `outside`.
-Eligibility means the point falls inside captured content, not that macOS drew a pointer;
-`CGCursorIsVisible` has been unsupported since 10.9, and this recorder never renders a cursor into
-the source.
-
-The capture probe and lab drive these owners against real captures; their request shapes live in
-[CaptureProbe](../../apps/macos/Sources/ScreenRecorder/CaptureProbe.swift) and
-[CursorGeometryProbe](../../apps/macos/Sources/ScreenRecorder/CursorGeometryProbe.swift), run through
-`scripts/native-capture-probe.mjs` and `bun run lab:cursor-geometry`. A successful compile or clock
-test is no evidence of microphone, source-loss, drift or framing behavior; those need real captures
-and decoded or auditioned media. The lab's pointer hot-spot conversion reads the journaled
-`scaleFactor * contentScale`, so a change to how `CaptureGeometry` scales must be made there too.
-
-## The worker boundary
-
-The worker is owned work, not a service. Each request line is decoded strictly: a request type's
-`Codable` shape is the single statement of its fields, and a field it does not read is a caller
-mistake at any depth. Every failure is a `NativeFailure` whose `retryable` says whether the identical
-request can succeed later. A changed identity, a malformed request or an occupied output cannot; a
-decode failure or a transient filesystem error can. The operation table in
-[Wire](Sources/ScreenRecorderWire/Wire.swift) names, per operation, only what an unrecognised
-platform error means.
-
-[ParentLifetime](Sources/ScreenRecorderNative/ParentLifetime.swift) binds the worker to the process
-that spawned it. End of input cannot carry that meaning, because a runner writes one request and
-closes stdin immediately. macOS announces a parent's exit through a Dispatch process source on its
-own queue, and the parent is read again once the watch is registered: an orphan is reparented to
-launchd without any announcement, and only that second reading distinguishes a recycled process ID
-from a living owner. Abandoned work exits 75, meaning the owner disappeared rather than the request
-failed. The worker never cancels in-process work; the service cancels by killing the process.
-
-## Descriptors, identities and publication
-
-Storage work is contained by descriptors, never by re-resolving paths. The service resolves and
-pins what an operation may touch, then hands it over as inherited descriptors in a fixed order each
-operation defines, beginning at fd 3. A pinned directory or file carries a
-`dev`/`ino` identity as decimal strings; the worker checks the descriptor still names it, and walks
-beneath it only with `openat` and no-follow flags. Exclusive ownership is a `flock` on the shared
-open-file description, so a lock taken by the parent's descriptor stays held while any inherited
-copy lives, and a crashed worker cannot release what its owner still holds.
-[Descriptors](Sources/ScreenRecorderWire/Descriptors.swift) owns these primitives.
-
-A new output is either a caller-created writable handle (`/dev/fd/N`), filled in place, or a path
-that must not exist yet. [NewFile](Sources/ScreenRecorderMedia/OutputFile.swift) assembles a path
-output in a private staging directory beside it and publishes it with one `link`, which never
-replaces a name that appeared meanwhile; nothing partial is ever visible at the path, and a path
-output can never alias a source. Held directory identity keeps publication and explicit
-discard on the staging this attempt created, even when its name is replaced.
-Discard searches only the retained parent for a renamed owned entry. Releasing
-the owner closes handles without deleting candidates retained for recovery.
-[DirectoryContents](Sources/ScreenRecorderMedia/DirectoryContents.swift) owns the
-shared descriptor-relative scan and removal used by media and storage.
-A worker killed mid-operation can leave that staging directory
-behind, so outputs belong in an attempt directory whose owner removes it.
-
-Export publication to a user's destination is a separate protocol with its own durable receipt:
-[PublicationOperation](Sources/ScreenRecorderWire/PublicationOperation.swift) keeps a completed
-staging link until its caller durably acknowledges the outcome, and reconciles a destination by
-inode and digest after a restart. ZIP reading and writing bind the OS libarchive through
-[CLibArchive](Sources/CLibArchive/README.md) and read only bytes whose size and file version match
-what the service admitted.
-
-## Recovery and source evidence
-
-[MediaRecovery](Sources/ScreenRecorderWire/MediaRecovery.swift) recovers each source independently
-through its existing media publishers; reconciling the library belongs to the service. Video determines the recovered
-take extent, optional audio never shortens it, and missing media keeps an explicit per-track
-failure. Audio the journal header never requested is an allowed absence; without a header an
-absence stays unexplained.
-
-AVFoundation can return silence for empty audio edits and unavailable durations for decoded video,
-so recovery excludes empty segments and clips to the track's media range. A take's last frame has no
-successor to bound it, so its duration comes only from a sample cursor that states it, positioned
-through the media-time mapping because readers report asset time while cursors navigate media
-time. Without that cursor the interval stops at the last decoded timestamp and the track fails with
-`UNKNOWN_TAIL`: the gap to the previous sample is not evidence. Audio also intersects the journal's
-acquisition ranges, so decoder padding never counts as recorded speech. Adjacent ranges coalesce
-across a one-microsecond seam, the rounding contiguous samples can acquire; larger holes stay gaps.
-
-[CaptureSourcePublication](Sources/ScreenRecorderCapture/CaptureSourcePublication.swift) owns
-captured-source authority. Explicit allocated-source recovery verifies support under the existing
-exclusive journal lease and preserves the original journal, including unvalidated bytes. Its
-private receipt records recovery provenance separately from ordinary completion; a positive media
-duration alone supplies neither authority nor a fabricated completion record. Primary source
-snapshots preserve their entire immutable identity while the parser's trusted prefix remains a
-separate fact.
-
-Capture admission verifies the complete staged authority against the expected public source,
-frozen receipt hash, whole journal and pinned canonical descriptors. It never reopens a donor
-journal or substitutes a live path for a staged member. The verified authority fact is transient;
-generic normalized evidence and portable acquisitions continue carrying the original journal's
-completion and integrity disposition.
-
-[SourceEvidenceExport](Sources/ScreenRecorderWire/SourceEvidenceExport.swift) normalizes a finalized
-or recovered journal into JSONL outside the source directory, streaming without retaining cursor
-history. Cursor samples stay observations in source time with geometry and display-space records
-in journal order; nothing is recalculated and no gesture is inferred. File order is observation
-order per record type, not global source-time order, so consumers index the explicit timestamps.
-Its receipt echoes the requested locator only after proving it names the created inode, and keeps
-the journal's integrity markers: `finished` is the journal's claim, not a new validation of media.
-
-## Frames, renders and audio
-
-Source reads address one admitted stream in its original clock. The decoder resolves the
-physical sample supporting that instant and preserves its exact native timestamp; acquisition
-masks can exclude support but cannot create it. Clean observations reuse held pixels while
-retaining each request's own time. Frame selection, geometry, fades and mixing in an authored
-output belong to the composition compiler and its explicit processing graph.
-
-Pointer evidence is prepared separately from that graph. Native drawing consumes only the
-supplied runs, draws nothing across missing observations and measures coordinates in half-open
-source pixels. A coordinate equal to the source width lies outside the raster. Presentation
-evidence walks bounded sequential decoding and publishes exact support intervals as JSONL;
-thumbnail retention is bounded to the current sample and clears on physical empty edits.
-
-Selected-source audio reads only where caller-supplied support and occupied container segments
-agree. Other regions remain explicitly unavailable and silent. A source window preserves its
-native support origin; selected transcription spans retain their cumulative sample clock and
-join conditioning through [the source stream](Sources/ScreenRecorderAudio/AudioPCMStream.swift).
-That conditioning belongs to speech input, independently of authored composition processing.
-
-Composition audio consumes the composition compiler's independent sample schedule
-and ordered processing tree. Its source decoder selects an actual admitted stream;
-it does not assign recording roles. Parents process summed child PCM, and empty or
-bypassed stacks add no gain policy or join fades. Unavailable regions remain
-explicit in the receipt. The [execution evidence](../../specs/done/agent-editing/assets/08-audio/README.md)
-owns current conformance and the bounded source-resampling context decision; this
-native boundary does not itself make public rendering ready.
-
-## Speech
-
-**ScreenRecorderSpeech** is the only target that links FluidAudio, with its traits disabled, and
-only the worker reaches it. It transcribes each readable selected-source interval on its own, through
-the same audio stream owner, so unavailable time is never heard as silence and every word maps back
-into the interval it came from. The request pins every model file by size and digest, and nothing
-loads until the directory holds exactly those files. FluidAudio would purge and re-download a model
-that fails to load, so the worker runs it offline and a failure is only ever reported. Core ML
-prints diagnostics to standard output, so the response channel is diverted while the engine runs.
-
-Words are grouped from the engine's tokens exactly as the evaluated FluidAudio CLI groups them, so
-the worker and that CLI can still be compared token for token. A word's _time_, though, is the
-extent of its tokens that carry speech, not the span the engine gives it: this model ends a
-sentence with a punctuation token of its own and places it where it decided the sentence was over,
-which on measured narration is up to a second after the last sound. The raw record keeps both, and
-everything downstream — cuts, excerpts, frame requests — is aimed by the spoken extent.
-
-Media probing describes original bytes without normalization. Stream bounds use
-one shared presentation origin and retain empty edits separately; compressed
-packet timestamps are not interchangeable with presented sample times. The probe
-uses the media target's existing edit-list mapping and keeps only timing summaries,
-not an in-memory timestamp for every frame. Decodability metadata remains a platform
-capability report; successful import/export needs its own actual decode checks.
-
-Composition movie assembly binds both compiler planes once. The existing H.264
-renderer feeds the existing mux, and the bounded composition PCM source feeds
-AAC directly; WAVE export consumes the same source. Window sample positions are
-rebased only at this consumption boundary. Exact movie and edit-list clocks remain
-authoritative when external tools report AAC duration rounded to native samples. A
-floored PCM quota can end less than one sample before the requested picture interval.
-[MovieAudioTail](Sources/ScreenRecorderWire/MovieAudioTail.swift) declares that
-remaining support as an empty audio edit, without generating PCM or changing encoded
-packets. It finalizes the writer-bound staging inode before publication, preserves media
-offsets, and refuses unsupported or ambiguous movie headers. Its metadata bound keeps
-finalization independent of movie payload size; cancellation or refusal discards the attempt.
-See [native assembly evidence](../../specs/done/agent-editing/assets/09-assembly/README.md)
-for verified behavior and remaining public integration gates.
-
-Standalone audio encoding consumes that completed project PCM through the same
-finite conversion owner. Its audio-only ISO MPEG-4 writer compensates AAC priming
-with an edit list; no picture stream or video encoder is required. Codec packet
-padding is separate from authored content length, and lossless WAV parity does
-not transfer to AAC. The [standalone audio evidence](../../specs/done/agent-editing/assets/09c-native-audio-file/README.md)
-records tested renditions, endpoint distortion and source-preserving refusal.
-
-The audio target directly links the [fixed RNNoise dependency](../denoise/README.md).
-Its verified local model preparation is an explicit native-build prerequisite;
-the app build checks it before invoking Swift. Runtime processing never downloads
-or prepares weights.
-
-### Finite selected audio
-
-`media.convertSelectedAudio` converts a completed selected Float32 WAV through
-[SelectedAudioConversion](Sources/ScreenRecorderAudio/SelectedAudioConversion.swift).
-The input's validated frame count owns filter support; the separately floored output
-quota owns publication length. Converter phase starts at selected frame zero and
-continues across delivery blocks. Existing source/composition windows retain their
-own support and phase policies.
-
-Channel mapping follows rate conversion: stereo-to-mono averages in Double and
-rounds once to Float32, mono-to-stereo duplicates, and matching channel counts
-retain numerical PCM. Non-finite output is refused; no clipping or normalization
-is applied. The shared platform converter may normalize signed zero. Complete
-canonical-file byte preservation belongs to the caller's verified reuse/copy path.
-Selected silence may receive filter contributions from adjacent selected samples;
-conversion never re-applies a contributor's missing-source mask to already mixed
-PCM. ASR conditioning remains separate and unchanged.
+The [verification guide](../../packages/test-harness/README.md) locates independent
+references, platform reproductions and retained acceptance limits. Compile success
+cannot establish physical device behavior, framing, synchronization or listening.

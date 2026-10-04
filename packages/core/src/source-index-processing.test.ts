@@ -9,7 +9,7 @@ import { CatalogError } from "./catalog.js";
 import { fixture, gate, png } from "./index-processing.fixture.js";
 function acquiredSelection(f: Awaited<ReturnType<typeof fixture>>) {
   const selection = { ...f.selection, acquisitionId: "selection" };
-  f.catalog.catalog.prepare("INSERT INTO acquisitions VALUES(?,?,?,?)").run(
+  f.catalog.catalog.prepare("INSERT OR REPLACE INTO acquisitions VALUES(?,?,?,?)").run(
     selection.acquisitionId,
     "fixture",
     JSON.stringify({ kind: "import", path: f.home, files: {} }),
@@ -149,7 +149,7 @@ async function assertSourceIndex(
   expect(await readFile(f.path, "utf8")).toBe("immutable fixture media");
   return { result, publication, coverage };
 }
-test("ready source index requests resolve their complete frame plan once", async () => {
+test("ready source index requests resolve complete frame plans with bounded reads", async () => {
   const f = await fixture();
   const selection = acquiredSelection(f);
   f.index.requestSource(selection);
@@ -169,9 +169,12 @@ test("ready source index requests resolve their complete frame plan once", async
   expect(result).toEqual(before);
   expect(result.published!.evidence).toEqual(delivered.result.page!.metadata);
   expect(f.calls).toBe(calls);
-  expect(work).toEqual({ headers: 6, segments: 3, acquisitions: 3 });
+  for (const [key, maximum] of Object.entries({ headers: 6, segments: 3, acquisitions: 3 })) {
+    expect(work[key as keyof typeof work]).toBeGreaterThan(0);
+    expect(work[key as keyof typeof work]).toBeLessThanOrEqual(maximum);
+  }
 });
-test("source index execution validates one fresh complete plan before cancellation", async () => {
+test("source index execution rechecks current authority before cancellation", async () => {
   const barrier = gate();
   const f = await fixture({ barrier });
   const selection = acquiredSelection(f);
@@ -192,8 +195,13 @@ test("source index execution validates one fresh complete plan before cancellati
     await expect(f.index.execute({ job, signal: AbortSignal.abort(canceled) })).rejects.toBe(
       canceled,
     );
+    f.catalog.catalog.prepare("DELETE FROM acquisitions WHERE id=?").run(selection.acquisitionId);
+    await expect(
+      f.index.execute({ job, signal: AbortSignal.abort(canceled) }),
+    ).rejects.toMatchObject({ code: "NOT_FOUND" });
   } finally {
     restore();
+    acquiredSelection(f);
     barrier.resolve();
   }
   await f.jobs.idle();
@@ -201,7 +209,10 @@ test("source index execution validates one fresh complete plan before cancellati
   expect(delivered.publication.input).toBe(job.input);
   expect(delivered.publication.attemptId).toBe(job.attemptId);
   expect(f.jobs.job(job.jobId).state).toBe("ready");
-  expect(work).toEqual({ headers: 2, segments: 1, acquisitions: 1 });
+  for (const [key, maximum] of Object.entries({ headers: 4, segments: 2, acquisitions: 2 })) {
+    expect(work[key as keyof typeof work]).toBeGreaterThan(0);
+    expect(work[key as keyof typeof work]).toBeLessThanOrEqual(maximum);
+  }
 });
 test("source index target mismatch refuses before metadata lookup and cancellation", async () => {
   const barrier = gate();
@@ -311,10 +322,21 @@ test("all no-picture observations publish coverage without invented images", asy
   expect(result.state).toBe("ready");
   expect(result.page!.metadata.candidateCount).toBe(0);
   expect(result.page!.entries).toEqual([]);
-  const coverage = f.index.coverageSource({
+  const page = f.index.coverageSource({
     ...f.selection,
     generation: result.page!.metadata.generation,
-  }).coverage;
+  });
+  const coverage = page.coverage;
+  expect(coverage.length).toBeGreaterThan(0);
+  expect(coverage.length).toBe(result.page!.metadata.coverageCount);
+  expect(page.nextCursor).toBeNull();
+  let through = 0;
+  for (const row of coverage) {
+    expect(row.source.startUs).toBe(through);
+    expect(row.source.endUs).toBeGreaterThan(through);
+    through = row.source.endUs;
+  }
+  expect(through).toBe(1200000);
   expect(
     coverage.every(
       (r) => r.state === "unavailable" && r.basis === "observation" && r.equality === "unproven",

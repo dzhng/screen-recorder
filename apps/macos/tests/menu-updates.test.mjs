@@ -1,9 +1,9 @@
 import assert from "node:assert/strict";
 import { execFileSync } from "node:child_process";
-import { mkdtempSync, readdirSync, rmSync, writeFileSync } from "node:fs";
+import { mkdtempSync, rmSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
-import { fileURLToPath } from "node:url";
+import { compileControlsCheck } from "./fixtures/swift-controls.mjs";
 import { test } from "node:test";
 
 // Compile the real adapter against the real controls module. This exercises NSMenu identity,
@@ -13,29 +13,10 @@ test(
   { timeout: 60_000 },
   () => {
     const scratch = mkdtempSync(join(tmpdir(), "screenrec-menu-update-"));
-    const sources = fileURLToPath(new URL("../Sources/", import.meta.url));
     try {
-      const controls = join(sources, "ScreenRecorderControls");
-      execFileSync(
-        "swiftc",
-        [
-          "-emit-library",
-          "-emit-module",
-          "-module-name",
-          "ScreenRecorderControls",
-          "-emit-module-path",
-          join(scratch, "ScreenRecorderControls.swiftmodule"),
-          "-o",
-          join(scratch, "libScreenRecorderControls.dylib"),
-          ...readdirSync(controls)
-            .filter((name) => name.endsWith(".swift"))
-            .map((name) => join(controls, name)),
-        ],
-        { timeout: 30_000, stdio: "pipe" },
-      );
-      const main = join(scratch, "main.swift");
-      writeFileSync(
-        main,
+      const executable = compileControlsCheck(
+        scratch,
+        ["StatusMenu"],
         `
 import AppKit
 import ScreenRecorderControls
@@ -78,27 +59,6 @@ print("PASS native menu identity follows explicit recording actions")
 }
 }
 `,
-      );
-      const executable = join(scratch, "menu-test");
-      execFileSync(
-        "swiftc",
-        [
-          "-parse-as-library",
-          "-I",
-          scratch,
-          "-L",
-          scratch,
-          "-lScreenRecorderControls",
-          "-Xlinker",
-          "-rpath",
-          "-Xlinker",
-          scratch,
-          join(sources, "ScreenRecorder", "StatusMenu.swift"),
-          main,
-          "-o",
-          executable,
-        ],
-        { timeout: 30_000, stdio: "pipe" },
       );
       assert.match(
         execFileSync(executable, [], { encoding: "utf8", timeout: 5_000 }),

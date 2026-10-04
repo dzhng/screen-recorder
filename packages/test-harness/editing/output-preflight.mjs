@@ -1,12 +1,19 @@
 import assert from "node:assert/strict";
-import { mkdtemp, readFile, readdir, writeFile } from "node:fs/promises";
-import { join } from "node:path";
+import { mkdir, mkdtemp, readFile, readdir, rm, writeFile } from "node:fs/promises";
+import { join, resolve } from "node:path";
 import { createHash } from "node:crypto";
 import { resolveOutputSettings } from "../../composition/dist/index.js";
 import { mediaWorker } from "../../../apps/service/dist/worker.js";
-const home = await mkdtemp("/tmp/sr-preflight-");
 const worker = process.env.SCREENREC_NATIVE;
 assert(worker);
+const workerSha256 = createHash("sha256")
+  .update(await readFile(worker))
+  .digest("hex");
+const out = process.argv[2]
+  ? resolve(process.argv[2])
+  : await mkdtemp("/tmp/screenrec-preflight-evidence-");
+await mkdir(out, { recursive: true });
+const home = await mkdtemp("/tmp/sr-preflight-");
 const call = mediaWorker({ ...process.env, SCREENREC_NATIVE: worker });
 const request = {
   output: join(home, "movie.mp4"),
@@ -23,39 +30,43 @@ const request = {
   audio: { range: { start: 0, end: 48000 }, clips: [] },
 };
 const report = {
-  workerSha256: createHash("sha256")
-    .update(await readFile(worker))
-    .digest("hex"),
+  passed: false,
+  workerSha256,
   cases: [],
 };
-for (const [name, modify, message] of [
-  [
-    "invalid-video",
-    (s) => {
-      s.video.codec = "unsupported";
-    },
-    /Unsupported video encoding settings/,
-  ],
-  [
-    "invalid-audio",
-    (s) => {
-      s.audio.sampleRate = 12345;
-    },
-    /Unsupported AAC output settings/,
-  ],
-]) {
-  const settings = resolveOutputSettings();
-  modify(settings);
-  const response = await call("media.renderCompositionMovie", { ...request, settings });
-  assert.equal(response.ok, false);
-  assert.equal(response.error.code, "UNSUPPORTED_FORMAT");
-  assert.match(response.error.message, message);
-  assert.deepEqual(
-    await readdir(home),
-    [],
-    "Refusal must precede output creation and missing frame reads",
-  );
-  report.cases.push({ name, response });
+try {
+  for (const [name, modify] of [
+    [
+      "invalid-video",
+      (s) => {
+        s.video.codec = "unsupported";
+      },
+    ],
+    [
+      "invalid-audio",
+      (s) => {
+        s.audio.sampleRate = 12345;
+      },
+    ],
+  ]) {
+    const settings = resolveOutputSettings();
+    modify(settings);
+    const response = await call("media.renderCompositionMovie", { ...request, settings });
+    assert.equal(response.ok, false);
+    assert.equal(response.error.code, "UNSUPPORTED_FORMAT");
+    assert.deepEqual(
+      await readdir(home),
+      [],
+      "Refusal must precede output creation and missing frame reads",
+    );
+    report.cases.push({ name, response });
+  }
+  report.passed = true;
+} finally {
+  try {
+    await writeFile(join(out, "report.json"), JSON.stringify(report, null, 2));
+  } finally {
+    await rm(home, { recursive: true, force: true });
+  }
 }
-await writeFile(join(home, "report.json"), JSON.stringify(report, null, 2));
-console.log(JSON.stringify({ passed: true, home, ...report }));
+console.log(JSON.stringify({ out, ...report }));

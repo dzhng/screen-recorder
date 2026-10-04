@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import { spawn } from "node:child_process";
 import { createInterface } from "node:readline";
-import { cp, mkdir, mkdtemp, readFile, writeFile } from "node:fs/promises";
+import { cp, mkdir, mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
 import { join } from "node:path";
 import { randomUUID } from "node:crypto";
 import { JourneyService, poll, hash, root } from "./source-evidence-fixture.mjs";
@@ -46,83 +46,91 @@ if (process.send) {
 } else {
   assert.ok(process.argv[2], "Pass the output of SCREENREC_NATIVE_PUBLICATION_OUTPUT");
   const output = await mkdtemp("/tmp/screenrec-terminal-boundaries-");
+  const scratch = await mkdtemp("/tmp/screenrec-terminal-library-");
   const report = { passed: false, cases: [], trace: [] };
-  for (const boundary of ["absent-terminal", "torn-terminal"]) {
-    const donor = join(process.argv[2], boundary);
-    const journal = await readFile(join(donor, "capture.journal.jsonl"));
-    const header = JSON.parse(journal.toString().split("\n")[0]).data;
-    const home = join(output, boundary);
-    await mkdir(home, { mode: 0o700 });
-    let ids = 0;
-    await mkdir(join(home, "library"), { recursive: true, mode: 0o700 });
-    const store = new CaptureStore(join(home, "library", "catalog.sqlite"), {
-      now: () => new Date().toISOString(),
-      newId: () => (++ids === 2 ? header.sessionID : randomUUID()),
-    });
-    const recording = store.allocate().recording;
-    store.close();
-    const source = join(home, "library", "recordings", recording.recordingId, "source");
-    await cp(donor, source, { recursive: true });
-    const names = [
-      "capture.journal.jsonl",
-      "video.mov",
-      "narration.mov",
-      "system.mov",
-      "narration.publication.json",
-      "system.publication.json",
-    ];
-    const digests = async () =>
-      Object.fromEntries(
-        await Promise.all(
-          names.map(async (name) => [name, hash(await readFile(join(source, name)))]),
-        ),
-      );
-    const before = await digests();
-    const service = new JourneyService(home, report, undefined, new URL(import.meta.url));
-    try {
-      await service.start();
-      const settled = await poll(
-        () => service.call("recording.get", { recordingId: recording.recordingId }),
-        (value) => value.state === "interrupted",
-        "terminal recovery",
-      );
-      assert.equal(settled.interruptionReason, "CAPTURE_INTERRUPTED");
-      assert.equal(settled.interruptionMessage, null);
-      assert.ok(settled.sourceDurationUs > 0);
-      const admitted = await poll(
-        () => service.call("recording.get", { recordingId: recording.recordingId }),
-        (value) =>
-          value.sourceAdmissions.some(
-            (source) => source.kind === "primary" && source.job?.state === "ready",
+  try {
+    for (const boundary of ["absent-terminal", "torn-terminal"]) {
+      const donor = join(process.argv[2], boundary);
+      const journal = await readFile(join(donor, "capture.journal.jsonl"));
+      const header = JSON.parse(journal.toString().split("\n")[0]).data;
+      const home = join(scratch, boundary);
+      await mkdir(home, { mode: 0o700 });
+      let ids = 0;
+      await mkdir(join(home, "library"), { recursive: true, mode: 0o700 });
+      const store = new CaptureStore(join(home, "library", "catalog.sqlite"), {
+        now: () => new Date().toISOString(),
+        newId: () => (++ids === 2 ? header.sessionID : randomUUID()),
+      });
+      const recording = store.allocate().recording;
+      store.close();
+      const source = join(home, "library", "recordings", recording.recordingId, "source");
+      await cp(donor, source, { recursive: true });
+      const names = [
+        "capture.journal.jsonl",
+        "video.mov",
+        "narration.mov",
+        "system.mov",
+        "narration.publication.json",
+        "system.publication.json",
+      ];
+      const digests = async () =>
+        Object.fromEntries(
+          await Promise.all(
+            names.map(async (name) => [name, hash(await readFile(join(source, name)))]),
           ),
-        "capture source admission",
-      );
-      const acquisitionId = admitted.sourceAdmissions.find(
-        (source) => source.kind === "primary",
-      ).acquisitionId;
-      const acquisition = await service.call("acquisition.get", { acquisitionId });
-      const receipt = acquisition.evidence.receipt;
-      assert.equal(receipt.finished, false);
-      assert.equal(receipt.completion ?? null, null);
-      assert.equal(receipt.incompleteTail, boundary === "torn-terminal");
-      assert.equal(receipt.invalidAtSequence ?? null, null);
-      await service.stop();
-      await service.start();
-      assert.deepEqual(
-        await service.call(
-          "recording.get",
-          { recordingId: recording.recordingId },
-          { transport: "mcp" },
-        ),
-        admitted,
-      );
-      assert.deepEqual(await digests(), before);
-      report.cases.push({ boundary, settled: admitted, acquisition, hashes: before });
+        );
+      const before = await digests();
+      const service = new JourneyService(home, report, undefined, new URL(import.meta.url));
+      try {
+        await service.start();
+        const settled = await poll(
+          () => service.call("recording.get", { recordingId: recording.recordingId }),
+          (value) => value.state === "interrupted",
+          "terminal recovery",
+        );
+        assert.equal(settled.interruptionReason, "CAPTURE_INTERRUPTED");
+        assert.equal(settled.interruptionMessage, null);
+        assert.ok(settled.sourceDurationUs > 0);
+        const admitted = await poll(
+          () => service.call("recording.get", { recordingId: recording.recordingId }),
+          (value) =>
+            value.sourceAdmissions.some(
+              (source) => source.kind === "primary" && source.job?.state === "ready",
+            ),
+          "capture source admission",
+        );
+        const acquisitionId = admitted.sourceAdmissions.find(
+          (source) => source.kind === "primary",
+        ).acquisitionId;
+        const acquisition = await service.call("acquisition.get", { acquisitionId });
+        const receipt = acquisition.evidence.receipt;
+        assert.equal(receipt.finished, false);
+        assert.equal(receipt.completion ?? null, null);
+        assert.equal(receipt.incompleteTail, boundary === "torn-terminal");
+        assert.equal(receipt.invalidAtSequence ?? null, null);
+        await service.stop();
+        await service.start();
+        assert.deepEqual(
+          await service.call(
+            "recording.get",
+            { recordingId: recording.recordingId },
+            { transport: "mcp" },
+          ),
+          admitted,
+        );
+        assert.deepEqual(await digests(), before);
+        report.cases.push({ boundary, settled: admitted, acquisition, hashes: before });
+      } finally {
+        await service.stop();
+      }
+    }
+    report.passed = true;
+  } finally {
+    try {
+      await writeFile(join(output, "report.json"), JSON.stringify(report, null, 2));
     } finally {
-      await service.stop();
+      await rm(scratch, { recursive: true, force: true });
     }
   }
-  report.passed = true;
-  await writeFile(join(output, "report.json"), JSON.stringify(report, null, 2));
   console.log(output);
 }

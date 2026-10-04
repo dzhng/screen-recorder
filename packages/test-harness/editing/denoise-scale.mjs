@@ -18,6 +18,7 @@ import { JourneyService, hash, run } from "./source-evidence-fixture.mjs";
 import { referenceLanes, compareWavePCM } from "./denoise-pcm.mjs";
 import { writeSourceWave, sourcePeriod, waveHeader } from "./audio-project-fixture.mjs";
 
+const priorUnavailableOperations = process.env.SCREENREC_TEST_UNAVAILABLE_OPERATIONS;
 const { values } = parseArgs({
   options: {
     out: { type: "string" },
@@ -268,7 +269,11 @@ try {
   report.failure = { message: error.message, stack: error.stack };
   throw error;
 } finally {
+  if (priorUnavailableOperations === undefined)
+    delete process.env.SCREENREC_TEST_UNAVAILABLE_OPERATIONS;
+  else process.env.SCREENREC_TEST_UNAVAILABLE_OPERATIONS = priorUnavailableOperations;
   clearInterval(observer);
+  while (sampling) await new Promise((resolve) => setImmediate(resolve));
   let shutdownFailure;
   try {
     await service.stop();
@@ -281,9 +286,11 @@ try {
   report.observations.sampledServicePeakRSS = peakServiceRSS;
   report.observations.sampledPeakWorkspaceBytes = peakWorkspaceBytes;
 
-  if (!report.passed) report.failureHome = home;
-  await writeFile(join(out, "report.json"), JSON.stringify(report, null, 2));
-  if (report.passed) await rm(home, { recursive: true, force: true });
+  try {
+    await writeFile(join(out, "report.json"), JSON.stringify(report, null, 2));
+  } finally {
+    await rm(home, { recursive: true, force: true });
+  }
   if (shutdownFailure && !failure) throw shutdownFailure;
 }
 console.log(JSON.stringify(report.observations, null, 2));

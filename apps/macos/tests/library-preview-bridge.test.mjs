@@ -164,7 +164,6 @@ child.on('close',(code,signal)=>{log({event:'close',operation,pid:child.pid,code
         worker,
         node: pin(config.nodePath),
         executable: pin(executable),
-        controlsLibrary: pin(join(build, "libScreenRecorderControls.dylib")),
         sources: sources.map(pin),
         historicalPins,
         historicalProducer: JSON.parse(

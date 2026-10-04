@@ -3,11 +3,12 @@
 Implementation handoff: the [implementation spec](README.md), [contracts](contracts.md),
 and linked slices now resolve or assign gates to the technical OPEN items below.
 This map retains discovery history; its OPEN list and copyable next request are
-superseded as execution instructions. Product decisions remain authoritative.
+superseded as execution instructions. This map records the decisions at discovery; current product boundaries belong
+to the root guide rather than this historical roster.
 
 Status: historical discovery handoff. Product decisions are recorded; technical
-unknowns below describe the discovery stage. Current implementation progress and
-verification are tracked exclusively in the [main handoff](README.md#next-agent-prompt).
+unknowns below describe the discovery stage. Current ownership is described by the [root guide](../../README.md);
+[the recording record](README.md) locates the original acceptance evidence.
 
 ## 1. Known knowns
 

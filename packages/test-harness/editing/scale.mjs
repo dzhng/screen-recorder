@@ -281,8 +281,11 @@ try {
   throw error;
 } finally {
   clearInterval(timer);
-  await service.stop();
-  await save("report.json", report);
-  if (queryOnly) await rm(home, { recursive: true, force: true });
+  try {
+    await service.stop();
+    await save("report.json", report);
+  } finally {
+    await rm(home, { recursive: true, force: true });
+  }
 }
 console.log(out);

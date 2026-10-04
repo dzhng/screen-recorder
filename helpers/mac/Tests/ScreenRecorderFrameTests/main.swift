@@ -9,28 +9,34 @@ let evidence: URL
 if let supplied = ProcessInfo.processInfo.environment["SCREENREC_FRAME_EVIDENCE"] {
     evidence = URL(fileURLWithPath: supplied)
 } else {
-    evidence = URL(fileURLWithPath: NSTemporaryDirectory() + "screenrec-frame-tests")
-    try? FileManager.default.removeItem(at: evidence)
+    evidence = URL(fileURLWithPath: NSTemporaryDirectory() + "screenrec-frame-tests-" + UUID().uuidString)
 }
 try FileManager.default.createDirectory(at: evidence, withIntermediateDirectories: true)
+func cleanupEvidence() {
+    if ProcessInfo.processInfo.environment["SCREENREC_FRAME_EVIDENCE"] == nil {
+        try? FileManager.default.removeItem(at: evidence)
+    }
+}
+defer { cleanupEvidence() }
+func finish() -> Never { cleanupEvidence(); exit(0) }
 let images = evidence.appendingPathComponent("images")
 try FileManager.default.createDirectory(at: images, withIntermediateDirectories: true)
 
 if CommandLine.arguments.contains("--pointer-readability") {
     try await verifyCompositionPointerReadability(in: images)
-    exit(0)
+    finish()
 }
 
 try await verifyCompositionPNG(in: images)
 try await verifyCompositionSourceColors(in: images)
 try await verifyCompositionMovieTerminal(in: images)
-if CommandLine.arguments.contains("--composition-png") { exit(0) }
+if CommandLine.arguments.contains("--composition-png") { finish() }
 
 try await verifyExactPresentation(in: images)
-if CommandLine.arguments.contains("--exact-picture") { exit(0) }
+if CommandLine.arguments.contains("--exact-picture") { finish() }
 
 try await verifySourcePictures(in: images)
-if CommandLine.arguments.contains("--source-pictures") { exit(0) }
+if CommandLine.arguments.contains("--source-pictures") { finish() }
 
 try await verifyCompositionPointerReadability(in: images)
 

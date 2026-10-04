@@ -33,7 +33,7 @@ read silently rebuilds scene/index evidence or substitutes another revision.
 
 ## Generated full-context proof
 
-The optional [native lab](../../../apps/macos/tests/package-relocation.mjs) requires
+The optional [native lab](https://github.com/dzhng/screen-recorder/blob/d0b1dca7d1225728d4c6c3353ff26675e33e084f/apps/macos/tests/package-relocation.mjs) requires
 an explicit isolated app bundle. It uses production mediaWorker, source/scene
 processing and index publication; it does not launch capture devices. Its fixture
 context carries explicit source assets, normalized evidence, scene/index pages and

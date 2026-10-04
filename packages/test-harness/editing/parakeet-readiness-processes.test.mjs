@@ -5,8 +5,16 @@ import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { test } from "node:test";
 
+import { runReadinessCommand } from "./parakeet-readiness-processes.mjs";
+
 const owner = new URL("./parakeet-readiness-processes.mjs", import.meta.url).href;
-async function control(name, serviceSource, cliSource = "process.exit(7);", expectedCode = 1) {
+async function control(
+  name,
+  serviceSource,
+  cliSource = "process.exit(7);",
+  expectedCode = 1,
+  deadlineMs,
+) {
   const base = process.env.SCREENREC_READINESS_CONTROLS_OUT;
   const directory = base ? join(base, name) : await mkdtemp(join(tmpdir(), "readiness-control-"));
   await mkdir(directory, { recursive: true });
@@ -22,7 +30,7 @@ await import(pathToFileURL(process.env.SCREENREC_READINESS_CLI).href);`,
     join(directory, "driver.mjs"),
     `import {withReadinessProcesses} from ${JSON.stringify(owner)};import {writeFile} from 'node:fs/promises';
 const report={scope:'Synthetic checker failure control; no model or native operations',passed:false,processes:[]};
-try { await withReadinessProcesses({report,env:process.env,serviceObserver:${JSON.stringify(join(directory, "service.mjs"))},runtime:${JSON.stringify(directory)},observer:${JSON.stringify(join(directory, "observer.mjs"))},cliLog:${JSON.stringify(join(directory, "mcp-terminal.jsonl"))},childLog:${JSON.stringify(join(directory, "service-children.jsonl"))}},async processes=>{await processes.start();await processes.stop();report.passed=true;},async (name,value)=>writeFile(${JSON.stringify(directory)}+'/'+name,JSON.stringify(value,null,2)+'\\n')); }
+try { await withReadinessProcesses({report,env:process.env,deadlineMs:${JSON.stringify(deadlineMs)},serviceObserver:${JSON.stringify(join(directory, "service.mjs"))},runtime:${JSON.stringify(directory)},observer:${JSON.stringify(join(directory, "observer.mjs"))},cliLog:${JSON.stringify(join(directory, "mcp-terminal.jsonl"))},childLog:${JSON.stringify(join(directory, "service-children.jsonl"))}},async processes=>{await processes.start();await processes.stop();report.passed=true;},async (name,value)=>writeFile(${JSON.stringify(directory)}+'/'+name,JSON.stringify(value,null,2)+'\\n')); }
 catch(error){console.error(error.stack);process.exitCode=1;}`,
   );
   const child = spawn(process.execPath, [join(directory, "driver.mjs")], {
@@ -56,6 +64,18 @@ catch(error){console.error(error.stack);process.exitCode=1;}`,
     if (!base) await rm(directory, { recursive: true, force: true });
   }
 }
+
+test("a silent source startup reaches its deadline and joins its killed child", async () => {
+  const { report } = await control(
+    "silent-startup",
+    "process.stdin.resume();setTimeout(()=>process.exit(0),1000);",
+    undefined,
+    1,
+    100,
+  );
+  assert.match(report.error.message, /Source service startup deadline/);
+  assert.deepEqual(report.processes[0].exit, { code: null, signal: "SIGKILL" });
+});
 
 test("source exit before ready terminates and saves a failed report", async () => {
   const { report } = await control("exit-before-ready", "process.exit(0);");
@@ -105,6 +125,21 @@ const sdkServer = import.meta.resolve("@modelcontextprotocol/sdk/server/index.js
 const sdkTransport = import.meta.resolve("@modelcontextprotocol/sdk/server/stdio.js");
 const adapterSource = `import {Server} from ${JSON.stringify(sdkServer)};import {StdioServerTransport} from ${JSON.stringify(sdkTransport)};await new Server({name:'synthetic-startup-control',version:'1'},{capabilities:{}}).connect(new StdioServerTransport());`;
 
+test("an ignored source EOF reaches its close deadline and joins the killed child", async () => {
+  const { report, mcpEvents } = await control(
+    "silent-close",
+    started + "setTimeout(()=>process.exit(0),2000);",
+    adapterSource,
+    1,
+    500,
+  );
+  assert.match(report.error.message, /Source service close deadline/);
+  assert.deepEqual(report.processes[0].exit, { code: null, signal: "SIGKILL" });
+  const adapter = report.processes.find((record) => record.label === "default SDK child close");
+  assert.equal(adapter.closeObserved, true);
+  assert.deepEqual(mcpEvents, [{ pid: adapter.pid, code: 0 }]);
+});
+
 test("ordinary source and default SDK startup still require successful closes", async () => {
   const { report, mcpEvents } = await control("successful-startup", started, adapterSource, 0);
   assert.equal(report.error, undefined);
@@ -137,4 +172,17 @@ test("SDK malformed stdout settles initialization without waiting for its reques
   assert.equal(adapter.closeObserved, true);
   assert.deepEqual(mcpEvents, [{ pid: adapter.pid, code: 0 }]);
   assert.deepEqual(report.processes[0].exit, { code: 0, signal: null });
+});
+
+test("a silent readiness command reaches its deadline and records a joined terminal", async () => {
+  const report = { processes: [] };
+  await assert.rejects(
+    runReadinessCommand(report, process.execPath, ["-e", "setTimeout(()=>{},2000)"], {
+      deadlineMs: 100,
+    }),
+    /Readiness command deadline/,
+  );
+  const [command] = report.processes;
+  assert.deepEqual(command.exit, { code: null, signal: "SIGKILL" });
+  assert.throws(() => process.kill(command.pid, 0), { code: "ESRCH" });
 });

@@ -70,7 +70,7 @@ intents. The first failure is reported after the other reachable cleanup complet
 
 ## Evidence and next pass
 
-[The integration harness](../../../apps/service/tests/video-export.mjs) creates a
+[The integration harness](https://github.com/dzhng/screen-recorder/blob/d0b1dca7d1225728d4c6c3353ff26675e33e084f/apps/service/tests/video-export.mjs) creates a
 real generated video through PreviewInspection and native rendering, pins independent
 preview bytes before admission, then drives the actual JobQueue, publication worker,
 recording deletion and killed-owner recovery. It uses no narration and no pointer

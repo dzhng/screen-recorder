@@ -1,101 +1,59 @@
 # Screen Recorder
 
-A local macOS recorder that gives external AI agents inspectable narration, images,
-pointing history and non-destructive edits. Source media remains intact; the app,
-CLI and MCP share the same recording and editing contracts.
+A local macOS recorder and media toolkit for external AI agents. The app, CLI
+and MCP expose the same recording, inspection and non-destructive editing contracts.
 
 ## Product boundary
 
 **This project makes zero editorial decisions. It only provides primitives.**
-It supplies recording, transcription, timing, search and media-inspection
-evidence, plus precise, non-destructive operations for editing, processing,
-preview and export. The external agent using the project interprets the user's
-intent, makes every editorial decision and calls those operations.
+Recording, transcription, search and detection supply evidence. The caller decides
+what to change and submits explicit operations. Defaults fill parameters within a
+requested operation; they never authorize another treatment or an automatic edit.
+Original media remains intact.
 
-For filler and repetition removal, the toolkit exposes recognized words,
-candidate classifications, timestamps and surrounding media. The caller decides
-which occurrences to remove and submits explicit cuts. A repeated phrase is
-evidence, not a decision that it is accidental. The toolkit does not silently
-choose removals, pacing, fades, noise reduction, ambience, replacement speech or
-layouts. Deterministic execution, validation and documented parameter defaults
-implement the caller's request; they do not authorize additional edits.
-
-Development verifies evidence accuracy and execution of explicit fixture edits.
-Using real media as a test fixture does not make editing that recording a product
-deliverable or require its owner to supply personal keep/remove judgments.
-The [editorial-control contract](specs/done/agent-editing/architecture.md#editorial-control)
-defines this boundary for implementation and verification.
-The [bounded implementation trace](specs/done/agent-editing/assets/acceptance-maintenance/editorial-boundary-audit.md)
-records the managed speech-to-edit ownership and the separate retained recording
-policy; source inspection supplies no speech-quality or runtime verdict.
-
-## Components
-
-- [Menu-bar app](apps/macos/README.md): owns the service child's lifetime and native controls.
-- [Local service](apps/service/README.md): the socket listener and app-owned process lifetime.
-- [CLI and MCP adapters](apps/cli/README.md): the same service operations for command-line and MCP clients.
-- [Native capture and media](helpers/mac/README.md): capture, recovery, cursor geometry and media workers.
-
-- [Composition and edits](packages/composition/README.md): owns pure timing, clip identity and atomic edit meaning.
+Development verifies those primitives with explicit fixture operations. A user's
+recording is reusable test input, not an invitation to edit it or ask its owner
+for personal keep/remove judgments.
 
 ## Releases
 
-Download the versioned app from [GitHub Releases](https://github.com/dzhng/screen-recorder/releases).
-Release ZIPs target Apple Silicon on macOS 26 or newer and include Node, so a
-recipient does not need Bun, Xcode or a developer Node installation. Speech models
-still require explicit preparation. Built binaries stay out of Git; each release
-attaches the package, checksums and a source/runtime receipt to its version tag.
+Download the app from [GitHub Releases](https://github.com/dzhng/screen-recorder/releases).
+The [installation guide](scripts/release-notes.md) owns supported systems, bundled
+runtime, signing status and CLI/MCP setup. Built binaries are release assets;
+source control retains their reproducible inputs rather than generated app bundles.
 
-Current builds are ad-hoc signed and **not notarized**. After the first blocked
-launch, use System Settings → Privacy & Security → Open Anyway. Managed Macs may
-prevent that exception. This does not grant screen, microphone or camera access;
-the app requests those permissions only for explicit recording actions.
+Version tags trigger a verified GitHub release. The [build and release guide](scripts/README.md)
+explains version ownership, CI hooks and personal source installs.
 
-Quit Screen Recorder before replacing an existing copy. Extract the ZIP and put
-`Screen Recorder.app` in `~/Applications`. Optionally copy
-its `screenrec` launcher into `~/.local/bin` and add that directory to PATH; MCP uses
-that launcher with `mcp` as its argument. For another app location, set
-`SCREENREC_APP` to the app's absolute path. Verify downloads with
-`shasum -a 256 -c SHA256SUMS` before extracting the ZIP.
+## Where things belong
 
-To release, update the version in [the app manifest](apps/macos/package.json),
-commit it, then create and push the matching tag:
+- [Native app](apps/macos/README.md): recording controls and the service child's lifetime.
+- [Service](apps/service/README.md): composition of domain owners, native work and public delivery.
+- [CLI/MCP](apps/cli/README.md): adapters over the [shared protocol](packages/protocol/README.md)
+  and [local client](packages/client/README.md).
+- [Core](packages/core/README.md): immutable assets, acquisitions, revisions, jobs and publication.
+- [Composition](packages/composition/README.md): pure authoring, exact clocks and compiled plans.
+- [Native media](helpers/mac/README.md): capture, physical sample support and plan execution.
+  The [prepared voice worker](helpers/voice/README.md) executes the separately owned
+  local inference runtime.
 
-```sh
-git tag -a v0.1.0 -m "Screen Recorder 0.1.0"
-git push origin main
-git push origin v0.1.0
-```
+The consumer [screenrec skill](skills/screenrec/SKILL.md) teaches external agents
+how to use the toolkit. Repository development skills live separately under
+.agents/skills; they are not a product operation catalog.
 
-Use the new version instead of the example and never move a published tag. The
-[tagged-release workflow](.github/workflows/release.yml) validates tag/version agreement,
-builds on macOS, checks the relocated package, and publishes only after those
-checks pass. Versions below 1.0 and suffixed versions are marked prereleases.
-[Focused CI](.github/workflows/release-checks.yml) checks release contracts on relevant
-pull requests and main changes without running capture or model inference.
+## Development and evidence
 
-The [release tool](scripts/release.mjs) owns packaging and explicit build-input
-preparation; [pinned inputs](scripts/release-inputs.json) and the existing denoiser
-provenance bind downloaded bytes. Third-party notices ship inside the app; the
-[denoiser documentation](helpers/denoise/README.md) retains the unresolved upstream
-model-license statement. CI uses GitHub's repository token to publish assets;
-no Apple signing credentials are configured, and it never claims notarization.
+Follow [the working principles](AGENTS.md). The [root manifest](package.json)
+owns build and check commands; package manifests own narrower checks and dependencies.
+The [build guide](scripts/README.md) explains native prerequisites and why building,
+installing and packaging are separate actions.
 
-## Development
+[Verification tools](packages/test-harness/README.md) explain how to reuse existing
+fixtures, integration journeys and research. The [fixture guide](fixtures/README.md)
+explains retained media and original-byte authority; the [workbench](apps/workbench/README.md)
+is a capture target, not an editing interface.
 
-Bun installs and orchestrates; Node 24 runs TypeScript and Swift builds the native
-macOS boundary. Run `bun install` before building. The [root manifest](package.json)
-owns executable build and check commands. Use focused package checks for
-everyday work, including commits and merges; full release verification runs
-once, when a spec's implementation is finished.
-
-The [closed editing record](specs/done/agent-editing/README.md) explains the shipped
-architecture, caller boundary and retained evidence. Its
-[release disposition](specs/done/agent-editing/release-closeout.md) records the
-personal release and accepted verification limits. The
-[recording spec](specs/recording-for-ai/README.md) retains capture implementation
-history and evidence.
-
-The product-use [screenrec skill](skills/screenrec/SKILL.md) teaches external
-agents the available CLI workflow; repository development skills live separately
-under `.agents/skills`.
+[Specs and evidence](specs/README.md) separate future proposals, closed rationale
+and historical observations. Current behavior comes from the owning code and
+its README. A historical pass is scoped evidence, and an unchecked old plan is
+not an active implementation request.

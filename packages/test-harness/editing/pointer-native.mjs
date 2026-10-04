@@ -1,4 +1,3 @@
-import frozenWorkers from "../../../specs/done/agent-editing/assets/acceptance-maintenance/native-worker-preservation.json" with { type: "json" };
 import { resolveOutputSettings } from "../../composition/dist/index.js";
 import { nativeProcessing } from "../../../apps/service/dist/native-processing.js";
 import { pointerCases } from "./pointer-cases.mjs";
@@ -23,18 +22,6 @@ import { renderPlan } from "../../core/dist/presentation-time.js";
 
 const out = resolve(process.argv[2] ?? "");
 assert.ok(process.argv[2] && process.env.SCREENREC_NATIVE);
-const baseline = process.env.SCREENREC_BASELINE_NATIVE;
-assert.ok(baseline, "Set SCREENREC_BASELINE_NATIVE to the frozen pre-cutover worker");
-const pin = frozenWorkers.files.find(
-  (entry) => entry.scope === "canonical worker used by retained package/native/archive proofs",
-);
-assert.equal(
-  createHash("sha256")
-    .update(await readFile(baseline))
-    .digest("hex"),
-  pin.sha256,
-  "Historical pointer reference worker must match the retained provenance manifest",
-);
 await mkdir(out);
 const run = (program, args, input) => {
   const result = spawnSync(program, args, {
@@ -351,26 +338,11 @@ try {
   const sourceRow = JSON.parse(
     (await readFile(requests.get("identity").pointers.file, "utf8")).trim(),
   );
-  const legacyFile = join(out, "legacy-matched.png");
-  const legacy = JSON.parse(
-    run(
-      baseline,
-      [],
-      JSON.stringify({
-        id: "legacy",
-        operation: "media.frame",
-        params: {
-          source: assets.path(selection.assetId),
-          output: legacyFile,
-          atSourceUs: 1000000,
-          kept: { startUs: 0, endUs: 2000000 },
-          overlay: sourceRow.overlay,
-          maxLongEdge: 256,
-        },
-      }) + "\n",
-    ),
-  );
-  assert.ok(legacy.ok, JSON.stringify(legacy));
+  // Retain the original independent legacy operand without executing its retired worker.
+  const legacyFile = new URL(
+    "../../../specs/done/agent-editing/assets/15-pointer-execution/images/legacy-matched.png",
+    import.meta.url,
+  ).pathname;
   const legacyRaw = join(out, "legacy-matched.rgba");
   run(pixelTool, [legacyFile, legacyRaw]);
   const legacyPixels = await readFile(legacyRaw);

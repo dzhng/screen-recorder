@@ -127,5 +127,32 @@ func runExportTests() {
     precondition(decoded.kind == .package && decoded.revisionId == "r4" && decoded.leaf == "take.zip"
         && decoded.output == nil && decoded.cleanupPending && decoded.retryable,
         "Status fields keep their meaning")
+    for leaf in ["mix.wav", "mix.m4a"] {
+        let fields: [String: Any] = [
+            "exportId": "audio-" + leaf, "projectId": "p", "kind": "audio",
+            "snapshot": ["revisionId": "r", "settings": ["container": leaf.hasSuffix("wav") ? "wav" : "m4a"]],
+            "state": "failed", "destination": ["directory": "/tmp", "leaf": leaf],
+            "retryable": true, "abandoning": false, "cleanupPending": false,
+            "output": NSNull(), "reason": "fixture failure",
+        ]
+        let record = try! JSONDecoder().decode(ExportsState.Record.self,
+            from: JSONSerialization.data(withJSONObject: fields))
+        precondition(record.kind == .audio && record.leaf == leaf && record.target == .project("p"))
+        var audio = ExportsState()
+        audio.admit(record)
+        let menu = exportsMenu(ready(), audio)!.submenu
+        precondition(menu.first?.title == "Audio — " + leaf + " — failed")
+        precondition(entry(menu, "export.retry.audio-" + leaf)?.enabled == true)
+    }
+    if let path = ProcessInfo.processInfo.environment["SCREENREC_AUDIO_EXPORT_RECORDS"] {
+        let records = try! JSONDecoder().decode([ExportsState.Record].self,
+            from: Data(contentsOf: URL(fileURLWithPath: path)))
+        precondition(!records.isEmpty && records.allSatisfy { $0.kind == .audio })
+        for record in records {
+            var audio = ExportsState()
+            audio.admit(record)
+            precondition(exportsMenu(ready(), audio)!.submenu.first?.title.hasPrefix("Audio — " + record.leaf) == true)
+        }
+    }
     print("PASS exports keep one identity through lost replies, retry, abandonment and cleanup")
 }

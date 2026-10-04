@@ -36,7 +36,8 @@ await mkdir(out, { recursive: true });
 out = await realpath(out);
 const scratch = await realpath(await mkdtemp("/tmp/sr-package-"));
 const cli = new URL("../../../apps/cli/dist/main.js", import.meta.url).pathname;
-const corpus = new URL("../../../specs/done/agent-editing/assets/00-corpus/", import.meta.url).pathname;
+const corpus = new URL("../../../specs/done/agent-editing/assets/00-corpus/", import.meta.url)
+  .pathname;
 const run = promisify(execFile),
   hash = (bytes) => createHash("sha256").update(bytes).digest("hex");
 const report = {
@@ -45,7 +46,6 @@ const report = {
     "actual CLI/MCP/native project package relocation with retained acquisition, source-scene, source/project screenshot-index and real source-transcript generations; generated-reference metadata fixture, no synthesis/capture/model-quality claim",
   checks: {},
   trace: [],
-  remaining: ["actual prepared 15a outputs", "fresh autonomous skill journey"],
   separateCoverage: "font dependency closure is verified by captions.mjs --case faces",
 };
 let service, mcp;
@@ -269,7 +269,7 @@ try {
     indexHashes.push(hash(await readFile(output)));
   }
 
-  // The generation producer is not ready. This explicit fixture only tests owned reference closure.
+  // Explicit generated-origin metadata tests reference closure without running synthesis.
   service.assets.retain({ kind: "asset", id: b.id }, [reference.id]);
   service.assets.retain({ kind: "asset", id: reference.id }, [speech.id]);
   await service.assets.import(
@@ -816,10 +816,4 @@ with zipfile.ZipFile(sys.argv[1]) as source:
   await rm(scratch, { recursive: true, force: true });
   await writeFile(join(out, "report.json"), JSON.stringify(report, null, 2));
 }
-console.log(
-  JSON.stringify(
-    { out, passed: report.passed, checks: report.checks, remaining: report.remaining },
-    null,
-    2,
-  ),
-);
+console.log(JSON.stringify({ out, passed: report.passed, checks: report.checks }, null, 2));

@@ -155,26 +155,53 @@ export class JourneyService {
     this.barriers = new Map();
   }
   async start() {
+    const deadline = performance.now() + 30000;
     this.started = false;
-    this.child = fork(this.serviceModule, [this.home, ...(this.evidence ? [this.evidence] : [])], {
-      stdio: ["ignore", "pipe", "pipe", "ipc"],
-    });
-    this.child.stdout.on("data", (b) => this.logs.push(b.toString()));
-    this.child.stderr.on("data", (b) => this.logs.push(b.toString()));
-    this.child.on("message", (m) => {
-      if (m.type) this.barriers.set(`${m.id}/${m.type}`, m);
-    });
-    const [ready] = await Promise.race([
-      once(this.child, "message"),
-      once(this.child, "exit").then(([code]) => {
-        throw new Error(`Service exited ${code}: ${this.logs.join("")}`);
-      }),
-      delay(30000, undefined, { ref: false }).then(() => {
-        throw new Error("Service startup deadline");
-      }),
-    ]);
-    assert.equal(ready.error, undefined, JSON.stringify(ready));
-    await this.connect(ready.socketPath);
+    for (;;) {
+      this.child = fork(
+        this.serviceModule,
+        [this.home, ...(this.evidence ? [this.evidence] : [])],
+        {
+          stdio: ["ignore", "pipe", "pipe", "ipc"],
+        },
+      );
+      this.child.stdout.on("data", (bytes) => this.logs.push(bytes.toString()));
+      this.child.stderr.on("data", (bytes) => this.logs.push(bytes.toString()));
+      this.child.on("message", (message) => {
+        if (message.type) this.barriers.set(`${message.id}/${message.type}`, message);
+      });
+      const timeout = new AbortController();
+      let ready;
+      try {
+        [ready] = await Promise.race([
+          once(this.child, "message"),
+          once(this.child, "exit").then(([code]) => {
+            throw new Error(`Service exited ${code}: ${this.logs.join("")}`);
+          }),
+          delay(Math.max(1, deadline - performance.now()), undefined, {
+            signal: timeout.signal,
+            ref: false,
+          }).then(() => {
+            throw new Error("Service startup deadline");
+          }),
+        ]);
+      } finally {
+        timeout.abort();
+      }
+      if (!ready.error) {
+        await this.connect(ready.socketPath);
+        return;
+      }
+      await this.stop();
+      if (
+        ready.error.code !== "RENDER_WORKSPACE_BUSY" ||
+        !ready.error.retryable ||
+        performance.now() >= deadline
+      )
+        throw new Error(`Service startup: ${JSON.stringify(ready.error)}`);
+      this.report.trace.push({ operation: "service.start", error: ready.error });
+      await delay(50);
+    }
   }
   async connect(socketPath) {
     this.socketPath = socketPath;
@@ -218,6 +245,7 @@ export class JourneyService {
       transport,
       ok: response.ok,
       state: response.data?.state,
+      revisionId: response.data?.revisionId,
       error: response.error,
     });
     return response.ok ? response.data : response.error;
@@ -238,10 +266,18 @@ export class JourneyService {
       );
   }
   async stop(crash = false) {
-    await this.mcp?.close();
+    let clientFailure;
+    try {
+      await this.mcp?.close();
+    } catch (error) {
+      clientFailure = error;
+    }
     this.mcp = undefined;
     const child = this.child;
-    if (!child || child.exitCode !== null || child.signalCode !== null) return;
+    if (!child || child.exitCode !== null || child.signalCode !== null) {
+      if (clientFailure) throw clientFailure;
+      return;
+    }
     const exited = once(child, "exit");
     let timer;
     const timeout = new Promise((_, reject) => {
@@ -261,11 +297,14 @@ export class JourneyService {
       else if (this.started) assert.equal(code, 0, this.logs.join(""));
     } catch (error) {
       await exited;
+      if (clientFailure)
+        throw new AggregateError([clientFailure, error], "Client and service shutdown failed");
       throw error;
     } finally {
       clearTimeout(timer);
       this.started = false;
     }
+    if (clientFailure) throw clientFailure;
   }
 }
 

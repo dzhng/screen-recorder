@@ -1,16 +1,13 @@
 import assert from "node:assert/strict";
-import { execFile, fork } from "node:child_process";
+import { execFile } from "node:child_process";
 import { createHash } from "node:crypto";
-import { once } from "node:events";
 import { mkdtemp, mkdir, readFile, writeFile, rm } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { basename, join, resolve } from "node:path";
 import { promisify } from "node:util";
 import { setTimeout as delay } from "node:timers/promises";
-import { Client } from "@modelcontextprotocol/sdk/client/index.js";
-import { StdioClientTransport } from "@modelcontextprotocol/sdk/client/stdio.js";
 import { exportJourney } from "./first-export.mjs";
-import { cliReply } from "./first-preview-transport.mjs";
+import { JourneyService } from "./source-evidence-fixture.mjs";
 import { mask, classify } from "./render-membership.mjs";
 import {
   assertTone,
@@ -29,8 +26,8 @@ assert.ok(
 const out = args[3] ? resolve(args[3]) : await mkdtemp(join(tmpdir(), "screenrec-first-preview-"));
 await mkdir(out, { recursive: true });
 const home = await mkdtemp(join(tmpdir(), "sr-pv-"));
-const cli = new URL("../../../apps/cli/dist/main.js", import.meta.url).pathname;
-const corpus = new URL("../../../specs/done/agent-editing/assets/00-corpus/", import.meta.url).pathname;
+const corpus = new URL("../../../specs/done/agent-editing/assets/00-corpus/", import.meta.url)
+  .pathname;
 const run = promisify(execFile);
 const hash = (bytes) => createHash("sha256").update(bytes).digest("hex");
 const report = {
@@ -42,60 +39,20 @@ const report = {
   checks: {},
   trace: [],
 };
-let service, socketPath, mcp, head, projectId;
-const serviceLog = [];
+let head, projectId;
+const journey = new JourneyService(
+  home,
+  report,
+  undefined,
+  new URL("./first-preview-service.mjs", import.meta.url),
+);
+const serviceLog = journey.logs;
 const rendered = new Map();
-const faults = new Map();
-async function startService() {
-  const deadline = performance.now() + 30000;
-  for (;;) {
-    service = fork(new URL("./first-preview-service.mjs", import.meta.url), [home], {
-      stdio: ["ignore", "pipe", "pipe", "ipc"],
-    });
-    service.on("message", (message) => {
-      if (message.type === "fault.armed" || message.type === "fault.hit")
-        faults.set(`${message.id}/${message.type}`, message);
-    });
-    service.stdout.on("data", (bytes) => serviceLog.push(bytes.toString()));
-    service.stderr.on("data", (bytes) => serviceLog.push(bytes.toString()));
-    const ready = await Promise.race([
-      once(service, "message"),
-      once(service, "exit").then(([code]) => {
-        throw new Error(`Service exited ${code}: ${serviceLog.join("")}`);
-      }),
-      delay(30000, undefined, { ref: false }).then(() => {
-        throw new Error("Service startup deadline");
-      }),
-    ]);
-    if (ready[0].error) {
-      const failure = ready[0].error;
-      if (
-        failure.code !== "RENDER_WORKSPACE_BUSY" ||
-        !failure.retryable ||
-        performance.now() >= deadline
-      )
-        throw new Error(`Service startup: ${JSON.stringify(failure)}`);
-      report.trace.push({ operation: "service.start", error: failure });
-      if (service.exitCode === null && service.signalCode === null) await once(service, "exit");
-      await delay(50);
-      continue;
-    }
-    socketPath = ready[0].socketPath;
-    assert.equal(typeof socketPath, "string");
-    break;
-  }
-  mcp = new Client({ name: "screenrec-first-preview", version: "1" });
-  await mcp.connect(
-    new StdioClientTransport({
-      command: process.execPath,
-      args: [cli, "mcp", "--socket", socketPath],
-      stderr: "pipe",
-    }),
-  );
-}
+const faults = journey.barriers;
+const startService = () => journey.start();
 async function armFault(point) {
   const id = `${point}-${faults.size}`;
-  service.send({ type: "fault.arm", id, point });
+  journey.child.send({ type: "fault.arm", id, point });
   await poll(
     () => faults.get(`${id}/fault.armed`) ?? {},
     (value) => value.type === "fault.armed",
@@ -109,47 +66,13 @@ async function armFault(point) {
     );
 }
 async function crashService() {
-  const exited = once(service, "exit");
-  service.kill("SIGKILL");
-  const [code, signal] = await exited;
-  assert.equal(code, null);
-  assert.equal(signal, "SIGKILL");
-  await mcp.close();
-  mcp = undefined;
+  const child = journey.child;
+  await journey.stop(true);
+  const exit = { code: child.exitCode, signal: child.signalCode };
   await startService();
-  return { code, signal };
+  return exit;
 }
-async function call(operation, params, { transport = "cli", output, error = false } = {}) {
-  let response;
-  if (transport === "mcp") {
-    const reply = await mcp.callTool({ name: operation, arguments: params });
-    response = reply.structuredContent;
-    assert.ok(
-      response && typeof response.ok === "boolean",
-      `No structured MCP response: ${JSON.stringify(reply)}`,
-    );
-  } else {
-    response = await cliReply([
-      cli,
-      operation,
-      "--socket",
-      socketPath,
-      "--params",
-      JSON.stringify(params),
-      ...(output ? ["--output", output] : []),
-    ]);
-  }
-  report.trace.push({
-    transport,
-    operation,
-    ok: response.ok,
-    state: response.data?.state,
-    revisionId: response.data?.revisionId,
-    ...(response.ok ? {} : { error: response.error }),
-  });
-  assert.equal(response.ok, !error, `${operation}: ${JSON.stringify(response)}`);
-  return response.ok ? response.data : response.error;
-}
+const call = (operation, params, options) => journey.call(operation, params, options);
 async function poll(read, done, label) {
   const deadline = performance.now() + 120000;
   for (;;) {
@@ -827,30 +750,14 @@ try {
   report.error = { name: error.name, message: error.message, stack: error.stack };
   process.exitCode = 1;
 } finally {
-  if (mcp) await mcp.close().catch(() => {});
-  if (service && service.exitCode === null && service.signalCode === null) {
-    const closed = once(service, "exit");
-    if (service.connected) service.send("close");
-    const timeout = new AbortController();
-    let forced = false;
-    try {
-      await Promise.race([
-        closed,
-        delay(10000, undefined, { signal: timeout.signal }).then(() => {
-          forced = true;
-          service.kill("SIGKILL");
-        }),
-      ]);
-      await closed;
-    } finally {
-      timeout.abort();
-    }
-    if (forced) {
-      report.passed = false;
-      report.error ??= { message: "Service required forced shutdown after close deadline" };
-      process.exitCode = 1;
-    }
+  try {
+    await journey.stop();
+  } catch (error) {
+    report.passed = false;
+    report.error ??= { message: error.message };
+    process.exitCode = 1;
   }
+  const service = journey.child;
   report.serviceExit = service ? { code: service.exitCode, signal: service.signalCode } : null;
   if (service && (service.exitCode !== 0 || service.signalCode !== null)) {
     report.passed = false;

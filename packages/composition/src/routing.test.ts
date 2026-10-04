@@ -75,6 +75,37 @@ test("nested routing changes visual order without changing source timing or sync
     sourceToProject(after, { assetId: "image", streamId: "v", atUs: 0 }).map((c) => c.trackId),
   ).toEqual([first.labels.inside, first.labels.outside]);
   expect(after.durationUs).toBe(10);
+  const reordered = applyBatch(
+    first.document,
+    [
+      {
+        operation: "routing.set",
+        target: { kind: "track", id: first.labels.outside },
+        parentId: first.labels.inner,
+        order: 1,
+      },
+      {
+        operation: "layers.reorder",
+        parentId: first.labels.inner,
+        targets: [
+          { kind: "track", id: first.labels.outside },
+          { kind: "track", id: first.labels.inside },
+        ],
+      },
+    ],
+    context,
+  );
+  expect(reordered.document.clips).toEqual(first.document.clips);
+  expect(reordered.document.syncGroups).toEqual(first.document.syncGroups);
+  expect(
+    projectToSource(validateComposition(reordered.document, context.assets), 5).map((clip) => [
+      clip.trackId,
+      clip.sourceUs,
+    ]),
+  ).toEqual([
+    [first.labels.outside, 0],
+    [first.labels.inside, 0],
+  ]);
 });
 
 test("routing rejects cycles and incompatible parents atomically", () => {

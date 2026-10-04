@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { copyFile, mkdir, mkdtemp, readFile, readdir, writeFile } from "node:fs/promises";
+import { copyFile, mkdir, mkdtemp, readFile, readdir, rm, writeFile } from "node:fs/promises";
 import { join, resolve } from "node:path";
 import { randomUUID } from "node:crypto";
 import { gunzipSync } from "node:zlib";
@@ -347,8 +347,15 @@ try {
   }
   report.passed = true;
 } finally {
-  await service.stop();
-  report.logs = service.logs;
-  await writeFile(join(out, "report.json"), JSON.stringify(report, null, 2));
+  try {
+    await service.stop();
+  } finally {
+    try {
+      report.logs = service.logs;
+      await writeFile(join(out, "report.json"), JSON.stringify(report, null, 2));
+    } finally {
+      await rm(home, { recursive: true, force: true });
+    }
+  }
 }
 console.log(JSON.stringify({ passed: report.passed, out }));

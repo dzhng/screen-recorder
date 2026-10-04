@@ -44,6 +44,14 @@ let directory = URL(
     fileURLWithPath: ProcessInfo.processInfo.environment["SCREENREC_SOURCE_AUDIO_EVIDENCE"]
         ?? NSTemporaryDirectory() + UUID().uuidString)
 try FileManager.default.createDirectory(at: directory, withIntermediateDirectories: true)
+func cleanupEvidence() {
+    if ProcessInfo.processInfo.environment["SCREENREC_SOURCE_AUDIO_EVIDENCE"] == nil {
+        try? FileManager.default.removeItem(at: directory)
+    }
+}
+defer { cleanupEvidence() }
+func finish() -> Never { cleanupEvidence(); exit(0) }
+let wireOnly = CommandLine.arguments.contains("--wire-fixtures")
 func wave(_ url: URL) throws -> (rate: Int, channels: Int, samples: [Float]) {
     let data = try Data(contentsOf: url)
     func number(_ offset: Int) -> UInt32 {
@@ -171,22 +179,25 @@ func movie(_ sources: [URL], name: String) async throws -> (URL, [String]) {
 }
 if CommandLine.arguments.contains("--source-occupancy") {
     try await verifySourceOccupancy(in: directory)
-    exit(0)
+    finish()
 }
 
 if CommandLine.arguments.contains("--source-stream") {
     try await verifySourceStream(in: directory)
-    exit(0)
+    finish()
 }
 
 var cases = 0
+if !wireOnly {
 try await verifyDescriptorLifetime(
     source: fixture(rate: 48_000, channels: 1, name: "descriptor-lifetime", seconds: 0.1),
     parent: directory)
-if CommandLine.arguments.contains("--descriptor-lifetime") { exit(0) }
+if CommandLine.arguments.contains("--descriptor-lifetime") { finish() }
 
 try await verifySourceOccupancy(in: directory)
 try await verifySourceStream(in: directory)
+
+}
 
 for rate in [44_100, 48_000] {
     let clean = try fixture(rate: Double(rate), channels: 2, name: "clean-\(rate)")
@@ -261,6 +272,10 @@ for rate in [44_100, 48_000] {
     ]
     try JSONSerialization.data(withJSONObject: request).write(
         to: directory.appendingPathComponent("request-\(rate).json"))
+}
+if wireOnly {
+    print("Wire fixtures ready: 44100/48000 stereo source clocks and holes")
+    finish()
 }
 // Noninteger file extents must admit and select every physical sample. Integer floor requests
 // remain deliberately shorter, and late views retain the same physical source-frame addresses.

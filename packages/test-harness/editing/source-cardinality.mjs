@@ -44,8 +44,8 @@ const report = {
   phase: values.phase,
   wrongClock: values["wrong-clock"],
   scope: measuring
-    ? "Current-production cached source-cardinality measurement; general scale and final release acceptance remain separate"
-    : "Current-production source-cardinality preparation/correctness; cached p95 and final production acceptance remain open",
+    ? "Frozen-runtime cached source-cardinality reproduction; not a current-build regression or general scale claim"
+    : "Frozen-runtime source-cardinality preparation/correctness; current-build regression and cached p95 remain separate",
   controls: {
     occurrences,
     leadingEmpty,
@@ -64,7 +64,7 @@ const name = values["wrong-clock"] ? "wrong-clock" : values.phase;
 const save = () => writeFile(join(out, `${name}-report.json`), JSON.stringify(report, null, 2));
 if (profiling) {
   report.scope =
-    "Service-owner CPU attribution only, one retained-catalog read per arm; no latency SLA or source-cardinality causality claim";
+    "Frozen-runtime service-owner CPU attribution, one retained-catalog read per arm; no current-build, latency SLA or source-cardinality causality claim";
   report.controls = {
     occurrences,
     leadingEmpty,

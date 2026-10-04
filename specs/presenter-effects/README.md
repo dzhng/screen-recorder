@@ -1,122 +1,64 @@
-# Presenter and screen effects
+# Presenter and screen effects proposal
 
-Status: **early placeholder**, 2026-10-01. This records desired capabilities and
-visual references, not an implementation-ready plan or a claim of current support.
-It does not replace or reorder the [active toolkit plan](../done/agent-editing/README.md).
+Status: early proposal. These visual references express user intent, not an
+implementation-ready plan or a claim of current support. When activated, compare
+current [composition](../../packages/composition/README.md), capture and processing
+capabilities with the desired result, then plan only the missing primitives.
 
-## Next planning pickup
+## Independent sources and monitoring
 
-When this feature is explicitly picked up, inventory the current public capture,
-composition and execution capabilities against the references below. Separate
-already-supported operations from missing primitives, then sharpen the tentative
-work areas into independently verifiable slices. Resolve the open questions before
-selecting implementations or committing public schemas. Update this placeholder
-with the resulting plan; do not start device capture or request another recording
-merely to elaborate it.
+The caller chooses recorded inputs, layout, timing and treatment under the
+[product boundary](../../README.md#product-boundary). Live camera monitoring is
+separate from recording authorization and export layout. Recorder-owned preview
+windows must stay outside screen pixels; changing monitor position cannot alter
+the retained source or silently end a requested recording.
 
-## Goal and boundary
+Source media and exact clock mappings remain independent. Capture cannot choose
+a multi-video composition, and a monitoring rectangle cannot become an implicit
+camera placement in the output. Existing layout, pointer and text primitives stay
+owned by the shared composition and compiler.
 
-Let an external agent produce videos combining independently recorded screen,
-camera and audio sources, with explicit layouts and effects after recording.
-During recording, the user can see a live camera preview without that preview
-being embedded in the recorded screen pixels.
+## Visual authority
 
-The toolkit makes **zero editorial decisions**. The caller chooses source devices,
-when effects occur, framing, camera prominence, pointer appearance, captions and
-all treatment parameters. Evidence about clicks, speech or subjects may help the
-caller make those choices; it never automatically applies an effect or creates
-an authored composition. Previewing the camera does not authorize recording it.
+The [asset manifest](assets/manifest.json) owns the supplied screenshots' identities.
+They are the available authority from the [linked example](https://x.com/pie6k/status/2105747150088937965?s=20).
+Player borders and controls are reference framing; sample text is content rather
+than an instruction or required wording.
 
-Keep original sources intact. Capture publishes separate media and source/time
-mappings; the caller authors the output through existing project/edit operations.
-The live preview's position and size are monitoring state, not export layout.
+![Framed screen, rounded camera inset, large pointer and caption](assets/screen-warp-camera-inset.png)
 
-## Reference assets
+This reference calls for independently controlled screen distortion, presenter,
+pointer and text layers. It does not select an effect algorithm or processing order.
 
-All three supplied screenshots are copied without modification. Their original
-filenames, byte sizes and SHA256 identities live in [the asset manifest](assets/manifest.json).
-The [linked example](https://x.com/pie6k/status/2105747150088937965?s=20) inspired
-this request; its video was not accessible during drafting. The screenshots below
-are the available visual authority. Player controls and black player borders are
-reference framing, not requested output elements. Text inside the screenshots is
-sample content, not instructions or required caption wording.
+![Enlarged presenter silhouette over the screen](assets/presenter-cutout.png)
 
-### Framed screen with camera inset and screen distortion
+The presenter overlaps the screen with their camera background absent. The
+[segmentation proposal](../video-segmentation/README.md) owns generalized mask
+questions; this still cannot establish hair-edge or moving matte quality.
 
-![Curved screen surface with colored edges, a rounded camera inset, large pointer and caption](assets/screen-warp-camera-inset.png)
+![Screen detail with camera inset, enlarged pointer and caption](assets/screen-detail-camera-inset.png)
 
-The screen appears as a curved or lens-distorted surface over a background, with
-colored edge fringing. The presenter remains in a separate rounded rectangle.
-An enlarged pointer and a caption remain readable. This suggests independently
-controllable screen, presenter, pointer and text layers; the exact distortion
-mechanism and processing order are unconfirmed.
+The different layouts imply independently authored placement. They do not specify
+transition duration, easing, motion path or speech-driven timing.
 
-### Enlarged presenter with background removed
+## Questions before implementation
 
-![Large presenter cutout over the framed screen, with a caption](assets/presenter-cutout.png)
+Determine what already executes through the public API, what new monitoring or
+pixel-processing primitive is needed, and whether supplied alpha or prepared
+segmentation is required. Declare coordinate mapping and order so pointer overlays
+cannot accidentally be cropped, warped twice or duplicated with a baked-in cursor.
 
-The presenter occupies more of the composition and overlaps the screen. Their
-camera background is absent around the visible silhouette. Enable an explicitly
-requested matte/cutout or supplied alpha source and independent placement; this
-reference does not establish the segmentation algorithm or edge quality in motion.
+Motion, device-loss behavior, prepared-model choice and quality/performance targets
+remain explicit decisions. Preview, range inspection and export must evaluate the
+same composition phase; no second effects timeline or automatic presenter preset
+is implied. A model candidate must earn its local feasibility and edge-quality
+claims before becoming a dependency.
 
-### Screen detail with rounded camera inset
+## Evidence
 
-![Screen detail, enlarged hand pointer, rounded camera inset and short caption](assets/screen-detail-camera-inset.png)
-
-The screen fills most of the output while the presenter occupies a smaller inset.
-The pointer is strongly enlarged. The three states imply a desire to move between
-layouts, but do not specify transition duration, easing or an exact motion path.
-
-## Candidate work areas
-
-These are provisional seams, not approved API names or a scheduled build ladder.
-Reuse [existing ownership](../done/agent-editing/architecture.md#one-owner-per-concept)
-and capability discovery; add only missing primitives.
-
-| Area | Desired capability | First bounded proof |
-| --- | --- | --- |
-| Live monitoring | Preview the explicitly selected camera in a movable window, reusing the capture session where practical. Exclude recorder-owned preview windows from screen capture. | Demonstrate that preview visibility/position does not alter screen or camera source pixels; closing the preview does not end a requested recording. |
-| Independent sources | Preserve screen, camera and audio separately, with honest offsets, gaps and timing provenance. | Reuse the [camera capture contract](https://github.com/dzhng/screen-recorder/blob/f362b1f6cf9fa2ae558150a717210ef6a5b09dac/specs/agent-editing/slices/21-webcam.md) and retained synchronization evidence; do not convert controlled proof into physical acceptance. |
-| Layout and motion | Independently crop, scale, place and animate screen and presenter layers; support rounded insets, explicit backgrounds and compositing order. | A caller-authored fixture moves between inset and larger-presenter layouts using existing [geometry](https://github.com/dzhng/screen-recorder/blob/f362b1f6cf9fa2ae558150a717210ef6a5b09dac/specs/agent-editing/slices/15-layer-geometry.md) and [curves](https://github.com/dzhng/screen-recorder/blob/f362b1f6cf9fa2ae558150a717210ef6a5b09dac/specs/agent-editing/slices/16-keyframes.md), preserving source timing. |
-| Presenter matte | Explicitly remove a camera background or consume an independently supplied matte/alpha source. | A fixed clip demonstrates hair, face, clothing and moving-edge behavior, with source preservation and bypass. Model/algorithm choice remains open. |
-| Screen effects | Apply caller-selected screen warping, perspective or lens distortion and colored-edge treatment, independently of other layers. | Reproduce one declared screen-shape variable first, then edge treatment separately; establish coordinate mapping and effect order before integration. |
-| Pointer and captions | Offer separately authored pointer styling/motion and timed text, readable across layouts. | Reuse captured pointer evidence and [text timing](https://github.com/dzhng/screen-recorder/blob/f362b1f6cf9fa2ae558150a717210ef6a5b09dac/specs/agent-editing/slices/17-text-captions.md). Define whether the source cursor is baked in and prevent unintended duplication; verify mapping through crop, warp and zoom. |
-
-Composition remains the single owner of authored timing and parameter curves.
-Capture owns acquisition and live monitoring; native execution consumes compiled
-plans. Inspection, range preview and export must evaluate the same composition,
-including absolute animation/caption phase. No separate effect timeline, implicit
-presenter preset or second renderer interpretation is proposed.
-
-## Open questions for the full plan
-
-- Which reference behaviors already execute through the current public API,
-  rather than merely being accepted by authoring schemas?
-- What temporal behavior is desired between the three states? The stills cannot
-  establish easing, duration, motion blur or synchronization with speech/clicks.
-- Does background removal need a prepared local model, a supplied matte, or both?
-  Choose from measured moving-edge quality, latency and resource costs.
-- What exact screen distortion is needed, and should pointer overlays follow that
-  distortion or remain in output space? Declare source-to-output mapping and order.
-- What preview controls and behavior are needed before capture, during pause and
-  after device loss? Preserve explicit camera permission and device selection.
-- What resolution, frame rate and preview/export performance targets should the
-  implementation satisfy? No new budgets or model selection are fixed here.
-
-## Verification expectations
-
-Start from existing recordings, annotations and accepted checks. Use explicit
-fixture operations; no personal keep/remove judgment or automatic styling is a
-development prerequisite. A new human test must identify one missing technical
-fact and explain why retained evidence cannot establish it.
-
-For later visual implementation slices, declare one judged variable and its
-crop/mask. Use [compare-screenshots](../../.agents/skills/compare-screenshots/SKILL.md)
-against the relevant reference region, then an unprimed
-[screenshot-critique](../../.agents/skills/screenshot-critique/SKILL.md) as the last
-visual acceptance check. Compare moving sequences when judging transitions or
-matting; static screenshot similarity alone cannot establish those contracts.
-Retain baseline/candidate artifacts and distinguish appearance, exact source
-preservation, synchronization and performance claims. Existing release gates
-remain unchanged.
+Reuse retained recordings and existing source/clock proof. Compare references at
+the intended region; moving transitions and mattes need temporal observations,
+not only a similar still. [Verification tools](../../packages/test-harness/README.md)
+separate appearance, source preservation, synchronization and cost. Missing
+perceptual evidence does not request another user recording when existing inputs
+can answer the technical question.

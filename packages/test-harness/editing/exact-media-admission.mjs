@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { verifyMixedMedia } from "./exact-mixed-media.mjs";
-import { mkdir, mkdtemp, readFile, realpath, writeFile } from "node:fs/promises";
+import { mkdir, mkdtemp, readFile, realpath, rm, writeFile } from "node:fs/promises";
 import { join, resolve } from "node:path";
 import { randomUUID } from "node:crypto";
 import { gunzipSync } from "node:zlib";
@@ -23,6 +23,7 @@ const report = {
   assets: [],
 };
 let service = new JourneyService(home, report, join(out, "native"));
+let receiver;
 const call = (...args) => service.call(...args);
 async function pcm(path) {
   const info = readAudioWaveFile(path),
@@ -302,11 +303,8 @@ try {
   );
   await service.stop();
   await writeFile(join(out, "donor-service.log"), service.logs.join(""));
-  service = new JourneyService(
-    await realpath(await mkdtemp("/tmp/screenrec-exact-receiver-")),
-    report,
-    join(out, "receiver-native"),
-  );
+  receiver = await realpath(await mkdtemp("/tmp/screenrec-exact-receiver-"));
+  service = new JourneyService(receiver, report, join(out, "receiver-native"));
   await service.start();
   const opened = await call("package.open", { path: exported.output });
   const openedReady = await poll(
@@ -342,7 +340,15 @@ try {
   );
   report.passed = true;
 } finally {
-  await service.stop();
-  await writeFile(join(out, "report.json"), JSON.stringify(report, null, 2) + "\n");
-  await writeFile(join(out, "service.log"), service.logs.join(""));
+  try {
+    await service.stop();
+  } finally {
+    try {
+      await writeFile(join(out, "report.json"), JSON.stringify(report, null, 2) + "\n");
+      await writeFile(join(out, "service.log"), service.logs.join(""));
+    } finally {
+      await rm(home, { recursive: true, force: true });
+      if (receiver) await rm(receiver, { recursive: true, force: true });
+    }
+  }
 }

@@ -525,10 +525,19 @@ try {
   report.checks.modelFreePortableOutputAndReference = true;
   report.passed = true;
 } finally {
-  await service.stop();
-  if (hiddenModel) await rename(hiddenModel, modelDirectory);
-  await writeFile(join(out, "report.json"), JSON.stringify(report, null, 2));
-  await writeFile(join(out, "service.log"), service.logs.join(""));
-  if (report.passed && report.receiver) await rm(report.receiver, { recursive: true, force: true });
+  try {
+    await service.stop();
+  } finally {
+    try {
+      if (hiddenModel) await rename(hiddenModel, modelDirectory);
+    } finally {
+      try {
+        await writeFile(join(out, "report.json"), JSON.stringify(report, null, 2));
+        await writeFile(join(out, "service.log"), service.logs.join(""));
+      } finally {
+        if (report.receiver) await rm(report.receiver, { recursive: true, force: true });
+      }
+    }
+  }
 }
 console.log(JSON.stringify({ passed: report.passed, checks: report.checks, out }));

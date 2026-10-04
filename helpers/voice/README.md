@@ -24,7 +24,8 @@ before publication; audio length cannot determine that distinction.
 Reference bytes live in the service's existing attempt workspace. Shared process
 cleanup remains responsible under SIGKILL. Completed output moves through
 exclusive publication, never overwriting an input or existing destination.
-Public durable generation and source selection remain separate integration work.
+[Managed generation](../../packages/core/src/voice-generation.ts) and public
+source selection own their separate admission and lifetime contracts.
 
 The identified runtime includes one [source patch](probability-filter.patch) to
 Qwen's probability filter. It preserves valid filtering and the default bypass;

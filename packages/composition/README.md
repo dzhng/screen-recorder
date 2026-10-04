@@ -1,145 +1,75 @@
 # Composition identity, time and edits
 
-This pure package owns authoring identity, placement, source/project mapping and
-atomic structural edits.
-It accepts admitted stream metadata; it never opens media or a catalog. The
-[public entry point](src/index.ts) exports the document schemas and timing API.
-Rendering and storage consume this model. The [reducer](src/edits.ts) applies
-ordered batches and reports their exact expansion without opening a catalog.
+This pure package owns authoring identity, placement, clock mapping and atomic
+structural edits. It consumes admitted metadata without opening media or a catalog.
+The [public entry](src/index.ts) owns exported schemas and APIs; the
+[reducer](src/edits.ts) applies ordered batches. Persistent transactions and replay
+belong to [core](../core/README.md).
 
-`validateComposition(document, assets, acquisitions)` creates a detached, deeply frozen snapshot.
-Acquisition contexts constrain a particular occurrence without changing byte identity.
-An explicit clip binding intersects physical stream support with the context's acquired
-intervals before the ordinary mapping and ancestor intersection. Omission always means
-physical support; capture origins never select a context implicitly. The same resolved
-availability feeds evidence projection, pictures, PCM and resampling context, so a gap
-cannot disappear when switching inspectors. Split/trim/copy preserve the binding;
-replacement selects a complete new binding independently of processing preservation.
-The reducer carries the immutable context collection through each intermediate edit.
-Media selections, placements, stream bounds and availability accept reduced
-fractional microseconds; whole values remain numbers. This preserves admitted
-physical endpoints and the source mapping when a retimed clip is split. Text
-placement accepts those exact anchors so transcript seeding after retime can
-preserve derived boundaries. Structural command coordinates,
-holds and project/content curve keys retain their integer constraints; each
-input schema owns admission. Asset stream bounds and availability use the shared asset clock, including any
-leading stream offset. A still image has no invented duration and uses a hold at
-source time zero. Unsupported processing variants are rejected by their typed capabilities. Canvas background is explicit `#RRGGBBAA`.
-Text is a video occurrence with a literal source and an exact admitted font face;
-it has no playable stream or source clock. Its existing anchor controls timing,
-and ordinary geometry maps its transparent raster box into the canvas. Shared
-asset dependency extraction includes both media bindings and text font references.
+## Sources and occurrences
 
-`resolvePlacement(model, clipIdOrAnchor)` returns an exact placement envelope and
-its disjoint available intervals. Rational numerators/denominators are `bigint` in
-this internal timing API; authoring schemas remain JSON-safe. Keeping fractions
-until sampling avoids drift when several attachments divide the same interval.
-A source gap does not shorten the envelope or become acquired silence. Anchored
-children inherit their parent's unavailable intervals.
+A clip is an occurrence, not an asset identity. Its explicit acquisition context
+can constrain source availability without changing byte identity. Physical support
+and acquired intervals resolve before placement and ancestor intersection; omission
+of an acquisition binding cannot silently select a capture context.
 
-Authored silence is an audio occurrence without an asset or source clock. It
-contributes duration and participates in ordinary edits; source queries omit it.
-Normalized anchors can follow silence, while content anchors require a source
-clock. Explicit padding produces linked ordinary pieces and reports their lineage,
-so selected edits can address one piece and linked edits carry the full envelope.
+One resolved availability feeds projected evidence, pictures and PCM. A source gap
+cannot disappear when changing inspectors, shorten the placement envelope or become
+acquired silence. Children inherit unavailable ancestor support. Still images and
+literal text have no invented playable duration or source clock; authored silence
+has duration but no media source. A schema owns the allowed anchor and hold forms.
 
-`projectToSource(model, atUs)` returns every active media occurrence, including unavailable
-ones with `available: false`. It floors source time only at this query boundary.
-`sourceToProject(model, {assetId, streamId, atUs})` returns every occurrence's exact
-project interval corresponding to that source microsecond bin. A held source bin
-maps to its whole placement. `firstProjectUs` is the first integer project time in
-the interval, or null when fast playback skips that bin at microsecond resolution.
-This interval form preserves the many-to-one relation created by flooring rather
-than pretending an inverse is a single exact timestamp.
+## Exact clocks
 
-The [range projection owner](src/source-projection.ts) builds a reusable lookup for
-source words/events across an immutable revision. Its named-clip query avoids
-scanning unrelated occurrences; all-occurrence queries share the compiler's
-interval index. Results pair exact retained source/project fragments. Completeness
-means the entire original source range survives in that occurrence, including
-internal availability holes; clipping a later display/query window must not
-recompute it. Holds and authored silence have no retained source range. This is
-pure mapping, not source acquisition or public transcript inspection.
+Retain rational coordinates until a sampling boundary. Retimed selections and
+attachments can end between integer microseconds; rounding the stored document
+would change later splits and source mappings. Structural command coordinates
+retain their own integer constraints, defined by the input schema.
 
-Forward queries are ordered by placement start, track order and clip ID; reverse
-queries use the mapped occurrence start rather than its containing clip start. A half-open end
-belongs to the following clip. Unknown clip/source identities and invalid times
-throw typed `CompositionError`s; a known source/time without an occurrence returns
-an empty list. Invalid documents use `INVALID_COMPOSITION`, including anchors
-outside the parent's selected source and dependency cycles. Structural edits must
-partition/rebase attachments before validating their resulting document.
+Source and project time are different clocks. A rounded forward query can map many
+project instants to one source bin; the reverse is therefore an interval, not a
+single invented inverse timestamp. Stream offsets share the asset presentation
+origin. Missing support and a known source with no occurrence remain different
+from invalid identity.
 
-Odd canvas sizes are valid authoring geometry; codec limits belong to execution.
-Synchronization records preserve unequal offsets and lengths without changing
-placement. The reducer owns linked edit expansion. Point queries scan resolved occurrences;
-the compiler owns indexed window queries.
+[Source projection](src/source-projection.ts) preserves retained fragments and
+completeness in an immutable revision. Completeness describes the original source
+range surviving in an occurrence, not whatever smaller display window was later
+requested. Repeated uses must remain distinct through evidence queries.
 
-The [corpus probe](../test-harness/editing/composition.mjs) checks the independent
-membership oracle and prints repeated-source reverse lookup after building this
-package. The test suite additionally exercises exact fractions, source gaps,
-held media, invalid identities and a range of reversible point mappings.
+## Routing, processing and curves
 
-Processing groups organize how tracks combine; synchronization groups organize
-which clips edit together. Routing changes leave media timing untouched. The
-[routing owner](src/routing.ts) validates the parent forest and derives the leaf
-order shared by evidence and compilation. The [processing owner](src/processing.ts) validates target-owned ordered stacks
-and preserves configuration across structural edits. Authoring and execution are
-distinct capabilities: the pure package validates and compiles, while native media
-workers execute prepared plans. Discover current execution support at the service
-boundary.
+Processing groups define combination; synchronization groups define linked editing.
+Routing changes do not retime media. Ordered processing belongs to the target and
+runs after children combine. Empty and bypassed stacks preserve their defined
+identity rather than introducing unrequested fades or gain policy.
 
-The [curve compiler](src/curve.ts) owns parameter clocks and easing. Structural cuts
-restrict the original evaluation range instead of restarting the curve on each
-piece. [Temporal processing](src/temporal-processing.ts) resolves picture parameters
-and exposes their exact boundaries to retained inspection; consumers do not rebuild
-keyframe or anchor math.
+[Curves](src/curve.ts) retain their original evaluation domain across cuts;
+[temporal processing](src/temporal-processing.ts) exposes the same boundaries to
+inspection. Consumers must not restart animation or duplicate anchor math.
+[The processing rationale](../../specs/done/agent-editing/processing.md) explains
+state continuity and retained preparation dependencies.
 
-The [compiler](src/compiler.ts) builds an interval index once for a validated
-immutable revision. Frame iterators keep absolute project phase, including the already-visible picture
-when a window begins between frame timestamps. Sample time remains distinct from
-the clipped visible interval; audio schedules
-clip absolute sample bounds while retaining the whole source/placement mapping.
-Frame availability distinguishes own-source absence from missing ancestor support;
-ancestor absence cannot be repaired by proving an empty edit in the child file.
-Unavailable media remains marked, and missing contributors represent background
-or silence rather than invented source evidence. Processing instructions retain
-ordered steps and combine children before their parent stack. Their list is
-restricted to window contributors and their ancestors, so a late preview does
-not materialize earlier frames or unrelated processing branches.
+## Compilation is distinct from readiness
 
-The compiler binds a revision identity once. Its window request selects a target's
-dry, after-step or processed result; dry preserves child processing and excludes
-only that target's stack. A window's source schedules are built from selected
-descendants, so inspecting one track does not repeatedly resolve sibling media.
-The strict manifest carries the rendition, source mappings and ordered dependency
-requirements that storage can use to identify work. Unresolved native executors,
-processors and retiming remain explicit requirements; the readiness guard fails
-rather than treating a descriptor as prepared media. Raw source evidence remains
-separate from target taps.
+[The compiler](src/compiler.ts) indexes an immutable revision and compiles requested
+windows. Picture sample time stays distinct from clipped visible support; a preview
+beginning inside a frame retains the absolute project phase. Audio schedules retain
+whole source mappings while limiting delivery to selected sample bounds.
 
-These are pure schedules and dependency manifests, not native readiness claims.
-The [preservation registry](../../specs/done/agent-editing/assets/23-owner-fixture-ports/README.md)
-records the scoped compiler and downstream native/media proofs. Streamed
-records derive their types from [strict schemas](src/compiled-records.ts), so worker
-adoption cannot silently add a second timing or processing policy.
+Selected taps preserve their target's defined processing scope. Dependency manifests
+retain exact revision, rendition, source and implementation requirements. A pure
+plan does not prove a native executor or prepared resource exists; unavailable
+requirements refuse rather than silently selecting another result.
 
-Resampling context is derived from current retained support, so splitting a clip
-does not reset its filter domain and removing material cannot leave hidden input.
-The [contract](../../specs/done/agent-editing/processing.md#selected-resampling-context)
-separates compiler domain ownership from native filter and phase verification.
+Resampling context comes from current retained support: splitting cannot restart
+its filter, while removing material cannot leave hidden input. Stateful continuity
+is a separate domain compiled from the current graph before choosing the output
+window. Neither an old cache nor caller-supplied grouping metadata defines it.
+The [state-domain owner](src/processing-state.ts) preserves those inputs once;
+[native execution](../../helpers/mac/README.md) owns actual filtering and publication.
 
-Authored state continuity is separate from resampling context. The
-[state-domain compiler](src/processing-state.ts) derives connected current-revision
-inputs before choosing a requested tap. Source inputs and existing processing
-instructions are stored once; members select their own ordered prefixes, and
-dependencies refer to connected domains rather than shared keys. Parent extents
-follow structural audio contributions, while the temporal owner resolves authored
-activation independently of missing source support. No old graph or prepared
-cache defines that meaning. `stateKey` is engine-owned continuity metadata, not a
-caller-supplied grouping control. Execution availability comes from the native
-capability and input requirements; authoring alone never proves a processor ran.
-The [native state executor](../../helpers/mac/Sources/ScreenRecorderAudio/CompositionState.swift)
-uses independent learned state per output channel and publishes only complete paired
-results through the existing prepared-audio owner. The
-[release disposition](../../specs/done/agent-editing/release-closeout.md)
-distinguishes verified numerical delivery from accepted quality and scale limitations.
+[Compiled record schemas](src/compiled-records.ts) are the shared native boundary.
+They prevent the worker from adopting a second timing or processing policy.
+[Preservation evidence](../../specs/done/agent-editing/assets/23-owner-fixture-ports/README.md)
+records scoped downstream proof separately from pure authoring validity.

@@ -116,7 +116,11 @@ function pages(operation, params, first, take = (page) => page.rows ?? page.entr
   const page = first.page ?? first;
   const all = [...take(page)];
   let cursor = page.nextCursor;
+  const seen = new Set();
   while (cursor) {
+    const identity = JSON.stringify(cursor);
+    if (seen.has(identity)) throw new Error(`${operation} continuation repeated its cursor`);
+    seen.add(identity);
     const next = call(operation, { ...params, cursor });
     if (next.state !== "ready" || next.generation !== first.generation)
       throw new Error(`${operation} continuation changed readiness or generation`);

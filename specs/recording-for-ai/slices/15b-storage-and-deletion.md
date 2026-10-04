@@ -28,7 +28,7 @@ introduced. The existing derivative LRU remains the only cache-pressure mechanis
 
 ## Ownership
 
-The [catalog](../../../packages/core/src/library.ts) owns durable intent and
+The [catalog](https://github.com/dzhng/screen-recorder/blob/d0b1dca7d1225728d4c6c3353ff26675e33e084f/packages/core/src/library.ts) owns durable intent and
 identity; the [queue](../../../packages/core/src/jobs.ts) owns executor drainage;
 [capture](../../../apps/service/src/capture.ts) owns native terminal receipts.
 The [deletion coordinator](../../../apps/service/src/deletion.ts) orders those

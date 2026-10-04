@@ -1,79 +1,47 @@
-# Generalized video segmentation processor
+# Generalized video segmentation proposal
 
-Status: future-work placeholder, 2026-09-28. Explicitly outside the current
-[agent-editing run](../done/agent-editing/README.md). The user requested a generalized
-video processor using something like Meta's SAM 3; person cutouts are one use case,
-not a separate person-only feature. No model or runtime has been selected.
+Status: future proposal. A caller selects a person, object or region and obtains
+a temporally consistent mask for the existing ordered processing stack. Person
+cutouts are one use, not a separate person-only product. No model or runtime is
+selected and this proposal does not authorize implementation.
 
-## Next Agent Prompt
+## Why a mask is a separate primitive
 
-Do not implement this as part of the active editor build. When the user activates
-this work, inspect the then-shipped ordered processing, preparation jobs, visual
-compiler and portable dependency owners. Research candidate models on the target
-Mac, reproduce the selected approach, and turn this placeholder into a sliced
-implementation spec before building. Resolve the open decisions below and update
-this handoff. Keep the existing CLI/MCP workflow; an editing UI is not required.
+Segmentation selects pixels; layer placement and creative intent remain the caller's
+choices. A mask may reveal another layer without synthesizing missing background.
+Soft hair, transparency and motion blur may require refinement beyond object
+segmentation, so those quality claims must not be conflated.
 
-## Outcome
+Mask coordinates and timing must follow the [composition owner](../../packages/composition/README.md)
+through crop, trim, split and retime. Preview, frame inspection and export consume
+the same prepared result. Reuse existing model readiness, jobs, cancellation,
+immutable identity and portable dependencies rather than creating a second renderer
+or an automatically styled presenter mode.
 
-An agent can select a person, object or region in a video and obtain a temporally
-consistent mask that participates in the existing processing stack. That mask can
-isolate a subject, reveal layers behind it, or constrain supported processing to
-the selected area. For example, a graphic can appear behind a presenter's head
-while their hair and shoulders remain in front.
+## References and open decisions
 
-The [reference-style audit](../done/agent-editing/assets/reference-style/README.md)
-records this effect around 19 and 60–67 seconds in the user's example. The observed
-composite establishes the desired result, not the creator's model or technique.
+The [visual brief](../presenter-effects/README.md) and
+[reference audit](../done/agent-editing/assets/reference-style/README.md) establish
+composite intent, not the creator's algorithm. [SAM 3](https://github.com/facebookresearch/sam3)
+is a candidate mentioned by the user; local execution, availability, terms and
+resource cost require a feasibility probe before selection.
 
-## Architectural boundaries
+When activated, choose supported prompts and correction scope, single versus
+multiple-instance behavior, mask representation and ordered processor consumption.
+Measure temporal state across occlusion, disappearance and scene changes as well
+as moving-edge quality. Define prepared-output retention and regeneration so a
+portable revision does not depend on an ambient model cache.
 
-- Extend the existing generalized video-processing contract and ordered stacks.
-  Do not introduce a parallel editing engine or a special presenter mode.
-- Keep mask generation distinct from layer placement and creative decisions.
-  Segmentation selects pixels; it does not synthesize missing background content.
-- Reuse model preparation/readiness, cancellation, immutable source identity,
-  revision history and portable dependency ownership. Preserve originals and
-  audio. Model-dependent artifacts must have explicit provenance and lifetime.
-- Define mask coordinates and timing against the existing composition clock,
-  including geometry before/after the processor, trimming, splits and retiming.
-  Preview, frame inspection and export must consume the same prepared result.
+Cloud fallback, silent model substitution, a new editing UI and automatic subject
+selection are not implied. Research the target Mac and actual current capabilities,
+then turn unresolved seams into independently verifiable implementation slices.
 
-## Candidate and open questions
+## Acceptance meaning
 
-[Meta's official SAM 3 repository](https://github.com/facebookresearch/sam3)
-describes promptable image/video segmentation and tracking with text and visual
-prompts. It is a candidate, not a dependency commitment. As inspected on
-2026-09-28, its documented setup requires CUDA; local Apple Silicon execution,
-model availability, license terms and resource use need a real feasibility probe.
-
-Before implementation, decide:
-
-- Supported agent inputs: text, points, boxes, exemplar masks, corrections and
-  selection of one instance versus several matching objects.
-- Mask representation, inversion/composition and how other processors consume it;
-  keep the public API as simple as the current ordered processing model.
-- Whether segmentation edges are sufficient or a separate matting/refinement
-  stage is needed for soft hair edges, transparency and motion blur.
-- State across ranges, occlusion, scene changes and reappearance; bounded memory,
-  preparation time, cache identity and resumability on realistic clips.
-- Model/runtime selection and capability reporting on the supported Mac; no
-  cloud fallback or silent substitution is implied.
-- Portable masks/prepared outputs, regeneration without the original model cache,
-  manual correction scope and any compatibility/migration requirements.
-
-## Proposed acceptance evidence
-
-Use real video through public CLI/MCP operations. Include a presenter with hair
-and moving hands, a non-person object, multiple similar objects, occlusion and a
-scene change. Inspect full-motion results and edge crops against independently
-marked frames; measure flicker, missing subject pixels and background leakage.
-Static screenshots alone cannot establish temporal stability.
-
-Verify ordered processing and bypass, foreground/background composition, undo,
-historical reads, split/trim/retiming, range/full preview/export correspondence,
-relocation, cancellation and resource bounds. Compare candidates with
-[compare-screenshots](../../.agents/skills/compare-screenshots/SKILL.md) and obtain
-an unprimed [screenshot-critique](../../.agents/skills/screenshot-critique/SKILL.md)
-before accepting visual output. Set measured quality/performance gates when
-expanding this placeholder; no capability is claimed implemented here.
+Use supplied real video with both person and non-person subjects. Independent frame
+marks and full-motion inspection must reveal missing subject pixels, background
+leakage and flicker; static screenshots cannot establish temporal consistency.
+[Verification principles](../../packages/test-harness/README.md) keep that quality
+proof separate from ordered execution, bypass, undo, relocation, cancellation and
+resource bounds. Establish measured gates when planning implementation rather than
+claiming the reference itself proves feasibility.

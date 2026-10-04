@@ -1,91 +1,53 @@
-# Local speech experiment
+# Local speech evaluation
 
-Build core, then run `node scripts/speech-eval.mjs --help` from the repository
-root. `plan` prints pinned acquisition commands without changing files; `prepare`
-downloads the Parakeet model and builds the upstream FluidAudio CLI outside the
-repository. The model files, sizes and hashes are the ones core's
-[speech model owner](../../core/src/models.ts) prepares for the product, and
-`prepare` refuses a download that differs from them. Parakeet is the engine
-[selected](../../../specs/recording-for-ai/slices/04-local-speech-gate.md) by this
-experiment.
+The [speech experiment command](../../../scripts/speech-eval.mjs) owns preparation,
+invocation and input handling. Its usage text distinguishes acquisition planning,
+explicit downloads/builds, offline inference and evaluation. The
+[engine adapter](engines.mjs) consumes the product's model identity rather than
+maintaining an independent model choice.
 
 ## Evidence belongs to the audio
 
-A clip manifest supplies `id`, `audioPath` (relative to the manifest or absolute),
-and `audioSha256`. The runner reads only that explicitly supplied audio, checks
-its hash, verifies prepared model hashes, denies inference networking with the
-macOS sandbox, and retains upstream reports alongside normalized `result.json`.
-Every invocation gets a new output directory. A failed invocation retains its
-partial diagnostics but cannot reuse an older transcript.
+Reference labels and candidate output must identify the same original media and
+clock. Keep complete independently labeled neighboring words: marking only fillers
+cannot reveal ordinary-word omissions or a boundary that cuts into a neighbor.
+Labels describe audible occurrences and explicit preservation targets, never
+permission to edit. Synthetic inputs exercise mechanics but do not establish
+human-speech fidelity.
 
-A dataset contains `fillerTerms` and `clips`. Each clip adds `origin` (`human` or
-`synthetic`), `kind` (`canonical`, `held-out`, or `walkthrough`), `duration` in
-seconds, and manually labeled `words`. Every word has `text`, `start`, and `end`;
-`filler: true` marks an acoustically labeled filler and `required: true` declares
-words that the fixture requires the experiment to preserve, including repeated
-or false-start words. These are supplied preservation targets, not an engine
-judgment of editorial intent. `covers` records
-which real clips exercise `repetition`, `false-start`, `silence`, and
-`technical-names`. The complete labeling, including ordinary neighboring words,
-is necessary for useful boundary measurements.
+Model output cannot supply its own independent reference. Keep raw results and
+human-reviewed evidence separate. Missing labels or listening observations leave
+the affected claim pending rather than turning unrelated primitive checks into a
+request for more user recordings. The [scorer](evaluate.mjs) owns admissible result
+formats and the distinction between failure, pending evidence and a pass.
 
-Pass a JSON array of normalized results to `evaluate`. Evaluate each model
-separately: mixing model or executable identities is rejected. Human review adds
-`audition: { "reviewer": "name", "neighboringSpeechIntact": true }` to each result
-only after listening to actual removals at its returned ranges. Keep the raw
-result and the reviewed copy as separate evidence artifacts.
+## Interpret each measurement narrowly
 
-The upstream CLI runner starts a fresh process and sets `warm: false`. Its process
-RSS and elapsed time include startup. It cannot certify the warm resource gate;
-that requires an in-process production-runner measurement on the five-minute
-human fixture, retaining equivalent provenance. Do not simply relabel the CLI
-measurement warm. Missing fixtures, auditions, and warm measurements remain
-pending (exit 2), observed failures fail (exit 1), and complete passing evidence
-exits 0. Synthetic clips never contribute to the fidelity score.
+Match repeated words as ordered occurrences. Text alignment takes precedence;
+boundary distance only resolves equally good lexical matches. Missing words have
+no invented boundary error, so retain matched and reference denominators alongside
+timing summaries. A good percentile on the surviving words cannot conceal omitted
+speech.
 
-## Interpreting measurements
+A literal filler vocabulary has contextual false positives. Freeze that vocabulary
+before evaluating held-out audio, and distinguish detected fillers from words a
+fixture explicitly requires to survive. Detection accuracy is information about
+the model, not editorial intent or proof that returned cuts are safe.
 
-Fillers are detected using the fixed `fillerTerms` vocabulary for this experiment.
-Terms are individual tokens; ambiguous words such as “like” count as predicted
-fillers whenever emitted, including ordinary uses. Label those uses correctly so
-precision reveals this limitation. Freeze the vocabulary before held-out scoring.
-This measures the proposed literal filler detector; it does not prove contextual
-filler classification or phrase recognition. Filler precision/recall are measurements,
-not pass/fail gates under the selected best-effort policy. `filler: true` does not
-implicitly declare a preservation target; `required: true` explicitly does, even
-when the same word is also a filler. The existing hard omission check applies to canonical fixtures;
-held-out and walkthrough omissions remain diagnostics.
+A fresh CLI process measures startup as well as inference. It cannot certify warm
+in-process behavior by relabeling the result. Resource claims need an equivalent
+runtime, workload and measurement boundary; listening and preservation require
+independent observations of the actual output.
 
-Repetitions are compared as ordered
-occurrences, rather than as a set of words. Case and punctuation are ignored. When equally good text alignments match
-different repeated occurrences, choose the alignment with the smallest total
-word-boundary distance. Timing never overrides a better text match.
+## Runtime and redistribution boundaries
 
-Boundary errors include both endpoints of exact aligned words; omitted words
-have no invented timing. The report retains matched/reference denominators,
-canonical required-word omissions, and filler false negatives beside timing percentiles.
-Per-clip `missedRequired` and `missedFillers` preserve their separate zero-based
-reference-word indices; a missed required filler appears in both.
-Wilson intervals describe the uncertainty in this small acceptance set. Neither
-word timing support nor a vendor throughput claim establishes edit safety.
+Bind results to the executed model and runtime, deny inference networking, and
+use a fresh output directory so a failed invocation cannot reuse an old transcript.
+An upstream success exit is insufficient if the promised word report is absent.
+Model-loader directory conventions can trigger unintended acquisition; offline
+mode must be established before loading, not after a retry starts.
 
-## Upstream provenance and notices
-
-[engines.mjs](engines.mjs) owns the license identities; the runtime version and
-commit, the model snapshot and its files come from core's speech model owner. Source checkouts retain upstream
-LICENSE/NOTICES; the model card carries the model license, as the model repository
-has no LICENSE file. FluidAudio code is Apache-2.0 and its converted Parakeet v2
-weights are CC-BY-4.0. Preserve these notices and model attribution if
-redistributing assets. No upstream code or weights are vendored by this harness.
-
-The pinned [FluidAudio CLI](https://github.com/FluidInference/FluidAudio/blob/v0.15.7/Sources/FluidAudioCLI/Commands/ASR/Parakeet/SlidingWindow/TranscribeCommand.swift)
-merges subword timings at whitespace boundaries. The probe CLI has a broader package
-build surface than a final application importing the single selected Swift product.
-
-FluidAudio resolves the parent of a supplied model path and appends its own
-version-specific folder name. Its explicit asset directory therefore matches that
-name; a generic folder can trigger an unintended download attempt even with assets
-present. The probe denies network and requires a raw word report, since the upstream
-CLI may log a model error while exiting successfully. For production integration,
-set the runtime's offline mode before model loading: its ordinary retry path may
-purge cached models before attempting a download.
+The engine adapter and [product model owner](../../core/src/models.ts) own pinned
+identities and license declarations. Preserve upstream notices and model attribution
+when redistributing assets. Experiment measurements do not replace product worker,
+managed preparation or installed acceptance proof.

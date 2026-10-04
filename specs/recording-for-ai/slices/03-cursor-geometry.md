@@ -20,7 +20,7 @@ The internal cursor-evidence export now streams generated-journal observations
 through the existing native parser into a caller-owned derivative. Real-worker
 checks cover ordered geometry, unchanged raw sample values, corrupt/incomplete
 prefix markers, output alias refusal, source immutability, and a large sample
-history. See [native derivative ownership](../../../helpers/mac/README.md#source-evidence-derivatives).
+history. See [native derivative ownership](../../../helpers/mac/Sources/ScreenRecorderWire/SourceEvidenceExport.swift).
 This does not add core indexing or close the physical placement gates.
 
 ## Contract and API seam

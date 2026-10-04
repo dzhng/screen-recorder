@@ -1,6 +1,9 @@
 # Verification and review contract
 
-This document defines release gates. The [main handoff](README.md#next-agent-prompt)
+Historical recording-design record. The [recording guide](README.md) owns its
+scope and points to current implementation; this document does not reopen old work.
+
+This document defines release gates. The [main handoff](README.md)
 and owning slices track which checks have actual evidence; an uncompleted gate
 is a requirement, not a claim about the current implementation.
 

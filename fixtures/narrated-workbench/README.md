@@ -1,23 +1,15 @@
-# Narrated workbench take
+# Narrated workbench source
 
-One real recording of this Mac's own [workbench fixture](../../apps/workbench), narrated by the
-person who owns this repository, on 2026-09-18. It holds a circle traced around the reference
-grid's C3 landmark, a wave between D9 and E2, an explicit pause, the disappearing-submenu
-reproduction, the sentence "this is free", a repeated phrase and spoken fillers.
+This real take supplies speech and pointing observations that synthetic inputs
+cannot establish. Its [recording metadata](recording.json) and capture journal
+bind the original source clocks; the [workbench](../../apps/workbench/README.md)
+is the captured reference surface.
 
-It exists because generated speech proves plumbing, not fidelity. Word boundary timing, filler
-behaviour, scene and screenshot decisions and the whole agent journey can only be judged on real
-narration, and re-recording one by hand for every check is not reasonable.
+Reuse this source for explicit fixture operations and independently judged speech
+boundaries. A transcript or screenshot selection is a derived observation, not an
+original truth or editorial instruction. The [fixture loader](../../packages/test-harness/load-fixture.mjs)
+admits it into an isolated library and reports the resulting source bindings.
 
-## What is here
-
-The source media a recording keeps: the picture, the narration track and the capture journal,
-plus the catalog facts a library needs to adopt them. Transcripts, scenes, screenshots and
-exports are derived, so they are not stored: the service prepares them again from this source,
-which is what makes the fixture worth checking against.
-
-`node packages/test-harness/load-fixture.mjs` admits it into a library of its own and prints that
-home and its acquisition/source bindings, so a check never touches a person's own recordings.
-
-This take shows a browser on a local fixture page and carries the narrator's voice. Treat it as
-the personal content it is.
+[Fixture ownership](../README.md) explains original preservation, large-file
+acquisition and personal-content handling. The recording is not an editing project
+or a requirement to ask its owner to repeat the performance.

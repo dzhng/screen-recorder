@@ -36,7 +36,7 @@ const { values } = parseArgs({
     fixture: { type: "string", default: join(root, "fixtures/narrated-workbench") },
     transcript: {
       type: "string",
-      default: join(root, "specs/recording-for-ai/assets/personal-journey/transcript.json"),
+      default: join(root, "specs/recording-for-ai/assets/speech/boundaries/transcript.json"),
     },
     out: { type: "string", default: join(root, "specs/recording-for-ai/assets/speech/boundaries") },
     panels: { type: "string", default: "16" },

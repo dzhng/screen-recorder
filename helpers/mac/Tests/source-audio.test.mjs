@@ -15,12 +15,13 @@ const fixture =
 test("source WAV wire delivery retains native fixture samples and refuses ambiguous selection", () => {
   const directory = mkdtempSync(join(tmpdir(), "source-audio-wire-"));
   try {
-    const proof = spawnSync(fixture, [], {
+    const proof = spawnSync(fixture, ["--wire-fixtures"], {
       env: { ...process.env, SCREENREC_SOURCE_AUDIO_EVIDENCE: directory },
       encoding: "utf8",
       timeout: 120000,
     });
     assert.equal(proof.status, 0, proof.stdout + proof.stderr);
+    assert.match(proof.stdout, /Wire fixtures ready/);
     for (const rate of [44100, 48000]) {
       const params = JSON.parse(readFileSync(join(directory, `request-${rate}.json`), "utf8"));
       const execute = (value) => {

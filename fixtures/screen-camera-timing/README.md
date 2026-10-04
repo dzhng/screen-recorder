@@ -1,33 +1,22 @@
-# Physical screen and camera take
+# Physical screen and camera sources
 
-A real iPhone camera pointed at this Mac's timing page, with separate Mac screen
-and MacBook microphone recordings. The user requested retention here for ordinary
-video import tests as well as cross-source timing work, and shortened the take to
-roughly 200 seconds. No further recording is required to use this fixture.
+A real external camera, Mac screen capture and microphone take provide independent
+inputs for ordinary import and cross-source timing work. The [manifest](manifest.json)
+owns original filenames, byte identities, observed streams and capture context.
+The request and journals retain the acquisition history, including the difference
+between a planned take and the user's actual stop.
 
-The retained camera lasts about 246 seconds and screen/microphone about 251 seconds;
-duration is already sufficient for the requested take. Exhaust these originals,
-journals and existing analysis before contemplating a new human recording task.
-[20](https://github.com/dzhng/screen-recorder/blob/f362b1f6cf9fa2ae558150a717210ef6a5b09dac/specs/agent-editing/slices/20-camera-reproduction.md) owns the remaining
-measurement/lifecycle claims and their uncertainty; an incomplete detector result
-is not proof that the recording is unusable.
+These interrupted fragmented originals have readable retained media. Their origins
+and durations differ; do not align files by assuming independent zero origins or
+trim originals to force duration agreement. A detector's failure does not establish
+that the original recording is unusable. Reuse the available sources and analysis
+before requesting another physical performance.
 
-[The manifest](manifest.json) pins the exact original bytes, observed stream
-metadata and capture context. Feed the standalone movies to ordinary `asset.import`;
-do not manufacture recording/catalog rows or require this recorder's sidecars.
-The camera movie is `camera/camera.raw.mov`, the screen is `screen/video.mov`, and
-the separate microphone is `screen/narration.packed.mov`. These are interrupted
-fragmented originals with readable retained media, not normalized exports. Their
-origins and durations differ; do not align them by assuming every file begins at zero.
+Ordinary media import consumes the standalone files. Recorder sidecars and invented
+catalog rows are not prerequisites. [Public import evidence](../../specs/done/agent-editing/assets/20-physical-import/README.md)
+owns the delivered-media observations; it does not establish physical synchronization
+or canonical camera recovery. The [closed acceptance record](../../specs/done/agent-editing/release-closeout.md)
+retains those separate limits.
 
-Source movies, capture journals and raw timestamp observations are tracked with
-Git LFS; the request, manifest and this usage guide are ordinary Git files. Run `git lfs pull`
-after cloning if the checkout contains LFS pointers instead of media.
-The original capture request and journals retain the initially planned longer take;
-the manifest records the user's early stop. Do not silently trim or overwrite the
-originals to make those durations agree. The scheduled five-minute pause did not occur.
-
-[Public import evidence](../../specs/done/agent-editing/assets/20-physical-import/README.md)
-verifies all three files, bounded early/middle/late picture delivery and an actual
-microphone excerpt. It does not establish cross-source synchronization or completed
-camera canonical recovery. Treat the footage and audio as personal content.
+[Fixture ownership](../README.md) explains Git LFS acquisition and personal-content
+handling. Metadata and observations remain distinct from normalized exports.

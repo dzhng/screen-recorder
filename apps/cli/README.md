@@ -1,70 +1,42 @@
 # CLI and MCP adapters
 
-The adapters format the same service operations for JSON command-line calls and MCP
-stdio. Parameter schemas and help come from the protocol declaration; edits and
-catalog behavior stay in the service/core. An adapter never edits the database.
+The adapters format the same [service operations](../service/README.md) for JSON
+command-line calls and MCP stdio. The [protocol declaration](../../packages/protocol/README.md)
+owns schemas and help; adapters never edit the catalog or infer another operation.
+[Builds and installation](../../scripts/README.md) own checkout and installed launchers.
 
-After building, run `bun run screenrec --help` from the repository. For use outside
-the checkout, `bun run install:personal` builds, installs the app into
-`~/Applications` and writes a `screenrec` launcher into `~/.local/bin`. Pass
-`-- --app PATH --bin DIR` to choose other absolute locations. The launcher runs the
-CLI bundled inside the installed app under the Node 24 interpreter the build
-recorded. That interpreter is a host prerequisite, not a bundled runtime. The
-installer refuses to replace a running copy, and it prints the MCP command
-(`screenrec mcp`) for client configuration. The installed copy is re-signed under its
-own bundle identifier, so its menu-bar item and permissions are separate from
-development builds. Run `bun run signing-identity` once to create the local
-code-signing certificate; builds then keep one identity, and macOS keeps the screen
-and microphone access granted to it. Without that certificate a build signs ad hoc,
-and every install asks for those permissions again. The help lists
-implemented operations and their JSON schemas without connecting to the app.
-`screenrec <operation> --help` returns only that operation's schema; bare
-`--help` retains the complete catalog. Each complete `inputSchema` is self-contained;
-shared shapes use local `$defs` and `$ref`. Keep the whole `inputSchema` and resolve
-references relative to it, including when selecting one operation from the catalog.
-`--params -` reads bounded JSON from stdin. Edit timestamps are integer microseconds
-in the named revision's playback coordinates, with half-open ranges.
+## Discover the contract before executing
 
-Use a stable mutation `params.requestId` and the same arguments when retrying an
-uncertain write. `--id` identifies the transport request; it is separate from that
-durable mutation identity. Operation failures retain the structured error and exit
-nonzero. Once argument parsing establishes CLI mode, usage and operation failures
-return one JSON envelope on stdout. Before parsing succeeds, failures use stderr
-because the process cannot yet distinguish CLI from MCP mode. MCP keeps stdout
-for protocol messages, writes diagnostics to stderr, and marks operation failures
-with `isError`.
+Help exposes complete operation schemas without launching the app. A schema is
+self-contained: retain its local definitions when selecting one operation instead
+of copying a fragment. Arguments, stdin handling and mode selection belong to the
+[entry point](src/main.ts). The [composition time contract](../../packages/composition/README.md#exact-clocks)
+explains why media coordinates and structural commands have different admission.
 
-Small MCP results retain complete JSON text and structured responses. Large results
-return `resultDelivery`, a service-owned lease for the complete UTF-8 operation
-response. Read its bounded chunks with `artifact.read`, verify the byte count and
-SHA-256, decode the response, and close the lease. Renewal extends the snapshot's
-expiry; nested media deliveries keep their own lifetimes. The adapter sends the
-operation once and never replays a mutation to recover a large response. Expiry or
-service restart invalidates the token without undoing committed work. Recover an
-uncertain mutation only through its advertised exact-request replay contract.
-Inline media attachment capacity remains a separate transport concern.
+[Client discovery](../../packages/client/README.md) owns app launch, selected home,
+deadlines and cancellation. Explicit socket selection connects directly; ordinary
+app launch prepares a service rather than starting a recording.
 
-Without `--socket`, the [client](../../packages/client/src/discovery.ts) finds the
-service under `SCREENREC_HOME` (default `~/.screen-recorder`) and, when needed,
-asks macOS to launch `~/Applications/Screen Recorder.app`. Set `SCREENREC_APP` to an
-absolute bundle path to select another installation. Discovery has one ten-second
-budget and one launch attempt; it carries the resolved home and any scratch
-preferences selection into the app. An
-already-running app keeps its original home, so a different requested home can
-time out: quit/relaunch it with that home or connect to the intended service.
+## Preserve answers and uncertainty
 
-`--socket PATH` connects directly and never launches an app. Help, MCP tools/list,
-and invalid requests do not discover or launch anything. Startup probes only read
-health; each actual operation is sent once, with no automatic mutation replay.
-MCP request cancellation also cancels discovery. Ordinary app launch starts its
-service; recording and permissions belong to explicit capture operations.
+Keep durable mutation identity separate from transport correlation. A failed or
+interrupted exchange cannot prove the operation did not commit. The adapter sends
+an operation once and never replays it to recover a large response.
 
-Models have explicit immutable IDs from `model.list`. `model.prepare` selects one
-and either admits verified local sources or acquires its pinned model files;
-`model.status` verifies local readiness without acquiring anything. Transcription
-runs offline against the prepared ASR model;
-until then transcripts report a retryable `model_not_prepared`.
+CLI operation replies use one JSON envelope; MCP stdout carries only protocol
+messages and diagnostics belong on stderr. Before parsing establishes a mode,
+usage failures cannot safely be written as a CLI response. Structured operation
+failures retain their code and retry meaning across both adapters.
 
-Media operations return actual MCP image/audio content; a returned file path is not
-an image-delivery implementation. Installed-app proof
-remains in the [personal release record](../../specs/done/agent-editing/release-closeout.md).
+Small MCP results retain complete text and structured data. Large results use a
+service-owned lease for the complete encoded response. Verify chunk identity,
+length and digest before decoding, then close the lease. Nested media has its own
+lifetime; renewing the response does not revive expired media or undo a mutation.
+Recover uncertain writes only through their advertised exact-request replay.
+
+Media delivery provides actual image/audio content or an explicitly requested
+output file. Batch consumption retains the service's revision, tap and generation,
+including pending metadata and partial failures. A pathname alone is not MCP media
+attachment proof. The [delivery owner](src/artifact-delivery.ts) defines consumption;
+[installed acceptance](../../specs/done/agent-editing/release-closeout.md) records
+what was actually exercised through the packaged app.

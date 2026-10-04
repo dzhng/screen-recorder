@@ -1,5 +1,4 @@
-import { createHash } from "node:crypto";
-import { appendFile, mkdir, mkdtemp, rm } from "node:fs/promises";
+import { mkdir, mkdtemp, rm } from "node:fs/promises";
 import { join } from "node:path";
 import { afterEach, expect, test } from "vitest";
 import { Client } from "@modelcontextprotocol/sdk/client/index.js";
@@ -113,10 +112,6 @@ async function readBytes(client: Client, token: string, bytes: number) {
   }
   return Buffer.concat(chunks);
 }
-async function report(evidence: Record<string, unknown>) {
-  await mkdir(".build/24z12", { recursive: true });
-  await appendFile(".build/24z12/media-evidence.ndjson", JSON.stringify(evidence) + "\n");
-}
 const ready = (delivery: { token: string; bytes: number; expiresAt: number }) => ({
   state: "ready",
   published: { frame: { mediaType: "image/png", recipe: { width: 640, height: 360 } } },
@@ -141,7 +136,6 @@ test("default SDK defers a complete eight MiB PNG before any consumption and lea
   expect(reply.content).toEqual([{ type: "text", text: JSON.stringify(reply.structuredContent) }]);
   expect(reply.isError).toBe(false);
   expect(f.calls).toEqual({ reads: 0, renewals: 0, closes: 0 });
-  const automaticCalls = { ...f.calls };
   if (!response.ok) throw Error(response.error.message);
   const token = (response.data as ReturnType<typeof ready>).delivery.token;
   expect((await readBytes(f.client, token, bytes.length)).equals(bytes)).toBe(true);
@@ -156,22 +150,6 @@ test("default SDK defers a complete eight MiB PNG before any consumption and lea
   expect(() => new ReadBuffer().append(Buffer.from(intendedWire))).toThrow(
     "ReadBuffer exceeded maximum size of 10485760 bytes",
   );
-  await report({
-    fixture: "single PNG",
-    automaticCalls,
-    defaultSdkSyntheticWireRejection: true,
-    rawBytes: bytes.length,
-    sha256: createHash("sha256").update(bytes).digest("hex"),
-    base64Bytes: 4 * Math.ceil(bytes.length / 3),
-    intendedWireBytes: Buffer.byteLength(
-      JSON.stringify({ result: intended, jsonrpc: "2.0", id: 1 }) + "\n",
-    ),
-    deferredWireBytes: Buffer.byteLength(
-      JSON.stringify({ result: reply, jsonrpc: "2.0", id: 1 }) + "\n",
-    ),
-    calls: f.calls,
-    exactBytes: true,
-  });
 });
 
 test("default SDK defers all eight one MiB images together, retaining complete items and live tokens", async () => {
@@ -207,7 +185,6 @@ test("default SDK defers all eight one MiB images together, retaining complete i
   expect(reply.content).toEqual([{ type: "text", text: JSON.stringify(result) }]);
   expect(reply.isError).toBe(false);
   expect(f.calls).toEqual({ reads: 0, renewals: 0, closes: 0 });
-  const automaticCalls = { ...f.calls };
   if (!result.ok) throw Error(result.error.message);
   const items = (result.data as { items: { data: ReturnType<typeof ready> }[] }).items;
   for (const [index, item] of items.entries()) {
@@ -243,22 +220,6 @@ test("default SDK defers all eight one MiB images together, retaining complete i
   expect(() => new ReadBuffer().append(Buffer.from(intendedWire))).toThrow(
     "ReadBuffer exceeded maximum size of 10485760 bytes",
   );
-  await report({
-    fixture: "eight PNGs",
-    automaticCalls,
-    defaultSdkSyntheticWireRejection: true,
-    rawBytes: buffers.map((buffer) => buffer.length),
-    sha256: buffers.map((buffer) => createHash("sha256").update(buffer).digest("hex")),
-    base64Bytes: buffers.reduce((sum, buffer) => sum + 4 * Math.ceil(buffer.length / 3), 0),
-    intendedWireBytes: Buffer.byteLength(
-      JSON.stringify({ result: intended, jsonrpc: "2.0", id: 1 }) + "\n",
-    ),
-    deferredWireBytes: Buffer.byteLength(
-      JSON.stringify({ result: reply, jsonrpc: "2.0", id: 1 }) + "\n",
-    ),
-    calls: f.calls,
-    exactBytes: true,
-  });
 });
 
 test("admitted duplicate batch preserves metadata, item errors and actual content indices without rediscovery", async () => {
@@ -520,14 +481,6 @@ for (const [kind, operation, mediaType, field, bytes] of [
         : { type: "audio", data: bytes.toString("base64"), mimeType: "audio/wav" },
     ]);
     expect(f.calls).toEqual({ reads: 1, renewals: 1, closes: 1 });
-    await report({
-      fixture: `admitted ${kind}`,
-      rawBytes: bytes.length,
-      sha256: createHash("sha256").update(bytes).digest("hex"),
-      wireBytes: Buffer.byteLength(JSON.stringify({ result: reply, jsonrpc: "2.0", id: 1 }) + "\n"),
-      exactContent: true,
-      calls: f.calls,
-    });
   });
 }
 
@@ -571,13 +524,6 @@ test("complete admission counts actual escaped RPC identity at the wire boundary
   );
   expect(numericBytes).toBeLessThanOrEqual(RESPONSE_FRAME_BYTES);
   expect(escapedBytes).toBeGreaterThan(RESPONSE_FRAME_BYTES);
-  await report({
-    fixture: "actual RPC identity",
-    numericBytes,
-    escapedBytes,
-    exactMediaBytes: bytes.length,
-    completeContent: true,
-  });
 });
 
 test("admitted cancellation keeps the existing un-signaled close and full failure", async () => {

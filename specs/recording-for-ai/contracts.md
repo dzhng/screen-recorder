@@ -1,5 +1,8 @@
 # Public behavior and data contracts
 
+Historical recording-design record. The [recording guide](README.md) owns its
+scope and points to current implementation; this document does not reopen old work.
+
 This document settles implementation choices left open by the discovery map.
 Names are internal working names; changing labels is delegated, changing semantics
 requires updating the owning slice and this contract.
@@ -159,7 +162,7 @@ constants rather than numbers spread through the code: `scenePolicy` in
 [core scenes](../../packages/core/src/scenes.ts) (a 200 ms step, a channel difference of 24
 counting a pixel as changed, an 8x8 grid with 5% of a cell active, 30% of pixels for a broad
 change and 4% with half the cells for a spatial one) and `selectionPolicy` in
-[core selection](../../packages/core/src/selection.ts) (5 s coverage, 1 s ordinary spacing,
+[core selection](https://github.com/dzhng/screen-recorder/blob/d0b1dca7d1225728d4c6c3353ff26675e33e084f/packages/core/src/selection.ts) (5 s coverage, 1 s ordinary spacing,
 300 ms idle, 2 s continuous motion). Each policy carries an identity that every stored artifact
 records, so evidence produced under one set of numbers is never read as though it came from
 another. Changing a threshold means changing that identity. Do not label
@@ -238,7 +241,7 @@ Images default to max1600-pixel long edge, with full captured resolution and cro
 available (max8192 long edge and 32 MiB encoded per image; report limit errors,
 never silently unreadable content). A preview movie takes the same 1600-pixel long
 edge, rounded down to the even dimensions H.264 requires, and the
-[preview policy](../../packages/core/src/preview.ts) owns that number. Each image uses a decoded source reference and
+[preview policy](https://github.com/dzhng/screen-recorder/blob/d0b1dca7d1225728d4c6c3353ff26675e33e084f/packages/core/src/preview.ts) owns that number. Each image uses a decoded source reference and
 metadata; local file paths are not substitutes for MCP pixels. Per-source pixel
 capture is capped to 4096 long edge at 30 fps SDR, preserving aspect ratio.
 Revisit a default only with measured fixture evidence and update this document.

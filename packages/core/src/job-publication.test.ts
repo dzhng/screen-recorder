@@ -9,6 +9,13 @@ const cleanup: (() => Promise<void>)[] = [];
 afterEach(async () => {
   for (const fn of cleanup.splice(0).reverse()) await fn();
 });
+function gate() {
+  let resolve!: () => void;
+  const promise = new Promise<void>((done) => {
+    resolve = done;
+  });
+  return { promise, resolve };
+}
 function fixture(execute: JobExecutor) {
   const home = mkdtempSync("/tmp/prepared-publication-");
   const store = new Catalog(join(home, "catalog.sqlite"));
@@ -60,21 +67,17 @@ test("staged publication and queue readiness roll back together", async () => {
 });
 
 test("canceled stale completion cannot publish after a replacement and closes before releasing attempt", async () => {
-  let release!: () => void;
-  let staged!: () => void;
-  const reached = new Promise<void>((resolve) => {
-    staged = resolve;
-  });
-  const gate = new Promise<void>((resolve) => {
-    release = resolve;
-  });
+  const reached = gate(),
+    execution = gate(),
+    closing = gate(),
+    finishClose = gate();
   let starts = 0,
     closed = 0;
   const f = fixture(async () => {
     const ordinal = ++starts;
     if (ordinal === 1) {
-      staged();
-      await gate;
+      reached.resolve();
+      await execution.promise;
     }
     return {
       result: String(ordinal),
@@ -83,15 +86,29 @@ test("canceled stale completion cannot publish after a replacement and closes be
         return undefined;
       },
       close: async () => {
+        if (ordinal === 1) {
+          closing.resolve();
+          await finishClose.promise;
+        }
         closed++;
       },
     };
   });
-  const first = f.queue.submit(f.request);
-  await reached;
-  f.queue.cancel(first.jobId);
-  f.queue.retry(first.jobId);
-  release();
+  try {
+    const first = f.queue.submit(f.request);
+    await reached.promise;
+    f.queue.cancel(first.jobId);
+    f.queue.retry(first.jobId);
+    execution.resolve();
+    await closing.promise;
+    await new Promise<void>((resolve) => setImmediate(resolve));
+    expect(starts).toBe(1);
+    expect(f.queue.status(f.request).state).toBe("queued");
+    expect(f.store.catalog.prepare("SELECT value FROM published").all()).toEqual([]);
+  } finally {
+    execution.resolve();
+    finishClose.resolve();
+  }
   await f.queue.idle();
   expect(f.queue.status(f.request)).toMatchObject({ state: "ready", published: { result: "2" } });
   expect(f.store.catalog.prepare("SELECT value FROM published").all()).toEqual([{ value: "2" }]);

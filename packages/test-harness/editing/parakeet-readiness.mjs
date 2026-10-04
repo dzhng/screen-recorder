@@ -1,5 +1,4 @@
 import assert from "node:assert/strict";
-import { spawn } from "node:child_process";
 import { createHash, randomUUID } from "node:crypto";
 import { createReadStream } from "node:fs";
 import { chmod, lstat, mkdir, readFile, readlink, realpath, writeFile } from "node:fs/promises";
@@ -9,7 +8,7 @@ import { parseArgs } from "node:util";
 import { Models, parakeetModel } from "../../core/dist/models.js";
 import { registeredModels } from "../../core/dist/model-registry.js";
 import { verifyRuntime } from "../../core/dist/model-files.js";
-import { withReadinessProcesses } from "./parakeet-readiness-processes.mjs";
+import { runReadinessCommand, withReadinessProcesses } from "./parakeet-readiness-processes.mjs";
 
 const { values } = parseArgs({
   options: Object.fromEntries(
@@ -108,23 +107,9 @@ async function preserved() {
   }
   return { models, originalRuntime, homes, workers };
 }
-async function run(executable, args, env = process.env, input) {
-  const child = spawn(executable, args, { env, stdio: ["pipe", "pipe", "pipe"] });
-  let stdout = "",
-    stderr = "";
-  child.stdout.on("data", (bytes) => (stdout += bytes));
-  child.stderr.on("data", (bytes) => (stderr += bytes));
-  const terminal = new Promise((resolveExit, reject) => {
-    child.once("error", reject);
-    child.once("close", (code, signal) => resolveExit({ code, signal }));
-  });
-  child.stdin.end(input);
-  const exit = await terminal;
-  const result = { executable, args, pid: child.pid, stdout, stderr, exit };
-  report.processes.push(result);
-  assert.deepEqual(exit, { code: 0, signal: null }, stderr || stdout);
-  return result;
-}
+const run = (executable, args, env = process.env, input) =>
+  runReadinessCommand(report, executable, args, { env, input });
+
 const nativeLog = join(out, "native.jsonl");
 const fence = join(out, "startup-worker.mjs");
 await writeFile(

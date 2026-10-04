@@ -91,8 +91,7 @@ try {
     const call = (operation, params) => service.call(operation, params, { transport: "mcp" });
     let sampling,
       sampleError,
-      stopped = false,
-      succeeded = false;
+      stopped = false;
     try {
       await service.start();
       let asset, events;
@@ -569,16 +568,18 @@ try {
           trial.queryP95Ms <= 250,
           "Cached250-row inspection exceeded unchanged250ms p95 budget",
         );
-      succeeded = true;
     } finally {
       stopped = true;
       if (sampling) await sampling;
       try {
         await service.stop();
       } finally {
-        await writeFile(join(out, `service-${report.cases.length}.log`), service.logs.join(""));
-        await save();
-        if (succeeded) await rm(home, { recursive: true });
+        try {
+          await writeFile(join(out, `service-${report.cases.length}.log`), service.logs.join(""));
+          await save();
+        } finally {
+          await rm(home, { recursive: true, force: true });
+        }
       }
     }
   }

@@ -7,7 +7,7 @@ Generated public rendering and independent readability checks now pass through
 
 ## Evidence that constrains the policy
 
-The [encoded timing fixture](../../../apps/macos/tests/scene-analysis.test.mjs)
+The [encoded timing fixture](https://github.com/dzhng/screen-recorder/blob/d0b1dca7d1225728d4c6c3353ff26675e33e084f/apps/macos/tests/scene-analysis.test.mjs)
 has black, white and black frames at source seconds 0, 2 and 4. Requests through
 second 1 select the held frame at 0, including the earlier tie. A request at 1.5
 selects the white frame at 2. The shared analyzer correctly reports that comparison

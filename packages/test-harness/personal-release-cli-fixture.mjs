@@ -168,6 +168,39 @@ switch (operation) {
     break;
   case "transcript.get":
     data = readyTranscript;
+    if (process.env.SCREENREC_CALLER_REPEAT_CURSOR) {
+      const prior = tracedCalls().filter((item) => item.operation === operation).length;
+      if (prior >= 2) {
+        entry.response = {
+          ok: false,
+          error: {
+            code: "FIXTURE_REPEAT_POLL",
+            message: "Caller did not stop at the repeated continuation",
+            retryable: false,
+            details: {},
+          },
+        };
+        appendFileSync(process.env.SCREENREC_CALLER_TRACE, JSON.stringify(entry) + "\n");
+        process.stdout.write(JSON.stringify(entry.response));
+        process.exit(0);
+      }
+      data = {
+        ...data,
+        page: {
+          ...data.page,
+          nextCursor: {
+            assetId: "audio-asset",
+            streamId: "audio-stream",
+            acquisitionId: "fixture-acquisition",
+            generation: "transcript-generation",
+            supportDigest: "fixture-support",
+            afterSourceUs: 5200000,
+            afterOrdinal: 1,
+            range: null,
+          },
+        },
+      };
+    }
     break;
   case "transcript.search":
     data = {

@@ -95,7 +95,10 @@ test("clip split copies independent steps and replacement padding retains or res
       {
         operation: "processing.set",
         target: { kind: "clip", id: ref("clip") },
-        steps: [{ processor: { type: "gain", gain: 0.25 }, label: "gain" }],
+        steps: [
+          { processor: { type: "gain", gain: 0.25 }, label: "gain" },
+          { processor: { type: "gain", gain: 2 }, enabled: false, label: "bypassed" },
+        ],
       },
     ],
     env,
@@ -111,6 +114,23 @@ test("clip split copies independent steps and replacement padding retains or res
   ]);
   expect(new Set(split.document.processing.map((s) => s.steps[0]!.id)).size).toBe(2);
   expect(split.document.processing[0]!.steps[0]!.id).toBe(first.labels.gain);
+  expect(
+    split.document.processing.map((stack) =>
+      stack.steps.map(({ enabled, processor }) => ({ enabled, processor })),
+    ),
+  ).toEqual([
+    [
+      { enabled: true, processor: { type: "gain", gain: 0.25 } },
+      { enabled: false, processor: { type: "gain", gain: 2 } },
+    ],
+    [
+      { enabled: true, processor: { type: "gain", gain: 0.25 } },
+      { enabled: false, processor: { type: "gain", gain: 2 } },
+    ],
+  ]);
+  expect(
+    new Set(split.document.processing.flatMap((stack) => stack.steps.map((step) => step.id))).size,
+  ).toBe(4);
   const replacement = {
     operation: "replace",
     clipId: first.labels.clip,

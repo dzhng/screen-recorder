@@ -5,10 +5,7 @@ import { join, resolve } from "node:path";
 import { PresentationEvidence } from "../../core/dist/presentation-evidence.js";
 const out = resolve(process.argv[2] ?? "");
 assert.ok(
-  process.argv[2] &&
-    process.env.SCREENREC_NATIVE &&
-    process.env.SCREENREC_BASELINE_NATIVE &&
-    process.env.SCREENREC_COMPOSITION_CANCEL_TEST,
+  process.argv[2] && process.env.SCREENREC_NATIVE && process.env.SCREENREC_COMPOSITION_CANCEL_TEST,
 );
 await mkdir(out);
 const run = (program, args, input) => {
@@ -53,16 +50,21 @@ const plan = (startUs, endUs) => [
   { source: { startUs, endUs }, playback: { startUs: 0, endUs: endUs - startUs } },
 ];
 const legacy = { source, plan: plan(1_000_000, 4_000_000), maxBytes: 8 * 1024 ** 2 };
-const old = call(process.env.SCREENREC_BASELINE_NATIVE, {
-  ...legacy,
-  output: join(out, "legacy-before.jsonl"),
-});
+const old = process.env.SCREENREC_BASELINE_NATIVE
+  ? call(process.env.SCREENREC_BASELINE_NATIVE, {
+      ...legacy,
+      output: join(out, "legacy-before.jsonl"),
+    })
+  : undefined;
 const current = call(process.env.SCREENREC_NATIVE, {
   ...legacy,
   output: join(out, "legacy-after.jsonl"),
 });
-assert.ok(old.ok && current.ok, JSON.stringify({ old, current }));
-assert.deepEqual(await readFile(old.data.file), await readFile(current.data.file));
+assert.ok(current.ok, JSON.stringify(current));
+if (old) {
+  assert.ok(old.ok, JSON.stringify(old));
+  assert.deepEqual(await readFile(old.data.file), await readFile(current.data.file));
+}
 const rows = [];
 for (const offset of [0, 2_000_000, -1_000_000]) {
   const startUs = 2_000_000 - offset,
@@ -188,7 +190,7 @@ rows.push({ cancellation: true, unpublished: true });
 await writeFile(
   join(out, "report.json"),
   JSON.stringify(
-    { passed: true, legacyBytesExact: true, originUs: probe.data.originUs, rows },
+    { passed: true, legacyBytesExact: old ? true : null, originUs: probe.data.originUs, rows },
     null,
     2,
   ),

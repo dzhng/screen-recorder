@@ -28,7 +28,7 @@ const report = {
   controllerRuntime: runtime,
   cases: [],
   scope:
-    "One matched2h/4h public spectrogram pair; sampled service RSS only, no PNG latency SLA or universal/load claim",
+    "Frozen-runtime matched2h/4h public spectrogram reproduction; sampled service RSS only, no current-build regression or universal/load claim",
 };
 const save = () => writeFile(join(out, "report.json"), JSON.stringify(report, null, 2));
 function inspect(home) {

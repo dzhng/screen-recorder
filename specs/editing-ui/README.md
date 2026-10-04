@@ -1,17 +1,13 @@
-# Editing UI
+# Editing UI proposal
 
-Status: deferred by the agent-editing discovery, 2026-09-27. The current request
-prioritizes external agents operating through CLI/MCP; existing menu-bar recording
-controls remain. The [agent editing spec](../done/agent-editing/README.md) owns the active
-plan and its richer composition model.
+Status: deferred. The shipped toolkit serves external agents through CLI/MCP;
+recording controls remain a separate native responsibility. An editing interface
+has no approved interaction or layout plan.
 
-## Next Agent Prompt
+When activated, design a thin client over the current [operation contract](../../packages/protocol/README.md)
+and [composition owner](../../packages/composition/README.md). It must not create
+another editing engine, clock, format or interpretation of captions and attachments.
 
-Do not implement an editing GUI as part of the active agent-editing plan. If the
-user later activates UI work, inspect the then-shipped shared command and
-composition contracts and design a thin client over them. It must not own another
-editing engine, timing model, storage format or caption/attachment interpretation.
-
-The earlier placeholder's trim/cut-only scope is superseded. Its original media
-preservation, undo, revision pinning and honest readiness principles carry forward
-through the shared engine. UI interaction and layout remain unplanned.
+Source preservation, explicit intent, undo, revision pinning and honest readiness
+are shared contracts. An earlier trim/cut-only proposal is not the scope of this
+future interface; discover actual capabilities before planning its interaction.

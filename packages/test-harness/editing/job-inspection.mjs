@@ -187,9 +187,15 @@ try {
   }
   report.passed = true;
 } finally {
-  await service.stop();
-  await writeFile(join(out, "report.json"), JSON.stringify(report, null, 2));
-  if (report.passed) await rm(home, { recursive: true, force: true });
+  try {
+    await service.stop();
+  } finally {
+    try {
+      await writeFile(join(out, "report.json"), JSON.stringify(report, null, 2));
+    } finally {
+      await rm(home, { recursive: true, force: true });
+    }
+  }
 }
 console.log(
   JSON.stringify({ passed: report.passed, cases: report.cases, profiled: report.profiled }),

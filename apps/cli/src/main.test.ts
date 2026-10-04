@@ -828,11 +828,21 @@ it.each([
   { operation: "frame.batch", reference: "atUs", scope: "project" },
   { operation: "frame.batch", reference: "atUs", scope: "source" },
   { operation: "index.frames", reference: "ordinal", scope: "source" },
+  { operation: "index.frames", reference: "ordinal", scope: "project" },
 ] as const)(
   "$operation $scope adapters retain partial failures, drain leases and never overwrite outputs",
   async ({ operation, reference, scope }) => {
     const target =
-      scope === "project" ? { projectId: "project" } : { assetId: "asset", streamId: "video" };
+      scope === "source"
+        ? { assetId: "asset", streamId: "video" }
+        : reference === "ordinal"
+          ? {
+              projectId: "project",
+              revisionId: "r3",
+              maxLongEdge: 640,
+              tap: { target: { kind: "output" }, point: { kind: "processed" } },
+            }
+          : { projectId: "project" };
     const home = await mkdtemp("/tmp/scr-batch-client-");
     cleanup.push(() => rm(home, { recursive: true, force: true }));
     const closed: string[] = [];
@@ -874,7 +884,7 @@ it.each([
           ok: true,
           data: {
             ...target,
-            ...(scope === "source" ? {} : { revisionId: "r0" }),
+            ...(scope === "project" && reference === "atUs" ? { revisionId: "r0" } : {}),
             ...selectedIdentity,
             items: (collideFile ? ["first", "second", "third"] : ["first", "second"]).map(
               (token, index) => ({
@@ -948,6 +958,15 @@ it.each([
       const result = await client.callTool({ name: operation, arguments: params });
       expect(result.isError).toBe(false);
       const data = result.structuredContent as typeof first;
+      expect(data.data).toMatchObject({ ...target, ...selectedIdentity });
+      expect(data.data.items.map((item: Record<string, unknown>) => item[reference])).toEqual(
+        requested.slice(0, 2),
+      );
+      if (reference === "ordinal")
+        expect(data.data.items.map((item: Record<string, unknown>) => item.atUs)).toEqual([
+          undefined,
+          undefined,
+        ]);
       expect(data.data.items[0].error.code).toBe("ARTIFACT_EXPIRED");
       const image = result.content as { type: string; data: string }[];
       expect(Buffer.from(image[data.data.items[1].data.contentIndex]!.data, "base64")).toEqual(
@@ -966,6 +985,13 @@ it.each([
     );
     expect(await readFile(join(collisionOutput, "02.png"), "utf8")).toBe("existing");
     expect(await readFile(files.data.items[2].data.output)).toEqual(bytes);
+    expect(files.data).toMatchObject({ ...target, ...selectedIdentity });
+    if (reference === "ordinal")
+      expect(files.data.items.map((item: Record<string, unknown>) => item.atUs)).toEqual([
+        undefined,
+        undefined,
+        undefined,
+      ]);
     expect(closed.slice(-3)).toEqual(["first", "second", "third"]);
   },
 );
@@ -996,7 +1022,8 @@ it("selected-frame CLI and MCP deliver image bytes while metadata-only responses
     maxLongEdge: 640,
     tap: { target: { kind: "output" }, point: { kind: "processed" } },
   };
-  let closes = 0;
+  let closes = 0,
+    reads = 0;
   const envelope = (ordinal: number) =>
     ordinal === 9
       ? { state: "processing", published: null }
@@ -1019,11 +1046,13 @@ it("selected-frame CLI and MCP deliver image bytes while metadata-only responses
         closes++;
         return { ok: true, data: { closed: true } };
       }
-      if (request.operation === "artifact.read")
+      if (request.operation === "artifact.read") {
+        reads++;
         return {
           ok: true,
           data: { offset: 0, nextOffset: bytes.length, eof: true, data: bytes.toString("base64") },
         };
+      }
       if (request.operation === "index.frame")
         return { ok: true, data: envelope((request.params as { ordinal: number }).ordinal) };
       if (request.operation === "index.frames")
@@ -1078,11 +1107,16 @@ it("selected-frame CLI and MCP deliver image bytes while metadata-only responses
     expect(images).toHaveLength(1);
     expect(Buffer.from(images[0]!.data!, "base64")).toEqual(bytes);
     expect(closes).toBe(2);
+    reads = 0;
     const pending = await client.callTool({
       name: "index.frames",
       arguments: { ...identity, ordinals: [9] },
     });
     expect((pending.content as { type: string }[]).map((item) => item.type)).toEqual(["text"]);
+    expect((pending.structuredContent as { data: unknown }).data).toEqual({
+      ...identity,
+      items: [{ ordinal: 9, ok: true, data: envelope(9) }],
+    });
   } finally {
     await client.close();
   }
@@ -1091,10 +1125,20 @@ it("selected-frame CLI and MCP deliver image bytes while metadata-only responses
     const params =
       operation === "index.frame" ? { ...identity, ordinal: 9 } : { ...identity, ordinals: [9] };
     const pending = await run(operation, params, missing);
-    expect(JSON.parse(pending.stdout).ok).toBe(true);
+    const response = JSON.parse(pending.stdout);
+    expect(response.ok).toBe(true);
+    expect(response.data).toEqual(
+      operation === "index.frame"
+        ? envelope(9)
+        : {
+            ...identity,
+            items: [{ ordinal: 9, ok: true, data: envelope(9) }],
+          },
+    );
     await expect(readFile(missing)).rejects.toMatchObject({ code: "ENOENT" });
   }
   expect(closes).toBe(2);
+  expect(reads).toBe(0);
 });
 
 it(

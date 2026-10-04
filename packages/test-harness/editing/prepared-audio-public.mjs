@@ -242,7 +242,7 @@ try {
   assert.deepEqual(await prepare(original), first);
   await inspect(first, 1, "historical-after-restart");
   if (!retime) {
-    const unavailable = await call("edit.apply", {
+    const shortened = await call("edit.apply", {
       projectId,
       expectedRevisionId: selection.revisionId,
       requestId: "retime",
@@ -256,12 +256,11 @@ try {
         },
       ],
     });
-    const refusal = await call(
-      "audio.prepare",
-      { projectId, revisionId: unavailable.revision.id },
-      { error: true },
-    );
-    assert.equal(refusal.code, "NOT_READY");
+    const prepared = await prepare({ projectId, revisionId: shortened.revision.id });
+    assert.equal(prepared.published.audio.frames, 24000);
+    assert.deepEqual(prepared.published.audio.sampleRange, { start: 0, end: 24000 });
+    assert.equal(shortened.revision.document.clips[0].pitch, "preserve");
+    report.checks.defaultPreserveRetime = prepared.published.audio;
   } else {
     const mixes = [];
     for (const file of (await readdir(nativeEvidence))
@@ -291,7 +290,7 @@ try {
     headPreservedAcrossRetry: true,
     ...(retime
       ? { retryAfterHeadAdvance: true, recipeBoundToNativeReceipts: true }
-      : { unchangedRevisionAndHead: true, unresolvedRetimeRefused: true }),
+      : { unchangedRevisionAndHead: true, defaultPreserveRetimePrepared: true }),
   };
   report.passed = true;
 } finally {

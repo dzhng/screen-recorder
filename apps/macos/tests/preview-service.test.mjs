@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { spawn, execFileSync } from "node:child_process";
-import { randomUUID, createHash } from "node:crypto";
+import { createHash } from "node:crypto";
 import { mkdtemp, mkdir, writeFile, readFile, rm } from "node:fs/promises";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -133,7 +133,7 @@ import CryptoKit
         while Date() < until {
             owner.tick(); await pause()
             precondition(failures.isEmpty && visible() === window && view.player?.currentItem === item,
-                "Pinned player changed or lost its renewed lease")
+                "Pinned player changed or lost its renewed lease: failures=\\(failures), visible=\\(visible() === window), item=\\(view.player?.currentItem === item), status=\\(item.status.rawValue), error=\\(String(describing: item.error))")
         }
         precondition(window.title.hasSuffix(CommandLine.arguments[5]) && abs(CMTimeGetSeconds(item.duration)-8) < 0.001)
         let current = try JSONSerialization.jsonObject(with: await host.call("revision.get", ["projectId":id])) as! [String:Any]

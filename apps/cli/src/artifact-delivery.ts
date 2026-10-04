@@ -266,14 +266,14 @@ export async function artifactFile(
 }
 
 const projectBatch = <T extends z.ZodRawShape>(fields: T) =>
-  z.object({
+  z.looseObject({
     ...fields,
     projectId: z.string(),
     recordingId: z.never().optional(),
     packageHandle: z.never().optional(),
   });
 const sourceBatch = <T extends z.ZodRawShape>(fields: T) =>
-  z.object({
+  z.looseObject({
     ...fields,
     assetId: z.string(),
     streamId: z.string(),
