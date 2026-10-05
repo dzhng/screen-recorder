@@ -54,7 +54,7 @@ facts, compressed interpretation and exact source↔derivative clocks.
 | [Public H.264/HEVC](evidence/hevc-public/report.json) | Authored clocks, decoded landmarks and replay pass. |
 | [Consumer trials](evidence/consumer-acceptance/README.md), [launcher handoff](evidence/consumer-launcher/README.md) | Concrete planning and unavailable execution pass twice. Explicitly requested launcher recovery passes twice; ordinary summaries omit it. Earlier failures and changed task inputs retained. |
 | [Direct GIF](evidence/gif-extra/report.json) | Discovered component tools work; centisecond quantization explicit. |
-| [Speaker feasibility](slices/22-speaker-feasibility.md), [speaker runtime](evidence/speaker-runtime/README.md), [source PCM](evidence/speaker-source/README.md) | Original speaker recipe and one relocated30s runtime preservation pass; public source/projection/distribution remain open. |
+| [Speaker feasibility](slices/22-speaker-feasibility.md), [speaker runtime](evidence/speaker-runtime/README.md), [source PCM](evidence/speaker-source/README.md) | Original speaker recipe and one relocated30s local runtime preservation pass; public source/project reads and portable evidence remain open. |
 
 Use small isolated fixtures and test-first changes. Do not record or edit personal
 media or repeat searches for the inaccessible running recorder. The user tests the
@@ -130,7 +130,7 @@ intermediate transfers and representative work before performance claims.
 
 Core delivery: **MP4 H.264/HEVC SDR, WAV, AAC/M4A and SRT/VTT**. Preserve native
 H.264/WAV/M4A and prefer native HEVC if its focused proof passes. Explicit
-HDR-source-to-SDR conversion creates a managed derivative; HDR export is deferred.
+HDR-source-to-SDR conversion creates a managed derivative; HDR export is outside scope.
 
 Bundle a broad LGPL-compatible build from pinned sources with Apple encoders.
 GPL/nonfree components are excluded; compatible workflows do not depend on
@@ -148,8 +148,8 @@ Direct extras such as GIF are standalone outputs. Ordinary import and explicit
 placement bring them into projects. A direct file never silently satisfies a
 failed managed export. No wrapper operation per FFmpeg filter is planned.
 
-Deferred core formats: ProRes/MOV, transparent final movies, WebM, MP3/FLAC and
-HDR delivery. Also deferred: editing UI, bundled browser/animation engines, hosted
+Formats outside core scope: ProRes/MOV, transparent final movies, WebM, MP3/FLAC and
+HDR delivery. Also outside scope: editing UI, bundled browser/animation engines, hosted
 speech, cross-platform runtime and automatic editorial policy. Extra binary
 capabilities do not become core support just because inventory lists them.
 
