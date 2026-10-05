@@ -271,3 +271,22 @@ probe file and fresh reader. It retains an exact 1/30 s tail alongside the
 declared 34 ms container extent, 10-bit limited-range facts and encoder SEI 5
 refusal. Ordinary inspection stays absent. This control is intentionally not
 qualified for managed conversion.
+
+## Interpretation agreement checkpoint
+
+The existing retained FFprobe input owner optionally returns color declarations
+for the exact bound stream. Unknown values stay null, and default callers do no
+color work. A decoy full-range stream cannot supply the selected video's missing
+range. Nine focused tests and service typecheck pass; selected declarations,
+missing range and absent native inspection went red before implementation, and
+an independently faulted qualifier accepting alpha goes red on its refusal test.
+Independent scoped review found no actionable issue.
+
+The service qualifier consumes the native complete whole-track verdict rather
+than duplicating its packet grammar. This initial interpretation requires one
+plain hvcC hvc1 format, no alpha or special/malformed color declarations, native
+10-bit BT2020 NCL PQ/HLG and agreeing held FFprobe declarations for 10-bit 4:2:0
+limited-range video. FFprobe may fill only absent native range; other absent
+native declarations remain unqualified. This establishes interpretation only:
+the padded-tail reader control still requires a separate physical-clock refusal,
+and managed conversion remains unimplemented.

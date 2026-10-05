@@ -137,3 +137,66 @@ it("native-admitted CAF remains eligible for retained FFmpeg inspection", async 
     await file.close();
   }
 });
+
+it("explicit color inspection binds declarations to the selected held video and preserves unknown range", async () => {
+  const colorProbe = join(directory, "color-probe.cjs");
+  await writeFile(
+    colorProbe,
+    `#!${process.execPath}\nconst {readFileSync}=require('node:fs');const rows=JSON.parse(readFileSync(3,'utf8'));const fields=process.argv[process.argv.indexOf('-show_entries')+1];process.stdout.write(JSON.stringify({streams:rows.map(row=>fields.includes('color_range')?row:{index:row.index,id:row.id,codec_type:row.codec_type})}));`,
+    { mode: 0o755 },
+  );
+  const path = join(directory, "colors");
+  await writeFile(
+    path,
+    JSON.stringify([
+      {
+        index: 0,
+        id: "0x1",
+        codec_type: "video",
+        color_range: "pc",
+        color_primaries: "bt709",
+        color_transfer: "bt709",
+        color_space: "bt709",
+        pix_fmt: "yuv420p",
+      },
+      {
+        index: 1,
+        id: "0x2",
+        codec_type: "video",
+        color_primaries: "bt2020",
+        color_transfer: "smpte2084",
+        color_space: "bt2020nc",
+        pix_fmt: "yuv420p10le",
+      },
+    ]),
+  );
+  const file = await open(path, "r");
+  const videoMetadata = {
+    originUs: 0,
+    streams: [
+      { id: "track:1", kind: "video" as const, codec: "avc1", decodable: true },
+      { id: "track:2", kind: "video" as const, codec: "hvc1", decodable: true },
+    ],
+  };
+  try {
+    const result = await inspectFfmpegInput(
+      { executable: colorProbe, ownerExecutable: owner },
+      { file, metadata: videoMetadata, streamId: "track:2", inspectColor: true },
+    );
+    expect(result.map).toBe("0:1");
+    expect(result.color).toEqual({
+      colorPrimaries: "bt2020",
+      transferFunction: "smpte2084",
+      ycbcrMatrix: "bt2020nc",
+      range: null,
+      pixelFormat: "yuv420p10le",
+    });
+    const ordinary = await inspectFfmpegInput(
+      { executable: colorProbe, ownerExecutable: owner },
+      { file, metadata: videoMetadata, streamId: "track:2" },
+    );
+    expect(ordinary.color).toBeUndefined();
+  } finally {
+    await file.close();
+  }
+});

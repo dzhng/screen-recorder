@@ -101,7 +101,13 @@ records installed evidence separately from an isolated service check.
 
 FFmpeg operands borrow the existing held source authority. Native media facts own
 support, common origin and geometry; the [input boundary](src/ffmpeg-input.ts)
-uses FFprobe only to bind an explicit stream to held bytes. Offline self-contained
+uses FFprobe to bind an explicit stream to held bytes. Optional declared-color
+inspection supplements the same selected stream and preserves missing fields;
+it supplies neither source clocks nor permission to convert. The
+[HDR interpretation checkpoint](src/hdr-conversion.ts) consumes fresh native
+whole-track interpretation evidence and agreeing declarations. Physical support,
+derivative validation and managed publication remain separate requirements.
+Offline self-contained
 input and a dedicated read lease per invocation prevent pathname substitution,
 secondary resource resolution and shared cursor surprises. Source slots are
 explicitly rewound in the existing CLI owner; this never reopens the donor path.

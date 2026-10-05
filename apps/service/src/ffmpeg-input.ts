@@ -16,8 +16,36 @@ const inputArguments = [
   "-i",
   "fd:",
 ];
-type ProbeStream = { index: number; id?: string; codec_type: string };
-function streams(value: unknown): ProbeStream[] {
+export type FfmpegColorDeclarations = {
+  colorPrimaries: string | null;
+  transferFunction: string | null;
+  ycbcrMatrix: string | null;
+  range: string | null;
+  pixelFormat: string | null;
+};
+type ProbeStream = {
+  index: number;
+  id?: string;
+  codec_type: string;
+  color?: FfmpegColorDeclarations;
+};
+function colorDeclarations(row: Record<string, unknown>): FfmpegColorDeclarations {
+  const field = (name: string) => {
+    const value = row[name];
+    if (value === undefined) return null;
+    if (typeof value !== "string" || value.length > 64)
+      throw new CatalogError("INVALID_NATIVE_RESPONSE", "FFprobe color declaration is invalid");
+    return value;
+  };
+  return {
+    colorPrimaries: field("color_primaries"),
+    transferFunction: field("color_transfer"),
+    ycbcrMatrix: field("color_space"),
+    range: field("color_range"),
+    pixelFormat: field("pix_fmt"),
+  };
+}
+function streams(value: unknown, inspectColor: boolean): ProbeStream[] {
   if (
     !value ||
     typeof value !== "object" ||
@@ -44,6 +72,7 @@ function streams(value: unknown): ProbeStream[] {
       index: item.index as number,
       codec_type: item.codec_type,
       ...(item.id === undefined ? {} : { id: item.id as string }),
+      ...(inspectColor ? { color: colorDeclarations(item) } : {}),
     });
   }
   if (new Set(result.map((row) => row.index)).size !== result.length)
@@ -52,7 +81,8 @@ function streams(value: unknown): ProbeStream[] {
 }
 
 /** Borrow one already-admitted regular file. Native owns support/timing; FFprobe
- * supplies only the selector needed to execute that explicit stream on held bytes.
+ * supplies the selector and, when explicitly requested, declared color supplement.
+ * Neither missing declarations nor FFprobe clocks become native media authority.
  * The caller keeps this distinct read lease alive until every FFmpeg task retires. */
 export async function inspectFfmpegInput(
   command: { executable: string; ownerExecutable: string },
@@ -62,6 +92,7 @@ export async function inspectFfmpegInput(
     streamId: string;
     signal?: AbortSignal;
     lifetimes?: readonly number[];
+    inspectColor?: boolean;
   },
 ) {
   input.signal?.throwIfAborted();
@@ -90,7 +121,10 @@ export async function inspectFfmpegInput(
           "error",
           ...inputArguments,
           "-show_entries",
-          "stream=index,id,codec_type",
+          "stream=index,id,codec_type" +
+            (input.inspectColor
+              ? ",color_primaries,color_transfer,color_space,color_range,pix_fmt"
+              : ""),
           "-of",
           "json",
         ],
@@ -104,7 +138,9 @@ export async function inspectFfmpegInput(
       },
     ),
   ) as { output: unknown };
-  const candidates = streams(receipt.output).filter((row) => row.codec_type === stream.kind);
+  const candidates = streams(receipt.output, input.inspectColor === true).filter(
+    (row) => row.codec_type === stream.kind,
+  );
   const track = /^track:([1-9][0-9]*)$/.exec(stream.id);
   const matches = track
     ? candidates.filter((row) => row.id !== undefined && BigInt(row.id) === BigInt(track[1]!))
@@ -130,5 +166,6 @@ export async function inspectFfmpegInput(
     map: `0:${selected.index}`,
     originUs: metadata.originUs,
     stream,
+    ...(input.inspectColor ? { color: selected.color! } : {}),
   };
 }
