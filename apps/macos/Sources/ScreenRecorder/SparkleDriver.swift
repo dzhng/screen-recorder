@@ -10,9 +10,12 @@ final class SparkleDriver: NSObject, SPUUpdaterDelegate, SPUUserDriver {
     private let terminate: () -> Void
     private var updater: SPUUpdater!
     private let catalogFormat: String
-    private var downloadCancellation: (() -> Void)?
+    private let changed: () -> Void
+    private var checkObservation: NSKeyValueObservation?
+    private var requestCancellation: (() -> Void)?
 
-    init?(owner: UpdateCoordinator, bundle: Bundle = .main, terminate: @escaping () -> Void) {
+    init?(owner: UpdateCoordinator, bundle: Bundle = .main,
+          changed: @escaping () -> Void = {}, terminate: @escaping () -> Void) {
         guard let feed = bundle.object(forInfoDictionaryKey: "SUFeedURL") as? String, !feed.isEmpty,
             let key = bundle.object(forInfoDictionaryKey: "SUPublicEDKey") as? String, !key.isEmpty,
             let format = bundle.object(forInfoDictionaryKey: "ScreenrecCatalogFormat") as? NSNumber,
@@ -21,6 +24,7 @@ final class SparkleDriver: NSObject, SPUUpdaterDelegate, SPUUserDriver {
         else { return nil }
         self.owner = owner
         self.terminate = terminate
+        self.changed = changed
         catalogFormat = format.stringValue
         super.init()
         do {
@@ -31,12 +35,49 @@ final class SparkleDriver: NSObject, SPUUpdaterDelegate, SPUUserDriver {
             owner.setAvailability(true, enabled: updater.automaticallyChecksForUpdates)
             owner.preferenceChanged = { [weak self] enabled in
                 self?.updater.automaticallyChecksForUpdates = enabled
-                if !enabled { self?.downloadCancellation?() }
+                if !enabled { self?.requestCancellation?() }
+            }
+            checkObservation = updater.observe(\.canCheckForUpdates, options: [.initial, .new]) { [weak self] _, _ in
+                Task { @MainActor [weak self] in self?.changed() }
             }
         } catch {
             owner.fail(code: "UPDATE_UNAVAILABLE", message: error.localizedDescription)
             return nil
         }
+    }
+    var canCheckForUpdates: Bool { updater.canCheckForUpdates && owner.canStartManualCheck }
+
+    /// App controls and public CLI requests reach this same SDK boundary.
+    func handle(_ operation: String, _ params: Data) -> Result<Data, ServiceFailure> {
+        do {
+            guard let fields = try JSONSerialization.jsonObject(with: params) as? [String: Any] else {
+                throw ServiceFailure(code: "INVALID_PARAMS", message: "Update parameters must be an object.")
+            }
+            return .success(try JSONSerialization.data(withJSONObject: try perform(operation, params: fields)))
+        } catch let failure as ServiceFailure {
+            return .failure(failure)
+        } catch {
+            return .failure(ServiceFailure(code: "INVALID_PARAMS", message: "Unreadable update parameters."))
+        }
+    }
+    private func perform(_ operation: String, params: [String: Any]) throws(ServiceFailure) -> [String: Any] {
+        switch operation {
+        case "update.status": break
+        case "update.setEnabled":
+            guard let enabled = params["enabled"] as? Bool else {
+                throw ServiceFailure(code: "INVALID_PARAMS", message: "Expected an enabled boolean.")
+            }
+            owner.setEnabled(enabled)
+        case "update.check":
+            guard canCheckForUpdates else { throw owner.checkFailure }
+            try owner.beginManualCheck()
+            updater.checkForUpdates()
+        default:
+            throw ServiceFailure(code: "UNKNOWN_OPERATION", message: "Unknown updater operation.")
+        }
+        return ["available": owner.available, "enabled": owner.enabled,
+                "canCheck": canCheckForUpdates, "message": owner.checkMessage as Any? ?? NSNull(),
+                "update": owner.status.parameters["update"]!]
     }
     /// All aliases use this persistent private inode, before any SDK cycle starts.
     private static func prepareLock(_ relative: String) throws {
@@ -67,7 +108,7 @@ final class SparkleDriver: NSObject, SPUUpdaterDelegate, SPUUserDriver {
         _ updater: SPUUpdater, shouldProceedWithUpdate item: SUAppcastItem,
         updateCheck: SPUUpdateCheck
     ) throws {
-        guard owner.enabled, item.signingValidationStatus == .succeeded,
+        guard owner.mayUpdate, item.signingValidationStatus == .succeeded,
             item.propertiesDictionary["screenrecCatalogFormat"] as? String == catalogFormat
         else {
             throw ServiceFailure(
@@ -76,7 +117,7 @@ final class SparkleDriver: NSObject, SPUUpdaterDelegate, SPUUserDriver {
         }
     }
     func updater(_ updater: SPUUpdater, mayPerform updateCheck: SPUUpdateCheck) throws {
-        guard owner.enabled else {
+        guard owner.mayUpdate else {
             throw ServiceFailure(code: "UPDATE_DISABLED", message: "Automatic updates are disabled")
         }
         owner.checking()
@@ -84,12 +125,12 @@ final class SparkleDriver: NSObject, SPUUpdaterDelegate, SPUUserDriver {
     func updater(
         _ updater: SPUUpdater, didFinishUpdateCycleFor updateCheck: SPUUpdateCheck, error: Error?
     ) {
-        downloadCancellation = nil
+        requestCancellation = nil
         let sdkError = error as NSError?
         // Sparkle completes a normal no-update check with an error sentinel.
         let noUpdate = sdkError?.domain == SUSparkleErrorDomain
             && sdkError?.code == Int(SUError.noUpdateError.rawValue)
-        owner.cycleFinished(error: noUpdate ? nil : error)
+        owner.cycleFinished(error: noUpdate ? nil : error, upToDate: noUpdate)
     }
     func updaterWillRelaunchApplication(_ updater: SPUUpdater) {
         guard owner.mayTerminateForUpdate else {
@@ -104,12 +145,15 @@ final class SparkleDriver: NSObject, SPUUpdaterDelegate, SPUUserDriver {
     ) {
         reply(SUUpdatePermissionResponse(automaticUpdateChecks: true, sendSystemProfile: false))
     }
-    func showUserInitiatedUpdateCheck(cancellation: @escaping () -> Void) { owner.checking() }
+    func showUserInitiatedUpdateCheck(cancellation: @escaping () -> Void) {
+        requestCancellation = cancellation
+        owner.checking()
+    }
     func showUpdateFound(
         with appcastItem: SUAppcastItem, state: SPUUserUpdateState,
         reply: @escaping (SPUUserUpdateChoice) -> Void
     ) {
-        guard owner.enabled, !appcastItem.isInformationOnlyUpdate else {
+        guard owner.mayUpdate, !appcastItem.isInformationOnlyUpdate else {
             reply(.dismiss)
             return
         }
@@ -130,11 +174,11 @@ final class SparkleDriver: NSObject, SPUUpdaterDelegate, SPUUserDriver {
         acknowledgement()
     }
     func showDownloadInitiated(cancellation: @escaping () -> Void) {
-        downloadCancellation = cancellation
+        requestCancellation = cancellation
     }
     func showDownloadDidReceiveExpectedContentLength(_ expectedContentLength: UInt64) {}
     func showDownloadDidReceiveData(ofLength length: UInt64) {}
-    func showDownloadDidStartExtractingUpdate() { downloadCancellation = nil }
+    func showDownloadDidStartExtractingUpdate() { requestCancellation = nil }
     func showExtractionReceivedProgress(_ progress: Double) {}
     func showReady(toInstallAndRelaunch reply: @escaping (SPUUserUpdateChoice) -> Void) {
         owner.ready(install: { reply(.install) }, cancel: { reply(.skip) })

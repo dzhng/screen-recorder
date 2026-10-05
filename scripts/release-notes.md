@@ -1,7 +1,9 @@
-This patch fixes updater status: “You’re up to date” completes successfully,
-and a fresh check clears an earlier check failure and stale candidate version.
-Actual download and installation failures remain visible. Existing v0.1.5
-installations can update automatically without resetting their library.
+Check and download updates immediately from Settings → General → Check for Updates
+or the public CLI `update.check` operation. Both use the same native updater;
+`update.status` reports progress and `update.setEnabled` controls automatic updates.
+A manual check works with automatic updates off without changing that preference.
+Installation waits for recording, background work and CLI clients to finish.
+Existing v0.1.5 and v0.1.6 installations can update without resetting their library.
 
 Bundled FFmpeg/ffprobe, audio dynamics and loudness measurement, SDR correction,
 qualified HDR-to-SDR conversion, HEVC delivery, caption sidecars and agent review

@@ -32,6 +32,55 @@ function run(t, body, child = peer) {
   assert.equal(result.status, 0, result.stdout + result.stderr);
   return result.stdout.trim().split("\n");
 }
+test("a one-shot check with automatic updates off waits for idle and authorizes only after clean exit", (t) => {
+  assert.deepEqual(
+    run(
+      t,
+      `
+ owner.setEnabled(false)
+ try! owner.beginManualCheck()
+ owner.candidate(version: "2")
+ owner.ready(install: { trace.append("install"); owner.installing { trace.append("authorize") } },
+             cancel: { trace.append("cancel") })
+ try? await Task.sleep(for: .milliseconds(30))
+ guard !owner.enabled, trace.isEmpty, !fenced, owner.status.state == "waiting" else { exit(1) }
+ _ = try! await host.call("service.health")
+ blockers = []; owner.progress()
+ for _ in 0..<200 { if owner.mayTerminateForUpdate { break }; try? await Task.sleep(for: .milliseconds(10)) }
+ guard !owner.enabled, owner.cleanServiceExit, owner.mayTerminateForUpdate, fenced else { print(owner.status); exit(1) }
+ print(trace.joined(separator:","))
+ `,
+    ),
+    ["install,authorize"],
+  );
+});
+test("one-shot completion and explicit opt-out retain the disabled preference and cannot resume a staged update", (t) => {
+  assert.deepEqual(
+    run(
+      t,
+      `
+ owner.setEnabled(false)
+ try! owner.beginManualCheck()
+ owner.cycleFinished(error: nil, upToDate: true)
+ for _ in 0..<200 { if owner.canStartManualCheck { break }; try? await Task.sleep(for: .milliseconds(10)) }
+ guard !owner.enabled, !owner.mayUpdate, owner.status.state == "disabled", owner.checkMessage == "You’re up to date." else { exit(1) }
+ try! owner.beginManualCheck()
+ guard owner.checkMessage == nil else { exit(1) }
+ owner.candidate(version: "2")
+ owner.ready(install: { trace.append("install") }, cancel: { trace.append("cancel") })
+ try? await Task.sleep(for: .milliseconds(30))
+ owner.setEnabled(false)
+ owner.cycleFinished(error: nil)
+ try? await Task.sleep(for: .milliseconds(30))
+ blockers = []; owner.progress()
+ guard !owner.enabled, !owner.mayUpdate, !fenced, !owner.mayTerminateForUpdate,
+       owner.status.state == "disabled" else { print(owner.status); exit(1) }
+ print(trace.joined(separator:","))
+ `,
+    ),
+    ["cancel"],
+  );
+});
 test("native intent leaves work usable while waiting; actual clean child exit precedes authorization", (t) => {
   assert.deepEqual(
     run(

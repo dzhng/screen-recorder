@@ -26,16 +26,18 @@ enum ControlsProbe { static let observed = true }
         let output = CommandLine.arguments[1]
         let scratch = CommandLine.arguments[2]
         let states: [(String, UpdateControls)] = [
-            ("enabled", .init(available: true, enabled: true)),
-            ("disabled", .init(available: true, enabled: false)),
+            ("enabled", .init(available: true, enabled: true, canCheck: true)),
+            ("disabled", .init(available: true, enabled: false, canCheck: true)),
+            ("checking", .init(available: true, enabled: false, status: "Checking for updates…")),
+            ("up-to-date", .init(available: true, enabled: false, status: "You’re up to date.", canCheck: true)),
             ("waiting", .init(available: true, enabled: true, status: "An update is waiting for recording and background work to finish.")),
-            ("failure", .init(available: true, enabled: true, status: "Update failed: the download could not be verified. Your current version is unchanged.")),
+            ("failure", .init(available: true, enabled: true, status: "Update failed: the download could not be verified. Your current version is unchanged.", canCheck: true)),
             ("manual", .init()),
         ]
         for (theme, appearance) in [("light", NSAppearance.Name.aqua), ("dark", .darkAqua)] {
             for (name, updates) in states {
                 let preferences = Preferences(defaults: UserDefaults(suiteName: "\(scratch)/\(theme)-\(name)")!)
-                let model = SettingsModel(preferences: preferences, perform: { _ in })
+                let model = SettingsModel(preferences: preferences, perform: { _ in }, update: { _, _ in })
                 model.state.permissions = ControlsState.Permissions(screen: .granted, microphone: .granted)
                 model.state.shortcutOverridePath = "/Users/example/.screenrec/shortcuts.json"
                 model.state.updates = updates

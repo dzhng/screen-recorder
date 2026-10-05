@@ -30,7 +30,7 @@ import { EventEmitter } from "node:events";
 import { projectPackageManifest } from "@screenrec/core/project-package";
 import { fileIdentity } from "@screenrec/core/files";
 import type { ProjectSnapshot } from "@screenrec/core/projects";
-import { CONTROL_FRAME_BYTES } from "@screenrec/protocol";
+import { CONTROL_FRAME_BYTES, updatePreparationSchema } from "@screenrec/protocol";
 const cleanups: (() => Promise<void>)[] = [];
 afterEach(async () => {
   vi.restoreAllMocks();
@@ -53,6 +53,88 @@ const metadata = {
   ],
 };
 const setup = projectServiceFixture.bind(undefined, cleanups);
+
+test("socket and app requests share native update controls and preserve native refusals", async () => {
+  const f = await projectServiceControlFixture(cleanups, async () => ({ ok: true, data: {} }));
+  let enabled = false;
+  let checking = false;
+  f.events.on("call", ({ request }) => {
+    if (request.operation === "update.setEnabled") enabled = request.params.enabled;
+    const response =
+      request.operation === "update.check" && checking
+        ? {
+            ok: false,
+            error: {
+              code: "UPDATE_BUSY",
+              message: "An update is already in progress.",
+              retryable: true,
+              details: {},
+            },
+          }
+        : {
+            ok: true,
+            data: { enabled, checking: (checking ||= request.operation === "update.check") },
+          };
+    f.input.write(
+      JSON.stringify({ event: "result", response: { id: request.id, ...response } }) + "\n",
+    );
+  });
+  expect(await f.call("update.status", {})).toMatchObject({
+    ok: true,
+    data: { enabled: false, checking: false },
+  });
+  expect(await f.control("update.setEnabled", { enabled: true })).toMatchObject({
+    ok: true,
+    data: { enabled: true },
+  });
+  expect(await f.call("update.setEnabled", { enabled: false })).toMatchObject({
+    ok: true,
+    data: { enabled: false },
+  });
+  expect(await f.call("update.check", {})).toMatchObject({
+    ok: true,
+    data: { enabled: false, checking: true },
+  });
+  expect(await f.control("update.check")).toMatchObject({
+    ok: false,
+    error: { code: "UPDATE_BUSY", retryable: true },
+  });
+  expect(await f.call("update.setEnabled", { enabled: "yes" })).toMatchObject({
+    ok: false,
+    error: { code: "INVALID_PARAMS" },
+  });
+});
+
+test("prepared admission keeps update inspection and opt-out accessible while product work remains fenced", async () => {
+  const f = await projectServiceControlFixture(cleanups, async () => ({ ok: true, data: {} }));
+  f.events.on("call", ({ request }) => {
+    f.input.write(
+      JSON.stringify({
+        event: "result",
+        response: { id: request.id, ok: true, data: { enabled: false } },
+      }) + "\n",
+    );
+  });
+  let permitId: string | undefined;
+  await expect
+    .poll(async () => {
+      const result = await f.control("update.prepare");
+      if (result.ok) {
+        const parsed = updatePreparationSchema.parse(result.data);
+        if (parsed.kind === "prepared") permitId = parsed.permitId;
+      }
+      return permitId;
+    })
+    .toBeDefined();
+  expect(await f.call("update.status", {})).toMatchObject({ ok: true, data: { enabled: false } });
+  expect(await f.control("update.setEnabled", { enabled: false })).toMatchObject({ ok: true });
+  expect(await f.call("update.setEnabled", { enabled: false })).toMatchObject({ ok: true });
+  expect(await f.call("capture.sources", {})).toMatchObject({
+    ok: false,
+    error: { code: "UPDATING" },
+  });
+  expect(await f.control("update.release", { permitId })).toMatchObject({ ok: true });
+});
 
 test("health projects strict native update reports without exposing private coordination on the socket", async () => {
   const f = await projectServiceControlFixture(cleanups, async () => ({ ok: true, data: {} }));

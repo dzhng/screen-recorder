@@ -5,12 +5,12 @@ import ScreenRecorderControls
 /**
  The status-bar recording controls.
 
- Everything a person can do here is one service operation the service already owns: this holds what
- they have selected to record next, asks the service to act, and shows what the service answered.
+ Media actions use the service's public operations: this holds what they have selected to record
+ next, asks the service to act, and shows what the service answered.
  It keeps no device state machine, no catalog and no clock of its own — the elapsed time it shows
  is the running take's own playback time, read back through the same status call the CLI reads.
- Permissions are the one thing native owns outright, and they are only ever requested by a person
- choosing to request them. The Settings window is a second view of this same state: it sends the
+ Native owns permissions and the updater; update commands use the same handler as CLI forwarding.
+ Permissions are requested by a person choosing to request them. The Settings window is a second view of this same state: it sends the
  same actions the menu does, and the audio choices both edit are saved as the next launch's defaults.
  */
 @MainActor
@@ -23,7 +23,7 @@ final class RecordingControls: NSObject, NSMenuDelegate {
     private let quit: () -> Void
     private let preferences: Preferences
     private var state: ControlsState
-    private var setUpdatesEnabled: ((Bool) -> Void)?
+    private var updateOperation: ((String, Data) -> Result<Data, ServiceFailure>)?
     /// Screen access has no "not yet asked" state to read, so a request this launch that came back
     /// refused is what says asking again would prompt for nothing.
     private var screenRequestRefused = false
@@ -73,6 +73,7 @@ final class RecordingControls: NSObject, NSMenuDelegate {
     private lazy var settings = SettingsWindow(
         preferences: preferences,
         perform: { [weak self] action in self?.perform(action) },
+        update: { [weak self] operation, params in self?.sendUpdate(operation, params) },
         refreshPermissions: { [weak self] in
             self?.readPermissions()
             self?.render()
@@ -104,10 +105,23 @@ final class RecordingControls: NSObject, NSMenuDelegate {
         render()
     }
 
-    func configureUpdates(_ updates: UpdateControls, setEnabled: @escaping (Bool) -> Void) {
+    func configureUpdates(_ updates: UpdateControls,
+                          operation: @escaping (String, Data) -> Result<Data, ServiceFailure>) {
         state.updates = updates
-        setUpdatesEnabled = setEnabled
+        updateOperation = operation
         render()
+    }
+
+    /// Opt-out remains usable while the child service is closing or unavailable.
+    private func sendUpdate(_ operation: String, _ params: [String: Any]) {
+        guard let updateOperation else { return }
+        do {
+            let data = try JSONSerialization.data(withJSONObject: params)
+            _ = try updateOperation(operation, data).get()
+        } catch {
+            state.failure = error.localizedDescription
+            render()
+        }
     }
 
     func attach(to host: ServiceHost) {
@@ -161,7 +175,7 @@ final class RecordingControls: NSObject, NSMenuDelegate {
     func perform(_ action: ControlsAction) {
         if updateFenced {
             switch action {
-            case .quit, .openSettings, .setAutomaticUpdates: break
+            case .quit, .openSettings: break
             default:
                 state.failure = "An update is installing. Try again after the app reopens."
                 render(); return
@@ -203,11 +217,11 @@ final class RecordingControls: NSObject, NSMenuDelegate {
         case .toggleSystemAudio:
             state.selection.systemAudio.toggle()
         case .startOrStop:
-            state.isLive ? capture("capture.stop", live()) : countThenStart()
+            state.isLive ? send("capture.stop", live()) : countThenStart()
         case .pauseOrResume:
-            capture(state.device?.state == .paused ? "capture.resume" : "capture.pause", live())
+            send(state.device?.state == .paused ? "capture.resume" : "capture.pause", live())
         case .cancel:
-            capture("capture.cancel", live())
+            send("capture.cancel", live())
         case .restart:
             restart()
         case .deleteRecording,
@@ -229,8 +243,6 @@ final class RecordingControls: NSObject, NSMenuDelegate {
             request(.screen)
         case .requestMicrophonePermission:
             request(.microphone)
-        case .setAutomaticUpdates(let enabled):
-            if state.updates.available { setUpdatesEnabled?(enabled) }
         case .openSettings:
             settings.show()
         case .quit:
@@ -275,7 +287,7 @@ final class RecordingControls: NSObject, NSMenuDelegate {
     private func start() {
         guard let request = state.beginStart(newRequestId: UUID().uuidString) else { return }
         render()
-        capture("capture.start", parameters(of: request.start, requestId: request.requestId)) {
+        send("capture.start", parameters(of: request.start, requestId: request.requestId)) {
             [weak self] result in
             guard let self else { return }
             let answer: ControlsState.StartAnswer =
@@ -303,7 +315,7 @@ final class RecordingControls: NSObject, NSMenuDelegate {
         }
         var params = parameters(of: start, requestId: UUID().uuidString)
         params["recordingId"] = recordingId
-        capture("capture.restart", params)
+        send("capture.restart", params)
     }
 
     private func parameters(
@@ -319,7 +331,7 @@ final class RecordingControls: NSObject, NSMenuDelegate {
 
     /// Sends one service operation and shows what came back. A refusal is stated in the menu with
     /// the service's own code, so a person sees what was refused rather than a silent no-op.
-    private func capture(
+    private func send(
         _ operation: String, _ params: [String: Any]?,
         then settle: (@MainActor (Result<Data, ServiceFailure>) -> Void)? = nil
     ) {

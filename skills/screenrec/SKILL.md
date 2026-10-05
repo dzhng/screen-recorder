@@ -44,7 +44,14 @@ preserve local content for surgical requests, and back up before explicit
 whole-folder replacement. App updating never changes these files.
 
 For update-health questions, inspect the installed `service.health --help` and
-actual reply. Explain advertised waiting/disabled state and blockers literally;
+actual reply. Discover advertised `update.status`, `update.check` and
+`update.setEnabled` help before using them. When supported, an explicit
+`update.check` checks immediately and downloads an available compatible update,
+including with automatic updates off; it leaves that preference unchanged.
+Follow `update.status` for the effective preference, progress and result. The app's
+Settings → General → Check for Updates uses this same operation. An update check
+returns before installation; existing CLI clients must finish before replacement.
+Explain advertised waiting/disabled state and blockers literally;
 waiting for idle does not authorize stopping work, and disabled automatic updates
 do not prove the service is unhealthy. Do not invent an updater command or kill,
 cancel, close or stop work to obtain idle. Older releases may not advertise update
@@ -128,6 +135,10 @@ advertised by the connected service's `capture.start`/`capture.restart` schemas.
 Select a camera explicitly when the request needs it, without device fallback or
 an automatic permission prompt. Capture publishes source facts and admission
 outcomes; choose project layout and placement through explicit editing operations.
+An agent-led recording can prepare the target browser/app, give the user a ready
+cue, and invoke `capture.start` with the selected source when authorized. Use
+`capture.pause`, `capture.resume` and `capture.stop` for requested control; await
+finalization before treating the recording as ready media.
 
 ## Task references
 

@@ -965,6 +965,27 @@ export const operationSchema = z.discriminatedUnion("operation", [
       "Page raw cursor observations with explicit capture authority. Selected assets use sourceRange and require acquisitionId for captured video; project selectors use range/revisionId/trackIds and return each retained occurrence with exact projectAtUs. Raw coordinates, captureAtUs and integrity receipt remain unchanged; this does not simulate crop/zoom. Missing capture metadata reports unavailable coverage. Keep first-page coverage and continue while nextCursor exists, even on empty pages.",
     ),
   z
+    .object({ operation: z.literal("update.status"), params: z.object({}).strict() })
+    .strict()
+    .describe(
+      "Read the native updater's availability, automatic-update preference, manual-check readiness and current result without checking the feed.",
+    ),
+  z
+    .object({ operation: z.literal("update.check"), params: z.object({}).strict() })
+    .strict()
+    .describe(
+      "Check immediately and download an available compatible update, even when automatic updates are disabled. Does not change that preference or interrupt work; installation waits for existing idle admission and CLI clients to finish. Follow update.status for progress.",
+    ),
+  z
+    .object({
+      operation: z.literal("update.setEnabled"),
+      params: z.object({ enabled: z.boolean() }).strict(),
+    })
+    .strict()
+    .describe(
+      "Set the native updater's persisted automatic checks/downloads/installation preference. Disabling cancels pending automatic or manual update work before final replacement authorization; after that boundary it applies to the successor.",
+    ),
+  z
     .object({ operation: z.literal("service.health"), params: z.object({}).strict() })
     .strict()
     .describe("Read local service readiness without starting capture."),
@@ -1083,12 +1104,19 @@ export type OperationName = z.infer<typeof operationSchema>["operation"];
 export const operationNames: ReadonlySet<string> = new Set(
   operationSchema.options.map((option) => option.shape.operation.value),
 );
+/** Updater inspection/cancellation owns no media resources and must remain usable during admission. */
+export const updateCommandOperations: ReadonlySet<string> = new Set(
+  [...operationNames].filter((name) => name.startsWith("update.")),
+);
 
 const nativeCall = DEFAULT_CALL_TIMEOUT_MS;
 const workerRun = MEDIA_WORKER_TIMEOUT_MS;
 // Drains and scans wait on other work finishing; a retry joins the same in-flight work.
 const drain = 180_000;
 const waits: Partial<Record<OperationName, number>> = {
+  "update.status": nativeCall,
+  "update.check": nativeCall,
+  "update.setEnabled": nativeCall,
   "capture.sources": nativeCall,
   "capture.status": nativeCall,
   "capture.pause": nativeCall,

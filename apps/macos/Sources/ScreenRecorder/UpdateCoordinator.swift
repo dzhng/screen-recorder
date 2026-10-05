@@ -40,12 +40,32 @@ final class UpdateCoordinator {
     private var pendingProgress = false
     private var installerRequested = false
     private var releaseUnconfirmed = false
+    private var manualCheck = false
     private var reported: Status?
     private(set) var status = Status()
     private(set) var available = false
     private(set) var enabled = false
     private(set) var cleanServiceExit = false
+    private(set) var checkMessage: String?
     var preferenceChanged: ((Bool) -> Void)?
+
+    var mayUpdate: Bool { enabled || manualCheck }
+    var canStartManualCheck: Bool {
+        available && !releaseUnconfirmed && !cleanServiceExit && phase == .waiting
+            && install == nil && attempt == nil
+            && ["idle", "disabled", "failed"].contains(status.state)
+    }
+    var checkFailure: ServiceFailure {
+        if releaseUnconfirmed || cleanServiceExit {
+            return ServiceFailure(code: "UPDATE_RESTART_REQUIRED", message: "Quit and reopen the app before checking for updates.")
+        }
+        return ServiceFailure(code: "UPDATE_BUSY", message: "An update is already in progress.", retryable: true)
+    }
+    func beginManualCheck() throws(ServiceFailure) {
+        guard canStartManualCheck else { throw checkFailure }
+        manualCheck = true
+        checking()
+    }
 
     init(
         blockers: @escaping () -> [String], fence: @escaping (Bool) -> Void,
@@ -82,7 +102,10 @@ final class UpdateCoordinator {
             return
         }
         if !value {
+            manualCheck = false
             stop(state: "disabled")
+        } else if manualCheck {
+            publish()
         } else {
             status.state = "idle"
             publish()
@@ -90,7 +113,8 @@ final class UpdateCoordinator {
         }
     }
     func checking() {
-        guard enabled, !releaseUnconfirmed, !cleanServiceExit else { return }
+        guard mayUpdate, !releaseUnconfirmed, !cleanServiceExit else { return }
+        checkMessage = nil
         status.error = nil
         status.availableVersion = nil
         status.state = "checking"
@@ -103,7 +127,7 @@ final class UpdateCoordinator {
             return
         }
         status.error = nil
-        status.state = enabled ? "downloading" : "disabled"
+        status.state = mayUpdate ? "downloading" : "disabled"
         publish()
     }
     func ready(install: @escaping () -> Void, cancel: @escaping () -> Void) {
@@ -113,7 +137,7 @@ final class UpdateCoordinator {
             cancel()
             return
         }
-        if !enabled {
+        if !mayUpdate {
             stop(state: "disabled")
             return
         }
@@ -123,7 +147,7 @@ final class UpdateCoordinator {
     }
     /// Owner notifications, not a retry timer, provide another installation opportunity.
     func progress() {
-        guard enabled, !releaseUnconfirmed, !cleanServiceExit, install != nil else { return }
+        guard mayUpdate, !releaseUnconfirmed, !cleanServiceExit, install != nil else { return }
         if phase == .preparing || (phase == .waiting && attempt != nil) {
             pendingProgress = true
             return
@@ -160,7 +184,7 @@ final class UpdateCoordinator {
                     throw ServiceFailure(code: "INVALID_RESPONSE", message: "Unreadable update permit")
                 }
                 granted = id
-                guard generation == current, enabled, nativeBlockers().isEmpty else {
+                guard generation == current, mayUpdate, nativeBlockers().isEmpty else {
                     guard await release(id, from: host) else { return }
                     if generation == current {
                         phase = .waiting
@@ -171,7 +195,7 @@ final class UpdateCoordinator {
                 }
                 permit = id
                 _ = try await host.call("update.commit", ["permitId": id])
-                guard generation == current, enabled, nativeBlockers().isEmpty else {
+                guard generation == current, mayUpdate, nativeBlockers().isEmpty else {
                     guard await release(id, from: host) else { return }
                     if generation == current {
                         permit = nil
@@ -209,7 +233,7 @@ final class UpdateCoordinator {
     /// Its retained retry callback grants final replacement after actual clean EOF.
     func installing(authorize: @escaping () -> Void) {
         guard phase == .committed else { return }
-        guard enabled, permit != nil,
+        guard mayUpdate, permit != nil,
             nativeBlockers().isEmpty, let host
         else {
             stop(state: "failed")
@@ -224,7 +248,7 @@ final class UpdateCoordinator {
             do {
                 try await host.shutdownForUpdate()
                 cleanServiceExit = true
-                guard generation == current, enabled, phase == .closing else { return }
+                guard generation == current, mayUpdate, phase == .closing else { return }
                 phase = .authorized
                 authorize()
             } catch {
@@ -236,7 +260,8 @@ final class UpdateCoordinator {
     }
     var mayTerminateForUpdate: Bool { phase == .authorized && cleanServiceExit }
     func ordinaryQuit() { stop(state: enabled ? "idle" : "disabled") }
-    func cycleFinished(error: Error?) {
+    func cycleFinished(error: Error?, upToDate: Bool = false) {
+        manualCheck = false
         let wasClosing = phase == .closing || phase == .authorized || cleanServiceExit
         generation = UUID()
         install = nil
@@ -267,6 +292,7 @@ final class UpdateCoordinator {
             if let error {
                 fail(code: "UPDATE_FAILED", message: error.localizedDescription)
             } else {
+                checkMessage = upToDate ? "You’re up to date." : nil
                 status.state = status.error == nil ? (enabled ? "idle" : "disabled") : "failed"
                 publish()
             }
@@ -287,6 +313,7 @@ final class UpdateCoordinator {
         if old == .waiting || old == .failed, !installerRequested, !releaseUnconfirmed,
             !cleanServiceExit, permit == nil, attempt == nil
         {
+            if install == nil { phase = .waiting }
             fence(false)
         }
         publish()

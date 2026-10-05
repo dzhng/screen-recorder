@@ -66,7 +66,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         self.updates = updates
         controls?.updateProgress = { [weak updates] in updates?.progress() }
         controller.updateProgress = { [weak updates] in updates?.progress() }
-        sparkle = SparkleDriver(owner: updates) { [weak self] in
+        sparkle = SparkleDriver(owner: updates, changed: { [weak self] in self?.refreshUpdateControls() }) { [weak self] in
             guard let self, self.updates?.mayTerminateForUpdate == true else { return }
             self.updaterTermination = true
             NSApplication.shared.terminate(nil)
@@ -101,11 +101,18 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
                     ? "An update is waiting for command-line clients to finish."
                     : "An update is waiting for recording and background work to finish."
             case "installing": message = "Installing an update…"
-            default: message = nil
+            default: message = updates.checkMessage
             }
         }
-        controls?.configureUpdates(.init(available: updates.available, enabled: updates.enabled, status: message),
-                                   setEnabled: { [weak updates] in updates?.setEnabled($0) })
+        controls?.configureUpdates(.init(available: updates.available, enabled: updates.enabled, status: message,
+                                        canCheck: sparkle?.canCheckForUpdates ?? false), operation: { [weak self] operation, params in
+            self?.handleUpdate(operation, params) ?? .failure(ServiceFailure(code: "UPDATE_UNAVAILABLE", message: "No native updater is connected."))
+        })
+    }
+
+    private func handleUpdate(_ operation: String, _ params: Data) -> Result<Data, ServiceFailure> {
+        sparkle?.handle(operation, params)
+            ?? .failure(ServiceFailure(code: "UPDATE_UNAVAILABLE", message: "Updates are installed manually in this build."))
     }
 
     /// Ordinary launch owns the service only. Nothing here starts capture or touches a
@@ -123,8 +130,18 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
                 case .success(let bundle):
                     let host = ServiceHost(
                         bundle: bundle,
-                        onNativeCall: { operation, params, answer in
-                            Task { @MainActor in answer(await capture.handle(operation, params)) }
+                        onNativeCall: { [weak self] operation, params, answer in
+                            Task { @MainActor [weak self] in
+                                if ["update.status", "update.check", "update.setEnabled"].contains(operation) {
+                                    guard let self else {
+                                        answer(.failure(ServiceFailure(code: "UPDATE_UNAVAILABLE", message: "No native updater is connected.")))
+                                        return
+                                    }
+                                    answer(self.handleUpdate(operation, params))
+                                } else {
+                                    answer(await capture.handle(operation, params))
+                                }
+                            }
                         }, onState: { [weak self] state in
                             Task { @MainActor in self?.apply(state) }
                     }, onUpdateProgress: { [weak self] in

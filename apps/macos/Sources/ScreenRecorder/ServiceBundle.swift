@@ -4,6 +4,7 @@ import Foundation
 struct ServiceFailure: LocalizedError, Sendable {
     let code: String
     let message: String
+    var retryable: Bool = false
 
     var errorDescription: String? { "\(code): \(message)" }
 }

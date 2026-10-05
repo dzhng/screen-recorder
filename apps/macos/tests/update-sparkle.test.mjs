@@ -1,10 +1,19 @@
 import assert from "node:assert/strict";
 import { randomUUID } from "node:crypto";
-import { spawnSync } from "node:child_process";
-import { mkdirSync, mkdtempSync, realpathSync, rmSync, writeFileSync } from "node:fs";
+import { spawn, spawnSync } from "node:child_process";
+import {
+  existsSync,
+  mkdirSync,
+  mkdtempSync,
+  readFileSync,
+  realpathSync,
+  rmSync,
+  writeFileSync,
+} from "node:fs";
 import { tmpdir, userInfo } from "node:os";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
+import { setTimeout as delay } from "node:timers/promises";
 import { test } from "node:test";
 
 const sources = fileURLToPath(new URL("../Sources/ScreenRecorder/", import.meta.url));
@@ -15,8 +24,36 @@ const defaultFramework = fileURLToPath(
 test(
   "production Sparkle boundary persists preferences and completes no-update checks",
   { timeout: 60000 },
-  (t) => {
+  async (t) => {
     const scratch = mkdtempSync(join(tmpdir(), "screenrec-sparkle-check-"));
+    const feed = spawn(
+      process.execPath,
+      [
+        "--input-type=module",
+        "-e",
+        `
+import {createServer} from 'node:http';
+import {existsSync,writeFileSync} from 'node:fs';
+import {join} from 'node:path';
+const root=process.argv[1];
+const server=createServer((request,response)=>{
+    if(existsSync(join(root,'hold-feed'))){writeFileSync(join(root,'feed-received'),'received');return;}
+    response.writeHead(404).end();
+});
+server.listen(0,'127.0.0.1',()=>writeFileSync(join(root,'feed-url'),'http://127.0.0.1:'+server.address().port+'/appcast.xml'));
+`,
+        scratch,
+      ],
+      { stdio: "ignore" },
+    );
+    const feedClosed = new Promise((resolve) => feed.once("close", resolve));
+    t.after(async () => {
+      feed.kill();
+      await feedClosed;
+    });
+    for (let attempt = 0; !existsSync(join(scratch, "feed-url")) && attempt < 200; attempt++)
+      await delay(10);
+    assert(existsSync(join(scratch, "feed-url")), "Local feed starts within the fixture deadline");
     const token = randomUUID();
     const identity = `dev.screenrec.sparkle-proof.${token}`;
     const lockRelative = `Library/Caches/screenrec-sparkle-check-${token}/launch.lock`;
@@ -41,7 +78,7 @@ test(
       CFBundleShortVersionString: "0.1.0",
       LSUIElement: true,
       LSMinimumSystemVersion: "26.0",
-      SUFeedURL: "https://updates.example.invalid/appcast.xml",
+      SUFeedURL: readFileSync(join(scratch, "feed-url"), "utf8"),
       SUPublicEDKey: "EGUShmh3L5OimwAOcvpXHNo4JVindlgCtBbBzIjrhrg=",
       SURequireSignedFeed: true,
       SUVerifyUpdateBeforeExtraction: true,
@@ -79,7 +116,52 @@ func diagnostic(_ message: String) {}
             print(owner.status); exit(1)
         }
         let before = owner.enabled
+        func update(_ operation: String, _ params: [String: Any] = [:]) throws(ServiceFailure) -> [String: Any] {
+            let request = try! JSONSerialization.data(withJSONObject: params)
+            let data = try driver.handle(operation, request).get()
+            return try! JSONSerialization.jsonObject(with: data) as! [String: Any]
+        }
         switch CommandLine.arguments.last {
+        case "manual-check", "manual-cancel":
+            _ = try! update("update.setEnabled", ["enabled": false])
+            for _ in 0..<200 {
+                if driver.canCheckForUpdates { break }
+                try? await Task.sleep(for: .milliseconds(10))
+            }
+            _ = try! update("update.check")
+            if CommandLine.arguments.last == "manual-cancel" {
+                for _ in 0..<200 {
+                    if FileManager.default.fileExists(atPath: ${JSON.stringify(join(scratch, "feed-received"))}) { break }
+                    try? await Task.sleep(for: .milliseconds(10))
+                }
+                precondition(FileManager.default.fileExists(atPath: ${JSON.stringify(join(scratch, "feed-received"))}), "Opt-out exercises an actual in-flight feed request")
+                _ = try! update("update.setEnabled", ["enabled": false])
+                for _ in 0..<200 {
+                    if driver.canCheckForUpdates { break }
+                    try? await Task.sleep(for: .milliseconds(10))
+                }
+                print(String(decoding: try! JSONSerialization.data(withJSONObject: [
+                    "enabled": owner.enabled, "state": owner.status.state,
+                    "error": owner.status.error?.code as Any? ?? NSNull(),
+                    "canCheck": driver.canCheckForUpdates]), as: UTF8.self))
+                withExtendedLifetime(driver) {}
+                return
+            }
+            var duplicateRejected = false
+            do { _ = try update("update.check") }
+            catch { duplicateRejected = error.code == "UPDATE_BUSY" && error.retryable }
+            for _ in 0..<200 {
+                if owner.status.state == "failed" { break }
+                try? await Task.sleep(for: .milliseconds(10))
+            }
+            let facts = try! update("update.status")
+            precondition(facts["enabled"] as? Bool == false)
+            print(String(decoding: try! JSONSerialization.data(withJSONObject: [
+                "enabled": owner.enabled, "state": owner.status.state,
+                "error": owner.status.error?.code as Any? ?? NSNull(),
+                "duplicateRejected": duplicateRejected]), as: UTF8.self))
+            withExtendedLifetime(driver) {}
+            return
         case "disable": owner.setEnabled(false)
         case "enable": owner.setEnabled(true)
         case "no-update", "wrong-domain", "download-error", "recovered-no-update":
@@ -153,6 +235,8 @@ func diagnostic(_ message: String) {}
     );
     assert.equal(compile.status, 0, compile.stdout + compile.stderr);
     const observe = (mode) => {
+      if (mode === "manual-cancel") writeFileSync(join(scratch, "hold-feed"), "hold");
+      else rmSync(join(scratch, "hold-feed"), { force: true });
       const child = spawnSync(executable, [mode], {
         encoding: "utf8",
         timeout: 10000,
@@ -168,6 +252,12 @@ func diagnostic(_ message: String) {}
     };
     assert.deepEqual(observe("disable"), { before: true, after: false, state: "disabled" });
     assert.deepEqual(observe("observe"), { before: false, after: false, state: "disabled" });
+    assert.deepEqual(observe("manual-cancel"), {
+      enabled: false,
+      state: "disabled",
+      error: null,
+      canCheck: true,
+    });
     assert.deepEqual(observe("enable"), { before: false, after: true, state: "idle" });
     assert.deepEqual(observe("observe"), { before: true, after: true, state: "idle" });
     assert.deepEqual(observe("no-update"), {
@@ -186,5 +276,12 @@ func diagnostic(_ message: String) {}
     assert.deepEqual(observe("recovered-no-update"), {
       update: { state: "idle", availableVersion: null, blockers: [], error: null },
     });
+    assert.deepEqual(observe("manual-check"), {
+      enabled: false,
+      state: "failed",
+      error: "UPDATE_FAILED",
+      duplicateRejected: true,
+    });
+    assert.deepEqual(observe("observe"), { before: false, after: false, state: "disabled" });
   },
 );

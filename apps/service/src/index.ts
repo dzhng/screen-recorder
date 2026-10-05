@@ -21,6 +21,7 @@ import {
   type OperationWireRequest,
   type OperationResult,
   updateControlOperations,
+  updateCommandOperations,
 } from "@screenrec/protocol";
 
 export type LocalHandler = (
@@ -165,7 +166,9 @@ export async function listenLocal(options: {
         reply(operationError("UNKNOWN_OPERATION", "Unknown service operation"));
         return;
       }
-      const refusal = options.admission?.refusal();
+      const refusal = updateCommandOperations.has(operation.operation)
+        ? undefined
+        : options.admission?.refusal();
       if (refusal) {
         reply(refusal);
         return;

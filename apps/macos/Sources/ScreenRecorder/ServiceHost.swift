@@ -409,7 +409,7 @@ final class ServiceHost: @unchecked Sendable {
         case .failure(let failure):
             response["ok"] = false
             response["error"] = [
-                "code": failure.code, "message": failure.message, "retryable": false, "details": [:],
+                "code": failure.code, "message": failure.message, "retryable": failure.retryable, "details": [:],
             ]
         }
         let message: [String: Any] = ["event": "result", "response": response]

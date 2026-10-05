@@ -32,7 +32,6 @@ public enum ControlsAction: Hashable, Sendable {
     case refreshStorage
     case requestScreenPermission
     case requestMicrophonePermission
-    case setAutomaticUpdates(Bool)
     case openSettings
     case quit
 
@@ -64,7 +63,6 @@ public enum ControlsAction: Hashable, Sendable {
         case .refreshStorage: "storage.refresh"
         case .requestScreenPermission: "permission.screen"
         case .requestMicrophonePermission: "permission.microphone"
-        case .setAutomaticUpdates(let enabled): "updates.automatic.\(enabled ? "on" : "off")"
         case .openSettings: "app.settings"
         case .quit: "app.quit"
         }

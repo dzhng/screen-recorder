@@ -53,7 +53,7 @@ Development proves that the primitives work. It does not turn the user's recordi
 
 Use what the repo already chose before writing your own. Find the existing owner of a concept before creating another.
 
-Every way into the product shares the same contracts: an operation means one thing however it is called.
+Every capability exposed in the app must also be available through the public CLI. The app, CLI and other adapters share operation handlers and contracts: an operation means one thing however it is called.
 
 Prefer one general rule to a special case, and a simple structure to an abstraction nobody needs yet.
 

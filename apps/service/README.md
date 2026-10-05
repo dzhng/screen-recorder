@@ -24,6 +24,13 @@ a second daemon or an endless restart loop.
 
 ## Update admission
 
+Public updater commands forward to the app's native update owner, so the UI and
+CLI share one check, preference and inspection contract. Inspection and explicit
+opt-out remain usable during replacement admission; they cannot authorize media
+work or private replacement permits. A one-shot check leaves the automatic-update
+preference unchanged, and SDK replacement still waits for existing work and CLI
+clients to finish.
+
 The [admission gate](src/update-admission.ts) joins evidence from existing work
 owners and transport lifetimes. Waiting for an update leaves ordinary operations
 usable. A private preparation briefly fences new requests and either returns

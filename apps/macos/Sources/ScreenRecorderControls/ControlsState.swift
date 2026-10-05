@@ -483,12 +483,14 @@ extension ControlsState {
 
 /// Effective updater facts observed by the controls; Sparkle owns their persistence.
 public struct UpdateControls: Equatable, Sendable {
-    public init(available: Bool = false, enabled: Bool = false, status: String? = nil) {
+    public init(available: Bool = false, enabled: Bool = false, status: String? = nil, canCheck: Bool = false) {
         self.available = available
         self.enabled = enabled
         self.status = status
+        self.canCheck = canCheck
     }
     public var available: Bool
     public var enabled: Bool
     public var status: String?
+    public var canCheck: Bool
 }

@@ -787,6 +787,12 @@ export async function startProjectService(options: {
       const operation = parsed.data;
       try {
         switch (operation.operation) {
+          case "update.status":
+          case "update.check":
+          case "update.setEnabled":
+            return controller
+              ? await controller.call(operation.operation, operation.params)
+              : operationError("UPDATE_UNAVAILABLE", "No native updater is connected.");
           case "service.health":
             return {
               ok: true,

@@ -11,6 +11,7 @@ import SwiftUI
  hold, and every recording or permission change goes back to them as the same action the menu
  sends. Only the launch preference and login-item registration are edited here directly: the first
  lives in preferences, the second is read from and written to the system, never cached.
+ Update controls call the shared native handler even when the child service is unavailable.
  */
 @MainActor
 final class SettingsWindow: NSObject, NSWindowDelegate {
@@ -23,11 +24,12 @@ final class SettingsWindow: NSObject, NSWindowDelegate {
 
     init(
         preferences: Preferences, perform: @escaping (ControlsAction) -> Void,
+        update: @escaping (String, [String: Any]) -> Void,
         refreshPermissions: @escaping () -> Void
     ) {
         self.preferences = preferences
         self.refreshPermissions = refreshPermissions
-        model = SettingsModel(preferences: preferences, perform: perform)
+        model = SettingsModel(preferences: preferences, perform: perform, update: update)
         super.init()
         // Returning from System Settings activates this app again; that is when access changes.
         NotificationCenter.default.addObserver(
@@ -143,21 +145,29 @@ final class SettingsModel: ObservableObject {
         didSet { preferences.countdownBeforeRecording = countdownBeforeRecording }
     }
     let perform: (ControlsAction) -> Void
+    private let update: (String, [String: Any]) -> Void
     private let preferences: Preferences
 
     /// Where a person states combinations of their own, as the controls state names it.
     var shortcutFile: String { state.shortcutOverridePath ?? "" }
 
-    init(preferences: Preferences, perform: @escaping (ControlsAction) -> Void) {
+    init(preferences: Preferences, perform: @escaping (ControlsAction) -> Void,
+         update: @escaping (String, [String: Any]) -> Void) {
         self.preferences = preferences
         self.perform = perform
+        self.update = update
         showAtLaunch = preferences.showSettingsAtLaunch
         countdownBeforeRecording = preferences.countdownBeforeRecording
     }
 
     func setAutomaticUpdates(_ enabled: Bool) {
         guard state.updates.available, enabled != state.updates.enabled else { return }
-        perform(.setAutomaticUpdates(enabled))
+        update("update.setEnabled", ["enabled": enabled])
+    }
+
+    func checkForUpdates() {
+        guard state.updates.available, state.updates.canCheck else { return }
+        update("update.check", [:])
     }
 
     func readLoginItem() {
@@ -344,6 +354,11 @@ struct SettingsView: View {
                 Toggle("Automatically download and install updates", isOn: Binding(
                     get: { model.state.updates.enabled },
                     set: { model.setAutomaticUpdates($0) }))
+                HStack {
+                    Spacer()
+                    Button("Check for Updates") { model.checkForUpdates() }
+                        .disabled(!model.state.updates.canCheck)
+                }
                 if let status = model.state.updates.status {
                     Text(status).font(.callout).foregroundStyle(.secondary)
                 }
@@ -357,7 +372,7 @@ struct SettingsView: View {
             if model.state.updates.available {
                 Text(model.state.updates.enabled
                     ? "Installs when recording and background work are idle."
-                    : "Off prevents automatic checks, downloads and installation.")
+                    : "Automatic updates are off. You can still check and install manually.")
                     .foregroundStyle(.secondary)
             }
         }

@@ -83,13 +83,25 @@ Probe entry points use those same owners; they do not define a second recorder.
 The checked-in icon is an input to the build, with its [drawing tool](../../scripts/render-app-icon.swift)
 kept separately so building is not a drawing step.
 
-## Update preference
+## Update controls
 
-Settings observes the release updater's effective availability, enabled preference
-and status. Its toggle sends an explicit change to the native coordinator; Sparkle
-owns persistence and staged-update cancellation. Settings never writes another
-update preference or infers installation permission from its checkbox. Manual
-source/personal builds show a manual-update explanation instead of an inert toggle.
+Settings → General observes the release updater's effective availability,
+automatic-update preference and status. **Check for Updates** checks immediately
+and downloads an available compatible candidate; a one-shot request works with
+automatic updates off without changing that preference. The button is disabled
+while the SDK is busy or a restart is required. Completion, progress and failures
+remain visible in Settings.
+
+The UI and CLI use the same public updater operations and native SDK boundary.
+Settings calls that boundary locally, so opt-out remains usable when the child
+service fails or is closing; the CLI forwards through its service connection.
+Sparkle owns scheduling, preference persistence and staged-update cancellation;
+the coordinator owns installation admission for both scheduled and one-shot
+checks. Neither surface bypasses recording, service or launcher exclusion.
+Updater inspection and preference cancellation remain accessible during service
+admission because they acquire no media resources. Settings never writes another
+update preference or infers installation permission from its checkbox. Source and
+personal builds without release metadata show a manual-update explanation.
 
 The [offscreen settings renderer](tests/settings-view-shots.mjs) draws the production
 view with synthetic owner facts and checks that the form still scrolls to General.
