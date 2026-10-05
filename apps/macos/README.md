@@ -26,6 +26,16 @@ Escalation targets that child alone under a bounded deadline. Pending calls sett
 on terminal failure instead of waiting for a channel nobody serves. Control writes
 are asynchronous and bounded so a non-reading peer cannot block every deadline.
 
+Release updates use a separate lifetime contract. The [update coordinator](Sources/ScreenRecorder/UpdateCoordinator.swift)
+joins existing native intent with the service's atomic permit; waiting leaves
+normal operations and preview renewals usable. The [Sparkle boundary](Sources/ScreenRecorder/SparkleDriver.swift)
+owns scheduling and preferences through the pinned SDK. Its acknowledged launch
+exclusion permits clean service EOF, and observed clean exit permits replacement.
+Updater shutdown never finalizes capture, closes preview or sends a signal to
+manufacture idle. An unconfirmed permit release or stalled shutdown requires an
+explicit quit and reopen; there is no competing successor or automatic restart loop.
+Updater relaunch preserves the selected home/defaults and suppresses launch Settings.
+
 The [library controller](Sources/ScreenRecorder/LibraryController.swift) presents
 source facts and caller-created projects separately. Last-good observations survive
 read errors; generations fence delayed replies after deletion, page changes or

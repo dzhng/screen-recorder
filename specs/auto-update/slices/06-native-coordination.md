@@ -74,3 +74,26 @@ no-interruption contract and supported upstream install mechanism are fixed.
 Feedback changes this slice if normal controls/quit become unusable or the status
 misstates what blocks replacement. Any generated visual shot inherits the README's
 compare/preview gates; run unprimed screenshot-critique last before accepting it.
+
+## Production coordination status
+
+The native implementation now joins the service permit to existing controller
+intent through [UpdateCoordinator](../../../apps/macos/Sources/ScreenRecorder/UpdateCoordinator.swift)
+and the pinned SDK's [user driver](../../../apps/macos/Sources/ScreenRecorder/SparkleDriver.swift).
+The actual service control-channel fixtures cover progress notification,
+correlated preparation, arriving native intent, clean child exit before final
+authorization, confirmed cancellation, lost release acknowledgement and failed
+commitment. Stalled EOF remains live and unavailable even when malformed output
+arrives; it is never signalled by updater shutdown. Deliberately removing the
+native recheck or the post-EOF message guard made those regressions fail.
+
+A full native application compilation against the frozen protected framework
+passed. Independent review found and corrected a read/progress feedback loop
+and a failed-commit path that stranded the staged SDK cycle. Existing polling
+resumes on its normal cadence, without an updater-triggered refresh loop.
+Unknown admission acknowledgement and irreversible shutdown failures require an
+explicit quit/reopen, with no automatic successor launch.
+
+These focused checks do not establish assembled SDK parity, permission continuity
+or installed A→B replacement. The frozen-engine production replay and installed
+acceptance remain with slice 09; previously accepted permission evidence is reused.

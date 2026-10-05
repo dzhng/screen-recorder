@@ -18,6 +18,7 @@ final class PreviewController {
     private let presentation: any PreviewPresenting
     private let now: @MainActor () -> Date
     private let failure: (String) -> Void
+    private let changed: () -> Void
     private var generation = UUID()
     private var target: MediaTarget?
     private var revisionId: String?
@@ -28,18 +29,23 @@ final class PreviewController {
     private var polling = false
 
     init(call: @escaping Call, presentation: any PreviewPresenting = PreviewWindow(),
-        now: @escaping @MainActor () -> Date = Date.init, failure: @escaping (String) -> Void)
+        now: @escaping @MainActor () -> Date = Date.init, changed: @escaping () -> Void = {},
+        failure: @escaping (String) -> Void)
     {
         self.call = call
         self.presentation = presentation
         self.now = now
         self.failure = failure
+        self.changed = changed
     }
+
+    var isOpen: Bool { target != nil }
 
     func open(_ projectId: String, revisionId: String? = nil) {
         let target = MediaTarget.project(projectId)
-        close()
+        finishClose()
         self.target = target
+        changed()
         self.revisionId = revisionId
         polling = true
         requestOperation = "preview.get"
@@ -56,6 +62,11 @@ final class PreviewController {
 
     func close(target: MediaTarget? = nil) {
         if let target, target != self.target { return }
+        finishClose()
+        changed()
+    }
+
+    private func finishClose() {
         generation = UUID()
         self.target = nil
         revisionId = nil
