@@ -34,20 +34,35 @@ import type { EvidenceKey } from "./evidence-merge.js";
 import { boundSourceEvidenceResponse, type CaptureDomain } from "./capture-source-read.js";
 import { initialProjectEvents, mergeEvents, type ProjectEventPosition } from "./project-events.js";
 import { SourceEvents, type SourceEventContext } from "./source-events.js";
+import { speakerSourceSchema } from "./source-speakers.js";
+import {
+  initialProjectSpeakers,
+  mergeSpeakers,
+  projectSpeakerCoverage,
+  projectSpeakerTracks,
+  type ProjectSpeakerPosition,
+  type ProjectSpeakerDependency,
+} from "./project-speakers.js";
+import type { SpeakerEvidenceStore } from "./speaker-evidence.js";
+export type { ProjectSpeakerRow, ProjectSpeakerDependency } from "./project-speakers.js";
+export type ProjectSpeakerInput = ProjectEvidenceInput & { channel: number; modelId: string };
 type ProjectCheckpoint =
   | (EvidenceCheckpoint<TranscriptPosition> & { kind: "transcript" })
-  | (EvidenceCheckpoint<ProjectEventPosition> & { kind: "events" });
+  | (EvidenceCheckpoint<ProjectEventPosition> & { kind: "events" })
+  | (EvidenceCheckpoint<ProjectSpeakerPosition> & { kind: "speakers" });
 export type { ProjectEventRow } from "./project-events.js";
 export type { ProjectTranscriptRow, ProjectTranscriptMatch } from "./project-transcript.js";
 export type EvidencePagePlan = ReturnType<ProjectEvidenceInspection["pagePlan"]>;
 
 const artifact = "project.evidence";
 const policy = (domain: Query["domain"]) =>
-  domain === "events"
-    ? "project-events-v2"
-    : domain === "cursor"
-      ? "project-events-v1"
-      : "project-transcript-v1";
+  domain === "speakers"
+    ? "project-speakers-v1"
+    : domain === "events"
+      ? "project-events-v2"
+      : domain === "cursor"
+        ? "project-events-v1"
+        : "project-transcript-v1";
 // Provisional inspection budgets; scale acceptance owns changes to these limits.
 const maximumBytes = 8 * 1024 * 1024;
 
@@ -68,9 +83,16 @@ export type ProjectEvidenceInput = {
   limit?: number | undefined;
   cursor?: unknown;
 };
-type QueryInput = ProjectEvidenceInput & { text?: string | undefined; domain?: Query["domain"] };
+type QueryInput = ProjectEvidenceInput & {
+  text?: string | undefined;
+  domain?: Query["domain"];
+  channel?: number;
+  modelId?: string;
+};
 type Query = {
-  domain: "transcript" | "transcript.search" | CaptureDomain;
+  domain: "transcript" | "transcript.search" | CaptureDomain | "speakers";
+  channel?: number;
+  modelId?: string;
   text?: string;
   projectId: string;
   revisionId: string;
@@ -80,6 +102,7 @@ type Query = {
 };
 type Dependency = {
   capture?: SourceEventContext;
+  speaker?: ProjectSpeakerDependency;
   selection: SourceSelection;
   transcript: TranscriptMetadata | null;
   state: string;
@@ -91,13 +114,15 @@ export type EvidenceManifest = {
   query: Query;
   queryDigest: string;
   dependencies: Dependency[];
-  tracks: { clipIds: string[]; lowerBound: TimeValue; cuts?: true }[];
+  tracks: { clipIds: string[]; lowerBound: TimeValue; cuts?: true; speakerGeneration?: string }[];
   coverage?: {
     clipId: string;
     trackId: string;
     projectRange: SelectionRange;
     available: SelectionRange[];
     unavailable: SelectionRange[];
+    observed?: SelectionRange[];
+    unobserved?: SelectionRange[];
   }[];
 };
 export type EvidenceCheckpoint<Position> = {
@@ -123,6 +148,13 @@ export class ProjectEvidenceInspection {
       transcripts: TranscriptProcessing;
       records: TranscriptRecords;
       events?: SourceEvents;
+      speakers?: {
+        resolveMany: (
+          selections: readonly SourceSelection[],
+          request: { channel: number; modelId: string },
+        ) => ProjectSpeakerDependency[];
+        records: Pick<SpeakerEvidenceStore, "intervalPage">;
+      };
     },
   ) {}
 
@@ -183,7 +215,14 @@ export class ProjectEvidenceInspection {
         ? []
         : (context.cuts ??= createProjectCuts(model)).window({ range: parsed.data, trackIds });
     if (input.text !== undefined) transcriptSearchTerms(input.text);
+    const speaker =
+      domain === "speakers"
+        ? speakerSourceSchema
+            .pick({ channel: true, modelId: true })
+            .parse({ channel: input.channel, modelId: input.modelId })
+        : {};
     const query: Query = {
+      ...speaker,
       domain,
       ...(input.text === undefined ? {} : { text: input.text }),
       projectId: input.projectId,
@@ -242,9 +281,25 @@ export class ProjectEvidenceInspection {
   private dependencies(
     selections: readonly SourceSelection[],
     prepare: boolean,
-    domain: Query["domain"],
+    query: Query,
   ): Dependency[] {
+    const domain = query.domain;
     if (selections.length === 0) return [];
+    if (domain === "speakers") {
+      if (!this.options.speakers)
+        throw new CatalogError("UNAVAILABLE", "Speaker inspection is unavailable");
+      return this.options.speakers
+        .resolveMany(selections, { channel: query.channel!, modelId: query.modelId! })
+        .map((speaker) => ({
+          selection: speaker.selection,
+          speaker,
+          transcript: null,
+          state: speaker.state,
+          reason: speaker.reason,
+          retryable: speaker.retryable,
+          jobId: speaker.jobId,
+        }));
+    }
     if (domain === "events" || domain === "cursor") {
       if (!this.options.events)
         throw new CatalogError("UNAVAILABLE", "Capture inspection is unavailable");
@@ -282,27 +337,29 @@ export class ProjectEvidenceInspection {
     });
   }
   private pins(dependencies: Dependency[]) {
-    return dependencies.map(({ selection, transcript, state, reason, capture }) =>
-      capture
-        ? { selection, capture }
-        : {
-            selection,
-            generation: transcript?.generation ?? null,
-            source: transcript?.source ?? null,
-            engine: transcript?.engine ?? null,
-            state,
-            reason,
-          },
+    return dependencies.map(({ selection, transcript, state, reason, capture, speaker }) =>
+      speaker
+        ? { selection, speaker }
+        : capture
+          ? { selection, capture }
+          : {
+              selection,
+              generation: transcript?.generation ?? null,
+              source: transcript?.source ?? null,
+              engine: transcript?.engine ?? null,
+              state,
+              reason,
+            },
     );
   }
   request(input: QueryInput) {
     const plan = this.plan(input),
-      dependencies = this.dependencies(plan.selections, input.prepare !== false, plan.query.domain);
+      dependencies = this.dependencies(plan.selections, input.prepare !== false, plan.query);
     const pending = dependencies.filter((dependency) =>
       dependency.capture
         ? !!dependency.capture.scene &&
           !["ready", "unavailable"].includes(dependency.capture.scene.state)
-        : !dependency.transcript && dependency.reason !== "no_audio",
+        : !dependency.speaker && !dependency.transcript && dependency.reason !== "no_audio",
     );
     if (pending.length)
       return {
@@ -346,7 +403,7 @@ export class ProjectEvidenceInspection {
       { ...input.query, projectId: job.target.projectId, revisionId: job.target.revisionId },
       true,
     );
-    const dependencies = this.dependencies(plan.selections, false, plan.query.domain);
+    const dependencies = this.dependencies(plan.selections, false, plan.query);
     if (
       digest(this.pins(dependencies)) !== input.pins ||
       digest(plan.query) !== digest(input.query)
@@ -354,33 +411,39 @@ export class ProjectEvidenceInspection {
       throw changed();
     const byTrack = new Map(plan.query.trackIds.map((id) => [id, [] as string[]]));
     for (const clip of plan.occurrences) byTrack.get(clip.trackId)!.push(clip.clipId);
-    const tracks: EvidenceManifest["tracks"] = [...byTrack.values()]
-      .flatMap((clipIds) => {
-        return clipIds.length
-          ? [
-              {
-                clipIds,
-                lowerBound: toTime(
-                  plan.projection.inverse(clipIds[0]!, {
-                    startUs: 0,
-                    endUs: plan.query.range.endUs,
-                  })!.project.start,
-                ),
-              },
-            ]
-          : [];
-      })
-      .sort((a, b) => compare(fromTime(a.lowerBound), fromTime(b.lowerBound)));
+    const tracks: EvidenceManifest["tracks"] =
+      plan.query.domain === "speakers"
+        ? projectSpeakerTracks(plan.occurrences, dependencies, plan)
+        : [...byTrack.values()]
+            .flatMap((clipIds) => {
+              return clipIds.length
+                ? [
+                    {
+                      clipIds,
+                      lowerBound: toTime(
+                        plan.projection.inverse(clipIds[0]!, {
+                          startUs: 0,
+                          endUs: plan.query.range.endUs,
+                        })!.project.start,
+                      ),
+                    },
+                  ]
+                : [];
+            })
+            .sort((a, b) => compare(fromTime(a.lowerBound), fromTime(b.lowerBound)));
     if (plan.cuts.length) {
       tracks.push({ clipIds: [], lowerBound: plan.cuts[0]!.projectAtUs, cuts: true });
       tracks.sort((a, b) => compare(fromTime(a.lowerBound), fromTime(b.lowerBound)));
     }
+    const dependencyBySource = new Map(dependencies.map((d) => [selectionKey(d.selection), d]));
     const manifest: EvidenceManifest = {
       query: plan.query,
       queryDigest: plan.queryDigest,
       dependencies,
       tracks,
-      ...(plan.query.domain === "events" || plan.query.domain === "cursor"
+      ...(plan.query.domain === "events" ||
+      plan.query.domain === "cursor" ||
+      plan.query.domain === "speakers"
         ? {
             coverage: plan.occurrences.map((clip) => {
               const range = (value: {
@@ -393,6 +456,13 @@ export class ProjectEvidenceInspection {
                 projectRange: range(clip.project),
                 available: clip.fragments.map((value) => range(value.project)),
                 unavailable: clip.unavailable.map((value) => range(value.project)),
+                ...(plan.query.domain === "speakers"
+                  ? projectSpeakerCoverage(
+                      clip,
+                      dependencyBySource.get(selectionKey(clip))!.speaker!.evidence,
+                      plan.projection,
+                    )
+                  : {}),
               };
             }),
           }
@@ -469,6 +539,14 @@ export class ProjectEvidenceInspection {
       page: result.page && { rows: result.page.events, nextCursor: result.page.nextCursor },
     };
   }
+  async speakers(input: ProjectSpeakerInput) {
+    const result = await this.read({ ...input, domain: "speakers", prepare: false });
+    return {
+      ...result,
+      coverage: "coverage" in result ? (result.coverage ?? null) : null,
+      page: result.page && { rows: result.page.speakers, nextCursor: result.page.nextCursor },
+    };
+  }
   private async read(input: QueryInput) {
     const parsed = input.cursor === undefined ? null : cursorSchema.safeParse(input.cursor);
     if (parsed && !parsed.success)
@@ -523,10 +601,7 @@ export class ProjectEvidenceInspection {
       const expectedPins = digest(this.pins(manifest.dependencies));
       const validate = () => {
         this.options.projects.get(input.projectId);
-        if (
-          digest(this.pins(this.dependencies(selections, false, plan.query.domain))) !==
-          expectedPins
-        )
+        if (digest(this.pins(this.dependencies(selections, false, plan.query))) !== expectedPins)
           throw changed();
       };
       validate();
@@ -537,22 +612,36 @@ export class ProjectEvidenceInspection {
             queryDigest: manifest.queryDigest,
             initialized: 0,
             pendingTrack: null,
-            ...(plan.query.domain === "events" || plan.query.domain === "cursor"
-              ? { kind: "events" as const, tracks: manifest.tracks.map(initialProjectEvents) }
-              : { kind: "transcript" as const, tracks: manifest.tracks.map(initialTranscript) }),
+            ...(plan.query.domain === "speakers"
+              ? { kind: "speakers" as const, tracks: manifest.tracks.map(initialProjectSpeakers) }
+              : plan.query.domain === "events" || plan.query.domain === "cursor"
+                ? { kind: "events" as const, tracks: manifest.tracks.map(initialProjectEvents) }
+                : { kind: "transcript" as const, tracks: manifest.tracks.map(initialTranscript) }),
             heap: [],
             last: null,
           } satisfies ProjectCheckpoint);
       if (state.manifestId !== manifestId || state.queryDigest !== manifest.queryDigest)
         throw changed();
       const merged =
-        state.kind === "events"
+        state.kind === "speakers"
           ? {
               rows: [],
               entries: [],
-              events: mergeEvents(manifest, plan, state, limit, this.options.events!),
+              events: [],
+              speakers: mergeSpeakers(manifest, plan, state, limit, this.options.speakers!.records),
             }
-          : { ...mergeTranscript(manifest, plan, state, limit, this.options.records), events: [] };
+          : state.kind === "events"
+            ? {
+                rows: [],
+                entries: [],
+                speakers: [],
+                events: mergeEvents(manifest, plan, state, limit, this.options.events!),
+              }
+            : {
+                ...mergeTranscript(manifest, plan, state, limit, this.options.records),
+                events: [],
+                speakers: [],
+              };
       const dependencies = cursor ? { manifestId } : manifest.dependencies;
       const coverage = manifest.coverage
         ? {

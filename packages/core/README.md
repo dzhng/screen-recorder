@@ -49,6 +49,14 @@ validated generation. Retained reads bind that generation's original decoder,
 independently of the currently installed executable or prepared runtime. Chronological
 pagination preserves native row ordinals and simultaneous observations.
 
+Project speaker reads keep the observation generation beside each clip occurrence.
+Repeated uses and overlapping observations never merge anonymous slots. Coverage
+separates unavailable source support from retained audio that has no observation;
+neither becomes a speaker assignment. Continuations pin the selected channel,
+model, revision and source generations through the existing evidence cache.
+Clipping may collapse distinct starts; merge order follows chronological source
+records while the returned native ordinals remain unchanged.
+
 ## Transactions, replay and lifetime
 
 Edits commit document changes, dependency references and replay receipts together.

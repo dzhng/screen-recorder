@@ -8,6 +8,13 @@ import {
   type SignedTimeValue,
   type TimeValue,
 } from "@screenrec/composition";
+import {
+  SpeakerEvidenceStore,
+  assetSpeakerOwner,
+  type SpeakerEvidenceMetadata,
+} from "./speaker-evidence.js";
+import { nativeOutput, speakerSource } from "./speaker-evidence.fixture.js";
+import { selectSource } from "./source-selection.js";
 import { projectStoreFixture } from "./project-store.fixture.js";
 import { SceneProcessing } from "./scene-processing.js";
 import { SourceSceneRead } from "./scene-source-read.js";
@@ -45,7 +52,13 @@ async function fixture({
   durationUs = 1000,
   originUs = 500,
   scenes = false,
-}: { durationUs?: TimeValue; originUs?: SignedTimeValue; scenes?: boolean } = {}) {
+  speakers = false,
+}: {
+  durationUs?: TimeValue;
+  originUs?: SignedTimeValue;
+  scenes?: boolean;
+  speakers?: boolean;
+} = {}) {
   const home = await mkdtemp("/tmp/project-evidence-");
   const catalog = new Catalog(join(home, "catalog.sqlite"));
   const assets = new AssetStore(catalog, home);
@@ -65,6 +78,7 @@ async function fixture({
       id,
       kind: id === "video" ? "video" : "audio",
       ...(id === "video" ? { orientedWidth: 160, orientedHeight: 96 } : {}),
+      ...(id === "video" ? {} : { channels: 2 }),
       codec: "fixture",
       decodable: true,
       startUs: 0,
@@ -339,6 +353,39 @@ async function fixture({
     capture: captureRead,
     ...(scenes ? { scenes: sceneRead } : {}),
   });
+  const speakerRecords = speakers
+    ? new SpeakerEvidenceStore(catalog, assetSpeakerOwner(assets, acquisitions))
+    : undefined;
+  const speakerMetadata: SpeakerEvidenceMetadata[] = [];
+  function observeSpeaker(
+    generation: string,
+    startUs: TimeValue = { numerator: 125, denominator: 2 },
+    lines?: string[],
+  ) {
+    if (!speakerRecords) throw new Error("Speaker fixture unavailable");
+    const source = {
+      ...speakerSource,
+      streamId: "speech",
+      originUs,
+      durationUs,
+      supportDigest: selectSource(assets, acquisitions, { assetId: asset.id, streamId: "speech" })
+        .supportDigest,
+      observationRange: { startUs, endUs: toTime(add(fromTime(startUs), fromTime(30000000))) },
+    };
+    const staged = speakerRecords.stage(
+      {
+        owner: { kind: "asset", assetId: asset.id },
+        sourceId: asset.id,
+        generation,
+        policy: "speaker-v1",
+      },
+      source,
+      nativeOutput(lines),
+    );
+    staged.publish();
+    speakerMetadata.push(staged.metadata);
+    return staged.metadata;
+  }
   evidence = new ProjectEvidenceInspection({
     projects,
     assets,
@@ -347,6 +394,33 @@ async function fixture({
     transcripts,
     records: observed,
     events: sourceEvents,
+    ...(speakerRecords
+      ? {
+          speakers: {
+            records: speakerRecords,
+            resolveMany: (
+              selections: readonly import("./source-selection.js").SourceSelection[],
+              request: { channel: number; modelId: string },
+            ) =>
+              selections.map((selection) => {
+                const matching = speakerMetadata.filter(
+                  (v) =>
+                    v.source.streamId === selection.streamId &&
+                    v.source.channel === request.channel &&
+                    v.source.engine.modelId === request.modelId,
+                );
+                return {
+                  selection,
+                  evidence: matching,
+                  state: matching.length ? "ready" : "unavailable",
+                  reason: matching.length ? null : "source_evidence_unobserved",
+                  retryable: false,
+                  jobId: null,
+                };
+              }),
+          },
+        }
+      : {}),
   });
   cleanup.push(async () => {
     await jobs.close();
@@ -370,7 +444,7 @@ async function fixture({
     }).revision;
     return { projectId: created.project.projectId, revisionId: revision.id };
   }
-  async function ready(input: ProjectEvidenceInput) {
+  async function ready(input: Parameters<ProjectEvidenceInspection["request"]>[0]) {
     for (let n = 0; n < 8; n++) {
       const status = evidence.request(input);
       if (status.published) return status;
@@ -400,6 +474,9 @@ async function fixture({
     jobs,
     evidence,
     asset,
+    observeSpeaker,
+    speakerMetadata,
+    speakerRecords,
     create,
     ready,
   };
@@ -1935,4 +2012,260 @@ test("fractional capture mapping stays exact through integer filtering and proje
     sourceAtUs: { numerator: 2, denominator: 3 },
     projectAtUs: 1,
   });
+});
+
+test("project speaker rows preserve exact repeated retiming and generation-local anonymous slots", async () => {
+  const f = await fixture({ durationUs: 40000000, speakers: true });
+  f.observeSpeaker("first", { numerator: 125, denominator: 2 });
+  const input = {
+    ...f.create([
+      track("a"),
+      clip(f.asset.id, "first", "a", 0, 20000000, 0, 30000000),
+      clip(f.asset.id, "repeat", "a", 20000000, 40000000, 0, 30000000),
+    ]),
+    channel: 1,
+    modelId: speakerSource.engine.modelId,
+    limit: 1,
+  };
+  const rows = [];
+  let cursor: ProjectEvidenceCursor | undefined;
+  for (let n = 0; n < 8; n++) {
+    const page = await f.evidence.speakers({ ...input, ...(cursor ? { cursor } : {}) });
+    if (!page.page) {
+      await f.jobs.idle();
+      continue;
+    }
+    rows.push(...page.page.rows);
+    if (!page.page.nextCursor) break;
+    cursor = page.page.nextCursor;
+  }
+  expect(rows.map((row) => [row.slot, row.generation, row.identity])).toEqual([
+    [0, "first", "unknown"],
+    [1, "first", "unknown"],
+    [0, "first", "unknown"],
+    [1, "first", "unknown"],
+  ]);
+  expect(rows[0]!.sourceRange).toEqual({
+    startUs: { numerator: 125, denominator: 2 },
+    endUs: { numerator: 2000125, denominator: 2 },
+  });
+  expect(rows[0]!.fragments).toEqual([
+    {
+      source: rows[0]!.sourceRange,
+      project: {
+        startUs: { numerator: 125, denominator: 3 },
+        endUs: { numerator: 2000125, denominator: 3 },
+      },
+    },
+  ]);
+  expect(rows[2]!.clipId).not.toBe(rows[0]!.clipId);
+});
+
+test("overlapping speaker observations retain native ordinals without identifying slots across generations", async () => {
+  const f = await fixture({ durationUs: 40000000, speakers: true });
+  f.observeSpeaker("later-window", 1000000, ["0.000 1.000 speaker_0"]);
+  f.observeSpeaker("earlier-window", 0, ["2.000 3.000 speaker_1", "1.000 2.000 speaker_0"]);
+  const input = {
+    ...f.create([track("a"), clip(f.asset.id, "speaker-clip", "a", 0, 40000000, 0, 40000000)]),
+    channel: 1,
+    modelId: speakerSource.engine.modelId,
+    limit: 1,
+  };
+  await f.ready({ ...input, domain: "speakers", prepare: false });
+  const rows = [];
+  let cursor: ProjectEvidenceCursor | undefined;
+  for (let n = 0; n < 5; n++) {
+    const result = await f.evidence.speakers({ ...input, ...(cursor ? { cursor } : {}) });
+    rows.push(...result.page!.rows);
+    if (!result.page!.nextCursor) break;
+    cursor = result.page!.nextCursor;
+  }
+  expect(
+    rows.map((row) => [row.sourceRange.startUs, row.generation, row.ordinal, row.slot]),
+  ).toEqual([
+    [1000000, "earlier-window", 1, 0],
+    [1000000, "later-window", 0, 0],
+    [2000000, "earlier-window", 0, 1],
+  ]);
+  expect(rows.every((row) => row.identity === "unknown")).toBe(true);
+});
+
+test("cropped speaker intervals paginate in projected order while retaining native ordinals", async () => {
+  const f = await fixture({ durationUs: 40000000, speakers: true });
+  f.observeSpeaker("cropped", 0, ["1.000 3.000 speaker_0", "0.000 4.000 speaker_1"]);
+  const input = {
+    ...f.create([track("a"), clip(f.asset.id, "cropped", "a", 0, 2000000, 2000000, 4000000)]),
+    channel: 1,
+    modelId: speakerSource.engine.modelId,
+    limit: 1,
+  };
+  await f.ready({ ...input, domain: "speakers", prepare: false });
+  const first = await f.evidence.speakers(input);
+  const second = await f.evidence.speakers({ ...input, cursor: first.page!.nextCursor! });
+  expect(
+    [...first.page!.rows, ...second.page!.rows].map((row) => ({
+      ordinal: row.ordinal,
+      slot: row.slot,
+      fragments: row.fragments,
+      partial: row.partial,
+    })),
+  ).toEqual([
+    {
+      ordinal: 1,
+      slot: 1,
+      fragments: [
+        { source: { startUs: 2000000, endUs: 4000000 }, project: { startUs: 0, endUs: 2000000 } },
+      ],
+      partial: true,
+    },
+    {
+      ordinal: 0,
+      slot: 0,
+      fragments: [
+        { source: { startUs: 2000000, endUs: 3000000 }, project: { startUs: 0, endUs: 1000000 } },
+      ],
+      partial: true,
+    },
+  ]);
+});
+
+test("speaker coverage separates unobserved audio from ancestor support holes and display windows", async () => {
+  const f = await fixture({ durationUs: 40000000, speakers: true });
+  f.observeSpeaker("observed", 0, ["0.000 1.000 speaker_0"]);
+  f.catalog.catalog.prepare("INSERT INTO acquisitions VALUES(?,?,?,?)").run(
+    "mask",
+    "mask",
+    JSON.stringify({ kind: "import", path: "fixture", files: {} }),
+    JSON.stringify({
+      id: "mask",
+      bindings: [
+        {
+          assetId: f.asset.id,
+          streamId: "video",
+          available: [
+            { startUs: 0, endUs: 400000 },
+            { startUs: 600000, endUs: 40000000 },
+          ],
+        },
+      ],
+    }),
+  );
+  const input = {
+    ...f.create([
+      { operation: "track.add", track: { kind: "video", order: 0 }, label: "picture" },
+      track("audio"),
+      {
+        operation: "place",
+        label: "parent",
+        clip: {
+          assetId: f.asset.id,
+          streamId: "video",
+          acquisitionId: "mask",
+          trackId: { label: "picture" },
+          source: { kind: "range", range: { startUs: 0, endUs: 40000000 } },
+          placement: { kind: "project", range: { startUs: 0, endUs: 40000000 } },
+        },
+      },
+      {
+        operation: "place",
+        label: "child",
+        clip: {
+          assetId: f.asset.id,
+          streamId: "speech",
+          trackId: { label: "audio" },
+          source: { kind: "range", range: { startUs: 0, endUs: 40000000 } },
+          placement: {
+            kind: "content",
+            clipId: { label: "parent" },
+            sourceRange: { startUs: 0, endUs: 40000000 },
+          },
+        },
+      },
+    ]),
+    channel: 1,
+    modelId: speakerSource.engine.modelId,
+  };
+  await f.ready({ ...input, domain: "speakers", prepare: false });
+  const full = await f.evidence.speakers(input);
+  expect(full.coverage!.occurrences![0]).toMatchObject({
+    observed: [
+      { startUs: 0, endUs: 400000 },
+      { startUs: 600000, endUs: 30000000 },
+    ],
+    unobserved: [{ startUs: 30000000, endUs: 40000000 }],
+    unavailable: [{ startUs: 400000, endUs: 600000 }],
+  });
+  const narrow = { ...input, range: { startUs: 300000, endUs: 800000 } };
+  await f.ready({ ...narrow, domain: "speakers", prepare: false });
+  const result = await f.evidence.speakers(narrow);
+  expect(result.page!.rows[0]).toMatchObject({
+    partial: true,
+    sourceRange: { startUs: 0, endUs: 1000000 },
+    fragments: [
+      { source: { startUs: 0, endUs: 400000 }, project: { startUs: 0, endUs: 400000 } },
+      { source: { startUs: 600000, endUs: 1000000 }, project: { startUs: 600000, endUs: 1000000 } },
+    ],
+  });
+  expect(result.coverage!.occurrences![0]!.unobserved).toEqual([]);
+});
+
+test("speaker cursors advance through empty source pages and reject changed selector or generation", async () => {
+  const f = await fixture({ durationUs: 40000000, speakers: true });
+  f.observeSpeaker("first", 0, [
+    ...Array.from({ length: 130 }, () => "0.000 1.000 speaker_0"),
+    "3.000 4.000 speaker_1",
+  ]);
+  const input = {
+    ...f.create([track("a"), clip(f.asset.id, "speaker-clip", "a", 0, 1000000, 3000000, 4000000)]),
+    channel: 1,
+    modelId: speakerSource.engine.modelId,
+    limit: 1,
+  };
+  await f.ready({ ...input, domain: "speakers", prepare: false });
+  const empty = await f.evidence.speakers(input);
+  expect(empty.page!.rows).toEqual([]);
+  expect(empty.page!.nextCursor).not.toBeNull();
+  const cursor = empty.page!.nextCursor!;
+  await expect(f.evidence.speakers({ ...input, cursor, channel: 0 })).rejects.toMatchObject({
+    code: "ARTIFACT_CHANGED",
+  });
+  await expect(
+    f.evidence.speakers({ ...input, cursor, modelId: "different" }),
+  ).rejects.toMatchObject({ code: "ARTIFACT_CHANGED" });
+  const next = await f.evidence.speakers({ ...input, cursor });
+  expect(next.page!.rows.map((row) => [row.ordinal, row.slot, row.sourceRange])).toEqual([
+    [130, 1, { startUs: 3000000, endUs: 4000000 }],
+  ]);
+  f.speakerMetadata.splice(0);
+  f.observeSpeaker("replacement", 0, ["3.000 4.000 speaker_1"]);
+  await expect(f.evidence.speakers({ ...input, cursor })).rejects.toMatchObject({
+    code: "ARTIFACT_CHANGED",
+  });
+});
+
+test("missing speaker evidence is reported without preparing sources or suppressing observed rows", async () => {
+  const f = await fixture({ durationUs: 40000000, speakers: true });
+  f.observeSpeaker("known", 0, ["0.000 1.000 speaker_0"]);
+  const input = {
+    ...f.create([
+      track("a"),
+      clip(f.asset.id, "known", "a", 0, 30000000, 0, 30000000),
+      clip(f.asset.id, "unknown", "a", 30000000, 60000000, 0, 30000000, "empty"),
+    ]),
+    channel: 1,
+    modelId: speakerSource.engine.modelId,
+  };
+  const prepare = vi.spyOn(f.transcripts, "publishedSource");
+  await f.ready({ ...input, domain: "speakers", prepare: false });
+  const result = await f.evidence.speakers(input);
+  expect(result.page!.rows.map((row) => row.generation)).toEqual(["known"]);
+  expect(dependencyRows(result.dependencies).map((d) => [d.state, d.reason])).toEqual([
+    ["unavailable", "source_evidence_unobserved"],
+    ["ready", null],
+  ]);
+  expect(
+    result.coverage!.occurrences!.find((v) => v.unobserved!.some((r) => r.startUs === 30000000))!
+      .unobserved,
+  ).toEqual([{ startUs: 30000000, endUs: 60000000 }]);
+  expect(prepare).not.toHaveBeenCalled();
 });
