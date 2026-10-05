@@ -1107,6 +1107,38 @@ protects channel identity while existing native behavior stays intact. Confidenc
 high; public generation/decoder identity remains a later integration contract.
 
 
+## Decoded-audio prerequisite decisions
+
+### Refuse unfamiliar decoder trimming rather than infer another trim
+
+When: decoded-audio checkpoint 171d8728 and root integration. Choice: observe the
+actual Float32 samples and their timestamps after the native decoder applies its
+own AAC priming and end treatment. If a sample still carries a trim instruction,
+refuse this conversion path rather than applying that instruction again. For
+example, an independently authored 6,000-frame AAC source emits exactly 6,000
+frames; its copied stream decodes identically, but its lossy samples are never
+claimed identical to the pre-encode source. Gap: the plan required decoded sound
+and exact timing but did not choose how to admit decoder-managed trimming. Reach:
+this scanner supports integral native-rate mono/stereo, one stable format and
+buffers of at most 65,536 frames. Larger or unfamiliar output refuses rather than
+being mixed, resampled or rewritten. This is a conservative conversion admission,
+not a universal codec guarantee. Verdict: sound within the disclosed scope;
+broader formats need their own observed admission. Confidence: medium.
+
+### Preserve emitted sound separately from occupied source support
+
+When: decoded-audio checkpoint 171d8728 and root integration. Choice: keep decoded
+run positions and a digest of the emitted PCM separately from container segments.
+A leading-empty AAC control emits silence before occupied sound; the observation
+retains those negative positions instead of masking them away or calling them
+acquired audio. Gap: the plan did not choose a representation for disagreements
+between decoder output and container occupancy. Reach: later conversion must
+compare both operands before publication. Ordinary probes omit the opt-in scan;
+the existing native worker and verified metadata-file owner carry it. No new
+public operation, queue or persistent evidence owner is added. Verdict: sound;
+actual output remains inspectable without manufacturing physical support.
+Confidence: high.
+
 ## Boundary research prerequisite decisions
 
 ### Freeze proportional model-frame timing as a research hypothesis

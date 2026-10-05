@@ -14,7 +14,9 @@ Implement the complete authorized plan through committed passes. Read the
 [exploration](exploration.md), [parity contract](parity.md) and current slice.
 Integrated: 01–12, 16–18, 20–21 and 24–25. Finish19 first: the private
 video-only producer now passes integrated physical-clock and numerical proof;
-next admit actual decoded selected-audio support, then managed jobs/provenance,
+fresh decoded-audio observations now pass the rebuilt linked worker and verified
+service/Core bridge; next qualify selected-audio occupancy and its common clock,
+then managed jobs/provenance,
 publication and selected range/acquisition materialization. Independently finish
 speaker source publication/read/projection and required portable preservation;
 the original relocated30s runtime and model-free selected-channel PCM pass, while

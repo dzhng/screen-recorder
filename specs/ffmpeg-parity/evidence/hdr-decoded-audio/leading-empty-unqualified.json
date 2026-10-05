@@ -1,0 +1,73 @@
+{
+  "claim": "decoder emissions do not establish physical occupancy; no qualification/publication claim",
+  "sourceSha256": "b746bc880b17dcc60e753c48c7cadd97e7d552d22feef42ab153e2fa0253bab4",
+  "native": {
+    "data": {
+      "originUs": {
+        "denominator": 3,
+        "numerator": 686000
+      },
+      "streams": [
+        {
+          "channelLayoutTag": 6619138,
+          "channels": 2,
+          "codec": "aac ",
+          "decodable": true,
+          "decodedAudioInspection": {
+            "channels": 2,
+            "frames": 16384,
+            "pcmSha256": "59a7f67038022ec3b21c8592ce3841ad37609019f5e376fbe701b4ab0469da8f",
+            "runs": [
+              {
+                "endUs": {
+                  "denominator": 3,
+                  "numerator": 338000
+                },
+                "frames": 16384,
+                "startUs": {
+                  "denominator": 3,
+                  "numerator": -686000
+                }
+              }
+            ],
+            "sampleRate": 48000,
+            "trimming": "decoder-output-attachment-free"
+          },
+          "endUs": {
+            "denominator": 3,
+            "numerator": 439000
+          },
+          "id": "track:1",
+          "kind": "audio",
+          "sampleRate": 48000,
+          "segments": [
+            {
+              "empty": true,
+              "endUs": 0,
+              "startUs": {
+                "denominator": 3,
+                "numerator": -686000
+              }
+            },
+            {
+              "empty": false,
+              "endUs": {
+                "denominator": 3,
+                "numerator": 439000
+              },
+              "mediaDurationUs": {
+                "denominator": 3,
+                "numerator": 439000
+              },
+              "mediaStartUs": 0,
+              "startUs": 0
+            }
+          ],
+          "startUs": 0
+        }
+      ]
+    },
+    "id": "empty",
+    "ok": true
+  }
+}

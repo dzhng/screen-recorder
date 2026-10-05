@@ -375,3 +375,53 @@ repeats the producer on the root branch, with complete actual source/derivative
 operands, all twelve focused tests and the service build retained. Source/output
 clocks, frozen RGB operands, auxiliary exclusion and padded refusal pass; the
 next prerequisite is actual decoded selected-audio support, before publication.
+
+## Fresh decoded-audio facts checkpoint
+
+Video cursor support does not describe decoded audio. The opt-in selected native
+scan observes actual Float32 PCM at the source's integral native rate, without a
+requested time range, resampling, mask or synthesized padding. Exact emitted run
+positions, frame count and PCM digest retain the common asset origin; declared
+segments remain separate. Decoder-managed priming and edit treatment is observed
+in emitted frames rather than presumed from compressed packet capacities. A
+leading-empty AAC counterexample emits decoder-supplied silence; these observations
+cannot establish occupied support without the separate declared-segment comparison. Residual trim attachments, changing/multichannel
+formats, inconsistent duration/format, overlapping runs and nonfinite PCM refuse
+instead of manufacturing support.
+
+The Core fresh reader preserves these selected facts while the stable cached
+asset summary strips them. Source metadata/selection parsing stays shared with
+video. The existing verified probe-file contract carries an explicit audio stream
+selector; no new delivery or process lifetime exists. Both cached substitution
+and omitted request forwarding went red before implementation.
+
+The native fixture independently authors native-rate Float32 samples: retained
+path substitution preserves all 6000 frames and the complete original PCM hash.
+Its AAC control observes 6000 decoded frames despite codec packet capacity and
+priming/final trim, and a stream-copy derivative retains the same decoded runs
+and PCM hash. This does not assert lossy AAC equals pre-encode samples. A decoy
+stream cannot supply selected facts; absent selectors and multichannel formats
+refuse. The [retained reader bridge](../evidence/hdr-decoded-audio/reader.json)
+passes actual Media + WireRequest/ProbeOperation output through verified file
+delivery and Core parsing. These are scratch builds of the production source
+owners, not a fully linked helper/package claim; root integration remains required.
+Four native controls, ten focused Core/service facts/delivery tests, typecheck,
+build, lint and format pass. Scoped review found early non-timed selection success
+and zero-payload marker handling; PNG refusal went red then green, and documented
+empty/drain markers contribute no PCM. The final scoped review found no remaining
+concrete issue after one capacity-interrupted attempt was retried.
+
+This checkpoint supplies facts only. Audio physical-support qualification,
+common-clock preparation and actual selected audio preservation in the managed
+HDR producer remain unfinished, followed by provenance/publication/portable
+preservation and the separate range/acquisition contract.
+
+The [root linked reader receipt](../evidence/hdr-decoded-audio/root-reader.json)
+now matches both retained timed-source observations through the rebuilt native
+worker, verified service delivery and Core parsing. Four native controls, three
+Core tests, nineteen focused service tests and all three builds pass. The initial
+bridge probe accidentally used the video's track selector for the audio-only
+counterexample and correctly refused; its original selector succeeds unchanged.
+The scoped lane review remains the completed independent review; the additional
+root review stopped after six minutes without a final verdict and is explicitly
+retained as incomplete.

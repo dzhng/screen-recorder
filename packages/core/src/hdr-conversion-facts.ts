@@ -43,18 +43,23 @@ const videoFacts = stream.safeExtend({
   compressedVideoInspection: compressedInspection.optional(),
 });
 
-/** Fresh held native facts are conversion operands; cached asset summaries are not. */
-export function readHdrConversionFacts(value: unknown, streamId: string) {
+function selectedConversionStream(value: unknown, streamId: string, kind: "video" | "audio") {
   const parsed = mediaProbeSchema.safeParse(value);
   if (!parsed.success)
     throw new CatalogError("INVALID_NATIVE_RESPONSE", "Native conversion metadata is malformed");
   const metadata = parsed.data;
   const index = metadata.streams.findIndex((stream) => stream.id === streamId);
   const selected = metadata.streams[index];
-  if (!selected || selected.kind !== "video" || !selected.decodable)
-    throw new CatalogError("UNSUPPORTED_MEDIA", "Selected video stream is unavailable");
+  if (!selected || selected.kind !== kind || !selected.decodable)
+    throw new CatalogError("UNSUPPORTED_MEDIA", "Selected conversion stream is unavailable");
   // The stable schema validates identities/order but intentionally strips fresh evidence.
   const raw = z.object({ streams: z.array(z.unknown()) }).parse(value).streams[index];
+  return { metadata, raw };
+}
+
+/** Fresh held native facts are conversion operands; cached asset summaries are not. */
+export function readHdrConversionFacts(value: unknown, streamId: string) {
+  const { metadata, raw } = selectedConversionStream(value, streamId, "video");
   const facts = videoFacts.safeParse(raw);
   if (!facts.success)
     throw new CatalogError(
@@ -66,3 +71,42 @@ export function readHdrConversionFacts(value: unknown, streamId: string) {
 }
 
 export type HdrConversionFacts = ReturnType<typeof readHdrConversionFacts>;
+
+const frameCount = z.int().nonnegative().max(Number.MAX_SAFE_INTEGER);
+const audioFacts = stream.safeExtend({
+  kind: z.literal("audio"),
+  startUs: timeValueSchema,
+  endUs: timeValueSchema,
+  sampleRate: z.int().positive().max(192000),
+  channels: z.union([z.literal(1), z.literal(2)]),
+  segments: stream.shape.segments.unwrap(),
+  decodedAudioInspection: z.object({
+    sampleRate: z.int().positive().max(192000),
+    channels: z.union([z.literal(1), z.literal(2)]),
+    frames: frameCount,
+    runs: z
+      .array(
+        z.object({
+          startUs: signedTimeValueSchema,
+          endUs: signedTimeValueSchema,
+          frames: frameCount.positive(),
+        }),
+      )
+      .max(100000),
+    pcmSha256: z.string().regex(/^[a-f0-9]{64}$/),
+    trimming: z.literal("decoder-output-attachment-free"),
+  }),
+});
+
+export function readHdrAudioConversionFacts(value: unknown, streamId: string) {
+  const { metadata, raw } = selectedConversionStream(value, streamId, "audio");
+  const facts = audioFacts.safeParse(raw);
+  if (!facts.success)
+    throw new CatalogError(
+      "INVALID_NATIVE_RESPONSE",
+      "Native decoded audio conversion facts are missing or malformed",
+      { streamId },
+    );
+  return { metadata, audio: facts.data };
+}
+export type HdrAudioConversionFacts = ReturnType<typeof readHdrAudioConversionFacts>;

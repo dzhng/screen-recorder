@@ -1,0 +1,233 @@
+{
+  "scope": "scratch production Media + WireRequest/ProbeOperation, verified probe-file delivery, fresh Core reader; full linked native integration not claimed",
+  "sourceSha256": "372db76b0c82ecda4ab13f49b20691543066ef3f0fcf14a4bd28ecddd25a3fd6",
+  "moduleSha256": "e9c1a6f96a5a4eb4ac874c70b1cf40d312f1fb615c17b12b6928c636e6c01962",
+  "driverSha256": "9347643ff7ad86c668689fa313747810acabcdbcc48afc7f191639344eae5f6c",
+  "raw": {
+    "originUs": 0,
+    "streams": [
+      {
+        "codec": "hvc1",
+        "codecAtomNames": [
+          [
+            "hvcC"
+          ]
+        ],
+        "colorFormats": [
+          {
+            "bitsPerComponent": 10,
+            "colorPrimaries": "ITU_R_2020",
+            "fullRange": false,
+            "interpretationExtensions": [],
+            "invalidColorDeclarations": [],
+            "transferFunction": "SMPTE_ST_2084_PQ",
+            "ycbcrMatrix": "ITU_R_2020"
+          }
+        ],
+        "colorPrimaries": "ITU_R_2020",
+        "decodable": true,
+        "endUs": 125000,
+        "hasAlpha": false,
+        "height": 192,
+        "id": "track:1",
+        "kind": "video",
+        "orientedHeight": 192,
+        "orientedPixelBounds": {
+          "height": 192,
+          "width": 320,
+          "x": 0,
+          "y": 0
+        },
+        "orientedWidth": 320,
+        "samples": {
+          "count": 3,
+          "firstPtsUs": 0,
+          "firstTimeUs": 0,
+          "lastDurationUs": {
+            "denominator": 3,
+            "numerator": 125000
+          },
+          "lastPtsUs": 83333,
+          "lastTimeUs": {
+            "denominator": 3,
+            "numerator": 250000
+          },
+          "maxDurationUs": 41667,
+          "minDurationUs": 41667,
+          "presentedTimingSha256": "030afcd6dde973298a5412ef9d7cda08a1cb6c96cc4cb37c12e0edf3db38f37b"
+        },
+        "segments": [
+          {
+            "empty": false,
+            "endUs": 125000,
+            "mediaDurationUs": 125000,
+            "mediaStartUs": 0,
+            "startUs": 0
+          }
+        ],
+        "startUs": 0,
+        "transferFunction": "SMPTE_ST_2084_PQ",
+        "transform": [
+          1,
+          0,
+          0,
+          1,
+          0,
+          0
+        ],
+        "width": 320,
+        "ycbcrMatrix": "ITU_R_2020"
+      },
+      {
+        "channelLayoutTag": 6619138,
+        "channels": 2,
+        "codec": "aac ",
+        "decodable": true,
+        "decodedAudioInspection": {
+          "channels": 2,
+          "frames": 6000,
+          "pcmSha256": "969d244aa2c03b0abfaf3b43e6d9a7907ad225557b559c47f3c988538168184b",
+          "runs": [
+            {
+              "endUs": 125000,
+              "frames": 6000,
+              "startUs": 0
+            }
+          ],
+          "sampleRate": 48000,
+          "trimming": "decoder-output-attachment-free"
+        },
+        "endUs": 125000,
+        "id": "track:2",
+        "kind": "audio",
+        "sampleRate": 48000,
+        "segments": [
+          {
+            "empty": false,
+            "endUs": 125000,
+            "mediaDurationUs": 125000,
+            "mediaStartUs": {
+              "denominator": 3,
+              "numerator": 64000
+            },
+            "startUs": 0
+          }
+        ],
+        "startUs": 0
+      }
+    ]
+  },
+  "parsed": {
+    "metadata": {
+      "originUs": 0,
+      "streams": [
+        {
+          "id": "track:1",
+          "kind": "video",
+          "codec": "hvc1",
+          "decodable": true,
+          "startUs": 0,
+          "endUs": 125000,
+          "segments": [
+            {
+              "startUs": 0,
+              "endUs": 125000,
+              "empty": false,
+              "mediaStartUs": 0,
+              "mediaDurationUs": 125000
+            }
+          ],
+          "width": 320,
+          "height": 192,
+          "orientedWidth": 320,
+          "orientedHeight": 192,
+          "orientedPixelBounds": {
+            "x": 0,
+            "y": 0,
+            "width": 320,
+            "height": 192
+          },
+          "transform": [
+            1,
+            0,
+            0,
+            1,
+            0,
+            0
+          ],
+          "hasAlpha": false,
+          "colorPrimaries": "ITU_R_2020",
+          "transferFunction": "SMPTE_ST_2084_PQ",
+          "ycbcrMatrix": "ITU_R_2020",
+          "samples": {
+            "count": 3,
+            "firstPtsUs": 0,
+            "lastPtsUs": 83333,
+            "minDurationUs": 41667,
+            "maxDurationUs": 41667
+          }
+        },
+        {
+          "id": "track:2",
+          "kind": "audio",
+          "codec": "aac ",
+          "decodable": true,
+          "startUs": 0,
+          "endUs": 125000,
+          "segments": [
+            {
+              "startUs": 0,
+              "endUs": 125000,
+              "empty": false,
+              "mediaStartUs": {
+                "numerator": 64000,
+                "denominator": 3
+              },
+              "mediaDurationUs": 125000
+            }
+          ],
+          "sampleRate": 48000,
+          "channels": 2,
+          "channelLayoutTag": 6619138
+        }
+      ]
+    },
+    "audio": {
+      "id": "track:2",
+      "kind": "audio",
+      "codec": "aac ",
+      "decodable": true,
+      "startUs": 0,
+      "endUs": 125000,
+      "segments": [
+        {
+          "startUs": 0,
+          "endUs": 125000,
+          "empty": false,
+          "mediaStartUs": {
+            "numerator": 64000,
+            "denominator": 3
+          },
+          "mediaDurationUs": 125000
+        }
+      ],
+      "sampleRate": 48000,
+      "channels": 2,
+      "channelLayoutTag": 6619138,
+      "decodedAudioInspection": {
+        "sampleRate": 48000,
+        "channels": 2,
+        "frames": 6000,
+        "runs": [
+          {
+            "startUs": 0,
+            "endUs": 125000,
+            "frames": 6000
+          }
+        ],
+        "pcmSha256": "969d244aa2c03b0abfaf3b43e6d9a7907ad225557b559c47f3c988538168184b",
+        "trimming": "decoder-output-attachment-free"
+      }
+    }
+  }
+}

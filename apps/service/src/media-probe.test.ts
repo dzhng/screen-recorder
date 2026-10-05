@@ -123,3 +123,53 @@ test("explicit compressed inspection is returned through the existing verified p
   });
   expect(await readdir(directory)).toEqual([]);
 });
+
+test("explicit selected audio inspection survives the same verified probe-file contract", async () => {
+  const directory = await mkdtemp("/tmp/probe-decoded-audio-");
+  directories.push(directory);
+  const inspection = {
+    sampleRate: 48000,
+    channels: 1,
+    frames: 6000,
+    runs: [{ startUs: 0, endUs: 125000, frames: 6000 }],
+    pcmSha256: "c".repeat(64),
+    trimming: "decoder-output-attachment-free",
+  };
+  const worker: MediaWorker = async (_operation, params, options) => {
+    const metadata = {
+      originUs: 0,
+      streams: [
+        {
+          id: "track:2",
+          kind: "audio",
+          ...(params.inspectAudioStreamId === "track:2"
+            ? { decodedAudioInspection: inspection }
+            : {}),
+        },
+      ],
+    };
+    const bytes = Buffer.from(JSON.stringify(metadata));
+    const slot = Number(String(params.output).split("/").at(-1)) - 3;
+    writeSync(options!.descriptors![slot]!, bytes, 0, bytes.length, 0);
+    return {
+      ok: true,
+      data: {
+        file: params.output,
+        bytes: bytes.length,
+        sha256: createHash("sha256").update(bytes).digest("hex"),
+      },
+    };
+  };
+  const metadata = await readMediaProbe(
+    worker,
+    directory,
+    "/dev/fd/3",
+    new AbortController().signal,
+    [0],
+    { inspectAudioStreamId: "track:2" },
+  );
+  expect(metadata).toMatchObject({
+    streams: [{ id: "track:2", decodedAudioInspection: inspection }],
+  });
+  expect(await readdir(directory)).toEqual([]);
+});

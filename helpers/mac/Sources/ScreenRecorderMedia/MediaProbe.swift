@@ -33,6 +33,7 @@ public struct ProbedStream: Encodable, Sendable {
     public var colorFormats: [ProbedVideoColor]?
     public var codecAtomNames: [[String]]?
     public var compressedVideoInspection: ProbedCompressedVideo?
+    public var decodedAudioInspection: ProbedDecodedAudio?
     public var samples: ProbedSamples?
 }
 
@@ -108,11 +109,11 @@ public struct ProbedSamples: Encodable, Sendable {
 
 /// Metadata describes the admitted bytes. It never normalizes or rewrites them.
 public enum MediaProbe {
-    public static func inspect(url: URL, inspectCompressedVideo: Bool = false) async throws -> ProbedMedia {
+    public static func inspect(url: URL, inspectCompressedVideo: Bool = false, inspectAudioStreamId: String? = nil) async throws -> ProbedMedia {
+        let metadata: ProbedMedia
         if let faces = try FontProbe.inspect(url: url) {
-            return ProbedMedia(originUs: ExactTime(0), streams: [], fontFaces: faces)
-        }
-        if let image = try StillImageSource.open(url) {
+            metadata = ProbedMedia(originUs: ExactTime(0), streams: [], fontFaces: faces)
+        } else if let image = try StillImageSource.open(url) {
             var stream = ProbedStream(
                 id: "image:0", kind: "image", codec: image.codec, decodable: true)
             stream.width = image.width
@@ -121,17 +122,23 @@ public enum MediaProbe {
             stream.orientedHeight = Double(image.orientedHeight)
             stream.orientation = image.orientation
             stream.hasAlpha = image.hasAlpha
-            return ProbedMedia(originUs: ExactTime(0), streams: [stream])
+            metadata = ProbedMedia(originUs: ExactTime(0), streams: [stream])
+        } else {
+            let input = try MediaInput(url: url)
+            do { metadata = try await inspectTimed(input: input, inspectCompressedVideo: inspectCompressedVideo, inspectAudioStreamId: inspectAudioStreamId) }
+            catch {
+                if let failure = input.failure { throw failure }
+                throw error
+            }
         }
-        let input = try MediaInput(url: url)
-        do { return try await inspectTimed(input: input, inspectCompressedVideo: inspectCompressedVideo) }
-        catch {
-            if let failure = input.failure { throw failure }
-            throw error
+        if let selected = inspectAudioStreamId,
+            !metadata.streams.contains(where: { $0.id == selected && $0.decodedAudioInspection != nil }) {
+            throw NativeFailure("UNSUPPORTED_MEDIA", "Selected decoded audio stream is unavailable.")
         }
+        return metadata
     }
 
-    private static func inspectTimed(input: MediaInput, inspectCompressedVideo: Bool) async throws -> ProbedMedia {
+    private static func inspectTimed(input: MediaInput, inspectCompressedVideo: Bool, inspectAudioStreamId: String?) async throws -> ProbedMedia {
         let tracks = try await input.asset.load(.tracks)
         var trackSegments: [[AVAssetTrackSegment]] = []
         var trackFormats: [[CMFormatDescription]] = []
@@ -140,7 +147,7 @@ public enum MediaProbe {
             trackFormats.append(try await track.load(.formatDescriptions))
             try input.requireSelfContainedStorage(of: track)
         }
-        if inspectCompressedVideo { try input.beginStreaming() }
+        if inspectCompressedVideo || inspectAudioStreamId != nil { try input.beginStreaming() }
         let occupiedRanges = trackSegments.flatMap { SourceSegment.occupied(of: $0).map(\.asset) }
         guard
             let origin = occupiedRanges.filter({ $0.isValid && $0.start.isNumeric }).map(\.start)
@@ -219,6 +226,10 @@ public enum MediaProbe {
             {
                 stream.sampleRate = audio.pointee.mSampleRate
                 stream.channels = audio.pointee.mChannelsPerFrame
+                if stream.id == inspectAudioStreamId {
+                    stream.decodedAudioInspection = try DecodedAudioInspection.inspect(
+                        input: input, track: track, formats: formats, originUs: originUs)
+                }
                 if let layout = CMAudioFormatDescriptionGetChannelLayout(format, sizeOut: nil) {
                     stream.channelLayoutTag = layout.pointee.mChannelLayoutTag
                 }

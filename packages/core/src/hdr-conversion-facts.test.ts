@@ -1,6 +1,6 @@
 import { expect, test } from "vitest";
 import { mediaProbeSchema } from "./assets.js";
-import { readHdrConversionFacts } from "./hdr-conversion-facts.js";
+import { readHdrConversionFacts, readHdrAudioConversionFacts } from "./hdr-conversion-facts.js";
 
 function facts() {
   return {
@@ -78,5 +78,40 @@ test("fresh facts preserve fractional sample support and absent range declaratio
   expect(parsed.video.codecAtomNames).toEqual([["hvcC"]]);
   expect(parsed.video.compressedVideoInspection).toEqual(
     input.streams[0]!.compressedVideoInspection,
+  );
+});
+
+test("fresh selected audio preserves decoded support independently from cached packet summaries", () => {
+  const value = {
+    originUs: { numerator: 1, denominator: 3 },
+    streams: [
+      {
+        id: "track:2",
+        kind: "audio",
+        codec: "aac ",
+        decodable: true,
+        startUs: 0,
+        endUs: 125000,
+        sampleRate: 48000,
+        channels: 1,
+        segments: [
+          { startUs: 0, endUs: 125000, empty: false, mediaStartUs: 0, mediaDurationUs: 125000 },
+        ],
+        decodedAudioInspection: {
+          sampleRate: 48000,
+          channels: 1,
+          frames: 6000,
+          runs: [{ startUs: 0, endUs: 125000, frames: 6000 }],
+          pcmSha256: "c".repeat(64),
+          trimming: "decoder-output-attachment-free",
+        },
+      },
+    ],
+  };
+  expect(readHdrAudioConversionFacts(value, "track:2").audio.decodedAudioInspection).toEqual(
+    value.streams[0]!.decodedAudioInspection,
+  );
+  expect(() => readHdrAudioConversionFacts(mediaProbeSchema.parse(value), "track:2")).toThrowError(
+    expect.objectContaining({ code: "INVALID_NATIVE_RESPONSE" }),
   );
 });

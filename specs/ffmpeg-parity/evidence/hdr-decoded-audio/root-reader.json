@@ -1,0 +1,224 @@
+{
+  "sourceBase": "4fe6025a452ba36bd1ece602c97e81dcf0974c0f",
+  "scope": "Rebuilt linked native worker to service verified probe-file delivery and fresh Core reader. Observations only; decoded run/occupied support qualification remains separate. No package or managed conversion claim.",
+  "nativeSha256": "b4542bb090dcdd281709965255077252dbee71db235516adac84db02e2b5b3ef",
+  "outcomes": [
+    {
+      "file": "zero-origin-aac-source.mov",
+      "selector": "track:2",
+      "sourceSha256": "372db76b0c82ecda4ab13f49b20691543066ef3f0fcf14a4bd28ecddd25a3fd6",
+      "raw": {
+        "originUs": 0,
+        "streams": [
+          {
+            "codec": "hvc1",
+            "codecAtomNames": [
+              [
+                "hvcC"
+              ]
+            ],
+            "colorFormats": [
+              {
+                "bitsPerComponent": 10,
+                "colorPrimaries": "ITU_R_2020",
+                "fullRange": false,
+                "interpretationExtensions": [],
+                "invalidColorDeclarations": [],
+                "transferFunction": "SMPTE_ST_2084_PQ",
+                "ycbcrMatrix": "ITU_R_2020"
+              }
+            ],
+            "colorPrimaries": "ITU_R_2020",
+            "decodable": true,
+            "endUs": 125000,
+            "hasAlpha": false,
+            "height": 192,
+            "id": "track:1",
+            "kind": "video",
+            "orientedHeight": 192,
+            "orientedPixelBounds": {
+              "height": 192,
+              "width": 320,
+              "x": 0,
+              "y": 0
+            },
+            "orientedWidth": 320,
+            "samples": {
+              "count": 3,
+              "firstPtsUs": 0,
+              "firstTimeUs": 0,
+              "lastDurationUs": {
+                "denominator": 3,
+                "numerator": 125000
+              },
+              "lastPtsUs": 83333,
+              "lastTimeUs": {
+                "denominator": 3,
+                "numerator": 250000
+              },
+              "maxDurationUs": 41667,
+              "minDurationUs": 41667,
+              "presentedTimingSha256": "030afcd6dde973298a5412ef9d7cda08a1cb6c96cc4cb37c12e0edf3db38f37b"
+            },
+            "segments": [
+              {
+                "empty": false,
+                "endUs": 125000,
+                "mediaDurationUs": 125000,
+                "mediaStartUs": 0,
+                "startUs": 0
+              }
+            ],
+            "startUs": 0,
+            "transferFunction": "SMPTE_ST_2084_PQ",
+            "transform": [
+              1,
+              0,
+              0,
+              1,
+              0,
+              0
+            ],
+            "width": 320,
+            "ycbcrMatrix": "ITU_R_2020"
+          },
+          {
+            "channelLayoutTag": 6619138,
+            "channels": 2,
+            "codec": "aac ",
+            "decodable": true,
+            "decodedAudioInspection": {
+              "channels": 2,
+              "frames": 6000,
+              "pcmSha256": "969d244aa2c03b0abfaf3b43e6d9a7907ad225557b559c47f3c988538168184b",
+              "runs": [
+                {
+                  "endUs": 125000,
+                  "frames": 6000,
+                  "startUs": 0
+                }
+              ],
+              "sampleRate": 48000,
+              "trimming": "decoder-output-attachment-free"
+            },
+            "endUs": 125000,
+            "id": "track:2",
+            "kind": "audio",
+            "sampleRate": 48000,
+            "segments": [
+              {
+                "empty": false,
+                "endUs": 125000,
+                "mediaDurationUs": 125000,
+                "mediaStartUs": {
+                  "denominator": 3,
+                  "numerator": 64000
+                },
+                "startUs": 0
+              }
+            ],
+            "startUs": 0
+          }
+        ]
+      },
+      "coreFactsMatchRetained": true,
+      "selectedDecodedDigest": "969d244aa2c03b0abfaf3b43e6d9a7907ad225557b559c47f3c988538168184b"
+    },
+    {
+      "file": "leading-empty-unqualified.mov",
+      "selector": "track:1",
+      "sourceSha256": "b746bc880b17dcc60e753c48c7cadd97e7d552d22feef42ab153e2fa0253bab4",
+      "raw": {
+        "originUs": {
+          "denominator": 3,
+          "numerator": 686000
+        },
+        "streams": [
+          {
+            "channelLayoutTag": 6619138,
+            "channels": 2,
+            "codec": "aac ",
+            "decodable": true,
+            "decodedAudioInspection": {
+              "channels": 2,
+              "frames": 16384,
+              "pcmSha256": "59a7f67038022ec3b21c8592ce3841ad37609019f5e376fbe701b4ab0469da8f",
+              "runs": [
+                {
+                  "endUs": {
+                    "denominator": 3,
+                    "numerator": 338000
+                  },
+                  "frames": 16384,
+                  "startUs": {
+                    "denominator": 3,
+                    "numerator": -686000
+                  }
+                }
+              ],
+              "sampleRate": 48000,
+              "trimming": "decoder-output-attachment-free"
+            },
+            "endUs": {
+              "denominator": 3,
+              "numerator": 439000
+            },
+            "id": "track:1",
+            "kind": "audio",
+            "sampleRate": 48000,
+            "segments": [
+              {
+                "empty": true,
+                "endUs": 0,
+                "startUs": {
+                  "denominator": 3,
+                  "numerator": -686000
+                }
+              },
+              {
+                "empty": false,
+                "endUs": {
+                  "denominator": 3,
+                  "numerator": 439000
+                },
+                "mediaDurationUs": {
+                  "denominator": 3,
+                  "numerator": 439000
+                },
+                "mediaStartUs": 0,
+                "startUs": 0
+              }
+            ],
+            "startUs": 0
+          }
+        ]
+      },
+      "coreFactsMatchRetained": true,
+      "selectedDecodedDigest": "59a7f67038022ec3b21c8592ce3841ad37609019f5e376fbe701b4ab0469da8f"
+    }
+  ],
+  "imageFailure": {
+    "code": "UNSUPPORTED_MEDIA",
+    "message": "Selected decoded audio stream is unavailable."
+  },
+  "nativeControls": {
+    "tests": 4,
+    "passed": true
+  },
+  "serviceContracts": {
+    "tests": 19,
+    "files": 3,
+    "passed": true
+  },
+  "coreContracts": {
+    "tests": 3,
+    "passed": true
+  },
+  "builds": {
+    "native": true,
+    "core": true,
+    "service": true
+  },
+  "controlCorrection": "Initial bridge request selected track:2 on the audio-only leading-empty control and correctly refused. Retried with its original track:1 selector; no source bytes or expected observations changed.",
+  "operandArchiveSha256": "adec3293da2eb29779ad1d6ce439a8580264ac74f8e459fb1c25d7cd67cae6c2"
+}

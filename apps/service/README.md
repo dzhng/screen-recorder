@@ -112,7 +112,9 @@ FFmpeg operands borrow the existing held source authority. Native media facts ow
 support, common origin and geometry; the [input boundary](src/ffmpeg-input.ts)
 uses FFprobe to bind an explicit stream to held bytes. Optional declared-color
 inspection supplements the same selected stream and preserves missing fields;
-it supplies neither source clocks nor permission to convert. The
+it supplies neither source clocks nor permission to convert. The verified native
+probe-file owner also carries explicitly selected decoded-audio inspection without
+changing receipt, held-source or attempt ownership. Ordinary asset probes omit it. The
 [HDR interpretation checkpoint](src/hdr-conversion.ts) consumes fresh native
 whole-track interpretation evidence and agreeing declarations. Its private whole-video
 producer derives an exactly representable movie clock, preserves physical sample

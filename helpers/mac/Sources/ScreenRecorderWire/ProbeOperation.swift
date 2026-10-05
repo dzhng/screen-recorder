@@ -3,7 +3,7 @@ import Foundation
 import ScreenRecorderMedia
 
 enum ProbeOperation {
-    private struct Request: Codable { let path: String; let output: String?; let inspectCompressedVideo: Bool? }
+    private struct Request: Codable { let path: String; let output: String?; let inspectCompressedVideo: Bool?; let inspectAudioStreamId: String? }
     struct FileReceipt: Encodable { let file: String; let bytes: Int; let sha256: String }
     enum Response: Encodable {
         case metadata(ProbedMedia)
@@ -20,7 +20,7 @@ enum ProbeOperation {
         let request = try WireRequest.decode(Request.self, from: params)
         try WireRequest.requireAbsolute(request.path)
         let source = URL(fileURLWithPath: request.path)
-        let metadata = try await MediaProbe.inspect(url: source, inspectCompressedVideo: request.inspectCompressedVideo ?? false)
+        let metadata = try await MediaProbe.inspect(url: source, inspectCompressedVideo: request.inspectCompressedVideo ?? false, inspectAudioStreamId: request.inspectAudioStreamId)
         guard let destination = request.output else { return .metadata(metadata) }
         try WireRequest.requireAbsolute(destination)
         try Task.checkCancellation()

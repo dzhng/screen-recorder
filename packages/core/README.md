@@ -17,7 +17,9 @@ several projects without merging their occurrence identities.
 
 Stored asset metadata is a summary. Conversion consumes [fresh native facts](src/hdr-conversion-facts.ts)
 from retained source bytes, including exact sample support and interpretation
-evidence. Absent declarations remain absent; a successful parse does not establish
+evidence. Selected audio retains actual decoded native-rate runs and PCM identity
+separately from video sample-cursor support; packet capacity never becomes decoded
+audio evidence. Absent declarations remain absent; a successful parse does not establish
 decoded appearance or authorize a treatment.
 
 Read-only acoustic measurements retain the selected PCM generation and recipe.

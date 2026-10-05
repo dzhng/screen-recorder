@@ -14,7 +14,7 @@ export async function readMediaProbe(
   path: string,
   signal: AbortSignal,
   descriptors: readonly number[],
-  options: { inspectCompressedVideo?: boolean } = {},
+  options: { inspectCompressedVideo?: boolean; inspectAudioStreamId?: string } = {},
 ): Promise<unknown> {
   signal.throwIfAborted();
   const output = join(directory, `probe-${randomUUID()}.json`);
@@ -28,6 +28,9 @@ export async function readMediaProbe(
           path,
           output: locator,
           ...(options.inspectCompressedVideo ? { inspectCompressedVideo: true } : {}),
+          ...(options.inspectAudioStreamId === undefined
+            ? {}
+            : { inspectAudioStreamId: options.inspectAudioStreamId }),
         },
         {
           signal,

@@ -76,3 +76,17 @@ checks the same storage ownership before buffer generation. The platform restric
 does not itself make ordinary metadata loading refuse a reference movie. Loader failures retain
 their underlying bounded-work refusal instead of losing that evidence behind an
 AVFoundation wrapper error.
+
+
+Explicit [decoded-audio inspection](DecodedAudioInspection.swift) observes native-rate
+PCM emitted by the retained decoder without a requested range, resampling, edit
+mask or synthesized padding. Emitted frame counts and exact run positions are
+decoder observations; compressed packet capacity and a renderer's requested
+quota cannot substitute. Decoder-supplied silence in an empty edit is not physical
+occupancy. Priming/edit treatment is observed through emitted frames, not assumed
+from packet capacities or absence of residual trim attachments. Residual trim attachments remain an unqualified contract rather
+than being silently applied twice. Declared segments remain separate: a caller
+must qualify the observed runs against occupancy before preserving their clock.
+The PCM digest identifies this decoder's output; it is not identity with a lossy
+source's independently authored pre-encode samples. Ordinary probes never request
+this scan.
