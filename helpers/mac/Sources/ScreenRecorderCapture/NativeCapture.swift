@@ -63,10 +63,15 @@ public final class NativeCapture {
     /// asks for it, not when a menu lists what exists.
     public static func microphoneDevices() -> [CaptureAudioDevice] {
         let preferred = AVCaptureDevice.default(for: .audio)?.uniqueID
-        return ScreenCaptureInput.microphoneCandidates().map {
+        return microphoneCandidates().map {
             CaptureAudioDevice(
                 id: $0.uniqueID, name: $0.localizedName, isDefault: $0.uniqueID == preferred)
         }
+    }
+
+    package static func microphoneCandidates() -> [AVCaptureDevice] {
+        AVCaptureDevice.DiscoverySession(deviceTypes: [.microphone, .external],
+            mediaType: .audio, position: .unspecified).devices
     }
 
     public static func requestPermission(_ kind: String) async throws -> Bool {

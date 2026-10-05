@@ -65,7 +65,7 @@ final class PrerecordedCaptureInput: CaptureInputSession {
         sharedIngress = captureOutput as? CaptureClockIngress
         if let probeDirectory {
             let camera = try CameraWriter(directory: probeDirectory.appendingPathComponent("camera"), framesPerSecond: 30, binding: cameraBinding)
-            probe = try CaptureClockIngress(writer: writer, camera: camera,
+            probe = try CaptureClockIngress(writer: writer, destination: .companion(camera),
                 observations: probeDirectory.appendingPathComponent("timestamps.jsonl"), failure: onFailure, maximumRows: probeMaximumRows)
         }
         let asset = AVURLAsset(url: source)
@@ -207,7 +207,7 @@ final class PrerecordedCaptureInput: CaptureInputSession {
         if let probe {
             try? probe.close()
             do { try beforeCameraClose?() } catch { preconditionFailure("Fixture setup failed: \(error)") }
-            let closed = await probe.camera.close(clock: clock, failure: failure ?? companionFailure, observations: probe.observationURL)
+            let closed = await probe.companion!.close(clock: clock, failure: failure ?? companionFailure, observations: probe.observationURL!)
             do { try afterCameraClose?() } catch { preconditionFailure("Fixture setup failed: \(error)") }
             return CaptureInputClosure(camera: closed)
         }
@@ -215,7 +215,7 @@ final class PrerecordedCaptureInput: CaptureInputSession {
     }
     func discardMedia() async {
         discards += 1
-        await probe?.camera.discard()
+        await probe?.companion?.discard()
         try? probe?.close()
     }
     func startCursorSampling(writer: CaptureWriter) {

@@ -32,6 +32,10 @@ source. The primary writer accepts usable host-time pictures; its ScreenCaptureK
 adapter separately owns screen completeness and geometry. Primary camera keeps the
 ordinary packed journal without companion binding or camera proof members. The
 companion camera keeps its device binding, independent origin and camera proofs.
+Camera-primary narration uses the same AVFoundation session clock as its pictures;
+optional whole-system audio uses the same audio-only ScreenCaptureKit stream as
+screen capture. Only that requested system-audio path requires screen access.
+Camera-primary capture without system audio reaches no screen or cursor boundary.
 
 ## Closure is separate from publication
 

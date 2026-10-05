@@ -1,6 +1,8 @@
 import Foundation
 
-if let output = ProcessInfo.processInfo.environment["SCREENREC_PRIMARY_CAMERA_PUBLICATION_OUTPUT"] {
+if let output = ProcessInfo.processInfo.environment["SCREENREC_PRIMARY_CAMERA_INPUT_OUTPUT"] {
+    try await runPrimaryCameraInputTests(output: output)
+} else if let output = ProcessInfo.processInfo.environment["SCREENREC_PRIMARY_CAMERA_PUBLICATION_OUTPUT"] {
     try await runPrimaryCameraPublicationTests(output: output)
 } else if ProcessInfo.processInfo.environment["SCREENREC_CAPTURE_INPUT_AUTHORITY"] != nil {
     try await runCaptureInputAuthorityTests()
@@ -95,6 +97,7 @@ if let output = ProcessInfo.processInfo.environment["SCREENREC_PRIMARY_CAMERA_PU
   try await runCaptureAudioGapProbe(output: output, corpus: corpus)
 } else {
   try await runCaptureInputAuthorityTests()
+  try await runPrimaryCameraInputTests()
   try await runPrimaryCameraPublicationTests()
   try await runCameraSourceAdmissionTests()
   try await runProbeCameraPixelPublicationTests()

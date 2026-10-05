@@ -11,14 +11,23 @@ package struct CaptureRationalTime: Codable {
     init(_ time: CMTime) { value = time.value; timescale = time.timescale; epoch = time.epoch }
 }
 
+package enum CaptureVideoDestination {
+    case primary(width: Int, height: Int)
+    case companion(CameraWriter)
+}
+
 /// Streams clock observations and accepted camera mappings on the existing capture writer queue.
-package final class CaptureClockIngress: NSObject, SCStreamOutput, AVCaptureVideoDataOutputSampleBufferDelegate,
+package final class CaptureClockIngress: NSObject, SCStreamOutput, AVCaptureVideoDataOutputSampleBufferDelegate, AVCaptureAudioDataOutputSampleBufferDelegate,
     @unchecked Sendable {
     package let writer: CaptureWriter
-    package let camera: CameraWriter
-    private let observations: FileHandle
-    package let observationURL: URL
-    package var cameraClock: (@Sendable () -> CMClockOrTimebase?)?
+    private let destination: CaptureVideoDestination
+    package var companion: CameraWriter? {
+        if case .companion(let camera) = destination { return camera }; return nil
+    }
+    private var primaryFormat: CMFormatDescription?
+    private let observations: FileHandle?
+    package let observationURL: URL?
+    package var captureSessionClock: (@Sendable () -> CMClockOrTimebase?)?
     private let failure: @Sendable (CaptureFailure) -> Void
     private var stopped = false
     private let maximumRows: Int
@@ -26,15 +35,22 @@ package final class CaptureClockIngress: NSObject, SCStreamOutput, AVCaptureVide
     private var writtenBytes: Int64 = 0
     private let generation = UUID().uuidString
 
-    package init(writer: CaptureWriter, camera: CameraWriter, observations: URL,
+    package init(writer: CaptureWriter, destination: CaptureVideoDestination, observations: URL? = nil,
         failure: @escaping @Sendable (CaptureFailure) -> Void, maximumRows: Int = 5_000_000) throws {
-        self.writer = writer; self.camera = camera; self.failure = failure
+        self.writer = writer; self.destination = destination; self.failure = failure
         self.maximumRows = maximumRows
         self.observationURL = observations
-        guard FileManager.default.createFile(atPath: observations.path, contents: nil) else {
-            throw CaptureFailure("WRITE_FAILED", "Cannot create clock evidence.")
+        if let observations {
+            guard FileManager.default.createFile(atPath: observations.path, contents: nil) else {
+                throw CaptureFailure("WRITE_FAILED", "Cannot create clock evidence.")
+            }
+            self.observations = try FileHandle(forWritingTo: observations)
+        } else {
+            guard case .primary = destination else {
+                throw CaptureFailure("INVALID_REQUEST", "Companion camera requires clock evidence.")
+            }
+            self.observations = nil
         }
-        self.observations = try FileHandle(forWritingTo: observations)
     }
     package func stream(_ stream: SCStream, didOutputSampleBuffer sample: CMSampleBuffer,
         of type: SCStreamOutputType) {
@@ -42,11 +58,12 @@ package final class CaptureClockIngress: NSObject, SCStreamOutput, AVCaptureVide
     }
     package func captureOutput(_ output: AVCaptureOutput, didOutput sample: CMSampleBuffer,
         from connection: AVCaptureConnection) {
-        accept(sample, role: .camera, from: cameraClock?())
+        let role: CaptureIngressRole = output is AVCaptureAudioDataOutput ? .microphone : .camera
+        accept(sample, role: role, from: captureSessionClock?())
     }
     package func captureOutput(_ output: AVCaptureOutput, didDrop sample: CMSampleBuffer,
         from connection: AVCaptureConnection) {
-        do { try log(sample, role: .camera, arrivalHostUs: CaptureHostTime.nowUs(), converted: nil, disposition: "device-dropped", sourceUs: nil, clock: cameraClock?()) }
+        do { try log(sample, role: .camera, arrivalHostUs: CaptureHostTime.nowUs(), converted: nil, disposition: "device-dropped", sourceUs: nil, clock: captureSessionClock?()) }
         catch { fail(error) }
     }
     @discardableResult
@@ -59,10 +76,10 @@ package final class CaptureClockIngress: NSObject, SCStreamOutput, AVCaptureVide
         case .audio: role = .system
         @unknown default: return nil
         }
-        return accept(sample, role: role, from: clock)
+        return accept(sample, role: role, from: clock, clockDomain: "screen-stream")
     }
     @discardableResult
-    package func accept(_ sample: CMSampleBuffer, role: CaptureIngressRole, from clock: CMClockOrTimebase?) -> CaptureWriter.IngressReceipt? {
+    package func accept(_ sample: CMSampleBuffer, role: CaptureIngressRole, from clock: CMClockOrTimebase?, clockDomain: String = "camera-session") -> CaptureWriter.IngressReceipt? {
         guard !stopped else { return nil }
         let arrival = CaptureHostTime.nowUs()
         do {
@@ -74,20 +91,33 @@ package final class CaptureClockIngress: NSObject, SCStreamOutput, AVCaptureVide
             let receipt: CaptureWriter.IngressReceipt
             var frame: CameraFrameMapping?
             if role == .camera {
-                (receipt, frame) = try camera.append(converted, state: writer.ingressState)
+                switch destination {
+                case .companion(let camera):
+                    (receipt, frame) = try camera.append(converted, state: writer.ingressState)
+                case .primary(let width, let height):
+                    if converted.isValid, CMSampleBufferDataIsReady(converted), let image = converted.imageBuffer {
+                        guard CVPixelBufferGetWidth(image) == width, CVPixelBufferGetHeight(image) == height,
+                            let format = converted.formatDescription,
+                            primaryFormat.map({ CMFormatDescriptionEqual($0, otherFormatDescription: format) }) ?? true else {
+                            throw CaptureFailure("FORMAT_CHANGED", "Selected camera changed the fixed primary picture format.")
+                        }
+                        primaryFormat = converted.formatDescription
+                    }
+                    receipt = writer.ingestPrimaryVideo(converted)
+                }
             } else {
                 let type: SCStreamOutputType
                 switch role {
                 case .screen: type = .screen
                 case .microphone: type = .microphone
                 case .system: type = .audio
-                case .camera: preconditionFailure("Camera has its independent writer")
+                case .camera: preconditionFailure("Camera video is routed by its allocation above")
                 }
                 receipt = writer.ingestObserved(converted, of: type)
             }
             try log(sample, role: role, arrivalHostUs: arrival, converted: host, disposition: receipt.disposition,
-                sourceUs: receipt.sourceUs, clock: clock, cameraFrame: frame)
-            if let frame { camera.recorded(observations: observationURL, bytes: writtenBytes, frames: frame.ordinal + 1) }
+                sourceUs: receipt.sourceUs, clock: clock, cameraFrame: frame, clockDomain: clockDomain)
+            if let frame, let companion, let observationURL { companion.recorded(observations: observationURL, bytes: writtenBytes, frames: frame.ordinal + 1) }
             return receipt
         } catch {
             // A failed append can leave a torn tail. Never append another row behind it.
@@ -101,8 +131,8 @@ package final class CaptureClockIngress: NSObject, SCStreamOutput, AVCaptureVide
         failure((error as? CaptureFailure) ?? CaptureFailure("CAPTURE_EVIDENCE_FAILED", error.localizedDescription))
     }
     private func log(_ sample: CMSampleBuffer, role: CaptureIngressRole, arrivalHostUs: Int64, converted: CMTime?,
-        disposition: String, sourceUs: Int64?, clock: CMClockOrTimebase?, cameraFrame: CameraFrameMapping? = nil) throws {
-        guard !stopped else { return }
+        disposition: String, sourceUs: Int64?, clock: CMClockOrTimebase?, cameraFrame: CameraFrameMapping? = nil, clockDomain: String = "camera-session") throws {
+        guard !stopped, let observations else { return }
         struct Row: Codable {
             let role: CaptureIngressRole
             let clockDomain: String
@@ -119,7 +149,7 @@ package final class CaptureClockIngress: NSObject, SCStreamOutput, AVCaptureVide
         // Bound pathological callback floods without accumulating a take in memory.
         guard rows < maximumRows else { throw CaptureFailure("EVIDENCE_LIMIT", "Clock observation limit reached.") }
         let rate = clock.map { CMSyncGetRelativeRate($0, relativeTo: CMClockGetHostTimeClock()) }
-        let row = Row(role: role, clockDomain: role == .camera ? "camera-session" : "screen-stream", generation: generation, rawPTS: CaptureRationalTime(sample.presentationTimeStamp),
+        let row = Row(role: role, clockDomain: clockDomain, generation: generation, rawPTS: CaptureRationalTime(sample.presentationTimeStamp),
             convertedHostPTS: converted.map(CaptureRationalTime.init), arrivalHostUs: arrivalHostUs,
             duration: CaptureRationalTime(sample.duration), sourceUs: sourceUs, disposition: disposition,
             relativeRate: rate.flatMap { $0.isFinite ? $0 : nil }, cameraFrame: cameraFrame)
@@ -128,7 +158,7 @@ package final class CaptureClockIngress: NSObject, SCStreamOutput, AVCaptureVide
     }
     package func close() throws {
         stopped = true
-        try observations.synchronize(); try observations.close()
+        try observations?.synchronize(); try observations?.close()
     }
     package static func convert(_ sample: CMSampleBuffer, from clock: CMClockOrTimebase) throws -> CMSampleBuffer {
         try timingCopy(sample) { timing in

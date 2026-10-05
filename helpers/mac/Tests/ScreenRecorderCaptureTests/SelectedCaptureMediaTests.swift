@@ -184,7 +184,7 @@ func runProbeFrameBoundary(output: String, sourcePath: String? = nil) async thro
     (attachments[0] as! NSMutableDictionary)[SCStreamFrameInfo.status.rawValue] = SCFrameStatus.complete.rawValue
     writer.queue.sync { writer.ingest(screen, of: .screen) }
     let camera = try CameraWriter(directory: root.appendingPathComponent("camera"), framesPerSecond: 60)
-    let ingress = try CaptureClockIngress(writer: writer, camera: camera, observations: root.appendingPathComponent("observations.jsonl"), failure: { _ in preconditionFailure("Unexpected probe failure") })
+    let ingress = try CaptureClockIngress(writer: writer, destination: .companion(camera), observations: root.appendingPathComponent("observations.jsonl"), failure: { _ in preconditionFailure("Unexpected probe failure") })
     var receipts: [CaptureWriter.IngressReceipt] = []
     let duration = sourcePath == nil ? CMTime(value: 3334, timescale: 100000) : CMTime(value: 1, timescale: 60)
     var cadence = (sourcePath == nil ? [0,3333,6667,6667,6666,10000] : [0,1,3,3])
@@ -216,7 +216,7 @@ func runProbeFrameBoundary(output: String, sourcePath: String? = nil) async thro
     }
     // A later dropped callback must not append behind a torn row after ingress has failed.
     let stoppedURL = root.appendingPathComponent("stopped-observations.jsonl")
-    let stoppedIngress = try CaptureClockIngress(writer: writer, camera: camera,
+    let stoppedIngress = try CaptureClockIngress(writer: writer, destination: .companion(camera),
         observations: stoppedURL, failure: { failure in precondition(failure.code == "CLOCK_UNAVAILABLE") })
     writer.queue.sync { precondition(stoppedIngress.accept(image, role: .camera, from: nil) == nil) }
     let torn = Data("{\"role\":".utf8)
@@ -230,7 +230,7 @@ func runProbeFrameBoundary(output: String, sourcePath: String? = nil) async thro
     precondition(retainedTail == torn, "Dropped callback appended behind failed evidence")
     writer.seal(); let closed = await writer.finish(failure: nil)
     try ingress.close()
-    let snapshot = await camera.close(clock: writer.queue.sync { writer.ingressState.clock }, failure: closed.failure, observations: ingress.observationURL)
+    let snapshot = await camera.close(clock: writer.queue.sync { writer.ingressState.clock }, failure: closed.failure, observations: ingress.observationURL!)
     let cameraResult = try await CameraMedia.publish(snapshot)
     snapshot.releaseJournal()
     writer.releaseJournal()

@@ -250,7 +250,7 @@ private final class SteppedCameraInput: CaptureInputSession {
         onFailure: @escaping @Sendable (CaptureFailure) -> Void,
         checkInterruption: @escaping @MainActor () throws -> Void) async throws {
         let camera = try CameraWriter(directory: directory.appendingPathComponent("camera"), framesPerSecond: 30, binding: binding)
-        ingress = try CaptureClockIngress(writer: writer, camera: camera,
+        ingress = try CaptureClockIngress(writer: writer, destination: .companion(camera),
             observations: directory.appendingPathComponent("timestamps.jsonl"), failure: onFailure)
     }
     func offer(_ sample: CMSampleBuffer, role: CaptureIngressRole, hostUs: Int64) throws -> CaptureWriter.IngressReceipt? {
@@ -266,9 +266,9 @@ private final class SteppedCameraInput: CaptureInputSession {
         closures += 1
         finalClock = clock
         try? ingress.close()
-        return CaptureInputClosure(camera: await ingress.camera.close(clock: clock, failure: failure, observations: ingress.observationURL))
+        return CaptureInputClosure(camera: await ingress.companion!.close(clock: clock, failure: failure, observations: ingress.observationURL!))
     }
-    func discardMedia() async { await ingress.camera.discard(); try? ingress.close() }
+    func discardMedia() async { await ingress.companion!.discard(); try? ingress.close() }
 }
 
 @MainActor

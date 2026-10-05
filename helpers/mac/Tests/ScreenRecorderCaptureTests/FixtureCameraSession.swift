@@ -5,6 +5,8 @@ import ScreenRecorderMedia
 
 @MainActor
 final class FixtureCameraSession: CaptureCameraSession {
+    let width = RecoveryFixture.width
+    let height = RecoveryFixture.height
     let source: URL
     let origin: () -> Int64
     nonisolated var synchronizationClock: CMClockOrTimebase? { CMClockGetHostTimeClock() }
@@ -52,5 +54,19 @@ final class FixtureCameraSession: CaptureCameraSession {
         stops += 1
         if holdStop { stopEntered.release(); await releaseStop.wait() }
         return nil
+    }
+}
+
+@MainActor
+final class FixtureCameraDevice: CaptureCameraDevice {
+    let id: String
+    let session: FixtureCameraSession
+    var opens = 0
+    var unavailable = false
+    init(_ id: String, session: FixtureCameraSession) { self.id = id; self.session = session }
+    func makeSession(framesPerSecond: Int?, microphone: AVCaptureDevice?) throws -> any CaptureCameraSession {
+        opens += 1
+        if unavailable { throw CaptureFailure("SOURCE_UNAVAILABLE", "Fixture camera disappeared") }
+        return session
     }
 }

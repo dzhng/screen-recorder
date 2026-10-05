@@ -7,20 +7,6 @@ import ScreenRecorderCapture
 import ScreenRecorderMedia
 
 @MainActor
-private final class FixtureCameraDevice: CaptureCameraDevice {
-    let id: String
-    let session: FixtureCameraSession
-    var opens = 0
-    var unavailable = false
-    init(_ id: String, session: FixtureCameraSession) { self.id = id; self.session = session }
-    func makeSession(framesPerSecond: Int?) throws -> any CaptureCameraSession {
-        opens += 1
-        if unavailable { throw CaptureFailure("SOURCE_UNAVAILABLE", "Fixture camera disappeared") }
-        return session
-    }
-}
-
-@MainActor
 func runSelectedCameraInputTests(output: String? = nil) async throws {
     let root = output.map { URL(fileURLWithPath: $0) } ?? RecoveryFixture.directory("selected-camera-input")
     if output != nil { try FileManager.default.createDirectory(at: root, withIntermediateDirectories: false) }
