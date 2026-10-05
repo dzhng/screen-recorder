@@ -1,0 +1,37 @@
+{
+  "recipeSha256": "8e11246e56ef1ccc5737c91c34eda5319fd8e0654112a2e88a37ee4d72ae161e",
+  "sourceSha256": "8c3850283eb25fa026482078a04051e0be17347b09ef81a0849bec15a96e002e",
+  "probes": [
+    {
+      "codec": "h264",
+      "codec_name": "h264",
+      "width": 320,
+      "height": 180,
+      "duration": "1.000000"
+    },
+    {
+      "codec": "hevc",
+      "codec_name": "hevc",
+      "width": 320,
+      "height": 180,
+      "duration": "1.000000"
+    },
+    {
+      "extension": "wav",
+      "codec_name": "pcm_f32le",
+      "sample_rate": "48000"
+    },
+    {
+      "extension": "m4a",
+      "codec_name": "aac",
+      "sample_rate": "48000"
+    }
+  ],
+  "filterExecution": [
+    "ebur128",
+    "loudnorm",
+    "alimiter",
+    "sidechaincompress",
+    "colorbalance"
+  ]
+}

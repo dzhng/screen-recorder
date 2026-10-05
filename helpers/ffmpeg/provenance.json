@@ -1,0 +1,42 @@
+{
+  "version": "9.0.2",
+  "sourceUrl": "https://ffmpeg.org/releases/ffmpeg-9.0.2.tar.xz",
+  "sourceSha256": "8c3850283eb25fa026482078a04051e0be17347b09ef81a0849bec15a96e002e",
+  "architecture": "arm64",
+  "minimumMacOS": "26.0",
+  "license": "LGPL-2.1-or-later",
+  "configure": [
+    "--prefix=/",
+    "--enable-shared",
+    "--disable-static",
+    "--disable-autodetect",
+    "--disable-gpl",
+    "--disable-nonfree",
+    "--disable-version3",
+    "--disable-doc",
+    "--disable-ffplay",
+    "--arch=arm64",
+    "--target-os=darwin",
+    "--cc=/usr/bin/clang",
+    "--cxx=/usr/bin/clang++",
+    "--install-name-dir=@rpath",
+    "--enable-videotoolbox",
+    "--enable-audiotoolbox",
+    "--enable-zlib",
+    "--enable-bzlib",
+    "--enable-securetransport",
+    "--extra-cflags=-mmacosx-version-min=26.0",
+    "--extra-ldflags=-mmacosx-version-min=26.0 -Wl,-rpath,@executable_path/../lib"
+  ],
+  "requiredFilters": [
+    "ebur128",
+    "loudnorm",
+    "alimiter",
+    "sidechaincompress",
+    "tonemap",
+    "lut3d",
+    "colorbalance",
+    "colorspace"
+  ],
+  "requiredEncoders": ["h264_videotoolbox", "hevc_videotoolbox", "aac", "pcm_f32le"]
+}

@@ -14,7 +14,8 @@ checkout build. The [Node pin](../.node-version) and root manifest own tool vers
 
 The [app builder](build-macos.mjs) composes the workspace and native outputs.
 Manifests pin toolchains and dependencies. The [denoiser owner](../helpers/denoise/README.md)
-explains its verified build input; speech and voice model readiness is explicit
+explains its verified build input; the [FFmpeg owner](../helpers/ffmpeg/README.md)
+prepares the pinned LGPL executable and shared-library distribution. Speech and voice model readiness is explicit
 runtime work, not permission to download models during ordinary execution.
 
 Personal source builds may record a host interpreter. Tagged packages include

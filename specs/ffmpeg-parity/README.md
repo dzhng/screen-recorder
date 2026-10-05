@@ -12,8 +12,11 @@ every FFmpeg option or a replacement for a professional editing workstation.
 
 You are implementing the user-authorized plan through committed passes. Read the
 [exploration map](exploration.md), [parity contract](parity.md) and
-[isolated evidence](tool-proof.md). If instructed to implement, start at
-[slice 01](slices/01-lgpl-build.md): reproduce and freeze the pinned LGPL build.
+[isolated evidence](tool-proof.md). Slice 01 has a verified pinned LGPL build. Continue at
+[slice 02](slices/02-installed-tools.md): package and discover the selected app’s
+relocatable tools. Slice 03 can proceed from the same frozen build. Independent
+06/07/25 passes are active in isolated worktrees and must be integrated with their
+own tests and decision audits.
 The user invoked /goal /implement-spec. Implement the complete plan, continue after each verified commit, and preserve the no-demo-edit constraint. Independent passes may run in isolated worktrees; integrate their focused checks and decisions.
 
 Keep each pass to one focused contract; use write-tests before changing behavior.
@@ -23,13 +26,13 @@ demo after this spec, so do not run an end-to-end demo as specification work.
 Viewing the new recording's pitch is still unfinished because this session could
 not reach the reported running 0.1.0 app; that does not block independent slices.
 
-Build/dependency pins, descriptor/lifetime proof, HDR/alpha feasibility and speech
+Descriptor/lifetime proof, HDR/alpha feasibility and speech
 quality remain research checkpoints. Failed experiments stay incomplete. No
 compatibility wrappers or migrations are planned; reopen any unavoidable required
 persisted-format change rather than rewriting or losing a library. Update this
 prompt, slice status and retained evidence before ending each implementation pass.
 
-- [ ] [01 — Pinned LGPL build](slices/01-lgpl-build.md)
+- [x] [01 — Pinned LGPL build](slices/01-lgpl-build.md)
 - [ ] [02 — Relocatable installed tools](slices/02-installed-tools.md)
 - [ ] [03 — Owned CLI execution](slices/03-cli-lifetime.md)
 - [ ] [04 — Retained FFmpeg input authority](slices/04-input-authority.md)

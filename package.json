@@ -9,7 +9,7 @@
   "scripts": {
     "build": "turbo build",
     "check-types": "turbo check-types",
-    "test": "turbo test",
+    "test": "turbo test && bun run test:tools",
     "lint": "oxlint apps packages scripts helpers evals",
     "format": "oxfmt --write apps packages scripts helpers evals package.json turbo.json tsconfig.base.json",
     "format:check": "oxfmt --check apps packages scripts helpers evals package.json turbo.json tsconfig.base.json",
@@ -30,7 +30,8 @@
     "lab:index-scale": "bun run --cwd packages/test-harness lab:index-scale",
     "lab:render-timing": "bun run --cwd packages/test-harness lab:render-timing",
     "lab:exports": "bun run build && bun run --cwd packages/test-harness lab:exports",
-    "lab:personal-release": "node packages/test-harness/personal-release.mjs"
+    "lab:personal-release": "node packages/test-harness/personal-release.mjs",
+    "test:tools": "node --test scripts/*.test.mjs helpers/ffmpeg/*.test.mjs"
   },
   "devDependencies": {
     "@types/node": "24.13.4",
