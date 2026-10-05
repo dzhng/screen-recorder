@@ -67,6 +67,15 @@ export function timelineSvg(manifest, images) {
   y += 45;
   text(20, y + 15, "Pictures");
   const cell = plot / Math.max(1, manifest.frames.length);
+  if (!manifest.frames.length)
+    text(
+      left,
+      y + 35,
+      (manifest.pictureRequests ?? manifest.budgets.frames) === 0
+        ? "Pictures: unselected · no frame requests"
+        : "Pictures: no frame evidence returned",
+      "#ffb38a",
+    );
   for (const [index, entry] of manifest.frames.entries()) {
     const start = left + index * cell;
     const data = entry.data;
@@ -177,13 +186,22 @@ export function timelineSvg(manifest, images) {
   for (const row of (manifest.events.rows ?? []).slice(0, 32)) {
     const at = row.projectAtUs ?? row.sourceAtUs;
     if (at !== undefined) {
-      const fields = [
-        ...new Set([row.kind, row.mediaKind, row.trackId ?? row.clipId].filter(Boolean)),
-      ];
-      const label = `${fields.join(" · ")} · ${(number(at) / 1e6).toFixed(3)} s`;
-      const labelWidth = Math.min(plot, label.length * 7);
-      const labelX = x(at) + 8 + labelWidth > width - 20 ? x(at) - labelWidth - 8 : x(at) + 8;
-      text(Math.max(left, labelX), y + 16, label.slice(0, Math.floor(plot / 7)));
+      const marker = x(at);
+      const core = `${[...new Set([row.kind, row.mediaKind].filter(Boolean))].join(" · ")} · ${(number(at) / 1e6).toFixed(3)} s`;
+      const id = row.trackId ?? row.clipId;
+      const displayId = id?.length > 18 ? `${id.slice(0, 9)}…${id.slice(-6)}` : id;
+      const rightSpace = width - 35 - marker - 8;
+      const leftSpace = marker - left - 8;
+      const full = `${core}${displayId ? ` · ${displayId}` : ""}`;
+      const onRight = full.length * 7.2 <= rightSpace || rightSpace >= leftSpace;
+      const space = onRight ? rightSpace : leftSpace;
+      const label = full.slice(0, Math.max(core.length, Math.floor(space / 7.2)));
+      const labelWidth = Math.min(space, label.length * 7.2);
+      const labelX = onRight ? marker + 8 : marker - labelWidth - 8;
+      // Explicit glyph extent prevents platform font metrics from crossing the marker.
+      elements.push(
+        `<text x="${labelX}" y="${y + 16}" fill="#dce4ef" font-size="12" textLength="${labelWidth}" lengthAdjust="spacingAndGlyphs">${escape(label)}</text>`,
+      );
       rect(x(at) - 2, y + 2, 4, 21, row.kind === "cut" ? "#ef9393" : "#a0aadb");
       y += 30;
     }
@@ -303,6 +321,7 @@ export async function inspectTimeline(
     range: { ...range },
     budgets,
     frames: [],
+    pictureRequests: 0,
     waveform: { state: "not_selected" },
     transcripts: { state: "not_selected" },
     events: { state: "not_selected", rows: [] },
@@ -318,6 +337,7 @@ export async function inspectTimeline(
         range.startUs +
         Math.floor(((range.endUs - range.startUs - 1) * i) / Math.max(1, budgets.frames - 1)),
     );
+    manifest.pictureRequests = atUs.length;
     const batch = await observe(async () =>
       pinned(await invoke("frame.batch", { ...video, atUs, maxLongEdge: budgets.maxLongEdge })),
     );

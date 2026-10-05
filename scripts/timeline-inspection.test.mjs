@@ -331,3 +331,73 @@ let input="";process.stdin.on("data",data=>input+=data);process.stdin.on("end",(
   assert.equal(output.manifest.waveform.state, "not_selected");
   assert.match(output.svg, /source timeline/);
 });
+
+test("event labels fit beside their own markers while preserving kind/time and exact full IDs", async () => {
+  const fullId = "track:" + "a".repeat(64) + ":0";
+  const rows = [0, 500000, 600000, 999999].map((projectAtUs) => ({
+    kind: "cut",
+    mediaKind: "audio",
+    trackId: fullId,
+    projectAtUs,
+  }));
+  const invoke = async (operation) =>
+    operation === "revision.get"
+      ? { revision: { id: "r" } }
+      : operation === "timeline.events"
+        ? { revisionId: "r", state: "ready", page: { rows, nextCursor: null } }
+        : { revisionId: "r", state: "unavailable", reason: "no_audio" };
+  for (const width of [640, 1200]) {
+    const result = await inspectTimeline(
+      { target: { projectId: "p" }, range: { startUs: 0, endUs: 1000000 }, frames: 0, width },
+      invoke,
+    );
+    assert.deepEqual(result.manifest.events.rows, rows);
+    const labels = [...result.svg.matchAll(/<text ([^>]+)>(cut[^<]+)<\/text>/g)];
+    assert.equal(labels.length, rows.length);
+    labels.forEach(([, attrs, label], index) => {
+      const x = Number(attrs.match(/\bx="([^"]+)"/)?.[1]);
+      const length = Number(attrs.match(/\btextLength="([^"]+)"/)?.[1]);
+      const marker = 140 + (rows[index].projectAtUs / 1000000) * (width - 175);
+      assert.ok(
+        Number.isFinite(length) && length > 0,
+        "An explicit fitted glyph extent is required",
+      );
+      assert.ok(
+        x >= marker + 8 || x + length <= marker - 8,
+        "Event label must stay on one side of its own marker",
+      );
+      assert.ok(x >= 140 && x + length <= width - 35, "Event label must fit inside the plot");
+      assert.ok(label.includes((rows[index].projectAtUs / 1e6).toFixed(3) + " s"));
+      assert.ok(label.includes("audio"));
+      assert.ok(!label.includes(fullId));
+    });
+  }
+});
+
+test("the picture panel distinguishes unselected evidence from actual pending and failed requests", async () => {
+  const invoke = async (operation, params) =>
+    operation === "revision.get"
+      ? { revision: { id: "r" } }
+      : operation === "frame.batch"
+        ? {
+            items: params.atUs.map((atUs, index) => ({
+              atUs,
+              ok: true,
+              data: { revisionId: "r", state: index ? "failed" : "queued" },
+            })),
+          }
+        : { revisionId: "r", state: "unavailable", reason: "no_audio" };
+  const request = {
+    target: { projectId: "p" },
+    range: { startUs: 0, endUs: 1000000 },
+    maxEventPages: 0,
+  };
+  const unselected = await inspectTimeline({ ...request, frames: 0 }, invoke);
+  assert.match(unselected.svg, /Pictures: unselected · no frame requests/);
+  assert.equal(unselected.manifest.pictureRequests, 0);
+  const requested = await inspectTimeline({ ...request, frames: 2 }, invoke);
+  assert.equal(requested.manifest.pictureRequests, 2);
+  assert.match(requested.svg, />queued</);
+  assert.match(requested.svg, />failed</);
+  assert.doesNotMatch(requested.svg, /Pictures: unselected/);
+});

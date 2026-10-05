@@ -1,0 +1,2486 @@
+{
+  "before": {
+    "revisions": [
+      {
+        "id": "f0e35100-8325-49ba-89c4-852788196635",
+        "projectId": "37fe7489-21fb-48f7-a558-797024ec7ac1",
+        "ordinal": 0,
+        "createdAt": "2026-10-05T01:46:24.250Z",
+        "operation": "create",
+        "document": {
+          "canvas": {
+            "width": 16,
+            "height": 16,
+            "fps": {
+              "numerator": 30,
+              "denominator": 1
+            },
+            "background": "#000000ff"
+          },
+          "tracks": [],
+          "groups": [],
+          "clips": [],
+          "syncGroups": [],
+          "processing": []
+        }
+      },
+      {
+        "id": "3786fd15-b179-4b3b-a716-dcac711a8862",
+        "projectId": "37fe7489-21fb-48f7-a558-797024ec7ac1",
+        "ordinal": 1,
+        "createdAt": "2026-10-05T01:46:24.255Z",
+        "operation": "apply",
+        "document": {
+          "canvas": {
+            "width": 16,
+            "height": 16,
+            "fps": {
+              "numerator": 30,
+              "denominator": 1
+            },
+            "background": "#000000ff"
+          },
+          "tracks": [
+            {
+              "id": "track:e0639617c73bb8a35e7fb6ea62a9347d89a95fba502eafd89c28386d36c39468:0",
+              "kind": "audio",
+              "order": 0
+            }
+          ],
+          "groups": [],
+          "clips": [
+            {
+              "id": "clip:e0639617c73bb8a35e7fb6ea62a9347d89a95fba502eafd89c28386d36c39468:1",
+              "trackId": "track:e0639617c73bb8a35e7fb6ea62a9347d89a95fba502eafd89c28386d36c39468:0",
+              "placement": {
+                "kind": "project",
+                "range": {
+                  "startUs": 0,
+                  "endUs": 1000000
+                }
+              },
+              "source": {
+                "kind": "silence"
+              }
+            }
+          ],
+          "syncGroups": [],
+          "processing": []
+        }
+      },
+      {
+        "id": "538db441-4f07-4686-a8e0-3332e187799c",
+        "projectId": "37fe7489-21fb-48f7-a558-797024ec7ac1",
+        "ordinal": 2,
+        "createdAt": "2026-10-05T01:46:24.257Z",
+        "operation": "apply",
+        "document": {
+          "canvas": {
+            "width": 16,
+            "height": 16,
+            "fps": {
+              "numerator": 30,
+              "denominator": 1
+            },
+            "background": "#000000ff"
+          },
+          "tracks": [
+            {
+              "id": "track:e0639617c73bb8a35e7fb6ea62a9347d89a95fba502eafd89c28386d36c39468:0",
+              "kind": "audio",
+              "order": 0
+            }
+          ],
+          "groups": [],
+          "clips": [
+            {
+              "id": "clip:e0639617c73bb8a35e7fb6ea62a9347d89a95fba502eafd89c28386d36c39468:1",
+              "trackId": "track:e0639617c73bb8a35e7fb6ea62a9347d89a95fba502eafd89c28386d36c39468:0",
+              "placement": {
+                "kind": "project",
+                "range": {
+                  "startUs": 0,
+                  "endUs": 500000
+                }
+              },
+              "source": {
+                "kind": "silence"
+              }
+            },
+            {
+              "id": "clip:b4cc662c18fafa68a910e4ea637c7dfbb4a57e736bc8fd8f5657419e87a0b4a9:0",
+              "trackId": "track:e0639617c73bb8a35e7fb6ea62a9347d89a95fba502eafd89c28386d36c39468:0",
+              "placement": {
+                "kind": "project",
+                "range": {
+                  "startUs": 500000,
+                  "endUs": 1000000
+                }
+              },
+              "source": {
+                "kind": "silence"
+              }
+            }
+          ],
+          "syncGroups": [],
+          "processing": []
+        }
+      }
+    ],
+    "nextCursor": null
+  },
+  "after": {
+    "revisions": [
+      {
+        "id": "f0e35100-8325-49ba-89c4-852788196635",
+        "projectId": "37fe7489-21fb-48f7-a558-797024ec7ac1",
+        "ordinal": 0,
+        "createdAt": "2026-10-05T01:46:24.250Z",
+        "operation": "create",
+        "document": {
+          "canvas": {
+            "width": 16,
+            "height": 16,
+            "fps": {
+              "numerator": 30,
+              "denominator": 1
+            },
+            "background": "#000000ff"
+          },
+          "tracks": [],
+          "groups": [],
+          "clips": [],
+          "syncGroups": [],
+          "processing": []
+        }
+      },
+      {
+        "id": "3786fd15-b179-4b3b-a716-dcac711a8862",
+        "projectId": "37fe7489-21fb-48f7-a558-797024ec7ac1",
+        "ordinal": 1,
+        "createdAt": "2026-10-05T01:46:24.255Z",
+        "operation": "apply",
+        "document": {
+          "canvas": {
+            "width": 16,
+            "height": 16,
+            "fps": {
+              "numerator": 30,
+              "denominator": 1
+            },
+            "background": "#000000ff"
+          },
+          "tracks": [
+            {
+              "id": "track:e0639617c73bb8a35e7fb6ea62a9347d89a95fba502eafd89c28386d36c39468:0",
+              "kind": "audio",
+              "order": 0
+            }
+          ],
+          "groups": [],
+          "clips": [
+            {
+              "id": "clip:e0639617c73bb8a35e7fb6ea62a9347d89a95fba502eafd89c28386d36c39468:1",
+              "trackId": "track:e0639617c73bb8a35e7fb6ea62a9347d89a95fba502eafd89c28386d36c39468:0",
+              "placement": {
+                "kind": "project",
+                "range": {
+                  "startUs": 0,
+                  "endUs": 1000000
+                }
+              },
+              "source": {
+                "kind": "silence"
+              }
+            }
+          ],
+          "syncGroups": [],
+          "processing": []
+        }
+      },
+      {
+        "id": "538db441-4f07-4686-a8e0-3332e187799c",
+        "projectId": "37fe7489-21fb-48f7-a558-797024ec7ac1",
+        "ordinal": 2,
+        "createdAt": "2026-10-05T01:46:24.257Z",
+        "operation": "apply",
+        "document": {
+          "canvas": {
+            "width": 16,
+            "height": 16,
+            "fps": {
+              "numerator": 30,
+              "denominator": 1
+            },
+            "background": "#000000ff"
+          },
+          "tracks": [
+            {
+              "id": "track:e0639617c73bb8a35e7fb6ea62a9347d89a95fba502eafd89c28386d36c39468:0",
+              "kind": "audio",
+              "order": 0
+            }
+          ],
+          "groups": [],
+          "clips": [
+            {
+              "id": "clip:e0639617c73bb8a35e7fb6ea62a9347d89a95fba502eafd89c28386d36c39468:1",
+              "trackId": "track:e0639617c73bb8a35e7fb6ea62a9347d89a95fba502eafd89c28386d36c39468:0",
+              "placement": {
+                "kind": "project",
+                "range": {
+                  "startUs": 0,
+                  "endUs": 500000
+                }
+              },
+              "source": {
+                "kind": "silence"
+              }
+            },
+            {
+              "id": "clip:b4cc662c18fafa68a910e4ea637c7dfbb4a57e736bc8fd8f5657419e87a0b4a9:0",
+              "trackId": "track:e0639617c73bb8a35e7fb6ea62a9347d89a95fba502eafd89c28386d36c39468:0",
+              "placement": {
+                "kind": "project",
+                "range": {
+                  "startUs": 500000,
+                  "endUs": 1000000
+                }
+              },
+              "source": {
+                "kind": "silence"
+              }
+            }
+          ],
+          "syncGroups": [],
+          "processing": []
+        }
+      },
+      {
+        "id": "b97a7488-1aa4-42c4-9248-5980e8e8230e",
+        "projectId": "37fe7489-21fb-48f7-a558-797024ec7ac1",
+        "ordinal": 3,
+        "createdAt": "2026-10-05T01:46:24.332Z",
+        "operation": "apply",
+        "document": {
+          "canvas": {
+            "width": 16,
+            "height": 16,
+            "fps": {
+              "numerator": 30,
+              "denominator": 1
+            },
+            "background": "#000000ff"
+          },
+          "tracks": [
+            {
+              "id": "track:e0639617c73bb8a35e7fb6ea62a9347d89a95fba502eafd89c28386d36c39468:0",
+              "kind": "audio",
+              "order": 0
+            }
+          ],
+          "groups": [],
+          "clips": [
+            {
+              "id": "clip:e0639617c73bb8a35e7fb6ea62a9347d89a95fba502eafd89c28386d36c39468:1",
+              "trackId": "track:e0639617c73bb8a35e7fb6ea62a9347d89a95fba502eafd89c28386d36c39468:0",
+              "placement": {
+                "kind": "project",
+                "range": {
+                  "startUs": 0,
+                  "endUs": 500000
+                }
+              },
+              "source": {
+                "kind": "silence"
+              }
+            },
+            {
+              "id": "clip:b4cc662c18fafa68a910e4ea637c7dfbb4a57e736bc8fd8f5657419e87a0b4a9:0",
+              "trackId": "track:e0639617c73bb8a35e7fb6ea62a9347d89a95fba502eafd89c28386d36c39468:0",
+              "placement": {
+                "kind": "project",
+                "range": {
+                  "startUs": 600000,
+                  "endUs": 1100000
+                }
+              },
+              "source": {
+                "kind": "silence"
+              }
+            }
+          ],
+          "syncGroups": [],
+          "processing": []
+        }
+      }
+    ],
+    "nextCursor": null
+  },
+  "identical": {
+    "version": 1,
+    "projectId": "37fe7489-21fb-48f7-a558-797024ec7ac1",
+    "budgets": {
+      "boundaryUs": 100000,
+      "contextUs": 200000,
+      "maxWindows": 8,
+      "maxEventPages": 4,
+      "maxEvents": 128,
+      "maxBytes": 33554432
+    },
+    "revisions": [
+      {
+        "projectId": "37fe7489-21fb-48f7-a558-797024ec7ac1",
+        "revisionId": "3786fd15-b179-4b3b-a716-dcac711a8862",
+        "range": {
+          "startUs": 0,
+          "endUs": 1000000
+        },
+        "extentProvenance": "Explicit controlled silence fixture",
+        "extentBasis": "caller-selection",
+        "wholeRevisionExtentVerified": false,
+        "authoredDocumentSha256": "dc25f7cd125814a020ce7e3b202e47343fd5b5e4ea7995ac5d3f86ccdab57b22",
+        "events": {
+          "rows": [],
+          "observations": [
+            {
+              "projectId": "37fe7489-21fb-48f7-a558-797024ec7ac1",
+              "revisionId": "3786fd15-b179-4b3b-a716-dcac711a8862",
+              "state": "ready",
+              "dependencies": [],
+              "coverage": {
+                "manifestId": "94f5e7b4-3d2f-4633-8fe0-4a98441f8b24",
+                "occurrences": [],
+                "cuts": {
+                  "state": "ready",
+                  "basis": "revision"
+                }
+              }
+            }
+          ],
+          "coverage": {
+            "manifestId": "94f5e7b4-3d2f-4633-8fe0-4a98441f8b24",
+            "occurrences": [],
+            "cuts": {
+              "state": "ready",
+              "basis": "revision"
+            }
+          },
+          "nextCursor": null,
+          "complete": true
+        },
+        "windows": [
+          {
+            "range": {
+              "startUs": 0,
+              "endUs": 100000
+            },
+            "origins": [
+              {
+                "kind": "selection-opening"
+              }
+            ],
+            "checks": {
+              "sound": "not_listened",
+              "pictureQuality": "not_judged",
+              "picture": [],
+              "waveform": "processing",
+              "transcript": "processing"
+            },
+            "inspection": {
+              "manifest": {
+                "version": 1,
+                "domain": "project",
+                "identity": {
+                  "projectId": "37fe7489-21fb-48f7-a558-797024ec7ac1",
+                  "revisionId": "3786fd15-b179-4b3b-a716-dcac711a8862"
+                },
+                "range": {
+                  "startUs": 0,
+                  "endUs": 100000
+                },
+                "budgets": {
+                  "frames": 0,
+                  "maxLongEdge": 240,
+                  "width": 1200,
+                  "maxBuckets": 512,
+                  "maxWords": 24,
+                  "maxEventPages": 1,
+                  "maxEvents": 64,
+                  "maxPixels": 4000000,
+                  "maxBytes": 8388608,
+                  "polls": 0,
+                  "pollMs": 250
+                },
+                "frames": [],
+                "waveform": {
+                  "projectId": "37fe7489-21fb-48f7-a558-797024ec7ac1",
+                  "revisionId": "3786fd15-b179-4b3b-a716-dcac711a8862",
+                  "range": {
+                    "startUs": 0,
+                    "endUs": 100000
+                  },
+                  "tap": {
+                    "target": {
+                      "kind": "output"
+                    },
+                    "point": {
+                      "kind": "processed"
+                    }
+                  },
+                  "state": "processing",
+                  "reason": null,
+                  "retryable": false,
+                  "jobId": "a472235f-daf6-454d-92ba-5ebf9fdc8956",
+                  "dependency": {
+                    "jobId": "a472235f-daf6-454d-92ba-5ebf9fdc8956",
+                    "state": "processing",
+                    "reason": null,
+                    "retryable": false,
+                    "generation": null
+                  },
+                  "published": null,
+                  "delivery": null
+                },
+                "transcripts": {
+                  "version": 1,
+                  "selections": [
+                    {
+                      "label": "37fe7489-21fb-48f7-a558-797024ec7ac1",
+                      "selection": {
+                        "projectId": "37fe7489-21fb-48f7-a558-797024ec7ac1",
+                        "revisionId": "3786fd15-b179-4b3b-a716-dcac711a8862",
+                        "range": {
+                          "startUs": 0,
+                          "endUs": 100000
+                        }
+                      },
+                      "identity": {
+                        "projectId": "37fe7489-21fb-48f7-a558-797024ec7ac1",
+                        "revisionId": "3786fd15-b179-4b3b-a716-dcac711a8862"
+                      },
+                      "durationUs": null,
+                      "sourceDurations": [],
+                      "coverage": null,
+                      "state": "processing",
+                      "reason": null,
+                      "rows": [],
+                      "phrases": [],
+                      "selectionIndex": 0,
+                      "complete": false
+                    }
+                  ],
+                  "pagesRead": 1,
+                  "limitReached": "none",
+                  "continuation": null
+                },
+                "events": {
+                  "state": "processing",
+                  "coverage": null,
+                  "rows": [],
+                  "observations": [
+                    {
+                      "domain": "events",
+                      "projectId": "37fe7489-21fb-48f7-a558-797024ec7ac1",
+                      "revisionId": "3786fd15-b179-4b3b-a716-dcac711a8862",
+                      "range": {
+                        "startUs": 0,
+                        "endUs": 100000
+                      },
+                      "trackIds": [
+                        "track:e0639617c73bb8a35e7fb6ea62a9347d89a95fba502eafd89c28386d36c39468:0"
+                      ],
+                      "policy": "project-events-v2",
+                      "state": "processing",
+                      "reason": null,
+                      "retryable": false,
+                      "jobId": "9862abb1-2289-4667-8a12-ea773fd71906",
+                      "published": null,
+                      "dependencies": [],
+                      "coverage": null
+                    }
+                  ],
+                  "nextCursor": null
+                },
+                "work": {
+                  "decodedSamples": 0,
+                  "readerOpens": 0
+                },
+                "pictureRequests": 0
+              },
+              "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"1200\" height=\"493\" viewBox=\"0 0 1200 493\" font-family=\"Arial,sans-serif\"><rect width=\"100%\" height=\"100%\" fill=\"#111b2b\"/><text x=\"20\" y=\"25\" fill=\"#fff\" font-size=\"16\">project timeline — 3786fd15-b179-4b3b-a716-dcac711a8862</text><text x=\"20\" y=\"45\" fill=\"#9aadc6\" font-size=\"12\">Display axis only · exact evidence and availability are retained in the manifest</text><path d=\"M140 61L140 76\" stroke=\"#72849b\" stroke-width=\"1\"/><text x=\"140\" y=\"94\" fill=\"#dce4ef\" font-size=\"12\">0.000 s</text><path d=\"M396.25 61L396.25 76\" stroke=\"#72849b\" stroke-width=\"1\"/><text x=\"396.25\" y=\"94\" fill=\"#dce4ef\" font-size=\"12\">0.025 s</text><path d=\"M652.5 61L652.5 76\" stroke=\"#72849b\" stroke-width=\"1\"/><text x=\"652.5\" y=\"94\" fill=\"#dce4ef\" font-size=\"12\">0.050 s</text><path d=\"M908.75 61L908.75 76\" stroke=\"#72849b\" stroke-width=\"1\"/><text x=\"908.75\" y=\"94\" fill=\"#dce4ef\" font-size=\"12\">0.075 s</text><path d=\"M1165 61L1165 76\" stroke=\"#72849b\" stroke-width=\"1\"/><text x=\"1118\" y=\"94\" fill=\"#dce4ef\" font-size=\"12\">0.100 s</text><text x=\"20\" y=\"128\" fill=\"#dce4ef\" font-size=\"12\">Pictures</text><text x=\"140\" y=\"148\" fill=\"#ffb38a\" font-size=\"12\">Pictures: unselected · no frame requests</text><text x=\"140\" y=\"286\" fill=\"#9aadc6\" font-size=\"11\">Blue tick: request; span: compiled support (project only)</text><text x=\"20\" y=\"315\" fill=\"#ffb38a\" font-size=\"12\">Waveform: processing</text><text x=\"20\" y=\"355\" fill=\"#dce4ef\" font-size=\"12\">Words / gaps</text><text x=\"140\" y=\"355\" fill=\"#9aadc6\" font-size=\"11\">Faint lines are row guides, not media support</text><text x=\"140\" y=\"376\" fill=\"#ffb38a\" font-size=\"12\">Transcript: processing</text><text x=\"20\" y=\"410\" fill=\"#dce4ef\" font-size=\"12\">Cuts / events</text><text x=\"140\" y=\"445\" fill=\"#9aadc6\" font-size=\"12\">0 observed cuts · 0 of 0 event labels shown · processing</text><text x=\"20\" y=\"473\" fill=\"#9aadc6\" font-size=\"11\">Frames show selected samples, not continuous decode. Unseen or unheard quality is unverified.</text></svg>"
+            }
+          },
+          {
+            "range": {
+              "startUs": 900000,
+              "endUs": 1000000
+            },
+            "origins": [
+              {
+                "kind": "selection-ending"
+              }
+            ],
+            "checks": {
+              "sound": "not_listened",
+              "pictureQuality": "not_judged",
+              "picture": [],
+              "waveform": "queued",
+              "transcript": "processing"
+            },
+            "inspection": {
+              "manifest": {
+                "version": 1,
+                "domain": "project",
+                "identity": {
+                  "projectId": "37fe7489-21fb-48f7-a558-797024ec7ac1",
+                  "revisionId": "3786fd15-b179-4b3b-a716-dcac711a8862"
+                },
+                "range": {
+                  "startUs": 900000,
+                  "endUs": 1000000
+                },
+                "budgets": {
+                  "frames": 0,
+                  "maxLongEdge": 240,
+                  "width": 1200,
+                  "maxBuckets": 512,
+                  "maxWords": 24,
+                  "maxEventPages": 1,
+                  "maxEvents": 64,
+                  "maxPixels": 4000000,
+                  "maxBytes": 8388608,
+                  "polls": 0,
+                  "pollMs": 250
+                },
+                "frames": [],
+                "waveform": {
+                  "projectId": "37fe7489-21fb-48f7-a558-797024ec7ac1",
+                  "revisionId": "3786fd15-b179-4b3b-a716-dcac711a8862",
+                  "range": {
+                    "startUs": 900000,
+                    "endUs": 1000000
+                  },
+                  "tap": {
+                    "target": {
+                      "kind": "output"
+                    },
+                    "point": {
+                      "kind": "processed"
+                    }
+                  },
+                  "state": "queued",
+                  "reason": null,
+                  "retryable": false,
+                  "jobId": "99840ae3-3ea9-4539-8d49-ad7cf7fd3450",
+                  "dependency": {
+                    "jobId": "99840ae3-3ea9-4539-8d49-ad7cf7fd3450",
+                    "state": "queued",
+                    "reason": null,
+                    "retryable": false,
+                    "generation": null
+                  },
+                  "published": null,
+                  "delivery": null
+                },
+                "transcripts": {
+                  "version": 1,
+                  "selections": [
+                    {
+                      "label": "37fe7489-21fb-48f7-a558-797024ec7ac1",
+                      "selection": {
+                        "projectId": "37fe7489-21fb-48f7-a558-797024ec7ac1",
+                        "revisionId": "3786fd15-b179-4b3b-a716-dcac711a8862",
+                        "range": {
+                          "startUs": 900000,
+                          "endUs": 1000000
+                        }
+                      },
+                      "identity": {
+                        "projectId": "37fe7489-21fb-48f7-a558-797024ec7ac1",
+                        "revisionId": "3786fd15-b179-4b3b-a716-dcac711a8862"
+                      },
+                      "durationUs": null,
+                      "sourceDurations": [],
+                      "coverage": null,
+                      "state": "processing",
+                      "reason": null,
+                      "rows": [],
+                      "phrases": [],
+                      "selectionIndex": 0,
+                      "complete": false
+                    }
+                  ],
+                  "pagesRead": 1,
+                  "limitReached": "none",
+                  "continuation": null
+                },
+                "events": {
+                  "state": "processing",
+                  "coverage": null,
+                  "rows": [],
+                  "observations": [
+                    {
+                      "domain": "events",
+                      "projectId": "37fe7489-21fb-48f7-a558-797024ec7ac1",
+                      "revisionId": "3786fd15-b179-4b3b-a716-dcac711a8862",
+                      "range": {
+                        "startUs": 900000,
+                        "endUs": 1000000
+                      },
+                      "trackIds": [
+                        "track:e0639617c73bb8a35e7fb6ea62a9347d89a95fba502eafd89c28386d36c39468:0"
+                      ],
+                      "policy": "project-events-v2",
+                      "state": "processing",
+                      "reason": null,
+                      "retryable": false,
+                      "jobId": "50703484-eba2-44e9-ba1b-e23890fc41ef",
+                      "published": null,
+                      "dependencies": [],
+                      "coverage": null
+                    }
+                  ],
+                  "nextCursor": null
+                },
+                "work": {
+                  "decodedSamples": 0,
+                  "readerOpens": 0
+                },
+                "pictureRequests": 0
+              },
+              "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"1200\" height=\"493\" viewBox=\"0 0 1200 493\" font-family=\"Arial,sans-serif\"><rect width=\"100%\" height=\"100%\" fill=\"#111b2b\"/><text x=\"20\" y=\"25\" fill=\"#fff\" font-size=\"16\">project timeline — 3786fd15-b179-4b3b-a716-dcac711a8862</text><text x=\"20\" y=\"45\" fill=\"#9aadc6\" font-size=\"12\">Display axis only · exact evidence and availability are retained in the manifest</text><path d=\"M140 61L140 76\" stroke=\"#72849b\" stroke-width=\"1\"/><text x=\"140\" y=\"94\" fill=\"#dce4ef\" font-size=\"12\">0.900 s</text><path d=\"M396.25 61L396.25 76\" stroke=\"#72849b\" stroke-width=\"1\"/><text x=\"396.25\" y=\"94\" fill=\"#dce4ef\" font-size=\"12\">0.925 s</text><path d=\"M652.5 61L652.5 76\" stroke=\"#72849b\" stroke-width=\"1\"/><text x=\"652.5\" y=\"94\" fill=\"#dce4ef\" font-size=\"12\">0.950 s</text><path d=\"M908.75 61L908.75 76\" stroke=\"#72849b\" stroke-width=\"1\"/><text x=\"908.75\" y=\"94\" fill=\"#dce4ef\" font-size=\"12\">0.975 s</text><path d=\"M1165 61L1165 76\" stroke=\"#72849b\" stroke-width=\"1\"/><text x=\"1118\" y=\"94\" fill=\"#dce4ef\" font-size=\"12\">1.000 s</text><text x=\"20\" y=\"128\" fill=\"#dce4ef\" font-size=\"12\">Pictures</text><text x=\"140\" y=\"148\" fill=\"#ffb38a\" font-size=\"12\">Pictures: unselected · no frame requests</text><text x=\"140\" y=\"286\" fill=\"#9aadc6\" font-size=\"11\">Blue tick: request; span: compiled support (project only)</text><text x=\"20\" y=\"315\" fill=\"#ffb38a\" font-size=\"12\">Waveform: queued</text><text x=\"20\" y=\"355\" fill=\"#dce4ef\" font-size=\"12\">Words / gaps</text><text x=\"140\" y=\"355\" fill=\"#9aadc6\" font-size=\"11\">Faint lines are row guides, not media support</text><text x=\"140\" y=\"376\" fill=\"#ffb38a\" font-size=\"12\">Transcript: processing</text><text x=\"20\" y=\"410\" fill=\"#dce4ef\" font-size=\"12\">Cuts / events</text><text x=\"140\" y=\"445\" fill=\"#9aadc6\" font-size=\"12\">0 observed cuts · 0 of 0 event labels shown · processing</text><text x=\"20\" y=\"473\" fill=\"#9aadc6\" font-size=\"11\">Frames show selected samples, not continuous decode. Unseen or unheard quality is unverified.</text></svg>"
+            }
+          },
+          {
+            "range": {
+              "startUs": 400000,
+              "endUs": 800000
+            },
+            "origins": [
+              {
+                "kind": "caller-selected",
+                "reason": "Same selected join context"
+              }
+            ],
+            "checks": {
+              "sound": "not_listened",
+              "pictureQuality": "not_judged",
+              "picture": [],
+              "waveform": "queued",
+              "transcript": "processing"
+            },
+            "inspection": {
+              "manifest": {
+                "version": 1,
+                "domain": "project",
+                "identity": {
+                  "projectId": "37fe7489-21fb-48f7-a558-797024ec7ac1",
+                  "revisionId": "3786fd15-b179-4b3b-a716-dcac711a8862"
+                },
+                "range": {
+                  "startUs": 400000,
+                  "endUs": 800000
+                },
+                "budgets": {
+                  "frames": 0,
+                  "maxLongEdge": 240,
+                  "width": 1200,
+                  "maxBuckets": 512,
+                  "maxWords": 24,
+                  "maxEventPages": 1,
+                  "maxEvents": 64,
+                  "maxPixels": 4000000,
+                  "maxBytes": 8388608,
+                  "polls": 0,
+                  "pollMs": 250
+                },
+                "frames": [],
+                "waveform": {
+                  "projectId": "37fe7489-21fb-48f7-a558-797024ec7ac1",
+                  "revisionId": "3786fd15-b179-4b3b-a716-dcac711a8862",
+                  "range": {
+                    "startUs": 400000,
+                    "endUs": 800000
+                  },
+                  "tap": {
+                    "target": {
+                      "kind": "output"
+                    },
+                    "point": {
+                      "kind": "processed"
+                    }
+                  },
+                  "state": "queued",
+                  "reason": null,
+                  "retryable": false,
+                  "jobId": "29e69dfc-b401-426c-ae33-2019976c2abd",
+                  "dependency": {
+                    "jobId": "29e69dfc-b401-426c-ae33-2019976c2abd",
+                    "state": "queued",
+                    "reason": null,
+                    "retryable": false,
+                    "generation": null
+                  },
+                  "published": null,
+                  "delivery": null
+                },
+                "transcripts": {
+                  "version": 1,
+                  "selections": [
+                    {
+                      "label": "37fe7489-21fb-48f7-a558-797024ec7ac1",
+                      "selection": {
+                        "projectId": "37fe7489-21fb-48f7-a558-797024ec7ac1",
+                        "revisionId": "3786fd15-b179-4b3b-a716-dcac711a8862",
+                        "range": {
+                          "startUs": 400000,
+                          "endUs": 800000
+                        }
+                      },
+                      "identity": {
+                        "projectId": "37fe7489-21fb-48f7-a558-797024ec7ac1",
+                        "revisionId": "3786fd15-b179-4b3b-a716-dcac711a8862"
+                      },
+                      "durationUs": null,
+                      "sourceDurations": [],
+                      "coverage": null,
+                      "state": "processing",
+                      "reason": null,
+                      "rows": [],
+                      "phrases": [],
+                      "selectionIndex": 0,
+                      "complete": false
+                    }
+                  ],
+                  "pagesRead": 1,
+                  "limitReached": "none",
+                  "continuation": null
+                },
+                "events": {
+                  "state": "processing",
+                  "coverage": null,
+                  "rows": [],
+                  "observations": [
+                    {
+                      "domain": "events",
+                      "projectId": "37fe7489-21fb-48f7-a558-797024ec7ac1",
+                      "revisionId": "3786fd15-b179-4b3b-a716-dcac711a8862",
+                      "range": {
+                        "startUs": 400000,
+                        "endUs": 800000
+                      },
+                      "trackIds": [
+                        "track:e0639617c73bb8a35e7fb6ea62a9347d89a95fba502eafd89c28386d36c39468:0"
+                      ],
+                      "policy": "project-events-v2",
+                      "state": "processing",
+                      "reason": null,
+                      "retryable": false,
+                      "jobId": "6aa37537-c626-4928-8275-de9b066bb73f",
+                      "published": null,
+                      "dependencies": [],
+                      "coverage": null
+                    }
+                  ],
+                  "nextCursor": null
+                },
+                "work": {
+                  "decodedSamples": 0,
+                  "readerOpens": 0
+                },
+                "pictureRequests": 0
+              },
+              "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"1200\" height=\"493\" viewBox=\"0 0 1200 493\" font-family=\"Arial,sans-serif\"><rect width=\"100%\" height=\"100%\" fill=\"#111b2b\"/><text x=\"20\" y=\"25\" fill=\"#fff\" font-size=\"16\">project timeline — 3786fd15-b179-4b3b-a716-dcac711a8862</text><text x=\"20\" y=\"45\" fill=\"#9aadc6\" font-size=\"12\">Display axis only · exact evidence and availability are retained in the manifest</text><path d=\"M140 61L140 76\" stroke=\"#72849b\" stroke-width=\"1\"/><text x=\"140\" y=\"94\" fill=\"#dce4ef\" font-size=\"12\">0.400 s</text><path d=\"M396.25 61L396.25 76\" stroke=\"#72849b\" stroke-width=\"1\"/><text x=\"396.25\" y=\"94\" fill=\"#dce4ef\" font-size=\"12\">0.500 s</text><path d=\"M652.5 61L652.5 76\" stroke=\"#72849b\" stroke-width=\"1\"/><text x=\"652.5\" y=\"94\" fill=\"#dce4ef\" font-size=\"12\">0.600 s</text><path d=\"M908.75 61L908.75 76\" stroke=\"#72849b\" stroke-width=\"1\"/><text x=\"908.75\" y=\"94\" fill=\"#dce4ef\" font-size=\"12\">0.700 s</text><path d=\"M1165 61L1165 76\" stroke=\"#72849b\" stroke-width=\"1\"/><text x=\"1118\" y=\"94\" fill=\"#dce4ef\" font-size=\"12\">0.800 s</text><text x=\"20\" y=\"128\" fill=\"#dce4ef\" font-size=\"12\">Pictures</text><text x=\"140\" y=\"148\" fill=\"#ffb38a\" font-size=\"12\">Pictures: unselected · no frame requests</text><text x=\"140\" y=\"286\" fill=\"#9aadc6\" font-size=\"11\">Blue tick: request; span: compiled support (project only)</text><text x=\"20\" y=\"315\" fill=\"#ffb38a\" font-size=\"12\">Waveform: queued</text><text x=\"20\" y=\"355\" fill=\"#dce4ef\" font-size=\"12\">Words / gaps</text><text x=\"140\" y=\"355\" fill=\"#9aadc6\" font-size=\"11\">Faint lines are row guides, not media support</text><text x=\"140\" y=\"376\" fill=\"#ffb38a\" font-size=\"12\">Transcript: processing</text><text x=\"20\" y=\"410\" fill=\"#dce4ef\" font-size=\"12\">Cuts / events</text><text x=\"140\" y=\"445\" fill=\"#9aadc6\" font-size=\"12\">0 observed cuts · 0 of 0 event labels shown · processing</text><text x=\"20\" y=\"473\" fill=\"#9aadc6\" font-size=\"11\">Frames show selected samples, not continuous decode. Unseen or unheard quality is unverified.</text></svg>"
+            }
+          }
+        ],
+        "skipped": [],
+        "unobserved": [
+          {
+            "kind": "processing-overlay-entrances",
+            "reason": "No public canonical timing evidence; supply explicit windows"
+          }
+        ]
+      },
+      {
+        "projectId": "37fe7489-21fb-48f7-a558-797024ec7ac1",
+        "revisionId": "538db441-4f07-4686-a8e0-3332e187799c",
+        "range": {
+          "startUs": 0,
+          "endUs": 1000000
+        },
+        "extentProvenance": "Explicit controlled silence fixture",
+        "extentBasis": "caller-selection",
+        "wholeRevisionExtentVerified": false,
+        "authoredDocumentSha256": "bb0990effe95425529d93754fc261d9339f16293e732c27141c7cfa7da68dc64",
+        "events": {
+          "rows": [],
+          "observations": [
+            {
+              "projectId": "37fe7489-21fb-48f7-a558-797024ec7ac1",
+              "revisionId": "538db441-4f07-4686-a8e0-3332e187799c",
+              "state": "ready",
+              "dependencies": [],
+              "coverage": {
+                "manifestId": "fddbe6c1-3780-4ad2-9fe7-c27749dae3b2",
+                "occurrences": [],
+                "cuts": {
+                  "state": "ready",
+                  "basis": "revision"
+                }
+              }
+            }
+          ],
+          "coverage": {
+            "manifestId": "fddbe6c1-3780-4ad2-9fe7-c27749dae3b2",
+            "occurrences": [],
+            "cuts": {
+              "state": "ready",
+              "basis": "revision"
+            }
+          },
+          "nextCursor": null,
+          "complete": true
+        },
+        "windows": [
+          {
+            "range": {
+              "startUs": 0,
+              "endUs": 100000
+            },
+            "origins": [
+              {
+                "kind": "selection-opening"
+              }
+            ],
+            "checks": {
+              "sound": "not_listened",
+              "pictureQuality": "not_judged",
+              "picture": [],
+              "waveform": "queued",
+              "transcript": "processing"
+            },
+            "inspection": {
+              "manifest": {
+                "version": 1,
+                "domain": "project",
+                "identity": {
+                  "projectId": "37fe7489-21fb-48f7-a558-797024ec7ac1",
+                  "revisionId": "538db441-4f07-4686-a8e0-3332e187799c"
+                },
+                "range": {
+                  "startUs": 0,
+                  "endUs": 100000
+                },
+                "budgets": {
+                  "frames": 0,
+                  "maxLongEdge": 240,
+                  "width": 1200,
+                  "maxBuckets": 512,
+                  "maxWords": 24,
+                  "maxEventPages": 1,
+                  "maxEvents": 64,
+                  "maxPixels": 4000000,
+                  "maxBytes": 8388608,
+                  "polls": 0,
+                  "pollMs": 250
+                },
+                "frames": [],
+                "waveform": {
+                  "projectId": "37fe7489-21fb-48f7-a558-797024ec7ac1",
+                  "revisionId": "538db441-4f07-4686-a8e0-3332e187799c",
+                  "range": {
+                    "startUs": 0,
+                    "endUs": 100000
+                  },
+                  "tap": {
+                    "target": {
+                      "kind": "output"
+                    },
+                    "point": {
+                      "kind": "processed"
+                    }
+                  },
+                  "state": "queued",
+                  "reason": null,
+                  "retryable": false,
+                  "jobId": "85f7bdbe-7935-44b9-acb3-140d7f8297db",
+                  "dependency": {
+                    "jobId": "85f7bdbe-7935-44b9-acb3-140d7f8297db",
+                    "state": "queued",
+                    "reason": null,
+                    "retryable": false,
+                    "generation": null
+                  },
+                  "published": null,
+                  "delivery": null
+                },
+                "transcripts": {
+                  "version": 1,
+                  "selections": [
+                    {
+                      "label": "37fe7489-21fb-48f7-a558-797024ec7ac1",
+                      "selection": {
+                        "projectId": "37fe7489-21fb-48f7-a558-797024ec7ac1",
+                        "revisionId": "538db441-4f07-4686-a8e0-3332e187799c",
+                        "range": {
+                          "startUs": 0,
+                          "endUs": 100000
+                        }
+                      },
+                      "identity": {
+                        "projectId": "37fe7489-21fb-48f7-a558-797024ec7ac1",
+                        "revisionId": "538db441-4f07-4686-a8e0-3332e187799c"
+                      },
+                      "durationUs": null,
+                      "sourceDurations": [],
+                      "coverage": null,
+                      "state": "processing",
+                      "reason": null,
+                      "rows": [],
+                      "phrases": [],
+                      "selectionIndex": 0,
+                      "complete": false
+                    }
+                  ],
+                  "pagesRead": 1,
+                  "limitReached": "none",
+                  "continuation": null
+                },
+                "events": {
+                  "state": "processing",
+                  "coverage": null,
+                  "rows": [],
+                  "observations": [
+                    {
+                      "domain": "events",
+                      "projectId": "37fe7489-21fb-48f7-a558-797024ec7ac1",
+                      "revisionId": "538db441-4f07-4686-a8e0-3332e187799c",
+                      "range": {
+                        "startUs": 0,
+                        "endUs": 100000
+                      },
+                      "trackIds": [
+                        "track:e0639617c73bb8a35e7fb6ea62a9347d89a95fba502eafd89c28386d36c39468:0"
+                      ],
+                      "policy": "project-events-v2",
+                      "state": "processing",
+                      "reason": null,
+                      "retryable": false,
+                      "jobId": "00661d51-0207-4f1a-bfb9-57e5ddd2b8b1",
+                      "published": null,
+                      "dependencies": [],
+                      "coverage": null
+                    }
+                  ],
+                  "nextCursor": null
+                },
+                "work": {
+                  "decodedSamples": 0,
+                  "readerOpens": 0
+                },
+                "pictureRequests": 0
+              },
+              "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"1200\" height=\"493\" viewBox=\"0 0 1200 493\" font-family=\"Arial,sans-serif\"><rect width=\"100%\" height=\"100%\" fill=\"#111b2b\"/><text x=\"20\" y=\"25\" fill=\"#fff\" font-size=\"16\">project timeline — 538db441-4f07-4686-a8e0-3332e187799c</text><text x=\"20\" y=\"45\" fill=\"#9aadc6\" font-size=\"12\">Display axis only · exact evidence and availability are retained in the manifest</text><path d=\"M140 61L140 76\" stroke=\"#72849b\" stroke-width=\"1\"/><text x=\"140\" y=\"94\" fill=\"#dce4ef\" font-size=\"12\">0.000 s</text><path d=\"M396.25 61L396.25 76\" stroke=\"#72849b\" stroke-width=\"1\"/><text x=\"396.25\" y=\"94\" fill=\"#dce4ef\" font-size=\"12\">0.025 s</text><path d=\"M652.5 61L652.5 76\" stroke=\"#72849b\" stroke-width=\"1\"/><text x=\"652.5\" y=\"94\" fill=\"#dce4ef\" font-size=\"12\">0.050 s</text><path d=\"M908.75 61L908.75 76\" stroke=\"#72849b\" stroke-width=\"1\"/><text x=\"908.75\" y=\"94\" fill=\"#dce4ef\" font-size=\"12\">0.075 s</text><path d=\"M1165 61L1165 76\" stroke=\"#72849b\" stroke-width=\"1\"/><text x=\"1118\" y=\"94\" fill=\"#dce4ef\" font-size=\"12\">0.100 s</text><text x=\"20\" y=\"128\" fill=\"#dce4ef\" font-size=\"12\">Pictures</text><text x=\"140\" y=\"148\" fill=\"#ffb38a\" font-size=\"12\">Pictures: unselected · no frame requests</text><text x=\"140\" y=\"286\" fill=\"#9aadc6\" font-size=\"11\">Blue tick: request; span: compiled support (project only)</text><text x=\"20\" y=\"315\" fill=\"#ffb38a\" font-size=\"12\">Waveform: queued</text><text x=\"20\" y=\"355\" fill=\"#dce4ef\" font-size=\"12\">Words / gaps</text><text x=\"140\" y=\"355\" fill=\"#9aadc6\" font-size=\"11\">Faint lines are row guides, not media support</text><text x=\"140\" y=\"376\" fill=\"#ffb38a\" font-size=\"12\">Transcript: processing</text><text x=\"20\" y=\"410\" fill=\"#dce4ef\" font-size=\"12\">Cuts / events</text><text x=\"140\" y=\"445\" fill=\"#9aadc6\" font-size=\"12\">0 observed cuts · 0 of 0 event labels shown · processing</text><text x=\"20\" y=\"473\" fill=\"#9aadc6\" font-size=\"11\">Frames show selected samples, not continuous decode. Unseen or unheard quality is unverified.</text></svg>"
+            }
+          },
+          {
+            "range": {
+              "startUs": 900000,
+              "endUs": 1000000
+            },
+            "origins": [
+              {
+                "kind": "selection-ending"
+              }
+            ],
+            "checks": {
+              "sound": "not_listened",
+              "pictureQuality": "not_judged",
+              "picture": [],
+              "waveform": "queued",
+              "transcript": "processing"
+            },
+            "inspection": {
+              "manifest": {
+                "version": 1,
+                "domain": "project",
+                "identity": {
+                  "projectId": "37fe7489-21fb-48f7-a558-797024ec7ac1",
+                  "revisionId": "538db441-4f07-4686-a8e0-3332e187799c"
+                },
+                "range": {
+                  "startUs": 900000,
+                  "endUs": 1000000
+                },
+                "budgets": {
+                  "frames": 0,
+                  "maxLongEdge": 240,
+                  "width": 1200,
+                  "maxBuckets": 512,
+                  "maxWords": 24,
+                  "maxEventPages": 1,
+                  "maxEvents": 64,
+                  "maxPixels": 4000000,
+                  "maxBytes": 8388608,
+                  "polls": 0,
+                  "pollMs": 250
+                },
+                "frames": [],
+                "waveform": {
+                  "projectId": "37fe7489-21fb-48f7-a558-797024ec7ac1",
+                  "revisionId": "538db441-4f07-4686-a8e0-3332e187799c",
+                  "range": {
+                    "startUs": 900000,
+                    "endUs": 1000000
+                  },
+                  "tap": {
+                    "target": {
+                      "kind": "output"
+                    },
+                    "point": {
+                      "kind": "processed"
+                    }
+                  },
+                  "state": "queued",
+                  "reason": null,
+                  "retryable": false,
+                  "jobId": "7bfd7d8c-bbce-4953-9e58-417ea3c84593",
+                  "dependency": {
+                    "jobId": "7bfd7d8c-bbce-4953-9e58-417ea3c84593",
+                    "state": "queued",
+                    "reason": null,
+                    "retryable": false,
+                    "generation": null
+                  },
+                  "published": null,
+                  "delivery": null
+                },
+                "transcripts": {
+                  "version": 1,
+                  "selections": [
+                    {
+                      "label": "37fe7489-21fb-48f7-a558-797024ec7ac1",
+                      "selection": {
+                        "projectId": "37fe7489-21fb-48f7-a558-797024ec7ac1",
+                        "revisionId": "538db441-4f07-4686-a8e0-3332e187799c",
+                        "range": {
+                          "startUs": 900000,
+                          "endUs": 1000000
+                        }
+                      },
+                      "identity": {
+                        "projectId": "37fe7489-21fb-48f7-a558-797024ec7ac1",
+                        "revisionId": "538db441-4f07-4686-a8e0-3332e187799c"
+                      },
+                      "durationUs": null,
+                      "sourceDurations": [],
+                      "coverage": null,
+                      "state": "processing",
+                      "reason": null,
+                      "rows": [],
+                      "phrases": [],
+                      "selectionIndex": 0,
+                      "complete": false
+                    }
+                  ],
+                  "pagesRead": 1,
+                  "limitReached": "none",
+                  "continuation": null
+                },
+                "events": {
+                  "state": "processing",
+                  "coverage": null,
+                  "rows": [],
+                  "observations": [
+                    {
+                      "domain": "events",
+                      "projectId": "37fe7489-21fb-48f7-a558-797024ec7ac1",
+                      "revisionId": "538db441-4f07-4686-a8e0-3332e187799c",
+                      "range": {
+                        "startUs": 900000,
+                        "endUs": 1000000
+                      },
+                      "trackIds": [
+                        "track:e0639617c73bb8a35e7fb6ea62a9347d89a95fba502eafd89c28386d36c39468:0"
+                      ],
+                      "policy": "project-events-v2",
+                      "state": "processing",
+                      "reason": null,
+                      "retryable": false,
+                      "jobId": "bca56d69-5c3d-4192-bc9d-5a08d4e84b2c",
+                      "published": null,
+                      "dependencies": [],
+                      "coverage": null
+                    }
+                  ],
+                  "nextCursor": null
+                },
+                "work": {
+                  "decodedSamples": 0,
+                  "readerOpens": 0
+                },
+                "pictureRequests": 0
+              },
+              "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"1200\" height=\"493\" viewBox=\"0 0 1200 493\" font-family=\"Arial,sans-serif\"><rect width=\"100%\" height=\"100%\" fill=\"#111b2b\"/><text x=\"20\" y=\"25\" fill=\"#fff\" font-size=\"16\">project timeline — 538db441-4f07-4686-a8e0-3332e187799c</text><text x=\"20\" y=\"45\" fill=\"#9aadc6\" font-size=\"12\">Display axis only · exact evidence and availability are retained in the manifest</text><path d=\"M140 61L140 76\" stroke=\"#72849b\" stroke-width=\"1\"/><text x=\"140\" y=\"94\" fill=\"#dce4ef\" font-size=\"12\">0.900 s</text><path d=\"M396.25 61L396.25 76\" stroke=\"#72849b\" stroke-width=\"1\"/><text x=\"396.25\" y=\"94\" fill=\"#dce4ef\" font-size=\"12\">0.925 s</text><path d=\"M652.5 61L652.5 76\" stroke=\"#72849b\" stroke-width=\"1\"/><text x=\"652.5\" y=\"94\" fill=\"#dce4ef\" font-size=\"12\">0.950 s</text><path d=\"M908.75 61L908.75 76\" stroke=\"#72849b\" stroke-width=\"1\"/><text x=\"908.75\" y=\"94\" fill=\"#dce4ef\" font-size=\"12\">0.975 s</text><path d=\"M1165 61L1165 76\" stroke=\"#72849b\" stroke-width=\"1\"/><text x=\"1118\" y=\"94\" fill=\"#dce4ef\" font-size=\"12\">1.000 s</text><text x=\"20\" y=\"128\" fill=\"#dce4ef\" font-size=\"12\">Pictures</text><text x=\"140\" y=\"148\" fill=\"#ffb38a\" font-size=\"12\">Pictures: unselected · no frame requests</text><text x=\"140\" y=\"286\" fill=\"#9aadc6\" font-size=\"11\">Blue tick: request; span: compiled support (project only)</text><text x=\"20\" y=\"315\" fill=\"#ffb38a\" font-size=\"12\">Waveform: queued</text><text x=\"20\" y=\"355\" fill=\"#dce4ef\" font-size=\"12\">Words / gaps</text><text x=\"140\" y=\"355\" fill=\"#9aadc6\" font-size=\"11\">Faint lines are row guides, not media support</text><text x=\"140\" y=\"376\" fill=\"#ffb38a\" font-size=\"12\">Transcript: processing</text><text x=\"20\" y=\"410\" fill=\"#dce4ef\" font-size=\"12\">Cuts / events</text><text x=\"140\" y=\"445\" fill=\"#9aadc6\" font-size=\"12\">0 observed cuts · 0 of 0 event labels shown · processing</text><text x=\"20\" y=\"473\" fill=\"#9aadc6\" font-size=\"11\">Frames show selected samples, not continuous decode. Unseen or unheard quality is unverified.</text></svg>"
+            }
+          },
+          {
+            "range": {
+              "startUs": 400000,
+              "endUs": 800000
+            },
+            "origins": [
+              {
+                "kind": "caller-selected",
+                "reason": "Same selected join context"
+              }
+            ],
+            "checks": {
+              "sound": "not_listened",
+              "pictureQuality": "not_judged",
+              "picture": [],
+              "waveform": "queued",
+              "transcript": "processing"
+            },
+            "inspection": {
+              "manifest": {
+                "version": 1,
+                "domain": "project",
+                "identity": {
+                  "projectId": "37fe7489-21fb-48f7-a558-797024ec7ac1",
+                  "revisionId": "538db441-4f07-4686-a8e0-3332e187799c"
+                },
+                "range": {
+                  "startUs": 400000,
+                  "endUs": 800000
+                },
+                "budgets": {
+                  "frames": 0,
+                  "maxLongEdge": 240,
+                  "width": 1200,
+                  "maxBuckets": 512,
+                  "maxWords": 24,
+                  "maxEventPages": 1,
+                  "maxEvents": 64,
+                  "maxPixels": 4000000,
+                  "maxBytes": 8388608,
+                  "polls": 0,
+                  "pollMs": 250
+                },
+                "frames": [],
+                "waveform": {
+                  "projectId": "37fe7489-21fb-48f7-a558-797024ec7ac1",
+                  "revisionId": "538db441-4f07-4686-a8e0-3332e187799c",
+                  "range": {
+                    "startUs": 400000,
+                    "endUs": 800000
+                  },
+                  "tap": {
+                    "target": {
+                      "kind": "output"
+                    },
+                    "point": {
+                      "kind": "processed"
+                    }
+                  },
+                  "state": "queued",
+                  "reason": null,
+                  "retryable": false,
+                  "jobId": "edb33b50-b396-4e53-a94b-07e9330b6a9f",
+                  "dependency": {
+                    "jobId": "edb33b50-b396-4e53-a94b-07e9330b6a9f",
+                    "state": "queued",
+                    "reason": null,
+                    "retryable": false,
+                    "generation": null
+                  },
+                  "published": null,
+                  "delivery": null
+                },
+                "transcripts": {
+                  "version": 1,
+                  "selections": [
+                    {
+                      "label": "37fe7489-21fb-48f7-a558-797024ec7ac1",
+                      "selection": {
+                        "projectId": "37fe7489-21fb-48f7-a558-797024ec7ac1",
+                        "revisionId": "538db441-4f07-4686-a8e0-3332e187799c",
+                        "range": {
+                          "startUs": 400000,
+                          "endUs": 800000
+                        }
+                      },
+                      "identity": {
+                        "projectId": "37fe7489-21fb-48f7-a558-797024ec7ac1",
+                        "revisionId": "538db441-4f07-4686-a8e0-3332e187799c"
+                      },
+                      "durationUs": null,
+                      "sourceDurations": [],
+                      "coverage": null,
+                      "state": "processing",
+                      "reason": null,
+                      "rows": [],
+                      "phrases": [],
+                      "selectionIndex": 0,
+                      "complete": false
+                    }
+                  ],
+                  "pagesRead": 1,
+                  "limitReached": "none",
+                  "continuation": null
+                },
+                "events": {
+                  "state": "processing",
+                  "coverage": null,
+                  "rows": [],
+                  "observations": [
+                    {
+                      "domain": "events",
+                      "projectId": "37fe7489-21fb-48f7-a558-797024ec7ac1",
+                      "revisionId": "538db441-4f07-4686-a8e0-3332e187799c",
+                      "range": {
+                        "startUs": 400000,
+                        "endUs": 800000
+                      },
+                      "trackIds": [
+                        "track:e0639617c73bb8a35e7fb6ea62a9347d89a95fba502eafd89c28386d36c39468:0"
+                      ],
+                      "policy": "project-events-v2",
+                      "state": "processing",
+                      "reason": null,
+                      "retryable": false,
+                      "jobId": "3ec633c6-50f1-4c1a-94e1-7ba2eab3fd5b",
+                      "published": null,
+                      "dependencies": [],
+                      "coverage": null
+                    }
+                  ],
+                  "nextCursor": null
+                },
+                "work": {
+                  "decodedSamples": 0,
+                  "readerOpens": 0
+                },
+                "pictureRequests": 0
+              },
+              "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"1200\" height=\"493\" viewBox=\"0 0 1200 493\" font-family=\"Arial,sans-serif\"><rect width=\"100%\" height=\"100%\" fill=\"#111b2b\"/><text x=\"20\" y=\"25\" fill=\"#fff\" font-size=\"16\">project timeline — 538db441-4f07-4686-a8e0-3332e187799c</text><text x=\"20\" y=\"45\" fill=\"#9aadc6\" font-size=\"12\">Display axis only · exact evidence and availability are retained in the manifest</text><path d=\"M140 61L140 76\" stroke=\"#72849b\" stroke-width=\"1\"/><text x=\"140\" y=\"94\" fill=\"#dce4ef\" font-size=\"12\">0.400 s</text><path d=\"M396.25 61L396.25 76\" stroke=\"#72849b\" stroke-width=\"1\"/><text x=\"396.25\" y=\"94\" fill=\"#dce4ef\" font-size=\"12\">0.500 s</text><path d=\"M652.5 61L652.5 76\" stroke=\"#72849b\" stroke-width=\"1\"/><text x=\"652.5\" y=\"94\" fill=\"#dce4ef\" font-size=\"12\">0.600 s</text><path d=\"M908.75 61L908.75 76\" stroke=\"#72849b\" stroke-width=\"1\"/><text x=\"908.75\" y=\"94\" fill=\"#dce4ef\" font-size=\"12\">0.700 s</text><path d=\"M1165 61L1165 76\" stroke=\"#72849b\" stroke-width=\"1\"/><text x=\"1118\" y=\"94\" fill=\"#dce4ef\" font-size=\"12\">0.800 s</text><text x=\"20\" y=\"128\" fill=\"#dce4ef\" font-size=\"12\">Pictures</text><text x=\"140\" y=\"148\" fill=\"#ffb38a\" font-size=\"12\">Pictures: unselected · no frame requests</text><text x=\"140\" y=\"286\" fill=\"#9aadc6\" font-size=\"11\">Blue tick: request; span: compiled support (project only)</text><text x=\"20\" y=\"315\" fill=\"#ffb38a\" font-size=\"12\">Waveform: queued</text><text x=\"20\" y=\"355\" fill=\"#dce4ef\" font-size=\"12\">Words / gaps</text><text x=\"140\" y=\"355\" fill=\"#9aadc6\" font-size=\"11\">Faint lines are row guides, not media support</text><text x=\"140\" y=\"376\" fill=\"#ffb38a\" font-size=\"12\">Transcript: processing</text><text x=\"20\" y=\"410\" fill=\"#dce4ef\" font-size=\"12\">Cuts / events</text><text x=\"140\" y=\"445\" fill=\"#9aadc6\" font-size=\"12\">0 observed cuts · 0 of 0 event labels shown · processing</text><text x=\"20\" y=\"473\" fill=\"#9aadc6\" font-size=\"11\">Frames show selected samples, not continuous decode. Unseen or unheard quality is unverified.</text></svg>"
+            }
+          }
+        ],
+        "skipped": [],
+        "unobserved": [
+          {
+            "kind": "processing-overlay-entrances",
+            "reason": "No public canonical timing evidence; supply explicit windows"
+          }
+        ]
+      }
+    ],
+    "comparison": {
+      "state": "complete",
+      "authoredDocumentChanged": true,
+      "cutEvidenceChanged": false,
+      "outputEquivalence": "not_established"
+    },
+    "checks": {
+      "sound": "not_listened",
+      "pictureQuality": "not_judged"
+    }
+  },
+  "changed": {
+    "version": 1,
+    "projectId": "37fe7489-21fb-48f7-a558-797024ec7ac1",
+    "budgets": {
+      "boundaryUs": 100000,
+      "contextUs": 200000,
+      "maxWindows": 8,
+      "maxEventPages": 4,
+      "maxEvents": 128,
+      "maxBytes": 33554432
+    },
+    "revisions": [
+      {
+        "projectId": "37fe7489-21fb-48f7-a558-797024ec7ac1",
+        "revisionId": "538db441-4f07-4686-a8e0-3332e187799c",
+        "range": {
+          "startUs": 0,
+          "endUs": 1000000
+        },
+        "extentProvenance": "Explicit controlled silence fixture",
+        "extentBasis": "caller-selection",
+        "wholeRevisionExtentVerified": false,
+        "authoredDocumentSha256": "bb0990effe95425529d93754fc261d9339f16293e732c27141c7cfa7da68dc64",
+        "events": {
+          "rows": [],
+          "observations": [
+            {
+              "projectId": "37fe7489-21fb-48f7-a558-797024ec7ac1",
+              "revisionId": "538db441-4f07-4686-a8e0-3332e187799c",
+              "state": "ready",
+              "dependencies": [],
+              "coverage": {
+                "manifestId": "fddbe6c1-3780-4ad2-9fe7-c27749dae3b2",
+                "occurrences": [],
+                "cuts": {
+                  "state": "ready",
+                  "basis": "revision"
+                }
+              }
+            }
+          ],
+          "coverage": {
+            "manifestId": "fddbe6c1-3780-4ad2-9fe7-c27749dae3b2",
+            "occurrences": [],
+            "cuts": {
+              "state": "ready",
+              "basis": "revision"
+            }
+          },
+          "nextCursor": null,
+          "complete": true
+        },
+        "windows": [
+          {
+            "range": {
+              "startUs": 0,
+              "endUs": 100000
+            },
+            "origins": [
+              {
+                "kind": "selection-opening"
+              }
+            ],
+            "checks": {
+              "sound": "not_listened",
+              "pictureQuality": "not_judged",
+              "picture": [],
+              "waveform": "failed",
+              "transcript": "ready"
+            },
+            "inspection": {
+              "manifest": {
+                "version": 1,
+                "domain": "project",
+                "identity": {
+                  "projectId": "37fe7489-21fb-48f7-a558-797024ec7ac1",
+                  "revisionId": "538db441-4f07-4686-a8e0-3332e187799c"
+                },
+                "range": {
+                  "startUs": 0,
+                  "endUs": 100000
+                },
+                "budgets": {
+                  "frames": 0,
+                  "maxLongEdge": 240,
+                  "width": 1200,
+                  "maxBuckets": 512,
+                  "maxWords": 24,
+                  "maxEventPages": 1,
+                  "maxEvents": 64,
+                  "maxPixels": 4000000,
+                  "maxBytes": 8388608,
+                  "polls": 0,
+                  "pollMs": 250
+                },
+                "frames": [],
+                "waveform": {
+                  "projectId": "37fe7489-21fb-48f7-a558-797024ec7ac1",
+                  "revisionId": "538db441-4f07-4686-a8e0-3332e187799c",
+                  "range": {
+                    "startUs": 0,
+                    "endUs": 100000
+                  },
+                  "tap": {
+                    "target": {
+                      "kind": "output"
+                    },
+                    "point": {
+                      "kind": "processed"
+                    }
+                  },
+                  "state": "failed",
+                  "reason": "Controlled fixture has no native audio renderer",
+                  "retryable": false,
+                  "jobId": "85f7bdbe-7935-44b9-acb3-140d7f8297db",
+                  "dependency": {
+                    "jobId": "85f7bdbe-7935-44b9-acb3-140d7f8297db",
+                    "state": "failed",
+                    "reason": "Controlled fixture has no native audio renderer",
+                    "retryable": false,
+                    "generation": null
+                  },
+                  "published": null,
+                  "delivery": null
+                },
+                "transcripts": {
+                  "version": 1,
+                  "selections": [
+                    {
+                      "label": "37fe7489-21fb-48f7-a558-797024ec7ac1",
+                      "selection": {
+                        "projectId": "37fe7489-21fb-48f7-a558-797024ec7ac1",
+                        "revisionId": "538db441-4f07-4686-a8e0-3332e187799c",
+                        "range": {
+                          "startUs": 0,
+                          "endUs": 100000
+                        }
+                      },
+                      "identity": {
+                        "projectId": "37fe7489-21fb-48f7-a558-797024ec7ac1",
+                        "revisionId": "538db441-4f07-4686-a8e0-3332e187799c"
+                      },
+                      "durationUs": null,
+                      "sourceDurations": [],
+                      "coverage": null,
+                      "state": "ready",
+                      "reason": null,
+                      "rows": [],
+                      "phrases": [],
+                      "selectionIndex": 0,
+                      "complete": true
+                    }
+                  ],
+                  "pagesRead": 1,
+                  "limitReached": "none",
+                  "continuation": null
+                },
+                "events": {
+                  "state": "ready",
+                  "coverage": {
+                    "manifestId": "bde44eac-5d21-4bcf-9edd-a4eb66b8afe5",
+                    "occurrences": [],
+                    "cuts": {
+                      "state": "ready",
+                      "basis": "revision"
+                    }
+                  },
+                  "rows": [],
+                  "observations": [
+                    {
+                      "projectId": "37fe7489-21fb-48f7-a558-797024ec7ac1",
+                      "revisionId": "538db441-4f07-4686-a8e0-3332e187799c",
+                      "state": "ready",
+                      "dependencies": [],
+                      "coverage": {
+                        "manifestId": "bde44eac-5d21-4bcf-9edd-a4eb66b8afe5",
+                        "occurrences": [],
+                        "cuts": {
+                          "state": "ready",
+                          "basis": "revision"
+                        }
+                      }
+                    }
+                  ],
+                  "nextCursor": null
+                },
+                "work": {
+                  "decodedSamples": 0,
+                  "readerOpens": 0
+                },
+                "pictureRequests": 0
+              },
+              "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"1200\" height=\"493\" viewBox=\"0 0 1200 493\" font-family=\"Arial,sans-serif\"><rect width=\"100%\" height=\"100%\" fill=\"#111b2b\"/><text x=\"20\" y=\"25\" fill=\"#fff\" font-size=\"16\">project timeline — 538db441-4f07-4686-a8e0-3332e187799c</text><text x=\"20\" y=\"45\" fill=\"#9aadc6\" font-size=\"12\">Display axis only · exact evidence and availability are retained in the manifest</text><path d=\"M140 61L140 76\" stroke=\"#72849b\" stroke-width=\"1\"/><text x=\"140\" y=\"94\" fill=\"#dce4ef\" font-size=\"12\">0.000 s</text><path d=\"M396.25 61L396.25 76\" stroke=\"#72849b\" stroke-width=\"1\"/><text x=\"396.25\" y=\"94\" fill=\"#dce4ef\" font-size=\"12\">0.025 s</text><path d=\"M652.5 61L652.5 76\" stroke=\"#72849b\" stroke-width=\"1\"/><text x=\"652.5\" y=\"94\" fill=\"#dce4ef\" font-size=\"12\">0.050 s</text><path d=\"M908.75 61L908.75 76\" stroke=\"#72849b\" stroke-width=\"1\"/><text x=\"908.75\" y=\"94\" fill=\"#dce4ef\" font-size=\"12\">0.075 s</text><path d=\"M1165 61L1165 76\" stroke=\"#72849b\" stroke-width=\"1\"/><text x=\"1118\" y=\"94\" fill=\"#dce4ef\" font-size=\"12\">0.100 s</text><text x=\"20\" y=\"128\" fill=\"#dce4ef\" font-size=\"12\">Pictures</text><text x=\"140\" y=\"148\" fill=\"#ffb38a\" font-size=\"12\">Pictures: unselected · no frame requests</text><text x=\"140\" y=\"286\" fill=\"#9aadc6\" font-size=\"11\">Blue tick: request; span: compiled support (project only)</text><text x=\"20\" y=\"315\" fill=\"#ffb38a\" font-size=\"12\">Waveform: failed</text><text x=\"20\" y=\"355\" fill=\"#dce4ef\" font-size=\"12\">Words / gaps</text><text x=\"140\" y=\"355\" fill=\"#9aadc6\" font-size=\"11\">Faint lines are row guides, not media support</text><text x=\"140\" y=\"376\" fill=\"#ffb38a\" font-size=\"12\">Transcript: ready</text><text x=\"20\" y=\"410\" fill=\"#dce4ef\" font-size=\"12\">Cuts / events</text><text x=\"140\" y=\"445\" fill=\"#9aadc6\" font-size=\"12\">0 observed cuts · 0 of 0 event labels shown · ready</text><text x=\"20\" y=\"473\" fill=\"#9aadc6\" font-size=\"11\">Frames show selected samples, not continuous decode. Unseen or unheard quality is unverified.</text></svg>"
+            }
+          },
+          {
+            "range": {
+              "startUs": 900000,
+              "endUs": 1000000
+            },
+            "origins": [
+              {
+                "kind": "selection-ending"
+              }
+            ],
+            "checks": {
+              "sound": "not_listened",
+              "pictureQuality": "not_judged",
+              "picture": [],
+              "waveform": "failed",
+              "transcript": "ready"
+            },
+            "inspection": {
+              "manifest": {
+                "version": 1,
+                "domain": "project",
+                "identity": {
+                  "projectId": "37fe7489-21fb-48f7-a558-797024ec7ac1",
+                  "revisionId": "538db441-4f07-4686-a8e0-3332e187799c"
+                },
+                "range": {
+                  "startUs": 900000,
+                  "endUs": 1000000
+                },
+                "budgets": {
+                  "frames": 0,
+                  "maxLongEdge": 240,
+                  "width": 1200,
+                  "maxBuckets": 512,
+                  "maxWords": 24,
+                  "maxEventPages": 1,
+                  "maxEvents": 64,
+                  "maxPixels": 4000000,
+                  "maxBytes": 8388608,
+                  "polls": 0,
+                  "pollMs": 250
+                },
+                "frames": [],
+                "waveform": {
+                  "projectId": "37fe7489-21fb-48f7-a558-797024ec7ac1",
+                  "revisionId": "538db441-4f07-4686-a8e0-3332e187799c",
+                  "range": {
+                    "startUs": 900000,
+                    "endUs": 1000000
+                  },
+                  "tap": {
+                    "target": {
+                      "kind": "output"
+                    },
+                    "point": {
+                      "kind": "processed"
+                    }
+                  },
+                  "state": "failed",
+                  "reason": "Controlled fixture has no native audio renderer",
+                  "retryable": false,
+                  "jobId": "7bfd7d8c-bbce-4953-9e58-417ea3c84593",
+                  "dependency": {
+                    "jobId": "7bfd7d8c-bbce-4953-9e58-417ea3c84593",
+                    "state": "failed",
+                    "reason": "Controlled fixture has no native audio renderer",
+                    "retryable": false,
+                    "generation": null
+                  },
+                  "published": null,
+                  "delivery": null
+                },
+                "transcripts": {
+                  "version": 1,
+                  "selections": [
+                    {
+                      "label": "37fe7489-21fb-48f7-a558-797024ec7ac1",
+                      "selection": {
+                        "projectId": "37fe7489-21fb-48f7-a558-797024ec7ac1",
+                        "revisionId": "538db441-4f07-4686-a8e0-3332e187799c",
+                        "range": {
+                          "startUs": 900000,
+                          "endUs": 1000000
+                        }
+                      },
+                      "identity": {
+                        "projectId": "37fe7489-21fb-48f7-a558-797024ec7ac1",
+                        "revisionId": "538db441-4f07-4686-a8e0-3332e187799c"
+                      },
+                      "durationUs": null,
+                      "sourceDurations": [],
+                      "coverage": null,
+                      "state": "ready",
+                      "reason": null,
+                      "rows": [],
+                      "phrases": [],
+                      "selectionIndex": 0,
+                      "complete": true
+                    }
+                  ],
+                  "pagesRead": 1,
+                  "limitReached": "none",
+                  "continuation": null
+                },
+                "events": {
+                  "state": "ready",
+                  "coverage": {
+                    "manifestId": "f196d7db-0730-46c0-b046-3b3ede8ef4a7",
+                    "occurrences": [],
+                    "cuts": {
+                      "state": "ready",
+                      "basis": "revision"
+                    }
+                  },
+                  "rows": [],
+                  "observations": [
+                    {
+                      "projectId": "37fe7489-21fb-48f7-a558-797024ec7ac1",
+                      "revisionId": "538db441-4f07-4686-a8e0-3332e187799c",
+                      "state": "ready",
+                      "dependencies": [],
+                      "coverage": {
+                        "manifestId": "f196d7db-0730-46c0-b046-3b3ede8ef4a7",
+                        "occurrences": [],
+                        "cuts": {
+                          "state": "ready",
+                          "basis": "revision"
+                        }
+                      }
+                    }
+                  ],
+                  "nextCursor": null
+                },
+                "work": {
+                  "decodedSamples": 0,
+                  "readerOpens": 0
+                },
+                "pictureRequests": 0
+              },
+              "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"1200\" height=\"493\" viewBox=\"0 0 1200 493\" font-family=\"Arial,sans-serif\"><rect width=\"100%\" height=\"100%\" fill=\"#111b2b\"/><text x=\"20\" y=\"25\" fill=\"#fff\" font-size=\"16\">project timeline — 538db441-4f07-4686-a8e0-3332e187799c</text><text x=\"20\" y=\"45\" fill=\"#9aadc6\" font-size=\"12\">Display axis only · exact evidence and availability are retained in the manifest</text><path d=\"M140 61L140 76\" stroke=\"#72849b\" stroke-width=\"1\"/><text x=\"140\" y=\"94\" fill=\"#dce4ef\" font-size=\"12\">0.900 s</text><path d=\"M396.25 61L396.25 76\" stroke=\"#72849b\" stroke-width=\"1\"/><text x=\"396.25\" y=\"94\" fill=\"#dce4ef\" font-size=\"12\">0.925 s</text><path d=\"M652.5 61L652.5 76\" stroke=\"#72849b\" stroke-width=\"1\"/><text x=\"652.5\" y=\"94\" fill=\"#dce4ef\" font-size=\"12\">0.950 s</text><path d=\"M908.75 61L908.75 76\" stroke=\"#72849b\" stroke-width=\"1\"/><text x=\"908.75\" y=\"94\" fill=\"#dce4ef\" font-size=\"12\">0.975 s</text><path d=\"M1165 61L1165 76\" stroke=\"#72849b\" stroke-width=\"1\"/><text x=\"1118\" y=\"94\" fill=\"#dce4ef\" font-size=\"12\">1.000 s</text><text x=\"20\" y=\"128\" fill=\"#dce4ef\" font-size=\"12\">Pictures</text><text x=\"140\" y=\"148\" fill=\"#ffb38a\" font-size=\"12\">Pictures: unselected · no frame requests</text><text x=\"140\" y=\"286\" fill=\"#9aadc6\" font-size=\"11\">Blue tick: request; span: compiled support (project only)</text><text x=\"20\" y=\"315\" fill=\"#ffb38a\" font-size=\"12\">Waveform: failed</text><text x=\"20\" y=\"355\" fill=\"#dce4ef\" font-size=\"12\">Words / gaps</text><text x=\"140\" y=\"355\" fill=\"#9aadc6\" font-size=\"11\">Faint lines are row guides, not media support</text><text x=\"140\" y=\"376\" fill=\"#ffb38a\" font-size=\"12\">Transcript: ready</text><text x=\"20\" y=\"410\" fill=\"#dce4ef\" font-size=\"12\">Cuts / events</text><text x=\"140\" y=\"445\" fill=\"#9aadc6\" font-size=\"12\">0 observed cuts · 0 of 0 event labels shown · ready</text><text x=\"20\" y=\"473\" fill=\"#9aadc6\" font-size=\"11\">Frames show selected samples, not continuous decode. Unseen or unheard quality is unverified.</text></svg>"
+            }
+          },
+          {
+            "range": {
+              "startUs": 400000,
+              "endUs": 800000
+            },
+            "origins": [
+              {
+                "kind": "caller-selected",
+                "reason": "Same selected join context"
+              }
+            ],
+            "checks": {
+              "sound": "not_listened",
+              "pictureQuality": "not_judged",
+              "picture": [],
+              "waveform": "failed",
+              "transcript": "ready"
+            },
+            "inspection": {
+              "manifest": {
+                "version": 1,
+                "domain": "project",
+                "identity": {
+                  "projectId": "37fe7489-21fb-48f7-a558-797024ec7ac1",
+                  "revisionId": "538db441-4f07-4686-a8e0-3332e187799c"
+                },
+                "range": {
+                  "startUs": 400000,
+                  "endUs": 800000
+                },
+                "budgets": {
+                  "frames": 0,
+                  "maxLongEdge": 240,
+                  "width": 1200,
+                  "maxBuckets": 512,
+                  "maxWords": 24,
+                  "maxEventPages": 1,
+                  "maxEvents": 64,
+                  "maxPixels": 4000000,
+                  "maxBytes": 8388608,
+                  "polls": 0,
+                  "pollMs": 250
+                },
+                "frames": [],
+                "waveform": {
+                  "projectId": "37fe7489-21fb-48f7-a558-797024ec7ac1",
+                  "revisionId": "538db441-4f07-4686-a8e0-3332e187799c",
+                  "range": {
+                    "startUs": 400000,
+                    "endUs": 800000
+                  },
+                  "tap": {
+                    "target": {
+                      "kind": "output"
+                    },
+                    "point": {
+                      "kind": "processed"
+                    }
+                  },
+                  "state": "failed",
+                  "reason": "Controlled fixture has no native audio renderer",
+                  "retryable": false,
+                  "jobId": "edb33b50-b396-4e53-a94b-07e9330b6a9f",
+                  "dependency": {
+                    "jobId": "edb33b50-b396-4e53-a94b-07e9330b6a9f",
+                    "state": "failed",
+                    "reason": "Controlled fixture has no native audio renderer",
+                    "retryable": false,
+                    "generation": null
+                  },
+                  "published": null,
+                  "delivery": null
+                },
+                "transcripts": {
+                  "version": 1,
+                  "selections": [
+                    {
+                      "label": "37fe7489-21fb-48f7-a558-797024ec7ac1",
+                      "selection": {
+                        "projectId": "37fe7489-21fb-48f7-a558-797024ec7ac1",
+                        "revisionId": "538db441-4f07-4686-a8e0-3332e187799c",
+                        "range": {
+                          "startUs": 400000,
+                          "endUs": 800000
+                        }
+                      },
+                      "identity": {
+                        "projectId": "37fe7489-21fb-48f7-a558-797024ec7ac1",
+                        "revisionId": "538db441-4f07-4686-a8e0-3332e187799c"
+                      },
+                      "durationUs": null,
+                      "sourceDurations": [],
+                      "coverage": null,
+                      "state": "ready",
+                      "reason": null,
+                      "rows": [],
+                      "phrases": [],
+                      "selectionIndex": 0,
+                      "complete": true
+                    }
+                  ],
+                  "pagesRead": 1,
+                  "limitReached": "none",
+                  "continuation": null
+                },
+                "events": {
+                  "state": "ready",
+                  "coverage": {
+                    "manifestId": "621f1991-725d-42d6-b519-0c4ea90140f5",
+                    "occurrences": [],
+                    "cuts": {
+                      "state": "ready",
+                      "basis": "revision"
+                    }
+                  },
+                  "rows": [],
+                  "observations": [
+                    {
+                      "projectId": "37fe7489-21fb-48f7-a558-797024ec7ac1",
+                      "revisionId": "538db441-4f07-4686-a8e0-3332e187799c",
+                      "state": "ready",
+                      "dependencies": [],
+                      "coverage": {
+                        "manifestId": "621f1991-725d-42d6-b519-0c4ea90140f5",
+                        "occurrences": [],
+                        "cuts": {
+                          "state": "ready",
+                          "basis": "revision"
+                        }
+                      }
+                    }
+                  ],
+                  "nextCursor": null
+                },
+                "work": {
+                  "decodedSamples": 0,
+                  "readerOpens": 0
+                },
+                "pictureRequests": 0
+              },
+              "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"1200\" height=\"493\" viewBox=\"0 0 1200 493\" font-family=\"Arial,sans-serif\"><rect width=\"100%\" height=\"100%\" fill=\"#111b2b\"/><text x=\"20\" y=\"25\" fill=\"#fff\" font-size=\"16\">project timeline — 538db441-4f07-4686-a8e0-3332e187799c</text><text x=\"20\" y=\"45\" fill=\"#9aadc6\" font-size=\"12\">Display axis only · exact evidence and availability are retained in the manifest</text><path d=\"M140 61L140 76\" stroke=\"#72849b\" stroke-width=\"1\"/><text x=\"140\" y=\"94\" fill=\"#dce4ef\" font-size=\"12\">0.400 s</text><path d=\"M396.25 61L396.25 76\" stroke=\"#72849b\" stroke-width=\"1\"/><text x=\"396.25\" y=\"94\" fill=\"#dce4ef\" font-size=\"12\">0.500 s</text><path d=\"M652.5 61L652.5 76\" stroke=\"#72849b\" stroke-width=\"1\"/><text x=\"652.5\" y=\"94\" fill=\"#dce4ef\" font-size=\"12\">0.600 s</text><path d=\"M908.75 61L908.75 76\" stroke=\"#72849b\" stroke-width=\"1\"/><text x=\"908.75\" y=\"94\" fill=\"#dce4ef\" font-size=\"12\">0.700 s</text><path d=\"M1165 61L1165 76\" stroke=\"#72849b\" stroke-width=\"1\"/><text x=\"1118\" y=\"94\" fill=\"#dce4ef\" font-size=\"12\">0.800 s</text><text x=\"20\" y=\"128\" fill=\"#dce4ef\" font-size=\"12\">Pictures</text><text x=\"140\" y=\"148\" fill=\"#ffb38a\" font-size=\"12\">Pictures: unselected · no frame requests</text><text x=\"140\" y=\"286\" fill=\"#9aadc6\" font-size=\"11\">Blue tick: request; span: compiled support (project only)</text><text x=\"20\" y=\"315\" fill=\"#ffb38a\" font-size=\"12\">Waveform: failed</text><text x=\"20\" y=\"355\" fill=\"#dce4ef\" font-size=\"12\">Words / gaps</text><text x=\"140\" y=\"355\" fill=\"#9aadc6\" font-size=\"11\">Faint lines are row guides, not media support</text><text x=\"140\" y=\"376\" fill=\"#ffb38a\" font-size=\"12\">Transcript: ready</text><text x=\"20\" y=\"410\" fill=\"#dce4ef\" font-size=\"12\">Cuts / events</text><text x=\"140\" y=\"445\" fill=\"#9aadc6\" font-size=\"12\">0 observed cuts · 0 of 0 event labels shown · ready</text><text x=\"20\" y=\"473\" fill=\"#9aadc6\" font-size=\"11\">Frames show selected samples, not continuous decode. Unseen or unheard quality is unverified.</text></svg>"
+            }
+          }
+        ],
+        "skipped": [],
+        "unobserved": [
+          {
+            "kind": "processing-overlay-entrances",
+            "reason": "No public canonical timing evidence; supply explicit windows"
+          }
+        ]
+      },
+      {
+        "projectId": "37fe7489-21fb-48f7-a558-797024ec7ac1",
+        "revisionId": "b97a7488-1aa4-42c4-9248-5980e8e8230e",
+        "range": {
+          "startUs": 0,
+          "endUs": 1000000
+        },
+        "extentProvenance": "Explicit controlled silence fixture",
+        "extentBasis": "caller-selection",
+        "wholeRevisionExtentVerified": false,
+        "authoredDocumentSha256": "9d8aef53b5d70b392a236b2cfef48cb22c17f2b291f00fbd3393dd76fc09a1d4",
+        "events": {
+          "rows": [
+            {
+              "kind": "cut",
+              "projectAtUs": 500000,
+              "trackId": "track:e0639617c73bb8a35e7fb6ea62a9347d89a95fba502eafd89c28386d36c39468:0",
+              "trackRank": 0,
+              "mediaKind": "audio",
+              "before": {
+                "clipId": "clip:e0639617c73bb8a35e7fb6ea62a9347d89a95fba502eafd89c28386d36c39468:1",
+                "kind": "silence"
+              },
+              "after": null
+            },
+            {
+              "kind": "cut",
+              "projectAtUs": 600000,
+              "trackId": "track:e0639617c73bb8a35e7fb6ea62a9347d89a95fba502eafd89c28386d36c39468:0",
+              "trackRank": 0,
+              "mediaKind": "audio",
+              "before": null,
+              "after": {
+                "clipId": "clip:b4cc662c18fafa68a910e4ea637c7dfbb4a57e736bc8fd8f5657419e87a0b4a9:0",
+                "kind": "silence"
+              }
+            }
+          ],
+          "observations": [
+            {
+              "projectId": "37fe7489-21fb-48f7-a558-797024ec7ac1",
+              "revisionId": "b97a7488-1aa4-42c4-9248-5980e8e8230e",
+              "state": "ready",
+              "dependencies": [],
+              "coverage": {
+                "manifestId": "a685cb03-cb65-4502-802f-e437eeaf2b0e",
+                "occurrences": [],
+                "cuts": {
+                  "state": "ready",
+                  "basis": "revision"
+                }
+              }
+            }
+          ],
+          "coverage": {
+            "manifestId": "a685cb03-cb65-4502-802f-e437eeaf2b0e",
+            "occurrences": [],
+            "cuts": {
+              "state": "ready",
+              "basis": "revision"
+            }
+          },
+          "nextCursor": null,
+          "complete": true
+        },
+        "windows": [
+          {
+            "range": {
+              "startUs": 0,
+              "endUs": 100000
+            },
+            "origins": [
+              {
+                "kind": "selection-opening"
+              }
+            ],
+            "checks": {
+              "sound": "not_listened",
+              "pictureQuality": "not_judged",
+              "picture": [],
+              "waveform": "processing",
+              "transcript": "processing"
+            },
+            "inspection": {
+              "manifest": {
+                "version": 1,
+                "domain": "project",
+                "identity": {
+                  "projectId": "37fe7489-21fb-48f7-a558-797024ec7ac1",
+                  "revisionId": "b97a7488-1aa4-42c4-9248-5980e8e8230e"
+                },
+                "range": {
+                  "startUs": 0,
+                  "endUs": 100000
+                },
+                "budgets": {
+                  "frames": 0,
+                  "maxLongEdge": 240,
+                  "width": 1200,
+                  "maxBuckets": 512,
+                  "maxWords": 24,
+                  "maxEventPages": 1,
+                  "maxEvents": 64,
+                  "maxPixels": 4000000,
+                  "maxBytes": 8388608,
+                  "polls": 0,
+                  "pollMs": 250
+                },
+                "frames": [],
+                "waveform": {
+                  "projectId": "37fe7489-21fb-48f7-a558-797024ec7ac1",
+                  "revisionId": "b97a7488-1aa4-42c4-9248-5980e8e8230e",
+                  "range": {
+                    "startUs": 0,
+                    "endUs": 100000
+                  },
+                  "tap": {
+                    "target": {
+                      "kind": "output"
+                    },
+                    "point": {
+                      "kind": "processed"
+                    }
+                  },
+                  "state": "processing",
+                  "reason": null,
+                  "retryable": false,
+                  "jobId": "1d1e6369-23e8-4ac4-b22e-23d7daf674c4",
+                  "dependency": {
+                    "jobId": "1d1e6369-23e8-4ac4-b22e-23d7daf674c4",
+                    "state": "processing",
+                    "reason": null,
+                    "retryable": false,
+                    "generation": null
+                  },
+                  "published": null,
+                  "delivery": null
+                },
+                "transcripts": {
+                  "version": 1,
+                  "selections": [
+                    {
+                      "label": "37fe7489-21fb-48f7-a558-797024ec7ac1",
+                      "selection": {
+                        "projectId": "37fe7489-21fb-48f7-a558-797024ec7ac1",
+                        "revisionId": "b97a7488-1aa4-42c4-9248-5980e8e8230e",
+                        "range": {
+                          "startUs": 0,
+                          "endUs": 100000
+                        }
+                      },
+                      "identity": {
+                        "projectId": "37fe7489-21fb-48f7-a558-797024ec7ac1",
+                        "revisionId": "b97a7488-1aa4-42c4-9248-5980e8e8230e"
+                      },
+                      "durationUs": null,
+                      "sourceDurations": [],
+                      "coverage": null,
+                      "state": "processing",
+                      "reason": null,
+                      "rows": [],
+                      "phrases": [],
+                      "selectionIndex": 0,
+                      "complete": false
+                    }
+                  ],
+                  "pagesRead": 1,
+                  "limitReached": "none",
+                  "continuation": null
+                },
+                "events": {
+                  "state": "processing",
+                  "coverage": null,
+                  "rows": [],
+                  "observations": [
+                    {
+                      "domain": "events",
+                      "projectId": "37fe7489-21fb-48f7-a558-797024ec7ac1",
+                      "revisionId": "b97a7488-1aa4-42c4-9248-5980e8e8230e",
+                      "range": {
+                        "startUs": 0,
+                        "endUs": 100000
+                      },
+                      "trackIds": [
+                        "track:e0639617c73bb8a35e7fb6ea62a9347d89a95fba502eafd89c28386d36c39468:0"
+                      ],
+                      "policy": "project-events-v2",
+                      "state": "processing",
+                      "reason": null,
+                      "retryable": false,
+                      "jobId": "ee8ce379-db1e-4142-9a8c-f6d921e18c02",
+                      "published": null,
+                      "dependencies": [],
+                      "coverage": null
+                    }
+                  ],
+                  "nextCursor": null
+                },
+                "work": {
+                  "decodedSamples": 0,
+                  "readerOpens": 0
+                },
+                "pictureRequests": 0
+              },
+              "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"1200\" height=\"493\" viewBox=\"0 0 1200 493\" font-family=\"Arial,sans-serif\"><rect width=\"100%\" height=\"100%\" fill=\"#111b2b\"/><text x=\"20\" y=\"25\" fill=\"#fff\" font-size=\"16\">project timeline — b97a7488-1aa4-42c4-9248-5980e8e8230e</text><text x=\"20\" y=\"45\" fill=\"#9aadc6\" font-size=\"12\">Display axis only · exact evidence and availability are retained in the manifest</text><path d=\"M140 61L140 76\" stroke=\"#72849b\" stroke-width=\"1\"/><text x=\"140\" y=\"94\" fill=\"#dce4ef\" font-size=\"12\">0.000 s</text><path d=\"M396.25 61L396.25 76\" stroke=\"#72849b\" stroke-width=\"1\"/><text x=\"396.25\" y=\"94\" fill=\"#dce4ef\" font-size=\"12\">0.025 s</text><path d=\"M652.5 61L652.5 76\" stroke=\"#72849b\" stroke-width=\"1\"/><text x=\"652.5\" y=\"94\" fill=\"#dce4ef\" font-size=\"12\">0.050 s</text><path d=\"M908.75 61L908.75 76\" stroke=\"#72849b\" stroke-width=\"1\"/><text x=\"908.75\" y=\"94\" fill=\"#dce4ef\" font-size=\"12\">0.075 s</text><path d=\"M1165 61L1165 76\" stroke=\"#72849b\" stroke-width=\"1\"/><text x=\"1118\" y=\"94\" fill=\"#dce4ef\" font-size=\"12\">0.100 s</text><text x=\"20\" y=\"128\" fill=\"#dce4ef\" font-size=\"12\">Pictures</text><text x=\"140\" y=\"148\" fill=\"#ffb38a\" font-size=\"12\">Pictures: unselected · no frame requests</text><text x=\"140\" y=\"286\" fill=\"#9aadc6\" font-size=\"11\">Blue tick: request; span: compiled support (project only)</text><text x=\"20\" y=\"315\" fill=\"#ffb38a\" font-size=\"12\">Waveform: processing</text><text x=\"20\" y=\"355\" fill=\"#dce4ef\" font-size=\"12\">Words / gaps</text><text x=\"140\" y=\"355\" fill=\"#9aadc6\" font-size=\"11\">Faint lines are row guides, not media support</text><text x=\"140\" y=\"376\" fill=\"#ffb38a\" font-size=\"12\">Transcript: processing</text><text x=\"20\" y=\"410\" fill=\"#dce4ef\" font-size=\"12\">Cuts / events</text><text x=\"140\" y=\"445\" fill=\"#9aadc6\" font-size=\"12\">0 observed cuts · 0 of 0 event labels shown · processing</text><text x=\"20\" y=\"473\" fill=\"#9aadc6\" font-size=\"11\">Frames show selected samples, not continuous decode. Unseen or unheard quality is unverified.</text></svg>"
+            }
+          },
+          {
+            "range": {
+              "startUs": 900000,
+              "endUs": 1000000
+            },
+            "origins": [
+              {
+                "kind": "selection-ending"
+              }
+            ],
+            "checks": {
+              "sound": "not_listened",
+              "pictureQuality": "not_judged",
+              "picture": [],
+              "waveform": "queued",
+              "transcript": "processing"
+            },
+            "inspection": {
+              "manifest": {
+                "version": 1,
+                "domain": "project",
+                "identity": {
+                  "projectId": "37fe7489-21fb-48f7-a558-797024ec7ac1",
+                  "revisionId": "b97a7488-1aa4-42c4-9248-5980e8e8230e"
+                },
+                "range": {
+                  "startUs": 900000,
+                  "endUs": 1000000
+                },
+                "budgets": {
+                  "frames": 0,
+                  "maxLongEdge": 240,
+                  "width": 1200,
+                  "maxBuckets": 512,
+                  "maxWords": 24,
+                  "maxEventPages": 1,
+                  "maxEvents": 64,
+                  "maxPixels": 4000000,
+                  "maxBytes": 8388608,
+                  "polls": 0,
+                  "pollMs": 250
+                },
+                "frames": [],
+                "waveform": {
+                  "projectId": "37fe7489-21fb-48f7-a558-797024ec7ac1",
+                  "revisionId": "b97a7488-1aa4-42c4-9248-5980e8e8230e",
+                  "range": {
+                    "startUs": 900000,
+                    "endUs": 1000000
+                  },
+                  "tap": {
+                    "target": {
+                      "kind": "output"
+                    },
+                    "point": {
+                      "kind": "processed"
+                    }
+                  },
+                  "state": "queued",
+                  "reason": null,
+                  "retryable": false,
+                  "jobId": "30448cf0-395a-43ff-8f5d-01aa6d7c851e",
+                  "dependency": {
+                    "jobId": "30448cf0-395a-43ff-8f5d-01aa6d7c851e",
+                    "state": "queued",
+                    "reason": null,
+                    "retryable": false,
+                    "generation": null
+                  },
+                  "published": null,
+                  "delivery": null
+                },
+                "transcripts": {
+                  "version": 1,
+                  "selections": [
+                    {
+                      "label": "37fe7489-21fb-48f7-a558-797024ec7ac1",
+                      "selection": {
+                        "projectId": "37fe7489-21fb-48f7-a558-797024ec7ac1",
+                        "revisionId": "b97a7488-1aa4-42c4-9248-5980e8e8230e",
+                        "range": {
+                          "startUs": 900000,
+                          "endUs": 1000000
+                        }
+                      },
+                      "identity": {
+                        "projectId": "37fe7489-21fb-48f7-a558-797024ec7ac1",
+                        "revisionId": "b97a7488-1aa4-42c4-9248-5980e8e8230e"
+                      },
+                      "durationUs": null,
+                      "sourceDurations": [],
+                      "coverage": null,
+                      "state": "processing",
+                      "reason": null,
+                      "rows": [],
+                      "phrases": [],
+                      "selectionIndex": 0,
+                      "complete": false
+                    }
+                  ],
+                  "pagesRead": 1,
+                  "limitReached": "none",
+                  "continuation": null
+                },
+                "events": {
+                  "state": "processing",
+                  "coverage": null,
+                  "rows": [],
+                  "observations": [
+                    {
+                      "domain": "events",
+                      "projectId": "37fe7489-21fb-48f7-a558-797024ec7ac1",
+                      "revisionId": "b97a7488-1aa4-42c4-9248-5980e8e8230e",
+                      "range": {
+                        "startUs": 900000,
+                        "endUs": 1000000
+                      },
+                      "trackIds": [
+                        "track:e0639617c73bb8a35e7fb6ea62a9347d89a95fba502eafd89c28386d36c39468:0"
+                      ],
+                      "policy": "project-events-v2",
+                      "state": "processing",
+                      "reason": null,
+                      "retryable": false,
+                      "jobId": "dcf8302d-bb06-47a9-b1ad-e02b14f7c1b3",
+                      "published": null,
+                      "dependencies": [],
+                      "coverage": null
+                    }
+                  ],
+                  "nextCursor": null
+                },
+                "work": {
+                  "decodedSamples": 0,
+                  "readerOpens": 0
+                },
+                "pictureRequests": 0
+              },
+              "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"1200\" height=\"493\" viewBox=\"0 0 1200 493\" font-family=\"Arial,sans-serif\"><rect width=\"100%\" height=\"100%\" fill=\"#111b2b\"/><text x=\"20\" y=\"25\" fill=\"#fff\" font-size=\"16\">project timeline — b97a7488-1aa4-42c4-9248-5980e8e8230e</text><text x=\"20\" y=\"45\" fill=\"#9aadc6\" font-size=\"12\">Display axis only · exact evidence and availability are retained in the manifest</text><path d=\"M140 61L140 76\" stroke=\"#72849b\" stroke-width=\"1\"/><text x=\"140\" y=\"94\" fill=\"#dce4ef\" font-size=\"12\">0.900 s</text><path d=\"M396.25 61L396.25 76\" stroke=\"#72849b\" stroke-width=\"1\"/><text x=\"396.25\" y=\"94\" fill=\"#dce4ef\" font-size=\"12\">0.925 s</text><path d=\"M652.5 61L652.5 76\" stroke=\"#72849b\" stroke-width=\"1\"/><text x=\"652.5\" y=\"94\" fill=\"#dce4ef\" font-size=\"12\">0.950 s</text><path d=\"M908.75 61L908.75 76\" stroke=\"#72849b\" stroke-width=\"1\"/><text x=\"908.75\" y=\"94\" fill=\"#dce4ef\" font-size=\"12\">0.975 s</text><path d=\"M1165 61L1165 76\" stroke=\"#72849b\" stroke-width=\"1\"/><text x=\"1118\" y=\"94\" fill=\"#dce4ef\" font-size=\"12\">1.000 s</text><text x=\"20\" y=\"128\" fill=\"#dce4ef\" font-size=\"12\">Pictures</text><text x=\"140\" y=\"148\" fill=\"#ffb38a\" font-size=\"12\">Pictures: unselected · no frame requests</text><text x=\"140\" y=\"286\" fill=\"#9aadc6\" font-size=\"11\">Blue tick: request; span: compiled support (project only)</text><text x=\"20\" y=\"315\" fill=\"#ffb38a\" font-size=\"12\">Waveform: queued</text><text x=\"20\" y=\"355\" fill=\"#dce4ef\" font-size=\"12\">Words / gaps</text><text x=\"140\" y=\"355\" fill=\"#9aadc6\" font-size=\"11\">Faint lines are row guides, not media support</text><text x=\"140\" y=\"376\" fill=\"#ffb38a\" font-size=\"12\">Transcript: processing</text><text x=\"20\" y=\"410\" fill=\"#dce4ef\" font-size=\"12\">Cuts / events</text><text x=\"140\" y=\"445\" fill=\"#9aadc6\" font-size=\"12\">0 observed cuts · 0 of 0 event labels shown · processing</text><text x=\"20\" y=\"473\" fill=\"#9aadc6\" font-size=\"11\">Frames show selected samples, not continuous decode. Unseen or unheard quality is unverified.</text></svg>"
+            }
+          },
+          {
+            "range": {
+              "startUs": 300000,
+              "endUs": 700000
+            },
+            "origins": [
+              {
+                "kind": "join",
+                "cut": {
+                  "kind": "cut",
+                  "projectAtUs": 500000,
+                  "trackId": "track:e0639617c73bb8a35e7fb6ea62a9347d89a95fba502eafd89c28386d36c39468:0",
+                  "trackRank": 0,
+                  "mediaKind": "audio",
+                  "before": {
+                    "clipId": "clip:e0639617c73bb8a35e7fb6ea62a9347d89a95fba502eafd89c28386d36c39468:1",
+                    "kind": "silence"
+                  },
+                  "after": null
+                }
+              }
+            ],
+            "checks": {
+              "sound": "not_listened",
+              "pictureQuality": "not_judged",
+              "picture": [],
+              "waveform": "queued",
+              "transcript": "processing"
+            },
+            "inspection": {
+              "manifest": {
+                "version": 1,
+                "domain": "project",
+                "identity": {
+                  "projectId": "37fe7489-21fb-48f7-a558-797024ec7ac1",
+                  "revisionId": "b97a7488-1aa4-42c4-9248-5980e8e8230e"
+                },
+                "range": {
+                  "startUs": 300000,
+                  "endUs": 700000
+                },
+                "budgets": {
+                  "frames": 0,
+                  "maxLongEdge": 240,
+                  "width": 1200,
+                  "maxBuckets": 512,
+                  "maxWords": 24,
+                  "maxEventPages": 1,
+                  "maxEvents": 64,
+                  "maxPixels": 4000000,
+                  "maxBytes": 8388608,
+                  "polls": 0,
+                  "pollMs": 250
+                },
+                "frames": [],
+                "waveform": {
+                  "projectId": "37fe7489-21fb-48f7-a558-797024ec7ac1",
+                  "revisionId": "b97a7488-1aa4-42c4-9248-5980e8e8230e",
+                  "range": {
+                    "startUs": 300000,
+                    "endUs": 700000
+                  },
+                  "tap": {
+                    "target": {
+                      "kind": "output"
+                    },
+                    "point": {
+                      "kind": "processed"
+                    }
+                  },
+                  "state": "queued",
+                  "reason": null,
+                  "retryable": false,
+                  "jobId": "b9e6e4d8-a18d-4f41-af70-6af1f06acb5a",
+                  "dependency": {
+                    "jobId": "b9e6e4d8-a18d-4f41-af70-6af1f06acb5a",
+                    "state": "queued",
+                    "reason": null,
+                    "retryable": false,
+                    "generation": null
+                  },
+                  "published": null,
+                  "delivery": null
+                },
+                "transcripts": {
+                  "version": 1,
+                  "selections": [
+                    {
+                      "label": "37fe7489-21fb-48f7-a558-797024ec7ac1",
+                      "selection": {
+                        "projectId": "37fe7489-21fb-48f7-a558-797024ec7ac1",
+                        "revisionId": "b97a7488-1aa4-42c4-9248-5980e8e8230e",
+                        "range": {
+                          "startUs": 300000,
+                          "endUs": 700000
+                        }
+                      },
+                      "identity": {
+                        "projectId": "37fe7489-21fb-48f7-a558-797024ec7ac1",
+                        "revisionId": "b97a7488-1aa4-42c4-9248-5980e8e8230e"
+                      },
+                      "durationUs": null,
+                      "sourceDurations": [],
+                      "coverage": null,
+                      "state": "processing",
+                      "reason": null,
+                      "rows": [],
+                      "phrases": [],
+                      "selectionIndex": 0,
+                      "complete": false
+                    }
+                  ],
+                  "pagesRead": 1,
+                  "limitReached": "none",
+                  "continuation": null
+                },
+                "events": {
+                  "state": "processing",
+                  "coverage": null,
+                  "rows": [],
+                  "observations": [
+                    {
+                      "domain": "events",
+                      "projectId": "37fe7489-21fb-48f7-a558-797024ec7ac1",
+                      "revisionId": "b97a7488-1aa4-42c4-9248-5980e8e8230e",
+                      "range": {
+                        "startUs": 300000,
+                        "endUs": 700000
+                      },
+                      "trackIds": [
+                        "track:e0639617c73bb8a35e7fb6ea62a9347d89a95fba502eafd89c28386d36c39468:0"
+                      ],
+                      "policy": "project-events-v2",
+                      "state": "processing",
+                      "reason": null,
+                      "retryable": false,
+                      "jobId": "06097d1e-02d2-4a77-9e45-f5af0d156ef4",
+                      "published": null,
+                      "dependencies": [],
+                      "coverage": null
+                    }
+                  ],
+                  "nextCursor": null
+                },
+                "work": {
+                  "decodedSamples": 0,
+                  "readerOpens": 0
+                },
+                "pictureRequests": 0
+              },
+              "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"1200\" height=\"493\" viewBox=\"0 0 1200 493\" font-family=\"Arial,sans-serif\"><rect width=\"100%\" height=\"100%\" fill=\"#111b2b\"/><text x=\"20\" y=\"25\" fill=\"#fff\" font-size=\"16\">project timeline — b97a7488-1aa4-42c4-9248-5980e8e8230e</text><text x=\"20\" y=\"45\" fill=\"#9aadc6\" font-size=\"12\">Display axis only · exact evidence and availability are retained in the manifest</text><path d=\"M140 61L140 76\" stroke=\"#72849b\" stroke-width=\"1\"/><text x=\"140\" y=\"94\" fill=\"#dce4ef\" font-size=\"12\">0.300 s</text><path d=\"M396.25 61L396.25 76\" stroke=\"#72849b\" stroke-width=\"1\"/><text x=\"396.25\" y=\"94\" fill=\"#dce4ef\" font-size=\"12\">0.400 s</text><path d=\"M652.5 61L652.5 76\" stroke=\"#72849b\" stroke-width=\"1\"/><text x=\"652.5\" y=\"94\" fill=\"#dce4ef\" font-size=\"12\">0.500 s</text><path d=\"M908.75 61L908.75 76\" stroke=\"#72849b\" stroke-width=\"1\"/><text x=\"908.75\" y=\"94\" fill=\"#dce4ef\" font-size=\"12\">0.600 s</text><path d=\"M1165 61L1165 76\" stroke=\"#72849b\" stroke-width=\"1\"/><text x=\"1118\" y=\"94\" fill=\"#dce4ef\" font-size=\"12\">0.700 s</text><text x=\"20\" y=\"128\" fill=\"#dce4ef\" font-size=\"12\">Pictures</text><text x=\"140\" y=\"148\" fill=\"#ffb38a\" font-size=\"12\">Pictures: unselected · no frame requests</text><text x=\"140\" y=\"286\" fill=\"#9aadc6\" font-size=\"11\">Blue tick: request; span: compiled support (project only)</text><text x=\"20\" y=\"315\" fill=\"#ffb38a\" font-size=\"12\">Waveform: queued</text><text x=\"20\" y=\"355\" fill=\"#dce4ef\" font-size=\"12\">Words / gaps</text><text x=\"140\" y=\"355\" fill=\"#9aadc6\" font-size=\"11\">Faint lines are row guides, not media support</text><text x=\"140\" y=\"376\" fill=\"#ffb38a\" font-size=\"12\">Transcript: processing</text><text x=\"20\" y=\"410\" fill=\"#dce4ef\" font-size=\"12\">Cuts / events</text><text x=\"140\" y=\"445\" fill=\"#9aadc6\" font-size=\"12\">0 observed cuts · 0 of 0 event labels shown · processing</text><text x=\"20\" y=\"473\" fill=\"#9aadc6\" font-size=\"11\">Frames show selected samples, not continuous decode. Unseen or unheard quality is unverified.</text></svg>"
+            }
+          },
+          {
+            "range": {
+              "startUs": 400000,
+              "endUs": 800000
+            },
+            "origins": [
+              {
+                "kind": "join",
+                "cut": {
+                  "kind": "cut",
+                  "projectAtUs": 600000,
+                  "trackId": "track:e0639617c73bb8a35e7fb6ea62a9347d89a95fba502eafd89c28386d36c39468:0",
+                  "trackRank": 0,
+                  "mediaKind": "audio",
+                  "before": null,
+                  "after": {
+                    "clipId": "clip:b4cc662c18fafa68a910e4ea637c7dfbb4a57e736bc8fd8f5657419e87a0b4a9:0",
+                    "kind": "silence"
+                  }
+                }
+              },
+              {
+                "kind": "caller-selected",
+                "reason": "Same selected join context"
+              }
+            ],
+            "checks": {
+              "sound": "not_listened",
+              "pictureQuality": "not_judged",
+              "picture": [],
+              "waveform": "queued",
+              "transcript": "processing"
+            },
+            "inspection": {
+              "manifest": {
+                "version": 1,
+                "domain": "project",
+                "identity": {
+                  "projectId": "37fe7489-21fb-48f7-a558-797024ec7ac1",
+                  "revisionId": "b97a7488-1aa4-42c4-9248-5980e8e8230e"
+                },
+                "range": {
+                  "startUs": 400000,
+                  "endUs": 800000
+                },
+                "budgets": {
+                  "frames": 0,
+                  "maxLongEdge": 240,
+                  "width": 1200,
+                  "maxBuckets": 512,
+                  "maxWords": 24,
+                  "maxEventPages": 1,
+                  "maxEvents": 64,
+                  "maxPixels": 4000000,
+                  "maxBytes": 8388608,
+                  "polls": 0,
+                  "pollMs": 250
+                },
+                "frames": [],
+                "waveform": {
+                  "projectId": "37fe7489-21fb-48f7-a558-797024ec7ac1",
+                  "revisionId": "b97a7488-1aa4-42c4-9248-5980e8e8230e",
+                  "range": {
+                    "startUs": 400000,
+                    "endUs": 800000
+                  },
+                  "tap": {
+                    "target": {
+                      "kind": "output"
+                    },
+                    "point": {
+                      "kind": "processed"
+                    }
+                  },
+                  "state": "queued",
+                  "reason": null,
+                  "retryable": false,
+                  "jobId": "055204f8-a734-4e72-a6da-f9e880518e5d",
+                  "dependency": {
+                    "jobId": "055204f8-a734-4e72-a6da-f9e880518e5d",
+                    "state": "queued",
+                    "reason": null,
+                    "retryable": false,
+                    "generation": null
+                  },
+                  "published": null,
+                  "delivery": null
+                },
+                "transcripts": {
+                  "version": 1,
+                  "selections": [
+                    {
+                      "label": "37fe7489-21fb-48f7-a558-797024ec7ac1",
+                      "selection": {
+                        "projectId": "37fe7489-21fb-48f7-a558-797024ec7ac1",
+                        "revisionId": "b97a7488-1aa4-42c4-9248-5980e8e8230e",
+                        "range": {
+                          "startUs": 400000,
+                          "endUs": 800000
+                        }
+                      },
+                      "identity": {
+                        "projectId": "37fe7489-21fb-48f7-a558-797024ec7ac1",
+                        "revisionId": "b97a7488-1aa4-42c4-9248-5980e8e8230e"
+                      },
+                      "durationUs": null,
+                      "sourceDurations": [],
+                      "coverage": null,
+                      "state": "processing",
+                      "reason": null,
+                      "rows": [],
+                      "phrases": [],
+                      "selectionIndex": 0,
+                      "complete": false
+                    }
+                  ],
+                  "pagesRead": 1,
+                  "limitReached": "none",
+                  "continuation": null
+                },
+                "events": {
+                  "state": "ready",
+                  "coverage": {
+                    "manifestId": "dab5ee58-f918-4234-8e92-c5baa00c29d3",
+                    "occurrences": [],
+                    "cuts": {
+                      "state": "ready",
+                      "basis": "revision"
+                    }
+                  },
+                  "rows": [
+                    {
+                      "kind": "cut",
+                      "projectAtUs": 500000,
+                      "trackId": "track:e0639617c73bb8a35e7fb6ea62a9347d89a95fba502eafd89c28386d36c39468:0",
+                      "trackRank": 0,
+                      "mediaKind": "audio",
+                      "before": {
+                        "clipId": "clip:e0639617c73bb8a35e7fb6ea62a9347d89a95fba502eafd89c28386d36c39468:1",
+                        "kind": "silence"
+                      },
+                      "after": null
+                    },
+                    {
+                      "kind": "cut",
+                      "projectAtUs": 600000,
+                      "trackId": "track:e0639617c73bb8a35e7fb6ea62a9347d89a95fba502eafd89c28386d36c39468:0",
+                      "trackRank": 0,
+                      "mediaKind": "audio",
+                      "before": null,
+                      "after": {
+                        "clipId": "clip:b4cc662c18fafa68a910e4ea637c7dfbb4a57e736bc8fd8f5657419e87a0b4a9:0",
+                        "kind": "silence"
+                      }
+                    }
+                  ],
+                  "observations": [
+                    {
+                      "projectId": "37fe7489-21fb-48f7-a558-797024ec7ac1",
+                      "revisionId": "b97a7488-1aa4-42c4-9248-5980e8e8230e",
+                      "state": "ready",
+                      "dependencies": [],
+                      "coverage": {
+                        "manifestId": "dab5ee58-f918-4234-8e92-c5baa00c29d3",
+                        "occurrences": [],
+                        "cuts": {
+                          "state": "ready",
+                          "basis": "revision"
+                        }
+                      }
+                    }
+                  ],
+                  "nextCursor": null
+                },
+                "work": {
+                  "decodedSamples": 0,
+                  "readerOpens": 0
+                },
+                "pictureRequests": 0
+              },
+              "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"1200\" height=\"553\" viewBox=\"0 0 1200 553\" font-family=\"Arial,sans-serif\"><rect width=\"100%\" height=\"100%\" fill=\"#111b2b\"/><text x=\"20\" y=\"25\" fill=\"#fff\" font-size=\"16\">project timeline — b97a7488-1aa4-42c4-9248-5980e8e8230e</text><text x=\"20\" y=\"45\" fill=\"#9aadc6\" font-size=\"12\">Display axis only · exact evidence and availability are retained in the manifest</text><path d=\"M140 61L140 76\" stroke=\"#72849b\" stroke-width=\"1\"/><text x=\"140\" y=\"94\" fill=\"#dce4ef\" font-size=\"12\">0.400 s</text><path d=\"M396.25 61L396.25 76\" stroke=\"#72849b\" stroke-width=\"1\"/><text x=\"396.25\" y=\"94\" fill=\"#dce4ef\" font-size=\"12\">0.500 s</text><path d=\"M652.5 61L652.5 76\" stroke=\"#72849b\" stroke-width=\"1\"/><text x=\"652.5\" y=\"94\" fill=\"#dce4ef\" font-size=\"12\">0.600 s</text><path d=\"M908.75 61L908.75 76\" stroke=\"#72849b\" stroke-width=\"1\"/><text x=\"908.75\" y=\"94\" fill=\"#dce4ef\" font-size=\"12\">0.700 s</text><path d=\"M1165 61L1165 76\" stroke=\"#72849b\" stroke-width=\"1\"/><text x=\"1118\" y=\"94\" fill=\"#dce4ef\" font-size=\"12\">0.800 s</text><text x=\"20\" y=\"128\" fill=\"#dce4ef\" font-size=\"12\">Pictures</text><text x=\"140\" y=\"148\" fill=\"#ffb38a\" font-size=\"12\">Pictures: unselected · no frame requests</text><text x=\"140\" y=\"286\" fill=\"#9aadc6\" font-size=\"11\">Blue tick: request; span: compiled support (project only)</text><text x=\"20\" y=\"315\" fill=\"#ffb38a\" font-size=\"12\">Waveform: queued</text><text x=\"20\" y=\"355\" fill=\"#dce4ef\" font-size=\"12\">Words / gaps</text><text x=\"140\" y=\"355\" fill=\"#9aadc6\" font-size=\"11\">Faint lines are row guides, not media support</text><text x=\"140\" y=\"376\" fill=\"#ffb38a\" font-size=\"12\">Transcript: processing</text><text x=\"20\" y=\"410\" fill=\"#dce4ef\" font-size=\"12\">Cuts / events</text><text x=\"404.25\" y=\"436\" fill=\"#dce4ef\" font-size=\"12\" textLength=\"288\" lengthAdjust=\"spacingAndGlyphs\">cut · audio · 0.500 s · track:e06…9468:0</text><rect x=\"394.25\" y=\"422\" width=\"4\" height=\"21\" fill=\"#ef9393\"/><text x=\"660.5\" y=\"466\" fill=\"#dce4ef\" font-size=\"12\" textLength=\"288\" lengthAdjust=\"spacingAndGlyphs\">cut · audio · 0.600 s · track:e06…9468:0</text><rect x=\"650.5\" y=\"452\" width=\"4\" height=\"21\" fill=\"#ef9393\"/><text x=\"140\" y=\"505\" fill=\"#9aadc6\" font-size=\"12\">2 observed cuts · 2 of 2 event labels shown · ready</text><text x=\"20\" y=\"533\" fill=\"#9aadc6\" font-size=\"11\">Frames show selected samples, not continuous decode. Unseen or unheard quality is unverified.</text></svg>"
+            }
+          }
+        ],
+        "skipped": [],
+        "unobserved": [
+          {
+            "kind": "processing-overlay-entrances",
+            "reason": "No public canonical timing evidence; supply explicit windows"
+          }
+        ]
+      }
+    ],
+    "comparison": {
+      "state": "complete",
+      "authoredDocumentChanged": true,
+      "cutEvidenceChanged": true,
+      "outputEquivalence": "not_established"
+    },
+    "checks": {
+      "sound": "not_listened",
+      "pictureQuality": "not_judged"
+    }
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "viewport": [
+    1200,
+    553
+  ],
+  "controlSvgHeight": 493,
+  "candidateSvgHeight": 553,
+  "naturalHeightDifference": 60,
+  "changedPixels": 72000,
+  "changedBoundingBox": [
+    0,
+    493,
+    1200,
+    553
+  ],
+  "commonNaturalRegionPixelIdentical": true
+}
