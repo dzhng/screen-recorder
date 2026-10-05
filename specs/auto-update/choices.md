@@ -100,6 +100,23 @@
   replacement authority.
 - **Confidence:** medium.
 
+### Propose one private local credential folder and three CI secrets
+
+- **When:** independent slice 02 prepared custody handoff.
+- **Choice:** The proposed handoff keeps the encrypted app identity, its password and
+  independent updater key in a private local folder, with matching repository
+  secrets for CI. The agent has prepared exact import/secret steps but created
+  no production credentials; the owner must authorize that custody folder or
+  supply existing files. The owner can copy the folder for backup without a
+  prescribed device, mounted volume or password-manager requirement.
+- **Gap:** the plan requires custody outside CI without selecting a local folder or CI secret names.
+- **Reach:** the handoff names proposed paths and secret contracts so packaging can
+  fail on missing inputs. The owner can choose another private location or secret
+  names before provisioning; no shipped identity depends on those names.
+- **Verdict:** sound: the reversible proposal keeps one concrete custody choice and isolated CI inputs
+  without imposing a physical-backup ceremony or claiming uncreated files exist.
+- **Confidence:** medium.
+
 ### Reproduce the rejected engine instead of pretending the lab is acceptance
 
 - **When:** slice 01 replication checkpoint.
@@ -318,4 +335,36 @@
   this remains one source-build check rather than a second release pipeline.
 - **Verdict:** sound; the negative controls demonstrated concealed input changes
   and the corrected check rejects them.
+- **Confidence:** high.
+
+### Select the exact release certificate without installing trust
+
+- **When:** independent slice 02 scratch signing checkpoint.
+- **Choice:** When CI restores the release's encrypted signing identity, it selects
+  the certificate by its public fingerprint and explicitly names the temporary
+  keychain. The certificate need not be trusted by the build account. The measured
+  B→C signatures keep one requirement anchored to that exact certificate; importing
+  the same encrypted backup into another scratch keychain preserves it. Reissuing
+  a certificate with the same display name would give a different identity.
+- **Gap:** the plan chose stable self-signing but did not say whether CI needed
+  account trust or how to select the imported identity.
+- **Reach:** packaging can remain isolated from the login keychain and must not
+  use valid-only identity discovery or silently regenerate the certificate.
+- **Verdict:** sound: actual signing, strict verification, restore and alternate-key
+  negative control establish the narrower recipe without changing trust.
+- **Confidence:** high.
+
+### Own signing subprocess groups through interruption cleanup
+
+- **When:** independent slice 02 review fix.
+- **Choice:** If the signing lab receives SIGTERM while an external command is
+  held, it stops only that owned command group, waits for its exit and deletes
+  scratch keys/keychains before emitting its public failure receipt. The same
+  bounded teardown covers a command that exceeds its deadline. The alternative
+  synchronous runner exited immediately and left signing material behind.
+- **Gap:** the scratch-only cleanup rule did not prescribe a process mechanism.
+- **Reach:** this affects developer lab processes only, never the app/service
+  shutdown path or production updater lifetime.
+- **Verdict:** sound: the held-command negative control failed before cleanup and
+  passed afterward, including reaped child and removed private material.
 - **Confidence:** high.

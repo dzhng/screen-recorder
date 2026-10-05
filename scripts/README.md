@@ -77,3 +77,10 @@ not an installer. It shows why selecting Node and then reading a mutable app pat
 needs exclusion covering the whole CLI process, including an idle MCP session.
 Its lock wrapper is research input until the updater's post-exit installation
 owner is proved; a passing lab is not installed-update acceptance.
+
+The [scratch signing lab](signing-lab.mjs) proves certificate-anchored app and
+nested signatures, encrypted identity restoration and relocation with explicitly
+selected framework/Node inputs. It creates and deletes only scratch keys; it
+changes no certificate trust and performs no permission checks. The
+[release signing checkpoint](../specs/auto-update/slices/02-signing-identity.md#signing-checkpoint)
+keeps the measured recipe separate from still-unprovided production credentials.

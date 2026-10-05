@@ -1,0 +1,91 @@
+# Release key handoff — prepared, not executed
+
+The release identity and Sparkle update key are separate credentials. The first
+keeps app signatures stable across builds; the second authenticates the archive
+and feed. The [scratch signing lab](../../../scripts/signing-lab.mjs) proves
+PKCS#12 import and certificate-anchored signatures without adding certificate
+trust. It never creates a production key or borrows `Screen Recorder Local`.
+
+## Owner handoff
+
+Proposed custody folder: `~/.config/screenrec-release` with directory mode 0700
+and private file mode 0600. This is an uncreated proposal, not an existing backup.
+Once the owner authorizes this location, the agent can create the stable identity
+and independent updater key there. The owner can copy these files to a backup
+location; a particular volume, device or password manager is not a release gate.
+Retain `release-identity.p12`, its public `release-identity.crt`, and
+`sparkle-private-key.txt` (the pinned Sparkle-compatible base64 32-byte private seed).
+Keep the PKCS#12 password in `release-identity-password.txt` with mode 0600; it
+is a private credential alongside the encrypted identity.
+Retain the exact certificate; issuing another certificate with the same name
+changes the designated requirement. Only public certificate fingerprints and
+Sparkle's public key belong in source/receipts.
+
+The owner must authorize the proposed folder and CI-secret custody before the
+agent creates production credentials, or supply existing credential files.
+No private material has been generated for production or uploaded to GitHub. This is the remaining
+credential input, not another release approval stage.
+
+## Import and CI inputs
+
+Proposed secret names in the existing `dzhng/screen-recorder` repository:
+
+| Proposed secret | Contents |
+| --- | --- |
+| `SCREENREC_RELEASE_IDENTITY_P12` | Base64 encoding of the encrypted PKCS#12 file. |
+| `SCREENREC_RELEASE_IDENTITY_PASSWORD` | Its password. |
+| `SCREENREC_SPARKLE_PRIVATE_KEY` | Base64 32-byte private seed file contents; its derived public key is validated. |
+
+With owner-supplied files, import these values without printing them. The
+following is an **unexecuted handoff**, using absolute input files and stdin:
+
+```sh
+umask 077
+base64 -i "$HOME/.config/screenrec-release/release-identity.p12" \
+  -o "$HOME/.config/screenrec-release/release-identity.p12.base64"
+gh secret set SCREENREC_RELEASE_IDENTITY_P12 --repo dzhng/screen-recorder \
+  < "$HOME/.config/screenrec-release/release-identity.p12.base64"
+gh secret set SCREENREC_RELEASE_IDENTITY_PASSWORD --repo dzhng/screen-recorder \
+  < "$HOME/.config/screenrec-release/release-identity-password.txt"
+gh secret set SCREENREC_SPARKLE_PRIVATE_KEY --repo dzhng/screen-recorder \
+  < "$HOME/.config/screenrec-release/sparkle-private-key.txt"
+```
+
+Public repository variables accompany those secrets:
+`SCREENREC_RELEASE_IDENTITY_SHA1` selects the exact certificate,
+`SCREENREC_RELEASE_CERTIFICATE_SHA256` pins its public fingerprint, and
+`SCREENREC_SPARKLE_PUBLIC_KEY` pins the updater public key. They derive from the
+created credentials; they are not placeholder values. Slice 05 checks actual
+certificate/key bytes against them before signing. Its `scripts/release-signing.mjs` owner, supplied by the packaging pass, owns
+the implemented input and import contract once integrated.
+
+Slice 05 imports the PKCS#12 into a fresh temporary keychain and always passes
+that path to `codesign --keychain`. Import allows `/usr/bin/codesign` with `-T`,
+not unrestricted `-A`. Select the identity by the public certificate's SHA-1
+fingerprint; record its SHA-256 fingerprint for public provenance. An untrusted
+self-signed identity is signable this way; do not add trust or require it to appear
+in `find-identity -v`. Delete the temporary keychain and secret files in cleanup,
+and preserve unrelated account search-list entries.
+
+The measured signing recipe in the lab signs Mach-O executables, then their
+nested bundles from inside out, then the outer app, with `--timestamp=none`.
+Verify each executable and the complete app with strict verification. Final
+packaging must preserve these signatures rather than sign ad hoc afterward.
+The relocated scratch probe loads the signed framework and runs the signed Node;
+actual updater-helper execution is still the engine/production parity gate.
+
+Sparkle's pinned `sign_update --ed-key-file <private-file>` consumes the separate
+private seed file to sign the final archive and then the finalized appcast. It needs no
+login-keychain import. Verify that its public key is the one embedded by release
+packaging before publishing. No key/certificate trust is installed on recipients.
+
+## Accepted permission prerequisite
+
+The user confirmed on 2026-10-04 that earlier replacement/permission proof is
+already sufficient and explicitly asked not to repeat it. Reuse that confirmation
+and the [historical signed-copy observation](../../done/agent-editing/assets/20e-selected-device-probe/follow-up.md)
+([raw discovery](../../done/agent-editing/assets/20e-selected-device-probe/discovery.json))
+as the accepted prerequisite. That observation reports existing screen, camera
+and microphone grants on its own signed working copy; it is not relabelled as a
+new release-certificate or recipient-account test. No new permission/Gatekeeper
+checks or account/VM setup are part of this signing pass.

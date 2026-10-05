@@ -1,0 +1,354 @@
+{
+  "schemaVersion": 1,
+  "observedAt": "2026-10-05T00:34:19.334Z",
+  "scope": "scratch-signature-boundary; not permission testing or production acceptance",
+  "outcome": "scratch signatures and encrypted identity restoration verified; production keys/package/helper parity remain open",
+  "engineInput": {
+    "label": "r2 scratch composition; not accepted updater winner",
+    "buildReceipt": {
+      "engine": "screenrec-sparkle-source",
+      "inputs": {
+        "repository": "https://github.com/sparkle-project/Sparkle.git",
+        "version": "2.10.0",
+        "commit": "eef1a539a373c1f1a320624b1130fc5de7b2e100",
+        "tree": "1973159ee5d6ae334396a84b3e00e924ac94ce7c",
+        "patchSha256": "9e093b2fb237282968e624b7896cbca5dc11646da448d97ccfa67b391cbedbde"
+      },
+      "builderSha256": "fa92b7095194cc05491fbbb6e601fd21a6efa7be6df35c0dab0ff4da038e24d7",
+      "identityUtilitySha256": "e9df933a371e3d1a373b97b202840057722023b2f6628a0fbe339de109ee0c37",
+      "platform": {
+        "os": "darwin",
+        "arch": "arm64"
+      },
+      "xcode": "Xcode 27.0\nBuild version 27A266a",
+      "args": [
+        "-project",
+        "/private/tmp/screenrec-sparkle-descriptor-source/Sparkle.xcodeproj",
+        "-scheme",
+        "Sparkle",
+        "-configuration",
+        "Release",
+        "-sdk",
+        "macosx",
+        "-derivedDataPath",
+        "/private/tmp/screenrec-protected-sparkle-r2/derived-data",
+        "ARCHS=arm64",
+        "ONLY_ACTIVE_ARCH=YES",
+        "CODE_SIGNING_ALLOWED=NO",
+        "CODE_SIGNING_REQUIRED=NO",
+        "build"
+      ],
+      "signing": "disabled-by-build",
+      "framework": {
+        "sha256": "9ca0ecb3626f7226c9fab775ea62ab0d2bb3f42d72be9697df969eafcd2b4ea3"
+      },
+      "acceptance": "built-only-native-runtime-unverified"
+    },
+    "buildReceiptSha256": "996aa6bca27132f4a8cdf9fcfb2eb908f64a7b3abbbc4953bf587ebb89b1fcd9"
+  },
+  "runner": {
+    "command": "SCREENREC_SPARKLE_FRAMEWORK=/tmp/screenrec-protected-sparkle-r2/Sparkle.framework node --test scripts/signing-lab.test.mjs",
+    "testSha256": "002379535ff3dc59be3424cc00484cac670a9d6e3ad65d1d902b6a74eb993daa",
+    "redControl": "Changed C to ad-hoc signing; B/C requirement equality failed for the expected certificate-vs-CDHash difference; restored stable signer passed.",
+    "interruption": "Held codesign process, then SIGTERM: red before teardown fix (no receipt, scratch keys left); final green reaps owned child, deletes both keychains and private material, preserves account search list.",
+    "finalResult": "2/2 focused native cases passed; no permission checks.",
+    "review": "Independent Codex review identified lab-interruption cleanup and test-setup-timeout cleanup defects; both corrected. Its sandbox could not perform real keychain signing; actual native results come from the unsandboxed focused runner.",
+    "setupTimeoutControl": "Held xcrun before signing marker: test failed for expected setup deadline; graceful finally then removed the owned private scratch/keychain directory. This expected-red setup control is separate from the2/2 green acceptance cases."
+  },
+  "platform": {
+    "os": "ProductName:\t\tmacOS\nProductVersion:\t\t27.0.1\nBuildVersion:\t\t26A434\n",
+    "xcode": "Xcode 27.0\nBuild version 27A266a\n",
+    "architecture": "arm64"
+  },
+  "inputs": {
+    "frameworkSha256": "9ca0ecb3626f7226c9fab775ea62ab0d2bb3f42d72be9697df969eafcd2b4ea3",
+    "frameworkVersion": "2.10.0",
+    "nodeSha256": "e4b5a3af0e05c75de2eae013904145f40fe7fc2a6e6f17510128bf45cca4e79b",
+    "nodeVersion": "v24.21.0",
+    "nodeArchitecture": "arm64",
+    "sourceRevision": "eeb2e67831d4afee649f07b8b250c2742d255114",
+    "runnerSha256": "b0552fa7e92753e601e6eef038b32a535a268c9e602481b6ef0d319b402a38aa",
+    "nativeSourceSha256": "df532b4ef28cf6c935e7e827890df0ea45bcf3edfb9f4c9a98ef3d86dac85850",
+    "frameworkIdentitySourceSha256": "e9df933a371e3d1a373b97b202840057722023b2f6628a0fbe339de109ee0c37"
+  },
+  "sourceBinding": "sourceRevision is the baseline; new runner/native source bytes are independently bound by their listed hashes",
+  "certificate": {
+    "sha1": "e3dbe111559707e7c6ad46c41033e559d1c2e23c",
+    "sha256": "c346d336dfdecaa2b77834d6c2eeebd4c891b5300a3a4f66c57a0820d6efb987"
+  },
+  "otherCertificate": {
+    "sha1": "105ffcd3c374958e2946f3d6c284bb21a6da664d",
+    "sha256": "aa98f515288ac14a663f1fd1c6046d595bbdb1fbbd9ee8fece67f7b9a3b98189"
+  },
+  "identityPolicy": {
+    "command": "security",
+    "args": [
+      "find-identity",
+      "-p",
+      "codesigning",
+      "<scratch>/scratch.keychain-db"
+    ],
+    "status": 0,
+    "stdout": "\nPolicy: Code Signing\n  Matching identities\n  1) E3DBE111559707E7C6AD46C41033E559D1C2E23C \"Screenrec Scratch stable 24c-4d5b762f2a3c\" (CSSMERR_TP_NOT_TRUSTED)\n  2) 105FFCD3C374958E2946F3D6C284BB21A6DA664D \"Screenrec Scratch other 24c-4d5b762f2a3c\" (CSSMERR_TP_NOT_TRUSTED)\n     2 identities found\n\n  Valid identities only\n     0 valid identities found\n",
+    "stderr": ""
+  },
+  "restore": [
+    {
+      "command": "security",
+      "args": [
+        "import",
+        "<scratch>/stable.p12",
+        "-k",
+        "<scratch>/scratch.keychain-db",
+        "-P",
+        "<scratch-password>",
+        "-T",
+        "/usr/bin/codesign"
+      ],
+      "status": 0,
+      "stdout": "1 identity imported.\n",
+      "stderr": ""
+    },
+    {
+      "command": "security",
+      "args": [
+        "import",
+        "<scratch>/other.p12",
+        "-k",
+        "<scratch>/scratch.keychain-db",
+        "-P",
+        "<scratch-password>",
+        "-T",
+        "/usr/bin/codesign"
+      ],
+      "status": 0,
+      "stdout": "1 identity imported.\n",
+      "stderr": ""
+    },
+    {
+      "command": "security",
+      "args": [
+        "import",
+        "<scratch>/stable.p12",
+        "-k",
+        "<scratch>/restored.keychain-db",
+        "-P",
+        "<scratch-password>",
+        "-T",
+        "/usr/bin/codesign"
+      ],
+      "status": 0,
+      "stdout": "1 identity imported.\n",
+      "stderr": ""
+    }
+  ],
+  "a": {
+    "requirement": "cdhash H\"153f1ec6e965e50cb5bae06097651e0ddfc58616\"",
+    "executableSha256": "cca81115a2aabb8f14dd110e4cce2882724479256d37332121a3d40848f591ca",
+    "verify": {
+      "command": "codesign",
+      "args": [
+        "--verify",
+        "--deep",
+        "--strict",
+        "<scratch>/Signing Probe.app"
+      ],
+      "status": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    "runtime": {
+      "version": "1.0.0",
+      "frameworkVersion": "2.10.0",
+      "bundleId": "dev.screenrec.signing-lab.e4651fbc-409e-4d82-a24c-4d5b762f2a3c"
+    }
+  },
+  "b": {
+    "requirement": "identifier \"dev.screenrec.signing-lab.e4651fbc-409e-4d82-a24c-4d5b762f2a3c\" and certificate leaf = H\"e3dbe111559707e7c6ad46c41033e559d1c2e23c\"",
+    "executableSha256": "2740d41929b4cda20da5d8c7e42857e27f5dd37c2c3b1f1e48ea3a313a4f8d93",
+    "verify": {
+      "command": "codesign",
+      "args": [
+        "--verify",
+        "--deep",
+        "--strict",
+        "<scratch>/Signing Probe.app"
+      ],
+      "status": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    "runtime": {
+      "version": "1.0.0",
+      "frameworkVersion": "2.10.0",
+      "bundleId": "dev.screenrec.signing-lab.e4651fbc-409e-4d82-a24c-4d5b762f2a3c"
+    },
+    "matchesARequirement": {
+      "command": "codesign",
+      "args": [
+        "--verify",
+        "--strict",
+        "-R",
+        "=cdhash H\"153f1ec6e965e50cb5bae06097651e0ddfc58616\"",
+        "<scratch>/Signing Probe.app"
+      ],
+      "status": 3,
+      "stdout": "",
+      "stderr": "test-requirement: code failed to satisfy specified code requirement(s)\n"
+    }
+  },
+  "c": {
+    "requirement": "identifier \"dev.screenrec.signing-lab.e4651fbc-409e-4d82-a24c-4d5b762f2a3c\" and certificate leaf = H\"e3dbe111559707e7c6ad46c41033e559d1c2e23c\"",
+    "executableSha256": "32b39ebaae162b6b64db7eeaa7670ebd29e48b5c9446cb3884c20f3a3ee5a152",
+    "verify": {
+      "command": "codesign",
+      "args": [
+        "--verify",
+        "--deep",
+        "--strict",
+        "<scratch>/Signing Probe.app"
+      ],
+      "status": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    "runtime": {
+      "version": "1.0.1",
+      "frameworkVersion": "2.10.0",
+      "bundleId": "dev.screenrec.signing-lab.e4651fbc-409e-4d82-a24c-4d5b762f2a3c"
+    },
+    "restoredFromEncryptedPKCS12": true,
+    "nestedSignatures": [
+      {
+        "path": "Contents/Frameworks/Sparkle.framework/Versions/B/Autoupdate",
+        "requirement": "identifier Autoupdate and certificate leaf = H\"e3dbe111559707e7c6ad46c41033e559d1c2e23c\"",
+        "sha256": "60aa609ab3eb3dec06805e02cee788dede2bbcb3287453e3fccc72934b0e5d58"
+      },
+      {
+        "path": "Contents/Frameworks/Sparkle.framework/Versions/B/Sparkle",
+        "requirement": "identifier \"org.sparkle-project.Sparkle\" and certificate leaf = H\"e3dbe111559707e7c6ad46c41033e559d1c2e23c\"",
+        "sha256": "767e32aca6312d01ed1a789d2b3dd7186755098fecaa9728adbfccd919a488cf"
+      },
+      {
+        "path": "Contents/Frameworks/Sparkle.framework/Versions/B/Updater.app/Contents/MacOS/Updater",
+        "requirement": "identifier \"org.sparkle-project.Sparkle.Updater\" and certificate leaf = H\"e3dbe111559707e7c6ad46c41033e559d1c2e23c\"",
+        "sha256": "6df061465cb938fe0c3ff9e93d68bdb3b84b0b8d14efbe2f68ff923a11179a54"
+      },
+      {
+        "path": "Contents/Frameworks/Sparkle.framework/Versions/B/XPCServices/Downloader.xpc/Contents/MacOS/Downloader",
+        "requirement": "identifier \"org.sparkle-project.DownloaderService\" and certificate leaf = H\"e3dbe111559707e7c6ad46c41033e559d1c2e23c\"",
+        "sha256": "3415629764aeb4ddfdbcbe74b1fc9751be7b969b3dd7502b86d48fd30b26d21b"
+      },
+      {
+        "path": "Contents/Frameworks/Sparkle.framework/Versions/B/XPCServices/Installer.xpc/Contents/MacOS/Installer",
+        "requirement": "identifier \"org.sparkle-project.InstallerLauncher\" and certificate leaf = H\"e3dbe111559707e7c6ad46c41033e559d1c2e23c\"",
+        "sha256": "70b683488ab6b04643eb65f95bb40eacc4ac27ea653be3d4d7cc0fb2b7cd28bd"
+      },
+      {
+        "path": "Contents/MacOS/SigningProbe",
+        "requirement": "identifier \"dev.screenrec.signing-lab.e4651fbc-409e-4d82-a24c-4d5b762f2a3c\" and certificate leaf = H\"e3dbe111559707e7c6ad46c41033e559d1c2e23c\"",
+        "sha256": "32b39ebaae162b6b64db7eeaa7670ebd29e48b5c9446cb3884c20f3a3ee5a152"
+      },
+      {
+        "path": "Contents/Resources/node/bin/node",
+        "requirement": "identifier node and certificate leaf = H\"e3dbe111559707e7c6ad46c41033e559d1c2e23c\"",
+        "sha256": "ffebcbc300aebc08f6ed169e2d94de9e9bb62b54b172b56746cee75e1a9e1f93"
+      }
+    ],
+    "matchesBRequirement": {
+      "command": "codesign",
+      "args": [
+        "--verify",
+        "--strict",
+        "-R",
+        "=identifier \"dev.screenrec.signing-lab.e4651fbc-409e-4d82-a24c-4d5b762f2a3c\" and certificate leaf = H\"e3dbe111559707e7c6ad46c41033e559d1c2e23c\"",
+        "<scratch>/Signing Probe.app"
+      ],
+      "status": 0,
+      "stdout": "",
+      "stderr": ""
+    }
+  },
+  "relocated": {
+    "requirement": "identifier \"dev.screenrec.signing-lab.e4651fbc-409e-4d82-a24c-4d5b762f2a3c\" and certificate leaf = H\"e3dbe111559707e7c6ad46c41033e559d1c2e23c\"",
+    "executableSha256": "32b39ebaae162b6b64db7eeaa7670ebd29e48b5c9446cb3884c20f3a3ee5a152",
+    "verify": {
+      "command": "codesign",
+      "args": [
+        "--verify",
+        "--deep",
+        "--strict",
+        "<scratch>/relocated/Signing Probe.app"
+      ],
+      "status": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    "runtime": {
+      "version": "1.0.1",
+      "frameworkVersion": "2.10.0",
+      "bundleId": "dev.screenrec.signing-lab.e4651fbc-409e-4d82-a24c-4d5b762f2a3c"
+    },
+    "nodeVersion": "v24.21.0"
+  },
+  "signedFrameworkSha256": "9cadad26f66bb984a1d1f1853ae462e8e2ce918016bd9e84303042ecc5bb8880",
+  "other": {
+    "requirement": "identifier \"dev.screenrec.signing-lab.e4651fbc-409e-4d82-a24c-4d5b762f2a3c\" and certificate leaf = H\"105ffcd3c374958e2946f3d6c284bb21a6da664d\"",
+    "matchesBRequirement": {
+      "command": "codesign",
+      "args": [
+        "--verify",
+        "--strict",
+        "-R",
+        "=identifier \"dev.screenrec.signing-lab.e4651fbc-409e-4d82-a24c-4d5b762f2a3c\" and certificate leaf = H\"e3dbe111559707e7c6ad46c41033e559d1c2e23c\"",
+        "<scratch>/Other Probe.app"
+      ],
+      "status": 3,
+      "stdout": "",
+      "stderr": "test-requirement: code failed to satisfy specified code requirement(s)\n"
+    }
+  },
+  "tampered": {
+    "verify": {
+      "command": "codesign",
+      "args": [
+        "--verify",
+        "--deep",
+        "--strict",
+        "<scratch>/Signing Probe.app"
+      ],
+      "status": 1,
+      "stdout": "",
+      "stderr": "<scratch>/Signing Probe.app: a sealed resource is missing or invalid\n"
+    }
+  },
+  "cleanup": {
+    "keychainDeleted": true,
+    "searchListRestored": true,
+    "privateMaterialDeleted": true
+  },
+  "rawPublicTrace": {
+    "path": "/var/folders/62/pphwbgd15b1b9q7cjgf8m9pm0000gn/T/screenrec-signing-public-51870.json",
+    "sha256": "0a9a08926fbe8dd8edcd3c1bf4f19e983333272af1d6582e909e9fa32e3f0a88"
+  },
+  "permissions": "No permission/Gatekeeper probes in the final lab. Prior permission behavior accepted from user confirmation on 2026-10-04, with historical attribution in signing-custody.md.",
+  "signingRecipe": {
+    "command": "codesign --force --sign <certificate-sha1> --keychain <explicit-scratch-keychain> --timestamp=none <path>",
+    "order": "Mach-O executables, then nested bundles inside-out, then outer app",
+    "targets": [
+      "<app>/Contents/Frameworks/Sparkle.framework/Versions/B/Autoupdate",
+      "<app>/Contents/Frameworks/Sparkle.framework/Versions/B/Sparkle",
+      "<app>/Contents/Frameworks/Sparkle.framework/Versions/B/Updater.app/Contents/MacOS/Updater",
+      "<app>/Contents/Frameworks/Sparkle.framework/Versions/B/XPCServices/Downloader.xpc/Contents/MacOS/Downloader",
+      "<app>/Contents/Frameworks/Sparkle.framework/Versions/B/XPCServices/Installer.xpc/Contents/MacOS/Installer",
+      "<app>/Contents/MacOS/SigningProbe",
+      "<app>/Contents/Resources/node/bin/node",
+      "<app>/Contents/Frameworks/Sparkle.framework/Versions/B/Updater.app",
+      "<app>/Contents/Frameworks/Sparkle.framework/Versions/B/XPCServices/Downloader.xpc",
+      "<app>/Contents/Frameworks/Sparkle.framework/Versions/B/XPCServices/Installer.xpc",
+      "<app>/Contents/Frameworks/Sparkle.framework",
+      "<app>"
+    ],
+    "allRecordedSigningCommandsSucceeded": true
+  }
+}

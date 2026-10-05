@@ -1,50 +1,66 @@
-# 02 — Prove signing and permission boundaries
+# 02 — Prove signing and preserve accepted permission behavior
 
-Unlock: a documented release-signing recipe and honest macOS permission behavior
-without an Apple Developer membership. Depends on 01; reuse its frozen updater.
+Unlock: a documented release-signing recipe without an Apple Developer membership.
+Use the frozen engine for final package/helper parity; independent scratch signing
+can establish the certificate and restoration boundary beforehand.
 
 ## Seam and artifact
 
 The existing [signing owner](../../../scripts/signing-identity.mjs) is for personal
 source installs. Do not borrow the user's local identity as a distribution key.
 The release recipe consumes a stable self-signed code-signing identity plus the
-independent Ed25519 key. Outputs are verified nested/bundle signatures, designated
-requirements and observed permission state, not a certificate-name assertion.
+independent Ed25519 key. Outputs are verified nested/bundle signatures and
+certificate-anchored designated requirements, not a certificate-name assertion.
 
-Use disposable app locations and an isolated test account/VM or explicitly approved
-scratch identity. Temporary signing material remains outside source and reports.
-No TCC reset, user-keychain trust change or user-library operation is allowed.
-Missing macOS approval/setup is recorded as unverified; portable work can continue.
+Use disposable app locations and explicitly authorized scratch identities.
+Temporary signing material stays outside source and reports. No user-keychain
+trust change, TCC reset, permission request or user-library operation is allowed.
+The user confirmed on 2026-10-04 that previous permission continuity proof is
+sufficient and explicitly directed us not to repeat recipient permission or
+Gatekeeper testing. [The custody handoff](../assets/signing-custody.md#accepted-permission-prerequisite)
+records this accepted prerequisite and the historical evidence's original scope.
 
-Human artifact: an observation report for ad-hoc A→stable B bootstrap and stable
-B→C replacement, with final nested-code recipe, quarantine state, exact OS and
-before/after screen/microphone access. Include an explicit minimal capture only
-if preflight facts cannot settle whether an existing grant remains usable.
+Human artifact: a public signing/restore receipt and the exact prepared
+backup/import/CI-secret handoff. Do not create production credentials silently.
 
 ## Proof
 
-- Final assembly/signing includes Node, native executables, Sparkle framework and
-  helpers; verification and relocated helper execution pass without paid signing.
-- Stable identity/designated requirement is preserved across B→C, and the actual
-  old/new permission state is measured. Bootstrap may differ; record it separately.
-- Quarantined downloaded app behavior is observed on a recipient-like account,
-  not inferred from trust on the build machine.
-- Ordinary launch/update relaunch does not request permissions or start capture.
+- Final assembly signs Node, native executables, Sparkle framework and helpers
+  from inside out; strict nested/bundle verification and relocated helper
+  execution pass without paid signing. Packaging preserves those signatures.
+- Changed B→C bundles preserve the same certificate-anchored requirement, including
+  after restoring the encrypted PKCS#12 into another temporary keychain. A different
+  certificate and tampered nested code fail their corresponding checks.
+- Ordinary launch/update relaunch requests no permissions and starts no capture;
+  the native integration owns this behavior, without another recipient grant test.
 - Release and personal-source bundle identities remain distinct.
 
-Use slice 01's minimal fixture; no transcription/render/model run answers this
-question. Retain public certificate fingerprint and signing-command/config identities,
-never private material. Packaging must not later overwrite the result ad hoc.
+Retain public certificate fingerprints and signing-command/config identities,
+never private material. Actual credential custody is still an implementation
+input; updater authentication is separate from app-signature identity.
+
+## Signing checkpoint
+
+[Public scratch evidence](../assets/signing-boundary.json) establishes the
+inside-out signing and encrypted PKCS#12 restore recipe using the selected
+framework and real Node input. B and changed C retain one certificate-anchored
+designated requirement; a different certificate, ad-hoc bootstrap requirement
+and tampered nested Node fail the corresponding checks. Relocated C loads the
+framework and runs Node. This does not prove an installer-helper update cycle or
+production packaging parity. The [lab](../../../scripts/signing-lab.mjs) contains
+no permission calls.
+
+The [prepared custody handoff](../assets/signing-custody.md) owns proposed
+backup/import/CI-secret inputs. Actual authorized credentials and final
+package/helper execution remain open; repeated permission checks are removed.
 
 ## Verdict and freedoms
 
-A stable self-signed identity is the selected approach; permission continuity is
-OPEN until measured. If macOS needs reapproval, document the exact bootstrap/repeated
-update behavior and reopen any silent-continuity claim. Do not quietly require a
-paid Apple account. Separate update authentication from Gatekeeper and TCC outcomes.
+Stable self-signed identity remains the selected approach. The earlier permission
+behavior and user's confirmation are accepted; this scratch signing checkpoint
+makes no new recipient/capture claim. No paid account is required.
 
-Delegated: scratch certificate label, evidence presentation and isolated test
-setup within authorized state. Production key custody is not delegated to silent
-creation: prepare an exact backup/import/CI-secret handoff for implementation.
-Keep existing personal-install behavior green. Human feedback can change the
-handling of measured recurring reapproval, not replace evidence with an assumption.
+Delegated: scratch certificate label, evidence presentation and isolated signing
+setup. Production key custody is not delegated to silent creation. Keep the
+existing personal-install behavior unchanged. Packaging must not overwrite the
+measured stable signatures with ad-hoc signatures.
