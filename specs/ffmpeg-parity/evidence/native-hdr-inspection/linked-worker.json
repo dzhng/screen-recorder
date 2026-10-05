@@ -1,0 +1,17 @@
+{
+  "claim": "Linked native media.probe qualification and existing timing/color/alpha contracts; no managed conversion or source-render acceptance claim.",
+  "sourceBase": "733f3a4d",
+  "nativeSha256": "eb2284b59cd328c31e81e2387ee60317c4b44c79b0b69c7a62f3b5d0bfcf366f",
+  "testSha256": "d20a7c04b3d297727fa8cfd801036a13bc38a28e5b43abf708bf3881f3eb7f2a",
+  "fixtureSha256": "4edf77fa4ed71a6d03a5afc27916ea244fb579d38437c6358b052ae6169a1a39",
+  "logSha256": "94df32956dbd2a8ce871a902c87606bc90db19175b8a88ec3e096a1788b241fc",
+  "build": "swift build --build-system native --package-path helpers/mac --product screenrec-native --jobs 2",
+  "test": "node --test helpers/mac/Tests/media-probe.test.mjs",
+  "passed": true,
+  "tests": 14,
+  "pending": [
+    "Live source-owner authority follow-up",
+    "Managed HDR source conversion",
+    "Integrated final release/package proof"
+  ]
+}

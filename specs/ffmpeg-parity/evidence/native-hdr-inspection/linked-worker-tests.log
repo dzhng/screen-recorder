@@ -1,0 +1,22 @@
+✔ probe preserves actual video timing and independent PCM metadata (791.1985ms)
+✔ probe reports orientation without baking it into source pixels (23.431833ms)
+✔ probe rejects unknown parameters and unreadable input (25.389917ms)
+✔ probe keeps variable packet timing distinct from acquisition availability (23.216208ms)
+✔ probe keeps still-image alpha and odd dimensions without inventing a duration (11.85ms)
+✔ probe normalizes one shared asset clock while retaining stream offsets (86.09225ms)
+✔ probe maps B-frame edit lists and excludes stream-copy preroll (123.523583ms)
+✔ probe distinguishes absent range metadata from a declared video color profile (61.349375ms)
+✔ probe reports alpha on timed ProRes pictures (56.023917ms)
+✔ probe timing digest detects interior changes hidden by summaries (148.742709ms)
+✔ probe retains codec atom names without changing ordinary packet work (141.949375ms)
+✔ requested compressed inspection covers native HEVC packets (371.886875ms)
+✔ native interpretation evidence separates packet-only and codec-atom markers (475.183084ms)
+✔ explicit compressed inspection streams a held source beyond the metadata read allowance (431.048042ms)
+ℹ tests 14
+ℹ suites 0
+ℹ pass 14
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 2808.366709

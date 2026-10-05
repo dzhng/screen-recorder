@@ -742,3 +742,65 @@ existing export from authoring one through an app flow. Reach: future app captio
 creation needs explicit placement selection, while all managed export kinds must
 remain visible to ordinary status and lifecycle handling. Verdict: sound; shared
 meaning and explicit authoring are preserved. Confidence: high.
+
+
+### Bound compressed inspection without claiming an AVFoundation memory ceiling
+
+When: slice19 native qualification. A malformed or unusually large HEVC packet
+could make the native decoder allocate and copy large buffers. Inspection checks
+its reported storage size before asking for bytes and refuses packets or codec
+configuration larger than 32 MiB. It copies and retires one packet at a time, checks
+cancellation and retains sets of observed types rather than every packet. Ordinary
+metadata discovery keeps its separate 64 MiB allowance before the same held input
+can stream. These limits bound the inspector’s requested operands and copies, not
+every allocation inside Apple’s AVFoundation framework. The alternative of reading
+unbounded packets would provide no predictable refusal point. Gap: the plan
+required bounded work but did not select this packet allowance. Reach: larger
+packets need a measured, explicit admission change; they cannot silently bypass
+the bound. Verdict: sound, with a deliberately finite initial policy. Confidence: medium.
+
+### Complete compressed inventory is distinct from supported interpretation
+
+When: slice19 native qualification. A source can have ordinary-looking metadata
+while a hidden packet or codec configuration contains another interpretation.
+Explicit inspection walks every decode packet, including material hidden by an
+edit, and reports packet/configuration identities, combined supplemental-metadata
+types and refusal reasons. “Complete” means all packets were inspected; it does
+not mean conversion is allowed. Missing, incomplete or unsupported inspection
+cannot become an all-clear result, and the separate presented-timing digest still
+qualifies the frames actually shown. Gap: the optional inspection result and
+traversal contract were unspecified. Reach: conversion admission must check the
+whole result and preserve the distinction between byte interpretation and timing.
+Verdict: sound. Confidence: high.
+
+### Conservative HEVC qualification refuses unproved interpretations
+
+When: slice19 native qualification. A phone movie can carry display instructions
+in packets or codec configuration even when its color labels appear familiar.
+The initial inspector qualifies only the single-layer hvc1 encoding form, permits
+ordinary coded pictures and filler, and refuses other supplemental metadata or
+in-band parameter declarations. It requires one complete out-of-band video,
+sequence and picture parameter declaration—the codec’s decoding setup—and refuses
+multiple declarations or changes in the native format, even harmless vendor
+labels. It inventories those declarations without implementing a second codec
+semantics decoder. Thus an Apple encoder’s unregistered metadata is conservatively
+refused; a deliberately stripped fixture is not proof of broad phone-HDR support.
+Gap: the plan left unproved compressed interpretation families unspecified. Reach:
+future expansion needs fresh interpretation and pixel proof, while managed HDR
+conversion still must preserve its frozen transform and accepted source operands.
+Verdict: sound as a narrow prerequisite, not completion of HDR conversion.
+Confidence: medium.
+
+### Primary byte authority also covers ordinary metadata admission
+
+When: slice19 native qualification. A MOV file can point its samples at another
+file. Apple’s restriction prevents actual external decoding, but observed metadata
+loading still succeeds. Ordinary probe admission therefore visits each native
+chunk’s storage locator, including hidden video and audio, and refuses observed
+foreign storage without reading packet payloads. Explicit scanning checks that
+authority before generating each packet and compares the returned format and
+clocks to the native cursor. Loader failures retain their original refusal code
+through framework errors. An absent cursor is never proof of decoding support.
+Gap: the earlier native probe assumed the primary file implied all sample storage.
+Reach: source-bearing consumers need the same retained owner and real execution
+checks; metadata inspection alone cannot certify it. Verdict: sound. Confidence: high.

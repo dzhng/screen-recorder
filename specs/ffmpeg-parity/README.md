@@ -14,7 +14,8 @@ Implement the complete authorized plan through committed passes. Read the
 [exploration](exploration.md), [parity contract](parity.md) and current slice.
 Integrated: 01–12, 16–18, 20–21 and 24–25. The audio-domain compiler and shared purpose-checked optional runtime are integrated;
 native audio preparation/execution and explicit treatments 13–15 remain next. Independently,
-finish 19 managed HDR conversion and family-specific speech research. Final release
+integrate the live source-owner authority follow-up, finish 19 managed HDR
+conversion and family-specific speech research. Final release
 build/ZIP, relocated component acceptance 26 and the full suite follow integration.
 The release check is wired to reuse the public delivery observer; installed
 execution is still pending. Latest main adds authenticated updates: archive smoke
@@ -33,6 +34,7 @@ facts, compressed interpretation and exact source↔derivative clocks.
 | Retained evidence | Current claim |
 | --- | --- |
 | [Pinned zimg/build](evidence/zimg-build) | Refreshed 02–05 component proofs pass. |
+| [Native HDR inspection](evidence/native-hdr-inspection/linked-worker.json) | All 14 linked-worker probe cases pass; live source authority and managed conversion remain open. |
 | [Native SDR](evidence/sdr-execution/proof.json) | Bound OS recipe, existing cache/job/export identities. |
 | [Public H.264/HEVC](evidence/hevc-public/report.json) | Authored clocks, decoded landmarks and replay pass. |
 | [Consumer trials](evidence/consumer-acceptance/README.md) | Concrete planning, GIF routing and unavailable execution pass twice; earlier failures retained. |

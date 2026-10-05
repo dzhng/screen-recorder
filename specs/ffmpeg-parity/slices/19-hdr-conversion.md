@@ -230,3 +230,11 @@ inspect generated outputs are separate from source byte authority. This follow-u
 must prove actual source rendering cannot resolve external media or substitute a
 mutable path for already held bytes; calling the live path legacy is not a scope
 resolution.
+
+
+The [linked-worker checkpoint](../evidence/native-hdr-inspection/linked-worker.json)
+builds the actual integrated native executable after latest main and runs all 14
+probe cases through its production wire boundary. Timing, color, alpha, hidden
+packet/configuration interpretation and retained large-input checks pass. This
+adds linked native proof to the earlier component observations; source rendering,
+managed conversion and the final packaged runtime remain separate unfinished gates.
