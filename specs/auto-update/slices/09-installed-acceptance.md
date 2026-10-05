@@ -40,9 +40,8 @@ Point each claim to its narrow earlier proof and named rerun trigger.
 - New-app startup failure is actionable; demonstrate manual reinstall of a specific
   previous same-format release. Promise neither arbitrary downgrade nor automatic
   postlaunch rollback. Do not repeat a startup failure in an endless hidden loop.
-- Repeat permission observations only if final identity/packaging invalidated 02.
-  Report bootstrap reapproval separately from repeated updates; no claim from
-  certificate names alone. Missing required OS interaction remains unverified.
+- Reuse prior permission continuity, explicitly accepted by the user on 2026-10-04.
+  Do not repeat recipient account/VM, TCC or Gatekeeper proof for this feature.
 - Resolve intended GitHub HTTPS latest stable feed/archive paths after publication;
   a controlled local feed is not this evidence.
 

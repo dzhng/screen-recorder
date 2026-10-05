@@ -1,6 +1,6 @@
 # Protected Sparkle input
 
-This is a product-specific source patch, not an accepted updater engine. The
+This product-specific source patch has [native boundary proof](../../specs/auto-update/assets/protected-engine-proof.json), separate from installed product acceptance. The
 [upstream pin](upstream.json) and [maintained patch](screenrec.patch) bind its
 inputs. Preparation and linking do not establish runtime safety or production
 parity; accept the engine only after updater and launcher labs pass against its

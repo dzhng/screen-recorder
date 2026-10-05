@@ -66,50 +66,43 @@ the agreed behavior. Review its CLI trace/report; no visual redesign is involved
 
 ## Proof status
 
-**Incomplete — upstream engine rejected at the quit-safety gate.** The
-[lab runner](../../../scripts/update-lab.mjs) uses the supported `SPUUserDriver`
-interface and the pinned binary distribution. Its Objective-C fixture keeps the
-SDK callback boundary visible and builds with this machine's Command Line Tools;
-production remains Swift and must prove callback parity independently.
+**Protected engine boundary accepted; production parity remains separate.**
+The [accepted receipt](../assets/protected-engine-proof.json) binds the pinned
+[source patch](../../../scripts/sparkle), framework fingerprint, controlled source
+hashes, signed archives/feed and complete external reports. The final run covers
+22 distinct cases once: ten protection/fixture cases and twelve authentication,
+compatibility and opt-out cases. Private fixture keys are deleted; public inputs
+remain at their receipt paths outside Git. The receipt records the base revision
+at execution plus hashes of the working-tree sources committed with this evidence.
 
-Run `node --test scripts/update-lab.test.mjs` to check the reproduction. Its
-busy-quit test deliberately asserts the observed defect, so a green lab suite
-means the defect is reproduced, **not** that updater acceptance passed. Running
-`node scripts/update-lab.mjs busy-quit` exits nonzero with `verdict: rejected`.
-The output binds source hashes, feed/archive hashes, public key, platform and the
-full trace. Private keys and generated executable bundles are cleaned up; bounded
-public diagnostics remain at the reported scratch path.
+The [native guard suite](../../../scripts/update-guard.test.mjs) requires an explicit
+built framework; it never silently substitutes upstream. The original
+[lab suite](../../../scripts/update-lab.test.mjs) retains upstream's expected-defect
+reproduction. A green upstream reproduction does not approve that engine. Its
+candidate/authentication cases can also replay against the corrected framework.
 
-Observed on macOS 27.0.1 arm64: a valid signed same-format update reaches ready
-while busy, then installs/relaunches after explicit idle intent. Authentication,
-compatibility and old/equal-version refusals preserved A. Ready cancellation then
-quit preserved A in the sampled run, as did opt-out during extraction. Neither
-sample proves cancellation acknowledgement. Busy ordinary quit replaced A with B
-without an `installing` callback or install reply. Sparkle relaunch lost the
-original environment; the lab uses an isolated bundle fixture path to observe B.
+The accepted route uses a custom `SPUUserDriver` and Sparkle scheduled checks,
+with automatic-install driver selection disabled. The found callback requests
+download; the ready reply is retained until the cycle ends, including after Install,
+so opt-out can still send Skip. Installing acknowledges a transferred, actually
+locked descriptor. It permits clean service EOF but not host exit. Only after
+proven child exit does the app invoke the retained final-authorization closure;
+the final acknowledgement permits host termination. The helper never issues a
+quit event. Successful cancellation suppresses callbacks, drains transferred
+rights and releases exclusion before completion; channel failure is not that
+acknowledgement. Standard Sparkle's automatic-install route is unsupported.
 
-Pinned source explains the failure: `SPUUIBasedUpdateDriver` queues ready replies
-on the main queue; `SPUInstallerDriver` sends cancellation asynchronously;
-`AppInstaller.finishInstallationAfterHostTermination` finishes an unrequested
-installation. There is no public acknowledgement barrier for the helper.
+The final native trace proves busy ordinary quit, crash before final permission,
+helper death during a paused callback, timeout cancellation, channel-loss cleanup,
+explicit post-acquisition cancellation, queued Install/Skip, a live actual MCP
+reader, and quiet A→B replacement preserving the selected home/defaults. Source
+and helper signing, Swift callback parity, actual controller blockers, irreversible
+EOF failure/recovery, Settings suppression, production launcher relocation and
+installed-library behavior belong to the following slices. No new permission
+continuity test is required under the user's 2026-10-04 instruction.
 
-User-approved correction, still awaiting native proof: a pinned source patch in Sparkle's
-installer rejects host-termination installation unless an explicit install request
-has already been accepted. Before requesting host termination, that installer
-must hold the same external file lock that CLI entries use, exclusively, through
-replacement and relaunch. A failed lock leaves the host usable and reports an
-error; there is no background guardian or new polling service. This also prevents
-new CLI processes from loading mixed old/new bundle resources after the host exits.
-
-Before acceptance, rebuild the pinned source with full Xcode and replay these
-fixtures, including opt-out/quit races, canceled termination, crash, old clients
-and delayed replacement. Check helper progress does not steal focus, relocated
-modes/rpath and HTTPS redirects. Freeze corrected inputs and parity evidence.
-The existing signing and installed-library gates are unchanged.
-
-The runner can consume a separately built framework through `--framework`. Its
-receipt distinguishes that input from the verified upstream distribution used
-for signing tools. Changing the fixture framework's version and observing it in
-the running app proves that the runner loads the selected framework. This proves
-input selection only; protection on busy ordinary quit remains red against
-upstream, independently of the expected-defect reproduction suite.
+Upstream was rejected because ordinary busy quit installed without permission;
+its [frozen receipt](../assets/sparkle-reproduction.json) remains the reason for the
+user-approved patch. Earlier helper-only exclusion was also rejected by the
+paused-callback/helper-crash negative control. The accepted descriptor transport
+uses kernel-backed shared ownership, not a clock lease or reopened path.

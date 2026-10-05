@@ -85,8 +85,10 @@ the host. Prefer acquiring in the existing installer helper at its final install
 boundary over adding a guardian process, if the updater engine exposes that
 boundary honestly. Public Sparkle does not currently prove this handshake.
 
-Still open: actual Sparkle helper ownership, framed production `UPDATING` startup
-failure, `open -a` discovery parity, concurrent/canonical/default-path aliases,
+The [protected engine receipt](../assets/protected-engine-proof.json) now proves
+actual installer exclusion against a live MCP reader and through helper/host
+failure and cancellation. That closes the helper-ownership research prerequisite.
+Still open: framed production `UPDATING` startup failure, `open -a` discovery parity, concurrent/canonical/default-path aliases,
 normal MCP EOF, canceled/failing replacement and relocation of the assembled kit.
 No production launcher changed in this checkpoint. Resolve engine ownership first;
 then port the primitive and rerun these frozen barriers through production.

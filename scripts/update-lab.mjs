@@ -20,7 +20,11 @@ import { frameworkIdentity } from "./sparkle/framework.mjs";
 
 const { values, positionals } = parseArgs({
   allowPositionals: true,
-  options: { framework: { type: "string" } },
+  options: {
+    framework: { type: "string" },
+    "host-controlled-installation": { type: "boolean", default: false },
+    "retain-public-fixtures": { type: "boolean", default: false },
+  },
 });
 const scenario = positionals[0];
 if (
@@ -32,6 +36,13 @@ if (
     "install",
     "disable-quit",
     "busy-quit",
+    "unconfirmed-crash",
+    "stalled-helper-crash",
+    "cancel-install",
+    "authorized-channel-loss",
+    "mcp-lock",
+    "stalled-timeout",
+    "install-skip",
     "disable-extract-quit",
     "unsigned-feed",
     "tampered-feed",
@@ -115,6 +126,8 @@ const events = () =>
 const { privateKey, publicKey } = generateKeyPairSync("ed25519");
 const keyPath = join(root, "key");
 let child;
+let client;
+let clientDone;
 let server;
 let stderr = "";
 const receipt = {
@@ -131,6 +144,9 @@ const receipt = {
       .digest("hex"),
   },
   inputs: {
+    hostControlledInstallation: values["host-controlled-installation"],
+    retainedPublicFixtures: values["retain-public-fixtures"],
+    executionContext: { SCREENREC_HOME: join(root, "home"), SCREENREC_DEFAULTS: `${id}.settings` },
     publicKey: publicKey.export({ type: "spki", format: "der" }).subarray(-32).toString("base64"),
   },
   sparkle: { version: "2.10.0", distributionSha256: digest },
@@ -209,6 +225,7 @@ try {
     server.listen(Number(positionals[1] ?? 0), "127.0.0.1", resolveListen);
   });
   const url = `http://127.0.0.1:${server.address().port}`;
+  receipt.inputs.fixtureURL = url;
   const executable = join(root, "UpdateLab");
   await run("clang", [
     "-fobjc-arc",
@@ -237,6 +254,7 @@ try {
     const fields = {
       LabScenario: scenario,
       LabRoot: root,
+      LabHostControlsInstallation: values["host-controlled-installation"],
       CFBundleIdentifier: id,
       CFBundleExecutable: "UpdateLab",
       CFBundleName: "UpdateLab",
@@ -274,6 +292,12 @@ try {
     scenario === "equal" ? "0.1.0" : scenario === "older" ? "0.0.9" : "0.1.1";
   await build(app, "0.1.0");
   await build(next, candidateVersion);
+  if (values["retain-public-fixtures"]) {
+    await run("ditto", ["-c", "-k", "--keepParent", app, join(root, "old.zip")]);
+    receipt.inputs.oldArchiveSha256 = createHash("sha256")
+      .update(readFileSync(join(root, "old.zip")))
+      .digest("hex");
+  }
   await run("ditto", ["-c", "-k", "--keepParent", next, join(root, "update.zip")]);
   let attrs = (
     await run(join(frameworkRoot, "bin", "sign_update"), [
@@ -334,7 +358,7 @@ try {
   if (interrupted) throw interrupted;
   if (scenario === "stopped-launch") writeFileSync(join(root, "stop"), "stop");
   child = spawn(join(app, "Contents", "MacOS", "UpdateLab"), [], {
-    env: { ...process.env, SCREENREC_UPDATE_LAB: root },
+    env: { ...process.env, ...receipt.inputs.executionContext, SCREENREC_UPDATE_LAB: root },
     stdio: ["ignore", "ignore", "pipe"],
   });
   childCompletion = new Promise((resolveExit) => {
@@ -394,6 +418,159 @@ try {
         45_000,
         true,
       );
+    } else if (scenario === "stalled-timeout") {
+      command("install");
+      await wait(() => events().some((e) => e.event === "stalled"), "stalled host");
+      await delay(22_000);
+      const helper = join(root, "lock-exec");
+      await run("clang", [
+        "-Wall",
+        "-Wextra",
+        "-Werror",
+        "scripts/launcher-lab/lock-exec.c",
+        "-o",
+        helper,
+      ]);
+      try {
+        await run(helper, ["shared", lockPath, "/usr/bin/true"]);
+        receipt.inputs.pausedLockStatus = 0;
+      } catch (error) {
+        if (error.status !== 75) throw error;
+        receipt.inputs.pausedLockStatus = error.status;
+      }
+      child.kill("SIGCONT");
+      await wait(() => events().some((e) => e.event === "cycle"), "timeout cancellation");
+    } else if (scenario === "stalled-helper-crash") {
+      command("install");
+      await wait(() => events().some((e) => e.event === "stalled"), "stalled host");
+      const installers = (await run("pgrep", ["-fl", `${root}|${id}`]))
+        .trim()
+        .split("\n")
+        .filter((line) => /\/Autoupdate(?: |$)/.test(line));
+      assert.equal(installers.length, 1, JSON.stringify(installers));
+      const installerPid = Number(installers[0].split(" ")[0]);
+      receipt.inputs.installerCrash = { pid: installerPid, signal: "SIGKILL" };
+      process.kill(installerPid, "SIGKILL");
+      await wait(
+        () => {
+          try {
+            process.kill(installerPid, 0);
+            return false;
+          } catch (error) {
+            if (error.code === "ESRCH") return true;
+            throw error;
+          }
+        },
+        "crashed installer",
+        5000,
+      );
+      child.kill("SIGCONT");
+      await wait(() => events().some((e) => e.event === "cycle"), "failed cycle");
+    } else if (scenario === "install-skip") {
+      command(scenario);
+      await wait(() => events().some((e) => e.event === "cycle"), "queued cancellation", 5000);
+    } else if (scenario === "mcp-lock") {
+      const helper = join(root, "lock-exec");
+      const cli = join(root, "cli.mjs");
+      await run("clang", [
+        "-Wall",
+        "-Wextra",
+        "-Werror",
+        "scripts/launcher-lab/lock-exec.c",
+        "-o",
+        helper,
+      ]);
+      await run("bun", ["scripts/launcher-lab/build-cli.mjs", process.cwd(), cli]);
+      client = spawn(helper, ["shared", lockPath, process.execPath, cli, "mcp"], {
+        stdio: ["pipe", "pipe", "pipe"],
+      });
+      clientDone = new Promise((resolve) => client.once("close", resolve));
+      let output = "";
+      let clientError;
+      let tools;
+      client.once("error", (error) => {
+        clientError = error;
+      });
+      client.stderr.on("data", (bytes) => {
+        stderr += bytes;
+      });
+      client.stdout.on("data", (bytes) => {
+        output += bytes;
+        for (const line of output.split("\n")) {
+          try {
+            const message = JSON.parse(line);
+            if (message.id === 2) tools = message.result?.tools?.map((tool) => tool.name);
+          } catch {}
+        }
+      });
+      client.stdin.on("error", (error) => {
+        clientError = error;
+      });
+      client.stdin.write(
+        JSON.stringify({
+          jsonrpc: "2.0",
+          id: 1,
+          method: "initialize",
+          params: {
+            protocolVersion: "2024-11-05",
+            capabilities: {},
+            clientInfo: { name: "updater-lock-proof", version: "1" },
+          },
+        }) + "\n",
+      );
+      client.stdin.write(
+        JSON.stringify({ jsonrpc: "2.0", method: "notifications/initialized" }) + "\n",
+      );
+      client.stdin.write(
+        JSON.stringify({ jsonrpc: "2.0", id: 2, method: "tools/list", params: {} }) + "\n",
+      );
+      await wait(
+        () => {
+          if (clientError) throw clientError;
+          return tools;
+        },
+        "live MCP tools",
+        5000,
+      );
+      receipt.inputs.client = {
+        tools,
+        cliSha256: createHash("sha256").update(readFileSync(cli)).digest("hex"),
+        lockSourceSha256: createHash("sha256")
+          .update(readFileSync("scripts/launcher-lab/lock-exec.c"))
+          .digest("hex"),
+        nodeSha256: createHash("sha256").update(readFileSync(process.execPath)).digest("hex"),
+      };
+      command("install");
+      await wait(() => events().some((e) => e.event === "cycle"), "lock refusal", 5000);
+      assert.equal(client.exitCode, null, "MCP client unexpectedly exited");
+      command("probe-lock");
+      await wait(() => events().some((e) => e.event === "lockProbe"), "usable host");
+    } else if (scenario === "authorized-channel-loss") {
+      command("install");
+      await wait(
+        () => events().some((e) => e.event === "channelInvalidated"),
+        "invalidated channel",
+      );
+      await wait(() => events().some((e) => e.event === "cycle"), "failed cycle");
+      // The pinned helper cancels a live host after 20s; keep the host alive
+      // past that boundary, then observe the kernel lock rather than inferring
+      // cleanup from the earlier failed SDK cycle.
+      await delay(22_000);
+      command("probe-lock");
+      await wait(() => events().some((e) => e.event === "lockProbe"), "lock probe");
+    } else if (scenario === "cancel-install") {
+      command("install");
+      await wait(() => events().some((e) => e.event === "installProgress"), "held exclusion");
+      command("disable");
+      await wait(() => events().some((e) => e.event === "cycle"), "cancelled cycle", 5000);
+      command("quit");
+      await wait(() => childDone, "quit");
+    } else if (scenario === "unconfirmed-crash") {
+      command("install");
+      await wait(() => events().some((e) => e.event === "installProgress"), "held exclusion");
+      child.kill("SIGKILL");
+      await wait(() => childDone, "crashed host", 5000, true);
+      await delay(2000);
     } else if (scenario === "busy-quit") {
       command("quit");
       await wait(() => childDone, "quit");
@@ -446,6 +623,10 @@ try {
   process.removeListener("SIGTERM", interrupt);
   process.removeListener("SIGINT", interrupt);
   rmSync(keyPath, { force: true });
+  if (client) {
+    client.kill("SIGKILL");
+    await clientDone;
+  }
   if (child && !childDone) child.kill("SIGKILL");
   // Kill relaunch producers first; persistent stop intent also covers launches
   // already queued to LaunchServices before the producer died.
@@ -495,9 +676,11 @@ try {
       "candidate",
       "sparkle",
       "UpdateLab",
-      "update.zip",
+      ...(!values["retain-public-fixtures"] ? ["update.zip"] : []),
       "command",
       "pid",
+      "cli.mjs",
+      "lock-exec",
     ])
       rmSync(join(root, path), { force: true, recursive: true });
   if (!helperScanFailed)

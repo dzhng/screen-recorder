@@ -8,44 +8,37 @@ and rationale; this ladder owns implementation order and proof status.
 
 ## Next Agent Prompt
 
-**Status:** implementation in progress; native engine acceptance is **RED**.
+**Status:** protected engine boundary is GREEN; production integration is in progress.
 **Updated:** 2026-10-04.
 
-Read [01's proof status](slices/01-sparkle-replication.md#proof-status) first.
-The committed lab authenticates and replaces scratch bundles, but upstream Sparkle
-also replaces a staged bundle on busy ordinary quit without install permission.
-No accepted updater winner exists. Cancellation at ready is asynchronous and is
-not a helper acknowledgement. Do not port this unsafe behavior to production.
+The accepted [engine receipt](assets/protected-engine-proof.json) binds the corrected
+Sparkle source, built framework, signed public fixture bytes and complete external
+reports. The custom user-driver route protects explicit permission and launch
+exclusion through host/helper failure and cancellation. Xcode 27 is initialized.
+Do not return to upstream's unsafe ordinary-quit installation or substitute a
+host-only lock. [01](slices/01-sparkle-replication.md#proof-status) owns this contract.
 
-The user approved a small pinned Sparkle source patch and full Xcode installation.
-The corrected installer must require explicit install permission and own the CLI
-replacement lock through host exit, bundle swap and relaunch acknowledgement.
-Xcode setup and the minimal patch are underway. The upstream callback currently
-announces installation before the installer lock could be acquired, and relaunch
-is asynchronous; reproduce these handshakes rather than assuming callback order
-provides exclusion. No production updater is installed until the corrected proof
-passes.
+Next, integrate the native coordinator and release pipeline in parallel. Native
+owns clean service EOF/exit and persistent opt-out; packaging owns release-only
+configuration, direct framework linking, stable signing, the coordinated launcher
+and authenticated feed. The fixed release lock is account-owned
+`Library/Caches/com.david.screenrec/launch.lock`, outside the replaced bundle.
+The manifest's next release is 0.1.3; commit that version before final artifacts.
+Production signing credentials require the prepared concrete custody handoff;
+no keys have been silently created.
 
-Completed independent passes are integrated. [04 service admission](slices/04-service-admission.md)
-grants atomic private permits and accounts existing-owner lifetimes; repeated
-release succeeds without touching a successor, while stale commitment fails.
-[08 skill lifecycle](slices/08-skill-lifecycle.md) has documented real-installer
-and focused model proof. Its controlled health inputs now match the service's
-`status`, `version` and `update` projection; previous model receipts retain their
-original input scope. Live published-source onboarding and the final two-trial
-matrix remain open. [03 launcher proof](slices/03-launcher-replacement.md) freezes
-the shared-lock result; actual installer ownership remains open.
+Service admission is committed. The launcher primitive and engine's real MCP-lock
+barrier are proved; assembled launcher/discovery parity remains. Consumer skills
+and focused Docker trials are committed; final repeated trials and live
+published-source onboarding remain. Use existing evidence, then run the complete
+repository checks once when implementation is finished.
 
-Next, resolve and reproduce the corrected engine before signing, packaging and
-native integration. The remaining proof gates still apply. Do not repeat unchanged
-native or portable probes to imply progress past this engine gate.
+The user explicitly accepted prior permission continuity on 2026-10-04 and asked
+not to repeat it. Do not require another recipient account, VM or permission run.
+Use scratch app locations, defaults, signing material and libraries; preserve the
+user's installed app and media. Review/push/tag only the verified assembled source.
 
-Use scratch app locations, defaults, keys and libraries. Never use the user's
-installed app, permission grants or recording library as fixtures. Release identity
-custody and recipient TCC/Gatekeeper behavior are unverified. Choose and commit
-release version before final artifacts; review/push/tag only verified source.
-
-- [ ] [01: prove Sparkle authentication, admission and install paths](slices/01-sparkle-replication.md)
+- [x] [01: prove Sparkle authentication, admission and install paths](slices/01-sparkle-replication.md)
 - [ ] [02: prove release signing and permission boundaries](slices/02-signing-identity.md)
 - [ ] [03: prove launcher and old-client replacement safety](slices/03-launcher-replacement.md)
 - [x] [04: make service update admission atomic](slices/04-service-admission.md)
@@ -144,8 +137,8 @@ ceremony. Discovery findings do not waive a proof gate.
 
 | Preservation claim | Evidence and owner | Production parity/acceptance |
 | --- | --- | --- |
-| Supported authentication, veto, staging and quit behavior | [Frozen rejected upstream reproduction](assets/sparkle-reproduction.json); corrected engine remains OPEN | 06 replays accepted inputs through production; 09 confirms assembled behavior. |
-| Stable release identity and observed permission behavior | OPEN: 02 public identity/OS observations | 05 preserves recipe; 09 reruns only if packaging invalidates it. |
+| Supported authentication, veto, staging and quit behavior | [Rejected upstream reproduction](assets/sparkle-reproduction.json) and [accepted protected engine](assets/protected-engine-proof.json) | 06 replays accepted inputs through production; 09 confirms assembled behavior. |
+| Stable release identity and observed permission behavior | 02 stable signing recipe; prior permission proof accepted by user | 05 preserves recipe; 09 reruns only if packaging invalidates it. |
 | Complete bundle loads and safe old-client lifetime | [Frozen reader-lock proof](assets/launcher-lifetime-proof.json); actual installer ownership remains OPEN | 06 drives production entry with those barriers; 09 verifies the installed launcher. |
 | Canonical skill links/references and explicit overwrite | [Real documented-command parity](assets/skills-production-parity.json) and [focused agent matrix](assets/skills-model-trials.json) | Published-source onboarding and final repeated matrix remain OPEN in 08/09. |
 

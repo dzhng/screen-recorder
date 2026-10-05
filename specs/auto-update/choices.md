@@ -51,6 +51,55 @@
   unavailable/null fallback.
 - **Confidence:** medium.
 
+### Scheduled custom-driver downloads preserve explicit install control
+
+- **When:** protected engine acceptance.
+- **Choice:** Sparkle schedules checks, and the app's custom user driver requests
+  download when it finds an acceptable candidate. It retains the ready reply while
+  waiting and after asking to install, so a later opt-out can still cancel. Enabling
+  Sparkle's separate automatic-install driver would bypass this measured callback
+  route; that mode is disabled in signed release configuration.
+- **Gap:** automatic downloading was required, but the Sparkle driver selection
+  that would preserve the corrected explicit-install handshake was not named.
+- **Reach:** production must link the same driver path; the preference controls
+  Sparkle's check scheduling rather than selecting an unproved install driver.
+- **Verdict:** sound; keeps one scheduler and the demonstrated permission boundary.
+- **Confidence:** medium.
+
+### One account lock covers every release app path
+
+- **When:** production launcher/native contract agreement.
+- **Choice:** all released app copies use one persistent private account file,
+  `Library/Caches/com.david.screenrec/launch.lock`. A CLI keeps a shared kernel lock
+  while it lives; the installer needs its exclusive form to replace the app.
+  Launching through a symlink or another app path therefore cannot choose a
+  different lock accidentally. Separate release copies also defer one another;
+  this favors simple exclusion over deriving a new lock from each app path.
+- **Gap:** the measured lock required a permanent location, but the plan did not
+  choose whether path aliases and multiple copies shared it.
+- **Reach:** the fixed launcher and signed host metadata agree on this account
+  path. Scratch identities get their own injected path; personal builds stay manual.
+- **Verdict:** sound; the product already has one app/service owner per account,
+  and this avoids a path registry or two implementations of path hashing.
+- **Confidence:** medium.
+
+### Helper deadlines cancel permission rather than forcing progress
+
+- **When:** protected engine acceptance.
+- **Choice:** if an authorized host remains alive for 20 seconds, the helper starts
+  cancellation and waits for the host to suppress callbacks and close its received
+  descriptor. It never makes a paused callback lose kernel exclusion just because
+  time passed. Quiet launch acknowledgement has a 10-second failure budget; that
+  failure reports unavailable startup rather than rolling back an installed app.
+- **Gap:** the spec required bounded failure behavior but did not select these
+  helper budgets.
+- **Reach:** native clean shutdown must finish within the installation opportunity
+  or report cancellation honestly. A live paused host can retain exclusion until
+  it resumes or exits; a deadline cannot safely pretend its descriptor disappeared.
+- **Verdict:** sound; time bounds an attempt, while actual descriptor lifetime owns
+  replacement authority.
+- **Confidence:** medium.
+
 ### Reproduce the rejected engine instead of pretending the lab is acceptance
 
 - **When:** slice 01 replication checkpoint.
@@ -205,4 +254,68 @@
   it does not claim that later signing leaves those bytes unchanged.
 - **Verdict:** sound; one calculation binds the actual self-contained input
   rather than its version label or only one executable.
+- **Confidence:** high.
+
+### Transfer the actual lock and drain cancellation rights
+
+- **When:** protected engine acceptance.
+- **Choice:** Sparkle sends its actually locked file descriptor through its existing
+  native interprocess connection. The host retains a duplicate of that same kernel
+  object. If the helper dies while the installing callback is paused, the host
+  still excludes new CLI readers. Reopening the path or using an expiry timestamp
+  would leave that callback unprotected. Cancellation waits for both host callback
+  suppression and the descriptor-transfer acknowledgement before confirming release.
+- **Gap:** the public SDK could not keep launch exclusion valid through helper
+  failure or queued callback delivery.
+- **Reach:** future install/cancel paths must retain the transferred object and
+  close copies to relinquish ownership; unlocking one duplicate changes the shared
+  kernel lock for every participant. Failed channel loss is not successful release.
+- **Verdict:** sound; measured helper-crash and paused-timeout controls rule out the
+  weaker path/clock alternatives without another daemon.
+- **Confidence:** high.
+
+### The app alone owns quit after final authorization
+
+- **When:** protected engine acceptance.
+- **Choice:** installing first acknowledges held launch exclusion. The app then
+  closes its service pipe, proves the child exited cleanly, and requests final
+  authorization through the retained installing callback. Only the final SDK
+  acknowledgement allows the app to quit itself. The helper sends no quit event,
+  so cancellation cannot leave a delayed quit queued behind resumed user work.
+- **Gap:** upstream helper-requested quit did not preserve the native service's
+  reversible/irreversible shutdown boundary.
+- **Reach:** the callback's retry closure now requests final authorization instead
+  of another install attempt; every native adapter must honor that distinction.
+- **Verdict:** sound; separates install intent, kernel exclusion and host exit at
+  the owners that can prove each obligation.
+- **Confidence:** high.
+
+### Only selected storage context travels through quiet relaunch
+
+- **When:** protected engine acceptance.
+- **Choice:** the existing installer input transports only `SCREENREC_HOME` and
+  `SCREENREC_DEFAULTS`, which choose library and preferences. B receives those
+  values and the fixed quiet-launch argument. Other environment variables,
+  including agent/provider credentials, are not copied into the new app.
+- **Gap:** upstream relaunch discarded the selected fixture context; the spec
+  required preserving that selection but did not name the transport owner.
+- **Reach:** another forwarded variable must be a deliberate addition to this
+  small constructor input, not a copy of the full parent environment.
+- **Verdict:** sound; preserves selected storage without exporting unrelated state.
+- **Confidence:** high.
+
+### Raw source bytes own build provenance
+
+- **When:** protected engine build closeout.
+- **Choice:** the builder compares the checkout's actual bytes, modes and links
+  against the pinned Git tree plus patch through a private temporary index. Git
+  clean filters, replacement references and a user's staged extra files therefore
+  cannot hide a different compiler input. The loaded input hashes and exact patched
+  tree must still match after compilation before a receipt is issued.
+- **Gap:** a pinned commit and normal Git diff did not establish raw compiler input
+  identity in a configurable developer checkout.
+- **Reach:** Git presentation and the user's index never authorize release source;
+  this remains one source-build check rather than a second release pipeline.
+- **Verdict:** sound; the negative controls demonstrated concealed input changes
+  and the corrected check rejects them.
 - **Confidence:** high.

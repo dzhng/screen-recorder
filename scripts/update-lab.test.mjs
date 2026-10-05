@@ -10,6 +10,15 @@ import { mkdtempSync, mkdirSync, writeFileSync, readdirSync, rmSync, linkSync } 
 import { createHash } from "node:crypto";
 import { tmpdir } from "node:os";
 
+const engineArgs = process.env.SCREENREC_SPARKLE_FRAMEWORK
+  ? [
+      "--framework",
+      process.env.SCREENREC_SPARKLE_FRAMEWORK,
+      "--host-controlled-installation",
+      "--retain-public-fixtures",
+    ]
+  : [];
+
 test(
   "an explicit framework input runs its actual bytes and records separate provenance",
   { timeout: 120_000 },
@@ -234,10 +243,14 @@ test(
   "a signed incompatible candidate is refused before downloading or replacing the app",
   { timeout: 120_000 },
   () => {
-    const result = spawnSync(process.execPath, ["scripts/update-lab.mjs", "incompatible"], {
-      encoding: "utf8",
-      timeout: 115_000,
-    });
+    const result = spawnSync(
+      process.execPath,
+      ["scripts/update-lab.mjs", "incompatible", ...engineArgs],
+      {
+        encoding: "utf8",
+        timeout: 115_000,
+      },
+    );
     assert.equal(result.status, 0, result.stdout + result.stderr);
     const report = JSON.parse(result.stdout);
     assert.equal(report.installedVersion, "0.1.0");
@@ -248,10 +261,14 @@ test(
 
 for (const scenario of ["install", "disable-quit", "disable-extract-quit"]) {
   test(`Sparkle ${scenario} obeys installation eligibility`, { timeout: 120_000 }, () => {
-    const result = spawnSync(process.execPath, ["scripts/update-lab.mjs", scenario], {
-      encoding: "utf8",
-      timeout: 115_000,
-    });
+    const result = spawnSync(
+      process.execPath,
+      ["scripts/update-lab.mjs", scenario, ...engineArgs],
+      {
+        encoding: "utf8",
+        timeout: 115_000,
+      },
+    );
     assert.equal(result.status, 0, result.stdout + result.stderr);
     const report = JSON.parse(result.stdout);
     assert.equal(report.installedVersion, scenario === "install" ? "0.1.1" : "0.1.0");
@@ -292,10 +309,14 @@ for (const scenario of [
   "older",
 ]) {
   test(`Sparkle refuses ${scenario}`, { timeout: 120_000 }, () => {
-    const result = spawnSync(process.execPath, ["scripts/update-lab.mjs", scenario], {
-      encoding: "utf8",
-      timeout: 115_000,
-    });
+    const result = spawnSync(
+      process.execPath,
+      ["scripts/update-lab.mjs", scenario, ...engineArgs],
+      {
+        encoding: "utf8",
+        timeout: 115_000,
+      },
+    );
     assert.equal(result.status, 0, result.stdout + result.stderr);
     const report = JSON.parse(result.stdout);
     assert.equal(report.installedVersion, "0.1.0");

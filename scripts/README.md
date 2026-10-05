@@ -65,6 +65,13 @@ reproduction; a passing lab suite does not approve the engine. The
 [active updater proof](../specs/auto-update/slices/01-sparkle-replication.md#proof-status)
 records acceptance separately from observed behavior.
 
+The [protected Sparkle input](sparkle/README.md) owns the pinned source patch
+and source-build requirements. The [native guard suite](update-guard.test.mjs)
+requires an explicitly built framework and protects the install/cancellation
+contract. Public fixture retention binds exact signed bytes while private keys
+are always deleted; these native boundary results are separate from installed
+product acceptance.
+
 The [launcher lifetime lab](launcher-lab.mjs) is a disposable concurrency proof,
 not an installer. It shows why selecting Node and then reading a mutable app path
 needs exclusion covering the whole CLI process, including an idle MCP session.
