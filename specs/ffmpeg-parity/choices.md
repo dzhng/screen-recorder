@@ -6,6 +6,25 @@ and fixture selection are discretion, not new product decisions.
 
 ## Sound choices
 
+### Every held source invocation starts from an explicitly rewound read lease
+
+When: slice 04. FFprobe reads an inherited file descriptor and advances its shared
+cursor. Starting FFmpeg afterward without rewinding can make valid media look
+empty. Each invocation borrows its own held read lease and explicitly names source
+descriptor slots to rewind; the existing native CLI runner checks they are regular
+read-only files before seeking to zero. Other descriptors and default callers are
+untouched. Forcing only the MOV demuxer could hide this bug for one format while
+leaving the general held-input contract broken.
+
+Gap: the plan required held bytes but did not prescribe cursor handling or
+stream-selector mapping across container families.
+Reach: FFprobe supplies only execution selectors; native facts retain clocks,
+support and geometry. Track IDs must match, or a kind without IDs must be
+unambiguous. Only self-contained demuxers and the fd protocol run managed inputs;
+CAF and AAC remain covered alongside existing native families.
+Verdict: sound; one general read-lease rule preserves original bytes without
+reopening mutable paths. Confidence: high.
+
 ### Verify tools only when explicitly requested
 
 When: slice 02. An agent checking whether the listener is ready should not wait

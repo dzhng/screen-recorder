@@ -64,8 +64,8 @@ the existing native-supported self-contained audio families. The expanded real
 receipt adds freshly native-probed 100ms CAF/ADTS AAC sine fixtures and one selected
 frame of each through FFmpeg, recording generated input hashes and native facts.
 
-The actual expanded local receipt is `/tmp/screenrec-input-proof-expanded.json`; media and
-reports remain outside the repository. No user source/state or shared build was
+The [expanded receipt](../evidence/input-authority/proof.json) retains source hashes,
+native facts and refusal/canary results; generated media remains outside the repository. No user source/state or shared build was
 changed. Full packaged native execution and downstream recipe geometry/timing
 proof remain their owning release/recipe gates, not a claim of this seam check.
 

@@ -12,8 +12,8 @@ every FFmpeg option or a replacement for a professional editing workstation.
 
 Implement the complete user-authorized plan through committed passes. Read the
 [exploration map](exploration.md), [parity contract](parity.md) and
-[isolated evidence](tool-proof.md). Integrated: 01–03, 06–08, 12 and 25.
-Current priority: finish retained input authority 04→managed producer 05, then
+[isolated evidence](tool-proof.md). Integrated: 01–04, 06–08, 12 and 25.
+Current priority: finish managed producer 05, then
 loudness 10; continue independent 09→24, caption proposals 11, SDR 16→17,
 alpha 20→21 and speech 22→23. HDR 18 waits for 04 and feeds 19 through 05.
 Each isolated worktree owns focused tests, review and choices; integration reruns
@@ -49,7 +49,7 @@ prompt, slice status and retained evidence before ending each implementation pas
 - [x] [01 — Pinned LGPL build](slices/01-lgpl-build.md)
 - [x] [02 — Relocatable installed tools](slices/02-installed-tools.md)
 - [x] [03 — Owned CLI execution](slices/03-cli-lifetime.md)
-- [ ] [04 — Retained FFmpeg input authority](slices/04-input-authority.md)
+- [x] [04 — Retained FFmpeg input authority](slices/04-input-authority.md)
 - [ ] [05 — Managed FFmpeg publication](slices/05-managed-output.md)
 - [x] [06 — Bounded selected-file preparation](slices/06-batch-preparation.md)
 - [x] [07 — Compact transcript reading](slices/07-compact-transcripts.md)
