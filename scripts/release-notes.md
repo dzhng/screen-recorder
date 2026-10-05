@@ -1,7 +1,18 @@
+This release adds bundled FFmpeg/ffprobe, explicit audio dynamics and loudness
+measurement, SDR correction, qualified HDR-to-SDR conversion, HEVC delivery,
+caption sidecars and agent inspection/review helpers. FFmpeg needs no separate
+installation. Optional speaker observations require caller-supplied local inputs.
+
+This version uses catalog format 26 and portable package format 4. Earlier formats
+are refused; no migration or automatic deletion occurs. Apps on older catalog
+formats cannot auto-update to this version. Install the complete kit once with a
+fresh library; use its new CLI launcher for protected `screenrec ffmpeg` extras.
+The app updater does not replace external launchers or consumer skills.
+
 A developer preview of the macOS recording and agent-operated editing primitives.
 The toolkit makes zero editorial decisions and preserves source media.
 
-Requires **Apple Silicon and macOS 26 or newer**. Node is included; speech model
+Requires **Apple Silicon and macOS 26 or newer**. Node and FFmpeg are included; speech model
 preparation remains an explicit caller action. The ZIP includes the app, CLI
 launcher and a receipt identifying the source commit and runtime. The primary
 agent interface is the screenrec skill and CLI.
