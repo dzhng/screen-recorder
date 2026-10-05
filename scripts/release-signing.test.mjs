@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { createHash } from "node:crypto";
-import { mkdtempSync, writeFileSync, readFileSync, existsSync, rmSync } from "node:fs";
+import { mkdtempSync, writeFileSync, readFileSync, existsSync, rmSync, mkdirSync } from "node:fs";
 import { join } from "node:path";
 import { tmpdir } from "node:os";
 import { test } from "node:test";
@@ -46,7 +46,15 @@ test("the release signing setup carries certificate DER as binary and removes it
   }
 });
 
-async function headlessFixture(action, { partitionFailure = false, signingFailure = "" } = {}) {
+async function headlessFixture(
+  action,
+  {
+    partitionFailure = false,
+    signingFailure = "",
+    password = "fixture-private-secret",
+    secret = "fixture-update-secret",
+  } = {},
+) {
   const scratch = mkdtempSync(join(tmpdir(), "screenrec-headless-signing-"));
   const previousPath = process.env.PATH;
   const der = Buffer.from([0x30, 0xff, 0, 0x80, 0x7f]);
@@ -82,7 +90,7 @@ const fs=require('node:fs');const args=process.argv.slice(2);
 if(args.includes('--sign')) {
  const key=JSON.parse(fs.readFileSync(args[args.indexOf('--keychain')+1]));
  const error=${JSON.stringify(signingFailure)}||(!key.allowed?'errSecInternalComponent fixture-private-secret':'');
- if(error) { console.error(error);process.exit(1); }
+ if(error) { console.error(error+' '+key.password);process.exit(1); }
  fs.writeFileSync(args.at(-1)+'.signed','signed');
 }
 `,
@@ -96,10 +104,10 @@ if(args.includes('--sign')) {
       executable,
       inputs: {
         p12: Buffer.from("fixture-import"),
-        password: "fixture-private-secret",
+        password,
         sha1: createHash("sha1").update(der).digest("hex"),
         certificateSha256: createHash("sha256").update(der).digest("hex"),
-        secret: "fixture-update-secret",
+        secret,
       },
     });
   } finally {
@@ -142,7 +150,7 @@ test("a denied partition grant aborts before signing and retains no imported pri
   );
 });
 
-test("codesign failure exposes only a fixed known classification, never tool diagnostics or private arguments", async () => {
+test("codesign failure preserves known diagnostics while redacting supplied credential values", async () => {
   await headlessFixture(
     async ({ inputs, executable }) => {
       await assert.rejects(
@@ -150,7 +158,8 @@ test("codesign failure exposes only a fixed known classification, never tool dia
           signReleaseTree(executable, identity, keychain);
         }),
         (error) => {
-          assert.equal(error.message, "codesign --force failed (errSecInternalComponent)");
+          assert.match(error.message, /codesign --force failed/);
+          assert.match(error.message, /errSecInternalComponent/);
           assert.equal(error.message.includes("fixture-private-secret"), false);
           return true;
         },
@@ -158,4 +167,68 @@ test("codesign failure exposes only a fixed known classification, never tool dia
     },
     { signingFailure: "errSecInternalComponent fixture-private-secret" },
   );
+});
+
+test("unknown codesign failures identify the owned relative path and bounded escaped stderr without credential values", async () => {
+  await headlessFixture(
+    async ({ inputs, executable, scratch }) => {
+      const app = join(scratch, "Owned.app");
+      const worker = join(app, "Contents/MacOS/Worker");
+      mkdirSync(join(app, "Contents/MacOS"), { recursive: true });
+      writeFileSync(worker, readFileSync(executable));
+      let ephemeralPassword;
+      await assert.rejects(
+        withReleaseIdentity(inputs, ({ keychain, identity }) => {
+          ephemeralPassword = JSON.parse(readFileSync(keychain, "utf8")).password;
+          signReleaseTree(app, identity, keychain);
+        }),
+        (error) => {
+          assert.match(error.message, /Contents\/MacOS\/Worker/);
+          assert.match(error.message, /resource fork, Finder information/);
+          assert.match(error.message, /"status":1/);
+          assert.equal(error.message.includes("fixture-private-secret"), false);
+          assert.equal(error.message.includes(ephemeralPassword), false);
+          assert.equal(error.message.includes("fixture-update-secret"), false);
+          assert.equal(
+            error.message.includes(Buffer.from("fixture-import").toString("base64")),
+            false,
+          );
+          assert.equal(error.message.includes("\n"), false);
+          assert.ok(error.message.length < 4500);
+          return true;
+        },
+      );
+    },
+    {
+      signingFailure:
+        "resource fork, Finder information, or similar detritus not allowed\nfixture-private-secret fixture-update-secret " +
+        Buffer.from("fixture-import").toString("base64") +
+        " " +
+        "x".repeat(6000),
+    },
+  );
+});
+
+test("overlapping supplied private values are completely removed from the original diagnostic", async () => {
+  for (const fixture of [
+    {
+      password: "fixture",
+      secret: "fixture-update-secret",
+      signingFailure: "fixture-update-secret",
+    },
+    { password: "abcd", secret: "cdef", signingFailure: "abcdef" },
+  ]) {
+    await headlessFixture(async ({ inputs, executable }) => {
+      await assert.rejects(
+        withReleaseIdentity(inputs, ({ keychain, identity }) => {
+          signReleaseTree(executable, identity, keychain);
+        }),
+        (error) => {
+          const diagnostic = JSON.parse(error.message.slice(error.message.indexOf("{")));
+          assert.equal(diagnostic.stderr, "<redacted> <redacted>\n");
+          return true;
+        },
+      );
+    }, fixture);
+  }
 });

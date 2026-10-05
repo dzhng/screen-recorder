@@ -58,7 +58,9 @@ receipt, while Sparkle authenticates the update ZIP and finalized feed.
 The [signing owner](release-signing.mjs) requires externally supplied durable
 credentials and public fingerprints, imports the identity into an ephemeral
 keychain, authorizes headless signing only within that keychain, and signs nested
-code before its enclosing bundles. Secret material
+code before its enclosing bundles. A signing failure identifies the owned target
+and bounded tool error after removing the current keychain’s private inputs;
+security and OpenSSL diagnostics stay suppressed. Secret material
 never belongs in the app, release directory, receipt or logs. The
 [custody handoff](../specs/done/auto-update/assets/signing-custody.md) owns backup and CI
 credential transfer; a missing input fails rather than creating another identity.

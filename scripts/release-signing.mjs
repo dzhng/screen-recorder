@@ -11,7 +11,7 @@ import {
   writeFileSync,
 } from "node:fs";
 import { tmpdir } from "node:os";
-import { join } from "node:path";
+import { basename, join, relative } from "node:path";
 
 const required = [
   "SCREENREC_RELEASE_IDENTITY_P12",
@@ -58,21 +58,50 @@ export function releaseSigningInputs(env = process.env) {
   };
 }
 
-// Tool diagnostics can contain imported secrets. Never forward their output or arguments on failure.
+// Signing secrets stay scoped to the owned keychain and are erased on cleanup.
+const signingSecrets = new Map();
+
+function redactSigningText(text, secrets) {
+  const privateCharacters = new Uint8Array(text.length);
+  for (const secret of secrets.filter(Boolean)) {
+    for (let start = text.indexOf(secret); start !== -1; start = text.indexOf(secret, start + 1))
+      privateCharacters.fill(1, start, start + secret.length);
+  }
+  let output = "",
+    visibleStart = 0,
+    cursor = 0;
+  while (cursor < text.length) {
+    if (!privateCharacters[cursor]) {
+      cursor++;
+      continue;
+    }
+    output += text.slice(visibleStart, cursor) + "<redacted>";
+    while (privateCharacters[cursor]) cursor++;
+    visibleStart = cursor;
+  }
+  return output + text.slice(visibleStart);
+}
+
+// Secret-bearing security/OpenSSL diagnostics remain suppressed. codesign errors
+// contain public target/tool information, with private context removed before logging.
 function secureRun(command, args, options = {}) {
-  const answer = spawnSync(command, args, { encoding: "utf8", timeout: 30_000, ...options });
+  const { signingDiagnostic, ...spawnOptions } = options;
+  const answer = spawnSync(command, args, { encoding: "utf8", timeout: 30_000, ...spawnOptions });
   if (answer.error || answer.status !== 0) {
-    const classifications =
-      command === "codesign"
-        ? [
-            "errSecInternalComponent",
-            "User interaction is not allowed",
-            "unable to build chain to self-signed root",
-          ].filter((known) => answer.stderr?.includes(known))
-        : [];
-    throw new Error(
-      `${command} ${args[0]} failed${classifications.length ? ` (${classifications.join(", ")})` : ""}`,
-    );
+    if (command === "codesign" && signingDiagnostic) {
+      const stderr = redactSigningText(answer.stderr ?? "", signingDiagnostic.secrets);
+      const path = redactSigningText(signingDiagnostic.path, signingDiagnostic.secrets);
+      throw new Error(
+        `${command} ${args[0]} failed: ${JSON.stringify({
+          path,
+          status: answer.status,
+          signal: answer.signal,
+          spawnCode: answer.error?.code ?? null,
+          stderr: stderr.slice(0, 4096),
+        })}`,
+      );
+    }
+    throw new Error(`${command} ${args[0]} failed`);
   }
   return answer.stdout;
 }
@@ -114,6 +143,12 @@ export async function withReleaseIdentity(inputs, action) {
   process.once("SIGINT", sigint);
   process.once("SIGTERM", sigterm);
   try {
+    signingSecrets.set(keychain, [
+      inputs.password,
+      inputs.secret,
+      inputs.p12.toString("base64"),
+      password,
+    ]);
     const p12 = join(scratch, "identity.p12");
     writeFileSync(p12, inputs.p12, { mode: 0o600 });
     const certificate = secureRun(
@@ -160,6 +195,7 @@ export async function withReleaseIdentity(inputs, action) {
     writeFileSync(keyFile, inputs.secret + "\n", { mode: 0o600 });
     return await action({ keychain, keyFile, identity: inputs.sha1 });
   } finally {
+    signingSecrets.delete(keychain);
     process.removeListener("SIGINT", sigint);
     process.removeListener("SIGTERM", sigterm);
     cleanup();
@@ -184,15 +220,24 @@ export function signReleaseTree(app, identity, keychain) {
       executables.push(path);
   }
   visit(app);
+  const codesign = (args, path) =>
+    secureRun("codesign", [...args, path], {
+      signingDiagnostic: {
+        path: relative(app, path) || basename(app),
+        secrets: signingSecrets.get(keychain) ?? [],
+      },
+    });
   for (const path of [...executables, ...bundles])
-    secureRun("codesign", [
-      "--force",
-      "--sign",
-      identity,
-      ...(keychain ? ["--keychain", keychain] : []),
-      "--timestamp=none",
+    codesign(
+      [
+        "--force",
+        "--sign",
+        identity,
+        ...(keychain ? ["--keychain", keychain] : []),
+        "--timestamp=none",
+      ],
       path,
-    ]);
-  for (const path of executables) secureRun("codesign", ["--verify", "--strict", path]);
-  secureRun("codesign", ["--verify", "--deep", "--strict", app]);
+    );
+  for (const path of executables) codesign(["--verify", "--strict"], path);
+  codesign(["--verify", "--deep", "--strict"], app);
 }
