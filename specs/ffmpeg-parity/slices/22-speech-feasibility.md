@@ -1,7 +1,9 @@
 # 22 — Local speech evidence feasibility
 
-Status: original speaker recipe passes bounded research; event recipes failed and
-boundary authority is pending. Public family implementation remains gated. Question: **Which local providers earn speaker, acoustic-event and boundary claims?**
+Status: original speaker recipe passes bounded research; event recipes failed.
+Primary human-corrected word annotations are retained; original audio admission
+and boundary evaluation remain pending. Public family implementation remains gated.
+Question: **Which local providers earn speaker, acoustic-event and boundary claims?**
 
 Dependencies: existing contracts only.
 
@@ -22,7 +24,8 @@ Real overlap, unknown speaker, short reaction/laugh/applause, silence and word e
 - [x] Diarization: exact original checkpoint/native recipe passes the bounded
   quality/cost gate; relocated runtime and public evidence remain in23a1/23a.
 - [ ] Acoustic events: separate labeled gate, accepted categories and provider or explicitly unfinished.
-- [ ] Boundary alignment: separate error/coverage gate and provider or explicitly unfinished.
+- [ ] Boundary alignment: primary reference candidate retained; original audio
+  admission, separate error/coverage gate and provider remain unfinished.
 
 A pass for one family cannot close another. Before slice 23 pickup, materialize one implementation sub-slice per passed family, with its frozen provider/metrics and source-projection contract. Record failed families as unfinished scope.
 

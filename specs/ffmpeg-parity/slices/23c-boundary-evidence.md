@@ -1,7 +1,8 @@
 # 23c — Validated optional boundary evidence
 
-Status: open; [22](22-speech-feasibility.md) lacks independent complete human
-word-neighbor labels. No alignment provider is selected or executed for acceptance.
+Status: open; primary human-corrected word annotations are retained, but original
+audio/clock admission and the [22](22-speech-feasibility.md) provider gate remain
+pending. No alignment provider is selected or executed for acceptance.
 
 ## Next bounded checkpoint
 
@@ -44,5 +45,14 @@ neighbor timing is inferred. Buckeye’s mirror names word/phone endpoints, but
 its card restricts noncommercial reuse and leaves the annotation procedure
 unspecified. A field named start/stop is not independent human boundary authority.
 No original audio was acquired, no model ran, and no labels were invented.
-The complete human-reference prerequisite remains open; accessible metadata
-alone cannot close it.
+Those candidates remain unadmitted; accessible metadata alone cannot close the
+human-reference prerequisite.
+
+A later [primary DoReCo inspection](../evidence/boundary-doreco/README.md) finds
+explicit manual correction of word start/end times and complete original master
+word sequences, with CC BY 4.0 covering the selected English annotations and audio.
+Automatic phone refinement follows that correction; phone endpoints are not human
+reference truth. Complete primary pages, original annotation members, licenses and
+neighbor rows are retained. Matching original audio, physical clocks/channels and a
+frozen untouched cohort remain the next admission checkpoint. No inference or
+quality claim follows from this reference finding.

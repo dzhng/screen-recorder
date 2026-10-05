@@ -47,7 +47,7 @@ facts, compressed interpretation and exact source↔derivative clocks.
 | [Public H.264/HEVC](evidence/hevc-public/report.json) | Authored clocks, decoded landmarks and replay pass. |
 | [Consumer trials](evidence/consumer-acceptance/README.md) | Concrete planning, GIF routing and unavailable execution pass twice; earlier failures retained. |
 | [Direct GIF](evidence/gif-extra/report.json) | Discovered component tools work; centisecond quantization explicit. |
-| [Speech families](slices/22-speech-feasibility.md) | Original official speaker runtime passes its bounded six-case research gate; production closure/projection remain open. Earlier speaker and event failures remain retained; boundary authority is missing. |
+| [Speech families](slices/22-speech-feasibility.md) | Original official speaker runtime passes its bounded six-case research gate; production closure/projection remain open. Earlier speaker/event failures remain retained. Primary human word annotations are retained; original audio admission and alignment evaluation remain open. |
 
 Use small isolated fixtures and test-first changes. Do not record or edit personal
 media or repeat searches for the inaccessible running recorder. The user tests the

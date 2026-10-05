@@ -1,0 +1,183 @@
+{
+  "status": "Primary human word-boundary and licensing authority retained; audio physical-clock admission and provider gate pending",
+  "scope": "Metadata and complete original master annotations only; no corpus audio acquired, no inference, no listening or personal recording use",
+  "dataset": "English (Southern England) DoReCo 2.0",
+  "citation": "Schiborr, Nils Norman. 2024. English (Southern England) DoReCo dataset. In Seifart, Frank, Ludger Paschen and Matthew Stave (eds.). Language Documentation Reference Corpus (DoReCo) 2.0. Lyon: Laboratoire Dynamique Du Langage (UMR5596, CNRS & Universit\u00e9 Lyon 2). DOI:10.34847/nkl.9c271u5g.",
+  "license": "CC BY 4.0 for annotations and audio, stated by actual dataset-info.txt and primary language page",
+  "referenceAuthority": "Primary methods step 4 manually corrects word start/end times and transcription mismatches; step 5 re-aligns phones within those corrected word times. Phone boundaries are therefore not independent human truth.",
+  "annotationArchive": {
+    "url": "https://sharedocs.huma-num.fr/wl/?id=KYyWz1grSs4UZhbdT9K8gV54a2FSU9q6&fmode=download",
+    "bytes": 5599374,
+    "sha256": "abb65b8b2406079a951ba29ffd76b9ad59c57328e47d47b1f6cea0e306eeafa3",
+    "retainedMasterArchive": {
+      "path": "annotations.tar.xz",
+      "bytes": 693736,
+      "sha256": "1cf63629e24928329a661bdef8c431296a5449384884f9dc7f525a58800500fe",
+      "members": [
+        {
+          "name": "doreco_sout3282_core_v2.0/doreco_#1_README.txt",
+          "bytes": 3544,
+          "sha256": "7a13c46a4ab35f61abe2d68f85c693608101f4d40e182bd71d2c7b880cedbac1"
+        },
+        {
+          "name": "doreco_sout3282_core_v2.0/doreco_#2_CONVENTIONS.txt",
+          "bytes": 4104,
+          "sha256": "125c3426f912b5e7bfa9906a352fe02c7baa1604c06a34e33fc4c54d148a53de"
+        },
+        {
+          "name": "doreco_sout3282_core_v2.0/doreco_sout3282_#1_dataset-info.txt",
+          "bytes": 2438,
+          "sha256": "e37ac9dac71be9f7c05b9edd4e78a91c1a770a6dcd4e780fc13477c9253b2a5c"
+        },
+        {
+          "name": "doreco_sout3282_core_v2.0/doreco_sout3282_#2_metadata.csv",
+          "bytes": 1386,
+          "sha256": "0e457b0ef3ed879918cdb556b4aeeec9c20442936f05f201dbf7a43e093b138f"
+        },
+        {
+          "name": "doreco_sout3282_core_v2.0/doreco_sout3282_mc_english_kent02_b_part1.eaf",
+          "bytes": 6454935,
+          "sha256": "f1c2bafa6ae8b74debf4d2f4d976fad1d2197029ad59f99c24e665a7017e34bd"
+        },
+        {
+          "name": "doreco_sout3282_core_v2.0/doreco_sout3282_mc_english_kent02_b_part2.eaf",
+          "bytes": 6390611,
+          "sha256": "388f80dea3c21e200f3c982108ce035b0d7c4d21d3cc31e73ae3b8e58427b0ee"
+        },
+        {
+          "name": "doreco_sout3282_core_v2.0/doreco_sout3282_mc_english_kent03_b_part1.eaf",
+          "bytes": 5571491,
+          "sha256": "103fd70b94ecc5186c2da95870cf0ed3ccf7b14b9eda31772a4443cd5ea16db2"
+        },
+        {
+          "name": "doreco_sout3282_core_v2.0/doreco_sout3282_mc_english_kent03_b_part2.eaf",
+          "bytes": 5396915,
+          "sha256": "b44fe3b024111fb5eb8085dbdf01e2899a8c65accb98f27f98b5d0404c99497d"
+        }
+      ]
+    },
+    "omittedDuplicateRepresentations": "CSV word/phone tables, TextGrid and TEI XML are not retained; original master EAFs plus all text documentation and metadata are complete."
+  },
+  "primarySources": [
+    {
+      "url": "https://doreco.huma-num.fr/about",
+      "retained": "methods.html.gz",
+      "originalBytes": 17005,
+      "originalSha256": "b69ee4f609e2a74ca322ed6ac5ba7628538639440c576b0d2c87f2c8354b2d90",
+      "retainedSha256": "64816b6b5b07f4821aa1ab01f7518683c08ce4df3f6a4f32fd0129dc87024163"
+    },
+    {
+      "url": "https://doreco.huma-num.fr/UsingDoReCo",
+      "retained": "conventions.html.gz",
+      "originalBytes": 16897,
+      "originalSha256": "9ae884bed810276ce2665a7e2030fe7e5a0b00290907180347104b3c95c2ef9b",
+      "retainedSha256": "961a8fd3b322a5c12d375b60d4354cb0dc0cfecc352e1fb6bad3ee8db77e4a5e"
+    },
+    {
+      "url": "https://doreco.huma-num.fr/languages/sout3282",
+      "retained": "dataset.html.gz",
+      "originalBytes": 28332,
+      "originalSha256": "62aeaf2b9162b729334b98c3433b5787de00dd6ef14307bc6bd0e825296b14ae",
+      "retainedSha256": "3ef5ef9f5b208cc77bfa3d56994731c54d7892d24b835d3a0371331e89ae4839"
+    },
+    {
+      "url": "https://sharedocs.huma-num.fr/wl/?id=eGPAXNlp1L6E2aP9efkr4YCXiXFlDLI3",
+      "retained": "audio-index.html.gz",
+      "originalBytes": 6305,
+      "originalSha256": "e1493373d9e3cd1979717044df56ffe14c8ecfe7bdd976563517ce80e271f439",
+      "retainedSha256": "4ae86e243efa87f99c80c63a423efeba0faeb916796268b8880d3a887cfb6298"
+    }
+  ],
+  "masterInspection": [
+    {
+      "member": "doreco_sout3282_core_v2.0/doreco_sout3282_mc_english_kent02_b_part1.eaf",
+      "tier": {
+        "TIER_ID": "wd@EN01",
+        "PARENT_REF": "ref@EN01",
+        "LINGUISTIC_TYPE_REF": "wd",
+        "PARTICIPANT": "EN01"
+      },
+      "media": [
+        {
+          "MEDIA_URL": "doreco_sout3282_mc_english_kent02_b_part1.wav",
+          "MIME_TYPE": "audio/x-wav"
+        }
+      ],
+      "rows": 2874,
+      "firstStartMs": 0,
+      "lastEndMs": 973207,
+      "zeroOrNegativeIntervals": 0,
+      "overlappingRows": 0,
+      "labelsAndPausesRetained": true
+    },
+    {
+      "member": "doreco_sout3282_core_v2.0/doreco_sout3282_mc_english_kent02_b_part2.eaf",
+      "tier": {
+        "TIER_ID": "wd@EN01",
+        "PARENT_REF": "ref@EN01",
+        "LINGUISTIC_TYPE_REF": "wd",
+        "PARTICIPANT": "EN01"
+      },
+      "media": [
+        {
+          "MEDIA_URL": "doreco_sout3282_mc_english_kent02_b_part2.wav",
+          "MIME_TYPE": "audio/x-wav"
+        }
+      ],
+      "rows": 2847,
+      "firstStartMs": 0,
+      "lastEndMs": 989137,
+      "zeroOrNegativeIntervals": 0,
+      "overlappingRows": 0,
+      "labelsAndPausesRetained": true
+    },
+    {
+      "member": "doreco_sout3282_core_v2.0/doreco_sout3282_mc_english_kent03_b_part1.eaf",
+      "tier": {
+        "TIER_ID": "wd@EN03",
+        "PARENT_REF": "ref@EN03",
+        "LINGUISTIC_TYPE_REF": "wd",
+        "PARTICIPANT": "EN03"
+      },
+      "media": [
+        {
+          "MEDIA_URL": "doreco_sout3282_mc_english_kent03_b_part1.wav",
+          "MIME_TYPE": "audio/x-wav"
+        }
+      ],
+      "rows": 2447,
+      "firstStartMs": 0,
+      "lastEndMs": 897500,
+      "zeroOrNegativeIntervals": 0,
+      "overlappingRows": 0,
+      "labelsAndPausesRetained": true
+    },
+    {
+      "member": "doreco_sout3282_core_v2.0/doreco_sout3282_mc_english_kent03_b_part2.eaf",
+      "tier": {
+        "TIER_ID": "wd@EN03",
+        "PARENT_REF": "ref@EN03",
+        "LINGUISTIC_TYPE_REF": "wd",
+        "PARTICIPANT": "EN03"
+      },
+      "media": [
+        {
+          "MEDIA_URL": "doreco_sout3282_mc_english_kent03_b_part2.wav",
+          "MIME_TYPE": "audio/x-wav"
+        }
+      ],
+      "rows": 2391,
+      "firstStartMs": 0,
+      "lastEndMs": 902111,
+      "zeroOrNegativeIntervals": 0,
+      "overlappingRows": 0,
+      "labelsAndPausesRetained": true
+    }
+  ],
+  "limits": [
+    "Dataset authors corrected word times; no assertion that we independently listened or quantified annotator uncertainty.",
+    "Physical source sample clock, channels and byte binding are not yet admitted.",
+    "No provider, training-held-out status, multilingual accuracy or p95 quality claim.",
+    "Tagged pauses/disfluencies/unknown material retained; no invented clean lexical normalization."
+  ]
+}
