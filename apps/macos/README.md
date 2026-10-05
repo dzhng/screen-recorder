@@ -115,3 +115,12 @@ focused native interaction, applicability and scroll checks plus offscreen image
 owns synthetic scenarios; its images and metadata record native size, appearance
 and backing scale. This renderer never enumerates devices, inspects permissions,
 starts capture or activates the app.
+
+The [Library view](Sources/ScreenRecorder/LibraryView.swift) consumes shared
+saved-item facts from the controls presentation owners. Those owners retain title,
+failure detail and action applicability; the view keeps only its session-local tab,
+filter and scroll position. The paging owner explicitly clears the page filter.
+Unavailable thumbnails use a source icon, so presentation never creates media jobs.
+The [offscreen Library fixture](tests/library-view-shots.mjs) renders synthetic
+observations without service reads or window activation; run it from the repository
+root to inspect presentation before native lifetime integration.

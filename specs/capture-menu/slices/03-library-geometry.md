@@ -1,6 +1,11 @@
 # 03 — Native Library geometry
 
-Status: TODO. Dependencies: 01 for shared view primitives.
+Status: IMPLEMENTED/native UI fixture verified October 5, 2026. Dependencies: 01.
+[Evidence](../evidence/03-library/report.md) records native geometry, focused
+controls preservation and the quick UI review. Window lifetime and real Library
+binding stay in 05/07; no service/readiness claim is made by the fixture. Parent
+owns Preview/integration and global handoff. User requested lighter UI verification;
+no further expanded harness or lengthy review cycle is required for this checkpoint.
 
 ## Contract
 

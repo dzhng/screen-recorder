@@ -143,10 +143,11 @@ public enum RecordingMenu {
         rows.append(contentsOf: transportEntries(for: state, shortcuts: shortcuts))
         rows.append(.separator())
         rows.append(
-            MenuEntry(.status, "Recent Recordings", submenu: recentEntries(for: state)))
-        rows.append(MenuEntry(.status, "Projects", submenu: projectEntries(for: state, exports: exports)))
+            MenuEntry(.status, "Recent Recordings", submenu: menuEntries(LibraryPresentation.recordings(for: state))))
+        rows.append(MenuEntry(.status, "Projects", submenu: menuEntries(LibraryPresentation.projects(for: state, exports: exports))))
         rows.append(MenuEntry(.command(.refreshLibrary), "Refresh Library", enabled: state.service == .ready))
-        rows.append(contentsOf: ExportMenu.entries(for: state, exports: exports))
+        let deliveries = ExportPresentation.items(for: state, exports: exports)
+        if !deliveries.items.isEmpty { rows.append(MenuEntry(.status, ExportPresentation.title(for: exports), submenu: menuEntries(deliveries))) }
         rows.append(contentsOf: storageEntries(for: state))
         rows.append(.separator())
         rows.append(MenuEntry(.command(.openSettings), "Settings", shortcut: "⌘,"))
@@ -352,74 +353,6 @@ public enum RecordingMenu {
         return rows
     }
 
-    /// Recent recordings expose capture facts and explicit source deletion.
-    private static func recentEntries(for state: ControlsState) -> [MenuEntry] {
-        let takes = state.library.recent + state.library.deletions.values
-            .compactMap(\.take)
-            .filter { pending in !state.library.recent.contains { $0.recordingId == pending.recordingId } }
-            .sorted { $0.recordingId < $1.recordingId }
-        guard !takes.isEmpty else {
-            return [MenuEntry(.status, "No recordings yet.", enabled: false)]
-        }
-        return takes.map { take in
-            let request = state.library.deletions[.recording(take.recordingId)]
-            let pending = request?.isPending == true
-            var details = [MenuEntry(.status, take.recordingId, enabled: false)]
-            if let failure = take.finalizationError {
-                details.append(MenuEntry(.status, "Finalization failed — \(failure.code): \(failure.message)", enabled: false))
-            }
-            if let sourceId = take.sourceId { details.append(MenuEntry(.status, "Source: \(sourceId)", enabled: false)) }
-            for admission in take.sourceAdmissions ?? [] {
-                details.append(MenuEntry(.status, admission.sourceId + " — " + admission.title, enabled: false))
-            }
-            if take.sourceAdmissions?.isEmpty == true { details.append(MenuEntry(.status, "No admitted sources reported", enabled: false)) }
-            if let failure = request?.failure {
-                details.append(MenuEntry(.status, "Delete not confirmed — \(failure)", enabled: false))
-            }
-            details.append(contentsOf: [
-                .separator(),
-                MenuEntry(
-                    .command(.deleteRecording(take.recordingId)),
-                    pending ? "Deleting…" : request == nil ? "Delete Recording" : "Retry Delete",
-                    enabled: state.service == .ready && !pending),
-            ])
-            let suffix = pending ? " — deleting…" : request == nil ? "" : " — delete not confirmed"
-            return MenuEntry(.status, recentTitle(of: take) + suffix, submenu: details)
-        }
-    }
-
-    private static func projectEntries(for state: ControlsState, exports: ExportsState) -> [MenuEntry] {
-        var rows: [MenuEntry] = []
-        if let failure = state.library.projectFailure { rows.append(MenuEntry(.status, "Projects unavailable — \(failure)", enabled: false)) }
-        if state.library.projectsRefreshing { rows.append(MenuEntry(.status, "Reading projects…", enabled: false)) }
-        for project in state.library.projects {
-            let target = MediaTarget.project(project.projectId)
-            let request = state.library.deletions[target]
-            guard request == nil else { continue }
-            let usable = state.service == .ready && request == nil
-            rows.append(MenuEntry(.status, project.title, submenu: [
-                MenuEntry(.status, project.projectId, enabled: false),
-                MenuEntry(.status, project.currentRevisionId, enabled: false),
-                MenuEntry(.command(.previewProject(project.projectId)), "Preview", enabled: usable),
-                MenuEntry(.command(.exportProject(project.projectId, .video)), "Export Video…", enabled: usable && exports.choosing == nil),
-                MenuEntry(.command(.exportProject(project.projectId, .package)), "Export AI Package…", enabled: usable && exports.choosing == nil),
-                MenuEntry(.command(.deleteProject(project.projectId)), "Delete Project", enabled: usable),
-            ]))
-        }
-        for request in state.library.deletions.values.sorted(by: { $0.target.id < $1.target.id }) {
-            guard case .project(let id) = request.target else { continue }
-            rows.append(MenuEntry(.status, request.title, submenu: [
-                MenuEntry(.status, id, enabled: false),
-                MenuEntry(.status, request.failure.map { "Delete not confirmed — \($0)" } ?? "Deleting…", enabled: false),
-                MenuEntry(.command(.deleteProject(id)), request.isPending ? "Deleting…" : "Retry Delete", enabled: state.service == .ready && !request.isPending),
-            ]))
-        }
-        if state.library.projects.isEmpty && rows.isEmpty { rows.append(MenuEntry(.status, "No projects on this page.", enabled: false)) }
-        rows.append(MenuEntry(.command(.previousProjects), "Previous Projects", enabled: state.service == .ready && state.library.hasPreviousPage && !state.library.projectsRefreshing))
-        rows.append(MenuEntry(.command(.nextProjects), "Next Projects", enabled: state.service == .ready && state.library.nextCursor != nil && !state.library.projectsRefreshing))
-        return rows
-    }
-
     private static func storageEntries(for state: ControlsState) -> [MenuEntry] {
         var details: [MenuEntry] = []
         let title: String
@@ -439,14 +372,13 @@ public enum RecordingMenu {
         return [MenuEntry(.status, title, submenu: details)]
     }
 
-    public static func recentTitle(of take: ControlsState.RecentTake) -> String {
-        let when = ElapsedTime.shortTime(of: take.createdAt)
-        switch take.state {
-        case "complete": return "\(when) — \(ElapsedTime.format(take.sourceDurationUs))"
-        case "interrupted":
-            let duration = take.sourceDurationUs.map { " \(ElapsedTime.format($0))" } ?? ""
-            return "\(when) — interrupted\(duration)"
-        default: return "\(when) — \(take.state)"
-        }
+    private static func menuEntries(_ page: SavedPage) -> [MenuEntry] {
+        page.items.map { item in
+            guard item.kind != .message else { return MenuEntry(.status, item.title, enabled: false) }
+            var details = item.details.map { MenuEntry(.status, $0, enabled: false) }
+            if item.kind == .recording || item.kind == .export { details.append(.separator()) }
+            details += item.actions.map { MenuEntry(.command($0.action), $0.title, enabled: $0.enabled) }
+            return MenuEntry(.status, item.title, submenu: details)
+        } + page.actions.map { MenuEntry(.command($0.action), $0.title, enabled: $0.enabled) }
     }
 }

@@ -1,0 +1,11 @@
+{
+  "revision": "e945e4065c99671029a92173d0ef5ee4dc3a5419",
+  "hashes": {
+    "Sources/ScreenRecorder/LibraryView.swift": "3c4081bcd1bbde05ac9743655755253f988e6af5d4b6395de5e507c03413949d",
+    "Sources/ScreenRecorderControls/LibraryPresentation.swift": "0e1c44bfe8aa84ad00b2aeaf0f3f6a13d72c1ff16ca7dbec9a07b959392d6b86",
+    "Sources/ScreenRecorderControls/ExportPresentation.swift": "44204399c4879c38c25a639f686dff79ccfabcc7ba1c7065467e2ed441720584",
+    "Sources/ScreenRecorderControls/SavedItem.swift": "8d0770d9f083bc284d8e4ef364b96e617b12dcc585f9bb701f01de878d92760f",
+    "tests/fixtures/library-view.swift": "d630ef0bbbcd27b6269cbfe29f1ccb9a8bd86e59974c9483adade80d291796a3"
+  },
+  "facts": "synthetic; no service/device/permission reads or activation"
+}

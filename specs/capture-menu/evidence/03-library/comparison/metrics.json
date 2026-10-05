@@ -1,0 +1,14 @@
+{
+  "comparison": "actual-scale content comparison; native32pt titlebar excluded versus concept45; reference one-pixel canvas padding, no content resizing",
+  "mae": 9.812127976190476,
+  "rmse": 32.31562308821357,
+  "diffRatio16": 0.107531293767507,
+  "diffRatio32": 0.06787246148459383,
+  "diffRatio64": 0.048097754726890755,
+  "edgeEnergyReference": 19.0309456382421,
+  "edgeEnergyCandidate": 17.985016680971565,
+  "edgeEnergyRatio": 0.9450406208313279,
+  "edgeDiffRatio32": 0.16183035714285715,
+  "avgLuminanceReference": 243.24044500612746,
+  "avgLuminanceCandidate": 243.41122581845238
+}

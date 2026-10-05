@@ -1,0 +1,210 @@
+[
+  {
+    "appearance" : "aqua",
+    "backingScale" : 1,
+    "contentHeightPoints" : 476,
+    "contentWidthPoints" : 768,
+    "controls" : {
+      "actions.fixture-recording-one" : [
+        573,
+        130,
+        27,
+        26
+      ],
+      "actions.fixture-recording-three" : [
+        573,
+        296,
+        27,
+        26
+      ],
+      "actions.fixture-recording-two" : [
+        573,
+        213,
+        27,
+        26
+      ],
+      "library.filter" : [
+        468,
+        25,
+        132,
+        25
+      ]
+    },
+    "facts" : "synthetic",
+    "fixture" : "recordings"
+  },
+  {
+    "appearance" : "aqua",
+    "backingScale" : 1,
+    "contentHeightPoints" : 476,
+    "contentWidthPoints" : 768,
+    "controls" : {
+      "actions.fixture-project" : [
+        573,
+        130,
+        27,
+        26
+      ],
+      "library.filter" : [
+        468,
+        25,
+        132,
+        25
+      ],
+      "library.projects.next" : [
+        22,
+        237,
+        142,
+        26
+      ],
+      "library.projects.previous" : [
+        22,
+        205,
+        142,
+        26
+      ]
+    },
+    "facts" : "synthetic",
+    "fixture" : "projects"
+  },
+  {
+    "appearance" : "aqua",
+    "backingScale" : 1,
+    "contentHeightPoints" : 476,
+    "contentWidthPoints" : 768,
+    "controls" : {
+      "actions.fixture-export" : [
+        573,
+        130,
+        27,
+        26
+      ],
+      "library.filter" : [
+        468,
+        25,
+        132,
+        25
+      ]
+    },
+    "facts" : "synthetic",
+    "fixture" : "exports"
+  },
+  {
+    "appearance" : "aqua",
+    "backingScale" : 1,
+    "contentHeightPoints" : 476,
+    "contentWidthPoints" : 768,
+    "controls" : {
+      "library.filter" : [
+        468,
+        25,
+        132,
+        25
+      ]
+    },
+    "facts" : "synthetic",
+    "fixture" : "empty"
+  },
+  {
+    "appearance" : "aqua",
+    "backingScale" : 1,
+    "contentHeightPoints" : 476,
+    "contentWidthPoints" : 768,
+    "controls" : {
+      "actions.fixture-recording-one" : [
+        573,
+        130,
+        27,
+        26
+      ],
+      "actions.fixture-recording-three" : [
+        573,
+        316,
+        27,
+        26
+      ],
+      "actions.fixture-recording-two" : [
+        573,
+        233,
+        27,
+        26
+      ],
+      "library.filter" : [
+        468,
+        25,
+        132,
+        25
+      ]
+    },
+    "facts" : "synthetic",
+    "fixture" : "deletion"
+  },
+  {
+    "appearance" : "aqua",
+    "backingScale" : 1,
+    "contentHeightPoints" : 476,
+    "contentWidthPoints" : 768,
+    "controls" : {
+      "actions.fixture-recording-one" : [
+        573,
+        130,
+        27,
+        26
+      ],
+      "actions.fixture-recording-three" : [
+        573,
+        418,
+        27,
+        26
+      ],
+      "actions.recording-with-a-very-long-identity-for-a-camera-and-narration-observation-that-must-wrap" : [
+        573,
+        213,
+        27,
+        26
+      ],
+      "library.filter" : [
+        468,
+        25,
+        132,
+        25
+      ]
+    },
+    "facts" : "synthetic",
+    "fixture" : "long-details"
+  },
+  {
+    "appearance" : "aqua",
+    "backingScale" : 1,
+    "contentHeightPoints" : 280,
+    "contentWidthPoints" : 768,
+    "controls" : {
+      "actions.fixture-recording-one" : [
+        573,
+        130,
+        27,
+        26
+      ],
+      "actions.fixture-recording-three" : [
+        573,
+        418,
+        27,
+        26
+      ],
+      "actions.recording-with-a-very-long-identity-for-a-camera-and-narration-observation-that-must-wrap" : [
+        573,
+        213,
+        27,
+        26
+      ],
+      "library.filter" : [
+        468,
+        25,
+        132,
+        25
+      ]
+    },
+    "facts" : "synthetic",
+    "fixture" : "short-screen"
+  }
+]
