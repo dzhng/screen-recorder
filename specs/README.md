@@ -4,6 +4,12 @@ A spec records the question being decided and the reasoning behind its boundarie
 It is not another command catalog. Current operation schemas, owners and invocation
 live in the code and READMEs reached from the [root guide](../README.md).
 
+## Planned work
+
+[Capture popover and independent Library](capture-menu/README.md) turns the selected
+menu mockup into native presentation and Camera Only capture contracts. Its handoff
+starts with a native geometry fixture; implementation has not started.
+
 ## Closed work
 
 Completed records live under `done/`. Their original build ladders remain in

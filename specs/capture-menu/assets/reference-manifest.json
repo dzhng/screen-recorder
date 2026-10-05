@@ -1,0 +1,63 @@
+{
+  "frozenAt": "2026-10-05",
+  "inspectedSourceCommit": "ec8a59df761c6bfbb0c78a8cba93717f25fee066",
+  "sourceWorkingTree": "Unrelated pre-existing documentation/skill edits; no production edits during exploration/spec writing",
+  "conceptRendering": "Self-contained HTML; imagegen unavailable. 1280 CSS-pixel board; original screenshot dimensions retained. No code/native parity established.",
+  "files": [
+    {
+      "file": "assets/references/camera-idle-sharp.png",
+      "sha256": "1316094eac0b4aecc048cf0352fedc12b3c2976e33e04a1f9e01cd16f433ea55",
+      "role": "selected HTML concept render; not native output",
+      "source": "/Users/server/.t3/userdata/artifacts/screen-recorder-menu-2026-10-05/camera-idle-sharp.png"
+    },
+    {
+      "file": "assets/references/camera-only-sharp.png",
+      "sha256": "6eb24e1fead0670bead75d52fa3b8ae2e365809040f75ae3d73279af9563c0a3",
+      "role": "selected HTML concept render; not native output",
+      "source": "/Users/server/.t3/userdata/artifacts/screen-recorder-menu-2026-10-05/camera-only-sharp.png"
+    },
+    {
+      "file": "assets/references/camera-permission-sharp.png",
+      "sha256": "9dce0a56aa84dd7e10a00bd300dbf1406126e7025f93aeb34a71103f24fb6f7a",
+      "role": "selected HTML concept render; not native output",
+      "source": "/Users/server/.t3/userdata/artifacts/screen-recorder-menu-2026-10-05/camera-permission-sharp.png"
+    },
+    {
+      "file": "assets/references/service-unavailable-sharp.png",
+      "sha256": "aae969e08ec415049dac7ddfdca4db78fac828302551ce299922ea31e3a12980",
+      "role": "selected HTML concept render; not native output",
+      "source": "/Users/server/.t3/userdata/artifacts/screen-recorder-menu-2026-10-05/service-unavailable-sharp.png"
+    },
+    {
+      "file": "assets/references/finalization-issue-sharp.png",
+      "sha256": "7e6668706d5126fad73da5879118059778efbcd384e19adafb5c2bdc81fe9fe3",
+      "role": "selected HTML concept render; not native output",
+      "source": "/Users/server/.t3/userdata/artifacts/screen-recorder-menu-2026-10-05/finalization-issue-sharp.png"
+    },
+    {
+      "file": "assets/references/camera-dark-sharp.png",
+      "sha256": "785e28877189cfda572f3edc060f227f8388c297b8f801a9b4420daabc265d20",
+      "role": "selected HTML concept render; not native output",
+      "source": "/Users/server/.t3/userdata/artifacts/screen-recorder-menu-2026-10-05/camera-dark-sharp.png"
+    },
+    {
+      "file": "visualizations/design-a-camera.html",
+      "sha256": "339b2788b871e1cda7278f6f583f857b5de58fe13a876cf15d41a6e7e366feb0",
+      "role": "frozen exploration artifact; kickoff superseded by spec README",
+      "source": "/Users/server/.t3/userdata/artifacts/screen-recorder-menu-2026-10-05/design-a-camera.html"
+    },
+    {
+      "file": "assets/exploration/quadrant-map.md",
+      "sha256": "4482a14f06af3fe7c5ffeb5b77996aa5dfa47880c8668a184bef66ed27e24938",
+      "role": "annotated historical exploration record; relocated links and explicit superseded handoff",
+      "source": "/Users/server/.t3/userdata/artifacts/screen-recorder-menu-2026-10-05/decisions.md",
+      "originalSourceSha256": "eb4f60c7bda3d4968be6977366f802022bed1e127f8d0a27af3929539fb59c16"
+    },
+    {
+      "file": "assets/references/user-menu-reference.png",
+      "sha256": "0145ee409b07fb65680c7dbb83147430ae4c281cac31a1570834e3ba73b6371b",
+      "role": "user supplied visual inspiration; selected concept is target",
+      "source": "/Users/server/.t3/userdata/attachments/a7b35709-c58c-4ae1-a989-f1fe59e2bbe7-e1e56525-b403-428f-b2a9-d5426177abc8.png"
+    }
+  ]
+}
