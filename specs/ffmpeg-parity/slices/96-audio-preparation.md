@@ -161,3 +161,21 @@ records under adopted identities and survives package closure. Native also refus
 work. Wider refusal/retiming coverage, release-level consumer proof and root integration
 remain open.
 The parent owns integration and the final full-suite run.
+
+## Main reconciliation checkpoint
+
+The execution checkpoint is reconciled with main's update-admission/job lifetime
+and the native retained source/HDR inspection changes through `c1168c1a`.
+Composition, protocol, core, client, service and the linked native worker rebuild;
+service/core type checking passes. The scoped run passes three native held-audio
+contracts, 38 core publication/prepared-audio checks (one existing opt-in skipped)
+and 42 service checks, including all nine actual bundled recipe/public-package
+cases and the updater lifetime file. Source authority and HDR inspection remain
+unchanged from that main checkpoint; the corrected reproduction operand archive
+is preserved.
+
+The updater check exposed an observation race: a public response can arrive while
+its accepted socket is still retiring. The test follows progress-driven preparation
+retries and admits only the transport blocker during that drain; the product gate
+is unchanged. This is scoped integration evidence, not an installed consumer or
+full-suite result. Release-level acceptance remains with the parent task.

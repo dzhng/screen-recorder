@@ -11,6 +11,7 @@ import {
   MAX_PENDING_CONTROL_CALLS,
   JsonLineStream,
   controlMessageSchema,
+  updatePreparationSchema,
   type ControlMessage,
 } from "@screenrec/protocol";
 import { listenLocal } from "./index.js";
@@ -234,8 +235,23 @@ it("keeps waiting admission open and wakes when an unrelated native control call
   expect(await status).toMatchObject({ ok: true });
   const messages = await service.awaiting(4);
   expect(messages).toContainEqual({ event: "update.progress" });
-  service.request("ready", "update.prepare");
-  expect(await service.answered("ready")).toMatchObject({ ok: true, data: { kind: "prepared" } });
+  // The public response can arrive before its accepted socket retires. Progress is a
+  // retry hint; preparation must keep refusing while that transport is still owned.
+  const deadline = performance.now() + 3_000;
+  let attempt = 0;
+  for (;;) {
+    const after = messages.length;
+    const id = `ready-${++attempt}`;
+    service.request(id, "update.prepare");
+    const ready = await service.answered(id);
+    expect(ready.ok).toBe(true);
+    if (!ready.ok) throw new Error(JSON.stringify(ready));
+    const preparation = updatePreparationSchema.parse(ready.data);
+    if (preparation.kind === "prepared") break;
+    expect(preparation.blockers).toEqual(["transport"]);
+    if (performance.now() >= deadline) throw new Error("Accepted socket did not retire");
+    await service.progress(after);
+  }
 });
 
 it("control disconnect invalidates permits before a successor service accepts work", async () => {
