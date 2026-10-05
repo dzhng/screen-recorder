@@ -49,9 +49,10 @@ a resliced admission contract before advertising support.
 
 ## Proposed shared extensions
 
-Operation spelling below is a planning contract; check existing owners before
-registration and update this spec if consolidation changes a name. These are
-not currently available commands.
+Operation spelling below names the planned contract seams. Some checkpoints are
+implemented; the owning slices and installed schemas determine actual readiness.
+Check existing owners before registration and update this spec if consolidation
+changes a name.
 
 | Extension | Required request identity | Required result identity |
 | --- | --- | --- |

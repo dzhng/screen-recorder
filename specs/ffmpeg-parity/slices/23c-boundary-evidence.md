@@ -32,3 +32,17 @@ Keep current versus alternative bounds separate; a tighter endpoint is not
 permission to edit. A small proof cannot claim multilingual/general boundary
 accuracy, native cut sound quality or release installation. Unlistened sound
 quality stays explicit; no playback on the personal machine.
+
+
+## Reference authority checkpoint
+
+The [additional source inspection](../evidence/boundary-source-candidates.json)
+finds no admitted fixture. The L2-ARCTIC mirror declares noncommercial terms and
+has no endpoint fields in its advertised data; its primary site blocks this
+connection, so neither original permissions nor complete manually corrected
+neighbor timing is inferred. Buckeye’s mirror names word/phone endpoints, but
+its card restricts noncommercial reuse and leaves the annotation procedure
+unspecified. A field named start/stop is not independent human boundary authority.
+No original audio was acquired, no model ran, and no labels were invented.
+The complete human-reference prerequisite remains open; accessible metadata
+alone cannot close it.
