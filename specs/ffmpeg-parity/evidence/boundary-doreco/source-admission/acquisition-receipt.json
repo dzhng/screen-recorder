@@ -1,0 +1,243 @@
+{
+  "startedAt": "2026-10-05T06:17:02.159609+00:00",
+  "checksSha256": "5726fdaf8f42470450e01c728b438668e5fa00f7f7abd57cea26bc04e6bcc027",
+  "sources": [
+    {
+      "name": "doreco_sout3282_mc_english_kent02_b_part1.wav",
+      "url": "https://sharedocs.huma-num.fr/wl/?id=eGPAXNlp1L6E2aP9efkr4YCXiXFlDLI3&path=doreco_sout3282_mc_english_kent02_b_part1.wav&mode=grid&download=1",
+      "responseStatus": 200,
+      "responseHeaders": {
+        "Date": "Mon, 05 Oct 2026 06:17:03 GMT",
+        "Server": "Apache/2.4.6 (CentOS) OpenSSL/1.0.2k-fips",
+        "Last-Modified": "Tue, 13 Aug 2024 08:29:56 GMT",
+        "Etag": "\"d68f13caee5da484d59b5c26f8a75ed0\"",
+        "Cache-Control": "private",
+        "Expires": "Mon, 11 Aug 2025 06:29:56 GMT",
+        "Content-Disposition": "attachment; filename=\"doreco_sout3282_mc_english_kent02_b_part1.wav\"",
+        "X-Content-Type-Options": "nosniff",
+        "Accept-Ranges": "bytes",
+        "Content-Length": "85836902",
+        "Connection": "close",
+        "Content-Type": "audio/x-wav"
+      },
+      "originalBytes": 85836902,
+      "originalWholeFileSha256": "47164f99ee152e44686ad0463eec4b7854365c4418ed5ff8a21e9909fa718508",
+      "originalHeaderSha256": "6bd0418f2421338c441f1573538b6c9c8bfcfc73553c7010e21eac8b01566df2",
+      "format": {
+        "tag": 1,
+        "channels": 1,
+        "sampleRate": 44100,
+        "byteRate": 88200,
+        "blockAlign": 2,
+        "bitsPerSample": 16
+      },
+      "originalFrames": 42918429,
+      "originalClockOrigin": 0,
+      "windows": [
+        {
+          "caseId": "doreco_sout3282_mc_english_kent02_b_part1-60000",
+          "split": "development",
+          "filename": "doreco_sout3282_mc_english_kent02_b_part1-60000.pcm",
+          "pcmSha256": "5abafb6d4601cf016d829da86f7bdcdcc44685b28bbe5fc3c557a6f1ebada321",
+          "retainedBytes": 2646000,
+          "sampleRange": {
+            "start": 2646000,
+            "endExclusive": 3969000
+          },
+          "originalByteRange": {
+            "start": 5292044,
+            "endExclusive": 7938044
+          },
+          "channelAdmission": "original mono"
+        }
+      ]
+    },
+    {
+      "name": "doreco_sout3282_mc_english_kent02_b_part2.wav",
+      "url": "https://sharedocs.huma-num.fr/wl/?id=eGPAXNlp1L6E2aP9efkr4YCXiXFlDLI3&path=doreco_sout3282_mc_english_kent02_b_part2.wav&mode=grid&download=1",
+      "responseStatus": 200,
+      "responseHeaders": {
+        "Date": "Mon, 05 Oct 2026 06:17:55 GMT",
+        "Server": "Apache/2.4.6 (CentOS) OpenSSL/1.0.2k-fips",
+        "Last-Modified": "Tue, 13 Aug 2024 08:30:03 GMT",
+        "Etag": "\"55badceab19a00b250b97f1786c661f6\"",
+        "Cache-Control": "private",
+        "Expires": "Mon, 11 Aug 2025 06:30:03 GMT",
+        "Content-Disposition": "attachment; filename=\"doreco_sout3282_mc_english_kent02_b_part2.wav\"",
+        "X-Content-Type-Options": "nosniff",
+        "Accept-Ranges": "bytes",
+        "Content-Length": "87241900",
+        "Connection": "close",
+        "Content-Type": "audio/x-wav"
+      },
+      "originalBytes": 87241900,
+      "originalWholeFileSha256": "842565fe2fb1503d489b8b832c09c2c0fd4215fff2bc11ba916b28751df62e9a",
+      "originalHeaderSha256": "fffe0ba2efe4897d63ac9692bb9dc172df679fc387e0a091a5c557ed3961fd4c",
+      "format": {
+        "tag": 1,
+        "channels": 1,
+        "sampleRate": 44100,
+        "byteRate": 88200,
+        "blockAlign": 2,
+        "bitsPerSample": 16
+      },
+      "originalFrames": 43620928,
+      "originalClockOrigin": 0,
+      "windows": [
+        {
+          "caseId": "doreco_sout3282_mc_english_kent02_b_part2-60000",
+          "split": "confirmation",
+          "filename": "doreco_sout3282_mc_english_kent02_b_part2-60000.pcm",
+          "pcmSha256": "ab210b8744577db5a4a91f81e03a2db6954f542862097dbdf020133e02728f36",
+          "retainedBytes": 2646000,
+          "sampleRange": {
+            "start": 2646000,
+            "endExclusive": 3969000
+          },
+          "originalByteRange": {
+            "start": 5292044,
+            "endExclusive": 7938044
+          },
+          "channelAdmission": "original mono"
+        },
+        {
+          "caseId": "doreco_sout3282_mc_english_kent02_b_part2-120000",
+          "split": "confirmation",
+          "filename": "doreco_sout3282_mc_english_kent02_b_part2-120000.pcm",
+          "pcmSha256": "ac3299942f105e6e34ee049ee4689f7af668336a02395d965a14e8db6c95e671",
+          "retainedBytes": 2646000,
+          "sampleRange": {
+            "start": 5292000,
+            "endExclusive": 6615000
+          },
+          "originalByteRange": {
+            "start": 10584044,
+            "endExclusive": 13230044
+          },
+          "channelAdmission": "original mono"
+        }
+      ]
+    },
+    {
+      "name": "doreco_sout3282_mc_english_kent03_b_part1.wav",
+      "url": "https://sharedocs.huma-num.fr/wl/?id=eGPAXNlp1L6E2aP9efkr4YCXiXFlDLI3&path=doreco_sout3282_mc_english_kent03_b_part1.wav&mode=grid&download=1",
+      "responseStatus": 200,
+      "responseHeaders": {
+        "Date": "Mon, 05 Oct 2026 06:18:11 GMT",
+        "Server": "Apache/2.4.6 (CentOS) OpenSSL/1.0.2k-fips",
+        "Last-Modified": "Tue, 13 Aug 2024 08:30:14 GMT",
+        "Etag": "\"c26d3e49661d727942af13370ccd0bd0\"",
+        "Cache-Control": "private",
+        "Expires": "Mon, 11 Aug 2025 06:30:14 GMT",
+        "Content-Disposition": "attachment; filename=\"doreco_sout3282_mc_english_kent03_b_part1.wav\"",
+        "X-Content-Type-Options": "nosniff",
+        "Accept-Ranges": "bytes",
+        "Content-Length": "158319044",
+        "Connection": "close",
+        "Content-Type": "audio/x-wav"
+      },
+      "originalBytes": 158319044,
+      "originalWholeFileSha256": "91b5fdbb2479460586037f98a7955c1c54b2d2ee6caef3121a73511f728c1371",
+      "originalHeaderSha256": "6e1b989ce9f95621d207a073c67df4a68e3bc18f2c87b175f8a017e22899e8f2",
+      "format": {
+        "tag": 1,
+        "channels": 2,
+        "sampleRate": 44100,
+        "byteRate": 176400,
+        "blockAlign": 4,
+        "bitsPerSample": 16
+      },
+      "originalFrames": 39579750,
+      "originalClockOrigin": 0,
+      "windows": [
+        {
+          "caseId": "doreco_sout3282_mc_english_kent03_b_part1-60000",
+          "split": "development",
+          "filename": "doreco_sout3282_mc_english_kent03_b_part1-60000.pcm",
+          "pcmSha256": "f1c4604daed02162e1ea24bc9065a9b29d7babe83ea63b2f533bcf9b3661d35b",
+          "retainedBytes": 5292000,
+          "sampleRange": {
+            "start": 2646000,
+            "endExclusive": 3969000
+          },
+          "originalByteRange": {
+            "start": 10584044,
+            "endExclusive": 15876044
+          },
+          "channelAdmission": "original stereo retained; channel attribution ambiguous"
+        }
+      ]
+    },
+    {
+      "name": "doreco_sout3282_mc_english_kent03_b_part2.wav",
+      "url": "https://sharedocs.huma-num.fr/wl/?id=eGPAXNlp1L6E2aP9efkr4YCXiXFlDLI3&path=doreco_sout3282_mc_english_kent03_b_part2.wav&mode=grid&download=1",
+      "responseStatus": 200,
+      "responseHeaders": {
+        "Date": "Mon, 05 Oct 2026 06:18:38 GMT",
+        "Server": "Apache/2.4.6 (CentOS) OpenSSL/1.0.2k-fips",
+        "Last-Modified": "Tue, 13 Aug 2024 08:30:27 GMT",
+        "Etag": "\"97cb0915ba1e90ba398b55c69a55d217\"",
+        "Cache-Control": "private",
+        "Expires": "Mon, 11 Aug 2025 06:30:27 GMT",
+        "Content-Disposition": "attachment; filename=\"doreco_sout3282_mc_english_kent03_b_part2.wav\"",
+        "X-Content-Type-Options": "nosniff",
+        "Accept-Ranges": "bytes",
+        "Content-Length": "159132248",
+        "Connection": "close",
+        "Content-Type": "audio/x-wav"
+      },
+      "originalBytes": 159132248,
+      "originalWholeFileSha256": "28bbaeedff197bed94f0d4fc37b1142718ad5e1d78e4c0795a62ea95b97a843f",
+      "originalHeaderSha256": "2c13bdb72b1588dff2fd265f878a0044c87e5a3f44b545e9c6e065154b19c8d9",
+      "format": {
+        "tag": 1,
+        "channels": 2,
+        "sampleRate": 44100,
+        "byteRate": 176400,
+        "blockAlign": 4,
+        "bitsPerSample": 16
+      },
+      "originalFrames": 39783051,
+      "originalClockOrigin": 0,
+      "windows": [
+        {
+          "caseId": "doreco_sout3282_mc_english_kent03_b_part2-60000",
+          "split": "confirmation",
+          "filename": "doreco_sout3282_mc_english_kent03_b_part2-60000.pcm",
+          "pcmSha256": "5e18360b8007cc41b5c654a9fcdf12fcfe1836831902d3913d6d36079d5faeca",
+          "retainedBytes": 5292000,
+          "sampleRange": {
+            "start": 2646000,
+            "endExclusive": 3969000
+          },
+          "originalByteRange": {
+            "start": 10584044,
+            "endExclusive": 15876044
+          },
+          "channelAdmission": "original stereo retained; channel attribution ambiguous"
+        },
+        {
+          "caseId": "doreco_sout3282_mc_english_kent03_b_part2-120000",
+          "split": "confirmation",
+          "filename": "doreco_sout3282_mc_english_kent03_b_part2-120000.pcm",
+          "pcmSha256": "15747a348ce11b904c6b15afdd29a2d08d2f080d94daec8194bb00b7673395ab",
+          "retainedBytes": 5292000,
+          "sampleRange": {
+            "start": 5292000,
+            "endExclusive": 6615000
+          },
+          "originalByteRange": {
+            "start": 21168044,
+            "endExclusive": 26460044
+          },
+          "channelAdmission": "original stereo retained; channel attribution ambiguous"
+        }
+      ]
+    }
+  ],
+  "scope": "Original complete-file stream SHA256 with only selected PCM retained; no inference or playback.",
+  "status": "original-byte/sample/clock bindings admitted; lexical scoring/provider/quality pending",
+  "elapsedSeconds": 123.392,
+  "totalOriginalStreamBytes": 490530094,
+  "totalRetainedPcmBytes": 23814000
+}

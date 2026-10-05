@@ -1,0 +1,186 @@
+[
+  {
+    "name": "doreco_sout3282_mc_english_kent02_b_part1.wav",
+    "url": "https://sharedocs.huma-num.fr/wl/?id=eGPAXNlp1L6E2aP9efkr4YCXiXFlDLI3&path=doreco_sout3282_mc_english_kent02_b_part1.wav&mode=grid&download=1",
+    "status": 206,
+    "headers": {
+      "Date": "Mon, 05 Oct 2026 06:10:16 GMT",
+      "Server": "Apache/2.4.6 (CentOS) OpenSSL/1.0.2k-fips",
+      "Last-Modified": "Tue, 13 Aug 2024 08:29:56 GMT",
+      "Etag": "\"d68f13caee5da484d59b5c26f8a75ed0\"",
+      "Cache-Control": "private",
+      "Expires": "Mon, 11 Aug 2025 06:29:56 GMT",
+      "Content-Disposition": "attachment; filename=\"doreco_sout3282_mc_english_kent02_b_part1.wav\"",
+      "X-Content-Type-Options": "nosniff",
+      "Accept-Ranges": "bytes",
+      "Content-Range": "bytes 0-65535/85836902",
+      "Content-Length": "65536",
+      "Connection": "close",
+      "Content-Type": "audio/x-wav"
+    },
+    "headerBytesRead": 65536,
+    "headerSha256": "6bd0418f2421338c441f1573538b6c9c8bfcfc73553c7010e21eac8b01566df2",
+    "riffDeclaredBytes": 85836902,
+    "chunks": [
+      {
+        "id": "fmt ",
+        "size": 16,
+        "headerOffset": 12,
+        "dataOffset": 20,
+        "format": {
+          "tag": 1,
+          "channels": 1,
+          "sampleRate": 44100,
+          "byteRate": 88200,
+          "blockAlign": 2,
+          "bitsPerSample": 16
+        }
+      },
+      {
+        "id": "data",
+        "size": 85836858,
+        "headerOffset": 36,
+        "dataOffset": 44
+      }
+    ],
+    "scope": "Header/range mechanics only; selected PCM not acquired or listened."
+  },
+  {
+    "name": "doreco_sout3282_mc_english_kent02_b_part2.wav",
+    "url": "https://sharedocs.huma-num.fr/wl/?id=eGPAXNlp1L6E2aP9efkr4YCXiXFlDLI3&path=doreco_sout3282_mc_english_kent02_b_part2.wav&mode=grid&download=1",
+    "status": 206,
+    "headers": {
+      "Date": "Mon, 05 Oct 2026 06:10:16 GMT",
+      "Server": "Apache/2.4.6 (CentOS) OpenSSL/1.0.2k-fips",
+      "Last-Modified": "Tue, 13 Aug 2024 08:30:03 GMT",
+      "Etag": "\"55badceab19a00b250b97f1786c661f6\"",
+      "Cache-Control": "private",
+      "Expires": "Mon, 11 Aug 2025 06:30:03 GMT",
+      "Content-Disposition": "attachment; filename=\"doreco_sout3282_mc_english_kent02_b_part2.wav\"",
+      "X-Content-Type-Options": "nosniff",
+      "Accept-Ranges": "bytes",
+      "Content-Range": "bytes 0-65535/87241900",
+      "Content-Length": "65536",
+      "Connection": "close",
+      "Content-Type": "audio/x-wav"
+    },
+    "headerBytesRead": 65536,
+    "headerSha256": "fffe0ba2efe4897d63ac9692bb9dc172df679fc387e0a091a5c557ed3961fd4c",
+    "riffDeclaredBytes": 87241900,
+    "chunks": [
+      {
+        "id": "fmt ",
+        "size": 16,
+        "headerOffset": 12,
+        "dataOffset": 20,
+        "format": {
+          "tag": 1,
+          "channels": 1,
+          "sampleRate": 44100,
+          "byteRate": 88200,
+          "blockAlign": 2,
+          "bitsPerSample": 16
+        }
+      },
+      {
+        "id": "data",
+        "size": 87241856,
+        "headerOffset": 36,
+        "dataOffset": 44
+      }
+    ],
+    "scope": "Header/range mechanics only; selected PCM not acquired or listened."
+  },
+  {
+    "name": "doreco_sout3282_mc_english_kent03_b_part1.wav",
+    "url": "https://sharedocs.huma-num.fr/wl/?id=eGPAXNlp1L6E2aP9efkr4YCXiXFlDLI3&path=doreco_sout3282_mc_english_kent03_b_part1.wav&mode=grid&download=1",
+    "status": 206,
+    "headers": {
+      "Date": "Mon, 05 Oct 2026 06:10:16 GMT",
+      "Server": "Apache/2.4.6 (CentOS) OpenSSL/1.0.2k-fips",
+      "Last-Modified": "Tue, 13 Aug 2024 08:30:14 GMT",
+      "Etag": "\"c26d3e49661d727942af13370ccd0bd0\"",
+      "Cache-Control": "private",
+      "Expires": "Mon, 11 Aug 2025 06:30:14 GMT",
+      "Content-Disposition": "attachment; filename=\"doreco_sout3282_mc_english_kent03_b_part1.wav\"",
+      "X-Content-Type-Options": "nosniff",
+      "Accept-Ranges": "bytes",
+      "Content-Range": "bytes 0-65535/158319044",
+      "Content-Length": "65536",
+      "Connection": "close",
+      "Content-Type": "audio/x-wav"
+    },
+    "headerBytesRead": 65536,
+    "headerSha256": "6e1b989ce9f95621d207a073c67df4a68e3bc18f2c87b175f8a017e22899e8f2",
+    "riffDeclaredBytes": 158319044,
+    "chunks": [
+      {
+        "id": "fmt ",
+        "size": 16,
+        "headerOffset": 12,
+        "dataOffset": 20,
+        "format": {
+          "tag": 1,
+          "channels": 2,
+          "sampleRate": 44100,
+          "byteRate": 176400,
+          "blockAlign": 4,
+          "bitsPerSample": 16
+        }
+      },
+      {
+        "id": "data",
+        "size": 158319000,
+        "headerOffset": 36,
+        "dataOffset": 44
+      }
+    ],
+    "scope": "Header/range mechanics only; selected PCM not acquired or listened."
+  },
+  {
+    "name": "doreco_sout3282_mc_english_kent03_b_part2.wav",
+    "url": "https://sharedocs.huma-num.fr/wl/?id=eGPAXNlp1L6E2aP9efkr4YCXiXFlDLI3&path=doreco_sout3282_mc_english_kent03_b_part2.wav&mode=grid&download=1",
+    "status": 206,
+    "headers": {
+      "Date": "Mon, 05 Oct 2026 06:10:16 GMT",
+      "Server": "Apache/2.4.6 (CentOS) OpenSSL/1.0.2k-fips",
+      "Last-Modified": "Tue, 13 Aug 2024 08:30:27 GMT",
+      "Etag": "\"97cb0915ba1e90ba398b55c69a55d217\"",
+      "Cache-Control": "private",
+      "Expires": "Mon, 11 Aug 2025 06:30:27 GMT",
+      "Content-Disposition": "attachment; filename=\"doreco_sout3282_mc_english_kent03_b_part2.wav\"",
+      "X-Content-Type-Options": "nosniff",
+      "Accept-Ranges": "bytes",
+      "Content-Range": "bytes 0-65535/159132248",
+      "Content-Length": "65536",
+      "Connection": "close",
+      "Content-Type": "audio/x-wav"
+    },
+    "headerBytesRead": 65536,
+    "headerSha256": "2c13bdb72b1588dff2fd265f878a0044c87e5a3f44b545e9c6e065154b19c8d9",
+    "riffDeclaredBytes": 159132248,
+    "chunks": [
+      {
+        "id": "fmt ",
+        "size": 16,
+        "headerOffset": 12,
+        "dataOffset": 20,
+        "format": {
+          "tag": 1,
+          "channels": 2,
+          "sampleRate": 44100,
+          "byteRate": 176400,
+          "blockAlign": 4,
+          "bitsPerSample": 16
+        }
+      },
+      {
+        "id": "data",
+        "size": 159132204,
+        "headerOffset": 36,
+        "dataOffset": 44
+      }
+    ],
+    "scope": "Header/range mechanics only; selected PCM not acquired or listened."
+  }
+]

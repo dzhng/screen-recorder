@@ -14,9 +14,11 @@ duplicate generated CSV, TextGrid and XML representations. Member hashes bind th
 retained bytes to the acquired primary archive; the complete primary pages and
 audio index are also retained.
 
-This is reference-authority evidence, not an alignment quality result. No original
-audio was acquired, no provider ran and no listening occurred. Physical sample
-clocks, channels and original-audio bindings still need admission. Then freeze a
-bounded development/untouched-confirmation selection and provider before any
-inference. Preserve ambiguous labels explicitly rather than manufacturing clean
-words or certifying annotator precision we have not measured.
+This is reference-authority evidence, not an alignment quality result. The initial
+inspection acquired no original audio. The later [source admission](source-admission/README.md)
+binds a selection frozen before audio acquisition to original complete-stream
+hashes, selected PCM, physical clocks/channels and unchanged neighboring labels.
+Stereo channel attribution remains ambiguous. Provider and lexical scoring treatment
+still need freezing before inference; no provider ran and no listening occurred.
+Preserve ambiguous labels explicitly rather than manufacturing clean words or
+certifying annotator precision we have not measured.

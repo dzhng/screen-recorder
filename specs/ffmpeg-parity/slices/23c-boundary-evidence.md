@@ -1,8 +1,9 @@
 # 23c — Validated optional boundary evidence
 
-Status: open; primary human-corrected word annotations are retained, but original
-audio/clock admission and the [22](22-speech-feasibility.md) provider gate remain
-pending. No alignment provider is selected or executed for acceptance.
+Status: open; primary human-corrected word annotations and bounded original
+audio/clock bindings are retained. Stereo attribution, lexical scoring treatment
+and the [22](22-speech-feasibility.md) provider gate remain pending. No alignment
+provider is selected or executed for acceptance.
 
 ## Next bounded checkpoint
 
@@ -53,6 +54,33 @@ explicit manual correction of word start/end times and complete original master
 word sequences, with CC BY 4.0 covering the selected English annotations and audio.
 Automatic phone refinement follows that correction; phone endpoints are not human
 reference truth. Complete primary pages, original annotation members, licenses and
-neighbor rows are retained. Matching original audio, physical clocks/channels and a
-frozen untouched cohort remain the next admission checkpoint. No inference or
-quality claim follows from this reference finding.
+neighbor rows are retained. The subsequent bounded source checkpoint below admits
+original bytes and physical clocks while retaining the stereo question. No inference or quality claim follows
+from this reference finding.
+
+
+## Bounded original-source admission
+
+The [source admission record](../evidence/boundary-doreco/source-admission/README.md)
+binds the six windows selected before audio acquisition to all four primary
+original WAV streams. Complete streams were hashed under the frozen ten-minute
+cap; only selected original PCM and independently fetched headers are retained.
+Exact byte lengths, unchanged server/header identity, PCM16 framing and 44100 Hz
+physical clocks pass admission. Complete originals were never stored as additional
+media copies. Selected EAF values, annotation IDs, original millisecond endpoints
+and immediate neighbors retain exact source/member/sample bindings. Rational
+sample positions preserve the original clock without pretending millisecond
+human labels have sample precision.
+
+There are two development and four untouched confirmation windows, each 30s.
+Their 487 intersecting original rows include 475 fully contained rows and 12 clipped
+rows; 12 immediate outside neighbors also remain. These include pauses and marked
+material, so the counts are not a lexical scoring denominator. Scoring must freeze
+special-label/partial/missing-word treatment before provider inference. Nothing
+is rewritten into a cleaner word list.
+
+EN01 is original mono. All three selected EN03 stereo windows have unequal channel
+bytes. Both channels remain intact and attribution is explicitly ambiguous; no
+energy heuristic, channel selection or downmix is admitted. Provider/license/runtime
+and any declared channel interpretation remain separate prerequisites. No speech
+model, playback, recording, endpoint accuracy or sound-quality acceptance occurred.

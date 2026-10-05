@@ -1,0 +1,74 @@
+{
+  "createdAt": "2026-10-05T06:09:40.472224+00:00",
+  "phase": "Source selection frozen before any original audio acquisition or model observations. No provider selected.",
+  "masterArchiveSha256": "1cf63629e24928329a661bdef8c431296a5449384884f9dc7f525a58800500fe",
+  "annotationArchiveSha256": "abb65b8b2406079a951ba29ffd76b9ad59c57328e47d47b1f6cea0e306eeafa3",
+  "selectionRule": "Fixed60\u201390s on part1 for development; fixed60\u201390s and120\u2013150s on part2 for untouched confirmation, for each original annotated speaker. No candidate timing or audio quality was consulted.",
+  "limits": [
+    "Two source speakers and English-only historical personal narratives; no training-held-out/general-accuracy claim.",
+    "Source byte/sample/channel admission remains pending.",
+    "Provider and scoring/lexical treatment must freeze before inference; special labels stay explicit unknown support."
+  ],
+  "cases": [
+    {
+      "id": "doreco_sout3282_mc_english_kent02_b_part1-60000",
+      "split": "development",
+      "annotationMember": "doreco_sout3282_core_v2.0/doreco_sout3282_mc_english_kent02_b_part1.eaf",
+      "tierId": "wd@EN01",
+      "mediaFile": "doreco_sout3282_mc_english_kent02_b_part1.wav",
+      "startMs": 60000,
+      "endMs": 90000,
+      "labels": "Complete original master tier; preserve both neighboring rows and every intersecting special label. Fully contained lexical words form coverage denominator; clipped words remain partial support, not invented full words."
+    },
+    {
+      "id": "doreco_sout3282_mc_english_kent02_b_part2-60000",
+      "split": "confirmation",
+      "annotationMember": "doreco_sout3282_core_v2.0/doreco_sout3282_mc_english_kent02_b_part2.eaf",
+      "tierId": "wd@EN01",
+      "mediaFile": "doreco_sout3282_mc_english_kent02_b_part2.wav",
+      "startMs": 60000,
+      "endMs": 90000,
+      "labels": "Complete original master tier; preserve both neighboring rows and every intersecting special label. Fully contained lexical words form coverage denominator; clipped words remain partial support, not invented full words."
+    },
+    {
+      "id": "doreco_sout3282_mc_english_kent02_b_part2-120000",
+      "split": "confirmation",
+      "annotationMember": "doreco_sout3282_core_v2.0/doreco_sout3282_mc_english_kent02_b_part2.eaf",
+      "tierId": "wd@EN01",
+      "mediaFile": "doreco_sout3282_mc_english_kent02_b_part2.wav",
+      "startMs": 120000,
+      "endMs": 150000,
+      "labels": "Complete original master tier; preserve both neighboring rows and every intersecting special label. Fully contained lexical words form coverage denominator; clipped words remain partial support, not invented full words."
+    },
+    {
+      "id": "doreco_sout3282_mc_english_kent03_b_part1-60000",
+      "split": "development",
+      "annotationMember": "doreco_sout3282_core_v2.0/doreco_sout3282_mc_english_kent03_b_part1.eaf",
+      "tierId": "wd@EN03",
+      "mediaFile": "doreco_sout3282_mc_english_kent03_b_part1.wav",
+      "startMs": 60000,
+      "endMs": 90000,
+      "labels": "Complete original master tier; preserve both neighboring rows and every intersecting special label. Fully contained lexical words form coverage denominator; clipped words remain partial support, not invented full words."
+    },
+    {
+      "id": "doreco_sout3282_mc_english_kent03_b_part2-60000",
+      "split": "confirmation",
+      "annotationMember": "doreco_sout3282_core_v2.0/doreco_sout3282_mc_english_kent03_b_part2.eaf",
+      "tierId": "wd@EN03",
+      "mediaFile": "doreco_sout3282_mc_english_kent03_b_part2.wav",
+      "startMs": 60000,
+      "endMs": 90000,
+      "labels": "Complete original master tier; preserve both neighboring rows and every intersecting special label. Fully contained lexical words form coverage denominator; clipped words remain partial support, not invented full words."
+    },
+    {
+      "id": "doreco_sout3282_mc_english_kent03_b_part2-120000",
+      "split": "confirmation",
+      "annotationMember": "doreco_sout3282_core_v2.0/doreco_sout3282_mc_english_kent03_b_part2.eaf",
+      "tierId": "wd@EN03",
+      "mediaFile": "doreco_sout3282_mc_english_kent03_b_part2.wav",
+      "startMs": 120000,
+      "endMs": 150000,
+      "labels": "Complete original master tier; preserve both neighboring rows and every intersecting special label. Fully contained lexical words form coverage denominator; clipped words remain partial support, not invented full words."
+    }
+  ]
+}

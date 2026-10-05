@@ -1,0 +1,4111 @@
+{
+  "scope": "Original wd rows exactly preserved, including immediate previous/next rows. Label-kind is mechanical inventory only; no lexical normalization or scoring treatment is selected. Complete original master tiers remain in annotations.tar.xz. EAF physical time origin is zero.",
+  "cases": [
+    {
+      "id": "doreco_sout3282_mc_english_kent02_b_part1-60000",
+      "split": "development",
+      "annotationMember": "doreco_sout3282_core_v2.0/doreco_sout3282_mc_english_kent02_b_part1.eaf",
+      "tierId": "wd@EN01",
+      "mediaFile": "doreco_sout3282_mc_english_kent02_b_part1.wav",
+      "startMs": 60000,
+      "endMs": 90000,
+      "labels": "Complete original master tier; preserve both neighboring rows and every intersecting special label. Fully contained lexical words form coverage denominator; clipped words remain partial support, not invented full words.",
+      "annotationSha256": "f1c2bafa6ae8b74debf4d2f4d976fad1d2197029ad59f99c24e665a7017e34bd",
+      "mediaDescriptor": {
+        "MEDIA_URL": "doreco_sout3282_mc_english_kent02_b_part1.wav",
+        "MIME_TYPE": "audio/x-wav"
+      },
+      "completeTierRows": 2874,
+      "rows": [
+        {
+          "annotationId": "a1483",
+          "startMs": 58530,
+          "endMs": 59317,
+          "value": "cottages",
+          "support": "neighbor-outside-window",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1484",
+          "startMs": 59317,
+          "endMs": 60273,
+          "value": "<p:>",
+          "support": "partial",
+          "labelKind": "original-marked-material"
+        },
+        {
+          "annotationId": "a1485",
+          "startMs": 60273,
+          "endMs": 60443,
+          "value": "and",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1486",
+          "startMs": 60443,
+          "endMs": 60557,
+          "value": "the",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1487",
+          "startMs": 60557,
+          "endMs": 60793,
+          "value": "other",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1488",
+          "startMs": 60793,
+          "endMs": 61253,
+          "value": "land",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1489",
+          "startMs": 61253,
+          "endMs": 61373,
+          "value": "<p:>",
+          "support": "fully-contained",
+          "labelKind": "original-marked-material"
+        },
+        {
+          "annotationId": "a1490",
+          "startMs": 61373,
+          "endMs": 61509,
+          "value": "and",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1491",
+          "startMs": 61509,
+          "endMs": 61642,
+          "value": "they",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1492",
+          "startMs": 61642,
+          "endMs": 61873,
+          "value": "put",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1493",
+          "startMs": 61873,
+          "endMs": 62193,
+          "value": "eleven",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1494",
+          "startMs": 62193,
+          "endMs": 62600,
+          "value": "acres",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1495",
+          "startMs": 62600,
+          "endMs": 62807,
+          "value": "on",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1496",
+          "startMs": 62807,
+          "endMs": 63037,
+          "value": "it",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1497",
+          "startMs": 63037,
+          "endMs": 63543,
+          "value": "<p:>",
+          "support": "fully-contained",
+          "labelKind": "original-marked-material"
+        },
+        {
+          "annotationId": "a1498",
+          "startMs": 63543,
+          "endMs": 63629,
+          "value": "there",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1499",
+          "startMs": 63629,
+          "endMs": 63722,
+          "value": "were",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1500",
+          "startMs": 63722,
+          "endMs": 64243,
+          "value": "<<fs>>",
+          "support": "fully-contained",
+          "labelKind": "original-marked-material"
+        },
+        {
+          "annotationId": "a1501",
+          "startMs": 64243,
+          "endMs": 65121,
+          "value": "<p:>",
+          "support": "fully-contained",
+          "labelKind": "original-marked-material"
+        },
+        {
+          "annotationId": "a1502",
+          "startMs": 65121,
+          "endMs": 65267,
+          "value": "no",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1503",
+          "startMs": 65267,
+          "endMs": 65543,
+          "value": "nine",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1504",
+          "startMs": 65543,
+          "endMs": 65873,
+          "value": "acres",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1505",
+          "startMs": 65873,
+          "endMs": 65979,
+          "value": "there",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1506",
+          "startMs": 65979,
+          "endMs": 66084,
+          "value": "was",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1507",
+          "startMs": 66084,
+          "endMs": 66663,
+          "value": "twenty-six",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1508",
+          "startMs": 66663,
+          "endMs": 66757,
+          "value": "they",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1509",
+          "startMs": 66757,
+          "endMs": 67153,
+          "value": "fixed",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1510",
+          "startMs": 67153,
+          "endMs": 67213,
+          "value": "us",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1511",
+          "startMs": 67213,
+          "endMs": 67282,
+          "value": "up",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1512",
+          "startMs": 67282,
+          "endMs": 67365,
+          "value": "the",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1513",
+          "startMs": 67365,
+          "endMs": 67902,
+          "value": "thirty-one",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1514",
+          "startMs": 67902,
+          "endMs": 68069,
+          "value": "now",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1515",
+          "startMs": 68069,
+          "endMs": 68253,
+          "value": "there",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1516",
+          "startMs": 68253,
+          "endMs": 68413,
+          "value": "there",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1517",
+          "startMs": 68413,
+          "endMs": 68633,
+          "value": "was",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1518",
+          "startMs": 68633,
+          "endMs": 68847,
+          "value": "three",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1519",
+          "startMs": 68847,
+          "endMs": 69259,
+          "value": "acres",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1520",
+          "startMs": 69259,
+          "endMs": 70553,
+          "value": "<p:>",
+          "support": "fully-contained",
+          "labelKind": "original-marked-material"
+        },
+        {
+          "annotationId": "a1521",
+          "startMs": 70553,
+          "endMs": 70853,
+          "value": "nothing",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1522",
+          "startMs": 70853,
+          "endMs": 71033,
+          "value": "do",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1523",
+          "startMs": 71033,
+          "endMs": 71141,
+          "value": "with",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1524",
+          "startMs": 71141,
+          "endMs": 71237,
+          "value": "it",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1525",
+          "startMs": 71237,
+          "endMs": 72443,
+          "value": "<p:>",
+          "support": "fully-contained",
+          "labelKind": "original-marked-material"
+        },
+        {
+          "annotationId": "a1526",
+          "startMs": 72443,
+          "endMs": 73134,
+          "value": "twenty-six",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1527",
+          "startMs": 73134,
+          "endMs": 73262,
+          "value": "and",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1528",
+          "startMs": 73262,
+          "endMs": 73553,
+          "value": "nine",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1529",
+          "startMs": 73553,
+          "endMs": 73748,
+          "value": "what's",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1530",
+          "startMs": 73748,
+          "endMs": 73891,
+          "value": "that",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1531",
+          "startMs": 73891,
+          "endMs": 75179,
+          "value": "<p:>",
+          "support": "fully-contained",
+          "labelKind": "original-marked-material"
+        },
+        {
+          "annotationId": "a1532",
+          "startMs": 75179,
+          "endMs": 75359,
+          "value": "Oh",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1533",
+          "startMs": 75359,
+          "endMs": 75499,
+          "value": "then",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1534",
+          "startMs": 75499,
+          "endMs": 75599,
+          "value": "there",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1535",
+          "startMs": 75599,
+          "endMs": 75719,
+          "value": "was",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1536",
+          "startMs": 75719,
+          "endMs": 76236,
+          "value": "<<fs>>",
+          "support": "fully-contained",
+          "labelKind": "original-marked-material"
+        },
+        {
+          "annotationId": "a1537",
+          "startMs": 76236,
+          "endMs": 76381,
+          "value": "It",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1538",
+          "startMs": 76381,
+          "endMs": 76508,
+          "value": "was",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1539",
+          "startMs": 76508,
+          "endMs": 76738,
+          "value": "<<fs>>",
+          "support": "fully-contained",
+          "labelKind": "original-marked-material"
+        },
+        {
+          "annotationId": "a1540",
+          "startMs": 76738,
+          "endMs": 77028,
+          "value": "<p:>",
+          "support": "fully-contained",
+          "labelKind": "original-marked-material"
+        },
+        {
+          "annotationId": "a1541",
+          "startMs": 77028,
+          "endMs": 77608,
+          "value": "thirty-one",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1542",
+          "startMs": 77608,
+          "endMs": 78268,
+          "value": "altogether",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1543",
+          "startMs": 78268,
+          "endMs": 78438,
+          "value": "<p:>",
+          "support": "fully-contained",
+          "labelKind": "original-marked-material"
+        },
+        {
+          "annotationId": "a1544",
+          "startMs": 78438,
+          "endMs": 78668,
+          "value": "that",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1545",
+          "startMs": 78668,
+          "endMs": 78789,
+          "value": "was",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1546",
+          "startMs": 78789,
+          "endMs": 79309,
+          "value": "including",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1547",
+          "startMs": 79309,
+          "endMs": 79503,
+          "value": "the",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1548",
+          "startMs": 79503,
+          "endMs": 79845,
+          "value": "house",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1549",
+          "startMs": 79845,
+          "endMs": 80636,
+          "value": "<p:>",
+          "support": "fully-contained",
+          "labelKind": "original-marked-material"
+        },
+        {
+          "annotationId": "a1550",
+          "startMs": 80636,
+          "endMs": 80736,
+          "value": "Oh",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1551",
+          "startMs": 80736,
+          "endMs": 80908,
+          "value": "no",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1552",
+          "startMs": 80908,
+          "endMs": 81146,
+          "value": "then",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1553",
+          "startMs": 81146,
+          "endMs": 81291,
+          "value": "we",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1554",
+          "startMs": 81291,
+          "endMs": 81596,
+          "value": "bought",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1555",
+          "startMs": 81596,
+          "endMs": 81716,
+          "value": "two",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1556",
+          "startMs": 81716,
+          "endMs": 81976,
+          "value": "acres",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1557",
+          "startMs": 81976,
+          "endMs": 82066,
+          "value": "of",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1558",
+          "startMs": 82066,
+          "endMs": 82485,
+          "value": "orchard",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1559",
+          "startMs": 82485,
+          "endMs": 85426,
+          "value": "<p:>",
+          "support": "fully-contained",
+          "labelKind": "original-marked-material"
+        },
+        {
+          "annotationId": "a1560",
+          "startMs": 85426,
+          "endMs": 85806,
+          "value": "<<ui>>",
+          "support": "fully-contained",
+          "labelKind": "original-marked-material"
+        },
+        {
+          "annotationId": "a1561",
+          "startMs": 85806,
+          "endMs": 86046,
+          "value": "off",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1562",
+          "startMs": 86046,
+          "endMs": 86496,
+          "value": "<<ui>>",
+          "support": "fully-contained",
+          "labelKind": "original-marked-material"
+        },
+        {
+          "annotationId": "a1563",
+          "startMs": 86496,
+          "endMs": 86696,
+          "value": "what",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1564",
+          "startMs": 86696,
+          "endMs": 86896,
+          "value": "back",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1565",
+          "startMs": 86896,
+          "endMs": 87151,
+          "value": "here",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1566",
+          "startMs": 87151,
+          "endMs": 87366,
+          "value": "<p:>",
+          "support": "fully-contained",
+          "labelKind": "original-marked-material"
+        },
+        {
+          "annotationId": "a1567",
+          "startMs": 87366,
+          "endMs": 87616,
+          "value": "lives",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1568",
+          "startMs": 87616,
+          "endMs": 87796,
+          "value": "back",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1569",
+          "startMs": 87796,
+          "endMs": 88006,
+          "value": "here",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1570",
+          "startMs": 88006,
+          "endMs": 89366,
+          "value": "<p:>",
+          "support": "fully-contained",
+          "labelKind": "original-marked-material"
+        },
+        {
+          "annotationId": "a1571",
+          "startMs": 89366,
+          "endMs": 89546,
+          "value": "so",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1572",
+          "startMs": 89546,
+          "endMs": 89606,
+          "value": "as",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1573",
+          "startMs": 89606,
+          "endMs": 89742,
+          "value": "we",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1574",
+          "startMs": 89742,
+          "endMs": 89916,
+          "value": "could",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1575",
+          "startMs": 89916,
+          "endMs": 90126,
+          "value": "get",
+          "support": "partial",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1576",
+          "startMs": 90126,
+          "endMs": 90276,
+          "value": "from",
+          "support": "neighbor-outside-window",
+          "labelKind": "original-unmarked-row"
+        }
+      ],
+      "intersectingRows": 92
+    },
+    {
+      "id": "doreco_sout3282_mc_english_kent02_b_part2-60000",
+      "split": "confirmation",
+      "annotationMember": "doreco_sout3282_core_v2.0/doreco_sout3282_mc_english_kent02_b_part2.eaf",
+      "tierId": "wd@EN01",
+      "mediaFile": "doreco_sout3282_mc_english_kent02_b_part2.wav",
+      "startMs": 60000,
+      "endMs": 90000,
+      "labels": "Complete original master tier; preserve both neighboring rows and every intersecting special label. Fully contained lexical words form coverage denominator; clipped words remain partial support, not invented full words.",
+      "annotationSha256": "388f80dea3c21e200f3c982108ce035b0d7c4d21d3cc31e73ae3b8e58427b0ee",
+      "mediaDescriptor": {
+        "MEDIA_URL": "doreco_sout3282_mc_english_kent02_b_part2.wav",
+        "MIME_TYPE": "audio/x-wav"
+      },
+      "completeTierRows": 2847,
+      "rows": [
+        {
+          "annotationId": "a1453",
+          "startMs": 59519,
+          "endMs": 59754,
+          "value": "year",
+          "support": "neighbor-outside-window",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1454",
+          "startMs": 59754,
+          "endMs": 60089,
+          "value": "older",
+          "support": "partial",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1455",
+          "startMs": 60089,
+          "endMs": 60160,
+          "value": "than",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1456",
+          "startMs": 60160,
+          "endMs": 60259,
+          "value": "I",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1457",
+          "startMs": 60259,
+          "endMs": 60489,
+          "value": "was",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1458",
+          "startMs": 60489,
+          "endMs": 60529,
+          "value": "I",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1459",
+          "startMs": 60529,
+          "endMs": 60829,
+          "value": "expect",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1460",
+          "startMs": 60829,
+          "endMs": 62162,
+          "value": "<p:>",
+          "support": "fully-contained",
+          "labelKind": "original-marked-material"
+        },
+        {
+          "annotationId": "a1461",
+          "startMs": 62162,
+          "endMs": 62332,
+          "value": "Too",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1462",
+          "startMs": 62332,
+          "endMs": 62622,
+          "value": "fly",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1463",
+          "startMs": 62622,
+          "endMs": 62702,
+          "value": "for",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1464",
+          "startMs": 62702,
+          "endMs": 62932,
+          "value": "me",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1465",
+          "startMs": 62932,
+          "endMs": 63092,
+          "value": "wadn't",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1466",
+          "startMs": 63092,
+          "endMs": 63195,
+          "value": "he",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1467",
+          "startMs": 63195,
+          "endMs": 64529,
+          "value": "<p:>",
+          "support": "fully-contained",
+          "labelKind": "original-marked-material"
+        },
+        {
+          "annotationId": "a1468",
+          "startMs": 64529,
+          "endMs": 64707,
+          "value": "Too",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1469",
+          "startMs": 64707,
+          "endMs": 65049,
+          "value": "fly",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1470",
+          "startMs": 65049,
+          "endMs": 65219,
+          "value": "for",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1471",
+          "startMs": 65219,
+          "endMs": 65499,
+          "value": "me",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1472",
+          "startMs": 65499,
+          "endMs": 65794,
+          "value": "wadn't",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1473",
+          "startMs": 65794,
+          "endMs": 65980,
+          "value": "he",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1474",
+          "startMs": 65980,
+          "endMs": 66455,
+          "value": "<p:>",
+          "support": "fully-contained",
+          "labelKind": "original-marked-material"
+        },
+        {
+          "annotationId": "a1475",
+          "startMs": 66455,
+          "endMs": 66618,
+          "value": "He",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1476",
+          "startMs": 66618,
+          "endMs": 66840,
+          "value": "found",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1477",
+          "startMs": 66840,
+          "endMs": 66980,
+          "value": "the",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1478",
+          "startMs": 66980,
+          "endMs": 67596,
+          "value": "moletrap",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1479",
+          "startMs": 67596,
+          "endMs": 67689,
+          "value": "and",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1480",
+          "startMs": 67689,
+          "endMs": 67770,
+          "value": "he",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1481",
+          "startMs": 67770,
+          "endMs": 67894,
+          "value": "<<fs>>",
+          "support": "fully-contained",
+          "labelKind": "original-marked-material"
+        },
+        {
+          "annotationId": "a1482",
+          "startMs": 67894,
+          "endMs": 68240,
+          "value": "picked",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1483",
+          "startMs": 68240,
+          "endMs": 68310,
+          "value": "it",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1484",
+          "startMs": 68310,
+          "endMs": 68372,
+          "value": "up",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1485",
+          "startMs": 68372,
+          "endMs": 68430,
+          "value": "and",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1486",
+          "startMs": 68430,
+          "endMs": 68623,
+          "value": "popped",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1487",
+          "startMs": 68623,
+          "endMs": 68720,
+          "value": "it",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1488",
+          "startMs": 68720,
+          "endMs": 68793,
+          "value": "in",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1489",
+          "startMs": 68793,
+          "endMs": 68868,
+          "value": "his",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1490",
+          "startMs": 68868,
+          "endMs": 69138,
+          "value": "pock",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1491",
+          "startMs": 69138,
+          "endMs": 69272,
+          "value": "et",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1492",
+          "startMs": 69272,
+          "endMs": 71624,
+          "value": "<p:>",
+          "support": "fully-contained",
+          "labelKind": "original-marked-material"
+        },
+        {
+          "annotationId": "a1493",
+          "startMs": 71624,
+          "endMs": 71780,
+          "value": "About",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1494",
+          "startMs": 71780,
+          "endMs": 71980,
+          "value": "four",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1495",
+          "startMs": 71980,
+          "endMs": 72251,
+          "value": "year",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1496",
+          "startMs": 72251,
+          "endMs": 75403,
+          "value": "<p:>",
+          "support": "fully-contained",
+          "labelKind": "original-marked-material"
+        },
+        {
+          "annotationId": "a1497",
+          "startMs": 75403,
+          "endMs": 75615,
+          "value": "<<fs>>",
+          "support": "fully-contained",
+          "labelKind": "original-marked-material"
+        },
+        {
+          "annotationId": "a1498",
+          "startMs": 75615,
+          "endMs": 75748,
+          "value": "<<bc>>",
+          "support": "fully-contained",
+          "labelKind": "original-marked-material"
+        },
+        {
+          "annotationId": "a1499",
+          "startMs": 75748,
+          "endMs": 82149,
+          "value": "<p:>",
+          "support": "fully-contained",
+          "labelKind": "original-marked-material"
+        },
+        {
+          "annotationId": "a1500",
+          "startMs": 82149,
+          "endMs": 82772,
+          "value": "would",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1501",
+          "startMs": 82772,
+          "endMs": 82988,
+          "value": "that",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1502",
+          "startMs": 82988,
+          "endMs": 83170,
+          "value": "be",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1503",
+          "startMs": 83170,
+          "endMs": 83331,
+          "value": "when",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1504",
+          "startMs": 83331,
+          "endMs": 83472,
+          "value": "I",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1505",
+          "startMs": 83472,
+          "endMs": 83870,
+          "value": "was",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1506",
+          "startMs": 83870,
+          "endMs": 84710,
+          "value": "<p:>",
+          "support": "fully-contained",
+          "labelKind": "original-marked-material"
+        },
+        {
+          "annotationId": "a1507",
+          "startMs": 84710,
+          "endMs": 84863,
+          "value": "<<ui>>",
+          "support": "fully-contained",
+          "labelKind": "original-marked-material"
+        },
+        {
+          "annotationId": "a1508",
+          "startMs": 84863,
+          "endMs": 85190,
+          "value": "<p:>",
+          "support": "fully-contained",
+          "labelKind": "original-marked-material"
+        },
+        {
+          "annotationId": "a1509",
+          "startMs": 85190,
+          "endMs": 85656,
+          "value": "eighteen",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1510",
+          "startMs": 85656,
+          "endMs": 86170,
+          "value": "seventeen",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1511",
+          "startMs": 86170,
+          "endMs": 86400,
+          "value": "eig",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1512",
+          "startMs": 86400,
+          "endMs": 86600,
+          "value": "hteen",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1513",
+          "startMs": 86600,
+          "endMs": 94324,
+          "value": "<p:>",
+          "support": "partial",
+          "labelKind": "original-marked-material"
+        },
+        {
+          "annotationId": "a1514",
+          "startMs": 94324,
+          "endMs": 94891,
+          "value": "Advertise",
+          "support": "neighbor-outside-window",
+          "labelKind": "original-unmarked-row"
+        }
+      ],
+      "intersectingRows": 60
+    },
+    {
+      "id": "doreco_sout3282_mc_english_kent02_b_part2-120000",
+      "split": "confirmation",
+      "annotationMember": "doreco_sout3282_core_v2.0/doreco_sout3282_mc_english_kent02_b_part2.eaf",
+      "tierId": "wd@EN01",
+      "mediaFile": "doreco_sout3282_mc_english_kent02_b_part2.wav",
+      "startMs": 120000,
+      "endMs": 150000,
+      "labels": "Complete original master tier; preserve both neighboring rows and every intersecting special label. Fully contained lexical words form coverage denominator; clipped words remain partial support, not invented full words.",
+      "annotationSha256": "388f80dea3c21e200f3c982108ce035b0d7c4d21d3cc31e73ae3b8e58427b0ee",
+      "mediaDescriptor": {
+        "MEDIA_URL": "doreco_sout3282_mc_english_kent02_b_part2.wav",
+        "MIME_TYPE": "audio/x-wav"
+      },
+      "completeTierRows": 2847,
+      "rows": [
+        {
+          "annotationId": "a1593",
+          "startMs": 119730,
+          "endMs": 119950,
+          "value": "You",
+          "support": "neighbor-outside-window",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1594",
+          "startMs": 119950,
+          "endMs": 120230,
+          "value": "tell",
+          "support": "partial",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1595",
+          "startMs": 120230,
+          "endMs": 120300,
+          "value": "by",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1596",
+          "startMs": 120300,
+          "endMs": 120417,
+          "value": "the",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1597",
+          "startMs": 120417,
+          "endMs": 120810,
+          "value": "skin",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1598",
+          "startMs": 120810,
+          "endMs": 120900,
+          "value": "you",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1599",
+          "startMs": 120900,
+          "endMs": 121049,
+          "value": "look",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1600",
+          "startMs": 121049,
+          "endMs": 121495,
+          "value": "inside",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1601",
+          "startMs": 121495,
+          "endMs": 121680,
+          "value": "see",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1602",
+          "startMs": 121680,
+          "endMs": 121740,
+          "value": "the",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1603",
+          "startMs": 121740,
+          "endMs": 122317,
+          "value": "shotmarks",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1604",
+          "startMs": 122317,
+          "endMs": 122397,
+          "value": "in",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1605",
+          "startMs": 122397,
+          "endMs": 122495,
+          "value": "it",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1606",
+          "startMs": 122495,
+          "endMs": 122588,
+          "value": "you",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1607",
+          "startMs": 122588,
+          "endMs": 122779,
+          "value": "see",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1608",
+          "startMs": 122779,
+          "endMs": 124318,
+          "value": "<p:>",
+          "support": "fully-contained",
+          "labelKind": "original-marked-material"
+        },
+        {
+          "annotationId": "a1609",
+          "startMs": 124318,
+          "endMs": 124448,
+          "value": "And",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1610",
+          "startMs": 124448,
+          "endMs": 124578,
+          "value": "you",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1611",
+          "startMs": 124578,
+          "endMs": 124738,
+          "value": "you",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1612",
+          "startMs": 124738,
+          "endMs": 124858,
+          "value": "were",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1613",
+          "startMs": 124858,
+          "endMs": 125108,
+          "value": "used",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1614",
+          "startMs": 125108,
+          "endMs": 125208,
+          "value": "to",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1615",
+          "startMs": 125208,
+          "endMs": 125419,
+          "value": "get",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1616",
+          "startMs": 125419,
+          "endMs": 126148,
+          "value": "<p:>",
+          "support": "fully-contained",
+          "labelKind": "original-marked-material"
+        },
+        {
+          "annotationId": "a1617",
+          "startMs": 126148,
+          "endMs": 126648,
+          "value": "fifteen",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1618",
+          "startMs": 126648,
+          "endMs": 126978,
+          "value": "shillings",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1619",
+          "startMs": 126978,
+          "endMs": 127078,
+          "value": "for",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1620",
+          "startMs": 127078,
+          "endMs": 127125,
+          "value": "a",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1621",
+          "startMs": 127125,
+          "endMs": 127839,
+          "value": "foxskin",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1622",
+          "startMs": 127839,
+          "endMs": 130131,
+          "value": "<p:>",
+          "support": "fully-contained",
+          "labelKind": "original-marked-material"
+        },
+        {
+          "annotationId": "a1623",
+          "startMs": 130131,
+          "endMs": 130244,
+          "value": "I",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1624",
+          "startMs": 130244,
+          "endMs": 130431,
+          "value": "<<fs>>",
+          "support": "fully-contained",
+          "labelKind": "original-marked-material"
+        },
+        {
+          "annotationId": "a1625",
+          "startMs": 130431,
+          "endMs": 130891,
+          "value": "<p:>",
+          "support": "fully-contained",
+          "labelKind": "original-marked-material"
+        },
+        {
+          "annotationId": "a1626",
+          "startMs": 130891,
+          "endMs": 131066,
+          "value": "I'd",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1627",
+          "startMs": 131066,
+          "endMs": 131304,
+          "value": "catch",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1628",
+          "startMs": 131304,
+          "endMs": 131363,
+          "value": "a",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1629",
+          "startMs": 131363,
+          "endMs": 131732,
+          "value": "fox",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1630",
+          "startMs": 131732,
+          "endMs": 131861,
+          "value": "in",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1631",
+          "startMs": 131861,
+          "endMs": 131924,
+          "value": "a",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1632",
+          "startMs": 131924,
+          "endMs": 132250,
+          "value": "hare",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1633",
+          "startMs": 132250,
+          "endMs": 132667,
+          "value": "wire",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1634",
+          "startMs": 132667,
+          "endMs": 132811,
+          "value": "we",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1635",
+          "startMs": 132811,
+          "endMs": 133001,
+          "value": "used",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1636",
+          "startMs": 133001,
+          "endMs": 133103,
+          "value": "to",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1637",
+          "startMs": 133103,
+          "endMs": 133397,
+          "value": "<<ui>>",
+          "support": "fully-contained",
+          "labelKind": "original-marked-material"
+        },
+        {
+          "annotationId": "a1638",
+          "startMs": 133397,
+          "endMs": 133663,
+          "value": "<p:>",
+          "support": "fully-contained",
+          "labelKind": "original-marked-material"
+        },
+        {
+          "annotationId": "a1639",
+          "startMs": 133663,
+          "endMs": 134133,
+          "value": "snares",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1640",
+          "startMs": 134133,
+          "endMs": 134291,
+          "value": "up",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1641",
+          "startMs": 134291,
+          "endMs": 134381,
+          "value": "for",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1642",
+          "startMs": 134381,
+          "endMs": 134820,
+          "value": "hares",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1643",
+          "startMs": 134820,
+          "endMs": 134921,
+          "value": "you",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1644",
+          "startMs": 134921,
+          "endMs": 135237,
+          "value": "know",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1645",
+          "startMs": 135237,
+          "endMs": 135771,
+          "value": "<p:>",
+          "support": "fully-contained",
+          "labelKind": "original-marked-material"
+        },
+        {
+          "annotationId": "a1646",
+          "startMs": 135771,
+          "endMs": 136061,
+          "value": "proper",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1647",
+          "startMs": 136061,
+          "endMs": 136371,
+          "value": "make",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1648",
+          "startMs": 136371,
+          "endMs": 136515,
+          "value": "them",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1649",
+          "startMs": 136515,
+          "endMs": 136611,
+          "value": "I",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1650",
+          "startMs": 136611,
+          "endMs": 136801,
+          "value": "used",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1651",
+          "startMs": 136801,
+          "endMs": 136861,
+          "value": "to",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1652",
+          "startMs": 136861,
+          "endMs": 137191,
+          "value": "make",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1653",
+          "startMs": 137191,
+          "endMs": 137227,
+          "value": "'em",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1654",
+          "startMs": 137227,
+          "endMs": 138729,
+          "value": "<p:>",
+          "support": "fully-contained",
+          "labelKind": "original-marked-material"
+        },
+        {
+          "annotationId": "a1655",
+          "startMs": 138729,
+          "endMs": 138881,
+          "value": "And",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1656",
+          "startMs": 138881,
+          "endMs": 139033,
+          "value": "I",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1657",
+          "startMs": 139033,
+          "endMs": 139186,
+          "value": "went",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1658",
+          "startMs": 139186,
+          "endMs": 139375,
+          "value": "down",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1659",
+          "startMs": 139375,
+          "endMs": 139506,
+          "value": "there",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1660",
+          "startMs": 139506,
+          "endMs": 139646,
+          "value": "one",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1661",
+          "startMs": 139646,
+          "endMs": 139866,
+          "value": "morning",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1662",
+          "startMs": 139866,
+          "endMs": 139997,
+          "value": "was",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1663",
+          "startMs": 139997,
+          "endMs": 140052,
+          "value": "a",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1664",
+          "startMs": 140052,
+          "endMs": 140404,
+          "value": "fox",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1665",
+          "startMs": 140404,
+          "endMs": 140516,
+          "value": "in",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1666",
+          "startMs": 140516,
+          "endMs": 140775,
+          "value": "this",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1667",
+          "startMs": 140775,
+          "endMs": 141086,
+          "value": "<<fs>net>",
+          "support": "fully-contained",
+          "labelKind": "original-marked-material"
+        },
+        {
+          "annotationId": "a1668",
+          "startMs": 141086,
+          "endMs": 141346,
+          "value": "<p:>",
+          "support": "fully-contained",
+          "labelKind": "original-marked-material"
+        },
+        {
+          "annotationId": "a1669",
+          "startMs": 141346,
+          "endMs": 141541,
+          "value": "this",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1670",
+          "startMs": 141541,
+          "endMs": 141891,
+          "value": "wire",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1671",
+          "startMs": 141891,
+          "endMs": 143105,
+          "value": "<p:>",
+          "support": "fully-contained",
+          "labelKind": "original-marked-material"
+        },
+        {
+          "annotationId": "a1672",
+          "startMs": 143105,
+          "endMs": 143334,
+          "value": "And",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1673",
+          "startMs": 143334,
+          "endMs": 144704,
+          "value": "<p:>",
+          "support": "fully-contained",
+          "labelKind": "original-marked-material"
+        },
+        {
+          "annotationId": "a1674",
+          "startMs": 144704,
+          "endMs": 146704,
+          "value": "<<ui>>",
+          "support": "fully-contained",
+          "labelKind": "original-marked-material"
+        },
+        {
+          "annotationId": "a1675",
+          "startMs": 146704,
+          "endMs": 147514,
+          "value": "<p:>",
+          "support": "fully-contained",
+          "labelKind": "original-marked-material"
+        },
+        {
+          "annotationId": "a1676",
+          "startMs": 147514,
+          "endMs": 147741,
+          "value": "tap",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1677",
+          "startMs": 147741,
+          "endMs": 147854,
+          "value": "him",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1678",
+          "startMs": 147854,
+          "endMs": 147932,
+          "value": "on",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1679",
+          "startMs": 147932,
+          "endMs": 148148,
+          "value": "the",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1680",
+          "startMs": 148148,
+          "endMs": 148438,
+          "value": "head",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1681",
+          "startMs": 148438,
+          "endMs": 148582,
+          "value": "n",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1682",
+          "startMs": 148582,
+          "endMs": 149074,
+          "value": "<p:>",
+          "support": "fully-contained",
+          "labelKind": "original-marked-material"
+        },
+        {
+          "annotationId": "a1683",
+          "startMs": 149074,
+          "endMs": 149278,
+          "value": "take",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1684",
+          "startMs": 149278,
+          "endMs": 149392,
+          "value": "him",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1685",
+          "startMs": 149392,
+          "endMs": 149521,
+          "value": "home",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1686",
+          "startMs": 149521,
+          "endMs": 149670,
+          "value": "and",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1687",
+          "startMs": 149670,
+          "endMs": 149977,
+          "value": "skin",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1688",
+          "startMs": 149977,
+          "endMs": 150140,
+          "value": "him",
+          "support": "partial",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1689",
+          "startMs": 150140,
+          "endMs": 150331,
+          "value": "see",
+          "support": "neighbor-outside-window",
+          "labelKind": "original-unmarked-row"
+        }
+      ],
+      "intersectingRows": 95
+    },
+    {
+      "id": "doreco_sout3282_mc_english_kent03_b_part1-60000",
+      "split": "development",
+      "annotationMember": "doreco_sout3282_core_v2.0/doreco_sout3282_mc_english_kent03_b_part1.eaf",
+      "tierId": "wd@EN03",
+      "mediaFile": "doreco_sout3282_mc_english_kent03_b_part1.wav",
+      "startMs": 60000,
+      "endMs": 90000,
+      "labels": "Complete original master tier; preserve both neighboring rows and every intersecting special label. Fully contained lexical words form coverage denominator; clipped words remain partial support, not invented full words.",
+      "annotationSha256": "103fd70b94ecc5186c2da95870cf0ed3ccf7b14b9eda31772a4443cd5ea16db2",
+      "mediaDescriptor": {
+        "MEDIA_URL": "doreco_sout3282_mc_english_kent03_b_part1.wav",
+        "MIME_TYPE": "audio/x-wav"
+      },
+      "completeTierRows": 2447,
+      "rows": [
+        {
+          "annotationId": "a1024",
+          "startMs": 59139,
+          "endMs": 59479,
+          "value": "<<fp>>",
+          "support": "neighbor-outside-window",
+          "labelKind": "original-marked-material"
+        },
+        {
+          "annotationId": "a1025",
+          "startMs": 59479,
+          "endMs": 68132,
+          "value": "<p:>",
+          "support": "partial",
+          "labelKind": "original-marked-material"
+        },
+        {
+          "annotationId": "a1026",
+          "startMs": 68132,
+          "endMs": 68455,
+          "value": "<<pr>Oh>",
+          "support": "fully-contained",
+          "labelKind": "original-marked-material"
+        },
+        {
+          "annotationId": "a1027",
+          "startMs": 68455,
+          "endMs": 68756,
+          "value": "they",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1028",
+          "startMs": 68756,
+          "endMs": 68999,
+          "value": "used",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1029",
+          "startMs": 68999,
+          "endMs": 69205,
+          "value": "have",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1030",
+          "startMs": 69205,
+          "endMs": 69482,
+          "value": "all",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1031",
+          "startMs": 69482,
+          "endMs": 70016,
+          "value": "sorts",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1032",
+          "startMs": 70016,
+          "endMs": 70262,
+          "value": "of",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1033",
+          "startMs": 70262,
+          "endMs": 70876,
+          "value": "<p:>",
+          "support": "fully-contained",
+          "labelKind": "original-marked-material"
+        },
+        {
+          "annotationId": "a1034",
+          "startMs": 70876,
+          "endMs": 71646,
+          "value": "remedies",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1035",
+          "startMs": 71646,
+          "endMs": 71844,
+          "value": "and",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1036",
+          "startMs": 71844,
+          "endMs": 72926,
+          "value": "secrets",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1037",
+          "startMs": 72926,
+          "endMs": 73527,
+          "value": "<p:>",
+          "support": "fully-contained",
+          "labelKind": "original-marked-material"
+        },
+        {
+          "annotationId": "a1038",
+          "startMs": 73527,
+          "endMs": 73681,
+          "value": "of",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1039",
+          "startMs": 73681,
+          "endMs": 73926,
+          "value": "their",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1040",
+          "startMs": 73926,
+          "endMs": 74442,
+          "value": "own",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1041",
+          "startMs": 74442,
+          "endMs": 74603,
+          "value": "you",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1042",
+          "startMs": 74603,
+          "endMs": 75132,
+          "value": "know",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1043",
+          "startMs": 75132,
+          "endMs": 75707,
+          "value": "<p:>",
+          "support": "fully-contained",
+          "labelKind": "original-marked-material"
+        },
+        {
+          "annotationId": "a1044",
+          "startMs": 75707,
+          "endMs": 75810,
+          "value": "Well",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1045",
+          "startMs": 75810,
+          "endMs": 76065,
+          "value": "of",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1046",
+          "startMs": 76065,
+          "endMs": 76476,
+          "value": "course",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1047",
+          "startMs": 76476,
+          "endMs": 76612,
+          "value": "we",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1048",
+          "startMs": 76612,
+          "endMs": 77087,
+          "value": "all",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1049",
+          "startMs": 77087,
+          "endMs": 77596,
+          "value": "know",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1050",
+          "startMs": 77596,
+          "endMs": 77767,
+          "value": "that",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1051",
+          "startMs": 77767,
+          "endMs": 78044,
+          "value": "there",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1052",
+          "startMs": 78044,
+          "endMs": 78707,
+          "value": "was",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1053",
+          "startMs": 78707,
+          "endMs": 79091,
+          "value": "<p:>",
+          "support": "fully-contained",
+          "labelKind": "original-marked-material"
+        },
+        {
+          "annotationId": "a1054",
+          "startMs": 79091,
+          "endMs": 79206,
+          "value": "a",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1055",
+          "startMs": 79206,
+          "endMs": 79791,
+          "value": "secret",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1056",
+          "startMs": 79791,
+          "endMs": 80091,
+          "value": "for",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1057",
+          "startMs": 80091,
+          "endMs": 80822,
+          "value": "travelling",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1058",
+          "startMs": 80822,
+          "endMs": 81294,
+          "value": "<p:>",
+          "support": "fully-contained",
+          "labelKind": "original-marked-material"
+        },
+        {
+          "annotationId": "a1059",
+          "startMs": 81294,
+          "endMs": 81745,
+          "value": "those",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1060",
+          "startMs": 81745,
+          "endMs": 82081,
+          "value": "great",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1061",
+          "startMs": 82081,
+          "endMs": 82294,
+          "value": "big",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1062",
+          "startMs": 82294,
+          "endMs": 83577,
+          "value": "stallionhorses",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1063",
+          "startMs": 83577,
+          "endMs": 84336,
+          "value": "<p:>",
+          "support": "fully-contained",
+          "labelKind": "original-marked-material"
+        },
+        {
+          "annotationId": "a1064",
+          "startMs": 84336,
+          "endMs": 84540,
+          "value": "in",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1065",
+          "startMs": 84540,
+          "endMs": 85011,
+          "value": "the",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1066",
+          "startMs": 85011,
+          "endMs": 85177,
+          "value": "what",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1067",
+          "startMs": 85177,
+          "endMs": 85241,
+          "value": "I",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1068",
+          "startMs": 85241,
+          "endMs": 85416,
+          "value": "mean",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1069",
+          "startMs": 85416,
+          "endMs": 85465,
+          "value": "to",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1070",
+          "startMs": 85465,
+          "endMs": 85639,
+          "value": "say",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1071",
+          "startMs": 85639,
+          "endMs": 85783,
+          "value": "in",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1072",
+          "startMs": 85783,
+          "endMs": 85881,
+          "value": "the",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1073",
+          "startMs": 85881,
+          "endMs": 86806,
+          "value": "breedingtime",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1074",
+          "startMs": 86806,
+          "endMs": 86937,
+          "value": "they",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1075",
+          "startMs": 86937,
+          "endMs": 87281,
+          "value": "wouldn't",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1076",
+          "startMs": 87281,
+          "endMs": 87551,
+          "value": "go",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1077",
+          "startMs": 87551,
+          "endMs": 87974,
+          "value": "along",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1078",
+          "startMs": 87974,
+          "endMs": 88084,
+          "value": "with",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1079",
+          "startMs": 88084,
+          "endMs": 88383,
+          "value": "any",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1080",
+          "startMs": 88383,
+          "endMs": 89087,
+          "value": "ordinary",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1081",
+          "startMs": 89087,
+          "endMs": 89698,
+          "value": "person",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1082",
+          "startMs": 89698,
+          "endMs": 89799,
+          "value": "you",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1083",
+          "startMs": 89799,
+          "endMs": 90199,
+          "value": "know",
+          "support": "partial",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1084",
+          "startMs": 90199,
+          "endMs": 91533,
+          "value": "<p:>",
+          "support": "neighbor-outside-window",
+          "labelKind": "original-marked-material"
+        }
+      ],
+      "intersectingRows": 59
+    },
+    {
+      "id": "doreco_sout3282_mc_english_kent03_b_part2-60000",
+      "split": "confirmation",
+      "annotationMember": "doreco_sout3282_core_v2.0/doreco_sout3282_mc_english_kent03_b_part2.eaf",
+      "tierId": "wd@EN03",
+      "mediaFile": "doreco_sout3282_mc_english_kent03_b_part2.wav",
+      "startMs": 60000,
+      "endMs": 90000,
+      "labels": "Complete original master tier; preserve both neighboring rows and every intersecting special label. Fully contained lexical words form coverage denominator; clipped words remain partial support, not invented full words.",
+      "annotationSha256": "b44fe3b024111fb5eb8085dbdf01e2899a8c65accb98f27f98b5d0404c99497d",
+      "mediaDescriptor": {
+        "MEDIA_URL": "doreco_sout3282_mc_english_kent03_b_part2.wav",
+        "MIME_TYPE": "audio/x-wav"
+      },
+      "completeTierRows": 2391,
+      "rows": [
+        {
+          "annotationId": "a878",
+          "startMs": 59628,
+          "endMs": 59868,
+          "value": "clean",
+          "support": "neighbor-outside-window",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a879",
+          "startMs": 59868,
+          "endMs": 60018,
+          "value": "him",
+          "support": "partial",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a880",
+          "startMs": 60018,
+          "endMs": 60158,
+          "value": "up",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a881",
+          "startMs": 60158,
+          "endMs": 60250,
+          "value": "a",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a882",
+          "startMs": 60250,
+          "endMs": 60431,
+          "value": "bit",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a883",
+          "startMs": 60431,
+          "endMs": 61266,
+          "value": "<p:>",
+          "support": "fully-contained",
+          "labelKind": "original-marked-material"
+        },
+        {
+          "annotationId": "a884",
+          "startMs": 61266,
+          "endMs": 61444,
+          "value": "We",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a885",
+          "startMs": 61444,
+          "endMs": 61573,
+          "value": "used",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a886",
+          "startMs": 61573,
+          "endMs": 61637,
+          "value": "to",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a887",
+          "startMs": 61637,
+          "endMs": 61770,
+          "value": "go",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a888",
+          "startMs": 61770,
+          "endMs": 62017,
+          "value": "back",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a889",
+          "startMs": 62017,
+          "endMs": 62431,
+          "value": "after",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a890",
+          "startMs": 62431,
+          "endMs": 62791,
+          "value": "tea",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a891",
+          "startMs": 62791,
+          "endMs": 63077,
+          "value": "after",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a892",
+          "startMs": 63077,
+          "endMs": 63318,
+          "value": "we'd",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a893",
+          "startMs": 63318,
+          "endMs": 63497,
+          "value": "had",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a894",
+          "startMs": 63497,
+          "endMs": 63677,
+          "value": "our",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a895",
+          "startMs": 63677,
+          "endMs": 64227,
+          "value": "<p:>",
+          "support": "fully-contained",
+          "labelKind": "original-marked-material"
+        },
+        {
+          "annotationId": "a896",
+          "startMs": 64227,
+          "endMs": 64437,
+          "value": "tea",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a897",
+          "startMs": 64437,
+          "endMs": 64793,
+          "value": "and",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a898",
+          "startMs": 64793,
+          "endMs": 65007,
+          "value": "<p:>",
+          "support": "fully-contained",
+          "labelKind": "original-marked-material"
+        },
+        {
+          "annotationId": "a899",
+          "startMs": 65007,
+          "endMs": 65187,
+          "value": "do",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a900",
+          "startMs": 65187,
+          "endMs": 65394,
+          "value": "that",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a901",
+          "startMs": 65394,
+          "endMs": 65638,
+          "value": "<p:>",
+          "support": "fully-contained",
+          "labelKind": "original-marked-material"
+        },
+        {
+          "annotationId": "a902",
+          "startMs": 65638,
+          "endMs": 66127,
+          "value": "generally",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a903",
+          "startMs": 66127,
+          "endMs": 66483,
+          "value": "<p:>",
+          "support": "fully-contained",
+          "labelKind": "original-marked-material"
+        },
+        {
+          "annotationId": "a904",
+          "startMs": 66483,
+          "endMs": 66583,
+          "value": "Cause",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a905",
+          "startMs": 66583,
+          "endMs": 66763,
+          "value": "they",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a906",
+          "startMs": 66763,
+          "endMs": 66973,
+          "value": "would",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a907",
+          "startMs": 66973,
+          "endMs": 67130,
+          "value": "be",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a908",
+          "startMs": 67130,
+          "endMs": 67463,
+          "value": "dry",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a909",
+          "startMs": 67463,
+          "endMs": 67913,
+          "value": "then",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a910",
+          "startMs": 67913,
+          "endMs": 69589,
+          "value": "<p:>",
+          "support": "fully-contained",
+          "labelKind": "original-marked-material"
+        },
+        {
+          "annotationId": "a911",
+          "startMs": 69589,
+          "endMs": 69942,
+          "value": "<<fp>Hm>",
+          "support": "fully-contained",
+          "labelKind": "original-marked-material"
+        },
+        {
+          "annotationId": "a912",
+          "startMs": 69942,
+          "endMs": 70813,
+          "value": "<p:>",
+          "support": "fully-contained",
+          "labelKind": "original-marked-material"
+        },
+        {
+          "annotationId": "a913",
+          "startMs": 70813,
+          "endMs": 70903,
+          "value": "Oh",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a914",
+          "startMs": 70903,
+          "endMs": 71003,
+          "value": "there",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a915",
+          "startMs": 71003,
+          "endMs": 71163,
+          "value": "was",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a916",
+          "startMs": 71163,
+          "endMs": 71206,
+          "value": "a",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a917",
+          "startMs": 71206,
+          "endMs": 71373,
+          "value": "lot",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a918",
+          "startMs": 71373,
+          "endMs": 71443,
+          "value": "of",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a919",
+          "startMs": 71443,
+          "endMs": 71753,
+          "value": "work",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a920",
+          "startMs": 71753,
+          "endMs": 71843,
+          "value": "with",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a921",
+          "startMs": 71843,
+          "endMs": 71952,
+          "value": "a",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a922",
+          "startMs": 71952,
+          "endMs": 72243,
+          "value": "team",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a923",
+          "startMs": 72243,
+          "endMs": 72303,
+          "value": "of",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a924",
+          "startMs": 72303,
+          "endMs": 72763,
+          "value": "horses",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a925",
+          "startMs": 72763,
+          "endMs": 73825,
+          "value": "<p:>",
+          "support": "fully-contained",
+          "labelKind": "original-marked-material"
+        },
+        {
+          "annotationId": "a926",
+          "startMs": 73825,
+          "endMs": 73889,
+          "value": "You",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a927",
+          "startMs": 73889,
+          "endMs": 74019,
+          "value": "was",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a928",
+          "startMs": 74019,
+          "endMs": 74309,
+          "value": "never",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a929",
+          "startMs": 74309,
+          "endMs": 74673,
+          "value": "done",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a930",
+          "startMs": 74673,
+          "endMs": 75914,
+          "value": "<p:>",
+          "support": "fully-contained",
+          "labelKind": "original-marked-material"
+        },
+        {
+          "annotationId": "a931",
+          "startMs": 75914,
+          "endMs": 76153,
+          "value": "Five",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a932",
+          "startMs": 76153,
+          "endMs": 76493,
+          "value": "o'clock",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a933",
+          "startMs": 76493,
+          "endMs": 76613,
+          "value": "half",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a934",
+          "startMs": 76613,
+          "endMs": 76903,
+          "value": "past",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a935",
+          "startMs": 76903,
+          "endMs": 77263,
+          "value": "four",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a936",
+          "startMs": 77263,
+          "endMs": 77543,
+          "value": "five",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a937",
+          "startMs": 77543,
+          "endMs": 77873,
+          "value": "o'clock",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a938",
+          "startMs": 77873,
+          "endMs": 77938,
+          "value": "in",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a939",
+          "startMs": 77938,
+          "endMs": 77993,
+          "value": "the",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a940",
+          "startMs": 77993,
+          "endMs": 78327,
+          "value": "morning",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a941",
+          "startMs": 78327,
+          "endMs": 78478,
+          "value": "you'd",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a942",
+          "startMs": 78478,
+          "endMs": 78603,
+          "value": "got",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a943",
+          "startMs": 78603,
+          "endMs": 78649,
+          "value": "to",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a944",
+          "startMs": 78649,
+          "endMs": 78885,
+          "value": "get",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a945",
+          "startMs": 78885,
+          "endMs": 79122,
+          "value": "there",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a946",
+          "startMs": 79122,
+          "endMs": 79256,
+          "value": "n",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a947",
+          "startMs": 79256,
+          "endMs": 79771,
+          "value": "feed'em",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a948",
+          "startMs": 79771,
+          "endMs": 81863,
+          "value": "<p:>",
+          "support": "fully-contained",
+          "labelKind": "original-marked-material"
+        },
+        {
+          "annotationId": "a949",
+          "startMs": 81863,
+          "endMs": 82257,
+          "value": "Yeah",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a950",
+          "startMs": 82257,
+          "endMs": 88959,
+          "value": "<p:>",
+          "support": "fully-contained",
+          "labelKind": "original-marked-material"
+        },
+        {
+          "annotationId": "a951",
+          "startMs": 88959,
+          "endMs": 89287,
+          "value": "Well",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a952",
+          "startMs": 89287,
+          "endMs": 89673,
+          "value": "no",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a953",
+          "startMs": 89673,
+          "endMs": 90037,
+          "value": "when",
+          "support": "partial",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a954",
+          "startMs": 90037,
+          "endMs": 90328,
+          "value": "you",
+          "support": "neighbor-outside-window",
+          "labelKind": "original-unmarked-row"
+        }
+      ],
+      "intersectingRows": 75
+    },
+    {
+      "id": "doreco_sout3282_mc_english_kent03_b_part2-120000",
+      "split": "confirmation",
+      "annotationMember": "doreco_sout3282_core_v2.0/doreco_sout3282_mc_english_kent03_b_part2.eaf",
+      "tierId": "wd@EN03",
+      "mediaFile": "doreco_sout3282_mc_english_kent03_b_part2.wav",
+      "startMs": 120000,
+      "endMs": 150000,
+      "labels": "Complete original master tier; preserve both neighboring rows and every intersecting special label. Fully contained lexical words form coverage denominator; clipped words remain partial support, not invented full words.",
+      "annotationSha256": "b44fe3b024111fb5eb8085dbdf01e2899a8c65accb98f27f98b5d0404c99497d",
+      "mediaDescriptor": {
+        "MEDIA_URL": "doreco_sout3282_mc_english_kent03_b_part2.wav",
+        "MIME_TYPE": "audio/x-wav"
+      },
+      "completeTierRows": 2391,
+      "rows": [
+        {
+          "annotationId": "a1017",
+          "startMs": 119458,
+          "endMs": 119895,
+          "value": "before",
+          "support": "neighbor-outside-window",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1018",
+          "startMs": 119895,
+          "endMs": 120095,
+          "value": "we",
+          "support": "partial",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1019",
+          "startMs": 120095,
+          "endMs": 120315,
+          "value": "went",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1020",
+          "startMs": 120315,
+          "endMs": 120652,
+          "value": "home",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1021",
+          "startMs": 120652,
+          "endMs": 121032,
+          "value": "n",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1022",
+          "startMs": 121032,
+          "endMs": 122044,
+          "value": "<p:>",
+          "support": "fully-contained",
+          "labelKind": "original-marked-material"
+        },
+        {
+          "annotationId": "a1023",
+          "startMs": 122044,
+          "endMs": 122126,
+          "value": "n",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1024",
+          "startMs": 122126,
+          "endMs": 122245,
+          "value": "that",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1025",
+          "startMs": 122245,
+          "endMs": 122404,
+          "value": "was",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1026",
+          "startMs": 122404,
+          "endMs": 122747,
+          "value": "finished",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1027",
+          "startMs": 122747,
+          "endMs": 122940,
+          "value": "Well",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1028",
+          "startMs": 122940,
+          "endMs": 122988,
+          "value": "you",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1029",
+          "startMs": 122988,
+          "endMs": 123106,
+          "value": "used",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1030",
+          "startMs": 123106,
+          "endMs": 123162,
+          "value": "to",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1031",
+          "startMs": 123162,
+          "endMs": 123355,
+          "value": "get",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1032",
+          "startMs": 123355,
+          "endMs": 123521,
+          "value": "<<ui>there>",
+          "support": "fully-contained",
+          "labelKind": "original-marked-material"
+        },
+        {
+          "annotationId": "a1033",
+          "startMs": 123521,
+          "endMs": 123608,
+          "value": "in",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1034",
+          "startMs": 123608,
+          "endMs": 123675,
+          "value": "the",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1035",
+          "startMs": 123675,
+          "endMs": 124317,
+          "value": "morning",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1036",
+          "startMs": 124317,
+          "endMs": 124724,
+          "value": "course",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1037",
+          "startMs": 124724,
+          "endMs": 125357,
+          "value": "<p:>",
+          "support": "fully-contained",
+          "labelKind": "original-marked-material"
+        },
+        {
+          "annotationId": "a1038",
+          "startMs": 125357,
+          "endMs": 125451,
+          "value": "go",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1039",
+          "startMs": 125451,
+          "endMs": 125731,
+          "value": "down",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1040",
+          "startMs": 125731,
+          "endMs": 125971,
+          "value": "about",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1041",
+          "startMs": 125971,
+          "endMs": 126267,
+          "value": "six",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1042",
+          "startMs": 126267,
+          "endMs": 126609,
+          "value": "o'clock",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1043",
+          "startMs": 126609,
+          "endMs": 126743,
+          "value": "n",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1044",
+          "startMs": 126743,
+          "endMs": 127287,
+          "value": "<p:>",
+          "support": "fully-contained",
+          "labelKind": "original-marked-material"
+        },
+        {
+          "annotationId": "a1045",
+          "startMs": 127287,
+          "endMs": 127476,
+          "value": "give'em",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1046",
+          "startMs": 127476,
+          "endMs": 127578,
+          "value": "a",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1047",
+          "startMs": 127578,
+          "endMs": 127722,
+          "value": "bit",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1048",
+          "startMs": 127722,
+          "endMs": 127820,
+          "value": "o",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1049",
+          "startMs": 127820,
+          "endMs": 128497,
+          "value": "<p:>",
+          "support": "fully-contained",
+          "labelKind": "original-marked-material"
+        },
+        {
+          "annotationId": "a1050",
+          "startMs": 128497,
+          "endMs": 128706,
+          "value": "grub",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1051",
+          "startMs": 128706,
+          "endMs": 129127,
+          "value": "chuck'em",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1052",
+          "startMs": 129127,
+          "endMs": 129237,
+          "value": "in",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1053",
+          "startMs": 129237,
+          "endMs": 129282,
+          "value": "a",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1054",
+          "startMs": 129282,
+          "endMs": 129437,
+          "value": "bit",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1055",
+          "startMs": 129437,
+          "endMs": 129547,
+          "value": "of",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1056",
+          "startMs": 129547,
+          "endMs": 129757,
+          "value": "grub",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1057",
+          "startMs": 129757,
+          "endMs": 130497,
+          "value": "<p:>",
+          "support": "fully-contained",
+          "labelKind": "original-marked-material"
+        },
+        {
+          "annotationId": "a1058",
+          "startMs": 130497,
+          "endMs": 130797,
+          "value": "before",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1059",
+          "startMs": 130797,
+          "endMs": 130978,
+          "value": "they",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1060",
+          "startMs": 130978,
+          "endMs": 131192,
+          "value": "went",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1061",
+          "startMs": 131192,
+          "endMs": 131423,
+          "value": "out",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1062",
+          "startMs": 131423,
+          "endMs": 132988,
+          "value": "<p:>",
+          "support": "fully-contained",
+          "labelKind": "original-marked-material"
+        },
+        {
+          "annotationId": "a1063",
+          "startMs": 132988,
+          "endMs": 133128,
+          "value": "They",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1064",
+          "startMs": 133128,
+          "endMs": 133328,
+          "value": "used",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1065",
+          "startMs": 133328,
+          "endMs": 133417,
+          "value": "to",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1066",
+          "startMs": 133417,
+          "endMs": 133476,
+          "value": "have",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1067",
+          "startMs": 133476,
+          "endMs": 133617,
+          "value": "to",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1068",
+          "startMs": 133617,
+          "endMs": 133776,
+          "value": "get",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1069",
+          "startMs": 133776,
+          "endMs": 133980,
+          "value": "out",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1070",
+          "startMs": 133980,
+          "endMs": 134268,
+          "value": "<p:>",
+          "support": "fully-contained",
+          "labelKind": "original-marked-material"
+        },
+        {
+          "annotationId": "a1071",
+          "startMs": 134268,
+          "endMs": 134488,
+          "value": "about",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1072",
+          "startMs": 134488,
+          "endMs": 134740,
+          "value": "seven",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1073",
+          "startMs": 134740,
+          "endMs": 135178,
+          "value": "o'clock",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1074",
+          "startMs": 135178,
+          "endMs": 135478,
+          "value": "same",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1075",
+          "startMs": 135478,
+          "endMs": 135598,
+          "value": "as",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1076",
+          "startMs": 135598,
+          "endMs": 135658,
+          "value": "the",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1077",
+          "startMs": 135658,
+          "endMs": 136104,
+          "value": "rest",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1078",
+          "startMs": 136104,
+          "endMs": 138234,
+          "value": "<p:>",
+          "support": "fully-contained",
+          "labelKind": "original-marked-material"
+        },
+        {
+          "annotationId": "a1079",
+          "startMs": 138234,
+          "endMs": 138554,
+          "value": "Yes",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1080",
+          "startMs": 138554,
+          "endMs": 138654,
+          "value": "they",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1081",
+          "startMs": 138654,
+          "endMs": 138834,
+          "value": "used",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1082",
+          "startMs": 138834,
+          "endMs": 138894,
+          "value": "to",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1083",
+          "startMs": 138894,
+          "endMs": 139084,
+          "value": "get",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1084",
+          "startMs": 139084,
+          "endMs": 139353,
+          "value": "pretty",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1085",
+          "startMs": 139353,
+          "endMs": 139814,
+          "value": "tired",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1086",
+          "startMs": 139814,
+          "endMs": 139894,
+          "value": "by",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1087",
+          "startMs": 139894,
+          "endMs": 140022,
+          "value": "the",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1088",
+          "startMs": 140022,
+          "endMs": 140224,
+          "value": "time",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1089",
+          "startMs": 140224,
+          "endMs": 140604,
+          "value": "night",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1090",
+          "startMs": 140604,
+          "endMs": 140868,
+          "value": "come",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1091",
+          "startMs": 140868,
+          "endMs": 141540,
+          "value": "<p:>",
+          "support": "fully-contained",
+          "labelKind": "original-marked-material"
+        },
+        {
+          "annotationId": "a1092",
+          "startMs": 141540,
+          "endMs": 141730,
+          "value": "If",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1093",
+          "startMs": 141730,
+          "endMs": 141866,
+          "value": "they",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1094",
+          "startMs": 141866,
+          "endMs": 142115,
+          "value": "got",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1095",
+          "startMs": 142115,
+          "endMs": 143220,
+          "value": "<p:>",
+          "support": "fully-contained",
+          "labelKind": "original-marked-material"
+        },
+        {
+          "annotationId": "a1096",
+          "startMs": 143220,
+          "endMs": 143524,
+          "value": "too",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1097",
+          "startMs": 143524,
+          "endMs": 143770,
+          "value": "out",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1098",
+          "startMs": 143770,
+          "endMs": 143930,
+          "value": "of",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1099",
+          "startMs": 143930,
+          "endMs": 144293,
+          "value": "breath",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1100",
+          "startMs": 144293,
+          "endMs": 144490,
+          "value": "cause",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1101",
+          "startMs": 144490,
+          "endMs": 144650,
+          "value": "they'd",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1102",
+          "startMs": 144650,
+          "endMs": 144990,
+          "value": "always",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1103",
+          "startMs": 144990,
+          "endMs": 145230,
+          "value": "hang",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1104",
+          "startMs": 145230,
+          "endMs": 145363,
+          "value": "their",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1105",
+          "startMs": 145363,
+          "endMs": 145661,
+          "value": "tongue",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1106",
+          "startMs": 145661,
+          "endMs": 145930,
+          "value": "out",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1107",
+          "startMs": 145930,
+          "endMs": 146050,
+          "value": "when",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1108",
+          "startMs": 146050,
+          "endMs": 146260,
+          "value": "they",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1109",
+          "startMs": 146260,
+          "endMs": 146438,
+          "value": "was",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1110",
+          "startMs": 146438,
+          "endMs": 146560,
+          "value": "out",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1111",
+          "startMs": 146560,
+          "endMs": 146670,
+          "value": "of",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1112",
+          "startMs": 146670,
+          "endMs": 147075,
+          "value": "breath",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1113",
+          "startMs": 147075,
+          "endMs": 147711,
+          "value": "<p:>",
+          "support": "fully-contained",
+          "labelKind": "original-marked-material"
+        },
+        {
+          "annotationId": "a1114",
+          "startMs": 147711,
+          "endMs": 148031,
+          "value": "Always",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1115",
+          "startMs": 148031,
+          "endMs": 148221,
+          "value": "have",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1116",
+          "startMs": 148221,
+          "endMs": 148281,
+          "value": "to",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1117",
+          "startMs": 148281,
+          "endMs": 148747,
+          "value": "turn'em",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1118",
+          "startMs": 148747,
+          "endMs": 149021,
+          "value": "round",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1119",
+          "startMs": 149021,
+          "endMs": 149291,
+          "value": "head",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1120",
+          "startMs": 149291,
+          "endMs": 149387,
+          "value": "to",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1121",
+          "startMs": 149387,
+          "endMs": 149519,
+          "value": "the",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1122",
+          "startMs": 149519,
+          "endMs": 149881,
+          "value": "wind",
+          "support": "fully-contained",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1123",
+          "startMs": 149881,
+          "endMs": 150154,
+          "value": "and",
+          "support": "partial",
+          "labelKind": "original-unmarked-row"
+        },
+        {
+          "annotationId": "a1124",
+          "startMs": 150154,
+          "endMs": 162616,
+          "value": "<p:>",
+          "support": "neighbor-outside-window",
+          "labelKind": "original-marked-material"
+        }
+      ],
+      "intersectingRows": 106
+    }
+  ]
+}
