@@ -14,8 +14,11 @@ assert.ok(
 const out = resolve(values.out);
 await mkdir(out);
 const home = await mkdtemp("/tmp/screenrec-sdr-");
-const source = join(root, "specs/ffmpeg-parity/evidence/motion-interchange/phase-0.png");
-const reference = join(root, "specs/ffmpeg-parity/evidence/sdr-correction/core-image/imported");
+const source = join(root, "specs/done/ffmpeg-parity/evidence/motion-interchange/phase-0.png");
+const reference = join(
+  root,
+  "specs/done/ffmpeg-parity/evidence/sdr-correction/core-image/imported",
+);
 const report = {
   passed: false,
   trace: [],

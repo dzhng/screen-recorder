@@ -14,7 +14,7 @@ const run = promisify(execFile),
 const protocol = JSON.parse(
   await readFile(
     new URL(
-      "../../../../specs/ffmpeg-parity/evidence/loudness/frozen-protocol.json",
+      "../../../../specs/done/ffmpeg-parity/evidence/loudness/frozen-protocol.json",
       import.meta.url,
     ),
   ),

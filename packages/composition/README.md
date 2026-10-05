@@ -62,7 +62,7 @@ contrast/saturation in that order. It preserves alpha and extended working value
 until the existing output conversion. Source-neutral temperature describes the
 white being corrected toward the recipe's target, not a camera-calibrated warmth
 slider. Temporal windows and curves are not admitted for this static processor.
-The [reproduction](../../specs/ffmpeg-parity/slices/16-sdr-feasibility.md) owns the
+The [reproduction](../../specs/done/ffmpeg-parity/evidence/sdr-correction) owns the
 measured provider semantics and limits; operation discovery owns parameter bounds.
 
 ## Compilation is distinct from readiness

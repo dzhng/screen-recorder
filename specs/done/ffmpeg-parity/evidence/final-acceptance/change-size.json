@@ -1,0 +1,26 @@
+{
+  "base": "c5765423",
+  "scope": "Textual feature diff relative to integrated main. Comment-only lines separated by syntax; inline comments remain with code. Specs category includes complete retained JSON/log operands; binary media, compressed bytes and this measurement file excluded. No formatter-only unrelated files excluded.",
+  "categories": {
+    "Production code (excl. comment-only lines)": {
+      "added": 10537,
+      "deleted": 708,
+      "net": 9829
+    },
+    "Comment-only lines": {
+      "added": 124,
+      "deleted": 14,
+      "net": 110
+    },
+    "Tests / harness": {
+      "added": 18861,
+      "deleted": 196,
+      "net": 18665
+    },
+    "Specs / docs / retained evidence": {
+      "added": 268699,
+      "deleted": 10,
+      "net": 268689
+    }
+  }
+}

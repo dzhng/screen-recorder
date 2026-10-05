@@ -9,7 +9,7 @@ import { gunzipSync } from "node:zlib";
 import { spawnSync } from "node:child_process";
 const verifier = fileURLToPath(
   new URL(
-    "../../specs/ffmpeg-parity/evidence/speaker-runtime/verify-retained.mjs",
+    "../../specs/done/ffmpeg-parity/evidence/speaker-runtime/verify-retained.mjs",
     import.meta.url,
   ),
 );

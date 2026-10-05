@@ -618,7 +618,11 @@ import ScreenRecorderControls
         });
       });
       await writeFile(join(home, "export-controls-process.json"), JSON.stringify(result, null, 2));
-      assert.equal(result.code, 0, `Retained scratch home: ${home}\n${result.stderr}${result.stdout}`);
+      assert.equal(
+        result.code,
+        0,
+        `Retained scratch home: ${home}\n${result.stderr}${result.stdout}`,
+      );
       assert.match(result.stdout, /PASS native exports commit/);
       const [, committed] = result.stdout.match(/EXPORTS committed=(\S+) failed=(\S+)/);
       assert.deepEqual(

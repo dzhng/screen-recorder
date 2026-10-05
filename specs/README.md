@@ -31,18 +31,16 @@ replacement, admission, signing and explicit skill-lifecycle boundaries, with
 published-artifact and scoped native/agent evidence. Release publishing remains
 owned by the [tag workflow](../scripts/README.md#versioned-github-releases).
 
-## Implementation plans
-
-[FFmpeg parity and agent media workflows](ffmpeg-parity/README.md) owns the active
-implementation ladder for workflow additions and bundled media-tool execution.
+[FFmpeg parity and agent media workflows](done/ffmpeg-parity/README.md) records
+bundled media tools, explicit offline treatments and task-side agent workflows.
 
 ## Future proposals
 
 These directories hold planning questions, not unfinished implementation slices.
 
 [Agent editing workflow](agent-editing-workflow/README.md) recommends inspection,
-review and production capability additions for agent-driven editing. It is an
-assessment; the FFmpeg parity plan now owns implementation ordering.
+review and production capability additions for agent-driven editing. It is a
+historical assessment; the closed FFmpeg parity record owns the resulting scope.
 
 [Editing UI](editing-ui/README.md) is a deferred client over shared operations.
 [Presenter effects](presenter-effects/README.md) retain visual intent and missing

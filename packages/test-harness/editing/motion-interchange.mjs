@@ -22,7 +22,7 @@ assert.ok(
 await mkdir(resolve(values.out));
 const out = await realpath(resolve(values.out)),
   home = await mkdtemp("/tmp/screenrec-motion-");
-const source = join(root, "specs/ffmpeg-parity/evidence/motion-alpha/alpha.mov");
+const source = join(root, "specs/done/ffmpeg-parity/evidence/motion-alpha/alpha.mov");
 const report = {
   passed: false,
   trace: [],
@@ -114,7 +114,7 @@ try {
     const atUs = phase === 3 ? 999999 : phase * 250000 + 1;
     const image = await picture({ ...selection(), atUs }, `phase-${phase}`);
     const control = await pixels(
-      join(root, `specs/ffmpeg-parity/evidence/motion-alpha/ordinary-${phase}-dark-movie.png`),
+      join(root, `specs/done/ffmpeg-parity/evidence/motion-alpha/ordinary-${phase}-dark-movie.png`),
     );
     assert.deepEqual(image.pixels, control);
     reference.push(image);

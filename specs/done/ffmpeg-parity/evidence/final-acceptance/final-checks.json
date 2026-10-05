@@ -1,0 +1,42 @@
+{
+  "sourceRevision": "f1aaae3a3df14e98665bd02a970aa45e1650c01d",
+  "scope": "Bounded final integrated reruns; successful prior package/full-suite components reused. No capture, model inference or personal edits. Full repository suite remains failed evidence.",
+  "checks": [
+    {
+      "command": "SCREENREC_MATERIALIZER_TESTS=1 swift run --package-path helpers/mac ScreenRecorderCaptureTests",
+      "exitCode": 0,
+      "log": "materializer-root-final.log.gz",
+      "originalSha256": "c9e9221f944fb0101270b2ede99b47cfc49daa3e00256f1a5155e17970248659"
+    },
+    {
+      "command": "bun run --cwd apps/service test src/speaker-service.test.ts",
+      "exitCode": 0,
+      "log": "speaker-public-final.log.gz",
+      "originalSha256": "6464249b34ff145660ed9ef7373b0fa971bfb0e5b0f9ec69665f15d0890f49da"
+    },
+    {
+      "command": "bun run format:check",
+      "exitCode": 1,
+      "log": "format-integrated.log.gz",
+      "originalSha256": "ef35b0304e2dc16249ac72a167f128a85ff439f204b83a14aeee9cc2d81c29a5"
+    },
+    {
+      "command": "node --test tests/export-controls.test.mjs tests/preview-player.test.mjs (cwd apps/macos)",
+      "exitCode": 0,
+      "log": "macos-root-final.log.gz",
+      "originalSha256": "faef69641502fecd225b8152f98f2e7d90705419f89e73aee6723d7658587fc8"
+    },
+    {
+      "command": "node --test helpers/model-runtime/evidence.test.mjs",
+      "exitCode": 0,
+      "log": "archive-regression.log.gz",
+      "originalSha256": "6a6b13746908f2b9295c74d2db6e61a858c10d34a38df6b5d5e7474574bbf744"
+    },
+    {
+      "command": "bun run format:check (after formatting the export diagnostic)",
+      "exitCode": 0,
+      "log": "format-integrated-success.log.gz",
+      "originalSha256": "acdc2b6c35863a7a70b1e28458104f6ff1370e0a1e82b4b938aa79a16e96d67e"
+    }
+  ]
+}

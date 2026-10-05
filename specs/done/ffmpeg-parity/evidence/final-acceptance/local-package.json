@@ -1,0 +1,16 @@
+{
+  "kind": "local-fixture-acceptance",
+  "productionRelease": false,
+  "tag": "local-parity",
+  "nodeVersion": "24.21.0",
+  "nodeArchiveSha256": "bed7eea5325e1108f32ce5228ddd6a5f0f08a499ee42aa7442aea583702f6057",
+  "sourceRevision": "e09643e91eddbab6110c894e03a34c32c0c2cd4d",
+  "version": "0.1.4",
+  "catalogFormat": 26,
+  "signature": "ad-hoc-local-fixture",
+  "ffmpeg": {
+    "version": "9.0.2",
+    "receiptSha256": "0eaae18dcff6e74f0b5e4683925294319441099ead462734b9e4f542906432e2"
+  },
+  "archiveSha256": "330172ebe4b655d2083592540d8045e51d64d9e8ebe45efbce6ef72c4af113d5"
+}

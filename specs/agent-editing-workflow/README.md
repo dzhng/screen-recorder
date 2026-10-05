@@ -1,7 +1,7 @@
 # Agent editing workflow capability assessment
 
 Status: capability assessment; implementation ordering is superseded by the
-[FFmpeg parity plan](../ffmpeg-parity/README.md). This assessment
+[FFmpeg parity record](../done/ffmpeg-parity/README.md). This assessment
 identifies improvements to agent-driven editing using this checkout's public
 contracts. Installed releases may differ; operation help and execution
 capabilities remain authoritative. No feature below is being implemented by this
@@ -30,7 +30,7 @@ reusing shipped primitives. Add loudness measurement next; caption delivery and
 color correction are the strongest subsequent production capabilities. Animation
 and richer speech evidence need more feasibility work.
 
-Use the parity plan for dependencies and next work. Priorities below describe
+Use the closed parity record for the delivered scope. Priorities below describe
 the original assessment, not an alternate implementation ladder.
 Each entry separates an absent convenience from a genuinely new primitive.
 
