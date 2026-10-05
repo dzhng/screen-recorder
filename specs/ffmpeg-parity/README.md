@@ -12,11 +12,12 @@ every FFmpeg option or a replacement for a professional editing workstation.
 
 Implement the complete user-authorized plan through committed passes. Read the
 [exploration map](exploration.md), [parity contract](parity.md) and
-[isolated evidence](tool-proof.md). Integrated: 01–04, 06–08, 12, 20–21 and 25.
-Current priority: finish managed producer 05, then
-loudness 10; continue independent 09→24, caption proposals 11, SDR 16→17,
-speech 22→23. HDR 18 feeds 19 through 05. Motion interchange 21 reuses existing
-assets and packages; its scoped public retention proof is complete.
+[isolated evidence](tool-proof.md). Integrated: 01–09, 11–12, 20–21 and 25.
+Current pickup: finish SDR reproduction 16, then typed correction 17. Independent
+lanes: HDR 18→19, loudness 10→audio recipe/treatment branches, notes 24 and speech
+22→23. Frozen FFmpeg lacks PQ/HLG conversion; HDR research may reopen pinned
+build 01 with a necessary dependency and refresh affected readiness proofs.
+Speech's first candidates failed their quality gates; no family is promoted yet.
 Each isolated worktree owns focused tests, review and choices; integration reruns
 affected checks. Consumer/release acceptance 26 and the full suite remain last.
 
@@ -27,10 +28,14 @@ is its first artifact consumer, while loudness remains measurement evidence.
 Review helpers require caller-selected extents rather than inventing full revision
 duration. Caption proposals cannot certify glyph/pixel fit before rendered proof.
 
-Compact integration evidence: 34 portable helper checks, 18 composition settings/
+Compact integration evidence: 40 portable helper checks and 29 focused service/
+CLI/native-lifetime/socket checks passed after 05/09/11 integration, along with
+service typecheck/build. Earlier checks: 18 composition settings/
 caption checks, 14 protocol checks, 16 preview and 14 storage checks, two service
 helper/discovery fixtures and affected builds passed. Public caption CLI/MCP
-journey passed all nine groups in isolated scratch state. Native HEVC uses retained
+journey passed all nine groups in isolated scratch state. Motion interchange
+preserves decoded pixels, exact preview support and packages after donor deletion;
+matched still encoding isolates the existing saturated-edge H.264 loss. Native HEVC uses retained
 four-source exact-window proof; full service HEVC and release ZIP remain 26.
 
 Keep each pass to one focused contract; use write-tests before changing behavior.
@@ -51,13 +56,13 @@ prompt, slice status and retained evidence before ending each implementation pas
 - [x] [02 — Relocatable installed tools](slices/02-installed-tools.md)
 - [x] [03 — Owned CLI execution](slices/03-cli-lifetime.md)
 - [x] [04 — Retained FFmpeg input authority](slices/04-input-authority.md)
-- [ ] [05 — Managed FFmpeg publication](slices/05-managed-output.md)
+- [x] [05 — Managed FFmpeg publication](slices/05-managed-output.md)
 - [x] [06 — Bounded selected-file preparation](slices/06-batch-preparation.md)
 - [x] [07 — Compact transcript reading](slices/07-compact-transcripts.md)
 - [x] [08 — Aligned timeline inspection](slices/08-timeline-inspection.md)
-- [ ] [09 — Read-only revision review bundle](slices/09-review-bundle.md)
+- [x] [09 — Read-only revision review bundle](slices/09-review-bundle.md)
 - [ ] [10 — Read-only loudness measurement](slices/10-loudness.md)
-- [ ] [11 — Caption grouping and layout proposals](slices/11-caption-proposals.md)
+- [x] [11 — Caption grouping and layout proposals](slices/11-caption-proposals.md)
 - [x] [12 — Pinned SRT and VTT delivery](slices/12-caption-sidecars.md)
 - [ ] [13a — Normalization reproduction](slices/13a-normalization-reproduction.md)
 - [ ] [14a — Limiter reproduction](slices/14a-limiter-reproduction.md)

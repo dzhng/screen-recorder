@@ -6,6 +6,178 @@ and fixture selection are discretion, not new product decisions.
 
 ## Sound choices
 
+### Bottom-center layout in caller safe area
+
+When: slice 11. Given
+  a selected caption box and safe rectangle, the helper centers the unchanged box
+  at the rectangle's bottom. It does not shrink text when the box is too large;
+  it reports a violation. The plan did not choose placement within that rectangle.
+  This makes a predictable ordinary draft without assuming a platform's margins;
+  the caller can replace the geometry. Future automatic positioning remains
+  outside this helper.
+Verdict: sound. Confidence: medium.
+
+### Envelope dwell and visible support diagnostics
+
+When: slice 11. A word can survive in two separated project fragments. The proposal retains
+  both, keeps that word separate and marks it discontinuous. Dwell is the enclosing
+  time from first support to last support, not newly invented continuous speech.
+  The alternative would extend/rewrite timing or silently hide gaps. The plan did
+  not define fragmented reading time; future continuous-support metrics must use
+  the retained fragments and keep this scope explicit.
+Verdict: sound. Confidence: medium.
+
+### Offline complete-entry input
+
+When: slice 11. If an agent has only
+  half a transcript page or source-only words, the helper reports missing evidence
+  and drafts nothing. It never fetches/prepares speech on its own. The plan left
+  acquisition unspecified; requiring one complete compact project entry preserves
+  the existing read owner and makes this helper portable with no new runtime.
+Verdict: sound. Confidence: high.
+
+### Exact selected rows and literal corrections
+
+When: slice 11. A
+  caller may correct “hello” to “Hello” or explicitly display an empty string.
+  Only selected rows change display; original source words/pins remain in evidence.
+  Skipped rows split cues instead of sneaking unselected speech into an envelope.
+  The plan allowed corrections but did not choose a request shape. Row indexes
+  refer to one immutable pinned entry; no normalization or semantic rewrite occurs.
+Verdict: sound. Confidence: high.
+
+### One occurrence/segment per cue
+
+When: slice 11. Repeating the same
+  source take twice returns two separate source-anchored drafts. Different
+  occurrence IDs, speech segments and fragmented/partial words split. The plan
+  required exact pins but left grouping boundaries open. Mixing them into one
+  content anchor would misrepresent authoring, so existing occurrence identity
+  remains the anchor owner.
+Verdict: sound. Confidence: high.
+
+### Grapheme proposal and unverified native fit
+
+When: slice 11. A
+  combined accent or emoji counts as one grapheme, a user-visible text unit, but
+  that count cannot predict glyph width in a selected font. The helper always
+  retains an unverified-layout diagnostic. The fixture measures actual native
+  layout only for its own explicitly applied Latin draft. No font service or
+  speculative measurement API was added; future measured proposals need their
+  own admitted-font contract.
+Verdict: sound. Confidence: high.
+
+### Reported bounds without loss
+
+When: slice 11. For 1001 selected
+  words that fit one textual line, the existing seed limit requires two cues;
+  all pins survive and the split is reported. Excessive total output refuses
+  instead of truncating. The plan left work bounds unspecified. Incremental line
+  state avoids quadratic prefix layout; the current limits belong to helper code.
+Verdict: sound. Confidence: high.
+
+### Existing owners and no dependencies
+
+When: slice 11. The helper
+  reuses the consumer JSON/budget transport and returns existing clip/geometry
+  drafts. The tiny proof reuses composition/native frame execution. The unbuilt
+  alternative would add a caption service, queue or third-party text engine.
+  None is necessary for pure caller-constrained proposals, so later application,
+  persistence and exact rendering stay with their current owners.
+Verdict: sound. Confidence: high.
+
+### Instant words stay evidence without placement
+
+When: slice 11. An ASR word may have a positive retained raw pin but project to a single instant.
+  The helper now isolates and reports that observation with `clip: null` rather
+  than failing surrounding ordinary words or inventing positive cue time. The
+  plan did not explicitly cover point projections. This extends the draft result
+  shape only for unplaceable evidence; callers must inspect violations and apply
+  only placeable chosen drafts.
+Verdict: sound. Confidence: high.
+
+### Meaningful separators survive wrapping
+
+When: slice 11. When a
+  caller explicitly joins words with “ · ” and they exceed one line, the separator
+  remains at the next line's beginning, possibly with a width violation. Replacing
+  whitespace with a line break is layout; deleting the bullet would change chosen
+  display text. The plan did not settle arbitrary separators. No text is removed
+  to satisfy width limits.
+Verdict: sound. Confidence: high.
+
+### Held output allocation shares the native new-file owner
+
+When: slice 05. FFmpeg needs a seekable output file. Its private runner creates
+one new leaf through the already held attempt directory and replaces only an
+explicit reserved null-device descriptor. The same exclusive creation primitive
+serves native new-file writing. If the directory pathname is replaced, allocation
+still uses the held directory, and later read admission requires the allocated
+file's identity. Opening a writable absolute path in Node would lose that authority.
+
+Gap: Node provides no openat, the system call that creates a child in a held
+directory; the plan required that authority but did not settle its implementation.
+Reach: CLI's private argument layout changes and Native depends on Media; release
+must rebuild both together. No public operation or second publication owner is added.
+Verdict: sound; platform allocation preserves the existing ownership rule.
+Confidence: high.
+
+### Artifact validation uses the attempt-bound native worker
+
+When: slice 05. After FFmpeg retires, its file is reopened readonly with the exact
+allocated identity, then a recipe-specific validator checks its meaning. That
+validator and subsequent consumer receive the existing worker bound to the
+attempt's held locks. A native reader therefore retains those locks even if the
+service dies, rather than racing cleanup with an unbound process.
+
+Gap: the plan required validation before publication but left validator access
+and native-reader lock inheritance unspecified.
+Reach: HDR and later artifact producers must supply their own domain validator;
+exit zero and a hash alone never certify playable or correctly converted media.
+Verdict: sound; staging, lifetime and cleanup keep one owner. Confidence: high.
+
+### Review extents come from the caller with stated provenance
+
+When: slice 09. An agent selects the range it wants reviewed and says where that
+extent came from. The helper pins each revision and inspects bounded opening,
+ending, join and selected middle windows. It does not derive a whole-revision
+length by interpreting the edit document again. A partial event page or different
+selected extent remains a partial comparison, with real continuation evidence.
+
+Gap: no public canonical whole-revision extent was available to the consumer.
+Reach: callers must choose review coverage explicitly; a bounded review cannot
+claim complete watched or listened coverage. Verdict: sound; avoids a second
+clock/extent interpreter. Confidence: high.
+
+### Compare owner cut meaning separately from authored documents
+
+When: slice 09. Splitting a continuous clip changes its document and occurrence
+IDs without changing source mapping at the join. Review retains the document
+hash and complete exact receipts, but excludes occurrence IDs when comparing
+canonical cut meaning. Moving a clip changes that meaning. Equal cuts still say
+nothing about picture or sound equality.
+
+Gap: the plan asked to distinguish a split from a mapping change without naming
+comparison operands.
+Reach: review stays read-only evidence, never an output-equivalence certificate.
+Verdict: sound; canonical events remain the timing owner. Confidence: high.
+
+### Review budget exhaustion preserves missing work
+
+When: slice 09. If selected windows or event pages exceed the total budget, the
+helper reports skipped windows and the owner's real continuation. Pending and
+failed requested pictures remain distinct from an unselected picture panel.
+Display labels can shorten long IDs to fit beside markers, while the exact
+manifest keeps full IDs. Quietly presenting an empty panel or fabricated complete
+comparison would hide unfinished inspection.
+
+Gap: the plan specified bounded review but did not choose aggregate admission or
+missing-evidence presentation.
+Reach: later helpers can reuse the same timeline renderer and budget transport;
+no review queue, catalog or service endpoint is introduced.
+Verdict: sound; missing work remains actionable evidence. Confidence: high.
+
+
 ### Reuse one finite alpha movie rather than introduce frame-sequence storage
 
 When: slice 20. An external authoring tool can supply a finite ProRes 4444 MOV

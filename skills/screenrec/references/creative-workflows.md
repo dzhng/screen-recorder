@@ -77,6 +77,12 @@ pictures, per-channel waveforms, words and cuts into an SVG plus exact manifest.
 Use its `--help`; preserve unavailable evidence and continuations. Sparse pictures
 are navigation evidence, not proof that you watched the whole interval.
 
+For a pinned before/after comparison, use the
+[revision review helper](../scripts/review-bundle.mjs). Select each review extent
+explicitly and state its provenance; read its `--help`. Preserve skipped windows,
+partial event pages and missing evidence. Equal cut evidence does not establish
+equal picture or sound, and a rendered bundle does not mean you listened.
+
 ## Select takes by the intended beat
 
 Compare candidates for the same idea across takes, rather than concatenating
