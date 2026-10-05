@@ -1,0 +1,366 @@
+{
+  "pq": [
+    {
+      "patch": 0,
+      "reference": [
+        13,
+        13,
+        13
+      ],
+      "decodedMin": [
+        13,
+        13,
+        13
+      ],
+      "decodedMax": [
+        13,
+        13,
+        13
+      ]
+    },
+    {
+      "patch": 1,
+      "reference": [
+        21,
+        21,
+        21
+      ],
+      "decodedMin": [
+        20,
+        20,
+        20
+      ],
+      "decodedMax": [
+        21,
+        21,
+        21
+      ]
+    },
+    {
+      "patch": 2,
+      "reference": [
+        32,
+        32,
+        32
+      ],
+      "decodedMin": [
+        32,
+        32,
+        32
+      ],
+      "decodedMax": [
+        32,
+        32,
+        32
+      ]
+    },
+    {
+      "patch": 3,
+      "reference": [
+        59,
+        59,
+        59
+      ],
+      "decodedMin": [
+        59,
+        59,
+        59
+      ],
+      "decodedMax": [
+        59,
+        59,
+        59
+      ]
+    },
+    {
+      "patch": 4,
+      "reference": [
+        84,
+        84,
+        84
+      ],
+      "decodedMin": [
+        84,
+        84,
+        84
+      ],
+      "decodedMax": [
+        84,
+        84,
+        84
+      ]
+    },
+    {
+      "patch": 5,
+      "reference": [
+        114,
+        114,
+        114
+      ],
+      "decodedMin": [
+        114,
+        114,
+        114
+      ],
+      "decodedMax": [
+        114,
+        114,
+        114
+      ]
+    },
+    {
+      "patch": 6,
+      "reference": [
+        143,
+        143,
+        143
+      ],
+      "decodedMin": [
+        143,
+        143,
+        143
+      ],
+      "decodedMax": [
+        143,
+        143,
+        143
+      ]
+    },
+    {
+      "patch": 7,
+      "reference": [
+        184,
+        184,
+        184
+      ],
+      "decodedMin": [
+        184,
+        184,
+        184
+      ],
+      "decodedMax": [
+        184,
+        184,
+        184
+      ]
+    },
+    {
+      "patch": 8,
+      "reference": [
+        240,
+        240,
+        240
+      ],
+      "decodedMin": [
+        239,
+        239,
+        239
+      ],
+      "decodedMax": [
+        240,
+        240,
+        240
+      ]
+    },
+    {
+      "patch": 9,
+      "reference": [
+        255,
+        255,
+        255
+      ],
+      "decodedMin": [
+        255,
+        255,
+        255
+      ],
+      "decodedMax": [
+        255,
+        255,
+        255
+      ]
+    }
+  ],
+  "hlg": [
+    {
+      "patch": 0,
+      "reference": [
+        13,
+        13,
+        13
+      ],
+      "decodedMin": [
+        13,
+        13,
+        13
+      ],
+      "decodedMax": [
+        13,
+        13,
+        13
+      ]
+    },
+    {
+      "patch": 1,
+      "reference": [
+        21,
+        21,
+        21
+      ],
+      "decodedMin": [
+        20,
+        20,
+        20
+      ],
+      "decodedMax": [
+        21,
+        21,
+        21
+      ]
+    },
+    {
+      "patch": 2,
+      "reference": [
+        32,
+        32,
+        32
+      ],
+      "decodedMin": [
+        31,
+        31,
+        31
+      ],
+      "decodedMax": [
+        32,
+        32,
+        32
+      ]
+    },
+    {
+      "patch": 3,
+      "reference": [
+        59,
+        59,
+        59
+      ],
+      "decodedMin": [
+        59,
+        59,
+        59
+      ],
+      "decodedMax": [
+        59,
+        59,
+        59
+      ]
+    },
+    {
+      "patch": 4,
+      "reference": [
+        84,
+        84,
+        84
+      ],
+      "decodedMin": [
+        84,
+        84,
+        84
+      ],
+      "decodedMax": [
+        84,
+        84,
+        84
+      ]
+    },
+    {
+      "patch": 5,
+      "reference": [
+        114,
+        114,
+        114
+      ],
+      "decodedMin": [
+        114,
+        114,
+        114
+      ],
+      "decodedMax": [
+        114,
+        114,
+        114
+      ]
+    },
+    {
+      "patch": 6,
+      "reference": [
+        143,
+        143,
+        143
+      ],
+      "decodedMin": [
+        143,
+        143,
+        143
+      ],
+      "decodedMax": [
+        143,
+        143,
+        143
+      ]
+    },
+    {
+      "patch": 7,
+      "reference": [
+        184,
+        184,
+        184
+      ],
+      "decodedMin": [
+        184,
+        184,
+        184
+      ],
+      "decodedMax": [
+        184,
+        184,
+        184
+      ]
+    },
+    {
+      "patch": 8,
+      "reference": [
+        240,
+        240,
+        240
+      ],
+      "decodedMin": [
+        239,
+        239,
+        239
+      ],
+      "decodedMax": [
+        240,
+        240,
+        240
+      ]
+    },
+    {
+      "patch": 9,
+      "reference": [
+        255,
+        255,
+        255
+      ],
+      "decodedMin": [
+        255,
+        255,
+        255
+      ],
+      "decodedMax": [
+        255,
+        255,
+        255
+      ]
+    }
+  ]
+}

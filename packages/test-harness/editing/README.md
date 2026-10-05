@@ -87,3 +87,9 @@ perceptual claim unverified; it does not stop unrelated primitive verification.
 These isolate platform behavior with matched operands. They are reference
 experiments, not competing product executors or evidence of general release
 acceptance. Frozen measurements and detailed outcomes live with their evidence.
+
+The [HDR transform reproduction](hdr-conversion.mjs) uses independently authored
+PQ/HLG charts and a supplied pinned runtime to isolate conversion from encoding.
+Its [clock probe](hdr-clock.py) separately checks sparse final support, exact common
+origin and rotation. Neither selects an implicit source interpretation or supplies
+a production publication path.

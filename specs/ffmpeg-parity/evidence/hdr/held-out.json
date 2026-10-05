@@ -1,0 +1,721 @@
+{
+  "recipe": "zscale=t=linear:npl=100:agamma=0,format=gbrpf32le,zscale=p=bt709,tonemap=tonemap=hable:desat=0:peak=10,zscale=t=bt709:m=bt709:r=limited:dither=error_diffusion:agamma=0",
+  "rawTolerance8bit": 3,
+  "heldOut": true,
+  "intermediateTolerance8bit": 3,
+  "runtime": {
+    "ffmpeg": "8410694433e927bdf2cc751b8c81cb4545b2302828fdffed6044018b10f39f31",
+    "ffprobe": "10cca670f6de7b7c7ab96c53205d1a6370f63f506b028942d930fef4426048ee",
+    "native": "af28fcc5260b79bca3909be2af1a9c90875bc3497d30d9649d3921648ef8c82d"
+  },
+  "families": [
+    {
+      "family": "pq",
+      "sourceSha256": "fe24ebc6015eebbc5d88a7cb6a5c75d581dd7f84e6c1271c2f3923cddfe88f94",
+      "metadata": {
+        "originUs": 0,
+        "streams": [
+          {
+            "codec": "ap4h",
+            "colorPrimaries": "ITU_R_2020",
+            "decodable": true,
+            "endUs": 34000,
+            "height": 192,
+            "id": "track:1",
+            "kind": "video",
+            "orientedHeight": 192,
+            "orientedPixelBounds": {
+              "height": 192,
+              "width": 320,
+              "x": 0,
+              "y": 0
+            },
+            "orientedWidth": 320,
+            "samples": {
+              "count": 1,
+              "firstPtsUs": 0,
+              "lastPtsUs": 0,
+              "maxDurationUs": 33333,
+              "minDurationUs": 33333
+            },
+            "segments": [
+              {
+                "empty": false,
+                "endUs": 34000,
+                "mediaDurationUs": 34000,
+                "mediaStartUs": 0,
+                "startUs": 0
+              }
+            ],
+            "startUs": 0,
+            "transferFunction": "SMPTE_ST_2084_PQ",
+            "transform": [
+              1,
+              0,
+              0,
+              1,
+              0,
+              0
+            ],
+            "width": 320,
+            "ycbcrMatrix": "ITU_R_2020"
+          }
+        ]
+      },
+      "outputSha256": "810be39fdacd25be94fab14adaed25bf55485fc09ad0c6a7621b8434cb318656",
+      "outputMetadata": {
+        "originUs": 0,
+        "streams": [
+          {
+            "codec": "ap4h",
+            "colorPrimaries": "ITU_R_709_2",
+            "decodable": true,
+            "endUs": 34000,
+            "height": 192,
+            "id": "track:1",
+            "kind": "video",
+            "orientedHeight": 192,
+            "orientedPixelBounds": {
+              "height": 192,
+              "width": 320,
+              "x": 0,
+              "y": 0
+            },
+            "orientedWidth": 320,
+            "samples": {
+              "count": 1,
+              "firstPtsUs": 0,
+              "lastPtsUs": 0,
+              "maxDurationUs": 33333,
+              "minDurationUs": 33333
+            },
+            "segments": [
+              {
+                "empty": false,
+                "endUs": 34000,
+                "mediaDurationUs": 34000,
+                "mediaStartUs": 0,
+                "startUs": 0
+              }
+            ],
+            "startUs": 0,
+            "transferFunction": "ITU_R_709_2",
+            "transform": [
+              1,
+              0,
+              0,
+              1,
+              0,
+              0
+            ],
+            "width": 320,
+            "ycbcrMatrix": "ITU_R_709_2"
+          }
+        ]
+      },
+      "rawCalibration": [
+        {
+          "row": 0,
+          "column": 0,
+          "maxError": 0,
+          "meanError": 0
+        },
+        {
+          "row": 0,
+          "column": 1,
+          "maxError": 0,
+          "meanError": 0
+        },
+        {
+          "row": 0,
+          "column": 2,
+          "maxError": 0,
+          "meanError": 0
+        },
+        {
+          "row": 0,
+          "column": 3,
+          "maxError": 0,
+          "meanError": 0
+        },
+        {
+          "row": 0,
+          "column": 4,
+          "maxError": 0,
+          "meanError": 0
+        },
+        {
+          "row": 0,
+          "column": 5,
+          "maxError": 0,
+          "meanError": 0
+        },
+        {
+          "row": 0,
+          "column": 6,
+          "maxError": 0,
+          "meanError": 0
+        },
+        {
+          "row": 0,
+          "column": 7,
+          "maxError": 0,
+          "meanError": 0
+        },
+        {
+          "row": 0,
+          "column": 8,
+          "maxError": 0,
+          "meanError": 0
+        },
+        {
+          "row": 0,
+          "column": 9,
+          "maxError": 0,
+          "meanError": 0
+        },
+        {
+          "row": 1,
+          "column": 0,
+          "maxError": 1,
+          "meanError": 0.3333333333333333
+        },
+        {
+          "row": 1,
+          "column": 1,
+          "maxError": 0,
+          "meanError": 0
+        },
+        {
+          "row": 1,
+          "column": 2,
+          "maxError": 1,
+          "meanError": 0.3333333333333333
+        },
+        {
+          "row": 1,
+          "column": 3,
+          "maxError": 1,
+          "meanError": 0.3333333333333333
+        },
+        {
+          "row": 1,
+          "column": 4,
+          "maxError": 0,
+          "meanError": 0
+        },
+        {
+          "row": 1,
+          "column": 5,
+          "maxError": 0,
+          "meanError": 0
+        },
+        {
+          "row": 1,
+          "column": 6,
+          "maxError": 3,
+          "meanError": 1
+        },
+        {
+          "row": 1,
+          "column": 7,
+          "maxError": 0,
+          "meanError": 0
+        },
+        {
+          "row": 1,
+          "column": 8,
+          "maxError": 0,
+          "meanError": 0
+        },
+        {
+          "row": 1,
+          "column": 9,
+          "maxError": 0,
+          "meanError": 0
+        }
+      ],
+      "intermediateCalibration": [
+        {
+          "row": 0,
+          "column": 0,
+          "maxError": 0,
+          "meanError": 0
+        },
+        {
+          "row": 0,
+          "column": 1,
+          "maxError": 1,
+          "meanError": 0.21875
+        },
+        {
+          "row": 0,
+          "column": 2,
+          "maxError": 0,
+          "meanError": 0
+        },
+        {
+          "row": 0,
+          "column": 3,
+          "maxError": 1,
+          "meanError": 0.03046875
+        },
+        {
+          "row": 0,
+          "column": 4,
+          "maxError": 0,
+          "meanError": 0
+        },
+        {
+          "row": 0,
+          "column": 5,
+          "maxError": 0,
+          "meanError": 0
+        },
+        {
+          "row": 0,
+          "column": 6,
+          "maxError": 1,
+          "meanError": 0.0015625
+        },
+        {
+          "row": 0,
+          "column": 7,
+          "maxError": 0,
+          "meanError": 0
+        },
+        {
+          "row": 0,
+          "column": 8,
+          "maxError": 1,
+          "meanError": 0.30390625
+        },
+        {
+          "row": 0,
+          "column": 9,
+          "maxError": 0,
+          "meanError": 0
+        },
+        {
+          "row": 1,
+          "column": 0,
+          "maxError": 1,
+          "meanError": 0.19869791666666667
+        },
+        {
+          "row": 1,
+          "column": 1,
+          "maxError": 1,
+          "meanError": 0.24010416666666667
+        },
+        {
+          "row": 1,
+          "column": 2,
+          "maxError": 1,
+          "meanError": 0.12447916666666667
+        },
+        {
+          "row": 1,
+          "column": 3,
+          "maxError": 2,
+          "meanError": 0.33880208333333334
+        },
+        {
+          "row": 1,
+          "column": 4,
+          "maxError": 1,
+          "meanError": 0.017447916666666667
+        },
+        {
+          "row": 1,
+          "column": 5,
+          "maxError": 1,
+          "meanError": 0.0015625
+        },
+        {
+          "row": 1,
+          "column": 6,
+          "maxError": 3,
+          "meanError": 1.0856770833333333
+        },
+        {
+          "row": 1,
+          "column": 7,
+          "maxError": 1,
+          "meanError": 0.00546875
+        },
+        {
+          "row": 1,
+          "column": 8,
+          "maxError": 1,
+          "meanError": 0.00625
+        },
+        {
+          "row": 1,
+          "column": 9,
+          "maxError": 1,
+          "meanError": 0.00026041666666666666
+        }
+      ],
+      "approximateGammaMaximum": 3,
+      "wholeFrameRawToIntermediateMaximum": 1,
+      "h264BoundaryMaximum": 61,
+      "intermediateInput": "held original while pathname replacement persists",
+      "heldPathSubstitution": "original retained inode decoded after replacement"
+    },
+    {
+      "family": "hlg",
+      "sourceSha256": "f588ba3d450984f485fbdd734baabcda23882a7b5529192f7f6d4033110f4132",
+      "metadata": {
+        "originUs": 0,
+        "streams": [
+          {
+            "codec": "ap4h",
+            "colorPrimaries": "ITU_R_2020",
+            "decodable": true,
+            "endUs": 34000,
+            "height": 192,
+            "id": "track:1",
+            "kind": "video",
+            "orientedHeight": 192,
+            "orientedPixelBounds": {
+              "height": 192,
+              "width": 320,
+              "x": 0,
+              "y": 0
+            },
+            "orientedWidth": 320,
+            "samples": {
+              "count": 1,
+              "firstPtsUs": 0,
+              "lastPtsUs": 0,
+              "maxDurationUs": 33333,
+              "minDurationUs": 33333
+            },
+            "segments": [
+              {
+                "empty": false,
+                "endUs": 34000,
+                "mediaDurationUs": 34000,
+                "mediaStartUs": 0,
+                "startUs": 0
+              }
+            ],
+            "startUs": 0,
+            "transferFunction": "ITU_R_2100_HLG",
+            "transform": [
+              1,
+              0,
+              0,
+              1,
+              0,
+              0
+            ],
+            "width": 320,
+            "ycbcrMatrix": "ITU_R_2020"
+          }
+        ]
+      },
+      "outputSha256": "8ac2e1a0983cdb4c7de16f4f46e9176282ed1d17e22ee2d3f5ef6bc894c81d7e",
+      "outputMetadata": {
+        "originUs": 0,
+        "streams": [
+          {
+            "codec": "ap4h",
+            "colorPrimaries": "ITU_R_709_2",
+            "decodable": true,
+            "endUs": 34000,
+            "height": 192,
+            "id": "track:1",
+            "kind": "video",
+            "orientedHeight": 192,
+            "orientedPixelBounds": {
+              "height": 192,
+              "width": 320,
+              "x": 0,
+              "y": 0
+            },
+            "orientedWidth": 320,
+            "samples": {
+              "count": 1,
+              "firstPtsUs": 0,
+              "lastPtsUs": 0,
+              "maxDurationUs": 33333,
+              "minDurationUs": 33333
+            },
+            "segments": [
+              {
+                "empty": false,
+                "endUs": 34000,
+                "mediaDurationUs": 34000,
+                "mediaStartUs": 0,
+                "startUs": 0
+              }
+            ],
+            "startUs": 0,
+            "transferFunction": "ITU_R_709_2",
+            "transform": [
+              1,
+              0,
+              0,
+              1,
+              0,
+              0
+            ],
+            "width": 320,
+            "ycbcrMatrix": "ITU_R_709_2"
+          }
+        ]
+      },
+      "rawCalibration": [
+        {
+          "row": 0,
+          "column": 0,
+          "maxError": 0,
+          "meanError": 0
+        },
+        {
+          "row": 0,
+          "column": 1,
+          "maxError": 0,
+          "meanError": 0
+        },
+        {
+          "row": 0,
+          "column": 2,
+          "maxError": 0,
+          "meanError": 0
+        },
+        {
+          "row": 0,
+          "column": 3,
+          "maxError": 0,
+          "meanError": 0
+        },
+        {
+          "row": 0,
+          "column": 4,
+          "maxError": 0,
+          "meanError": 0
+        },
+        {
+          "row": 0,
+          "column": 5,
+          "maxError": 0,
+          "meanError": 0
+        },
+        {
+          "row": 0,
+          "column": 6,
+          "maxError": 0,
+          "meanError": 0
+        },
+        {
+          "row": 0,
+          "column": 7,
+          "maxError": 0,
+          "meanError": 0
+        },
+        {
+          "row": 0,
+          "column": 8,
+          "maxError": 1,
+          "meanError": 1
+        },
+        {
+          "row": 0,
+          "column": 9,
+          "maxError": 0,
+          "meanError": 0
+        },
+        {
+          "row": 1,
+          "column": 0,
+          "maxError": 0,
+          "meanError": 0
+        },
+        {
+          "row": 1,
+          "column": 1,
+          "maxError": 0,
+          "meanError": 0
+        },
+        {
+          "row": 1,
+          "column": 2,
+          "maxError": 0,
+          "meanError": 0
+        },
+        {
+          "row": 1,
+          "column": 3,
+          "maxError": 1,
+          "meanError": 0.6666666666666666
+        },
+        {
+          "row": 1,
+          "column": 4,
+          "maxError": 0,
+          "meanError": 0
+        },
+        {
+          "row": 1,
+          "column": 5,
+          "maxError": 0,
+          "meanError": 0
+        },
+        {
+          "row": 1,
+          "column": 6,
+          "maxError": 0,
+          "meanError": 0
+        },
+        {
+          "row": 1,
+          "column": 7,
+          "maxError": 0,
+          "meanError": 0
+        },
+        {
+          "row": 1,
+          "column": 8,
+          "maxError": 0,
+          "meanError": 0
+        },
+        {
+          "row": 1,
+          "column": 9,
+          "maxError": 0,
+          "meanError": 0
+        }
+      ],
+      "intermediateCalibration": [
+        {
+          "row": 0,
+          "column": 0,
+          "maxError": 0,
+          "meanError": 0
+        },
+        {
+          "row": 0,
+          "column": 1,
+          "maxError": 1,
+          "meanError": 0.3875
+        },
+        {
+          "row": 0,
+          "column": 2,
+          "maxError": 1,
+          "meanError": 0.16015625
+        },
+        {
+          "row": 0,
+          "column": 3,
+          "maxError": 0,
+          "meanError": 0
+        },
+        {
+          "row": 0,
+          "column": 4,
+          "maxError": 0,
+          "meanError": 0
+        },
+        {
+          "row": 0,
+          "column": 5,
+          "maxError": 0,
+          "meanError": 0
+        },
+        {
+          "row": 0,
+          "column": 6,
+          "maxError": 0,
+          "meanError": 0
+        },
+        {
+          "row": 0,
+          "column": 7,
+          "maxError": 0,
+          "meanError": 0
+        },
+        {
+          "row": 0,
+          "column": 8,
+          "maxError": 1,
+          "meanError": 0.66484375
+        },
+        {
+          "row": 0,
+          "column": 9,
+          "maxError": 0,
+          "meanError": 0
+        },
+        {
+          "row": 1,
+          "column": 0,
+          "maxError": 1,
+          "meanError": 0.0109375
+        },
+        {
+          "row": 1,
+          "column": 1,
+          "maxError": 1,
+          "meanError": 0.17447916666666666
+        },
+        {
+          "row": 1,
+          "column": 2,
+          "maxError": 1,
+          "meanError": 0.00078125
+        },
+        {
+          "row": 1,
+          "column": 3,
+          "maxError": 1,
+          "meanError": 0.5234375
+        },
+        {
+          "row": 1,
+          "column": 4,
+          "maxError": 1,
+          "meanError": 0.031510416666666666
+        },
+        {
+          "row": 1,
+          "column": 5,
+          "maxError": 1,
+          "meanError": 0.115625
+        },
+        {
+          "row": 1,
+          "column": 6,
+          "maxError": 1,
+          "meanError": 0.02578125
+        },
+        {
+          "row": 1,
+          "column": 7,
+          "maxError": 1,
+          "meanError": 0.13776041666666666
+        },
+        {
+          "row": 1,
+          "column": 8,
+          "maxError": 1,
+          "meanError": 0.004427083333333333
+        },
+        {
+          "row": 1,
+          "column": 9,
+          "maxError": 1,
+          "meanError": 0.16848958333333333
+        }
+      ],
+      "approximateGammaMaximum": 44,
+      "wholeFrameRawToIntermediateMaximum": 1,
+      "h264BoundaryMaximum": 61,
+      "intermediateInput": "held original while pathname replacement persists",
+      "heldPathSubstitution": "original retained inode decoded after replacement"
+    }
+  ]
+}

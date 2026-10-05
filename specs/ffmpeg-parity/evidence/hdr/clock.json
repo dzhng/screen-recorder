@@ -1,0 +1,333 @@
+{
+  "identities": {
+    "ffmpeg": "8410694433e927bdf2cc751b8c81cb4545b2302828fdffed6044018b10f39f31",
+    "native": "af28fcc5260b79bca3909be2af1a9c90875bc3497d30d9649d3921648ef8c82d",
+    "distributionReceipt": "27350ff2f953bbd4d6ca8bfe0f6808b99b9752192657d289146b50319099f66a",
+    "source": "9baa80a42893b82ff7a18b37e8616b8e17f74d2351637cd09692cd6ae36a9a7f",
+    "rotated": "6104514aa1068479847a4c11f2bd8fe8c21b2664a97fcc7ce2f0bd6f166a3190",
+    "converted": "add3593f64345150b0d81bac5fe515ce4f762db3e99071e7a9f08ddc575ef187",
+    "inferredTail": "01d85980a3d1211a14a047167f78c60bf19a599ba7fc63f9c9f959f1a8d90c75"
+  },
+  "source": {
+    "originUs": 40000,
+    "streams": [
+      {
+        "codec": "ap4h",
+        "colorPrimaries": "ITU_R_2020",
+        "decodable": true,
+        "endUs": {
+          "denominator": 3,
+          "numerator": 3730001
+        },
+        "height": 192,
+        "id": "track:1",
+        "kind": "video",
+        "orientedHeight": 192,
+        "orientedPixelBounds": {
+          "height": 192,
+          "width": 320,
+          "x": 0,
+          "y": 0
+        },
+        "orientedWidth": 320,
+        "samples": {
+          "count": 3,
+          "firstPtsUs": 460000,
+          "lastPtsUs": 1210000,
+          "maxDurationUs": 500000,
+          "minDurationUs": 33333
+        },
+        "segments": [
+          {
+            "empty": true,
+            "endUs": {
+              "denominator": 3,
+              "numerator": 1380001
+            },
+            "startUs": -40000
+          },
+          {
+            "empty": false,
+            "endUs": {
+              "denominator": 3,
+              "numerator": 3730001
+            },
+            "mediaDurationUs": {
+              "denominator": 3,
+              "numerator": 2350000
+            },
+            "mediaStartUs": 0,
+            "startUs": {
+              "denominator": 3,
+              "numerator": 1380001
+            }
+          }
+        ],
+        "startUs": {
+          "denominator": 3,
+          "numerator": 1380001
+        },
+        "transferFunction": "SMPTE_ST_2084_PQ",
+        "transform": [
+          1,
+          0,
+          0,
+          1,
+          0,
+          0
+        ],
+        "width": 320,
+        "ycbcrMatrix": "ITU_R_2020"
+      },
+      {
+        "channels": 1,
+        "codec": "lpcm",
+        "decodable": true,
+        "endUs": 100000,
+        "id": "track:2",
+        "kind": "audio",
+        "sampleRate": 48000,
+        "segments": [
+          {
+            "empty": true,
+            "endUs": 0,
+            "startUs": -40000
+          },
+          {
+            "empty": false,
+            "endUs": 100000,
+            "mediaDurationUs": 100000,
+            "mediaStartUs": 0,
+            "startUs": 0
+          }
+        ],
+        "startUs": 0
+      }
+    ]
+  },
+  "rotated": {
+    "originUs": 0,
+    "streams": [
+      {
+        "codec": "ap4h",
+        "colorPrimaries": "ITU_R_2020",
+        "decodable": true,
+        "endUs": {
+          "denominator": 3,
+          "numerator": 3730001
+        },
+        "height": 192,
+        "id": "track:1",
+        "kind": "video",
+        "orientedHeight": 320,
+        "orientedPixelBounds": {
+          "height": 320,
+          "width": 192,
+          "x": 0,
+          "y": 0
+        },
+        "orientedWidth": 192,
+        "samples": {
+          "count": 3,
+          "firstPtsUs": 460000,
+          "lastPtsUs": 1210000,
+          "maxDurationUs": 500000,
+          "minDurationUs": 33333
+        },
+        "segments": [
+          {
+            "empty": true,
+            "endUs": {
+              "denominator": 3,
+              "numerator": 1380001
+            },
+            "startUs": 0
+          },
+          {
+            "empty": false,
+            "endUs": {
+              "denominator": 3,
+              "numerator": 3730001
+            },
+            "mediaDurationUs": {
+              "denominator": 3,
+              "numerator": 2350000
+            },
+            "mediaStartUs": 0,
+            "startUs": {
+              "denominator": 3,
+              "numerator": 1380001
+            }
+          }
+        ],
+        "startUs": {
+          "denominator": 3,
+          "numerator": 1380001
+        },
+        "transferFunction": "SMPTE_ST_2084_PQ",
+        "transform": [
+          0,
+          -1,
+          1,
+          0,
+          0,
+          0
+        ],
+        "width": 320,
+        "ycbcrMatrix": "ITU_R_2020"
+      },
+      {
+        "channels": 1,
+        "codec": "lpcm",
+        "decodable": true,
+        "endUs": 100000,
+        "id": "track:2",
+        "kind": "audio",
+        "sampleRate": 48000,
+        "segments": [
+          {
+            "empty": false,
+            "endUs": 100000,
+            "mediaDurationUs": 100000,
+            "mediaStartUs": 0,
+            "startUs": 0
+          }
+        ],
+        "startUs": 0
+      }
+    ]
+  },
+  "inferredTail": {
+    "originUs": 500000,
+    "streams": [
+      {
+        "codec": "avc1",
+        "colorPrimaries": "ITU_R_709_2",
+        "decodable": true,
+        "endUs": 1000000,
+        "height": 192,
+        "id": "track:1",
+        "kind": "video",
+        "orientedHeight": 320,
+        "orientedPixelBounds": {
+          "height": 320,
+          "width": 192,
+          "x": 0,
+          "y": 0
+        },
+        "orientedWidth": 192,
+        "samples": {
+          "count": 3,
+          "firstPtsUs": 0,
+          "lastPtsUs": 750000,
+          "maxDurationUs": 500000,
+          "minDurationUs": 250000
+        },
+        "segments": [
+          {
+            "empty": true,
+            "endUs": 0,
+            "startUs": -500000
+          },
+          {
+            "empty": false,
+            "endUs": 1000000,
+            "mediaDurationUs": 1000000,
+            "mediaStartUs": 0,
+            "startUs": 0
+          }
+        ],
+        "startUs": 0,
+        "transferFunction": "ITU_R_709_2",
+        "transform": [
+          0,
+          -1,
+          1,
+          0,
+          0,
+          0
+        ],
+        "width": 320,
+        "ycbcrMatrix": "ITU_R_709_2"
+      }
+    ]
+  },
+  "converted": {
+    "originUs": {
+      "denominator": 3,
+      "numerator": 1380001
+    },
+    "streams": [
+      {
+        "codec": "ap4h",
+        "colorPrimaries": "ITU_R_709_2",
+        "decodable": true,
+        "endUs": {
+          "denominator": 3,
+          "numerator": 2350000
+        },
+        "height": 192,
+        "id": "track:1",
+        "kind": "video",
+        "orientedHeight": 320,
+        "orientedPixelBounds": {
+          "height": 320,
+          "width": 192,
+          "x": 0,
+          "y": 0
+        },
+        "orientedWidth": 192,
+        "samples": {
+          "count": 3,
+          "firstPtsUs": 0,
+          "lastPtsUs": 750000,
+          "maxDurationUs": 500000,
+          "minDurationUs": 33333
+        },
+        "segments": [
+          {
+            "empty": true,
+            "endUs": 0,
+            "startUs": {
+              "denominator": 3,
+              "numerator": -1380001
+            }
+          },
+          {
+            "empty": false,
+            "endUs": {
+              "denominator": 3,
+              "numerator": 2350000
+            },
+            "mediaDurationUs": {
+              "denominator": 3,
+              "numerator": 2350000
+            },
+            "mediaStartUs": 0,
+            "startUs": 0
+          }
+        ],
+        "startUs": 0,
+        "transferFunction": "ITU_R_709_2",
+        "transform": [
+          0,
+          -1,
+          1,
+          0,
+          0,
+          0
+        ],
+        "width": 320,
+        "ycbcrMatrix": "ITU_R_709_2"
+      }
+    ]
+  },
+  "sourceClockAtDerivativeZeroUs": {
+    "denominator": 3,
+    "numerator": 1380001
+  },
+  "finalDurationAuthority": "native cursor must validate inherited decoded sample duration; authored1/30s is this fixture oracle",
+  "recipe": "zscale=t=linear:npl=100:agamma=0,format=gbrpf32le,zscale=p=bt709,tonemap=tonemap=hable:desat=0:peak=10,zscale=t=bt709:m=bt709:r=limited:dither=error_diffusion:agamma=0,format=yuv444p10le,setparams=color_primaries=bt709:color_trc=bt709:colorspace=bt709:range=limited",
+  "encoderTimebase": "demux",
+  "rotation": "no autorotate, inherited source display matrix retained once"
+}
