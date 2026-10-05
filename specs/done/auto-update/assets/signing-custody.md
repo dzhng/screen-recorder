@@ -61,8 +61,11 @@ created credentials; they are not placeholder values. The
 [signing owner](../../../../scripts/release-signing.mjs) checks actual certificate/key
 bytes against them before signing and owns the input/import contract.
 
-Slice 05 imports the PKCS#12 into a fresh temporary keychain and always passes
-that path to `codesign --keychain`. Import allows `/usr/bin/codesign` with `-T`,
+Release packaging imports the PKCS#12 into a fresh temporary keychain and always passes
+that path to `codesign --keychain`. The keychain remains on the user search list
+while signing because explicit identity selection does not replace certificate-chain
+lookup. Cleanup removes only the owned entry from the current list. Import allows
+`/usr/bin/codesign` with `-T`,
 not unrestricted `-A`. Select the identity by the public certificate's SHA-1
 fingerprint; record its SHA-256 fingerprint for public provenance. An untrusted
 self-signed identity is signable this way; do not add trust or require it to appear

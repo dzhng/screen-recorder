@@ -319,8 +319,10 @@ contracts.
   grants Apple signing tools access to the imported private key only in that
   temporary keychain, so a headless runner needs no password dialog. A denied
   grant aborts packaging. It signs nested executables and bundles before the
-  enclosing app, then verifies them strictly. The certificate need not be trusted
-  by the build account; the alternative would alter the login keychain or trust.
+  enclosing app, then verifies them strictly. The temporary keychain remains on
+  the account search list while the signing tool finds its certificate chain.
+  Cleanup removes only that owned entry. The certificate need not be trusted by
+  the build account; the alternative would alter the login keychain or trust.
 - **The gap:** Stable self-signing did not prescribe exact identity selection or
   whether account trust or headless private-key access would be required.
 - **The reach:** Personal `Screen Recorder Local` signing stays separate. No
@@ -461,7 +463,6 @@ contracts.
 - **Verdict:** sound; cheap checks do not impersonate installation or final acceptance.
 - **Confidence:** high.
 
-
 ### A workflow retry validates the selected source without rewriting a release
 
 - **When:** hosted release-signing repair, `ef8add44`.
@@ -479,4 +480,24 @@ contracts.
   product correction still needs a new version; this adds no second publisher.
 - **Verdict:** sound; the same release owner validates retries and preserves
   published provenance.
+- **Confidence:** high.
+
+
+### Signing failures retain public context and redact the supplied credentials
+
+- **When:** hosted signing diagnosis, `5d1b7153`.
+- **The choice:** A CI signing command fails with a message the release code has
+  never seen. Its error records the owned file's relative path, tool exit state
+  and a bounded, escaped diagnostic. The signing session removes every supplied
+  password and encoded private key from that text before logging, including
+  overlapping values. Security and OpenSSL import errors remain fully suppressed.
+  Suppressing all signing output would hide which file failed and why; blindly
+  forwarding every tool's output could reveal credentials.
+- **The gap:** Secret-free release logs were required without specifying how an
+  unfamiliar signing failure should remain diagnosable.
+- **The reach:** Redaction follows the actual imported signing context rather than
+  assuming credentials came from environment variables. Future signing inputs must
+  join that context, and diagnostics must remain bounded and escaped before logging.
+- **Verdict:** sound; preserves useful failure evidence without publishing private
+  signing inputs.
 - **Confidence:** high.
