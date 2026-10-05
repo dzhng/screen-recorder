@@ -25,6 +25,12 @@ The staged native executable is the thin production CLI owner. Both tools,
 Mach-O signatures/load paths and tiny H.264/HEVC, audio and filter smoke passed.
 This is not a full native app-launch or released ZIP proof; those remain slice 26.
 
+The [pinned zimg refresh](../evidence/zimg-build/relocated-tools.json) repeats this
+same proof against the new exact-controller distribution from reopened 01. It
+includes the runtime zimg dylib, excludes build-only pkgconf, and retains the
+prepared-to-signed receipt relationship. Initial receipts remain historical;
+new component/held-source/managed-output evidence is bound to the new bytes.
+
 Focused checks: the service discovery fixture, five preparation/bundle tests and
 service typechecking pass. Discovery refuses altered/missing bytes, rewritten
 receipts and FIFOs; completed and cancelled probe processes are gone before

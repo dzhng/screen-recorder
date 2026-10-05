@@ -129,3 +129,122 @@ test("a complete verified output replays without acquiring or executing source",
     rmSync(scratch, { recursive: true, force: true });
   }
 });
+
+test("a corrupt pinned dependency is refused before compiler or output work", () => {
+  const { scratch, script, recipe } = fixture();
+  try {
+    const cache = join(scratch, "cache"),
+      output = join(scratch, "prepared");
+    mkdirSync(cache);
+    writeFileSync(join(cache, "ffmpeg-0.0.0.tar.xz"), "expected archive");
+    const dependency = {
+      name: "zimg",
+      version: "3.0.6",
+      archive: "zimg-3.0.6.tar.gz",
+      sourceSha256: hash("expected dependency"),
+      sourceUrl: "https://invalid.example/zimg.tar.gz",
+      license: "WTFPL",
+      role: "runtime",
+    };
+    writeFileSync(
+      join(scratch, "provenance.json"),
+      JSON.stringify({ ...recipe, dependencies: [dependency] }),
+    );
+    writeFileSync(join(cache, dependency.archive), "corrupt pinned dependency");
+    const answer = spawnSync(
+      process.execPath,
+      [script, "prepare", "--cache", cache, "--output", output],
+      { encoding: "utf8", timeout: 5000 },
+    );
+    assert.equal(answer.status, 1, answer.stdout + answer.stderr);
+    assert.match(answer.stderr, /Checksum mismatch:.*zimg-3\.0\.6\.tar\.gz/);
+    assert.equal(existsSync(output), false);
+  } finally {
+    rmSync(scratch, { recursive: true, force: true });
+  }
+});
+
+test("a matching recipe cannot replay a distribution missing pinned dependency sources", () => {
+  const { scratch, script, recipe } = fixture();
+  try {
+    const dependency = {
+      name: "zimg",
+      version: "3.0.6",
+      archive: "zimg-3.0.6.tar.gz",
+      sourceSha256: hash("expected dependency"),
+      license: "WTFPL",
+      licenseFile: "COPYING",
+      role: "runtime",
+    };
+    const pinned = { ...recipe, dependencies: [dependency] };
+    writeFileSync(join(scratch, "provenance.json"), JSON.stringify(pinned));
+    const output = join(scratch, "prepared");
+    mkdirSync(join(output, "bin"), { recursive: true });
+    writeFileSync(join(output, "bin/ffmpeg"), "frozen ffmpeg");
+    writeFileSync(join(output, "bin/ffprobe"), "frozen ffprobe");
+    writeFileSync(
+      join(output, "receipt.json"),
+      JSON.stringify({
+        format: 1,
+        recipeSha256: hash(JSON.stringify(pinned)),
+        sourceSha256: recipe.sourceSha256,
+        files: { "bin/ffmpeg": hash("frozen ffmpeg"), "bin/ffprobe": hash("frozen ffprobe") },
+      }),
+    );
+    const result = spawnSync(process.execPath, [script, "verify", "--output", output], {
+      encoding: "utf8",
+      timeout: 5000,
+    });
+    assert.equal(result.status, 1, result.stderr);
+    assert.match(result.stderr, /missing pinned dependency source.*zimg/i);
+  } finally {
+    rmSync(scratch, { recursive: true, force: true });
+  }
+});
+
+test("a source-complete receipt cannot omit its frozen runtime library", () => {
+  const { scratch, script, recipe } = fixture();
+  try {
+    const dependency = {
+      name: "zimg",
+      version: "3.0.6",
+      archive: "zimg-3.0.6.tar.gz",
+      sourceSha256: hash("expected dependency"),
+      license: "WTFPL",
+      licenseFile: "COPYING",
+      role: "runtime",
+      build: { library: "libzimg.2.dylib" },
+    };
+    const pinned = { ...recipe, dependencies: [dependency] };
+    writeFileSync(join(scratch, "provenance.json"), JSON.stringify(pinned));
+    const output = join(scratch, "prepared");
+    mkdirSync(join(output, "bin"), { recursive: true });
+    mkdirSync(join(output, "sources"));
+    const inputs = {
+      "bin/ffmpeg": "frozen ffmpeg",
+      "bin/ffprobe": "frozen ffprobe",
+      ["sources/" + dependency.archive]: "expected dependency",
+      "sources/zimg-COPYING": "pinned notice",
+    };
+    for (const [path, bytes] of Object.entries(inputs)) writeFileSync(join(output, path), bytes);
+    writeFileSync(
+      join(output, "receipt.json"),
+      JSON.stringify({
+        format: 1,
+        recipeSha256: hash(JSON.stringify(pinned)),
+        sourceSha256: recipe.sourceSha256,
+        files: Object.fromEntries(
+          Object.entries(inputs).map(([path, bytes]) => [path, hash(bytes)]),
+        ),
+      }),
+    );
+    const result = spawnSync(process.execPath, [script, "verify", "--output", output], {
+      encoding: "utf8",
+      timeout: 5000,
+    });
+    assert.equal(result.status, 1, result.stderr);
+    assert.match(result.stderr, /missing pinned runtime library.*zimg/i);
+  } finally {
+    rmSync(scratch, { recursive: true, force: true });
+  }
+});

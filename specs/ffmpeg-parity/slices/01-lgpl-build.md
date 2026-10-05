@@ -1,6 +1,6 @@
 # 01 — Pinned LGPL build
 
-Status: complete. Question: **Can the pinned build execute the required compatible features?**
+Status: pinned zimg source closure and affected 02–05 proof complete; HDR acceptance remains in 18/19. Question: **Can the pinned build execute the required compatible features?**
 
 Dependencies: existing contracts only.
 
@@ -29,3 +29,60 @@ Pinned official FFmpeg 9.0.2 archive SHA-256 8c3850283eb25fa026482078a04051e0be1
 Three narrow CLI tests pass (corrupt source refusal, changed executable refusal, verified idempotent replay); replay test was falsified and restored. Actual smoke passes Apple H264/HEVC 320×180 one-second encode/probe/decode, Float32 WAV and AAC48k, and metering/normalization/limiter/sidechain/colorbalance execution. Inventory confirms required filters, with absence of GPL eq and libx264/libx265. These are build/component checks; no app, project or appearance claims.
 
 Review: refactor-clean found one dependency owner and no alternative renderer/supervisor. Source packaging retains the build controller as well as upstream source/configuration. Code-review and narrow tests are clean. Independent Codex review found no actionable defect; its sandbox could not create VideoToolbox sessions, while the unrestricted bounded production-build smoke succeeded. No performance or managed-execution claim relies on that restricted run. [Frozen receipts](../evidence/lgpl-build/) record the actual prepared bytes and smoke results.
+
+
+## Reopened dependency recipe
+
+Actual PQ input made the system-only color candidate refuse its transfer
+function in slice 18. The explicitly identified research candidate demonstrated
+that libzimg is needed; this slice reopens the release dependency recipe without
+changing native defaults or claiming HDR treatment acceptance. The owning
+[provenance](../../../helpers/ffmpeg/provenance.json) pins zimg 3.0.6 (runtime,
+WTFPL) and pkgconf 2.5.1 (build-only, ISC) with immutable archive hashes. Preparation
+compiles zimg scalar/ARM sources from its upstream build manifest and pkgconf in
+private staging. System-only PATH, fixed compilers/minimum macOS and a private
+pkg-config library search prevent accidental host dependencies. No autotools,
+Homebrew, model download or host install is needed.
+
+All archives are verified before compilation; every dependency's matching source
+and license travels with the distribution, along with actual commands/environment
+and the build controller. Runtime dylibs retain @rpath resolution and remain
+replaceable; pkgconf stays outside runtime. Hash-bound replay refuses corrupt
+sources, absent matching notices/sources and absent runtime libraries before any
+execution. Existing signed-copy staging remains the sole receipt owner after
+codesign. This recipe invalidates the old affected component/relocation receipts;
+new proof is retained separately rather than overwriting the initial evidence.
+
+The final exact-controller build succeeds under an output parent containing
+spaces. Real pinned pkgconf preparation first refused the unsafe source directory;
+private whitespace-free compilation fixes that failure while same-filesystem
+atomic publication remains beside the requested output. An EXDEV copy is verified
+before commit; a separate external-volume runtime scenario was not exercised.
+
+[New frozen receipts](../evidence/zimg-build/) retain matching-source/build
+commands, exact prepared hashes, inventory, component smoke and separately signed
+relocation. The relocated staging app resolver, production service discovery,
+arm64 Mach-O load/signature closure and H264/HEVC/audio/filter execution pass under
+system-only PATH and isolated child HOME. Seven selected streams across four
+retained MOV and fresh CAF/AAC fixtures decode through held inputs, including
+pathname substitution, B-frame edit-list support, VFR and rotation metadata reuse.
+The fresh 100ms WAV uses the managed output slot, unchanged native held-output
+validation and real workspace cleanup; its bytes/hash/native facts match the
+initial proof. Actual FFmpeg completion, cancellation and isolated service death
+retire both CLI/native processes. Nine preparation/release and eighteen selected
+service ownership tests, strict selected service typechecking and scoped lint pass.
+
+These are dependency/component and affected ownership checks. The unchanged frozen
+native probe/cleanup owner is reused read-only, with the current thin CLI owner
+compiled in scratch; this is neither a full app launch nor released ZIP proof.
+The root prepared distribution remains untouched. The isolated final distribution
+identity and controller hash live in the new receipt/checks, not a host PATH.
+Slice 18 must complete its native metadata/timing, PQ/HLG analytical, gamut and
+visual gates before production acceptance in 19. Build or filter success alone
+does not establish correct HDR conversion.
+
+Final shape/diff/docs review retains one dependency and signing owner, with no
+host capability fallback. Independent review found the whitespace build-path
+defect above; real red/green preparation fixed it. Its final read-only review
+reports no actionable correctness defects and confirms controller/recipe/receipt
+agreement, while preserving the external-volume and HDR proof limits.

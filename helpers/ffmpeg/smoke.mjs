@@ -4,7 +4,7 @@ import { mkdtempSync, rmSync, realpathSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
-import { verifyFFmpeg } from "./prepare.mjs";
+import { provenance, verifyFFmpeg } from "./prepare.mjs";
 
 export async function smokeFFmpeg(directory) {
   directory = resolve(directory);
@@ -86,16 +86,7 @@ export async function smokeFFmpeg(directory) {
       assert.equal(stream.sample_rate, "48000");
       probes.push({ extension, ...stream });
     }
-    for (const filter of [
-      "ebur128",
-      "loudnorm",
-      "alimiter",
-      "sidechaincompress",
-      "tonemap",
-      "lut3d",
-      "colorbalance",
-      "colorspace",
-    ])
+    for (const filter of provenance.requiredFilters)
       run(ffmpeg, ["-hide_banner", "-h", `filter=${filter}`]);
     execute([
       "-f",
@@ -140,11 +131,32 @@ export async function smokeFFmpeg(directory) {
       "null",
       "-",
     ]);
+    execute([
+      "-f",
+      "lavfi",
+      "-i",
+      "color=black:size=64x64:rate=1:duration=1",
+      "-vf",
+      "format=yuv420p10le,setparams=range=limited:color_primaries=bt2020:color_trc=smpte2084:colorspace=bt2020nc,zscale=transfer=linear:npl=100,format=gbrpf32le,zscale=primaries=bt709,tonemap=hable:desat=0:peak=10,zscale=transfer=bt709:matrix=bt709:range=limited,format=yuv420p",
+      "-frames:v",
+      "1",
+      "-f",
+      "null",
+      "-",
+    ]);
     return {
       recipeSha256: receipt.recipeSha256,
       sourceSha256: receipt.sourceSha256,
       probes,
-      filterExecution: ["ebur128", "loudnorm", "alimiter", "sidechaincompress", "colorbalance"],
+      filterExecution: [
+        "ebur128",
+        "loudnorm",
+        "alimiter",
+        "sidechaincompress",
+        "colorbalance",
+        "zscale",
+        "tonemap",
+      ],
     };
   } finally {
     rmSync(scratch, { recursive: true, force: true });

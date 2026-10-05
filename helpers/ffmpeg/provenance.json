@@ -26,7 +26,8 @@
     "--enable-bzlib",
     "--enable-securetransport",
     "--extra-cflags=-mmacosx-version-min=26.0",
-    "--extra-ldflags=-mmacosx-version-min=26.0 -Wl,-rpath,@executable_path/../lib"
+    "--extra-ldflags=-mmacosx-version-min=26.0 -Wl,-rpath,@executable_path/../lib",
+    "--enable-libzimg"
   ],
   "requiredFilters": [
     "ebur128",
@@ -36,7 +37,52 @@
     "tonemap",
     "lut3d",
     "colorbalance",
-    "colorspace"
+    "colorspace",
+    "zscale"
   ],
-  "requiredEncoders": ["h264_videotoolbox", "hevc_videotoolbox", "aac", "pcm_f32le"]
+  "requiredEncoders": ["h264_videotoolbox", "hevc_videotoolbox", "aac", "pcm_f32le"],
+  "dependencies": [
+    {
+      "name": "zimg",
+      "version": "3.0.6",
+      "archive": "zimg-3.0.6.tar.gz",
+      "directory": "zimg-release-3.0.6",
+      "sourceUrl": "https://codeload.github.com/sekrit-twc/zimg/tar.gz/refs/tags/release-3.0.6",
+      "sourceSha256": "be89390f13a5c9b2388ce0f44a5e89364a20c1c57ce46d382b1fcc3967057577",
+      "license": "WTFPL",
+      "licenseFile": "COPYING",
+      "role": "runtime",
+      "build": {
+        "sourceManifest": "Makefile.am",
+        "sourceSections": ["libzimg_internal_la_SOURCES", "ARMSIMD"],
+        "compiler": "/usr/bin/clang++",
+        "flags": [
+          "-std=c++14",
+          "-O2",
+          "-DNDEBUG",
+          "-DZIMG_ARM",
+          "-fvisibility=hidden",
+          "-mmacosx-version-min=26.0",
+          "-dynamiclib",
+          "-install_name",
+          "@rpath/libzimg.2.dylib"
+        ],
+        "library": "libzimg.2.dylib"
+      }
+    },
+    {
+      "name": "pkgconf",
+      "version": "2.5.1",
+      "archive": "pkgconf-2.5.1.tar.xz",
+      "directory": "pkgconf-2.5.1",
+      "sourceUrl": "https://distfiles.ariadne.space/pkgconf/pkgconf-2.5.1.tar.xz",
+      "sourceSha256": "cd05c9589b9f86ecf044c10a2269822bc9eb001eced2582cfffd658b0a50c243",
+      "license": "ISC",
+      "licenseFile": "COPYING",
+      "role": "build-only",
+      "build": {
+        "configure": ["--disable-shared", "--disable-static", "--disable-tests"]
+      }
+    }
+  ]
 }

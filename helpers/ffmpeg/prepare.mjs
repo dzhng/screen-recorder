@@ -34,9 +34,17 @@ async function sha(file) {
 async function checksum(file, expected) {
   if ((await sha(file)) !== expected) throw new Error(`Checksum mismatch: ${file}`);
 }
-function run(command, args, cwd, capture = false) {
+const buildEnvironment = {
+  PATH: "/usr/bin:/bin:/usr/sbin:/sbin",
+  LC_ALL: "C",
+  CC: "/usr/bin/clang",
+  CXX: "/usr/bin/clang++",
+  MACOSX_DEPLOYMENT_TARGET: provenance.minimumMacOS,
+};
+function run(command, args, cwd, capture = false, env = buildEnvironment) {
   return execFileSync(command, args, {
     cwd,
+    env,
     encoding: "utf8",
     stdio: capture ? "pipe" : "inherit",
     timeout: 1_800_000,
@@ -66,6 +74,14 @@ export async function verifyFFmpeg(directory) {
     throw new Error("Prepared FFmpeg recipe differs; prepare into a new output directory");
   if (!receipt.files || !receipt.files["bin/ffmpeg"] || !receipt.files["bin/ffprobe"])
     throw new Error("Prepared FFmpeg receipt lacks executables");
+  for (const dependency of provenance.dependencies ?? []) {
+    const archive = `sources/${dependency.archive}`;
+    const notice = `sources/${dependency.name}-${dependency.licenseFile}`;
+    if (receipt.files[archive] !== dependency.sourceSha256 || !receipt.files[notice])
+      throw new Error(`Missing pinned dependency source/notice: ${dependency.name}`);
+    if (dependency.role === "runtime" && !receipt.files[`lib/${dependency.build.library}`])
+      throw new Error(`Missing pinned runtime library: ${dependency.name}`);
+  }
   for (const [file, expected] of Object.entries(receipt.files)) {
     if (file.startsWith("/") || file.split("/").includes(".."))
       throw new Error(`Invalid FFmpeg receipt path: ${file}`);
@@ -107,24 +123,88 @@ export async function stageFFmpeg({ source = defaultOutput, destination, sign })
     throw error;
   }
 }
-async function acquire(cache) {
+async function acquire(cache, source = { archive: archiveName, ...provenance }) {
   mkdirSync(cache, { recursive: true });
-  const archive = join(cache, archiveName);
+  const archive = join(cache, source.archive);
   if (existsSync(archive)) {
-    await checksum(archive, provenance.sourceSha256);
+    await checksum(archive, source.sourceSha256);
     return archive;
   }
   const temporary = `${archive}.part-${process.pid}`;
   try {
-    const answer = await fetch(provenance.sourceUrl, { signal: AbortSignal.timeout(300_000) });
+    const answer = await fetch(source.sourceUrl, { signal: AbortSignal.timeout(300_000) });
     if (!answer.ok) throw new Error(`FFmpeg source download failed (${answer.status})`);
     await pipeline(answer.body, createWriteStream(temporary, { flags: "wx" }));
-    await checksum(temporary, provenance.sourceSha256);
+    await checksum(temporary, source.sourceSha256);
     renameSync(temporary, archive);
     return archive;
   } finally {
     rmSync(temporary, { force: true });
   }
+}
+function buildDependencies(scratch, archives, jobs) {
+  const prefix = join(scratch, "dependencies");
+  const tools = join(scratch, "build-tools");
+  for (const dependency of provenance.dependencies ?? [])
+    run("/usr/bin/tar", ["-xf", archives.get(dependency.name), "-C", scratch]);
+  const zimg = provenance.dependencies?.find((value) => value.name === "zimg");
+  const pkgconf = provenance.dependencies?.find((value) => value.name === "pkgconf");
+  if (!zimg || !pkgconf)
+    throw new Error("Frozen FFmpeg recipe requires zimg and build-only pkgconf");
+  const zimgSource = join(scratch, zimg.directory);
+  const upstream = readFileSync(join(zimgSource, zimg.build.sourceManifest), "utf8");
+  const [scalarSection, armSection] = zimg.build.sourceSections;
+  const scalar = upstream
+    .split(`${scalarSection} =`)[1]
+    ?.split(scalarSection.replace(/SOURCES$/, "CPPFLAGS"))[0];
+  const arm = upstream.split(`if ${armSection}`)[1]?.split(`endif # ${armSection}`)[0];
+  if (!scalar || !arm) throw new Error("Pinned zimg source manifest sections are unavailable");
+  const sources = [...new Set((scalar + arm).match(/src\/zimg\/[\w/]+\.cpp/g))];
+  if (!sources.length) throw new Error("Pinned zimg source manifest has no build operands");
+  mkdirSync(join(prefix, "lib/pkgconfig"), { recursive: true });
+  mkdirSync(join(prefix, "include"));
+  const compiler = [
+    ...zimg.build.flags,
+    `-I${join(zimgSource, "src/zimg")}`,
+    ...sources.map((file) => join(zimgSource, file)),
+    "-o",
+    join(prefix, "lib", zimg.build.library),
+  ];
+  run(zimg.build.compiler, compiler, zimgSource);
+  // FFmpeg's pkg-config check links the unversioned development name; runtime uses @rpath.
+  copyFileSync(join(prefix, "lib", zimg.build.library), join(prefix, "lib/libzimg.dylib"));
+  for (const header of ["zimg.h", "zimg++.hpp"])
+    copyFileSync(join(zimgSource, "src/zimg/api", header), join(prefix, "include", header));
+  writeFileSync(
+    join(prefix, "lib/pkgconfig/zimg.pc"),
+    `prefix=${prefix}
+libdir=\${prefix}/lib
+includedir=\${prefix}/include
+Name: zimg
+Description: pinned color conversion dependency
+Version: ${zimg.version}
+Libs: -L\${libdir} -lzimg
+Cflags: -I\${includedir}
+`,
+  );
+  const pkgSource = join(scratch, pkgconf.directory);
+  const toolFlags = [`--prefix=${tools}`, ...pkgconf.build.configure];
+  run(join(pkgSource, "configure"), toolFlags, pkgSource, false, {
+    ...buildEnvironment,
+    CFLAGS: `-mmacosx-version-min=${provenance.minimumMacOS}`,
+    LDFLAGS: `-mmacosx-version-min=${provenance.minimumMacOS}`,
+  });
+  run("/usr/bin/make", [`-j${jobs}`], pkgSource);
+  run("/usr/bin/make", ["install"], pkgSource);
+  return {
+    prefix,
+    tools,
+    zimg,
+    commands: {
+      zimg: { compiler: zimg.build.compiler, args: compiler },
+      pkgconf: { configure: toolFlags },
+    },
+  };
 }
 function inspect(directory) {
   const ffmpeg = join(directory, "bin/ffmpeg"),
@@ -189,16 +269,37 @@ export async function prepareFFmpeg({
     throw new Error("FFmpeg build jobs must be 1–8");
   if (existsSync(output)) return verifyFFmpeg(output);
   const archive = await acquire(cache);
+  const dependencyArchives = new Map();
+  for (const dependency of provenance.dependencies ?? [])
+    dependencyArchives.set(dependency.name, await acquire(cache, dependency));
   if (process.platform !== "darwin" || process.arch !== "arm64")
     throw new Error("FFmpeg preparation requires an Apple Silicon Mac");
   mkdirSync(dirname(output), { recursive: true });
-  const scratch = mkdtempSync(join(dirname(output), ".ffmpeg-prepare-"));
+  // Upstream configure/pkg-config split dependency paths. Keep compilation in a
+  // whitespace-free private directory; publication still commits beside output.
+  const scratch = mkdtempSync("/tmp/screenrec-ffmpeg-prepare-");
+  let publication;
   try {
+    publication = mkdtempSync(join(dirname(output), ".ffmpeg-publish-"));
     run("/usr/bin/tar", ["-xJf", archive, "-C", scratch]);
     const source = join(scratch, `ffmpeg-${provenance.version}`);
     const staged = join(scratch, "distribution");
+    const dependencies = buildDependencies(scratch, dependencyArchives, jobs);
+    const configure = provenance.configure.map((flag) =>
+      flag.startsWith("--extra-cflags=")
+        ? `${flag} -I${join(dependencies.prefix, "include")}`
+        : flag.startsWith("--extra-ldflags=")
+          ? `${flag} -L${join(dependencies.prefix, "lib")}`
+          : flag,
+    );
+    configure.push(`--pkg-config=${join(dependencies.tools, "bin/pkgconf")}`);
+    const env = {
+      ...buildEnvironment,
+      PKG_CONFIG_LIBDIR: join(dependencies.prefix, "lib/pkgconfig"),
+      PKG_CONFIG_PATH: "",
+    };
     console.log(`Configuring FFmpeg ${provenance.version} (${recipeSha256})`);
-    run(join(source, "configure"), provenance.configure, source);
+    run(join(source, "configure"), configure, source, false, env);
     console.log(`Building FFmpeg with ${jobs} jobs`);
     run("/usr/bin/make", [`-j${jobs}`], source);
     run("/usr/bin/make", [`DESTDIR=${staged}`, "install"], source);
@@ -206,6 +307,10 @@ export async function prepareFFmpeg({
     rmSync(join(staged, "include"), { recursive: true, force: true });
     rmSync(join(staged, "lib/pkgconfig"), { recursive: true, force: true });
     rmSync(join(staged, "share"), { recursive: true, force: true });
+    copyFileSync(
+      join(dependencies.prefix, "lib", dependencies.zimg.build.library),
+      join(staged, "lib", dependencies.zimg.build.library),
+    );
     const inventory = inspect(staged);
     const thirdParty = join(staged, "sources");
     mkdirSync(thirdParty);
@@ -214,6 +319,21 @@ export async function prepareFFmpeg({
     copyFileSync(join(source, "LICENSE.md"), join(thirdParty, "LICENSE.md"));
     copyFileSync(join(owner, "provenance.json"), join(thirdParty, "provenance.json"));
     copyFileSync(join(owner, "prepare.mjs"), join(thirdParty, "prepare.mjs"));
+    for (const dependency of provenance.dependencies ?? []) {
+      copyFileSync(dependencyArchives.get(dependency.name), join(thirdParty, dependency.archive));
+      copyFileSync(
+        join(scratch, dependency.directory, dependency.licenseFile),
+        join(thirdParty, `${dependency.name}-${dependency.licenseFile}`),
+      );
+    }
+    writeFileSync(
+      join(thirdParty, "build.json"),
+      JSON.stringify(
+        { configure, environment: env, dependencies: dependencies.commands },
+        null,
+        2,
+      ) + "\n",
+    );
     writeFileSync(join(staged, "inventory.json"), JSON.stringify(inventory, null, 2) + "\n");
     const identities = {};
     for (const file of files(staged).sort()) {
@@ -228,14 +348,24 @@ export async function prepareFFmpeg({
       license: provenance.license,
       sourceSha256: provenance.sourceSha256,
       recipeSha256,
+      dependencies: provenance.dependencies.map(({ build: _build, ...source }) => source),
       files: identities,
     };
     writeFileSync(join(staged, "receipt.json"), JSON.stringify(receipt, null, 2) + "\n");
     await verifyFFmpeg(staged);
-    renameSync(staged, output);
+    const ready = join(publication, "distribution");
+    try {
+      renameSync(staged, ready);
+    } catch (error) {
+      if (error.code !== "EXDEV") throw error;
+      cpSync(staged, ready, { recursive: true, verbatimSymlinks: true });
+      await verifyFFmpeg(ready);
+    }
+    renameSync(ready, output);
     return receipt;
   } finally {
     rmSync(scratch, { recursive: true, force: true });
+    if (publication) rmSync(publication, { recursive: true, force: true });
   }
 }
 if (

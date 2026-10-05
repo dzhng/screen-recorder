@@ -20,7 +20,10 @@ runtime work, not permission to download models during ordinary execution.
 
 Prepare the FFmpeg distribution before an app build. Build and release staging
 share its signing-and-receipt owner; copying a receipt from unsigned bytes cannot
-describe the signed package. Matching sources and notices travel with the tools.
+describe the signed package. Matching sources and notices travel with the tools. The FFmpeg owner's pinned
+provenance is also the release-input manifest for its runtime and private build
+dependencies; do not mirror those versions in the Node input manifest. Ordinary
+release consumers require neither FFmpeg nor pkgconf from the host.
 
 Personal source builds may record a host interpreter. Tagged packages include
 an interpreter resolved relative to the app, so moving the package cannot retain

@@ -1,0 +1,45 @@
+{
+  "scope": "Pinned dependency preparation and affected 02\u201305 refresh; no released ZIP, full native app launch or HDR treatment acceptance",
+  "preparedDirectory": "/tmp/screenrec zimg final/distribution",
+  "preparedReceiptSha256": "27350ff2f953bbd4d6ca8bfe0f6808b99b9752192657d289146b50319099f66a",
+  "controllerSha256": "976465868320a2ecbeba2fd1de029f2308cdef1099fa809d6c30c0e2ce2707f1",
+  "checks": {
+    "prepareReleaseTests": {
+      "passed": 9
+    },
+    "serviceInputArtifactToolsWorkerTests": {
+      "passed": 18
+    },
+    "selectedServiceTypecheck": "passed",
+    "scopedLint": "passed",
+    "whitespaceRegression": {
+      "red": "Real pinned pkgconf configure refused unsafe srcdir inherited from output parent containing spaces",
+      "green": "Final exact-controller build completed at same whitespace output after private whitespace-free compilation and same-filesystem atomic publication"
+    }
+  },
+  "reusedNativeSha256": "af28fcc5260b79bca3909be2af1a9c90875bc3497d30d9649d3921648ef8c82d",
+  "boundaries": [
+    "Native source probe facts and cleanup owner reused unchanged, read-only; thin current CLI owner compiled in scratch",
+    "Matching sources retain exact controller/archive/notice hashes; pkgconf is build-only",
+    "No user media, host install, models or root prepared distribution changed",
+    "Cross-filesystem EXDEV publication copy branch source-reviewed and verifies copy; no separate external-volume runtime proof",
+    "HDR PQ/HLG, gamut, metadata and exact timing acceptance belong to slices 18/19"
+  ],
+  "sourceHashes": {
+    "helpers/ffmpeg/prepare.mjs": "976465868320a2ecbeba2fd1de029f2308cdef1099fa809d6c30c0e2ce2707f1",
+    "helpers/ffmpeg/provenance.json": "32863feee93b58766d5e16bbac8c8fa53c41f718ae39a34d1dca8718d7677d2f",
+    "helpers/ffmpeg/smoke.mjs": "40c9de4202c894ffcf85ae476ddc379d13b0295128c0fc366011070f421e874b",
+    "apps/service/src/ffmpeg-input.ts": "a17763d052b7d1c9feefd5946b6eab6164774504c37509987d80b0eef4722587",
+    "apps/service/src/ffmpeg-artifact.ts": "073e09a7ddb64f6d82f40658d25e8457be706bfc7243634d242ba28717ffb2de",
+    "apps/service/src/worker.ts": "58909a02276c53610ac5bdb864c1fb9e9233667c504d41f6abe929a14fb23364",
+    "apps/service/src/render.ts": "adcdfac80c58a2d1100273940644dccccee282c08b5472e84f934caa1c18b293",
+    "scripts/ffmpeg-input-probe.mjs": "56bf9909125ac792f50ecb40fcdad1cc65d8653b511f2379cbd069934dd95f55",
+    "scripts/cli-worker-probe.mjs": "1d8ac53c49cbb9c7dc0fb570fb20d5692871eb9bb89fa44842205dea0d91985b"
+  },
+  "independentReview": {
+    "marker": "pinned-zimg-final-closure",
+    "result": "No actionable correctness defects; retained controller/recipe/receipt hashes agree",
+    "scope": "Read-only source/evidence review; no separate rerun of builds/tests/probes",
+    "priorFinding": "Whitespace-dependent upstream private build paths confirmed with real red and fixed; same whitespace output builds green"
+  }
+}

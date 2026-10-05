@@ -1,0 +1,328 @@
+{
+  "ffmpegSha256": "8410694433e927bdf2cc751b8c81cb4545b2302828fdffed6044018b10f39f31",
+  "ffprobeSha256": "10cca670f6de7b7c7ab96c53205d1a6370f63f506b028942d930fef4426048ee",
+  "receipts": [
+    {
+      "name": "a",
+      "source": "/private/tmp/screenrec-parity-hevc/specs/done/agent-editing/assets/00-corpus/a.mov",
+      "sourceSha256": "f3b7d8f718e1724f7c22bee97419cafca0df7180ce3637eaf3fb2c19513002bd",
+      "nativeSha256": "af28fcc5260b79bca3909be2af1a9c90875bc3497d30d9649d3921648ef8c82d",
+      "pathnameSwap": true,
+      "streams": [
+        {
+          "streamId": "track:1",
+          "map": "0:0",
+          "originUs": 0,
+          "nativeSupport": {
+            "id": "track:1",
+            "kind": "video",
+            "codec": "avc1",
+            "decodable": true,
+            "startUs": 0,
+            "endUs": 2000000,
+            "segments": [
+              {
+                "startUs": 0,
+                "endUs": 2000000,
+                "empty": false,
+                "mediaStartUs": 0,
+                "mediaDurationUs": 2000000
+              }
+            ],
+            "width": 160,
+            "height": 96,
+            "orientedWidth": 160,
+            "orientedHeight": 96,
+            "orientedPixelBounds": {
+              "x": 0,
+              "y": 0,
+              "width": 160,
+              "height": 96
+            },
+            "transform": [
+              1,
+              0,
+              0,
+              1,
+              0,
+              0
+            ],
+            "samples": {
+              "count": 8,
+              "firstPtsUs": 0,
+              "lastPtsUs": 1750000,
+              "minDurationUs": 250000,
+              "maxDurationUs": 250000
+            }
+          },
+          "decoded": true
+        },
+        {
+          "streamId": "track:2",
+          "map": "0:1",
+          "originUs": 0,
+          "nativeSupport": {
+            "id": "track:2",
+            "kind": "audio",
+            "codec": "lpcm",
+            "decodable": true,
+            "startUs": 0,
+            "endUs": 2000000,
+            "segments": [
+              {
+                "startUs": 0,
+                "endUs": 2000000,
+                "empty": false,
+                "mediaStartUs": 0,
+                "mediaDurationUs": 2000000
+              }
+            ],
+            "sampleRate": 48000,
+            "channels": 1
+          },
+          "decoded": true
+        }
+      ]
+    },
+    {
+      "name": "bframes",
+      "source": "/tmp/screenrec-hevc-final/bframes/bframes.mp4",
+      "sourceSha256": "3b13ecf65f27fec45f32155c217212a9ff4b05604e6557fd7ccbe4caac5e8c25",
+      "nativeSha256": "af28fcc5260b79bca3909be2af1a9c90875bc3497d30d9649d3921648ef8c82d",
+      "pathnameSwap": false,
+      "streams": [
+        {
+          "streamId": "track:1",
+          "map": "0:0",
+          "originUs": 0,
+          "nativeSupport": {
+            "id": "track:1",
+            "kind": "video",
+            "codec": "avc1",
+            "decodable": true,
+            "startUs": 0,
+            "endUs": 2000000,
+            "segments": [
+              {
+                "startUs": 0,
+                "endUs": 2000000,
+                "empty": false,
+                "mediaStartUs": 500000,
+                "mediaDurationUs": 2000000
+              }
+            ],
+            "width": 160,
+            "height": 96,
+            "orientedWidth": 160,
+            "orientedHeight": 96,
+            "orientedPixelBounds": {
+              "x": 0,
+              "y": 0,
+              "width": 160,
+              "height": 96
+            },
+            "transform": [
+              1,
+              0,
+              0,
+              1,
+              0,
+              0
+            ],
+            "samples": {
+              "count": 8,
+              "firstPtsUs": 0,
+              "lastPtsUs": 1750000,
+              "minDurationUs": 250000,
+              "maxDurationUs": 250000
+            }
+          },
+          "decoded": true
+        }
+      ]
+    },
+    {
+      "name": "timestamp-gap",
+      "source": "/private/tmp/screenrec-parity-hevc/specs/done/agent-editing/assets/00-corpus/timestamp-gap.mov",
+      "sourceSha256": "17f4bdba4ef98d4467cc0f5fa68994859dedd7ab69d75bd46aeb120bd89431a4",
+      "nativeSha256": "af28fcc5260b79bca3909be2af1a9c90875bc3497d30d9649d3921648ef8c82d",
+      "pathnameSwap": false,
+      "streams": [
+        {
+          "streamId": "track:1",
+          "map": "0:0",
+          "originUs": 0,
+          "nativeSupport": {
+            "id": "track:1",
+            "kind": "video",
+            "codec": "avc1",
+            "decodable": true,
+            "startUs": 0,
+            "endUs": 2000000,
+            "segments": [
+              {
+                "startUs": 0,
+                "endUs": 2000000,
+                "empty": false,
+                "mediaStartUs": 0,
+                "mediaDurationUs": 2000000
+              }
+            ],
+            "width": 160,
+            "height": 96,
+            "orientedWidth": 160,
+            "orientedHeight": 96,
+            "orientedPixelBounds": {
+              "x": 0,
+              "y": 0,
+              "width": 160,
+              "height": 96
+            },
+            "transform": [
+              1,
+              0,
+              0,
+              1,
+              0,
+              0
+            ],
+            "samples": {
+              "count": 6,
+              "firstPtsUs": 0,
+              "lastPtsUs": 1750000,
+              "minDurationUs": 250000,
+              "maxDurationUs": 750000
+            }
+          },
+          "decoded": true
+        }
+      ]
+    },
+    {
+      "name": "orientation",
+      "source": "/private/tmp/screenrec-parity-hevc/specs/done/agent-editing/assets/00-corpus/orientation.mov",
+      "sourceSha256": "4d30d080685b32e98e6bc0897ec689dd7c7e67cff7bdc7a6ef3f20cd4b55ac3f",
+      "nativeSha256": "af28fcc5260b79bca3909be2af1a9c90875bc3497d30d9649d3921648ef8c82d",
+      "pathnameSwap": false,
+      "streams": [
+        {
+          "streamId": "track:1",
+          "map": "0:0",
+          "originUs": 0,
+          "nativeSupport": {
+            "id": "track:1",
+            "kind": "video",
+            "codec": "avc1",
+            "decodable": true,
+            "startUs": 0,
+            "endUs": 2000000,
+            "segments": [
+              {
+                "startUs": 0,
+                "endUs": 2000000,
+                "empty": false,
+                "mediaStartUs": 0,
+                "mediaDurationUs": 2000000
+              }
+            ],
+            "width": 160,
+            "height": 96,
+            "orientedWidth": 96,
+            "orientedHeight": 160,
+            "orientedPixelBounds": {
+              "x": 0,
+              "y": 0,
+              "width": 96,
+              "height": 160
+            },
+            "transform": [
+              0,
+              -1,
+              1,
+              0,
+              0,
+              0
+            ],
+            "samples": {
+              "count": 8,
+              "firstPtsUs": 0,
+              "lastPtsUs": 1750000,
+              "minDurationUs": 250000,
+              "maxDurationUs": 250000
+            }
+          },
+          "decoded": true
+        }
+      ]
+    },
+    {
+      "name": "caf",
+      "sourceSha256": "e52f9b442001384982a569468516b134367949c73949e2db188189ad5d4d29dd",
+      "nativeSha256": "af28fcc5260b79bca3909be2af1a9c90875bc3497d30d9649d3921648ef8c82d",
+      "fixture": "generated 100ms sine, disposable",
+      "streams": [
+        {
+          "streamId": "track:1",
+          "map": "0:0",
+          "originUs": 0,
+          "nativeSupport": {
+            "id": "track:1",
+            "kind": "audio",
+            "codec": "lpcm",
+            "decodable": true,
+            "startUs": 0,
+            "endUs": 100000,
+            "segments": [
+              {
+                "startUs": 0,
+                "endUs": 100000,
+                "empty": false,
+                "mediaStartUs": 0,
+                "mediaDurationUs": 100000
+              }
+            ],
+            "sampleRate": 48000,
+            "channels": 1,
+            "channelLayoutTag": 6553601
+          },
+          "decoded": true
+        }
+      ]
+    },
+    {
+      "name": "aac",
+      "sourceSha256": "4b050745f90e51f6c77ed3cf6acc65a4621d94aea189658e639aeb2e7f65e3c7",
+      "nativeSha256": "af28fcc5260b79bca3909be2af1a9c90875bc3497d30d9649d3921648ef8c82d",
+      "fixture": "generated 100ms sine, disposable",
+      "streams": [
+        {
+          "streamId": "track:1",
+          "map": "0:0",
+          "originUs": 0,
+          "nativeSupport": {
+            "id": "track:1",
+            "kind": "audio",
+            "codec": "aac ",
+            "decodable": true,
+            "startUs": 0,
+            "endUs": 84000,
+            "segments": [
+              {
+                "startUs": 0,
+                "endUs": 84000,
+                "empty": false,
+                "mediaStartUs": 44000,
+                "mediaDurationUs": 84000
+              }
+            ],
+            "sampleRate": 48000,
+            "channels": 1,
+            "channelLayoutTag": 6553601
+          },
+          "decoded": true
+        }
+      ]
+    }
+  ],
+  "scope": "Read-only native authority reuse, retained fd selectors, bounded null decode; no demo edit or user state"
+}
