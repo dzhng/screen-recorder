@@ -7,14 +7,25 @@ import { processingScalars } from "./processing.js";
 import type { Geometry } from "./geometry.js";
 import type { ValidatedComposition, ExactRange } from "./model.js";
 import type { ProcessingInstruction } from "./processing-plan.js";
-import type { Anchor, ProcessingStep, ProcessingTarget, ScalarCurve, TimeValue } from "./schema.js";
+import {
+  isStatefulProcessor,
+  type StatefulProcessor,
+  type Anchor,
+  type ProcessingStep,
+  type ProcessingTarget,
+  type ScalarCurve,
+  type TimeValue,
+} from "./schema.js";
 
 export type CompiledProcessingInstruction = Omit<ProcessingInstruction, "steps"> & {
   steps: readonly {
     id: string;
     enabled: boolean;
     processor:
-      | Exclude<ProcessingStep["processor"], { type: "gain" | "rnnoise" }>
+      | Exclude<ProcessingStep["processor"], StatefulProcessor | { type: "gain" }>
+      | (Exclude<StatefulProcessor, { type: "rnnoise" }> & {
+          active: readonly { start: number; end: number }[];
+        })
       | {
           type: "rnnoise";
           mix?: number | SampleScalarProgram;
@@ -158,6 +169,8 @@ export function temporalProcessing(model: ValidatedComposition) {
                     }),
               },
             };
+          if (isStatefulProcessor(processor))
+            return { id, enabled, processor: { ...processor, active: stateActive.get(id) ?? [] } };
           if (processor.type !== "gain") return { id, enabled, processor };
           if (typeof processor.gain === "number" && !step.window)
             return { id, enabled, processor: { type: "gain" as const, gain: processor.gain } };

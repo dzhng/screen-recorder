@@ -15,22 +15,12 @@ import {
   fontReferenceSchema,
   processingStepSchema,
   processingTargetSchema,
+  processingTapSchema,
   rangeSchema,
   selectionRangeSchema,
 } from "./schema.js";
 
 const id = z.string().min(1);
-export const processingTapSchema = z
-  .object({
-    target: processingTargetSchema,
-    point: z.discriminatedUnion("kind", [
-      z.object({ kind: z.literal("dry") }).strict(),
-      z.object({ kind: z.literal("processed") }).strict(),
-      z.object({ kind: z.literal("after-step"), stepId: id }).strict(),
-    ]),
-  })
-  .strict();
-export type ProcessingTap = z.infer<typeof processingTapSchema>;
 export const executionWindowRequestSchema = z
   .object({
     range: rangeSchema,
@@ -101,11 +91,13 @@ export type CompiledAudioState = {
   clips: (CompiledAudio & { required: { start: number; end: number }[] })[];
   processing: CompiledProcessingInstruction[];
   domains: {
+    recipe: StatePlan["domains"][number]["recipe"];
     sampleRange: { start: number; end: number };
     dependencies: number[];
     members: {
       target: ProcessingInstruction["target"];
       stepId: string;
+      detector?: StatePlan["domains"][number]["members"][number]["detector"];
       sampleRange: { start: number; end: number };
     }[];
   }[];

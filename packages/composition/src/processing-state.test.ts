@@ -1228,3 +1228,626 @@ test("mix clocks restrict through splits without fragmenting learned continuity"
   expect(domains(zero)).toEqual(domains(authored));
   expect(compile(zero).manifest).not.toEqual(original.manifest);
 });
+
+test("mixed stateful audio stacks retain complete ordered domain recipes for an excerpt", () => {
+  const limiter = {
+    type: "limiter",
+    ceilingDbfs: -3,
+    lookaheadMs: 5,
+    releaseMs: 50,
+  };
+  const doc = {
+    ...document,
+    processing: [
+      {
+        target: { kind: "clip", id: "clip" },
+        steps: [{ id: "01-clean", enabled: true, processor: { type: "rnnoise" } }],
+      },
+      {
+        target: { kind: "track", id: "audio" },
+        steps: [
+          { id: "gain", enabled: true, processor: { type: "gain", gain: 0.5 } },
+          { id: "02-limit", enabled: true, processor: limiter },
+        ],
+      },
+      {
+        target: { kind: "output" },
+        steps: [{ id: "03-clean", enabled: true, processor: { type: "rnnoise" } }],
+      },
+    ],
+  };
+  const state = createCompiler(validateComposition(doc, []), "mixed-revision").audioWindow({
+    range: { startUs: 1000000, endUs: 1100000 },
+    rendition: { sampleRate: 48000, channels: 2 },
+    tap: { target: { kind: "output" }, point: { kind: "processed" } },
+  }).manifest.state!;
+  expect(state.domains).toMatchObject([
+    {
+      recipe: { type: "rnnoise" },
+      sampleRange: { start: 0, end: 192000 },
+      dependencies: [],
+      members: [{ stepId: "01-clean" }],
+    },
+    {
+      recipe: limiter,
+      sampleRange: { start: 0, end: 192000 },
+      dependencies: [0],
+      members: [{ stepId: "02-limit" }],
+    },
+    {
+      recipe: { type: "rnnoise" },
+      sampleRange: { start: 0, end: 192000 },
+      dependencies: [0, 1],
+      members: [{ stepId: "03-clean" }],
+    },
+  ]);
+  expect(state.nodes.find((node) => node.target.kind === "track")!.steps).toMatchObject([
+    { id: "gain", processor: { gain: 0.5 } },
+    { id: "02-limit", processor: limiter },
+  ]);
+});
+
+test("split limiter members preserve whole-domain preparation through a processing roundtrip", () => {
+  const limiter = { type: "limiter", ceilingDbfs: -6, lookaheadMs: 3, releaseMs: 60 };
+  const initial = {
+    ...document,
+    processing: [
+      {
+        target: { kind: "clip", id: "clip" },
+        steps: [{ id: "limit", enabled: true, processor: limiter }],
+      },
+    ],
+  };
+  const split = edit(initial, [
+    { operation: "split", clipIds: ["clip"], atUs: 2000000, scope: "selected" },
+  ]);
+  const right = split.clipLineage[0]!.clipIds[1]!;
+  const stack = split.document.processing.find(
+    (node) => node.target.kind === "clip" && node.target.id === right,
+  )!;
+  const roundtrip = edit(split.document, [
+    { operation: "processing.set", target: stack.target, steps: stack.steps },
+  ]);
+  const current = domains(roundtrip.document, { startUs: 3000000, endUs: 3100000 });
+  expect(current).toMatchObject([
+    {
+      recipe: limiter,
+      sampleRange: { start: 0, end: 192000 },
+      members: [{ target: { kind: "clip", id: "clip" } }, { target: { kind: "clip", id: right } }],
+    },
+  ]);
+  expect(current).toHaveLength(1);
+});
+
+test("changing one split limiter recipe detaches its state instead of retaining another member's parameters", () => {
+  const limiter = { type: "limiter", ceilingDbfs: -6, lookaheadMs: 3, releaseMs: 60 };
+  const initial = {
+    ...document,
+    processing: [
+      {
+        target: { kind: "clip", id: "clip" },
+        steps: [{ id: "limit", enabled: true, processor: limiter }],
+      },
+    ],
+  };
+  const split = edit(initial, [
+    { operation: "split", clipIds: ["clip"], atUs: 2000000, scope: "selected" },
+  ]);
+  const right = split.clipLineage[0]!.clipIds[1]!;
+  const stack = split.document.processing.find(
+    (node) => node.target.kind === "clip" && node.target.id === right,
+  )!;
+  const changed = edit(split.document, [
+    {
+      operation: "processing.set",
+      target: stack.target,
+      steps: [{ ...stack.steps[0]!, processor: { ...limiter, releaseMs: 75 } }],
+    },
+  ]);
+  expect(domains(changed.document)).toMatchObject([
+    {
+      recipe: limiter,
+      sampleRange: { start: 0, end: 96000 },
+      members: [{ target: { kind: "clip", id: "clip" } }],
+    },
+    {
+      recipe: { ...limiter, releaseMs: 75 },
+      sampleRange: { start: 96000, end: 192000 },
+      members: [{ target: { kind: "clip", id: right } }],
+    },
+  ]);
+  expect(domains(changed.document)).toHaveLength(2);
+  expect(() =>
+    validateComposition(
+      {
+        ...split.document,
+        processing: changed.document.processing.map((node) => ({
+          ...node,
+          steps: node.steps.map((step) => ({ ...step, stateKey: "invalid-shared" })),
+        })),
+      },
+      [],
+    ),
+  ).toThrow("Shared state requires one processor recipe");
+});
+
+test("a processed detector tap contributes its own upstream state and cycles refuse", () => {
+  const compressor = {
+    type: "compressor",
+    thresholdDbfs: -18,
+    ratio: 3,
+    kneeDb: 6,
+    attackMs: 10,
+    releaseMs: 100,
+    detector: {
+      kind: "tap",
+      tap: { target: { kind: "track", id: "detector-track" }, point: { kind: "processed" } },
+    },
+  };
+  const doc = {
+    ...document,
+    tracks: [...document.tracks, { id: "detector-track", kind: "audio", order: 1 }],
+    clips: [
+      ...document.clips,
+      { ...document.clips[0]!, id: "detector-clip", trackId: "detector-track" },
+    ],
+    processing: [
+      {
+        target: { kind: "track", id: "audio" },
+        steps: [{ id: "02-compress", enabled: true, processor: compressor }],
+      },
+      {
+        target: { kind: "track", id: "detector-track" },
+        steps: [{ id: "01-detector", enabled: true, processor: { type: "rnnoise" } }],
+      },
+    ],
+  };
+  const state = createCompiler(validateComposition(doc, []), "sidechain").audioWindow({
+    range: { startUs: 2000000, endUs: 2100000 },
+    rendition: { sampleRate: 48000, channels: 2 },
+    tap: { target: { kind: "track", id: "audio" }, point: { kind: "processed" } },
+  }).manifest.state!;
+  expect(state.domains).toMatchObject([
+    { recipe: { type: "rnnoise" }, dependencies: [], members: [{ stepId: "01-detector" }] },
+    { recipe: compressor, dependencies: [0], members: [{ stepId: "02-compress" }] },
+  ]);
+  expect(state.inputs.map((input) => [input.clip.id, input.selected])).toEqual([
+    ["clip", [{ startUs: 0, endUs: 4000000 }]],
+    ["detector-clip", [{ startUs: 0, endUs: 4000000 }]],
+  ]);
+  const cyclic = {
+    ...doc,
+    processing: [
+      doc.processing[0]!,
+      {
+        ...doc.processing[1]!,
+        steps: [
+          {
+            id: "01-detector",
+            enabled: true,
+            processor: {
+              ...compressor,
+              detector: {
+                ...compressor.detector,
+                tap: { ...compressor.detector.tap, target: { kind: "track", id: "audio" } },
+              },
+            },
+          },
+        ],
+      },
+    ],
+  };
+  expect(() => validateComposition(cyclic, [])).toThrow("State domain dependency cycle");
+});
+
+test("dry self detector taps stop before the compressor and empty detector targets remain explicit", () => {
+  const compressor = {
+    type: "compressor",
+    thresholdDbfs: -18,
+    ratio: 3,
+    kneeDb: 0,
+    attackMs: 10,
+    releaseMs: 100,
+    detector: {
+      kind: "tap",
+      tap: { target: { kind: "track", id: "audio" }, point: { kind: "dry" } },
+    },
+  };
+  const doc = {
+    ...document,
+    tracks: [...document.tracks, { id: "empty", kind: "audio", order: 1 }],
+    processing: [
+      {
+        target: { kind: "track", id: "audio" },
+        steps: [{ id: "compress", enabled: true, processor: compressor }],
+      },
+    ],
+  };
+  expect(domains(doc)).toMatchObject([{ recipe: compressor, dependencies: [] }]);
+  const empty = {
+    ...doc,
+    processing: [
+      {
+        ...doc.processing[0]!,
+        steps: [
+          {
+            ...doc.processing[0]!.steps[0]!,
+            processor: {
+              ...compressor,
+              detector: {
+                kind: "tap",
+                tap: { target: { kind: "track", id: "empty" }, point: { kind: "processed" } },
+              },
+            },
+          },
+        ],
+      },
+    ],
+  };
+  const state = createCompiler(validateComposition(empty, []), "empty-detector").audioWindow({
+    range: { startUs: 2000000, endUs: 2100000 },
+    rendition: { sampleRate: 48000, channels: 2 },
+    tap: { target: { kind: "track", id: "audio" }, point: { kind: "processed" } },
+  }).manifest.state!;
+  expect(
+    state.nodes.find((node) => node.target.kind === "track" && node.target.id === "empty"),
+  ).toMatchObject({
+    target: { kind: "track", id: "empty" },
+    inputs: [],
+    steps: [],
+    range: { startUs: 0, endUs: 4000000 },
+  });
+  expect(state.inputs.map((input) => input.clip.id)).toEqual(["clip"]);
+});
+
+test("native lowering preserves static normalization recipes and absolute state spans", () => {
+  const recipe = {
+    type: "normalization",
+    mode: "gain-only",
+    targetIntegratedLufs: -20,
+    truePeakCeilingDbtp: -2,
+    maxLoudnessRangeLu: 7,
+  };
+  const doc = {
+    ...document,
+    processing: [
+      {
+        target: { kind: "output" },
+        steps: [{ id: "normalize", enabled: true, processor: recipe }],
+      },
+    ],
+  };
+  const window = createCompiler(validateComposition(doc, []), "normalize").audioWindow({
+    range: { startUs: 3000000, endUs: 3100000 },
+    rendition: { sampleRate: 48000, channels: 2 },
+    tap: { target: { kind: "output" }, point: { kind: "processed" } },
+  });
+  expect(window.audioState()!.domains).toEqual([
+    {
+      recipe,
+      sampleRange: { start: 0, end: 192000 },
+      dependencies: [],
+      members: [
+        { target: { kind: "output" }, stepId: "normalize", sampleRange: { start: 0, end: 192000 } },
+      ],
+    },
+  ]);
+  expect(window.processing().at(-1)!.steps).toEqual([
+    {
+      id: "normalize",
+      enabled: true,
+      processor: { ...recipe, active: [{ start: 0, end: 192000 }] },
+    },
+  ]);
+});
+
+test("detector taps after output video steps retain preceding audio and refuse self cycles", () => {
+  const compressor = {
+    type: "compressor",
+    thresholdDbfs: -18,
+    ratio: 3,
+    kneeDb: 0,
+    attackMs: 10,
+    releaseMs: 100,
+    detector: {
+      kind: "tap",
+      tap: { target: { kind: "output" }, point: { kind: "after-step", stepId: "visual" } },
+    },
+  };
+  const cyclic = {
+    ...document,
+    processing: [
+      {
+        target: { kind: "output" },
+        steps: [
+          { id: "compress", enabled: true, processor: compressor },
+          { id: "visual", enabled: true, processor: { type: "opacity", opacity: 0.5 } },
+        ],
+      },
+    ],
+  };
+  expect(() => validateComposition(cyclic, [])).toThrow("State domain dependency cycle");
+  const valid = {
+    ...cyclic,
+    processing: [
+      {
+        ...cyclic.processing[0]!,
+        steps: [
+          { id: "clean", enabled: true, processor: { type: "rnnoise" } },
+          cyclic.processing[0]!.steps[1]!,
+          cyclic.processing[0]!.steps[0]!,
+        ],
+      },
+    ],
+  };
+  expect(domains(valid)).toMatchObject([
+    { recipe: { type: "rnnoise" }, dependencies: [] },
+    {
+      recipe: compressor,
+      dependencies: [0],
+      members: [{ detector: { target: { kind: "output" }, beforeStepIndex: 1 } }],
+    },
+  ]);
+});
+
+test("bypassed and empty detector targets do not expand the program's state envelope", () => {
+  const base = {
+    ...document,
+    tracks: [...document.tracks, { id: "empty", kind: "audio", order: 1 }],
+    clips: [
+      {
+        ...document.clips[0]!,
+        placement: { kind: "project", range: { startUs: 1000000, endUs: 4000000 } },
+      },
+    ],
+    processing: [
+      {
+        target: { kind: "output" },
+        steps: [{ id: "clean", enabled: true, processor: { type: "rnnoise" } }],
+      },
+    ],
+  };
+  const compressor = {
+    type: "compressor",
+    thresholdDbfs: -18,
+    ratio: 3,
+    kneeDb: 0,
+    attackMs: 10,
+    releaseMs: 100,
+    detector: {
+      kind: "tap",
+      tap: { target: { kind: "track", id: "empty" }, point: { kind: "processed" } },
+    },
+  };
+  const bypassed = {
+    ...base,
+    processing: [
+      ...base.processing,
+      {
+        target: { kind: "track", id: "audio" },
+        steps: [{ id: "compress", enabled: false, processor: compressor }],
+      },
+    ],
+  };
+  expect(domains(bypassed)).toEqual(domains(base));
+  const active = {
+    ...bypassed,
+    processing: [
+      bypassed.processing[0]!,
+      {
+        ...bypassed.processing[1]!,
+        steps: [{ id: "compress", enabled: true, processor: compressor }],
+      },
+    ],
+  };
+  expect(domains(active).map((domain) => domain.sampleRange)).toEqual([
+    { start: 48000, end: 192000 },
+    { start: 48000, end: 192000 },
+  ]);
+});
+
+test("disjoint clip detector taps refuse rather than compiling an unresolved endpoint", () => {
+  const compressor = {
+    type: "compressor",
+    thresholdDbfs: -18,
+    ratio: 3,
+    kneeDb: 0,
+    attackMs: 10,
+    releaseMs: 100,
+    detector: {
+      kind: "tap",
+      tap: { target: { kind: "clip", id: "detector" }, point: { kind: "dry" } },
+    },
+  };
+  const doc = {
+    ...document,
+    tracks: [...document.tracks, { id: "other", kind: "audio", order: 1 }],
+    clips: [
+      ...document.clips,
+      {
+        ...document.clips[0]!,
+        id: "detector",
+        trackId: "other",
+        placement: { kind: "project", range: { startUs: 5000000, endUs: 6000000 } },
+      },
+    ],
+    processing: [
+      {
+        target: { kind: "clip", id: "clip" },
+        steps: [{ id: "compress", enabled: true, processor: compressor }],
+      },
+    ],
+  };
+  expect(() => validateComposition(doc, [])).toThrow(
+    "Detector clip tap has no samples in the state domain",
+  );
+});
+
+test("splitting a self-detector compressor preserves the detector schedule across both members", () => {
+  const compressor = {
+    type: "compressor",
+    thresholdDbfs: -18,
+    ratio: 3,
+    kneeDb: 0,
+    attackMs: 10,
+    releaseMs: 100,
+    detector: {
+      kind: "tap",
+      tap: { target: { kind: "clip", id: "clip" }, point: { kind: "after-step", stepId: "gain" } },
+    },
+  };
+  const doc = {
+    ...document,
+    processing: [
+      {
+        target: { kind: "clip", id: "clip" },
+        steps: [
+          { id: "gain", enabled: true, processor: { type: "gain", gain: 2 } },
+          { id: "compress", enabled: true, processor: compressor },
+        ],
+      },
+    ],
+  };
+  const split = edit(doc, [
+    { operation: "split", clipIds: ["clip"], atUs: 2000000, scope: "selected" },
+  ]);
+  const right = split.clipLineage[0]!.clipIds[1]!;
+  const rightSteps = split.document.processing.find(
+    (stack) => stack.target.kind === "clip" && stack.target.id === right,
+  )!.steps;
+  expect(rightSteps[1]!.processor).toMatchObject({
+    detector: {
+      kind: "tap",
+      tap: {
+        target: { kind: "clip", id: right },
+        point: { kind: "after-step", stepId: rightSteps[0]!.id },
+      },
+    },
+  });
+  expect(domains(split.document)).toEqual([
+    {
+      identity: { kind: "shared", id: rightSteps[1]!.id },
+      recipe: { ...compressor, detector: { kind: "member", beforeStepIndex: 1 } },
+      range: { startUs: 0, endUs: 4000000 },
+      sampleRange: { start: 0, end: 192000 },
+      dependencies: [],
+      members: [
+        {
+          target: { kind: "clip", id: "clip" },
+          stepId: "compress",
+          range: { startUs: 0, endUs: 2000000 },
+          detector: { target: { kind: "clip", id: "clip" }, beforeStepIndex: 1 },
+        },
+        {
+          target: { kind: "clip", id: right },
+          stepId: rightSteps[1]!.id,
+          range: { startUs: 2000000, endUs: 4000000 },
+          detector: { target: { kind: "clip", id: right }, beforeStepIndex: 1 },
+        },
+      ],
+    },
+  ]);
+});
+
+test("externally referenced clip detectors refuse partition until the caller selects a stable track tap", () => {
+  const compressor = {
+    type: "compressor",
+    thresholdDbfs: -18,
+    ratio: 3,
+    kneeDb: 0,
+    attackMs: 10,
+    releaseMs: 100,
+    detector: {
+      kind: "tap",
+      tap: { target: { kind: "clip", id: "detector" }, point: { kind: "dry" } },
+    },
+  };
+  const doc = {
+    ...document,
+    tracks: [...document.tracks, { id: "detector-track", kind: "audio", order: 1 }],
+    clips: [
+      ...document.clips,
+      { ...document.clips[0]!, id: "detector", trackId: "detector-track" },
+    ],
+    processing: [
+      {
+        target: { kind: "clip", id: "clip" },
+        steps: [{ id: "compress", enabled: true, processor: compressor }],
+      },
+    ],
+  };
+  const before = domains(doc);
+  expect(() =>
+    edit(doc, [{ operation: "split", clipIds: ["detector"], atUs: 2000000, scope: "selected" }]),
+  ).toThrow("Select a stable track or group detector tap before partitioning its clip");
+  expect(domains(doc)).toEqual(before);
+  const split = edit(doc, [
+    {
+      operation: "processing.set",
+      target: { kind: "clip", id: "clip" },
+      steps: [
+        {
+          id: "compress",
+          processor: {
+            ...compressor,
+            detector: {
+              kind: "tap",
+              tap: { target: { kind: "track", id: "detector-track" }, point: { kind: "dry" } },
+            },
+          },
+        },
+      ],
+    },
+    { operation: "split", clipIds: ["detector"], atUs: 2000000, scope: "selected" },
+  ]);
+  expect(domains(split.document)).toMatchObject([
+    {
+      sampleRange: { start: 0, end: 192000 },
+      dependencies: [],
+      recipe: {
+        ...compressor,
+        detector: {
+          kind: "tap",
+          tap: { target: { kind: "track", id: "detector-track" }, point: { kind: "dry" } },
+        },
+      },
+    },
+  ]);
+});
+
+test("clip detectors with rational overlap but no 48 kHz samples use the same no-samples refusal", () => {
+  const compressor = {
+    type: "compressor",
+    thresholdDbfs: -18,
+    ratio: 3,
+    kneeDb: 0,
+    attackMs: 10,
+    releaseMs: 100,
+    detector: {
+      kind: "tap",
+      tap: { target: { kind: "clip", id: "detector" }, point: { kind: "dry" } },
+    },
+  };
+  const doc = {
+    ...document,
+    tracks: [...document.tracks, { id: "other", kind: "audio", order: 1 }],
+    clips: [
+      ...document.clips,
+      {
+        ...document.clips[0]!,
+        id: "detector",
+        trackId: "other",
+        placement: { kind: "project", range: { startUs: 1, endUs: 2 } },
+      },
+    ],
+    processing: [
+      {
+        target: { kind: "clip", id: "clip" },
+        steps: [{ id: "compress", enabled: true, processor: compressor }],
+      },
+    ],
+  };
+  expect(() => validateComposition(doc, [])).toThrow(
+    "Detector clip tap has no samples in the state domain",
+  );
+});

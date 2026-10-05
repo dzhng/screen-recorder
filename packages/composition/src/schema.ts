@@ -229,9 +229,21 @@ export const processingTargetSchema = z.union([
   z.object({ kind: z.enum(["clip", "track", "group"]), id }).strict(),
   z.object({ kind: z.literal("output") }).strict(),
 ]);
+export const processingTapSchema = z
+  .object({
+    target: processingTargetSchema,
+    point: z.discriminatedUnion("kind", [
+      z.object({ kind: z.literal("dry") }).strict(),
+      z.object({ kind: z.literal("processed") }).strict(),
+      z.object({ kind: z.literal("after-step"), stepId: id }).strict(),
+    ]),
+  })
+  .strict();
+export type ProcessingTap = z.infer<typeof processingTapSchema>;
 const allProcessingTargets = ["clip", "track", "group", "output"] as const;
 export const processorRegistry = {
   rnnoise: {
+    stateful: true as const,
     schema: z
       .object({
         type: z.literal("rnnoise"),
@@ -250,6 +262,81 @@ export const processorRegistry = {
     targets: allProcessingTargets,
     mediaKind: "audio" as const,
     units: { mix: "linear wet/dry fraction; omitted means fully processed" },
+  },
+  normalization: {
+    stateful: true as const,
+    schema: z
+      .object({
+        type: z.literal("normalization"),
+        mode: z.enum(["gain-only", "dynamic"]),
+        targetIntegratedLufs: z.number().finite().min(-70).max(-5),
+        truePeakCeilingDbtp: z.number().finite().min(-9).max(0),
+        maxLoudnessRangeLu: z.number().finite().min(1).max(50),
+      })
+      .strict(),
+    targets: allProcessingTargets,
+    mediaKind: "audio" as const,
+    units: {
+      targetIntegratedLufs: "native stereo LUFS",
+      truePeakCeilingDbtp: "meter-specific dBTP ceiling",
+      maxLoudnessRangeLu: "LU maximum",
+    },
+  },
+  limiter: {
+    stateful: true as const,
+    schema: z
+      .object({
+        type: z.literal("limiter"),
+        ceilingDbfs: z
+          .number()
+          .finite()
+          .min(20 * Math.log10(0.0625))
+          .max(0),
+        lookaheadMs: z.number().finite().min(0.1).max(80),
+        releaseMs: z.number().finite().min(1).max(8000),
+      })
+      .strict(),
+    targets: allProcessingTargets,
+    mediaKind: "audio" as const,
+    units: {
+      ceilingDbfs: "sample dBFS",
+      lookaheadMs: "coupled lookahead/attack milliseconds",
+      releaseMs: "milliseconds",
+    },
+  },
+  compressor: {
+    stateful: true as const,
+    schema: z
+      .object({
+        type: z.literal("compressor"),
+        thresholdDbfs: z
+          .number()
+          .finite()
+          .min(20 * Math.log10(0.000976563))
+          .max(0),
+        ratio: z.number().finite().min(1).max(20),
+        kneeDb: z
+          .number()
+          .finite()
+          .min(0)
+          .max(20 * Math.log10(8)),
+        attackMs: z.number().finite().min(0.01).max(2000),
+        releaseMs: z.number().finite().min(0.01).max(9000),
+        detector: z.discriminatedUnion("kind", [
+          z.object({ kind: z.literal("input") }).strict(),
+          z.object({ kind: z.literal("tap"), tap: processingTapSchema }).strict(),
+        ]),
+      })
+      .strict(),
+    targets: allProcessingTargets,
+    mediaKind: "audio" as const,
+    units: {
+      thresholdDbfs: "sample dBFS",
+      ratio: "dimensionless compression ratio",
+      kneeDb: "full knee width in dB",
+      attackMs: "peak detector milliseconds",
+      releaseMs: "peak detector milliseconds",
+    },
   },
   pointer: {
     schema: pointerSchema,
@@ -353,6 +440,9 @@ export const processingStepSchema = z
       .optional(),
     processor: z.discriminatedUnion("type", [
       processorRegistry.rnnoise.schema,
+      processorRegistry.normalization.schema,
+      processorRegistry.limiter.schema,
+      processorRegistry.compressor.schema,
       processorRegistry.pointer.schema,
       processorRegistry.gain.schema,
       processorRegistry.geometry.schema,
@@ -369,6 +459,31 @@ export const processingStackSchema = z
   .strict();
 export type ProcessingTarget = z.infer<typeof processingTargetSchema>;
 export type ProcessingStep = z.infer<typeof processingStepSchema>;
+type StatefulDefinition = {
+  [K in keyof typeof processorRegistry]: (typeof processorRegistry)[K] extends { stateful: true }
+    ? (typeof processorRegistry)[K]["schema"]
+    : never;
+}[keyof typeof processorRegistry];
+export type StatefulProcessor = z.infer<StatefulDefinition>;
+export function isStatefulProcessor(
+  processor: Pick<ProcessingStep["processor"], "type">,
+): processor is StatefulProcessor {
+  const definition = processorRegistry[processor.type];
+  return "stateful" in definition && definition.stateful;
+}
+export const stateRecipeSchema = z.union([
+  z.object({ type: z.literal("rnnoise") }).strict(),
+  processorRegistry.normalization.schema,
+  processorRegistry.limiter.schema,
+  processorRegistry.compressor.schema
+    .extend({
+      detector: z.discriminatedUnion("kind", [
+        ...processorRegistry.compressor.schema.shape.detector.options,
+        z.object({ kind: z.literal("member"), beforeStepIndex: z.int().nonnegative() }).strict(),
+      ]),
+    })
+    .strict(),
+]);
 export const compositionSchema = z
   .object({
     canvas: z

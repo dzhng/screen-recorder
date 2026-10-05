@@ -6,17 +6,15 @@ import { intervalIndex } from "./interval-index.js";
 import { sampleAt } from "./sample-clock.js";
 import { audioContexts } from "./audio-context.js";
 import type { CompiledFrame, CompiledAudio } from "./compiled-records.js";
-import {
-  executionWindow,
-  executionWindowRequestSchema,
-  processingTapSchema,
-} from "./execution-window.js";
+import { executionWindow, executionWindowRequestSchema } from "./execution-window.js";
 import { processingPlanner } from "./processing-plan.js";
 import { CompositionError } from "./errors.js";
 import { resolvedClip, sourceTime, type ValidatedComposition } from "./model.js";
 import { compare, fromTime, toTime, rational, type Rational } from "./rational.js";
 import {
   isMediaClip,
+  processingTapSchema,
+  type ProcessingTap,
   rangeSchema,
   timeValueSchema,
   type TimeValue,
@@ -123,7 +121,7 @@ function compileAudioInput(
 function compileSchedules(
   visual: ReturnType<typeof visualPlanner>,
   processing: ReturnType<typeof processingPlanner>,
-  tap: import("./execution-window.js").ProcessingTap | undefined,
+  tap: ProcessingTap | undefined,
   clock: ReturnType<typeof frameClock>,
   query: ReturnType<typeof intervalIndex<Resolved>>,
   contexts: ReturnType<typeof audioContexts>,
@@ -348,11 +346,13 @@ export function createCompiler(model: ValidatedComposition, revisionId: string) 
                 state,
               ),
               domains: state.domains.map((domain) => ({
+                recipe: domain.recipe,
                 sampleRange: domain.sampleRange,
                 dependencies: domain.dependencies,
                 members: domain.members.map((member) => ({
                   target: member.target,
                   stepId: member.stepId,
+                  ...(member.detector ? { detector: member.detector } : {}),
                   sampleRange: {
                     start: sampleAt(fromTime(member.range.startUs), request.rendition.sampleRate),
                     end: sampleAt(fromTime(member.range.endUs), request.rendition.sampleRate),

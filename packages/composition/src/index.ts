@@ -82,8 +82,8 @@ export {
   processingCapabilities,
   type ProcessorImplementations,
 } from "./processing.js";
-export { processingTargetSchema, processingStepSchema } from "./schema.js";
-export type { ProcessingTarget, ProcessingStep } from "./schema.js";
+export { processingTargetSchema, processingStepSchema, processingTapSchema } from "./schema.js";
+export type { ProcessingTarget, ProcessingStep, ProcessingTap } from "./schema.js";
 
 export { createCompiler } from "./compiler.js";
 export { compiledFrameSchema, compiledAudioSchema } from "./compiled-records.js";
@@ -92,14 +92,9 @@ export type { ProcessingInstruction } from "./processing-plan.js";
 export {
   executionWindowRequestSchema,
   executionWindowManifestSchema,
-  processingTapSchema,
   requireWindowReady,
 } from "./execution-window.js";
-export type {
-  CompiledAudioState,
-  ExecutionWindowManifest,
-  ProcessingTap,
-} from "./execution-window.js";
+export type { CompiledAudioState, ExecutionWindowManifest } from "./execution-window.js";
 
 export { createSourceRangeProjection } from "./source-projection.js";
 export type {

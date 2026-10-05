@@ -1,6 +1,6 @@
 # 96 — Declared audio domains and held prepared spans
 
-Status: contract frozen before implementation. Question: **Can one compiled state
+Status: compiler checkpoint verified; native/service execution remains open. Question: **Can one compiled state
 schedule carry native and FFmpeg processors through the same prepared signal?**
 
 Dependencies: [05](05-managed-output.md), [10](10-loudness.md), and the frozen
@@ -20,8 +20,17 @@ names. Keep native RNNoise parameters and state semantics unchanged. The frozen
 normalization/limiter/compressor schema fields are authoritative; arbitrary filter
 strings, argv or provider fallback are not authoring data.
 
-A compressor domain additionally declares its detector endpoint and the exact
-same sample clock/range. `input` names the program prefix; a processing tap names
+A compressor domain additionally declares each member's resolved audio detector
+endpoint and the exact same sample clock/range. The processing planner resolves
+mixed-media tap ordering before filtering video steps. A self-clip tap becomes
+an internal member-relative recipe; structural split remaps its explicit public
+clip/step references and retains the single full domain. An externally referenced
+detector clip refuses partitioning until the caller explicitly selects a stable
+track/group tap or removes the dependent processor, including in an ordered batch.
+No lineage alias or new public tap representation is introduced. A wholly disjoint
+clip detector follows the existing clip-tap no-samples refusal; empty track/group
+detectors remain explicit zero-capable nodes without extending parent program
+support. Bypassed compressors add no detector dependency. `input` names the program prefix; a processing tap names
 its explicit target/point prefix. The compiler derives all program and detector
 upstream dependencies, refuses cycles and selects complete state domains for an
 excerpt. Authored detector silence remains zero PCM; missing source support is a
@@ -107,3 +116,14 @@ If an implementation requires another public contract or a new interpretation of
 continuity, reslice before coding it. Materialize and verify this shared contract,
 then implement13–15 against their already frozen numerical recipes. Retain every
 failed candidate and distinguish measured admission from treatment execution.
+
+## Compiler checkpoint
+
+Registry-owned stateful eligibility, static recipes, split/detach continuity,
+member-relative self detectors, resolved tap endpoints, cycle refusal and nested
+batch-label resolution are implemented in composition. New behavior cases
+were observed red before green (including bypass falsification); the focused
+processing/state/edit run passed124tests and composition type checking. The
+independent reviews found six detector gaps, all reproduced and corrected before
+this checkpoint. Native/service execution, processor capabilities, public PCM
+acceptance and production13–15 remain open.

@@ -5,8 +5,11 @@ import { sampleAt } from "./sample-clock.js";
 import {
   compositionSchema,
   processingTargetSchema,
+  isStatefulProcessor,
+  stateRecipeSchema,
   selectionRangeSchema,
   type ProcessingStep,
+  type StatefulProcessor,
   type ProcessingTarget,
 } from "./schema.js";
 import { processingInstructionSchema, processingPlanner } from "./processing-plan.js";
@@ -37,12 +40,24 @@ export const statePlanSchema = z
       z
         .object({
           identity: z.object({ kind: z.enum(["instance", "shared"]), id }).strict(),
+          recipe: stateRecipeSchema,
           range: selectionRangeSchema,
           sampleRange,
           dependencies: z.array(z.int().nonnegative()),
           members: z.array(
             z
-              .object({ target: processingTargetSchema, stepId: id, range: selectionRangeSchema })
+              .object({
+                target: processingTargetSchema,
+                stepId: id,
+                range: selectionRangeSchema,
+                detector: z
+                  .object({
+                    target: processingTargetSchema,
+                    beforeStepIndex: z.int().nonnegative(),
+                  })
+                  .strict()
+                  .optional(),
+              })
               .strict(),
           ),
         })
@@ -60,6 +75,24 @@ const stored = (range: ExactRange): Range => ({
   startUs: toTime(range.start),
   endUs: toTime(range.end),
 });
+function stateRecipe(
+  processor: StatefulProcessor,
+  target: ProcessingTarget,
+  detector?: { target: ProcessingTarget; beforeStepIndex: number },
+): StatePlan["domains"][number]["recipe"] {
+  if (processor.type === "rnnoise") return { type: "rnnoise" };
+  if (
+    processor.type === "compressor" &&
+    detector &&
+    target.kind === "clip" &&
+    processingKey(detector.target) === processingKey(target)
+  )
+    return {
+      ...processor,
+      detector: { kind: "member", beforeStepIndex: detector.beforeStepIndex },
+    };
+  return processor;
+}
 function intersection(a: Range, b: Range): Range | undefined {
   const startUs = compare(fromTime(a.startUs), fromTime(b.startUs)) > 0 ? a.startUs : b.startUs;
   const endUs = compare(fromTime(a.endUs), fromTime(b.endUs)) < 0 ? a.endUs : b.endUs;
@@ -113,12 +146,26 @@ function prefixInputs(plan: Pick<StatePlan, "nodes">) {
   const nodes = new Map(plan.nodes.map((node) => [processingKey(node.target), node]));
   return (
     target: ProcessingTarget,
-    before: string,
+    before: string | number,
     range: Range,
     visit: (node: StatePlan["nodes"][number], end: number, range: Range) => void,
   ) => {
     const first = nodes.get(processingKey(target))!;
-    const pending = [{ node: first, end: first.steps.findIndex((s) => s.id === before), range }];
+    const end = typeof before === "number" ? before : first.steps.findIndex((s) => s.id === before);
+    const selected = first.target.kind === "clip" ? intersection(range, first.range) : range;
+    if (
+      typeof before === "number" &&
+      first.target.kind === "clip" &&
+      sampleAt(fromTime(range.endUs), 48000) > sampleAt(fromTime(range.startUs), 48000) &&
+      (!selected ||
+        sampleAt(fromTime(selected.endUs), 48000) <= sampleAt(fromTime(selected.startUs), 48000))
+    )
+      throw new CompositionError(
+        "NOT_READY",
+        "Detector clip tap has no samples in the state domain",
+        { target, range },
+      );
+    const pending = selected ? [{ node: first, end, range: selected }] : [];
     while (pending.length) {
       const { node, end, range } = pending.pop()!;
       visit(node, end, range);
@@ -135,7 +182,7 @@ function prefixInputs(plan: Pick<StatePlan, "nodes">) {
 /** These processors can change shared state membership when the editor changes their input. */
 export function hasStatefulProcessing(document: ValidatedComposition["document"]): boolean {
   return document.processing.some((stack) =>
-    stack.steps.some((step) => step.processor.type === "rnnoise"),
+    stack.steps.some((step) => isStatefulProcessor(step.processor)),
   );
 }
 
@@ -144,9 +191,35 @@ export function deriveStatePlan(model: ValidatedComposition): StatePlan {
   if (!hasStatefulProcessing(model.document)) return { inputs: [], nodes: [], domains: [] };
   const audio = model.clips.filter((clip) => clip.track.kind === "audio");
   const clips = new Map(audio.map((clip) => [clip.clip.id, clip]));
+  const planner = processingPlanner(model);
+  const detectorEndpoints = new Map<
+    string,
+    { target: ProcessingTarget; beforeStepIndex: number }
+  >();
+  const detectorEndpoint = (processor: StatefulProcessor) => {
+    if (processor.type !== "compressor" || processor.detector.kind !== "tap") return undefined;
+    const tap = processor.detector.tap,
+      key = JSON.stringify(tap);
+    let endpoint = detectorEndpoints.get(key);
+    if (!endpoint) {
+      endpoint = {
+        target: tap.target,
+        beforeStepIndex: planner(audio, tap, "audio").at(-1)!.steps.length,
+      };
+      detectorEndpoints.set(key, endpoint);
+    }
+    return endpoint;
+  };
   const nodes: StatePlan["nodes"] = [];
   const ranges = new Map<string, Range>();
-  for (const node of processingPlanner(model)(audio, undefined, "audio")) {
+  const detectorTargets = model.document.processing.flatMap((stack) =>
+    stack.steps.flatMap(({ processor, enabled }) =>
+      enabled && processor.type === "compressor" && processor.detector.kind === "tap"
+        ? [processor.detector.tap.target]
+        : [],
+    ),
+  );
+  for (const node of planner(audio, undefined, "audio", detectorTargets)) {
     const children = node.inputs.flatMap((child) => {
       const range = ranges.get(processingKey(child));
       return range ? [range] : [];
@@ -163,28 +236,31 @@ export function deriveStatePlan(model: ValidatedComposition): StatePlan {
               compare(fromTime(range.endUs), fromTime(child.endUs)) > 0 ? range.endUs : child.endUs,
           }
         : child;
-    if (range) {
-      ranges.set(processingKey(node.target), range);
-      nodes.push({ ...node, range });
-    }
+    if (range) ranges.set(processingKey(node.target), range);
+    else if (model.durationUs > 0) range = { startUs: 0, endUs: model.durationUs };
+    if (range) nodes.push({ ...node, range });
   }
   const temporal = temporalProcessing(model);
-  type Member = { node: StatePlan["nodes"][number]; step: ProcessingStep };
+  type Member = {
+    node: StatePlan["nodes"][number];
+    step: Omit<ProcessingStep, "processor"> & { processor: StatefulProcessor };
+  };
   const groups = new Map<
     string,
     { identity: StatePlan["domains"][number]["identity"]; members: Member[] }
   >();
   for (const node of nodes)
     for (const step of node.steps) {
-      if (step.processor.type !== "rnnoise") continue;
+      if (!isStatefulProcessor(step.processor)) continue;
       const identity = stateIdentity(step),
         key = JSON.stringify(identity);
       const group = groups.get(key) ?? { identity, members: [] };
-      group.members.push({ node, step });
+      group.members.push({ node, step: { ...step, processor: step.processor } });
       groups.set(key, group);
     }
   const domains: StatePlan["domains"] = [];
   const invalidMembers = new Set<string>();
+  const invalidRecipes = new Set<string>();
   for (const group of groups.values()) {
     group.members.sort(
       (a, b) =>
@@ -205,6 +281,18 @@ export function deriveStatePlan(model: ValidatedComposition): StatePlan {
       for (const member of group.members) invalidMembers.add(member.step.id);
       continue;
     }
+    if (
+      new Set(
+        group.members.map(({ node, step }) =>
+          JSON.stringify(
+            stateRecipe(step.processor, node.target, detectorEndpoint(step.processor)),
+          ),
+        ),
+      ).size > 1
+    ) {
+      for (const member of group.members) invalidRecipes.add(member.step.id);
+      continue;
+    }
     let domain: StatePlan["domains"][number] | undefined;
     for (const { node, step } of group.members) {
       const active = temporal.active(step, node.target).flatMap((part) => {
@@ -216,6 +304,7 @@ export function deriveStatePlan(model: ValidatedComposition): StatePlan {
         if (!domain || compare(fromTime(domain.range.endUs), fromTime(range.startUs)) !== 0) {
           domain = {
             identity: group.identity,
+            recipe: stateRecipe(step.processor, node.target, detectorEndpoint(step.processor)),
             range,
             sampleRange: {
               start: sampleAt(fromTime(range.startUs), 48000),
@@ -229,10 +318,22 @@ export function deriveStatePlan(model: ValidatedComposition): StatePlan {
           domain.range = { ...domain.range, endUs: range.endUs };
           domain.sampleRange.end = sampleAt(fromTime(range.endUs), 48000);
         }
-        domain.members.push({ target: node.target, stepId: step.id, range });
+        const detector = detectorEndpoint(step.processor);
+        domain.members.push({
+          target: node.target,
+          stepId: step.id,
+          range,
+          ...(detector ? { detector } : {}),
+        });
       }
     }
   }
+  if (invalidRecipes.size)
+    throw new CompositionError(
+      "INVALID_COMPOSITION",
+      "Shared state requires one processor recipe",
+      { stateStepIds: [...invalidRecipes] },
+    );
   if (invalidMembers.size)
     throw new CompositionError(
       "INVALID_COMPOSITION",
@@ -279,6 +380,20 @@ export function deriveStatePlan(model: ValidatedComposition): StatePlan {
             for (const prior of byStep.get(step.id) ?? [])
               if (intersection(prior.range, range)) dependencies.add(prior.index);
       });
+    for (const member of domain.members) {
+      if (!member.detector) continue;
+      visitPrefix(
+        member.detector.target,
+        member.detector.beforeStepIndex,
+        member.range,
+        (node, end, range) => {
+          for (const step of node.steps.slice(0, end))
+            if (step.enabled)
+              for (const prior of byStep.get(step.id) ?? [])
+                if (intersection(prior.range, range)) dependencies.add(prior.index);
+        },
+      );
+    }
     domain.dependencies = [...dependencies].sort((a, b) => a - b);
   }
   const status = new Uint8Array(domains.length);
@@ -335,22 +450,35 @@ export function selectStatePlan(
   const needed = new Map<string, { end: number; children: Set<string>; ranges: Range[] }>();
   const byTarget = new Map(plan.nodes.map((node) => [processingKey(node.target), node]));
   const visitPrefix = prefixInputs(plan);
-  for (const domain of domains)
-    for (const member of domain.members) {
-      visitPrefix(member.target, member.stepId, member.range, (node, end, range) => {
-        const key = processingKey(node.target);
-        const prior = needed.get(key) ?? { end: 0, children: new Set<string>(), ranges: [] };
-        // Include the member itself as recipe identity; its input still ends immediately before it.
-        prior.end = Math.max(prior.end, end + (key === processingKey(member.target) ? 1 : 0));
-        for (const child of node.inputs) {
-          const childNode = byTarget.get(processingKey(child));
-          if (childNode && intersection(range, childNode.range))
-            prior.children.add(processingKey(child));
-        }
-        prior.ranges.push(range);
-        needed.set(key, prior);
-      });
-    }
+  const retain = (
+    target: ProcessingTarget,
+    endpoint: string | number,
+    selected: Range,
+    includeMember: boolean,
+  ) => {
+    visitPrefix(target, endpoint, selected, (node, end, range) => {
+      const key = processingKey(node.target);
+      const prior = needed.get(key) ?? { end: 0, children: new Set<string>(), ranges: [] };
+      // Include the member itself as recipe identity; its input still ends immediately before it.
+      prior.end = Math.max(
+        prior.end,
+        end + (includeMember && key === processingKey(target) ? 1 : 0),
+      );
+      for (const child of node.inputs) {
+        const childNode = byTarget.get(processingKey(child));
+        if (childNode && intersection(range, childNode.range))
+          prior.children.add(processingKey(child));
+      }
+      prior.ranges.push(range);
+      needed.set(key, prior);
+    });
+  };
+  for (const domain of domains) {
+    for (const member of domain.members) retain(member.target, member.stepId, member.range, true);
+    for (const member of domain.members)
+      if (member.detector)
+        retain(member.detector.target, member.detector.beforeStepIndex, member.range, false);
+  }
   const nodes = plan.nodes.flatMap((node) => {
     const need = needed.get(processingKey(node.target));
     return need

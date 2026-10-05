@@ -1,6 +1,6 @@
 import { z } from "zod";
 import { CompositionError } from "./errors.js";
-import type { ProcessingTap } from "./execution-window.js";
+import type { ProcessingTap } from "./schema.js";
 import type { ValidatedComposition } from "./model.js";
 import { processingKey } from "./processing.js";
 import { compareRoutingSiblings } from "./routing.js";

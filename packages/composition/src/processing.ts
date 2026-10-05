@@ -4,6 +4,7 @@ import { z } from "zod";
 import { CompositionError } from "./errors.js";
 import {
   processorRegistry,
+  isStatefulProcessor,
   processingTargetSchema,
   scalarCurveSchema,
   type ProcessingTarget,
@@ -82,9 +83,29 @@ export function validateProcessing(document: Document) {
       if (stepIds.has(step.id)) invalid("Duplicate processing step ID", { stepId: step.id });
       stepIds.add(step.id);
       const definition = processorRegistry[step.processor.type];
+      if (step.processor.type === "compressor" && step.processor.detector.kind === "tap") {
+        const tap = step.processor.detector.tap;
+        const detectorKind = targetKind(kinds, tap.target);
+        if (detectorKind !== "audio" && detectorKind !== "output")
+          invalid("Compressor detector requires an audio target", {
+            target: tap.target,
+            stepId: step.id,
+          });
+        if (tap.point.kind === "after-step") {
+          const point = tap.point;
+          const stack = document.processing.find(
+            (stack) => processingKey(stack.target) === processingKey(tap.target),
+          );
+          if (!stack?.steps.some((candidate) => candidate.id === point.stepId))
+            invalid("Unknown step on processing tap target", {
+              target: tap.target,
+              stepId: point.stepId,
+            });
+        }
+      }
       if (
         step.stateKey !== undefined &&
-        (step.processor.type !== "rnnoise" || target.kind !== "clip")
+        (!isStatefulProcessor(step.processor) || target.kind !== "clip")
       )
         invalid("Shared state continuity requires a stateful clip processor", {
           target,
@@ -186,6 +207,28 @@ export function remapClipProcessing(
   const live = new Set(clips.map((clip) => clip.id));
   const tracks = new Map(clips.map((clip) => [clip.id, clip.trackId]));
   const descendants = new Map(lineage.map((entry) => [entry.originalId, entry.clipIds]));
+  if (continuity === "preserve") {
+    const partitioned = new Set(
+      lineage.filter((entry) => entry.clipIds.length > 1).map((entry) => entry.originalId),
+    );
+    for (const stack of document.processing) {
+      if (stack.target.kind === "clip" && !live.has(stack.target.id)) continue;
+      for (const step of stack.steps) {
+        const processor = step.processor;
+        if (processor.type !== "compressor" || processor.detector.kind !== "tap") continue;
+        const target = processor.detector.tap.target;
+        if (
+          target.kind === "clip" &&
+          partitioned.has(target.id) &&
+          processingKey(target) !== processingKey(stack.target)
+        )
+          invalid("Select a stable track or group detector tap before partitioning its clip", {
+            detectorClipId: target.id,
+            stepId: step.id,
+          });
+      }
+    }
+  }
   const copyGroups = new Map<string, ProcessingStep[]>();
   const result = document.processing.flatMap((stack) => {
     if (stack.target.kind !== "clip") return [stack];
@@ -240,9 +283,33 @@ export function remapClipProcessing(
         };
       }),
     }));
+    for (const entry of mapped) {
+      for (const step of entry.steps) {
+        const processor = step.processor;
+        if (processor.type !== "compressor" || processor.detector.kind !== "tap") continue;
+        const tap = processor.detector.tap;
+        if (tap.target.kind !== "clip" || tap.target.id !== originalId) continue;
+        const point = tap.point;
+        const originalIndex =
+          point.kind === "after-step" ? stack.steps.findIndex((s) => s.id === point.stepId) : -1;
+        step.processor = {
+          ...processor,
+          detector: {
+            kind: "tap",
+            tap: {
+              target: entry.target,
+              point:
+                point.kind === "after-step"
+                  ? { ...point, stepId: entry.steps[originalIndex]!.id }
+                  : point,
+            },
+          },
+        };
+      }
+    }
     for (let index = 0; index < stack.steps.length; index++) {
       const original = stack.steps[index]!;
-      if (original.processor.type !== "rnnoise") continue;
+      if (!isStatefulProcessor(original.processor)) continue;
       const copies = mapped.filter((entry) => entry.target.id !== originalId);
       if (continuity === "copy") {
         for (const entry of copies) {

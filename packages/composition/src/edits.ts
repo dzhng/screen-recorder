@@ -11,10 +11,12 @@ import {
   textClipSchema,
   textSourceSchema,
   compositionSchema,
+  isStatefulProcessor,
   rangeSchema,
   routingNodeSchema,
   processingTargetSchema,
   processingStepSchema,
+  processingTapSchema,
   processorRegistry,
   interpolationSchema,
 } from "./schema.js";
@@ -43,7 +45,26 @@ const exactAnchor = z.discriminatedUnion("kind", [
   z.object({ ...anchorSchema.options[1].shape, clipId: reference }).strict(),
   z.object({ ...anchorSchema.options[2].shape, clipId: reference }).strict(),
 ]);
+const authoredCompressor = processorRegistry.compressor.schema.extend({
+  detector: z.discriminatedUnion("kind", [
+    processorRegistry.compressor.schema.shape.detector.options[0],
+    z
+      .object({
+        kind: z.literal("tap"),
+        tap: processingTapSchema.extend({
+          target: processingTarget,
+          point: z.discriminatedUnion("kind", [
+            processingTapSchema.shape.point.options[0],
+            processingTapSchema.shape.point.options[1],
+            processingTapSchema.shape.point.options[2].extend({ stepId: reference }),
+          ]),
+        }),
+      })
+      .strict(),
+  ]),
+});
 const authoredStep = processingStepSchema.extend({
+  processor: z.union([processingStepSchema.shape.processor, authoredCompressor]),
   window: exactAnchor.optional(),
   id: reference.optional(),
   enabled: z.boolean().default(true),
@@ -410,21 +431,44 @@ export function applyBatch(
       used.add(id);
       bind(step.label, "processingStep", id);
       const prior = previousSteps.get(id);
+      const processor = ((): z.infer<typeof processingStepSchema>["processor"] => {
+        const authored = step.processor;
+        if (authored.type !== "compressor") return authored;
+        const { detector, ...parameters } = authored;
+        if (detector.kind === "input") return { ...parameters, detector };
+        const { target, point } = detector.tap;
+        return {
+          ...parameters,
+          detector: {
+            kind: "tap",
+            tap: {
+              target:
+                target.kind === "output"
+                  ? target
+                  : { ...target, id: resolve(target.id, target.kind) },
+              point:
+                point.kind === "after-step"
+                  ? { ...point, stepId: resolve(point.stepId, "processingStep") }
+                  : point,
+            },
+          },
+        };
+      })();
       if (
         step.stateKey !== undefined &&
-        (step.processor.type !== "rnnoise" || prior?.stateKey !== step.stateKey)
+        (!isStatefulProcessor(step.processor) || prior?.stateKey !== step.stateKey)
       )
         invalid("State continuity metadata may only preserve the existing instance", {
           target,
           stepId: id,
         });
       return {
-        ...(step.processor.type === "rnnoise" && prior?.stateKey !== undefined
+        ...(isStatefulProcessor(step.processor) && prior?.stateKey !== undefined
           ? { stateKey: prior.stateKey }
           : {}),
         id,
         enabled: step.enabled,
-        processor: step.processor,
+        processor,
         ...(step.window
           ? {
               window:
@@ -605,7 +649,7 @@ export function applyBatch(
           if (
             item.steps.some(
               (step) =>
-                step.processor.type === "rnnoise" ||
+                isStatefulProcessor(step.processor) ||
                 (step.id !== undefined && typeof step.id !== "string") ||
                 (step.window &&
                   step.window.kind !== "project" &&

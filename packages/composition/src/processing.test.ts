@@ -311,6 +311,9 @@ test("duplicate, ripple movement and deletion preserve target-owned stacks witho
       targets: ["clip", "track", "group", "output"],
       execution: false,
     },
+    { type: "normalization", mediaKind: "audio", execution: false },
+    { type: "limiter", mediaKind: "audio", execution: false },
+    { type: "compressor", mediaKind: "audio", execution: false },
     {
       type: "pointer",
       mediaKind: "video",
@@ -467,4 +470,73 @@ test("learned mix accepts bounded anchored curves and rejects overshoot", () => 
     },
   ])
     expect(() => author(mix)).toThrow();
+});
+
+test("compressor detector targets and after-step points resolve labels within one atomic batch", () => {
+  const result = applyBatch(
+    empty,
+    [
+      { operation: "track.add", track: { kind: "audio", order: 0 }, label: "program" },
+      { operation: "track.add", track: { kind: "audio", order: 1 }, label: "detector" },
+      {
+        operation: "place",
+        clip: {
+          trackId: ref("program"),
+          source: { kind: "silence" },
+          placement: { kind: "project", range: { startUs: 0, endUs: 4000000 } },
+        },
+      },
+      {
+        operation: "place",
+        clip: {
+          trackId: ref("detector"),
+          source: { kind: "silence" },
+          placement: { kind: "project", range: { startUs: 0, endUs: 4000000 } },
+        },
+      },
+      {
+        operation: "processing.set",
+        target: { kind: "track", id: ref("detector") },
+        steps: [{ processor: { type: "gain", gain: 2 }, label: "detector-gain" }],
+      },
+      {
+        operation: "processing.set",
+        target: { kind: "track", id: ref("program") },
+        steps: [
+          {
+            label: "compress",
+            processor: {
+              type: "compressor",
+              thresholdDbfs: -18,
+              ratio: 3,
+              kneeDb: 0,
+              attackMs: 10,
+              releaseMs: 100,
+              detector: {
+                kind: "tap",
+                tap: {
+                  target: { kind: "track", id: ref("detector") },
+                  point: { kind: "after-step", stepId: ref("detector-gain") },
+                },
+              },
+            },
+          },
+        ],
+      },
+    ],
+    context,
+  );
+  expect(
+    result.document.processing.find(
+      (stack) => stack.target.kind === "track" && stack.target.id === result.labels.program,
+    )!.steps[0]!.processor,
+  ).toMatchObject({
+    detector: {
+      kind: "tap",
+      tap: {
+        target: { kind: "track", id: result.labels.detector },
+        point: { kind: "after-step", stepId: result.labels["detector-gain"] },
+      },
+    },
+  });
 });

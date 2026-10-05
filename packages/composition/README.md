@@ -81,7 +81,14 @@ Resampling context comes from current retained support: splitting cannot restart
 its filter, while removing material cannot leave hidden input. Stateful continuity
 is a separate domain compiled from the current graph before choosing the output
 window. Neither an old cache nor caller-supplied grouping metadata defines it.
-The [state-domain owner](src/processing-state.ts) preserves those inputs once;
+The [state-domain owner](src/processing-state.ts) preserves those inputs once.
+Static stateful recipes retain complete domains and resolved detector prefixes;
+a window cannot restart preparation. Detector tap ordering follows the same
+mixed-media stack as inspection. Self-detector splits retain member-relative
+endpoints; externally referenced detector clips require a stable track or group
+tap before partitioning. A bypassed detector never adds preparation input;
+missing support and a clip tap wholly outside its domain refuse.
+Authoring and execution availability remain distinct;
 [native execution](../../helpers/mac/README.md) owns actual filtering and publication.
 
 [Compiled record schemas](src/compiled-records.ts) are the shared native boundary.
