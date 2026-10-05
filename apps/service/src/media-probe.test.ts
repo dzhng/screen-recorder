@@ -44,7 +44,10 @@ test.each(["valid", "wrong digest", "wrong size", "invalid JSON"])(
       [0],
     );
     if (mode === "valid") await expect(result).resolves.toEqual(metadata);
-    else await expect(result).rejects.toMatchObject({ code: "INVALID_NATIVE_RESPONSE" });
+    else
+      await expect(result).rejects.toMatchObject({
+        code: "INVALID_NATIVE_RESPONSE",
+      });
     expect(await readdir(directory)).toEqual([]);
   },
 );
@@ -57,11 +60,66 @@ test("canceled probe delivery discards its unpublished file", async () => {
     controller.abort();
     return {
       ok: false,
-      error: { code: "CANCELED", message: "canceled", retryable: true, details: {} },
+      error: {
+        code: "CANCELED",
+        message: "canceled",
+        retryable: true,
+        details: {},
+      },
     };
   };
   await expect(
     readMediaProbe(worker, directory, "/dev/fd/3", controller.signal, []),
   ).rejects.toMatchObject({ code: "CANCELED" });
+  expect(await readdir(directory)).toEqual([]);
+});
+
+test("explicit compressed inspection is returned through the existing verified probe file", async () => {
+  const directory = await mkdtemp("/tmp/probe-compressed-test-");
+  directories.push(directory);
+  const inspection = {
+    status: "complete",
+    packetCount: 3,
+    nalTypes: [20],
+    configurationNalTypes: [32, 33, 34],
+    seiPayloadTypes: [],
+    refusals: [],
+  };
+  const worker: MediaWorker = async (_operation, params, options) => {
+    const metadata = {
+      originUs: 0,
+      streams: [
+        {
+          id: "track:1",
+          kind: "video",
+          ...(params.inspectCompressedVideo === true
+            ? { compressedVideoInspection: inspection }
+            : {}),
+        },
+      ],
+    };
+    const bytes = Buffer.from(JSON.stringify(metadata));
+    const slot = Number(String(params.output).split("/").at(-1)) - 3;
+    writeSync(options!.descriptors![slot]!, bytes, 0, bytes.length, 0);
+    return {
+      ok: true,
+      data: {
+        file: params.output,
+        bytes: bytes.length,
+        sha256: createHash("sha256").update(bytes).digest("hex"),
+      },
+    };
+  };
+  const metadata = await readMediaProbe(
+    worker,
+    directory,
+    "/dev/fd/3",
+    new AbortController().signal,
+    [0],
+    { inspectCompressedVideo: true },
+  );
+  expect(metadata).toMatchObject({
+    streams: [{ compressedVideoInspection: inspection }],
+  });
   expect(await readdir(directory)).toEqual([]);
 });

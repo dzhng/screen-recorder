@@ -1,0 +1,95 @@
+{
+  "native": "/Users/server/.t3/worktrees/screen-recorder/t3code-42e83c50/helpers/mac/.build/debug/screenrec-native",
+  "sha256": "505e59e52313dab859917573927d3c82cd6d5ae215d3ec4dcefeec089699de0d",
+  "source": "/tmp/screenrec-hdr-facts-module/pq-hevc10.mov",
+  "sourceSha256": "c68219a1a939aee70fa76d380ea61d2395411ba9600f50d5d99f7c33e6bbb77f",
+  "video": {
+    "id": "track:1",
+    "kind": "video",
+    "codec": "hvc1",
+    "decodable": true,
+    "startUs": 0,
+    "endUs": 34000,
+    "segments": [
+      {
+        "startUs": 0,
+        "endUs": 34000,
+        "empty": false,
+        "mediaStartUs": 0,
+        "mediaDurationUs": 34000
+      }
+    ],
+    "width": 320,
+    "height": 192,
+    "orientedWidth": 320,
+    "orientedHeight": 192,
+    "orientedPixelBounds": {
+      "x": 0,
+      "y": 0,
+      "width": 320,
+      "height": 192
+    },
+    "transform": [
+      1,
+      0,
+      0,
+      1,
+      0,
+      0
+    ],
+    "hasAlpha": false,
+    "colorPrimaries": "ITU_R_2020",
+    "transferFunction": "SMPTE_ST_2084_PQ",
+    "ycbcrMatrix": "ITU_R_2020",
+    "samples": {
+      "count": 1,
+      "firstPtsUs": 0,
+      "lastPtsUs": 0,
+      "minDurationUs": 33333,
+      "maxDurationUs": 33333,
+      "firstTimeUs": 0,
+      "lastTimeUs": 0,
+      "lastDurationUs": {
+        "numerator": 100000,
+        "denominator": 3
+      },
+      "presentedTimingSha256": "bd25ba079c4983f0e451505e59f20960889f02e403da5a7f2294eca03124f5bd"
+    },
+    "colorFormats": [
+      {
+        "colorPrimaries": "ITU_R_2020",
+        "transferFunction": "SMPTE_ST_2084_PQ",
+        "ycbcrMatrix": "ITU_R_2020",
+        "fullRange": false,
+        "bitsPerComponent": 10,
+        "interpretationExtensions": [],
+        "invalidColorDeclarations": []
+      }
+    ],
+    "codecAtomNames": [
+      [
+        "hvcC"
+      ]
+    ],
+    "compressedVideoInspection": {
+      "status": "complete",
+      "packetCount": 1,
+      "nalTypes": [
+        20,
+        39
+      ],
+      "configurationNalTypes": [
+        32,
+        33,
+        34
+      ],
+      "seiPayloadTypes": [
+        5
+      ],
+      "refusals": [
+        "unqualified SEI payload 5"
+      ]
+    }
+  },
+  "ordinaryInspection": "absent"
+}

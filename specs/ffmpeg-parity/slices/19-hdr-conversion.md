@@ -251,3 +251,23 @@ Media, Frames, Capture and selected audio sources; linked worker/package proof
 still belongs to the integration gate. Generated-output validators remain separate
 from original source byte authority.
 
+## Fresh reader checkpoint
+
+The Core conversion reader consumes raw fresh native output separately from the
+tolerant persisted asset summary. It requires exact endpoints, sample timing
+digest, complete native color declarations (including nulls), geometry, codec
+atom inventory and alpha facts. Optional compressed inspection remains absent
+when not requested. Parsing establishes operand shape, not family qualification
+or freshness by itself; the caller must retain the inspected source authority.
+
+The existing service probe-file delivery gains an opt-in compressed inspection
+request; receipt, size, hash, descriptor and attempt ownership stay shared. The
+cached-summary rejection and opt-in delivery checks went red before the reader
+and request extension, then all eight focused tests and Core typecheck passed.
+Independent scoped review found no actionable issue. The
+[actual linked reader receipt](../evidence/hdr-fresh-facts/linked-reader.json)
+passes the retained PQ HEVC bytes through the production native worker, verified
+probe file and fresh reader. It retains an exact 1/30 s tail alongside the
+declared 34 ms container extent, 10-bit limited-range facts and encoder SEI 5
+refusal. Ordinary inspection stays absent. This control is intentionally not
+qualified for managed conversion.

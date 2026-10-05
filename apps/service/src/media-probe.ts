@@ -14,6 +14,7 @@ export async function readMediaProbe(
   path: string,
   signal: AbortSignal,
   descriptors: readonly number[],
+  options: { inspectCompressedVideo?: boolean } = {},
 ): Promise<unknown> {
   signal.throwIfAborted();
   const output = join(directory, `probe-${randomUUID()}.json`);
@@ -23,7 +24,11 @@ export async function readMediaProbe(
     const receipt = nativeResult(
       await worker(
         "media.probe",
-        { path, output: locator },
+        {
+          path,
+          output: locator,
+          ...(options.inspectCompressedVideo ? { inspectCompressedVideo: true } : {}),
+        },
         {
           signal,
           descriptors: [...descriptors, handle.fd],

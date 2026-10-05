@@ -15,6 +15,11 @@ places occurrences of selected streams; neither byte identity nor a recording
 role selects an authored layout. The same asset can appear several times or in
 several projects without merging their occurrence identities.
 
+Stored asset metadata is a summary. Conversion consumes [fresh native facts](src/hdr-conversion-facts.ts)
+from retained source bytes, including exact sample support and interpretation
+evidence. Absent declarations remain absent; a successful parse does not establish
+decoded appearance or authorize a treatment.
+
 Read-only acoustic measurements retain the selected PCM generation and recipe.
 Integrated loudness requires complete admitted support; a hole cannot become
 measured silence or concatenate neighboring material. A null gate result is

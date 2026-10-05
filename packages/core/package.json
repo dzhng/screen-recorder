@@ -124,6 +124,10 @@
       "types": "./dist/assets.d.ts",
       "default": "./dist/assets.js"
     },
+    "./hdr-conversion-facts": {
+      "types": "./dist/hdr-conversion-facts.d.ts",
+      "default": "./dist/hdr-conversion-facts.js"
+    },
     "./projects": {
       "types": "./dist/projects.d.ts",
       "default": "./dist/projects.js"
