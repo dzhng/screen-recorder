@@ -163,7 +163,14 @@ export class PreparedAudioStore {
     tap?: ProcessingTap,
     pinned?: string,
   ): PreparedAudioResolution | null {
-    if (tap && (tap.target.kind !== "output" || tap.point.kind !== "processed")) return null;
+    if (tap && (tap.target.kind !== "output" || tap.point.kind !== "processed")) {
+      if (pinned)
+        throw new CatalogError(
+          "INVALID_PARAMS",
+          "A prepared signal pin requires the processed output tap",
+        );
+      return null;
+    }
     const references = this.owners.projects
       .revisionDependencies(composition.projectId, composition.revisionId)
       .filter((reference) => reference.kind === "prepared-audio");

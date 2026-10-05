@@ -1,0 +1,26 @@
+[
+  {
+    "attempt": "first public fixture",
+    "verdict": "infrastructure wait stopped; source admission ready; poll incorrectly expected nonexistent succeeded",
+    "repair": "poll public ready state; native/media outputs unchanged"
+  },
+  {
+    "attempt": "r2",
+    "verdict": "native CLI owner old argument contract; exited without completion",
+    "repair": "existing current private CLI fixture compiled; no provider fallback"
+  },
+  {
+    "attempt": "r3/diagnostic",
+    "verdict": "prepared source path refused ELOOP because /tmp is symlink under O_NOFOLLOW_ANY",
+    "repair": "canonical fixture scratch home; production security unchanged"
+  },
+  {
+    "attempt": "r4",
+    "verdict": "all measurements generated; assertion incorrectly searched raw prepared ID within doubly serialized string",
+    "repair": "typed compact signalRecipe receipt and direct prepared ID assertion"
+  },
+  {
+    "attempt": "r5",
+    "verdict": "passed7 public CLI/MCP checks with current read-only native and final FFmpeg receipt"
+  }
+]

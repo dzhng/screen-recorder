@@ -1,0 +1,1770 @@
+{
+  "passed": false,
+  "trace": [
+    {
+      "operation": "asset.import",
+      "transport": "cli",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "operation": "job.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "asset.get",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "audio.measure",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "audio.measure",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "audio.measure",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "audio.measure",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "audio.measure",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "audio.measure",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "audio.measure",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "audio.measure",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "audio.measure",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "audio.measure",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "audio.measure",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "project.create",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "edit.apply",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "audio.measure",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "aa85bdee-4b08-4290-a552-cec94599a126"
+    },
+    {
+      "operation": "audio.measure",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "aa85bdee-4b08-4290-a552-cec94599a126"
+    },
+    {
+      "operation": "audio.measure",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready",
+      "revisionId": "aa85bdee-4b08-4290-a552-cec94599a126"
+    },
+    {
+      "operation": "audio.prepare",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "aa85bdee-4b08-4290-a552-cec94599a126"
+    }
+  ],
+  "exchanges": [
+    {
+      "request": {
+        "operation": "asset.import",
+        "params": {
+          "requestId": "source",
+          "path": "/tmp/screenrec-loudness-journey-diagnostic/mono.wav"
+        },
+        "transport": "cli",
+        "error": false
+      },
+      "response": {
+        "ok": true,
+        "data": {
+          "jobId": "b9b95783-972d-4d7e-82e9-377529f84d34",
+          "attemptId": "128578ea-f40b-46ec-980a-40ac9b4d1077",
+          "artifact": "asset.import",
+          "lane": "heavy",
+          "state": "running",
+          "reason": null,
+          "generation": 1,
+          "errorCode": null,
+          "inputSha256": "1ef1c187c8a27415feac81f9ecf4b81a54ad0e14ca060df91209b380fd9df228",
+          "target": {
+            "kind": "import",
+            "importId": "e69a47c3-2216-46b8-a842-dd035d78e09b"
+          },
+          "retryable": false,
+          "errorDetails": null,
+          "result": null
+        },
+        "id": "74a7d89a-d53d-4ff5-b88b-387a0d183c39"
+      }
+    },
+    {
+      "request": {
+        "operation": "job.get",
+        "params": {
+          "jobId": "b9b95783-972d-4d7e-82e9-377529f84d34"
+        },
+        "transport": "cli",
+        "error": false
+      },
+      "response": {
+        "ok": true,
+        "data": {
+          "jobId": "b9b95783-972d-4d7e-82e9-377529f84d34",
+          "attemptId": "128578ea-f40b-46ec-980a-40ac9b4d1077",
+          "artifact": "asset.import",
+          "lane": "heavy",
+          "state": "ready",
+          "reason": null,
+          "generation": 1,
+          "errorCode": null,
+          "inputSha256": "1ef1c187c8a27415feac81f9ecf4b81a54ad0e14ca060df91209b380fd9df228",
+          "target": {
+            "kind": "import",
+            "importId": "e69a47c3-2216-46b8-a842-dd035d78e09b"
+          },
+          "retryable": false,
+          "errorDetails": null,
+          "result": {
+            "assetId": "c0b8d773b49297aa6cd060af233f742f2f91aab3847b76f3bf18289bb85c20b6"
+          }
+        },
+        "id": "7daa510c-b691-4aa0-bfe6-45ad24742997"
+      }
+    },
+    {
+      "request": {
+        "operation": "asset.get",
+        "params": {
+          "assetId": "c0b8d773b49297aa6cd060af233f742f2f91aab3847b76f3bf18289bb85c20b6"
+        },
+        "transport": "cli",
+        "error": false
+      },
+      "response": {
+        "ok": true,
+        "data": {
+          "originUs": 0,
+          "streams": [
+            {
+              "id": "track:1",
+              "kind": "audio",
+              "codec": "lpcm",
+              "decodable": true,
+              "startUs": 0,
+              "endUs": 6000000,
+              "sampleRate": 48000,
+              "channels": 1,
+              "segmentCount": 1
+            }
+          ],
+          "id": "c0b8d773b49297aa6cd060af233f742f2f91aab3847b76f3bf18289bb85c20b6",
+          "bytes": 1152044,
+          "createdAt": "2026-10-05T02:59:27.412Z",
+          "fileName": "c0b8d773b49297aa6cd060af233f742f2f91aab3847b76f3bf18289bb85c20b6.wav"
+        },
+        "id": "055bc48a-58b0-40d4-b2ce-7f34464840e9"
+      }
+    },
+    {
+      "request": {
+        "operation": "audio.measure",
+        "params": {
+          "assetId": "c0b8d773b49297aa6cd060af233f742f2f91aab3847b76f3bf18289bb85c20b6",
+          "streamId": "track:1"
+        },
+        "transport": "cli",
+        "error": false
+      },
+      "response": {
+        "ok": true,
+        "data": {
+          "assetId": "c0b8d773b49297aa6cd060af233f742f2f91aab3847b76f3bf18289bb85c20b6",
+          "streamId": "track:1",
+          "range": {
+            "startUs": 0,
+            "endUs": 6000000
+          },
+          "state": "processing",
+          "reason": null,
+          "retryable": false,
+          "jobId": "f43b5923-e079-453f-9ba5-d4d92e6c1554",
+          "dependency": {
+            "jobId": "f43b5923-e079-453f-9ba5-d4d92e6c1554",
+            "state": "processing",
+            "reason": null,
+            "retryable": false,
+            "generation": null
+          },
+          "published": null
+        },
+        "id": "a873e3d3-8111-4a2b-8cbd-78b342353431"
+      }
+    },
+    {
+      "request": {
+        "operation": "audio.measure",
+        "params": {
+          "assetId": "c0b8d773b49297aa6cd060af233f742f2f91aab3847b76f3bf18289bb85c20b6",
+          "streamId": "track:1"
+        },
+        "transport": "cli",
+        "error": false
+      },
+      "response": {
+        "ok": true,
+        "data": {
+          "assetId": "c0b8d773b49297aa6cd060af233f742f2f91aab3847b76f3bf18289bb85c20b6",
+          "streamId": "track:1",
+          "range": {
+            "startUs": 0,
+            "endUs": 6000000
+          },
+          "state": "processing",
+          "reason": null,
+          "retryable": false,
+          "jobId": "30e9b0c7-3b59-44a2-8375-2bae90f20269",
+          "dependency": {
+            "jobId": "f43b5923-e079-453f-9ba5-d4d92e6c1554",
+            "state": "ready",
+            "reason": null,
+            "retryable": false,
+            "generation": 1
+          },
+          "published": null
+        },
+        "id": "6e8f1bba-e18f-40c8-a39b-c150fd4779bf"
+      }
+    },
+    {
+      "request": {
+        "operation": "audio.measure",
+        "params": {
+          "assetId": "c0b8d773b49297aa6cd060af233f742f2f91aab3847b76f3bf18289bb85c20b6",
+          "streamId": "track:1"
+        },
+        "transport": "cli",
+        "error": false
+      },
+      "response": {
+        "ok": true,
+        "data": {
+          "assetId": "c0b8d773b49297aa6cd060af233f742f2f91aab3847b76f3bf18289bb85c20b6",
+          "streamId": "track:1",
+          "range": {
+            "startUs": 0,
+            "endUs": 6000000
+          },
+          "state": "ready",
+          "reason": null,
+          "retryable": false,
+          "jobId": "30e9b0c7-3b59-44a2-8375-2bae90f20269",
+          "dependency": {
+            "jobId": "f43b5923-e079-453f-9ba5-d4d92e6c1554",
+            "state": "ready",
+            "reason": null,
+            "retryable": false,
+            "generation": 1
+          },
+          "published": {
+            "generation": 1,
+            "measurement": {
+              "range": {
+                "startUs": 0,
+                "endUs": 6000000
+              },
+              "timeOriginUs": 0,
+              "sampleRange": {
+                "start": 0,
+                "end": 288000
+              },
+              "sampleRate": 48000,
+              "channels": 1,
+              "layout": "mono",
+              "implementationId": "native-source-audio-v5",
+              "unavailable": [],
+              "domain": "source",
+              "assetId": "c0b8d773b49297aa6cd060af233f742f2f91aab3847b76f3bf18289bb85c20b6",
+              "streamId": "track:1",
+              "supportDigest": "e3c469a6bc326a691112ffd421b6c1f15274c19b46b0d8c9ab8dd704739ab57b",
+              "file": "/private/tmp/sr-lufs-BXtsFl/library/cache/derived/6cbc4073-cdf5-49fc-a825-c0417634fcdd.cache",
+              "bytes": 1509,
+              "mediaType": "application/json",
+              "cacheId": "6cbc4073-cdf5-49fc-a825-c0417634fcdd",
+              "analysis": {
+                "kind": "loudness",
+                "channelInterpretation": "native",
+                "truePeak": true,
+                "implementationId": "ffmpeg-ebur128-v1:27350ff2f953bbd4d6ca8bfe0f6808b99b9752192657d289146b50319099f66a",
+                "signalRecipe": "{\"target\":{\"kind\":\"asset\",\"assetId\":\"c0b8d773b49297aa6cd060af233f742f2f91aab3847b76f3bf18289bb85c20b6\"},\"artifact\":\"audio\",\"input\":\"{\\\"selection\\\":{\\\"assetId\\\":\\\"c0b8d773b49297aa6cd060af233f742f2f91aab3847b76f3bf18289bb85c20b6\\\",\\\"streamId\\\":\\\"track:1\\\"},\\\"range\\\":{\\\"startUs\\\":0,\\\"endUs\\\":6000000},\\\"supportDigest\\\":\\\"e3c469a6bc326a691112ffd421b6c1f15274c19b46b0d8c9ab8dd704739ab57b\\\",\\\"implementationId\\\":\\\"native-source-audio-v5\\\"}\"}",
+                "scope": "full-signal",
+                "measurement": {
+                  "integratedLufs": -23,
+                  "loudnessRangeLu": 0,
+                  "samplePeakDbfs": -20,
+                  "truePeakDbtp": -20,
+                  "integratedReason": null,
+                  "rangeReason": null,
+                  "algorithm": "FFmpeg ebur128 BS.1770/R128; true-peak libswresample; one-decimal summary",
+                  "version": "9.0.2"
+                }
+              },
+              "audio": {
+                "jobId": "f43b5923-e079-453f-9ba5-d4d92e6c1554",
+                "generation": 1
+              }
+            }
+          }
+        },
+        "id": "2690757d-a613-48af-9d16-caaf7ab6a2d7"
+      }
+    },
+    {
+      "request": {
+        "operation": "audio.measure",
+        "params": {
+          "assetId": "c0b8d773b49297aa6cd060af233f742f2f91aab3847b76f3bf18289bb85c20b6",
+          "streamId": "track:1"
+        },
+        "transport": "mcp",
+        "error": false
+      },
+      "response": {
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"ok\":true,\"data\":{\"assetId\":\"c0b8d773b49297aa6cd060af233f742f2f91aab3847b76f3bf18289bb85c20b6\",\"streamId\":\"track:1\",\"range\":{\"startUs\":0,\"endUs\":6000000},\"state\":\"ready\",\"reason\":null,\"retryable\":false,\"jobId\":\"30e9b0c7-3b59-44a2-8375-2bae90f20269\",\"dependency\":{\"jobId\":\"f43b5923-e079-453f-9ba5-d4d92e6c1554\",\"state\":\"ready\",\"reason\":null,\"retryable\":false,\"generation\":1},\"published\":{\"generation\":1,\"measurement\":{\"range\":{\"startUs\":0,\"endUs\":6000000},\"timeOriginUs\":0,\"sampleRange\":{\"start\":0,\"end\":288000},\"sampleRate\":48000,\"channels\":1,\"layout\":\"mono\",\"implementationId\":\"native-source-audio-v5\",\"unavailable\":[],\"domain\":\"source\",\"assetId\":\"c0b8d773b49297aa6cd060af233f742f2f91aab3847b76f3bf18289bb85c20b6\",\"streamId\":\"track:1\",\"supportDigest\":\"e3c469a6bc326a691112ffd421b6c1f15274c19b46b0d8c9ab8dd704739ab57b\",\"file\":\"/private/tmp/sr-lufs-BXtsFl/library/cache/derived/6cbc4073-cdf5-49fc-a825-c0417634fcdd.cache\",\"bytes\":1509,\"mediaType\":\"application/json\",\"cacheId\":\"6cbc4073-cdf5-49fc-a825-c0417634fcdd\",\"analysis\":{\"kind\":\"loudness\",\"channelInterpretation\":\"native\",\"truePeak\":true,\"implementationId\":\"ffmpeg-ebur128-v1:27350ff2f953bbd4d6ca8bfe0f6808b99b9752192657d289146b50319099f66a\",\"signalRecipe\":\"{\\\"target\\\":{\\\"kind\\\":\\\"asset\\\",\\\"assetId\\\":\\\"c0b8d773b49297aa6cd060af233f742f2f91aab3847b76f3bf18289bb85c20b6\\\"},\\\"artifact\\\":\\\"audio\\\",\\\"input\\\":\\\"{\\\\\\\"selection\\\\\\\":{\\\\\\\"assetId\\\\\\\":\\\\\\\"c0b8d773b49297aa6cd060af233f742f2f91aab3847b76f3bf18289bb85c20b6\\\\\\\",\\\\\\\"streamId\\\\\\\":\\\\\\\"track:1\\\\\\\"},\\\\\\\"range\\\\\\\":{\\\\\\\"startUs\\\\\\\":0,\\\\\\\"endUs\\\\\\\":6000000},\\\\\\\"supportDigest\\\\\\\":\\\\\\\"e3c469a6bc326a691112ffd421b6c1f15274c19b46b0d8c9ab8dd704739ab57b\\\\\\\",\\\\\\\"implementationId\\\\\\\":\\\\\\\"native-source-audio-v5\\\\\\\"}\\\"}\",\"scope\":\"full-signal\",\"measurement\":{\"integratedLufs\":-23,\"loudnessRangeLu\":0,\"samplePeakDbfs\":-20,\"truePeakDbtp\":-20,\"integratedReason\":null,\"rangeReason\":null,\"algorithm\":\"FFmpeg ebur128 BS.1770/R128; true-peak libswresample; one-decimal summary\",\"version\":\"9.0.2\"}},\"audio\":{\"jobId\":\"f43b5923-e079-453f-9ba5-d4d92e6c1554\",\"generation\":1}}}},\"id\":\"d70bb6f2-13e8-47c6-a942-e4d780cf0ede\"}"
+          }
+        ],
+        "structuredContent": {
+          "ok": true,
+          "data": {
+            "assetId": "c0b8d773b49297aa6cd060af233f742f2f91aab3847b76f3bf18289bb85c20b6",
+            "streamId": "track:1",
+            "range": {
+              "startUs": 0,
+              "endUs": 6000000
+            },
+            "state": "ready",
+            "reason": null,
+            "retryable": false,
+            "jobId": "30e9b0c7-3b59-44a2-8375-2bae90f20269",
+            "dependency": {
+              "jobId": "f43b5923-e079-453f-9ba5-d4d92e6c1554",
+              "state": "ready",
+              "reason": null,
+              "retryable": false,
+              "generation": 1
+            },
+            "published": {
+              "generation": 1,
+              "measurement": {
+                "range": {
+                  "startUs": 0,
+                  "endUs": 6000000
+                },
+                "timeOriginUs": 0,
+                "sampleRange": {
+                  "start": 0,
+                  "end": 288000
+                },
+                "sampleRate": 48000,
+                "channels": 1,
+                "layout": "mono",
+                "implementationId": "native-source-audio-v5",
+                "unavailable": [],
+                "domain": "source",
+                "assetId": "c0b8d773b49297aa6cd060af233f742f2f91aab3847b76f3bf18289bb85c20b6",
+                "streamId": "track:1",
+                "supportDigest": "e3c469a6bc326a691112ffd421b6c1f15274c19b46b0d8c9ab8dd704739ab57b",
+                "file": "/private/tmp/sr-lufs-BXtsFl/library/cache/derived/6cbc4073-cdf5-49fc-a825-c0417634fcdd.cache",
+                "bytes": 1509,
+                "mediaType": "application/json",
+                "cacheId": "6cbc4073-cdf5-49fc-a825-c0417634fcdd",
+                "analysis": {
+                  "kind": "loudness",
+                  "channelInterpretation": "native",
+                  "truePeak": true,
+                  "implementationId": "ffmpeg-ebur128-v1:27350ff2f953bbd4d6ca8bfe0f6808b99b9752192657d289146b50319099f66a",
+                  "signalRecipe": "{\"target\":{\"kind\":\"asset\",\"assetId\":\"c0b8d773b49297aa6cd060af233f742f2f91aab3847b76f3bf18289bb85c20b6\"},\"artifact\":\"audio\",\"input\":\"{\\\"selection\\\":{\\\"assetId\\\":\\\"c0b8d773b49297aa6cd060af233f742f2f91aab3847b76f3bf18289bb85c20b6\\\",\\\"streamId\\\":\\\"track:1\\\"},\\\"range\\\":{\\\"startUs\\\":0,\\\"endUs\\\":6000000},\\\"supportDigest\\\":\\\"e3c469a6bc326a691112ffd421b6c1f15274c19b46b0d8c9ab8dd704739ab57b\\\",\\\"implementationId\\\":\\\"native-source-audio-v5\\\"}\"}",
+                  "scope": "full-signal",
+                  "measurement": {
+                    "integratedLufs": -23,
+                    "loudnessRangeLu": 0,
+                    "samplePeakDbfs": -20,
+                    "truePeakDbtp": -20,
+                    "integratedReason": null,
+                    "rangeReason": null,
+                    "algorithm": "FFmpeg ebur128 BS.1770/R128; true-peak libswresample; one-decimal summary",
+                    "version": "9.0.2"
+                  }
+                },
+                "audio": {
+                  "jobId": "f43b5923-e079-453f-9ba5-d4d92e6c1554",
+                  "generation": 1
+                }
+              }
+            }
+          },
+          "id": "d70bb6f2-13e8-47c6-a942-e4d780cf0ede"
+        },
+        "isError": false
+      }
+    },
+    {
+      "request": {
+        "operation": "audio.measure",
+        "params": {
+          "assetId": "c0b8d773b49297aa6cd060af233f742f2f91aab3847b76f3bf18289bb85c20b6",
+          "streamId": "track:1",
+          "channelInterpretation": "dual-mono"
+        },
+        "transport": "cli",
+        "error": false
+      },
+      "response": {
+        "ok": true,
+        "data": {
+          "assetId": "c0b8d773b49297aa6cd060af233f742f2f91aab3847b76f3bf18289bb85c20b6",
+          "streamId": "track:1",
+          "range": {
+            "startUs": 0,
+            "endUs": 6000000
+          },
+          "state": "processing",
+          "reason": null,
+          "retryable": false,
+          "jobId": "254a37b3-3d4d-448f-a2a9-7a67459f788f",
+          "dependency": {
+            "jobId": "f43b5923-e079-453f-9ba5-d4d92e6c1554",
+            "state": "ready",
+            "reason": null,
+            "retryable": false,
+            "generation": 1
+          },
+          "published": null
+        },
+        "id": "8b42f2f0-d8ad-48e5-95ef-f7f1201ddf89"
+      }
+    },
+    {
+      "request": {
+        "operation": "audio.measure",
+        "params": {
+          "assetId": "c0b8d773b49297aa6cd060af233f742f2f91aab3847b76f3bf18289bb85c20b6",
+          "streamId": "track:1",
+          "channelInterpretation": "dual-mono"
+        },
+        "transport": "cli",
+        "error": false
+      },
+      "response": {
+        "ok": true,
+        "data": {
+          "assetId": "c0b8d773b49297aa6cd060af233f742f2f91aab3847b76f3bf18289bb85c20b6",
+          "streamId": "track:1",
+          "range": {
+            "startUs": 0,
+            "endUs": 6000000
+          },
+          "state": "ready",
+          "reason": null,
+          "retryable": false,
+          "jobId": "254a37b3-3d4d-448f-a2a9-7a67459f788f",
+          "dependency": {
+            "jobId": "f43b5923-e079-453f-9ba5-d4d92e6c1554",
+            "state": "ready",
+            "reason": null,
+            "retryable": false,
+            "generation": 1
+          },
+          "published": {
+            "generation": 1,
+            "measurement": {
+              "range": {
+                "startUs": 0,
+                "endUs": 6000000
+              },
+              "timeOriginUs": 0,
+              "sampleRange": {
+                "start": 0,
+                "end": 288000
+              },
+              "sampleRate": 48000,
+              "channels": 1,
+              "layout": "mono",
+              "implementationId": "native-source-audio-v5",
+              "unavailable": [],
+              "domain": "source",
+              "assetId": "c0b8d773b49297aa6cd060af233f742f2f91aab3847b76f3bf18289bb85c20b6",
+              "streamId": "track:1",
+              "supportDigest": "e3c469a6bc326a691112ffd421b6c1f15274c19b46b0d8c9ab8dd704739ab57b",
+              "file": "/private/tmp/sr-lufs-BXtsFl/library/cache/derived/ece5e388-d564-4d17-8a4a-79af58c98c65.cache",
+              "bytes": 1512,
+              "mediaType": "application/json",
+              "cacheId": "ece5e388-d564-4d17-8a4a-79af58c98c65",
+              "analysis": {
+                "kind": "loudness",
+                "channelInterpretation": "dual-mono",
+                "truePeak": true,
+                "implementationId": "ffmpeg-ebur128-v1:27350ff2f953bbd4d6ca8bfe0f6808b99b9752192657d289146b50319099f66a",
+                "signalRecipe": "{\"target\":{\"kind\":\"asset\",\"assetId\":\"c0b8d773b49297aa6cd060af233f742f2f91aab3847b76f3bf18289bb85c20b6\"},\"artifact\":\"audio\",\"input\":\"{\\\"selection\\\":{\\\"assetId\\\":\\\"c0b8d773b49297aa6cd060af233f742f2f91aab3847b76f3bf18289bb85c20b6\\\",\\\"streamId\\\":\\\"track:1\\\"},\\\"range\\\":{\\\"startUs\\\":0,\\\"endUs\\\":6000000},\\\"supportDigest\\\":\\\"e3c469a6bc326a691112ffd421b6c1f15274c19b46b0d8c9ab8dd704739ab57b\\\",\\\"implementationId\\\":\\\"native-source-audio-v5\\\"}\"}",
+                "scope": "full-signal",
+                "measurement": {
+                  "integratedLufs": -20,
+                  "loudnessRangeLu": 0,
+                  "samplePeakDbfs": -20,
+                  "truePeakDbtp": -20,
+                  "integratedReason": null,
+                  "rangeReason": null,
+                  "algorithm": "FFmpeg ebur128 BS.1770/R128; true-peak libswresample; one-decimal summary",
+                  "version": "9.0.2"
+                }
+              },
+              "audio": {
+                "jobId": "f43b5923-e079-453f-9ba5-d4d92e6c1554",
+                "generation": 1
+              }
+            }
+          }
+        },
+        "id": "59d64970-26b4-4a28-b602-77eac306d70c"
+      }
+    },
+    {
+      "request": {
+        "operation": "audio.measure",
+        "params": {
+          "assetId": "c0b8d773b49297aa6cd060af233f742f2f91aab3847b76f3bf18289bb85c20b6",
+          "streamId": "track:1",
+          "truePeak": false
+        },
+        "transport": "cli",
+        "error": false
+      },
+      "response": {
+        "ok": true,
+        "data": {
+          "assetId": "c0b8d773b49297aa6cd060af233f742f2f91aab3847b76f3bf18289bb85c20b6",
+          "streamId": "track:1",
+          "range": {
+            "startUs": 0,
+            "endUs": 6000000
+          },
+          "state": "processing",
+          "reason": null,
+          "retryable": false,
+          "jobId": "fe8abb49-a1ab-47fa-8a98-a9a234a849c6",
+          "dependency": {
+            "jobId": "f43b5923-e079-453f-9ba5-d4d92e6c1554",
+            "state": "ready",
+            "reason": null,
+            "retryable": false,
+            "generation": 1
+          },
+          "published": null
+        },
+        "id": "9ed88e16-6325-4801-a968-ba1ee42e4c7b"
+      }
+    },
+    {
+      "request": {
+        "operation": "audio.measure",
+        "params": {
+          "assetId": "c0b8d773b49297aa6cd060af233f742f2f91aab3847b76f3bf18289bb85c20b6",
+          "streamId": "track:1",
+          "truePeak": false
+        },
+        "transport": "cli",
+        "error": false
+      },
+      "response": {
+        "ok": true,
+        "data": {
+          "assetId": "c0b8d773b49297aa6cd060af233f742f2f91aab3847b76f3bf18289bb85c20b6",
+          "streamId": "track:1",
+          "range": {
+            "startUs": 0,
+            "endUs": 6000000
+          },
+          "state": "ready",
+          "reason": null,
+          "retryable": false,
+          "jobId": "fe8abb49-a1ab-47fa-8a98-a9a234a849c6",
+          "dependency": {
+            "jobId": "f43b5923-e079-453f-9ba5-d4d92e6c1554",
+            "state": "ready",
+            "reason": null,
+            "retryable": false,
+            "generation": 1
+          },
+          "published": {
+            "generation": 1,
+            "measurement": {
+              "range": {
+                "startUs": 0,
+                "endUs": 6000000
+              },
+              "timeOriginUs": 0,
+              "sampleRange": {
+                "start": 0,
+                "end": 288000
+              },
+              "sampleRate": 48000,
+              "channels": 1,
+              "layout": "mono",
+              "implementationId": "native-source-audio-v5",
+              "unavailable": [],
+              "domain": "source",
+              "assetId": "c0b8d773b49297aa6cd060af233f742f2f91aab3847b76f3bf18289bb85c20b6",
+              "streamId": "track:1",
+              "supportDigest": "e3c469a6bc326a691112ffd421b6c1f15274c19b46b0d8c9ab8dd704739ab57b",
+              "file": "/private/tmp/sr-lufs-BXtsFl/library/cache/derived/9860bf00-48a2-4ff9-b8ff-5e2428068612.cache",
+              "bytes": 1511,
+              "mediaType": "application/json",
+              "cacheId": "9860bf00-48a2-4ff9-b8ff-5e2428068612",
+              "analysis": {
+                "kind": "loudness",
+                "channelInterpretation": "native",
+                "truePeak": false,
+                "implementationId": "ffmpeg-ebur128-v1:27350ff2f953bbd4d6ca8bfe0f6808b99b9752192657d289146b50319099f66a",
+                "signalRecipe": "{\"target\":{\"kind\":\"asset\",\"assetId\":\"c0b8d773b49297aa6cd060af233f742f2f91aab3847b76f3bf18289bb85c20b6\"},\"artifact\":\"audio\",\"input\":\"{\\\"selection\\\":{\\\"assetId\\\":\\\"c0b8d773b49297aa6cd060af233f742f2f91aab3847b76f3bf18289bb85c20b6\\\",\\\"streamId\\\":\\\"track:1\\\"},\\\"range\\\":{\\\"startUs\\\":0,\\\"endUs\\\":6000000},\\\"supportDigest\\\":\\\"e3c469a6bc326a691112ffd421b6c1f15274c19b46b0d8c9ab8dd704739ab57b\\\",\\\"implementationId\\\":\\\"native-source-audio-v5\\\"}\"}",
+                "scope": "full-signal",
+                "measurement": {
+                  "integratedLufs": -23,
+                  "loudnessRangeLu": 0,
+                  "samplePeakDbfs": -20,
+                  "truePeakDbtp": null,
+                  "integratedReason": null,
+                  "rangeReason": null,
+                  "algorithm": "FFmpeg ebur128 BS.1770/R128; true-peak libswresample; one-decimal summary",
+                  "version": "9.0.2"
+                }
+              },
+              "audio": {
+                "jobId": "f43b5923-e079-453f-9ba5-d4d92e6c1554",
+                "generation": 1
+              }
+            }
+          }
+        },
+        "id": "6114dfc6-46a7-44c2-a071-21a7fb091c08"
+      }
+    },
+    {
+      "request": {
+        "operation": "audio.measure",
+        "params": {
+          "assetId": "c0b8d773b49297aa6cd060af233f742f2f91aab3847b76f3bf18289bb85c20b6",
+          "streamId": "track:1",
+          "range": {
+            "startUs": 0,
+            "endUs": 200000
+          }
+        },
+        "transport": "cli",
+        "error": false
+      },
+      "response": {
+        "ok": true,
+        "data": {
+          "assetId": "c0b8d773b49297aa6cd060af233f742f2f91aab3847b76f3bf18289bb85c20b6",
+          "streamId": "track:1",
+          "range": {
+            "startUs": 0,
+            "endUs": 200000
+          },
+          "state": "processing",
+          "reason": null,
+          "retryable": false,
+          "jobId": "60e27716-fbd8-46c4-a745-8d4df3acbaf0",
+          "dependency": {
+            "jobId": "60e27716-fbd8-46c4-a745-8d4df3acbaf0",
+            "state": "processing",
+            "reason": null,
+            "retryable": false,
+            "generation": null
+          },
+          "published": null
+        },
+        "id": "7e83bb1e-ab95-4c68-bc7e-f9d6e8533d95"
+      }
+    },
+    {
+      "request": {
+        "operation": "audio.measure",
+        "params": {
+          "assetId": "c0b8d773b49297aa6cd060af233f742f2f91aab3847b76f3bf18289bb85c20b6",
+          "streamId": "track:1",
+          "range": {
+            "startUs": 0,
+            "endUs": 200000
+          }
+        },
+        "transport": "cli",
+        "error": false
+      },
+      "response": {
+        "ok": true,
+        "data": {
+          "assetId": "c0b8d773b49297aa6cd060af233f742f2f91aab3847b76f3bf18289bb85c20b6",
+          "streamId": "track:1",
+          "range": {
+            "startUs": 0,
+            "endUs": 200000
+          },
+          "state": "processing",
+          "reason": null,
+          "retryable": false,
+          "jobId": "e9648eda-7991-4056-9c40-1b0f384fa8f8",
+          "dependency": {
+            "jobId": "60e27716-fbd8-46c4-a745-8d4df3acbaf0",
+            "state": "ready",
+            "reason": null,
+            "retryable": false,
+            "generation": 1
+          },
+          "published": null
+        },
+        "id": "9f145b3c-17e6-4c5c-87e5-14c1096384c3"
+      }
+    },
+    {
+      "request": {
+        "operation": "audio.measure",
+        "params": {
+          "assetId": "c0b8d773b49297aa6cd060af233f742f2f91aab3847b76f3bf18289bb85c20b6",
+          "streamId": "track:1",
+          "range": {
+            "startUs": 0,
+            "endUs": 200000
+          }
+        },
+        "transport": "cli",
+        "error": false
+      },
+      "response": {
+        "ok": true,
+        "data": {
+          "assetId": "c0b8d773b49297aa6cd060af233f742f2f91aab3847b76f3bf18289bb85c20b6",
+          "streamId": "track:1",
+          "range": {
+            "startUs": 0,
+            "endUs": 200000
+          },
+          "state": "ready",
+          "reason": null,
+          "retryable": false,
+          "jobId": "e9648eda-7991-4056-9c40-1b0f384fa8f8",
+          "dependency": {
+            "jobId": "60e27716-fbd8-46c4-a745-8d4df3acbaf0",
+            "state": "ready",
+            "reason": null,
+            "retryable": false,
+            "generation": 1
+          },
+          "published": {
+            "generation": 1,
+            "measurement": {
+              "range": {
+                "startUs": 0,
+                "endUs": 200000
+              },
+              "timeOriginUs": 0,
+              "sampleRange": {
+                "start": 0,
+                "end": 9600
+              },
+              "sampleRate": 48000,
+              "channels": 1,
+              "layout": "mono",
+              "implementationId": "native-source-audio-v5",
+              "unavailable": [],
+              "domain": "source",
+              "assetId": "c0b8d773b49297aa6cd060af233f742f2f91aab3847b76f3bf18289bb85c20b6",
+              "streamId": "track:1",
+              "supportDigest": "e3c469a6bc326a691112ffd421b6c1f15274c19b46b0d8c9ab8dd704739ab57b",
+              "file": "/private/tmp/sr-lufs-BXtsFl/library/cache/derived/36ee1184-069b-4ed7-a562-9d877cd0f6a5.cache",
+              "bytes": 1543,
+              "mediaType": "application/json",
+              "cacheId": "36ee1184-069b-4ed7-a562-9d877cd0f6a5",
+              "analysis": {
+                "kind": "loudness",
+                "channelInterpretation": "native",
+                "truePeak": true,
+                "implementationId": "ffmpeg-ebur128-v1:27350ff2f953bbd4d6ca8bfe0f6808b99b9752192657d289146b50319099f66a",
+                "signalRecipe": "{\"target\":{\"kind\":\"asset\",\"assetId\":\"c0b8d773b49297aa6cd060af233f742f2f91aab3847b76f3bf18289bb85c20b6\"},\"artifact\":\"audio\",\"input\":\"{\\\"selection\\\":{\\\"assetId\\\":\\\"c0b8d773b49297aa6cd060af233f742f2f91aab3847b76f3bf18289bb85c20b6\\\",\\\"streamId\\\":\\\"track:1\\\"},\\\"range\\\":{\\\"startUs\\\":0,\\\"endUs\\\":200000},\\\"supportDigest\\\":\\\"e3c469a6bc326a691112ffd421b6c1f15274c19b46b0d8c9ab8dd704739ab57b\\\",\\\"implementationId\\\":\\\"native-source-audio-v5\\\"}\"}",
+                "scope": "excerpt",
+                "measurement": {
+                  "integratedLufs": null,
+                  "loudnessRangeLu": null,
+                  "samplePeakDbfs": -20,
+                  "truePeakDbtp": -20,
+                  "integratedReason": "insufficient-duration",
+                  "rangeReason": "insufficient-duration",
+                  "algorithm": "FFmpeg ebur128 BS.1770/R128; true-peak libswresample; one-decimal summary",
+                  "version": "9.0.2"
+                }
+              },
+              "audio": {
+                "jobId": "60e27716-fbd8-46c4-a745-8d4df3acbaf0",
+                "generation": 1
+              }
+            }
+          }
+        },
+        "id": "56109a2b-f3f2-45e2-a4a7-074e6972a632"
+      }
+    },
+    {
+      "request": {
+        "operation": "project.create",
+        "params": {
+          "requestId": "project",
+          "canvas": {
+            "width": 32,
+            "height": 24,
+            "fps": {
+              "numerator": 10,
+              "denominator": 1
+            },
+            "background": "#000000ff"
+          }
+        },
+        "transport": "cli",
+        "error": false
+      },
+      "response": {
+        "ok": true,
+        "data": {
+          "project": {
+            "projectId": "979c86bb-2fa7-4e3f-8823-d45e4568cf9d",
+            "title": "Untitled",
+            "createdAt": "2026-10-05T02:59:28.969Z",
+            "currentRevisionId": "d6376405-cf3f-428d-9efb-b930d79135b7"
+          },
+          "revision": {
+            "id": "d6376405-cf3f-428d-9efb-b930d79135b7",
+            "projectId": "979c86bb-2fa7-4e3f-8823-d45e4568cf9d",
+            "ordinal": 0,
+            "createdAt": "2026-10-05T02:59:28.969Z",
+            "operation": "create",
+            "document": {
+              "canvas": {
+                "width": 32,
+                "height": 24,
+                "fps": {
+                  "numerator": 10,
+                  "denominator": 1
+                },
+                "background": "#000000ff"
+              },
+              "tracks": [],
+              "groups": [],
+              "clips": [],
+              "syncGroups": [],
+              "processing": []
+            }
+          }
+        },
+        "id": "d03ee283-ccc0-4718-a431-c87f56e6b13c"
+      }
+    },
+    {
+      "request": {
+        "operation": "edit.apply",
+        "params": {
+          "projectId": "979c86bb-2fa7-4e3f-8823-d45e4568cf9d",
+          "expectedRevisionId": "d6376405-cf3f-428d-9efb-b930d79135b7",
+          "requestId": "place",
+          "operations": [
+            {
+              "operation": "track.add",
+              "label": "sound",
+              "track": {
+                "kind": "audio",
+                "order": 0
+              }
+            },
+            {
+              "operation": "place",
+              "clip": {
+                "trackId": {
+                  "label": "sound"
+                },
+                "assetId": "c0b8d773b49297aa6cd060af233f742f2f91aab3847b76f3bf18289bb85c20b6",
+                "streamId": "track:1",
+                "source": {
+                  "kind": "range",
+                  "range": {
+                    "startUs": 0,
+                    "endUs": 6000000
+                  }
+                },
+                "placement": {
+                  "kind": "project",
+                  "range": {
+                    "startUs": 0,
+                    "endUs": 6000000
+                  }
+                },
+                "pitch": "preserve"
+              }
+            }
+          ]
+        },
+        "transport": "cli",
+        "error": false
+      },
+      "response": {
+        "ok": true,
+        "data": {
+          "revision": {
+            "id": "aa85bdee-4b08-4290-a552-cec94599a126",
+            "projectId": "979c86bb-2fa7-4e3f-8823-d45e4568cf9d",
+            "ordinal": 1,
+            "createdAt": "2026-10-05T02:59:29.045Z",
+            "operation": "apply",
+            "document": {
+              "canvas": {
+                "width": 32,
+                "height": 24,
+                "fps": {
+                  "numerator": 10,
+                  "denominator": 1
+                },
+                "background": "#000000ff"
+              },
+              "tracks": [
+                {
+                  "id": "track:3efb41629b2f5408508c5cddc16ee79597570a42c867ea44d3f2becf085411c0:0",
+                  "kind": "audio",
+                  "order": 0
+                }
+              ],
+              "groups": [],
+              "clips": [
+                {
+                  "id": "clip:3efb41629b2f5408508c5cddc16ee79597570a42c867ea44d3f2becf085411c0:1",
+                  "trackId": "track:3efb41629b2f5408508c5cddc16ee79597570a42c867ea44d3f2becf085411c0:0",
+                  "placement": {
+                    "kind": "project",
+                    "range": {
+                      "startUs": 0,
+                      "endUs": 6000000
+                    }
+                  },
+                  "assetId": "c0b8d773b49297aa6cd060af233f742f2f91aab3847b76f3bf18289bb85c20b6",
+                  "streamId": "track:1",
+                  "source": {
+                    "kind": "range",
+                    "range": {
+                      "startUs": 0,
+                      "endUs": 6000000
+                    }
+                  },
+                  "pitch": "preserve"
+                }
+              ],
+              "syncGroups": [],
+              "processing": []
+            }
+          },
+          "edit": {
+            "changed": true,
+            "createdIds": [
+              {
+                "kind": "track",
+                "id": "track:3efb41629b2f5408508c5cddc16ee79597570a42c867ea44d3f2becf085411c0:0"
+              },
+              {
+                "kind": "clip",
+                "id": "clip:3efb41629b2f5408508c5cddc16ee79597570a42c867ea44d3f2becf085411c0:1"
+              }
+            ],
+            "labels": {
+              "sound": "track:3efb41629b2f5408508c5cddc16ee79597570a42c867ea44d3f2becf085411c0:0"
+            },
+            "normalized": [
+              {
+                "operationIndex": 0,
+                "changes": [
+                  {
+                    "kind": "track",
+                    "id": "track:3efb41629b2f5408508c5cddc16ee79597570a42c867ea44d3f2becf085411c0:0",
+                    "value": {
+                      "id": "track:3efb41629b2f5408508c5cddc16ee79597570a42c867ea44d3f2becf085411c0:0",
+                      "kind": "audio",
+                      "order": 0
+                    }
+                  }
+                ]
+              },
+              {
+                "operationIndex": 1,
+                "changes": [
+                  {
+                    "kind": "clip",
+                    "id": "clip:3efb41629b2f5408508c5cddc16ee79597570a42c867ea44d3f2becf085411c0:1",
+                    "value": {
+                      "id": "clip:3efb41629b2f5408508c5cddc16ee79597570a42c867ea44d3f2becf085411c0:1",
+                      "trackId": "track:3efb41629b2f5408508c5cddc16ee79597570a42c867ea44d3f2becf085411c0:0",
+                      "placement": {
+                        "kind": "project",
+                        "range": {
+                          "startUs": 0,
+                          "endUs": 6000000
+                        }
+                      },
+                      "assetId": "c0b8d773b49297aa6cd060af233f742f2f91aab3847b76f3bf18289bb85c20b6",
+                      "streamId": "track:1",
+                      "source": {
+                        "kind": "range",
+                        "range": {
+                          "startUs": 0,
+                          "endUs": 6000000
+                        }
+                      },
+                      "pitch": "preserve"
+                    }
+                  }
+                ]
+              }
+            ],
+            "clipLineage": [],
+            "removedAttachments": [],
+            "processingLineage": [],
+            "touchedFixedAnchors": [],
+            "linkChanges": []
+          }
+        },
+        "id": "0acf9443-49bb-4068-ad85-ee8c250a085d"
+      }
+    },
+    {
+      "request": {
+        "operation": "audio.measure",
+        "params": {
+          "projectId": "979c86bb-2fa7-4e3f-8823-d45e4568cf9d",
+          "revisionId": "aa85bdee-4b08-4290-a552-cec94599a126"
+        },
+        "transport": "cli",
+        "error": false
+      },
+      "response": {
+        "ok": true,
+        "data": {
+          "projectId": "979c86bb-2fa7-4e3f-8823-d45e4568cf9d",
+          "revisionId": "aa85bdee-4b08-4290-a552-cec94599a126",
+          "range": {
+            "startUs": 0,
+            "endUs": 6000000
+          },
+          "tap": {
+            "target": {
+              "kind": "output"
+            },
+            "point": {
+              "kind": "processed"
+            }
+          },
+          "state": "processing",
+          "reason": null,
+          "retryable": false,
+          "jobId": "a736987a-8fd4-4614-8dbc-08d710739cb4",
+          "dependency": {
+            "jobId": "a736987a-8fd4-4614-8dbc-08d710739cb4",
+            "state": "processing",
+            "reason": null,
+            "retryable": false,
+            "generation": null
+          },
+          "published": null
+        },
+        "id": "dd80c40c-f04c-4ae2-8da1-c9c8b276db96"
+      }
+    },
+    {
+      "request": {
+        "operation": "audio.measure",
+        "params": {
+          "projectId": "979c86bb-2fa7-4e3f-8823-d45e4568cf9d",
+          "revisionId": "aa85bdee-4b08-4290-a552-cec94599a126"
+        },
+        "transport": "cli",
+        "error": false
+      },
+      "response": {
+        "ok": true,
+        "data": {
+          "projectId": "979c86bb-2fa7-4e3f-8823-d45e4568cf9d",
+          "revisionId": "aa85bdee-4b08-4290-a552-cec94599a126",
+          "range": {
+            "startUs": 0,
+            "endUs": 6000000
+          },
+          "tap": {
+            "target": {
+              "kind": "output"
+            },
+            "point": {
+              "kind": "processed"
+            }
+          },
+          "state": "processing",
+          "reason": null,
+          "retryable": false,
+          "jobId": "92c8a804-54f5-453d-8aa0-e9c4bc3c7017",
+          "dependency": {
+            "jobId": "a736987a-8fd4-4614-8dbc-08d710739cb4",
+            "state": "ready",
+            "reason": null,
+            "retryable": false,
+            "generation": 1
+          },
+          "published": null
+        },
+        "id": "caf3bd09-2f5e-495f-9c54-77ac9aed99cc"
+      }
+    },
+    {
+      "request": {
+        "operation": "audio.measure",
+        "params": {
+          "projectId": "979c86bb-2fa7-4e3f-8823-d45e4568cf9d",
+          "revisionId": "aa85bdee-4b08-4290-a552-cec94599a126"
+        },
+        "transport": "cli",
+        "error": false
+      },
+      "response": {
+        "ok": true,
+        "data": {
+          "projectId": "979c86bb-2fa7-4e3f-8823-d45e4568cf9d",
+          "revisionId": "aa85bdee-4b08-4290-a552-cec94599a126",
+          "range": {
+            "startUs": 0,
+            "endUs": 6000000
+          },
+          "tap": {
+            "target": {
+              "kind": "output"
+            },
+            "point": {
+              "kind": "processed"
+            }
+          },
+          "state": "ready",
+          "reason": null,
+          "retryable": false,
+          "jobId": "92c8a804-54f5-453d-8aa0-e9c4bc3c7017",
+          "dependency": {
+            "jobId": "a736987a-8fd4-4614-8dbc-08d710739cb4",
+            "state": "ready",
+            "reason": null,
+            "retryable": false,
+            "generation": 1
+          },
+          "published": {
+            "generation": 1,
+            "measurement": {
+              "range": {
+                "startUs": 0,
+                "endUs": 6000000
+              },
+              "timeOriginUs": 0,
+              "sampleRange": {
+                "start": 0,
+                "end": 288000
+              },
+              "sampleRate": 48000,
+              "channels": 2,
+              "layout": "stereo",
+              "implementationId": "native-composition-audio-v10",
+              "unavailable": [
+                {
+                  "clipId": "clip:3efb41629b2f5408508c5cddc16ee79597570a42c867ea44d3f2becf085411c0:1",
+                  "ranges": []
+                }
+              ],
+              "domain": "project",
+              "projectId": "979c86bb-2fa7-4e3f-8823-d45e4568cf9d",
+              "revisionId": "aa85bdee-4b08-4290-a552-cec94599a126",
+              "tap": {
+                "target": {
+                  "kind": "output"
+                },
+                "point": {
+                  "kind": "processed"
+                }
+              },
+              "file": "/private/tmp/sr-lufs-BXtsFl/library/cache/derived/d5d685e5-1079-4515-a0a9-9abda1830322.cache",
+              "bytes": 1623,
+              "mediaType": "application/json",
+              "cacheId": "d5d685e5-1079-4515-a0a9-9abda1830322",
+              "analysis": {
+                "kind": "loudness",
+                "channelInterpretation": "native",
+                "truePeak": true,
+                "implementationId": "ffmpeg-ebur128-v1:27350ff2f953bbd4d6ca8bfe0f6808b99b9752192657d289146b50319099f66a",
+                "signalRecipe": "{\"target\":{\"kind\":\"project\",\"projectId\":\"979c86bb-2fa7-4e3f-8823-d45e4568cf9d\",\"revisionId\":\"aa85bdee-4b08-4290-a552-cec94599a126\"},\"artifact\":\"audio\",\"input\":\"{\\\"range\\\":{\\\"startUs\\\":0,\\\"endUs\\\":6000000},\\\"tap\\\":{\\\"target\\\":{\\\"kind\\\":\\\"output\\\"},\\\"point\\\":{\\\"kind\\\":\\\"processed\\\"}},\\\"implementationId\\\":\\\"native-composition-audio-v10\\\",\\\"preparedResourceId\\\":null}\",\"processingSha256\":\"bfa835f3030c4bffcbea6997c4d2aa0c5579686cbbd3e4d231e8aa6be414ec36\"}",
+                "scope": "full-signal",
+                "measurement": {
+                  "integratedLufs": -20,
+                  "loudnessRangeLu": 0,
+                  "samplePeakDbfs": -20,
+                  "truePeakDbtp": -20,
+                  "integratedReason": null,
+                  "rangeReason": null,
+                  "algorithm": "FFmpeg ebur128 BS.1770/R128; true-peak libswresample; one-decimal summary",
+                  "version": "9.0.2"
+                }
+              },
+              "audio": {
+                "jobId": "a736987a-8fd4-4614-8dbc-08d710739cb4",
+                "generation": 1
+              }
+            }
+          }
+        },
+        "id": "340e2e95-b928-46be-9ad9-95a6704215d4"
+      }
+    },
+    {
+      "request": {
+        "operation": "audio.prepare",
+        "params": {
+          "projectId": "979c86bb-2fa7-4e3f-8823-d45e4568cf9d",
+          "revisionId": "aa85bdee-4b08-4290-a552-cec94599a126"
+        },
+        "transport": "cli",
+        "error": false
+      },
+      "response": {
+        "ok": true,
+        "data": {
+          "projectId": "979c86bb-2fa7-4e3f-8823-d45e4568cf9d",
+          "revisionId": "aa85bdee-4b08-4290-a552-cec94599a126",
+          "state": "processing",
+          "jobId": "26037501-130a-432a-85cc-33dbac8f1900",
+          "reason": null,
+          "retryable": false,
+          "published": null
+        },
+        "id": "5d47f970-ddb7-472e-97f7-42e694c242e3"
+      }
+    },
+    {
+      "request": {
+        "operation": "audio.prepare",
+        "params": {
+          "projectId": "979c86bb-2fa7-4e3f-8823-d45e4568cf9d",
+          "revisionId": "aa85bdee-4b08-4290-a552-cec94599a126"
+        },
+        "transport": "cli",
+        "error": false
+      },
+      "response": {
+        "ok": false,
+        "error": {
+          "code": "INTERNAL_ERROR",
+          "message": "Service handler failed",
+          "retryable": false,
+          "details": {}
+        },
+        "id": "290f9f06-769b-4d0d-980a-20ce8e01caf9"
+      }
+    }
+  ],
+  "checks": {
+    "mono": {
+      "assetId": "c0b8d773b49297aa6cd060af233f742f2f91aab3847b76f3bf18289bb85c20b6",
+      "streamId": "track:1",
+      "range": {
+        "startUs": 0,
+        "endUs": 6000000
+      },
+      "state": "ready",
+      "reason": null,
+      "retryable": false,
+      "jobId": "30e9b0c7-3b59-44a2-8375-2bae90f20269",
+      "dependency": {
+        "jobId": "f43b5923-e079-453f-9ba5-d4d92e6c1554",
+        "state": "ready",
+        "reason": null,
+        "retryable": false,
+        "generation": 1
+      },
+      "published": {
+        "generation": 1,
+        "measurement": {
+          "range": {
+            "startUs": 0,
+            "endUs": 6000000
+          },
+          "timeOriginUs": 0,
+          "sampleRange": {
+            "start": 0,
+            "end": 288000
+          },
+          "sampleRate": 48000,
+          "channels": 1,
+          "layout": "mono",
+          "implementationId": "native-source-audio-v5",
+          "unavailable": [],
+          "domain": "source",
+          "assetId": "c0b8d773b49297aa6cd060af233f742f2f91aab3847b76f3bf18289bb85c20b6",
+          "streamId": "track:1",
+          "supportDigest": "e3c469a6bc326a691112ffd421b6c1f15274c19b46b0d8c9ab8dd704739ab57b",
+          "file": "/private/tmp/sr-lufs-BXtsFl/library/cache/derived/6cbc4073-cdf5-49fc-a825-c0417634fcdd.cache",
+          "bytes": 1509,
+          "mediaType": "application/json",
+          "cacheId": "6cbc4073-cdf5-49fc-a825-c0417634fcdd",
+          "analysis": {
+            "kind": "loudness",
+            "channelInterpretation": "native",
+            "truePeak": true,
+            "implementationId": "ffmpeg-ebur128-v1:27350ff2f953bbd4d6ca8bfe0f6808b99b9752192657d289146b50319099f66a",
+            "signalRecipe": "{\"target\":{\"kind\":\"asset\",\"assetId\":\"c0b8d773b49297aa6cd060af233f742f2f91aab3847b76f3bf18289bb85c20b6\"},\"artifact\":\"audio\",\"input\":\"{\\\"selection\\\":{\\\"assetId\\\":\\\"c0b8d773b49297aa6cd060af233f742f2f91aab3847b76f3bf18289bb85c20b6\\\",\\\"streamId\\\":\\\"track:1\\\"},\\\"range\\\":{\\\"startUs\\\":0,\\\"endUs\\\":6000000},\\\"supportDigest\\\":\\\"e3c469a6bc326a691112ffd421b6c1f15274c19b46b0d8c9ab8dd704739ab57b\\\",\\\"implementationId\\\":\\\"native-source-audio-v5\\\"}\"}",
+            "scope": "full-signal",
+            "measurement": {
+              "integratedLufs": -23,
+              "loudnessRangeLu": 0,
+              "samplePeakDbfs": -20,
+              "truePeakDbtp": -20,
+              "integratedReason": null,
+              "rangeReason": null,
+              "algorithm": "FFmpeg ebur128 BS.1770/R128; true-peak libswresample; one-decimal summary",
+              "version": "9.0.2"
+            }
+          },
+          "audio": {
+            "jobId": "f43b5923-e079-453f-9ba5-d4d92e6c1554",
+            "generation": 1
+          }
+        }
+      }
+    },
+    "mcp": {
+      "assetId": "c0b8d773b49297aa6cd060af233f742f2f91aab3847b76f3bf18289bb85c20b6",
+      "streamId": "track:1",
+      "range": {
+        "startUs": 0,
+        "endUs": 6000000
+      },
+      "state": "ready",
+      "reason": null,
+      "retryable": false,
+      "jobId": "30e9b0c7-3b59-44a2-8375-2bae90f20269",
+      "dependency": {
+        "jobId": "f43b5923-e079-453f-9ba5-d4d92e6c1554",
+        "state": "ready",
+        "reason": null,
+        "retryable": false,
+        "generation": 1
+      },
+      "published": {
+        "generation": 1,
+        "measurement": {
+          "range": {
+            "startUs": 0,
+            "endUs": 6000000
+          },
+          "timeOriginUs": 0,
+          "sampleRange": {
+            "start": 0,
+            "end": 288000
+          },
+          "sampleRate": 48000,
+          "channels": 1,
+          "layout": "mono",
+          "implementationId": "native-source-audio-v5",
+          "unavailable": [],
+          "domain": "source",
+          "assetId": "c0b8d773b49297aa6cd060af233f742f2f91aab3847b76f3bf18289bb85c20b6",
+          "streamId": "track:1",
+          "supportDigest": "e3c469a6bc326a691112ffd421b6c1f15274c19b46b0d8c9ab8dd704739ab57b",
+          "file": "/private/tmp/sr-lufs-BXtsFl/library/cache/derived/6cbc4073-cdf5-49fc-a825-c0417634fcdd.cache",
+          "bytes": 1509,
+          "mediaType": "application/json",
+          "cacheId": "6cbc4073-cdf5-49fc-a825-c0417634fcdd",
+          "analysis": {
+            "kind": "loudness",
+            "channelInterpretation": "native",
+            "truePeak": true,
+            "implementationId": "ffmpeg-ebur128-v1:27350ff2f953bbd4d6ca8bfe0f6808b99b9752192657d289146b50319099f66a",
+            "signalRecipe": "{\"target\":{\"kind\":\"asset\",\"assetId\":\"c0b8d773b49297aa6cd060af233f742f2f91aab3847b76f3bf18289bb85c20b6\"},\"artifact\":\"audio\",\"input\":\"{\\\"selection\\\":{\\\"assetId\\\":\\\"c0b8d773b49297aa6cd060af233f742f2f91aab3847b76f3bf18289bb85c20b6\\\",\\\"streamId\\\":\\\"track:1\\\"},\\\"range\\\":{\\\"startUs\\\":0,\\\"endUs\\\":6000000},\\\"supportDigest\\\":\\\"e3c469a6bc326a691112ffd421b6c1f15274c19b46b0d8c9ab8dd704739ab57b\\\",\\\"implementationId\\\":\\\"native-source-audio-v5\\\"}\"}",
+            "scope": "full-signal",
+            "measurement": {
+              "integratedLufs": -23,
+              "loudnessRangeLu": 0,
+              "samplePeakDbfs": -20,
+              "truePeakDbtp": -20,
+              "integratedReason": null,
+              "rangeReason": null,
+              "algorithm": "FFmpeg ebur128 BS.1770/R128; true-peak libswresample; one-decimal summary",
+              "version": "9.0.2"
+            }
+          },
+          "audio": {
+            "jobId": "f43b5923-e079-453f-9ba5-d4d92e6c1554",
+            "generation": 1
+          }
+        }
+      }
+    },
+    "dualmono": {
+      "assetId": "c0b8d773b49297aa6cd060af233f742f2f91aab3847b76f3bf18289bb85c20b6",
+      "streamId": "track:1",
+      "range": {
+        "startUs": 0,
+        "endUs": 6000000
+      },
+      "state": "ready",
+      "reason": null,
+      "retryable": false,
+      "jobId": "254a37b3-3d4d-448f-a2a9-7a67459f788f",
+      "dependency": {
+        "jobId": "f43b5923-e079-453f-9ba5-d4d92e6c1554",
+        "state": "ready",
+        "reason": null,
+        "retryable": false,
+        "generation": 1
+      },
+      "published": {
+        "generation": 1,
+        "measurement": {
+          "range": {
+            "startUs": 0,
+            "endUs": 6000000
+          },
+          "timeOriginUs": 0,
+          "sampleRange": {
+            "start": 0,
+            "end": 288000
+          },
+          "sampleRate": 48000,
+          "channels": 1,
+          "layout": "mono",
+          "implementationId": "native-source-audio-v5",
+          "unavailable": [],
+          "domain": "source",
+          "assetId": "c0b8d773b49297aa6cd060af233f742f2f91aab3847b76f3bf18289bb85c20b6",
+          "streamId": "track:1",
+          "supportDigest": "e3c469a6bc326a691112ffd421b6c1f15274c19b46b0d8c9ab8dd704739ab57b",
+          "file": "/private/tmp/sr-lufs-BXtsFl/library/cache/derived/ece5e388-d564-4d17-8a4a-79af58c98c65.cache",
+          "bytes": 1512,
+          "mediaType": "application/json",
+          "cacheId": "ece5e388-d564-4d17-8a4a-79af58c98c65",
+          "analysis": {
+            "kind": "loudness",
+            "channelInterpretation": "dual-mono",
+            "truePeak": true,
+            "implementationId": "ffmpeg-ebur128-v1:27350ff2f953bbd4d6ca8bfe0f6808b99b9752192657d289146b50319099f66a",
+            "signalRecipe": "{\"target\":{\"kind\":\"asset\",\"assetId\":\"c0b8d773b49297aa6cd060af233f742f2f91aab3847b76f3bf18289bb85c20b6\"},\"artifact\":\"audio\",\"input\":\"{\\\"selection\\\":{\\\"assetId\\\":\\\"c0b8d773b49297aa6cd060af233f742f2f91aab3847b76f3bf18289bb85c20b6\\\",\\\"streamId\\\":\\\"track:1\\\"},\\\"range\\\":{\\\"startUs\\\":0,\\\"endUs\\\":6000000},\\\"supportDigest\\\":\\\"e3c469a6bc326a691112ffd421b6c1f15274c19b46b0d8c9ab8dd704739ab57b\\\",\\\"implementationId\\\":\\\"native-source-audio-v5\\\"}\"}",
+            "scope": "full-signal",
+            "measurement": {
+              "integratedLufs": -20,
+              "loudnessRangeLu": 0,
+              "samplePeakDbfs": -20,
+              "truePeakDbtp": -20,
+              "integratedReason": null,
+              "rangeReason": null,
+              "algorithm": "FFmpeg ebur128 BS.1770/R128; true-peak libswresample; one-decimal summary",
+              "version": "9.0.2"
+            }
+          },
+          "audio": {
+            "jobId": "f43b5923-e079-453f-9ba5-d4d92e6c1554",
+            "generation": 1
+          }
+        }
+      }
+    },
+    "sampleOnly": {
+      "assetId": "c0b8d773b49297aa6cd060af233f742f2f91aab3847b76f3bf18289bb85c20b6",
+      "streamId": "track:1",
+      "range": {
+        "startUs": 0,
+        "endUs": 6000000
+      },
+      "state": "ready",
+      "reason": null,
+      "retryable": false,
+      "jobId": "fe8abb49-a1ab-47fa-8a98-a9a234a849c6",
+      "dependency": {
+        "jobId": "f43b5923-e079-453f-9ba5-d4d92e6c1554",
+        "state": "ready",
+        "reason": null,
+        "retryable": false,
+        "generation": 1
+      },
+      "published": {
+        "generation": 1,
+        "measurement": {
+          "range": {
+            "startUs": 0,
+            "endUs": 6000000
+          },
+          "timeOriginUs": 0,
+          "sampleRange": {
+            "start": 0,
+            "end": 288000
+          },
+          "sampleRate": 48000,
+          "channels": 1,
+          "layout": "mono",
+          "implementationId": "native-source-audio-v5",
+          "unavailable": [],
+          "domain": "source",
+          "assetId": "c0b8d773b49297aa6cd060af233f742f2f91aab3847b76f3bf18289bb85c20b6",
+          "streamId": "track:1",
+          "supportDigest": "e3c469a6bc326a691112ffd421b6c1f15274c19b46b0d8c9ab8dd704739ab57b",
+          "file": "/private/tmp/sr-lufs-BXtsFl/library/cache/derived/9860bf00-48a2-4ff9-b8ff-5e2428068612.cache",
+          "bytes": 1511,
+          "mediaType": "application/json",
+          "cacheId": "9860bf00-48a2-4ff9-b8ff-5e2428068612",
+          "analysis": {
+            "kind": "loudness",
+            "channelInterpretation": "native",
+            "truePeak": false,
+            "implementationId": "ffmpeg-ebur128-v1:27350ff2f953bbd4d6ca8bfe0f6808b99b9752192657d289146b50319099f66a",
+            "signalRecipe": "{\"target\":{\"kind\":\"asset\",\"assetId\":\"c0b8d773b49297aa6cd060af233f742f2f91aab3847b76f3bf18289bb85c20b6\"},\"artifact\":\"audio\",\"input\":\"{\\\"selection\\\":{\\\"assetId\\\":\\\"c0b8d773b49297aa6cd060af233f742f2f91aab3847b76f3bf18289bb85c20b6\\\",\\\"streamId\\\":\\\"track:1\\\"},\\\"range\\\":{\\\"startUs\\\":0,\\\"endUs\\\":6000000},\\\"supportDigest\\\":\\\"e3c469a6bc326a691112ffd421b6c1f15274c19b46b0d8c9ab8dd704739ab57b\\\",\\\"implementationId\\\":\\\"native-source-audio-v5\\\"}\"}",
+            "scope": "full-signal",
+            "measurement": {
+              "integratedLufs": -23,
+              "loudnessRangeLu": 0,
+              "samplePeakDbfs": -20,
+              "truePeakDbtp": null,
+              "integratedReason": null,
+              "rangeReason": null,
+              "algorithm": "FFmpeg ebur128 BS.1770/R128; true-peak libswresample; one-decimal summary",
+              "version": "9.0.2"
+            }
+          },
+          "audio": {
+            "jobId": "f43b5923-e079-453f-9ba5-d4d92e6c1554",
+            "generation": 1
+          }
+        }
+      }
+    },
+    "short": {
+      "assetId": "c0b8d773b49297aa6cd060af233f742f2f91aab3847b76f3bf18289bb85c20b6",
+      "streamId": "track:1",
+      "range": {
+        "startUs": 0,
+        "endUs": 200000
+      },
+      "state": "ready",
+      "reason": null,
+      "retryable": false,
+      "jobId": "e9648eda-7991-4056-9c40-1b0f384fa8f8",
+      "dependency": {
+        "jobId": "60e27716-fbd8-46c4-a745-8d4df3acbaf0",
+        "state": "ready",
+        "reason": null,
+        "retryable": false,
+        "generation": 1
+      },
+      "published": {
+        "generation": 1,
+        "measurement": {
+          "range": {
+            "startUs": 0,
+            "endUs": 200000
+          },
+          "timeOriginUs": 0,
+          "sampleRange": {
+            "start": 0,
+            "end": 9600
+          },
+          "sampleRate": 48000,
+          "channels": 1,
+          "layout": "mono",
+          "implementationId": "native-source-audio-v5",
+          "unavailable": [],
+          "domain": "source",
+          "assetId": "c0b8d773b49297aa6cd060af233f742f2f91aab3847b76f3bf18289bb85c20b6",
+          "streamId": "track:1",
+          "supportDigest": "e3c469a6bc326a691112ffd421b6c1f15274c19b46b0d8c9ab8dd704739ab57b",
+          "file": "/private/tmp/sr-lufs-BXtsFl/library/cache/derived/36ee1184-069b-4ed7-a562-9d877cd0f6a5.cache",
+          "bytes": 1543,
+          "mediaType": "application/json",
+          "cacheId": "36ee1184-069b-4ed7-a562-9d877cd0f6a5",
+          "analysis": {
+            "kind": "loudness",
+            "channelInterpretation": "native",
+            "truePeak": true,
+            "implementationId": "ffmpeg-ebur128-v1:27350ff2f953bbd4d6ca8bfe0f6808b99b9752192657d289146b50319099f66a",
+            "signalRecipe": "{\"target\":{\"kind\":\"asset\",\"assetId\":\"c0b8d773b49297aa6cd060af233f742f2f91aab3847b76f3bf18289bb85c20b6\"},\"artifact\":\"audio\",\"input\":\"{\\\"selection\\\":{\\\"assetId\\\":\\\"c0b8d773b49297aa6cd060af233f742f2f91aab3847b76f3bf18289bb85c20b6\\\",\\\"streamId\\\":\\\"track:1\\\"},\\\"range\\\":{\\\"startUs\\\":0,\\\"endUs\\\":200000},\\\"supportDigest\\\":\\\"e3c469a6bc326a691112ffd421b6c1f15274c19b46b0d8c9ab8dd704739ab57b\\\",\\\"implementationId\\\":\\\"native-source-audio-v5\\\"}\"}",
+            "scope": "excerpt",
+            "measurement": {
+              "integratedLufs": null,
+              "loudnessRangeLu": null,
+              "samplePeakDbfs": -20,
+              "truePeakDbtp": -20,
+              "integratedReason": "insufficient-duration",
+              "rangeReason": "insufficient-duration",
+              "algorithm": "FFmpeg ebur128 BS.1770/R128; true-peak libswresample; one-decimal summary",
+              "version": "9.0.2"
+            }
+          },
+          "audio": {
+            "jobId": "60e27716-fbd8-46c4-a745-8d4df3acbaf0",
+            "generation": 1
+          }
+        }
+      }
+    },
+    "project": {
+      "projectId": "979c86bb-2fa7-4e3f-8823-d45e4568cf9d",
+      "revisionId": "aa85bdee-4b08-4290-a552-cec94599a126",
+      "range": {
+        "startUs": 0,
+        "endUs": 6000000
+      },
+      "tap": {
+        "target": {
+          "kind": "output"
+        },
+        "point": {
+          "kind": "processed"
+        }
+      },
+      "state": "ready",
+      "reason": null,
+      "retryable": false,
+      "jobId": "92c8a804-54f5-453d-8aa0-e9c4bc3c7017",
+      "dependency": {
+        "jobId": "a736987a-8fd4-4614-8dbc-08d710739cb4",
+        "state": "ready",
+        "reason": null,
+        "retryable": false,
+        "generation": 1
+      },
+      "published": {
+        "generation": 1,
+        "measurement": {
+          "range": {
+            "startUs": 0,
+            "endUs": 6000000
+          },
+          "timeOriginUs": 0,
+          "sampleRange": {
+            "start": 0,
+            "end": 288000
+          },
+          "sampleRate": 48000,
+          "channels": 2,
+          "layout": "stereo",
+          "implementationId": "native-composition-audio-v10",
+          "unavailable": [
+            {
+              "clipId": "clip:3efb41629b2f5408508c5cddc16ee79597570a42c867ea44d3f2becf085411c0:1",
+              "ranges": []
+            }
+          ],
+          "domain": "project",
+          "projectId": "979c86bb-2fa7-4e3f-8823-d45e4568cf9d",
+          "revisionId": "aa85bdee-4b08-4290-a552-cec94599a126",
+          "tap": {
+            "target": {
+              "kind": "output"
+            },
+            "point": {
+              "kind": "processed"
+            }
+          },
+          "file": "/private/tmp/sr-lufs-BXtsFl/library/cache/derived/d5d685e5-1079-4515-a0a9-9abda1830322.cache",
+          "bytes": 1623,
+          "mediaType": "application/json",
+          "cacheId": "d5d685e5-1079-4515-a0a9-9abda1830322",
+          "analysis": {
+            "kind": "loudness",
+            "channelInterpretation": "native",
+            "truePeak": true,
+            "implementationId": "ffmpeg-ebur128-v1:27350ff2f953bbd4d6ca8bfe0f6808b99b9752192657d289146b50319099f66a",
+            "signalRecipe": "{\"target\":{\"kind\":\"project\",\"projectId\":\"979c86bb-2fa7-4e3f-8823-d45e4568cf9d\",\"revisionId\":\"aa85bdee-4b08-4290-a552-cec94599a126\"},\"artifact\":\"audio\",\"input\":\"{\\\"range\\\":{\\\"startUs\\\":0,\\\"endUs\\\":6000000},\\\"tap\\\":{\\\"target\\\":{\\\"kind\\\":\\\"output\\\"},\\\"point\\\":{\\\"kind\\\":\\\"processed\\\"}},\\\"implementationId\\\":\\\"native-composition-audio-v10\\\",\\\"preparedResourceId\\\":null}\",\"processingSha256\":\"bfa835f3030c4bffcbea6997c4d2aa0c5579686cbbd3e4d231e8aa6be414ec36\"}",
+            "scope": "full-signal",
+            "measurement": {
+              "integratedLufs": -20,
+              "loudnessRangeLu": 0,
+              "samplePeakDbfs": -20,
+              "truePeakDbtp": -20,
+              "integratedReason": null,
+              "rangeReason": null,
+              "algorithm": "FFmpeg ebur128 BS.1770/R128; true-peak libswresample; one-decimal summary",
+              "version": "9.0.2"
+            }
+          },
+          "audio": {
+            "jobId": "a736987a-8fd4-4614-8dbc-08d710739cb4",
+            "generation": 1
+          }
+        }
+      }
+    }
+  },
+  "nativeSha256": "af28fcc5260b79bca3909be2af1a9c90875bc3497d30d9649d3921648ef8c82d",
+  "receiptSha256": "27350ff2f953bbd4d6ca8bfe0f6808b99b9752192657d289146b50319099f66a"
+}

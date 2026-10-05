@@ -1,0 +1,11 @@
+Independent first review: /tmp/screenrec-loudness-code-review.log
+One P2 found and confirmed: canonical project selector dropped explicit prepared ID before PCM admission.
+Fixed in MediaAudioInspection.projectRecipe so every selector consumer retains resolved resource/null.
+Regression: explicit acoustic measurement pin survives PCM admission among multiple retained policies.
+Observed red before fix; green after fix and faithful per-clip native fixture receipt.
+Prepared/audio focused files: 44 passed. Core/service/protocol typechecks passed.
+Follow-up independent review: /tmp/screenrec-loudness-followup-review.log
+Confirmed second P2: PCM retry reconstructed selector without preparedResourceId; fixed to carry canonical binding.
+Regression expanded to retry: red with AMBIGUOUS_PREPARED_AUDIO, green with retry binding retained.
+Confirmed context expectation omitted canonical null binding; updated existing assertion without relaxing receipt validation.
+Both follow-up findings resolved. Final independent scoped rereview clean: no unresolved canonical prepared binding, generation, or retry defects. Nine focused fixture tests passed. /tmp/screenrec-loudness-final-review.log.

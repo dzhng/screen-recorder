@@ -275,7 +275,15 @@ targets; use the destination's requirements and verify the complete mix. These
 figures don't authorize a mastering treatment or imply it is executable here.
 Preserve the dry control and evaluate the delivered level in context.
 
-Measure integrated loudness and true peak when a suitable analysis tool is available,
+Use `audio.measure` for integrated loudness, loudness range, sample peak and
+optional true peak on an explicitly selected source or pinned project tap. Pin the
+returned revision, range and signal recipe while polling. Missing support refuses
+with available intervals; do not splice them together to invent an integrated
+reading. Null loudness plus a reason means silence/below-gate or insufficient
+duration. Native mono measurement and explicit dual-mono playback interpretation
+are different; report the chosen one.
+
+Measure integrated loudness and true peak before and after requested treatment,
 plus section levels for dialogue, music-only passages and end cards. A quiet outro
 or overpowering effect may disappear in whole-program averages. Waveform RMS is
 not LUFS or true peak. Measurements cannot establish taste, intelligibility or

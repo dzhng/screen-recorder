@@ -1,0 +1,33 @@
+[in#0/f32le @ 0x7666c0c000] Estimating duration from bitrate, this may be inaccurate
+[aist#0:0/pcm_f32le @ 0x7667018180] Guessed Channel Layout: stereo
+Input #0, f32le, from '/tmp/screenrec-loudness-research/stereo.f32':
+  Duration: 00:00:06.00, bitrate: 3072 kb/s
+  Stream #0:0: Audio: pcm_f32le, 48000 Hz, stereo, flt, 3072 kb/s
+Stream mapping:
+  Stream #0:0 -> #0:0 (pcm_f32le (native) -> pcm_s16le (native))
+Press [q] to stop, [?] for help
+Output #0, null, to 'pipe:':
+  Metadata:
+    encoder         : Lavf63.1.102
+  Stream #0:0: Audio: pcm_s16le, 48000 Hz, stereo, s16, 1536 kb/s
+    Metadata:
+      encoder         : Lavc63.1.102 pcm_s16le
+[Parsed_ebur128_0 @ 0x766704c600] Summary:
+
+  Integrated loudness:
+    I:         -20.0 LUFS
+    Threshold: -30.0 LUFS
+
+  Loudness range:
+    LRA:         0.0 LU
+    Threshold: -40.0 LUFS
+    LRA low:   -20.0 LUFS
+    LRA high:  -20.0 LUFS
+
+  Sample peak:
+    Peak:      -20.0 dBFS
+
+  True peak:
+    Peak:      -20.0 dBFS
+[out#0/null @ 0x766704c180] video:0KiB audio:1125KiB subtitle:0KiB other streams:0KiB global headers:0KiB muxing overhead: unknown
+size=N/A time=00:00:06.00 bitrate=N/A speed= 307x elapsed=0:00:00.01    

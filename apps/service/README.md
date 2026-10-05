@@ -93,3 +93,10 @@ identified file to its consumer. Allocation identity is distinct from completed
 media evidence; hashing follows retirement and validation. Native validators and consumers use the provided attempt-bound worker so native
 children retain the same directory locks if the service dies. Existing admission
 and publication owners remain responsible for durable delivery.
+
+[Loudness analysis](src/loudness.ts) consumes the same validated retained PCM as
+other acoustic inspection. It executes the selected bundled scanner through the
+existing CLI lifetime owner and records meter identity. Empty scanner gates are
+reported as unmeasurable; peak evidence remains separate from integrated loudness.
+A requested sample ceiling or a scoped meter comparison is not a universal encoded
+true-peak guarantee.

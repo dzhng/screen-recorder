@@ -167,6 +167,14 @@ const extractedAudioRendition = z.strictObject({
   channels: z.union([z.literal(1), z.literal(2)]),
 });
 const audioParams = z.union([projectAudioParams, sourceAudioParams]);
+const loudnessFields = {
+  channelInterpretation: z.enum(["native", "dual-mono"]).optional(),
+  truePeak: z.boolean().optional(),
+};
+const loudnessParams = z.union([
+  projectAudioParams.extend({ ...loudnessFields, preparedResourceId: id.optional() }),
+  sourceAudioParams.extend(loudnessFields),
+]);
 const waveformFields = {
   bucketFrames: z.int().positive().max(Number.MAX_SAFE_INTEGER).optional(),
   format: z.enum(["json", "image"]).optional(),
@@ -805,6 +813,12 @@ export const operationSchema = z.discriminatedUnion("operation", [
     .strict()
     .describe(
       "Request project WAV audio with projectId, optional revisionId/range and processing tap (defaults to processed output). Clip/track/group taps exclude later parent stages; dry skips the selected target stack while retaining child processing, and after-step includes the named step. Omitted project range uses the full pinned project; project output is 48kHz stereo and ranges retain the absolute sample clock. Or request a WAV from an explicitly selected assetId/streamId with optional acquisitionId and source-time range. Omitted source range extracts the full selected stream at its native supported rate/layout; unavailable support is explicit. CLI streams to a file; MCP embeds small audio and leaves large audio as a renewable artifact.read/close delivery. Pin selection, range and any returned revision while polling.",
+    ),
+  z
+    .object({ operation: z.literal("audio.measure"), params: loudnessParams })
+    .strict()
+    .describe(
+      "Measure the exact selected source PCM or pinned project processing tap without treatment. Uses audio.get selectors and range; optional preparedResourceId pins an existing prepared project signal. Omitted range means the full selected signal; an explicit smaller range is an excerpt. Returns readiness/jobId then published measurement with exact clock, source/revision/tap, PCM generation, recipe and meter identities, integrated LUFS, loudness range in LU, sample peak in dBFS and true peak in dBTP. Native channel interpretation is default; dual-mono is explicit and requires mono. True-peak libswresample analysis defaults on; false requests sample peak only. Missing support refuses with available/unavailable ranges; authored silence remains signal. Silence/below-gate or insufficient duration returns null loudness with a reason; never use the scanner's empty-gate sentinel as a finite measurement. Pin returned revision/range while polling; explicit job.retry recovers failed work. This does not normalize, edit, acquire tools or choose targets.",
     ),
   z
     .object({ operation: z.literal("audio.retry"), params: audioParams })

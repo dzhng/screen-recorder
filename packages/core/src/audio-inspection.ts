@@ -250,6 +250,7 @@ export class MediaAudioInspection {
     const { options, sampleRate: rate, source, channels } = this.plan(input);
     return {
       durationUs: source.durationUs,
+      fullRange: source.stream.bounds,
       channels,
       sampleClock:
         rate === undefined || !Number.isSafeInteger(rate) || rate <= 0
@@ -377,6 +378,7 @@ export class MediaAudioInspection {
             revisionId: current.revisionId,
             range: current.range,
             tap: current.tap,
+            preparedResourceId: current.preparedResourceId,
           }
         : input,
     );
@@ -426,13 +428,20 @@ export class MediaAudioInspection {
     };
     return {
       durationUs,
+      fullRange: { startUs: 0, endUs: durationUs },
       processingSha256: createHash("sha256")
         .update(JSON.stringify(retained?.recipe ?? window.manifest))
         .digest("hex"),
       channels: 2 as const,
       options,
       sampleClock: { sampleRate: 48000, sampleRange: window.manifest.sampleRange },
-      selection: { projectId: input.projectId, revisionId, range, tap },
+      selection: {
+        projectId: input.projectId,
+        revisionId,
+        range,
+        tap,
+        preparedResourceId: options.preparedResourceId,
+      },
       identity: {
         target: { kind: "project" as const, projectId: input.projectId, revisionId },
         artifact,

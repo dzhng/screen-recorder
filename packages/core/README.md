@@ -15,6 +15,12 @@ places occurrences of selected streams; neither byte identity nor a recording
 role selects an authored layout. The same asset can appear several times or in
 several projects without merging their occurrence identities.
 
+Read-only acoustic measurements retain the selected PCM generation and recipe.
+Integrated loudness requires complete admitted support; a hole cannot become
+measured silence or concatenate neighboring material. A null gate result is
+evidence of measurement limits, never an instruction to normalize. An explicit
+prepared signal pin must match the processed output tap.
+
 Source evidence retains its source clock. Project evidence projects it through
 a revision's exact mapping without rewriting the source observation. Generation
 and dependency identity bind pagination, prepared output and caches; freshness

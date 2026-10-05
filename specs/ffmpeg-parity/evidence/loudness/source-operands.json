@@ -1,0 +1,56 @@
+[
+  {
+    "path": "calibration/short.f32",
+    "bytes": 38400,
+    "sha256": "7717aa00008ad3baeefd7ce0d7ecb3aeb2272fae796c81c9190996bc49f0ffd2",
+    "source": "authored deterministic numerical fixture; not human speech/quality authority"
+  },
+  {
+    "path": "calibration/inter.f32",
+    "bytes": 1152000,
+    "sha256": "1c3e6565eb33a919b60ada77862d83f03a95dca2d7a1712145c4c073e53df4fb",
+    "source": "authored deterministic numerical fixture; not human speech/quality authority"
+  },
+  {
+    "path": "calibration/mono.f32",
+    "bytes": 1152000,
+    "sha256": "a1d03ebab049e3a3355165b96a61e2156153350b2f1c82afb25fe37d081f3bfe",
+    "source": "authored deterministic numerical fixture; not human speech/quality authority"
+  },
+  {
+    "path": "calibration/stereo.f32",
+    "bytes": 2304000,
+    "sha256": "b352e8c4614290d71f490440330229e139566ae543b5c52cea1a00645abc34e7",
+    "source": "authored deterministic numerical fixture; not human speech/quality authority"
+  },
+  {
+    "path": "calibration/taper.f32",
+    "bytes": 1152000,
+    "sha256": "c9e07f43df511e722520b1f52d18fc1c7c1928f61cbab1257b639198a2991ced",
+    "source": "authored deterministic numerical fixture; not human speech/quality authority"
+  },
+  {
+    "path": "calibration/silence.f32",
+    "bytes": 1152000,
+    "sha256": "dc6235ca708080d463584f4df3477ee1c238dc8b79274e0a471fddd07bf1f38f",
+    "source": "authored deterministic numerical fixture; not human speech/quality authority"
+  },
+  {
+    "path": "heldout/heldout-stepped-48000.f32",
+    "bytes": 2304000,
+    "sha256": "c17029d118ff139a568d4f2ef394457a7b2be6583268dfc8b568f6852278ec0d",
+    "source": "authored deterministic numerical fixture; not human speech/quality authority"
+  },
+  {
+    "path": "heldout/heldout-stereo-44100.f32",
+    "bytes": 3175200,
+    "sha256": "764a097da89695ba53060dae33b9a975fc8baf0594a4b34e073da3950f45c480",
+    "source": "authored deterministic numerical fixture; not human speech/quality authority"
+  },
+  {
+    "path": "public/mono.wav",
+    "bytes": 1152044,
+    "sha256": "c0b8d773b49297aa6cd060af233f742f2f91aab3847b76f3bf18289bb85c20b6",
+    "source": "authored deterministic numerical fixture; not human speech/quality authority"
+  }
+]

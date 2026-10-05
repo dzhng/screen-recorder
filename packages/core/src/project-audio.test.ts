@@ -252,7 +252,11 @@ test("surrounding project audio preserves the pinned revision and requested proc
     },
   };
   const context = f.inspection.context(input, { start: 23968, end: 48032 });
-  expect(context.selection).toEqual({ ...input, range: { startUs: 499334, endUs: 1000000 } });
+  expect(context.selection).toEqual({
+    ...input,
+    preparedResourceId: null,
+    range: { startUs: 499334, endUs: 1000000 },
+  });
   expect(context.sampleClock).toMatchObject({ sampleRange: { start: 23968, end: 48000 } });
   await f.inspection.request(context.selection);
   await f.jobs.idle();

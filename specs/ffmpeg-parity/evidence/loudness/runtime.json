@@ -1,0 +1,15 @@
+{
+  "ffmpegReceiptSha256": "27350ff2f953bbd4d6ca8bfe0f6808b99b9752192657d289146b50319099f66a",
+  "ffmpegSha256": "8410694433e927bdf2cc751b8c81cb4545b2302828fdffed6044018b10f39f31",
+  "libebur128ArchiveSha256": "1b5c0793ba89c495cb9dae885a74361ddb878de77acead17ec7f4cf199c2f131",
+  "oracleSha256": "bd48fb13bb936d968b7a8a9594b7ec87525f4f560284e70c991f0b178d1247da",
+  "oracleWrapperSha256": "2867609034823b59a1a7803011a435d84b4edf582360c39a9765bf9e9d0d3695",
+  "oracleSourceSha256": "c2fc562f1088cacab4d21250b6e04996ef36c7694ea901e08cc4d64eb542b78d",
+  "initialCalibrationFfmpegSha256": "bff4948ee19b951940bbe49785c3e24ece7960e95562d18d4378027cf1a4f7af",
+  "host": {
+    "os": "ProductName:\t\tmacOS\nProductVersion:\t\t27.0.1\nBuildVersion:\t\t26A434\n",
+    "architecture": "arm64"
+  },
+  "publicNativeSha256": "3eadde84477c54a7160bec4f68f51f55e630b43a3b40a62d93dc44cd0e61e125",
+  "scope": "tiny synthetic numerical/contract proof; no listening, capture, personal library, ASR, general true-peak compliance or installed release claim"
+}

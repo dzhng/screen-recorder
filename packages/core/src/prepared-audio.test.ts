@@ -1,3 +1,4 @@
+import { AcousticInspection } from "./acoustic-inspection.js";
 import { ProjectPreviewInspection } from "./project-preview.js";
 import { fstatSync } from "node:fs";
 import { DerivedCache } from "./cache.js";
@@ -1153,4 +1154,142 @@ test("a preview or export pin keeps produced audio when preparation finishes lat
     "pinned produced render reached",
   );
   await f.current.jobs.drainJob(job.jobId);
+});
+
+test("an explicit prepared output pin refuses an incompatible tap instead of choosing live processing", async () => {
+  const f = await fixture();
+  const value = await ready(f);
+  const composition = projectComposition(f.current.projects, f.current.assets, f.input);
+  expect(() =>
+    f.current.prepared.resolve(
+      composition,
+      {
+        target: { kind: "output" },
+        point: { kind: "dry" },
+      },
+      value.resourceId,
+    ),
+  ).toThrow("processed output");
+  expect(
+    f.current.prepared.resolve(composition, {
+      target: { kind: "output" },
+      point: { kind: "dry" },
+    }),
+  ).toBeNull();
+  expect(f.current.prepared.resolve(composition, undefined, value.resourceId)?.resourceId).toBe(
+    value.resourceId,
+  );
+});
+
+test("an explicit acoustic measurement pin survives PCM admission and retry among multiple retained policies", async () => {
+  const f = await fixture();
+  const original = await ready(f);
+  const portable = f.current.prepared.portable(original.resourceId);
+  const attemptId = randomUUID(),
+    resourceId = JSON.stringify([f.input.projectId, attemptId]);
+  const recipe = JSON.parse(portable.publication.input);
+  f.current.jobs.adoptArtifact({
+    target: { kind: "project", ...f.input },
+    artifact: "prepared-audio",
+    generation: 1,
+    attemptId,
+    input: JSON.stringify({
+      ...recipe,
+      requirements: recipe.requirements.map((r: object) => ({
+        ...r,
+        implementationId: "different-policy",
+      })),
+    }),
+    result: JSON.stringify({ ...original, resourceId }),
+  });
+  new ResourceReferences(f.current.catalog).retain(
+    "prepared-audio",
+    { kind: "revision", id: f.input.revisionId },
+    [resourceId],
+  );
+  expect(() =>
+    f.current.prepared.resolve(projectComposition(f.current.projects, f.current.assets, f.input)),
+  ).toThrow(expect.objectContaining({ code: "AMBIGUOUS_PREPARED_AUDIO" }));
+  await f.current.jobs.close();
+  const cache = new DerivedCache(f.current.catalog, f.home, () => {});
+  await cache.reconcile();
+  let audio!: MediaAudioInspection, acoustic!: AcousticInspection;
+  const jobs = new JobQueue({
+    store: f.current.catalog,
+    providers: { newId: randomUUID },
+    targets: {
+      pin: (target) => {
+        if (target.kind !== "project") throw new Error("Project expected");
+        return { ...target, revisionId: target.revisionId ?? f.input.revisionId };
+      },
+      isAvailable: () => true,
+      isDeleting: () => false,
+      isCapturing: () => false,
+    },
+    execute: (execution) =>
+      execution.job.artifact === "audio" ? audio.execute(execution) : acoustic.execute(execution),
+  });
+  cleanup.push(() => jobs.close());
+  audio = new MediaAudioInspection({
+    assets: f.current.assets,
+    acquisitions: new AcquisitionStore(f.current.catalog),
+    jobs,
+    cache,
+    sourceRenderer: {
+      implementationId: "unused-source",
+      render: async () => {
+        throw new Error("Wrong audio domain");
+      },
+    },
+    project: {
+      projects: f.current.projects,
+      prepared: f.current.prepared,
+      renderer: {
+        implementationId: "fixture-retained-audio",
+        render: async ({ prepared, window, output }) => {
+          expect(prepared?.value.resourceId).toBe(resourceId);
+          const frames = window.manifest.sampleRange.end - window.manifest.sampleRange.start;
+          const bytes = wave(frames);
+          await writeFile(output, bytes, { flag: "wx" });
+          return {
+            ...original,
+            file: output,
+            bytes: bytes.length,
+            frames,
+            unavailable: [...window.audio()].map((clip) => ({ clipId: clip.clipId, ranges: [] })),
+          };
+        },
+      },
+    },
+  });
+  acoustic = new AcousticInspection({
+    audio,
+    jobs,
+    cache,
+    loudness: {
+      implementationId: "fixture-meter",
+      measure: async () => ({
+        integratedLufs: -23,
+        loudnessRangeLu: null,
+        samplePeakDbfs: -3,
+        truePeakDbtp: -2,
+        integratedReason: null,
+        rangeReason: "insufficient-duration",
+        algorithm: "fixture BS1770",
+        version: "1",
+      }),
+    },
+  });
+  const selection = { ...f.input, preparedResourceId: resourceId, kind: "loudness" as const };
+  await acoustic.request(selection);
+  await jobs.idle();
+  await acoustic.retry(selection);
+  await jobs.idle();
+  const result = await acoustic.request(selection);
+  expect(result.state, result.reason ?? "missing failure reason").toBe("ready");
+  expect(result.published?.artifact.analysis).toMatchObject({
+    kind: "loudness",
+    signalRecipe: { preparedResourceId: resourceId },
+    measurement: { integratedLufs: -23 },
+  });
 });

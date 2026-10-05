@@ -1,0 +1,15 @@
+Error: ELOOP: too many symbolic links encountered, open '/tmp/sr-lufs-BXtsFl/library/assets/f2ebfe6f977ad92ce850c80da4d0253b7be08e91ac31a4422f6ad785d49dd677.wav'
+    at openSync (node:fs:621:18)
+    at IdentifiedFiles.open (file:///private/tmp/screenrec-parity-audio-processing/packages/core/dist/files.js:124:20)
+    at PreparedAudioStore.open (file:///private/tmp/screenrec-parity-audio-processing/packages/core/dist/prepared-audio.js:376:32)
+    at PreparedAudioStore.resolve (file:///private/tmp/screenrec-parity-audio-processing/packages/core/dist/prepared-audio.js:120:31)
+    at PreparedAudioStore.request (file:///private/tmp/screenrec-parity-audio-processing/packages/core/dist/prepared-audio.js:155:31)
+    at handle (file:///private/tmp/screenrec-parity-audio-processing/apps/service/dist/project-service.js:860:62)
+    at Object.serve [as handler] (file:///private/tmp/screenrec-parity-audio-processing/apps/service/dist/project-service.js:1094:42)
+    at file:///private/tmp/screenrec-parity-audio-processing/apps/service/dist/index.js:125:37
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5) {
+  errno: -62,
+  code: 'ELOOP',
+  syscall: 'open',
+  path: '/tmp/sr-lufs-BXtsFl/library/assets/f2ebfe6f977ad92ce850c80da4d0253b7be08e91ac31a4422f6ad785d49dd677.wav'
+}

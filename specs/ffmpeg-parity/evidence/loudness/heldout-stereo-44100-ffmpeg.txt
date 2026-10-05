@@ -1,0 +1,32 @@
+[in#0/f32le @ 0x7bb8c18000] Estimating duration from bitrate, this may be inaccurate
+[aist#0:0/pcm_f32le @ 0x7bb8c10180] Guessed Channel Layout: stereo
+Input #0, f32le, from '/tmp/screenrec-loudness-heldout/heldout-stereo-44100.f32':
+  Duration: 00:00:09.00, bitrate: 2822 kb/s
+  Stream #0:0: Audio: pcm_f32le, 44100 Hz, stereo, flt, 2822 kb/s
+Stream mapping:
+  Stream #0:0 -> #0:0 (pcm_f32le (native) -> pcm_s16le (native))
+Output #0, null, to 'pipe:':
+  Metadata:
+    encoder         : Lavf63.1.102
+  Stream #0:0: Audio: pcm_s16le, 44100 Hz, stereo, s16, 1411 kb/s
+    Metadata:
+      encoder         : Lavc63.1.102 pcm_s16le
+[Parsed_ebur128_0 @ 0x7bb8c08780] Summary:
+
+  Integrated loudness:
+    I:         -20.7 LUFS
+    Threshold: -30.7 LUFS
+
+  Loudness range:
+    LRA:         0.0 LU
+    Threshold: -40.6 LUFS
+    LRA low:   -20.6 LUFS
+    LRA high:  -20.6 LUFS
+
+  Sample peak:
+    Peak:      -17.4 dBFS
+
+  True peak:
+    Peak:      -17.4 dBFS
+[out#0/null @ 0x7bb8c08300] video:0KiB audio:1550KiB subtitle:0KiB other streams:0KiB global headers:0KiB muxing overhead: unknown
+size=N/A time=00:00:09.00 bitrate=N/A speed= 262x elapsed=0:00:00.03    

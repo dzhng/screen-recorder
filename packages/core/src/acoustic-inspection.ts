@@ -1,4 +1,13 @@
-import { selectionRangeSchema, sourceAvailability } from "@screenrec/composition";
+import {
+  selectionRangeSchema,
+  sourceAvailability,
+  compare,
+  fromTime,
+  toTime,
+  rational,
+  type TimeValue,
+} from "@screenrec/composition";
+import { createHash } from "node:crypto";
 import { isDeepStrictEqual } from "node:util";
 import { writeFile } from "node:fs/promises";
 import { z } from "zod";
@@ -12,7 +21,7 @@ import {
   type SourceAudioArtifact,
   type ProjectAudioArtifact,
 } from "./audio-inspection.js";
-import { waveformBuckets, sampleGrid } from "./audio-wave.js";
+import { waveformBuckets, sampleGrid, validateAudioWave } from "./audio-wave.js";
 import { spectralLayout, spectralWindows } from "./audio-spectrum.js";
 import { acousticImageRequest, type AcousticImageRequest } from "./acoustic-image.js";
 
@@ -29,10 +38,51 @@ const spectrumOptions = waveformOptions.omit({ bucketFrames: true, policy: true 
   sampleRange: z.strictObject({ start: z.int().nonnegative(), end: z.int().positive() }),
   policy: z.literal("spectrum-density-v1"),
 });
-const optionsSchema = z.union([waveformOptions, spectrumOptions]);
+const loudnessSignalSchema = z.strictObject({
+  sha256: z.string().regex(/^[a-f0-9]{64}$/),
+  preparedResourceId: z.string().nullable(),
+  processingSha256: z.string().nullable(),
+});
+const loudnessOptions = waveformOptions.omit({ bucketFrames: true, policy: true }).extend({
+  policy: z.literal("loudness-bs1770-v1"),
+  implementationId: z.string().min(1),
+  channelInterpretation: z.enum(["native", "dual-mono"]),
+  truePeak: z.boolean(),
+  signalRecipe: loudnessSignalSchema,
+  scope: z.enum(["full-signal", "excerpt"]),
+});
+export const loudnessMeasurementSchema = z.strictObject({
+  integratedLufs: z.number().finite().nullable(),
+  loudnessRangeLu: z.number().finite().nonnegative().nullable(),
+  samplePeakDbfs: z.number().finite().nullable(),
+  truePeakDbtp: z.number().finite().nullable(),
+  integratedReason: z.enum(["insufficient-duration", "below-gate"]).nullable(),
+  rangeReason: z.enum(["insufficient-duration", "below-gate"]).nullable(),
+  algorithm: z.string().min(1),
+  version: z.string().min(1),
+});
+export type LoudnessMeasurement = z.infer<typeof loudnessMeasurementSchema>;
+export type LoudnessAnalyzer = {
+  implementationId: string;
+  measure(
+    request: {
+      source: { fd: number; bytes: number };
+      audio: AudioArtifact;
+      channelInterpretation: "native" | "dual-mono";
+      truePeak: boolean;
+    },
+    signal: AbortSignal,
+  ): Promise<LoudnessMeasurement>;
+};
+const optionsSchema = z.union([waveformOptions, spectrumOptions, loudnessOptions]);
 export type AcousticInput = MediaAudioInput & { format?: "json" | "image" | undefined } & (
     | { kind?: "waveform"; bucketFrames?: number | undefined }
     | { kind: "spectrum"; fftFrames?: number | undefined; hopFrames?: number | undefined }
+    | {
+        kind: "loudness";
+        channelInterpretation?: "native" | "dual-mono" | undefined;
+        truePeak?: boolean | undefined;
+      }
   );
 type AudioArtifact = SourceAudioArtifact | ProjectAudioArtifact;
 function metadata(audio: AudioArtifact) {
@@ -74,7 +124,16 @@ export type AcousticArtifact = ReturnType<typeof metadata> & {
   context?: Pick<ReturnType<typeof metadata>, "range" | "sampleRange" | "unavailable">;
   analysis:
     | { kind: "waveform"; bucketFrames: number; bucketCount: number }
-    | { kind: "spectrum"; fftFrames: number; hopFrames: number; columnCount: number };
+    | { kind: "spectrum"; fftFrames: number; hopFrames: number; columnCount: number }
+    | {
+        kind: "loudness";
+        channelInterpretation: "native" | "dual-mono";
+        truePeak: boolean;
+        implementationId: string;
+        signalRecipe: z.infer<typeof loudnessSignalSchema>;
+        scope: "full-signal" | "excerpt";
+        measurement: LoudnessMeasurement;
+      };
   audio: { jobId: string; generation: number };
 };
 const imageOptions = z.strictObject({
@@ -114,10 +173,56 @@ export class AcousticInspection {
       jobs: JobQueue;
       cache: DerivedCache;
       renderer?: AcousticRenderer;
+      loudness?: LoudnessAnalyzer;
     },
   ) {}
   private input(value: AcousticInput) {
     const { format, ...input } = value;
+    if (input.kind === "loudness") {
+      const { kind, channelInterpretation = "native", truePeak = true, ...selection } = input;
+      if (format !== undefined)
+        throw new CatalogError(
+          "INVALID_PARAMS",
+          "Loudness returns measurements without an image rendition",
+        );
+      const analyzer = this.owners.loudness;
+      if (!analyzer)
+        throw new CatalogError("NOT_READY", "Loudness analyzer is unavailable", {}, true);
+      const recipe = this.owners.audio.recipe(selection);
+      if (channelInterpretation === "dual-mono" && recipe.channels !== 1)
+        throw new CatalogError("INVALID_PARAMS", "Dual-mono interpretation requires a mono signal");
+      return {
+        recipe,
+        selection: recipe.selection,
+        artifact: kind,
+        parameters: {
+          policy: "loudness-bs1770-v1" as const,
+          implementationId: analyzer.implementationId,
+          channelInterpretation,
+          truePeak,
+          signalRecipe: {
+            sha256: createHash("sha256")
+              .update(
+                JSON.stringify({
+                  ...recipe.identity,
+                  ...("processingSha256" in recipe
+                    ? { processingSha256: recipe.processingSha256 }
+                    : {}),
+                }),
+              )
+              .digest("hex"),
+            preparedResourceId:
+              "preparedResourceId" in recipe.options
+                ? (recipe.options.preparedResourceId ?? null)
+                : null,
+            processingSha256: "processingSha256" in recipe ? recipe.processingSha256 : null,
+          },
+          scope: isDeepStrictEqual(recipe.selection.range, recipe.fullRange)
+            ? ("full-signal" as const)
+            : ("excerpt" as const),
+        },
+      };
+    }
     if (input.kind === "spectrum") {
       const { kind, fftFrames = 1024, hopFrames = 512, ...selection } = input;
       const display = this.owners.audio.recipe(selection),
@@ -145,7 +250,7 @@ export class AcousticInspection {
           sampleRange: clock.sampleRange,
           policy: "spectrum-density-v1" as const,
         },
-        artifact: "spectrum",
+        artifact: kind,
       };
     }
     const { bucketFrames, kind, ...selection } = input;
@@ -163,7 +268,7 @@ export class AcousticInspection {
         bucketFrames: bucketFrames ?? null,
         policy: "waveform-buckets-v1" as const,
       },
-      artifact: "waveform",
+      artifact: kind ?? "waveform",
     };
   }
   private dependency(identity: ReturnType<MediaAudioInspection["recipe"]>["identity"]) {
@@ -199,6 +304,10 @@ export class AcousticInspection {
         dependency: dependency.summary,
         published: null,
       };
+    if (artifact === "loudness") {
+      const audio = JSON.parse(dependency.status.published.result) as AudioArtifact;
+      assertLoudnessCoverage(audio);
+    }
     const identity = {
       target: recipe.identity.target,
       artifact,
@@ -386,7 +495,7 @@ export class AcousticInspection {
     if (job.artifact === "acoustic-image") return this.executeImage(execution, raw);
     const parsed = optionsSchema.safeParse(raw);
     if (
-      !["waveform", "spectrum"].includes(job.artifact) ||
+      !["waveform", "spectrum", "loudness"].includes(job.artifact) ||
       !parsed.success ||
       (job.target.kind !== "asset" && job.target.kind !== "project")
     )
@@ -422,7 +531,7 @@ export class AcousticInspection {
           },
         };
         analysis = { kind: "waveform", bucketFrames, bucketCount: result.buckets.length };
-      } else {
+      } else if (options.policy === "spectrum-density-v1") {
         const result = await spectralWindows(lease, audio, options, signal);
         context = {
           range: description.range,
@@ -450,6 +559,48 @@ export class AcousticInspection {
           fftFrames: options.fftFrames,
           hopFrames: options.hopFrames,
           columnCount: result.columns.length,
+        };
+      } else {
+        assertLoudnessCoverage(audio);
+        const analyzer = this.owners.loudness;
+        if (!analyzer || analyzer.implementationId !== options.implementationId)
+          throw new CatalogError(
+            "NOT_READY",
+            "Pinned loudness implementation is unavailable",
+            {},
+            true,
+          );
+        validateAudioWave(lease, audio);
+        const measurement = loudnessMeasurementSchema.parse(
+          await this.owners.cache.withDescriptor(audio.cacheId, (source) =>
+            analyzer.measure(
+              {
+                source,
+                audio,
+                channelInterpretation: options.channelInterpretation,
+                truePeak: options.truePeak,
+              },
+              signal,
+            ),
+          ),
+        );
+        analysis = {
+          kind: "loudness",
+          channelInterpretation: options.channelInterpretation,
+          truePeak: options.truePeak,
+          implementationId: analyzer.implementationId,
+          signalRecipe: options.signalRecipe,
+          scope: options.scope,
+          measurement,
+        };
+        measurements = {
+          ...analysis,
+          units: {
+            integratedLufs: "LUFS",
+            loudnessRangeLu: "LU",
+            samplePeakDbfs: "dBFS",
+            truePeakDbtp: "dBTP",
+          },
         };
       }
       signal.throwIfAborted();
@@ -493,4 +644,38 @@ export class AcousticInspection {
       lease.release();
     }
   }
+}
+
+/** Missing support is never converted to integrated silence or concatenated fragments. */
+function assertLoudnessCoverage(audio: AudioArtifact) {
+  const gaps =
+    "projectId" in audio
+      ? audio.unavailable.flatMap((entry) =>
+          entry.ranges.map((span) => ({
+            startUs: toTime(rational(BigInt(span.start) * 1000000n, BigInt(audio.sampleRate))),
+            endUs: toTime(rational(BigInt(span.end) * 1000000n, BigInt(audio.sampleRate))),
+          })),
+        )
+      : audio.unavailable;
+  if (!gaps.length) return;
+  const range = audio.range;
+  const available: { startUs: TimeValue; endUs: TimeValue }[] = [];
+  let at = fromTime(range.startUs);
+  for (const gap of [...gaps].sort((a, b) => compare(fromTime(a.startUs), fromTime(b.startUs)))) {
+    const start = fromTime(gap.startUs),
+      end = fromTime(gap.endUs);
+    if (compare(start, at) > 0) available.push({ startUs: toTime(at), endUs: gap.startUs });
+    if (compare(end, at) > 0) at = end;
+  }
+  if (compare(at, fromTime(range.endUs)) < 0)
+    available.push({ startUs: toTime(at), endUs: range.endUs });
+  throw new CatalogError(
+    "UNAVAILABLE_SUPPORT",
+    "Integrated loudness requires complete selected support",
+    {
+      range,
+      unavailable: gaps,
+      available,
+    },
+  );
 }

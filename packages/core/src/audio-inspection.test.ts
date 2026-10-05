@@ -1,5 +1,9 @@
 import { fromTime, sampleAt, compare, type TimeValue } from "@screenrec/composition";
-import { AcousticInspection, type AcousticRenderer } from "./acoustic-inspection.js";
+import {
+  AcousticInspection,
+  type AcousticRenderer,
+  type LoudnessAnalyzer,
+} from "./acoustic-inspection.js";
 import { randomUUID } from "node:crypto";
 import { mkdtemp, readFile, readdir, rm, writeFile } from "node:fs/promises";
 import { join } from "node:path";
@@ -74,6 +78,7 @@ async function fixture(
   durationUs: TimeValue = 1000000,
   sampleRate = 48000,
   raster?: AcousticRenderer,
+  loudness?: LoudnessAnalyzer,
 ) {
   const home = await mkdtemp("/tmp/source-audio-inspection-");
   const catalog = new Catalog(join(home, "catalog.sqlite"));
@@ -137,7 +142,7 @@ async function fixture(
         isCapturing: () => false,
       },
       execute: (execution) =>
-        ["waveform", "spectrum", "acoustic-image"].includes(execution.job.artifact)
+        ["waveform", "spectrum", "acoustic-image", "loudness"].includes(execution.job.artifact)
           ? waveform.execute(execution)
           : inspection.execute(execution),
     });
@@ -156,6 +161,7 @@ async function fixture(
     jobs,
     cache,
     ...(raster ? { renderer: raster } : {}),
+    ...(loudness ? { loudness } : {}),
   });
   cleanup.push(async () => {
     await jobs.close();
@@ -183,6 +189,7 @@ async function fixture(
         jobs,
         cache,
         ...(raster ? { renderer: raster } : {}),
+        ...(loudness ? { loudness } : {}),
       });
       return { jobs, inspection, waveform };
     },
@@ -808,4 +815,94 @@ test("exact admitted endpoints drive full and late audio while explicit integer 
     startUs: { numerator: 15401875, denominator: 3 },
     endUs,
   });
+});
+
+test("loudness retains selected PCM provenance and refuses integrated unavailable support", async () => {
+  const f = await fixture(renderer, undefined, 6000000, 48000, undefined, {
+    implementationId: "independent-fixture-meter",
+    measure: async () => ({
+      integratedLufs: -23,
+      loudnessRangeLu: 2,
+      samplePeakDbfs: -4,
+      truePeakDbtp: -3.5,
+      integratedReason: null,
+      rangeReason: null,
+      algorithm: "BS.1770/R128 fixture",
+      version: "1",
+    }),
+  });
+  const input = {
+    ...f.selection,
+    kind: "loudness" as const,
+    range: { startUs: 100000, endUs: 6000000 },
+  };
+  await f.waveform.request(input);
+  await f.jobs.idle();
+  await f.waveform.request(input);
+  await f.jobs.idle();
+  const result = await f.waveform.request(input);
+  expect(result.published?.artifact).toMatchObject({
+    domain: "source",
+    assetId: f.asset.id,
+    streamId: "a",
+    range: input.range,
+    sampleRange: { start: 4800, end: 288000 },
+    unavailable: [],
+    analysis: {
+      kind: "loudness",
+      channelInterpretation: "native",
+      truePeak: true,
+      measurement: {
+        integratedLufs: -23,
+        loudnessRangeLu: 2,
+        samplePeakDbfs: -4,
+        truePeakDbtp: -3.5,
+      },
+    },
+  });
+  const gap = { ...input, acquisitionId: "mask" };
+  await f.waveform.request(gap);
+  await f.jobs.idle();
+  await expect(f.waveform.request(gap)).rejects.toMatchObject({
+    code: "UNAVAILABLE_SUPPORT",
+    details: {
+      unavailable: [
+        { startUs: 100000, endUs: 200000 },
+        { startUs: 800000, endUs: 6000000 },
+      ],
+      available: [{ startUs: 200000, endUs: 800000 }],
+    },
+  });
+});
+
+test("loudness missing-support refusal preserves rational source endpoints and disallows stereo dual-mono", async () => {
+  const f = await fixture(renderer, undefined, 1000000, 48000, undefined, {
+    implementationId: "fixture-meter",
+    measure: async () => {
+      throw new Error("Unavailable support must not reach a meter");
+    },
+  });
+  const startUs = { numerator: 600001, denominator: 3 };
+  const acquisition = {
+    id: "rational-mask",
+    bindings: [{ assetId: f.asset.id, streamId: "a", available: [{ startUs, endUs: 800000 }] }],
+  };
+  f.catalog.catalog
+    .prepare("INSERT INTO acquisitions VALUES(?,?,?,?)")
+    .run(
+      "rational-mask",
+      "rational-mask",
+      JSON.stringify({ kind: "import", path: f.home, files: {} }),
+      JSON.stringify(acquisition),
+    );
+  const input = { ...f.selection, acquisitionId: "rational-mask", kind: "loudness" as const };
+  await f.waveform.request(input);
+  await f.jobs.idle();
+  await expect(f.waveform.request(input)).rejects.toMatchObject({
+    code: "UNAVAILABLE_SUPPORT",
+    details: { available: [{ startUs, endUs: 800000 }] },
+  });
+  await expect(
+    f.waveform.request({ ...f.selection, kind: "loudness", channelInterpretation: "dual-mono" }),
+  ).rejects.toMatchObject({ code: "INVALID_PARAMS" });
 });

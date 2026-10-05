@@ -84,6 +84,7 @@ import {
 } from "./worker.js";
 import { operationFailure } from "./operation-errors.js";
 import { inspectFFmpegTools, type FFmpegInstallation } from "./ffmpeg-tools.js";
+import { ffmpegLoudnessAnalyzer } from "./loudness.js";
 
 export async function startProjectService(options: {
   home: string;
@@ -282,7 +283,7 @@ export async function startProjectService(options: {
           return scenes.execute({ job, signal });
         if (
           (job.target.kind === "asset" || job.target.kind === "project") &&
-          ["waveform", "spectrum", "acoustic-image"].includes(job.artifact)
+          ["waveform", "spectrum", "acoustic-image", "loudness"].includes(job.artifact)
         )
           return acoustics.execute({ job, signal });
         if (
@@ -440,6 +441,7 @@ export async function startProjectService(options: {
       audio: mediaAudio,
       jobs: queue,
       cache,
+      loudness: ffmpegLoudnessAnalyzer(options.ffmpeg, nativeExecutable),
       renderer: {
         implementationId: "native-acoustic-image-v1",
         render: async (request, signal) =>
@@ -1040,6 +1042,23 @@ export async function startProjectService(options: {
                   : null,
               },
             };
+          }
+          case "audio.measure": {
+            const status = await acoustics.request({ ...operation.params, kind: "loudness" });
+            const value = status.published?.artifact;
+            if (value) {
+              return {
+                ok: true,
+                data: {
+                  ...status,
+                  published: {
+                    generation: status.published!.generation,
+                    measurement: value,
+                  },
+                },
+              };
+            }
+            return { ok: true, data: status };
           }
           case "audio.get":
           case "audio.retry": {

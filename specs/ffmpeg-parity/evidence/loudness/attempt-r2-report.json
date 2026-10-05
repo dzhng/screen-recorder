@@ -1,0 +1,251 @@
+{
+  "passed": false,
+  "trace": [
+    {
+      "operation": "asset.import",
+      "transport": "cli",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "operation": "job.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "asset.get",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "audio.measure",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "audio.measure",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "audio.measure",
+      "transport": "cli",
+      "ok": true,
+      "state": "failed"
+    }
+  ],
+  "exchanges": [
+    {
+      "request": {
+        "operation": "asset.import",
+        "params": {
+          "requestId": "source",
+          "path": "/tmp/screenrec-loudness-journey-r2/mono.wav"
+        },
+        "transport": "cli",
+        "error": false
+      },
+      "response": {
+        "ok": true,
+        "data": {
+          "jobId": "4dedb767-6c91-4c29-bbbb-6c88e0e84651",
+          "attemptId": "f29889ec-3344-406e-b27e-bd3ab9f4f86c",
+          "artifact": "asset.import",
+          "lane": "heavy",
+          "state": "running",
+          "reason": null,
+          "generation": 1,
+          "errorCode": null,
+          "inputSha256": "3acedb458efbf1875c5bad9072f28115dca7491fd37fb78b53e3520485d6ba20",
+          "target": {
+            "kind": "import",
+            "importId": "dce71397-66f1-489d-a785-c522ade1e05e"
+          },
+          "retryable": false,
+          "errorDetails": null,
+          "result": null
+        },
+        "id": "305fdec2-3100-4e18-b16b-7ca3de0ab4ac"
+      }
+    },
+    {
+      "request": {
+        "operation": "job.get",
+        "params": {
+          "jobId": "4dedb767-6c91-4c29-bbbb-6c88e0e84651"
+        },
+        "transport": "cli",
+        "error": false
+      },
+      "response": {
+        "ok": true,
+        "data": {
+          "jobId": "4dedb767-6c91-4c29-bbbb-6c88e0e84651",
+          "attemptId": "f29889ec-3344-406e-b27e-bd3ab9f4f86c",
+          "artifact": "asset.import",
+          "lane": "heavy",
+          "state": "ready",
+          "reason": null,
+          "generation": 1,
+          "errorCode": null,
+          "inputSha256": "3acedb458efbf1875c5bad9072f28115dca7491fd37fb78b53e3520485d6ba20",
+          "target": {
+            "kind": "import",
+            "importId": "dce71397-66f1-489d-a785-c522ade1e05e"
+          },
+          "retryable": false,
+          "errorDetails": null,
+          "result": {
+            "assetId": "c0b8d773b49297aa6cd060af233f742f2f91aab3847b76f3bf18289bb85c20b6"
+          }
+        },
+        "id": "a53c53b4-6ff1-436f-ac3e-d0a7f77b6322"
+      }
+    },
+    {
+      "request": {
+        "operation": "asset.get",
+        "params": {
+          "assetId": "c0b8d773b49297aa6cd060af233f742f2f91aab3847b76f3bf18289bb85c20b6"
+        },
+        "transport": "cli",
+        "error": false
+      },
+      "response": {
+        "ok": true,
+        "data": {
+          "originUs": 0,
+          "streams": [
+            {
+              "id": "track:1",
+              "kind": "audio",
+              "codec": "lpcm",
+              "decodable": true,
+              "startUs": 0,
+              "endUs": 6000000,
+              "sampleRate": 48000,
+              "channels": 1,
+              "segmentCount": 1
+            }
+          ],
+          "id": "c0b8d773b49297aa6cd060af233f742f2f91aab3847b76f3bf18289bb85c20b6",
+          "bytes": 1152044,
+          "createdAt": "2026-10-05T02:57:28.123Z",
+          "fileName": "c0b8d773b49297aa6cd060af233f742f2f91aab3847b76f3bf18289bb85c20b6.wav"
+        },
+        "id": "c4eeb027-a62d-447f-b9bc-5cece33d7c55"
+      }
+    },
+    {
+      "request": {
+        "operation": "audio.measure",
+        "params": {
+          "assetId": "c0b8d773b49297aa6cd060af233f742f2f91aab3847b76f3bf18289bb85c20b6",
+          "streamId": "track:1"
+        },
+        "transport": "cli",
+        "error": false
+      },
+      "response": {
+        "ok": true,
+        "data": {
+          "assetId": "c0b8d773b49297aa6cd060af233f742f2f91aab3847b76f3bf18289bb85c20b6",
+          "streamId": "track:1",
+          "range": {
+            "startUs": 0,
+            "endUs": 6000000
+          },
+          "state": "processing",
+          "reason": null,
+          "retryable": false,
+          "jobId": "0f77d52f-af7e-4856-b69c-b6bd60d4c494",
+          "dependency": {
+            "jobId": "0f77d52f-af7e-4856-b69c-b6bd60d4c494",
+            "state": "processing",
+            "reason": null,
+            "retryable": false,
+            "generation": null
+          },
+          "published": null
+        },
+        "id": "77291728-cbcc-4dcc-9a67-bfc71c2862b5"
+      }
+    },
+    {
+      "request": {
+        "operation": "audio.measure",
+        "params": {
+          "assetId": "c0b8d773b49297aa6cd060af233f742f2f91aab3847b76f3bf18289bb85c20b6",
+          "streamId": "track:1"
+        },
+        "transport": "cli",
+        "error": false
+      },
+      "response": {
+        "ok": true,
+        "data": {
+          "assetId": "c0b8d773b49297aa6cd060af233f742f2f91aab3847b76f3bf18289bb85c20b6",
+          "streamId": "track:1",
+          "range": {
+            "startUs": 0,
+            "endUs": 6000000
+          },
+          "state": "processing",
+          "reason": null,
+          "retryable": false,
+          "jobId": "dc08793e-b9e2-4b27-b656-7e238186e8b6",
+          "dependency": {
+            "jobId": "0f77d52f-af7e-4856-b69c-b6bd60d4c494",
+            "state": "ready",
+            "reason": null,
+            "retryable": false,
+            "generation": 1
+          },
+          "published": null
+        },
+        "id": "f5d1ae49-5480-4de9-b696-e5f33fe9dcde"
+      }
+    },
+    {
+      "request": {
+        "operation": "audio.measure",
+        "params": {
+          "assetId": "c0b8d773b49297aa6cd060af233f742f2f91aab3847b76f3bf18289bb85c20b6",
+          "streamId": "track:1"
+        },
+        "transport": "cli",
+        "error": false
+      },
+      "response": {
+        "ok": true,
+        "data": {
+          "assetId": "c0b8d773b49297aa6cd060af233f742f2f91aab3847b76f3bf18289bb85c20b6",
+          "streamId": "track:1",
+          "range": {
+            "startUs": 0,
+            "endUs": 6000000
+          },
+          "state": "failed",
+          "reason": "CLI owner exited without command completion",
+          "retryable": true,
+          "jobId": "dc08793e-b9e2-4b27-b656-7e238186e8b6",
+          "dependency": {
+            "jobId": "0f77d52f-af7e-4856-b69c-b6bd60d4c494",
+            "state": "ready",
+            "reason": null,
+            "retryable": false,
+            "generation": 1
+          },
+          "published": null
+        },
+        "id": "00df1b73-81af-4803-9e19-211a13bea03a"
+      }
+    }
+  ],
+  "checks": {},
+  "nativeSha256": "af28fcc5260b79bca3909be2af1a9c90875bc3497d30d9649d3921648ef8c82d",
+  "receiptSha256": "27350ff2f953bbd4d6ca8bfe0f6808b99b9752192657d289146b50319099f66a"
+}

@@ -32,6 +32,10 @@ here because a structurally valid plan can still draw the wrong result. A decode
 image comparison needs matched input, output time and color interpretation;
 encoding loss must not be mistaken for a composition or color-management error.
 
+[Loudness references](loudness/README.md) separate independent BS.1770 arithmetic
+from the exact signal/coverage reported by public operations. Meter agreement is
+scoped to its signal families; abrupt resampler boundaries remain separate evidence.
+
 Audio checks separate source addresses, placement and gain from conversion and
 encoding. Authored nonzero samples and distinguishable channels expose errors
 that silence or a symmetric fixture would hide. Exact retained PCM and lossy

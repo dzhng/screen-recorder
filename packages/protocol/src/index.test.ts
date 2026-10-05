@@ -355,3 +355,36 @@ it("caption sidecar export requires pinned revision and explicit unique placemen
     );
   }
 });
+
+it("loudness admission keeps source/project selectors exclusive and channel interpretation explicit", () => {
+  const source = {
+    assetId: "a",
+    streamId: "mono",
+    acquisitionId: "capture",
+    channelInterpretation: "dual-mono",
+    truePeak: false,
+  };
+  expect(operationSchema.safeParse({ operation: "audio.measure", params: source }).success).toBe(
+    true,
+  );
+  expect(
+    operationSchema.safeParse({
+      operation: "audio.measure",
+      params: {
+        projectId: "p",
+        revisionId: "r",
+        preparedResourceId: "exact",
+        tap: { target: { kind: "output" }, point: { kind: "processed" } },
+      },
+    }).success,
+  ).toBe(true);
+  for (const extra of [
+    { projectId: "p" },
+    { channelInterpretation: "stereo" },
+    { targetLufs: -14 },
+  ])
+    expect(
+      operationSchema.safeParse({ operation: "audio.measure", params: { ...source, ...extra } })
+        .success,
+    ).toBe(false);
+});

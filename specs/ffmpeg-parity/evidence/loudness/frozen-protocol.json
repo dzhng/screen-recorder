@@ -1,0 +1,10 @@
+{
+  "version": 1,
+  "acceptedBeforeConfirmation": true,
+  "scope": "smooth authored mono/stereo signals at 44100/48000 Hz; no universal true-peak accuracy/compliance claim",
+  "oracle": { "source": "jiixyj/libebur128", "version": "1.2.6", "revision": "67b33abe1558160ed76ada1322329b0e9e058b02", "implementation": "independent BS.1770/R128 and FIR peak interpolator", "license": "MIT" },
+  "gates": { "integratedLufsAbsolute": 0.1, "loudnessRangeLuAbsolute": 0.2, "samplePeakDbfsAbsolute": 0.1, "smoothTruePeakDbtpAbsolute": 0.15 },
+  "calibration": ["steady mono/stereo 1kHz; six seconds; amplitude 0.1", "silence; six seconds", "short 1kHz; 0.2 seconds", "12kHz at 48k with phase pi/4; abrupt and 100ms tapered; amplitude 0.9"],
+  "confirmation": ["44100Hz tapered unequal stereo multitone, nine seconds", "48000Hz tapered mono stepped 997Hz/233Hz mix, twelve seconds"],
+  "limits": ["One-decimal FFmpeg summary", "LRA population/percentile implementations differ", "Abrupt high-frequency boundary diagnostic has ~0.51dB peak disagreement; retained separately, not universal error gate", "Numerical analysis only; no listening or sound-quality claim", "No thresholds/cases retuned after confirmation"]
+}

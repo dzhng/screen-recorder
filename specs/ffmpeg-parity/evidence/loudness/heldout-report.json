@@ -1,0 +1,104 @@
+{
+  "protocol": {
+    "version": 1,
+    "acceptedBeforeConfirmation": true,
+    "scope": "smooth authored mono/stereo signals at 44100/48000 Hz; no universal true-peak accuracy/compliance claim",
+    "oracle": {
+      "source": "jiixyj/libebur128",
+      "version": "1.2.6",
+      "revision": "67b33abe1558160ed76ada1322329b0e9e058b02",
+      "implementation": "independent BS.1770/R128 and FIR peak interpolator",
+      "license": "MIT"
+    },
+    "gates": {
+      "integratedLufsAbsolute": 0.1,
+      "loudnessRangeLuAbsolute": 0.2,
+      "samplePeakDbfsAbsolute": 0.1,
+      "smoothTruePeakDbtpAbsolute": 0.15
+    },
+    "calibration": [
+      "steady mono/stereo 1kHz; six seconds; amplitude 0.1",
+      "silence; six seconds",
+      "short 1kHz; 0.2 seconds",
+      "12kHz at 48k with phase pi/4; abrupt and 100ms tapered; amplitude 0.9"
+    ],
+    "confirmation": [
+      "44100Hz tapered unequal stereo multitone, nine seconds",
+      "48000Hz tapered mono stepped 997Hz/233Hz mix, twelve seconds"
+    ],
+    "limits": [
+      "One-decimal FFmpeg summary",
+      "LRA population/percentile implementations differ",
+      "Abrupt high-frequency boundary diagnostic has ~0.51dB peak disagreement; retained separately, not universal error gate",
+      "Numerical analysis only; no listening or sound-quality claim",
+      "No thresholds/cases retuned after confirmation"
+    ]
+  },
+  "records": [
+    {
+      "id": "heldout-stereo-44100",
+      "rate": 44100,
+      "channels": 2,
+      "seconds": 9,
+      "frames": 396900,
+      "sourceSha256": "764a097da89695ba53060dae33b9a975fc8baf0594a4b34e073da3950f45c480",
+      "reference": {
+        "frames": 396900,
+        "integratedLufs": "-20.6591411",
+        "loudnessRangeLu": "0.0975622138",
+        "samplePeakDbfs": "-17.3740444",
+        "truePeakDbtp": "-17.3706022"
+      },
+      "measured": {
+        "integratedLufs": -20.7,
+        "loudnessRangeLu": 0,
+        "samplePeakDbfs": -17.4,
+        "truePeakDbtp": -17.4,
+        "integratedReason": null,
+        "rangeReason": null,
+        "algorithm": "FFmpeg ebur128 BS.1770/R128; true-peak libswresample; one-decimal summary",
+        "version": "9.0.2"
+      },
+      "errors": {
+        "integratedLufs": 0.04085889999999992,
+        "loudnessRangeLu": 0.0975622138,
+        "samplePeakDbfs": 0.025955599999999635,
+        "truePeakDbtp": 0.029397799999998142
+      }
+    },
+    {
+      "id": "heldout-stepped-48000",
+      "rate": 48000,
+      "channels": 1,
+      "seconds": 12,
+      "frames": 576000,
+      "sourceSha256": "c17029d118ff139a568d4f2ef394457a7b2be6583268dfc8b568f6852278ec0d",
+      "reference": {
+        "frames": 576000,
+        "integratedLufs": "-21.4520089",
+        "loudnessRangeLu": "17.4998244",
+        "samplePeakDbfs": "-14.8945496",
+        "truePeakDbtp": "-14.8890663"
+      },
+      "measured": {
+        "integratedLufs": -21.5,
+        "loudnessRangeLu": 17.5,
+        "samplePeakDbfs": -14.9,
+        "truePeakDbtp": -14.9,
+        "integratedReason": null,
+        "rangeReason": null,
+        "algorithm": "FFmpeg ebur128 BS.1770/R128; true-peak libswresample; one-decimal summary",
+        "version": "9.0.2"
+      },
+      "errors": {
+        "integratedLufs": 0.04799110000000084,
+        "loudnessRangeLu": 0.0001755999999986102,
+        "samplePeakDbfs": 0.0054504000000008546,
+        "truePeakDbtp": 0.010933700000000712
+      }
+    }
+  ],
+  "ffmpegSha256": "8410694433e927bdf2cc751b8c81cb4545b2302828fdffed6044018b10f39f31",
+  "oracleSha256": "bd48fb13bb936d968b7a8a9594b7ec87525f4f560284e70c991f0b178d1247da",
+  "passed": true
+}
