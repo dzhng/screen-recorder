@@ -13,7 +13,8 @@ remains usable and renewing while the update waits.
 
 The coordinator joins native idle, the private `update.prepare` reference and 03's load/
 swap exclusion, commits only while all remain valid, and invokes the retained
-immediate-install block. Deferral/failure releases all tentative fences. Its update
+immediate-install block. Confirmed pre-EOF deferral releases tentative fences. An unknown prepare or
+release acknowledgement keeps native intent fenced until explicit quit/reopen. Its update
 shutdown is clean and non-escalating; ordinary `ServiceHost.shutdown()` and user/
 system quit keep their existing meaning. No `closePreview`, forced finalization or
 signals may be used to obtain updater idle.
@@ -24,10 +25,10 @@ usable. Pipe EOF starts irreversible service close; invoke it only after every
 product obligation is gone, and prove clean child exit before replacement. A stalled
 exit aborts installation, preserves the app/library and reports a shutdown failure;
 it cannot promise restored admission in that closing process. Do not signal-kill,
-start a competing service or swap while that child is alive. After proven child
-exit, one bounded recovery launch may restore the old app's service; no restart
-loop. If exit/recovery is unavailable, report actionable manual restart rather
-than pretend readiness. Add the corresponding recovery limits to consumer guidance.
+start a competing service or swap while that child is alive. The final implementation does not
+launch an automatic recovery service, even after proven child exit. Report
+actionable manual quit/reopen rather than pretend restored readiness; no restart
+loop or competing successor is allowed. Add the corresponding recovery limits to consumer guidance.
 
 Shared protocol owns `UpdateStatus` and private control schemas; app callbacks
 project status to the service, not another scheduler/defaults store. `service.health`
@@ -56,7 +57,8 @@ preview including preparing/late replies, publication, service work, polling and
 new arrivals, real private-control permit correlation, lost replies and a stalled
 child exit after EOF. Distinguish pre-EOF safe reopening from post-EOF failure;
 assert no forced signal, competing successor or replacement while child lives.
-Prove one clean-exit recovery launch or honest unavailable state. Prove the quiet relaunch path frozen in 01 preserves selected home
+Prove honest unavailable state and explicit manual recovery; do not introduce
+an automatic clean-exit recovery launch. Prove the quiet relaunch path frozen in 01 preserves selected home
 and defaults, and shows no Settings even with `showSettingsAtLaunch` enabled. Test stale permits and all failure-release paths. Prove ordinary
 quit with staged update and opt-out disarming using the supported 01 mechanism;
 a relaunch-only delegate is insufficient. Never permanently refuse ordinary quit.
@@ -94,6 +96,14 @@ resumes on its normal cadence, without an updater-triggered refresh loop.
 Unknown admission acknowledgement and irreversible shutdown failures require an
 explicit quit/reopen, with no automatic successor launch.
 
-These focused checks do not establish assembled SDK parity, permission continuity
-or installed A→B replacement. The frozen-engine production replay and installed
-acceptance remain with slice 09; previously accepted permission evidence is reused.
+The [installed acceptance receipt](../assets/installed-acceptance.json) binds the
+production payload `0dd14443` to isolated signed upgrade and manual-recovery
+journeys, with real old-MCP lifetime and unchanged public library snapshots.
+Upgrade runner `b079fffa` and recovery runner `80e989fd` retain separate identities;
+controlled successor startup failure is recovered by explicit reinstall. The
+persisted-Off startup/quit arm passes with controlled defaults. Previously accepted
+permission evidence is reused; slice 09 retains full-run limits and open published delivery.
+Update errors report `retryable:false`: the SDK owns later cycles, and no public
+updater request is available for an agent to replay. Launcher contention ends the
+current SDK attempt and restores confirmed service admission; there is no scheduler
+triggered by reader exit.

@@ -17,8 +17,8 @@ recording and background work are idle.” No new update screen or implementatio
 paths/keys in product copy. JSON health projects the same effective state.
 
 Human artifact: toggle/relaunch demonstration and existing settings-window shots.
-Use `SHOTS=<feature evidence directory> node apps/macos/tests/settings-shots.mjs`
-with scratch defaults and app state, after reading its current usage.
+Use the [production-view renderer](../../../apps/macos/tests/settings-view-shots.mjs)
+with synthetic owner facts, after reading its current usage.
 
 ## Proof and visual review
 
@@ -56,6 +56,11 @@ answer, without writing a preference or optimistically changing the switch.
 Manual builds show a truthful explanation. The existing Settings menu entry
 remains the only route; no update command family or new window is added.
 
-This presentation pass does not establish actual Sparkle persistence or staged
-cancellation. Slice 06 supplies the owner/main wiring and its lifecycle proof;
-final assembled acceptance confirms relaunch persistence and opt-out on quit.
+The owner/main wiring and staged-cancellation behavior are integrated through
+slice 06. These shots prove presentation only. The
+[installed acceptance receipt](../assets/installed-acceptance.json) now records
+persisted Off across startup/quit and disabled state after explicit manual recovery,
+using controlled defaults inputs. Actual production setter persistence and live
+staged opt-out remain covered by their separate native/SDK tests; the installed
+journey does not replace that evidence. Slice 09 owns full-run limits and
+published-delivery acceptance.

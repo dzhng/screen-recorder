@@ -53,7 +53,11 @@ no permission calls.
 The [custody handoff](../assets/signing-custody.md) records the owner-approved
 private folder and configured GitHub secrets. The stable identity and separate
 update key are provisioned, with [public fingerprints](../assets/release-identity.json).
-Final package/helper execution remains open; repeated permission checks are removed.
+Release packaging now consumes those durable inputs and the assembled installed
+fixture exercises signed helper execution. Final published-artifact verification
+remains in slice 09; repeated permission checks are removed. The positive fixture
+uses an isolated signing identity and does not relabel itself as a recipient
+permission observation.
 
 ## Verdict and freedoms
 

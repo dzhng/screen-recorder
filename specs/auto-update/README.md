@@ -1,175 +1,117 @@
 # Automatic app and CLI updates
 
-An installed release downloads updates automatically and replaces the app only
-when existing work is finished. The bundle contains the actual CLI, Node, service
+Installed releases download updates automatically and replace the app only when
+existing work permits it. The bundle contains the executable CLI, Node, service
 and workers, so they update together. Skill changes remain explicit through
-`npx skills`. The [decision map](discovery.md) owns user requirements, attribution
-and rationale; this ladder owns implementation order and proof status.
+`npx skills`. The [decision map](discovery.md) preserves product requirements and
+attribution; the [consolidated choices](choices.md) describe implemented tradeoffs.
+This spec remains active until accepted source is published and live delivery works.
 
 ## Next Agent Prompt
 
-**Status:** protected engine boundary is GREEN; production integration is in progress.
-**Updated:** 2026-10-04.
+**Status:** production integration is complete; final acceptance and publication
+remain open. Final artifact source is frozen at `4387da97`; accepted installed
+executable payload `0dd14443` is unchanged. Evidence/docs-only followups may land
+after the frozen source without moving its tag. Updated 2026-10-04.
 
-The accepted [engine receipt](assets/protected-engine-proof.json) binds the corrected
-Sparkle source, built framework, signed public fixture bytes and complete external
-reports. The custom user-driver route protects explicit permission and launch
-exclusion through host/helper failure and cancellation. Xcode 27 is initialized.
-Do not return to upstream's unsafe ordinary-quit installation or substitute a
-host-only lock. [01](slices/01-sparkle-replication.md#proof-status) owns this contract.
+The [final repository checks](assets/final-repository-checks.json) retain the full
+run and narrow affected followups. Build, types, format, helper and focused native
+gates passed; lint passed with warnings. App checks have 65 passes and 23 retained
+source-app capture-permission/derived countdown-timeout failures. **Do not claim
+the full suite green.** The user accepted existing permission proof and directed
+no repeats; do not rerun those failures or describe them as missing production
+fields. Finish final review, package the frozen payload and publish normally.
 
-Next, integrate the native coordinator and Settings projection. The release
-pipeline is committed; its account-home lock and binary certificate parser fixes
-are being finalized. Native owns clean service EOF/exit and persistent opt-out;
-packaging owns release-only configuration, direct framework linking, stable signing,
-the coordinated launcher and authenticated feed. The fixed release lock is account-owned
-`Library/Caches/com.david.screenrec/launch.lock`, outside the replaced bundle.
-The manifest's committed release version is 0.1.3. The owner authorized private
-local key custody and GitHub secrets; stable credentials are now provisioned.
-[Public identity and custody](assets/signing-custody.md) records the handoff.
+The final Docker matrix is **44/44**: eleven distinct cases, two agents and two
+fresh trials, bound to consumer-source `4fbeee26` and unchanged consumer/case hashes
+in [the retained receipt](assets/final-agent-matrix.json). It binds raw artifacts
+and the production CLI bundling route. Its README acquisition uses a controlled
+source mirror; live published-source onboarding still remains open.
 
-Service admission is committed. The launcher primitive and engine's real MCP-lock
-barrier are proved; assembled launcher/discovery parity remains. Consumer skills
-and focused Docker trials are committed. The final Docker matrix is running
-from consumer-source commit `4fbeee26`: 11 cases × 2 agents × 2 fresh trials, with
-the production CLI bundling route. Live published-source onboarding remains. Use existing evidence, then run the complete
-repository checks once when implementation is finished.
+The [installed acceptance receipt](assets/installed-acceptance.json), committed in
+`964a8a20`, records passing upgrade and manual-recovery journeys. Both bind payload
+`0dd14443`; upgrade runner `b079fffa` and recovery runner `80e989fd` preserve their
+separate provenance. They prove scoped old-MCP exclusion, quiet replacement,
+populated-library preservation and explicit reinstall after controlled successor
+startup failure. Recovery restores version `0.1.2` with updates disabled. The
+persisted-Off startup/quit arm now passes with controlled defaults; owner setter
+persistence and staged cancellation retain their separate native/SDK proof.
+Isolated identity/feed/home/lock substitutions do not establish published HTTPS
+delivery. Repeat only what later product changes invalidate.
 
-The user explicitly accepted prior permission continuity on 2026-10-04 and asked
-not to repeat it. Do not require another recipient account, VM or permission run.
-Use scratch app locations, defaults, signing material and libraries; preserve the
-user's installed app and media. Review/push/tag only the verified assembled source.
+After final review and accepted-source packaging, use the committed manifest's
+release version, push the accepted source and evidence/docs followups to main, and
+tag exact frozen source `4387da97`. Let the existing release workflow publish.
+Verify stable feed/archive redirects and live skill acquisition. **Main push, tag, published release and live-source
+onboarding remain OPEN.** Archive only after those checks, through
+[close-spec](../../.agents/skills/close-spec/SKILL.md). No additional release approval
+or tester-feedback ceremony is required.
 
-- [x] [01: prove Sparkle authentication, admission and install paths](slices/01-sparkle-replication.md)
-- [ ] [02: prove release signing and permission boundaries](slices/02-signing-identity.md)
-- [ ] [03: prove launcher and old-client replacement safety](slices/03-launcher-replacement.md)
-- [x] [04: make service update admission atomic](slices/04-service-admission.md)
-- [ ] [05: package authenticated update and bootstrap artifacts](slices/05-release-artifacts.md)
-- [ ] [06: port the proven engine to native lifetime coordination](slices/06-native-coordination.md)
-- [ ] [07: expose a persistent opt-out in existing settings](slices/07-update-preference.md)
-- [ ] [08: teach and evaluate explicit skill lifecycle](slices/08-skill-lifecycle.md)
-- [ ] [09: prove the assembled installed upgrade and release](slices/09-installed-acceptance.md)
+The user accepted prior permission continuity on 2026-10-04 and directed us not
+to repeat it. Reuse that prerequisite; do not add recipient accounts, VMs, TCC or
+Gatekeeper runs. Durable production signing/update keys are approved and provisioned
+under [the custody contract](assets/signing-custody.md). Use isolated fixture
+identities, app locations, defaults, account-lock namespaces and libraries; preserve
+the user's installation and media.
 
-## Roadmap and review surfaces
+## Integration and remaining acceptance
 
-```mermaid
-flowchart LR
-  S1[01 Sparkle proof] --> S2[02 Signing proof]
-  S1 --> S3[03 Launcher proof]
-  S1 --> S5[05 Release artifacts]
-  S2 --> S5
-  S3 --> S5
-  S4[04 Service admission] --> S6[06 Native coordination]
-  S5 --> S6
-  S6 --> S7[07 Opt-out]
-  S7 --> S9[09 Installed acceptance]
-  S8[08 Skill lifecycle] --> S9
-```
-
-The first useful checkpoint is a disposable A→B app update with an actual Sparkle
-trace. Slices 03, 04 and 08 can be researched independently; implementation of
-production replacement waits for the relevant proofs. Each slice has one contract
-and a bounded probe/report. Release closeout is part of final acceptance, not a
-separate rollout system. No HTML roadmap or new workbench is needed for this CLI
-and native-settings feature.
+| Slice | Current state | Remaining work |
+| --- | --- | --- |
+| [01 Engine](slices/01-sparkle-replication.md) | Protected engine accepted; pinned patch is integrated. | Reuse its failure/cancellation proof; repeat only if engine inputs change. |
+| [02 Signing](slices/02-signing-identity.md) | Durable identity provisioned; signing/restoration and release packaging integrated. | Final published artifact verification; no new permission run. |
+| [03 Launcher](slices/03-launcher-replacement.md) | Fixed executable and account-home lock integrated; real old-MCP lifetime exercised. | Retain scoped installed evidence and final delivered-kit checks. |
+| [04 Service](slices/04-service-admission.md) | Atomic admission and existing-owner progress integrated. | Retain full-run limits and passed affected checks without weakening the contract. |
+| [05 Artifacts](slices/05-release-artifacts.md) | Signed kit/update/feed and GitHub semantic latest selection integrated. | Publish accepted source and verify delivered artifacts/redirects. |
+| [06 Native](slices/06-native-coordination.md) | Native intent, permit, exclusion and clean EOF/exit joined; installed upgrade/recovery passed. | Bind final payload and preserve measured failure limits. |
+| [07 Preference](slices/07-update-preference.md) | Settings and Sparkle-owned persistence integrated; controlled installed Off startup/quit passed. | Reuse separate setter/staged-cancellation proof; shots establish presentation only. |
+| [08 Skill](slices/08-skill-lifecycle.md) | Explicit lifecycle integrated; final 44/44 portable matrix retained. | Live current-source acquisition after publication. |
+| [09 Installed/release](slices/09-installed-acceptance.md) | Scoped upgrade and manual-recovery receipts retained. | Final review/package binding, publication and live verification; retain full-run limits. |
 
 ## One owner per concept
 
 | Concept | Owner and invariant |
 | --- | --- |
-| Scheduling, download, authentication, replacement and preferences | Sparkle; no second scheduler, defaults store, updater service or rollback daemon. |
-| Installation opportunity | Native update coordinator joins existing native intent, service permit and launch/swap exclusion. It does not duplicate domain state. |
-| Accepted work and resources | Service composition fences admissions; existing owners expose their own blockers, including transport reply/delivery lifetime. |
-| Agent-visible projection and internal control data | Shared protocol owns schemas; native callbacks project state to `service.health`. No public updater command family or protocol-version negotiation. |
-| Catalog format | Export the current authority from core; candidate metadata derives from it. Same-format updates only, no migrations. |
-| Versions, signing and artifacts | App manifest owns version; existing build/release scripts preserve final signing and derive bundle/feed/receipt facts. |
-| Safe CLI entry | Stable installed launcher contract established by slice 03, then reused by each app release. Actual CLI code remains in the replaced bundle. |
-| Skill discovery and linking | `npx skills`; no custom skill manager. Consumer instructions own fetching/comparison and explicit update semantics. |
+| Schedule, download, authentication, replacement and preference | Sparkle; no second scheduler, defaults store or updater daemon. |
+| Installation opportunity | Native coordinator joins existing intent, service permit and acknowledged launch exclusion. |
+| Accepted work/resources | Existing service owners expose blockers; private preparation atomically fences new admissions. |
+| Status and private control | Shared protocol owns health projection and permit schemas; no public updater command family. |
+| Library compatibility | Core owns catalog format; authenticated same-format updates only, without migration. |
+| Version, signing and artifacts | Existing build/release owners derive finalized bundle/feed/receipt facts. |
+| CLI entry | Fixed external launcher retains kernel exclusion through the entire CLI/MCP lifetime. |
+| Skill discovery/refresh | Pinned upstream installer; complete pinned acquisition, read-only diff and explicit changes. |
 
-Waiting for idle leaves ordinary operations and resource renewals usable. A final
-fence is a brief atomic attempt: if a blocker remains, reopen admission and wait
-for existing-owner progress. Never freeze a workflow for minutes or maintain a
-large updater allowlist to manufacture drain. Do not poll in a new retry loop;
-reuse owner notifications and Sparkle's update cycle.
+Waiting for service/native work leaves ordinary operations and preview renewals
+usable. Preparation either grants the current permit or reopens admission and
+waits for existing-owner progress. Unknown prepare/release acknowledgement keeps
+native intent fenced until explicit quit/reopen. A busy launcher ends the current
+SDK cycle; Sparkle owns the next attempt, with no reader-exit scheduler.
 
-Check the committed permit before updater-initiated termination side effects.
-Never close preview, finalize active capture or escalate signals to obtain idle.
-Ordinary user/system quit retains its existing semantics. Prove how staged
-installation is disarmed when opt-out or unsafe shutdown prevents replacement; never permanently prevent
-ordinary quit for the updater.
+Only acknowledged exclusion permits service pipe EOF. Clean child exit precedes
+final SDK authorization and app-owned termination. Post-EOF failure cannot reopen
+that service or launch a competing successor; recovery is manual. Ordinary quit
+keeps its existing capture-finalization semantics and never installs a staged
+candidate. [The choices ledger](choices.md) walks these cases in full.
 
-There is no general backward-compatibility or data-migration plan. The identified
-exception is a one-time manual bootstrap of old released apps and the coordinated
-launcher. Personal source builds retain their separate identity/manual path.
-Old live CLI/MCP processes are measured installation lifetimes, not permission to
-add version negotiation or kill clients. If they block, report the blocker.
+## Evidence and scope
 
-## Research refinements and evidence
+Frozen engine/source and signing inputs live under [assets](assets/).
+[Protected engine proof](assets/protected-engine-proof.json),
+[signing boundary](assets/signing-boundary.json),
+[launcher lifetime](assets/launcher-lifetime-proof.json) and
+[Settings review](assets/update-settings/README.md) remain scoped observations.
+The [installed receipt](assets/installed-acceptance.json) names its identity/feed/defaults
+substitutions; exact production archive smoke checks identical signed app trees and loads bundled code
+without touching real-account preferences. Neither replaces published delivery.
 
-Pin **Sparkle 2.10.0** and **skills 1.7.0** for the initial reproduction. Immutable
-source/artifact identities and the limits of earlier observations live in
-[research.json](assets/research.json). The prior [skill-link observation](assets/skills-links-proof.json)
-proves only its reported local installer behavior; slice 08 reproduces it through
-current production instructions. Neither a scratch summary nor official docs
-constitutes updater acceptance.
+Keep source and artifact identities with evidence. A source/version change
+invalidates only the behavior it can move; an evidence-only commit does not
+rewrite an earlier payload identity. Preserve original failures and unverified
+scope. Generated bundles, media and raw transcripts stay outside source; retain
+compact receipts and reproducible inputs.
 
-The [pinned Sparkle delegate](https://github.com/sparkle-project/Sparkle/blob/eef1a539a373c1f1a320624b1130fc5de7b2e100/Sparkle/SPUUpdaterDelegate.h)
-can retain an immediate-install block, but still attempts installation when the
-app terminates. Therefore the replica must cover staged opt-out and ordinary quit,
-not only the relaunch callback. Its
-[feed driver](https://github.com/sparkle-project/Sparkle/blob/eef1a539a373c1f1a320624b1130fc5de7b2e100/Sparkle/SUAppcastDriver.m)
-verifies signed feeds before selection; custom item properties are exposed by the
-[item API](https://github.com/sparkle-project/Sparkle/blob/eef1a539a373c1f1a320624b1130fc5de7b2e100/Sparkle/SUAppcastItem.h).
-
-Planning refinement, answered by the agent on the user's behalf to preserve the
-agreed authenticated compatibility contract: require signed feeds as well as
-archives. Set `SURequireSignedFeed=YES`, `SUVerifyUpdateBeforeExtraction=YES` and
-`SUSignedFeedFailureExpirationInterval=0`; the latter prevents the default
-signed-feed failure fallback. Owner-derived catalog format appears in both bundle
-and signed feed, with agreement verified by packaging. Slice 01 must prove the
-extension roundtrip and veto callback before these become production assumptions.
-
-Draft synthesis: the fewest-slices and risk-first drafts agreed on separating
-engine, signing and launcher proofs. The Claude seam draft contributed checksum
-scope, release-only configuration, defaults isolation and quiet relaunch checks.
-Its immediate-block-only installation assumption was contradicted by pinned source;
-its long fence was rejected because waiting workflows must remain usable. The
-larger draft ladders were merged at existing owners, with no separate publication
-ceremony. Discovery findings do not waive a proof gate.
-
-| Preservation claim | Evidence and owner | Production parity/acceptance |
-| --- | --- | --- |
-| Supported authentication, veto, staging and quit behavior | [Rejected upstream reproduction](assets/sparkle-reproduction.json) and [accepted protected engine](assets/protected-engine-proof.json) | 06 replays accepted inputs through production; 09 confirms assembled behavior. |
-| Stable release identity and observed permission behavior | 02 stable signing recipe; prior permission proof accepted by user | 05 preserves recipe; 09 reruns only if packaging invalidates it. |
-| Complete bundle loads and safe old-client lifetime | [Frozen reader-lock proof](assets/launcher-lifetime-proof.json); actual installer ownership remains OPEN | 06 drives production entry with those barriers; 09 verifies the installed launcher. |
-| Canonical skill links/references and explicit overwrite | [Real documented-command parity](assets/skills-production-parity.json) and [focused agent matrix](assets/skills-model-trials.json) | Published-source onboarding and final repeated matrix remain OPEN in 08/09. |
-
-Each accepted spike freezes runnable source/config/dependencies, controlled inputs,
-platform and complete positive/negative traces by commit and digest. Production
-parity uses those exact inputs before expensive installed confirmation. Reports
-bind source revision, input hashes, runner command, outcome and owning slice;
-retain secrets nowhere. Store small feature evidence here; generated app bundles
-and large media stay outside Git with immutable receipts/reproduction commands.
-
-## Verification and scope
-
-Every behavior slice follows write-tests red/green. Use barrier fixtures and the
-narrowest owning suite; do not repeatedly build/record/render to prove service
-accounting. Run the required full repository checks once at completed implementation,
-as [AGENTS.md](../../AGENTS.md) directs. Docker evaluates skill/CLI agent behavior;
-macOS installed proof evaluates Sparkle, permissions and bundle replacement.
-
-Any visual slice archives its baseline/candidate under this feature, uses
-[compare-screenshots](../../.agents/skills/compare-screenshots/SKILL.md), then runs
-unprimed [screenshot-critique](../../.agents/skills/screenshot-critique/SKILL.md) as
-the last visual acceptance check. Show shots through
-[preview-shots](../../.agents/skills/preview-shots/SKILL.md); allow about five minutes
-for non-blocking reversible feedback while continuing independent work. If silent,
-record the evidence-based choice, close the shots and proceed. This is no release
-approval gate; missing required OS interaction or credentials is not implied consent.
-
-No automatic skill edits, model downloads, permission grants, media edits, catalog
-reconstruction, tester-feedback process or new update server. Authentication,
-launcher safety, no interruption and populated-library usability remain mandatory.
-Failed proof means reslice, not waive. The slices name implementer freedoms; a new
-policy or external contract is a spec change, not an unlisted convenience choice.
+Every behavior fix follows [write-tests](../../.agents/skills/write-tests/SKILL.md).
+[AGENTS.md](../../AGENTS.md) owns narrow checks and the final full run. Visual
+changes need before/after and reference comparison, an unprimed critique and user
+preview. No automatic skill edits, model downloads, media edits, catalog rebuild,
+permission grants, new update server or custom postlaunch rollback is introduced.

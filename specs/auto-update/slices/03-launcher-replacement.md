@@ -5,8 +5,9 @@ unsafe mixed release. Depends on 01; this is a focused concurrency reproduction.
 
 ## Seam and artifact
 
-The [release launcher](../../../scripts/release.mjs) reads Node and CLI from a
-mutable app before contacting the service. The service runtime-owner lock in
+The [fixed release launcher](../../../scripts/launcher/main.c) obtains shared
+account-owned exclusion before reading Node and CLI from the mutable app and
+before contacting the service. The service runtime-owner lock in
 [startup](../../../apps/service/src/startup.ts) does not cover that interval.
 The seam is installed launcher → complete bundled generation, joined with Sparkle
 replacement across native app exit and helper installation.
@@ -55,7 +56,7 @@ generation and safe deferral rules are not. Human review inspects the generation
 trace and demonstrated long-lived-client blocker; expectations about how quickly
 an idle MCP session must update would reopen its lifetime policy.
 
-## Launcher-only checkpoint (not complete)
+## Frozen launcher-only research
 
 The [bounded runner](../../../scripts/launcher-lab.mjs) freezes the current shell
 bootstrap and a candidate descriptor-owning lock wrapper. Run its
@@ -88,9 +89,13 @@ boundary honestly. Public Sparkle does not currently prove this handshake.
 The [protected engine receipt](../assets/protected-engine-proof.json) now proves
 actual installer exclusion against a live MCP reader and through helper/host
 failure and cancellation. That closes the helper-ownership research prerequisite.
-Still open: framed production `UPDATING` startup failure, `open -a` discovery parity, concurrent/canonical/default-path aliases,
-normal MCP EOF, canceled/failing replacement and relocation of the assembled kit.
-No production launcher changed in this checkpoint. Resolve engine ownership first;
-then port the primitive and rerun these frozen barriers through production.
+Production now ships the fixed C launcher, with framed `UPDATING` before bundle
+load, shared exclusion through Node exit, and account-home matching with Sparkle.
+Focused production checks cover default/override/relocated paths and preservation
+of the launcher across replacement. The assembled positive journey uses the actual
+old-MCP lifetime with a fixture-specific compiled account path; slice 09 records
+that substitution and exact launcher hashes. It is not the research wrapper and
+does not claim the real-account launcher was run against the user installation.
+Final delivered-kit and publication checks remain in slice 09.
 
 Checkpoint choices are recorded in the [implementation ledger](../choices.md).

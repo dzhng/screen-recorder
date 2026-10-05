@@ -68,3 +68,43 @@ requirements. Visual shots, if produced, inherit compare/preview review and requ
 unprimed screenshot-critique as the last visual acceptance check. Human feedback
 changes this slice if observed failure/reapproval differs from documented recovery;
 record pass, failure and unverified scope honestly rather than waive a requirement.
+
+## Current assembled checkpoint
+
+The [installed receipt](../assets/installed-acceptance.json), committed in
+`964a8a20`, reports passing upgrade and manual-recovery runs on macOS 27.0.1 arm64.
+Both bind payload source `0dd14443`; upgrade runner `b079fffa` and recovery runner
+`80e989fd` retain separate runner hashes and raw-receipt references. The upgrade
+records old/new service identities, real old-MCP exclusion, unchanged external
+launcher, quiet capture idle and equal before/after populated-library snapshots,
+including original media digests. Both runs use an isolated signing identity,
+account-lock namespace, selected library/defaults and controlled signed local feed.
+Cleanups report no owned remaining processes, forced PIDs or errors.
+
+The recovery run removes the candidate service entry before signing to cause a
+controlled successor startup failure. Explicit reinstall restores version `0.1.2`
+and update state `disabled`, preserving the public library snapshot and original
+media. Persisted-Off startup/quit now passes with controlled defaults inputs;
+production setter persistence and live staged cancellation retain their separate
+native/SDK proof. There is no automatic post-EOF recovery launch or competing
+successor. Prior accepted permission continuity is reused. These scoped lab runs
+do not establish HTTPS publication or arbitrary catalog migration.
+
+The final portable agent matrix is [44/44](../assets/final-agent-matrix.json) at
+consumer source `4fbeee26`, with unchanged source hashes and production CLI parity.
+Its controlled acquisition and interpretation limits remain intact. The
+[final repository checks](../assets/final-repository-checks.json) retain the once-run
+full suite and narrow affected followups. Build/types/format/helper and focused
+native gates passed; lint passed with warnings. App checks have 65 passes and 23
+retained source-app capture-permission/derived countdown-timeout failures. Do not
+claim full-suite green or repeat accepted permission checks; the user directed no
+repeats.
+
+Final artifact source is frozen at `4387da97`. Its executable payload is unchanged
+from the accepted `0dd14443` installed runs; final packaging must bind `4387da97`
+metadata. Evidence/docs-only followups may land afterward without moving the exact
+release tag or rewriting the earlier payload identities.
+
+Main push, matching annotated tag, published assets/HTTPS redirects and live current
+consumer-source acquisition remain OPEN. Do not archive this spec or present the
+scoped installed lab and portable matrix as completion of those gates.

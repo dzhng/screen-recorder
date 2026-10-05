@@ -94,10 +94,12 @@ Disabling launcher flock or built metadata validation made their respective chec
 fail. The package links the exact protected r3 framework; the real SDK manifest
 and its frozen build receipt were inspected without another framework build.
 
-This is a source checkpoint, not completed artifact acceptance. Final signed
-archive/feed verification, identical extracted app-tree comparison and relocated
-assembled native smoke remain required once actual credentials and slice 06's
-native sources are integrated. Permission continuity is an accepted prerequisite;
+Native sources and durable credentials are now integrated. Finalized signed
+kit/update/feed packaging, identical extracted app-tree comparison and relocated
+archive smoke are implemented; the isolated installed journey separately exercises
+the assembled host/helper/launcher path. This does not establish published artifact
+readiness. Slice 09 owns final accepted-source packaging, publication and HTTPS
+redirect verification. Permission continuity is an accepted prerequisite;
 this pass does not repeat it or claim a new recipient/Gatekeeper observation.
 
 Integration refinement: launcher coordination resolves the passwd account home,

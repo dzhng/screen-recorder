@@ -114,9 +114,13 @@ installed schemas and explicitly labels the controlled update-health projection.
   passes all four controlled interpretation tasks. It binds the dirty tree's
   runner/contract hashes and retained raw evidence; it provides no installed
   schema or native-update proof and is not the final repeated matrix.
+- [x] Run the final repeated portable matrix: [retained receipt](../assets/final-agent-matrix.json)
+  binds consumer source `4fbeee26`, all eight unchanged source inputs, production
+  CLI parity and 92 retained raw artifacts. Eleven distinct cases × two agents ×
+  two fresh trials pass **44/44**. Controlled README acquisition and health-only
+  interpretation remain explicitly limited; this is not native updater proof.
 - [ ] Exercise live remote onboarding against the published current consumer
-  source and run every
-  affected/current case twice freshly in both agents with final artifact hashes.
+  source after source publication. A controlled complete mirror does not close it.
 
 Failed/superseded runs remain in ignored eval results and are excluded from the
 focused matrix. Keep the two final result directories named in the matrix receipt
