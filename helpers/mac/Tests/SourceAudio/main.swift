@@ -152,7 +152,6 @@ func pcmMovie(_ source: URL) async throws -> URL {
     precondition(writer.status == .completed)
     return url
 }
-let t: (Int64) -> CMTime = { CMTime(value: $0, timescale: 1_000_000) }
 func movie(_ sources: [URL], name: String) async throws -> (URL, [String]) {
     let composition = AVMutableComposition()
     for source in sources {
@@ -165,9 +164,11 @@ func movie(_ sources: [URL], name: String) async throws -> (URL, [String]) {
         for range in [
             TimeSpan(startUs: 0, endUs: 400_000), TimeSpan(startUs: 600_000, endUs: 1_000_000),
         ] {
-            try target.insertTimeRange(
-                CMTimeRange(start: t(range.startUs), end: t(range.endUs)), of: audio,
-                at: t(1_250_000 + range.startUs))
+            let sourceRange = CMTimeRange(
+                start: CMTime(value: range.startUs, timescale: 1_000_000),
+                end: CMTime(value: range.endUs, timescale: 1_000_000))
+            let destinationTime = CMTime(value: 1_250_000 + range.startUs, timescale: 1_000_000)
+            try target.insertTimeRange(sourceRange, of: audio, at: destinationTime)
         }
     }
     let url = directory.appendingPathComponent(name + ".mov")
