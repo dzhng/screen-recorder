@@ -1,4 +1,6 @@
 import { afterEach, expect, test } from "vitest";
+import { createHash } from "node:crypto";
+import { writeSync } from "node:fs";
 import { chmod, mkdtemp, mkdir, open, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
@@ -107,4 +109,76 @@ test("video-only capture authority receives bounded byte-scaled verification tim
     ).resolves.toMatchObject({ marker: "verified" });
   }
   expect(budgets[1]).toBeGreaterThan(budgets[0]!);
+});
+
+test("canonical video metadata requires current alpha facts without inventing source corruption", async () => {
+  const root = await mkdtemp(join(tmpdir(), "source-export-video-facts-"));
+  roots.push(root);
+  const path = join(root, "video.mov");
+  await writeFile(path, "retained canonical bytes");
+  const file = await open(path);
+  const stat = await file.stat({ bigint: true });
+  await file.close();
+  const actual = {
+    originUs: 0,
+    streams: [
+      {
+        id: "track:1",
+        kind: "video" as const,
+        codec: "avc1",
+        decodable: true,
+        hasAlpha: false,
+        startUs: 0,
+        endUs: 1000000,
+        segments: [
+          { startUs: 0, endUs: 1000000, empty: false, mediaStartUs: 0, mediaDurationUs: 1000000 },
+        ],
+      },
+    ],
+  };
+  let emitAlpha = true;
+  const exportSource = sourceExporter(async (operation, params, options) => {
+    if (operation === "media.probe") {
+      const report = emitAlpha
+        ? actual
+        : {
+            ...actual,
+            streams: actual.streams.map(({ hasAlpha: _alpha, ...stream }) => stream),
+          };
+      const bytes = Buffer.from(JSON.stringify(report));
+      writeSync(options!.descriptors![1]!, bytes, 0, bytes.length, 0);
+      return {
+        ok: true,
+        data: {
+          file: params.output,
+          bytes: bytes.length,
+          sha256: createHash("sha256").update(bytes).digest("hex"),
+        },
+      };
+    }
+    return { ok: true, data: { marker: "verified" } };
+  });
+  const run = (
+    metadata:
+      | typeof actual
+      | { originUs: number; streams: Omit<(typeof actual.streams)[0], "hasAlpha">[] },
+  ) =>
+    exportSource(root, join(root, "out.jsonl"), new AbortController().signal, {
+      video: { path, bytes: Number(stat.size), identity: fileIdentity(stat), metadata },
+    });
+  const { hasAlpha: _alpha, ...oldStream } = actual.streams[0]!;
+  await expect(run({ originUs: 0, streams: [oldStream] })).rejects.toMatchObject({
+    code: "NOT_READY",
+    retryable: false,
+  });
+  await expect(run(actual)).resolves.toMatchObject({ marker: "verified" });
+  emitAlpha = false;
+  await expect(run(actual)).rejects.toMatchObject({ code: "NOT_READY", retryable: false });
+  emitAlpha = true;
+  await expect(
+    run({ ...actual, streams: [{ ...actual.streams[0]!, hasAlpha: true }] }),
+  ).rejects.toMatchObject({
+    code: "INVALID_PACKAGE",
+    retryable: false,
+  });
 });

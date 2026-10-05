@@ -1,6 +1,6 @@
 # 19 — Explicit HDR source conversion
 
-Status: not started. Question: **Can the proven transform produce a new managed SDR asset without changing original meaning?**
+Status: native conversion facts in progress; managed conversion not started. Question: **Can the proven transform produce a new managed SDR asset without changing original meaning?**
 
 Dependencies: [18](18-hdr-feasibility.md), [05](05-managed-output.md).
 
@@ -23,3 +23,49 @@ Retain source/control and candidate shots. Use compare-screenshots to judge the 
 Inherit the [global contract](../README.md#contracts-and-ownership) and narrow verification policy. Write-tests red/green precedes behavior changes. Existing native output and persisted identity remain unchanged unless this slice names the extension.
 
 Delegate internal naming/decomposition, bounded fixture selection and reversible artifact styling. Public meaning and backend policy are fixed above; resolve a new semantic choice in this spec before coding it. Record actual commands, immutable input/runtime identities, coverage, failures and verdict. User feedback changes requested meaning, supported scope or visible appearance; mechanical preferences alone do not justify expanding the slice. A failed proof remains unfinished and must be narrowed or resliced, not waived.
+
+
+## Native conversion facts checkpoint
+
+The existing native probe now exposes exact first/last presented timestamps and
+actual last sample duration from its existing presented-sample cursor. The final
+sample is chosen by latest presentation start rather than cursor traversal order.
+A fresh conversion-specific reader will require these facts; the base tolerant
+asset schema and persisted legacy metadata are not conversion authority.
+
+Per-format color declarations retain missing range as null and report special
+interpretation extensions and malformed color declaration types. Timed video
+alpha comes from the native track's media characteristics. Native SDR admission
+uses this same declaration owner and keeps its original policy.
+
+Focused red/green checks used actual integer and authored 24 fps B-frame media,
+PQ ProRes metadata with absent native range, and timed ProRes alpha. Prechange
+native code fails each new fact assertion. Current shared Media-module scratch
+execution passes the focused cases; this is component proof, not a linked public
+worker or managed-conversion acceptance claim. The B-frame test's old truncated
+end label was corrected to exact last start plus 1/24 s support. Before/after
+native color-policy checks on the retained 16 limited/full-range SDR and P3
+movies plus the 18 PQ/HLG charts match exactly: SDR admits, P3/PQ/HLG refuse.
+
+
+A streaming native timing digest additionally qualifies interior samples. It hashes
+canonical reduced-rational presentation starts and durations in cursor presentation
+order, normalized by only the earliest occupied segment's uniform offset. No rows
+or second timing oracle are stored. The falsifier moves one interior frame from
+250 ms to 500 ms while preserving count, every summary, endpoints and segment
+extent; its digest changes. A separate uniform 500 ms translation retains the
+digest, with its independently authored changed native origin asserted. Managed
+validation must compare this digest together with exact endpoints, origin/support
+mapping and display matrix; the digest cannot certify geometry or decoding.
+
+
+Independent review found that adding timed-video alpha facts could make unchanged
+old canonical package metadata appear corrupt. Canonical validation now explicitly
+refuses metadata or native workers lacking required video alpha facts as NOT_READY;
+no value is inferred and no old metadata is rewritten. Fresh facts pass, while a
+real false/true disagreement remains INVALID_PACKAGE. The focused service
+regression went red on the misleading old failure and green on this distinction.
+The native digest falsifier was also run against a separately faulted producer
+that hashed only sample presence; it fails specifically because changed interior
+timing produces the same digest. The unmodified producer passes all five focused
+native component checks.

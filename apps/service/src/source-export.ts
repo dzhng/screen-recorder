@@ -87,12 +87,27 @@ export function sourceExporter(
         canonicalBytes += Number(stat.size);
         inputs[role] = `/dev/fd/${handles.length + 2}`;
         if (expected.metadata) {
+          if (
+            expected.metadata.streams.some(
+              (stream) => stream.kind === "video" && stream.hasAlpha === undefined,
+            )
+          )
+            throw new CatalogError(
+              "NOT_READY",
+              "Canonical video metadata lacks current native alpha facts; source re-admission is required",
+            );
           const actual = mediaProbeSchema.parse(
             await readMediaProbe(worker, dirname(output), "/dev/fd/3", signal, [
               file.fd,
               ...lifetimes,
             ]),
           );
+          if (
+            actual.streams.some(
+              (stream) => stream.kind === "video" && stream.hasAlpha === undefined,
+            )
+          )
+            throw new CatalogError("NOT_READY", "Native worker lacks required video alpha facts");
           if (!isDeepStrictEqual(actual, expected.metadata))
             throw new CatalogError(
               "INVALID_PACKAGE",

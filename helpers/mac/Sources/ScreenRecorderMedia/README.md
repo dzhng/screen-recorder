@@ -39,3 +39,13 @@ to the previous picture is not an alternative tail oracle.
 Probing describes original bytes and bounded timing summaries. Successful metadata
 inspection does not establish actual decoding or canonical capture authority;
 those belong to their source and execution consumers.
+
+Video probes retain exact first/last presented time and the actual final sample's
+support separately from rounded summaries. A streaming digest retains exact
+ordered presentation starts and durations, including repeats and gaps; its only
+normalization is uniform translation from the earliest occupied segment start. Conversion validation must use fresh
+held-source facts, not cached summaries or packet timing. Per-format color
+[declarations](MediaProbe.swift) preserve absence as null, malformed color types
+and special interpretation extensions. A range default is a consumer policy,
+never a fabricated source declaration. Native picture admission consumes these
+same facts; HDR conversion does not broaden default SDR admission.

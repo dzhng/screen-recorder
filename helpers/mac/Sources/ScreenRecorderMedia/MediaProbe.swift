@@ -1,5 +1,6 @@
 @preconcurrency import AVFoundation
 import Foundation
+import CryptoKit
 
 public struct ProbedMedia: Encodable, Sendable {
     public let originUs: ExactTime
@@ -29,7 +30,58 @@ public struct ProbedStream: Encodable, Sendable {
     public var colorPrimaries: String?
     public var transferFunction: String?
     public var ycbcrMatrix: String?
+    public var colorFormats: [ProbedVideoColor]?
     public var samples: ProbedSamples?
+}
+
+/// Each format declaration remains evidence, including absent values; consumers choose policy.
+public struct ProbedVideoColor: Encodable, Sendable {
+    public let colorPrimaries: String?
+    public let transferFunction: String?
+    public let ycbcrMatrix: String?
+    public let fullRange: Bool?
+    public let bitsPerComponent: Int?
+    public let interpretationExtensions: [String]
+    public let invalidColorDeclarations: [String]
+
+    public init(_ format: CMFormatDescription) {
+        func value(_ key: CFString) -> CFPropertyList? {
+            CMFormatDescriptionGetExtension(format, extensionKey: key)
+        }
+        invalidColorDeclarations = [
+            kCMFormatDescriptionExtension_ColorPrimaries,
+            kCMFormatDescriptionExtension_TransferFunction,
+            kCMFormatDescriptionExtension_YCbCrMatrix,
+        ].filter { key in value(key) != nil && !(value(key) is String) }.map { $0 as String }
+        colorPrimaries = value(kCMFormatDescriptionExtension_ColorPrimaries) as? String
+        transferFunction = value(kCMFormatDescriptionExtension_TransferFunction) as? String
+        ycbcrMatrix = value(kCMFormatDescriptionExtension_YCbCrMatrix) as? String
+        fullRange = value(kCMFormatDescriptionExtension_FullRangeVideo) as? Bool
+        bitsPerComponent = value(kCMFormatDescriptionExtension_BitsPerComponent) as? Int
+        interpretationExtensions = [
+            kCMFormatDescriptionExtension_ICCProfile,
+            kCMFormatDescriptionExtension_GammaLevel,
+            kCMFormatDescriptionExtension_AlternativeTransferCharacteristics,
+            kCMFormatDescriptionExtension_LogTransferFunction,
+            kCMFormatDescriptionExtension_MasteringDisplayColorVolume,
+            kCMFormatDescriptionExtension_ContentLightLevelInfo,
+        ].filter { value($0) != nil }.map { $0 as String }
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case colorPrimaries, transferFunction, ycbcrMatrix, fullRange, bitsPerComponent,
+            interpretationExtensions, invalidColorDeclarations
+    }
+    public func encode(to encoder: Encoder) throws {
+        var values = encoder.container(keyedBy: CodingKeys.self)
+        try values.encode(colorPrimaries, forKey: .colorPrimaries)
+        try values.encode(transferFunction, forKey: .transferFunction)
+        try values.encode(ycbcrMatrix, forKey: .ycbcrMatrix)
+        try values.encode(fullRange, forKey: .fullRange)
+        try values.encode(bitsPerComponent, forKey: .bitsPerComponent)
+        try values.encode(interpretationExtensions, forKey: .interpretationExtensions)
+        try values.encode(invalidColorDeclarations, forKey: .invalidColorDeclarations)
+    }
 }
 
 public struct ProbedSegment: Encodable, Sendable {
@@ -44,6 +96,10 @@ public struct ProbedSamples: Encodable, Sendable {
     public let count: Int64
     public let firstPtsUs: Int64
     public let lastPtsUs: Int64
+    public let firstTimeUs: ExactTime
+    public let lastTimeUs: ExactTime
+    public let lastDurationUs: ExactTime
+    public let presentedTimingSha256: String
     public let minDurationUs: Int64
     public let maxDurationUs: Int64
 }
@@ -109,6 +165,7 @@ public enum MediaProbe {
                 )
             }
             if kind == "video" {
+                stream.hasAlpha = try await track.load(.mediaCharacteristics).contains(.containsAlphaChannel)
                 let size = CMVideoFormatDescriptionGetDimensions(format)
                 let transform = try await track.load(.preferredTransform)
                 let geometry = videoDisplayGeometry(
@@ -122,17 +179,11 @@ public enum MediaProbe {
                 stream.transform = [
                     transform.a, transform.b, transform.c, transform.d, transform.tx, transform.ty,
                 ]
-                stream.colorPrimaries =
-                    CMFormatDescriptionGetExtension(
-                        format, extensionKey: kCMFormatDescriptionExtension_ColorPrimaries)
-                    as? String
-                stream.transferFunction =
-                    CMFormatDescriptionGetExtension(
-                        format, extensionKey: kCMFormatDescriptionExtension_TransferFunction)
-                    as? String
-                stream.ycbcrMatrix =
-                    CMFormatDescriptionGetExtension(
-                        format, extensionKey: kCMFormatDescriptionExtension_YCbCrMatrix) as? String
+                let colors = formats.map(ProbedVideoColor.init)
+                stream.colorFormats = colors
+                stream.colorPrimaries = colors[0].colorPrimaries
+                stream.transferFunction = colors[0].transferFunction
+                stream.ycbcrMatrix = colors[0].ycbcrMatrix
                 stream.samples = try sampleTiming(
                     track: track,
                     segments: SourceSegment.occupied(of: segments), originUs: originUs)
@@ -154,12 +205,29 @@ public enum MediaProbe {
     private static func sampleTiming(
         track: AVAssetTrack, segments: [SourceSegment], originUs: ExactTime
     ) throws -> ProbedSamples {
+        guard let occupiedStart = segments.map({ $0.asset.start }).min() else {
+            throw NativeFailure.decodeFailed("No presented video support.")
+        }
+        let digestOrigin = try ExactTime(occupiedStart)
+        var timingHash = SHA256()
         var count: Int64 = 0
         var first = Int64.max
         var last = Int64.min
+        var firstTime: CMTime?
+        var lastTime: CMTime?
+        var lastDuration: CMTime?
         var minimum = Int64.max
         var maximum: Int64 = 0
         try visitPresentedSamples(track: track, segments: segments) { range in
+            if firstTime == nil || range.start < firstTime! { firstTime = range.start }
+            if lastTime == nil || range.start > lastTime! {
+                lastTime = range.start
+                lastDuration = CMTimeSubtract(range.end, range.start)
+            }
+            let start = try ExactTime(range.start).subtract(digestOrigin)
+            let duration = try ExactTime(CMTimeSubtract(range.end, range.start))
+            timingHash.update(data: Data(
+                "\(start.numerator)/\(start.denominator):\(duration.numerator)/\(duration.denominator)\n".utf8))
             let label = try ExactTime(range.start).subtract(originUs).sample(1_000_000, nearest: true)
             first = min(first, label)
             last = max(last, label)
@@ -168,9 +236,16 @@ public enum MediaProbe {
             maximum = max(maximum, length)
             count += 1
         }
-        guard count > 0 else { throw NativeFailure.decodeFailed("No presented video samples.") }
+        guard count > 0, let firstTime, let lastTime, let lastDuration else {
+            throw NativeFailure.decodeFailed("No presented video samples.")
+        }
         return ProbedSamples(
-            count: count, firstPtsUs: first, lastPtsUs: last, minDurationUs: minimum,
+            count: count, firstPtsUs: first, lastPtsUs: last,
+            firstTimeUs: try ExactTime(firstTime).subtract(originUs),
+            lastTimeUs: try ExactTime(lastTime).subtract(originUs),
+            lastDurationUs: try ExactTime(lastDuration),
+            presentedTimingSha256: timingHash.finalize().map { String(format: "%02x", $0) }.joined(),
+            minDurationUs: minimum,
             maxDurationUs: maximum)
     }
 }

@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import { spawnSync } from "node:child_process";
 import { test } from "node:test";
-import { mkdtempSync, rmSync } from "node:fs";
+import { copyFileSync, existsSync, mkdtempSync, rmSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { pathToFileURL } from "node:url";
@@ -32,9 +32,13 @@ test("probe preserves actual video timing and independent PCM metadata", () => {
   assert.equal(stream.samples.count, 8);
   assert.equal(stream.samples.firstPtsUs, 0);
   assert.equal(stream.samples.lastPtsUs, 1750000);
+  assert.equal(stream.samples.firstTimeUs, 0);
+  assert.equal(stream.samples.lastTimeUs, 1750000);
+  assert.equal(stream.samples.lastDurationUs, 250000);
   assert.equal(stream.samples.minDurationUs, 250000);
   assert.equal(stream.samples.maxDurationUs, 250000);
   assert.equal(stream.decodable, true);
+  assert.equal(stream.hasAlpha, false);
   const audio = probe("a-audio.wav");
   assert.equal(audio.ok, true, JSON.stringify(audio));
   const pcm = audio.data.streams.find((s) => s.kind === "audio");
@@ -148,6 +152,9 @@ test("probe maps B-frame edit lists and excludes stream-copy preroll", (t) => {
   const video = original.data.streams[0];
   assert.equal(video.samples.firstPtsUs, 0);
   assert.equal(video.samples.lastPtsUs, 2958333);
+  assert.equal(video.samples.firstTimeUs, 0);
+  assert.deepEqual(video.samples.lastTimeUs, { numerator: 8875000, denominator: 3 });
+  assert.deepEqual(video.samples.lastDurationUs, { numerator: 125000, denominator: 3 });
   assert.equal(video.samples.count, 72);
   assert.deepEqual(video.segments[0].mediaStartUs, { numerator: 250000, denominator: 3 });
   const cut = probe(pathToFileURL(trimmed).href);
@@ -156,5 +163,159 @@ test("probe maps B-frame edit lists and excludes stream-copy preroll", (t) => {
   assert.equal(clipped.samples.firstPtsUs, 0);
   assert.equal(clipped.samples.count, 26);
   assert.equal(clipped.samples.lastPtsUs, 1125000);
-  assert.equal(clipped.endUs, 1166000);
+  assert.deepEqual(clipped.samples.lastDurationUs, { numerator: 125000, denominator: 3 });
+  assert.deepEqual(clipped.endUs, { numerator: 3500000, denominator: 3 });
+});
+
+test("probe distinguishes absent range metadata from a declared video color profile", (t) => {
+  const directory = mkdtempSync(join(tmpdir(), "screenrec-probe-color-"));
+  t.after(() => rmSync(directory, { recursive: true, force: true }));
+  const path = join(directory, "pq.mov");
+  const encoded = spawnSync(
+    "ffmpeg",
+    [
+      "-nostdin",
+      "-v",
+      "error",
+      "-f",
+      "lavfi",
+      "-i",
+      "color=gray:size=48x32:rate=30",
+      "-frames:v",
+      "1",
+      "-vf",
+      "format=yuv444p10le,setparams=color_primaries=bt2020:color_trc=smpte2084:colorspace=bt2020nc:range=limited",
+      "-c:v",
+      "prores_ks",
+      "-profile:v",
+      "4",
+      "-alpha_bits",
+      "0",
+      path,
+    ],
+    { encoding: "utf8", timeout: 30000 },
+  );
+  assert.equal(encoded.status, 0, encoded.stderr);
+  const result = probe(pathToFileURL(path).href);
+  assert.equal(result.ok, true, JSON.stringify(result));
+  const video = result.data.streams.find((s) => s.kind === "video");
+  assert.equal(video.hasAlpha, false);
+  assert.deepEqual(video.colorFormats, [
+    {
+      colorPrimaries: "ITU_R_2020",
+      transferFunction: "SMPTE_ST_2084_PQ",
+      ycbcrMatrix: "ITU_R_2020",
+      fullRange: null,
+      bitsPerComponent: 12,
+      interpretationExtensions: [],
+      invalidColorDeclarations: [],
+    },
+  ]);
+});
+
+test("probe reports alpha on timed ProRes pictures", (t) => {
+  const directory = mkdtempSync(join(tmpdir(), "screenrec-probe-alpha-"));
+  t.after(() => rmSync(directory, { recursive: true, force: true }));
+  const path = join(directory, "alpha.mov");
+  const encoded = spawnSync(
+    "ffmpeg",
+    [
+      "-nostdin",
+      "-v",
+      "error",
+      "-f",
+      "lavfi",
+      "-i",
+      "color=red@0.5:size=48x32:rate=30,format=yuva444p10le",
+      "-frames:v",
+      "1",
+      "-c:v",
+      "prores_ks",
+      "-profile:v",
+      "4",
+      "-alpha_bits",
+      "16",
+      path,
+    ],
+    { encoding: "utf8", timeout: 30000 },
+  );
+  assert.equal(encoded.status, 0, encoded.stderr);
+  const result = probe(pathToFileURL(path).href);
+  assert.equal(result.ok, true, JSON.stringify(result));
+  assert.equal(result.data.streams.find((s) => s.kind === "video").hasAlpha, true);
+});
+
+test("probe timing digest detects interior changes hidden by summaries", (t) => {
+  const directory = mkdtempSync(join(tmpdir(), "screenrec-probe-timing-"));
+  const operandsPath = join(directory, "operands.json");
+  let passed = false;
+  t.after(() => {
+    if (!passed && existsSync(operandsPath)) {
+      const diagnostic = mkdtempSync(join(tmpdir(), "screenrec-probe-timing-failure-"));
+      copyFileSync(operandsPath, join(diagnostic, "operands.json"));
+      t.diagnostic(`Unverified timing operands retained at ${diagnostic}/operands.json`);
+    }
+    rmSync(directory, { recursive: true, force: true });
+  });
+  const variants = [];
+  for (const [name, middle, offset] of [
+    ["source", 3000, 0],
+    ["changed", 6000, 0],
+    ["translated", 3000, 6000],
+  ]) {
+    const path = join(directory, name + ".mov");
+    const encoded = spawnSync(
+      "ffmpeg",
+      [
+        "-nostdin",
+        "-v",
+        "error",
+        "-copyts",
+        "-f",
+        "lavfi",
+        "-i",
+        "color=gray:size=48x32:rate=30",
+        "-frames:v",
+        "4",
+        "-vf",
+        `settb=1/12000,setpts=if(eq(N\\,0)\\,0\\,if(eq(N\\,1)\\,${middle}\\,if(eq(N\\,2)\\,9000\\,18000)))+${offset}`,
+        "-fps_mode",
+        "passthrough",
+        "-enc_time_base:v",
+        "filter",
+        "-c:v",
+        "prores_ks",
+        "-profile:v",
+        "4",
+        "-alpha_bits",
+        "0",
+        "-video_track_timescale",
+        "12000",
+        "-movie_timescale",
+        "12000",
+        path,
+      ],
+      { encoding: "utf8", timeout: 30000 },
+    );
+    assert.equal(encoded.status, 0, encoded.stderr);
+    const result = probe(pathToFileURL(path).href);
+    assert.equal(result.ok, true, JSON.stringify(result));
+    variants.push(result.data);
+    writeFileSync(operandsPath, JSON.stringify(variants, null, 2));
+  }
+  const [sourceAsset, changedAsset, translatedAsset] = variants;
+  const [source, changed, translated] = variants.map((media) =>
+    media.streams.find((s) => s.kind === "video"),
+  );
+  assert.equal(sourceAsset.originUs, 0);
+  assert.equal(changedAsset.originUs, 0);
+  assert.equal(translatedAsset.originUs, 500000);
+  const { presentedTimingSha256: sourceDigest, ...sourceSummary } = source.samples;
+  const { presentedTimingSha256: changedDigest, ...changedSummary } = changed.samples;
+  assert.deepEqual(sourceSummary, changedSummary);
+  assert.deepEqual(source.segments, changed.segments);
+  assert.match(sourceDigest, /^[a-f0-9]{64}$/);
+  assert.notEqual(sourceDigest, changedDigest);
+  assert.equal(sourceDigest, translated.samples.presentedTimingSha256);
+  passed = true;
 });
