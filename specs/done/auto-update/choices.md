@@ -1,16 +1,16 @@
 # Implementation choices
 
-This ledger describes the integrated code at `05ecd378`, before publication.
+This ledger describes the shipped updater and its release-tooling followups.
 The [decision map](discovery.md) retains the user's requirements and planning
 attribution. This document records the implementation choices the user now owns;
-[the handoff](README.md#next-agent-prompt) owns unfinished proof and release work.
+[the evidence](README.md#evidence-and-limits) owns verification and publication status.
 
 Review the three medium-confidence tradeoffs first: an uncertain private
 acknowledgement requires manual restart, a live MCP reader ends the current update
 cycle, and one account lock couples every released app copy. These are implemented
 limits, not provisional mechanisms awaiting another slice. No unresolved user-only
-choice remains in this ledger. Acceptance and publication status belongs in the
-handoff, rather than changing these product contracts.
+choice remains in this ledger. Verification status does not change these product
+contracts.
 
 ## Sound — medium confidence
 
@@ -316,10 +316,13 @@ handoff, rather than changing these product contracts.
 - **The choice:** CI restores the encrypted PKCS#12, which contains the stable app
   certificate and private key, into a temporary keychain. It validates the actual
   certificate's public fingerprints and selects it explicitly for codesign. It
-  signs nested executables and bundles before the enclosing app, then verifies
-  them strictly. The certificate need not be trusted by the build account.
+  grants Apple signing tools access to the imported private key only in that
+  temporary keychain, so a headless runner needs no password dialog. A denied
+  grant aborts packaging. It signs nested executables and bundles before the
+  enclosing app, then verifies them strictly. The certificate need not be trusted
+  by the build account; the alternative would alter the login keychain or trust.
 - **The gap:** Stable self-signing did not prescribe exact identity selection or
-  whether account trust would be required.
+  whether account trust or headless private-key access would be required.
 - **The reach:** Personal `Screen Recorder Local` signing stays separate. No
   valid-only discovery, same-name reissue or ad-hoc final re-signing substitutes
   for the supplied release identity. Temporary signing secrets are cleaned up;
@@ -456,4 +459,24 @@ handoff, rather than changing these product contracts.
   edits skills. A focused old matrix remains bounded evidence; final trials must
   identify their actual consumer, case, CLI and observer bytes.
 - **Verdict:** sound; cheap checks do not impersonate installation or final acceptance.
+- **Confidence:** high.
+
+
+### A workflow retry validates the selected source without rewriting a release
+
+- **When:** hosted release-signing repair, `ef8add44`.
+- **The choice:** A version tag's build fails after the release has already been
+  published from verified local artifacts. The same workflow can run manually on
+  the repaired main branch with an explicit tag. It validates that tag against
+  the selected source's app version and verifies its own rebuilt package. The
+  publisher sees the existing published release and leaves all assets unchanged.
+  Retagging would destroy the original source reference; uploading replacement
+  assets would silently change bytes users had already received.
+- **The gap:** The simple tag-triggered release did not specify how to prove a
+  later CI repair without moving a published tag or issuing another app version.
+- **The reach:** The retry source and published artifact source remain distinct.
+  This retry establishes hosted build readiness, not new release delivery. A
+  product correction still needs a new version; this adds no second publisher.
+- **Verdict:** sound; the same release owner validates retries and preserves
+  published provenance.
 - **Confidence:** high.
