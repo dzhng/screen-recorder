@@ -187,6 +187,92 @@ function normalized(source: SpeakerEvidenceSource, operands: SpeakerOperands) {
   });
   return { intervals, scores, tensorSha256: digest(tensor) };
 }
+/** One native parser validates lossless package operands and live publication alike. */
+export function speakerOperandRows(metadata: SpeakerEvidenceMetadata, operands: SpeakerOperands) {
+  const parsed = speakerEvidenceMetadataSchema.parse(metadata),
+    result = normalized(parsed.source, operands);
+  if (
+    digest(operands.nativeReceipt) !== parsed.nativeReceiptSha256 ||
+    digest(operands.report) !== parsed.reportSha256 ||
+    result.tensorSha256 !== parsed.tensorSha256 ||
+    result.intervals.length !== parsed.intervalCount
+  )
+    invalid("Portable speaker operands differ from retained metadata");
+  return result;
+}
+/** Package readers use the same parsed native rows without another catalog. */
+export function speakerOperandRecords(
+  metadata: SpeakerEvidenceMetadata,
+  operands: SpeakerOperands,
+): Pick<SpeakerEvidenceStore, "metadata" | "intervalPage" | "scorePage"> {
+  const parsed = speakerOperandRows(metadata, operands);
+  const intervals = parsed.intervals.toSorted(
+    (a, b) =>
+      compare(fromTime(a.sourceRange.startUs), fromTime(b.sourceRange.startUs)) ||
+      a.ordinal - b.ordinal,
+  );
+  const readMetadata = (identity: SpeakerEvidenceIdentity) => {
+    if (!isDeepStrictEqual(key(identity), key(metadata)))
+      throw new CatalogError("ARTIFACT_CHANGED", "Portable speaker generation changed");
+    return metadata;
+  };
+  const page = <T>(
+    records: T[],
+    identity: SpeakerEvidenceIdentity,
+    after: number,
+    limit: number,
+  ) => {
+    speakerPageBounds(after, limit);
+    readMetadata(identity);
+    const rows = records.slice(after + 1, after + limit + 2),
+      more = rows.length > limit;
+    if (more) rows.pop();
+    return { records: rows, nextSequence: more ? after + rows.length : null };
+  };
+  return {
+    metadata: readMetadata,
+    intervalPage: (request) => {
+      const selected = page(
+        intervals,
+        request.identity,
+        request.afterSequence ?? -1,
+        request.limit ?? 100,
+      );
+      return {
+        metadata: readMetadata(request.identity),
+        intervals: request.range
+          ? selected.records.filter((row) => intersects(row.sourceRange, request.range!))
+          : selected.records,
+        nextSequence: selected.nextSequence,
+      };
+    },
+    scorePage: (request) => {
+      const selected = page(
+        parsed.scores,
+        request.identity,
+        request.afterFrame ?? -1,
+        request.limit ?? 100,
+      );
+      return {
+        metadata: readMetadata(request.identity),
+        scores: request.range
+          ? selected.records.filter((row) => intersects(row.sourceRange, request.range!))
+          : selected.records,
+        nextFrame: selected.nextSequence,
+      };
+    },
+  };
+}
+function speakerPageBounds(after: number, limit: number) {
+  if (
+    !Number.isSafeInteger(after) ||
+    after < -1 ||
+    !Number.isSafeInteger(limit) ||
+    limit < 1 ||
+    limit > 1000
+  )
+    throw new CatalogError("INVALID_PARAMS", "Invalid speaker evidence page");
+}
 const key = (identity: SpeakerEvidenceIdentity) => [
   identity.owner.assetId,
   identity.sourceId,
@@ -200,7 +286,10 @@ export function speakerGenerationResource(
 ): string {
   return JSON.stringify([identity.owner.kind, identity.owner.assetId, identity.generation]);
 }
-export function assetSpeakerOwner(assets: AssetStore, acquisitions: AcquisitionStore) {
+export function assetSpeakerOwner(
+  assets: Pick<AssetStore, "get" | "path">,
+  acquisitions: { get(id: string): Pick<ReturnType<AcquisitionStore["get"]>, "id" | "bindings"> },
+) {
   return (identity: SpeakerEvidenceIdentity, source: SpeakerEvidenceSource): void => {
     speakerIdentitySchema.parse(identity);
     const selected = selectSpeakerSource(assets, acquisitions, {
@@ -249,9 +338,18 @@ export class SpeakerEvidenceStore {
     operands: SpeakerOperands,
     jobId?: string,
   ) {
+    return this.captureWithOwner(inputIdentity, inputSource, operands, jobId, this.validateOwner);
+  }
+  private captureWithOwner(
+    inputIdentity: SpeakerEvidenceIdentity,
+    inputSource: SpeakerEvidenceSource,
+    operands: SpeakerOperands,
+    jobId: string | undefined,
+    validateOwner: typeof this.validateOwner,
+  ) {
     const identity = speakerIdentitySchema.parse(inputIdentity),
       source = speakerEvidenceSourceSchema.parse(inputSource);
-    this.validateOwner(identity, source);
+    validateOwner(identity, source);
     if (
       Buffer.byteLength(operands.nativeReceipt) > 1024 * 1024 ||
       Buffer.byteLength(operands.report) > 1024 * 1024
@@ -294,11 +392,36 @@ export class SpeakerEvidenceStore {
     operands: SpeakerOperands,
     jobId?: string,
   ) {
-    const { identity, source, captured, owned } = this.capture(
+    return this.stageWithOwner(inputIdentity, inputSource, operands, jobId, this.validateOwner);
+  }
+  stagePortable(
+    metadata: SpeakerEvidenceMetadata,
+    operands: SpeakerOperands,
+    validateOwner: typeof this.validateOwner,
+  ) {
+    speakerOperandRows(metadata, operands);
+    const { owner, sourceId, generation, policy } = metadata;
+    return this.stageWithOwner(
+      { owner, sourceId, generation, policy },
+      metadata.source,
+      operands,
+      undefined,
+      validateOwner,
+    );
+  }
+  private stageWithOwner(
+    inputIdentity: SpeakerEvidenceIdentity,
+    inputSource: SpeakerEvidenceSource,
+    operands: SpeakerOperands,
+    jobId: string | undefined,
+    validateOwner: typeof this.validateOwner,
+  ) {
+    const { identity, source, captured, owned } = this.captureWithOwner(
       inputIdentity,
       inputSource,
       operands,
       jobId,
+      validateOwner,
     );
     if (!owned && this.row(identity)?.complete !== 1)
       throw new CatalogError("PROCESSING_BUSY", "Speaker generation is being prepared", {}, true);
@@ -366,6 +489,42 @@ export class SpeakerEvidenceStore {
     return !!this.store.catalog
       .prepare(`SELECT 1 FROM speaker_evidence_generations WHERE ownerId=? AND complete=1 LIMIT 1`)
       .get(assetId);
+  }
+  portableGenerations(assetId: string, limit = 25000) {
+    if (!Number.isSafeInteger(limit) || limit < 1 || limit > 25000)
+      throw new CatalogError("INVALID_PARAMS", "Invalid speaker inventory limit");
+    const rows = this.store.catalog
+      .prepare(
+        `SELECT rowid AS sequence,metadata FROM speaker_evidence_generations WHERE ownerId=? AND complete=1 ORDER BY rowid LIMIT ?`,
+      )
+      .all(assetId, limit + 1) as { sequence: number; metadata: string }[];
+    if (rows.length > limit)
+      throw new CatalogError("LIMIT_EXCEEDED", "Speaker inventory exceeds package budget");
+    return rows.map((row) => ({
+      sequence: row.sequence,
+      metadata: speakerEvidenceMetadataSchema.parse(JSON.parse(row.metadata)),
+    }));
+  }
+  latestObservations(
+    assetId: string,
+    source: Omit<z.infer<typeof observationSourceSchema>, "observationRange">,
+  ) {
+    const schema = observationSourceSchema.omit({ observationRange: true });
+    const pin = schema.parse(source),
+      found = new Map<string, SpeakerEvidenceMetadata>();
+    for (const { metadata } of this.portableGenerations(assetId)) {
+      if (!isDeepStrictEqual(schema.parse(metadata.source), pin)) continue;
+      const { owner, sourceId, generation, policy } = metadata;
+      this.validateOwner({ owner, sourceId, generation, policy }, metadata.source);
+      found.set(JSON.stringify(metadata.source.observationRange), metadata);
+    }
+    return [...found.values()].toSorted(
+      (a, b) =>
+        compare(
+          fromTime(a.source.observationRange.startUs),
+          fromTime(b.source.observationRange.startUs),
+        ) || a.generation.localeCompare(b.generation),
+    );
   }
   latestObservation(assetId: string, source: z.infer<typeof observationSourceSchema>) {
     const row = this.store.catalog
@@ -444,14 +603,7 @@ export class SpeakerEvidenceStore {
     limit: number,
   ) {
     const metadata = this.metadata(identity);
-    if (
-      !Number.isSafeInteger(after) ||
-      after < -1 ||
-      !Number.isSafeInteger(limit) ||
-      limit < 1 ||
-      limit > 1000
-    )
-      throw new CatalogError("INVALID_PARAMS", "Invalid speaker evidence page");
+    speakerPageBounds(after, limit);
     const rows = this.store.catalog
       .prepare(
         `SELECT sequence,content FROM speaker_evidence_records WHERE ${where} AND kind=? AND sequence>? ORDER BY sequence LIMIT ?`,

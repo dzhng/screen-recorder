@@ -14,6 +14,7 @@ import { setImmediate } from "node:timers/promises";
 import type { Models, PreparedRuntime } from "./models.js";
 import {
   selectSpeakerSource,
+  selectSpeakerChannel,
   speakerSourceSchema,
   type SpeakerSourceInput,
 } from "./source-speakers.js";
@@ -23,6 +24,8 @@ import type {
   SpeakerOperands,
   SpeakerEvidenceMetadata,
 } from "./speaker-evidence.js";
+
+import type { SourceSelection } from "./source-selection.js";
 
 const artifact = "source-speakers";
 export type SpeakerObserver = (
@@ -78,6 +81,38 @@ export class SpeakerProcessing {
         source: { ...this.descriptor(selected), decoder },
       }),
     };
+  }
+  engine(modelId: string) {
+    return this.options.models.speaker(modelId).engine;
+  }
+  resolveMany(
+    selections: readonly SourceSelection[],
+    choice: { channel: number; modelId: string },
+  ) {
+    const engine = this.engine(choice.modelId);
+    return selections.map((selection) => {
+      const selected = selectSpeakerChannel(this.options.assets, this.options.acquisitions, {
+        ...selection,
+        ...choice,
+      });
+      const evidence = this.options.evidence.latestObservations(selection.assetId, {
+        streamId: selected.selection.streamId,
+        acquisitionId: selected.selection.acquisitionId ?? null,
+        supportDigest: selected.supportDigest,
+        channel: selected.channel,
+        originUs: selected.originUs,
+        durationUs: selected.durationUs,
+        engine,
+      });
+      return {
+        selection,
+        evidence,
+        state: evidence.length ? "ready" : "unavailable",
+        reason: evidence.length ? null : "source_evidence_unobserved",
+        retryable: false,
+        jobId: null,
+      };
+    });
   }
   sourceStatus(input: SpeakerSourceInput) {
     const selected = this.selected(input);

@@ -20,8 +20,8 @@ export type SourceSelection = z.infer<typeof sourceSelectionSchema>;
 
 /** Resolve immutable source inputs without inventing a recording or a project timeline. */
 export function selectSource(
-  assets: AssetStore,
-  acquisitions: AcquisitionStore,
+  assets: Pick<AssetStore, "get" | "path">,
+  acquisitions: { get(id: string): Pick<ReturnType<AcquisitionStore["get"]>, "id" | "bindings"> },
   input: SourceSelection,
 ) {
   const selection = sourceSelectionSchema.parse(input);

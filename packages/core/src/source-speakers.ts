@@ -23,13 +23,15 @@ export const speakerSourceSchema = sourceSelectionSchema
   .strict();
 export type SpeakerSourceInput = z.infer<typeof speakerSourceSchema>;
 
-/** Admit one complete source observation; decoding retains this source/support authority. */
-export function selectSpeakerSource(
-  assets: AssetStore,
-  acquisitions: AcquisitionStore,
-  input: SpeakerSourceInput,
+/** Select one source channel without inventing an observation range or requesting inference. */
+export function selectSpeakerChannel(
+  assets: Pick<AssetStore, "get" | "path">,
+  acquisitions: { get(id: string): Pick<ReturnType<AcquisitionStore["get"]>, "id" | "bindings"> },
+  input: Omit<SpeakerSourceInput, "sourceRange">,
 ) {
-  const { channel, sourceRange, modelId, ...selection } = speakerSourceSchema.parse(input);
+  const { channel, modelId, ...selection } = speakerSourceSchema
+    .omit({ sourceRange: true })
+    .parse(input);
   const source = selectSource(assets, acquisitions, selection);
   if (source.stream.kind !== "audio")
     throw new CatalogError("UNSUPPORTED_MEDIA", "Speaker observations require an audio stream");
@@ -38,6 +40,16 @@ export function selectSpeakerSource(
       "UNSUPPORTED_MEDIA",
       "Speaker observations require a known source channel",
     );
+  return { ...source, originUs: assets.get(selection.assetId).originUs, channel, modelId };
+}
+/** Admit one complete source observation; decoding retains this source/support authority. */
+export function selectSpeakerSource(
+  assets: Pick<AssetStore, "get" | "path">,
+  acquisitions: { get(id: string): Pick<ReturnType<AcquisitionStore["get"]>, "id" | "bindings"> },
+  input: SpeakerSourceInput,
+) {
+  const { sourceRange, ...selection } = speakerSourceSchema.parse(input);
+  const source = selectSpeakerChannel(assets, acquisitions, selection);
   const start = fromTime(sourceRange.startUs);
   const duration = subtract(fromTime(sourceRange.endUs), start);
   if (compare(duration, rational(30_000_000n)) !== 0)
@@ -59,9 +71,6 @@ export function selectSpeakerSource(
     );
   return {
     ...source,
-    originUs: assets.get(selection.assetId).originUs,
-    channel,
-    modelId,
     sourceRange,
     expectedPCM: { sampleRate: 16_000, frames: 480_000 },
   };

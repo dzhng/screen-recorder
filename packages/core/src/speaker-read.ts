@@ -23,8 +23,9 @@ export type SpeakerReadInput = {
 /** Source pages expose complete native observations; range filtering never changes their identity. */
 export class SourceSpeakerRead {
   constructor(
-    private readonly records: SpeakerEvidenceStore,
+    private readonly records: Pick<SpeakerEvidenceStore, "intervalPage" | "scorePage">,
     private readonly metadata: SpeakerEvidenceMetadata,
+    private readonly context?: string,
   ) {}
   page(input: SpeakerReadInput) {
     const view = input.view ?? "intervals";
@@ -34,6 +35,7 @@ export class SourceSpeakerRead {
     const queryDigest = createHash("sha256")
       .update(
         JSON.stringify({
+          context: this.context ?? null,
           owner: this.metadata.owner,
           source: this.metadata.source,
           view,
