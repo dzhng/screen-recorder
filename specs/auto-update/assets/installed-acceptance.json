@@ -1,0 +1,175 @@
+{
+  "schema": 1,
+  "status": "passed",
+  "runs": {
+    "upgrade": {
+      "source": {
+        "revision": "b079fffaed09ee00f1512463c76dc124e0af7756",
+        "runnerSha256": "9534db3b32cbf8cd313e9c74edd31c827dbb94b5a6a10f9e7a6cf4c8484f7d4d"
+      },
+      "payloadSource": {
+        "revision": "0dd144437ed936906ba9a1a8c01b8ea74629b1fd",
+        "version": "0.1.3",
+        "catalogFormat": 23
+      },
+      "platform": {
+        "macOS": "27.0.1",
+        "architecture": "arm64"
+      },
+      "substitutions": [
+        "unique scratch bundle identifier",
+        "signed local feed URL",
+        "owned account cache lock namespace",
+        "A older version metadata in Info.plist/runtime.json",
+        "scratch home and defaults",
+        "ATS local-network allowance for controlled HTTP feed"
+      ],
+      "scope": {
+        "liveOptOutAfterStage": "Earlier native owner/SDK cancellation proofs; this run checks persisted Off across startup/quit",
+        "busyOwners": "Earlier barrier proofs; this run exercises an actual old MCP lifetime",
+        "permissions": "Prior accepted proof; no TCC/Gatekeeper recheck",
+        "publishedHTTPS": "Root verifies after publication"
+      },
+      "payload": {
+        "Contents/MacOS/ScreenRecorder": "51b16aa7ae2698d6caceee097deeeee06601d6a4a879e15dfee5cc860dc9b8f7",
+        "Contents/MacOS/screenrec-native": "317cca335e7232289fef8fe4a14cbb7e8362824fd0b951d4b4134ade435db9f4",
+        "Contents/Resources/node/bin/node": "0451f11cb3ab7b2c7f36644739d0e940ca09f910426c7bc5830b86b47771c092",
+        "Contents/Resources/cli/main.mjs": "ec62bad5e819107b05fed69aa0acfa0cba1161f75c3e2d844f5bd5a1040ee527",
+        "Contents/Resources/service/main.mjs": "7e5ee8c5c29b2f317d7db10ebc12c3375c01b8a9854f1e03fcd7fe71235e2672"
+      },
+      "compiledAppTextSha256": "d2f058e2c51ddbb411a1907e9dda3a9ebe15631c2afd5a35fc5ba66aa4ceabd8",
+      "artifacts": {
+        "previous": "cb24d21a2385852c59440bdf72d30abc6c263db5d45057664b2f8f92aecd9d7c",
+        "update": "c43264e44370bf7f9f86c1ffe0f8db4d3570740db19ccdc1f22ab471cf2294c3",
+        "feed": "a18f0cb9c82ed81d311f92751d458f1f983157a363441dbb5ef4d6a4dbfa5df8",
+        "signingCertificateSha256": "08f3ef55e42ed2718accda76dfe12d66f921c025b8fef9c9ca9ffb1727dd18f5",
+        "publicKey": "PNC3IoaQ2k7em2BNfXe9KY3Q0DYgFT6QkEhVHL9X3PY="
+      },
+      "cleanup": {
+        "ownedProcessesRemaining": [],
+        "forcedPids": [],
+        "removedAccountNamespace": "Library/Caches/dev.screenrec.installed.272c2c95-3235-4702-9fb8-7a419f89be66/launch.lock",
+        "errors": []
+      },
+      "rawReceipt": {
+        "original": "/private/tmp/screenrec-installed-acceptance-observer-fixed/installed-chC7kv/receipt.json",
+        "retained": "/Users/server/.local/share/screenrec-dev-evidence/auto-update/installed/upgrade-receipt.json",
+        "sha256": "590806be9c038d96c6ac1a54dbc2efa04d478f55c1b3b638abcc28e74f2a0741"
+      },
+      "libraryPreservation": {
+        "beforeSha256": "b39b4b799808ad6260bcc0a8384689658082073871ff2ef294f9efe003e4408a",
+        "afterSha256": "b39b4b799808ad6260bcc0a8384689658082073871ff2ef294f9efe003e4408a",
+        "originalSha256": "62b9cdaaaf5b9ce56aa1a5ac035f2f84a48882b5e2ce3d55f926084210cf29e9",
+        "managedOriginalSha256": "62b9cdaaaf5b9ce56aa1a5ac035f2f84a48882b5e2ce3d55f926084210cf29e9",
+        "exportSha256": "0f382031f37658daca7ba1ea5eabbadc11eeb4d8a56a7045865059a0973f6e3f",
+        "completePublicSnapshotEqual": true
+      },
+      "oldVersion": "0.1.2",
+      "newVersion": "0.1.3",
+      "quietCaptureStatus": {
+        "ok": true,
+        "data": {
+          "device": {
+            "state": "idle",
+            "recordingId": null,
+            "sourceId": null,
+            "elapsedUs": null,
+            "selection": null,
+            "permissions": {
+              "screen": false,
+              "microphone": "not_determined",
+              "camera": "not_determined"
+            }
+          },
+          "recording": null
+        },
+        "id": "23606434-f2ca-478d-baa2-e1b0849552ee"
+      }
+    },
+    "manualRecovery": {
+      "source": {
+        "revision": "80e989fdcb4c02bfda60687d89b10fdc70748fcc",
+        "runnerSha256": "1ca208008d5d2f76a635d595a9c8f963b7819cea8b778f27e118fdf9ae07b6c4"
+      },
+      "payloadSource": {
+        "revision": "0dd144437ed936906ba9a1a8c01b8ea74629b1fd",
+        "version": "0.1.3",
+        "catalogFormat": 23
+      },
+      "platform": {
+        "macOS": "27.0.1",
+        "architecture": "arm64"
+      },
+      "substitutions": [
+        "unique scratch bundle identifier",
+        "signed local feed URL",
+        "owned account cache lock namespace",
+        "A older version metadata in Info.plist/runtime.json",
+        "scratch home and defaults",
+        "ATS local-network allowance for controlled HTTP feed",
+        "Controlled successor startup failure: candidate service entry removed before signing"
+      ],
+      "scope": {
+        "liveOptOutAfterStage": "Earlier native owner/SDK cancellation proofs; this run checks persisted Off across startup/quit",
+        "busyOwners": "Earlier barrier proofs; this run exercises an actual old MCP lifetime",
+        "permissions": "Prior accepted proof; no TCC/Gatekeeper recheck",
+        "publishedHTTPS": "Root verifies after publication"
+      },
+      "payload": {
+        "Contents/MacOS/ScreenRecorder": "51b16aa7ae2698d6caceee097deeeee06601d6a4a879e15dfee5cc860dc9b8f7",
+        "Contents/MacOS/screenrec-native": "317cca335e7232289fef8fe4a14cbb7e8362824fd0b951d4b4134ade435db9f4",
+        "Contents/Resources/node/bin/node": "0451f11cb3ab7b2c7f36644739d0e940ca09f910426c7bc5830b86b47771c092",
+        "Contents/Resources/cli/main.mjs": "ec62bad5e819107b05fed69aa0acfa0cba1161f75c3e2d844f5bd5a1040ee527",
+        "Contents/Resources/service/main.mjs": "7e5ee8c5c29b2f317d7db10ebc12c3375c01b8a9854f1e03fcd7fe71235e2672"
+      },
+      "compiledAppTextSha256": "d2f058e2c51ddbb411a1907e9dda3a9ebe15631c2afd5a35fc5ba66aa4ceabd8",
+      "artifacts": {
+        "previous": "fdef4675342a4f42dc9576edc8b538736dfe7c2131fef75a057a856ef0255cb4",
+        "update": "af2aeb68f5ecef5dde2f98e784b5704491a19e42a9b1f94949648c09e85247c2",
+        "feed": "b36528b19c9a4fbd1ba2f3224430f8a46ec616abeeb2d946d2cdc6bfca407649",
+        "signingCertificateSha256": "08f3ef55e42ed2718accda76dfe12d66f921c025b8fef9c9ca9ffb1727dd18f5",
+        "publicKey": "PNC3IoaQ2k7em2BNfXe9KY3Q0DYgFT6QkEhVHL9X3PY="
+      },
+      "cleanup": {
+        "ownedProcessesRemaining": [],
+        "forcedPids": [],
+        "removedAccountNamespace": "Library/Caches/dev.screenrec.installed.077e2a1d-416a-41e4-bf70-964a26489476/launch.lock",
+        "errors": []
+      },
+      "rawReceipt": {
+        "original": "/private/tmp/screenrec-installed-startup-recovery-fixed/installed-bfHKdM/receipt.json",
+        "retained": "/Users/server/.local/share/screenrec-dev-evidence/auto-update/installed/manualRecovery-receipt.json",
+        "sha256": "5142496d6157501879b0c3087d4a38f2f99fc266ce6e952e324ec7b7be2ddf42"
+      },
+      "libraryPreservation": {
+        "beforeSha256": "29c84fab9892411b2b38d6dfc254c4513b1c996570196d67b3e0473518137cd0",
+        "afterSha256": "29c84fab9892411b2b38d6dfc254c4513b1c996570196d67b3e0473518137cd0",
+        "originalSha256": "62b9cdaaaf5b9ce56aa1a5ac035f2f84a48882b5e2ce3d55f926084210cf29e9",
+        "managedOriginalSha256": "62b9cdaaaf5b9ce56aa1a5ac035f2f84a48882b5e2ce3d55f926084210cf29e9",
+        "exportSha256": "de7961b522b4932245b7c96185f46712e78abceba83c09d312563622757766b7",
+        "completePublicSnapshotEqual": true
+      },
+      "oldVersion": "0.1.2",
+      "successorFailure": {
+        "id": "921b07ef-896d-4d76-8d0a-30f7d7d173eb",
+        "ok": false,
+        "error": {
+          "code": "TIMEOUT",
+          "message": "Service at /private/tmp/screenrec-installed-startup-recovery-fixed/installed-bfHKdM/home/run/service.sock did not become ready within 10000 ms. No request was sent. Check the app's service status, or pass an explicit socket.",
+          "retryable": true,
+          "details": {}
+        },
+        "exitStatus": 1
+      },
+      "recoveredVersion": "0.1.2",
+      "recoveredUpdateState": "disabled"
+    }
+  },
+  "limits": [
+    "Payload source0dd14443 predates evidence-only/harness/publisher/test-fixture followups; final packaging must bind final source and unchanged executable payload.",
+    "A and B use the same final executable sources; A is the documented older-version metadata fixture. This tests replacement/lifetimes, not arbitrary data migration.",
+    "MCP close ends the blocker. Current deferred SDK cycle aborts; retry is the next Sparkle cycle, not an immediate reader-exit scheduler.",
+    "Persisted-Off startup/quit uses controlled defaults inputs; actual production setter persistence and staged opt-out have separate native/SDK tests.",
+    "TCC/Gatekeeper permission continuity reused under explicit user acceptance, not retested."
+  ]
+}
