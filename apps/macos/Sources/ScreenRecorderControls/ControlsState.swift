@@ -28,6 +28,7 @@ public struct ControlsState: Equatable, Sendable {
     /// Read from native capture in this process, so it is known before the service is.
     public var permissions: Permissions?
     public var sources = SourceCatalog()
+    public var libraryFailure: String?
     public var selection = CaptureSelection()
     public var library = LibraryState()
     public var updates = UpdateControls()
@@ -135,17 +136,25 @@ public struct ControlsState: Equatable, Sendable {
         public let isDefault: Bool
     }
 
+    public struct Camera: Equatable, Sendable {
+        public init(id: String, name: String) { self.id = id; self.name = name }
+        public let id: String
+        public let name: String
+    }
+
     public struct SourceCatalog: Equatable, Sendable {
         public init(
-            displays: [Display] = [], windows: [Window] = [], microphones: [Microphone] = []
+            displays: [Display] = [], windows: [Window] = [], microphones: [Microphone] = [], cameras: [Camera] = []
         ) {
             self.displays = displays
             self.windows = windows
             self.microphones = microphones
+            self.cameras = cameras
         }
         public var displays: [Display]
         public var windows: [Window]
         public var microphones: [Microphone]
+        public var cameras: [Camera]
     }
 
     /// A rectangle of one display, in that display's own points with a top-left origin: the same
@@ -171,6 +180,8 @@ public struct ControlsState: Equatable, Sendable {
         case display(Display)
         case window(Window)
         case region(Region)
+        /// Camera mode remains incomplete until a person selects its device.
+        case camera
     }
 
     /// These takes are narrated, so a fresh launch has the microphone on and the machine's own
@@ -274,9 +285,10 @@ extension ControlsState.CaptureSelection {
             case display(id: Int)
             case window(id: Int)
             case region(displayId: Int, x: Double, y: Double, width: Double, height: Double)
+            case camera(deviceId: String)
 
             private enum CodingKeys: String, CodingKey {
-                case kind, displayId, windowId, x, y, width, height
+                case kind, displayId, windowId, deviceId, x, y, width, height
             }
 
             public init(from decoder: Decoder) throws {
@@ -284,6 +296,7 @@ extension ControlsState.CaptureSelection {
                 switch try fields.decode(String.self, forKey: .kind) {
                 case "display": self = .display(id: try fields.decode(Int.self, forKey: .displayId))
                 case "window": self = .window(id: try fields.decode(Int.self, forKey: .windowId))
+                case "camera": self = .camera(deviceId: try fields.decode(String.self, forKey: .deviceId))
                 case "region":
                     self = .region(
                         displayId: try fields.decode(Int.self, forKey: .displayId),
@@ -306,6 +319,9 @@ extension ControlsState.CaptureSelection {
                 case .window(let id):
                     try fields.encode("window", forKey: .kind)
                     try fields.encode(id, forKey: .windowId)
+                case .camera(let deviceId):
+                    try fields.encode("camera", forKey: .kind)
+                    try fields.encode(deviceId, forKey: .deviceId)
                 case .region(let displayId, let x, let y, let width, let height):
                     try fields.encode("region", forKey: .kind)
                     try fields.encode(displayId, forKey: .displayId)
@@ -321,25 +337,28 @@ extension ControlsState.CaptureSelection {
     /// Nil until a source is selected.
     public func start() -> Start? {
         guard let source else { return nil }
-        let chosen: Start.Source =
-            switch source {
-            case .display(let display): .display(id: display.id)
-            case .window(let window): .window(id: window.id)
-            case .region(let region):
-                .region(
-                    displayId: region.displayId, x: region.x, y: region.y, width: region.width,
-                    height: region.height)
-            }
+        let companion = source == .camera ? nil : cameraDeviceId
+        let chosen: Start.Source
+        switch source {
+        case .display(let display): chosen = .display(id: display.id)
+        case .window(let window): chosen = .window(id: window.id)
+        case .camera:
+            guard let deviceId = cameraDeviceId, !deviceId.isEmpty else { return nil }
+            chosen = .camera(deviceId: deviceId)
+        case .region(let region):
+            chosen = .region(displayId: region.displayId, x: region.x, y: region.y,
+                width: region.width, height: region.height)
+        }
         switch microphone {
         case .off:
             return Start(
-                source: chosen, microphone: false, microphoneDeviceId: nil, systemAudio: systemAudio, cameraDeviceId: cameraDeviceId)
+                source: chosen, microphone: false, microphoneDeviceId: nil, systemAudio: systemAudio, cameraDeviceId: companion)
         case .systemDefault:
             return Start(
-                source: chosen, microphone: true, microphoneDeviceId: nil, systemAudio: systemAudio, cameraDeviceId: cameraDeviceId)
+                source: chosen, microphone: true, microphoneDeviceId: nil, systemAudio: systemAudio, cameraDeviceId: companion)
         case .device(let id, _):
             return Start(
-                source: chosen, microphone: true, microphoneDeviceId: id, systemAudio: systemAudio, cameraDeviceId: cameraDeviceId)
+                source: chosen, microphone: true, microphoneDeviceId: id, systemAudio: systemAudio, cameraDeviceId: companion)
         }
     }
 }
@@ -349,6 +368,7 @@ extension ControlsState.CaptureSelection {
     /// are presentation only; absent labels must never replace the device's source identity.
     public mutating func apply(_ active: Start, catalog: ControlsState.SourceCatalog) {
         switch active.source {
+        case .camera: source = .camera
         case .display(let id):
             source = .display(catalog.displays.first { $0.id == id }
                 ?? .init(id: id, name: "Display \(id)", width: 0, height: 0))
@@ -365,7 +385,8 @@ extension ControlsState.CaptureSelection {
             microphone = .device(id: id, name: catalog.microphones.first { $0.id == id }?.name ?? id)
         } else { microphone = .systemDefault }
         systemAudio = active.systemAudio
-        cameraDeviceId = active.cameraDeviceId
+        if case .camera(let deviceId) = active.source { cameraDeviceId = deviceId }
+        else { cameraDeviceId = active.cameraDeviceId }
     }
 }
 
@@ -377,14 +398,10 @@ extension ControlsState {
     }
 
     /// A catalog read that failed says nothing about which sources exist, so the last catalog and
-    /// the selection stand. Missing screen permission hides every source, and is already stated as
-    /// a permission rather than as a failure.
-    public mutating func sourcesUnavailable(code: String, description: String) {
-        if code == "PERMISSION_REQUIRED" {
-            sources = SourceCatalog()
-        } else {
-            failure = description
-        }
+    /// the selection stand. Absent screen authorization is a successful catalog with empty
+    /// screen choices; cameras and microphones are discovered independently.
+    public mutating func sourcesUnavailable(description: String) {
+        failure = description
     }
 
     /// Refreshes labels by identity: a browser navigation changes a title without closing its
@@ -461,12 +478,19 @@ extension ControlsState {
             failure = "Choose a source before recording."
             return nil
         }
-        let request =
-            if let unansweredStart, unansweredStart.start == start {
-                StartRequest(requestId: unansweredStart.requestId, start: start, repeatsUnanswered: true)
-            } else {
-                StartRequest(requestId: newRequestId, start: start, repeatsUnanswered: false)
+        if let unansweredStart, unansweredStart.start == start {
+            let replay = StartRequest(requestId: unansweredStart.requestId, start: start, repeatsUnanswered: true)
+            self.unansweredStart = replay
+            return replay
+        }
+        if selection.source == .camera {
+            guard let selected = selection.cameraDeviceId,
+                sources.cameras.contains(where: { $0.id == selected }) else {
+                failure = "Choose an available camera before recording."
+                return nil
             }
+        }
+        let request = StartRequest(requestId: newRequestId, start: start, repeatsUnanswered: false)
         unansweredStart = request
         return request
     }

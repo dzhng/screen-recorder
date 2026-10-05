@@ -255,10 +255,11 @@ export function validateSourceReceipt(value: unknown, sourceId: string): SourceE
     }
   } else if (header.schemaVersion === 2) invalid("Packed evidence requires verified publications");
   const camera = header.source != null && object(header.source).kind === "camera";
-  if (camera || header.cameraBinding !== undefined) {
+  if ((camera && header.schemaVersion !== 2) || header.cameraBinding !== undefined) {
     const binding = object(header.cameraBinding);
     if (
       !camera ||
+      header.schemaVersion !== 1 ||
       binding.sourceId !== sourceId ||
       ![binding.recordingId, binding.sourceId, binding.deviceId].every(
         (id) => typeof id === "string" && id.length > 0 && id.length <= 256,

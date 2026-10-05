@@ -14,10 +14,12 @@ import ScreenRecorderControls
  same actions the menu does, and the audio choices both edit are saved as the next launch's defaults.
  */
 @MainActor
-final class RecordingControls: NSObject, NSMenuDelegate {
+final class RecordingControls: NSObject {
     private let statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
-    private let menu = NSMenu()
-    private var renderedEntries: [MenuEntry] = []
+    private lazy var capturePopover = CapturePopover(perform: { [weak self] in self?.perform($0) })
+    private lazy var libraryWindow = LibraryWindow(perform: { [weak self] in self?.perform($0) })
+    private var emptySourceMode = CaptureViewInput.Source.display
+    private var companionCameraRequested = false
     private let shortcuts = GlobalShortcuts()
     private lazy var region = RegionSelection(changed: { [weak self] in self?.render() })
     private let quit: () -> Void
@@ -41,7 +43,7 @@ final class RecordingControls: NSObject, NSMenuDelegate {
         },
         changed: { [weak self] in self?.render() },
         failure: { [weak self] message in
-            self?.state.failure = message
+            self?.state.libraryFailure = message
             self?.render()
         })
     private lazy var exports = ExportController(
@@ -51,7 +53,7 @@ final class RecordingControls: NSObject, NSMenuDelegate {
         },
         changed: { [weak self] in self?.render() },
         failure: { [weak self] message in
-            self?.state.failure = message
+            self?.state.libraryFailure = message
             self?.render()
         })
     private lazy var library: LibraryController = LibraryController(
@@ -80,7 +82,6 @@ final class RecordingControls: NSObject, NSMenuDelegate {
         })
     private var ticker: Timer?
     private var reading = false
-    private var menuIsOpen = false
     private var pendingRefresh = false
     private var pendingStorageRefresh = false
 
@@ -98,8 +99,8 @@ final class RecordingControls: NSObject, NSMenuDelegate {
         let outcome = shortcuts.claim(bindings) { [weak self] action in self?.perform(action) }
         held = outcome.held
         state.unavailableShortcuts = outcome.unavailable
-        menu.delegate = self
-        statusItem.menu = menu
+        statusItem.button?.target = self
+        statusItem.button?.action = #selector(toggleCapture)
         statusItem.button?.setAccessibilityLabel("Screen Recorder")
         readPermissions()
         render()
@@ -154,35 +155,76 @@ final class RecordingControls: NSObject, NSMenuDelegate {
         overlay.update(.init(elapsed: elapsed, paused: false, symbol: "record.circle.fill"))
     }
 
-    /// The live menu, so a check can read exactly what a person would see.
-    var visibleMenu: NSMenu { menu }
-
-    func menuDidClose(_ menu: NSMenu) { menuIsOpen = false }
-
-    func menuWillOpen(_ menu: NSMenu) {
-        menuIsOpen = true
-        refresh()
-        if state.service == .ready { exports.discover() }
+    @objc private func toggleCapture() {
+        guard let button = statusItem.button else { return }
+        readPermissions()
+        render()
+        capturePopover.toggle(relativeTo: button)
+        if capturePopover.isShown { refresh() }
     }
 
-    // MARK: acting
+    private var sourceMode: CaptureViewInput.Source {
+        switch state.selection.source {
+        case .display: .display
+        case .window: .window
+        case .region: .area
+        case .camera: .cameraOnly
+        case nil: emptySourceMode
+        }
+    }
 
-    @objc func choose(_ sender: NSMenuItem) {
-        guard let action = StatusMenu.action(of: sender) else { return }
-        perform(action)
+    func perform(_ intent: CaptureViewIntent) {
+        switch intent {
+        case .controls(let action): perform(action)
+        case .openLibrary: perform(ControlsAction.openLibrary)
+        case .chooseSource(let source):
+            guard !state.isLive, !state.counting, !updateFenced else { return }
+            emptySourceMode = source
+            switch source {
+            case .display: state.selection.source = state.sources.displays.first.map { .display($0) }
+            case .window: state.selection.source = state.sources.windows.first.map { .window($0) }
+            case .area:
+                state.selection.source = nil
+                capturePopover.close()
+                perform(.selectRegion)
+            case .cameraOnly: state.selection.source = .camera
+            }
+            render()
+        case .camera(let id):
+            guard !state.isLive, !state.counting, !updateFenced else { return }
+            if let id, !state.sources.cameras.contains(where: { $0.id == id }) { return }
+            state.selection.cameraDeviceId = id
+            companionCameraRequested = id != nil
+            render()
+        case .cameraEnabled(let enabled):
+            guard !state.isLive, !state.counting, !updateFenced, sourceMode != .cameraOnly else { return }
+            companionCameraRequested = enabled
+            if !enabled { state.selection.cameraDeviceId = nil }
+            render()
+        case .countdown(let enabled):
+            guard !state.isLive, !state.counting, !updateFenced else { return }
+            preferences.countdownBeforeRecording = enabled
+            render()
+        }
     }
 
     func perform(_ action: ControlsAction) {
         if updateFenced {
             switch action {
-            case .quit, .openSettings: break
+            case .quit, .openSettings, .openLibrary: break
             default:
                 state.failure = "An update is installing. Try again after the app reopens."
                 render(); return
             }
         }
         state.failure = nil
+        state.libraryFailure = nil
         let chosen = state.selection.recordingDefaults
+        switch action {
+        case .nextRecordings, .previousRecordings, .nextProjects, .previousProjects:
+            libraryWindow.view.clearPageFilter()
+        default: break
+        }
         if library.perform(action) { render(); return }
         switch action {
         case .selectDisplay(let id):
@@ -194,6 +236,7 @@ final class RecordingControls: NSObject, NSMenuDelegate {
                 state.selection.source = .window(window)
             }
         case .selectRegion:
+            capturePopover.close()
             region.choose(displays: state.sources.displays) { [weak self] chosen in
                 guard let self else { return }
                 if let chosen { state.selection.source = .region(chosen) }
@@ -225,7 +268,7 @@ final class RecordingControls: NSObject, NSMenuDelegate {
         case .restart:
             restart()
         case .deleteRecording,
-            .previewProject, .exportProject, .deleteProject, .nextProjects, .previousProjects, .refreshLibrary:
+            .previewProject, .exportProject, .deleteProject, .nextProjects, .previousProjects, .nextRecordings, .previousRecordings, .refreshLibrary:
             break // LibraryController handles these before capture selections.
         case .resendExport(let exportId):
             exports.resend(exportId)
@@ -243,7 +286,16 @@ final class RecordingControls: NSObject, NSMenuDelegate {
             request(.screen)
         case .requestMicrophonePermission:
             request(.microphone)
+        case .requestCameraPermission:
+            request(.camera)
+        case .openLibrary:
+            capturePopover.close()
+            libraryWindow.show()
+            library.refresh()
+            readStorage()
+            exports.discover()
         case .openSettings:
+            capturePopover.close()
             settings.show()
         case .quit:
             quit()
@@ -271,12 +323,17 @@ final class RecordingControls: NSObject, NSMenuDelegate {
         // Asking to start while the count runs is asking to stop it: the menu says so, and this is
         // the only way to abandon a count for somebody whose Escape key this app could not hold.
         if countdown.isCounting { return countdown.abandon() }
+        guard !companionCameraRequested || state.selection.cameraDeviceId != nil else {
+            state.failure = "Choose a camera before recording."
+            showCaptureIfClosed()
+            return
+        }
         guard state.selection.start() != nil, state.service == .ready,
             let counting = preferences.countdown
         else { return start() }
         state.counting = true
         render()
-        countdown.run(counting, on: NSScreen.recording(state.selection.source)) { [weak self] began in
+        countdown.run(counting, on: NSScreen.recording(state.selection.source) ?? statusItem.button?.window?.screen) { [weak self] began in
             guard let self else { return }
             state.counting = false
             if began { start() }
@@ -298,12 +355,8 @@ final class RecordingControls: NSObject, NSMenuDelegate {
                 }
             if state.finishStart(request, answer) { return start() }
             if case .failure(let failure) = result,
-                let missing = PermissionKind.missing(fromStartFailure: failure.code) {
-                // Pressing Start is the person asking to record, so this is when the app may ask
-                // macOS for what recording needs, and start once they allow it.
-                return requestForStart(missing)
-            }
-            if case .failure = result { showMenuIfClosed() }
+                PermissionKind.missing(fromStartFailure: failure.code) != nil { readPermissions() }
+            if case .failure = result { showCaptureIfClosed() }
         }
     }
 
@@ -379,34 +432,11 @@ final class RecordingControls: NSObject, NSMenuDelegate {
         }
     }
 
-    /// Asks for the access a start turned out to need, then starts the take once it is granted.
-    private func requestForStart(_ kind: PermissionKind) {
-        permissionRequests += 1
+    /// Explicit failures can be revealed without activating over the source being recorded.
+    private func showCaptureIfClosed() {
+        guard !capturePopover.isShown, let button = statusItem.button else { return }
         render()
-        Task { @MainActor in
-            defer { permissionRequests -= 1; render() }
-            let granted = (try? await NativeCapture.requestPermission(kind == .screen ? "screen" : "microphone")) ?? false
-            if granted, kind == .microphone {
-                state.failure = nil
-                start()
-            } else {
-                // Screen recording is read once when a process starts, so a fresh grant reaches
-                // this app only after it runs again.
-                state.failure = granted
-                    ? "Screen recording was allowed. Quit and open Screen Recorder again to record."
-                    : "\(kind.name) access was not granted. Allow it in System Settings > Privacy & Security."
-                showMenuIfClosed()
-            }
-            refresh()
-        }
-    }
-
-    /// A start a person asked for through a shortcut fails with the menu closed, where its reason
-    /// would go unseen. Opening the menu puts that reason in front of them.
-    private func showMenuIfClosed() {
-        guard !menuIsOpen, let button = statusItem.button else { return }
-        render()
-        button.performClick(nil)
+        capturePopover.toggle(relativeTo: button)
     }
 
     /// Permission is requested only here, by a person choosing to request it. Nothing on the way
@@ -427,8 +457,10 @@ final class RecordingControls: NSObject, NSMenuDelegate {
             defer { permissionRequests -= 1; render() }
             do {
                 let granted = try await NativeCapture.requestPermission(
-                    kind == .screen ? "screen" : "microphone")
-                if !granted {
+                    kind.rawValue)
+                if granted, kind == .screen, !NativeCapture.screenPermission {
+                    state.failure = "Screen recording was allowed. Quit and reopen Screen Recorder to record."
+                } else if !granted {
                     if kind == .screen { screenRequestRefused = true }
                     state.failure =
                         "\(kind.missingLine) Allow it in System Settings > Privacy & Security."
@@ -447,7 +479,8 @@ final class RecordingControls: NSObject, NSMenuDelegate {
     private func readPermissions() {
         state.permissions = ControlsProbe.displayedPermissions ?? ControlsState.Permissions(
             screen: NativeCapture.screenPermission ? .granted : screenRequestRefused ? .denied : .undetermined,
-            microphone: .init(microphoneAuthorization: NativeCapture.microphonePermission))
+            microphone: .init(authorization: NativeCapture.microphonePermission),
+            camera: .init(authorization: NativeCapture.cameraPermission))
     }
 
     // MARK: reading
@@ -533,6 +566,7 @@ final class RecordingControls: NSObject, NSMenuDelegate {
         guard !updateFenced, !state.isLive else { return }
         do throws(ServiceFailure) {
             let answer = try await service().call("capture.sources", as: SourcesAnswer.self)
+            emptySourceMode = sourceMode
             state.observeSources(
                 ControlsState.SourceCatalog(
                     displays: answer.displays.map {
@@ -543,9 +577,11 @@ final class RecordingControls: NSObject, NSMenuDelegate {
                     },
                     microphones: answer.microphones.map {
                         ControlsState.Microphone(id: $0.id, name: $0.name, isDefault: $0.isDefault)
+                    }, cameras: answer.cameras.map {
+                        ControlsState.Camera(id: $0.id, name: $0.name)
                     }))
         } catch {
-            state.sourcesUnavailable(code: error.code, description: error.localizedDescription)
+            state.sourcesUnavailable(description: error.localizedDescription)
         }
     }
 
@@ -567,36 +603,161 @@ final class RecordingControls: NSObject, NSMenuDelegate {
             updateProgress?()
         }
         let shortcuts = ShortcutDefaults(bindings: bindings, registered: held)
-        let entries = RecordingMenu.entries(for: state, exports: exports.state, shortcuts: shortcuts)
-        // Preserve the tracked menu and its open submenus when only the clock title changes. The
-        // first row is a status line only while something is happening, so what it says is the one
-        // thing this may take on trust: everything else about it, including a submenu it has when
-        // it is the source row instead, still has to match.
-        if Self.onlyTitleChanged(from: renderedEntries, to: entries) {
-            menu.items.first?.title = entries[0].title
-        } else {
-            StatusMenu.apply(entries, to: menu, target: self, action: #selector(choose(_:)),
-                previous: renderedEntries)
-        }
-        renderedEntries = entries
+        capturePopover.update(captureInput())
+        libraryWindow.update(state: state, exports: exports.state)
         overlay.update(RecordingOverlay.presentation(for: state))
         settings.update(state, shortcuts: shortcuts)
         showStatusItem()
         pace()
     }
 
-    /// Whether these rows say the same thing as the last ones apart from the very first title.
-    private static func onlyTitleChanged(from rendered: [MenuEntry], to entries: [MenuEntry]) -> Bool {
-        guard let first = entries.first, let last = rendered.first,
-            first.kind == last.kind, first.enabled == last.enabled, first.checked == last.checked,
-            first.shortcut == last.shortcut, first.submenu == last.submenu
-        else { return false }
-        return entries.dropFirst().elementsEqual(rendered.dropFirst())
+    var captureView: CaptureView? { capturePopover.view }
+    var savedMediaView: LibraryView { libraryWindow.view }
+    func openCapture() { if !capturePopover.isShown { toggleCapture() } }
+    func closeCapture() { capturePopover.close() }
+
+    var captureRows: [[String: Any]] {
+        guard let view = captureView else { return [] }
+        return nativeControls(in: view).map { control in
+            let nativeID = control.identifier!.rawValue
+            let item = nativeID == "capture.start" ? ControlsAction.startOrStop.id : nativeID == "library.open" ? ControlsAction.openLibrary.id : nativeID == "systemAudio.toggle" ? ControlsAction.toggleSystemAudio.id : nativeID
+            var row: [String: Any] = ["item": item, "identifier": nativeID, "enabled": control.isEnabled,
+                "title": (control as? NSButton)?.title ?? (control as? NSPopUpButton)?.titleOfSelectedItem ?? nativeID,
+                "checked": (control.accessibilityValue() as? NSNumber)?.boolValue ?? false]
+            if let popup = control as? NSPopUpButton, let choices = captureChoices(identifier: nativeID, input: view.input) {
+                row["submenu"] = choices.enumerated().map { index, choice in
+                    ["item": Self.intentID(choice.intent), "title": choice.title, "enabled": popup.isEnabled, "checked": index == popup.indexOfSelectedItem] as [String: Any]
+                }
+            }
+            return row
+        }
+    }
+
+    var libraryRows: [[String: Any]] {
+        guard libraryWindow.isVisible else { return [] }
+        let page: SavedPage
+        switch savedMediaView.tab {
+        case .recordings: page = LibraryPresentation.recordings(for: state)
+        case .projects: page = LibraryPresentation.projects(for: state, exports: exports.state)
+        case .exports: page = ExportPresentation.items(for: state, exports: exports.state)
+        }
+        return page.items.filter { $0.kind == .message || savedMediaView.control(identifier: "actions.\($0.id)") != nil }.map { item in
+            ["title": item.title, "id": item.id, "details": item.details, "submenu": item.actions.map { action in
+                ["item": action.action.id, "title": action.title, "enabled": action.enabled] as [String: Any]
+            }] as [String: Any]
+        } + page.actions.map { ["item": $0.action.id, "title": $0.title, "enabled": $0.enabled] }
+    }
+
+    func chooseControl(named identifier: String) -> Bool {
+        if libraryWindow.isVisible, let item = savedMediaView.actionItem(identifier: identifier), item.isEnabled, let menu = item.menu {
+            menu.performActionForItem(at: menu.index(of: item))
+            return true
+        }
+        guard let view = captureView else { return false }
+        let nativeID = identifier == ControlsAction.startOrStop.id ? "capture.start" : identifier == ControlsAction.openLibrary.id ? "library.open" : identifier == ControlsAction.toggleSystemAudio.id ? "systemAudio.toggle" : identifier
+        if let button = view.control(identifier: nativeID) as? NSButton, button.isEnabled {
+            button.performClick(nil)
+            return true
+        }
+        for popupID in ["source.device", "camera.device", "microphone.device"] {
+            guard let popup = view.control(identifier: popupID) as? NSPopUpButton, popup.isEnabled,
+                let choices = captureChoices(identifier: popupID, input: view.input),
+                let index = choices.firstIndex(where: { Self.intentID($0.intent) == identifier }) else { continue }
+            popup.selectItem(at: index)
+            return popup.sendAction(popup.action!, to: popup.target)
+        }
+        return false
+    }
+
+    private func nativeControls(in view: NSView) -> [NSControl] {
+        view.subviews.flatMap { child in
+            let own = (child as? NSControl).flatMap { $0.identifier == nil ? nil : $0 }.map { [$0] } ?? []
+            return own + nativeControls(in: child)
+        }.sorted { $0.convert($0.bounds, to: view).minY < $1.convert($1.bounds, to: view).minY }
+    }
+    private func captureChoices(identifier: String, input: CaptureViewInput) -> [CaptureViewInput.Choice]? {
+        switch identifier {
+        case "source.device": input.sourceChoices
+        case "camera.device": input.cameraChoices
+        case "microphone.device": input.microphoneChoices
+        default: nil
+        }
+    }
+    private static func intentID(_ intent: CaptureViewIntent) -> String {
+        switch intent {
+        case .controls(let action): action.id
+        case .chooseSource(let source): "source.\(source.rawValue)"
+        case .camera(let id): "camera.\(id ?? "off")"
+        case .cameraEnabled(let enabled): "camera.\(enabled ? "on" : "off")"
+        case .countdown(let enabled): "countdown.\(enabled ? "on" : "off")"
+        case .openLibrary: ControlsAction.openLibrary.id
+        }
+    }
+
+    private func captureInput() -> CaptureViewInput {
+        let mode = sourceMode
+        var sources: [CaptureViewInput.Choice] = []
+        let selectedSource: Int
+        switch mode {
+        case .display:
+            sources = state.sources.displays.map { .init(title: $0.name, intent: .controls(.selectDisplay($0.id))) }
+            if case .display(let display) = state.selection.source { selectedSource = state.sources.displays.firstIndex { $0.id == display.id } ?? -1 }
+            else { selectedSource = -1 }
+        case .window:
+            sources = state.sources.windows.map { .init(title: $0.application.isEmpty ? $0.title : "\($0.application) — \($0.title)", intent: .controls(.selectWindow($0.id))) }
+            if case .window(let window) = state.selection.source { selectedSource = state.sources.windows.firstIndex { $0.id == window.id } ?? -1 }
+            else { selectedSource = -1 }
+        case .area:
+            sources = [.init(title: state.selection.source == nil ? "Select an area…" : CapturePresentation.sourceTitle(for: state), intent: .controls(.selectRegion))]
+            selectedSource = 0
+        case .cameraOnly: selectedSource = -1
+        }
+        if sources.isEmpty { sources = [.init(title: mode == .window ? "No windows available" : "No displays available", intent: .chooseSource(mode))] }
+        var cameras: [CaptureViewInput.Choice] = [.init(title: mode == .cameraOnly || companionCameraRequested ? "Choose a camera…" : "Camera off", intent: .camera(nil))]
+        cameras += state.sources.cameras.map { .init(title: $0.name, intent: .camera($0.id)) }
+        var selectedCamera = state.selection.cameraDeviceId.flatMap { id in state.sources.cameras.firstIndex { $0.id == id }.map { $0 + 1 } } ?? 0
+        if let id = state.selection.cameraDeviceId, selectedCamera == 0 {
+            cameras.append(.init(title: "Selected camera unavailable", intent: .camera(id)))
+            selectedCamera = cameras.count - 1
+        }
+        let microphones: [CaptureViewInput.Choice] = [.init(title: "System default input", intent: .controls(.selectMicrophone(nil)))] + state.sources.microphones.map { .init(title: $0.name, intent: .controls(.selectMicrophone($0.id))) }
+        let selectedMic: Int
+        if case .device(let id, _) = state.selection.microphone { selectedMic = state.sources.microphones.firstIndex { $0.id == id }.map { $0 + 1 } ?? 0 }
+        else { selectedMic = 0 }
+        let transport = CapturePresentation.transport(for: state)
+        let missingCamera = !state.isLive && !state.counting && companionCameraRequested && state.selection.cameraDeviceId == nil
+        var input = CaptureViewInput(selectedSource: mode, selectedSourceChoice: selectedSource,
+            sourceChoices: sources, cameraChoices: cameras, selectedCamera: selectedCamera,
+            cameraOn: mode == .cameraOnly || companionCameraRequested || state.selection.cameraDeviceId != nil,
+            microphoneChoices: microphones, selectedMicrophone: selectedMic,
+            microphoneOn: state.selection.microphone != .off, systemAudio: state.selection.systemAudio,
+            countdown: preferences.countdownBeforeRecording,
+            inputsEnabled: !state.isLive && !state.counting && !updateFenced,
+            startEnabled: transport[0].enabled && !missingCamera && !updateFenced,
+            status: CapturePresentation.statusTitle(for: state))
+        input.startTitle = transport[0].title
+        input.startShortcut = ShortcutDefaults(bindings: bindings, registered: held).display(of: .startOrStop)
+        input.notices = CapturePresentation.noticeLines(for: state)
+        if missingCamera { input.notices.append("Choose a camera before recording.") }
+        let required: [PermissionKind] = PermissionKind.allCases.filter { kind in
+            switch kind {
+            case .screen: mode != .cameraOnly || state.selection.systemAudio
+            case .microphone: state.selection.microphone != .off
+            case .camera: mode == .cameraOnly || input.cameraOn
+            }
+        }
+        input.permissionActions = required.compactMap { kind in
+            guard let access = state.permissions?.access(to: kind), access != .granted else { return nil }
+            return .init(kind.action, kind.allowTitle(for: access), enabled: !state.isLive && !updateFenced)
+        }
+        if state.failure != nil && !state.isLive { input.permissionActions.append(.init(.startOrStop, "Retry", enabled: input.startEnabled)) }
+        input.transport = state.isLive ? Array(transport.dropFirst()) : []
+        return input
     }
 
     private func showStatusItem() {
         guard let button = statusItem.button else { return }
-        let described = RecordingMenu.statusTitle(for: state)
+        let described = CapturePresentation.statusTitle(for: state)
         let elapsed = StatusItemAppearance.title(for: state)
         button.image = NSImage(
             systemSymbolName: StatusItemAppearance.symbolName(for: state),
@@ -661,9 +822,14 @@ private struct SourcesAnswer: Decodable {
         let name: String
         let isDefault: Bool
     }
+    struct Camera: Decodable {
+        let id: String
+        let name: String
+    }
     let displays: [Display]
     let windows: [Window]
     let microphones: [Microphone]
+    let cameras: [Camera]
 }
 
 private struct StartedTake: Decodable {

@@ -1,0 +1,9 @@
+{
+  "sourceId": "finished-primary-camera",
+  "role": "primary",
+  "journalLayout": 2,
+  "companion": null,
+  "deviceKind": "camera",
+  "publicationAndEvidenceReopened": true,
+  "script": "/private/tmp/screenrec-capture-authority/helpers/mac/Tests/fixtures/primary-camera-admission.mjs"
+}

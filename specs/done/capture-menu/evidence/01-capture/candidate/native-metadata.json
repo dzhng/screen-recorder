@@ -1,0 +1,418 @@
+[
+  {
+    "appearance" : "aqua",
+    "backingScale" : 1,
+    "contentHeightPoints" : 731,
+    "controls" : {
+      "app.quit" : [
+        295,
+        702,
+        37,
+        22
+      ],
+      "camera.device" : [
+        60,
+        350,
+        210,
+        24
+      ],
+      "camera.toggle" : [
+        278,
+        350,
+        42,
+        25
+      ],
+      "capture.start" : [
+        17,
+        596,
+        316,
+        44
+      ],
+      "countdown.toggle" : [
+        278,
+        542,
+        42,
+        25
+      ],
+      "header.library" : [
+        253,
+        23,
+        34,
+        34
+      ],
+      "header.settings" : [
+        297,
+        23,
+        34,
+        34
+      ],
+      "library.open" : [
+        17,
+        649,
+        316,
+        37
+      ],
+      "microphone.device" : [
+        60,
+        414,
+        210,
+        24
+      ],
+      "microphone.toggle" : [
+        278,
+        414,
+        42,
+        25
+      ],
+      "source.area" : [
+        17,
+        188,
+        153.5,
+        81
+      ],
+      "source.cameraOnly" : [
+        179.5,
+        188,
+        153.5,
+        81
+      ],
+      "source.device" : [
+        30,
+        290,
+        290,
+        24
+      ],
+      "source.display" : [
+        17,
+        98,
+        153.5,
+        81
+      ],
+      "source.window" : [
+        179.5,
+        98,
+        153.5,
+        81
+      ],
+      "systemAudio.toggle" : [
+        278,
+        478,
+        42,
+        25
+      ]
+    },
+    "facts" : "synthetic; no service\/devices\/permissions",
+    "fixture" : "idle",
+    "heightPoints" : 731,
+    "widthPoints" : 352
+  },
+  {
+    "appearance" : "aqua",
+    "backingScale" : 1,
+    "contentHeightPoints" : 678,
+    "controls" : {
+      "app.quit" : [
+        295,
+        649,
+        37,
+        22
+      ],
+      "camera.device" : [
+        60,
+        289,
+        191,
+        24
+      ],
+      "capture.start" : [
+        17,
+        543,
+        316,
+        44
+      ],
+      "countdown.toggle" : [
+        278,
+        489,
+        42,
+        25
+      ],
+      "header.library" : [
+        253,
+        23,
+        34,
+        34
+      ],
+      "header.settings" : [
+        297,
+        23,
+        34,
+        34
+      ],
+      "library.open" : [
+        17,
+        596,
+        316,
+        37
+      ],
+      "microphone.device" : [
+        60,
+        361,
+        210,
+        24
+      ],
+      "microphone.toggle" : [
+        278,
+        361,
+        42,
+        25
+      ],
+      "source.area" : [
+        17,
+        188,
+        153.5,
+        81
+      ],
+      "source.cameraOnly" : [
+        179.5,
+        188,
+        153.5,
+        81
+      ],
+      "source.display" : [
+        17,
+        98,
+        153.5,
+        81
+      ],
+      "source.window" : [
+        179.5,
+        98,
+        153.5,
+        81
+      ],
+      "systemAudio.toggle" : [
+        278,
+        425,
+        42,
+        25
+      ]
+    },
+    "facts" : "synthetic; no service\/devices\/permissions",
+    "fixture" : "camera-only",
+    "heightPoints" : 678,
+    "widthPoints" : 352
+  },
+  {
+    "appearance" : "aqua",
+    "backingScale" : 1,
+    "contentHeightPoints" : 731,
+    "controls" : {
+      "app.quit" : [
+        295,
+        702,
+        37,
+        22
+      ],
+      "camera.device" : [
+        60,
+        350,
+        210,
+        24
+      ],
+      "camera.toggle" : [
+        278,
+        350,
+        42,
+        25
+      ],
+      "capture.start" : [
+        17,
+        596,
+        316,
+        44
+      ],
+      "countdown.toggle" : [
+        278,
+        542,
+        42,
+        25
+      ],
+      "header.library" : [
+        253,
+        23,
+        34,
+        34
+      ],
+      "header.settings" : [
+        297,
+        23,
+        34,
+        34
+      ],
+      "library.open" : [
+        17,
+        649,
+        316,
+        37
+      ],
+      "microphone.device" : [
+        60,
+        414,
+        210,
+        24
+      ],
+      "microphone.toggle" : [
+        278,
+        414,
+        42,
+        25
+      ],
+      "source.area" : [
+        17,
+        188,
+        153.5,
+        81
+      ],
+      "source.cameraOnly" : [
+        179.5,
+        188,
+        153.5,
+        81
+      ],
+      "source.device" : [
+        30,
+        290,
+        290,
+        24
+      ],
+      "source.display" : [
+        17,
+        98,
+        153.5,
+        81
+      ],
+      "source.window" : [
+        179.5,
+        98,
+        153.5,
+        81
+      ],
+      "systemAudio.toggle" : [
+        278,
+        478,
+        42,
+        25
+      ]
+    },
+    "facts" : "synthetic; no service\/devices\/permissions",
+    "fixture" : "long-names",
+    "heightPoints" : 731,
+    "widthPoints" : 352
+  },
+  {
+    "appearance" : "aqua",
+    "backingScale" : 1,
+    "contentHeightPoints" : 731,
+    "controls" : {
+      "app.quit" : [
+        295,
+        702,
+        37,
+        22
+      ],
+      "camera.device" : [
+        60,
+        350,
+        210,
+        24
+      ],
+      "camera.toggle" : [
+        278,
+        350,
+        42,
+        25
+      ],
+      "capture.start" : [
+        17,
+        596,
+        316,
+        44
+      ],
+      "countdown.toggle" : [
+        278,
+        542,
+        42,
+        25
+      ],
+      "header.library" : [
+        253,
+        23,
+        34,
+        34
+      ],
+      "header.settings" : [
+        297,
+        23,
+        34,
+        34
+      ],
+      "library.open" : [
+        17,
+        649,
+        316,
+        37
+      ],
+      "microphone.device" : [
+        60,
+        414,
+        210,
+        24
+      ],
+      "microphone.toggle" : [
+        278,
+        414,
+        42,
+        25
+      ],
+      "source.area" : [
+        17,
+        188,
+        153.5,
+        81
+      ],
+      "source.cameraOnly" : [
+        179.5,
+        188,
+        153.5,
+        81
+      ],
+      "source.device" : [
+        30,
+        290,
+        290,
+        24
+      ],
+      "source.display" : [
+        17,
+        98,
+        153.5,
+        81
+      ],
+      "source.window" : [
+        179.5,
+        98,
+        153.5,
+        81
+      ],
+      "systemAudio.toggle" : [
+        278,
+        478,
+        42,
+        25
+      ]
+    },
+    "facts" : "synthetic; no service\/devices\/permissions",
+    "fixture" : "short-screen",
+    "heightPoints" : 440,
+    "widthPoints" : 352
+  }
+]

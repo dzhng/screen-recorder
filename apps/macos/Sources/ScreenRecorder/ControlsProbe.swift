@@ -1,8 +1,8 @@
 import AppKit
 import ScreenRecorderControls
 
-/// Menu and window observations for a launch that explicitly asked for them. It reads the menu
-/// rows and this app's windows, chooses a row through that row's own menu action, and writes a
+/// Native controls and window observations for a launch that explicitly asked for them. It reads the capture panel
+/// controls and this app's windows, chooses an action through its native control, and writes a
 /// window's own picture. Capture actions use the public service; actual UI interaction is
 /// verified separately.
 @MainActor
@@ -74,20 +74,21 @@ final class ControlsProbe {
     private func run(_ command: [String: Any]) -> [String: Any] {
         switch command["do"] as? String {
         case "snapshot":
-            return ["ok": true, "rows": Self.rows(of: controls.visibleMenu)]
+            return ["ok": true, "rows": controls.captureRows, "status": controls.captureView?.input.status ?? "Idle", "library": controls.libraryRows]
         case "windows":
             return ["ok": true, "windows": Self.windows(), "active": NSApplication.shared.isActive]
         case "open":
-            // What a person does to look at the controls. Opening the menu is what re-reads the
+            // What a person does to look at the controls. Opening capture is what re-reads the
             // sources, so a window that appeared since the last look is listed from here on.
-            controls.menuWillOpen(controls.visibleMenu)
+            controls.openCapture()
             return ["ok": true]
         case "choose":
-            guard let named = command["item"] as? String,
-                let item = Self.item(named: named, in: controls.visibleMenu),
-                let owner = item.menu
-            else { return ["ok": false, "error": "The menu has no row that does that."] }
-            owner.performActionForItem(at: owner.index(of: item))
+            guard let named = command["item"] as? String, controls.chooseControl(named: named) else {
+                return ["ok": false, "error": "No enabled visible control performs that action."]
+            }
+            return ["ok": true]
+        case "close":
+            controls.closeCapture()
             return ["ok": true]
         case "overlay":
             // A take reaching an hour takes an hour; the controls' layout at that clock does not.
@@ -151,30 +152,4 @@ final class ControlsProbe {
         try? FileManager.default.moveItem(atPath: staging, toPath: path)
     }
 
-    /// One row anywhere in the menu, by what it does, so a check chooses the row a person would
-    /// choose rather than reaching past the menu into the controls.
-    private static func item(named action: String, in menu: NSMenu) -> NSMenuItem? {
-        for item in menu.items {
-            if StatusMenu.action(of: item)?.id == action { return item }
-            if let submenu = item.submenu, let found = self.item(named: action, in: submenu) {
-                return found
-            }
-        }
-        return nil
-    }
-
-    private static func rows(of menu: NSMenu) -> [[String: Any]] {
-        menu.items.map { item in
-            var row: [String: Any] = [
-                "title": item.isSeparatorItem ? "—" : item.title,
-                "enabled": item.isEnabled,
-                "checked": item.state == .on,
-                "separator": item.isSeparatorItem,
-            ]
-            if let action = StatusMenu.action(of: item) { row["item"] = action.id }
-            if !item.keyEquivalent.isEmpty { row["shortcut"] = item.keyEquivalent.uppercased() }
-            if let submenu = item.submenu { row["submenu"] = rows(of: submenu) }
-            return row
-        }
-    }
 }

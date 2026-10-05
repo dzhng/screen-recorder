@@ -238,13 +238,13 @@ import ScreenRecorderControls
         for _ in 0..<200 where !condition() { try? await Task.sleep(for: .milliseconds(10)) }
         precondition(condition(), "Controller did not publish its result")
     }
-    @MainActor static func menu(_ exports: ExportController) -> [MenuEntry] {
+    @MainActor static func exportItems(_ exports: ExportController) -> [SavedItem] {
         var controls = ControlsState()
         controls.service = .ready
-        return RecordingMenu.entries(for: controls, exports: exports.state)
+        return ExportPresentation.items(for: controls, exports: exports.state).items
     }
-    static func flatten(_ entries: [MenuEntry]) -> [MenuEntry] {
-        entries.flatMap { [$0] + flatten($0.submenu) }
+    @MainActor static func exportLines(_ exports: ExportController) -> [String] {
+        exportItems(exports).flatMap { [$0.title] + $0.details }
     }
     @MainActor static func main() async throws {
         let data = try Data(contentsOf: URL(fileURLWithPath: CommandLine.arguments[1]))
@@ -295,9 +295,9 @@ import ScreenRecorderControls
         precondition(exports.state.records == [originalRecording, originalProject], "Controller retains all public receipt fields")
         let projectOwner = project["projectId"] as! String
         let detail = "Revision \(originalProject.revisionId) of project \(projectOwner)"
-        precondition(flatten(menu(exports)).contains { $0.title == detail }, "Menu names the actual project owner")
-        precondition(flatten(menu(exports)).contains { $0.title.contains("Unreadable export status for malformed") },
-            "Discovery failure is visible through the real menu")
+        precondition(exportLines(exports).contains { $0 == detail }, "Presentation names the actual project owner")
+        precondition(exportLines(exports).contains { $0.contains("Unreadable export status for malformed") },
+            "Discovery failure is visible in shared export facts")
 
         // Neither/both owners are malformed, not implicit recording/project defaults.
         for fields in [[String: Any](), ["recordingId": "other", "projectId": projectOwner]] {
@@ -320,7 +320,7 @@ import ScreenRecorderControls
         await until { exports.state.readFailures[projectId] != nil }
         let unreadable = exports.state.readFailures[projectId]!
         precondition(unreadable.contains("INVALID_RESPONSE") && exports.state.records.last == originalProject)
-        precondition(flatten(menu(exports)).contains { $0.title == unreadable }, "Polling failure is visible")
+        precondition(exportLines(exports).contains { $0 == unreadable }, "Polling failure is visible")
         script.retries[projectId] = Data("{}".utf8)
         script.refusedRetries[projectId] = ServiceFailure(code: "INVALID_PARAMS", message: "Retry was refused")
         exports.retry(projectId)
@@ -373,7 +373,7 @@ import ScreenRecorderControls
             exports.retry(projectId)
             await until { exports.state.acting[projectId] == nil }
             precondition(exports.state.observed.contains(projectId), "Accepted retry uncertainty \(code) needs status recovery even when the old receipt was settled")
-            precondition(flatten(menu(exports)).contains { $0.title.contains(code) })
+            precondition(exportLines(exports).contains { $0.contains(code) })
             exports.tick()
             await until { exports.state.records.last?.committed == true }
             precondition(exports.state.readFailures[projectId] == nil && !exports.state.observed.contains(projectId))
@@ -411,8 +411,8 @@ import ScreenRecorderControls
         precondition(pending.target == originalProject.target && pending.revisionId == originalProject.revisionId
             && pending.directory == originalProject.directory && pending.leaf == originalProject.leaf)
         precondition(pending.committed && pending.cleanupPending && !pending.settled)
-        precondition(flatten(menu(exports)).contains { $0.action?.id == "export.retry.\(projectId)" && $0.title == "Retry Cleanup" && $0.enabled })
-        precondition(!flatten(menu(exports)).contains { $0.action?.id == "export.dismiss.\(projectId)" })
+        precondition(exportItems(exports).flatMap(\.actions).contains { $0.action.id == "export.retry.\(projectId)" && $0.title == "Retry Cleanup" && $0.enabled })
+        precondition(!exportItems(exports).flatMap(\.actions).contains { $0.action.id == "export.dismiss.\(projectId)" })
         script.retries[projectId] = script.json(committed)
         exports.retry(projectId)
         await until { exports.state.acting[projectId] == nil }
@@ -424,7 +424,7 @@ import ScreenRecorderControls
             "Retries retain the original export identity and do not choose a new owner or destination")
         exports.reveal(projectId)
         precondition(revealed == [URL(fileURLWithPath: committed["output"] as! String)])
-        precondition(flatten(menu(exports)).contains { $0.action?.id == "export.dismiss.\(projectId)" && $0.enabled })
+        precondition(exportItems(exports).flatMap(\.actions).contains { $0.action.id == "export.dismiss.\(projectId)" && $0.enabled })
         exports.dismiss(projectId)
         precondition(exports.state.records.isEmpty)
         precondition(!script.calls.contains { ["export.create", "recording.get", "project.get"].contains($0.0) },

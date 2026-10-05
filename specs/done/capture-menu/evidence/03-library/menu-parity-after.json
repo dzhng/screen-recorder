@@ -1,0 +1,886 @@
+[
+  [
+    {
+      "action" : "",
+      "checked" : false,
+      "children" : [
+        {
+          "action" : "",
+          "checked" : false,
+          "children" : [
+
+          ],
+          "enabled" : false,
+          "title" : "No display or window is available."
+        },
+        {
+          "action" : "",
+          "checked" : false,
+          "children" : [
+
+          ],
+          "enabled" : true,
+          "title" : ""
+        },
+        {
+          "action" : "source.region",
+          "checked" : false,
+          "children" : [
+
+          ],
+          "enabled" : false,
+          "title" : "Select Region…"
+        }
+      ],
+      "enabled" : true,
+      "title" : "Source: none chosen"
+    },
+    {
+      "action" : "",
+      "checked" : false,
+      "children" : [
+        {
+          "action" : "microphone.off",
+          "checked" : false,
+          "children" : [
+
+          ],
+          "enabled" : true,
+          "title" : "Off (no narration)"
+        },
+        {
+          "action" : "microphone.default",
+          "checked" : true,
+          "children" : [
+
+          ],
+          "enabled" : true,
+          "title" : "System Default Input"
+        }
+      ],
+      "enabled" : true,
+      "title" : "Microphone: system default"
+    },
+    {
+      "action" : "audio.system",
+      "checked" : false,
+      "children" : [
+
+      ],
+      "enabled" : true,
+      "title" : "Include System Audio"
+    },
+    {
+      "action" : "",
+      "checked" : false,
+      "children" : [
+
+      ],
+      "enabled" : true,
+      "title" : ""
+    },
+    {
+      "action" : "capture.startOrStop",
+      "checked" : false,
+      "children" : [
+
+      ],
+      "enabled" : false,
+      "title" : "Start Recording"
+    },
+    {
+      "action" : "capture.pauseOrResume",
+      "checked" : false,
+      "children" : [
+
+      ],
+      "enabled" : false,
+      "title" : "Pause Recording"
+    },
+    {
+      "action" : "capture.cancel",
+      "checked" : false,
+      "children" : [
+
+      ],
+      "enabled" : false,
+      "title" : "Cancel Take"
+    },
+    {
+      "action" : "capture.restart",
+      "checked" : false,
+      "children" : [
+
+      ],
+      "enabled" : false,
+      "title" : "Restart Take"
+    },
+    {
+      "action" : "",
+      "checked" : false,
+      "children" : [
+
+      ],
+      "enabled" : false,
+      "title" : "Choose a source to record."
+    },
+    {
+      "action" : "",
+      "checked" : false,
+      "children" : [
+
+      ],
+      "enabled" : true,
+      "title" : ""
+    },
+    {
+      "action" : "",
+      "checked" : false,
+      "children" : [
+        {
+          "action" : "",
+          "checked" : false,
+          "children" : [
+            {
+              "action" : "",
+              "checked" : false,
+              "children" : [
+
+              ],
+              "enabled" : false,
+              "title" : "fixture-recording-one"
+            },
+            {
+              "action" : "",
+              "checked" : false,
+              "children" : [
+
+              ],
+              "enabled" : true,
+              "title" : ""
+            },
+            {
+              "action" : "recording.delete.fixture-recording-one",
+              "checked" : false,
+              "children" : [
+
+              ],
+              "enabled" : true,
+              "title" : "Delete Recording"
+            }
+          ],
+          "enabled" : true,
+          "title" : "10\/5\/26, 12:18 PM — 2:34"
+        },
+        {
+          "action" : "",
+          "checked" : false,
+          "children" : [
+            {
+              "action" : "",
+              "checked" : false,
+              "children" : [
+
+              ],
+              "enabled" : false,
+              "title" : "fixture-recording-two"
+            },
+            {
+              "action" : "",
+              "checked" : false,
+              "children" : [
+
+              ],
+              "enabled" : true,
+              "title" : ""
+            },
+            {
+              "action" : "recording.delete.fixture-recording-two",
+              "checked" : false,
+              "children" : [
+
+              ],
+              "enabled" : true,
+              "title" : "Delete Recording"
+            }
+          ],
+          "enabled" : true,
+          "title" : "10\/5\/26, 10:42 AM — finalizing"
+        },
+        {
+          "action" : "",
+          "checked" : false,
+          "children" : [
+            {
+              "action" : "",
+              "checked" : false,
+              "children" : [
+
+              ],
+              "enabled" : false,
+              "title" : "fixture-recording-three"
+            },
+            {
+              "action" : "",
+              "checked" : false,
+              "children" : [
+
+              ],
+              "enabled" : true,
+              "title" : ""
+            },
+            {
+              "action" : "recording.delete.fixture-recording-three",
+              "checked" : false,
+              "children" : [
+
+              ],
+              "enabled" : true,
+              "title" : "Delete Recording"
+            }
+          ],
+          "enabled" : true,
+          "title" : "10\/4\/26, 4:06 PM — 5:12"
+        }
+      ],
+      "enabled" : true,
+      "title" : "Recent Recordings"
+    },
+    {
+      "action" : "",
+      "checked" : false,
+      "children" : [
+        {
+          "action" : "",
+          "checked" : false,
+          "children" : [
+            {
+              "action" : "",
+              "checked" : false,
+              "children" : [
+
+              ],
+              "enabled" : false,
+              "title" : "fixture-project"
+            },
+            {
+              "action" : "",
+              "checked" : false,
+              "children" : [
+
+              ],
+              "enabled" : false,
+              "title" : "fixture-revision"
+            },
+            {
+              "action" : "project.preview.fixture-project",
+              "checked" : false,
+              "children" : [
+
+              ],
+              "enabled" : true,
+              "title" : "Preview"
+            },
+            {
+              "action" : "project.export.video.fixture-project",
+              "checked" : false,
+              "children" : [
+
+              ],
+              "enabled" : true,
+              "title" : "Export Video…"
+            },
+            {
+              "action" : "project.export.processed-package.fixture-project",
+              "checked" : false,
+              "children" : [
+
+              ],
+              "enabled" : true,
+              "title" : "Export AI Package…"
+            },
+            {
+              "action" : "project.delete.fixture-project",
+              "checked" : false,
+              "children" : [
+
+              ],
+              "enabled" : true,
+              "title" : "Delete Project"
+            }
+          ],
+          "enabled" : true,
+          "title" : "Product demonstration"
+        },
+        {
+          "action" : "library.projects.previous",
+          "checked" : false,
+          "children" : [
+
+          ],
+          "enabled" : false,
+          "title" : "Previous Projects"
+        },
+        {
+          "action" : "library.projects.next",
+          "checked" : false,
+          "children" : [
+
+          ],
+          "enabled" : false,
+          "title" : "Next Projects"
+        }
+      ],
+      "enabled" : true,
+      "title" : "Projects"
+    },
+    {
+      "action" : "library.refresh",
+      "checked" : false,
+      "children" : [
+
+      ],
+      "enabled" : true,
+      "title" : "Refresh Library"
+    },
+    {
+      "action" : "",
+      "checked" : false,
+      "children" : [
+        {
+          "action" : "",
+          "checked" : false,
+          "children" : [
+
+          ],
+          "enabled" : false,
+          "title" : "Scanned 10\/5\/26, 12:18 PM"
+        },
+        {
+          "action" : "storage.refresh",
+          "checked" : false,
+          "children" : [
+
+          ],
+          "enabled" : true,
+          "title" : "Refresh Storage"
+        }
+      ],
+      "enabled" : true,
+      "title" : "Library Storage: 2.4 GB (last scan)"
+    },
+    {
+      "action" : "",
+      "checked" : false,
+      "children" : [
+
+      ],
+      "enabled" : true,
+      "title" : ""
+    },
+    {
+      "action" : "app.settings",
+      "checked" : false,
+      "children" : [
+
+      ],
+      "enabled" : true,
+      "title" : "Settings"
+    },
+    {
+      "action" : "app.quit",
+      "checked" : false,
+      "children" : [
+
+      ],
+      "enabled" : true,
+      "title" : "Quit Screen Recorder"
+    }
+  ],
+  [
+    {
+      "action" : "",
+      "checked" : false,
+      "children" : [
+        {
+          "action" : "",
+          "checked" : false,
+          "children" : [
+
+          ],
+          "enabled" : false,
+          "title" : "No display or window is available."
+        },
+        {
+          "action" : "",
+          "checked" : false,
+          "children" : [
+
+          ],
+          "enabled" : true,
+          "title" : ""
+        },
+        {
+          "action" : "source.region",
+          "checked" : false,
+          "children" : [
+
+          ],
+          "enabled" : false,
+          "title" : "Select Region…"
+        }
+      ],
+      "enabled" : true,
+      "title" : "Source: none chosen"
+    },
+    {
+      "action" : "",
+      "checked" : false,
+      "children" : [
+        {
+          "action" : "microphone.off",
+          "checked" : false,
+          "children" : [
+
+          ],
+          "enabled" : true,
+          "title" : "Off (no narration)"
+        },
+        {
+          "action" : "microphone.default",
+          "checked" : true,
+          "children" : [
+
+          ],
+          "enabled" : true,
+          "title" : "System Default Input"
+        }
+      ],
+      "enabled" : true,
+      "title" : "Microphone: system default"
+    },
+    {
+      "action" : "audio.system",
+      "checked" : false,
+      "children" : [
+
+      ],
+      "enabled" : true,
+      "title" : "Include System Audio"
+    },
+    {
+      "action" : "",
+      "checked" : false,
+      "children" : [
+
+      ],
+      "enabled" : true,
+      "title" : ""
+    },
+    {
+      "action" : "capture.startOrStop",
+      "checked" : false,
+      "children" : [
+
+      ],
+      "enabled" : false,
+      "title" : "Start Recording"
+    },
+    {
+      "action" : "capture.pauseOrResume",
+      "checked" : false,
+      "children" : [
+
+      ],
+      "enabled" : false,
+      "title" : "Pause Recording"
+    },
+    {
+      "action" : "capture.cancel",
+      "checked" : false,
+      "children" : [
+
+      ],
+      "enabled" : false,
+      "title" : "Cancel Take"
+    },
+    {
+      "action" : "capture.restart",
+      "checked" : false,
+      "children" : [
+
+      ],
+      "enabled" : false,
+      "title" : "Restart Take"
+    },
+    {
+      "action" : "",
+      "checked" : false,
+      "children" : [
+
+      ],
+      "enabled" : false,
+      "title" : "Choose a source to record."
+    },
+    {
+      "action" : "",
+      "checked" : false,
+      "children" : [
+
+      ],
+      "enabled" : true,
+      "title" : ""
+    },
+    {
+      "action" : "",
+      "checked" : false,
+      "children" : [
+        {
+          "action" : "",
+          "checked" : false,
+          "children" : [
+            {
+              "action" : "",
+              "checked" : false,
+              "children" : [
+
+              ],
+              "enabled" : false,
+              "title" : "fixture-recording-one"
+            },
+            {
+              "action" : "",
+              "checked" : false,
+              "children" : [
+
+              ],
+              "enabled" : true,
+              "title" : ""
+            },
+            {
+              "action" : "recording.delete.fixture-recording-one",
+              "checked" : false,
+              "children" : [
+
+              ],
+              "enabled" : true,
+              "title" : "Delete Recording"
+            }
+          ],
+          "enabled" : true,
+          "title" : "10\/5\/26, 12:18 PM — 2:34"
+        },
+        {
+          "action" : "",
+          "checked" : false,
+          "children" : [
+            {
+              "action" : "",
+              "checked" : false,
+              "children" : [
+
+              ],
+              "enabled" : false,
+              "title" : "recording-with-a-very-long-identity-for-a-camera-and-narration-observation-that-must-wrap"
+            },
+            {
+              "action" : "",
+              "checked" : false,
+              "children" : [
+
+              ],
+              "enabled" : false,
+              "title" : "Finalization failed — FIXTURE_FINALIZATION: A selected conference room camera source remains unavailable while the recording's publication is being inspected. Retry belongs to its existing owner."
+            },
+            {
+              "action" : "",
+              "checked" : false,
+              "children" : [
+
+              ],
+              "enabled" : false,
+              "title" : "Source: source-with-a-very-long-identity-that-remains-visible-without-displacing-the-action-menu"
+            },
+            {
+              "action" : "",
+              "checked" : false,
+              "children" : [
+
+              ],
+              "enabled" : true,
+              "title" : ""
+            },
+            {
+              "action" : "recording.delete.recording-with-a-very-long-identity-for-a-camera-and-narration-observation-that-must-wrap",
+              "checked" : false,
+              "children" : [
+
+              ],
+              "enabled" : true,
+              "title" : "Delete Recording"
+            }
+          ],
+          "enabled" : true,
+          "title" : "10\/5\/26, 10:42 AM — finalizing"
+        },
+        {
+          "action" : "",
+          "checked" : false,
+          "children" : [
+            {
+              "action" : "",
+              "checked" : false,
+              "children" : [
+
+              ],
+              "enabled" : false,
+              "title" : "fixture-recording-three"
+            },
+            {
+              "action" : "",
+              "checked" : false,
+              "children" : [
+
+              ],
+              "enabled" : true,
+              "title" : ""
+            },
+            {
+              "action" : "recording.delete.fixture-recording-three",
+              "checked" : false,
+              "children" : [
+
+              ],
+              "enabled" : true,
+              "title" : "Delete Recording"
+            }
+          ],
+          "enabled" : true,
+          "title" : "10\/4\/26, 4:06 PM — 5:12"
+        }
+      ],
+      "enabled" : true,
+      "title" : "Recent Recordings"
+    },
+    {
+      "action" : "",
+      "checked" : false,
+      "children" : [
+        {
+          "action" : "",
+          "checked" : false,
+          "children" : [
+            {
+              "action" : "",
+              "checked" : false,
+              "children" : [
+
+              ],
+              "enabled" : false,
+              "title" : "fixture-project"
+            },
+            {
+              "action" : "",
+              "checked" : false,
+              "children" : [
+
+              ],
+              "enabled" : false,
+              "title" : "fixture-revision"
+            },
+            {
+              "action" : "project.preview.fixture-project",
+              "checked" : false,
+              "children" : [
+
+              ],
+              "enabled" : true,
+              "title" : "Preview"
+            },
+            {
+              "action" : "project.export.video.fixture-project",
+              "checked" : false,
+              "children" : [
+
+              ],
+              "enabled" : true,
+              "title" : "Export Video…"
+            },
+            {
+              "action" : "project.export.processed-package.fixture-project",
+              "checked" : false,
+              "children" : [
+
+              ],
+              "enabled" : true,
+              "title" : "Export AI Package…"
+            },
+            {
+              "action" : "project.delete.fixture-project",
+              "checked" : false,
+              "children" : [
+
+              ],
+              "enabled" : true,
+              "title" : "Delete Project"
+            }
+          ],
+          "enabled" : true,
+          "title" : "Product demonstration"
+        },
+        {
+          "action" : "library.projects.previous",
+          "checked" : false,
+          "children" : [
+
+          ],
+          "enabled" : false,
+          "title" : "Previous Projects"
+        },
+        {
+          "action" : "library.projects.next",
+          "checked" : false,
+          "children" : [
+
+          ],
+          "enabled" : false,
+          "title" : "Next Projects"
+        }
+      ],
+      "enabled" : true,
+      "title" : "Projects"
+    },
+    {
+      "action" : "library.refresh",
+      "checked" : false,
+      "children" : [
+
+      ],
+      "enabled" : true,
+      "title" : "Refresh Library"
+    },
+    {
+      "action" : "",
+      "checked" : false,
+      "children" : [
+        {
+          "action" : "",
+          "checked" : false,
+          "children" : [
+            {
+              "action" : "",
+              "checked" : false,
+              "children" : [
+
+              ],
+              "enabled" : false,
+              "title" : "\/Synthetic\/Exports\/Product demonstration.mp4"
+            },
+            {
+              "action" : "",
+              "checked" : false,
+              "children" : [
+
+              ],
+              "enabled" : false,
+              "title" : "Revision fixture-revision of project fixture-project"
+            },
+            {
+              "action" : "",
+              "checked" : false,
+              "children" : [
+
+              ],
+              "enabled" : false,
+              "title" : "Committed output is intact; private cleanup still needs retry."
+            },
+            {
+              "action" : "",
+              "checked" : false,
+              "children" : [
+
+              ],
+              "enabled" : true,
+              "title" : ""
+            },
+            {
+              "action" : "export.reveal.fixture-export",
+              "checked" : false,
+              "children" : [
+
+              ],
+              "enabled" : true,
+              "title" : "Show in Finder"
+            },
+            {
+              "action" : "export.retry.fixture-export",
+              "checked" : false,
+              "children" : [
+
+              ],
+              "enabled" : true,
+              "title" : "Retry Cleanup"
+            }
+          ],
+          "enabled" : true,
+          "title" : "Video — Product demonstration.mp4 — exported, cleanup pending"
+        }
+      ],
+      "enabled" : true,
+      "title" : "Exports — needs attention"
+    },
+    {
+      "action" : "",
+      "checked" : false,
+      "children" : [
+        {
+          "action" : "",
+          "checked" : false,
+          "children" : [
+
+          ],
+          "enabled" : false,
+          "title" : "Scanned 10\/5\/26, 12:18 PM"
+        },
+        {
+          "action" : "storage.refresh",
+          "checked" : false,
+          "children" : [
+
+          ],
+          "enabled" : true,
+          "title" : "Refresh Storage"
+        }
+      ],
+      "enabled" : true,
+      "title" : "Library Storage: 2.4 GB (last scan)"
+    },
+    {
+      "action" : "",
+      "checked" : false,
+      "children" : [
+
+      ],
+      "enabled" : true,
+      "title" : ""
+    },
+    {
+      "action" : "app.settings",
+      "checked" : false,
+      "children" : [
+
+      ],
+      "enabled" : true,
+      "title" : "Settings"
+    },
+    {
+      "action" : "app.quit",
+      "checked" : false,
+      "children" : [
+
+      ],
+      "enabled" : true,
+      "title" : "Quit Screen Recorder"
+    }
+  ]
+]

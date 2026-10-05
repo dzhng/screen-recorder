@@ -54,6 +54,16 @@ movement or treating a completion claim as new media validation.
 
 ## Verification
 
+The [primary-camera fixture](Tests/ScreenRecorderCaptureTests/PrimaryCameraPublicationTests.swift)
+substitutes prerecorded pictures at the input boundary and exercises ordinary native
+finish, recovery and held-byte evidence admission. Run the capture test product with
+`SCREENREC_PRIMARY_CAMERA_PUBLICATION_OUTPUT` naming a new evidence directory; without
+that override the case participates in the ordinary capture suite. The
+[core admission probe](Tests/fixtures/primary-camera-admission.mjs) consumes that same
+directory after building core, proving publication and normalized evidence survive
+catalog reopen. Neither fixture opens a media device or requests capture permission.
+
+
 The [native test runner](../../scripts/test-native.mjs) owns anonymous output outside
 the child, including on failure or signal. Explicit evidence remains caller-owned.
 Wire setup produces only required operands; numerical and public-boundary checks

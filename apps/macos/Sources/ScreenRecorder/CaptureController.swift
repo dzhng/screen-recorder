@@ -154,42 +154,39 @@ final class CaptureController {
     }
 
     private func sources() async throws -> [String: Any] {
-        guard NativeCapture.screenPermission else {
-            throw CaptureFailure(
-                "PERMISSION_REQUIRED",
-                "Screen recording permission is not authorized. Allow Screen Recorder in System Settings > Privacy & Security > Screen & System Audio Recording. No permission was requested automatically."
-            )
-        }
-        let content = try await SCShareableContent.excludingDesktopWindows(
-            false, onScreenWindowsOnly: true)
-        let windows = content.windows.filter { window in
-            fixtureWindow.map { UInt32($0.windowNumber) == window.windowID } ?? true
-        }
-        // The fixture exposes only this app's own window, so it also offers no display and no
-        // microphone: a fixture take has nothing to point at but itself.
+        try await Self.discoverSources(screenAuthorized: NativeCapture.screenPermission, screens: {
+            let content = try await SCShareableContent.excludingDesktopWindows(false, onScreenWindowsOnly: true)
+            let windows = content.windows.filter { window in
+                self.fixtureWindow.map { UInt32($0.windowNumber) == window.windowID } ?? true
+            }
+            return (
+                displays: self.fixtureWindow != nil ? [] : content.displays.map {
+                    ["id": Int($0.displayID), "name": Self.displayName(of: $0.displayID),
+                     "width": $0.width, "height": $0.height]
+                },
+                windows: windows.map {
+                    ["id": Int($0.windowID), "title": $0.title ?? "",
+                     "application": $0.owningApplication?.applicationName ?? ""]
+                })
+        }, cameras: {
+            self.fixtureWindow != nil ? [] : NativeCapture.cameraDevices()
+        }, microphones: {
+            self.fixtureWindow != nil ? [] : NativeCapture.microphoneDevices()
+        })
+    }
+
+    /// Device discovery is independent of screen authorization. The screen supplier is lazy so
+    /// absent access never reaches ScreenCaptureKit; genuine authorized enumeration errors escape.
+    static func discoverSources(
+        screenAuthorized: Bool,
+        screens: () async throws -> (displays: [[String: Any]], windows: [[String: Any]]),
+        cameras: () -> [CaptureVideoDevice], microphones: () -> [CaptureAudioDevice]
+    ) async throws -> [String: Any] {
+        let screen = screenAuthorized ? try await screens() : (displays: [], windows: [])
         return [
-            "displays": fixtureWindow != nil
-                ? []
-                : content.displays.map {
-                    [
-                        "id": Int($0.displayID), "name": Self.displayName(of: $0.displayID),
-                        "width": $0.width, "height": $0.height,
-                    ]
-                },
-            "windows": windows.map {
-                [
-                    "id": Int($0.windowID), "title": $0.title ?? "",
-                    "application": $0.owningApplication?.applicationName ?? "",
-                ]
-            },
-            "cameras": fixtureWindow != nil
-                ? []
-                : NativeCapture.cameraDevices().map { ["id": $0.id, "name": $0.name] },
-            "microphones": fixtureWindow != nil
-                ? []
-                : NativeCapture.microphoneDevices().map {
-                    ["id": $0.id, "name": $0.name, "isDefault": $0.isDefault]
-                },
+            "displays": screen.displays, "windows": screen.windows,
+            "cameras": cameras().map { ["id": $0.id, "name": $0.name] },
+            "microphones": microphones().map { ["id": $0.id, "name": $0.name, "isDefault": $0.isDefault] },
         ]
     }
 
@@ -245,6 +242,10 @@ final class CaptureController {
                 "This app is running its capture fixture and records no audio device.")
         }
         let camera: CaptureCameraRequest?
+        if selected["kind"] as? String == "camera",
+            ["cameraDeviceId", "cameraSourceId", "cameraDirectory"].contains(where: { params[$0] != nil }) {
+            throw CaptureFailure("INVALID_REQUEST", "A primary camera cannot carry companion camera authority.")
+        }
         if let deviceId = params["cameraDeviceId"] as? String {
             guard !deviceId.isEmpty, deviceId.utf16.count <= 256,
                 let cameraSourceId = params["cameraSourceId"] as? String,
@@ -306,6 +307,11 @@ final class CaptureController {
         }
         let displayID = (selected["displayId"] as? NSNumber)?.uint32Value
         switch kind {
+        case "camera":
+            guard Set(selected.keys) == ["kind", "deviceId"],
+                let deviceID = selected["deviceId"] as? String, !deviceID.isEmpty,
+                deviceID.utf16.count <= 256 else { throw invalidSource }
+            return CaptureSource(kind: "camera", deviceID: deviceID)
         case "window":
             guard let windowID else { throw invalidSource }
             return CaptureSource(kind: "window", windowID: windowID)
@@ -325,7 +331,7 @@ final class CaptureController {
     }
 
     private var invalidSource: CaptureFailure {
-        CaptureFailure("INVALID_REQUEST", "Source must name a display, window or region.")
+        CaptureFailure("INVALID_REQUEST", "Source must name a display, window, region or selected camera.")
     }
 
     /// Finalizes the running take: the library hears that it is finalizing before the encoder is

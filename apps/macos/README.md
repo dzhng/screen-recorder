@@ -7,7 +7,7 @@ paths remain diagnostics rather than product controls.
 
 ## Shared controls and explicit access
 
-The menu, settings and recording panels consume one controls state and dispatch
+The capture popover, Settings and recording panels consume one controls state and dispatch
 the same actions. A running take retains its selected inputs; changing a preference
 cannot rewrite that selection. Countdown precedes the service start request, so
 canceling it creates no take. Recorder-owned controls stay outside recorded media
@@ -15,6 +15,10 @@ and do not activate the app over the source being recorded.
 
 Authorization is read from native capture and requested only through an explicit
 action. Permission denial remains actionable without choosing another device.
+Camera and microphone discovery do not depend on screen authorization. Missing
+screen access produces empty screen choices, while an actual discovery failure
+retains the last-good catalog and reports the error. A camera choice preserves
+its device identity and never silently substitutes a disconnected device.
 Login registration is the system's answer, not a second locally cached preference.
 A client-triggered service launch suppresses the ordinary launch window; a headless
 check must not take focus or play audio.
@@ -108,3 +112,30 @@ view with synthetic owner facts and checks that the form still scrolls to Genera
 It proves presentation without a service or permission inspection. Actual updater
 persistence, staged disarming and quiet relaunch belong to native coordination
 and the installed-update gate.
+
+## Capture and Library presentation
+
+The [capture view](Sources/ScreenRecorder/CaptureView.swift) consumes immutable
+rendering facts and emits supplied intents. It holds no capture selection, service
+state or recording clock. The controls owner admits those intents; the transient popover owns native dismissal
+and leaves capture selection with the shared controls state. Camera Only requires
+an explicitly selected device and never substitutes a missing camera.
+
+Run `node apps/macos/tests/capture-view-shots.mjs` from the repository root for
+focused native interaction, applicability and scroll checks plus offscreen images.
+`SHOTS` selects the output directory. The [fixture](tests/fixtures/capture-view.swift)
+owns synthetic scenarios; its images and metadata record native size, appearance
+and backing scale. This renderer never enumerates devices, inspects permissions,
+starts capture or activates the app.
+
+The [Library view](Sources/ScreenRecorder/LibraryView.swift) consumes shared
+saved-item facts from the controls presentation owners. Those owners retain title,
+failure detail and action applicability; the view keeps only its session-local tab,
+filter and scroll position. The paging owner explicitly clears the page filter.
+Unavailable thumbnails use a source icon, so presentation never creates media jobs.
+The [offscreen Library fixture](tests/library-view-shots.mjs) renders synthetic
+observations without service reads or window activation; run it from the repository
+root to inspect presentation with synthetic observations. The retained Library window
+opens independently, closes without quitting, and preserves its session-local browsing
+state. Closing the popover does not close Library. Item actions keep their explicit
+identities during asynchronous refreshes; their existing controllers admit execution.

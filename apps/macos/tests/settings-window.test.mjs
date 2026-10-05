@@ -46,7 +46,7 @@ test("Settings opens at launch by default", { timeout: 60_000 }, async () => {
 });
 
 test(
-  "Settings stays closed once turned off, opens from Settings…, and the menu starts from saved choices",
+  "Settings stays closed once turned off, opens from the gear, and capture restores saved choices",
   { timeout: 60_000 },
   async () => {
     const { instance, send, settings } = await launchWith([
@@ -54,16 +54,16 @@ test(
       ["recording.microphone", "off"],
       ["recording.systemAudio", "-bool", "YES"],
     ]);
-    // The launch has finished: its service answered and its menu is built.
+    await send({ do: "open" });
     const rows = (await send({ do: "snapshot" })).rows;
     assert.notEqual((await settings())?.visible, true, "no Settings window at launch");
 
-    const item = find(rows, "app.settings");
-    assert.deepEqual([item.title, item.shortcut, item.enabled], ["Settings", ",", true]);
-    assert.equal(find(rows, "microphone.off").checked, true, "saved microphone choice");
+    const item = find(rows, "header.settings");
+    assert.equal(item.enabled, true, "Settings gear remains available");
+    assert.equal(find(rows, "microphone.toggle").checked, false, "saved microphone choice");
     assert.equal(find(rows, "audio.system").checked, true, "saved system audio choice");
 
-    assert.equal((await send({ do: "choose", item: "app.settings" })).ok, true);
+    assert.equal((await send({ do: "choose", item: "header.settings" })).ok, true);
     const opened = await waitFor(async () => (await settings())?.visible && settings(), 20_000);
     assert.equal(opened.title, title);
     instance.kill("SIGTERM");

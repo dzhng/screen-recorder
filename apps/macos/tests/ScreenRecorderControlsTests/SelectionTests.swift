@@ -25,6 +25,8 @@ func runElapsedFormatTests() {
     precondition(ElapsedTime.format(3_661_000_000) == "1:01:01", "An hours field appears only once there is one")
     precondition(ElapsedTime.format(3_599_000_000) == "59:59", "Just under an hour stays in minutes")
     precondition(ElapsedTime.format(nil) == "—", "A take with no measured time states none, not zero")
+    precondition(ElapsedTime.shortTime(of: "2026-09-16T09:10:11.000Z") == ElapsedTime.shortTime(of: "2026-09-16T09:10:11Z"),
+        "Service timestamps with milliseconds keep their readable local date")
     print("PASS elapsed playback time reads as a recorder's clock")
 }
 
@@ -45,8 +47,8 @@ func runAwaitedMicrophoneTests() {
         state.selection.recordingDefaults.microphone == .device(id: headset.id, name: headset.name),
         "What is saved is what this person chose, not what today's Mac happens to have")
     precondition(
-        RecordingMenu.microphoneTitle(for: state) == "system default, waiting for Studio Headset",
-        "The menu says which one it is waiting for, got \(RecordingMenu.microphoneTitle(for: state))")
+        CapturePresentation.microphoneTitle(for: state) == "system default, waiting for Studio Headset",
+        "The capture label says which input it is waiting for, got \(CapturePresentation.microphoneTitle(for: state))")
 
     state.observeSources(ControlsState.SourceCatalog(
         displays: [display], windows: [window], microphones: [builtIn, headset]))
@@ -58,6 +60,33 @@ func runAwaitedMicrophoneTests() {
 }
 
 func runSelectionTests() {
+    let cameraData = Data(#"{"source":{"kind":"camera","deviceId":"selected-camera"},"microphone":false,"systemAudio":false}"#.utf8)
+    guard let cameraStart = try? JSONDecoder().decode(ControlsState.CaptureSelection.Start.self, from: cameraData) else {
+        preconditionFailure("A primary camera start crosses the shared controls boundary")
+    }
+    var cameraState = ControlsState()
+    cameraState.selection.apply(cameraStart, catalog: cameraState.sources)
+    precondition(cameraState.selection.start() == cameraStart,
+                 "An external primary camera retains its exact device identity for restart")
+    let cameraRestart = try! JSONSerialization.jsonObject(with: JSONEncoder().encode(cameraState.selection.start()!)) as! [String: Any]
+    precondition(cameraRestart["cameraDeviceId"] == nil,
+                 "A primary camera never emits a companion camera selection")
+    precondition(cameraState.beginStart(newRequestId: "missing-camera") == nil,
+                 "An unavailable selected camera cannot start or substitute another device")
+    cameraState.observeSources(.init(cameras: [.init(id: "selected-camera", name: "Studio Camera")]))
+    precondition(cameraState.beginStart(newRequestId: "available-camera")?.start == cameraStart,
+                 "An explicit available camera starts with no discovered screen")
+    cameraState.sourcesUnavailable(description: "Screen listing was refused")
+    precondition(cameraState.sources.cameras.first?.id == "selected-camera"
+                 && cameraState.selection.cameraDeviceId == "selected-camera",
+                 "A failed screen listing cannot erase independent camera discovery or its choice")
+    cameraState.observeSources(.init())
+    let replay = cameraState.beginStart(newRequestId: "must-not-allocate")
+    precondition(replay?.requestId == "available-camera" && replay?.repeatsUnanswered == true,
+                 "A disconnected camera cannot prevent resolving its unanswered allocation")
+    if let replay { _ = cameraState.finishStart(replay, .ended) }
+    precondition(cameraState.beginStart(newRequestId: "disconnected-fresh") == nil,
+                 "After resolving the old allocation a disconnected camera cannot start a new take")
     var state = ControlsState()
     precondition(state.selection.start() == nil, "Nothing starts until a person chooses a source")
     precondition(
@@ -93,7 +122,7 @@ func runSelectionTests() {
         #"{"source":{"kind":"window","windowId":88},"microphone":false,"systemAudio":true,"cameraDeviceId":"selected-camera"}"#.utf8))
     state.selection.apply(active, catalog: state.sources)
     precondition(state.selection.start() == active,
-                 "An external take replaces the menu's source and both audio choices for restart")
+                 "An external take replaces the selected source and both audio choices for restart")
     let restart = try! JSONSerialization.jsonObject(with: JSONEncoder().encode(state.selection.start()!)) as! [String: Any]
     precondition(restart["cameraDeviceId"] as? String == "selected-camera",
                  "Reconstructed requests retain the external caller's camera, without choosing a fallback")
@@ -101,12 +130,12 @@ func runSelectionTests() {
         #"{"kind":"camera","sourceId":"camera-source","acquisitionId":null,"job":null,"admissionError":null,"publication":{"state":"unavailable","error":{"code":"NO_CAMERA","message":"No usable camera pictures"}}}"#.utf8))
     precondition(unavailable.title == "camera publication unavailable — NO_CAMERA: No usable camera pictures",
                  "A terminal camera failure cannot be presented as waiting for admission")
-    precondition(RecordingMenu.sourceTitle(for: state) == "Safari — Pricing",
+    precondition(CapturePresentation.sourceTitle(for: state) == "Safari — Pricing",
                  "An external window resolves its catalog label")
     let checkout = ControlsState.Window(id: 88, title: "Checkout", application: "Safari")
     state.observeSources(.init(displays: [display], windows: [checkout], microphones: []))
     precondition(state.failure == nil, "A title change is not a closed window")
-    precondition(RecordingMenu.sourceTitle(for: state) == "Safari — Checkout",
+    precondition(CapturePresentation.sourceTitle(for: state) == "Safari — Checkout",
                  "A retained selection shows the refreshed title")
     precondition(state.selection.start()?.source == .window(id: 88),
                  "Renaming a window preserves its capture identity")
@@ -124,7 +153,7 @@ func runSelectionTests() {
                  "Before anything was selected, the first display is offered")
 
     var failing = ready(source: .window(window))
-    failing.sourcesUnavailable(code: "TIMEOUT", description: "TIMEOUT: capture.sources did not answer in time")
+    failing.sourcesUnavailable(description: "TIMEOUT: capture.sources did not answer in time")
     precondition(
         failing.selection.source == .window(window) && failing.sources.windows == [window]
             && failing.failure == "TIMEOUT: capture.sources did not answer in time",

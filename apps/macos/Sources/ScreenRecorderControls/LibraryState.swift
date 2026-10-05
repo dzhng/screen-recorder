@@ -5,15 +5,22 @@ public struct LibraryState: Equatable, Sendable {
     public init() {}
     public var recent: [ControlsState.RecentTake] = []
     public var projects: [Project] = []
-    public var nextCursor: Cursor?
-    public var hasPreviousPage = false
+    public var nextRecordingCursor: RecordingCursor?
+    public var hasPreviousRecordingPage = false
+    public var recordingsRefreshing = false
+    public var nextProjectCursor: ProjectCursor?
+    public var hasPreviousProjectPage = false
     public var projectsRefreshing = false
     public var recordingFailure: String?
     public var progressFailure: String?
     public var projectFailure: String?
     public var deletions: [MediaTarget: DeleteRequest] = [:]
 
-    public struct Cursor: Codable, Equatable, Sendable {
+    public struct RecordingCursor: Codable, Equatable, Sendable {
+        public let beforeSequence: Int
+        public init(beforeSequence: Int) { self.beforeSequence = beforeSequence }
+    }
+    public struct ProjectCursor: Codable, Equatable, Sendable {
         public let afterSequence: Int
         public init(afterSequence: Int) { self.afterSequence = afterSequence }
     }
@@ -88,7 +95,7 @@ public struct LibraryState: Equatable, Sendable {
         switch target {
         case .recording(let id):
             guard let take = recent.first(where: { $0.recordingId == id }) else { return false }
-            deletions[target] = .init(target: target, title: RecordingMenu.recentTitle(of: take), take: take)
+            deletions[target] = .init(target: target, title: LibraryPresentation.recordingTitle(of: take), take: take)
         case .project(let id):
             guard let project = projects.first(where: { $0.projectId == id }) else { return false }
             deletions[target] = .init(target: target, title: project.title, take: nil)

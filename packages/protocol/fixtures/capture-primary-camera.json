@@ -1,0 +1,22 @@
+{
+  "selection": {
+    "source": { "kind": "camera", "deviceId": "chosen-camera" },
+    "microphone": false,
+    "systemAudio": false
+  },
+  "invalidSelections": [
+    { "source": { "kind": "camera" }, "microphone": false, "systemAudio": false },
+    { "source": { "kind": "camera", "deviceId": "" }, "microphone": false, "systemAudio": false },
+    {
+      "source": { "kind": "camera", "deviceId": "chosen-camera", "displayId": 1 },
+      "microphone": false,
+      "systemAudio": false
+    },
+    {
+      "source": { "kind": "camera", "deviceId": "chosen-camera" },
+      "cameraDeviceId": "companion",
+      "microphone": false,
+      "systemAudio": false
+    }
+  ]
+}

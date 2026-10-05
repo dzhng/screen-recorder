@@ -6,6 +6,10 @@ live in the code and READMEs reached from the [root guide](../README.md).
 
 ## Closed work
 
+[Capture popover and independent Library](done/capture-menu/README.md) records the
+selected native presentation, Camera Only boundary and explicitly unverified live
+device checks.
+
 Completed records live under `done/`. Their original build ladders remain in
 pinned Git snapshots; closure preserves accepted limitations rather than marking
 unverified historical gates as passed.

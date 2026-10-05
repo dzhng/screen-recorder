@@ -139,7 +139,7 @@ package enum CaptureSourcePublication {
         guard
             facts.header?.sessionID == authority.sourceId,
             facts.header?.cameraBinding == authority.binding,
-            (authority.kind == .camera) == (facts.header?.source.kind == "camera"),
+            authority.kind != .camera || facts.header?.source.kind == "camera",
             layout == (authority.kind == .camera ? 1 : 2) else {
             throw invalid("Recovery differs from allocated source/device authority.")
         }

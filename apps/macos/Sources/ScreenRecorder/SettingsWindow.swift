@@ -66,6 +66,9 @@ final class SettingsWindow: NSObject, NSWindowDelegate {
     func update(_ state: ControlsState, shortcuts: ShortcutDefaults) {
         if model.state != state { model.state = state }
         if model.shortcuts != shortcuts { model.shortcuts = shortcuts }
+        if model.countdownBeforeRecording != preferences.countdownBeforeRecording {
+            model.countdownBeforeRecording = preferences.countdownBeforeRecording
+        }
     }
 
     func windowDidBecomeKey(_ notification: Notification) {
@@ -103,32 +106,12 @@ final class SettingsWindow: NSObject, NSWindowDelegate {
         } else {
             window.center()
         }
-        installWindowMenu()
+        WindowMenu.install()
         self.window = window
         return window
     }
 
-    /// A menu-bar app shows no menu bar, but its key equivalents still route through the main
-    /// menu. A window a person can see should close with ⌘W and, since the status menu tells them
-    /// ⌘Q quits, ⌘Q has to quit while that window is the one they are looking at.
-    private func installWindowMenu() {
-        guard NSApplication.shared.mainMenu == nil else { return }
-        let application = NSMenu(title: "Screen Recorder")
-        application.addItem(
-            NSMenuItem(
-                title: "Quit Screen Recorder", action: #selector(NSApplication.terminate(_:)),
-                keyEquivalent: "q"))
-        let applicationItem = NSMenuItem()
-        applicationItem.submenu = application
-        let window = NSMenu(title: "Window")
-        window.addItem(NSMenuItem(title: "Close", action: #selector(NSWindow.performClose(_:)), keyEquivalent: "w"))
-        let item = NSMenuItem()
-        item.submenu = window
-        let main = NSMenu()
-        main.addItem(applicationItem)
-        main.addItem(item)
-        NSApplication.shared.mainMenu = main
-    }
+
 }
 
 @MainActor

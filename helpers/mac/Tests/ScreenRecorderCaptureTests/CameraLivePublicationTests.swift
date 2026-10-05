@@ -149,7 +149,7 @@ private func runCameraLivePublicationTest(output: String, firstCameraAfterPrimar
             let bytes = Int64(try observations.resourceValues(forKeys: [.fileSizeKey]).fileSize!)
             func wake() {
                 ingress.writer.queue.sync {
-                    ingress.camera.recorded(observations: observations, bytes: bytes, frames: mapping.frames)
+                    ingress.companion!.recorded(observations: observations, bytes: bytes, frames: mapping.frames)
                 }
             }
             // Catch up the latest written mapping once; subsequent identical wakeups have no new operands.

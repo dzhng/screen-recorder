@@ -1,0 +1,237 @@
+{
+  "baseCommit": "07c5f62a",
+  "nativeFixture": "helpers/mac/Tests/ScreenRecorderCaptureTests/PrimaryCameraPublicationTests.swift",
+  "input": "authored asymmetric 160x120 prerecorded pictures; no media devices",
+  "files": {
+    "finished-evidence-receipt.json": {
+      "bytes": 593,
+      "sha256": "37a84851e6ccbf98b864247eda284f5e0956487202bf7e44219a73e0e390993c"
+    },
+    "refuse-layout.json": {
+      "bytes": 1117,
+      "sha256": "c40046258af9d43c6a1ce06f657d895ddc5854ef281ba7483fb1a8742788f36b"
+    },
+    "refuse-source-id.json": {
+      "bytes": 949,
+      "sha256": "b2378b81b49d49ffe5607c120b624e0d69364cfe48a2480dc0b771ba6cb8aef8"
+    },
+    "staged-evidence.jsonl": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "input.mov": {
+      "bytes": 50872,
+      "sha256": "1eb3c3e29acd26ce3431d413fe9d8cbb8a2dd8304d2665a63474fb6386da1902"
+    },
+    "finished-result.json": {
+      "bytes": 443,
+      "sha256": "a17541093cf5830867814f63e41e53a1cb1a251fdbbc2782c4f5026df6cbd926"
+    },
+    "finished-publication.json": {
+      "bytes": 550,
+      "sha256": "4477c1ce0e019d13650bdbaa03614318902e0f03ae401b4e305f54ad2c951010"
+    },
+    "evidence-receipt.json": {
+      "bytes": 467,
+      "sha256": "2c127e4eca669cffdcd9a8b66eeb21c38ff6ed5a57d8b310b778ab0c3729ce62"
+    },
+    "corrupt-evidence.jsonl": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "evidence.jsonl": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "torn-evidence.jsonl": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "finished-evidence.jsonl": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "core-admission-report.json": {
+      "bytes": 288,
+      "sha256": "f7f1736da565b0d510a10fdf1fc2091e4a32161aba6a568bea25e7e14e92eddc"
+    },
+    "independent-review.txt": {
+      "bytes": 911,
+      "sha256": "1d31026f071878f66b0d2bd7c846a16b644b0d285303375f2fb828c8a2301878"
+    },
+    "recovery.json": {
+      "bytes": 1456,
+      "sha256": "798ef6cefca866dbdd66b203449fde8bc22a4984550d9a8fad6c7dd3cf170f8b"
+    },
+    "refuse-binding.json": {
+      "bytes": 949,
+      "sha256": "056945aecbe301f18d5b2eee2103332338fcb7a7cdae96e7bd7b2e0cdf288a1f"
+    },
+    "refuse-role.json": {
+      "bytes": 949,
+      "sha256": "b8adc14ccbe863e49358b3f05c65a74215d358e5a6e1a864fcc69941f95298f0"
+    },
+    "finished/video.mov": {
+      "bytes": 7562,
+      "sha256": "ab23d4678bf40b5366c88e441c4508b89e2d581c8266f5804c503a483064dfa8"
+    },
+    "finished/capture.journal.jsonl": {
+      "bytes": 1051,
+      "sha256": "92aa230cdfa1f67118c2e75552d9b08fbd88b80b4487af663f5e259d3b7dcac6"
+    },
+    "finished/source.publication.json": {
+      "bytes": 384,
+      "sha256": "35bfc53d32530b43a400cba742933a77158328a2d8559292e0b407f256047ce3"
+    },
+    "finished/source.journal.jsonl": {
+      "bytes": 988,
+      "sha256": "2152d0e68fd4258f594a48f7fe0bcb4274258c466ed7b911cbd786f460eabf02"
+    },
+    "corrupt/video.mov": {
+      "bytes": 50872,
+      "sha256": "9f55887982b6d2d932374d6b3f2827ca38fcb16c454939cbcb6dcb0e9916808d"
+    },
+    "corrupt/capture.journal.jsonl": {
+      "bytes": 335,
+      "sha256": "c9c68e0912724bb166f84a447fac708154ae89ba4d1a1da437c7a4247c5f0206"
+    },
+    "corrupt/source.publication.json": {
+      "bytes": 866,
+      "sha256": "4f5fa2068457b120e3340269e7c75483ae0634f8dfe900425fca2fd9147153d0"
+    },
+    "corrupt/source.journal.jsonl": {
+      "bytes": 335,
+      "sha256": "c9c68e0912724bb166f84a447fac708154ae89ba4d1a1da437c7a4247c5f0206"
+    },
+    "unfinished/video.mov": {
+      "bytes": 50872,
+      "sha256": "9f55887982b6d2d932374d6b3f2827ca38fcb16c454939cbcb6dcb0e9916808d"
+    },
+    "unfinished/capture.journal.jsonl": {
+      "bytes": 321,
+      "sha256": "f76566bb8d944896f74b0bf9b99a28c310b278d9c2c4cc233166d82ad2dbdcac"
+    },
+    "unfinished/source.publication.json": {
+      "bytes": 844,
+      "sha256": "0acfe5aebe11c39b47c3cf541ca71414f160292eebdf463f0494c21add48d967"
+    },
+    "unfinished/source.journal.jsonl": {
+      "bytes": 321,
+      "sha256": "f76566bb8d944896f74b0bf9b99a28c310b278d9c2c4cc233166d82ad2dbdcac"
+    },
+    "stage/capture.journal.jsonl": {
+      "bytes": 988,
+      "sha256": "2152d0e68fd4258f594a48f7fe0bcb4274258c466ed7b911cbd786f460eabf02"
+    },
+    "stage/source.publication.json": {
+      "bytes": 384,
+      "sha256": "35bfc53d32530b43a400cba742933a77158328a2d8559292e0b407f256047ce3"
+    },
+    "torn/video.mov": {
+      "bytes": 50872,
+      "sha256": "9f55887982b6d2d932374d6b3f2827ca38fcb16c454939cbcb6dcb0e9916808d"
+    },
+    "torn/capture.journal.jsonl": {
+      "bytes": 334,
+      "sha256": "293e674c08eed8614f51ba22c45b1772137c9b3ef0c9f6a4a56a151612664f59"
+    },
+    "torn/source.publication.json": {
+      "bytes": 843,
+      "sha256": "75301deb7b14671d50827eb908b93a5d0dcfc6b0e420b44e8d1402211ecbf1a7"
+    },
+    "torn/source.journal.jsonl": {
+      "bytes": 334,
+      "sha256": "293e674c08eed8614f51ba22c45b1772137c9b3ef0c9f6a4a56a151612664f59"
+    },
+    "native-red.log.gz": {
+      "bytes": 138,
+      "sha256": "611c7383ce37a6f88b2471b8920426d35c44f2e2a94422b3291eb090506dd844",
+      "uncompressed": {
+        "bytes": 154,
+        "sha256": "fa993df7c333a568301ccfcddacc9df159cc99a7c3c4f598326e4beeb471cd12"
+      }
+    },
+    "reviewed.log.gz": {
+      "bytes": 97,
+      "sha256": "80f1a8a48188d0b6340d7872f040ba565416df49014769879b1ba48edc1495c0",
+      "uncompressed": {
+        "bytes": 88,
+        "sha256": "b1a23fa0e252477c7a5cfc6bfadbefbc20c8ffa6410129c2b4651f4c692764fa"
+      }
+    },
+    "core-layout-red.log.gz": {
+      "bytes": 856,
+      "sha256": "1287c77a98ec77165e4968712f37c5a9e6e530a9970c97a1c52a648a16214cc0",
+      "uncompressed": {
+        "bytes": 1873,
+        "sha256": "73c324623183b18a2bd9930ef5200454bd00e6266e39c0f3ccd52330a462f28f"
+      }
+    },
+    "preserve-recovery.log.gz": {
+      "bytes": 134,
+      "sha256": "06d838724e56dcdcf490e5c82cbd7062348ec32782365da4a140ad24421cce63",
+      "uncompressed": {
+        "bytes": 151,
+        "sha256": "5d246b18b2889360097d947b88c14d18856a89d34f2352f01226fa0526eb1095"
+      }
+    },
+    "core-red.log.gz": {
+      "bytes": 573,
+      "sha256": "fba7aefbeb881b7e3c7838fc6e4a725dc6269356e3b50b6d9105fd4f51ff39b8",
+      "uncompressed": {
+        "bytes": 1178,
+        "sha256": "c3065f135b6322740d3608a96e2a7703044d5217306b1464e340131c6c3932e5"
+      }
+    },
+    "ingress-red.log.gz": {
+      "bytes": 137,
+      "sha256": "047634c6e390fa55b892ec901f51c8c9307c460f85c54bd78325ad12b650dd4a",
+      "uncompressed": {
+        "bytes": 150,
+        "sha256": "2ab9fab1b8d7180c61f012a1fb9324bd9c63dcaebdf2580809021f906cfb4c41"
+      }
+    },
+    "core-final.log.gz": {
+      "bytes": 169,
+      "sha256": "dc8a3353358ed5a523dfbe7a8f8986f3cee62af36fa9d8a9aaad7ac1b18de423",
+      "uncompressed": {
+        "bytes": 191,
+        "sha256": "45b41e87b3d12d8ca8dc7d5034c233874de71a6774f4a9fcd1471244566191d4"
+      }
+    },
+    "core-reviewed.log.gz": {
+      "bytes": 99,
+      "sha256": "0118b1303b1ae5aa93120f16e8b16a2faa326234091aa647d0990691f7a8a2e3",
+      "uncompressed": {
+        "bytes": 90,
+        "sha256": "69e7ad7a575a161c1907015426b051148dbf7d11ae5f9024fd1ec650420d1fcf"
+      }
+    },
+    "preserve-clock.log.gz": {
+      "bytes": 367,
+      "sha256": "d656563a4e3fbd655659b088fe96933a0460a4a3c3596cf0dc444c3a6a4827a4",
+      "uncompressed": {
+        "bytes": 1118,
+        "sha256": "a84c47f36ce0716319c9d3b0d574d09c456722625a16b471791a704d3f3b91bb"
+      }
+    },
+    "preserve-publication.log.gz": {
+      "bytes": 808,
+      "sha256": "2cdd47c4fcde8d9a90bdb2de86d90642205cc01cdab3ca6ac89ba5be3622e0a2",
+      "uncompressed": {
+        "bytes": 2672,
+        "sha256": "34bae36d0c97294d9a57cc8c95c53bde1c8f7482879ba098a2b4ea96023a5241"
+      }
+    }
+  },
+  "sourceFiles": {
+    "helpers/mac/Sources/ScreenRecorderCapture/CaptureWriter.swift": "d97e2560ff7fd39fd0f136de8047491626ed058bdb9ce865cae15b8db9e6c509",
+    "helpers/mac/Sources/ScreenRecorderCapture/CaptureSourcePublication.swift": "2634eaaa1f9974fd7680df264b5b96e9adcf1b5aa023022845eb5dc9a8286ef4",
+    "helpers/mac/Sources/ScreenRecorderWire/SourceEvidenceExport.swift": "b4b0c25abe9bf848f72946b1591eb86791e10c636a32ededfe51b4ecbf37147c",
+    "helpers/mac/Sources/ScreenRecorderWire/MediaRecovery.swift": "4fa3d9d4f0c97ac01c30ab22874005e85dbf4f301373d0fab3fe2d1d87e0a9d4",
+    "packages/core/src/evidence.ts": "f6392f294618f3dc5afef7eb91c1f0433ecdfe9bbeac63496991a7d240e7c53d",
+    "helpers/mac/Tests/ScreenRecorderCaptureTests/PrimaryCameraPublicationTests.swift": "2805a504511b1def241a61c1ca46653ab297754cb4809981ff3f52b20074b0b5",
+    "helpers/mac/Tests/ScreenRecorderCaptureTests/PrerecordedCaptureInput.swift": "51c13cb10bc1dde1114027a70166e775b1aaaed6d008860418671dcee1639945",
+    "helpers/mac/Tests/fixtures/primary-camera-admission.mjs": "565f92507e9f5d534b315b1a25b1d53ef5438a0a2e532bd10574f12dda16d197"
+  }
+}

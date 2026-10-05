@@ -1,0 +1,181 @@
+{
+  "sourceRevision": "9e298d82 plus reviewed admission diff",
+  "renderer": "apps/macos/tests/settings-view-shots.mjs",
+  "nativePoints": [
+    560,
+    780
+  ],
+  "backingScale": 1,
+  "files": [
+    {
+      "file": "before/dark-disabled-bottom.png",
+      "sha256": "fc6c75603d5eeb4b0fd9ae240cbcf1e81d3f9b1df6639a619259be726b8d86e2"
+    },
+    {
+      "file": "before/dark-disabled.png",
+      "sha256": "32899831ffea6ef77ee10fdeb7e1d9405a237eaea63fef50b96a5e350a61609f"
+    },
+    {
+      "file": "before/dark-enabled-bottom.png",
+      "sha256": "aca4fd4224299622822e6fbe3ff57023f017159ea43be99683de1bd792183708"
+    },
+    {
+      "file": "before/dark-enabled.png",
+      "sha256": "32899831ffea6ef77ee10fdeb7e1d9405a237eaea63fef50b96a5e350a61609f"
+    },
+    {
+      "file": "before/dark-failure-bottom.png",
+      "sha256": "88e4d631320933a89b37be5503895374e6358d7f5f303c0154d41126f08f2a37"
+    },
+    {
+      "file": "before/dark-failure.png",
+      "sha256": "32899831ffea6ef77ee10fdeb7e1d9405a237eaea63fef50b96a5e350a61609f"
+    },
+    {
+      "file": "before/dark-manual-bottom.png",
+      "sha256": "53d11a54a781c00ae85196708fec4cf12d766855c0f20ff4923519c8afbd373e"
+    },
+    {
+      "file": "before/dark-manual.png",
+      "sha256": "32899831ffea6ef77ee10fdeb7e1d9405a237eaea63fef50b96a5e350a61609f"
+    },
+    {
+      "file": "before/dark-waiting-bottom.png",
+      "sha256": "2da5adc6c98d323f21c94c8cd29923242b9487a369201ced650e3a51071ede9c"
+    },
+    {
+      "file": "before/dark-waiting.png",
+      "sha256": "32899831ffea6ef77ee10fdeb7e1d9405a237eaea63fef50b96a5e350a61609f"
+    },
+    {
+      "file": "before/light-disabled-bottom.png",
+      "sha256": "b920831f9a4b3c57f893551ecc927f81ee502dbbc3ae108f56a1d0138b4f2298"
+    },
+    {
+      "file": "before/light-disabled.png",
+      "sha256": "ccb0b78f334255f79f812c65bbb1697f04b56a1f5e2a7ddf38a8bfdb87cc9c20"
+    },
+    {
+      "file": "before/light-enabled-bottom.png",
+      "sha256": "2952887ef4b5354203a9092179455cacddccddd2182c17a66f8f37b88ae87ea9"
+    },
+    {
+      "file": "before/light-enabled.png",
+      "sha256": "ccb0b78f334255f79f812c65bbb1697f04b56a1f5e2a7ddf38a8bfdb87cc9c20"
+    },
+    {
+      "file": "before/light-failure-bottom.png",
+      "sha256": "14e64680aa243a74f693bc14c53e46360b98228e05c46edd36f9c363e699acae"
+    },
+    {
+      "file": "before/light-failure.png",
+      "sha256": "ccb0b78f334255f79f812c65bbb1697f04b56a1f5e2a7ddf38a8bfdb87cc9c20"
+    },
+    {
+      "file": "before/light-manual-bottom.png",
+      "sha256": "d17c42965d9012feb647383174cc093f2968c2fea1467a226cec985d734af836"
+    },
+    {
+      "file": "before/light-manual.png",
+      "sha256": "ccb0b78f334255f79f812c65bbb1697f04b56a1f5e2a7ddf38a8bfdb87cc9c20"
+    },
+    {
+      "file": "before/light-waiting-bottom.png",
+      "sha256": "0c187adde7c0af203e6f26dce38cdd09e55b53c02f00bcd045fab27bffafde28"
+    },
+    {
+      "file": "before/light-waiting.png",
+      "sha256": "ccb0b78f334255f79f812c65bbb1697f04b56a1f5e2a7ddf38a8bfdb87cc9c20"
+    },
+    {
+      "file": "candidate/dark-disabled-bottom.png",
+      "sha256": "308901c01222620cfdef9bd0165ac9a749bc7597ac1045d615e7aa706aff94ad"
+    },
+    {
+      "file": "candidate/dark-disabled.png",
+      "sha256": "0f643f27a410b960db75bc0b728dc4c5aea352fc71b26437a0d91ea149c93e20"
+    },
+    {
+      "file": "candidate/dark-enabled-bottom.png",
+      "sha256": "56ff96adb7fe4f351b66171503f190ad4c28899dac03ecf208e24dd335842963"
+    },
+    {
+      "file": "candidate/dark-enabled.png",
+      "sha256": "0f643f27a410b960db75bc0b728dc4c5aea352fc71b26437a0d91ea149c93e20"
+    },
+    {
+      "file": "candidate/dark-failure-bottom.png",
+      "sha256": "e6850ba9d616cf596a80b39b181b6cec36271e9a0508ed5cb11f0be9d0adda24"
+    },
+    {
+      "file": "candidate/dark-failure.png",
+      "sha256": "0f643f27a410b960db75bc0b728dc4c5aea352fc71b26437a0d91ea149c93e20"
+    },
+    {
+      "file": "candidate/dark-manual-bottom.png",
+      "sha256": "d0b6b06b4de3046dabcffa35ae7612708e0fc76014d325560b8b451ce2e19f94"
+    },
+    {
+      "file": "candidate/dark-manual.png",
+      "sha256": "0f643f27a410b960db75bc0b728dc4c5aea352fc71b26437a0d91ea149c93e20"
+    },
+    {
+      "file": "candidate/dark-waiting-bottom.png",
+      "sha256": "e24ccaac9a0f2b455560d5539ab8d7bd3ec8fea0cd24107c4a8e7f3ac1936660"
+    },
+    {
+      "file": "candidate/dark-waiting.png",
+      "sha256": "0f643f27a410b960db75bc0b728dc4c5aea352fc71b26437a0d91ea149c93e20"
+    },
+    {
+      "file": "candidate/light-disabled-bottom.png",
+      "sha256": "d78c262b22dd3569a9f71af6be9391a0ebe24235081aada935174d15f0ac9883"
+    },
+    {
+      "file": "candidate/light-disabled.png",
+      "sha256": "19fd4245eba966cb47052fdf8f8935c889d272045cd79e19542a9227dba77cb9"
+    },
+    {
+      "file": "candidate/light-enabled-bottom.png",
+      "sha256": "5e2a2a26746a928d68881d0543053374c128070acd064bef020fba7e6bf61d26"
+    },
+    {
+      "file": "candidate/light-enabled.png",
+      "sha256": "19fd4245eba966cb47052fdf8f8935c889d272045cd79e19542a9227dba77cb9"
+    },
+    {
+      "file": "candidate/light-failure-bottom.png",
+      "sha256": "256fb4e608604a1ea87d66f1a318309bd7261b0b54de0756590fe1a86f3b099e"
+    },
+    {
+      "file": "candidate/light-failure.png",
+      "sha256": "19fd4245eba966cb47052fdf8f8935c889d272045cd79e19542a9227dba77cb9"
+    },
+    {
+      "file": "candidate/light-manual-bottom.png",
+      "sha256": "e56219d5b120f6101cdeacd8f92d4523b39a57012275102486ba4811f82ea362"
+    },
+    {
+      "file": "candidate/light-manual.png",
+      "sha256": "19fd4245eba966cb47052fdf8f8935c889d272045cd79e19542a9227dba77cb9"
+    },
+    {
+      "file": "candidate/light-waiting-bottom.png",
+      "sha256": "efa17072872ffc1f85d9df5c5c45dd91ceec235af33ea20b7fd2680c8eb1d4e1"
+    },
+    {
+      "file": "candidate/light-waiting.png",
+      "sha256": "19fd4245eba966cb47052fdf8f8935c889d272045cd79e19542a9227dba77cb9"
+    }
+  ],
+  "sources": [
+    {
+      "file": "apps/macos/Sources/ScreenRecorder/SettingsWindow.swift",
+      "sha256": "4d1cd9957981755547aa181acf8136f6948d06d4055a485db9970fc7e7b01912"
+    },
+    {
+      "file": "apps/macos/Sources/ScreenRecorderControls/Permissions.swift",
+      "sha256": "96169b99264bb8df114deda53dfffc507085976b383d61563a7ab03d6298969f"
+    }
+  ]
+}

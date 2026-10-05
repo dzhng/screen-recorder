@@ -1,0 +1,6 @@
+The camera-validation change admits malformed receipts beyond the intended layout-2 exemption. All 23 core evidence tests pass and the native product builds, but the native fixture failed during input-media creation before exercising the changes.
+
+Review comment:
+
+- [P2] Limit the unbound-camera exemption to layout 2 — /private/tmp/screenrec-capture-authority/packages/core/src/evidence.ts:258-258
+  For a receipt declaring `source.kind: "camera"` but omitting `schemaVersion` or supplying an unsupported value such as `3`, this condition now skips both binding and camera-publication validation. `validateSourceReceipt` does not validate the schema version elsewhere, so `SourceEvidenceStore.ingest` and `readSourceMetadata` accept these proof-free receipts, whereas they were previously rejected. Exempt only explicitly declared layout-2 primary cameras, and reject missing or unsupported camera layouts.

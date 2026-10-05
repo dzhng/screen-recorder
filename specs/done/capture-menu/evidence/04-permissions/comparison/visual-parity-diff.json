@@ -1,0 +1,1169 @@
+{
+  "kind": "screenshot-parity-diff",
+  "generatedAt": "2026-10-05T21:56:53.086Z",
+  "note": "Lower parityDistance means the candidate is closer to the reference for this fixed pair. This is a distance metric, not an acceptance gate.",
+  "pairCount": 20,
+  "worstPair": "dark-disabled",
+  "results": [
+    {
+      "id": "dark-disabled",
+      "current": "../../Users/server/dev/screen-recorder/specs/capture-menu/evidence/04-permissions/before/dark-disabled.png",
+      "candidate": "../../Users/server/dev/screen-recorder/specs/capture-menu/evidence/04-permissions/candidate/dark-disabled.png",
+      "dimensions": {
+        "width": 560,
+        "height": 780
+      },
+      "parityDistance": 0.0856,
+      "sceneMetrics": {
+        "current": {
+          "colorBuckets": 26,
+          "colorEntropyBits": 1.48251,
+          "edgeDensity": 0.13643,
+          "dominantColorShare": 0.5475,
+          "transparentShare": 0,
+          "luminanceMean": 40.24066,
+          "luminanceP5": 30,
+          "luminanceP95": 70,
+          "luminanceContrast": 40
+        },
+        "candidate": {
+          "colorBuckets": 28,
+          "colorEntropyBits": 1.40435,
+          "edgeDensity": 0.12111,
+          "dominantColorShare": 0.6154,
+          "transparentShare": 0,
+          "luminanceMean": 40.04097,
+          "luminanceP5": 30,
+          "luminanceP95": 54,
+          "luminanceContrast": 24
+        }
+      },
+      "grayscale": {
+        "mae": 10.20412,
+        "rmse": 31.76334,
+        "diffRatio16": 0.09469,
+        "diffRatio32": 0.06829,
+        "diffRatio64": 0.05517,
+        "pixelmatchRatio": 0.08289
+      },
+      "contentProxies": {
+        "blackRatioCurrent": 0,
+        "blackRatioCandidate": 0,
+        "terrainLikeRatioCurrent": 0.04437,
+        "terrainLikeRatioCandidate": 0.0458,
+        "avgLuminanceCurrent": 39.74988,
+        "avgLuminanceCandidate": 40.42448,
+        "avgLuminanceDelta": 0.6746,
+        "edgeEnergyCurrent": 0.08538,
+        "edgeEnergyCandidate": 0.08765,
+        "edgeEnergyRatio": 1.02652,
+        "edgeDiffRatio32": 0.14124
+      },
+      "artifacts": {
+        "sideBySide": "comparison/dark-disabled-side-by-side.png"
+      }
+    },
+    {
+      "id": "dark-enabled",
+      "current": "../../Users/server/dev/screen-recorder/specs/capture-menu/evidence/04-permissions/before/dark-enabled.png",
+      "candidate": "../../Users/server/dev/screen-recorder/specs/capture-menu/evidence/04-permissions/candidate/dark-enabled.png",
+      "dimensions": {
+        "width": 560,
+        "height": 780
+      },
+      "parityDistance": 0.0856,
+      "sceneMetrics": {
+        "current": {
+          "colorBuckets": 26,
+          "colorEntropyBits": 1.48251,
+          "edgeDensity": 0.13643,
+          "dominantColorShare": 0.5475,
+          "transparentShare": 0,
+          "luminanceMean": 40.24066,
+          "luminanceP5": 30,
+          "luminanceP95": 70,
+          "luminanceContrast": 40
+        },
+        "candidate": {
+          "colorBuckets": 28,
+          "colorEntropyBits": 1.40435,
+          "edgeDensity": 0.12111,
+          "dominantColorShare": 0.6154,
+          "transparentShare": 0,
+          "luminanceMean": 40.04097,
+          "luminanceP5": 30,
+          "luminanceP95": 54,
+          "luminanceContrast": 24
+        }
+      },
+      "grayscale": {
+        "mae": 10.20412,
+        "rmse": 31.76334,
+        "diffRatio16": 0.09469,
+        "diffRatio32": 0.06829,
+        "diffRatio64": 0.05517,
+        "pixelmatchRatio": 0.08289
+      },
+      "contentProxies": {
+        "blackRatioCurrent": 0,
+        "blackRatioCandidate": 0,
+        "terrainLikeRatioCurrent": 0.04437,
+        "terrainLikeRatioCandidate": 0.0458,
+        "avgLuminanceCurrent": 39.74988,
+        "avgLuminanceCandidate": 40.42448,
+        "avgLuminanceDelta": 0.6746,
+        "edgeEnergyCurrent": 0.08538,
+        "edgeEnergyCandidate": 0.08765,
+        "edgeEnergyRatio": 1.02652,
+        "edgeDiffRatio32": 0.14124
+      },
+      "artifacts": {
+        "sideBySide": "comparison/dark-enabled-side-by-side.png"
+      }
+    },
+    {
+      "id": "dark-failure",
+      "current": "../../Users/server/dev/screen-recorder/specs/capture-menu/evidence/04-permissions/before/dark-failure.png",
+      "candidate": "../../Users/server/dev/screen-recorder/specs/capture-menu/evidence/04-permissions/candidate/dark-failure.png",
+      "dimensions": {
+        "width": 560,
+        "height": 780
+      },
+      "parityDistance": 0.0856,
+      "sceneMetrics": {
+        "current": {
+          "colorBuckets": 26,
+          "colorEntropyBits": 1.48251,
+          "edgeDensity": 0.13643,
+          "dominantColorShare": 0.5475,
+          "transparentShare": 0,
+          "luminanceMean": 40.24066,
+          "luminanceP5": 30,
+          "luminanceP95": 70,
+          "luminanceContrast": 40
+        },
+        "candidate": {
+          "colorBuckets": 28,
+          "colorEntropyBits": 1.40435,
+          "edgeDensity": 0.12111,
+          "dominantColorShare": 0.6154,
+          "transparentShare": 0,
+          "luminanceMean": 40.04097,
+          "luminanceP5": 30,
+          "luminanceP95": 54,
+          "luminanceContrast": 24
+        }
+      },
+      "grayscale": {
+        "mae": 10.20412,
+        "rmse": 31.76334,
+        "diffRatio16": 0.09469,
+        "diffRatio32": 0.06829,
+        "diffRatio64": 0.05517,
+        "pixelmatchRatio": 0.08289
+      },
+      "contentProxies": {
+        "blackRatioCurrent": 0,
+        "blackRatioCandidate": 0,
+        "terrainLikeRatioCurrent": 0.04437,
+        "terrainLikeRatioCandidate": 0.0458,
+        "avgLuminanceCurrent": 39.74988,
+        "avgLuminanceCandidate": 40.42448,
+        "avgLuminanceDelta": 0.6746,
+        "edgeEnergyCurrent": 0.08538,
+        "edgeEnergyCandidate": 0.08765,
+        "edgeEnergyRatio": 1.02652,
+        "edgeDiffRatio32": 0.14124
+      },
+      "artifacts": {
+        "sideBySide": "comparison/dark-failure-side-by-side.png"
+      }
+    },
+    {
+      "id": "dark-manual",
+      "current": "../../Users/server/dev/screen-recorder/specs/capture-menu/evidence/04-permissions/before/dark-manual.png",
+      "candidate": "../../Users/server/dev/screen-recorder/specs/capture-menu/evidence/04-permissions/candidate/dark-manual.png",
+      "dimensions": {
+        "width": 560,
+        "height": 780
+      },
+      "parityDistance": 0.0856,
+      "sceneMetrics": {
+        "current": {
+          "colorBuckets": 26,
+          "colorEntropyBits": 1.48251,
+          "edgeDensity": 0.13643,
+          "dominantColorShare": 0.5475,
+          "transparentShare": 0,
+          "luminanceMean": 40.24066,
+          "luminanceP5": 30,
+          "luminanceP95": 70,
+          "luminanceContrast": 40
+        },
+        "candidate": {
+          "colorBuckets": 28,
+          "colorEntropyBits": 1.40435,
+          "edgeDensity": 0.12111,
+          "dominantColorShare": 0.6154,
+          "transparentShare": 0,
+          "luminanceMean": 40.04097,
+          "luminanceP5": 30,
+          "luminanceP95": 54,
+          "luminanceContrast": 24
+        }
+      },
+      "grayscale": {
+        "mae": 10.20412,
+        "rmse": 31.76334,
+        "diffRatio16": 0.09469,
+        "diffRatio32": 0.06829,
+        "diffRatio64": 0.05517,
+        "pixelmatchRatio": 0.08289
+      },
+      "contentProxies": {
+        "blackRatioCurrent": 0,
+        "blackRatioCandidate": 0,
+        "terrainLikeRatioCurrent": 0.04437,
+        "terrainLikeRatioCandidate": 0.0458,
+        "avgLuminanceCurrent": 39.74988,
+        "avgLuminanceCandidate": 40.42448,
+        "avgLuminanceDelta": 0.6746,
+        "edgeEnergyCurrent": 0.08538,
+        "edgeEnergyCandidate": 0.08765,
+        "edgeEnergyRatio": 1.02652,
+        "edgeDiffRatio32": 0.14124
+      },
+      "artifacts": {
+        "sideBySide": "comparison/dark-manual-side-by-side.png"
+      }
+    },
+    {
+      "id": "dark-waiting",
+      "current": "../../Users/server/dev/screen-recorder/specs/capture-menu/evidence/04-permissions/before/dark-waiting.png",
+      "candidate": "../../Users/server/dev/screen-recorder/specs/capture-menu/evidence/04-permissions/candidate/dark-waiting.png",
+      "dimensions": {
+        "width": 560,
+        "height": 780
+      },
+      "parityDistance": 0.0856,
+      "sceneMetrics": {
+        "current": {
+          "colorBuckets": 26,
+          "colorEntropyBits": 1.48251,
+          "edgeDensity": 0.13643,
+          "dominantColorShare": 0.5475,
+          "transparentShare": 0,
+          "luminanceMean": 40.24066,
+          "luminanceP5": 30,
+          "luminanceP95": 70,
+          "luminanceContrast": 40
+        },
+        "candidate": {
+          "colorBuckets": 28,
+          "colorEntropyBits": 1.40435,
+          "edgeDensity": 0.12111,
+          "dominantColorShare": 0.6154,
+          "transparentShare": 0,
+          "luminanceMean": 40.04097,
+          "luminanceP5": 30,
+          "luminanceP95": 54,
+          "luminanceContrast": 24
+        }
+      },
+      "grayscale": {
+        "mae": 10.20412,
+        "rmse": 31.76334,
+        "diffRatio16": 0.09469,
+        "diffRatio32": 0.06829,
+        "diffRatio64": 0.05517,
+        "pixelmatchRatio": 0.08289
+      },
+      "contentProxies": {
+        "blackRatioCurrent": 0,
+        "blackRatioCandidate": 0,
+        "terrainLikeRatioCurrent": 0.04437,
+        "terrainLikeRatioCandidate": 0.0458,
+        "avgLuminanceCurrent": 39.74988,
+        "avgLuminanceCandidate": 40.42448,
+        "avgLuminanceDelta": 0.6746,
+        "edgeEnergyCurrent": 0.08538,
+        "edgeEnergyCandidate": 0.08765,
+        "edgeEnergyRatio": 1.02652,
+        "edgeDiffRatio32": 0.14124
+      },
+      "artifacts": {
+        "sideBySide": "comparison/dark-waiting-side-by-side.png"
+      }
+    },
+    {
+      "id": "light-disabled",
+      "current": "../../Users/server/dev/screen-recorder/specs/capture-menu/evidence/04-permissions/before/light-disabled.png",
+      "candidate": "../../Users/server/dev/screen-recorder/specs/capture-menu/evidence/04-permissions/candidate/light-disabled.png",
+      "dimensions": {
+        "width": 560,
+        "height": 780
+      },
+      "parityDistance": 0.0806,
+      "sceneMetrics": {
+        "current": {
+          "colorBuckets": 25,
+          "colorEntropyBits": 0.53101,
+          "edgeDensity": 0.12207,
+          "dominantColorShare": 0.94164,
+          "transparentShare": 0,
+          "luminanceMean": 245.01774,
+          "luminanceP5": 228,
+          "luminanceP95": 255,
+          "luminanceContrast": 27
+        },
+        "candidate": {
+          "colorBuckets": 26,
+          "colorEntropyBits": 0.55391,
+          "edgeDensity": 0.10816,
+          "dominantColorShare": 0.93609,
+          "transparentShare": 0,
+          "luminanceMean": 245.09823,
+          "luminanceP5": 230,
+          "luminanceP95": 255,
+          "luminanceContrast": 25
+        }
+      },
+      "grayscale": {
+        "mae": 9.4436,
+        "rmse": 29.76011,
+        "diffRatio16": 0.08573,
+        "diffRatio32": 0.05986,
+        "diffRatio64": 0.04569,
+        "pixelmatchRatio": 0.07449
+      },
+      "contentProxies": {
+        "blackRatioCurrent": 0,
+        "blackRatioCandidate": 0,
+        "terrainLikeRatioCurrent": 0.993,
+        "terrainLikeRatioCandidate": 0.99268,
+        "avgLuminanceCurrent": 245.44752,
+        "avgLuminanceCandidate": 244.72075,
+        "avgLuminanceDelta": -0.72677,
+        "edgeEnergyCurrent": 0.08264,
+        "edgeEnergyCandidate": 0.08497,
+        "edgeEnergyRatio": 1.02825,
+        "edgeDiffRatio32": 0.14001
+      },
+      "artifacts": {
+        "sideBySide": "comparison/light-disabled-side-by-side.png"
+      }
+    },
+    {
+      "id": "light-enabled",
+      "current": "../../Users/server/dev/screen-recorder/specs/capture-menu/evidence/04-permissions/before/light-enabled.png",
+      "candidate": "../../Users/server/dev/screen-recorder/specs/capture-menu/evidence/04-permissions/candidate/light-enabled.png",
+      "dimensions": {
+        "width": 560,
+        "height": 780
+      },
+      "parityDistance": 0.0806,
+      "sceneMetrics": {
+        "current": {
+          "colorBuckets": 25,
+          "colorEntropyBits": 0.53101,
+          "edgeDensity": 0.12207,
+          "dominantColorShare": 0.94164,
+          "transparentShare": 0,
+          "luminanceMean": 245.01774,
+          "luminanceP5": 228,
+          "luminanceP95": 255,
+          "luminanceContrast": 27
+        },
+        "candidate": {
+          "colorBuckets": 26,
+          "colorEntropyBits": 0.55391,
+          "edgeDensity": 0.10816,
+          "dominantColorShare": 0.93609,
+          "transparentShare": 0,
+          "luminanceMean": 245.09823,
+          "luminanceP5": 230,
+          "luminanceP95": 255,
+          "luminanceContrast": 25
+        }
+      },
+      "grayscale": {
+        "mae": 9.4436,
+        "rmse": 29.76011,
+        "diffRatio16": 0.08573,
+        "diffRatio32": 0.05986,
+        "diffRatio64": 0.04569,
+        "pixelmatchRatio": 0.07449
+      },
+      "contentProxies": {
+        "blackRatioCurrent": 0,
+        "blackRatioCandidate": 0,
+        "terrainLikeRatioCurrent": 0.993,
+        "terrainLikeRatioCandidate": 0.99268,
+        "avgLuminanceCurrent": 245.44752,
+        "avgLuminanceCandidate": 244.72075,
+        "avgLuminanceDelta": -0.72677,
+        "edgeEnergyCurrent": 0.08264,
+        "edgeEnergyCandidate": 0.08497,
+        "edgeEnergyRatio": 1.02825,
+        "edgeDiffRatio32": 0.14001
+      },
+      "artifacts": {
+        "sideBySide": "comparison/light-enabled-side-by-side.png"
+      }
+    },
+    {
+      "id": "light-failure",
+      "current": "../../Users/server/dev/screen-recorder/specs/capture-menu/evidence/04-permissions/before/light-failure.png",
+      "candidate": "../../Users/server/dev/screen-recorder/specs/capture-menu/evidence/04-permissions/candidate/light-failure.png",
+      "dimensions": {
+        "width": 560,
+        "height": 780
+      },
+      "parityDistance": 0.0806,
+      "sceneMetrics": {
+        "current": {
+          "colorBuckets": 25,
+          "colorEntropyBits": 0.53101,
+          "edgeDensity": 0.12207,
+          "dominantColorShare": 0.94164,
+          "transparentShare": 0,
+          "luminanceMean": 245.01774,
+          "luminanceP5": 228,
+          "luminanceP95": 255,
+          "luminanceContrast": 27
+        },
+        "candidate": {
+          "colorBuckets": 26,
+          "colorEntropyBits": 0.55391,
+          "edgeDensity": 0.10816,
+          "dominantColorShare": 0.93609,
+          "transparentShare": 0,
+          "luminanceMean": 245.09823,
+          "luminanceP5": 230,
+          "luminanceP95": 255,
+          "luminanceContrast": 25
+        }
+      },
+      "grayscale": {
+        "mae": 9.4436,
+        "rmse": 29.76011,
+        "diffRatio16": 0.08573,
+        "diffRatio32": 0.05986,
+        "diffRatio64": 0.04569,
+        "pixelmatchRatio": 0.07449
+      },
+      "contentProxies": {
+        "blackRatioCurrent": 0,
+        "blackRatioCandidate": 0,
+        "terrainLikeRatioCurrent": 0.993,
+        "terrainLikeRatioCandidate": 0.99268,
+        "avgLuminanceCurrent": 245.44752,
+        "avgLuminanceCandidate": 244.72075,
+        "avgLuminanceDelta": -0.72677,
+        "edgeEnergyCurrent": 0.08264,
+        "edgeEnergyCandidate": 0.08497,
+        "edgeEnergyRatio": 1.02825,
+        "edgeDiffRatio32": 0.14001
+      },
+      "artifacts": {
+        "sideBySide": "comparison/light-failure-side-by-side.png"
+      }
+    },
+    {
+      "id": "light-manual",
+      "current": "../../Users/server/dev/screen-recorder/specs/capture-menu/evidence/04-permissions/before/light-manual.png",
+      "candidate": "../../Users/server/dev/screen-recorder/specs/capture-menu/evidence/04-permissions/candidate/light-manual.png",
+      "dimensions": {
+        "width": 560,
+        "height": 780
+      },
+      "parityDistance": 0.0806,
+      "sceneMetrics": {
+        "current": {
+          "colorBuckets": 25,
+          "colorEntropyBits": 0.53101,
+          "edgeDensity": 0.12207,
+          "dominantColorShare": 0.94164,
+          "transparentShare": 0,
+          "luminanceMean": 245.01774,
+          "luminanceP5": 228,
+          "luminanceP95": 255,
+          "luminanceContrast": 27
+        },
+        "candidate": {
+          "colorBuckets": 26,
+          "colorEntropyBits": 0.55391,
+          "edgeDensity": 0.10816,
+          "dominantColorShare": 0.93609,
+          "transparentShare": 0,
+          "luminanceMean": 245.09823,
+          "luminanceP5": 230,
+          "luminanceP95": 255,
+          "luminanceContrast": 25
+        }
+      },
+      "grayscale": {
+        "mae": 9.4436,
+        "rmse": 29.76011,
+        "diffRatio16": 0.08573,
+        "diffRatio32": 0.05986,
+        "diffRatio64": 0.04569,
+        "pixelmatchRatio": 0.07449
+      },
+      "contentProxies": {
+        "blackRatioCurrent": 0,
+        "blackRatioCandidate": 0,
+        "terrainLikeRatioCurrent": 0.993,
+        "terrainLikeRatioCandidate": 0.99268,
+        "avgLuminanceCurrent": 245.44752,
+        "avgLuminanceCandidate": 244.72075,
+        "avgLuminanceDelta": -0.72677,
+        "edgeEnergyCurrent": 0.08264,
+        "edgeEnergyCandidate": 0.08497,
+        "edgeEnergyRatio": 1.02825,
+        "edgeDiffRatio32": 0.14001
+      },
+      "artifacts": {
+        "sideBySide": "comparison/light-manual-side-by-side.png"
+      }
+    },
+    {
+      "id": "light-waiting",
+      "current": "../../Users/server/dev/screen-recorder/specs/capture-menu/evidence/04-permissions/before/light-waiting.png",
+      "candidate": "../../Users/server/dev/screen-recorder/specs/capture-menu/evidence/04-permissions/candidate/light-waiting.png",
+      "dimensions": {
+        "width": 560,
+        "height": 780
+      },
+      "parityDistance": 0.0806,
+      "sceneMetrics": {
+        "current": {
+          "colorBuckets": 25,
+          "colorEntropyBits": 0.53101,
+          "edgeDensity": 0.12207,
+          "dominantColorShare": 0.94164,
+          "transparentShare": 0,
+          "luminanceMean": 245.01774,
+          "luminanceP5": 228,
+          "luminanceP95": 255,
+          "luminanceContrast": 27
+        },
+        "candidate": {
+          "colorBuckets": 26,
+          "colorEntropyBits": 0.55391,
+          "edgeDensity": 0.10816,
+          "dominantColorShare": 0.93609,
+          "transparentShare": 0,
+          "luminanceMean": 245.09823,
+          "luminanceP5": 230,
+          "luminanceP95": 255,
+          "luminanceContrast": 25
+        }
+      },
+      "grayscale": {
+        "mae": 9.4436,
+        "rmse": 29.76011,
+        "diffRatio16": 0.08573,
+        "diffRatio32": 0.05986,
+        "diffRatio64": 0.04569,
+        "pixelmatchRatio": 0.07449
+      },
+      "contentProxies": {
+        "blackRatioCurrent": 0,
+        "blackRatioCandidate": 0,
+        "terrainLikeRatioCurrent": 0.993,
+        "terrainLikeRatioCandidate": 0.99268,
+        "avgLuminanceCurrent": 245.44752,
+        "avgLuminanceCandidate": 244.72075,
+        "avgLuminanceDelta": -0.72677,
+        "edgeEnergyCurrent": 0.08264,
+        "edgeEnergyCandidate": 0.08497,
+        "edgeEnergyRatio": 1.02825,
+        "edgeDiffRatio32": 0.14001
+      },
+      "artifacts": {
+        "sideBySide": "comparison/light-waiting-side-by-side.png"
+      }
+    },
+    {
+      "id": "dark-manual-bottom",
+      "current": "../../Users/server/dev/screen-recorder/specs/capture-menu/evidence/04-permissions/before/dark-manual-bottom.png",
+      "candidate": "../../Users/server/dev/screen-recorder/specs/capture-menu/evidence/04-permissions/candidate/dark-manual-bottom.png",
+      "dimensions": {
+        "width": 560,
+        "height": 780
+      },
+      "parityDistance": 0.01015,
+      "sceneMetrics": {
+        "current": {
+          "colorBuckets": 23,
+          "colorEntropyBits": 1.46934,
+          "edgeDensity": 0.15467,
+          "dominantColorShare": 0.61562,
+          "transparentShare": 0,
+          "luminanceMean": 41.35282,
+          "luminanceP5": 30,
+          "luminanceP95": 92,
+          "luminanceContrast": 62
+        },
+        "candidate": {
+          "colorBuckets": 23,
+          "colorEntropyBits": 1.49438,
+          "edgeDensity": 0.16109,
+          "dominantColorShare": 0.61107,
+          "transparentShare": 0,
+          "luminanceMean": 41.56825,
+          "luminanceP5": 30,
+          "luminanceP95": 95,
+          "luminanceContrast": 65
+        }
+      },
+      "grayscale": {
+        "mae": 0.56201,
+        "rmse": 7.50438,
+        "diffRatio16": 0.00805,
+        "diffRatio32": 0.00513,
+        "diffRatio64": 0.00394,
+        "pixelmatchRatio": 0.00557
+      },
+      "contentProxies": {
+        "blackRatioCurrent": 0,
+        "blackRatioCandidate": 0,
+        "terrainLikeRatioCurrent": 0.05101,
+        "terrainLikeRatioCandidate": 0.05244,
+        "avgLuminanceCurrent": 41.0813,
+        "avgLuminanceCandidate": 41.2506,
+        "avgLuminanceDelta": 0.16929,
+        "edgeEnergyCurrent": 0.09652,
+        "edgeEnergyCandidate": 0.09872,
+        "edgeEnergyRatio": 1.02289,
+        "edgeDiffRatio32": 0.00826
+      },
+      "artifacts": {
+        "sideBySide": "comparison/dark-manual-bottom-side-by-side.png"
+      }
+    },
+    {
+      "id": "light-manual-bottom",
+      "current": "../../Users/server/dev/screen-recorder/specs/capture-menu/evidence/04-permissions/before/light-manual-bottom.png",
+      "candidate": "../../Users/server/dev/screen-recorder/specs/capture-menu/evidence/04-permissions/candidate/light-manual-bottom.png",
+      "dimensions": {
+        "width": 560,
+        "height": 780
+      },
+      "parityDistance": 0.00999,
+      "sceneMetrics": {
+        "current": {
+          "colorBuckets": 23,
+          "colorEntropyBits": 0.57838,
+          "edgeDensity": 0.13857,
+          "dominantColorShare": 0.93493,
+          "transparentShare": 0,
+          "luminanceMean": 243.98284,
+          "luminanceP5": 217,
+          "luminanceP95": 255,
+          "luminanceContrast": 38
+        },
+        "candidate": {
+          "colorBuckets": 22,
+          "colorEntropyBits": 0.60675,
+          "edgeDensity": 0.14454,
+          "dominantColorShare": 0.93033,
+          "transparentShare": 0,
+          "luminanceMean": 243.79292,
+          "luminanceP5": 215,
+          "luminanceP95": 255,
+          "luminanceContrast": 40
+        }
+      },
+      "grayscale": {
+        "mae": 0.51056,
+        "rmse": 7.13512,
+        "diffRatio16": 0.00772,
+        "diffRatio32": 0.00475,
+        "diffRatio64": 0.00349,
+        "pixelmatchRatio": 0.00514
+      },
+      "contentProxies": {
+        "blackRatioCurrent": 0,
+        "blackRatioCandidate": 0,
+        "terrainLikeRatioCurrent": 0.99287,
+        "terrainLikeRatioCandidate": 0.99311,
+        "avgLuminanceCurrent": 244.32502,
+        "avgLuminanceCandidate": 244.1643,
+        "avgLuminanceDelta": -0.16072,
+        "edgeEnergyCurrent": 0.09316,
+        "edgeEnergyCandidate": 0.09532,
+        "edgeEnergyRatio": 1.02311,
+        "edgeDiffRatio32": 0.00837
+      },
+      "artifacts": {
+        "sideBySide": "comparison/light-manual-bottom-side-by-side.png"
+      }
+    },
+    {
+      "id": "dark-enabled-bottom",
+      "current": "../../Users/server/dev/screen-recorder/specs/capture-menu/evidence/04-permissions/before/dark-enabled-bottom.png",
+      "candidate": "../../Users/server/dev/screen-recorder/specs/capture-menu/evidence/04-permissions/candidate/dark-enabled-bottom.png",
+      "dimensions": {
+        "width": 560,
+        "height": 780
+      },
+      "parityDistance": 0.00976,
+      "sceneMetrics": {
+        "current": {
+          "colorBuckets": 22,
+          "colorEntropyBits": 1.51005,
+          "edgeDensity": 0.16042,
+          "dominantColorShare": 0.58863,
+          "transparentShare": 0,
+          "luminanceMean": 41.44856,
+          "luminanceP5": 30,
+          "luminanceP95": 94,
+          "luminanceContrast": 64
+        },
+        "candidate": {
+          "colorBuckets": 20,
+          "colorEntropyBits": 1.53525,
+          "edgeDensity": 0.1674,
+          "dominantColorShare": 0.58386,
+          "transparentShare": 0,
+          "luminanceMean": 41.68499,
+          "luminanceP5": 30,
+          "luminanceP95": 97,
+          "luminanceContrast": 67
+        }
+      },
+      "grayscale": {
+        "mae": 0.5,
+        "rmse": 7.14448,
+        "diffRatio16": 0.0072,
+        "diffRatio32": 0.00443,
+        "diffRatio64": 0.00349,
+        "pixelmatchRatio": 0.00478
+      },
+      "contentProxies": {
+        "blackRatioCurrent": 0,
+        "blackRatioCandidate": 0,
+        "terrainLikeRatioCurrent": 0.05215,
+        "terrainLikeRatioCandidate": 0.0537,
+        "avgLuminanceCurrent": 41.19808,
+        "avgLuminanceCandidate": 41.37797,
+        "avgLuminanceDelta": 0.17989,
+        "edgeEnergyCurrent": 0.09836,
+        "edgeEnergyCandidate": 0.10075,
+        "edgeEnergyRatio": 1.02422,
+        "edgeDiffRatio32": 0.00733
+      },
+      "artifacts": {
+        "sideBySide": "comparison/dark-enabled-bottom-side-by-side.png"
+      }
+    },
+    {
+      "id": "dark-disabled-bottom",
+      "current": "../../Users/server/dev/screen-recorder/specs/capture-menu/evidence/04-permissions/before/dark-disabled-bottom.png",
+      "candidate": "../../Users/server/dev/screen-recorder/specs/capture-menu/evidence/04-permissions/candidate/dark-disabled-bottom.png",
+      "dimensions": {
+        "width": 560,
+        "height": 780
+      },
+      "parityDistance": 0.00973,
+      "sceneMetrics": {
+        "current": {
+          "colorBuckets": 22,
+          "colorEntropyBits": 1.51203,
+          "edgeDensity": 0.16115,
+          "dominantColorShare": 0.58879,
+          "transparentShare": 0,
+          "luminanceMean": 41.49312,
+          "luminanceP5": 30,
+          "luminanceP95": 96,
+          "luminanceContrast": 66
+        },
+        "candidate": {
+          "colorBuckets": 20,
+          "colorEntropyBits": 1.53713,
+          "edgeDensity": 0.16813,
+          "dominantColorShare": 0.58403,
+          "transparentShare": 0,
+          "luminanceMean": 41.72956,
+          "luminanceP5": 30,
+          "luminanceP95": 98,
+          "luminanceContrast": 68
+        }
+      },
+      "grayscale": {
+        "mae": 0.5,
+        "rmse": 7.14448,
+        "diffRatio16": 0.0072,
+        "diffRatio32": 0.00443,
+        "diffRatio64": 0.00349,
+        "pixelmatchRatio": 0.00478
+      },
+      "contentProxies": {
+        "blackRatioCurrent": 0,
+        "blackRatioCandidate": 0,
+        "terrainLikeRatioCurrent": 0.05244,
+        "terrainLikeRatioCandidate": 0.05399,
+        "avgLuminanceCurrent": 41.21489,
+        "avgLuminanceCandidate": 41.39477,
+        "avgLuminanceDelta": 0.17989,
+        "edgeEnergyCurrent": 0.09881,
+        "edgeEnergyCandidate": 0.10119,
+        "edgeEnergyRatio": 1.02411,
+        "edgeDiffRatio32": 0.00733
+      },
+      "artifacts": {
+        "sideBySide": "comparison/dark-disabled-bottom-side-by-side.png"
+      }
+    },
+    {
+      "id": "light-enabled-bottom",
+      "current": "../../Users/server/dev/screen-recorder/specs/capture-menu/evidence/04-permissions/before/light-enabled-bottom.png",
+      "candidate": "../../Users/server/dev/screen-recorder/specs/capture-menu/evidence/04-permissions/candidate/light-enabled-bottom.png",
+      "dimensions": {
+        "width": 560,
+        "height": 780
+      },
+      "parityDistance": 0.00957,
+      "sceneMetrics": {
+        "current": {
+          "colorBuckets": 23,
+          "colorEntropyBits": 0.58798,
+          "edgeDensity": 0.1424,
+          "dominantColorShare": 0.93354,
+          "transparentShare": 0,
+          "luminanceMean": 244.07086,
+          "luminanceP5": 216,
+          "luminanceP95": 255,
+          "luminanceContrast": 39
+        },
+        "candidate": {
+          "colorBuckets": 20,
+          "colorEntropyBits": 0.6168,
+          "edgeDensity": 0.14876,
+          "dominantColorShare": 0.92878,
+          "transparentShare": 0,
+          "luminanceMean": 243.86061,
+          "luminanceP5": 214,
+          "luminanceP95": 255,
+          "luminanceContrast": 41
+        }
+      },
+      "grayscale": {
+        "mae": 0.45368,
+        "rmse": 6.79636,
+        "diffRatio16": 0.00694,
+        "diffRatio32": 0.00408,
+        "diffRatio64": 0.00309,
+        "pixelmatchRatio": 0.00438
+      },
+      "contentProxies": {
+        "blackRatioCurrent": 0,
+        "blackRatioCandidate": 0,
+        "terrainLikeRatioCurrent": 0.9919,
+        "terrainLikeRatioCandidate": 0.99214,
+        "avgLuminanceCurrent": 244.3385,
+        "avgLuminanceCandidate": 244.16928,
+        "avgLuminanceDelta": -0.16922,
+        "edgeEnergyCurrent": 0.09497,
+        "edgeEnergyCandidate": 0.09728,
+        "edgeEnergyRatio": 1.02435,
+        "edgeDiffRatio32": 0.00736
+      },
+      "artifacts": {
+        "sideBySide": "comparison/light-enabled-bottom-side-by-side.png"
+      }
+    },
+    {
+      "id": "light-disabled-bottom",
+      "current": "../../Users/server/dev/screen-recorder/specs/capture-menu/evidence/04-permissions/before/light-disabled-bottom.png",
+      "candidate": "../../Users/server/dev/screen-recorder/specs/capture-menu/evidence/04-permissions/candidate/light-disabled-bottom.png",
+      "dimensions": {
+        "width": 560,
+        "height": 780
+      },
+      "parityDistance": 0.00955,
+      "sceneMetrics": {
+        "current": {
+          "colorBuckets": 23,
+          "colorEntropyBits": 0.59243,
+          "edgeDensity": 0.14336,
+          "dominantColorShare": 0.93299,
+          "transparentShare": 0,
+          "luminanceMean": 244.03727,
+          "luminanceP5": 216,
+          "luminanceP95": 255,
+          "luminanceContrast": 39
+        },
+        "candidate": {
+          "colorBuckets": 20,
+          "colorEntropyBits": 0.62131,
+          "edgeDensity": 0.14972,
+          "dominantColorShare": 0.92822,
+          "transparentShare": 0,
+          "luminanceMean": 243.82702,
+          "luminanceP5": 214,
+          "luminanceP95": 255,
+          "luminanceContrast": 41
+        }
+      },
+      "grayscale": {
+        "mae": 0.45368,
+        "rmse": 6.79636,
+        "diffRatio16": 0.00694,
+        "diffRatio32": 0.00408,
+        "diffRatio64": 0.00309,
+        "pixelmatchRatio": 0.00438
+      },
+      "contentProxies": {
+        "blackRatioCurrent": 0,
+        "blackRatioCandidate": 0,
+        "terrainLikeRatioCurrent": 0.9919,
+        "terrainLikeRatioCandidate": 0.99214,
+        "avgLuminanceCurrent": 244.32571,
+        "avgLuminanceCandidate": 244.15649,
+        "avgLuminanceDelta": -0.16922,
+        "edgeEnergyCurrent": 0.09535,
+        "edgeEnergyCandidate": 0.09766,
+        "edgeEnergyRatio": 1.02425,
+        "edgeDiffRatio32": 0.00736
+      },
+      "artifacts": {
+        "sideBySide": "comparison/light-disabled-bottom-side-by-side.png"
+      }
+    },
+    {
+      "id": "dark-waiting-bottom",
+      "current": "../../Users/server/dev/screen-recorder/specs/capture-menu/evidence/04-permissions/before/dark-waiting-bottom.png",
+      "candidate": "../../Users/server/dev/screen-recorder/specs/capture-menu/evidence/04-permissions/candidate/dark-waiting-bottom.png",
+      "dimensions": {
+        "width": 560,
+        "height": 780
+      },
+      "parityDistance": 0.0027,
+      "sceneMetrics": {
+        "current": {
+          "colorBuckets": 21,
+          "colorEntropyBits": 1.55431,
+          "edgeDensity": 0.1723,
+          "dominantColorShare": 0.58225,
+          "transparentShare": 0,
+          "luminanceMean": 42.16294,
+          "luminanceP5": 30,
+          "luminanceP95": 106,
+          "luminanceContrast": 76
+        },
+        "candidate": {
+          "colorBuckets": 21,
+          "colorEntropyBits": 1.56562,
+          "edgeDensity": 0.17483,
+          "dominantColorShare": 0.58015,
+          "transparentShare": 0,
+          "luminanceMean": 42.24686,
+          "luminanceP5": 30,
+          "luminanceP95": 109,
+          "luminanceContrast": 79
+        }
+      },
+      "grayscale": {
+        "mae": 0.08621,
+        "rmse": 2.64812,
+        "diffRatio16": 0.00154,
+        "diffRatio32": 0.00081,
+        "diffRatio64": 0.0006,
+        "pixelmatchRatio": 0.00091
+      },
+      "contentProxies": {
+        "blackRatioCurrent": 0,
+        "blackRatioCandidate": 0,
+        "terrainLikeRatioCurrent": 0.05377,
+        "terrainLikeRatioCandidate": 0.05423,
+        "avgLuminanceCurrent": 41.28261,
+        "avgLuminanceCandidate": 41.33775,
+        "avgLuminanceDelta": 0.05514,
+        "edgeEnergyCurrent": 0.1011,
+        "edgeEnergyCandidate": 0.10193,
+        "edgeEnergyRatio": 1.00826,
+        "edgeDiffRatio32": 0.00163
+      },
+      "artifacts": {
+        "sideBySide": "comparison/dark-waiting-bottom-side-by-side.png"
+      }
+    },
+    {
+      "id": "dark-failure-bottom",
+      "current": "../../Users/server/dev/screen-recorder/specs/capture-menu/evidence/04-permissions/before/dark-failure-bottom.png",
+      "candidate": "../../Users/server/dev/screen-recorder/specs/capture-menu/evidence/04-permissions/candidate/dark-failure-bottom.png",
+      "dimensions": {
+        "width": 560,
+        "height": 780
+      },
+      "parityDistance": 0.00267,
+      "sceneMetrics": {
+        "current": {
+          "colorBuckets": 21,
+          "colorEntropyBits": 1.56886,
+          "edgeDensity": 0.17714,
+          "dominantColorShare": 0.57981,
+          "transparentShare": 0,
+          "luminanceMean": 42.26748,
+          "luminanceP5": 30,
+          "luminanceP95": 109,
+          "luminanceContrast": 79
+        },
+        "candidate": {
+          "colorBuckets": 21,
+          "colorEntropyBits": 1.58,
+          "edgeDensity": 0.17967,
+          "dominantColorShare": 0.57771,
+          "transparentShare": 0,
+          "luminanceMean": 42.35139,
+          "luminanceP5": 30,
+          "luminanceP95": 111,
+          "luminanceContrast": 81
+        }
+      },
+      "grayscale": {
+        "mae": 0.08621,
+        "rmse": 2.64812,
+        "diffRatio16": 0.00154,
+        "diffRatio32": 0.00081,
+        "diffRatio64": 0.0006,
+        "pixelmatchRatio": 0.00091
+      },
+      "contentProxies": {
+        "blackRatioCurrent": 0,
+        "blackRatioCandidate": 0,
+        "terrainLikeRatioCurrent": 0.05476,
+        "terrainLikeRatioCandidate": 0.05522,
+        "avgLuminanceCurrent": 41.37859,
+        "avgLuminanceCandidate": 41.43373,
+        "avgLuminanceDelta": 0.05514,
+        "edgeEnergyCurrent": 0.10304,
+        "edgeEnergyCandidate": 0.10388,
+        "edgeEnergyRatio": 1.0081,
+        "edgeDiffRatio32": 0.00163
+      },
+      "artifacts": {
+        "sideBySide": "comparison/dark-failure-bottom-side-by-side.png"
+      }
+    },
+    {
+      "id": "light-waiting-bottom",
+      "current": "../../Users/server/dev/screen-recorder/specs/capture-menu/evidence/04-permissions/before/light-waiting-bottom.png",
+      "candidate": "../../Users/server/dev/screen-recorder/specs/capture-menu/evidence/04-permissions/candidate/light-waiting-bottom.png",
+      "dimensions": {
+        "width": 560,
+        "height": 780
+      },
+      "parityDistance": 0.00267,
+      "sceneMetrics": {
+        "current": {
+          "colorBuckets": 20,
+          "colorEntropyBits": 0.73234,
+          "edgeDensity": 0.15428,
+          "dominantColorShare": 0.90799,
+          "transparentShare": 0,
+          "luminanceMean": 243.42907,
+          "luminanceP5": 205,
+          "luminanceP95": 255,
+          "luminanceContrast": 50
+        },
+        "candidate": {
+          "colorBuckets": 20,
+          "colorEntropyBits": 0.74242,
+          "edgeDensity": 0.15648,
+          "dominantColorShare": 0.90611,
+          "transparentShare": 0,
+          "luminanceMean": 243.35347,
+          "luminanceP5": 204,
+          "luminanceP95": 255,
+          "luminanceContrast": 51
+        }
+      },
+      "grayscale": {
+        "mae": 0.07817,
+        "rmse": 2.47686,
+        "diffRatio16": 0.0014,
+        "diffRatio32": 0.00076,
+        "diffRatio64": 0.00051,
+        "pixelmatchRatio": 0.00081
+      },
+      "contentProxies": {
+        "blackRatioCurrent": 0,
+        "blackRatioCandidate": 0,
+        "terrainLikeRatioCurrent": 0.9925,
+        "terrainLikeRatioCandidate": 0.9925,
+        "avgLuminanceCurrent": 244.26985,
+        "avgLuminanceCandidate": 244.22119,
+        "avgLuminanceDelta": -0.04866,
+        "edgeEnergyCurrent": 0.09752,
+        "edgeEnergyCandidate": 0.09833,
+        "edgeEnergyRatio": 1.00827,
+        "edgeDiffRatio32": 0.00169
+      },
+      "artifacts": {
+        "sideBySide": "comparison/light-waiting-bottom-side-by-side.png"
+      }
+    },
+    {
+      "id": "light-failure-bottom",
+      "current": "../../Users/server/dev/screen-recorder/specs/capture-menu/evidence/04-permissions/before/light-failure-bottom.png",
+      "candidate": "../../Users/server/dev/screen-recorder/specs/capture-menu/evidence/04-permissions/candidate/light-failure-bottom.png",
+      "dimensions": {
+        "width": 560,
+        "height": 780
+      },
+      "parityDistance": 0.00264,
+      "sceneMetrics": {
+        "current": {
+          "colorBuckets": 20,
+          "colorEntropyBits": 0.74338,
+          "edgeDensity": 0.1576,
+          "dominantColorShare": 0.90616,
+          "transparentShare": 0,
+          "luminanceMean": 243.37531,
+          "luminanceP5": 203,
+          "luminanceP95": 255,
+          "luminanceContrast": 52
+        },
+        "candidate": {
+          "colorBuckets": 20,
+          "colorEntropyBits": 0.7534,
+          "edgeDensity": 0.1598,
+          "dominantColorShare": 0.90428,
+          "transparentShare": 0,
+          "luminanceMean": 243.29971,
+          "luminanceP5": 202,
+          "luminanceP95": 255,
+          "luminanceContrast": 53
+        }
+      },
+      "grayscale": {
+        "mae": 0.07817,
+        "rmse": 2.47686,
+        "diffRatio16": 0.0014,
+        "diffRatio32": 0.00076,
+        "diffRatio64": 0.00051,
+        "pixelmatchRatio": 0.00081
+      },
+      "contentProxies": {
+        "blackRatioCurrent": 0,
+        "blackRatioCandidate": 0,
+        "terrainLikeRatioCurrent": 0.9925,
+        "terrainLikeRatioCandidate": 0.9925,
+        "avgLuminanceCurrent": 244.18858,
+        "avgLuminanceCandidate": 244.13992,
+        "avgLuminanceDelta": -0.04866,
+        "edgeEnergyCurrent": 0.09937,
+        "edgeEnergyCandidate": 0.10017,
+        "edgeEnergyRatio": 1.00811,
+        "edgeDiffRatio32": 0.00169
+      },
+      "artifacts": {
+        "sideBySide": "comparison/light-failure-bottom-side-by-side.png"
+      }
+    }
+  ]
+}

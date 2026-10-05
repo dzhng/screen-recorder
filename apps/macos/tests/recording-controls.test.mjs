@@ -14,11 +14,11 @@ import {
 } from "./harness.mjs";
 
 /**
- * Read-only menu-state observations while public service calls control the own-window fixture.
+ * Capture-view observations while public service calls control the own-window fixture.
  * Every take here records this app's own capture-fixture window with the microphone and system
  * audio explicitly off; no other window, display or audio device is ever selected.
  */
-/** Ordinary app launch with an own-window fixture and read-only menu observations. */
+/** Ordinary app launch with an own-window fixture and capture-view observations. */
 async function controlledApp(home) {
   const commands = join(home, "controls");
   mkdirSync(commands, { recursive: true });
@@ -30,10 +30,10 @@ async function controlledApp(home) {
   await instance.waitFor(/controls probe listening/);
   const send = controlsProbe(commands);
   const controls = { instance, windowId: Number(windowId), send };
-  // Opening the menu is what re-reads the sources, so this is how a window that appeared after
-  // launch comes to be listed.
+  // Opening capture refreshes sources; the Window tile exposes its native source chooser.
   await waitFor(async () => {
     await send({ do: "open" });
+    await send({ do: "choose", item: "source.window" });
     return Boolean(find((await send({ do: "snapshot" })).rows, `source.window.${windowId}`));
   }, 20_000);
   return controls;
@@ -62,7 +62,7 @@ async function succeeds(home, operation, params) {
   return answer.data;
 }
 
-test("external controls update the closed menu with actual source, audio and clock", async () => {
+test("external controls update capture with actual source, audio and clock", async () => {
   requireScreenPermission();
   const home = temporary("/tmp/scr-controls-external-");
   const controls = await controlledApp(home);
@@ -73,29 +73,33 @@ test("external controls update the closed menu with actual source, audio and clo
     microphone: false,
     systemAudio: false,
   });
-  // A snapshot reads existing rows without invoking menuWillOpen or forcing a refresh.
+  // Snapshot reads the current native view without requesting another source refresh.
   const snapshot = () => controls.send({ do: "snapshot" });
-  await waitFor(async () => (await snapshot()).rows[0].title.startsWith("Recording —"), 20_000);
+  await waitFor(async () => (await snapshot()).status.startsWith("Recording —"), 20_000);
   const seconds = (title) => {
     const parts = title.split(" — ")[1].split(":").map(Number);
     return parts.reduce((value, part) => value * 60 + part, 0);
   };
-  await waitFor(async () => seconds((await snapshot()).rows[0].title) >= 1, 20_000);
+  await waitFor(async () => seconds((await snapshot()).status) >= 1, 20_000);
   const active = (await snapshot()).rows;
   assert.equal(find(active, `source.window.${windowId}`).checked, true);
-  assert.equal(find(active, "microphone.off").checked, true);
+  assert.equal(find(active, "microphone.toggle").checked, false);
+  assert.equal(find(active, "audio.system").checked, false);
+  for (const item of ["source.device", "microphone.toggle", "audio.system"]) {
+    assert.equal(find(active, item).enabled, false, `${item} stays fixed during the take`);
+  }
   await succeeds(home, "capture.pause", { recordingId: started.recordingId });
-  await waitFor(async () => (await snapshot()).rows[0].title.startsWith("Paused —"), 20_000);
-  const paused = (await snapshot()).rows[0].title;
+  await waitFor(async () => (await snapshot()).status.startsWith("Paused —"), 20_000);
+  const paused = (await snapshot()).status;
   await new Promise((resolve) => setTimeout(resolve, 1100));
-  assert.equal((await snapshot()).rows[0].title, paused);
+  assert.equal((await snapshot()).status, paused);
   await succeeds(home, "capture.resume", { recordingId: started.recordingId });
-  await waitFor(async () => (await snapshot()).rows[0].title.startsWith("Recording —"), 20_000);
-  await waitFor(async () => seconds((await snapshot()).rows[0].title) > seconds(paused), 20_000);
+  await waitFor(async () => (await snapshot()).status.startsWith("Recording —"), 20_000);
+  await waitFor(async () => seconds((await snapshot()).status) > seconds(paused), 20_000);
   await succeeds(home, "capture.stop", { recordingId: started.recordingId });
-  // An idle app states nothing about itself; it offers to start again.
+  // A finished take returns the native start control to its idle action.
   await waitFor(
-    async () => find((await snapshot()).rows, "capture.startOrStop").title === "Start Recording",
+    async () => find((await snapshot()).rows, "capture.startOrStop").title === "Start recording",
     20_000,
   );
 });

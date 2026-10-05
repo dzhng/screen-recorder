@@ -1,0 +1,32 @@
+[
+  {
+    "state": "idle",
+    "comparison": "actual-scale translated reference crop versus native context; candidate padded only at bottom, never resized",
+    "mae": 9.195126625779846,
+    "rmse": 27.106564788957037,
+    "diffRatio16": 0.09378304430580522,
+    "diffRatio32": 0.051929126572908955,
+    "diffRatio64": 0.03149122343237813,
+    "edgeEnergyReference": 26.584695727218477,
+    "edgeEnergyCandidate": 25.71116743745599,
+    "edgeEnergyRatio": 0.9671416856252324,
+    "edgeDiffRatio32": 0.12406154171513165,
+    "avgLuminanceReference": 232.5807503700962,
+    "avgLuminanceCandidate": 233.7197016760072
+  },
+  {
+    "state": "camera-only",
+    "comparison": "actual-scale translated reference crop versus native context; candidate padded only at bottom, never resized",
+    "mae": 9.936816184807256,
+    "rmse": 28.72049278199435,
+    "diffRatio16": 0.0999468537414966,
+    "diffRatio32": 0.05646612811791383,
+    "diffRatio64": 0.03679492630385488,
+    "edgeEnergyReference": 27.811583497867232,
+    "edgeEnergyCandidate": 27.0528522615319,
+    "edgeEnergyRatio": 0.9727188767804783,
+    "edgeDiffRatio32": 0.12654124149659865,
+    "avgLuminanceReference": 231.6543225623583,
+    "avgLuminanceCandidate": 232.76436720521542
+  }
+]

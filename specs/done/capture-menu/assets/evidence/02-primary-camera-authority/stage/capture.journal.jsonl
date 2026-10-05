@@ -1,0 +1,5 @@
+{"data":{"height":120,"microphone":false,"schemaVersion":2,"sessionID":"finished-primary-camera","source":{"kind":"camera"},"systemAudio":false,"width":160},"event":"header","sequence":1}
+{"data":{"declaredHostUs":"102613680098","rawPTS":{"epoch":"0","flags":1,"timescale":1000000,"value":"102613680098"}},"event":"pcmOrigin","sequence":2}
+{"data":{"file":"video.mov","firstSourceUs":0,"role":"video"},"event":"trackStarted","sequence":3}
+{"data":{"state":"recording"},"event":"lifecycle","sequence":4}
+{"data":{"cursor":{"droppedReadings":0,"forgottenPlacements":0,"geometryEpochs":0,"omittedPaused":0,"sampled":0,"skippedTicks":0},"durationUs":555371,"height":120,"hostOriginUs":102613680098,"pauses":[],"source":{"kind":"camera"},"state":"complete","systemAudioScope":"disabled","tracks":[{"droppedSamples":0,"file":"video.mov","firstSampleUs":0,"heldTailUs":322038,"lastSampleEndUs":233333,"omittedSamples":0,"role":"video","samples":3}],"width":160},"event":"finished","sequence":5}

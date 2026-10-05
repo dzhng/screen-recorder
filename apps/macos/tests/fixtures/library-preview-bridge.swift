@@ -160,16 +160,16 @@ struct CheckFailure: Error, LocalizedError {
                 try await until { !owner.state.projectsRefreshing && !owner.state.recent.isEmpty || !owner.state.projectsRefreshing && !owner.state.projects.isEmpty }
                 try require(page(owner) == Array(expected.prefix(5)), "Actual first page must preserve complete public creation values")
                 try require((live.calls.first { $0["operation"] as? String == "project.list" }!["params"] as! NSDictionary).isEqual(to: ["limit": 5]), "Actual first-page request must preserve the native page limit")
-                evidence.record(["state": "actual-first-page", "projects": page(owner), "nextCursor": owner.state.nextCursor.map { ["afterSequence": $0.afterSequence] } ?? [:]])
-                let cursor = owner.state.nextCursor!
+                evidence.record(["state": "actual-first-page", "projects": page(owner), "nextCursor": owner.state.nextProjectCursor.map { ["afterSequence": $0.afterSequence] } ?? [:]])
+                let cursor = owner.state.nextProjectCursor!
                 owner.nextProjects(); try await until { !owner.state.projectsRefreshing }
-                try require(page(owner) == Array(expected.suffix(1)) && owner.state.hasPreviousPage && owner.state.nextCursor == nil,
+                try require(page(owner) == Array(expected.suffix(1)) && owner.state.hasPreviousProjectPage && owner.state.nextProjectCursor == nil,
                     "Actual continuation must preserve the final project and exhausted cursor")
                 let continuation = live.calls.last { $0["operation"] as? String == "project.list" }!["params"] as! NSDictionary
                 try require(continuation.isEqual(to: ["limit": 5, "cursor": ["afterSequence": cursor.afterSequence]]), "Continuation must send the returned cursor unchanged")
                 evidence.record(["state": "actual-continuation-page", "projects": page(owner)])
                 owner.previousProjects(); try await until { !owner.state.projectsRefreshing }
-                try require(page(owner) == Array(expected.prefix(5)) && !owner.state.hasPreviousPage, "Actual previous page must restore complete values")
+                try require(page(owner) == Array(expected.prefix(5)) && !owner.state.hasPreviousProjectPage, "Actual previous page must restore complete values")
                 try require((live.calls.last { $0["operation"] as? String == "project.list" }!["params"] as! NSDictionary).isEqual(to: ["limit": 5]), "Previous navigation must request the original page")
                 let selected = expected[2]
                 let fetched = try JSONSerialization.jsonObject(with: await live.call("project.get", ["projectId": selected["projectId"]!])) as! NSDictionary
@@ -194,7 +194,7 @@ struct CheckFailure: Error, LocalizedError {
             let preview = PreviewController(call: historical.call, presentation: presentation, now: { clock }, failure: { failures.append($0) })
             let owner = library(historical.call, preview)
             owner.serviceChanged(ready: true); try await until { !owner.state.projectsRefreshing }
-            try require(page(owner).isEmpty && owner.state.nextCursor == nil, "Retained actual empty page must remain empty")
+            try require(page(owner).isEmpty && owner.state.nextProjectCursor == nil, "Retained actual empty page must remain empty")
             historical.showProject = true; owner.refreshProjects(); try await until { !owner.state.projectsRefreshing }
             try require(page(owner) == [historical.project as! [String: String]], "Scripted navigation must preserve the unchanged actual metadata row")
             let id = historical.project["projectId"] as! String, revision = historical.waiting["revisionId"] as! String

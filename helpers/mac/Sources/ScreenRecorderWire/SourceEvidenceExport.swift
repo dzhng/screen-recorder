@@ -151,7 +151,7 @@ package struct SourceEvidenceExport: Encodable {
         guard summary.header != nil else {
             throw CaptureFailure("INVALID_JOURNAL", "Evidence requires a readable journal header.")
         }
-        if hasCameraProof || summary.header?.source.kind == "camera" || summary.header?.cameraBinding != nil {
+        if hasCameraProof || (layout == 1 && summary.header?.source.kind == "camera") || summary.header?.cameraBinding != nil {
             let selected = canonical == nil ? source.appendingPathComponent("video.mov").path : canonical?["video"]
             guard let lease, hasCameraProof, let video = selected
             else { throw CaptureFailure("INVALID_CAMERA_MAPPING", "Declared camera requires verified camera publication.") }

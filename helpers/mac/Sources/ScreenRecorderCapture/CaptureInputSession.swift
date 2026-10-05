@@ -78,7 +78,7 @@ package final class ScreenCaptureInput: CaptureInputSession {
         try requireAuthorization(request)
         let microphone: AVCaptureDevice?
         if request.microphone {
-            let devices = microphoneCandidates()
+            let devices = NativeCapture.microphoneCandidates()
             microphone =
                 request.microphoneDeviceID.flatMap { id in devices.first { $0.uniqueID == id } }
                 ?? (request.microphoneDeviceID == nil ? AVCaptureDevice.default(for: .audio) : nil)
@@ -180,22 +180,7 @@ package final class ScreenCaptureInput: CaptureInputSession {
         }
         var prepared = [video]
         if request.systemAudio {
-            guard let display = content.displays.first else {
-                throw CaptureFailure(
-                    "SOURCE_UNAVAILABLE", "No display is available for whole-system audio capture.")
-            }
-            // An independent whole-display filter keeps window selection from narrowing system audio.
-            let audioConfig = SCStreamConfiguration()
-            audioConfig.width = 2
-            audioConfig.height = 2
-            audioConfig.capturesAudio = true
-            audioConfig.excludesCurrentProcessAudio = true
-            audioConfig.sampleRate = 48_000
-            audioConfig.channelCount = 2
-            let audio = SCStream(
-                filter: SCContentFilter(display: display, excludingWindows: []),
-                configuration: audioConfig, delegate: delegate)
-            try audio.addStreamOutput(output, type: .audio, sampleHandlerQueue: writer.queue)
+            let audio = try WholeSystemAudioCapture.stream(content: content, output: output, queue: writer.queue, delegate: delegate)
             prepared.append(audio)
         }
         do {
@@ -247,16 +232,9 @@ package final class ScreenCaptureInput: CaptureInputSession {
         guard !own.isEmpty else { return SCContentFilter(display: display, excludingWindows: []) }
         return SCContentFilter(display: display, excludingApplications: own, exceptingWindows: [])
     }
-
-    package static func microphoneCandidates() -> [AVCaptureDevice] {
-        AVCaptureDevice.DiscoverySession(
-            deviceTypes: [.microphone, .external], mediaType: .audio, position: .unspecified
-        ).devices
-    }
-
 }
 
-private final class CaptureStreamDelegate: NSObject, SCStreamDelegate, @unchecked Sendable {
+final class CaptureStreamDelegate: NSObject, SCStreamDelegate, @unchecked Sendable {
     private let onFailure: @Sendable (CaptureFailure) -> Void
 
     init(onFailure: @escaping @Sendable (CaptureFailure) -> Void) {
@@ -265,5 +243,25 @@ private final class CaptureStreamDelegate: NSObject, SCStreamDelegate, @unchecke
 
     func stream(_ stream: SCStream, didStopWithError error: Error) {
         onFailure(CaptureFailure("SOURCE_LOST", error.localizedDescription))
+    }
+}
+
+/// One whole-display audio-only stream contract shared by screen and camera-primary acquisition.
+@MainActor
+enum WholeSystemAudioCapture {
+    static func stream(content: SCShareableContent, output: any SCStreamOutput, queue: DispatchQueue,
+        delegate: CaptureStreamDelegate) throws -> SCStream {
+        guard let display = content.displays.first else {
+            throw CaptureFailure("SOURCE_UNAVAILABLE", "No display is available for whole-system audio capture.")
+        }
+        let config = SCStreamConfiguration()
+        config.width = 2; config.height = 2
+        config.capturesAudio = true
+        config.excludesCurrentProcessAudio = true
+        config.sampleRate = 48_000; config.channelCount = 2
+        let stream = SCStream(filter: SCContentFilter(display: display, excludingWindows: []),
+            configuration: config, delegate: delegate)
+        try stream.addStreamOutput(output, type: .audio, sampleHandlerQueue: queue)
+        return stream
     }
 }

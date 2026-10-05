@@ -3,17 +3,20 @@ import Foundation
 extension ControlsState {
     /// What this app may capture, as native capture reads it. Reading it asks for nothing.
     public struct Permissions: Equatable, Sendable {
-        public init(screen: Access, microphone: Access) {
+        public init(screen: Access, microphone: Access, camera: Access = .undetermined) {
             self.screen = screen
             self.microphone = microphone
+            self.camera = camera
         }
         public let screen: Access
         public let microphone: Access
+        public let camera: Access
 
         public func access(to kind: PermissionKind) -> Access {
             switch kind {
             case .screen: screen
             case .microphone: microphone
+            case .camera: camera
             }
         }
     }
@@ -25,9 +28,9 @@ extension ControlsState {
         /// Asking again prompts for nothing; only System Settings can change it.
         case denied
 
-        /// AVFoundation's microphone authorization, as native capture names it.
-        public init(microphoneAuthorization: String) {
-            switch microphoneAuthorization {
+        /// AVFoundation's authorization, as native capture names it.
+        public init(authorization: String) {
+            switch authorization {
             case "authorized": self = .granted
             case "not_determined": self = .undetermined
             default: self = .denied
@@ -42,6 +45,7 @@ extension PermissionKind {
     public static func missing(fromStartFailure code: String) -> PermissionKind? {
         switch code {
         case "MICROPHONE_PERMISSION_REQUIRED": .microphone
+        case "CAMERA_PERMISSION_REQUIRED": .camera
         case "PERMISSION_REQUIRED": .screen
         default: nil
         }
@@ -50,14 +54,16 @@ extension PermissionKind {
 
 /// One access a person grants this app. The menu and the Settings window describe each the same
 /// way, from the same state, so the two surfaces can never disagree about what is missing.
-public enum PermissionKind: CaseIterable, Sendable {
+public enum PermissionKind: String, CaseIterable, Sendable {
     case screen
     case microphone
+    case camera
 
     public var name: String {
         switch self {
         case .screen: "Screen Recording"
         case .microphone: "Microphone"
+        case .camera: "Camera"
         }
     }
 
@@ -66,6 +72,7 @@ public enum PermissionKind: CaseIterable, Sendable {
         switch self {
         case .screen: "Needed to record your screen."
         case .microphone: "Needed to record narration."
+        case .camera: "Needed to record your selected camera."
         }
     }
 
@@ -73,6 +80,7 @@ public enum PermissionKind: CaseIterable, Sendable {
         switch self {
         case .screen: .requestScreenPermission
         case .microphone: .requestMicrophonePermission
+        case .camera: .requestCameraPermission
         }
     }
 
@@ -81,6 +89,7 @@ public enum PermissionKind: CaseIterable, Sendable {
         switch self {
         case .screen: "Screen recording access is not granted."
         case .microphone: "Microphone access is not granted."
+        case .camera: "Camera access is not granted."
         }
     }
 
@@ -91,6 +100,8 @@ public enum PermissionKind: CaseIterable, Sendable {
             URL(string: "x-apple.systempreferences:com.apple.preference.security?Privacy_ScreenCapture")!
         case .microphone:
             URL(string: "x-apple.systempreferences:com.apple.preference.security?Privacy_Microphone")!
+        case .camera:
+            URL(string: "x-apple.systempreferences:com.apple.preference.security?Privacy_Camera")!
         }
     }
 
@@ -103,6 +114,7 @@ public enum PermissionKind: CaseIterable, Sendable {
             switch self {
             case .screen: "Allow Screen Recording…"
             case .microphone: "Allow Microphone Access…"
+            case .camera: "Allow Camera Access…"
             }
         }
     }

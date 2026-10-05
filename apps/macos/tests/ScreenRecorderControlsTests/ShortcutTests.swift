@@ -1,15 +1,9 @@
 import Foundation
 import ScreenRecorderControls
 
-private func find(_ entries: [MenuEntry], _ id: String) -> MenuEntry? {
-    for entry in entries {
-        if entry.action?.id == id { return entry }
-        if let nested = find(entry.submenu, id) { return nested }
-    }
-    return nil
-}
-
 func runShortcutTests() {
+    precondition(Shortcut(display: "⌘,") == Shortcut(command: true, key: ","),
+        "The standard Settings shortcut retains its binding")
     let suggested = ShortcutDefaults.suggested
     precondition(
         suggested[.startOrStop]?.display == "⌃⌥⌘R" && suggested[.pauseOrResume]?.display == "⌃⌥⌘P"
@@ -26,18 +20,10 @@ func runShortcutTests() {
 
     var contested = ready()
     contested.unavailableShortcuts = ["⌃⌥⌘R"]
-    contested.shortcutOverridePath = "/Users/someone/.screen-recorder/shortcuts.json"
-    let entries = RecordingMenu.entries(for: contested, shortcuts: none)
-    let notes = entries.filter { !$0.enabled }.map(\.title)
+    let notes = CapturePresentation.noticeLines(for: contested)
     precondition(
         notes.contains { $0.contains("⌃⌥⌘R") && $0.contains("in use") },
         "A combination another application owns is named rather than silently dropped")
-    precondition(
-        notes.contains { $0.contains("/Users/someone/.screen-recorder/shortcuts.json") },
-        "A person is told where to state a different combination")
-    precondition(
-        find(entries, "capture.startOrStop")?.shortcut == nil,
-        "An unheld combination leaves the menu row without a shortcut rather than a dead one")
 
     let overridden = ShortcutDefaults.overridden(
         by: Data(#"{"capture.startOrStop":"⇧⌘8","capture.cancel":""}"#.utf8))

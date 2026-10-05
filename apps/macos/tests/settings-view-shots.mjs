@@ -13,7 +13,7 @@ const scratch = mkdtempSync(join(tmpdir(), "screenrec-settings-view-"));
 try {
   const executable = compileControlsCheck(
     scratch,
-    ["SettingsWindow"],
+    ["SettingsWindow", "WindowMenu"],
     String.raw`
 import AppKit
 import SwiftUI

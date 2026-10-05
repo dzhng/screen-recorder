@@ -1,0 +1,6 @@
+Independent Codex review: no actionable regressions found.
+The focused library fixture passed when compiled directly against the production
+sources; the normal test runner was blocked by SwiftPM sandbox restrictions.
+
+Only subsequent production edit: private pages/pageIndex variables were renamed
+to projectPages/projectPageIndex. Final normal focused runner passed afterwards.

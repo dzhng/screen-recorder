@@ -12,7 +12,7 @@
     <key>LSMinimumSystemVersion</key><string>26.0</string>
     <key>LSUIElement</key><true/>
     <key>NSCameraUseContinuityCameraDeviceType</key><true/>
-    <key>NSCameraUsageDescription</key><string>Record the explicitly selected camera during an authorized synchronization probe.</string>
+    <key>NSCameraUsageDescription</key><string>Record your explicitly selected camera, alone or alongside a screen recording.</string>
     <key>NSMicrophoneUsageDescription</key><string>Record your narration when you start a recording with the microphone enabled.</string>
     <key>NSScreenCaptureUsageDescription</key><string>Record the display, window, or region you select when you start recording.</string>
 </dict>
