@@ -6,7 +6,9 @@ Dependencies: [22](22-speech-feasibility.md).
 
 Before pickup, split this placeholder into family-specific implementation slices from the 22 verdicts. No aggregate green status may substitute for these checkpoints.
 
-- [ ] [Speaker evidence](23a-speaker-evidence.md): both initial providers failed; no implementation admitted.
+- [ ] [Speaker evidence](23a-speaker-evidence.md): original official checkpoint/native
+  recipe passes bounded research; [runtime seam](23a1-speaker-runtime.md), durable
+  source evidence and public projection remain open. Initial provider failures stay retained.
 - [ ] [Acoustic events](23b-acoustic-events.md): presence diagnostics and independently timed calibration/confirmation fail; no category selected.
 - [ ] [Boundary evidence](23c-boundary-evidence.md): independent complete word-neighbor labels pending; no provider selected.
 
