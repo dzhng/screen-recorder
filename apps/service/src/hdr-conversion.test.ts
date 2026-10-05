@@ -297,6 +297,7 @@ test("selected audio clock preserves actual native sample cells and refuses deco
   const video = readHdrConversionFacts(source(), "track:1");
   const audio = readHdrAudioConversionFacts(audioSource(), "track:2");
   const clock = prepareHdrClock(video, audio);
+  expect(clock.sourceSupport).toEqual({ startUs: 0, endUs: 130000 });
   const cell = multiply(
     rational(1000000n, BigInt(audio.audio.sampleRate)),
     rational(BigInt(clock.movieTimescale), 1000000n),
@@ -325,5 +326,18 @@ test("selected streams share the earliest occupied origin without collapsing the
   changed.metadata.originUs = 1;
   expect(() => prepareHdrClock(video, changed)).toThrowError(
     expect.objectContaining({ code: "UNSUPPORTED_MEDIA" }),
+  );
+});
+
+test("selected audio derivative admission requires identical actual PCM and common-clock support", () => {
+  const video = readHdrConversionFacts(source(), "track:1");
+  const audio = readHdrAudioConversionFacts(audioSource(), "track:2");
+  const output = derivative(video);
+  const outputAudio = structuredClone(audio);
+  output.metadata.streams.push(outputAudio.audio);
+  expect(() => validateHdrDerivative(video, output, audio, outputAudio)).not.toThrow();
+  outputAudio.audio.decodedAudioInspection.pcmSha256 = "d".repeat(64);
+  expect(() => validateHdrDerivative(video, output, audio, outputAudio)).toThrowError(
+    expect.objectContaining({ code: "INVALID_NATIVE_RESPONSE" }),
   );
 });

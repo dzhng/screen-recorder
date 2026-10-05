@@ -454,3 +454,34 @@ at 10000 versus the required 5000 microseconds, then passed after restoration.
 Independent review found no actionable defect. This remains a private clock
 contract: the producer still copies no audio, and public publication, durable
 provenance, portable retention and range/acquisition materialization remain open.
+
+## Private selected-audio producer checkpoint
+
+The private producer now requests explicitly selected native audio facts from
+the same held source, binds that selection through held FFprobe and copies only
+the requested audio stream. Codec copying adds no resampling, remixing or lossy
+re-encoding policy. After retirement, a fresh derivative probe discovers its
+actual audio ID and scans that selected decoded PCM. Admission requires matching
+codec/layout/native format, complete PCM digest and frame count, occupied support
+and exact source-to-derivative common-clock mapping. Unselected streams, changed
+PCM, added silence and lost/retimed support refuse before consumption.
+The existing render deadline owner budgets the union of selected audio/video
+support, avoiding a short-video timeout for a longer selected audio stream. Exact
+union bounds went red before implementation; scoped follow-up review is clean.
+
+The [actual selected-audio receipt](../evidence/hdr-selected-audio/report.json)
+and complete archived operands prove aligned and 50 ms later video for both PQ
+and HLG. All four retain 6000 decoded AAC frames with the same source/derivative
+PCM digest, exact support and a 48000 Hz movie scale. An audio-bearing source with
+no audio selection yields only video, byte-identical to the established video-only
+output. Existing picture numerical and auxiliary-track/padded-support controls
+remain green. Sixteen focused arithmetic/held tests, types/build/lint/format pass;
+the audio admission and producer cases went red before their implementation.
+Independent read-only review found no actionable regression.
+
+The earlier leading-empty clock receipt now includes the complete explicitly
+synthetic matching-origin video comparison operand. Its refusal isolates decoder
+support versus occupied support, not a video/audio origin mismatch; this is not
+evidence of an actual combined leading-empty source. Public managed publication,
+frozen provenance, portable retention and range/acquisition materialization remain
+unfinished. No public operation is exposed by this checkpoint.

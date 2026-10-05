@@ -20,7 +20,7 @@ beforeAll(async () => {
   ffmpeg = join(directory, "ffmpeg.cjs");
   await writeFile(
     ffprobe,
-    '#!/usr/bin/env node\nconsole.log(JSON.stringify({streams:[{index:0,id:"0x1",codec_type:"video",color_primaries:"bt2020",color_transfer:"smpte2084",color_space:"bt2020nc",color_range:"tv",pix_fmt:"yuv420p10le"}]}));',
+    '#!/usr/bin/env node\nconsole.log(JSON.stringify({streams:[{index:0,id:"0x1",codec_type:"video",color_primaries:"bt2020",color_transfer:"smpte2084",color_space:"bt2020nc",color_range:"tv",pix_fmt:"yuv420p10le"},{index:1,id:"0x2",codec_type:"audio"}]}));',
   );
   await writeFile(
     ffmpeg,
@@ -134,6 +134,79 @@ test("held source identity and fresh clocks admit the derivative only inside the
       },
     );
     expect(result).toBe(createHash("sha256").update("converted derivative bytes").digest("hex"));
+    expect(await readdir(parent)).toEqual([]);
+  } finally {
+    await file.close();
+  }
+});
+
+test("explicit selected audio survives the held producer and actual decoded-PCM validation", async () => {
+  const path = join(directory, "audio-source.mov");
+  await writeFile(path, media);
+  const file = await open(path, "r");
+  const audioWorker: MediaWorker = async (operation, params, options) => {
+    if (operation !== "media.probe") return worker(operation, params, options);
+    const raw = metadata(params.inspectCompressedVideo !== true);
+    const audio = {
+      id: "track:2",
+      kind: "audio",
+      codec: "aac ",
+      decodable: true,
+      startUs: 0,
+      endUs: 125000,
+      sampleRate: 48000,
+      channels: 2,
+      channelLayoutTag: 6619138,
+      segments: [
+        {
+          startUs: 0,
+          endUs: 125000,
+          empty: false,
+          mediaStartUs: { numerator: 64000, denominator: 3 },
+          mediaDurationUs: 125000,
+        },
+      ],
+      decodedAudioInspection: {
+        sampleRate: 48000,
+        channels: 2,
+        frames: 6000,
+        runs: [{ startUs: 0, endUs: 125000, frames: 6000 }],
+        pcmSha256: "c".repeat(64),
+        trimming: "decoder-output-attachment-free",
+      },
+    };
+    const bytes = Buffer.from(JSON.stringify({ ...raw, streams: [...raw.streams, audio] }));
+    const slot = Number(String(params.output).split("/").at(-1));
+    writeSync(options!.descriptors![slot - 3]!, bytes, 0, bytes.length, 0);
+    return {
+      ok: true,
+      data: {
+        file: params.output,
+        bytes: bytes.length,
+        sha256: createHash("sha256").update(bytes).digest("hex"),
+      },
+    };
+  };
+  try {
+    const result = await withHdrDerivative(
+      audioWorker,
+      {
+        attemptParent: parent,
+        source: { file, bytes: media.length, sha256 },
+        streamId: "track:1",
+        audioStreamId: "track:2",
+        ffmpeg,
+        ffprobe,
+        ownerExecutable: owner,
+      },
+      new AbortController().signal,
+      async (artifact) => artifact.evidence.outputAudio!.audio.decodedAudioInspection,
+    );
+    expect(result).toMatchObject({
+      frames: 6000,
+      pcmSha256: "c".repeat(64),
+      runs: [{ startUs: 0, endUs: 125000, frames: 6000 }],
+    });
     expect(await readdir(parent)).toEqual([]);
   } finally {
     await file.close();

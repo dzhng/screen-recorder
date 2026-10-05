@@ -112,6 +112,10 @@ Its optional `producer` mode exercises the actual private held whole-video produ
 including padded-support refusal and explicit exclusion of auxiliary chapter and
 timecode tracks. It compares delivered RGB against the same retained numerical
 operand; managed publication is a separate boundary.
+Its selected-audio controls retain actual native decoded PCM before and after
+stream copying, including an independently authored relative video offset. Audio
+not selected by the request must remain absent from the derivative. This proves
+sample/clock preservation; it makes no listening or managed-publication claim.
 
 [Audio recipe reproduction](audio-recipes/README.md) retains numerical
 normalization, limiter and compressor evidence before production admission.

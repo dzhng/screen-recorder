@@ -9,6 +9,7 @@ import { renderWindowDeadlineMs, type MediaWorker } from "./worker.js";
 import { inspectFfmpegInput } from "./ffmpeg-input.js";
 import {
   readHdrConversionFacts,
+  readHdrAudioConversionFacts,
   type HdrAudioConversionFacts,
   type HdrConversionFacts,
 } from "@screenrec/core/hdr-conversion-facts";
@@ -116,6 +117,7 @@ export function prepareHdrClock(facts: HdrConversionFacts, audioFacts?: HdrAudio
     ]),
   ];
   let sourceClockAtDerivativeZeroUs = video.startUs;
+  let selectedEndUs = video.endUs;
   if (audioFacts) {
     const audio = audioFacts.audio;
     const decoded = audio.decodedAudioInspection;
@@ -150,6 +152,7 @@ export function prepareHdrClock(facts: HdrConversionFacts, audioFacts?: HdrAudio
       );
     if (compare(fromTime(audio.startUs), fromTime(sourceClockAtDerivativeZeroUs)) < 0)
       sourceClockAtDerivativeZeroUs = audio.startUs;
+    if (compare(fromTime(audio.endUs), fromTime(selectedEndUs)) > 0) selectedEndUs = audio.endUs;
     operands.push(
       audioFacts.metadata.originUs,
       audio.startUs,
@@ -173,11 +176,20 @@ export function prepareHdrClock(facts: HdrConversionFacts, audioFacts?: HdrAudio
     if (movieTimescale > 2147483647n)
       throw new CatalogError("UNSUPPORTED_MEDIA", "HDR movie clock is not exactly representable");
   }
-  return { sourceClockAtDerivativeZeroUs, movieTimescale: Number(movieTimescale) };
+  return {
+    sourceClockAtDerivativeZeroUs,
+    sourceSupport: { startUs: sourceClockAtDerivativeZeroUs, endUs: selectedEndUs },
+    movieTimescale: Number(movieTimescale),
+  };
 }
 
-export function validateHdrDerivative(source: HdrConversionFacts, output: HdrConversionFacts) {
-  const clock = prepareHdrClock(source);
+export function validateHdrDerivative(
+  source: HdrConversionFacts,
+  output: HdrConversionFacts,
+  sourceAudio?: HdrAudioConversionFacts,
+  outputAudio?: HdrAudioConversionFacts,
+) {
+  const clock = prepareHdrClock(source, sourceAudio);
   const offset = fromTime(clock.sourceClockAtDerivativeZeroUs);
   const before = source.video;
   const after = output.video;
@@ -188,7 +200,7 @@ export function validateHdrDerivative(source: HdrConversionFacts, output: HdrCon
   const segment = occupied[0];
   const color = after.colorFormats[0];
   if (
-    output.metadata.streams.length !== 1 ||
+    output.metadata.streams.length !== (sourceAudio ? 2 : 1) ||
     after.codec !== "ap4h" ||
     after.hasAlpha ||
     before.width !== after.width ||
@@ -234,17 +246,55 @@ export function validateHdrDerivative(source: HdrConversionFacts, output: HdrCon
       "INVALID_NATIVE_RESPONSE",
       "HDR derivative changed physical support or declared interpretation",
     );
+  if (sourceAudio) {
+    if (!outputAudio)
+      throw new CatalogError("INVALID_NATIVE_RESPONSE", "HDR derivative omitted selected audio");
+    try {
+      prepareHdrClock(output, outputAudio);
+    } catch {
+      throw new CatalogError(
+        "INVALID_NATIVE_RESPONSE",
+        "HDR derivative audio support is unqualified",
+      );
+    }
+    const beforeAudio = sourceAudio.audio;
+    const afterAudio = outputAudio.audio;
+    const beforeDecoded = beforeAudio.decodedAudioInspection;
+    const afterDecoded = afterAudio.decodedAudioInspection;
+    if (
+      output.metadata.streams.filter((item) => item.kind === "audio").length !== 1 ||
+      !output.metadata.streams.some((item) => item.kind === "audio" && item.id === afterAudio.id) ||
+      beforeAudio.codec !== afterAudio.codec ||
+      beforeAudio.sampleRate !== afterAudio.sampleRate ||
+      beforeAudio.channels !== afterAudio.channels ||
+      beforeAudio.channelLayoutTag !== afterAudio.channelLayoutTag ||
+      beforeDecoded.frames !== afterDecoded.frames ||
+      beforeDecoded.pcmSha256 !== afterDecoded.pcmSha256 ||
+      !mapped(beforeAudio.startUs, afterAudio.startUs) ||
+      !mapped(beforeAudio.endUs, afterAudio.endUs) ||
+      !mapped(beforeDecoded.runs[0]!.startUs, afterDecoded.runs[0]!.startUs) ||
+      !mapped(beforeDecoded.runs[0]!.endUs, afterDecoded.runs[0]!.endUs)
+    )
+      throw new CatalogError(
+        "INVALID_NATIVE_RESPONSE",
+        "HDR derivative changed selected decoded audio or its common-clock support",
+      );
+  } else if (outputAudio) {
+    throw new CatalogError("INVALID_NATIVE_RESPONSE", "HDR derivative added unselected audio");
+  }
   return output;
 }
 
 export type HdrDerivativeEvidence = {
   source: HdrConversionFacts;
   output: HdrConversionFacts;
+  sourceAudio?: HdrAudioConversionFacts;
+  outputAudio?: HdrAudioConversionFacts;
   family: "pq" | "hlg";
   clock: ReturnType<typeof prepareHdrClock>;
 };
 
-/** Private whole-video producer. The caller retains the source lease; this owner
+/** Private selected-stream producer. The caller retains the source lease; this owner
  * prepares and validates inside one existing held attempt, never by donor path. */
 export async function withHdrDerivative<Result>(
   worker: MediaWorker,
@@ -252,6 +302,7 @@ export async function withHdrDerivative<Result>(
     attemptParent: string;
     source: { file: FileHandle; bytes: number; sha256: string };
     streamId: string;
+    audioStreamId?: string;
     ffmpeg: string;
     ffprobe: string;
     ownerExecutable: string;
@@ -268,12 +319,21 @@ export async function withHdrDerivative<Result>(
       const identity = fileIdentity(await file.stat({ bigint: true }));
       if ((await hashFile(file, bytes, signal)).sha256 !== sha256)
         throw new CatalogError("SOURCE_CHANGED", "HDR source differs from its immutable identity");
-      const source = readHdrConversionFacts(
-        await readMediaProbe(boundWorker, directory, "/dev/fd/3", signal, [file.fd], {
+      const rawSource = await readMediaProbe(
+        boundWorker,
+        directory,
+        "/dev/fd/3",
+        signal,
+        [file.fd],
+        {
           inspectCompressedVideo: true,
-        }),
-        request.streamId,
+          ...(request.audioStreamId ? { inspectAudioStreamId: request.audioStreamId } : {}),
+        },
       );
+      const source = readHdrConversionFacts(rawSource, request.streamId);
+      const sourceAudio = request.audioStreamId
+        ? readHdrAudioConversionFacts(rawSource, request.audioStreamId)
+        : undefined;
       const input = await inspectFfmpegInput(
         { executable: request.ffprobe, ownerExecutable: request.ownerExecutable },
         {
@@ -285,8 +345,20 @@ export async function withHdrDerivative<Result>(
           inspectColor: true,
         },
       );
+      const audioInput = sourceAudio
+        ? await inspectFfmpegInput(
+            { executable: request.ffprobe, ownerExecutable: request.ownerExecutable },
+            {
+              file,
+              metadata: sourceAudio.metadata,
+              streamId: sourceAudio.audio.id,
+              signal,
+              lifetimes: authority.descriptors,
+            },
+          )
+        : undefined;
       const { family } = qualifyHdrInterpretation(source, input.color!);
-      const clock = prepareHdrClock(source);
+      const clock = prepareHdrClock(source, sourceAudio);
       const recipe = `zscale=pin=bt2020:tin=${family === "pq" ? "smpte2084" : "arib-std-b67"}:min=bt2020nc:rin=limited:t=linear:npl=100:agamma=0,format=gbrpf32le,zscale=p=bt709,tonemap=tonemap=hable:desat=0:peak=10,zscale=t=bt709:m=bt709:r=limited:dither=error_diffusion:agamma=0,format=yuv444p10le,setparams=color_primaries=bt709:color_trc=bt709:colorspace=bt709:range=limited`;
       return withFfmpegArtifact(
         boundWorker,
@@ -297,10 +369,7 @@ export async function withHdrDerivative<Result>(
           ownerExecutable: request.ownerExecutable,
           descriptors: [file.fd],
           rewindDescriptors: [3],
-          timeoutMs: renderWindowDeadlineMs({
-            startUs: source.video.startUs,
-            endUs: source.video.endUs,
-          }),
+          timeoutMs: renderWindowDeadlineMs(clock.sourceSupport),
           maxBytes: 4096,
           args: (slot) => [
             "-v",
@@ -308,9 +377,9 @@ export async function withHdrDerivative<Result>(
             ...input.args,
             "-map",
             input.map,
+            ...(audioInput ? ["-map", audioInput.map, "-c:a", "copy"] : ["-an"]),
             "-map_chapters",
             "-1",
-            "-an",
             "-vf",
             recipe,
             "-fps_mode",
@@ -344,7 +413,7 @@ export async function withHdrDerivative<Result>(
         },
         signal,
         async (outputFile, validationSignal, validationWorker) => {
-          const raw = await readMediaProbe(
+          let raw = await readMediaProbe(
             validationWorker,
             directory,
             "/dev/fd/3",
@@ -355,10 +424,40 @@ export async function withHdrDerivative<Result>(
           const selected = metadata.streams.find((stream) => stream.kind === "video");
           if (!selected)
             throw new CatalogError("INVALID_NATIVE_RESPONSE", "HDR derivative omitted video");
-          const output = validateHdrDerivative(source, readHdrConversionFacts(raw, selected.id));
+          let outputAudio: HdrAudioConversionFacts | undefined;
+          if (sourceAudio) {
+            const audio = metadata.streams.filter((item) => item.kind === "audio");
+            if (audio.length !== 1)
+              throw new CatalogError(
+                "INVALID_NATIVE_RESPONSE",
+                "HDR derivative audio selection changed",
+              );
+            raw = await readMediaProbe(
+              validationWorker,
+              directory,
+              "/dev/fd/3",
+              validationSignal,
+              [outputFile.fd],
+              { inspectAudioStreamId: audio[0]!.id },
+            );
+            outputAudio = readHdrAudioConversionFacts(raw, audio[0]!.id);
+          }
+          const output = validateHdrDerivative(
+            source,
+            readHdrConversionFacts(raw, selected.id),
+            sourceAudio,
+            outputAudio,
+          );
           if (!isDeepStrictEqual(identity, fileIdentity(await file.stat({ bigint: true }))))
             throw new CatalogError("SOURCE_CHANGED", "HDR source changed during conversion");
-          return { source, output, family, clock };
+          return {
+            source,
+            output,
+            ...(sourceAudio ? { sourceAudio } : {}),
+            ...(outputAudio ? { outputAudio } : {}),
+            family,
+            clock,
+          };
         },
         consume,
       );

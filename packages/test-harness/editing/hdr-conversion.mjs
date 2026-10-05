@@ -21,10 +21,12 @@ const [distribution, native, output] = process.argv.slice(2, 5).map((value) => r
 const heldOut = process.argv.slice(5).includes("held-out");
 const encoded = process.argv.slice(5).includes("encoded");
 const producer = process.argv.slice(5).includes("producer");
+const producerAudio = process.argv.slice(5).includes("producer-audio");
 if (producer && !encoded) throw new Error("producer requires encoded controls");
+if (producerAudio && !producer) throw new Error("producer-audio requires producer");
 if (!distribution || !native || !output)
   throw new Error(
-    "Usage: node hdr-conversion.mjs DISTRIBUTION NATIVE NEW_OUTPUT_DIRECTORY [held-out] [encoded] [producer]",
+    "Usage: node hdr-conversion.mjs DISTRIBUTION NATIVE NEW_OUTPUT_DIRECTORY [held-out] [encoded] [producer] [producer-audio]",
   );
 await mkdir(output, { mode: 0o700 });
 const scratch = await mkdtemp("/tmp/screenrec-hdr-owner-");
@@ -77,6 +79,7 @@ try {
     heldOut,
     encoded,
     producer,
+    producerAudio,
     intermediateTolerance8bit: 3,
     runtime: {
       ffmpeg: await hash(ffmpeg),
@@ -505,6 +508,137 @@ try {
         );
       }
       let producerAuxiliary;
+      const producerAudioEvidence = [];
+      if (producerAudio) {
+        const pcm = Buffer.alloc(6000 * 2 * 4);
+        for (let frame = 0; frame < 6000; frame++) {
+          pcm.writeFloatLE(Math.sin(frame * 0.071) * 0.2, frame * 8);
+          pcm.writeFloatLE(Math.cos(frame * 0.113) * 0.1, frame * 8 + 4);
+        }
+        const pcmPath = join(output, `${family}-selected-audio.f32`);
+        await writeFile(pcmPath, pcm);
+        for (const offsetUs of [0, 50000]) {
+          const selectedSource = join(output, `${family}-selected-audio-${offsetUs}.mov`);
+          run([
+            "-y",
+            "-itsoffset",
+            String(offsetUs / 1000000),
+            "-i",
+            retained,
+            "-f",
+            "f32le",
+            "-ar",
+            "48000",
+            "-ac",
+            "2",
+            "-i",
+            pcmPath,
+            "-map",
+            "0:v:0",
+            "-map",
+            "1:a:0",
+            "-c:v",
+            "copy",
+            "-c:a",
+            "aac",
+            "-movie_timescale",
+            "48000",
+            selectedSource,
+          ]);
+          const selectedFile = await open(selectedSource, "r");
+          try {
+            const raw = nativeResult(
+              await worker("media.probe", {
+                path: selectedSource,
+                inspectCompressedVideo: true,
+                inspectAudioStreamId: "track:2",
+              }),
+            );
+            await writeFile(
+              join(output, `${family}-selected-audio-${offsetUs}-source.json`),
+              JSON.stringify(raw, null, 2),
+            );
+            assert.equal(raw.streams[0].startUs, offsetUs);
+            assert.equal(raw.streams[1].decodedAudioInspection.frames, 6000);
+            const evidence = await withHdrDerivative(
+              worker,
+              {
+                attemptParent,
+                source: {
+                  file: selectedFile,
+                  bytes: (await selectedFile.stat()).size,
+                  sha256: await hash(selectedSource),
+                },
+                streamId: "track:1",
+                audioStreamId: "track:2",
+                ffmpeg,
+                ffprobe,
+                ownerExecutable: owner,
+              },
+              new AbortController().signal,
+              async (artifact) => {
+                await writeFile(
+                  join(output, `${family}-selected-audio-${offsetUs}-operands.json`),
+                  JSON.stringify(artifact.evidence, null, 2),
+                );
+                await copyFile(
+                  artifact.path,
+                  join(output, `${family}-selected-audio-${offsetUs}-producer.mov`),
+                );
+                assert.equal(artifact.evidence.output.video.startUs, offsetUs);
+                assert.equal(artifact.evidence.outputAudio.audio.startUs, 0);
+                assert.equal(
+                  artifact.evidence.outputAudio.audio.decodedAudioInspection.frames,
+                  6000,
+                );
+                assert.equal(
+                  artifact.evidence.outputAudio.audio.decodedAudioInspection.pcmSha256,
+                  artifact.evidence.sourceAudio.audio.decodedAudioInspection.pcmSha256,
+                );
+                return {
+                  offsetUs,
+                  sha256: artifact.sha256,
+                  bytes: artifact.bytes,
+                  clock: artifact.evidence.clock,
+                  audioFrames: 6000,
+                  pcmSha256: artifact.evidence.outputAudio.audio.decodedAudioInspection.pcmSha256,
+                };
+              },
+            );
+            producerAudioEvidence.push(evidence);
+            if (offsetUs === 0) {
+              await withHdrDerivative(
+                worker,
+                {
+                  attemptParent,
+                  source: {
+                    file: selectedFile,
+                    bytes: (await selectedFile.stat()).size,
+                    sha256: await hash(selectedSource),
+                  },
+                  streamId: "track:1",
+                  ffmpeg,
+                  ffprobe,
+                  ownerExecutable: owner,
+                },
+                new AbortController().signal,
+                async (artifact) => {
+                  await writeFile(
+                    join(output, `${family}-unselected-audio-operands.json`),
+                    JSON.stringify(artifact.evidence, null, 2),
+                  );
+                  await copyFile(artifact.path, join(output, `${family}-unselected-audio.mov`));
+                  assert.equal(artifact.evidence.output.metadata.streams.length, 1);
+                  assert.equal(artifact.evidence.outputAudio, undefined);
+                  assert.equal(artifact.sha256, producerEvidence.sha256);
+                },
+              );
+            }
+          } finally {
+            await selectedFile.close();
+          }
+        }
+      }
       if (producer) {
         const chapters = join(output, `${family}-chapters.txt`);
         await writeFile(
@@ -735,6 +869,7 @@ try {
         producerEvidence,
         zeroExitControl,
         producerAuxiliary,
+        producerAudioEvidence,
         sourceSha256,
         metadata,
         interpretation,
