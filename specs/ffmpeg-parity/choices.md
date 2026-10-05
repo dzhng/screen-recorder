@@ -1150,3 +1150,18 @@ cancel rather than silently generating a new conversion under changed tools.
 Verdict: sound; preserves saved output and reuses existing indexed job/artifact
 rows without another receipt store. Confidence: medium because this extends the
 queue's lookup contract to canonical JSON request keys.
+
+### Final acceptance proves a local bundle, without publishing a release
+
+When: final package acceptance. The finished app can be checked after moving it
+to a scratch directory, using its bundled Node and media tools. Production
+release signing needs credentials that are not available in this workspace.
+The local check records its actual signature and source identity, rather than
+pretending to be a signed production release or leaving release publication as
+an unfinished feature. The existing CI still signs and checks published archives.
+
+Gap: the original package gate coupled tool verification to release credentials.
+Reach: closure certifies the local packaged tools and scratch media contracts;
+it makes no new updater, notarization or published-release claim.
+Verdict: sound; matches the user's request to finish supported fixture-proven work
+and keep validation small. Confidence: high.

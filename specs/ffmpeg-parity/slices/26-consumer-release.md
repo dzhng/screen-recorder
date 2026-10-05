@@ -1,6 +1,6 @@
 # 26 — Consumer skill and release acceptance
 
-Status: consumer guidance and portable trials in progress; installed release acceptance pending. Question: **Can the released skill teach novices the verified surface and honest limitations?**
+Status: consumer guidance and portable trials verified; final local bundled acceptance pending. Question: **Can the released skill teach novices the verified surface and honest limitations?**
 
 Dependencies: [02](02-installed-tools.md), [05](05-managed-output.md), [06](06-batch-preparation.md), [07](07-compact-transcripts.md), [08](08-timeline-inspection.md), [09](09-review-bundle.md), [10](10-loudness.md), [11](11-caption-proposals.md), [12](12-caption-sidecars.md), [13](13-normalization.md), [14](14-limiter.md), [15](15-sidechain.md), [17](17-sdr-grade.md), [19](19-hdr-conversion.md), [21](21-motion-import.md), [23](23-speaker-evidence.md), [24](24-editorial-notes.md), [25](25-hevc-output.md).
 
@@ -17,7 +17,7 @@ Add one line using the released launcher’s bundled FFmpeg passthrough after to
 
 ## Focused proof and review
 
-Fresh-agent ordinary-language traces, isolated macOS proofs and final release receipt.
+Retained fresh-agent traces, isolated macOS fixture proofs and a local relocated bundle receipt. Production signing and publication remain owned by the existing release CI; this spec does not require publishing a release or credentials absent from this workspace.
 
 Portable fresh-agent trials test skill/schema behavior; real macOS checks separately test outputs. User runs the general-footage demo after this spec; do not create it in planning. Test non-core GIF request and unavailable capability without hidden managed fallback. Run full repo suite once when implementation is finished; close spec only on actual shipped disposition.
 
@@ -99,7 +99,7 @@ under an exclusive owner. The [actual-tool component receipt](../evidence/direct
 checks the prepared binaries through production launcher source with scratch account
 lookup: observed running media packets prevent exclusive acquisition; killing each
 tool releases it. This does not execute the production account’s launcher or updater
-and does not replace final signed relocated-package acceptance. Arbitrary inherited
+and does not replace final local relocated-bundle acceptance. Arbitrary inherited
 descriptor protocols beyond standard streams are not covered by this component proof.
 
 The later [portable launcher handoff checks](../evidence/consumer-launcher/README.md)
@@ -117,3 +117,13 @@ and final packaged execution is still pending.
 Inherit the [global contract](../README.md#contracts-and-ownership) and narrow verification policy. Write-tests red/green precedes behavior changes. Existing native output and persisted identity remain unchanged unless this slice names the extension.
 
 Delegate internal naming/decomposition, bounded fixture selection and reversible artifact styling. Public meaning and backend policy are fixed above; resolve a new semantic choice in this spec before coding it. Record actual commands, immutable input/runtime identities, coverage, failures and verdict. User feedback changes requested meaning, supported scope or visible appearance; mechanical preferences alone do not justify expanding the slice. A failed proof remains unfinished and must be narrowed or resliced, not waived.
+
+## Final package boundary
+
+Use the existing app build and pinned Node archive to assemble a local fixture
+bundle with relative interpreter/tool paths. Verify Node archive identity, nested
+code signatures, dependency receipt and relocation under system-only PATH. Run
+the existing packaged service/CLI media observer in scratch state, without the
+production account app/launcher. Retain the local signature/source/runtime facts;
+do not label this a production release or updater acceptance. Existing release CI
+continues to require durable credentials and signed archives before publication.

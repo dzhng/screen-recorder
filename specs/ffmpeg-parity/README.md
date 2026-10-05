@@ -25,13 +25,13 @@ fixtures; no further provider-quality research is required.
 Root wider audio refusal/retiming/AAC/resource acceptance closes shared audio
 preparation and13–15. Final packaged execution is checked once by26.
 
-Final release build/ZIP, relocated acceptance26 and the full suite follow those
+Final local bundle/ZIP, relocated acceptance26 and the full suite follow those
 branches. Latest main through c5765423 (release 0.1.4) is integrated; its app
 identity and CLI/service version reporting are preserved. The authenticated updater keeps archive smoke isolated;
 a separate media check executes packaged service/JavaScript CLI in scratch state.
 Direct extras use the released launcher’s media passthrough under the existing
 installation lock. Both actual tools retain that lock; older external launchers
-need a verified refresh. Signed packaged execution is still pending.
+need a verified refresh. Local bundled execution is still pending; production signing/publication remain with existing release CI.
 
 Audio ownership is fixed by [shared preparation](slices/96-audio-preparation.md):
 composition declares state/dependency domains, native owns graph/prefix PCM,
@@ -48,7 +48,7 @@ facts, compressed interpretation and exact source↔derivative clocks.
 | [Source authority](evidence/source-authority/integrated.json) | Actual picture/audio/recovery components and14 rebuilt linked probes pass. |
 | [Audio execution](evidence/audio-integrated-checkpoint.json), [wider root acceptance](evidence/audio-state-acceptance/root-integration.json) | Whole-domain refusal, retime/repeat/split/crop, decoded AAC measurement and child descriptor exhaustion/recovery pass on rebuilt root worker. No listening or encoded ceiling claim. |
 | [Encoded HDR](evidence/hdr-encoded/root-integration.json), [private video producer](evidence/hdr-private-producer/root-integration.json), [selected audio](evidence/hdr-selected-audio/root-integration.json) | Actual linked PQ/HLG numerical/clock and private held producer pass; selected AAC retains decoded sound and relative offsets. Conservative metadata refusals remain; managed conversion is open. |
-| [Direct tool lifetime](evidence/direct-tool-launcher.json) | Actual prepared tools retain launcher exclusion; signed package pending. |
+| [Direct tool lifetime](evidence/direct-tool-launcher.json) | Actual prepared tools retain launcher exclusion; local package pending. |
 | [Native SDR](evidence/sdr-execution/proof.json) | Bound OS recipe, existing cache/job/export identities. |
 | [Public H.264/HEVC](evidence/hevc-public/report.json) | Authored clocks, decoded landmarks and replay pass. |
 | [Consumer trials](evidence/consumer-acceptance/README.md), [launcher handoff](evidence/consumer-launcher/README.md) | Concrete planning and unavailable execution pass twice. Explicitly requested launcher recovery passes twice; ordinary summaries omit it. Earlier failures and changed task inputs retained. |
