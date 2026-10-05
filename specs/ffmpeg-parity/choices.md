@@ -841,3 +841,36 @@ Gap: the follow-up required shared authority but did not specify regular-path re
 and wrapper-error preservation. Reach: all live source consumers share the same
 metadata/streaming boundary; generated-output inspection is a separate contract.
 Verdict: sound. Confidence: high.
+
+
+### Optional runtime assembly preserves primary Python startup and ordered layers
+
+When: shared assembler/worker checkpoint b8839b3b. The accepted speaker runtime
+imports packages from a primary dependency tree and two supplementary trees.
+Flattening those directories or processing every Python path-hook file again could
+select another package or execute hooks the original runtime never ran. One common
+clone-only assembler therefore preserves the primary tree’s ordinary interpreter
+startup, then a bundle-local entry appends supplementary trees in original order.
+Only explicitly identified files listing admitted donor paths are omitted; nested
+checkpoint files using the same extension stay intact. Separate immutable model
+bytes remain separately prepared. The voice-specific assembler is replaced rather
+than left as a parallel packaging owner. Gap: the accepted relocation contract did
+not select a shared layout or layered bootstrap. Reach: optional inference purposes
+share this assembly owner, while package trimming or native load-path changes need
+their own frozen receipts and relocation proof. Verdict: sound. Confidence: high.
+
+### Invalid speaker observations retain lossless native diagnostics
+
+When: exact-original worker checkpoint b8839b3b. The model can return an unexpected
+axis order, a nonfinite score or an endpoint outside its30s input. The worker reserves
+fresh output files before loading the model and saves native tensor type, dimensions
+and original bytes plus original segment text before interpreting them. It requires
+the pinned batch/time/speaker axes rather than reshaping a transposed result into an
+apparently valid observation. A caught failure removes only this attempt’s empty
+reservations; captured diagnostic bytes remain unverified, and process-death cleanup
+belongs to the existing caller. Converting invalid scores to JSON numbers or replacing
+them with null would lose the operand needed to understand the failure. Gap: the
+plan required raw-output retention but did not select invalid-tensor encoding or
+empty-reservation cleanup. Reach: later durable publication must consume only validated
+observations while preserving failed native evidence separately. Verdict: sound.
+Confidence: high.

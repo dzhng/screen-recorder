@@ -1,0 +1,25 @@
+{
+  "sourceBase": "01760738",
+  "passed": true,
+  "claim": "Integrated compiled domain execution and existing update lifetimes; wider refusal/retiming/resource exhaustion and packaged acceptance pending",
+  "checks": [
+    {
+      "command": "SCREENREC_NATIVE=<root worker> SCREENREC_FFMPEG_DIRECTORY=<prepared distribution> bunx vitest run apps/service/src/audio-processing.test.ts apps/service/src/lifetime.test.ts",
+      "tests": 31,
+      "realBundledRecipes": 9,
+      "logSha256": "27ae8d80a559674872311d31aeb493f035743160ed1d900afe8c381733bc6359"
+    },
+    {
+      "command": "node --test helpers/mac/Tests/audio-state.test.mjs",
+      "tests": 1,
+      "logSha256": "53873034413c3177870c94c06699d846601ddd919ef7d3bdc06adc2abe3a39cd"
+    },
+    {
+      "command": "bunx vitest run packages/core/src/audio-processing-evidence.test.ts packages/core/src/prepared-audio.test.ts",
+      "tests": 26,
+      "logSha256": "1674b5b6ec643ffd0930561ddaa02e62af9ba1b3f437ea23bdad620c4c34eaa7"
+    }
+  ],
+  "nativeSha256": "505e59e52313dab859917573927d3c82cd6d5ae215d3ec4dcefeec089699de0d",
+  "ffmpegReceiptSha256": "27350ff2f953bbd4d6ca8bfe0f6808b99b9752192657d289146b50319099f66a"
+}

@@ -1,6 +1,7 @@
 # 23a1 — Exact original speaker runtime seam
 
-Status: next. This slice proves preparation and invocation of the accepted exact
+Status: helper/bootstrap checkpoint integrated; model-bearing closure and public
+invocation remain open. This slice proves preparation and invocation of the accepted exact
 original recipe. Durable source evidence and public projection remain in 23a;
 this checkpoint must not claim those operations are implemented.
 
@@ -110,3 +111,14 @@ closure unknowns before any model-bearing production comparison. After this seam
 passes, reslice 23a's durable source evidence/public projection work around its
 existing owners and freeze the compatibility/generation contract before changing
 persistence. No migration or compatibility adapter is implicitly authorized.
+
+
+## Integrated helper checkpoint
+
+The shared clone-only assembly/bootstrap owner and exact30s worker are integrated
+in b8839b3b. All ten lightweight controls pass on root: import precedence after
+relocation, input extent/finiteness/refusals, exact native axes, simultaneous slots,
+complete probability preservation, and retention of invalid native operands.
+No model registration or placeholder runtime is advertised. The closure lane now
+freezes packaging-only native load-path changes on cloned artifacts before actual
+relocated inference; one original bspxd case remains the first model-bearing gate.

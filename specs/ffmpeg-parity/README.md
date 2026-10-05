@@ -12,16 +12,21 @@ every FFmpeg option or a replacement for a professional editing workstation.
 
 Implement the complete authorized plan through committed passes. Read the
 [exploration](exploration.md), [parity contract](parity.md) and current slice.
-Integrated: 01–12, 16–18, 20–21 and 24–25. The audio-domain compiler and shared purpose-checked optional runtime are integrated;
-native audio preparation/execution and explicit treatments 13–15 remain next. Independently,
-finish 19 managed HDR
-conversion and family-specific speech research. Final release
-build/ZIP, relocated component acceptance 26 and the full suite follow integration.
-The release check is wired to reuse the public delivery observer; installed
-execution is still pending. Latest main adds authenticated updates: archive smoke
-keeps its production-host exclusion; a separate relocated media check executes
-the packaged service/JavaScript CLI in scratch state. Direct FFmpeg extras use the released launcher’s media passthrough under the same
-installation lock; actual component execution passes, with final packaged proof pending.
+Integrated: 01–12, 16–18, 20–21 and 24–25, plus the shared audio compiler,
+native/service execution and purpose-checked optional runtime checkpoints.
+Next: finish the wider refusal/retiming/resource-exhaustion acceptance for shared
+preparation and 13–15. Independently, finish19 managed HDR conversion and each
+speech family’s research/implementation gate. The exact30s speaker worker and
+shared clone-only runtime assembler pass lightweight controls; model-bearing
+relocation and public speaker evidence remain open. Source rendering/recovery
+now retains shared input authority, and integrated component/linked-worker checks pass.
+
+Final release build/ZIP, relocated acceptance26 and the full suite follow those
+branches. Latest main’s authenticated updater keeps archive smoke isolated;
+a separate media check executes packaged service/JavaScript CLI in scratch state.
+Direct extras use the released launcher’s media passthrough under the existing
+installation lock. Both actual tools retain that lock; older external launchers
+need a verified refresh. Signed packaged execution is still pending.
 
 Audio ownership is fixed by [shared preparation](slices/96-audio-preparation.md):
 composition declares state/dependency domains, native owns graph/prefix PCM,
@@ -34,7 +39,10 @@ facts, compressed interpretation and exact source↔derivative clocks.
 | Retained evidence | Current claim |
 | --- | --- |
 | [Pinned zimg/build](evidence/zimg-build) | Refreshed 02–05 component proofs pass. |
-| [Native HDR inspection](evidence/native-hdr-inspection/linked-worker.json) | All 14 linked-worker probe cases pass; source authority component execution also passes; managed conversion remains open. |
+| [Native HDR inspection](evidence/native-hdr-inspection/linked-worker.json) | All14 linked-worker probe cases pass; managed conversion remains open. |
+| [Source authority](evidence/source-authority/integrated.json) | Actual picture/audio/recovery components and14 rebuilt linked probes pass. |
+| [Audio execution](evidence/audio-integrated-checkpoint.json) | Integrated real recipes, prepared evidence and update lifetime checks pass; wider acceptance pending. |
+| [Direct tool lifetime](evidence/direct-tool-launcher.json) | Actual prepared tools retain launcher exclusion; signed package pending. |
 | [Native SDR](evidence/sdr-execution/proof.json) | Bound OS recipe, existing cache/job/export identities. |
 | [Public H.264/HEVC](evidence/hevc-public/report.json) | Authored clocks, decoded landmarks and replay pass. |
 | [Consumer trials](evidence/consumer-acceptance/README.md) | Concrete planning, GIF routing and unavailable execution pass twice; earlier failures retained. |
