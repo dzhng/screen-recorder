@@ -45,6 +45,7 @@ final class LibraryView: NSView, NSSearchFieldDelegate {
         let changed = state.library != self.state.library || state.service != self.state.service
             || state.storage != self.state.storage || state.storageRefreshing != self.state.storageRefreshing
             || state.storageFailure != self.state.storageFailure || exports != self.exports
+            || state.libraryFailure != self.state.libraryFailure
         self.state = state
         self.exports = exports
         guard changed else { return }
@@ -111,6 +112,9 @@ final class LibraryView: NSView, NSSearchFieldDelegate {
         sidebar.wantsLayer = true
         sidebar.layer?.backgroundColor = NSColor.controlBackgroundColor.cgColor
         addSubview(sidebar)
+        let divider = NSBox(frame: NSRect(x: 145, y: 0, width: 1, height: bounds.height))
+        divider.boxType = .separator
+        addSubview(divider)
         label("Your library", frame: NSRect(x: 20, y: 21, width: 116, height: 20), size: 12, weight: .semibold, in: self)
         for (index, value) in Tab.allCases.enumerated() {
             let button = LibraryTabButton(title: value.rawValue, selected: value == tab,
@@ -152,6 +156,12 @@ final class LibraryView: NSView, NSSearchFieldDelegate {
         case .exports: page = ExportPresentation.items(for: state, exports: exports)
         }
         var y: CGFloat = 114
+        for failure in [state.libraryFailure, state.storageFailure].compactMap({ $0 }) {
+            let measured = (failure as NSString).boundingRect(with: NSSize(width: width - 44, height: .greatestFiniteMagnitude), options: [.usesLineFragmentOrigin], attributes: [.font: NSFont.systemFont(ofSize: 12)])
+            let height = max(38, ceil(measured.height))
+            label(failure, frame: NSRect(x: 22, y: y, width: width - 44, height: height), size: 12, color: .secondaryLabelColor, in: document, wrap: true)
+            y += height + 6
+        }
         for row in page.items {
             guard row.kind != .message else {
                 label(row.title, frame: NSRect(x: 22, y: y, width: width - 44, height: 38), size: 12, color: .secondaryLabelColor, in: document, wrap: true)
@@ -184,6 +194,7 @@ final class LibraryView: NSView, NSSearchFieldDelegate {
             let commands = row.actions
             let more = NSPopUpButton(frame: NSRect(x: width - 49, y: y + 16, width: 27, height: 26), pullsDown: true)
             more.isBordered = false
+            (more.cell as? NSPopUpButtonCell)?.arrowPosition = .noArrow
             more.font = .systemFont(ofSize: 18)
             let menu = NSMenu()
             menu.autoenablesItems = false
@@ -193,7 +204,7 @@ final class LibraryView: NSView, NSSearchFieldDelegate {
                 let item = NSMenuItem(title: command.title, action: #selector(activateItem(_:)), keyEquivalent: "")
                 item.target = self
                 item.isEnabled = command.enabled
-                actions[ObjectIdentifier(item)] = action
+                item.representedObject = action
                 actionItems[action.id] = item
                 menu.addItem(item)
             }
@@ -213,6 +224,14 @@ final class LibraryView: NSView, NSSearchFieldDelegate {
             label(filter.isEmpty ? "No tracked deliveries." : "No items match this page filter.", frame: NSRect(x: 22, y: y, width: width - 44, height: 44), size: 12, color: .secondaryLabelColor, in: document, wrap: true)
             y += 50
         }
+        if !page.actions.isEmpty {
+            y += 12
+            let buttonWidth = min(142, (width - 44 - CGFloat(page.actions.count - 1) * 8) / CGFloat(page.actions.count))
+            for (index, command) in page.actions.enumerated() {
+                button(command.title, id: command.action.id, frame: NSRect(x: 22 + CGFloat(index) * (buttonWidth + 8), y: y, width: buttonWidth, height: 26), action: command.action, enabled: command.enabled, in: document)
+            }
+            y += 32
+        }
         if tab == .recordings && page.items.contains(where: { $0.kind == .recording }) {
             y += 19
             let note = NSView(frame: NSRect(x: 22, y: y, width: width - 44, height: 76))
@@ -226,10 +245,6 @@ final class LibraryView: NSView, NSSearchFieldDelegate {
             label("Choose a recording, then ask your agent for the edit you want. Projects appear separately when explicitly created.", frame: NSRect(x: 35, y: y + 34, width: width - 70, height: 34), size: 10, color: .secondaryLabelColor, in: document, wrap: true)
             y += 76
         }
-        for command in page.actions {
-            button(command.title, id: command.action.id, frame: NSRect(x: 22, y: y, width: 142, height: 26), action: command.action, enabled: command.enabled, in: document)
-            y += 32
-        }
         document.frame = NSRect(x: 0, y: 0, width: width, height: max(bounds.height, y + 22))
         scrollView.contentView.scroll(to: oldOrigin)
         scrollView.reflectScrolledClipView(scrollView.contentView)
@@ -239,7 +254,7 @@ final class LibraryView: NSView, NSSearchFieldDelegate {
         perform(action)
     }
     @objc private func activateItem(_ sender: NSMenuItem) {
-        guard sender.isEnabled, let action = actions[ObjectIdentifier(sender)] else { return }
+        guard sender.isEnabled, let action = sender.representedObject as? ControlsAction else { return }
         perform(action)
     }
     @objc private func selectTab(_ sender: NSButton) {

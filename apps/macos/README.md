@@ -7,7 +7,7 @@ paths remain diagnostics rather than product controls.
 
 ## Shared controls and explicit access
 
-The menu, settings and recording panels consume one controls state and dispatch
+The capture popover, Settings and recording panels consume one controls state and dispatch
 the same actions. A running take retains its selected inputs; changing a preference
 cannot rewrite that selection. Countdown precedes the service start request, so
 canceling it creates no take. Recorder-owned controls stay outside recorded media
@@ -101,13 +101,13 @@ It proves presentation without a service or permission inspection. Actual update
 persistence, staged disarming and quiet relaunch belong to native coordination
 and the installed-update gate.
 
-## Capture presentation fixture
+## Capture and Library presentation
 
 The [capture view](Sources/ScreenRecorder/CaptureView.swift) consumes immutable
 rendering facts and emits supplied intents. It holds no capture selection, service
-state or recording clock. The controls owner admits those intents when the native
-shell binds the view; the fixture can describe future camera presentation without
-claiming device readiness.
+state or recording clock. The controls owner admits those intents; the transient popover owns native dismissal
+and leaves capture selection with the shared controls state. Camera Only requires
+an explicitly selected device and never substitutes a missing camera.
 
 Run `node apps/macos/tests/capture-view-shots.mjs` from the repository root for
 focused native interaction, applicability and scroll checks plus offscreen images.
@@ -123,4 +123,7 @@ filter and scroll position. The paging owner explicitly clears the page filter.
 Unavailable thumbnails use a source icon, so presentation never creates media jobs.
 The [offscreen Library fixture](tests/library-view-shots.mjs) renders synthetic
 observations without service reads or window activation; run it from the repository
-root to inspect presentation before native lifetime integration.
+root to inspect presentation with synthetic observations. The retained Library window
+opens independently, closes without quitting, and preserves its session-local browsing
+state. Closing the popover does not close Library. Item actions keep their explicit
+identities during asynchronous refreshes; their existing controllers admit execution.

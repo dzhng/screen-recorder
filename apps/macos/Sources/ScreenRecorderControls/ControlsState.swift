@@ -28,6 +28,7 @@ public struct ControlsState: Equatable, Sendable {
     /// Read from native capture in this process, so it is known before the service is.
     public var permissions: Permissions?
     public var sources = SourceCatalog()
+    public var libraryFailure: String?
     public var selection = CaptureSelection()
     public var library = LibraryState()
     public var updates = UpdateControls()

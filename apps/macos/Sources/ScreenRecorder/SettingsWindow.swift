@@ -64,6 +64,9 @@ final class SettingsWindow: NSObject, NSWindowDelegate {
     func update(_ state: ControlsState, shortcuts: ShortcutDefaults) {
         if model.state != state { model.state = state }
         if model.shortcuts != shortcuts { model.shortcuts = shortcuts }
+        if model.countdownBeforeRecording != preferences.countdownBeforeRecording {
+            model.countdownBeforeRecording = preferences.countdownBeforeRecording
+        }
     }
 
     func windowDidBecomeKey(_ notification: Notification) {

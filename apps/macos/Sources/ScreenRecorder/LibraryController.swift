@@ -22,7 +22,7 @@ final class LibraryController {
     private var pendingProjects = false
     private var recordingPages: [LibraryState.RecordingCursor?] = [nil]
     private var recordingPageIndex = 0
-    private var projectPages: [LibraryState.Cursor?] = [nil]
+    private var projectPages: [LibraryState.ProjectCursor?] = [nil]
     private var projectPageIndex = 0
 
     init(call: @escaping Call, changed: @escaping () -> Void,
@@ -47,8 +47,8 @@ final class LibraryController {
         }
         recordingPages = [nil]; recordingPageIndex = 0; state.hasPreviousRecordingPage = false
         state.nextRecordingCursor = nil
-        projectPages = [nil]; projectPageIndex = 0; state.hasPreviousPage = false
-        state.nextCursor = nil
+        projectPages = [nil]; projectPageIndex = 0; state.hasPreviousProjectPage = false
+        state.nextProjectCursor = nil
         if ready { refresh() }
     }
 
@@ -61,6 +61,8 @@ final class LibraryController {
         case .exportProject(let id, let kind): if usable(id) { export(id, kind) }
         case .deleteRecording(let id): delete(.recording(id))
         case .deleteProject(let id): delete(.project(id))
+        case .nextRecordings: nextRecordings()
+        case .previousRecordings: previousRecordings()
         case .nextProjects: nextProjects()
         case .previousProjects: previousProjects()
         case .refreshLibrary: refresh()
@@ -123,7 +125,7 @@ final class LibraryController {
         readProjects(index: projectPageIndex)
     }
     func nextProjects() {
-        guard ready, !state.projectsRefreshing, let cursor = state.nextCursor else { return }
+        guard ready, !state.projectsRefreshing, let cursor = state.nextProjectCursor else { return }
         projectPages = Array(projectPages.prefix(projectPageIndex + 1)) + [cursor]
         readProjects(index: projectPageIndex + 1)
     }
@@ -148,8 +150,8 @@ final class LibraryController {
                     throw Self.invalid("Unreadable project page or cursor")
                 }
                 state.projects = page.projects.filter { state.deletions[.project($0.projectId)] == nil }
-                state.nextCursor = page.nextCursor
-                projectPageIndex = index; state.hasPreviousPage = index > 0
+                state.nextProjectCursor = page.nextCursor
+                projectPageIndex = index; state.hasPreviousProjectPage = index > 0
                 state.projectFailure = nil
             } catch {
                 guard service == serviceGeneration && generation == projectGeneration else { return }
@@ -286,7 +288,7 @@ final class LibraryController {
         }
     }
     private struct Projects: Decodable {
-        let projects: [LibraryState.Project]; let nextCursor: LibraryState.Cursor?
+        let projects: [LibraryState.Project]; let nextCursor: LibraryState.ProjectCursor?
         private enum Keys: String, CodingKey { case projects, nextCursor }
         init(from decoder: Decoder) throws {
             let fields = try decoder.container(keyedBy: Keys.self)
@@ -294,7 +296,7 @@ final class LibraryController {
                 throw DecodingError.keyNotFound(Keys.nextCursor, .init(codingPath: decoder.codingPath, debugDescription: "Missing project page cursor"))
             }
             projects = try fields.decode([LibraryState.Project].self, forKey: .projects)
-            nextCursor = try fields.decodeIfPresent(LibraryState.Cursor.self, forKey: .nextCursor)
+            nextCursor = try fields.decodeIfPresent(LibraryState.ProjectCursor.self, forKey: .nextCursor)
         }
     }
     private struct Deletion: Decodable {

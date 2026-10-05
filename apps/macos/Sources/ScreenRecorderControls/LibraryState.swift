@@ -8,8 +8,8 @@ public struct LibraryState: Equatable, Sendable {
     public var nextRecordingCursor: RecordingCursor?
     public var hasPreviousRecordingPage = false
     public var recordingsRefreshing = false
-    public var nextCursor: Cursor?
-    public var hasPreviousPage = false
+    public var nextProjectCursor: ProjectCursor?
+    public var hasPreviousProjectPage = false
     public var projectsRefreshing = false
     public var recordingFailure: String?
     public var progressFailure: String?
@@ -20,7 +20,7 @@ public struct LibraryState: Equatable, Sendable {
         public let beforeSequence: Int
         public init(beforeSequence: Int) { self.beforeSequence = beforeSequence }
     }
-    public struct Cursor: Codable, Equatable, Sendable {
+    public struct ProjectCursor: Codable, Equatable, Sendable {
         public let afterSequence: Int
         public init(afterSequence: Int) { self.afterSequence = afterSequence }
     }

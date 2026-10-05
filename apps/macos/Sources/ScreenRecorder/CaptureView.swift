@@ -37,6 +37,7 @@ struct CaptureViewInput: Equatable {
     var permissionActions: [PresentedControlsAction] = []
     var transport: [PresentedControlsAction] = []
     var startTitle: String = "Start Recording"
+    var startShortcut: String? = nil
 }
 
 /// The production capture surface. Its caller supplies a fresh value after any accepted action.
@@ -141,7 +142,7 @@ final class CaptureView: NSView {
             for value in values { menu.addItem(NSMenuItem(title: value.title, action: nil, keyEquivalent: "")) }
             popup.menu = menu
         }
-        if values.indices.contains(selected), popup.indexOfSelectedItem != selected { popup.selectItem(at: selected) }
+        if popup.indexOfSelectedItem != selected { popup.selectItem(at: values.indices.contains(selected) ? selected : -1) }
         popup.isEnabled = input.inputsEnabled && !values.isEmpty
         popup.target = self
         popup.action = #selector(selectChoice(_:))
@@ -244,7 +245,7 @@ final class CaptureView: NSView {
             card(NSRect(x: 17, y: top, width: 316, height: y - top), radius: 10, fill: NSColor.controlBackgroundColor)
             y += 14
         }
-        button(input.startTitle == "Start Recording" ? "Start recording" : input.startTitle, id: "capture.start", frame: NSRect(x: 17, y: y, width: 316, height: 44), intent: .controls(.startOrStop), kind: .primary, enabled: input.startEnabled)
+        button(input.startTitle == "Start Recording" ? "Start recording" : input.startTitle, id: "capture.start", frame: NSRect(x: 17, y: y, width: 316, height: 44), intent: .controls(.startOrStop), kind: .primary(shortcut: input.startShortcut), enabled: input.startEnabled)
         y += 53
         for action in input.transport {
             button(action.title, id: action.action.id, frame: NSRect(x: 17, y: y, width: 316, height: 30), intent: .controls(action.action), kind: .secondary, enabled: action.enabled)
@@ -258,7 +259,7 @@ final class CaptureView: NSView {
         let statusDot = NSView(frame: NSRect(x: 17, y: y + 16, width: 5, height: 5))
         statusDot.wantsLayer = true
         statusDot.layer?.cornerRadius = 2.5
-        statusDot.layer?.backgroundColor = NSColor.systemGreen.cgColor
+        statusDot.layer?.backgroundColor = (input.startEnabled ? NSColor.systemGreen : NSColor.secondaryLabelColor).cgColor
         document.addSubview(statusDot)
         label(input.status, NSRect(x: 28, y: y + 11, width: 247, height: 16), size: 11, color: .secondaryLabelColor)
         button("Quit", id: "app.quit", frame: NSRect(x: 295, y: y + 8, width: 37, height: 22), intent: .controls(.quit))
@@ -294,7 +295,7 @@ private final class CaptureDocument: NSView {
 /// Native momentary buttons draw the frozen geometry; they never mutate their supplied selection.
 @MainActor
 private final class CaptureButton: NSButton {
-    enum Kind { case plain, tile(selected: Bool), toggle(on: Bool), primary, library, secondary }
+    enum Kind { case plain, tile(selected: Bool), toggle(on: Bool), primary(shortcut: String?), library, secondary }
     private var kind: Kind
     private var symbol: String?
     override var isFlipped: Bool { true }
@@ -356,11 +357,11 @@ private final class CaptureButton: NSButton {
             NSBezierPath(roundedRect: bounds, xRadius: 12.5, yRadius: 12.5).fill()
             NSColor.white.setFill()
             NSBezierPath(ovalIn: NSRect(x: on ? 20 : 3, y: 3, width: 19, height: 19)).fill()
-        case .primary:
+        case .primary(let binding):
             (isEnabled ? blue : NSColor.systemGray).setFill()
             NSBezierPath(roundedRect: bounds, xRadius: 10, yRadius: 10).fill()
             let action = NSAttributedString(string: "●  \(title)", attributes: [.font: NSFont.systemFont(ofSize: 13, weight: .semibold), .foregroundColor: NSColor.white])
-            let shortcut = NSAttributedString(string: "   ⌃⌥⌘R", attributes: [.font: NSFont.systemFont(ofSize: 11), .foregroundColor: NSColor.white.withAlphaComponent(0.85)])
+            let shortcut = NSAttributedString(string: binding.map { "   \($0)" } ?? "", attributes: [.font: NSFont.systemFont(ofSize: 11), .foregroundColor: NSColor.white.withAlphaComponent(0.85)])
             let x = (bounds.width - action.size().width - shortcut.size().width) / 2
             action.draw(at: NSPoint(x: x, y: 13))
             shortcut.draw(at: NSPoint(x: x + action.size().width, y: 14))
@@ -394,7 +395,7 @@ private final class CapturePopup: NSPopUpButton {
             .foregroundColor: isEnabled ? NSColor.labelColor : NSColor.secondaryLabelColor,
             .paragraphStyle: paragraph,
         ]
-        ((selectedItem?.title ?? "") as NSString).draw(in: NSRect(x: 0, y: 5, width: bounds.width - 18, height: 18), withAttributes: attributes)
+        ((selectedItem?.title ?? "Choose a source…") as NSString).draw(in: NSRect(x: 0, y: 5, width: bounds.width - 18, height: 18), withAttributes: attributes)
         if let image = captureSymbol("chevron.down", color: .secondaryLabelColor) {
             image.draw(in: NSRect(x: bounds.width - 12, y: 8, width: 10, height: 8))
         }

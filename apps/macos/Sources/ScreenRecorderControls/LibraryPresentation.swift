@@ -6,10 +6,18 @@ public enum LibraryPresentation {
         let takes = state.library.recent + state.library.deletions.values.compactMap(\.take)
             .filter { pending in !state.library.recent.contains { $0.recordingId == pending.recordingId } }
             .sorted { $0.recordingId < $1.recordingId }
+        let actions: [PresentedControlsAction] = [
+            .init(.previousRecordings, "Previous", enabled: state.service == .ready && state.library.hasPreviousRecordingPage && !state.library.recordingsRefreshing),
+            .init(.nextRecordings, "Next", enabled: state.service == .ready && state.library.nextRecordingCursor != nil && !state.library.recordingsRefreshing),
+            .init(.refreshLibrary, "Refresh", enabled: state.service == .ready && !state.library.recordingsRefreshing),
+        ]
+        var notices: [SavedItem] = []
+        if let failure = state.library.recordingFailure { notices.append(.init(id: "recordings.failure", kind: .message, title: "Recordings unavailable — \(failure)")) }
+        if let failure = state.library.progressFailure { notices.append(.init(id: "recordings.progress", kind: .message, title: "Preparation status unavailable — \(failure)")) }
         guard !takes.isEmpty else {
-            return .init(items: [.init(id: "recordings.empty", kind: .message, title: "No recordings yet.")])
+            return .init(items: notices + [.init(id: "recordings.empty", kind: .message, title: "No recordings on this page.")], actions: actions)
         }
-        return .init(items: takes.map { take in
+        return .init(items: notices + takes.map { take in
             let request = state.library.deletions[.recording(take.recordingId)]
             let pending = request?.isPending == true
             var details = [take.recordingId]
@@ -24,7 +32,7 @@ public enum LibraryPresentation {
                 status: status, details: details, actions: [
                     .init(.deleteRecording(take.recordingId), pending ? "Deleting…" : request == nil ? "Delete Recording" : "Retry Delete", enabled: state.service == .ready && !pending),
                 ])
-        })
+        }, actions: actions)
     }
 
     public static func projects(for state: ControlsState, exports: ExportsState) -> SavedPage {
@@ -50,8 +58,8 @@ public enum LibraryPresentation {
         }
         if state.library.projects.isEmpty && items.isEmpty { items.append(.init(id: "projects.empty", kind: .message, title: "No projects on this page.")) }
         return .init(items: items, actions: [
-            .init(.previousProjects, "Previous Projects", enabled: state.service == .ready && state.library.hasPreviousPage && !state.library.projectsRefreshing),
-            .init(.nextProjects, "Next Projects", enabled: state.service == .ready && state.library.nextCursor != nil && !state.library.projectsRefreshing),
+            .init(.previousProjects, "Previous Projects", enabled: state.service == .ready && state.library.hasPreviousProjectPage && !state.library.projectsRefreshing),
+            .init(.nextProjects, "Next Projects", enabled: state.service == .ready && state.library.nextProjectCursor != nil && !state.library.projectsRefreshing),
         ])
     }
 

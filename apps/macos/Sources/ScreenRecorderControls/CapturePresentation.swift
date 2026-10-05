@@ -1,0 +1,79 @@
+import Foundation
+
+/// Capture labels and action applicability; observations supply lifecycle and time.
+public enum CapturePresentation {
+    public static func statusTitle(for state: ControlsState) -> String {
+        if case .unavailable(let message) = state.service { return "Unavailable — \(message)" }
+        if state.take?.state == "finalizing" {
+            return state.take?.finalizationError == nil ? "Finishing take…" : "Finalization needs attention"
+        }
+        guard let device = state.device else {
+            return state.service == .starting ? "Starting…" : "Idle"
+        }
+        let elapsed = ElapsedTime.format(device.elapsedUs)
+        switch device.state {
+        case .recording: return "Recording — \(elapsed)"
+        case .paused: return "Paused — \(elapsed)"
+        case .finalizing: return "Finishing take…"
+        case .selecting: return "Preparing take…"
+        case .idle: return "Idle"
+        }
+    }
+
+    public static func sourceTitle(for state: ControlsState) -> String {
+        switch state.selection.source {
+        case .display(let display):
+            display.width > 0 ? "\(display.name) (\(display.width)×\(display.height))" : display.name
+        case .window(let window):
+            window.application.isEmpty ? window.title : "\(window.application) — \(window.title)"
+        case .region(let region):
+            "Region \(Int(region.width))×\(Int(region.height)) of \(region.displayName)"
+        case .camera:
+            state.sources.cameras.first { $0.id == state.selection.cameraDeviceId }?.name
+                ?? state.selection.cameraDeviceId ?? "Choose a camera"
+        case nil: "none chosen"
+        }
+    }
+
+    public static func microphoneTitle(for state: ControlsState) -> String {
+        // A chosen device that is unplugged says so, rather than reading as though this take will
+        // be narrated through it: the take uses the system default until it is back.
+        if case .device(_, let name)? = state.selection.awaitedMicrophone {
+            return "system default, waiting for \(name)"
+        }
+        switch state.selection.microphone {
+        case .off: return "off"
+        case .systemDefault:
+            return state.sources.microphones.first(where: \.isDefault).map { "\($0.name) (default)" }
+                ?? "system default"
+        case .device(_, let name): return name
+        }
+    }
+
+    public static func transport(for state: ControlsState) -> [PresentedControlsAction] {
+        let ready = state.service == .ready
+        let live = state.isLive
+        let recovering = state.take?.state == "finalizing" && state.device?.state == .idle
+        let availableCamera = state.selection.source != .camera || state.sources.cameras.contains { $0.id == state.selection.cameraDeviceId }
+        let replay = state.unansweredStart?.start == state.selection.start()
+        return [
+            .init(.startOrStop, state.counting ? "Cancel Countdown" : live ? (state.take?.finalizationError == nil ? "Finish Recording" : "Retry Finalization") : "Start Recording",
+                  enabled: state.counting || ready && (live || state.selection.start() != nil && (availableCamera || replay))),
+            .init(.pauseOrResume, state.device?.state == .paused ? "Resume Recording" : "Pause Recording",
+                  enabled: ready && (state.device?.state == .recording || state.device?.state == .paused)),
+            .init(.cancel, recovering ? "Cancel Finalization" : "Cancel Take", enabled: live && ready),
+            .init(.restart, "Restart Take", enabled: live && ready && !recovering),
+        ]
+    }
+
+    public static func noticeLines(for state: ControlsState) -> [String] {
+        var lines: [String] = []
+        if let failure = state.failure { lines.append(failure) }
+        if let failure = state.take?.finalizationError { lines.append("Finalization failed — \(failure.code): \(failure.message)") }
+        if let take = state.take, take.state == "interrupted", !state.isLive {
+            lines.append("Last take interrupted — \(take.interruptionReason ?? "reason unavailable")")
+        }
+        if !state.unavailableShortcuts.isEmpty { lines.append("\(state.unavailableShortcuts.joined(separator: " and ")) is already in use elsewhere.") }
+        return lines
+    }
+}

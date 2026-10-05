@@ -126,13 +126,13 @@ import ScreenRecorderControls
         library.nextProjects()
         await until { library.state.projects.first?.projectId == "later" && !library.state.projectsRefreshing }
         precondition((script.calls.last { $0.0 == "project.list" }!.1["cursor"] as! [String: Int]) == ["afterSequence": 7])
-        precondition(library.state.hasPreviousPage && library.state.nextCursor == nil)
+        precondition(library.state.hasPreviousProjectPage && library.state.nextProjectCursor == nil)
         // A bad page retains the last usable page and cannot invent navigation.
         let lastProjects = library.state.projects
         script.projects = [["projectId": "broken"]]
         library.refreshProjects()
         await until { library.state.projectFailure != nil && !library.state.projectsRefreshing }
-        precondition(library.state.projects == lastProjects && library.state.nextCursor == nil)
+        precondition(library.state.projects == lastProjects && library.state.nextProjectCursor == nil)
         script.failure = ("project.list", "SERVICE_UNAVAILABLE")
         library.refreshProjects()
         await until { library.state.projectFailure?.contains("SERVICE_UNAVAILABLE") == true }
@@ -249,7 +249,7 @@ import ScreenRecorderControls
         await until { generation.state.projects.first?.projectId == "page-one" && !generation.state.projectsRefreshing }
         changed.release()
         for _ in 0..<20 { await Task.yield() }
-        precondition(generation.state.projects.first?.projectId == "page-one" && !generation.state.hasPreviousPage)
+        precondition(generation.state.projects.first?.projectId == "page-one" && !generation.state.hasPreviousProjectPage)
         changed.hold = "recording.list"; generation.refreshRecordings()
         await until { changed.held != nil }
         changed.recording["recordingId"] = "replacement"
