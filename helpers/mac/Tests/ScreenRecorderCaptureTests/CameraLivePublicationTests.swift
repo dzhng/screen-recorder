@@ -14,10 +14,48 @@ func runCameraCheckpointSchedulingTest() {
     print("PASS latest camera checkpoint survives a stale wakeup")
 }
 
+func runCameraReaderAuthorityTest() async throws {
+    let root = FileManager.default.temporaryDirectory.appendingPathComponent("screenrec-camera-reader-\(UUID().uuidString)")
+    try FileManager.default.createDirectory(at: root, withIntermediateDirectories: false)
+    defer { try? FileManager.default.removeItem(at: root) }
+    let camera = root.appendingPathComponent("camera")
+    try FileManager.default.createDirectory(at: camera, withIntermediateDirectories: false)
+    let fixture = URL(fileURLWithPath: #filePath).deletingLastPathComponent()
+        .appendingPathComponent("fixtures/camera-visible32.mov")
+    let readers = try CameraReaderStarts(directory: camera)
+    defer { readers.restore() }
+    for url in [root.appendingPathComponent("camera.raw.mov"), camera.appendingPathComponent("camera.raw.mov"), camera.appendingPathComponent("camera.mov")] {
+        try FileManager.default.copyItem(at: fixture, to: url)
+        let source = try MediaInput(url: url, purpose: .streaming)
+        let track = try await source.asset.loadTracks(withMediaType: .video).first!
+        let reader = try AVAssetReader(asset: source.asset)
+        let output = AVAssetReaderTrackOutput(track: track,
+            outputSettings: [kCVPixelBufferPixelFormatTypeKey as String: kCVPixelFormatType_32BGRA])
+        reader.add(output)
+        guard reader.startReading(), output.copyNextSampleBuffer() != nil else {
+            throw CaptureFailure("READER_AUTHORITY_MISSING", "Held source must decode an actual camera picture.")
+        }
+        reader.cancelReading()
+    }
+    try readers.checkLog()
+    let observedSources = readers.readings.map {
+        [$0.role, URL(fileURLWithPath: $0.url).resolvingSymlinksInPath().path]
+    }
+    guard readers.observed["raw"] == 1, readers.observed["canonical"] == 1,
+        observedSources == [
+            ["raw", camera.appendingPathComponent("camera.raw.mov").resolvingSymlinksInPath().path],
+            ["canonical", camera.appendingPathComponent("camera.mov").resolvingSymlinksInPath().path],
+        ] else {
+        throw CaptureFailure("READER_AUTHORITY_MISSING", "Reader observation must retain exact held-source scope and role.")
+    }
+    print("PASS camera reader observation follows held authority and excludes another source")
+}
+
 /// The device boundary is offline; NativeCapture owns real encoding, closure and publication.
 @MainActor
 func runCameraLivePublicationTests(output: String? = nil) async throws {
     runCameraCheckpointSchedulingTest()
+    try await runCameraReaderAuthorityTest()
     let root = output.map { URL(fileURLWithPath: $0) } ?? FileManager.default.temporaryDirectory
         .appendingPathComponent("screenrec-camera-live-\(UUID().uuidString)")
     try FileManager.default.createDirectory(at: root, withIntermediateDirectories: false)
@@ -91,6 +129,7 @@ private func runCameraLivePublicationTest(output: String, firstCameraAfterPrimar
                 try FileManager.default.copyItem(at: source, to: root.appendingPathComponent("before-stop-" + source.lastPathComponent))
             }
         }
+        try readers.checkLog()
         guard capture.deviceState == "recording", activeCandidates.count == 1,
             readers.observed["raw", default: 0] > 0, readers.observed["canonical", default: 0] > 0,
             !FileManager.default.fileExists(atPath: camera.appendingPathComponent("video.mov").path) else {

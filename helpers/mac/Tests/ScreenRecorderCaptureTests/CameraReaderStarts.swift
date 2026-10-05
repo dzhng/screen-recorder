@@ -4,6 +4,7 @@ import Darwin
 import ObjectiveC
 import Synchronization
 import ScreenRecorderCapture
+import ScreenRecorderMedia
 
 /// Delegates the SDK call unchanged; the retry case faults receipt staging through filesystem permissions.
 final class CameraReaderStarts: @unchecked Sendable {
@@ -52,15 +53,20 @@ final class CameraReaderStarts: @unchecked Sendable {
         let log = self.log
         let callback: @convention(block) (AVAssetReader) -> Bool = { reader in
             counter.values.withLock { $0.active += 1 }
-            if let asset = reader.asset as? AVURLAsset,
-                let scope = Self.resolved(directory), let path = Self.resolved(asset.url), path.hasPrefix(scope + "/") {
-                beforeReading?(asset.url)
+            var source: URL?
+            if let asset = reader.asset as? AVURLAsset {
+                do { source = try Self.sourceURL(asset) }
+                catch { counter.values.withLock { $0.error = String(describing: error) } }
+            }
+            if let source,
+                let scope = Self.resolved(directory), let path = Self.resolved(source), path.hasPrefix(scope + "/") {
+                beforeReading?(source)
             }
             let started = forward(reader, #selector(AVAssetReader.startReading))
-            if let asset = reader.asset as? AVURLAsset,
-                let scope = Self.resolved(directory), let path = Self.resolved(asset.url), path.hasPrefix(scope + "/") {
+            if let source,
+                let scope = Self.resolved(directory), let path = Self.resolved(source), path.hasPrefix(scope + "/") {
                 counter.values.withLock { state in
-                    let name = asset.url.lastPathComponent
+                    let name = source.lastPathComponent
                     if started && name == "camera.raw.mov" { state.raw += 1 }
                     if started && name == "camera.mov" {
                         state.canonical += 1
@@ -72,18 +78,18 @@ final class CameraReaderStarts: @unchecked Sendable {
                     let phase = state.stopping ? "stop" : "acquisition"
                     let began = ContinuousClock.now
                     var retained: String?
-                    if let diagnosticDirectory, asset.url.deletingLastPathComponent().lastPathComponent.hasPrefix(".camera-snapshot-") {
+                    if let diagnosticDirectory, source.deletingLastPathComponent().lastPathComponent.hasPrefix(".camera-snapshot-") {
                         let key = role + "-" + phase
                         let count = state.retainedCounts[key, default: 0]
                         let destination = diagnosticDirectory.appendingPathComponent("unverified-\(key)-\(count % 2).mov")
                         do {
                             if FileManager.default.fileExists(atPath: destination.path) { try FileManager.default.removeItem(at: destination) }
-                            try FileManager.default.linkItem(at: asset.url, to: destination)
+                            try FileManager.default.linkItem(at: source, to: destination)
                             state.retainedCounts[key] = count + 1; retained = destination.path
                         } catch { state.error = String(describing: error) }
                     }
                     let elapsed = began.duration(to: .now).components
-                    let reading = Reading(url: asset.url.path, role: role, phase: phase, started: started,
+                    let reading = Reading(url: source.path, role: role, phase: phase, started: started,
                         rangeStart: Clock(reader.timeRange.start), rangeEnd: Clock(reader.timeRange.end), hostUs: CaptureHostTime.nowUs(),
                         retainedView: retained, retentionSeconds: Double(elapsed.seconds) + Double(elapsed.attoseconds) / 1e18)
                     state.readings.append(reading)
@@ -132,6 +138,23 @@ final class CameraReaderStarts: @unchecked Sendable {
     func markStop() { counter.values.withLock { $0.stopping = true } }
     func checkLog() throws {
         if let error = counter.values.withLock({ $0.error }) { throw CaptureFailure("OBSERVATION_FAILED", error) }
+    }
+    private static func sourceURL(_ asset: AVURLAsset) throws -> URL? {
+        if asset.url.isFileURL { return asset.url }
+        guard asset.url.scheme == "screenrec-media" else { return nil }
+        guard let loader = asset.resourceLoader.delegate else {
+            throw CaptureFailure("UNSUPPORTED_OBSERVATION", "Held media asset has no resource loader delegate.")
+        }
+        // Observer-only coupling to MediaInput's one held descriptor; no product URI reveals paths.
+        let descriptors = Mirror(reflecting: loader).children.compactMap { $0.value as? MediaDescriptor }
+        guard descriptors.count == 1 else {
+            throw CaptureFailure("UNSUPPORTED_OBSERVATION", "Held media reader requires exactly one admitted descriptor.")
+        }
+        var path = [CChar](repeating: 0, count: Int(MAXPATHLEN))
+        guard path.withUnsafeMutableBufferPointer({ fcntl(descriptors[0].descriptor, F_GETPATH, $0.baseAddress!) }) == 0 else {
+            throw CaptureFailure("UNSUPPORTED_OBSERVATION", "Cannot observe held media reader's source scope.")
+        }
+        return URL(fileURLWithPath: String(decoding: path.prefix { $0 != 0 }.map { UInt8(bitPattern: $0) }, as: UTF8.self))
     }
     private static func resolved(_ url: URL) -> String? {
         guard let path = realpath(url.path, nil) else { return nil }
