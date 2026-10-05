@@ -12,14 +12,15 @@ every FFmpeg option or a replacement for a professional editing workstation.
 
 Implement the complete user-authorized plan through committed passes. Read the
 [exploration map](exploration.md), [parity contract](parity.md) and
-[isolated evidence](tool-proof.md). Integrated: 01–04, 06–08, 12 and 25.
+[isolated evidence](tool-proof.md). Integrated: 01–04, 06–08, 12, 20–21 and 25.
 Current priority: finish managed producer 05, then
 loudness 10; continue independent 09→24, caption proposals 11, SDR 16→17,
-alpha 20→21 and speech 22→23. HDR 18 waits for 04 and feeds 19 through 05.
+speech 22→23. HDR 18 feeds 19 through 05. Motion interchange 21 reuses existing
+assets and packages; its scoped public retention proof is complete.
 Each isolated worktree owns focused tests, review and choices; integration reruns
 affected checks. Consumer/release acceptance 26 and the full suite remain last.
 
-The held-input invocation will rewind explicit regular read-only descriptor slots
+The held-input invocation rewinds explicit regular read-only descriptor slots
 before exec; caller numbering stays fixed and path reopening is forbidden.
 Managed FFmpeg publication reuses existing attempts/leases/cache; HDR conversion
 is its first artifact consumer, while loudness remains measurement evidence.
@@ -69,7 +70,7 @@ prompt, slice status and retained evidence before ending each implementation pas
 - [ ] [18 — HDR-to-SDR reproduction](slices/18-hdr-feasibility.md)
 - [ ] [19 — Explicit HDR source conversion](slices/19-hdr-conversion.md)
 - [x] [20 — Transparent motion input feasibility](slices/20-alpha-feasibility.md)
-- [ ] [21 — Immutable motion-asset interchange](slices/21-motion-import.md)
+- [x] [21 — Immutable motion-asset interchange](slices/21-motion-import.md)
 - [ ] [22 — Local speech evidence feasibility](slices/22-speech-feasibility.md)
 - [ ] [23 — Validated optional speech evidence](slices/23-speech-evidence.md)
 - [ ] [24 — Portable task-side editorial notes](slices/24-editorial-notes.md)

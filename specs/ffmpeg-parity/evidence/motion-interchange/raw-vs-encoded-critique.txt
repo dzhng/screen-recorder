@@ -1,0 +1,18 @@
+Inspected all 18 images. **The enlarged control/movie pair shows a visible mismatch despite broadly matching outer geometry.**
+
+- **High confidence — corner size and position:** The movie’s blue square starts approximately one source pixel farther right and down. It appears smaller, with roughly the same bottom and right endpoints as the control.
+- **High confidence — edge contamination:** The movie has a gray strip along the top and left outline. The control has colored edge bands there. This changes the silhouette’s contrast against black.
+- **High confidence — blue color mismatch:** The movie’s blue is darker and less uniform, with a visibly darker band toward its right edge. The main red interior looks broadly consistent; its boundary colors differ.
+
+Across the native frames, the corresponding horizontal positions appear consistent:
+
+| Position | Images |
+|---|---|
+| Phase 0 | 3, 6, 15 |
+| Phase 1 | 2, 5, 7, 11, 12, 14 |
+| Phase 2 | 1, 4, 9, 10, 13, 16 |
+| Phase 3 | 8, 17 |
+
+**Moderate confidence:** Within those groups, I see no gross displacement, missing shape, or obvious size change. Repeated, undo, and retimed examples show no additional visible defect at the supplied scale.
+
+**Coverage limits:** The enlarged pair makes the corner and edge defects clear for that comparison. The 64×48 images cannot establish pixel equality or rule out similarly small differences elsewhere. These stills also cannot establish motion smoothness, timing, or flicker.

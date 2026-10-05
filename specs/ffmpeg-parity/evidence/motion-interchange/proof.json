@@ -1,0 +1,151 @@
+{
+  "contract": "Finite tagged Rec709 MOV ProRes4444 as ordinary immutable asset; no new schema, clock, executor, or alpha delivery",
+  "command": "SCREENREC_NATIVE=/tmp/screenrec-parity-hevc/helpers/mac/.build/debug/screenrec-native node packages/test-harness/editing/motion-interchange.mjs --out /tmp/screenrec-motion-final-support-proof",
+  "source": "../motion-alpha/alpha.mov",
+  "ffmpegSha256": "02121755a76faf22413c61ba9f8e9cd3e2acc14fb6e29ecc3fc0b2cc83bbcbac",
+  "harnessSha256": "01ddce76e18774e50643e668bdb9bea3e96119518df7450ff8dd20a1c7763dfd",
+  "files": {
+    "historical-retimed-phase-2.png": {
+      "bytes": 373,
+      "sha256": "e34b908f2df078fab928c4f330d32c2358016cbd356d9690d5e95d184c79adef"
+    },
+    "missing-movie.zip": {
+      "bytes": 7510,
+      "sha256": "3954ba4f14df5eb6205d3a59f1f053109532c94af229422de6e8544e0018c810"
+    },
+    "adopted-undo-phase-1.png": {
+      "bytes": 372,
+      "sha256": "ba38b39ee0c8b90d7312326acaf21dace619807d4050363beed0fa273443545e"
+    },
+    "encode-control.mp4": {
+      "bytes": 15504,
+      "sha256": "a1f2f33e64fe893e496c72722900a3294d9ab8ce327b29e5f4c5f1557d60c723"
+    },
+    "raw-vs-encoded-critique.txt": {
+      "bytes": 1489,
+      "sha256": "0073d74eaec01fa5286b1bc5a9ee61f39db7633f48ec417fba6f98510ddb32a7"
+    },
+    "preview-1.png": {
+      "bytes": 389,
+      "sha256": "854d354bcb77d4ad34e5311543ade29fa7ba83a3c58e28843bd6e9177b8b3bcc"
+    },
+    "encode-control-frame.png": {
+      "bytes": 364,
+      "sha256": "89c7621ea6912d7356c56daf72d76c901c0ed5ff9a480a125bb3af967e900355"
+    },
+    "report.json": {
+      "bytes": 211522,
+      "sha256": "64c5ddf1296c4eec82072bd82b146cd632d745d357b8900ef536bd203212b74b"
+    },
+    "matched-encoded.png": {
+      "bytes": 2320,
+      "sha256": "b2b1b364aaccfcf52808ac80a28658dcb1195552653defae4d6af2e4fac59136"
+    },
+    "preview-3.png": {
+      "bytes": 373,
+      "sha256": "a633a6822b134e11280d47b19e521013fcb683eafd9a515c4d6d3c65a1c2a0da"
+    },
+    "preview-2.png": {
+      "bytes": 384,
+      "sha256": "414638b04612f3bea6f173e2d179b29d0d4dc761132a24332333d72cc2c4ee1f"
+    },
+    "phase-0.png": {
+      "bytes": 364,
+      "sha256": "89c7621ea6912d7356c56daf72d76c901c0ed5ff9a480a125bb3af967e900355"
+    },
+    "phase-1.png": {
+      "bytes": 372,
+      "sha256": "ba38b39ee0c8b90d7312326acaf21dace619807d4050363beed0fa273443545e"
+    },
+    "phase-3.png": {
+      "bytes": 373,
+      "sha256": "a25014913a2e5fe14dec545ee0e32acc0acb5398d0ff9de079ee28345a6ea5cd"
+    },
+    "motion.zip": {
+      "bytes": 15179,
+      "sha256": "9a1fed29cd727acfc735a63f1a19e15018d0bf05eeaea4fa8f6739e609d2bcd7"
+    },
+    "phase-2.png": {
+      "bytes": 373,
+      "sha256": "e34b908f2df078fab928c4f330d32c2358016cbd356d9690d5e95d184c79adef"
+    },
+    "adopted-retimed-phase-2.png": {
+      "bytes": 373,
+      "sha256": "e34b908f2df078fab928c4f330d32c2358016cbd356d9690d5e95d184c79adef"
+    },
+    "encode-control-1.png": {
+      "bytes": 389,
+      "sha256": "854d354bcb77d4ad34e5311543ade29fa7ba83a3c58e28843bd6e9177b8b3bcc"
+    },
+    "raw-vs-encoded.png": {
+      "bytes": 2799,
+      "sha256": "f1cc2e77b1c9d09800201135b3ad3fd95f690f264f1b2e87a66af738ef2c4dd6"
+    },
+    "encode-control-3.png": {
+      "bytes": 373,
+      "sha256": "a633a6822b134e11280d47b19e521013fcb683eafd9a515c4d6d3c65a1c2a0da"
+    },
+    "encode-control-2.png": {
+      "bytes": 384,
+      "sha256": "414638b04612f3bea6f173e2d179b29d0d4dc761132a24332333d72cc2c4ee1f"
+    },
+    "repeated-phase-1.png": {
+      "bytes": 372,
+      "sha256": "ba38b39ee0c8b90d7312326acaf21dace619807d4050363beed0fa273443545e"
+    },
+    "fault-extended-preview.mp4": {
+      "bytes": 15504,
+      "sha256": "0e7b4b28b6ba52af39d5179519d2a8fec9101274cce72736a0ccbfb05516db25"
+    },
+    "preview.mp4": {
+      "bytes": 15504,
+      "sha256": "10ee06e2334190bf060663bc70d3d6503f1e1a7c713b8ddd843714e0d7eb712b"
+    },
+    "matched-visual-critique.txt": {
+      "bytes": 1209,
+      "sha256": "b52d28bb71b51c3f200143a450d33bd0d34ad9a3d2ac344505d66033ad9d0b3c"
+    },
+    "undo-repeat-phase-1.png": {
+      "bytes": 372,
+      "sha256": "ba38b39ee0c8b90d7312326acaf21dace619807d4050363beed0fa273443545e"
+    },
+    "retimed-phase-2.png": {
+      "bytes": 373,
+      "sha256": "e34b908f2df078fab928c4f330d32c2358016cbd356d9690d5e95d184c79adef"
+    },
+    "second-code-review.txt": {
+      "bytes": 1251,
+      "sha256": "3e973f5c4c9650d96faf0c5d5227cb86a7aaa484398f66408d5d9447e324c2a1"
+    },
+    "initial-code-review.txt": {
+      "bytes": 1355,
+      "sha256": "7e2a1fee6d60f3ca06241fce8cc32a04d34734cb9c5348e4ebbcb3c62f96e31a"
+    }
+  },
+  "previewRgbMeanErrorPer255": [
+    1.4848090277777777,
+    1.484375,
+    1.48046875
+  ],
+  "matchedEncodeRgbMeanErrorPer255": [
+    0,
+    0,
+    0
+  ],
+  "reviewCorrections": [
+    "Decode PNG pixels rather than compare encodings; historical compression metadata is not the picture contract",
+    "Delete stopped sender scratch home before recipient adoption; archive supplies source independently",
+    "Use canonical /private/tmp path for package.open; symbolic path components are refused",
+    "Preserve encoded timestamps when extracting frames; default FFmpeg duplicates irregular cadence",
+    "Assert every encoded sample duration, including final0.110007s; extended-final-support fault preserves PTS/pixels but now fails",
+    "Nested cleanup ensures report failure cannot bypass service/MCP shutdown or scratch removal; injected report failure exits and no owned service/MCP process remains"
+  ],
+  "limits": [
+    "Native fixture binary predates slice04 private CLI argv; JSON/media execution only",
+    "Tiny64x48 SDR workload; no representative throughput or high resolution appearance claim",
+    "Light-background/orientation/alpha matte proof is owned by slice20 and unchanged source identity",
+    "Existing H264 output changes saturated one-pixel edge colors; same loss is present in matched still control",
+    "No subjective motion smoothness or sound quality claim",
+    "Prior Preview batch could not be closed through desktop tools; no additional Preview windows opened"
+  ]
+}

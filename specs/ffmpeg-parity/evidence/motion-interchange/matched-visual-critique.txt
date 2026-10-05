@@ -1,0 +1,10 @@
+Reviewed all 21 originals and the enlarged pair. **No visible mismatch between corresponding outputs.** The independent visual review agrees.
+
+- **Phases 0–3:** silhouette, red body, blue upper-left square, vertical position and edges remain consistent as the object moves right. Ordinary movie frames match their corresponding phases.
+- **Encode versus preview:** all three corresponding frames match visually. In the enlarged pair, corners, dimensions, placement and colors appear the same.
+- **Repeat and undo:** repeated-phase-1, undo-repeat-phase-1 and adopted-undo-phase-1 match phase 1.
+- **Retime and adoption:** retimed-phase-2, historical-retimed-phase-2 and adopted-retimed-phase-2 match phase 2.
+
+**One suspicious shared feature:** the enlarged pair clearly shows a dark-gray strip along the top and left exterior edges of both objects. High confidence it is visible; without an intended edge reference, I cannot call it a defect. It is not an encode/preview discrepancy.
+
+Confidence is high for silhouette and position, moderate for subtle color and edge differences in the tiny originals. These stills cannot establish motion smoothness, intermediate-frame correctness or exact pixel equality.

@@ -1,6 +1,8 @@
 # 21 — Immutable motion-asset interchange
 
-Status: not started. Question: **Can the proven external render enter ordinary placements and portable retention?**
+Status: complete. Ordinary immutable assets, placements and processed packages already
+carry the finite movie representation frozen by slice 20. No production extension
+was necessary.
 
 Dependencies: [20](20-alpha-feasibility.md).
 
@@ -9,6 +11,36 @@ Dependencies: [20](20-alpha-feasibility.md).
 Core assets/acquisitions/packages; composition clocks; consumer import helper.
 
 Implement only representation frozen by feasibility. Retain all members and explicit timing/color/alpha manifest where necessary. Reuse normal layer placement, exact curves, undo and package dependencies. No external animation-source runtime or second clock.
+
+The movie's immutable bytes contain its timing and color/alpha description. Existing
+asset streams retain native facts; inventing another manifest would introduce a
+second owner. A package retains the whole movie, including undo dependencies.
+
+## Retained proof
+
+[Public journey](../../../packages/test-harness/editing/motion-interchange.mjs)
+uses the real CLI/socket service in scratch state. [Complete operands and
+receipts](../evidence/motion-interchange/proof.json) preserve source/runtime identity,
+import, repeated/retimed/undo/historical views, bounded off-grid preview, package
+export/adoption and missing-member refusal. Sender scratch media is deleted before
+recipient adoption; the archive member independently hashes to the original movie.
+Lossless decoded pixels match the frozen movie reference, rather than pinning
+platform PNG compression bytes. Sample phase and final support are explicit.
+
+The tiny H.264 preview changes saturated one-pixel edges. The matched still-image
+preview has exactly the same decoded pixels at all three selected phases, separating
+existing codec loss from alpha input. This does not establish general encoded-edge
+quality. Slice 20 owns unchanged light/dark matte and orientation proof. No new
+Preview batch was opened because cleanup of the prior owned batch was unverified.
+
+Independent code reviews found PNG encoding coupling, a surviving donor library,
+unchecked final sample duration and cleanup vulnerable to report failure; all were
+corrected. The extended-support fault retains identical frame starts/pixels but now
+fails the duration gate. An injected report failure exits without owned service/MCP
+processes remaining. The raw-versus-encoded visual critique's edge/color findings
+are retained, not dismissed. Final matched-encode critique finds no discrepancy;
+the shared gray edge remains documented codec loss. No motion smoothness or sound
+quality claim follows from these stills.
 
 ## Focused proof and review
 
