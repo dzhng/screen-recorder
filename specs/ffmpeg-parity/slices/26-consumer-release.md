@@ -77,7 +77,11 @@ identified that Sparkle retains older external launchers even when bundled tools
 are ready. Consumer guidance therefore probes both tool versions before execution
 and routes unknown-command failures through a verified-kit launcher refresh. The
 installation reference owns backup, same-directory staging and verification; it
-never silently substitutes a raw unprotected executable path.
+never silently substitutes a raw unprotected executable path. Its actual shell
+recipe passes an [isolated staging check](../evidence/launcher-refresh.json): old
+bytes survive in the backup, replacement bytes are executable, and temporary staging
+is retired. This is installation-procedure mechanics, not release download/signing
+or installed-tool execution evidence.
 
 The regression was red when media arguments fell through to bundled Node and green
 with passthrough. Both tools preserve literal argument boundaries, stdin bytes,

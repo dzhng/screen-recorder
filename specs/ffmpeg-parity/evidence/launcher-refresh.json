@@ -1,0 +1,8 @@
+{
+  "passed": true,
+  "scope": "Consumer launcher-only backup/staged-rename recipe in isolated PATH; no real installed app, library, account lock or update",
+  "originalSha256": "f6bae2dc9ab0abe2fcb036f0b002bf9eca8bdbeb61e1d2438f6d1ee52a4dcc85",
+  "installedSha256": "11e0c4ec729b563f6ddec7665fff4f1dd0789dbc552be12ab6d64dea99798655",
+  "backupPreserved": true,
+  "stagingRetired": true
+}
