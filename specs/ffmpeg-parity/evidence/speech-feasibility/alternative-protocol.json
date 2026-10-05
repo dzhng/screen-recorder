@@ -1,0 +1,39 @@
+{
+  "version": 1,
+  "frozenBeforeAlternativeInference": true,
+  "sameConfirmationCasesAndQualityGates": "frozen-protocol.json",
+  "diarization": {
+    "provider": "FluidAudio Sortformer",
+    "sdkRevision": "41540ea237350afe5117a082b5c28eda642d0612",
+    "modelRepository": "FluidInference/diar-streaming-sortformer-coreml",
+    "modelRevision": "ae9a27ab45dc0aa3abede7d2d6bad2b7a69aa6d1",
+    "variant": "root Sortformer.mlmodelc, .default config matching embedded shapes; all compute units",
+    "license": "CC BY4.0",
+    "timeline": "SDK sortformerDefault without threshold tuning; all speaker timelines retained"
+  },
+  "events": {
+    "provider": "PANNs Cnn6",
+    "sourceRevision": "d2f4b8c18eab44737fcc0de1248ae21eb43f6aa4",
+    "sourceLicense": "MIT",
+    "modelRecord": "Zenodo3987831",
+    "modelFile": "Cnn6_mAP=0.343.pth",
+    "expectedMD5": "e25e26b84585b14c7754c91e48efc9be",
+    "modelLicense": "CC BY4.0",
+    "sampleRate": 32000,
+    "fftSize": 1024,
+    "hopSize": 320,
+    "mels": 64,
+    "fmin": 50,
+    "fmax": 14000,
+    "classes": 527,
+    "threshold": 0.5,
+    "aggregation": "native clipwise output; same whole-clip presence diagnostic, no interval claim",
+    "runtime": {
+      "torch": "2.8.0",
+      "torchlibrosa": "0.1.0",
+      "librosa": "0.11.0"
+    },
+    "device": "CPU,2threads"
+  },
+  "boundary": "No evaluation without independent complete human word-neighbor labels"
+}

@@ -1,0 +1,41 @@
+{
+  "clip": {
+    "meeting": "TS3003a",
+    "startSeconds": 5,
+    "durationSeconds": 30
+  },
+  "reference": [
+    {
+      "speaker": "A",
+      "start": 8.32,
+      "end": 22.181
+    },
+    {
+      "speaker": "D",
+      "start": 10.055,
+      "end": 10.856
+    },
+    {
+      "speaker": "B",
+      "start": 10.344,
+      "end": 10.568
+    },
+    {
+      "speaker": "C",
+      "start": 11.303999999999998,
+      "end": 11.736
+    },
+    {
+      "speaker": "D",
+      "start": 14.605,
+      "end": 15.197
+    },
+    {
+      "speaker": "A",
+      "start": 27.351,
+      "end": 28.439999999999998
+    }
+  ],
+  "pcmSha256": "a7af1791bb4a7947658cc07040219bdf63f84f92f9bad0e2c2393fffa3275927",
+  "originalFetchedPcmSha256": "d39ded65b6f01e2ef015bbfde3757c73a04fbf51d3b7a55f9ab817e1a96cea2c"
+}

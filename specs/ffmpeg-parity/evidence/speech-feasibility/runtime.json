@@ -1,0 +1,57 @@
+{
+  "os": "macOS-27.0.1-arm64-arm-64bit",
+  "hardware": "Apple M6",
+  "RAMBytes": 25769803776,
+  "nativeSDKRevision": "41540ea237350afe5117a082b5c28eda642d0612",
+  "nativeSDKOptionalTraits": [],
+  "nativeBuildJobs": 2,
+  "networkDeniedDuringInference": true,
+  "resourceScope": "process maximumRSS only; excludes CoreML service/ANE caches; native .all computeunits can execute elsewhere",
+  "sourceSnapshots": [
+    {
+      "path": "packages/test-harness/speech/feasibility/diarize.swift",
+      "sha256": "82aa2ca869bb2d1fb8ac783257dc5173b6fb0fba0f79088c13e0f926cf0345d1"
+    },
+    {
+      "path": "packages/test-harness/speech/feasibility/events.py",
+      "sha256": "e1303f9f2af2a63d768fc46ebc6831d4867ad169726e9735ea7c8eee682afafe"
+    },
+    {
+      "path": "packages/test-harness/speech/feasibility/sortformer.swift",
+      "sha256": "e4108652e2b641ae918656c53757b9ef86f67eb5949d8f2e15a552515c445cae"
+    },
+    {
+      "path": "packages/test-harness/speech/feasibility/panns.py",
+      "sha256": "89a6451407c51b725eaad11c9bcf6941b5c9f56c033edfe6559976836fbdcce0"
+    }
+  ],
+  "binaries": [
+    {
+      "name": "Runner",
+      "sha256": "dce8d17edeb36e97aa0bc89c12fb441daa0206ad6e2fde43a6b5f618a61c1978"
+    },
+    {
+      "name": "AlternativeRunner",
+      "sha256": "3b00fdbcd189e1167669081a97889d921992755ed948ba4b544a4cf7ae6c8d95"
+    }
+  ],
+  "modelFiles": [
+    {
+      "name": "yamnet.tflite",
+      "sha256": "141fba1cdaae842c816f28edc4937e8b4f0af4c8df21862ccc6b52dc567993c3"
+    },
+    {
+      "name": "panns-cnn6.pth",
+      "sha256": "8a17541944f2623a2a0164e072ac2f915dcedca99968083cc44bfbc7eb682275"
+    },
+    {
+      "name": "panns-models.py",
+      "sha256": "7f9af440395ace5160bbb51d654a0dc35fb887fbf5edecb12da61ff6efb306d9"
+    },
+    {
+      "name": "panns-pytorch-utils.py",
+      "sha256": "1464fcfbfc0fe4c55f690f6b39e1c80eeed5de1e7fd1b7fd30334d304de7dbe9"
+    }
+  ],
+  "preparedAudioFFmpeg": "ffmpeg version 9.0.2 Copyright (c) 2000-2026 the FFmpeg developers"
+}

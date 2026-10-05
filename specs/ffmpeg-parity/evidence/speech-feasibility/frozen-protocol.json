@@ -1,0 +1,190 @@
+{
+  "version": 1,
+  "frozenBeforeInference": true,
+  "eventThreshold": 0.5,
+  "eventAggregation": "maximum frame score per whole clip; detection presence only, no interval-quality claim",
+  "eventTargets": {
+    "Laughter": "Laughter",
+    "Applause": "Applause",
+    "Gasp": "Gasp"
+  },
+  "eventClips": [
+    {
+      "fname": "417430",
+      "labels": "Coin_(dropping),Chuckle_and_chortle,Domestic_sounds_and_home_sounds,Laughter,Human_voice",
+      "mids": "/m/0242l,/m/07rgt08,/t/dd00071,/m/01j3sz,/m/09l8g",
+      "target": "Laughter",
+      "info": {
+        "title": "coin.wav",
+        "description": "dropping a coin on the counter in my dads  bathroom used a dr-05",
+        "tags": [
+          "coins",
+          "silver",
+          "coin",
+          "quarter",
+          "money"
+        ],
+        "license": "http://creativecommons.org/publicdomain/zero/1.0/",
+        "uploader": "jimmyfisher"
+      }
+    },
+    {
+      "fname": "72240",
+      "labels": "Chatter,Chuckle_and_chortle,Vehicle_horn_and_car_horn_and_honking,Alarm,Car,Motor_vehicle_(road),Vehicle,Human_group_actions,Laughter,Human_voice",
+      "mids": "/m/07rkbfh,/m/07rgt08,/m/0912c9,/m/07pp_mv,/m/0k4j,/m/012f08,/m/07yv9,/t/dd00012,/m/01j3sz,/m/09l8g",
+      "target": "Laughter",
+      "info": {
+        "title": "sw_ParadeHorns.wav",
+        "description": "Audio track from video captured by Canon GL1, cropped out using Soundtrack Pro under OS X 10.4. Short clip of a variety of horns during a parade, plus crowd sounds.",
+        "tags": [
+          "beeping",
+          "crowd",
+          "field-recording",
+          "honking",
+          "horns",
+          "laughing",
+          "laughter",
+          "noise",
+          "parade",
+          "people",
+          "public",
+          "voices"
+        ],
+        "license": "http://creativecommons.org/licenses/by/3.0/",
+        "uploader": "jppi_Stu"
+      }
+    },
+    {
+      "fname": "43806",
+      "labels": "Applause,Clapping,Motor_vehicle_(road),Siren,Shout,Vehicle,Human_group_actions,Alarm,Human_voice,Hands",
+      "mids": "/m/028ght,/m/0l15bq,/m/012f08,/m/03kmc9,/m/07p6fty,/m/07yv9,/t/dd00012,/m/07pp_mv,/m/09l8g,/m/0k65p",
+      "target": "Applause",
+      "info": {
+        "title": "Siren.wav",
+        "description": "An excerpt from SilverStarSearchAndRescue.wav, just a siren.",
+        "tags": [
+          "fire",
+          "police",
+          "siren"
+        ],
+        "license": "http://creativecommons.org/licenses/by/3.0/",
+        "uploader": "daveincamas"
+      }
+    },
+    {
+      "fname": "266184",
+      "labels": "Male_speech_and_man_speaking,Applause,Cheering,Clapping,Conversation,Shout,Speech,Human_voice,Human_group_actions,Hands",
+      "mids": "/m/05zppz,/m/028ght,/m/053hz1,/m/0l15bq,/m/01h8n0,/m/07p6fty,/m/09x0r,/m/09l8g,/t/dd00012,/m/0k65p",
+      "target": "Applause",
+      "info": {
+        "title": "cheering church 4.wav",
+        "description": "Cheering of a gospel congregation recorded with a zoom h4n. ",
+        "tags": [
+          "cathedral",
+          "cheering",
+          "gospel",
+          "big",
+          "church"
+        ],
+        "license": "http://creativecommons.org/publicdomain/zero/1.0/",
+        "uploader": "pan14"
+      }
+    },
+    {
+      "fname": "260983",
+      "labels": "Male_speech_and_man_speaking,Whispering,Gasp,Speech,Human_voice,Breathing,Respiratory_sounds",
+      "mids": "/m/05zppz,/m/02rtxlg,/m/07s0dtb,/m/09x0r,/m/09l8g,/m/0lyf6,/m/09hlz4",
+      "target": "Gasp",
+      "info": {
+        "title": "It_s_You.wav",
+        "description": "Various ways of saying it's you or it was you.",
+        "tags": [
+          "male",
+          "s",
+          "anger",
+          "gasp",
+          "fear",
+          "voice"
+        ],
+        "license": "http://creativecommons.org/publicdomain/zero/1.0/",
+        "uploader": "iccleste"
+      }
+    },
+    {
+      "fname": "346213",
+      "labels": "Female_speech_and_woman_speaking,Gasp,Speech,Human_voice,Breathing,Respiratory_sounds",
+      "mids": "/m/02zsn,/m/07s0dtb,/m/09x0r,/m/09l8g,/m/0lyf6,/m/09hlz4",
+      "target": "Gasp",
+      "info": {
+        "title": "Women gasping.wav",
+        "description": "Women gasping when surprised or shocked",
+        "tags": [
+          "breathe",
+          "woman",
+          "shock",
+          "vocal",
+          "breath",
+          "breathing",
+          "shocked",
+          "female",
+          "surprise",
+          "gasp",
+          "voice",
+          "surprised",
+          "women"
+        ],
+        "license": "http://creativecommons.org/publicdomain/zero/1.0/",
+        "uploader": "FloydP"
+      }
+    }
+  ],
+  "eventDataset": {
+    "id": "Fhrozen/FSD50k",
+    "revision": "ccf1acaff12f3f4a4c10052dddafbb6d22152c9b",
+    "split": "eval"
+  },
+  "eventModel": {
+    "id": "thelou1s/yamnet",
+    "revision": "156527da8fb34f53a3798d6011810fa975738062",
+    "file": "lite-model_yamnet_tflite_1.tflite",
+    "provenance": "copy of Google YAMNet1; Apache2.0",
+    "licenseVerifiedFromCard": true
+  },
+  "eventRuntime": {
+    "ai-edge-litert": "1.2.0",
+    "flatbuffers": "25.12.19",
+    "numpy": "2.3.5",
+    "python": "3.12"
+  },
+  "diarizationClips": [
+    {
+      "meeting": "ES2004a",
+      "startSeconds": 15,
+      "durationSeconds": 30
+    },
+    {
+      "meeting": "IS1009a",
+      "startSeconds": 45,
+      "durationSeconds": 30
+    },
+    {
+      "meeting": "TS3003a",
+      "startSeconds": 5,
+      "durationSeconds": 30
+    }
+  ],
+  "diarizationReference": "AMI transcriber segment endpoints; word forced-alignment times not used",
+  "diarizationCollarSeconds": 0,
+  "ignoreOverlap": false,
+  "resourceGates": {
+    "peakRSSBytes": 4294967296,
+    "inferenceWallAudioRatio": 2
+  },
+  "qualityGates": {
+    "diarizationDER": 0.2,
+    "eventsPrecisionPerCategory": 0.9,
+    "eventsRecallPerCategory": 0.7,
+    "boundaryCoverage": 0.95,
+    "boundaryP95Ms": 50
+  }
+}

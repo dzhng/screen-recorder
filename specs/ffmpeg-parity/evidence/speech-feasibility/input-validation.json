@@ -1,0 +1,130 @@
+{
+  "diarization": [
+    {
+      "meeting": "ES2004a",
+      "format": [
+        1,
+        1,
+        16000,
+        32000,
+        2,
+        16
+      ],
+      "headerContentRange": "bytes 0-65535/33579394",
+      "dataOffset": 44,
+      "fullSourceAudioSeconds": 1049.3546875,
+      "requestedContentRange": "bytes 480044-1440043/33579394",
+      "fetchedBytesMatchRetained": true,
+      "originalPCMsha256": "ebd26fc4ec4001eb8abee50a2362bdb66fb50b8841d67e1e56e498a49232d943",
+      "rmsPCM16": 313.04069827925997,
+      "offsetSeconds": 15,
+      "channels": 1,
+      "noMixing": true
+    },
+    {
+      "meeting": "IS1009a",
+      "format": [
+        1,
+        1,
+        16000,
+        32000,
+        2,
+        16
+      ],
+      "headerContentRange": "bytes 0-65535/26844093",
+      "dataOffset": 44,
+      "fullSourceAudioSeconds": 838.8333125,
+      "requestedContentRange": "bytes 1440044-2400043/26844093",
+      "fetchedBytesMatchRetained": true,
+      "originalPCMsha256": "86f143e937bbe83e039a75f5e682fba8972c667d3d34c9e9d56e9882f68693b4",
+      "rmsPCM16": 1477.9309380811744,
+      "offsetSeconds": 45,
+      "channels": 1,
+      "noMixing": true
+    },
+    {
+      "meeting": "TS3003a",
+      "format": [
+        1,
+        1,
+        16000,
+        32000,
+        2,
+        16
+      ],
+      "headerContentRange": "bytes 0-65535/48180608",
+      "dataOffset": 44,
+      "fullSourceAudioSeconds": 1505.642625,
+      "requestedContentRange": "bytes 160044-1120043/48180608",
+      "fetchedBytesMatchRetained": true,
+      "originalPCMsha256": "d39ded65b6f01e2ef015bbfde3757c73a04fbf51d3b7a55f9ab817e1a96cea2c",
+      "rmsPCM16": 94.13163003431242,
+      "offsetSeconds": 5,
+      "channels": 1,
+      "noMixing": true
+    }
+  ],
+  "events": [
+    {
+      "id": "417430",
+      "channels": 1,
+      "sampleRate": 44100,
+      "sampleWidth": 2,
+      "durationSeconds": 3.935986394557823,
+      "sourceSha256": "4cde4101532e5bdcd7ad4c45254e9ba157eefa7e9a050dbd563a9c1f8b7a854a",
+      "pcmF32sha256": "ec28de973bcab78d5828f0a165e4a179d946759b9f4976436a715ea2591c7c28"
+    },
+    {
+      "id": "72240",
+      "channels": 1,
+      "sampleRate": 44100,
+      "sampleWidth": 2,
+      "durationSeconds": 3.7602721088435374,
+      "sourceSha256": "65429d3a95893afe164ec0ce4b5381d940aad3e65133431144f71d627dfe8746",
+      "pcmF32sha256": "cd0e274d928c38591ba6eb737217de15ef9486a9fd32d213092d108f4ad1b8d9"
+    },
+    {
+      "id": "43806",
+      "channels": 1,
+      "sampleRate": 44100,
+      "sampleWidth": 2,
+      "durationSeconds": 4.625056689342403,
+      "sourceSha256": "5dba0b6ad6bd51fc5446d055dc4a0f1ed232d99aef75144c5dc04bb19149999c",
+      "pcmF32sha256": "011f214272e62def7d36a7b6f33da13f291f2bb37febdeada878905c0cde5c6d"
+    },
+    {
+      "id": "266184",
+      "channels": 1,
+      "sampleRate": 44100,
+      "sampleWidth": 2,
+      "durationSeconds": 21.713333333333335,
+      "sourceSha256": "631b1384c0f60b7695547360f59567775f8868755d2b254918d3caab25f8bf01",
+      "pcmF32sha256": "cb8b7b883d3fa1374c5064e18221d06c4e0e31c01bda088be3f46cdcf0c5b0f0"
+    },
+    {
+      "id": "260983",
+      "channels": 1,
+      "sampleRate": 44100,
+      "sampleWidth": 2,
+      "durationSeconds": 28.797460317460317,
+      "sourceSha256": "e49cb339cdaa8483075e47d8bcea15f05ab677d295052b0caee914fb97b41d38",
+      "pcmF32sha256": "cbf1a916a20233617c9535dbf5ca745af442d5b02833a9d7d381bab52df6a69c"
+    },
+    {
+      "id": "346213",
+      "channels": 1,
+      "sampleRate": 44100,
+      "sampleWidth": 2,
+      "durationSeconds": 8.816666666666666,
+      "sourceSha256": "408db18190fcd11b42b9727c5c7b1aeba1ed4428c22ecc47ef4d4e0bcd3805a9",
+      "pcmF32sha256": "cfc4b24dd02f724b1de56658992321f464683271a1717cc30d7d45a7c8e3052e"
+    }
+  ],
+  "annotationClock": {
+    "authority": "AMI transcriber_start/transcriber_end within same meeting file clock, clipped at chosen exact second offsets",
+    "wordTimingsUsed": false,
+    "humanTranscriptPaddingIncluded": true,
+    "upstreamPublishedDERComparable": false,
+    "why": "Upstream SDK benchmark uses different forced-alignment RTTM,250ms collar, overlap ignored; frozen experiment uses transcriber segment labels,no collar,overlap included."
+  }
+}

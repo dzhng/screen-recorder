@@ -1,0 +1,24 @@
+{
+  "audioReadSeconds" : 0.036080002784729004,
+  "audioSeconds" : 30,
+  "coldModelLoadSeconds" : 0.061408042907714844,
+  "config" : {
+    "clusteringThreshold" : 0.69999999999999996,
+    "exclusiveSegments" : false
+  },
+  "inferenceSeconds" : 0.18458795547485352,
+  "peakProcessRSSBytes" : 187219968,
+  "sampleRate" : 16000,
+  "segments" : [
+    {
+      "end" : 16.910017013549805,
+      "speaker" : "S1",
+      "start" : 8.4719867706298828
+    },
+    {
+      "end" : 19.847198486328125,
+      "speaker" : "S1",
+      "start" : 18.353141784667969
+    }
+  ]
+}

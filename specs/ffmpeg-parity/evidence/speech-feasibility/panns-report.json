@@ -1,0 +1,189 @@
+{
+  "metrics": {
+    "Laughter": {
+      "truePositives": [],
+      "falsePositives": [],
+      "falseNegatives": [
+        "417430",
+        "72240"
+      ],
+      "trueNegatives": [
+        "43806",
+        "266184",
+        "260983",
+        "346213"
+      ],
+      "precision": null,
+      "recall": 0
+    },
+    "Applause": {
+      "truePositives": [],
+      "falsePositives": [],
+      "falseNegatives": [
+        "43806",
+        "266184"
+      ],
+      "trueNegatives": [
+        "417430",
+        "72240",
+        "260983",
+        "346213"
+      ],
+      "precision": null,
+      "recall": 0
+    },
+    "Gasp": {
+      "truePositives": [
+        "346213"
+      ],
+      "falsePositives": [],
+      "falseNegatives": [
+        "260983"
+      ],
+      "trueNegatives": [
+        "417430",
+        "72240",
+        "43806",
+        "266184"
+      ],
+      "precision": 1,
+      "recall": 0.5
+    }
+  },
+  "records": [
+    {
+      "id": "417430",
+      "labels": [
+        "Coin_(dropping)",
+        "Chuckle_and_chortle",
+        "Domestic_sounds_and_home_sounds",
+        "Laughter",
+        "Human_voice"
+      ],
+      "scores": {
+        "Laughter": 0.00021800662216264755,
+        "Applause": 0.00009927893552230671,
+        "Gasp": 0.000604903616476804
+      },
+      "audioSeconds": 3.936,
+      "coldSeconds": 11.987109167006565,
+      "inferenceSeconds": 0.016117457998916507,
+      "peakRSSBytes": 628523008
+    },
+    {
+      "id": "72240",
+      "labels": [
+        "Chatter",
+        "Chuckle_and_chortle",
+        "Vehicle_horn_and_car_horn_and_honking",
+        "Alarm",
+        "Car",
+        "Motor_vehicle_(road)",
+        "Vehicle",
+        "Human_group_actions",
+        "Laughter",
+        "Human_voice"
+      ],
+      "scores": {
+        "Laughter": 0.00098793872166425,
+        "Applause": 0.004532943945378065,
+        "Gasp": 0.00019059715850744396
+      },
+      "audioSeconds": 3.76025,
+      "coldSeconds": 0.9371603330000653,
+      "inferenceSeconds": 0.014341624999360647,
+      "peakRSSBytes": 516702208
+    },
+    {
+      "id": "43806",
+      "labels": [
+        "Applause",
+        "Clapping",
+        "Motor_vehicle_(road)",
+        "Siren",
+        "Shout",
+        "Vehicle",
+        "Human_group_actions",
+        "Alarm",
+        "Human_voice",
+        "Hands"
+      ],
+      "scores": {
+        "Laughter": 0.0004570705641526729,
+        "Applause": 0.00011137586989207193,
+        "Gasp": 0.00010820556053658947
+      },
+      "audioSeconds": 4.6250625,
+      "coldSeconds": 0.927003542004968,
+      "inferenceSeconds": 0.0163809159930679,
+      "peakRSSBytes": 536788992
+    },
+    {
+      "id": "266184",
+      "labels": [
+        "Male_speech_and_man_speaking",
+        "Applause",
+        "Cheering",
+        "Clapping",
+        "Conversation",
+        "Shout",
+        "Speech",
+        "Human_voice",
+        "Human_group_actions",
+        "Hands"
+      ],
+      "scores": {
+        "Laughter": 0.002694833092391491,
+        "Applause": 0.43727314472198486,
+        "Gasp": 0.0005970302736386657
+      },
+      "audioSeconds": 21.71334375,
+      "coldSeconds": 0.9404198749980424,
+      "inferenceSeconds": 0.11378900000272552,
+      "peakRSSBytes": 858357760
+    },
+    {
+      "id": "260983",
+      "labels": [
+        "Male_speech_and_man_speaking",
+        "Whispering",
+        "Gasp",
+        "Speech",
+        "Human_voice",
+        "Breathing",
+        "Respiratory_sounds"
+      ],
+      "scores": {
+        "Laughter": 0.0007714726380072534,
+        "Applause": 0.000042472580389585346,
+        "Gasp": 0.23987475037574768
+      },
+      "audioSeconds": 28.79746875,
+      "coldSeconds": 0.9731002919943421,
+      "inferenceSeconds": 0.10655020800186321,
+      "peakRSSBytes": 1146912768
+    },
+    {
+      "id": "346213",
+      "labels": [
+        "Female_speech_and_woman_speaking",
+        "Gasp",
+        "Speech",
+        "Human_voice",
+        "Breathing",
+        "Respiratory_sounds"
+      ],
+      "scores": {
+        "Laughter": 0.0030109561048448086,
+        "Applause": 0.0005746048409491777,
+        "Gasp": 0.5342715978622437
+      },
+      "audioSeconds": 8.8166875,
+      "coldSeconds": 0.9823581669988926,
+      "inferenceSeconds": 0.030410125000344124,
+      "peakRSSBytes": 654458880
+    }
+  ],
+  "presenceOnly": true,
+  "intervalsUnverified": true
+}

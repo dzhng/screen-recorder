@@ -1,14 +1,14 @@
 # 23 — Validated optional speech evidence
 
-Status: not started. Question: **Can proven observations retain provenance and exact occurrence projection?**
+Status: resliced; all family implementations remain gated/open. Question: **Can proven observations retain provenance and exact occurrence projection?**
 
 Dependencies: [22](22-speech-feasibility.md).
 
 Before pickup, split this placeholder into family-specific implementation slices from the 22 verdicts. No aggregate green status may substitute for these checkpoints.
 
-- [ ] Speaker evidence: own provider/quality gate and source/occurrence proof.
-- [ ] Acoustic events: own categories/provider gate and source/occurrence proof.
-- [ ] Boundary evidence: own alignment gate and source/occurrence proof.
+- [ ] [Speaker evidence](23a-speaker-evidence.md): both initial providers failed; no implementation admitted.
+- [ ] [Acoustic events](23b-acoustic-events.md): both presence diagnostics failed; timed category evidence also missing.
+- [ ] [Boundary evidence](23c-boundary-evidence.md): independent complete word-neighbor labels pending; no provider selected.
 
 ## Contract and owner
 

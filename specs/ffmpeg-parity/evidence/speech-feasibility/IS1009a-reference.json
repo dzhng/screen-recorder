@@ -1,0 +1,46 @@
+{
+  "clip": {
+    "meeting": "IS1009a",
+    "startSeconds": 45,
+    "durationSeconds": 30
+  },
+  "reference": [
+    {
+      "speaker": "A",
+      "start": 9.927999999999997,
+      "end": 15.880000000000003
+    },
+    {
+      "speaker": "D",
+      "start": 10.68,
+      "end": 11.101999999999997
+    },
+    {
+      "speaker": "C",
+      "start": 11.863999999999997,
+      "end": 12.088000000000001
+    },
+    {
+      "speaker": "D",
+      "start": 12.232,
+      "end": 12.744
+    },
+    {
+      "speaker": "D",
+      "start": 16.311999999999998,
+      "end": 17.637
+    },
+    {
+      "speaker": "A",
+      "start": 16.984,
+      "end": 22.328000000000003
+    },
+    {
+      "speaker": "B",
+      "start": 21.608000000000004,
+      "end": 30
+    }
+  ],
+  "pcmSha256": "8e3eb8ff9a12f04221bbcdb833757b60831397e9fef17b03394206eba3c3b36b",
+  "originalFetchedPcmSha256": "86f143e937bbe83e039a75f5e682fba8972c667d3d34c9e9d56e9882f68693b4"
+}

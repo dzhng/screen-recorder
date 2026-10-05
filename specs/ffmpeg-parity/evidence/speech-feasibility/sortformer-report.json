@@ -1,0 +1,81 @@
+{
+  "cases": [
+    {
+      "meeting": "ES2004a",
+      "metrics": {
+        "referenceSpeakerSeconds": 16.708999999999996,
+        "overlapSeconds": 3.325999999999997,
+        "silenceSeconds": 16.617,
+        "missedSpeakerSeconds": 10.788999208450313,
+        "falseSpeakerSeconds": 0.23999977111816406,
+        "confusedSpeakerSeconds": 1.3600006103515625,
+        "mapping": {
+          "S0": "B",
+          "S1": "D"
+        },
+        "der": 0.741456675439586
+      },
+      "resource": {
+        "audioSeconds": 30,
+        "coldModelLoadSeconds": 61.7058140039444,
+        "inferenceSeconds": 3.132781982421875,
+        "peakProcessRSSBytes": 537706496
+      }
+    },
+    {
+      "meeting": "IS1009a",
+      "metrics": {
+        "referenceSpeakerSeconds": 22.171000000000006,
+        "overlapSeconds": 2.530999999999999,
+        "silenceSeconds": 10.359999999999992,
+        "missedSpeakerSeconds": 3.946998664855961,
+        "falseSpeakerSeconds": 0.09599931335448986,
+        "confusedSpeakerSeconds": 0,
+        "mapping": {
+          "S0": "A",
+          "S1": "D",
+          "S2": "B"
+        },
+        "der": 0.18235523784269767
+      },
+      "resource": {
+        "audioSeconds": 30,
+        "coldModelLoadSeconds": 2.0742520093917847,
+        "inferenceSeconds": 1.5192850828170776,
+        "peakProcessRSSBytes": 528941056
+      }
+    },
+    {
+      "meeting": "TS3003a",
+      "metrics": {
+        "referenceSpeakerSeconds": 16.999000000000002,
+        "overlapSeconds": 1.825000000000001,
+        "silenceSeconds": 15.05,
+        "missedSpeakerSeconds": 9.902997482299805,
+        "falseSpeakerSeconds": 0.023999275207518878,
+        "confusedSpeakerSeconds": 0.15999984741210938,
+        "mapping": {
+          "S0": "A",
+          "S1": "D",
+          "S2": "C"
+        },
+        "der": 0.5933876466215325
+      },
+      "resource": {
+        "audioSeconds": 30,
+        "coldModelLoadSeconds": 2.0607460737228394,
+        "inferenceSeconds": 1.5378429889678955,
+        "peakProcessRSSBytes": 528941056
+      }
+    }
+  ],
+  "totals": {
+    "referenceSpeakerSeconds": 55.879000000000005,
+    "missedSpeakerSeconds": 24.638995355606077,
+    "falseSpeakerSeconds": 0.3599983596801728,
+    "confusedSpeakerSeconds": 1.5200004577636719,
+    "overlapSeconds": 7.681999999999997,
+    "silenceSeconds": 42.026999999999994,
+    "der": 0.47457889677785786
+  }
+}

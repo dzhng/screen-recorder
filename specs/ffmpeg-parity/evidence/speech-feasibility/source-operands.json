@@ -1,0 +1,227 @@
+[
+  {
+    "path": "events/417430.wav",
+    "sha256": "4cde4101532e5bdcd7ad4c45254e9ba157eefa7e9a050dbd563a9c1f8b7a854a",
+    "bytes": 347232,
+    "attribution": {
+      "title": "coin.wav",
+      "description": "dropping a coin on the counter in my dads  bathroom used a dr-05",
+      "tags": [
+        "coins",
+        "silver",
+        "coin",
+        "quarter",
+        "money"
+      ],
+      "license": "http://creativecommons.org/publicdomain/zero/1.0/",
+      "uploader": "jimmyfisher"
+    }
+  },
+  {
+    "path": "events/72240.wav",
+    "sha256": "65429d3a95893afe164ec0ce4b5381d940aad3e65133431144f71d627dfe8746",
+    "bytes": 331734,
+    "attribution": {
+      "title": "sw_ParadeHorns.wav",
+      "description": "Audio track from video captured by Canon GL1, cropped out using Soundtrack Pro under OS X 10.4. Short clip of a variety of horns during a parade, plus crowd sounds.",
+      "tags": [
+        "beeping",
+        "crowd",
+        "field-recording",
+        "honking",
+        "horns",
+        "laughing",
+        "laughter",
+        "noise",
+        "parade",
+        "people",
+        "public",
+        "voices"
+      ],
+      "license": "http://creativecommons.org/licenses/by/3.0/",
+      "uploader": "jppi_Stu"
+    }
+  },
+  {
+    "path": "events/43806.wav",
+    "sha256": "5dba0b6ad6bd51fc5446d055dc4a0f1ed232d99aef75144c5dc04bb19149999c",
+    "bytes": 408008,
+    "attribution": {
+      "title": "Siren.wav",
+      "description": "An excerpt from SilverStarSearchAndRescue.wav, just a siren.",
+      "tags": [
+        "fire",
+        "police",
+        "siren"
+      ],
+      "license": "http://creativecommons.org/licenses/by/3.0/",
+      "uploader": "daveincamas"
+    }
+  },
+  {
+    "path": "events/266184.wav",
+    "sha256": "631b1384c0f60b7695547360f59567775f8868755d2b254918d3caab25f8bf01",
+    "bytes": 1915194,
+    "attribution": {
+      "title": "cheering church 4.wav",
+      "description": "Cheering of a gospel congregation recorded with a zoom h4n. ",
+      "tags": [
+        "cathedral",
+        "cheering",
+        "gospel",
+        "big",
+        "church"
+      ],
+      "license": "http://creativecommons.org/publicdomain/zero/1.0/",
+      "uploader": "pan14"
+    }
+  },
+  {
+    "path": "events/260983.wav",
+    "sha256": "e49cb339cdaa8483075e47d8bcea15f05ab677d295052b0caee914fb97b41d38",
+    "bytes": 2540014,
+    "attribution": {
+      "title": "It_s_You.wav",
+      "description": "Various ways of saying it's you or it was you.",
+      "tags": [
+        "male",
+        "s",
+        "anger",
+        "gasp",
+        "fear",
+        "voice"
+      ],
+      "license": "http://creativecommons.org/publicdomain/zero/1.0/",
+      "uploader": "iccleste"
+    }
+  },
+  {
+    "path": "events/346213.wav",
+    "sha256": "408db18190fcd11b42b9727c5c7b1aeba1ed4428c22ecc47ef4d4e0bcd3805a9",
+    "bytes": 777708,
+    "attribution": {
+      "title": "Women gasping.wav",
+      "description": "Women gasping when surprised or shocked",
+      "tags": [
+        "breathe",
+        "woman",
+        "shock",
+        "vocal",
+        "breath",
+        "breathing",
+        "shocked",
+        "female",
+        "surprise",
+        "gasp",
+        "voice",
+        "surprised",
+        "women"
+      ],
+      "license": "http://creativecommons.org/publicdomain/zero/1.0/",
+      "uploader": "FloydP"
+    }
+  },
+  {
+    "path": "diarization/ES2004a.wav",
+    "sha256": "16548a6e125613feb08c3afc66273297d06c2c54cf8678a735efdc7269953a54",
+    "bytes": 960044,
+    "sourceClip": {
+      "meeting": "ES2004a",
+      "startSeconds": 15,
+      "durationSeconds": 30
+    },
+    "attribution": "AMI Consortium /University of Edinburgh, CC BY4.0; Jean Carletta etal., The AMI Meeting Corpus:A Pre-announcement,MLMI2005"
+  },
+  {
+    "path": "diarization/IS1009a.wav",
+    "sha256": "38fbd570bef4bd52cb1b0e903fae8beb7ee5a04b62b217303fb9181c97aac7b1",
+    "bytes": 960044,
+    "sourceClip": {
+      "meeting": "IS1009a",
+      "startSeconds": 45,
+      "durationSeconds": 30
+    },
+    "attribution": "AMI Consortium /University of Edinburgh, CC BY4.0; Jean Carletta etal., The AMI Meeting Corpus:A Pre-announcement,MLMI2005"
+  },
+  {
+    "path": "diarization/TS3003a.wav",
+    "sha256": "2635da39cbb0f8e4b5a95a37f91f3e8cb295fc5fdd8d362912b6f5c05a3be7d2",
+    "bytes": 960044,
+    "sourceClip": {
+      "meeting": "TS3003a",
+      "startSeconds": 5,
+      "durationSeconds": 30
+    },
+    "attribution": "AMI Consortium /University of Edinburgh, CC BY4.0; Jean Carletta etal., The AMI Meeting Corpus:A Pre-announcement,MLMI2005"
+  },
+  {
+    "path": "ami/00README_MANUAL.txt",
+    "sha256": "001292e9082f0f403a155dd5e7e4a8d5ac6542dbf37b19a12c7b6030fabdd350",
+    "bytes": 2394
+  },
+  {
+    "path": "ami/LICENCE.txt",
+    "sha256": "d52fd9c7c19eec9f0bec3107554c10937203e261259d73b01637a61501fec7f7",
+    "bytes": 13197
+  },
+  {
+    "path": "ami/segments/ES2004a.A.segments.xml",
+    "sha256": "fdba87577fb6f36139a0f62d5c249921635b53bec92ed127cdfee959f6a8cb2c",
+    "bytes": 10232
+  },
+  {
+    "path": "ami/segments/ES2004a.B.segments.xml",
+    "sha256": "130b464da1979e2b269c6b860eb046ac26e2d13b7482752d9befe3146bfc17f4",
+    "bytes": 19951
+  },
+  {
+    "path": "ami/segments/ES2004a.C.segments.xml",
+    "sha256": "fc1cdb6c1fd673d35caa84190a85c827db08da60bdcb2a856eca785f4a3b8bde",
+    "bytes": 11557
+  },
+  {
+    "path": "ami/segments/ES2004a.D.segments.xml",
+    "sha256": "1ecca19454d5c92b92c8c1825935b24262a355778c7138492dbacf10db9aa83d",
+    "bytes": 18503
+  },
+  {
+    "path": "ami/segments/IS1009a.A.segments.xml",
+    "sha256": "86f545f8fb114f4ac515fe364bfac318f2e2bda29f8d3248707baa8fc1a845f3",
+    "bytes": 16056
+  },
+  {
+    "path": "ami/segments/IS1009a.B.segments.xml",
+    "sha256": "9e5e4e9247f294cbfefb2b470b48b56b5fa5ac59fc033988f2157233dd8944cc",
+    "bytes": 7886
+  },
+  {
+    "path": "ami/segments/IS1009a.C.segments.xml",
+    "sha256": "67b7db585df2c2eb5d99a71e27a1d57c5102dd5e5b3877981c1b792111935567",
+    "bytes": 10101
+  },
+  {
+    "path": "ami/segments/IS1009a.D.segments.xml",
+    "sha256": "fa930c99ffa100b5318b957df024915ac770f5f623716815843a4aaca9fad7c9",
+    "bytes": 13229
+  },
+  {
+    "path": "ami/segments/TS3003a.A.segments.xml",
+    "sha256": "219e8be79f717dbb26f4b0c29263c3cfd764bfce46e64a14ed5143251b95fd3e",
+    "bytes": 22939
+  },
+  {
+    "path": "ami/segments/TS3003a.B.segments.xml",
+    "sha256": "1de99a152df3ae7f5fbf1259b80b189b8b60be832061720ea41e1b8896cb3f39",
+    "bytes": 16601
+  },
+  {
+    "path": "ami/segments/TS3003a.C.segments.xml",
+    "sha256": "46863f436c1713e7137618cd6a3d30335e03c23f8d50b3c60f2a530a1b20f999",
+    "bytes": 5795
+  },
+  {
+    "path": "ami/segments/TS3003a.D.segments.xml",
+    "sha256": "02b7b2943d4d2626bab38ed463947ac4e55d2d34b0b03b8e1b8544e60f6b1460",
+    "bytes": 19791
+  }
+]

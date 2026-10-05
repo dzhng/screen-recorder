@@ -1,0 +1,294 @@
+{
+  "artifact_snapshot": "1ed7a662fdc7109e36d822db793ee6eebdaf8594",
+  "artifacts": [
+    {
+      "path": "Embedding.mlmodelc/analytics/coremldata.bin",
+      "sha256": "8d6706436639b53830b4dbe8aaf9c9a843f7f582d63e16f3cb8bb7c6ccd58682",
+      "size": 243,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "Embedding.mlmodelc/coremldata.bin",
+      "sha256": "4a705bac27d151d9642f37609296042a15602a42253039e0921dc9e75da7e004",
+      "size": 704,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "Embedding.mlmodelc/metadata.json",
+      "sha256": "1854371eb6b438fb8aeac96afb45c999af7902581c06afdfcd7ff3cb1ce66be5",
+      "size": 2818,
+      "storage": "git"
+    },
+    {
+      "path": "Embedding.mlmodelc/model.mil",
+      "sha256": "22fa958aef72a561c21f874a07cbdcd30fdf40ee961c0bc2fb67c119273b46d3",
+      "size": 78432,
+      "storage": "git"
+    },
+    {
+      "path": "Embedding.mlmodelc/weights/weight.bin",
+      "sha256": "99356b2985b8d43880a657024d941d450b38820451ccff903f76ed4e52d1868b",
+      "size": 13412288,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "FBank.mlmodelc/analytics/coremldata.bin",
+      "sha256": "0e8bd3a8b82ac123580989f490e4d9245127c535857630b543311268accc3f0a",
+      "size": 243,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "FBank.mlmodelc/coremldata.bin",
+      "sha256": "57ac436bb0671cbb5527a339134d695f752eb77f7a18966b93c6835335595759",
+      "size": 853,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "FBank.mlmodelc/metadata.json",
+      "sha256": "2623785f5d186893b82d01e84aa33a7704ef763c3309e02055f22dc9d871ce9a",
+      "size": 3409,
+      "storage": "git"
+    },
+    {
+      "path": "FBank.mlmodelc/model.mil",
+      "sha256": "27aaeb21569e81bdbe2eef87789f50a37cfea800039bd134448a9417de2f30ed",
+      "size": 15667,
+      "storage": "git"
+    },
+    {
+      "path": "FBank.mlmodelc/weights/weight.bin",
+      "sha256": "9e83fdd3ea78064b078069e4d9141603c61c47a27fd19e7e3142ff7476f8db36",
+      "size": 1776896,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "PLDA.mlmodelc/analytics/coremldata.bin",
+      "sha256": "8e862420707c6fc86c5720adcbc811286235970cf5e0c5afdb7e10e03c937026",
+      "size": 243,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "PLDA.mlmodelc/coremldata.bin",
+      "sha256": "3d5ddb4cf367ad23fb512587f751cddbe4cbf867f53c5395435e6719a6acfd20",
+      "size": 535,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "PLDA.mlmodelc/metadata.json",
+      "sha256": "95eab9a4c9ceb9b16bd36d3eee5530796a0cf78153547088c6c40e9e43999b98",
+      "size": 1975,
+      "storage": "git"
+    },
+    {
+      "path": "PLDA.mlmodelc/model.mil",
+      "sha256": "0c61b5f3fc8d482218ecf3f213ff42e40d6fc38265d3dcf5065da113974b25b8",
+      "size": 5088,
+      "storage": "git"
+    },
+    {
+      "path": "PLDA.mlmodelc/weights/weight.bin",
+      "sha256": "566c14f27af4ef1a4bdfb8ea875adeedd7026a85e1026659f48a3d305d51de0c",
+      "size": 199616,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "PldaRho.mlmodelc/analytics/coremldata.bin",
+      "sha256": "8940ea6044dbcbefa22da8cc41e0b485e1fb5ed89aecaf37c6e0c483a97ddcd7",
+      "size": 243,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "PldaRho.mlmodelc/coremldata.bin",
+      "sha256": "4d9741477f721c79b09fcdfe455110c4b7d4272e2de3496bf1729d966d3ee418",
+      "size": 763,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "PldaRho.mlmodelc/metadata.json",
+      "sha256": "b314cf25a93e46b4076883a6f5a2f8848b73c3851bd9d36074d067f35a1c7945",
+      "size": 2749,
+      "storage": "git"
+    },
+    {
+      "path": "PldaRho.mlmodelc/model.mil",
+      "sha256": "83aee2e5310d19b5f202aea97d07a0e12102556d1b32ef3ed08b36f7f9725041",
+      "size": 7613,
+      "storage": "git"
+    },
+    {
+      "path": "PldaRho.mlmodelc/weights/weight.bin",
+      "sha256": "80f7d229202636d372428c90596f11a91545f07da77259f07153aaf225914a36",
+      "size": 200192,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "Segmentation.mlmodelc/analytics/coremldata.bin",
+      "sha256": "64265f8e7ad41a5f68d630c15288c2499cca5892ad49e20096819cdeac004cdb",
+      "size": 243,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "Segmentation.mlmodelc/coremldata.bin",
+      "sha256": "ea51481b8bd3e496ad3cf16f066ddaa37f20e8772eaac76b3393c28de20e06bc",
+      "size": 812,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "Segmentation.mlmodelc/metadata.json",
+      "sha256": "88dbf0b07208fe142e1729c2b4c974ad3599fcb2ae5d5f18fce782b225384124",
+      "size": 3410,
+      "storage": "git"
+    },
+    {
+      "path": "Segmentation.mlmodelc/model.mil",
+      "sha256": "d37e4ce30b406a6b34f765f769b9baed3178cc0c2b2e299c641daa43a052dd3f",
+      "size": 43063,
+      "storage": "git"
+    },
+    {
+      "path": "Segmentation.mlmodelc/weights/weight.bin",
+      "sha256": "c3189a64946c75bc24fcb98afe89ad78c52bdbadfdf65e857fb1b81e2cc9fbb2",
+      "size": 5959360,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "mlpackages/Embedding.mlpackage/Data/com.apple.CoreML/model.mlmodel",
+      "sha256": "5a4dd0101a27f5d9987005962deee3c1afc84485a1f1ae085054b07e5d1b0473",
+      "size": 65850,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "mlpackages/Embedding.mlpackage/Data/com.apple.CoreML/weights/weight.bin",
+      "sha256": "99356b2985b8d43880a657024d941d450b38820451ccff903f76ed4e52d1868b",
+      "size": 13412288,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "mlpackages/Embedding.mlpackage/Manifest.json",
+      "sha256": "d244a4616ead9bbaebad3c64f999f661af2933cfbcd1ebe12967ff64cb5bd541",
+      "size": 617,
+      "storage": "git"
+    },
+    {
+      "path": "mlpackages/Fbank.mlpackage/Data/com.apple.CoreML/model.mlmodel",
+      "sha256": "fcaf1807057637f7997fa6ee179dc660556ff4cd4812cd51a88c77fca0f25477",
+      "size": 12251,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "mlpackages/Fbank.mlpackage/Data/com.apple.CoreML/weights/weight.bin",
+      "sha256": "9e83fdd3ea78064b078069e4d9141603c61c47a27fd19e7e3142ff7476f8db36",
+      "size": 1776896,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "mlpackages/Fbank.mlpackage/Manifest.json",
+      "sha256": "f56064fcce8fcc8f45053efbe39e15fb3361c3a4e59db888b514396503fa3a3c",
+      "size": 617,
+      "storage": "git"
+    },
+    {
+      "path": "mlpackages/PldaRho.mlpackage/Data/com.apple.CoreML/model.mlmodel",
+      "sha256": "d55f388bb6a47dd3c50bf00098f887e40d40b46a5e32952c3e788280855a62ce",
+      "size": 6417,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "mlpackages/PldaRho.mlpackage/Data/com.apple.CoreML/weights/weight.bin",
+      "sha256": "963b14f282150ec68d498cf4b15bd5e4129595610811862e0bed05f65b95a6de",
+      "size": 100352,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "mlpackages/PldaRho.mlpackage/Manifest.json",
+      "sha256": "1f8e51802df3dfe9f784a98f8b7d841602126e67d6b6c89fb2e24b23f93f5ffd",
+      "size": 617,
+      "storage": "git"
+    },
+    {
+      "path": "mlpackages/Segmentation.mlpackage/Data/com.apple.CoreML/model.mlmodel",
+      "sha256": "aa795d1977b785036f002f551bc073572e663b7da35c695a478158b84d3fd763",
+      "size": 38767,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "mlpackages/Segmentation.mlpackage/Data/com.apple.CoreML/weights/weight.bin",
+      "sha256": "0026d3483c74bc989fdd1649c5765ca5395235a6d140a698a2d87b95cddf56ae",
+      "size": 2981120,
+      "storage": "git-lfs"
+    },
+    {
+      "path": "mlpackages/Segmentation.mlpackage/Manifest.json",
+      "sha256": "fae4cc479536d097e5ba8eb03f3c8f4210366f7092a075186531c74530302afa",
+      "size": 617,
+      "storage": "git"
+    },
+    {
+      "path": "plda-parameters.json",
+      "sha256": "38ee28d4269c076cef254ee760bbd811f0738a92e0f01f9699ad372828c5de8f",
+      "size": 89416,
+      "storage": "git"
+    },
+    {
+      "path": "xvector-transform.json",
+      "sha256": "f7cd5cc16e63e2d89db052a23018ecfc47a311998ed1e9e39838fbac65048688",
+      "size": 177499,
+      "storage": "git"
+    }
+  ],
+  "conversion": {
+    "exact_historical_revision_verified": false,
+    "recorded_environment": {
+      "coremlc": "3500.32.1",
+      "coremltools": "9.0b1",
+      "mil": "3500.14.1",
+      "pyannote-audio": "4.0.0",
+      "python": "3.10.12",
+      "torch": "2.8.0"
+    },
+    "reference_repository": "https://github.com/FluidInference/mobius",
+    "reference_revision": "33fd6eab634966ae7db4d73da3376a90379642fb"
+  },
+  "generated_at": "2026-09-19T22:44:51Z",
+  "license": "CC-BY-4.0",
+  "limitations": [
+    "The exact upstream checkout used for the 2025 conversions was not recorded.",
+    "The public conversion commit postdates the converted artifacts and is a reference, not an attested historical build commit.",
+    "Segmentation and embedding were not rebuilt because the upstream gated-model terms have not been accepted by the release account."
+  ],
+  "schema_version": 1,
+  "source": {
+    "exact_historical_revision_verified": false,
+    "files": [
+      {
+        "git_oid": "e3b91de5a5374fc40b556f9cc51317d280b4ea79",
+        "path": "segmentation/pytorch_model.bin",
+        "size": 5906507,
+        "verification": "upstream reference only"
+      },
+      {
+        "git_oid": "6347697826a1958253dd195fa296d8d97b8f6280",
+        "path": "embedding/pytorch_model.bin",
+        "size": 26646242,
+        "verification": "upstream reference only"
+      },
+      {
+        "git_oid": "e61936ef2108eccdff801c440d5e3f6c6995aba4",
+        "path": "plda/plda.npz",
+        "sha256": "9b77bcd840692710dd3496f62ecfeed8d8e5f002fd991b785079b244eab7d255",
+        "size": 133852,
+        "verification": "exact tensor match"
+      },
+      {
+        "git_oid": "b8079f30a35a68fe7d996bd7abc2170338ba6767",
+        "path": "plda/xvec_transform.npz",
+        "sha256": "325f1ce8e48f7e55e9c8aa47e05d2766b7c48c4b25b8de8dd751e7a4cc5fbe8f",
+        "size": 134376,
+        "verification": "exact tensor match"
+      }
+    ],
+    "reference_revision": "3533c8cf8e369892e6b79ff1bf80f7b0286a54ee",
+    "repository": "pyannote/speaker-diarization-community-1"
+  },
+  "status": "historically-reconstructed"
+}

@@ -1,0 +1,57 @@
+[
+  {
+    "path": "Sortformer.mlmodelc/analytics/coremldata.bin",
+    "bytes": 202,
+    "sha256": "b1336dfc84d1084140347209f4c2cd1d972ba998d418734a24c0a437dbbcab75"
+  },
+  {
+    "path": "Sortformer.mlmodelc/coremldata.bin",
+    "bytes": 1078,
+    "sha256": "1d69415aa509e8c407dfa64136402232dd02610c41d8c5729446830639373376"
+  },
+  {
+    "path": "Sortformer.mlmodelc/metadata.json",
+    "bytes": 5135,
+    "sha256": "bb6a6de68063ea7224f605ff5bb9d1d03b0165e6db11481480559727770225b3"
+  },
+  {
+    "path": "Sortformer.mlmodelc/model0/analytics/coremldata.bin",
+    "bytes": 108,
+    "sha256": "5a8281049b2a65a3be541cfd9f949e84b8fe1c5251ce90e46da1626fed54e58a"
+  },
+  {
+    "path": "Sortformer.mlmodelc/model0/coremldata.bin",
+    "bytes": 632,
+    "sha256": "94cc859be2d5514e057506ea9bed05ac455fb72ebf05a52e4aeddf5dea80ceb1"
+  },
+  {
+    "path": "Sortformer.mlmodelc/model0/model.mil",
+    "bytes": 31783,
+    "sha256": "5759d783ffbade39367a7342cd709d76168bdb2e9ecfa1fb122fe66bdc59f25d"
+  },
+  {
+    "path": "Sortformer.mlmodelc/model0/weights/0-weight.bin",
+    "bytes": 8948544,
+    "sha256": "88a98803e35186b1dfb41d7f748f7cee5093bb6efeb117f56953c17549792fa4"
+  },
+  {
+    "path": "Sortformer.mlmodelc/model1/analytics/coremldata.bin",
+    "bytes": 108,
+    "sha256": "5a8281049b2a65a3be541cfd9f949e84b8fe1c5251ce90e46da1626fed54e58a"
+  },
+  {
+    "path": "Sortformer.mlmodelc/model1/coremldata.bin",
+    "bytes": 585,
+    "sha256": "e613306cf96ba390ac0ebb449947c8b4dc344a6a9e3be69b8220ad1caa74056b"
+  },
+  {
+    "path": "Sortformer.mlmodelc/model1/model.mil",
+    "bytes": 1147824,
+    "sha256": "bbd6c2c37a4ca3c19219af1579ce8d7198f4f7eee90605233ee1e1fbd65052e6"
+  },
+  {
+    "path": "Sortformer.mlmodelc/model1/weights/1-weight.bin",
+    "bytes": 230428224,
+    "sha256": "4c85926af77684bce762b355a2b162df557d832444fbeb79ee195113a4bbf1db"
+  }
+]

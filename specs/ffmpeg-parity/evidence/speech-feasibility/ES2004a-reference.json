@@ -1,0 +1,66 @@
+{
+  "clip": {
+    "meeting": "ES2004a",
+    "startSeconds": 15,
+    "durationSeconds": 30
+  },
+  "reference": [
+    {
+      "speaker": "A",
+      "start": 2.6189999999999998,
+      "end": 3.3909999999999982
+    },
+    {
+      "speaker": "B",
+      "start": 3.7220000000000013,
+      "end": 5.32
+    },
+    {
+      "speaker": "B",
+      "start": 7.352,
+      "end": 8.872
+    },
+    {
+      "speaker": "D",
+      "start": 9.992,
+      "end": 12.024000000000001
+    },
+    {
+      "speaker": "B",
+      "start": 10.163,
+      "end": 10.98
+    },
+    {
+      "speaker": "D",
+      "start": 13.559999999999999,
+      "end": 15.59
+    },
+    {
+      "speaker": "B",
+      "start": 14.097999999999999,
+      "end": 17.296999999999997
+    },
+    {
+      "speaker": "D",
+      "start": 16.28,
+      "end": 18.479999999999997
+    },
+    {
+      "speaker": "B",
+      "start": 19.112000000000002,
+      "end": 19.764000000000003
+    },
+    {
+      "speaker": "D",
+      "start": 27.017000000000003,
+      "end": 28.386000000000003
+    },
+    {
+      "speaker": "B",
+      "start": 29.479999999999997,
+      "end": 30
+    }
+  ],
+  "pcmSha256": "7245655d52ff6ede5048f48584ab850e6245d5c0ffe8455c59c2356f4909dd3b",
+  "originalFetchedPcmSha256": "ebd26fc4ec4001eb8abee50a2362bdb66fb50b8841d67e1e56e498a49232d943"
+}
