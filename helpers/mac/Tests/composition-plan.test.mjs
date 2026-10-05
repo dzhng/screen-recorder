@@ -9,9 +9,12 @@ import {
   truncateSync,
 } from "node:fs";
 import { tmpdir } from "node:os";
-import { join, resolve } from "node:path";
+import { join } from "node:path";
 import { test } from "node:test";
-const native = process.env.SCREENREC_NATIVE ?? resolve("helpers/mac/.build/debug/screenrec-native");
+import { fileURLToPath } from "node:url";
+const native =
+  process.env.SCREENREC_NATIVE ??
+  fileURLToPath(new URL("../.build/debug/screenrec-native", import.meta.url));
 
 test("file-backed composition plans retain typed validation and exact native audio", () => {
   const directory = mkdtempSync(join(tmpdir(), "composition-plan-"));

@@ -10,13 +10,17 @@ import {
   renameSync,
   existsSync,
   writeFileSync,
+  writeSync,
+  fstatSync,
 } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { test } from "node:test";
+import { fileURLToPath } from "node:url";
+import { waveHeader } from "../../../packages/test-harness/editing/audio-project-fixture.mjs";
 const native =
   process.env.SCREENREC_NATIVE ??
-  new URL("../.build/debug/screenrec-native", import.meta.url).pathname;
+  fileURLToPath(new URL("../.build/debug/screenrec-native", import.meta.url));
 function run(command, args, options = {}) {
   const r = spawnSync(command, args, { encoding: "utf8", timeout: 30000, ...options });
   assert.equal(r.status, 0, r.stderr);
@@ -213,7 +217,7 @@ test("selected source audio fills a renamed WAVE handle after its input is unlin
   }
 });
 
-test("selected source audio refuses inherited input beyond its inspection byte budget", () => {
+test("selected source audio streams past the metadata budget through the final native samples", () => {
   const dir = mkdtempSync(join(tmpdir(), "descriptor-source-budget-"));
   let sourceFD;
   try {
@@ -233,6 +237,12 @@ test("selected source audio refuses inherited input beyond its inspection byte b
       "pcm_f64le",
       source,
     ]);
+    const marker = Buffer.alloc(16);
+    marker.writeDoubleLE(0.5, 0);
+    marker.writeDoubleLE(-0.5, 8);
+    const writable = openSync(source, "r+");
+    writeSync(writable, marker, 0, marker.length, fstatSync(writable).size - marker.length);
+    closeSync(writable);
     sourceFD = openSync(source, "r");
     const result = request(
       "media.sourceAudio",
@@ -247,11 +257,18 @@ test("selected source audio refuses inherited input beyond its inspection byte b
       },
       [sourceFD],
     );
-    assert.equal(result.ok, false);
-    assert.equal(result.error.code, "LIMIT_EXCEEDED");
-    assert.match(result.error.message, /byte budget/);
-    assert.equal(existsSync(output), false);
-    assert.deepEqual(readdirSync(dir), ["large.wav"]);
+    assert.equal(result.ok, true, JSON.stringify(result));
+    assert.equal(result.data.sampleRate, 192000);
+    assert.equal(result.data.channels, 2);
+    assert.equal(result.data.frames, 192000 * 30);
+    assert.equal(result.data.decodedFrames, 192000 * 30);
+    assert.deepEqual(result.data.unavailable, []);
+    const bytes = readFileSync(output);
+    const header = waveHeader(bytes, bytes.length, 192000);
+    assert.equal(header.frames, 192000 * 30);
+    assert.equal(bytes.readFloatLE(bytes.length - 8), 0.5);
+    assert.equal(bytes.readFloatLE(bytes.length - 4), -0.5);
+    assert.deepEqual(readdirSync(dir).sort(), ["large.wav", "output.wav"]);
   } finally {
     if (sourceFD !== undefined) closeSync(sourceFD);
     rmSync(dir, { recursive: true, force: true });

@@ -11,10 +11,13 @@ import {
   rmSync,
 } from "node:fs";
 import { tmpdir } from "node:os";
-import { join, resolve } from "node:path";
+import { join } from "node:path";
 import { test } from "node:test";
+import { fileURLToPath } from "node:url";
 import { waveHeader } from "../../../packages/test-harness/editing/audio-project-fixture.mjs";
-const native = process.env.SCREENREC_NATIVE ?? resolve("helpers/mac/.build/debug/screenrec-native");
+const native =
+  process.env.SCREENREC_NATIVE ??
+  fileURLToPath(new URL("../.build/debug/screenrec-native", import.meta.url));
 test("retained PCM preserves exact frames across blocks and refuses malformed or changed operands", () => {
   const dir = mkdtempSync(join(tmpdir(), "retained-pcm-"));
   const file = join(dir, "retained.wav");
