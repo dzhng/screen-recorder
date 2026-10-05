@@ -55,6 +55,10 @@ if CommandLine.arguments.contains("--source-streaming") {
     try await verifySourceStreaming(in: directory)
     finish()
 }
+if CommandLine.arguments.contains("--speaker-pcm") {
+    try await verifySpeakerPCM(in: directory)
+    finish()
+}
 let wireOnly = CommandLine.arguments.contains("--wire-fixtures")
 func wave(_ url: URL) throws -> (rate: Int, channels: Int, samples: [Float]) {
     let data = try Data(contentsOf: url)

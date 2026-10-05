@@ -1,6 +1,6 @@
 # 23a2 — Source-bound speaker publication and reads
 
-Status: queued after the passed [original30s runtime seam](23a1-speaker-runtime.md).
+Status: in progress after the passed [original30s runtime seam](23a1-speaker-runtime.md).
 Question: **Can one explicit source observation publish durable anonymous speaker
 evidence, and can reads preserve that evidence through an immutable revision?**
 This slice does not expand native input length or select a shipping runtime.
@@ -43,6 +43,28 @@ transcript words. A family-specific store may own acoustic data; it cannot own
 another catalog, queue, file installer or process supervisor.
 
 ## Public seam and data meaning
+
+### Frozen request and raw-score selection
+
+`speaker.prepare` accepts the shared source selection fields, required zero-based
+`channel`, exact `sourceRange` and `modelId`. Repeating that canonical request
+joins existing work; failed/canceled work is retried through `job.retry`, not an
+extra request identity or a hidden recipe. Source reads require the same selection,
+channel/model ID and exact `observationRange` to choose an observation. Optional
+`sourceRange` is only a display query. Project reads require project/revision/query
+selection plus channel/model ID and consume only matching retained observations.
+Both reads use the existing evidence limit and cursor owners.
+
+`speaker.get` has `view:"intervals"` by default. A source selector may explicitly
+request `view:"scores"`; project score projection is not supported by this slice.
+The score view pages native frame rows, each carrying `frameIndex`, the complete
+exact source cell range and four numbers in anonymous slot order. Metadata retains
+native dtype/axes, the full raw tensor/receipt SHA and `scoreMeaning:"uncalibrated"`.
+Display queries return intersecting complete cells without renumbering or claiming
+that a sigmoid value is confidence. Complete raw tensor bytes and segment lines
+remain in the immutable owned receipt; JSON score pages do not replace that
+operand. Native intervals translate exact decimal segment endpoints into source
+time and preserve complete source ranges independently of display clipping.
 
 Add shared protocol operations `speaker.prepare` and `speaker.get` (proposed
 names until implemented). Preparation accepts source selection, explicit channel,
@@ -105,14 +127,19 @@ Exact SQL names, internal helper decomposition and bounded batching are delegate
 source/model/slot/publication meaning is not. Reuse existing owner retirement,
 job fencing and source file admission rather than implementing lookalikes.
 
-Fresh catalogs can add this family under the current format only if all prior
-writers/readers and package preservation remain compatible. Before changing a
-portable package schema, catalog format or refusal behavior, freeze that decision
-in this slice and the compatibility owner. Do not add automatic migrations,
-untyped opaque companions or dev compatibility aliases. Existing package export
-must not silently drop retained speaker evidence; if portable retention requires
-another seam, explicitly refuse that package operation and reslice portable
-support before calling this slice complete.
+The new durable generation/reference family requires a coordinated catalog format
+bump: prior writers cannot retire or preserve this dependency. Reuse the existing
+`UNSUPPORTED_CATALOG` refusal for all older formats; do not migrate or modify a
+personal library. Coordinate the one format change with concurrent derivative
+provenance work. Shared reference/catalog owners carry speaker generations; no
+untyped opaque companions or dev compatibility aliases are admitted.
+
+An intermediate source-publication checkpoint must explicitly refuse package
+export when its selected sources retain speaker observations, rather than
+silently omit them. This is not the final portability contract. The required
+[portable preservation subpass](23a3-speaker-portable-evidence.md) implements
+export, package open and adoption within the active speaker scope. Neither 23a nor
+the full parity spec may close while this refusal remains the only support.
 
 ## Test-first verification and review artifact
 
@@ -156,4 +183,9 @@ source/catalog/jobs owners. Freeze the exact shared public schemas before changi
 persistence, inspect package retention, and resolve a scope conflict by reslicing
 instead of inventing a compatibility mechanism. Keep the accepted 30s worker and
 runtime sources intact; do not rerun their expensive checkpoint. Update this
-status and the owning plan handoff before ending the pass.
+status and the owning plan handoff before ending the pass. Source admission now
+has model-free red/green controls through real asset/acquisition stores for
+physical/acquisition gaps, exact source origin/channel and fractional sample-grid
+start, non-30s extent, unknown/out-of-range channels and off-grid refusal. No
+native decoder, worker or persistence is connected yet; these controls do not
+establish source PCM preservation or public readiness.
