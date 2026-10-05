@@ -44,6 +44,7 @@ import {
   type ProjectSpeakerDependency,
 } from "./project-speakers.js";
 import type { SpeakerEvidenceStore } from "./speaker-evidence.js";
+import type { SpeakerProcessing } from "./speaker-processing.js";
 export type { ProjectSpeakerRow, ProjectSpeakerDependency } from "./project-speakers.js";
 export type ProjectSpeakerInput = ProjectEvidenceInput & { channel: number; modelId: string };
 type ProjectCheckpoint =
@@ -148,11 +149,7 @@ export class ProjectEvidenceInspection {
       transcripts: TranscriptProcessing;
       records: TranscriptRecords;
       events?: SourceEvents;
-      speakers?: {
-        resolveMany: (
-          selections: readonly SourceSelection[],
-          request: { channel: number; modelId: string },
-        ) => ProjectSpeakerDependency[];
+      speakers?: Pick<SpeakerProcessing, "resolveMany"> & {
         records: Pick<SpeakerEvidenceStore, "intervalPage">;
       };
     },

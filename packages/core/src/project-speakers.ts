@@ -14,19 +14,12 @@ import type {
   SpeakerEvidenceStore,
   SpeakerObservation,
 } from "./speaker-evidence.js";
-import type { SourceSelection } from "./source-selection.js";
+import type { SpeakerProcessing } from "./speaker-processing.js";
 import { sourceSelectionKey } from "./source-selection.js";
 import { mergeHeads, type EvidenceKey } from "./evidence-merge.js";
 import type { EvidenceManifest, EvidencePagePlan, EvidenceCheckpoint } from "./project-evidence.js";
 
-export type ProjectSpeakerDependency = {
-  selection: SourceSelection;
-  evidence: SpeakerEvidenceMetadata[];
-  state: string;
-  reason: string | null;
-  retryable: boolean;
-  jobId: string | null;
-};
+export type ProjectSpeakerDependency = ReturnType<SpeakerProcessing["resolveMany"]>[number];
 export type ProjectSpeakerRow = SpeakerObservation & {
   clipId: string;
   assetId: string;
