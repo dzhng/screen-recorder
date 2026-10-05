@@ -290,3 +290,33 @@ limited-range video. FFprobe may fill only absent native range; other absent
 native declarations remain unqualified. This establishes interpretation only:
 the padded-tail reader control still requires a separate physical-clock refusal,
 and managed conversion remains unimplemented.
+
+## Dedicated encoded numerical checkpoint
+
+The existing HDR reproduction now has an encoded mode; no second harness or
+execution owner was added. Independently authored PQ/HLG charts become three
+10-bit HEVC frames at 24 fps with exact 125 ms declared support. Unstripped Apple
+output retains SEI 5 refusal, and HLG additionally retains proprietary NAL 62
+refusal. Test-only explicit stripping authors plain controls; this is never a
+production treatment or broader phone-HDR acceptance.
+
+The [retained actual linked report](../evidence/hdr-encoded/report.json) runs the
+same held original through verified native probe delivery, fresh fact reader,
+FFprobe selector/declarations, interpretation qualification and existing CLI
+owner while a replacement pathname persists. Presented count, complete timing
+digest, exact endpoints/tail, occupied segments, origin, dimensions and matrix
+match the ProRes derivative. Independent chart interior errors are 2/255 PQ and
+1/255 HLG; whole-frame source-conversion-to-ProRes errors are 2/255 and 3/255,
+within the frozen 3/255 numerical budget. This is numerical evidence, not a new
+perceptual or managed-publication claim.
+
+Explicit zscale input pins for the qualified BT2020 NCL limited PQ/HLG family
+produce byte-identical raw RGB and complete ProRes MOV files to the frozen
+recipe. Changing the actual range pin to full goes red on 13/255 PQ difference;
+the independent wrong-range controls differ by 13/255 PQ and 18/255 HLG. The
+original ProRes mode remains green. Independent review found a lost frozen raw
+diagnostic operand before pin failure; saving that operand before the gate fixes
+it. The repeated faulty pin retains all three full raw operands before refusal.
+The fixture uses an exact 90,000 Hz movie clock only as an independently authored
+control. Production still derives its movie clock from fresh exact operands and
+must validate actual output support rather than importing that control setting.

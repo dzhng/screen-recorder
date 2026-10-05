@@ -6,14 +6,20 @@ import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { compileCliOwner } from "../../../apps/service/src/cli-owner.fixture.ts";
 import { inspectFfmpegInput } from "../../../apps/service/dist/ffmpeg-input.js";
+import { readMediaProbe } from "../../../apps/service/dist/media-probe.js";
+import { qualifyHdrInterpretation } from "../../../apps/service/dist/hdr-conversion.js";
+import { readHdrConversionFacts } from "@screenrec/core/hdr-conversion-facts";
 import { cliWorker, mediaWorker, nativeResult } from "../../../apps/service/dist/worker.js";
 
 // Reproduction only: explicitly supplied prepared/candidate runtime, immutable
 // source facts, independent standards chart and held-source substitution.
 const [distribution, native, output] = process.argv.slice(2, 5).map((value) => resolve(value));
-const heldOut = process.argv[5] === "held-out";
+const heldOut = process.argv.slice(5).includes("held-out");
+const encoded = process.argv.slice(5).includes("encoded");
 if (!distribution || !native || !output)
-  throw new Error("Usage: node hdr-conversion.mjs DISTRIBUTION NATIVE NEW_OUTPUT_DIRECTORY");
+  throw new Error(
+    "Usage: node hdr-conversion.mjs DISTRIBUTION NATIVE NEW_OUTPUT_DIRECTORY [held-out] [encoded]",
+  );
 await mkdir(output, { mode: 0o700 });
 const scratch = await mkdtemp("/tmp/screenrec-hdr-owner-");
 const ffmpeg = join(distribution, "bin/ffmpeg"),
@@ -61,6 +67,7 @@ try {
     recipe,
     rawTolerance8bit: 3,
     heldOut,
+    encoded,
     intermediateTolerance8bit: 3,
     runtime: {
       ffmpeg: await hash(ffmpeg),
@@ -77,56 +84,169 @@ try {
       ffmpeg,
       ...(heldOut ? ["held-out"] : []),
     ]);
-    const source = join(output, `${family}-chart.mov`),
-      retained = source + ".retained";
+    let source = join(output, `${family}-chart.mov`);
+    let encodedControl;
+    if (encoded) {
+      const transfer = family === "pq" ? "smpte2084" : "arib-std-b67";
+      const rawPath = join(output, `${family}-three.yuv`);
+      const raw = await readFile(join(output, `${family}-chart.yuv`));
+      await writeFile(rawPath, Buffer.concat([raw, raw, raw]));
+      const control = join(output, `${family}-unstripped.mov`);
+      run([
+        "-y",
+        "-f",
+        "rawvideo",
+        "-pixel_format",
+        "yuv444p10le",
+        "-video_size",
+        "320x192",
+        "-framerate",
+        "24",
+        "-i",
+        rawPath,
+        "-vf",
+        `setparams=color_primaries=bt2020:color_trc=${transfer}:colorspace=bt2020nc:range=limited,format=p010le`,
+        "-frames:v",
+        "3",
+        "-c:v",
+        "hevc_videotoolbox",
+        "-profile:v",
+        "main10",
+        "-b:v",
+        "100000000",
+        "-tag:v",
+        "hvc1",
+        "-color_primaries",
+        "bt2020",
+        "-color_trc",
+        transfer,
+        "-colorspace",
+        "bt2020nc",
+        "-color_range",
+        "tv",
+        "-video_track_timescale",
+        "90000",
+        "-movie_timescale",
+        "90000",
+        control,
+      ]);
+      source = join(output, `${family}-encoded.mov`);
+      // Independently author a plain test signal; never a production treatment.
+      run([
+        "-y",
+        "-i",
+        control,
+        "-map",
+        "0:v:0",
+        "-c:v",
+        "copy",
+        "-bsf:v",
+        "filter_units=remove_types=39|40|62",
+        "-video_track_timescale",
+        "90000",
+        "-movie_timescale",
+        "90000",
+        source,
+      ]);
+      encodedControl = {
+        sha256: await hash(control),
+        metadata: nativeResult(
+          await worker("media.probe", { path: control, inspectCompressedVideo: true }),
+        ),
+      };
+    }
+    const retained = source + ".retained";
     const file = await open(source, "r");
     let substituted = false;
     try {
-      const metadata = nativeResult(
-        await worker("media.probe", { path: "/dev/fd/3" }, { descriptors: [file.fd] }),
+      const metadata = await readMediaProbe(
+        worker,
+        output,
+        "/dev/fd/3",
+        new AbortController().signal,
+        [file.fd],
+        { inspectCompressedVideo: encoded },
       );
       const input = await inspectFfmpegInput(
         { executable: ffprobe, ownerExecutable: owner },
-        { file, metadata, streamId: "track:1" },
+        { file, metadata, streamId: "track:1", inspectColor: encoded },
       );
+      await writeFile(
+        join(output, `${family}-input-operands.json`),
+        JSON.stringify({ metadata, encodedControl, ffprobeColor: input.color }, null, 2) + "\n",
+      );
+      const interpretation = encoded
+        ? qualifyHdrInterpretation(readHdrConversionFacts(metadata, "track:1"), input.color)
+        : undefined;
+      if (encoded) {
+        assert.equal(interpretation.family, family);
+        assert(encodedControl.metadata.streams[0].compressedVideoInspection.refusals.length > 0);
+      }
       const sourceSha256 = await hash(source);
       await rename(source, retained);
       substituted = true;
       await writeFile(source, "replacement must never decode");
-      const decoded = await cliWorker(
-        {
-          executable: ffmpeg,
-          ownerExecutable: owner,
-          args: [
-            "-nostdin",
-            "-hide_banner",
-            "-loglevel",
-            "error",
-            ...input.args,
-            "-map",
-            input.map,
-            "-an",
-            "-vf",
-            recipe + ",format=yuv444p16le",
-            "-frames:v",
-            "1",
-            "-pix_fmt",
-            "rgb24",
-            "-f",
-            "rawvideo",
-            "pipe:1",
-          ],
-        },
-        {
-          descriptors: input.descriptors,
-          rewindDescriptors: input.rewindDescriptors,
-          maxBytes: 320 * 192 * 3 + 4096,
-        },
-      );
-      assert(decoded.ok, JSON.stringify(decoded));
-      const raw = decoded.data.stdout;
-      assert.equal(raw.length, 320 * 192 * 3);
+      const decodeRgb = async (transform) => {
+        const decoded = await cliWorker(
+          {
+            executable: ffmpeg,
+            ownerExecutable: owner,
+            args: [
+              "-nostdin",
+              "-hide_banner",
+              "-loglevel",
+              "error",
+              ...input.args,
+              "-map",
+              input.map,
+              "-an",
+              "-vf",
+              transform + ",format=yuv444p16le",
+              "-frames:v",
+              "1",
+              "-pix_fmt",
+              "rgb24",
+              "-f",
+              "rawvideo",
+              "pipe:1",
+            ],
+          },
+          {
+            descriptors: input.descriptors,
+            rewindDescriptors: input.rewindDescriptors,
+            maxBytes: 320 * 192 * 3 + 4096,
+          },
+        );
+        assert(decoded.ok, JSON.stringify(decoded));
+        assert.equal(decoded.data.stdout.length, 320 * 192 * 3);
+        return decoded.data.stdout;
+      };
+      const raw = await decodeRgb(recipe);
       await writeFile(join(output, `${family}-candidate.rgb`), raw);
+      const pinnedRecipe = encoded
+        ? recipe.replace(
+            "zscale=t=linear",
+            `zscale=pin=bt2020:tin=${family === "pq" ? "smpte2084" : "arib-std-b67"}:min=bt2020nc:rin=limited:t=linear`,
+          )
+        : recipe;
+      let explicitPins;
+      if (encoded) {
+        const pinned = await decodeRgb(pinnedRecipe);
+        const wrongRange = await decodeRgb(pinnedRecipe.replace("rin=limited", "rin=full"));
+        await writeFile(join(output, `${family}-pinned.rgb`), pinned);
+        await writeFile(join(output, `${family}-wrong-range.rgb`), wrongRange);
+        explicitPins = {
+          recipe: pinnedRecipe,
+          rawMaximum: maximumDifference(raw, pinned),
+          wrongRangeMaximum: maximumDifference(raw, wrongRange),
+        };
+        await writeFile(
+          join(output, `${family}-pin-operands.json`),
+          JSON.stringify(explicitPins, null, 2) + "\n",
+        );
+        assert.equal(explicitPins.rawMaximum, 0);
+        assert(explicitPins.wrongRangeMaximum > result.rawTolerance8bit);
+      }
       run([
         "-f",
         "rawvideo",
@@ -147,9 +267,9 @@ try {
       const intermediate = join(output, `${family}-converted.mov`);
       const placeholder = await open("/dev/null", "w");
       const directory = await open(output, "r");
-      let encoded;
+      let completion;
       try {
-        encoded = await cliWorker(
+        completion = await cliWorker(
           {
             executable: ffmpeg,
             ownerExecutable: owner,
@@ -164,10 +284,20 @@ try {
               input.map,
               "-an",
               "-vf",
-              recipe +
+              pinnedRecipe +
                 ",format=yuv444p10le,setparams=color_primaries=bt709:color_trc=bt709:colorspace=bt709:range=limited",
               "-frames:v",
-              "1",
+              encoded ? "3" : "1",
+              ...(encoded
+                ? [
+                    "-fps_mode",
+                    "passthrough",
+                    "-enc_time_base",
+                    "demux",
+                    "-movie_timescale",
+                    "90000",
+                  ]
+                : []),
               "-c:v",
               "prores_ks",
               "-profile:v",
@@ -180,6 +310,7 @@ try {
               "bt709",
               "-colorspace",
               "bt709",
+              ...(encoded ? ["-color_range", "tv"] : []),
               "-f",
               "mov",
               "/dev/fd/4",
@@ -200,11 +331,11 @@ try {
         await placeholder.close();
         await directory.close();
       }
-      assert(encoded.ok, JSON.stringify(encoded));
+      assert(completion.ok, JSON.stringify(completion));
       const outputFile = await open(intermediate, "r");
       try {
         const identity = await outputFile.stat({ bigint: true });
-        assert.deepEqual(encoded.data.allocatedOutput, {
+        assert.deepEqual(completion.data.allocatedOutput, {
           device: String(identity.dev),
           inode: String(identity.ino),
         });
@@ -243,14 +374,79 @@ try {
       );
       const outputMetadata = nativeResult(await worker("media.probe", { path: intermediate }));
       const outputStream = outputMetadata.streams[0];
+      await writeFile(
+        join(output, `${family}-clock-operands.json`),
+        JSON.stringify({ metadata, outputMetadata }, null, 2) + "\n",
+      );
       assert.equal(outputStream.colorPrimaries, "ITU_R_709_2");
       assert.equal(outputStream.transferFunction, "ITU_R_709_2");
       assert.equal(outputStream.ycbcrMatrix, "ITU_R_709_2");
       assert.deepEqual(outputStream.samples, metadata.streams[0].samples);
       assert.deepEqual(outputStream.segments, metadata.streams[0].segments);
+      if (encoded) {
+        assert.equal(metadata.streams[0].endUs, 125000);
+        assert.deepEqual(metadata.streams[0].samples.lastDurationUs, {
+          numerator: 125000,
+          denominator: 3,
+        });
+        assert.equal(metadata.originUs, outputMetadata.originUs);
+        assert.deepEqual(outputStream.transform, metadata.streams[0].transform);
+        assert.equal(outputStream.width, metadata.streams[0].width);
+        assert.equal(outputStream.height, metadata.streams[0].height);
+        assert.equal(outputStream.hasAlpha, false);
+      }
       await rm(source);
       await rename(retained, source);
       substituted = false;
+      if (encoded) {
+        const frozenIntermediate = join(output, `${family}-frozen-converted.mov`);
+        // Independent frozen command after restoring the fixture pathname.
+        run([
+          "-y",
+          "-copyts",
+          "-noautorotate",
+          "-i",
+          source,
+          "-map",
+          input.map,
+          "-an",
+          "-vf",
+          recipe +
+            ",format=yuv444p10le,setparams=color_primaries=bt709:color_trc=bt709:colorspace=bt709:range=limited",
+          "-frames:v",
+          "3",
+          "-fps_mode",
+          "passthrough",
+          "-enc_time_base",
+          "demux",
+          "-movie_timescale",
+          "90000",
+          "-c:v",
+          "prores_ks",
+          "-profile:v",
+          "4",
+          "-alpha_bits",
+          "0",
+          "-color_primaries",
+          "bt709",
+          "-color_trc",
+          "bt709",
+          "-colorspace",
+          "bt709",
+          "-color_range",
+          "tv",
+          "-f",
+          "mov",
+          frozenIntermediate,
+        ]);
+        explicitPins.frozenSha256 = await hash(frozenIntermediate);
+        explicitPins.pinnedSha256 = await hash(intermediate);
+        await writeFile(
+          join(output, `${family}-pin-operands.json`),
+          JSON.stringify(explicitPins, null, 2) + "\n",
+        );
+        assert.equal(explicitPins.pinnedSha256, explicitPins.frozenSha256);
+      }
       const wholeFrameMaximum = maximumDifference(raw, delivery);
       assert(wholeFrameMaximum <= 3, "Intermediate must retain whole-frame boundaries");
       const h264 = join(output, `${family}-h264-control.mp4`);
@@ -311,6 +507,9 @@ try {
         family,
         sourceSha256,
         metadata,
+        interpretation,
+        encodedControl,
+        explicitPins,
         outputSha256: await hash(intermediate),
         outputMetadata,
         rawCalibration,

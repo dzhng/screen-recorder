@@ -950,3 +950,20 @@ Reach: native span admission and core processing evidence both use positive samp
 support, without inventing context, silence or a new edit. The native/service
 sub-sample fixture verifies zero output and no external record.
 Verdict: sound under the exact output clock. Confidence: medium.
+
+
+### HDR conversion binds explicit input interpretation without changing its transform
+
+When: slice 19 encoded source research. Native and held FFprobe declarations can
+agree while a decoder's frame defaults still differ; the execution recipe must
+bind the qualified meaning. Explicit zscale input primaries, transfer, matrix and
+limited range pins were accepted only after matching both raw RGB and complete
+ProRes bytes to the frozen recipe on dedicated PQ/HLG HEVC controls. Wrong range
+pins falsify that parity. The recipe's numerical transform and identity stay
+fixed; unqualified or conflicting source declarations refuse instead of using
+another interpretation. Gap: the plan did not specify whether qualified input
+meaning should remain an implicit decoder default or be bound in execution. Reach:
+managed conversion must consume the same qualified meaning and frozen transform;
+new source families require their own parity proof. Verdict: sound for the two
+measured encoded controls, with managed support and publication still unfinished.
+Confidence: medium.

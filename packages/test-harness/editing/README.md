@@ -102,5 +102,12 @@ Its [clock probe](hdr-clock.py) separately checks sparse final support, exact co
 origin and rotation. Neither selects an implicit source interpretation or supplies
 a production publication path.
 
+The same reproduction's `encoded` mode checks dedicated three-frame 10-bit
+HEVC PQ/HLG controls through the fresh reader and retained FFprobe/interpretation
+owners. It preserves unstripped encoder refusals, then independently authors
+plain controls for numerical source-to-derivative proof. Explicit interpretation
+pins must reproduce the frozen recipe's raw and ProRes bytes exactly. The
+fixture's exact movie clock is a control, not a production clock default.
+
 [Audio recipe reproduction](audio-recipes/README.md) retains numerical
 normalization, limiter and compressor evidence before production admission.
