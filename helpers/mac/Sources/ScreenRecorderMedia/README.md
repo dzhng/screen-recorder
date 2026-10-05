@@ -77,7 +77,6 @@ does not itself make ordinary metadata loading refuse a reference movie. Loader 
 their underlying bounded-work refusal instead of losing that evidence behind an
 AVFoundation wrapper error.
 
-
 Explicit [decoded-audio inspection](DecodedAudioInspection.swift) observes native-rate
 PCM emitted by the retained decoder without a requested range, resampling, edit
 mask or synthesized padding. Emitted frame counts and exact run positions are

@@ -82,7 +82,13 @@ export {
   processingCapabilities,
   type ProcessorImplementations,
 } from "./processing.js";
-export { processingTargetSchema, processingStepSchema, processingTapSchema, isStatefulProcessor, stateRecipeSchema } from "./schema.js";
+export {
+  processingTargetSchema,
+  processingStepSchema,
+  processingTapSchema,
+  isStatefulProcessor,
+  stateRecipeSchema,
+} from "./schema.js";
 export type { ProcessingTarget, ProcessingStep, ProcessingTap } from "./schema.js";
 
 export { createCompiler } from "./compiler.js";

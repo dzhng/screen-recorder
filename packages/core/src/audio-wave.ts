@@ -93,7 +93,10 @@ export function readAudioWave(file: Pick<RetainedRead, "bytes" | "read">) {
 }
 
 /** One RIFF validator for published native PCM and bounded acoustic readers. */
-export function validateAudioWave(file: Pick<RetainedRead, "bytes" | "read">, value: AudioDimensions) {
+export function validateAudioWave(
+  file: Pick<RetainedRead, "bytes" | "read">,
+  value: AudioDimensions,
+) {
   const actual = readAudioWave(file);
   if (
     actual.bytes !== value.bytes ||

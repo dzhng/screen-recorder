@@ -52,7 +52,6 @@ identities and license declarations. Preserve upstream notices and model attribu
 when redistributing assets. Experiment measurements do not replace product worker,
 managed preparation or installed acceptance proof.
 
-
 [Optional-provider feasibility](feasibility/README.md) uses bounded independent
 corpus labels and local producers. A registered speech engine and an experiment
 provider have different authority: only a family-specific passed gate can justify
