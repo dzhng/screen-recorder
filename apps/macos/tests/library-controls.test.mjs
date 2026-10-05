@@ -113,10 +113,10 @@ import ScreenRecorderControls
 
 
         var state = ControlsState(); state.service = .ready; state.library = library.state
-        func actions(_ rows: [MenuEntry]) -> [MenuEntry] { rows.flatMap { [$0] + actions($0.submenu) } }
-        let menu = actions(RecordingMenu.entries(for: state))
-        precondition(!menu.contains { ($0.action?.id.hasPrefix("recording.preview.") ?? false) || ($0.action?.id.hasPrefix("recording.export.") ?? false) }, "Source recordings never advertise composition actions")
-        precondition(menu.first { $0.action == .previewProject("same") }?.enabled == true)
+        let recordingActions = LibraryPresentation.recordings(for: state).items.flatMap(\.actions)
+        precondition(recordingActions.map(\.action) == [.deleteRecording("same")], "Source recordings never advertise composition actions")
+        let projectActions = LibraryPresentation.projects(for: state, exports: .init()).items.flatMap(\.actions)
+        precondition(projectActions.first { $0.action == .previewProject("same") }?.enabled == true)
         precondition(!script.calls.contains { ["processing.status", "index.get"].contains($0.0) })
         precondition(library.perform(.previewProject("same")))
         precondition(library.perform(.exportProject("same", .package)))
