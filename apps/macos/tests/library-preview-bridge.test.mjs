@@ -120,7 +120,7 @@ import {spawn} from 'node:child_process';import {appendFileSync} from 'node:fs';
 const log=x=>appendFileSync(process.env.SCREENREC_23K_NATIVE_LOG,JSON.stringify(x)+'\\n');let bytes='';
 process.stdin.setEncoding('utf8').on('data',x=>bytes+=x);process.stdin.on('end',()=>{
 const request=JSON.parse(bytes);log({event:'request',request});const operation=request.operation;
-if(operation!=='media.audioCapabilities'||Object.keys(request.params).length){log({event:'refused',operation});process.stdout.write(JSON.stringify({id:request.id,ok:false,error:{code:'FIXTURE_UNEXPECTED_NATIVE',message:operation,retryable:false,details:{}}})+'\\n');return;}
+if(!/^media\\.(audio|picture|speaker)Capabilities$/.test(operation)||Object.keys(request.params).length){log({event:'refused',operation});process.stdout.write(JSON.stringify({id:request.id,ok:false,error:{code:'FIXTURE_UNEXPECTED_NATIVE',message:operation,retryable:false,details:{}}})+'\\n');return;}
 const child=spawn(process.env.SCREENREC_23K_NATIVE,[],{stdio:['pipe','pipe','pipe']});log({event:'forwarded',operation,pid:child.pid});
 let stdout='',stderr='';child.stdout.on('data',b=>stdout+=b);child.stderr.on('data',b=>stderr+=b);
 child.on('close',(code,signal)=>{log({event:'close',operation,pid:child.pid,code,signal,stdout,stderr});process.stdout.write(stdout);process.stderr.write(stderr);process.exitCode=code??1});child.stdin.end(bytes);
@@ -196,12 +196,16 @@ child.on('close',(code,signal)=>{log({event:'close',operation,pid:child.pid,code
           .filter((x) => x.event === "request")
           .map((x) => x.request.operation)
           .sort(),
-        ["media.audioCapabilities"],
+        ["media.audioCapabilities", "media.pictureCapabilities", "media.speakerCapabilities"],
       );
       assert(nativeRows.every((x) => x.event !== "refused"));
       assert.deepEqual(
         nativeRows.filter((x) => x.event === "close").map((x) => [x.code, x.signal]),
-        [[0, null]],
+        [
+          [0, null],
+          [0, null],
+          [0, null],
+        ],
       );
       const control = readFileSync(env.SCREENREC_23K_CONTROL, "utf8")
         .trim()
