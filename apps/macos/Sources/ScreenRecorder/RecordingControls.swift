@@ -23,6 +23,7 @@ final class RecordingControls: NSObject, NSMenuDelegate {
     private let quit: () -> Void
     private let preferences: Preferences
     private var state: ControlsState
+    private var setUpdatesEnabled: ((Bool) -> Void)?
     /// Screen access has no "not yet asked" state to read, so a request this launch that came back
     /// refused is what says asking again would prompt for nothing.
     private var screenRequestRefused = false
@@ -95,6 +96,12 @@ final class RecordingControls: NSObject, NSMenuDelegate {
         statusItem.menu = menu
         statusItem.button?.setAccessibilityLabel("Screen Recorder")
         readPermissions()
+        render()
+    }
+
+    func configureUpdates(_ updates: UpdateControls, setEnabled: @escaping (Bool) -> Void) {
+        state.updates = updates
+        setUpdatesEnabled = setEnabled
         render()
     }
 
@@ -209,6 +216,8 @@ final class RecordingControls: NSObject, NSMenuDelegate {
             request(.screen)
         case .requestMicrophonePermission:
             request(.microphone)
+        case .setAutomaticUpdates(let enabled):
+            if state.updates.available { setUpdatesEnabled?(enabled) }
         case .openSettings:
             settings.show()
         case .quit:

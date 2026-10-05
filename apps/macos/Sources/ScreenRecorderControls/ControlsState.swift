@@ -30,6 +30,7 @@ public struct ControlsState: Equatable, Sendable {
     public var sources = SourceCatalog()
     public var selection = CaptureSelection()
     public var library = LibraryState()
+    public var updates = UpdateControls()
     /// Whether this app is counting a take in before it starts. It belongs to the app rather than
     /// the service — no take exists yet — but the menu has to say so, because while it counts the
     /// only thing Start can mean is "never mind".
@@ -478,4 +479,16 @@ extension ControlsState {
         if unansweredStart?.requestId == request.requestId { unansweredStart = nil }
         return answer == .ended && request.repeatsUnanswered
     }
+}
+
+/// Effective updater facts observed by the controls; Sparkle owns their persistence.
+public struct UpdateControls: Equatable, Sendable {
+    public init(available: Bool = false, enabled: Bool = false, status: String? = nil) {
+        self.available = available
+        self.enabled = enabled
+        self.status = status
+    }
+    public var available: Bool
+    public var enabled: Bool
+    public var status: String?
 }

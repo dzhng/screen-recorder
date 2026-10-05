@@ -62,3 +62,17 @@ Capture, geometry and media behavior belong to the [native owner](../../helpers/
 Probe entry points use those same owners; they do not define a second recorder.
 The checked-in icon is an input to the build, with its [drawing tool](../../scripts/render-app-icon.swift)
 kept separately so building is not a drawing step.
+
+## Update preference
+
+Settings observes the release updater's effective availability, enabled preference
+and status. Its toggle sends an explicit change to the native coordinator; Sparkle
+owns persistence and staged-update cancellation. Settings never writes another
+update preference or infers installation permission from its checkbox. Manual
+source/personal builds show a manual-update explanation instead of an inert toggle.
+
+The [offscreen settings renderer](tests/settings-view-shots.mjs) draws the production
+view with synthetic owner facts and checks that the form still scrolls to General.
+It proves presentation without a service or permission inspection. Actual updater
+persistence, staged disarming and quiet relaunch belong to native coordination
+and the installed-update gate.

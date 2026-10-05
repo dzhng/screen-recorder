@@ -1,0 +1,171 @@
+{
+  "schemaVersion": 1,
+  "scope": "Settings presentation and request dispatch; updater owner persistence, staged-disarm and installed parity belong native/assembled gates",
+  "platform": {
+    "os": "ProductName:\t\tmacOS\nProductVersion:\t\t27.0.1\nBuildVersion:\t\t26A434\n",
+    "xcode": "Xcode 27.0\nBuild version 27A266a\n",
+    "arch": "arm64"
+  },
+  "baseline": {
+    "revision": "4c375b74b6dbad942508e2b09dc107b210a69bbb",
+    "settingsSourceSha256": "5b5ef51a565f7ee8796d5aad5011c90f8e5db6cb545e7286e2507fb2aa6cb007",
+    "fixture": "same production SettingsView, permission facts granted, same shortcut path, offscreen window560x780 and inactive appearance,0.6s layout wait; pre-change scratch renderer"
+  },
+  "sourceRevision": "4c375b74b6dbad942508e2b09dc107b210a69bbb",
+  "sourceBinding": "baseline revision plus independently hashed new/changed sources",
+  "sources": [
+    {
+      "path": "apps/macos/Sources/ScreenRecorder/SettingsWindow.swift",
+      "sha256": "a55ecb6792fea4c888de7a255965a09ad083f7751272efd8d0e2d38b3b235553"
+    },
+    {
+      "path": "apps/macos/Sources/ScreenRecorder/RecordingControls.swift",
+      "sha256": "b08b39b78d613ace7fd74b608d98419ee19a1bf31582be67b47b7fa75b18cb4a"
+    },
+    {
+      "path": "apps/macos/Sources/ScreenRecorderControls/ControlsState.swift",
+      "sha256": "b2f19f3bb46bd9c01f70df740ca22889a20f03a0a076a920b36e67d8e84fe5a1"
+    },
+    {
+      "path": "apps/macos/Sources/ScreenRecorderControls/ControlsMenu.swift",
+      "sha256": "04c6ac492201dee023709175a28a5aaeecfde515f4fb1936199faffaa3ac970a"
+    },
+    {
+      "path": "apps/macos/tests/fixtures/swift-controls.mjs",
+      "sha256": "07f5be9aeb10f791925d09e2797d2f90c7dfb8f7399e2630706270e75f85eac4"
+    },
+    {
+      "path": "apps/macos/tests/settings-view-shots.mjs",
+      "sha256": "53d0f4fdf184e8ede55d68668354dde52d0f96f5b33ae152508a4dca2c749a6e"
+    },
+    {
+      "path": "apps/macos/tests/update-settings.test.mjs",
+      "sha256": "52a888b0a8d6fbb28bfdb088d44251639f4fc03d3542d744b8a19fe032c9c6b8"
+    }
+  ],
+  "commands": [
+    {
+      "command": "node --test apps/macos/tests/update-settings.test.mjs",
+      "result": "1/1 passed; owner dispatch, no local mutation/store, unavailable refusal; local-mutation falsification red for expected missing action"
+    },
+    {
+      "command": "swift run --package-path apps/macos --build-system native --jobs2 ScreenRecorderControlsTests",
+      "result": "existing pure controls checks passed"
+    },
+    {
+      "command": "node apps/macos/tests/settings-view-shots.mjs",
+      "result": "10 top states +2 lower scroll states; production SettingsView, no service/capture/permission APIs"
+    },
+    {
+      "command": "fresh read-only Codex screenshot-only vision consultation",
+      "result": "12 full frames +10 crops reviewed; bottom-only fresh consultation then reviewed both additional scroll views; no unresolved visible defect"
+    },
+    {
+      "command": "codex review --uncommitted",
+      "result": "no actionable defects; updater production integration remains pending"
+    }
+  ],
+  "visualComparison": "comparison.json",
+  "images": [
+    {
+      "path": "baseline/dark.png",
+      "sha256": "e7bca962acae32ffc8aebd63d42d8b5e03b2b60863e9477b044ffce4afc63e08"
+    },
+    {
+      "path": "baseline/light.png",
+      "sha256": "636568a30ba37e08387fabeb2339a7e396eb85fc5d270ab121d942b2bdde57eb"
+    },
+    {
+      "path": "candidate/dark-disabled.png",
+      "sha256": "d9006911b9bdb3fc9a4150ac4bd8005adcc577a71b5985b133893884bfaa30b3"
+    },
+    {
+      "path": "candidate/dark-enabled.png",
+      "sha256": "fc72fc84367d19000325061c62bdee4b775eba729545c90fc39c69b23b88bb21"
+    },
+    {
+      "path": "candidate/dark-failure-bottom.png",
+      "sha256": "eb680318dfb75d25d019bd91c598fa318cd27d2bb84fdad0f7205be35fda82b3"
+    },
+    {
+      "path": "candidate/dark-failure.png",
+      "sha256": "8639a046c8d3d151b8cdd39dbc2777424f92d9a6cf100aae17d18700ca564268"
+    },
+    {
+      "path": "candidate/dark-manual.png",
+      "sha256": "e7f39a30ebbdd97361048e73d22dd656c98a398725bcf0f7975f35246fbd47fe"
+    },
+    {
+      "path": "candidate/dark-waiting.png",
+      "sha256": "df5aa5e1179cb87b9dcbabae8bc9596876e2135d239b7c0f00e47268394d0ab8"
+    },
+    {
+      "path": "candidate/light-disabled-bottom.png",
+      "sha256": "d0c5700822af16b94cdb6cdbe3a3cfd288bed49db827cc56395c54802b3aa0cc"
+    },
+    {
+      "path": "candidate/light-disabled.png",
+      "sha256": "280d1da1bc27c23586ea198b40a93239fbf06440194defaefcd75a23661b8d94"
+    },
+    {
+      "path": "candidate/light-enabled.png",
+      "sha256": "0927a3f8d43ee8ce97a89bc03a0c338d40b96ea80a34b6d08f1de52aad0b07c8"
+    },
+    {
+      "path": "candidate/light-failure.png",
+      "sha256": "961f829324e1117650313f4d69d31041c1980f05a29ec77db22d331c3fce6f16"
+    },
+    {
+      "path": "candidate/light-manual.png",
+      "sha256": "b7c9ff5fc8522ba50a01a73051c852455007388c84959a1cf0002bc352009770"
+    },
+    {
+      "path": "candidate/light-waiting.png",
+      "sha256": "bacdfc75099021229f8fcf3ee8d84587cd67c71ac59be84a6f3431b48b4c4d62"
+    },
+    {
+      "path": "crops/dark-disabled.png",
+      "sha256": "771e4e4c42d33103c17b509696eae0cb5f9647ae02d2956ef556a07b5034f6b2"
+    },
+    {
+      "path": "crops/dark-enabled.png",
+      "sha256": "04f90ec01803426e0cbbad93edc7c20215849c2259d15dbf58c57367af4aecc1"
+    },
+    {
+      "path": "crops/dark-failure.png",
+      "sha256": "52b5f12cb42b1b490d0017d49777a179e2f2336800299d40fda15154e336ff28"
+    },
+    {
+      "path": "crops/dark-manual.png",
+      "sha256": "b6ba063b9a6cb25301f18c12cccf061ff3706f02da3c964d3a9ea1bf58db35dc"
+    },
+    {
+      "path": "crops/dark-waiting.png",
+      "sha256": "fadb50aaab7d2c98a133ac6fec67bae8cf387d94fe54a799499aba43eae4e277"
+    },
+    {
+      "path": "crops/light-disabled.png",
+      "sha256": "ea436957e6277c2a72ab7bf80a199c6952e6d31b5f6e0e7aed39c050547420d9"
+    },
+    {
+      "path": "crops/light-enabled.png",
+      "sha256": "a4e16872b6a0e998c792da0ad3bab9885bac93ff3c5417678a5842a3a23a0ad6"
+    },
+    {
+      "path": "crops/light-failure.png",
+      "sha256": "d381004ca3afed76f9690220cf65554085d568225d6d3b0367680f1f659cc07e"
+    },
+    {
+      "path": "crops/light-manual.png",
+      "sha256": "423e6550df0b8916b884b29631131cc6ca46d92394cd91d7aab093be1c9ccded"
+    },
+    {
+      "path": "crops/light-waiting.png",
+      "sha256": "52666405500bcf491f392117888c69c798b6909243b73510d9967bd5078e5612"
+    }
+  ],
+  "preview": {
+    "opened": "background Preview, one invocation, six representative candidates; no app activation",
+    "resolution": "Five-minute nonblocking review interval elapsed without changes requested. Candidate accepted on visual evidence. Preview cleanup could not inspect owned documents: Apple Events query hung (owned query terminated) and native UI API timed out; no unrelated Preview windows were closed."
+  }
+}

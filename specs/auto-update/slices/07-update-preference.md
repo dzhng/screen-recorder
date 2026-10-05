@@ -46,3 +46,16 @@ Delegated: concise label/helper-copy refinement and reversible spacing within th
 existing settings style. Behavior and preference ownership are fixed. Human
 feedback changes this slice if the user cannot tell what Off prevents or whether
 recording can be interrupted. Screenshots alone do not prove preference persistence.
+
+## Settings presentation checkpoint
+
+The [review evidence](../assets/update-settings/README.md) binds the production
+SettingsView shots and focused model checks. Settings sends changes through
+`RecordingControls.configureUpdates` to its owner and observes the owner's
+answer, without writing a preference or optimistically changing the switch.
+Manual builds show a truthful explanation. The existing Settings menu entry
+remains the only route; no update command family or new window is added.
+
+This presentation pass does not establish actual Sparkle persistence or staged
+cancellation. Slice 06 supplies the owner/main wiring and its lifecycle proof;
+final assembled acceptance confirms relaunch persistence and opt-out on quit.

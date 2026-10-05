@@ -387,3 +387,35 @@
   **Verdict:** sound — ensures the release installer is the verified engine rather than whichever framework the prior local build retained.
   **Confidence:** high.
 
+### Render the actual SettingsView without launching the service
+
+- **When:** slice 07 settings presentation checkpoint.
+- **Choice:** The visual proof constructs the production SettingsView with observed
+  fixture facts in an offscreen window. It can show enabled, disabled, waiting,
+  failure and manual states, then scroll to General, without starting a service
+  or reading this account's capture permissions. An entire app launch would add
+  unrelated runtime work without proving preference persistence from these same
+  synthetic states.
+- **Gap:** the spec suggested a full-app screenshot runner but left the least
+  intrusive practical visual fixture open.
+- **Reach:** these screenshots prove presentation only. Native/assembled tests
+  still own actual updater preference and staged-cancellation behavior.
+- **Verdict:** sound: it draws the real view, retains whole frames and all state
+  crops, and independently verifies the lower form rather than hiding clipping.
+- **Confidence:** high.
+
+### Keep the controls compiler on its existing native build layout
+
+- **When:** slice 07 Xcode 27 harness correction.
+- **Choice:** The existing Swift controls check explicitly selects SwiftPM's native
+  build engine, whose module and object-file layout the fixture already consumes.
+  Xcode 27 defaults to a different build engine; the old fixture then built
+  successfully but could not locate its output file map. Explicit selection keeps
+  the current real-source checks working without another linker path.
+- **Gap:** the fixture assumed an older default build engine without naming it.
+- **Reach:** this is a test-fixture choice, not a production toolchain change.
+  The native option is deprecated upstream; a future removal requires moving this
+  one compiler owner to the supported artifact layout.
+- **Verdict:** sound for the current toolchain: the exact failed fixture now runs
+  the real controls/model check, with no shared output across differing sources.
+- **Confidence:** medium.
