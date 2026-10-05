@@ -6,7 +6,11 @@ import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { test } from "node:test";
 
-function fixture(tag, existing = "missing") {
+function fixture(
+  tag,
+  existing = "missing",
+  { tagRevision = "a".repeat(40), tagLookupFailure = false } = {},
+) {
   const scratch = mkdtempSync(join(tmpdir(), "screenrec-publication-"));
   const bin = join(scratch, "bin");
   mkdirSync(bin);
@@ -16,12 +20,16 @@ function fixture(tag, existing = "missing") {
     `#!${process.execPath}
 const fs=require('node:fs');
 const args=process.argv.slice(2);
-const input=args[0]==='api'?fs.readFileSync(0,'utf8'):'';
+const input=args.includes('--input')?fs.readFileSync(0,'utf8'):'';
 fs.appendFileSync(${JSON.stringify(log)},JSON.stringify({args,input,repo:process.env.GH_REPO})+'\\n');
 if(args[0]==='release' && args[1]==='view') {
   if(args.at(-1)==='databaseId') console.log(JSON.stringify({databaseId:42}));
   else if(${JSON.stringify(existing)}==='missing') process.exit(1);
   else console.log(JSON.stringify({isDraft:${existing !== "published"}}));
+}
+if(args[0]==='api' && args[1]===${JSON.stringify(`repos/{owner}/{repo}/commits/refs/tags/${tag}`)}) {
+ console.log(${JSON.stringify(tagRevision)});
+ if(${tagLookupFailure}) { console.error('fixture tag lookup diagnostic');process.exit(1); }
 }
 `,
     { mode: 0o755 },
@@ -77,7 +85,7 @@ for (const [tag, existing] of [
       assert.equal(answer.status, 0, answer.stderr);
       const calls = release.calls();
       const upload = calls.findIndex(({ args }) => args[1] === "upload");
-      const publish = calls.findIndex(({ args }) => args[0] === "api");
+      const publish = calls.findIndex(({ args }) => args[0] === "api" && args.includes("PATCH"));
       assert.ok(upload >= 0 && publish > upload, "Publication must use the API after asset upload");
       assert.deepEqual(calls[upload].args, [
         "release",
@@ -118,9 +126,54 @@ for (const [tag, existing] of [
     }
   });
 
+test("unpublished releases reject assets from a different tag commit before any mutation", () => {
+  const tag = "v0.1.3";
+  for (const existing of ["missing", "draft"]) {
+    const release = fixture(tag, existing, { tagRevision: "b".repeat(40) });
+    try {
+      const answer = release.invoke();
+      assert.equal(answer.status, 1, `${existing}: ${answer.stdout} ${answer.stderr}`);
+      assert.match(answer.stderr, /source differs from version tag/);
+      assert.deepEqual(
+        release.calls().map(({ args }) => args),
+        [
+          ["release", "view", tag, "--json", "isDraft"],
+          ["api", `repos/{owner}/{repo}/commits/refs/tags/${tag}`, "--jq", ".sha"],
+        ],
+      );
+    } finally {
+      release.close();
+    }
+  }
+});
+
+test("unpublished releases reject a failed source lookup before any mutation", () => {
+  const tag = "v0.1.3";
+  for (const existing of ["missing", "draft"]) {
+    const release = fixture(tag, existing, { tagLookupFailure: true });
+    try {
+      const answer = release.invoke();
+      assert.equal(answer.status, 1, `${existing}: ${answer.stdout} ${answer.stderr}`);
+      assert.equal(answer.stderr, "Version tag source lookup failed\n");
+      assert.deepEqual(
+        release.calls().map(({ args }) => args),
+        [
+          ["release", "view", tag, "--json", "isDraft"],
+          ["api", `repos/{owner}/{repo}/commits/refs/tags/${tag}`, "--jq", ".sha"],
+        ],
+      );
+    } finally {
+      release.close();
+    }
+  }
+});
+
 test("published assets stay untouched, while an altered update fails before any GitHub call", () => {
   const tag = "v0.1.3";
-  const release = fixture(tag, "published");
+  const release = fixture(tag, "published", {
+    tagRevision: "b".repeat(40),
+    tagLookupFailure: true,
+  });
   try {
     assert.equal(release.invoke().status, 0);
     assert.deepEqual(

@@ -33,6 +33,10 @@ try {
   if (existing.status === 0 && JSON.parse(existing.stdout).isDraft === false) {
     console.log("Release is already published; its assets remain unchanged.");
   } else {
+    const source = gh(["api", `repos/{owner}/{repo}/commits/refs/tags/${tag}`, "--jq", ".sha"]);
+    if (source.status !== 0) throw new Error("Version tag source lookup failed");
+    if (source.stdout.trim() !== receipt.revision)
+      throw new Error("Publication source differs from version tag");
     const prerelease = tag.includes("-");
     if (existing.status !== 0) {
       const created = gh([

@@ -36,6 +36,8 @@ The [tag workflow](../.github/workflows/release.yml) validates version agreement
 prepares pinned inputs, builds on macOS, checks the relocated package and publishes
 only verified assets. Its manual retry runs the selected source with an explicit
 version tag validated by the same release owner; published assets remain immutable.
+An unpublished release must come from the tag's exact source. Rebuilding a
+published release checks repaired tooling without changing delivered bytes.
 Relocation smoke loads schema help and the native worker
 from the exact signed archives; it does not launch the production host or external
 launcher, whose preferences and lock belong to the real account. Host/service and
