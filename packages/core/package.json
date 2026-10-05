@@ -220,6 +220,10 @@
       "types": "./dist/source-selection.d.ts",
       "default": "./dist/source-selection.js"
     },
+    "./source-speakers": {
+      "types": "./dist/source-speakers.d.ts",
+      "default": "./dist/source-speakers.js"
+    },
     "./prepared-audio": {
       "types": "./dist/prepared-audio.d.ts",
       "default": "./dist/prepared-audio.js"
