@@ -31,6 +31,8 @@ public struct ProbedStream: Encodable, Sendable {
     public var transferFunction: String?
     public var ycbcrMatrix: String?
     public var colorFormats: [ProbedVideoColor]?
+    public var codecAtomNames: [[String]]?
+    public var compressedVideoInspection: ProbedCompressedVideo?
     public var samples: ProbedSamples?
 }
 
@@ -106,7 +108,7 @@ public struct ProbedSamples: Encodable, Sendable {
 
 /// Metadata describes the admitted bytes. It never normalizes or rewrites them.
 public enum MediaProbe {
-    public static func inspect(url: URL) async throws -> ProbedMedia {
+    public static func inspect(url: URL, inspectCompressedVideo: Bool = false) async throws -> ProbedMedia {
         if let faces = try FontProbe.inspect(url: url) {
             return ProbedMedia(originUs: ExactTime(0), streams: [], fontFaces: faces)
         }
@@ -122,9 +124,23 @@ public enum MediaProbe {
             return ProbedMedia(originUs: ExactTime(0), streams: [stream])
         }
         let input = try MediaInput(url: url)
+        do { return try await inspectTimed(input: input, inspectCompressedVideo: inspectCompressedVideo) }
+        catch {
+            if let failure = input.failure { throw failure }
+            throw error
+        }
+    }
+
+    private static func inspectTimed(input: MediaInput, inspectCompressedVideo: Bool) async throws -> ProbedMedia {
         let tracks = try await input.asset.load(.tracks)
         var trackSegments: [[AVAssetTrackSegment]] = []
-        for track in tracks { trackSegments.append(try await track.load(.segments)) }
+        var trackFormats: [[CMFormatDescription]] = []
+        for track in tracks {
+            trackSegments.append(try await track.load(.segments))
+            trackFormats.append(try await track.load(.formatDescriptions))
+            try input.requireSelfContainedStorage(of: track)
+        }
+        if inspectCompressedVideo { try input.beginStreaming() }
         let occupiedRanges = trackSegments.flatMap { SourceSegment.occupied(of: $0).map(\.asset) }
         guard
             let origin = occupiedRanges.filter({ $0.isValid && $0.start.isNumeric }).map(\.start)
@@ -134,10 +150,11 @@ public enum MediaProbe {
         }
         let originUs = try ExactTime(origin)
         var streams: [ProbedStream] = []
-        for (track, segments) in zip(tracks, trackSegments) {
+        for (index, track) in tracks.enumerated() {
+            let segments = trackSegments[index]
             let range = try await track.load(.timeRange)
             try Task.checkCancellation()
-            let formats = try await track.load(.formatDescriptions)
+            let formats = trackFormats[index]
             guard let format = formats.first, range.isValid, range.duration.isNumeric else {
                 throw NativeFailure("UNSUPPORTED_MEDIA", "Stream has no finite format or timing.")
             }
@@ -165,6 +182,9 @@ public enum MediaProbe {
                 )
             }
             if kind == "video" {
+                if inspectCompressedVideo {
+                    stream.compressedVideoInspection = try CompressedVideoInspection.inspect(input: input, track: track)
+                }
                 stream.hasAlpha = try await track.load(.mediaCharacteristics).contains(.containsAlphaChannel)
                 let size = CMVideoFormatDescriptionGetDimensions(format)
                 let transform = try await track.load(.preferredTransform)
@@ -181,6 +201,13 @@ public enum MediaProbe {
                 ]
                 let colors = formats.map(ProbedVideoColor.init)
                 stream.colorFormats = colors
+                stream.codecAtomNames = formats.map { description in
+                    let atoms = CMFormatDescriptionGetExtension(description,
+                        extensionKey: kCMFormatDescriptionExtension_SampleDescriptionExtensionAtoms)
+                    guard let atoms else { return [] }
+                    guard let dictionary = atoms as? [String: Any] else { return ["<invalid atom dictionary>"] }
+                    return dictionary.keys.sorted()
+                }
                 stream.colorPrimaries = colors[0].colorPrimaries
                 stream.transferFunction = colors[0].transferFunction
                 stream.ycbcrMatrix = colors[0].ycbcrMatrix

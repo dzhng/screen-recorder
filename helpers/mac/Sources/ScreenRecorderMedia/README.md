@@ -49,3 +49,23 @@ held-source facts, not cached summaries or packet timing. Per-format color
 and special interpretation extensions. A range default is a consumer policy,
 never a fabricated source declaration. Native picture admission consumes these
 same facts; HDR conversion does not broaden default SDR admission.
+
+Explicit compressed [inspection](CompressedVideoInspection.swift) inventories every
+native decode packet, including hidden preroll, through the held asset. Missing
+inspection is never evidence that interpretation metadata is absent. Its bounded
+HEVC payload inventory includes out-of-band codec configuration and reports
+refused and incomplete interpretations; it does not replace the presented timing digest or declare decoded appearance correct. Normal
+admission does not request this work. Whole-track inspection borrows the existing
+streaming read purpose after bounded metadata discovery; ordinary metadata keeps
+its finite byte allowance. Codec atom names remain separate declaration evidence because a dynamic interpretation may live in a packet even when the
+sample description has only ordinary codec configuration.
+
+A sample's native storage locator must resolve to its primary asset.
+Matching format and timestamps cannot authorize an external MOV data reference.
+Ordinary probe admission traverses chunk-storage metadata, including hidden and
+audio chunks, without reading packet payloads. Shared input construction forbids
+external media references during decoding; the explicit compressed scan additionally
+checks the same storage ownership before buffer generation. The platform restriction
+does not itself make ordinary metadata loading refuse a reference movie. Loader failures retain
+their underlying bounded-work refusal instead of losing that evidence behind an
+AVFoundation wrapper error.

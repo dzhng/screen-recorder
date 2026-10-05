@@ -16,18 +16,22 @@ public final class MediaInput: @unchecked Sendable {
     public init(url: URL, purpose: ReadPurpose = .inspection) throws {
         let descriptor = try MediaDescriptor(url: url, writable: false)
         self.url = descriptor?.url ?? url.resolvingSymlinksInPath().standardizedFileURL
+        let assetOptions: [String: Any] = [
+            AVURLAssetPreferPreciseDurationAndTimingKey: true,
+            AVURLAssetReferenceRestrictionsKey: AVAssetReferenceRestrictions.forbidAll.rawValue,
+        ]
         if let descriptor {
             let loader = try DescriptorLoader(descriptor, purpose: purpose)
             self.loader = loader
             asset = AVURLAsset(
                 url: URL(
                     string: "screenrec-media://\(UUID().uuidString)/source.\(loader.extensionName)")!,
-                options: [AVURLAssetPreferPreciseDurationAndTimingKey: true])
+                options: assetOptions)
             asset.resourceLoader.setDelegate(loader, queue: loader.queue)
         } else {
             loader = nil
             asset = AVURLAsset(
-                url: url, options: [AVURLAssetPreferPreciseDurationAndTimingKey: true])
+                url: url, options: assetOptions)
         }
     }
 
@@ -40,6 +44,32 @@ public final class MediaInput: @unchecked Sendable {
     public var readWork: ReadWork? { loader?.currentReadWork() }
 
     public var failure: NativeFailure? { loader?.currentFailure() }
+
+    /// Continue whole-file work only after the same held asset passed bounded metadata discovery.
+    public func beginStreaming() throws { try loader?.beginStreaming() }
+
+    package func ownsStorage(of cursor: AVSampleCursor) -> Bool {
+        cursor.currentChunkStorageURL.map { $0.absoluteURL == asset.url.absoluteURL } ?? true
+    }
+
+    /// Only metadata moves: each native chunk has one storage locator, including hidden samples.
+    package func requireSelfContainedStorage(of track: AVAssetTrack) throws {
+        guard let cursor = track.makeSampleCursorAtFirstSampleInDecodeOrder() else { return }
+        while true {
+            try Task.checkCancellation()
+            guard ownsStorage(of: cursor) else {
+                throw NativeFailure("UNSUPPORTED_MEDIA", "Media samples reference external storage.")
+            }
+            let count = cursor.currentChunkInfo.chunkSampleCount
+            let index = cursor.currentSampleIndexInChunk
+            guard count > 0, index >= 0, index < count else {
+                throw NativeFailure("UNSUPPORTED_MEDIA", "Media chunk lacks finite sample storage.")
+            }
+            // A chunk locator applies to every sample; do not walk each PCM frame.
+            let remaining = count - index
+            if cursor.stepInDecodeOrder(byCount: remaining) != remaining { break }
+        }
+    }
 
     deinit { loader?.stop() }
 }
@@ -92,7 +122,7 @@ private final class DescriptorLoader: NSObject, AVAssetResourceLoaderDelegate, @
     private var failure: NativeFailure?
     // Identification and AVFoundation delivery share one logical inspection-byte allowance.
     // They apply to bounded inspection calls, not a whole-movie streaming contract.
-    private let maximumBytes: Int64?
+    private var maximumBytes: Int64?
     private let maximumRequests = 8
     private let chunkBytes = 64 * 1024
 
@@ -188,6 +218,14 @@ private final class DescriptorLoader: NSObject, AVAssetResourceLoaderDelegate, @
     }
 
     func currentFailure() -> NativeFailure? { queue.sync { failure } }
+
+    func beginStreaming() throws {
+        try queue.sync {
+            if let failure { throw failure }
+            guard !stopped else { throw NativeFailure.decodeFailed("Media input was closed.") }
+            maximumBytes = nil
+        }
+    }
 
     func stop() {
         queue.async { [self] in

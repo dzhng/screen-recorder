@@ -69,3 +69,164 @@ The native digest falsifier was also run against a separately faulted producer
 that hashed only sample presence; it fails specifically because changed interior
 timing produces the same digest. The unmodified producer passes all five focused
 native component checks.
+
+
+## Managed implementation passes
+
+The first managed contract converts an entire selected HDR video stream and,
+only when explicitly selected, one source audio stream. The frozen recipe is
+`hdr-to-sdr-hable-1000nit-v1`; the request names assetId and streamIds. It creates
+an immutable SDR derivative and reports source→derivative clock mapping. It never
+places that asset or changes original bytes. Range/acquisition fields are not
+admitted by this first request schema.
+
+1. Prove dedicated native 10-bit HEVC PQ/HLG source→ProRes derivative facts and
+   pixels before admitting those families. Continue to reject alpha, unknown or
+   changing declarations and custom/dynamic interpretations. The required fresh
+   native fact reader and held FFprobe selector/range supplement qualify the same
+   bytes and selected stream. FFprobe never supplies timing authority.
+2. Materialize whole-stream managed conversion over the existing owned source
+   descriptors, attempts, FFmpeg output validation, asset staging and job fence.
+   Pin recipe/runtime/source hash/selection/support in replay and derivative
+   provenance. Compare complete native timing digest, exact origin/endpoints/tail,
+   admitted occupied support, dimensions and display matrix. Preserve declared
+   container extents separately; refuse a padded declaration that cannot map
+   faithfully to actual derivative support rather than narrowing prior admission.
+3. Prove explicit video-only and video+audio selections, failure/cancel/replay and
+   ordinary converted-asset placement/inspection/preview/export. An unselected
+   stream is never copied. Verify audio offsets and support under one asset clock,
+   without zeroing each stream independently.
+4. Separately prove bounded range/acquisition materialization before extending
+   the request schema. Converting a full file and narrowing only provenance is
+   invalid: it would publish support outside the selected scope. This follow-up
+   must establish actual selected bytes/sample support, interior gaps and exact
+   mapping, then use the same managed owner. Slice 19 remains incomplete across
+   both subcontracts unless the user changes its scope.
+
+A clock research follow-up preserves the exact sparse/rotated 18 source with a
+3,000,000 Hz MOV movie clock and default track-clock selection under demux encoder
+timebase. The entire native presented digest matches; original display matrix
+and exact first/last/tail mapping remain intact. This demonstrates that the
+research fixture's explicit 12,000,000 Hz track flag is not an independent
+production requirement. Production chooses an exact representable movie clock
+from fresh declared operands and validates every actual sample via the native
+digest; it refuses unrepresentable clocks or changed output rather than rounding.
+The default-movie-clock HEVC control declares 34 ms for an actual 1/30 s tail;
+that family/control remains unqualified until the strict mapping check refuses it.
+
+## Compressed interpretation qualification
+
+The private existing `media.probe` request gains `inspectCompressedVideo`; only
+fresh HDR qualification requests it. Ordinary admission retains its current work
+and SDR policy. Absent inspection means not inspected, never inspected-and-clear.
+The same held asset is traversed completely in native decode order, including
+hidden preroll, independently of the presented timing digest. Every generated
+compressed sample must match its cursor's format, PTS, DTS and duration. No packet
+clock becomes conversion timing authority. Packet storage is bounded to 32 MiB;
+cancellation is checked through traversal/parsing, with no retained packet rows.
+
+Initial qualification covers single-layer length-prefixed `hvc1`. The frozen H.265
+NAL set permits ordinary VCL 0–9 and 16–21, AUD 35, EOS 36, EOB 37 and filler 38.
+SEI prefix/suffix 39/40 permits only filler payload 3. Refuse in-band parameter
+sets 32–34, reserved/unspecified units, nonzero layer IDs, malformed framing and
+all other SEI payloads. In particular, registered T.35 payload 4, unregistered
+payload 5, static/dynamic color metadata, tone mapping and even known timing SEI
+remain unimplemented interpretations. This intentionally limits real-phone HDR
+support; it does not claim valid Dolby/HDR10+ detection or broad HDR admission.
+Codec sample-description atom names are separate native evidence: `dvcC`/`dvvC`
+or any unqualified atom refuse, even if all packets appear plain. Atom absence
+alone never certifies the packet inventory.
+
+Numeric semantics are checked against pinned FFmpeg n8.0.1 reference tables
+[`libavcodec/hevc/hevc.h`](https://github.com/FFmpeg/FFmpeg/blob/n8.0.1/libavcodec/hevc/hevc.h)
+and [`libavcodec/sei.h`](https://github.com/FFmpeg/FFmpeg/blob/n8.0.1/libavcodec/sei.h).
+These define payload identities, not an imported parser. Tests independently author
+metadata-only codec atoms and normal-atom in-packet/preroll interpretation markers;
+a refusal marker does not claim the specimen is conformant Dolby content.
+
+
+Focused component evidence covers a clear SEI-stripped three-packet native HEVC
+specimen and the unstripped encoder control: Apple HEVC output carries SEI 5 and
+is conservatively refused. Independently authored packet-only NAL 62 and registered
+T.35 SEI 4 retain ordinary hvcC and unchanged presented timing. A metadata-only
+dvcC marker has plain packets but remains visible in native codec atom facts.
+An authored edit hides the first marked packet from presentation: two presented
+samples still report all three compressed packets and the hidden refusal. Broken
+SEI size framing reports incomplete inspection. A separately faulted producer
+that ignores unknown NALs makes the interpretation test fail specifically on the
+missing NAL 62 refusal; ordinary source/color/alpha/timing component checks pass.
+These are Media-module proofs; linked wire/output-file and managed conversion
+acceptance remain subsequent gates.
+
+
+Out-of-band hvcC arrays are part of this same inspection, not atom-name permission.
+Configuration parameter sets are accepted only out of band with complete arrays;
+configuration SEI shares the conservative payload parser. An independently authored
+hvcC-only T.35 marker goes red under the packet-only scanner and is refused by the
+completed inventory. Configuration NAL identities are reported separately from
+packet NALs; the combined SEI identities still describe both locations. Each
+changed native sample format is freshly inspected.
+
+A held three-packet filler control crosses the ordinary metadata reader's 64 MiB
+allowance while keeping each packet below 32 MiB. Ordinary probing succeeds without
+packet work; the new whole-track scan initially failed under inspection purpose.
+Explicit compressed inspection now transitions the same held loader to its already
+owned streaming read purpose only after all metadata format discovery passes,
+with native storage-size preflight, bounded copy/parser buffers, cancellation and
+autorelease retirement per packet. The same held-input control passes without a
+new loader or a changed ordinary probe allowance. A second faulted producer that
+skips the first packet fails specifically on the hidden-preroll refusal, even
+though it still reports the nominal decoded packet count.
+
+
+Independent review found two concrete failures and both were materialized as
+regressions. A held MOV with an external data-reference URL made the generator read
+another file's NAL 62 despite embedding ordinary NAL 20. Native storage locators
+now refuse foreign byte authority before any buffer generation; the authored
+reference control goes red on the old complete claim and green on zero inspected
+packets plus explicit incomplete refusal. The existing FFmpeg protocol restriction
+was insufficient protection for this earlier native work.
+
+The review's 96 MiB hvcC control also bypassed the initial metadata budget under
+streaming purpose, reading approximately 96 MiB and peaking around 405 MiB RSS
+before its configuration guard. Format discovery now retains the existing finite
+metadata reader allowance, then explicitly enables streaming on that same held
+loader. The oversized held-header control goes red on the old successful/incomplete
+metadata result and green on LIMIT_EXCEEDED. Loader failures preserve their native
+classification through AVFoundation's wrapper error. All 14 media-probe cases pass
+through the actual WireRequest/ProbeOperation plus Media module in a scratch
+component harness; the full native worker/package remains a later integration gate.
+
+
+Initial qualification further requires exactly one complete out-of-band VPS/SPS/PPS
+and refuses any per-packet native format change. Multiple SPS/PPS declarations may
+select different VUI meaning while metadata summaries expose one profile; this
+initial path deliberately avoids a second SPS semantics parser. A duplicated SPS
+control goes red on absent refusal and green on complete inventory plus explicit
+multiple-declaration refusal. An authored later sample description changes vendor
+metadata while retaining packets and timing; it is conservatively refused as a
+changed native format. Disabling that format-change check in a separately compiled
+producer makes the test fail on the missing refusal. This is narrower than accepting
+every hvc1 stream, including harmless metadata variation.
+
+The initial foreign-storage fix protected only explicit compressed scanning.
+Ordinary metadata could still admit the reference movie. The SDK's documented
+forbidAll reference policy is now applied in both shared MediaInput constructors;
+actual generator controls confirm it refuses external bytes for normal and held
+inputs. Contrary to the SDK's broad property-loading description, normal track and
+format metadata still loaded in the reference control. Ordinary probe admission
+therefore reuses native chunk-storage facts and skips by chunk sample count to
+refuse observed foreign storage, including hidden and audio chunks, without reading
+packet payloads. Ordinary, held and explicitly inspected reference controls now
+refuse. No absent-cursor fact is promoted to proof of actual decoding.
+
+A source-owner follow-up remains required before release: PresentationSource is
+live in current composition rendering, source frames, visual observations and
+pointer evidence. Its direct AVURLAsset construction must adopt the shared input
+owner and retain its lifetime. CaptureMediaInspection's direct pathname path serves
+recorder-owned recovery and canonical publication and needs the same disposition;
+its descriptor branch already borrows MediaInput. Direct assets used solely to
+inspect generated outputs are separate from source byte authority. This follow-up
+must prove actual source rendering cannot resolve external media or substitute a
+mutable path for already held bytes; calling the live path legacy is not a scope
+resolution.
