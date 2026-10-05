@@ -114,8 +114,12 @@ uses FFprobe to bind an explicit stream to held bytes. Optional declared-color
 inspection supplements the same selected stream and preserves missing fields;
 it supplies neither source clocks nor permission to convert. The
 [HDR interpretation checkpoint](src/hdr-conversion.ts) consumes fresh native
-whole-track interpretation evidence and agreeing declarations. Physical support,
-derivative validation and managed publication remain separate requirements.
+whole-track interpretation evidence and agreeing declarations. Its private whole-video
+producer derives an exactly representable movie clock, preserves physical sample
+support and common origin, and validates the actual held SDR derivative before
+consumption. Chapter and timecode metadata cannot add unselected output tracks.
+Managed selection, optional selected audio and durable publication remain separate
+requirements.
 Offline self-contained
 input and a dedicated read lease per invocation prevent pathname substitution,
 secondary resource resolution and shared cursor surprises. Source slots are

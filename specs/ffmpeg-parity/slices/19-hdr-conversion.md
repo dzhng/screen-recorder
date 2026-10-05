@@ -1,6 +1,6 @@
 # 19 — Explicit HDR source conversion
 
-Status: native facts, held interpretation and encoded numerical reproduction verified; exact managed clocks/producer in progress, durable publication and selected-range conversion remain open. Question: **Can the proven transform produce a new managed SDR asset without changing original meaning?**
+Status: native facts, held interpretation and encoded numerical reproduction verified; private video clock/producer verified; selected audio, durable publication and selected-range conversion remain open. Question: **Can the proven transform produce a new managed SDR asset without changing original meaning?**
 
 Dependencies: [18](18-hdr-feasibility.md), [05](05-managed-output.md).
 
@@ -327,3 +327,45 @@ It retains complete actual operands and report. All source/derivative physical
 clocks agree, explicit pins reproduce full output bytes, and wrong-range controls
 still differ. The original numerical budgets and conservative unstripped encoder
 refusals remain unchanged; this adds no managed or perceptual acceptance claim.
+
+## Private physical-clock and producer checkpoint
+
+The private service producer prepares fresh native facts, selected FFprobe
+interpretation, exact movie-clock derivation and actual derivative validation
+inside the existing held render attempt. It reuses the artifact owner's supplied
+attempt; no new preparation hook, lease owner or nested attempt exists. Source
+hash/size admission and final held identity fence in-place changes. Cancellation
+during FFprobe preparation drains the child before cleanup or consumption.
+
+Physical admission currently requires one occupied unretimed video segment whose
+exact first sample and final sample tail match its declared support. Padded tails,
+fragmented/retimed mappings and unrepresentable MOV clocks refuse. The output
+validator preserves count, complete normalized timing digest, exact endpoints,
+tail, common-origin mapping, occupied support, dimensions and orientation. Rounded
+first/last PTS never become clocks. The selected plain SDR ProRes interpretation
+and absence of alpha/extra tracks are independent postconditions.
+
+The [actual private producer receipt](../evidence/hdr-private-producer/report.json)
+uses the existing reproduction's encoded producer mode with held pathname
+substitution. PQ/HLG output RGB matches the frozen transform's numerical operand;
+both derive the exact movie clock from source facts. Authored chapter/timecode
+inputs retain auxiliary source streams but deliver only the requested video, with
+identical derivative bytes. A separately padded movie declaration refuses physical
+support. Complete private operands and generated outputs are retained alongside
+the receipt.
+
+The zero-exit empty-output control reaches the artifact validator after FFmpeg
+declines overwriting a reserved `/dev/fd` pathname, then native decoding refuses
+its zero-byte allocation. Completion alone cannot prove media. Production uses
+the existing audio producer's `fd:` output protocol, with no second overwrite
+policy. Independent review also found implicit chapter copying and MOV timecode
+track generation; an actual auxiliary control went red at stream-exclusivity
+validation, and explicit exclusions made it green. The repeated scoped review
+found no remaining concrete issue. Twelve focused arithmetic/held-boundary tests,
+service typecheck, format and lint pass; source hash/end-identity controls were
+independently faulted red before restoring green.
+
+This checkpoint remains private and video-only. Whole selected-stream conversion,
+optional explicitly selected audio, frozen provenance, managed JobQueue publication
+and portable preservation remain unfinished. It is not public conversion support
+or range/acquisition materialization.

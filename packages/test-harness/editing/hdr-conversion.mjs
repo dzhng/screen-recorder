@@ -1,13 +1,17 @@
 import assert from "node:assert/strict";
 import { execFileSync } from "node:child_process";
 import { createHash } from "node:crypto";
-import { mkdir, mkdtemp, open, readFile, rename, rm, writeFile } from "node:fs/promises";
+import { copyFile, mkdir, mkdtemp, open, readFile, rename, rm, writeFile } from "node:fs/promises";
 import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { compileCliOwner } from "../../../apps/service/src/cli-owner.fixture.ts";
 import { inspectFfmpegInput } from "../../../apps/service/dist/ffmpeg-input.js";
+import { withFfmpegArtifact } from "../../../apps/service/dist/ffmpeg-artifact.js";
 import { readMediaProbe } from "../../../apps/service/dist/media-probe.js";
-import { qualifyHdrInterpretation } from "../../../apps/service/dist/hdr-conversion.js";
+import {
+  qualifyHdrInterpretation,
+  withHdrDerivative,
+} from "../../../apps/service/dist/hdr-conversion.js";
 import { readHdrConversionFacts } from "@screenrec/core/hdr-conversion-facts";
 import { cliWorker, mediaWorker, nativeResult } from "../../../apps/service/dist/worker.js";
 
@@ -16,9 +20,11 @@ import { cliWorker, mediaWorker, nativeResult } from "../../../apps/service/dist
 const [distribution, native, output] = process.argv.slice(2, 5).map((value) => resolve(value));
 const heldOut = process.argv.slice(5).includes("held-out");
 const encoded = process.argv.slice(5).includes("encoded");
+const producer = process.argv.slice(5).includes("producer");
+if (producer && !encoded) throw new Error("producer requires encoded controls");
 if (!distribution || !native || !output)
   throw new Error(
-    "Usage: node hdr-conversion.mjs DISTRIBUTION NATIVE NEW_OUTPUT_DIRECTORY [held-out] [encoded]",
+    "Usage: node hdr-conversion.mjs DISTRIBUTION NATIVE NEW_OUTPUT_DIRECTORY [held-out] [encoded] [producer]",
   );
 await mkdir(output, { mode: 0o700 });
 const scratch = await mkdtemp("/tmp/screenrec-hdr-owner-");
@@ -63,11 +69,14 @@ const calibration = (actual, expected) => {
 try {
   const owner = await compileCliOwner(scratch),
     worker = mediaWorker({ SCREENREC_NATIVE: native });
+  const attemptParent = join(scratch, "attempts");
+  await mkdir(attemptParent, { mode: 0o700 });
   const result = {
     recipe,
     rawTolerance8bit: 3,
     heldOut,
     encoded,
+    producer,
     intermediateTolerance8bit: 3,
     runtime: {
       ffmpeg: await hash(ffmpeg),
@@ -395,6 +404,224 @@ try {
         assert.equal(outputStream.height, metadata.streams[0].height);
         assert.equal(outputStream.hasAlpha, false);
       }
+      let producerEvidence;
+      let zeroExitControl;
+      if (producer && family === "pq") {
+        let validatorReached = false;
+        let retainedBytes;
+        try {
+          await withFfmpegArtifact(
+            worker,
+            {
+              attemptParent,
+              filename: "declined.mov",
+              executable: ffmpeg,
+              ownerExecutable: owner,
+              descriptors: [file.fd],
+              rewindDescriptors: [3],
+              args: (slot) => [
+                "-v",
+                "error",
+                "-nostdin",
+                ...input.args,
+                "-map",
+                input.map,
+                "-an",
+                "-c:v",
+                "prores_ks",
+                "-f",
+                "mov",
+                `/dev/fd/${slot}`,
+              ],
+            },
+            new AbortController().signal,
+            async (outputFile, signal, boundWorker) => {
+              validatorReached = true;
+              retainedBytes = (await outputFile.stat()).size;
+              assert.equal(retainedBytes, 0);
+              return readMediaProbe(boundWorker, output, "/dev/fd/3", signal, [outputFile.fd]);
+            },
+            async () => {
+              throw new Error("declined empty output must not consume");
+            },
+          );
+          throw new Error("empty output must refuse");
+        } catch (error) {
+          zeroExitControl = {
+            validatorReached,
+            retainedBytes,
+            code: error.code,
+            message: error.message,
+          };
+          await writeFile(
+            join(output, "zero-exit-empty-control.json"),
+            JSON.stringify(zeroExitControl, null, 2) + "\n",
+          );
+          assert.equal(validatorReached, true);
+          assert.equal(retainedBytes, 0);
+          assert.equal(error.code, "NATIVE_DECODE_FAILED");
+        }
+      }
+      if (producer) {
+        producerEvidence = await withHdrDerivative(
+          worker,
+          {
+            attemptParent,
+            source: { file, bytes: (await file.stat()).size, sha256: sourceSha256 },
+            streamId: "track:1",
+            ffmpeg,
+            ffprobe,
+            ownerExecutable: owner,
+          },
+          new AbortController().signal,
+          async (artifact) => {
+            // Retain exact validation operands before numerical comparison.
+            await writeFile(
+              join(output, `${family}-producer-operands.json`),
+              JSON.stringify(artifact.evidence, null, 2) + "\n",
+            );
+            const delivered = join(output, `${family}-producer.mov`);
+            await copyFile(artifact.path, delivered);
+            const rgb = run([
+              "-i",
+              delivered,
+              "-frames:v",
+              "1",
+              "-pix_fmt",
+              "rgb24",
+              "-f",
+              "rawvideo",
+              "pipe:1",
+            ]);
+            await writeFile(join(output, `${family}-producer.rgb`), rgb);
+            assert.deepEqual(rgb, delivery);
+            return {
+              sha256: artifact.sha256,
+              bytes: artifact.bytes,
+              clock: artifact.evidence.clock,
+              normalizedRgbMatches: true,
+            };
+          },
+        );
+      }
+      let producerAuxiliary;
+      if (producer) {
+        const chapters = join(output, `${family}-chapters.txt`);
+        await writeFile(
+          chapters,
+          ";FFMETADATA1\n[CHAPTER]\nTIMEBASE=1/1000\nSTART=0\nEND=125\ntitle=Auxiliary-control\n",
+        );
+        const auxiliary = join(output, `${family}-auxiliary.mov`);
+        run([
+          "-y",
+          "-i",
+          retained,
+          "-i",
+          chapters,
+          "-map",
+          "0:v:0",
+          "-map_chapters",
+          "1",
+          "-c",
+          "copy",
+          "-metadata:s:v:0",
+          "timecode=01:00:00:00",
+          "-movie_timescale",
+          "24",
+          auxiliary,
+        ]);
+        const auxiliaryFile = await open(auxiliary, "r");
+        try {
+          const auxiliaryMetadata = nativeResult(
+            await worker("media.probe", { path: auxiliary, inspectCompressedVideo: true }),
+          );
+          await writeFile(
+            join(output, `${family}-auxiliary-source-operands.json`),
+            JSON.stringify(auxiliaryMetadata, null, 2) + "\n",
+          );
+          assert(auxiliaryMetadata.streams.length > 1);
+          producerAuxiliary = await withHdrDerivative(
+            worker,
+            {
+              attemptParent,
+              source: {
+                file: auxiliaryFile,
+                bytes: (await auxiliaryFile.stat()).size,
+                sha256: await hash(auxiliary),
+              },
+              streamId: "track:1",
+              ffmpeg,
+              ffprobe,
+              ownerExecutable: owner,
+            },
+            new AbortController().signal,
+            async (artifact) => {
+              await writeFile(
+                join(output, `${family}-auxiliary-output-operands.json`),
+                JSON.stringify(artifact.evidence, null, 2) + "\n",
+              );
+              await copyFile(artifact.path, join(output, `${family}-auxiliary-producer.mov`));
+              assert.equal(artifact.evidence.output.metadata.streams.length, 1);
+              assert.equal(artifact.sha256, producerEvidence.sha256);
+              return {
+                inputStreamCount: auxiliaryMetadata.streams.length,
+                outputStreamCount: 1,
+                sha256: artifact.sha256,
+              };
+            },
+          );
+        } finally {
+          await auxiliaryFile.close();
+        }
+        const padded = join(output, `${family}-padded.mov`);
+        run([
+          "-y",
+          "-i",
+          retained,
+          "-map",
+          "0:v:0",
+          "-c",
+          "copy",
+          "-movie_timescale",
+          "100",
+          padded,
+        ]);
+        const paddedFile = await open(padded, "r");
+        try {
+          const paddedMetadata = nativeResult(
+            await worker("media.probe", { path: padded, inspectCompressedVideo: true }),
+          );
+          await writeFile(
+            join(output, `${family}-padded-source-operands.json`),
+            JSON.stringify(paddedMetadata, null, 2) + "\n",
+          );
+          await assert.rejects(
+            withHdrDerivative(
+              worker,
+              {
+                attemptParent,
+                source: {
+                  file: paddedFile,
+                  bytes: (await paddedFile.stat()).size,
+                  sha256: await hash(padded),
+                },
+                streamId: "track:1",
+                ffmpeg,
+                ffprobe,
+                ownerExecutable: owner,
+              },
+              new AbortController().signal,
+              async () => {
+                throw new Error("padded source must not consume");
+              },
+            ),
+            (error) =>
+              error.code === "UNSUPPORTED_MEDIA" && error.message.includes("physical samples"),
+          );
+        } finally {
+          await paddedFile.close();
+        }
+      }
       await rm(source);
       await rename(retained, source);
       substituted = false;
@@ -505,6 +732,9 @@ try {
         );
       result.families.push({
         family,
+        producerEvidence,
+        zeroExitControl,
+        producerAuxiliary,
         sourceSha256,
         metadata,
         interpretation,

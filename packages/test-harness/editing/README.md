@@ -108,6 +108,10 @@ owners. It preserves unstripped encoder refusals, then independently authors
 plain controls for numerical source-to-derivative proof. Explicit interpretation
 pins must reproduce the frozen recipe's raw and ProRes bytes exactly. The
 fixture's exact movie clock is a control, not a production clock default.
+Its optional `producer` mode exercises the actual private held whole-video producer,
+including padded-support refusal and explicit exclusion of auxiliary chapter and
+timecode tracks. It compares delivered RGB against the same retained numerical
+operand; managed publication is a separate boundary.
 
 [Audio recipe reproduction](audio-recipes/README.md) retains numerical
 normalization, limiter and compressor evidence before production admission.
