@@ -1,6 +1,6 @@
 # 18 — HDR-to-SDR reproduction
 
-Status: transform and intermediate recipe reproduced on the pinned libzimg build; production derivative admission/validation remains 19. Question: **Can a pinned explicit transform handle selected HDR input families correctly?**
+Status: complete; transform and intermediate recipe reproduced on the pinned libzimg build; production derivative admission/validation remains 19. Question: **Can a pinned explicit transform handle selected HDR input families correctly?**
 
 Dependencies: [01](01-lgpl-build.md), [04](04-input-authority.md).
 
@@ -144,5 +144,6 @@ response or changing the intended appearance contract.
 
 19 remains gated on native exact final-sample fact, explicit derivative provenance,
 source/admission/publication lifetime, rejection tests and matched converted-asset
-placement/preview/export checks. 01/02–05 must refresh affected prepared-runtime
-receipts; this research neither mutates the root distribution nor waives those gates.
+placement/preview/export checks. 01/02–05 refreshed affected prepared-runtime receipts in the
+[zimg build evidence](../evidence/zimg-build/checks.json); root integration verified
+and adopted that exact distribution. This research does not waive 19 or release gates.

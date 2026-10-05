@@ -448,3 +448,96 @@ provider identity changes. That trades cache reuse for a simpler single replay
 owner; actual native defaults and ungraded pixels do not change.
 Verdict: sound; the existing identity contract carries the recipe across all
 consumers, and an independent old-job probe confirms refusal. Confidence: medium.
+
+### HDR conversion has an explicit display policy and fidelity-preserving intermediate
+
+When: slice 18. A caller explicitly converts supported PQ or HLG footage to SDR.
+The selected recipe interprets a 1000-nit display and 100-nit reference white,
+converts light and primaries, applies Hable tone mapping and clips gamut excursions
+at the SDR boundary. Exact gamma is used because approximate HLG gamma changed
+colored patches even when gray appeared correct. An internal ProRes 4444 MOV
+without alpha carries the converted source; final exports keep their own formats.
+Using H.264 at this intermediate step would add measured chroma-edge damage.
+
+Gap: the plan left display assumptions, tone mapper and intermediate format open
+to reproduction. Reach: conversion must record this policy rather than infer
+missing creator intent; source and derivative clocks retain an explicit mapping.
+This adds storage/encoding work and does not promise natural-scene or hue-preserving
+wide-gamut fidelity. Verdict: sound; independent charts and exact-clock operands
+support the selected bounded recipe. Confidence: medium.
+
+### Color dependency preparation stays with the existing FFmpeg owner
+
+When: reopened slice 01. The system-only build cannot convert the accepted HDR
+transfer functions. Pinned zimg supplies that missing runtime library; a pinned
+pkgconf resolves its build inputs privately and is not shipped as a runtime tool.
+The FFmpeg provenance owner retains all source archives, notices, commands and
+hashes. A separate dependency builder would duplicate release and recipe identity.
+
+Gap: the initial broad build left required external dependencies to reproduction.
+Reach: upstream pinned scalar/ARM source lists drive compilation, fixed private
+compiler/search paths prevent host-library discovery, and verified archives precede
+building. Private whitespace-free compilation avoids upstream configure parsing
+assumptions; publication verifies any cross-filesystem copy before committing it.
+Verdict: sound; one source/build/redistribution contract owns the dependency closure.
+Confidence: high.
+
+### Speech references distinguish human labels from aligned estimates
+
+When: slice 22. An archive describes its annotations as manual, but its word
+boundaries were produced by forced alignment, a model fitting text to sound. Those
+boundaries cannot independently certify another model's timing. Human segment
+labels remain useful for speaker scoring with their padding uncertainty recorded;
+word-boundary evaluation waits for complete independently corrected neighbors.
+Gap: the plan required independent truth but did not choose a corpus. Reach: future
+providers cannot certify themselves by recycling machine labels. Verdict: sound;
+reference authority stays independent. Confidence: high.
+
+### Source-file permissions govern retained speech fixtures
+
+When: slice 22. A dataset's overall card allows attribution-based reuse, while
+individual recordings have different permissions. Retained inputs were selected
+from individually compatible sources and keep original uploader/title/license
+metadata. Copying every file under the dataset's headline license would lose the
+actual source permissions. Gap: research fixture retention was unspecified. Reach:
+new corpora must preserve per-file permission and attribution rather than assume
+metadata licensing covers audio. Verdict: sound. Confidence: high.
+
+### Untimed acoustic tags support presence diagnostics only
+
+When: slice 22. A recording is labeled as containing a laugh but has no exact
+laugh interval. The first inexpensive comparison asks only whether the model
+finds that category anywhere, retaining all raw scores. Even a presence pass would
+not establish start/end accuracy for production event evidence. Gap: the plan
+required timed events without supplying timed references. Reach: a separately
+annotated interval cohort is necessary before that family can ship. Verdict: sound;
+the smaller diagnostic has an explicitly smaller claim. Confidence: medium.
+
+### Speaker scoring preserves simultaneous anonymous speakers
+
+When: slice 22. Two people speak at once. The tested provider configuration keeps
+both anonymous speaker timelines instead of selecting only one speaker for each
+instant. Matching them to reference names happens only inside scoring and does
+not identify a person in product output. Gap: the plan required overlap but left
+SDK configuration open. Reach: future registered providers must retain overlapping
+observations and explicit unknown assignment. Verdict: sound. Confidence: high.
+
+### Failed confirmation scores remain separate from calibration
+
+When: slice 22. The initial models miss brief tagged effects. Lowering thresholds
+on those same files could improve the score but would turn confirmation into
+tuning. Their failed scores remain frozen; later calibration uses separate
+development inputs and freezes settings before untouched confirmation. Gap: the
+plan gave quality gates without a calibration procedure. Reach: new provider
+selection cannot hide failure by fitting its acceptance examples. Verdict: sound.
+Confidence: high.
+
+### Speech research shares input bytes but isolates execution
+
+When: slice 22. Parallel experiments need identical large source/model downloads.
+They share a read-only research cache while using private runtimes/build output
+and explicit selected inputs. Research does not create product jobs or prepare
+models through a read operation. Gap: experiment integration was unspecified.
+Reach: promotion still requires the existing model, queue, evidence and publication
+owners; a successful research script cannot become a second product pipeline.
+Verdict: sound. Confidence: high.

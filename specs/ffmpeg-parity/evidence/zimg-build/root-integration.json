@@ -1,0 +1,10 @@
+{
+  "preparedReceiptSha256": "27350ff2f953bbd4d6ca8bfe0f6808b99b9752192657d289146b50319099f66a",
+  "controllerSha256": "976465868320a2ecbeba2fd1de029f2308cdef1099fa809d6c30c0e2ce2707f1",
+  "rootVerify": "passed",
+  "rootSmoke": "passed",
+  "preparationReleaseTests": 9,
+  "focusedServiceTests": 17,
+  "scope": "Adopted exact prepared runtime; no full app/ZIP acceptance",
+  "adoptionCorrection": "Initial developer copy rewrote relative dylib symlinks; verifier refused escaping library before any release. Recopy with verbatim symlinks verified before atomic adoption. No production source change."
+}

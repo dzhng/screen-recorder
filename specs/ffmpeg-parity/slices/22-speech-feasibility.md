@@ -209,46 +209,11 @@ proved the wrappers, not product installation/readiness.
 | PANNs Cnn6, clipwise 0.5 | Same category recall failures | More startup/memory than YAMNet; retained minority-event examples motivate a dedicated event/taxonomy study, not relaxing current gates. |
 | Existing sparse human boundary marks | Complete word-neighbor authority missing | Bind complete independent annotations on existing real speech before comparing local aligners. |
 
-## Choices handed to parent ledger
-
-- **Corpus labels remain independent — sound, high confidence.** A file called
-  “manual annotations” can still contain machine word timings. Reading AMI's own
-  README revealed forced alignment. Those timestamps are excluded as human word
-  truth; human segment labels are retained with their padding limitation. The
-  plan left corpus choice open. This prevents future timing features from using
-  a candidate's estimates to certify themselves.
-- **Individual audio licenses control retention — sound, high confidence.** A
-  dataset card says CC BY 4.0, but some applause files are CC BY-NC and some speech
-  files require a sampling license. The selected files are CC0/CC BY, with source
-  uploader/title/license metadata kept. The plan delegated fixture choice but
-  did not define redistribution. Future corpus additions must preserve their
-  own permission/attribution rather than copying the aggregate card.
-- **Whole-clip presence before interval claims — sound, medium confidence.**
-  A laughter tag says a laugh occurs somewhere in a real file; it does not name
-  an exact start/end. The first event comparison scores presence only and retains
-  all scores. Even a presence pass would leave interval quality unproved. The
-  plan required acoustic-event intervals but did not supply timed labels. This
-  smaller diagnostic reveals poor recall cheaply and cannot authorize production
-  interval evidence without a separate timed corpus.
-- **Overlap survives candidate postprocessing — sound, high confidence.**
-  Community-1 normally emits exclusive segments, dropping simultaneous speakers.
-  The frozen candidate disabled exclusivity before evaluation. Sortformer kept
-  all anonymous speaker timelines. No actor names are guessed; reference mappings
-  exist only inside evaluation. The plan required overlap but did not choose SDK
-  settings. Future registered providers must preserve this evidence contract.
-- **Metrics/thresholds are not tuned on confirmation — sound, high confidence.**
-  Both event models missed nearly every brief tagged effect. Lowering 0.5 afterward
-  could make these files pass but would no longer be an independent confirmation.
-  The failed scores stay frozen and family scope stays open; future calibration
-  needs separate development data and fresh confirmation. The plan did not give
-  a calibration strategy. This preserves meaningful provider selection.
-- **Shared research cache, isolated runtime/build — sound, high confidence.**
-  Model/source bytes are acquired once in a research cache. A private native build
-  and Python venv run explicit local inputs with networking denied, never creating
-  product queues or editing projects. The plan left experiment integration open.
-  Product preparation/execution still belongs to existing owners when a family
-  eventually passes.
-
+The [choices ledger](../choices.md) owns corpus authority, retention,
+whole-clip diagnostic scope, overlap settings and calibration separation.
+Family follow-ups remain research-gated; public human-corrected speaker and event
+annotations offer new candidate cohorts, while boundary-label access/retention
+still needs its own admitted fixture. No failed provider is shipped.
 
 Unknown-person recognition and confidence calibration were not evaluated. All
 speaker IDs are anonymous local cluster/slot labels; optimal reference matching

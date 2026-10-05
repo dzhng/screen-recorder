@@ -10,48 +10,35 @@ every FFmpeg option or a replacement for a professional editing workstation.
 
 ## Next agent prompt
 
-Implement the complete user-authorized plan through committed passes. Read the
-[exploration map](exploration.md), [parity contract](parity.md) and
-[isolated evidence](tool-proof.md). Integrated: 01–09, 11–12, 16–17, 20–21 and 24–25.
-Current pickup: integrate the accepted zimg build and HDR reproduction, then
-maintain the plan before consumer/release work. Independent
-lanes: HDR 18→19, loudness 10→audio recipe/treatment branches and speech
-22→23. Frozen FFmpeg lacks PQ/HLG conversion; HDR research may reopen pinned
-build 01 with a necessary dependency and refresh affected readiness proofs.
-Speech's first candidates failed their quality gates; no family is promoted yet.
-Each isolated worktree owns focused tests, review and choices; integration reruns
-affected checks. Consumer/release acceptance 26 and the full suite remain last.
+Implement the complete authorized plan through committed passes. Read the
+[exploration](exploration.md), [parity contract](parity.md) and current slice.
+Integrated: 01–09, 11–12, 16–18, 20–21 and 24–25. Root pickup: consumer/release
+contracts that can be prepared independently, then integrate the remaining lanes.
+Highest-risk next production seam is audio domain preparation: compiler owns state
+and dependency domains, native owns graph/prefix PCM, existing FFmpeg CLI/artifact
+lifetime executes individual recipes, and PreparedAudioStore retains the result.
+No service timeline interpreter or native ad-hoc subprocess runner.
 
-The held-input invocation rewinds explicit regular read-only descriptor slots
-before exec; caller numbering stays fixed and path reopening is forbidden.
-Managed FFmpeg publication reuses existing attempts/leases/cache; HDR conversion
-is its first artifact consumer, while loudness remains measurement evidence.
-Review helpers require caller-selected extents rather than inventing full revision
-duration. Caption proposals cannot certify glyph/pixel fit before rendered proof.
+Independent lanes: 19 managed HDR conversion; 10→13a/14a/15a→13–15 audio; 23a
+speaker research on a tiny frozen human-annotated VoxConverse cohort. Initial
+speech candidates failed 22; no family is promoted. Events and boundary alignment
+still need independent timed evidence and family-specific gates. Keep all three
+families named; aggregate status cannot hide failure.
 
-Compact integration evidence: 40 portable helper checks and 29 focused service/
-CLI/native-lifetime/socket checks passed after 05/09/11 integration, along with
-service typecheck/build. Earlier checks: 18 composition settings/
-caption checks, 14 protocol checks, 16 preview and 14 storage checks, two service
-helper/discovery fixtures and affected builds passed. Public caption CLI/MCP
-journey passed all nine groups in isolated scratch state. Motion interchange
-preserves decoded pixels, exact preview support and packages after donor deletion;
-matched still encoding isolates the existing saturated-edge H.264 loss. Native HEVC uses retained
-four-source exact-window proof; full service HEVC and release ZIP remain 26.
+The adopted pinned zimg distribution and refreshed 02–05 proofs are under
+[evidence/zimg-build](evidence/zimg-build). Root verification and component smoke
+pass, with nine preparation/release and seventeen focused service checks after
+integration. [SDR evidence](evidence/sdr-execution/proof.json) binds actual native
+OS recipe through existing cache/job/export identities. [HDR reproduction](slices/18-hdr-feasibility.md)
+freezes exact-gamma Hable conversion and a ProRes intermediate; 19 must validate
+fresh native sample/color facts and source↔derivative clocks. Release ZIP,
+consumer acceptance 26 and the full suite remain last.
 
-Keep each pass to one focused contract; use write-tests before changing behavior.
-Existing small fixtures are sufficient. Do not record or edit the user's media.
-The first novice experience is general imported footage; the user will test the
-demo after this spec, so do not run an end-to-end demo as specification work.
-Viewing the new recording's pitch is still unfinished because this session could
-not reach the reported running 0.1.0 app; that does not block independent slices.
-
-Descriptor/lifetime proof, HDR/alpha feasibility and speech
-quality remain research checkpoints. Failed experiments stay incomplete. No
-compatibility wrappers or migrations are planned. The sole user authorized
-deleting development data; new schemas use fresh catalogs and retain explicit
-old-format refusal, with no automatic personal-data deletion. Update this
-prompt, slice status and retained evidence before ending each implementation pass.
+Use small isolated fixtures and test-first changes. Do not record or edit personal
+media or repeat searches for the inaccessible running recorder. The user tests the
+general imported-footage demo later. Fresh development schemas explicitly refuse
+old formats; deletion is authorized if needed, with no automatic personal deletion
+or migrations. Update handoff, choices and slice markers before each checkpoint.
 
 - [x] [01 — Pinned LGPL build](slices/01-lgpl-build.md)
 - [x] [02 — Relocatable installed tools](slices/02-installed-tools.md)
@@ -73,7 +60,7 @@ prompt, slice status and retained evidence before ending each implementation pas
 - [ ] [15 — Explicit compressor and ducking](slices/15-sidechain.md)
 - [x] [16 — SDR correction reproduction](slices/16-sdr-feasibility.md)
 - [x] [17 — Typed SDR correction](slices/17-sdr-grade.md)
-- [ ] [18 — HDR-to-SDR reproduction](slices/18-hdr-feasibility.md)
+- [x] [18 — HDR-to-SDR reproduction](slices/18-hdr-feasibility.md)
 - [ ] [19 — Explicit HDR source conversion](slices/19-hdr-conversion.md)
 - [x] [20 — Transparent motion input feasibility](slices/20-alpha-feasibility.md)
 - [x] [21 — Immutable motion-asset interchange](slices/21-motion-import.md)
