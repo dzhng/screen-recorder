@@ -1,4 +1,4 @@
-# Release key handoff — prepared, not executed
+# Release key custody
 
 The release identity and Sparkle update key are separate credentials. The first
 keeps app signatures stable across builds; the second authenticates the archive
@@ -8,11 +8,11 @@ trust. It never creates a production key or borrows `Screen Recorder Local`.
 
 ## Owner handoff
 
-Proposed custody folder: `~/.config/screenrec-release` with directory mode 0700
-and private file mode 0600. This is an uncreated proposal, not an existing backup.
-Once the owner authorizes this location, the agent can create the stable identity
-and independent updater key there. The owner can copy these files to a backup
-location; a particular volume, device or password manager is not a release gate.
+The owner authorized `~/.config/screenrec-release` and the existing repository
+secrets on 2026-10-04. The stable release identity and independent updater key
+were created there with directory mode 0700 and private file mode 0600. The owner
+can copy this folder to a backup location; no off-machine backup is claimed.
+A particular volume, device or password manager is not a release gate.
 Retain `release-identity.p12`, its public `release-identity.crt`, and
 `sparkle-private-key.txt` (the pinned Sparkle-compatible base64 32-byte private seed).
 Keep the PKCS#12 password in `release-identity-password.txt` with mode 0600; it
@@ -21,14 +21,16 @@ Retain the exact certificate; issuing another certificate with the same name
 changes the designated requirement. Only public certificate fingerprints and
 Sparkle's public key belong in source/receipts.
 
-The owner must authorize the proposed folder and CI-secret custody before the
-agent creates production credentials, or supply existing credential files.
-No private material has been generated for production or uploaded to GitHub. This is the remaining
-credential input, not another release approval stage.
+The approved GitHub repository now holds the three release secrets and their
+three public variables. No trust was installed and no personal signing identity
+was borrowed. The public identity receipt is [release-identity.json](release-identity.json).
+The self-signed certificate uses a ten-year lifetime; retain its exact bytes rather
+than recreating a same-named certificate. Private material is absent from source
+and receipts.
 
 ## Import and CI inputs
 
-Proposed secret names in the existing `dzhng/screen-recorder` repository:
+Configured secret names in the existing `dzhng/screen-recorder` repository:
 
 | Proposed secret | Contents |
 | --- | --- |
@@ -37,7 +39,7 @@ Proposed secret names in the existing `dzhng/screen-recorder` repository:
 | `SCREENREC_SPARKLE_PRIVATE_KEY` | Base64 32-byte private seed file contents; its derived public key is validated. |
 
 With owner-supplied files, import these values without printing them. The
-following is an **unexecuted handoff**, using absolute input files and stdin:
+following reproduces the authorized transfer, using absolute input files and stdin:
 
 ```sh
 umask 077
@@ -55,9 +57,9 @@ Public repository variables accompany those secrets:
 `SCREENREC_RELEASE_IDENTITY_SHA1` selects the exact certificate,
 `SCREENREC_RELEASE_CERTIFICATE_SHA256` pins its public fingerprint, and
 `SCREENREC_SPARKLE_PUBLIC_KEY` pins the updater public key. They derive from the
-created credentials; they are not placeholder values. Slice 05 checks actual
-certificate/key bytes against them before signing. Its `scripts/release-signing.mjs` owner, supplied by the packaging pass, owns
-the implemented input and import contract once integrated.
+created credentials; they are not placeholder values. The
+[signing owner](../../../scripts/release-signing.mjs) checks actual certificate/key
+bytes against them before signing and owns the input/import contract.
 
 Slice 05 imports the PKCS#12 into a fresh temporary keychain and always passes
 that path to `codesign --keychain`. Import allows `/usr/bin/codesign` with `-T`,
