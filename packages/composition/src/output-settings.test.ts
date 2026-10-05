@@ -3,9 +3,48 @@ import {
   normalizeOutputRequest,
   resolveAudioOutputSettings,
   outputPresets,
+  outputCapabilities,
   outputSettingsSchema,
   resolveOutputSettings,
 } from "./output-settings.js";
+
+test("HEVC selects SDR Main defaults without inheriting H264 controls", () => {
+  const output = resolveOutputSettings({ video: { codec: "hevc" } });
+  expect(output.video).toMatchObject({ codec: "hevc", profile: "main", color: "rec709" });
+  expect(output.video).not.toHaveProperty("entropy");
+  expect(output.video).not.toHaveProperty("level");
+  expect(resolveOutputSettings(output)).toEqual(output);
+  expect(resolveOutputSettings().video.codec).toBe("h264");
+});
+
+test("HEVC discovery reports native readiness separately and exposes no H264 controls", () => {
+  const inventory = {
+    properties: {},
+    encoders: [],
+    audio: { sampleRates: [], formats: [] },
+    hevc: { ready: false, probeStatus: -1, properties: {}, encoders: [] },
+  };
+  const unavailable = outputCapabilities(inventory);
+  expect(unavailable.videoCodecs).toContain("hevc");
+  expect(unavailable.hevc).toMatchObject({ ready: false, probeStatus: -1 });
+  expect(unavailable.hevc.video).not.toHaveProperty("entropy");
+  expect(unavailable.hevc.video).not.toHaveProperty("level");
+  const ready = outputCapabilities({
+    ...inventory,
+    hevc: { ...inventory.hevc, ready: true, probeStatus: 0 },
+  });
+  expect(ready.hevc.ready).toBe(true);
+});
+
+test("HEVC requests refuse H264 profile, entropy and level rather than ignoring them", () => {
+  for (const video of [
+    { codec: "hevc", profile: "high" },
+    { codec: "hevc", entropy: "cabac" },
+    { codec: "hevc", level: "auto" },
+    { codec: "hevc", profile: "main10" },
+  ])
+    expect(() => resolveOutputSettings({ video } as never)).toThrow();
+});
 
 test("omission, preset defaults and fully explicit output canonicalize identically", () => {
   const output = resolveOutputSettings();

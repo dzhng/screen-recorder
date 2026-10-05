@@ -292,6 +292,7 @@ export class ProjectPreviewInspection {
         throw new CatalogError("INVALID_RESPONSE", "Renderer changed the pinned output settings");
       checkRenderedMovie(movie, {
         file: output.path,
+        codec: options.data.settings.video.codec,
         durationUs: options.data.range.endUs - options.data.range.startUs,
         maxLongEdge: null,
       });

@@ -1,0 +1,5224 @@
+{
+  "sourceSha256": "4d30d080685b32e98e6bc0897ec689dd7c7e67cff7bdc7a6ef3f20cd4b55ac3f",
+  "nativeSha256": "af28fcc5260b79bca3909be2af1a9c90875bc3497d30d9649d3921648ef8c82d",
+  "operands": {
+    "h264": {
+      "request": {
+        "output": "/tmp/screenrec-hevc-final/orientation/h264.mp4",
+        "frames": "/tmp/screenrec-hevc-final/orientation/frames.jsonl",
+        "range": {
+          "startUs": 160001,
+          "endUs": 610007
+        },
+        "canvas": {
+          "width": 96,
+          "height": 160,
+          "fps": {
+            "numerator": 8,
+            "denominator": 1
+          },
+          "background": "#000000ff"
+        },
+        "settings": {
+          "container": "mp4",
+          "video": {
+            "codec": "h264",
+            "encoder": {
+              "hardware": "auto",
+              "id": null,
+              "gpu": null
+            },
+            "color": "rec709",
+            "rateControl": {
+              "mode": "average",
+              "bitrate": 8000000
+            },
+            "profile": "high",
+            "level": "auto",
+            "keyframeInterval": 120,
+            "keyframeIntervalSeconds": 2,
+            "frameReordering": false,
+            "entropy": "cabac",
+            "temporalCompression": true,
+            "openGop": false,
+            "prioritizeSpeed": false,
+            "powerEfficient": false,
+            "dataRateLimits": [],
+            "bufferDurationSeconds": null,
+            "initialBufferDelayPercent": null,
+            "spatialAdaptiveQuantization": true,
+            "lookAheadFrames": null,
+            "nonDroppableFrameRate": null,
+            "minimumQuantizer": null,
+            "maximumQuantizer": null
+          },
+          "audio": {
+            "codec": "aac",
+            "sampleRate": 48000,
+            "layout": "stereo",
+            "rateControl": {
+              "mode": "constant",
+              "bitrate": 192000
+            },
+            "quality": "high"
+          }
+        },
+        "processing": [
+          {
+            "target": {
+              "kind": "clip",
+              "id": "a"
+            },
+            "mediaKind": "audio",
+            "inputs": [],
+            "steps": []
+          },
+          {
+            "target": {
+              "kind": "track",
+              "id": "a"
+            },
+            "mediaKind": "audio",
+            "inputs": [
+              {
+                "kind": "clip",
+                "id": "a"
+              }
+            ],
+            "steps": []
+          },
+          {
+            "target": {
+              "kind": "clip",
+              "id": "v"
+            },
+            "mediaKind": "video",
+            "inputs": [],
+            "steps": []
+          },
+          {
+            "target": {
+              "kind": "track",
+              "id": "v"
+            },
+            "mediaKind": "video",
+            "inputs": [
+              {
+                "kind": "clip",
+                "id": "v"
+              }
+            ],
+            "steps": []
+          },
+          {
+            "target": {
+              "kind": "output"
+            },
+            "mediaKind": "output",
+            "inputs": [
+              {
+                "kind": "track",
+                "id": "a"
+              },
+              {
+                "kind": "track",
+                "id": "v"
+              }
+            ],
+            "steps": []
+          }
+        ],
+        "assets": [
+          {
+            "assetId": "v",
+            "streamId": "track:1",
+            "path": "/private/tmp/screenrec-parity-hevc/specs/done/agent-editing/assets/00-corpus/orientation.mov",
+            "originUs": 0
+          },
+          {
+            "assetId": "a",
+            "streamId": "track:1",
+            "path": "/tmp/screenrec-hevc-final/orientation/impulse.wav",
+            "originUs": 0
+          }
+        ],
+        "audio": {
+          "range": {
+            "start": 7680,
+            "end": 29280
+          },
+          "clips": [
+            {
+              "clipId": "a",
+              "trackId": "a",
+              "sampleRange": {
+                "start": 12000,
+                "end": 29280
+              },
+              "placement": {
+                "startUs": 250000,
+                "endUs": 1250000
+              },
+              "source": {
+                "kind": "range",
+                "assetId": "a",
+                "streamId": "track:1",
+                "range": {
+                  "startUs": 0,
+                  "endUs": 1000000
+                }
+              },
+              "context": [
+                {
+                  "source": {
+                    "startUs": 0,
+                    "endUs": 1000000
+                  },
+                  "sampleRange": {
+                    "start": 12000,
+                    "end": 60000
+                  }
+                }
+              ],
+              "pitch": "preserve",
+              "available": [
+                {
+                  "start": 12000,
+                  "end": 29280
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "receipt": {
+        "audio": {
+          "channels": 2,
+          "clippedSamples": 0,
+          "decoderContext": {
+            "maximumPrerollFrames": 0,
+            "maximumTailFrames": 0,
+            "policy": "bounded-current-retained-run",
+            "sampleRate": 48000
+          },
+          "frames": 21600,
+          "maximumBlockFrames": 8192,
+          "peak": 0.800000011920929,
+          "peakResidentBytes": 51511296,
+          "sampleRate": 48000,
+          "sourceWork": {
+            "decoded": [
+              {
+                "float32Bytes": 138248,
+                "frames": 17281,
+                "sampleRate": 48000
+              }
+            ],
+            "descriptorDeliveredBytes": 0,
+            "descriptorInputs": 0,
+            "descriptorReadBytes": 0,
+            "preparedRetimeRuns": 0,
+            "unknownReadInputs": 1
+          },
+          "unavailable": [
+            {
+              "clipId": "a",
+              "ranges": []
+            }
+          ]
+        },
+        "bytes": 18184,
+        "codec": "h264",
+        "durationUs": 450006,
+        "encodedAudio": {
+          "channels": 2,
+          "durationTimescale": 6000000,
+          "durationValue": 2700036,
+          "sampleRate": 48000
+        },
+        "encodedVideo": {
+          "level": "3.0",
+          "profile": "high"
+        },
+        "file": "/tmp/screenrec-hevc-final/orientation/h264.mp4",
+        "frameCount": 4,
+        "height": 160,
+        "mediaType": "video/mp4",
+        "peakResidentBytes": 51511296,
+        "settings": {
+          "audio": {
+            "codec": "aac",
+            "layout": "stereo",
+            "quality": "high",
+            "rateControl": {
+              "bitrate": 192000,
+              "mode": "constant"
+            },
+            "sampleRate": 48000
+          },
+          "container": "mp4",
+          "video": {
+            "codec": "h264",
+            "color": "rec709",
+            "dataRateLimits": [],
+            "encoder": {
+              "hardware": "auto"
+            },
+            "entropy": "cabac",
+            "frameReordering": false,
+            "keyframeInterval": 120,
+            "keyframeIntervalSeconds": 2,
+            "level": "auto",
+            "openGop": false,
+            "powerEfficient": false,
+            "prioritizeSpeed": false,
+            "profile": "high",
+            "rateControl": {
+              "bitrate": 8000000,
+              "mode": "average"
+            },
+            "spatialAdaptiveQuantization": true,
+            "temporalCompression": true
+          }
+        },
+        "width": 96
+      },
+      "probe": {
+        "frames": [
+          {
+            "media_type": "audio",
+            "stream_index": 1,
+            "key_frame": 1,
+            "pts": 0,
+            "pts_time": "0.000000",
+            "pkt_dts": 0,
+            "pkt_dts_time": "0.000000",
+            "best_effort_timestamp": 0,
+            "best_effort_timestamp_time": "0.000000",
+            "duration": 960,
+            "duration_time": "0.020000",
+            "pkt_pos": "965",
+            "pkt_size": "512",
+            "sample_fmt": "fltp",
+            "nb_samples": 960,
+            "channels": 2,
+            "channel_layout": "stereo"
+          },
+          {
+            "media_type": "audio",
+            "stream_index": 1,
+            "key_frame": 1,
+            "pts": 960,
+            "pts_time": "0.020000",
+            "pkt_dts": 960,
+            "pkt_dts_time": "0.020000",
+            "best_effort_timestamp": 960,
+            "best_effort_timestamp_time": "0.020000",
+            "duration": 1024,
+            "duration_time": "0.021333",
+            "pkt_pos": "1477",
+            "pkt_size": "512",
+            "sample_fmt": "fltp",
+            "nb_samples": 1024,
+            "channels": 2,
+            "channel_layout": "stereo"
+          },
+          {
+            "media_type": "audio",
+            "stream_index": 1,
+            "key_frame": 1,
+            "pts": 1984,
+            "pts_time": "0.041333",
+            "pkt_dts": 1984,
+            "pkt_dts_time": "0.041333",
+            "best_effort_timestamp": 1984,
+            "best_effort_timestamp_time": "0.041333",
+            "duration": 1024,
+            "duration_time": "0.021333",
+            "pkt_pos": "1989",
+            "pkt_size": "512",
+            "sample_fmt": "fltp",
+            "nb_samples": 1024,
+            "channels": 2,
+            "channel_layout": "stereo"
+          },
+          {
+            "media_type": "audio",
+            "stream_index": 1,
+            "key_frame": 1,
+            "pts": 3008,
+            "pts_time": "0.062667",
+            "pkt_dts": 3008,
+            "pkt_dts_time": "0.062667",
+            "best_effort_timestamp": 3008,
+            "best_effort_timestamp_time": "0.062667",
+            "duration": 1024,
+            "duration_time": "0.021333",
+            "pkt_pos": "2501",
+            "pkt_size": "512",
+            "sample_fmt": "fltp",
+            "nb_samples": 1024,
+            "channels": 2,
+            "channel_layout": "stereo"
+          },
+          {
+            "media_type": "audio",
+            "stream_index": 1,
+            "key_frame": 1,
+            "pts": 4032,
+            "pts_time": "0.084000",
+            "pkt_dts": 4032,
+            "pkt_dts_time": "0.084000",
+            "best_effort_timestamp": 4032,
+            "best_effort_timestamp_time": "0.084000",
+            "duration": 1024,
+            "duration_time": "0.021333",
+            "pkt_pos": "3013",
+            "pkt_size": "512",
+            "sample_fmt": "fltp",
+            "nb_samples": 1024,
+            "channels": 2,
+            "channel_layout": "stereo"
+          },
+          {
+            "media_type": "audio",
+            "stream_index": 1,
+            "key_frame": 1,
+            "pts": 5056,
+            "pts_time": "0.105333",
+            "pkt_dts": 5056,
+            "pkt_dts_time": "0.105333",
+            "best_effort_timestamp": 5056,
+            "best_effort_timestamp_time": "0.105333",
+            "duration": 1024,
+            "duration_time": "0.021333",
+            "pkt_pos": "3525",
+            "pkt_size": "512",
+            "sample_fmt": "fltp",
+            "nb_samples": 1024,
+            "channels": 2,
+            "channel_layout": "stereo"
+          },
+          {
+            "media_type": "audio",
+            "stream_index": 1,
+            "key_frame": 1,
+            "pts": 6080,
+            "pts_time": "0.126667",
+            "pkt_dts": 6080,
+            "pkt_dts_time": "0.126667",
+            "best_effort_timestamp": 6080,
+            "best_effort_timestamp_time": "0.126667",
+            "duration": 1024,
+            "duration_time": "0.021333",
+            "pkt_pos": "4037",
+            "pkt_size": "512",
+            "sample_fmt": "fltp",
+            "nb_samples": 1024,
+            "channels": 2,
+            "channel_layout": "stereo"
+          },
+          {
+            "media_type": "audio",
+            "stream_index": 1,
+            "key_frame": 1,
+            "pts": 7104,
+            "pts_time": "0.148000",
+            "pkt_dts": 7104,
+            "pkt_dts_time": "0.148000",
+            "best_effort_timestamp": 7104,
+            "best_effort_timestamp_time": "0.148000",
+            "duration": 1024,
+            "duration_time": "0.021333",
+            "pkt_pos": "4549",
+            "pkt_size": "512",
+            "sample_fmt": "fltp",
+            "nb_samples": 1024,
+            "channels": 2,
+            "channel_layout": "stereo"
+          },
+          {
+            "media_type": "audio",
+            "stream_index": 1,
+            "key_frame": 1,
+            "pts": 8128,
+            "pts_time": "0.169333",
+            "pkt_dts": 8128,
+            "pkt_dts_time": "0.169333",
+            "best_effort_timestamp": 8128,
+            "best_effort_timestamp_time": "0.169333",
+            "duration": 1024,
+            "duration_time": "0.021333",
+            "pkt_pos": "5061",
+            "pkt_size": "570",
+            "sample_fmt": "fltp",
+            "nb_samples": 1024,
+            "channels": 2,
+            "channel_layout": "stereo"
+          },
+          {
+            "media_type": "audio",
+            "stream_index": 1,
+            "key_frame": 1,
+            "pts": 9152,
+            "pts_time": "0.190667",
+            "pkt_dts": 9152,
+            "pkt_dts_time": "0.190667",
+            "best_effort_timestamp": 9152,
+            "best_effort_timestamp_time": "0.190667",
+            "duration": 1024,
+            "duration_time": "0.021333",
+            "pkt_pos": "5631",
+            "pkt_size": "454",
+            "sample_fmt": "fltp",
+            "nb_samples": 1024,
+            "channels": 2,
+            "channel_layout": "stereo"
+          },
+          {
+            "media_type": "audio",
+            "stream_index": 1,
+            "key_frame": 1,
+            "pts": 10176,
+            "pts_time": "0.212000",
+            "pkt_dts": 10176,
+            "pkt_dts_time": "0.212000",
+            "best_effort_timestamp": 10176,
+            "best_effort_timestamp_time": "0.212000",
+            "duration": 1024,
+            "duration_time": "0.021333",
+            "pkt_pos": "6085",
+            "pkt_size": "512",
+            "sample_fmt": "fltp",
+            "nb_samples": 1024,
+            "channels": 2,
+            "channel_layout": "stereo"
+          },
+          {
+            "media_type": "audio",
+            "stream_index": 1,
+            "key_frame": 1,
+            "pts": 11200,
+            "pts_time": "0.233333",
+            "pkt_dts": 11200,
+            "pkt_dts_time": "0.233333",
+            "best_effort_timestamp": 11200,
+            "best_effort_timestamp_time": "0.233333",
+            "duration": 1024,
+            "duration_time": "0.021333",
+            "pkt_pos": "6597",
+            "pkt_size": "512",
+            "sample_fmt": "fltp",
+            "nb_samples": 1024,
+            "channels": 2,
+            "channel_layout": "stereo"
+          },
+          {
+            "media_type": "audio",
+            "stream_index": 1,
+            "key_frame": 1,
+            "pts": 12224,
+            "pts_time": "0.254667",
+            "pkt_dts": 12224,
+            "pkt_dts_time": "0.254667",
+            "best_effort_timestamp": 12224,
+            "best_effort_timestamp_time": "0.254667",
+            "duration": 1024,
+            "duration_time": "0.021333",
+            "pkt_pos": "7109",
+            "pkt_size": "512",
+            "sample_fmt": "fltp",
+            "nb_samples": 1024,
+            "channels": 2,
+            "channel_layout": "stereo"
+          },
+          {
+            "media_type": "audio",
+            "stream_index": 1,
+            "key_frame": 1,
+            "pts": 13248,
+            "pts_time": "0.276000",
+            "pkt_dts": 13248,
+            "pkt_dts_time": "0.276000",
+            "best_effort_timestamp": 13248,
+            "best_effort_timestamp_time": "0.276000",
+            "duration": 1024,
+            "duration_time": "0.021333",
+            "pkt_pos": "7621",
+            "pkt_size": "512",
+            "sample_fmt": "fltp",
+            "nb_samples": 1024,
+            "channels": 2,
+            "channel_layout": "stereo"
+          },
+          {
+            "media_type": "audio",
+            "stream_index": 1,
+            "key_frame": 1,
+            "pts": 14272,
+            "pts_time": "0.297333",
+            "pkt_dts": 14272,
+            "pkt_dts_time": "0.297333",
+            "best_effort_timestamp": 14272,
+            "best_effort_timestamp_time": "0.297333",
+            "duration": 1024,
+            "duration_time": "0.021333",
+            "pkt_pos": "8133",
+            "pkt_size": "512",
+            "sample_fmt": "fltp",
+            "nb_samples": 1024,
+            "channels": 2,
+            "channel_layout": "stereo"
+          },
+          {
+            "media_type": "audio",
+            "stream_index": 1,
+            "key_frame": 1,
+            "pts": 15296,
+            "pts_time": "0.318667",
+            "pkt_dts": 15296,
+            "pkt_dts_time": "0.318667",
+            "best_effort_timestamp": 15296,
+            "best_effort_timestamp_time": "0.318667",
+            "duration": 1024,
+            "duration_time": "0.021333",
+            "pkt_pos": "8645",
+            "pkt_size": "512",
+            "sample_fmt": "fltp",
+            "nb_samples": 1024,
+            "channels": 2,
+            "channel_layout": "stereo"
+          },
+          {
+            "media_type": "audio",
+            "stream_index": 1,
+            "key_frame": 1,
+            "pts": 16320,
+            "pts_time": "0.340000",
+            "pkt_dts": 16320,
+            "pkt_dts_time": "0.340000",
+            "best_effort_timestamp": 16320,
+            "best_effort_timestamp_time": "0.340000",
+            "duration": 1024,
+            "duration_time": "0.021333",
+            "pkt_pos": "9157",
+            "pkt_size": "512",
+            "sample_fmt": "fltp",
+            "nb_samples": 1024,
+            "channels": 2,
+            "channel_layout": "stereo"
+          },
+          {
+            "media_type": "audio",
+            "stream_index": 1,
+            "key_frame": 1,
+            "pts": 17344,
+            "pts_time": "0.361333",
+            "pkt_dts": 17344,
+            "pkt_dts_time": "0.361333",
+            "best_effort_timestamp": 17344,
+            "best_effort_timestamp_time": "0.361333",
+            "duration": 1024,
+            "duration_time": "0.021333",
+            "pkt_pos": "9669",
+            "pkt_size": "512",
+            "sample_fmt": "fltp",
+            "nb_samples": 1024,
+            "channels": 2,
+            "channel_layout": "stereo"
+          },
+          {
+            "media_type": "audio",
+            "stream_index": 1,
+            "key_frame": 1,
+            "pts": 18368,
+            "pts_time": "0.382667",
+            "pkt_dts": 18368,
+            "pkt_dts_time": "0.382667",
+            "best_effort_timestamp": 18368,
+            "best_effort_timestamp_time": "0.382667",
+            "duration": 1024,
+            "duration_time": "0.021333",
+            "pkt_pos": "10181",
+            "pkt_size": "512",
+            "sample_fmt": "fltp",
+            "nb_samples": 1024,
+            "channels": 2,
+            "channel_layout": "stereo"
+          },
+          {
+            "media_type": "audio",
+            "stream_index": 1,
+            "key_frame": 1,
+            "pts": 19392,
+            "pts_time": "0.404000",
+            "pkt_dts": 19392,
+            "pkt_dts_time": "0.404000",
+            "best_effort_timestamp": 19392,
+            "best_effort_timestamp_time": "0.404000",
+            "duration": 1024,
+            "duration_time": "0.021333",
+            "pkt_pos": "10693",
+            "pkt_size": "512",
+            "sample_fmt": "fltp",
+            "nb_samples": 1024,
+            "channels": 2,
+            "channel_layout": "stereo"
+          },
+          {
+            "media_type": "audio",
+            "stream_index": 1,
+            "key_frame": 1,
+            "pts": 20416,
+            "pts_time": "0.425333",
+            "pkt_dts": 20416,
+            "pkt_dts_time": "0.425333",
+            "best_effort_timestamp": 20416,
+            "best_effort_timestamp_time": "0.425333",
+            "duration": 1024,
+            "duration_time": "0.021333",
+            "pkt_pos": "11205",
+            "pkt_size": "512",
+            "sample_fmt": "fltp",
+            "nb_samples": 1024,
+            "channels": 2,
+            "channel_layout": "stereo"
+          },
+          {
+            "media_type": "audio",
+            "stream_index": 1,
+            "key_frame": 1,
+            "pts": 21440,
+            "pts_time": "0.446667",
+            "pkt_dts": 21440,
+            "pkt_dts_time": "0.446667",
+            "best_effort_timestamp": 21440,
+            "best_effort_timestamp_time": "0.446667",
+            "duration": 1024,
+            "duration_time": "0.021333",
+            "pkt_pos": "11717",
+            "pkt_size": "512",
+            "sample_fmt": "fltp",
+            "nb_samples": 1024,
+            "channels": 2,
+            "channel_layout": "stereo"
+          },
+          {
+            "media_type": "video",
+            "stream_index": 0,
+            "key_frame": 1,
+            "pts": 0,
+            "pts_time": "0.000000",
+            "pkt_dts": 0,
+            "pkt_dts_time": "0.000000",
+            "best_effort_timestamp": 0,
+            "best_effort_timestamp_time": "0.000000",
+            "duration": 89999,
+            "duration_time": "0.089999",
+            "pkt_pos": "12229",
+            "pkt_size": "1212",
+            "width": 96,
+            "height": 160,
+            "crop_top": 0,
+            "crop_bottom": 0,
+            "crop_left": 0,
+            "crop_right": 0,
+            "pix_fmt": "yuv420p",
+            "pict_type": "I",
+            "interlaced_frame": 0,
+            "top_field_first": 0,
+            "lossless": 0,
+            "repeat_pict": 0,
+            "color_range": "tv",
+            "color_space": "bt709",
+            "color_primaries": "bt709",
+            "color_transfer": "bt709",
+            "chroma_location": "left",
+            "side_data_list": [
+              {
+                "side_data_type": "H.26[45] User Data Unregistered SEI message"
+              }
+            ]
+          },
+          {
+            "media_type": "video",
+            "stream_index": 0,
+            "key_frame": 0,
+            "pts": 89999,
+            "pts_time": "0.089999",
+            "pkt_dts": 89999,
+            "pkt_dts_time": "0.089999",
+            "best_effort_timestamp": 89999,
+            "best_effort_timestamp_time": "0.089999",
+            "duration": 125000,
+            "duration_time": "0.125000",
+            "pkt_pos": "13441",
+            "pkt_size": "907",
+            "width": 96,
+            "height": 160,
+            "crop_top": 0,
+            "crop_bottom": 0,
+            "crop_left": 0,
+            "crop_right": 0,
+            "pix_fmt": "yuv420p",
+            "pict_type": "P",
+            "interlaced_frame": 0,
+            "top_field_first": 0,
+            "lossless": 0,
+            "repeat_pict": 0,
+            "color_range": "tv",
+            "color_space": "bt709",
+            "color_primaries": "bt709",
+            "color_transfer": "bt709",
+            "chroma_location": "left"
+          },
+          {
+            "media_type": "video",
+            "stream_index": 0,
+            "key_frame": 0,
+            "pts": 214999,
+            "pts_time": "0.214999",
+            "pkt_dts": 214999,
+            "pkt_dts_time": "0.214999",
+            "best_effort_timestamp": 214999,
+            "best_effort_timestamp_time": "0.214999",
+            "duration": 125000,
+            "duration_time": "0.125000",
+            "pkt_pos": "14348",
+            "pkt_size": "80",
+            "width": 96,
+            "height": 160,
+            "crop_top": 0,
+            "crop_bottom": 0,
+            "crop_left": 0,
+            "crop_right": 0,
+            "pix_fmt": "yuv420p",
+            "pict_type": "P",
+            "interlaced_frame": 0,
+            "top_field_first": 0,
+            "lossless": 0,
+            "repeat_pict": 0,
+            "color_range": "tv",
+            "color_space": "bt709",
+            "color_primaries": "bt709",
+            "color_transfer": "bt709",
+            "chroma_location": "left"
+          },
+          {
+            "media_type": "video",
+            "stream_index": 0,
+            "key_frame": 0,
+            "pts": 339999,
+            "pts_time": "0.339999",
+            "pkt_dts": 339999,
+            "pkt_dts_time": "0.339999",
+            "best_effort_timestamp": 339999,
+            "best_effort_timestamp_time": "0.339999",
+            "duration": 110007,
+            "duration_time": "0.110007",
+            "pkt_pos": "14428",
+            "pkt_size": "956",
+            "width": 96,
+            "height": 160,
+            "crop_top": 0,
+            "crop_bottom": 0,
+            "crop_left": 0,
+            "crop_right": 0,
+            "pix_fmt": "yuv420p",
+            "pict_type": "P",
+            "interlaced_frame": 0,
+            "top_field_first": 0,
+            "lossless": 0,
+            "repeat_pict": 0,
+            "color_range": "tv",
+            "color_space": "bt709",
+            "color_primaries": "bt709",
+            "color_transfer": "bt709",
+            "chroma_location": "left"
+          }
+        ],
+        "streams": [
+          {
+            "index": 0,
+            "codec_name": "h264",
+            "codec_long_name": "H.264 / AVC / MPEG-4 AVC / MPEG-4 part 10",
+            "profile": "High",
+            "codec_type": "video",
+            "codec_tag_string": "avc1",
+            "codec_tag": "0x31637661",
+            "mime_codec_string": "avc1.64001e",
+            "width": 96,
+            "height": 160,
+            "coded_width": 128,
+            "coded_height": 160,
+            "has_b_frames": 0,
+            "pix_fmt": "yuv420p",
+            "level": 30,
+            "color_range": "tv",
+            "color_space": "bt709",
+            "color_transfer": "bt709",
+            "color_primaries": "bt709",
+            "chroma_location": "left",
+            "field_order": "progressive",
+            "refs": 1,
+            "is_avc": "true",
+            "nal_length_size": "4",
+            "id": "0x1",
+            "r_frame_rate": "8/1",
+            "avg_frame_rate": "2000000/225003",
+            "time_base": "1/1000000",
+            "start_pts": 0,
+            "start_time": "0.000000",
+            "duration_ts": 450006,
+            "duration": "0.450006",
+            "bit_rate": "56088",
+            "bits_per_raw_sample": "8",
+            "nb_frames": "4",
+            "nb_read_frames": "4",
+            "extradata_size": 34,
+            "disposition": {
+              "default": 1,
+              "dub": 0,
+              "original": 0,
+              "comment": 0,
+              "lyrics": 0,
+              "karaoke": 0,
+              "forced": 0,
+              "hearing_impaired": 0,
+              "visual_impaired": 0,
+              "clean_effects": 0,
+              "attached_pic": 0,
+              "timed_thumbnails": 0,
+              "non_diegetic": 0,
+              "captions": 0,
+              "descriptions": 0,
+              "metadata": 0,
+              "dependent": 0,
+              "still_image": 0,
+              "multilayer": 0
+            },
+            "tags": {
+              "creation_time": "2026-10-05T00:32:18.000000Z",
+              "language": "und",
+              "handler_name": "Core Media Video"
+            }
+          },
+          {
+            "index": 1,
+            "codec_name": "aac",
+            "codec_long_name": "AAC (Advanced Audio Coding)",
+            "profile": "LC",
+            "codec_type": "audio",
+            "codec_tag_string": "mp4a",
+            "codec_tag": "0x6134706d",
+            "mime_codec_string": "mp4a.40.2",
+            "sample_fmt": "fltp",
+            "sample_rate": "48000",
+            "channels": 2,
+            "channel_layout": "stereo",
+            "bits_per_sample": 0,
+            "initial_padding": 2112,
+            "id": "0x2",
+            "r_frame_rate": "0/0",
+            "avg_frame_rate": "0/0",
+            "time_base": "1/48000",
+            "start_pts": 0,
+            "start_time": "0.000000",
+            "duration_ts": 21600,
+            "duration": "0.450000",
+            "bit_rate": "190390",
+            "nb_frames": "24",
+            "nb_read_frames": "22",
+            "extradata_size": 2,
+            "disposition": {
+              "default": 1,
+              "dub": 0,
+              "original": 0,
+              "comment": 0,
+              "lyrics": 0,
+              "karaoke": 0,
+              "forced": 0,
+              "hearing_impaired": 0,
+              "visual_impaired": 0,
+              "clean_effects": 0,
+              "attached_pic": 0,
+              "timed_thumbnails": 0,
+              "non_diegetic": 0,
+              "captions": 0,
+              "descriptions": 0,
+              "metadata": 0,
+              "dependent": 0,
+              "still_image": 0,
+              "multilayer": 0
+            },
+            "tags": {
+              "creation_time": "2026-10-05T00:32:18.000000Z",
+              "language": "und",
+              "handler_name": "Core Media Audio"
+            }
+          }
+        ]
+      },
+      "sha256": "ffcae1d0c8ebb7a2ed7bbbe6916d9a8b2c2eccbc1f340e23b3f936b7758f8e97",
+      "audioMarkers": [
+        {
+          "peak": 0.6012619733810425,
+          "position": 9120
+        },
+        {
+          "peak": 0.3006170988082886,
+          "position": 9120
+        }
+      ],
+      "decodedAudioFrames": 22464
+    },
+    "hevc": {
+      "request": {
+        "output": "/tmp/screenrec-hevc-final/orientation/hevc.mp4",
+        "frames": "/tmp/screenrec-hevc-final/orientation/frames.jsonl",
+        "range": {
+          "startUs": 160001,
+          "endUs": 610007
+        },
+        "canvas": {
+          "width": 96,
+          "height": 160,
+          "fps": {
+            "numerator": 8,
+            "denominator": 1
+          },
+          "background": "#000000ff"
+        },
+        "settings": {
+          "container": "mp4",
+          "video": {
+            "codec": "hevc",
+            "encoder": {
+              "hardware": "auto",
+              "id": null,
+              "gpu": null
+            },
+            "color": "rec709",
+            "rateControl": {
+              "mode": "average",
+              "bitrate": 8000000
+            },
+            "profile": "main",
+            "keyframeInterval": 120,
+            "keyframeIntervalSeconds": 2,
+            "frameReordering": false,
+            "temporalCompression": true,
+            "openGop": false,
+            "prioritizeSpeed": false,
+            "powerEfficient": false,
+            "dataRateLimits": [],
+            "bufferDurationSeconds": null,
+            "initialBufferDelayPercent": null,
+            "spatialAdaptiveQuantization": true,
+            "lookAheadFrames": null,
+            "nonDroppableFrameRate": null,
+            "minimumQuantizer": null,
+            "maximumQuantizer": null
+          },
+          "audio": {
+            "codec": "aac",
+            "sampleRate": 48000,
+            "layout": "stereo",
+            "rateControl": {
+              "mode": "constant",
+              "bitrate": 192000
+            },
+            "quality": "high"
+          }
+        },
+        "processing": [
+          {
+            "target": {
+              "kind": "clip",
+              "id": "a"
+            },
+            "mediaKind": "audio",
+            "inputs": [],
+            "steps": []
+          },
+          {
+            "target": {
+              "kind": "track",
+              "id": "a"
+            },
+            "mediaKind": "audio",
+            "inputs": [
+              {
+                "kind": "clip",
+                "id": "a"
+              }
+            ],
+            "steps": []
+          },
+          {
+            "target": {
+              "kind": "clip",
+              "id": "v"
+            },
+            "mediaKind": "video",
+            "inputs": [],
+            "steps": []
+          },
+          {
+            "target": {
+              "kind": "track",
+              "id": "v"
+            },
+            "mediaKind": "video",
+            "inputs": [
+              {
+                "kind": "clip",
+                "id": "v"
+              }
+            ],
+            "steps": []
+          },
+          {
+            "target": {
+              "kind": "output"
+            },
+            "mediaKind": "output",
+            "inputs": [
+              {
+                "kind": "track",
+                "id": "a"
+              },
+              {
+                "kind": "track",
+                "id": "v"
+              }
+            ],
+            "steps": []
+          }
+        ],
+        "assets": [
+          {
+            "assetId": "v",
+            "streamId": "track:1",
+            "path": "/private/tmp/screenrec-parity-hevc/specs/done/agent-editing/assets/00-corpus/orientation.mov",
+            "originUs": 0
+          },
+          {
+            "assetId": "a",
+            "streamId": "track:1",
+            "path": "/tmp/screenrec-hevc-final/orientation/impulse.wav",
+            "originUs": 0
+          }
+        ],
+        "audio": {
+          "range": {
+            "start": 7680,
+            "end": 29280
+          },
+          "clips": [
+            {
+              "clipId": "a",
+              "trackId": "a",
+              "sampleRange": {
+                "start": 12000,
+                "end": 29280
+              },
+              "placement": {
+                "startUs": 250000,
+                "endUs": 1250000
+              },
+              "source": {
+                "kind": "range",
+                "assetId": "a",
+                "streamId": "track:1",
+                "range": {
+                  "startUs": 0,
+                  "endUs": 1000000
+                }
+              },
+              "context": [
+                {
+                  "source": {
+                    "startUs": 0,
+                    "endUs": 1000000
+                  },
+                  "sampleRange": {
+                    "start": 12000,
+                    "end": 60000
+                  }
+                }
+              ],
+              "pitch": "preserve",
+              "available": [
+                {
+                  "start": 12000,
+                  "end": 29280
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "receipt": {
+        "audio": {
+          "channels": 2,
+          "clippedSamples": 0,
+          "decoderContext": {
+            "maximumPrerollFrames": 0,
+            "maximumTailFrames": 0,
+            "policy": "bounded-current-retained-run",
+            "sampleRate": 48000
+          },
+          "frames": 21600,
+          "maximumBlockFrames": 8192,
+          "peak": 0.800000011920929,
+          "peakResidentBytes": 51298304,
+          "sampleRate": 48000,
+          "sourceWork": {
+            "decoded": [
+              {
+                "float32Bytes": 138248,
+                "frames": 17281,
+                "sampleRate": 48000
+              }
+            ],
+            "descriptorDeliveredBytes": 0,
+            "descriptorInputs": 0,
+            "descriptorReadBytes": 0,
+            "preparedRetimeRuns": 0,
+            "unknownReadInputs": 1
+          },
+          "unavailable": [
+            {
+              "clipId": "a",
+              "ranges": []
+            }
+          ]
+        },
+        "bytes": 18083,
+        "codec": "hevc",
+        "durationUs": 450006,
+        "encodedAudio": {
+          "channels": 2,
+          "durationTimescale": 6000000,
+          "durationValue": 2700036,
+          "sampleRate": 48000
+        },
+        "encodedVideo": {
+          "level": "3.1",
+          "profile": "main"
+        },
+        "file": "/tmp/screenrec-hevc-final/orientation/hevc.mp4",
+        "frameCount": 4,
+        "height": 160,
+        "mediaType": "video/mp4",
+        "peakResidentBytes": 51298304,
+        "settings": {
+          "audio": {
+            "codec": "aac",
+            "layout": "stereo",
+            "quality": "high",
+            "rateControl": {
+              "bitrate": 192000,
+              "mode": "constant"
+            },
+            "sampleRate": 48000
+          },
+          "container": "mp4",
+          "video": {
+            "codec": "hevc",
+            "color": "rec709",
+            "dataRateLimits": [],
+            "encoder": {
+              "hardware": "auto"
+            },
+            "frameReordering": false,
+            "keyframeInterval": 120,
+            "keyframeIntervalSeconds": 2,
+            "openGop": false,
+            "powerEfficient": false,
+            "prioritizeSpeed": false,
+            "profile": "main",
+            "rateControl": {
+              "bitrate": 8000000,
+              "mode": "average"
+            },
+            "spatialAdaptiveQuantization": true,
+            "temporalCompression": true
+          }
+        },
+        "width": 96
+      },
+      "probe": {
+        "frames": [
+          {
+            "media_type": "audio",
+            "stream_index": 1,
+            "key_frame": 1,
+            "pts": 0,
+            "pts_time": "0.000000",
+            "pkt_dts": 0,
+            "pkt_dts_time": "0.000000",
+            "best_effort_timestamp": 0,
+            "best_effort_timestamp_time": "0.000000",
+            "duration": 960,
+            "duration_time": "0.020000",
+            "pkt_pos": "965",
+            "pkt_size": "512",
+            "sample_fmt": "fltp",
+            "nb_samples": 960,
+            "channels": 2,
+            "channel_layout": "stereo"
+          },
+          {
+            "media_type": "audio",
+            "stream_index": 1,
+            "key_frame": 1,
+            "pts": 960,
+            "pts_time": "0.020000",
+            "pkt_dts": 960,
+            "pkt_dts_time": "0.020000",
+            "best_effort_timestamp": 960,
+            "best_effort_timestamp_time": "0.020000",
+            "duration": 1024,
+            "duration_time": "0.021333",
+            "pkt_pos": "1477",
+            "pkt_size": "512",
+            "sample_fmt": "fltp",
+            "nb_samples": 1024,
+            "channels": 2,
+            "channel_layout": "stereo"
+          },
+          {
+            "media_type": "audio",
+            "stream_index": 1,
+            "key_frame": 1,
+            "pts": 1984,
+            "pts_time": "0.041333",
+            "pkt_dts": 1984,
+            "pkt_dts_time": "0.041333",
+            "best_effort_timestamp": 1984,
+            "best_effort_timestamp_time": "0.041333",
+            "duration": 1024,
+            "duration_time": "0.021333",
+            "pkt_pos": "1989",
+            "pkt_size": "512",
+            "sample_fmt": "fltp",
+            "nb_samples": 1024,
+            "channels": 2,
+            "channel_layout": "stereo"
+          },
+          {
+            "media_type": "audio",
+            "stream_index": 1,
+            "key_frame": 1,
+            "pts": 3008,
+            "pts_time": "0.062667",
+            "pkt_dts": 3008,
+            "pkt_dts_time": "0.062667",
+            "best_effort_timestamp": 3008,
+            "best_effort_timestamp_time": "0.062667",
+            "duration": 1024,
+            "duration_time": "0.021333",
+            "pkt_pos": "2501",
+            "pkt_size": "512",
+            "sample_fmt": "fltp",
+            "nb_samples": 1024,
+            "channels": 2,
+            "channel_layout": "stereo"
+          },
+          {
+            "media_type": "audio",
+            "stream_index": 1,
+            "key_frame": 1,
+            "pts": 4032,
+            "pts_time": "0.084000",
+            "pkt_dts": 4032,
+            "pkt_dts_time": "0.084000",
+            "best_effort_timestamp": 4032,
+            "best_effort_timestamp_time": "0.084000",
+            "duration": 1024,
+            "duration_time": "0.021333",
+            "pkt_pos": "3013",
+            "pkt_size": "512",
+            "sample_fmt": "fltp",
+            "nb_samples": 1024,
+            "channels": 2,
+            "channel_layout": "stereo"
+          },
+          {
+            "media_type": "audio",
+            "stream_index": 1,
+            "key_frame": 1,
+            "pts": 5056,
+            "pts_time": "0.105333",
+            "pkt_dts": 5056,
+            "pkt_dts_time": "0.105333",
+            "best_effort_timestamp": 5056,
+            "best_effort_timestamp_time": "0.105333",
+            "duration": 1024,
+            "duration_time": "0.021333",
+            "pkt_pos": "3525",
+            "pkt_size": "512",
+            "sample_fmt": "fltp",
+            "nb_samples": 1024,
+            "channels": 2,
+            "channel_layout": "stereo"
+          },
+          {
+            "media_type": "audio",
+            "stream_index": 1,
+            "key_frame": 1,
+            "pts": 6080,
+            "pts_time": "0.126667",
+            "pkt_dts": 6080,
+            "pkt_dts_time": "0.126667",
+            "best_effort_timestamp": 6080,
+            "best_effort_timestamp_time": "0.126667",
+            "duration": 1024,
+            "duration_time": "0.021333",
+            "pkt_pos": "4037",
+            "pkt_size": "512",
+            "sample_fmt": "fltp",
+            "nb_samples": 1024,
+            "channels": 2,
+            "channel_layout": "stereo"
+          },
+          {
+            "media_type": "audio",
+            "stream_index": 1,
+            "key_frame": 1,
+            "pts": 7104,
+            "pts_time": "0.148000",
+            "pkt_dts": 7104,
+            "pkt_dts_time": "0.148000",
+            "best_effort_timestamp": 7104,
+            "best_effort_timestamp_time": "0.148000",
+            "duration": 1024,
+            "duration_time": "0.021333",
+            "pkt_pos": "4549",
+            "pkt_size": "512",
+            "sample_fmt": "fltp",
+            "nb_samples": 1024,
+            "channels": 2,
+            "channel_layout": "stereo"
+          },
+          {
+            "media_type": "audio",
+            "stream_index": 1,
+            "key_frame": 1,
+            "pts": 8128,
+            "pts_time": "0.169333",
+            "pkt_dts": 8128,
+            "pkt_dts_time": "0.169333",
+            "best_effort_timestamp": 8128,
+            "best_effort_timestamp_time": "0.169333",
+            "duration": 1024,
+            "duration_time": "0.021333",
+            "pkt_pos": "5061",
+            "pkt_size": "570",
+            "sample_fmt": "fltp",
+            "nb_samples": 1024,
+            "channels": 2,
+            "channel_layout": "stereo"
+          },
+          {
+            "media_type": "audio",
+            "stream_index": 1,
+            "key_frame": 1,
+            "pts": 9152,
+            "pts_time": "0.190667",
+            "pkt_dts": 9152,
+            "pkt_dts_time": "0.190667",
+            "best_effort_timestamp": 9152,
+            "best_effort_timestamp_time": "0.190667",
+            "duration": 1024,
+            "duration_time": "0.021333",
+            "pkt_pos": "5631",
+            "pkt_size": "454",
+            "sample_fmt": "fltp",
+            "nb_samples": 1024,
+            "channels": 2,
+            "channel_layout": "stereo"
+          },
+          {
+            "media_type": "audio",
+            "stream_index": 1,
+            "key_frame": 1,
+            "pts": 10176,
+            "pts_time": "0.212000",
+            "pkt_dts": 10176,
+            "pkt_dts_time": "0.212000",
+            "best_effort_timestamp": 10176,
+            "best_effort_timestamp_time": "0.212000",
+            "duration": 1024,
+            "duration_time": "0.021333",
+            "pkt_pos": "6085",
+            "pkt_size": "512",
+            "sample_fmt": "fltp",
+            "nb_samples": 1024,
+            "channels": 2,
+            "channel_layout": "stereo"
+          },
+          {
+            "media_type": "audio",
+            "stream_index": 1,
+            "key_frame": 1,
+            "pts": 11200,
+            "pts_time": "0.233333",
+            "pkt_dts": 11200,
+            "pkt_dts_time": "0.233333",
+            "best_effort_timestamp": 11200,
+            "best_effort_timestamp_time": "0.233333",
+            "duration": 1024,
+            "duration_time": "0.021333",
+            "pkt_pos": "6597",
+            "pkt_size": "512",
+            "sample_fmt": "fltp",
+            "nb_samples": 1024,
+            "channels": 2,
+            "channel_layout": "stereo"
+          },
+          {
+            "media_type": "audio",
+            "stream_index": 1,
+            "key_frame": 1,
+            "pts": 12224,
+            "pts_time": "0.254667",
+            "pkt_dts": 12224,
+            "pkt_dts_time": "0.254667",
+            "best_effort_timestamp": 12224,
+            "best_effort_timestamp_time": "0.254667",
+            "duration": 1024,
+            "duration_time": "0.021333",
+            "pkt_pos": "7109",
+            "pkt_size": "512",
+            "sample_fmt": "fltp",
+            "nb_samples": 1024,
+            "channels": 2,
+            "channel_layout": "stereo"
+          },
+          {
+            "media_type": "audio",
+            "stream_index": 1,
+            "key_frame": 1,
+            "pts": 13248,
+            "pts_time": "0.276000",
+            "pkt_dts": 13248,
+            "pkt_dts_time": "0.276000",
+            "best_effort_timestamp": 13248,
+            "best_effort_timestamp_time": "0.276000",
+            "duration": 1024,
+            "duration_time": "0.021333",
+            "pkt_pos": "7621",
+            "pkt_size": "512",
+            "sample_fmt": "fltp",
+            "nb_samples": 1024,
+            "channels": 2,
+            "channel_layout": "stereo"
+          },
+          {
+            "media_type": "audio",
+            "stream_index": 1,
+            "key_frame": 1,
+            "pts": 14272,
+            "pts_time": "0.297333",
+            "pkt_dts": 14272,
+            "pkt_dts_time": "0.297333",
+            "best_effort_timestamp": 14272,
+            "best_effort_timestamp_time": "0.297333",
+            "duration": 1024,
+            "duration_time": "0.021333",
+            "pkt_pos": "8133",
+            "pkt_size": "512",
+            "sample_fmt": "fltp",
+            "nb_samples": 1024,
+            "channels": 2,
+            "channel_layout": "stereo"
+          },
+          {
+            "media_type": "audio",
+            "stream_index": 1,
+            "key_frame": 1,
+            "pts": 15296,
+            "pts_time": "0.318667",
+            "pkt_dts": 15296,
+            "pkt_dts_time": "0.318667",
+            "best_effort_timestamp": 15296,
+            "best_effort_timestamp_time": "0.318667",
+            "duration": 1024,
+            "duration_time": "0.021333",
+            "pkt_pos": "8645",
+            "pkt_size": "512",
+            "sample_fmt": "fltp",
+            "nb_samples": 1024,
+            "channels": 2,
+            "channel_layout": "stereo"
+          },
+          {
+            "media_type": "audio",
+            "stream_index": 1,
+            "key_frame": 1,
+            "pts": 16320,
+            "pts_time": "0.340000",
+            "pkt_dts": 16320,
+            "pkt_dts_time": "0.340000",
+            "best_effort_timestamp": 16320,
+            "best_effort_timestamp_time": "0.340000",
+            "duration": 1024,
+            "duration_time": "0.021333",
+            "pkt_pos": "9157",
+            "pkt_size": "512",
+            "sample_fmt": "fltp",
+            "nb_samples": 1024,
+            "channels": 2,
+            "channel_layout": "stereo"
+          },
+          {
+            "media_type": "audio",
+            "stream_index": 1,
+            "key_frame": 1,
+            "pts": 17344,
+            "pts_time": "0.361333",
+            "pkt_dts": 17344,
+            "pkt_dts_time": "0.361333",
+            "best_effort_timestamp": 17344,
+            "best_effort_timestamp_time": "0.361333",
+            "duration": 1024,
+            "duration_time": "0.021333",
+            "pkt_pos": "9669",
+            "pkt_size": "512",
+            "sample_fmt": "fltp",
+            "nb_samples": 1024,
+            "channels": 2,
+            "channel_layout": "stereo"
+          },
+          {
+            "media_type": "audio",
+            "stream_index": 1,
+            "key_frame": 1,
+            "pts": 18368,
+            "pts_time": "0.382667",
+            "pkt_dts": 18368,
+            "pkt_dts_time": "0.382667",
+            "best_effort_timestamp": 18368,
+            "best_effort_timestamp_time": "0.382667",
+            "duration": 1024,
+            "duration_time": "0.021333",
+            "pkt_pos": "10181",
+            "pkt_size": "512",
+            "sample_fmt": "fltp",
+            "nb_samples": 1024,
+            "channels": 2,
+            "channel_layout": "stereo"
+          },
+          {
+            "media_type": "audio",
+            "stream_index": 1,
+            "key_frame": 1,
+            "pts": 19392,
+            "pts_time": "0.404000",
+            "pkt_dts": 19392,
+            "pkt_dts_time": "0.404000",
+            "best_effort_timestamp": 19392,
+            "best_effort_timestamp_time": "0.404000",
+            "duration": 1024,
+            "duration_time": "0.021333",
+            "pkt_pos": "10693",
+            "pkt_size": "512",
+            "sample_fmt": "fltp",
+            "nb_samples": 1024,
+            "channels": 2,
+            "channel_layout": "stereo"
+          },
+          {
+            "media_type": "audio",
+            "stream_index": 1,
+            "key_frame": 1,
+            "pts": 20416,
+            "pts_time": "0.425333",
+            "pkt_dts": 20416,
+            "pkt_dts_time": "0.425333",
+            "best_effort_timestamp": 20416,
+            "best_effort_timestamp_time": "0.425333",
+            "duration": 1024,
+            "duration_time": "0.021333",
+            "pkt_pos": "11205",
+            "pkt_size": "512",
+            "sample_fmt": "fltp",
+            "nb_samples": 1024,
+            "channels": 2,
+            "channel_layout": "stereo"
+          },
+          {
+            "media_type": "audio",
+            "stream_index": 1,
+            "key_frame": 1,
+            "pts": 21440,
+            "pts_time": "0.446667",
+            "pkt_dts": 21440,
+            "pkt_dts_time": "0.446667",
+            "best_effort_timestamp": 21440,
+            "best_effort_timestamp_time": "0.446667",
+            "duration": 1024,
+            "duration_time": "0.021333",
+            "pkt_pos": "11717",
+            "pkt_size": "512",
+            "sample_fmt": "fltp",
+            "nb_samples": 1024,
+            "channels": 2,
+            "channel_layout": "stereo"
+          },
+          {
+            "media_type": "video",
+            "stream_index": 0,
+            "key_frame": 1,
+            "pts": 0,
+            "pts_time": "0.000000",
+            "pkt_dts": 0,
+            "pkt_dts_time": "0.000000",
+            "best_effort_timestamp": 0,
+            "best_effort_timestamp_time": "0.000000",
+            "duration": 89999,
+            "duration_time": "0.089999",
+            "pkt_pos": "12229",
+            "pkt_size": "1250",
+            "width": 96,
+            "height": 160,
+            "crop_top": 0,
+            "crop_bottom": 0,
+            "crop_left": 0,
+            "crop_right": 0,
+            "pix_fmt": "yuv420p",
+            "pict_type": "I",
+            "interlaced_frame": 0,
+            "top_field_first": 0,
+            "lossless": 0,
+            "repeat_pict": 0,
+            "color_range": "tv",
+            "color_space": "bt709",
+            "color_primaries": "bt709",
+            "color_transfer": "bt709",
+            "chroma_location": "left",
+            "side_data_list": [
+              {
+                "side_data_type": "H.26[45] User Data Unregistered SEI message"
+              }
+            ]
+          },
+          {
+            "media_type": "video",
+            "stream_index": 0,
+            "key_frame": 0,
+            "pts": 89999,
+            "pts_time": "0.089999",
+            "pkt_dts": 89999,
+            "pkt_dts_time": "0.089999",
+            "best_effort_timestamp": 89999,
+            "best_effort_timestamp_time": "0.089999",
+            "duration": 125000,
+            "duration_time": "0.125000",
+            "pkt_pos": "13479",
+            "pkt_size": "692",
+            "width": 96,
+            "height": 160,
+            "crop_top": 0,
+            "crop_bottom": 0,
+            "crop_left": 0,
+            "crop_right": 0,
+            "pix_fmt": "yuv420p",
+            "pict_type": "P",
+            "interlaced_frame": 0,
+            "top_field_first": 0,
+            "lossless": 0,
+            "repeat_pict": 0,
+            "color_range": "tv",
+            "color_space": "bt709",
+            "color_primaries": "bt709",
+            "color_transfer": "bt709",
+            "chroma_location": "left"
+          },
+          {
+            "media_type": "video",
+            "stream_index": 0,
+            "key_frame": 0,
+            "pts": 214999,
+            "pts_time": "0.214999",
+            "pkt_dts": 214999,
+            "pkt_dts_time": "0.214999",
+            "best_effort_timestamp": 214999,
+            "best_effort_timestamp_time": "0.214999",
+            "duration": 125000,
+            "duration_time": "0.125000",
+            "pkt_pos": "14171",
+            "pkt_size": "81",
+            "width": 96,
+            "height": 160,
+            "crop_top": 0,
+            "crop_bottom": 0,
+            "crop_left": 0,
+            "crop_right": 0,
+            "pix_fmt": "yuv420p",
+            "pict_type": "P",
+            "interlaced_frame": 0,
+            "top_field_first": 0,
+            "lossless": 0,
+            "repeat_pict": 0,
+            "color_range": "tv",
+            "color_space": "bt709",
+            "color_primaries": "bt709",
+            "color_transfer": "bt709",
+            "chroma_location": "left"
+          },
+          {
+            "media_type": "video",
+            "stream_index": 0,
+            "key_frame": 0,
+            "pts": 339999,
+            "pts_time": "0.339999",
+            "pkt_dts": 339999,
+            "pkt_dts_time": "0.339999",
+            "best_effort_timestamp": 339999,
+            "best_effort_timestamp_time": "0.339999",
+            "duration": 110007,
+            "duration_time": "0.110007",
+            "pkt_pos": "14252",
+            "pkt_size": "761",
+            "width": 96,
+            "height": 160,
+            "crop_top": 0,
+            "crop_bottom": 0,
+            "crop_left": 0,
+            "crop_right": 0,
+            "pix_fmt": "yuv420p",
+            "pict_type": "P",
+            "interlaced_frame": 0,
+            "top_field_first": 0,
+            "lossless": 0,
+            "repeat_pict": 0,
+            "color_range": "tv",
+            "color_space": "bt709",
+            "color_primaries": "bt709",
+            "color_transfer": "bt709",
+            "chroma_location": "left"
+          }
+        ],
+        "streams": [
+          {
+            "index": 0,
+            "codec_name": "hevc",
+            "codec_long_name": "H.265 / HEVC (High Efficiency Video Coding)",
+            "profile": "Main",
+            "codec_type": "video",
+            "codec_tag_string": "hvc1",
+            "codec_tag": "0x31637668",
+            "width": 96,
+            "height": 160,
+            "coded_width": 128,
+            "coded_height": 160,
+            "has_b_frames": 0,
+            "pix_fmt": "yuv420p",
+            "level": 93,
+            "color_range": "tv",
+            "color_space": "bt709",
+            "color_transfer": "bt709",
+            "color_primaries": "bt709",
+            "chroma_location": "left",
+            "field_order": "progressive",
+            "refs": 1,
+            "view_ids_available": "",
+            "view_pos_available": "",
+            "id": "0x1",
+            "r_frame_rate": "8/1",
+            "avg_frame_rate": "2000000/225003",
+            "time_base": "1/1000000",
+            "start_pts": 0,
+            "start_time": "0.000000",
+            "duration_ts": 450006,
+            "duration": "0.450006",
+            "bit_rate": "49492",
+            "nb_frames": "4",
+            "nb_read_frames": "4",
+            "extradata_size": 108,
+            "disposition": {
+              "default": 1,
+              "dub": 0,
+              "original": 0,
+              "comment": 0,
+              "lyrics": 0,
+              "karaoke": 0,
+              "forced": 0,
+              "hearing_impaired": 0,
+              "visual_impaired": 0,
+              "clean_effects": 0,
+              "attached_pic": 0,
+              "timed_thumbnails": 0,
+              "non_diegetic": 0,
+              "captions": 0,
+              "descriptions": 0,
+              "metadata": 0,
+              "dependent": 0,
+              "still_image": 0,
+              "multilayer": 0
+            },
+            "tags": {
+              "creation_time": "2026-10-05T00:32:18.000000Z",
+              "language": "und",
+              "handler_name": "Core Media Video"
+            }
+          },
+          {
+            "index": 1,
+            "codec_name": "aac",
+            "codec_long_name": "AAC (Advanced Audio Coding)",
+            "profile": "LC",
+            "codec_type": "audio",
+            "codec_tag_string": "mp4a",
+            "codec_tag": "0x6134706d",
+            "mime_codec_string": "mp4a.40.2",
+            "sample_fmt": "fltp",
+            "sample_rate": "48000",
+            "channels": 2,
+            "channel_layout": "stereo",
+            "bits_per_sample": 0,
+            "initial_padding": 2112,
+            "id": "0x2",
+            "r_frame_rate": "0/0",
+            "avg_frame_rate": "0/0",
+            "time_base": "1/48000",
+            "start_pts": 0,
+            "start_time": "0.000000",
+            "duration_ts": 21600,
+            "duration": "0.450000",
+            "bit_rate": "190390",
+            "nb_frames": "24",
+            "nb_read_frames": "22",
+            "extradata_size": 2,
+            "disposition": {
+              "default": 1,
+              "dub": 0,
+              "original": 0,
+              "comment": 0,
+              "lyrics": 0,
+              "karaoke": 0,
+              "forced": 0,
+              "hearing_impaired": 0,
+              "visual_impaired": 0,
+              "clean_effects": 0,
+              "attached_pic": 0,
+              "timed_thumbnails": 0,
+              "non_diegetic": 0,
+              "captions": 0,
+              "descriptions": 0,
+              "metadata": 0,
+              "dependent": 0,
+              "still_image": 0,
+              "multilayer": 0
+            },
+            "tags": {
+              "creation_time": "2026-10-05T00:32:18.000000Z",
+              "language": "und",
+              "handler_name": "Core Media Audio"
+            }
+          }
+        ]
+      },
+      "sha256": "bda357ab45038af94bb630fedec723146f70b7ee0db7fa98e087568ce84d5ea1",
+      "audioMarkers": [
+        {
+          "peak": 0.6012619733810425,
+          "position": 9120
+        },
+        {
+          "peak": 0.3006170988082886,
+          "position": 9120
+        }
+      ],
+      "decodedAudioFrames": 22464
+    }
+  },
+  "sourceMetadata": {
+    "streams": [
+      {
+        "index": 0,
+        "codec_name": "h264",
+        "codec_long_name": "H.264 / AVC / MPEG-4 AVC / MPEG-4 part 10",
+        "profile": "High",
+        "codec_type": "video",
+        "codec_tag_string": "avc1",
+        "codec_tag": "0x31637661",
+        "mime_codec_string": "avc1.64000c",
+        "width": 160,
+        "height": 96,
+        "coded_width": 160,
+        "coded_height": 96,
+        "has_b_frames": 0,
+        "pix_fmt": "yuv420p",
+        "level": 12,
+        "chroma_location": "left",
+        "field_order": "progressive",
+        "is_avc": "true",
+        "nal_length_size": "4",
+        "id": "0x1",
+        "r_frame_rate": "4/1",
+        "avg_frame_rate": "4/1",
+        "time_base": "1/16384",
+        "start_pts": 0,
+        "start_time": "0.000000",
+        "duration_ts": 32768,
+        "duration": "2.000000",
+        "bit_rate": "14520",
+        "bits_per_raw_sample": "8",
+        "nb_frames": "8",
+        "extradata_size": 46,
+        "disposition": {
+          "default": 1,
+          "dub": 0,
+          "original": 0,
+          "comment": 0,
+          "lyrics": 0,
+          "karaoke": 0,
+          "forced": 0,
+          "hearing_impaired": 0,
+          "visual_impaired": 0,
+          "clean_effects": 0,
+          "attached_pic": 0,
+          "timed_thumbnails": 0,
+          "non_diegetic": 0,
+          "captions": 0,
+          "descriptions": 0,
+          "metadata": 0,
+          "dependent": 0,
+          "still_image": 0,
+          "multilayer": 0
+        },
+        "tags": {
+          "handler_name": "VideoHandler",
+          "vendor_id": "FFMP"
+        },
+        "side_data_list": [
+          {
+            "side_data_type": "Display Matrix",
+            "displaymatrix": "\n00000000:            0      -65536           0\n00000001:        65536           0           0\n00000002:            0           0  1073741824\n",
+            "rotation": 90
+          }
+        ]
+      }
+    ]
+  },
+  "capabilities": {
+    "audio": {
+      "formats": [
+        {
+          "bitrates": [
+            8000,
+            12000,
+            16000,
+            20000,
+            24000
+          ],
+          "layout": "mono",
+          "sampleRate": 8000,
+          "strategy": "long-term-average"
+        },
+        {
+          "bitrates": [
+            8000,
+            12000,
+            16000,
+            20000,
+            24000
+          ],
+          "layout": "mono",
+          "sampleRate": 8000,
+          "strategy": "constrained-variable"
+        },
+        {
+          "bitrates": [
+            8000,
+            12000,
+            16000,
+            20000,
+            24000
+          ],
+          "layout": "mono",
+          "sampleRate": 8000,
+          "strategy": "constant"
+        },
+        {
+          "bitrates": [
+            16000,
+            20000,
+            24000,
+            28000,
+            32000,
+            40000,
+            48000
+          ],
+          "layout": "stereo",
+          "sampleRate": 8000,
+          "strategy": "long-term-average"
+        },
+        {
+          "bitrates": [
+            16000,
+            20000,
+            24000,
+            28000,
+            32000,
+            40000,
+            48000
+          ],
+          "layout": "stereo",
+          "sampleRate": 8000,
+          "strategy": "constrained-variable"
+        },
+        {
+          "bitrates": [
+            16000,
+            20000,
+            24000,
+            28000,
+            32000,
+            40000,
+            48000
+          ],
+          "layout": "stereo",
+          "sampleRate": 8000,
+          "strategy": "constant"
+        },
+        {
+          "bitrates": [
+            8000,
+            12000,
+            16000,
+            20000,
+            24000,
+            28000,
+            32000
+          ],
+          "layout": "mono",
+          "sampleRate": 11025,
+          "strategy": "long-term-average"
+        },
+        {
+          "bitrates": [
+            8000,
+            12000,
+            16000,
+            20000,
+            24000,
+            28000,
+            32000
+          ],
+          "layout": "mono",
+          "sampleRate": 11025,
+          "strategy": "constrained-variable"
+        },
+        {
+          "bitrates": [
+            8000,
+            12000,
+            16000,
+            20000,
+            24000,
+            28000,
+            32000
+          ],
+          "layout": "mono",
+          "sampleRate": 11025,
+          "strategy": "constant"
+        },
+        {
+          "bitrates": [
+            16000,
+            20000,
+            24000,
+            28000,
+            32000,
+            40000,
+            48000,
+            56000,
+            64000
+          ],
+          "layout": "stereo",
+          "sampleRate": 11025,
+          "strategy": "long-term-average"
+        },
+        {
+          "bitrates": [
+            16000,
+            20000,
+            24000,
+            28000,
+            32000,
+            40000,
+            48000,
+            56000,
+            64000
+          ],
+          "layout": "stereo",
+          "sampleRate": 11025,
+          "strategy": "constrained-variable"
+        },
+        {
+          "bitrates": [
+            16000,
+            20000,
+            24000,
+            28000,
+            32000,
+            40000,
+            48000,
+            56000,
+            64000
+          ],
+          "layout": "stereo",
+          "sampleRate": 11025,
+          "strategy": "constant"
+        },
+        {
+          "bitrates": [
+            12000,
+            16000,
+            20000,
+            24000,
+            28000,
+            32000
+          ],
+          "layout": "mono",
+          "sampleRate": 12000,
+          "strategy": "long-term-average"
+        },
+        {
+          "bitrates": [
+            12000,
+            16000,
+            20000,
+            24000,
+            28000,
+            32000
+          ],
+          "layout": "mono",
+          "sampleRate": 12000,
+          "strategy": "constrained-variable"
+        },
+        {
+          "bitrates": [
+            12000,
+            16000,
+            20000,
+            24000,
+            28000,
+            32000
+          ],
+          "layout": "mono",
+          "sampleRate": 12000,
+          "strategy": "constant"
+        },
+        {
+          "bitrates": [
+            24000,
+            28000,
+            32000,
+            40000,
+            48000,
+            56000,
+            64000
+          ],
+          "layout": "stereo",
+          "sampleRate": 12000,
+          "strategy": "long-term-average"
+        },
+        {
+          "bitrates": [
+            24000,
+            28000,
+            32000,
+            40000,
+            48000,
+            56000,
+            64000
+          ],
+          "layout": "stereo",
+          "sampleRate": 12000,
+          "strategy": "constrained-variable"
+        },
+        {
+          "bitrates": [
+            24000,
+            28000,
+            32000,
+            40000,
+            48000,
+            56000,
+            64000
+          ],
+          "layout": "stereo",
+          "sampleRate": 12000,
+          "strategy": "constant"
+        },
+        {
+          "bitrates": [
+            12000,
+            16000,
+            20000,
+            24000,
+            28000,
+            32000,
+            40000,
+            48000
+          ],
+          "layout": "mono",
+          "sampleRate": 16000,
+          "strategy": "long-term-average"
+        },
+        {
+          "bitrates": [
+            12000,
+            16000,
+            20000,
+            24000,
+            28000,
+            32000,
+            40000,
+            48000
+          ],
+          "layout": "mono",
+          "sampleRate": 16000,
+          "strategy": "constrained-variable"
+        },
+        {
+          "bitrates": [
+            12000,
+            16000,
+            20000,
+            24000,
+            28000,
+            32000,
+            40000,
+            48000
+          ],
+          "layout": "mono",
+          "sampleRate": 16000,
+          "strategy": "constant"
+        },
+        {
+          "bitrates": [
+            24000,
+            28000,
+            32000,
+            40000,
+            48000,
+            56000,
+            64000,
+            72000,
+            80000,
+            96000
+          ],
+          "layout": "stereo",
+          "sampleRate": 16000,
+          "strategy": "long-term-average"
+        },
+        {
+          "bitrates": [
+            24000,
+            28000,
+            32000,
+            40000,
+            48000,
+            56000,
+            64000,
+            72000,
+            80000,
+            96000
+          ],
+          "layout": "stereo",
+          "sampleRate": 16000,
+          "strategy": "constrained-variable"
+        },
+        {
+          "bitrates": [
+            24000,
+            28000,
+            32000,
+            40000,
+            48000,
+            56000,
+            64000,
+            72000,
+            80000,
+            96000
+          ],
+          "layout": "stereo",
+          "sampleRate": 16000,
+          "strategy": "constant"
+        },
+        {
+          "bitrates": [
+            16000,
+            20000,
+            24000,
+            28000,
+            32000,
+            40000,
+            48000,
+            56000,
+            64000
+          ],
+          "layout": "mono",
+          "sampleRate": 22050,
+          "strategy": "long-term-average"
+        },
+        {
+          "bitrates": [
+            16000,
+            20000,
+            24000,
+            28000,
+            32000,
+            40000,
+            48000,
+            56000,
+            64000
+          ],
+          "layout": "mono",
+          "sampleRate": 22050,
+          "strategy": "constrained-variable"
+        },
+        {
+          "bitrates": [
+            16000,
+            20000,
+            24000,
+            28000,
+            32000,
+            40000,
+            48000,
+            56000,
+            64000
+          ],
+          "layout": "mono",
+          "sampleRate": 22050,
+          "strategy": "constant"
+        },
+        {
+          "bitrates": [
+            32000,
+            40000,
+            48000,
+            56000,
+            64000,
+            72000,
+            80000,
+            96000,
+            112000,
+            128000
+          ],
+          "layout": "stereo",
+          "sampleRate": 22050,
+          "strategy": "long-term-average"
+        },
+        {
+          "bitrates": [
+            32000,
+            40000,
+            48000,
+            56000,
+            64000,
+            72000,
+            80000,
+            96000,
+            112000,
+            128000
+          ],
+          "layout": "stereo",
+          "sampleRate": 22050,
+          "strategy": "constrained-variable"
+        },
+        {
+          "bitrates": [
+            32000,
+            40000,
+            48000,
+            56000,
+            64000,
+            72000,
+            80000,
+            96000,
+            112000,
+            128000
+          ],
+          "layout": "stereo",
+          "sampleRate": 22050,
+          "strategy": "constant"
+        },
+        {
+          "bitrates": [
+            16000,
+            20000,
+            24000,
+            28000,
+            32000,
+            40000,
+            48000,
+            56000,
+            64000
+          ],
+          "layout": "mono",
+          "sampleRate": 24000,
+          "strategy": "long-term-average"
+        },
+        {
+          "bitrates": [
+            16000,
+            20000,
+            24000,
+            28000,
+            32000,
+            40000,
+            48000,
+            56000,
+            64000
+          ],
+          "layout": "mono",
+          "sampleRate": 24000,
+          "strategy": "constrained-variable"
+        },
+        {
+          "bitrates": [
+            16000,
+            20000,
+            24000,
+            28000,
+            32000,
+            40000,
+            48000,
+            56000,
+            64000
+          ],
+          "layout": "mono",
+          "sampleRate": 24000,
+          "strategy": "constant"
+        },
+        {
+          "bitrates": [
+            32000,
+            40000,
+            48000,
+            56000,
+            64000,
+            72000,
+            80000,
+            96000,
+            112000,
+            128000
+          ],
+          "layout": "stereo",
+          "sampleRate": 24000,
+          "strategy": "long-term-average"
+        },
+        {
+          "bitrates": [
+            32000,
+            40000,
+            48000,
+            56000,
+            64000,
+            72000,
+            80000,
+            96000,
+            112000,
+            128000
+          ],
+          "layout": "stereo",
+          "sampleRate": 24000,
+          "strategy": "constrained-variable"
+        },
+        {
+          "bitrates": [
+            32000,
+            40000,
+            48000,
+            56000,
+            64000,
+            72000,
+            80000,
+            96000,
+            112000,
+            128000
+          ],
+          "layout": "stereo",
+          "sampleRate": 24000,
+          "strategy": "constant"
+        },
+        {
+          "bitrates": [
+            24000,
+            28000,
+            32000,
+            40000,
+            48000,
+            56000,
+            64000,
+            72000,
+            80000,
+            96000
+          ],
+          "layout": "mono",
+          "sampleRate": 32000,
+          "strategy": "long-term-average"
+        },
+        {
+          "bitrates": [
+            24000,
+            28000,
+            32000,
+            40000,
+            48000,
+            56000,
+            64000,
+            72000,
+            80000,
+            96000
+          ],
+          "layout": "mono",
+          "sampleRate": 32000,
+          "strategy": "constrained-variable"
+        },
+        {
+          "bitrates": [
+            24000,
+            28000,
+            32000,
+            40000,
+            48000,
+            56000,
+            64000,
+            72000,
+            80000,
+            96000
+          ],
+          "layout": "mono",
+          "sampleRate": 32000,
+          "strategy": "constant"
+        },
+        {
+          "bitrates": [
+            48000,
+            56000,
+            64000,
+            72000,
+            80000,
+            96000,
+            112000,
+            128000,
+            144000,
+            160000,
+            192000
+          ],
+          "layout": "stereo",
+          "sampleRate": 32000,
+          "strategy": "long-term-average"
+        },
+        {
+          "bitrates": [
+            48000,
+            56000,
+            64000,
+            72000,
+            80000,
+            96000,
+            112000,
+            128000,
+            144000,
+            160000,
+            192000
+          ],
+          "layout": "stereo",
+          "sampleRate": 32000,
+          "strategy": "constrained-variable"
+        },
+        {
+          "bitrates": [
+            48000,
+            56000,
+            64000,
+            72000,
+            80000,
+            96000,
+            112000,
+            128000,
+            144000,
+            160000,
+            192000
+          ],
+          "layout": "stereo",
+          "sampleRate": 32000,
+          "strategy": "constant"
+        },
+        {
+          "bitrates": [
+            32000,
+            40000,
+            48000,
+            56000,
+            64000,
+            72000,
+            80000,
+            96000,
+            112000,
+            128000,
+            144000,
+            160000,
+            192000,
+            224000,
+            256000
+          ],
+          "layout": "mono",
+          "sampleRate": 44100,
+          "strategy": "long-term-average"
+        },
+        {
+          "bitrates": [
+            32000,
+            40000,
+            48000,
+            56000,
+            64000,
+            72000,
+            80000,
+            96000,
+            112000,
+            128000,
+            144000,
+            160000,
+            192000,
+            224000,
+            256000
+          ],
+          "layout": "mono",
+          "sampleRate": 44100,
+          "strategy": "constrained-variable"
+        },
+        {
+          "bitrates": [
+            32000,
+            40000,
+            48000,
+            56000,
+            64000,
+            72000,
+            80000,
+            96000,
+            112000,
+            128000,
+            144000,
+            160000,
+            192000,
+            224000,
+            256000
+          ],
+          "layout": "mono",
+          "sampleRate": 44100,
+          "strategy": "constant"
+        },
+        {
+          "bitrates": [
+            64000,
+            72000,
+            80000,
+            96000,
+            112000,
+            128000,
+            144000,
+            160000,
+            192000,
+            224000,
+            256000,
+            288000,
+            320000
+          ],
+          "layout": "stereo",
+          "sampleRate": 44100,
+          "strategy": "long-term-average"
+        },
+        {
+          "bitrates": [
+            64000,
+            72000,
+            80000,
+            96000,
+            112000,
+            128000,
+            144000,
+            160000,
+            192000,
+            224000,
+            256000,
+            288000,
+            320000
+          ],
+          "layout": "stereo",
+          "sampleRate": 44100,
+          "strategy": "constrained-variable"
+        },
+        {
+          "bitrates": [
+            64000,
+            72000,
+            80000,
+            96000,
+            112000,
+            128000,
+            144000,
+            160000,
+            192000,
+            224000,
+            256000,
+            288000,
+            320000
+          ],
+          "layout": "stereo",
+          "sampleRate": 44100,
+          "strategy": "constant"
+        },
+        {
+          "bitrates": [
+            32000,
+            40000,
+            48000,
+            56000,
+            64000,
+            72000,
+            80000,
+            96000,
+            112000,
+            128000,
+            144000,
+            160000,
+            192000,
+            224000,
+            256000
+          ],
+          "layout": "mono",
+          "sampleRate": 48000,
+          "strategy": "long-term-average"
+        },
+        {
+          "bitrates": [
+            32000,
+            40000,
+            48000,
+            56000,
+            64000,
+            72000,
+            80000,
+            96000,
+            112000,
+            128000,
+            144000,
+            160000,
+            192000,
+            224000,
+            256000
+          ],
+          "layout": "mono",
+          "sampleRate": 48000,
+          "strategy": "constrained-variable"
+        },
+        {
+          "bitrates": [
+            32000,
+            40000,
+            48000,
+            56000,
+            64000,
+            72000,
+            80000,
+            96000,
+            112000,
+            128000,
+            144000,
+            160000,
+            192000,
+            224000,
+            256000
+          ],
+          "layout": "mono",
+          "sampleRate": 48000,
+          "strategy": "constant"
+        },
+        {
+          "bitrates": [
+            64000,
+            72000,
+            80000,
+            96000,
+            112000,
+            128000,
+            144000,
+            160000,
+            192000,
+            224000,
+            256000,
+            288000,
+            320000
+          ],
+          "layout": "stereo",
+          "sampleRate": 48000,
+          "strategy": "long-term-average"
+        },
+        {
+          "bitrates": [
+            64000,
+            72000,
+            80000,
+            96000,
+            112000,
+            128000,
+            144000,
+            160000,
+            192000,
+            224000,
+            256000,
+            288000,
+            320000
+          ],
+          "layout": "stereo",
+          "sampleRate": 48000,
+          "strategy": "constrained-variable"
+        },
+        {
+          "bitrates": [
+            64000,
+            72000,
+            80000,
+            96000,
+            112000,
+            128000,
+            144000,
+            160000,
+            192000,
+            224000,
+            256000,
+            288000,
+            320000
+          ],
+          "layout": "stereo",
+          "sampleRate": 48000,
+          "strategy": "constant"
+        }
+      ],
+      "sampleRates": [
+        8000,
+        11025,
+        12000,
+        16000,
+        22050,
+        24000,
+        32000,
+        44100,
+        48000
+      ]
+    },
+    "encoders": [
+      {
+        "hardwareAccelerated": true,
+        "id": "com.apple.videotoolbox.videoencoder.ave.avc",
+        "name": "Apple H.264 (HW)",
+        "probeStatus": 0,
+        "properties": {
+          "AllowCompressedPixelFormats": {},
+          "AllowFrameReordering": {
+            "PropertyType": "Boolean",
+            "ReadWriteStatus": "ReadWrite"
+          },
+          "AllowOpenGOP": {
+            "PropertyType": "Boolean",
+            "ReadWriteStatus": "ReadWrite"
+          },
+          "AllowPixelTransfer": {},
+          "AllowTemporalCompression": {
+            "PropertyType": "Boolean",
+            "ReadWriteStatus": "ReadWrite"
+          },
+          "AmbientViewingEnvironment": {},
+          "AuxiliaryTypeInfo": {},
+          "AverageBitRate": {
+            "PropertyType": "Number",
+            "ReadWriteStatus": "ReadWrite"
+          },
+          "AverageNonDroppableFrameRate": {
+            "PropertyType": "Number",
+            "ReadWriteStatus": "ReadWrite"
+          },
+          "CalculateMeanSquaredError": {
+            "PropertyType": "Boolean",
+            "ReadWriteStatus": "ReadWrite"
+          },
+          "CameraCalibrationDataLensCollection": {},
+          "ChromaLocationBottomField": {},
+          "ChromaLocationTopField": {},
+          "ChromaQPIndexOffsetMultiPPS": {
+            "PropertyType": "Number",
+            "ReadWriteStatus": "ReadWrite"
+          },
+          "CleanAperture": {},
+          "ClientPID": {},
+          "ColorPrimaries": {
+            "PropertyType": "Enumeration",
+            "ReadWriteStatus": "ReadWrite",
+            "SupportedValueList": [
+              "ITU_R_709_2",
+              "EBU_3213",
+              "SMPTE_C",
+              "ITU_R_2020",
+              "P3_D65",
+              "DCI_P3"
+            ]
+          },
+          "ComponentRange": {},
+          "CompressionSessionOptions": {
+            "ReadWriteStatus": "ReadWrite"
+          },
+          "ConstantBitRate": {
+            "PropertyType": "Number",
+            "ReadWriteStatus": "ReadWrite"
+          },
+          "ConstantQualityFactor": {
+            "PropertyType": "Number",
+            "ReadWriteStatus": "ReadWrite"
+          },
+          "ContentLightLevelInfo": {},
+          "ConvergenceDurationForAverageDataRate": {
+            "PropertyType": "Number",
+            "ReadWriteStatus": "ReadWrite"
+          },
+          "DataRateLimits": {
+            "ReadWriteStatus": "ReadWrite"
+          },
+          "DebugMetadataSEI": {
+            "PropertyType": "Boolean",
+            "ReadWriteStatus": "ReadWrite"
+          },
+          "DPBRequirements": {
+            "ReadWriteStatus": "ReadWrite"
+          },
+          "EnableMCTF": {
+            "PropertyType": "Boolean",
+            "ReadWriteStatus": "ReadWrite"
+          },
+          "EnableMultiReferenceP": {
+            "PropertyType": "Boolean",
+            "ReadWriteStatus": "ReadWrite"
+          },
+          "EnableResumableEncoding": {
+            "PropertyType": "Boolean",
+            "ReadWriteStatus": "ReadWrite"
+          },
+          "EnableStatsCollect": {
+            "PropertyType": "Number",
+            "ReadWriteStatus": "ReadWrite"
+          },
+          "EnableTransform8x8": {
+            "PropertyType": "Boolean",
+            "ReadWriteStatus": "ReadWrite"
+          },
+          "EnableUserQPMap": {
+            "PropertyType": "Number",
+            "ReadWriteStatus": "ReadWrite"
+          },
+          "EnableUserRefForFacetime": {
+            "PropertyType": "Boolean",
+            "ReadWriteStatus": "ReadWrite"
+          },
+          "EnableVUIBitstreamRestriction": {
+            "PropertyType": "Boolean",
+            "ReadWriteStatus": "ReadWrite"
+          },
+          "EnableWeightedPrediction": {
+            "PropertyType": "Boolean",
+            "ReadWriteStatus": "ReadWrite"
+          },
+          "EncoderID": {},
+          "EncoderUsage": {
+            "PropertyType": "Number",
+            "ReadWriteStatus": "ReadWrite"
+          },
+          "EncodesDepth": {
+            "PropertyType": "Boolean",
+            "ReadWriteStatus": "ReadWrite"
+          },
+          "EncodesDisparity": {
+            "PropertyType": "Boolean",
+            "ReadWriteStatus": "ReadWrite"
+          },
+          "EnsureTIJacinto4Compatibility": {
+            "PropertyType": "Boolean",
+            "ReadWriteStatus": "ReadWrite"
+          },
+          "ExpectedDuration": {
+            "PropertyType": "Number",
+            "ReadWriteStatus": "ReadWrite"
+          },
+          "ExpectedFrameRate": {
+            "PropertyType": "Number",
+            "ReadWriteStatus": "ReadWrite"
+          },
+          "FieldCount": {},
+          "FieldDetail": {},
+          "FigThreadPriority": {},
+          "FinalEncoderState": {
+            "ReadWriteStatus": "ReadOnly"
+          },
+          "FinalState": {},
+          "ForceRefUncompressed": {
+            "PropertyType": "Boolean",
+            "ReadWriteStatus": "ReadWrite"
+          },
+          "FrameRateTargetForAverageBitrate": {
+            "PropertyType": "Number",
+            "ReadWriteStatus": "ReadWrite"
+          },
+          "GammaLevel": {},
+          "H264EntropyMode": {
+            "PropertyType": "Enumeration",
+            "ReadWriteStatus": "ReadWrite"
+          },
+          "HasAdditionalViews": {},
+          "HasEyeViewsReversed": {},
+          "HasLeftStereoEyeView": {},
+          "HasRightStereoEyeView": {},
+          "HDRMetadataInsertionMode": {},
+          "HeroEye": {},
+          "HorizontalDisparityAdjustment": {},
+          "HorizontalFieldOfView": {},
+          "ICCProfile": {},
+          "iChatUsageString": {
+            "PropertyType": "Enumeration",
+            "ReadWriteStatus": "ReadWrite"
+          },
+          "InitialEncoderState": {
+            "ReadWriteStatus": "ReadWrite"
+          },
+          "InitialState": {},
+          "InputPixelFormat": {
+            "PropertyType": "Number",
+            "ReadWriteStatus": "ReadWrite"
+          },
+          "InputQueueMaxCount": {
+            "PropertyType": "Number",
+            "ReadWriteStatus": "ReadWrite"
+          },
+          "log2_max_minus4": {
+            "PropertyType": "Number",
+            "ReadWriteStatus": "ReadWrite"
+          },
+          "LogTransferFunction": {},
+          "LookAheadFrames": {
+            "PropertyType": "Number",
+            "ReadWriteStatus": "ReadWrite"
+          },
+          "LowMemory": {},
+          "MasteringDisplayColorVolume": {},
+          "MaxAllowedFrameQP": {
+            "PropertyType": "Number",
+            "ReadWriteStatus": "ReadWrite"
+          },
+          "MaxEncoderPixelRate": {
+            "PropertyType": "Number",
+            "ReadWriteStatus": "ReadOnly"
+          },
+          "MaxFrameDelayCount": {
+            "PropertyType": "Number",
+            "ReadWriteStatus": "ReadOnly"
+          },
+          "MaximizePowerEfficiency": {
+            "PropertyType": "Boolean",
+            "ReadWriteStatus": "ReadWrite"
+          },
+          "MaximumRealTimeFrameRate": {
+            "PropertyType": "Number",
+            "ReadWriteStatus": "ReadWrite"
+          },
+          "MaxKeyFrameInterval": {
+            "PropertyType": "Number",
+            "ReadWriteStatus": "ReadWrite"
+          },
+          "MaxKeyFrameIntervalDuration": {
+            "PropertyType": "Number",
+            "ReadWriteStatus": "ReadWrite"
+          },
+          "MinAllowedFrameQP": {
+            "PropertyType": "Number",
+            "ReadWriteStatus": "ReadWrite"
+          },
+          "MoreFramesAfterEnd": {
+            "PropertyType": "Boolean",
+            "ReadWriteStatus": "ReadWrite"
+          },
+          "MoreFramesBeforeStart": {
+            "PropertyType": "Boolean",
+            "ReadWriteStatus": "ReadWrite"
+          },
+          "MotionEstimationSearchMode": {
+            "PropertyType": "Number",
+            "ReadWriteStatus": "ReadWrite"
+          },
+          "MultiPassStorage": {
+            "ReadWriteStatus": "ReadWrite"
+          },
+          "MultiReferencePSpacing": {
+            "PropertyType": "Number",
+            "ReadWriteStatus": "ReadWrite"
+          },
+          "NumberOfCores": {
+            "PropertyType": "Number",
+            "ReadWriteStatus": "ReadOnly"
+          },
+          "NumberOfPendingFrames": {},
+          "NumberOfSlices": {
+            "PropertyType": "Number",
+            "ReadWriteStatus": "ReadWrite"
+          },
+          "Paravirtualized": {
+            "PropertyType": "Boolean",
+            "ReadWriteStatus": "ReadWrite"
+          },
+          "PerceptualQualityOptimization": {
+            "PropertyType": "Boolean",
+            "ReadWriteStatus": "ReadWrite"
+          },
+          "PixelAspectRatio": {},
+          "PixelBufferPoolIsShared": {},
+          "PixelTransferProperties": {},
+          "PoolPixelBufferAttributes": {},
+          "PoolPixelBufferAttributesSeed": {},
+          "PowerLogSessionID": {},
+          "PreemptiveLoadBalancing": {
+            "PropertyType": "Boolean",
+            "ReadWriteStatus": "ReadWrite"
+          },
+          "PrepareEncodedSampleBuffersForPaddedWrites": {},
+          "PreserveDynamicHDRMetadata": {},
+          "PrioritizeEncodingSpeedOverQuality": {
+            "PropertyType": "Boolean",
+            "ReadWriteStatus": "ReadWrite"
+          },
+          "Priority": {
+            "PropertyType": "Number",
+            "ReadWriteStatus": "ReadWrite"
+          },
+          "ProfileLevel": {
+            "PropertyType": "Enumeration",
+            "ReadWriteStatus": "ReadWrite",
+            "SupportedValueList": [
+              "H264_Baseline_1_3",
+              "H264_Baseline_3_0",
+              "H264_Baseline_3_1",
+              "H264_Baseline_3_2",
+              "H264_Baseline_4_0",
+              "H264_Baseline_4_1",
+              "H264_Baseline_4_2",
+              "H264_Baseline_5_0",
+              "H264_Baseline_5_1",
+              "H264_Baseline_5_2",
+              "H264_Main_3_0",
+              "H264_Main_3_1",
+              "H264_Main_3_2",
+              "H264_Main_4_0",
+              "H264_Main_4_1",
+              "H264_Main_4_2",
+              "H264_Main_5_0",
+              "H264_Main_5_1",
+              "H264_Main_5_2",
+              "H264_High_3_0",
+              "H264_High_3_1",
+              "H264_High_3_2",
+              "H264_High_4_0",
+              "H264_High_4_1",
+              "H264_High_4_2",
+              "H264_High_5_0",
+              "H264_High_5_1",
+              "H264_High_5_2",
+              "H264_Baseline_AutoLevel",
+              "H264_ConstrainedBaseline_AutoLevel",
+              "H264_Main_AutoLevel",
+              "H264_High_AutoLevel",
+              "H264_ConstrainedHigh_AutoLevel",
+              "H264_High422_AutoLevel",
+              "H264_High444Predictive_AutoLevel"
+            ]
+          },
+          "ProjectionKind": {},
+          "PropertyMode": {
+            "PropertyType": "Number",
+            "ReadWriteStatus": "ReadWrite"
+          },
+          "Quality": {
+            "PropertyType": "Number",
+            "ReadWriteStatus": "ReadWrite"
+          },
+          "QuantizationScalingMatrixPreset": {
+            "PropertyType": "Number",
+            "ReadWriteStatus": "ReadWrite"
+          },
+          "RealTime": {
+            "PropertyType": "Boolean",
+            "ReadWriteStatus": "ReadWrite"
+          },
+          "RecommendedParallelizationLimit": {
+            "PropertyType": "Number",
+            "ReadWriteStatus": "ReadOnly"
+          },
+          "RecommendedParallelizedSubdivisionMinimumDuration": {
+            "ReadWriteStatus": "ReadOnly"
+          },
+          "RecommendedParallelizedSubdivisionMinimumFrameCount": {
+            "PropertyType": "Number",
+            "ReadWriteStatus": "ReadOnly"
+          },
+          "RecommendedResumableSegmentMinimumDuration": {
+            "ReadWriteStatus": "ReadOnly"
+          },
+          "RecommendedResumableSegmentMinimumFrameCount": {
+            "PropertyType": "Number",
+            "ReadWriteStatus": "ReadOnly"
+          },
+          "ReconstructedPixelBufferAttributes": {
+            "ReadWriteStatus": "ReadOnly"
+          },
+          "SessionName": {
+            "PropertyType": "Enumeration",
+            "ReadWriteStatus": "ReadWrite"
+          },
+          "SoftMaxQuantizationParameter": {
+            "PropertyType": "Number",
+            "ReadWriteStatus": "ReadWrite"
+          },
+          "SoftMinQuantizationParameter": {
+            "PropertyType": "Number",
+            "ReadWriteStatus": "ReadWrite"
+          },
+          "SourceFrameCount": {
+            "PropertyType": "Number",
+            "ReadWriteStatus": "ReadWrite"
+          },
+          "SpatialAdaptiveQPLevel": {
+            "PropertyType": "Number",
+            "ReadWriteStatus": "ReadWrite"
+          },
+          "StereoCameraBaseline": {},
+          "StrictKeyFrameInterval": {
+            "PropertyType": "Number",
+            "ReadWriteStatus": "ReadWrite"
+          },
+          "StrictKeyFrameIntervalDuration": {
+            "PropertyType": "Number",
+            "ReadWriteStatus": "ReadWrite"
+          },
+          "SupportedMotionSearchModes": {
+            "ReadWriteStatus": "ReadOnly"
+          },
+          "SupportedPresetDictionaries": {
+            "ReadWriteStatus": "ReadOnly"
+          },
+          "SupportedThroughputModes": {
+            "ReadWriteStatus": "ReadOnly"
+          },
+          "ThrottleForBackground": {
+            "PropertyType": "Boolean",
+            "ReadWriteStatus": "ReadWrite"
+          },
+          "ThroughputMode": {
+            "PropertyType": "Number",
+            "ReadWriteStatus": "ReadWrite"
+          },
+          "TransferFunction": {
+            "PropertyType": "Enumeration",
+            "ReadWriteStatus": "ReadWrite",
+            "SupportedValueList": [
+              "ITU_R_709_2",
+              "SMPTE_240M_1995",
+              "Linear",
+              "IEC_sRGB",
+              "ITU_R_2020",
+              "SMPTE_ST_2084_PQ",
+              "SMPTE_ST_428_1",
+              "ITU_R_2100_HLG",
+              "UseGamma"
+            ]
+          },
+          "TransportIdentifier": {},
+          "UseLongTermReference": {
+            "PropertyType": "Boolean",
+            "ReadWriteStatus": "ReadWrite"
+          },
+          "UserDPBFramesForFaceTime": {
+            "ReadWriteStatus": "ReadWrite"
+          },
+          "UserParameterSetsIds": {
+            "PropertyType": "Number",
+            "ReadWriteStatus": "ReadWrite"
+          },
+          "UsingHardwareAcceleratedVideoEncoder": {
+            "PropertyType": "Boolean",
+            "ReadWriteStatus": "ReadOnly"
+          },
+          "UsingMetalRegistryID": {},
+          "VariableBitRate": {
+            "PropertyType": "Number",
+            "ReadWriteStatus": "ReadWrite"
+          },
+          "VBVBufferDuration": {
+            "PropertyType": "Number",
+            "ReadWriteStatus": "ReadWrite"
+          },
+          "VBVInitialDelayPercentage": {
+            "PropertyType": "Number",
+            "ReadWriteStatus": "ReadWrite"
+          },
+          "VBVMaxBitRate": {
+            "PropertyType": "Number",
+            "ReadWriteStatus": "ReadWrite"
+          },
+          "VideoEncoderPixelBufferAttributes": {},
+          "VideoResolutionAdaptation": {
+            "PropertyType": "Boolean",
+            "ReadWriteStatus": "ReadWrite"
+          },
+          "VideoResolutionAdaptationType": {
+            "PropertyType": "Boolean",
+            "ReadWriteStatus": "ReadWrite"
+          },
+          "ViewPackingKind": {},
+          "YCbCrMatrix": {
+            "PropertyType": "Enumeration",
+            "ReadWriteStatus": "ReadWrite",
+            "SupportedValueList": [
+              "Identity",
+              "ITU_R_709_2",
+              "ITU_R_601_4",
+              "SMPTE_240M_1995",
+              "ITU_R_2020",
+              "ITU_R_2100_ICtCp"
+            ]
+          }
+        }
+      },
+      {
+        "id": "com.apple.videotoolbox.videoencoder.h264",
+        "name": "Apple H.264 (SW)",
+        "probeStatus": 0,
+        "properties": {
+          "AllowCompressedPixelFormats": {},
+          "AllowFrameReordering": {},
+          "AllowPixelTransfer": {},
+          "AllowTemporalCompression": {},
+          "AmbientViewingEnvironment": {},
+          "AuxiliaryTypeInfo": {},
+          "AverageBitRate": {},
+          "AverageDataRate": {},
+          "CameraCalibrationDataLensCollection": {},
+          "ChromaLocationBottomField": {},
+          "ChromaLocationTopField": {},
+          "CleanAperture": {},
+          "ClientPID": {},
+          "ColorPrimaries": {},
+          "ComponentRange": {},
+          "ContentLightLevelInfo": {},
+          "DataRateLimits": {},
+          "EnableResumableEncoding": {},
+          "EncoderID": {},
+          "EncoderUsage": {},
+          "ExpectedFrameRate": {},
+          "FieldCount": {},
+          "FieldDetail": {},
+          "FigThreadPriority": {},
+          "FinalState": {},
+          "GammaLevel": {},
+          "H264EntropyMode": {},
+          "HasAdditionalViews": {},
+          "HasEyeViewsReversed": {},
+          "HasLeftStereoEyeView": {},
+          "HasRightStereoEyeView": {},
+          "HDRMetadataInsertionMode": {},
+          "HeroEye": {},
+          "HorizontalDisparityAdjustment": {},
+          "HorizontalFieldOfView": {},
+          "ICCProfile": {},
+          "InitialState": {},
+          "InputQueueMaxCount": {},
+          "LogTransferFunction": {},
+          "LowMemory": {},
+          "MasteringDisplayColorVolume": {},
+          "MaximizePowerEfficiency": {},
+          "MaxKeyFrameInterval": {},
+          "MaxKeyFrameIntervalDuration": {},
+          "MoreFramesAfterEnd": {},
+          "MoreFramesBeforeStart": {},
+          "MultiPassStorage": {},
+          "NegotiationDetails": {},
+          "NumberOfParallelCores": {},
+          "NumberOfPendingFrames": {},
+          "NumberOfSlices": {},
+          "PixelAspectRatio": {},
+          "PixelBufferPoolIsShared": {},
+          "PixelTransferProperties": {},
+          "PoolPixelBufferAttributes": {},
+          "PoolPixelBufferAttributesSeed": {},
+          "PowerLogSessionID": {},
+          "PrepareEncodedSampleBuffersForPaddedWrites": {},
+          "PreserveDynamicHDRMetadata": {},
+          "ProfileLevel": {
+            "SupportedValueList": [
+              "H264_Baseline_AutoLevel",
+              "H264_Baseline_1_3",
+              "H264_Baseline_3_0",
+              "H264_Baseline_3_1",
+              "H264_Baseline_3_2",
+              "H264_Baseline_4_0",
+              "H264_Baseline_4_1",
+              "H264_Baseline_4_2",
+              "H264_Baseline_5_0",
+              "H264_Baseline_5_1",
+              "H264_Baseline_5_2",
+              "H264_Main_AutoLevel",
+              "H264_Main_3_0",
+              "H264_Main_3_1",
+              "H264_Main_3_2",
+              "H264_Main_4_0",
+              "H264_Main_4_1",
+              "H264_Main_4_2",
+              "H264_Main_5_0",
+              "H264_Main_5_1",
+              "H264_Main_5_2",
+              "H264_High_AutoLevel",
+              "H264_High_3_0",
+              "H264_High_3_1",
+              "H264_High_3_2",
+              "H264_High_4_0",
+              "H264_High_4_1",
+              "H264_High_4_2",
+              "H264_High_5_0",
+              "H264_High_5_1",
+              "H264_High_5_2"
+            ]
+          },
+          "ProjectionKind": {},
+          "RealTime": {},
+          "SourceFrameCount": {},
+          "StereoCameraBaseline": {},
+          "TotalByteBudget": {},
+          "TransferFunction": {},
+          "TransportIdentifier": {},
+          "UsingMetalRegistryID": {},
+          "VideoEncoderPixelBufferAttributes": {},
+          "ViewPackingKind": {},
+          "YCbCrMatrix": {}
+        }
+      }
+    ],
+    "hevc": {
+      "encoders": [
+        {
+          "hardwareAccelerated": true,
+          "id": "com.apple.videotoolbox.videoencoder.ave.hevc",
+          "name": "Apple HEVC (HW)",
+          "probeStatus": 0,
+          "properties": {
+            "AllowCompressedPixelFormats": {},
+            "AllowFrameReordering": {
+              "PropertyType": "Boolean",
+              "ReadWriteStatus": "ReadWrite"
+            },
+            "AllowOpenGOP": {
+              "PropertyType": "Boolean",
+              "ReadWriteStatus": "ReadWrite"
+            },
+            "AllowPixelTransfer": {},
+            "AllowTemporalCompression": {
+              "PropertyType": "Boolean",
+              "ReadWriteStatus": "ReadWrite"
+            },
+            "AmbientViewingEnvironment": {
+              "ReadWriteStatus": "ReadWrite"
+            },
+            "AuxiliaryLayerProperties": {
+              "ReadWriteStatus": "ReadWrite"
+            },
+            "AuxiliaryTypeInfo": {},
+            "AverageBitRate": {
+              "PropertyType": "Number",
+              "ReadWriteStatus": "ReadWrite"
+            },
+            "AverageNonDroppableFrameRate": {
+              "PropertyType": "Number",
+              "ReadWriteStatus": "ReadWrite"
+            },
+            "BaseLayerFrameRate": {
+              "PropertyType": "Number",
+              "ReadWriteStatus": "ReadWrite"
+            },
+            "BitRate": {
+              "PropertyType": "Number",
+              "ReadWriteStatus": "ReadWrite"
+            },
+            "CalculateMeanSquaredError": {
+              "PropertyType": "Boolean",
+              "ReadWriteStatus": "ReadWrite"
+            },
+            "CameraCalibrationDataLensCollection": {},
+            "ChromaLocationBottomField": {},
+            "ChromaLocationTopField": {},
+            "ChromaQPIndexOffsetMultiPPS": {
+              "PropertyType": "Number",
+              "ReadWriteStatus": "ReadWrite"
+            },
+            "CleanAperture": {},
+            "ClientPID": {},
+            "ColorPrimaries": {
+              "PropertyType": "Enumeration",
+              "ReadWriteStatus": "ReadWrite",
+              "SupportedValueList": [
+                "ITU_R_709_2",
+                "EBU_3213",
+                "SMPTE_C",
+                "ITU_R_2020",
+                "P3_D65",
+                "DCI_P3"
+              ]
+            },
+            "ComponentRange": {},
+            "CompressionSessionOptions": {
+              "ReadWriteStatus": "ReadWrite"
+            },
+            "ConstantBitRate": {
+              "PropertyType": "Number",
+              "ReadWriteStatus": "ReadWrite"
+            },
+            "ConstantQualityFactor": {
+              "PropertyType": "Number",
+              "ReadWriteStatus": "ReadWrite"
+            },
+            "ContentLightLevelInfo": {},
+            "ConvergenceDurationForAverageDataRate": {
+              "PropertyType": "Number",
+              "ReadWriteStatus": "ReadWrite"
+            },
+            "DataRateLimits": {
+              "ReadWriteStatus": "ReadWrite"
+            },
+            "DebugMetadataSEI": {
+              "PropertyType": "Boolean",
+              "ReadWriteStatus": "ReadWrite"
+            },
+            "DPBRequirements": {
+              "ReadWriteStatus": "ReadWrite"
+            },
+            "DroppablePFramesOnly": {
+              "PropertyType": "Boolean",
+              "ReadWriteStatus": "ReadWrite"
+            },
+            "EnableMCTF": {
+              "PropertyType": "Boolean",
+              "ReadWriteStatus": "ReadWrite"
+            },
+            "EnableMultiReferenceP": {
+              "PropertyType": "Boolean",
+              "ReadWriteStatus": "ReadWrite"
+            },
+            "EnableResumableEncoding": {
+              "PropertyType": "Boolean",
+              "ReadWriteStatus": "ReadWrite"
+            },
+            "EnableStatsCollect": {
+              "PropertyType": "Number",
+              "ReadWriteStatus": "ReadWrite"
+            },
+            "EnableUserQPMap": {
+              "PropertyType": "Number",
+              "ReadWriteStatus": "ReadWrite"
+            },
+            "EnableUserRefForFacetime": {
+              "PropertyType": "Boolean",
+              "ReadWriteStatus": "ReadWrite"
+            },
+            "EnableVUIBitstreamRestriction": {
+              "PropertyType": "Boolean",
+              "ReadWriteStatus": "ReadWrite"
+            },
+            "EnableWeightedPrediction": {
+              "PropertyType": "Boolean",
+              "ReadWriteStatus": "ReadWrite"
+            },
+            "EncoderEncryptionData": {
+              "ReadWriteStatus": "ReadWrite"
+            },
+            "EncoderEncryptionKeyID": {
+              "ReadWriteStatus": "ReadWrite"
+            },
+            "EncoderID": {},
+            "EncoderUsage": {
+              "PropertyType": "Number",
+              "ReadWriteStatus": "ReadWrite"
+            },
+            "EncodesAlpha": {
+              "PropertyType": "Boolean",
+              "ReadWriteStatus": "ReadWrite"
+            },
+            "EncodesAuxiliaryWithAuxID": {
+              "PropertyType": "Number",
+              "ReadWriteStatus": "ReadWrite"
+            },
+            "EncodesDepth": {
+              "PropertyType": "Boolean",
+              "ReadWriteStatus": "ReadWrite"
+            },
+            "EncodesDisparity": {
+              "PropertyType": "Boolean",
+              "ReadWriteStatus": "ReadWrite"
+            },
+            "ExpectedDuration": {
+              "PropertyType": "Number",
+              "ReadWriteStatus": "ReadWrite"
+            },
+            "ExpectedFrameRate": {
+              "PropertyType": "Number",
+              "ReadWriteStatus": "ReadWrite"
+            },
+            "FieldCount": {},
+            "FieldDetail": {},
+            "FigThreadPriority": {},
+            "FinalEncoderState": {
+              "ReadWriteStatus": "ReadOnly"
+            },
+            "FinalState": {},
+            "ForceRefUncompressed": {
+              "PropertyType": "Boolean",
+              "ReadWriteStatus": "ReadWrite"
+            },
+            "FrameRateTargetForAverageBitrate": {
+              "PropertyType": "Number",
+              "ReadWriteStatus": "ReadWrite"
+            },
+            "GammaLevel": {},
+            "HasAdditionalViews": {},
+            "HasEyeViewsReversed": {},
+            "HasLeftStereoEyeView": {},
+            "HasRightStereoEyeView": {},
+            "HDRMetadataInsertionMode": {},
+            "HeroEye": {},
+            "HEVCAuxiliaryIDs": {
+              "ReadWriteStatus": "ReadWrite"
+            },
+            "HEVCAuxiliaryLayerIDs": {
+              "ReadWriteStatus": "ReadWrite"
+            },
+            "HEVCSyncSampleNALUnitTypes": {
+              "ReadWriteStatus": "ReadOnly"
+            },
+            "HEVCTemporalLevelInfoCombinations": {
+              "ReadWriteStatus": "ReadOnly"
+            },
+            "HorizontalDisparityAdjustment": {},
+            "HorizontalFieldOfView": {},
+            "ICCProfile": {},
+            "iChatUsageString": {
+              "PropertyType": "Enumeration",
+              "ReadWriteStatus": "ReadWrite"
+            },
+            "InitialEncoderState": {
+              "ReadWriteStatus": "ReadWrite"
+            },
+            "InitialState": {},
+            "InputPixelFormat": {
+              "PropertyType": "Number",
+              "ReadWriteStatus": "ReadWrite"
+            },
+            "InputQueueMaxCount": {
+              "PropertyType": "Number",
+              "ReadWriteStatus": "ReadWrite"
+            },
+            "InsertTrailingBytes": {
+              "ReadWriteStatus": "ReadWrite"
+            },
+            "log2_max_minus4": {
+              "PropertyType": "Number",
+              "ReadWriteStatus": "ReadWrite"
+            },
+            "LogTransferFunction": {},
+            "LookAheadFrames": {
+              "PropertyType": "Number",
+              "ReadWriteStatus": "ReadWrite"
+            },
+            "LowMemory": {},
+            "MasteringDisplayColorVolume": {},
+            "MaxAllowedFrameQP": {
+              "PropertyType": "Number",
+              "ReadWriteStatus": "ReadWrite"
+            },
+            "MaxEncoderPixelRate": {
+              "PropertyType": "Number",
+              "ReadWriteStatus": "ReadOnly"
+            },
+            "MaxFrameDelayCount": {
+              "PropertyType": "Number",
+              "ReadWriteStatus": "ReadOnly"
+            },
+            "MaximizePowerEfficiency": {
+              "PropertyType": "Boolean",
+              "ReadWriteStatus": "ReadWrite"
+            },
+            "MaximumRealTimeFrameRate": {
+              "PropertyType": "Number",
+              "ReadWriteStatus": "ReadWrite"
+            },
+            "MaxKeyFrameInterval": {
+              "PropertyType": "Number",
+              "ReadWriteStatus": "ReadWrite"
+            },
+            "MaxKeyFrameIntervalDuration": {
+              "PropertyType": "Number",
+              "ReadWriteStatus": "ReadWrite"
+            },
+            "MCTFLatencyMode": {
+              "ReadWriteStatus": "ReadWrite"
+            },
+            "MinAllowedFrameQP": {
+              "PropertyType": "Number",
+              "ReadWriteStatus": "ReadWrite"
+            },
+            "MinimizeMemoryUsage": {
+              "PropertyType": "Boolean",
+              "ReadWriteStatus": "ReadWrite"
+            },
+            "MoreFramesAfterEnd": {
+              "PropertyType": "Boolean",
+              "ReadWriteStatus": "ReadWrite"
+            },
+            "MoreFramesBeforeStart": {
+              "PropertyType": "Boolean",
+              "ReadWriteStatus": "ReadWrite"
+            },
+            "MotionEstimationSearchMode": {
+              "PropertyType": "Number",
+              "ReadWriteStatus": "ReadWrite"
+            },
+            "MultiPassStorage": {
+              "ReadWriteStatus": "ReadWrite"
+            },
+            "MultiReferencePSpacing": {
+              "PropertyType": "Number",
+              "ReadWriteStatus": "ReadWrite"
+            },
+            "MVHEVCLeftAndRightViewIDs": {
+              "ReadWriteStatus": "ReadWrite"
+            },
+            "MVHEVCVideoLayerIDs": {
+              "ReadWriteStatus": "ReadWrite"
+            },
+            "MVHEVCViewIDs": {
+              "ReadWriteStatus": "ReadWrite"
+            },
+            "NumberOfCores": {
+              "PropertyType": "Number",
+              "ReadWriteStatus": "ReadOnly"
+            },
+            "NumberOfPendingFrames": {},
+            "NumberOfSlices": {
+              "PropertyType": "Number",
+              "ReadWriteStatus": "ReadWrite"
+            },
+            "NumberOfTemporalLayers": {
+              "PropertyType": "Number",
+              "ReadWriteStatus": "ReadWrite"
+            },
+            "OutputBitDepth": {
+              "PropertyType": "Number",
+              "ReadWriteStatus": "ReadWrite"
+            },
+            "Paravirtualized": {
+              "PropertyType": "Boolean",
+              "ReadWriteStatus": "ReadWrite"
+            },
+            "PerceptualQualityOptimization": {
+              "PropertyType": "Boolean",
+              "ReadWriteStatus": "ReadWrite"
+            },
+            "PixelAspectRatio": {
+              "ReadWriteStatus": "ReadWrite"
+            },
+            "PixelBufferPoolIsShared": {},
+            "PixelTransferProperties": {},
+            "PoolPixelBufferAttributes": {},
+            "PoolPixelBufferAttributesSeed": {},
+            "PowerLogSessionID": {},
+            "PreemptiveLoadBalancing": {
+              "PropertyType": "Boolean",
+              "ReadWriteStatus": "ReadWrite"
+            },
+            "PrepareEncodedSampleBuffersForPaddedWrites": {},
+            "PreserveDynamicHDRMetadata": {},
+            "PrioritizeEncodingSpeedOverQuality": {
+              "PropertyType": "Boolean",
+              "ReadWriteStatus": "ReadWrite"
+            },
+            "Priority": {
+              "PropertyType": "Number",
+              "ReadWriteStatus": "ReadWrite"
+            },
+            "ProfileLevel": {
+              "PropertyType": "Enumeration",
+              "ReadWriteStatus": "ReadWrite",
+              "SupportedValueList": [
+                "HEVC_Main_AutoLevel",
+                "HEVC_Main10_AutoLevel",
+                "HEVC_Main444_AutoLevel",
+                "HEVC_Main44410_AutoLevel",
+                "HEVC_Main42210_AutoLevel",
+                "HEVC_Monochrome_AutoLevel",
+                "HEVC_Monochrome10_AutoLevel",
+                "HEVC_MainStill_AutoLevel"
+              ]
+            },
+            "ProjectionKind": {},
+            "PropertyMode": {
+              "PropertyType": "Number",
+              "ReadWriteStatus": "ReadWrite"
+            },
+            "Quality": {
+              "PropertyType": "Number",
+              "ReadWriteStatus": "ReadWrite"
+            },
+            "QuantizationScalingMatrixPreset": {
+              "PropertyType": "Number",
+              "ReadWriteStatus": "ReadWrite"
+            },
+            "RealTime": {
+              "PropertyType": "Boolean",
+              "ReadWriteStatus": "ReadWrite"
+            },
+            "RecommendedParallelizationLimit": {
+              "PropertyType": "Number",
+              "ReadWriteStatus": "ReadOnly"
+            },
+            "RecommendedParallelizedSubdivisionMinimumDuration": {
+              "ReadWriteStatus": "ReadOnly"
+            },
+            "RecommendedParallelizedSubdivisionMinimumFrameCount": {
+              "PropertyType": "Number",
+              "ReadWriteStatus": "ReadOnly"
+            },
+            "RecommendedResumableSegmentMinimumDuration": {
+              "ReadWriteStatus": "ReadOnly"
+            },
+            "RecommendedResumableSegmentMinimumFrameCount": {
+              "PropertyType": "Number",
+              "ReadWriteStatus": "ReadOnly"
+            },
+            "ReconstructedPixelBufferAttributes": {
+              "ReadWriteStatus": "ReadOnly"
+            },
+            "RelaxAverageBitRateTarget": {
+              "PropertyType": "Boolean",
+              "ReadWriteStatus": "ReadWrite"
+            },
+            "RequireDeterministicDependencyAndReordering": {
+              "PropertyType": "Boolean",
+              "ReadWriteStatus": "ReadWrite"
+            },
+            "RequiredHEVCPictureParameterSetID": {
+              "PropertyType": "Number",
+              "ReadWriteStatus": "ReadWrite"
+            },
+            "RequiredHEVCSequenceParameterSetID": {
+              "PropertyType": "Number",
+              "ReadWriteStatus": "ReadWrite"
+            },
+            "RequiredHEVCSequenceParameterSetRepFormatIndex": {
+              "PropertyType": "Number",
+              "ReadWriteStatus": "ReadWrite"
+            },
+            "RequiredHEVCVideoParameterSetAlphaLayerID": {
+              "PropertyType": "Number",
+              "ReadWriteStatus": "ReadWrite"
+            },
+            "RequiredHEVCVideoParameterSetRepFormatBitDepths": {
+              "ReadWriteStatus": "ReadWrite"
+            },
+            "RequiredHEVCVideoParameterSetRepFormatChromaFormatIdcs": {
+              "ReadWriteStatus": "ReadWrite"
+            },
+            "RequiredMVHEVCPictureParameterSetIDs": {
+              "ReadWriteStatus": "ReadWrite"
+            },
+            "RequiredMVHEVCSequenceParameterSetIDs": {
+              "ReadWriteStatus": "ReadWrite"
+            },
+            "RequiredMVHEVCVideoParameterSetAlphaVideoLayerIDs": {
+              "ReadWriteStatus": "ReadWrite"
+            },
+            "SessionName": {
+              "PropertyType": "Enumeration",
+              "ReadWriteStatus": "ReadWrite"
+            },
+            "SoftMaxQuantizationParameter": {
+              "PropertyType": "Number",
+              "ReadWriteStatus": "ReadWrite"
+            },
+            "SoftMinQuantizationParameter": {
+              "PropertyType": "Number",
+              "ReadWriteStatus": "ReadWrite"
+            },
+            "SourceFrameCount": {
+              "PropertyType": "Number",
+              "ReadWriteStatus": "ReadWrite"
+            },
+            "SpatialAdaptiveQPLevel": {
+              "PropertyType": "Number",
+              "ReadWriteStatus": "ReadWrite"
+            },
+            "StereoCameraBaseline": {},
+            "StrictKeyFrameInterval": {
+              "PropertyType": "Number",
+              "ReadWriteStatus": "ReadWrite"
+            },
+            "StrictKeyFrameIntervalDuration": {
+              "PropertyType": "Number",
+              "ReadWriteStatus": "ReadWrite"
+            },
+            "SupportedMotionSearchModes": {
+              "ReadWriteStatus": "ReadOnly"
+            },
+            "SupportedPresetDictionaries": {
+              "ReadWriteStatus": "ReadOnly"
+            },
+            "SupportedThroughputModes": {
+              "ReadWriteStatus": "ReadOnly"
+            },
+            "TemporalIDNestingFlag": {
+              "PropertyType": "Boolean",
+              "ReadWriteStatus": "ReadWrite"
+            },
+            "ThrottleForBackground": {
+              "PropertyType": "Boolean",
+              "ReadWriteStatus": "ReadWrite"
+            },
+            "ThroughputMode": {
+              "PropertyType": "Number",
+              "ReadWriteStatus": "ReadWrite"
+            },
+            "TransferFunction": {
+              "PropertyType": "Enumeration",
+              "ReadWriteStatus": "ReadWrite",
+              "SupportedValueList": [
+                "ITU_R_709_2",
+                "SMPTE_240M_1995",
+                "Linear",
+                "IEC_sRGB",
+                "ITU_R_2020",
+                "SMPTE_ST_2084_PQ",
+                "SMPTE_ST_428_1",
+                "ITU_R_2100_HLG",
+                "UseGamma"
+              ]
+            },
+            "TransportIdentifier": {},
+            "UserDPBFramesForFaceTime": {
+              "ReadWriteStatus": "ReadWrite"
+            },
+            "UserParameterSetsIds": {
+              "ReadWriteStatus": "ReadWrite"
+            },
+            "UserRPSForFaceTime": {
+              "ReadWriteStatus": "ReadWrite"
+            },
+            "UsingHardwareAcceleratedVideoEncoder": {
+              "PropertyType": "Boolean",
+              "ReadWriteStatus": "ReadOnly"
+            },
+            "UsingMetalRegistryID": {},
+            "VariableBitRate": {
+              "PropertyType": "Number",
+              "ReadWriteStatus": "ReadWrite"
+            },
+            "VBVBufferDuration": {
+              "PropertyType": "Number",
+              "ReadWriteStatus": "ReadWrite"
+            },
+            "VBVInitialDelayPercentage": {
+              "PropertyType": "Number",
+              "ReadWriteStatus": "ReadWrite"
+            },
+            "VBVMaxBitRate": {
+              "PropertyType": "Number",
+              "ReadWriteStatus": "ReadWrite"
+            },
+            "VideoEncoderPixelBufferAttributes": {},
+            "VideoResolutionAdaptation": {
+              "PropertyType": "Boolean",
+              "ReadWriteStatus": "ReadWrite"
+            },
+            "VideoResolutionAdaptationType": {
+              "PropertyType": "Boolean",
+              "ReadWriteStatus": "ReadWrite"
+            },
+            "ViewPackingKind": {},
+            "YCbCrMatrix": {
+              "PropertyType": "Enumeration",
+              "ReadWriteStatus": "ReadWrite",
+              "SupportedValueList": [
+                "Identity",
+                "ITU_R_709_2",
+                "ITU_R_601_4",
+                "SMPTE_240M_1995",
+                "ITU_R_2020",
+                "ITU_R_2100_ICtCp"
+              ]
+            }
+          }
+        },
+        {
+          "id": "com.apple.videotoolbox.videoencoder.hevc.vcp",
+          "name": "Apple HEVC (SW)",
+          "probeStatus": 0,
+          "properties": {
+            "AllowCompressedPixelFormats": {},
+            "AllowFrameReordering": {},
+            "AllowPixelTransfer": {},
+            "AllowTemporalCompression": {},
+            "AmbientViewingEnvironment": {},
+            "AuxiliaryTypeInfo": {},
+            "AverageBitRate": {},
+            "CameraCalibrationDataLensCollection": {},
+            "ChromaLocationBottomField": {},
+            "ChromaLocationTopField": {},
+            "CleanAperture": {},
+            "ClientPID": {},
+            "ColorPrimaries": {},
+            "ComponentRange": {},
+            "ContentLightLevelInfo": {},
+            "DroppablePFramesOnly": {},
+            "EnableResumableEncoding": {},
+            "EncoderID": {},
+            "EncoderUsage": {},
+            "EncodesAlpha": {},
+            "ExpectedFrameRate": {},
+            "FieldCount": {},
+            "FieldDetail": {},
+            "FigThreadPriority": {},
+            "FinalState": {},
+            "GammaLevel": {},
+            "HasAdditionalViews": {},
+            "HasEyeViewsReversed": {},
+            "HasLeftStereoEyeView": {},
+            "HasRightStereoEyeView": {},
+            "HDRMetadataInsertionMode": {},
+            "HeroEye": {},
+            "HorizontalDisparityAdjustment": {},
+            "HorizontalFieldOfView": {},
+            "ICCProfile": {},
+            "InitialQP": {},
+            "InitialQPI": {},
+            "InitialState": {},
+            "InputQueueMaxCount": {},
+            "InsertTrailingBytes": {},
+            "LogTransferFunction": {},
+            "LowMemory": {},
+            "MasteringDisplayColorVolume": {},
+            "MaximizePowerEfficiency": {},
+            "MaxKeyFrameInterval": {},
+            "MaxKeyFrameIntervalDuration": {},
+            "NegotiationDetails": {},
+            "NumberOfParallelCores": {},
+            "NumberOfPendingFrames": {},
+            "PixelAspectRatio": {},
+            "PixelBufferPoolIsShared": {},
+            "PixelTransferProperties": {},
+            "PoolPixelBufferAttributes": {},
+            "PoolPixelBufferAttributesSeed": {},
+            "PowerLogSessionID": {},
+            "PrepareEncodedSampleBuffersForPaddedWrites": {},
+            "PreserveDynamicHDRMetadata": {},
+            "PrivateKey000": {},
+            "PrivateKey001": {},
+            "PrivateKey002": {},
+            "PrivateKey003": {},
+            "PrivateKey004": {},
+            "PrivateKey005": {},
+            "PrivateKey023": {},
+            "PrivateKey024": {},
+            "PrivateKey034": {},
+            "PrivateKey035": {},
+            "PrivateKey041": {},
+            "PrivateKey044": {},
+            "PrivateKey045": {},
+            "PrivateKey046": {},
+            "ProfileLevel": {
+              "SupportedValueList": [
+                "HEVC_Main10_AutoLevel",
+                "HEVC_Main_AutoLevel",
+                "HEVC_MainStill_AutoLevel",
+                "HEVC_Monochrome_AutoLevel",
+                "HEVC_Monochrome10_AutoLevel"
+              ]
+            },
+            "ProjectionKind": {},
+            "Quality": {},
+            "QuantizationScalingLists": {},
+            "QuantizationScalingMatrixPreset": {},
+            "RealTime": {},
+            "RequireDeterministicDependencyAndReordering": {},
+            "RequiredHEVCPictureParameterSetID": {},
+            "RequiredHEVCSequenceParameterSetID": {},
+            "RequiredHEVCVideoParameterSetAlphaLayerID": {},
+            "SourceFrameCount": {},
+            "StereoCameraBaseline": {},
+            "ThermalLevel": {},
+            "TransferFunction": {},
+            "TransportIdentifier": {},
+            "UsingCellular": {},
+            "UsingMetalRegistryID": {},
+            "VideoEncoderPixelBufferAttributes": {},
+            "ViewPackingKind": {},
+            "YCbCrMatrix": {}
+          }
+        }
+      ],
+      "probeStatus": 0,
+      "properties": {
+        "AllowCompressedPixelFormats": {},
+        "AllowFrameReordering": {
+          "PropertyType": "Boolean",
+          "ReadWriteStatus": "ReadWrite"
+        },
+        "AllowOpenGOP": {
+          "PropertyType": "Boolean",
+          "ReadWriteStatus": "ReadWrite"
+        },
+        "AllowPixelTransfer": {},
+        "AllowTemporalCompression": {
+          "PropertyType": "Boolean",
+          "ReadWriteStatus": "ReadWrite"
+        },
+        "AmbientViewingEnvironment": {
+          "ReadWriteStatus": "ReadWrite"
+        },
+        "AuxiliaryLayerProperties": {
+          "ReadWriteStatus": "ReadWrite"
+        },
+        "AuxiliaryTypeInfo": {},
+        "AverageBitRate": {
+          "PropertyType": "Number",
+          "ReadWriteStatus": "ReadWrite"
+        },
+        "AverageNonDroppableFrameRate": {
+          "PropertyType": "Number",
+          "ReadWriteStatus": "ReadWrite"
+        },
+        "BaseLayerFrameRate": {
+          "PropertyType": "Number",
+          "ReadWriteStatus": "ReadWrite"
+        },
+        "BitRate": {
+          "PropertyType": "Number",
+          "ReadWriteStatus": "ReadWrite"
+        },
+        "CalculateMeanSquaredError": {
+          "PropertyType": "Boolean",
+          "ReadWriteStatus": "ReadWrite"
+        },
+        "CameraCalibrationDataLensCollection": {},
+        "ChromaLocationBottomField": {},
+        "ChromaLocationTopField": {},
+        "ChromaQPIndexOffsetMultiPPS": {
+          "PropertyType": "Number",
+          "ReadWriteStatus": "ReadWrite"
+        },
+        "CleanAperture": {},
+        "ClientPID": {},
+        "ColorPrimaries": {
+          "PropertyType": "Enumeration",
+          "ReadWriteStatus": "ReadWrite",
+          "SupportedValueList": [
+            "ITU_R_709_2",
+            "EBU_3213",
+            "SMPTE_C",
+            "ITU_R_2020",
+            "P3_D65",
+            "DCI_P3"
+          ]
+        },
+        "ComponentRange": {},
+        "CompressionSessionOptions": {
+          "ReadWriteStatus": "ReadWrite"
+        },
+        "ConstantBitRate": {
+          "PropertyType": "Number",
+          "ReadWriteStatus": "ReadWrite"
+        },
+        "ConstantQualityFactor": {
+          "PropertyType": "Number",
+          "ReadWriteStatus": "ReadWrite"
+        },
+        "ContentLightLevelInfo": {},
+        "ConvergenceDurationForAverageDataRate": {
+          "PropertyType": "Number",
+          "ReadWriteStatus": "ReadWrite"
+        },
+        "DataRateLimits": {
+          "ReadWriteStatus": "ReadWrite"
+        },
+        "DebugMetadataSEI": {
+          "PropertyType": "Boolean",
+          "ReadWriteStatus": "ReadWrite"
+        },
+        "DPBRequirements": {
+          "ReadWriteStatus": "ReadWrite"
+        },
+        "DroppablePFramesOnly": {
+          "PropertyType": "Boolean",
+          "ReadWriteStatus": "ReadWrite"
+        },
+        "EnableMCTF": {
+          "PropertyType": "Boolean",
+          "ReadWriteStatus": "ReadWrite"
+        },
+        "EnableMultiReferenceP": {
+          "PropertyType": "Boolean",
+          "ReadWriteStatus": "ReadWrite"
+        },
+        "EnableResumableEncoding": {
+          "PropertyType": "Boolean",
+          "ReadWriteStatus": "ReadWrite"
+        },
+        "EnableStatsCollect": {
+          "PropertyType": "Number",
+          "ReadWriteStatus": "ReadWrite"
+        },
+        "EnableUserQPMap": {
+          "PropertyType": "Number",
+          "ReadWriteStatus": "ReadWrite"
+        },
+        "EnableUserRefForFacetime": {
+          "PropertyType": "Boolean",
+          "ReadWriteStatus": "ReadWrite"
+        },
+        "EnableVUIBitstreamRestriction": {
+          "PropertyType": "Boolean",
+          "ReadWriteStatus": "ReadWrite"
+        },
+        "EnableWeightedPrediction": {
+          "PropertyType": "Boolean",
+          "ReadWriteStatus": "ReadWrite"
+        },
+        "EncoderEncryptionData": {
+          "ReadWriteStatus": "ReadWrite"
+        },
+        "EncoderEncryptionKeyID": {
+          "ReadWriteStatus": "ReadWrite"
+        },
+        "EncoderID": {},
+        "EncoderUsage": {
+          "PropertyType": "Number",
+          "ReadWriteStatus": "ReadWrite"
+        },
+        "EncodesAlpha": {
+          "PropertyType": "Boolean",
+          "ReadWriteStatus": "ReadWrite"
+        },
+        "EncodesAuxiliaryWithAuxID": {
+          "PropertyType": "Number",
+          "ReadWriteStatus": "ReadWrite"
+        },
+        "EncodesDepth": {
+          "PropertyType": "Boolean",
+          "ReadWriteStatus": "ReadWrite"
+        },
+        "EncodesDisparity": {
+          "PropertyType": "Boolean",
+          "ReadWriteStatus": "ReadWrite"
+        },
+        "ExpectedDuration": {
+          "PropertyType": "Number",
+          "ReadWriteStatus": "ReadWrite"
+        },
+        "ExpectedFrameRate": {
+          "PropertyType": "Number",
+          "ReadWriteStatus": "ReadWrite"
+        },
+        "FieldCount": {},
+        "FieldDetail": {},
+        "FigThreadPriority": {},
+        "FinalEncoderState": {
+          "ReadWriteStatus": "ReadOnly"
+        },
+        "FinalState": {},
+        "ForceRefUncompressed": {
+          "PropertyType": "Boolean",
+          "ReadWriteStatus": "ReadWrite"
+        },
+        "FrameRateTargetForAverageBitrate": {
+          "PropertyType": "Number",
+          "ReadWriteStatus": "ReadWrite"
+        },
+        "GammaLevel": {},
+        "HasAdditionalViews": {},
+        "HasEyeViewsReversed": {},
+        "HasLeftStereoEyeView": {},
+        "HasRightStereoEyeView": {},
+        "HDRMetadataInsertionMode": {},
+        "HeroEye": {},
+        "HEVCAuxiliaryIDs": {
+          "ReadWriteStatus": "ReadWrite"
+        },
+        "HEVCAuxiliaryLayerIDs": {
+          "ReadWriteStatus": "ReadWrite"
+        },
+        "HEVCSyncSampleNALUnitTypes": {
+          "ReadWriteStatus": "ReadOnly"
+        },
+        "HEVCTemporalLevelInfoCombinations": {
+          "ReadWriteStatus": "ReadOnly"
+        },
+        "HorizontalDisparityAdjustment": {},
+        "HorizontalFieldOfView": {},
+        "ICCProfile": {},
+        "iChatUsageString": {
+          "PropertyType": "Enumeration",
+          "ReadWriteStatus": "ReadWrite"
+        },
+        "InitialEncoderState": {
+          "ReadWriteStatus": "ReadWrite"
+        },
+        "InitialState": {},
+        "InputPixelFormat": {
+          "PropertyType": "Number",
+          "ReadWriteStatus": "ReadWrite"
+        },
+        "InputQueueMaxCount": {
+          "PropertyType": "Number",
+          "ReadWriteStatus": "ReadWrite"
+        },
+        "InsertTrailingBytes": {
+          "ReadWriteStatus": "ReadWrite"
+        },
+        "log2_max_minus4": {
+          "PropertyType": "Number",
+          "ReadWriteStatus": "ReadWrite"
+        },
+        "LogTransferFunction": {},
+        "LookAheadFrames": {
+          "PropertyType": "Number",
+          "ReadWriteStatus": "ReadWrite"
+        },
+        "LowMemory": {},
+        "MasteringDisplayColorVolume": {},
+        "MaxAllowedFrameQP": {
+          "PropertyType": "Number",
+          "ReadWriteStatus": "ReadWrite"
+        },
+        "MaxEncoderPixelRate": {
+          "PropertyType": "Number",
+          "ReadWriteStatus": "ReadOnly"
+        },
+        "MaxFrameDelayCount": {
+          "PropertyType": "Number",
+          "ReadWriteStatus": "ReadOnly"
+        },
+        "MaximizePowerEfficiency": {
+          "PropertyType": "Boolean",
+          "ReadWriteStatus": "ReadWrite"
+        },
+        "MaximumRealTimeFrameRate": {
+          "PropertyType": "Number",
+          "ReadWriteStatus": "ReadWrite"
+        },
+        "MaxKeyFrameInterval": {
+          "PropertyType": "Number",
+          "ReadWriteStatus": "ReadWrite"
+        },
+        "MaxKeyFrameIntervalDuration": {
+          "PropertyType": "Number",
+          "ReadWriteStatus": "ReadWrite"
+        },
+        "MCTFLatencyMode": {
+          "ReadWriteStatus": "ReadWrite"
+        },
+        "MinAllowedFrameQP": {
+          "PropertyType": "Number",
+          "ReadWriteStatus": "ReadWrite"
+        },
+        "MinimizeMemoryUsage": {
+          "PropertyType": "Boolean",
+          "ReadWriteStatus": "ReadWrite"
+        },
+        "MoreFramesAfterEnd": {
+          "PropertyType": "Boolean",
+          "ReadWriteStatus": "ReadWrite"
+        },
+        "MoreFramesBeforeStart": {
+          "PropertyType": "Boolean",
+          "ReadWriteStatus": "ReadWrite"
+        },
+        "MotionEstimationSearchMode": {
+          "PropertyType": "Number",
+          "ReadWriteStatus": "ReadWrite"
+        },
+        "MultiPassStorage": {
+          "ReadWriteStatus": "ReadWrite"
+        },
+        "MultiReferencePSpacing": {
+          "PropertyType": "Number",
+          "ReadWriteStatus": "ReadWrite"
+        },
+        "MVHEVCLeftAndRightViewIDs": {
+          "ReadWriteStatus": "ReadWrite"
+        },
+        "MVHEVCVideoLayerIDs": {
+          "ReadWriteStatus": "ReadWrite"
+        },
+        "MVHEVCViewIDs": {
+          "ReadWriteStatus": "ReadWrite"
+        },
+        "NumberOfCores": {
+          "PropertyType": "Number",
+          "ReadWriteStatus": "ReadOnly"
+        },
+        "NumberOfPendingFrames": {},
+        "NumberOfSlices": {
+          "PropertyType": "Number",
+          "ReadWriteStatus": "ReadWrite"
+        },
+        "NumberOfTemporalLayers": {
+          "PropertyType": "Number",
+          "ReadWriteStatus": "ReadWrite"
+        },
+        "OutputBitDepth": {
+          "PropertyType": "Number",
+          "ReadWriteStatus": "ReadWrite"
+        },
+        "Paravirtualized": {
+          "PropertyType": "Boolean",
+          "ReadWriteStatus": "ReadWrite"
+        },
+        "PerceptualQualityOptimization": {
+          "PropertyType": "Boolean",
+          "ReadWriteStatus": "ReadWrite"
+        },
+        "PixelAspectRatio": {
+          "ReadWriteStatus": "ReadWrite"
+        },
+        "PixelBufferPoolIsShared": {},
+        "PixelTransferProperties": {},
+        "PoolPixelBufferAttributes": {},
+        "PoolPixelBufferAttributesSeed": {},
+        "PowerLogSessionID": {},
+        "PreemptiveLoadBalancing": {
+          "PropertyType": "Boolean",
+          "ReadWriteStatus": "ReadWrite"
+        },
+        "PrepareEncodedSampleBuffersForPaddedWrites": {},
+        "PreserveDynamicHDRMetadata": {},
+        "PrioritizeEncodingSpeedOverQuality": {
+          "PropertyType": "Boolean",
+          "ReadWriteStatus": "ReadWrite"
+        },
+        "Priority": {
+          "PropertyType": "Number",
+          "ReadWriteStatus": "ReadWrite"
+        },
+        "ProfileLevel": {
+          "PropertyType": "Enumeration",
+          "ReadWriteStatus": "ReadWrite",
+          "SupportedValueList": [
+            "HEVC_Main_AutoLevel",
+            "HEVC_Main10_AutoLevel",
+            "HEVC_Main444_AutoLevel",
+            "HEVC_Main44410_AutoLevel",
+            "HEVC_Main42210_AutoLevel",
+            "HEVC_Monochrome_AutoLevel",
+            "HEVC_Monochrome10_AutoLevel",
+            "HEVC_MainStill_AutoLevel"
+          ]
+        },
+        "ProjectionKind": {},
+        "PropertyMode": {
+          "PropertyType": "Number",
+          "ReadWriteStatus": "ReadWrite"
+        },
+        "Quality": {
+          "PropertyType": "Number",
+          "ReadWriteStatus": "ReadWrite"
+        },
+        "QuantizationScalingMatrixPreset": {
+          "PropertyType": "Number",
+          "ReadWriteStatus": "ReadWrite"
+        },
+        "RealTime": {
+          "PropertyType": "Boolean",
+          "ReadWriteStatus": "ReadWrite"
+        },
+        "RecommendedParallelizationLimit": {
+          "PropertyType": "Number",
+          "ReadWriteStatus": "ReadOnly"
+        },
+        "RecommendedParallelizedSubdivisionMinimumDuration": {
+          "ReadWriteStatus": "ReadOnly"
+        },
+        "RecommendedParallelizedSubdivisionMinimumFrameCount": {
+          "PropertyType": "Number",
+          "ReadWriteStatus": "ReadOnly"
+        },
+        "RecommendedResumableSegmentMinimumDuration": {
+          "ReadWriteStatus": "ReadOnly"
+        },
+        "RecommendedResumableSegmentMinimumFrameCount": {
+          "PropertyType": "Number",
+          "ReadWriteStatus": "ReadOnly"
+        },
+        "ReconstructedPixelBufferAttributes": {
+          "ReadWriteStatus": "ReadOnly"
+        },
+        "RelaxAverageBitRateTarget": {
+          "PropertyType": "Boolean",
+          "ReadWriteStatus": "ReadWrite"
+        },
+        "RequireDeterministicDependencyAndReordering": {
+          "PropertyType": "Boolean",
+          "ReadWriteStatus": "ReadWrite"
+        },
+        "RequiredHEVCPictureParameterSetID": {
+          "PropertyType": "Number",
+          "ReadWriteStatus": "ReadWrite"
+        },
+        "RequiredHEVCSequenceParameterSetID": {
+          "PropertyType": "Number",
+          "ReadWriteStatus": "ReadWrite"
+        },
+        "RequiredHEVCSequenceParameterSetRepFormatIndex": {
+          "PropertyType": "Number",
+          "ReadWriteStatus": "ReadWrite"
+        },
+        "RequiredHEVCVideoParameterSetAlphaLayerID": {
+          "PropertyType": "Number",
+          "ReadWriteStatus": "ReadWrite"
+        },
+        "RequiredHEVCVideoParameterSetRepFormatBitDepths": {
+          "ReadWriteStatus": "ReadWrite"
+        },
+        "RequiredHEVCVideoParameterSetRepFormatChromaFormatIdcs": {
+          "ReadWriteStatus": "ReadWrite"
+        },
+        "RequiredMVHEVCPictureParameterSetIDs": {
+          "ReadWriteStatus": "ReadWrite"
+        },
+        "RequiredMVHEVCSequenceParameterSetIDs": {
+          "ReadWriteStatus": "ReadWrite"
+        },
+        "RequiredMVHEVCVideoParameterSetAlphaVideoLayerIDs": {
+          "ReadWriteStatus": "ReadWrite"
+        },
+        "SessionName": {
+          "PropertyType": "Enumeration",
+          "ReadWriteStatus": "ReadWrite"
+        },
+        "SoftMaxQuantizationParameter": {
+          "PropertyType": "Number",
+          "ReadWriteStatus": "ReadWrite"
+        },
+        "SoftMinQuantizationParameter": {
+          "PropertyType": "Number",
+          "ReadWriteStatus": "ReadWrite"
+        },
+        "SourceFrameCount": {
+          "PropertyType": "Number",
+          "ReadWriteStatus": "ReadWrite"
+        },
+        "SpatialAdaptiveQPLevel": {
+          "PropertyType": "Number",
+          "ReadWriteStatus": "ReadWrite"
+        },
+        "StereoCameraBaseline": {},
+        "StrictKeyFrameInterval": {
+          "PropertyType": "Number",
+          "ReadWriteStatus": "ReadWrite"
+        },
+        "StrictKeyFrameIntervalDuration": {
+          "PropertyType": "Number",
+          "ReadWriteStatus": "ReadWrite"
+        },
+        "SupportedMotionSearchModes": {
+          "ReadWriteStatus": "ReadOnly"
+        },
+        "SupportedPresetDictionaries": {
+          "ReadWriteStatus": "ReadOnly"
+        },
+        "SupportedThroughputModes": {
+          "ReadWriteStatus": "ReadOnly"
+        },
+        "TemporalIDNestingFlag": {
+          "PropertyType": "Boolean",
+          "ReadWriteStatus": "ReadWrite"
+        },
+        "ThrottleForBackground": {
+          "PropertyType": "Boolean",
+          "ReadWriteStatus": "ReadWrite"
+        },
+        "ThroughputMode": {
+          "PropertyType": "Number",
+          "ReadWriteStatus": "ReadWrite"
+        },
+        "TransferFunction": {
+          "PropertyType": "Enumeration",
+          "ReadWriteStatus": "ReadWrite",
+          "SupportedValueList": [
+            "ITU_R_709_2",
+            "SMPTE_240M_1995",
+            "Linear",
+            "IEC_sRGB",
+            "ITU_R_2020",
+            "SMPTE_ST_2084_PQ",
+            "SMPTE_ST_428_1",
+            "ITU_R_2100_HLG",
+            "UseGamma"
+          ]
+        },
+        "TransportIdentifier": {},
+        "UserDPBFramesForFaceTime": {
+          "ReadWriteStatus": "ReadWrite"
+        },
+        "UserParameterSetsIds": {
+          "ReadWriteStatus": "ReadWrite"
+        },
+        "UserRPSForFaceTime": {
+          "ReadWriteStatus": "ReadWrite"
+        },
+        "UsingHardwareAcceleratedVideoEncoder": {
+          "PropertyType": "Boolean",
+          "ReadWriteStatus": "ReadOnly"
+        },
+        "UsingMetalRegistryID": {},
+        "VariableBitRate": {
+          "PropertyType": "Number",
+          "ReadWriteStatus": "ReadWrite"
+        },
+        "VBVBufferDuration": {
+          "PropertyType": "Number",
+          "ReadWriteStatus": "ReadWrite"
+        },
+        "VBVInitialDelayPercentage": {
+          "PropertyType": "Number",
+          "ReadWriteStatus": "ReadWrite"
+        },
+        "VBVMaxBitRate": {
+          "PropertyType": "Number",
+          "ReadWriteStatus": "ReadWrite"
+        },
+        "VideoEncoderPixelBufferAttributes": {},
+        "VideoResolutionAdaptation": {
+          "PropertyType": "Boolean",
+          "ReadWriteStatus": "ReadWrite"
+        },
+        "VideoResolutionAdaptationType": {
+          "PropertyType": "Boolean",
+          "ReadWriteStatus": "ReadWrite"
+        },
+        "ViewPackingKind": {},
+        "YCbCrMatrix": {
+          "PropertyType": "Enumeration",
+          "ReadWriteStatus": "ReadWrite",
+          "SupportedValueList": [
+            "Identity",
+            "ITU_R_709_2",
+            "ITU_R_601_4",
+            "SMPTE_240M_1995",
+            "ITU_R_2020",
+            "ITU_R_2100_ICtCp"
+          ]
+        }
+      },
+      "ready": true
+    },
+    "properties": {
+      "AllowCompressedPixelFormats": {},
+      "AllowFrameReordering": {
+        "PropertyType": "Boolean",
+        "ReadWriteStatus": "ReadWrite"
+      },
+      "AllowOpenGOP": {
+        "PropertyType": "Boolean",
+        "ReadWriteStatus": "ReadWrite"
+      },
+      "AllowPixelTransfer": {},
+      "AllowTemporalCompression": {
+        "PropertyType": "Boolean",
+        "ReadWriteStatus": "ReadWrite"
+      },
+      "AmbientViewingEnvironment": {},
+      "AuxiliaryTypeInfo": {},
+      "AverageBitRate": {
+        "PropertyType": "Number",
+        "ReadWriteStatus": "ReadWrite"
+      },
+      "AverageNonDroppableFrameRate": {
+        "PropertyType": "Number",
+        "ReadWriteStatus": "ReadWrite"
+      },
+      "CalculateMeanSquaredError": {
+        "PropertyType": "Boolean",
+        "ReadWriteStatus": "ReadWrite"
+      },
+      "CameraCalibrationDataLensCollection": {},
+      "ChromaLocationBottomField": {},
+      "ChromaLocationTopField": {},
+      "ChromaQPIndexOffsetMultiPPS": {
+        "PropertyType": "Number",
+        "ReadWriteStatus": "ReadWrite"
+      },
+      "CleanAperture": {},
+      "ClientPID": {},
+      "ColorPrimaries": {
+        "PropertyType": "Enumeration",
+        "ReadWriteStatus": "ReadWrite",
+        "SupportedValueList": [
+          "ITU_R_709_2",
+          "EBU_3213",
+          "SMPTE_C",
+          "ITU_R_2020",
+          "P3_D65",
+          "DCI_P3"
+        ]
+      },
+      "ComponentRange": {},
+      "CompressionSessionOptions": {
+        "ReadWriteStatus": "ReadWrite"
+      },
+      "ConstantBitRate": {
+        "PropertyType": "Number",
+        "ReadWriteStatus": "ReadWrite"
+      },
+      "ConstantQualityFactor": {
+        "PropertyType": "Number",
+        "ReadWriteStatus": "ReadWrite"
+      },
+      "ContentLightLevelInfo": {},
+      "ConvergenceDurationForAverageDataRate": {
+        "PropertyType": "Number",
+        "ReadWriteStatus": "ReadWrite"
+      },
+      "DataRateLimits": {
+        "ReadWriteStatus": "ReadWrite"
+      },
+      "DebugMetadataSEI": {
+        "PropertyType": "Boolean",
+        "ReadWriteStatus": "ReadWrite"
+      },
+      "DPBRequirements": {
+        "ReadWriteStatus": "ReadWrite"
+      },
+      "EnableMCTF": {
+        "PropertyType": "Boolean",
+        "ReadWriteStatus": "ReadWrite"
+      },
+      "EnableMultiReferenceP": {
+        "PropertyType": "Boolean",
+        "ReadWriteStatus": "ReadWrite"
+      },
+      "EnableResumableEncoding": {
+        "PropertyType": "Boolean",
+        "ReadWriteStatus": "ReadWrite"
+      },
+      "EnableStatsCollect": {
+        "PropertyType": "Number",
+        "ReadWriteStatus": "ReadWrite"
+      },
+      "EnableTransform8x8": {
+        "PropertyType": "Boolean",
+        "ReadWriteStatus": "ReadWrite"
+      },
+      "EnableUserQPMap": {
+        "PropertyType": "Number",
+        "ReadWriteStatus": "ReadWrite"
+      },
+      "EnableUserRefForFacetime": {
+        "PropertyType": "Boolean",
+        "ReadWriteStatus": "ReadWrite"
+      },
+      "EnableVUIBitstreamRestriction": {
+        "PropertyType": "Boolean",
+        "ReadWriteStatus": "ReadWrite"
+      },
+      "EnableWeightedPrediction": {
+        "PropertyType": "Boolean",
+        "ReadWriteStatus": "ReadWrite"
+      },
+      "EncoderID": {},
+      "EncoderUsage": {
+        "PropertyType": "Number",
+        "ReadWriteStatus": "ReadWrite"
+      },
+      "EncodesDepth": {
+        "PropertyType": "Boolean",
+        "ReadWriteStatus": "ReadWrite"
+      },
+      "EncodesDisparity": {
+        "PropertyType": "Boolean",
+        "ReadWriteStatus": "ReadWrite"
+      },
+      "EnsureTIJacinto4Compatibility": {
+        "PropertyType": "Boolean",
+        "ReadWriteStatus": "ReadWrite"
+      },
+      "ExpectedDuration": {
+        "PropertyType": "Number",
+        "ReadWriteStatus": "ReadWrite"
+      },
+      "ExpectedFrameRate": {
+        "PropertyType": "Number",
+        "ReadWriteStatus": "ReadWrite"
+      },
+      "FieldCount": {},
+      "FieldDetail": {},
+      "FigThreadPriority": {},
+      "FinalEncoderState": {
+        "ReadWriteStatus": "ReadOnly"
+      },
+      "FinalState": {},
+      "ForceRefUncompressed": {
+        "PropertyType": "Boolean",
+        "ReadWriteStatus": "ReadWrite"
+      },
+      "FrameRateTargetForAverageBitrate": {
+        "PropertyType": "Number",
+        "ReadWriteStatus": "ReadWrite"
+      },
+      "GammaLevel": {},
+      "H264EntropyMode": {
+        "PropertyType": "Enumeration",
+        "ReadWriteStatus": "ReadWrite"
+      },
+      "HasAdditionalViews": {},
+      "HasEyeViewsReversed": {},
+      "HasLeftStereoEyeView": {},
+      "HasRightStereoEyeView": {},
+      "HDRMetadataInsertionMode": {},
+      "HeroEye": {},
+      "HorizontalDisparityAdjustment": {},
+      "HorizontalFieldOfView": {},
+      "ICCProfile": {},
+      "iChatUsageString": {
+        "PropertyType": "Enumeration",
+        "ReadWriteStatus": "ReadWrite"
+      },
+      "InitialEncoderState": {
+        "ReadWriteStatus": "ReadWrite"
+      },
+      "InitialState": {},
+      "InputPixelFormat": {
+        "PropertyType": "Number",
+        "ReadWriteStatus": "ReadWrite"
+      },
+      "InputQueueMaxCount": {
+        "PropertyType": "Number",
+        "ReadWriteStatus": "ReadWrite"
+      },
+      "log2_max_minus4": {
+        "PropertyType": "Number",
+        "ReadWriteStatus": "ReadWrite"
+      },
+      "LogTransferFunction": {},
+      "LookAheadFrames": {
+        "PropertyType": "Number",
+        "ReadWriteStatus": "ReadWrite"
+      },
+      "LowMemory": {},
+      "MasteringDisplayColorVolume": {},
+      "MaxAllowedFrameQP": {
+        "PropertyType": "Number",
+        "ReadWriteStatus": "ReadWrite"
+      },
+      "MaxEncoderPixelRate": {
+        "PropertyType": "Number",
+        "ReadWriteStatus": "ReadOnly"
+      },
+      "MaxFrameDelayCount": {
+        "PropertyType": "Number",
+        "ReadWriteStatus": "ReadOnly"
+      },
+      "MaximizePowerEfficiency": {
+        "PropertyType": "Boolean",
+        "ReadWriteStatus": "ReadWrite"
+      },
+      "MaximumRealTimeFrameRate": {
+        "PropertyType": "Number",
+        "ReadWriteStatus": "ReadWrite"
+      },
+      "MaxKeyFrameInterval": {
+        "PropertyType": "Number",
+        "ReadWriteStatus": "ReadWrite"
+      },
+      "MaxKeyFrameIntervalDuration": {
+        "PropertyType": "Number",
+        "ReadWriteStatus": "ReadWrite"
+      },
+      "MinAllowedFrameQP": {
+        "PropertyType": "Number",
+        "ReadWriteStatus": "ReadWrite"
+      },
+      "MoreFramesAfterEnd": {
+        "PropertyType": "Boolean",
+        "ReadWriteStatus": "ReadWrite"
+      },
+      "MoreFramesBeforeStart": {
+        "PropertyType": "Boolean",
+        "ReadWriteStatus": "ReadWrite"
+      },
+      "MotionEstimationSearchMode": {
+        "PropertyType": "Number",
+        "ReadWriteStatus": "ReadWrite"
+      },
+      "MultiPassStorage": {
+        "ReadWriteStatus": "ReadWrite"
+      },
+      "MultiReferencePSpacing": {
+        "PropertyType": "Number",
+        "ReadWriteStatus": "ReadWrite"
+      },
+      "NumberOfCores": {
+        "PropertyType": "Number",
+        "ReadWriteStatus": "ReadOnly"
+      },
+      "NumberOfPendingFrames": {},
+      "NumberOfSlices": {
+        "PropertyType": "Number",
+        "ReadWriteStatus": "ReadWrite"
+      },
+      "Paravirtualized": {
+        "PropertyType": "Boolean",
+        "ReadWriteStatus": "ReadWrite"
+      },
+      "PerceptualQualityOptimization": {
+        "PropertyType": "Boolean",
+        "ReadWriteStatus": "ReadWrite"
+      },
+      "PixelAspectRatio": {},
+      "PixelBufferPoolIsShared": {},
+      "PixelTransferProperties": {},
+      "PoolPixelBufferAttributes": {},
+      "PoolPixelBufferAttributesSeed": {},
+      "PowerLogSessionID": {},
+      "PreemptiveLoadBalancing": {
+        "PropertyType": "Boolean",
+        "ReadWriteStatus": "ReadWrite"
+      },
+      "PrepareEncodedSampleBuffersForPaddedWrites": {},
+      "PreserveDynamicHDRMetadata": {},
+      "PrioritizeEncodingSpeedOverQuality": {
+        "PropertyType": "Boolean",
+        "ReadWriteStatus": "ReadWrite"
+      },
+      "Priority": {
+        "PropertyType": "Number",
+        "ReadWriteStatus": "ReadWrite"
+      },
+      "ProfileLevel": {
+        "PropertyType": "Enumeration",
+        "ReadWriteStatus": "ReadWrite",
+        "SupportedValueList": [
+          "H264_Baseline_1_3",
+          "H264_Baseline_3_0",
+          "H264_Baseline_3_1",
+          "H264_Baseline_3_2",
+          "H264_Baseline_4_0",
+          "H264_Baseline_4_1",
+          "H264_Baseline_4_2",
+          "H264_Baseline_5_0",
+          "H264_Baseline_5_1",
+          "H264_Baseline_5_2",
+          "H264_Main_3_0",
+          "H264_Main_3_1",
+          "H264_Main_3_2",
+          "H264_Main_4_0",
+          "H264_Main_4_1",
+          "H264_Main_4_2",
+          "H264_Main_5_0",
+          "H264_Main_5_1",
+          "H264_Main_5_2",
+          "H264_High_3_0",
+          "H264_High_3_1",
+          "H264_High_3_2",
+          "H264_High_4_0",
+          "H264_High_4_1",
+          "H264_High_4_2",
+          "H264_High_5_0",
+          "H264_High_5_1",
+          "H264_High_5_2",
+          "H264_Baseline_AutoLevel",
+          "H264_ConstrainedBaseline_AutoLevel",
+          "H264_Main_AutoLevel",
+          "H264_High_AutoLevel",
+          "H264_ConstrainedHigh_AutoLevel",
+          "H264_High422_AutoLevel",
+          "H264_High444Predictive_AutoLevel"
+        ]
+      },
+      "ProjectionKind": {},
+      "PropertyMode": {
+        "PropertyType": "Number",
+        "ReadWriteStatus": "ReadWrite"
+      },
+      "Quality": {
+        "PropertyType": "Number",
+        "ReadWriteStatus": "ReadWrite"
+      },
+      "QuantizationScalingMatrixPreset": {
+        "PropertyType": "Number",
+        "ReadWriteStatus": "ReadWrite"
+      },
+      "RealTime": {
+        "PropertyType": "Boolean",
+        "ReadWriteStatus": "ReadWrite"
+      },
+      "RecommendedParallelizationLimit": {
+        "PropertyType": "Number",
+        "ReadWriteStatus": "ReadOnly"
+      },
+      "RecommendedParallelizedSubdivisionMinimumDuration": {
+        "ReadWriteStatus": "ReadOnly"
+      },
+      "RecommendedParallelizedSubdivisionMinimumFrameCount": {
+        "PropertyType": "Number",
+        "ReadWriteStatus": "ReadOnly"
+      },
+      "RecommendedResumableSegmentMinimumDuration": {
+        "ReadWriteStatus": "ReadOnly"
+      },
+      "RecommendedResumableSegmentMinimumFrameCount": {
+        "PropertyType": "Number",
+        "ReadWriteStatus": "ReadOnly"
+      },
+      "ReconstructedPixelBufferAttributes": {
+        "ReadWriteStatus": "ReadOnly"
+      },
+      "SessionName": {
+        "PropertyType": "Enumeration",
+        "ReadWriteStatus": "ReadWrite"
+      },
+      "SoftMaxQuantizationParameter": {
+        "PropertyType": "Number",
+        "ReadWriteStatus": "ReadWrite"
+      },
+      "SoftMinQuantizationParameter": {
+        "PropertyType": "Number",
+        "ReadWriteStatus": "ReadWrite"
+      },
+      "SourceFrameCount": {
+        "PropertyType": "Number",
+        "ReadWriteStatus": "ReadWrite"
+      },
+      "SpatialAdaptiveQPLevel": {
+        "PropertyType": "Number",
+        "ReadWriteStatus": "ReadWrite"
+      },
+      "StereoCameraBaseline": {},
+      "StrictKeyFrameInterval": {
+        "PropertyType": "Number",
+        "ReadWriteStatus": "ReadWrite"
+      },
+      "StrictKeyFrameIntervalDuration": {
+        "PropertyType": "Number",
+        "ReadWriteStatus": "ReadWrite"
+      },
+      "SupportedMotionSearchModes": {
+        "ReadWriteStatus": "ReadOnly"
+      },
+      "SupportedPresetDictionaries": {
+        "ReadWriteStatus": "ReadOnly"
+      },
+      "SupportedThroughputModes": {
+        "ReadWriteStatus": "ReadOnly"
+      },
+      "ThrottleForBackground": {
+        "PropertyType": "Boolean",
+        "ReadWriteStatus": "ReadWrite"
+      },
+      "ThroughputMode": {
+        "PropertyType": "Number",
+        "ReadWriteStatus": "ReadWrite"
+      },
+      "TransferFunction": {
+        "PropertyType": "Enumeration",
+        "ReadWriteStatus": "ReadWrite",
+        "SupportedValueList": [
+          "ITU_R_709_2",
+          "SMPTE_240M_1995",
+          "Linear",
+          "IEC_sRGB",
+          "ITU_R_2020",
+          "SMPTE_ST_2084_PQ",
+          "SMPTE_ST_428_1",
+          "ITU_R_2100_HLG",
+          "UseGamma"
+        ]
+      },
+      "TransportIdentifier": {},
+      "UseLongTermReference": {
+        "PropertyType": "Boolean",
+        "ReadWriteStatus": "ReadWrite"
+      },
+      "UserDPBFramesForFaceTime": {
+        "ReadWriteStatus": "ReadWrite"
+      },
+      "UserParameterSetsIds": {
+        "PropertyType": "Number",
+        "ReadWriteStatus": "ReadWrite"
+      },
+      "UsingHardwareAcceleratedVideoEncoder": {
+        "PropertyType": "Boolean",
+        "ReadWriteStatus": "ReadOnly"
+      },
+      "UsingMetalRegistryID": {},
+      "VariableBitRate": {
+        "PropertyType": "Number",
+        "ReadWriteStatus": "ReadWrite"
+      },
+      "VBVBufferDuration": {
+        "PropertyType": "Number",
+        "ReadWriteStatus": "ReadWrite"
+      },
+      "VBVInitialDelayPercentage": {
+        "PropertyType": "Number",
+        "ReadWriteStatus": "ReadWrite"
+      },
+      "VBVMaxBitRate": {
+        "PropertyType": "Number",
+        "ReadWriteStatus": "ReadWrite"
+      },
+      "VideoEncoderPixelBufferAttributes": {},
+      "VideoResolutionAdaptation": {
+        "PropertyType": "Boolean",
+        "ReadWriteStatus": "ReadWrite"
+      },
+      "VideoResolutionAdaptationType": {
+        "PropertyType": "Boolean",
+        "ReadWriteStatus": "ReadWrite"
+      },
+      "ViewPackingKind": {},
+      "YCbCrMatrix": {
+        "PropertyType": "Enumeration",
+        "ReadWriteStatus": "ReadWrite",
+        "SupportedValueList": [
+          "Identity",
+          "ITU_R_709_2",
+          "ITU_R_601_4",
+          "SMPTE_240M_1995",
+          "ITU_R_2020",
+          "ITU_R_2100_ICtCp"
+        ]
+      }
+    }
+  }
+}

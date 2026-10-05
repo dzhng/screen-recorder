@@ -3,7 +3,7 @@ import { CatalogError } from "./catalog.js";
 export type RenderedMovie = {
   file: string;
   mediaType: "video/mp4";
-  codec: "h264";
+  codec: "h264" | "hevc";
   durationUs: number;
   width: number;
   height: number;
@@ -14,12 +14,17 @@ export type RenderedMovie = {
 /** Refuse a renderer receipt that does not match the requested movie or rendition bound. */
 export function checkRenderedMovie(
   movie: RenderedMovie,
-  expected: { file: string; durationUs: number; maxLongEdge: number | null },
+  expected: {
+    file: string;
+    codec: RenderedMovie["codec"];
+    durationUs: number;
+    maxLongEdge: number | null;
+  },
 ): void {
   if (
     movie.file !== expected.file ||
     movie.mediaType !== "video/mp4" ||
-    movie.codec !== "h264" ||
+    movie.codec !== expected.codec ||
     movie.durationUs !== expected.durationUs ||
     ![movie.width, movie.height, movie.frameCount, movie.bytes].every(
       (value) => Number.isSafeInteger(value) && value > 0,

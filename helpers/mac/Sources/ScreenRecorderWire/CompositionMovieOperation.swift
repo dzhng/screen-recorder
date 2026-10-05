@@ -22,7 +22,7 @@ enum CompositionMovieOperation {
     struct Result: Encodable {
         let file: String
         let mediaType = "video/mp4"
-        let codec = "h264"
+        let codec: String
         let settings: OutputSettings
         let encodedVideo: OutputSettings.EncodedVideo
         let durationUs: Int64
@@ -114,7 +114,7 @@ enum CompositionMovieOperation {
         try Task.checkCancellation()
         let bytes = try output.publish()
         return Result(
-            file: request.output, settings: request.settings, encodedVideo: rendered.encodedVideo,
+            file: request.output, codec: request.settings.video.codec, settings: request.settings, encodedVideo: rendered.encodedVideo,
             durationUs: rendered.durationUs,
             width: rendered.width, height: rendered.height, frameCount: rendered.frames,
             audio: retained?.report ?? generated?.report, encodedAudio: encodedAudio, bytes: bytes,

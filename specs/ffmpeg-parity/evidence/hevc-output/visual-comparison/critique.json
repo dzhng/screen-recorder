@@ -1,0 +1,19 @@
+{
+  "review": "Fresh unprimed screenshot critique, reported by root on 2026-10-04",
+  "scope": [
+    "a",
+    "orientation",
+    "timestamp-gap",
+    "bframes"
+  ],
+  "verdict": "No concrete visible defect in four matched pairs",
+  "observations": {
+    "a": "High confidence geometry, text and SDR match",
+    "timestamp-gap": "High confidence geometry, text and SDR match",
+    "orientation": "Identical visible geometry and appearance",
+    "bframes": "Slight ringing consistent with compression"
+  },
+  "rootInspection": "Root additionally viewed all four 4x pairs",
+  "previewShowing": "Pending; not claimed complete",
+  "contract": "Same project/time/source/framing; compare complete frame boundaries, geometry, orientation, visible source identity and SDR appearance. Codec compression differences expected."
+}

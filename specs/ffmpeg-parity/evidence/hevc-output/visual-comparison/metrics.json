@@ -1,0 +1,94 @@
+{
+  "a": {
+    "dimensions": [
+      160,
+      96
+    ],
+    "rgbByteDifferent": true,
+    "rgbMae": 0.020247395833333334,
+    "mae": 0.01068821614583333,
+    "rmse": 0.09859248158190936,
+    "diffRatio16": 0.0,
+    "diffRatio32": 0.0,
+    "diffRatio64": 0.0,
+    "edgeEnergyControl": 7.051043763922514,
+    "edgeEnergyCandidate": 7.054374510942007,
+    "edgeEnergyRatio": 1.000472376449645,
+    "edgeDiffRatio32": 0.0,
+    "avgLuminanceControl": 53.93991585936691,
+    "avgLuminanceCandidate": 53.94191061197106,
+    "avgLuminanceDelta": 0.0019947526041477204,
+    "left": "H264 native control",
+    "right": "HEVC native candidate",
+    "crop": "full frame, supplementary nearest-neighbor 4x"
+  },
+  "orientation": {
+    "dimensions": [
+      96,
+      160
+    ],
+    "rgbByteDifferent": true,
+    "rgbMae": 0.014496527777777778,
+    "mae": 0.00804011718749998,
+    "rmse": 0.0838885041445139,
+    "diffRatio16": 0.0,
+    "diffRatio32": 0.0,
+    "diffRatio64": 0.0,
+    "edgeEnergyControl": 7.047478188801329,
+    "edgeEnergyCandidate": 7.050247600086221,
+    "edgeEnergyRatio": 1.0003929648607204,
+    "edgeDiffRatio32": 0.0,
+    "avgLuminanceControl": 53.94399481769809,
+    "avgLuminanceCandidate": 53.94461839842722,
+    "avgLuminanceDelta": 0.0006235807291261608,
+    "left": "H264 native control",
+    "right": "HEVC native candidate",
+    "crop": "full frame, supplementary nearest-neighbor 4x"
+  },
+  "timestamp-gap": {
+    "dimensions": [
+      160,
+      96
+    ],
+    "rgbByteDifferent": true,
+    "rgbMae": 0.02048611111111111,
+    "mae": 0.011197434895833346,
+    "rmse": 0.10337775589585253,
+    "diffRatio16": 0.0,
+    "diffRatio32": 0.0,
+    "diffRatio64": 0.0,
+    "edgeEnergyControl": 7.052632246330217,
+    "edgeEnergyCandidate": 7.055309887463988,
+    "edgeEnergyRatio": 1.0003796654979655,
+    "edgeDiffRatio32": 0.0,
+    "avgLuminanceControl": 53.94100209634606,
+    "avgLuminanceCandidate": 53.943065781241884,
+    "avgLuminanceDelta": 0.0020636848958233145,
+    "left": "H264 native control",
+    "right": "HEVC native candidate",
+    "crop": "full frame, supplementary nearest-neighbor 4x"
+  },
+  "bframes": {
+    "dimensions": [
+      160,
+      96
+    ],
+    "rgbByteDifferent": true,
+    "rgbMae": 0.02282986111111111,
+    "mae": 0.012930039062500008,
+    "rmse": 0.11052264458537812,
+    "diffRatio16": 0.0,
+    "diffRatio32": 0.0,
+    "diffRatio64": 0.0,
+    "edgeEnergyControl": 7.097057148054719,
+    "edgeEnergyCandidate": 7.098338761494972,
+    "edgeEnergyRatio": 1.0001805837847317,
+    "edgeDiffRatio32": 0.0,
+    "avgLuminanceControl": 53.91827046874185,
+    "avgLuminanceCandidate": 53.91711251301263,
+    "avgLuminanceDelta": -0.0011579557292193954,
+    "left": "H264 native control",
+    "right": "HEVC native candidate",
+    "crop": "full frame, supplementary nearest-neighbor 4x"
+  }
+}

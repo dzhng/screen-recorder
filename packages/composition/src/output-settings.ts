@@ -36,7 +36,7 @@ const encoder = z
       .default(null),
   })
   .strict();
-const video = z
+const h264Video = z
   .object({
     codec: z.literal("h264"),
     encoder: encoder.default({ hardware: "auto", id: null, gpu: null }),
@@ -64,6 +64,12 @@ const video = z
     maximumQuantizer: z.int().min(0).max(51).nullable().default(null),
   })
   .strict();
+const commonVideoSchema = h264Video.omit({ level: true, entropy: true });
+const hevcVideo = commonVideoSchema.extend({
+  codec: z.literal("hevc"),
+  profile: z.literal("main"),
+});
+const video = z.discriminatedUnion("codec", [h264Video, hevcVideo]);
 const audio = z
   .object({
     codec: z.literal("aac"),
@@ -112,6 +118,7 @@ export const resolvedOutputSettingsSchema = z
     )
       issue("Maximum variable bitrate must not be below target bitrate");
     if (
+      value.video.codec === "h264" &&
       ["baseline", "constrained-baseline"].includes(value.video.profile) &&
       (value.video.entropy !== "cavlc" || value.video.frameReordering)
     )
@@ -126,9 +133,17 @@ export const resolvedOutputSettingsSchema = z
       value.video.minimumQuantizer > value.video.maximumQuantizer
     )
       issue("Minimum quantizer must not exceed maximum quantizer");
-    if (value.video.profile.startsWith("constrained-") && value.video.level !== "auto")
+    if (
+      value.video.codec === "h264" &&
+      value.video.profile.startsWith("constrained-") &&
+      value.video.level !== "auto"
+    )
       issue("Constrained profiles require auto level");
-    if (value.video.level === "1.3" && value.video.profile !== "baseline")
+    if (
+      value.video.codec === "h264" &&
+      value.video.level === "1.3" &&
+      value.video.profile !== "baseline"
+    )
       issue("Level 1.3 is only available for baseline");
   });
 export type OutputSettings = z.infer<typeof resolvedOutputSettingsSchema>;
@@ -137,7 +152,9 @@ export const outputSettingsSchema = z
   .object({
     preset: z.enum(["balanced", "compact", "sharp"]).optional(),
     container: z.literal("mp4").optional(),
-    video: video.partial().optional(),
+    video: z
+      .union([h264Video.partial(), hevcVideo.partial().extend({ codec: z.literal("hevc") })])
+      .optional(),
     audio: audio.partial().optional(),
   })
   .strict();
@@ -203,7 +220,9 @@ export const audioOutputCapabilities = {
   unavailable: ["MP3", "FLAC", "ALAC", "Ogg", "WAV rendition conversion"],
 };
 
-function preset(bits: number): OutputSettings {
+function preset(
+  bits: number,
+): z.infer<typeof resolvedOutputSettingsSchema> & { video: z.infer<typeof h264Video> } {
   return {
     container: "mp4",
     video: {
@@ -248,9 +267,13 @@ export const outputPresets = {
 export function resolveOutputSettings(input?: OutputSettingsInput): OutputSettings {
   const value = outputSettingsSchema.parse(input ?? {});
   const preset = outputPresets[value.preset ?? "balanced"];
+  const commonVideo = commonVideoSchema.strip().parse(preset.video);
   return resolvedOutputSettingsSchema.parse({
     container: value.container ?? preset.container,
-    video: { ...preset.video, ...value.video },
+    video:
+      value.video?.codec === "hevc"
+        ? { ...commonVideo, ...value.video, profile: value.video.profile ?? "main" }
+        : { ...preset.video, ...value.video },
     audio: { ...preset.audio, ...value.audio },
   });
 }
@@ -288,31 +311,52 @@ export const outputVideoControls = {
 export function outputCapabilities(inventory: Record<string, unknown>) {
   const properties = inventory.properties as Record<string, unknown>;
   const audio = inventory.audio as { sampleRates: number[]; formats: unknown[] };
-  const controlsFor = (properties: Record<string, unknown>) =>
+  const hevc = inventory.hevc as {
+    ready: boolean;
+    probeStatus: number;
+    properties?: Record<string, unknown>;
+    encoders: Record<string, unknown>[];
+  };
+  const controlsFor = (properties: Record<string, unknown>, codec: "h264" | "hevc" = "h264") =>
     Object.fromEntries(
-      Object.entries(outputVideoControls).map(([name, property]) => {
-        const metadata = properties[property] as
-          | { ReadWriteStatus?: string; SupportedValueList?: unknown[] }
-          | undefined;
-        return [
-          name,
-          {
-            backendSupported:
-              metadata?.ReadWriteStatus === "ReadWrite"
-                ? true
-                : metadata?.ReadWriteStatus === "ReadOnly" || !metadata
-                  ? false
-                  : null,
-            supportedValues: metadata?.SupportedValueList ?? null,
-          },
-        ];
-      }),
+      Object.entries(outputVideoControls)
+        .filter(([name]) => codec === "h264" || (name !== "level" && name !== "entropy"))
+        .map(([name, property]) => {
+          const metadata = properties[property] as
+            | { ReadWriteStatus?: string; SupportedValueList?: unknown[] }
+            | undefined;
+          return [
+            name,
+            {
+              backendSupported:
+                metadata?.ReadWriteStatus === "ReadWrite"
+                  ? true
+                  : metadata?.ReadWriteStatus === "ReadOnly" || !metadata
+                    ? false
+                    : null,
+              supportedValues: metadata?.SupportedValueList ?? null,
+            },
+          ];
+        }),
     );
   return {
     target: "project",
     audioOnly: audioOutputCapabilities,
     container: ["mp4"],
-    videoCodecs: ["h264"],
+    videoCodecs: ["h264", "hevc"],
+    hevc: {
+      ready: hevc.ready,
+      probeStatus: hevc.probeStatus,
+      profile: ["main"],
+      color: ["rec709"],
+      video: controlsFor(hevc.properties ?? {}, "hevc"),
+      encoders: hevc.encoders.map(({ properties, ...encoder }) => ({
+        ...encoder,
+        video: properties ? controlsFor(properties as Record<string, unknown>, "hevc") : null,
+      })),
+      semantics:
+        "HEVC Main SDR opaque MP4 through the native encoder. Admission does not establish encoder readiness; requested combinations undergo the same preflight as output. H264 level and entropy controls are unavailable.",
+    },
     color: ["rec709"],
     audioCodecs: ["aac"],
     internalAudio: { sampleRate: 48000, channels: 2 },

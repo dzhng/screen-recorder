@@ -1,0 +1,29 @@
+{
+  "ffmpeg": {
+    "path": "/opt/homebrew/bin/ffmpeg",
+    "sha256": "c8173e9755795978bce8e104f8d7044fabe7d6d84044aba37d3648c6f4e4e1a8",
+    "version": "ffmpeg version 9.0.2 Copyright (c) 2000-2026 the FFmpeg developers"
+  },
+  "ffprobe": {
+    "path": "/opt/homebrew/bin/ffprobe",
+    "sha256": "56559c234422b0e3722c54b2bd99bbd8cd83d3732a13a6d207589982a6b7085e",
+    "version": "ffprobe version 9.0.2 Copyright (c) 2007-2026 the FFmpeg developers"
+  },
+  "node": {
+    "path": "/Users/server/.nvm/versions/node/v24.21.0/bin/node",
+    "sha256": "e4b5a3af0e05c75de2eae013904145f40fe7fc2a6e6f17510128bf45cca4e79b",
+    "version": "v24.21.0"
+  },
+  "bun": {
+    "path": "/Users/server/.bun/bin/bun",
+    "sha256": "35d20dd0263e5c950194434b925454fdfa9ba6e4467da960410fa05b08a7a5b5",
+    "version": "1.4.2"
+  },
+  "comparison": {
+    "decode": "ffmpeg -v error -i <png> -f rawvideo -pix_fmt rgb24 -",
+    "grayscale": "0.2126*R + 0.7152*G + 0.0722*B",
+    "edges": "3x3 Sobel magnitude divided by4 and clamped to255; omit outer1px border",
+    "zoom": "nearest-neighbor4x entire frame, control left / candidate right",
+    "heatmap": "red=clamp(abs(grayscaleControl-grayscaleCandidate)*8,0,255)"
+  }
+}

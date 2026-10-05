@@ -63,16 +63,16 @@ public struct OutputSettings: Codable, Sendable {
         }
     }
     public struct Video: Codable, Sendable {
-        let codec: String
+        public let codec: String
         let encoder: EncoderSelection
         let color: String
         let rateControl: RateControl
         let profile: String
-        let level: String
+        let level: String?
         let keyframeInterval: Int
         let keyframeIntervalSeconds: Double
         let frameReordering: Bool
-        let entropy: String
+        let entropy: String?
         let temporalCompression: Bool
         let openGop: EncoderFlag
         let prioritizeSpeed: EncoderFlag
@@ -166,30 +166,40 @@ public struct OutputSettings: Codable, Sendable {
         }
     }
     private func compression(frameRate: Double) throws -> [String: Any] {
-        guard container == "mp4", video.codec == "h264", video.color == "rec709",
-            ["baseline", "constrained-baseline", "main", "high", "constrained-high"].contains(
-                video.profile),
-            ["auto", "1.3", "3.0", "3.1", "3.2", "4.0", "4.1", "4.2", "5.0", "5.1", "5.2"].contains(
-                video.level)
-        else { throw Self.invalid("Unsupported video encoding settings") }
-        let profile = video.profile.split(separator: "-")
-            .map { $0.prefix(1).uppercased() + $0.dropFirst() }.joined()
-        let level =
-            video.level == "auto"
-            ? "AutoLevel" : video.level.replacingOccurrences(of: ".", with: "_")
+        guard container == "mp4", video.color == "rec709" else {
+            throw Self.invalid("Unsupported video encoding settings")
+        }
+        let profileLevel: String
+        if video.codec == "hevc" {
+            guard video.profile == "main", video.level == nil, video.entropy == nil else {
+                throw Self.invalid("HEVC requires Main SDR without H264 level or entropy controls")
+            }
+            profileLevel = kVTProfileLevel_HEVC_Main_AutoLevel as String
+        } else {
+            guard video.codec == "h264",
+                ["baseline", "constrained-baseline", "main", "high", "constrained-high"].contains(video.profile),
+                let level = video.level,
+                ["auto", "1.3", "3.0", "3.1", "3.2", "4.0", "4.1", "4.2", "5.0", "5.1", "5.2"].contains(level),
+                ["cavlc", "cabac"].contains(video.entropy ?? "")
+            else { throw Self.invalid("Unsupported H264 encoding settings") }
+            let profile = video.profile.split(separator: "-")
+                .map { $0.prefix(1).uppercased() + $0.dropFirst() }.joined()
+            profileLevel = "H264_\(profile)_\(level == "auto" ? "AutoLevel" : level.replacingOccurrences(of: ".", with: "_"))"
+        }
         var values: [String: Any] = [
-            kVTCompressionPropertyKey_ProfileLevel as String: "H264_\(profile)_\(level)",
+            kVTCompressionPropertyKey_ProfileLevel as String: profileLevel,
             kVTCompressionPropertyKey_ExpectedFrameRate as String: frameRate,
             kVTCompressionPropertyKey_RealTime as String: false,
             kVTCompressionPropertyKey_MaxKeyFrameInterval as String: video.keyframeInterval,
-            kVTCompressionPropertyKey_MaxKeyFrameIntervalDuration as String: video
-                .keyframeIntervalSeconds,
+            kVTCompressionPropertyKey_MaxKeyFrameIntervalDuration as String: video.keyframeIntervalSeconds,
             kVTCompressionPropertyKey_AllowFrameReordering as String: video.frameReordering,
-            kVTCompressionPropertyKey_H264EntropyMode as String: video.entropy == "cabac"
-                ? kVTH264EntropyMode_CABAC : kVTH264EntropyMode_CAVLC,
             kVTCompressionPropertyKey_AllowTemporalCompression as String: video.temporalCompression,
             kVTCompressionPropertyKey_MaximizePowerEfficiency as String: video.powerEfficient,
         ]
+        if let entropy = video.entropy {
+            values[kVTCompressionPropertyKey_H264EntropyMode as String] = entropy == "cabac"
+                ? kVTH264EntropyMode_CABAC : kVTH264EntropyMode_CAVLC
+        }
         // AVAssetWriter rejects explicit zero for these VT automatic values; omission has the same meaning.
         if video.keyframeInterval == 0 {
             values.removeValue(forKey: kVTCompressionPropertyKey_MaxKeyFrameInterval as String)
@@ -268,11 +278,11 @@ public struct OutputSettings: Codable, Sendable {
         var session: VTCompressionSession?
         let status = VTCompressionSessionCreate(
             allocator: nil, width: Int32(width), height: Int32(height),
-            codecType: kCMVideoCodecType_H264,
+            codecType: video.codec == "hevc" ? kCMVideoCodecType_HEVC : kCMVideoCodecType_H264,
             encoderSpecification: specification as CFDictionary, imageBufferAttributes: nil, compressedDataAllocator: nil,
             outputCallback: nil, refcon: nil, compressionSessionOut: &session)
         guard status == noErr, let session else {
-            throw Self.invalid("H.264 encoder unavailable (\(status))")
+            throw Self.invalid("\(video.codec) encoder unavailable (\(status))")
         }
         defer { VTCompressionSessionInvalidate(session) }
         for key in compression.keys.sorted() {
@@ -288,7 +298,7 @@ public struct OutputSettings: Codable, Sendable {
             throw Self.invalid("Unsupported encoder combination (\(prepared))")
         }
         return [
-            AVVideoCodecKey: AVVideoCodecType.h264, AVVideoWidthKey: width,
+            AVVideoCodecKey: video.codec == "hevc" ? AVVideoCodecType.hevc : AVVideoCodecType.h264, AVVideoWidthKey: width,
             AVVideoHeightKey: height,
             AVVideoCompressionPropertiesKey: compression,
             AVVideoEncoderSpecificationKey: specification,
@@ -312,6 +322,18 @@ public struct OutputSettings: Codable, Sendable {
         guard !formats.isEmpty else { throw Self.invalid("Encoded video has no format") }
         var actual: EncodedVideo?
         for format in formats {
+            if video.codec == "hevc" {
+                guard CMFormatDescriptionGetMediaSubType(format) == kCMVideoCodecType_HEVC,
+                    let atoms = CMFormatDescriptionGetExtension(format,
+                        extensionKey: kCMFormatDescriptionExtension_SampleDescriptionExtensionAtoms) as? [String: Any],
+                    let header = atoms["hvcC"] as? Data, header.count >= 23,
+                    header[0] == 1, header[1] & 31 == 1,
+                    header[17] & 7 == 0, header[18] & 7 == 0
+                else { throw Self.invalid("Encoded HEVC Main 8-bit profile cannot be verified") }
+                let level = "\(header[12] / 30).\((header[12] % 30) / 3)"
+                actual = EncodedVideo(profile: "main", level: level)
+                continue
+            }
             guard CMFormatDescriptionGetMediaSubType(format) == kCMVideoCodecType_H264 else {
                 throw Self.invalid("Encoder changed requested video codec")
             }
@@ -350,13 +372,13 @@ public struct OutputSettings: Codable, Sendable {
             }
         }
     }
-    public static func inventory() throws -> [String: Any] {
+    private static func videoInventory(codec: CMVideoCodecType, name: String) throws -> [String: Any] {
         var session: VTCompressionSession?
         let status = VTCompressionSessionCreate(
-            allocator: nil, width: 1280, height: 720, codecType: kCMVideoCodecType_H264,
+            allocator: nil, width: 1280, height: 720, codecType: codec,
             encoderSpecification: nil, imageBufferAttributes: nil, compressedDataAllocator: nil,
             outputCallback: nil, refcon: nil, compressionSessionOut: &session)
-        guard status == noErr, let session else { throw invalid("H.264 encoder unavailable") }
+        guard status == noErr, let session else { return ["ready": false, "probeStatus": status, "encoders": []] }
         defer { VTCompressionSessionInvalidate(session) }
         var properties: CFDictionary?
         guard
@@ -369,11 +391,11 @@ public struct OutputSettings: Codable, Sendable {
             throw invalid("Cannot inspect encoder selection capabilities")
         }
         let encoders = (encoderList as! [[String: Any]]).filter {
-            ($0[kVTVideoEncoderList_CodecType as String] as? NSNumber)?.uint32Value == kCMVideoCodecType_H264
+            ($0[kVTVideoEncoderList_CodecType as String] as? NSNumber)?.uint32Value == codec
         }.map { entry -> [String: Any] in
             var value: [String: Any] = [
                 "id": entry[kVTVideoEncoderList_EncoderID as String]!,
-                "name": entry[kVTVideoEncoderList_EncoderName as String] ?? "H.264",
+                "name": entry[kVTVideoEncoderList_EncoderName as String] ?? name,
             ]
             if let hardware = entry[kVTVideoEncoderList_IsHardwareAccelerated as String] {
                 value["hardwareAccelerated"] = hardware
@@ -383,7 +405,7 @@ public struct OutputSettings: Codable, Sendable {
             }
             var selected: VTCompressionSession?
             let status = VTCompressionSessionCreate(
-                allocator: nil, width: 1280, height: 720, codecType: kCMVideoCodecType_H264,
+                allocator: nil, width: 1280, height: 720, codecType: codec,
                 encoderSpecification: [kVTVideoEncoderSpecification_EncoderID: value["id"]!] as CFDictionary,
                 imageBufferAttributes: nil, compressedDataAllocator: nil,
                 outputCallback: nil, refcon: nil, compressionSessionOut: &selected)
@@ -398,6 +420,12 @@ public struct OutputSettings: Codable, Sendable {
             value["probeStatus"] = status
             return value
         }
+        return ["ready": true, "probeStatus": 0, "properties": properties as! [String: Any], "encoders": encoders]
+    }
+    public static func inventory() throws -> [String: Any] {
+        let h264 = try videoInventory(codec: kCMVideoCodecType_H264, name: "H.264")
+        guard h264["ready"] as? Bool == true else { throw invalid("H.264 encoder unavailable") }
+        let hevc = try videoInventory(codec: kCMVideoCodecType_HEVC, name: "HEVC")
         guard let input = AVAudioFormat(standardFormatWithSampleRate: 48000, channels: 2),
             let baseline = AVAudioFormat(settings: [AVFormatIDKey: kAudioFormatMPEG4AAC,
                                                    AVSampleRateKey: 48000, AVNumberOfChannelsKey: 2]),
@@ -422,7 +450,7 @@ public struct OutputSettings: Codable, Sendable {
                 }
             }
         }
-        return ["properties": properties as! [String: Any], "encoders": encoders,
+        return ["properties": h264["properties"]!, "encoders": h264["encoders"]!, "hevc": hevc,
                 "audio": ["sampleRates": rates, "formats": audioFormats]]
     }
     private static func invalid(_ message: String) -> NativeFailure {

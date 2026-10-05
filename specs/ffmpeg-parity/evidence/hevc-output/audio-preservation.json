@@ -1,0 +1,4044 @@
+{
+  "passed": true,
+  "workerSha256": "af28fcc5260b79bca3909be2af1a9c90875bc3497d30d9649d3921648ef8c82d",
+  "cases": [
+    {
+      "id": "48000-stereo-constant-high",
+      "validation": {
+        "request": {
+          "id": "48000-stereo-constant-high-validate",
+          "operation": "media.validateAudioOutput",
+          "params": {
+            "settings": {
+              "container": "m4a",
+              "audio": {
+                "codec": "aac",
+                "sampleRate": 48000,
+                "layout": "stereo",
+                "rateControl": {
+                  "mode": "constant",
+                  "bitrate": 192000,
+                  "quality": null
+                },
+                "quality": "high"
+              }
+            }
+          }
+        },
+        "reply": {
+          "data": {
+            "audio": {
+              "codec": "aac",
+              "layout": "stereo",
+              "quality": "high",
+              "rateControl": {
+                "bitrate": 192000,
+                "mode": "constant"
+              },
+              "sampleRate": 48000
+            },
+            "container": "m4a"
+          },
+          "id": "48000-stereo-constant-high-validate",
+          "ok": true
+        }
+      },
+      "encoding": {
+        "request": {
+          "id": "48000-stereo-constant-high",
+          "operation": "media.encodeAudioFile",
+          "params": {
+            "source": "/dev/fd/3",
+            "output": "/tmp/screenrec-hevc-audio-preservation/48000-stereo-constant-high.m4a",
+            "input": {
+              "sampleRate": 48000,
+              "channels": 2,
+              "frames": 96017
+            },
+            "settings": {
+              "container": "m4a",
+              "audio": {
+                "codec": "aac",
+                "sampleRate": 48000,
+                "layout": "stereo",
+                "rateControl": {
+                  "mode": "constant",
+                  "bitrate": 192000,
+                  "quality": null
+                },
+                "quality": "high"
+              }
+            }
+          }
+        },
+        "reply": {
+          "data": {
+            "bytes": 50186,
+            "channels": 2,
+            "contentFrames": 96017,
+            "durationUs": 2000354,
+            "encodedFrames": 96017,
+            "file": "/tmp/screenrec-hevc-audio-preservation/48000-stereo-constant-high.m4a",
+            "inputFrames": 96017,
+            "sampleRate": 48000,
+            "settings": {
+              "audio": {
+                "codec": "aac",
+                "layout": "stereo",
+                "quality": "high",
+                "rateControl": {
+                  "bitrate": 192000,
+                  "mode": "constant"
+                },
+                "sampleRate": 48000
+              },
+              "container": "m4a"
+            }
+          },
+          "id": "48000-stereo-constant-high",
+          "ok": true
+        }
+      },
+      "expectedFrames": 96017,
+      "decodedFrames": 96017,
+      "packetPaddingFrames": 0,
+      "rms": [
+        0.00022852866908382744,
+        0.0008511868394150704,
+        0.0019480949005860405
+      ],
+      "sha256": "2ce180f8af6e54cd5cdcee1d03033a59cca074fe91a3778826f2e19f3107633f"
+    },
+    {
+      "id": "48000-stereo-long-term-average-high",
+      "validation": {
+        "request": {
+          "id": "48000-stereo-long-term-average-high-validate",
+          "operation": "media.validateAudioOutput",
+          "params": {
+            "settings": {
+              "container": "m4a",
+              "audio": {
+                "codec": "aac",
+                "sampleRate": 48000,
+                "layout": "stereo",
+                "rateControl": {
+                  "mode": "long-term-average",
+                  "bitrate": 192000,
+                  "quality": null
+                },
+                "quality": "high"
+              }
+            }
+          }
+        },
+        "reply": {
+          "data": {
+            "audio": {
+              "codec": "aac",
+              "layout": "stereo",
+              "quality": "high",
+              "rateControl": {
+                "bitrate": 192000,
+                "mode": "long-term-average"
+              },
+              "sampleRate": 48000
+            },
+            "container": "m4a"
+          },
+          "id": "48000-stereo-long-term-average-high-validate",
+          "ok": true
+        }
+      },
+      "encoding": {
+        "request": {
+          "id": "48000-stereo-long-term-average-high",
+          "operation": "media.encodeAudioFile",
+          "params": {
+            "source": "/dev/fd/3",
+            "output": "/tmp/screenrec-hevc-audio-preservation/48000-stereo-long-term-average-high.m4a",
+            "input": {
+              "sampleRate": 48000,
+              "channels": 2,
+              "frames": 96017
+            },
+            "settings": {
+              "container": "m4a",
+              "audio": {
+                "codec": "aac",
+                "sampleRate": 48000,
+                "layout": "stereo",
+                "rateControl": {
+                  "mode": "long-term-average",
+                  "bitrate": 192000,
+                  "quality": null
+                },
+                "quality": "high"
+              }
+            }
+          }
+        },
+        "reply": {
+          "data": {
+            "bytes": 9854,
+            "channels": 2,
+            "contentFrames": 96017,
+            "durationUs": 2000354,
+            "encodedFrames": 96017,
+            "file": "/tmp/screenrec-hevc-audio-preservation/48000-stereo-long-term-average-high.m4a",
+            "inputFrames": 96017,
+            "sampleRate": 48000,
+            "settings": {
+              "audio": {
+                "codec": "aac",
+                "layout": "stereo",
+                "quality": "high",
+                "rateControl": {
+                  "bitrate": 192000,
+                  "mode": "long-term-average"
+                },
+                "sampleRate": 48000
+              },
+              "container": "m4a"
+            }
+          },
+          "id": "48000-stereo-long-term-average-high",
+          "ok": true
+        }
+      },
+      "expectedFrames": 96017,
+      "decodedFrames": 96017,
+      "packetPaddingFrames": 0,
+      "rms": [
+        0.0009361626956832304,
+        0.002410825786480883,
+        0.001598115209445064
+      ],
+      "sha256": "3e4ec63a6071514d2474ca51f238db7db520811648848dcfaf01d50a26ef7c0f"
+    },
+    {
+      "id": "48000-stereo-constrained-variable-high",
+      "validation": {
+        "request": {
+          "id": "48000-stereo-constrained-variable-high-validate",
+          "operation": "media.validateAudioOutput",
+          "params": {
+            "settings": {
+              "container": "m4a",
+              "audio": {
+                "codec": "aac",
+                "sampleRate": 48000,
+                "layout": "stereo",
+                "rateControl": {
+                  "mode": "constrained-variable",
+                  "bitrate": 192000,
+                  "quality": null
+                },
+                "quality": "high"
+              }
+            }
+          }
+        },
+        "reply": {
+          "data": {
+            "audio": {
+              "codec": "aac",
+              "layout": "stereo",
+              "quality": "high",
+              "rateControl": {
+                "bitrate": 192000,
+                "mode": "constrained-variable"
+              },
+              "sampleRate": 48000
+            },
+            "container": "m4a"
+          },
+          "id": "48000-stereo-constrained-variable-high-validate",
+          "ok": true
+        }
+      },
+      "encoding": {
+        "request": {
+          "id": "48000-stereo-constrained-variable-high",
+          "operation": "media.encodeAudioFile",
+          "params": {
+            "source": "/dev/fd/3",
+            "output": "/tmp/screenrec-hevc-audio-preservation/48000-stereo-constrained-variable-high.m4a",
+            "input": {
+              "sampleRate": 48000,
+              "channels": 2,
+              "frames": 96017
+            },
+            "settings": {
+              "container": "m4a",
+              "audio": {
+                "codec": "aac",
+                "sampleRate": 48000,
+                "layout": "stereo",
+                "rateControl": {
+                  "mode": "constrained-variable",
+                  "bitrate": 192000,
+                  "quality": null
+                },
+                "quality": "high"
+              }
+            }
+          }
+        },
+        "reply": {
+          "data": {
+            "bytes": 9475,
+            "channels": 2,
+            "contentFrames": 96017,
+            "durationUs": 2000354,
+            "encodedFrames": 96017,
+            "file": "/tmp/screenrec-hevc-audio-preservation/48000-stereo-constrained-variable-high.m4a",
+            "inputFrames": 96017,
+            "sampleRate": 48000,
+            "settings": {
+              "audio": {
+                "codec": "aac",
+                "layout": "stereo",
+                "quality": "high",
+                "rateControl": {
+                  "bitrate": 192000,
+                  "mode": "constrained-variable"
+                },
+                "sampleRate": 48000
+              },
+              "container": "m4a"
+            }
+          },
+          "id": "48000-stereo-constrained-variable-high",
+          "ok": true
+        }
+      },
+      "expectedFrames": 96017,
+      "decodedFrames": 96017,
+      "packetPaddingFrames": 0,
+      "rms": [
+        0.0013080785386931238,
+        0.002410825786480883,
+        0.001598115209445064
+      ],
+      "sha256": "f4e81779dbb961e16b287a60d5d213235d45d940197ccdfd37d18d294ab26845"
+    },
+    {
+      "id": "48000-stereo-variable-min",
+      "validation": {
+        "request": {
+          "id": "48000-stereo-variable-min-validate",
+          "operation": "media.validateAudioOutput",
+          "params": {
+            "settings": {
+              "container": "m4a",
+              "audio": {
+                "codec": "aac",
+                "sampleRate": 48000,
+                "layout": "stereo",
+                "rateControl": {
+                  "mode": "variable",
+                  "bitrate": null,
+                  "quality": "min"
+                },
+                "quality": "high"
+              }
+            }
+          }
+        },
+        "reply": {
+          "data": {
+            "audio": {
+              "codec": "aac",
+              "layout": "stereo",
+              "quality": "high",
+              "rateControl": {
+                "mode": "variable",
+                "quality": "min"
+              },
+              "sampleRate": 48000
+            },
+            "container": "m4a"
+          },
+          "id": "48000-stereo-variable-min-validate",
+          "ok": true
+        }
+      },
+      "encoding": {
+        "request": {
+          "id": "48000-stereo-variable-min",
+          "operation": "media.encodeAudioFile",
+          "params": {
+            "source": "/dev/fd/3",
+            "output": "/tmp/screenrec-hevc-audio-preservation/48000-stereo-variable-min.m4a",
+            "input": {
+              "sampleRate": 48000,
+              "channels": 2,
+              "frames": 96017
+            },
+            "settings": {
+              "container": "m4a",
+              "audio": {
+                "codec": "aac",
+                "sampleRate": 48000,
+                "layout": "stereo",
+                "rateControl": {
+                  "mode": "variable",
+                  "bitrate": null,
+                  "quality": "min"
+                },
+                "quality": "high"
+              }
+            }
+          }
+        },
+        "reply": {
+          "data": {
+            "bytes": 6446,
+            "channels": 2,
+            "contentFrames": 96017,
+            "durationUs": 2000354,
+            "encodedFrames": 96017,
+            "file": "/tmp/screenrec-hevc-audio-preservation/48000-stereo-variable-min.m4a",
+            "inputFrames": 96017,
+            "sampleRate": 48000,
+            "settings": {
+              "audio": {
+                "codec": "aac",
+                "layout": "stereo",
+                "quality": "high",
+                "rateControl": {
+                  "mode": "variable",
+                  "quality": "min"
+                },
+                "sampleRate": 48000
+              },
+              "container": "m4a"
+            }
+          },
+          "id": "48000-stereo-variable-min",
+          "ok": true
+        }
+      },
+      "expectedFrames": 96017,
+      "decodedFrames": 96017,
+      "packetPaddingFrames": 0,
+      "rms": [
+        0.0136385182716506,
+        0.019635370353699385,
+        0.026379208640567364
+      ],
+      "sha256": "1f90b960cdc77ea220db86b993169b4f6144e799d3c298b03297a87e2c56077d"
+    },
+    {
+      "id": "48000-stereo-variable-low",
+      "validation": {
+        "request": {
+          "id": "48000-stereo-variable-low-validate",
+          "operation": "media.validateAudioOutput",
+          "params": {
+            "settings": {
+              "container": "m4a",
+              "audio": {
+                "codec": "aac",
+                "sampleRate": 48000,
+                "layout": "stereo",
+                "rateControl": {
+                  "mode": "variable",
+                  "bitrate": null,
+                  "quality": "low"
+                },
+                "quality": "high"
+              }
+            }
+          }
+        },
+        "reply": {
+          "data": {
+            "audio": {
+              "codec": "aac",
+              "layout": "stereo",
+              "quality": "high",
+              "rateControl": {
+                "mode": "variable",
+                "quality": "low"
+              },
+              "sampleRate": 48000
+            },
+            "container": "m4a"
+          },
+          "id": "48000-stereo-variable-low-validate",
+          "ok": true
+        }
+      },
+      "encoding": {
+        "request": {
+          "id": "48000-stereo-variable-low",
+          "operation": "media.encodeAudioFile",
+          "params": {
+            "source": "/dev/fd/3",
+            "output": "/tmp/screenrec-hevc-audio-preservation/48000-stereo-variable-low.m4a",
+            "input": {
+              "sampleRate": 48000,
+              "channels": 2,
+              "frames": 96017
+            },
+            "settings": {
+              "container": "m4a",
+              "audio": {
+                "codec": "aac",
+                "sampleRate": 48000,
+                "layout": "stereo",
+                "rateControl": {
+                  "mode": "variable",
+                  "bitrate": null,
+                  "quality": "low"
+                },
+                "quality": "high"
+              }
+            }
+          }
+        },
+        "reply": {
+          "data": {
+            "bytes": 7369,
+            "channels": 2,
+            "contentFrames": 96017,
+            "durationUs": 2000354,
+            "encodedFrames": 96017,
+            "file": "/tmp/screenrec-hevc-audio-preservation/48000-stereo-variable-low.m4a",
+            "inputFrames": 96017,
+            "sampleRate": 48000,
+            "settings": {
+              "audio": {
+                "codec": "aac",
+                "layout": "stereo",
+                "quality": "high",
+                "rateControl": {
+                  "mode": "variable",
+                  "quality": "low"
+                },
+                "sampleRate": 48000
+              },
+              "container": "m4a"
+            }
+          },
+          "id": "48000-stereo-variable-low",
+          "ok": true
+        }
+      },
+      "expectedFrames": 96017,
+      "decodedFrames": 96017,
+      "packetPaddingFrames": 0,
+      "rms": [
+        0.007289586335520603,
+        0.013352522203782337,
+        0.010903868997037906
+      ],
+      "sha256": "a29fb46f2b6f7c2c97d8f70dfd9340c3f2c26a8589a08f1d74f15619c8c1656a"
+    },
+    {
+      "id": "48000-stereo-variable-medium",
+      "validation": {
+        "request": {
+          "id": "48000-stereo-variable-medium-validate",
+          "operation": "media.validateAudioOutput",
+          "params": {
+            "settings": {
+              "container": "m4a",
+              "audio": {
+                "codec": "aac",
+                "sampleRate": 48000,
+                "layout": "stereo",
+                "rateControl": {
+                  "mode": "variable",
+                  "bitrate": null,
+                  "quality": "medium"
+                },
+                "quality": "high"
+              }
+            }
+          }
+        },
+        "reply": {
+          "data": {
+            "audio": {
+              "codec": "aac",
+              "layout": "stereo",
+              "quality": "high",
+              "rateControl": {
+                "mode": "variable",
+                "quality": "medium"
+              },
+              "sampleRate": 48000
+            },
+            "container": "m4a"
+          },
+          "id": "48000-stereo-variable-medium-validate",
+          "ok": true
+        }
+      },
+      "encoding": {
+        "request": {
+          "id": "48000-stereo-variable-medium",
+          "operation": "media.encodeAudioFile",
+          "params": {
+            "source": "/dev/fd/3",
+            "output": "/tmp/screenrec-hevc-audio-preservation/48000-stereo-variable-medium.m4a",
+            "input": {
+              "sampleRate": 48000,
+              "channels": 2,
+              "frames": 96017
+            },
+            "settings": {
+              "container": "m4a",
+              "audio": {
+                "codec": "aac",
+                "sampleRate": 48000,
+                "layout": "stereo",
+                "rateControl": {
+                  "mode": "variable",
+                  "bitrate": null,
+                  "quality": "medium"
+                },
+                "quality": "high"
+              }
+            }
+          }
+        },
+        "reply": {
+          "data": {
+            "bytes": 8284,
+            "channels": 2,
+            "contentFrames": 96017,
+            "durationUs": 2000354,
+            "encodedFrames": 96017,
+            "file": "/tmp/screenrec-hevc-audio-preservation/48000-stereo-variable-medium.m4a",
+            "inputFrames": 96017,
+            "sampleRate": 48000,
+            "settings": {
+              "audio": {
+                "codec": "aac",
+                "layout": "stereo",
+                "quality": "high",
+                "rateControl": {
+                  "mode": "variable",
+                  "quality": "medium"
+                },
+                "sampleRate": 48000
+              },
+              "container": "m4a"
+            }
+          },
+          "id": "48000-stereo-variable-medium",
+          "ok": true
+        }
+      },
+      "expectedFrames": 96017,
+      "decodedFrames": 96017,
+      "packetPaddingFrames": 0,
+      "rms": [
+        0.0029771166941659046,
+        0.006402030861353978,
+        0.005736804146417667
+      ],
+      "sha256": "ebe2d74c512a76bb64f2eccbc2b404e931bd4950d6a104f4150519d4e5185627"
+    },
+    {
+      "id": "48000-stereo-variable-high",
+      "validation": {
+        "request": {
+          "id": "48000-stereo-variable-high-validate",
+          "operation": "media.validateAudioOutput",
+          "params": {
+            "settings": {
+              "container": "m4a",
+              "audio": {
+                "codec": "aac",
+                "sampleRate": 48000,
+                "layout": "stereo",
+                "rateControl": {
+                  "mode": "variable",
+                  "bitrate": null,
+                  "quality": "high"
+                },
+                "quality": "high"
+              }
+            }
+          }
+        },
+        "reply": {
+          "data": {
+            "audio": {
+              "codec": "aac",
+              "layout": "stereo",
+              "quality": "high",
+              "rateControl": {
+                "mode": "variable",
+                "quality": "high"
+              },
+              "sampleRate": 48000
+            },
+            "container": "m4a"
+          },
+          "id": "48000-stereo-variable-high-validate",
+          "ok": true
+        }
+      },
+      "encoding": {
+        "request": {
+          "id": "48000-stereo-variable-high",
+          "operation": "media.encodeAudioFile",
+          "params": {
+            "source": "/dev/fd/3",
+            "output": "/tmp/screenrec-hevc-audio-preservation/48000-stereo-variable-high.m4a",
+            "input": {
+              "sampleRate": 48000,
+              "channels": 2,
+              "frames": 96017
+            },
+            "settings": {
+              "container": "m4a",
+              "audio": {
+                "codec": "aac",
+                "sampleRate": 48000,
+                "layout": "stereo",
+                "rateControl": {
+                  "mode": "variable",
+                  "bitrate": null,
+                  "quality": "high"
+                },
+                "quality": "high"
+              }
+            }
+          }
+        },
+        "reply": {
+          "data": {
+            "bytes": 9414,
+            "channels": 2,
+            "contentFrames": 96017,
+            "durationUs": 2000354,
+            "encodedFrames": 96017,
+            "file": "/tmp/screenrec-hevc-audio-preservation/48000-stereo-variable-high.m4a",
+            "inputFrames": 96017,
+            "sampleRate": 48000,
+            "settings": {
+              "audio": {
+                "codec": "aac",
+                "layout": "stereo",
+                "quality": "high",
+                "rateControl": {
+                  "mode": "variable",
+                  "quality": "high"
+                },
+                "sampleRate": 48000
+              },
+              "container": "m4a"
+            }
+          },
+          "id": "48000-stereo-variable-high",
+          "ok": true
+        }
+      },
+      "expectedFrames": 96017,
+      "decodedFrames": 96017,
+      "packetPaddingFrames": 0,
+      "rms": [
+        0.0014201907048013846,
+        0.002179361677956276,
+        0.002439035509628978
+      ],
+      "sha256": "cbcc80dab9fe8314c63a2172f0bd7349686eb3a06ab335a4f71a0553fc540c39"
+    },
+    {
+      "id": "48000-stereo-variable-max",
+      "validation": {
+        "request": {
+          "id": "48000-stereo-variable-max-validate",
+          "operation": "media.validateAudioOutput",
+          "params": {
+            "settings": {
+              "container": "m4a",
+              "audio": {
+                "codec": "aac",
+                "sampleRate": 48000,
+                "layout": "stereo",
+                "rateControl": {
+                  "mode": "variable",
+                  "bitrate": null,
+                  "quality": "max"
+                },
+                "quality": "high"
+              }
+            }
+          }
+        },
+        "reply": {
+          "data": {
+            "audio": {
+              "codec": "aac",
+              "layout": "stereo",
+              "quality": "high",
+              "rateControl": {
+                "mode": "variable",
+                "quality": "max"
+              },
+              "sampleRate": 48000
+            },
+            "container": "m4a"
+          },
+          "id": "48000-stereo-variable-max-validate",
+          "ok": true
+        }
+      },
+      "encoding": {
+        "request": {
+          "id": "48000-stereo-variable-max",
+          "operation": "media.encodeAudioFile",
+          "params": {
+            "source": "/dev/fd/3",
+            "output": "/tmp/screenrec-hevc-audio-preservation/48000-stereo-variable-max.m4a",
+            "input": {
+              "sampleRate": 48000,
+              "channels": 2,
+              "frames": 96017
+            },
+            "settings": {
+              "container": "m4a",
+              "audio": {
+                "codec": "aac",
+                "sampleRate": 48000,
+                "layout": "stereo",
+                "rateControl": {
+                  "mode": "variable",
+                  "bitrate": null,
+                  "quality": "max"
+                },
+                "quality": "high"
+              }
+            }
+          }
+        },
+        "reply": {
+          "data": {
+            "bytes": 12635,
+            "channels": 2,
+            "contentFrames": 96017,
+            "durationUs": 2000354,
+            "encodedFrames": 96017,
+            "file": "/tmp/screenrec-hevc-audio-preservation/48000-stereo-variable-max.m4a",
+            "inputFrames": 96017,
+            "sampleRate": 48000,
+            "settings": {
+              "audio": {
+                "codec": "aac",
+                "layout": "stereo",
+                "quality": "high",
+                "rateControl": {
+                  "mode": "variable",
+                  "quality": "max"
+                },
+                "sampleRate": 48000
+              },
+              "container": "m4a"
+            }
+          },
+          "id": "48000-stereo-variable-max",
+          "ok": true
+        }
+      },
+      "expectedFrames": 96017,
+      "decodedFrames": 96017,
+      "packetPaddingFrames": 0,
+      "rms": [
+        0.0006527608570021368,
+        0.0009393286835596276,
+        0.0012121201566382199
+      ],
+      "sha256": "28535687f1f6707ce513bd9f9ff713a2d428e4ad09fbdc0d36a0045598c2cad6"
+    },
+    {
+      "id": "48000-mono-constant-high",
+      "validation": {
+        "request": {
+          "id": "48000-mono-constant-high-validate",
+          "operation": "media.validateAudioOutput",
+          "params": {
+            "settings": {
+              "container": "m4a",
+              "audio": {
+                "codec": "aac",
+                "sampleRate": 48000,
+                "layout": "mono",
+                "rateControl": {
+                  "mode": "constant",
+                  "bitrate": 96000,
+                  "quality": null
+                },
+                "quality": "high"
+              }
+            }
+          }
+        },
+        "reply": {
+          "data": {
+            "audio": {
+              "codec": "aac",
+              "layout": "mono",
+              "quality": "high",
+              "rateControl": {
+                "bitrate": 96000,
+                "mode": "constant"
+              },
+              "sampleRate": 48000
+            },
+            "container": "m4a"
+          },
+          "id": "48000-mono-constant-high-validate",
+          "ok": true
+        }
+      },
+      "encoding": {
+        "request": {
+          "id": "48000-mono-constant-high",
+          "operation": "media.encodeAudioFile",
+          "params": {
+            "source": "/dev/fd/3",
+            "output": "/tmp/screenrec-hevc-audio-preservation/48000-mono-constant-high.m4a",
+            "input": {
+              "sampleRate": 48000,
+              "channels": 2,
+              "frames": 96017
+            },
+            "settings": {
+              "container": "m4a",
+              "audio": {
+                "codec": "aac",
+                "sampleRate": 48000,
+                "layout": "mono",
+                "rateControl": {
+                  "mode": "constant",
+                  "bitrate": 96000,
+                  "quality": null
+                },
+                "quality": "high"
+              }
+            }
+          }
+        },
+        "reply": {
+          "data": {
+            "bytes": 25672,
+            "channels": 1,
+            "contentFrames": 96017,
+            "durationUs": 2000354,
+            "encodedFrames": 96017,
+            "file": "/tmp/screenrec-hevc-audio-preservation/48000-mono-constant-high.m4a",
+            "inputFrames": 96017,
+            "sampleRate": 48000,
+            "settings": {
+              "audio": {
+                "codec": "aac",
+                "layout": "mono",
+                "quality": "high",
+                "rateControl": {
+                  "bitrate": 96000,
+                  "mode": "constant"
+                },
+                "sampleRate": 48000
+              },
+              "container": "m4a"
+            }
+          },
+          "id": "48000-mono-constant-high",
+          "ok": true
+        }
+      },
+      "expectedFrames": 96017,
+      "decodedFrames": 96017,
+      "packetPaddingFrames": 0,
+      "rms": [
+        0.00026522842269786857,
+        0.0009669119302508216,
+        0.002353296839649221
+      ],
+      "sha256": "28f337289dd5b7d3653b2dc09fdc367ab72efc794311b3668bc7faa130d9bac3"
+    },
+    {
+      "id": "48000-mono-long-term-average-high",
+      "validation": {
+        "request": {
+          "id": "48000-mono-long-term-average-high-validate",
+          "operation": "media.validateAudioOutput",
+          "params": {
+            "settings": {
+              "container": "m4a",
+              "audio": {
+                "codec": "aac",
+                "sampleRate": 48000,
+                "layout": "mono",
+                "rateControl": {
+                  "mode": "long-term-average",
+                  "bitrate": 96000,
+                  "quality": null
+                },
+                "quality": "high"
+              }
+            }
+          }
+        },
+        "reply": {
+          "data": {
+            "audio": {
+              "codec": "aac",
+              "layout": "mono",
+              "quality": "high",
+              "rateControl": {
+                "bitrate": 96000,
+                "mode": "long-term-average"
+              },
+              "sampleRate": 48000
+            },
+            "container": "m4a"
+          },
+          "id": "48000-mono-long-term-average-high-validate",
+          "ok": true
+        }
+      },
+      "encoding": {
+        "request": {
+          "id": "48000-mono-long-term-average-high",
+          "operation": "media.encodeAudioFile",
+          "params": {
+            "source": "/dev/fd/3",
+            "output": "/tmp/screenrec-hevc-audio-preservation/48000-mono-long-term-average-high.m4a",
+            "input": {
+              "sampleRate": 48000,
+              "channels": 2,
+              "frames": 96017
+            },
+            "settings": {
+              "container": "m4a",
+              "audio": {
+                "codec": "aac",
+                "sampleRate": 48000,
+                "layout": "mono",
+                "rateControl": {
+                  "mode": "long-term-average",
+                  "bitrate": 96000,
+                  "quality": null
+                },
+                "quality": "high"
+              }
+            }
+          }
+        },
+        "reply": {
+          "data": {
+            "bytes": 6463,
+            "channels": 1,
+            "contentFrames": 96017,
+            "durationUs": 2000354,
+            "encodedFrames": 96017,
+            "file": "/tmp/screenrec-hevc-audio-preservation/48000-mono-long-term-average-high.m4a",
+            "inputFrames": 96017,
+            "sampleRate": 48000,
+            "settings": {
+              "audio": {
+                "codec": "aac",
+                "layout": "mono",
+                "quality": "high",
+                "rateControl": {
+                  "bitrate": 96000,
+                  "mode": "long-term-average"
+                },
+                "sampleRate": 48000
+              },
+              "container": "m4a"
+            }
+          },
+          "id": "48000-mono-long-term-average-high",
+          "ok": true
+        }
+      },
+      "expectedFrames": 96017,
+      "decodedFrames": 96017,
+      "packetPaddingFrames": 0,
+      "rms": [
+        0.0009893347850137065,
+        0.002785677953772826,
+        0.0015112190592336046
+      ],
+      "sha256": "15ea468db8b4fce104eeffa52c00e6ecc7ab54f3707114e6a19be7e62027319f"
+    },
+    {
+      "id": "48000-mono-constrained-variable-high",
+      "validation": {
+        "request": {
+          "id": "48000-mono-constrained-variable-high-validate",
+          "operation": "media.validateAudioOutput",
+          "params": {
+            "settings": {
+              "container": "m4a",
+              "audio": {
+                "codec": "aac",
+                "sampleRate": 48000,
+                "layout": "mono",
+                "rateControl": {
+                  "mode": "constrained-variable",
+                  "bitrate": 96000,
+                  "quality": null
+                },
+                "quality": "high"
+              }
+            }
+          }
+        },
+        "reply": {
+          "data": {
+            "audio": {
+              "codec": "aac",
+              "layout": "mono",
+              "quality": "high",
+              "rateControl": {
+                "bitrate": 96000,
+                "mode": "constrained-variable"
+              },
+              "sampleRate": 48000
+            },
+            "container": "m4a"
+          },
+          "id": "48000-mono-constrained-variable-high-validate",
+          "ok": true
+        }
+      },
+      "encoding": {
+        "request": {
+          "id": "48000-mono-constrained-variable-high",
+          "operation": "media.encodeAudioFile",
+          "params": {
+            "source": "/dev/fd/3",
+            "output": "/tmp/screenrec-hevc-audio-preservation/48000-mono-constrained-variable-high.m4a",
+            "input": {
+              "sampleRate": 48000,
+              "channels": 2,
+              "frames": 96017
+            },
+            "settings": {
+              "container": "m4a",
+              "audio": {
+                "codec": "aac",
+                "sampleRate": 48000,
+                "layout": "mono",
+                "rateControl": {
+                  "mode": "constrained-variable",
+                  "bitrate": 96000,
+                  "quality": null
+                },
+                "quality": "high"
+              }
+            }
+          }
+        },
+        "reply": {
+          "data": {
+            "bytes": 6202,
+            "channels": 1,
+            "contentFrames": 96017,
+            "durationUs": 2000354,
+            "encodedFrames": 96017,
+            "file": "/tmp/screenrec-hevc-audio-preservation/48000-mono-constrained-variable-high.m4a",
+            "inputFrames": 96017,
+            "sampleRate": 48000,
+            "settings": {
+              "audio": {
+                "codec": "aac",
+                "layout": "mono",
+                "quality": "high",
+                "rateControl": {
+                  "bitrate": 96000,
+                  "mode": "constrained-variable"
+                },
+                "sampleRate": 48000
+              },
+              "container": "m4a"
+            }
+          },
+          "id": "48000-mono-constrained-variable-high",
+          "ok": true
+        }
+      },
+      "expectedFrames": 96017,
+      "decodedFrames": 96017,
+      "packetPaddingFrames": 0,
+      "rms": [
+        0.0014215639513470949,
+        0.002785677953772826,
+        0.0015112190592336046
+      ],
+      "sha256": "2291a8ed549593a165786b678a68c12ff56e0d4f6d69720797c20a28bd75e880"
+    },
+    {
+      "id": "48000-mono-variable-min",
+      "validation": {
+        "request": {
+          "id": "48000-mono-variable-min-validate",
+          "operation": "media.validateAudioOutput",
+          "params": {
+            "settings": {
+              "container": "m4a",
+              "audio": {
+                "codec": "aac",
+                "sampleRate": 48000,
+                "layout": "mono",
+                "rateControl": {
+                  "mode": "variable",
+                  "bitrate": null,
+                  "quality": "min"
+                },
+                "quality": "high"
+              }
+            }
+          }
+        },
+        "reply": {
+          "data": {
+            "audio": {
+              "codec": "aac",
+              "layout": "mono",
+              "quality": "high",
+              "rateControl": {
+                "mode": "variable",
+                "quality": "min"
+              },
+              "sampleRate": 48000
+            },
+            "container": "m4a"
+          },
+          "id": "48000-mono-variable-min-validate",
+          "ok": true
+        }
+      },
+      "encoding": {
+        "request": {
+          "id": "48000-mono-variable-min",
+          "operation": "media.encodeAudioFile",
+          "params": {
+            "source": "/dev/fd/3",
+            "output": "/tmp/screenrec-hevc-audio-preservation/48000-mono-variable-min.m4a",
+            "input": {
+              "sampleRate": 48000,
+              "channels": 2,
+              "frames": 96017
+            },
+            "settings": {
+              "container": "m4a",
+              "audio": {
+                "codec": "aac",
+                "sampleRate": 48000,
+                "layout": "mono",
+                "rateControl": {
+                  "mode": "variable",
+                  "bitrate": null,
+                  "quality": "min"
+                },
+                "quality": "high"
+              }
+            }
+          }
+        },
+        "reply": {
+          "data": {
+            "bytes": 3686,
+            "channels": 1,
+            "contentFrames": 96017,
+            "durationUs": 2000354,
+            "encodedFrames": 96017,
+            "file": "/tmp/screenrec-hevc-audio-preservation/48000-mono-variable-min.m4a",
+            "inputFrames": 96017,
+            "sampleRate": 48000,
+            "settings": {
+              "audio": {
+                "codec": "aac",
+                "layout": "mono",
+                "quality": "high",
+                "rateControl": {
+                  "mode": "variable",
+                  "quality": "min"
+                },
+                "sampleRate": 48000
+              },
+              "container": "m4a"
+            }
+          },
+          "id": "48000-mono-variable-min",
+          "ok": true
+        }
+      },
+      "expectedFrames": 96017,
+      "decodedFrames": 96017,
+      "packetPaddingFrames": 0,
+      "rms": [
+        0.012137170221866242,
+        0.020258598016000842,
+        0.020398063073622928
+      ],
+      "sha256": "7713113e6664262020b0947dd10e1ea93ae1873381f277241affe52baae08f12"
+    },
+    {
+      "id": "48000-mono-variable-low",
+      "validation": {
+        "request": {
+          "id": "48000-mono-variable-low-validate",
+          "operation": "media.validateAudioOutput",
+          "params": {
+            "settings": {
+              "container": "m4a",
+              "audio": {
+                "codec": "aac",
+                "sampleRate": 48000,
+                "layout": "mono",
+                "rateControl": {
+                  "mode": "variable",
+                  "bitrate": null,
+                  "quality": "low"
+                },
+                "quality": "high"
+              }
+            }
+          }
+        },
+        "reply": {
+          "data": {
+            "audio": {
+              "codec": "aac",
+              "layout": "mono",
+              "quality": "high",
+              "rateControl": {
+                "mode": "variable",
+                "quality": "low"
+              },
+              "sampleRate": 48000
+            },
+            "container": "m4a"
+          },
+          "id": "48000-mono-variable-low-validate",
+          "ok": true
+        }
+      },
+      "encoding": {
+        "request": {
+          "id": "48000-mono-variable-low",
+          "operation": "media.encodeAudioFile",
+          "params": {
+            "source": "/dev/fd/3",
+            "output": "/tmp/screenrec-hevc-audio-preservation/48000-mono-variable-low.m4a",
+            "input": {
+              "sampleRate": 48000,
+              "channels": 2,
+              "frames": 96017
+            },
+            "settings": {
+              "container": "m4a",
+              "audio": {
+                "codec": "aac",
+                "sampleRate": 48000,
+                "layout": "mono",
+                "rateControl": {
+                  "mode": "variable",
+                  "bitrate": null,
+                  "quality": "low"
+                },
+                "quality": "high"
+              }
+            }
+          }
+        },
+        "reply": {
+          "data": {
+            "bytes": 4561,
+            "channels": 1,
+            "contentFrames": 96017,
+            "durationUs": 2000354,
+            "encodedFrames": 96017,
+            "file": "/tmp/screenrec-hevc-audio-preservation/48000-mono-variable-low.m4a",
+            "inputFrames": 96017,
+            "sampleRate": 48000,
+            "settings": {
+              "audio": {
+                "codec": "aac",
+                "layout": "mono",
+                "quality": "high",
+                "rateControl": {
+                  "mode": "variable",
+                  "quality": "low"
+                },
+                "sampleRate": 48000
+              },
+              "container": "m4a"
+            }
+          },
+          "id": "48000-mono-variable-low",
+          "ok": true
+        }
+      },
+      "expectedFrames": 96017,
+      "decodedFrames": 96017,
+      "packetPaddingFrames": 0,
+      "rms": [
+        0.006720026169972424,
+        0.015959259806133577,
+        0.013875781116758766
+      ],
+      "sha256": "f7e95930cba2ad26e80d2dce808ca90e4f3d137412254d7a62008ad71aa4ccae"
+    },
+    {
+      "id": "48000-mono-variable-medium",
+      "validation": {
+        "request": {
+          "id": "48000-mono-variable-medium-validate",
+          "operation": "media.validateAudioOutput",
+          "params": {
+            "settings": {
+              "container": "m4a",
+              "audio": {
+                "codec": "aac",
+                "sampleRate": 48000,
+                "layout": "mono",
+                "rateControl": {
+                  "mode": "variable",
+                  "bitrate": null,
+                  "quality": "medium"
+                },
+                "quality": "high"
+              }
+            }
+          }
+        },
+        "reply": {
+          "data": {
+            "audio": {
+              "codec": "aac",
+              "layout": "mono",
+              "quality": "high",
+              "rateControl": {
+                "mode": "variable",
+                "quality": "medium"
+              },
+              "sampleRate": 48000
+            },
+            "container": "m4a"
+          },
+          "id": "48000-mono-variable-medium-validate",
+          "ok": true
+        }
+      },
+      "encoding": {
+        "request": {
+          "id": "48000-mono-variable-medium",
+          "operation": "media.encodeAudioFile",
+          "params": {
+            "source": "/dev/fd/3",
+            "output": "/tmp/screenrec-hevc-audio-preservation/48000-mono-variable-medium.m4a",
+            "input": {
+              "sampleRate": 48000,
+              "channels": 2,
+              "frames": 96017
+            },
+            "settings": {
+              "container": "m4a",
+              "audio": {
+                "codec": "aac",
+                "sampleRate": 48000,
+                "layout": "mono",
+                "rateControl": {
+                  "mode": "variable",
+                  "bitrate": null,
+                  "quality": "medium"
+                },
+                "quality": "high"
+              }
+            }
+          }
+        },
+        "reply": {
+          "data": {
+            "bytes": 5323,
+            "channels": 1,
+            "contentFrames": 96017,
+            "durationUs": 2000354,
+            "encodedFrames": 96017,
+            "file": "/tmp/screenrec-hevc-audio-preservation/48000-mono-variable-medium.m4a",
+            "inputFrames": 96017,
+            "sampleRate": 48000,
+            "settings": {
+              "audio": {
+                "codec": "aac",
+                "layout": "mono",
+                "quality": "high",
+                "rateControl": {
+                  "mode": "variable",
+                  "quality": "medium"
+                },
+                "sampleRate": 48000
+              },
+              "container": "m4a"
+            }
+          },
+          "id": "48000-mono-variable-medium",
+          "ok": true
+        }
+      },
+      "expectedFrames": 96017,
+      "decodedFrames": 96017,
+      "packetPaddingFrames": 0,
+      "rms": [
+        0.0031172896615934103,
+        0.006427906006777378,
+        0.008852566496990628
+      ],
+      "sha256": "19da9adc900449b66f1cb9e5a26eb9afe524405fd5bd949bc8e48f653180dbbf"
+    },
+    {
+      "id": "48000-mono-variable-high",
+      "validation": {
+        "request": {
+          "id": "48000-mono-variable-high-validate",
+          "operation": "media.validateAudioOutput",
+          "params": {
+            "settings": {
+              "container": "m4a",
+              "audio": {
+                "codec": "aac",
+                "sampleRate": 48000,
+                "layout": "mono",
+                "rateControl": {
+                  "mode": "variable",
+                  "bitrate": null,
+                  "quality": "high"
+                },
+                "quality": "high"
+              }
+            }
+          }
+        },
+        "reply": {
+          "data": {
+            "audio": {
+              "codec": "aac",
+              "layout": "mono",
+              "quality": "high",
+              "rateControl": {
+                "mode": "variable",
+                "quality": "high"
+              },
+              "sampleRate": 48000
+            },
+            "container": "m4a"
+          },
+          "id": "48000-mono-variable-high-validate",
+          "ok": true
+        }
+      },
+      "encoding": {
+        "request": {
+          "id": "48000-mono-variable-high",
+          "operation": "media.encodeAudioFile",
+          "params": {
+            "source": "/dev/fd/3",
+            "output": "/tmp/screenrec-hevc-audio-preservation/48000-mono-variable-high.m4a",
+            "input": {
+              "sampleRate": 48000,
+              "channels": 2,
+              "frames": 96017
+            },
+            "settings": {
+              "container": "m4a",
+              "audio": {
+                "codec": "aac",
+                "sampleRate": 48000,
+                "layout": "mono",
+                "rateControl": {
+                  "mode": "variable",
+                  "bitrate": null,
+                  "quality": "high"
+                },
+                "quality": "high"
+              }
+            }
+          }
+        },
+        "reply": {
+          "data": {
+            "bytes": 6121,
+            "channels": 1,
+            "contentFrames": 96017,
+            "durationUs": 2000354,
+            "encodedFrames": 96017,
+            "file": "/tmp/screenrec-hevc-audio-preservation/48000-mono-variable-high.m4a",
+            "inputFrames": 96017,
+            "sampleRate": 48000,
+            "settings": {
+              "audio": {
+                "codec": "aac",
+                "layout": "mono",
+                "quality": "high",
+                "rateControl": {
+                  "mode": "variable",
+                  "quality": "high"
+                },
+                "sampleRate": 48000
+              },
+              "container": "m4a"
+            }
+          },
+          "id": "48000-mono-variable-high",
+          "ok": true
+        }
+      },
+      "expectedFrames": 96017,
+      "decodedFrames": 96017,
+      "packetPaddingFrames": 0,
+      "rms": [
+        0.0015200720938115453,
+        0.0024943548776777493,
+        0.003161711427383291
+      ],
+      "sha256": "8e81c0a63d79dc52a079382295c716297347807352113ece7032c24fa1539f12"
+    },
+    {
+      "id": "48000-mono-variable-max",
+      "validation": {
+        "request": {
+          "id": "48000-mono-variable-max-validate",
+          "operation": "media.validateAudioOutput",
+          "params": {
+            "settings": {
+              "container": "m4a",
+              "audio": {
+                "codec": "aac",
+                "sampleRate": 48000,
+                "layout": "mono",
+                "rateControl": {
+                  "mode": "variable",
+                  "bitrate": null,
+                  "quality": "max"
+                },
+                "quality": "high"
+              }
+            }
+          }
+        },
+        "reply": {
+          "data": {
+            "audio": {
+              "codec": "aac",
+              "layout": "mono",
+              "quality": "high",
+              "rateControl": {
+                "mode": "variable",
+                "quality": "max"
+              },
+              "sampleRate": 48000
+            },
+            "container": "m4a"
+          },
+          "id": "48000-mono-variable-max-validate",
+          "ok": true
+        }
+      },
+      "encoding": {
+        "request": {
+          "id": "48000-mono-variable-max",
+          "operation": "media.encodeAudioFile",
+          "params": {
+            "source": "/dev/fd/3",
+            "output": "/tmp/screenrec-hevc-audio-preservation/48000-mono-variable-max.m4a",
+            "input": {
+              "sampleRate": 48000,
+              "channels": 2,
+              "frames": 96017
+            },
+            "settings": {
+              "container": "m4a",
+              "audio": {
+                "codec": "aac",
+                "sampleRate": 48000,
+                "layout": "mono",
+                "rateControl": {
+                  "mode": "variable",
+                  "bitrate": null,
+                  "quality": "max"
+                },
+                "quality": "high"
+              }
+            }
+          }
+        },
+        "reply": {
+          "data": {
+            "bytes": 7301,
+            "channels": 1,
+            "contentFrames": 96017,
+            "durationUs": 2000354,
+            "encodedFrames": 96017,
+            "file": "/tmp/screenrec-hevc-audio-preservation/48000-mono-variable-max.m4a",
+            "inputFrames": 96017,
+            "sampleRate": 48000,
+            "settings": {
+              "audio": {
+                "codec": "aac",
+                "layout": "mono",
+                "quality": "high",
+                "rateControl": {
+                  "mode": "variable",
+                  "quality": "max"
+                },
+                "sampleRate": 48000
+              },
+              "container": "m4a"
+            }
+          },
+          "id": "48000-mono-variable-max",
+          "ok": true
+        }
+      },
+      "expectedFrames": 96017,
+      "decodedFrames": 96017,
+      "packetPaddingFrames": 0,
+      "rms": [
+        0.0007199354950833751,
+        0.0012791900442632087,
+        0.001405524663120897
+      ],
+      "sha256": "73dcf0a205cafec1ef6a371d9d07d4f734a132fad1fd36a0a4ca55c7dc22f192"
+    },
+    {
+      "id": "44100-stereo-constant-high",
+      "validation": {
+        "request": {
+          "id": "44100-stereo-constant-high-validate",
+          "operation": "media.validateAudioOutput",
+          "params": {
+            "settings": {
+              "container": "m4a",
+              "audio": {
+                "codec": "aac",
+                "sampleRate": 44100,
+                "layout": "stereo",
+                "rateControl": {
+                  "mode": "constant",
+                  "bitrate": 192000,
+                  "quality": null
+                },
+                "quality": "high"
+              }
+            }
+          }
+        },
+        "reply": {
+          "data": {
+            "audio": {
+              "codec": "aac",
+              "layout": "stereo",
+              "quality": "high",
+              "rateControl": {
+                "bitrate": 192000,
+                "mode": "constant"
+              },
+              "sampleRate": 44100
+            },
+            "container": "m4a"
+          },
+          "id": "44100-stereo-constant-high-validate",
+          "ok": true
+        }
+      },
+      "encoding": {
+        "request": {
+          "id": "44100-stereo-constant-high",
+          "operation": "media.encodeAudioFile",
+          "params": {
+            "source": "/dev/fd/3",
+            "output": "/tmp/screenrec-hevc-audio-preservation/44100-stereo-constant-high.m4a",
+            "input": {
+              "sampleRate": 48000,
+              "channels": 2,
+              "frames": 96017
+            },
+            "settings": {
+              "container": "m4a",
+              "audio": {
+                "codec": "aac",
+                "sampleRate": 44100,
+                "layout": "stereo",
+                "rateControl": {
+                  "mode": "constant",
+                  "bitrate": 192000,
+                  "quality": null
+                },
+                "quality": "high"
+              }
+            }
+          }
+        },
+        "reply": {
+          "data": {
+            "bytes": 50578,
+            "channels": 2,
+            "contentFrames": 88215,
+            "durationUs": 2000354,
+            "encodedFrames": 88215,
+            "file": "/tmp/screenrec-hevc-audio-preservation/44100-stereo-constant-high.m4a",
+            "inputFrames": 96017,
+            "sampleRate": 44100,
+            "settings": {
+              "audio": {
+                "codec": "aac",
+                "layout": "stereo",
+                "quality": "high",
+                "rateControl": {
+                  "bitrate": 192000,
+                  "mode": "constant"
+                },
+                "sampleRate": 44100
+              },
+              "container": "m4a"
+            }
+          },
+          "id": "44100-stereo-constant-high",
+          "ok": true
+        }
+      },
+      "expectedFrames": 88215,
+      "decodedFrames": 88215,
+      "packetPaddingFrames": 0,
+      "rms": [
+        0.0007478931172696402,
+        0.0012082493688108098,
+        0.006786348059960857
+      ],
+      "sha256": "48a6dfd521fb203cac2ff26e132153355533af4ca9523f8837de604e450f27bb"
+    },
+    {
+      "id": "44100-stereo-long-term-average-high",
+      "validation": {
+        "request": {
+          "id": "44100-stereo-long-term-average-high-validate",
+          "operation": "media.validateAudioOutput",
+          "params": {
+            "settings": {
+              "container": "m4a",
+              "audio": {
+                "codec": "aac",
+                "sampleRate": 44100,
+                "layout": "stereo",
+                "rateControl": {
+                  "mode": "long-term-average",
+                  "bitrate": 192000,
+                  "quality": null
+                },
+                "quality": "high"
+              }
+            }
+          }
+        },
+        "reply": {
+          "data": {
+            "audio": {
+              "codec": "aac",
+              "layout": "stereo",
+              "quality": "high",
+              "rateControl": {
+                "bitrate": 192000,
+                "mode": "long-term-average"
+              },
+              "sampleRate": 44100
+            },
+            "container": "m4a"
+          },
+          "id": "44100-stereo-long-term-average-high-validate",
+          "ok": true
+        }
+      },
+      "encoding": {
+        "request": {
+          "id": "44100-stereo-long-term-average-high",
+          "operation": "media.encodeAudioFile",
+          "params": {
+            "source": "/dev/fd/3",
+            "output": "/tmp/screenrec-hevc-audio-preservation/44100-stereo-long-term-average-high.m4a",
+            "input": {
+              "sampleRate": 48000,
+              "channels": 2,
+              "frames": 96017
+            },
+            "settings": {
+              "container": "m4a",
+              "audio": {
+                "codec": "aac",
+                "sampleRate": 44100,
+                "layout": "stereo",
+                "rateControl": {
+                  "mode": "long-term-average",
+                  "bitrate": 192000,
+                  "quality": null
+                },
+                "quality": "high"
+              }
+            }
+          }
+        },
+        "reply": {
+          "data": {
+            "bytes": 9732,
+            "channels": 2,
+            "contentFrames": 88215,
+            "durationUs": 2000354,
+            "encodedFrames": 88215,
+            "file": "/tmp/screenrec-hevc-audio-preservation/44100-stereo-long-term-average-high.m4a",
+            "inputFrames": 96017,
+            "sampleRate": 44100,
+            "settings": {
+              "audio": {
+                "codec": "aac",
+                "layout": "stereo",
+                "quality": "high",
+                "rateControl": {
+                  "bitrate": 192000,
+                  "mode": "long-term-average"
+                },
+                "sampleRate": 44100
+              },
+              "container": "m4a"
+            }
+          },
+          "id": "44100-stereo-long-term-average-high",
+          "ok": true
+        }
+      },
+      "expectedFrames": 88215,
+      "decodedFrames": 88215,
+      "packetPaddingFrames": 0,
+      "rms": [
+        0.0011281540036685745,
+        0.004023202425883289,
+        0.004239170511737349
+      ],
+      "sha256": "5ceb07042cbf1371ec97817860c2c342e74fc22c918da45a6adc1da8204dc980"
+    },
+    {
+      "id": "44100-stereo-constrained-variable-high",
+      "validation": {
+        "request": {
+          "id": "44100-stereo-constrained-variable-high-validate",
+          "operation": "media.validateAudioOutput",
+          "params": {
+            "settings": {
+              "container": "m4a",
+              "audio": {
+                "codec": "aac",
+                "sampleRate": 44100,
+                "layout": "stereo",
+                "rateControl": {
+                  "mode": "constrained-variable",
+                  "bitrate": 192000,
+                  "quality": null
+                },
+                "quality": "high"
+              }
+            }
+          }
+        },
+        "reply": {
+          "data": {
+            "audio": {
+              "codec": "aac",
+              "layout": "stereo",
+              "quality": "high",
+              "rateControl": {
+                "bitrate": 192000,
+                "mode": "constrained-variable"
+              },
+              "sampleRate": 44100
+            },
+            "container": "m4a"
+          },
+          "id": "44100-stereo-constrained-variable-high-validate",
+          "ok": true
+        }
+      },
+      "encoding": {
+        "request": {
+          "id": "44100-stereo-constrained-variable-high",
+          "operation": "media.encodeAudioFile",
+          "params": {
+            "source": "/dev/fd/3",
+            "output": "/tmp/screenrec-hevc-audio-preservation/44100-stereo-constrained-variable-high.m4a",
+            "input": {
+              "sampleRate": 48000,
+              "channels": 2,
+              "frames": 96017
+            },
+            "settings": {
+              "container": "m4a",
+              "audio": {
+                "codec": "aac",
+                "sampleRate": 44100,
+                "layout": "stereo",
+                "rateControl": {
+                  "mode": "constrained-variable",
+                  "bitrate": 192000,
+                  "quality": null
+                },
+                "quality": "high"
+              }
+            }
+          }
+        },
+        "reply": {
+          "data": {
+            "bytes": 9384,
+            "channels": 2,
+            "contentFrames": 88215,
+            "durationUs": 2000354,
+            "encodedFrames": 88215,
+            "file": "/tmp/screenrec-hevc-audio-preservation/44100-stereo-constrained-variable-high.m4a",
+            "inputFrames": 96017,
+            "sampleRate": 44100,
+            "settings": {
+              "audio": {
+                "codec": "aac",
+                "layout": "stereo",
+                "quality": "high",
+                "rateControl": {
+                  "bitrate": 192000,
+                  "mode": "constrained-variable"
+                },
+                "sampleRate": 44100
+              },
+              "container": "m4a"
+            }
+          },
+          "id": "44100-stereo-constrained-variable-high",
+          "ok": true
+        }
+      },
+      "expectedFrames": 88215,
+      "decodedFrames": 88215,
+      "packetPaddingFrames": 0,
+      "rms": [
+        0.0014139921202527468,
+        0.004023202425883289,
+        0.004239170511737349
+      ],
+      "sha256": "5b4df33a3aebed130199246f7f2859c4fdc6aed78d61971d843b94cb78e0db8b"
+    },
+    {
+      "id": "44100-stereo-variable-min",
+      "validation": {
+        "request": {
+          "id": "44100-stereo-variable-min-validate",
+          "operation": "media.validateAudioOutput",
+          "params": {
+            "settings": {
+              "container": "m4a",
+              "audio": {
+                "codec": "aac",
+                "sampleRate": 44100,
+                "layout": "stereo",
+                "rateControl": {
+                  "mode": "variable",
+                  "bitrate": null,
+                  "quality": "min"
+                },
+                "quality": "high"
+              }
+            }
+          }
+        },
+        "reply": {
+          "data": {
+            "audio": {
+              "codec": "aac",
+              "layout": "stereo",
+              "quality": "high",
+              "rateControl": {
+                "mode": "variable",
+                "quality": "min"
+              },
+              "sampleRate": 44100
+            },
+            "container": "m4a"
+          },
+          "id": "44100-stereo-variable-min-validate",
+          "ok": true
+        }
+      },
+      "encoding": {
+        "request": {
+          "id": "44100-stereo-variable-min",
+          "operation": "media.encodeAudioFile",
+          "params": {
+            "source": "/dev/fd/3",
+            "output": "/tmp/screenrec-hevc-audio-preservation/44100-stereo-variable-min.m4a",
+            "input": {
+              "sampleRate": 48000,
+              "channels": 2,
+              "frames": 96017
+            },
+            "settings": {
+              "container": "m4a",
+              "audio": {
+                "codec": "aac",
+                "sampleRate": 44100,
+                "layout": "stereo",
+                "rateControl": {
+                  "mode": "variable",
+                  "bitrate": null,
+                  "quality": "min"
+                },
+                "quality": "high"
+              }
+            }
+          }
+        },
+        "reply": {
+          "data": {
+            "bytes": 5591,
+            "channels": 2,
+            "contentFrames": 88215,
+            "durationUs": 2000354,
+            "encodedFrames": 88215,
+            "file": "/tmp/screenrec-hevc-audio-preservation/44100-stereo-variable-min.m4a",
+            "inputFrames": 96017,
+            "sampleRate": 44100,
+            "settings": {
+              "audio": {
+                "codec": "aac",
+                "layout": "stereo",
+                "quality": "high",
+                "rateControl": {
+                  "mode": "variable",
+                  "quality": "min"
+                },
+                "sampleRate": 44100
+              },
+              "container": "m4a"
+            }
+          },
+          "id": "44100-stereo-variable-min",
+          "ok": true
+        }
+      },
+      "expectedFrames": 88215,
+      "decodedFrames": 88215,
+      "packetPaddingFrames": 0,
+      "rms": [
+        0.0138468020994196,
+        0.01877453319097216,
+        0.04007274982501024
+      ],
+      "sha256": "92c7f1111ff9ffd12d02401165f63f73dc4fb72758514cee92be7c9231b73c15"
+    },
+    {
+      "id": "44100-stereo-variable-low",
+      "validation": {
+        "request": {
+          "id": "44100-stereo-variable-low-validate",
+          "operation": "media.validateAudioOutput",
+          "params": {
+            "settings": {
+              "container": "m4a",
+              "audio": {
+                "codec": "aac",
+                "sampleRate": 44100,
+                "layout": "stereo",
+                "rateControl": {
+                  "mode": "variable",
+                  "bitrate": null,
+                  "quality": "low"
+                },
+                "quality": "high"
+              }
+            }
+          }
+        },
+        "reply": {
+          "data": {
+            "audio": {
+              "codec": "aac",
+              "layout": "stereo",
+              "quality": "high",
+              "rateControl": {
+                "mode": "variable",
+                "quality": "low"
+              },
+              "sampleRate": 44100
+            },
+            "container": "m4a"
+          },
+          "id": "44100-stereo-variable-low-validate",
+          "ok": true
+        }
+      },
+      "encoding": {
+        "request": {
+          "id": "44100-stereo-variable-low",
+          "operation": "media.encodeAudioFile",
+          "params": {
+            "source": "/dev/fd/3",
+            "output": "/tmp/screenrec-hevc-audio-preservation/44100-stereo-variable-low.m4a",
+            "input": {
+              "sampleRate": 48000,
+              "channels": 2,
+              "frames": 96017
+            },
+            "settings": {
+              "container": "m4a",
+              "audio": {
+                "codec": "aac",
+                "sampleRate": 44100,
+                "layout": "stereo",
+                "rateControl": {
+                  "mode": "variable",
+                  "bitrate": null,
+                  "quality": "low"
+                },
+                "quality": "high"
+              }
+            }
+          }
+        },
+        "reply": {
+          "data": {
+            "bytes": 6693,
+            "channels": 2,
+            "contentFrames": 88215,
+            "durationUs": 2000354,
+            "encodedFrames": 88215,
+            "file": "/tmp/screenrec-hevc-audio-preservation/44100-stereo-variable-low.m4a",
+            "inputFrames": 96017,
+            "sampleRate": 44100,
+            "settings": {
+              "audio": {
+                "codec": "aac",
+                "layout": "stereo",
+                "quality": "high",
+                "rateControl": {
+                  "mode": "variable",
+                  "quality": "low"
+                },
+                "sampleRate": 44100
+              },
+              "container": "m4a"
+            }
+          },
+          "id": "44100-stereo-variable-low",
+          "ok": true
+        }
+      },
+      "expectedFrames": 88215,
+      "decodedFrames": 88215,
+      "packetPaddingFrames": 0,
+      "rms": [
+        0.008317113836848902,
+        0.022344711687365883,
+        0.031233375241729776
+      ],
+      "sha256": "da89e35c1d080f225a75307e3e5cf2aa85e1b01bac72b4e38a958bfbf6ba4889"
+    },
+    {
+      "id": "44100-stereo-variable-medium",
+      "validation": {
+        "request": {
+          "id": "44100-stereo-variable-medium-validate",
+          "operation": "media.validateAudioOutput",
+          "params": {
+            "settings": {
+              "container": "m4a",
+              "audio": {
+                "codec": "aac",
+                "sampleRate": 44100,
+                "layout": "stereo",
+                "rateControl": {
+                  "mode": "variable",
+                  "bitrate": null,
+                  "quality": "medium"
+                },
+                "quality": "high"
+              }
+            }
+          }
+        },
+        "reply": {
+          "data": {
+            "audio": {
+              "codec": "aac",
+              "layout": "stereo",
+              "quality": "high",
+              "rateControl": {
+                "mode": "variable",
+                "quality": "medium"
+              },
+              "sampleRate": 44100
+            },
+            "container": "m4a"
+          },
+          "id": "44100-stereo-variable-medium-validate",
+          "ok": true
+        }
+      },
+      "encoding": {
+        "request": {
+          "id": "44100-stereo-variable-medium",
+          "operation": "media.encodeAudioFile",
+          "params": {
+            "source": "/dev/fd/3",
+            "output": "/tmp/screenrec-hevc-audio-preservation/44100-stereo-variable-medium.m4a",
+            "input": {
+              "sampleRate": 48000,
+              "channels": 2,
+              "frames": 96017
+            },
+            "settings": {
+              "container": "m4a",
+              "audio": {
+                "codec": "aac",
+                "sampleRate": 44100,
+                "layout": "stereo",
+                "rateControl": {
+                  "mode": "variable",
+                  "bitrate": null,
+                  "quality": "medium"
+                },
+                "quality": "high"
+              }
+            }
+          }
+        },
+        "reply": {
+          "data": {
+            "bytes": 7864,
+            "channels": 2,
+            "contentFrames": 88215,
+            "durationUs": 2000354,
+            "encodedFrames": 88215,
+            "file": "/tmp/screenrec-hevc-audio-preservation/44100-stereo-variable-medium.m4a",
+            "inputFrames": 96017,
+            "sampleRate": 44100,
+            "settings": {
+              "audio": {
+                "codec": "aac",
+                "layout": "stereo",
+                "quality": "high",
+                "rateControl": {
+                  "mode": "variable",
+                  "quality": "medium"
+                },
+                "sampleRate": 44100
+              },
+              "container": "m4a"
+            }
+          },
+          "id": "44100-stereo-variable-medium",
+          "ok": true
+        }
+      },
+      "expectedFrames": 88215,
+      "decodedFrames": 88215,
+      "packetPaddingFrames": 0,
+      "rms": [
+        0.0033192665699553524,
+        0.009339428548618908,
+        0.007141809975571266
+      ],
+      "sha256": "364dd111880d47004cd858c8a361c8765c284e043a594dfdc58e4b7a82eb2888"
+    },
+    {
+      "id": "44100-stereo-variable-high",
+      "validation": {
+        "request": {
+          "id": "44100-stereo-variable-high-validate",
+          "operation": "media.validateAudioOutput",
+          "params": {
+            "settings": {
+              "container": "m4a",
+              "audio": {
+                "codec": "aac",
+                "sampleRate": 44100,
+                "layout": "stereo",
+                "rateControl": {
+                  "mode": "variable",
+                  "bitrate": null,
+                  "quality": "high"
+                },
+                "quality": "high"
+              }
+            }
+          }
+        },
+        "reply": {
+          "data": {
+            "audio": {
+              "codec": "aac",
+              "layout": "stereo",
+              "quality": "high",
+              "rateControl": {
+                "mode": "variable",
+                "quality": "high"
+              },
+              "sampleRate": 44100
+            },
+            "container": "m4a"
+          },
+          "id": "44100-stereo-variable-high-validate",
+          "ok": true
+        }
+      },
+      "encoding": {
+        "request": {
+          "id": "44100-stereo-variable-high",
+          "operation": "media.encodeAudioFile",
+          "params": {
+            "source": "/dev/fd/3",
+            "output": "/tmp/screenrec-hevc-audio-preservation/44100-stereo-variable-high.m4a",
+            "input": {
+              "sampleRate": 48000,
+              "channels": 2,
+              "frames": 96017
+            },
+            "settings": {
+              "container": "m4a",
+              "audio": {
+                "codec": "aac",
+                "sampleRate": 44100,
+                "layout": "stereo",
+                "rateControl": {
+                  "mode": "variable",
+                  "bitrate": null,
+                  "quality": "high"
+                },
+                "quality": "high"
+              }
+            }
+          }
+        },
+        "reply": {
+          "data": {
+            "bytes": 9156,
+            "channels": 2,
+            "contentFrames": 88215,
+            "durationUs": 2000354,
+            "encodedFrames": 88215,
+            "file": "/tmp/screenrec-hevc-audio-preservation/44100-stereo-variable-high.m4a",
+            "inputFrames": 96017,
+            "sampleRate": 44100,
+            "settings": {
+              "audio": {
+                "codec": "aac",
+                "layout": "stereo",
+                "quality": "high",
+                "rateControl": {
+                  "mode": "variable",
+                  "quality": "high"
+                },
+                "sampleRate": 44100
+              },
+              "container": "m4a"
+            }
+          },
+          "id": "44100-stereo-variable-high",
+          "ok": true
+        }
+      },
+      "expectedFrames": 88215,
+      "decodedFrames": 88215,
+      "packetPaddingFrames": 0,
+      "rms": [
+        0.0016243542530012273,
+        0.0039153116980609245,
+        0.006912871962099835
+      ],
+      "sha256": "84c794808f64aecf51fdaba2b71451483b5e493ce5f5caba18349c1e9341794b"
+    },
+    {
+      "id": "44100-stereo-variable-max",
+      "validation": {
+        "request": {
+          "id": "44100-stereo-variable-max-validate",
+          "operation": "media.validateAudioOutput",
+          "params": {
+            "settings": {
+              "container": "m4a",
+              "audio": {
+                "codec": "aac",
+                "sampleRate": 44100,
+                "layout": "stereo",
+                "rateControl": {
+                  "mode": "variable",
+                  "bitrate": null,
+                  "quality": "max"
+                },
+                "quality": "high"
+              }
+            }
+          }
+        },
+        "reply": {
+          "data": {
+            "audio": {
+              "codec": "aac",
+              "layout": "stereo",
+              "quality": "high",
+              "rateControl": {
+                "mode": "variable",
+                "quality": "max"
+              },
+              "sampleRate": 44100
+            },
+            "container": "m4a"
+          },
+          "id": "44100-stereo-variable-max-validate",
+          "ok": true
+        }
+      },
+      "encoding": {
+        "request": {
+          "id": "44100-stereo-variable-max",
+          "operation": "media.encodeAudioFile",
+          "params": {
+            "source": "/dev/fd/3",
+            "output": "/tmp/screenrec-hevc-audio-preservation/44100-stereo-variable-max.m4a",
+            "input": {
+              "sampleRate": 48000,
+              "channels": 2,
+              "frames": 96017
+            },
+            "settings": {
+              "container": "m4a",
+              "audio": {
+                "codec": "aac",
+                "sampleRate": 44100,
+                "layout": "stereo",
+                "rateControl": {
+                  "mode": "variable",
+                  "bitrate": null,
+                  "quality": "max"
+                },
+                "quality": "high"
+              }
+            }
+          }
+        },
+        "reply": {
+          "data": {
+            "bytes": 17240,
+            "channels": 2,
+            "contentFrames": 88215,
+            "durationUs": 2000354,
+            "encodedFrames": 88215,
+            "file": "/tmp/screenrec-hevc-audio-preservation/44100-stereo-variable-max.m4a",
+            "inputFrames": 96017,
+            "sampleRate": 44100,
+            "settings": {
+              "audio": {
+                "codec": "aac",
+                "layout": "stereo",
+                "quality": "high",
+                "rateControl": {
+                  "mode": "variable",
+                  "quality": "max"
+                },
+                "sampleRate": 44100
+              },
+              "container": "m4a"
+            }
+          },
+          "id": "44100-stereo-variable-max",
+          "ok": true
+        }
+      },
+      "expectedFrames": 88215,
+      "decodedFrames": 88215,
+      "packetPaddingFrames": 0,
+      "rms": [
+        0.0007552718367432569,
+        0.001306503748010832,
+        0.0038313636934856465
+      ],
+      "sha256": "daecf4a1e9223626f84481beb6b0a72b8b2de38520a92fa5973ad3e00d19d449"
+    },
+    {
+      "id": "44100-mono-constant-high",
+      "validation": {
+        "request": {
+          "id": "44100-mono-constant-high-validate",
+          "operation": "media.validateAudioOutput",
+          "params": {
+            "settings": {
+              "container": "m4a",
+              "audio": {
+                "codec": "aac",
+                "sampleRate": 44100,
+                "layout": "mono",
+                "rateControl": {
+                  "mode": "constant",
+                  "bitrate": 96000,
+                  "quality": null
+                },
+                "quality": "high"
+              }
+            }
+          }
+        },
+        "reply": {
+          "data": {
+            "audio": {
+              "codec": "aac",
+              "layout": "mono",
+              "quality": "high",
+              "rateControl": {
+                "bitrate": 96000,
+                "mode": "constant"
+              },
+              "sampleRate": 44100
+            },
+            "container": "m4a"
+          },
+          "id": "44100-mono-constant-high-validate",
+          "ok": true
+        }
+      },
+      "encoding": {
+        "request": {
+          "id": "44100-mono-constant-high",
+          "operation": "media.encodeAudioFile",
+          "params": {
+            "source": "/dev/fd/3",
+            "output": "/tmp/screenrec-hevc-audio-preservation/44100-mono-constant-high.m4a",
+            "input": {
+              "sampleRate": 48000,
+              "channels": 2,
+              "frames": 96017
+            },
+            "settings": {
+              "container": "m4a",
+              "audio": {
+                "codec": "aac",
+                "sampleRate": 44100,
+                "layout": "mono",
+                "rateControl": {
+                  "mode": "constant",
+                  "bitrate": 96000,
+                  "quality": null
+                },
+                "quality": "high"
+              }
+            }
+          }
+        },
+        "reply": {
+          "data": {
+            "bytes": 25828,
+            "channels": 1,
+            "contentFrames": 88215,
+            "durationUs": 2000354,
+            "encodedFrames": 88215,
+            "file": "/tmp/screenrec-hevc-audio-preservation/44100-mono-constant-high.m4a",
+            "inputFrames": 96017,
+            "sampleRate": 44100,
+            "settings": {
+              "audio": {
+                "codec": "aac",
+                "layout": "mono",
+                "quality": "high",
+                "rateControl": {
+                  "bitrate": 96000,
+                  "mode": "constant"
+                },
+                "sampleRate": 44100
+              },
+              "container": "m4a"
+            }
+          },
+          "id": "44100-mono-constant-high",
+          "ok": true
+        }
+      },
+      "expectedFrames": 88215,
+      "decodedFrames": 88215,
+      "packetPaddingFrames": 0,
+      "rms": [
+        0.0005516258309430674,
+        0.0010276400725866405,
+        0.0049635442236913895
+      ],
+      "sha256": "e5350139e1218f70c88c937e5c5c9a11daad4b492a0a5a031ed91dbbdc4425ec"
+    },
+    {
+      "id": "44100-mono-long-term-average-high",
+      "validation": {
+        "request": {
+          "id": "44100-mono-long-term-average-high-validate",
+          "operation": "media.validateAudioOutput",
+          "params": {
+            "settings": {
+              "container": "m4a",
+              "audio": {
+                "codec": "aac",
+                "sampleRate": 44100,
+                "layout": "mono",
+                "rateControl": {
+                  "mode": "long-term-average",
+                  "bitrate": 96000,
+                  "quality": null
+                },
+                "quality": "high"
+              }
+            }
+          }
+        },
+        "reply": {
+          "data": {
+            "audio": {
+              "codec": "aac",
+              "layout": "mono",
+              "quality": "high",
+              "rateControl": {
+                "bitrate": 96000,
+                "mode": "long-term-average"
+              },
+              "sampleRate": 44100
+            },
+            "container": "m4a"
+          },
+          "id": "44100-mono-long-term-average-high-validate",
+          "ok": true
+        }
+      },
+      "encoding": {
+        "request": {
+          "id": "44100-mono-long-term-average-high",
+          "operation": "media.encodeAudioFile",
+          "params": {
+            "source": "/dev/fd/3",
+            "output": "/tmp/screenrec-hevc-audio-preservation/44100-mono-long-term-average-high.m4a",
+            "input": {
+              "sampleRate": 48000,
+              "channels": 2,
+              "frames": 96017
+            },
+            "settings": {
+              "container": "m4a",
+              "audio": {
+                "codec": "aac",
+                "sampleRate": 44100,
+                "layout": "mono",
+                "rateControl": {
+                  "mode": "long-term-average",
+                  "bitrate": 96000,
+                  "quality": null
+                },
+                "quality": "high"
+              }
+            }
+          }
+        },
+        "reply": {
+          "data": {
+            "bytes": 6495,
+            "channels": 1,
+            "contentFrames": 88215,
+            "durationUs": 2000354,
+            "encodedFrames": 88215,
+            "file": "/tmp/screenrec-hevc-audio-preservation/44100-mono-long-term-average-high.m4a",
+            "inputFrames": 96017,
+            "sampleRate": 44100,
+            "settings": {
+              "audio": {
+                "codec": "aac",
+                "layout": "mono",
+                "quality": "high",
+                "rateControl": {
+                  "bitrate": 96000,
+                  "mode": "long-term-average"
+                },
+                "sampleRate": 44100
+              },
+              "container": "m4a"
+            }
+          },
+          "id": "44100-mono-long-term-average-high",
+          "ok": true
+        }
+      },
+      "expectedFrames": 88215,
+      "decodedFrames": 88215,
+      "packetPaddingFrames": 0,
+      "rms": [
+        0.001002158091748934,
+        0.0025926638773637444,
+        0.0033272305627418284
+      ],
+      "sha256": "aa93723d1ec16b1243760d38bd4c6636652eafb153bbf87f6b7db3b72cf7eecf"
+    },
+    {
+      "id": "44100-mono-constrained-variable-high",
+      "validation": {
+        "request": {
+          "id": "44100-mono-constrained-variable-high-validate",
+          "operation": "media.validateAudioOutput",
+          "params": {
+            "settings": {
+              "container": "m4a",
+              "audio": {
+                "codec": "aac",
+                "sampleRate": 44100,
+                "layout": "mono",
+                "rateControl": {
+                  "mode": "constrained-variable",
+                  "bitrate": 96000,
+                  "quality": null
+                },
+                "quality": "high"
+              }
+            }
+          }
+        },
+        "reply": {
+          "data": {
+            "audio": {
+              "codec": "aac",
+              "layout": "mono",
+              "quality": "high",
+              "rateControl": {
+                "bitrate": 96000,
+                "mode": "constrained-variable"
+              },
+              "sampleRate": 44100
+            },
+            "container": "m4a"
+          },
+          "id": "44100-mono-constrained-variable-high-validate",
+          "ok": true
+        }
+      },
+      "encoding": {
+        "request": {
+          "id": "44100-mono-constrained-variable-high",
+          "operation": "media.encodeAudioFile",
+          "params": {
+            "source": "/dev/fd/3",
+            "output": "/tmp/screenrec-hevc-audio-preservation/44100-mono-constrained-variable-high.m4a",
+            "input": {
+              "sampleRate": 48000,
+              "channels": 2,
+              "frames": 96017
+            },
+            "settings": {
+              "container": "m4a",
+              "audio": {
+                "codec": "aac",
+                "sampleRate": 44100,
+                "layout": "mono",
+                "rateControl": {
+                  "mode": "constrained-variable",
+                  "bitrate": 96000,
+                  "quality": null
+                },
+                "quality": "high"
+              }
+            }
+          }
+        },
+        "reply": {
+          "data": {
+            "bytes": 6194,
+            "channels": 1,
+            "contentFrames": 88215,
+            "durationUs": 2000354,
+            "encodedFrames": 88215,
+            "file": "/tmp/screenrec-hevc-audio-preservation/44100-mono-constrained-variable-high.m4a",
+            "inputFrames": 96017,
+            "sampleRate": 44100,
+            "settings": {
+              "audio": {
+                "codec": "aac",
+                "layout": "mono",
+                "quality": "high",
+                "rateControl": {
+                  "bitrate": 96000,
+                  "mode": "constrained-variable"
+                },
+                "sampleRate": 44100
+              },
+              "container": "m4a"
+            }
+          },
+          "id": "44100-mono-constrained-variable-high",
+          "ok": true
+        }
+      },
+      "expectedFrames": 88215,
+      "decodedFrames": 88215,
+      "packetPaddingFrames": 0,
+      "rms": [
+        0.001325736984767778,
+        0.0025926638773637444,
+        0.0033272305627418284
+      ],
+      "sha256": "cc880487add23d927aeb31bb4c8a5ff431967e75185b28c1c8a5395bc5391f08"
+    },
+    {
+      "id": "44100-mono-variable-min",
+      "validation": {
+        "request": {
+          "id": "44100-mono-variable-min-validate",
+          "operation": "media.validateAudioOutput",
+          "params": {
+            "settings": {
+              "container": "m4a",
+              "audio": {
+                "codec": "aac",
+                "sampleRate": 44100,
+                "layout": "mono",
+                "rateControl": {
+                  "mode": "variable",
+                  "bitrate": null,
+                  "quality": "min"
+                },
+                "quality": "high"
+              }
+            }
+          }
+        },
+        "reply": {
+          "data": {
+            "audio": {
+              "codec": "aac",
+              "layout": "mono",
+              "quality": "high",
+              "rateControl": {
+                "mode": "variable",
+                "quality": "min"
+              },
+              "sampleRate": 44100
+            },
+            "container": "m4a"
+          },
+          "id": "44100-mono-variable-min-validate",
+          "ok": true
+        }
+      },
+      "encoding": {
+        "request": {
+          "id": "44100-mono-variable-min",
+          "operation": "media.encodeAudioFile",
+          "params": {
+            "source": "/dev/fd/3",
+            "output": "/tmp/screenrec-hevc-audio-preservation/44100-mono-variable-min.m4a",
+            "input": {
+              "sampleRate": 48000,
+              "channels": 2,
+              "frames": 96017
+            },
+            "settings": {
+              "container": "m4a",
+              "audio": {
+                "codec": "aac",
+                "sampleRate": 44100,
+                "layout": "mono",
+                "rateControl": {
+                  "mode": "variable",
+                  "bitrate": null,
+                  "quality": "min"
+                },
+                "quality": "high"
+              }
+            }
+          }
+        },
+        "reply": {
+          "data": {
+            "bytes": 3746,
+            "channels": 1,
+            "contentFrames": 88215,
+            "durationUs": 2000354,
+            "encodedFrames": 88215,
+            "file": "/tmp/screenrec-hevc-audio-preservation/44100-mono-variable-min.m4a",
+            "inputFrames": 96017,
+            "sampleRate": 44100,
+            "settings": {
+              "audio": {
+                "codec": "aac",
+                "layout": "mono",
+                "quality": "high",
+                "rateControl": {
+                  "mode": "variable",
+                  "quality": "min"
+                },
+                "sampleRate": 44100
+              },
+              "container": "m4a"
+            }
+          },
+          "id": "44100-mono-variable-min",
+          "ok": true
+        }
+      },
+      "expectedFrames": 88215,
+      "decodedFrames": 88215,
+      "packetPaddingFrames": 0,
+      "rms": [
+        0.011224498554888645,
+        0.017977711166727896,
+        0.020564299528085604
+      ],
+      "sha256": "ee6e93603a8fe951b22c5e7f40c724e4c025c0bc692426cc7b59935f13e8e966"
+    },
+    {
+      "id": "44100-mono-variable-low",
+      "validation": {
+        "request": {
+          "id": "44100-mono-variable-low-validate",
+          "operation": "media.validateAudioOutput",
+          "params": {
+            "settings": {
+              "container": "m4a",
+              "audio": {
+                "codec": "aac",
+                "sampleRate": 44100,
+                "layout": "mono",
+                "rateControl": {
+                  "mode": "variable",
+                  "bitrate": null,
+                  "quality": "low"
+                },
+                "quality": "high"
+              }
+            }
+          }
+        },
+        "reply": {
+          "data": {
+            "audio": {
+              "codec": "aac",
+              "layout": "mono",
+              "quality": "high",
+              "rateControl": {
+                "mode": "variable",
+                "quality": "low"
+              },
+              "sampleRate": 44100
+            },
+            "container": "m4a"
+          },
+          "id": "44100-mono-variable-low-validate",
+          "ok": true
+        }
+      },
+      "encoding": {
+        "request": {
+          "id": "44100-mono-variable-low",
+          "operation": "media.encodeAudioFile",
+          "params": {
+            "source": "/dev/fd/3",
+            "output": "/tmp/screenrec-hevc-audio-preservation/44100-mono-variable-low.m4a",
+            "input": {
+              "sampleRate": 48000,
+              "channels": 2,
+              "frames": 96017
+            },
+            "settings": {
+              "container": "m4a",
+              "audio": {
+                "codec": "aac",
+                "sampleRate": 44100,
+                "layout": "mono",
+                "rateControl": {
+                  "mode": "variable",
+                  "bitrate": null,
+                  "quality": "low"
+                },
+                "quality": "high"
+              }
+            }
+          }
+        },
+        "reply": {
+          "data": {
+            "bytes": 4542,
+            "channels": 1,
+            "contentFrames": 88215,
+            "durationUs": 2000354,
+            "encodedFrames": 88215,
+            "file": "/tmp/screenrec-hevc-audio-preservation/44100-mono-variable-low.m4a",
+            "inputFrames": 96017,
+            "sampleRate": 44100,
+            "settings": {
+              "audio": {
+                "codec": "aac",
+                "layout": "mono",
+                "quality": "high",
+                "rateControl": {
+                  "mode": "variable",
+                  "quality": "low"
+                },
+                "sampleRate": 44100
+              },
+              "container": "m4a"
+            }
+          },
+          "id": "44100-mono-variable-low",
+          "ok": true
+        }
+      },
+      "expectedFrames": 88215,
+      "decodedFrames": 88215,
+      "packetPaddingFrames": 0,
+      "rms": [
+        0.006868134952558087,
+        0.011040057460150072,
+        0.024854017090545556
+      ],
+      "sha256": "8caafdac995c18a952f0b919daa18c0164257f1b3fbe3477183ccb31aec043e4"
+    },
+    {
+      "id": "44100-mono-variable-medium",
+      "validation": {
+        "request": {
+          "id": "44100-mono-variable-medium-validate",
+          "operation": "media.validateAudioOutput",
+          "params": {
+            "settings": {
+              "container": "m4a",
+              "audio": {
+                "codec": "aac",
+                "sampleRate": 44100,
+                "layout": "mono",
+                "rateControl": {
+                  "mode": "variable",
+                  "bitrate": null,
+                  "quality": "medium"
+                },
+                "quality": "high"
+              }
+            }
+          }
+        },
+        "reply": {
+          "data": {
+            "audio": {
+              "codec": "aac",
+              "layout": "mono",
+              "quality": "high",
+              "rateControl": {
+                "mode": "variable",
+                "quality": "medium"
+              },
+              "sampleRate": 44100
+            },
+            "container": "m4a"
+          },
+          "id": "44100-mono-variable-medium-validate",
+          "ok": true
+        }
+      },
+      "encoding": {
+        "request": {
+          "id": "44100-mono-variable-medium",
+          "operation": "media.encodeAudioFile",
+          "params": {
+            "source": "/dev/fd/3",
+            "output": "/tmp/screenrec-hevc-audio-preservation/44100-mono-variable-medium.m4a",
+            "input": {
+              "sampleRate": 48000,
+              "channels": 2,
+              "frames": 96017
+            },
+            "settings": {
+              "container": "m4a",
+              "audio": {
+                "codec": "aac",
+                "sampleRate": 44100,
+                "layout": "mono",
+                "rateControl": {
+                  "mode": "variable",
+                  "bitrate": null,
+                  "quality": "medium"
+                },
+                "quality": "high"
+              }
+            }
+          }
+        },
+        "reply": {
+          "data": {
+            "bytes": 5240,
+            "channels": 1,
+            "contentFrames": 88215,
+            "durationUs": 2000354,
+            "encodedFrames": 88215,
+            "file": "/tmp/screenrec-hevc-audio-preservation/44100-mono-variable-medium.m4a",
+            "inputFrames": 96017,
+            "sampleRate": 44100,
+            "settings": {
+              "audio": {
+                "codec": "aac",
+                "layout": "mono",
+                "quality": "high",
+                "rateControl": {
+                  "mode": "variable",
+                  "quality": "medium"
+                },
+                "sampleRate": 44100
+              },
+              "container": "m4a"
+            }
+          },
+          "id": "44100-mono-variable-medium",
+          "ok": true
+        }
+      },
+      "expectedFrames": 88215,
+      "decodedFrames": 88215,
+      "packetPaddingFrames": 0,
+      "rms": [
+        0.0035877187150722164,
+        0.006908687044253925,
+        0.018791732023808197
+      ],
+      "sha256": "77b6c2a4bd4d4ac424dd49722abdd5e008bba7792abfb3298a0330f936c05738"
+    },
+    {
+      "id": "44100-mono-variable-high",
+      "validation": {
+        "request": {
+          "id": "44100-mono-variable-high-validate",
+          "operation": "media.validateAudioOutput",
+          "params": {
+            "settings": {
+              "container": "m4a",
+              "audio": {
+                "codec": "aac",
+                "sampleRate": 44100,
+                "layout": "mono",
+                "rateControl": {
+                  "mode": "variable",
+                  "bitrate": null,
+                  "quality": "high"
+                },
+                "quality": "high"
+              }
+            }
+          }
+        },
+        "reply": {
+          "data": {
+            "audio": {
+              "codec": "aac",
+              "layout": "mono",
+              "quality": "high",
+              "rateControl": {
+                "mode": "variable",
+                "quality": "high"
+              },
+              "sampleRate": 44100
+            },
+            "container": "m4a"
+          },
+          "id": "44100-mono-variable-high-validate",
+          "ok": true
+        }
+      },
+      "encoding": {
+        "request": {
+          "id": "44100-mono-variable-high",
+          "operation": "media.encodeAudioFile",
+          "params": {
+            "source": "/dev/fd/3",
+            "output": "/tmp/screenrec-hevc-audio-preservation/44100-mono-variable-high.m4a",
+            "input": {
+              "sampleRate": 48000,
+              "channels": 2,
+              "frames": 96017
+            },
+            "settings": {
+              "container": "m4a",
+              "audio": {
+                "codec": "aac",
+                "sampleRate": 44100,
+                "layout": "mono",
+                "rateControl": {
+                  "mode": "variable",
+                  "bitrate": null,
+                  "quality": "high"
+                },
+                "quality": "high"
+              }
+            }
+          }
+        },
+        "reply": {
+          "data": {
+            "bytes": 6099,
+            "channels": 1,
+            "contentFrames": 88215,
+            "durationUs": 2000354,
+            "encodedFrames": 88215,
+            "file": "/tmp/screenrec-hevc-audio-preservation/44100-mono-variable-high.m4a",
+            "inputFrames": 96017,
+            "sampleRate": 44100,
+            "settings": {
+              "audio": {
+                "codec": "aac",
+                "layout": "mono",
+                "quality": "high",
+                "rateControl": {
+                  "mode": "variable",
+                  "quality": "high"
+                },
+                "sampleRate": 44100
+              },
+              "container": "m4a"
+            }
+          },
+          "id": "44100-mono-variable-high",
+          "ok": true
+        }
+      },
+      "expectedFrames": 88215,
+      "decodedFrames": 88215,
+      "packetPaddingFrames": 0,
+      "rms": [
+        0.0014660429315791488,
+        0.002084843991347905,
+        0.0059455183687918784
+      ],
+      "sha256": "d27e2a365877b5b8a67afd489c4dc91fda8b6acaa4ea72b2276df1d2c509bd39"
+    },
+    {
+      "id": "44100-mono-variable-max",
+      "validation": {
+        "request": {
+          "id": "44100-mono-variable-max-validate",
+          "operation": "media.validateAudioOutput",
+          "params": {
+            "settings": {
+              "container": "m4a",
+              "audio": {
+                "codec": "aac",
+                "sampleRate": 44100,
+                "layout": "mono",
+                "rateControl": {
+                  "mode": "variable",
+                  "bitrate": null,
+                  "quality": "max"
+                },
+                "quality": "high"
+              }
+            }
+          }
+        },
+        "reply": {
+          "data": {
+            "audio": {
+              "codec": "aac",
+              "layout": "mono",
+              "quality": "high",
+              "rateControl": {
+                "mode": "variable",
+                "quality": "max"
+              },
+              "sampleRate": 44100
+            },
+            "container": "m4a"
+          },
+          "id": "44100-mono-variable-max-validate",
+          "ok": true
+        }
+      },
+      "encoding": {
+        "request": {
+          "id": "44100-mono-variable-max",
+          "operation": "media.encodeAudioFile",
+          "params": {
+            "source": "/dev/fd/3",
+            "output": "/tmp/screenrec-hevc-audio-preservation/44100-mono-variable-max.m4a",
+            "input": {
+              "sampleRate": 48000,
+              "channels": 2,
+              "frames": 96017
+            },
+            "settings": {
+              "container": "m4a",
+              "audio": {
+                "codec": "aac",
+                "sampleRate": 44100,
+                "layout": "mono",
+                "rateControl": {
+                  "mode": "variable",
+                  "bitrate": null,
+                  "quality": "max"
+                },
+                "quality": "high"
+              }
+            }
+          }
+        },
+        "reply": {
+          "data": {
+            "bytes": 9643,
+            "channels": 1,
+            "contentFrames": 88215,
+            "durationUs": 2000354,
+            "encodedFrames": 88215,
+            "file": "/tmp/screenrec-hevc-audio-preservation/44100-mono-variable-max.m4a",
+            "inputFrames": 96017,
+            "sampleRate": 44100,
+            "settings": {
+              "audio": {
+                "codec": "aac",
+                "layout": "mono",
+                "quality": "high",
+                "rateControl": {
+                  "mode": "variable",
+                  "quality": "max"
+                },
+                "sampleRate": 44100
+              },
+              "container": "m4a"
+            }
+          },
+          "id": "44100-mono-variable-max",
+          "ok": true
+        }
+      },
+      "expectedFrames": 88215,
+      "decodedFrames": 88215,
+      "packetPaddingFrames": 0,
+      "rms": [
+        0.0007147920860265242,
+        0.0009434663750363548,
+        0.00276154092669042
+      ],
+      "sha256": "eff4ab3093fe3da2b8081f39b94ad8e2f9048c867bf35733e5279ec944738a01"
+    }
+  ],
+  "invalid": [
+    {
+      "request": {
+        "id": "mp3",
+        "operation": "media.encodeAudioFile",
+        "params": {
+          "source": "/dev/fd/3",
+          "output": "/tmp/screenrec-hevc-audio-preservation/nonexistent/mp3.m4a",
+          "input": {
+            "sampleRate": 48000,
+            "channels": 2,
+            "frames": 96017
+          },
+          "settings": {
+            "container": "m4a",
+            "audio": {
+              "codec": "mp3",
+              "sampleRate": 48000,
+              "layout": "stereo",
+              "rateControl": {
+                "mode": "constant",
+                "bitrate": 192000,
+                "quality": null
+              },
+              "quality": "high"
+            }
+          }
+        }
+      },
+      "reply": {
+        "error": {
+          "code": "UNSUPPORTED_FORMAT",
+          "details": {},
+          "message": "Unsupported AAC output settings",
+          "retryable": false
+        },
+        "id": "mp3",
+        "ok": false
+      }
+    },
+    {
+      "request": {
+        "id": "container",
+        "operation": "media.encodeAudioFile",
+        "params": {
+          "source": "/dev/fd/3",
+          "output": "/tmp/screenrec-hevc-audio-preservation/nonexistent/container.m4a",
+          "input": {
+            "sampleRate": 48000,
+            "channels": 2,
+            "frames": 96017
+          },
+          "settings": {
+            "container": "mp3",
+            "audio": {
+              "codec": "aac",
+              "sampleRate": 48000,
+              "layout": "stereo",
+              "rateControl": {
+                "mode": "constant",
+                "bitrate": 192000,
+                "quality": null
+              },
+              "quality": "high"
+            }
+          }
+        }
+      },
+      "reply": {
+        "error": {
+          "code": "UNSUPPORTED_FORMAT",
+          "details": {},
+          "message": "Unsupported standalone audio container",
+          "retryable": false
+        },
+        "id": "container",
+        "ok": false
+      }
+    },
+    {
+      "request": {
+        "id": "bitrate",
+        "operation": "media.encodeAudioFile",
+        "params": {
+          "source": "/dev/fd/3",
+          "output": "/tmp/screenrec-hevc-audio-preservation/nonexistent/bitrate.m4a",
+          "input": {
+            "sampleRate": 48000,
+            "channels": 2,
+            "frames": 96017
+          },
+          "settings": {
+            "container": "m4a",
+            "audio": {
+              "codec": "aac",
+              "sampleRate": 48000,
+              "layout": "stereo",
+              "rateControl": {
+                "mode": "constant",
+                "bitrate": 1,
+                "quality": null
+              },
+              "quality": "high"
+            }
+          }
+        }
+      },
+      "reply": {
+        "error": {
+          "code": "UNSUPPORTED_FORMAT",
+          "details": {},
+          "message": "AAC bitrate is not supported for this rate, layout and strategy",
+          "retryable": false
+        },
+        "id": "bitrate",
+        "ok": false
+      }
+    },
+    {
+      "request": {
+        "id": "sample-rate",
+        "operation": "media.encodeAudioFile",
+        "params": {
+          "source": "/dev/fd/3",
+          "output": "/tmp/screenrec-hevc-audio-preservation/nonexistent/sample-rate.m4a",
+          "input": {
+            "sampleRate": 48000,
+            "channels": 2,
+            "frames": 96017
+          },
+          "settings": {
+            "container": "m4a",
+            "audio": {
+              "codec": "aac",
+              "sampleRate": 123,
+              "layout": "stereo",
+              "rateControl": {
+                "mode": "constant",
+                "bitrate": 192000,
+                "quality": null
+              },
+              "quality": "high"
+            }
+          }
+        }
+      },
+      "reply": {
+        "error": {
+          "code": "UNSUPPORTED_FORMAT",
+          "details": {},
+          "message": "AAC sample rate is not supported for this format",
+          "retryable": false
+        },
+        "id": "sample-rate",
+        "ok": false
+      }
+    },
+    {
+      "request": {
+        "id": "vbr-bitrate",
+        "operation": "media.encodeAudioFile",
+        "params": {
+          "source": "/dev/fd/3",
+          "output": "/tmp/screenrec-hevc-audio-preservation/nonexistent/vbr-bitrate.m4a",
+          "input": {
+            "sampleRate": 48000,
+            "channels": 2,
+            "frames": 96017
+          },
+          "settings": {
+            "container": "m4a",
+            "audio": {
+              "codec": "aac",
+              "sampleRate": 48000,
+              "layout": "stereo",
+              "rateControl": {
+                "mode": "variable",
+                "bitrate": 192000,
+                "quality": "high"
+              },
+              "quality": "high"
+            }
+          }
+        }
+      },
+      "reply": {
+        "error": {
+          "code": "UNSUPPORTED_FORMAT",
+          "details": {},
+          "message": "AAC rate-control parameters do not match the requested strategy",
+          "retryable": false
+        },
+        "id": "vbr-bitrate",
+        "ok": false
+      }
+    },
+    {
+      "request": {
+        "id": "cbr-quality",
+        "operation": "media.encodeAudioFile",
+        "params": {
+          "source": "/dev/fd/3",
+          "output": "/tmp/screenrec-hevc-audio-preservation/nonexistent/cbr-quality.m4a",
+          "input": {
+            "sampleRate": 48000,
+            "channels": 2,
+            "frames": 96017
+          },
+          "settings": {
+            "container": "m4a",
+            "audio": {
+              "codec": "aac",
+              "sampleRate": 48000,
+              "layout": "stereo",
+              "rateControl": {
+                "mode": "constant",
+                "bitrate": 192000,
+                "quality": "high"
+              },
+              "quality": "high"
+            }
+          }
+        }
+      },
+      "reply": {
+        "error": {
+          "code": "UNSUPPORTED_FORMAT",
+          "details": {},
+          "message": "AAC rate-control parameters do not match the requested strategy",
+          "retryable": false
+        },
+        "id": "cbr-quality",
+        "ok": false
+      }
+    },
+    {
+      "request": {
+        "id": "invalid-quality",
+        "operation": "media.encodeAudioFile",
+        "params": {
+          "source": "/dev/fd/3",
+          "output": "/tmp/screenrec-hevc-audio-preservation/nonexistent/invalid-quality.m4a",
+          "input": {
+            "sampleRate": 48000,
+            "channels": 2,
+            "frames": 96017
+          },
+          "settings": {
+            "container": "m4a",
+            "audio": {
+              "codec": "aac",
+              "sampleRate": 48000,
+              "layout": "stereo",
+              "rateControl": {
+                "mode": "constant",
+                "bitrate": 192000,
+                "quality": null
+              },
+              "quality": "unadvertised"
+            }
+          }
+        }
+      },
+      "reply": {
+        "error": {
+          "code": "UNSUPPORTED_FORMAT",
+          "details": {},
+          "message": "Unsupported AAC output settings",
+          "retryable": false
+        },
+        "id": "invalid-quality",
+        "ok": false
+      }
+    },
+    {
+      "request": {
+        "id": "video-field",
+        "operation": "media.encodeAudioFile",
+        "params": {
+          "source": "/dev/fd/3",
+          "output": "/tmp/screenrec-hevc-audio-preservation/nonexistent/video-field.m4a",
+          "input": {
+            "sampleRate": 48000,
+            "channels": 2,
+            "frames": 96017
+          },
+          "settings": {
+            "container": "m4a",
+            "audio": {
+              "codec": "aac",
+              "sampleRate": 48000,
+              "layout": "stereo",
+              "rateControl": {
+                "mode": "constant",
+                "bitrate": 192000,
+                "quality": null
+              },
+              "quality": "high"
+            },
+            "video": {}
+          }
+        }
+      },
+      "reply": {
+        "error": {
+          "code": "INVALID_REQUEST",
+          "details": {},
+          "message": "Request has fields this operation does not read.",
+          "retryable": false
+        },
+        "id": "video-field",
+        "ok": false
+      }
+    },
+    {
+      "request": {
+        "id": "unknown-control",
+        "operation": "media.encodeAudioFile",
+        "params": {
+          "source": "/dev/fd/3",
+          "output": "/tmp/screenrec-hevc-audio-preservation/nonexistent/unknown-control.m4a",
+          "input": {
+            "sampleRate": 48000,
+            "channels": 2,
+            "frames": 96017
+          },
+          "settings": {
+            "container": "m4a",
+            "audio": {
+              "codec": "aac",
+              "sampleRate": 48000,
+              "layout": "stereo",
+              "rateControl": {
+                "mode": "constant",
+                "bitrate": 192000,
+                "quality": null
+              },
+              "quality": "high",
+              "arbitrary": true
+            }
+          }
+        }
+      },
+      "reply": {
+        "error": {
+          "code": "INVALID_REQUEST",
+          "details": {},
+          "message": "Request has fields this operation does not read.",
+          "retryable": false
+        },
+        "id": "unknown-control",
+        "ok": false
+      }
+    },
+    {
+      "request": {
+        "id": "occupied",
+        "operation": "media.encodeAudioFile",
+        "params": {
+          "source": "/dev/fd/3",
+          "output": "/tmp/screenrec-hevc-audio-preservation/occupied.m4a",
+          "input": {
+            "sampleRate": 48000,
+            "channels": 2,
+            "frames": 96017
+          },
+          "settings": {
+            "container": "m4a",
+            "audio": {
+              "codec": "aac",
+              "sampleRate": 48000,
+              "layout": "stereo",
+              "rateControl": {
+                "mode": "constant",
+                "bitrate": 192000,
+                "quality": null
+              },
+              "quality": "high"
+            }
+          }
+        }
+      },
+      "reply": {
+        "error": {
+          "code": "INVALID_OUTPUT",
+          "details": {},
+          "message": "Output must be a new absolute path.",
+          "retryable": false
+        },
+        "id": "occupied",
+        "ok": false
+      }
+    },
+    {
+      "request": {
+        "id": "wrong-frames",
+        "operation": "media.encodeAudioFile",
+        "params": {
+          "source": "/dev/fd/3",
+          "output": "/tmp/screenrec-hevc-audio-preservation/wrong.m4a",
+          "input": {
+            "sampleRate": 48000,
+            "channels": 2,
+            "frames": 96018
+          },
+          "settings": {
+            "container": "m4a",
+            "audio": {
+              "codec": "aac",
+              "sampleRate": 48000,
+              "layout": "stereo",
+              "rateControl": {
+                "mode": "constant",
+                "bitrate": 192000,
+                "quality": null
+              },
+              "quality": "high"
+            }
+          }
+        }
+      },
+      "reply": {
+        "error": {
+          "code": "ARTIFACT_CHANGED",
+          "details": {},
+          "message": "PCM source does not match its supplied dimensions.",
+          "retryable": false
+        },
+        "id": "wrong-frames",
+        "ok": false
+      }
+    },
+    {
+      "request": {
+        "id": "truncated",
+        "operation": "media.encodeAudioFile",
+        "params": {
+          "source": "/dev/fd/3",
+          "output": "/tmp/screenrec-hevc-audio-preservation/truncated.m4a",
+          "input": {
+            "sampleRate": 48000,
+            "channels": 2,
+            "frames": 96017
+          },
+          "settings": {
+            "container": "m4a",
+            "audio": {
+              "codec": "aac",
+              "sampleRate": 48000,
+              "layout": "stereo",
+              "rateControl": {
+                "mode": "constant",
+                "bitrate": 192000,
+                "quality": null
+              },
+              "quality": "high"
+            }
+          }
+        }
+      },
+      "reply": {
+        "error": {
+          "code": "NATIVE_DECODE_FAILED",
+          "details": {},
+          "message": "Selected WAV is truncated or its RIFF extent is inconsistent.",
+          "retryable": true
+        },
+        "id": "truncated",
+        "ok": false
+      }
+    }
+  ],
+  "wholeFile": {
+    "requestReply": {
+      "request": {
+        "id": "whole-file",
+        "operation": "media.encodeAudioFile",
+        "params": {
+          "source": "/dev/fd/3",
+          "output": "/tmp/screenrec-hevc-audio-preservation/whole-file.m4a",
+          "input": {
+            "sampleRate": 48000,
+            "channels": 2,
+            "frames": 8640017
+          },
+          "settings": {
+            "container": "m4a",
+            "audio": {
+              "codec": "aac",
+              "sampleRate": 48000,
+              "layout": "stereo",
+              "rateControl": {
+                "mode": "constant",
+                "bitrate": 192000,
+                "quality": null
+              },
+              "quality": "high"
+            }
+          }
+        }
+      },
+      "reply": {
+        "data": {
+          "bytes": 4356430,
+          "channels": 2,
+          "contentFrames": 8640017,
+          "durationUs": 180000354,
+          "encodedFrames": 8640017,
+          "file": "/tmp/screenrec-hevc-audio-preservation/whole-file.m4a",
+          "inputFrames": 8640017,
+          "sampleRate": 48000,
+          "settings": {
+            "audio": {
+              "codec": "aac",
+              "layout": "stereo",
+              "quality": "high",
+              "rateControl": {
+                "bitrate": 192000,
+                "mode": "constant"
+              },
+              "sampleRate": 48000
+            },
+            "container": "m4a"
+          }
+        },
+        "id": "whole-file",
+        "ok": true
+      }
+    },
+    "inputBytes": 69120180,
+    "inputSha256": "4521f90fafe5d3a4dcdc753e0bcc69e51d2de2881842acb58769892a64888541",
+    "decodedFrames": 8640017,
+    "endpointRms": [
+      0.0008511868390958643,
+      0.0023022299932479633
+    ],
+    "probe": {
+      "streams": [
+        {
+          "index": 0,
+          "codec_name": "aac",
+          "codec_long_name": "AAC (Advanced Audio Coding)",
+          "profile": "LC",
+          "codec_type": "audio",
+          "codec_tag_string": "mp4a",
+          "codec_tag": "0x6134706d",
+          "mime_codec_string": "mp4a.40.2",
+          "sample_fmt": "fltp",
+          "sample_rate": "48000",
+          "channels": 2,
+          "channel_layout": "stereo",
+          "bits_per_sample": 0,
+          "initial_padding": 2112,
+          "id": "0x1",
+          "r_frame_rate": "0/0",
+          "avg_frame_rate": "0/0",
+          "time_base": "1/48000",
+          "start_pts": 0,
+          "start_time": "0.000000",
+          "duration_ts": 8640017,
+          "duration": "180.000354",
+          "bit_rate": "191997",
+          "nb_frames": "8440",
+          "extradata_size": 2,
+          "disposition": {
+            "default": 1,
+            "dub": 0,
+            "original": 0,
+            "comment": 0,
+            "lyrics": 0,
+            "karaoke": 0,
+            "forced": 0,
+            "hearing_impaired": 0,
+            "visual_impaired": 0,
+            "clean_effects": 0,
+            "attached_pic": 0,
+            "timed_thumbnails": 0,
+            "non_diegetic": 0,
+            "captions": 0,
+            "descriptions": 0,
+            "metadata": 0,
+            "dependent": 0,
+            "still_image": 0,
+            "multilayer": 0
+          },
+          "tags": {
+            "creation_time": "2026-10-05T00:42:49.000000Z",
+            "language": "und",
+            "handler_name": "Core Media Audio"
+          }
+        }
+      ],
+      "format": {
+        "filename": "/tmp/screenrec-hevc-audio-preservation/whole-file.m4a",
+        "nb_streams": 1,
+        "nb_programs": 0,
+        "nb_stream_groups": 0,
+        "format_name": "mov,mp4,m4a,3gp,3g2,mj2",
+        "format_long_name": "QuickTime / MOV",
+        "start_time": "0.000000",
+        "duration": "180.000354",
+        "size": "4356430",
+        "bit_rate": "193618",
+        "probe_score": 100,
+        "tags": {
+          "major_brand": "mp42",
+          "minor_version": "1",
+          "compatible_brands": "isommp41mp42",
+          "creation_time": "2026-10-05T00:42:49.000000Z"
+        }
+      }
+    },
+    "outputSha256": "c10e32706b3e897c9d5ab67d82e0bbeb6772d7ba4ad5e6d1ff485b0787a7e2b9"
+  }
+}

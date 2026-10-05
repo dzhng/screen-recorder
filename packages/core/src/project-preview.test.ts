@@ -32,10 +32,13 @@ const renderer: ProjectMovieRenderer = {
       settings,
       encodedVideo: {
         profile: settings.video.profile,
-        level: settings.video.level === "auto" ? "3.1" : settings.video.level,
+        level:
+          settings.video.codec === "hevc" || settings.video.level === "auto"
+            ? "3.1"
+            : settings.video.level,
       },
       mediaType: "video/mp4",
-      codec: "h264",
+      codec: settings.video.codec,
       durationUs: window.manifest.range.endUs - window.manifest.range.startUs,
       width: window.manifest.canvas.width,
       height: window.manifest.canvas.height,
@@ -157,6 +160,25 @@ async function fixture(render = renderer) {
     },
   };
 }
+test("HEVC preview publishes its pinned codec and refuses an H264 substitute", async () => {
+  const f = await fixture();
+  const input = { projectId: f.projectId, settings: { video: { codec: "hevc" as const } } };
+  await f.preview.request(input);
+  await f.jobs.idle();
+  const ready = await f.preview.request(input);
+  expect(ready.state).toBe("ready");
+  expect(ready.published!.preview.codec).toBe("hevc");
+  const broken = f.replaceRenderer({
+    ...renderer,
+    implementationId: "substitution-fixture",
+    async render(request, signal) {
+      return { ...(await renderer.render(request, signal)), codec: "h264" };
+    },
+  });
+  await broken.request(input);
+  await f.jobs.idle();
+  expect((await broken.request(input)).state).toBe("failed");
+});
 test("pins an old revision through edits, repeated admission and cache eviction", async () => {
   const started = gate(),
     release = gate();
