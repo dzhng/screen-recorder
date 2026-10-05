@@ -1,9 +1,18 @@
+The menu bar now opens a compact capture panel with Display, Window, Area and
+Camera Only. Saved recordings, projects, tracked exports and storage move to a
+separate Library window that stays open while you return to capture controls.
+
+Camera Only records the explicitly selected camera with optional microphone and
+system audio. Existing recordings remain readable; no library migration is
+required. Live camera, microphone and camera-only system-audio checks remain
+unverified on the development Mac, which has no camera or microphone input.
+
 Check and download updates immediately from Settings → General → Check for Updates
 or the public CLI `update.check` operation. Both use the same native updater;
 `update.status` reports progress and `update.setEnabled` controls automatic updates.
 A manual check works with automatic updates off without changing that preference.
 Installation waits for recording, background work and CLI clients to finish.
-Existing v0.1.5 and v0.1.6 installations can update without resetting their library.
+Existing v0.1.5–v0.1.7 installations can update without resetting their library.
 
 Bundled FFmpeg/ffprobe, audio dynamics and loudness measurement, SDR correction,
 qualified HDR-to-SDR conversion, HEVC delivery, caption sidecars and agent review
