@@ -141,7 +141,15 @@ const worker = async (operation, params, options) => {
   return result;
 };
 try {
-  const service = await startProjectService({ home: process.argv[2], worker });
+  const service = await startProjectService({
+    home: process.argv[2],
+    worker,
+    ...(process.env.SCREENREC_TEST_FFMPEG_INSTALLATION
+      ? {
+          ffmpeg: JSON.parse(process.env.SCREENREC_TEST_FFMPEG_INSTALLATION),
+        }
+      : {}),
+  });
   let closing;
   const close = () => (closing ??= service.close().then(() => process.disconnect()));
   process.on("message", (message) => {

@@ -866,6 +866,31 @@ export class JobQueue {
       );
   }
 
+  /** Recover frozen work by an explicit business-request key before execution readiness.
+   * The key lives in canonical JSON input; the recovered input remains the job's exact identity. */
+  statusByReplayKey(
+    identity: Pick<Job, "target" | "artifact"> & { replayKey: string },
+  ): ArtifactStatus | undefined {
+    const row = this.store.catalog
+      .prepare(`
+      SELECT input FROM jobs WHERE targetKind=? AND targetId=? AND revisionId=? AND artifact=?
+        AND CASE WHEN json_valid(input) THEN json_extract(input,'$.replayKey') END=?
+      UNION ALL
+      SELECT input FROM artifacts WHERE targetKind=? AND targetId=? AND revisionId=? AND artifact=?
+        AND CASE WHEN json_valid(input) THEN json_extract(input,'$.replayKey') END=?
+      LIMIT 1
+    `)
+      .get(
+        ...targetValues(identity.target),
+        identity.artifact,
+        identity.replayKey,
+        ...targetValues(identity.target),
+        identity.artifact,
+        identity.replayKey,
+      ) as { input: string } | undefined;
+    return row ? this.status({ ...identity, input: row.input }) : undefined;
+  }
+
   /** Readiness is for the exact pinned revision and inputs, never whichever job finished last. */
   status(identity: Pick<Job, "target" | "artifact" | "input">): ArtifactStatus {
     const job = this.existing(identity);

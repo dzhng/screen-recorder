@@ -311,6 +311,21 @@ export const operationSchema = z.discriminatedUnion("operation", [
       "Admit local media or a font file as an immutable asset through a durable job. Fonts retain all explicitly named faces without installation or playable streams. Replay requestId to recover the same import; inspect job.get, retry failed work with job.retry and cancel with job.cancel.",
     ),
   z
+    .object({
+      operation: z.literal("asset.convert"),
+      params: z
+        .object({
+          assetId: id,
+          streamIds: z.array(z.string().min(1)).min(1).max(2),
+          recipe: z.literal("hdr-to-sdr-hable-1000nit-v1"),
+        })
+        .strict(),
+    })
+    .strict()
+    .describe(
+      "Explicitly convert one whole qualified HDR video stream to an immutable SDR ProRes asset; optionally copy one explicitly selected audio stream with unchanged decoded samples and common clock. The frozen recipe and bundled implementation are retained with source/output evidence. Original media stays intact; no placement or automatic conversion. Shared jobs own replay, retry, cancellation and publication. Range and acquisition conversion are unsupported.",
+    ),
+  z
     .object({ operation: z.literal("asset.get"), params: z.object({ assetId: id }).strict() })
     .strict()
     .describe(

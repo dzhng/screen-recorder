@@ -1,3 +1,4 @@
+import { AssetConversionJobs, assetConversionRuntime } from "./asset-conversion.js";
 import { UpdateAdmission } from "./update-admission.js";
 import { RecordingDeletion } from "./deletion.js";
 import { CaptureCleanup } from "./capture-cleanup.js";
@@ -296,6 +297,7 @@ export async function startProjectService(options: {
     let preparedAudio: PreparedAudioStore;
     let extractedAudio: AudioExtraction;
     let generatedVoice: VoiceGenerationJobs;
+    let convertedAssets: AssetConversionJobs;
     let acoustics: AcousticInspection;
     let scenes: SceneProcessing;
     let indexes: IndexProcessing;
@@ -317,6 +319,7 @@ export async function startProjectService(options: {
         for (const error of exports?.resumeRecovery() ?? []) console.error(error);
       },
       execute: async ({ job, signal }) => {
+        if (job.artifact === "asset-conversion") return convertedAssets.execute({ job, signal });
         if (job.artifact === "voice-generation") return generatedVoice.execute({ job, signal });
         if (job.artifact === "audio-extract") return extractedAudio.execute({ job, signal });
         if (job.artifact === "prepared-audio") return preparedAudio.execute({ job, signal });
@@ -373,6 +376,13 @@ export async function startProjectService(options: {
       },
     });
     jobs = queue;
+    convertedAssets = new AssetConversionJobs({
+      assets,
+      jobs: queue,
+      worker,
+      staging: workspace,
+      runtime: (signal) => assetConversionRuntime(options.ffmpeg, nativeExecutable, signal),
+    });
     captureCleanup = new CaptureCleanup(captures, queue, library, worker);
     const captureSources = new CaptureSources(captures, acquisitions, queue, library, files);
     pointers = new PointerPreparation({
@@ -1256,6 +1266,11 @@ export async function startProjectService(options: {
             });
             return { ok: true, data: status(job.jobId) };
           }
+          case "asset.convert":
+            return {
+              ok: true,
+              data: await convertedAssets.request(operation.params, requestSignal),
+            };
           case "asset.get":
             return { ok: true, data: assets.describe(operation.params.assetId) };
           case "asset.segments":

@@ -1,0 +1,1134 @@
+{
+  "passed": true,
+  "trace": [
+    {
+      "operation": "asset.import",
+      "transport": "cli",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "operation": "job.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "asset.import",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "asset.get",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "asset.convert",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "job.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "operation": "job.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "operation": "job.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "asset.convert",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "asset.get",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "asset.origins",
+      "transport": "cli",
+      "ok": true
+    }
+  ],
+  "exchanges": [
+    {
+      "request": {
+        "operation": "asset.import",
+        "params": {
+          "requestId": "hdr-source",
+          "path": "/tmp/screenrec-hdr-audio-producer-proof-union/hlg-selected-audio-50000.mov"
+        },
+        "transport": "cli",
+        "error": false
+      },
+      "response": {
+        "ok": true,
+        "data": {
+          "jobId": "a4b3821f-910f-4e33-92af-ddfa8f296b1d",
+          "attemptId": "c9b615f4-6946-4abc-abfc-df23fceb2e18",
+          "artifact": "asset.import",
+          "lane": "heavy",
+          "state": "running",
+          "reason": null,
+          "generation": 1,
+          "errorCode": null,
+          "inputSha256": "64fa88c72233491873106532661a4e6d7e1dec916295487ec1d450e23085cd1c",
+          "target": {
+            "kind": "import",
+            "importId": "ccaa0cec-aebd-4944-aa9e-a9973bf018ca"
+          },
+          "retryable": false,
+          "errorDetails": null,
+          "result": null
+        },
+        "id": "90fd84c3-3f1c-4434-a443-0c6d1ecca639"
+      }
+    },
+    {
+      "request": {
+        "operation": "job.get",
+        "params": {
+          "jobId": "a4b3821f-910f-4e33-92af-ddfa8f296b1d"
+        },
+        "transport": "cli",
+        "error": false
+      },
+      "response": {
+        "ok": true,
+        "data": {
+          "jobId": "a4b3821f-910f-4e33-92af-ddfa8f296b1d",
+          "attemptId": "c9b615f4-6946-4abc-abfc-df23fceb2e18",
+          "artifact": "asset.import",
+          "lane": "heavy",
+          "state": "ready",
+          "reason": null,
+          "generation": 1,
+          "errorCode": null,
+          "inputSha256": "64fa88c72233491873106532661a4e6d7e1dec916295487ec1d450e23085cd1c",
+          "target": {
+            "kind": "import",
+            "importId": "ccaa0cec-aebd-4944-aa9e-a9973bf018ca"
+          },
+          "retryable": false,
+          "errorDetails": null,
+          "result": {
+            "assetId": "4bee638463d176d22813dc3ae0f48930e56ac532b33a3c4a7a4615208a3dde36"
+          }
+        },
+        "id": "5f25bef9-05bc-4c20-ba0d-ed1bb5465325"
+      }
+    },
+    {
+      "request": {
+        "operation": "asset.import",
+        "params": {
+          "requestId": "hdr-source",
+          "path": "/tmp/screenrec-hdr-audio-producer-proof-union/hlg-selected-audio-50000.mov"
+        },
+        "transport": "cli",
+        "error": false
+      },
+      "response": {
+        "ok": true,
+        "data": {
+          "jobId": "a4b3821f-910f-4e33-92af-ddfa8f296b1d",
+          "attemptId": "c9b615f4-6946-4abc-abfc-df23fceb2e18",
+          "artifact": "asset.import",
+          "lane": "heavy",
+          "state": "ready",
+          "reason": null,
+          "generation": 1,
+          "errorCode": null,
+          "inputSha256": "64fa88c72233491873106532661a4e6d7e1dec916295487ec1d450e23085cd1c",
+          "target": {
+            "kind": "import",
+            "importId": "ccaa0cec-aebd-4944-aa9e-a9973bf018ca"
+          },
+          "retryable": false,
+          "errorDetails": null,
+          "result": {
+            "assetId": "4bee638463d176d22813dc3ae0f48930e56ac532b33a3c4a7a4615208a3dde36"
+          }
+        },
+        "id": "f5ad26e3-7262-4170-be2f-d169620fd8b2"
+      }
+    },
+    {
+      "request": {
+        "operation": "asset.get",
+        "params": {
+          "assetId": "4bee638463d176d22813dc3ae0f48930e56ac532b33a3c4a7a4615208a3dde36"
+        },
+        "transport": "cli",
+        "error": false
+      },
+      "response": {
+        "ok": true,
+        "data": {
+          "originUs": 0,
+          "streams": [
+            {
+              "id": "track:1",
+              "kind": "video",
+              "codec": "hvc1",
+              "decodable": true,
+              "startUs": 50000,
+              "endUs": 175000,
+              "width": 320,
+              "height": 192,
+              "orientedWidth": 320,
+              "orientedHeight": 192,
+              "orientedPixelBounds": {
+                "x": 0,
+                "y": 0,
+                "width": 320,
+                "height": 192
+              },
+              "transform": [
+                1,
+                0,
+                0,
+                1,
+                0,
+                0
+              ],
+              "hasAlpha": false,
+              "colorPrimaries": "ITU_R_2020",
+              "transferFunction": "ITU_R_2100_HLG",
+              "ycbcrMatrix": "ITU_R_2020",
+              "samples": {
+                "count": 3,
+                "firstPtsUs": 50000,
+                "lastPtsUs": 133333,
+                "minDurationUs": 41667,
+                "maxDurationUs": 41667
+              },
+              "segmentCount": 2
+            },
+            {
+              "id": "track:2",
+              "kind": "audio",
+              "codec": "aac ",
+              "decodable": true,
+              "startUs": 0,
+              "endUs": 125000,
+              "sampleRate": 48000,
+              "channels": 2,
+              "channelLayoutTag": 6619138,
+              "segmentCount": 1
+            }
+          ],
+          "id": "4bee638463d176d22813dc3ae0f48930e56ac532b33a3c4a7a4615208a3dde36",
+          "bytes": 4591,
+          "createdAt": "2026-10-05T09:01:59.118Z",
+          "fileName": "4bee638463d176d22813dc3ae0f48930e56ac532b33a3c4a7a4615208a3dde36.mov"
+        },
+        "id": "5fa01850-8ada-4c25-b96b-4881aadd8a47"
+      }
+    },
+    {
+      "request": {
+        "operation": "asset.convert",
+        "params": {
+          "assetId": "4bee638463d176d22813dc3ae0f48930e56ac532b33a3c4a7a4615208a3dde36",
+          "streamIds": [
+            "track:1",
+            "track:2"
+          ],
+          "recipe": "hdr-to-sdr-hable-1000nit-v1"
+        },
+        "transport": "cli",
+        "error": false
+      },
+      "response": {
+        "ok": true,
+        "data": {
+          "state": "processing",
+          "jobId": "c8cba37d-24fa-4f19-ab30-ca160882c316",
+          "reason": null,
+          "retryable": false,
+          "published": null
+        },
+        "id": "52f9c565-76fb-452a-8573-ff8a6735165d"
+      }
+    },
+    {
+      "request": {
+        "operation": "job.get",
+        "params": {
+          "jobId": "c8cba37d-24fa-4f19-ab30-ca160882c316"
+        },
+        "transport": "cli",
+        "error": false
+      },
+      "response": {
+        "ok": true,
+        "data": {
+          "jobId": "c8cba37d-24fa-4f19-ab30-ca160882c316",
+          "attemptId": "622a7044-f14a-4b7a-93ce-f6ceb8b48bf6",
+          "artifact": "asset-conversion",
+          "lane": "heavy",
+          "state": "running",
+          "reason": null,
+          "generation": 1,
+          "errorCode": null,
+          "inputSha256": "546c2401c56b153005fced128ecb3ddb7b60393a6dfe6d863aed0d11c9f6288d",
+          "target": {
+            "kind": "asset",
+            "assetId": "4bee638463d176d22813dc3ae0f48930e56ac532b33a3c4a7a4615208a3dde36"
+          },
+          "retryable": false,
+          "errorDetails": null,
+          "result": null
+        },
+        "id": "f3c10fff-93ce-4029-adf7-bc0576ed7b1c"
+      }
+    },
+    {
+      "request": {
+        "operation": "job.get",
+        "params": {
+          "jobId": "c8cba37d-24fa-4f19-ab30-ca160882c316"
+        },
+        "transport": "cli",
+        "error": false
+      },
+      "response": {
+        "ok": true,
+        "data": {
+          "jobId": "c8cba37d-24fa-4f19-ab30-ca160882c316",
+          "attemptId": "622a7044-f14a-4b7a-93ce-f6ceb8b48bf6",
+          "artifact": "asset-conversion",
+          "lane": "heavy",
+          "state": "running",
+          "reason": null,
+          "generation": 1,
+          "errorCode": null,
+          "inputSha256": "546c2401c56b153005fced128ecb3ddb7b60393a6dfe6d863aed0d11c9f6288d",
+          "target": {
+            "kind": "asset",
+            "assetId": "4bee638463d176d22813dc3ae0f48930e56ac532b33a3c4a7a4615208a3dde36"
+          },
+          "retryable": false,
+          "errorDetails": null,
+          "result": null
+        },
+        "id": "c140c3d9-dcb8-4b99-b260-5c5c8592f94c"
+      }
+    },
+    {
+      "request": {
+        "operation": "job.get",
+        "params": {
+          "jobId": "c8cba37d-24fa-4f19-ab30-ca160882c316"
+        },
+        "transport": "cli",
+        "error": false
+      },
+      "response": {
+        "ok": true,
+        "data": {
+          "jobId": "c8cba37d-24fa-4f19-ab30-ca160882c316",
+          "attemptId": "622a7044-f14a-4b7a-93ce-f6ceb8b48bf6",
+          "artifact": "asset-conversion",
+          "lane": "heavy",
+          "state": "ready",
+          "reason": null,
+          "generation": 1,
+          "errorCode": null,
+          "inputSha256": "546c2401c56b153005fced128ecb3ddb7b60393a6dfe6d863aed0d11c9f6288d",
+          "target": {
+            "kind": "asset",
+            "assetId": "4bee638463d176d22813dc3ae0f48930e56ac532b33a3c4a7a4615208a3dde36"
+          },
+          "retryable": false,
+          "errorDetails": null,
+          "result": {
+            "assetId": "51b81a575b5b520ab1b7cd22696b635c440ae12a5e193bf3965bb303b4b0058c",
+            "streamIds": [
+              "track:1",
+              "track:2"
+            ],
+            "origin": {
+              "kind": "hdr-conversion",
+              "recipe": "hdr-to-sdr-hable-1000nit-v1",
+              "family": "hlg",
+              "implementation": {
+                "implementationId": "hdr-to-sdr-hable-1000nit-v1",
+                "receiptSha256": "27350ff2f953bbd4d6ca8bfe0f6808b99b9752192657d289146b50319099f66a",
+                "nativeExecutableSha256": "b4542bb090dcdd281709965255077252dbee71db235516adac84db02e2b5b3ef",
+                "ffmpegSha256": "8410694433e927bdf2cc751b8c81cb4545b2302828fdffed6044018b10f39f31",
+                "ffprobeSha256": "10cca670f6de7b7c7ab96c53205d1a6370f63f506b028942d930fef4426048ee"
+              },
+              "source": {
+                "originUs": 0,
+                "factsSha256": "6ecd6b053eda8811123279e2c3f8b003c8361b696af8f36e742364044d86e235",
+                "video": {
+                  "streamId": "track:1",
+                  "startUs": 50000,
+                  "endUs": 175000,
+                  "mediaStartUs": 0,
+                  "mediaDurationUs": 125000,
+                  "samples": 3,
+                  "presentedTimingSha256": "030afcd6dde973298a5412ef9d7cda08a1cb6c96cc4cb37c12e0edf3db38f37b"
+                },
+                "audio": {
+                  "streamId": "track:2",
+                  "startUs": 0,
+                  "endUs": 125000,
+                  "mediaStartUs": {
+                    "numerator": 64000,
+                    "denominator": 3
+                  },
+                  "mediaDurationUs": 125000,
+                  "frames": 6000,
+                  "sampleRate": 48000,
+                  "channels": 2,
+                  "pcmSha256": "6671eaefa4ada07e95f8094d2bdd6d5d291ba85d41d737aa4d6037f6f145dd70"
+                },
+                "assetId": "4bee638463d176d22813dc3ae0f48930e56ac532b33a3c4a7a4615208a3dde36"
+              },
+              "output": {
+                "originUs": 0,
+                "factsSha256": "e5a066c8c7067c80395738b8d09c35051ca3c3e38a6a0d01ab5c4a33436be4b7",
+                "video": {
+                  "streamId": "track:1",
+                  "startUs": 50000,
+                  "endUs": 175000,
+                  "mediaStartUs": 0,
+                  "mediaDurationUs": 125000,
+                  "samples": 3,
+                  "presentedTimingSha256": "030afcd6dde973298a5412ef9d7cda08a1cb6c96cc4cb37c12e0edf3db38f37b"
+                },
+                "audio": {
+                  "streamId": "track:2",
+                  "startUs": 0,
+                  "endUs": 125000,
+                  "mediaStartUs": {
+                    "numerator": 64000,
+                    "denominator": 3
+                  },
+                  "mediaDurationUs": 125000,
+                  "frames": 6000,
+                  "sampleRate": 48000,
+                  "channels": 2,
+                  "pcmSha256": "6671eaefa4ada07e95f8094d2bdd6d5d291ba85d41d737aa4d6037f6f145dd70"
+                }
+              },
+              "clock": {
+                "sourceClockAtDerivativeZeroUs": 0,
+                "movieTimescale": 48000,
+                "sourceSupport": {
+                  "startUs": 0,
+                  "endUs": 175000
+                }
+              }
+            }
+          }
+        },
+        "id": "87789261-5a85-41b8-bf02-8d5d4596f3a0"
+      }
+    },
+    {
+      "request": {
+        "operation": "asset.convert",
+        "params": {
+          "assetId": "4bee638463d176d22813dc3ae0f48930e56ac532b33a3c4a7a4615208a3dde36",
+          "streamIds": [
+            "track:2",
+            "track:1"
+          ],
+          "recipe": "hdr-to-sdr-hable-1000nit-v1"
+        },
+        "transport": "mcp",
+        "error": false
+      },
+      "response": {
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"ok\":true,\"data\":{\"state\":\"ready\",\"jobId\":\"c8cba37d-24fa-4f19-ab30-ca160882c316\",\"reason\":null,\"retryable\":false,\"published\":{\"artifact\":\"asset-conversion\",\"generation\":1,\"input\":\"{\\\"assetId\\\":\\\"4bee638463d176d22813dc3ae0f48930e56ac532b33a3c4a7a4615208a3dde36\\\",\\\"streamIds\\\":[\\\"track:1\\\",\\\"track:2\\\"],\\\"recipe\\\":\\\"hdr-to-sdr-hable-1000nit-v1\\\",\\\"replayKey\\\":\\\"7870958d8cd5bd7dee369d5572057767fb06fa0fd36c922649afa64b2867af0f\\\",\\\"runtime\\\":{\\\"implementationId\\\":\\\"hdr-to-sdr-hable-1000nit-v1\\\",\\\"receiptSha256\\\":\\\"27350ff2f953bbd4d6ca8bfe0f6808b99b9752192657d289146b50319099f66a\\\",\\\"nativeExecutableSha256\\\":\\\"b4542bb090dcdd281709965255077252dbee71db235516adac84db02e2b5b3ef\\\",\\\"ffmpegSha256\\\":\\\"8410694433e927bdf2cc751b8c81cb4545b2302828fdffed6044018b10f39f31\\\",\\\"ffprobeSha256\\\":\\\"10cca670f6de7b7c7ab96c53205d1a6370f63f506b028942d930fef4426048ee\\\"}}\",\"result\":\"{\\\"assetId\\\":\\\"51b81a575b5b520ab1b7cd22696b635c440ae12a5e193bf3965bb303b4b0058c\\\",\\\"streamIds\\\":[\\\"track:1\\\",\\\"track:2\\\"],\\\"origin\\\":{\\\"kind\\\":\\\"hdr-conversion\\\",\\\"recipe\\\":\\\"hdr-to-sdr-hable-1000nit-v1\\\",\\\"family\\\":\\\"hlg\\\",\\\"implementation\\\":{\\\"implementationId\\\":\\\"hdr-to-sdr-hable-1000nit-v1\\\",\\\"receiptSha256\\\":\\\"27350ff2f953bbd4d6ca8bfe0f6808b99b9752192657d289146b50319099f66a\\\",\\\"nativeExecutableSha256\\\":\\\"b4542bb090dcdd281709965255077252dbee71db235516adac84db02e2b5b3ef\\\",\\\"ffmpegSha256\\\":\\\"8410694433e927bdf2cc751b8c81cb4545b2302828fdffed6044018b10f39f31\\\",\\\"ffprobeSha256\\\":\\\"10cca670f6de7b7c7ab96c53205d1a6370f63f506b028942d930fef4426048ee\\\"},\\\"source\\\":{\\\"originUs\\\":0,\\\"factsSha256\\\":\\\"6ecd6b053eda8811123279e2c3f8b003c8361b696af8f36e742364044d86e235\\\",\\\"video\\\":{\\\"streamId\\\":\\\"track:1\\\",\\\"startUs\\\":50000,\\\"endUs\\\":175000,\\\"mediaStartUs\\\":0,\\\"mediaDurationUs\\\":125000,\\\"samples\\\":3,\\\"presentedTimingSha256\\\":\\\"030afcd6dde973298a5412ef9d7cda08a1cb6c96cc4cb37c12e0edf3db38f37b\\\"},\\\"audio\\\":{\\\"streamId\\\":\\\"track:2\\\",\\\"startUs\\\":0,\\\"endUs\\\":125000,\\\"mediaStartUs\\\":{\\\"numerator\\\":64000,\\\"denominator\\\":3},\\\"mediaDurationUs\\\":125000,\\\"frames\\\":6000,\\\"sampleRate\\\":48000,\\\"channels\\\":2,\\\"pcmSha256\\\":\\\"6671eaefa4ada07e95f8094d2bdd6d5d291ba85d41d737aa4d6037f6f145dd70\\\"},\\\"assetId\\\":\\\"4bee638463d176d22813dc3ae0f48930e56ac532b33a3c4a7a4615208a3dde36\\\"},\\\"output\\\":{\\\"originUs\\\":0,\\\"factsSha256\\\":\\\"e5a066c8c7067c80395738b8d09c35051ca3c3e38a6a0d01ab5c4a33436be4b7\\\",\\\"video\\\":{\\\"streamId\\\":\\\"track:1\\\",\\\"startUs\\\":50000,\\\"endUs\\\":175000,\\\"mediaStartUs\\\":0,\\\"mediaDurationUs\\\":125000,\\\"samples\\\":3,\\\"presentedTimingSha256\\\":\\\"030afcd6dde973298a5412ef9d7cda08a1cb6c96cc4cb37c12e0edf3db38f37b\\\"},\\\"audio\\\":{\\\"streamId\\\":\\\"track:2\\\",\\\"startUs\\\":0,\\\"endUs\\\":125000,\\\"mediaStartUs\\\":{\\\"numerator\\\":64000,\\\"denominator\\\":3},\\\"mediaDurationUs\\\":125000,\\\"frames\\\":6000,\\\"sampleRate\\\":48000,\\\"channels\\\":2,\\\"pcmSha256\\\":\\\"6671eaefa4ada07e95f8094d2bdd6d5d291ba85d41d737aa4d6037f6f145dd70\\\"}},\\\"clock\\\":{\\\"sourceClockAtDerivativeZeroUs\\\":0,\\\"movieTimescale\\\":48000,\\\"sourceSupport\\\":{\\\"startUs\\\":0,\\\"endUs\\\":175000}}}}\",\"target\":{\"kind\":\"asset\",\"assetId\":\"4bee638463d176d22813dc3ae0f48930e56ac532b33a3c4a7a4615208a3dde36\"}}},\"id\":\"24a21458-079c-4123-bff1-ea82e3b348f2\"}"
+          }
+        ],
+        "structuredContent": {
+          "ok": true,
+          "data": {
+            "state": "ready",
+            "jobId": "c8cba37d-24fa-4f19-ab30-ca160882c316",
+            "reason": null,
+            "retryable": false,
+            "published": {
+              "artifact": "asset-conversion",
+              "generation": 1,
+              "input": "{\"assetId\":\"4bee638463d176d22813dc3ae0f48930e56ac532b33a3c4a7a4615208a3dde36\",\"streamIds\":[\"track:1\",\"track:2\"],\"recipe\":\"hdr-to-sdr-hable-1000nit-v1\",\"replayKey\":\"7870958d8cd5bd7dee369d5572057767fb06fa0fd36c922649afa64b2867af0f\",\"runtime\":{\"implementationId\":\"hdr-to-sdr-hable-1000nit-v1\",\"receiptSha256\":\"27350ff2f953bbd4d6ca8bfe0f6808b99b9752192657d289146b50319099f66a\",\"nativeExecutableSha256\":\"b4542bb090dcdd281709965255077252dbee71db235516adac84db02e2b5b3ef\",\"ffmpegSha256\":\"8410694433e927bdf2cc751b8c81cb4545b2302828fdffed6044018b10f39f31\",\"ffprobeSha256\":\"10cca670f6de7b7c7ab96c53205d1a6370f63f506b028942d930fef4426048ee\"}}",
+              "result": "{\"assetId\":\"51b81a575b5b520ab1b7cd22696b635c440ae12a5e193bf3965bb303b4b0058c\",\"streamIds\":[\"track:1\",\"track:2\"],\"origin\":{\"kind\":\"hdr-conversion\",\"recipe\":\"hdr-to-sdr-hable-1000nit-v1\",\"family\":\"hlg\",\"implementation\":{\"implementationId\":\"hdr-to-sdr-hable-1000nit-v1\",\"receiptSha256\":\"27350ff2f953bbd4d6ca8bfe0f6808b99b9752192657d289146b50319099f66a\",\"nativeExecutableSha256\":\"b4542bb090dcdd281709965255077252dbee71db235516adac84db02e2b5b3ef\",\"ffmpegSha256\":\"8410694433e927bdf2cc751b8c81cb4545b2302828fdffed6044018b10f39f31\",\"ffprobeSha256\":\"10cca670f6de7b7c7ab96c53205d1a6370f63f506b028942d930fef4426048ee\"},\"source\":{\"originUs\":0,\"factsSha256\":\"6ecd6b053eda8811123279e2c3f8b003c8361b696af8f36e742364044d86e235\",\"video\":{\"streamId\":\"track:1\",\"startUs\":50000,\"endUs\":175000,\"mediaStartUs\":0,\"mediaDurationUs\":125000,\"samples\":3,\"presentedTimingSha256\":\"030afcd6dde973298a5412ef9d7cda08a1cb6c96cc4cb37c12e0edf3db38f37b\"},\"audio\":{\"streamId\":\"track:2\",\"startUs\":0,\"endUs\":125000,\"mediaStartUs\":{\"numerator\":64000,\"denominator\":3},\"mediaDurationUs\":125000,\"frames\":6000,\"sampleRate\":48000,\"channels\":2,\"pcmSha256\":\"6671eaefa4ada07e95f8094d2bdd6d5d291ba85d41d737aa4d6037f6f145dd70\"},\"assetId\":\"4bee638463d176d22813dc3ae0f48930e56ac532b33a3c4a7a4615208a3dde36\"},\"output\":{\"originUs\":0,\"factsSha256\":\"e5a066c8c7067c80395738b8d09c35051ca3c3e38a6a0d01ab5c4a33436be4b7\",\"video\":{\"streamId\":\"track:1\",\"startUs\":50000,\"endUs\":175000,\"mediaStartUs\":0,\"mediaDurationUs\":125000,\"samples\":3,\"presentedTimingSha256\":\"030afcd6dde973298a5412ef9d7cda08a1cb6c96cc4cb37c12e0edf3db38f37b\"},\"audio\":{\"streamId\":\"track:2\",\"startUs\":0,\"endUs\":125000,\"mediaStartUs\":{\"numerator\":64000,\"denominator\":3},\"mediaDurationUs\":125000,\"frames\":6000,\"sampleRate\":48000,\"channels\":2,\"pcmSha256\":\"6671eaefa4ada07e95f8094d2bdd6d5d291ba85d41d737aa4d6037f6f145dd70\"}},\"clock\":{\"sourceClockAtDerivativeZeroUs\":0,\"movieTimescale\":48000,\"sourceSupport\":{\"startUs\":0,\"endUs\":175000}}}}",
+              "target": {
+                "kind": "asset",
+                "assetId": "4bee638463d176d22813dc3ae0f48930e56ac532b33a3c4a7a4615208a3dde36"
+              }
+            }
+          },
+          "id": "24a21458-079c-4123-bff1-ea82e3b348f2"
+        },
+        "isError": false
+      }
+    },
+    {
+      "request": {
+        "operation": "asset.get",
+        "params": {
+          "assetId": "51b81a575b5b520ab1b7cd22696b635c440ae12a5e193bf3965bb303b4b0058c"
+        },
+        "transport": "cli",
+        "error": false
+      },
+      "response": {
+        "ok": true,
+        "data": {
+          "originUs": 0,
+          "streams": [
+            {
+              "id": "track:1",
+              "kind": "video",
+              "codec": "ap4h",
+              "decodable": true,
+              "startUs": 50000,
+              "endUs": 175000,
+              "width": 320,
+              "height": 192,
+              "orientedWidth": 320,
+              "orientedHeight": 192,
+              "orientedPixelBounds": {
+                "x": 0,
+                "y": 0,
+                "width": 320,
+                "height": 192
+              },
+              "transform": [
+                1,
+                0,
+                0,
+                1,
+                0,
+                0
+              ],
+              "hasAlpha": false,
+              "colorPrimaries": "ITU_R_709_2",
+              "transferFunction": "ITU_R_709_2",
+              "ycbcrMatrix": "ITU_R_709_2",
+              "samples": {
+                "count": 3,
+                "firstPtsUs": 50000,
+                "lastPtsUs": 133333,
+                "minDurationUs": 41667,
+                "maxDurationUs": 41667
+              },
+              "segmentCount": 2
+            },
+            {
+              "id": "track:2",
+              "kind": "audio",
+              "codec": "aac ",
+              "decodable": true,
+              "startUs": 0,
+              "endUs": 125000,
+              "sampleRate": 48000,
+              "channels": 2,
+              "channelLayoutTag": 6619138,
+              "segmentCount": 1
+            }
+          ],
+          "id": "51b81a575b5b520ab1b7cd22696b635c440ae12a5e193bf3965bb303b4b0058c",
+          "bytes": 40179,
+          "createdAt": "2026-10-05T09:01:59.862Z",
+          "fileName": "51b81a575b5b520ab1b7cd22696b635c440ae12a5e193bf3965bb303b4b0058c.mov"
+        },
+        "id": "c36b27fd-3696-458c-ba9e-1163eaf6f8b8"
+      }
+    },
+    {
+      "request": {
+        "operation": "asset.origins",
+        "params": {
+          "assetId": "51b81a575b5b520ab1b7cd22696b635c440ae12a5e193bf3965bb303b4b0058c"
+        },
+        "transport": "cli",
+        "error": false
+      },
+      "response": {
+        "ok": true,
+        "data": {
+          "origins": [
+            {
+              "kind": "hdr-conversion",
+              "recipe": "hdr-to-sdr-hable-1000nit-v1",
+              "family": "hlg",
+              "implementation": {
+                "implementationId": "hdr-to-sdr-hable-1000nit-v1",
+                "receiptSha256": "27350ff2f953bbd4d6ca8bfe0f6808b99b9752192657d289146b50319099f66a",
+                "nativeExecutableSha256": "b4542bb090dcdd281709965255077252dbee71db235516adac84db02e2b5b3ef",
+                "ffmpegSha256": "8410694433e927bdf2cc751b8c81cb4545b2302828fdffed6044018b10f39f31",
+                "ffprobeSha256": "10cca670f6de7b7c7ab96c53205d1a6370f63f506b028942d930fef4426048ee"
+              },
+              "source": {
+                "originUs": 0,
+                "factsSha256": "6ecd6b053eda8811123279e2c3f8b003c8361b696af8f36e742364044d86e235",
+                "video": {
+                  "streamId": "track:1",
+                  "startUs": 50000,
+                  "endUs": 175000,
+                  "mediaStartUs": 0,
+                  "mediaDurationUs": 125000,
+                  "samples": 3,
+                  "presentedTimingSha256": "030afcd6dde973298a5412ef9d7cda08a1cb6c96cc4cb37c12e0edf3db38f37b"
+                },
+                "audio": {
+                  "streamId": "track:2",
+                  "startUs": 0,
+                  "endUs": 125000,
+                  "mediaStartUs": {
+                    "numerator": 64000,
+                    "denominator": 3
+                  },
+                  "mediaDurationUs": 125000,
+                  "frames": 6000,
+                  "sampleRate": 48000,
+                  "channels": 2,
+                  "pcmSha256": "6671eaefa4ada07e95f8094d2bdd6d5d291ba85d41d737aa4d6037f6f145dd70"
+                },
+                "assetId": "4bee638463d176d22813dc3ae0f48930e56ac532b33a3c4a7a4615208a3dde36"
+              },
+              "output": {
+                "originUs": 0,
+                "factsSha256": "e5a066c8c7067c80395738b8d09c35051ca3c3e38a6a0d01ab5c4a33436be4b7",
+                "video": {
+                  "streamId": "track:1",
+                  "startUs": 50000,
+                  "endUs": 175000,
+                  "mediaStartUs": 0,
+                  "mediaDurationUs": 125000,
+                  "samples": 3,
+                  "presentedTimingSha256": "030afcd6dde973298a5412ef9d7cda08a1cb6c96cc4cb37c12e0edf3db38f37b"
+                },
+                "audio": {
+                  "streamId": "track:2",
+                  "startUs": 0,
+                  "endUs": 125000,
+                  "mediaStartUs": {
+                    "numerator": 64000,
+                    "denominator": 3
+                  },
+                  "mediaDurationUs": 125000,
+                  "frames": 6000,
+                  "sampleRate": 48000,
+                  "channels": 2,
+                  "pcmSha256": "6671eaefa4ada07e95f8094d2bdd6d5d291ba85d41d737aa4d6037f6f145dd70"
+                }
+              },
+              "clock": {
+                "sourceClockAtDerivativeZeroUs": 0,
+                "movieTimescale": 48000,
+                "sourceSupport": {
+                  "startUs": 0,
+                  "endUs": 175000
+                }
+              }
+            }
+          ],
+          "nextCursor": null
+        },
+        "id": "685c0ec3-4a5a-4888-b98a-f3b74e16fe9b"
+      }
+    }
+  ],
+  "original": {
+    "originUs": 0,
+    "streams": [
+      {
+        "id": "track:1",
+        "kind": "video",
+        "codec": "hvc1",
+        "decodable": true,
+        "startUs": 50000,
+        "endUs": 175000,
+        "width": 320,
+        "height": 192,
+        "orientedWidth": 320,
+        "orientedHeight": 192,
+        "orientedPixelBounds": {
+          "x": 0,
+          "y": 0,
+          "width": 320,
+          "height": 192
+        },
+        "transform": [
+          1,
+          0,
+          0,
+          1,
+          0,
+          0
+        ],
+        "hasAlpha": false,
+        "colorPrimaries": "ITU_R_2020",
+        "transferFunction": "ITU_R_2100_HLG",
+        "ycbcrMatrix": "ITU_R_2020",
+        "samples": {
+          "count": 3,
+          "firstPtsUs": 50000,
+          "lastPtsUs": 133333,
+          "minDurationUs": 41667,
+          "maxDurationUs": 41667
+        },
+        "segmentCount": 2
+      },
+      {
+        "id": "track:2",
+        "kind": "audio",
+        "codec": "aac ",
+        "decodable": true,
+        "startUs": 0,
+        "endUs": 125000,
+        "sampleRate": 48000,
+        "channels": 2,
+        "channelLayoutTag": 6619138,
+        "segmentCount": 1
+      }
+    ],
+    "id": "4bee638463d176d22813dc3ae0f48930e56ac532b33a3c4a7a4615208a3dde36",
+    "bytes": 4591,
+    "createdAt": "2026-10-05T09:01:59.118Z",
+    "fileName": "4bee638463d176d22813dc3ae0f48930e56ac532b33a3c4a7a4615208a3dde36.mov"
+  },
+  "derivative": {
+    "originUs": 0,
+    "streams": [
+      {
+        "id": "track:1",
+        "kind": "video",
+        "codec": "ap4h",
+        "decodable": true,
+        "startUs": 50000,
+        "endUs": 175000,
+        "width": 320,
+        "height": 192,
+        "orientedWidth": 320,
+        "orientedHeight": 192,
+        "orientedPixelBounds": {
+          "x": 0,
+          "y": 0,
+          "width": 320,
+          "height": 192
+        },
+        "transform": [
+          1,
+          0,
+          0,
+          1,
+          0,
+          0
+        ],
+        "hasAlpha": false,
+        "colorPrimaries": "ITU_R_709_2",
+        "transferFunction": "ITU_R_709_2",
+        "ycbcrMatrix": "ITU_R_709_2",
+        "samples": {
+          "count": 3,
+          "firstPtsUs": 50000,
+          "lastPtsUs": 133333,
+          "minDurationUs": 41667,
+          "maxDurationUs": 41667
+        },
+        "segmentCount": 2
+      },
+      {
+        "id": "track:2",
+        "kind": "audio",
+        "codec": "aac ",
+        "decodable": true,
+        "startUs": 0,
+        "endUs": 125000,
+        "sampleRate": 48000,
+        "channels": 2,
+        "channelLayoutTag": 6619138,
+        "segmentCount": 1
+      }
+    ],
+    "id": "51b81a575b5b520ab1b7cd22696b635c440ae12a5e193bf3965bb303b4b0058c",
+    "bytes": 40179,
+    "createdAt": "2026-10-05T09:01:59.862Z",
+    "fileName": "51b81a575b5b520ab1b7cd22696b635c440ae12a5e193bf3965bb303b4b0058c.mov"
+  },
+  "result": {
+    "assetId": "51b81a575b5b520ab1b7cd22696b635c440ae12a5e193bf3965bb303b4b0058c",
+    "streamIds": [
+      "track:1",
+      "track:2"
+    ],
+    "origin": {
+      "kind": "hdr-conversion",
+      "recipe": "hdr-to-sdr-hable-1000nit-v1",
+      "family": "hlg",
+      "implementation": {
+        "implementationId": "hdr-to-sdr-hable-1000nit-v1",
+        "receiptSha256": "27350ff2f953bbd4d6ca8bfe0f6808b99b9752192657d289146b50319099f66a",
+        "nativeExecutableSha256": "b4542bb090dcdd281709965255077252dbee71db235516adac84db02e2b5b3ef",
+        "ffmpegSha256": "8410694433e927bdf2cc751b8c81cb4545b2302828fdffed6044018b10f39f31",
+        "ffprobeSha256": "10cca670f6de7b7c7ab96c53205d1a6370f63f506b028942d930fef4426048ee"
+      },
+      "source": {
+        "originUs": 0,
+        "factsSha256": "6ecd6b053eda8811123279e2c3f8b003c8361b696af8f36e742364044d86e235",
+        "video": {
+          "streamId": "track:1",
+          "startUs": 50000,
+          "endUs": 175000,
+          "mediaStartUs": 0,
+          "mediaDurationUs": 125000,
+          "samples": 3,
+          "presentedTimingSha256": "030afcd6dde973298a5412ef9d7cda08a1cb6c96cc4cb37c12e0edf3db38f37b"
+        },
+        "audio": {
+          "streamId": "track:2",
+          "startUs": 0,
+          "endUs": 125000,
+          "mediaStartUs": {
+            "numerator": 64000,
+            "denominator": 3
+          },
+          "mediaDurationUs": 125000,
+          "frames": 6000,
+          "sampleRate": 48000,
+          "channels": 2,
+          "pcmSha256": "6671eaefa4ada07e95f8094d2bdd6d5d291ba85d41d737aa4d6037f6f145dd70"
+        },
+        "assetId": "4bee638463d176d22813dc3ae0f48930e56ac532b33a3c4a7a4615208a3dde36"
+      },
+      "output": {
+        "originUs": 0,
+        "factsSha256": "e5a066c8c7067c80395738b8d09c35051ca3c3e38a6a0d01ab5c4a33436be4b7",
+        "video": {
+          "streamId": "track:1",
+          "startUs": 50000,
+          "endUs": 175000,
+          "mediaStartUs": 0,
+          "mediaDurationUs": 125000,
+          "samples": 3,
+          "presentedTimingSha256": "030afcd6dde973298a5412ef9d7cda08a1cb6c96cc4cb37c12e0edf3db38f37b"
+        },
+        "audio": {
+          "streamId": "track:2",
+          "startUs": 0,
+          "endUs": 125000,
+          "mediaStartUs": {
+            "numerator": 64000,
+            "denominator": 3
+          },
+          "mediaDurationUs": 125000,
+          "frames": 6000,
+          "sampleRate": 48000,
+          "channels": 2,
+          "pcmSha256": "6671eaefa4ada07e95f8094d2bdd6d5d291ba85d41d737aa4d6037f6f145dd70"
+        }
+      },
+      "clock": {
+        "sourceClockAtDerivativeZeroUs": 0,
+        "movieTimescale": 48000,
+        "sourceSupport": {
+          "startUs": 0,
+          "endUs": 175000
+        }
+      }
+    }
+  },
+  "origins": {
+    "origins": [
+      {
+        "kind": "hdr-conversion",
+        "recipe": "hdr-to-sdr-hable-1000nit-v1",
+        "family": "hlg",
+        "implementation": {
+          "implementationId": "hdr-to-sdr-hable-1000nit-v1",
+          "receiptSha256": "27350ff2f953bbd4d6ca8bfe0f6808b99b9752192657d289146b50319099f66a",
+          "nativeExecutableSha256": "b4542bb090dcdd281709965255077252dbee71db235516adac84db02e2b5b3ef",
+          "ffmpegSha256": "8410694433e927bdf2cc751b8c81cb4545b2302828fdffed6044018b10f39f31",
+          "ffprobeSha256": "10cca670f6de7b7c7ab96c53205d1a6370f63f506b028942d930fef4426048ee"
+        },
+        "source": {
+          "originUs": 0,
+          "factsSha256": "6ecd6b053eda8811123279e2c3f8b003c8361b696af8f36e742364044d86e235",
+          "video": {
+            "streamId": "track:1",
+            "startUs": 50000,
+            "endUs": 175000,
+            "mediaStartUs": 0,
+            "mediaDurationUs": 125000,
+            "samples": 3,
+            "presentedTimingSha256": "030afcd6dde973298a5412ef9d7cda08a1cb6c96cc4cb37c12e0edf3db38f37b"
+          },
+          "audio": {
+            "streamId": "track:2",
+            "startUs": 0,
+            "endUs": 125000,
+            "mediaStartUs": {
+              "numerator": 64000,
+              "denominator": 3
+            },
+            "mediaDurationUs": 125000,
+            "frames": 6000,
+            "sampleRate": 48000,
+            "channels": 2,
+            "pcmSha256": "6671eaefa4ada07e95f8094d2bdd6d5d291ba85d41d737aa4d6037f6f145dd70"
+          },
+          "assetId": "4bee638463d176d22813dc3ae0f48930e56ac532b33a3c4a7a4615208a3dde36"
+        },
+        "output": {
+          "originUs": 0,
+          "factsSha256": "e5a066c8c7067c80395738b8d09c35051ca3c3e38a6a0d01ab5c4a33436be4b7",
+          "video": {
+            "streamId": "track:1",
+            "startUs": 50000,
+            "endUs": 175000,
+            "mediaStartUs": 0,
+            "mediaDurationUs": 125000,
+            "samples": 3,
+            "presentedTimingSha256": "030afcd6dde973298a5412ef9d7cda08a1cb6c96cc4cb37c12e0edf3db38f37b"
+          },
+          "audio": {
+            "streamId": "track:2",
+            "startUs": 0,
+            "endUs": 125000,
+            "mediaStartUs": {
+              "numerator": 64000,
+              "denominator": 3
+            },
+            "mediaDurationUs": 125000,
+            "frames": 6000,
+            "sampleRate": 48000,
+            "channels": 2,
+            "pcmSha256": "6671eaefa4ada07e95f8094d2bdd6d5d291ba85d41d737aa4d6037f6f145dd70"
+          }
+        },
+        "clock": {
+          "sourceClockAtDerivativeZeroUs": 0,
+          "movieTimescale": 48000,
+          "sourceSupport": {
+            "startUs": 0,
+            "endUs": 175000
+          }
+        }
+      }
+    ],
+    "nextCursor": null
+  },
+  "replay": {
+    "state": "ready",
+    "jobId": "c8cba37d-24fa-4f19-ab30-ca160882c316",
+    "reason": null,
+    "retryable": false,
+    "published": {
+      "artifact": "asset-conversion",
+      "generation": 1,
+      "input": "{\"assetId\":\"4bee638463d176d22813dc3ae0f48930e56ac532b33a3c4a7a4615208a3dde36\",\"streamIds\":[\"track:1\",\"track:2\"],\"recipe\":\"hdr-to-sdr-hable-1000nit-v1\",\"replayKey\":\"7870958d8cd5bd7dee369d5572057767fb06fa0fd36c922649afa64b2867af0f\",\"runtime\":{\"implementationId\":\"hdr-to-sdr-hable-1000nit-v1\",\"receiptSha256\":\"27350ff2f953bbd4d6ca8bfe0f6808b99b9752192657d289146b50319099f66a\",\"nativeExecutableSha256\":\"b4542bb090dcdd281709965255077252dbee71db235516adac84db02e2b5b3ef\",\"ffmpegSha256\":\"8410694433e927bdf2cc751b8c81cb4545b2302828fdffed6044018b10f39f31\",\"ffprobeSha256\":\"10cca670f6de7b7c7ab96c53205d1a6370f63f506b028942d930fef4426048ee\"}}",
+      "result": "{\"assetId\":\"51b81a575b5b520ab1b7cd22696b635c440ae12a5e193bf3965bb303b4b0058c\",\"streamIds\":[\"track:1\",\"track:2\"],\"origin\":{\"kind\":\"hdr-conversion\",\"recipe\":\"hdr-to-sdr-hable-1000nit-v1\",\"family\":\"hlg\",\"implementation\":{\"implementationId\":\"hdr-to-sdr-hable-1000nit-v1\",\"receiptSha256\":\"27350ff2f953bbd4d6ca8bfe0f6808b99b9752192657d289146b50319099f66a\",\"nativeExecutableSha256\":\"b4542bb090dcdd281709965255077252dbee71db235516adac84db02e2b5b3ef\",\"ffmpegSha256\":\"8410694433e927bdf2cc751b8c81cb4545b2302828fdffed6044018b10f39f31\",\"ffprobeSha256\":\"10cca670f6de7b7c7ab96c53205d1a6370f63f506b028942d930fef4426048ee\"},\"source\":{\"originUs\":0,\"factsSha256\":\"6ecd6b053eda8811123279e2c3f8b003c8361b696af8f36e742364044d86e235\",\"video\":{\"streamId\":\"track:1\",\"startUs\":50000,\"endUs\":175000,\"mediaStartUs\":0,\"mediaDurationUs\":125000,\"samples\":3,\"presentedTimingSha256\":\"030afcd6dde973298a5412ef9d7cda08a1cb6c96cc4cb37c12e0edf3db38f37b\"},\"audio\":{\"streamId\":\"track:2\",\"startUs\":0,\"endUs\":125000,\"mediaStartUs\":{\"numerator\":64000,\"denominator\":3},\"mediaDurationUs\":125000,\"frames\":6000,\"sampleRate\":48000,\"channels\":2,\"pcmSha256\":\"6671eaefa4ada07e95f8094d2bdd6d5d291ba85d41d737aa4d6037f6f145dd70\"},\"assetId\":\"4bee638463d176d22813dc3ae0f48930e56ac532b33a3c4a7a4615208a3dde36\"},\"output\":{\"originUs\":0,\"factsSha256\":\"e5a066c8c7067c80395738b8d09c35051ca3c3e38a6a0d01ab5c4a33436be4b7\",\"video\":{\"streamId\":\"track:1\",\"startUs\":50000,\"endUs\":175000,\"mediaStartUs\":0,\"mediaDurationUs\":125000,\"samples\":3,\"presentedTimingSha256\":\"030afcd6dde973298a5412ef9d7cda08a1cb6c96cc4cb37c12e0edf3db38f37b\"},\"audio\":{\"streamId\":\"track:2\",\"startUs\":0,\"endUs\":125000,\"mediaStartUs\":{\"numerator\":64000,\"denominator\":3},\"mediaDurationUs\":125000,\"frames\":6000,\"sampleRate\":48000,\"channels\":2,\"pcmSha256\":\"6671eaefa4ada07e95f8094d2bdd6d5d291ba85d41d737aa4d6037f6f145dd70\"}},\"clock\":{\"sourceClockAtDerivativeZeroUs\":0,\"movieTimescale\":48000,\"sourceSupport\":{\"startUs\":0,\"endUs\":175000}}}}",
+      "target": {
+        "kind": "asset",
+        "assetId": "4bee638463d176d22813dc3ae0f48930e56ac532b33a3c4a7a4615208a3dde36"
+      }
+    }
+  },
+  "references": [
+    {
+      "kind": "asset",
+      "id": "51b81a575b5b520ab1b7cd22696b635c440ae12a5e193bf3965bb303b4b0058c"
+    },
+    {
+      "kind": "job",
+      "id": "a4b3821f-910f-4e33-92af-ddfa8f296b1d"
+    }
+  ],
+  "portable": {
+    "asset": {
+      "originUs": 0,
+      "streams": [
+        {
+          "id": "track:1",
+          "kind": "video",
+          "codec": "ap4h",
+          "decodable": true,
+          "startUs": 50000,
+          "endUs": 175000,
+          "width": 320,
+          "height": 192,
+          "orientedWidth": 320,
+          "orientedHeight": 192,
+          "orientedPixelBounds": {
+            "x": 0,
+            "y": 0,
+            "width": 320,
+            "height": 192
+          },
+          "transform": [
+            1,
+            0,
+            0,
+            1,
+            0,
+            0
+          ],
+          "hasAlpha": false,
+          "colorPrimaries": "ITU_R_709_2",
+          "transferFunction": "ITU_R_709_2",
+          "ycbcrMatrix": "ITU_R_709_2",
+          "samples": {
+            "count": 3,
+            "firstPtsUs": 50000,
+            "lastPtsUs": 133333,
+            "minDurationUs": 41667,
+            "maxDurationUs": 41667
+          },
+          "segments": [
+            {
+              "startUs": 0,
+              "endUs": 50000,
+              "empty": true
+            },
+            {
+              "startUs": 50000,
+              "endUs": 175000,
+              "empty": false,
+              "mediaStartUs": 0,
+              "mediaDurationUs": 125000
+            }
+          ]
+        },
+        {
+          "id": "track:2",
+          "kind": "audio",
+          "codec": "aac ",
+          "decodable": true,
+          "startUs": 0,
+          "endUs": 125000,
+          "sampleRate": 48000,
+          "channels": 2,
+          "channelLayoutTag": 6619138,
+          "segments": [
+            {
+              "startUs": 0,
+              "endUs": 125000,
+              "empty": false,
+              "mediaStartUs": {
+                "numerator": 64000,
+                "denominator": 3
+              },
+              "mediaDurationUs": 125000
+            }
+          ]
+        }
+      ],
+      "id": "51b81a575b5b520ab1b7cd22696b635c440ae12a5e193bf3965bb303b4b0058c",
+      "bytes": 40179,
+      "createdAt": "2026-10-05T09:01:59.862Z",
+      "fileName": "51b81a575b5b520ab1b7cd22696b635c440ae12a5e193bf3965bb303b4b0058c.mov"
+    },
+    "origins": [
+      {
+        "kind": "hdr-conversion",
+        "recipe": "hdr-to-sdr-hable-1000nit-v1",
+        "family": "hlg",
+        "implementation": {
+          "implementationId": "hdr-to-sdr-hable-1000nit-v1",
+          "receiptSha256": "27350ff2f953bbd4d6ca8bfe0f6808b99b9752192657d289146b50319099f66a",
+          "nativeExecutableSha256": "b4542bb090dcdd281709965255077252dbee71db235516adac84db02e2b5b3ef",
+          "ffmpegSha256": "8410694433e927bdf2cc751b8c81cb4545b2302828fdffed6044018b10f39f31",
+          "ffprobeSha256": "10cca670f6de7b7c7ab96c53205d1a6370f63f506b028942d930fef4426048ee"
+        },
+        "source": {
+          "originUs": 0,
+          "factsSha256": "6ecd6b053eda8811123279e2c3f8b003c8361b696af8f36e742364044d86e235",
+          "video": {
+            "streamId": "track:1",
+            "startUs": 50000,
+            "endUs": 175000,
+            "mediaStartUs": 0,
+            "mediaDurationUs": 125000,
+            "samples": 3,
+            "presentedTimingSha256": "030afcd6dde973298a5412ef9d7cda08a1cb6c96cc4cb37c12e0edf3db38f37b"
+          },
+          "audio": {
+            "streamId": "track:2",
+            "startUs": 0,
+            "endUs": 125000,
+            "mediaStartUs": {
+              "numerator": 64000,
+              "denominator": 3
+            },
+            "mediaDurationUs": 125000,
+            "frames": 6000,
+            "sampleRate": 48000,
+            "channels": 2,
+            "pcmSha256": "6671eaefa4ada07e95f8094d2bdd6d5d291ba85d41d737aa4d6037f6f145dd70"
+          },
+          "assetId": "4bee638463d176d22813dc3ae0f48930e56ac532b33a3c4a7a4615208a3dde36"
+        },
+        "output": {
+          "originUs": 0,
+          "factsSha256": "e5a066c8c7067c80395738b8d09c35051ca3c3e38a6a0d01ab5c4a33436be4b7",
+          "video": {
+            "streamId": "track:1",
+            "startUs": 50000,
+            "endUs": 175000,
+            "mediaStartUs": 0,
+            "mediaDurationUs": 125000,
+            "samples": 3,
+            "presentedTimingSha256": "030afcd6dde973298a5412ef9d7cda08a1cb6c96cc4cb37c12e0edf3db38f37b"
+          },
+          "audio": {
+            "streamId": "track:2",
+            "startUs": 0,
+            "endUs": 125000,
+            "mediaStartUs": {
+              "numerator": 64000,
+              "denominator": 3
+            },
+            "mediaDurationUs": 125000,
+            "frames": 6000,
+            "sampleRate": 48000,
+            "channels": 2,
+            "pcmSha256": "6671eaefa4ada07e95f8094d2bdd6d5d291ba85d41d737aa4d6037f6f145dd70"
+          }
+        },
+        "clock": {
+          "sourceClockAtDerivativeZeroUs": 0,
+          "movieTimescale": 48000,
+          "sourceSupport": {
+            "startUs": 0,
+            "endUs": 175000
+          }
+        }
+      }
+    ],
+    "dependencies": [
+      {
+        "kind": "asset",
+        "id": "4bee638463d176d22813dc3ae0f48930e56ac532b33a3c4a7a4615208a3dde36"
+      }
+    ]
+  },
+  "logs": []
+}

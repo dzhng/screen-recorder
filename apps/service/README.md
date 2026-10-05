@@ -121,8 +121,11 @@ selected-stream producer derives an exactly representable common movie clock and
 validates the held SDR derivative before consumption. Explicitly selected audio
 is copied only when actual native decoded samples, format and clock remain
 identical; the work budget covers the selected support union. Chapter and timecode
-metadata cannot add unselected output tracks. Managed selection, durable provenance
-and publication remain separate requirements.
+metadata cannot add unselected output tracks. The [managed conversion owner](src/asset-conversion.ts) exposes explicit whole-stream
+`asset.convert` through existing jobs and asset staging. It retains original dependencies,
+frozen implementation hashes and exact selected source/output evidence. Current verified
+paths locate those hashes; saved work recovers before execution readiness checks.
+Range/acquisition conversion is unsupported.
 Offline self-contained
 input and a dedicated read lease per invocation prevent pathname substitution,
 secondary resource resolution and shared cursor surprises. Source slots are
