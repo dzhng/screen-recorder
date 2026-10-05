@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 import { randomUUID } from "node:crypto";
+import appManifest from "../../macos/package.json" with { type: "json" };
 import { mkdir, mkdtemp, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join, resolve } from "node:path";
@@ -36,6 +37,7 @@ import { Server } from "@modelcontextprotocol/sdk/server/index.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
 import { CallToolRequestSchema, ListToolsRequestSchema } from "@modelcontextprotocol/sdk/types.js";
 
+const { version } = appManifest;
 const previewOperations = new Set(["preview.get", "preview.retry"]);
 
 function failure(
@@ -160,10 +162,7 @@ async function readParams(value: string): Promise<unknown> {
 }
 
 async function mcp(selection: ServiceSelection) {
-  const server = new Server(
-    { name: "screenrec", version: "0.0.0" },
-    { capabilities: { tools: {} } },
-  );
+  const server = new Server({ name: "screenrec", version }, { capabilities: { tools: {} } });
   server.setRequestHandler(ListToolsRequestSchema, async () => ({
     tools: capabilities().map((tool) => ({
       ...tool,
@@ -202,11 +201,18 @@ async function main() {
       output: { type: "string" },
       id: { type: "string" },
       help: { type: "boolean", short: "h" },
+      version: { type: "boolean" },
     },
     allowPositionals: true,
   });
   errorOutput = positionals[0] === "mcp" ? process.stderr : process.stdout;
   responseId = values.id || randomUUID();
+  if (values.version) {
+    if (positionals.length || Object.keys(values).length !== 1)
+      throw new Error("--version accepts no other arguments");
+    process.stdout.write(JSON.stringify({ name: "screenrec", version }) + "\n");
+    return;
+  }
   if (values.help || positionals.length === 0) {
     if (positionals.length > 1) throw new Error("Expected one operation name or mcp");
     const operation = positionals[0] === "mcp" ? undefined : positionals[0];
@@ -218,8 +224,9 @@ async function main() {
     process.stdout.write(
       JSON.stringify(
         {
+          version,
           usage:
-            "screenrec <operation> [--socket PATH] [--params JSON|-] [--id ID] [--output FILE|NEW_DIRECTORY] | screenrec mcp [--socket PATH]",
+            "screenrec <operation> [--socket PATH] [--params JSON|-] [--id ID] [--output FILE|NEW_DIRECTORY] | screenrec mcp [--socket PATH] | screenrec --version",
           service:
             "Without --socket, calls use $SCREENREC_HOME/run/service.sock (default ~/.screen-recorder) and launch the personal app once, within ten seconds, when nothing answers there. --socket connects to that path directly and never launches an app.",
           bundledMedia:

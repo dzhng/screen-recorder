@@ -6,11 +6,11 @@ private struct SharingApplication: Equatable {
 }
 
 func runCaptureExclusionTests() {
-    let recorder = "com.david.screenrec"
+    let recorder = "com.dzhng.screenrec"
     let onScreen = [
         SharingApplication(bundleIdentifier: "com.apple.Safari", processID: 11),
         SharingApplication(bundleIdentifier: recorder, processID: 22),
-        SharingApplication(bundleIdentifier: "com.david.screenrecorder", processID: 33),
+        SharingApplication(bundleIdentifier: "com.dzhng.screenrecorder", processID: 33),
         SharingApplication(bundleIdentifier: recorder, processID: 44),
     ]
     let excluded = CaptureExclusion.ownApplications(
@@ -27,7 +27,7 @@ func runCaptureExclusionTests() {
     }
     precondition(
         CaptureExclusion.ownApplications(
-            among: onScreen, bundleIdentifier: "com.david.screenrec.helper",
+            among: onScreen, bundleIdentifier: "com.dzhng.screenrec.helper",
             identity: \.bundleIdentifier
         ).isEmpty,
         "Identity is the whole bundle identifier, never a prefix of somebody else's")

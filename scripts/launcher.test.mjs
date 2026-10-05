@@ -16,7 +16,7 @@ import { test } from "node:test";
 test("the production launcher refuses bundled entry before loading and holds exclusion until Node exits", async () => {
   const scratch = mkdtempSync(join(tmpdir(), "screenrec-launcher-"));
   const accountHome = join(scratch, "Account home");
-  const lockDirectory = join(accountHome, "Library/Caches/com.david.screenrec");
+  const lockDirectory = join(accountHome, "Library/Caches/com.dzhng.screenrec");
   let holder, ownedClosed;
   try {
     mkdirSync(accountHome);
@@ -160,7 +160,7 @@ int main(int argc, char **argv) {
     execFileSync("clang", [source, "-o", join(bin, "ffmpeg")]);
     copyFileSync(join(bin, "ffmpeg"), join(bin, "ffprobe"));
     const env = { ...process.env, HOME: scratch, SCREENREC_APP: app };
-    const lock = join(accountHome, "Library/Caches/com.david.screenrec/launch.lock");
+    const lock = join(accountHome, "Library/Caches/com.dzhng.screenrec/launch.lock");
     for (const tool of ["ffmpeg", "ffprobe"]) {
       const args = [
         "-filter_complex",

@@ -371,7 +371,7 @@ public final class CursorSampler: Sendable {
         timer.setEventHandler { [weak self] in self?.tick() }
     }
 
-    private let queue = DispatchQueue(label: "com.david.screenrec.cursor-sampler")
+    private let queue = DispatchQueue(label: "com.dzhng.screenrec.cursor-sampler")
     private let timer: any DispatchSourceTimer
     private let intervalUs: Int64
     private let pendingLimit: Int

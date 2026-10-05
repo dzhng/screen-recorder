@@ -60,7 +60,17 @@ try {
     timeout: 15000,
   });
   assert.equal(help.status, 0, help.stderr);
-  assert.ok(JSON.parse(help.stdout).operations.some((entry) => entry.name === "edit.apply"));
+  const schema = JSON.parse(help.stdout);
+  assert.equal(schema.version, receipt.version, "CLI version must match the release receipt");
+  assert.ok(schema.operations.some((entry) => entry.name === "edit.apply"));
+  const cliVersion = spawnSync(node, [join(app, "Contents/Resources/cli/main.mjs"), "--version"], {
+    cwd: "/",
+    env,
+    encoding: "utf8",
+    timeout: 15000,
+  });
+  assert.equal(cliVersion.status, 0, cliVersion.stderr);
+  assert.deepEqual(JSON.parse(cliVersion.stdout), { name: "screenrec", version: receipt.version });
   const native = spawnSync(join(app, "Contents/MacOS/screenrec-native"), [], {
     cwd: "/",
     env,

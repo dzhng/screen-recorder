@@ -2,7 +2,7 @@ import { promisify } from "node:util";
 import { listenLocal, DerivativeDelivery } from "@screenrec/service";
 import { afterEach, expect, it } from "vitest";
 import { execFile, spawn, spawnSync } from "node:child_process";
-import { mkdtemp, mkdir, readFile, rm, writeFile } from "node:fs/promises";
+import { cp, mkdtemp, mkdir, readFile, rm, symlink, writeFile } from "node:fs/promises";
 import { join } from "node:path";
 import { createServer } from "node:net";
 import { randomUUID } from "node:crypto";
@@ -191,6 +191,85 @@ function cli(socket: string, operation: string, params: Record<string, unknown> 
   expect(result.error).toBeUndefined();
   return { exitCode: result.status, result: JSON.parse(result.stdout) };
 }
+
+it("CLI version, help and MCP initialization report the app release without launching it", async () => {
+  const { version } = JSON.parse(
+    await readFile(new URL("../../macos/package.json", import.meta.url), "utf8"),
+  );
+  const env = { ...process.env, SCREENREC_APP: "must-not-launch" };
+  const reported = spawnSync(process.execPath, [entry, "--version"], {
+    cwd: "/",
+    env,
+    encoding: "utf8",
+  });
+  expect(reported.status, reported.stderr).toBe(0);
+  expect(JSON.parse(reported.stdout)).toEqual({ name: "screenrec", version });
+  for (const args of [["capture.status"], ["--help"], ["--params", ""]]) {
+    const invalid = spawnSync(process.execPath, [entry, "--version", ...args], {
+      env,
+      encoding: "utf8",
+    });
+    expect(invalid.status, invalid.stderr).toBe(1);
+    expect(JSON.parse(invalid.stdout).error.message).toBe("--version accepts no other arguments");
+  }
+  const help = spawnSync(process.execPath, [entry, "--help"], { env, encoding: "utf8" });
+  expect(help.status, help.stderr).toBe(0);
+  expect(JSON.parse(help.stdout).version).toBe(version);
+  const client = new Client({ name: "version-test", version: "1" });
+  cleanup.push(() => client.close());
+  await client.connect(
+    new StdioClientTransport({
+      command: process.execPath,
+      args: [entry, "mcp"],
+      env,
+      stderr: "pipe",
+    }),
+  );
+  expect(client.getServerVersion()).toEqual({ name: "screenrec", version });
+});
+
+it("a relocated CLI bundle embeds the version from its build's app manifest", async () => {
+  const scratch = await mkdtemp("/tmp/scr-release-version-");
+  cleanup.push(() => rm(scratch, { recursive: true, force: true }));
+  const source = join(scratch, "source/apps");
+  await mkdir(join(source, "macos"), { recursive: true });
+  await writeFile(join(source, "macos/package.json"), JSON.stringify({ version: "7.8.9" }));
+  await cp(new URL("../dist", import.meta.url), join(source, "cli/dist"), { recursive: true });
+  await writeFile(join(source, "cli/package.json"), JSON.stringify({ type: "module" }));
+  await symlink(
+    new URL("../node_modules", import.meta.url).pathname,
+    join(source, "cli/node_modules"),
+  );
+  const bundled = join(scratch, "relocated/main.mjs");
+  const built = spawnSync(
+    "bun",
+    ["build", join(source, "cli/dist/main.js"), "--target=node", "--outfile", bundled],
+    {
+      encoding: "utf8",
+    },
+  );
+  expect(built.status, built.stderr).toBe(0);
+  await rm(join(scratch, "source"), { recursive: true });
+  const env = { ...process.env, SCREENREC_APP: "must-not-launch" };
+  const reported = spawnSync(process.execPath, [bundled, "--version"], {
+    cwd: "/",
+    env,
+    encoding: "utf8",
+  });
+  expect(reported.status, reported.stderr).toBe(0);
+  expect(JSON.parse(reported.stdout)).toEqual({ name: "screenrec", version: "7.8.9" });
+  const client = new Client({ name: "bundled-version-test", version: "1" });
+  cleanup.push(() => client.close());
+  await client.connect(
+    new StdioClientTransport({
+      command: process.execPath,
+      args: [bundled, "mcp"],
+      env,
+      stderr: "pipe",
+    }),
+  );
+  expect(client.getServerVersion()).toEqual({ name: "screenrec", version: "7.8.9" });
+});
 
 it("help lists registry schemas without opening an app or service, and MCP startup errors stay off stdout", () => {
   const help = spawnSync(process.execPath, [entry, "--help"], {

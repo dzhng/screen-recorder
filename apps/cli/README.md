@@ -8,6 +8,9 @@ owns schemas and help; adapters never edit the catalog or infer another operatio
 [Builds and installation](../../scripts/README.md) own checkout and installed launchers.
 The released launcher’s media-tool passthrough uses each tool's CLI and output
 contract, separately from service operations; the build guide owns its update exclusion.
+The CLI's version reply, help and MCP initialization report the product release
+version; they do not start a service to discover it. Release version ownership
+and bundle snapshots follow the [build guide](../../scripts/README.md#versioned-github-releases).
 
 ## Discover the contract before executing
 

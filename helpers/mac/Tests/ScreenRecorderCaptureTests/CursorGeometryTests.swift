@@ -344,7 +344,7 @@ private func reached(within milliseconds: Int, _ ready: () -> Bool) -> Bool {
 /// button state and nothing else: no input is synthesized, no window is opened and no screen
 /// content is captured, so these observe only what a take already observes about the cursor.
 private func runCursorSamplerTests() {
-    let target = DispatchQueue(label: "com.david.screenrec.cursor-sampler-lifecycle-test")
+    let target = DispatchQueue(label: "com.dzhng.screenrec.cursor-sampler-lifecycle-test")
     let readings = Atomic<Int>(0)
     // Deliveries land on `target`; settling past one cadence interval and then draining that queue
     // leaves no reading in flight to arrive after a count is taken.
@@ -388,7 +388,7 @@ private func runCursorSamplerTests() {
 
     // The bounded handoff, driven by the sampler rather than a hand-fed count: a capture queue
     // that stops draining holds exactly the bound and every further reading is refused.
-    let blocked = DispatchQueue(label: "com.david.screenrec.cursor-sampler-bound-test")
+    let blocked = DispatchQueue(label: "com.dzhng.screenrec.cursor-sampler-bound-test")
     let release = DispatchSemaphore(value: 0)
     let arrived = Atomic<Int>(0)
     let bounded = CursorSampler(intervalUs: 1_000, pendingLimit: 4, target: blocked) { _ in

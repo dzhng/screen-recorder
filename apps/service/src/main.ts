@@ -3,10 +3,10 @@ import { CONTROL_FRAME_BYTES, encodeJsonLine, personalHome } from "@screenrec/pr
 import { startProjectService } from "./project-service.js";
 import { StartupFailure } from "./startup.js";
 import { readFileSync } from "node:fs";
+import appManifest from "../../macos/package.json" with { type: "json" };
 
-// Release packaging may add the running release to the adjacent runtime manifest.
-// Missing metadata is the ordinary standalone/personal-build path.
-let version: string | null = null;
+// Installed runtime metadata records the assembled app; standalone builds use its manifest.
+let version = appManifest.version;
 try {
   const metadata = JSON.parse(readFileSync(new URL("./runtime.json", import.meta.url), "utf8"));
   if (typeof metadata.version === "string" && metadata.version.length) version = metadata.version;

@@ -196,7 +196,6 @@ struct SettingsView: View {
             Section("About") {
                 LabeledContent("Version", value: Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String ?? "Development")
             }
-            updateSection
             Section("Permissions") {
                 ForEach(PermissionKind.allCases, id: \.self) { kind in
                     permissionRow(kind)
@@ -207,31 +206,6 @@ struct SettingsView: View {
             generalSection
         }
         .formStyle(.grouped)
-    }
-
-    private var updateSection: some View {
-        Section {
-            if model.state.updates.available {
-                Toggle("Automatically download and install updates", isOn: Binding(
-                    get: { model.state.updates.enabled },
-                    set: { model.setAutomaticUpdates($0) }))
-                if let status = model.state.updates.status {
-                    Text(status).font(.callout).foregroundStyle(.secondary)
-                }
-            } else {
-                Text("Updates are installed manually in this build.")
-                    .foregroundStyle(.secondary)
-            }
-        } header: {
-            Text("Updates")
-        } footer: {
-            if model.state.updates.available {
-                Text(model.state.updates.enabled
-                    ? "Installs when recording and background work are idle."
-                    : "Off prevents automatic checks, downloads and installation.")
-                    .foregroundStyle(.secondary)
-            }
-        }
     }
 
     @ViewBuilder
@@ -350,7 +324,7 @@ struct SettingsView: View {
     }
 
     private var generalSection: some View {
-        Section("General") {
+        Section {
             Toggle("Show this window when Screen Recorder starts", isOn: $model.showAtLaunch)
             detailRow("Open at login", loginItemDescription) {
                 Toggle("", isOn: openAtLogin).labelsHidden()
@@ -365,6 +339,26 @@ struct SettingsView: View {
                     Spacer(minLength: 12)
                     Button("Open Login Items Settings…") { SMAppService.openSystemSettingsLoginItems() }
                 }
+            }
+            if model.state.updates.available {
+                Toggle("Automatically download and install updates", isOn: Binding(
+                    get: { model.state.updates.enabled },
+                    set: { model.setAutomaticUpdates($0) }))
+                if let status = model.state.updates.status {
+                    Text(status).font(.callout).foregroundStyle(.secondary)
+                }
+            } else {
+                Text("Updates are installed manually in this build.")
+                    .foregroundStyle(.secondary)
+            }
+        } header: {
+            Text("General")
+        } footer: {
+            if model.state.updates.available {
+                Text(model.state.updates.enabled
+                    ? "Installs when recording and background work are idle."
+                    : "Off prevents automatic checks, downloads and installation.")
+                    .foregroundStyle(.secondary)
             }
         }
     }

@@ -62,7 +62,7 @@ private final class TrackWriter {
 
 // All writer and clock mutations run on this queue, including control boundaries.
 package final class CaptureWriter: NSObject, SCStreamOutput, @unchecked Sendable {
-    package let queue = DispatchQueue(label: "com.david.screenrec.capture-writer")
+    package let queue = DispatchQueue(label: "com.dzhng.screenrec.capture-writer")
     private let journal: CaptureJournal
     package var packedJournalLease: CaptureJournalLease? { journal.schemaVersion == 2 ? journal.lease : nil }
     package var requestedAudioRoles: [String] {

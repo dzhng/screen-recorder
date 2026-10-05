@@ -520,7 +520,9 @@ it("announces its listener and answers health over both the pipe and the socket"
     home,
     node: process.versions.node,
     uptimeMs: expect.any(Number),
-    version: null,
+    version: JSON.parse(
+      await readFile(new URL("../../macos/package.json", import.meta.url), "utf8"),
+    ).version,
     update: { state: "unavailable", availableVersion: null, blockers: [], error: null },
   });
 });
