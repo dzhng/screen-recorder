@@ -1,0 +1,284 @@
+{
+  "notes": {
+    "version": 1,
+    "projectId": "1e47fe50-15f3-4732-948d-200b1dd0c373",
+    "revisionId": "00887e3f-cc54-4346-9eb3-4144cf743800",
+    "intent": "Inspect the caller-selected first revision",
+    "candidates": [
+      {
+        "id": "opening",
+        "decision": "selected",
+        "rationale": "Caller requested this boundary",
+        "references": [
+          {
+            "projectId": "1e47fe50-15f3-4732-948d-200b1dd0c373",
+            "revisionId": "00887e3f-cc54-4346-9eb3-4144cf743800"
+          }
+        ]
+      }
+    ],
+    "unresolved": [
+      "Preview evidence has not been transferred"
+    ],
+    "artifacts": [
+      {
+        "key": "opening",
+        "relativePath": "opening.png",
+        "reference": {
+          "projectId": "1e47fe50-15f3-4732-948d-200b1dd0c373",
+          "revisionId": "00887e3f-cc54-4346-9eb3-4144cf743800"
+        }
+      }
+    ]
+  },
+  "current": {
+    "version": 1,
+    "notes": {
+      "version": 1,
+      "projectId": "1e47fe50-15f3-4732-948d-200b1dd0c373",
+      "revisionId": "00887e3f-cc54-4346-9eb3-4144cf743800",
+      "intent": "Inspect the caller-selected first revision",
+      "candidates": [
+        {
+          "id": "opening",
+          "decision": "selected",
+          "rationale": "Caller requested this boundary",
+          "references": [
+            {
+              "projectId": "1e47fe50-15f3-4732-948d-200b1dd0c373",
+              "revisionId": "00887e3f-cc54-4346-9eb3-4144cf743800"
+            }
+          ]
+        }
+      ],
+      "unresolved": [
+        "Preview evidence has not been transferred"
+      ],
+      "artifacts": [
+        {
+          "key": "opening",
+          "relativePath": "opening.png",
+          "reference": {
+            "projectId": "1e47fe50-15f3-4732-948d-200b1dd0c373",
+            "revisionId": "00887e3f-cc54-4346-9eb3-4144cf743800"
+          }
+        }
+      ]
+    },
+    "notesSha256": "172a2ff6726374eedfa9014d1398183002a9be5bc67396c1f137f0c5a9e6d3e1",
+    "currentRevisionId": "00887e3f-cc54-4346-9eb3-4144cf743800",
+    "stale": false,
+    "current": {
+      "state": "available",
+      "projectId": "1e47fe50-15f3-4732-948d-200b1dd0c373",
+      "title": "Untitled",
+      "createdAt": "2026-10-05T02:10:32.233Z",
+      "currentRevisionId": "00887e3f-cc54-4346-9eb3-4144cf743800"
+    },
+    "pinnedRevision": {
+      "state": "available",
+      "revisionId": "00887e3f-cc54-4346-9eb3-4144cf743800",
+      "ordinal": 0,
+      "createdAt": "2026-10-05T02:10:32.233Z"
+    },
+    "artifacts": [
+      {
+        "key": "opening",
+        "relativePath": "opening.png",
+        "reference": {
+          "projectId": "1e47fe50-15f3-4732-948d-200b1dd0c373",
+          "revisionId": "00887e3f-cc54-4346-9eb3-4144cf743800"
+        },
+        "state": "missing",
+        "contentVerification": "not_checked",
+        "reason": "not_transferred",
+        "error": {
+          "code": "ENOENT",
+          "message": "ENOENT: no such file or directory, realpath '/private/var/folders/62/pphwbgd15b1b9q7cjgf8m9pm0000gn/T/asset-service-LHJQ4J/recipient/opening.png'"
+        }
+      }
+    ],
+    "unresolvedArtifactKeys": [],
+    "checks": {
+      "contentVerification": "not_checked",
+      "preparation": "not_requested",
+      "edits": "not_requested"
+    }
+  },
+  "historical": {
+    "version": 1,
+    "notes": {
+      "version": 1,
+      "projectId": "1e47fe50-15f3-4732-948d-200b1dd0c373",
+      "revisionId": "00887e3f-cc54-4346-9eb3-4144cf743800",
+      "intent": "Inspect the caller-selected first revision",
+      "candidates": [
+        {
+          "id": "opening",
+          "decision": "selected",
+          "rationale": "Caller requested this boundary",
+          "references": [
+            {
+              "projectId": "1e47fe50-15f3-4732-948d-200b1dd0c373",
+              "revisionId": "00887e3f-cc54-4346-9eb3-4144cf743800"
+            }
+          ]
+        }
+      ],
+      "unresolved": [
+        "Preview evidence has not been transferred"
+      ],
+      "artifacts": [
+        {
+          "key": "opening",
+          "relativePath": "opening.png",
+          "reference": {
+            "projectId": "1e47fe50-15f3-4732-948d-200b1dd0c373",
+            "revisionId": "00887e3f-cc54-4346-9eb3-4144cf743800"
+          }
+        }
+      ]
+    },
+    "notesSha256": "172a2ff6726374eedfa9014d1398183002a9be5bc67396c1f137f0c5a9e6d3e1",
+    "currentRevisionId": "0a40bf0b-bb7b-4e7e-9490-bc189c642896",
+    "stale": true,
+    "current": {
+      "state": "available",
+      "projectId": "1e47fe50-15f3-4732-948d-200b1dd0c373",
+      "title": "Untitled",
+      "createdAt": "2026-10-05T02:10:32.233Z",
+      "currentRevisionId": "0a40bf0b-bb7b-4e7e-9490-bc189c642896"
+    },
+    "pinnedRevision": {
+      "state": "available",
+      "revisionId": "00887e3f-cc54-4346-9eb3-4144cf743800",
+      "ordinal": 0,
+      "createdAt": "2026-10-05T02:10:32.233Z"
+    },
+    "artifacts": [
+      {
+        "key": "opening",
+        "relativePath": "opening.png",
+        "reference": {
+          "projectId": "1e47fe50-15f3-4732-948d-200b1dd0c373",
+          "revisionId": "00887e3f-cc54-4346-9eb3-4144cf743800"
+        },
+        "state": "missing",
+        "contentVerification": "not_checked",
+        "reason": "not_transferred",
+        "error": {
+          "code": "ENOENT",
+          "message": "ENOENT: no such file or directory, realpath '/private/var/folders/62/pphwbgd15b1b9q7cjgf8m9pm0000gn/T/asset-service-LHJQ4J/recipient/opening.png'"
+        }
+      }
+    ],
+    "unresolvedArtifactKeys": [],
+    "checks": {
+      "contentVerification": "not_checked",
+      "preparation": "not_requested",
+      "edits": "not_requested"
+    }
+  },
+  "before": {
+    "revisions": [
+      {
+        "id": "00887e3f-cc54-4346-9eb3-4144cf743800",
+        "projectId": "1e47fe50-15f3-4732-948d-200b1dd0c373",
+        "ordinal": 0,
+        "createdAt": "2026-10-05T02:10:32.233Z",
+        "operation": "create",
+        "document": {
+          "canvas": {
+            "width": 16,
+            "height": 16,
+            "fps": {
+              "numerator": 30,
+              "denominator": 1
+            },
+            "background": "#000000ff"
+          },
+          "tracks": [],
+          "groups": [],
+          "clips": [],
+          "syncGroups": [],
+          "processing": []
+        }
+      },
+      {
+        "id": "0a40bf0b-bb7b-4e7e-9490-bc189c642896",
+        "projectId": "1e47fe50-15f3-4732-948d-200b1dd0c373",
+        "ordinal": 1,
+        "createdAt": "2026-10-05T02:10:32.243Z",
+        "operation": "apply",
+        "document": {
+          "canvas": {
+            "width": 32,
+            "height": 16,
+            "fps": {
+              "numerator": 30,
+              "denominator": 1
+            },
+            "background": "#000000ff"
+          },
+          "tracks": [],
+          "groups": [],
+          "clips": [],
+          "syncGroups": [],
+          "processing": []
+        }
+      }
+    ],
+    "nextCursor": null
+  },
+  "after": {
+    "revisions": [
+      {
+        "id": "00887e3f-cc54-4346-9eb3-4144cf743800",
+        "projectId": "1e47fe50-15f3-4732-948d-200b1dd0c373",
+        "ordinal": 0,
+        "createdAt": "2026-10-05T02:10:32.233Z",
+        "operation": "create",
+        "document": {
+          "canvas": {
+            "width": 16,
+            "height": 16,
+            "fps": {
+              "numerator": 30,
+              "denominator": 1
+            },
+            "background": "#000000ff"
+          },
+          "tracks": [],
+          "groups": [],
+          "clips": [],
+          "syncGroups": [],
+          "processing": []
+        }
+      },
+      {
+        "id": "0a40bf0b-bb7b-4e7e-9490-bc189c642896",
+        "projectId": "1e47fe50-15f3-4732-948d-200b1dd0c373",
+        "ordinal": 1,
+        "createdAt": "2026-10-05T02:10:32.243Z",
+        "operation": "apply",
+        "document": {
+          "canvas": {
+            "width": 32,
+            "height": 16,
+            "fps": {
+              "numerator": 30,
+              "denominator": 1
+            },
+            "background": "#000000ff"
+          },
+          "tracks": [],
+          "groups": [],
+          "clips": [],
+          "syncGroups": [],
+          "processing": []
+        }
+      }
+    ],
+    "nextCursor": null
+  }
+}

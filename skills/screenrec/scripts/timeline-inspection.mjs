@@ -5,7 +5,7 @@ import { createCli } from "./screenrec-cli.mjs";
 import {
   budget,
   failure,
-  readOutput as readDelivered,
+  readTaskFile as readDelivered,
   runJsonHelper,
 } from "./inspection-artifacts.mjs";
 

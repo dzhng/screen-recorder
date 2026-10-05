@@ -1,3 +1,4 @@
+import { constants } from "node:fs";
 import { open } from "node:fs/promises";
 import { createCli } from "./screenrec-cli.mjs";
 
@@ -8,21 +9,23 @@ export function budget(value, fallback, min, max, name) {
     throw failure("INVALID_REQUEST", `${name} is outside its supported range`);
   return result;
 }
-/** Read only a CLI-delivered task file, never an internal cache receipt path. */
-export async function readOutput(path, maxBytes) {
-  if (typeof path !== "string")
-    throw failure("INVALID_RESPONSE", "Ready evidence has no CLI output file");
-  const file = await open(path, "r");
+/** Read an explicitly selected regular task file; never discover cache receipt paths. */
+export async function readTaskFile(path, maxBytes) {
+  if (typeof path !== "string") throw failure("INVALID_RESPONSE", "Supply a task file path");
+  // A FIFO must reach the regular-file check without waiting for a producer.
+  const file = await open(path, constants.O_RDONLY | constants.O_NONBLOCK);
   try {
     const stat = await file.stat();
     if (!stat.isFile() || stat.size > maxBytes)
-      throw failure("OUTPUT_BUDGET_EXCEEDED", "Delivered evidence exceeds its byte budget");
+      throw failure(
+        "OUTPUT_BUDGET_EXCEEDED",
+        "Task file must be regular and within its byte budget",
+      );
     const result = Buffer.alloc(stat.size);
     let offset = 0;
     while (offset < result.length) {
       const { bytesRead } = await file.read(result, offset, result.length - offset, offset);
-      if (!bytesRead)
-        throw failure("ARTIFACT_CHANGED", "Delivered file ended before its declared size");
+      if (!bytesRead) throw failure("ARTIFACT_CHANGED", "Task file ended before its declared size");
       offset += bytesRead;
     }
     return result;
