@@ -38,5 +38,5 @@
       "cache": false
     }
   },
-  "globalDependencies": ["tsconfig.base.json"]
+  "globalDependencies": ["tsconfig.base.json", "apps/macos/package.json"]
 }

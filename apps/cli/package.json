@@ -1,6 +1,5 @@
 {
   "name": "@screenrec/cli",
-  "version": "0.0.0",
   "private": true,
   "bin": {
     "screenrec": "dist/main.js"

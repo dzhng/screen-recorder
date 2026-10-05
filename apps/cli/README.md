@@ -6,6 +6,9 @@ The CLI is the primary external-agent adapter, paired with the
 MCP stdio exposes the same contracts. The [protocol declaration](../../packages/protocol/README.md)
 owns schemas and help; adapters never edit the catalog or infer another operation.
 [Builds and installation](../../scripts/README.md) own checkout and installed launchers.
+The CLI's version reply, help and MCP initialization report the product release
+version; they do not start a service to discover it. Release version ownership
+and bundle snapshots follow the [build guide](../../scripts/README.md#versioned-github-releases).
 
 ## Discover the contract before executing
 

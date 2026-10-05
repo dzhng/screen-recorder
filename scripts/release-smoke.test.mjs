@@ -15,7 +15,7 @@ import { join } from "node:path";
 import { tmpdir } from "node:os";
 import { test } from "node:test";
 
-test("archive smoke avoids production host/launcher execution and rejects changed files, modes or links", () => {
+test("archive smoke avoids production host/launcher execution and rejects changed trees or stale CLI versions", () => {
   const scratch = mkdtempSync(join(tmpdir(), "screenrec-smoke-contract-"));
   try {
     for (const path of [
@@ -44,7 +44,7 @@ test("archive smoke avoids production host/launcher execution and rejects change
     symlinkSync(process.execPath, join(app, "Contents/Resources/node/bin/node"));
     writeFileSync(
       join(app, "Contents/Resources/cli/main.mjs"),
-      `console.log(JSON.stringify({operations:[{name:'edit.apply'}]}));\n`,
+      `console.log(JSON.stringify(process.argv.includes('--version') ? {name:'screenrec',version:'0.1.3'} : {version:'0.1.3',operations:[{name:'edit.apply'}]}));\n`,
     );
     symlinkSync("cli/main.mjs", join(app, "Contents/Resources/alias"));
     writeFileSync(join(scratch, "bin/codesign"), "#!/bin/sh\nexit 0\n", { mode: 0o755 });
@@ -53,6 +53,7 @@ test("archive smoke avoids production host/launcher execution and rejects change
       join(release, "release.json"),
       JSON.stringify({
         tag: "v0.1.3",
+        version: "0.1.3",
         nodeVersion: process.versions.node,
         updateArchive: { name: "update.zip" },
       }),
@@ -93,6 +94,23 @@ test("archive smoke avoids production host/launcher execution and rejects change
       assert.match(changed.stderr, /same files, modes and links/);
       assert.equal(existsSync(forbidden), false);
     }
+    writeFileSync(
+      join(app, "Contents/Resources/cli/main.mjs"),
+      `console.log(JSON.stringify({name:'screenrec',version:'0.0.0',operations:[{name:'edit.apply'}]}));\n`,
+    );
+    execFileSync("ditto", [
+      "-c",
+      "-k",
+      join(scratch, "kit"),
+      join(release, "ScreenRecorder-v0.1.3-macos-arm64.zip"),
+    ]);
+    rmSync(join(scratch, "update"), { recursive: true });
+    execFileSync("ditto", [app, updateApp]);
+    packageUpdate();
+    const stale = run();
+    assert.equal(stale.status, 1, stale.stdout + stale.stderr);
+    assert.match(stale.stderr, /CLI version must match the release receipt/);
+    assert.equal(existsSync(forbidden), false);
   } finally {
     rmSync(scratch, { recursive: true, force: true });
   }

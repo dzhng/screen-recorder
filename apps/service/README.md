@@ -35,8 +35,11 @@ Only the inherited app control pipe accepts [update coordination](../../packages
 Release is safe to repeat and never releases a successor's permit; commitment
 requires the current permit. The native app supplies update status, which health
 projects beside the running release version. Until an updater reports, update
-status is unavailable; absent runtime version metadata reports null. An unavailable updater or disabled
-automatic updating does not imply an unhealthy service. This gate provides no
+status is unavailable. Installed runtime metadata supplies the assembled app's
+version; standalone builds use the [app manifest](../macos/package.json), following
+the [release version owner](../../scripts/README.md#versioned-github-releases).
+An unavailable updater or disabled automatic updating does not imply an unhealthy
+service. This gate provides no
 bundle-replacement, code-signing or launch-lock guarantee by itself.
 
 ## One runtime owner

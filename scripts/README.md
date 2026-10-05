@@ -27,9 +27,12 @@ owns probing and failure behavior.
 
 ## Versioned GitHub releases
 
-The [app manifest](../apps/macos/package.json) owns the version. Update it, commit
-the source, and push an annotated tag whose name is v followed by that version.
-Push the source branch as well. Never move a published tag or silently replace
+The [app manifest](../apps/macos/package.json) owns the product release version.
+Native app metadata, CLI/MCP reporting, service runtime metadata and the release
+receipt all derive from it. Bundling embeds the version into the CLI and service,
+so an installed artifact reports its own build without needing the checkout.
+Update the manifest, commit the source, and push an annotated tag whose name is v
+followed by that version. Push the source branch as well. Never move a published tag or silently replace
 its assets; a correction receives a new version.
 
 The [tag workflow](../.github/workflows/release.yml) validates version agreement,
@@ -38,8 +41,8 @@ only verified assets. Its manual retry runs the selected source with an explicit
 version tag validated by the same release owner; published assets remain immutable.
 An unpublished release must come from the tag's exact source. Rebuilding a
 published release checks repaired tooling without changing delivered bytes.
-Relocation smoke loads schema help and the native worker
-from the exact signed archives; it does not launch the production host or external
+Relocation smoke checks CLI version agreement and loads schema help and the native
+worker from the exact signed archives; it does not launch the production host or external
 launcher, whose preferences and lock belong to the real account. Host/service and
 updater lifetime proof uses an isolated signed fixture identity. The workflow owns
 triggers and permissions. Normal version tags, including `v0.*`,
