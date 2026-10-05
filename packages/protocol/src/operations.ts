@@ -983,7 +983,7 @@ export const operationSchema = z.discriminatedUnion("operation", [
   z
     .object({
       operation: z.literal("capture.start"),
-      params: captureSelectionSchema.extend({ requestId: id }).strict(),
+      params: captureSelectionSchema.safeExtend({ requestId: id }).strict(),
     })
     .strict()
     .describe("Allocate a take and start capturing it; a repeated request ID replays one take."),
@@ -1016,7 +1016,7 @@ export const operationSchema = z.discriminatedUnion("operation", [
   z
     .object({
       operation: z.literal("capture.restart"),
-      params: captureSelectionSchema.extend({ recordingId: id, requestId: id }).strict(),
+      params: captureSelectionSchema.safeExtend({ recordingId: id, requestId: id }).strict(),
     })
     .strict()
     .describe(

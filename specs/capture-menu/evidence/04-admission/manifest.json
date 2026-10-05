@@ -1,0 +1,50 @@
+{
+  "scope": "Narrow admission and integrated authority verification; no physical capture or permissions",
+  "logs": [
+    {
+      "file": "protocol-invalid-companion-red.log.gz",
+      "sha256": "59f28ea8b1ca532dc647144015030a99c829244b784d814069cc783507f3780a",
+      "uncompressedSha256": "6edecb4dfbc68ff78bea016eee170cfd592ef1d8dfb66f1eeefecad2401a8ec3"
+    },
+    {
+      "file": "protocol-final.log.gz",
+      "sha256": "3e45aba310c9e43b7410e7b9010e4a1497ca2bf04f2b3acb1090ddd1fca299bd",
+      "uncompressedSha256": "7c891bdfe262268282b82d3b78fa24e033526cef2305eb057ed107ed7109ddf7"
+    },
+    {
+      "file": "controls-camera-replay-red.log.gz",
+      "sha256": "1d2c98b44f961020b03ee5d8b3d14e306f7d4a96f240c03920e8c217316e5759",
+      "uncompressedSha256": "96738dff31f81e90d3791afe00191667d7ed8d5e67c761096f1cefcedc1d3b89"
+    },
+    {
+      "file": "controls-final.log.gz",
+      "sha256": "3c3c464370b9e7e662955a9bdf0b82345f19442bf4f8735dfcea294eb11ef67f",
+      "uncompressedSha256": "9aaedf9a8d636f0c83e2fb1f36257db0b635ee796b91fc75fed2c62a8ca14573"
+    },
+    {
+      "file": "service-camera-replay.log.gz",
+      "sha256": "1a2c47b9ccd9d4094a89b8accd0ab89b68784f670ba81afc84b00a84de77dde5",
+      "uncompressedSha256": "6d2f794fe48097bb4493c3c029587acfef323bf5ff1b28941edb74ba6c24d99e"
+    },
+    {
+      "file": "native-admission.log.gz",
+      "sha256": "bc263766092845081e7d6106217ccd2bd848d52de9c07ae4f527a6caa300c717",
+      "uncompressedSha256": "81326e4a86d075df0786411ba8acad80c659bdc61c28cb7f9120c7beff0efd2f"
+    },
+    {
+      "file": "merged-primary-authority.log.gz",
+      "sha256": "ee352dea728de60e02e258a7b3aa20d83b07033613dbfb01f18bd068148c5c7e",
+      "uncompressedSha256": "3421aba162e3923908d9f994cb3d1af8e96a4321d0b941c08d77d204cfc76b53"
+    },
+    {
+      "file": "merged-primary-core-admission.log.gz",
+      "sha256": "0118b1303b1ae5aa93120f16e8b16a2faa326234091aa647d0990691f7a8a2e3",
+      "uncompressedSha256": "69e7ad7a575a161c1907015426b051148dbf7d11ae5f9024fd1ec650420d1fcf"
+    },
+    {
+      "file": "independent-review.log.gz",
+      "sha256": "1534aefb6614e53a4932106c8238f0a222a2ce15576dc5bf1417697364849604",
+      "uncompressedSha256": "7572a8ba4690d2b1ea9f0cc0f38ffe7d70037fe6e6f155de022df34fe09e4144"
+    }
+  ]
+}

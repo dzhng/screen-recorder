@@ -7,32 +7,43 @@ ownership or making editorial decisions.
 
 ## Next Agent Prompt
 
-**Status: planned; implementation has not started. Updated October 5, 2026.**
+**Status: implementing. Updated October 5, 2026.**
 
-You are picking up a spec-writing handoff. Start implementation only when the user
-requests the build. When authorized, read the root/app/native READMEs and begin at
-[slice 01](slices/01-capture-geometry.md): the production native capture-view fixture.
-Obtain an actual current-menu native baseline, then judge geometry against the
-frozen concept. Next prove [slice 02](slices/02-primary-camera-authority.md) before
-opening a live camera. Follow the dependencies below; do not hide a screen stream
-behind the Camera Only tile.
+The user authorized the full build through `/goal /implement-spec`. Capture
+geometry 01 and primary publication proof 02 are integrated on `feat/capture-menu`;
+shared admission/permissions 04 is completing its reviewed checkpoint. Current
+pickup: integrate Library geometry 03, then replace the old menu in 05. Preserve
+existing recordings and originals; hard cutover/no shims/no migrations is confirmed.
 
-No current external blocker prevents the first fixture. Unproven platform gates
-are assigned to slices 02, 05, 09 and 10. They are questions to answer, not passed
-checks. Hard cutover/no shims/no migrations is explicitly confirmed by the user;
-existing recordings and source bytes must remain readable and unchanged.
+Parallel lanes:
 
-Use tests first and narrow checks while iterating. Follow the standing visual gate
-in [verification.md](verification.md), including **compare-screenshots**, unprimed
-**screenshot-critique last**, and non-blocking **preview-shots** review. Retain
-evidence in this feature folder. Run the full required suite once at finished
-implementation. Preserve unrelated dirty workspace files; no implementation,
-build, recording, commit or install occurred during this planning pass.
+- `/tmp/screenrec-capture-ui`: Library geometry 03, shared semantic presentation.
+- `/tmp/screenrec-capture-authority`: primary camera input 08/09 after 04 integration.
+- `/tmp/screenrec-library-paging`: independent 07 backend paging/fencing; view
+  binding waits for 03/05. This refinement has no dependency on the new window.
 
-- [ ] [01 — Capture geometry fixture](slices/01-capture-geometry.md)
-- [ ] [02 — Primary camera authority proof](slices/02-primary-camera-authority.md)
+Evidence: [01 geometry](evidence/01-capture/report.md),
+[02 publication](assets/evidence/02-primary-camera-authority/README.md),
+[04 admission](evidence/04-admission/report.md) and
+[04 permissions](evidence/04-permissions/README.md). Geometry fixtures prove the
+production components, not a production cutover or capture. Obtain an actual old
+native menu baseline before removing it in 05; that comparison is still OPEN.
+
+Read-only host inventory found no camera or microphone input. Physical camera,
+narration and system-audio gates remain OPEN; no prompt/device session was opened.
+Fixture evidence cannot close them. Continue independent implementation, preserving
+the frozen system-audio reproduction requirement before production parity in 11.
+
+Use tests first, narrow checks and separate worktree build outputs. Follow
+[verification.md](verification.md) for visual comparisons, fresh critique last,
+and non-blocking preview review. Run the full required suite once implementation
+is finished. Preserve unrelated dirty workspace files. No app install or physical
+capture has occurred. Per-pass choices live in [choices.md](choices.md).
+
+- [x] [01 — Capture geometry fixture](slices/01-capture-geometry.md)
+- [x] [02 — Primary camera authority proof](slices/02-primary-camera-authority.md)
 - [ ] [03 — Library geometry fixture](slices/03-library-geometry.md)
-- [ ] [04 — Canonical selection, discovery and permission admission](slices/04-capture-admission.md)
+- [x] [04 — Canonical selection, discovery and permission admission](slices/04-capture-admission.md)
 - [ ] [05 — Native popover/window lifetime](slices/05-native-window-lifetime.md)
 - [ ] [06 — Capture actions and inline state](slices/06-capture-actions.md)
 - [ ] [07 — Library paging and existing actions](slices/07-library-browsing.md)

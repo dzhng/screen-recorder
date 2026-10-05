@@ -18,6 +18,7 @@ extension NSScreen {
         case .display(let display): screens.first { $0.captureDisplayID == display.id }
         case .region(let region): screens.first { $0.captureDisplayID == region.displayId }
         case .window(let window): holding(window: window.id)
+        case .camera: nil
         case nil: nil
         }
     }

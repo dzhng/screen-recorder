@@ -32,6 +32,7 @@ public enum ControlsAction: Hashable, Sendable {
     case refreshStorage
     case requestScreenPermission
     case requestMicrophonePermission
+    case requestCameraPermission
     case setAutomaticUpdates(Bool)
     case openSettings
     case quit
@@ -64,6 +65,7 @@ public enum ControlsAction: Hashable, Sendable {
         case .refreshStorage: "storage.refresh"
         case .requestScreenPermission: "permission.screen"
         case .requestMicrophonePermission: "permission.microphone"
+        case .requestCameraPermission: "permission.camera"
         case .setAutomaticUpdates(let enabled): "updates.automatic.\(enabled ? "on" : "off")"
         case .openSettings: "app.settings"
         case .quit: "app.quit"
@@ -216,6 +218,9 @@ public enum RecordingMenu {
             window.application.isEmpty ? window.title : "\(window.application) — \(window.title)"
         case .region(let region):
             "Region \(Int(region.width))×\(Int(region.height)) of \(region.displayName)"
+        case .camera:
+            state.sources.cameras.first { $0.id == state.selection.cameraDeviceId }?.name
+                ?? state.selection.cameraDeviceId ?? "Choose a camera"
         case nil: "none chosen"
         }
     }

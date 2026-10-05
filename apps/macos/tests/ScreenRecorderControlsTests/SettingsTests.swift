@@ -21,6 +21,8 @@ private func submenu(_ entries: [MenuEntry], startingWith prefix: String) -> [Me
 }
 
 func runStartPermissionTests() {
+    precondition(PermissionKind.missing(fromStartFailure: "CAMERA_PERMISSION_REQUIRED")?.name == "Camera",
+                 "A camera start refusal offers camera access, independently of screen access")
     precondition(
         PermissionKind.missing(fromStartFailure: "MICROPHONE_PERMISSION_REQUIRED") == .microphone,
         "A start refused for the microphone asks for the microphone")
@@ -55,7 +57,7 @@ func runPermissionRowTests() {
         var state = ready()
         state.permissions = ControlsState.Permissions(screen: access, microphone: .granted)
         // A catalog read without screen access lists nothing.
-        state.sourcesUnavailable(code: "PERMISSION_REQUIRED", description: "")
+        state.observeSources(.init())
         precondition(
             shape(submenu(RecordingMenu.entries(for: state), startingWith: "Source:")) == [
                 "(Screen recording access is not granted.)", "permission.screen: \(allow)", "—",
@@ -78,10 +80,10 @@ func runPermissionRowTests() {
     }
 
     precondition(
-        ControlsState.Access(microphoneAuthorization: "authorized") == .granted
-            && ControlsState.Access(microphoneAuthorization: "not_determined") == .undetermined
-            && ControlsState.Access(microphoneAuthorization: "denied") == .denied
-            && ControlsState.Access(microphoneAuthorization: "restricted") == .denied,
+        ControlsState.Access(authorization: "authorized") == .granted
+            && ControlsState.Access(authorization: "not_determined") == .undetermined
+            && ControlsState.Access(authorization: "denied") == .denied
+            && ControlsState.Access(authorization: "restricted") == .denied,
         "Only an unanswered prompt can still be asked; restricted access is as final as a denial")
     print("PASS both permission submenus state missing access the same way")
 }

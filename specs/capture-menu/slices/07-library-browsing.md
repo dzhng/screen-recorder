@@ -1,6 +1,9 @@
 # 07 — Bounded Library browsing and actions
 
-Status: TODO. Dependencies: 03, 05.
+Status: backend paging/fencing in progress; window binding TODO.
+Dependencies: 03, 05 for presentation binding. The bounded recording-page owner
+is independent and may be implemented/tested before the new view/window exists;
+all final saved-media reachability and visual gates still apply.
 
 ## Contract
 

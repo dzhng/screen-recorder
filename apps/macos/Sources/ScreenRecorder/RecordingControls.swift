@@ -229,6 +229,8 @@ final class RecordingControls: NSObject, NSMenuDelegate {
             request(.screen)
         case .requestMicrophonePermission:
             request(.microphone)
+        case .requestCameraPermission:
+            request(.camera)
         case .setAutomaticUpdates(let enabled):
             if state.updates.available { setUpdatesEnabled?(enabled) }
         case .openSettings:
@@ -373,8 +375,8 @@ final class RecordingControls: NSObject, NSMenuDelegate {
         render()
         Task { @MainActor in
             defer { permissionRequests -= 1; render() }
-            let granted = (try? await NativeCapture.requestPermission(kind == .screen ? "screen" : "microphone")) ?? false
-            if granted, kind == .microphone {
+            let granted = (try? await NativeCapture.requestPermission(kind.rawValue)) ?? false
+            if granted, kind != .screen {
                 state.failure = nil
                 start()
             } else {
@@ -415,7 +417,7 @@ final class RecordingControls: NSObject, NSMenuDelegate {
             defer { permissionRequests -= 1; render() }
             do {
                 let granted = try await NativeCapture.requestPermission(
-                    kind == .screen ? "screen" : "microphone")
+                    kind.rawValue)
                 if !granted {
                     if kind == .screen { screenRequestRefused = true }
                     state.failure =
@@ -435,7 +437,8 @@ final class RecordingControls: NSObject, NSMenuDelegate {
     private func readPermissions() {
         state.permissions = ControlsProbe.displayedPermissions ?? ControlsState.Permissions(
             screen: NativeCapture.screenPermission ? .granted : screenRequestRefused ? .denied : .undetermined,
-            microphone: .init(microphoneAuthorization: NativeCapture.microphonePermission))
+            microphone: .init(authorization: NativeCapture.microphonePermission),
+            camera: .init(authorization: NativeCapture.cameraPermission))
     }
 
     // MARK: reading
@@ -531,9 +534,11 @@ final class RecordingControls: NSObject, NSMenuDelegate {
                     },
                     microphones: answer.microphones.map {
                         ControlsState.Microphone(id: $0.id, name: $0.name, isDefault: $0.isDefault)
+                    }, cameras: answer.cameras.map {
+                        ControlsState.Camera(id: $0.id, name: $0.name)
                     }))
         } catch {
-            state.sourcesUnavailable(code: error.code, description: error.localizedDescription)
+            state.sourcesUnavailable(description: error.localizedDescription)
         }
     }
 
@@ -649,9 +654,14 @@ private struct SourcesAnswer: Decodable {
         let name: String
         let isDefault: Bool
     }
+    struct Camera: Decodable {
+        let id: String
+        let name: String
+    }
     let displays: [Display]
     let windows: [Window]
     let microphones: [Microphone]
+    let cameras: [Camera]
 }
 
 private struct StartedTake: Decodable {

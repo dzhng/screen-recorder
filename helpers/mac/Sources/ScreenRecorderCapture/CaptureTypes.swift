@@ -19,18 +19,20 @@ public struct CaptureRegion: Codable, Sendable {
 public struct CaptureSource: Codable, Sendable {
     public init(
         kind: String, displayID: UInt32? = nil, windowID: UInt32? = nil,
-        region: CaptureRegion? = nil
+        region: CaptureRegion? = nil, deviceID: String? = nil
     ) {
         self.kind = kind
         self.displayID = displayID
         self.windowID = windowID
         self.region = region
+        self.deviceID = deviceID
     }
 
     public let kind: String
     public let displayID: UInt32?
     public let windowID: UInt32?
     public let region: CaptureRegion?
+    public let deviceID: String?
 }
 
 public struct CaptureRequest: Codable, Sendable {

@@ -1,6 +1,13 @@
 # 04 — Canonical capture selection and permission contract
 
-Status: TODO. Dependencies: 02 for primary authority viability.
+Status: implemented and narrowly verified; final feature acceptance remains open.
+Dependencies: 02 for primary authority viability.
+
+Evidence: [permission shots/review](../evidence/04-permissions/README.md) and
+[admission report](../evidence/04-admission/report.md). Public/native admission,
+exact primary identity, companion conflict, unchanged audio defaults, durable
+replay across reopen, independent discovery and controls replay after disconnect
+are proved without device IO. Actual camera acquisition remains slices 08–11.
 
 ## Contract
 

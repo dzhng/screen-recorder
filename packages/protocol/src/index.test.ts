@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+import { readFileSync } from "node:fs";
 import {
   ARTIFACT_CHUNK_BYTES,
   captureSelectionSchema,
@@ -35,6 +36,22 @@ it("reads authored project revisions while recording identities retain only sour
 
 describe("capture selection", () => {
   const source = { kind: "window", windowId: 7 } as const;
+  it("admits an explicitly selected camera as primary video with the shared audio defaults", () => {
+    expect(
+      operationSchema.parse({
+        operation: "capture.start",
+        params: { requestId: "camera-take", source: { kind: "camera", deviceId: "camera-2" } },
+      }),
+    ).toMatchObject({
+      operation: "capture.start",
+      params: {
+        requestId: "camera-take",
+        source: { kind: "camera", deviceId: "camera-2" },
+        microphone: true,
+        systemAudio: false,
+      },
+    });
+  });
   it("records the narrator by default and the machine's own audio only when asked", () => {
     const capture = operationSchema.parse({
       operation: "capture.start",
@@ -49,6 +66,54 @@ describe("capture selection", () => {
     expect(
       nativeStartSchema.parse({ source, recordingId: "r", sourceId: "s", outputDirectory: "/tmp" }),
     ).toMatchObject({ microphone: true, systemAudio: false });
+  });
+  it("refuses companion camera authority on a primary camera and malformed device identities", () => {
+    for (const params of [
+      { source: { kind: "camera", deviceId: "primary" }, cameraDeviceId: "companion" },
+      { source: { kind: "camera" } },
+      { source: { kind: "camera", deviceId: "" } },
+      { source: { kind: "camera", deviceId: "c".repeat(257) } },
+      { source: { kind: "camera", deviceId: "primary", displayId: 7 } },
+    ]) {
+      expect(
+        operationSchema.safeParse({
+          operation: "capture.start",
+          params: { requestId: "r", ...params },
+        }).success,
+      ).toBe(false);
+    }
+    expect(
+      nativeStartSchema.safeParse({
+        recordingId: "r",
+        sourceId: "s",
+        outputDirectory: "/tmp/source",
+        source: { kind: "camera", deviceId: "primary" },
+        cameraDeviceId: "companion",
+        cameraSourceId: "c",
+        cameraDirectory: "/tmp/camera",
+      }).success,
+    ).toBe(false);
+  });
+  it("refuses allocated companion authority even without a companion device", () => {
+    for (const companion of [{ cameraSourceId: "ghost" }, { cameraDirectory: "/tmp/ghost" }]) {
+      expect(
+        nativeStartSchema.safeParse({
+          recordingId: "r",
+          sourceId: "s",
+          outputDirectory: "/tmp/source",
+          source: { kind: "camera", deviceId: "primary" },
+          ...companion,
+        }).success,
+      ).toBe(false);
+    }
+  });
+  it("shares camera selection fixtures with the native app boundary", () => {
+    const fixture = JSON.parse(
+      readFileSync(new URL("../fixtures/capture-primary-camera.json", import.meta.url), "utf8"),
+    );
+    expect(captureSelectionSchema.parse(fixture.selection)).toEqual(fixture.selection);
+    for (const selection of fixture.invalidSelections)
+      expect(captureSelectionSchema.safeParse(selection).success).toBe(false);
   });
 });
 

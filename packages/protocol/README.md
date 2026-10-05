@@ -9,6 +9,14 @@ Composition schemas come from their [pure owner](../composition/README.md).
 Serializable admission is not execution readiness: supported native capabilities,
 prepared dependencies and actual media availability are separate evidence.
 
+## Capture roles
+
+[Capture admission](src/capture.ts) names a selected camera inside the primary
+source. The optional top-level camera selection belongs only to a companion
+alongside a screen source. Device kind and primary/companion role are separate:
+a camera-only take uses the ordinary primary allocation, without a camera sibling.
+Audio defaults and durable replay identities stay shared across entry points.
+
 ## Identity and framing
 
 A transport request ID correlates one exchange. A durable mutation request ID

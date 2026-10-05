@@ -13,6 +13,7 @@ const authorization = z.enum(["authorized", "denied", "restricted", "not_determi
 export const captureSourceSchema = z.discriminatedUnion("kind", [
   z.object({ kind: z.literal("display"), displayId: z.int().nonnegative() }).strict(),
   z.object({ kind: z.literal("window"), windowId: z.int().nonnegative() }).strict(),
+  z.object({ kind: z.literal("camera"), deviceId: id.max(256) }).strict(),
   z
     .object({
       kind: z.literal("region"),
@@ -31,23 +32,45 @@ export type CaptureSource = z.infer<typeof captureSourceSchema>;
  * caller refuses it, and what the machine itself plays stays out until it is asked for. This is
  * the one place either default is stated: every peer is told both, explicitly, on every start.
  */
-export const captureSelectionSchema = z.object({
-  source: captureSourceSchema,
-  microphone: z.boolean().default(true),
-  systemAudio: z.boolean().default(false),
-  microphoneDeviceId: id.optional(),
-  cameraDeviceId: id.max(256).optional(),
-});
+export const captureSelectionSchema = z
+  .object({
+    source: captureSourceSchema,
+    microphone: z.boolean().default(true),
+    systemAudio: z.boolean().default(false),
+    microphoneDeviceId: id.optional(),
+    cameraDeviceId: id.max(256).optional(),
+  })
+  .superRefine((selection, context) => {
+    if (selection.source.kind === "camera" && selection.cameraDeviceId !== undefined) {
+      context.addIssue({
+        code: "custom",
+        path: ["cameraDeviceId"],
+        message: "A primary camera cannot also select a companion camera.",
+      });
+    }
+  });
 export type CaptureSelection = z.output<typeof captureSelectionSchema>;
 
 /** Identity and directory are allocated before native runs, so native never invents either. */
-export const nativeStartSchema = captureSelectionSchema.extend({
-  recordingId: id,
-  sourceId: id,
-  cameraSourceId: id.max(256).optional(),
-  cameraDirectory: absolutePath.optional(),
-  outputDirectory: absolutePath,
-});
+export const nativeStartSchema = captureSelectionSchema
+  .safeExtend({
+    recordingId: id,
+    sourceId: id,
+    cameraSourceId: id.max(256).optional(),
+    cameraDirectory: absolutePath.optional(),
+    outputDirectory: absolutePath,
+  })
+  .superRefine((selection, context) => {
+    if (selection.source.kind !== "camera") return;
+    for (const field of ["cameraSourceId", "cameraDirectory"] as const) {
+      if (selection[field] !== undefined)
+        context.addIssue({
+          code: "custom",
+          path: [field],
+          message: "A primary camera cannot carry companion camera authority.",
+        });
+    }
+  });
 
 /**
  * Lifecycle sequences below this belong to the native capture journal, which numbers its own

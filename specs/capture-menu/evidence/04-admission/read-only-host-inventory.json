@@ -1,0 +1,14 @@
+{
+  "bundleIdentifier" : null,
+  "cameraPermission" : "not_determined",
+  "cameras" : [
+
+  ],
+  "executable" : "\/tmp\/capture-menu-read-only-inventory",
+  "microphonePermission" : "not_determined",
+  "microphones" : [
+
+  ],
+  "scope" : "read-only discovery\/authorization; no device input, session, stream, or permission request created",
+  "screenAuthorized" : false
+}

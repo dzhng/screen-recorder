@@ -73,7 +73,8 @@ public final class NativeCapture {
         switch kind {
         case "screen": return CGRequestScreenCaptureAccess()
         case "microphone": return await AVCaptureDevice.requestAccess(for: .audio)
-        default: throw CaptureFailure("INVALID_REQUEST", "Permission must be screen or microphone.")
+        case "camera": return await AVCaptureDevice.requestAccess(for: .video)
+        default: throw CaptureFailure("INVALID_REQUEST", "Permission must be screen, microphone or camera.")
         }
     }
 

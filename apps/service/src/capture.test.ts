@@ -961,6 +961,63 @@ it("refuses a start request ID reused for a different take instead of reinterpre
   expect(replayed.ok && replayed.data).toEqual(started.ok && started.data);
 });
 
+it("allocates one primary camera and refuses a replay that changes its selected device", async () => {
+  const home = await temporaryHome();
+  const requested: Record<string, unknown>[] = [];
+  const peer = capturingPeer();
+  const service = await startService(home, (operation, params) => {
+    if (operation === "capture.start") requested.push(params);
+    return peer(operation, params);
+  });
+  const request = {
+    requestId: "camera-primary",
+    source: { kind: "camera", deviceId: "camera-selected" },
+    microphone: false,
+    systemAudio: false,
+  };
+  const started = await service.call("capture.start", request);
+  expect(started).toMatchObject({
+    ok: true,
+    data: { state: "recording", camera: null },
+  });
+  expect(requested[0]).toMatchObject({
+    source: request.source,
+    microphone: false,
+    systemAudio: false,
+  });
+  for (const field of ["cameraDeviceId", "cameraSourceId", "cameraDirectory"])
+    expect(requested[0]).not.toHaveProperty(field);
+  if (!started.ok) throw new Error("Primary camera start failed");
+  const { recordingId } = started.data as { recordingId: string };
+  expect(await readdir(join(home, "library/recordings", recordingId))).not.toContain("camera");
+  expect(
+    await service.call("capture.start", {
+      ...request,
+      source: { kind: "camera", deviceId: "different-camera" },
+    }),
+  ).toMatchObject({ ok: false, error: { code: "REQUEST_CONFLICT" } });
+  const replayed = await service.call("capture.start", request);
+  expect(replayed.ok && replayed.data).toEqual(started.data);
+  expect(requested).toHaveLength(1);
+  await service.close();
+  const reopened = await startService(home, peer);
+  expect(await reopened.call("recording.get", { recordingId })).toMatchObject({
+    ok: true,
+    data: { recordingId, camera: null },
+  });
+  expect(
+    await reopened.call("capture.start", {
+      ...request,
+      source: { kind: "camera", deviceId: "different-camera" },
+    }),
+  ).toMatchObject({ ok: false, error: { code: "REQUEST_CONFLICT" } });
+  expect(await reopened.call("capture.start", request)).toMatchObject({
+    ok: true,
+    data: { recordingId },
+  });
+  expect(reopened.asked).not.toContain("capture.start");
+});
+
 it("refuses pause and resume on a settled take while every other repeat stays idempotent", async () => {
   const home = await temporaryHome();
   const service = await startService(home, capturingPeer({ reason: "SOURCE_LOST" }));

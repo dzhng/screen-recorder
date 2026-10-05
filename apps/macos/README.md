@@ -15,6 +15,10 @@ and do not activate the app over the source being recorded.
 
 Authorization is read from native capture and requested only through an explicit
 action. Permission denial remains actionable without choosing another device.
+Camera and microphone discovery do not depend on screen authorization. Missing
+screen access produces empty screen choices, while an actual discovery failure
+retains the last-good catalog and reports the error. A camera choice preserves
+its device identity and never silently substitutes a disconnected device.
 Login registration is the system's answer, not a second locally cached preference.
 A client-triggered service launch suppresses the ordinary launch window; a headless
 check must not take focus or play audio.

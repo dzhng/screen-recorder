@@ -58,6 +58,33 @@ func runAwaitedMicrophoneTests() {
 }
 
 func runSelectionTests() {
+    let cameraData = Data(#"{"source":{"kind":"camera","deviceId":"selected-camera"},"microphone":false,"systemAudio":false}"#.utf8)
+    guard let cameraStart = try? JSONDecoder().decode(ControlsState.CaptureSelection.Start.self, from: cameraData) else {
+        preconditionFailure("A primary camera start crosses the shared controls boundary")
+    }
+    var cameraState = ControlsState()
+    cameraState.selection.apply(cameraStart, catalog: cameraState.sources)
+    precondition(cameraState.selection.start() == cameraStart,
+                 "An external primary camera retains its exact device identity for restart")
+    let cameraRestart = try! JSONSerialization.jsonObject(with: JSONEncoder().encode(cameraState.selection.start()!)) as! [String: Any]
+    precondition(cameraRestart["cameraDeviceId"] == nil,
+                 "A primary camera never emits a companion camera selection")
+    precondition(cameraState.beginStart(newRequestId: "missing-camera") == nil,
+                 "An unavailable selected camera cannot start or substitute another device")
+    cameraState.observeSources(.init(cameras: [.init(id: "selected-camera", name: "Studio Camera")]))
+    precondition(cameraState.beginStart(newRequestId: "available-camera")?.start == cameraStart,
+                 "An explicit available camera starts with no discovered screen")
+    cameraState.sourcesUnavailable(description: "Screen listing was refused")
+    precondition(cameraState.sources.cameras.first?.id == "selected-camera"
+                 && cameraState.selection.cameraDeviceId == "selected-camera",
+                 "A failed screen listing cannot erase independent camera discovery or its choice")
+    cameraState.observeSources(.init())
+    let replay = cameraState.beginStart(newRequestId: "must-not-allocate")
+    precondition(replay?.requestId == "available-camera" && replay?.repeatsUnanswered == true,
+                 "A disconnected camera cannot prevent resolving its unanswered allocation")
+    if let replay { _ = cameraState.finishStart(replay, .ended) }
+    precondition(cameraState.beginStart(newRequestId: "disconnected-fresh") == nil,
+                 "After resolving the old allocation a disconnected camera cannot start a new take")
     var state = ControlsState()
     precondition(state.selection.start() == nil, "Nothing starts until a person chooses a source")
     precondition(
@@ -124,7 +151,7 @@ func runSelectionTests() {
                  "Before anything was selected, the first display is offered")
 
     var failing = ready(source: .window(window))
-    failing.sourcesUnavailable(code: "TIMEOUT", description: "TIMEOUT: capture.sources did not answer in time")
+    failing.sourcesUnavailable(description: "TIMEOUT: capture.sources did not answer in time")
     precondition(
         failing.selection.source == .window(window) && failing.sources.windows == [window]
             && failing.failure == "TIMEOUT: capture.sources did not answer in time",
