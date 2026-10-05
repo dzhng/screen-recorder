@@ -641,6 +641,34 @@ export const operationSchema = z.discriminatedUnion("operation", [
     ),
 
   z
+    .strictObject({
+      operation: z.literal("speaker.prepare"),
+      params: sourceSelection
+        .extend({ channel: z.int().nonnegative(), sourceRange: selectionRangeSchema, modelId: id })
+        .strict(),
+    })
+    .describe(
+      "Explicitly prepare one selected source channel over exactly thirty seconds of complete available support, starting on the16k sample grid. Joins the same observation; job.retry owns failed/canceled recovery. Requires explicitly prepared optional model/runtime and an admitted native decoder. Never fills holes, mixes channels, infers edits or modifies original media.",
+    ),
+  z
+    .strictObject({
+      operation: z.literal("speaker.get"),
+      params: sourceSelection
+        .extend({
+          channel: z.int().nonnegative(),
+          modelId: id,
+          observationRange: selectionRangeSchema,
+          sourceRange: selectionRangeSchema.optional(),
+          view: z.enum(["intervals", "scores"]).optional(),
+          limit: z.int().min(1).max(1000).optional(),
+          cursor: z.string().min(1).max(8192).optional(),
+        })
+        .strict(),
+    })
+    .describe(
+      "Read one immutable selected source observation without preparing or invoking a model. observationRange selects the generation; sourceRange only narrows display. Intervals retain complete exact source ranges, native ordinals and anonymous generation-local slots. Scores retain every original80ms cell and are uncalibrated, never assignment confidence or silence. Continue while nextCursor exists, including empty pages. Continuations pin the original generation, decoder and display query; changed input refuses with ARTIFACT_CHANGED. Ready reads need neither the current native executable nor prepared runtime bytes.",
+    ),
+  z
     .object({
       operation: z.literal("transcript.get"),
       params: z.union([

@@ -12,7 +12,7 @@ import { dirname, isAbsolute, join } from "node:path";
 import { CatalogError } from "@screenrec/core/catalog";
 import { copyImportedFile, hashFile } from "@screenrec/core/files";
 import { withRenderedFile } from "./render.js";
-import { jsonWorker, nativeResult, type MediaWorker } from "./worker.js";
+import { preparedModelWorker, nativeResult, type MediaWorker } from "./worker.js";
 import type { Models } from "@screenrec/core/models";
 
 // Worker responses may add fields; durable receipts retain only this registered semantic shape.
@@ -62,29 +62,7 @@ export function voiceRenderer(
     if (destination) throw new CatalogError("INVALID_REQUEST", "Voice destination already exists");
     const preparation = await models.runtime(modelId, "voice");
     signal.throwIfAborted();
-    const voice = jsonWorker(
-      {
-        executable: "/usr/bin/sandbox-exec",
-        args: [
-          "-p",
-          "(version 1)(allow default)(deny network*)",
-          preparation.python,
-          "-I",
-          "-B",
-          preparation.entry,
-        ],
-        environment: {
-          ...process.env,
-          HF_HOME: preparation.cache,
-          HF_HUB_OFFLINE: "1",
-          TRANSFORMERS_OFFLINE: "1",
-          HF_HUB_DISABLE_IMPLICIT_TOKEN: "1",
-          TOKENIZERS_PARALLELISM: "false",
-          PYTHONDONTWRITEBYTECODE: "1",
-        },
-      },
-      timeoutMs,
-    );
+    const voice = preparedModelWorker(preparation, timeoutMs);
     // Workspace cleanup stays native; both bindings share the exact process lifetime owner.
     const worker: MediaWorker = (operation, params, options) =>
       (operation === "voice.generate" ? voice : native)(operation, params, options);

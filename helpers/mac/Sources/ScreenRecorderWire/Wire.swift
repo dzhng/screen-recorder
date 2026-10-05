@@ -33,6 +33,10 @@ public enum NativeWire {
                 try WireRequest.requireEmpty(params)
                 return ["rnnoise": CompositionAudio.rnnoiseImplementation, "retime": CompositionAudio.retimeImplementation, "statePreparation": CompositionAudio.statePreparationImplementation]
             },
+            "media.speakerCapabilities": media { params in
+                try WireRequest.requireEmpty(params)
+                return ["recipe": SourceSpeakerPCM.recipe, "providerVersion": SourceSpeakerPCM.providerVersion]
+            },
             "media.pictureCapabilities": media { params in
                 try WireRequest.requireEmpty(params)
                 return SDRCorrection.implementationId.map { ["sdrCorrection": $0] } ?? [:]
@@ -58,6 +62,7 @@ public enum NativeWire {
             "media.sourceImage": media { try json(SourceImageOperation.execute($0)) },
             "media.sourceFrame": media { try json(await SourceFrameOperation.execute($0)) },
             "media.convertSelectedAudio": media { try json(await SelectedAudioConversionOperation.execute($0)) },
+            "media.sourceSpeakerPCM": media { try json(await SourceSpeakerPCMOperation.execute($0)) },
             "media.sourceAudio": media { try json(await SourceAudioOperation.execute($0)) },
             "media.recover": media { params in
                 let request = try WireRequest.decode(RecoveryRequest.self, from: params)

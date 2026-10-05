@@ -57,6 +57,7 @@ import {
   type SceneEvidenceStore,
 } from "@screenrec/core/scene-evidence";
 import type { SceneProcessing } from "@screenrec/core/scene-processing";
+import type { SpeakerEvidenceStore } from "@screenrec/core/speaker-evidence";
 import type { TranscriptStore } from "@screenrec/core/transcript";
 import type { TranscriptProcessing } from "@screenrec/core/transcript-processing";
 import type { JobQueue } from "@screenrec/core/jobs";
@@ -82,6 +83,7 @@ type Owners = {
   acquisitions: AcquisitionImporter;
   sceneRecords: SceneEvidenceStore;
   scenes: SceneProcessing;
+  speakerRecords: SpeakerEvidenceStore;
   transcriptRecords: TranscriptStore;
   transcripts: TranscriptProcessing;
   indexRecords: ScreenshotIndexStore<SourceIndexRecords>;
@@ -362,6 +364,11 @@ export class ProjectPackages {
     const resources = collectPortableResources(projectResourceRoots(snapshot), (identity) => {
       let resource: PortableDependency;
       if (identity.kind === "asset") {
+        if (this.owners.speakerRecords.hasForAsset(identity.id))
+          throw new CatalogError(
+            "UNSUPPORTED_PACKAGE_DEPENDENCY",
+            "Retained speaker evidence requires portable preservation",
+          );
         const asset = this.owners.assets.portable(identity.id);
         const dependencies = [
           ...asset.dependencies,

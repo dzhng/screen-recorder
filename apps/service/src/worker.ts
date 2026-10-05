@@ -12,6 +12,7 @@ import {
   type OperationResult,
 } from "@screenrec/protocol";
 import { CatalogError } from "@screenrec/core/catalog";
+import type { PreparedRuntime } from "@screenrec/core/models";
 import {
   subtract,
   fromTime,
@@ -295,6 +296,33 @@ export function jsonWorker(
       },
     );
   };
+}
+
+/** Prepared model sidecars share offline execution policy and the existing JSON process lifetime. */
+export function preparedModelWorker(runtime: PreparedRuntime, timeoutMs: number): MediaWorker {
+  return jsonWorker(
+    {
+      executable: "/usr/bin/sandbox-exec",
+      args: [
+        "-p",
+        "(version 1)(allow default)(deny network*)",
+        runtime.python,
+        "-I",
+        "-B",
+        runtime.entry,
+      ],
+      environment: {
+        ...process.env,
+        HF_HOME: runtime.cache,
+        HF_HUB_OFFLINE: "1",
+        TRANSFORMERS_OFFLINE: "1",
+        HF_HUB_DISABLE_IMPLICIT_TOKEN: "1",
+        TOKENIZERS_PARALLELISM: "false",
+        PYTHONDONTWRITEBYTECODE: "1",
+      },
+    },
+    timeoutMs,
+  );
 }
 
 /** The existing native executable watches service death for this private CLI mode. */

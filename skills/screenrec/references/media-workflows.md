@@ -45,6 +45,19 @@ when required instead of guessing temporary paths or installing dependencies
 during reads. Diagnose failed/canceled work before explicit transcript retry.
 A source phrase cannot cross an inference segment.
 
+When anonymous speaker observations are requested, inspect `speaker.prepare` and
+`speaker.get` help first. Discover the optional model through `model.list`; its
+preparation requires the advertised verified local model/runtime sources. No
+speaker runtime is bundled or downloaded implicitly. Select one explicit source
+channel and exactly 30 seconds of complete support, with the start on the 16k
+sample grid. A read selects the original `observationRange`; its `sourceRange`
+only filters display and never requests inference. Keep generation, source pins
+and returned exact endpoints. Slots are anonymous and local to each observation;
+simultaneous slots may overlap, and raw scores are uncalibrated. Unavailable or
+unobserved coverage cannot be described as silence. Continue empty pages while
+a cursor exists. Read-only generations remain usable without the local runtime.
+Use only source/project selectors advertised by the installed release.
+
 For speech as it appears in an edited project, request the project transcript at
 the intended revision. Rows identify each repeated/retimed clip occurrence and
 retain exact source/project fragments. A query window selects words; it does not

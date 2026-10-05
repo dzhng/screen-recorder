@@ -73,17 +73,18 @@ export type SpeakerScore = {
   meaning: "uncalibrated";
 };
 export type SpeakerOperands = { nativeReceipt: string; report: string };
-export type SpeakerEvidenceMetadata = SpeakerEvidenceIdentity & {
-  source: SpeakerEvidenceSource;
-  intervalCount: number;
-  scoreCount: 375;
-  nativeReceiptSha256: string;
-  reportSha256: string;
-  tensorSha256: string;
-  dtype: "<f4";
-  axes: readonly [1, 375, 4];
-  scoreMeaning: "uncalibrated";
-};
+export const speakerEvidenceMetadataSchema = speakerIdentitySchema.safeExtend({
+  source: speakerEvidenceSourceSchema,
+  intervalCount: z.int().nonnegative().max(1500),
+  scoreCount: z.literal(375),
+  nativeReceiptSha256: sha256,
+  reportSha256: sha256,
+  tensorSha256: sha256,
+  dtype: z.literal("<f4"),
+  axes: z.tuple([z.literal(1), z.literal(375), z.literal(4)]),
+  scoreMeaning: z.literal("uncalibrated"),
+});
+export type SpeakerEvidenceMetadata = z.infer<typeof speakerEvidenceMetadataSchema>;
 const digest = (v: string | Buffer) => createHash("sha256").update(v).digest("hex");
 function invalid(message: string): never {
   throw new CatalogError("INVALID_EVIDENCE", message);
@@ -361,6 +362,11 @@ export class SpeakerEvidenceStore {
     };
   }
   /** Retained observations bind semantic source/engine pins, independently of current decoder availability. */
+  hasForAsset(assetId: string): boolean {
+    return !!this.store.catalog
+      .prepare(`SELECT 1 FROM speaker_evidence_generations WHERE ownerId=? AND complete=1 LIMIT 1`)
+      .get(assetId);
+  }
   latestObservation(assetId: string, source: z.infer<typeof observationSourceSchema>) {
     const row = this.store.catalog
       .prepare(`SELECT metadata FROM speaker_evidence_generations

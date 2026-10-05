@@ -15,13 +15,15 @@ public struct SourceSpeakerPCMResult: Encodable, Sendable {
     public let sourceOffsetUs: ExactTime
     public let range: ExactRange
     public let decodedFrames: Int64
-    public let recipe = "source-selected-span-avfoundation-f32-16k-v1"
+    public let recipe = SourceSpeakerPCM.recipe
     public let representation = "float32-le"
     public let providerVersion: String
 }
 
 /// One complete observation through the shared decoder, retaining exactly one requested channel.
 public enum SourceSpeakerPCM {
+    public static let recipe = "source-selected-span-avfoundation-f32-16k-v1"
+    public static var providerVersion: String { ProcessInfo.processInfo.operatingSystemVersionString }
     public static func write(source: AudioSourceSelection, range: ExactRange, channel: Int, output: URL)
         async throws -> SourceSpeakerPCMResult {
         guard try range.endUs.subtract(range.startUs).compare(ExactTime(30_000_000)) == .orderedSame else {
@@ -75,6 +77,6 @@ public enum SourceSpeakerPCM {
             frames: frames, channel: channel, sourceChannels: stream.format.channels,
             sourceSampleRate: stream.reports[0].sampleRate, sourceOffsetUs: source.sourceOffsetUs,
             range: range, decodedFrames: stream.decodedFrames,
-            providerVersion: ProcessInfo.processInfo.operatingSystemVersionString)
+            providerVersion: providerVersion)
     }
 }

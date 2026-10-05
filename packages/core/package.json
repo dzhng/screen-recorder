@@ -263,6 +263,18 @@
     "./capture-publication": {
       "types": "./dist/capture-publication.d.ts",
       "default": "./dist/capture-publication.js"
+    },
+    "./speaker-evidence": {
+      "types": "./dist/speaker-evidence.d.ts",
+      "default": "./dist/speaker-evidence.js"
+    },
+    "./speaker-processing": {
+      "types": "./dist/speaker-processing.d.ts",
+      "default": "./dist/speaker-processing.js"
+    },
+    "./speaker-read": {
+      "types": "./dist/speaker-read.d.ts",
+      "default": "./dist/speaker-read.js"
     }
   },
   "scripts": {

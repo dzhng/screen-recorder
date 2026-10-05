@@ -8,7 +8,11 @@ import { AcquisitionStore } from "./acquisitions.js";
 import { Models, type ModelManifest } from "./models.js";
 import { JobQueue } from "./jobs.js";
 import { SpeakerEvidenceStore, assetSpeakerOwner } from "./speaker-evidence.js";
-import { SpeakerProcessing, type SpeakerObserver } from "./speaker-processing.js";
+import {
+  SpeakerProcessing,
+  type SpeakerObserver,
+  type SpeakerProcessingOptions,
+} from "./speaker-processing.js";
 import { nativeOutput, speakerSource } from "./speaker-evidence.fixture.js";
 
 const cleanup: (() => Promise<void>)[] = [];
@@ -123,7 +127,7 @@ async function fixture() {
     execute: (execution) => processing.execute(execution),
   });
   const decoder = { ...speakerSource.decoder };
-  processing = new SpeakerProcessing({
+  const options: SpeakerProcessingOptions = {
     assets,
     acquisitions,
     models,
@@ -131,7 +135,8 @@ async function fixture() {
     evidence,
     observe,
     decoder,
-  });
+  };
+  processing = new SpeakerProcessing(options);
   cleanup.push(async () => {
     control.release();
     await jobs.close();
@@ -145,7 +150,19 @@ async function fixture() {
     sourceRange: speakerSource.observationRange,
     modelId: manifest.name,
   };
-  return { processing, jobs, models, requests, evidence, input, control, home, decoder };
+  return {
+    processing,
+    jobs,
+    models,
+    requests,
+    evidence,
+    input,
+    control,
+    home,
+    decoder,
+    options,
+    catalog,
+  };
 }
 
 test("a repeated explicit observation joins the source job and ready reads need no runtime", async () => {
@@ -243,4 +260,64 @@ test("retained reads bind the original decoder after native identity replacement
   expect(f.requests.length).toBe(1);
   await rm(join(f.home, "models", f.input.modelId), { recursive: true });
   expect(f.processing.sourceStatus(f.input)).toEqual(original);
+});
+
+test("missing native decoder leaves retained reads ready and new observations unavailable", async () => {
+  const f = await fixture();
+  f.processing.prepareSource(f.input);
+  await expect.poll(() => f.processing.sourceStatus(f.input).state).toBe("ready");
+  const original = f.processing.sourceStatus(f.input);
+  f.options.decoder = null;
+  const retained = f.processing.sourceStatus(f.input);
+  const unobserved = f.processing.prepareSource({ ...f.input, channel: 0 });
+  await writeFile(
+    join(f.home, "absent-decoder-comparison.json"),
+    JSON.stringify({ original, retained, unobserved }),
+  );
+  expect(retained).toEqual(original);
+  expect(unobserved).toMatchObject({
+    state: "unavailable",
+    reason: "native_decoder_unavailable",
+    published: null,
+  });
+  expect(f.requests.map((v) => v.selected.channel)).toEqual([1]);
+});
+
+test("publication replay preserves the original observation without a runtime or current decoder", async () => {
+  const donor = await fixture();
+  donor.processing.prepareSource(donor.input);
+  await expect.poll(() => donor.processing.sourceStatus(donor.input).state).toBe("ready");
+  const published = donor.processing.sourceStatus(donor.input).published!;
+  const publication = donor.processing.portablePublication(published.evidence)!;
+  const receiver = await fixture();
+  await rm(join(receiver.home, "models", receiver.input.modelId), { recursive: true });
+  receiver.options.decoder = null;
+  const operands = donor.evidence.operands(published.evidence);
+  const identity = {
+    owner: published.evidence.owner,
+    sourceId: published.evidence.sourceId,
+    generation: published.evidence.generation,
+    policy: published.evidence.policy,
+  };
+  const staged = receiver.evidence.stage(identity, published.evidence.source, operands);
+  receiver.catalog.transaction(() => {
+    staged.publish();
+    receiver.processing.adoptPublication(staged.metadata, publication);
+  });
+  await receiver.processing.cleanup(new AbortController().signal);
+  const received = receiver.processing.sourceStatus(receiver.input);
+  await writeFile(
+    join(receiver.home, "publication-replay.json"),
+    JSON.stringify({ published, publication, received, operands }),
+  );
+  expect(received.published).toEqual(published);
+  expect(received.state).toBe("ready");
+  expect(receiver.evidence.operands(received.published!.evidence)).toEqual(operands);
+  expect(receiver.requests).toEqual([]);
+  expect(() =>
+    receiver.processing.adoptPublication(staged.metadata, {
+      ...publication,
+      attemptId: "different",
+    }),
+  ).toThrow("publication differs");
 });

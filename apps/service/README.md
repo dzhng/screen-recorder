@@ -108,6 +108,15 @@ Service shutdown drains jobs, readers, publication and storage observations befo
 closing the catalog. The [release disposition](../../specs/done/agent-editing/release-closeout.md)
 records installed evidence separately from an isolated service check.
 
+[Speaker observations](src/speaker.ts) select one complete source channel/window
+through the existing native PCM owner and invoke an explicitly prepared local
+runtime through the shared JSON process owner. Execution is offline. Original
+sidecar operands are captured before attempt cleanup, including model refusals.
+`speaker.get` reads retained source generations without native or model execution;
+`speaker.prepare` alone requests new work. Until package preservation is implemented,
+processed-package export refuses assets with retained speakers instead of silently
+discarding their observations.
+
 FFmpeg operands borrow the existing held source authority. Native media facts own
 support, common origin and geometry; the [input boundary](src/ffmpeg-input.ts)
 uses FFprobe to bind an explicit stream to held bytes. Optional declared-color

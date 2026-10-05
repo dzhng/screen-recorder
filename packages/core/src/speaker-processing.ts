@@ -2,7 +2,15 @@ import { isDeepStrictEqual } from "node:util";
 import type { AssetStore } from "./assets.js";
 import type { AcquisitionStore } from "./acquisitions.js";
 import { CatalogError } from "./catalog.js";
-import type { JobExecution, JobQueue, StagedJobResult } from "./jobs.js";
+import {
+  retainedPublicationSchema,
+  type JobExecution,
+  type JobQueue,
+  type StagedJobResult,
+} from "./jobs.js";
+import { speakerEvidenceSourceSchema } from "./speaker-evidence.js";
+import type { z } from "zod";
+import { setImmediate } from "node:timers/promises";
 import type { Models, PreparedRuntime } from "./models.js";
 import {
   selectSpeakerSource,
@@ -21,6 +29,7 @@ export type SpeakerObserver = (
   request: {
     selected: ReturnType<typeof selectSpeakerSource>;
     engine: SpeakerEvidenceSource["engine"];
+    decoder: SpeakerEvidenceSource["decoder"];
     runtime: PreparedRuntime;
     checkpoint: string;
   },
@@ -37,7 +46,7 @@ export type SpeakerProcessingOptions = {
   jobs: JobQueue;
   evidence: SpeakerEvidenceStore;
   observe: SpeakerObserver;
-  decoder: SpeakerEvidenceSource["decoder"];
+  decoder: SpeakerEvidenceSource["decoder"] | null;
 };
 
 /** Explicit source observations reuse model preparation and the shared job publication fence. */
@@ -82,6 +91,12 @@ export class SpeakerProcessing {
     const modelMissing =
       status.state === "not_requested" &&
       this.options.models.speaker(input.modelId).status().state !== "ready";
+    const decoderMissing = status.state === "not_requested" && this.options.decoder === null;
+    const unavailableReason = modelMissing
+      ? "model_not_prepared"
+      : decoderMissing
+        ? "native_decoder_unavailable"
+        : null;
     const published = status.published
       ? {
           generation: status.published.generation,
@@ -91,8 +106,8 @@ export class SpeakerProcessing {
     if (published) this.options.evidence.metadata(published.evidence);
     return {
       ...status,
-      state: modelMissing ? ("unavailable" as const) : status.state,
-      reason: modelMissing ? "model_not_prepared" : status.reason,
+      state: unavailableReason ? ("unavailable" as const) : status.state,
+      reason: unavailableReason ?? status.reason,
       published,
     };
   }
@@ -116,6 +131,8 @@ export class SpeakerProcessing {
     const input = speakerSourceSchema.parse(JSON.parse(job.input).request);
     const selected = this.selected(input),
       descriptor = this.descriptor(selected);
+    if (!descriptor.decoder)
+      throw new CatalogError("NOT_READY", "Native speaker decoder is unavailable", {}, true);
     if (job.target.assetId !== input.assetId || this.identity(input).input !== job.input)
       throw new CatalogError("ARTIFACT_CHANGED", "Speaker source or execution inputs changed");
     signal.throwIfAborted();
@@ -142,7 +159,13 @@ export class SpeakerProcessing {
     signal.throwIfAborted();
     await this.cleanupAsset(input.assetId, signal);
     const observed = await this.options.observe(
-      { selected, engine: descriptor.engine, runtime, checkpoint: model.checkpoint },
+      {
+        selected,
+        engine: descriptor.engine,
+        decoder: descriptor.decoder,
+        runtime,
+        checkpoint: model.checkpoint,
+      },
       signal,
     );
     signal.throwIfAborted();
@@ -152,7 +175,7 @@ export class SpeakerProcessing {
       generation: job.attemptId,
       policy: "speaker-v1" as const,
     };
-    const source = { ...descriptor, pcm: observed.pcm };
+    const source = { ...descriptor, decoder: descriptor.decoder, pcm: observed.pcm };
     if (observed.failure) {
       const { captured } = this.options.evidence.capture(
         identity,
@@ -174,6 +197,74 @@ export class SpeakerProcessing {
       publish: staged.publish,
       close: staged.close,
     };
+  }
+  portablePublication(metadata: SpeakerEvidenceMetadata) {
+    const receipt = this.options.jobs.retainedArtifact(
+      metadata.owner,
+      artifact,
+      metadata.generation,
+    );
+    return receipt
+      ? retainedPublicationSchema.parse({
+          generation: receipt.generation,
+          attemptId: receipt.attemptId,
+          input: receipt.input,
+        })
+      : null;
+  }
+  /** Evidence publication and replay join the portable adopter's existing catalog transaction. */
+  adoptPublication(
+    metadata: SpeakerEvidenceMetadata,
+    publication: z.infer<typeof retainedPublicationSchema>,
+  ) {
+    let decoded: unknown;
+    try {
+      decoded = JSON.parse(publication.input);
+    } catch {
+      throw new CatalogError("INVALID_PACKAGE", "Speaker publication has invalid JSON");
+    }
+    const value = decoded as { request?: unknown; source?: unknown } | null;
+    const parsed = speakerSourceSchema.safeParse(value?.request);
+    if (!parsed.success)
+      throw new CatalogError("INVALID_PACKAGE", "Speaker publication has invalid selection");
+    const identity = this.identity(parsed.data, metadata.source.decoder);
+    const source = speakerEvidenceSourceSchema.omit({ pcm: true }).strip().parse(metadata.source);
+    if (
+      metadata.owner.assetId !== parsed.data.assetId ||
+      metadata.sourceId !== parsed.data.assetId ||
+      publication.attemptId !== metadata.generation ||
+      publication.input !== identity.input ||
+      !isDeepStrictEqual(value?.source, source)
+    )
+      throw new CatalogError(
+        "INVALID_PACKAGE",
+        "Speaker publication differs from its source and generation",
+      );
+    this.options.jobs.adoptArtifact({
+      ...identity,
+      ...publication,
+      result: JSON.stringify(metadata),
+    });
+  }
+  async cleanup(signal: AbortSignal): Promise<void> {
+    let afterSequence = 0;
+    let failure: unknown;
+    for (;;) {
+      signal.throwIfAborted();
+      const page = this.options.assets.list({ afterSequence, limit: 100 });
+      for (const asset of page.assets) {
+        try {
+          await this.cleanupAsset(asset.id, signal);
+        } catch (error) {
+          signal.throwIfAborted();
+          failure ??= error;
+        }
+      }
+      if (!page.nextCursor) break;
+      afterSequence = page.nextCursor.afterSequence;
+      await setImmediate(undefined, { signal });
+    }
+    if (failure) throw failure;
   }
   cleanupAsset(assetId: string, signal?: AbortSignal) {
     return this.options.evidence.reclaim(

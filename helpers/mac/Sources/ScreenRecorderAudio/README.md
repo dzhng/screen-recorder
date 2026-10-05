@@ -12,11 +12,14 @@ The [source stream](AudioPCMStream.swift) preserves native support origin and bo
 sample demand. Selected transcription joins readable spans in its own cumulative
 sample clock; speech conditioning is separate from authored processing.
 
-The internal [speaker PCM sink](SourceSpeakerPCM.swift) selects one channel from
+The [speaker PCM sink](SourceSpeakerPCM.swift) selects one channel from
 a complete bounded observation. It opts into the source owner's strict format
 policy before decoding, so a changing channel count or unconventional layout
 cannot become a synthesized selected channel. Preparation retains the decoder's
 recipe and physical PCM receipt; it does not invoke a speaker model.
+Its private wire capability binds the recipe and OS provider. Selected PCM is
+exactly 30 seconds on the prepared 16k sample grid; missing support refuses before
+publication rather than padding or changing selected channel meaning.
 
 Prepared audio retains the shared [media input](../ScreenRecorderMedia/README.md)
 through consumption. Metadata and primary chunk-storage admission precede an

@@ -92,6 +92,10 @@ import { operationFailure } from "./operation-errors.js";
 import { inspectFFmpegTools, type FFmpegInstallation } from "./ffmpeg-tools.js";
 import { audioProcessingRuntime } from "./audio-processing.js";
 import { ffmpegLoudnessAnalyzer } from "./loudness.js";
+import { SpeakerEvidenceStore, assetSpeakerOwner } from "@screenrec/core/speaker-evidence";
+import { SpeakerProcessing } from "@screenrec/core/speaker-processing";
+import { SourceSpeakerRead } from "@screenrec/core/speaker-read";
+import { speakerDecoder, speakerObserver } from "./speaker.js";
 
 export async function startProjectService(options: {
   home: string;
@@ -220,6 +224,11 @@ export async function startProjectService(options: {
     const worker =
       options.worker ?? mediaWorker({ ...process.env, SCREENREC_NATIVE: nativeExecutable });
     const models = new Models(library);
+    const speakerRecords = new SpeakerEvidenceStore(
+      catalog,
+      assetSpeakerOwner(assets, acquisitions),
+    );
+    const decoder = await speakerDecoder(worker, nativeExecutable, modelLifetime.signal);
     modelsOwner = models;
     const transcriptStore = new TranscriptStore(
       catalog,
@@ -292,6 +301,7 @@ export async function startProjectService(options: {
     let preview: ProjectPreviewInspection;
     let mediaFrames: MediaFrameInspection;
     let transcripts: TranscriptProcessing;
+    let speakers: SpeakerProcessing;
     let projectEvidence: ProjectEvidenceInspection;
     let mediaAudio: MediaAudioInspection;
     let preparedAudio: PreparedAudioStore;
@@ -348,6 +358,8 @@ export async function startProjectService(options: {
           return mediaAudio.execute({ job, signal });
         if (job.target.kind === "project" && job.artifact === "project.evidence")
           return projectEvidence.execute({ job, signal });
+        if (job.target.kind === "asset" && job.artifact === "source-speakers")
+          return speakers.execute({ job, signal });
         if (job.artifact === "transcript") return transcripts.execute({ job, signal });
         if (job.artifact === "export-media" || job.artifact === "export-recovery")
           return exports!.execute({ job, signal });
@@ -392,6 +404,15 @@ export async function startProjectService(options: {
       jobs: queue,
       cache,
       renderer: projectPointerHistoryRenderer(worker, workspace),
+    });
+    speakers = new SpeakerProcessing({
+      assets,
+      acquisitions,
+      models,
+      jobs: queue,
+      evidence: speakerRecords,
+      decoder,
+      observe: speakerObserver(worker, workspace),
     });
     transcripts = new TranscriptProcessing({
       jobs: queue,
@@ -695,6 +716,7 @@ export async function startProjectService(options: {
       acquisitions: acquisitionImports,
       sceneRecords,
       scenes,
+      speakerRecords,
       transcriptRecords: transcriptStore,
       transcripts,
       indexRecords: sourceIndex,
@@ -732,6 +754,7 @@ export async function startProjectService(options: {
     });
     await transcripts.cleanup(modelLifetime.signal);
     await scenes.cleanup(modelLifetime.signal);
+    await speakers.cleanup(modelLifetime.signal);
     await indexes.cleanup(modelLifetime.signal);
     const projectDeletion = new ProjectDeletion(
       projects,
@@ -915,6 +938,32 @@ export async function startProjectService(options: {
               });
             }
             return { ok: true, data: await models.status(modelId) };
+          }
+          case "speaker.prepare":
+            return { ok: true, data: speakers.prepareSource(operation.params) };
+          case "speaker.get": {
+            const { observationRange, sourceRange, view, limit, cursor, ...selection } =
+              operation.params;
+            const current = speakers.sourceStatus({ ...selection, sourceRange: observationRange });
+            if (!current.published) {
+              if (cursor)
+                throw new CatalogError(
+                  "ARTIFACT_CHANGED",
+                  "Speaker observation is no longer published",
+                );
+              return { ok: true, data: { ...current, page: null } };
+            }
+            const metadata = current.published.evidence;
+            const page = new SourceSpeakerRead(speakerRecords, metadata).page({
+              ...(sourceRange === undefined ? {} : { sourceRange }),
+              ...(view === undefined ? {} : { view }),
+              ...(limit === undefined ? {} : { limit }),
+              ...(cursor === undefined ? {} : { cursor }),
+            });
+            return {
+              ok: true,
+              data: { ...selection, state: "ready", generation: metadata.generation, page },
+            };
           }
           case "transcript.retry":
             return {
