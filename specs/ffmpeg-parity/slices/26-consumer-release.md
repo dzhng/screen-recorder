@@ -1,6 +1,6 @@
 # 26 — Consumer skill and release acceptance
 
-Status: not started. Question: **Can the released skill teach novices the verified surface and honest limitations?**
+Status: consumer guidance and portable trials in progress; installed release acceptance pending. Question: **Can the released skill teach novices the verified surface and honest limitations?**
 
 Dependencies: [02](02-installed-tools.md), [05](05-managed-output.md), [06](06-batch-preparation.md), [07](07-compact-transcripts.md), [08](08-timeline-inspection.md), [09](09-review-bundle.md), [10](10-loudness.md), [11](11-caption-proposals.md), [12](12-caption-sidecars.md), [13](13-normalization.md), [14](14-limiter.md), [15](15-sidechain.md), [17](17-sdr-grade.md), [19](19-hdr-conversion.md), [21](21-motion-import.md), [23](23-speech-evidence.md), [24](24-editorial-notes.md), [25](25-hevc-output.md).
 
@@ -15,6 +15,38 @@ Add one line pointing to discovered installed FFmpeg for non-core extras only af
 Fresh-agent ordinary-language traces, isolated macOS proofs and final release receipt.
 
 Portable fresh-agent trials test skill/schema behavior; real macOS checks separately test outputs. User runs the general-footage demo after this spec; do not create it in planning. Test non-core GIF request and unavailable capability without hidden managed fallback. Run full repo suite once when implementation is finished; close spec only on actual shipped disposition.
+
+## Current consumer checkpoint
+
+The media reference covers verified source-neutral SDR controls, finite alpha
+motion input and deliberate HEVC delivery without advertising HDR export. The
+entry workflow now names the task-side selection pins used by cuts and caption
+seeds. General audition fades/padding remain in the creative reference.
+
+The [frozen portable trials](../evidence/consumer-acceptance/README.md) exercise imported interview planning, direct GIF extras and
+unavailable correction/HEVC execution. Initial interview prose plans omitted exact
+caption/write identities despite reading the schemas; those failures remain
+recorded. The revised planning task requires a printed task-side selection template
+and request skeletons so concrete pins can be judged instead of inferred from
+prose. Both concrete planning trials pass; GIF and unavailable-treatment trials each passed twice: no invented tool
+path, output or backend substitution. These are schema/skill checks, not macOS
+media proof or an executed novice edit.
+
+One judge failed infrastructure admission because repeated full catalog output
+exceeded its input limit. Judge evidence now shares identical complete strings in
+an output dictionary while retaining every call, exit and failure. The new test
+was red on the original prompt and green after deduplication; all fifteen focused
+evaluation-harness tests pass. No evidence is truncated or silently scored as a
+pass. Skill metadata validation passes in an isolated validator environment.
+
+An actual-host direct GIF check discovers the verified FFmpeg path through
+`service.tools`, checks palette filters and converts the untouched corpus movie
+without importing, editing or creating a managed export. The first 8 fps request
+retains a failed exact-duration expectation: GIF centisecond delays yield 0.51 s
+for the requested 0.5 s. A separate 10 fps request produces five frames, 160×96,
+and exactly 0.5 s. The format quantization limit is now explicit consumer guidance.
+This is component fallback evidence; relocated installed-bundle discovery remains
+the release gate.
 
 ## Boundaries and decision budget
 

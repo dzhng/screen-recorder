@@ -12,27 +12,38 @@ every FFmpeg option or a replacement for a professional editing workstation.
 
 Implement the complete authorized plan through committed passes. Read the
 [exploration](exploration.md), [parity contract](parity.md) and current slice.
-Integrated: 01–09, 11–12, 16–18, 20–21 and 24–25. Root pickup: consumer/release
+Integrated: 01–12, 16–18, 20–21 and 24–25. Root pickup: consumer/release
 contracts that can be prepared independently, then integrate the remaining lanes.
 Highest-risk next production seam is audio domain preparation: compiler owns state
 and dependency domains, native owns graph/prefix PCM, existing FFmpeg CLI/artifact
 lifetime executes individual recipes, and PreparedAudioStore retains the result.
 No service timeline interpreter or native ad-hoc subprocess runner.
 
-Independent lanes: 19 managed HDR conversion; 10→13a/14a/15a→13–15 audio; 23a
-speaker research on a tiny frozen human-annotated VoxConverse cohort. Initial
-speech candidates failed 22; no family is promoted. Events and boundary alignment
-still need independent timed evidence and family-specific gates. Keep all three
-families named; aggregate status cannot hide failure.
+Independent lanes: 19 managed HDR conversion; [shared audio preparation](slices/96-audio-preparation.md)→13–15;
+separate speaker/event/boundary research. Audio reproductions are frozen, including
+strict normalization postconditions and a common-envelope limiter that preserves
+the original numerical gates. Native HDR facts
+and source-export refusal tests are integrated; linked-worker conversion remains
+open. Both speaker defaults fail the independent VoxConverse development cohort;
+documented calibration also fails, preserving untouched confirmation. STARSS23 supplies independently
+timed laughter/clapping labels; applause/gasp and complete word-boundary authority
+remain open. No speech family is promoted.
 
 The adopted pinned zimg distribution and refreshed 02–05 proofs are under
 [evidence/zimg-build](evidence/zimg-build). Root verification and component smoke
 pass, with nine preparation/release and seventeen focused service checks after
-integration. [SDR evidence](evidence/sdr-execution/proof.json) binds actual native
+integration. Read-only loudness uses existing acoustic/PCM ownership; core 56,
+service two and protocol fifteen focused checks pass after integration. Public
+HEVC/H.264 publication, decoded landmarks and replay are retained under
+[evidence/hevc-public](evidence/hevc-public). [SDR evidence](evidence/sdr-execution/proof.json) binds actual native
 OS recipe through existing cache/job/export identities. [HDR reproduction](slices/18-hdr-feasibility.md)
 freezes exact-gamma Hable conversion and a ProRes intermediate; 19 must validate
 fresh native sample/color facts and source↔derivative clocks. Release ZIP,
-consumer acceptance 26 and the full suite remain last.
+consumer acceptance 26 and the full suite remain last. Portable consumer planning,
+GIF routing and unavailable-execution trials each pass twice; initial prose-plan
+failures and the resolved judge input-limit failure remain retained. An actual
+direct GIF component request uses discovered verified tools; its centisecond
+timing limitation is explicit.
 
 Use small isolated fixtures and test-first changes. Do not record or edit personal
 media or repeat searches for the inaccessible running recorder. The user tests the
@@ -49,12 +60,13 @@ or migrations. Update handoff, choices and slice markers before each checkpoint.
 - [x] [07 — Compact transcript reading](slices/07-compact-transcripts.md)
 - [x] [08 — Aligned timeline inspection](slices/08-timeline-inspection.md)
 - [x] [09 — Read-only revision review bundle](slices/09-review-bundle.md)
-- [ ] [10 — Read-only loudness measurement](slices/10-loudness.md)
+- [x] [10 — Read-only loudness measurement](slices/10-loudness.md)
 - [x] [11 — Caption grouping and layout proposals](slices/11-caption-proposals.md)
 - [x] [12 — Pinned SRT and VTT delivery](slices/12-caption-sidecars.md)
-- [ ] [13a — Normalization reproduction](slices/13a-normalization-reproduction.md)
-- [ ] [14a — Limiter reproduction](slices/14a-limiter-reproduction.md)
-- [ ] [15a — Compressor reproduction](slices/15a-compressor-reproduction.md)
+- [x] [13a — Normalization reproduction](slices/13a-normalization-reproduction.md)
+- [x] [14a — Limiter reproduction](slices/14a-limiter-reproduction.md)
+- [x] [15a — Compressor reproduction](slices/15a-compressor-reproduction.md)
+- [ ] [Shared audio preparation](slices/96-audio-preparation.md)
 - [ ] [13 — Explicit normalization](slices/13-normalization.md)
 - [ ] [14 — Explicit limiter](slices/14-limiter.md)
 - [ ] [15 — Explicit compressor and ducking](slices/15-sidechain.md)
@@ -131,7 +143,8 @@ capabilities do not become core support just because inventory lists them.
 ## Slice graph and review
 
 Foundation: 01 → 02 and 03 → 04 → 05. Workflow helpers can ship independently.
-Measurement precedes independent 13a/14a/15a recipe reproductions and then the corresponding explicit treatments. Feasibility must precede color,
+Measurement precedes independent 13a/14a/15a recipe reproductions, shared audio
+preparation and then the corresponding explicit treatments. Feasibility must precede color,
 HDR, alpha and speech implementation. The final consumer/release gate joins all
 accepted branches. Dependencies order checks, not simultaneous expensive work. A FFmpeg alternative selected for grade or HEVC adds 01–05 as conditional prerequisites. A new HDR dependency reopens the frozen build and its affected proofs. Speech research/implementation tracks each family separately and reslices the implementation placeholder before pickup.
 
@@ -150,9 +163,10 @@ accepted branches. Dependencies order checks, not simultaneous expensive work. A
 | 11 | [Caption grouping and layout proposals](slices/11-caption-proposals.md) | 7 |
 | 12 | [Pinned SRT and VTT delivery](slices/12-caption-sidecars.md) | existing owners |
 | 13a / 14a / 15a | [Audio recipe reproductions](slices/13a-normalization-reproduction.md), [limiter](slices/14a-limiter-reproduction.md), [compressor](slices/15a-compressor-reproduction.md) | 10 |
-| 13 | [Explicit normalization](slices/13-normalization.md) | 13a |
-| 14 | [Explicit limiter](slices/14-limiter.md) | 14a |
-| 15 | [Explicit compressor and ducking](slices/15-sidechain.md) | 15a |
+| Shared preparation | [Declared audio domains and held spans](slices/96-audio-preparation.md) | 5, 10, 13a, 14a, 15a |
+| 13 | [Explicit normalization](slices/13-normalization.md) | 13a, shared preparation |
+| 14 | [Explicit limiter](slices/14-limiter.md) | 14a, shared preparation |
+| 15 | [Explicit compressor and ducking](slices/15-sidechain.md) | 15a, shared preparation |
 | 16 | [SDR correction reproduction](slices/16-sdr-feasibility.md) | existing owners |
 | 17 | [Typed SDR correction](slices/17-sdr-grade.md) | 16 |
 | 18 | [HDR-to-SDR reproduction](slices/18-hdr-feasibility.md) | 1, 4 |

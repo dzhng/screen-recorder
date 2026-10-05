@@ -77,6 +77,11 @@ Repository `.agents/skills` are development skills, not this product skill.
    Preserve the transcript generation when using word identities. An empty
    transcript range does not prove silence, and an omitted filler does not prove
    the speaker did not say it.
+   Before assembly, save a task-side selection sheet with asset/stream IDs,
+   optional acquisition, exact source ranges, transcript generation and word
+   ordinals. Add project/revision and occurrence clip IDs after placement.
+   Keep these pins with the chosen wording and rationale; rounded display times
+   cannot replace them in cuts or caption seeds.
 4. Inspect uncertain cut boundaries using bounded audio excerpts and nearby
    frames. Choose narration, system audio, or mix intentionally. Transcript word
    times are estimates; protect adjacent speech. Use waveform or spectrogram

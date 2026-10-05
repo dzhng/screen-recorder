@@ -1,0 +1,265 @@
+{
+  "passed": false,
+  "trace": [
+    {
+      "operation": "service.tools",
+      "transport": "cli",
+      "ok": true
+    }
+  ],
+  "exchanges": [
+    {
+      "request": {
+        "operation": "service.tools",
+        "params": {},
+        "transport": "cli",
+        "error": false
+      },
+      "response": {
+        "ok": true,
+        "data": {
+          "node": {
+            "path": "/Users/server/.nvm/versions/node/v24.21.0/bin/node",
+            "version": "24.21.0"
+          },
+          "ffmpeg": {
+            "available": true,
+            "directory": "/Users/server/.t3/worktrees/screen-recorder/t3code-42e83c50/helpers/ffmpeg/.build/distribution",
+            "receiptSha256": "27350ff2f953bbd4d6ca8bfe0f6808b99b9752192657d289146b50319099f66a",
+            "version": "9.0.2",
+            "configuration": "--prefix=/ --enable-shared --disable-static --disable-autodetect --disable-gpl --disable-nonfree --disable-version3 --disable-doc --disable-ffplay --arch=arm64 --target-os=darwin --cc=/usr/bin/clang --cxx=/usr/bin/clang++ --install-name-dir='@rpath' --enable-videotoolbox --enable-audiotoolbox --enable-zlib --enable-bzlib --enable-securetransport --extra-cflags='-mmacosx-version-min=26.0 -I/tmp/screenrec-ffmpeg-prepare-95W69E/dependencies/include' --extra-ldflags='-mmacosx-version-min=26.0 -Wl,-rpath,@executable_path/../lib -L/tmp/screenrec-ffmpeg-prepare-95W69E/dependencies/lib' --enable-libzimg --pkg-config=/tmp/screenrec-ffmpeg-prepare-95W69E/build-tools/bin/pkgconf",
+            "recipeSha256": "be0223014e418d56cf920abd91c7a0f358a94526d58d5afdc1eb258b7693f139",
+            "sourceSha256": "8c3850283eb25fa026482078a04051e0be17347b09ef81a0849bec15a96e002e",
+            "executables": {
+              "ffmpeg": {
+                "path": "/Users/server/.t3/worktrees/screen-recorder/t3code-42e83c50/helpers/ffmpeg/.build/distribution/bin/ffmpeg",
+                "sha256": "8410694433e927bdf2cc751b8c81cb4545b2302828fdffed6044018b10f39f31"
+              },
+              "ffprobe": {
+                "path": "/Users/server/.t3/worktrees/screen-recorder/t3code-42e83c50/helpers/ffmpeg/.build/distribution/bin/ffprobe",
+                "sha256": "10cca670f6de7b7c7ab96c53205d1a6370f63f506b028942d930fef4426048ee"
+              }
+            }
+          }
+        },
+        "id": "6c1f4993-12cc-4ed4-871e-40420d65a3f9"
+      }
+    }
+  ],
+  "scope": "Direct standalone GIF extra; no import, edit or managed export",
+  "tools": {
+    "node": {
+      "path": "/Users/server/.nvm/versions/node/v24.21.0/bin/node",
+      "version": "24.21.0"
+    },
+    "ffmpeg": {
+      "available": true,
+      "directory": "/Users/server/.t3/worktrees/screen-recorder/t3code-42e83c50/helpers/ffmpeg/.build/distribution",
+      "receiptSha256": "27350ff2f953bbd4d6ca8bfe0f6808b99b9752192657d289146b50319099f66a",
+      "version": "9.0.2",
+      "configuration": "--prefix=/ --enable-shared --disable-static --disable-autodetect --disable-gpl --disable-nonfree --disable-version3 --disable-doc --disable-ffplay --arch=arm64 --target-os=darwin --cc=/usr/bin/clang --cxx=/usr/bin/clang++ --install-name-dir='@rpath' --enable-videotoolbox --enable-audiotoolbox --enable-zlib --enable-bzlib --enable-securetransport --extra-cflags='-mmacosx-version-min=26.0 -I/tmp/screenrec-ffmpeg-prepare-95W69E/dependencies/include' --extra-ldflags='-mmacosx-version-min=26.0 -Wl,-rpath,@executable_path/../lib -L/tmp/screenrec-ffmpeg-prepare-95W69E/dependencies/lib' --enable-libzimg --pkg-config=/tmp/screenrec-ffmpeg-prepare-95W69E/build-tools/bin/pkgconf",
+      "recipeSha256": "be0223014e418d56cf920abd91c7a0f358a94526d58d5afdc1eb258b7693f139",
+      "sourceSha256": "8c3850283eb25fa026482078a04051e0be17347b09ef81a0849bec15a96e002e",
+      "executables": {
+        "ffmpeg": {
+          "path": "/Users/server/.t3/worktrees/screen-recorder/t3code-42e83c50/helpers/ffmpeg/.build/distribution/bin/ffmpeg",
+          "sha256": "8410694433e927bdf2cc751b8c81cb4545b2302828fdffed6044018b10f39f31"
+        },
+        "ffprobe": {
+          "path": "/Users/server/.t3/worktrees/screen-recorder/t3code-42e83c50/helpers/ffmpeg/.build/distribution/bin/ffprobe",
+          "sha256": "10cca670f6de7b7c7ab96c53205d1a6370f63f506b028942d930fef4426048ee"
+        }
+      }
+    }
+  },
+  "sourceSha256": "f3b7d8f718e1724f7c22bee97419cafca0df7180ce3637eaf3fb2c19513002bd",
+  "requiredFilters": [
+    {
+      "name": "palettegen",
+      "available": true
+    },
+    {
+      "name": "paletteuse",
+      "available": true
+    }
+  ],
+  "request": {
+    "executable": "/Users/server/.t3/worktrees/screen-recorder/t3code-42e83c50/helpers/ffmpeg/.build/distribution/bin/ffmpeg",
+    "args": [
+      "-nostdin",
+      "-v",
+      "error",
+      "-i",
+      "/Users/server/.t3/worktrees/screen-recorder/t3code-42e83c50/specs/done/agent-editing/assets/00-corpus/a.mov",
+      "-t",
+      "0.5",
+      "-filter_complex",
+      "[0:v]fps=8,split[a][b];[a]palettegen[p];[b][p]paletteuse",
+      "-an",
+      "-loop",
+      "0",
+      "/tmp/screenrec-parity-gif-proof-01/extra.gif"
+    ]
+  },
+  "probe": {
+    "frames": [
+      {
+        "media_type": "video",
+        "stream_index": 0,
+        "key_frame": 1,
+        "pts": 0,
+        "pts_time": "0.000000",
+        "pkt_dts": 0,
+        "pkt_dts_time": "0.000000",
+        "best_effort_timestamp": 0,
+        "best_effort_timestamp_time": "0.000000",
+        "duration": 13,
+        "duration_time": "0.130000",
+        "pkt_pos": "0",
+        "pkt_size": "1903",
+        "width": 160,
+        "height": 96,
+        "crop_top": 0,
+        "crop_bottom": 0,
+        "crop_left": 0,
+        "crop_right": 0,
+        "pix_fmt": "bgra",
+        "pict_type": "I",
+        "interlaced_frame": 0,
+        "top_field_first": 0,
+        "lossless": 0,
+        "repeat_pict": 0
+      },
+      {
+        "media_type": "video",
+        "stream_index": 0,
+        "key_frame": 0,
+        "pts": 13,
+        "pts_time": "0.130000",
+        "pkt_dts": 13,
+        "pkt_dts_time": "0.130000",
+        "best_effort_timestamp": 13,
+        "best_effort_timestamp_time": "0.130000",
+        "duration": 12,
+        "duration_time": "0.120000",
+        "pkt_pos": "1903",
+        "pkt_size": "25",
+        "width": 160,
+        "height": 96,
+        "crop_top": 0,
+        "crop_bottom": 0,
+        "crop_left": 0,
+        "crop_right": 0,
+        "pix_fmt": "bgra",
+        "pict_type": "P",
+        "interlaced_frame": 0,
+        "top_field_first": 0,
+        "lossless": 0,
+        "repeat_pict": 0
+      },
+      {
+        "media_type": "video",
+        "stream_index": 0,
+        "key_frame": 0,
+        "pts": 25,
+        "pts_time": "0.250000",
+        "pkt_dts": 25,
+        "pkt_dts_time": "0.250000",
+        "best_effort_timestamp": 25,
+        "best_effort_timestamp_time": "0.250000",
+        "duration": 13,
+        "duration_time": "0.130000",
+        "pkt_pos": "1928",
+        "pkt_size": "1068",
+        "width": 160,
+        "height": 96,
+        "crop_top": 0,
+        "crop_bottom": 0,
+        "crop_left": 0,
+        "crop_right": 0,
+        "pix_fmt": "bgra",
+        "pict_type": "P",
+        "interlaced_frame": 0,
+        "top_field_first": 0,
+        "lossless": 0,
+        "repeat_pict": 0
+      },
+      {
+        "media_type": "video",
+        "stream_index": 0,
+        "key_frame": 0,
+        "pts": 38,
+        "pts_time": "0.380000",
+        "pkt_dts": 38,
+        "pkt_dts_time": "0.380000",
+        "best_effort_timestamp": 38,
+        "best_effort_timestamp_time": "0.380000",
+        "duration": 13,
+        "duration_time": "0.130000",
+        "pkt_pos": "2996",
+        "pkt_size": "26",
+        "width": 160,
+        "height": 96,
+        "crop_top": 0,
+        "crop_bottom": 0,
+        "crop_left": 0,
+        "crop_right": 0,
+        "pix_fmt": "bgra",
+        "pict_type": "P",
+        "interlaced_frame": 0,
+        "top_field_first": 0,
+        "lossless": 0,
+        "repeat_pict": 0
+      }
+    ],
+    "streams": [
+      {
+        "index": 0,
+        "codec_name": "gif",
+        "codec_long_name": "CompuServe GIF (Graphics Interchange Format)",
+        "codec_type": "video",
+        "codec_tag_string": "[0][0][0][0]",
+        "codec_tag": "0x0000",
+        "width": 160,
+        "height": 96,
+        "coded_width": 160,
+        "coded_height": 96,
+        "has_b_frames": 0,
+        "pix_fmt": "bgra",
+        "level": -99,
+        "refs": 1,
+        "r_frame_rate": "8/1",
+        "avg_frame_rate": "25/3",
+        "time_base": "1/100",
+        "start_pts": 0,
+        "start_time": "0.000000",
+        "duration_ts": 51,
+        "duration": "0.510000",
+        "nb_frames": "4",
+        "nb_read_frames": "4",
+        "disposition": {
+          "default": 0,
+          "dub": 0,
+          "original": 0,
+          "comment": 0,
+          "lyrics": 0,
+          "karaoke": 0,
+          "forced": 0,
+          "hearing_impaired": 0,
+          "visual_impaired": 0,
+          "clean_effects": 0,
+          "attached_pic": 0,
+          "timed_thumbnails": 0,
+          "non_diegetic": 0,
+          "captions": 0,
+          "descriptions": 0,
+          "metadata": 0,
+          "dependent": 0,
+          "still_image": 0,
+          "multilayer": 0
+        }
+      }
+    ]
+  },
+  "sha256": "7d6a023e095453099cf50baf5218fc3ef89281954c1fa521cbaa0c903a86bbc3"
+}

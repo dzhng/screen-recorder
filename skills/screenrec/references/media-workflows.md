@@ -72,6 +72,14 @@ not an inherited override. Authored settings with execution unavailable are not
 processed audio/video. Verify returned settings separately from rendered
 media, and report whichever stage is still unavailable.
 
+For advertised `sdr-correction`, choose exposure, contrast, saturation and source
+neutral white balance explicitly. Neutral Kelvin/tint describe the illuminant the
+processor corrects toward its neutral reference; they are not a warmth slider or
+camera calibration. Start from identity, adjust one cause at a time and compare
+the same dry/processed frames at the intended viewing size. Settings apply in the
+ordered stack, so moving the step can change its input. Preserve the native recipe
+identity and refuse unavailable execution rather than substituting another grade.
+
 To retain a lossless processed mix, call `audio.prepare` with an explicit project
 and revision. It prepares the full output without editing the project. Pin that
 selection while polling; use `job.get/retry/cancel` for its attempts rather than
@@ -215,6 +223,14 @@ picture, so it is not interchangeable with opacity on each child. H.264 delivery
 requires an opaque final canvas; report an unsupported transparent movie request
 rather than silently adding a background after the output stack.
 
+For externally rendered motion graphics, import a finite movie through ordinary
+asset admission, then place its admitted video stream as a layer. A supported
+ProRes 4444 alpha source can preserve transparency in composition; this does not
+advertise transparent final movie delivery. Verify alpha over both light and dark
+backgrounds, orientation, exact first/last sample support and the local animation
+phase after trims, repeats or retiming. Keep the original movie in editable
+packages; the external authoring project is separate task material.
+
 For audio inspection, choose the source stream or a pinned project deliberately.
 Source selection uses asset/stream identity and optional acquisition; its range is
 source time. Project audio uses project time and defaults to processed output.
@@ -331,6 +347,17 @@ When selecting an encoder, inspect its own control availability and the discover
 AAC format choices. For controls that advertise it, explicit null leaves the encoder
 default instead of requesting an unsupported preset value. Required selection
 constraints must be honored; preferred selection can fall back as documented.
+
+Choose H.264 or advertised HEVC deliberately for an MP4 delivery. HEVC uses its
+own settings; do not carry H.264-only entropy/profile/level controls into that
+request. Current core video delivery is opaque Rec.709 SDR; HEVC alone does not
+make an export HDR or transparent. Check actual codec, color, duration and A/V
+alignment in the receipt and delivered file. An unavailable HEVC encoder refuses;
+changing codec or backend is a new explicit choice.
+
+For an extra GIF delivery, inspect actual frame delays and duration. GIF stores
+hundredths of a second, so some frame rates require rounding; an exact project
+clock does not establish exact GIF timing. Keep that difference visible.
 
 For an editable project transfer, discover `export.create` package support and
 poll its durable export intent until committed. Open the resulting ZIP, inspect

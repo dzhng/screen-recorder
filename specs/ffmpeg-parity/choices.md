@@ -6,6 +6,127 @@ and fixture selection are discretion, not new product decisions.
 
 ## Sound choices
 
+### Stateful audio keeps one compiled schedule and one final retained signal
+
+When: audio recipe integration. Native and FFmpeg processors can alternate in one
+stack. Composition declares complete state domains and detector dependencies;
+native renders each requested exclusive prefix and consumes validated held spans;
+the service walks that dependency schedule and executes the selected filter recipe.
+Core retains the final prepared mix for inspection, preview, export and packages.
+
+Gap: the plan did not define how an external mature filter joins native state.
+Reach: no service timeline interpreter, extra state cache or native ad-hoc child
+process is introduced. Pure-native behavior stays on its existing path. A stale
+or missing domain span refuses instead of quietly rerunning a different recipe.
+Verdict: sound; the shared preparation slice must prove the mixed-stack contract
+before any new processor advertises execution. Confidence: medium.
+
+### Normalization publishes only measured target-compliant candidates
+
+When: normalization reproduction. Dynamic normalization can hit integrated
+loudness while missing its requested loudness-range maximum. Both gain-only and
+explicit dynamic modes retain their requested targets and validate achieved
+results under the predeclared meter-specific tolerances before publication.
+Impossible or failed targets refuse; there is no automatic mode switch.
+
+Gap: the plan named targets without defining failure after mature-filter execution.
+Reach: a successful filter process is insufficient readiness. The requested LRA
+remains a maximum, and the true-peak tolerance is a scoped measurement allowance,
+not mathematical or encoded compliance. Final lossy delivery is measured separately.
+Verdict: sound; mature implementation reuse cannot erase caller postconditions.
+Confidence: medium.
+
+### Linked limiting applies one mature gain envelope to both channels
+
+When: limiter reproduction. The stock limiter's final per-channel safety clipping
+can slightly disturb stereo balance near its ceiling. The selected recipe limits
+one mono maximum-absolute-channel detector, then applies its gain to both signed
+program channels. Zero detector samples stay zero. Low-level results preserve the
+previous candidate exactly; the near-ceiling difference is intentional.
+
+Gap: the plan specified channel linking without choosing the filter composition.
+Reach: a single lookahead control describes the mature filter's coupled linear
+attack. Automatic level compensation is disabled, while its bounded release-step
+gain quirk remains explicit. Timing, sample ceiling and linking gates were preserved.
+Verdict: sound; a shared envelope corrects the failed property without weaker gates.
+Confidence: medium.
+
+### Sidechain processing uses one input packet grid and exact output trim
+
+When: compressor reproduction. A mature two-input filter drops a partial last
+block for some packet shapes. Both program and detector are padded on one fixed
+sample grid before processing, then the output is trimmed to its exact authored
+count. Padding is filter context, never newly admitted timeline support.
+
+Gap: the plan required tails and sample preservation without choosing packetization.
+Reach: the compiled detector and program keep the same project clock and full
+context. Unequal upstream packet sizes cannot define treatment semantics.
+Verdict: sound; the frozen recipe makes EOF handling explicit and deterministic.
+Confidence: high.
+
+### Meter results reuse acoustic ownership and retain the selected signal
+
+When: slice 10. Loudness is another read-only reduction of the exact PCM already
+used for waveforms and spectra. Its report retains the meter recipe, selected
+prepared resource, processing identity and whether the request covers the whole
+signal or an excerpt. An empty integrated gate is reported as unavailable even
+when sample peak remains measurable; omitted media cannot become silent samples.
+
+Gap: the plan did not choose report/cache representation or empty-gate semantics.
+Reach: existing acoustic jobs, retries and cache lifetime remain the owner. Explicit
+prepared pins survive admission, context expansion and retry instead of being
+resolved again against whatever preparation exists later. No measurement edits
+the project or establishes perceptual sound quality.
+Verdict: sound; identity and measurement share the existing PCM contract.
+Confidence: high.
+
+### Native timing fingerprints include every presented sample
+
+When: slice 19 preparation. Two sources can have identical endpoints and sample
+counts but different interior timing. The native cursor streams reduced rational
+presentation-time/duration pairs into a fingerprint, normalizing uniform origin
+translation while retaining the actual origin separately. Fresh color facts cover
+all format descriptions and actual alpha; old cached metadata is not silently
+upgraded or mistaken for source corruption.
+
+Gap: the plan required exact conversion clocks without choosing a compact complete
+timing proof. Reach: managed HDR admission must compare interior fingerprint and
+exact endpoints/tail/origin, keeping padded container declarations separate.
+FFprobe remains a codec/range supplement, never the timing authority.
+Verdict: sound; one native physical-facts owner prevents endpoint-only equivalence.
+Confidence: medium.
+
+### Known model padding is separate from physical source support
+
+When: speaker research. A provider emits a short tail beyond the recording after
+its documented inference windows are zero-padded. A frozen adapter intersects only
+that proven padded support with the physical source clock, preserving every
+interior prediction and the raw invalid result. An unexplained outside interval
+still refuses. The adjusted result can still fail the unchanged quality gate.
+
+Gap: the research plan did not define an explicit padded-input clock adapter.
+Reach: this is a provider-specific research mapping, not permission to clamp
+arbitrary evidence or edit source timelines. Untouched confirmation remains
+separate from development calibration; annotation rights do not grant audio rights.
+Verdict: sound; declared model input support cannot masquerade as real recording.
+Confidence: medium.
+
+### Judge evidence shares bytes without dropping execution history
+
+When: consumer acceptance preparation. An agent reads the same large operation
+catalog several times. The judge gets one complete copy of each identical output
+and references from every command/CLI receipt, preserving all attempts and failures.
+Raw runner artifacts remain unchanged. A prose planning answer alone cannot prove
+the exact identifiers an edit would submit, so that trial requests a printed
+task-side selection template and request skeletons for concrete inspection.
+
+Gap: the acceptance plan left bounded judge-input and planning-artifact shape open.
+Reach: no help schema, failed call or relevant media evidence is truncated to fit;
+unique oversized evidence remains an infrastructure failure. Portable plans prove
+schema/identity handling, not a native edit or professional perceptual quality.
+Verdict: sound; separate evidence from summaries without hiding failed trials.
+Confidence: medium.
+
 ### Transferred notes remain historical caller-owned evidence
 
 When: slice 24. Another agent receives a small versioned notes file beside a

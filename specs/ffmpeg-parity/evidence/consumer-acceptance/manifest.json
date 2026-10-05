@@ -1,0 +1,342 @@
+{
+  "claim": "Portable fresh-agent skill/schema acceptance only; no native execution or novice-edit quality claim.",
+  "archive": {
+    "path": "portable-trials.tar.xz",
+    "sha256": "69f396d24431431c4432c6f220b4b6a2ecc5cc86c00600afd9d21cb954f25471",
+    "regularFiles": 34
+  },
+  "runs": [
+    {
+      "directory": "screenrec-parity-consumer-evals-01",
+      "sourceRevision": "bfe68e46e0d9e558ad2cdfb4dea75da4d93cc6bc",
+      "sourceDirty": true,
+      "startedAt": "2026-10-05T03:25:27.397Z",
+      "image": "sha256:fc82a8aeadb1846c37085102f13c441ed5e49eed2ac47863fccdd51fe04c94a5",
+      "cli": {
+        "source": "/tmp/screenrec-parity-consumer-cli.mjs",
+        "sha256": "6f27e90cff3c41fbef13d67bdcbc3fd1ef903ca5c877c0b500e9fd78f4c6724f"
+      },
+      "inputs": {
+        "SKILL.md": "77e092d1145ac648884d38a97eb4f6bb6f9ca0d139aa28b4c89513e64551d3d8",
+        "scripts/batch-prepare.mjs": "51278ecd488a591089ce328f0ab1dcb22c477d6c2e0d07c098aa385eb4c9dc78",
+        "scripts/caption-proposals.mjs": "755dcbc9957c52102cc42dfd3d31acd2e724ed822fefd1566109a69c4a73a234",
+        "scripts/compact-transcripts.mjs": "e0082cb3e1e37e4467481abf1f26586b3180d8c9f83082a8d830ccb871500449",
+        "scripts/inspection-artifacts.mjs": "7c7fa7e44b934a19653ec956c71900e2e5ffeccb1072ad5a8bea195f983d4d91",
+        "scripts/review-bundle.mjs": "f5678caa1aca5acad9e5d7a8c39e4f00669dda0fe8619548d9906ce87db966b5",
+        "scripts/screenrec-cli.mjs": "60fe2414d09c448bd9da06ac945d183f420d0312bac60043ad34afe01828479e",
+        "scripts/task-notes.mjs": "d8db66ef3615292a0d526002205416e2a459f92da666d8c15628d9e4004b7ad4",
+        "scripts/timeline-inspection.mjs": "b403de396ad6450b96ba9597350abd6f8867f24f40f8aa37c90336640f858074",
+        "references/creative-workflows.md": "fa7a2dbf72d3dbd3d01e2e2f830d0ae04161bfb341d78f07f1c656c1c24d2df5",
+        "references/editorial-checks.md": "ddba6c0e6090479338b021140bf6ea3056823e84847ad59c37310edcc9659fe6",
+        "references/installation.md": "e713125ca0fe70b6bbebaba7bc32c823800c3e1b80c981f630a31095b6255cbe",
+        "references/mcp.md": "fcd32aaa920f2773df6a6d92c4ac0ef389f76cd9a9bffa17c833ad46d25880e0",
+        "references/media-workflows.md": "71ab4a7983723329d51730fdc7184c7496fc037cb949dcaceeeace88231f93b4",
+        "README.md": "98758e794b140320bb1d575cfc4e5db63cfc230777f33c705170cdafeb418674",
+        "cases.json": "f1b3a1609c291aacc960c30d792b9124e68139f905f053e76232f5139d5be407"
+      },
+      "controlChecksPassed": 6,
+      "error": "non-core-gif-codex-1 judge: codex exited 1",
+      "results": [
+        {
+          "case": "imported-footage-plan",
+          "agent": "codex",
+          "trial": 1,
+          "pass": false
+        },
+        {
+          "case": "imported-footage-plan",
+          "agent": "codex",
+          "trial": 2,
+          "pass": false
+        }
+      ]
+    },
+    {
+      "directory": "screenrec-parity-consumer-evals-02",
+      "sourceRevision": "5debaf10f93a24f9072edc6b8cbee0783f212862",
+      "sourceDirty": true,
+      "startedAt": "2026-10-05T03:32:51.330Z",
+      "image": "sha256:fc82a8aeadb1846c37085102f13c441ed5e49eed2ac47863fccdd51fe04c94a5",
+      "cli": {
+        "source": "/tmp/screenrec-parity-consumer-cli.mjs",
+        "sha256": "6f27e90cff3c41fbef13d67bdcbc3fd1ef903ca5c877c0b500e9fd78f4c6724f"
+      },
+      "inputs": {
+        "SKILL.md": "e6623afade7aaecdf5c54eb216a09b99822d1b44f39d4024a2419cd5a5835d23",
+        "scripts/batch-prepare.mjs": "51278ecd488a591089ce328f0ab1dcb22c477d6c2e0d07c098aa385eb4c9dc78",
+        "scripts/caption-proposals.mjs": "755dcbc9957c52102cc42dfd3d31acd2e724ed822fefd1566109a69c4a73a234",
+        "scripts/compact-transcripts.mjs": "e0082cb3e1e37e4467481abf1f26586b3180d8c9f83082a8d830ccb871500449",
+        "scripts/inspection-artifacts.mjs": "7c7fa7e44b934a19653ec956c71900e2e5ffeccb1072ad5a8bea195f983d4d91",
+        "scripts/review-bundle.mjs": "f5678caa1aca5acad9e5d7a8c39e4f00669dda0fe8619548d9906ce87db966b5",
+        "scripts/screenrec-cli.mjs": "60fe2414d09c448bd9da06ac945d183f420d0312bac60043ad34afe01828479e",
+        "scripts/task-notes.mjs": "d8db66ef3615292a0d526002205416e2a459f92da666d8c15628d9e4004b7ad4",
+        "scripts/timeline-inspection.mjs": "b403de396ad6450b96ba9597350abd6f8867f24f40f8aa37c90336640f858074",
+        "references/creative-workflows.md": "f2c2fb4af25523bc4ce5c396bb5c4142683d4f675789a2e6e7188c05ce265967",
+        "references/editorial-checks.md": "ddba6c0e6090479338b021140bf6ea3056823e84847ad59c37310edcc9659fe6",
+        "references/installation.md": "e713125ca0fe70b6bbebaba7bc32c823800c3e1b80c981f630a31095b6255cbe",
+        "references/mcp.md": "fcd32aaa920f2773df6a6d92c4ac0ef389f76cd9a9bffa17c833ad46d25880e0",
+        "references/media-workflows.md": "71ab4a7983723329d51730fdc7184c7496fc037cb949dcaceeeace88231f93b4",
+        "README.md": "98758e794b140320bb1d575cfc4e5db63cfc230777f33c705170cdafeb418674",
+        "cases.json": "f1b3a1609c291aacc960c30d792b9124e68139f905f053e76232f5139d5be407"
+      },
+      "controlChecksPassed": 6,
+      "error": null,
+      "results": [
+        {
+          "case": "imported-footage-plan",
+          "agent": "codex",
+          "trial": 1,
+          "pass": false
+        },
+        {
+          "case": "imported-footage-plan",
+          "agent": "codex",
+          "trial": 2,
+          "pass": false
+        },
+        {
+          "case": "non-core-gif",
+          "agent": "codex",
+          "trial": 1,
+          "pass": true
+        },
+        {
+          "case": "non-core-gif",
+          "agent": "codex",
+          "trial": 2,
+          "pass": true
+        },
+        {
+          "case": "unavailable-treatment",
+          "agent": "codex",
+          "trial": 1,
+          "pass": true
+        },
+        {
+          "case": "unavailable-treatment",
+          "agent": "codex",
+          "trial": 2,
+          "pass": true
+        }
+      ]
+    },
+    {
+      "directory": "screenrec-parity-consumer-evals-03",
+      "sourceRevision": "d5f1c09835664df41068cc12d75508eb3baa7a8b",
+      "sourceDirty": true,
+      "startedAt": "2026-10-05T03:40:22.819Z",
+      "image": "sha256:fc82a8aeadb1846c37085102f13c441ed5e49eed2ac47863fccdd51fe04c94a5",
+      "cli": {
+        "source": "/tmp/screenrec-parity-consumer-cli.mjs",
+        "sha256": "6f27e90cff3c41fbef13d67bdcbc3fd1ef903ca5c877c0b500e9fd78f4c6724f"
+      },
+      "inputs": {
+        "SKILL.md": "e6623afade7aaecdf5c54eb216a09b99822d1b44f39d4024a2419cd5a5835d23",
+        "scripts/batch-prepare.mjs": "51278ecd488a591089ce328f0ab1dcb22c477d6c2e0d07c098aa385eb4c9dc78",
+        "scripts/caption-proposals.mjs": "755dcbc9957c52102cc42dfd3d31acd2e724ed822fefd1566109a69c4a73a234",
+        "scripts/compact-transcripts.mjs": "e0082cb3e1e37e4467481abf1f26586b3180d8c9f83082a8d830ccb871500449",
+        "scripts/inspection-artifacts.mjs": "7c7fa7e44b934a19653ec956c71900e2e5ffeccb1072ad5a8bea195f983d4d91",
+        "scripts/review-bundle.mjs": "f5678caa1aca5acad9e5d7a8c39e4f00669dda0fe8619548d9906ce87db966b5",
+        "scripts/screenrec-cli.mjs": "60fe2414d09c448bd9da06ac945d183f420d0312bac60043ad34afe01828479e",
+        "scripts/task-notes.mjs": "d8db66ef3615292a0d526002205416e2a459f92da666d8c15628d9e4004b7ad4",
+        "scripts/timeline-inspection.mjs": "b403de396ad6450b96ba9597350abd6f8867f24f40f8aa37c90336640f858074",
+        "references/creative-workflows.md": "f2c2fb4af25523bc4ce5c396bb5c4142683d4f675789a2e6e7188c05ce265967",
+        "references/editorial-checks.md": "ddba6c0e6090479338b021140bf6ea3056823e84847ad59c37310edcc9659fe6",
+        "references/installation.md": "e713125ca0fe70b6bbebaba7bc32c823800c3e1b80c981f630a31095b6255cbe",
+        "references/mcp.md": "fcd32aaa920f2773df6a6d92c4ac0ef389f76cd9a9bffa17c833ad46d25880e0",
+        "references/media-workflows.md": "71ab4a7983723329d51730fdc7184c7496fc037cb949dcaceeeace88231f93b4",
+        "README.md": "98758e794b140320bb1d575cfc4e5db63cfc230777f33c705170cdafeb418674",
+        "cases.json": "1b58e704433cecfa237a0382e282d12c4d30c04ebc8300ad1a80c1fdfade8c9f"
+      },
+      "controlChecksPassed": 6,
+      "error": null,
+      "results": [
+        {
+          "case": "imported-footage-plan",
+          "agent": "codex",
+          "trial": 1,
+          "pass": true
+        },
+        {
+          "case": "imported-footage-plan",
+          "agent": "codex",
+          "trial": 2,
+          "pass": true
+        }
+      ]
+    }
+  ],
+  "planningTaskInterpretation": "Runs 01 and 02 requested prose plans and failed exact-identity retention. Run 03 explicitly requested a printed task-side selection template and edit/caption/export request skeletons with placeholder IDs, without execution. Acceptance requirements were preserved; the task stimulus changed.",
+  "members": [
+    {
+      "path": "screenrec-parity-consumer-evals-01/build.log",
+      "bytes": 15333,
+      "sha256": "d84cc743934f8206ee2825f35c584ddc16660f7d2e71fab409c6836f10d44ac8"
+    },
+    {
+      "path": "screenrec-parity-consumer-evals-01/contracts.json",
+      "bytes": 7132,
+      "sha256": "dac5c18719d4b63d01391b9cd1ecfe5611eaed68938da61f7975bf4d897a2720"
+    },
+    {
+      "path": "screenrec-parity-consumer-evals-01/image.id",
+      "bytes": 71,
+      "sha256": "75071fba075dae45a1b617f7ca99e5da9ad4cc502845e7edb41f0f75a96b84ec"
+    },
+    {
+      "path": "screenrec-parity-consumer-evals-01/imported-footage-plan-codex-1.judge.json",
+      "bytes": 2769,
+      "sha256": "772af2882e072de28cfbb1727571b871636f132b9fac6c485135829f5f5a5aee"
+    },
+    {
+      "path": "screenrec-parity-consumer-evals-01/imported-footage-plan-codex-1.runner.json",
+      "bytes": 852471,
+      "sha256": "06c7327adbf42815cfabb6a6719354f0fb862aef696dcf105e1333a6948a5caf"
+    },
+    {
+      "path": "screenrec-parity-consumer-evals-01/imported-footage-plan-codex-2.judge.json",
+      "bytes": 3189,
+      "sha256": "2bcec9b90d6039e80946956729b97c74de1fed9e0715dd7cec1a199761791c28"
+    },
+    {
+      "path": "screenrec-parity-consumer-evals-01/imported-footage-plan-codex-2.runner.json",
+      "bytes": 874053,
+      "sha256": "c2a424c3c122faa4c223873e492c118881cd9f0d4713720ff4ab8b747b399cf8"
+    },
+    {
+      "path": "screenrec-parity-consumer-evals-01/non-core-gif-codex-1.judge.json",
+      "bytes": 565,
+      "sha256": "b110a9b6955133987fb152c129dadb669c7d4b237d79137d45a5cce5f0a6036e"
+    },
+    {
+      "path": "screenrec-parity-consumer-evals-01/non-core-gif-codex-1.runner.json",
+      "bytes": 2157668,
+      "sha256": "dd5e5653f72157ff24feda851f18e5bd58c33dc05aff76400e24e2c4912e2105"
+    },
+    {
+      "path": "screenrec-parity-consumer-evals-01/summary.json",
+      "bytes": 4807,
+      "sha256": "f69a30d30dc2368b1a9a533c26459028b5b98f3f16cf63b030d43362019cb24c"
+    },
+    {
+      "path": "screenrec-parity-consumer-evals-02/build.log",
+      "bytes": 1425,
+      "sha256": "25a3cf736b1e3ee726909f4dc1881481d5ce5e21b8342b8a7a45e0d19cfddeda"
+    },
+    {
+      "path": "screenrec-parity-consumer-evals-02/contracts.json",
+      "bytes": 7132,
+      "sha256": "86a7ba8774c2cf2f42a8fbff3bea7160bb491d0ae15a9c31c14fb35df2680e82"
+    },
+    {
+      "path": "screenrec-parity-consumer-evals-02/image.id",
+      "bytes": 71,
+      "sha256": "75071fba075dae45a1b617f7ca99e5da9ad4cc502845e7edb41f0f75a96b84ec"
+    },
+    {
+      "path": "screenrec-parity-consumer-evals-02/imported-footage-plan-codex-1.judge.json",
+      "bytes": 2663,
+      "sha256": "d07ac94e8b977b9e64a389211b96b91d0ba5d6abafb934f90186f467a4116dbb"
+    },
+    {
+      "path": "screenrec-parity-consumer-evals-02/imported-footage-plan-codex-1.runner.json",
+      "bytes": 871938,
+      "sha256": "48b9983c7affaea7f6bd2124839210e3fae98df5cee0819b170dc3ec93c7200a"
+    },
+    {
+      "path": "screenrec-parity-consumer-evals-02/imported-footage-plan-codex-2.judge.json",
+      "bytes": 2449,
+      "sha256": "a0cdb3ce1cf4f1edd7206d944f1b6d879da6bab34c07060c346f191ae1ea84d6"
+    },
+    {
+      "path": "screenrec-parity-consumer-evals-02/imported-footage-plan-codex-2.runner.json",
+      "bytes": 846353,
+      "sha256": "a542445d315355c6ced4b33119ad9fb343371b6e6480a3e2ca5077c882f20ef2"
+    },
+    {
+      "path": "screenrec-parity-consumer-evals-02/non-core-gif-codex-1.judge.json",
+      "bytes": 2843,
+      "sha256": "ecf279f96dfc3ca77e1f8e41d74ef9b837cad915d1e4ebf0514f672ca8dcad13"
+    },
+    {
+      "path": "screenrec-parity-consumer-evals-02/non-core-gif-codex-1.runner.json",
+      "bytes": 2099822,
+      "sha256": "1d9bfb0a96ca706bb8f25f2f64c8291001564251f65c95de82af6398478cd0c4"
+    },
+    {
+      "path": "screenrec-parity-consumer-evals-02/non-core-gif-codex-2.judge.json",
+      "bytes": 2757,
+      "sha256": "12cd572f8084422d5395f3bcf9e08228f4eda84ca2487884a2ea3d537d303427"
+    },
+    {
+      "path": "screenrec-parity-consumer-evals-02/non-core-gif-codex-2.runner.json",
+      "bytes": 1367223,
+      "sha256": "1e068511fd30b50b3c8df67ccf92d7aa7d7a0153b3b28e246cf74b3c4548728c"
+    },
+    {
+      "path": "screenrec-parity-consumer-evals-02/summary.json",
+      "bytes": 9825,
+      "sha256": "1d7f61685f7e3e829da27dc37287baf5a3f1f00e6b0213c2f0e0f5bfca6e69a4"
+    },
+    {
+      "path": "screenrec-parity-consumer-evals-02/unavailable-treatment-codex-1.judge.json",
+      "bytes": 3453,
+      "sha256": "45f79b9fe6b73a083da9c05021edc625754776c8379aebb02105a5d292729ead"
+    },
+    {
+      "path": "screenrec-parity-consumer-evals-02/unavailable-treatment-codex-1.runner.json",
+      "bytes": 2111997,
+      "sha256": "0a2df35256cca003d9c3dc37a1cdcf903f28bfdc472ea5ea5580e0d55a60ca4f"
+    },
+    {
+      "path": "screenrec-parity-consumer-evals-02/unavailable-treatment-codex-2.judge.json",
+      "bytes": 3698,
+      "sha256": "32189c6137d70ffdd46124df5493866f6ee9882d0c4d47e9aa0a77447194dde8"
+    },
+    {
+      "path": "screenrec-parity-consumer-evals-02/unavailable-treatment-codex-2.runner.json",
+      "bytes": 1588374,
+      "sha256": "278861ab409148b1adbed62ec720625bd14bbbe8522ef65a41731ee69561a12c"
+    },
+    {
+      "path": "screenrec-parity-consumer-evals-03/build.log",
+      "bytes": 1425,
+      "sha256": "25a3cf736b1e3ee726909f4dc1881481d5ce5e21b8342b8a7a45e0d19cfddeda"
+    },
+    {
+      "path": "screenrec-parity-consumer-evals-03/contracts.json",
+      "bytes": 7132,
+      "sha256": "ee39e2900afa233b962c0d9c223ee04bc4e6e43b7cc7027df54e157c1450d067"
+    },
+    {
+      "path": "screenrec-parity-consumer-evals-03/image.id",
+      "bytes": 71,
+      "sha256": "75071fba075dae45a1b617f7ca99e5da9ad4cc502845e7edb41f0f75a96b84ec"
+    },
+    {
+      "path": "screenrec-parity-consumer-evals-03/imported-footage-plan-codex-1.judge.json",
+      "bytes": 4277,
+      "sha256": "5240bd8a5d2ad2263d1b086d965df2a3d6344b548aa9b9e0ea8fb9d8f827c5ab"
+    },
+    {
+      "path": "screenrec-parity-consumer-evals-03/imported-footage-plan-codex-1.runner.json",
+      "bytes": 1043750,
+      "sha256": "b20f8e1cdbb58156232faefdcbbe256f26e8fa8359f4c99a8dd0998d85cc0a57"
+    },
+    {
+      "path": "screenrec-parity-consumer-evals-03/imported-footage-plan-codex-2.judge.json",
+      "bytes": 3859,
+      "sha256": "9842bd8c785dee5b6cfffc49b9fb6517ba3f0935935084e206af1ec3d4d117f3"
+    },
+    {
+      "path": "screenrec-parity-consumer-evals-03/imported-footage-plan-codex-2.runner.json",
+      "bytes": 1107962,
+      "sha256": "2243b760c2bad7d2a15cce45ac88900c250e10aa258cdff2ea04ea818c90ff6a"
+    },
+    {
+      "path": "screenrec-parity-consumer-evals-03/summary.json",
+      "bytes": 5860,
+      "sha256": "a07b234cb700dfc69b398bd826688773247a5f8d9ddb71ae077d7bd7a298e036"
+    }
+  ]
+}

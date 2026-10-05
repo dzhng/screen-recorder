@@ -1,6 +1,6 @@
 # 25 — Everyday typed HEVC delivery
 
-Status: implemented and focused checks passed; full public export and end-of-spec release proof remain with the coordinating agent. Question: **Can HEVC extend delivery without changing established H264/WAV/M4A behavior?**
+Status: complete, including public CLI/service export. End-of-spec installed release acceptance remains 26. Question: **Can HEVC extend delivery without changing established H264/WAV/M4A behavior?**
 
 Dependencies: existing contracts only.
 
@@ -93,9 +93,30 @@ only the tested fixture appearance, not arbitrary user-footage quality.
 
 ### Remaining scope
 
-No user-media edit, capture or demonstration was performed. This is a narrow
-NativeWire output proof plus core preview/publication-contract coverage; a full
-CLI/service HEVC export journey and the end-of-spec full run are not claimed.
+No user-media edit, capture or demonstration was performed. Native component and
+public publication proofs are scoped separately; the end-of-spec full run and
+installed release acceptance are not claimed.
 Native Preview showing was attempted but the desktop tool timed out. All four
 comparisons were viewed inline; no successful native Preview claim is made. The internal output-settings owner and renderer remain native;
 this slice introduces no persisted-state migration or compatibility shim.
+
+## Public publication checkpoint
+
+The [public journey](../../../packages/test-harness/editing/hevc-delivery.mjs)
+imports the retained corpus movie and authored stereo impulses through ordinary
+CLI/service operations in scratch state. [Complete report and delivered files](../evidence/hevc-public)
+bind source/native/tool identities, pinned edit and export requests, discovery,
+publication and identical-intent replay. Both explicit codecs produce 1.25 seconds
+of Rec.709 SDR, ten exact 125 ms picture starts and AAC support of 60000 samples.
+Both decoded channels peak at sample 16800; decoder output is exactly 60000 frames
+in this case. Replay retains the export ID and file hash; source bytes stay intact.
+The actual first HEVC frame was viewed and shows the expected authored marker and
+colored corners. This adds public publication evidence, not a new appearance,
+perceptual audio or natural-footage quality claim. Earlier native component
+comparisons own clipped/B-frame/orientation/timestamp-gap coverage.
+
+A scratch stimulus fault moves both impulses by 100 ms without changing the
+expected landmarks. The public check fails specifically at the audio-position
+assertion; its report records the changed operands before cleanup. Independent
+reviews found no actionable harness defect; their sandbox denied socket creation,
+so the retained actual-host run is the integration evidence.

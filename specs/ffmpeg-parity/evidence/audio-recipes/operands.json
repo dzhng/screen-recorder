@@ -1,6 +1,6 @@
 {
   "artifact": "operands.tar.xz",
-  "artifactSha256": "f54c484472ce6f66d43ffd06e9ef2983b997e0181798e7a797f9c6fa1eaddc65",
+  "artifactSha256": "d866032038563d53c33d5cd0d3aca225a9b33ab452140ecd0b10e8b334d4c866",
   "files": [
     {
       "path": "check-retained.py",
