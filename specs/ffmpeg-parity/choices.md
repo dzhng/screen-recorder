@@ -6,6 +6,22 @@ and fixture selection are discretion, not new product decisions.
 
 ## Sound choices
 
+### Reuse one finite alpha movie rather than introduce frame-sequence storage
+
+When: slice 20. An external authoring tool can supply a finite ProRes 4444 MOV
+with real alpha and explicit Rec.709 color metadata. Ordinary native decoding and
+composition preserve its moving asymmetric marker on both backgrounds, including
+rotation and mirror. Its single immutable byte identity and native sample support
+already fit the asset model. A new sequence format would require member identities,
+missing-member policy and another cadence manifest without solving a demonstrated gap.
+
+Gap: the plan left alpha interchange representation to measured feasibility.
+Reach: slice 21 reuses ordinary movie placement and portable retention. The frozen
+recipe requires actual pixel conversion plus frame/container color properties;
+codec options alone did not establish those properties in reproduction. ProRes
+input support does not add ProRes or transparent final delivery.
+Verdict: sound; the tested representation fits existing owners. Confidence: high.
+
 ### Every held source invocation starts from an explicitly rewound read lease
 
 When: slice 04. FFprobe reads an inherited file descriptor and advances its shared

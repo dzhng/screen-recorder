@@ -1,0 +1,69 @@
+{
+  "nativeSha256": "af28fcc5260b79bca3909be2af1a9c90875bc3497d30d9649d3921648ef8c82d",
+  "ffmpegSha256": "02121755a76faf22413c61ba9f8e9cd3e2acc14fb6e29ecc3fc0b2cc83bbcbac",
+  "exchanges": [
+    {
+      "request": {
+        "id": "1",
+        "operation": "media.probe",
+        "params": {
+          "path": "/tmp/screenrec-alpha-color-fault-proof/alpha.mov"
+        }
+      },
+      "reply": {
+        "data": {
+          "originUs": 0,
+          "streams": [
+            {
+              "codec": "ap4h",
+              "decodable": true,
+              "endUs": 1000000,
+              "height": 48,
+              "id": "track:1",
+              "kind": "video",
+              "orientedHeight": 48,
+              "orientedPixelBounds": {
+                "height": 48,
+                "width": 64,
+                "x": 0,
+                "y": 0
+              },
+              "orientedWidth": 64,
+              "samples": {
+                "count": 4,
+                "firstPtsUs": 0,
+                "lastPtsUs": 750000,
+                "maxDurationUs": 250000,
+                "minDurationUs": 250000
+              },
+              "segments": [
+                {
+                  "empty": false,
+                  "endUs": 1000000,
+                  "mediaDurationUs": 1000000,
+                  "mediaStartUs": 0,
+                  "startUs": 0
+                }
+              ],
+              "startUs": 0,
+              "transform": [
+                1,
+                0,
+                0,
+                1,
+                0,
+                0
+              ],
+              "width": 64,
+              "ycbcrMatrix": "ITU_R_709_2"
+            }
+          ]
+        },
+        "id": "1",
+        "ok": true
+      }
+    }
+  ],
+  "comparisons": [],
+  "passed": false
+}

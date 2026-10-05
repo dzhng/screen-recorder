@@ -1,0 +1,694 @@
+{
+  "nativeSha256": "af28fcc5260b79bca3909be2af1a9c90875bc3497d30d9649d3921648ef8c82d",
+  "ffmpegSha256": "02121755a76faf22413c61ba9f8e9cd3e2acc14fb6e29ecc3fc0b2cc83bbcbac",
+  "exchanges": [
+    {
+      "request": {
+        "id": "1",
+        "operation": "media.probe",
+        "params": {
+          "path": "/tmp/screenrec-alpha-fault-proof/alpha.mov"
+        }
+      },
+      "reply": {
+        "data": {
+          "originUs": 0,
+          "streams": [
+            {
+              "codec": "ap4h",
+              "colorPrimaries": "ITU_R_709_2",
+              "decodable": true,
+              "endUs": 1000000,
+              "height": 48,
+              "id": "track:1",
+              "kind": "video",
+              "orientedHeight": 48,
+              "orientedPixelBounds": {
+                "height": 48,
+                "width": 64,
+                "x": 0,
+                "y": 0
+              },
+              "orientedWidth": 64,
+              "samples": {
+                "count": 4,
+                "firstPtsUs": 0,
+                "lastPtsUs": 750000,
+                "maxDurationUs": 250000,
+                "minDurationUs": 250000
+              },
+              "segments": [
+                {
+                  "empty": false,
+                  "endUs": 1000000,
+                  "mediaDurationUs": 1000000,
+                  "mediaStartUs": 0,
+                  "startUs": 0
+                }
+              ],
+              "startUs": 0,
+              "transferFunction": "ITU_R_709_2",
+              "transform": [
+                1,
+                0,
+                0,
+                1,
+                0,
+                0
+              ],
+              "width": 64,
+              "ycbcrMatrix": "ITU_R_709_2"
+            }
+          ]
+        },
+        "id": "1",
+        "ok": true
+      }
+    },
+    {
+      "request": {
+        "id": "2",
+        "operation": "media.renderCompositionFrame",
+        "params": {
+          "output": "/tmp/screenrec-alpha-fault-proof/ordinary-0-dark-still.png",
+          "frame": {
+            "index": 0,
+            "sampleAtUs": 0,
+            "visibleRange": {
+              "startUs": 1,
+              "endUs": 2
+            },
+            "layers": [
+              {
+                "clipId": "c",
+                "trackId": "v",
+                "assetId": "a",
+                "streamId": "image:0",
+                "kind": "image",
+                "availability": "available",
+                "width": 64,
+                "height": 48
+              }
+            ],
+            "visual": [
+              {
+                "target": {
+                  "kind": "clip",
+                  "id": "c"
+                },
+                "inputs": [],
+                "operations": [
+                  {
+                    "kind": "clamp",
+                    "x": 0.5,
+                    "y": 0.5,
+                    "width": 63,
+                    "height": 47
+                  },
+                  {
+                    "kind": "affine",
+                    "matrix": [
+                      1,
+                      0,
+                      0,
+                      1,
+                      0,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "affine",
+                    "matrix": [
+                      1,
+                      0,
+                      0,
+                      1,
+                      0,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "coverage",
+                    "points": [
+                      {
+                        "x": 0,
+                        "y": 0
+                      },
+                      {
+                        "x": 64,
+                        "y": 0
+                      },
+                      {
+                        "x": 64,
+                        "y": 48
+                      },
+                      {
+                        "x": 0,
+                        "y": 48
+                      }
+                    ],
+                    "width": 64,
+                    "height": 48
+                  }
+                ]
+              },
+              {
+                "target": {
+                  "kind": "track",
+                  "id": "v"
+                },
+                "inputs": [
+                  {
+                    "kind": "clip",
+                    "id": "c"
+                  }
+                ],
+                "operations": []
+              },
+              {
+                "target": {
+                  "kind": "output"
+                },
+                "inputs": [
+                  {
+                    "kind": "track",
+                    "id": "v"
+                  }
+                ],
+                "operations": []
+              }
+            ]
+          },
+          "canvas": {
+            "width": 64,
+            "height": 48,
+            "fps": {
+              "numerator": 4,
+              "denominator": 1
+            },
+            "background": "#000000ff"
+          },
+          "profile": "h264-rec709",
+          "processing": [
+            {
+              "target": {
+                "kind": "clip",
+                "id": "c"
+              },
+              "mediaKind": "video",
+              "inputs": [],
+              "steps": []
+            },
+            {
+              "target": {
+                "kind": "track",
+                "id": "v"
+              },
+              "mediaKind": "video",
+              "inputs": [
+                {
+                  "kind": "clip",
+                  "id": "c"
+                }
+              ],
+              "steps": []
+            },
+            {
+              "target": {
+                "kind": "output"
+              },
+              "mediaKind": "output",
+              "inputs": [
+                {
+                  "kind": "track",
+                  "id": "v"
+                }
+              ],
+              "steps": []
+            }
+          ],
+          "assets": [
+            {
+              "assetId": "a",
+              "streamId": "image:0",
+              "path": "/tmp/screenrec-alpha-fault-proof/ordinary-0.png",
+              "originUs": 0
+            }
+          ]
+        }
+      },
+      "reply": {
+        "data": {
+          "bytes": 339,
+          "decodedImages": 1,
+          "decodedSamples": 0,
+          "file": "/tmp/screenrec-alpha-fault-proof/ordinary-0-dark-still.png",
+          "frame": {
+            "index": 0,
+            "layers": [
+              {
+                "assetId": "a",
+                "availability": "available",
+                "clipId": "c",
+                "height": 48,
+                "kind": "image",
+                "streamId": "image:0",
+                "trackId": "v",
+                "width": 64
+              }
+            ],
+            "sampleAtUs": 0,
+            "visibleRange": {
+              "endUs": 2,
+              "startUs": 1
+            },
+            "visual": [
+              {
+                "inputs": [],
+                "operations": [
+                  {
+                    "height": 47,
+                    "kind": "clamp",
+                    "width": 63,
+                    "x": 0.5,
+                    "y": 0.5
+                  },
+                  {
+                    "kind": "affine",
+                    "matrix": [
+                      1,
+                      0,
+                      0,
+                      1,
+                      0,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "affine",
+                    "matrix": [
+                      1,
+                      0,
+                      0,
+                      1,
+                      0,
+                      0
+                    ]
+                  },
+                  {
+                    "height": 48,
+                    "kind": "coverage",
+                    "points": [
+                      {
+                        "x": 0,
+                        "y": 0
+                      },
+                      {
+                        "x": 64,
+                        "y": 0
+                      },
+                      {
+                        "x": 64,
+                        "y": 48
+                      },
+                      {
+                        "x": 0,
+                        "y": 48
+                      }
+                    ],
+                    "width": 64
+                  }
+                ],
+                "target": {
+                  "id": "c",
+                  "kind": "clip"
+                }
+              },
+              {
+                "inputs": [
+                  {
+                    "id": "c",
+                    "kind": "clip"
+                  }
+                ],
+                "operations": [],
+                "target": {
+                  "id": "v",
+                  "kind": "track"
+                }
+              },
+              {
+                "inputs": [
+                  {
+                    "id": "v",
+                    "kind": "track"
+                  }
+                ],
+                "operations": [],
+                "target": {
+                  "kind": "output"
+                }
+              }
+            ]
+          },
+          "height": 48,
+          "mediaType": "image/png",
+          "pictures": [
+            {
+              "assetId": "a",
+              "clipId": "c",
+              "kind": "image",
+              "status": "available",
+              "streamId": "image:0"
+            }
+          ],
+          "profile": "h264-rec709",
+          "readerOpens": 1,
+          "sourceHeight": 48,
+          "sourceWidth": 64,
+          "width": 64
+        },
+        "id": "2",
+        "ok": true
+      }
+    },
+    {
+      "request": {
+        "id": "3",
+        "operation": "media.renderCompositionFrame",
+        "params": {
+          "output": "/tmp/screenrec-alpha-fault-proof/ordinary-0-dark-movie.png",
+          "frame": {
+            "index": 0,
+            "sampleAtUs": 0,
+            "visibleRange": {
+              "startUs": 1,
+              "endUs": 2
+            },
+            "layers": [
+              {
+                "clipId": "c",
+                "trackId": "v",
+                "assetId": "a",
+                "streamId": "track:1",
+                "kind": "video",
+                "sourceUs": 0,
+                "availability": "available",
+                "width": 64,
+                "height": 48
+              }
+            ],
+            "visual": [
+              {
+                "target": {
+                  "kind": "clip",
+                  "id": "c"
+                },
+                "inputs": [],
+                "operations": [
+                  {
+                    "kind": "clamp",
+                    "x": 0.5,
+                    "y": 0.5,
+                    "width": 63,
+                    "height": 47
+                  },
+                  {
+                    "kind": "affine",
+                    "matrix": [
+                      1,
+                      0,
+                      0,
+                      1,
+                      0,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "affine",
+                    "matrix": [
+                      1,
+                      0,
+                      0,
+                      1,
+                      0,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "coverage",
+                    "points": [
+                      {
+                        "x": 0,
+                        "y": 0
+                      },
+                      {
+                        "x": 64,
+                        "y": 0
+                      },
+                      {
+                        "x": 64,
+                        "y": 48
+                      },
+                      {
+                        "x": 0,
+                        "y": 48
+                      }
+                    ],
+                    "width": 64,
+                    "height": 48
+                  }
+                ]
+              },
+              {
+                "target": {
+                  "kind": "track",
+                  "id": "v"
+                },
+                "inputs": [
+                  {
+                    "kind": "clip",
+                    "id": "c"
+                  }
+                ],
+                "operations": []
+              },
+              {
+                "target": {
+                  "kind": "output"
+                },
+                "inputs": [
+                  {
+                    "kind": "track",
+                    "id": "v"
+                  }
+                ],
+                "operations": []
+              }
+            ]
+          },
+          "canvas": {
+            "width": 64,
+            "height": 48,
+            "fps": {
+              "numerator": 4,
+              "denominator": 1
+            },
+            "background": "#000000ff"
+          },
+          "profile": "h264-rec709",
+          "processing": [
+            {
+              "target": {
+                "kind": "clip",
+                "id": "c"
+              },
+              "mediaKind": "video",
+              "inputs": [],
+              "steps": []
+            },
+            {
+              "target": {
+                "kind": "track",
+                "id": "v"
+              },
+              "mediaKind": "video",
+              "inputs": [
+                {
+                  "kind": "clip",
+                  "id": "c"
+                }
+              ],
+              "steps": []
+            },
+            {
+              "target": {
+                "kind": "output"
+              },
+              "mediaKind": "output",
+              "inputs": [
+                {
+                  "kind": "track",
+                  "id": "v"
+                }
+              ],
+              "steps": []
+            }
+          ],
+          "assets": [
+            {
+              "assetId": "a",
+              "streamId": "track:1",
+              "path": "/tmp/screenrec-alpha-fault-proof/alpha.mov",
+              "originUs": 0
+            }
+          ]
+        }
+      },
+      "reply": {
+        "data": {
+          "bytes": 430,
+          "decodedImages": 0,
+          "decodedSamples": 1,
+          "file": "/tmp/screenrec-alpha-fault-proof/ordinary-0-dark-movie.png",
+          "frame": {
+            "index": 0,
+            "layers": [
+              {
+                "assetId": "a",
+                "availability": "available",
+                "clipId": "c",
+                "height": 48,
+                "kind": "video",
+                "sourceUs": 0,
+                "streamId": "track:1",
+                "trackId": "v",
+                "width": 64
+              }
+            ],
+            "sampleAtUs": 0,
+            "visibleRange": {
+              "endUs": 2,
+              "startUs": 1
+            },
+            "visual": [
+              {
+                "inputs": [],
+                "operations": [
+                  {
+                    "height": 47,
+                    "kind": "clamp",
+                    "width": 63,
+                    "x": 0.5,
+                    "y": 0.5
+                  },
+                  {
+                    "kind": "affine",
+                    "matrix": [
+                      1,
+                      0,
+                      0,
+                      1,
+                      0,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "affine",
+                    "matrix": [
+                      1,
+                      0,
+                      0,
+                      1,
+                      0,
+                      0
+                    ]
+                  },
+                  {
+                    "height": 48,
+                    "kind": "coverage",
+                    "points": [
+                      {
+                        "x": 0,
+                        "y": 0
+                      },
+                      {
+                        "x": 64,
+                        "y": 0
+                      },
+                      {
+                        "x": 64,
+                        "y": 48
+                      },
+                      {
+                        "x": 0,
+                        "y": 48
+                      }
+                    ],
+                    "width": 64
+                  }
+                ],
+                "target": {
+                  "id": "c",
+                  "kind": "clip"
+                }
+              },
+              {
+                "inputs": [
+                  {
+                    "id": "c",
+                    "kind": "clip"
+                  }
+                ],
+                "operations": [],
+                "target": {
+                  "id": "v",
+                  "kind": "track"
+                }
+              },
+              {
+                "inputs": [
+                  {
+                    "id": "v",
+                    "kind": "track"
+                  }
+                ],
+                "operations": [],
+                "target": {
+                  "kind": "output"
+                }
+              }
+            ]
+          },
+          "height": 48,
+          "mediaType": "image/png",
+          "pictures": [
+            {
+              "actualSourceUs": 0,
+              "assetId": "a",
+              "clipId": "c",
+              "kind": "video",
+              "requestedSourceUs": 0,
+              "sample": {
+                "originUs": 0,
+                "timescale": 16384,
+                "value": "0"
+              },
+              "status": "available",
+              "streamId": "track:1"
+            }
+          ],
+          "profile": "h264-rec709",
+          "readerOpens": 1,
+          "sourceHeight": 48,
+          "sourceWidth": 64,
+          "width": 64
+        },
+        "id": "3",
+        "ok": true
+      }
+    }
+  ],
+  "comparisons": [],
+  "passed": false
+}

@@ -68,7 +68,7 @@ prompt, slice status and retained evidence before ending each implementation pas
 - [ ] [17 — Typed SDR correction](slices/17-sdr-grade.md)
 - [ ] [18 — HDR-to-SDR reproduction](slices/18-hdr-feasibility.md)
 - [ ] [19 — Explicit HDR source conversion](slices/19-hdr-conversion.md)
-- [ ] [20 — Transparent motion input feasibility](slices/20-alpha-feasibility.md)
+- [x] [20 — Transparent motion input feasibility](slices/20-alpha-feasibility.md)
 - [ ] [21 — Immutable motion-asset interchange](slices/21-motion-import.md)
 - [ ] [22 — Local speech evidence feasibility](slices/22-speech-feasibility.md)
 - [ ] [23 — Validated optional speech evidence](slices/23-speech-evidence.md)
