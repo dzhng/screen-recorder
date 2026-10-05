@@ -27,7 +27,7 @@ final class LibraryView: NSView, NSSearchFieldDelegate {
         self.perform = perform
         super.init(frame: NSRect(x: 0, y: 0, width: 768, height: 476))
         wantsLayer = true
-        layer?.backgroundColor = NSColor(white: 0.985, alpha: 1).cgColor
+        layer?.backgroundColor = NSColor.windowBackgroundColor.cgColor
         scrollView.drawsBackground = false
         scrollView.hasVerticalScroller = true
         scrollView.scrollerStyle = .overlay
@@ -42,9 +42,13 @@ final class LibraryView: NSView, NSSearchFieldDelegate {
     required init?(coder: NSCoder) { nil }
 
     func update(state: ControlsState, exports: ExportsState) {
-        scrollPositions[tab] = scrollView.contentView.bounds.origin
+        let changed = state.library != self.state.library || state.service != self.state.service
+            || state.storage != self.state.storage || state.storageRefreshing != self.state.storageRefreshing
+            || state.storageFailure != self.state.storageFailure || exports != self.exports
         self.state = state
         self.exports = exports
+        guard changed else { return }
+        scrollPositions[tab] = scrollView.contentView.bounds.origin
         render()
     }
     /// The paging owner explicitly tells presentation when its page changes.
@@ -56,6 +60,14 @@ final class LibraryView: NSView, NSSearchFieldDelegate {
     }
     func control(identifier: String) -> NSControl? { controls[identifier] }
     func actionItem(identifier: String) -> NSMenuItem? { actionItems[identifier] }
+
+    override func viewDidChangeEffectiveAppearance() {
+        super.viewDidChangeEffectiveAppearance()
+        effectiveAppearance.performAsCurrentDrawingAppearance {
+            layer?.backgroundColor = NSColor.windowBackgroundColor.cgColor
+            render()
+        }
+    }
 
     override func layout() {
         super.layout()
@@ -97,7 +109,7 @@ final class LibraryView: NSView, NSSearchFieldDelegate {
         actionItems = [:]
         let sidebar = NSView(frame: NSRect(x: 0, y: 0, width: 146, height: bounds.height))
         sidebar.wantsLayer = true
-        sidebar.layer?.backgroundColor = NSColor(white: 0.95, alpha: 1).cgColor
+        sidebar.layer?.backgroundColor = NSColor.controlBackgroundColor.cgColor
         addSubview(sidebar)
         label("Your library", frame: NSRect(x: 20, y: 21, width: 116, height: 20), size: 12, weight: .semibold, in: self)
         for (index, value) in Tab.allCases.enumerated() {
@@ -119,7 +131,7 @@ final class LibraryView: NSView, NSSearchFieldDelegate {
 
     private func renderContent() {
         let oldOrigin = scrollPositions[tab] ?? scrollView.contentView.bounds.origin
-        for view in document.subviews { view.removeFromSuperview() }
+        for view in document.subviews where view !== filterField { view.removeFromSuperview() }
         controls = controls.filter { $0.key.hasPrefix("tab.") || $0.key == "storage.refresh" }
         let retained = Set(controls.values.map(ObjectIdentifier.init))
         actions = actions.filter { retained.contains($0.key) }
@@ -128,7 +140,7 @@ final class LibraryView: NSView, NSSearchFieldDelegate {
         scrollView.frame = NSRect(x: 146, y: 0, width: bounds.width - 146, height: bounds.height)
         label(tab.rawValue, frame: NSRect(x: 22, y: 23, width: width - 200, height: 29), size: 21, weight: .semibold, in: document)
         filterField.frame = NSRect(x: width - 154, y: 25, width: 132, height: 25)
-        document.addSubview(filterField)
+        if filterField.superview !== document { document.addSubview(filterField) }
         controls["library.filter"] = filterField
         let subtitle = tab == .recordings ? "Your original captures. Always kept intact." : tab == .projects ? "Projects you explicitly created." : "Tracked deliveries and unfinished recovery."
         label(subtitle, frame: NSRect(x: 22, y: 55, width: width - 44, height: 20), size: 11, color: .secondaryLabelColor, in: document)
@@ -151,7 +163,7 @@ final class LibraryView: NSView, NSSearchFieldDelegate {
             // Truthful fallback: a source/document symbol, never a generated media thumbnail.
             let thumbnail = NSImageView(frame: NSRect(x: 22, y: y + 13, width: 88, height: 56))
             thumbnail.wantsLayer = true
-            thumbnail.layer?.backgroundColor = NSColor(white: 0.94, alpha: 1).cgColor
+            thumbnail.layer?.backgroundColor = NSColor.controlBackgroundColor.cgColor
             thumbnail.layer?.cornerRadius = 7
             thumbnail.image = NSImage(systemSymbolName: tab == .recordings ? "video" : tab == .projects ? "doc.on.doc" : "square.and.arrow.up", accessibilityDescription: "Source icon; thumbnail unavailable")
             thumbnail.contentTintColor = .secondaryLabelColor
@@ -206,9 +218,9 @@ final class LibraryView: NSView, NSSearchFieldDelegate {
             let note = NSView(frame: NSRect(x: 22, y: y, width: width - 44, height: 76))
             note.wantsLayer = true
             note.layer?.cornerRadius = 9
-            note.layer?.backgroundColor = NSColor(white: 0.965, alpha: 1).cgColor
+            note.layer?.backgroundColor = NSColor.controlBackgroundColor.cgColor
             note.layer?.borderWidth = 1
-            note.layer?.borderColor = NSColor(white: 0.90, alpha: 1).cgColor
+            note.layer?.borderColor = NSColor.separatorColor.cgColor
             document.addSubview(note)
             label("Ready for your agent", frame: NSRect(x: 35, y: y + 12, width: width - 70, height: 18), size: 10, weight: .semibold, color: .secondaryLabelColor, in: document)
             label("Choose a recording, then ask your agent for the edit you want. Projects appear separately when explicitly created.", frame: NSRect(x: 35, y: y + 34, width: width - 70, height: 34), size: 10, color: .secondaryLabelColor, in: document, wrap: true)
