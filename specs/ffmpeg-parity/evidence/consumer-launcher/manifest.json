@@ -1,0 +1,392 @@
+{
+  "claim": "Portable skill/schema behavior, not macOS execution, released bundle or unsolicited recovery completeness",
+  "caseChange": "The GIF case bar is unchanged. The final prompt explicitly requests unknown-command recovery; earlier prompts asked ordinary Mac next steps without specifying that failure. These are distinct task inputs, not proof that the revised skill alone fixed spontaneous mention of recovery.",
+  "skillChange": "One main fallback pointer; a co-located media reference owns direct-tool discovery, version checks, launcher recovery pointer, source retention and standalone output verification.",
+  "archive": {
+    "path": "portable-trials.tar.xz",
+    "bytes": 106152,
+    "sha256": "ce819fc7ef552c0f4a8c6370c9d80b3154688595513bbce808b0715f3808d33b",
+    "regularFiles": 30
+  },
+  "runs": [
+    {
+      "directory": "screenrec-media-launcher-consumer-trial",
+      "sourceRevision": "0002f9b67c348900978d316183767543d40bd856",
+      "sourceDirty": false,
+      "startedAt": "2026-10-05T05:42:38.114Z",
+      "completedAt": "2026-10-05T05:44:16.960Z",
+      "image": "sha256:cd8fbdaad47b6dadb5969abb9d2b45606f029fd33a68005a970f666718cb2c8b",
+      "cli": {
+        "source": "/tmp/screenrec-media-launcher-cli.mjs",
+        "sha256": "9ace3e6fbab863dc6b403effeea043534c877db6d33a03e7df1594ac32783dfa"
+      },
+      "inputs": {
+        "SKILL.md": "23a92049cb6b2ed17d017338129fb143884f280e954c39901fb95e3698e0f30d",
+        "scripts/batch-prepare.mjs": "51278ecd488a591089ce328f0ab1dcb22c477d6c2e0d07c098aa385eb4c9dc78",
+        "scripts/caption-proposals.mjs": "755dcbc9957c52102cc42dfd3d31acd2e724ed822fefd1566109a69c4a73a234",
+        "scripts/compact-transcripts.mjs": "e0082cb3e1e37e4467481abf1f26586b3180d8c9f83082a8d830ccb871500449",
+        "scripts/inspection-artifacts.mjs": "7c7fa7e44b934a19653ec956c71900e2e5ffeccb1072ad5a8bea195f983d4d91",
+        "scripts/review-bundle.mjs": "f5678caa1aca5acad9e5d7a8c39e4f00669dda0fe8619548d9906ce87db966b5",
+        "scripts/screenrec-cli.mjs": "60fe2414d09c448bd9da06ac945d183f420d0312bac60043ad34afe01828479e",
+        "scripts/task-notes.mjs": "d8db66ef3615292a0d526002205416e2a459f92da666d8c15628d9e4004b7ad4",
+        "scripts/timeline-inspection.mjs": "b403de396ad6450b96ba9597350abd6f8867f24f40f8aa37c90336640f858074",
+        "references/creative-workflows.md": "f2c2fb4af25523bc4ce5c396bb5c4142683d4f675789a2e6e7188c05ce265967",
+        "references/editorial-checks.md": "ddba6c0e6090479338b021140bf6ea3056823e84847ad59c37310edcc9659fe6",
+        "references/installation.md": "5f86b66872da9b8834e48d4b390e106f1facb85dba61e66d9582b3101b85b9f6",
+        "references/mcp.md": "fcd32aaa920f2773df6a6d92c4ac0ef389f76cd9a9bffa17c833ad46d25880e0",
+        "references/media-workflows.md": "f98aa83025f971b9ee4e74392ac6a249cfa140266641caf6028434b5b65addd5",
+        "references/skill-lifecycle.md": "a2520dda45f03b614256a6f23169a8702bc3d2cf55b6f108d6d7f10606591773",
+        "README.md": "8e976f52e1cfb3bc18b988587e9fd063065eebcb76667fef2731a2aed07c67ba",
+        "cases.json": "4aa2f7f513b1c563a33ad2211ee84b5952d4d0b71eabc0a274789e4c88a0aed6"
+      },
+      "results": [
+        {
+          "case": "non-core-gif",
+          "agent": "codex",
+          "trial": 1,
+          "pass": false,
+          "evidence": [
+            "Actual inspection is established by successful skill/reference reads and CLI help calls. `screenrec service.tools --socket /sandbox/missing.sock` exited 1 and returned `ok:false`, `CONNECTION_ERROR`, and `connect ENOENT /sandbox/missing.sock`. The response accurately reports \"no GIF was created\" and unverified bundled tools.",
+            "Mac instructions correctly gate `screenrec ffmpeg -version` and `screenrec ffprobe -version` on tool readiness and request GIF encoder/palette-filter checks, but omit the required recovery for an older launcher: refresh it from a verified release kit and repeat verification. \"Matching launcher\" does not explain this required step.",
+            "\"Convert the original short video using bundled FFmpeg\" provides a direct conversion route, but the response does not explicitly retain the source or identify the GIF as a standalone artifact. Eventual playback, dimensions, frame-delay, and duration verification is included."
+          ]
+        }
+      ]
+    },
+    {
+      "directory": "screenrec-media-launcher-consumer-two",
+      "sourceRevision": "0002f9b67c348900978d316183767543d40bd856",
+      "sourceDirty": true,
+      "startedAt": "2026-10-05T05:48:23.352Z",
+      "completedAt": "2026-10-05T05:57:40.149Z",
+      "image": "sha256:cd8fbdaad47b6dadb5969abb9d2b45606f029fd33a68005a970f666718cb2c8b",
+      "cli": {
+        "source": "/tmp/screenrec-media-launcher-cli.mjs",
+        "sha256": "9ace3e6fbab863dc6b403effeea043534c877db6d33a03e7df1594ac32783dfa"
+      },
+      "inputs": {
+        "SKILL.md": "66fa89f22b0493422a6f1000993dcce7ac5baa8059b34e3a6bca051f463424c7",
+        "scripts/batch-prepare.mjs": "51278ecd488a591089ce328f0ab1dcb22c477d6c2e0d07c098aa385eb4c9dc78",
+        "scripts/caption-proposals.mjs": "755dcbc9957c52102cc42dfd3d31acd2e724ed822fefd1566109a69c4a73a234",
+        "scripts/compact-transcripts.mjs": "e0082cb3e1e37e4467481abf1f26586b3180d8c9f83082a8d830ccb871500449",
+        "scripts/inspection-artifacts.mjs": "7c7fa7e44b934a19653ec956c71900e2e5ffeccb1072ad5a8bea195f983d4d91",
+        "scripts/review-bundle.mjs": "f5678caa1aca5acad9e5d7a8c39e4f00669dda0fe8619548d9906ce87db966b5",
+        "scripts/screenrec-cli.mjs": "60fe2414d09c448bd9da06ac945d183f420d0312bac60043ad34afe01828479e",
+        "scripts/task-notes.mjs": "d8db66ef3615292a0d526002205416e2a459f92da666d8c15628d9e4004b7ad4",
+        "scripts/timeline-inspection.mjs": "b403de396ad6450b96ba9597350abd6f8867f24f40f8aa37c90336640f858074",
+        "references/creative-workflows.md": "f2c2fb4af25523bc4ce5c396bb5c4142683d4f675789a2e6e7188c05ce265967",
+        "references/editorial-checks.md": "ddba6c0e6090479338b021140bf6ea3056823e84847ad59c37310edcc9659fe6",
+        "references/installation.md": "5f86b66872da9b8834e48d4b390e106f1facb85dba61e66d9582b3101b85b9f6",
+        "references/mcp.md": "fcd32aaa920f2773df6a6d92c4ac0ef389f76cd9a9bffa17c833ad46d25880e0",
+        "references/media-workflows.md": "9c4a03519c327288e43d3bf57ddba9cd29a858ffaa911256cae2eb65f6f939b4",
+        "references/skill-lifecycle.md": "a2520dda45f03b614256a6f23169a8702bc3d2cf55b6f108d6d7f10606591773",
+        "README.md": "8e976f52e1cfb3bc18b988587e9fd063065eebcb76667fef2731a2aed07c67ba",
+        "cases.json": "4aa2f7f513b1c563a33ad2211ee84b5952d4d0b71eabc0a274789e4c88a0aed6"
+      },
+      "results": [
+        {
+          "case": "imported-footage-plan",
+          "agent": "codex",
+          "trial": 1,
+          "pass": true,
+          "evidence": [
+            "Successful cat calls inspected screenrec/SKILL.md and creative-workflows.md, editorial-checks.md and media-workflows.md (outputs 14, 16 and 18).",
+            "Actual CLI help calls for edit.apply, transcript.get, text.seed, export.create, audio.get and frame.batch exited 0 and returned schemas. The failed Python command was followed by successful Node inspection.",
+            "The successful plan.md creation and cat printed the selection template and edit/caption/export skeletons, explicitly marked: 'These drafts are deliberately not executable requests.'",
+            "The plan preserves originals, exact source ranges, transcript generations, word ordinals, partial-word flags, revisions and occurrence IDs; captions use 'original source ranges, not projected project times.'",
+            "Editorial guidance says 'Compare the same idea across all three takes,' retain context and reactions, inspect bounded audio and nearby frames, and 'Choose fades only if the particular join needs them.'",
+            "Delivery requires a checked pinned revision and published artifact, distinguishing preview from final export. Limits are explicit: 'No footage was viewed or heard' and 'Help establishes request shapes, not Mac readiness.' No service calls, transcription, edits or exports were performed."
+          ]
+        },
+        {
+          "case": "imported-footage-plan",
+          "agent": "codex",
+          "trial": 2,
+          "pass": true,
+          "evidence": [
+            "Successful cat commands inspected screenrec/SKILL.md (output-14) and creative-workflows.md, media-workflows.md and editorial-checks.md (output-16).",
+            "Actual CLI help calls succeeded for edit.apply, transcript.get, text.seed, export.create, audio.get, frame.batch and preview.get. The Python failure was followed by successful Node inspection of the saved catalog.",
+            "The successful PLAN.md write-and-print command (output-22) produced the selection sheet and schema-based edit/caption/export skeletons, explicitly labeled \u201cRequest skeletons \u2014 DO NOT SUBMIT\u201d with placeholder identities.",
+            "The plan says \u201cCompare the same idea across all three takes,\u201d inspect surrounding question context, bounded audio and nearby frames, and \u201cKeep meaningful breaths, emphasis, laughter and reactions.\u201d It retains exact source ranges, transcript generations, word ordinals, revisions and occurrence clip IDs.",
+            "Captions use the \u201cpinned project's transcript projection\u201d and exact occurrence word pins. Delivery requires preserving exportId and following export.status \u201cuntil publication is committed\u201d; \u201cSources stay intact and the managed project remains editable.\u201d",
+            "Limits are explicit: \u201cNo media or native service is available in this Linux workspace\u201d and \u201cHelp proves the request contracts, not Mac service readiness.\u201d No service calls, transcription, edits or exports occurred, and no footage inspection was claimed."
+          ]
+        },
+        {
+          "case": "non-core-gif",
+          "agent": "codex",
+          "trial": 1,
+          "pass": false,
+          "evidence": [
+            "Actual inspection is established by successful skill/reference reads and CLI help calls. `screenrec service.tools --socket /sandbox/missing.sock` exited 1 with `ok:false`, `CONNECTION_ERROR`, and `connect ENOENT /sandbox/missing.sock`; the response accurately reports no GIF and unverified bundled tools.",
+            "Mac guidance includes `screenrec ffmpeg -version`, `screenrec ffprobe -version`, and checking GIF encoding/palette filters, but omits the required recovery for an older launcher: refresh from a verified release kit and repeat verification.",
+            "\u201cConvert the original short video using bundled FFmpeg\u201d does not explicitly require a new standalone artifact while retaining the source or explain that direct conversion cannot replace a failed managed export. Eventual playback, dimensions, frame delays, and duration verification is correctly requested."
+          ]
+        },
+        {
+          "case": "non-core-gif",
+          "agent": "codex",
+          "trial": 2,
+          "pass": false,
+          "evidence": [
+            "Actual inspection is established by successful skill/reference reads and CLI help calls, including `screenrec service.tools --help` and `screenrec asset.import --help`.",
+            "`screenrec service.tools --socket /sandbox/missing.sock` actually exited 1 with `ok:false`, `CONNECTION_ERROR`, and `connect ENOENT /sandbox/missing.sock`. The response accurately reports failed discovery and states: \u201cNo GIF was produced.\u201d",
+            "The Mac instructions correctly require `screenrec ffmpeg -version`, `screenrec ffprobe -version`, GIF encoder/palette-filter checks, source preservation, and eventual file verification.",
+            "However, the Mac next steps omit the required conditional refresh of an older launcher from a verified release kit when passthrough is unknown or fails argument parsing. \u201cUse ... a verified Screen Recorder app and launcher\u201d does not explain this recovery step, despite its explicit presence in the inspected installation reference. Thus the full acceptance bar is not met."
+          ]
+        },
+        {
+          "case": "unavailable-treatment",
+          "agent": "codex",
+          "trial": 1,
+          "pass": true,
+          "evidence": [
+            "Successful cat receipts (exit 0, outputs 5 and 7) establish inspection of the screenrec skill and media workflows. Successful help and Node schema inspection (outputs 1, 2, 10 and 11) discovered capability parameters, sdr-correction and HEVC-specific controls; the failed Python attempts remain recorded separately.",
+            "Both required probes actually ran against /sandbox/missing.sock: processing.capabilities with '{}' and output.capabilities with '{\"kind\":\"video\"}'. Each exited 1 with its own preserved CONNECTION_ERROR receipt reporting 'connect ENOENT /sandbox/missing.sock'.",
+            "The response accurately distinguishes 'schema support' from 'native execution readiness' and states that the clip, authored processing stack, rendered warmth and native encoders 'remain unverified'.",
+            "It correctly says neutralKelvin 'is not a direct warmth slider' and defers treatment judgment until it can 'compare matching dry/processed frames'. No correction was chosen or applied without that evidence.",
+            "HEVC's separate schema was inspected, with no HDR/alpha claim or H.264-only settings authored. The response preserves 'the intended native recipe and HEVC selection' if execution is unavailable, and the observed calls contain no edits, exports, installations or backend substitutions."
+          ]
+        },
+        {
+          "case": "unavailable-treatment",
+          "agent": "codex",
+          "trial": 2,
+          "pass": true,
+          "evidence": [
+            "Successful exit-0 reads of screenrec/SKILL.md and references/media-workflows.md establish actual skill inspection; processing.capabilities, output.capabilities and export.create help calls discover installed schemas.",
+            "Executed processing.capabilities --socket /sandbox/missing.sock --params '{}' and output.capabilities --socket /sandbox/missing.sock --params '{\"kind\":\"video\"}'; each separately records exit 1 and CONNECTION_ERROR: connect ENOENT /sandbox/missing.sock.",
+            "The response distinguishes advertised schemas from execution: 'That checks the CLI contract; it does not establish native processor or encoder readiness, inspect your imported clip, or verify a warmer result.'",
+            "Warmth settings are deferred until comparing 'identical dry and processed frames'; neutral Kelvin/tint are correctly described as 'the source illuminant\u2014not a direct warmth slider.'",
+            "Export help exposes a distinct HEVC branch with Main profile and Rec.709. No HDR, alpha, grade or delivered-export claim is made, and no mutation, export, installation or substitute backend call appears.",
+            "For unavailable Mac execution, the response commits to 'report the returned blocker and stop the dependent work' and preserve the requested recipe and HEVC format 'without substituting another grade, codec, or backend.'"
+          ]
+        }
+      ]
+    },
+    {
+      "directory": "screenrec-media-launcher-consumer-three",
+      "sourceRevision": "db136280311bb84807062299d83e99abab973c99",
+      "sourceDirty": true,
+      "startedAt": "2026-10-05T05:58:06.692Z",
+      "completedAt": "2026-10-05T06:00:02.723Z",
+      "image": "sha256:cd8fbdaad47b6dadb5969abb9d2b45606f029fd33a68005a970f666718cb2c8b",
+      "cli": {
+        "source": "/tmp/screenrec-media-launcher-cli.mjs",
+        "sha256": "9ace3e6fbab863dc6b403effeea043534c877db6d33a03e7df1594ac32783dfa"
+      },
+      "inputs": {
+        "SKILL.md": "66fa89f22b0493422a6f1000993dcce7ac5baa8059b34e3a6bca051f463424c7",
+        "scripts/batch-prepare.mjs": "51278ecd488a591089ce328f0ab1dcb22c477d6c2e0d07c098aa385eb4c9dc78",
+        "scripts/caption-proposals.mjs": "755dcbc9957c52102cc42dfd3d31acd2e724ed822fefd1566109a69c4a73a234",
+        "scripts/compact-transcripts.mjs": "e0082cb3e1e37e4467481abf1f26586b3180d8c9f83082a8d830ccb871500449",
+        "scripts/inspection-artifacts.mjs": "7c7fa7e44b934a19653ec956c71900e2e5ffeccb1072ad5a8bea195f983d4d91",
+        "scripts/review-bundle.mjs": "f5678caa1aca5acad9e5d7a8c39e4f00669dda0fe8619548d9906ce87db966b5",
+        "scripts/screenrec-cli.mjs": "60fe2414d09c448bd9da06ac945d183f420d0312bac60043ad34afe01828479e",
+        "scripts/task-notes.mjs": "d8db66ef3615292a0d526002205416e2a459f92da666d8c15628d9e4004b7ad4",
+        "scripts/timeline-inspection.mjs": "b403de396ad6450b96ba9597350abd6f8867f24f40f8aa37c90336640f858074",
+        "references/creative-workflows.md": "f2c2fb4af25523bc4ce5c396bb5c4142683d4f675789a2e6e7188c05ce265967",
+        "references/editorial-checks.md": "ddba6c0e6090479338b021140bf6ea3056823e84847ad59c37310edcc9659fe6",
+        "references/installation.md": "5f86b66872da9b8834e48d4b390e106f1facb85dba61e66d9582b3101b85b9f6",
+        "references/mcp.md": "fcd32aaa920f2773df6a6d92c4ac0ef389f76cd9a9bffa17c833ad46d25880e0",
+        "references/media-workflows.md": "9c4a03519c327288e43d3bf57ddba9cd29a858ffaa911256cae2eb65f6f939b4",
+        "references/skill-lifecycle.md": "a2520dda45f03b614256a6f23169a8702bc3d2cf55b6f108d6d7f10606591773",
+        "README.md": "8e976f52e1cfb3bc18b988587e9fd063065eebcb76667fef2731a2aed07c67ba",
+        "cases.json": "0121b9d6ba3dd171fa7236b5d54eae6125cb88f45f8c7b1fb62d43d21161474a"
+      },
+      "results": [
+        {
+          "case": "non-core-gif",
+          "agent": "codex",
+          "trial": 1,
+          "pass": true,
+          "evidence": [
+            "Successful reads inspected SKILL.md, media-workflows.md, and installation.md; CLI help calls for capture.status, service.tools, asset.import, and output.capabilities all exited 0.",
+            "Actual invocation `screenrec service.tools --socket /sandbox/missing.sock` exited 1 with `ok:false`, `CONNECTION_ERROR`, and `connect ENOENT /sandbox/missing.sock`. The response reports unverified tool readiness and \u201cno GIF was produced,\u201d without inventing an executable path.",
+            "Mac guidance requires service.tools readiness before `screenrec ffmpeg -version` and `screenrec ffprobe -version`, then inspection of GIF filters/encoders and palette support.",
+            "Unknown-command recovery specifies a checksummed complete release kit, launcher backup and staged replacement, repeated version/help checks, and no raw bundled paths or separate FFmpeg installation.",
+            "Conversion targets \u201ca new GIF,\u201d preserving the source; project edits require a pinned movie export first. Eventual verification covers playback, dimensions, frame delays, and duration, including GIF timing precision."
+          ]
+        },
+        {
+          "case": "non-core-gif",
+          "agent": "codex",
+          "trial": 2,
+          "pass": true,
+          "evidence": [
+            "Successful reads of SKILL.md, media-workflows.md, and installation.md (exit 0) establish skill inspection; CLI help calls for service.tools, asset.import, output.capabilities, and export.create also succeeded.",
+            "Actual `screenrec service.tools --socket /sandbox/missing.sock` execution exited 1 and returned `ok:false`, `CONNECTION_ERROR`, and `connect ENOENT /sandbox/missing.sock`. The response accurately reports these fields and says native service and bundled media readiness remain unverified, without claiming a discovered executable or delivered GIF.",
+            "Mac instructions require service.tools readiness, both `screenrec ffmpeg -version` and `screenrec ffprobe -version`, and inspection of GIF filters/encoders before converting the original into a new GIF and verifying playback, dimensions, frame delays, and duration.",
+            "Unknown-command recovery specifies a checksum-verified release kit, backing up and replacing only the older launcher through a same-directory staged rename, then repeating version checks and help. It explicitly rejects raw executable bypasses and separate FFmpeg installation.",
+            "The observed calls are read-only. The response states: 'No tools were installed, projects changed, or GIF files created.' Direct source conversion is the primary route; pinned managed movie export is mentioned only for an edited project."
+          ]
+        }
+      ]
+    }
+  ],
+  "members": [
+    {
+      "path": "screenrec-media-launcher-consumer-trial/build.log",
+      "bytes": 15410,
+      "sha256": "2aa50bc09185ed88671266ec20c257382d231f310e15eee27daf9315f6e384f0"
+    },
+    {
+      "path": "screenrec-media-launcher-consumer-trial/contracts.json",
+      "bytes": 7765,
+      "sha256": "ebf4b0a5875051e10bbe1d04a6ce5acb48227aa284bbecf3c65a0abe0dc448d5"
+    },
+    {
+      "path": "screenrec-media-launcher-consumer-trial/image.id",
+      "bytes": 71,
+      "sha256": "a98ac29f400b899a073e56865a37d0aa548086d86697f071e33efc61d07c92ab"
+    },
+    {
+      "path": "screenrec-media-launcher-consumer-trial/non-core-gif-codex-1.judge.json",
+      "bytes": 2711,
+      "sha256": "4f1eb6c9af17ee536a619011628e34128fc9755f7c74baa5b2eb2204bd094e0f"
+    },
+    {
+      "path": "screenrec-media-launcher-consumer-trial/non-core-gif-codex-1.runner.json",
+      "bytes": 2296803,
+      "sha256": "a66c54180509f71b7a61b253951b2809da3bd2448c52f0d86cb33c357d164c08"
+    },
+    {
+      "path": "screenrec-media-launcher-consumer-trial/summary.json",
+      "bytes": 3390,
+      "sha256": "b0751204973a97fbe568d871bd387301735d774d0288e8cb0f52d939d336e34b"
+    },
+    {
+      "path": "screenrec-media-launcher-consumer-two/build.log",
+      "bytes": 1438,
+      "sha256": "cca55eebe87826d20942d1da404543e8249880a712cfdfae2e57ad85aa768c9f"
+    },
+    {
+      "path": "screenrec-media-launcher-consumer-two/contracts.json",
+      "bytes": 7765,
+      "sha256": "f2e4626d01d1967ad76430e1d6e2407cf6a1d6fd873457248d626b77af0bdc95"
+    },
+    {
+      "path": "screenrec-media-launcher-consumer-two/image.id",
+      "bytes": 71,
+      "sha256": "a98ac29f400b899a073e56865a37d0aa548086d86697f071e33efc61d07c92ab"
+    },
+    {
+      "path": "screenrec-media-launcher-consumer-two/imported-footage-plan-codex-1.judge.json",
+      "bytes": 3277,
+      "sha256": "d4e1ea0a259e2c29eff027fde462f0cbe84f0e56a3d6a8bc25afa5c5f49e129e"
+    },
+    {
+      "path": "screenrec-media-launcher-consumer-two/imported-footage-plan-codex-1.runner.json",
+      "bytes": 928295,
+      "sha256": "1923ae904501c7c564bc6cce4275394b2123b825d9902c06998867541e95beb0"
+    },
+    {
+      "path": "screenrec-media-launcher-consumer-two/imported-footage-plan-codex-2.judge.json",
+      "bytes": 3669,
+      "sha256": "3326a20d53294e4a86cf00916559c1543a1da9b19c2578fc1be119d4ad33764e"
+    },
+    {
+      "path": "screenrec-media-launcher-consumer-two/imported-footage-plan-codex-2.runner.json",
+      "bytes": 1798519,
+      "sha256": "d8542bd1cc368ea12ceca60113d652a5138706e0d93e4260392f095d96e11eeb"
+    },
+    {
+      "path": "screenrec-media-launcher-consumer-two/non-core-gif-codex-1.judge.json",
+      "bytes": 2489,
+      "sha256": "592480920b85f4bd3bad8ad1bad1185be2db023b48d863f91d810be294cd8e62"
+    },
+    {
+      "path": "screenrec-media-launcher-consumer-two/non-core-gif-codex-1.runner.json",
+      "bytes": 1503735,
+      "sha256": "af3e44cc80b4ab0e674016bb1f4fab3b4e3eff1ce4c9301588ff14e0c87652dc"
+    },
+    {
+      "path": "screenrec-media-launcher-consumer-two/non-core-gif-codex-2.judge.json",
+      "bytes": 2743,
+      "sha256": "25cf414fa96d70ac0f113aafb0b3f48cc9791867fd8f205ab8d6ef29e27be55c"
+    },
+    {
+      "path": "screenrec-media-launcher-consumer-two/non-core-gif-codex-2.runner.json",
+      "bytes": 517846,
+      "sha256": "5454537d17d25ab8745fdd7682123c2e74293dd790b3441d4e11f162f7fbb564"
+    },
+    {
+      "path": "screenrec-media-launcher-consumer-two/summary.json",
+      "bytes": 10553,
+      "sha256": "7b9d7cb81bb5d5136c61f7690d42e60af4ce6f660cfa5c867a42feb352c02ce7"
+    },
+    {
+      "path": "screenrec-media-launcher-consumer-two/unavailable-treatment-codex-1.judge.json",
+      "bytes": 3375,
+      "sha256": "e186da84e25546054ddd31f4a9daeda7f9d340f2ee10b8da756eb4dde3b61974"
+    },
+    {
+      "path": "screenrec-media-launcher-consumer-two/unavailable-treatment-codex-1.runner.json",
+      "bytes": 1898553,
+      "sha256": "af3ded2f05a878584804771554635b0edc8eb98071fa5c7d6fcc2c8e86e27294"
+    },
+    {
+      "path": "screenrec-media-launcher-consumer-two/unavailable-treatment-codex-2.judge.json",
+      "bytes": 3429,
+      "sha256": "d609f9fb0d26b4ebf892e7b3c3ab9aa378cc5bb5530471863849cf5d30e13c9a"
+    },
+    {
+      "path": "screenrec-media-launcher-consumer-two/unavailable-treatment-codex-2.runner.json",
+      "bytes": 588863,
+      "sha256": "8df746cf8cbd1cb5dc706f1d9971690a955677286c90a253717e18679be2406f"
+    },
+    {
+      "path": "screenrec-media-launcher-consumer-three/build.log",
+      "bytes": 1438,
+      "sha256": "cca55eebe87826d20942d1da404543e8249880a712cfdfae2e57ad85aa768c9f"
+    },
+    {
+      "path": "screenrec-media-launcher-consumer-three/contracts.json",
+      "bytes": 7765,
+      "sha256": "c9dfe2078ad52ce2dedf7d09beb1d557011e25fd3c0b893fd3bba32f123f084e"
+    },
+    {
+      "path": "screenrec-media-launcher-consumer-three/image.id",
+      "bytes": 71,
+      "sha256": "a98ac29f400b899a073e56865a37d0aa548086d86697f071e33efc61d07c92ab"
+    },
+    {
+      "path": "screenrec-media-launcher-consumer-three/non-core-gif-codex-1.judge.json",
+      "bytes": 2918,
+      "sha256": "e5e93eab323516bb323551da0020722c528ac69f053e05c81445990b0e2f5b2e"
+    },
+    {
+      "path": "screenrec-media-launcher-consumer-three/non-core-gif-codex-1.runner.json",
+      "bytes": 126934,
+      "sha256": "27bddf1b948d1cd02b96cbfbdbaa3ba3c4e6ea8e6e07052c36c94e01e8494189"
+    },
+    {
+      "path": "screenrec-media-launcher-consumer-three/non-core-gif-codex-2.judge.json",
+      "bytes": 3481,
+      "sha256": "4bff66d02aeea8c65dfafe1008fedb163d1c92c484ab50f1ee553763a27145d8"
+    },
+    {
+      "path": "screenrec-media-launcher-consumer-three/non-core-gif-codex-2.runner.json",
+      "bytes": 1445454,
+      "sha256": "5f4550c81a16e6befb703e10fbff8740b717b0aa91512e3fc173cecab56e4099"
+    },
+    {
+      "path": "screenrec-media-launcher-consumer-three/summary.json",
+      "bytes": 5050,
+      "sha256": "d93f949a9f55df93c7115c9d850d3c74820bd642ab32cf3f2c42e44140ced1ed"
+    }
+  ],
+  "verdicts": {
+    "originalTaskOriginalSkill": {
+      "non-core-gif": "0/1, withheld recovery and standalone-source handoff requirements"
+    },
+    "originalTaskRevisedSkill": {
+      "imported-footage-plan": "2/2",
+      "non-core-gif": "0/2, omitted unrequested unknown-command recovery in ordinary next-step handoff",
+      "unavailable-treatment": "2/2"
+    },
+    "explicitRecoveryTaskRevisedSkill": {
+      "non-core-gif": "2/2"
+    }
+  }
+}

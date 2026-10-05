@@ -93,6 +93,16 @@ tool releases it. This does not execute the production account’s launcher or u
 and does not replace final signed relocated-package acceptance. Arbitrary inherited
 descriptor protocols beyond standard streams are not covered by this component proof.
 
+The later [portable launcher handoff checks](../evidence/consumer-launcher/README.md)
+retain the new failure and recovery scenario separately. The main skill now keeps
+one fallback pointer and the media reference co-locates direct-tool checks.
+Imported-footage planning and unavailable-treatment scenarios each pass twice.
+Ordinary GIF next-step summaries still omit the bar's hypothetical launcher
+recovery; making that failure an explicit part of the task produces two passes
+without changing the bar. This proves requested recovery guidance, not an
+improvement in spontaneous recovery explanation. All prior failures remain,
+and final packaged execution is still pending.
+
 ## Boundaries and decision budget
 
 Inherit the [global contract](../README.md#contracts-and-ownership) and narrow verification policy. Write-tests red/green precedes behavior changes. Existing native output and persisted identity remain unchanged unless this slice names the extension.

@@ -22,7 +22,8 @@ relocation and public speaker evidence remain open. Source rendering/recovery
 now retains shared input authority, and integrated component/linked-worker checks pass.
 
 Final release build/ZIP, relocated acceptance26 and the full suite follow those
-branches. Latest main’s authenticated updater keeps archive smoke isolated;
+branches. Latest main through c5765423 (release 0.1.4) is integrated; its app
+identity and CLI/service version reporting are preserved. The authenticated updater keeps archive smoke isolated;
 a separate media check executes packaged service/JavaScript CLI in scratch state.
 Direct extras use the released launcher’s media passthrough under the existing
 installation lock. Both actual tools retain that lock; older external launchers
@@ -45,7 +46,7 @@ facts, compressed interpretation and exact source↔derivative clocks.
 | [Direct tool lifetime](evidence/direct-tool-launcher.json) | Actual prepared tools retain launcher exclusion; signed package pending. |
 | [Native SDR](evidence/sdr-execution/proof.json) | Bound OS recipe, existing cache/job/export identities. |
 | [Public H.264/HEVC](evidence/hevc-public/report.json) | Authored clocks, decoded landmarks and replay pass. |
-| [Consumer trials](evidence/consumer-acceptance/README.md) | Concrete planning, GIF routing and unavailable execution pass twice; earlier failures retained. |
+| [Consumer trials](evidence/consumer-acceptance/README.md), [launcher handoff](evidence/consumer-launcher/README.md) | Concrete planning and unavailable execution pass twice. Explicitly requested launcher recovery passes twice; ordinary summaries omit it. Earlier failures and changed task inputs retained. |
 | [Direct GIF](evidence/gif-extra/report.json) | Discovered component tools work; centisecond quantization explicit. |
 | [Speech families](slices/22-speech-feasibility.md) | Original official speaker runtime passes its bounded six-case research gate; production closure/projection remain open. Earlier speaker/event failures remain retained. Primary human word annotations are retained; original audio admission and alignment evaluation remain open. |
 

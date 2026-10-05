@@ -355,9 +355,27 @@ make an export HDR or transparent. Check actual codec, color, duration and A/V
 alignment in the receipt and delivered file. An unavailable HEVC encoder refuses;
 changing codec or backend is a new explicit choice.
 
-For an extra GIF delivery, inspect actual frame delays and duration. GIF stores
+## Extra media tasks
+
+Before a direct FFmpeg task, check selected-app media readiness with `service.tools`,
+then verify both `screenrec ffmpeg -version` and `screenrec ffprobe -version`.
+If either command is unknown or fails argument parsing, follow
+[launcher refresh](installation.md#refresh-the-media-tool-launcher) from a verified
+release kit and repeat verification. App updates can leave an older external
+launcher in place. Discover the required filters and codecs from these bundled
+tools; consumers need no separate FFmpeg installation. A missing service or tool
+is an unresolved prerequisite, not an executable path to guess.
+
+Write a new standalone artifact and retain the source. For a requested edited
+project, first obtain the pinned managed delivery to use as conversion input.
+A direct output never replaces a failed managed export. Verify the actual file
+before delivery; tool exit success alone is insufficient.
+
+For GIF, inspect playback, dimensions, actual frame delays and duration. GIF stores
 hundredths of a second, so some frame rates require rounding; an exact project
 clock does not establish exact GIF timing. Keep that difference visible.
+
+## Editable project transfer
 
 For an editable project transfer, discover `export.create` package support and
 poll its durable export intent until committed. Open the resulting ZIP, inspect
