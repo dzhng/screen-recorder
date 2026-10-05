@@ -31,7 +31,7 @@
     },
     "apps/macos": {
       "name": "@screenrec/macos",
-      "version": "0.1.3",
+      "version": "0.1.4",
       "dependencies": {
         "@screenrec/service": "workspace:*",
       },
@@ -49,6 +49,7 @@
         "@screenrec/composition": "workspace:*",
         "@screenrec/core": "workspace:*",
         "@screenrec/protocol": "workspace:*",
+        "zod": "4.6.5",
       },
       "devDependencies": {
         "@screenrec/client": "workspace:*",

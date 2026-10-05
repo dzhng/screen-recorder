@@ -13,7 +13,8 @@
   "dependencies": {
     "@screenrec/composition": "workspace:*",
     "@screenrec/core": "workspace:*",
-    "@screenrec/protocol": "workspace:*"
+    "@screenrec/protocol": "workspace:*",
+    "zod": "4.6.5"
   },
   "devDependencies": {
     "@screenrec/client": "workspace:*"
