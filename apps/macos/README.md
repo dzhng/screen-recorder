@@ -31,6 +31,9 @@ joins existing native intent with the service's atomic permit; waiting leaves
 normal operations and preview renewals usable. The [Sparkle boundary](Sources/ScreenRecorder/SparkleDriver.swift)
 owns scheduling and preferences through the pinned SDK. Its acknowledged launch
 exclusion permits clean service EOF, and observed clean exit permits replacement.
+An authenticated check that finds no newer version completes normally; a fresh
+check clears prior check errors and candidate facts, while a required manual
+restart remains visible.
 Updater shutdown never finalizes capture, closes preview or sends a signal to
 manufacture idle. An unconfirmed permit release or stalled shutdown requires an
 explicit quit and reopen; there is no competing successor or automatic restart loop.

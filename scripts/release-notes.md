@@ -1,7 +1,12 @@
-This release adds bundled FFmpeg/ffprobe, explicit audio dynamics and loudness
-measurement, SDR correction, qualified HDR-to-SDR conversion, HEVC delivery,
-caption sidecars and agent inspection/review helpers. FFmpeg needs no separate
-installation. Optional speaker observations require caller-supplied local inputs.
+This patch fixes updater status: “You’re up to date” completes successfully,
+and a fresh check clears an earlier check failure and stale candidate version.
+Actual download and installation failures remain visible. Existing v0.1.5
+installations can update automatically without resetting their library.
+
+Bundled FFmpeg/ffprobe, audio dynamics and loudness measurement, SDR correction,
+qualified HDR-to-SDR conversion, HEVC delivery, caption sidecars and agent review
+helpers remain available. FFmpeg needs no separate installation. Optional speaker
+observations require caller-supplied local inputs.
 
 This version uses catalog format 26 and portable package format 4. Earlier formats
 are refused; no migration or automatic deletion occurs. Apps on older catalog

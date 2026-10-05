@@ -90,7 +90,9 @@ final class UpdateCoordinator {
         }
     }
     func checking() {
-        guard enabled else { return }
+        guard enabled, !releaseUnconfirmed, !cleanServiceExit else { return }
+        status.error = nil
+        status.availableVersion = nil
         status.state = "checking"
         publish()
     }

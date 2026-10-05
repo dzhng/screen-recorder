@@ -54,6 +54,8 @@ jobs:
           node --test scripts/release.test.mjs apps/macos/tests/bundled-runtime.test.mjs
       - name: Prepare pinned build inputs
         run: node scripts/release.mjs prepare
+      - name: Check native updater boundary
+        run: node --test apps/macos/tests/update-sparkle.test.mjs apps/macos/tests/update-coordinator.test.mjs
       - name: Build app and its dependencies
         run: |
           bun install --frozen-lockfile

@@ -85,7 +85,11 @@ final class SparkleDriver: NSObject, SPUUpdaterDelegate, SPUUserDriver {
         _ updater: SPUUpdater, didFinishUpdateCycleFor updateCheck: SPUUpdateCheck, error: Error?
     ) {
         downloadCancellation = nil
-        owner.cycleFinished(error: error)
+        let sdkError = error as NSError?
+        // Sparkle completes a normal no-update check with an error sentinel.
+        let noUpdate = sdkError?.domain == SUSparkleErrorDomain
+            && sdkError?.code == Int(SUError.noUpdateError.rawValue)
+        owner.cycleFinished(error: noUpdate ? nil : error)
     }
     func updaterWillRelaunchApplication(_ updater: SPUUpdater) {
         guard owner.mayTerminateForUpdate else {
