@@ -1,6 +1,7 @@
 # 22 — Local speech evidence feasibility
 
-Status: bounded research completed; diarization/events failed, boundaries pending. No family promoted. Question: **Which local providers earn speaker, acoustic-event and boundary claims?**
+Status: original speaker recipe passes bounded research; event recipes failed and
+boundary authority is pending. Public family implementation remains gated. Question: **Which local providers earn speaker, acoustic-event and boundary claims?**
 
 Dependencies: existing contracts only.
 
@@ -18,7 +19,8 @@ Real overlap, unknown speaker, short reaction/laugh/applause, silence and word e
 
 ## Independent family verdicts
 
-- [ ] Diarization: labeled quality/cost gate and selected provider or explicitly unfinished.
+- [x] Diarization: exact original checkpoint/native recipe passes the bounded
+  quality/cost gate; relocated runtime and public evidence remain in23a1/23a.
 - [ ] Acoustic events: separate labeled gate, accepted categories and provider or explicitly unfinished.
 - [ ] Boundary alignment: separate error/coverage gate and provider or explicitly unfinished.
 
@@ -166,7 +168,7 @@ resolve the missing authority.
 
 The family-specific follow-ups are [speaker evidence](23a-speaker-evidence.md),
 [acoustic events](23b-acoustic-events.md) and [boundary evidence](23c-boundary-evidence.md).
-They remain gated/open. No optional speech operation or model is advertised.
+Public implementation remains gated/open. No optional speech operation or model is advertised.
 
 The [independent temporal event cohort](../evidence/event-temporal/README.md)
 adds human 100 ms scene-occupancy labels and separate development/confirmation
@@ -175,6 +177,21 @@ but fails confirmation. Applause and Gasp have no reference in that cohort.
 The scene-to-MIC-channel-zero projection was frozen before inference but not
 independently listened; these are failed coarse-occupancy experiments, not precise
 event endpoints or an isolated diagnosis of model versus projection error.
+
+## Accepted original speaker recipe
+
+The later [official original checkpoint reproduction](../evidence/speaker-original/README.md)
+passes every bounded development and confirmation window at the frozen gate,
+including overlap with zero collar. Its exact checkpoint, original native recipe,
+raw outputs and runtime operands are retained; the earlier converted/provider
+failures above remain valid. This selects the preserved computational recipe,
+while clean relocation, model preparation and public source/project evidence are
+separate [23a1](23a1-speaker-runtime.md)/[23a](23a-speaker-evidence.md) gates.
+
+Confirmation was untouched by our calibration, but the model card lists this
+corpus version in training data. This is neither a training-held-out accuracy
+claim nor calibrated known-person recognition. Event categories and word-boundary
+authority remain independently unfinished; the speaker pass cannot close them.
 
 ## Reproducibility and evidence boundaries
 
