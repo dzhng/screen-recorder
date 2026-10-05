@@ -35,7 +35,9 @@ node --test helpers/ffmpeg/prepare.test.mjs
 
 The [smoke probe](smoke.mjs) executes small encodes, independent decode/probe,
 audio and filter operands, including zscale/tonemap, with system-only PATH. It
-proves the selected build, not managed project timing, perceptual quality or an installed app. Integration
+also executes palette GIF conversion on a centisecond-aligned clock and independently
+checks every decoded frame's dimensions and timing. This proves the selected build,
+not managed project timing, perceptual quality or an installed app. Integration
 remains owned by [service](../../apps/service/README.md) and [release](../../scripts/README.md).
 GPL-only components and unsupported optional libraries are not promised by a broad
 build. Capability discovery must reflect the shipped inventory, not a host installation.

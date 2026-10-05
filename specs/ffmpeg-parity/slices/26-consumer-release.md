@@ -55,6 +55,13 @@ retained source/runtime hashes, decoded clocks, landmarks and color declarations
 Tagged-release sparse checkout includes that small retained corpus. Installed
 execution remains pending the final integrated package; wiring is not a release pass.
 
+The dependency smoke invoked by that relocated check also executes palette GIF
+conversion on its generated video, with system-only PATH. The [complete component
+report](../evidence/gif-extra/distribution-smoke.json) passes: five 160×96 frames,
+100 ms starts/durations and total 0.5 s. Its [8 fps fault control](../evidence/gif-extra/smoke-clock-fault.json)
+fails specifically at 0.51 s against the frozen 0.5 s requirement. This tests the
+direct-extra binary path without adding a managed GIF operation.
+
 ## Boundaries and decision budget
 
 Inherit the [global contract](../README.md#contracts-and-ownership) and narrow verification policy. Write-tests red/green precedes behavior changes. Existing native output and persisted identity remain unchanged unless this slice names the extension.

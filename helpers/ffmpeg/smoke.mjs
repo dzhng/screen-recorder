@@ -56,6 +56,38 @@ export async function smokeFFmpeg(directory) {
       execute(["-v", "error", "-i", output, "-f", "null", "-"]);
       probes.push({ codec, ...observation[0] });
     }
+    // Ten frames per second lies exactly on GIF's centisecond delay grid.
+    const gif = join(scratch, "extra.gif");
+    execute([
+      "-v",
+      "error",
+      "-i",
+      join(scratch, "h264.mp4"),
+      "-t",
+      "0.5",
+      "-filter_complex",
+      "[0:v]fps=10,scale=160:96,split[a][b];[a]palettegen[p];[b][p]paletteuse",
+      "-an",
+      "-loop",
+      "0",
+      "-n",
+      gif,
+    ]);
+    const gifProbe = JSON.parse(
+      run(ffprobe, ["-v", "error", "-show_streams", "-show_frames", "-of", "json", gif]),
+    );
+    assert.equal(gifProbe.streams[0].codec_name, "gif");
+    assert.equal(gifProbe.streams[0].duration, "0.500000");
+    assert.deepEqual(
+      gifProbe.frames.map((frame) => [
+        frame.width,
+        frame.height,
+        Number(frame.pts_time),
+        Number(frame.duration_time),
+      ]),
+      Array.from({ length: 5 }, (_, index) => [160, 96, index / 10, 0.1]),
+    );
+    probes.push({ extension: "gif", ...gifProbe });
     for (const [extension, encoder] of [
       ["wav", "pcm_f32le"],
       ["m4a", "aac"],
@@ -156,6 +188,8 @@ export async function smokeFFmpeg(directory) {
         "colorbalance",
         "zscale",
         "tonemap",
+        "palettegen",
+        "paletteuse",
       ],
     };
   } finally {
