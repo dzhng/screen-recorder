@@ -7,6 +7,7 @@ import os
 from pathlib import Path
 import shutil
 import stat
+import runpy
 
 parser = argparse.ArgumentParser()
 for name in ["base", "primary", "worker", "launcher", "out"]:
@@ -14,6 +15,7 @@ for name in ["base", "primary", "worker", "launcher", "out"]:
 parser.add_argument("--supplemental", action="append", default=[])
 parser.add_argument("--resource", action="append", nargs=2, default=[], metavar=("SOURCE", "NAME"))
 parser.add_argument("--omit-path-file", action="append", default=[])
+parser.add_argument("--native-policy")
 args = parser.parse_args()
 base, primary, worker, launcher, out = (Path(getattr(args, name)).resolve() for name in ["base", "primary", "worker", "launcher", "out"])
 supplemental = [Path(path).resolve() for path in args.supplemental]
@@ -47,6 +49,14 @@ clone.restype = ctypes.c_int
 sources = {}
 
 
+def clone_file(source, destination):
+    if clone(os.fsencode(source), os.fsencode(destination), 0):
+        raise OSError(ctypes.get_errno(), "clonefile failed; full-copy fallback is forbidden")
+    source_stat, target_stat = source.stat(), destination.stat()
+    assert (source_stat.st_dev, source_stat.st_ino) != (target_stat.st_dev, target_stat.st_ino), "Writable hardlink alias"
+    assert stat.S_IMODE(source_stat.st_mode) == stat.S_IMODE(target_stat.st_mode), "Clone changed file mode"
+
+
 def copy(source, destination):
     if len(sources) % 128 == 0:
         assert shutil.disk_usage(out).free >= reserve, "Scratch reserve crossed during clone-only assembly"
@@ -61,11 +71,7 @@ def copy(source, destination):
         destination.chmod(stat.S_IMODE(source.stat().st_mode))
     else:
         destination.parent.mkdir(parents=True, exist_ok=True)
-        if clone(os.fsencode(source), os.fsencode(destination), 0):
-            raise OSError(ctypes.get_errno(), "clonefile failed; full-copy fallback is forbidden")
-        source_stat, target_stat = source.stat(), destination.stat()
-        assert (source_stat.st_dev, source_stat.st_ino) != (target_stat.st_dev, target_stat.st_ino), "Writable hardlink alias"
-        assert stat.S_IMODE(source_stat.st_mode) == stat.S_IMODE(target_stat.st_mode), "Clone changed file mode"
+        clone_file(source, destination)
         sources[str(destination.relative_to(bundle))] = str(source)
 
 
@@ -84,7 +90,7 @@ try:
     (python / "bin/python").symlink_to("python3.12")
     (python / "lib").mkdir()
     for child in sorted((base / "lib").iterdir()):
-        if child.name != "python3.12":
+        if child.name not in ["python3.12", "pkgconfig"]:
             copy(child, python / "lib" / child.name)
     (python / "lib/python3.12").mkdir()
     for child in sorted((base / "lib/python3.12").iterdir()):
@@ -106,6 +112,10 @@ try:
     for path, name in resources:
         copy(path, bundle / "execution" / name)
     (bundle / "execution/imports.json").write_text(json.dumps({"supplemental": layers}, sort_keys=True)+"\n")
+    native_report, native_changes = None, {}
+    if args.native_policy:
+        relocate = runpy.run_path(str(Path(__file__).with_name("runtime-native.py")))["relocate"]
+        native_report, native_changes = relocate(Path(args.native_policy).resolve(), bundle, sources, out, clone_file, sha)
     entries = []
     for path in sorted(bundle.rglob("*")):
         item = {"path": str(path.relative_to(bundle)), "mode": stat.S_IMODE(path.lstat().st_mode)}
@@ -117,7 +127,8 @@ try:
         else:
             item.update(kind="file", bytes=path.stat().st_size, sha256=sha(path))
             if item["path"] in sources:
-                assert item["sha256"] == sha(Path(sources[item["path"]])), "Copied byte mismatch"
+                change = native_changes.get(item["path"])
+                assert item["sha256"] == (change["finalSha256"] if change else sha(Path(sources[item["path"]]))), "Copied byte mismatch"
             else:
                 assert item["path"] == "execution/imports.json", "Unexpected generated runtime file"
         entries.append(item)
@@ -131,10 +142,12 @@ try:
               "copyMethod": "clonefile only; distinct source/destination inodes checked; no fallback",
               "sourceRoots": {"base": str(base), "primary": str(primary), "supplemental": list(map(str, supplemental)), "worker": str(worker), "launcher": str(launcher)},
               "layout": "Standalone base interpreter/stdlib, unchanged primary site-packages with ordinary startup semantics, declared bundle-relative supplemental layers appended after primary; unchanged worker/resources",
-              "excluded": ["base-only default site-packages (explicit layers own dependency visibility)", "base headers/share/docs and unused bin tools", "venv config, activation and absolute console scripts", *args.omit_path_file],
+              "excluded": ["base-only default site-packages (explicit layers own dependency visibility)", "base headers/share/docs, pkg-config development metadata and unused bin tools", "venv config, activation and absolute console scripts", *args.omit_path_file],
               "configuration": ["python/bin/python is a new relative symlink to unchanged python3.12", "no pyvenv.cfg; sys.prefix derives from the self-contained interpreter layout"],
               "imports": {"primary": "python/lib/python3.12/site-packages", "supplemental": layers, "entry": "execution/launch.py"},
               "model": "not copied; must remain an explicit separately verified input"}
+    if native_report is not None:
+        report["nativeRelocation"] = native_report
     (out / "assembly.json").write_text(json.dumps(report, indent=2)+"\n")
     print(json.dumps(report), flush=True)
 except BaseException as error:

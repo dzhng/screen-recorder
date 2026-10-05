@@ -1,0 +1,246 @@
+{
+  "version": 1,
+  "frozenBeforeAssemblyAndRelocatedInference": true,
+  "objective": "One exact original30s runtime preservation checkpoint, not provider-quality widening or product registration",
+  "sourceInventory": {
+    "roots": {
+      "base": "/Users/server/.cache/codex-runtimes/codex-primary-runtime/dependencies/python",
+      "primary": "/tmp/screenrec-nemo-env/lib/python3.12/site-packages",
+      "supplemental1": "/tmp/screenrec-speech-research-env/lib/python3.12/site-packages",
+      "supplemental2": "/Users/server/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/site-packages"
+    },
+    "entries": 91448,
+    "sourceInventorySha256": "285808bcd3299fc0812f1dcd56f3e51f924ff96d42c918e378b04ebe74689cb8",
+    "compressedSha256": "7135a1e80954f57dbfea836a8fa61c58094c3f278fa3c3b8dc718b8e1ddca8c3",
+    "elapsedSeconds": 14.891982167
+  },
+  "boundFiles": [
+    {
+      "path": "../../../../helpers/speaker/worker.py",
+      "bytes": 9713,
+      "sha256": "60c3f08f5d1fc1cf9c93eab0e11fead3398b4c73b4e640ed0a2072c05876fd97"
+    },
+    {
+      "path": "../../../../helpers/model-runtime/launch.py",
+      "bytes": 693,
+      "sha256": "608260f4b0d26effd8a9f082fd9aeadfd6537df8639ed530a6e3c92203c0c547"
+    },
+    {
+      "path": "../../../../packages/test-harness/editing/optional-runtime-assemble.py",
+      "bytes": 8839,
+      "sha256": "2fb53dbb96127344d851da56aa3be1e681861e9573751ebf7af67db1dd493d6b"
+    },
+    {
+      "path": "../../../../packages/test-harness/editing/runtime-native.py",
+      "bytes": 5952,
+      "sha256": "e61317497759bc496c013d18f320d083dd7377f4659c828a934e129c71616682"
+    },
+    {
+      "path": "native-policy.json",
+      "bytes": 15911,
+      "sha256": "8e67720361bd162ad9c7d0428871f529ff99e6fe41f6430259a58a62c2e398f7"
+    },
+    {
+      "path": "source-loader.mjs",
+      "bytes": 1751,
+      "sha256": "574b15c86f3dcda8d3fea5542e4605c0454e5b55b6d724fb0d60471d91ac90af"
+    },
+    {
+      "path": "invoke.mjs",
+      "bytes": 4796,
+      "sha256": "15016916e734b25c5657377aa34da44234c4b7be1bd646f561dd57c5360adbb5"
+    },
+    {
+      "path": "import-probe.py",
+      "bytes": 2210,
+      "sha256": "e70d4eee0f08200a86661b8151f9398c1bc51e124a4874f30fcb493866d541c6"
+    },
+    {
+      "path": "source-inventory.json.gz",
+      "bytes": 3855821,
+      "sha256": "7135a1e80954f57dbfea836a8fa61c58094c3f278fa3c3b8dc718b8e1ddca8c3"
+    },
+    {
+      "path": "native-load-commands.json",
+      "bytes": 199096,
+      "sha256": "181c3f67555e231eee3ccea65a0ae88924868152bd628a5600d4c14941acff2c"
+    },
+    {
+      "path": "native-section-inputs.json",
+      "bytes": 151456,
+      "sha256": "633d6c940822b522e87b0236446b1dd13187e07b7c618c813cc6d28f372096a2"
+    },
+    {
+      "path": "../../../../apps/service/src/worker.ts",
+      "bytes": 16113,
+      "sha256": "58909a02276c53610ac5bdb864c1fb9e9233667c504d41f6abe929a14fb23364"
+    },
+    {
+      "path": "../../../../packages/core/src/models.ts",
+      "bytes": 20544,
+      "sha256": "1360dc91c2a9863424da53bbbd389ff1790ec8388c4e34682e1bbc2ee4f5221e"
+    },
+    {
+      "path": "../../../../packages/core/src/model-files.ts",
+      "bytes": 6139,
+      "sha256": "6e9d2c2f545ec231c1a6cfa6f03be392e724043c8205fd2c701c419a1c676f08"
+    },
+    {
+      "path": "../../../../packages/core/src/files.ts",
+      "bytes": 13290,
+      "sha256": "de4a61c4f0710a846a7bee4d8d4225c3c88edbf79feed85e786875fc03a91ba4"
+    },
+    {
+      "path": "../../../../packages/core/src/catalog.ts",
+      "bytes": 2267,
+      "sha256": "1b15e450e0fc081d2173560ba986bc41b64397d1a1afe7db4ee4a08129851541"
+    },
+    {
+      "path": "../../../../packages/core/src/model-registry.ts",
+      "bytes": 7539,
+      "sha256": "eb15f1891136f278c4c934e278b5b10d95a81063d5ea1b5dadec59acfa372003"
+    },
+    {
+      "path": "../../../../packages/core/src/model-types.ts",
+      "bytes": 2093,
+      "sha256": "ec444a47642fd9cdc65dd09754a8acf7b422a09b6069635a0c303b0805399beb"
+    },
+    {
+      "path": "../../../../packages/core/src/model-data/voice-runtime.json",
+      "bytes": 2157706,
+      "sha256": "a34bd7a23bd125c5e291942ef67a070189844e17a727d40a408bd4446f97db28"
+    },
+    {
+      "path": "../../../../packages/core/src/model-data/voice-profile-v1.json",
+      "bytes": 1947,
+      "sha256": "9e17f93c6ad563a32dadeea186b8c471daeb93571ce0a18826a9a9330131acb3"
+    },
+    {
+      "path": "../speaker-original/bspxd.json",
+      "bytes": 52851,
+      "sha256": "30f9f3d858669f9d71236d0f81c0047b9099a801a9ae6de9ee6942f9b6394d1d"
+    },
+    {
+      "path": "../speaker-original/model-card.md",
+      "bytes": 27604,
+      "sha256": "0cfd901cb5e44b20b107f939532f772905a4f1da453182a4047963e6eb87d619"
+    },
+    {
+      "path": "../speaker-original/license-page.html.gz",
+      "bytes": 46554,
+      "sha256": "95cc62b92ef584bbb7904d3df2fcec002b42af54c693dbe6e082ba1bc3fad6f9"
+    }
+  ],
+  "runtime": {
+    "versions": {
+      "python": "3.12.14",
+      "nemo_toolkit": "2.7.3",
+      "torch": "2.8.0",
+      "torchaudio": "2.8.0",
+      "numpy": "2.3.5"
+    },
+    "primary": "/tmp/screenrec-nemo-env/lib/python3.12/site-packages",
+    "supplemental": [
+      "/tmp/screenrec-speech-research-env/lib/python3.12/site-packages",
+      "/Users/server/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/site-packages"
+    ],
+    "omitPathFiles": [
+      "prepared-research-cache.pth"
+    ],
+    "bootstrap": "Ordinary primary startup, then append explicit relative supplemental layers without processing their .pth hooks; no flattening",
+    "allowedNativeChange": "Remove exactly native-policy foreign LC_RPATH commands on cloned files and ad-hoc re-sign. Preserve all native sections (content/address/offset/flags), dependency loads and install identities; preserve full before/final operands before assertions; model/package computational code unchanged",
+    "nativeDiagnosticBytesMaximum": 67108864,
+    "copy": "clonefile only; distinct inodes; no fallback; minimum512MiB free throughout",
+    "licenses": "All admitted dependency license/notice/source metadata and stdlib LICENSE remain in artifact; original model card and actual NVIDIA license page bound below. Release redistribution readiness remains separate",
+    "resources": [
+      {
+        "source": "/private/tmp/screenrec-parity-speaker-cohort/specs/ffmpeg-parity/evidence/speaker-original/model-card.md",
+        "name": "model-card.md",
+        "sha256": "0cfd901cb5e44b20b107f939532f772905a4f1da453182a4047963e6eb87d619"
+      },
+      {
+        "source": "/private/tmp/screenrec-parity-speaker-cohort/specs/ffmpeg-parity/evidence/speaker-original/license-page.html.gz",
+        "name": "model-license-page.html.gz",
+        "sha256": "95cc62b92ef584bbb7904d3df2fcec002b42af54c693dbe6e082ba1bc3fad6f9"
+      }
+    ],
+    "excludedBaseDevelopmentMetadata": [
+      "lib/pkgconfig"
+    ]
+  },
+  "model": {
+    "repository": "nvidia/diar_streaming_sortformer_4spk-v2.1",
+    "revision": "cd03eee90fbec18297ac31b8c21546e596b7f71c",
+    "source": "/tmp/screenrec-speech-research-cache/official-nemo",
+    "checkpoint": "diar_streaming_sortformer_4spk-v2.1.nemo",
+    "files": [
+      {
+        "path": "diar_streaming_sortformer_4spk-v2.1.nemo",
+        "bytes": 471367680,
+        "sha256": "8abd32832159c6ac1148c926b7276f35ba34582c444e559dce1f1253fea42ef8"
+      }
+    ],
+    "modelCardSha256": "0cfd901cb5e44b20b107f939532f772905a4f1da453182a4047963e6eb87d619",
+    "licensePageSha256": "95cc62b92ef584bbb7904d3df2fcec002b42af54c693dbe6e082ba1bc3fad6f9",
+    "license": "Actual NVIDIA Open Model License; research-local modelSource and separately prepared checkpoint, never included in runtime"
+  },
+  "input": {
+    "case": "bspxd",
+    "path": "/tmp/screenrec-speech-research-cache/voxconverse/bspxd.f32",
+    "sha256": "9ba2131687811bfbb9fb08d915648738cd83b35476370b55ae95b5c809133bb1",
+    "frames": 480000,
+    "sampleRate": 16000
+  },
+  "execution": {
+    "assembly": "/tmp/screenrec-speaker-runtime-assembly-r2",
+    "runtimeSource": "/tmp/screenrec-speaker-runtime-relocated",
+    "manifest": "/tmp/screenrec-speaker-runtime-assembly-r2/manifest.json",
+    "out": "/tmp/screenrec-speaker-runtime-entry",
+    "importsOut": "/tmp/screenrec-speaker-runtime-imports.json",
+    "sandboxProfile": "(version 1)(allow default)(deny network*)(deny file-read* (subpath \"/Users/server/.cache/codex-runtimes/codex-primary-runtime/dependencies/python\"))(deny file-read* (subpath \"/tmp/screenrec-nemo-env/lib/python3.12/site-packages\"))(deny file-read* (subpath \"/tmp/screenrec-speech-research-env/lib/python3.12/site-packages\"))(deny file-read* (subpath \"/private/tmp/screenrec-parity-speaker-cohort\"))(deny file-read* (subpath \"/Users/server/.t3/worktrees/screen-recorder/t3code-42e83c50\"))",
+    "processOwner": "Unchanged service jsonWorker; temporary private real manifest via shared Models preparation/runtime; no public registry mutation",
+    "deadlineSeconds": 120,
+    "maximumCalls": 1,
+    "infraRepairAllowance": 1,
+    "stopOnPreservationOrCostFailure": true,
+    "importProbe": "One relocated imports/native origins check without checkpoint/inference before model-bearing call"
+  },
+  "comparison": {
+    "exactFields": [
+      "segments",
+      "nativeSegmentLines",
+      "nativeProbabilities",
+      "probabilityShape",
+      "sampleRate",
+      "sourceFrames",
+      "audioSeconds",
+      "frameSeconds",
+      "config",
+      "postprocessing",
+      "modelConfig",
+      "modelSha256",
+      "pcmSha256",
+      "torch",
+      "numpy"
+    ],
+    "allowedDifferentFields": [
+      "coldImportsLoadInputSeconds",
+      "inferenceSeconds",
+      "peakProcessRSSBytes"
+    ],
+    "gate": {
+      "inferenceSecondsMaximum": 60,
+      "peakProcessRSSBytesMaximum": 4294967296
+    },
+    "scope": "Original accepted 30s computation/outputs only. No general range support, public source projection, quality-population or release readiness claim"
+  },
+  "attempts": [
+    {
+      "phase": "assembly",
+      "attempt": 1,
+      "protocolSha256": "0188afd2c621f2329bc9dfbc706ae9a4423f44cc554c397fd869b732d85741d0",
+      "result": "Refused absolute pkg-config developer symlinks before import/inference; preserved protocol/log/failure",
+      "repair": "Exclude nonexecution pkg-config metadata, red/green synthetic proof; one repaired assembly attempt"
+    }
+  ]
+}

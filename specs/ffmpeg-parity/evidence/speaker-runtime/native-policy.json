@@ -1,0 +1,384 @@
+{
+  "files": [
+    {
+      "path": "python/lib/python3.12/model-layers/1/scipy/linalg/_fblas.cpython-312-darwin.so",
+      "sourceSha256": "6502e4e093d03932479317d45bfea018ef0999bc5c4bd46687253322c13e9448",
+      "removeRpaths": [
+        "/opt/homebrew/Cellar/gcc@13/13.4.0/lib/gcc/13/gcc/aarch64-apple-darwin23/13",
+        "/opt/homebrew/Cellar/gcc@13/13.4.0/lib/gcc/13/gcc",
+        "/opt/homebrew/Cellar/gcc@13/13.4.0/lib/gcc/13"
+      ]
+    },
+    {
+      "path": "python/lib/python3.12/model-layers/1/sklearn/__check_build/_check_build.cpython-312-darwin.so",
+      "sourceSha256": "63b55d7ca53a563b2f93225d002b069c801b91ea3cca39126dc74c3403016095",
+      "removeRpaths": [
+        "/Users/runner/micromamba/envs/build/lib"
+      ]
+    },
+    {
+      "path": "python/lib/python3.12/model-layers/1/sklearn/_cyutility.cpython-312-darwin.so",
+      "sourceSha256": "781f49d2a1ae4564b1c53719993183af0a08f2e18c331678bcbc3c0d1dc0765b",
+      "removeRpaths": [
+        "/Users/runner/micromamba/envs/build/lib"
+      ]
+    },
+    {
+      "path": "python/lib/python3.12/model-layers/1/sklearn/_isotonic.cpython-312-darwin.so",
+      "sourceSha256": "3b64c4f9532ed1a554a36a05349109bcee6bb6d514695792448ac18048abc06e",
+      "removeRpaths": [
+        "/Users/runner/micromamba/envs/build/lib"
+      ]
+    },
+    {
+      "path": "python/lib/python3.12/model-layers/1/sklearn/cluster/_dbscan_inner.cpython-312-darwin.so",
+      "sourceSha256": "ebde649505f7842c4a9c251d2d6c20e12fa608f4698f29c6d04a564dd6eb5276",
+      "removeRpaths": [
+        "/Users/runner/micromamba/envs/build/lib"
+      ]
+    },
+    {
+      "path": "python/lib/python3.12/model-layers/1/sklearn/cluster/_hdbscan/_linkage.cpython-312-darwin.so",
+      "sourceSha256": "7c4a1a4d1a009a45ae46383bebc93dc4273556abef735ed6eca6c5b9b9d6d8e2",
+      "removeRpaths": [
+        "/Users/runner/micromamba/envs/build/lib"
+      ]
+    },
+    {
+      "path": "python/lib/python3.12/model-layers/1/sklearn/cluster/_hdbscan/_reachability.cpython-312-darwin.so",
+      "sourceSha256": "f3b84602986e99f6e8feec934223329de7da4a5b938d6b513b9278ff3563b7a0",
+      "removeRpaths": [
+        "/Users/runner/micromamba/envs/build/lib"
+      ]
+    },
+    {
+      "path": "python/lib/python3.12/model-layers/1/sklearn/cluster/_hdbscan/_tree.cpython-312-darwin.so",
+      "sourceSha256": "41f24a24f4397e9b2b1433a44a4c154639e514c2544d96c8e767ebfe56f0b49d",
+      "removeRpaths": [
+        "/Users/runner/micromamba/envs/build/lib"
+      ]
+    },
+    {
+      "path": "python/lib/python3.12/model-layers/1/sklearn/cluster/_hierarchical_fast.cpython-312-darwin.so",
+      "sourceSha256": "c5db091b2b1e3c13bd3df2326850b2ef7b64730dbc4b1f576797ba0e42babd50",
+      "removeRpaths": [
+        "/Users/runner/micromamba/envs/build/lib"
+      ]
+    },
+    {
+      "path": "python/lib/python3.12/model-layers/1/sklearn/datasets/_svmlight_format_fast.cpython-312-darwin.so",
+      "sourceSha256": "485e668a3207cc24d88f4ec4664913437878e05d31f06464f6e8c2a445040bb0",
+      "removeRpaths": [
+        "/Users/runner/micromamba/envs/build/lib"
+      ]
+    },
+    {
+      "path": "python/lib/python3.12/model-layers/1/sklearn/decomposition/_cdnmf_fast.cpython-312-darwin.so",
+      "sourceSha256": "06398159eb12626453578de36a4dc6292f7b99743b185030d79d6f73462e794d",
+      "removeRpaths": [
+        "/Users/runner/micromamba/envs/build/lib"
+      ]
+    },
+    {
+      "path": "python/lib/python3.12/model-layers/1/sklearn/decomposition/_online_lda_fast.cpython-312-darwin.so",
+      "sourceSha256": "0c3e49a7f52f98a39f92958d083e540908a2987b64cb7af511f1c6e09b0a12d7",
+      "removeRpaths": [
+        "/Users/runner/micromamba/envs/build/lib"
+      ]
+    },
+    {
+      "path": "python/lib/python3.12/model-layers/1/sklearn/ensemble/_gradient_boosting.cpython-312-darwin.so",
+      "sourceSha256": "4bf36ed2b4b1602a9d4650ead9ec7c146374eb2b2340e7a38445a4bc774f211d",
+      "removeRpaths": [
+        "/Users/runner/micromamba/envs/build/lib"
+      ]
+    },
+    {
+      "path": "python/lib/python3.12/model-layers/1/sklearn/ensemble/_hist_gradient_boosting/common.cpython-312-darwin.so",
+      "sourceSha256": "53a6f8db0308b4fb309f1831c158c16a5d36b4edd027b946b2e0789352261fb8",
+      "removeRpaths": [
+        "/Users/runner/micromamba/envs/build/lib"
+      ]
+    },
+    {
+      "path": "python/lib/python3.12/model-layers/1/sklearn/feature_extraction/_hashing_fast.cpython-312-darwin.so",
+      "sourceSha256": "ee8a4e36c3e1968ab66441cb34101d39680e2e136e7c59efef61b80916166565",
+      "removeRpaths": [
+        "/Users/runner/micromamba/envs/build/lib"
+      ]
+    },
+    {
+      "path": "python/lib/python3.12/model-layers/1/sklearn/linear_model/_cd_fast.cpython-312-darwin.so",
+      "sourceSha256": "c5d97a9850b0ec272c2d4820271ae6dab5c4acee304381eb941942c132eff1a2",
+      "removeRpaths": [
+        "/Users/runner/micromamba/envs/build/lib"
+      ]
+    },
+    {
+      "path": "python/lib/python3.12/model-layers/1/sklearn/linear_model/_sag_fast.cpython-312-darwin.so",
+      "sourceSha256": "9f13e39226b9096c037b44cc7439405a1f66922149bc841c31695e6ca0ed6add",
+      "removeRpaths": [
+        "/Users/runner/micromamba/envs/build/lib"
+      ]
+    },
+    {
+      "path": "python/lib/python3.12/model-layers/1/sklearn/linear_model/_sgd_fast.cpython-312-darwin.so",
+      "sourceSha256": "b93bc30e59bf2ac4909e196800cc2c36f90e3ef139ffcbd123bae461b41f6d68",
+      "removeRpaths": [
+        "/Users/runner/micromamba/envs/build/lib"
+      ]
+    },
+    {
+      "path": "python/lib/python3.12/model-layers/1/sklearn/manifold/_utils.cpython-312-darwin.so",
+      "sourceSha256": "48c97110bf240f1b49875fd23a593f1dd68fb5190fc818cea4384678a84f803f",
+      "removeRpaths": [
+        "/Users/runner/micromamba/envs/build/lib"
+      ]
+    },
+    {
+      "path": "python/lib/python3.12/model-layers/1/sklearn/metrics/_dist_metrics.cpython-312-darwin.so",
+      "sourceSha256": "2028b4a701b20fbffa8d7439fe076e65b903544a8386486b6c0df37cf4cd6369",
+      "removeRpaths": [
+        "/Users/runner/micromamba/envs/build/lib"
+      ]
+    },
+    {
+      "path": "python/lib/python3.12/model-layers/1/sklearn/metrics/_pairwise_distances_reduction/_datasets_pair.cpython-312-darwin.so",
+      "sourceSha256": "90ff4fef04033e6eb68f846a654a34eb0595bdd1ea9253a3f344d93237f8acbf",
+      "removeRpaths": [
+        "/Users/runner/micromamba/envs/build/lib"
+      ]
+    },
+    {
+      "path": "python/lib/python3.12/model-layers/1/sklearn/metrics/_pairwise_distances_reduction/_middle_term_computer.cpython-312-darwin.so",
+      "sourceSha256": "1edb43731d2fcb244e3fbf622471d04bcff1f5c62c3dec35e0bf732669ac9d83",
+      "removeRpaths": [
+        "/Users/runner/micromamba/envs/build/lib"
+      ]
+    },
+    {
+      "path": "python/lib/python3.12/model-layers/1/sklearn/metrics/cluster/_expected_mutual_info_fast.cpython-312-darwin.so",
+      "sourceSha256": "ccbd0ec645490c268581d4e4019e5fe373628a579edb5d55822e5a4446bdd367",
+      "removeRpaths": [
+        "/Users/runner/micromamba/envs/build/lib"
+      ]
+    },
+    {
+      "path": "python/lib/python3.12/model-layers/1/sklearn/neighbors/_ball_tree.cpython-312-darwin.so",
+      "sourceSha256": "443e39841bd0ac3c2302ff2d79955e811418056cd1f601c425806c0fd7c550e2",
+      "removeRpaths": [
+        "/Users/runner/micromamba/envs/build/lib"
+      ]
+    },
+    {
+      "path": "python/lib/python3.12/model-layers/1/sklearn/neighbors/_kd_tree.cpython-312-darwin.so",
+      "sourceSha256": "986a6f6bdf1788ecb63767432c018769d11a851dce5d14de6701357825b58b91",
+      "removeRpaths": [
+        "/Users/runner/micromamba/envs/build/lib"
+      ]
+    },
+    {
+      "path": "python/lib/python3.12/model-layers/1/sklearn/neighbors/_partition_nodes.cpython-312-darwin.so",
+      "sourceSha256": "0d51fe8ef9610e8606d6df00caaaed9fc1c0c57aa63af9b229214faca434a958",
+      "removeRpaths": [
+        "/Users/runner/micromamba/envs/build/lib"
+      ]
+    },
+    {
+      "path": "python/lib/python3.12/model-layers/1/sklearn/neighbors/_quad_tree.cpython-312-darwin.so",
+      "sourceSha256": "231315fc5b1a705c8b9881f76226b0d7d3b19d3258be6d40a1dca8318899d524",
+      "removeRpaths": [
+        "/Users/runner/micromamba/envs/build/lib"
+      ]
+    },
+    {
+      "path": "python/lib/python3.12/model-layers/1/sklearn/preprocessing/_csr_polynomial_expansion.cpython-312-darwin.so",
+      "sourceSha256": "167090349bc6cf3f88bdc574b154f8043b8fbfdedc218885cb4c4be54d923790",
+      "removeRpaths": [
+        "/Users/runner/micromamba/envs/build/lib"
+      ]
+    },
+    {
+      "path": "python/lib/python3.12/model-layers/1/sklearn/preprocessing/_target_encoder_fast.cpython-312-darwin.so",
+      "sourceSha256": "7bfcf41e1b562d0005b1a974885929c049b3704d2792fbbbd923d5bb13e33979",
+      "removeRpaths": [
+        "/Users/runner/micromamba/envs/build/lib"
+      ]
+    },
+    {
+      "path": "python/lib/python3.12/model-layers/1/sklearn/svm/_liblinear.cpython-312-darwin.so",
+      "sourceSha256": "8b46d5406b03050389559e6dc5e0d1d6ae0307d6153371f8103a7b6ccc10fba4",
+      "removeRpaths": [
+        "/Users/runner/micromamba/envs/build/lib"
+      ]
+    },
+    {
+      "path": "python/lib/python3.12/model-layers/1/sklearn/svm/_libsvm.cpython-312-darwin.so",
+      "sourceSha256": "ad6602eef465341cc0d5ffb8ade61fc2f3da70c522908475783812b498103e3e",
+      "removeRpaths": [
+        "/Users/runner/micromamba/envs/build/lib"
+      ]
+    },
+    {
+      "path": "python/lib/python3.12/model-layers/1/sklearn/svm/_libsvm_sparse.cpython-312-darwin.so",
+      "sourceSha256": "7bb0b8eb101d18222d2728b1db5a14d2f8dca48df58a28e9079e1b42386a645b",
+      "removeRpaths": [
+        "/Users/runner/micromamba/envs/build/lib"
+      ]
+    },
+    {
+      "path": "python/lib/python3.12/model-layers/1/sklearn/svm/_newrand.cpython-312-darwin.so",
+      "sourceSha256": "21185d44f27b5dfeec3e1bc0c910281bf4d233430a71e2885ff61eb6d824f07c",
+      "removeRpaths": [
+        "/Users/runner/micromamba/envs/build/lib"
+      ]
+    },
+    {
+      "path": "python/lib/python3.12/model-layers/1/sklearn/tree/_criterion.cpython-312-darwin.so",
+      "sourceSha256": "7194256ac376c92cc3af38f43a3ddc69ef85160d998d3b1e9a3ecd67ca162af7",
+      "removeRpaths": [
+        "/Users/runner/micromamba/envs/build/lib"
+      ]
+    },
+    {
+      "path": "python/lib/python3.12/model-layers/1/sklearn/tree/_partitioner.cpython-312-darwin.so",
+      "sourceSha256": "621c95055ea556ac7440fb915924d0a1b597359a51b7c52e941ba1c0d13dd2e1",
+      "removeRpaths": [
+        "/Users/runner/micromamba/envs/build/lib"
+      ]
+    },
+    {
+      "path": "python/lib/python3.12/model-layers/1/sklearn/tree/_splitter.cpython-312-darwin.so",
+      "sourceSha256": "f7f95edb6ff7578040f332a9fbd9f76f99e004c96c782268ecbbb37571d9f4bb",
+      "removeRpaths": [
+        "/Users/runner/micromamba/envs/build/lib"
+      ]
+    },
+    {
+      "path": "python/lib/python3.12/model-layers/1/sklearn/tree/_tree.cpython-312-darwin.so",
+      "sourceSha256": "e8aee68a3078e68f6df59caee09065b539f24f31f52fe6d135534e0fb89efac8",
+      "removeRpaths": [
+        "/Users/runner/micromamba/envs/build/lib"
+      ]
+    },
+    {
+      "path": "python/lib/python3.12/model-layers/1/sklearn/tree/_utils.cpython-312-darwin.so",
+      "sourceSha256": "18c8918888a9e67b924e553321d47e718b353e3d9aa1929b710ba0b2f2b516a9",
+      "removeRpaths": [
+        "/Users/runner/micromamba/envs/build/lib"
+      ]
+    },
+    {
+      "path": "python/lib/python3.12/model-layers/1/sklearn/utils/_bitset.cpython-312-darwin.so",
+      "sourceSha256": "987d0e8fd186f861f3a00c6857d9180b4974f1e8caa82bb58eaa080774d96e6e",
+      "removeRpaths": [
+        "/Users/runner/micromamba/envs/build/lib"
+      ]
+    },
+    {
+      "path": "python/lib/python3.12/model-layers/1/sklearn/utils/_cython_blas.cpython-312-darwin.so",
+      "sourceSha256": "3c553a603c9249bfc27ce0c56cd0898609430f46284ea97d605c745e451c902d",
+      "removeRpaths": [
+        "/Users/runner/micromamba/envs/build/lib"
+      ]
+    },
+    {
+      "path": "python/lib/python3.12/model-layers/1/sklearn/utils/_fast_dict.cpython-312-darwin.so",
+      "sourceSha256": "164de09931b6cb783216ae283420ac331a8e435890091f4dabac71c6a942840e",
+      "removeRpaths": [
+        "/Users/runner/micromamba/envs/build/lib"
+      ]
+    },
+    {
+      "path": "python/lib/python3.12/model-layers/1/sklearn/utils/_heap.cpython-312-darwin.so",
+      "sourceSha256": "bba3e112913d5a22bccc080a6b37ec5915e8b38128a1ecf4c643d18d2a6d76f6",
+      "removeRpaths": [
+        "/Users/runner/micromamba/envs/build/lib"
+      ]
+    },
+    {
+      "path": "python/lib/python3.12/model-layers/1/sklearn/utils/_isfinite.cpython-312-darwin.so",
+      "sourceSha256": "38dc9c71df52a0122eec35fd291d1c940ebccfd7fc6e87212c952ea0d6905369",
+      "removeRpaths": [
+        "/Users/runner/micromamba/envs/build/lib"
+      ]
+    },
+    {
+      "path": "python/lib/python3.12/model-layers/1/sklearn/utils/_random.cpython-312-darwin.so",
+      "sourceSha256": "6a458f02bd9feb962add3a6399ed3a56594cfc97179e8bea4e902170fa73981a",
+      "removeRpaths": [
+        "/Users/runner/micromamba/envs/build/lib"
+      ]
+    },
+    {
+      "path": "python/lib/python3.12/model-layers/1/sklearn/utils/_seq_dataset.cpython-312-darwin.so",
+      "sourceSha256": "74c5b1ce2635dfa163944a4b0d782b223459dfbf7dead1890c0c9ad41ccabb3b",
+      "removeRpaths": [
+        "/Users/runner/micromamba/envs/build/lib"
+      ]
+    },
+    {
+      "path": "python/lib/python3.12/model-layers/1/sklearn/utils/_sorting.cpython-312-darwin.so",
+      "sourceSha256": "32d8a8627ce06c10e4632616a5b013d91d098dc2136b430ee66c5b50f4eb062d",
+      "removeRpaths": [
+        "/Users/runner/micromamba/envs/build/lib"
+      ]
+    },
+    {
+      "path": "python/lib/python3.12/model-layers/1/sklearn/utils/_typedefs.cpython-312-darwin.so",
+      "sourceSha256": "0d64ef754e23d1613fe70f37f79c92e5ea1c95af126de130d56a2a7aa89ac7ff",
+      "removeRpaths": [
+        "/Users/runner/micromamba/envs/build/lib"
+      ]
+    },
+    {
+      "path": "python/lib/python3.12/model-layers/1/sklearn/utils/_vector_sentinel.cpython-312-darwin.so",
+      "sourceSha256": "bbb6ba0e8cab01066580b1ef1939bc72dc533772c037ea9ecc77612dfa9c7abc",
+      "removeRpaths": [
+        "/Users/runner/micromamba/envs/build/lib"
+      ]
+    },
+    {
+      "path": "python/lib/python3.12/model-layers/1/sklearn/utils/_weight_vector.cpython-312-darwin.so",
+      "sourceSha256": "7a828c9416512be2990438405ffd9724ff63ff96a5fecc90adc812f7c60c0955",
+      "removeRpaths": [
+        "/Users/runner/micromamba/envs/build/lib"
+      ]
+    },
+    {
+      "path": "python/lib/python3.12/model-layers/1/sklearn/utils/arrayfuncs.cpython-312-darwin.so",
+      "sourceSha256": "ff4ca378e2912571f6566dd7be0eb0cbf2140e0f9e1db25d6ce46b3b1f481756",
+      "removeRpaths": [
+        "/Users/runner/micromamba/envs/build/lib"
+      ]
+    },
+    {
+      "path": "python/lib/python3.12/model-layers/1/sklearn/utils/murmurhash.cpython-312-darwin.so",
+      "sourceSha256": "99cc26b044c3ac277556ab48aae5bc35aa0e8ae7d5b9bd4feafc0b5b7608e435",
+      "removeRpaths": [
+        "/Users/runner/micromamba/envs/build/lib"
+      ]
+    },
+    {
+      "path": "python/lib/python3.12/model-layers/1/sklearn/utils/sparsefuncs_fast.cpython-312-darwin.so",
+      "sourceSha256": "f44eecdae487db5eecebd6547a2f06c95db5ad00fefd5c07d21ff4ce5435fdc3",
+      "removeRpaths": [
+        "/Users/runner/micromamba/envs/build/lib"
+      ]
+    },
+    {
+      "path": "python/lib/python3.12/model-layers/1/torch/_C.cpython-312-darwin.so",
+      "sourceSha256": "7c6abb308da78d9bf7d5653711cc90c3ab66b88a30b49943808e3ab2e36767c8",
+      "removeRpaths": [
+        "/Users/runner/work/_temp/anaconda/envs/wheel_py312/lib"
+      ]
+    },
+    {
+      "path": "python/lib/python3.12/model-layers/2/PIL/.dylibs/libjpeg.62.4.0.dylib",
+      "sourceSha256": "cf7c4e5c2d2c007fc51afcb95b649415cfe0bc4d7137ace897a6eff6550fa967",
+      "removeRpaths": [
+        "/Users/runner/work/Pillow/Pillow/build/deps/darwin/lib"
+      ]
+    }
+  ]
+}

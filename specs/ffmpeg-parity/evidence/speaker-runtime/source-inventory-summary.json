@@ -1,0 +1,12 @@
+{
+  "roots": {
+    "base": "/Users/server/.cache/codex-runtimes/codex-primary-runtime/dependencies/python",
+    "primary": "/tmp/screenrec-nemo-env/lib/python3.12/site-packages",
+    "supplemental1": "/tmp/screenrec-speech-research-env/lib/python3.12/site-packages",
+    "supplemental2": "/Users/server/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/site-packages"
+  },
+  "entries": 91448,
+  "sourceInventorySha256": "285808bcd3299fc0812f1dcd56f3e51f924ff96d42c918e378b04ebe74689cb8",
+  "compressedSha256": "7135a1e80954f57dbfea836a8fa61c58094c3f278fa3c3b8dc718b8e1ddca8c3",
+  "elapsedSeconds": 14.891982167
+}

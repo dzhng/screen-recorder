@@ -1,0 +1,21 @@
+{
+  "command": [
+    "/usr/bin/sandbox-exec",
+    "-p",
+    "(version 1)(allow default)(deny network*)(deny file-read* (subpath \"/Users/server/.cache/codex-runtimes/codex-primary-runtime/dependencies/python\"))(deny file-read* (subpath \"/tmp/screenrec-nemo-env/lib/python3.12/site-packages\"))(deny file-read* (subpath \"/tmp/screenrec-speech-research-env/lib/python3.12/site-packages\"))(deny file-read* (subpath \"/private/tmp/screenrec-parity-speaker-cohort\"))(deny file-read* (subpath \"/Users/server/.t3/worktrees/screen-recorder/t3code-42e83c50\"))",
+    "/tmp/screenrec-speaker-runtime-relocated/python/bin/python",
+    "-I",
+    "-B",
+    "/tmp/screenrec-speaker-runtime-import-probe.py",
+    "/tmp/screenrec-speaker-runtime-relocated",
+    "/tmp/screenrec-speaker-runtime-imports.json"
+  ],
+  "cwd": "/",
+  "repair": "Allow only ephemeral probe/temp modules outside relocated bundle; donor and repository origins remain forbidden",
+  "exitCode": 1,
+  "wallSeconds": 3.121132792,
+  "stdout": "",
+  "stderr": "[NeMo W 2026-10-04 22:34:33 megatron_init:62] Megatron num_microbatches_calculator not found, using Apex version.\nW1004 22:34:33.236000 74761 model-layers/1/torch/distributed/elastic/multiprocessing/redirects.py:29] NOTE: Redirects are currently not supported in Windows or MacOs.\nOneLogger: Setting error_handling_strategy to DISABLE_QUIETLY_AND_REPORT_METRIC_ERROR for rank (rank=0) with OneLogger disabled. To override: explicitly set error_handling_strategy parameter.\nNo exporters were provided. This means that no telemetry data will be collected.\nTraceback (most recent call last):\n  File \"/tmp/screenrec-speaker-runtime-import-probe.py\", line 45, in <module>\n    assert path.is_relative_to(bundle) or path.is_relative_to(Path(\"/tmp\")) or path.is_relative_to(Path(\"/private/var/folders\")), path\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: /private/tmp/screenrec-speaker-runtime-import-probe.py\n",
+  "checkpointAccess": false,
+  "inference": false
+}

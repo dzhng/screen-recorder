@@ -1,0 +1,35 @@
+{
+  "scope": "Controlled native decoder using complete frozen original operands; no imports or model inference",
+  "cases": [
+    {
+      "case": "bspxd",
+      "exactNativeDecode": true,
+      "exactFloat32RoundTrip": true
+    },
+    {
+      "case": "ccokr",
+      "exactNativeDecode": true,
+      "exactFloat32RoundTrip": true
+    },
+    {
+      "case": "cmfyw",
+      "exactNativeDecode": true,
+      "exactFloat32RoundTrip": true
+    },
+    {
+      "case": "aepyx",
+      "exactNativeDecode": true,
+      "exactFloat32RoundTrip": true
+    },
+    {
+      "case": "aggyz",
+      "exactNativeDecode": true,
+      "exactFloat32RoundTrip": true
+    },
+    {
+      "case": "aiqwk",
+      "exactNativeDecode": true,
+      "exactFloat32RoundTrip": true
+    }
+  ]
+}

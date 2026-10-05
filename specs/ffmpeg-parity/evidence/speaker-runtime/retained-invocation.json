@@ -1,0 +1,65 @@
+{
+  "scope": "Post-run retention receipt; no assembly, preparation or inference repeated",
+  "protocolSha256": "4acdaaa6fb26bc2283cda8339e38cdee10ca3c69f08b1d1fa25918f3bee83adf",
+  "files": [
+    {
+      "path": "bspxd.json",
+      "bytes": 52852,
+      "sha256": "f6a0470e488883e9a818d232859afe8392e35b987a3844cf1331139024d62132"
+    },
+    {
+      "path": "bspxd.json.native-unverified.json",
+      "bytes": 8414,
+      "sha256": "20be8eedd299ea6ae98d2c83f4f5ca6f47b4e85dc62532d13ab1a63252a57b95"
+    },
+    {
+      "path": "request.json",
+      "bytes": 529,
+      "sha256": "1a1e3634f0dd5d8f7e088d4bc06a9f882998f122b3cfc98641b198ccce3cdd63"
+    },
+    {
+      "path": "response-unverified.json",
+      "bytes": 38597,
+      "sha256": "94854a55c6aa6afb8a60eccb4380f9f16545ca45e287e2b29c83d663b4611e25"
+    },
+    {
+      "path": "comparison.json",
+      "bytes": 646,
+      "sha256": "d12a6d8b1dfbdcd34b6ca0ed5ef18b4542555664bc95b6db96d3a68710c90e6f"
+    },
+    {
+      "path": "preparation-result.json",
+      "bytes": 22,
+      "sha256": "66455856718a02ea7760c42b0762099e35136c16b3d78764471b7371c4f81422"
+    },
+    {
+      "path": "prepared-runtime.json",
+      "bytes": 1040,
+      "sha256": "399fdef952c555498b36ed9971c81ec4ddc51d25385fbd4e955493d4ea723cd2"
+    },
+    {
+      "path": "offline-restart.json",
+      "bytes": 52,
+      "sha256": "259264884abf26ca322aae4ce0ec81b88702a9e22d3dbf8dd0b8fccdc0e69484"
+    },
+    {
+      "path": "private-manifest.json.gz",
+      "compressedBytes": 3885597,
+      "compressedSha256": "360b4d24fa1a87654cf5353afa864aa01fb4dc1d4bac07051c3261a6a05e7fd8",
+      "bytes": 24162939,
+      "sha256": "41dddc19994d5b382f63be894f068c66e8cdf59cf2d1f079c91b65e2cad5df7e"
+    },
+    {
+      "path": "runtime-artifact.json.gz",
+      "compressedBytes": 3878195,
+      "compressedSha256": "73005684334f2b358c238d2e81ad8b06f4b00296963c5b43a351567401fc6c9e",
+      "bytes": 22930813,
+      "sha256": "8d314e088a62ca2b5df2199a5cd2e95a6e3c82dba092e4378bf633fc5631f23e"
+    },
+    {
+      "path": "invocation.log",
+      "bytes": 1902,
+      "sha256": "afca78297882262a0f07013e8b52338acb66cc0894a539c6709ef0d15bea4c49"
+    }
+  ]
+}

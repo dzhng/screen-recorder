@@ -1,7 +1,8 @@
 # 23a — Validated optional speaker evidence
 
 Status: open. Exact original-checkpoint research passes the bounded acoustic gate;
-production runtime/dependency integration remains unselected and unimplemented.
+one exact original30s local runtime seam passes; durable source evidence and public
+projection remain unimplemented.
 
 ## Frozen independent acoustic cohort
 
@@ -56,23 +57,23 @@ v0.3 is explicitly in model training data, so this is never training-held-out.
 Different artifact/runtime/recipe choices confound comparison with the retained
 converted/CoreML failure; no conversion defect is established.
 
-Before production implementation, freeze a small integration slice retaining
-this exact original recipe and mapping dependencies into existing optional
-voice/model preparation, runtime and jobs owners. Research does not select a
+The [runtime checkpoint](23a1-speaker-runtime.md) preserves this exact original
+recipe through existing shared model preparation/runtime and JSON-worker owners.
+Research does not select a
 separate Python installer/service, bundle NeMo dependencies or authorize implicit
 model downloads. Preserve the actual NVIDIA license and source/model receipts.
 
 The first production checkpoint is [23a1](23a1-speaker-runtime.md): exact original
 30-second prepared-input/runtime preservation through existing preparation and
-worker owners. General ranges and durable source/public projection require the
-following contract to be resliced after that seam; they are not silently included
-in runtime readiness.
+worker owners. Durable source/public projection require the
+[next source seam](23a2-speaker-source-evidence.md). General native lengths need
+a separately frozen protocol; neither follows silently from runtime readiness.
 
 ## Implementation contract after a passed gate
 
 Use existing model preparation/runtime/jobs and core source evidence generation.
-Persist additive source/channel intervals, confidence/model/generation, explicit
-unknown assignment and overlapping speaker support. Never rewrite transcript
+Persist additive source/channel intervals, raw uncalibrated scores, model and
+generation with explicit unknown assignment and overlapping speaker support. Never rewrite transcript
 words or infer an edit. Existing composition projection maps exact source support
 into partial, repeated and retimed project occurrences; typed CLI/MCP reads share
 one meaning. Missing model reads do not download it.

@@ -1,0 +1,42 @@
+(node:80399) ExperimentalWarning: stripTypeScriptTypes is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+{"phase":"preparing","elapsedSeconds":10}
+{"phase":"preparing","elapsedSeconds":20}
+{"phase":"preparing","elapsedSeconds":30}
+{"phase":"preparing","elapsedSeconds":40}
+{"phase":"preparing","elapsedSeconds":50}
+{"phase":"preparing","elapsedSeconds":60}
+{"phase":"preparing","elapsedSeconds":70}
+{"phase":"preparing","elapsedSeconds":80}
+{"phase":"preparing","elapsedSeconds":90}
+{"phase":"preparing","elapsedSeconds":100}
+{"phase":"preparing","elapsedSeconds":110}
+{"phase":"preparing","elapsedSeconds":120}
+{"phase":"preparing","elapsedSeconds":130}
+{"phase":"preparing","elapsedSeconds":140}
+{"phase":"preparing","elapsedSeconds":150}
+{"phase":"preparing","elapsedSeconds":160}
+{"phase":"preparing","elapsedSeconds":170}
+{"phase":"preparing","elapsedSeconds":180}
+{"phase":"preparing","elapsedSeconds":190}
+{"phase":"preparing","elapsedSeconds":200}
+{"phase":"preparing","elapsedSeconds":210}
+{"phase":"preparing","elapsedSeconds":220}
+{"phase":"preparing","elapsedSeconds":230}
+{"phase":"preparing","elapsedSeconds":240}
+{"phase":"preparing","elapsedSeconds":250}
+{"phase":"preparing","elapsedSeconds":260}
+{"phase":"preparing","elapsedSeconds":270}
+{"phase":"preparing","elapsedSeconds":280}
+{"phase":"preparing","elapsedSeconds":290}
+{"phase":"preparing","elapsedSeconds":300}
+{"phase":"preparing","elapsedSeconds":310}
+{"phase":"preparing","elapsedSeconds":320}
+{"phase":"preparing","elapsedSeconds":330}
+{"phase":"preparing","elapsedSeconds":340}
+{"phase":"preparing","elapsedSeconds":350}
+{"phase":"preparing","elapsedSeconds":360}
+{"phase":"preparing","elapsedSeconds":370}
+{"phase":"preparing","elapsedSeconds":380}
+START original bspxd via prepared relocated jsonWorker
+PASS exact original bspxd runtime seam

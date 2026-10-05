@@ -1,0 +1,21 @@
+{
+  "command": [
+    "/usr/bin/sandbox-exec",
+    "-p",
+    "(version 1)(allow default)(deny network*)(deny file-read* (subpath \"/Users/server/.cache/codex-runtimes/codex-primary-runtime/dependencies/python\"))(deny file-read* (subpath \"/tmp/screenrec-nemo-env/lib/python3.12/site-packages\"))(deny file-read* (subpath \"/tmp/screenrec-speech-research-env/lib/python3.12/site-packages\"))(deny file-read* (subpath \"/private/tmp/screenrec-parity-speaker-cohort\"))(deny file-read* (subpath \"/Users/server/.t3/worktrees/screen-recorder/t3code-42e83c50\"))",
+    "/tmp/screenrec-speaker-runtime-relocated/python/bin/python",
+    "-I",
+    "-B",
+    "/tmp/screenrec-speaker-runtime-import-probe.py",
+    "/tmp/screenrec-speaker-runtime-relocated",
+    "/tmp/screenrec-speaker-runtime-imports.json"
+  ],
+  "cwd": "/",
+  "repair": "Match existing jsonWorker cwd; first harness incorrectly inherited denied repo directory",
+  "exitCode": 1,
+  "wallSeconds": 24.449929291,
+  "stdout": "",
+  "stderr": "Matplotlib is building the font cache; this may take a moment.\n[NeMo W 2026-10-04 22:33:42 megatron_init:62] Megatron num_microbatches_calculator not found, using Apex version.\nW1004 22:33:42.582000 74076 model-layers/1/torch/distributed/elastic/multiprocessing/redirects.py:29] NOTE: Redirects are currently not supported in Windows or MacOs.\nOneLogger: Setting error_handling_strategy to DISABLE_QUIETLY_AND_REPORT_METRIC_ERROR for rank (rank=0) with OneLogger disabled. To override: explicitly set error_handling_strategy parameter.\nNo exporters were provided. This means that no telemetry data will be collected.\nTraceback (most recent call last):\n  File \"/tmp/screenrec-speaker-runtime-import-probe.py\", line 39, in <module>\n    assert all(Path(row[\"path\"]).is_relative_to(bundle) for row in modules)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n",
+  "checkpointAccess": false,
+  "inference": false
+}

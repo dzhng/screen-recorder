@@ -1,0 +1,14 @@
+{
+  "scope": "Byte-identical recovery of actual repaired pre-assembly protocol; no execution or original receipt rewritten",
+  "expectedSha256": "5df0d6e761ceec9e661a26d9ecfadcaef51c934c405d2cfc432bcca1f11704ce",
+  "recoveredSha256": "5df0d6e761ceec9e661a26d9ecfadcaef51c934c405d2cfc432bcca1f11704ce",
+  "derivedFrom": "assembly-r2-protocol.json",
+  "derivedFromSha256": "546f076973ed7c0c7b0131fe461c0011cf3f2213a868e3eb250ca224a71b6469",
+  "recovery": "Remove later first import-attempt record; original pre-assembly protocol hash in preserved session command stdout and assembly-verification agrees",
+  "originalNativeSource": {
+    "path": "assembly-runtime-native.py",
+    "bytes": 5952,
+    "sha256": "e61317497759bc496c013d18f320d083dd7377f4659c828a934e129c71616682",
+    "recovery": "Complete original source recovered from preserved historical tool operand; exact pre-assembly binding agrees"
+  }
+}

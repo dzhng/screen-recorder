@@ -1,0 +1,44 @@
+{
+  "verified": true,
+  "scope": "Post-run retained-operand verification; no assembly, preparation or inference",
+  "protocolSha256": "4acdaaa6fb26bc2283cda8339e38cdee10ca3c69f08b1d1fa25918f3bee83adf",
+  "observerSha256": "86be1ce29033f645bd7086fe800702ba9f8a6be853ae6abe99a4d9e7e9804602",
+  "runtimeArtifactSha256": "8d314e088a62ca2b5df2199a5cd2e95a6e3c82dba092e4378bf633fc5631f23e",
+  "assemblyProtocolSha256": "5df0d6e761ceec9e661a26d9ecfadcaef51c934c405d2cfc432bcca1f11704ce",
+  "archivedSourceBindings": [
+    {
+      "originalPath": "../../../../packages/test-harness/editing/runtime-native.py",
+      "archive": "frozen-runtime-native.py",
+      "currentSourceSha256": "222d3144d1bd82ced34e92ed45be529355fe7f06f578d937a03a3712c4cb416b",
+      "frozenSha256": "78b8c325be24872a038970b51cb3887b88534a15545278f7a5a6ac704ed60222"
+    },
+    {
+      "originalPath": "../../../../apps/service/src/worker.ts",
+      "archive": "frozen-json-worker.ts",
+      "currentSourceSha256": "53fdd0d224eee239538e49a715e2777b33a939a7aab4efd4eca972a1f77c6fe3",
+      "frozenSha256": "58909a02276c53610ac5bdb864c1fb9e9233667c504d41f6abe929a14fb23364"
+    }
+  ],
+  "runtimeDigest": "6d21b755cf6ef36ef0146688d6c7ca35863ed9a4dbb5fb14d5affd62812fdb02",
+  "exactFields": [
+    "segments",
+    "nativeSegmentLines",
+    "nativeProbabilities",
+    "probabilityShape",
+    "sampleRate",
+    "sourceFrames",
+    "audioSeconds",
+    "frameSeconds",
+    "config",
+    "postprocessing",
+    "modelConfig",
+    "modelSha256",
+    "pcmSha256",
+    "torch",
+    "numpy"
+  ],
+  "preparationSeconds": 405.079104084,
+  "inferenceSeconds": 0.4859011670050677,
+  "peakProcessRSSBytes": 1986428928,
+  "workerWallSeconds": 28.79294329200004
+}

@@ -1,0 +1,36 @@
+{
+  "scope": "Packaging/evidence closeout, no new model call or repeated runtime assembly",
+  "latestRootIntegrated": "c7b37919",
+  "focusedHelpers": {
+    "passed": 17,
+    "command": "node --test helpers/model-runtime/*.test.mjs helpers/speaker/*.test.mjs"
+  },
+  "lint": "focused oxlint pass",
+  "format": "focused oxfmt pass",
+  "pythonSyntaxSources": 6,
+  "markdownLinkFiles": 8,
+  "retainedVerification": "retained-verification.json",
+  "independentReview": {
+    "findingsResolved": [
+      "preflight target retention",
+      "timeout partial stdout/stderr",
+      "full dependency kind/version identity",
+      "failed native test operand retention",
+      "historical runtime inventory expected digest (post-run evidence verification; bound driver retired)",
+      "final invalid Mach-O hash before inspection",
+      "original packaging failure across final capture/receipt errors",
+      "explicit verified assembly status"
+    ],
+    "claim": "Findings resolved through controlled tests and scoped retained-operand checks; no claim earlier review logs were clean"
+  },
+  "currentSourceBindings": {
+    "packages/test-harness/editing/runtime-native.py": "222d3144d1bd82ced34e92ed45be529355fe7f06f578d937a03a3712c4cb416b",
+    "apps/service/src/worker.ts": "53fdd0d224eee239538e49a715e2777b33a939a7aab4efd4eca972a1f77c6fe3"
+  },
+  "remaining": [
+    "public source/channel/range/generation evidence and exact project projection",
+    "general native length/tail protocol",
+    "runtime minimization and preparation/user cost",
+    "release redistribution/signing/installation audit"
+  ]
+}

@@ -21,9 +21,9 @@ Pre-inference failures release this attempt's empty reservations; captured nativ
 operands survive refusals. The caller owns attempt cleanup if the process dies.
 Third-party progress uses stderr; stdout carries one bounded result.
 
-The [active seam](../../specs/ffmpeg-parity/slices/23a1-speaker-runtime.md) owns the
-remaining runtime closure, exact production-entry parity and generation contract.
-Passing the lightweight refusal checks does not prove model-bearing execution,
-relocation readiness, arbitrary lengths or public speaker evidence. The
+The [active seam](../../specs/ffmpeg-parity/slices/23a1-speaker-runtime.md) records the
+passed one-call runtime checkpoint and queues durable source publication.
+Lightweight refusal controls are separate from that retained model-bearing proof;
+neither establishes arbitrary lengths or public speaker evidence. The
 [historical original research](../../specs/ffmpeg-parity/evidence/speaker-original/README.md)
 remains the reference with its training-overlap and quality limitations.

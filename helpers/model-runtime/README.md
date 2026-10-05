@@ -21,7 +21,15 @@ within their dependency tree. Executable primary startup hooks retain source
 bytes and need review in each frozen closure protocol.
 
 Clone receipts verify copied bytes, distinct inodes, file modes and contained
-links. Model checkpoints remain separate inputs. Lightweight import controls
+links. Base development metadata stays outside the execution closure.
+An explicit native policy can remove identified foreign wheel search paths from
+clones and re-sign them. The [native observer](../../packages/test-harness/editing/runtime-native.py)
+retains complete bounded before/final operands and compares section content,
+addresses, flags and full dependency-command identities. These are packaging
+changes, never permission to alter model or computational code. Native install
+identifiers are identities; they are distinct from paths the loader searches.
+
+Model checkpoints remain separate inputs. Lightweight import controls
 prove bootstrap ordering; they do not prove native interpreter relocation,
 inference parity, model quality or redistribution readiness. Those claims need
 the exact artifact inventory, licenses and a relocated execution gate.

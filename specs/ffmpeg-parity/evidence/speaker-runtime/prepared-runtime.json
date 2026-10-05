@@ -1,0 +1,11 @@
+{
+  "python": "/private/tmp/screenrec-speaker-runtime-entry/scratch-library/models/speaker-runtime-control/cd03eee90fbec18297ac31b8c21546e596b7f71c/runtime/python/bin/python",
+  "entry": "/private/tmp/screenrec-speaker-runtime-entry/scratch-library/models/speaker-runtime-control/cd03eee90fbec18297ac31b8c21546e596b7f71c/runtime/execution/launch.py",
+  "model": "/private/tmp/screenrec-speaker-runtime-entry/scratch-library/models/speaker-runtime-control/cd03eee90fbec18297ac31b8c21546e596b7f71c/original-model",
+  "cache": "/private/tmp/screenrec-speaker-runtime-entry/scratch-library/models/.cache/speaker-runtime-control",
+  "descriptorDigest": "53b62eb7953ce8f126cf7ed70f4604237063f5104e244448e1c65e047d968442",
+  "runtimeDigest": "6d21b755cf6ef36ef0146688d6c7ca35863ed9a4dbb5fb14d5affd62812fdb02",
+  "modelDigest": "ed338c0f61f62a177b04c10e2c01c8f9e987ed006c0bbe4681c9a565acc8f338",
+  "runtimeRevision": "6d21b755cf6ef36ef0146688d6c7ca35863ed9a4dbb5fb14d5affd62812fdb02",
+  "modelRevision": "cd03eee90fbec18297ac31b8c21546e596b7f71c"
+}

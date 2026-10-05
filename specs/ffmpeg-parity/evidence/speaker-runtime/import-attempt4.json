@@ -1,0 +1,21 @@
+{
+  "command": [
+    "/usr/bin/sandbox-exec",
+    "-p",
+    "(version 1)(allow default)(deny network*)(deny file-read* (subpath \"/Users/server/.cache/codex-runtimes/codex-primary-runtime/dependencies/python\"))(deny file-read* (subpath \"/tmp/screenrec-nemo-env/lib/python3.12/site-packages\"))(deny file-read* (subpath \"/tmp/screenrec-speech-research-env/lib/python3.12/site-packages\"))(deny file-read* (subpath \"/private/tmp/screenrec-parity-speaker-cohort\"))(deny file-read* (subpath \"/Users/server/.t3/worktrees/screen-recorder/t3code-42e83c50\"))",
+    "/tmp/screenrec-speaker-runtime-relocated/python/bin/python",
+    "-I",
+    "-B",
+    "/tmp/screenrec-speaker-runtime-import-probe.py",
+    "/tmp/screenrec-speaker-runtime-relocated",
+    "/tmp/screenrec-speaker-runtime-imports.json"
+  ],
+  "cwd": "/",
+  "repair": "Precisely bind harness main module and existing Torch generated remote-module bytes within owned TMPDIR; all other modules require artifact origin",
+  "exitCode": 0,
+  "wallSeconds": 5.675403333,
+  "stdout": "{\"verified\": true, \"moduleOrigins\": 6398, \"nativeOrigins\": 666, \"versions\": {\"nemo_toolkit\": \"2.7.3\", \"torch\": \"2.8.0\", \"torchaudio\": \"2.8.0\", \"numpy\": \"2.3.5\"}}\n",
+  "stderr": "[NeMo W 2026-10-04 22:35:54 megatron_init:62] Megatron num_microbatches_calculator not found, using Apex version.\nW1004 22:35:54.451000 77151 model-layers/1/torch/distributed/elastic/multiprocessing/redirects.py:29] NOTE: Redirects are currently not supported in Windows or MacOs.\nOneLogger: Setting error_handling_strategy to DISABLE_QUIETLY_AND_REPORT_METRIC_ERROR for rank (rank=0) with OneLogger disabled. To override: explicitly set error_handling_strategy parameter.\nNo exporters were provided. This means that no telemetry data will be collected.\n",
+  "checkpointAccess": false,
+  "inference": false
+}

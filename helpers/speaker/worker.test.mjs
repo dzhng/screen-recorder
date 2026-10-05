@@ -205,9 +205,11 @@ class DType:
     str='<f4'
 class Array:
     dtype=DType()
-    shape=(375,4)
+    shape=(1,375,4)
     def tobytes(self):return struct.pack('<ff',float('nan'),float('inf'))+bytes(1498*4)
-    def reshape(self,*args):return self
+    def reshape(self,*args):
+        self.shape=(375,4)
+        return self
     def tolist(self):return [[float('nan'),float('inf'),0.,0.]]+[[0.,0.,0.,0.] for _ in range(374)]
 path=Path(${JSON.stringify(join(scratch, "raw.native-unverified.json"))})
 with path.open('x') as file:worker['capture_native']([['malformed line']],[Array()],file)
@@ -216,7 +218,7 @@ except worker['Refusal'] as error:
     assert error.code=='MODEL_CONTRACT_CHANGED' and error.details['rawFile']==str(path)
 else:raise AssertionError('Expected refusal')
 raw=json.loads(path.read_text());assert raw['verified'] is False and raw['nativeSegmentLines']==[['malformed line']]
-assert raw['nativeTensors'][0]['shape']==[375,4] and raw['nativeTensors'][0]['dtype']=='<f4'
+assert raw['nativeTensors'][0]['shape']==[1,375,4] and raw['nativeTensors'][0]['dtype']=='<f4'
 values=struct.unpack('<ff',base64.b64decode(raw['nativeTensors'][0]['bytesBase64'])[:8]);assert values[0]!=values[0] and values[1]==float('inf')
 print('retained')
 `;

@@ -1,0 +1,11 @@
+{
+  "scope": "Mechanical one-file clone/rpath removal/signature control only; no imports or inference",
+  "source": "/tmp/screenrec-speech-research-env/lib/python3.12/site-packages/torch/_C.cpython-312-darwin.so",
+  "textSha256Before": "788f1512f26f87f558ccda89030f23036527961be061f31e047ad5b93b8aafe2",
+  "textSha256After": "788f1512f26f87f558ccda89030f23036527961be061f31e047ad5b93b8aafe2",
+  "textPreserved": true,
+  "sourceSha256After": "7c6abb308da78d9bf7d5653711cc90c3ab66b88a30b49943808e3ab2e36767c8",
+  "patchedSha256": "4b2e57844cf5380a02762e3fc182d179b67a8d65f0aea12c712d1621ce7fb888",
+  "patchStderr": "",
+  "codesignStderr": "/var/folders/62/pphwbgd15b1b9q7cjgf8m9pm0000gn/T/screenrec-rpath-control-99t4ou80/_C.cpython-312-darwin.so: replacing existing signature\n"
+}

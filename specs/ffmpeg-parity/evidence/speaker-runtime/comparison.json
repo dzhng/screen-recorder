@@ -1,0 +1,24 @@
+{
+  "passed": true,
+  "scope": "One exact original30s bspxd transported through existing Models/runtime/jsonWorker; no public speaker registration or quality widening",
+  "exactFields": [
+    "segments",
+    "nativeSegmentLines",
+    "nativeProbabilities",
+    "probabilityShape",
+    "sampleRate",
+    "sourceFrames",
+    "audioSeconds",
+    "frameSeconds",
+    "config",
+    "postprocessing",
+    "modelConfig",
+    "modelSha256",
+    "pcmSha256",
+    "torch",
+    "numpy"
+  ],
+  "inferenceSeconds": 0.4859011670050677,
+  "peakProcessRSSBytes": 1986428928,
+  "runtimeDigest": "6d21b755cf6ef36ef0146688d6c7ca35863ed9a4dbb5fb14d5affd62812fdb02"
+}

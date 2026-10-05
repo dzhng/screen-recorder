@@ -1,6 +1,14 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { mkdtempSync, mkdirSync, writeFileSync, readFileSync, rmSync, chmodSync } from "node:fs";
+import {
+  mkdtempSync,
+  mkdirSync,
+  writeFileSync,
+  readFileSync,
+  rmSync,
+  chmodSync,
+  symlinkSync,
+} from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -25,6 +33,9 @@ test("one clone-only artifact preserves primary precedence and supplemental name
       mkdirSync(path, { recursive: true });
     writeFileSync(join(base, "bin/python3.12"), "a pinned test interpreter", { mode: 0o700 });
     writeFileSync(join(base, "lib/python3.12/stdlib.py"), "# pinned stdlib bytes\n");
+    mkdirSync(join(base, "lib/pkgconfig"));
+    writeFileSync(join(base, "lib/pkgconfig/python-3.12.pc"), "developer link metadata\n");
+    symlinkSync("/outside/download-scratch/python-3.12.pc", join(base, "lib/pkgconfig/python3.pc"));
     writeFileSync(join(primary, "chosen.py"), 'value="primary"\n');
     writeFileSync(join(layers[0], "chosen.py"), 'value="supplemental"\n');
     mkdirSync(join(primary, "vendor"));
@@ -72,6 +83,10 @@ test("one clone-only artifact preserves primary precedence and supplemental name
       "clonefile only; distinct source/destination inodes checked; no fallback",
     );
     const manifest = JSON.parse(readFileSync(join(out, "manifest.json")));
+    assert(
+      !manifest.some((e) => e.path.includes("/pkgconfig/")),
+      "development pkg-config metadata is outside execution closure",
+    );
     assert(!manifest.some((e) => e.path.endsWith("cache-paths.pth")));
     assert(manifest.some((e) => e.path.endsWith("/assets/model.pth")));
     assert.equal(

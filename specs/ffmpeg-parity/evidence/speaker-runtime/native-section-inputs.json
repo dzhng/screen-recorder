@@ -1,0 +1,4972 @@
+[
+  {
+    "source": "supplemental1",
+    "path": "scipy/linalg/_fblas.cpython-312-darwin.so",
+    "sourceSha256": "6502e4e093d03932479317d45bfea018ef0999bc5c4bd46687253322c13e9448",
+    "sections": [
+      {
+        "segment": "__TEXT",
+        "section": "__text",
+        "bytes": 202344,
+        "zeroFill": false,
+        "sha256": "aa57b3b9fd0da18272b1a6b36d64c987be919681cba03dc6adc912eccede70ea"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__stubs",
+        "bytes": 2592,
+        "zeroFill": false,
+        "sha256": "af00b0679313b786c393ed7a0b5e88421abd95a18b5dd7fc3dbd52cfd6bc2b22"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__stub_helper",
+        "bytes": 2616,
+        "zeroFill": false,
+        "sha256": "34143177fa5abc1b398223ca92b4bf93d254030280319a47059849d4cee05b60"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__const",
+        "bytes": 48,
+        "zeroFill": false,
+        "sha256": "63bb871ca322e2b4e0efb3fb2f0b1636d49fcdda7e1af9109f737ac2b7a88d5b"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__cstring",
+        "bytes": 103955,
+        "zeroFill": false,
+        "sha256": "5f69d8422f816afb21af2dc080abbcf979fef8c4b752dc7a36f1c35f1c49a824"
+      },
+      {
+        "segment": "__DATA_CONST",
+        "section": "__got",
+        "bytes": 128,
+        "zeroFill": false,
+        "sha256": "38723a2e5e8a17aa7950dc008209944e898f69a7bd10a23c839d341e935fd5ca"
+      },
+      {
+        "segment": "__DATA",
+        "section": "__la_symbol_ptr",
+        "bytes": 1728,
+        "zeroFill": false,
+        "sha256": "dc0d604e007106991fd05d2db22e3620bbd327d63a47536bd11b830e98f6c618"
+      },
+      {
+        "segment": "__DATA",
+        "section": "__data",
+        "bytes": 148936,
+        "zeroFill": false,
+        "sha256": "872457ae5e5e945014374c6eb01a2687535d81c3188c5d326c30998073c8986e"
+      },
+      {
+        "segment": "__DATA",
+        "section": "__bss",
+        "bytes": 56,
+        "zeroFill": true,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "segment": "__DATA",
+        "section": "__common",
+        "bytes": 12,
+        "zeroFill": true,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    ]
+  },
+  {
+    "source": "supplemental1",
+    "path": "sklearn/__check_build/_check_build.cpython-312-darwin.so",
+    "sourceSha256": "63b55d7ca53a563b2f93225d002b069c801b91ea3cca39126dc74c3403016095",
+    "sections": [
+      {
+        "segment": "__TEXT",
+        "section": "__text",
+        "bytes": 10912,
+        "zeroFill": false,
+        "sha256": "bd1e12bac7e4296a98e893a86c13026cf70ab403e8694a0e85c730d7312f238e"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__stubs",
+        "bytes": 804,
+        "zeroFill": false,
+        "sha256": "972091e0026b78ab9568eecf246ffd2c476402069ed3d27036659d135afb29a4"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__stub_helper",
+        "bytes": 828,
+        "zeroFill": false,
+        "sha256": "c5d897ae4de1e31b44d8c8373eb8235a5bad859cc18172ad1a3c2e5c9d332804"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__const",
+        "bytes": 248,
+        "zeroFill": false,
+        "sha256": "b49ebcefa4806b187b1445203c2bd8ea15526c1066cbd5703b3f8487ece4737c"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__cstring",
+        "bytes": 1838,
+        "zeroFill": false,
+        "sha256": "0c2fd8cf93150d776957ad72d54d653893c8810b25417b21e68b3c42f2e4e607"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__unwind_info",
+        "bytes": 216,
+        "zeroFill": false,
+        "sha256": "f61a9cf0ff8878cb70d785ef0930b371f5b40fdcc0406793dd24e4199efecb7a"
+      },
+      {
+        "segment": "__DATA_CONST",
+        "section": "__got",
+        "bytes": 112,
+        "zeroFill": false,
+        "sha256": "b5fdab78d8947eacc864bfeecb4d2100780e5afe1cd8efafb124887913ac49fa"
+      },
+      {
+        "segment": "__DATA",
+        "section": "__la_symbol_ptr",
+        "bytes": 536,
+        "zeroFill": false,
+        "sha256": "65f4d6b7157bfb685874843c37c868e8f7bcba4ab0cad2a6b9ccbdab5cecbcb6"
+      },
+      {
+        "segment": "__DATA",
+        "section": "__data",
+        "bytes": 1520,
+        "zeroFill": false,
+        "sha256": "0bf80f60c8ad1bd7785bf12830d770550279fd4065da0232151853d4c37114c7"
+      },
+      {
+        "segment": "__DATA",
+        "section": "__common",
+        "bytes": 4,
+        "zeroFill": true,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "segment": "__DATA",
+        "section": "__bss",
+        "bytes": 360,
+        "zeroFill": true,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    ]
+  },
+  {
+    "source": "supplemental1",
+    "path": "sklearn/_cyutility.cpython-312-darwin.so",
+    "sourceSha256": "781f49d2a1ae4564b1c53719993183af0a08f2e18c331678bcbc3c0d1dc0765b",
+    "sections": [
+      {
+        "segment": "__TEXT",
+        "section": "__text",
+        "bytes": 89956,
+        "zeroFill": false,
+        "sha256": "264e1a588afcd44066650bff31009847a5fe5ffeb8258d6de7347025f5f00360"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__stubs",
+        "bytes": 1716,
+        "zeroFill": false,
+        "sha256": "3e2c6fe14d79823055210491930b678801385d7738af027a80e455d0b7b65862"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__stub_helper",
+        "bytes": 1740,
+        "zeroFill": false,
+        "sha256": "084e1d61dfb4b9564c5e2749ea486485a0d8d4a84ece41c0b45a611cd632041e"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__const",
+        "bytes": 3072,
+        "zeroFill": false,
+        "sha256": "83e62c018f0819b9be20fb39a8901938e12e3eae7fe850043324807631cdbd83"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__cstring",
+        "bytes": 7662,
+        "zeroFill": false,
+        "sha256": "9428c03a84434939584d73dc9fa33604ff34704a687aa3f2afa4cb1d35c02bf3"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__unwind_info",
+        "bytes": 584,
+        "zeroFill": false,
+        "sha256": "1ac4d30b313dc4e054948cc052975a1fa6658453df127419437b5f2e923a3d09"
+      },
+      {
+        "segment": "__DATA_CONST",
+        "section": "__got",
+        "bytes": 280,
+        "zeroFill": false,
+        "sha256": "1f6c9de2e555d5d589e1149fed58f9cbcc101739df97d4a4d694a13f1242c5b9"
+      },
+      {
+        "segment": "__DATA_CONST",
+        "section": "__const",
+        "bytes": 544,
+        "zeroFill": false,
+        "sha256": "5a411eebe6a71382be49292fe9ea4734447d08352c43ae6b777f85f891fb3aa9"
+      },
+      {
+        "segment": "__DATA",
+        "section": "__la_symbol_ptr",
+        "bytes": 1144,
+        "zeroFill": false,
+        "sha256": "e6d3b4a8f4cd7c60b9d27cf2421f890b3650b0876a52ad3aff4c3a7c0a15244e"
+      },
+      {
+        "segment": "__DATA",
+        "section": "__data",
+        "bytes": 3128,
+        "zeroFill": false,
+        "sha256": "519d8a8d30e216a8f4f63699ebc3b4f171d6d81cbbd47da4f38e85c17993f4fb"
+      },
+      {
+        "segment": "__DATA",
+        "section": "__common",
+        "bytes": 4,
+        "zeroFill": true,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "segment": "__DATA",
+        "section": "__bss",
+        "bytes": 1680,
+        "zeroFill": true,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    ]
+  },
+  {
+    "source": "supplemental1",
+    "path": "sklearn/_isotonic.cpython-312-darwin.so",
+    "sourceSha256": "3b64c4f9532ed1a554a36a05349109bcee6bb6d514695792448ac18048abc06e",
+    "sections": [
+      {
+        "segment": "__TEXT",
+        "section": "__text",
+        "bytes": 61436,
+        "zeroFill": false,
+        "sha256": "11f1a02eafd2794a67263e02d0d15a3b4a59c8bf0568786b3c366676152c2498"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__stubs",
+        "bytes": 1332,
+        "zeroFill": false,
+        "sha256": "e6a639452d3a412e4b9d9dd0330dc0f8d59d075baeddab2b8d99189b4b81a3ba"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__stub_helper",
+        "bytes": 1356,
+        "zeroFill": false,
+        "sha256": "a16ad14111d164aed2d3532dd3a4cda7f3eba151a458725346c8c752a0c237af"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__const",
+        "bytes": 2573,
+        "zeroFill": false,
+        "sha256": "de93a1f2c3724792923da63a144a77b8db1ef5c57707bcb34bae36b59ece00b0"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__cstring",
+        "bytes": 3533,
+        "zeroFill": false,
+        "sha256": "0723b5e3482513d0f3d8aa39dce163015fe0c6733fa028e9ac776e1d2e821406"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__unwind_info",
+        "bytes": 352,
+        "zeroFill": false,
+        "sha256": "aedffae473b80e79125d8ca99ca5367d350b07cb695b9787358deda61b2ecaa1"
+      },
+      {
+        "segment": "__DATA_CONST",
+        "section": "__got",
+        "bytes": 200,
+        "zeroFill": false,
+        "sha256": "6d9c54dee5660c46886f32d80e57e9dd0ffa57ee0cd2a762b036d9c8e0c3a33a"
+      },
+      {
+        "segment": "__DATA_CONST",
+        "section": "__const",
+        "bytes": 896,
+        "zeroFill": false,
+        "sha256": "c1eabb29a2c144b0ce347658e1dc0bc2132cf4ec8f31e951d7f7169b6a73ccbe"
+      },
+      {
+        "segment": "__DATA",
+        "section": "__la_symbol_ptr",
+        "bytes": 888,
+        "zeroFill": false,
+        "sha256": "aea0d4537c1f5a1b45acaf8e54819eeb5fcf640eaa35815d5c41f5485084fcb5"
+      },
+      {
+        "segment": "__DATA",
+        "section": "__data",
+        "bytes": 2512,
+        "zeroFill": false,
+        "sha256": "9e15fa6b2a24026790bfc0fcc24c000ac05e79ee74a46654fee87c36ecb14335"
+      },
+      {
+        "segment": "__DATA",
+        "section": "__common",
+        "bytes": 4,
+        "zeroFill": true,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "segment": "__DATA",
+        "section": "__bss",
+        "bytes": 1352,
+        "zeroFill": true,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    ]
+  },
+  {
+    "source": "supplemental1",
+    "path": "sklearn/cluster/_dbscan_inner.cpython-312-darwin.so",
+    "sourceSha256": "ebde649505f7842c4a9c251d2d6c20e12fa608f4698f29c6d04a564dd6eb5276",
+    "sections": [
+      {
+        "segment": "__TEXT",
+        "section": "__text",
+        "bytes": 18116,
+        "zeroFill": false,
+        "sha256": "569c533c6306eeafba25bedc55b8075f697b3e20b5ba7e78b19b4ea99f316d24"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__stubs",
+        "bytes": 1056,
+        "zeroFill": false,
+        "sha256": "70d463f46ed123467e83144fbd0976db9b231bf7bd36f0fe1d0f9dc237354f67"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__stub_helper",
+        "bytes": 1056,
+        "zeroFill": false,
+        "sha256": "5063c2895677214b2f8f87ba3c9abbe4e13c9cb14ca8c272800a726eb44a583a"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__const",
+        "bytes": 1223,
+        "zeroFill": false,
+        "sha256": "28c539353a2c6229f44d510a511e1938bb39f1085a99d6ebab85d26a997dd947"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__gcc_except_tab",
+        "bytes": 352,
+        "zeroFill": false,
+        "sha256": "26f380c79b578e7a8ec3d356952eba9daf1b2d34a89f23428760be59c4b1712b"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__cstring",
+        "bytes": 2423,
+        "zeroFill": false,
+        "sha256": "a9cef638a528d691c7c7a042d0db36f4e9484db2ce711ea7b79c834a20de1309"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__unwind_info",
+        "bytes": 304,
+        "zeroFill": false,
+        "sha256": "c3c737743f108b2ee8d1f9097b7a0e61e8f611d72dcae66a135c59ea1ef0072a"
+      },
+      {
+        "segment": "__DATA_CONST",
+        "section": "__got",
+        "bytes": 312,
+        "zeroFill": false,
+        "sha256": "6287e17fe5efcb191aec8a2578e685d0a1040a0ab53bd1f02c7f49cc6c8fced7"
+      },
+      {
+        "segment": "__DATA_CONST",
+        "section": "__const",
+        "bytes": 640,
+        "zeroFill": false,
+        "sha256": "23a6d51f04cdbc5bab470a02a126efd06feee64066ec8d10a2113e905a7b4a9f"
+      },
+      {
+        "segment": "__DATA",
+        "section": "__la_symbol_ptr",
+        "bytes": 688,
+        "zeroFill": false,
+        "sha256": "4d1e31159f649df8c23fcfb296640a3b5eacbbe9a043f226dbfddb9c1e2f8dfd"
+      },
+      {
+        "segment": "__DATA",
+        "section": "__data",
+        "bytes": 1520,
+        "zeroFill": false,
+        "sha256": "037a97f2f9f2b6785c7489707c6770fae9370021c77228bd6da017288294a399"
+      },
+      {
+        "segment": "__DATA",
+        "section": "__common",
+        "bytes": 4,
+        "zeroFill": true,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "segment": "__DATA",
+        "section": "__bss",
+        "bytes": 784,
+        "zeroFill": true,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    ]
+  },
+  {
+    "source": "supplemental1",
+    "path": "sklearn/cluster/_hdbscan/_linkage.cpython-312-darwin.so",
+    "sourceSha256": "7c4a1a4d1a009a45ae46383bebc93dc4273556abef735ed6eca6c5b9b9d6d8e2",
+    "sections": [
+      {
+        "segment": "__TEXT",
+        "section": "__text",
+        "bytes": 49148,
+        "zeroFill": false,
+        "sha256": "b6cf8b85cef93b627ceef1904903d0f51ddb8114548370078a64e26489466010"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__stubs",
+        "bytes": 1188,
+        "zeroFill": false,
+        "sha256": "021647a3099cdfab4bcd47be5c021189126c5c1d4a1558ca5e22c2f7cb3b0915"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__stub_helper",
+        "bytes": 1212,
+        "zeroFill": false,
+        "sha256": "b9a5099c0aeb3a873d0af3319f0b967620daf001e3e7693e0f69477ae0dde17c"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__const",
+        "bytes": 4464,
+        "zeroFill": false,
+        "sha256": "afbf5973ff5d3b9ffa44f961fd66ddf3f6ee04333dc77673e43ff439ec5760bb"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__cstring",
+        "bytes": 5650,
+        "zeroFill": false,
+        "sha256": "8ed6b72c0485ccd6938cee8c481e188dda6ee81a486223d257efb6c057cac6c9"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__unwind_info",
+        "bytes": 360,
+        "zeroFill": false,
+        "sha256": "d5fe5bf61361cd1737dff10baa52b2ed94bb72b4ea22e5b97f5137796ded1c79"
+      },
+      {
+        "segment": "__DATA_CONST",
+        "section": "__got",
+        "bytes": 240,
+        "zeroFill": false,
+        "sha256": "2dfba633817046c7f559ed4b93076048435f7e1a90f14eb8035c04b9ebae2537"
+      },
+      {
+        "segment": "__DATA_CONST",
+        "section": "__const",
+        "bytes": 1496,
+        "zeroFill": false,
+        "sha256": "74f65016caf737f760cefd385676b1c12967816ae362d2a73ab1f048870bdf77"
+      },
+      {
+        "segment": "__DATA",
+        "section": "__la_symbol_ptr",
+        "bytes": 792,
+        "zeroFill": false,
+        "sha256": "b1d216a4795517f4b1f6fb092483c578295b73d75d8662c747e5bcafeadab240"
+      },
+      {
+        "segment": "__DATA",
+        "section": "__data",
+        "bytes": 1648,
+        "zeroFill": false,
+        "sha256": "663211780eee014747fda6b2b0c3366bc1ae9067778d7d6600794fb5dca04716"
+      },
+      {
+        "segment": "__DATA",
+        "section": "__common",
+        "bytes": 4,
+        "zeroFill": true,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "segment": "__DATA",
+        "section": "__bss",
+        "bytes": 1304,
+        "zeroFill": true,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    ]
+  },
+  {
+    "source": "supplemental1",
+    "path": "sklearn/cluster/_hdbscan/_reachability.cpython-312-darwin.so",
+    "sourceSha256": "f3b84602986e99f6e8feec934223329de7da4a5b938d6b513b9278ff3563b7a0",
+    "sections": [
+      {
+        "segment": "__TEXT",
+        "section": "__text",
+        "bytes": 109632,
+        "zeroFill": false,
+        "sha256": "4a19eb08bd5b1cb40103d9452d15492bfd189919eae39fb994c995d2b4c1d06b"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__stubs",
+        "bytes": 1440,
+        "zeroFill": false,
+        "sha256": "da28d2e50742fe4611276ce9d157f1a68641d147a1b83a09f6c773744d54f0be"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__stub_helper",
+        "bytes": 1464,
+        "zeroFill": false,
+        "sha256": "0e146eef70e080697758711e0bd450a0d5865f05102ab259395ebd8eccb360d0"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__const",
+        "bytes": 5744,
+        "zeroFill": false,
+        "sha256": "50cb0ee54e83b2722b69141331b4d18dd33c3e8bb559edcfb13510317c1c6885"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__cstring",
+        "bytes": 6575,
+        "zeroFill": false,
+        "sha256": "82463704feb041251c7d66ad7ffd35649c069137a00592bca2fe931984c5d3fa"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__unwind_info",
+        "bytes": 448,
+        "zeroFill": false,
+        "sha256": "004f97a5a75ec17107b60554c340876873e296456b4a3860fdd60763443dea67"
+      },
+      {
+        "segment": "__DATA_CONST",
+        "section": "__got",
+        "bytes": 264,
+        "zeroFill": false,
+        "sha256": "44b8aa4d28701168922acf61435ea4bb442f97b0b14ad7a2510ed68874ee2a72"
+      },
+      {
+        "segment": "__DATA_CONST",
+        "section": "__const",
+        "bytes": 904,
+        "zeroFill": false,
+        "sha256": "db46e15ddf821f5bb4710aa79f4115c9e834fcb0d204491ca8dd4d5e64d82f3d"
+      },
+      {
+        "segment": "__DATA",
+        "section": "__la_symbol_ptr",
+        "bytes": 960,
+        "zeroFill": false,
+        "sha256": "5ded88b0f73e0bd4458e6762545164d4145d8147fcaf0056bd39379c34806e08"
+      },
+      {
+        "segment": "__DATA",
+        "section": "__data",
+        "bytes": 2736,
+        "zeroFill": false,
+        "sha256": "497da2faa1b134ba8e8799d34007c8f5e1302a4f21b1cd07eadf1208b1d6058f"
+      },
+      {
+        "segment": "__DATA",
+        "section": "__common",
+        "bytes": 4,
+        "zeroFill": true,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "segment": "__DATA",
+        "section": "__bss",
+        "bytes": 1768,
+        "zeroFill": true,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    ]
+  },
+  {
+    "source": "supplemental1",
+    "path": "sklearn/cluster/_hdbscan/_tree.cpython-312-darwin.so",
+    "sourceSha256": "41f24a24f4397e9b2b1433a44a4c154639e514c2544d96c8e767ebfe56f0b49d",
+    "sections": [
+      {
+        "segment": "__TEXT",
+        "section": "__text",
+        "bytes": 130532,
+        "zeroFill": false,
+        "sha256": "3944e7813c00a95c46cda3c6ebafaee8b411d91862775a668c535f7e24ba323d"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__stubs",
+        "bytes": 1644,
+        "zeroFill": false,
+        "sha256": "579bd3f974ebb27a321ba3cc12f7bb2613829f91a3edb6bcf56ee16ea504d43c"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__stub_helper",
+        "bytes": 1668,
+        "zeroFill": false,
+        "sha256": "44d5e5653718f47d70672e0250eab8307f60c497514d0419a13aa3254572d8e5"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__const",
+        "bytes": 6400,
+        "zeroFill": false,
+        "sha256": "2525ccba7bce04081b4f59b006a3d3c8b05572645d4184bdbdc2170d1ddca7aa"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__cstring",
+        "bytes": 7518,
+        "zeroFill": false,
+        "sha256": "0bbffc204b0abcfe03166808e1b1cdd7a4ebe5216e81f97ddbda28ecad5fafef"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__unwind_info",
+        "bytes": 504,
+        "zeroFill": false,
+        "sha256": "d251f9c79699054b5b21855b46448e7a792a2348f53dc830e6d7c4b18569c9c6"
+      },
+      {
+        "segment": "__DATA_CONST",
+        "section": "__got",
+        "bytes": 296,
+        "zeroFill": false,
+        "sha256": "250f52cb2d6f1966a29f6ac771fa1cd185b8f8531396c8a4026c0fe635617e0c"
+      },
+      {
+        "segment": "__DATA_CONST",
+        "section": "__const",
+        "bytes": 1456,
+        "zeroFill": false,
+        "sha256": "63575ff0001e24dd41039e03e297f214365ef8b979c06d864fee588bef313f0a"
+      },
+      {
+        "segment": "__DATA",
+        "section": "__la_symbol_ptr",
+        "bytes": 1096,
+        "zeroFill": false,
+        "sha256": "5a3fcc5581d15c8489f4b8030dbf2b1c96e8b74875cd54ab9fe3b6f4af0cf6eb"
+      },
+      {
+        "segment": "__DATA",
+        "section": "__data",
+        "bytes": 2384,
+        "zeroFill": false,
+        "sha256": "f6604154a18de307409229e24829b32ef931894b94a272abc74da581152ef616"
+      },
+      {
+        "segment": "__DATA",
+        "section": "__common",
+        "bytes": 4,
+        "zeroFill": true,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "segment": "__DATA",
+        "section": "__bss",
+        "bytes": 1976,
+        "zeroFill": true,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    ]
+  },
+  {
+    "source": "supplemental1",
+    "path": "sklearn/cluster/_hierarchical_fast.cpython-312-darwin.so",
+    "sourceSha256": "c5db091b2b1e3c13bd3df2326850b2ef7b64730dbc4b1f576797ba0e42babd50",
+    "sections": [
+      {
+        "segment": "__TEXT",
+        "section": "__text",
+        "bytes": 78480,
+        "zeroFill": false,
+        "sha256": "d1ba00856b576366be659354878846861ee06591b3e6f294ebb1ee2a7a5f6171"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__stubs",
+        "bytes": 1476,
+        "zeroFill": false,
+        "sha256": "5edd0af7520d019c86bce2e33b2ead1482cded0066ba26b229ec05da66713fcd"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__stub_helper",
+        "bytes": 1488,
+        "zeroFill": false,
+        "sha256": "f79d677285e31628ca824e2c499a12e5c4e607c7e23711fc7ebc76db3ad9de83"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__const",
+        "bytes": 8585,
+        "zeroFill": false,
+        "sha256": "e68cf8a6cddee52dbb13004efaf7a68b564cb59b4ee21cb6223e175520be51e5"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__cstring",
+        "bytes": 5621,
+        "zeroFill": false,
+        "sha256": "296fc6bba940ec388e80b04c288ce80a778d54af8fbf625d89b570f930468b8e"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__unwind_info",
+        "bytes": 464,
+        "zeroFill": false,
+        "sha256": "72cf7bd98f136d371fb5a95647bccb0ccd5628af98323a076027d494f79b3e8c"
+      },
+      {
+        "segment": "__DATA_CONST",
+        "section": "__got",
+        "bytes": 256,
+        "zeroFill": false,
+        "sha256": "5341e6b2646979a70e57653007a1f310169421ec9bdd9f1a5648f75ade005af1"
+      },
+      {
+        "segment": "__DATA_CONST",
+        "section": "__const",
+        "bytes": 1056,
+        "zeroFill": false,
+        "sha256": "e8cc19d4f1c0d21351aeec7dbe6770f39e6a430fdc1ca62be43df2b34a8b245b"
+      },
+      {
+        "segment": "__DATA",
+        "section": "__la_symbol_ptr",
+        "bytes": 976,
+        "zeroFill": false,
+        "sha256": "0239988e5aa99e4396eed0da72053d4be9dec4316d82050a7d15c4fe182fe176"
+      },
+      {
+        "segment": "__DATA",
+        "section": "__data",
+        "bytes": 3216,
+        "zeroFill": false,
+        "sha256": "129cc2ddaf259f77531dd7d77decb3e49bf0a9c566fcb245e1b7ff11653a145e"
+      },
+      {
+        "segment": "__DATA",
+        "section": "__common",
+        "bytes": 4,
+        "zeroFill": true,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "segment": "__DATA",
+        "section": "__bss",
+        "bytes": 2312,
+        "zeroFill": true,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    ]
+  },
+  {
+    "source": "supplemental1",
+    "path": "sklearn/datasets/_svmlight_format_fast.cpython-312-darwin.so",
+    "sourceSha256": "485e668a3207cc24d88f4ec4664913437878e05d31f06464f6e8c2a445040bb0",
+    "sections": [
+      {
+        "segment": "__TEXT",
+        "section": "__text",
+        "bytes": 248708,
+        "zeroFill": false,
+        "sha256": "59d36e46ba10f5aada51dbfe76eb1daa99a421568dc8e3eed23fb00a8baeaaac"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__stubs",
+        "bytes": 1752,
+        "zeroFill": false,
+        "sha256": "922e9e6b39308dd5c798bab7c6437ba2b72b2362916c844f2af7a19d7ee5f81a"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__stub_helper",
+        "bytes": 1776,
+        "zeroFill": false,
+        "sha256": "2ca5c13180e16c19f3f37623c9f3c8601103f1aba5a0f0cff15b19aa1d1a451b"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__const",
+        "bytes": 4080,
+        "zeroFill": false,
+        "sha256": "3482dbffe0ed9d1b412e4d60e9ec6426fd34b9eff45cd3c84f648b76fed41e6f"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__cstring",
+        "bytes": 7289,
+        "zeroFill": false,
+        "sha256": "d5b54574c8915d1fec51ecc10f0dbfe518a0fdc535964af22f4e7f22e7096c1b"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__unwind_info",
+        "bytes": 728,
+        "zeroFill": false,
+        "sha256": "23f417c70a0b7d9870567658f7d8a916a65f7197ee3ac3e4cdbebf1a1d2967f2"
+      },
+      {
+        "segment": "__DATA_CONST",
+        "section": "__got",
+        "bytes": 304,
+        "zeroFill": false,
+        "sha256": "e2fc162ed9124452d23c85e81d60a0c228f414c3214a5de635737e25fbd29ac1"
+      },
+      {
+        "segment": "__DATA_CONST",
+        "section": "__const",
+        "bytes": 1816,
+        "zeroFill": false,
+        "sha256": "62682b012c4df27a8f21a037cca7de196dd2d692695d8b3617bb260147630fbc"
+      },
+      {
+        "segment": "__DATA",
+        "section": "__la_symbol_ptr",
+        "bytes": 1168,
+        "zeroFill": false,
+        "sha256": "bcfb9381014ff8e8e56f0e009dd55401bb8d8279a88a6e24964adabbab3b5825"
+      },
+      {
+        "segment": "__DATA",
+        "section": "__data",
+        "bytes": 8936,
+        "zeroFill": false,
+        "sha256": "4765394885a4e695f3e47992608523c81d9173bf3239f854c4f83174cb13b3ba"
+      },
+      {
+        "segment": "__DATA",
+        "section": "__common",
+        "bytes": 4,
+        "zeroFill": true,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "segment": "__DATA",
+        "section": "__bss",
+        "bytes": 3680,
+        "zeroFill": true,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    ]
+  },
+  {
+    "source": "supplemental1",
+    "path": "sklearn/decomposition/_cdnmf_fast.cpython-312-darwin.so",
+    "sourceSha256": "06398159eb12626453578de36a4dc6292f7b99743b185030d79d6f73462e794d",
+    "sections": [
+      {
+        "segment": "__TEXT",
+        "section": "__text",
+        "bytes": 30396,
+        "zeroFill": false,
+        "sha256": "f943447a40be9a6ef8b62d1982ba88cac9ab76a50fff5fe9ec4f44de0edcb429"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__stubs",
+        "bytes": 1224,
+        "zeroFill": false,
+        "sha256": "d1595ef059a6718eefacbc2fa9fae0abca4a31a6f3196e4f49472fd57d90416c"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__stub_helper",
+        "bytes": 1248,
+        "zeroFill": false,
+        "sha256": "8ca4430c1f1dc25973ef3d4e1384949d00705595051586324e9e74901b1e797c"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__const",
+        "bytes": 1837,
+        "zeroFill": false,
+        "sha256": "3dd83f803d0ef9323f181a6d10d1ad6b8a7daf51531ecba013e2fb247b1433b1"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__cstring",
+        "bytes": 3342,
+        "zeroFill": false,
+        "sha256": "1a150b2c461451d3474d0980ae916cb24f539524a97771bbe9befc22f586a9c7"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__unwind_info",
+        "bytes": 320,
+        "zeroFill": false,
+        "sha256": "f16dec185008a9653fa217cd7d8280362940c7672360deaf0be72b21583e5e16"
+      },
+      {
+        "segment": "__DATA_CONST",
+        "section": "__got",
+        "bytes": 176,
+        "zeroFill": false,
+        "sha256": "86d2cf5b090f43ee54d8f7c1dcf746a853951191457ff6dac96269a9d24860b9"
+      },
+      {
+        "segment": "__DATA_CONST",
+        "section": "__const",
+        "bytes": 632,
+        "zeroFill": false,
+        "sha256": "e7b69cc22901f9da8fd9403e85e21324bf43140d84314dcd94c600b3d69dce15"
+      },
+      {
+        "segment": "__DATA",
+        "section": "__la_symbol_ptr",
+        "bytes": 816,
+        "zeroFill": false,
+        "sha256": "a8fcf48eded34a7c732c778b1c5ea8e0baffbd0f8bb14696c71734070834d139"
+      },
+      {
+        "segment": "__DATA",
+        "section": "__data",
+        "bytes": 2416,
+        "zeroFill": false,
+        "sha256": "93301fc1d33a2b2bec241ffda6f73e124af9944cdba5ab9c7c36d19f94f4da6a"
+      },
+      {
+        "segment": "__DATA",
+        "section": "__common",
+        "bytes": 4,
+        "zeroFill": true,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "segment": "__DATA",
+        "section": "__bss",
+        "bytes": 1136,
+        "zeroFill": true,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    ]
+  },
+  {
+    "source": "supplemental1",
+    "path": "sklearn/decomposition/_online_lda_fast.cpython-312-darwin.so",
+    "sourceSha256": "0c3e49a7f52f98a39f92958d083e540908a2987b64cb7af511f1c6e09b0a12d7",
+    "sections": [
+      {
+        "segment": "__TEXT",
+        "section": "__text",
+        "bytes": 53792,
+        "zeroFill": false,
+        "sha256": "4d568b8a5945cd70147edd37ba937e78688296507a91d725e3084d23d7f1b7c8"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__stubs",
+        "bytes": 1272,
+        "zeroFill": false,
+        "sha256": "f246b1f177eb4e3c5b75bf65e845dac6476ff63487cd15871c8f1a25f4da3e89"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__stub_helper",
+        "bytes": 1296,
+        "zeroFill": false,
+        "sha256": "3210669ebef4ffd65a42e8f9f4bfa02294addc6300c1fceedc283c17625a0dcc"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__const",
+        "bytes": 2670,
+        "zeroFill": false,
+        "sha256": "e379bca57e456da716b86e72e3832b17468306b817822d64abdede14542c1da0"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__cstring",
+        "bytes": 3853,
+        "zeroFill": false,
+        "sha256": "c545d70930284daa29093f2511179ad6c2e85b7fa87008f11a7a1524d3a4185a"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__unwind_info",
+        "bytes": 368,
+        "zeroFill": false,
+        "sha256": "514e8921d70dc5bc2f62f220c25d53f28021f1e63af3450709445a46161a73ce"
+      },
+      {
+        "segment": "__DATA_CONST",
+        "section": "__got",
+        "bytes": 200,
+        "zeroFill": false,
+        "sha256": "6d9c54dee5660c46886f32d80e57e9dd0ffa57ee0cd2a762b036d9c8e0c3a33a"
+      },
+      {
+        "segment": "__DATA_CONST",
+        "section": "__const",
+        "bytes": 808,
+        "zeroFill": false,
+        "sha256": "f7ab0c92d9894902b9f462a933cd5f98e63c64360bac2d3f60fd80d74b1fed4d"
+      },
+      {
+        "segment": "__DATA",
+        "section": "__la_symbol_ptr",
+        "bytes": 848,
+        "zeroFill": false,
+        "sha256": "205ac452a220a3d90f47730fac238b6acdddd1f963e147dbee70ad663fe87ce4"
+      },
+      {
+        "segment": "__DATA",
+        "section": "__data",
+        "bytes": 2608,
+        "zeroFill": false,
+        "sha256": "3f44bb1dbbeceb84265372d62d098eb1aadbdab962b662df2939661bc13acad0"
+      },
+      {
+        "segment": "__DATA",
+        "section": "__common",
+        "bytes": 4,
+        "zeroFill": true,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "segment": "__DATA",
+        "section": "__bss",
+        "bytes": 1304,
+        "zeroFill": true,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    ]
+  },
+  {
+    "source": "supplemental1",
+    "path": "sklearn/ensemble/_gradient_boosting.cpython-312-darwin.so",
+    "sourceSha256": "4bf36ed2b4b1602a9d4650ead9ec7c146374eb2b2340e7a38445a4bc774f211d",
+    "sections": [
+      {
+        "segment": "__TEXT",
+        "section": "__text",
+        "bytes": 38908,
+        "zeroFill": false,
+        "sha256": "4595042a2c096a62a5da850fd4c4a337dda82d6e1acdb477e66d41553ebe1105"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__stubs",
+        "bytes": 1236,
+        "zeroFill": false,
+        "sha256": "b1df7492a0af6924be2e9195b5ffb8e66b96eb9f2bbeac36b37da0dce6cdea74"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__stub_helper",
+        "bytes": 1260,
+        "zeroFill": false,
+        "sha256": "175c2443a22427a1580145effb70f23f7163ce8ad70b3a34d55f80cf151a3924"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__const",
+        "bytes": 3458,
+        "zeroFill": false,
+        "sha256": "b40b1d8056e261ae04a59469029181ae663526e527c23ca68186d3e73bc18ebb"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__cstring",
+        "bytes": 3624,
+        "zeroFill": false,
+        "sha256": "49baddfb661258d0ab9abc8d844c43d2cc86a4e3270d6a345b0cba927fafe74f"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__unwind_info",
+        "bytes": 328,
+        "zeroFill": false,
+        "sha256": "44caa2768465be8efabdf85fce159e53b20924116954a9188a4b06f2bed0f090"
+      },
+      {
+        "segment": "__DATA_CONST",
+        "section": "__got",
+        "bytes": 224,
+        "zeroFill": false,
+        "sha256": "6eb69e26de2a26eda48af77d4cec893aa0cf4748a64cbefcfe11a22c1e680ad9"
+      },
+      {
+        "segment": "__DATA_CONST",
+        "section": "__const",
+        "bytes": 936,
+        "zeroFill": false,
+        "sha256": "a211c1e7873ced8f627fba52ef557361634c6f4d19a7f39bc485fe5a73b93c6b"
+      },
+      {
+        "segment": "__DATA",
+        "section": "__la_symbol_ptr",
+        "bytes": 824,
+        "zeroFill": false,
+        "sha256": "e3a44fe7f6c41648af40faa86f235bf4cf4b2a3d6cfa5e44833a2e18acb727ee"
+      },
+      {
+        "segment": "__DATA",
+        "section": "__data",
+        "bytes": 1616,
+        "zeroFill": false,
+        "sha256": "8caa92566a164a0487a4006b93f69a9d9affb8884907763dc7a3cffc57f3ebb9"
+      },
+      {
+        "segment": "__DATA",
+        "section": "__common",
+        "bytes": 4,
+        "zeroFill": true,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "segment": "__DATA",
+        "section": "__bss",
+        "bytes": 1600,
+        "zeroFill": true,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    ]
+  },
+  {
+    "source": "supplemental1",
+    "path": "sklearn/ensemble/_hist_gradient_boosting/common.cpython-312-darwin.so",
+    "sourceSha256": "53a6f8db0308b4fb309f1831c158c16a5d36b4edd027b946b2e0789352261fb8",
+    "sections": [
+      {
+        "segment": "__TEXT",
+        "section": "__text",
+        "bytes": 15924,
+        "zeroFill": false,
+        "sha256": "0596243c36babc8f0a01791f1e796af646b1af0fb5269b412108cc3ecaddda78"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__stubs",
+        "bytes": 768,
+        "zeroFill": false,
+        "sha256": "ab52340e0894940cb885f07f099855920113b3b7cd86bd13991cebd394e7495f"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__stub_helper",
+        "bytes": 792,
+        "zeroFill": false,
+        "sha256": "61c08e3887cc52004906dba7bd852b69e7e3d733ba6d8f898f2c958fdf0d4ea3"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__const",
+        "bytes": 1075,
+        "zeroFill": false,
+        "sha256": "5dc7c332eff3fc6c9aa5ee14b3bbc50f0b5727581ee2330e69a7f90ac07e8d19"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__cstring",
+        "bytes": 1237,
+        "zeroFill": false,
+        "sha256": "32bbce7670a0c63bf7c72bc03162502565d6ecc496d7a2d30c1aba6f0ea796cc"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__unwind_info",
+        "bytes": 144,
+        "zeroFill": false,
+        "sha256": "f8c3be37ff2c1308ca392a4c95a0aebe085da5afb98c0da5733a8bb0232381c7"
+      },
+      {
+        "segment": "__DATA_CONST",
+        "section": "__got",
+        "bytes": 120,
+        "zeroFill": false,
+        "sha256": "6edd9f6f9cc92cded36e6c4a580933f9c9f1b90562b46903b806f21902a1a54f"
+      },
+      {
+        "segment": "__DATA_CONST",
+        "section": "__const",
+        "bytes": 272,
+        "zeroFill": false,
+        "sha256": "167b61def6b4a2cb5a401d776d02b6c9a095a2de393350e94dc498c54ee73c7a"
+      },
+      {
+        "segment": "__DATA",
+        "section": "__la_symbol_ptr",
+        "bytes": 512,
+        "zeroFill": false,
+        "sha256": "2ce3440fe978ce91ff1ad3a5dd651e37f44aa818ec37b28d170a2a19bbb427cd"
+      },
+      {
+        "segment": "__DATA",
+        "section": "__data",
+        "bytes": 168,
+        "zeroFill": false,
+        "sha256": "71bd0ad5a567df6298afd704aa499e9ca9bb5407aeb66da49a82b8a7c48f668f"
+      },
+      {
+        "segment": "__DATA",
+        "section": "__common",
+        "bytes": 4,
+        "zeroFill": true,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "segment": "__DATA",
+        "section": "__bss",
+        "bytes": 880,
+        "zeroFill": true,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    ]
+  },
+  {
+    "source": "supplemental1",
+    "path": "sklearn/feature_extraction/_hashing_fast.cpython-312-darwin.so",
+    "sourceSha256": "ee8a4e36c3e1968ab66441cb34101d39680e2e136e7c59efef61b80916166565",
+    "sections": [
+      {
+        "segment": "__TEXT",
+        "section": "__text",
+        "bytes": 33152,
+        "zeroFill": false,
+        "sha256": "c52386dd03abfe4c24679e2156b7a54fe61b3f1568628085ba67562548966c83"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__stubs",
+        "bytes": 1356,
+        "zeroFill": false,
+        "sha256": "9c28676b7be00876d270f4ce937c830e9121bde7d1a697ff3f33359ce0c8fd62"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__stub_helper",
+        "bytes": 1356,
+        "zeroFill": false,
+        "sha256": "23b19ded48cac6d49939dcd02b304d44c3f0f99e2554701d325ab1a40380d70a"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__const",
+        "bytes": 1499,
+        "zeroFill": false,
+        "sha256": "4716212ee7c6474b6e75cd38b9fdbcbb1558056c18b4cbd60ed900c0fdc27802"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__gcc_except_tab",
+        "bytes": 736,
+        "zeroFill": false,
+        "sha256": "418ecb9db892900f4ff687bf2affa289c78e411a6b00b03e80c3cadefe0e96f8"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__cstring",
+        "bytes": 4082,
+        "zeroFill": false,
+        "sha256": "7ca14b864b52086756a4c5385599c960520170fc36b7b5f89f25271d9a195895"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__unwind_info",
+        "bytes": 352,
+        "zeroFill": false,
+        "sha256": "3dedfe4b923da2ea2a4fd46c229ea6d4e5cb477079eb9de7d6c68fcaa1473fc2"
+      },
+      {
+        "segment": "__DATA_CONST",
+        "section": "__got",
+        "bytes": 432,
+        "zeroFill": false,
+        "sha256": "1fe2373734955e60c172999142934b52e69ba7ab9039b3c18ea54082ba32afcd"
+      },
+      {
+        "segment": "__DATA_CONST",
+        "section": "__const",
+        "bytes": 112,
+        "zeroFill": false,
+        "sha256": "beeb7fc4e51ba095d7e8649bd46e260b3e7f7cffa7cfe719e5983c57a8fd9ec8"
+      },
+      {
+        "segment": "__DATA",
+        "section": "__la_symbol_ptr",
+        "bytes": 888,
+        "zeroFill": false,
+        "sha256": "f4c1ed7a0307e2bf36aeb449af329a743a5b73f91c05595ff1f952b7545f2db5"
+      },
+      {
+        "segment": "__DATA",
+        "section": "__data",
+        "bytes": 1520,
+        "zeroFill": false,
+        "sha256": "58791178663651608947eb1a92445436e3b47928fe92d4f9312cf85af734d396"
+      },
+      {
+        "segment": "__DATA",
+        "section": "__common",
+        "bytes": 4,
+        "zeroFill": true,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "segment": "__DATA",
+        "section": "__bss",
+        "bytes": 872,
+        "zeroFill": true,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    ]
+  },
+  {
+    "source": "supplemental1",
+    "path": "sklearn/linear_model/_cd_fast.cpython-312-darwin.so",
+    "sourceSha256": "c5d97a9850b0ec272c2d4820271ae6dab5c4acee304381eb941942c132eff1a2",
+    "sections": [
+      {
+        "segment": "__TEXT",
+        "section": "__text",
+        "bytes": 267008,
+        "zeroFill": false,
+        "sha256": "66820a39caa9170bd2372bbcb3712690cf775871a708866741a3feb4a3444be5"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__stubs",
+        "bytes": 1440,
+        "zeroFill": false,
+        "sha256": "fb35722f8d123312c738c5a92ece9bc5dc43c2c0f7da7b7817f75ea52d278ead"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__stub_helper",
+        "bytes": 1464,
+        "zeroFill": false,
+        "sha256": "61fe7a02686aa2193526a9f5c8f4ca37f6e3f459cb067c6725da49da6d80242e"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__const",
+        "bytes": 10855,
+        "zeroFill": false,
+        "sha256": "2ec5199a0cdf7ac1b356ab5242e3c13010089973e10273fb91e0a4a6a8a7d437"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__cstring",
+        "bytes": 4454,
+        "zeroFill": false,
+        "sha256": "664e9b63e93635453feb34d574ec08350e96d7b345f9bc44dac8ca9697e45dab"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__unwind_info",
+        "bytes": 512,
+        "zeroFill": false,
+        "sha256": "6034e2293d6447750ca8a6e2315a21bf225d843a1fa7f7079cad99aad1740f3a"
+      },
+      {
+        "segment": "__DATA_CONST",
+        "section": "__got",
+        "bytes": 224,
+        "zeroFill": false,
+        "sha256": "6eb69e26de2a26eda48af77d4cec893aa0cf4748a64cbefcfe11a22c1e680ad9"
+      },
+      {
+        "segment": "__DATA_CONST",
+        "section": "__const",
+        "bytes": 1648,
+        "zeroFill": false,
+        "sha256": "6d1863b58097cd8dd5d1a4e039ff9d1553c41ec4725c5912b4a2fc9167232a21"
+      },
+      {
+        "segment": "__DATA",
+        "section": "__la_symbol_ptr",
+        "bytes": 960,
+        "zeroFill": false,
+        "sha256": "dbb36936f20b9a40aa828b4f1c68cbebeb77efab1f31b4b9f02b78bbc968a687"
+      },
+      {
+        "segment": "__DATA",
+        "section": "__data",
+        "bytes": 2704,
+        "zeroFill": false,
+        "sha256": "62b4deb383b66dc1a9a64c38dfec4509c4b484a61df6aff28c913f1a5eed4db4"
+      },
+      {
+        "segment": "__DATA",
+        "section": "__common",
+        "bytes": 4,
+        "zeroFill": true,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "segment": "__DATA",
+        "section": "__bss",
+        "bytes": 2192,
+        "zeroFill": true,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    ]
+  },
+  {
+    "source": "supplemental1",
+    "path": "sklearn/linear_model/_sag_fast.cpython-312-darwin.so",
+    "sourceSha256": "9f13e39226b9096c037b44cc7439405a1f66922149bc841c31695e6ca0ed6add",
+    "sections": [
+      {
+        "segment": "__TEXT",
+        "section": "__text",
+        "bytes": 64080,
+        "zeroFill": false,
+        "sha256": "22588b5bb594c4bccc0b17562f02c648e9397b0618eb2d6e604fc29f6f4e6ae0"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__stubs",
+        "bytes": 1200,
+        "zeroFill": false,
+        "sha256": "45bcb8aea68d624cfd849a7726c186d99d8e03ceca09d9db9c08730ca0c65092"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__stub_helper",
+        "bytes": 1224,
+        "zeroFill": false,
+        "sha256": "3a4c75bfe6defad6abfb0c735feb8c1311d179b12c835c70b094a1b5c9cc92bc"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__const",
+        "bytes": 7300,
+        "zeroFill": false,
+        "sha256": "8b2a8e913b0549322a780c83aec62263367524979b8dd43c086923f5ae3b8666"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__cstring",
+        "bytes": 3215,
+        "zeroFill": false,
+        "sha256": "d901d602022480d6609c9d0e1f16d428e6083c19bfb4a951461052c4c1726731"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__unwind_info",
+        "bytes": 328,
+        "zeroFill": false,
+        "sha256": "ec664e8587fd437c22573ff583b1cb4e1a94970f81253c4dd034c8a45aea747d"
+      },
+      {
+        "segment": "__DATA_CONST",
+        "section": "__got",
+        "bytes": 208,
+        "zeroFill": false,
+        "sha256": "46f531b7ea0428fbf2c3ca2b60e8dc33d6bbfa000e0fd1b489c5e39140a47006"
+      },
+      {
+        "segment": "__DATA_CONST",
+        "section": "__const",
+        "bytes": 920,
+        "zeroFill": false,
+        "sha256": "1a99bf48b5e67512fb77a6d1340035e58e1320791a0d788fb58fd4f66de6198d"
+      },
+      {
+        "segment": "__DATA",
+        "section": "__la_symbol_ptr",
+        "bytes": 800,
+        "zeroFill": false,
+        "sha256": "b59f9d25c7e66012542e84534421f2ab762db8130f97ff45a9f2073a110142ec"
+      },
+      {
+        "segment": "__DATA",
+        "section": "__data",
+        "bytes": 1552,
+        "zeroFill": false,
+        "sha256": "626db08dbed0327482228a88f659b1b734d6b53cbfbc5992e0b89e51d5ca9905"
+      },
+      {
+        "segment": "__DATA",
+        "section": "__common",
+        "bytes": 4,
+        "zeroFill": true,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "segment": "__DATA",
+        "section": "__bss",
+        "bytes": 1712,
+        "zeroFill": true,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    ]
+  },
+  {
+    "source": "supplemental1",
+    "path": "sklearn/linear_model/_sgd_fast.cpython-312-darwin.so",
+    "sourceSha256": "b93bc30e59bf2ac4909e196800cc2c36f90e3ef139ffcbd123bae461b41f6d68",
+    "sections": [
+      {
+        "segment": "__TEXT",
+        "section": "__text",
+        "bytes": 97312,
+        "zeroFill": false,
+        "sha256": "47e1a3bbe1a1374b013453dd5fd51565cfeb3f61c2737694d020aa7d2cebe41d"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__stubs",
+        "bytes": 1500,
+        "zeroFill": false,
+        "sha256": "32ba2fc5e7b39d7e8c2c1e617cdc17b16589efb6824c7a59ccd35fef95a46f0e"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__stub_helper",
+        "bytes": 1524,
+        "zeroFill": false,
+        "sha256": "a7fa8f2f97792c1e4fd2d3ea34b5049b6b3275cc946bbf7068f3ec6d70b30347"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__const",
+        "bytes": 13150,
+        "zeroFill": false,
+        "sha256": "2cf92bb15d5af37c880fa59bace141a57b98d822219c382e481a788af20407b5"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__cstring",
+        "bytes": 6617,
+        "zeroFill": false,
+        "sha256": "8c29e6c98d059aa39da629ce02a83a44566f8a5a6d96331ad3c72be57406c884"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__unwind_info",
+        "bytes": 472,
+        "zeroFill": false,
+        "sha256": "d0c0834e53e1b64e7f67b7e252df229d9a13e7206dc93d6a9d9936087d968735"
+      },
+      {
+        "segment": "__DATA_CONST",
+        "section": "__got",
+        "bytes": 224,
+        "zeroFill": false,
+        "sha256": "6eb69e26de2a26eda48af77d4cec893aa0cf4748a64cbefcfe11a22c1e680ad9"
+      },
+      {
+        "segment": "__DATA_CONST",
+        "section": "__const",
+        "bytes": 1192,
+        "zeroFill": false,
+        "sha256": "58051ec6b79f803c7a4a40613ae6247f91ef1a9afc4affaef23a29e54caf0163"
+      },
+      {
+        "segment": "__DATA",
+        "section": "__la_symbol_ptr",
+        "bytes": 1000,
+        "zeroFill": false,
+        "sha256": "538d51342b21621af347f443edd5c56c60f290d7c2f529e9dbf339c001a0bc46"
+      },
+      {
+        "segment": "__DATA",
+        "section": "__data",
+        "bytes": 5584,
+        "zeroFill": false,
+        "sha256": "e42894282e0a3be5b12aa6d252b956cc3adcd8dc7a782fd3c72990cdc1699c93"
+      },
+      {
+        "segment": "__DATA",
+        "section": "__common",
+        "bytes": 4,
+        "zeroFill": true,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "segment": "__DATA",
+        "section": "__bss",
+        "bytes": 2848,
+        "zeroFill": true,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    ]
+  },
+  {
+    "source": "supplemental1",
+    "path": "sklearn/manifold/_utils.cpython-312-darwin.so",
+    "sourceSha256": "48c97110bf240f1b49875fd23a593f1dd68fb5190fc818cea4384678a84f803f",
+    "sections": [
+      {
+        "segment": "__TEXT",
+        "section": "__text",
+        "bytes": 23560,
+        "zeroFill": false,
+        "sha256": "333bbf78f1f9b45ee0228fa89830337045cc19b8103bcde366e536f143553864"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__stubs",
+        "bytes": 1140,
+        "zeroFill": false,
+        "sha256": "8002f24fcdf8fe3f11f1078d7b9dc6f535da8daa82260f0ba1d32dd0827b73b8"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__stub_helper",
+        "bytes": 1164,
+        "zeroFill": false,
+        "sha256": "28cbb085cb255e29d2c7f939ade63d638fa8863da8404ea1892a1767df01f97f"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__const",
+        "bytes": 2806,
+        "zeroFill": false,
+        "sha256": "feb69de9643299572774f32e303d6f0e5bfd6429e465d99dfa93ae83f068d164"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__cstring",
+        "bytes": 2740,
+        "zeroFill": false,
+        "sha256": "3a7b4fcb10f314a66b289e0ef00104b4b793f40c03a9d2c8369483feb33a6f5e"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__unwind_info",
+        "bytes": 288,
+        "zeroFill": false,
+        "sha256": "03b51c2f0442442ee4c2f6d27e3de66215118d706b737369a7ee65c24ee05bbc"
+      },
+      {
+        "segment": "__DATA_CONST",
+        "section": "__got",
+        "bytes": 200,
+        "zeroFill": false,
+        "sha256": "6d9c54dee5660c46886f32d80e57e9dd0ffa57ee0cd2a762b036d9c8e0c3a33a"
+      },
+      {
+        "segment": "__DATA_CONST",
+        "section": "__const",
+        "bytes": 552,
+        "zeroFill": false,
+        "sha256": "9d3e9765f895355c8de35bce71f7ba247b6856716739b04819a7354d85d9c4d9"
+      },
+      {
+        "segment": "__DATA",
+        "section": "__la_symbol_ptr",
+        "bytes": 760,
+        "zeroFill": false,
+        "sha256": "77c95280f34961b5ef644a73a0a31d1f21dc043247410b8f2bbe4e886a7cee35"
+      },
+      {
+        "segment": "__DATA",
+        "section": "__data",
+        "bytes": 1520,
+        "zeroFill": false,
+        "sha256": "f913ea6f3b6ff9248720e77ae5aefdc70d5c9c886da52d94d59dfa5301b64024"
+      },
+      {
+        "segment": "__DATA",
+        "section": "__common",
+        "bytes": 4,
+        "zeroFill": true,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "segment": "__DATA",
+        "section": "__bss",
+        "bytes": 1000,
+        "zeroFill": true,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    ]
+  },
+  {
+    "source": "supplemental1",
+    "path": "sklearn/metrics/_dist_metrics.cpython-312-darwin.so",
+    "sourceSha256": "2028b4a701b20fbffa8d7439fe076e65b903544a8386486b6c0df37cf4cd6369",
+    "sections": [
+      {
+        "segment": "__TEXT",
+        "section": "__text",
+        "bytes": 309256,
+        "zeroFill": false,
+        "sha256": "5c32472d5091cf2419e694689b88a6828c628f30f44c5ad368b9b5fd5b80ab6f"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__stubs",
+        "bytes": 1680,
+        "zeroFill": false,
+        "sha256": "93161382e01850d19b4847c241438f1b52a3873103a3b0ac77cdb1e885e5444d"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__stub_helper",
+        "bytes": 1704,
+        "zeroFill": false,
+        "sha256": "865605613af4a5a1becf5897e0a09b8e51fcb3338710b1672158b22ac2459562"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__const",
+        "bytes": 11390,
+        "zeroFill": false,
+        "sha256": "228e705e5b3d9881dd457a0baa59d5828b63649a35140b888a1ee3ba0d2e1ebd"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__cstring",
+        "bytes": 29485,
+        "zeroFill": false,
+        "sha256": "be12fb101635f601dda39e7db9b5490b6fd0bfb20071806c321c91b4de0ae806"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__unwind_info",
+        "bytes": 1040,
+        "zeroFill": false,
+        "sha256": "0f2e555741e970a2c4a0d083347bb1119505d42fdaf0e95df2220cb847f8ab71"
+      },
+      {
+        "segment": "__DATA_CONST",
+        "section": "__got",
+        "bytes": 272,
+        "zeroFill": false,
+        "sha256": "e4d879a3407de578f579dfab4366fcea75a6649c683d9efe4f056f6505437574"
+      },
+      {
+        "segment": "__DATA_CONST",
+        "section": "__const",
+        "bytes": 1144,
+        "zeroFill": false,
+        "sha256": "75b82ef5d84be476fc6591a6bbd798cf5b8da2493a61a205698557e3d4212026"
+      },
+      {
+        "segment": "__DATA",
+        "section": "__la_symbol_ptr",
+        "bytes": 1120,
+        "zeroFill": false,
+        "sha256": "ca5ffbbad644ecb60902c47eac7e280690933385f7f7b221b8948e8f4fa3d320"
+      },
+      {
+        "segment": "__DATA",
+        "section": "__data",
+        "bytes": 22704,
+        "zeroFill": false,
+        "sha256": "9c4e4c9ea8a3539928a89e017b07e7b35649e89f8ec5fb22b8dd2ad51e50ce3a"
+      },
+      {
+        "segment": "__DATA",
+        "section": "__common",
+        "bytes": 4,
+        "zeroFill": true,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "segment": "__DATA",
+        "section": "__bss",
+        "bytes": 8248,
+        "zeroFill": true,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    ]
+  },
+  {
+    "source": "supplemental1",
+    "path": "sklearn/metrics/_pairwise_distances_reduction/_datasets_pair.cpython-312-darwin.so",
+    "sourceSha256": "90ff4fef04033e6eb68f846a654a34eb0595bdd1ea9253a3f344d93237f8acbf",
+    "sections": [
+      {
+        "segment": "__TEXT",
+        "section": "__text",
+        "bytes": 161676,
+        "zeroFill": false,
+        "sha256": "91621ffbd8f349fdd93a8e1c3b1da34703d4a5f7f050016e566aaa475fd0b52f"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__stubs",
+        "bytes": 1416,
+        "zeroFill": false,
+        "sha256": "7b37d90ba0071c6630b0ac8fe82ba02f1cf49bb3294ef2132c0931a04d0cd563"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__stub_helper",
+        "bytes": 1440,
+        "zeroFill": false,
+        "sha256": "2695bec82b358867eb235eae4f50690e029a04214108f7da9baeebcad2b8557a"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__const",
+        "bytes": 5429,
+        "zeroFill": false,
+        "sha256": "602256a700eb988b44713e94d757c22453509bdef493240622412f57e9e31722"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__cstring",
+        "bytes": 16117,
+        "zeroFill": false,
+        "sha256": "fa51cc2002f2870e5c00ec11a6b40b508de80189e6690fbd1a5379fa7123fe05"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__unwind_info",
+        "bytes": 680,
+        "zeroFill": false,
+        "sha256": "5debefdfbd5f43d9ac41e66b239a24c3b21f3cfba9a8fbb9853116a1cb1a157b"
+      },
+      {
+        "segment": "__DATA_CONST",
+        "section": "__got",
+        "bytes": 208,
+        "zeroFill": false,
+        "sha256": "46f531b7ea0428fbf2c3ca2b60e8dc33d6bbfa000e0fd1b489c5e39140a47006"
+      },
+      {
+        "segment": "__DATA_CONST",
+        "section": "__const",
+        "bytes": 752,
+        "zeroFill": false,
+        "sha256": "1a827690c662f86a7ec10ac131cac5899ce1e33986749b50715d9e7265971d7a"
+      },
+      {
+        "segment": "__DATA",
+        "section": "__la_symbol_ptr",
+        "bytes": 944,
+        "zeroFill": false,
+        "sha256": "69e17d8753f7581425a995fc2ff9dc4aa02b03cd4b02fefffb43a40a7568278a"
+      },
+      {
+        "segment": "__DATA",
+        "section": "__data",
+        "bytes": 7824,
+        "zeroFill": false,
+        "sha256": "b32f4b99262b5387f3f227dc07a4508cf3a967e3c5e438268a1b669dc99f49c0"
+      },
+      {
+        "segment": "__DATA",
+        "section": "__common",
+        "bytes": 4,
+        "zeroFill": true,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "segment": "__DATA",
+        "section": "__bss",
+        "bytes": 2672,
+        "zeroFill": true,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    ]
+  },
+  {
+    "source": "supplemental1",
+    "path": "sklearn/metrics/_pairwise_distances_reduction/_middle_term_computer.cpython-312-darwin.so",
+    "sourceSha256": "1edb43731d2fcb244e3fbf622471d04bcff1f5c62c3dec35e0bf732669ac9d83",
+    "sections": [
+      {
+        "segment": "__TEXT",
+        "section": "__text",
+        "bytes": 172984,
+        "zeroFill": false,
+        "sha256": "a5e061411553785efeb32330ef9d75aeca112931788e95fd5aea83c8485a4887"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__stubs",
+        "bytes": 1584,
+        "zeroFill": false,
+        "sha256": "9e3cb2a8a1d380f07ba4c27eb53866e15ea6f7bea2aeb03c483a625d361c6ebb"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__stub_helper",
+        "bytes": 1584,
+        "zeroFill": false,
+        "sha256": "0eb9e23e08fb1447b16e864ca0438aeb8f57a7615d96b81e5deef67de6761e39"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__const",
+        "bytes": 5005,
+        "zeroFill": false,
+        "sha256": "0ab75aa23831f33468aaee88b73faa10f81a7d39611e9e9f0718ac8de8317b7e"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__gcc_except_tab",
+        "bytes": 1528,
+        "zeroFill": false,
+        "sha256": "359d7b8c5358964b135406b5eb3deee6f175d0cb7762c68f3e588535681cf022"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__cstring",
+        "bytes": 12530,
+        "zeroFill": false,
+        "sha256": "9bde715a346de09215f4592ed7d4ccfbb8555dfe8c019b535f5c7da849b3c3a8"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__unwind_info",
+        "bytes": 912,
+        "zeroFill": false,
+        "sha256": "9195c6fcbe6b8310a46919e22a79d05fcc3bdf9aaa11574d08c3b409f0d52a57"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__eh_frame",
+        "bytes": 192,
+        "zeroFill": false,
+        "sha256": "35cf6213098c9c82e51cbbe9bbc4fbac7cd050b3d1bd0a830a6c384ac44c0e83"
+      },
+      {
+        "segment": "__DATA_CONST",
+        "section": "__got",
+        "bytes": 416,
+        "zeroFill": false,
+        "sha256": "4cc7e6272db6b1ad7581f76c63c694e926e20698e9b02223d5041a55960463f2"
+      },
+      {
+        "segment": "__DATA_CONST",
+        "section": "__const",
+        "bytes": 880,
+        "zeroFill": false,
+        "sha256": "6ebd0d57b117485d39aeaf7fb9c535aa2541f6441ca3d6930e7569bd775f9803"
+      },
+      {
+        "segment": "__DATA",
+        "section": "__la_symbol_ptr",
+        "bytes": 1040,
+        "zeroFill": false,
+        "sha256": "69264d3fdf75a62bf96e4ed2aa7f2ee2a27e72d4db2a257a80d8d65a58e2b989"
+      },
+      {
+        "segment": "__DATA",
+        "section": "__data",
+        "bytes": 6608,
+        "zeroFill": false,
+        "sha256": "963a6dccb08c5a8475cfa837d6bc215f0998d6244a05fe1787113adc1d575f8f"
+      },
+      {
+        "segment": "__DATA",
+        "section": "__common",
+        "bytes": 4,
+        "zeroFill": true,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "segment": "__DATA",
+        "section": "__bss",
+        "bytes": 2536,
+        "zeroFill": true,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    ]
+  },
+  {
+    "source": "supplemental1",
+    "path": "sklearn/metrics/cluster/_expected_mutual_info_fast.cpython-312-darwin.so",
+    "sourceSha256": "ccbd0ec645490c268581d4e4019e5fe373628a579edb5d55822e5a4446bdd367",
+    "sections": [
+      {
+        "segment": "__TEXT",
+        "section": "__text",
+        "bytes": 35104,
+        "zeroFill": false,
+        "sha256": "00023888fd94e6ef3883fad3e689d8efe44a2699e7cac1f1882325f827dbb62d"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__stubs",
+        "bytes": 1200,
+        "zeroFill": false,
+        "sha256": "cfff6f4303edc3e1e336cda851a9f063d4410a07c2393b62821c9e5a3d7c472a"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__stub_helper",
+        "bytes": 1224,
+        "zeroFill": false,
+        "sha256": "7f2e68e1cf4db355c55d2c445df73b1e3164bb6153553b30984734a325fbf8b0"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__const",
+        "bytes": 1831,
+        "zeroFill": false,
+        "sha256": "49aebd5c90d271e2b8645893284bbc13dbf504c59d4c7748dc714d5858311f32"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__cstring",
+        "bytes": 2952,
+        "zeroFill": false,
+        "sha256": "88a6d5d97f59bf003489502c230575707ca668f4d3175848b8b97bdb85f2a9d2"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__unwind_info",
+        "bytes": 304,
+        "zeroFill": false,
+        "sha256": "d6c6a799e1922ad0f649a7642c1248fafe9d21e5bb5ec876a35d0b48029e850d"
+      },
+      {
+        "segment": "__DATA_CONST",
+        "section": "__got",
+        "bytes": 208,
+        "zeroFill": false,
+        "sha256": "46f531b7ea0428fbf2c3ca2b60e8dc33d6bbfa000e0fd1b489c5e39140a47006"
+      },
+      {
+        "segment": "__DATA_CONST",
+        "section": "__const",
+        "bytes": 536,
+        "zeroFill": false,
+        "sha256": "ca98e8b02042e76d1fb48c7a236639c78fead3908627eecff970474e4d2cec26"
+      },
+      {
+        "segment": "__DATA",
+        "section": "__la_symbol_ptr",
+        "bytes": 800,
+        "zeroFill": false,
+        "sha256": "3aff99e09dee4df917dea84ec2eee39e41aeceb3b09f4556c2e466d424470ce8"
+      },
+      {
+        "segment": "__DATA",
+        "section": "__data",
+        "bytes": 1520,
+        "zeroFill": false,
+        "sha256": "e5733847878749bdb372bb3d47da9bb474e62d14ad9aaa951538c8fdfbcb7dcb"
+      },
+      {
+        "segment": "__DATA",
+        "section": "__common",
+        "bytes": 4,
+        "zeroFill": true,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "segment": "__DATA",
+        "section": "__bss",
+        "bytes": 1104,
+        "zeroFill": true,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    ]
+  },
+  {
+    "source": "supplemental1",
+    "path": "sklearn/neighbors/_ball_tree.cpython-312-darwin.so",
+    "sourceSha256": "443e39841bd0ac3c2302ff2d79955e811418056cd1f601c425806c0fd7c550e2",
+    "sections": [
+      {
+        "segment": "__TEXT",
+        "section": "__text",
+        "bytes": 330168,
+        "zeroFill": false,
+        "sha256": "3f3da5c8ba9f6b022ed3da82b058df2cf84da130eef18411699cbeb82933c296"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__stubs",
+        "bytes": 1764,
+        "zeroFill": false,
+        "sha256": "0ca96c8d3df4a2abab4605771da81d199c08a7df15b5b8f38d00b2df1743400b"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__stub_helper",
+        "bytes": 1788,
+        "zeroFill": false,
+        "sha256": "3cb6edfa557a20c587c8fb9927935a5a70d3ac003a43b1bc69eed19e2b253451"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__const",
+        "bytes": 24200,
+        "zeroFill": false,
+        "sha256": "71967371dcd9f8b66613e207d61dd2463caafc919b4eb02f3e42a0cebc539b20"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__cstring",
+        "bytes": 12746,
+        "zeroFill": false,
+        "sha256": "fcbdf689ec45c34a2b5108abc1733d3d4a8bfae1abdd10b39dd9c55bd0c54754"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__unwind_info",
+        "bytes": 888,
+        "zeroFill": false,
+        "sha256": "cb9cfb50b50054e6f894def49935956c9ab9fda7483a36d28729ea8325390031"
+      },
+      {
+        "segment": "__DATA_CONST",
+        "section": "__got",
+        "bytes": 288,
+        "zeroFill": false,
+        "sha256": "2d5565fb483d8ea4525a7a9229677d1038ad34b6e22c8d5152e1d7f7b9817597"
+      },
+      {
+        "segment": "__DATA_CONST",
+        "section": "__const",
+        "bytes": 1968,
+        "zeroFill": false,
+        "sha256": "db897ef1a11176a2c99f33ef7313c3adae65bf3ba068ad11e13a9fde7c19ea6e"
+      },
+      {
+        "segment": "__DATA",
+        "section": "__la_symbol_ptr",
+        "bytes": 1176,
+        "zeroFill": false,
+        "sha256": "7256fd3cc3c083716b49683858245a500a59bb0989ae52ac55213afd560cf426"
+      },
+      {
+        "segment": "__DATA",
+        "section": "__data",
+        "bytes": 7424,
+        "zeroFill": false,
+        "sha256": "42a11f7b102556e6330e77065384b1e7a96114b6591d60ef3ed42b2e26f4966f"
+      },
+      {
+        "segment": "__DATA",
+        "section": "__common",
+        "bytes": 4,
+        "zeroFill": true,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "segment": "__DATA",
+        "section": "__bss",
+        "bytes": 4528,
+        "zeroFill": true,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    ]
+  },
+  {
+    "source": "supplemental1",
+    "path": "sklearn/neighbors/_kd_tree.cpython-312-darwin.so",
+    "sourceSha256": "986a6f6bdf1788ecb63767432c018769d11a851dce5d14de6701357825b58b91",
+    "sections": [
+      {
+        "segment": "__TEXT",
+        "section": "__text",
+        "bytes": 363492,
+        "zeroFill": false,
+        "sha256": "e7add1a3f04db3fedc1cc3f9fa9210a66277ff558c04c50254ebb379cf025ec7"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__stubs",
+        "bytes": 1776,
+        "zeroFill": false,
+        "sha256": "49947519d239ab47e94d388881bf9d1dc67bd82a494f5f2ab8a62cbd8506d731"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__stub_helper",
+        "bytes": 1800,
+        "zeroFill": false,
+        "sha256": "0d223634fa7763878f5609e799268ce89cca9c05607cc2b84d09455b85b94d51"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__const",
+        "bytes": 23928,
+        "zeroFill": false,
+        "sha256": "0f81e656ed0749432ca924a06f399dcfe5da65e0b3ca932bd9253732fdd6f2ea"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__cstring",
+        "bytes": 12162,
+        "zeroFill": false,
+        "sha256": "4a52f66bfdee992fd84e64b1b8be1cb1b13e529c080e42aea619c75b55c9d374"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__unwind_info",
+        "bytes": 832,
+        "zeroFill": false,
+        "sha256": "8b5073da43c6c959350dcf9b7d5b7cf78f2889d99ff76e9dcd03a6363544d6bc"
+      },
+      {
+        "segment": "__DATA_CONST",
+        "section": "__got",
+        "bytes": 288,
+        "zeroFill": false,
+        "sha256": "2d5565fb483d8ea4525a7a9229677d1038ad34b6e22c8d5152e1d7f7b9817597"
+      },
+      {
+        "segment": "__DATA_CONST",
+        "section": "__const",
+        "bytes": 1968,
+        "zeroFill": false,
+        "sha256": "0383d29773d4e03330d8d7730ee9958f4aa794a6068b5cf91d3557c93d46d476"
+      },
+      {
+        "segment": "__DATA",
+        "section": "__la_symbol_ptr",
+        "bytes": 1184,
+        "zeroFill": false,
+        "sha256": "2bebe8577ef0112982077c8620ed4b412ba7be83f39950699dccc2db00f2cc3d"
+      },
+      {
+        "segment": "__DATA",
+        "section": "__data",
+        "bytes": 7424,
+        "zeroFill": false,
+        "sha256": "5f19fa213521e69a6d92153c8d77200ac473a72f7a4260de98e10cc138f14bf0"
+      },
+      {
+        "segment": "__DATA",
+        "section": "__common",
+        "bytes": 4,
+        "zeroFill": true,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "segment": "__DATA",
+        "section": "__bss",
+        "bytes": 4320,
+        "zeroFill": true,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    ]
+  },
+  {
+    "source": "supplemental1",
+    "path": "sklearn/neighbors/_partition_nodes.cpython-312-darwin.so",
+    "sourceSha256": "0d51fe8ef9610e8606d6df00caaaed9fc1c0c57aa63af9b229214faca434a958",
+    "sections": [
+      {
+        "segment": "__TEXT",
+        "section": "__text",
+        "bytes": 8376,
+        "zeroFill": false,
+        "sha256": "9d030371fb0b462b05cc6df9b56a26a436331af7893bcb71be59cb79d601ad3b"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__stubs",
+        "bytes": 588,
+        "zeroFill": false,
+        "sha256": "a0818f52d6e94eab9ede47d8370c54929399818a0726eb26fbf0778e787fc24e"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__stub_helper",
+        "bytes": 612,
+        "zeroFill": false,
+        "sha256": "656d8f8e4259c2d3c94bf29d1fb722cf53156761251c99fe4221584e727fa03b"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__gcc_except_tab",
+        "bytes": 296,
+        "zeroFill": false,
+        "sha256": "603e4c4b796b1509fdf97800ca25ddd23137524fa963b04b25cbdfd2950dd029"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__cstring",
+        "bytes": 785,
+        "zeroFill": false,
+        "sha256": "678858534fdf941d6976f6c051a6c84c3cf3f43aa6f208b12134a07a24d26f57"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__const",
+        "bytes": 165,
+        "zeroFill": false,
+        "sha256": "40797e17b978979ba911907d9a46eac285b616e031a4a9e29c5753b201949e28"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__unwind_info",
+        "bytes": 184,
+        "zeroFill": false,
+        "sha256": "b1648f34b9d8b0f4738d386b07a1eec696f00fb48857cbb76b25c9f90c5d17f8"
+      },
+      {
+        "segment": "__DATA_CONST",
+        "section": "__got",
+        "bytes": 208,
+        "zeroFill": false,
+        "sha256": "46f531b7ea0428fbf2c3ca2b60e8dc33d6bbfa000e0fd1b489c5e39140a47006"
+      },
+      {
+        "segment": "__DATA_CONST",
+        "section": "__const",
+        "bytes": 24,
+        "zeroFill": false,
+        "sha256": "88e53aa2f59057d7871d897f96f139042f0c8f89e7b14ed55b147284053bb777"
+      },
+      {
+        "segment": "__DATA",
+        "section": "__la_symbol_ptr",
+        "bytes": 392,
+        "zeroFill": false,
+        "sha256": "d1cdc0111530c950622790148a414d106230744a6eb0a062d1cdf8522d35b206"
+      },
+      {
+        "segment": "__DATA",
+        "section": "__data",
+        "bytes": 168,
+        "zeroFill": false,
+        "sha256": "2fa7a2916ca336384baeb1efebbeefda3ce6c4a44a058fb8dcc61d2a93dfbdc3"
+      },
+      {
+        "segment": "__DATA",
+        "section": "__common",
+        "bytes": 4,
+        "zeroFill": true,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "segment": "__DATA",
+        "section": "__bss",
+        "bytes": 192,
+        "zeroFill": true,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    ]
+  },
+  {
+    "source": "supplemental1",
+    "path": "sklearn/neighbors/_quad_tree.cpython-312-darwin.so",
+    "sourceSha256": "231315fc5b1a705c8b9881f76226b0d7d3b19d3258be6d40a1dca8318899d524",
+    "sections": [
+      {
+        "segment": "__TEXT",
+        "section": "__text",
+        "bytes": 69948,
+        "zeroFill": false,
+        "sha256": "a0b79690b1ae4b944ce3993292ddb7df80f7bd154299cb79964787d4e9cf0ae0"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__stubs",
+        "bytes": 1608,
+        "zeroFill": false,
+        "sha256": "d0c3ec51a710d19862461a2b4a93a8bbe747e5e0a1b72c5756333f8085776eae"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__stub_helper",
+        "bytes": 1632,
+        "zeroFill": false,
+        "sha256": "83d15d160a6378468ce275fffbfaf9ad8a2ac6e41b827466940ad9d258a0dce4"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__const",
+        "bytes": 4048,
+        "zeroFill": false,
+        "sha256": "c05dcb1431b5719a9a85bcdc882b88184c19dca7dd4c498a55e9f65848d068de"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__cstring",
+        "bytes": 7323,
+        "zeroFill": false,
+        "sha256": "a17c5526440ca24e4c39f5b937a25da04fdabcdc84db8deb028f2b4ba5f4c35c"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__unwind_info",
+        "bytes": 464,
+        "zeroFill": false,
+        "sha256": "4fb582f17456e0a5aea9070dd771e0eac008fb9df597f1b5586ac53bbb746d18"
+      },
+      {
+        "segment": "__DATA_CONST",
+        "section": "__got",
+        "bytes": 288,
+        "zeroFill": false,
+        "sha256": "2d5565fb483d8ea4525a7a9229677d1038ad34b6e22c8d5152e1d7f7b9817597"
+      },
+      {
+        "segment": "__DATA_CONST",
+        "section": "__const",
+        "bytes": 1440,
+        "zeroFill": false,
+        "sha256": "5dcdb806bae6ea2984efa3a0c77d4f79e3a52bc20393c32e01504280aaa03d1c"
+      },
+      {
+        "segment": "__DATA",
+        "section": "__la_symbol_ptr",
+        "bytes": 1072,
+        "zeroFill": false,
+        "sha256": "25efdeeb5c73183a7a988954e4466f68fdd95fba42a6bb00f74c2eefbc91dad7"
+      },
+      {
+        "segment": "__DATA",
+        "section": "__data",
+        "bytes": 2744,
+        "zeroFill": false,
+        "sha256": "25c51b5207ab27e619f1acb2e34be5c909138e9d98e7170d1cb60b89804dd3da"
+      },
+      {
+        "segment": "__DATA",
+        "section": "__common",
+        "bytes": 4,
+        "zeroFill": true,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "segment": "__DATA",
+        "section": "__bss",
+        "bytes": 2336,
+        "zeroFill": true,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    ]
+  },
+  {
+    "source": "supplemental1",
+    "path": "sklearn/preprocessing/_csr_polynomial_expansion.cpython-312-darwin.so",
+    "sourceSha256": "167090349bc6cf3f88bdc574b154f8043b8fbfdedc218885cb4c4be54d923790",
+    "sections": [
+      {
+        "segment": "__TEXT",
+        "section": "__text",
+        "bytes": 156180,
+        "zeroFill": false,
+        "sha256": "e9256333e6e986872ac2a5b33bde89793b3d7b1a25d645bb89e58e4284da137a"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__stubs",
+        "bytes": 1512,
+        "zeroFill": false,
+        "sha256": "0b4d44e5926a34e957e5e0dfee1721c8f98de3073c8c828fcb38211304a0bcd3"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__stub_helper",
+        "bytes": 1536,
+        "zeroFill": false,
+        "sha256": "8d194ef4cd6a367f95a712d8f90c8379e39bfdcf46229283f4f812142518c123"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__const",
+        "bytes": 4457,
+        "zeroFill": false,
+        "sha256": "a5873db01071d495279f94e828e271ca66e278ca273e06755c187e8b42bbddfc"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__cstring",
+        "bytes": 6948,
+        "zeroFill": false,
+        "sha256": "e8f53c646008df90baf1a1b60362bfb0ed7e892f2103d9dfbc3daae657c33848"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__unwind_info",
+        "bytes": 408,
+        "zeroFill": false,
+        "sha256": "d402d9dad22afb3611ff99fa6b5138c2f39b77f4e6205ef87564f94c67d86ec2"
+      },
+      {
+        "segment": "__DATA_CONST",
+        "section": "__got",
+        "bytes": 240,
+        "zeroFill": false,
+        "sha256": "2dfba633817046c7f559ed4b93076048435f7e1a90f14eb8035c04b9ebae2537"
+      },
+      {
+        "segment": "__DATA_CONST",
+        "section": "__const",
+        "bytes": 1320,
+        "zeroFill": false,
+        "sha256": "77674a6f507175f9c58b4b646f3c82655414bcb48caca88bb9bc8550f6439b7e"
+      },
+      {
+        "segment": "__DATA",
+        "section": "__la_symbol_ptr",
+        "bytes": 1008,
+        "zeroFill": false,
+        "sha256": "5adf535a77e6b6e23baa5d85d76d48a0dd6af8a3f1630d6fdd5c18dfb098f645"
+      },
+      {
+        "segment": "__DATA",
+        "section": "__data",
+        "bytes": 3088,
+        "zeroFill": false,
+        "sha256": "c385d1a9415f2664df5a00f20c4c538d12e633f1f92d8cad82bf91b5d8b24872"
+      },
+      {
+        "segment": "__DATA",
+        "section": "__common",
+        "bytes": 4,
+        "zeroFill": true,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "segment": "__DATA",
+        "section": "__bss",
+        "bytes": 1696,
+        "zeroFill": true,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    ]
+  },
+  {
+    "source": "supplemental1",
+    "path": "sklearn/preprocessing/_target_encoder_fast.cpython-312-darwin.so",
+    "sourceSha256": "7bfcf41e1b562d0005b1a974885929c049b3704d2792fbbbd923d5bb13e33979",
+    "sections": [
+      {
+        "segment": "__TEXT",
+        "section": "__text",
+        "bytes": 211236,
+        "zeroFill": false,
+        "sha256": "680d2488b02cd3a51c8c5f4080252539f328abf573a54bb694bd600cbb31a71d"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__stubs",
+        "bytes": 1512,
+        "zeroFill": false,
+        "sha256": "fa6c4b9db60ca4d3bcbfeec076fe64e28bc0028432fc3d6d3ffc3aefa2ad8ba4"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__stub_helper",
+        "bytes": 1512,
+        "zeroFill": false,
+        "sha256": "b3d7d2c89db19159eeeee297a7f3a8f2899236957888b17d629778f79158d48b"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__const",
+        "bytes": 3012,
+        "zeroFill": false,
+        "sha256": "98ef5a39e51674b9d765a4a6218f5f2e2e5519ab9f28041fd3b0c2c858da5737"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__gcc_except_tab",
+        "bytes": 4592,
+        "zeroFill": false,
+        "sha256": "d6d5d553ab390a1c791ca124bea50286ce89b28f4bc02a4347b1373ece64d089"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__cstring",
+        "bytes": 4908,
+        "zeroFill": false,
+        "sha256": "f4fd8d7c97f737f7b978ce6934c003e057984bd840d91b1aac89f553da6b4ab9"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__unwind_info",
+        "bytes": 600,
+        "zeroFill": false,
+        "sha256": "018bb0572b3b54c2d88608ae095a9454b3d58076526c9783e5ef75ffb3b27e98"
+      },
+      {
+        "segment": "__DATA_CONST",
+        "section": "__got",
+        "bytes": 424,
+        "zeroFill": false,
+        "sha256": "e6a4dd1cc11fe045554f993bb765eba87d46248a8b85a7c8dbaa5c40594e0214"
+      },
+      {
+        "segment": "__DATA_CONST",
+        "section": "__const",
+        "bytes": 1048,
+        "zeroFill": false,
+        "sha256": "1dee1cbd8382f8e2b40f9b60c52be4e47ac8a6bb7eb081be7ae9559efa8654d6"
+      },
+      {
+        "segment": "__DATA",
+        "section": "__la_symbol_ptr",
+        "bytes": 992,
+        "zeroFill": false,
+        "sha256": "8e0f909ec7eb3e728b73af321997c41136dc0611acd68121a3047b37505f6363"
+      },
+      {
+        "segment": "__DATA",
+        "section": "__data",
+        "bytes": 2896,
+        "zeroFill": false,
+        "sha256": "cd63a7c688bfcca21ddacea1687e847a458927074f89ab20fced1f80a4303cb8"
+      },
+      {
+        "segment": "__DATA",
+        "section": "__common",
+        "bytes": 4,
+        "zeroFill": true,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "segment": "__DATA",
+        "section": "__bss",
+        "bytes": 1640,
+        "zeroFill": true,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    ]
+  },
+  {
+    "source": "supplemental1",
+    "path": "sklearn/svm/_liblinear.cpython-312-darwin.so",
+    "sourceSha256": "8b46d5406b03050389559e6dc5e0d1d6ae0307d6153371f8103a7b6ccc10fba4",
+    "sections": [
+      {
+        "segment": "__TEXT",
+        "section": "__text",
+        "bytes": 75572,
+        "zeroFill": false,
+        "sha256": "f1e5024aa2f732eafa2682b46498e2c78dfa72186eef362ab4d910cba851989f"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__stubs",
+        "bytes": 1368,
+        "zeroFill": false,
+        "sha256": "49e9e7fe9b36f6305064df7f620aabf6bc11de65d1dd5197166195164cf9058d"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__stub_helper",
+        "bytes": 1344,
+        "zeroFill": false,
+        "sha256": "7340c3fa1645a07dc6e1fef25a09dec4c93a0554ecf1c227e0f2df08315239da"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__init_offsets",
+        "bytes": 4,
+        "zeroFill": false,
+        "sha256": "6432d0c06a43c2cbbda0bc9dffe8baa2d26b28c621aec8382c3f7874201b39ae"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__const",
+        "bytes": 2245,
+        "zeroFill": false,
+        "sha256": "6f1307b0602f6d82c77694a06576bf0a9933237aa3740ff89c4ca3e4995aaf32"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__cstring",
+        "bytes": 3825,
+        "zeroFill": false,
+        "sha256": "6e822618d14cb28d3e6365d30bae0c7d6d387112d819ad2e9987c9a1b2469072"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__gcc_except_tab",
+        "bytes": 104,
+        "zeroFill": false,
+        "sha256": "c0efedc1ad88cee63e3ffb79e1596c2a52d8c46697ac74075379ae5dcb0c7686"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__unwind_info",
+        "bytes": 584,
+        "zeroFill": false,
+        "sha256": "1bdfa665e071598640a558f20c4b4986a10debf731d13341cc0c95d7a7a75d7b"
+      },
+      {
+        "segment": "__DATA_CONST",
+        "section": "__got",
+        "bytes": 264,
+        "zeroFill": false,
+        "sha256": "44b8aa4d28701168922acf61435ea4bb442f97b0b14ad7a2510ed68874ee2a72"
+      },
+      {
+        "segment": "__DATA_CONST",
+        "section": "__const",
+        "bytes": 1416,
+        "zeroFill": false,
+        "sha256": "513a64a17506554e05ddf7caba06e041757eca43993ff1b9719d623911099a46"
+      },
+      {
+        "segment": "__DATA",
+        "section": "__la_symbol_ptr",
+        "bytes": 880,
+        "zeroFill": false,
+        "sha256": "7870ce62b0b1ac54df240ccdf25940c914648e55f105225160b846410b0bc855"
+      },
+      {
+        "segment": "__DATA",
+        "section": "__data",
+        "bytes": 1560,
+        "zeroFill": false,
+        "sha256": "f5bbd35ca62677a8b50fbc08775e80ff5e6425c5cf9e198ab05bf2166d6e56a9"
+      },
+      {
+        "segment": "__DATA",
+        "section": "__common",
+        "bytes": 2512,
+        "zeroFill": true,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "segment": "__DATA",
+        "section": "__bss",
+        "bytes": 1256,
+        "zeroFill": true,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    ]
+  },
+  {
+    "source": "supplemental1",
+    "path": "sklearn/svm/_libsvm.cpython-312-darwin.so",
+    "sourceSha256": "ad6602eef465341cc0d5ffb8ade61fc2f3da70c522908475783812b498103e3e",
+    "sections": [
+      {
+        "segment": "__TEXT",
+        "section": "__text",
+        "bytes": 227500,
+        "zeroFill": false,
+        "sha256": "038766fbf22dd9b0e55018bae3108a4bbf65bf2deeb4f7c88c06530fc7e05075"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__stubs",
+        "bytes": 1536,
+        "zeroFill": false,
+        "sha256": "0dcae3f848ee80d50e15ee9305fddec0e1ecac6c0d315130fef8476330426a53"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__stub_helper",
+        "bytes": 1512,
+        "zeroFill": false,
+        "sha256": "b212f24036d5fb7187b27ab35c9af52ba33a32e0582a1961e96016e15aa5846c"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__init_offsets",
+        "bytes": 4,
+        "zeroFill": false,
+        "sha256": "adeb3e14a9a724b97c90298336f127ad86ced4023b0b37722923636819a2e286"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__const",
+        "bytes": 15096,
+        "zeroFill": false,
+        "sha256": "701efdaa2ba131698a38c833e41b7b6187d135d674c77256b1e0c2f3fe2c6da1"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__cstring",
+        "bytes": 4551,
+        "zeroFill": false,
+        "sha256": "b563ef92d6a04b66c0e316c2a78bc50ae25cf839520032ff3dcc62a42d3f86cc"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__gcc_except_tab",
+        "bytes": 328,
+        "zeroFill": false,
+        "sha256": "ddbfb22c2949a11f51d4aa9dd80f8d09196c9dfa89270762eb476213729336d7"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__unwind_info",
+        "bytes": 1096,
+        "zeroFill": false,
+        "sha256": "53e559b0bd82d0c1e9d5a0d75030828540389e4036b428580710c82851b77698"
+      },
+      {
+        "segment": "__DATA_CONST",
+        "section": "__got",
+        "bytes": 344,
+        "zeroFill": false,
+        "sha256": "3824f50f2bf61d8d4f9dbcf9137a71a9e700e5e2a79de5f03f48c67c1b3ea0b3"
+      },
+      {
+        "segment": "__DATA_CONST",
+        "section": "__const",
+        "bytes": 2304,
+        "zeroFill": false,
+        "sha256": "32131ebf6c5e38299a1825347c7cbf8edf114e450f76cf66d08a0c1a9b0a5591"
+      },
+      {
+        "segment": "__DATA",
+        "section": "__la_symbol_ptr",
+        "bytes": 992,
+        "zeroFill": false,
+        "sha256": "519466ef9eb4752c3cf1bdc225e59a91e8ff6460f84d7aa943fe9615950b13f5"
+      },
+      {
+        "segment": "__DATA",
+        "section": "__data",
+        "bytes": 3768,
+        "zeroFill": false,
+        "sha256": "c05a08bcb3fbe9d900c56ec6baa6090a54f0e04b884161a0bb030b02605505e5"
+      },
+      {
+        "segment": "__DATA",
+        "section": "__common",
+        "bytes": 2512,
+        "zeroFill": true,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "segment": "__DATA",
+        "section": "__bss",
+        "bytes": 1600,
+        "zeroFill": true,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    ]
+  },
+  {
+    "source": "supplemental1",
+    "path": "sklearn/svm/_libsvm_sparse.cpython-312-darwin.so",
+    "sourceSha256": "7bb0b8eb101d18222d2728b1db5a14d2f8dca48df58a28e9079e1b42386a645b",
+    "sections": [
+      {
+        "segment": "__TEXT",
+        "section": "__text",
+        "bytes": 196160,
+        "zeroFill": false,
+        "sha256": "89dc65ba02e0638a08988b7e72e1657ac3fed19ea651548b6928816f2432d3c9"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__stubs",
+        "bytes": 1404,
+        "zeroFill": false,
+        "sha256": "8f1033870c0c8296aa04d47336f05dc659a9dfc01d5b27fb25096eeb10d9bb08"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__stub_helper",
+        "bytes": 1380,
+        "zeroFill": false,
+        "sha256": "952bda063f8fbc2c533cdd0cfac9d9f23481ff641b1a37fa6a0dc1878cf08f02"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__init_offsets",
+        "bytes": 4,
+        "zeroFill": false,
+        "sha256": "b11a454d5f8b290cca5e3697dbea6993ffcf7df08f6e56262f2f33ea186b3085"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__const",
+        "bytes": 4728,
+        "zeroFill": false,
+        "sha256": "55215f314770d5116c2237d80f66b443384bdd7494c8ddc451894140567c8345"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__cstring",
+        "bytes": 4163,
+        "zeroFill": false,
+        "sha256": "e72c2b5d5b31a51c92eef45ff30562de2739c46c4513933581869a98e8c5e556"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__gcc_except_tab",
+        "bytes": 328,
+        "zeroFill": false,
+        "sha256": "ddbfb22c2949a11f51d4aa9dd80f8d09196c9dfa89270762eb476213729336d7"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__unwind_info",
+        "bytes": 992,
+        "zeroFill": false,
+        "sha256": "174c968477da7abc3e4222278247c35baed37db0cfbecf7dc237e3262cb631c5"
+      },
+      {
+        "segment": "__DATA_CONST",
+        "section": "__got",
+        "bytes": 344,
+        "zeroFill": false,
+        "sha256": "85b83c701cffc6deb9e1f97ad016cb059900e0132c772e114c6f3a63fb221df8"
+      },
+      {
+        "segment": "__DATA_CONST",
+        "section": "__const",
+        "bytes": 2224,
+        "zeroFill": false,
+        "sha256": "a3f644cfc102a375a2cdab952d086e0b5b88cdf6f0aedcfe573b3397e1cf3a49"
+      },
+      {
+        "segment": "__DATA",
+        "section": "__la_symbol_ptr",
+        "bytes": 904,
+        "zeroFill": false,
+        "sha256": "74b036aeb55da09515ca4698edca304090292482da10e807b82a23168edb23be"
+      },
+      {
+        "segment": "__DATA",
+        "section": "__data",
+        "bytes": 1656,
+        "zeroFill": false,
+        "sha256": "1bd1a127fd4b25ac6e6f71802f27c61ccb62c88b6edf7ff0ade437bb54c7da23"
+      },
+      {
+        "segment": "__DATA",
+        "section": "__common",
+        "bytes": 2512,
+        "zeroFill": true,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "segment": "__DATA",
+        "section": "__bss",
+        "bytes": 1440,
+        "zeroFill": true,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    ]
+  },
+  {
+    "source": "supplemental1",
+    "path": "sklearn/svm/_newrand.cpython-312-darwin.so",
+    "sourceSha256": "21185d44f27b5dfeec3e1bc0c910281bf4d233430a71e2885ff61eb6d824f07c",
+    "sections": [
+      {
+        "segment": "__TEXT",
+        "section": "__text",
+        "bytes": 14720,
+        "zeroFill": false,
+        "sha256": "feecd6efbbcb7610e13be0e394e0f78f23f32213ce42a176c66c798f521dffec"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__stubs",
+        "bytes": 912,
+        "zeroFill": false,
+        "sha256": "bd623a5f502d130af151df2e22d5e8055f214358827c71b1f649b1bf410b1126"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__stub_helper",
+        "bytes": 936,
+        "zeroFill": false,
+        "sha256": "e40716d8c239e5255fea92d5308d9ac91d598d06c95f006ac9c60da895b3cbc7"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__init_offsets",
+        "bytes": 4,
+        "zeroFill": false,
+        "sha256": "1b265392f053469da0b45408dc3408923b26678a78cd100142b949c46b92d561"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__const",
+        "bytes": 481,
+        "zeroFill": false,
+        "sha256": "cec9c6c8fb356f741831a5d8a6cb5ca68f0e2e6d805c0b35dd11bcccdac07218"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__cstring",
+        "bytes": 2434,
+        "zeroFill": false,
+        "sha256": "8ffa649d56a9a68b6ebc207a23c2dc60e8dd3b54b36e88403138b4fe5ad5eec7"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__unwind_info",
+        "bytes": 240,
+        "zeroFill": false,
+        "sha256": "9df7163fda7acd01369532629827a8798ac38b195a69250bf23bdd6b536c4be9"
+      },
+      {
+        "segment": "__DATA_CONST",
+        "section": "__got",
+        "bytes": 136,
+        "zeroFill": false,
+        "sha256": "b707241545a346265aab1ffb32ff64b55bf8f8dc1b56a46ef33ce3d15db11d33"
+      },
+      {
+        "segment": "__DATA_CONST",
+        "section": "__const",
+        "bytes": 64,
+        "zeroFill": false,
+        "sha256": "79dec3de27e80a2d0afccd8344245f2c17e7f67ecc07f5795843cce97c86bb77"
+      },
+      {
+        "segment": "__DATA",
+        "section": "__la_symbol_ptr",
+        "bytes": 608,
+        "zeroFill": false,
+        "sha256": "9d5856f87e0296a8c1bee9a87f1abf9531b1baa59243b3ef5d9144622af94697"
+      },
+      {
+        "segment": "__DATA",
+        "section": "__data",
+        "bytes": 1552,
+        "zeroFill": false,
+        "sha256": "4d75f988c7dad1724fa564882c34af16dcd9bca93ec7d9d8be6a851140ec1746"
+      },
+      {
+        "segment": "__DATA",
+        "section": "__common",
+        "bytes": 2508,
+        "zeroFill": true,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "segment": "__DATA",
+        "section": "__bss",
+        "bytes": 432,
+        "zeroFill": true,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    ]
+  },
+  {
+    "source": "supplemental1",
+    "path": "sklearn/tree/_criterion.cpython-312-darwin.so",
+    "sourceSha256": "7194256ac376c92cc3af38f43a3ddc69ef85160d998d3b1e9a3ecd67ca162af7",
+    "sections": [
+      {
+        "segment": "__TEXT",
+        "section": "__text",
+        "bytes": 101060,
+        "zeroFill": false,
+        "sha256": "5a2e77c3f9641eb6635d0713807c6261e604c52b53864e1171c16476326814e0"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__stubs",
+        "bytes": 1404,
+        "zeroFill": false,
+        "sha256": "cdae84fb5e044619a3abce0a7bbccda32d097205a64959a6ff4a34ca10ea47fd"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__stub_helper",
+        "bytes": 1428,
+        "zeroFill": false,
+        "sha256": "6f7cdb12624f0b64ae4488b8ecab2bbd16ac8cacf44cba0ce71876c7ed8fad94"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__const",
+        "bytes": 3216,
+        "zeroFill": false,
+        "sha256": "2e098422a7d62840c470ff28b363cc500f2e7ce90e0dfce03416b1cd81402e5d"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__cstring",
+        "bytes": 11926,
+        "zeroFill": false,
+        "sha256": "1f34f42819105682f37e6bca9615ebc90c2622fb6be61817730503c88f2abbbc"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__unwind_info",
+        "bytes": 584,
+        "zeroFill": false,
+        "sha256": "b51994d2b4b52101c2d2cb87ff61d12120745f0316c1db9274c82416dfb9605e"
+      },
+      {
+        "segment": "__DATA_CONST",
+        "section": "__got",
+        "bytes": 224,
+        "zeroFill": false,
+        "sha256": "6eb69e26de2a26eda48af77d4cec893aa0cf4748a64cbefcfe11a22c1e680ad9"
+      },
+      {
+        "segment": "__DATA_CONST",
+        "section": "__const",
+        "bytes": 920,
+        "zeroFill": false,
+        "sha256": "52db024bfaebfd201bdff46dc1bc72aa31b7330830d231f559c762726cd75537"
+      },
+      {
+        "segment": "__DATA",
+        "section": "__la_symbol_ptr",
+        "bytes": 936,
+        "zeroFill": false,
+        "sha256": "6c66d432d806769e2a4f1951243756944e760ab6af26d6ca89d60c2d6efb482b"
+      },
+      {
+        "segment": "__DATA",
+        "section": "__data",
+        "bytes": 5520,
+        "zeroFill": false,
+        "sha256": "f523169c1a60d34167c14ed3565063ba441fe252c71361898dec25abffcf2d95"
+      },
+      {
+        "segment": "__DATA",
+        "section": "__common",
+        "bytes": 4,
+        "zeroFill": true,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "segment": "__DATA",
+        "section": "__bss",
+        "bytes": 2840,
+        "zeroFill": true,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    ]
+  },
+  {
+    "source": "supplemental1",
+    "path": "sklearn/tree/_partitioner.cpython-312-darwin.so",
+    "sourceSha256": "621c95055ea556ac7440fb915924d0a1b597359a51b7c52e941ba1c0d13dd2e1",
+    "sections": [
+      {
+        "segment": "__TEXT",
+        "section": "__text",
+        "bytes": 80072,
+        "zeroFill": false,
+        "sha256": "ae4e1d90c40ae77ae8dcfd57952548efbf0e3bf6e80fbc12fb111074809b96e6"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__stubs",
+        "bytes": 1428,
+        "zeroFill": false,
+        "sha256": "d21e47318f5d4f9086c115403ebc56219f2308f7dcd5bec9e3281243fcad541a"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__stub_helper",
+        "bytes": 1452,
+        "zeroFill": false,
+        "sha256": "ef0e17898b8da7ca07da5f46a7e1f68a76be5e2b3e04d66ce6b4f308ea20beef"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__const",
+        "bytes": 3131,
+        "zeroFill": false,
+        "sha256": "6b79e07802ebedc1a669dd0760ba5c832033ba6de5078a012fbf806e762dea00"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__cstring",
+        "bytes": 5677,
+        "zeroFill": false,
+        "sha256": "d5e78a1a9daf9ef82c0891ac7d415edc9ab0899e763a216f7f3abeb529756620"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__unwind_info",
+        "bytes": 472,
+        "zeroFill": false,
+        "sha256": "fccf34addff1df94b8afdd54dff9fe1832f45e1c301b8d51d79f975d3feb10e5"
+      },
+      {
+        "segment": "__DATA_CONST",
+        "section": "__got",
+        "bytes": 240,
+        "zeroFill": false,
+        "sha256": "2dfba633817046c7f559ed4b93076048435f7e1a90f14eb8035c04b9ebae2537"
+      },
+      {
+        "segment": "__DATA_CONST",
+        "section": "__const",
+        "bytes": 1048,
+        "zeroFill": false,
+        "sha256": "9877b8e13c2c2f6cea1628874a30beec2311597cd5ce01b1a252bcdc00cb2230"
+      },
+      {
+        "segment": "__DATA",
+        "section": "__la_symbol_ptr",
+        "bytes": 952,
+        "zeroFill": false,
+        "sha256": "9f2eb07831399774b7dc47c1156b7bf1912061c39c0b06ad0c03220dcd5c71a0"
+      },
+      {
+        "segment": "__DATA",
+        "section": "__data",
+        "bytes": 2736,
+        "zeroFill": false,
+        "sha256": "cc095b610c0eb24254d0b860036115260e7ae56ae60cf325ee9e7cc6df782d37"
+      },
+      {
+        "segment": "__DATA",
+        "section": "__common",
+        "bytes": 4,
+        "zeroFill": true,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "segment": "__DATA",
+        "section": "__bss",
+        "bytes": 1848,
+        "zeroFill": true,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    ]
+  },
+  {
+    "source": "supplemental1",
+    "path": "sklearn/tree/_splitter.cpython-312-darwin.so",
+    "sourceSha256": "f7f95edb6ff7578040f332a9fbd9f76f99e004c96c782268ecbbb37571d9f4bb",
+    "sections": [
+      {
+        "segment": "__TEXT",
+        "section": "__text",
+        "bytes": 53600,
+        "zeroFill": false,
+        "sha256": "a5849bbf58ce5f198ce390a9ecc438a56a71c1f176544fb4b8cbe2268a286a6f"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__stubs",
+        "bytes": 1224,
+        "zeroFill": false,
+        "sha256": "dbbba17d8920e8b8bf7d492da5a97a4dd5198a54cb53e832ca4ec6eaa725ec38"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__stub_helper",
+        "bytes": 1248,
+        "zeroFill": false,
+        "sha256": "12dc95a7604bf924268b7f0af20068b2874bc61083154d1a38bd3cd6bed2df18"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__const",
+        "bytes": 2496,
+        "zeroFill": false,
+        "sha256": "f7226738d041a4a733da0ca623aada15aff8927718d04c54f7f1fe32017832fc"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__cstring",
+        "bytes": 5191,
+        "zeroFill": false,
+        "sha256": "2d42663db1b32486a9b86544ed075a4c1b976869bff7f3b0d372481481df63e5"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__unwind_info",
+        "bytes": 480,
+        "zeroFill": false,
+        "sha256": "c9543d5afbb22cba0f0e1d7301301e0d22c0e05d547aa43a1b74995defe7f486"
+      },
+      {
+        "segment": "__DATA_CONST",
+        "section": "__got",
+        "bytes": 208,
+        "zeroFill": false,
+        "sha256": "46f531b7ea0428fbf2c3ca2b60e8dc33d6bbfa000e0fd1b489c5e39140a47006"
+      },
+      {
+        "segment": "__DATA_CONST",
+        "section": "__const",
+        "bytes": 696,
+        "zeroFill": false,
+        "sha256": "0fb7bd381132f40d0d90c27fb051e9f050ac8f63fe5f37c08677853cbd2c8d6a"
+      },
+      {
+        "segment": "__DATA",
+        "section": "__la_symbol_ptr",
+        "bytes": 816,
+        "zeroFill": false,
+        "sha256": "6fc3a3f0f1b46019ccc6eda591fdd26307fe093e150fa69d378cd151fdda0bd7"
+      },
+      {
+        "segment": "__DATA",
+        "section": "__data",
+        "bytes": 3992,
+        "zeroFill": false,
+        "sha256": "f265c24bcdb0d9ca98c456d55e83db6a295960f351c91705ce5410750a5ff2ef"
+      },
+      {
+        "segment": "__DATA",
+        "section": "__common",
+        "bytes": 4,
+        "zeroFill": true,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "segment": "__DATA",
+        "section": "__bss",
+        "bytes": 1720,
+        "zeroFill": true,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    ]
+  },
+  {
+    "source": "supplemental1",
+    "path": "sklearn/tree/_tree.cpython-312-darwin.so",
+    "sourceSha256": "e8aee68a3078e68f6df59caee09065b539f24f31f52fe6d135534e0fb89efac8",
+    "sections": [
+      {
+        "segment": "__TEXT",
+        "section": "__text",
+        "bytes": 231004,
+        "zeroFill": false,
+        "sha256": "67f61d1d3f5329b1b158a7a624768fd40998dc81ff991a361dbf05b0b840828b"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__stubs",
+        "bytes": 1836,
+        "zeroFill": false,
+        "sha256": "948377089d86fb7dddb1eb6c61a282665b578403533e21f81ee00c7b2d3ccfb9"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__stub_helper",
+        "bytes": 1836,
+        "zeroFill": false,
+        "sha256": "3102a44ad4e82f72a829e06e7e9b60cf3e1c28e462df621947ea8fd94d825afb"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__const",
+        "bytes": 10160,
+        "zeroFill": false,
+        "sha256": "f48cd92b2f2c3ed3ce449d28080ea9ae7e8980d010526726efe692bc986d1b01"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__gcc_except_tab",
+        "bytes": 1636,
+        "zeroFill": false,
+        "sha256": "6743f7683dd85fd00b1f613b693d6f1b53092f0b2479f0cc0d94565feaafd127"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__cstring",
+        "bytes": 12548,
+        "zeroFill": false,
+        "sha256": "f0d817e295f882cb3edb14e1b20cf555974c30ec48103bafefdbf2e253205d34"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__unwind_info",
+        "bytes": 896,
+        "zeroFill": false,
+        "sha256": "4985b6dfb4bcadcfe5f61c729eca5792037f775f6ca4bd47cac4f56eb091fc08"
+      },
+      {
+        "segment": "__DATA_CONST",
+        "section": "__got",
+        "bytes": 448,
+        "zeroFill": false,
+        "sha256": "5c55c8f4db4010ba9203d83536d0609856af8c847ac039e37e7dde8fbd574b61"
+      },
+      {
+        "segment": "__DATA_CONST",
+        "section": "__const",
+        "bytes": 2456,
+        "zeroFill": false,
+        "sha256": "0365b69576b3608afe54b5a097ef61e8dff8e6198e000ac937dc3612b5ecaa2c"
+      },
+      {
+        "segment": "__DATA",
+        "section": "__la_symbol_ptr",
+        "bytes": 1208,
+        "zeroFill": false,
+        "sha256": "677b76148285b338c76cf0a1a5ee512c5b3f77503e216377a42d7840be613403"
+      },
+      {
+        "segment": "__DATA",
+        "section": "__data",
+        "bytes": 6976,
+        "zeroFill": false,
+        "sha256": "26bf1b22a709330d62358a25536c360db26babd0009ca358e0dfbf91c4bd2da8"
+      },
+      {
+        "segment": "__DATA",
+        "section": "__common",
+        "bytes": 4,
+        "zeroFill": true,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "segment": "__DATA",
+        "section": "__bss",
+        "bytes": 5480,
+        "zeroFill": true,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    ]
+  },
+  {
+    "source": "supplemental1",
+    "path": "sklearn/tree/_utils.cpython-312-darwin.so",
+    "sourceSha256": "18c8918888a9e67b924e553321d47e718b353e3d9aa1929b710ba0b2f2b516a9",
+    "sections": [
+      {
+        "segment": "__TEXT",
+        "section": "__text",
+        "bytes": 38188,
+        "zeroFill": false,
+        "sha256": "08ada48da78d38f88a6f6db8a65f5b2ff013b08e19fe55a74c85b06e377ab57a"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__stubs",
+        "bytes": 1320,
+        "zeroFill": false,
+        "sha256": "5c3b228be263af6ffed85140104fe92104c6c22a94d3c6e79c347356b92a6e99"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__stub_helper",
+        "bytes": 1344,
+        "zeroFill": false,
+        "sha256": "f1992729da0ad42954602c7812884c29d29b2e8f45b5ea4e979c78b7f887415b"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__const",
+        "bytes": 1931,
+        "zeroFill": false,
+        "sha256": "02f4d78424d1c1081511f8d11829d8aa542542b390e9090215ce3381f6eb6834"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__cstring",
+        "bytes": 5355,
+        "zeroFill": false,
+        "sha256": "ced948ad833b9b75b480c95a8080b8d9d89c9717a5ae9baa2e4661fd039ad1ec"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__unwind_info",
+        "bytes": 368,
+        "zeroFill": false,
+        "sha256": "21a4171a083b89d9f489800f9be034265bf6d1f7473a672339be7b8a740e706c"
+      },
+      {
+        "segment": "__DATA_CONST",
+        "section": "__got",
+        "bytes": 200,
+        "zeroFill": false,
+        "sha256": "6d9c54dee5660c46886f32d80e57e9dd0ffa57ee0cd2a762b036d9c8e0c3a33a"
+      },
+      {
+        "segment": "__DATA_CONST",
+        "section": "__const",
+        "bytes": 528,
+        "zeroFill": false,
+        "sha256": "dc86c201d4d50e0e2655b8d8c3a8055022c0ec2b4499e9444d2a21793b87536d"
+      },
+      {
+        "segment": "__DATA",
+        "section": "__la_symbol_ptr",
+        "bytes": 880,
+        "zeroFill": false,
+        "sha256": "646e2e708de2a0f7219a3a289433dd6d2679d4c85bea2d56c834c82f684894b0"
+      },
+      {
+        "segment": "__DATA",
+        "section": "__data",
+        "bytes": 2864,
+        "zeroFill": false,
+        "sha256": "b682173c222cd0fc2bbb14465288ed2bdfb8099de2908bfee33a8327ecc9a8d9"
+      },
+      {
+        "segment": "__DATA",
+        "section": "__common",
+        "bytes": 4,
+        "zeroFill": true,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "segment": "__DATA",
+        "section": "__bss",
+        "bytes": 1544,
+        "zeroFill": true,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    ]
+  },
+  {
+    "source": "supplemental1",
+    "path": "sklearn/utils/_bitset.cpython-312-darwin.so",
+    "sourceSha256": "987d0e8fd186f861f3a00c6857d9180b4974f1e8caa82bb58eaa080774d96e6e",
+    "sections": [
+      {
+        "segment": "__TEXT",
+        "section": "__text",
+        "bytes": 21800,
+        "zeroFill": false,
+        "sha256": "908827f4629759489de59dbce827e445cfda4505b1b05726a1d68ab6bddca3d3"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__stubs",
+        "bytes": 984,
+        "zeroFill": false,
+        "sha256": "da240182dfe512beea4394f0be6361e77aa2e4658487e9ff2dc7b681fd86866e"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__stub_helper",
+        "bytes": 1008,
+        "zeroFill": false,
+        "sha256": "44013ca88bf1c1f62886bb1ecb7e6f1658fb4b3b34872be64f3c7e9e5aa344b2"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__const",
+        "bytes": 1805,
+        "zeroFill": false,
+        "sha256": "759c28db61d09c907a92c1f3734e8ca749b11749d6d45c7d7e0c5e2615b27b21"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__cstring",
+        "bytes": 2921,
+        "zeroFill": false,
+        "sha256": "edbdea9bd3e91d13c1ebefdde487ef5ab74997854b33d4d7f2f034ea68aca6cd"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__unwind_info",
+        "bytes": 288,
+        "zeroFill": false,
+        "sha256": "2469d013212bab0515de2dcf35b90e982bf55de0a126dbd3fd8c4c71dc23d961"
+      },
+      {
+        "segment": "__DATA_CONST",
+        "section": "__got",
+        "bytes": 168,
+        "zeroFill": false,
+        "sha256": "e3c2af35d1dfc500e16f826a071cc311bf55003a3de77de7ea3376c6b6fa2857"
+      },
+      {
+        "segment": "__DATA_CONST",
+        "section": "__const",
+        "bytes": 712,
+        "zeroFill": false,
+        "sha256": "b14bb8dfa9509399d211ad6c0231ba94ea81b084b84d349f8baac7379c3dbb28"
+      },
+      {
+        "segment": "__DATA",
+        "section": "__la_symbol_ptr",
+        "bytes": 656,
+        "zeroFill": false,
+        "sha256": "d3af1f7005d6419b79360d6812ebb6d94c5655f90d927b976c44c902890c6521"
+      },
+      {
+        "segment": "__DATA",
+        "section": "__data",
+        "bytes": 1584,
+        "zeroFill": false,
+        "sha256": "759a13cf0037e5fe25997280ee5e80f32acfe8ffffac36c3f6188a94b27341ea"
+      },
+      {
+        "segment": "__DATA",
+        "section": "__common",
+        "bytes": 4,
+        "zeroFill": true,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "segment": "__DATA",
+        "section": "__bss",
+        "bytes": 848,
+        "zeroFill": true,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    ]
+  },
+  {
+    "source": "supplemental1",
+    "path": "sklearn/utils/_cython_blas.cpython-312-darwin.so",
+    "sourceSha256": "3c553a603c9249bfc27ce0c56cd0898609430f46284ea97d605c745e451c902d",
+    "sections": [
+      {
+        "segment": "__TEXT",
+        "section": "__text",
+        "bytes": 116456,
+        "zeroFill": false,
+        "sha256": "8f0d7d705a7682864108a54dc50d8a074aca72d8e5cec1cfbe40088fc86266b2"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__stubs",
+        "bytes": 1368,
+        "zeroFill": false,
+        "sha256": "548dee2c9f9b1fe7936f2797efca02b2d7da09864760cb3c38b68c4aeb7994df"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__stub_helper",
+        "bytes": 1392,
+        "zeroFill": false,
+        "sha256": "de60e8c62aeda4e4603e0ab1492787e186f72ba12fa81c23b2972067e0a6cb3a"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__const",
+        "bytes": 2920,
+        "zeroFill": false,
+        "sha256": "5fb99539c6ed7eccc5f4540b62e1dfb4f1371fd66bf0afec1e3f644d7b8b8b38"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__cstring",
+        "bytes": 5888,
+        "zeroFill": false,
+        "sha256": "6d3b5e113a52fa13ff35a764657d08d6dc520733cb42147e1b08dfde22bd6976"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__unwind_info",
+        "bytes": 536,
+        "zeroFill": false,
+        "sha256": "51ce7b5d779e913c756bf1798333dc59ccec911e848962cb74423009348bd1a1"
+      },
+      {
+        "segment": "__DATA_CONST",
+        "section": "__got",
+        "bytes": 216,
+        "zeroFill": false,
+        "sha256": "a5645e7a3fa0866cde8842c4dab96567507c3d1a3c028b816bc63f6966367b70"
+      },
+      {
+        "segment": "__DATA_CONST",
+        "section": "__const",
+        "bytes": 1264,
+        "zeroFill": false,
+        "sha256": "b0e8156f950371b079b1ec73a6f5b005a19eff95592b1d436d5b1610000d0180"
+      },
+      {
+        "segment": "__DATA",
+        "section": "__la_symbol_ptr",
+        "bytes": 912,
+        "zeroFill": false,
+        "sha256": "93c251abf3473ea8f72819a56c19e489acdefc73291b3e859d3f7d8b861adf94"
+      },
+      {
+        "segment": "__DATA",
+        "section": "__data",
+        "bytes": 3376,
+        "zeroFill": false,
+        "sha256": "0d02e15b14952bec32ba2f2f668aef3b70e149797f59807b18bb486802db5dba"
+      },
+      {
+        "segment": "__DATA",
+        "section": "__common",
+        "bytes": 4,
+        "zeroFill": true,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "segment": "__DATA",
+        "section": "__bss",
+        "bytes": 2024,
+        "zeroFill": true,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    ]
+  },
+  {
+    "source": "supplemental1",
+    "path": "sklearn/utils/_fast_dict.cpython-312-darwin.so",
+    "sourceSha256": "164de09931b6cb783216ae283420ac331a8e435890091f4dabac71c6a942840e",
+    "sections": [
+      {
+        "segment": "__TEXT",
+        "section": "__text",
+        "bytes": 55396,
+        "zeroFill": false,
+        "sha256": "b032c2f48c5202e149dbce5d1c1b9b1d3fa25b1c7e1b8bbeea766c5103f945db"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__stubs",
+        "bytes": 1560,
+        "zeroFill": false,
+        "sha256": "2d44ea5107598a6ba6831e901f5f9f02817145bdd98204c1bc1510bd2ba0e805"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__stub_helper",
+        "bytes": 1560,
+        "zeroFill": false,
+        "sha256": "71536c1f73a811c051b9107689cf4a9bf163575b739862d5b33f65ee2a99fcb9"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__const",
+        "bytes": 2377,
+        "zeroFill": false,
+        "sha256": "b58515b6f7ff9687286f00a4ae0d20ce9ce4e0dd4e457891df846c02bf92e93b"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__gcc_except_tab",
+        "bytes": 408,
+        "zeroFill": false,
+        "sha256": "a44d566a921edaf46c00e247ee93c84f0c5dc2e00e0af70b525c374589f8307a"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__cstring",
+        "bytes": 5200,
+        "zeroFill": false,
+        "sha256": "33d0213ab65d4b7799466333e127c154cd418c2d7888283aeed936373628e1fb"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__unwind_info",
+        "bytes": 576,
+        "zeroFill": false,
+        "sha256": "6ec10b08168c8ca93a871b62475229268eb26d9b53bebdabd9fc7b1f5aa65a0b"
+      },
+      {
+        "segment": "__DATA_CONST",
+        "section": "__got",
+        "bytes": 384,
+        "zeroFill": false,
+        "sha256": "a1a4f5721c1c4610af7f71078f3a68c330536d679803b0e0507ee8dc10c5dfca"
+      },
+      {
+        "segment": "__DATA_CONST",
+        "section": "__const",
+        "bytes": 664,
+        "zeroFill": false,
+        "sha256": "53938e71fe73466fe8e5978a46669748993dd08f624edb245e01a0a253f17293"
+      },
+      {
+        "segment": "__DATA",
+        "section": "__la_symbol_ptr",
+        "bytes": 1024,
+        "zeroFill": false,
+        "sha256": "42c9d6e853faddd3c00ca80c6b327ad77f755628925b92b9d0a81f677bdbcf55"
+      },
+      {
+        "segment": "__DATA",
+        "section": "__data",
+        "bytes": 3664,
+        "zeroFill": false,
+        "sha256": "5d1d66ed4c6781223d91be1895ce0205ec2046eb62c916deeae1e7cd66c079dc"
+      },
+      {
+        "segment": "__DATA",
+        "section": "__common",
+        "bytes": 4,
+        "zeroFill": true,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "segment": "__DATA",
+        "section": "__bss",
+        "bytes": 1488,
+        "zeroFill": true,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    ]
+  },
+  {
+    "source": "supplemental1",
+    "path": "sklearn/utils/_heap.cpython-312-darwin.so",
+    "sourceSha256": "bba3e112913d5a22bccc080a6b37ec5915e8b38128a1ecf4c643d18d2a6d76f6",
+    "sections": [
+      {
+        "segment": "__TEXT",
+        "section": "__text",
+        "bytes": 4432,
+        "zeroFill": false,
+        "sha256": "0b06c968a3f672e2810a794a7a60aa33e7019b73cb0824a8e753e4f4493c25c4"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__stubs",
+        "bytes": 528,
+        "zeroFill": false,
+        "sha256": "c113b268a468423195dce809d6b5865046eec039af1ebba0949fec773b8fd180"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__stub_helper",
+        "bytes": 552,
+        "zeroFill": false,
+        "sha256": "e071a7ff2a24f90d56c55aff803d9c4fbc0c69df1ff03879316e416de8ac9985"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__cstring",
+        "bytes": 800,
+        "zeroFill": false,
+        "sha256": "8bc743078a6bd575bdead354377b321fc446eebb17021e3828270a3315308672"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__unwind_info",
+        "bytes": 104,
+        "zeroFill": false,
+        "sha256": "b2572281d11498261d188a208961d0f8e0d39ff0824de8214bebfa94e4f72cc7"
+      },
+      {
+        "segment": "__DATA_CONST",
+        "section": "__got",
+        "bytes": 56,
+        "zeroFill": false,
+        "sha256": "d4817aa5497628e7c77e6b606107042bbba3130888c5f47a375e6179be789fbb"
+      },
+      {
+        "segment": "__DATA_CONST",
+        "section": "__const",
+        "bytes": 24,
+        "zeroFill": false,
+        "sha256": "1b49c5cd078ed2b4bf135605fd6dbf1ce9d21f6d4953ae0b88290d23f4ba201d"
+      },
+      {
+        "segment": "__DATA",
+        "section": "__la_symbol_ptr",
+        "bytes": 352,
+        "zeroFill": false,
+        "sha256": "363e814d08a1ec2dae9b1299d2f3d80fbfbb1eed47b13489bae506183621ef80"
+      },
+      {
+        "segment": "__DATA",
+        "section": "__data",
+        "bytes": 168,
+        "zeroFill": false,
+        "sha256": "6225dd3b20924487c0e9ef007b3fa50d41b0f36115f7c0cb603a061cab60210e"
+      },
+      {
+        "segment": "__DATA",
+        "section": "__common",
+        "bytes": 4,
+        "zeroFill": true,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "segment": "__DATA",
+        "section": "__bss",
+        "bytes": 192,
+        "zeroFill": true,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    ]
+  },
+  {
+    "source": "supplemental1",
+    "path": "sklearn/utils/_isfinite.cpython-312-darwin.so",
+    "sourceSha256": "38dc9c71df52a0122eec35fd291d1c940ebccfd7fc6e87212c952ea0d6905369",
+    "sections": [
+      {
+        "segment": "__TEXT",
+        "section": "__text",
+        "bytes": 32960,
+        "zeroFill": false,
+        "sha256": "9fbfed8ffa9e47c576a60bb3e6904752af585eb90ed8c6bcab483f964b436498"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__stubs",
+        "bytes": 1308,
+        "zeroFill": false,
+        "sha256": "3a679dc2c93178e963dc6d29084262ad5cfdf43d2767e53e47883b526de15157"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__stub_helper",
+        "bytes": 1332,
+        "zeroFill": false,
+        "sha256": "866f746f25d9e6dc7fab30e439c968e1a356620f36f066890f39d5acc9469ce5"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__const",
+        "bytes": 1643,
+        "zeroFill": false,
+        "sha256": "2379c33b8de84a25013ac0e063a2e7017933b741464c16ca1ef247ad8a44a186"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__cstring",
+        "bytes": 3368,
+        "zeroFill": false,
+        "sha256": "d784cba43beba990bcc226ab9ab62df88fc66facb1307a6b81ab76613cb3c4e1"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__unwind_info",
+        "bytes": 336,
+        "zeroFill": false,
+        "sha256": "8ee469fcc574db1e9cbd83c9954ea11bf9b9520198740cce9e014ef2de9b7237"
+      },
+      {
+        "segment": "__DATA_CONST",
+        "section": "__got",
+        "bytes": 200,
+        "zeroFill": false,
+        "sha256": "6d9c54dee5660c46886f32d80e57e9dd0ffa57ee0cd2a762b036d9c8e0c3a33a"
+      },
+      {
+        "segment": "__DATA_CONST",
+        "section": "__const",
+        "bytes": 552,
+        "zeroFill": false,
+        "sha256": "09a37f21cace005e2f64f5ab2ae7b4fb3f0371bc7af0f48610506b9100abdee7"
+      },
+      {
+        "segment": "__DATA",
+        "section": "__la_symbol_ptr",
+        "bytes": 872,
+        "zeroFill": false,
+        "sha256": "5307daae1f9928ac493e099408e25bd7ff3bcc79747f0d946889861e797ec13b"
+      },
+      {
+        "segment": "__DATA",
+        "section": "__data",
+        "bytes": 2416,
+        "zeroFill": false,
+        "sha256": "ef09e90dfeaf77808ed2f8b5c9b13791e4053c5a3c919429da7c843dc0f6a983"
+      },
+      {
+        "segment": "__DATA",
+        "section": "__common",
+        "bytes": 4,
+        "zeroFill": true,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "segment": "__DATA",
+        "section": "__bss",
+        "bytes": 1176,
+        "zeroFill": true,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    ]
+  },
+  {
+    "source": "supplemental1",
+    "path": "sklearn/utils/_random.cpython-312-darwin.so",
+    "sourceSha256": "6a458f02bd9feb962add3a6399ed3a56594cfc97179e8bea4e902170fa73981a",
+    "sections": [
+      {
+        "segment": "__TEXT",
+        "section": "__text",
+        "bytes": 80316,
+        "zeroFill": false,
+        "sha256": "2ba2564e47f803e69620e482c5f90844341714da9b45b9af7ee2fa84a71c8254"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__stubs",
+        "bytes": 1440,
+        "zeroFill": false,
+        "sha256": "1d1853b6cec55a9619fbb5f15fab9107feb996f0d24bfdf33994dc42c7e5cef9"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__stub_helper",
+        "bytes": 1464,
+        "zeroFill": false,
+        "sha256": "2ce6f110d9c8d89200a9eee2bb64521b03441b9c818265425d3efb5502c13d87"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__const",
+        "bytes": 8928,
+        "zeroFill": false,
+        "sha256": "f0e8e3d94031272688edc88455717901db3b1f221761ff91d7ae9c960912934d"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__cstring",
+        "bytes": 4986,
+        "zeroFill": false,
+        "sha256": "6e7c159d83771eaebe64ffe83ffdf53d3cf7663f5377056b40f3f1fa9b869800"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__unwind_info",
+        "bytes": 424,
+        "zeroFill": false,
+        "sha256": "f28586984c63c19e1795a90a45b2d71cb02f7c01e0b15f0c24ea1ac2a98a52cf"
+      },
+      {
+        "segment": "__DATA_CONST",
+        "section": "__got",
+        "bytes": 216,
+        "zeroFill": false,
+        "sha256": "a5645e7a3fa0866cde8842c4dab96567507c3d1a3c028b816bc63f6966367b70"
+      },
+      {
+        "segment": "__DATA_CONST",
+        "section": "__const",
+        "bytes": 616,
+        "zeroFill": false,
+        "sha256": "1c32a9fd718f373f53b1a20cbd057b7636f3fd1a129f44ffef0f14dbc3f0360b"
+      },
+      {
+        "segment": "__DATA",
+        "section": "__la_symbol_ptr",
+        "bytes": 960,
+        "zeroFill": false,
+        "sha256": "aa93b746ad913f0349be025f1cad2c4e158383b13a19f87e3db8f8672e182b5f"
+      },
+      {
+        "segment": "__DATA",
+        "section": "__data",
+        "bytes": 2768,
+        "zeroFill": false,
+        "sha256": "096b9b2ab85ce297bba5c91e616506e2edc0e1138a71b54211be73c60e1ebca8"
+      },
+      {
+        "segment": "__DATA",
+        "section": "__common",
+        "bytes": 4,
+        "zeroFill": true,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "segment": "__DATA",
+        "section": "__bss",
+        "bytes": 1512,
+        "zeroFill": true,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    ]
+  },
+  {
+    "source": "supplemental1",
+    "path": "sklearn/utils/_seq_dataset.cpython-312-darwin.so",
+    "sourceSha256": "74c5b1ce2635dfa163944a4b0d782b223459dfbf7dead1890c0c9ad41ccabb3b",
+    "sections": [
+      {
+        "segment": "__TEXT",
+        "section": "__text",
+        "bytes": 88748,
+        "zeroFill": false,
+        "sha256": "5fd69cfbe57e2fc6770073c2f58d29995c6511eb1bc0efc5a0c277ac9ecd7e25"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__stubs",
+        "bytes": 1344,
+        "zeroFill": false,
+        "sha256": "c97a4f2c07f578b40de965840eb2ba95772931fc0c95c687a8f7ee6b2491de04"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__stub_helper",
+        "bytes": 1368,
+        "zeroFill": false,
+        "sha256": "91e49663b5d027ba1953485b6e1d4c6c8f4e5693861858a43b775b8221513277"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__const",
+        "bytes": 2653,
+        "zeroFill": false,
+        "sha256": "3c6ca3f8b6a49504746e5457887348f80219210f3103e97f99f1af1b1aa7ab29"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__cstring",
+        "bytes": 6219,
+        "zeroFill": false,
+        "sha256": "a7e92b87ea84ff63431eed4fda0a7099f3d0ed1a3454786f01062ff3ee650f3c"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__unwind_info",
+        "bytes": 456,
+        "zeroFill": false,
+        "sha256": "3da6c0fe103e744937baf19252c857750778a3fee02238c852762632f2e679c8"
+      },
+      {
+        "segment": "__DATA_CONST",
+        "section": "__got",
+        "bytes": 192,
+        "zeroFill": false,
+        "sha256": "5d89f056865052bcb89c910d2d62872e029fb273c3db03f8968a52a41593c1b5"
+      },
+      {
+        "segment": "__DATA_CONST",
+        "section": "__const",
+        "bytes": 1016,
+        "zeroFill": false,
+        "sha256": "6f7df37cf707613243bc31cc9c8565c40e6f76466ea96d70a49214a704a91d48"
+      },
+      {
+        "segment": "__DATA",
+        "section": "__la_symbol_ptr",
+        "bytes": 896,
+        "zeroFill": false,
+        "sha256": "9106d6bc853fd1e61f5a023ebad960a127da3bff0910422fca6d4dd942933879"
+      },
+      {
+        "segment": "__DATA",
+        "section": "__data",
+        "bytes": 5456,
+        "zeroFill": false,
+        "sha256": "aa7df40eb64cea5487c238e5b2729dd1e07e1cc07ce7042a8fb489007be1330a"
+      },
+      {
+        "segment": "__DATA",
+        "section": "__common",
+        "bytes": 4,
+        "zeroFill": true,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "segment": "__DATA",
+        "section": "__bss",
+        "bytes": 2008,
+        "zeroFill": true,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    ]
+  },
+  {
+    "source": "supplemental1",
+    "path": "sklearn/utils/_sorting.cpython-312-darwin.so",
+    "sourceSha256": "32d8a8627ce06c10e4632616a5b013d91d098dc2136b430ee66c5b50f4eb062d",
+    "sections": [
+      {
+        "segment": "__TEXT",
+        "section": "__text",
+        "bytes": 33712,
+        "zeroFill": false,
+        "sha256": "6bce07f6ad81197229e778f551a569bd08565a2c029acc8d4d4218eb3ad8aea2"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__stubs",
+        "bytes": 1212,
+        "zeroFill": false,
+        "sha256": "85630b1264dd730748a2a766df5690e8a358c26b6d81875ef73446e5f2481b6e"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__stub_helper",
+        "bytes": 1236,
+        "zeroFill": false,
+        "sha256": "f014b5ff69d799e3928464462af73e2c050fdf96f5dfee34fc8b9c9a18bd2f3d"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__const",
+        "bytes": 1717,
+        "zeroFill": false,
+        "sha256": "c3a89e3ebc27f746f710a1a181c9ab09953ddc8d1811d1f0bb0618127a1e4c55"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__cstring",
+        "bytes": 3314,
+        "zeroFill": false,
+        "sha256": "06ac358c9ebc457008e826216998071cf70200ea1c5d4df2bb4ccd6b27d4bcfd"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__unwind_info",
+        "bytes": 336,
+        "zeroFill": false,
+        "sha256": "79eabc2466f1cbb29f0cc91daa943bbd11be32440a3bd134068afaeccbc68149"
+      },
+      {
+        "segment": "__DATA_CONST",
+        "section": "__got",
+        "bytes": 176,
+        "zeroFill": false,
+        "sha256": "86d2cf5b090f43ee54d8f7c1dcf746a853951191457ff6dac96269a9d24860b9"
+      },
+      {
+        "segment": "__DATA_CONST",
+        "section": "__const",
+        "bytes": 656,
+        "zeroFill": false,
+        "sha256": "3bf003e39e2bd738e8203e062c459286491d9439ccf66975a06bf0776eb60fb4"
+      },
+      {
+        "segment": "__DATA",
+        "section": "__la_symbol_ptr",
+        "bytes": 808,
+        "zeroFill": false,
+        "sha256": "bbe8e1c8c32bd95027d609fd62063e669e42e4cae989ff1aed4bef65889fc994"
+      },
+      {
+        "segment": "__DATA",
+        "section": "__data",
+        "bytes": 2416,
+        "zeroFill": false,
+        "sha256": "8231b1287ec83ac24566b8a891fd8c7d5635701f6c2a6fbb3b921ba094b1e7fd"
+      },
+      {
+        "segment": "__DATA",
+        "section": "__common",
+        "bytes": 4,
+        "zeroFill": true,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "segment": "__DATA",
+        "section": "__bss",
+        "bytes": 1064,
+        "zeroFill": true,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    ]
+  },
+  {
+    "source": "supplemental1",
+    "path": "sklearn/utils/_typedefs.cpython-312-darwin.so",
+    "sourceSha256": "0d64ef754e23d1613fe70f37f79c92e5ea1c95af126de130d56a2a7aa89ac7ff",
+    "sections": [
+      {
+        "segment": "__TEXT",
+        "section": "__text",
+        "bytes": 43596,
+        "zeroFill": false,
+        "sha256": "a19157b9c434b3a6e875c63f3942091af32d602de332d1c8794162307f495db2"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__stubs",
+        "bytes": 1320,
+        "zeroFill": false,
+        "sha256": "e67b50511f2536e8a63188ad5c6193212da296130e8dc8a11207a0582a99e222"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__stub_helper",
+        "bytes": 1344,
+        "zeroFill": false,
+        "sha256": "e73c6a2808ffbd16a6c9b11e3dffc517ccbacd0b0f7d2feef4845b22eebcbf20"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__const",
+        "bytes": 1649,
+        "zeroFill": false,
+        "sha256": "827a93c9bf13c3174db493469f3cd16fec7fe6c1a6ef5bf3e0812cb3fc32f27d"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__cstring",
+        "bytes": 4017,
+        "zeroFill": false,
+        "sha256": "06debf0701bf948ac40118d1358193fb5f6a7160b012c9e70c5c0555f1dc7618"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__unwind_info",
+        "bytes": 440,
+        "zeroFill": false,
+        "sha256": "535d2c54ff760f73b631c0528f14c7326b48d56e01e3fcc38e419c178af1ea0f"
+      },
+      {
+        "segment": "__DATA_CONST",
+        "section": "__got",
+        "bytes": 208,
+        "zeroFill": false,
+        "sha256": "46f531b7ea0428fbf2c3ca2b60e8dc33d6bbfa000e0fd1b489c5e39140a47006"
+      },
+      {
+        "segment": "__DATA_CONST",
+        "section": "__const",
+        "bytes": 1280,
+        "zeroFill": false,
+        "sha256": "36e974be47d8df8f89e348f07359d2da8486f5f4a1a4914945fb0478b79f64ef"
+      },
+      {
+        "segment": "__DATA",
+        "section": "__la_symbol_ptr",
+        "bytes": 880,
+        "zeroFill": false,
+        "sha256": "e6e274b1eefaaf4a48b5e049a86aa2858db5de501bd91110a7aa485ee8b81cfa"
+      },
+      {
+        "segment": "__DATA",
+        "section": "__data",
+        "bytes": 2640,
+        "zeroFill": false,
+        "sha256": "78a0e6b749f0383c18b98bb8c6be2fb5d85136000a9c2c06772a8c8303bdf2b1"
+      },
+      {
+        "segment": "__DATA",
+        "section": "__common",
+        "bytes": 4,
+        "zeroFill": true,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "segment": "__DATA",
+        "section": "__bss",
+        "bytes": 1184,
+        "zeroFill": true,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    ]
+  },
+  {
+    "source": "supplemental1",
+    "path": "sklearn/utils/_vector_sentinel.cpython-312-darwin.so",
+    "sourceSha256": "bbb6ba0e8cab01066580b1ef1939bc72dc533772c037ea9ecc77612dfa9c7abc",
+    "sections": [
+      {
+        "segment": "__TEXT",
+        "section": "__text",
+        "bytes": 58924,
+        "zeroFill": false,
+        "sha256": "6e0e7db74f85be0b877b6dd1702bf6c39a59dd88454ecc70d4a720ac593448cc"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__stubs",
+        "bytes": 1452,
+        "zeroFill": false,
+        "sha256": "42be8c96ab375ac9618fb2bba085cf4f9cd2c8efbff684c245559a4b9a60069a"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__stub_helper",
+        "bytes": 1452,
+        "zeroFill": false,
+        "sha256": "9156f0d9928acd65f784c3dbe94859b41b28ec023df2b505dc44cc2f2c5544dc"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__const",
+        "bytes": 1345,
+        "zeroFill": false,
+        "sha256": "14e08a3b81d173d4124bce748768e6196505ad93bc14a475468a62f2683f121a"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__gcc_except_tab",
+        "bytes": 828,
+        "zeroFill": false,
+        "sha256": "e09cc0babdaaf81b5a43666666aef609741b44b2592568353c61dc1da68ea40c"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__cstring",
+        "bytes": 7554,
+        "zeroFill": false,
+        "sha256": "8aaa413b504eadb1d5f981b2b4ff441f42ad0f2f0e7c0c2694cd9c9118d6a19e"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__unwind_info",
+        "bytes": 552,
+        "zeroFill": false,
+        "sha256": "e92fa6c2f539f31c2f00f47ef0593b7172b224389f2146b6e495e396523ef380"
+      },
+      {
+        "segment": "__DATA_CONST",
+        "section": "__got",
+        "bytes": 416,
+        "zeroFill": false,
+        "sha256": "4cc7e6272db6b1ad7581f76c63c694e926e20698e9b02223d5041a55960463f2"
+      },
+      {
+        "segment": "__DATA_CONST",
+        "section": "__const",
+        "bytes": 144,
+        "zeroFill": false,
+        "sha256": "f431f169262abba2f86a21225a0d0080611b36f2f2b908ba32b6c60d02631f94"
+      },
+      {
+        "segment": "__DATA",
+        "section": "__la_symbol_ptr",
+        "bytes": 952,
+        "zeroFill": false,
+        "sha256": "44a5d0604a4593d0b92754a79cc195055d2aeb17ecd9fbd6453658133223d256"
+      },
+      {
+        "segment": "__DATA",
+        "section": "__data",
+        "bytes": 4528,
+        "zeroFill": false,
+        "sha256": "875fec250ad329bd1859191704e526b5d8ca311daf195a6fd5b899d5897661a1"
+      },
+      {
+        "segment": "__DATA",
+        "section": "__common",
+        "bytes": 4,
+        "zeroFill": true,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "segment": "__DATA",
+        "section": "__bss",
+        "bytes": 1360,
+        "zeroFill": true,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    ]
+  },
+  {
+    "source": "supplemental1",
+    "path": "sklearn/utils/_weight_vector.cpython-312-darwin.so",
+    "sourceSha256": "7a828c9416512be2990438405ffd9724ff63ff96a5fecc90adc812f7c60c0955",
+    "sections": [
+      {
+        "segment": "__TEXT",
+        "section": "__text",
+        "bytes": 22536,
+        "zeroFill": false,
+        "sha256": "d5e30a8ac9454b3365407fece6f455a8ac84759aacaacc0c01e9d77821cce87e"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__stubs",
+        "bytes": 948,
+        "zeroFill": false,
+        "sha256": "c86a9cf2c561010f120672933fae98c50cd0dac7c127563cad81eb96edf591d3"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__stub_helper",
+        "bytes": 972,
+        "zeroFill": false,
+        "sha256": "df8f2c95f25751c397256f8cc52cc9dbd561df8f30cec6c2a2f9a31f5dc35af6"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__const",
+        "bytes": 1419,
+        "zeroFill": false,
+        "sha256": "e54ab361b56d32258adef2086de0c155623191a824221d8081cdf826d7f6e6f4"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__cstring",
+        "bytes": 4203,
+        "zeroFill": false,
+        "sha256": "fbc671d51986b99e43432e9f5498c7761942ab86410ba8b25e44ce9d43d159fb"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__unwind_info",
+        "bytes": 240,
+        "zeroFill": false,
+        "sha256": "dc1f7be0f9ff066644fcb4b3379482dbf4dd27da43f4f1a32f85374ae07484c2"
+      },
+      {
+        "segment": "__DATA_CONST",
+        "section": "__got",
+        "bytes": 128,
+        "zeroFill": false,
+        "sha256": "38723a2e5e8a17aa7950dc008209944e898f69a7bd10a23c839d341e935fd5ca"
+      },
+      {
+        "segment": "__DATA_CONST",
+        "section": "__const",
+        "bytes": 640,
+        "zeroFill": false,
+        "sha256": "5a18292c70a47c800b6b47861c3957b1d5fd35d6735141ae1b980ed87bf79877"
+      },
+      {
+        "segment": "__DATA",
+        "section": "__la_symbol_ptr",
+        "bytes": 632,
+        "zeroFill": false,
+        "sha256": "6b55a96276c970420dbca6f66189c4682a26c8183c7becb3fb33f647899d5d4d"
+      },
+      {
+        "segment": "__DATA",
+        "section": "__data",
+        "bytes": 1432,
+        "zeroFill": false,
+        "sha256": "189cde5705f177caf6b59b2bb18876936640c3e53b0b5f6193b037d756a2a44a"
+      },
+      {
+        "segment": "__DATA",
+        "section": "__common",
+        "bytes": 4,
+        "zeroFill": true,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "segment": "__DATA",
+        "section": "__bss",
+        "bytes": 944,
+        "zeroFill": true,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    ]
+  },
+  {
+    "source": "supplemental1",
+    "path": "sklearn/utils/arrayfuncs.cpython-312-darwin.so",
+    "sourceSha256": "ff4ca378e2912571f6566dd7be0eb0cbf2140e0f9e1db25d6ce46b3b1f481756",
+    "sections": [
+      {
+        "segment": "__TEXT",
+        "section": "__text",
+        "bytes": 57804,
+        "zeroFill": false,
+        "sha256": "e815b06a813c17fb54af1635a402f6c971a34f1cd0705c9f041c03edaa591f76"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__stubs",
+        "bytes": 1224,
+        "zeroFill": false,
+        "sha256": "dbbba17d8920e8b8bf7d492da5a97a4dd5198a54cb53e832ca4ec6eaa725ec38"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__stub_helper",
+        "bytes": 1248,
+        "zeroFill": false,
+        "sha256": "4c28e501220bfd6752e13e6c68681443640ee162eb37662cbb662744e38052e3"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__const",
+        "bytes": 3606,
+        "zeroFill": false,
+        "sha256": "fe77fbd613b362d7dc9f2c50ae058961d34064aabda907f3ea8ca04c8da2dd1a"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__cstring",
+        "bytes": 4234,
+        "zeroFill": false,
+        "sha256": "19d597ac64eed5eef41ba9c2cc6be9a30409be9b5ba2066fc2b58f9a5962e086"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__unwind_info",
+        "bytes": 384,
+        "zeroFill": false,
+        "sha256": "36a5c3fc20032374ebc75814d2f71158a53e73ab661a41219bc634d0e2219bc5"
+      },
+      {
+        "segment": "__DATA_CONST",
+        "section": "__got",
+        "bytes": 200,
+        "zeroFill": false,
+        "sha256": "6d9c54dee5660c46886f32d80e57e9dd0ffa57ee0cd2a762b036d9c8e0c3a33a"
+      },
+      {
+        "segment": "__DATA_CONST",
+        "section": "__const",
+        "bytes": 1272,
+        "zeroFill": false,
+        "sha256": "7b10318b37a2d08e79fee3fa3c31c8bedbac3ad38df5d3f99dceda0e64136bfc"
+      },
+      {
+        "segment": "__DATA",
+        "section": "__la_symbol_ptr",
+        "bytes": 816,
+        "zeroFill": false,
+        "sha256": "f3e35e91d197df3269207ebbd3f0dfa36498b6f14d248c5c5ee708e33869cf87"
+      },
+      {
+        "segment": "__DATA",
+        "section": "__data",
+        "bytes": 2736,
+        "zeroFill": false,
+        "sha256": "079e9034ba83f01d7c39e92ab8bdf57fc76db50d53342856bfaf5ea089e1498f"
+      },
+      {
+        "segment": "__DATA",
+        "section": "__common",
+        "bytes": 4,
+        "zeroFill": true,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "segment": "__DATA",
+        "section": "__bss",
+        "bytes": 1432,
+        "zeroFill": true,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    ]
+  },
+  {
+    "source": "supplemental1",
+    "path": "sklearn/utils/murmurhash.cpython-312-darwin.so",
+    "sourceSha256": "99cc26b044c3ac277556ab48aae5bc35aa0e8ae7d5b9bd4feafc0b5b7608e435",
+    "sections": [
+      {
+        "segment": "__TEXT",
+        "section": "__text",
+        "bytes": 37884,
+        "zeroFill": false,
+        "sha256": "38e9329ddcec42377a324e0ca27678f3b490bd8b3fefd93a2177234a6497a891"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__stubs",
+        "bytes": 1164,
+        "zeroFill": false,
+        "sha256": "73f9e6bb189a4bc1eab870159e993dc78a0ef468b6f0cfa5b9499f815958b397"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__stub_helper",
+        "bytes": 1188,
+        "zeroFill": false,
+        "sha256": "01240ab3f4f34a2f7645fc8e2f35a6cc93dc3dac3e78c0c2cb1eb46830ffd212"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__const",
+        "bytes": 3774,
+        "zeroFill": false,
+        "sha256": "aeb4900b5314c73c4a2e5d8bfe53b607613a82c6591fede9c5deb6b1fc414f46"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__cstring",
+        "bytes": 3339,
+        "zeroFill": false,
+        "sha256": "1bd2fd8fbe3785cb45c4f7faf4b2eaf264395e72c586d6d07f0a3cd53bfa0f18"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__unwind_info",
+        "bytes": 336,
+        "zeroFill": false,
+        "sha256": "664e96251232261a95c92c8c20e2e6fc69a4f35801adaa329e134b5ee5da8206"
+      },
+      {
+        "segment": "__DATA_CONST",
+        "section": "__got",
+        "bytes": 200,
+        "zeroFill": false,
+        "sha256": "6d9c54dee5660c46886f32d80e57e9dd0ffa57ee0cd2a762b036d9c8e0c3a33a"
+      },
+      {
+        "segment": "__DATA_CONST",
+        "section": "__const",
+        "bytes": 736,
+        "zeroFill": false,
+        "sha256": "343764bbd366d4916616a013e8863dd4d43bfa608c0779df2c72296a13ea735b"
+      },
+      {
+        "segment": "__DATA",
+        "section": "__la_symbol_ptr",
+        "bytes": 776,
+        "zeroFill": false,
+        "sha256": "dac97f028d6fc80af80e5e96c66832f6eb6ed7b223d9c6aa4e45f321c5bc5c4b"
+      },
+      {
+        "segment": "__DATA",
+        "section": "__data",
+        "bytes": 1712,
+        "zeroFill": false,
+        "sha256": "ce3f8262153a9a5acb70a297fe65c12abb357d14fec31e302e2c6b42892b200c"
+      },
+      {
+        "segment": "__DATA",
+        "section": "__common",
+        "bytes": 4,
+        "zeroFill": true,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "segment": "__DATA",
+        "section": "__bss",
+        "bytes": 1120,
+        "zeroFill": true,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    ]
+  },
+  {
+    "source": "supplemental1",
+    "path": "sklearn/utils/sparsefuncs_fast.cpython-312-darwin.so",
+    "sourceSha256": "f44eecdae487db5eecebd6547a2f06c95db5ad00fefd5c07d21ff4ce5435fdc3",
+    "sections": [
+      {
+        "segment": "__TEXT",
+        "section": "__text",
+        "bytes": 451692,
+        "zeroFill": false,
+        "sha256": "c6273b29e5fcfd59881abbb046648d6d91472099d2072147b6acd90458cc0852"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__stubs",
+        "bytes": 1464,
+        "zeroFill": false,
+        "sha256": "44201bd4851f227e7eb079fa8b512ecdd778612b631e3aefdfe4bf33cec903bc"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__stub_helper",
+        "bytes": 1488,
+        "zeroFill": false,
+        "sha256": "ff75b92f2c1b4692ca27b949d9da642a3c2f923b9cbb4735c2db557307e91310"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__const",
+        "bytes": 11085,
+        "zeroFill": false,
+        "sha256": "199dbf860c240b1a939e567cc05e59432cc7a6208e4bce43a51f6253b3cb52c9"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__cstring",
+        "bytes": 6728,
+        "zeroFill": false,
+        "sha256": "594200fb286c78057a62fd14127cee5ccf13defc053da321e334182c2a1cd6f3"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__unwind_info",
+        "bytes": 496,
+        "zeroFill": false,
+        "sha256": "98f5e2253e351b1a6b6b4a91bb7136964d447758ab94d0e6fae9b2c9169e6637"
+      },
+      {
+        "segment": "__DATA_CONST",
+        "section": "__got",
+        "bytes": 240,
+        "zeroFill": false,
+        "sha256": "2dfba633817046c7f559ed4b93076048435f7e1a90f14eb8035c04b9ebae2537"
+      },
+      {
+        "segment": "__DATA_CONST",
+        "section": "__const",
+        "bytes": 1616,
+        "zeroFill": false,
+        "sha256": "373b9e2ddf50c0ddb2daa5bafbc5aeb878f4d6f364e5ece56bc1a1220e1b106a"
+      },
+      {
+        "segment": "__DATA",
+        "section": "__la_symbol_ptr",
+        "bytes": 976,
+        "zeroFill": false,
+        "sha256": "0915a35d2fad67c7229481f56509f1da254848745e28a5465d99dcf08327698d"
+      },
+      {
+        "segment": "__DATA",
+        "section": "__data",
+        "bytes": 3856,
+        "zeroFill": false,
+        "sha256": "e8b420d4f900f4474d4893a660366acc5e1492e4ae06a94513afa5576bea8d01"
+      },
+      {
+        "segment": "__DATA",
+        "section": "__common",
+        "bytes": 4,
+        "zeroFill": true,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "segment": "__DATA",
+        "section": "__bss",
+        "bytes": 2704,
+        "zeroFill": true,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    ]
+  },
+  {
+    "source": "supplemental1",
+    "path": "torch/_C.cpython-312-darwin.so",
+    "sourceSha256": "7c6abb308da78d9bf7d5653711cc90c3ab66b88a30b49943808e3ab2e36767c8",
+    "sections": [
+      {
+        "segment": "__TEXT",
+        "section": "__text",
+        "bytes": 4,
+        "zeroFill": false,
+        "sha256": "788f1512f26f87f558ccda89030f23036527961be061f31e047ad5b93b8aafe2"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__stubs",
+        "bytes": 12,
+        "zeroFill": false,
+        "sha256": "115440bcb54635144f3b17d33ed987f38dc76f401eb00bf7086c2827afd159e1"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__stub_helper",
+        "bytes": 36,
+        "zeroFill": false,
+        "sha256": "c11608dee5c02f07f16d5dbfd328ea99cf04a6502b430f09a4f95e0855c15fc1"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__unwind_info",
+        "bytes": 88,
+        "zeroFill": false,
+        "sha256": "077e447c405731d5b82c67ec0e458d016aa2e58552e43d2469ffe40e0c523201"
+      },
+      {
+        "segment": "__DATA_CONST",
+        "section": "__got",
+        "bytes": 8,
+        "zeroFill": false,
+        "sha256": "af5570f5a1810b7af78caf4bc70a660f0df51e42baf91d4de5b2328de0e83dfc"
+      },
+      {
+        "segment": "__DATA",
+        "section": "__la_symbol_ptr",
+        "bytes": 8,
+        "zeroFill": false,
+        "sha256": "7d5f6a45bdc566538b461774d549fff17f1217f990e0c27d2e9f52768466abf8"
+      },
+      {
+        "segment": "__DATA",
+        "section": "__data",
+        "bytes": 8,
+        "zeroFill": false,
+        "sha256": "af5570f5a1810b7af78caf4bc70a660f0df51e42baf91d4de5b2328de0e83dfc"
+      }
+    ]
+  },
+  {
+    "source": "supplemental2",
+    "path": "PIL/.dylibs/libjpeg.62.4.0.dylib",
+    "sourceSha256": "cf7c4e5c2d2c007fc51afcb95b649415cfe0bc4d7137ace897a6eff6550fa967",
+    "sections": [
+      {
+        "segment": "__TEXT",
+        "section": "__text",
+        "bytes": 541048,
+        "zeroFill": false,
+        "sha256": "3a02adc93fa8fb8b136abd906e60ef4d764989c7f197d48acb2636a9ef29653c"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__stubs",
+        "bytes": 240,
+        "zeroFill": false,
+        "sha256": "2de1df24c11dafa70a5ea262d5f1545bba6c04ff2cfe656755ba6922a47ec1ec"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__stub_helper",
+        "bytes": 264,
+        "zeroFill": false,
+        "sha256": "5111a8a9fb2a43575b5643d21b5ff4822d47cb9560b73fd9659b3f99f72577d0"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__const",
+        "bytes": 8872,
+        "zeroFill": false,
+        "sha256": "0b7097244d519487d5049f1ea7d5dadd588969a16f5c4fcade4c2329b0967e86"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__cstring",
+        "bytes": 5120,
+        "zeroFill": false,
+        "sha256": "1ff17ca9e88a919897a2344354f35e752df8afb8cb9c063079101305d745e044"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__unwind_info",
+        "bytes": 2200,
+        "zeroFill": false,
+        "sha256": "de55d286dd43cefa2d1b4f7f4ce008576fc44cd2e6e6036dae24c11f2a7ddc46"
+      },
+      {
+        "segment": "__TEXT",
+        "section": "__eh_frame",
+        "bytes": 976,
+        "zeroFill": false,
+        "sha256": "1a728efa89e837350ec2fdeb63142257ef47a4a0731b7cc63f3589f46f4e0196"
+      },
+      {
+        "segment": "__DATA_CONST",
+        "section": "__got",
+        "bytes": 32,
+        "zeroFill": false,
+        "sha256": "66687aadf862bd776c8fc18b8e9f8e20089714856ee233b3902a591d0d5f2925"
+      },
+      {
+        "segment": "__DATA_CONST",
+        "section": "__const",
+        "bytes": 1504,
+        "zeroFill": false,
+        "sha256": "1a6bc6e177b00b7fe662861b3a4790a75a51b3ce2ca1306b73f1da1530ba08a9"
+      },
+      {
+        "segment": "__DATA",
+        "section": "__la_symbol_ptr",
+        "bytes": 160,
+        "zeroFill": false,
+        "sha256": "ee7d312454e81dff697d9d90e4c68ff8d61870c44980d896acb6f029925d4e51"
+      },
+      {
+        "segment": "__DATA",
+        "section": "__data",
+        "bytes": 8,
+        "zeroFill": false,
+        "sha256": "af5570f5a1810b7af78caf4bc70a660f0df51e42baf91d4de5b2328de0e83dfc"
+      },
+      {
+        "segment": "__DATA",
+        "section": "__thread_vars",
+        "bytes": 72,
+        "zeroFill": false,
+        "sha256": "c2e995fc63b00c6df2f60edc18d62b9745d349a0fde96f1bdf0485d8c4826722"
+      },
+      {
+        "segment": "__DATA",
+        "section": "__thread_data",
+        "bytes": 12,
+        "zeroFill": false,
+        "sha256": "5f146687b03243b254c3d403aaeca59c9231bc0773d11726673a589dbcb3f1be"
+      }
+    ]
+  }
+]

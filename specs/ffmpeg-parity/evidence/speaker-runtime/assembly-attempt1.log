@@ -1,0 +1,8 @@
+Traceback (most recent call last):
+  File "/private/tmp/screenrec-parity-speaker-cohort/packages/test-harness/editing/optional-runtime-assemble.py", line 94, in <module>
+    copy(child, python / "lib" / child.name)
+  File "/private/tmp/screenrec-parity-speaker-cohort/packages/test-harness/editing/optional-runtime-assemble.py", line 70, in copy
+    copy(child, destination / child.name)
+  File "/private/tmp/screenrec-parity-speaker-cohort/packages/test-harness/editing/optional-runtime-assemble.py", line 65, in copy
+    assert not os.path.isabs(target), "Absolute donor symlink needs an explicit packaging decision"
+AssertionError: Absolute donor symlink needs an explicit packaging decision
