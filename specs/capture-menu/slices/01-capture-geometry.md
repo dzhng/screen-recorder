@@ -1,6 +1,11 @@
 # 01 — Native capture geometry
 
-Status: TODO. Dependencies: None. First pickup point.
+Status: IMPLEMENTED/geometry verified October 5, 2026. Dependencies: None.
+Production fixture and focused behavior/preservation checks pass; see
+[retained evidence](../evidence/01-capture/report.md). The existing menu is unchanged.
+Actual native menu before-image remains OPEN for slice 05 before shell cutover;
+no reconstructed HTML is passed off as a baseline. Parent owns the non-blocking
+Preview review closeout and global handoff/checklist.
 
 ## Contract
 

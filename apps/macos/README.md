@@ -96,3 +96,18 @@ view with synthetic owner facts and checks that the form still scrolls to Genera
 It proves presentation without a service or permission inspection. Actual updater
 persistence, staged disarming and quiet relaunch belong to native coordination
 and the installed-update gate.
+
+## Capture presentation fixture
+
+The [capture view](Sources/ScreenRecorder/CaptureView.swift) consumes immutable
+rendering facts and emits supplied intents. It holds no capture selection, service
+state or recording clock. The controls owner admits those intents when the native
+shell binds the view; the fixture can describe future camera presentation without
+claiming device readiness.
+
+Run `node apps/macos/tests/capture-view-shots.mjs` from the repository root for
+focused native interaction, applicability and scroll checks plus offscreen images.
+`SHOTS` selects the output directory. The [fixture](tests/fixtures/capture-view.swift)
+owns synthetic scenarios; its images and metadata record native size, appearance
+and backing scale. This renderer never enumerates devices, inspects permissions,
+starts capture or activates the app.
