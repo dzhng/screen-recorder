@@ -439,8 +439,26 @@ try {
     "0.1.2",
   );
   assert.ok(deferred.update.error, "Defer must remain visible to callers");
+  // Sparkle logs the installer cause after its generic XPC-cycle failure. Scope
+  // the observer to this owned host and SDK so unrelated app logs never enter evidence.
+  const sdkDiagnostics = run("/usr/bin/log", [
+    "show",
+    "--last",
+    "5m",
+    "--style",
+    "compact",
+    "--info",
+    "--debug",
+    "--predicate",
+    `processIdentifier == ${appChild.pid} AND subsystem == "org.sparkle-project.Sparkle"`,
+  ]);
+  writeFileSync(join(root, "sparkle-diagnostics.log"), sdkDiagnostics);
+  report.sdkDiagnostics = {
+    pid: appChild.pid,
+    sha256: digest(join(root, "sparkle-diagnostics.log")),
+  };
   assert.match(
-    deferred.update.error.message + "\n" + diagnostics,
+    deferred.update.error.message + "\n" + diagnostics + "\n" + sdkDiagnostics,
     /Launch lock is unavailable/,
     "A generic update failure does not prove launch-lock deferral",
   );
@@ -529,9 +547,9 @@ try {
     report.quietCaptureStatus = status;
     save();
     assert.equal(status.ok, true);
-    assert.equal(status.data.state, "idle");
-    assert.equal(status.data.recordingId, null);
-    assert.equal(status.data.sourceId, null);
+    assert.equal(status.data.device.state, "idle");
+    assert.equal(status.data.device.recordingId, null);
+    assert.equal(status.data.device.sourceId, null);
   }
   report.after = await observeLibrary(home, report.library, async (...args) => cli(...args));
   save();

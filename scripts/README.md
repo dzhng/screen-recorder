@@ -115,4 +115,5 @@ nested signatures, encrypted identity restoration and relocation with explicitly
 selected framework/Node inputs. It creates and deletes only scratch keys; it
 changes no certificate trust and performs no permission checks. The
 [release signing checkpoint](../specs/auto-update/slices/02-signing-identity.md#signing-checkpoint)
-keeps the measured recipe separate from still-unprovided production credentials.
+keeps the scratch recipe separate from owner-approved
+[production credential custody](../specs/auto-update/assets/signing-custody.md).
