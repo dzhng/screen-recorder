@@ -69,6 +69,17 @@ records format ambiguity separately from the passing product journey. `taken.srt
 is a deliberate foreign-file operand, not a product output. `empty.srt` is a valid
 zero-byte delivery with an explicit omission report.
 
+The native export observer now decodes both caption kinds and carries their
+existing retry/abandon/reveal lifecycle into the existing menu. A caption record
+cannot start the app's destination chooser: that flow has no caption-placement
+selection. The pure controls regression first failed on SRT decoding, then passed
+for both kinds. The native controller check passes, and [retained real receipts
+through AppKit's menu adapter](../evidence/caption-sidecars/native-menu.json) preserve
+their actual delivery states/actions without displaying a menu. This proves
+contract handling, not rendered menu appearance. The standalone controls linker
+explicitly requests SwiftPM's native build system because it consumes its object
+map; the newer default layout lacks that map.
+
 Reproduction (new evidence directory required):
 
 ```sh

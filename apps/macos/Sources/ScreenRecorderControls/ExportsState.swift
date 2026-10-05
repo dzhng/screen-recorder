@@ -13,6 +13,8 @@ public struct ExportsState: Equatable, Sendable {
         case video
         case audio
         case package = "processed-package"
+        case srt
+        case vtt
     }
 
     /// One export destination being chosen; its identity also fences a replaced choice.
@@ -130,7 +132,8 @@ public struct ExportsState: Equatable, Sendable {
 
     /// Only one destination can be chosen at a time; exporting another take afterwards is fine.
     public mutating func beginChoice(target: MediaTarget, kind: Kind) -> Choice? {
-        guard choosing == nil else { return nil }
+        // Caption deliveries are observed here; their explicit placement selection belongs to callers.
+        guard choosing == nil, kind != .srt, kind != .vtt else { return nil }
         let choice = Choice(exportId: UUID().uuidString.lowercased(), target: target, kind: kind)
         choosing = choice
         return choice

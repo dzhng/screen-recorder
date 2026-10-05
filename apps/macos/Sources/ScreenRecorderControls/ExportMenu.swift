@@ -34,6 +34,7 @@ enum ExportMenu {
         case .video: "Video"
         case .audio: "Audio"
         case .package: "AI Package"
+        case .srt, .vtt: "Captions"
         }
     }
 

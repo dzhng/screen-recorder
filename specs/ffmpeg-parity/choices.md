@@ -727,3 +727,18 @@ again after recording their hashes could invalidate tool discovery.
 Gap: main’s enclosing signer and this branch’s tool receipt had independent order.
 Reach: receipt-owning resources must finish signing before their hashes are sealed;
 app signing cannot invalidate a child receipt. Verdict: sound. Confidence: high.
+
+
+### Native export observation accepts captions without inventing a caption chooser
+
+When: slice12 native observer follow-up. An agent can create an SRT or VTT
+caption delivery through the shared export operation. When the native app lists
+those exports, it must decode their kind and keep the same retry, abandon and
+reveal actions as other managed deliveries. The app’s destination chooser cannot
+create a caption export because it has no way to select the caption placements
+to include; it therefore refuses that creation request instead of guessing.
+Gap: the slice covered caption delivery but did not distinguish observing an
+existing export from authoring one through an app flow. Reach: future app caption
+creation needs explicit placement selection, while all managed export kinds must
+remain visible to ordinary status and lifecycle handling. Verdict: sound; shared
+meaning and explicit authoring are preserved. Confidence: high.

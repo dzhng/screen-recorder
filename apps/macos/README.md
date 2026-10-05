@@ -46,6 +46,9 @@ and holds the renewable service lease; its presentation window owns platform
 player events. Export choices pin revision and destination before sending, retaining
 the exact request after a lost answer. Forgotten owners cannot be revived by late
 chooser, status or publication replies.
+The export observer also accepts caller-created caption deliveries and preserves
+their existing status/actions. Caption creation requires an explicit placement
+selection, so the app's destination chooser does not offer that request.
 
 ## Runtime resolution
 

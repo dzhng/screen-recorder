@@ -14,6 +14,7 @@ export function compileControlsCheck(scratch, appSources, check, onCompile = () 
   const packagePath = fileURLToPath(new URL("../../", import.meta.url));
   const args = [
     "build",
+    // The standalone linker below consumes the native build's object-file map.
     "--build-system",
     "native",
     "--package-path",

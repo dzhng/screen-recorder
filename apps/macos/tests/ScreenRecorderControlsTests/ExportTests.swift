@@ -144,6 +144,28 @@ func runExportTests() {
         precondition(menu.first?.title == "Audio — " + leaf + " — failed")
         precondition(entry(menu, "export.retry.audio-" + leaf)?.enabled == true)
     }
+    for kind in ["srt", "vtt"] {
+        let fields: [String: Any] = [
+            "exportId": "captions-" + kind, "projectId": "p", "kind": kind,
+            "snapshot": ["revisionId": "r", "placementIds": ["caption"]],
+            "state": "failed", "destination": ["directory": "/tmp", "leaf": "captions." + kind],
+            "retryable": true, "abandoning": false, "cleanupPending": false,
+            "output": NSNull(), "reason": "fixture failure",
+        ]
+        guard let record = try? JSONDecoder().decode(ExportsState.Record.self,
+            from: JSONSerialization.data(withJSONObject: fields)) else {
+            preconditionFailure("Managed caption status must decode: " + kind)
+        }
+        precondition(record.kind.rawValue == kind && record.target == .project("p"))
+        var captions = ExportsState()
+        captions.update(record)
+        let menu = exportsMenu(ready(), captions)!.submenu
+        precondition(menu.first?.title == "Captions — captions." + kind + " — failed")
+        precondition(entry(menu, "export.retry.captions-" + kind)?.enabled == true)
+        precondition(entry(menu, "export.abandon.captions-" + kind)?.enabled == true)
+        precondition(captions.beginChoice(target: .project("p"), kind: record.kind) == nil,
+            "The app has no caption-placement selection for authoring a sidecar")
+    }
     if let path = ProcessInfo.processInfo.environment["SCREENREC_AUDIO_EXPORT_RECORDS"] {
         let records = try! JSONDecoder().decode([ExportsState.Record].self,
             from: Data(contentsOf: URL(fileURLWithPath: path)))

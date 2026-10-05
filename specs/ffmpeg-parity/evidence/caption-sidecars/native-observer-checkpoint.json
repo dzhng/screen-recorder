@@ -1,0 +1,18 @@
+{
+  "claim": "Native managed-caption decoding and AppKit menu/action contracts only; no rendered appearance claim.",
+  "sourceBase": "2e3ccee0",
+  "originalCaptionReportSha256": "ee4f8044ec5a323f6f3524db193966218c0a2f3483b6c60f1991df941e5573d3",
+  "nativeMenuSha256": "50bd341b3195e44cec6850a7f04e34a4928db39b1a328405232120a27e5fad79",
+  "red": "Managed caption status must decode: srt; controls process failed with133.",
+  "green": "Pure controls suite passes both kinds; focused controller test passes; retained real statuses pass through AppKit StatusMenu adapter.",
+  "harnessRed": "Focused controller check failed ENOENT for output-file-map under the SwiftPM default layout.",
+  "harnessGreen": "Explicit native build layout supplies map; focused controller check passes.",
+  "review": "Two independent reviews found no actionable regressions. SwiftPM runtime under review sandbox was denied cache permissions; actual-host controller check passes.",
+  "latestMainIntegration": {
+    "sourceBase": "4e3ec6cb",
+    "pureControls": "pass",
+    "focusedNativeController": "pass",
+    "actualReceiptMenuAdapter": "pass; output byte-identical to retained native-menu.json",
+    "appearance": "not inspected"
+  }
+}

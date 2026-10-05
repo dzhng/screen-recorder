@@ -1,0 +1,174 @@
+{
+  "exportIds" : [
+    "4a6a346c-09c6-4648-9b34-f187ca694d3b",
+    "0df0fe8c-35a5-4b36-bb78-a2fa168f64a8",
+    "7e070c64-7d30-4b59-8d43-472ea9cbb09b",
+    "48189337-8ed0-4a8a-8270-ab1bf5f08b14",
+    "601af47a-08f9-4eae-aa0c-85b823fd2517",
+    "7e6fa18b-ec72-415f-9596-9d3fcf5adabe"
+  ],
+  "passed" : true,
+  "rows" : [
+    {
+      "enabled" : true,
+      "submenu" : [
+        {
+          "enabled" : false,
+          "title" : "\/private\/tmp\/screenrec-sidecars-reviewed\/captions.srt"
+        },
+        {
+          "enabled" : false,
+          "title" : "Revision 383a0a74-0c61-42be-8231-052254c3047b of project 590cc767-1cb0-4818-b8b1-0ceedac896b8"
+        },
+        {
+          "enabled" : false,
+          "title" : ""
+        },
+        {
+          "enabled" : true,
+          "title" : "Show in Finder"
+        },
+        {
+          "enabled" : true,
+          "title" : "Remove from List"
+        }
+      ],
+      "title" : "Captions — captions.srt — exported"
+    },
+    {
+      "enabled" : true,
+      "submenu" : [
+        {
+          "enabled" : false,
+          "title" : "\/private\/tmp\/screenrec-sidecars-reviewed\/captions.vtt"
+        },
+        {
+          "enabled" : false,
+          "title" : "Revision 383a0a74-0c61-42be-8231-052254c3047b of project 590cc767-1cb0-4818-b8b1-0ceedac896b8"
+        },
+        {
+          "enabled" : false,
+          "title" : ""
+        },
+        {
+          "enabled" : true,
+          "title" : "Show in Finder"
+        },
+        {
+          "enabled" : true,
+          "title" : "Remove from List"
+        }
+      ],
+      "title" : "Captions — captions.vtt — exported"
+    },
+    {
+      "enabled" : true,
+      "submenu" : [
+        {
+          "enabled" : false,
+          "title" : "\/private\/tmp\/screenrec-sidecars-reviewed\/literal.vtt"
+        },
+        {
+          "enabled" : false,
+          "title" : "Revision 383a0a74-0c61-42be-8231-052254c3047b of project 590cc767-1cb0-4818-b8b1-0ceedac896b8"
+        },
+        {
+          "enabled" : false,
+          "title" : ""
+        },
+        {
+          "enabled" : true,
+          "title" : "Show in Finder"
+        },
+        {
+          "enabled" : true,
+          "title" : "Remove from List"
+        }
+      ],
+      "title" : "Captions — literal.vtt — exported"
+    },
+    {
+      "enabled" : true,
+      "submenu" : [
+        {
+          "enabled" : false,
+          "title" : "\/private\/tmp\/screenrec-sidecars-reviewed\/syntax.vtt"
+        },
+        {
+          "enabled" : false,
+          "title" : "Revision 383a0a74-0c61-42be-8231-052254c3047b of project 590cc767-1cb0-4818-b8b1-0ceedac896b8"
+        },
+        {
+          "enabled" : false,
+          "title" : ""
+        },
+        {
+          "enabled" : true,
+          "title" : "Show in Finder"
+        },
+        {
+          "enabled" : true,
+          "title" : "Remove from List"
+        }
+      ],
+      "title" : "Captions — syntax.vtt — exported"
+    },
+    {
+      "enabled" : true,
+      "submenu" : [
+        {
+          "enabled" : false,
+          "title" : "\/private\/tmp\/screenrec-sidecars-reviewed\/empty.srt"
+        },
+        {
+          "enabled" : false,
+          "title" : "Revision 383a0a74-0c61-42be-8231-052254c3047b of project 590cc767-1cb0-4818-b8b1-0ceedac896b8"
+        },
+        {
+          "enabled" : false,
+          "title" : ""
+        },
+        {
+          "enabled" : true,
+          "title" : "Show in Finder"
+        },
+        {
+          "enabled" : true,
+          "title" : "Remove from List"
+        }
+      ],
+      "title" : "Captions — empty.srt — exported"
+    },
+    {
+      "enabled" : true,
+      "submenu" : [
+        {
+          "enabled" : false,
+          "title" : "\/private\/tmp\/screenrec-sidecars-reviewed\/taken.srt"
+        },
+        {
+          "enabled" : false,
+          "title" : "Revision 383a0a74-0c61-42be-8231-052254c3047b of project 590cc767-1cb0-4818-b8b1-0ceedac896b8"
+        },
+        {
+          "enabled" : false,
+          "title" : "Export destination belongs to another file or was modified"
+        },
+        {
+          "enabled" : false,
+          "title" : ""
+        },
+        {
+          "enabled" : false,
+          "title" : "Retry Export"
+        },
+        {
+          "enabled" : true,
+          "title" : "Abandon Export"
+        }
+      ],
+      "title" : "Captions — taken.srt — failed"
+    }
+  ],
+  "scope" : "Actual retained managed-caption statuses through native NSMenu adapter; no menu display, capture, audio or appearance claim"
+}
