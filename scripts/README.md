@@ -34,7 +34,9 @@ its assets; a correction receives a new version.
 
 The [tag workflow](../.github/workflows/release.yml) validates version agreement,
 prepares pinned inputs, builds on macOS, checks the relocated package and publishes
-only verified assets. Relocation smoke loads schema help and the native worker
+only verified assets. Its manual retry runs the selected source with an explicit
+version tag validated by the same release owner; published assets remain immutable.
+Relocation smoke loads schema help and the native worker
 from the exact signed archives; it does not launch the production host or external
 launcher, whose preferences and lock belong to the real account. Host/service and
 updater lifetime proof uses an isolated signed fixture identity. The workflow owns
@@ -55,7 +57,8 @@ the same finalized signed app; the kit's checksums remain scoped to the kit and
 receipt, while Sparkle authenticates the update ZIP and finalized feed.
 The [signing owner](release-signing.mjs) requires externally supplied durable
 credentials and public fingerprints, imports the identity into an ephemeral
-keychain, and signs nested code before its enclosing bundles. Secret material
+keychain, authorizes headless signing only within that keychain, and signs nested
+code before its enclosing bundles. Secret material
 never belongs in the app, release directory, receipt or logs. The
 [custody handoff](../specs/done/auto-update/assets/signing-custody.md) owns backup and CI
 credential transfer; a missing input fails rather than creating another identity.

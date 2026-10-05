@@ -61,7 +61,19 @@ export function releaseSigningInputs(env = process.env) {
 // Tool diagnostics can contain imported secrets. Never forward their output or arguments on failure.
 function secureRun(command, args, options = {}) {
   const answer = spawnSync(command, args, { encoding: "utf8", timeout: 30_000, ...options });
-  if (answer.error || answer.status !== 0) throw new Error(`${command} ${args[0]} failed`);
+  if (answer.error || answer.status !== 0) {
+    const classifications =
+      command === "codesign"
+        ? [
+            "errSecInternalComponent",
+            "User interaction is not allowed",
+            "unable to build chain to self-signed root",
+          ].filter((known) => answer.stderr?.includes(known))
+        : [];
+    throw new Error(
+      `${command} ${args[0]} failed${classifications.length ? ` (${classifications.join(", ")})` : ""}`,
+    );
+  }
   return answer.stdout;
 }
 export async function withReleaseIdentity(inputs, action) {
@@ -133,6 +145,16 @@ export async function withReleaseIdentity(inputs, action) {
       inputs.password,
       "-T",
       "/usr/bin/codesign",
+    ]);
+    // Authorize headless private-key access only within this owned keychain.
+    secureRun("security", [
+      "set-key-partition-list",
+      "-S",
+      "apple-tool:,apple:,codesign:",
+      "-s",
+      "-k",
+      password,
+      keychain,
     ]);
     const keyFile = join(scratch, "sparkle.key");
     writeFileSync(keyFile, inputs.secret + "\n", { mode: 0o600 });

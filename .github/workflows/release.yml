@@ -2,10 +2,18 @@ name: Tagged release
 on:
   push:
     tags: ["v*"]
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: Version tag to validate and package; published assets remain unchanged
+        required: true
+        type: string
+env:
+  RELEASE_TAG: ${{ inputs.tag || github.ref_name }}
 permissions:
   contents: read
 concurrency:
-  group: release-${{ github.ref }}
+  group: release-${{ inputs.tag || github.ref_name }}
   cancel-in-progress: false
 jobs:
   build:
@@ -40,7 +48,7 @@ jobs:
           bun-version-file: package.json
       - name: Validate tag and release contracts
         run: |
-          node scripts/release.mjs validate "$GITHUB_REF_NAME"
+          node scripts/release.mjs validate "$RELEASE_TAG"
           node --input-type=module -e 'import { releaseSigningInputs } from "./scripts/release-signing.mjs"; releaseSigningInputs();'
           node --test scripts/release.test.mjs apps/macos/tests/bundled-runtime.test.mjs
       - name: Prepare pinned build inputs
@@ -51,7 +59,7 @@ jobs:
           bunx turbo run build --filter=@screenrec/macos --concurrency=1
       - name: Package and verify relocated release
         run: |
-          node scripts/release.mjs package "$GITHUB_REF_NAME"
+          node scripts/release.mjs package "$RELEASE_TAG"
           node scripts/release-smoke.mjs
           cp scripts/release-notes.md dist/release/NOTES.md
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
@@ -89,4 +97,4 @@ jobs:
         run: |
           set -euo pipefail
           cd release/dist/release
-          node ../../scripts/release-publish.mjs . "$GITHUB_REF_NAME" "$RELEASE_COMMIT"
+          node ../../scripts/release-publish.mjs . "$RELEASE_TAG" "$RELEASE_COMMIT"

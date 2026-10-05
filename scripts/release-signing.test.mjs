@@ -4,7 +4,7 @@ import { mkdtempSync, writeFileSync, readFileSync, existsSync, rmSync } from "no
 import { join } from "node:path";
 import { tmpdir } from "node:os";
 import { test } from "node:test";
-import { withReleaseIdentity } from "./release-signing.mjs";
+import { withReleaseIdentity, signReleaseTree } from "./release-signing.mjs";
 
 test("the release signing setup carries certificate DER as binary and removes its private scratch inputs", async () => {
   const scratch = mkdtempSync(join(tmpdir(), "screenrec-signing-input-"));
@@ -44,4 +44,118 @@ test("the release signing setup carries certificate DER as binary and removes it
     process.env.PATH = previousPath;
     rmSync(scratch, { recursive: true, force: true });
   }
+});
+
+async function headlessFixture(action, { partitionFailure = false, signingFailure = "" } = {}) {
+  const scratch = mkdtempSync(join(tmpdir(), "screenrec-headless-signing-"));
+  const previousPath = process.env.PATH;
+  const der = Buffer.from([0x30, 0xff, 0, 0x80, 0x7f]);
+  try {
+    writeFileSync(
+      join(scratch, "openssl"),
+      `#!${process.execPath}
+if(process.argv[2]==='pkcs12')console.log('fixture certificate');else process.stdout.write(Buffer.from(${JSON.stringify([...der])}));
+`,
+      { mode: 0o755 },
+    );
+    writeFileSync(
+      join(scratch, "security"),
+      `#!${process.execPath}
+const fs=require('node:fs');const args=process.argv.slice(2);const path=args.at(-1);
+if(args[0]==='list-keychains') { if(args.includes('-s'))process.exit(90);console.log('"/fixture/login.keychain-db"'); }
+if(args[0]==='create-keychain') { fs.writeFileSync(path,JSON.stringify({password:args[2]}));fs.writeFileSync(${JSON.stringify(join(scratch, "created-keychain-path"))},path); }
+if(args[0]==='import') { const file=args[args.indexOf('-k')+1];const key=JSON.parse(fs.readFileSync(file));key.imported=args.includes('-T')&&args.includes('/usr/bin/codesign');fs.writeFileSync(file,JSON.stringify(key)); }
+if(args[0]==='set-key-partition-list') {
+ if(${partitionFailure}) { console.error('fixture-private-secret');process.exit(51); }
+ const key=JSON.parse(fs.readFileSync(path));
+ key.allowed=key.imported&&args[args.indexOf('-S')+1]==='apple-tool:,apple:,codesign:'&&args.includes('-s')&&args[args.indexOf('-k')+1]===key.password;
+ fs.writeFileSync(path,JSON.stringify(key));
+}
+if(args[0]==='delete-keychain')fs.unlinkSync(path);
+`,
+      { mode: 0o755 },
+    );
+    writeFileSync(
+      join(scratch, "codesign"),
+      `#!${process.execPath}
+const fs=require('node:fs');const args=process.argv.slice(2);
+if(args.includes('--sign')) {
+ const key=JSON.parse(fs.readFileSync(args[args.indexOf('--keychain')+1]));
+ const error=${JSON.stringify(signingFailure)}||(!key.allowed?'errSecInternalComponent fixture-private-secret':'');
+ if(error) { console.error(error);process.exit(1); }
+ fs.writeFileSync(args.at(-1)+'.signed','signed');
+}
+`,
+      { mode: 0o755 },
+    );
+    process.env.PATH = `${scratch}:${previousPath}`;
+    const executable = join(scratch, "executable");
+    writeFileSync(executable, Buffer.from("feedfacf00000000", "hex"));
+    return await action({
+      scratch,
+      executable,
+      inputs: {
+        p12: Buffer.from("fixture-import"),
+        password: "fixture-private-secret",
+        sha1: createHash("sha1").update(der).digest("hex"),
+        certificateSha256: createHash("sha256").update(der).digest("hex"),
+        secret: "fixture-update-secret",
+      },
+    });
+  } finally {
+    process.env.PATH = previousPath;
+    rmSync(scratch, { recursive: true, force: true });
+  }
+}
+
+test("headless signing grants private-key partitions in only the owned keychain and cleans it afterward", async () => {
+  await headlessFixture(async ({ inputs, executable }) => {
+    let privateDirectory;
+    await withReleaseIdentity(inputs, ({ keychain, identity }) => {
+      privateDirectory = join(keychain, "..");
+      signReleaseTree(executable, identity, keychain);
+      assert.equal(readFileSync(executable + ".signed", "utf8"), "signed");
+    });
+    assert.equal(existsSync(privateDirectory), false);
+  });
+});
+
+test("a denied partition grant aborts before signing and retains no imported private files", async () => {
+  await headlessFixture(
+    async ({ inputs, scratch }) => {
+      let reached = false;
+      await assert.rejects(
+        withReleaseIdentity(inputs, () => {
+          reached = true;
+        }),
+        {
+          message: "security set-key-partition-list failed",
+        },
+      );
+      assert.equal(reached, false);
+      assert.equal(
+        existsSync(join(readFileSync(join(scratch, "created-keychain-path"), "utf8"), "..")),
+        false,
+      );
+    },
+    { partitionFailure: true },
+  );
+});
+
+test("codesign failure exposes only a fixed known classification, never tool diagnostics or private arguments", async () => {
+  await headlessFixture(
+    async ({ inputs, executable }) => {
+      await assert.rejects(
+        withReleaseIdentity(inputs, ({ keychain, identity }) => {
+          signReleaseTree(executable, identity, keychain);
+        }),
+        (error) => {
+          assert.equal(error.message, "codesign --force failed (errSecInternalComponent)");
+          assert.equal(error.message.includes("fixture-private-secret"), false);
+          return true;
+        },
+      );
+    },
+    { signingFailure: "errSecInternalComponent fixture-private-secret" },
+  );
 });
