@@ -1,6 +1,6 @@
 import { pathToFileURL } from "node:url";
 import { createHash } from "node:crypto";
-import { createCli } from "./screenrec-cli.mjs";
+import { runJsonHelper } from "./inspection-artifacts.mjs";
 
 const displayTime = (value) =>
   (typeof value === "number" ? value : value.numerator / value.denominator) / 1_000_000;
@@ -244,23 +244,6 @@ if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) 
       "Usage: node compact-transcripts.mjs < request.json\nRead-only transcript.get helper. Supply selections (assetId/streamId/acquisitionId or projectId/revisionId), optional labels/generation, maxBytes, maxPages, pageRows, pauseUs, continuation and cli options. Exact rows are edit evidence; phrase seconds are display only.",
     );
   } else {
-    try {
-      const chunks = [];
-      let size = 0;
-      for await (const chunk of process.stdin) {
-        size += chunk.length;
-        if (size > 1024 * 1024) throw failure("INVALID_REQUEST", "Request exceeds 1 MiB");
-        chunks.push(chunk);
-      }
-      const request = JSON.parse(Buffer.concat(chunks).toString("utf8"));
-      console.log(JSON.stringify(await compactTranscripts(request, createCli(request.cli))));
-    } catch (error) {
-      console.error(
-        JSON.stringify({
-          error: { code: error.code ?? "INVALID_REQUEST", message: error.message },
-        }),
-      );
-      process.exitCode = 1;
-    }
+    await runJsonHelper(compactTranscripts);
   }
 }

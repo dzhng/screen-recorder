@@ -1,0 +1,26 @@
+{
+  "controlPixels": [
+    1200,
+    781
+  ],
+  "candidatePixels": [
+    1200,
+    781
+  ],
+  "dpr": 1,
+  "axisPicturesAndWaveformBeforeWordRegionPixelIdentical": true,
+  "eventsAndFooterPixelIdentical": true,
+  "existingRectanglesAndEvidenceBarsUnchanged": true,
+  "firstChangedRow": 465,
+  "lastChangedRow": 582,
+  "changedPixelsWithinCommonHeight": 4741,
+  "changedPixelRatioWithinCommonHeight": 0.005058685446009389,
+  "exactFixtureManifestUnchanged": true,
+  "differencesUnderReview": [
+    "Subtle neutral word-row guides behind existing evidence bars",
+    "Legend explicitly distinguishes row guides from media support",
+    "No existing labels, coordinates or evidence shapes moved"
+  ],
+  "controlSha256": "d8052a440fd12e2d3f7ca7569d31aa81a9b4a7c6487764f8f69355d046ee1bb6",
+  "candidateSha256": "d986d208d749239496be1564e9dc6764ecaa2e31b5b025c53eaf83dc435c8adb"
+}
