@@ -112,6 +112,48 @@ print('retained')
   assert.equal(result.status, 0, result.stderr);
   assert.equal(result.stdout.trim(), "retained");
 });
+test("failed final snapshot hashing preserves the earlier operand and matching receipt", () => {
+  const code = `import runpy,struct,tempfile,json,shutil,hashlib,subprocess,sys
+from pathlib import Path
+relocate=runpy.run_path(${JSON.stringify(nativeHelper)})['relocate']
+folder=tempfile.mkdtemp(prefix='runtime-native-hash-')
+print('Unverified native control operands:',folder,file=sys.stderr)
+root=Path(folder);bundle=root/'bundle';bundle.mkdir();target=bundle/'native';name=b'/foreign/build\\0';size=(12+len(name)+7)//8*8
+command=struct.pack('<III',0x8000001c,size,12)+name;command+=bytes(size-len(command));target.write_bytes(struct.pack('<8I',0xfeedfacf,0x100000c,0,6,1,size,0,0)+command)
+source=root/'source';shutil.copyfile(target,source);digest=lambda path:hashlib.sha256(path.read_bytes()).hexdigest()
+policy=root/'policy.json';policy.write_text(json.dumps({'files':[{'path':'native','sourceSha256':digest(source),'removeRpaths':['/foreign/build']}]}))
+def sha(path):
+    if path.name in ['after','after-pending'] and path.read_bytes()==b'changed final operand':raise OSError('fixture final hash refused')
+    return digest(path)
+def fail(command,**kwargs):
+    target.write_bytes(b'changed final operand')
+    return subprocess.CompletedProcess(command,1,'partial stdout','packaging failed')
+original=subprocess.run;subprocess.run=fail
+try:
+    try:relocate(policy,bundle,{'native':str(source)},root,shutil.copyfile,sha)
+    except AssertionError as error:
+        assert str(error)=='Native packaging command failed','hashing masked original command failure'
+        assert isinstance(error.__cause__,OSError) and str(error.__cause__)=='fixture final hash refused'
+    else:raise AssertionError('failed command accepted')
+finally:subprocess.run=original
+row=json.loads((root/'native-relocation.json').read_text())['files'][0]
+final=root/row['afterFile']
+assert final.read_bytes()==source.read_bytes(),'earlier snapshot lost before final hash completed'
+assert row['finalSha256']==digest(final),'receipt hash differs from retained operand'
+assert row['after']==runpy.run_path(${JSON.stringify(nativeHelper)})['inspect'](final)
+assert not row['finalCaptureComplete'] and row['finalCaptureError']=='fixture final hash refused'
+assert not row['verified'] and row['commands'][0]['stderr']=='packaging failed'
+assert (final.with_name('after-pending')).read_bytes()==target.read_bytes(),'unverified pending operand lost'
+shutil.rmtree(folder)
+print('retained')
+`;
+  const result = spawnSync("/usr/bin/python3", ["-I", "-B", "-c", code], {
+    encoding: "utf8",
+    timeout: 3000,
+  });
+  assert.equal(result.status, 0, result.stderr);
+  assert.equal(result.stdout.trim(), "retained");
+});
 test("stale native source policy retains both complete operands before refusing", () => {
   const code = `import runpy,struct,tempfile,json,shutil,hashlib
 from pathlib import Path

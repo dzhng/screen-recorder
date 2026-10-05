@@ -109,12 +109,13 @@ def relocate(policy_path, bundle, sources, out, clone_file, sha):
                 packaging_error = error
             raise packaging_error
         finally:
-            # Replace a diagnostic only after its complete clone exists.
+            # A hash failure must preserve the saved operand and its matching receipt.
             pending_file = after_file.with_name("after-pending")
             try:
                 clone_file(target, pending_file)
+                pending_sha256 = sha(pending_file)
                 pending_file.replace(after_file)
-                row["finalSha256"] = sha(after_file)
+                row["finalSha256"] = pending_sha256
                 row["after"] = None
                 row["finalCaptureComplete"] = True
                 save()
