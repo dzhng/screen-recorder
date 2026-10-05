@@ -1,0 +1,8 @@
+Both captions visibly read **“Readable captions keep their source pins.”** White text contrasts clearly with the dark background.
+
+- **Control — awkward wrapping (high confidence):** The long first line leaves **“pins.”** alone on the second line, making the caption visibly unbalanced and separating “source pins.” Location: lower-center caption in Image #1; clearly enlarged in Image #3.
+- **Proposal — stronger wrapping (high confidence):** Breaking after **“keep”** produces more balanced lines and keeps **“their source pins.”** together. Location: lower-center caption in Image #2 and crop #4.
+- **Clipping and safe placement (high confidence):** Both captions are fully visible within x32–608/y20–320. The control extends closer to the horizontal safe boundaries; the proposal has more room on each side. Neither shows clipped letters.
+- **Spacing and legibility (high confidence):** Both have clear word spacing and adequate separation between lines, with no collisions. The crops show slightly pixelated letter edges in both, without an obvious readability difference.
+
+The proposal is visibly better balanced. The control’s isolated final word is the only clear layout weakness.

@@ -1,0 +1,44 @@
+{
+  "cropBounds": [
+    25,
+    205,
+    615,
+    340
+  ],
+  "pair": {
+    "maeRGB": 6.813828125,
+    "changedPixelShare": 0.04338541666666667
+  },
+  "images": {
+    "plain-seed-control": {
+      "foregroundBounds": [
+        62,
+        225,
+        579,
+        293
+      ],
+      "safeArea": [
+        32,
+        20,
+        608,
+        320
+      ],
+      "safeAreaContained": true
+    },
+    "proposal": {
+      "foregroundBounds": [
+        150,
+        225,
+        491,
+        293
+      ],
+      "safeArea": [
+        32,
+        20,
+        608,
+        320
+      ],
+      "safeAreaContained": true
+    }
+  }
+}

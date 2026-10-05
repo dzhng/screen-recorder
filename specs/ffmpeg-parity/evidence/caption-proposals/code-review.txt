@@ -1,0 +1,9 @@
+All 23 focused tests pass, but additional probes reproduce rejection of valid instantaneous word evidence and silent deletion of caller-selected separators during wrapping.
+
+Full review comments:
+
+- [P2] Handle valid instantaneous word projections without aborting — /private/tmp/screenrec-parity-caption-proposals/skills/screenrec/scripts/caption-proposals.mjs:201-206
+  When selected transcript evidence contains an `instant: true` word, `mergeTranscript` legitimately returns zero-width source/project fragments while retaining a positive raw source pin. This check rejects those fragments and aborts the entire request, preventing proposals even for the surrounding ordinary words. Recognize point projections and report unsupported dwell explicitly rather than treating valid service evidence as malformed. This also preserves the shared-contract requirement in [AGENTS.md:56](AGENTS.md#L56).
+
+- [P2] Preserve non-whitespace separators when wrapping — /private/tmp/screenrec-parity-caption-proposals/skills/screenrec/scripts/caption-proposals.mjs:50-51
+  When the caller chooses a meaningful separator and the next word exceeds the line width, this branch silently discards the separator. For example, `separator: " · "`, width 4, and words `one`/`two` produce `one\ntwo` with no text-loss diagnostic. Preserve non-whitespace separator content when inserting line breaks, or report the unsupported layout instead of deleting requested display text; [AGENTS.md:46](AGENTS.md#L46) requires carrying out explicit requests without making editorial changes.

@@ -1,0 +1,187 @@
+{
+  "output": "/tmp/screenrec-caption-proposals-final/proposal.png",
+  "canvas": {
+    "width": 640,
+    "height": 360,
+    "fps": {
+      "numerator": 8,
+      "denominator": 1
+    },
+    "background": "#142032ff"
+  },
+  "frame": {
+    "index": 0,
+    "sampleAtUs": 0,
+    "visibleRange": {
+      "startUs": 0,
+      "endUs": 125000
+    },
+    "layers": [
+      {
+        "kind": "text",
+        "clipId": "clip:proposal:0",
+        "trackId": "captions",
+        "text": {
+          "kind": "text",
+          "text": "Readable captions keep\ntheir source pins.",
+          "font": {
+            "assetId": "525979822591a3447cfc49d943d6f7683508e25543407871c0ed8fed05fd2bd9",
+            "postScriptName": "ArialMT"
+          },
+          "width": 560,
+          "height": 100,
+          "size": 32,
+          "color": "#ffffffff",
+          "alignment": "center",
+          "wrap": true
+        },
+        "width": 560,
+        "height": 100,
+        "availability": "available"
+      }
+    ],
+    "visual": [
+      {
+        "target": {
+          "kind": "clip",
+          "id": "clip:proposal:0"
+        },
+        "inputs": [],
+        "operations": [
+          {
+            "kind": "clamp",
+            "x": 0.5,
+            "y": 0.5,
+            "width": 559,
+            "height": 99
+          },
+          {
+            "kind": "affine",
+            "matrix": [
+              1,
+              0,
+              0,
+              1,
+              0,
+              0
+            ]
+          },
+          {
+            "kind": "affine",
+            "matrix": [
+              1,
+              0,
+              0,
+              1,
+              40,
+              40
+            ]
+          },
+          {
+            "kind": "coverage",
+            "points": [
+              {
+                "x": 40,
+                "y": 40
+              },
+              {
+                "x": 600,
+                "y": 40
+              },
+              {
+                "x": 600,
+                "y": 140
+              },
+              {
+                "x": 40,
+                "y": 140
+              }
+            ],
+            "width": 640,
+            "height": 360
+          }
+        ]
+      },
+      {
+        "target": {
+          "kind": "track",
+          "id": "captions"
+        },
+        "inputs": [
+          {
+            "kind": "clip",
+            "id": "clip:proposal:0"
+          }
+        ],
+        "operations": []
+      },
+      {
+        "target": {
+          "kind": "output"
+        },
+        "inputs": [
+          {
+            "kind": "track",
+            "id": "captions"
+          }
+        ],
+        "operations": []
+      }
+    ]
+  },
+  "processing": [
+    {
+      "target": {
+        "kind": "clip",
+        "id": "clip:proposal:0"
+      },
+      "mediaKind": "video",
+      "inputs": [],
+      "steps": [
+        {
+          "id": "processingStep:proposal:1",
+          "enabled": true,
+          "processor": {
+            "type": "geometry"
+          }
+        }
+      ]
+    },
+    {
+      "target": {
+        "kind": "track",
+        "id": "captions"
+      },
+      "mediaKind": "video",
+      "inputs": [
+        {
+          "kind": "clip",
+          "id": "clip:proposal:0"
+        }
+      ],
+      "steps": []
+    },
+    {
+      "target": {
+        "kind": "output"
+      },
+      "mediaKind": "output",
+      "inputs": [
+        {
+          "kind": "track",
+          "id": "captions"
+        }
+      ],
+      "steps": []
+    }
+  ],
+  "assets": [],
+  "fonts": [
+    {
+      "assetId": "525979822591a3447cfc49d943d6f7683508e25543407871c0ed8fed05fd2bd9",
+      "path": "/System/Library/Fonts/Supplemental/Arial.ttf"
+    }
+  ],
+  "profile": "h264-rec709",
+  "maxLongEdge": 640
+}

@@ -1,0 +1,186 @@
+{
+  "ok": true,
+  "data": {
+    "bytes": 17635,
+    "decodedImages": 0,
+    "decodedSamples": 0,
+    "file": "/tmp/screenrec-caption-proposals-final/plain-seed-control.png",
+    "frame": {
+      "index": 0,
+      "layers": [
+        {
+          "availability": "available",
+          "clipId": "clip:plain-seed-control:0",
+          "height": 100,
+          "kind": "text",
+          "text": {
+            "alignment": "center",
+            "color": "#ffffffff",
+            "font": {
+              "assetId": "525979822591a3447cfc49d943d6f7683508e25543407871c0ed8fed05fd2bd9",
+              "postScriptName": "ArialMT"
+            },
+            "height": 100,
+            "kind": "text",
+            "size": 32,
+            "text": "Readable captions keep their source pins.",
+            "width": 560,
+            "wrap": true
+          },
+          "trackId": "captions",
+          "width": 560
+        }
+      ],
+      "sampleAtUs": 0,
+      "visibleRange": {
+        "endUs": 125000,
+        "startUs": 0
+      },
+      "visual": [
+        {
+          "inputs": [],
+          "operations": [
+            {
+              "height": 99,
+              "kind": "clamp",
+              "width": 559,
+              "x": 0.5,
+              "y": 0.5
+            },
+            {
+              "kind": "affine",
+              "matrix": [
+                1,
+                0,
+                0,
+                1,
+                0,
+                0
+              ]
+            },
+            {
+              "kind": "affine",
+              "matrix": [
+                1,
+                0,
+                0,
+                1,
+                40,
+                40
+              ]
+            },
+            {
+              "height": 360,
+              "kind": "coverage",
+              "points": [
+                {
+                  "x": 40,
+                  "y": 40
+                },
+                {
+                  "x": 600,
+                  "y": 40
+                },
+                {
+                  "x": 600,
+                  "y": 140
+                },
+                {
+                  "x": 40,
+                  "y": 140
+                }
+              ],
+              "width": 640
+            }
+          ],
+          "target": {
+            "id": "clip:plain-seed-control:0",
+            "kind": "clip"
+          }
+        },
+        {
+          "inputs": [
+            {
+              "id": "clip:plain-seed-control:0",
+              "kind": "clip"
+            }
+          ],
+          "operations": [],
+          "target": {
+            "id": "captions",
+            "kind": "track"
+          }
+        },
+        {
+          "inputs": [
+            {
+              "id": "captions",
+              "kind": "track"
+            }
+          ],
+          "operations": [],
+          "target": {
+            "kind": "output"
+          }
+        }
+      ]
+    },
+    "height": 360,
+    "mediaType": "image/png",
+    "pictures": [
+      {
+        "clipId": "clip:plain-seed-control:0",
+        "kind": "text",
+        "layout": {
+          "font": {
+            "assetId": "525979822591a3447cfc49d943d6f7683508e25543407871c0ed8fed05fd2bd9",
+            "postScriptName": "ArialMT"
+          },
+          "lines": [
+            {
+              "fonts": [
+                "ArialMT"
+              ],
+              "origin": [
+                20.28125,
+                29
+              ],
+              "range": [
+                0,
+                36
+              ],
+              "text": "Readable captions keep their source ",
+              "width": 528.328125
+            },
+            {
+              "fonts": [
+                "ArialMT"
+              ],
+              "origin": [
+                246.203125,
+                66
+              ],
+              "range": [
+                36,
+                5
+              ],
+              "text": "pins.",
+              "width": 67.59375
+            }
+          ],
+          "text": "Readable captions keep their source pins.",
+          "visibleRange": [
+            0,
+            41
+          ]
+        },
+        "status": "available"
+      }
+    ],
+    "profile": "h264-rec709",
+    "readerOpens": 0,
+    "sourceHeight": 360,
+    "sourceWidth": 640,
+    "width": 640
+  }
+}
