@@ -185,7 +185,10 @@ test(
     try {
       const retained = JSON.parse(
         await readFile(
-          join(root, "specs/done/agent-editing/assets/23b-export-recovery-preservation/report.json"),
+          join(
+            root,
+            "specs/done/agent-editing/assets/23b-export-recovery-preservation/report.json",
+          ),
           "utf8",
         ),
       );

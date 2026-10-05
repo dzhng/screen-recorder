@@ -108,7 +108,9 @@ try {
     });
   }
   for (const item of JSON.parse(
-    readFileSync(join(root, "specs/done/agent-editing/assets/13a-endpoint-verification/evidence.json")),
+    readFileSync(
+      join(root, "specs/done/agent-editing/assets/13a-endpoint-verification/evidence.json"),
+    ),
   ).admission.filter((v) => v.block === 5760)) {
     const id = `admission-${item.speed}-${item.selectedFrames}`,
       file = join(out, id + "-input.f32");

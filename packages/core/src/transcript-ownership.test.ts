@@ -262,7 +262,10 @@ test("the retained native recording transcript preserves every inherited word an
   );
   const retained = JSON.parse(
     await readFile(
-      new URL("../../../specs/done/agent-editing/assets/12-speech/transcript.json", import.meta.url),
+      new URL(
+        "../../../specs/done/agent-editing/assets/12-speech/transcript.json",
+        import.meta.url,
+      ),
       "utf8",
     ),
   ) as { id: string; text: string; sourceRange: { startUs: number; endUs: number } }[];

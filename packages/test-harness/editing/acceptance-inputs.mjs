@@ -81,7 +81,9 @@ export async function tutorialInputs(root, mediaRoot, out) {
     return JSON.parse(await readFile(identity.path, "utf8"));
   };
   const marks = await json("specs/done/agent-editing/assets/12d-human-marks/human-marks.json");
-  const cleanup = await json("specs/done/agent-editing/assets/12e-labeled-cleanup/native-report.json");
+  const cleanup = await json(
+    "specs/done/agent-editing/assets/12e-labeled-cleanup/native-report.json",
+  );
   const retime = await json("specs/done/agent-editing/assets/13a-corrected-selections/report.json");
   const retimeListening = await json(
     "specs/done/agent-editing/assets/13a-corrected-selections/listening.json",
@@ -224,7 +226,9 @@ export async function tutorialInputs(root, mediaRoot, out) {
     word,
     voice,
     references,
-    brief: await identifyFile(join(root, "specs/done/agent-editing/assets/25-fixture-brief/README.md")),
+    brief: await identifyFile(
+      join(root, "specs/done/agent-editing/assets/25-fixture-brief/README.md"),
+    ),
     screenAuthority: snapshotScreen,
   };
 }
