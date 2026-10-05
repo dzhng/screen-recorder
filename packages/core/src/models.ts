@@ -22,7 +22,7 @@ import type {
   SpeechModelRequest,
   ModelManifest,
   ModelSources,
-  PreparedVoice,
+  PreparedRuntime,
 } from "./model-types.js";
 import { registeredModels } from "./model-registry.js";
 import { adoptFile, adoptRuntime, verifyRuntime } from "./model-files.js";
@@ -172,14 +172,22 @@ class Preparation {
     await Promise.allSettled([this.flight?.done, this.verification]);
   }
 
-  async voice(): Promise<PreparedVoice> {
+  async runtime(purpose: "voice" | "speaker"): Promise<PreparedRuntime> {
     const unsupported = this.platformFailure();
     if (unsupported) throw unsupported;
+    if (this.manifest.purpose !== purpose)
+      throw new CatalogError(
+        "INVALID_REQUEST",
+        "Selected model has a different execution purpose",
+        { purpose, selected: this.manifest.purpose },
+      );
     const runtime = this.manifest.runtimeArtifact;
-    if (!runtime || this.manifest.purpose !== "voice" || (await this.status()).state !== "ready")
+    if (!runtime || (await this.status()).state !== "ready")
       throw new CatalogError(
         "MODEL_NOT_PREPARED",
-        "Voice model and runtime are not prepared",
+        purpose === "voice"
+          ? "Voice model and runtime are not prepared"
+          : "Speaker model and runtime are not prepared",
         {},
         true,
       );
@@ -538,8 +546,8 @@ export class Models {
   prepare(modelId: string, signal: AbortSignal, sources: ModelSources = {}) {
     return this.selected(modelId).prepare(signal, sources);
   }
-  voice(modelId: string) {
-    return this.selected(modelId).voice();
+  runtime(modelId: string, purpose: "voice" | "speaker") {
+    return this.selected(modelId).runtime(purpose);
   }
   transcription(modelId: string) {
     const selected = this.selected(modelId);

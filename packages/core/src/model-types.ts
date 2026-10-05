@@ -12,7 +12,7 @@ export type SpeechRuntime = Readonly<{
 export type SpeechEnginePins = SpeechRuntime & Readonly<{ model: string; modelRevision: string }>;
 export type ModelManifest = Readonly<{
   name: string;
-  purpose: "transcription" | "voice";
+  purpose: "transcription" | "voice" | "speaker";
   platform: Readonly<{ system: string; architecture: string }>;
   runtimeArtifact?: RuntimeArtifact;
   generationProfile?: typeof voiceProfile;
@@ -46,7 +46,7 @@ export type ModelSources = Readonly<{
   runtimeSource?: string | undefined;
   modelSource?: string | undefined;
 }>;
-export type PreparedVoice = Readonly<{
+export type PreparedRuntime = Readonly<{
   python: string;
   entry: string;
   model: string;

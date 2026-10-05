@@ -390,18 +390,22 @@ test("local runtime and model adoption survives restart and detects changed exec
   expect(descriptor.preparation.runtimeSourceRequired).toBe(true);
   expect(await models.status("voice")).toEqual({ state: "absent" });
   await models.prepare("voice", new AbortController().signal, f.sources);
-  const ready = await models.voice("voice");
+  const ready = await models.runtime("voice", "voice");
   expect(await readFile(ready.python)).toEqual(Buffer.from("a pinned executable"));
   expect((await stat(ready.python)).ino).not.toBe((await stat(join(f.runtime, "worker"))).ino);
   expect((await stat(ready.python)).mode & 0o777).toBe(0o700);
   expect(await f.owner().status("voice")).toEqual({ state: "ready" });
   await models.prepare("voice", new AbortController().signal);
-  expect((await models.voice("voice")).descriptorDigest).toBe(descriptor.descriptorDigest);
+  expect((await models.runtime("voice", "voice")).descriptorDigest).toBe(
+    descriptor.descriptorDigest,
+  );
   const changed = Buffer.from(await readFile(ready.python));
   changed[0] = changed[0]! ^ 0xff;
   await writeFile(ready.python, changed);
   expect(await models.status("voice")).toEqual({ state: "invalid" });
-  await expect(models.voice("voice")).rejects.toMatchObject({ code: "MODEL_NOT_PREPARED" });
+  await expect(models.runtime("voice", "voice")).rejects.toMatchObject({
+    code: "MODEL_NOT_PREPARED",
+  });
   expect(await readFile(join(f.runtime, "worker"))).toEqual(Buffer.from("a pinned executable"));
 });
 
@@ -454,7 +458,7 @@ test("concurrent verification waits for current bytes while other model requests
   expect(models.list().find((entry) => entry.modelId === "voice")?.purpose).toBe("voice");
   expect(await first).toEqual({ state: "ready" });
   expect(await second).toEqual({ state: "ready" });
-  const receipt = await models.voice("voice");
+  const receipt = await models.runtime("voice", "voice");
   expect(await readlink(join(receipt.python, "..", "python"))).toBe("worker");
   await rename(receipt.python, receipt.python + ".missing");
   expect(await models.status("voice")).toEqual({ state: "invalid" });
@@ -485,7 +489,9 @@ test("registered platform requirements cannot become false ready execution input
   expect(() => models.prepare("voice", new AbortController().signal, f.sources)).toThrow(
     expect.objectContaining({ code: "MODEL_PLATFORM_UNSUPPORTED" }),
   );
-  await expect(models.voice("voice")).rejects.toMatchObject({ code: "MODEL_PLATFORM_UNSUPPORTED" });
+  await expect(models.runtime("voice", "voice")).rejects.toMatchObject({
+    code: "MODEL_PLATFORM_UNSUPPORTED",
+  });
   expect(models.list()[0]?.platform.system).toBe("unsupported");
 });
 
@@ -509,7 +515,7 @@ test("runtime admission preserves pinned directory modes under a restrictive ser
   const original = process.umask(0o077);
   try {
     await models.prepare("voice", new AbortController().signal, f.sources);
-    const prepared = await models.voice("voice");
+    const prepared = await models.runtime("voice", "voice");
     expect((await stat(join(prepared.python, "..", "data"))).mode & 0o777).toBe(0o755);
   } finally {
     process.umask(original);
@@ -544,4 +550,22 @@ test("a FIFO model source is refused instead of waiting for a writer", async () 
     models.prepare("tiny", new AbortController().signal, { modelSource: f.source }),
   ).rejects.toMatchObject({ code: "MODEL_HASH_MISMATCH" });
   expect(await f.staged()).toEqual([]);
+});
+
+test("speaker runtime uses managed preparation and remains readable offline after restart", async () => {
+  const f = await voiceFixture();
+  const speaker: ModelManifest = { ...f.voice, name: "speaker", purpose: "speaker" };
+  const models = new Models(f.home, offline, [speaker]);
+  await expect(models.runtime("speaker", "speaker")).rejects.toMatchObject({
+    code: "MODEL_NOT_PREPARED",
+  });
+  await models.prepare("speaker", new AbortController().signal, f.sources);
+  const prepared = await new Models(f.home, offline, [speaker]).runtime("speaker", "speaker");
+  expect(await readFile(prepared.python)).toEqual(Buffer.from("a pinned executable"));
+  expect(prepared.python).not.toBe(join(f.runtime, "worker"));
+  expect(prepared.modelRevision).toBe(speaker.revision);
+  expect(prepared.runtimeDigest).toBe(speaker.runtimeArtifact!.digest);
+  await expect(models.runtime("speaker", "voice")).rejects.toMatchObject({
+    code: "INVALID_REQUEST",
+  });
 });

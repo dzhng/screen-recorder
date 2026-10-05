@@ -113,7 +113,7 @@ async function fixture(outputFrames = 6000) {
     owner = new VoiceGenerationJobs({
       assets,
       jobs,
-      models: { list: () => registry.list(), voice: ready },
+      models: { list: () => registry.list(), runtime: ready },
       probe,
       staging: join(home, "staging", "voice"),
       generate: async (modelId, request, signal) => {

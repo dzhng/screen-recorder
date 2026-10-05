@@ -234,7 +234,7 @@ try {
   );
   await stop();
   const models = new Models(join(inputs.libraryHome, "library"));
-  report.preparedVoice = await models.voice(manifest.name);
+  report.preparedVoice = await models.runtime(manifest.name, "voice");
   await models.settled();
   assert.equal(report.preparedVoice.runtimeDigest, declared.runtimeDigest);
   assert.equal(report.preparedVoice.modelDigest, declared.modelDigest);

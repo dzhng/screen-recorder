@@ -27,7 +27,7 @@ const cases = JSON.parse(
   await readFile(join(root, "packages/test-harness/editing/voice/cases.json")),
 );
 const models = new Models(resolve(values["model-home"]));
-const preparation = await models.voice("qwen3-tts-icl-v1");
+const preparation = await models.runtime("qwen3-tts-icl-v1", "voice");
 const native = mediaWorker({ SCREENREC_NATIVE: resolve(values.native) });
 const run = voiceRenderer(native, models, "qwen3-tts-icl-v1", workspace);
 const digest = (bytes) => createHash("sha256").update(bytes).digest("hex");

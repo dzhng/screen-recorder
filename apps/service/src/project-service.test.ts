@@ -1186,7 +1186,7 @@ test("a persisted queued voice request reaches its initialized owner after start
     staging: join(library, "staging", "voice-generation"),
     models: {
       list: () => registry.list(),
-      voice: async () => ({
+      runtime: async () => ({
         python: "unused",
         entry: "unused",
         model: "unused",

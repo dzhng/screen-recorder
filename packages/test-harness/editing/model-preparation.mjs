@@ -91,7 +91,7 @@ try {
   assert.deepEqual(await call("model.list", {}), discovered);
   await service.stop();
   const models = new Models(join(home, "library"));
-  const prepared = await models.voice("qwen3-tts-icl-v1");
+  const prepared = await models.runtime("qwen3-tts-icl-v1", "voice");
   report.prepared = prepared;
   assert.notEqual(await realpath(prepared.model), await realpath(values.model));
   const cases = JSON.parse(

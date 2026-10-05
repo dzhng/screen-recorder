@@ -70,7 +70,7 @@ export class VoiceGenerationJobs {
     private readonly owners: {
       assets: AssetStore;
       jobs: JobQueue;
-      models: Pick<Models, "list" | "voice">;
+      models: Pick<Models, "list" | "runtime">;
       generate: VoiceGenerator;
       probe: AssetProbe;
       staging: string;
@@ -202,7 +202,7 @@ export class VoiceGenerationJobs {
     const saved = this.owners.jobs.status(identity);
     if (saved.jobId || saved.published) return saved;
     // Offline identity and saved lookup must precede this execution-only prerequisite.
-    await this.owners.models.voice(model.modelId);
+    await this.owners.models.runtime(model.modelId, "voice");
     this.owners.jobs.submit({ ...identity, lane: "heavy" }, (job) => {
       this.owners.jobs.retainInputs(job.jobId, "asset", [asset.id]);
     });

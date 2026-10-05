@@ -60,7 +60,7 @@ export function voiceRenderer(
       return null;
     });
     if (destination) throw new CatalogError("INVALID_REQUEST", "Voice destination already exists");
-    const preparation = await models.voice(modelId);
+    const preparation = await models.runtime(modelId, "voice");
     signal.throwIfAborted();
     const voice = jsonWorker(
       {

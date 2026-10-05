@@ -41,8 +41,9 @@ media share these owners rather than introducing separate queues or stores.
 
 [Model preparation](src/models.ts) binds explicit model/runtime identities and
 verified local readiness. Preparation can acquire pinned inputs; execution cannot
-silently prepare another implementation. Profiles describe measured work bounds,
-not universal quality or capacity claims.
+silently prepare another implementation. Prepared optional runtimes share one purpose-checked execution accessor; another
+model purpose does not create another preparation or lifetime owner. Profiles
+describe measured work bounds, not universal quality or capacity claims.
 
 ## Publication and storage
 
