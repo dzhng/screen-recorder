@@ -11,7 +11,7 @@ test("settings delegates opt-out to the updater and reflects only its effective 
   try {
     const executable = compileControlsCheck(
       scratch,
-      ["SettingsWindow"],
+      ["SettingsWindow", "WindowMenu"],
       String.raw`
 import AppKit
 import ScreenRecorderControls

@@ -11,7 +11,7 @@ ownership or making editorial decisions.
 
 The user authorized the full build through `/goal /implement-spec`. Capture
 geometry 01 and primary publication proof 02 are integrated on `feat/capture-menu`;
-shared admission/permissions 04 is completing its reviewed checkpoint. Current
+shared admission/permissions 04 is committed. Current
 pickup: integrate Library geometry 03, then replace the old menu in 05. Preserve
 existing recordings and originals; hard cutover/no shims/no migrations is confirmed.
 
@@ -29,16 +29,24 @@ Evidence: [01 geometry](evidence/01-capture/report.md),
 production components, not a production cutover or capture. Obtain an actual old
 native menu baseline before removing it in 05; that comparison is still OPEN.
 
-Read-only host inventory found no camera or microphone input. Physical camera,
-narration and system-audio gates remain OPEN; no prompt/device session was opened.
-Fixture evidence cannot close them. Continue independent implementation, preserving
-the frozen system-audio reproduction requirement before production parity in 11.
+The user explicitly asked to finish with live-device checks unverified, then
+clarified that verification should stay lean for this UI change. That supersedes
+the planned physical reproduction, screenshot matrices and full-suite ceremony.
+Remaining work: finish Library view and bounded paging, wire one popover/Library
+window and capture actions, add minimal Camera Only acquisition using existing
+owners, then compile the app and inspect a small set of actual UI shots. Do not
+add further verification infrastructure or research checkpoints.
 
-Use tests first, narrow checks and separate worktree build outputs. Follow
-[verification.md](verification.md) for visual comparisons, fresh critique last,
-and non-blocking preview review. Run the full required suite once implementation
-is finished. Preserve unrelated dirty workspace files. No app install or physical
-capture has occurred. Per-pass choices live in [choices.md](choices.md).
+Read-only host inventory found no camera or microphone input. Live camera,
+narration and system-audio behavior remains explicitly UNVERIFIED. Preserve
+existing media/contracts and system-audio meaning; do not substitute devices or
+silently change audio scope. No app install or physical capture has occurred.
+
+Preserve unrelated dirty workspace files and separate worktree build outputs.
+[choices.md](choices.md) retains per-pass implementation decisions. Earlier slice
+verification plans below are historical detail where they conflict with this
+new user instruction. Completion requires the scoped implementation, app build
+and quick visual review rather than turning unverified live checks into passes.
 
 - [x] [01 — Capture geometry fixture](slices/01-capture-geometry.md)
 - [x] [02 — Primary camera authority proof](slices/02-primary-camera-authority.md)

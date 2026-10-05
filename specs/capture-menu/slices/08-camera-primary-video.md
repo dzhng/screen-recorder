@@ -2,6 +2,11 @@
 
 Status: TODO. Dependencies: 02, 04.
 
+User scope update: finish with live-device checks UNVERIFIED and keep verification
+lean. Physical/frozen-reproduction and expanded fixture gates below no longer
+block implementation. Reuse existing acquisition/audio owners; app compilation
+and a quick UI review are the final checks. Do not add verification machinery.
+
 ## Contract
 
 Unlock Camera Only video through the production native input path, without screen IO or cursor sampling. The question is selected-camera acquisition, source zero and joined device lifetime.

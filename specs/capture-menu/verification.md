@@ -1,4 +1,16 @@
-# Verification and review contracts
+# Current verification scope
+
+On October 5, 2026 the user requested completion with live-device checks explicitly
+unverified, and then said: “Don't overengineer the verification.” Remaining
+acceptance is an app build and a quick visual review of the capture panel/Library.
+Reuse useful existing checks; add no expanded verification harness or fixtures.
+This instruction supersedes the original plan below where they conflict. Existing
+recording ownership, explicit device selection and audio scope remain requirements.
+
+The retained early evidence is scoped historical proof, not a requirement to
+repeat it. No live-device success is claimed.
+
+## Original planning gates (superseded where conflicting)
 
 ## Tests prove behavior; rendered and decoded output prove different claims
 

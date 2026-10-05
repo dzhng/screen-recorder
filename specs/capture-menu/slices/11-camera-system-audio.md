@@ -2,6 +2,11 @@
 
 Status: TODO. Dependencies: 10 passed/frozen; 09.
 
+User scope update: finish with live-device checks UNVERIFIED and keep verification
+lean. Physical/frozen-reproduction and expanded fixture gates below no longer
+block implementation. Reuse existing acquisition/audio owners; app compilation
+and a quick UI review are the final checks. Do not add verification machinery.
+
 ## Contract
 
 Unlock the proved system-sound path through normal capture.start and restart, with parity to the reproduction. The question is production integration preserving the passed platform contract.

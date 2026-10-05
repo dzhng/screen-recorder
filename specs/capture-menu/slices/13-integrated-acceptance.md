@@ -2,6 +2,11 @@
 
 Status: TODO. Dependencies: All preceding contracts passed; 10/11 physical uncertainty explicitly disposed.
 
+User scope update: finish with live-device checks UNVERIFIED and keep verification
+lean. Physical/frozen-reproduction and expanded fixture gates below no longer
+block implementation. Reuse existing acquisition/audio owners; app compilation
+and a quick UI review are the final checks. Do not add verification machinery.
+
 ## Contract
 
 Accept the assembled native app against the approved concept and preserved shared capture/media contracts. This is the full composition verdict after focused variables pass.

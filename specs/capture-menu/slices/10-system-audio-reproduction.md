@@ -2,6 +2,11 @@
 
 Status: TODO. Dependencies: 08; 09 supplies narration expectations but this probe can keep microphone off.
 
+User scope update: finish with live-device checks UNVERIFIED and keep verification
+lean. Physical/frozen-reproduction and expanded fixture gates below no longer
+block implementation. Reuse existing acquisition/audio owners; app compilation
+and a quick UI review are the final checks. Do not add verification machinery.
+
 ## Contract
 
 Prove the existing whole-system audio substream can accompany a camera primary without producing screen-video media. This is a bounded platform reproduction, before production integration.

@@ -2,6 +2,11 @@
 
 Status: TODO. Dependencies: 08.
 
+User scope update: finish with live-device checks UNVERIFIED and keep verification
+lean. Physical/frozen-reproduction and expanded fixture gates below no longer
+block implementation. Reuse existing acquisition/audio owners; app compilation
+and a quick UI review are the final checks. Do not add verification machinery.
+
 ## Contract
 
 Unlock requested narration beside camera-primary video with no screen permission dependency. The question is preserving selected microphone PCM and its camera-relative timing.
