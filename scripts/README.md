@@ -31,7 +31,11 @@ its assets; a correction receives a new version.
 
 The [tag workflow](../.github/workflows/release.yml) validates version agreement,
 prepares pinned inputs, builds on macOS, checks the relocated package and publishes
-only verified assets. The workflow owns triggers and permissions. Normal version tags, including `v0.*`,
+only verified assets. Relocation smoke loads schema help and the native worker
+from the exact signed archives; it does not launch the production host or external
+launcher, whose preferences and lock belong to the real account. Host/service and
+updater lifetime proof uses an isolated signed fixture identity. The workflow owns
+triggers and permissions. Normal version tags, including `v0.*`,
 publish stable; suffixed tags publish prerelease. The [publication owner](release-publish.mjs)
 uploads the complete draft before publishing, verifies receipts, and leaves
 published releases untouched.
@@ -55,8 +59,11 @@ framework override must match its pinned build receipt. Source builds link the
 same SDK but have no feed or public update key. Only release packaging enables
 updates and derives compatibility metadata from core. The fixed
 [launcher](launcher/main.c) holds shared kernel exclusion before any bundled code
-read and until the CLI process ends. Its account lock is persistent across bundle
-replacement; neither launcher nor updater may unlink it. Neither is a notarization claim. The
+read and until the CLI process ends. Its lock follows the passwd account home,
+matching Sparkle even when `HOME`
+selects another default app location. The account lock persists across bundle
+replacement; neither launcher nor updater may unlink it. Neither is a notarization
+claim. The
 [recipient guide](release-notes.md) is also the release-notes template and links
 to [agent setup](../README.md#agent-setup). The consumer skill's
 [installation procedure](../skills/screenrec/references/installation.md) owns

@@ -110,7 +110,10 @@ export async function withReleaseIdentity(inputs, action) {
       { input: inputs.password + "\n" },
     );
     const der = Buffer.from(
-      secureRun("openssl", ["x509", "-outform", "DER"], { input: certificate, encoding: "buffer" }),
+      secureRun("openssl", ["x509", "-outform", "DER"], {
+        input: Buffer.from(certificate),
+        encoding: "buffer",
+      }),
     );
     for (const [algorithm, expected] of [
       ["sha1", inputs.sha1],

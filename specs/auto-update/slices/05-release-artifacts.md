@@ -97,3 +97,17 @@ archive/feed verification, identical extracted app-tree comparison and relocated
 assembled native smoke remain required once actual credentials and slice 06's
 native sources are integrated. Permission continuity is an accepted prerequisite;
 this pass does not repeat it or claim a new recipient/Gatekeeper observation.
+
+Integration refinement: launcher coordination resolves the passwd account home,
+matching Foundation/Sparkle even when `HOME` selects a different default app
+location. The launcher also shares the helper's single-link/inode validation.
+Its regression substitutes only the passwd API at compile time so fixture state
+stays in scratch storage; production has no runtime account-home override.
+
+The exact-archive smoke does not execute the signed production host or launcher:
+their update preferences and lock belong to the real account. It verifies both
+signed app trees and the launcher signature, compares files/modes/links, and loads
+bundled Node schema help plus native ping after relocation. Host/service/update
+and coordinated launcher execution are proved in the separately identified
+installed fixture. This reduced smoke is an explicit accepted scope boundary,
+not installed-update acceptance.
