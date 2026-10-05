@@ -28,6 +28,10 @@ isolation. It is audit evidence, not a media-editing implementation plan.
 
 ## Implementation plans
 
+[FFmpeg parity and agent media workflows](ffmpeg-parity/README.md) has a completed
+implementation plan and discovery map. It defines workflow additions and bundled
+FFmpeg seams; implementation has not started.
+
 [Automatic updates](auto-update/README.md) holds the implementation ladder and
 handoff for installed app/CLI updates, with its completed discovery map retained
 alongside it. Planning is complete; updater implementation has not started.
@@ -36,6 +40,10 @@ Release publishing remains owned by the [tag workflow](../scripts/README.md#vers
 ## Future proposals
 
 These directories hold planning questions, not unfinished implementation slices.
+
+[Agent editing workflow](agent-editing-workflow/README.md) recommends inspection,
+review and production capability additions for agent-driven editing. It is an
+assessment; the FFmpeg parity plan now owns implementation ordering.
 
 [Editing UI](editing-ui/README.md) is a deferred client over shared operations.
 [Presenter effects](presenter-effects/README.md) retain visual intent and missing

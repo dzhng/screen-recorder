@@ -1,0 +1,14 @@
+Input #0, lavfi, from 'testsrc2=size=320x180:rate=30:duration=1':
+  Duration: N/A, start: 0.000000, bitrate: N/A
+  Stream #0:0: Video: wrapped_avframe, yuv420p, 320x180 [SAR 1:1 DAR 16:9], 30 fps, 30 tbr, 30 tbn
+Stream mapping:
+  Stream #0:0 -> #0:0 (wrapped_avframe (native) -> h264 (h264_videotoolbox))
+Output #0, mp4, to '/tmp/screenrec-parity-probes.oYoIsz/h264.mp4':
+  Metadata:
+    encoder         : Lavf63.1.102
+  Stream #0:0: Video: h264 (avc1 / 0x31637661), yuv420p(progressive), 320x180 [SAR 1:1 DAR 16:9], q=2-31, 30 fps, 15360 tbn
+    Metadata:
+      encoder         : Lavc63.1.102 h264_videotoolbox
+[h264_videotoolbox @ 0x7696c34a80] Color range not set for yuv420p. Using MPEG range.
+[out#0/mp4 @ 0x7696c1c480] video:58KiB audio:0KiB subtitle:0KiB other streams:0KiB global headers:0KiB muxing overhead: 1.625893%
+frame=   30 fps=0.0 q=-0.0 Lsize=      59KiB time=00:00:00.96 bitrate= 501.2kbits/s speed=6.97x elapsed=0:00:00.13    

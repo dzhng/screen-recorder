@@ -84,3 +84,39 @@ turn a checklist into a mandatory approval sequence.
 - State listening/playback limitations honestly. Numerical equality verifies
   preservation; it does not supply perception. Record precisely what the user
   accepted, rejected or left unresolved, then update the next check accordingly.
+
+## Review the rendered candidate
+
+For an assembled or publishable video, review the pinned rendered revision, not
+only source excerpts. Build the review list from authored edits and project cut
+events; distinguish track entrances/exits from whole-picture cuts. Source scene
+changes alone cannot enumerate edited joins.
+
+- Inspect every changed join with unchanged context on both sides. A window around
+  1.5 seconds each way is a useful start; widen it for a sentence or a slow reveal.
+  Compare sampled frames, waveform and audio on the same project clock. Look for
+  flashes, unwanted jumps, clipped words, clicks, duplicated speech, missing room
+  sound, caption occlusion and animation phase errors. A waveform spike is a
+  candidate artifact, not an audible-pop verdict.
+- Sample the opening, ending and representative middle sections. Check that the
+  setup and payoff survive, text is readable at the intended viewing size, grades
+  match, and music/effects don't mask speech. A still cannot establish motion or
+  enough reading time; watch the changed transition when possible.
+- Compare the delivered duration, dimensions, exact frame rate, streams and encoding
+  with the pinned composition and requested output. Explain sample-grid differences
+  rather than requiring rounded source-duration arithmetic to match exactly.
+- Where available, measure whole-program loudness/true peak and section levels;
+  use the [music checks](creative-workflows.md#music-and-sound-effects) to interpret
+  their limits. Missing analysis must remain a stated verification limit.
+- For high-stakes publication, an independent critic can help when delegation is
+  available and authorized. Supply the candidate, user brief and actual references;
+  ask for ranked issues with timecodes and evidence, not reassurance. Keep author
+  explanations out of a first visual impression. Record what the critic could
+  actually view or hear.
+
+Fix observed defects, render the affected output and recheck the changed behavior.
+Reuse unchanged accepted evidence. Keep iteration bounded: three review rounds
+can be a useful initial budget; stop sooner for an external blocker or no progress,
+and report unresolved issues instead of presenting them as passed. A failed render
+is not a reason to repeat the same request unchanged. Save verdicts against exact
+revision/artifact identities in the task workspace, not in the installed skill.

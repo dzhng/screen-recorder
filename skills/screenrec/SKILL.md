@@ -115,6 +115,10 @@ Before importing, transcribing, inspecting media, editing, rendering or exportin
 read the relevant sections of [media workflows](references/media-workflows.md).
 That reference covers source/project clocks, processing and model readiness,
 frames/audio/timeline evidence, captions, layout and published exports.
+For delegated video assembly, multi-take selection, caption design, animation,
+music or publication work, read [creative workflows](references/creative-workflows.md).
+It covers compact transcript reading, decision sheets and creative techniques;
+use [editorial checks](references/editorial-checks.md) for rendered-output review.
 For optional MCP use, read [MCP delivery](references/mcp.md); CLI is the default.
 
 ## Invocation and identity

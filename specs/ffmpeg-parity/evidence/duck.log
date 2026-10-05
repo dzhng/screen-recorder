@@ -1,0 +1,18 @@
+Input #0, lavfi, from 'sine=frequency=220:duration=2':
+  Duration: N/A, start: 0.000000, bitrate: 705 kb/s
+  Stream #0:0: Audio: pcm_s16le, 44100 Hz, mono, s16, 705 kb/s
+Input #1, lavfi, from 'sine=frequency=440:duration=2':
+  Duration: N/A, start: 0.000000, bitrate: 705 kb/s
+  Stream #1:0: Audio: pcm_s16le, 44100 Hz, mono, s16, 705 kb/s
+Stream mapping:
+  Stream #0:0 (pcm_s16le) -> sidechaincompress
+  Stream #1:0 (pcm_s16le) -> sidechaincompress
+  sidechaincompress:default -> Stream #0:0 (pcm_s16le)
+Output #0, null, to 'pipe:':
+  Metadata:
+    encoder         : Lavf63.1.102
+  Stream #0:0: Audio: pcm_s16le, 44100 Hz, mono, s16, 705 kb/s
+    Metadata:
+      encoder         : Lavc63.1.102 pcm_s16le
+[out#0/null @ 0x77f50209c0] video:0KiB audio:172KiB subtitle:0KiB other streams:0KiB global headers:0KiB muxing overhead: unknown
+size=N/A time=00:00:01.99 bitrate=N/A speed= 752x elapsed=0:00:00.00    

@@ -1,0 +1,29 @@
+[aist#0:0/pcm_f32le @ 0x7c97010180] Guessed Channel Layout: mono
+Input #0, mov,mp4,m4a,3gp,3g2,mj2, from 'fixtures/narrated-workbench/narration.mov':
+  Metadata:
+    major_brand     : qt  
+    minor_version   : 0
+    compatible_brands: qt  
+    creation_time   : 2026-09-18T08:40:12.000000Z
+  Duration: 00:02:13.97, start: 0.048667, bitrate: 1536 kb/s
+  Stream #0:0[0x1](und): Audio: pcm_f32le (lpcm / 0x6D63706C), 48000 Hz, mono, flt, 1536 kb/s, start 0.048667 (default)
+    Metadata:
+      creation_time   : 2026-09-18T08:40:12.000000Z
+      handler_name    : Core Media Audio
+      vendor_id       : [0][0][0][0]
+Stream mapping:
+  Stream #0:0 -> #0:0 (pcm_f32le (native) -> pcm_s16le (native))
+Output #0, null, to 'pipe:':
+  Metadata:
+    major_brand     : qt  
+    minor_version   : 0
+    compatible_brands: qt  
+    encoder         : Lavf63.1.102
+  Stream #0:0(und): Audio: pcm_s16le, 48000 Hz, mono, s16, 768 kb/s (default)
+    Metadata:
+      encoder         : Lavc63.1.102 pcm_s16le
+      creation_time   : 2026-09-18T08:40:12.000000Z
+      handler_name    : Core Media Audio
+      vendor_id       : [0][0][0][0]
+[out#0/null @ 0x7c96c4c180] video:0KiB audio:188KiB subtitle:0KiB other streams:0KiB global headers:0KiB muxing overhead: unknown
+size=N/A time=00:00:02.00 bitrate=N/A speed=1.06e+03x elapsed=0:00:00.00    

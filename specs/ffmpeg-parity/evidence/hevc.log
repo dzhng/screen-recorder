@@ -1,0 +1,13 @@
+Input #0, lavfi, from 'testsrc2=size=320x180:rate=30:duration=1':
+  Duration: N/A, start: 0.000000, bitrate: N/A
+  Stream #0:0: Video: wrapped_avframe, yuv420p, 320x180 [SAR 1:1 DAR 16:9], 30 fps, 30 tbr, 30 tbn
+Stream mapping:
+  Stream #0:0 -> #0:0 (wrapped_avframe (native) -> hevc (hevc_videotoolbox))
+Output #0, mp4, to '/tmp/screenrec-parity-probes.oYoIsz/hevc.mp4':
+  Metadata:
+    encoder         : Lavf63.1.102
+  Stream #0:0: Video: hevc (hev1 / 0x31766568), yuv420p(tv, progressive), 320x180 [SAR 1:1 DAR 16:9], q=2-31, 30 fps, 15360 tbn
+    Metadata:
+      encoder         : Lavc63.1.102 hevc_videotoolbox
+[out#0/mp4 @ 0x7cff020480] video:32KiB audio:0KiB subtitle:0KiB other streams:0KiB global headers:0KiB muxing overhead: 3.257108%
+frame=   30 fps=0.0 q=-0.0 Lsize=      33KiB time=00:00:00.96 bitrate= 276.5kbits/s speed=7.08x elapsed=0:00:00.13    
