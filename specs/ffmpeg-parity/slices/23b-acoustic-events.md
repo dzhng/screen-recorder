@@ -16,6 +16,14 @@ require new untouched confirmation, with no post-test threshold rescue.
 
 ## Next bounded checkpoint
 
+The [primary candidate inspection](../evidence/event-primary-candidates/README.md)
+maps a framewise PANNs family and complete human AudioSet temporal annotations
+for the named categories. Expanded scores repeat a coarser native grid; their
+frontend hop is not event accuracy. Original soundtrack permissions and physical
+excerpt-clock admission remain open. No weights/audio were acquired, no new
+cohort selected and no inference ran. VocalSound does not supply Gasp/Applause
+or timed endpoints, so no category substitution is permitted.
+
 Build separate real development and untouched confirmation operands for each
 requested category. The current laughter/applause/gasp examples are frozen failed
 confirmation; do not retune their thresholds and reuse them as acceptance.
