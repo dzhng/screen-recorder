@@ -1,0 +1,82 @@
+{
+  "protocol": {
+    "acceptedBy": "parent before untouched confirmation",
+    "recipe": "linked-mono-max-limiter-v1",
+    "frames": "exact",
+    "ceilingLinearExcess": 1e-06,
+    "linkedRatioAbsolute": 1e-06,
+    "packetCropAbsolute": 1e-06,
+    "signedResponse": "preserved",
+    "zeroDetector": "exact zeros",
+    "gainBound": "one release step, not automatic level compensation",
+    "releaseMs": 37
+  },
+  "records": [
+    {
+      "name": "near-heldout",
+      "frames": 19007,
+      "expectedFrames": 19007,
+      "fragmentFrames": 19007,
+      "cropFrames": 9504,
+      "expectedCropFrames": 9504,
+      "peak": 0.20000000298023224,
+      "ceiling": 0.2,
+      "linkedError": 1.1175870895385742e-08,
+      "packetDifference": 0.0,
+      "cropDifference": 0.0,
+      "signed": true,
+      "zerosExact": true,
+      "gainExcess": 5.070805869644701e-06,
+      "releaseStepBound": 0.0005630630630630631,
+      "landmarks": {
+        "0": [
+          0.20000000298023224,
+          -0.03999999910593033
+        ],
+        "9503": [
+          -0.20000000298023224,
+          0.03999999910593033
+        ],
+        "19006": [
+          0.20000000298023224,
+          -0.03999999910593033
+        ]
+      },
+      "passed": true
+    },
+    {
+      "name": "short-zero-heldout",
+      "frames": 101,
+      "expectedFrames": 101,
+      "fragmentFrames": 101,
+      "cropFrames": 50,
+      "expectedCropFrames": 50,
+      "peak": 0.20000000298023224,
+      "ceiling": 0.2,
+      "linkedError": 7.450580596923828e-09,
+      "packetDifference": 0.0,
+      "cropDifference": 0.0,
+      "signed": true,
+      "zerosExact": true,
+      "gainExcess": -0.7894736810734397,
+      "releaseStepBound": 0.0005630630630630631,
+      "landmarks": {
+        "0": [
+          0.20000000298023224,
+          -0.03999999910593033
+        ],
+        "50": [
+          -0.20000000298023224,
+          0.03999999910593033
+        ],
+        "100": [
+          0.20000000298023224,
+          -0.03999999910593033
+        ]
+      },
+      "passed": true
+    }
+  ],
+  "passed": true,
+  "ffmpegSha256": "8410694433e927bdf2cc751b8c81cb4545b2302828fdffed6044018b10f39f31"
+}

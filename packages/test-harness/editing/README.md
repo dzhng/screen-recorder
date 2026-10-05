@@ -97,3 +97,6 @@ PQ/HLG charts and a supplied pinned runtime to isolate conversion from encoding.
 Its [clock probe](hdr-clock.py) separately checks sparse final support, exact common
 origin and rotation. Neither selects an implicit source interpretation or supplies
 a production publication path.
+
+[Audio recipe reproduction](audio-recipes/README.md) retains numerical
+normalization, limiter and compressor evidence before production admission.

@@ -1,0 +1,285 @@
+{
+  "protocol": {
+    "acceptedBy": "parent before held-out generation",
+    "frames": "exact",
+    "timing": "exact authored indices",
+    "stereoRatioAbs": 1e-06,
+    "ceilingLinearExcess": 1e-06,
+    "steadyGainAbs": 1e-06,
+    "packetCropPcmAbs": 1e-06
+  },
+  "runtimeSha256": "8410694433e927bdf2cc751b8c81cb4545b2302828fdffed6044018b10f39f31",
+  "limiter": [
+    {
+      "name": "l132",
+      "frames": 11003,
+      "expectedFrames": 11003,
+      "lookaheadMs": 2.75,
+      "delaySamples": 131,
+      "peak": 0.375,
+      "ceiling": 0.375,
+      "linkedError": 0.0,
+      "landmarks": {
+        "0": [
+          0.375,
+          0.1875
+        ],
+        "5501": [
+          -0.375,
+          -0.1875
+        ],
+        "11002": [
+          0.375,
+          0.1875
+        ]
+      },
+      "expectedLandmarks": {
+        "0": [
+          0.375,
+          0.1875
+        ],
+        "5501": [
+          -0.375,
+          -0.1875
+        ],
+        "11002": [
+          0.375,
+          0.1875
+        ]
+      },
+      "maximumGain": 1.0001776218414307,
+      "maximumReleaseStepGain": 1.000293427230047,
+      "polarityPreserved": true,
+      "packetDifference": 0.0,
+      "packetFrames": 11003,
+      "cropDifference": 0.0,
+      "cropFrames": 5502,
+      "expectedCropFrames": 5502
+    },
+    {
+      "name": "l4",
+      "frames": 1031,
+      "expectedFrames": 1031,
+      "lookaheadMs": 0.1,
+      "delaySamples": 3,
+      "peak": 0.800000011920929,
+      "ceiling": 0.8,
+      "linkedError": 0.0,
+      "landmarks": {
+        "0": [
+          0.800000011920929,
+          0.4000000059604645
+        ],
+        "515": [
+          -0.800000011920929,
+          -0.4000000059604645
+        ],
+        "1030": [
+          0.800000011920929,
+          0.4000000059604645
+        ]
+      },
+      "expectedLandmarks": {
+        "0": [
+          0.8,
+          0.4
+        ],
+        "515": [
+          -0.8,
+          -0.4
+        ],
+        "1030": [
+          0.8,
+          0.4
+        ]
+      },
+      "maximumGain": 0.865780234336853,
+      "maximumReleaseStepGain": 1.000293427230047,
+      "polarityPreserved": true,
+      "packetDifference": 0.0,
+      "packetFrames": 1031,
+      "cropDifference": 0.0,
+      "cropFrames": 516,
+      "expectedCropFrames": 516
+    },
+    {
+      "name": "l3840-short",
+      "frames": 31,
+      "expectedFrames": 31,
+      "lookaheadMs": 80,
+      "delaySamples": 3839,
+      "peak": 0.25,
+      "ceiling": 0.25,
+      "linkedError": 0.0,
+      "landmarks": {
+        "0": [
+          0.25,
+          0.125
+        ],
+        "15": [
+          -0.25,
+          -0.125
+        ],
+        "30": [
+          0.25,
+          0.125
+        ]
+      },
+      "expectedLandmarks": {
+        "0": [
+          0.25,
+          0.125
+        ],
+        "15": [
+          -0.25,
+          -0.125
+        ],
+        "30": [
+          0.25,
+          0.125
+        ]
+      },
+      "maximumGain": 0.2631579041481018,
+      "maximumReleaseStepGain": 1.000293427230047,
+      "polarityPreserved": true,
+      "packetDifference": 0.0,
+      "packetFrames": 31,
+      "cropDifference": 0.0,
+      "cropFrames": 16,
+      "expectedCropFrames": 16
+    },
+    {
+      "name": "l132-near",
+      "frames": 11003,
+      "expectedFrames": 11003,
+      "lookaheadMs": 2.75,
+      "delaySamples": 131,
+      "peak": 0.375,
+      "ceiling": 0.375,
+      "linkedError": 0.0,
+      "landmarks": {
+        "0": [
+          0.375,
+          0.1875
+        ],
+        "5501": [
+          -0.375,
+          -0.1875
+        ],
+        "11002": [
+          0.375,
+          0.1875
+        ]
+      },
+      "expectedLandmarks": {
+        "0": [
+          0.375,
+          0.1875
+        ],
+        "5501": [
+          -0.375,
+          -0.1875
+        ],
+        "11002": [
+          0.375,
+          0.1875
+        ]
+      },
+      "maximumGain": 1.0001000100010002,
+      "maximumReleaseStepGain": 1.000293427230047,
+      "polarityPreserved": true,
+      "packetDifference": 0.0,
+      "packetFrames": 11003,
+      "cropDifference": 0.0,
+      "cropFrames": 5502,
+      "expectedCropFrames": 5502
+    }
+  ],
+  "compressor": {
+    "frames": 17003,
+    "expectedFrames": 17003,
+    "packetFrames": 17003,
+    "packetDifference": 0.0,
+    "cropFrames": 12194,
+    "expectedCropFrames": 12194,
+    "cropDifference": 0.0,
+    "linkedError": 0.0,
+    "envelopePcmMaxDifference": 3.7215425324754747e-09,
+    "expectedSteadyGain": 0.39685026299204984,
+    "steadyGain": 0.39685025811195374,
+    "releaseToUnity": [
+      0.125,
+      0.0625
+    ],
+    "initial": [
+      0.125,
+      0.0625
+    ],
+    "tail": [
+      0.125,
+      0.0625
+    ]
+  },
+  "passed": true,
+  "checks": [
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true
+  ]
+}

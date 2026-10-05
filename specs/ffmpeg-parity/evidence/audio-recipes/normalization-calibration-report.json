@@ -1,0 +1,43 @@
+{
+  "source": {
+    "rate": 44100,
+    "channels": 1,
+    "frames": 529200,
+    "sha256": "085e1dfa71a33d8a6e8cb7ccc34b6de972af55007c67583dbf1728df3d39b0c6"
+  },
+  "targets": {
+    "integratedLufs": -18,
+    "truePeakDbtp": -1,
+    "loudnessRangeLu": 7
+  },
+  "first": {
+    "input_i": "-24.29",
+    "input_tp": "-14.89",
+    "input_lra": "14.10",
+    "input_thresh": "-34.29",
+    "output_i": "-15.94",
+    "output_tp": "-7.35",
+    "output_lra": "15.00",
+    "output_thresh": "-27.50",
+    "normalization_type": "dynamic",
+    "target_offset": "-2.06"
+  },
+  "second": {
+    "input_i": "-24.29",
+    "input_tp": "-14.89",
+    "input_lra": "14.10",
+    "input_thresh": "-34.29",
+    "output_i": "-18.01",
+    "output_tp": "-9.41",
+    "output_lra": "15.10",
+    "output_thresh": "-29.57",
+    "normalization_type": "dynamic",
+    "target_offset": "0.01"
+  },
+  "recipe": "loudnorm=I=-18:TP=-1:LRA=7:linear=false:measured_I=-24.29:measured_TP=-14.89:measured_LRA=14.10:measured_thresh=-34.29:offset=-2.06:print_format=json",
+  "output": {
+    "frames": 529200,
+    "sha256": "88ac45324b21410ef4e4ecb9a270bdf81538844b04f1efbe391c439f1e259db1",
+    "samplePeak": 0.33838707208633423
+  }
+}

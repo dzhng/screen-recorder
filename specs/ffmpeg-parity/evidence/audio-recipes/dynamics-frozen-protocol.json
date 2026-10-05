@@ -1,0 +1,9 @@
+{
+  "acceptedBy": "parent before held-out generation",
+  "frames": "exact",
+  "timing": "exact authored indices",
+  "stereoRatioAbs": 1e-06,
+  "ceilingLinearExcess": 1e-06,
+  "steadyGainAbs": 1e-06,
+  "packetCropPcmAbs": 1e-06
+}

@@ -1,0 +1,34 @@
+{
+  "limiter": {
+    "frames": 12000,
+    "peak": 0.5,
+    "landmarks": {
+      "0": [
+        0.5,
+        0.10000000149011612
+      ],
+      "1000": [
+        0.5,
+        0.10000000149011612
+      ],
+      "6000": [
+        0.5,
+        0.10000000149011612
+      ],
+      "11999": [
+        0.5,
+        0.10000000149011612
+      ]
+    },
+    "packetMaxDifference": 0.0,
+    "uncompensatedPeakIndices": [
+      239,
+      1239,
+      6239
+    ]
+  },
+  "compressorPartial": {
+    "actualFrames": 8192,
+    "expectedFrames": 12000
+  }
+}

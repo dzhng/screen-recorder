@@ -1,0 +1,28 @@
+[in#0/f32le @ 0x7b46c18000] Estimating duration from bitrate, this may be inaccurate
+[aist#0:0/pcm_f32le @ 0x7b46c10180] Guessed Channel Layout: mono
+Input #0, f32le, from '/tmp/screenrec-audio-recipes/normalization/input.f32':
+  Duration: 00:00:12.00, bitrate: 1411 kb/s
+  Stream #0:0: Audio: pcm_f32le, 44100 Hz, mono, flt, 1411 kb/s
+Stream mapping:
+  Stream #0:0 -> #0:0 (pcm_f32le (native) -> pcm_s16le (native))
+Output #0, null, to 'pipe:':
+  Metadata:
+    encoder         : Lavf63.1.102
+  Stream #0:0: Audio: pcm_s16le, 192000 Hz, mono, s16, 3072 kb/s
+    Metadata:
+      encoder         : Lavc63.1.102 pcm_s16le
+[Parsed_loudnorm_0 @ 0x7b47024600] 
+{
+	"input_i" : "-24.29",
+	"input_tp" : "-14.89",
+	"input_lra" : "14.10",
+	"input_thresh" : "-34.29",
+	"output_i" : "-15.94",
+	"output_tp" : "-7.35",
+	"output_lra" : "15.00",
+	"output_thresh" : "-27.50",
+	"normalization_type" : "dynamic",
+	"target_offset" : "-2.06"
+}
+[out#0/null @ 0x7b47024180] video:0KiB audio:4500KiB subtitle:0KiB other streams:0KiB global headers:0KiB muxing overhead: unknown
+size=N/A time=00:00:12.00 bitrate=N/A speed=99.6x elapsed=0:00:00.12    

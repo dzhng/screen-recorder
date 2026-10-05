@@ -2,7 +2,7 @@
 
 Status: not started. Question: **Does caller-selected detector routing drive one consistent stateful treatment?**
 
-Dependencies: [15a](15a-compressor-reproduction.md), [10](10-loudness.md); managed FFmpeg requires 01–05.
+Dependencies: [15a](15a-compressor-reproduction.md), [10](10-loudness.md); managed FFmpeg requires 01–05 and [96](96-audio-preparation.md).
 
 Freeze the [recipe reproduction](15a-compressor-reproduction.md) before changing behavior. Its parameter/state mapping is the mandatory contract for this slice.
 
@@ -23,3 +23,10 @@ Known detector steps/absence/overlap, routing cycle refusal, channel linking, re
 Inherit the [global contract](../README.md#contracts-and-ownership) and narrow verification policy. Write-tests red/green precedes behavior changes. Existing native output and persisted identity remain unchanged unless this slice names the extension.
 
 Delegate internal naming/decomposition, bounded fixture selection and reversible artifact styling. Public meaning and backend policy are fixed above; resolve a new semantic choice in this spec before coding it. Record actual commands, immutable input/runtime identities, coverage, failures and verdict. User feedback changes requested meaning, supported scope or visible appearance; mechanical preferences alone do not justify expanding the slice. A failed proof remains unfinished and must be narrowed or resliced, not waived.
+
+## Frozen execution
+
+Use 15a's linked peak detector and bounded typed controls, explicit detector-prefix
+dependency, common128-frame internal packet grid and authored final trim. Never
+turn unavailable detector support into silence. The shared preparation contract
+must freeze routing dependencies before implementation.

@@ -1,0 +1,9 @@
+{
+  "recipe": "[0:a]asetnsamples=n=128:p=1[p];[1:a]asetnsamples=n=128:p=1[d];[p][d]sidechaincompress=threshold=0.1875:ratio=3:attack=.01:release=.01:knee=1.9952623149688795:detection=peak:link=maximum:level_in=1:level_sc=1:makeup=1:mix=1:mode=downward,atrim=end_sample=2001",
+  "frames": 2001,
+  "expectedFrames": 2001,
+  "expectedGain": 0.9440608762859234,
+  "actualGain": 0.9440608620643616,
+  "maxGainError": 1.4221561817073791e-08,
+  "passed": true
+}

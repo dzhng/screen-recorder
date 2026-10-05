@@ -1,0 +1,15 @@
+[in#0/f32le @ 0x7b6f018000] Estimating duration from bitrate, this may be inaccurate
+[aist#0:0/pcm_f32le @ 0x7b6ec10180] Guessed Channel Layout: stereo
+Input #0, f32le, from '/tmp/screenrec-audio-recipes/confirmation/l132-input.f32':
+  Duration: 00:00:00.23, bitrate: 3072 kb/s
+  Stream #0:0: Audio: pcm_f32le, 48000 Hz, stereo, flt, 3072 kb/s
+Stream mapping:
+  Stream #0:0 -> #0:0 (pcm_f32le (native) -> pcm_f32le (native))
+Output #0, f32le, to '/tmp/screenrec-audio-recipes/confirmation/l132.f32':
+  Metadata:
+    encoder         : Lavf63.1.102
+  Stream #0:0: Audio: pcm_f32le, 48000 Hz, stereo, flt, 3072 kb/s
+    Metadata:
+      encoder         : Lavc63.1.102 pcm_f32le
+[out#0/f32le @ 0x7b6ec40180] video:0KiB audio:86KiB subtitle:0KiB other streams:0KiB global headers:0KiB muxing overhead: 0.000000%
+size=      86KiB time=00:00:00.22 bitrate=3072.0kbits/s speed= 356x elapsed=0:00:00.00    

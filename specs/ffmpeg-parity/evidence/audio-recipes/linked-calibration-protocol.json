@@ -1,0 +1,12 @@
+{
+  "recipe": "linked-mono-max-limiter-v1",
+  "frozenBeforeCandidateExecution": true,
+  "frames": "exact",
+  "clock": "exact authored landmarks",
+  "ceilingLinearExcess": 1e-06,
+  "linkedRatioAbsolute": 1e-06,
+  "packetCropAbsolute": 1e-06,
+  "lowLevelPriorWinnerAbsolute": 1e-06,
+  "intentionalDifference": "one linked scalar clamp avoids per-channel safetyclip divergence",
+  "implementation": "FFmpeg9.0.2 finalzimg"
+}

@@ -1,0 +1,60 @@
+{
+  "protocol": {
+    "recipe": "linked-mono-max-limiter-v1",
+    "frozenBeforeCandidateExecution": true,
+    "frames": "exact",
+    "clock": "exact authored landmarks",
+    "ceilingLinearExcess": 1e-06,
+    "linkedRatioAbsolute": 1e-06,
+    "packetCropAbsolute": 1e-06,
+    "lowLevelPriorWinnerAbsolute": 1e-06,
+    "intentionalDifference": "one linked scalar clamp avoids per-channel safetyclip divergence",
+    "implementation": "FFmpeg9.0.2 finalzimg"
+  },
+  "records": [
+    {
+      "name": "l132",
+      "frames": 11003,
+      "expectedFrames": 11003,
+      "recipe": "[0:a]asetnsamples=n=128:p=1,asplit=2[p][d];[d]aeval=exprs=max(abs(val(0))\\,abs(val(1))):c=mono,asplit=2[m][md];[m]alimiter=limit=0.375:attack=2.75:release=71:level_in=1:level_out=1:level=false:asc=false:latency=true,asetnsamples=n=128:p=1[ml];[p][md][ml]amerge=inputs=3,aeval=exprs=if(eq(val(2)\\,0)\\,val(0)\\,val(0)*val(3)/val(2))|if(eq(val(2)\\,0)\\,val(1)\\,val(1)*val(3)/val(2)):c=stereo,atrim=end_sample=11003",
+      "peak": 0.375,
+      "ceiling": 0.375,
+      "linkedError": 0.0,
+      "priorWinnerMaxDifference": 0.0,
+      "outputSha256": "13e98c56ec7816cdc46c7f46e26240aa4e9ac91209b1ce3813021a43979d9c36"
+    },
+    {
+      "name": "l4",
+      "frames": 1031,
+      "expectedFrames": 1031,
+      "recipe": "[0:a]asetnsamples=n=128:p=1,asplit=2[p][d];[d]aeval=exprs=max(abs(val(0))\\,abs(val(1))):c=mono,asplit=2[m][md];[m]alimiter=limit=0.8:attack=0.1:release=71:level_in=1:level_out=1:level=false:asc=false:latency=true,asetnsamples=n=128:p=1[ml];[p][md][ml]amerge=inputs=3,aeval=exprs=if(eq(val(2)\\,0)\\,val(0)\\,val(0)*val(3)/val(2))|if(eq(val(2)\\,0)\\,val(1)\\,val(1)*val(3)/val(2)):c=stereo,atrim=end_sample=1031",
+      "peak": 0.800000011920929,
+      "ceiling": 0.8,
+      "linkedError": 0.0,
+      "priorWinnerMaxDifference": 0.0,
+      "outputSha256": "837ffcb06e7d62f67543fcb18643d60b6abe56d605134fe6521603692e6d7296"
+    },
+    {
+      "name": "l3840-short",
+      "frames": 31,
+      "expectedFrames": 31,
+      "recipe": "[0:a]asetnsamples=n=128:p=1,asplit=2[p][d];[d]aeval=exprs=max(abs(val(0))\\,abs(val(1))):c=mono,asplit=2[m][md];[m]alimiter=limit=0.25:attack=80:release=71:level_in=1:level_out=1:level=false:asc=false:latency=true,asetnsamples=n=128:p=1[ml];[p][md][ml]amerge=inputs=3,aeval=exprs=if(eq(val(2)\\,0)\\,val(0)\\,val(0)*val(3)/val(2))|if(eq(val(2)\\,0)\\,val(1)\\,val(1)*val(3)/val(2)):c=stereo,atrim=end_sample=31",
+      "peak": 0.25,
+      "ceiling": 0.25,
+      "linkedError": 0.0,
+      "priorWinnerMaxDifference": 0.0,
+      "outputSha256": "5ed259b88b8399bb3c79bfcf9020f45d591cd297228d51d149390cd60bff1759"
+    },
+    {
+      "name": "l132-near",
+      "frames": 11003,
+      "expectedFrames": 11003,
+      "recipe": "[0:a]asetnsamples=n=128:p=1,asplit=2[p][d];[d]aeval=exprs=max(abs(val(0))\\,abs(val(1))):c=mono,asplit=2[m][md];[m]alimiter=limit=0.375:attack=2.75:release=71:level_in=1:level_out=1:level=false:asc=false:latency=true,asetnsamples=n=128:p=1[ml];[p][md][ml]amerge=inputs=3,aeval=exprs=if(eq(val(2)\\,0)\\,val(0)\\,val(0)*val(3)/val(2))|if(eq(val(2)\\,0)\\,val(1)\\,val(1)*val(3)/val(2)):c=stereo,atrim=end_sample=11003",
+      "peak": 0.375,
+      "ceiling": 0.375,
+      "linkedError": 0.0,
+      "priorWinnerMaxDifference": 1.455843448638916e-05,
+      "outputSha256": "f90f8964e25f918aaad688734b7cf27cd428cd47e4afc662e6559d2d50515496"
+    }
+  ]
+}

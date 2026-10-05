@@ -1,0 +1,22 @@
+[in#0/f32le @ 0x7a3ac30000] Estimating duration from bitrate, this may be inaccurate
+[aist#0:0/pcm_f32le @ 0x7a3b010180] Guessed Channel Layout: stereo
+Input #0, f32le, from '/tmp/screenrec-audio-recipes/knee-confirmation/program.f32':
+  Duration: 00:00:00.04, bitrate: 3071 kb/s
+  Stream #0:0: Audio: pcm_f32le, 48000 Hz, stereo, flt, 3072 kb/s
+[in#1/f32le @ 0x7a3ac30280] Estimating duration from bitrate, this may be inaccurate
+[aist#1:0/pcm_f32le @ 0x7a3b010300] Guessed Channel Layout: stereo
+Input #1, f32le, from '/tmp/screenrec-audio-recipes/knee-confirmation/detector.f32':
+  Duration: 00:00:00.04, bitrate: 3071 kb/s
+  Stream #1:0: Audio: pcm_f32le, 48000 Hz, stereo, flt, 3072 kb/s
+Stream mapping:
+  Stream #0:0 (pcm_f32le) -> asetnsamples:default
+  Stream #1:0 (pcm_f32le) -> asetnsamples:default
+  atrim:default -> Stream #0:0 (pcm_f32le)
+Output #0, f32le, to '/tmp/screenrec-audio-recipes/knee-confirmation/knee.f32':
+  Metadata:
+    encoder         : Lavf63.1.102
+  Stream #0:0: Audio: pcm_f32le, 48000 Hz, stereo, flt, 3072 kb/s
+    Metadata:
+      encoder         : Lavc63.1.102 pcm_f32le
+[out#0/f32le @ 0x7a3b028300] video:0KiB audio:16KiB subtitle:0KiB other streams:0KiB global headers:0KiB muxing overhead: 0.000000%
+size=      16KiB time=00:00:00.04 bitrate=3072.0kbits/s speed= 7.9x elapsed=0:00:00.00    

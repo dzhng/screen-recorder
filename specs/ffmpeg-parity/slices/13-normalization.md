@@ -2,7 +2,7 @@
 
 Status: not started. Question: **Can an explicitly requested loudness treatment retain mode and full-context identity?**
 
-Dependencies: [13a](13a-normalization-reproduction.md), [10](10-loudness.md); managed FFmpeg requires 01–05.
+Dependencies: [13a](13a-normalization-reproduction.md), [10](10-loudness.md); managed FFmpeg requires 01–05 and [96](96-audio-preparation.md).
 
 Freeze the [recipe reproduction](13a-normalization-reproduction.md) before changing behavior. Its parameter/state mapping is the mandatory contract for this slice.
 
@@ -23,3 +23,12 @@ Gain-only identity, silence, inadequate context, measured linear feasibility and
 Inherit the [global contract](../README.md#contracts-and-ownership) and narrow verification policy. Write-tests red/green precedes behavior changes. Existing native output and persisted identity remain unchanged unless this slice names the extension.
 
 Delegate internal naming/decomposition, bounded fixture selection and reversible artifact styling. Public meaning and backend policy are fixed above; resolve a new semantic choice in this spec before coding it. Record actual commands, immutable input/runtime identities, coverage, failures and verdict. User feedback changes requested meaning, supported scope or visible appearance; mechanical preferences alone do not justify expanding the slice. A failed proof remains unfinished and must be narrowed or resliced, not waived.
+
+## Frozen admission requirements
+
+Use the frozen13a controls and whole-domain recipe. Prepared publication admits
+only candidates meeting requested integrated target, maximum LRA and meter-specific
+peak ceiling under the declared tolerances, with exact sample count. Retain
+requested/achieved values. The failed stepped dynamic candidate is a mandatory
+refusal fixture, not permission to reduce targets or substitute gain-only.
+The shared preparation contract must exist before implementation.

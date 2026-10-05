@@ -1,0 +1,91 @@
+{
+  "protocol": {
+    "acceptedBy": "parent before confirmation",
+    "integratedAbsoluteLu": 0.2,
+    "rangeMaximumExcessLu": 0.2,
+    "meterSpecificTruePeakExcessDb": 0.15,
+    "scaledPcmAbsolute": 1e-06,
+    "frames": "exact"
+  },
+  "records": [
+    {
+      "name": "linear-unequal-stereo",
+      "mode": "gain-only",
+      "rate": 48000,
+      "channels": 2,
+      "expectedFrames": 384000,
+      "frames": 384000,
+      "targets": {
+        "integratedLufs": -20,
+        "truePeakDbtp": -2,
+        "loudnessRangeLu": 8
+      },
+      "before": {
+        "frames": 384000.0,
+        "integratedLufs": -26.7788397,
+        "loudnessRangeLu": 0.097564494,
+        "samplePeakDbfs": -23.3754061,
+        "truePeakDbtp": -23.3710346
+      },
+      "after": {
+        "frames": 384000.0,
+        "integratedLufs": -20.0,
+        "loudnessRangeLu": 0.0975644939,
+        "samplePeakDbfs": -16.5965664,
+        "truePeakDbtp": -16.5921949
+      },
+      "admitted": true,
+      "inputSha256": "d22ab80a72bced8a4d92dda911ec5046671f38b5fdad6b8244031e73cd0969b8",
+      "outputSha256": "6cbe85a5396a06aea621c8ac7123f2e8e86a2b81305735455529f00359b06a64",
+      "gain": 2.1824383524898074,
+      "scaledPcmMaxDifference": 7.4491109391949806e-09,
+      "linearFeasible": true
+    },
+    {
+      "name": "dynamic-steady-mono",
+      "mode": "dynamic",
+      "rate": 44100,
+      "channels": 1,
+      "expectedFrames": 352800,
+      "frames": 352800,
+      "targets": {
+        "integratedLufs": -20,
+        "truePeakDbtp": -2,
+        "loudnessRangeLu": 8
+      },
+      "before": {
+        "frames": 352800.0,
+        "integratedLufs": -27.7445568,
+        "loudnessRangeLu": 0.0975670958,
+        "samplePeakDbfs": -23.3754061,
+        "truePeakDbtp": -23.370881
+      },
+      "after": {
+        "frames": 352800.0,
+        "integratedLufs": -19.9850303,
+        "loudnessRangeLu": 0.0686486244,
+        "samplePeakDbfs": -15.548352,
+        "truePeakDbtp": -15.5438272
+      },
+      "admitted": true,
+      "inputSha256": "1c3a62b6c1618557361f24603c3277db301afbd78def02bf889af8b0ea3e7274",
+      "outputSha256": "21eb29489ee24215ec0a1f928adcbf4f37766c9d7b173f859a2c23d4dfed0601",
+      "recipe": "loudnorm=I=-20:TP=-2:LRA=8:linear=false:measured_I=-27.79:measured_TP=-23.38:measured_LRA=0.10:measured_thresh=-37.79:offset=-0.03:print_format=json",
+      "first": {
+        "input_i": "-27.79",
+        "input_tp": "-23.38",
+        "input_lra": "0.10",
+        "input_thresh": "-37.79",
+        "output_i": "-19.97",
+        "output_tp": "-15.52",
+        "output_lra": "0.10",
+        "output_thresh": "-29.97",
+        "normalization_type": "dynamic",
+        "target_offset": "-0.03"
+      }
+    }
+  ],
+  "ffmpegSha256": "8410694433e927bdf2cc751b8c81cb4545b2302828fdffed6044018b10f39f31",
+  "oracleSha256": "bd48fb13bb936d968b7a8a9594b7ec87525f4f560284e70c991f0b178d1247da",
+  "passed": true
+}

@@ -1,0 +1,8 @@
+{
+  "acceptedBy": "parent before confirmation",
+  "integratedAbsoluteLu": 0.2,
+  "rangeMaximumExcessLu": 0.2,
+  "meterSpecificTruePeakExcessDb": 0.15,
+  "scaledPcmAbsolute": 1e-06,
+  "frames": "exact"
+}

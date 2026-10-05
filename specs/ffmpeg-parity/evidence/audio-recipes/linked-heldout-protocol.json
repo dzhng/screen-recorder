@@ -1,0 +1,12 @@
+{
+  "acceptedBy": "parent before untouched confirmation",
+  "recipe": "linked-mono-max-limiter-v1",
+  "frames": "exact",
+  "ceilingLinearExcess": 1e-06,
+  "linkedRatioAbsolute": 1e-06,
+  "packetCropAbsolute": 1e-06,
+  "signedResponse": "preserved",
+  "zeroDetector": "exact zeros",
+  "gainBound": "one release step, not automatic level compensation",
+  "releaseMs": 37
+}
