@@ -10,6 +10,11 @@ import { finderEnvironment, waitFor } from "./harness.mjs";
 
 const root = fileURLToPath(new URL("../../../", import.meta.url));
 const installer = join(root, "scripts/install-personal.mjs");
+const builtIdentifier = execFileSync(
+  "/usr/libexec/PlistBuddy",
+  ["-c", "Print :CFBundleIdentifier", join(root, "dist/ScreenRecorder.app/Contents/Info.plist")],
+  { encoding: "utf8" },
+).trim();
 
 function processes() {
   return execFileSync("ps", ["-axo", "pid=,command="], { encoding: "utf8" })
@@ -43,11 +48,6 @@ test(
       // A copy installed under the earlier bundle name is the same app, so it is replaced.
       const superseded = join(scratch, "Applications/ScreenRecorder.app");
       execFileSync("ditto", [join(root, "dist/ScreenRecorder.app"), superseded]);
-      execFileSync("/usr/libexec/PlistBuddy", [
-        "-c",
-        "Set :CFBundleIdentifier com.david.screenrec.personal",
-        join(superseded, "Contents/Info.plist"),
-      ]);
       const first = install();
       assert.equal(first.status, 0, first.stderr);
       assert.deepEqual(readdirSync(join(scratch, "Applications")), ["Screen Recorder.app"]);
@@ -58,7 +58,11 @@ test(
           { encoding: "utf8" },
         ).trim();
       assert.equal(info("CFBundleDisplayName"), "Screen Recorder");
-      assert.equal(info("CFBundleIdentifier"), "com.david.screenrec.personal");
+      assert.equal(
+        info("CFBundleIdentifier"),
+        builtIdentifier,
+        "installation preserves the built app identity",
+      );
       assert.ok(
         statSync(join(app, "Contents/Resources", `${info("CFBundleIconFile")}.icns`)).size > 0,
         "the installed bundle carries the icon its Info.plist names",

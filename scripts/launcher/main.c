@@ -27,12 +27,12 @@ int main(int argc, char **argv) {
     const char *appHome = getenv("HOME");
     if (!appHome || !*appHome) appHome = lockHome;
     char path[PATH_MAX], app[PATH_MAX], node[PATH_MAX], cli[PATH_MAX];
-    const char *parts[] = {"Library", "Library/Caches", "Library/Caches/com.david.screenrec"};
+    const char *parts[] = {"Library", "Library/Caches", "Library/Caches/com.dzhng.screenrec"};
     for (size_t i = 0; i < sizeof(parts) / sizeof(parts[0]); ++i) {
         if (snprintf(path, sizeof(path), "%s/%s", lockHome, parts[i]) >= (int)sizeof(path) || directory(path) != 0)
             return fail("SERVICE_UNAVAILABLE", "Cannot prepare installation lock directory", 0, 74);
     }
-    if (snprintf(path, sizeof(path), "%s/Library/Caches/com.david.screenrec/launch.lock", lockHome) >= (int)sizeof(path))
+    if (snprintf(path, sizeof(path), "%s/Library/Caches/com.dzhng.screenrec/launch.lock", lockHome) >= (int)sizeof(path))
         return fail("SERVICE_UNAVAILABLE", "Account home path is too long", 0, 74);
     // Deliberately inherited by Node: exclusion owns the complete CLI/MCP process lifetime.
     int fd = open(path, O_CREAT | O_RDWR | O_NOFOLLOW, 0600);

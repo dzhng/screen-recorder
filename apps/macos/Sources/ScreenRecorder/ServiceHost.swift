@@ -25,7 +25,7 @@ final class ServiceHost: @unchecked Sendable {
     static let signalDeadline: TimeInterval = 2
 
     private let bundle: ServiceBundle
-    private let queue = DispatchQueue(label: "com.david.screenrec.service-host")
+    private let queue = DispatchQueue(label: "com.dzhng.screenrec.service-host")
     private let child = Process()
     private let input = Pipe()
     private let output = Pipe()

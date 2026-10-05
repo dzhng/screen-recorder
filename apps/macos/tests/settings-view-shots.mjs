@@ -5,7 +5,9 @@ import { join, resolve } from "node:path";
 import { compileControlsCheck } from "./fixtures/swift-controls.mjs";
 
 // Render the production SettingsView without a service, permission reads or desktop capture.
-const output = resolve(process.env.SHOTS ?? "specs/done/auto-update/assets/update-settings/candidate");
+const output = resolve(
+  process.env.SHOTS ?? "specs/done/auto-update/assets/update-settings/candidate",
+);
 mkdirSync(output, { recursive: true });
 const scratch = mkdtempSync(join(tmpdir(), "screenrec-settings-view-"));
 try {
@@ -52,7 +54,7 @@ enum ControlsProbe { static let observed = true }
                 content.cacheDisplay(in: content.bounds, to: bitmap)
                 try! bitmap.representation(using: .png, properties: [:])!.write(to:
                     URL(fileURLWithPath: "\(output)/\(theme)-\(name).png"))
-                if (theme == "light" && name == "disabled") || (theme == "dark" && name == "failure") {
+                do {
                     func scrollView(_ view: NSView) -> NSScrollView? {
                         if let scroll = view as? NSScrollView { return scroll }
                         return view.subviews.lazy.compactMap { scrollView($0) }.first

@@ -15,7 +15,6 @@ import { homedir } from "node:os";
 import { basename, dirname, isAbsolute, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { parseArgs } from "node:util";
-import { findIdentity } from "./signing-identity.mjs";
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const { values } = parseArgs({
@@ -36,9 +35,13 @@ for (const [flag, path] of [
 if (basename(app) !== "Screen Recorder.app") fail('--app must name a "Screen Recorder.app" bundle');
 
 const built = join(root, "dist/ScreenRecorder.app");
-const personalIdentifier = "com.david.screenrec.personal";
 const cli = "Contents/Resources/cli/main.mjs";
 if (!existsSync(join(built, cli))) fail(`No built app at ${built}; run \`bun run build\` first.`);
+const builtIdentifier = execFileSync(
+  "/usr/libexec/PlistBuddy",
+  ["-c", "Print :CFBundleIdentifier", join(built, "Contents/Info.plist")],
+  { encoding: "utf8" },
+).trim();
 const { nodePath } = JSON.parse(
   readFileSync(join(built, "Contents/Resources/service/runtime.json"), "utf8"),
 );
@@ -60,7 +63,7 @@ const supersededIdentity = existsSync(superseded)
       { encoding: "utf8" },
     ).trim()
   : undefined;
-const replaced = [app, ...(supersededIdentity === personalIdentifier ? [superseded] : [])];
+const replaced = [app, ...(supersededIdentity === builtIdentifier ? [superseded] : [])];
 
 // Replacing a running app's bundle would pull its service code out from under it.
 const commands = execFileSync("ps", ["-axo", "command="], { encoding: "utf8" }).split("\n");
@@ -92,14 +95,6 @@ const staging = join(dirname(app), `.Screen Recorder.app.installing-${process.pi
 const previous = join(dirname(app), `.Screen Recorder.app.previous-${process.pid}`);
 try {
   execFileSync("ditto", [built, staging]);
-  // Development builds and their tests launch many short-lived copies under the build identity;
-  // macOS can stop showing that identity's menu-bar item. The personal copy keeps its own.
-  execFileSync("/usr/libexec/PlistBuddy", [
-    "-c",
-    `Set :CFBundleIdentifier ${personalIdentifier}`,
-    join(staging, "Contents/Info.plist"),
-  ]);
-  execFileSync("codesign", ["--force", "--sign", findIdentity() ?? "-", staging]);
   execFileSync("codesign", ["--verify", "--strict", staging]);
 } catch (error) {
   // Nothing was replaced yet, so the installed app is untouched and only this attempt goes.

@@ -16,7 +16,7 @@ import { test } from "node:test";
 test("the production launcher refuses bundled entry before loading and holds exclusion until Node exits", async () => {
   const scratch = mkdtempSync(join(tmpdir(), "screenrec-launcher-"));
   const accountHome = join(scratch, "Account home");
-  const lockDirectory = join(accountHome, "Library/Caches/com.david.screenrec");
+  const lockDirectory = join(accountHome, "Library/Caches/com.dzhng.screenrec");
   let holder, ownedClosed;
   try {
     mkdirSync(accountHome);

@@ -256,7 +256,11 @@ try {
     "Print :CFBundleVersion",
     plist(next),
   ]).trim();
-  assert.equal(version, "0.1.3", "Freeze the committed final release version before acceptance");
+  assert.equal(
+    version,
+    JSON.parse(readFileSync(join(repo, "apps/macos/package.json"))).version,
+    "The supplied app must match the committed release version",
+  );
   const catalogFormat = run("/usr/libexec/PlistBuddy", [
     "-c",
     "Print :ScreenrecCatalogFormat",
@@ -301,7 +305,7 @@ try {
     );
   }
   const source = readFileSync(join(repo, "scripts/launcher/main.c"), "utf8");
-  const fixtureSource = source.replaceAll("com.david.screenrec", id);
+  const fixtureSource = source.replaceAll("com.dzhng.screenrec", id);
   assert.notEqual(fixtureSource, source);
   const cfile = join(root, "launcher.c");
   writeFileSync(cfile, fixtureSource);
@@ -321,7 +325,7 @@ try {
     sha256: digest(launcher),
     productionSourceSha256: digest(join(repo, "scripts/launcher/main.c")),
     fixtureSourceSha256: digest(cfile),
-    substitution: `com.david.screenrec -> ${id}`,
+    substitution: `com.dzhng.screenrec -> ${id}`,
   };
   await withReleaseIdentity(signing, async ({ keychain, keyFile, identity }) => {
     for (const bundle of [app, next]) signReleaseTree(bundle, identity, keychain);

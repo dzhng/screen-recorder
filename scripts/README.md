@@ -90,8 +90,8 @@ executable release-install commands and readiness checks.
 ## Personal source installation
 
 The [installer](install-personal.mjs) owns app and launcher destinations and
-refuses to replace a running app. The installed bundle identity is separate from
-development builds. macOS capture permissions follow code identity, so local
+refuses to replace a running app. Installation preserves the built bundle’s
+identity and signature. macOS capture permissions follow code identity, so local
 [signing setup](signing-identity.mjs) matters when repeatedly replacing that build.
 A signing identity is not notarization or permission to start capture.
 

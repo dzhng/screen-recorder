@@ -160,7 +160,7 @@ private struct NativeCameraDevice: CaptureCameraDevice {
 /// SDK start/stop blocks the dedicated queue, never the control actor.
 private final class CameraSessionIO: @unchecked Sendable {
     let session = AVCaptureSession()
-    private let queue = DispatchQueue(label: "com.david.screenrec.camera-session")
+    private let queue = DispatchQueue(label: "com.dzhng.screenrec.camera-session")
     func start() async { await withCheckedContinuation { c in queue.async { self.session.startRunning(); c.resume() } } }
     func stop() async { await withCheckedContinuation { c in queue.async { self.session.stopRunning(); c.resume() } } }
 }
