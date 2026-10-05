@@ -5,6 +5,9 @@ public struct LibraryState: Equatable, Sendable {
     public init() {}
     public var recent: [ControlsState.RecentTake] = []
     public var projects: [Project] = []
+    public var nextRecordingCursor: RecordingCursor?
+    public var hasPreviousRecordingPage = false
+    public var recordingsRefreshing = false
     public var nextCursor: Cursor?
     public var hasPreviousPage = false
     public var projectsRefreshing = false
@@ -13,6 +16,10 @@ public struct LibraryState: Equatable, Sendable {
     public var projectFailure: String?
     public var deletions: [MediaTarget: DeleteRequest] = [:]
 
+    public struct RecordingCursor: Codable, Equatable, Sendable {
+        public let beforeSequence: Int
+        public init(beforeSequence: Int) { self.beforeSequence = beforeSequence }
+    }
     public struct Cursor: Codable, Equatable, Sendable {
         public let afterSequence: Int
         public init(afterSequence: Int) { self.afterSequence = afterSequence }

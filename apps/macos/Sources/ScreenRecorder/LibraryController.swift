@@ -1,7 +1,7 @@
 import Foundation
 import ScreenRecorderControls
 
-/// The public library reads and explicit deletion requests shared by the native menu.
+/// The public library reads and explicit deletion requests shared by native presentation.
 @MainActor
 final class LibraryController {
     typealias Call = @MainActor (String, [String: Any]) async throws(ServiceFailure) -> Data
@@ -17,12 +17,13 @@ final class LibraryController {
     private var serviceGeneration = UUID()
     private var recordingGeneration = UUID()
     private var projectGeneration = UUID()
-    private var recordingsReading = false
     private var pendingRecordings = false
     private var jobsReading = false
     private var pendingProjects = false
-    private var pages: [LibraryState.Cursor?] = [nil]
-    private var pageIndex = 0
+    private var recordingPages: [LibraryState.RecordingCursor?] = [nil]
+    private var recordingPageIndex = 0
+    private var projectPages: [LibraryState.Cursor?] = [nil]
+    private var projectPageIndex = 0
 
     init(call: @escaping Call, changed: @escaping () -> Void,
         closePreview: @escaping (MediaTarget) -> Void, forgetExports: @escaping (MediaTarget) -> Void,
@@ -37,14 +38,17 @@ final class LibraryController {
     func serviceChanged(ready: Bool) {
         self.ready = ready
         serviceGeneration = UUID(); recordingGeneration = UUID(); projectGeneration = UUID()
-        recordingsReading = false; jobsReading = false; pendingRecordings = false; pendingProjects = false
+        state.recordingsRefreshing = false; jobsReading = false; pendingRecordings = false; pendingProjects = false
         state.projectsRefreshing = false
         state.progressFailure = nil
         // An unanswered deletion keeps its identity but must be explicitly retried on the new service.
         for target in state.deletions.keys where state.deletions[target]?.isPending == true {
             state.finishDelete(target, failure: "SERVICE_STOPPED: Delete was not confirmed.")
         }
-        pages = [nil]; pageIndex = 0; state.hasPreviousPage = false
+        recordingPages = [nil]; recordingPageIndex = 0; state.hasPreviousRecordingPage = false
+        state.nextRecordingCursor = nil
+        projectPages = [nil]; projectPageIndex = 0; state.hasPreviousPage = false
+        state.nextCursor = nil
         if ready { refresh() }
     }
 
@@ -69,53 +73,68 @@ final class LibraryController {
     }
 
     func refreshRecordings() {
+        guard !state.recordingsRefreshing else { pendingRecordings = true; return }
+        readRecordings(index: recordingPageIndex)
+    }
+    func nextRecordings() {
+        guard ready, !state.recordingsRefreshing, let cursor = state.nextRecordingCursor else { return }
+        recordingPages = Array(recordingPages.prefix(recordingPageIndex + 1)) + [cursor]
+        readRecordings(index: recordingPageIndex + 1)
+    }
+    func previousRecordings() {
+        guard recordingPageIndex > 0 else { return }
+        pendingRecordings = false
+        readRecordings(index: recordingPageIndex - 1)
+    }
+    private func readRecordings(index: Int) {
         guard ready else { return }
-        guard !recordingsReading else { pendingRecordings = true; return }
-        recordingsReading = true
-        recordingGeneration = UUID()
-        let service = serviceGeneration, generation = recordingGeneration
+        state.recordingsRefreshing = true
+        recordingGeneration = UUID(); jobsReading = false
+        let service = serviceGeneration, generation = recordingGeneration, cursor = recordingPages[index]
         Task { @MainActor in
-            defer {
-                if service == serviceGeneration && generation == recordingGeneration {
-                    recordingsReading = false
-                    if pendingRecordings { pendingRecordings = false; refreshRecordings() }
-                }
-            }
             do throws(ServiceFailure) {
-                let page: Recordings = try await read("recording.list", ["limit": 5])
+                var params: [String: Any] = ["limit": 5]
+                if let cursor { params["cursor"] = ["beforeSequence": cursor.beforeSequence] }
+                let page: Recordings = try await read("recording.list", params)
                 guard service == serviceGeneration && generation == recordingGeneration else { return }
                 guard page.recordings.count <= 5,
-                    Set(page.recordings.map(\.recordingId)).count == page.recordings.count else {
-                    throw Self.invalid("Unreadable recording page")
+                    Set(page.recordings.map(\.recordingId)).count == page.recordings.count,
+                    page.nextCursor.map({ $0.beforeSequence > 0 && $0.beforeSequence < (cursor?.beforeSequence ?? Int.max) && !page.recordings.isEmpty }) ?? true else {
+                    throw Self.invalid("Unreadable recording page or cursor")
                 }
                 for take in page.recordings { try validate(take) }
                 state.recent = page.recordings.filter { state.deletions[.recording($0.recordingId)] == nil }
+                state.nextRecordingCursor = page.nextCursor
+                recordingPageIndex = index; state.hasPreviousRecordingPage = index > 0
                 state.recordingFailure = nil
                 state.progressFailure = nil
             } catch {
                 guard service == serviceGeneration && generation == recordingGeneration else { return }
                 state.recordingFailure = error.localizedDescription
             }
+            guard service == serviceGeneration && generation == recordingGeneration else { return }
+            state.recordingsRefreshing = false
+            if pendingRecordings { pendingRecordings = false; refreshRecordings() }
         }
     }
 
     func refreshProjects() {
         guard !state.projectsRefreshing else { pendingProjects = true; return }
-        readProjects(index: pageIndex)
+        readProjects(index: projectPageIndex)
     }
     func nextProjects() {
-        guard !state.projectsRefreshing, let cursor = state.nextCursor else { return }
-        pages = Array(pages.prefix(pageIndex + 1)) + [cursor]
-        readProjects(index: pageIndex + 1)
+        guard ready, !state.projectsRefreshing, let cursor = state.nextCursor else { return }
+        projectPages = Array(projectPages.prefix(projectPageIndex + 1)) + [cursor]
+        readProjects(index: projectPageIndex + 1)
     }
     func previousProjects() {
-        guard pageIndex > 0 else { return }
-        readProjects(index: pageIndex - 1)
+        guard projectPageIndex > 0 else { return }
+        readProjects(index: projectPageIndex - 1)
     }
     private func readProjects(index: Int) {
         guard ready else { return }
         projectGeneration = UUID()
-        let generation = projectGeneration, service = serviceGeneration, cursor = pages[index]
+        let generation = projectGeneration, service = serviceGeneration, cursor = projectPages[index]
         state.projectsRefreshing = true
         Task { @MainActor in
             do throws(ServiceFailure) {
@@ -130,7 +149,7 @@ final class LibraryController {
                 }
                 state.projects = page.projects.filter { state.deletions[.project($0.projectId)] == nil }
                 state.nextCursor = page.nextCursor
-                pageIndex = index; state.hasPreviousPage = index > 0
+                projectPageIndex = index; state.hasPreviousPage = index > 0
                 state.projectFailure = nil
             } catch {
                 guard service == serviceGeneration && generation == projectGeneration else { return }
@@ -145,8 +164,8 @@ final class LibraryController {
     func delete(_ target: MediaTarget) {
         guard ready, state.beginDelete(target) else { return }
         // Catalog answers started before this action cannot restore the retired owner.
-        recordingGeneration = UUID(); projectGeneration = UUID()
-        recordingsReading = false; state.projectsRefreshing = false; pendingProjects = false
+        recordingGeneration = UUID(); projectGeneration = UUID(); jobsReading = false
+        state.recordingsRefreshing = false; state.projectsRefreshing = false; pendingRecordings = false; pendingProjects = false
         closePreview(target)
         let service = serviceGeneration
         Task { @MainActor in
@@ -157,8 +176,8 @@ final class LibraryController {
                 guard receipt.target == target && receipt.deleted else {
                     throw Self.invalid("The service did not confirm deletion of \(target.id).")
                 }
-                recordingGeneration = UUID(); projectGeneration = UUID()
-                recordingsReading = false; state.projectsRefreshing = false
+                recordingGeneration = UUID(); projectGeneration = UUID(); jobsReading = false
+                state.recordingsRefreshing = false; state.projectsRefreshing = false
                 state.finishDelete(target, failure: nil)
                 forgetExports(target); deleted()
             } catch {
@@ -171,12 +190,12 @@ final class LibraryController {
 
     /// Uses the existing capture cadence, and only reads occupied jobs on visible source receipts.
     func tick() {
-        guard ready, !jobsReading, !recordingsReading,
+        guard ready, !jobsReading, !state.recordingsRefreshing,
             state.recent.contains(where: Self.pending) else { return }
         jobsReading = true
         let service = serviceGeneration, generation = recordingGeneration
         Task { @MainActor in
-            defer { if service == serviceGeneration { jobsReading = false } }
+            defer { if service == serviceGeneration && generation == recordingGeneration { jobsReading = false } }
             var failure: String?
             for take in state.recent {
                 guard state.deletions[.recording(take.recordingId)] == nil else { continue }
@@ -253,7 +272,19 @@ final class LibraryController {
         catch { throw Self.invalid("Unreadable \(operation) response: \(error.localizedDescription)") }
     }
     private static func invalid(_ message: String) -> ServiceFailure { .init(code: "INVALID_RESPONSE", message: message) }
-    private struct Recordings: Decodable { let recordings: [ControlsState.RecentTake] }
+    private struct Recordings: Decodable {
+        let recordings: [ControlsState.RecentTake]
+        let nextCursor: LibraryState.RecordingCursor?
+        private enum Keys: String, CodingKey { case recordings, nextCursor }
+        init(from decoder: Decoder) throws {
+            let fields = try decoder.container(keyedBy: Keys.self)
+            guard fields.contains(.nextCursor) else {
+                throw DecodingError.keyNotFound(Keys.nextCursor, .init(codingPath: decoder.codingPath, debugDescription: "Missing recording page cursor"))
+            }
+            recordings = try fields.decode([ControlsState.RecentTake].self, forKey: .recordings)
+            nextCursor = try fields.decodeIfPresent(LibraryState.RecordingCursor.self, forKey: .nextCursor)
+        }
+    }
     private struct Projects: Decodable {
         let projects: [LibraryState.Project]; let nextCursor: LibraryState.Cursor?
         private enum Keys: String, CodingKey { case projects, nextCursor }

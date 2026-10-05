@@ -21,6 +21,9 @@ import ScreenRecorderControls
 @MainActor final class Script {
     var calls: [(String, [String: Any])] = []
     static var exchanges: [[String: Any]] = []
+    var recordingCursorOverride: Any?
+    var recordingCatalog: [[String: Any]]?
+    var recordingNext: Any = NSNull()
     var next: Any = ["afterSequence": 7]
     var projects: [[String: Any]] = [["projectId": "same", "title": "Caller project", "createdAt": "2026-10-01T01:00:00Z", "currentRevisionId": "r-project"]]
     var recording: [String: Any] = ["recordingId": "same", "createdAt": "2026-10-01T01:00:00Z", "state": "complete", "sourceId": "source-one", "creationSequence": 1, "lifecycleSequence": 3, "interruptionReason": NSNull(), "interruptionMessage": NSNull(), "finalizationError": NSNull(), "sourceDurationUs": 9000000, "sourceAdmissions": []]
@@ -45,7 +48,15 @@ import ScreenRecorderControls
         }
         let answer: [String: Any]
         switch operation {
-        case "recording.list": answer = ["recordings": deletedTargets.contains(.recording(recording["recordingId"] as! String)) ? [] : [recording], "nextCursor": NSNull()]
+        case "recording.list":
+            if let recordingCatalog {
+                let before = (params["cursor"] as? [String: Int])?["beforeSequence"] ?? Int.max
+                let eligible = recordingCatalog.filter { ($0["creationSequence"] as! Int) < before && !deletedTargets.contains(.recording($0["recordingId"] as! String)) }
+                let page = Array(eligible.prefix(params["limit"] as! Int))
+                answer = ["recordings": page, "nextCursor": recordingCursorOverride ?? (eligible.count > page.count ? ["beforeSequence": page.last!["creationSequence"] as! Int] : NSNull())]
+            } else {
+                answer = ["recordings": deletedTargets.contains(.recording(recording["recordingId"] as! String)) ? [] : [recording], "nextCursor": recordingNext]
+            }
         case "project.list": answer = ["projects": projects.filter { !deletedTargets.contains(.project($0["projectId"] as? String ?? "")) }, "nextCursor": next]
         case "recording.get": answer = recording
         case "job.get": answer = job
@@ -84,6 +95,23 @@ import ScreenRecorderControls
         library.serviceChanged(ready: true)
         await until { !library.state.projectsRefreshing && library.state.recent.count == 1 }
         precondition(library.state.projects.map(\.projectId) == ["same"])
+        let originalRecordings = library.state.recent
+        script.recordingNext = ["afterSequence": 7]
+        library.refreshRecordings()
+        await until { library.state.recordingFailure != nil }
+        precondition(library.state.recent == originalRecordings, "A project cursor cannot authorize recording continuation")
+        script.recordingNext = NSNull()
+        library.refreshRecordings()
+        await until { library.state.recordingFailure == nil }
+        script.recordingNext = ["beforeSequence": 0]
+        library.refreshRecordings()
+        await until { library.state.recordingFailure != nil }
+        precondition(library.state.recent == originalRecordings, "Recording continuation must move toward older positive sequences")
+        script.recordingNext = NSNull()
+        library.refreshRecordings()
+        await until { library.state.recordingFailure == nil }
+
+
         var state = ControlsState(); state.service = .ready; state.library = library.state
         func actions(_ rows: [MenuEntry]) -> [MenuEntry] { rows.flatMap { [$0] + actions($0.submenu) } }
         let menu = actions(RecordingMenu.entries(for: state))
@@ -254,6 +282,69 @@ import ScreenRecorderControls
             precondition(ambiguous.count("project.delete") == 2)
             recovery.serviceChanged(ready: false)
         }
+        // A bounded recording continuation remains older even when a new take arrives.
+        let paged = Script()
+        func row(_ sequence: Int) -> [String: Any] {
+            paged.recording.merging(["recordingId": "take-\(sequence)", "creationSequence": sequence]) { _, value in value }
+        }
+        paged.recordingCatalog = (1...7).reversed().map(row)
+        let browsing = LibraryController(call: { op, params throws(ServiceFailure) in try await paged.call(op, params) }, changed: {}, closePreview: { _ in }, forgetExports: { _ in }, deleted: {}, preview: { _ in }, export: { _, _ in })
+        browsing.serviceChanged(ready: true)
+        await until { browsing.state.recent.map(\.recordingId) == ["take-7", "take-6", "take-5", "take-4", "take-3"] }
+        paged.recordingCatalog!.insert(row(8), at: 0)
+        browsing.nextRecordings()
+        await until { browsing.state.recent.map(\.recordingId) == ["take-2", "take-1"] }
+        precondition(browsing.state.hasPreviousRecordingPage && browsing.state.nextRecordingCursor == nil)
+        browsing.previousRecordings()
+        await until { browsing.state.recent.map(\.recordingId) == ["take-8", "take-7", "take-6", "take-5", "take-4"] }
+        precondition(!browsing.state.hasPreviousRecordingPage && browsing.state.nextRecordingCursor?.beforeSequence == 4)
+        precondition(paged.calls.filter { $0.0 == "recording.list" }.allSatisfy { ($0.1["limit"] as? Int) == 5 }, "Browsing never widens the catalog read")
+        // An old page's held preparation read cannot starve the current page.
+        paged.recordingCatalog = (1...7).reversed().map { sequence in
+            row(sequence).merging(["sourceAdmissions": [["kind": "primary", "sourceId": "source-one", "acquisitionId": "acq-one", "job": paged.job, "admissionError": NSNull()]]]) { _, value in value }
+        }
+        browsing.refreshRecordings()
+        await until { browsing.state.recent.first?.sourceAdmissions?.first?.job?.state == "running" && !browsing.state.recordingsRefreshing }
+        paged.hold = "job.get"; browsing.tick()
+        await until { paged.held != nil }
+        browsing.nextRecordings()
+        await until { browsing.state.recent.map(\.recordingId) == ["take-2", "take-1"] }
+        paged.job["state"] = "ready"
+        browsing.tick()
+        await until { browsing.state.recent.allSatisfy { $0.sourceAdmissions?.first?.job?.state == "ready" } }
+        paged.release()
+        for _ in 0..<20 { await Task.yield() }
+        precondition(browsing.state.recent.allSatisfy { $0.sourceAdmissions?.first?.job?.state == "ready" }, "Delayed previous-page jobs cannot overwrite current source facts")
+        for invalid in [["beforeSequence": 3], ["beforeSequence": 9], ["afterSequence": 1]] {
+            let olderPage = browsing.state.recent
+            paged.recordingCursorOverride = invalid
+            browsing.refreshRecordings()
+            await until { browsing.state.recordingFailure != nil && !browsing.state.recordingsRefreshing }
+            precondition(browsing.state.recent == olderPage && browsing.state.nextRecordingCursor == nil, "Bad continuation must retain the complete last-good page")
+            paged.recordingCursorOverride = nil
+            browsing.refreshRecordings()
+            await until { browsing.state.recordingFailure == nil && !browsing.state.recordingsRefreshing }
+        }
+        // Backward navigation supersedes an older read of the page being left.
+        paged.hold = "recording.list"; browsing.refreshRecordings()
+        await until { paged.held != nil }
+        browsing.previousRecordings()
+        await until { browsing.state.recent.first?.recordingId == "take-7" && !browsing.state.recordingsRefreshing }
+        paged.release()
+        for _ in 0..<20 { await Task.yield() }
+        precondition(browsing.state.recent.map(\.recordingId) == ["take-7", "take-6", "take-5", "take-4", "take-3"] && !browsing.state.hasPreviousRecordingPage)
+        // A deletion pinned on one page stays the same typed request after navigation.
+        paged.lostDelete = "TIMEOUT"
+        browsing.delete(.recording("take-7"))
+        await until { browsing.state.deletions[.recording("take-7")]?.failure?.contains("TIMEOUT") == true && !browsing.state.recordingsRefreshing }
+        let deleteTitle = browsing.state.deletions[.recording("take-7")]!.title
+        browsing.nextRecordings()
+        await until { browsing.state.hasPreviousRecordingPage && !browsing.state.recordingsRefreshing }
+        browsing.delete(.recording("take-7"))
+        precondition(browsing.state.deletions[.recording("take-7")]?.title == deleteTitle, "Retry keeps the original visible title")
+        await until { browsing.state.deletions[.recording("take-7")] == nil && !browsing.state.recordingsRefreshing }
+        precondition(paged.deletes == [.recording("take-7"), .recording("take-7")], "Retry targets its captured recording, not a row occupying its old position")
+        browsing.serviceChanged(ready: false)
         for consumer in [library, progress, deletion, fenced, generation] { consumer.serviceChanged(ready: false) }
         print("PASS native library pages, typed deletion and source-only recording facts")
         print(String(data: try! JSONSerialization.data(withJSONObject: Script.exchanges), encoding: .utf8)!)
