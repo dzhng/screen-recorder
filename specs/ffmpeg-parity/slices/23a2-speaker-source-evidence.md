@@ -186,10 +186,19 @@ runtime sources intact; do not rerun their expensive checkpoint. Update this
 status and the owning plan handoff before ending the pass. Source admission now
 has model-free red/green controls through real asset/acquisition stores for
 physical/acquisition gaps, exact source origin/channel and fractional sample-grid
-start, non-30s extent, unknown/out-of-range channels and off-grid refusal. No
-public native request, worker invocation or persistence is connected yet. The
+start, non-30s extent, unknown/out-of-range channels and off-grid refusal. A controlled
+core source job now joins repeated requests, stages complete native operands before
+validation, publishes through the existing queue fence, and preserves exact source
+intervals and every raw score cell across restart. Failed native operands remain
+unpublished under a typed job-owned generation reference. This does not connect a
+public operation or native model invocation. The
 [separate integrated PCM receipt](../evidence/speaker-source/root-integration.json)
 proves selected-channel byte preservation at16k and format-change refusal before
 synthesis. Other-rate preparation and complete decoder/generation identity remain
 prerequisites before public execution; no model-bearing run is needed just to
-prove publication lifecycle.
+prove publication lifecycle. The product registry retains the verified original
+descriptor/runtime/checkpoint identities and requires explicit local model and
+runtime inputs. Its generated compressed descriptor follows the existing single-file
+app bundler, without a separate resource loader or runtime inventory in discovery
+responses. Catalog format25 refuses older catalogs rather than migrating them.
+Public source/project reads, dispatch and portable preservation remain required.

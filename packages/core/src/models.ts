@@ -569,6 +569,39 @@ export class Models {
   runtime(modelId: string, purpose: "voice" | "speaker") {
     return this.selected(modelId).runtime(purpose);
   }
+  /** The pinned original speaker contract, without exposing its full runtime inventory. */
+  speaker(modelId: string) {
+    const selected = this.selected(modelId),
+      runtime = selected.manifest.runtimeArtifact;
+    const checkpoint = selected.manifest.files[0];
+    const worker = runtime?.entries.find((entry) => entry.path === "execution/worker.py");
+    if (
+      selected.manifest.purpose !== "speaker" ||
+      selected.manifest.engine.decoder !== "sortformer-original30s" ||
+      !runtime ||
+      selected.manifest.files.length !== 1 ||
+      !checkpoint ||
+      worker?.kind !== "file"
+    )
+      throw new CatalogError(
+        "INVALID_REQUEST",
+        "Selected model does not provide the original speaker contract",
+      );
+    return {
+      engine: {
+        modelId,
+        descriptorDigest: selected.descriptorDigest,
+        modelDigest: selected.modelDigest,
+        modelSha256: checkpoint.sha256,
+        runtimeDigest: runtime.digest,
+        workerSha256: worker.sha256,
+        recipe: "original30s" as const,
+      },
+      checkpoint: checkpoint.path,
+      status: () => selected.snapshot(),
+      runtime: () => selected.runtime("speaker"),
+    };
+  }
   transcription(modelId: string) {
     const selected = this.selected(modelId);
     if (selected.manifest.purpose !== "transcription")

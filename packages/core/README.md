@@ -36,6 +36,12 @@ a revision's exact mapping without rewriting the source observation. Generation
 and dependency identity bind pagination, prepared output and caches; freshness
 must be rechecked when asynchronous work crosses a publication boundary.
 
+[Anonymous acoustic observations](src/speaker-evidence.ts) retain their invocation's
+slots and complete native score operands. A slot never identifies a person across
+observations, and a sigmoid value never claims calibrated assignment confidence.
+Captured refusal operands remain evidence; only queue settlement publishes a
+validated generation.
+
 ## Transactions, replay and lifetime
 
 Edits commit document changes, dependency references and replay receipts together.

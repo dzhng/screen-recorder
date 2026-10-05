@@ -1,5 +1,6 @@
 import { voiceProfile } from "./voice-profile.js";
 import runtimeEntries from "./model-data/voice-runtime.json" with { type: "json" };
+import { originalSpeakerManifest } from "./model-data/speaker-manifest.generated.js";
 import type { ModelManifest, RuntimeEntry } from "./model-types.js";
 /**
  * Everything FluidAudio 0.15.7 AsrModels.load reads for Parakeet TDT v2 from a local directory,
@@ -229,4 +230,9 @@ export const qwenVoiceModel: ModelManifest = {
     entry: "voice/worker.py",
   },
 };
-export const registeredModels = [parakeetModel, qwenVoiceModel] as const;
+/** This exact30s runtime is provisional and requires explicit verified local inputs. */
+export const speakerModel: ModelManifest = {
+  ...originalSpeakerManifest,
+  modelSourceRequired: true,
+};
+export const registeredModels = [parakeetModel, qwenVoiceModel, speakerModel] as const;

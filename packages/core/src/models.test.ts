@@ -628,3 +628,19 @@ test("speaker runtime uses managed preparation and remains readable offline afte
     code: "INVALID_REQUEST",
   });
 });
+
+test("the registered original speaker keeps its verified execution identity and refuses implicit acquisition", async () => {
+  const home = await mkdtemp("/tmp/screenrec-original-speaker-");
+  cleanups.push(() => rm(home, { recursive: true, force: true }));
+  const models = new Models(home, offline);
+  expect(models.list().find((entry) => entry.modelId === "speaker-runtime-control")).toMatchObject({
+    purpose: "speaker",
+    descriptorDigest: "53b62eb7953ce8f126cf7ed70f4604237063f5104e244448e1c65e047d968442",
+    runtimeDigest: "6d21b755cf6ef36ef0146688d6c7ca35863ed9a4dbb5fb14d5affd62812fdb02",
+    modelDigest: "ed338c0f61f62a177b04c10e2c01c8f9e987ed006c0bbe4681c9a565acc8f338",
+    preparation: { runtimeSourceRequired: true, modelSourceRequired: true },
+  });
+  await expect(
+    models.prepare("speaker-runtime-control", new AbortController().signal),
+  ).rejects.toMatchObject({ code: "MODEL_SOURCE_REQUIRED" });
+});
