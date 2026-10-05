@@ -72,6 +72,7 @@ struct SourceTrack {
             stream = basic
             sampleRate = rate
             segments = SourceSegment.occupied(of: try await track.load(.segments))
+            try input.requireSelfContainedStorage(of: track)
         } catch let failure as NativeFailure {
             if let detail = input.failure { throw detail }
             throw failure
@@ -121,6 +122,7 @@ struct SourceTrack {
             if try mask.endUs.subtract(run.support.endUs).numerator < 0 { a += 1 }
             else { b += 1 }
         }
+        try input.beginStreaming()
         return SourceTrack(
             sourceOffsetUs: sourceOffsetUs, url: input.url, input: input, asset: asset,
             track: audio, sampleRate: sampleRate, packetFrames: Int(stream.mFramesPerPacket), channels: channels,

@@ -13,6 +13,13 @@ remain held while inherited copies survive; a crashed worker cannot release the
 parent's retained authority. The [wire descriptor owner](../ScreenRecorderWire/Descriptors.swift)
 owns transfer admission, while shared scans and removal stay descriptor-relative.
 
+[Native media inputs](MediaInput.swift) retain a regular-file descriptor for both
+ordinary source paths and inherited handles. AVFoundation borrows positional reads
+from that authority; preparation and later decoding never reopen the source path.
+Logical read accounting includes ordinary paths and remains distinct from physical
+disk traffic. Still-image loading and generated-output validators have their own
+contracts; this input owner governs native timed-media source consumption.
+
 [Exclusive allocation](ExclusiveFile.swift) creates a single new leaf through a
 held private directory. Both new-file writers and the private CLI runner use it;
 a stale locator cannot redirect allocation.

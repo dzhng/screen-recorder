@@ -40,6 +40,8 @@ package enum CaptureMediaInspection {
         var samples = 0
         var reachedEnd = false
         var failure: CaptureFailure?
+        var retainedInput: MediaInput?
+        defer { withExtendedLifetime(retainedInput) {} }
         do {
             guard FileManager.default.fileExists(atPath: url.path) else {
                 // A role the header never requested is absent by design. Only an absence the
@@ -49,10 +51,9 @@ package enum CaptureMediaInspection {
                         "NOT_REQUESTED", "This take did not request \(role) audio.")
                     : CaptureFailure("MISSING_MEDIA", "No \(role) source file is present.")
             }
-            // AVFoundation cannot seek inherited /dev/fd URLs directly. Ordinary recovery retains its URL behavior.
-            let input = url.path.hasPrefix("/dev/fd/") ? try MediaInput(url: url, purpose: .streaming) : nil
-            defer { withExtendedLifetime(input) {} }
-            let asset = input?.asset ?? AVURLAsset(url: url)
+            let input = try MediaInput(url: url)
+            retainedInput = input
+            let asset = input.asset
             guard
                 let track = try await asset.loadTracks(
                     withMediaType: role == "video" ? .video : .audio
@@ -60,6 +61,8 @@ package enum CaptureMediaInspection {
             else {
                 throw CaptureFailure("NO_TRACK", "No \(role) track is present.")
             }
+            try input.requireSelfContainedStorage(of: track)
+            try input.beginStreaming()
             let reader = try AVAssetReader(asset: asset)
             let output = AVAssetReaderTrackOutput(
                 track: track,
@@ -167,7 +170,11 @@ package enum CaptureMediaInspection {
             }
             failure = failure ?? unknownTail
         } catch {
-            failure = inspectionFailure(error)
+            if let refused = retainedInput?.failure {
+                failure = CaptureFailure(refused.code, refused.message)
+            } else {
+                failure = inspectionFailure(error)
+            }
         }
         return RecoveredTrack(
             role: role, file: file, intervals: intervals, decodedSamples: samples,

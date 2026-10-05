@@ -51,6 +51,10 @@ func cleanupEvidence() {
 }
 defer { cleanupEvidence() }
 func finish() -> Never { cleanupEvidence(); exit(0) }
+if CommandLine.arguments.contains("--source-streaming") {
+    try await verifySourceStreaming(in: directory)
+    finish()
+}
 let wireOnly = CommandLine.arguments.contains("--wire-fixtures")
 func wave(_ url: URL) throws -> (rate: Int, channels: Int, samples: [Float]) {
     let data = try Data(contentsOf: url)
@@ -507,7 +511,11 @@ for remaining in [Int64(0), identity.readBytes - 1] {
 print("Container identification exact allowance \(identity.readBytes) bytes; one byte short refused; offset and closed/unlinked lifetime preserved")
 #endif
 let urlInput = try MediaInput(url: longSource)
-precondition(urlInput.readWork == nil, "Opaque AVFoundation URL I/O is unknown")
+let urlTracks = try await urlInput.asset.loadTracks(withMediaType: .audio)
+let urlWork = urlInput.readWork!
+precondition(urlTracks.count == 1 && urlWork.deliveredBytes > 0
+    && urlWork.readBytes >= urlWork.deliveredBytes,
+    "Normal-path metadata must retain source authority and report actual logical read work")
 let capacitySource = directory.appendingPathComponent("clean-48000.caf")
 let capacitySelection = AudioSourceSelection(
     source: capacitySource.path, sourceOffsetUs: ExactTime(0), available: [])
@@ -604,3 +612,4 @@ let stillExhausted = try shortPhysical.next()
 precondition(stillExhausted == nil)
 precondition(!shortPhysical.reachedSelectionEnd)
 print("PASS zero-demand origin changes preserve next source address; premature finite EOF never pads or loops across later demands")
+try await verifySourceStreaming(in: directory)

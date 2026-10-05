@@ -211,7 +211,7 @@ every hvc1 stream, including harmless metadata variation.
 
 The initial foreign-storage fix protected only explicit compressed scanning.
 Ordinary metadata could still admit the reference movie. The SDK's documented
-forbidAll reference policy is now applied in both shared MediaInput constructors;
+forbidAll reference policy is applied in the shared MediaInput owner;
 actual generator controls confirm it refuses external bytes for normal and held
 inputs. Contrary to the SDK's broad property-loading description, normal track and
 format metadata still loaded in the reference control. Ordinary probe admission
@@ -220,21 +220,34 @@ refuse observed foreign storage, including hidden and audio chunks, without read
 packet payloads. Ordinary, held and explicitly inspected reference controls now
 refuse. No absent-cursor fact is promoted to proof of actual decoding.
 
-A source-owner follow-up remains required before release: PresentationSource is
-live in current composition rendering, source frames, visual observations and
-pointer evidence. Its direct AVURLAsset construction must adopt the shared input
-owner and retain its lifetime. CaptureMediaInspection's direct pathname path serves
-recorder-owned recovery and canonical publication and needs the same disposition;
-its descriptor branch already borrows MediaInput. Direct assets used solely to
-inspect generated outputs are separate from source byte authority. This follow-up
-must prove actual source rendering cannot resolve external media or substitute a
-mutable path for already held bytes; calling the live path legacy is not a scope
-resolution.
-
-
 The [linked-worker checkpoint](../evidence/native-hdr-inspection/linked-worker.json)
 builds the actual integrated native executable after latest main and runs all 14
 probe cases through its production wire boundary. Timing, color, alpha, hidden
 packet/configuration interpretation and retained large-input checks pass. This
-adds linked native proof to the earlier component observations; source rendering,
-managed conversion and the final packaged runtime remain separate unfinished gates.
+adds linked native proof to the earlier component observations; managed conversion and the final packaged runtime remain separate unfinished gates;
+source-owner rendering proofs are recorded below.
+
+The source-owner follow-up adopts shared MediaInput in live PresentationSource
+(composition pictures, source frames, visual observations and pointer evidence)
+and CaptureMediaInspection (recovery and canonical publication). MediaInput retains
+regular-file read authority for normal paths as well as inherited handles. Prepared
+presentation retains that input through decoding. Exact decoded pixels and sample
+time survive caller close, unlink and normal-path replacement; a separately held
+input also loads the original metadata after replacement before its first load.
+Capture's independently authored external-reference control goes red against its
+old pathname implementation and green on refusal before decoded samples. Normal
+source decoding remains successful, and an operational permission denial remains
+MEDIA_UNAVAILABLE.
+
+Ordinary paths now share logical descriptor accounting. Prepared audio checks
+metadata and primary sample storage, then explicitly transitions the same input
+to streaming. A sparse stereo PCM control beyond the inspection allowance goes
+red on LIMIT_EXCEEDED without that transition and green on every requested frame
+plus its final nonzero channel samples. Streaming execution does not enlarge the
+ordinary metadata allowance. Sparse oversized metadata controls also prove that
+presentation and recovery preserve their retained loader's deterministic refusal
+through AVFoundation's wrapped EPERM error. These are scratch builds of the real
+Media, Frames, Capture and selected audio sources; linked worker/package proof
+still belongs to the integration gate. Generated-output validators remain separate
+from original source byte authority.
+

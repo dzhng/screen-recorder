@@ -27,6 +27,11 @@ if CommandLine.arguments.contains("--sdr-correction") {
     finish()
 }
 
+if CommandLine.arguments.contains("--source-authority") {
+    try await verifySourceAuthority(in: images)
+    finish()
+}
+
 if CommandLine.arguments.contains("--pointer-readability") {
     try await verifyCompositionPointerReadability(in: images)
     finish()
@@ -42,6 +47,7 @@ try await verifyExactPresentation(in: images)
 if CommandLine.arguments.contains("--exact-picture") { finish() }
 
 try await verifySourcePictures(in: images)
+try await verifySourceAuthority(in: images)
 if CommandLine.arguments.contains("--source-pictures") { finish() }
 
 try await verifyCompositionPointerReadability(in: images)

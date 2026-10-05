@@ -4,49 +4,43 @@ import AudioToolbox
 import Foundation
 import UniformTypeIdentifiers
 
+/// Every source retains regular-file read authority for its native asset's lifetime.
 /// An inherited handle is a private media address, not a filesystem path to resolve.
-/// Its duplicate outlives the caller's handle; normal paths keep the native URL behavior.
 public final class MediaInput: @unchecked Sendable {
     /// Whole-file verification keeps descriptor/chunk bounds but may consume more than an inspection budget.
     public enum ReadPurpose: Sendable { case inspection, streaming }
     public let asset: AVURLAsset
     public let url: URL
-    private let loader: DescriptorLoader?
+    private let loader: DescriptorLoader
 
     public init(url: URL, purpose: ReadPurpose = .inspection) throws {
-        let descriptor = try MediaDescriptor(url: url, writable: false)
-        self.url = descriptor?.url ?? url.resolvingSymlinksInPath().standardizedFileURL
+        let inherited = try MediaDescriptor(url: url, writable: false)
+        self.url = inherited?.url ?? url.resolvingSymlinksInPath().standardizedFileURL
+        let descriptor = try inherited ?? MediaDescriptor.retainingReadAuthority(at: self.url)
         let assetOptions: [String: Any] = [
             AVURLAssetPreferPreciseDurationAndTimingKey: true,
             AVURLAssetReferenceRestrictionsKey: AVAssetReferenceRestrictions.forbidAll.rawValue,
         ]
-        if let descriptor {
-            let loader = try DescriptorLoader(descriptor, purpose: purpose)
-            self.loader = loader
-            asset = AVURLAsset(
-                url: URL(
-                    string: "screenrec-media://\(UUID().uuidString)/source.\(loader.extensionName)")!,
-                options: assetOptions)
-            asset.resourceLoader.setDelegate(loader, queue: loader.queue)
-        } else {
-            loader = nil
-            asset = AVURLAsset(
-                url: url, options: assetOptions)
-        }
+        let loader = try DescriptorLoader(descriptor, purpose: purpose)
+        self.loader = loader
+        asset = AVURLAsset(
+            url: URL(string: "screenrec-media://\(UUID().uuidString)/source.\(loader.extensionName)")!,
+            options: assetOptions)
+        asset.resourceLoader.setDelegate(loader, queue: loader.queue)
     }
 
     /// Descriptor reads include repeated successful pread bytes, header sniffing and type identification.
-    /// URL-backed AVFoundation I/O is unknown; these are not physical disk measurements.
+    /// These are logical descriptor reads, not physical disk measurements.
     public struct ReadWork: Sendable {
         public let readBytes: Int64
         public let deliveredBytes: Int64
     }
-    public var readWork: ReadWork? { loader?.currentReadWork() }
+    public var readWork: ReadWork? { loader.currentReadWork() }
 
-    public var failure: NativeFailure? { loader?.currentFailure() }
+    public var failure: NativeFailure? { loader.currentFailure() }
 
     /// Continue whole-file work only after the same held asset passed bounded metadata discovery.
-    public func beginStreaming() throws { try loader?.beginStreaming() }
+    public func beginStreaming() throws { try loader.beginStreaming() }
 
     package func ownsStorage(of cursor: AVSampleCursor) -> Bool {
         cursor.currentChunkStorageURL.map { $0.absoluteURL == asset.url.absoluteURL } ?? true
@@ -71,7 +65,7 @@ public final class MediaInput: @unchecked Sendable {
         }
     }
 
-    deinit { loader?.stop() }
+    deinit { loader.stop() }
 }
 
 /// Owns only a duplicate, never the caller's descriptor or a pathname publication.
@@ -105,6 +99,21 @@ public final class MediaDescriptor: @unchecked Sendable {
         guard owned >= 0 else { throw NativeFailure.decodeFailed(
             "Cannot retain inherited media handle.") }
         descriptor = owned
+    }
+
+    package static func retainingReadAuthority(at url: URL) throws -> MediaDescriptor {
+        guard url.isFileURL else { throw NativeFailure.decodeFailed("Media source must be a local file.") }
+        let opened = open(url.path, O_RDONLY | O_CLOEXEC | O_NOFOLLOW)
+        guard opened >= 0 else {
+            throw NSError(domain: NSPOSIXErrorDomain, code: Int(errno), userInfo: [
+                NSLocalizedDescriptionKey: "Cannot retain media source file."
+            ])
+        }
+        defer { close(opened) }
+        guard let retained = try MediaDescriptor(
+            url: URL(fileURLWithPath: "/dev/fd/\(opened)"), writable: false)
+        else { throw NativeFailure.decodeFailed("Cannot retain media source file.") }
+        return retained
     }
     deinit { close(descriptor) }
 }

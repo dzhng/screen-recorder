@@ -18,7 +18,8 @@ public final class PresentationSource {
         public let end: CMTime
     }
     struct Media {
-        let asset: AVURLAsset
+        let input: MediaInput
+        var asset: AVURLAsset { input.asset }
         let duration: CMTime
         let track: AVAssetTrack
         let segments: [AVAssetTrackSegment]
@@ -65,51 +66,56 @@ public final class PresentationSource {
     }
 
     static func prepare(source: URL, streamId: String?) async throws -> Media {
-        let asset = AVURLAsset(
-            url: source,
-            options: [AVURLAssetPreferPreciseDurationAndTimingKey: true])
-        let duration = try await asset.load(.duration)
-        let tracks = try await asset.loadTracks(withMediaType: .video)
-        guard
-            let track = streamId.flatMap({ id in tracks.first { "track:\($0.trackID)" == id } })
-                ?? (streamId == nil ? tracks.first : nil),
-            try await track.load(.canProvideSampleCursors)
-        else { throw NativeFailure("UNAVAILABLE", "Render plan exceeds a usable video source.") }
-        let segments = try await track.load(.segments)
-        let occupied = SourceSegment.occupied(of: segments)
-        let transform = try await track.load(.preferredTransform)
-        let formats = try await track.load(.formatDescriptions)
-        guard let format = formats.first else {
-            throw NativeFailure("UNAVAILABLE", "Video source has no decoded pixel format.")
+        let input = try MediaInput(url: source)
+        do {
+            let asset = input.asset
+            let duration = try await asset.load(.duration)
+            let tracks = try await asset.loadTracks(withMediaType: .video)
+            guard
+                let track = streamId.flatMap({ id in tracks.first { "track:\($0.trackID)" == id } })
+                    ?? (streamId == nil ? tracks.first : nil),
+                try await track.load(.canProvideSampleCursors)
+            else { throw NativeFailure("UNAVAILABLE", "Render plan exceeds a usable video source.") }
+            let segments = try await track.load(.segments)
+            try input.requireSelfContainedStorage(of: track)
+            let occupied = SourceSegment.occupied(of: segments)
+            let transform = try await track.load(.preferredTransform)
+            let formats = try await track.load(.formatDescriptions)
+            guard let format = formats.first else {
+                throw NativeFailure("UNAVAILABLE", "Video source has no decoded pixel format.")
+            }
+            let dimensions = formats.map(CMVideoFormatDescriptionGetDimensions)
+            guard dimensions.allSatisfy({ $0.width > 0 && $0.height > 0 }) else {
+                throw NativeFailure(
+                    "UNAVAILABLE", "Video source has no positive decoded pixel dimensions.")
+            }
+            let decodedPixels = dimensions.map { Int64($0.width) * Int64($0.height) }.max()!
+            let pixels = CMVideoFormatDescriptionGetDimensions(format)
+            let natural = videoDisplayGeometry(
+                size: CGSize(width: Int(pixels.width), height: Int(pixels.height)), transform: transform
+            ).extent
+            guard natural.width.isFinite, natural.height.isFinite, natural.width > 0,
+                natural.height > 0,
+                natural.width <= 8192, natural.height <= 8192
+            else {
+                throw NativeFailure("UNAVAILABLE", "Video source exceeds oriented raster dimensions.")
+            }
+            let width = Int(abs(natural.width).rounded())
+            let height = Int(abs(natural.height).rounded())
+            guard width > 0, height > 0, width <= 8192, height <= 8192
+            else {
+                throw NativeFailure(
+                    "UNAVAILABLE",
+                    "Video source requires positive oriented raster dimensions up to 8192 pixels.")
+            }
+            try input.beginStreaming()
+            return Media(
+                input: input, duration: duration, track: track, segments: segments,
+                occupied: occupied, transform: transform, width: width, height: height,
+                decodedPixels: decodedPixels)
+        } catch {
+            throw input.failure ?? error
         }
-        let dimensions = formats.map(CMVideoFormatDescriptionGetDimensions)
-        guard dimensions.allSatisfy({ $0.width > 0 && $0.height > 0 }) else {
-            throw NativeFailure(
-                "UNAVAILABLE", "Video source has no positive decoded pixel dimensions.")
-        }
-        let decodedPixels = dimensions.map { Int64($0.width) * Int64($0.height) }.max()!
-        let pixels = CMVideoFormatDescriptionGetDimensions(format)
-        let natural = videoDisplayGeometry(
-            size: CGSize(width: Int(pixels.width), height: Int(pixels.height)), transform: transform
-        ).extent
-        guard natural.width.isFinite, natural.height.isFinite, natural.width > 0,
-            natural.height > 0,
-            natural.width <= 8192, natural.height <= 8192
-        else {
-            throw NativeFailure("UNAVAILABLE", "Video source exceeds oriented raster dimensions.")
-        }
-        let width = Int(abs(natural.width).rounded())
-        let height = Int(abs(natural.height).rounded())
-        guard width > 0, height > 0, width <= 8192, height <= 8192
-        else {
-            throw NativeFailure(
-                "UNAVAILABLE",
-                "Video source requires positive oriented raster dimensions up to 8192 pixels.")
-        }
-        return Media(
-            asset: asset, duration: duration, track: track, segments: segments,
-            occupied: occupied, transform: transform, width: width, height: height,
-            decodedPixels: decodedPixels)
     }
 
     /// Compiled timestamps resolve to one prepared media source; preparation allocates no decoder.

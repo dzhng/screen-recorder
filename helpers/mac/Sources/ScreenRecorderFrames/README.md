@@ -6,6 +6,11 @@ clocks come from the [composition compiler](../../../../packages/composition/REA
 Native code resolves physical sample support and draws pixels; it does not
 reconstruct cuts or restart frame phase at a preview origin.
 
+Prepared sources retain the shared media input for the decoder's entire lifetime.
+Path replacement and closing an inherited caller handle cannot redirect the
+selected pictures. Metadata preparation checks primary chunk storage before
+enabling whole-source streaming; external reference movies refuse.
+
 PNG and movie encoding consume the same graph through different output targets.
 Keeping still encoding separate avoids quantizing an inspection image through
 movie color conversion. Source support and orientation remain shared.

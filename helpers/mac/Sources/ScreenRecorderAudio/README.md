@@ -12,6 +12,11 @@ The [source stream](AudioPCMStream.swift) preserves native support origin and bo
 sample demand. Selected transcription joins readable spans in its own cumulative
 sample clock; speech conditioning is separate from authored processing.
 
+Prepared audio retains the shared [media input](../ScreenRecorderMedia/README.md)
+through consumption. Metadata and primary chunk-storage admission precede an
+explicit streaming transition, so an inspection allowance cannot truncate a
+whole-source PCM request.
+
 The [composition owner](../../../../packages/composition/README.md) selects resampling
 context and state domains. Native filtering must preserve that context across
 blocks and structural splits, without reading material an edit removed. Parents
