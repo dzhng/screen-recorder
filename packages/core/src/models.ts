@@ -366,6 +366,11 @@ class Preparation {
         "MODEL_SOURCE_REQUIRED",
         "This model requires an explicit local runtime artifact source",
       );
+    if (this.manifest.modelSourceRequired && !flight.sources.modelSource)
+      throw new CatalogError(
+        "MODEL_SOURCE_REQUIRED",
+        "This model requires an explicit local model source",
+      );
     const staging = join(this.models, ".staging", randomUUID());
     try {
       const folder = join(staging, this.manifest.folderName);
@@ -542,6 +547,7 @@ export class Models {
         : {}),
       preparation: {
         runtimeSourceRequired: !!model.manifest.runtimeArtifact,
+        modelSourceRequired: !!model.manifest.modelSourceRequired,
         modelBytes: model.manifest.files.reduce((n, f) => n + f.bytes, 0),
         runtimeBytes:
           model.manifest.runtimeArtifact?.entries.reduce(

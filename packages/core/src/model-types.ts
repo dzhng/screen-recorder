@@ -15,6 +15,8 @@ export type ModelManifest = Readonly<{
   purpose: "transcription" | "voice" | "speaker";
   platform: Readonly<{ system: string; architecture: string }>;
   runtimeArtifact?: RuntimeArtifact;
+  /** Require caller-supplied pinned model bytes; preparation cannot download them. */
+  modelSourceRequired?: true;
   generationProfile?: typeof voiceProfile;
   repo: string;
   revision: string;

@@ -52,6 +52,9 @@ verified local readiness. Preparation can acquire pinned inputs; execution canno
 silently prepare another implementation. Prepared optional runtimes share one purpose-checked execution accessor; another
 model purpose does not create another preparation or lifetime owner. Profiles
 describe measured work bounds, not universal quality or capacity claims.
+Registered acquisition policy can require explicitly supplied local model bytes;
+it does not change execution identity. An already verified preparation remains
+idempotent without repeating its original acquisition inputs.
 
 ## Publication and storage
 

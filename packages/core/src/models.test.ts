@@ -575,6 +575,35 @@ test("a FIFO model source is refused instead of waiting for a writer", async () 
   expect(await f.staged()).toEqual([]);
 });
 
+test("a locally sourced model refuses network acquisition before preparation and remains idempotent when ready", async () => {
+  const f = await voiceFixture();
+  const speaker: ModelManifest = {
+    ...f.voice,
+    name: "speaker-local",
+    purpose: "speaker",
+    modelSourceRequired: true,
+  };
+  const requests: string[] = [];
+  const models = new Models(
+    f.home,
+    async (input) => {
+      requests.push(String(input));
+      throw new Error("fixture network acquisition refused");
+    },
+    [speaker],
+  );
+  await expect(
+    models.prepare(speaker.name, new AbortController().signal, { runtimeSource: f.runtime }),
+  ).rejects.toMatchObject({ code: "MODEL_SOURCE_REQUIRED", retryable: false });
+  expect(requests).toEqual([]);
+  expect(await f.staged()).toEqual([]);
+  await models.prepare(speaker.name, new AbortController().signal, f.sources);
+  const prepared = await models.runtime(speaker.name, "speaker");
+  await models.prepare(speaker.name, new AbortController().signal);
+  expect(await models.runtime(speaker.name, "speaker")).toEqual(prepared);
+  expect(requests).toEqual([]);
+});
+
 test("speaker runtime uses managed preparation and remains readable offline after restart", async () => {
   const f = await voiceFixture();
   const speaker: ModelManifest = { ...f.voice, name: "speaker", purpose: "speaker" };

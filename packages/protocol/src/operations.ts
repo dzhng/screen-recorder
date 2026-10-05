@@ -717,7 +717,7 @@ export const operationSchema = z.discriminatedUnion("operation", [
     })
     .strict()
     .describe(
-      "Explicitly prepare the selected registered model. Supply an absolute runtimeSource for models requiring a local runtime artifact; optional absolute modelSource admits pinned local model files without downloading. Otherwise acquire the pinned model. Returns preparation progress; poll model.status. Reuses ready files and joins current preparation. Status and execution never acquire dependencies.",
+      "Explicitly prepare the selected registered model. Supply absolute runtimeSource and modelSource when model.list marks them required. modelSource admits pinned local files; omission downloads only when the registered acquisition policy permits it. Returns preparation progress; poll model.status. Reuses ready files and joins current preparation. Status and execution never acquire dependencies.",
     ),
   z
     .object({
