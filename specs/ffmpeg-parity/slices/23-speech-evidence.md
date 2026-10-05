@@ -7,7 +7,7 @@ Dependencies: [22](22-speech-feasibility.md).
 Before pickup, split this placeholder into family-specific implementation slices from the 22 verdicts. No aggregate green status may substitute for these checkpoints.
 
 - [ ] [Speaker evidence](23a-speaker-evidence.md): both initial providers failed; no implementation admitted.
-- [ ] [Acoustic events](23b-acoustic-events.md): both presence diagnostics failed; timed category evidence also missing.
+- [ ] [Acoustic events](23b-acoustic-events.md): presence diagnostics and independently timed calibration/confirmation fail; no category selected.
 - [ ] [Boundary evidence](23c-boundary-evidence.md): independent complete word-neighbor labels pending; no provider selected.
 
 ## Contract and owner

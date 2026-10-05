@@ -168,6 +168,14 @@ The family-specific follow-ups are [speaker evidence](23a-speaker-evidence.md),
 [acoustic events](23b-acoustic-events.md) and [boundary evidence](23c-boundary-evidence.md).
 They remain gated/open. No optional speech operation or model is advertised.
 
+The [independent temporal event cohort](../evidence/event-temporal/README.md)
+adds human 100 ms scene-occupancy labels and separate development/confirmation
+windows. Laughter fails development; Clapping's frozen threshold passes development
+but fails confirmation. Applause and Gasp have no reference in that cohort.
+The scene-to-MIC-channel-zero projection was frozen before inference but not
+independently listened; these are failed coarse-occupancy experiments, not precise
+event endpoints or an isolated diagnosis of model versus projection error.
+
 ## Reproducibility and evidence boundaries
 
 Original event files, exact AMI PCM windows and original selected speaker XML

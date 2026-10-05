@@ -96,6 +96,25 @@ FFprobe remains a codec/range supplement, never the timing authority.
 Verdict: sound; one native physical-facts owner prevents endpoint-only equivalence.
 Confidence: medium.
 
+### Timed event research keeps coarse labels and model context explicit
+
+When: independent temporal-event research. Human dataset annotations say which
+100 ms scene bins contain laughter or clapping. YAMNet instead scores overlapping
+975 ms audio contexts every 480 ms. The frozen diagnostic assigns each reference
+bin's midpoint the nearest model patch center, with earlier-center tie handling.
+It never expands detections with neighboring maxima or claims 100 ms endpoint
+precision. A provider must pass this declared recipe before a product interval
+contract is considered; the current candidates fail.
+
+Gap: the plan required independent timed events but did not prescribe how to
+compare differently sampled observations. Reach: microphone channel zero is an
+explicit pre-inference projection, not independently listened channel-specific
+truth. Other categories cannot borrow Clapping's labels, and all confirmation
+sources are consumed once complete scores exist, including unselected classes.
+New providers need new untouched confirmation. Verdict: sound for a bounded,
+explicitly limited diagnostic; these operands cannot certify finer endpoints or
+isolate projection error from model error. Confidence: medium.
+
 ### Known model padding is separate from physical source support
 
 When: speaker research. A provider emits a short tail beyond the recording after

@@ -1,7 +1,7 @@
 # 23b — Validated optional acoustic-event evidence
 
-Status: open, gated by failed [22](22-speech-feasibility.md) presence experiments
-and missing independently timed event support. No provider/categories are selected.
+Status: open, gated by failed [22](22-speech-feasibility.md) presence and timed-category
+experiments. No provider/categories are selected.
 
 ## Independent timed cohort
 
