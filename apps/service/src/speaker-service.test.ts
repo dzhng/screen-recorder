@@ -8,13 +8,13 @@ import { SpeakerEvidenceStore, assetSpeakerOwner } from "@screenrec/core/speaker
 import { SpeakerProcessing } from "@screenrec/core/speaker-processing";
 import { selectSpeakerSource, type SpeakerSourceInput } from "@screenrec/core/source-speakers";
 import { afterEach, expect, test } from "vitest";
-import { writeFile } from "node:fs/promises";
+import { writeFile, realpath, rm } from "node:fs/promises";
 import { join } from "node:path";
+import { fileURLToPath } from "node:url";
+import { jsonWorker } from "./worker.js";
+import { setTimeout as delay } from "node:timers/promises";
 import { projectServiceFixture } from "./project-service.fixture.js";
-import {
-  nativeOutput,
-  speakerSource,
-} from "../../../packages/core/src/speaker-evidence.fixture.js";
+import { nativeOutput, speakerSource } from "./speaker.fixture.js";
 
 const cleanup: (() => Promise<void>)[] = [];
 afterEach(async () => {
@@ -243,81 +243,187 @@ async function publishControlledObservation(home: string, input: SpeakerSourceIn
   }
 }
 
-test("portable export refuses retained speakers before preservation is supported", async () => {
-  const f = await projectServiceFixture(cleanup, async (operation) => {
-    if (operation !== "media.probe")
-      throw new Error(`Export must refuse before native work: ${operation}`);
-    return {
-      ok: true,
-      data: {
-        originUs: -250000,
-        streams: [
+test.runIf(process.platform === "darwin")(
+  "speaker package export, read-only open and adoption preserve exact source evidence without model execution",
+  async () => {
+    const native = jsonWorker({
+      executable:
+        process.env.SCREENREC_NATIVE ??
+        fileURLToPath(
+          new URL("../../../helpers/mac/.build/debug/screenrec-native", import.meta.url),
+        ),
+      args: [],
+    });
+    const f = await projectServiceFixture(cleanup, async (operation, params, options) => {
+      if (operation !== "media.probe") return native(operation, params, options);
+      return {
+        ok: true,
+        data: {
+          originUs: -250000,
+          streams: [
+            {
+              id: "audio",
+              kind: "audio",
+              codec: "controlled",
+              decodable: true,
+              channels: 2,
+              sampleRate: 16000,
+              startUs: 0,
+              endUs: 40000000,
+              segments: [{ startUs: 0, endUs: 40000000, empty: false }],
+            },
+          ],
+        },
+      };
+    });
+    const imported = await f.call("asset.import", { requestId: "portable-source", path: f.path });
+    if (!imported.ok) throw Error(JSON.stringify(imported));
+    const job = await f.job((imported.data as { jobId: string }).jobId, "ready");
+    const input = {
+      assetId: job.result!.assetId,
+      streamId: "audio",
+      channel: 1,
+      sourceRange: speakerSource.observationRange,
+      modelId: speakerSource.engine.modelId,
+    };
+    await publishControlledObservation(f.home, input);
+    const { sourceRange, ...selection } = input;
+    const query = { ...selection, observationRange: sourceRange, view: "scores", limit: 1000 };
+    const original = await f.call("speaker.get", query);
+    const created = await f.call("project.create", {
+      requestId: "portable-speaker-project",
+      canvas: {
+        width: 64,
+        height: 48,
+        fps: { numerator: 30, denominator: 1 },
+        background: "#000000ff",
+      },
+    });
+    if (!created.ok) throw Error(JSON.stringify(created));
+    const { project, revision } = created.data as {
+      project: { projectId: string };
+      revision: { id: string };
+    };
+    expect(
+      await f.call("edit.apply", {
+        projectId: project.projectId,
+        requestId: "portable-place",
+        expectedRevisionId: revision.id,
+        operations: [
+          { operation: "track.add", track: { kind: "audio", order: 0 }, label: "sound" },
           {
-            id: "audio",
-            kind: "audio",
-            codec: "controlled",
-            decodable: true,
-            channels: 2,
-            sampleRate: 16000,
-            startUs: 0,
-            endUs: 40000000,
-            segments: [{ startUs: 0, endUs: 40000000, empty: false }],
+            operation: "place",
+            clip: {
+              trackId: { label: "sound" },
+              assetId: input.assetId,
+              streamId: input.streamId,
+              source: { kind: "range", range: { startUs: 0, endUs: 30000000 } },
+              placement: { kind: "project", range: { startUs: 0, endUs: 60000000 } },
+            },
           },
         ],
-      },
-    };
-  });
-  const imported = await f.call("asset.import", { requestId: "package-speaker", path: f.path });
-  if (!imported.ok) throw new Error(JSON.stringify(imported));
-  const job = await f.job((imported.data as { jobId: string }).jobId, "ready");
-  await publishControlledObservation(f.home, {
-    assetId: job.result!.assetId,
-    streamId: "audio",
-    channel: 1,
-    sourceRange: speakerSource.observationRange,
-    modelId: speakerSource.engine.modelId,
-  });
-  const created = await f.call("project.create", {
-    requestId: "speaker-package-project",
-    canvas: {
-      width: 64,
-      height: 48,
-      fps: { numerator: 30, denominator: 1 },
-      background: "#000000ff",
-    },
-  });
-  if (!created.ok) throw new Error(JSON.stringify(created));
-  const { project, revision } = created.data as {
-    project: { projectId: string };
-    revision: { id: string };
-  };
-  expect(
-    await f.call("edit.apply", {
+      }),
+    ).toMatchObject({ ok: true });
+    const exportId = randomUUID();
+    const exporting = await f.call("export.create", {
       projectId: project.projectId,
-      requestId: "speaker-place",
-      expectedRevisionId: revision.id,
-      operations: [
-        { operation: "track.add", track: { kind: "audio", order: 0 }, label: "sound" },
-        {
-          operation: "place",
-          clip: {
-            trackId: { label: "sound" },
-            assetId: job.result!.assetId,
-            streamId: "audio",
-            source: { kind: "range", range: { startUs: 0, endUs: 30000000 } },
-            placement: { kind: "project", range: { startUs: 0, endUs: 30000000 } },
-          },
-        },
-      ],
-    }),
-  ).toMatchObject({ ok: true });
-  expect(
-    await f.call("export.create", {
-      projectId: project.projectId,
-      exportId: randomUUID(),
+      exportId,
       kind: "processed-package",
       directory: f.home,
-      leaf: "speaker.zip",
-    }),
-  ).toMatchObject({ ok: false, error: { code: "UNSUPPORTED_PACKAGE_DEPENDENCY" } });
-});
+      leaf: "speakers.zip",
+    });
+    expect(exporting).toMatchObject({ ok: true });
+    let active = f;
+    const ready = async (operation: string, params: Record<string, unknown>, state: string) => {
+      const deadline = performance.now() + 10000;
+      for (;;) {
+        const result = await active.call(operation, params);
+        if (!result.ok) throw Error(JSON.stringify(result));
+        const data = result.data as Record<string, unknown>;
+        if (data.state === state) return data;
+        if (
+          ["failed", "canceled", "unavailable"].includes(String(data.state)) ||
+          performance.now() > deadline
+        )
+          throw Error(JSON.stringify(result));
+        await delay(10);
+      }
+    };
+    const projectQuery = {
+      projectId: project.projectId,
+      channel: input.channel,
+      modelId: input.modelId,
+      range: { startUs: 750000, endUs: 1250000 },
+      limit: 1000,
+    };
+    const projected = await ready("speaker.get", projectQuery, "ready");
+    expect(projected).toMatchObject({
+      page: {
+        rows: [
+          { ordinal: 0, slot: 0, partial: false },
+          { ordinal: 1, slot: 1, partial: false },
+        ],
+      },
+    });
+    await ready("export.status", { exportId }, "committed");
+    const target = await projectServiceFixture(cleanup, async (operation, params, options) => {
+      if (operation.startsWith("media."))
+        throw Error(`Package preservation cannot execute media: ${operation}`);
+      return native(operation, params, options);
+    });
+    active = target;
+    const opened = await target.call("package.open", {
+      path: await realpath(join(f.home, "speakers.zip")),
+    });
+    if (!opened.ok) throw Error(JSON.stringify(opened));
+    const admissionId = (opened.data as { id: string }).id;
+    const admitted = await ready("package.status", { admissionId }, "ready");
+    const packageHandle = admitted.packageHandle;
+    const portableProjection = await ready(
+      "speaker.get",
+      { ...projectQuery, packageHandle },
+      "ready",
+    );
+    expect((portableProjection.page as { rows: unknown }).rows).toEqual(
+      (projected.page as { rows: unknown }).rows,
+    );
+    expect(projected).toMatchObject({
+      page: {
+        rows: [
+          { fragments: [{ project: { startUs: 125, endUs: 2000125 } }] },
+          { fragments: [{ project: { startUs: 1000125, endUs: 4000125 } }] },
+        ],
+      },
+    });
+    const packaged = await target.call("speaker.get", { ...query, packageHandle });
+    expect(packaged).toMatchObject(original);
+    const adopted = await ready(
+      "package.adopt",
+      { packageHandle, requestId: "speaker-adopt" },
+      "ready",
+    );
+    const replayed = await target.call("package.adopt", {
+      packageHandle,
+      requestId: "speaker-adopt",
+    });
+    expect(replayed).toMatchObject({ ok: true, data: { state: "ready", result: adopted.result } });
+    await target.call("package.close", { admissionId });
+    await f.service.close();
+    await rm(f.home, { recursive: true, force: true });
+    await target.service.close();
+    const restarted = await projectServiceFixture(
+      cleanup,
+      async (operation) => {
+        throw Error(`Retained read cannot invoke ${operation}`);
+      },
+      target.home,
+    );
+    const resumed = await restarted.call("speaker.get", query);
+    expect(resumed).toEqual(original);
+    await writeFile(
+      join(target.home, "portable-speaker-comparison.json"),
+      JSON.stringify({ original, packaged, adopted, replayed, resumed }),
+    );
+  },
+  30000,
+);

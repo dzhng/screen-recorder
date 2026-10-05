@@ -6,10 +6,7 @@ import { Catalog } from "@screenrec/core/catalog";
 import { AssetStore } from "@screenrec/core/assets";
 import { AcquisitionStore } from "@screenrec/core/acquisitions";
 import { selectSpeakerSource } from "@screenrec/core/source-speakers";
-import {
-  nativeOutput,
-  speakerSource,
-} from "../../../packages/core/src/speaker-evidence.fixture.js";
+import { nativeOutput, speakerSource } from "./speaker.fixture.js";
 import { speakerObserver } from "./speaker.js";
 import type { MediaWorker } from "./worker.js";
 

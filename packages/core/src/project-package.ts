@@ -28,6 +28,13 @@ import { acquisitionContext, portableAcquisitionSchema } from "./acquisitions.js
 import { resourceKinds, type ResourceReference } from "./references.js";
 import { checkProjectJsonBytes, type ArchiveLimits } from "./package-archive.js";
 
+import {
+  speakerEvidenceMetadataSchema,
+  speakerGenerationResource,
+  speakerOperandRows,
+  assetSpeakerOwner,
+} from "./speaker-evidence.js";
+
 const digest = z.string().regex(/^[a-f0-9]{64}$/);
 const member = z.strictObject({
   path: z.string(),
@@ -53,6 +60,14 @@ const indexMembersSchema = z.strictObject({
 });
 const resourceSchema = z.discriminatedUnion("kind", [
   portableAssetSchema.extend({ kind: z.literal("asset") }),
+  z.strictObject({
+    kind: z.literal("speaker-generation"),
+    metadata: speakerEvidenceMetadataSchema,
+    sequence: z.int().positive(),
+    publication: retainedPublicationSchema.nullable(),
+    nativeReceipt: z.string().max(1024 * 1024),
+    report: z.string().max(1024 * 1024),
+  }),
   portablePreparedAudioSchema.extend({ kind: z.literal("prepared-audio") }),
   z.strictObject({ kind: z.literal("acquisition"), acquisition: portableAcquisitionSchema }),
   z.strictObject({
@@ -159,6 +174,8 @@ export function resourceIdentity(resource: PortableDependency): ResourceReferenc
       return { kind: "asset", id: resource.asset.id };
     case "acquisition":
       return { kind: "acquisition", id: resource.acquisition.id };
+    case "speaker-generation":
+      return { kind: "speaker-generation", id: speakerGenerationResource(resource.metadata) };
     case "scene-generation":
       return { kind: "scene-generation", id: sceneGenerationResource(resource.metadata) };
     case "transcript-generation":
@@ -190,6 +207,7 @@ export function resourceDependencies(resource: PortableDependency): ResourceRefe
         kind: "asset",
         id: binding.assetId,
       }));
+    case "speaker-generation":
     case "scene-generation":
     case "transcript-generation":
       return [
@@ -203,7 +221,7 @@ export function resourceDependencies(resource: PortableDependency): ResourceRefe
 export function resourceMembers(
   resource: PortableResource,
 ): { path: string; bytes: number; sha256: string | null }[] {
-  if (resource.kind === "prepared-audio") return [];
+  if (resource.kind === "prepared-audio" || resource.kind === "speaker-generation") return [];
   if (resource.kind === "index-generation" || resource.kind === "project-index-generation")
     return [
       ...resource.records.map((value, index) => ({
@@ -282,7 +300,7 @@ export function transcriptMemberPath(
 }
 const manifestSchema = z.strictObject({
   format: z.literal("screenrec-project"),
-  version: z.literal(3),
+  version: z.literal(4),
   project: z.unknown(),
   undo: z.array(z.string()).max(1000),
   references: projectSnapshotReferencesSchema,
@@ -347,7 +365,7 @@ export function projectPackageManifest(
 ): ProjectPackageManifest {
   return {
     format: "screenrec-project",
-    version: 3,
+    version: 4,
     project: snapshot.project,
     undo: snapshot.undo,
     references: snapshot.references,
@@ -374,10 +392,10 @@ export function parseProjectPackageManifest(
     typeof value === "object" &&
     "format" in value &&
     value.format === "screenrec-project" &&
-    (!("version" in value) || value.version !== 3)
+    (!("version" in value) || value.version !== 4)
   )
     throw new CatalogError("INVALID_PACKAGE", "Unsupported project package version", {
-      supportedVersion: 3,
+      supportedVersion: 4,
     });
   const parsed = manifestSchema.safeParse(value);
   if (!parsed.success) invalid("Invalid project manifest");
@@ -553,6 +571,34 @@ export function resolveProjectPackage(
   const acquisitions = closure.flatMap((resource) =>
     resource.kind === "acquisition" ? [acquisitionContext(resource.acquisition)] : [],
   );
+  const portableAssets = new Map(
+    closure.flatMap((resource) =>
+      resource.kind === "asset" ? [[resource.asset.id, resource.asset] as const] : [],
+    ),
+  );
+  const portableAcquisitions = new Map(
+    closure.flatMap((resource) =>
+      resource.kind === "acquisition"
+        ? [[resource.acquisition.id, resource.acquisition] as const]
+        : [],
+    ),
+  );
+  const validateSpeakerOwner = assetSpeakerOwner(
+    {
+      get: (id) => portableAssets.get(id) ?? invalid("Missing speaker source asset"),
+      path: () => "",
+    },
+    { get: (id) => portableAcquisitions.get(id) ?? invalid("Missing speaker acquisition") },
+  );
+  const speakerSequences = new Set<number>();
+  for (const resource of closure) {
+    if (resource.kind !== "speaker-generation") continue;
+    if (speakerSequences.has(resource.sequence)) invalid("Duplicate speaker generation sequence");
+    speakerSequences.add(resource.sequence);
+    const { owner, sourceId, generation, policy } = resource.metadata;
+    validateSpeakerOwner({ owner, sourceId, generation, policy }, resource.metadata.source);
+    speakerOperandRows(resource.metadata, resource);
+  }
   for (const revision of snapshot.revisions)
     validateComposition(revision.document, assets, acquisitions);
   return { ...manifest, resources: resolved, snapshot };

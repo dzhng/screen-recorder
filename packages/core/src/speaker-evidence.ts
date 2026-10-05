@@ -485,11 +485,6 @@ export class SpeakerEvidenceStore {
     };
   }
   /** Retained observations bind semantic source/engine pins, independently of current decoder availability. */
-  hasForAsset(assetId: string): boolean {
-    return !!this.store.catalog
-      .prepare(`SELECT 1 FROM speaker_evidence_generations WHERE ownerId=? AND complete=1 LIMIT 1`)
-      .get(assetId);
-  }
   portableGenerations(assetId: string, limit = 25000) {
     if (!Number.isSafeInteger(limit) || limit < 1 || limit > 25000)
       throw new CatalogError("INVALID_PARAMS", "Invalid speaker inventory limit");

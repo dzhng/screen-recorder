@@ -53,6 +53,7 @@ type Work<T extends ArchiveManifest> = (
   context: RetainedPackage<T>,
   signal: AbortSignal,
   lifetime: { readonly fd: number },
+  job: ContextJob,
 ) => Promise<string>;
 type Workspace = Awaited<ReturnType<typeof provisionPackageWorkspace>>;
 type Entry<T extends ArchiveManifest> = Admission & {
@@ -232,6 +233,9 @@ export class PackageRegistry<
   lookup(handle: string): Pick<RetainedPackage<T>, "manifest" | "files" | "archiveUsage"> {
     return this.ready(handle).retained!;
   }
+  job(handle: string, jobId: string): ContextJob {
+    return this.options.jobs.contextJob(this.ready(handle).context, jobId);
+  }
   submit(handle: string, request: ContextJobRequest, execute: Work<T>): ContextJob {
     if (request.artifact === "package.open")
       throw new CatalogError("INVALID_REQUEST", "Package admission is owned by the registry");
@@ -282,7 +286,7 @@ export class PackageRegistry<
       const work = entry.requests.get(job.jobId);
       if (!work || entry.state !== "ready")
         throw new CatalogError("CONTEXT_CLOSED", "Package work is no longer admitted");
-      return work(entry.retained!, signal, entry.workspace!.handle);
+      return work(entry.retained!, signal, entry.workspace!.handle, job);
     }
     try {
       if (signal.aborted || entry.state !== "queued")

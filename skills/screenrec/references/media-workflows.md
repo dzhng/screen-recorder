@@ -56,7 +56,12 @@ and returned exact endpoints. Slots are anonymous and local to each observation;
 simultaneous slots may overlap, and raw scores are uncalibrated. Unavailable or
 unobserved coverage cannot be described as silence. Continue empty pages while
 a cursor exists. Read-only generations remain usable without the local runtime.
-Use only source/project selectors advertised by the installed release.
+Use only source/project selectors advertised by the installed release. Project
+reads project retained source intervals through a pinned revision; unobserved
+regions are explicit and the read never schedules acoustic inference. When package
+reads are advertised, the opened handle supplies the same source/project evidence
+without adoption. Poll any returned metadata job with the same query, preserve its
+cursor, and treat closure or restart as expiration of that handle.
 
 For speech as it appears in an edited project, request the project transcript at
 the intended revision. Rows identify each repeated/retimed clip occurrence and

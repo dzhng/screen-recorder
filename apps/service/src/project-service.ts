@@ -579,6 +579,10 @@ export async function startProjectService(options: {
       transcripts,
       records: transcriptStore,
       events: sourceEvents,
+      speakers: {
+        resolveMany: (selections, choice) => speakers.resolveMany(selections, choice),
+        records: speakerRecords,
+      },
     });
     preview = new ProjectPreviewInspection(
       projects,
@@ -717,6 +721,7 @@ export async function startProjectService(options: {
       sceneRecords,
       scenes,
       speakerRecords,
+      speakers,
       transcriptRecords: transcriptStore,
       transcripts,
       indexRecords: sourceIndex,
@@ -942,8 +947,43 @@ export async function startProjectService(options: {
           case "speaker.prepare":
             return { ok: true, data: speakers.prepareSource(operation.params) };
           case "speaker.get": {
-            const { observationRange, sourceRange, view, limit, cursor, ...selection } =
-              operation.params;
+            if ("projectId" in operation.params)
+              return {
+                ok: true,
+                data:
+                  operation.params.packageHandle === undefined
+                    ? await projectEvidence.speakers(operation.params)
+                    : projectPackages.projectSpeakers(
+                        operation.params.packageHandle,
+                        (() => {
+                          const { packageHandle, view, ...input } = operation.params;
+                          return input;
+                        })(),
+                      ),
+              };
+            const {
+              observationRange,
+              sourceRange,
+              view,
+              limit,
+              cursor,
+              packageHandle,
+              ...selection
+            } = operation.params;
+            if (packageHandle !== undefined)
+              return {
+                ok: true,
+                data: projectPackages.sourceSpeakers(
+                  packageHandle,
+                  { ...selection, sourceRange: observationRange },
+                  {
+                    ...(sourceRange === undefined ? {} : { sourceRange }),
+                    ...(view === undefined ? {} : { view }),
+                    ...(limit === undefined ? {} : { limit }),
+                    ...(cursor === undefined ? {} : { cursor }),
+                  },
+                ),
+              };
             const current = speakers.sourceStatus({ ...selection, sourceRange: observationRange });
             if (!current.published) {
               if (cursor)

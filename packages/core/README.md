@@ -87,6 +87,12 @@ stays owned until retirement is confirmed; a committed external file remains
 independent of project deletion. Portable adoption owns copied bytes and their
 meaning rather than borrowing a donor path indefinitely.
 
+The current project package format retains typed speaker generations, their full
+raw native/report strings and their original publication order. The same native
+parser admits live and portable observations. Older package formats are refused;
+adoption stages evidence against package source facts and rechecks the published
+live source owner inside the existing transaction before replaying readiness.
+
 Deletion fences new borrowers, drains existing work and retires durable references
 before removing owned files. Cache eviction cannot destroy original or generated
 sources. Aggregate [storage observations](src/storage.ts) measure managed files;

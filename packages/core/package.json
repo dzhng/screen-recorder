@@ -275,6 +275,10 @@
     "./speaker-read": {
       "types": "./dist/speaker-read.d.ts",
       "default": "./dist/speaker-read.js"
+    },
+    "./project-speakers": {
+      "types": "./dist/project-speakers.d.ts",
+      "default": "./dist/project-speakers.js"
     }
   },
   "scripts": {

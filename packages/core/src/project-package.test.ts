@@ -214,7 +214,7 @@ test("inventory-bound asset metadata is mandatory, exact and validated before cl
       ]),
     ),
   ).toThrow(/Unexpected resource metadata/);
-  for (const version of [1, 2])
+  for (const version of [1, 2, 3])
     expect(() => read(undefined, { ...manifest, version } as never)).toThrow(/project.*version/);
   const duplicate = structuredClone(resource);
   duplicate.asset.streams.push({ ...duplicate.asset.streams[0]!, segments: [] });

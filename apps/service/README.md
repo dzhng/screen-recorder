@@ -112,10 +112,12 @@ records installed evidence separately from an isolated service check.
 through the existing native PCM owner and invoke an explicitly prepared local
 runtime through the shared JSON process owner. Execution is offline. Original
 sidecar operands are captured before attempt cleanup, including model refusals.
-`speaker.get` reads retained source generations without native or model execution;
-`speaker.prepare` alone requests new work. Until package preservation is implemented,
-processed-package export refuses assets with retained speakers instead of silently
-discarding their observations.
+`speaker.get` reads retained source generations or their revision projection without
+native or model execution; `speaker.prepare` alone requests new acoustic work.
+Portable packages preserve complete original operands and observation ordering.
+Read-only package projections share the source projection, coverage and merge owners;
+immutable checkpoints use the existing package context jobs and disappear on closure.
+The context's metadata and job budgets apply to these inspections as to adoption.
 
 FFmpeg operands borrow the existing held source authority. Native media facts own
 support, common origin and geometry; the [input boundary](src/ffmpeg-input.ts)

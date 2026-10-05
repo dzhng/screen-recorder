@@ -1,3 +1,6 @@
+import { portableProjectSpeakers, type PortableSpeakerCheckpoint } from "./portable-speakers.js";
+import type { ProjectSpeakerInput, ProjectEvidenceCursor } from "@screenrec/core/project-evidence";
+import { randomUUID } from "node:crypto";
 import { resolveProjectPackageMetadata } from "./project-package-metadata.js";
 import { sourceExporter } from "./source-export.js";
 import { preparedAudioResource, type PreparedAudioStore } from "@screenrec/core/prepared-audio";
@@ -21,6 +24,7 @@ import {
 import type { ScreenshotIndexStore, IndexRecords } from "@screenrec/core/screenshot-index";
 import type { IndexProcessing } from "@screenrec/core/index-processing";
 import { createHash } from "node:crypto";
+import { isDeepStrictEqual } from "node:util";
 import { fstatSync, readFileSync, constants } from "node:fs";
 import { mkdir, open, writeFile, type FileHandle } from "node:fs/promises";
 import { dirname, join } from "node:path";
@@ -57,7 +61,14 @@ import {
   type SceneEvidenceStore,
 } from "@screenrec/core/scene-evidence";
 import type { SceneProcessing } from "@screenrec/core/scene-processing";
-import type { SpeakerEvidenceStore } from "@screenrec/core/speaker-evidence";
+import {
+  assetSpeakerOwner,
+  speakerOperandRecords,
+  type SpeakerEvidenceStore,
+} from "@screenrec/core/speaker-evidence";
+import type { SpeakerProcessing } from "@screenrec/core/speaker-processing";
+import { SourceSpeakerRead } from "@screenrec/core/speaker-read";
+import { selectSpeakerSource } from "@screenrec/core/source-speakers";
 import type { TranscriptStore } from "@screenrec/core/transcript";
 import type { TranscriptProcessing } from "@screenrec/core/transcript-processing";
 import type { JobQueue } from "@screenrec/core/jobs";
@@ -84,6 +95,7 @@ type Owners = {
   sceneRecords: SceneEvidenceStore;
   scenes: SceneProcessing;
   speakerRecords: SpeakerEvidenceStore;
+  speakers: SpeakerProcessing;
   transcriptRecords: TranscriptStore;
   transcripts: TranscriptProcessing;
   indexRecords: ScreenshotIndexStore<SourceIndexRecords>;
@@ -201,6 +213,142 @@ export class ProjectPackages {
     await this.prepare();
     return this.registry!.open(path);
   }
+  projectSpeakers(packageHandle: string, input: ProjectSpeakerInput) {
+    if (!this.registry) throw new CatalogError("CONTEXT_CLOSED", "Project package is not open");
+    const cursor = input.cursor as ProjectEvidenceCursor | undefined;
+    let previous: PortableSpeakerCheckpoint | undefined;
+    if (cursor) {
+      const checkpoint = this.registry.job(packageHandle, cursor.checkpointId);
+      if (
+        checkpoint.artifact !== "package.speakers" ||
+        checkpoint.state !== "ready" ||
+        !checkpoint.result
+      )
+        throw new CatalogError("ARTIFACT_CHANGED", "Package speaker checkpoint is unavailable");
+      previous = JSON.parse(checkpoint.result) as PortableSpeakerCheckpoint;
+      const query = previous.manifest.query;
+      if (
+        previous.packageHandle !== packageHandle ||
+        cursor.queryDigest !== previous.state.queryDigest ||
+        cursor.manifestId !== previous.state.manifestId ||
+        input.projectId !== query.projectId ||
+        input.channel !== query.channel ||
+        input.modelId !== query.modelId ||
+        (input.revisionId !== undefined && input.revisionId !== query.revisionId) ||
+        (input.range !== undefined && !isDeepStrictEqual(input.range, query.range)) ||
+        (input.trackIds !== undefined &&
+          !isDeepStrictEqual([...new Set(input.trackIds)].sort(), query.trackIds))
+      )
+        throw new CatalogError("ARTIFACT_CHANGED", "Package speaker query changed");
+    }
+    const engine = this.owners.speakers.engine(input.modelId),
+      manifestId = cursor?.manifestId ?? randomUUID();
+    const job = this.registry.submit(
+      packageHandle,
+      { artifact: "package.speakers", lane: "frame", input: JSON.stringify(input) },
+      async (context, signal, _lifetime, job) => {
+        signal.throwIfAborted();
+        const result = portableProjectSpeakers(
+          context,
+          packageHandle,
+          input,
+          engine,
+          job.jobId,
+          manifestId,
+          previous,
+        );
+        signal.throwIfAborted();
+        return JSON.stringify(result);
+      },
+    );
+    if (job.state !== "ready" || !job.result)
+      return {
+        projectId: input.projectId,
+        revisionId:
+          input.revisionId ??
+          cursor?.revisionId ??
+          this.registry.lookup(packageHandle).manifest.snapshot.project.currentRevisionId,
+        ...job,
+        page: null,
+      };
+    const result = JSON.parse(job.result) as PortableSpeakerCheckpoint;
+    return {
+      projectId: result.manifest.query.projectId,
+      revisionId: result.manifest.query.revisionId,
+      state: "ready",
+      dependencies: cursor ? { manifestId: result.state.manifestId } : result.manifest.dependencies,
+      coverage: {
+        manifestId: result.state.manifestId,
+        ...(cursor ? {} : { occurrences: result.manifest.coverage }),
+      },
+      page: { rows: result.rows, nextCursor: result.nextCursor },
+    };
+  }
+  sourceSpeakers(
+    packageHandle: string,
+    input: import("@screenrec/core/source-speakers").SpeakerSourceInput,
+    query: import("@screenrec/core/speaker-read").SpeakerReadInput,
+  ) {
+    if (!this.registry) throw new CatalogError("CONTEXT_CLOSED", "Project package is not open");
+    const { manifest, files } = this.registry.lookup(packageHandle);
+    const assets = new Map(
+      manifest.resources.flatMap((resource) =>
+        resource.kind === "asset" ? [[resource.asset.id, resource.asset] as const] : [],
+      ),
+    );
+    const acquisitions = new Map(
+      manifest.resources.flatMap((resource) =>
+        resource.kind === "acquisition"
+          ? [[resource.acquisition.id, resource.acquisition] as const]
+          : [],
+      ),
+    );
+    const selected = selectSpeakerSource(
+      {
+        get: (id) => {
+          const asset = assets.get(id);
+          if (!asset) throw new CatalogError("NOT_FOUND", "Package source asset does not exist");
+          return asset;
+        },
+        path: (id) => files.path(`assets/${assets.get(id)!.fileName}`),
+      },
+      {
+        get: (id) => {
+          const acquisition = acquisitions.get(id);
+          if (!acquisition)
+            throw new CatalogError("NOT_FOUND", "Package acquisition does not exist");
+          return acquisition;
+        },
+      },
+      input,
+    );
+    const engine = this.owners.speakers.engine(input.modelId);
+    const resource = manifest.resources
+      .filter(
+        (resource): resource is Extract<PortableResource, { kind: "speaker-generation" }> =>
+          resource.kind === "speaker-generation" &&
+          resource.metadata.owner.assetId === input.assetId &&
+          resource.metadata.source.streamId === input.streamId &&
+          resource.metadata.source.acquisitionId === (input.acquisitionId ?? null) &&
+          resource.metadata.source.channel === input.channel &&
+          resource.metadata.source.supportDigest === selected.supportDigest &&
+          isDeepStrictEqual(resource.metadata.source.engine, engine) &&
+          isDeepStrictEqual(resource.metadata.source.observationRange, input.sourceRange),
+      )
+      .toSorted((a, b) => b.sequence - a.sequence)[0];
+    if (!resource) {
+      if (query.cursor)
+        throw new CatalogError("ARTIFACT_CHANGED", "Package speaker observation changed");
+      return { ...input, state: "unavailable", reason: "source_evidence_unobserved", page: null };
+    }
+    const page = new SourceSpeakerRead(
+      speakerOperandRecords(resource.metadata, resource),
+      resource.metadata,
+      packageHandle,
+    ).page(query);
+    const { sourceRange, ...selection } = input;
+    return { ...selection, state: "ready", generation: resource.metadata.generation, page };
+  }
   status(admissionId?: string) {
     if (admissionId) {
       if (!this.registry) throw new CatalogError("NOT_FOUND", "Package admission does not exist");
@@ -305,6 +453,23 @@ export class ProjectPackages {
       string,
       Extract<PortableDependency, { kind: "index-generation" | "project-index-generation" }>
     >();
+    const speakerInventory = new Map<
+      string,
+      Extract<PortableDependency, { kind: "speaker-generation" }>
+    >();
+    const speakersForAsset = (assetId: string) =>
+      this.owners.speakerRecords.portableGenerations(assetId).map(({ metadata, sequence }) => {
+        const resource: Extract<PortableDependency, { kind: "speaker-generation" }> = {
+          kind: "speaker-generation",
+          metadata,
+          sequence,
+          publication: this.owners.speakers.portablePublication(metadata),
+          ...this.owners.speakerRecords.operands(metadata),
+        };
+        const identity = resourceIdentity(resource);
+        speakerInventory.set(identity.id, resource);
+        return identity;
+      });
     const indexesForAsset = (assetId: string) =>
       this.owners.indexRecords.portableGenerations({ kind: "asset", assetId }).map((metadata) => {
         const resource: Extract<PortableDependency, { kind: "index-generation" }> = {
@@ -364,17 +529,13 @@ export class ProjectPackages {
     const resources = collectPortableResources(projectResourceRoots(snapshot), (identity) => {
       let resource: PortableDependency;
       if (identity.kind === "asset") {
-        if (this.owners.speakerRecords.hasForAsset(identity.id))
-          throw new CatalogError(
-            "UNSUPPORTED_PACKAGE_DEPENDENCY",
-            "Retained speaker evidence requires portable preservation",
-          );
         const asset = this.owners.assets.portable(identity.id);
         const dependencies = [
           ...asset.dependencies,
           ...scenesForAsset(identity.id),
           ...transcriptsForAsset(identity.id),
           ...indexesForAsset(identity.id),
+          ...speakersForAsset(identity.id),
         ];
         resource = {
           kind: "asset",
@@ -391,18 +552,25 @@ export class ProjectPackages {
         resource = { kind: "acquisition", acquisition: pinned.acquisition };
       } else {
         if (
-          !["scene-generation", "transcript-generation", "index-generation"].includes(identity.kind)
+          ![
+            "scene-generation",
+            "transcript-generation",
+            "index-generation",
+            "speaker-generation",
+          ].includes(identity.kind)
         )
           throw new CatalogError(
             "UNSUPPORTED_PACKAGE_DEPENDENCY",
             `Portable adoption is not implemented for ${identity.kind}`,
           );
         const inventory =
-          identity.kind === "scene-generation"
-            ? sceneInventory
-            : identity.kind === "transcript-generation"
-              ? transcriptInventory
-              : indexInventory;
+          identity.kind === "speaker-generation"
+            ? speakerInventory
+            : identity.kind === "scene-generation"
+              ? sceneInventory
+              : identity.kind === "transcript-generation"
+                ? transcriptInventory
+                : indexInventory;
         if (!inventory.has(identity.id)) {
           let tuple: unknown;
           try {
@@ -418,7 +586,8 @@ export class ProjectPackages {
             typeof tuple[2] !== "string"
           )
             throw new CatalogError("INVALID_STORAGE", "Invalid retained-generation identity");
-          if (identity.kind === "scene-generation") scenesForAsset(tuple[1]);
+          if (identity.kind === "speaker-generation") speakersForAsset(tuple[1]);
+          else if (identity.kind === "scene-generation") scenesForAsset(tuple[1]);
           else if (identity.kind === "transcript-generation") transcriptsForAsset(tuple[1]);
           else indexesForAsset(tuple[1]);
         }
@@ -439,7 +608,7 @@ export class ProjectPackages {
       }
       jsonBytes += Buffer.byteLength(JSON.stringify(resource));
       checkProjectJsonBytes(jsonBytes);
-      members++; // Every typed resource has one metadata member in version 2.
+      members++;
       if (members >= archiveLimits.entries)
         throw new CatalogError(
           "LIMIT_EXCEEDED",
@@ -459,6 +628,8 @@ export class ProjectPackages {
     for (const resource of pinned.resources) {
       if (resource.kind === "prepared-audio")
         this.owners.preparedAudio.portable(resourceIdentity(resource).id);
+      if (resource.kind === "speaker-generation")
+        this.owners.speakerRecords.operands(resource.metadata);
       if (resource.kind === "scene-generation")
         this.owners.sceneRecords.sourcePage({ identity: resource.metadata, limit: 1 });
       if (resource.kind === "transcript-generation")
@@ -524,6 +695,10 @@ export class ProjectPackages {
           resource: Extract<PortableResource, { kind: "index-generation" }>;
         }[] = [];
         const acquisitions: Awaited<ReturnType<AcquisitionImporter["stagePortable"]>>[] = [];
+        const speakers: {
+          stage: ReturnType<SpeakerEvidenceStore["stagePortable"]>;
+          resource: Extract<PortableResource, { kind: "speaker-generation" }>;
+        }[] = [];
         const scenes: {
           stage: Awaited<ReturnType<SceneEvidenceStore["stagePortable"]>>;
           resource: Extract<PortableResource, { kind: "scene-generation" }>;
@@ -681,6 +856,41 @@ export class ProjectPackages {
                 : [],
             ),
           );
+          const validateSpeaker = assetSpeakerOwner(
+            {
+              get: (id) => {
+                const value = portableAssets.get(id);
+                if (!value)
+                  throw new CatalogError("INVALID_PACKAGE", "Missing speaker source asset");
+                return value;
+              },
+              path: (id) => assetPaths.get(id)!,
+            },
+            {
+              get: (id) => {
+                const value = portableAcquisitions.get(id);
+                if (!value)
+                  throw new CatalogError("INVALID_PACKAGE", "Missing speaker acquisition");
+                return value;
+              },
+            },
+          );
+          for (const resource of manifest.resources
+            .filter(
+              (value): value is Extract<PortableResource, { kind: "speaker-generation" }> =>
+                value.kind === "speaker-generation",
+            )
+            .toSorted((a, b) => a.sequence - b.sequence)) {
+            signal.throwIfAborted();
+            speakers.push({
+              resource,
+              stage: this.owners.speakerRecords.stagePortable(
+                resource.metadata,
+                resource,
+                validateSpeaker,
+              ),
+            });
+          }
           const sceneReads = new Map(
             scenes.map(({ resource, stage }) => [resourceIdentity(resource).id, stage.read]),
           );
@@ -813,6 +1023,11 @@ export class ProjectPackages {
             () => {
               for (const asset of staged) asset.publish();
               for (const acquisition of acquisitions) acquisition.publish();
+              for (const { resource, stage } of speakers) {
+                stage.publish();
+                if (resource.publication)
+                  this.owners.speakers.adoptPublication(stage.metadata, resource.publication);
+              }
               for (const { resource, stage } of transcripts) {
                 stage.publish();
                 this.owners.transcripts.adoptPublication(
@@ -851,6 +1066,7 @@ export class ProjectPackages {
             revisionId: result.revision.id,
           });
         } finally {
+          await Promise.all(speakers.map(({ stage }) => stage.close()));
           await Promise.all(projectIndexes.map(({ stage }) => stage.close()));
           await Promise.all(indexes.map(({ stage }) => stage.close()));
           await Promise.all(transcripts.map(({ stage }) => stage.close()));
@@ -1049,7 +1265,7 @@ export class ProjectPackages {
         resources.push(await assembleIndex(entry, this.owners.projectIndexRecords, entry.metadata));
         continue;
       }
-      if (entry.kind === "prepared-audio") {
+      if (entry.kind === "prepared-audio" || entry.kind === "speaker-generation") {
         resources.push(entry);
         continue;
       }
