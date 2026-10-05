@@ -299,6 +299,7 @@ export function cliWorker(
     maxBytes?: number;
     output?: "bytes" | "json";
     rewindDescriptors?: readonly number[];
+    stagedOutput?: { directoryDescriptor: number; descriptor: number; name: string };
   } = {},
 ): Promise<OperationResult> {
   const maximum = options.maxBytes ?? RESPONSE_FRAME_BYTES;
@@ -312,6 +313,22 @@ export function cliWorker(
     return Promise.resolve(
       operationError("INVALID_REQUEST", "CLI rewind must name admitted descriptor slots"),
     );
+  const allocation = options.stagedOutput;
+  const admittedSlot = (fd: number) =>
+    Number.isSafeInteger(fd) && fd >= 3 && fd < 3 + (options.descriptors?.length ?? 0);
+  if (
+    allocation &&
+    (!admittedSlot(allocation.directoryDescriptor) ||
+      !admittedSlot(allocation.descriptor) ||
+      allocation.directoryDescriptor === allocation.descriptor ||
+      rewind.includes(allocation.descriptor) ||
+      !allocation.name ||
+      [".", ".."].includes(allocation.name) ||
+      allocation.name.includes("/") ||
+      allocation.name.includes("\0") ||
+      Buffer.byteLength(allocation.name) > 255)
+  )
+    return Promise.resolve(operationError("INVALID_REQUEST", "CLI staged output is invalid"));
   if (!isAbsolute(command.executable) || !Number.isSafeInteger(maximum) || maximum < 1)
     return Promise.resolve(
       operationError("INVALID_REQUEST", "CLI executable/output bound is invalid"),
@@ -321,6 +338,7 @@ export function cliWorker(
   let size = 0;
   let completion = Buffer.alloc(0);
   let commandExit: number | undefined;
+  let allocatedOutput: { device: string; inode: string } | undefined;
   const capture = (chunks: Buffer[], chunk: Buffer) => {
     size += chunk.length;
     if (size > maximum)
@@ -334,6 +352,7 @@ export function cliWorker(
         "--run-cli",
         String(3 + (options.descriptors?.length ?? 0)),
         rewind.length ? rewind.join(",") : "-",
+        allocation ? JSON.stringify(allocation) : "-",
         command.executable,
         ...command.args,
       ],
@@ -344,14 +363,42 @@ export function cliWorker(
     {
       group: true,
       completion: (chunk) => {
-        if (completion.length + chunk.length > 4 || commandExit !== undefined)
+        if (completion.length + chunk.length > (allocation ? 256 : 4) || commandExit !== undefined)
           return operationError("MEDIA_WORKER_FAILED", "CLI completion is malformed or duplicated");
         completion = Buffer.concat([completion, chunk]);
         if (!completion.includes(10)) return;
         const text = completion.toString("utf8");
-        if (!/^(0|[1-9][0-9]{0,2})\n$/.test(text) || Number(text) > 255)
-          return operationError("MEDIA_WORKER_FAILED", "CLI completion is malformed or duplicated");
-        commandExit = Number(text);
+        if (allocation) {
+          try {
+            if (!text.endsWith("\n") || text.indexOf("\n") !== text.length - 1) throw new Error();
+            const value = JSON.parse(new TextDecoder("utf-8", { fatal: true }).decode(completion));
+            if (
+              !value ||
+              Object.keys(value).sort().join(",") !== "exitCode,output" ||
+              !Number.isInteger(value.exitCode) ||
+              value.exitCode < 0 ||
+              value.exitCode > 255 ||
+              !value.output ||
+              Object.keys(value.output).sort().join(",") !== "device,inode" ||
+              typeof value.output.device !== "string" ||
+              !/^(0|[1-9][0-9]*)$/.test(value.output.device) ||
+              typeof value.output.inode !== "string" ||
+              !/^[1-9][0-9]*$/.test(value.output.inode)
+            )
+              throw new Error();
+            allocatedOutput = value.output;
+            commandExit = value.exitCode;
+          } catch {
+            return operationError("MEDIA_WORKER_FAILED", "CLI allocation completion is malformed");
+          }
+        } else {
+          if (!/^(0|[1-9][0-9]{0,2})\n$/.test(text) || Number(text) > 255)
+            return operationError(
+              "MEDIA_WORKER_FAILED",
+              "CLI completion is malformed or duplicated",
+            );
+          commandExit = Number(text);
+        }
         return true;
       },
       stdout: (chunk) => capture(stdout, chunk),
@@ -377,6 +424,7 @@ export function cliWorker(
             return {
               ok: true,
               data: {
+                ...(allocatedOutput ? { allocatedOutput } : {}),
                 output: JSON.parse(new TextDecoder("utf-8", { fatal: true }).decode(bytes)),
                 stderr: diagnostic,
                 exitCode,
@@ -388,7 +436,15 @@ export function cliWorker(
             });
           }
         }
-        return { ok: true, data: { stdout: bytes, stderr: diagnostic, exitCode } };
+        return {
+          ok: true,
+          data: {
+            stdout: bytes,
+            stderr: diagnostic,
+            exitCode,
+            ...(allocatedOutput ? { allocatedOutput } : {}),
+          },
+        };
       },
     },
   );

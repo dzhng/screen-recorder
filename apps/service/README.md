@@ -85,3 +85,11 @@ uses FFprobe only to bind an explicit stream to held bytes. Offline self-contain
 input and a dedicated read lease per invocation prevent pathname substitution,
 secondary resource resolution and shared cursor surprises. Source slots are
 explicitly rewound in the existing CLI owner; this never reopens the donor path.
+
+Managed FFmpeg artifacts reuse the render-attempt lifetime. The
+[artifact seam](src/ffmpeg-artifact.ts) reserves an output slot in the held private
+workspace, then requires the recipe's domain validator before exposing a readonly
+identified file to its consumer. Allocation identity is distinct from completed
+media evidence; hashing follows retirement and validation. Native validators and consumers use the provided attempt-bound worker so native
+children retain the same directory locks if the service dies. Existing admission
+and publication owners remain responsible for durable delivery.

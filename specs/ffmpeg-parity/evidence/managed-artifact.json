@@ -1,0 +1,32 @@
+{
+  "ffmpegSha256": "02121755a76faf22413c61ba9f8e9cd3e2acc14fb6e29ecc3fc0b2cc83bbcbac",
+  "nativeSha256": "af28fcc5260b79bca3909be2af1a9c90875bc3497d30d9649d3921648ef8c82d",
+  "result": {
+    "bytes": 9678,
+    "sha256": "d1e11951979a60aa35d8fc495cac8cb6f75582b3ba17d508476d943c519910fd",
+    "evidence": {
+      "originUs": 0,
+      "streams": [
+        {
+          "channels": 1,
+          "codec": "lpcm",
+          "decodable": true,
+          "endUs": 100000,
+          "id": "track:1",
+          "kind": "audio",
+          "sampleRate": 48000,
+          "segments": [
+            {
+              "empty": false,
+              "endUs": 100000,
+              "mediaDurationUs": 100000,
+              "mediaStartUs": 0,
+              "startUs": 0
+            }
+          ],
+          "startUs": 0
+        }
+      ]
+    }
+  }
+}

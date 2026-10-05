@@ -4,6 +4,7 @@ import { dirname, isAbsolute, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { createHash } from "node:crypto";
 import { setTimeout as delay } from "node:timers/promises";
+import { compileCliOwner } from "../apps/service/src/cli-owner.fixture.ts";
 import { cliWorker } from "../apps/service/dist/worker.js";
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), "..");
@@ -41,20 +42,7 @@ async function gone(pid) {
   throw new Error("Owned process did not retire: " + pid);
 }
 try {
-  const owner = join(directory, "owner");
-  const main = join(directory, "main.swift");
-  await writeFile(
-    main,
-    "import Foundation\nCommandWorker.run(Array(CommandLine.arguments.dropFirst()))\n",
-  );
-  execFileSync("/usr/bin/xcrun", [
-    "swiftc",
-    join(root, "helpers/mac/Sources/ScreenRecorderNative/ParentLifetime.swift"),
-    join(root, "helpers/mac/Sources/ScreenRecorderNative/CommandWorker.swift"),
-    main,
-    "-o",
-    owner,
-  ]);
+  const owner = await compileCliOwner(directory);
   const args = [
     "-nostdin",
     "-hide_banner",

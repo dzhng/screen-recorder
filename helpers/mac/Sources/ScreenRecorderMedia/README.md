@@ -13,6 +13,10 @@ remain held while inherited copies survive; a crashed worker cannot release the
 parent's retained authority. The [wire descriptor owner](../ScreenRecorderWire/Descriptors.swift)
 owns transfer admission, while shared scans and removal stay descriptor-relative.
 
+[Exclusive allocation](ExclusiveFile.swift) creates a single new leaf through a
+held private directory. Both new-file writers and the private CLI runner use it;
+a stale locator cannot redirect allocation.
+
 [New-file publication](OutputFile.swift) stages privately beside an output and
 publishes exclusively. An existing destination or source alias must never be
 replaced. A killed worker can leave staging, so its attempt owner supplies cleanup.

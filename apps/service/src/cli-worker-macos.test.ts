@@ -1,5 +1,5 @@
 import { afterAll, beforeAll, expect, it } from "vitest";
-import { mkdtemp, readFile, rm, writeFile, open } from "node:fs/promises";
+import { mkdtemp, readFile, rm, writeFile, open, mkdir, rename, stat } from "node:fs/promises";
 import { spawn } from "node:child_process";
 import { join, resolve } from "node:path";
 import { setTimeout as delay } from "node:timers/promises";
@@ -157,5 +157,69 @@ it("source rewind refuses writable and non-regular inherited descriptors", async
       });
   } finally {
     await Promise.all([writable.close(), folder.close()]);
+  }
+});
+
+it("allocated output follows its held directory when the old path is replaced", async () => {
+  const original = join(directory, "allocation-original");
+  const moved = join(directory, "allocation-moved");
+  await mkdir(original, { mode: 0o700 });
+  const held = await open(original, "r");
+  const placeholder = await open("/dev/null", "w");
+  const source = await open(tool, "r");
+  const writer = join(directory, "output-writer.cjs");
+  await writeFile(writer, "require('node:fs').writeSync(Number(process.argv[2]),'completed');");
+  await rename(original, moved);
+  await mkdir(original, { mode: 0o700 });
+  await writeFile(join(original, "artifact.bin"), "replacement must stay intact");
+  try {
+    const result = await cliWorker(
+      { executable: process.execPath, ownerExecutable: owner, args: [writer, "4"] },
+      {
+        descriptors: [source.fd, placeholder.fd, held.fd],
+        stagedOutput: { directoryDescriptor: 5, descriptor: 4, name: "artifact.bin" },
+      },
+    );
+    expect(result.ok).toBe(true);
+    expect(await readFile(join(moved, "artifact.bin"), "utf8")).toBe("completed");
+    expect(await readFile(join(original, "artifact.bin"), "utf8")).toBe(
+      "replacement must stay intact",
+    );
+    const actual = await stat(join(moved, "artifact.bin"), { bigint: true });
+    if (result.ok)
+      expect(result.data).toMatchObject({
+        allocatedOutput: { device: actual.dev.toString(), inode: actual.ino.toString() },
+      });
+  } finally {
+    await Promise.all([source.close(), placeholder.close(), held.close()]);
+  }
+});
+
+it("allocation refuses an occupied leaf and cannot overwrite a source slot", async () => {
+  const privateDirectory = join(directory, "allocation-refusal");
+  await mkdir(privateDirectory, { mode: 0o700 });
+  const destination = join(privateDirectory, "artifact.bin");
+  await writeFile(destination, "retained source");
+  const held = await open(privateDirectory, "r");
+  const source = await open(destination, "r+");
+  const placeholder = await open("/dev/null", "w");
+  try {
+    for (const output of [source, placeholder]) {
+      const result = await cliWorker(
+        { executable: "/bin/echo", ownerExecutable: owner, args: ["must not run"] },
+        {
+          descriptors: [output.fd, held.fd],
+          stagedOutput: {
+            directoryDescriptor: 4,
+            descriptor: 3,
+            name: "artifact.bin",
+          },
+        },
+      );
+      expect(result).toMatchObject({ ok: false, error: { code: "MEDIA_WORKER_FAILED" } });
+      expect(await readFile(destination, "utf8")).toBe("retained source");
+    }
+  } finally {
+    await Promise.all([held.close(), source.close(), placeholder.close()]);
   }
 });

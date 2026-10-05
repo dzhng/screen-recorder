@@ -68,11 +68,13 @@ public final class NewFile: @unchecked Sendable {
         guard let directory = stagingDirectory else {
             throw NativeFailure("INVALID_OUTPUT", "Output staging is closed.")
         }
-        let descriptor = openat(directory.fileDescriptor, url.lastPathComponent,
-            O_WRONLY | O_CREAT | O_EXCL | O_NOFOLLOW | O_CLOEXEC, 0o666)
-        guard descriptor >= 0 else { throw NativeFailure.decodeFailed(
-            "Cannot create output: \(Self.reason()).") }
-        defer { close(descriptor) }
+        let allocated: FileHandle
+        do {
+            allocated = try ExclusiveFile.create(in: directory.fileDescriptor,
+                named: url.lastPathComponent, access: O_WRONLY, permissions: 0o666)
+        } catch { throw NativeFailure.decodeFailed("Cannot create output: \(error).") }
+        defer { try? allocated.close() }
+        let descriptor = allocated.fileDescriptor
         try Self.write(data, to: descriptor)
         var identity = stat()
         guard fstat(descriptor, &identity) == 0 else {

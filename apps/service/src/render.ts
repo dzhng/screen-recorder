@@ -161,7 +161,11 @@ export async function withRenderAttempt<Artifact, Result>(
   worker: MediaWorker,
   parent: string,
   signal: AbortSignal,
-  render: (directory: string, worker: MediaWorker) => Promise<Artifact>,
+  render: (
+    directory: string,
+    worker: MediaWorker,
+    authority: Pick<LockedWorkspace, "descriptors" | "identity">,
+  ) => Promise<Artifact>,
   consume: (artifact: Artifact) => Promise<Result>,
 ): Promise<Result> {
   const checkCanceled = () => {
@@ -185,10 +189,10 @@ export async function withRenderAttempt<Artifact, Result>(
           inherited: descriptors,
           parent: { expectedDirectory: identity, name: basename(attempt) },
         },
-        async ({ worker: boundWorker, clear }) => {
+        async ({ worker: boundWorker, clear, descriptors, identity }) => {
           try {
             checkCanceled();
-            const artifact = await render(attempt, boundWorker);
+            const artifact = await render(attempt, boundWorker, { descriptors, identity });
             checkCanceled();
             const result = await consume(artifact);
             checkCanceled();

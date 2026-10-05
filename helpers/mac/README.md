@@ -33,7 +33,8 @@ even when native cleanup cannot run.
 
 The private [CLI mode](Sources/ScreenRecorderNative/CommandWorker.swift) uses this
 same parent watcher to own an argv-only child and its inherited process group.
-Standard streams and admitted descriptors pass through unchanged. A private
+Standard streams and source descriptors pass through unchanged; an explicitly
+reserved output slot is replaced only by the requested allocation. A private
 completion pipe follows caller descriptors and is closed on command exec. The
 wrapper reports command status there and keeps parent watching active until
 the service retires its group. The service
@@ -67,3 +68,8 @@ runner permits this only for regular read-only files and seeks them to byte zero
 before execution. Invocation-owned read leases avoid shared cursor races; omitted
 rewind leaves admitted descriptors unchanged. No pathname is reopened to obtain
 another read description.
+
+CLI output allocation is explicitly requested in a reserved `/dev/null` slot;
+the shared media primitive creates a new leaf through the inherited private
+directory. Completion records its lossless device/inode, never final size or
+media readiness. Source, directory and control slots cannot become output slots.
