@@ -57,8 +57,11 @@ threshold after observing this failed test cannot promote this recipe.
 The [bounded primary candidate admission](primary-candidate-admission.json)
 inspected four unique AudioSet Strong Eval YouTube watch pages for each requested
 Laughter, Applause and Gasp category, including the previously inspected Applause
-page. AudioSet labels identify candidate intervals, but neither the label TSV nor
-the watch pages grants permission to acquire or redistribute the underlying audio.
+page. AudioSet Strong Eval labels are primary annotations from an independent human
+temporal-labeling workflow; they become usable quality references only after exact
+source and clock admission. They do not establish candidate/provider performance,
+and neither the label TSV nor the watch pages grants permission to acquire or
+redistribute the underlying audio.
 The pages expose no explicit content reuse license; generic engine DRM/license
 strings are not a content license. No candidate is admitted, and no audio was
 downloaded or played. A future cohort needs an explicit primary permissive grant

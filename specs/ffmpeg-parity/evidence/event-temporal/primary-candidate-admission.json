@@ -12,13 +12,13 @@
       "OCTGiPOygds",
       "QRKc90kuAaE",
       "aWzHvxPoWdo",
-      "uH5XAeKdrjM"
+      "uH5XAeKdrmJ"
     ],
     "gasp": [
       "xWwYEmqyTB4",
       "wG59D9drJGY",
-      "Vuqt6ip9kME",
-      "chtrHNfaT9U"
+      "_Gmlc1-d3QQ",
+      "Vuqt6ip9kME"
     ]
   },
   "sourceOperands": {
@@ -33,7 +33,7 @@
       "applause": "/m/028ght",
       "gasp": "/m/07s0dtb"
     },
-    "labelInterpretation": "AudioSet segment labels are candidate metadata, not independent human interval quality and not a copyright/reuse grant."
+    "labelInterpretation": "AudioSet Strong Eval labels are primary dataset annotations produced by independent human temporal annotation workflows; they become usable quality references only after exact source/clock admission. They do not establish candidate/provider performance or grant reuse of the linked audio."
   },
   "records": [
     {
@@ -320,28 +320,93 @@
     },
     {
       "category": "gasp",
-      "videoId": "chtrHNfaT9U",
-      "url": "https://www.youtube.com/watch?v=chtrHNfaT9U",
+      "videoId": "_Gmlc1-d3QQ",
+      "url": "https://www.youtube.com/watch?v=_Gmlc1-d3QQ",
       "status": 200,
-      "finalUrl": "https://www.youtube.com/watch?v=chtrHNfaT9U",
-      "bytes": 1366201,
-      "sha256": "cbd0d7518b5dd903190a1c9c1514a069833fa1aebca176d23735d3f7b3b25742",
-      "title": "THE FAREWELL DINNER!!",
-      "lengthSeconds": "613",
-      "author": "KidBehindACamera",
+      "finalUrl": "https://www.youtube.com/watch?v=_Gmlc1-d3QQ",
+      "bytes": 1128541,
+      "sha256": "5ea007ee3d0b18ccf26e298ab5aff177df2b1e7ebe9cf54949783697f4b29ec7",
+      "title": "Man Bitten by Eastern Rattlesnake",
+      "lengthSeconds": "53",
+      "author": "Quasi Charles Bowen",
       "playerStatus": "OK",
       "primaryPageLicenseFields": [],
       "explicitCreativeCommonsOccurrences": [],
-      "permissionVerdict": "UNKNOWN: no explicit content reuse license grant in the primary watch-page metadata; generic engine DRM/license strings were ignored.",
+      "permissionVerdict": "UNKNOWN: no explicit content reuse license grant in the primary watch-page metadata; generic DRM/license strings were ignored.",
       "labelOccurrences": [
         {
-          "segmentId": "chtrHNfaT9U_70000",
-          "startSeconds": "3.740",
-          "endSeconds": "4.134",
+          "segmentId": "_Gmlc1-d3QQ_30000",
+          "startSeconds": "7.837",
+          "endSeconds": "8.103",
           "label": "/m/07s0dtb"
         }
       ]
     }
   ],
-  "verdict": "All 12 primary watch pages either expose no content licensing field or are unavailable/login/error; no explicit permissive grant was found. Generic page-engine DRM/license strings are not content licensing. Do not acquire audio or freeze an event cohort until each selected file has an explicit primary permissive grant or separately documented permission."
+  "verdict": "All 12 selected primary watch pages either expose no content licensing field or are unavailable/login/error; no explicit permissive grant was found. Generic page-engine DRM/license strings are not content licensing. AudioSet Strong Eval labels are retained as primary human temporal annotations, but require exact source/clock admission before quality use. Do not acquire audio or freeze an event cohort until each selected file has an explicit primary permissive grant or separately documented permission.",
+  "parserRule": "Derive video ID with segmentId.rsplit(\"_\", 1)[0], preserving leading underscores in valid 11-character IDs (for example _Gmlc1-d3QQ); do not split at the first underscore.",
+  "operandsArchive": "primary-page-operands.tar.xz",
+  "operandsArchiveSha256": "71797bcad9d71063548485a328d3b2e9c833b8270f656f8bbfa2c8f16afbe2fd",
+  "operandsArchiveMembers": [
+    {
+      "name": "./applause-uH5XAeKdrjM.html",
+      "bytes": 1467762,
+      "sha256": "c13e298fc4cacb0481f617d3f02afa679da42395f128e5804e3740ec943014f7"
+    },
+    {
+      "name": "./gasp-Vuqt6ip9kME.html",
+      "bytes": 1213097,
+      "sha256": "60295657cf754b8babc6faacaee836f75962bd2513fb7aba5492c0914f3de475"
+    },
+    {
+      "name": "./gasp-xWwYEmqyTB4.html",
+      "bytes": 1172784,
+      "sha256": "e7886b512a96033d21899133191327dea233b10c48f463000aea759a761f5480"
+    },
+    {
+      "name": "./applause-OCTGiPOygds.html",
+      "bytes": 1140623,
+      "sha256": "ded758566bd12762dcc1fc6a11eeb12c7afa23059105ec97ff4efd7119d9772a"
+    },
+    {
+      "name": "./laughter-Kh6UUEKShro.html",
+      "bytes": 1210815,
+      "sha256": "137883c503cd22a9bf96aed057f555a265349382074cf95b288a00c5f99cc65a"
+    },
+    {
+      "name": "./gasp-_Gmlc1-d3QQ.html",
+      "bytes": 1128541,
+      "sha256": "5ea007ee3d0b18ccf26e298ab5aff177df2b1e7ebe9cf54949783697f4b29ec7"
+    },
+    {
+      "name": "./laughter-2VjbDttFK44.html",
+      "bytes": 1199924,
+      "sha256": "4da21485d47789507edb7bfea4b436ab4055a0efd81f3602b112cf14e11528d2"
+    },
+    {
+      "name": "./applause-aWzHvxPoWdo.html",
+      "bytes": 1144805,
+      "sha256": "fea66e1d1dad76e245918f7d7d9a9c14504fdf4cba26afadac67eeeb51be2aa0"
+    },
+    {
+      "name": "./laughter-N4PeCoQzfBo.html",
+      "bytes": 1134324,
+      "sha256": "fe99c9bace7e29afece4ec784016a0a245457395a0bd46b00abd01523214c097"
+    },
+    {
+      "name": "./laughter-80nWT6sboTo.html",
+      "bytes": 860149,
+      "sha256": "ecae7bf3f2c55ca27c4032e83e1eebc7fde27745dd42c4fb976e5931c2d48830"
+    },
+    {
+      "name": "./applause-QRKc90kuAaE.html",
+      "bytes": 794808,
+      "sha256": "dda19973b7c32e78eb2d51d7d71dbfa299b70d05811c33318b2ad73129b72dd1"
+    },
+    {
+      "name": "./gasp-wG59D9drJGY.html",
+      "bytes": 1189631,
+      "sha256": "1edaf81d289d66947011de032cef7fe131ab5a663c66d63f7b2ff277cb3c9514"
+    }
+  ]
 }
