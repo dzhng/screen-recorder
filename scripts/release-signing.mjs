@@ -169,7 +169,6 @@ export async function withReleaseIdentity(inputs, action) {
       if (createHash(algorithm).update(der).digest("hex") !== expected)
         throw new Error("Imported release certificate does not match its pinned fingerprint");
     secureRun("security", ["create-keychain", "-p", password, keychain]);
-    removeOwnedSearchEntry();
     secureRun("security", ["unlock-keychain", "-p", password, keychain]);
     secureRun("security", [
       "import",
@@ -189,6 +188,15 @@ export async function withReleaseIdentity(inputs, action) {
       "-s",
       "-k",
       password,
+      keychain,
+    ]);
+    // --keychain still requires search-list membership for certificate-chain lookup.
+    secureRun("security", [
+      "list-keychains",
+      "-d",
+      "user",
+      "-s",
+      ...searchList().filter((path) => path !== keychain),
       keychain,
     ]);
     const keyFile = join(scratch, "sparkle.key");

@@ -57,6 +57,11 @@ async function headlessFixture(
 ) {
   const scratch = mkdtempSync(join(tmpdir(), "screenrec-headless-signing-"));
   const previousPath = process.env.PATH;
+  const searchList = join(scratch, "search-list.json");
+  writeFileSync(
+    searchList,
+    JSON.stringify(["/fixture/login.keychain-db", "/fixture/custom.keychain-db"]),
+  );
   const der = Buffer.from([0x30, 0xff, 0, 0x80, 0x7f]);
   try {
     writeFileSync(
@@ -70,8 +75,12 @@ if(process.argv[2]==='pkcs12')console.log('fixture certificate');else process.st
       join(scratch, "security"),
       `#!${process.execPath}
 const fs=require('node:fs');const args=process.argv.slice(2);const path=args.at(-1);
-if(args[0]==='list-keychains') { if(args.includes('-s'))process.exit(90);console.log('"/fixture/login.keychain-db"'); }
-if(args[0]==='create-keychain') { fs.writeFileSync(path,JSON.stringify({password:args[2]}));fs.writeFileSync(${JSON.stringify(join(scratch, "created-keychain-path"))},path); }
+const searchList=${JSON.stringify(searchList)};
+if(args[0]==='list-keychains') {
+ if(args.includes('-s'))fs.writeFileSync(searchList,JSON.stringify(args.slice(args.indexOf('-s')+1)));
+ else for(const name of JSON.parse(fs.readFileSync(searchList)))console.log(JSON.stringify(name));
+}
+if(args[0]==='create-keychain') { fs.writeFileSync(path,JSON.stringify({password:args[2]}));fs.writeFileSync(${JSON.stringify(join(scratch, "created-keychain-path"))},path);fs.writeFileSync(searchList,JSON.stringify([path,...JSON.parse(fs.readFileSync(searchList))])); }
 if(args[0]==='import') { const file=args[args.indexOf('-k')+1];const key=JSON.parse(fs.readFileSync(file));key.imported=args.includes('-T')&&args.includes('/usr/bin/codesign');fs.writeFileSync(file,JSON.stringify(key)); }
 if(args[0]==='set-key-partition-list') {
  if(${partitionFailure}) { console.error('fixture-private-secret');process.exit(51); }
@@ -89,7 +98,8 @@ if(args[0]==='delete-keychain')fs.unlinkSync(path);
 const fs=require('node:fs');const args=process.argv.slice(2);
 if(args.includes('--sign')) {
  const key=JSON.parse(fs.readFileSync(args[args.indexOf('--keychain')+1]));
- const error=${JSON.stringify(signingFailure)}||(!key.allowed?'errSecInternalComponent fixture-private-secret':'');
+ const searchable=JSON.parse(fs.readFileSync(${JSON.stringify(searchList)})).includes(args[args.indexOf('--keychain')+1]);
+ const error=${JSON.stringify(signingFailure)}||(!searchable?'no identity found':!key.allowed?'errSecInternalComponent fixture-private-secret':'');
  if(error) { console.error(error+' '+key.password);process.exit(1); }
  fs.writeFileSync(args.at(-1)+'.signed','signed');
 }
@@ -231,4 +241,21 @@ test("overlapping supplied private values are completely removed from the origin
       );
     }, fixture);
   }
+});
+
+test("the owned signing keychain remains appended during the action and cleanup preserves concurrent unrelated entries", async () => {
+  await headlessFixture(async ({ inputs, executable, scratch }) => {
+    const list = join(scratch, "search-list.json");
+    const original = JSON.parse(readFileSync(list));
+    await withReleaseIdentity(inputs, ({ keychain, identity }) => {
+      assert.deepEqual(JSON.parse(readFileSync(list)), [...original, keychain]);
+      signReleaseTree(executable, identity, keychain);
+      const concurrent = [...JSON.parse(readFileSync(list)), "/fixture/concurrent.keychain-db"];
+      writeFileSync(list, JSON.stringify(concurrent));
+    });
+    assert.deepEqual(JSON.parse(readFileSync(list)), [
+      ...original,
+      "/fixture/concurrent.keychain-db",
+    ]);
+  });
 });
