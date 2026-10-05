@@ -1,5 +1,8 @@
 import { expect, test } from "vitest";
-import { readHdrConversionFacts } from "@screenrec/core/hdr-conversion-facts";
+import {
+  readHdrAudioConversionFacts,
+  readHdrConversionFacts,
+} from "@screenrec/core/hdr-conversion-facts";
 import { add, fromTime, multiply, rational, toTime } from "@screenrec/composition";
 import {
   prepareHdrClock,
@@ -252,4 +255,75 @@ test("clock admission refuses retimed, fragmented and unrepresentable support", 
       expect.objectContaining({ code: "UNSUPPORTED_MEDIA" }),
     );
   }
+});
+
+function audioSource() {
+  return {
+    originUs: 0,
+    streams: [
+      {
+        id: "track:2",
+        kind: "audio",
+        codec: "aac ",
+        decodable: true,
+        startUs: 5000,
+        endUs: 130000,
+        sampleRate: 48000,
+        channels: 2,
+        channelLayoutTag: 6619138,
+        segments: [
+          {
+            startUs: 5000,
+            endUs: 130000,
+            empty: false,
+            mediaStartUs: { numerator: 64000, denominator: 3 },
+            mediaDurationUs: 125000,
+          },
+        ],
+        decodedAudioInspection: {
+          sampleRate: 48000,
+          channels: 2,
+          frames: 6000,
+          runs: [{ startUs: 5000, endUs: 130000, frames: 6000 }],
+          pcmSha256: "c".repeat(64),
+          trimming: "decoder-output-attachment-free",
+        },
+      },
+    ],
+  };
+}
+
+test("selected audio clock preserves actual native sample cells and refuses decoder silence outside occupancy", () => {
+  const video = readHdrConversionFacts(source(), "track:1");
+  const audio = readHdrAudioConversionFacts(audioSource(), "track:2");
+  const clock = prepareHdrClock(video, audio);
+  const cell = multiply(
+    rational(1000000n, BigInt(audio.audio.sampleRate)),
+    rational(BigInt(clock.movieTimescale), 1000000n),
+  );
+  expect(cell.denominator).toBe(1n);
+  const mismatch = structuredClone(audio);
+  mismatch.audio.decodedAudioInspection.runs[0]!.startUs = 0;
+  expect(() => prepareHdrClock(video, mismatch)).toThrowError(
+    expect.objectContaining({ code: "UNSUPPORTED_MEDIA" }),
+  );
+});
+
+test("selected streams share the earliest occupied origin without collapsing their relative offset", () => {
+  const video = readHdrConversionFacts(source(), "track:1");
+  const audio = readHdrAudioConversionFacts(audioSource(), "track:2");
+  const shift = rational(10000n);
+  for (const key of ["startUs", "endUs"] as const)
+    video.video[key] = toTime(add(fromTime(video.video[key]), shift));
+  for (const key of ["firstTimeUs", "lastTimeUs"] as const)
+    video.video.samples[key] = toTime(add(fromTime(video.video.samples[key]), shift));
+  for (const key of ["startUs", "endUs"] as const)
+    video.video.segments[0]![key] = toTime(add(fromTime(video.video.segments[0]![key]), shift));
+  const clock = prepareHdrClock(video, audio);
+  expect(clock.sourceClockAtDerivativeZeroUs).toBe(5000);
+  const changed = structuredClone(audio);
+  changed.metadata.originUs = 1;
+  expect(() => prepareHdrClock(video, changed)).toThrowError(
+    expect.objectContaining({ code: "UNSUPPORTED_MEDIA" }),
+  );
 });

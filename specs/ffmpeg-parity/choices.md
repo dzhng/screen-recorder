@@ -1139,6 +1139,21 @@ public operation, queue or persistent evidence owner is added. Verdict: sound;
 actual output remains inspectable without manufacturing physical support.
 Confidence: high.
 
+### Admit contiguous occupied audio before preserving a common movie clock
+
+When: selected-audio clock checkpoint 2212132b and root integration. Choice: for
+the first conversion path, require one unretimed occupied audio segment whose
+endpoints, frame count and sample rate exactly match the one observed decoded
+run. A decoder that emits silence through an empty edit therefore refuses; the
+conversion does not manufacture or mask sound. Gap: the plan required faithful
+support without prescribing a first admission shape for fragmented edits. Reach:
+fragmented or retimed source audio needs a later explicit materialization path;
+it cannot enter this path merely because decoding finishes. The movie clock also
+represents every native audio sample cell, and both selected streams use their
+earliest occupied start as one zero, preserving relative offsets. Verdict: sound
+as disclosed conservative admission, with broader selected ranges still open.
+Confidence: medium; this is intentionally narrower than arbitrary imported media.
+
 ## Boundary research prerequisite decisions
 
 ### Freeze proportional model-frame timing as a research hypothesis

@@ -9,6 +9,7 @@ import { renderWindowDeadlineMs, type MediaWorker } from "./worker.js";
 import { inspectFfmpegInput } from "./ffmpeg-input.js";
 import {
   readHdrConversionFacts,
+  type HdrAudioConversionFacts,
   type HdrConversionFacts,
 } from "@screenrec/core/hdr-conversion-facts";
 import { CatalogError } from "@screenrec/core/catalog";
@@ -18,6 +19,7 @@ import {
   fromTime,
   rational,
   subtract,
+  toTime,
   type SignedTimeValue,
 } from "@screenrec/composition";
 import type { FfmpegColorDeclarations } from "./ffmpeg-input.js";
@@ -71,7 +73,7 @@ export function qualifyHdrInterpretation(
   return { family };
 }
 
-export function prepareHdrClock(facts: HdrConversionFacts) {
+export function prepareHdrClock(facts: HdrConversionFacts, audioFacts?: HdrAudioConversionFacts) {
   const video = facts.video;
   const occupied = video.segments.filter((segment) => !segment.empty);
   const segment = occupied[0];
@@ -113,6 +115,56 @@ export function prepareHdrClock(facts: HdrConversionFacts) {
       ...(segment.mediaDurationUs === undefined ? [] : [segment.mediaDurationUs]),
     ]),
   ];
+  let sourceClockAtDerivativeZeroUs = video.startUs;
+  if (audioFacts) {
+    const audio = audioFacts.audio;
+    const decoded = audio.decodedAudioInspection;
+    const occupiedAudio = audio.segments.filter((item) => !item.empty);
+    const audioSegment = occupiedAudio[0];
+    const run = decoded.runs[0];
+    const duration = rational(BigInt(decoded.frames) * 1000000n, BigInt(decoded.sampleRate));
+    const same = (a: SignedTimeValue, b: SignedTimeValue) =>
+      compare(fromTime(a), fromTime(b)) === 0;
+    if (
+      !same(facts.metadata.originUs, audioFacts.metadata.originUs) ||
+      occupiedAudio.length !== 1 ||
+      !audioSegment ||
+      audioSegment.mediaStartUs === undefined ||
+      audioSegment.mediaDurationUs === undefined ||
+      decoded.frames < 1 ||
+      decoded.runs.length !== 1 ||
+      !run ||
+      run.frames !== decoded.frames ||
+      decoded.sampleRate !== audio.sampleRate ||
+      decoded.channels !== audio.channels ||
+      !same(run.startUs, audio.startUs) ||
+      !same(run.endUs, audio.endUs) ||
+      !same(run.startUs, audioSegment.startUs) ||
+      !same(run.endUs, audioSegment.endUs) ||
+      compare(subtract(fromTime(run.endUs), fromTime(run.startUs)), duration) !== 0 ||
+      compare(fromTime(audioSegment.mediaDurationUs), duration) !== 0
+    )
+      throw new CatalogError(
+        "UNSUPPORTED_MEDIA",
+        "HDR selected audio decoder support differs from its occupied native sample cells",
+      );
+    if (compare(fromTime(audio.startUs), fromTime(sourceClockAtDerivativeZeroUs)) < 0)
+      sourceClockAtDerivativeZeroUs = audio.startUs;
+    operands.push(
+      audioFacts.metadata.originUs,
+      audio.startUs,
+      audio.endUs,
+      run.startUs,
+      run.endUs,
+      toTime(rational(1000000n, BigInt(decoded.sampleRate))),
+      ...audio.segments.flatMap((item) => [
+        item.startUs,
+        item.endUs,
+        ...(item.mediaStartUs === undefined ? [] : [item.mediaStartUs]),
+        ...(item.mediaDurationUs === undefined ? [] : [item.mediaDurationUs]),
+      ]),
+    );
+  }
   let movieTimescale = 1n;
   for (const value of operands) {
     const time = fromTime(value);
@@ -121,7 +173,7 @@ export function prepareHdrClock(facts: HdrConversionFacts) {
     if (movieTimescale > 2147483647n)
       throw new CatalogError("UNSUPPORTED_MEDIA", "HDR movie clock is not exactly representable");
   }
-  return { sourceClockAtDerivativeZeroUs: video.startUs, movieTimescale: Number(movieTimescale) };
+  return { sourceClockAtDerivativeZeroUs, movieTimescale: Number(movieTimescale) };
 }
 
 export function validateHdrDerivative(source: HdrConversionFacts, output: HdrConversionFacts) {

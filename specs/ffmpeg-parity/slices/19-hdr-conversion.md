@@ -425,3 +425,32 @@ counterexample and correctly refused; its original selector succeeds unchanged.
 The scoped lane review remains the completed independent review; the additional
 root review stopped after six minutes without a final verdict and is explicitly
 retained as incomplete.
+
+## Selected audio physical-clock checkpoint
+
+Common-clock preparation now compares the selected actual decoded audio run with
+the independently declared occupied segment. A single unretimed occupied segment,
+one positive decoded run, matching rate/channels/frame count, exact occupied
+endpoints and exact native sample duration are required. Decoder-supplied silence,
+fragmentation, retiming and disagreement with the video asset origin refuse.
+AAC media priming remains an explicit operand; it is not mistaken for presented
+PCM or removed by a guessed packet count.
+
+The movie timescale includes one native audio sample cell and all exact selected
+segment/run/media operands. The earliest selected occupied start defines one
+shared derivative zero, preserving relative stream offsets. The actual authored
+AAC source derives 48000 Hz; its 6000 decoded frames and occupied 125 ms agree.
+The retained leading-empty counterexample emits outside occupied support. The
+original [clock receipt](../evidence/hdr-decoded-audio/clock.json) records a refusal
+but omits the synthetic matching-origin video operand used by that control.
+The [root clock receipt](../evidence/hdr-decoded-audio/root-clock.json) retains
+that complete synthetic binding and independently isolates the occupied-support
+refusal. It is not an actual combined-source conversion claim. The actual rebuilt
+zero-origin video/audio facts and accepted movie scale match the retained operands.
+
+Fourteen focused arithmetic/held-boundary checks and service types/build/lint
+pass. The relative-offset control was faulted back to video-only zero and failed
+at 10000 versus the required 5000 microseconds, then passed after restoration.
+Independent review found no actionable defect. This remains a private clock
+contract: the producer still copies no audio, and public publication, durable
+provenance, portable retention and range/acquisition materialization remain open.
