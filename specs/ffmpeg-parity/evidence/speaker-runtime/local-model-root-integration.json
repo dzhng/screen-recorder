@@ -1,0 +1,73 @@
+{
+  "integratedCommit": "76ff85ea",
+  "passed": true,
+  "contract": "Registered local model acquisition refuses missing modelSource before download/staging; already verified readiness is idempotent without repeating source paths. Existing downloadable models retain policy. Listing exposes acquisition requirements and operation help directs callers there.",
+  "scope": "Core model owner plus development CLI help; no new model preparation, model inference, signed/installed acceptance or final full suite.",
+  "checks": [
+    {
+      "command": "bun run --cwd packages/core test src/models.test.ts",
+      "tests": 26,
+      "log": "local-model-root-tests.log.xz"
+    },
+    {
+      "command": "bun run --cwd packages/core build",
+      "passed": true,
+      "log": "local-model-root-build.log.xz"
+    },
+    {
+      "command": "bun run --cwd packages/protocol build",
+      "passed": true,
+      "log": "local-model-root-protocol.log.xz"
+    },
+    {
+      "command": "node apps/cli/dist/main.js model.prepare --help",
+      "envelope": "local-model-root-help.json.xz",
+      "descriptionMatchesRegisteredPolicy": true
+    },
+    {
+      "command": "bun run --cwd packages/core test src/models.test.ts -t 'locally sourced model'",
+      "tests": 1,
+      "unselected": 25,
+      "log": "local-model-root-discovery.log.xz",
+      "claim": "Public listing true for locally required modelSource, false for existing downloadable model; acquisition/refusal/idempotence remain pinned."
+    }
+  ],
+  "review": {
+    "independent": "local-model-policy-review.log.xz",
+    "verdict": "No actionable findings; reviewer sparse-runner zod resolution did not prove execution. Root normal workspace26-test pass is separate.",
+    "root": "Manifest, preparation and help share existing owners. Local/downloadable public discovery values are asserted and a false-value mutation failed in the delegated pass. No additional installation or execution owner."
+  },
+  "retainedInventory": [
+    {
+      "name": "local-model-policy-review.log.xz",
+      "bytes": 33640,
+      "sha256": "6cb04108dd7fe18207a6aac3980e2cc2a624d296d7d4886afba1468337d2c763"
+    },
+    {
+      "name": "local-model-root-build.log.xz",
+      "bytes": 80,
+      "sha256": "35aae6274d6c9f57799a882d01aefb51b96f21a6eb3e5262318d6dffca1dccfd"
+    },
+    {
+      "name": "local-model-root-help.json.xz",
+      "bytes": 1136,
+      "sha256": "0e646b8841f3974ecff84e476b7b9f03da938ea8ab71db13a2b402b8791fc5c8"
+    },
+    {
+      "name": "local-model-root-protocol.log.xz",
+      "bytes": 80,
+      "sha256": "35aae6274d6c9f57799a882d01aefb51b96f21a6eb3e5262318d6dffca1dccfd"
+    },
+    {
+      "name": "local-model-root-tests.log.xz",
+      "bytes": 284,
+      "sha256": "8bd6467be0c712ae9ff5c2932cf906f574d122866d25dca85c40c970d55c0cf3"
+    },
+    {
+      "name": "local-model-root-discovery.log.xz",
+      "bytes": 312,
+      "sha256": "6f04b6c9fe7dc3ab9314f52c6d0b758a3d889aef7133ec7725bcd0bd0e128a85"
+    }
+  ],
+  "discoveryCommit": "9b051a27"
+}

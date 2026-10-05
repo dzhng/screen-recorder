@@ -94,6 +94,10 @@ The [root integration](root-integration.json) reruns the lightweight controls an
 retained observer after reconciliation, without another assembly or model call.
 Its independent review is scoped separately from successful execution and
 retains any diagnostic failure finding and correction.
+The separate [model-policy integration](local-model-root-integration.json) proves
+registered local acquisition requirements, public discovery/help and idempotent
+ready preparation. These controlled model-owner checks register no consumer
+speaker runtime and do not repeat this model-bearing preservation run.
 
 Independent review found that the historical invocation driver computed a runtime
 digest without comparing it to the already bound assembly digest before preparing.
