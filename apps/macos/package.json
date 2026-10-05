@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "build": "node ../../scripts/build-macos.mjs",
-    "test": "swift run --package-path ../../helpers/mac ScreenRecorderCaptureTests && node ../../scripts/test-native.mjs ScreenRecorderFrameTests && node ../../scripts/test-native.mjs ScreenRecorderSourceAudioTests && swift run --package-path ../../helpers/mac ScreenRecorderCompositionAudioTests && node ../../scripts/test-native.mjs ScreenRecorderSelectedAudioTests && swift run --package-path ../../helpers/mac ScreenRecorderSpeechTests && swift build --package-path ../../helpers/mac && swift build --product ScreenRecorder --jobs 2 && swift run ScreenRecorderControlsTests && node --test ../../helpers/mac/Tests/*.test.mjs && node --test tests/*.test.mjs"
+    "test": "swift run --build-system native --package-path ../../helpers/mac ScreenRecorderCaptureTests && node ../../scripts/test-native.mjs ScreenRecorderFrameTests && node ../../scripts/test-native.mjs ScreenRecorderSourceAudioTests && swift run --build-system native --package-path ../../helpers/mac ScreenRecorderCompositionAudioTests && node ../../scripts/test-native.mjs ScreenRecorderSelectedAudioTests && swift run --build-system native --package-path ../../helpers/mac ScreenRecorderSpeechTests && swift build --build-system native --package-path ../../helpers/mac && swift build --build-system native --product ScreenRecorder --jobs 2 && swift run --build-system native ScreenRecorderControlsTests && node --test ../../helpers/mac/Tests/*.test.mjs && node --test tests/*.test.mjs"
   },
   "dependencies": {
     "@screenrec/service": "workspace:*"

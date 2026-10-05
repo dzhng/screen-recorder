@@ -13,7 +13,17 @@ if (!key) throw Error("Select a native test product with an evidence directory")
 const packagePath = fileURLToPath(new URL("../helpers/mac/", import.meta.url));
 execFileSync(
   "swift",
-  ["build", "--jobs", "2", "--package-path", packagePath, "--product", product],
+  [
+    "build",
+    "--build-system",
+    "native",
+    "--jobs",
+    "2",
+    "--package-path",
+    packagePath,
+    "--product",
+    product,
+  ],
   {
     stdio: "inherit",
     timeout: 180000,

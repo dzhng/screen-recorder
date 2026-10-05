@@ -30,6 +30,8 @@ await writeFile(
   join(out, "build.log"),
   run("swift", [
     "build",
+    "--build-system",
+    "native",
     "--package-path",
     "helpers/mac",
     "--product",

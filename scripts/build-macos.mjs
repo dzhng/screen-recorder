@@ -39,6 +39,8 @@ for (const [directory, executable] of [
 ]) {
   const args = [
     "build",
+    "--build-system",
+    "native",
     "--package-path",
     join(root, directory),
     "--configuration",

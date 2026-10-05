@@ -27,7 +27,15 @@ function run(exe, args, options = {}) {
 for (const p of ["ScreenRecorderCaptureTests", "CameraReproduction"])
   writeFileSync(
     join(out, p + "-build.log"),
-    run("swift", ["build", "--package-path", "helpers/mac", "--product", p]),
+    run("swift", [
+      "build",
+      "--build-system",
+      "native",
+      "--package-path",
+      "helpers/mac",
+      "--product",
+      p,
+    ]),
   );
 const worker = join(root, "helpers/mac/.build/debug/ScreenRecorderCaptureTests"),
   storage = join(root, "helpers/mac/.build/debug/CameraReproduction");
