@@ -319,6 +319,7 @@ test("duplicate, ripple movement and deletion preserve target-owned stacks witho
       execution: false,
     },
     { type: "geometry", mediaKind: "video", execution: false },
+    { type: "sdr-correction", mediaKind: "video", execution: false },
     { type: "opacity", mediaKind: "video", execution: false },
     { type: "gain", mediaKind: "audio", execution: false },
   ]);

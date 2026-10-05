@@ -1,0 +1,81 @@
+{
+  "scope": "Typed SDR correction through public CLI/MCP and native numerical owner; no full release or natural-scene quality claim",
+  "passed": true,
+  "checks": [
+    "17 focused composition checks; five service checks; typechecks",
+    "Production numerical identity, equations, frozen order, alpha, gamut extension, bounds and recipe refusal",
+    "Public exposure/saturation decoded pixels exactly match frozen16",
+    "Native missing/wrong identity NOT_READY and no published output",
+    "Composite OS recipe identity retained through existing frame/movie cache/job/export pin",
+    "Independent stale-recipe probe: prior pins, queued admission and execution refuse NOT_READY",
+    "Preview/export exact decoded match; RGB MAE0.5670572917/255 against saturation inspection",
+    "Nine PNGs byte unchanged after transport/identity fixes; fresh visual review applies"
+  ],
+  "limits": [
+    "Tiny imported opaque marker and numerical alpha samples only",
+    "Black background cannot prove compositing over every background",
+    "No natural-scene, skin-tone, calibrated-white, wide-gamut-video, throughput or release ZIP acceptance",
+    "Existing dark top/left bands already present in control",
+    "No new Preview batch opened while prior owned-document cleanup remains unverified"
+  ],
+  "harness": "packages/test-harness/editing/sdr-correction.mjs",
+  "harnessSha256": "a5f5fa57f4fb622c469ddbebff359044600989520acb60fd85450a055c68002a",
+  "files": {
+    "bypass.png": {
+      "bytes": 364,
+      "sha256": "89c7621ea6912d7356c56daf72d76c901c0ed5ff9a480a125bb3af967e900355"
+    },
+    "code-review.txt": {
+      "bytes": 868,
+      "sha256": "82a80904ab2ad542263b914b3d230b42851ea10a5a00185889a5fdd0edc2401a"
+    },
+    "control.png": {
+      "bytes": 364,
+      "sha256": "89c7621ea6912d7356c56daf72d76c901c0ed5ff9a480a125bb3af967e900355"
+    },
+    "export.mp4": {
+      "bytes": 8608,
+      "sha256": "fba6595af18acb54bd7963b69e78a7bf71ccb9b89c3150d6267272c0e5e02186"
+    },
+    "export.png": {
+      "bytes": 329,
+      "sha256": "b0ecae001812fd24b281afc9d24bb7ef19c219041a915959bb723fcebdab2726"
+    },
+    "exposure.png": {
+      "bytes": 374,
+      "sha256": "98cd5fb57330d1a32ed531ffe176b03efa3d7f173d9c196b3185fe2046b0b71a"
+    },
+    "historical-identity.png": {
+      "bytes": 364,
+      "sha256": "89c7621ea6912d7356c56daf72d76c901c0ed5ff9a480a125bb3af967e900355"
+    },
+    "identity.png": {
+      "bytes": 364,
+      "sha256": "89c7621ea6912d7356c56daf72d76c901c0ed5ff9a480a125bb3af967e900355"
+    },
+    "preview.mp4": {
+      "bytes": 4996,
+      "sha256": "7a6e8ba9091982fddd0b21b5359c592220e70aac294855249e6671ca056da633"
+    },
+    "preview.png": {
+      "bytes": 329,
+      "sha256": "b0ecae001812fd24b281afc9d24bb7ef19c219041a915959bb723fcebdab2726"
+    },
+    "repeat.png": {
+      "bytes": 364,
+      "sha256": "89c7621ea6912d7356c56daf72d76c901c0ed5ff9a480a125bb3af967e900355"
+    },
+    "report.json": {
+      "bytes": 406219,
+      "sha256": "a4755aca80fd11b7a97337372ef6e9181140f441104fef8d90c27ccead689826"
+    },
+    "saturation.png": {
+      "bytes": 345,
+      "sha256": "66487af15884db2a193fece42b0b92e2cbe513b08981f0320daf6ac981b29ed6"
+    },
+    "visual-review.txt": {
+      "bytes": 1503,
+      "sha256": "c6ef8673ed9bb5b60247527a91360835d21283f7e6a9b503a9842b6c632460c6"
+    }
+  }
+}

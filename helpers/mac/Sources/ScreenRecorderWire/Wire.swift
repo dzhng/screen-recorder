@@ -33,6 +33,10 @@ public enum NativeWire {
                 try WireRequest.requireEmpty(params)
                 return ["rnnoise": CompositionAudio.rnnoiseImplementation, "retime": CompositionAudio.retimeImplementation]
             },
+            "media.pictureCapabilities": media { params in
+                try WireRequest.requireEmpty(params)
+                return SDRCorrection.implementationId.map { ["sdrCorrection": $0] } ?? [:]
+            },
             "media.outputCapabilities": media { params in
                 try WireRequest.requireEmpty(params)
                 return try OutputSettings.inventory()

@@ -1,3 +1,4 @@
+import { sdrCorrectionParameters } from "./sdr-correction.js";
 import { pointerSchema } from "./pointer.js";
 import { geometrySchemaWithScalars } from "./geometry.js";
 import { z } from "zod";
@@ -285,6 +286,18 @@ export const processorRegistry = {
       pivot: "normalized rectangle",
     },
   },
+  "sdr-correction": {
+    schema: z.object({ type: z.literal("sdr-correction"), ...sdrCorrectionParameters }).strict(),
+    targets: allProcessingTargets,
+    mediaKind: "video" as const,
+    units: {
+      exposureEV: "stops",
+      contrast: "multiplier around linear 0.5",
+      saturation: "Core Image luminance multiplier",
+      neutralKelvin: "source-neutral Kelvin corrected toward 6500K",
+      neutralTint: "source-neutral tint corrected toward zero",
+    },
+  },
   opacity: {
     schema: z
       .object({
@@ -344,6 +357,7 @@ export const processingStepSchema = z
       processorRegistry.gain.schema,
       processorRegistry.geometry.schema,
       processorRegistry.opacity.schema,
+      processorRegistry["sdr-correction"].schema,
     ]),
   })
   .strict();

@@ -336,7 +336,7 @@ public enum CompositionAudio {
             }
             for step in node.steps {
                 if node.mediaKind == "output",
-                    ["geometry", "opacity"].contains(step.processor.type)
+                    ["geometry", "opacity", "sdr-correction"].contains(step.processor.type)
                 {
                     continue
                 }

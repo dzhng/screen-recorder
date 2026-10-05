@@ -73,3 +73,10 @@ CLI output allocation is explicitly requested in a reserved `/dev/null` slot;
 the shared media primitive creates a new leaf through the inherited private
 directory. Completion records its lossless device/inode, never final size or
 media readiness. Source, directory and control slots cannot become output slots.
+
+SDR correction runs once in the shared picture executor, using its established
+extended-linear-sRGB context. The provider/OS recipe is part of render identity,
+so caches, queued jobs and exports retain it through the existing admission and
+replay contracts. Missing or different recipes refuse; they never select another
+backend. Identity parameters skip their filters. Source profile admission and
+final color conversion retain their existing owners.

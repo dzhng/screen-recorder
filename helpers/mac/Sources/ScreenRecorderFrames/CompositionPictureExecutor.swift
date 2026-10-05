@@ -62,6 +62,17 @@ public final class CompositionPictureExecutor {
             let width: Double?
             let height: Double?
             let matrix: [Double]?
+            let exposureEV: Double?
+            let contrast: Double?
+            let saturation: Double?
+            let neutralKelvin: Double?
+            let neutralTint: Double?
+            func correction() throws -> SDRCorrection.Parameters {
+                guard let exposureEV, let contrast, let saturation, let neutralKelvin, let neutralTint else {
+                    throw NativeFailure("INVALID_REQUEST", "Missing SDR correction parameters.")
+                }
+                return SDRCorrection.Parameters(exposureEV: exposureEV, contrast: contrast, saturation: saturation, neutralKelvin: neutralKelvin, neutralTint: neutralTint)
+            }
             let opacity: Double?
             let stepId: String?
             let trailUs: Int64?
@@ -128,6 +139,7 @@ public final class CompositionPictureExecutor {
             self.at = at
         }
     }
+    private let sdrCorrectionImplementationId: String?
     private let preparedPointers: PreparedPointers?
     private let canvas: Canvas
     private let deliveredSize: (width: Int, height: Int)
@@ -166,9 +178,10 @@ public final class CompositionPictureExecutor {
     private(set) var outputIsKnownOpaque = false
     var decodedSamples: Int { decoded + readers.values.reduce(0) { $0 + $1.source.decodedCount } }
 
-    init(canvas: Canvas, deliveredSize: (width: Int, height: Int), bindings: [CompositionAsset], fonts: [FontAssetBinding] = [], pointers: PreparedPointersReceipt? = nil)
+    init(canvas: Canvas, deliveredSize: (width: Int, height: Int), bindings: [CompositionAsset], fonts: [FontAssetBinding] = [], pointers: PreparedPointersReceipt? = nil, sdrCorrectionImplementationId: String? = nil)
         throws
     {
+        self.sdrCorrectionImplementationId = sdrCorrectionImplementationId
         self.preparedPointers = try pointers.map(PreparedPointers.init)
         try canvas.validate()
         var assets: [String: CompositionAsset] = [:]
@@ -568,6 +581,9 @@ public final class CompositionPictureExecutor {
                             intermediatePixels += area
                         }
                     }
+                } else if operation.kind == "sdr-correction" {
+                    try SDRCorrection.requireImplementation(sdrCorrectionImplementationId)
+                    try operation.correction().validate()
                 } else if operation.kind != "opacity" {
                     geometry.append(index)
                 }
@@ -773,6 +789,8 @@ public final class CompositionPictureExecutor {
             let matrix = try Self.affine(operation)
             if matrix.a * matrix.d - matrix.b * matrix.c == 0 { return CIImage.empty() }
             return image.transformed(by: matrix)
+        case "sdr-correction":
+            return try SDRCorrection.apply(operation.correction(), to: image)
         case "opacity":
             guard let opacity = operation.opacity, opacity.isFinite, opacity >= 0, opacity <= 1
             else {

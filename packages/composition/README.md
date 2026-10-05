@@ -57,6 +57,14 @@ inspection. Consumers must not restart animation or duplicate anchor math.
 [The processing rationale](../../specs/done/agent-editing/processing.md) explains
 state continuity and retained preparation dependencies.
 
+Static SDR correction uses source-neutral white correction, exposure, then
+contrast/saturation in that order. It preserves alpha and extended working values
+until the existing output conversion. Source-neutral temperature describes the
+white being corrected toward the recipe's target, not a camera-calibrated warmth
+slider. Temporal windows and curves are not admitted for this static processor.
+The [reproduction](../../specs/ffmpeg-parity/slices/16-sdr-feasibility.md) owns the
+measured provider semantics and limits; operation discovery owns parameter bounds.
+
 ## Compilation is distinct from readiness
 
 [The compiler](src/compiler.ts) indexes an immutable revision and compiles requested

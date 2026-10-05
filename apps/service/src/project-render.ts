@@ -25,6 +25,38 @@ import type { SourceEvidenceReader } from "@screenrec/core/evidence-read";
 import type { PresentationReceipt } from "@screenrec/core/presentation-evidence";
 import { prepareCompositionPointers } from "@screenrec/core/composition-pointer";
 import { renderPlan } from "@screenrec/core/presentation-time";
+export type NativePictureCapabilities = { sdrCorrection?: string };
+export async function nativePictureCapabilities(
+  worker: MediaWorker,
+): Promise<NativePictureCapabilities> {
+  try {
+    const result = nativeResult(await worker("media.pictureCapabilities", {}, { timeoutMs: 5000 }));
+    if (typeof result !== "object" || result === null || !("sdrCorrection" in result)) return {};
+    const identity = result.sdrCorrection;
+    return typeof identity === "string" &&
+      identity.startsWith("coreimage-sdr-source-neutral-v1:") &&
+      identity.length <= 256
+      ? { sdrCorrection: identity }
+      : {};
+  } catch {
+    return {};
+  }
+}
+function picturePayload(
+  window: AudioWindowInput["window"],
+  capabilities: NativePictureCapabilities,
+) {
+  const requirements = window.manifest.requirements.filter(
+    (item) => item.kind === "processor" && item.processor.type === "sdr-correction",
+  );
+  if (!requirements.length) return {};
+  if (
+    !capabilities.sdrCorrection ||
+    requirements.some((item) => item.implementationId !== capabilities.sdrCorrection)
+  )
+    throw new CatalogError("NOT_READY", "The bound native SDR correction recipe is unavailable");
+  return { sdrCorrectionImplementationId: capabilities.sdrCorrection };
+}
 export type NativeAudioCapabilities = { rnnoise?: string; retime?: string };
 /** An absent/older worker leaves authoring and retained reads usable. */
 export async function nativeAudioCapabilities(
@@ -284,12 +316,17 @@ export function projectMovieRenderer(
   pointers?: PointerOwners,
   capabilities: NativeAudioCapabilities = {},
   admissionSignal: AbortSignal = new AbortController().signal,
+  pictureCapabilities: NativePictureCapabilities = {},
 ): ProjectMovieRenderer {
   return {
-    implementationId: "native-composition-movie-v21",
+    implementationId:
+      "native-composition-movie-v21" +
+      (pictureCapabilities.sdrCorrection ? ":" + pictureCapabilities.sdrCorrection : ""),
+    ...pictureCapabilities,
     ...nativeAudioSupport(worker, workspace, capabilities, admissionSignal),
     ...(pointers ? { pointers: pointers.preparation } : {}),
     async render(request, signal) {
+      const pictureRecipe = picturePayload(request.window, pictureCapabilities);
       await mkdir(workspace, { recursive: true, mode: 0o700 });
       const { manifest } = request.window;
       return withRenderAttempt(
@@ -327,6 +364,7 @@ export function projectMovieRenderer(
               frames,
               range: manifest.range,
               canvas: manifest.canvas,
+              ...pictureRecipe,
               settings: request.settings,
               processing: nativeProcessing(request.window.processing()),
               assets: request.assets,
@@ -446,12 +484,17 @@ export function projectFrameRenderer(
   worker: MediaWorker,
   workspace: string,
   pointers?: PointerOwners,
+  capabilities: NativePictureCapabilities = {},
 ): ProjectFrameRenderer {
   return {
-    implementationId: "native-composition-picture-v17",
+    implementationId:
+      "native-composition-picture-v17" +
+      (capabilities.sdrCorrection ? ":" + capabilities.sdrCorrection : ""),
+    ...capabilities,
     ...(pointers ? { pointers: pointers.preparation } : {}),
     render: async (request, signal) => {
       const { window, assets, fonts, output, maxLongEdge } = request;
+      const pictureRecipe = picturePayload(window, capabilities);
       return withRenderedFile(
         worker,
         { attemptParent: workspace, output, filename: "frame.png" },
@@ -466,6 +509,7 @@ export function projectFrameRenderer(
                 ...(prepared ? { pointers: prepared } : {}),
                 frame: window.frames().next().value,
                 canvas: window.manifest.canvas,
+                ...pictureRecipe,
                 profile: "h264-rec709",
                 processing: nativeProcessing(window.processing()),
                 assets,

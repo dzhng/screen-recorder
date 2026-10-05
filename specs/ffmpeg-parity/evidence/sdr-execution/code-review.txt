@@ -1,0 +1,7 @@
+Clean verdict: the durable-recipe finding is resolved. No remaining concrete defects found in this follow-up.
+
+Verified that provider OS recipe changes alter preview pins and frame cache/job inputs. Old preview and frame jobs refuse with `NOT_READY` at admission and execution; pending exports needing rendering replay the retained pin through the same preview owner.
+
+The [public report](/tmp/screenrec-sdr-public-bound/report.json) retains the exact provider ID in frame/preview receipts and the export snapshot. Missing/wrong native identity requests return `NOT_READY`, with neither output file present. The refusal harness uses bounded `spawnSync`.
+
+Seven focused tests, the service typecheck, and an in-memory recipe-change probe passed. No code changed. Native pixels remain inconclusive under the sandbox; separately retained host pixel evidence was not rerun.

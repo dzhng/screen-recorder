@@ -1,0 +1,17 @@
+No concrete introduced defect is visible. Confidence is high for silhouette stability and moderate for subtle encoding artifacts.
+
+| Image, in supplied order | Visible assessment |
+|---|---|
+| 1. Control | Rectangular marker with a blue upper-left block. A narrow darker band runs along the red area’s top and left edges. No clipping. |
+| 2. Identity | Visually matches control, including the darker bands and sharp corners. |
+| 3. Exposure | Intentional brightening; silhouette, overlap, and edge positions remain stable. No visible halo or expansion. |
+| 4. Saturation | Intentional grayscale treatment. The upper-left block and darker edge bands remain distinguishable; geometry is preserved. |
+| 5. Encoded preview | Visually matches saturation. No apparent ringing, edge smear, background contamination, or geometry shift. |
+| 6. Encoded export | Visually matches saturation and preview; no additional visible defect. |
+| 7. Historical identity | Visually matches control. |
+| 8. Bypass | Visually matches control. |
+| 9. Repeated control | Visually matches original control; no visible positional drift. |
+
+The darker top/left bands are a **high-confidence observation**, but they already exist in control, so these images do not establish them as a treatment defect.
+
+Limitations: the black background cannot establish correct alpha behavior over other backgrounds. These enlarged stills also cannot rule out small pixel differences, temporal artifacts, or clipping in brighter source material.

@@ -432,3 +432,19 @@ stops, 0..2 contrast/saturation, 2000..10000 source-neutral Kelvin and -100..100
 tint. These bound requests, not good taste or calibrated accuracy.
 Verdict: sound; preserves the measured native recipe and existing source admission.
 Confidence: medium.
+
+### Native SDR provider identity joins the existing render identity
+
+When: slice 17. A preview is queued, then the computer's OS changes its Core Image
+provider recipe before the job runs. The frame/movie implementation identity now
+contains that exact provider/OS identity. Existing cache keys and export snapshots
+already retain and validate this value, so the old job refuses instead of changing
+its processing or reusing an old picture. An alternative would add a separate
+processor-identity map to every persisted frame, preview and export contract.
+
+Gap: the plan required recipe binding but left its durable representation open.
+Reach: even ungraded frame/movie caches are conservatively invalidated when this
+provider identity changes. That trades cache reuse for a simpler single replay
+owner; actual native defaults and ungraded pixels do not change.
+Verdict: sound; the existing identity contract carries the recipe across all
+consumers, and an independent old-job probe confirms refusal. Confidence: medium.

@@ -28,7 +28,8 @@ export const visualOperationsSchema = z
             path: [index, "geometryPrefix"],
             message: "Pointer must reference the complete preceding geometry in execution order",
           });
-      } else if (operation.kind !== "opacity") geometry.push(index);
+      } else if (operation.kind !== "opacity" && operation.kind !== "sdr-correction")
+        geometry.push(index);
     }
   });
 export type VisualOperation = z.infer<typeof visualOperationsSchema>[number];

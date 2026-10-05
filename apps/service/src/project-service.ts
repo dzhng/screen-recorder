@@ -37,6 +37,7 @@ import { PointerPreparation } from "@screenrec/core/pointer-preparation";
 import { ProjectPreviewInspection } from "@screenrec/core/project-preview";
 import {
   nativeAudioCapabilities,
+  nativePictureCapabilities,
   projectMovieRenderer,
   projectAudioRenderer,
   projectFrameRenderer,
@@ -348,6 +349,7 @@ export async function startProjectService(options: {
         ) as SpeechTranscriptionReceipt,
     });
     const audioCapabilities = await nativeAudioCapabilities(worker);
+    const pictureCapabilities = await nativePictureCapabilities(worker);
     const audioRenderer = projectAudioRenderer(
       worker,
       workspace,
@@ -502,13 +504,19 @@ export async function startProjectService(options: {
         { preparation: pointers, evidence },
         audioCapabilities,
         modelLifetime.signal,
+        pictureCapabilities,
       ),
       preparedAudio,
     );
-    const projectPictures = projectFrameRenderer(worker, workspace, {
-      preparation: pointers,
-      evidence,
-    });
+    const projectPictures = projectFrameRenderer(
+      worker,
+      workspace,
+      {
+        preparation: pointers,
+        evidence,
+      },
+      pictureCapabilities,
+    );
     mediaFrames = new MediaFrameInspection({
       assets,
       acquisitions,

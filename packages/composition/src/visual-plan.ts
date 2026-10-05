@@ -58,7 +58,10 @@ export function visualPlanner(
               trailUs: step.processor.trailUs,
               geometryPrefix: [...geometryPrefix],
             });
-          else if (step.processor.type === "opacity") {
+          else if (step.processor.type === "sdr-correction") {
+            const { type: _, ...parameters } = step.processor;
+            operations.push({ kind: "sdr-correction", ...parameters });
+          } else if (step.processor.type === "opacity") {
             const opacity = temporal.opacity(step, node.target, atUs);
             if (opacity !== null) operations.push({ kind: "opacity", opacity });
           }

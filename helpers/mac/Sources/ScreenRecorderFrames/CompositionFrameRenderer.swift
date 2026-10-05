@@ -13,6 +13,7 @@ public enum CompositionFrameRenderer {
         public let fonts: [FontAssetBinding]?
         let maxLongEdge: Int?
         let maxEncodedBytes: Int?
+        let sdrCorrectionImplementationId: String?
         let pointers: PreparedPointersReceipt?
     }
     public struct Result: Encodable {
@@ -48,7 +49,7 @@ public enum CompositionFrameRenderer {
         let pictures = try CompositionPictureExecutor(
             canvas: request.canvas, deliveredSize: FrameImage.delivered(
                 width: request.canvas.width, height: request.canvas.height, maxLongEdge: edge),
-            bindings: request.assets, fonts: request.fonts ?? [], pointers: request.pointers)
+            bindings: request.assets, fonts: request.fonts ?? [], pointers: request.pointers, sdrCorrectionImplementationId: request.sdrCorrectionImplementationId)
         let output = try NewFile(at: request.output, assembledAs: "frame.png")
         defer { output.discard() }
         let composed = try await pictures.image(frame)

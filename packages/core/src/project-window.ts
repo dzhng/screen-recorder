@@ -19,6 +19,7 @@ import type { PointerPreparation } from "./pointer-preparation.js";
 import { compositionPointerSources } from "./composition-pointer.js";
 export type ProjectRenderSupport = {
   implementationId: string;
+  sdrCorrection?: string;
   rnnoise?: string;
   retime?: string;
   validateAudio?: (request: AudioWindowInput) => Promise<void>;
@@ -109,6 +110,7 @@ function requireStateInputsReady(manifest: CompositionWindow["manifest"]) {
 }
 
 const implementations = (support: ProjectRenderSupport): ProcessorImplementations => ({
+  ...(support.sdrCorrection ? { "sdr-correction": support.sdrCorrection } : {}),
   geometry: support.implementationId,
   opacity: support.implementationId,
   gain: support.implementationId,
