@@ -96,25 +96,6 @@ FFprobe remains a codec/range supplement, never the timing authority.
 Verdict: sound; one native physical-facts owner prevents endpoint-only equivalence.
 Confidence: medium.
 
-### Timed event research keeps coarse labels and model context explicit
-
-When: independent temporal-event research. Human dataset annotations say which
-100 ms scene bins contain laughter or clapping. YAMNet instead scores overlapping
-975 ms audio contexts every 480 ms. The frozen diagnostic assigns each reference
-bin's midpoint the nearest model patch center, with earlier-center tie handling.
-It never expands detections with neighboring maxima or claims 100 ms endpoint
-precision. A provider must pass this declared recipe before a product interval
-contract is considered; the current candidates fail.
-
-Gap: the plan required independent timed events but did not prescribe how to
-compare differently sampled observations. Reach: microphone channel zero is an
-explicit pre-inference projection, not independently listened channel-specific
-truth. Other categories cannot borrow Clapping's labels, and all confirmation
-sources are consumed once complete scores exist, including unselected classes.
-New providers need new untouched confirmation. Verdict: sound for a bounded,
-explicitly limited diagnostic; these operands cannot certify finer endpoints or
-isolate projection error from model error. Confidence: medium.
-
 ### Known model padding is separate from physical source support
 
 When: speaker research. A provider emits a short tail beyond the recording after
@@ -645,7 +626,7 @@ When: slice 22. An archive describes its annotations as manual, but its word
 boundaries were produced by forced alignment, a model fitting text to sound. Those
 boundaries cannot independently certify another model's timing. Human segment
 labels remain useful for speaker scoring with their padding uncertainty recorded;
-word-boundary evaluation waits for complete independently corrected neighbors.
+no additional timing accuracy claim follows from these labels.
 Gap: the plan required independent truth but did not choose a corpus. Reach: future
 providers cannot certify themselves by recycling machine labels. Verdict: sound;
 reference authority stays independent. Confidence: high.
@@ -660,16 +641,6 @@ actual source permissions. Gap: research fixture retention was unspecified. Reac
 new corpora must preserve per-file permission and attribution rather than assume
 metadata licensing covers audio. Verdict: sound. Confidence: high.
 
-### Untimed acoustic tags support presence diagnostics only
-
-When: slice 22. A recording is labeled as containing a laugh but has no exact
-laugh interval. The first inexpensive comparison asks only whether the model
-finds that category anywhere, retaining all raw scores. Even a presence pass would
-not establish start/end accuracy for production event evidence. Gap: the plan
-required timed events without supplying timed references. Reach: a separately
-annotated interval cohort is necessary before that family can ship. Verdict: sound;
-the smaller diagnostic has an explicitly smaller claim. Confidence: medium.
-
 ### Speaker scoring preserves simultaneous anonymous speakers
 
 When: slice 22. Two people speak at once. The tested provider configuration keeps
@@ -678,16 +649,6 @@ instant. Matching them to reference names happens only inside scoring and does
 not identify a person in product output. Gap: the plan required overlap but left
 SDK configuration open. Reach: future registered providers must retain overlapping
 observations and explicit unknown assignment. Verdict: sound. Confidence: high.
-
-### Failed confirmation scores remain separate from calibration
-
-When: slice 22. The initial models miss brief tagged effects. Lowering thresholds
-on those same files could improve the score but would turn confirmation into
-tuning. Their failed scores remain frozen; later calibration uses separate
-development inputs and freezes settings before untouched confirmation. Gap: the
-plan gave quality gates without a calibration procedure. Reach: new provider
-selection cannot hide failure by fitting its acceptance examples. Verdict: sound.
-Confidence: high.
 
 ### Speech research shares input bytes but isolates execution
 
@@ -1064,24 +1025,6 @@ Confidence: medium.
 - Confidence: high.
 
 
-### Retain a frozen label selection and a derived clock-binding record
-
-When: original-source admission 49e9ed8c.
-Choice: Preserve the before-acquisition selected-label artifact unchanged, then place exact original labels beside their rational sample positions in a separate derived binding artifact. For example, an original annotation at 60,001 ms maps to 2,646,044.1 source samples; the frozen label file still says 60,001 ms, and the binding record carries 2,646,044,100/1,000 samples plus its original id/value and neighbors. An alternative would replace the frozen file or round the endpoint, losing either before-acquisition identity or timestamp resolution.
-Gap: The parent fixed exact original labels and clocks but did not select an evidence representation for derived arithmetic.
-Reach: This is review evidence, not a product/import schema. The derived record repeats original rows so each binding is assessable without reconstructing the EAF; independent verification checks every value/id/time/neighbor against the complete original master. Future provider work must not treat the fractional positions as human sample precision, and can choose its own runtime representation while preserving these frozen operands.
-Verdict: sound for a scoped immutable evidence record. Confidence: medium; the artifact shape is larger than a normalized id-reference representation, but changes no runtime or persisted product contract.
-
-
-### Tag bracket/parenthetical material only as an inventory
-
-When: original-source admission 49e9ed8c.
-Choice: A row containing angle brackets or parentheses is described as original-marked material; an ordinary row is described as original-unmarked. For example, a pause <p:> stays exactly <p:> with its original endpoint and is counted among raw rows. It is not silently removed, renamed as a word, or assigned an alignment-score denominator. The alternative would decide now which unusual rows count as words before provider/scoring admission.
-Gap: The parent required all labels to survive but did not select inventory flags for the retained read surface.
-Reach: This mechanical field is not lexical normalization or a scoring rule. The committed record explicitly leaves special-label, partial-support and missing-word treatment pending; scoring must freeze before any inference.
-Verdict: sound; the flag describes retained syntax and confers no scoring eligibility. Confidence: high.
-
-
 ## Source PCM prerequisite decisions
 
 ### Assemble the bounded speaker PCM operand in memory before publication
@@ -1167,41 +1110,3 @@ resampler or encoder substitutes silently. The existing deadline owner receives
 the union of selected video/audio support so a short video cannot give longer
 audio an artificially short processing budget. Verdict: sound within the admitted
 contiguous source scope. Confidence: high.
-
-## Boundary research prerequisite decisions
-
-### Freeze proportional model-frame timing as a research hypothesis
-
-When: boundary alignment prerequisite accb2e48. Choice: map an aligner's integer
-frame span to the full input sample count divided by its actual emission count,
-following the pinned upstream example, without fitting an offset to human labels.
-For example, frame ten stays frame ten even if another frame-center interpretation
-would score better. The spec supplied an endpoint gate but no model-frame clock.
-This reaches only a frozen experiment; it is not a product timing contract.
-Verdict: sound as a reversible hypothesis whose quality can fail. Confidence: medium;
-convolution-center timing remains a possible separately frozen alternative.
-
-### Select a pinned CPU alignment candidate and frontend before observations
-
-When: boundary prerequisite accb2e48. Choice: inspect the Apache-2.0 English
-Wav2Vec2 base checkpoint and existing Transformers/torchaudio CPU path, then freeze
-one resampling recipe, float32 execution and bounded thread budget. Unexpected
-prepared sample counts refuse instead of being padded or trimmed. An alternative
-provider/frontend would be another experiment, not an automatic fallback. The
-plan required local feasibility but did not prescribe these experimental settings.
-They bind future research inputs and cost measurements; model bytes, complete
-runtime closure and full-cohort source authority still need admission.
-Verdict: sound provisional research selection. Confidence: medium; neither
-accuracy nor performance has been measured and the pinned alignment API is
-deprecated in later upstream versions.
-
-### Keep one occurrence per original word and refuse invalid scoring evidence
-
-When: boundary prerequisite accb2e48. Choice: keep original row IDs through
-supplied-transcript alignment, so the second “the” cannot borrow the first one's
-time. Missing bounds stay untimed; a foreign/duplicate ID, wrong source or invalid
-time refuses scoring instead of being dropped or clamped into a favorable score.
-The gate did not specify occurrence matching and malformed-output semantics.
-This reaches the future existing evaluator extension; these frozen controls are
-not implemented scorer tests. Verdict: sound; it preserves the task and exposes
-missing information rather than manufacturing accuracy. Confidence: high.

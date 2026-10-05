@@ -2,19 +2,23 @@
 
 Status: consumer guidance and portable trials in progress; installed release acceptance pending. Question: **Can the released skill teach novices the verified surface and honest limitations?**
 
-Dependencies: [02](02-installed-tools.md), [05](05-managed-output.md), [06](06-batch-preparation.md), [07](07-compact-transcripts.md), [08](08-timeline-inspection.md), [09](09-review-bundle.md), [10](10-loudness.md), [11](11-caption-proposals.md), [12](12-caption-sidecars.md), [13](13-normalization.md), [14](14-limiter.md), [15](15-sidechain.md), [17](17-sdr-grade.md), [19](19-hdr-conversion.md), [21](21-motion-import.md), [23](23-speech-evidence.md), [24](24-editorial-notes.md), [25](25-hevc-output.md).
+Dependencies: [02](02-installed-tools.md), [05](05-managed-output.md), [06](06-batch-preparation.md), [07](07-compact-transcripts.md), [08](08-timeline-inspection.md), [09](09-review-bundle.md), [10](10-loudness.md), [11](11-caption-proposals.md), [12](12-caption-sidecars.md), [13](13-normalization.md), [14](14-limiter.md), [15](15-sidechain.md), [17](17-sdr-grade.md), [19](19-hdr-conversion.md), [21](21-motion-import.md), [23](23-speaker-evidence.md), [24](24-editorial-notes.md), [25](25-hevc-output.md).
 
 ## Contract and owner
 
 Consumer skill/references and existing fresh-agent eval/media/release owners.
 
-Add one line using the released launcher’s bundled FFmpeg passthrough after tool readiness for non-core extras. General imported-footage first; retain optional 30ms fades/30–200ms padding and other audition examples as guidance. Teach exact pins, explicit treatments, coverage, resumption and delivery. Do not advertise unsupported research families. Account separately for diarization, acoustic events and boundary alignment: each shipped family passes its own research/implementation gate; any unfinished family remains named unfinished scope, not complete by aggregation.
+Add one line using the released launcher’s bundled FFmpeg passthrough after tool readiness for non-core extras. General imported-footage first; retain optional 30ms fades/30–200ms padding and other audition examples as guidance. Teach exact pins, explicit treatments, coverage, resumption and delivery. Do not advertise unsupported research families. Speaker workflows reuse the accepted local recipe and retained observations. Preserve existing transcript timing.
 
 ## Focused proof and review
 
 Fresh-agent ordinary-language traces, isolated macOS proofs and final release receipt.
 
 Portable fresh-agent trials test skill/schema behavior; real macOS checks separately test outputs. User runs the general-footage demo after this spec; do not create it in planning. Test non-core GIF request and unavailable capability without hidden managed fallback. Run full repo suite once when implementation is finished; close spec only on actual shipped disposition.
+
+Reuse the retained trials and component results. Finish with small fixture checks
+for the changed public commands and relocated package. The user evaluates editing
+quality through actual use; do not add new quality cohorts or scoring machinery.
 
 ## Current consumer checkpoint
 

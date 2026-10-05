@@ -18,7 +18,7 @@ an arbitrary filtergraph API or implementing every capability twice.
 | Caption grouping and SRT/VTT | Existing text.seed, fonts and placements | 11 proposals; 12 displayed-caption sidecars at pinned revision |
 | SDR correction and HDR handling | Shared color policy currently refuses unsupported HDR | 16→17 modest grade; 18→19 explicit managed SDR derivative |
 | Transparent motion overlays | Existing media placement and curves | 20→21 proven immutable input; no transparent final movie promise |
-| Richer local speech | Existing local models and source-bound words | 22→23 separately validated speaker/event/boundary companions |
+| Richer local speech | Existing local models and source-bound words | 22→23 source-bound anonymous speaker companions |
 | Ducking/compression/limiting/normalization | Current audio routing/state owners | 13–15 explicit typed treatments and retained context |
 | Editorial resumption | Existing immutable revisions/packages | 24 small explicitly transferred task-side notes |
 | Selected-file inventory/preparation | Current import/model/job operations | 06 bounded orchestration, per-item resume; no new queue |
@@ -73,9 +73,10 @@ unavailable capability, execution failure and partial evidence remain distinct.
 The build, color, alpha and speech checkpoints freeze executable inputs, settings,
 fixtures, independent references, quality/work budgets and observed limitations.
 Do not select a universal quality threshold from an unlabeled fixture or choose a
-provider merely because it runs. For speech, each family gets a baseline and
-held-out numerical acceptance budget before selection; unsupported categories
-remain explicitly unfinished. For color and dynamics, identity preservation and
+provider merely because it runs. Retain the existing speaker research and use
+small tool checks for the public workflow. The user evaluates
+practical quality by using the product; no additional cohorts or scoring machinery
+are required for this release. For color and dynamics, identity preservation and
 known chart/impulse controls precede perceptual confirmation.
 
 Every parity row is verified through the public production boundary once its

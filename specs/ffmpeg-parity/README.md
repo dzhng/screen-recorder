@@ -18,10 +18,9 @@ and common-clock proof; next managed jobs/provenance, publication and selected
 range/acquisition materialization. Independently finish
 speaker source publication/read/projection and required portable preservation;
 the original relocated30s runtime and model-free selected-channel PCM pass, while
-consumer runtime distribution is unselected. Boundary alignment remains
-structurally unavailable on the frozen full cohort pending stereo authority;
-continue bounded primary-source inspection before inference. Acoustic events need
-licensed original temporal sources and a new untouched confirmation protocol.
+consumer runtime distribution is unselected. Speaker evidence is the sole new
+local speech workflow in this spec. Use retained observations and small existing
+fixtures; no further provider-quality research is required.
 Root wider audio refusal/retiming/AAC/resource acceptance passes; shared audio
 preparation and13–15 await consumer/release26, not another wider scratch run.
 
@@ -53,7 +52,7 @@ facts, compressed interpretation and exact source↔derivative clocks.
 | [Public H.264/HEVC](evidence/hevc-public/report.json) | Authored clocks, decoded landmarks and replay pass. |
 | [Consumer trials](evidence/consumer-acceptance/README.md), [launcher handoff](evidence/consumer-launcher/README.md) | Concrete planning and unavailable execution pass twice. Explicitly requested launcher recovery passes twice; ordinary summaries omit it. Earlier failures and changed task inputs retained. |
 | [Direct GIF](evidence/gif-extra/report.json) | Discovered component tools work; centisecond quantization explicit. |
-| [Speech families](slices/22-speech-feasibility.md), [speaker runtime](evidence/speaker-runtime/README.md), [source PCM](evidence/speaker-source/README.md), [boundary source](evidence/boundary-doreco/source-admission/README.md) | Original speaker recipe and one relocated30s runtime preservation pass; public source/projection/distribution remain open. Human word annotations and six original PCM windows are bound; provider/scoring/quality remain open. Earlier failures remain retained. |
+| [Speaker feasibility](slices/22-speaker-feasibility.md), [speaker runtime](evidence/speaker-runtime/README.md), [source PCM](evidence/speaker-source/README.md) | Original speaker recipe and one relocated30s runtime preservation pass; public source/projection/distribution remain open. |
 
 Use small isolated fixtures and test-first changes. Do not record or edit personal
 media or repeat searches for the inaccessible running recorder. The user tests the
@@ -86,8 +85,8 @@ Update handoff, choices and slice markers before each checkpoint.
 - [ ] [19 — Explicit HDR source conversion](slices/19-hdr-conversion.md)
 - [x] [20 — Transparent motion input feasibility](slices/20-alpha-feasibility.md)
 - [x] [21 — Immutable motion-asset interchange](slices/21-motion-import.md)
-- [ ] [22 — Local speech evidence feasibility](slices/22-speech-feasibility.md)
-- [ ] [23 — Validated optional speech evidence](slices/23-speech-evidence.md)
+- [x] [22 — Local speaker feasibility](slices/22-speaker-feasibility.md)
+- [ ] [23 — Optional speaker evidence](slices/23-speaker-evidence.md)
 - [x] [24 — Portable task-side editorial notes](slices/24-editorial-notes.md)
 - [x] [25 — Everyday typed HEVC delivery](slices/25-hevc-output.md)
 - [ ] [26 — Consumer skill and release acceptance](slices/26-consumer-release.md)
@@ -156,7 +155,7 @@ Foundation: 01 → 02 and 03 → 04 → 05. Workflow helpers can ship independen
 Measurement precedes independent 13a/14a/15a recipe reproductions, shared audio
 preparation and then the corresponding explicit treatments. Feasibility must precede color,
 HDR, alpha and speech implementation. The final consumer/release gate joins all
-accepted branches. Dependencies order checks, not simultaneous expensive work. A FFmpeg alternative selected for grade or HEVC adds 01–05 as conditional prerequisites. A new HDR dependency reopens the frozen build and its affected proofs. Speech research/implementation tracks each family separately and reslices the implementation placeholder before pickup.
+accepted branches. Dependencies order checks, not simultaneous expensive work. A FFmpeg alternative selected for grade or HEVC adds 01–05 as conditional prerequisites. A new HDR dependency reopens the frozen build and its affected proofs. Speaker implementation reuses the accepted recipe and existing evidence.
 
 | Slice | Contract | Dependencies |
 | --- | --- | --- |
@@ -183,8 +182,8 @@ accepted branches. Dependencies order checks, not simultaneous expensive work. A
 | 19 | [Explicit HDR source conversion](slices/19-hdr-conversion.md) | 18, 5 |
 | 20 | [Transparent motion input feasibility](slices/20-alpha-feasibility.md) | existing owners |
 | 21 | [Immutable motion-asset interchange](slices/21-motion-import.md) | 20 |
-| 22 | [Local speech evidence feasibility](slices/22-speech-feasibility.md) | existing owners |
-| 23 | [Validated optional speech evidence](slices/23-speech-evidence.md) | 22 |
+| 22 | [Local speaker feasibility](slices/22-speaker-feasibility.md) | existing owners |
+| 23 | [Optional speaker evidence](slices/23-speaker-evidence.md) | 22 |
 | 24 | [Portable task-side editorial notes](slices/24-editorial-notes.md) | 9 |
 | 25 | [Everyday typed HEVC delivery](slices/25-hevc-output.md) | existing owners |
 | 26 | [Consumer skill and release acceptance](slices/26-consumer-release.md) | 2, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 17, 19, 21, 23, 24, 25 |
@@ -195,7 +194,11 @@ not an executed edit. All eleven capability additions are mapped in
 [parity](parity.md); this is their sole implementation ladder.
 
 For each slice, run the narrowest test/fixture that answers its question. Run
-everything once when implementation finishes. For visual output, retain a small
+everything once when implementation finishes. The user will judge practical
+editing quality through product use: use small existing fixtures to prove tool
+execution, timing and concrete failure behavior, plus required dependency/license
+and package checks. Do not expand quality cohorts, annotation audits or scoring
+frameworks for this release. For visual output, retain a small
 control/candidate pair and named crop/variable, compare-screenshots, show through
 preview-shots, then run unprimed screenshot-critique as the final visual check.
 Human response is non-blocking for reversible appearance decisions; record the

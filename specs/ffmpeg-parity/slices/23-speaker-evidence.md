@@ -1,21 +1,24 @@
-# 23 — Validated optional speech evidence
+# 23 — Optional speaker evidence
 
-Status: resliced; all family implementations remain gated/open. Question: **Can proven observations retain provenance and exact occurrence projection?**
+Status: speaker implementation open. Question: **Can proven speaker
+observations retain provenance and exact occurrence projection?**
 
-Dependencies: [22](22-speech-feasibility.md).
+Dependencies: [22](22-speaker-feasibility.md).
 
-Before pickup, split this placeholder into family-specific implementation slices from the 22 verdicts. No aggregate green status may substitute for these checkpoints.
+Complete the speaker source, project read and portable checkpoints using the
+accepted recipe, retained model output and existing fixtures.
 
-- [ ] [Speaker evidence](23a-speaker-evidence.md): initial providers failed, exact original checkpoint research and one local runtime
-  seam pass; source publication/read implementation remains open.
-- [ ] [Acoustic events](23b-acoustic-events.md): presence diagnostics and independently timed calibration/confirmation fail; no category selected.
-- [ ] [Boundary evidence](23c-boundary-evidence.md): independent complete word-neighbor labels pending; no provider selected.
+- [ ] [Speaker evidence](23a-speaker-evidence.md): exact original checkpoint research
+  and one local runtime seam pass; source/project reads and portable preservation
+  remain required.
 
 ## Contract and owner
 
 Core additive source evidence/generation, existing model/jobs and composition projection; shared typed reads.
 
-Implement each passed family as its own focused pass: speaker intervals, acoustic-event intervals, boundary alternatives. Retain source/channel/range/confidence/model/generation and explicit unknown/overlap. Keep transcripts unaltered. Optional additive companions only when existing library/package semantics are preserved.
+Implement speaker intervals only. Retain source/channel/range/confidence/model/
+generation and explicit unknown/overlap. Keep transcripts unaltered. Optional
+additive companions must preserve existing library/package semantics.
 
 ## Focused proof and review
 

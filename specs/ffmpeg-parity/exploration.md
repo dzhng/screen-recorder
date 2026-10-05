@@ -156,8 +156,8 @@ sessions and separate grading, but Linux cannot execute native media. The
   with real metadata/edge/motion evidence, before selecting production paths.
 - Performance budgets: measure startup, decoding/transfers and actual workloads;
   no claim that backend policy itself guarantees a speedup.
-- Richer speech models and boundary quality: local feasibility and labeled-quality
-  experiments before a model is selected or a general quality claim is made.
+- Local speaker evidence: reuse the accepted original recipe and retained fixtures;
+  complete public reads and packaging without further model-quality research.
 
 All named stage-2 questions are now answered or explicitly open for research.
 

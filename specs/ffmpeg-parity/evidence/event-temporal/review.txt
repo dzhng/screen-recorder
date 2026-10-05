@@ -1,4 +1,0 @@
-Independent Codex read-only review: source/clock/label checks, replay and bin tests passed.
-P2: Confirmation runner/evaluator did not enforce frozen decision protocol, mapping and development-report bindings. Fixed before any additional inference; all six mutated bindings now rejected before invocation/evaluation.
-P2: A failed attempt without result JSON could have its diagnostics overwritten. Fixed by rejecting existing logs/attempt receipts before invocation.
-Seven scratch mutation probes: all failed before changes and passed after; no acquisition or model execution. Earlier six successful calls and failed confirmation remain byte-identical.
