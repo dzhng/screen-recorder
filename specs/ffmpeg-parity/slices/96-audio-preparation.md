@@ -1,6 +1,7 @@
 # 96 — Declared audio domains and held prepared spans
 
-Status: compiler/native/service execution and rebuilt-root wider acceptance verified; final consumer/release acceptance26 remains open. Question: **Can one compiled state
+Status: complete; compiler/native/service execution and rebuilt-root acceptance
+verified. Final packaged execution belongs to26. Question: **Can one compiled state
 schedule carry native and FFmpeg processors through the same prepared signal?**
 
 Dependencies: [05](05-managed-output.md), [10](10-loudness.md), and the frozen
@@ -236,5 +237,6 @@ all four new real acceptance cases plus50 worker/CLI/artifact/update checks.
 Identical source, prepared and decoded PCM bytes reuse the original retained
 archive; the distinct encoded movie and root receipts are retained separately.
 This closes the wider root integration gap, while installed/signed acceptance,
-listening and the final full suite remain separate. Consumer/release acceptance26
-owns the remaining release gate for shared preparation and13–15.
+listening and the final full suite remain separate. The scoped tool proof closes
+shared preparation and13–15; consumer/release acceptance26 owns the final package
+check once. The user evaluates practical sound quality through product use.

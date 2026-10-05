@@ -1,6 +1,7 @@
 # 14 — Explicit limiter
 
-Status: typed execution and wider scoped PCM/refusal acceptance verified; consumer/release acceptance remains open. Question: **Does the declared ceiling preserve timing and state in every consumer?**
+Status: complete; typed execution and scoped PCM/refusal acceptance verified.
+Final package execution belongs to26. Question: **Does the declared ceiling preserve timing and state in every consumer?**
 
 Dependencies: [14a](14a-limiter-reproduction.md), [10](10-loudness.md); managed FFmpeg requires 01–05 and [96](96-audio-preparation.md).
 
@@ -14,7 +15,7 @@ Define ceiling, one lookahead/attack duration and release, channel linkage and l
 
 ## Focused proof and review
 
-Impulse/step/tail PCM comparison and bounded listening excerpt.
+Impulse/step/tail PCM comparison. The user judges practical sound quality in use.
 
 Independent expected transient response, no auto-gain, latency/flush/sample count, split/unsplit and full/window equality. Meter encoded output separately; sample peak is not guaranteed true peak. Freeze response/peak tolerances before accepting production implementation.
 

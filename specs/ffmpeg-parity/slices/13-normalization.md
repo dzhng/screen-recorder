@@ -1,6 +1,7 @@
 # 13 — Explicit normalization
 
-Status: typed execution and wider scoped PCM/refusal acceptance verified; consumer/release acceptance remains open. Question: **Can an explicitly requested loudness treatment retain mode and full-context identity?**
+Status: complete; typed execution and scoped PCM/refusal acceptance verified.
+Final package execution belongs to26. Question: **Can an explicitly requested loudness treatment retain mode and full-context identity?**
 
 Dependencies: [13a](13a-normalization-reproduction.md), [10](10-loudness.md); managed FFmpeg requires 01–05 and [96](96-audio-preparation.md).
 

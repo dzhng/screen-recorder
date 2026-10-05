@@ -1,6 +1,7 @@
 # 15 — Explicit compressor and ducking
 
-Status: typed execution and wider scoped PCM/refusal acceptance verified; consumer/release acceptance remains open. Question: **Does caller-selected detector routing drive one consistent stateful treatment?**
+Status: complete; typed execution and scoped PCM/refusal acceptance verified.
+Final package execution belongs to26. Question: **Does caller-selected detector routing drive one consistent stateful treatment?**
 
 Dependencies: [15a](15a-compressor-reproduction.md), [10](10-loudness.md); managed FFmpeg requires 01–05 and [96](96-audio-preparation.md).
 
@@ -16,7 +17,7 @@ Typed detector selection, threshold, ratio, knee, attack/release and channel lin
 
 Two distinguishable audio stems and gain-envelope evidence.
 
-Known detector steps/absence/overlap, routing cycle refusal, channel linking, repeated/retimed selections and split/full/window state invariance. Preserve latency and tails; listen to selected mix excerpt. Detection does not permit edits.
+Known detector steps/absence/overlap, routing cycle refusal, channel linking, repeated/retimed selections and split/full/window state invariance. Preserve latency and tails. The user judges practical sound quality in use. Detection does not permit edits.
 
 ## Boundaries and decision budget
 

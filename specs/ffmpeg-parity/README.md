@@ -22,8 +22,8 @@ the original relocated30s runtime and model-free selected-channel PCM pass, whil
 consumer runtime distribution is unselected. Speaker evidence is the sole new
 local speech workflow in this spec. Use retained observations and small existing
 fixtures; no further provider-quality research is required.
-Root wider audio refusal/retiming/AAC/resource acceptance passes; shared audio
-preparation and13–15 await consumer/release26, not another wider scratch run.
+Root wider audio refusal/retiming/AAC/resource acceptance closes shared audio
+preparation and13–15. Final packaged execution is checked once by26.
 
 Final release build/ZIP, relocated acceptance26 and the full suite follow those
 branches. Latest main through c5765423 (release 0.1.4) is integrated; its app
@@ -76,10 +76,10 @@ Update handoff, choices and slice markers before each checkpoint.
 - [x] [13a — Normalization reproduction](slices/13a-normalization-reproduction.md)
 - [x] [14a — Limiter reproduction](slices/14a-limiter-reproduction.md)
 - [x] [15a — Compressor reproduction](slices/15a-compressor-reproduction.md)
-- [ ] [Shared audio preparation](slices/96-audio-preparation.md)
-- [ ] [13 — Explicit normalization](slices/13-normalization.md)
-- [ ] [14 — Explicit limiter](slices/14-limiter.md)
-- [ ] [15 — Explicit compressor and ducking](slices/15-sidechain.md)
+- [x] [Shared audio preparation](slices/96-audio-preparation.md)
+- [x] [13 — Explicit normalization](slices/13-normalization.md)
+- [x] [14 — Explicit limiter](slices/14-limiter.md)
+- [x] [15 — Explicit compressor and ducking](slices/15-sidechain.md)
 - [x] [16 — SDR correction reproduction](slices/16-sdr-feasibility.md)
 - [x] [17 — Typed SDR correction](slices/17-sdr-grade.md)
 - [x] [18 — HDR-to-SDR reproduction](slices/18-hdr-feasibility.md)
