@@ -12,14 +12,15 @@ every FFmpeg option or a replacement for a professional editing workstation.
 
 Implement the complete authorized plan through committed passes. Read the
 [exploration](exploration.md), [parity contract](parity.md) and current slice.
-Integrated: 01–12, 16–18, 20–21 and 24–25. Finish19 first: the private
+Integrated: 01–18, 20–22 and 24–25. Finish19 first: the private
 selected-stream producer now passes integrated video/audio support, numerical
 and common-clock proof. Catalog26 now retains portable conversion provenance and
 original-source dependencies; next managed jobs and public publication for the
 proven whole-stream inputs. Independently finish
 speaker source publication/read/projection and required portable preservation;
-the original relocated30s runtime and model-free selected-channel PCM pass, while
-consumer runtime distribution is unselected. Speaker evidence is the sole new
+the original relocated30s runtime and model-free selected-channel PCM pass.
+Speaker preparation requires explicit verified local model/runtime inputs;
+automatic runtime distribution is outside this spec. Speaker evidence is the sole new
 local speech workflow in this spec. Use retained observations and small existing
 fixtures; no further provider-quality research is required.
 Root wider audio refusal/retiming/AAC/resource acceptance closes shared audio
@@ -111,6 +112,8 @@ Update handoff, choices and slice markers before each checkpoint.
 - **Release owns bundled inputs:** pinned FFmpeg plus ffprobe, dependency closure,
   matching sources, notices, signatures and relocation proof. Consumer-facing
   absolute executable paths come from the selected app, never PATH guesses.
+  Optional speaker execution uses separately supplied local model/runtime inputs;
+  this app does not distribute that runtime.
 - **Consumer helpers own conveniences:** selected-file batch preparation, compact
   reading, timeline/review artifacts, cue proposals and task-side notes reuse
   existing operations. Promote a helper only when demonstrated shared delivery

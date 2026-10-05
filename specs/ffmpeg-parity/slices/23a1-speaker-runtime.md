@@ -8,9 +8,9 @@ private preparation operands, exact original comparison and failed controls.
 One model-bearing `bspxd` call passed through existing Models/runtime/jsonWorker
 under network and donor/repository denial. All fifteen semantic fields matched
 the frozen original; no assembly or model execution was repeated for closeout.
-The runtime remains a local explicitly prepared artifact, not a product bundle.
-Preparation/readiness/restart took 405.079 seconds; its cost and consumer
-experience remain unresolved.
+The supported contract requires an explicitly supplied local model/runtime;
+the app does not distribute this optional runtime. Preparation/readiness/restart
+took 405.079 seconds on the retained checkpoint.
 
 ## Frozen preservation contract
 

@@ -59,7 +59,7 @@ changes a name.
 | Capability/health augmentation | Selected app/runtime | Absolute FFmpeg/ffprobe paths; build/config/hash; inventory/readiness |
 | audio.measure | Asset+stream+optional acquisition/support, or project+revision+tap; prepared recipe where applicable; exact window; channel and peak mode | Signal/window/coverage; algorithm/backend; LUFS/LRA/peak or not-measurable; limitations |
 | export.create (new SRT/VTT kinds) | Project+revision; explicit caption placements; SRT/VTT; destination/replay ID | Pinned cues/text; rounding/overlap/omission facts; publication receipt |
-| asset.convert | Asset+selected streams+optional acquisition/support; explicit proven HDR→SDR recipe; request ID | New immutable asset; retained source/provenance; transform and support receipt |
+| asset.convert | Immutable asset+selected whole streams; explicit proven HDR→SDR recipe; request ID | New immutable asset; retained source/provenance; transform and support receipt |
 | Processor/output variants | Ordered typed grade/dynamics recipe; state domains; discriminated HEVC settings | Same compiled meaning, preparation dependency and actual implementation everywhere |
 | Optional speech evidence reads | Source/model generation or project revision; family/range/page | Source observations/occurrences, confidence, coverage, unknowns and generation pins |
 

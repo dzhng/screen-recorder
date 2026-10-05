@@ -8,6 +8,11 @@ Dependencies: [02](02-installed-tools.md), [05](05-managed-output.md), [06](06-b
 
 Consumer skill/references and existing fresh-agent eval/media/release owners.
 
+The app bundles FFmpeg/ffprobe. Optional speaker preparation instead requires
+explicit verified local model/runtime inputs; automatic speaker runtime
+distribution is outside this spec. Prove that local workflow with retained fixtures,
+and describe its setup honestly in the consumer skill.
+
 Add one line using the released launcher’s bundled FFmpeg passthrough after tool readiness for non-core extras. General imported-footage first; retain optional 30ms fades/30–200ms padding and other audition examples as guidance. Teach exact pins, explicit treatments, coverage, resumption and delivery. Do not advertise unsupported research families. Speaker workflows reuse the accepted local recipe and retained observations. Preserve existing transcript timing.
 
 ## Focused proof and review

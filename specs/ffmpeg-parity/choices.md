@@ -930,29 +930,19 @@ measured encoded controls, with managed support and publication still unfinished
 Confidence: medium.
 
 
-### Shipping the full optional NeMo closure remains open
+### Optional speaker preparation accepts explicit local inputs
 
-- When: original 30-second runtime checkpoint.
-- The choice: prove a complete local dependency artifact before deciding how to
-  ship it. A caller preparing the original model today supplies a verified local
-  runtime containing Python, the primary package tree and two supplemental trees.
-  That artifact is 1,961,322,776 logical bytes, separate from the 471,367,680-byte
-  model checkpoint. The actual preparation/readiness/restart took 405.079 seconds.
-  Bundling it with every app or supplying an optional download could make setup
-  easier, but neither distribution option or consumer budget was tested here.
-- The gap: authorization allows packaging when useful, but does not choose this
-  dependency closure as the shipping artifact, an acceptable installation size,
-  preparation delay or ongoing release/support cost.
-- The reach: final distribution and release receipts must retain licenses,
-  signatures and exact execution identity; runtime minimization cannot silently
-  change dependencies/recipe and borrow this preservation/quality pass.
-- Verdict: needs-user for the consumer distribution/cost policy. Recommended
-  provisional call: retain explicit local runtimeSource while public evidence is
-  built; separately measure minimization/preparation and select the distribution
-  route at release. This can be reversed by replacing the optional artifact with
-  another equivalently proven closure, without changing source-evidence semantics.
-- Confidence: low that the user would choose this full artifact for all consumers;
-  high that it is sufficient as a controlled local preservation checkpoint.
+When: original runtime checkpoint, resolved by the user's fixture-based scope
+instruction. A caller prepares the speaker model using explicit local model and
+runtime sources. The app bundles FFmpeg, but not the roughly2GB speaker runtime.
+The original local artifact works; its dependency redistribution materials are
+incomplete, so automatic speaker runtime delivery is not a feature of this spec.
+Gap: initial planning allowed useful bundled tools without selecting a speaker
+runtime distribution. Reach: missing speaker inputs report unavailable and never
+trigger a hidden installer or download. The tested original computational recipe
+and source-evidence contract remain unchanged. Verdict: sound; supports the
+proven local workflow without an unverified distribution promise. Confidence:
+high under the user's explicit instruction to remove unprovable scope.
 
 ## Sound — lower confidence first
 
