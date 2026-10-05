@@ -1,6 +1,6 @@
 # 14 — Explicit limiter
 
-Status: typed execution checkpoint verified; consumer/release acceptance remains open. Question: **Does the declared ceiling preserve timing and state in every consumer?**
+Status: typed execution and wider scoped PCM/refusal acceptance verified; consumer/release acceptance remains open. Question: **Does the declared ceiling preserve timing and state in every consumer?**
 
 Dependencies: [14a](14a-limiter-reproduction.md), [10](10-loudness.md); managed FFmpeg requires 01–05 and [96](96-audio-preparation.md).
 
@@ -36,4 +36,4 @@ raw per-channel safety clip. Validate sample ceiling and exact output count befo
 prepared publication; linking, signed response and zero behavior retain frozen
 parity gates. A failed candidate cannot be published as a completed treatment.
 
-Implementation and scoped execution proof live with the [shared state checkpoint](96-audio-preparation.md#execution-checkpoint). This is not a sound-quality or encoded-peak claim.
+Implementation and scoped execution proof live with the [shared state checkpoint](96-audio-preparation.md#execution-checkpoint); the [wider acceptance](96-audio-preparation.md#wider-audio-acceptance-checkpoint) retains retiming/refusal, independently measured decoded AAC and actual child-scoped resource evidence. This is not a sound-quality or encoded-peak guarantee.

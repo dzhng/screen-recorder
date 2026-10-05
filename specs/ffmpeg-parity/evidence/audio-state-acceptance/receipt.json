@@ -1,0 +1,120 @@
+{
+  "scope": "Audio state execution/whole-domain refusal, numerical retime/split/repeat/crop, native AAC delivery measurement and real disposable-child descriptor exhaustion. Not installed/signed/release/full-suite acceptance.",
+  "laneBase": "9ce16c70831546d1b1cadcfd86c734652057aaae",
+  "mainMerge": "55b6957c",
+  "nativeBinarySha256": "fb37be42f544db9f2c8d387850b18111a27318c49983142c30411eec565a5835",
+  "node": {
+    "version": "24.21.0",
+    "libuv": "1.52.1",
+    "releasedKitNodeSha256": "0451f11cb3ab7b2c7f36644739d0e940ca09f910426c7bc5830b86b47771c092",
+    "platform": "darwin",
+    "arch": "arm64"
+  },
+  "ffmpeg": {
+    "version": "9.0.2",
+    "receiptSha256": "27350ff2f953bbd4d6ca8bfe0f6808b99b9752192657d289146b50319099f66a",
+    "ffmpegSha256": "8410694433e927bdf2cc751b8c81cb4545b2302828fdffed6044018b10f39f31",
+    "ffprobeSha256": "10cca670f6de7b7c7ab96c53205d1a6370f63f506b028942d930fef4426048ee"
+  },
+  "upstream": {
+    "url": "https://github.com/libuv/libuv/pull/5284",
+    "merged": "2026-09-30",
+    "mergeSha": "f3d4bbc02d6ec97d139f47858165d7d938c18852",
+    "supportedNode24AtCheck": "24.21.0 (2026-09-07); absent fix",
+    "workaround": "Existing shared worker selects same-user fork for inherited descriptors under ordinary non-root matching real/effective user IDs. Remove after bundled supported LTS includes upstream fix; no root/changed-identity guarantee."
+  },
+  "proof": {
+    "workerRemap": "Focused 48 reversed immutable descriptors observed red before workaround, green afterward; exact user/effective-user/gid/egid/groups equality, parent positional reads and child retirement. Existing five worker/artifact/update lifetime files: 50 passed after latest-main reconciliation.",
+    "wider": "Four new real native/bundled cases: 4 passed. AAC + descriptor receipt-only rerun: 2 passed. Final stdout-drain correction descriptor rerun: 1 passed. Service check-types/build, changed-file lint/format and diff checks passed.",
+    "codec": "Prepared PCM peak -6.0 dB; decoded AAC -5.8 dB (one-decimal meter summary); exact 384000 stereo 48 kHz frames. Limiter intentionally active; no encoded ceiling claim.",
+    "resources": "64 and 256 file limits apply only to disposable child/descendants. Low limit: retryable CoreAudio -42/no publication/empty attempt workspace/source intact/health succeeds/new simplified revision succeeds. Larger limit: actual 80-domain preparation and 80 held final operands succeed."
+  },
+  "notRun": [
+    "recording",
+    "playback",
+    "personal-media editing",
+    "inference",
+    "installed/signed acceptance",
+    "final full suite"
+  ],
+  "operandInventory": [
+    {
+      "name": "decoded.wav",
+      "bytes": 3076096,
+      "sha256": "249f9fdef4d5743aa92d339798e7bc288d01c6fb0e05e2af0b85c14b01e600fb"
+    },
+    {
+      "name": "delivery.mp4",
+      "bytes": 203589,
+      "sha256": "1e631919507cbf430369987419f00ddd738cfa0f408fc898d72174c0e3f6d45d"
+    },
+    {
+      "name": "encoded-evidence.json",
+      "bytes": 4793,
+      "sha256": "962f4afe81b15a45b737ccfd7bdaa8bd69a3cfe7d670a077987b947a735d785c"
+    },
+    {
+      "name": "prepared.wav",
+      "bytes": 3076096,
+      "sha256": "5d2144120cf23f526b67ff88901b47f7f96475e7c94a77c65e19415a680e6650"
+    },
+    {
+      "name": "source.wav",
+      "bytes": 3072044,
+      "sha256": "bee63510a2e04fa42aaa5095bc1798b33ff42b75b534ba70a25924286e164993"
+    }
+  ],
+  "retainedInventory": [
+    {
+      "name": "audio-delivery-resource.log.xz",
+      "bytes": 308,
+      "sha256": "b572b62acd69f4d25526617bac87470855439cb8632e4ba6eec5d8f3de5cfd8b"
+    },
+    {
+      "name": "audio-descriptor-final.log.xz",
+      "bytes": 296,
+      "sha256": "8b0e22f3f160c482f7a7225664f5301d867bc488fe69ac227585b44b1804481e"
+    },
+    {
+      "name": "audio-wide-acceptance.log.xz",
+      "bytes": 332,
+      "sha256": "fd1651d478344061349c68c56482b2349f5640debf571cfe7d1743c63df000b8"
+    },
+    {
+      "name": "audio-worker-lifetime-final.log.xz",
+      "bytes": 304,
+      "sha256": "b876e923b5c74106a2b3870cc099b360111538ae96a04b806983981207bbaa89"
+    },
+    {
+      "name": "descriptors-256.json",
+      "bytes": 98375,
+      "sha256": "9a53c2505b15a6df8221612991a78e57f22a2049dc487316cb340a784fea7918"
+    },
+    {
+      "name": "descriptors-64.json",
+      "bytes": 3019,
+      "sha256": "56ab4b53fbcf574cfb227d06d3fb76e635341f64b9bfadcb8aa345424697e7f8"
+    },
+    {
+      "name": "encoded-evidence.json",
+      "bytes": 4793,
+      "sha256": "962f4afe81b15a45b737ccfd7bdaa8bd69a3cfe7d670a077987b947a735d785c"
+    },
+    {
+      "name": "encoded-operands.tar.xz",
+      "bytes": 5349328,
+      "sha256": "c14f66526f5dc8274d7ed06cfd89eea747d456b8eacd98d874a0f26a751bd39e"
+    },
+    {
+      "name": "independent-review.log.xz",
+      "bytes": 59360,
+      "sha256": "09b1cf5ebbfe7f11a5d4b8ded68c13e99a76fbf50370c97e717c608fba937385"
+    }
+  ],
+  "review": {
+    "command": "codex review --uncommitted",
+    "verdict": "No actionable defects found.",
+    "scope": "Worker/CLI checks and service typechecking passed. Reviewer native acceptance attempts encountered sandbox listen EPERM and Cannot start audio reader; existing limiter case and direct no-descriptor sourceAudio control also reproduced decoder failure. Preserved full compressed review log; successful unsandboxed acceptance remains separate evidence.",
+    "triage": "No findings to fix or dismiss; sandbox failures are retained verification limits, not product success."
+  }
+}

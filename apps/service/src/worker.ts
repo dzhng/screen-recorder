@@ -149,7 +149,17 @@ function ownedProcess(
       );
       return;
     }
+    const uid = process.getuid?.();
     const child = spawn(command.executable, [...(command.args ?? [])], {
+      // Bundled libuv 1.52.1 mutates parent fd bookkeeping during Darwin remapping
+      // (libuv#5284). Same-user fork preserves it; remove when bundled LTS has the fix.
+      ...(process.platform === "darwin" &&
+      descriptors.length > 0 &&
+      uid !== undefined &&
+      uid > 0 &&
+      uid === process.geteuid?.()
+        ? { uid }
+        : {}),
       ...(command.environment ? { env: command.environment } : {}),
       cwd: "/",
       detached: protocol.group === true,

@@ -874,3 +874,79 @@ plan required raw-output retention but did not select invalid-tensor encoding or
 empty-reservation cleanup. Reach: later durable publication must consume only validated
 observations while preserving failed native evidence separately. Verdict: sound.
 Confidence: high.
+### Darwin workers retain parent descriptor bookkeeping through the bundled runtime
+
+When: audio state acceptance after `92219937`. An eighty-clip preparation keeps
+one completed audio file open per processed clip. As the list grows, a child
+receives some lower-numbered files in higher-numbered slots. Bundled Node
+24.21.0/libuv1.52.1 can then close unrelated parent descriptors because its Darwin
+process-creation code rewrites the parent's descriptor bookkeeping while planning
+child-only moves. A later native child starts with its input replaced, exits
+without reading the request, and the preparation fails despite ample descriptors.
+The shared worker now requests its existing user's ID for inherited-file calls
+from an ordinary account whose real and effective IDs agree. In this pinned runtime
+that selects libuv's safe fork path. The focused regression proves the user,
+effective user, primary groups and supplementary groups are unchanged, every
+out-of-order operand still holds its expected bytes, and the child retires.
+The alternative is a fixed supported Node release; none was available when checked.
+No custom runtime build, second process owner or domain count cap is introduced.
+
+Gap: the plan assumed the selected runtime preserved inherited-file authority.
+Reach: both native JSON and argv-only CLI calls share this correction. It is
+scoped to ordinary non-root accounts; it adds no root or identity-switching
+execution guarantee. Remove it once the bundled supported LTS contains
+[the merged upstream fix](https://github.com/libuv/libuv/pull/5284), then recheck
+out-of-order descriptors, locks, cancellation and retirement. Early frame-buffer
+and temporary-fd-scan guesses were falsified or superseded by the actual child
+flags and upstream bookkeeping cause; they are not implementation premises.
+Verdict: sound as a measured temporary runtime workaround. Confidence: medium.
+
+### Durable render identity includes the actual audio preparation implementations
+
+When: shared audio execution in `9f7d4567`. A service prepares audio using one
+verified tool receipt, then restarts with a different verified receipt while the
+project and requested controls stay the same. Both the audio and movie renderer
+identities include the ordered processor bindings—the concrete native and bundled
+implementations that execute the request. Existing cache/job/export owners therefore
+see a different recipe and cannot return an earlier unprepared result as if it used
+the replacement. The runtime is rechecked before execution; this does not select
+another provider when one is unavailable. Removing the identity contribution
+reproduced stale job reuse in the actual public socket journey.
+Gap: the frozen recipe required implementation identity without specifying the
+existing renderer/cache key's contribution.
+Reach: durable reuse and retry retain executable meaning even across a runtime
+replacement; no new cache, queue or version-negotiation owner is added.
+Verdict: sound; this uses the existing durable recipe owner. Confidence: high.
+
+### Portable adoption checks evidence against its recorded bound recipe
+
+When: shared audio execution in `9f7d4567`. A portable processed project opens on
+a new library, whose freshly compiled requirements have no implementation IDs
+assigned yet. Adoption first finds the semantically matching recorded prepared
+recipe and binds those recorded implementation IDs for evidence validation. It
+then verifies the retained measurements against that bound recipe. Comparing
+against the fresh unbound requirements refused valid packages; copying current
+local implementation IDs instead would relabel earlier processing as a different
+runtime. The actual export/open/adopt journey now preserves the original full-domain
+records and survives closure of its donor package.
+Gap: the plan did not say how imported evidence meets fresh compiler requirements.
+Reach: adoption preserves recorded preparation meaning; executable readiness and
+future reprocessing still use current support admission. It adds no runtime fallback.
+Verdict: sound; the recorded recipe owns the evidence it produced. Confidence: high.
+
+
+### An authored interval without output samples produces no processing evidence
+
+When: shared audio execution in `9f7d4567`. A one-microsecond clip can lie inside
+a longer output while contributing zero samples on the declared 48 kHz clock.
+Its external state domain is skipped for execution and contributes no held audio
+file or meter record. The document and complete compiled recipe retain the
+explicit request; the surrounding output still has its own exact sample count.
+Running a loudness meter on an invented empty file would add evidence for a signal
+that the output clock does not contain. A positive-length silent domain still
+runs and correctly refuses normalization as unmeasurable.
+Gap: the plan did not specify external processing at a sub-sample interval.
+Reach: native span admission and core processing evidence both use positive sample
+support, without inventing context, silence or a new edit. The native/service
+sub-sample fixture verifies zero output and no external record.
+Verdict: sound under the exact output clock. Confidence: medium.

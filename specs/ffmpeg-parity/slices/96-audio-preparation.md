@@ -158,8 +158,8 @@ domains, a stale harness expectation and portable evidence being checked against
 unbound requirements. All were reproduced or verified and corrected. The public
 processed-package export/open/adopt journey now preserves all three processor
 records under adopted identities and survives package closure. Native also refuses a replaced preparation implementation before prefix
-work. Wider refusal/retiming coverage, release-level consumer proof and root integration
-remain open.
+work. Wider refusal/retiming coverage is retained below; release-level consumer proof
+and final root integration remain open.
 The parent owns integration and the final full-suite run.
 
 ## Main reconciliation checkpoint
@@ -179,3 +179,53 @@ its accepted socket is still retiring. The test follows progress-driven preparat
 retries and admits only the transport blocker during that drain; the product gate
 is unchanged. This is scoped integration evidence, not an installed consumer or
 full-suite result. Release-level acceptance remains with the parent task.
+
+## Wider audio acceptance checkpoint
+
+The [scoped receipts and complete codec operands](../evidence/audio-state-acceptance/receipt.json)
+retain the execution and resource facts. Whole-domain source holes refuse limiter,
+gain-only normalization and an external compressor detector even when the requested
+late crop does not overlap the hole. Authored detector silence remains distinct
+from missing support. Both normalization modes followed by limiter and compressor
+preserve repeated retimed selections: the 24-second full output, midpoint splits,
+late crop and repeated halves compare within the frozen1e-6 PCM tolerance, with
+exact1,152,000 frames and six bound whole-domain records. Original input stays intact.
+
+An explicit normalization→active limiter fixture prepares384,000 frames at a
+−6.0dB sample/true peak under the retained meter. Native H.264/AAC delivery decodes
+to the same count but measures−5.8dB sample/true peak. These are separate retained
+facts, not an encoded ceiling guarantee or a listening claim. Normalization's
+before/after record covers its own stage; a later explicitly requested limiter
+changes final integrated loudness, as the separate prepared measurement shows.
+
+Actual public preparation under a disposable child's64-file soft limit fails
+retryably with CoreAudio−42, returns no prepared result, drains the shared attempt
+workspace and retains original source bytes. The listener remains usable and a
+new explicitly simplified revision prepares successfully under that same limit.
+The same80-domain fixture succeeds under a256-file limit and supplies all80 held
+operands to the final consumer. No host/account-wide limit or admission cap changes.
+The failure point is a host/fixture observation, not a promised domain budget.
+
+This wider test exposed bundled Node24.21.0/libuv1.52.1's Darwin descriptor-remap
+bookkeeping defect. The shared process owner selects the runtime's safe fork path
+for inherited files under ordinary non-root accounts with matching real/effective
+IDs. A focused regression was observed red on the original owner and green after
+the correction, proving reversed operand bytes, preserved parent reads, identical
+account/groups and retirement. [The upstream fix](https://github.com/libuv/libuv/pull/5284)
+was merged but was absent from the supported bundled LTS when checked. Root or
+changed-identity accounts retain existing behavior; this adds no guarantee for them.
+The service README owns the workaround and its fixed-LTS removal condition.
+
+The latest-main merge through55b6957c preserves these edits; worker, CLI/group,
+artifact and update-lifetime checks are rerun after reconciliation. Captured native
+media proof uses the hashed lane binary; this does not certify a signed installed
+release or the latest capture identity changes. Those checks and the final full
+suite remain with the parent task. No recording, inference or playback was run.
+
+The independent uncommitted review reports no actionable defects; its worker/CLI
+checks and service typecheck passed. Its native reruns encountered sandbox socket
+and decoder restrictions, with the existing limiter and no-descriptor source
+control also failing decoding. The compressed review log preserves these limits
+separately from the successful unsandboxed acceptance receipts. The shape/diff/docs
+pass retains one shared worker owner and the explicit fixed-LTS removal condition;
+no new execution surface or media policy was added.

@@ -6,6 +6,8 @@ import {
   resolveOutputSettings,
 } from "@screenrec/composition";
 import { constants, readSync } from "node:fs";
+import { spawn } from "node:child_process";
+import { fileURLToPath } from "node:url";
 import { createHash, randomUUID } from "node:crypto";
 import { open, realpath } from "node:fs/promises";
 import { readAudioWave } from "@screenrec/core/audio-wave";
@@ -21,10 +23,12 @@ import {
   projectMovieRenderer,
   nativeAudioCapabilities,
 } from "./project-render.js";
+import { ffmpegLoudnessAnalyzer } from "./loudness.js";
 import { audioProcessingRuntime } from "./audio-processing.js";
 import { mediaWorker } from "./worker.js";
 const installation = process.env.SCREENREC_FFMPEG_DIRECTORY;
 const native = process.env.SCREENREC_NATIVE;
+const acceptanceEvidence = process.env.SCREENREC_AUDIO_ACCEPTANCE_EVIDENCE;
 function wave(frames: number, sample?: (frame: number) => [number, number]) {
   const b = Buffer.alloc(44 + frames * 8);
   b.write("RIFF");
@@ -145,7 +149,9 @@ async function fixture(
           implementationId:
             r.kind === "processor"
               ? (runtime?.processors[r.processor.type] ?? capabilities.rnnoise ?? null)
-              : r.implementationId,
+              : r.kind === "retime"
+                ? (capabilities.retime ?? null)
+                : r.implementationId,
         })),
       },
     };
@@ -425,6 +431,197 @@ real(
 );
 
 real(
+  "complete recipe context refuses program and detector source holes before a late crop",
+  async () => {
+    const cases: ProcessingStep[][] = [
+      [limiter],
+      [
+        {
+          id: "normalize",
+          enabled: true,
+          processor: {
+            type: "normalization",
+            mode: "gain-only",
+            targetIntegratedLufs: -20,
+            truePeakCeilingDbtp: -2,
+            maxLoudnessRangeLu: 7,
+          },
+        },
+      ],
+      [
+        {
+          id: "compress",
+          enabled: true,
+          processor: {
+            type: "compressor",
+            thresholdDbfs: -20,
+            ratio: 4,
+            kneeDb: 3,
+            attackMs: 5,
+            releaseMs: 50,
+            detector: {
+              kind: "tap",
+              tap: { target: { kind: "track", id: "detector" }, point: { kind: "dry" } },
+            },
+          },
+        },
+      ],
+    ];
+    for (const steps of cases) {
+      const external = steps[0]!.processor.type === "compressor";
+      const f = await fixture(steps, 8000000, external);
+      let passed = false;
+      try {
+        const original = await readFile(join(f.dir, "source.wav"));
+        f.asset.streams[0]!.available = [
+          { startUs: 0, endUs: 1000000 },
+          { startUs: 2000000, endUs: 8000000 },
+        ];
+        const document = external
+          ? {
+              ...f.document,
+              clips: [
+                {
+                  id: "clip",
+                  trackId: "audio",
+                  source: { kind: "silence" },
+                  placement: { kind: "project", range: { startUs: 0, endUs: 8000000 } },
+                },
+                { ...f.document.clips[0]!, id: "source-detector", trackId: "detector" },
+              ],
+            }
+          : f.document;
+        await expect(f.render(7000000, 7100000, "refused-hole", document)).rejects.toMatchObject({
+          code: "NOT_READY",
+        });
+        await expect(open(join(f.dir, "refused-hole.wav"))).rejects.toMatchObject({
+          code: "ENOENT",
+        });
+        expect(await readFile(join(f.dir, "source.wav"))).toEqual(original);
+        passed = true;
+      } finally {
+        if (passed) await rm(f.dir, { recursive: true, force: true });
+        else process.stderr.write(`Unverified source-hole operands retained: ${f.dir}\n`);
+      }
+    }
+  },
+  30000,
+);
+
+real(
+  "retimed repeated recipe domains preserve split and late-crop PCM",
+  async () => {
+    for (const mode of ["gain-only", "dynamic"] as const) {
+      const f = await fixture(
+        [
+          {
+            id: "normalize",
+            enabled: true,
+            processor: {
+              type: "normalization",
+              mode,
+              targetIntegratedLufs: -20,
+              truePeakCeilingDbtp: -2,
+              maxLoudnessRangeLu: 7,
+            },
+          },
+          limiter,
+          {
+            id: "compress",
+            enabled: true,
+            processor: {
+              type: "compressor",
+              thresholdDbfs: -24,
+              ratio: 4,
+              kneeDb: 3,
+              attackMs: 5,
+              releaseMs: 50,
+              detector: { kind: "input" },
+            },
+          },
+        ],
+        8000000,
+        false,
+        true,
+      );
+      let passed = false;
+      try {
+        const original = await readFile(join(f.dir, "source.wav"));
+        const retimed = applyBatch(
+          f.document,
+          [{ operation: "retime", clipIds: ["clip"], durationUs: 12000000, ripple: "none" }],
+          { assets: [f.asset], namespace: "retime" },
+        ).document;
+        const repeated = {
+          ...retimed,
+          clips: [
+            ...retimed.clips,
+            {
+              ...structuredClone(retimed.clips[0]!),
+              id: "repeat",
+              placement: { kind: "project", range: { startUs: 12000000, endUs: 24000000 } },
+            },
+          ],
+          processing: [
+            ...retimed.processing,
+            {
+              ...structuredClone(retimed.processing[0]!),
+              target: { kind: "clip", id: "repeat" },
+              steps: retimed.processing[0]!.steps.map((step) => ({
+                ...step,
+                id: `repeat-${step.id}`,
+              })),
+            },
+          ],
+        };
+        const split = applyBatch(
+          repeated,
+          [
+            { operation: "split", clipIds: ["clip"], atUs: 6000000, scope: "selected" },
+            { operation: "split", clipIds: ["repeat"], atUs: 18000000, scope: "selected" },
+          ],
+          { assets: [f.asset], namespace: "split" },
+        ).document;
+        const full = await f.render(0, 24000000, "repeated", repeated);
+        const partitioned = await f.render(0, 24000000, "split", split);
+        const late = await f.render(11000000, 11100000, "late", repeated);
+        const maximumDelta = (a: Buffer, b: Buffer) => {
+          expect(a.length).toBe(b.length);
+          let delta = 0;
+          for (let at = 0; at < a.length; at += 4)
+            delta = Math.max(delta, Math.abs(a.readFloatLE(at) - b.readFloatLE(at)));
+          return delta;
+        };
+        expect(full.receipt).toMatchObject({
+          frames: 1152000,
+          processingEvidence: [
+            { recipe: { type: "normalization" }, sampleRange: { start: 0, end: 576000 } },
+            { recipe: { type: "limiter" }, sampleRange: { start: 0, end: 576000 } },
+            { recipe: { type: "compressor" }, sampleRange: { start: 0, end: 576000 } },
+            { recipe: { type: "normalization" }, sampleRange: { start: 576000, end: 1152000 } },
+            { recipe: { type: "limiter" }, sampleRange: { start: 576000, end: 1152000 } },
+            { recipe: { type: "compressor" }, sampleRange: { start: 576000, end: 1152000 } },
+          ],
+        });
+        expect(maximumDelta(partitioned.bytes, full.bytes)).toBeLessThanOrEqual(1e-6);
+        expect(
+          maximumDelta(late.bytes, full.bytes.subarray(528000 * 8, 532800 * 8)),
+        ).toBeLessThanOrEqual(1e-6);
+        expect(
+          maximumDelta(full.bytes.subarray(0, 576000 * 8), full.bytes.subarray(576000 * 8)),
+        ).toBeLessThanOrEqual(1e-6);
+        expect(await readFile(join(f.dir, "source.wav"))).toEqual(original);
+        passed = true;
+      } finally {
+        if (passed) await rm(f.dir, { recursive: true, force: true });
+        else process.stderr.write(`Unverified retimed operands retained: ${f.dir}\n`);
+      }
+    }
+  },
+  60000,
+);
+
+real(
   "movie mux consumes the same held limited domain",
   async () => {
     const f = await fixture([limiter]);
@@ -484,6 +681,143 @@ real(
   },
   30000,
 );
+real(
+  "AAC delivery retains separately measured decoded peak evidence",
+  async () => {
+    const normalization: ProcessingStep = {
+      id: "normalize",
+      enabled: true,
+      processor: {
+        type: "normalization",
+        mode: "gain-only",
+        targetIntegratedLufs: -6,
+        truePeakCeilingDbtp: -1,
+        maxLoudnessRangeLu: 7,
+      },
+    };
+    const f = await fixture([normalization, limiter], 8000000);
+    let passed = false;
+    try {
+      const pcm = await f.render(0, 8000000, "prepared");
+      const model = validateComposition(f.document, [f.asset]);
+      const window = createCompiler(model, "revision").window({
+        range: { startUs: 0, endUs: 8000000 },
+        rendition: { sampleRate: 48000, channels: 2 },
+        tap: { target: { kind: "output" }, point: { kind: "processed" } },
+      });
+      const settings = resolveOutputSettings();
+      const output = join(f.dir, "delivery.mp4");
+      const movie = await projectMovieRenderer(
+        f.worker,
+        join(f.dir, "render"),
+        undefined,
+        f.capabilities,
+        new AbortController().signal,
+        {},
+        f.runtime,
+      ).render(
+        {
+          model,
+          window,
+          assets: [
+            {
+              assetId: f.asset.id,
+              streamId: "track:1",
+              path: join(f.dir, "source.wav"),
+              originUs: 0,
+            },
+          ],
+          fonts: [],
+          output,
+          settings,
+        },
+        new AbortController().signal,
+      );
+      const probed = await f.worker("media.probe", { path: output });
+      if (!probed.ok) throw new Error(JSON.stringify(probed));
+      const stream = (probed.data as { streams: { kind: string; id: string }[] }).streams.find(
+        (stream) => stream.kind === "audio",
+      )!;
+      const decoded = join(f.dir, "decoded.wav");
+      const range = { startUs: 0, endUs: 8000000 };
+      const decode = await f.worker("media.sourceAudio", {
+        source: { source: output, streamId: stream.id, sourceOffsetUs: 0, available: [range] },
+        range,
+        output: decoded,
+      });
+      if (!decode.ok) throw new Error(JSON.stringify(decode));
+      const measure = async (path: string) => {
+        const source = await open(path);
+        try {
+          const bytes = Number((await source.stat()).size);
+          const audio = readAudioWave({
+            bytes,
+            read: (buffer, position) => readSync(source.fd, buffer, 0, buffer.length, position),
+          });
+          return {
+            audio,
+            measured: await ffmpegLoudnessAnalyzer(f.runtime!.installation, native).measure(
+              {
+                source: { fd: source.fd, bytes },
+                audio,
+                channelInterpretation: "native",
+                truePeak: true,
+              },
+              new AbortController().signal,
+            ),
+          };
+        } finally {
+          await source.close();
+        }
+      };
+      const prepared = await measure(join(f.dir, "prepared.wav"));
+      const delivered = await measure(decoded);
+      const evidence = {
+        settings,
+        sourceSha256: createHash("sha256")
+          .update(await readFile(join(f.dir, "source.wav")))
+          .digest("hex"),
+        requested: [normalization.processor, limiter.processor],
+        prepared: prepared.measured,
+        encodedDecoded: delivered.measured,
+        movie: movie.audio,
+        decodedFrames: delivered.audio.frames,
+      };
+      await writeFile(join(f.dir, "encoded-evidence.json"), JSON.stringify(evidence, null, 2));
+      if (acceptanceEvidence) {
+        const retained = join(acceptanceEvidence, "encoded");
+        await mkdir(retained, { recursive: true });
+        for (const filename of [
+          "source.wav",
+          "prepared.wav",
+          "delivery.mp4",
+          "decoded.wav",
+          "encoded-evidence.json",
+        ])
+          await copyFile(join(f.dir, filename), join(retained, filename));
+      }
+      expect(settings.audio.codec).toBe("aac");
+      expect(delivered.audio.frames).toBe(384000);
+      expect(delivered.measured.truePeakDbtp).toEqual(expect.any(Number));
+      expect(prepared.measured.truePeakDbtp).toEqual(expect.any(Number));
+      expect((await readFile(decoded)).equals(await readFile(join(f.dir, "prepared.wav")))).toBe(
+        false,
+      );
+      expect(pcm.receipt).toMatchObject({
+        processingEvidence: [
+          { recipe: { type: "normalization" } },
+          { recipe: { type: "limiter" } },
+        ],
+      });
+      passed = true;
+    } finally {
+      if (passed) await rm(f.dir, { recursive: true, force: true });
+      else process.stderr.write(`Unverified encoded operands retained: ${f.dir}\n`);
+    }
+  },
+  30000,
+);
+
 real(
   "a sub-sample state domain contributes no processed PCM or measurement",
   async () => {
@@ -765,4 +1099,69 @@ real(
     }
   },
   30000,
+);
+
+real(
+  "descriptor exhaustion fails an actual preparation job and drains before reuse",
+  async () => {
+    for (const limit of [64, 256]) {
+      const home = await realpath(await mkdtemp(join(tmpdir(), "audio-fd-pressure-")));
+      let passed = false;
+      try {
+        const child = spawn(
+          "/bin/sh",
+          [
+            "-c",
+            `ulimit -n ${limit}\nexec "$@"`,
+            "audio-pressure",
+            process.execPath,
+            fileURLToPath(new URL("../fixtures/audio-descriptor-pressure.mjs", import.meta.url)),
+          ],
+          {
+            env: {
+              ...process.env,
+              SCREENREC_PRESSURE_HOME: home,
+              SCREENREC_PRESSURE_EXPECT_FAILURE: limit === 64 ? "1" : "0",
+            },
+            stdio: ["ignore", "pipe", "pipe"],
+          },
+        );
+        let stdout = "",
+          stderr = "";
+        child.stdout.on("data", (chunk) => (stdout += chunk));
+        child.stderr.on("data", (chunk) => (stderr += chunk));
+        const exit = await new Promise<number | null>((resolve, reject) => {
+          const timer = setTimeout(() => child.kill("SIGKILL"), 45000);
+          child.once("error", reject);
+          child.once("close", (code) => {
+            clearTimeout(timer);
+            resolve(code);
+          });
+        });
+        await writeFile(join(home, "child-stdout.json"), stdout);
+        await writeFile(join(home, "child-stderr.log"), stderr);
+        expect(exit, stderr).toBe(0);
+        const report = JSON.parse(stdout);
+        if (acceptanceEvidence) {
+          await mkdir(acceptanceEvidence, { recursive: true });
+          await writeFile(
+            join(acceptanceEvidence, `descriptors-${limit}.json`),
+            JSON.stringify(report, null, 2),
+          );
+        }
+        expect(report.failed).toMatchObject({
+          state: limit === 64 ? "failed" : "ready",
+          ...(limit === 64 ? { result: null } : {}),
+        });
+        expect(report.recovered).toMatchObject({ state: "ready" });
+        expect(report.completedPrefixes).toBeGreaterThan(0);
+        if (limit === 256) expect(report.maximumHeld).toBe(80);
+        passed = true;
+      } finally {
+        if (passed) await rm(home, { recursive: true, force: true });
+        else process.stderr.write(`Unverified descriptor operands retained: ${home}\n`);
+      }
+    }
+  },
+  60000,
 );

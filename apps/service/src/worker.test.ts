@@ -18,13 +18,14 @@ beforeAll(async () => {
   await writeFile(
     executable,
     `#!${process.execPath}
-import { writeFileSync } from 'node:fs';
+import { writeFileSync, readFileSync } from 'node:fs';
 let input = '';
 process.stdin.on('data', bytes => input += bytes);
 process.stdin.on('end', () => {
   const request = JSON.parse(input);
   if (request.operation === 'inherited') writeFileSync(3, 'owned bytes');
   if (request.params.ready) writeFileSync(request.params.ready, String(process.pid));
+  if (request.operation === 'descriptor-map') process.stdout.write(JSON.stringify({ok:true,data:{pid:process.pid,files:Array.from({length:request.params.count},(_,i)=>readFileSync(3+i,'utf8')),identity:{uid:process.getuid(),euid:process.geteuid(),gid:process.getgid(),egid:process.getegid(),groups:process.getgroups()}}})+'\\n');
   if (request.operation === 'answer') process.stdout.write(JSON.stringify({ok:true,data:{pid:process.pid}})+'\\n');
   setInterval(() => {}, 1000);
 });
@@ -154,4 +155,38 @@ it("native binding resolves its supplied executable on each call", async () => {
   const result = await run("answer", {});
   expect(result.ok).toBe(true);
   if (result.ok) expectGone((result.data as { pid: number }).pid);
+});
+
+it("out-of-order inherited descriptors preserve stdin, byte identity and the ordinary account", async () => {
+  const { home, run } = await fixture();
+  const handles = [];
+  try {
+    for (let i = 0; i < 48; i++) {
+      const path = join(home, `operand-${i}`);
+      await writeFile(path, `immutable operand ${i}`);
+      handles.push(await open(path));
+    }
+    const descriptors = handles.map((handle) => handle.fd).reverse();
+    const result = await run("descriptor-map", { count: descriptors.length }, { descriptors });
+    expect(result).toMatchObject({ ok: true });
+    if (!result.ok) throw new Error(JSON.stringify(result));
+    const data = result.data as { pid: number; files: string[]; identity: unknown };
+    expect(data.files).toEqual(handles.map((_, i) => `immutable operand ${i}`).reverse());
+    expect(data.identity).toEqual({
+      uid: process.getuid!(),
+      euid: process.geteuid!(),
+      gid: process.getgid!(),
+      egid: process.getegid!(),
+      groups: process.getgroups!(),
+    });
+    expectGone(data.pid);
+    for (let i = 0; i < handles.length; i++) {
+      const expected = `immutable operand ${i}`;
+      const bytes = Buffer.alloc(Buffer.byteLength(expected));
+      expect((await handles[i]!.read(bytes, 0, bytes.length, 0)).bytesRead).toBe(bytes.length);
+      expect(bytes.toString()).toBe(expected);
+    }
+  } finally {
+    await Promise.all(handles.map((handle) => handle.close()));
+  }
 });

@@ -95,6 +95,15 @@ A rare kernel retirement overrun retains the owned task, logs after five seconds
 and observes slowly until the group is absent; it cannot safely release capacity
 or staging merely because the standard streams closed.
 
+The bundled Node release's libuv can corrupt parent descriptor bookkeeping during
+Darwin process creation with inherited files. The shared worker selects its safe
+fork path by retaining the same real/effective user ID for ordinary non-root
+accounts; byte authority, account groups and retirement remain unchanged. This
+workaround has no root or changed-identity execution guarantee. Remove it when a
+supported bundled LTS release includes [libuv's remap fix](https://github.com/libuv/libuv/pull/5284),
+after rerunning the inherited-descriptor and worker-lifetime checks. It is one
+process-owner correction rather than a media-domain admission cap.
+
 Service shutdown drains jobs, readers, publication and storage observations before
 closing the catalog. The [release disposition](../../specs/done/agent-editing/release-closeout.md)
 records installed evidence separately from an isolated service check.

@@ -1,0 +1,97 @@
+{
+  "failed": {
+    "jobId": "638d7676-01a3-4b4e-929d-99b5e9d2f281",
+    "attemptId": "c6f6bb1f-9459-4dbf-a758-8eb5d1836464",
+    "artifact": "prepared-audio",
+    "lane": "heavy",
+    "state": "failed",
+    "reason": "Cannot open audio output: The operation couldn’t be completed. (com.apple.coreaudio.avfaudio error -42.)",
+    "generation": 1,
+    "errorCode": "NATIVE_DECODE_FAILED",
+    "inputSha256": "10e1559605746a5afd3c0a6d542e5a561b642f1c8695462bae35a674cd581f25",
+    "target": {
+      "kind": "project",
+      "projectId": "42f2c054-0276-4d02-ba8a-668beb362100",
+      "revisionId": "12da4b73-fe1e-42b3-abd2-d82fc098fcb3"
+    },
+    "retryable": true,
+    "errorDetails": {},
+    "result": null
+  },
+  "recovered": {
+    "jobId": "dcaee08b-e8f3-4b7c-98bd-736ddf471b8c",
+    "attemptId": "03e4f3fe-18cd-4c97-8458-960170a10438",
+    "artifact": "prepared-audio",
+    "lane": "heavy",
+    "state": "ready",
+    "reason": null,
+    "generation": 1,
+    "errorCode": null,
+    "inputSha256": "94562d8528e4abbab9fefdb2ffa12ce0742ef9c6fe46f45b0f98d9d3f838383e",
+    "target": {
+      "kind": "project",
+      "projectId": "42f2c054-0276-4d02-ba8a-668beb362100",
+      "revisionId": "224a4119-7666-4102-a765-6aa1b23c680f"
+    },
+    "retryable": false,
+    "errorDetails": null,
+    "result": {
+      "bytes": 42496,
+      "sampleRate": 48000,
+      "channels": 2,
+      "frames": 4800,
+      "peak": 0.5011872053146362,
+      "clippedSamples": 0,
+      "maximumBlockFrames": 4800,
+      "peakResidentBytes": 26591232,
+      "decoderContext": {
+        "policy": "bounded-current-retained-run",
+        "sampleRate": 48000,
+        "maximumPrerollFrames": 0,
+        "maximumTailFrames": 0
+      },
+      "unavailable": [
+        {
+          "clipId": "clip:c26d54cc1b9a25746119278e966745c420b0bc6f7733d13c466224e0f4b4a0e0:1",
+          "ranges": []
+        }
+      ],
+      "processingEvidence": [
+        {
+          "domainIndex": 0,
+          "recipe": {
+            "type": "limiter",
+            "ceilingDbfs": -6,
+            "lookaheadMs": 5,
+            "releaseMs": 50
+          },
+          "sampleRange": {
+            "start": 0,
+            "end": 4800
+          },
+          "implementationId": "linked-mono-max-limiter-v1:27350ff2f953bbd4d6ca8bfe0f6808b99b9752192657d289146b50319099f66a:native-audio-state-domains-v1"
+        }
+      ],
+      "dependencies": [
+        {
+          "kind": "asset",
+          "id": "15bcdde7577af06b716a96a1274b60a52cafd430f2b4503cbe3fd0b0cb053778"
+        }
+      ],
+      "resourceId": "[\"42f2c054-0276-4d02-ba8a-668beb362100\",\"03e4f3fe-18cd-4c97-8458-960170a10438\"]",
+      "assetId": "b2bec42ee24f1045b790aa3e7ebe013c9fb6715c75552eb99bbc993bd1ee82a5",
+      "identity": {
+        "device": "16777232",
+        "inode": "3951309",
+        "modifiedNs": "1791180322142837371",
+        "changedNs": "1791180322195969989"
+      },
+      "sampleRange": {
+        "start": 0,
+        "end": 4800
+      }
+    }
+  },
+  "maximumHeld": 27,
+  "completedPrefixes": 28
+}

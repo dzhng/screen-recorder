@@ -1,6 +1,6 @@
 # 15 — Explicit compressor and ducking
 
-Status: typed execution checkpoint verified; consumer/release acceptance remains open. Question: **Does caller-selected detector routing drive one consistent stateful treatment?**
+Status: typed execution and wider scoped PCM/refusal acceptance verified; consumer/release acceptance remains open. Question: **Does caller-selected detector routing drive one consistent stateful treatment?**
 
 Dependencies: [15a](15a-compressor-reproduction.md), [10](10-loudness.md); managed FFmpeg requires 01–05 and [96](96-audio-preparation.md).
 
@@ -31,4 +31,4 @@ dependency, common128-frame internal packet grid and authored final trim. Never
 turn unavailable detector support into silence. The shared preparation contract
 must freeze routing dependencies before implementation.
 
-Implementation and scoped execution proof live with the [shared state checkpoint](96-audio-preparation.md#execution-checkpoint). This is not a sound-quality or encoded-peak claim.
+Implementation and scoped execution proof live with the [shared state checkpoint](96-audio-preparation.md#execution-checkpoint); the [wider acceptance](96-audio-preparation.md#wider-audio-acceptance-checkpoint) retains retiming/refusal, independently measured decoded AAC and actual child-scoped resource evidence. This is not a sound-quality or encoded-peak guarantee.
