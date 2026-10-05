@@ -12,7 +12,7 @@
       "OCTGiPOygds",
       "QRKc90kuAaE",
       "aWzHvxPoWdo",
-      "uH5XAeKdrmJ"
+      "uH5XAeKdrjM"
     ],
     "gasp": [
       "xWwYEmqyTB4",
@@ -407,6 +407,53 @@
       "name": "./gasp-wG59D9drJGY.html",
       "bytes": 1189631,
       "sha256": "1edaf81d289d66947011de032cef7fe131ab5a663c66d63f7b2ff277cb3c9514"
+    }
+  ],
+  "selectionReconciliation": {
+    "status": "resolved-without-refetch",
+    "requestedUnboundIds": {
+      "applause": [
+        "uH5XAeKdrmJ"
+      ]
+    },
+    "inspectedIds": {
+      "applause": [
+        "uH5XAeKdrjM"
+      ]
+    },
+    "rule": "The record and archived page hash are authoritative for what was actually inspected. The mJ spelling has no record or archive member and is never treated as inspected audio or a selected candidate.",
+    "historicalExcludedIds": {
+      "gasp": [
+        "chtrHNfaT9U"
+      ]
+    }
+  },
+  "historicalExcludedRecords": [
+    {
+      "category": "gasp",
+      "videoId": "chtrHNfaT9U",
+      "url": "https://www.youtube.com/watch?v=chtrHNfaT9U",
+      "status": 200,
+      "finalUrl": "https://www.youtube.com/watch?v=chtrHNfaT9U",
+      "bytes": 1366201,
+      "sha256": "cbd0d7518b5dd903190a1c9c1514a069833fa1aebca176d23735d3f7b3b25742",
+      "title": "THE FAREWELL DINNER!!",
+      "lengthSeconds": "613",
+      "author": "KidBehindACamera",
+      "playerStatus": "OK",
+      "primaryPageLicenseFields": [],
+      "explicitCreativeCommonsOccurrences": [],
+      "permissionVerdict": "UNKNOWN: no explicit content reuse license grant in the primary watch-page metadata; generic engine DRM/license strings were ignored.",
+      "labelOccurrences": [
+        {
+          "segmentId": "chtrHNfaT9U_70000",
+          "startSeconds": "3.740",
+          "endSeconds": "4.134",
+          "label": "/m/07s0dtb"
+        }
+      ],
+      "historicalStatus": "Previously inspected in the superseded candidate set; excluded when the corrected leading-underscore AudioSet ID _Gmlc1-d3QQ was admitted.",
+      "pageArtifact": "The superseded page bytes are not present in the current primary-page-operands archive; retain this metadata/hash as a historical inspection receipt and do not refetch or claim current archive membership."
     }
   ]
 }
