@@ -6,7 +6,7 @@ Dependencies: existing contracts only.
 
 ## Contract and owner
 
-Composition resolves cue placement; core exports/publication retain intent; protocol proposed export.create (new SRT/VTT kinds) operation.
+Composition resolves cue placement; core exports/publication retain intent; protocol export.create (new SRT/VTT kinds) operation.
 
 Request revision, caption placement IDs, SRT/VTT and new destination. Resolve display text and clipped project intervals, not raw ASR. Order by exact start then stable placement ID. Round outward to milliseconds; report any added overlap. Omit nonpositive exact support, report omissions; plain sidecars discard styling explicitly. SRT/VTT escaping is format-specific.
 
@@ -130,3 +130,5 @@ reader operands/results; these are deliberately unsafe input examples, not produ
 outputs. No review finding was dismissed. A broad tag candidate was narrowed after
 it incorrectly refused the independently preserved comparison string; the ordinary
 comparison contract and its assertion remain intact.
+
+Root integration repeated the public journey at `/tmp/screenrec-sidecars-root-integrated`; all nine groups passed with the retained native helper.

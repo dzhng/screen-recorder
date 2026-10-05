@@ -1,6 +1,6 @@
 # 25 — Everyday typed HEVC delivery
 
-Status: implemented and focused checks passed; Preview showing and end-of-spec full run remain with the coordinating agent. Question: **Can HEVC extend delivery without changing established H264/WAV/M4A behavior?**
+Status: implemented and focused checks passed; full public export and end-of-spec release proof remain with the coordinating agent. Question: **Can HEVC extend delivery without changing established H264/WAV/M4A behavior?**
 
 Dependencies: existing contracts only.
 
@@ -96,6 +96,6 @@ only the tested fixture appearance, not arbitrary user-footage quality.
 No user-media edit, capture or demonstration was performed. This is a narrow
 NativeWire output proof plus core preview/publication-contract coverage; a full
 CLI/service HEVC export journey and the end-of-spec full run are not claimed.
-Showing retained images through native Preview remains pending with the
-coordinator. The internal output-settings owner and renderer remain native;
+Native Preview showing was attempted but the desktop tool timed out. All four
+comparisons were viewed inline; no successful native Preview claim is made. The internal output-settings owner and renderer remain native;
 this slice introduces no persisted-state migration or compatibility shim.

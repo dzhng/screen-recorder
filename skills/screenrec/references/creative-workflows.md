@@ -33,6 +33,11 @@ Use the installed CLI's schemas and execution capabilities for every operation.
    On resumption, read these before making new choices. Do not re-ask a settled
    question or treat acceptance of an older revision as approval of changed output.
 
+For an explicit file list, use the [batch preparation helper](../scripts/batch-prepare.mjs)
+with bundled Node and read its `--help`. Save its resumable task manifest before
+processing; pending work retains concurrency slots. Name transcript streams
+explicitly and request failed-work retries deliberately.
+
 ## Read many takes without losing word evidence
 
 Use the [compact transcript helper](../scripts/compact-transcripts.mjs) with the
@@ -65,6 +70,12 @@ Reuse ready transcript generations for unchanged sources. Editing, grading or
 changing the caption style doesn't justify retranscribing source media. When the
 source, model or generation changes, invalidate the reading view's pins explicitly.
 Do not replace the local transcription workflow with a hosted provider implicitly.
+
+For a bounded source or pinned project window, the
+[timeline inspection helper](../scripts/timeline-inspection.mjs) combines delivered
+pictures, per-channel waveforms, words and cuts into an SVG plus exact manifest.
+Use its `--help`; preserve unavailable evidence and continuations. Sparse pictures
+are navigation evidence, not proof that you watched the whole interval.
 
 ## Select takes by the intended beat
 
@@ -151,7 +162,10 @@ verify the final composite, including later output processing. Inspect actual
 `frame.get` output and a moving preview. Check glyph coverage, wrapping, clipping
 and phone-size readability. Use exact admitted font faces; a font name alone doesn't prove the
 intended face rendered. Sidecar SRT/VTT delivery must be advertised separately;
-burned-in text does not establish a subtitle file was exported.
+burned-in text does not establish a subtitle file was exported. For advertised
+SRT/VTT export kinds, select the pinned revision and exact caption placement IDs.
+Keep omission, styling-loss and timing-rounding diagnostics. If literal text is
+ambiguous in SRT, use VTT rather than rewriting the words to force acceptance.
 
 ## Graphics and animation slots
 

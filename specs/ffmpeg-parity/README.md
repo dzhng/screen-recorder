@@ -12,11 +12,25 @@ every FFmpeg option or a replacement for a professional editing workstation.
 
 Implement the complete user-authorized plan through committed passes. Read the
 [exploration map](exploration.md), [parity contract](parity.md) and
-[isolated evidence](tool-proof.md). Foundation 01–03 and compact reading 07 are
-integrated. Next integrate ready 06/25/12 passes, then maintain this handoff and
-continue the live wavefront: retained input authority 04→05, timeline 08→09→24,
-and independent caption/color/alpha/speech branches. Each isolated worktree owns
-its focused tests, review and choices; integration reruns affected checks.
+[isolated evidence](tool-proof.md). Integrated: 01–03, 06–08, 12 and 25.
+Current priority: finish retained input authority 04→managed producer 05, then
+loudness 10; continue independent 09→24, caption proposals 11, SDR 16→17,
+alpha 20→21 and speech 22→23. HDR 18 waits for 04 and feeds 19 through 05.
+Each isolated worktree owns focused tests, review and choices; integration reruns
+affected checks. Consumer/release acceptance 26 and the full suite remain last.
+
+The held-input invocation will rewind explicit regular read-only descriptor slots
+before exec; caller numbering stays fixed and path reopening is forbidden.
+Managed FFmpeg publication reuses existing attempts/leases/cache; HDR conversion
+is its first artifact consumer, while loudness remains measurement evidence.
+Review helpers require caller-selected extents rather than inventing full revision
+duration. Caption proposals cannot certify glyph/pixel fit before rendered proof.
+
+Compact integration evidence: 34 portable helper checks, 18 composition settings/
+caption checks, 14 protocol checks, 16 preview and 14 storage checks, two service
+helper/discovery fixtures and affected builds passed. Public caption CLI/MCP
+journey passed all nine groups in isolated scratch state. Native HEVC uses retained
+four-source exact-window proof; full service HEVC and release ZIP remain 26.
 
 Keep each pass to one focused contract; use write-tests before changing behavior.
 Existing small fixtures are sufficient. Do not record or edit the user's media.
@@ -37,13 +51,13 @@ prompt, slice status and retained evidence before ending each implementation pas
 - [x] [03 — Owned CLI execution](slices/03-cli-lifetime.md)
 - [ ] [04 — Retained FFmpeg input authority](slices/04-input-authority.md)
 - [ ] [05 — Managed FFmpeg publication](slices/05-managed-output.md)
-- [ ] [06 — Bounded selected-file preparation](slices/06-batch-preparation.md)
+- [x] [06 — Bounded selected-file preparation](slices/06-batch-preparation.md)
 - [x] [07 — Compact transcript reading](slices/07-compact-transcripts.md)
-- [ ] [08 — Aligned timeline inspection](slices/08-timeline-inspection.md)
+- [x] [08 — Aligned timeline inspection](slices/08-timeline-inspection.md)
 - [ ] [09 — Read-only revision review bundle](slices/09-review-bundle.md)
 - [ ] [10 — Read-only loudness measurement](slices/10-loudness.md)
 - [ ] [11 — Caption grouping and layout proposals](slices/11-caption-proposals.md)
-- [ ] [12 — Pinned SRT and VTT delivery](slices/12-caption-sidecars.md)
+- [x] [12 — Pinned SRT and VTT delivery](slices/12-caption-sidecars.md)
 - [ ] [13a — Normalization reproduction](slices/13a-normalization-reproduction.md)
 - [ ] [14a — Limiter reproduction](slices/14a-limiter-reproduction.md)
 - [ ] [15a — Compressor reproduction](slices/15a-compressor-reproduction.md)
@@ -59,7 +73,7 @@ prompt, slice status and retained evidence before ending each implementation pas
 - [ ] [22 — Local speech evidence feasibility](slices/22-speech-feasibility.md)
 - [ ] [23 — Validated optional speech evidence](slices/23-speech-evidence.md)
 - [ ] [24 — Portable task-side editorial notes](slices/24-editorial-notes.md)
-- [ ] [25 — Everyday typed HEVC delivery](slices/25-hevc-output.md)
+- [x] [25 — Everyday typed HEVC delivery](slices/25-hevc-output.md)
 - [ ] [26 — Consumer skill and release acceptance](slices/26-consumer-release.md)
 
 ## Contracts and ownership
@@ -175,7 +189,7 @@ require listening, not metering alone. Missing viewing/listening stays explicit.
 The user selected scope, everyday delivery, tested defaults and broad LGPL bundling,
 and delegated matching planning choices based on simplicity, proven implementations
 and bundled tools. Answered by the agent on their behalf: existing review surfaces,
-Apple Silicon/macOS 26+, additive contracts without migrations, task-side notes,
+Apple Silicon/macOS 26+, fresh development schemas without migration or automatic deletion, task-side notes,
 helpers for orchestration, native-first HEVC/SDR correction, explicit HDR derivative,
 and refusal rather than silent linear-normalization fallback. These are reversible
 planning choices within the given preferences, not permission to implement.
