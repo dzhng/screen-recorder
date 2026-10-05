@@ -23,6 +23,10 @@ export class ManagedStorage {
   private readonly home: string;
   private readonly homeIdentity: DirectoryIdentity;
   private readonly lifetime = new AbortController();
+  onUpdateProgress: (() => void) | undefined;
+  get updateBlocked(): boolean {
+    return this.active.size > 0;
+  }
   private readonly active = new Map<string | undefined, Promise<StorageUsage>>();
   constructor(
     private readonly store: CaptureStore | null,
@@ -68,10 +72,11 @@ export class ManagedStorage {
     }
     const inspection = this.inspect(recordingId);
     this.active.set(recordingId, inspection);
-    void inspection.then(
-      () => this.active.delete(recordingId),
-      () => this.active.delete(recordingId),
-    );
+    const settle = () => {
+      this.active.delete(recordingId);
+      this.onUpdateProgress?.();
+    };
+    void inspection.then(settle, settle);
     return inspection;
   }
 

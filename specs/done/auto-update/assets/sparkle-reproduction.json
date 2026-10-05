@@ -1,0 +1,919 @@
+{
+  "capturedAt": "2026-10-04",
+  "command": "node --test scripts/update-lab.test.mjs",
+  "checks": 20,
+  "runnerSha256": "93bfae2ea5fbeafbbebdb046f339eb1403da604d6adfaa12bf409f7102050e19",
+  "appSourceSha256": "29a683a52025df6063b3e547c08b51198a39054fd8128ac379c44b9b6423ecab",
+  "scope": "Rejected upstream reproduction, not acceptance. The busy-quit probe exits 1. Cancellation samples are not helper acknowledgements. source.revision is the baseline HEAD; worktree source content is identified by the explicit hashes. Generated fixture bundles/archives were discarded; public hashes identify observed bytes, not retained golden fixtures. No accepted winner or production parity exists.",
+  "reports": [
+    {
+      "scenario": "incompatible",
+      "verdict": "observed",
+      "installedVersion": "0.1.0",
+      "archiveRequests": 0,
+      "events": [
+        {
+          "arguments": [
+            "/var/folders/62/pphwbgd15b1b9q7cjgf8m9pm0000gn/T/screenrec-update-lab-EFUqm9/installed/UpdateLab.app/Contents/MacOS/UpdateLab"
+          ],
+          "environmentPreserved": 1,
+          "event": "launch",
+          "version": "0.1.0"
+        },
+        {
+          "version": "0.1.0",
+          "candidateVersion": "0.1.1",
+          "accepted": false,
+          "signatureStatus": 1,
+          "event": "candidate",
+          "format": "24"
+        },
+        {
+          "error": "Error Domain=ScreenrecUpdateLab Code=1 \"candidate format is incompatible\" UserInfo={NSLocalizedDescription=candidate format is incompatible}",
+          "event": "cycle",
+          "version": "0.1.0"
+        },
+        {
+          "command": "check",
+          "event": "command",
+          "version": "0.1.0"
+        },
+        {
+          "version": "0.1.0",
+          "candidateVersion": "0.1.1",
+          "accepted": false,
+          "signatureStatus": 1,
+          "event": "candidate",
+          "format": "24"
+        },
+        {
+          "error": "Error Domain=ScreenrecUpdateLab Code=1 \"candidate format is incompatible\" UserInfo={NSLocalizedDescription=candidate format is incompatible}",
+          "event": "cycle",
+          "version": "0.1.0"
+        }
+      ],
+      "evidence": "/var/folders/62/pphwbgd15b1b9q7cjgf8m9pm0000gn/T/screenrec-update-lab-EFUqm9",
+      "stderr": "sandbox_extension_issue_file_to_process failed for /var/folders/62/pphwbgd15b1b9q7cjgf8m9pm0000gn/T/screenrec-update-lab-EFUqm9/installed/UpdateLab.app: 1 (Operation not permitted)\n",
+      "source": {
+        "revision": "4ae9497604c3b8ea6d23ded3f16b6d79eb3aeb49",
+        "runnerSha256": "93bfae2ea5fbeafbbebdb046f339eb1403da604d6adfaa12bf409f7102050e19",
+        "appSourceSha256": "29a683a52025df6063b3e547c08b51198a39054fd8128ac379c44b9b6423ecab"
+      },
+      "inputs": {
+        "publicKey": "j7TfZ2pOrMtlX9K7WyBFcJ+gZcLUVguVZXw6lp+dbzo=",
+        "appcastSha256": "6c778673445c51a7de564948a05fa83ea07b1f15c145f2375dd0617ff9383294",
+        "archiveSha256": "e88cc0788b584969df64470ee1fcfe04134ae8df271031d07a9cbfa8c1adb9a0"
+      },
+      "sparkle": {
+        "version": "2.10.0",
+        "distributionSha256": "c2bf58aa8387266ac179357b1415d6f2635f044da8be41042af32425dae6da0c"
+      },
+      "platform": "27.0.1",
+      "architecture": "arm64"
+    },
+    {
+      "scenario": "install",
+      "verdict": "observed",
+      "installedVersion": "0.1.1",
+      "archiveRequests": 1,
+      "events": [
+        {
+          "arguments": [
+            "/var/folders/62/pphwbgd15b1b9q7cjgf8m9pm0000gn/T/screenrec-update-lab-WyeZY9/installed/UpdateLab.app/Contents/MacOS/UpdateLab"
+          ],
+          "environmentPreserved": 1,
+          "event": "launch",
+          "version": "0.1.0"
+        },
+        {
+          "version": "0.1.0",
+          "candidateVersion": "0.1.1",
+          "accepted": true,
+          "signatureStatus": 1,
+          "event": "candidate",
+          "format": "23"
+        },
+        {
+          "stage": 0,
+          "event": "found",
+          "version": "0.1.0"
+        },
+        {
+          "event": "download",
+          "version": "0.1.0"
+        },
+        {
+          "event": "extract",
+          "version": "0.1.0"
+        },
+        {
+          "command": "check",
+          "event": "command",
+          "version": "0.1.0"
+        },
+        {
+          "event": "ready",
+          "version": "0.1.0",
+          "busy": true
+        },
+        {
+          "command": "install",
+          "event": "command",
+          "version": "0.1.0"
+        },
+        {
+          "event": "installing",
+          "version": "0.1.0"
+        },
+        {
+          "event": "relaunch",
+          "version": "0.1.0"
+        },
+        {
+          "event": "installProgress",
+          "version": "0.1.0",
+          "terminated": false
+        },
+        {
+          "busy": false,
+          "event": "terminate",
+          "cancelling": false,
+          "version": "0.1.0"
+        },
+        {
+          "arguments": [
+            "/var/folders/62/pphwbgd15b1b9q7cjgf8m9pm0000gn/T/screenrec-update-lab-WyeZY9/installed/UpdateLab.app/Contents/MacOS/UpdateLab"
+          ],
+          "environmentPreserved": 0,
+          "event": "launch",
+          "version": "0.1.1"
+        }
+      ],
+      "evidence": "/var/folders/62/pphwbgd15b1b9q7cjgf8m9pm0000gn/T/screenrec-update-lab-WyeZY9",
+      "stderr": "sandbox_extension_issue_file_to_process failed for /var/folders/62/pphwbgd15b1b9q7cjgf8m9pm0000gn/T/screenrec-update-lab-WyeZY9/installed/UpdateLab.app: 1 (Operation not permitted)\n",
+      "source": {
+        "revision": "4ae9497604c3b8ea6d23ded3f16b6d79eb3aeb49",
+        "runnerSha256": "93bfae2ea5fbeafbbebdb046f339eb1403da604d6adfaa12bf409f7102050e19",
+        "appSourceSha256": "29a683a52025df6063b3e547c08b51198a39054fd8128ac379c44b9b6423ecab"
+      },
+      "inputs": {
+        "publicKey": "7is4KYGJPWvj8Co+U2V/qEXtLnwLzqf5tYuWd+QvZ2E=",
+        "appcastSha256": "e7dd900c03eec21f0a56b1e4596115b1fe51fe4953fc6c92d97d7049cb3e9767",
+        "archiveSha256": "8b0b20dbc6cfd9bb9c9dc1a63fc8f92fc8cab4fe8edacfa3e34bc9182e8a5fdf"
+      },
+      "sparkle": {
+        "version": "2.10.0",
+        "distributionSha256": "c2bf58aa8387266ac179357b1415d6f2635f044da8be41042af32425dae6da0c"
+      },
+      "platform": "27.0.1",
+      "architecture": "arm64"
+    },
+    {
+      "scenario": "disable-quit",
+      "verdict": "observed",
+      "installedVersion": "0.1.0",
+      "archiveRequests": 1,
+      "events": [
+        {
+          "arguments": [
+            "/var/folders/62/pphwbgd15b1b9q7cjgf8m9pm0000gn/T/screenrec-update-lab-B6QrVl/installed/UpdateLab.app/Contents/MacOS/UpdateLab"
+          ],
+          "environmentPreserved": 1,
+          "event": "launch",
+          "version": "0.1.0"
+        },
+        {
+          "version": "0.1.0",
+          "candidateVersion": "0.1.1",
+          "accepted": true,
+          "signatureStatus": 1,
+          "event": "candidate",
+          "format": "23"
+        },
+        {
+          "stage": 0,
+          "event": "found",
+          "version": "0.1.0"
+        },
+        {
+          "event": "download",
+          "version": "0.1.0"
+        },
+        {
+          "event": "extract",
+          "version": "0.1.0"
+        },
+        {
+          "command": "check",
+          "event": "command",
+          "version": "0.1.0"
+        },
+        {
+          "event": "ready",
+          "version": "0.1.0",
+          "busy": true
+        },
+        {
+          "command": "disable",
+          "event": "command",
+          "version": "0.1.0"
+        },
+        {
+          "event": "dismiss",
+          "version": "0.1.0"
+        },
+        {
+          "error": "",
+          "event": "cycle",
+          "version": "0.1.0"
+        },
+        {
+          "command": "quit",
+          "event": "command",
+          "version": "0.1.0"
+        },
+        {
+          "busy": true,
+          "event": "terminate",
+          "cancelling": true,
+          "version": "0.1.0"
+        }
+      ],
+      "evidence": "/var/folders/62/pphwbgd15b1b9q7cjgf8m9pm0000gn/T/screenrec-update-lab-B6QrVl",
+      "stderr": "sandbox_extension_issue_file_to_process failed for /var/folders/62/pphwbgd15b1b9q7cjgf8m9pm0000gn/T/screenrec-update-lab-B6QrVl/installed/UpdateLab.app: 1 (Operation not permitted)\n",
+      "source": {
+        "revision": "4ae9497604c3b8ea6d23ded3f16b6d79eb3aeb49",
+        "runnerSha256": "93bfae2ea5fbeafbbebdb046f339eb1403da604d6adfaa12bf409f7102050e19",
+        "appSourceSha256": "29a683a52025df6063b3e547c08b51198a39054fd8128ac379c44b9b6423ecab"
+      },
+      "inputs": {
+        "publicKey": "meR3rPttzLCykNvMa4fVOKkZK00yP8oDuBLz9OSGHkU=",
+        "appcastSha256": "13437e06deef29db7c8ca301bef08f93c721ff49b74955e91334d2fe935bd4fe",
+        "archiveSha256": "3a4d99dc414846e5f4f511be48b1d86a5e3e6606b6259f2d0b4c183f66c8f7ea"
+      },
+      "sparkle": {
+        "version": "2.10.0",
+        "distributionSha256": "c2bf58aa8387266ac179357b1415d6f2635f044da8be41042af32425dae6da0c"
+      },
+      "platform": "27.0.1",
+      "architecture": "arm64"
+    },
+    {
+      "scenario": "busy-quit",
+      "verdict": "rejected",
+      "installedVersion": "0.1.1",
+      "archiveRequests": 1,
+      "events": [
+        {
+          "arguments": [
+            "/var/folders/62/pphwbgd15b1b9q7cjgf8m9pm0000gn/T/screenrec-update-lab-xjUPRx/installed/UpdateLab.app/Contents/MacOS/UpdateLab"
+          ],
+          "environmentPreserved": 1,
+          "event": "launch",
+          "version": "0.1.0"
+        },
+        {
+          "version": "0.1.0",
+          "candidateVersion": "0.1.1",
+          "accepted": true,
+          "signatureStatus": 1,
+          "event": "candidate",
+          "format": "23"
+        },
+        {
+          "stage": 0,
+          "event": "found",
+          "version": "0.1.0"
+        },
+        {
+          "event": "download",
+          "version": "0.1.0"
+        },
+        {
+          "event": "extract",
+          "version": "0.1.0"
+        },
+        {
+          "command": "check",
+          "event": "command",
+          "version": "0.1.0"
+        },
+        {
+          "event": "ready",
+          "version": "0.1.0",
+          "busy": true
+        },
+        {
+          "command": "quit",
+          "event": "command",
+          "version": "0.1.0"
+        },
+        {
+          "busy": true,
+          "event": "terminate",
+          "cancelling": false,
+          "version": "0.1.0"
+        }
+      ],
+      "evidence": "/var/folders/62/pphwbgd15b1b9q7cjgf8m9pm0000gn/T/screenrec-update-lab-xjUPRx",
+      "stderr": "sandbox_extension_issue_file_to_process failed for /var/folders/62/pphwbgd15b1b9q7cjgf8m9pm0000gn/T/screenrec-update-lab-xjUPRx/installed/UpdateLab.app: 1 (Operation not permitted)\n",
+      "source": {
+        "revision": "4ae9497604c3b8ea6d23ded3f16b6d79eb3aeb49",
+        "runnerSha256": "93bfae2ea5fbeafbbebdb046f339eb1403da604d6adfaa12bf409f7102050e19",
+        "appSourceSha256": "29a683a52025df6063b3e547c08b51198a39054fd8128ac379c44b9b6423ecab"
+      },
+      "inputs": {
+        "publicKey": "nLAS0g/FK7RBv3lVl/n+KUGH7pMf9ksIxIcfZLfl66s=",
+        "appcastSha256": "14c073ee22dcde295c46a9520452e172c43d5f09d8976e29f6f739b01752c759",
+        "archiveSha256": "7c597bc4dab1cba68c3a494f717af1203207e0b2924c4af182e4b0f5549eda69"
+      },
+      "sparkle": {
+        "version": "2.10.0",
+        "distributionSha256": "c2bf58aa8387266ac179357b1415d6f2635f044da8be41042af32425dae6da0c"
+      },
+      "platform": "27.0.1",
+      "architecture": "arm64"
+    },
+    {
+      "scenario": "disable-extract-quit",
+      "verdict": "observed",
+      "installedVersion": "0.1.0",
+      "archiveRequests": 1,
+      "events": [
+        {
+          "arguments": [
+            "/var/folders/62/pphwbgd15b1b9q7cjgf8m9pm0000gn/T/screenrec-update-lab-CoB8Ur/installed/UpdateLab.app/Contents/MacOS/UpdateLab"
+          ],
+          "environmentPreserved": 1,
+          "event": "launch",
+          "version": "0.1.0"
+        },
+        {
+          "version": "0.1.0",
+          "candidateVersion": "0.1.1",
+          "accepted": true,
+          "signatureStatus": 1,
+          "event": "candidate",
+          "format": "23"
+        },
+        {
+          "stage": 0,
+          "event": "found",
+          "version": "0.1.0"
+        },
+        {
+          "event": "download",
+          "version": "0.1.0"
+        },
+        {
+          "event": "extract",
+          "version": "0.1.0"
+        },
+        {
+          "busy": true,
+          "event": "terminate",
+          "cancelling": true,
+          "version": "0.1.0"
+        }
+      ],
+      "evidence": "/var/folders/62/pphwbgd15b1b9q7cjgf8m9pm0000gn/T/screenrec-update-lab-CoB8Ur",
+      "stderr": "sandbox_extension_issue_file_to_process failed for /var/folders/62/pphwbgd15b1b9q7cjgf8m9pm0000gn/T/screenrec-update-lab-CoB8Ur/installed/UpdateLab.app: 1 (Operation not permitted)\n",
+      "source": {
+        "revision": "4ae9497604c3b8ea6d23ded3f16b6d79eb3aeb49",
+        "runnerSha256": "93bfae2ea5fbeafbbebdb046f339eb1403da604d6adfaa12bf409f7102050e19",
+        "appSourceSha256": "29a683a52025df6063b3e547c08b51198a39054fd8128ac379c44b9b6423ecab"
+      },
+      "inputs": {
+        "publicKey": "3SoDMOkdF/WJBEevg7GCDHkV+QT9Qj+JGjTHXkA6tsY=",
+        "appcastSha256": "9a30fe6dd127109327e776e80dee0483f0d4b93075e872d62a367422e1249910",
+        "archiveSha256": "fa3c671eca65151d5b5be418d00e78b8b112be1038155311f5b43b77c7dde522"
+      },
+      "sparkle": {
+        "version": "2.10.0",
+        "distributionSha256": "c2bf58aa8387266ac179357b1415d6f2635f044da8be41042af32425dae6da0c"
+      },
+      "platform": "27.0.1",
+      "architecture": "arm64"
+    },
+    {
+      "scenario": "unsigned-feed",
+      "verdict": "observed",
+      "installedVersion": "0.1.0",
+      "archiveRequests": 0,
+      "events": [
+        {
+          "arguments": [
+            "/var/folders/62/pphwbgd15b1b9q7cjgf8m9pm0000gn/T/screenrec-update-lab-ziMIyv/installed/UpdateLab.app/Contents/MacOS/UpdateLab"
+          ],
+          "environmentPreserved": 1,
+          "event": "launch",
+          "version": "0.1.0"
+        },
+        {
+          "error": "Error Domain=SUSparkleErrorDomain Code=1000 \"The update feed is improperly signed and could not be validated. Please try again later or contact the app developer.\" UserInfo={NSLocalizedDescription=The update feed is improperly signed and could not be validated. Please try again later or contact the app developer., NSUnderlyingError=0x7532e4e9d0 {Error Domain=SUSparkleErrorDomain Code=3002 \"The app has an EdDSA public key, but there is no EdDSA signature in the appcast, so the appcast will be rejected.\" UserInfo={NSLocalizedDescription=The app has an EdDSA public key, but there is no EdDSA signature in the appcast, so the appcast will be rejected.}}}",
+          "event": "cycle",
+          "version": "0.1.0"
+        }
+      ],
+      "evidence": "/var/folders/62/pphwbgd15b1b9q7cjgf8m9pm0000gn/T/screenrec-update-lab-ziMIyv",
+      "stderr": "sandbox_extension_issue_file_to_process failed for /var/folders/62/pphwbgd15b1b9q7cjgf8m9pm0000gn/T/screenrec-update-lab-ziMIyv/installed/UpdateLab.app: 1 (Operation not permitted)\n",
+      "source": {
+        "revision": "4ae9497604c3b8ea6d23ded3f16b6d79eb3aeb49",
+        "runnerSha256": "93bfae2ea5fbeafbbebdb046f339eb1403da604d6adfaa12bf409f7102050e19",
+        "appSourceSha256": "29a683a52025df6063b3e547c08b51198a39054fd8128ac379c44b9b6423ecab"
+      },
+      "inputs": {
+        "publicKey": "2yeUQnnxBOlUIuQUZSzI8h8HpIi6mVMKQoXziPJfpWA=",
+        "appcastSha256": "185b1fd1fb15ae75722bb32e33f2bef4ac20c0da6e112a68e998f34b69cbb9dc",
+        "archiveSha256": "0573979c00da6d7a0c21b5b1e02d0ba34e4400a74e1118e0601161743b8a748d"
+      },
+      "sparkle": {
+        "version": "2.10.0",
+        "distributionSha256": "c2bf58aa8387266ac179357b1415d6f2635f044da8be41042af32425dae6da0c"
+      },
+      "platform": "27.0.1",
+      "architecture": "arm64"
+    },
+    {
+      "scenario": "tampered-feed",
+      "verdict": "observed",
+      "installedVersion": "0.1.0",
+      "archiveRequests": 0,
+      "events": [
+        {
+          "arguments": [
+            "/var/folders/62/pphwbgd15b1b9q7cjgf8m9pm0000gn/T/screenrec-update-lab-5hO5a7/installed/UpdateLab.app/Contents/MacOS/UpdateLab"
+          ],
+          "environmentPreserved": 1,
+          "event": "launch",
+          "version": "0.1.0"
+        },
+        {
+          "error": "Error Domain=SUSparkleErrorDomain Code=1000 \"The update feed is improperly signed and could not be validated. Please try again later or contact the app developer.\" UserInfo={NSLocalizedDescription=The update feed is improperly signed and could not be validated. Please try again later or contact the app developer., NSUnderlyingError=0x7be323ad00 {Error Domain=SUSparkleErrorDomain Code=3002 \"EdDSA signature does not match. Data of the appcast being checked is different than data that has been signed, or the public key and the private key are not from the same set. The downloaded appcast is likely different than the signed file because the expected content length from the appcast item (813 bytes) differs from the downloaded file length (818 bytes).\" UserInfo={NSLocalizedDescription=EdDSA signature does not match. Data of the appcast being checked is different than data that has been signed, or the public key and the private key are not from the same set. The downloaded appcast is likely different than the signed file because the expected content length from the appcast item (813 bytes) differs from the downloaded file length (818 bytes).}}}",
+          "event": "cycle",
+          "version": "0.1.0"
+        },
+        {
+          "command": "check",
+          "event": "command",
+          "version": "0.1.0"
+        },
+        {
+          "error": "Error Domain=SUSparkleErrorDomain Code=1000 \"The update feed is improperly signed and could not be validated. Please try again later or contact the app developer.\" UserInfo={NSLocalizedDescription=The update feed is improperly signed and could not be validated. Please try again later or contact the app developer., NSUnderlyingError=0x7be323a9d0 {Error Domain=SUSparkleErrorDomain Code=3002 \"EdDSA signature does not match. Data of the appcast being checked is different than data that has been signed, or the public key and the private key are not from the same set. The downloaded appcast is likely different than the signed file because the expected content length from the appcast item (813 bytes) differs from the downloaded file length (818 bytes).\" UserInfo={NSLocalizedDescription=EdDSA signature does not match. Data of the appcast being checked is different than data that has been signed, or the public key and the private key are not from the same set. The downloaded appcast is likely different than the signed file because the expected content length from the appcast item (813 bytes) differs from the downloaded file length (818 bytes).}}}",
+          "event": "cycle",
+          "version": "0.1.0"
+        }
+      ],
+      "evidence": "/var/folders/62/pphwbgd15b1b9q7cjgf8m9pm0000gn/T/screenrec-update-lab-5hO5a7",
+      "stderr": "sandbox_extension_issue_file_to_process failed for /var/folders/62/pphwbgd15b1b9q7cjgf8m9pm0000gn/T/screenrec-update-lab-5hO5a7/installed/UpdateLab.app: 1 (Operation not permitted)\n",
+      "source": {
+        "revision": "4ae9497604c3b8ea6d23ded3f16b6d79eb3aeb49",
+        "runnerSha256": "93bfae2ea5fbeafbbebdb046f339eb1403da604d6adfaa12bf409f7102050e19",
+        "appSourceSha256": "29a683a52025df6063b3e547c08b51198a39054fd8128ac379c44b9b6423ecab"
+      },
+      "inputs": {
+        "publicKey": "FYyzS2aAaZOBUVXh78tGuejFiyuLMHZ+0pmc03gnUAE=",
+        "appcastSha256": "97af905848056787aac79e6ebe581c0d0330fcc75ebe7c886ec02d9143edc719",
+        "archiveSha256": "43b9b7a0bec58a096545820df9cdf10cefd7be3eb178f9d3937d9045eb39fc1b"
+      },
+      "sparkle": {
+        "version": "2.10.0",
+        "distributionSha256": "c2bf58aa8387266ac179357b1415d6f2635f044da8be41042af32425dae6da0c"
+      },
+      "platform": "27.0.1",
+      "architecture": "arm64"
+    },
+    {
+      "scenario": "missing-format",
+      "verdict": "observed",
+      "installedVersion": "0.1.0",
+      "archiveRequests": 0,
+      "events": [
+        {
+          "arguments": [
+            "/var/folders/62/pphwbgd15b1b9q7cjgf8m9pm0000gn/T/screenrec-update-lab-XXFcha/installed/UpdateLab.app/Contents/MacOS/UpdateLab"
+          ],
+          "environmentPreserved": 1,
+          "event": "launch",
+          "version": "0.1.0"
+        },
+        {
+          "version": "0.1.0",
+          "candidateVersion": "0.1.1",
+          "accepted": false,
+          "signatureStatus": 1,
+          "event": "candidate",
+          "format": "missing"
+        },
+        {
+          "error": "Error Domain=ScreenrecUpdateLab Code=1 \"candidate format is incompatible\" UserInfo={NSLocalizedDescription=candidate format is incompatible}",
+          "event": "cycle",
+          "version": "0.1.0"
+        },
+        {
+          "command": "check",
+          "event": "command",
+          "version": "0.1.0"
+        },
+        {
+          "version": "0.1.0",
+          "candidateVersion": "0.1.1",
+          "accepted": false,
+          "signatureStatus": 1,
+          "event": "candidate",
+          "format": "missing"
+        },
+        {
+          "error": "Error Domain=ScreenrecUpdateLab Code=1 \"candidate format is incompatible\" UserInfo={NSLocalizedDescription=candidate format is incompatible}",
+          "event": "cycle",
+          "version": "0.1.0"
+        }
+      ],
+      "evidence": "/var/folders/62/pphwbgd15b1b9q7cjgf8m9pm0000gn/T/screenrec-update-lab-XXFcha",
+      "stderr": "sandbox_extension_issue_file_to_process failed for /var/folders/62/pphwbgd15b1b9q7cjgf8m9pm0000gn/T/screenrec-update-lab-XXFcha/installed/UpdateLab.app: 1 (Operation not permitted)\n",
+      "source": {
+        "revision": "4ae9497604c3b8ea6d23ded3f16b6d79eb3aeb49",
+        "runnerSha256": "93bfae2ea5fbeafbbebdb046f339eb1403da604d6adfaa12bf409f7102050e19",
+        "appSourceSha256": "29a683a52025df6063b3e547c08b51198a39054fd8128ac379c44b9b6423ecab"
+      },
+      "inputs": {
+        "publicKey": "zAiDYTO6l0iasSgM5cvC+er5cKFbBAHVP8bnXCS/QW8=",
+        "appcastSha256": "013b0fdda25c58154fdd9909dd94006ac47ee8d23d304d61bc05808217eb6876",
+        "archiveSha256": "e9717ea2d25cac164de9fc1d18bc7c4c94bdf9544b1926b825c824253d0e8e3b"
+      },
+      "sparkle": {
+        "version": "2.10.0",
+        "distributionSha256": "c2bf58aa8387266ac179357b1415d6f2635f044da8be41042af32425dae6da0c"
+      },
+      "platform": "27.0.1",
+      "architecture": "arm64"
+    },
+    {
+      "scenario": "malformed-format",
+      "verdict": "observed",
+      "installedVersion": "0.1.0",
+      "archiveRequests": 0,
+      "events": [
+        {
+          "arguments": [
+            "/var/folders/62/pphwbgd15b1b9q7cjgf8m9pm0000gn/T/screenrec-update-lab-4cnZXY/installed/UpdateLab.app/Contents/MacOS/UpdateLab"
+          ],
+          "environmentPreserved": 1,
+          "event": "launch",
+          "version": "0.1.0"
+        },
+        {
+          "version": "0.1.0",
+          "candidateVersion": "0.1.1",
+          "accepted": false,
+          "signatureStatus": 1,
+          "event": "candidate",
+          "format": "23x"
+        },
+        {
+          "error": "Error Domain=ScreenrecUpdateLab Code=1 \"candidate format is incompatible\" UserInfo={NSLocalizedDescription=candidate format is incompatible}",
+          "event": "cycle",
+          "version": "0.1.0"
+        }
+      ],
+      "evidence": "/var/folders/62/pphwbgd15b1b9q7cjgf8m9pm0000gn/T/screenrec-update-lab-4cnZXY",
+      "stderr": "sandbox_extension_issue_file_to_process failed for /var/folders/62/pphwbgd15b1b9q7cjgf8m9pm0000gn/T/screenrec-update-lab-4cnZXY/installed/UpdateLab.app: 1 (Operation not permitted)\n",
+      "source": {
+        "revision": "4ae9497604c3b8ea6d23ded3f16b6d79eb3aeb49",
+        "runnerSha256": "93bfae2ea5fbeafbbebdb046f339eb1403da604d6adfaa12bf409f7102050e19",
+        "appSourceSha256": "29a683a52025df6063b3e547c08b51198a39054fd8128ac379c44b9b6423ecab"
+      },
+      "inputs": {
+        "publicKey": "4ieF5XaTeZIZDAJGOoDSJZxnTDa2w147SUbjHVM9lZ8=",
+        "appcastSha256": "5534b5e20df65fde9b2ce7024a9e34282a4db245d34a3eff772d859706ec41c9",
+        "archiveSha256": "07074d8fd54aa53a05b6fa83d289a4889dea2398f3cd11ec6da08f2a5bb5ba16"
+      },
+      "sparkle": {
+        "version": "2.10.0",
+        "distributionSha256": "c2bf58aa8387266ac179357b1415d6f2635f044da8be41042af32425dae6da0c"
+      },
+      "platform": "27.0.1",
+      "architecture": "arm64"
+    },
+    {
+      "scenario": "bad-archive-signature",
+      "verdict": "observed",
+      "installedVersion": "0.1.0",
+      "archiveRequests": 1,
+      "events": [
+        {
+          "arguments": [
+            "/var/folders/62/pphwbgd15b1b9q7cjgf8m9pm0000gn/T/screenrec-update-lab-l78T6d/installed/UpdateLab.app/Contents/MacOS/UpdateLab"
+          ],
+          "environmentPreserved": 1,
+          "event": "launch",
+          "version": "0.1.0"
+        },
+        {
+          "version": "0.1.0",
+          "candidateVersion": "0.1.1",
+          "accepted": true,
+          "signatureStatus": 1,
+          "event": "candidate",
+          "format": "23"
+        },
+        {
+          "stage": 0,
+          "event": "found",
+          "version": "0.1.0"
+        },
+        {
+          "event": "download",
+          "version": "0.1.0"
+        },
+        {
+          "event": "extract",
+          "version": "0.1.0"
+        },
+        {
+          "command": "check",
+          "event": "command",
+          "version": "0.1.0"
+        },
+        {
+          "message": "Error Domain=SUSparkleErrorDomain Code=4005 \"The update is improperly signed and could not be validated. Please try again later or contact the app developer.\" UserInfo={NSLocalizedDescription=The update is improperly signed and could not be validated. Please try again later or contact the app developer., NSUnderlyingError=0x7cbb013990 {Error Domain=SUSparkleErrorDomain Code=4005 \"(Ed)DSA signature validation before unarchiving failed for update /Users/server/Library/Caches/dev.screenrec.update-lab.b7cbbb38-d68b-450d-920e-64b114e52bc5/org.sparkle-project.Sparkle/Installation/CYV3CXQ2I/5029554B-D35C-453B-98C3-0F80899844FF.zip\" UserInfo={NSMultipleUnderlyingErrorsKey=(\n    \"Error Domain=SUSparkleErrorDomain Code=3002 \\\"EdDSA signature does not match. Data of the update being checked is different than data that has been signed, or the public key and the private key are not from the same set. The downloaded update (5029554B-D35C-453B-98C3-0F80899844FF.zip) is likely not signed correctly because the file has the expected content length (1063402 bytes) which matches the appcast item.\\\" UserInfo={NSLocalizedDescription=EdDSA signature does not match. Data of the update being checked is different than data that has been signed, or the public key and the private key are not from the same set. The downloaded update (5029554B-D35C-453B-98C3-0F80899844FF.zip) is likely not signed correctly because the file has the expected content length (1063402 bytes) which matches the appcast item.}\",\n    \"Error Domain=SUSparkleErrorDomain Code=2 \\\"The download archive cannot be validated with Apple Developer ID code signing as fallback (after (Ed)DSA verification has failed). The team identifier could not be retrieved from the original app: /var/folders/62/pphwbgd15b1b9q7cjgf8m9pm0000gn/T/screenrec-update-lab-l78T6d/installed/UpdateLab.app\\\" UserInfo={NSLocalizedDescription=The download archive cannot be validated with Apple Developer ID code signing as fallback (after (Ed)DSA verification has failed). The team identifier could not be retrieved from the original app: /var/folders/62/pphwbgd15b1b9q7cjgf8m9pm0000gn/T/screenrec-update-lab-l78T6d/installed/UpdateLab.app}\"\n), NSLocalizedDescription=(Ed)DSA signature validation before unarchiving failed for update /Users/server/Library/Caches/dev.screenrec.update-lab.b7cbbb38-d68b-450d-920e-64b114e52bc5/org.sparkle-project.Sparkle/Installation/CYV3CXQ2I/5029554B-D35C-453B-98C3-0F80899844FF.zip, NSUnderlyingError=0x7cbb012ac0 {Error Domain=SUSparkleErrorDomain Code=3002 \"EdDSA signature does not match. Data of the update being checked is different than data that has been signed, or the public key and the private key are not from the same set. The downloaded update (5029554B-D35C-453B-98C3-0F80899844FF.zip) is likely not signed correctly because the file has the expected content length (1063402 bytes) which matches the appcast item.\" UserInfo={NSLocalizedDescription=EdDSA signature does not match. Data of the update being checked is different than data that has been signed, or the public key and the private key are not from the same set. The downloaded update (5029554B-D35C-453B-98C3-0F80899844FF.zip) is likely not signed correctly because the file has the expected content length (1063402 bytes) which matches the appcast item.}}}}}",
+          "event": "error",
+          "version": "0.1.0"
+        },
+        {
+          "event": "dismiss",
+          "version": "0.1.0"
+        },
+        {
+          "error": "Error Domain=SUSparkleErrorDomain Code=4005 \"The update is improperly signed and could not be validated. Please try again later or contact the app developer.\" UserInfo={NSLocalizedDescription=The update is improperly signed and could not be validated. Please try again later or contact the app developer., NSUnderlyingError=0x7cbb013990 {Error Domain=SUSparkleErrorDomain Code=4005 \"(Ed)DSA signature validation before unarchiving failed for update /Users/server/Library/Caches/dev.screenrec.update-lab.b7cbbb38-d68b-450d-920e-64b114e52bc5/org.sparkle-project.Sparkle/Installation/CYV3CXQ2I/5029554B-D35C-453B-98C3-0F80899844FF.zip\" UserInfo={NSMultipleUnderlyingErrorsKey=(\n    \"Error Domain=SUSparkleErrorDomain Code=3002 \\\"EdDSA signature does not match. Data of the update being checked is different than data that has been signed, or the public key and the private key are not from the same set. The downloaded update (5029554B-D35C-453B-98C3-0F80899844FF.zip) is likely not signed correctly because the file has the expected content length (1063402 bytes) which matches the appcast item.\\\" UserInfo={NSLocalizedDescription=EdDSA signature does not match. Data of the update being checked is different than data that has been signed, or the public key and the private key are not from the same set. The downloaded update (5029554B-D35C-453B-98C3-0F80899844FF.zip) is likely not signed correctly because the file has the expected content length (1063402 bytes) which matches the appcast item.}\",\n    \"Error Domain=SUSparkleErrorDomain Code=2 \\\"The download archive cannot be validated with Apple Developer ID code signing as fallback (after (Ed)DSA verification has failed). The team identifier could not be retrieved from the original app: /var/folders/62/pphwbgd15b1b9q7cjgf8m9pm0000gn/T/screenrec-update-lab-l78T6d/installed/UpdateLab.app\\\" UserInfo={NSLocalizedDescription=The download archive cannot be validated with Apple Developer ID code signing as fallback (after (Ed)DSA verification has failed). The team identifier could not be retrieved from the original app: /var/folders/62/pphwbgd15b1b9q7cjgf8m9pm0000gn/T/screenrec-update-lab-l78T6d/installed/UpdateLab.app}\"\n), NSLocalizedDescription=(Ed)DSA signature validation before unarchiving failed for update /Users/server/Library/Caches/dev.screenrec.update-lab.b7cbbb38-d68b-450d-920e-64b114e52bc5/org.sparkle-project.Sparkle/Installation/CYV3CXQ2I/5029554B-D35C-453B-98C3-0F80899844FF.zip, NSUnderlyingError=0x7cbb012ac0 {Error Domain=SUSparkleErrorDomain Code=3002 \"EdDSA signature does not match. Data of the update being checked is different than data that has been signed, or the public key and the private key are not from the same set. The downloaded update (5029554B-D35C-453B-98C3-0F80899844FF.zip) is likely not signed correctly because the file has the expected content length (1063402 bytes) which matches the appcast item.\" UserInfo={NSLocalizedDescription=EdDSA signature does not match. Data of the update being checked is different than data that has been signed, or the public key and the private key are not from the same set. The downloaded update (5029554B-D35C-453B-98C3-0F80899844FF.zip) is likely not signed correctly because the file has the expected content length (1063402 bytes) which matches the appcast item.}}}}}",
+          "event": "cycle",
+          "version": "0.1.0"
+        }
+      ],
+      "evidence": "/var/folders/62/pphwbgd15b1b9q7cjgf8m9pm0000gn/T/screenrec-update-lab-l78T6d",
+      "stderr": "sandbox_extension_issue_file_to_process failed for /var/folders/62/pphwbgd15b1b9q7cjgf8m9pm0000gn/T/screenrec-update-lab-l78T6d/installed/UpdateLab.app: 1 (Operation not permitted)\n",
+      "source": {
+        "revision": "4ae9497604c3b8ea6d23ded3f16b6d79eb3aeb49",
+        "runnerSha256": "93bfae2ea5fbeafbbebdb046f339eb1403da604d6adfaa12bf409f7102050e19",
+        "appSourceSha256": "29a683a52025df6063b3e547c08b51198a39054fd8128ac379c44b9b6423ecab"
+      },
+      "inputs": {
+        "publicKey": "fyiG1YZgDGvLTRP0pdtxx/7zuU4/OCUO0EWzplxHtXc=",
+        "appcastSha256": "b90d6884a15d83825270fafc2a36fec5ffe9ae6a7080eb8e5f1097e8482482e1",
+        "archiveSha256": "3ae8d8d026a70191ed7da1f6d7e7e2cf3b35349c2e9c838d47f8b17a005070a2"
+      },
+      "sparkle": {
+        "version": "2.10.0",
+        "distributionSha256": "c2bf58aa8387266ac179357b1415d6f2635f044da8be41042af32425dae6da0c"
+      },
+      "platform": "27.0.1",
+      "architecture": "arm64"
+    },
+    {
+      "scenario": "missing-signature",
+      "verdict": "observed",
+      "installedVersion": "0.1.0",
+      "archiveRequests": 1,
+      "events": [
+        {
+          "arguments": [
+            "/var/folders/62/pphwbgd15b1b9q7cjgf8m9pm0000gn/T/screenrec-update-lab-DvlFFm/installed/UpdateLab.app/Contents/MacOS/UpdateLab"
+          ],
+          "environmentPreserved": 1,
+          "event": "launch",
+          "version": "0.1.0"
+        },
+        {
+          "version": "0.1.0",
+          "candidateVersion": "0.1.1",
+          "accepted": true,
+          "signatureStatus": 1,
+          "event": "candidate",
+          "format": "23"
+        },
+        {
+          "stage": 0,
+          "event": "found",
+          "version": "0.1.0"
+        },
+        {
+          "event": "download",
+          "version": "0.1.0"
+        },
+        {
+          "event": "extract",
+          "version": "0.1.0"
+        },
+        {
+          "command": "check",
+          "event": "command",
+          "version": "0.1.0"
+        },
+        {
+          "message": "Error Domain=SUSparkleErrorDomain Code=4005 \"The update is improperly signed and could not be validated. Please try again later or contact the app developer.\" UserInfo={NSLocalizedDescription=The update is improperly signed and could not be validated. Please try again later or contact the app developer., NSUnderlyingError=0x7c9ec0ee20 {Error Domain=SUSparkleErrorDomain Code=4005 \"(Ed)DSA signature validation before unarchiving failed for update /Users/server/Library/Caches/dev.screenrec.update-lab.a5baa040-c4ce-4d5d-bcde-25fc94780472/org.sparkle-project.Sparkle/Installation/mmiTRRqh7/D4DB1B07-8828-4AA0-83AA-949195804C68.zip\" UserInfo={NSMultipleUnderlyingErrorsKey=(\n    \"Error Domain=SUSparkleErrorDomain Code=3002 \\\"The app has an EdDSA public key, but there is no EdDSA signature in the update, so the update will be rejected.\\\" UserInfo={NSLocalizedDescription=The app has an EdDSA public key, but there is no EdDSA signature in the update, so the update will be rejected.}\",\n    \"Error Domain=SUSparkleErrorDomain Code=2 \\\"The download archive cannot be validated with Apple Developer ID code signing as fallback (after (Ed)DSA verification has failed). The team identifier could not be retrieved from the original app: /var/folders/62/pphwbgd15b1b9q7cjgf8m9pm0000gn/T/screenrec-update-lab-DvlFFm/installed/UpdateLab.app\\\" UserInfo={NSLocalizedDescription=The download archive cannot be validated with Apple Developer ID code signing as fallback (after (Ed)DSA verification has failed). The team identifier could not be retrieved from the original app: /var/folders/62/pphwbgd15b1b9q7cjgf8m9pm0000gn/T/screenrec-update-lab-DvlFFm/installed/UpdateLab.app}\"\n), NSLocalizedDescription=(Ed)DSA signature validation before unarchiving failed for update /Users/server/Library/Caches/dev.screenrec.update-lab.a5baa040-c4ce-4d5d-bcde-25fc94780472/org.sparkle-project.Sparkle/Installation/mmiTRRqh7/D4DB1B07-8828-4AA0-83AA-949195804C68.zip, NSUnderlyingError=0x7c9ec0da40 {Error Domain=SUSparkleErrorDomain Code=3002 \"The app has an EdDSA public key, but there is no EdDSA signature in the update, so the update will be rejected.\" UserInfo={NSLocalizedDescription=The app has an EdDSA public key, but there is no EdDSA signature in the update, so the update will be rejected.}}}}}",
+          "event": "error",
+          "version": "0.1.0"
+        },
+        {
+          "event": "dismiss",
+          "version": "0.1.0"
+        },
+        {
+          "error": "Error Domain=SUSparkleErrorDomain Code=4005 \"The update is improperly signed and could not be validated. Please try again later or contact the app developer.\" UserInfo={NSLocalizedDescription=The update is improperly signed and could not be validated. Please try again later or contact the app developer., NSUnderlyingError=0x7c9ec0ee20 {Error Domain=SUSparkleErrorDomain Code=4005 \"(Ed)DSA signature validation before unarchiving failed for update /Users/server/Library/Caches/dev.screenrec.update-lab.a5baa040-c4ce-4d5d-bcde-25fc94780472/org.sparkle-project.Sparkle/Installation/mmiTRRqh7/D4DB1B07-8828-4AA0-83AA-949195804C68.zip\" UserInfo={NSMultipleUnderlyingErrorsKey=(\n    \"Error Domain=SUSparkleErrorDomain Code=3002 \\\"The app has an EdDSA public key, but there is no EdDSA signature in the update, so the update will be rejected.\\\" UserInfo={NSLocalizedDescription=The app has an EdDSA public key, but there is no EdDSA signature in the update, so the update will be rejected.}\",\n    \"Error Domain=SUSparkleErrorDomain Code=2 \\\"The download archive cannot be validated with Apple Developer ID code signing as fallback (after (Ed)DSA verification has failed). The team identifier could not be retrieved from the original app: /var/folders/62/pphwbgd15b1b9q7cjgf8m9pm0000gn/T/screenrec-update-lab-DvlFFm/installed/UpdateLab.app\\\" UserInfo={NSLocalizedDescription=The download archive cannot be validated with Apple Developer ID code signing as fallback (after (Ed)DSA verification has failed). The team identifier could not be retrieved from the original app: /var/folders/62/pphwbgd15b1b9q7cjgf8m9pm0000gn/T/screenrec-update-lab-DvlFFm/installed/UpdateLab.app}\"\n), NSLocalizedDescription=(Ed)DSA signature validation before unarchiving failed for update /Users/server/Library/Caches/dev.screenrec.update-lab.a5baa040-c4ce-4d5d-bcde-25fc94780472/org.sparkle-project.Sparkle/Installation/mmiTRRqh7/D4DB1B07-8828-4AA0-83AA-949195804C68.zip, NSUnderlyingError=0x7c9ec0da40 {Error Domain=SUSparkleErrorDomain Code=3002 \"The app has an EdDSA public key, but there is no EdDSA signature in the update, so the update will be rejected.\" UserInfo={NSLocalizedDescription=The app has an EdDSA public key, but there is no EdDSA signature in the update, so the update will be rejected.}}}}}",
+          "event": "cycle",
+          "version": "0.1.0"
+        }
+      ],
+      "evidence": "/var/folders/62/pphwbgd15b1b9q7cjgf8m9pm0000gn/T/screenrec-update-lab-DvlFFm",
+      "stderr": "sandbox_extension_issue_file_to_process failed for /var/folders/62/pphwbgd15b1b9q7cjgf8m9pm0000gn/T/screenrec-update-lab-DvlFFm/installed/UpdateLab.app: 1 (Operation not permitted)\n",
+      "source": {
+        "revision": "4ae9497604c3b8ea6d23ded3f16b6d79eb3aeb49",
+        "runnerSha256": "93bfae2ea5fbeafbbebdb046f339eb1403da604d6adfaa12bf409f7102050e19",
+        "appSourceSha256": "29a683a52025df6063b3e547c08b51198a39054fd8128ac379c44b9b6423ecab"
+      },
+      "inputs": {
+        "publicKey": "1D/6bdAUYR3P9Jtea9vr0CTPlyCnmMJMtYehJUldHMQ=",
+        "appcastSha256": "f004167f49b265e5bf44c05431504653ff577b97643008cc2008306954573015",
+        "archiveSha256": "5eae699abb432ecdc0f0fb59869859e711a6579184a693709525f783eac6170b"
+      },
+      "sparkle": {
+        "version": "2.10.0",
+        "distributionSha256": "c2bf58aa8387266ac179357b1415d6f2635f044da8be41042af32425dae6da0c"
+      },
+      "platform": "27.0.1",
+      "architecture": "arm64"
+    },
+    {
+      "scenario": "corrupt-archive",
+      "verdict": "observed",
+      "installedVersion": "0.1.0",
+      "archiveRequests": 1,
+      "events": [
+        {
+          "arguments": [
+            "/var/folders/62/pphwbgd15b1b9q7cjgf8m9pm0000gn/T/screenrec-update-lab-1Ck3Xi/installed/UpdateLab.app/Contents/MacOS/UpdateLab"
+          ],
+          "environmentPreserved": 1,
+          "event": "launch",
+          "version": "0.1.0"
+        },
+        {
+          "version": "0.1.0",
+          "candidateVersion": "0.1.1",
+          "accepted": true,
+          "signatureStatus": 1,
+          "event": "candidate",
+          "format": "23"
+        },
+        {
+          "stage": 0,
+          "event": "found",
+          "version": "0.1.0"
+        },
+        {
+          "event": "download",
+          "version": "0.1.0"
+        },
+        {
+          "event": "extract",
+          "version": "0.1.0"
+        },
+        {
+          "message": "Error Domain=SUSparkleErrorDomain Code=4005 \"The update is improperly signed and could not be validated. Please try again later or contact the app developer.\" UserInfo={NSLocalizedDescription=The update is improperly signed and could not be validated. Please try again later or contact the app developer., NSUnderlyingError=0x799ade77e0 {Error Domain=SUSparkleErrorDomain Code=4005 \"(Ed)DSA signature validation before unarchiving failed for update /Users/server/Library/Caches/dev.screenrec.update-lab.f136c1bc-5948-4a6f-bdd0-29c220e00b14/org.sparkle-project.Sparkle/Installation/rhVxSGYLs/9B2DE934-1291-4D37-BC64-5D6BD43519C9.zip\" UserInfo={NSMultipleUnderlyingErrorsKey=(\n    \"Error Domain=SUSparkleErrorDomain Code=3002 \\\"EdDSA signature does not match. Data of the update being checked is different than data that has been signed, or the public key and the private key are not from the same set. The downloaded update (9B2DE934-1291-4D37-BC64-5D6BD43519C9.zip) is likely different than the signed file because the expected content length from the appcast item (1063401 bytes) differs from the downloaded file length (1024 bytes).\\\" UserInfo={NSLocalizedDescription=EdDSA signature does not match. Data of the update being checked is different than data that has been signed, or the public key and the private key are not from the same set. The downloaded update (9B2DE934-1291-4D37-BC64-5D6BD43519C9.zip) is likely different than the signed file because the expected content length from the appcast item (1063401 bytes) differs from the downloaded file length (1024 bytes).}\",\n    \"Error Domain=SUSparkleErrorDomain Code=2 \\\"The download archive cannot be validated with Apple Developer ID code signing as fallback (after (Ed)DSA verification has failed). The team identifier could not be retrieved from the original app: /var/folders/62/pphwbgd15b1b9q7cjgf8m9pm0000gn/T/screenrec-update-lab-1Ck3Xi/installed/UpdateLab.app\\\" UserInfo={NSLocalizedDescription=The download archive cannot be validated with Apple Developer ID code signing as fallback (after (Ed)DSA verification has failed). The team identifier could not be retrieved from the original app: /var/folders/62/pphwbgd15b1b9q7cjgf8m9pm0000gn/T/screenrec-update-lab-1Ck3Xi/installed/UpdateLab.app}\"\n), NSLocalizedDescription=(Ed)DSA signature validation before unarchiving failed for update /Users/server/Library/Caches/dev.screenrec.update-lab.f136c1bc-5948-4a6f-bdd0-29c220e00b14/org.sparkle-project.Sparkle/Installation/rhVxSGYLs/9B2DE934-1291-4D37-BC64-5D6BD43519C9.zip, NSUnderlyingError=0x799ade5fb0 {Error Domain=SUSparkleErrorDomain Code=3002 \"EdDSA signature does not match. Data of the update being checked is different than data that has been signed, or the public key and the private key are not from the same set. The downloaded update (9B2DE934-1291-4D37-BC64-5D6BD43519C9.zip) is likely different than the signed file because the expected content length from the appcast item (1063401 bytes) differs from the downloaded file length (1024 bytes).\" UserInfo={NSLocalizedDescription=EdDSA signature does not match. Data of the update being checked is different than data that has been signed, or the public key and the private key are not from the same set. The downloaded update (9B2DE934-1291-4D37-BC64-5D6BD43519C9.zip) is likely different than the signed file because the expected content length from the appcast item (1063401 bytes) differs from the downloaded file length (1024 bytes).}}}}}",
+          "event": "error",
+          "version": "0.1.0"
+        },
+        {
+          "event": "dismiss",
+          "version": "0.1.0"
+        },
+        {
+          "error": "Error Domain=SUSparkleErrorDomain Code=4005 \"The update is improperly signed and could not be validated. Please try again later or contact the app developer.\" UserInfo={NSLocalizedDescription=The update is improperly signed and could not be validated. Please try again later or contact the app developer., NSUnderlyingError=0x799ade77e0 {Error Domain=SUSparkleErrorDomain Code=4005 \"(Ed)DSA signature validation before unarchiving failed for update /Users/server/Library/Caches/dev.screenrec.update-lab.f136c1bc-5948-4a6f-bdd0-29c220e00b14/org.sparkle-project.Sparkle/Installation/rhVxSGYLs/9B2DE934-1291-4D37-BC64-5D6BD43519C9.zip\" UserInfo={NSMultipleUnderlyingErrorsKey=(\n    \"Error Domain=SUSparkleErrorDomain Code=3002 \\\"EdDSA signature does not match. Data of the update being checked is different than data that has been signed, or the public key and the private key are not from the same set. The downloaded update (9B2DE934-1291-4D37-BC64-5D6BD43519C9.zip) is likely different than the signed file because the expected content length from the appcast item (1063401 bytes) differs from the downloaded file length (1024 bytes).\\\" UserInfo={NSLocalizedDescription=EdDSA signature does not match. Data of the update being checked is different than data that has been signed, or the public key and the private key are not from the same set. The downloaded update (9B2DE934-1291-4D37-BC64-5D6BD43519C9.zip) is likely different than the signed file because the expected content length from the appcast item (1063401 bytes) differs from the downloaded file length (1024 bytes).}\",\n    \"Error Domain=SUSparkleErrorDomain Code=2 \\\"The download archive cannot be validated with Apple Developer ID code signing as fallback (after (Ed)DSA verification has failed). The team identifier could not be retrieved from the original app: /var/folders/62/pphwbgd15b1b9q7cjgf8m9pm0000gn/T/screenrec-update-lab-1Ck3Xi/installed/UpdateLab.app\\\" UserInfo={NSLocalizedDescription=The download archive cannot be validated with Apple Developer ID code signing as fallback (after (Ed)DSA verification has failed). The team identifier could not be retrieved from the original app: /var/folders/62/pphwbgd15b1b9q7cjgf8m9pm0000gn/T/screenrec-update-lab-1Ck3Xi/installed/UpdateLab.app}\"\n), NSLocalizedDescription=(Ed)DSA signature validation before unarchiving failed for update /Users/server/Library/Caches/dev.screenrec.update-lab.f136c1bc-5948-4a6f-bdd0-29c220e00b14/org.sparkle-project.Sparkle/Installation/rhVxSGYLs/9B2DE934-1291-4D37-BC64-5D6BD43519C9.zip, NSUnderlyingError=0x799ade5fb0 {Error Domain=SUSparkleErrorDomain Code=3002 \"EdDSA signature does not match. Data of the update being checked is different than data that has been signed, or the public key and the private key are not from the same set. The downloaded update (9B2DE934-1291-4D37-BC64-5D6BD43519C9.zip) is likely different than the signed file because the expected content length from the appcast item (1063401 bytes) differs from the downloaded file length (1024 bytes).\" UserInfo={NSLocalizedDescription=EdDSA signature does not match. Data of the update being checked is different than data that has been signed, or the public key and the private key are not from the same set. The downloaded update (9B2DE934-1291-4D37-BC64-5D6BD43519C9.zip) is likely different than the signed file because the expected content length from the appcast item (1063401 bytes) differs from the downloaded file length (1024 bytes).}}}}}",
+          "event": "cycle",
+          "version": "0.1.0"
+        },
+        {
+          "command": "check",
+          "event": "command",
+          "version": "0.1.0"
+        }
+      ],
+      "evidence": "/var/folders/62/pphwbgd15b1b9q7cjgf8m9pm0000gn/T/screenrec-update-lab-1Ck3Xi",
+      "stderr": "sandbox_extension_issue_file_to_process failed for /var/folders/62/pphwbgd15b1b9q7cjgf8m9pm0000gn/T/screenrec-update-lab-1Ck3Xi/installed/UpdateLab.app: 1 (Operation not permitted)\n",
+      "source": {
+        "revision": "4ae9497604c3b8ea6d23ded3f16b6d79eb3aeb49",
+        "runnerSha256": "93bfae2ea5fbeafbbebdb046f339eb1403da604d6adfaa12bf409f7102050e19",
+        "appSourceSha256": "29a683a52025df6063b3e547c08b51198a39054fd8128ac379c44b9b6423ecab"
+      },
+      "inputs": {
+        "publicKey": "TtbkJKHaDJCXyVqE+Vyu+MwqkYYGg9Xa+XvpK7SyWow=",
+        "appcastSha256": "54445d2757683bc22055f8f940273e036606218ca8eca30dbf584cf769fd4ba2",
+        "archiveSha256": "5f70bf18a086007016e948b04aed3b82103a36bea41755b6cddfaf10ace3c6ef"
+      },
+      "sparkle": {
+        "version": "2.10.0",
+        "distributionSha256": "c2bf58aa8387266ac179357b1415d6f2635f044da8be41042af32425dae6da0c"
+      },
+      "platform": "27.0.1",
+      "architecture": "arm64"
+    },
+    {
+      "scenario": "equal",
+      "verdict": "observed",
+      "installedVersion": "0.1.0",
+      "archiveRequests": 0,
+      "events": [
+        {
+          "arguments": [
+            "/var/folders/62/pphwbgd15b1b9q7cjgf8m9pm0000gn/T/screenrec-update-lab-3rIJD3/installed/UpdateLab.app/Contents/MacOS/UpdateLab"
+          ],
+          "environmentPreserved": 1,
+          "event": "launch",
+          "version": "0.1.0"
+        },
+        {
+          "error": "Error Domain=SUSparkleErrorDomain Code=1001 \"You\u2019re up to date!\" UserInfo={NSLocalizedRecoveryOptions=(\n    OK\n), NSLocalizedDescription=You\u2019re up to date!, NSLocalizedRecoverySuggestion=UpdateLab 0.1.0 is currently the newest version available., SULatestAppcastItemFound=<SUAppcastItem: 0x75c8c49e00>, SPUNoUpdateUserInitiated=0, SUNoUpdateFoundReason=1}",
+          "event": "cycle",
+          "version": "0.1.0"
+        },
+        {
+          "command": "check",
+          "event": "command",
+          "version": "0.1.0"
+        },
+        {
+          "error": "Error Domain=SUSparkleErrorDomain Code=1001 \"You\u2019re up to date!\" UserInfo={NSLocalizedRecoveryOptions=(\n    OK\n), NSLocalizedDescription=You\u2019re up to date!, NSLocalizedRecoverySuggestion=UpdateLab 0.1.0 is currently the newest version available., SULatestAppcastItemFound=<SUAppcastItem: 0x75c8c49f40>, SPUNoUpdateUserInitiated=0, SUNoUpdateFoundReason=1}",
+          "event": "cycle",
+          "version": "0.1.0"
+        }
+      ],
+      "evidence": "/var/folders/62/pphwbgd15b1b9q7cjgf8m9pm0000gn/T/screenrec-update-lab-3rIJD3",
+      "stderr": "sandbox_extension_issue_file_to_process failed for /var/folders/62/pphwbgd15b1b9q7cjgf8m9pm0000gn/T/screenrec-update-lab-3rIJD3/installed/UpdateLab.app: 1 (Operation not permitted)\n",
+      "source": {
+        "revision": "4ae9497604c3b8ea6d23ded3f16b6d79eb3aeb49",
+        "runnerSha256": "93bfae2ea5fbeafbbebdb046f339eb1403da604d6adfaa12bf409f7102050e19",
+        "appSourceSha256": "29a683a52025df6063b3e547c08b51198a39054fd8128ac379c44b9b6423ecab"
+      },
+      "inputs": {
+        "publicKey": "AcPUfLIaddx3AIpi/j6Pov7ilw31/M1VTiSKOL04rWY=",
+        "appcastSha256": "ba5351c9a406d91cc4693a250e1cd909b60fdfc3d3e214004945d7966f3250a5",
+        "archiveSha256": "d4b1d41f031cbd7a5153b78a804d34cfdd1441489dfb231c9f7e8c5d0f9794dc"
+      },
+      "sparkle": {
+        "version": "2.10.0",
+        "distributionSha256": "c2bf58aa8387266ac179357b1415d6f2635f044da8be41042af32425dae6da0c"
+      },
+      "platform": "27.0.1",
+      "architecture": "arm64"
+    },
+    {
+      "scenario": "older",
+      "verdict": "observed",
+      "installedVersion": "0.1.0",
+      "archiveRequests": 0,
+      "events": [
+        {
+          "arguments": [
+            "/var/folders/62/pphwbgd15b1b9q7cjgf8m9pm0000gn/T/screenrec-update-lab-d8XYab/installed/UpdateLab.app/Contents/MacOS/UpdateLab"
+          ],
+          "environmentPreserved": 1,
+          "event": "launch",
+          "version": "0.1.0"
+        },
+        {
+          "error": "Error Domain=SUSparkleErrorDomain Code=1001 \"You\u2019re up to date!\" UserInfo={NSLocalizedRecoveryOptions=(\n    OK\n), NSLocalizedDescription=You\u2019re up to date!, NSLocalizedRecoverySuggestion=UpdateLab 0.0.9 is currently the newest version available.\n(You are currently running version\u00a00.1.0.), SULatestAppcastItemFound=<SUAppcastItem: 0x794ac2de00>, SPUNoUpdateUserInitiated=0, SUNoUpdateFoundReason=2}",
+          "event": "cycle",
+          "version": "0.1.0"
+        },
+        {
+          "command": "check",
+          "event": "command",
+          "version": "0.1.0"
+        },
+        {
+          "error": "Error Domain=SUSparkleErrorDomain Code=1001 \"You\u2019re up to date!\" UserInfo={NSLocalizedRecoveryOptions=(\n    OK\n), NSLocalizedDescription=You\u2019re up to date!, NSLocalizedRecoverySuggestion=UpdateLab 0.0.9 is currently the newest version available.\n(You are currently running version\u00a00.1.0.), SULatestAppcastItemFound=<SUAppcastItem: 0x794ac2df40>, SPUNoUpdateUserInitiated=0, SUNoUpdateFoundReason=2}",
+          "event": "cycle",
+          "version": "0.1.0"
+        }
+      ],
+      "evidence": "/var/folders/62/pphwbgd15b1b9q7cjgf8m9pm0000gn/T/screenrec-update-lab-d8XYab",
+      "stderr": "sandbox_extension_issue_file_to_process failed for /var/folders/62/pphwbgd15b1b9q7cjgf8m9pm0000gn/T/screenrec-update-lab-d8XYab/installed/UpdateLab.app: 1 (Operation not permitted)\n",
+      "source": {
+        "revision": "4ae9497604c3b8ea6d23ded3f16b6d79eb3aeb49",
+        "runnerSha256": "93bfae2ea5fbeafbbebdb046f339eb1403da604d6adfaa12bf409f7102050e19",
+        "appSourceSha256": "29a683a52025df6063b3e547c08b51198a39054fd8128ac379c44b9b6423ecab"
+      },
+      "inputs": {
+        "publicKey": "eUGYl2jNmSjzZUB8a/edyIqQohfM1QpgT8MKC40GqnA=",
+        "appcastSha256": "5977580b044e056f0b9befa886d5d9c00a8a74ffcd7dd705f1240ef363a5dab6",
+        "archiveSha256": "ca7318b129d79d529d2232b9185d90f25a14a8e56e8d4986c04f164c739e8c84"
+      },
+      "sparkle": {
+        "version": "2.10.0",
+        "distributionSha256": "c2bf58aa8387266ac179357b1415d6f2635f044da8be41042af32425dae6da0c"
+      },
+      "platform": "27.0.1",
+      "architecture": "arm64"
+    }
+  ]
+}

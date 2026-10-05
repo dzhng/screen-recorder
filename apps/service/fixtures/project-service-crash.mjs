@@ -3,7 +3,8 @@ import { startProjectService } from "../dist/project-service.js";
 const service = await startProjectService({
   home: process.argv[2],
   worker: async (_operation, _params, options) => {
-    if (_operation === "media.audioCapabilities") return { ok: true, data: {} };
+    if (["media.audioCapabilities", "media.pictureCapabilities"].includes(_operation))
+      return { ok: true, data: {} };
     process.send({ phase: "owned-copy-probing" });
     await new Promise((resolve) =>
       options.signal.addEventListener("abort", resolve, { once: true }),

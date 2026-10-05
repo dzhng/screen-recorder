@@ -12,12 +12,14 @@ import {
   type ControlResponse,
   type OperationRequest,
   type OperationResult,
+  updateControlOperations,
 } from "@screenrec/protocol";
 
 export type ControlChannel = {
   /** Asks the app's native side for one operation, bounded and correlated like its own calls. */
   call(operation: string, params: Record<string, unknown>): Promise<OperationResult>;
   emit(message: ControlMessage): void;
+  readonly updateBlocked: boolean;
   /** Settles every waiting call and stops reading. The caller owns what happens next. */
   close(): void;
 };
@@ -38,17 +40,20 @@ export function openControl(options: {
   dispatch: (request: OperationRequest) => Promise<OperationResult>;
   onEnd: () => void;
   timeoutMs?: number;
+  admission?: { refusal(): OperationResult | undefined; progress(): void };
 }): ControlChannel {
   const timeoutMs = options.timeoutMs ?? DEFAULT_CALL_TIMEOUT_MS;
   const pending = new Map<string, (result: OperationResult) => void>();
   const stream = new JsonLineStream(CONTROL_FRAME_BYTES);
   let inbound = 0;
+  let productInbound = 0;
+  let writes = 0;
   let outbound = 0;
   let ended = false;
 
   // A frame this process cannot encode, and a peer that stopped reading, both have to stay
   // reportable: neither may become an uncaught failure that skips listener cleanup.
-  const write = (message: ControlMessage): boolean => {
+  const write = (message: ControlMessage, product = false): boolean => {
     let frame: Buffer;
     try {
       frame = encodeJsonLine(message, CONTROL_FRAME_BYTES);
@@ -56,9 +61,18 @@ export function openControl(options: {
       if (failure instanceof FrameError) return false;
       throw failure;
     }
+    let owned = product;
+    const settleWrite = () => {
+      if (!owned) return;
+      owned = false;
+      writes -= 1;
+      options.admission?.progress();
+    };
+    if (owned) writes += 1;
     try {
-      options.output.write(frame);
+      options.output.write(frame, settleWrite);
     } catch {
+      settleWrite();
       // The stream is already torn down, so there is nowhere to put this frame. Its error
       // event, or the input reaching EOF, owns closing the channel.
     }
@@ -66,15 +80,22 @@ export function openControl(options: {
   };
   const emit = (message: ControlMessage) => void write(message);
   const oversized = "Response exceeds the control byte limit.";
-  const reply = (response: ControlResponse): void => {
-    if (write({ event: "result", response })) return;
+  const reply = (response: ControlResponse, product = false): void => {
+    if (write({ event: "result", response }, product)) return;
     const bounded = rejection(response.id, "LIMIT_EXCEEDED", oversized);
-    if (write({ event: "result", response: bounded })) return;
+    if (write({ event: "result", response: bounded }, product)) return;
     // Even the bounded form does not fit, so the correlation ID itself is the excess.
-    emit({ event: "result", response: rejection(null, "LIMIT_EXCEEDED", oversized) });
+    write({ event: "result", response: rejection(null, "LIMIT_EXCEEDED", oversized) }, product);
   };
 
   const answer = (request: OperationRequest): void => {
+    const product = !updateControlOperations.has(request.operation);
+    const refusal =
+      product && request.operation !== "capture.report" ? options.admission?.refusal() : undefined;
+    if (refusal) {
+      reply({ id: request.id, ...refusal });
+      return;
+    }
     if (inbound >= MAX_PENDING_CONTROL_CALLS) {
       reply(
         rejection(request.id, "LIMIT_EXCEEDED", "Too many control requests are already in flight."),
@@ -82,12 +103,17 @@ export function openControl(options: {
       return;
     }
     inbound += 1;
+    if (product) productInbound += 1;
     void Promise.resolve()
       .then(() => options.dispatch(request))
       .catch(() => operationError("INTERNAL_ERROR", "Service handler failed"))
       .then((result) => {
         inbound -= 1;
-        reply({ id: request.id, ...result });
+        reply({ id: request.id, ...result }, product);
+        if (product) {
+          productInbound -= 1;
+          options.admission?.progress();
+        }
       });
   };
 
@@ -96,6 +122,7 @@ export function openControl(options: {
     if (!waiting) return;
     pending.delete(id);
     waiting(result);
+    options.admission?.progress();
   };
 
   const dispatch = (value: unknown): void => {
@@ -169,6 +196,9 @@ export function openControl(options: {
   return {
     emit,
     close,
+    get updateBlocked() {
+      return productInbound > 0 || pending.size > 0 || writes > 0;
+    },
     call: (operation, params) =>
       new Promise<OperationResult>((resolve) => {
         if (ended) {
@@ -189,7 +219,7 @@ export function openControl(options: {
           clearTimeout(timer);
           resolve(result);
         });
-        if (!write({ event: "call", request: { id, operation, params } }))
+        if (!write({ event: "call", request: { id, operation, params } }, true))
           settle(
             id,
             operationError("LIMIT_EXCEEDED", `${operation} exceeds the control byte limit`),

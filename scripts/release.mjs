@@ -1,3 +1,5 @@
+import { releaseSigningInputs, withReleaseIdentity, signReleaseTree } from "./release-signing.mjs";
+import { bundleFacts, configureReleasePlist, verifiedFramework } from "./release-info.mjs";
 import { createHash } from "node:crypto";
 import { execFileSync } from "node:child_process";
 import {
@@ -19,7 +21,7 @@ import { pipeline } from "node:stream/promises";
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const { version } = JSON.parse(readFileSync(join(root, "apps/macos/package.json")));
-const { node } = JSON.parse(readFileSync(join(root, "scripts/release-inputs.json")));
+const { node, sparkleTools } = JSON.parse(readFileSync(join(root, "scripts/release-inputs.json")));
 node.version = readFileSync(join(root, ".node-version"), "utf8").trim();
 node.archive = `node-v${node.version}-darwin-arm64.tar.gz`;
 const denoise = JSON.parse(readFileSync(join(root, "helpers/denoise/provenance.json")));
@@ -68,9 +70,31 @@ async function prepare() {
   );
   run(process.execPath, [join(root, "helpers/denoise/prepare.mjs"), join(inputs, modelName)]);
   run(process.execPath, [join(root, "helpers/ffmpeg/prepare.mjs"), "prepare", "--cache", inputs]);
+  await download(sparkleTools.url, join(inputs, sparkleTools.archive), sparkleTools.sha256);
+  if (
+    !process.env.SCREENREC_SPARKLE_FRAMEWORK &&
+    !existsSync(join(root, "dist/sparkle/build-receipt.json"))
+  ) {
+    const pin = JSON.parse(readFileSync(join(root, "scripts/sparkle/upstream.json")));
+    const source = join(inputs, "sparkle-source");
+    if (!existsSync(source)) {
+      run("git", ["clone", "--no-checkout", "--filter=blob:none", pin.repository, source]);
+      run("git", ["-C", source, "checkout", "--detach", pin.commit]);
+    }
+    run(process.execPath, [
+      join(root, "scripts/sparkle/build.mjs"),
+      "--source",
+      source,
+      "--output",
+      join(root, "dist/sparkle"),
+    ]);
+  }
+  verifiedFramework(root);
 }
 async function packageRelease(tag) {
   validate(tag);
+  const signing = releaseSigningInputs();
+  const facts = await bundleFacts(root);
   if (process.platform !== "darwin" || process.arch !== "arm64")
     throw new Error("Release packaging requires an Apple Silicon Mac.");
   const dirty = execFileSync("git", ["status", "--porcelain"], {
@@ -92,14 +116,27 @@ async function packageRelease(tag) {
     ["-c", "Print :LSMinimumSystemVersion", join(built, "Contents/Info.plist")],
     { encoding: "utf8" },
   ).trim();
+  const runtimeFacts = JSON.parse(
+    readFileSync(join(built, "Contents/Resources/service/runtime.json")),
+  );
+  for (const [name, value] of Object.entries(facts))
+    if (runtimeFacts[name] !== value)
+      throw new Error(`Built runtime ${name} does not match committed source`);
+  const engine = verifiedFramework(root);
+  await verified(join(inputs, sparkleTools.archive), sparkleTools.sha256);
   const out = join(root, "dist/release");
   mkdirSync(out, { recursive: true });
   const work = mkdtempSync(join(out, "package-"));
+  const tools = mkdtempSync(join(out, "tools-"));
   const app = join(work, "Screen Recorder.app");
   const archive = join(out, `ScreenRecorder-${tag}-macos-arm64.zip`);
   const temporaryArchive = `${archive}.part-${process.pid}`;
   try {
+    run("tar", ["-xf", join(inputs, sparkleTools.archive), "-C", tools]);
     run("ditto", [built, app]);
+    const embeddedFramework = join(app, "Contents/Frameworks/Sparkle.framework");
+    rmSync(embeddedFramework, { recursive: true, force: true });
+    run("ditto", [engine.framework, embeddedFramework]);
     run("tar", ["-xzf", join(inputs, node.archive), "-C", work]);
     const distribution = join(work, `node-v${node.version}-darwin-arm64`);
     const resources = join(app, "Contents/Resources");
@@ -109,6 +146,7 @@ async function packageRelease(tag) {
     const notices = join(resources, "ThirdParty");
     for (const [name, file] of [
       ["Node", join(distribution, "LICENSE")],
+      ["Sparkle", join(tools, "LICENSE")],
       ["FluidAudio", join(root, "helpers/mac/.build/checkouts/FluidAudio/LICENSE")],
       [
         "SignalsmithStretch",
@@ -134,21 +172,7 @@ async function packageRelease(tag) {
     const manifestFile = join(resources, "service/runtime.json");
     const manifest = JSON.parse(readFileSync(manifestFile));
     manifest.nodePath = "../node/bin/node";
-    const { stageFFmpeg } = await import("../helpers/ffmpeg/prepare.mjs");
-    const tools = join(resources, "ffmpeg");
-    rmSync(tools, { recursive: true, force: true });
-    const ffmpeg = await stageFFmpeg({
-      source: join(built, "Contents/Resources/ffmpeg"),
-      destination: tools,
-      sign: (file) => {
-        const arch = execFileSync("lipo", ["-archs", file], { encoding: "utf8" }).trim();
-        if (arch !== "arm64") throw new Error(`Expected arm64 FFmpeg resource: ${file} (${arch})`);
-        run("codesign", ["--force", "--sign", "-", file]);
-      },
-    });
-    manifest.ffmpegDirectory = "../ffmpeg";
-    manifest.ffmpegReceiptSha256 = await sha(join(tools, "receipt.json"));
-    writeFileSync(manifestFile, JSON.stringify(manifest, null, 2) + "\n");
+    configureReleasePlist(join(app, "Contents/Info.plist"), facts, signing.publicKey);
     for (const executable of [
       join(runtime, "node"),
       join(app, "Contents/MacOS/screenrec-native"),
@@ -156,30 +180,67 @@ async function packageRelease(tag) {
     ]) {
       const arch = execFileSync("lipo", ["-archs", executable], { encoding: "utf8" }).trim();
       if (arch !== "arm64") throw new Error(`Expected arm64 executable: ${executable} (${arch})`);
-      run("codesign", ["--force", "--sign", "-", executable]);
     }
-    run("codesign", ["--force", "--sign", "-", app]);
-    run("codesign", ["--verify", "--deep", "--strict", app]);
-    writeFileSync(
-      join(work, "screenrec"),
-      `#!/bin/sh
-app=\${SCREENREC_APP:-"$HOME/Applications/Screen Recorder.app"}
-export SCREENREC_APP="$app"
-exec "$app/Contents/Resources/node/bin/node" "$app/Contents/Resources/cli/main.mjs" "$@"
-`,
-      { mode: 0o755 },
-    );
-    const revision = execFileSync("git", ["rev-parse", "HEAD"], {
-      cwd: root,
-      encoding: "utf8",
-    }).trim();
+    const launcher = join(work, "screenrec");
+    run("xcrun", [
+      "clang",
+      "-Wall",
+      "-Wextra",
+      "-Werror",
+      "-arch",
+      "arm64",
+      `-mmacosx-version-min=${minimumMacOS}`,
+      join(root, "scripts/launcher/main.c"),
+      "-o",
+      launcher,
+    ]);
+    let ffmpeg;
+    await withReleaseIdentity(signing, async ({ keychain, keyFile, identity }) => {
+      const signedResources = [];
+      const { stageFFmpeg } = await import("../helpers/ffmpeg/prepare.mjs");
+      const ffmpegDirectory = join(resources, "ffmpeg");
+      rmSync(ffmpegDirectory, { recursive: true, force: true });
+      ffmpeg = await stageFFmpeg({
+        source: join(built, "Contents/Resources/ffmpeg"),
+        destination: ffmpegDirectory,
+        sign: (file) => {
+          const arch = execFileSync("lipo", ["-archs", file], { encoding: "utf8" }).trim();
+          if (arch !== "arm64")
+            throw new Error(`Expected arm64 FFmpeg resource: ${file} (${arch})`);
+          signReleaseTree(file, identity, keychain);
+          signedResources.push(file);
+        },
+      });
+      manifest.ffmpegDirectory = "../ffmpeg";
+      manifest.ffmpegReceiptSha256 = await sha(join(ffmpegDirectory, "receipt.json"));
+      writeFileSync(manifestFile, JSON.stringify(manifest, null, 2) + "\n");
+      signReleaseTree(app, identity, keychain, { signedResources });
+      signReleaseTree(launcher, identity, keychain);
+      const updateArchive = join(out, `ScreenRecorder-${tag}-update-macos-arm64.zip`);
+      run("ditto", ["-c", "-k", "--sequesterRsrc", "--keepParent", app, updateArchive]);
+      const tool = join(tools, "bin/sign_update");
+      const signature = execFileSync(tool, ["--ed-key-file", keyFile, "-p", updateArchive], {
+        encoding: "utf8",
+        stdio: ["ignore", "pipe", "pipe"],
+      }).trim();
+      run(tool, ["--ed-key-file", keyFile, "--verify", updateArchive, signature]);
+      const updateName = updateArchive.split("/").at(-1);
+      const feed = join(out, "appcast.xml");
+      writeFileSync(
+        feed,
+        `<?xml version="1.0"?><rss version="2.0" xmlns:sparkle="http://www.andymatuschak.org/xml-namespaces/sparkle"><channel><title>Screen Recorder</title><item><title>${version}</title><sparkle:version>${version}</sparkle:version><sparkle:shortVersionString>${version}</sparkle:shortVersionString><sparkle:minimumSystemVersion>${minimumMacOS}</sparkle:minimumSystemVersion><screenrecCatalogFormat>${facts.catalogFormat}</screenrecCatalogFormat><enclosure url="https://github.com/dzhng/screen-recorder/releases/download/${tag}/${updateName}" sparkle:edSignature="${signature}" length="${readFileSync(updateArchive).length}" type="application/octet-stream"/></item></channel></rss>\n`,
+      );
+      run(tool, ["--ed-key-file", keyFile, feed]);
+      run(tool, ["--ed-key-file", keyFile, "--verify", feed]);
+      manifest.updateArchive = { name: updateName, sha256: await sha(updateArchive) };
+      manifest.appcast = { name: "appcast.xml", sha256: await sha(feed) };
+    });
     writeFileSync(
       join(work, "release.json"),
       JSON.stringify(
         {
-          version,
+          ...facts,
           tag,
-          revision,
           platform: "macOS",
           minimumMacOS,
           architecture: "arm64",
@@ -190,7 +251,15 @@ exec "$app/Contents/Resources/node/bin/node" "$app/Contents/Resources/cli/main.m
             recipeSha256: ffmpeg.recipeSha256,
             receiptSha256: manifest.ffmpegReceiptSha256,
           },
-          signature: "ad-hoc",
+          signature: "stable-self-signed",
+          signingIdentity: { sha1: signing.sha1, certificateSha256: signing.certificateSha256 },
+          updatePublicKey: signing.publicKey,
+          sparkle: {
+            commit: engine.receipt.inputs.commit,
+            patchSha256: engine.receipt.inputs.patchSha256,
+          },
+          updateArchive: manifest.updateArchive,
+          appcast: manifest.appcast,
           notarized: false,
         },
         null,
@@ -207,6 +276,7 @@ exec "$app/Contents/Resources/node/bin/node" "$app/Contents/Resources/cli/main.m
     console.log(archive);
   } finally {
     rmSync(work, { recursive: true, force: true });
+    rmSync(tools, { recursive: true, force: true });
     rmSync(temporaryArchive, { force: true });
   }
 }

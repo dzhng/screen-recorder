@@ -299,3 +299,43 @@ func selecting(_ target: MediaTarget, _ receipt: [String: Any], token: String) -
     }
   },
 );
+
+test("preview replacement reports continuous native intent without an intermediate idle notification", () => {
+  const scratch = mkdtempSync(join(tmpdir(), "screenrec-preview-intent-"));
+  try {
+    const executable = compileControlsCheck(
+      scratch,
+      ["PreviewController", "PreviewWindow"],
+      String.raw`
+import Foundation
+import ScreenRecorderControls
+@MainActor final class Presentation: PreviewPresenting {
+    func open(title: String, retry: @escaping @MainActor () -> Void, closed: @escaping @MainActor () -> Void) {}
+    func show(title: String, message: String, canRetry: Bool) {}
+    func play(title: String, file: String, mediaType: String, failed: @escaping @MainActor (String) -> Void) {}
+    func close() {}
+}
+struct Refused: Error {}
+@main struct Check {
+    @MainActor static func main() {
+        var owner: PreviewController?
+        var observations: [Bool] = []
+        let preview = PreviewController(call: { _, _ in throw Refused() }, presentation: Presentation(),
+            changed: { observations.append(owner?.isOpen == true) }, failure: { _ in })
+        owner = preview
+        preview.open("first")
+        preview.open("second")
+        preview.close()
+        print(observations.map(String.init).joined(separator: ","))
+    }
+}
+`,
+    );
+    assert.equal(
+      execFileSync(executable, [], { encoding: "utf8", timeout: 5000 }).trim(),
+      "true,true,false",
+    );
+  } finally {
+    rmSync(scratch, { recursive: true, force: true });
+  }
+});

@@ -19,7 +19,16 @@ try {
   writeFileSync(file, JSON.stringify(records));
   execFileSync(
     "swift",
-    ["run", "--jobs", "2", "--package-path", packagePath, "ScreenRecorderControlsTests"],
+    [
+      "run",
+      "--build-system",
+      "native",
+      "--jobs",
+      "2",
+      "--package-path",
+      packagePath,
+      "ScreenRecorderControlsTests",
+    ],
     {
       env: { ...process.env, SCREENREC_AUDIO_EXPORT_RECORDS: file },
       stdio: "inherit",

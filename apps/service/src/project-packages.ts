@@ -94,6 +94,14 @@ type Owners = {
 
 /** Archive lifetimes remain in the registry; durable adoption remains in the project and asset owners. */
 export class ProjectPackages {
+  private progress: (() => void) | undefined;
+  set onUpdateProgress(callback: (() => void) | undefined) {
+    this.progress = callback;
+    if (this.registry) this.registry.onUpdateProgress = callback;
+  }
+  get updateBlocked(): boolean {
+    return !!this.preparing || !!this.registry?.updateBlocked;
+  }
   private parent: Awaited<ReturnType<typeof openPackageParent>> | undefined;
   private registry: PackageRegistry<ValidatedProjectPackage, ProjectPackageManifest> | undefined;
   private preparing: Promise<void> | undefined;
@@ -176,12 +184,14 @@ export class ProjectPackages {
         await registry.recover();
         this.parent = parent;
         this.registry = registry;
+        registry.onUpdateProgress = this.progress;
       } catch (error) {
         await parent.handle.close();
         throw error;
       }
     })().finally(() => {
       this.preparing = undefined;
+      this.progress?.();
     });
     return this.preparing;
   }

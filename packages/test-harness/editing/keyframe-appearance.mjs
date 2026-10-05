@@ -55,7 +55,9 @@ export async function captureKeyframeAppearance({
         : "16-geometry";
   const frozen = JSON.parse(
     gunzipSync(
-      await readFile(join(root, "specs/done/agent-editing/assets", historical, "root-public.json.gz")),
+      await readFile(
+        join(root, "specs/done/agent-editing/assets", historical, "root-public.json.gz"),
+      ),
     ),
   );
   const transferred = JSON.parse(

@@ -1,0 +1,9 @@
+{
+  "schemaVersion": 1,
+  "createdAt": "2026-10-05T00:55:53.251Z",
+  "scope": "public-production-key-identity; no installed-update or permission claim",
+  "custody": "owner-approved private local folder and repository release secrets",
+  "sha1": "fd11080f20934221959b9967e02669dfe2bee4b0",
+  "certificateSha256": "08f3ef55e42ed2718accda76dfe12d66f921c025b8fef9c9ca9ffb1727dd18f5",
+  "sparklePublicKey": "PNC3IoaQ2k7em2BNfXe9KY3Q0DYgFT6QkEhVHL9X3PY="
+}

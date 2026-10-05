@@ -12,12 +12,15 @@ every FFmpeg option or a replacement for a professional editing workstation.
 
 Implement the complete authorized plan through committed passes. Read the
 [exploration](exploration.md), [parity contract](parity.md) and current slice.
-Integrated: 01–12, 16–18, 20–21 and 24–25. Next: integrate the audio-domain
-compiler/native/execution checkpoint, then explicit treatments 13–15. Independently,
+Integrated: 01–12, 16–18, 20–21 and 24–25. The audio-domain compiler and shared purpose-checked optional runtime are integrated;
+native audio preparation/execution and explicit treatments 13–15 remain next. Independently,
 finish 19 managed HDR conversion and family-specific speech research. Final release
 build/ZIP, relocated component acceptance 26 and the full suite follow integration.
 The release check is wired to reuse the public delivery observer; installed
-execution is still pending.
+execution is still pending. Latest main adds authenticated updates: archive smoke
+keeps its production-host exclusion; a separate relocated media check executes
+the packaged service/JavaScript CLI in scratch state. Direct FFmpeg extras still
+need app-replacement exclusion proof before the final release gate.
 
 Audio ownership is fixed by [shared preparation](slices/96-audio-preparation.md):
 composition declares state/dependency domains, native owns graph/prefix PCM,
@@ -34,7 +37,7 @@ facts, compressed interpretation and exact source↔derivative clocks.
 | [Public H.264/HEVC](evidence/hevc-public/report.json) | Authored clocks, decoded landmarks and replay pass. |
 | [Consumer trials](evidence/consumer-acceptance/README.md) | Concrete planning, GIF routing and unavailable execution pass twice; earlier failures retained. |
 | [Direct GIF](evidence/gif-extra/report.json) | Discovered component tools work; centisecond quantization explicit. |
-| [Speech families](slices/22-speech-feasibility.md) | Speaker defaults/calibration and tested events fail; boundary authority missing. No family promoted. |
+| [Speech families](slices/22-speech-feasibility.md) | Original official speaker runtime passes its bounded six-case research gate; production closure/projection remain open. Earlier speaker and event failures remain retained; boundary authority is missing. |
 
 Use small isolated fixtures and test-first changes. Do not record or edit personal
 media or repeat searches for the inaccessible running recorder. The user tests the

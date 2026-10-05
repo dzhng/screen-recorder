@@ -18,6 +18,9 @@ test("repeated large CLI outputs reach the judge once without dropping calls or 
   const failure = '{"ok":false,"error":{"code":"CONNECTION_ERROR"}}';
   const artifact = {
     response: "Help works; service is unavailable.",
+    reads: [{ path: "SKILL.md", status: "complete", text: "actual skill bytes" }],
+    beforeProjectFiles: [{ path: "local-note", sha256: "before" }],
+    projectFiles: [{ path: "local-note", sha256: "after" }],
     cliCalls: [
       { args: ["--help"], exit: 0, stdout: catalog, stderr: "" },
       { args: ["--help"], exit: 0, stdout: catalog, stderr: "" },
@@ -36,5 +39,8 @@ test("repeated large CLI outputs reach the judge once without dropping calls or 
   );
   assert.equal(read(observed.commands[0].output), catalog);
   assert.equal(observed.response, artifact.response);
+  assert.deepEqual(observed.reads, artifact.reads);
+  assert.deepEqual(observed.beforeProjectFiles, artifact.beforeProjectFiles);
+  assert.deepEqual(observed.projectFiles, artifact.projectFiles);
   assert.equal(Object.values(observed.outputs).filter((value) => value === catalog).length, 1);
 });

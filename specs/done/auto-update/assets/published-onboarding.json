@@ -1,0 +1,35 @@
+{
+  "schema": 1,
+  "status": "passed",
+  "mainRevision": "719f7baf683dc03e399affeaf12a8ccf042127b3",
+  "routes": [
+    "exact documented sparse Git block",
+    "exact documented recursive contents-API Node block"
+  ],
+  "acquisitionParity": "same resolved main commit and exact complete skill-folder bytes",
+  "files": {
+    "SKILL.md": "391ca18a4961efb08db3a045b5cddb5f20b139f150b2c3e02d252a3f65010e19",
+    "references/editorial-checks.md": "b2416ee902ebd798c1e123b0d192a3b1b5e5c1dd3f2f65bc893ad26de87e20b3",
+    "references/installation.md": "53ae0b6f943e0b45c0f21890c1d6326766e9f71a65a2119816ee1226deaf280b",
+    "references/mcp.md": "fcd32aaa920f2773df6a6d92c4ac0ef389f76cd9a9bffa17c833ad46d25880e0",
+    "references/media-workflows.md": "bc52be82147c3eba5507d099484f4304cc4381e5fde68a1171ab1f64dc931beb",
+    "references/skill-lifecycle.md": "a2520dda45f03b614256a6f23169a8702bc3d2cf55b6f108d6d7f10606591773"
+  },
+  "installation": "exact documented first-install block with real npx --yes skills@1.7.0 add, codex and claude-code",
+  "layout": {
+    "canonical": ".agents/skills/screenrec",
+    "claudeSymlink": "../../.agents/skills/screenrec",
+    "resolvesToCanonical": true,
+    "claudeDirectoryIsReal": true,
+    "unrelatedSettingsUnchanged": true
+  },
+  "modelMatrixInputMatch": true,
+  "limits": [
+    "Scratch project installation on this Mac; no consumer app installation, no live native readiness or new model session claim.",
+    "Fresh-session agent behavior covered separately by44 Docker trials using identical consumer files."
+  ],
+  "log": {
+    "path": "/Users/server/.local/share/screenrec-dev-evidence/auto-update/live-published-onboarding.log",
+    "sha256": "3e84c60d4d31118436604bf75d8255139e591de0ecf27348f299cb9c7fc0812e"
+  }
+}

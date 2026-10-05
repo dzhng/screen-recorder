@@ -107,6 +107,37 @@ function fixture(prefix = "run") {
   return { path, ...open(path, prefix) };
 }
 
+test("update blocking includes dependency wait and queued work even when idle has no live attempt", async () => {
+  const { store, queue } = fixture();
+  const recordingId = finished(store);
+  const waiting = queue.submitDeferred({
+    target: { kind: "recording", recordingId, revisionId: null },
+    artifact: "export",
+    input: "waiting",
+    lane: "heavy",
+  });
+  queue.startAdmission(() => ({ state: "waiting", dependency: "missing" }));
+  await queue.idle();
+  expect(queue.job(waiting.jobId).state).toBe("waiting");
+  expect(queue.updateBlocked).toBe(true);
+  queue.cancel(waiting.jobId);
+  await turn();
+  expect(queue.updateBlocked).toBe(false);
+  store.allocate();
+  const queued = queue.submit({
+    target: { kind: "recording", recordingId, revisionId: null },
+    artifact: "transcript",
+    input: "queued",
+    lane: "heavy",
+  });
+  await queue.idle();
+  expect(queue.job(queued.jobId).state).toBe("queued");
+  expect(queue.updateBlocked).toBe(true);
+  queue.cancel(queued.jobId);
+  await turn();
+  expect(queue.updateBlocked).toBe(false);
+});
+
 /** A settled source: no capture of it is still outstanding. */
 function finished(store: CaptureStore, sourceDurationUs = 20): string {
   const { recordingId, sourceId } = store.allocate().recording;

@@ -12,6 +12,9 @@ import ScreenRecorderControls
 final class RegionSelection {
     private var panels: [RegionPanel] = []
     private var answer: ((ControlsState.Region?) -> Void)?
+    private let changed: () -> Void
+
+    init(changed: @escaping () -> Void = {}) { self.changed = changed }
 
     var isChoosing: Bool { !panels.isEmpty }
 
@@ -37,6 +40,7 @@ final class RegionSelection {
                 self?.finish(with: region)
             }
         }
+        changed()
         NSApplication.shared.activate(ignoringOtherApps: true)
         for panel in panels { panel.orderFrontRegardless() }
         panels.first?.makeKey()
@@ -50,6 +54,7 @@ final class RegionSelection {
         for panel in panels { panel.close() }
         panels = []
         completion(region)
+        changed()
     }
 }
 

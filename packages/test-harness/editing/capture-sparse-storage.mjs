@@ -37,7 +37,15 @@ mkdirSync(out, { recursive: true });
 assert.deepEqual(readdirSync(out), []);
 writeFileSync(
   join(out, "build.log"),
-  command("swift", ["build", "--package-path", "helpers/mac", "--product", "CameraReproduction"]),
+  command("swift", [
+    "build",
+    "--build-system",
+    "native",
+    "--package-path",
+    "helpers/mac",
+    "--product",
+    "CameraReproduction",
+  ]),
 );
 const exact = (value, timescale) => ({ value, timescale });
 const run = (firstFrame, frames, sourceStart) => ({ firstFrame, frames, sourceStart });

@@ -48,16 +48,21 @@ final class ServiceHost: @unchecked Sendable {
     }()
 
     private let onState: @Sendable (State) -> Void
+    private let onUpdateProgress: @Sendable () -> Void
     private let onNativeCall: NativeHandler
     private var inbound = 0
+    private var updateExit: (@Sendable (Result<Void, ServiceFailure>) -> Void)?
+    private var exitResult: Result<Void, ServiceFailure>?
 
     init(
         bundle: ServiceBundle, onNativeCall: @escaping NativeHandler,
-        onState: @escaping @Sendable (State) -> Void
+        onState: @escaping @Sendable (State) -> Void,
+        onUpdateProgress: @escaping @Sendable () -> Void = {}
     ) {
         self.bundle = bundle
         self.onNativeCall = onNativeCall
         self.onState = onState
+        self.onUpdateProgress = onUpdateProgress
     }
 
     /// How long one call may wait for its answer, as the protocol states it.
@@ -83,8 +88,9 @@ final class ServiceHost: @unchecked Sendable {
         child.currentDirectoryURL = URL(fileURLWithPath: "/")
         child.terminationHandler = { [weak self] process in
             let status = process.terminationStatus
+            let clean = process.terminationReason == .exit && status == 0
             guard let self else { return }
-            queue.async { self.childExited(status: status) }
+            queue.async { self.childExited(status: status, clean: clean) }
         }
         output.fileHandleForReading.readabilityHandler = { [weak self] handle in
             let data = handle.availableData
@@ -222,6 +228,35 @@ final class ServiceHost: @unchecked Sendable {
         _ = waitForExit(Self.signalDeadline)
     }
 
+    /// Installation never borrows normal quit's signal escalation. EOF is irreversible:
+    /// a timeout leaves this host closing, and only an observed clean exit permits replacement.
+    func shutdownForUpdate(timeout: TimeInterval = eofDeadline) async throws(ServiceFailure) {
+        let result: Result<Void, ServiceFailure> = await withCheckedContinuation { continuation in
+            queue.async {
+                if let result = self.exitResult { continuation.resume(returning: result); return }
+                guard !self.stopping, !self.finished else {
+                    continuation.resume(returning: .failure(self.unavailableFailure()))
+                    return
+                }
+                self.stopping = true
+                self.state = .unavailable(code: "SERVICE_STOPPED", message: "Service is closing for update")
+                self.publish(self.state)
+                self.updateExit = { continuation.resume(returning: $0) }
+                let pending = self.pending
+                self.pending.removeAll()
+                for answer in pending.values { answer(.failure(self.unavailableFailure())) }
+                self.closeWriter()
+                self.queue.asyncAfter(deadline: .now() + max(0, timeout)) {
+                    guard let answer = self.updateExit else { return }
+                    self.updateExit = nil
+                    answer(.failure(ServiceFailure(code: "UPDATE_SHUTDOWN_TIMEOUT",
+                        message: "Service did not exit cleanly. Quit and reopen the app to restore service.")))
+                }
+            }
+        }
+        try result.get()
+    }
+
     private func waitForExit(_ deadline: TimeInterval) -> Bool {
         let limit = Date().addingTimeInterval(deadline)
         while child.isRunning && Date() < limit { Thread.sleep(forTimeInterval: 0.02) }
@@ -232,7 +267,7 @@ final class ServiceHost: @unchecked Sendable {
 
     private func consume(_ data: Data) {
         // A failed child is being ended; nothing it still had buffered may act on this app.
-        guard !finished else { return }
+        guard !finished, !stopping else { return }
         var rest = data[...]
         while let terminator = rest.firstIndex(of: 0x0a) {
             let line = rest[rest.startIndex..<terminator]
@@ -315,6 +350,9 @@ final class ServiceHost: @unchecked Sendable {
                     self.answer(id: id, result)
                 }
             }
+        case "update.progress":
+            let notify = onUpdateProgress
+            DispatchQueue.main.async { notify() }
         case "result":
             guard let response = message["response"] as? [String: Any] else {
                 fail(code: "CONTROL_PROTOCOL", message: "Service sent a result without a response")
@@ -392,7 +430,13 @@ final class ServiceHost: @unchecked Sendable {
         fail(code: "SERVICE_STOPPED", message: "Service closed its control channel")
     }
 
-    private func childExited(status: Int32) {
+    private func childExited(status: Int32, clean: Bool) {
+        let result: Result<Void, ServiceFailure> = clean ? .success(()) : .failure(
+            ServiceFailure(code: "UPDATE_SHUTDOWN_FAILED", message: "Service exited with status \(status)"))
+        exitResult = result
+        let answer = updateExit
+        updateExit = nil
+        answer?(result)
         guard !stopping else { return }
         fail(code: "SERVICE_STOPPED", message: "Service exited with status \(status)")
     }

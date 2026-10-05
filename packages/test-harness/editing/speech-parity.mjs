@@ -33,7 +33,9 @@ const save = (name, value) => writeFile(join(out, name), JSON.stringify(value, n
 const json = async (path) => JSON.parse(await readFile(path, "utf8"));
 const baseline = await json(join(reference, "manifest.json"));
 const frozen = join(root, "specs/done/agent-editing/assets/10b-native-selection/selected");
-const prior = await json(join(root, "specs/done/agent-editing/assets/10c-public-phrases/project.json"));
+const prior = await json(
+  join(root, "specs/done/agent-editing/assets/10c-public-phrases/project.json"),
+);
 const engine = prior.transcript.dependencies[0].transcript.engine;
 assert.equal(engine.modelDigest, baseline.models.digest);
 for (const [key, value] of Object.entries(baseline.models.pins)) assert.equal(engine[key], value);

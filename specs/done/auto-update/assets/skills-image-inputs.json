@@ -1,0 +1,17 @@
+{
+  "receipts": [
+    {
+      "image": "sha256:a0e44efe6a3581d5deb985df02b04f57629b88f283b3425cffb0bb2e3dfbb723",
+      "exit": 0,
+      "stdout": "1c34bd0fbecb75620fccaa790354cf0708644cbd959992c0b8bf7b1a554b7bc2  /opt/evals/agent-result.mjs\n76ead82209a705e3028ad59e16c5e38ddc98ad255058f96d9a403b28d8f16a06  /opt/evals/cli-launcher.mjs\n814875f3989c170239688625644f36a74d6e2e934e681fdf118c36f4d6a60cc4  /opt/evals/contracts.mjs\n491aad10f51d9c92046d162b1392115aca167c475bc8c7abdfbf28ebaf8779e8  /opt/evals/fixture.mjs\n65d10600a54b0e78a83e06736c911910627710619a0e9ce90771e71b7aa465db  /opt/evals/skills.mjs\nf2781a5c1772510539472942e39b8d94ea869e0bf6ca39dd6b6ba231a81f4dbc  /opt/evals/worker.mjs\n1.7.0\ncodex-cli 0.160.0\n2.1.289 (Claude Code)\nv24.21.0\n11.19.0\nfde68534019765fb69510a0038ca7df2810a6ffed4c26fef9beabdcf6cc6701c  /usr/local/lib/node_modules/skills/dist/cli.mjs\n",
+      "stderr": ""
+    },
+    {
+      "image": "sha256:792fdad0a3efb421703b50ec05375b28d02edcb4bbdb97b459a33310d290e72e",
+      "exit": 0,
+      "stdout": "1c34bd0fbecb75620fccaa790354cf0708644cbd959992c0b8bf7b1a554b7bc2  /opt/evals/agent-result.mjs\n76ead82209a705e3028ad59e16c5e38ddc98ad255058f96d9a403b28d8f16a06  /opt/evals/cli-launcher.mjs\n814875f3989c170239688625644f36a74d6e2e934e681fdf118c36f4d6a60cc4  /opt/evals/contracts.mjs\n491aad10f51d9c92046d162b1392115aca167c475bc8c7abdfbf28ebaf8779e8  /opt/evals/fixture.mjs\n65d10600a54b0e78a83e06736c911910627710619a0e9ce90771e71b7aa465db  /opt/evals/skills.mjs\nf2781a5c1772510539472942e39b8d94ea869e0bf6ca39dd6b6ba231a81f4dbc  /opt/evals/worker.mjs\n1.7.0\ncodex-cli 0.160.0\n2.1.289 (Claude Code)\nv24.21.0\n11.19.0\nfde68534019765fb69510a0038ca7df2810a6ffed4c26fef9beabdcf6cc6701c  /usr/local/lib/node_modules/skills/dist/cli.mjs\n",
+      "stderr": ""
+    }
+  ],
+  "observedInputsEqual": true
+}

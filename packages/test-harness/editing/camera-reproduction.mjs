@@ -72,6 +72,8 @@ let binary = process.env.SCREENREC_CAMERA_PROBE;
 if (!binary) {
   const build = run("swift", [
     "build",
+    "--build-system",
+    "native",
     "--package-path",
     "helpers/mac",
     "--product",

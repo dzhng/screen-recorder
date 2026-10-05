@@ -26,16 +26,15 @@ ledgers retain their original role rather than being rewritten as current succes
 and README trials in Claude/Codex, released-app checks and the limits of Docker
 isolation. It is audit evidence, not a media-editing implementation plan.
 
+[Automatic app and CLI updates](done/auto-update/README.md) records the shipped
+replacement, admission, signing and explicit skill-lifecycle boundaries, with
+published-artifact and scoped native/agent evidence. Release publishing remains
+owned by the [tag workflow](../scripts/README.md#versioned-github-releases).
+
 ## Implementation plans
 
-[FFmpeg parity and agent media workflows](ffmpeg-parity/README.md) has a completed
-implementation plan and discovery map. It defines workflow additions and bundled
-FFmpeg seams; implementation has not started.
-
-[Automatic updates](auto-update/README.md) holds the implementation ladder and
-handoff for installed app/CLI updates, with its completed discovery map retained
-alongside it. Planning is complete; updater implementation has not started.
-Release publishing remains owned by the [tag workflow](../scripts/README.md#versioned-github-releases).
+[FFmpeg parity and agent media workflows](ffmpeg-parity/README.md) owns the active
+implementation ladder for workflow additions and bundled media-tool execution.
 
 ## Future proposals
 

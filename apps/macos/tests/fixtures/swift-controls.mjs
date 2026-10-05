@@ -14,6 +14,8 @@ export function compileControlsCheck(scratch, appSources, check, onCompile = () 
   const packagePath = fileURLToPath(new URL("../../", import.meta.url));
   const args = [
     "build",
+    "--build-system",
+    "native",
     "--package-path",
     packagePath,
     "--target",

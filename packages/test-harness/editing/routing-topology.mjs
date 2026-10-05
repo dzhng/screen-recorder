@@ -40,11 +40,13 @@ export function routingTopology(depth, width) {
 
 /** Authored long-project layout: sequential clips, then one overlapping clip per lane. */
 export function longRoutingPlacements(seconds, occurrences, width) {
-  const durationUs = seconds * 1e6, sequential = occurrences - width, tailUs = durationUs - 1e6;
+  const durationUs = seconds * 1e6,
+    sequential = occurrences - width,
+    tailUs = durationUs - 1e6;
   assert(seconds > 1 && sequential > 0);
   return Array.from({ length: occurrences }, (_, i) => ({
     lane: i < sequential ? i % width : i - sequential,
-    startUs: i < sequential ? Math.floor(i * tailUs / sequential) : tailUs,
-    endUs: i < sequential ? Math.floor((i + 1) * tailUs / sequential) : durationUs,
+    startUs: i < sequential ? Math.floor((i * tailUs) / sequential) : tailUs,
+    endUs: i < sequential ? Math.floor(((i + 1) * tailUs) / sequential) : durationUs,
   }));
 }

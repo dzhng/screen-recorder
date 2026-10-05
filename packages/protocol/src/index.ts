@@ -83,6 +83,7 @@ export const controlMessageSchema = z.discriminatedUnion("event", [
   z.object({ event: z.literal("failed"), error: operationErrorSchema }).strict(),
   z.object({ event: z.literal("result"), response: controlResponseSchema }).strict(),
   z.object({ event: z.literal("call"), request: requestSchema }).strict(),
+  z.object({ event: z.literal("update.progress") }).strict(),
 ]);
 
 // The same channel the other way round. Both peers issue calls and both answer them, so each
@@ -99,3 +100,4 @@ export * from "./framing.js";
 export * from "./layout.js";
 export * from "./operations.js";
 export * from "./tools.js";
+export * from "./update.js";

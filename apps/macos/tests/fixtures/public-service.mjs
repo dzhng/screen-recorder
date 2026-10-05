@@ -21,7 +21,13 @@ export async function until(read, message, timeoutMs = 15_000) {
   } while (Date.now() < deadline);
   throw new Error(message);
 }
-export async function startPublicService(home, native) {
+export async function startPublicService(
+  home,
+  native = process.env.SCREENREC_NATIVE ??
+    fileURLToPath(
+      new URL("../../../../helpers/mac/.build/debug/screenrec-native", import.meta.url),
+    ),
+) {
   const child = spawn(process.execPath, [main], {
     cwd: "/",
     detached: true,

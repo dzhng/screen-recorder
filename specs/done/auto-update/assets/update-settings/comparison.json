@@ -1,0 +1,82 @@
+[
+  {
+    "changedPixelRatio" : 0.48974816849816849,
+    "height" : 780,
+    "image" : "dark-disabled.png",
+    "meanMaxChannelDifference" : 12.70786858974359,
+    "unchangedAboutHeader" : true,
+    "width" : 560
+  },
+  {
+    "changedPixelRatio" : 0.48974587912087914,
+    "height" : 780,
+    "image" : "dark-enabled.png",
+    "meanMaxChannelDifference" : 12.694635989010989,
+    "unchangedAboutHeader" : true,
+    "width" : 560
+  },
+  {
+    "changedPixelRatio" : 0.4137797619047619,
+    "height" : 780,
+    "image" : "dark-failure.png",
+    "meanMaxChannelDifference" : 12.126394230769231,
+    "unchangedAboutHeader" : true,
+    "width" : 560
+  },
+  {
+    "changedPixelRatio" : 0.48079670329670332,
+    "height" : 780,
+    "image" : "dark-manual.png",
+    "meanMaxChannelDifference" : 12.20117445054945,
+    "unchangedAboutHeader" : true,
+    "width" : 560
+  },
+  {
+    "changedPixelRatio" : 0.41249999999999998,
+    "height" : 780,
+    "image" : "dark-waiting.png",
+    "meanMaxChannelDifference" : 12.033818681318682,
+    "unchangedAboutHeader" : true,
+    "width" : 560
+  },
+  {
+    "changedPixelRatio" : 0.48348672161172163,
+    "height" : 780,
+    "image" : "light-disabled.png",
+    "meanMaxChannelDifference" : 11.79003891941392,
+    "unchangedAboutHeader" : true,
+    "width" : 560
+  },
+  {
+    "changedPixelRatio" : 0.48350732600732599,
+    "height" : 780,
+    "image" : "light-enabled.png",
+    "meanMaxChannelDifference" : 11.781916208791209,
+    "unchangedAboutHeader" : true,
+    "width" : 560
+  },
+  {
+    "changedPixelRatio" : 0.4069871794871795,
+    "height" : 780,
+    "image" : "light-failure.png",
+    "meanMaxChannelDifference" : 11.119262820512821,
+    "unchangedAboutHeader" : true,
+    "width" : 560
+  },
+  {
+    "changedPixelRatio" : 0.47458333333333336,
+    "height" : 780,
+    "image" : "light-manual.png",
+    "meanMaxChannelDifference" : 11.423589743589744,
+    "unchangedAboutHeader" : true,
+    "width" : 560
+  },
+  {
+    "changedPixelRatio" : 0.40581959706959708,
+    "height" : 780,
+    "image" : "light-waiting.png",
+    "meanMaxChannelDifference" : 11.041694139194139,
+    "unchangedAboutHeader" : true,
+    "width" : 560
+  }
+]

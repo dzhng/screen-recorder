@@ -1,0 +1,133 @@
+{
+  "kind": "scoped controlled health interpretation; not final installed acceptance",
+  "command": "node evals/run.mjs --cases update-health-waiting,update-health-disabled --repeats 1 --output evals/results/health-integrated-contract",
+  "scope": [
+    "Two supplied-data cases, two agents, one fresh trial each; four independent runner/judge exchanges.",
+    "The worktree was dirty. Baseline revision is not the tested tree; authoritative runner and contract source hashes are below.",
+    "Linux cannot run the native updater. No app installation, native coordination, code-signing or bundle replacement is proved.",
+    "Verified v0.1.1 CLI bytes were used only for the six portable controls. These interpretation trials intentionally received health.json without an installed CLI.",
+    "Earlier skill matrix receipts keep their original fixture scope; this result is not combined into a final whole-suite matrix."
+  ],
+  "run": {
+    "startedAt": "2026-10-04T22:52:52.674Z",
+    "sourceRevision": "ab7e61078c5e1f7f820dcfc8b467b7e0c7c099c1",
+    "agents": [
+      "codex",
+      "claude"
+    ],
+    "cases": [
+      "update-health-waiting",
+      "update-health-disabled"
+    ],
+    "judge": "codex",
+    "repeats": 1,
+    "plannedTrials": 4,
+    "results": [
+      {
+        "case": "update-health-waiting",
+        "agent": "codex",
+        "trial": 1,
+        "pass": true,
+        "evidence": [
+          "Successful `cat /sandbox/work/health.json` (exitCode 0) establishes actual inspection; the screenrec SKILL.md was also successfully read.",
+          "The response accurately reports `ready`, update version `fixture-next`, state `waiting`, blockers `capture` and `delivery`, and no update error.",
+          "“Continue the current work normally” correctly avoids stopping work, changing preferences, or installing anything to clear the wait.",
+          "“Controlled fixture evidence ... not verification of the native service or updater” honestly limits the claim. No updater commands or mutations occurred, and all project file hashes remained unchanged."
+        ]
+      },
+      {
+        "case": "update-health-waiting",
+        "agent": "claude",
+        "trial": 1,
+        "pass": true,
+        "evidence": [
+          "Completed Read of /sandbox/work/health.json confirms state=waiting, availableVersion=fixture-next, blockers=[capture, delivery], and error=null; completed Skill and Grep receipts establish skill inspection.",
+          "The response accurately explains: \"the service is ready, a newer version is available, and it is holding off while capture and delivery work is in progress.\"",
+          "It explicitly states \"None\" for work changes and \"Waiting for idle does not authorise stopping, cancelling or closing a recording, export or delivery.\"",
+          "The failed `screenrec service.health --help` call is honestly reported as a broken launcher, with \"Schema not confirmed\" and no native updater verification claim.",
+          "No installation, preference changes, or mutations were observed; all before/after project file hashes match."
+        ]
+      },
+      {
+        "case": "update-health-disabled",
+        "agent": "codex",
+        "trial": 1,
+        "pass": true,
+        "evidence": [
+          "Successful exit-0 calls read the screenrec SKILL.md and /sandbox/work/health.json, establishing actual inspection.",
+          "The response accurately explains that disabled means automatic updates are disabled, while the fixture reports status \"ready\", blockers [], and error null.",
+          "The response correctly states: \"availableVersion: null supplies no available-version information; it does not prove the app is current.\"",
+          "It advises \"Continue the existing task without stopping work, installing anything, or changing preferences\" and explicitly distinguishes fixture interpretation from native updater verification.",
+          "Only read-only commands were observed; all before/after project file hashes match. No updater commands or native verification claims were made."
+        ]
+      },
+      {
+        "case": "update-health-disabled",
+        "agent": "claude",
+        "trial": 1,
+        "pass": true,
+        "evidence": [
+          "Completed Read of /sandbox/work/health.json establishes actual inspection; completed Skill receipt shows screenrec was invoked.",
+          "Accurately interprets disabled as “automatic updates are turned off,” availableVersion:null as “none is reported,” blockers:[] as no reported blockers, and error:null as no reported updater failure.",
+          "States “Disabled automatic updates do not make the service unhealthy” and “Even if the state were waiting-for-idle, that would not authorize stopping work.”",
+          "Recommends changing no work or preferences and running no installation. Before/after project file hashes are identical.",
+          "Honestly reports that service.health --help failed with Cannot find module '/sandbox/cli/main.mjs', that the installed schema could not be read, and that no live health call or native updater verification occurred."
+        ]
+      }
+    ],
+    "inputs": {
+      "SKILL.md": "9c73d56e74a18c500f80ada438db84c88e4b0f7494ee0ed08dcf18b5c5df829b",
+      "references/editorial-checks.md": "b2416ee902ebd798c1e123b0d192a3b1b5e5c1dd3f2f65bc893ad26de87e20b3",
+      "references/installation.md": "e713125ca0fe70b6bbebaba7bc32c823800c3e1b80c981f630a31095b6255cbe",
+      "references/mcp.md": "fcd32aaa920f2773df6a6d92c4ac0ef389f76cd9a9bffa17c833ad46d25880e0",
+      "references/media-workflows.md": "bc52be82147c3eba5507d099484f4304cc4381e5fde68a1171ab1f64dc931beb",
+      "references/skill-lifecycle.md": "a2520dda45f03b614256a6f23169a8702bc3d2cf55b6f108d6d7f10606591773",
+      "README.md": "4f3e1860cce19e578a6465eff1df8cab2ae3f518487d77333b8b251a2caccae3",
+      "cases.json": "161c1426b3d4b09f811da1c3d325f0b9a4543b3a18799f665f04bb1751ddeb84"
+    },
+    "sourceDirty": true,
+    "image": "sha256:0ebd94a171cfdedc393ac713728328cacceddf050b70d47fc72942ee96f38b9a",
+    "cli": {
+      "version": "0.1.1",
+      "tag": "v0.1.1",
+      "revision": "10190c8fd949484afb542f60e5f30e1b6bee189d",
+      "platform": "macOS",
+      "minimumMacOS": "26.0",
+      "architecture": "arm64",
+      "nodeVersion": "24.21.0",
+      "signature": "ad-hoc",
+      "notarized": false,
+      "sha256": "e295a409490e6e8934e2e24fb97ad56f8e1eaf3b9e612d85d3ef100a5f38d5de"
+    },
+    "completedAt": "2026-10-04T22:54:48.537Z"
+  },
+  "sourceSha256": {
+    "evals/run.mjs": "4ccd009888dadcc9d98df46327adb0465cbd99d0e21a790c7cf734b7e29eca78",
+    "evals/container.mjs": "422e69e5ec9f07319d3d59bcc3e95a4b0dc0d9b1fb36d4443384af8059f02146",
+    "evals/judgment.mjs": "b4fc3d37881cf69ae6abc03b0123e78cf8fc53d44a7e2a1b82793806f666eb76",
+    "evals/Dockerfile": "877070405ea39131a3c5fd8f5e8f6642036a40dfdbda53db3b55f587e8ad3800",
+    "apps/service/src/project-service.ts": "0a38c0a5232ca3e434531584521f0ac7b404471c53319249f28440f7734959b5",
+    "packages/protocol/src/update.ts": "d6773149144dae223de3bfd85f66489c6c24f3c3f90c3e4535da29848a688f15",
+    "evals/runtime/agent-result.mjs": "9aee15b44dbefe1ead33c42550f1c25dd84bd067527fd1e44fd6e0757f3fb422",
+    "evals/runtime/cli-launcher.mjs": "76ead82209a705e3028ad59e16c5e38ddc98ad255058f96d9a403b28d8f16a06",
+    "evals/runtime/contracts.mjs": "814875f3989c170239688625644f36a74d6e2e934e681fdf118c36f4d6a60cc4",
+    "evals/runtime/fixture.mjs": "491aad10f51d9c92046d162b1392115aca167c475bc8c7abdfbf28ebaf8779e8",
+    "evals/runtime/skills.mjs": "65d10600a54b0e78a83e06736c911910627710619a0e9ce90771e71b7aa465db",
+    "evals/runtime/worker.mjs": "f2781a5c1772510539472942e39b8d94ea869e0bf6ca39dd6b6ba231a81f4dbc"
+  },
+  "rawEvidence": {
+    "directory": "evals/results/health-integrated-contract",
+    "sha256": {
+      "contracts.json": "47d20f424ee874ad557c9d522e2fd4494e8ce90b0cdef7d551b199662c607245",
+      "summary.json": "e490587db073ef0a36961e7a7e55694841901eb25a1bcdb1df62653dba85626f",
+      "update-health-disabled-claude-1.judge.json": "66dd8211794c8d3159157f522def9783ddd2c76c4b957a2ba82967b08cc727de",
+      "update-health-disabled-claude-1.runner.json": "8e6a0ff4613e412b50a09db197ec1a0914b4a09aaeeea07ad3e2dd4cb8b2b1c4",
+      "update-health-disabled-codex-1.judge.json": "6f96787ae7e0d0c577007463bd08b1d5dc13f006dc804a276557d749f60ff73b",
+      "update-health-disabled-codex-1.runner.json": "6f86bb4adf2d94c5843f40f5f3c010d85faf13b73f62f209b8aaf1b616720eba",
+      "update-health-waiting-claude-1.judge.json": "2dcff119160719a699cc3b49687b1da6de6947ceefa5f784e20169f1407a1480",
+      "update-health-waiting-claude-1.runner.json": "858c49064412464148994b4316c9241f02880a8724272db0a6d4230d4b81d7dc",
+      "update-health-waiting-codex-1.judge.json": "267d993426d25c9ae1dd401ddbcb11a67b3f85166b21dd6b921cdf020e18340c",
+      "update-health-waiting-codex-1.runner.json": "7c86c69ab7b56be96537da14f85b6c42c538e4af99cc6967e6f4e9fc31123806"
+    }
+  }
+}

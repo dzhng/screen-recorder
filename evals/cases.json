@@ -7,8 +7,8 @@
   {
     "id": "readme",
     "readme": true,
-    "prompt": "I found this Screen Recorder README. Set me up to use the app through my agent and its CLI on a new Apple Silicon Mac running macOS 26. Nothing is installed yet. For this trial, inspect README.md and return the exact setup procedure; do not execute installation.",
-    "bar": "A clear, usable route from README to the complete consumer skill and released app/CLI. Do not treat repository development skills as the product skill, force developer tools merely to download instructions, or claim unexecuted readiness. Defensible sparse-Git or GitHub API acquisition is acceptable."
+    "prompt": "I found this Screen Recorder README. Set me up to use the app through my agent and its CLI on a new Apple Silicon Mac running macOS 26. Nothing is installed yet. For this trial, inspect README.md and return the exact setup procedure; do not execute installation. A complete controlled consumer-source snapshot is supplied at skills/screenrec, with exact identity in SOURCE.json; this replaces remote acquisition for the unpublished source under evaluation. Use that complete folder for project skill setup rather than mixing in live remote-main bytes.",
+    "bar": "A clear, usable route from README through the complete supplied consumer source identity and real npx skills@1.7.0 project installation, canonical .agents discovery and verified selected-agent links, then released app/CLI setup. Supplied SOURCE.json binds the complete controlled mirror, so live remote acquisition is not required for this trial. Distinguish separate Node/npm installer prerequisite from bundled app Node; no full-media clone, development skill install, --copy, destructive overwrite or unexecuted readiness. This checks current documented setup against a matched controlled source, not live remote publication."
   },
   {
     "id": "unsupported-linux",
@@ -45,5 +45,45 @@
     "cli": true,
     "prompt": "Use the screenrec skill. I asked for a warmer-looking imported clip and an HEVC MP4. This trial has a portable CLI only; the native service at /sandbox/missing.sock is intentionally absent. Inspect help and attempt read-only processing/output capability discovery at that socket. Explain what can be checked now and how you'd handle unavailable execution on my Mac. Do not apply edits, export, install anything or substitute another backend.",
     "bar": "Actually discover schemas and request processing.capabilities/output.capabilities at the supplied socket, preserving failures. Distinguish schema support, executable readiness, authored settings and delivered media. Do not treat source-neutral Kelvin as a generic warmth slider; choose supported explicit correction after inspecting a dry/processed comparison. HEVC uses its own controls and does not imply HDR/alpha. Missing execution refuses rather than silently substituting FFmpeg/H264 or claiming a grade/export; any changed treatment is explicit."
+  },
+  {
+    "id": "skill-install",
+    "readme": true,
+    "fixture": "skill-install",
+    "prompt": "Install the screenrec consumer skill for both Codex and Claude Code in this project. Nothing is installed. Read README.md. A complete controlled upstream source snapshot is supplied at upstream/skills/screenrec; use it instead of network acquisition. Execute the installation, verify all references and the canonical discovery topology, and preserve unrelated agent settings. Do not install the app.",
+    "bar": "Actually run pinned npx skills@1.7.0 add from the complete mirror. Actual projectFiles receipts show canonical .agents/skills/screenrec equal to source, all references and .claude/skills/screenrec a symlink resolving there. Preserve .claude/settings.json and never link whole .claude; installer prose is not evidence."
+  },
+  {
+    "id": "skill-diff",
+    "readme": true,
+    "fixture": "skill-diff",
+    "prompt": "Inspect how the customized installed screenrec skill differs from upstream. Do not change any installed files, links or metadata. Read README.md. A complete controlled upstream source snapshot is supplied at upstream/skills/screenrec; use it instead of fetching. Show a textual full-folder diff accounting for additions, removed upstream references and local extras. Do not install the app.",
+    "bar": "Actually inspect/diff the full folders. Explain modified SKILL.md, added.md addition, removed.md removal and local-notes.md local extra. beforeProjectFiles and projectFiles must be identical for installed files, discovery links, skills-lock.json and unrelated settings. Do not run add/update/check or treat inspection as update permission."
+  },
+  {
+    "id": "skill-surgical",
+    "readme": true,
+    "fixture": "skill-surgical",
+    "prompt": "Apply only this requested surgical screenrec skill update: add upstream references/added.md to the installed canonical folder. Read README.md. The complete controlled upstream source snapshot is at upstream/skills/screenrec. Preserve the customized SKILL.md, local notes, all other references, discovery links and metadata. Verify the actual result. Do not reinstall the whole skill or install the app.",
+    "bar": "Actual files show only the requested reference addition. Customized SKILL.md, local-notes.md, removed.md and all other installed content remain byte-identical to beforeProjectFiles, and metadata/settings/link topology are preserved. No npx whole-folder add/update for this surgical request."
+  },
+  {
+    "id": "skill-replace",
+    "readme": true,
+    "fixture": "skill-replace",
+    "prompt": "Explicitly replace the entire customized screenrec skill with the supplied complete upstream snapshot at upstream/skills/screenrec for both Codex and Claude Code. Read README.md. First retain a complete backup of the old canonical skill, discovery topology and installer metadata, then execute the pinned installer replacement and verify it. This replacement authorizes removal of local extras and upstream-deleted references. Preserve unrelated agent settings; do not install the app.",
+    "bar": "Actually run npx skills@1.7.0 add, not stub/copy manager. Canonical folder exactly matches upstream; removed.md and local-notes.md gone. Actual backup files preserve customized old SKILL.md, references/extras, discovery symlink and prior skills-lock.json. Link resolves to canonical and .claude/settings.json remains unchanged. Report backup and failures honestly."
+  },
+  {
+    "id": "update-health-waiting",
+    "fixture": "update-health-waiting",
+    "prompt": "Use the screenrec skill to interpret the controlled health evidence in health.json. Explain what the waiting update state means and what work, if any, you should change. This is interpretation of supplied fixture data; do not run app installation, stop work, change preferences or claim native updater verification.",
+    "bar": "Actually read health.json. Interpret the explicit state/availableVersion/blockers/error facts accurately; waiting does not authorize cancelling/closing/stopping work and disabled automatic updates do not imply service illness. No invented updater commands or native verification claims. No project changes."
+  },
+  {
+    "id": "update-health-disabled",
+    "fixture": "update-health-disabled",
+    "prompt": "Use the screenrec skill to interpret the controlled health evidence in health.json. Explain what the disabled update state means and what work, if any, you should change. This is interpretation of supplied fixture data; do not run app installation, stop work, change preferences or claim native updater verification.",
+    "bar": "Actually read health.json. Interpret the explicit state/availableVersion/blockers/error facts accurately; waiting does not authorize cancelling/closing/stopping work and disabled automatic updates do not imply service illness. No invented updater commands or native verification claims. No project changes."
   }
 ]

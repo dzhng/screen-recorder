@@ -19,21 +19,27 @@ final class RecordingControls: NSObject, NSMenuDelegate {
     private let menu = NSMenu()
     private var renderedEntries: [MenuEntry] = []
     private let shortcuts = GlobalShortcuts()
-    private let region = RegionSelection()
+    private lazy var region = RegionSelection(changed: { [weak self] in self?.render() })
     private let quit: () -> Void
     private let preferences: Preferences
     private var state: ControlsState
+    private var setUpdatesEnabled: ((Bool) -> Void)?
     /// Screen access has no "not yet asked" state to read, so a request this launch that came back
     /// refused is what says asking again would prompt for nothing.
     private var screenRequestRefused = false
     private var bindings = ShortcutDefaults.suggested
     private var held: Set<String> = []
     private weak var host: ServiceHost?
+    var updateProgress: (() -> Void)?
+    private var updateFenced = false
+    private var permissionRequests = 0
+    private var lastUpdateBlockers: [String] = []
     private lazy var preview = PreviewController(
         call: { [weak self] operation, params in
             guard let self else { throw Self.noService }
             return try await self.service().call(operation, params)
         },
+        changed: { [weak self] in self?.render() },
         failure: { [weak self] message in
             self?.state.failure = message
             self?.render()
@@ -98,6 +104,12 @@ final class RecordingControls: NSObject, NSMenuDelegate {
         render()
     }
 
+    func configureUpdates(_ updates: UpdateControls, setEnabled: @escaping (Bool) -> Void) {
+        state.updates = updates
+        setUpdatesEnabled = setEnabled
+        render()
+    }
+
     func attach(to host: ServiceHost) {
         self.host = host
         refresh()
@@ -147,6 +159,14 @@ final class RecordingControls: NSObject, NSMenuDelegate {
     }
 
     func perform(_ action: ControlsAction) {
+        if updateFenced {
+            switch action {
+            case .quit, .openSettings, .setAutomaticUpdates: break
+            default:
+                state.failure = "An update is installing. Try again after the app reopens."
+                render(); return
+            }
+        }
         state.failure = nil
         let chosen = state.selection.recordingDefaults
         if library.perform(action) { render(); return }
@@ -161,8 +181,8 @@ final class RecordingControls: NSObject, NSMenuDelegate {
             }
         case .selectRegion:
             region.choose(displays: state.sources.displays) { [weak self] chosen in
-                guard let self, let chosen else { return }
-                state.selection.source = .region(chosen)
+                guard let self else { return }
+                if let chosen { state.selection.source = .region(chosen) }
                 render()
             }
         case .disableMicrophone:
@@ -209,6 +229,8 @@ final class RecordingControls: NSObject, NSMenuDelegate {
             request(.screen)
         case .requestMicrophonePermission:
             request(.microphone)
+        case .setAutomaticUpdates(let enabled):
+            if state.updates.available { setUpdatesEnabled?(enabled) }
         case .openSettings:
             settings.show()
         case .quit:
@@ -245,13 +267,14 @@ final class RecordingControls: NSObject, NSMenuDelegate {
         countdown.run(counting, on: NSScreen.recording(state.selection.source)) { [weak self] began in
             guard let self else { return }
             state.counting = false
-            render()
             if began { start() }
+            render()
         }
     }
 
     private func start() {
         guard let request = state.beginStart(newRequestId: UUID().uuidString) else { return }
+        render()
         capture("capture.start", parameters(of: request.start, requestId: request.requestId)) {
             [weak self] result in
             guard let self else { return }
@@ -320,7 +343,7 @@ final class RecordingControls: NSObject, NSMenuDelegate {
     /// A library scan may be slow. It never occupies the status read, and overlapping explicit
     /// refreshes coalesce so a deletion finishing mid-scan gets a fresh observation afterward.
     private func readStorage() {
-        guard host != nil, state.service == .ready else { return }
+        guard !updateFenced, host != nil, state.service == .ready else { return }
         guard !state.storageRefreshing else {
             pendingStorageRefresh = true
             return
@@ -346,7 +369,10 @@ final class RecordingControls: NSObject, NSMenuDelegate {
 
     /// Asks for the access a start turned out to need, then starts the take once it is granted.
     private func requestForStart(_ kind: PermissionKind) {
+        permissionRequests += 1
+        render()
         Task { @MainActor in
+            defer { permissionRequests -= 1; render() }
             let granted = (try? await NativeCapture.requestPermission(kind == .screen ? "screen" : "microphone")) ?? false
             if granted, kind == .microphone {
                 state.failure = nil
@@ -383,7 +409,10 @@ final class RecordingControls: NSObject, NSMenuDelegate {
             return
         case .undetermined, nil: break
         }
+        permissionRequests += 1
+        render()
         Task { @MainActor in
+            defer { permissionRequests -= 1; render() }
             do {
                 let granted = try await NativeCapture.requestPermission(
                     kind == .screen ? "screen" : "microphone")
@@ -413,6 +442,7 @@ final class RecordingControls: NSObject, NSMenuDelegate {
 
     /// Reads everything the menu shows. Used when a person looks at the controls or acts on them.
     private func refresh() {
+        guard !updateFenced else { return }
         readPermissions()
         read(everything: true)
         readStorage()
@@ -421,6 +451,7 @@ final class RecordingControls: NSObject, NSMenuDelegate {
 
     /// Status-only polling observes external controls without re-enumerating idle sources.
     private func tick() {
+        guard !updateFenced else { return }
         preview.tick()
         exports.tick()
         library.tick()
@@ -429,8 +460,23 @@ final class RecordingControls: NSObject, NSMenuDelegate {
 
     func closePreview() { preview.close() }
 
+    var updateBlockers: [String] {
+        var blockers: [String] = []
+        if state.counting { blockers.append("native.countdown") }
+        if state.unansweredStart != nil { blockers.append("native.start") }
+        if permissionRequests > 0 { blockers.append("native.permission") }
+        if region.isChoosing || exports.state.choosing != nil { blockers.append("native.chooser") }
+        if preview.isOpen { blockers.append("native.preview") }
+        if !exports.state.requests.isEmpty || !exports.state.acting.isEmpty { blockers.append("native.export") }
+        if library.state.deletions.values.contains(where: { $0.isPending }) { blockers.append("native.deletion") }
+        return blockers
+    }
+    func fenceForUpdate(_ fenced: Bool) {
+        updateFenced = fenced
+    }
+
     private func read(everything: Bool) {
-        guard host != nil, state.service == .ready else { return }
+        guard !updateFenced, host != nil, state.service == .ready else { return }
         guard !reading else {
             pendingRefresh = pendingRefresh || everything
             return
@@ -442,7 +488,7 @@ final class RecordingControls: NSObject, NSMenuDelegate {
             if everything || previous?.recordingId != state.device?.recordingId
                 || previous?.state != state.device?.state {
                 await readSources()
-                library.refreshRecordings()
+                if !updateFenced { library.refreshRecordings() }
             }
             reading = false
             render()
@@ -472,7 +518,7 @@ final class RecordingControls: NSObject, NSMenuDelegate {
 
     private func readSources() async {
         // A take fixes what it records, so the catalog is only refreshed while nothing is running.
-        guard !state.isLive else { return }
+        guard !updateFenced, !state.isLive else { return }
         do throws(ServiceFailure) {
             let answer = try await service().call("capture.sources", as: SourcesAnswer.self)
             state.observeSources(
@@ -503,6 +549,11 @@ final class RecordingControls: NSObject, NSMenuDelegate {
     // MARK: showing
 
     private func render() {
+        let blockers = updateBlockers
+        if blockers != lastUpdateBlockers {
+            lastUpdateBlockers = blockers
+            updateProgress?()
+        }
         let shortcuts = ShortcutDefaults(bindings: bindings, registered: held)
         let entries = RecordingMenu.entries(for: state, exports: exports.state, shortcuts: shortcuts)
         // Preserve the tracked menu and its open submenus when only the clock title changes. The

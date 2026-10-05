@@ -1,0 +1,125 @@
+{
+  "schema": 1,
+  "status": "passed-with-user-accepted-permission-exception",
+  "sourceAtInitialFullRun": "05ecd378",
+  "sourceAfterTestFixtureCorrections": "1ba67536",
+  "checks": {
+    "build": "passed",
+    "checkTypes": "passed",
+    "lint": "passed with existing warnings",
+    "format": "passed after separate baseline formatting cleanup48e25574",
+    "portablePackages": "initial full run passed other package gates; service finished on owning-suite rerun218passed2skipped",
+    "nativeSwift": "Capture and Frame passed before first compile stop; SourceAudio fixture corrected for Xcode27, then SourceAudio/CompositionAudio/SelectedAudio/Speech/helper build/app build/Controls passed",
+    "nativeHelperNode": "81 distinct tests proved after restoring missing root native fixtures; stale rounded extent assertion corrected to exact edit-clock requirement",
+    "appNode": {
+      "total": 88,
+      "passedAcrossScopedRuns": 65,
+      "capturePermissionDependentFailuresRetained": 23,
+      "initial": {
+        "passed": 51,
+        "failed": 37
+      },
+      "followup": {
+        "missingWorkerFixturesPassed": 13,
+        "healthLifetimePassed": 1
+      }
+    }
+  },
+  "scope": [
+    "Full root build/check-types/test/lint/format attempted once. Native compile failure stopped the default sequence; remaining checks ran afterward, and only affected checks were rerun.",
+    "The source app has no current screen-recording grant.23 capture-dependent cases and derived countdown waits could not pass under this code identity. No TCC/permission setup or further capture rerun: the user explicitly accepted prior continuity evidence and prohibited repeating it.",
+    "Initial service recovery case was marked red before the unrelated native compile failure terminated the full run; focused case and entire service suite later passed. Original incomplete red retained, no known reproduced product defect.",
+    "Standalone native tests first lacked root build prerequisites because the original sequence stopped early; this setup failure was corrected without changing production.",
+    "16 formatting-only baseline files are isolated in48e25574 and excluded from feature-size counts."
+  ],
+  "logs": {
+    "/Users/server/.local/share/screenrec-dev-evidence/auto-update/checks/screenrec-full-checks-status.log": {
+      "sha256": "0b954c9c8a6142db16025297620c0137f232c5043d5975f68b8e6a2780a5b5d1",
+      "bytes": 223
+    },
+    "/Users/server/.local/share/screenrec-dev-evidence/auto-update/checks/screenrec-full-build.log": {
+      "sha256": "66975d9602a0c16b9501a0147e3dfea9ce54075463679b9b731b37112b67ddae",
+      "bytes": 6538
+    },
+    "/Users/server/.local/share/screenrec-dev-evidence/auto-update/checks/screenrec-full-check-types.log": {
+      "sha256": "d126de7d477c1d481acd3c3478a89da034733f2fe8bb0b052bf0d7ca2b413c1d",
+      "bytes": 2089
+    },
+    "/Users/server/.local/share/screenrec-dev-evidence/auto-update/checks/screenrec-full-test.log": {
+      "sha256": "92ad9c9d44759bf6ced8d062e815df9c8990ec135021a1c89086cd3abf016eee",
+      "bytes": 122892
+    },
+    "/Users/server/.local/share/screenrec-dev-evidence/auto-update/checks/screenrec-full-lint.log": {
+      "sha256": "c05e525ae75f9cbf8ba89625bca334c6c6a512e6a8f197aae6fe6d078ccf26ec",
+      "bytes": 4698
+    },
+    "/Users/server/.local/share/screenrec-dev-evidence/auto-update/checks/screenrec-final-format-check.log": {
+      "sha256": "cc07c0a8f24ec07ad0d09ff25e909c7cac5c96d7a3e70f4e24d20d3405a8a389",
+      "bytes": 301
+    },
+    "/Users/server/.local/share/screenrec-dev-evidence/auto-update/checks/screenrec-service-final-test.log": {
+      "sha256": "903410e8711fae70695d4b0b2773cb60e814c4f22c31e9903414ce89c1b98100",
+      "bytes": 253
+    },
+    "/Users/server/.local/share/screenrec-dev-evidence/auto-update/checks/screenrec-final-helper-node.log": {
+      "sha256": "f7995dbfea063c861507ecaff3e6f709a50fe8d2baaa7357a5408629996163af",
+      "bytes": 121455
+    },
+    "/Users/server/.local/share/screenrec-dev-evidence/auto-update/checks/screenrec-final-helper-node-fixed.log": {
+      "sha256": "d5d1c078acfb78f26ccddc600dc23a38fa7038d848a3b9581e3603ef6ec5d888",
+      "bytes": 10291
+    },
+    "/Users/server/.local/share/screenrec-dev-evidence/auto-update/checks/screenrec-final-media-probe-fixed.log": {
+      "sha256": "89e7f3f97bc54594e578bf58c546028f9d6e723efaaae9346aaa1465c17604a3",
+      "bytes": 710
+    },
+    "/Users/server/.local/share/screenrec-dev-evidence/auto-update/checks/screenrec-final-source-audio-wire-fixed.log": {
+      "sha256": "d2251ca6336caf50e541e851ae0b0819a581212b8fcfc80101bbc8de5d351440",
+      "bytes": 334
+    },
+    "/Users/server/.local/share/screenrec-dev-evidence/auto-update/checks/screenrec-final-macos-node.log": {
+      "sha256": "f897ae495cf59e65b5517d4805efcacec534aff39ae48bfe797f6f4b33675c59",
+      "bytes": 96985
+    },
+    "/Users/server/.local/share/screenrec-dev-evidence/auto-update/checks/screenrec-final-macos-native-fixtures-fixed.log": {
+      "sha256": "c447d13d2609ab8f07b0a0975586b9132466335974afb466de0dbf0e6a7c374d",
+      "bytes": 2756
+    },
+    "/Users/server/.local/share/screenrec-dev-evidence/auto-update/checks/screenrec-health-lifetime-fixed.log": {
+      "sha256": "aaa7e0c12bad02a3b1ade235ec3d6aa0a1a8919c9186cd955f320cca15798b41",
+      "bytes": 217
+    },
+    "/Users/server/.local/share/screenrec-dev-evidence/auto-update/checks/screenrec-final-fixture-review.log": {
+      "sha256": "7000730493f2d90b534e3922063834d10a45bdee7af1133604f7964ebf63be8a",
+      "bytes": 112662
+    },
+    "/Users/server/.local/share/screenrec-dev-evidence/auto-update/checks/screenrec-xcode27-source-audio.log": {
+      "sha256": "0805f456120644dd93d857ec71ceccaec2eb1caa9ca269f37cba1fea83f60607",
+      "bytes": 2394
+    },
+    "/Users/server/.local/share/screenrec-dev-evidence/auto-update/checks/screenrec-xcode27-composition-audio.log": {
+      "sha256": "81dde00170500e66b8fcac1f7f68fcd279ff7c97b7c6705f15807f18e7d24a2d",
+      "bytes": 1989
+    },
+    "/Users/server/.local/share/screenrec-dev-evidence/auto-update/checks/screenrec-xcode27-selected-audio.log": {
+      "sha256": "a97ee570d47ede1375918ac2ad29d183ace7037dc946febc4e4dc435733a83c6",
+      "bytes": 2233
+    },
+    "/Users/server/.local/share/screenrec-dev-evidence/auto-update/checks/screenrec-xcode27-speech.log": {
+      "sha256": "62a8b4d322c1edb29c9e5e613f8cb0870fede0f0e296bd40be38116c10174a95",
+      "bytes": 18476
+    },
+    "/Users/server/.local/share/screenrec-dev-evidence/auto-update/checks/screenrec-xcode27-helpers-build.log": {
+      "sha256": "368b0540588a852098b519a7659930925602e56ec28cbb3fc18de15cbb889f87",
+      "bytes": 11662
+    },
+    "/Users/server/.local/share/screenrec-dev-evidence/auto-update/checks/screenrec-xcode27-app-build.log": {
+      "sha256": "d223bdf0df4b8fe67d54c89987fe3c25f95b6d85741ffd818e55e9985f56dea0",
+      "bytes": 58425
+    },
+    "/Users/server/.local/share/screenrec-dev-evidence/auto-update/checks/screenrec-xcode27-controls.log": {
+      "sha256": "9256c394485917e95aa04dbab80c8b15702f66c0ce49b5f755b2501c4f5ec9fd",
+      "bytes": 3060
+    }
+  }
+}

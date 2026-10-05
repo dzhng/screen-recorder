@@ -58,7 +58,9 @@ const source = gunzipSync(
   readFileSync(root + "/specs/done/agent-editing/assets/12c-matched-noise/audio/mixture.f32.gz"),
 );
 const expected = gunzipSync(
-  readFileSync(root + "/specs/done/agent-editing/assets/12c-matched-noise/audio/rnnoise-mixture.f32.gz"),
+  readFileSync(
+    root + "/specs/done/agent-editing/assets/12c-matched-noise/audio/rnnoise-mixture.f32.gz",
+  ),
 );
 function sourceFixture(name, pcm, channels = 1) {
   const path = join(out, name + ".wav"),
@@ -559,7 +561,9 @@ refuse(
 );
 const inverted = gain(source, -1),
   invertedExpected = gunzipSync(
-    readFileSync(root + "/specs/done/agent-editing/assets/12c-channel-relations/inverted-output.f32.gz"),
+    readFileSync(
+      root + "/specs/done/agent-editing/assets/12c-channel-relations/inverted-output.f32.gz",
+    ),
   );
 const invertedFixture = sourceFixture("opposite-polarity-stereo", interleave(source, inverted), 2);
 compare(

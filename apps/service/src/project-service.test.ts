@@ -1,4 +1,8 @@
-import { projectServiceFixture, probeFileFixture } from "./project-service.fixture.js";
+import {
+  projectServiceFixture,
+  projectServiceControlFixture,
+  probeFileFixture,
+} from "./project-service.fixture.js";
 import { JobQueue } from "@screenrec/core/jobs";
 import { Models } from "@screenrec/core/models";
 import { VoiceGenerationJobs } from "@screenrec/core/voice-generation";
@@ -9,7 +13,7 @@ import { ProjectStore } from "@screenrec/core/projects";
 import { TranscriptStore } from "@screenrec/core/transcript";
 import { assetTranscriptOwner } from "@screenrec/core/transcript-processing";
 import { ResourceReferences } from "@screenrec/core/references";
-import { mkdtemp, writeFile, rm, readdir, readFile } from "node:fs/promises";
+import { mkdtemp, writeFile, rm, readdir, readFile, mkdir, stat, realpath } from "node:fs/promises";
 import { fork } from "node:child_process";
 import { once } from "node:events";
 import { tmpdir } from "node:os";
@@ -21,8 +25,15 @@ import { AssetStore } from "@screenrec/core/assets";
 import { Catalog } from "@screenrec/core/catalog";
 import { callLocal } from "@screenrec/client";
 import { startProjectService } from "./project-service.js";
+import { PassThrough, Writable } from "node:stream";
+import { EventEmitter } from "node:events";
+import { projectPackageManifest } from "@screenrec/core/project-package";
+import { fileIdentity } from "@screenrec/core/files";
+import type { ProjectSnapshot } from "@screenrec/core/projects";
+import { CONTROL_FRAME_BYTES } from "@screenrec/protocol";
 const cleanups: (() => Promise<void>)[] = [];
 afterEach(async () => {
+  vi.restoreAllMocks();
   for (const cleanup of cleanups.splice(0).reverse()) await cleanup();
 });
 const metadata = {
@@ -42,6 +53,663 @@ const metadata = {
   ],
 };
 const setup = projectServiceFixture.bind(undefined, cleanups);
+
+test("health projects strict native update reports without exposing private coordination on the socket", async () => {
+  const f = await projectServiceControlFixture(cleanups, async () => ({ ok: true, data: {} }));
+  expect(
+    await f.control("update.report", {
+      update: {
+        state: "waiting",
+        availableVersion: "2.0.0",
+        blockers: ["native.preview"],
+        error: null,
+        extra: true,
+      },
+    }),
+  ).toMatchObject({ ok: false, error: { code: "INVALID_PARAMS" } });
+  const update = {
+    state: "waiting",
+    availableVersion: "2.0.0",
+    blockers: ["native.preview"],
+    error: null,
+  };
+  expect(await f.control("update.report", { update })).toMatchObject({ ok: true });
+  expect(await f.control("service.health")).toMatchObject({
+    ok: true,
+    data: { version: null, update },
+  });
+  expect(await f.call("update.report", { update })).toMatchObject({
+    ok: false,
+    error: { code: "UNKNOWN_OPERATION" },
+  });
+  expect(await f.control("update.prepare", { force: true })).toMatchObject({
+    ok: false,
+    error: { code: "INVALID_PARAMS" },
+  });
+});
+
+test("health identifies the running release only when its runtime owner supplies a version", async () => {
+  const f = await projectServiceFixture(cleanups, async () => ({ ok: true, data: {} }), undefined, {
+    version: "2.0.0-fixture",
+  });
+  expect(await f.call("service.health", {})).toMatchObject({
+    ok: true,
+    data: {
+      version: "2.0.0-fixture",
+      update: { state: "unavailable", availableVersion: null, blockers: [], error: null },
+    },
+  });
+});
+
+test("lifetime progress coalesces in one event turn and stops when the candidate is discarded", async () => {
+  const f = await projectServiceControlFixture(cleanups, async () => ({ ok: true, data: {} }));
+  let notifications = 0;
+  f.events.on("update.progress", () => {
+    notifications += 1;
+  });
+  await f.control("update.report", {
+    update: {
+      state: "waiting",
+      availableVersion: "2.0.0",
+      blockers: ["native.preview"],
+      error: null,
+    },
+  });
+  const progress = once(f.events, "update.progress");
+  await Promise.all([
+    f.control("project.list"),
+    f.control("recording.list"),
+    f.control("service.health"),
+  ]);
+  await progress;
+  await new Promise((resolve) => setImmediate(resolve));
+  expect(notifications).toBe(1);
+  await f.control("update.report", {
+    update: { state: "disabled", availableVersion: null, blockers: [], error: null },
+  });
+  await Promise.all([f.control("project.list"), f.control("service.health")]);
+  await new Promise((resolve) => setImmediate(resolve));
+  expect(notifications).toBe(1);
+});
+
+test.each(["correlated", "uncorrelated"])(
+  "the %s control reply remains owned until the output write completes",
+  async (kind) => {
+    const input = new PassThrough(),
+      events = new EventEmitter();
+    let release = () => {};
+    const output = new Writable({
+      write(bytes, _encoding, done) {
+        const message = JSON.parse(bytes.toString());
+        if (
+          message.event === "result" &&
+          message.response.id === (kind === "correlated" ? "held" : null)
+        ) {
+          release = () => {
+            release = () => {};
+            done();
+          };
+          events.emit("held");
+        } else {
+          if (message.event === "result") events.emit(message.response.id, message.response);
+          done();
+        }
+      },
+    });
+    const f = await projectServiceFixture(
+      cleanups,
+      async () => ({ ok: true, data: {} }),
+      undefined,
+      {
+        control: { input, output },
+      },
+    );
+    cleanups.push(async () => release());
+    const held = once(events, "held");
+    const request = {
+      event: "request",
+      request: { id: "held", operation: "service.health", params: {} },
+    };
+    if (kind === "uncorrelated") {
+      request.request.id = "";
+      request.request.id = "i".repeat(
+        CONTROL_FRAME_BYTES - Buffer.byteLength(JSON.stringify(request) + "\n"),
+      );
+    }
+    input.write(JSON.stringify(request) + "\n");
+    await held;
+    const answered = once(events, "prepare");
+    input.write(
+      JSON.stringify({
+        event: "request",
+        request: { id: "prepare", operation: "update.prepare", params: {} },
+      }) + "\n",
+    );
+    await new Promise((resolve) => setImmediate(resolve));
+    // The private reply is buffered behind the product reply, but waiting has already reopened admission.
+    expect(await f.call("project.list", {})).toMatchObject({ ok: true });
+    release();
+    expect((await answered)[0]).toMatchObject({
+      ok: true,
+      data: { kind: "blocked", blockers: ["transport"] },
+    });
+  },
+);
+
+test("a synchronous control write failure releases its transport obligation", async () => {
+  const input = new PassThrough(),
+    output = new PassThrough(),
+    events = new EventEmitter();
+  const write = output.write.bind(output);
+  vi.spyOn(output, "write").mockImplementation((...args) => {
+    const message = JSON.parse(String(args[0]));
+    if (message.event === "result" && message.response.id === "lost") {
+      events.emit("lost");
+      throw Error("Fixture output refused synchronously");
+    }
+    return write(...args);
+  });
+  output.on("data", (bytes) => {
+    const message = JSON.parse(bytes.toString());
+    if (message.event === "result") events.emit(message.response.id, message.response);
+  });
+  await projectServiceFixture(cleanups, async () => ({ ok: true, data: {} }), undefined, {
+    control: { input, output },
+  });
+  const lost = once(events, "lost");
+  input.write(
+    JSON.stringify({
+      event: "request",
+      request: { id: "lost", operation: "project.list", params: {} },
+    }) + "\n",
+  );
+  await lost;
+  await new Promise((resolve) => setImmediate(resolve));
+  const prepared = once(events, "prepare");
+  input.write(
+    JSON.stringify({
+      event: "request",
+      request: { id: "prepare", operation: "update.prepare", params: {} },
+    }) + "\n",
+  );
+  expect((await prepared)[0]).toMatchObject({ ok: true, data: { kind: "prepared" } });
+});
+
+test("a failed owner observation releases its tentative fence before answering", async () => {
+  const f = await projectServiceControlFixture(cleanups, async () => ({ ok: true, data: {} }));
+  const catalog = new Catalog(join(f.home, "library/catalog.sqlite"));
+  try {
+    // A temporarily unavailable fixture table makes the real owner snapshot fail at its SQL boundary.
+    catalog.catalog.exec("ALTER TABLE jobs RENAME TO unavailable_jobs");
+    try {
+      expect(await f.control("update.prepare")).toMatchObject({
+        ok: false,
+        error: { code: "INTERNAL_ERROR" },
+      });
+      expect(await f.control("service.health")).toMatchObject({ ok: true });
+    } finally {
+      catalog.catalog.exec("ALTER TABLE unavailable_jobs RENAME TO jobs");
+    }
+    await new Promise((resolve) => setImmediate(resolve));
+    expect(await f.control("update.prepare")).toMatchObject({
+      ok: true,
+      data: { kind: "prepared" },
+    });
+  } finally {
+    catalog.close();
+  }
+});
+
+test("complete socket frames racing a private fence either commit owned work or receive UPDATING", async () => {
+  const f = await projectServiceControlFixture(cleanups, async () => ({ ok: true, data: {} }));
+  const [permit, creation] = await Promise.all([
+    f.control("update.prepare"),
+    callLocal(f.service.socketPath, {
+      id: "racing-creation",
+      operation: "project.create",
+      params: {
+        requestId: "racing",
+        canvas: {
+          width: 64,
+          height: 32,
+          fps: { numerator: 30, denominator: 1 },
+          background: "#000000ff",
+        },
+      },
+      resultDelivery: { inlineBytes: 64 * 1024 },
+    }),
+  ]);
+  if (!permit.ok) throw new Error(JSON.stringify(permit));
+  const admission = permit.data as { kind: string; permitId?: string; blockers?: string[] };
+  if (admission.kind === "prepared") {
+    expect(creation).toMatchObject({
+      id: "racing-creation",
+      ok: false,
+      error: { code: "UPDATING", retryable: true },
+    });
+    await f.control("update.release", { permitId: admission.permitId });
+    expect(await f.control("project.list")).toMatchObject({ ok: true, data: { projects: [] } });
+  } else {
+    expect(admission).toMatchObject({
+      kind: "blocked",
+      blockers: expect.arrayContaining(["transport"]),
+    });
+    expect(creation).toMatchObject({
+      id: "racing-creation",
+      ok: true,
+      data: { project: { projectId: expect.any(String) } },
+    });
+  }
+});
+
+test("a ready package handle blocks until retained files and asynchronous cleanup close", async () => {
+  const events = new EventEmitter();
+  const cleanupHeld = once(events, "cleanup"),
+    release = once(events, "release");
+  let home = "",
+    workspace = "";
+  let snapshot: ProjectSnapshot;
+  const f = await projectServiceControlFixture(cleanups, async (operation, params) => {
+    if (operation === "packageWorkspace.recover") return { ok: true, data: { recovered: 0 } };
+    if (operation === "packageWorkspace.create") {
+      workspace = join(home, "library/packages", params.name as string);
+      await mkdir(workspace, { mode: 0o700 });
+      const identity = await stat(workspace, { bigint: true });
+      return {
+        ok: true,
+        data: {
+          name: params.name,
+          identity: { dev: String(identity.dev), ino: String(identity.ino) },
+        },
+      };
+    }
+    if (operation === "packageWorkspace.admit") return { ok: true, data: {} };
+    if (operation === "archive.prepare") return { ok: true, data: { empty: true } };
+    if (operation === "archive.extract") {
+      const revision = JSON.stringify(snapshot.revisions[0]);
+      const path = "revisions/0.json";
+      const manifest = JSON.stringify(
+        projectPackageManifest(
+          snapshot,
+          [],
+          [
+            {
+              path,
+              bytes: Buffer.byteLength(revision),
+              sha256: createHash("sha256").update(revision).digest("hex"),
+            },
+          ],
+        ),
+      );
+      await mkdir(join(workspace, "content/revisions"), { recursive: true, mode: 0o700 });
+      const members = [];
+      for (const [path, text] of [
+        ["manifest.json", manifest],
+        ["revisions/0.json", revision],
+      ]) {
+        const file = join(workspace, "content", path!);
+        await writeFile(file, text!);
+        members.push({
+          path,
+          directory: false,
+          bytes: Buffer.byteLength(text!),
+          sha256: createHash("sha256").update(text!).digest("hex"),
+          identity: fileIdentity(await stat(file, { bigint: true })),
+        });
+      }
+      return {
+        ok: true,
+        data: {
+          manifest,
+          revisions: {},
+          members,
+          archiveSha256: "0".repeat(64),
+          expandedBytes: members.reduce((total, member) => total + member.bytes, 0),
+          copiedBytes: 1,
+          initialReadBytes: 0,
+          peakResidentBytes: 0,
+          parser: "fixture",
+        },
+      };
+    }
+    if (operation === "archive.cleanup") {
+      events.emit("cleanup");
+      await release;
+      await rm(join(workspace, "content"), { recursive: true });
+      return { ok: true, data: { removed: true } };
+    }
+    if (operation === "packageWorkspace.remove") {
+      await rm(workspace, { recursive: true });
+      return { ok: true, data: { removed: true } };
+    }
+    throw new Error(`Unexpected package worker operation ${operation}`);
+  });
+  home = await realpath(f.home);
+  cleanups.push(async () => {
+    events.emit("release");
+  });
+  const created = await f.control("project.create", {
+    requestId: "empty-project",
+    canvas: {
+      width: 64,
+      height: 32,
+      fps: { numerator: 30, denominator: 1 },
+      background: "#000000ff",
+    },
+  });
+  if (!created.ok) throw new Error(JSON.stringify(created));
+  const data = created.data as {
+    project: ProjectSnapshot["project"];
+    revision: ProjectSnapshot["revisions"][number];
+  };
+  snapshot = { project: data.project, revisions: [data.revision], undo: [], references: [] };
+  const archive = join(home, "package.zip");
+  await writeFile(archive, "x");
+  const opened = await f.control("package.open", { path: archive });
+  if (!opened.ok) throw new Error(JSON.stringify(opened));
+  const id = (opened.data as { id: string }).id;
+  await expect
+    .poll(() => f.control("package.status", { admissionId: id }))
+    .toMatchObject({ ok: true, data: { state: "ready", packageHandle: expect.any(String) } });
+  await new Promise((resolve) => setImmediate(resolve));
+  expect(await f.control("update.prepare")).toMatchObject({
+    ok: true,
+    data: { kind: "blocked", blockers: ["packages"] },
+  });
+  const closing = f.control("package.close", { admissionId: id });
+  await cleanupHeld;
+  expect(await f.control("update.prepare")).toMatchObject({
+    ok: true,
+    data: { kind: "blocked", blockers: expect.arrayContaining(["packages"]) },
+  });
+  const progress = once(f.events, "update.progress");
+  events.emit("release");
+  expect(await closing).toMatchObject({ ok: true, data: { state: "closed" } });
+  await progress;
+  expect(await f.control("update.prepare")).toMatchObject({ ok: true, data: { kind: "prepared" } });
+});
+
+test("observing export admission never cancels its held publication owner", async () => {
+  const events = new EventEmitter(),
+    entered = once(events, "entered"),
+    release = once(events, "release");
+  let signal: AbortSignal | undefined;
+  const f = await projectServiceControlFixture(cleanups, async (operation, _params, options) => {
+    if (operation !== "storage.externalDirectory") throw new Error(`Unexpected ${operation}`);
+    signal = options?.signal;
+    events.emit("entered");
+    await release;
+    return {
+      ok: false,
+      error: {
+        code: "FIXTURE_REFUSED",
+        message: "Fixture destination refused",
+        retryable: false,
+        details: {},
+      },
+    };
+  });
+  cleanups.push(async () => {
+    events.emit("release");
+  });
+  const created = await f.control("project.create", {
+    requestId: "empty",
+    canvas: {
+      width: 64,
+      height: 32,
+      fps: { numerator: 30, denominator: 1 },
+      background: "#000000ff",
+    },
+  });
+  if (!created.ok) throw new Error(JSON.stringify(created));
+  const projectId = (created.data as { project: { projectId: string } }).project.projectId;
+  const exporting = f.control("export.create", {
+    projectId,
+    exportId: randomUUID(),
+    kind: "processed-package",
+    directory: f.home,
+    leaf: "package.zip",
+  });
+  await entered;
+  expect(await f.control("update.prepare")).toMatchObject({
+    ok: true,
+    data: { kind: "blocked", blockers: expect.arrayContaining(["publication"]) },
+  });
+  expect(signal?.aborted).toBe(false);
+  const progress = once(f.events, "update.progress");
+  events.emit("release");
+  expect(await exporting).toMatchObject({ ok: false, error: { code: "FIXTURE_REFUSED" } });
+  await progress;
+  expect(await f.control("update.prepare")).toMatchObject({ ok: true, data: { kind: "prepared" } });
+});
+
+test("deletion cleanup remains owned through disconnect until its storage worker settles", async () => {
+  const events = new EventEmitter(),
+    entered = once(events, "entered"),
+    released = once(events, "release");
+  const f = await projectServiceControlFixture(cleanups, async (operation, params) => {
+    if (operation !== "storage.removeCacheFiles") throw new Error(`Unexpected ${operation}`);
+    events.emit("entered");
+    await released;
+    for (const id of params.ids as string[]) await rm(join(f.home, "library/cache", id + ".cache"));
+    return { ok: true, data: { removed: true } };
+  });
+  cleanups.push(async () => {
+    events.emit("release");
+  });
+  const created = await f.control("project.create", {
+    requestId: "deletable",
+    canvas: {
+      width: 64,
+      height: 32,
+      fps: { numerator: 30, denominator: 1 },
+      background: "#000000ff",
+    },
+  });
+  if (!created.ok) throw new Error(JSON.stringify(created));
+  const projectId = (created.data as { project: { projectId: string } }).project.projectId;
+  const catalog = new Catalog(join(f.home, "library/catalog.sqlite"));
+  const cacheId = randomUUID();
+  catalog.catalog
+    .prepare(
+      "INSERT INTO derived_cache(id,ownerKind,ownerId,touched,bytes) VALUES (?,'project',?,1,1)",
+    )
+    .run(cacheId, projectId);
+  catalog.close();
+  await writeFile(join(f.home, "library/cache", cacheId + ".cache"), "x");
+  const cancel = new AbortController();
+  const deleting = callLocal(
+    f.service.socketPath,
+    { id: "delete", operation: "project.delete", params: { projectId } },
+    { signal: cancel.signal },
+  ).catch((error) => error);
+  await entered;
+  cancel.abort();
+  expect(await deleting).toMatchObject({ code: "ABORTED" });
+  expect(await f.control("update.prepare")).toMatchObject({
+    ok: true,
+    data: { kind: "blocked", blockers: expect.arrayContaining(["deletion"]) },
+  });
+  const progress = once(f.events, "update.progress");
+  events.emit("release");
+  await progress;
+  await new Promise((resolve) => setImmediate(resolve));
+  expect(await f.control("update.prepare")).toMatchObject({ ok: true, data: { kind: "prepared" } });
+});
+
+test("canceled background work blocks replacement until its worker and cleanup settle", async () => {
+  const events = new (await import("node:events")).EventEmitter();
+  const entered = once(events, "entered"),
+    released = once(events, "release");
+  const f = await projectServiceControlFixture(cleanups, async (operation, _params, options) => {
+    if (operation !== "media.probe") throw new Error(`Unexpected operation ${operation}`);
+    options!.signal!.addEventListener("abort", () => events.emit("aborted"), { once: true });
+    events.emit("entered");
+    await released;
+    return { ok: true, data: metadata };
+  });
+  cleanups.push(async () => {
+    events.emit("release");
+  });
+  const imported = await f.call("asset.import", { path: f.path, requestId: "import-owned" });
+  if (!imported.ok) throw new Error(JSON.stringify(imported));
+  const jobId = (imported.data as { jobId: string }).jobId;
+  await entered;
+  expect(await f.control("update.prepare")).toMatchObject({
+    ok: true,
+    data: { kind: "blocked", blockers: expect.arrayContaining(["jobs"]) },
+  });
+  const aborted = once(events, "aborted");
+  const canceled = f.control("job.cancel", { jobId });
+  await aborted;
+  expect(await f.control("update.prepare")).toMatchObject({
+    ok: true,
+    data: { kind: "blocked", blockers: expect.arrayContaining(["jobs"]) },
+  });
+  const progress = once(f.events, "update.progress");
+  events.emit("release");
+  expect(await canceled).toMatchObject({ ok: true, data: { state: "canceled" } });
+  await progress;
+  await new Promise((resolve) => setImmediate(resolve));
+  const ready = await f.control("update.prepare");
+  expect(ready).toMatchObject({ ok: true, data: { kind: "prepared" } });
+});
+
+test("reply-created result leases block replacement and autonomous expiry wakes a recheck", async () => {
+  const f = await projectServiceControlFixture(cleanups, async () => ({ ok: true, data: {} }));
+  vi.useFakeTimers({ toFake: ["Date", "setTimeout", "clearTimeout"] });
+  try {
+    const reply = await callLocal(f.service.socketPath, {
+      id: "leased-result",
+      operation: "project.list",
+      params: {},
+      resultDelivery: { inlineBytes: 1 },
+    });
+    expect(reply).toHaveProperty("resultDelivery.token", expect.any(String));
+    const socketSettled = once(f.events, "update.progress");
+    const blocked = await f.control("update.prepare");
+    expect(blocked).toMatchObject({
+      ok: true,
+      data: {
+        kind: "blocked",
+        blockers: expect.arrayContaining(["delivery"]),
+      },
+    });
+    if (blocked.ok && (blocked.data as { blockers: string[] }).blockers.includes("transport"))
+      await socketSettled;
+    expect(await f.control("update.prepare")).toMatchObject({
+      ok: true,
+      data: { kind: "blocked", blockers: ["delivery"] },
+    });
+    const progress = once(f.events, "update.progress");
+    await vi.advanceTimersByTimeAsync(30_001);
+    await progress;
+    expect(await f.control("update.prepare")).toMatchObject({
+      ok: true,
+      data: { kind: "prepared" },
+    });
+  } finally {
+    vi.useRealTimers();
+  }
+});
+
+test("capture preparation, reports and finalization block without interrupting the take", async () => {
+  const f = await projectServiceControlFixture(cleanups, async () => ({ ok: true, data: {} }));
+  const nativeCall = once(f.events, "call");
+  const start = f.control("capture.start", {
+    requestId: "take",
+    source: { kind: "display", displayId: 1 },
+  });
+  const [native] = await nativeCall;
+  expect(native.request.operation).toBe("capture.start");
+  expect(await f.control("update.prepare")).toMatchObject({
+    ok: true,
+    data: {
+      kind: "blocked",
+      blockers: expect.arrayContaining(["capture", "transport"]),
+    },
+  });
+  const report = {
+    recordingId: native.request.params.recordingId,
+    sourceId: native.request.params.sourceId,
+    sequence: 1,
+    state: "recording",
+  };
+  f.input.write(
+    JSON.stringify({
+      event: "result",
+      response: { id: native.request.id, ok: true, data: report },
+    }) + "\n",
+  );
+  expect(await start).toMatchObject({ ok: true, data: { state: "recording" } });
+  expect(await f.control("update.prepare")).toMatchObject({
+    ok: true,
+    data: { kind: "blocked", blockers: expect.arrayContaining(["capture"]) },
+  });
+  expect(
+    await f.control("capture.report", { ...report, sequence: 2, state: "finalizing" }),
+  ).toMatchObject({ ok: true, data: { state: "finalizing" } });
+  expect(await f.control("update.prepare")).toMatchObject({
+    ok: true,
+    data: { kind: "blocked", blockers: expect.arrayContaining(["capture"]) },
+  });
+  const progress = once(f.events, "update.progress");
+  expect(
+    await f.control("capture.report", {
+      ...report,
+      sequence: 3,
+      state: "interrupted",
+      reason: "FIXTURE_ENDED",
+    }),
+  ).toMatchObject({ ok: true, data: { state: "interrupted" } });
+  await progress;
+  expect(await f.control("update.prepare")).toMatchObject({ ok: true, data: { kind: "prepared" } });
+});
+
+test("a lost preparation acknowledgement expires while committed ownership keeps admission fenced", async () => {
+  const input = new PassThrough(),
+    output = new PassThrough();
+  const f = await projectServiceFixture(cleanups, async () => ({ ok: true, data: {} }), undefined, {
+    control: { input, output, timeoutMs: 30 },
+  });
+  const responses: { id: string; ok: boolean; data: { kind?: string; permitId?: string } }[] = [];
+  output.on("data", (bytes) => {
+    const message = JSON.parse(bytes.toString());
+    if (message.event === "result") responses.push(message.response);
+  });
+  const ask = async (id: string, operation: string, params: Record<string, unknown> = {}) => {
+    const received = once(output, "data");
+    input.write(JSON.stringify({ event: "request", request: { id, operation, params } }) + "\n");
+    await received;
+    return responses.find((response) => response.id === id)!;
+  };
+  const lost = await ask("lost", "update.prepare");
+  expect(lost).toMatchObject({ ok: true, data: { kind: "prepared" } });
+  expect(await f.call("project.list", {})).toMatchObject({
+    ok: false,
+    error: { code: "UPDATING" },
+  });
+  await delay(60);
+  expect(await ask("reopened", "project.list")).toMatchObject({ ok: true });
+  await new Promise((resolve) => setImmediate(resolve));
+  const next = await ask("next", "update.prepare");
+  expect(await ask("commit", "update.commit", { permitId: next.data.permitId })).toMatchObject({
+    ok: true,
+  });
+  await delay(60);
+  expect(
+    await ask("old-release", "update.release", { permitId: lost.data.permitId }),
+  ).toMatchObject({ ok: true, data: { released: true } });
+  expect(await f.call("project.list", {})).toMatchObject({
+    ok: false,
+    error: { code: "UPDATING" },
+  });
+  await ask("release", "update.release", { permitId: next.data.permitId });
+  expect(
+    await ask("release-again", "update.release", { permitId: next.data.permitId }),
+  ).toMatchObject({ ok: true, data: { released: true } });
+  expect(await f.call("project.list", {})).toMatchObject({ ok: true });
+});
 test("project service delivers complete operation results through its shared artifact owner", async () => {
   const f = await setup(async (operation) => {
     expect(operation).toBe("storage.clearRenderWorkspace");

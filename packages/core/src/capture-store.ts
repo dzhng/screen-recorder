@@ -358,6 +358,13 @@ export class CaptureStore extends Catalog {
    * Every take that can still change state, oldest first. A relaunched service reconciles these
    * against their own durable media; nothing else may be left describing a capture that ended.
    */
+  get updateBlocked(): boolean {
+    return !!this.catalog
+      .prepare(
+        `SELECT 1 FROM recordings WHERE state IN (${unsettledStates.map(() => "?").join(",")}) LIMIT 1`,
+      )
+      .get(...unsettledStates);
+  }
   unsettled(): Recording[] {
     return (
       this.catalog

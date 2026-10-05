@@ -296,6 +296,29 @@ test("concurrent prepares join one download", async () => {
   expect(requests.filter((url) => url.endsWith("weight.bin"))).toHaveLength(1);
 });
 
+test("model preparation owns update blocking through settlement and signals progress without a status request", async () => {
+  const { handler, held } = stalling("Model.mlmodelc/weights/weight.bin");
+  const { open } = await fixture(handler);
+  const models = open();
+  let settled!: () => void;
+  const progress = new Promise<void>((resolve) => {
+    settled = resolve;
+  });
+  models.onUpdateProgress = settled;
+  const preparation = models.prepare("tiny", new AbortController().signal);
+  void preparation.catch(() => {});
+  await vi.waitFor(() => expect(held).toHaveLength(1));
+  try {
+    expect(models.updateBlocked).toBe(true);
+  } finally {
+    held[0]!.end(contents["Model.mlmodelc/weights/weight.bin"]!.subarray(1024));
+    await preparation;
+  }
+  await progress;
+  expect(models.updateBlocked).toBe(false);
+  models.onUpdateProgress = undefined;
+});
+
 test("a caller that aborts leaves a joined prepare running", async () => {
   const { handler, held } = stalling("Model.mlmodelc/weights/weight.bin");
   const { open } = await fixture(handler);

@@ -10,6 +10,17 @@ supplies real schemas and transport behavior; scripted Unix-socket peers supply
 explicit readiness and failed-job evidence. Passing a portable trial does not
 certify native capture or media quality.
 
+Skill-management fixtures supply complete controlled source mirrors, substituting
+only acquisition. The runner executes the published pinned skills installer.
+Customized fixtures retain local edits, extras, deleted upstream references and
+unrelated settings. Before/after receipts inspect actual file hashes and symlink
+targets; text excerpts keep judge input bounded, while hashes bind complete bytes.
+The explicit network-dependent installer proof runs with
+`node --test evals/integration/skill-lifecycle.test.mjs`; it is separate from the
+fast model-free harness checks. Backups use a scratch directory inside the disposable project so their actual
+contents remain observable. Health interpretation fixtures carry explicit update
+projection data and do not establish native updater execution.
+
 Run `node evals/run.mjs --help` for options, then `node evals/run.mjs` for the
 default repeated trials. The [root manifest](../package.json) also exposes
 `eval:agents` and the fast, model-free `eval:test` checks. Docker must already be
@@ -21,7 +32,7 @@ skill task, selecting an explicit fixture only when its observable evidence is
 needed. Runners never receive bars or other cases. README entry trials retain the
 repository's linked consumer folder without preinstalling the skill; direct skill
 trials use the selected agent's discovery directory. The judge receives the input,
-bar, response, observed command executions and actual CLI/service call receipts. Failed reads, failed jobs and
+bar, response, observed command executions, completed tool-read receipts and actual CLI/service call receipts. Failed reads, failed jobs and
 incomplete exchanges stay distinct; an infrastructure error stops the suite and
 never counts as a pass. Repeats are fresh sessions, not retries of a conversation.
 

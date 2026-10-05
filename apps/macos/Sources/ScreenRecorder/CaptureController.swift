@@ -33,6 +33,7 @@ final class CaptureController {
     /// Set only in fixture mode, and only when a check asked for it: the hold a pending start waits on.
     private let startHold: FixtureStartHold?
     private weak var host: ServiceHost?
+    var updateProgress: (() -> Void)?
 
     init(fixtureWindow: NSWindow?, capture: NativeCapture = NativeCapture()) {
         self.capture = capture
@@ -68,6 +69,7 @@ final class CaptureController {
     var isCapturing: Bool { take != nil || pendingStart != nil || termination.isRunning }
 
     func handle(_ operation: String, _ params: Data) async -> Result<Data, ServiceFailure> {
+        defer { updateProgress?() }
         do {
             guard let fields = try JSONSerialization.jsonObject(with: params) as? [String: Any]
             else {
@@ -341,7 +343,7 @@ final class CaptureController {
         // transition, even though potentially long publication runs in the existing task owner.
         let finalizing = Result { try transition("finalizing", reason: reason) }
         finalizingReceipt = try? JSONSerialization.data(withJSONObject: finalizing.get())
-        return termination.start { [self] in
+        let task = termination.start { [self] in
             var ended = false
             defer {
                 if ended && take?.sourceId == active.sourceId { take = nil }
@@ -378,6 +380,11 @@ final class CaptureController {
                 throw error
             }
         }
+        Task { @MainActor [weak self] in
+            _ = await task.result
+            self?.updateProgress?()
+        }
+        return task
     }
 
     private func interrupted(_ reason: CaptureFailure, recordingId: String, sourceId: String) async {

@@ -1,0 +1,1490 @@
+{
+  "scope": "Pinned corrected engine boundary; not production installed acceptance",
+  "platform": {
+    "macOS": "27.0.1",
+    "architecture": "arm64",
+    "xcode": "Xcode 27.0 / 27A266a"
+  },
+  "source": {
+    "revision": "8cc573744873dc622058831461cb17d9f1f83fd7",
+    "runnerSha256": "5da86fcb339058f05c978e379a276e76eada8d59ca305038767a8fb9e9ebd11b",
+    "appSourceSha256": "69dd0a5d9fb20ad14291833ff285f5bd45a2599baa4b1cbc1278a229db9cdd39",
+    "frameworkIdentitySha256": "e9df933a371e3d1a373b97b202840057722023b2f6628a0fbe339de109ee0c37"
+  },
+  "patchSha256": "fb41135c8f8086206e5465772bd8d84a4d2f486352c13d729c941aefe3e3f5de",
+  "buildReceipt": {
+    "engine": "screenrec-sparkle-source",
+    "inputs": {
+      "repository": "https://github.com/sparkle-project/Sparkle.git",
+      "version": "2.10.0",
+      "commit": "eef1a539a373c1f1a320624b1130fc5de7b2e100",
+      "tree": "1973159ee5d6ae334396a84b3e00e924ac94ce7c",
+      "patchSha256": "fb41135c8f8086206e5465772bd8d84a4d2f486352c13d729c941aefe3e3f5de"
+    },
+    "builderSha256": "b6ad0505c79dd06aacf92e19852309b12b3fa523e9c30b1260d160aa53eb02ae",
+    "identityUtilitySha256": "e9df933a371e3d1a373b97b202840057722023b2f6628a0fbe339de109ee0c37",
+    "platform": {
+      "os": "darwin",
+      "arch": "arm64"
+    },
+    "xcode": "Xcode 27.0\nBuild version 27A266a",
+    "args": [
+      "-project",
+      "/private/tmp/screenrec-sparkle-descriptor-cleanup-source/Sparkle.xcodeproj",
+      "-scheme",
+      "Sparkle",
+      "-configuration",
+      "Release",
+      "-sdk",
+      "macosx",
+      "-derivedDataPath",
+      "/private/tmp/screenrec-protected-sparkle-r3/derived-data",
+      "ARCHS=arm64",
+      "ONLY_ACTIVE_ARCH=YES",
+      "CODE_SIGNING_ALLOWED=NO",
+      "CODE_SIGNING_REQUIRED=NO",
+      "build"
+    ],
+    "signing": "disabled-by-build",
+    "framework": {
+      "sha256": "ea3d3452cfdd6d183ee1fdaa9f78f0f0b100dd7e70b5505c3ff4cf05c926da68"
+    },
+    "acceptance": "built-only-native-runtime-unverified"
+  },
+  "commands": [
+    "SCREENREC_SPARKLE_FRAMEWORK=/tmp/screenrec-protected-sparkle-r3/Sparkle.framework node --test scripts/update-guard.test.mjs",
+    "SCREENREC_SPARKLE_FRAMEWORK=/tmp/screenrec-protected-sparkle-r3/Sparkle.framework node --test --test-name-pattern='signed incompatible|Sparkle refuses|Sparkle disable' scripts/update-lab.test.mjs"
+  ],
+  "caseCount": 22,
+  "trialsPerCase": 1,
+  "cases": [
+    {
+      "scenario": "authorized-channel-loss",
+      "outcome": "passed",
+      "installedVersion": "0.1.0",
+      "archiveRequests": 1,
+      "inputs": {
+        "hostControlledInstallation": true,
+        "retainedPublicFixtures": true,
+        "executionContext": {
+          "SCREENREC_HOME": "/var/folders/62/pphwbgd15b1b9q7cjgf8m9pm0000gn/T/screenrec-update-lab-OHuU8f/home",
+          "SCREENREC_DEFAULTS": "dev.screenrec.update-lab.95546944-8c4e-480d-bf79-845290a5049f.settings"
+        },
+        "publicKey": "erAxzRf8QT2Mef+ulz+w08V7JuwO5ksphpccbOda+8c=",
+        "fixtureURL": "http://127.0.0.1:50844",
+        "oldArchiveSha256": "540eaf3ab41bb4730b89e73b88c81254e1100f794ed4e75517c829d99899331a",
+        "appcastSha256": "b26d4379d54e049f9b43546000b489c1e0594ddee40185aab764aea4371dd75d",
+        "archiveSha256": "e1c40cfc211bbfb4d129d8468e29fe464cf2a19151c6330be7b39a8cfe936dfd"
+      },
+      "reportPath": "/var/folders/62/pphwbgd15b1b9q7cjgf8m9pm0000gn/T/screenrec-update-lab-OHuU8f/report.json",
+      "reportSha256": "2845d957fbc7091636dc2468fc906fbdf9c4174cb1532dc5300b1359c176847b",
+      "eventSequence": [
+        "launch",
+        "candidate",
+        "found",
+        "download",
+        "extract",
+        "command",
+        "ready",
+        "command",
+        "installing",
+        "installProgress",
+        "authorizeFinal",
+        "relaunch",
+        "channelInvalidated",
+        "error",
+        "dismiss",
+        "cycle",
+        "command",
+        "lockProbe"
+      ],
+      "observations": [
+        {
+          "arguments": [
+            "/var/folders/62/pphwbgd15b1b9q7cjgf8m9pm0000gn/T/screenrec-update-lab-OHuU8f/installed/UpdateLab.app/Contents/MacOS/UpdateLab"
+          ],
+          "version": "0.1.0",
+          "event": "launch",
+          "executionContext": {
+            "SCREENREC_HOME": "/var/folders/62/pphwbgd15b1b9q7cjgf8m9pm0000gn/T/screenrec-update-lab-OHuU8f/home",
+            "SCREENREC_DEFAULTS": "dev.screenrec.update-lab.95546944-8c4e-480d-bf79-845290a5049f.settings"
+          }
+        },
+        {
+          "version": "0.1.0",
+          "candidateVersion": "0.1.1",
+          "accepted": true,
+          "signatureStatus": 1,
+          "event": "candidate",
+          "format": "23"
+        },
+        {
+          "version": "0.1.0",
+          "replacementExcluded": true,
+          "event": "installProgress",
+          "terminated": false
+        },
+        {
+          "replacementExcluded": true,
+          "event": "cycle",
+          "version": "0.1.0"
+        },
+        {
+          "event": "lockProbe",
+          "replacementExcluded": false,
+          "version": "0.1.0"
+        }
+      ]
+    },
+    {
+      "scenario": "bad-archive-signature",
+      "outcome": "passed",
+      "installedVersion": "0.1.0",
+      "archiveRequests": 1,
+      "inputs": {
+        "hostControlledInstallation": true,
+        "retainedPublicFixtures": true,
+        "executionContext": {
+          "SCREENREC_HOME": "/var/folders/62/pphwbgd15b1b9q7cjgf8m9pm0000gn/T/screenrec-update-lab-Lbh5Rt/home",
+          "SCREENREC_DEFAULTS": "dev.screenrec.update-lab.69a4a02f-b637-44b6-866b-06c29f08e09c.settings"
+        },
+        "publicKey": "DAZPMN5shbwS3uN7jfUMkQtPOpdeQP63RE8arcc8RIc=",
+        "fixtureURL": "http://127.0.0.1:50889",
+        "oldArchiveSha256": "7747400933a155ebbc1cc7cd924e5b48cd63a57e33c72e98981df2fb30402a35",
+        "appcastSha256": "aecaac1136ac19243a73fc41e181e4a3c5347f57990339e8e3deb7e787b1477c",
+        "archiveSha256": "d8410205c0996aa90dce9478abd26b3bd2284e615a415a8b170578f19cb4785f"
+      },
+      "reportPath": "/var/folders/62/pphwbgd15b1b9q7cjgf8m9pm0000gn/T/screenrec-update-lab-Lbh5Rt/report.json",
+      "reportSha256": "022ad8f141bec57ab896e076dc24d7efb7363f69eda7e59400271df5f909a759",
+      "eventSequence": [
+        "launch",
+        "candidate",
+        "found",
+        "download",
+        "extract",
+        "command",
+        "error",
+        "dismiss",
+        "cycle"
+      ],
+      "observations": [
+        {
+          "arguments": [
+            "/var/folders/62/pphwbgd15b1b9q7cjgf8m9pm0000gn/T/screenrec-update-lab-Lbh5Rt/installed/UpdateLab.app/Contents/MacOS/UpdateLab"
+          ],
+          "version": "0.1.0",
+          "event": "launch",
+          "executionContext": {
+            "SCREENREC_HOME": "/var/folders/62/pphwbgd15b1b9q7cjgf8m9pm0000gn/T/screenrec-update-lab-Lbh5Rt/home",
+            "SCREENREC_DEFAULTS": "dev.screenrec.update-lab.69a4a02f-b637-44b6-866b-06c29f08e09c.settings"
+          }
+        },
+        {
+          "version": "0.1.0",
+          "candidateVersion": "0.1.1",
+          "accepted": true,
+          "signatureStatus": 1,
+          "event": "candidate",
+          "format": "23"
+        },
+        {
+          "replacementExcluded": false,
+          "event": "cycle",
+          "version": "0.1.0"
+        }
+      ]
+    },
+    {
+      "scenario": "busy-quit",
+      "outcome": "passed",
+      "installedVersion": "0.1.0",
+      "archiveRequests": 1,
+      "inputs": {
+        "hostControlledInstallation": true,
+        "retainedPublicFixtures": true,
+        "executionContext": {
+          "SCREENREC_HOME": "/var/folders/62/pphwbgd15b1b9q7cjgf8m9pm0000gn/T/screenrec-update-lab-hmgKsx/home",
+          "SCREENREC_DEFAULTS": "dev.screenrec.update-lab.25e8a01e-4f43-43b9-ae8e-259b7385ab1c.settings"
+        },
+        "publicKey": "vymyrRwpAKf7HgXNr1Irbkh/DTUl2TEb+eMK4XXX3wU=",
+        "fixtureURL": "http://127.0.0.1:50812",
+        "oldArchiveSha256": "36e4ec0a7772064dd0278cab601bf8fbcc520b21661d028ac07f3feecd661cce",
+        "appcastSha256": "abdb892e43c32d55dfb261f4ee059acb33ba58bc78da2bb197d3955aaaca93cc",
+        "archiveSha256": "de0033252a2ceedf5d63a3675a8f9de10c4028dde9dc55cf9da8ed482e9aa5a6"
+      },
+      "reportPath": "/var/folders/62/pphwbgd15b1b9q7cjgf8m9pm0000gn/T/screenrec-update-lab-hmgKsx/report.json",
+      "reportSha256": "a659f5fda032e5ca9d5da37a54f76df2031bdae99a4bb487dc0dc43da3aee703",
+      "eventSequence": [
+        "launch",
+        "candidate",
+        "found",
+        "download",
+        "extract",
+        "command",
+        "ready",
+        "command",
+        "terminate"
+      ],
+      "observations": [
+        {
+          "arguments": [
+            "/var/folders/62/pphwbgd15b1b9q7cjgf8m9pm0000gn/T/screenrec-update-lab-hmgKsx/installed/UpdateLab.app/Contents/MacOS/UpdateLab"
+          ],
+          "version": "0.1.0",
+          "event": "launch",
+          "executionContext": {
+            "SCREENREC_HOME": "/var/folders/62/pphwbgd15b1b9q7cjgf8m9pm0000gn/T/screenrec-update-lab-hmgKsx/home",
+            "SCREENREC_DEFAULTS": "dev.screenrec.update-lab.25e8a01e-4f43-43b9-ae8e-259b7385ab1c.settings"
+          }
+        },
+        {
+          "version": "0.1.0",
+          "candidateVersion": "0.1.1",
+          "accepted": true,
+          "signatureStatus": 1,
+          "event": "candidate",
+          "format": "23"
+        },
+        {
+          "busy": true,
+          "event": "terminate",
+          "cancelling": false,
+          "version": "0.1.0"
+        }
+      ]
+    },
+    {
+      "scenario": "cancel-install",
+      "outcome": "passed",
+      "installedVersion": "0.1.0",
+      "archiveRequests": 1,
+      "inputs": {
+        "hostControlledInstallation": true,
+        "retainedPublicFixtures": true,
+        "executionContext": {
+          "SCREENREC_HOME": "/var/folders/62/pphwbgd15b1b9q7cjgf8m9pm0000gn/T/screenrec-update-lab-ALF57l/home",
+          "SCREENREC_DEFAULTS": "dev.screenrec.update-lab.5db93b82-a320-4443-b506-9716d665b0e4.settings"
+        },
+        "publicKey": "KgZxmYpKP8ZBT4LFoSVWhdmnjgRP9j6cQRzCfUTL/w0=",
+        "fixtureURL": "http://127.0.0.1:50985",
+        "oldArchiveSha256": "00f749edfb83cf76f5b8cd6343c8b1ddab435da4f5aa83a83519111c015155e8",
+        "appcastSha256": "522523c9cea7ac2ebacbd0bbd5a3fc3282a279959d7f1835c22767e97f65fb59",
+        "archiveSha256": "8b5757f5893a7776fea35b847d851e4d053723f11bb1f66725314035d34b483b"
+      },
+      "reportPath": "/var/folders/62/pphwbgd15b1b9q7cjgf8m9pm0000gn/T/screenrec-update-lab-ALF57l/report.json",
+      "reportSha256": "29485d316293b2bccf4eddb68a5ab129f0aff26827ad6d4a1378fd00f9f4f223",
+      "eventSequence": [
+        "launch",
+        "candidate",
+        "found",
+        "download",
+        "extract",
+        "command",
+        "ready",
+        "command",
+        "installing",
+        "installProgress",
+        "command",
+        "dismiss",
+        "cycle",
+        "command",
+        "terminate"
+      ],
+      "observations": [
+        {
+          "arguments": [
+            "/var/folders/62/pphwbgd15b1b9q7cjgf8m9pm0000gn/T/screenrec-update-lab-ALF57l/installed/UpdateLab.app/Contents/MacOS/UpdateLab"
+          ],
+          "version": "0.1.0",
+          "event": "launch",
+          "executionContext": {
+            "SCREENREC_HOME": "/var/folders/62/pphwbgd15b1b9q7cjgf8m9pm0000gn/T/screenrec-update-lab-ALF57l/home",
+            "SCREENREC_DEFAULTS": "dev.screenrec.update-lab.5db93b82-a320-4443-b506-9716d665b0e4.settings"
+          }
+        },
+        {
+          "version": "0.1.0",
+          "candidateVersion": "0.1.1",
+          "accepted": true,
+          "signatureStatus": 1,
+          "event": "candidate",
+          "format": "23"
+        },
+        {
+          "version": "0.1.0",
+          "replacementExcluded": true,
+          "event": "installProgress",
+          "terminated": false
+        },
+        {
+          "replacementExcluded": false,
+          "event": "cycle",
+          "version": "0.1.0"
+        },
+        {
+          "busy": false,
+          "event": "terminate",
+          "cancelling": true,
+          "version": "0.1.0"
+        }
+      ]
+    },
+    {
+      "scenario": "corrupt-archive",
+      "outcome": "passed",
+      "installedVersion": "0.1.0",
+      "archiveRequests": 1,
+      "inputs": {
+        "hostControlledInstallation": true,
+        "retainedPublicFixtures": true,
+        "executionContext": {
+          "SCREENREC_HOME": "/var/folders/62/pphwbgd15b1b9q7cjgf8m9pm0000gn/T/screenrec-update-lab-5oT40P/home",
+          "SCREENREC_DEFAULTS": "dev.screenrec.update-lab.1381fb82-bd9d-4153-9b60-a01092609314.settings"
+        },
+        "publicKey": "HV+3la2MxbvxP/Hr5QhUvS5dsnQFq/OdNVuOxaJ9hVM=",
+        "fixtureURL": "http://127.0.0.1:50920",
+        "oldArchiveSha256": "a2d561b37b60a60d5a70c090044f4581ab8b2cd9463bebb9c1931f2efe25df46",
+        "appcastSha256": "3e3282360c93868fee6b6e0e15bb220417d5882ccda712cb51f728f3dd93b4ec",
+        "archiveSha256": "5f70bf18a086007016e948b04aed3b82103a36bea41755b6cddfaf10ace3c6ef"
+      },
+      "reportPath": "/var/folders/62/pphwbgd15b1b9q7cjgf8m9pm0000gn/T/screenrec-update-lab-5oT40P/report.json",
+      "reportSha256": "a68a044fcdaae20a9e34f9ed76a6933e09217c5b5e2d6c8c49066b5c7000afe9",
+      "eventSequence": [
+        "launch",
+        "candidate",
+        "found",
+        "download",
+        "extract",
+        "command",
+        "error",
+        "dismiss",
+        "cycle"
+      ],
+      "observations": [
+        {
+          "arguments": [
+            "/var/folders/62/pphwbgd15b1b9q7cjgf8m9pm0000gn/T/screenrec-update-lab-5oT40P/installed/UpdateLab.app/Contents/MacOS/UpdateLab"
+          ],
+          "version": "0.1.0",
+          "event": "launch",
+          "executionContext": {
+            "SCREENREC_HOME": "/var/folders/62/pphwbgd15b1b9q7cjgf8m9pm0000gn/T/screenrec-update-lab-5oT40P/home",
+            "SCREENREC_DEFAULTS": "dev.screenrec.update-lab.1381fb82-bd9d-4153-9b60-a01092609314.settings"
+          }
+        },
+        {
+          "version": "0.1.0",
+          "candidateVersion": "0.1.1",
+          "accepted": true,
+          "signatureStatus": 1,
+          "event": "candidate",
+          "format": "23"
+        },
+        {
+          "replacementExcluded": false,
+          "event": "cycle",
+          "version": "0.1.0"
+        }
+      ]
+    },
+    {
+      "scenario": "disable-extract-quit",
+      "outcome": "passed",
+      "installedVersion": "0.1.0",
+      "archiveRequests": 1,
+      "inputs": {
+        "hostControlledInstallation": true,
+        "retainedPublicFixtures": true,
+        "executionContext": {
+          "SCREENREC_HOME": "/var/folders/62/pphwbgd15b1b9q7cjgf8m9pm0000gn/T/screenrec-update-lab-3tQusn/home",
+          "SCREENREC_DEFAULTS": "dev.screenrec.update-lab.265f570e-9453-4f1a-b484-5884968cad69.settings"
+        },
+        "publicKey": "eSj6/d4JzZz7KcqmPpkORNbqAC9t+AZPuihmz/KCfho=",
+        "fixtureURL": "http://127.0.0.1:50834",
+        "oldArchiveSha256": "fc5f8b592ee667ff1e14dcf9361a6c4d643fab160d3fae20116651532fe6416d",
+        "appcastSha256": "b703a38da92315256b29a11cb8dbfb9351cd608fdf4906c11247af2811a3b9e1",
+        "archiveSha256": "a5ccaf7a7e4f0a89365b7e909cf1d6e5b57a931c79ae9513f70a424e94bc5f42"
+      },
+      "reportPath": "/var/folders/62/pphwbgd15b1b9q7cjgf8m9pm0000gn/T/screenrec-update-lab-3tQusn/report.json",
+      "reportSha256": "406e9ed9463eff0df17b1fc2b288734a9d1ef96370944c2df467209a037ad702",
+      "eventSequence": [
+        "launch",
+        "candidate",
+        "found",
+        "download",
+        "extract",
+        "terminate"
+      ],
+      "observations": [
+        {
+          "arguments": [
+            "/var/folders/62/pphwbgd15b1b9q7cjgf8m9pm0000gn/T/screenrec-update-lab-3tQusn/installed/UpdateLab.app/Contents/MacOS/UpdateLab"
+          ],
+          "version": "0.1.0",
+          "event": "launch",
+          "executionContext": {
+            "SCREENREC_HOME": "/var/folders/62/pphwbgd15b1b9q7cjgf8m9pm0000gn/T/screenrec-update-lab-3tQusn/home",
+            "SCREENREC_DEFAULTS": "dev.screenrec.update-lab.265f570e-9453-4f1a-b484-5884968cad69.settings"
+          }
+        },
+        {
+          "version": "0.1.0",
+          "candidateVersion": "0.1.1",
+          "accepted": true,
+          "signatureStatus": 1,
+          "event": "candidate",
+          "format": "23"
+        },
+        {
+          "busy": true,
+          "event": "terminate",
+          "cancelling": true,
+          "version": "0.1.0"
+        }
+      ]
+    },
+    {
+      "scenario": "disable-quit",
+      "outcome": "passed",
+      "installedVersion": "0.1.0",
+      "archiveRequests": 1,
+      "inputs": {
+        "hostControlledInstallation": true,
+        "retainedPublicFixtures": true,
+        "executionContext": {
+          "SCREENREC_HOME": "/var/folders/62/pphwbgd15b1b9q7cjgf8m9pm0000gn/T/screenrec-update-lab-dVnt0S/home",
+          "SCREENREC_DEFAULTS": "dev.screenrec.update-lab.aa3a84b3-fddc-4092-b5c1-977209271e52.settings"
+        },
+        "publicKey": "4Fu/4s/NLss7iFE7HCFx0Ok0t5DNzjpxhrqsuAVWzNc=",
+        "fixtureURL": "http://127.0.0.1:50824",
+        "oldArchiveSha256": "80d4a176f0e8a467aa12a04335dbfc5fbc6819ff49031af713f0abbc516ad069",
+        "appcastSha256": "0edb6037626a2754cf6c15c6f17efdd0cc8aae39d077aa8757581355c3a03006",
+        "archiveSha256": "2f8557a09b3de414f062e89036b5352b6e338098db8eb51da8e1315a0520bc4a"
+      },
+      "reportPath": "/var/folders/62/pphwbgd15b1b9q7cjgf8m9pm0000gn/T/screenrec-update-lab-dVnt0S/report.json",
+      "reportSha256": "7a2f3ac5e15afc24188d22d50d35cb4c515e6300f45502fc2375beb355b010ff",
+      "eventSequence": [
+        "launch",
+        "candidate",
+        "found",
+        "download",
+        "extract",
+        "command",
+        "ready",
+        "command",
+        "dismiss",
+        "cycle",
+        "command",
+        "terminate"
+      ],
+      "observations": [
+        {
+          "arguments": [
+            "/var/folders/62/pphwbgd15b1b9q7cjgf8m9pm0000gn/T/screenrec-update-lab-dVnt0S/installed/UpdateLab.app/Contents/MacOS/UpdateLab"
+          ],
+          "version": "0.1.0",
+          "event": "launch",
+          "executionContext": {
+            "SCREENREC_HOME": "/var/folders/62/pphwbgd15b1b9q7cjgf8m9pm0000gn/T/screenrec-update-lab-dVnt0S/home",
+            "SCREENREC_DEFAULTS": "dev.screenrec.update-lab.aa3a84b3-fddc-4092-b5c1-977209271e52.settings"
+          }
+        },
+        {
+          "version": "0.1.0",
+          "candidateVersion": "0.1.1",
+          "accepted": true,
+          "signatureStatus": 1,
+          "event": "candidate",
+          "format": "23"
+        },
+        {
+          "replacementExcluded": false,
+          "event": "cycle",
+          "version": "0.1.0"
+        },
+        {
+          "busy": true,
+          "event": "terminate",
+          "cancelling": true,
+          "version": "0.1.0"
+        }
+      ]
+    },
+    {
+      "scenario": "equal",
+      "outcome": "passed",
+      "installedVersion": "0.1.0",
+      "archiveRequests": 0,
+      "inputs": {
+        "hostControlledInstallation": true,
+        "retainedPublicFixtures": true,
+        "executionContext": {
+          "SCREENREC_HOME": "/var/folders/62/pphwbgd15b1b9q7cjgf8m9pm0000gn/T/screenrec-update-lab-H1rvA4/home",
+          "SCREENREC_DEFAULTS": "dev.screenrec.update-lab.d0a90844-391e-4575-b964-ea13054237f9.settings"
+        },
+        "publicKey": "ofDMJVIez4LZq0OGVaULJBlz3u9EdQDnu8iCBcfK9/Y=",
+        "fixtureURL": "http://127.0.0.1:50923",
+        "oldArchiveSha256": "7d8398749038dd9658a85317518af935cc175f9b48af839a3d3f4b5479532e1e",
+        "appcastSha256": "9b26efa88a2555821ac807e34142eb125b9463f874c994af880c34eafe26f06e",
+        "archiveSha256": "7d8398749038dd9658a85317518af935cc175f9b48af839a3d3f4b5479532e1e"
+      },
+      "reportPath": "/var/folders/62/pphwbgd15b1b9q7cjgf8m9pm0000gn/T/screenrec-update-lab-H1rvA4/report.json",
+      "reportSha256": "eff97d21cb7de0cfbdb9dbdb97619ece34eecabe7f332b644f3b0736e525763d",
+      "eventSequence": [
+        "launch",
+        "cycle",
+        "command",
+        "cycle"
+      ],
+      "observations": [
+        {
+          "arguments": [
+            "/var/folders/62/pphwbgd15b1b9q7cjgf8m9pm0000gn/T/screenrec-update-lab-H1rvA4/installed/UpdateLab.app/Contents/MacOS/UpdateLab"
+          ],
+          "version": "0.1.0",
+          "event": "launch",
+          "executionContext": {
+            "SCREENREC_HOME": "/var/folders/62/pphwbgd15b1b9q7cjgf8m9pm0000gn/T/screenrec-update-lab-H1rvA4/home",
+            "SCREENREC_DEFAULTS": "dev.screenrec.update-lab.d0a90844-391e-4575-b964-ea13054237f9.settings"
+          }
+        },
+        {
+          "replacementExcluded": false,
+          "event": "cycle",
+          "version": "0.1.0"
+        },
+        {
+          "replacementExcluded": false,
+          "event": "cycle",
+          "version": "0.1.0"
+        }
+      ]
+    },
+    {
+      "scenario": "incompatible",
+      "outcome": "passed",
+      "installedVersion": "0.1.0",
+      "archiveRequests": 0,
+      "inputs": {
+        "hostControlledInstallation": true,
+        "retainedPublicFixtures": true,
+        "executionContext": {
+          "SCREENREC_HOME": "/var/folders/62/pphwbgd15b1b9q7cjgf8m9pm0000gn/T/screenrec-update-lab-xa0YiC/home",
+          "SCREENREC_DEFAULTS": "dev.screenrec.update-lab.b696372f-13aa-40fa-99ef-5e2064cac777.settings"
+        },
+        "publicKey": "0+Rt87XTbiqSrz3LatGvnGpHBgVXh+InLCd5yHPb8FY=",
+        "fixtureURL": "http://127.0.0.1:50813",
+        "oldArchiveSha256": "e11c36900b8c0ba9fa2f23a7e4aa03589c1c8450729050402f10042a42694227",
+        "appcastSha256": "08df235c117e72af38c93df030d11dd6ad0bdc6e594f75e4904624a9c7eb6e30",
+        "archiveSha256": "8f1b8e4b215110c96f546070a4e6a2ac4f0de98596a94c5fd7a3dcef4c095807"
+      },
+      "reportPath": "/var/folders/62/pphwbgd15b1b9q7cjgf8m9pm0000gn/T/screenrec-update-lab-xa0YiC/report.json",
+      "reportSha256": "d5b19dbb22e01bab6db73fea0d84c25971e2202c16dd1e74684c880eac401165",
+      "eventSequence": [
+        "launch",
+        "candidate",
+        "cycle"
+      ],
+      "observations": [
+        {
+          "arguments": [
+            "/var/folders/62/pphwbgd15b1b9q7cjgf8m9pm0000gn/T/screenrec-update-lab-xa0YiC/installed/UpdateLab.app/Contents/MacOS/UpdateLab"
+          ],
+          "version": "0.1.0",
+          "event": "launch",
+          "executionContext": {
+            "SCREENREC_HOME": "/var/folders/62/pphwbgd15b1b9q7cjgf8m9pm0000gn/T/screenrec-update-lab-xa0YiC/home",
+            "SCREENREC_DEFAULTS": "dev.screenrec.update-lab.b696372f-13aa-40fa-99ef-5e2064cac777.settings"
+          }
+        },
+        {
+          "version": "0.1.0",
+          "candidateVersion": "0.1.1",
+          "accepted": false,
+          "signatureStatus": 1,
+          "event": "candidate",
+          "format": "24"
+        },
+        {
+          "replacementExcluded": false,
+          "event": "cycle",
+          "version": "0.1.0"
+        }
+      ]
+    },
+    {
+      "scenario": "install",
+      "outcome": "passed",
+      "installedVersion": "0.1.1",
+      "archiveRequests": 1,
+      "inputs": {
+        "hostControlledInstallation": true,
+        "retainedPublicFixtures": true,
+        "executionContext": {
+          "SCREENREC_HOME": "/var/folders/62/pphwbgd15b1b9q7cjgf8m9pm0000gn/T/screenrec-update-lab-xsNUuJ/home",
+          "SCREENREC_DEFAULTS": "dev.screenrec.update-lab.ace0b162-2ced-45ac-98c0-e9e91f7ec367.settings"
+        },
+        "publicKey": "ETzsKobQ30Vx+Mnqk9z0J6psdPv+PAClxvngsA6VdVA=",
+        "fixtureURL": "http://127.0.0.1:50962",
+        "oldArchiveSha256": "ee9e108303333d4c75457cf69ca8c6f89737f038263f45675d2f5e7e6908de37",
+        "appcastSha256": "59706dc716862b8f0d5e5577a389fa45f4537216334a4cc85ceba8632ac8a8f3",
+        "archiveSha256": "ee2f287b41f8739baaf273c9a033b8365fbd5c623f84864138eefee538840446"
+      },
+      "reportPath": "/var/folders/62/pphwbgd15b1b9q7cjgf8m9pm0000gn/T/screenrec-update-lab-xsNUuJ/report.json",
+      "reportSha256": "49ee1dfed16523e3b136184a8782d939242a4cd96c1be1b0671821beb845a916",
+      "eventSequence": [
+        "launch",
+        "candidate",
+        "found",
+        "download",
+        "extract",
+        "command",
+        "ready",
+        "command",
+        "installing",
+        "installProgress",
+        "authorizeFinal",
+        "relaunch",
+        "terminate",
+        "launch"
+      ],
+      "observations": [
+        {
+          "arguments": [
+            "/var/folders/62/pphwbgd15b1b9q7cjgf8m9pm0000gn/T/screenrec-update-lab-xsNUuJ/installed/UpdateLab.app/Contents/MacOS/UpdateLab"
+          ],
+          "version": "0.1.0",
+          "event": "launch",
+          "executionContext": {
+            "SCREENREC_HOME": "/var/folders/62/pphwbgd15b1b9q7cjgf8m9pm0000gn/T/screenrec-update-lab-xsNUuJ/home",
+            "SCREENREC_DEFAULTS": "dev.screenrec.update-lab.ace0b162-2ced-45ac-98c0-e9e91f7ec367.settings"
+          }
+        },
+        {
+          "version": "0.1.0",
+          "candidateVersion": "0.1.1",
+          "accepted": true,
+          "signatureStatus": 1,
+          "event": "candidate",
+          "format": "23"
+        },
+        {
+          "version": "0.1.0",
+          "replacementExcluded": true,
+          "event": "installProgress",
+          "terminated": false
+        },
+        {
+          "busy": false,
+          "event": "terminate",
+          "cancelling": false,
+          "version": "0.1.0"
+        },
+        {
+          "arguments": [
+            "/var/folders/62/pphwbgd15b1b9q7cjgf8m9pm0000gn/T/screenrec-update-lab-xsNUuJ/installed/UpdateLab.app/Contents/MacOS/UpdateLab",
+            "--screenrec-update-relaunch"
+          ],
+          "version": "0.1.1",
+          "event": "launch",
+          "executionContext": {
+            "SCREENREC_HOME": "/var/folders/62/pphwbgd15b1b9q7cjgf8m9pm0000gn/T/screenrec-update-lab-xsNUuJ/home",
+            "SCREENREC_DEFAULTS": "dev.screenrec.update-lab.ace0b162-2ced-45ac-98c0-e9e91f7ec367.settings"
+          }
+        }
+      ]
+    },
+    {
+      "scenario": "install-skip",
+      "outcome": "passed",
+      "installedVersion": "0.1.0",
+      "archiveRequests": 1,
+      "inputs": {
+        "hostControlledInstallation": true,
+        "retainedPublicFixtures": true,
+        "executionContext": {
+          "SCREENREC_HOME": "/var/folders/62/pphwbgd15b1b9q7cjgf8m9pm0000gn/T/screenrec-update-lab-Z9Gd9T/home",
+          "SCREENREC_DEFAULTS": "dev.screenrec.update-lab.e60eecb9-96d5-4c64-a8d8-96f3fb3f94bc.settings"
+        },
+        "publicKey": "LylvenNdUQgJk5xgkDhomxyBM3wEv7Q73FXFuvcsfmQ=",
+        "fixtureURL": "http://127.0.0.1:51057",
+        "oldArchiveSha256": "eebca48ae9dde247f78c57366de5822447e537c8a605ef4b39aa305a36885512",
+        "appcastSha256": "08ce10bacffc9d10d1901d13cd36b1810050af3df1f935aff3f007c21c0a68a6",
+        "archiveSha256": "5fc4de53ff42cc647a1a87c1bb89c8ac743cef48fd715bbf118b4bc95e1cf08e"
+      },
+      "reportPath": "/var/folders/62/pphwbgd15b1b9q7cjgf8m9pm0000gn/T/screenrec-update-lab-Z9Gd9T/report.json",
+      "reportSha256": "93509ab9aaa0c04a2471a9dd56ae8ddeac5e34db37d31654a7c98ffaf6d4fa5e",
+      "eventSequence": [
+        "launch",
+        "candidate",
+        "found",
+        "download",
+        "extract",
+        "command",
+        "ready",
+        "command",
+        "installing",
+        "dismiss",
+        "cycle"
+      ],
+      "observations": [
+        {
+          "arguments": [
+            "/var/folders/62/pphwbgd15b1b9q7cjgf8m9pm0000gn/T/screenrec-update-lab-Z9Gd9T/installed/UpdateLab.app/Contents/MacOS/UpdateLab"
+          ],
+          "version": "0.1.0",
+          "event": "launch",
+          "executionContext": {
+            "SCREENREC_HOME": "/var/folders/62/pphwbgd15b1b9q7cjgf8m9pm0000gn/T/screenrec-update-lab-Z9Gd9T/home",
+            "SCREENREC_DEFAULTS": "dev.screenrec.update-lab.e60eecb9-96d5-4c64-a8d8-96f3fb3f94bc.settings"
+          }
+        },
+        {
+          "version": "0.1.0",
+          "candidateVersion": "0.1.1",
+          "accepted": true,
+          "signatureStatus": 1,
+          "event": "candidate",
+          "format": "23"
+        },
+        {
+          "replacementExcluded": false,
+          "event": "cycle",
+          "version": "0.1.0"
+        }
+      ]
+    },
+    {
+      "scenario": "malformed-format",
+      "outcome": "passed",
+      "installedVersion": "0.1.0",
+      "archiveRequests": 0,
+      "inputs": {
+        "hostControlledInstallation": true,
+        "retainedPublicFixtures": true,
+        "executionContext": {
+          "SCREENREC_HOME": "/var/folders/62/pphwbgd15b1b9q7cjgf8m9pm0000gn/T/screenrec-update-lab-SIRzBL/home",
+          "SCREENREC_DEFAULTS": "dev.screenrec.update-lab.afe69475-86d5-46bd-b7a7-11925d2a3752.settings"
+        },
+        "publicKey": "qPrkmUH8ooXRo/voKO3fUhgS2rElRMnZC8p5Kg6qQpM=",
+        "fixtureURL": "http://127.0.0.1:50884",
+        "oldArchiveSha256": "a3e0746f8c6f3a1576aa14bfdaca4a7278b6f8be6f1df7d25cd27c246b031b98",
+        "appcastSha256": "7aeb6389618ecc2c8f722c492294590f0f826a151fe6ba2384aad23d1a1e3db7",
+        "archiveSha256": "6252ce566d7f62169d31ffd91877d6f18b06e8eaca7e0fc2038ee0bc7231c593"
+      },
+      "reportPath": "/var/folders/62/pphwbgd15b1b9q7cjgf8m9pm0000gn/T/screenrec-update-lab-SIRzBL/report.json",
+      "reportSha256": "4875e0ddb377866c2355448fa8fd4a9fa1550ee63751226b756bfc254c1fde48",
+      "eventSequence": [
+        "launch",
+        "candidate",
+        "cycle",
+        "command",
+        "candidate",
+        "cycle"
+      ],
+      "observations": [
+        {
+          "arguments": [
+            "/var/folders/62/pphwbgd15b1b9q7cjgf8m9pm0000gn/T/screenrec-update-lab-SIRzBL/installed/UpdateLab.app/Contents/MacOS/UpdateLab"
+          ],
+          "version": "0.1.0",
+          "event": "launch",
+          "executionContext": {
+            "SCREENREC_HOME": "/var/folders/62/pphwbgd15b1b9q7cjgf8m9pm0000gn/T/screenrec-update-lab-SIRzBL/home",
+            "SCREENREC_DEFAULTS": "dev.screenrec.update-lab.afe69475-86d5-46bd-b7a7-11925d2a3752.settings"
+          }
+        },
+        {
+          "version": "0.1.0",
+          "candidateVersion": "0.1.1",
+          "accepted": false,
+          "signatureStatus": 1,
+          "event": "candidate",
+          "format": "23x"
+        },
+        {
+          "replacementExcluded": false,
+          "event": "cycle",
+          "version": "0.1.0"
+        },
+        {
+          "version": "0.1.0",
+          "candidateVersion": "0.1.1",
+          "accepted": false,
+          "signatureStatus": 1,
+          "event": "candidate",
+          "format": "23x"
+        },
+        {
+          "replacementExcluded": false,
+          "event": "cycle",
+          "version": "0.1.0"
+        }
+      ]
+    },
+    {
+      "scenario": "mcp-lock",
+      "outcome": "passed",
+      "installedVersion": "0.1.0",
+      "archiveRequests": 1,
+      "inputs": {
+        "hostControlledInstallation": true,
+        "retainedPublicFixtures": true,
+        "executionContext": {
+          "SCREENREC_HOME": "/var/folders/62/pphwbgd15b1b9q7cjgf8m9pm0000gn/T/screenrec-update-lab-EwTA7i/home",
+          "SCREENREC_DEFAULTS": "dev.screenrec.update-lab.9a220ef7-0517-47ed-aac3-048a81038641.settings"
+        },
+        "publicKey": "EGUShmh3L5OimwAOcvpXHNo4JVindlgCtBbBzIjrhrg=",
+        "fixtureURL": "http://127.0.0.1:50992",
+        "oldArchiveSha256": "9e4e59cf2b4fbdaf57fa030b71449dd0a89e6b598f7daade2436ee823c627426",
+        "appcastSha256": "07e226421800e36db4a920850afa655130afbab70c4344d56277439e58f5d393",
+        "archiveSha256": "c7ace2fb3529446cad43146ce868b7d14c58f05fb09b70d05e277245612691f3",
+        "client": {
+          "tools": [
+            "project.create",
+            "project.delete",
+            "project.get",
+            "project.list",
+            "edit.apply",
+            "text.seed",
+            "processing.get",
+            "output.capabilities",
+            "processing.capabilities",
+            "acquisition.import",
+            "acquisition.get",
+            "asset.import",
+            "asset.get",
+            "asset.segments",
+            "asset.origins",
+            "asset.list",
+            "job.get",
+            "job.retry",
+            "job.cancel",
+            "export.create",
+            "export.list",
+            "export.status",
+            "export.retry",
+            "export.recover",
+            "export.cancel",
+            "export.abandon",
+            "package.open",
+            "package.status",
+            "package.adopt",
+            "package.close",
+            "recording.delete",
+            "storage.usage",
+            "index.get",
+            "index.retry",
+            "index.coverage",
+            "index.frame",
+            "index.frames",
+            "transcript.get",
+            "transcript.search",
+            "transcript.retry",
+            "model.list",
+            "model.status",
+            "model.prepare",
+            "frame.batch",
+            "preview.get",
+            "preview.retry",
+            "voice.generate",
+            "audio.extract",
+            "audio.prepare",
+            "audio.get",
+            "audio.retry",
+            "frame.get",
+            "frame.retry",
+            "waveform.get",
+            "waveform.retry",
+            "spectrogram.get",
+            "spectrogram.retry",
+            "artifact.read",
+            "artifact.renew",
+            "artifact.close",
+            "timeline.events",
+            "cursor.raw",
+            "service.health",
+            "capture.sources",
+            "capture.start",
+            "capture.status",
+            "capture.pause",
+            "capture.resume",
+            "capture.stop",
+            "capture.cancel",
+            "capture.restart",
+            "recording.latest",
+            "recording.list",
+            "recording.cleanup",
+            "recording.get",
+            "revision.get",
+            "revision.history",
+            "edit.undo",
+            "edit.restore"
+          ],
+          "cliSha256": "8371a811f250263011b264e463fe6fa55022f40623b80878a57e72fa91e00976",
+          "lockSourceSha256": "d3530e9d8f04973ac4e2014bd7ac6119d5f9b582840d8309ee6c7beac5fbb80a",
+          "nodeSha256": "e4b5a3af0e05c75de2eae013904145f40fe7fc2a6e6f17510128bf45cca4e79b"
+        }
+      },
+      "reportPath": "/var/folders/62/pphwbgd15b1b9q7cjgf8m9pm0000gn/T/screenrec-update-lab-EwTA7i/report.json",
+      "reportSha256": "e29dd8596d7f3b7e4b73cdca649cc5948918de91895cf73f00e4daeeed7e1801",
+      "eventSequence": [
+        "launch",
+        "candidate",
+        "found",
+        "download",
+        "extract",
+        "command",
+        "ready",
+        "command",
+        "installing",
+        "error",
+        "dismiss",
+        "cycle",
+        "command",
+        "lockProbe"
+      ],
+      "observations": [
+        {
+          "arguments": [
+            "/var/folders/62/pphwbgd15b1b9q7cjgf8m9pm0000gn/T/screenrec-update-lab-EwTA7i/installed/UpdateLab.app/Contents/MacOS/UpdateLab"
+          ],
+          "version": "0.1.0",
+          "event": "launch",
+          "executionContext": {
+            "SCREENREC_HOME": "/var/folders/62/pphwbgd15b1b9q7cjgf8m9pm0000gn/T/screenrec-update-lab-EwTA7i/home",
+            "SCREENREC_DEFAULTS": "dev.screenrec.update-lab.9a220ef7-0517-47ed-aac3-048a81038641.settings"
+          }
+        },
+        {
+          "version": "0.1.0",
+          "candidateVersion": "0.1.1",
+          "accepted": true,
+          "signatureStatus": 1,
+          "event": "candidate",
+          "format": "23"
+        },
+        {
+          "replacementExcluded": false,
+          "event": "cycle",
+          "version": "0.1.0"
+        },
+        {
+          "event": "lockProbe",
+          "replacementExcluded": false,
+          "version": "0.1.0"
+        }
+      ]
+    },
+    {
+      "scenario": "missing-format",
+      "outcome": "passed",
+      "installedVersion": "0.1.0",
+      "archiveRequests": 0,
+      "inputs": {
+        "hostControlledInstallation": true,
+        "retainedPublicFixtures": true,
+        "executionContext": {
+          "SCREENREC_HOME": "/var/folders/62/pphwbgd15b1b9q7cjgf8m9pm0000gn/T/screenrec-update-lab-VJyRuy/home",
+          "SCREENREC_DEFAULTS": "dev.screenrec.update-lab.8c57379d-f1b9-4f10-960e-dc84695fc721.settings"
+        },
+        "publicKey": "G6dBoE6yjGf6vwrJGBprKhkST4MIj/XMOrSjuDq6Hy4=",
+        "fixtureURL": "http://127.0.0.1:50867",
+        "oldArchiveSha256": "7a5798061dd7fe64c12a11132d27f144d99ff3465d1f0e7cb16dc992c9aa7fae",
+        "appcastSha256": "e9fa165cee714920ef4ff5ac72cf0f15fd7edce4c00fab19c882c44b1598b084",
+        "archiveSha256": "0747af49c2180a7cb59f70b5a3b2bbfc8874151573d1c83700d7a8a2a0e0e258"
+      },
+      "reportPath": "/var/folders/62/pphwbgd15b1b9q7cjgf8m9pm0000gn/T/screenrec-update-lab-VJyRuy/report.json",
+      "reportSha256": "c48810f888a39c5661e5b96db6562a425ab54e05804db0130c2788f14fcdba7c",
+      "eventSequence": [
+        "launch",
+        "candidate",
+        "cycle"
+      ],
+      "observations": [
+        {
+          "arguments": [
+            "/var/folders/62/pphwbgd15b1b9q7cjgf8m9pm0000gn/T/screenrec-update-lab-VJyRuy/installed/UpdateLab.app/Contents/MacOS/UpdateLab"
+          ],
+          "version": "0.1.0",
+          "event": "launch",
+          "executionContext": {
+            "SCREENREC_HOME": "/var/folders/62/pphwbgd15b1b9q7cjgf8m9pm0000gn/T/screenrec-update-lab-VJyRuy/home",
+            "SCREENREC_DEFAULTS": "dev.screenrec.update-lab.8c57379d-f1b9-4f10-960e-dc84695fc721.settings"
+          }
+        },
+        {
+          "version": "0.1.0",
+          "candidateVersion": "0.1.1",
+          "accepted": false,
+          "signatureStatus": 1,
+          "event": "candidate",
+          "format": "missing"
+        },
+        {
+          "replacementExcluded": false,
+          "event": "cycle",
+          "version": "0.1.0"
+        }
+      ]
+    },
+    {
+      "scenario": "missing-signature",
+      "outcome": "passed",
+      "installedVersion": "0.1.0",
+      "archiveRequests": 1,
+      "inputs": {
+        "hostControlledInstallation": true,
+        "retainedPublicFixtures": true,
+        "executionContext": {
+          "SCREENREC_HOME": "/var/folders/62/pphwbgd15b1b9q7cjgf8m9pm0000gn/T/screenrec-update-lab-MevXqp/home",
+          "SCREENREC_DEFAULTS": "dev.screenrec.update-lab.9f19623a-05f8-4043-85ab-2c7f88541573.settings"
+        },
+        "publicKey": "9ZA1TZRQrjw6/YNpR2ccRm6GBGI2aDchW6RyBTwnPeM=",
+        "fixtureURL": "http://127.0.0.1:50910",
+        "oldArchiveSha256": "8d8d6b0a7142216c4bc0565f26bc67fc9a75ec040f56894e51b5c41628db0de9",
+        "appcastSha256": "08983f829d77cff93926635bef531221a2fe8ccd681983d2af2a9391a26fb5be",
+        "archiveSha256": "f209fed64a4050cc3547f7d0f7e9ce6e68aa52b41dff60955923778b05e5d8ad"
+      },
+      "reportPath": "/var/folders/62/pphwbgd15b1b9q7cjgf8m9pm0000gn/T/screenrec-update-lab-MevXqp/report.json",
+      "reportSha256": "ac6e1458c3861d7abd8af1848030ddca9cd009b82a328b4033cd4c994fe6395d",
+      "eventSequence": [
+        "launch",
+        "candidate",
+        "found",
+        "download",
+        "extract",
+        "error",
+        "dismiss",
+        "cycle",
+        "command"
+      ],
+      "observations": [
+        {
+          "arguments": [
+            "/var/folders/62/pphwbgd15b1b9q7cjgf8m9pm0000gn/T/screenrec-update-lab-MevXqp/installed/UpdateLab.app/Contents/MacOS/UpdateLab"
+          ],
+          "version": "0.1.0",
+          "event": "launch",
+          "executionContext": {
+            "SCREENREC_HOME": "/var/folders/62/pphwbgd15b1b9q7cjgf8m9pm0000gn/T/screenrec-update-lab-MevXqp/home",
+            "SCREENREC_DEFAULTS": "dev.screenrec.update-lab.9f19623a-05f8-4043-85ab-2c7f88541573.settings"
+          }
+        },
+        {
+          "version": "0.1.0",
+          "candidateVersion": "0.1.1",
+          "accepted": true,
+          "signatureStatus": 1,
+          "event": "candidate",
+          "format": "23"
+        },
+        {
+          "replacementExcluded": false,
+          "event": "cycle",
+          "version": "0.1.0"
+        }
+      ]
+    },
+    {
+      "scenario": "older",
+      "outcome": "passed",
+      "installedVersion": "0.1.0",
+      "archiveRequests": 0,
+      "inputs": {
+        "hostControlledInstallation": true,
+        "retainedPublicFixtures": true,
+        "executionContext": {
+          "SCREENREC_HOME": "/var/folders/62/pphwbgd15b1b9q7cjgf8m9pm0000gn/T/screenrec-update-lab-e85vu7/home",
+          "SCREENREC_DEFAULTS": "dev.screenrec.update-lab.2c199573-af5f-4835-a2a1-1297dba35b8b.settings"
+        },
+        "publicKey": "dfQ+WBKaawiCLk1EhMX3scPf0lmn84ySAn2CThyeD10=",
+        "fixtureURL": "http://127.0.0.1:50941",
+        "oldArchiveSha256": "10694c5d575b124fdbe0c7489d79cabc925f0013dadb60ecc66dc41e586cc9d8",
+        "appcastSha256": "e5d048e1c6166e5a3566943b9d9beda31366174b1fc3ab15a51777e5005d4cfa",
+        "archiveSha256": "e275a1fbf82e9543dab0c08eab3b24bbf255953538de4f5570e75d2b18057f79"
+      },
+      "reportPath": "/var/folders/62/pphwbgd15b1b9q7cjgf8m9pm0000gn/T/screenrec-update-lab-e85vu7/report.json",
+      "reportSha256": "1c49402677e00c8ad9eb46a1d2bf01ffeda5ffe56d1738e5483e937f7ef2e65d",
+      "eventSequence": [
+        "launch",
+        "cycle",
+        "command",
+        "cycle"
+      ],
+      "observations": [
+        {
+          "arguments": [
+            "/var/folders/62/pphwbgd15b1b9q7cjgf8m9pm0000gn/T/screenrec-update-lab-e85vu7/installed/UpdateLab.app/Contents/MacOS/UpdateLab"
+          ],
+          "version": "0.1.0",
+          "event": "launch",
+          "executionContext": {
+            "SCREENREC_HOME": "/var/folders/62/pphwbgd15b1b9q7cjgf8m9pm0000gn/T/screenrec-update-lab-e85vu7/home",
+            "SCREENREC_DEFAULTS": "dev.screenrec.update-lab.2c199573-af5f-4835-a2a1-1297dba35b8b.settings"
+          }
+        },
+        {
+          "replacementExcluded": false,
+          "event": "cycle",
+          "version": "0.1.0"
+        },
+        {
+          "replacementExcluded": false,
+          "event": "cycle",
+          "version": "0.1.0"
+        }
+      ]
+    },
+    {
+      "scenario": "stalled-helper-crash",
+      "outcome": "passed",
+      "installedVersion": "0.1.0",
+      "archiveRequests": 1,
+      "inputs": {
+        "hostControlledInstallation": true,
+        "retainedPublicFixtures": true,
+        "executionContext": {
+          "SCREENREC_HOME": "/var/folders/62/pphwbgd15b1b9q7cjgf8m9pm0000gn/T/screenrec-update-lab-VP4wam/home",
+          "SCREENREC_DEFAULTS": "dev.screenrec.update-lab.4716c028-6198-4581-81fc-8e803f0b6c25.settings"
+        },
+        "publicKey": "L0+nVZD84WwJx8JoyPrWju7+whP+w3uwqSIO7qQXmbs=",
+        "fixtureURL": "http://127.0.0.1:50828",
+        "oldArchiveSha256": "9b40a8710ae195c4fce0883dc8a788b6d021fe9b008b6c7bf20243efffa32124",
+        "appcastSha256": "d981455b846ac1476e82923eb17cdcc60965b7feeb75780955751512f524e371",
+        "archiveSha256": "e37d291d29da923669142957a869125d8c430d5a2778af9d29dca6725280ebd5",
+        "installerCrash": {
+          "pid": 29914,
+          "signal": "SIGKILL"
+        }
+      },
+      "reportPath": "/var/folders/62/pphwbgd15b1b9q7cjgf8m9pm0000gn/T/screenrec-update-lab-VP4wam/report.json",
+      "reportSha256": "56dc046ebc6c5cdfd37736822b4120c87d0e1fc9e7dc98f77cbbc0ed2040dc78",
+      "eventSequence": [
+        "launch",
+        "candidate",
+        "found",
+        "download",
+        "extract",
+        "command",
+        "ready",
+        "command",
+        "installing",
+        "stalled",
+        "installProgress",
+        "authorizeFinal",
+        "error",
+        "dismiss",
+        "cycle"
+      ],
+      "observations": [
+        {
+          "arguments": [
+            "/var/folders/62/pphwbgd15b1b9q7cjgf8m9pm0000gn/T/screenrec-update-lab-VP4wam/installed/UpdateLab.app/Contents/MacOS/UpdateLab"
+          ],
+          "version": "0.1.0",
+          "event": "launch",
+          "executionContext": {
+            "SCREENREC_HOME": "/var/folders/62/pphwbgd15b1b9q7cjgf8m9pm0000gn/T/screenrec-update-lab-VP4wam/home",
+            "SCREENREC_DEFAULTS": "dev.screenrec.update-lab.4716c028-6198-4581-81fc-8e803f0b6c25.settings"
+          }
+        },
+        {
+          "version": "0.1.0",
+          "candidateVersion": "0.1.1",
+          "accepted": true,
+          "signatureStatus": 1,
+          "event": "candidate",
+          "format": "23"
+        },
+        {
+          "version": "0.1.0",
+          "replacementExcluded": true,
+          "event": "installProgress",
+          "terminated": false
+        },
+        {
+          "replacementExcluded": false,
+          "event": "cycle",
+          "version": "0.1.0"
+        }
+      ]
+    },
+    {
+      "scenario": "stalled-timeout",
+      "outcome": "passed",
+      "installedVersion": "0.1.0",
+      "archiveRequests": 1,
+      "inputs": {
+        "hostControlledInstallation": true,
+        "retainedPublicFixtures": true,
+        "executionContext": {
+          "SCREENREC_HOME": "/var/folders/62/pphwbgd15b1b9q7cjgf8m9pm0000gn/T/screenrec-update-lab-IURsun/home",
+          "SCREENREC_DEFAULTS": "dev.screenrec.update-lab.ec020708-6f2d-410a-bcc0-3d785c4e47fb.settings"
+        },
+        "publicKey": "pnDv2+K7h8RU1KXbfeZwHppFdkPXleOHaTu46Xpq1RE=",
+        "fixtureURL": "http://127.0.0.1:51005",
+        "oldArchiveSha256": "7f05c1e3b455eb2620260046765690d09e535083c6a59cef9c080d6d15ca3a22",
+        "appcastSha256": "0b2530a93a2b114eae16bfc2f04039c22b2191338d4e657abec0f60759321fb1",
+        "archiveSha256": "f29f80590ab5875fe5f8b2adfc679fda4c06f451e5e6fc9ecfb3bc49e55d7fe9",
+        "pausedLockStatus": 75
+      },
+      "reportPath": "/var/folders/62/pphwbgd15b1b9q7cjgf8m9pm0000gn/T/screenrec-update-lab-IURsun/report.json",
+      "reportSha256": "1f5faa7809889515277cf4322096db288c12649a4e2db9ba64e7e650e2a13aa6",
+      "eventSequence": [
+        "launch",
+        "candidate",
+        "found",
+        "download",
+        "extract",
+        "command",
+        "ready",
+        "command",
+        "installing",
+        "stalled",
+        "installProgress",
+        "authorizeFinal",
+        "error",
+        "dismiss",
+        "cycle"
+      ],
+      "observations": [
+        {
+          "arguments": [
+            "/var/folders/62/pphwbgd15b1b9q7cjgf8m9pm0000gn/T/screenrec-update-lab-IURsun/installed/UpdateLab.app/Contents/MacOS/UpdateLab"
+          ],
+          "version": "0.1.0",
+          "event": "launch",
+          "executionContext": {
+            "SCREENREC_HOME": "/var/folders/62/pphwbgd15b1b9q7cjgf8m9pm0000gn/T/screenrec-update-lab-IURsun/home",
+            "SCREENREC_DEFAULTS": "dev.screenrec.update-lab.ec020708-6f2d-410a-bcc0-3d785c4e47fb.settings"
+          }
+        },
+        {
+          "version": "0.1.0",
+          "candidateVersion": "0.1.1",
+          "accepted": true,
+          "signatureStatus": 1,
+          "event": "candidate",
+          "format": "23"
+        },
+        {
+          "version": "0.1.0",
+          "replacementExcluded": true,
+          "event": "installProgress",
+          "terminated": false
+        },
+        {
+          "replacementExcluded": false,
+          "event": "cycle",
+          "version": "0.1.0"
+        }
+      ]
+    },
+    {
+      "scenario": "stopped-launch",
+      "outcome": "passed",
+      "installedVersion": "0.1.0",
+      "archiveRequests": 0,
+      "inputs": {
+        "hostControlledInstallation": true,
+        "retainedPublicFixtures": true,
+        "executionContext": {
+          "SCREENREC_HOME": "/var/folders/62/pphwbgd15b1b9q7cjgf8m9pm0000gn/T/screenrec-update-lab-ZpxkHD/home",
+          "SCREENREC_DEFAULTS": "dev.screenrec.update-lab.17b5cd60-6730-4b02-b0ce-78d5c0769b68.settings"
+        },
+        "publicKey": "c7X/RTUU5rWWI0uJP4urjVbFjl2A7UYSwXpEcjupXgU=",
+        "fixtureURL": "http://127.0.0.1:51056",
+        "oldArchiveSha256": "e8886e8b835946ace4e8daf9feffdfdd0717c3e5a7d82fa136fee2a217095861",
+        "appcastSha256": "930ab0a4277dc43b1236ae60027e15a759ab395ade5a7dda8f8d7c0c9de93eb9",
+        "archiveSha256": "d8f27786a2dcf5b81b1a1d1a237dfdb755d003d009a0ae519040ae93688e513c"
+      },
+      "reportPath": "/var/folders/62/pphwbgd15b1b9q7cjgf8m9pm0000gn/T/screenrec-update-lab-ZpxkHD/report.json",
+      "reportSha256": "b6a934138ae3d35699deb8a76050dc2a12bf396afc9cd38214bdaa8ae2d716e8",
+      "eventSequence": [
+        "launch",
+        "stoppedLaunch",
+        "terminate"
+      ],
+      "observations": [
+        {
+          "arguments": [
+            "/var/folders/62/pphwbgd15b1b9q7cjgf8m9pm0000gn/T/screenrec-update-lab-ZpxkHD/installed/UpdateLab.app/Contents/MacOS/UpdateLab"
+          ],
+          "version": "0.1.0",
+          "event": "launch",
+          "executionContext": {
+            "SCREENREC_HOME": "/var/folders/62/pphwbgd15b1b9q7cjgf8m9pm0000gn/T/screenrec-update-lab-ZpxkHD/home",
+            "SCREENREC_DEFAULTS": "dev.screenrec.update-lab.17b5cd60-6730-4b02-b0ce-78d5c0769b68.settings"
+          }
+        },
+        {
+          "busy": true,
+          "event": "terminate",
+          "cancelling": false,
+          "version": "0.1.0"
+        }
+      ]
+    },
+    {
+      "scenario": "tampered-feed",
+      "outcome": "passed",
+      "installedVersion": "0.1.0",
+      "archiveRequests": 0,
+      "inputs": {
+        "hostControlledInstallation": true,
+        "retainedPublicFixtures": true,
+        "executionContext": {
+          "SCREENREC_HOME": "/var/folders/62/pphwbgd15b1b9q7cjgf8m9pm0000gn/T/screenrec-update-lab-utAz9G/home",
+          "SCREENREC_DEFAULTS": "dev.screenrec.update-lab.260fb374-0c76-4abd-a3f3-5a71a7f205b4.settings"
+        },
+        "publicKey": "qUobmxw8602JBlj7CiwdBMF3pRx7xc8RsjUOxiDGifY=",
+        "fixtureURL": "http://127.0.0.1:50858",
+        "oldArchiveSha256": "9d3594105da56402ea3d359e096db6833b7e26d59689fdd94e830b0c9d816fb3",
+        "appcastSha256": "24581d99e8521747937f2b13835632eb75a1cdaea680d76d7c328a3a4a65f4d9",
+        "archiveSha256": "fa89ba68e86b82a8166b35d3c3de381e505c41b272502640401762e07e7f2d09"
+      },
+      "reportPath": "/var/folders/62/pphwbgd15b1b9q7cjgf8m9pm0000gn/T/screenrec-update-lab-utAz9G/report.json",
+      "reportSha256": "f94abf716f430fca00df1cac7e6328a2f422415e03f2bd0c5c55c514a1c40836",
+      "eventSequence": [
+        "launch",
+        "cycle",
+        "command"
+      ],
+      "observations": [
+        {
+          "arguments": [
+            "/var/folders/62/pphwbgd15b1b9q7cjgf8m9pm0000gn/T/screenrec-update-lab-utAz9G/installed/UpdateLab.app/Contents/MacOS/UpdateLab"
+          ],
+          "version": "0.1.0",
+          "event": "launch",
+          "executionContext": {
+            "SCREENREC_HOME": "/var/folders/62/pphwbgd15b1b9q7cjgf8m9pm0000gn/T/screenrec-update-lab-utAz9G/home",
+            "SCREENREC_DEFAULTS": "dev.screenrec.update-lab.260fb374-0c76-4abd-a3f3-5a71a7f205b4.settings"
+          }
+        },
+        {
+          "replacementExcluded": false,
+          "event": "cycle",
+          "version": "0.1.0"
+        }
+      ]
+    },
+    {
+      "scenario": "unconfirmed-crash",
+      "outcome": "passed",
+      "installedVersion": "0.1.0",
+      "archiveRequests": 1,
+      "inputs": {
+        "hostControlledInstallation": true,
+        "retainedPublicFixtures": true,
+        "executionContext": {
+          "SCREENREC_HOME": "/var/folders/62/pphwbgd15b1b9q7cjgf8m9pm0000gn/T/screenrec-update-lab-x0O7i7/home",
+          "SCREENREC_DEFAULTS": "dev.screenrec.update-lab.96a67c0d-d79f-4551-9e89-e6fde12c9e1b.settings"
+        },
+        "publicKey": "acJyVveYaRw6BDoj3U9ivMDtg03kQtNoiqolZNjas0w=",
+        "fixtureURL": "http://127.0.0.1:50951",
+        "oldArchiveSha256": "da0a196074a2fd8932b48f25f869c754e8278a1d6de957b051a1477fd7afea7d",
+        "appcastSha256": "968671fa8610f179be210f16c18e86257740da8c67294b7a418f3ee25286f8a7",
+        "archiveSha256": "977a1a4bc4edc65f80189f943c80d21b8dfdf1080b3c8384ce4d95cb51fdb1f5"
+      },
+      "reportPath": "/var/folders/62/pphwbgd15b1b9q7cjgf8m9pm0000gn/T/screenrec-update-lab-x0O7i7/report.json",
+      "reportSha256": "5d9192e3e881e4ccb4111199ccb6870b09fefacda9e9601338511bb11bf373be",
+      "eventSequence": [
+        "launch",
+        "candidate",
+        "found",
+        "download",
+        "extract",
+        "command",
+        "ready",
+        "command",
+        "installing",
+        "installProgress"
+      ],
+      "observations": [
+        {
+          "arguments": [
+            "/var/folders/62/pphwbgd15b1b9q7cjgf8m9pm0000gn/T/screenrec-update-lab-x0O7i7/installed/UpdateLab.app/Contents/MacOS/UpdateLab"
+          ],
+          "version": "0.1.0",
+          "event": "launch",
+          "executionContext": {
+            "SCREENREC_HOME": "/var/folders/62/pphwbgd15b1b9q7cjgf8m9pm0000gn/T/screenrec-update-lab-x0O7i7/home",
+            "SCREENREC_DEFAULTS": "dev.screenrec.update-lab.96a67c0d-d79f-4551-9e89-e6fde12c9e1b.settings"
+          }
+        },
+        {
+          "version": "0.1.0",
+          "candidateVersion": "0.1.1",
+          "accepted": true,
+          "signatureStatus": 1,
+          "event": "candidate",
+          "format": "23"
+        },
+        {
+          "version": "0.1.0",
+          "replacementExcluded": true,
+          "event": "installProgress",
+          "terminated": false
+        }
+      ]
+    },
+    {
+      "scenario": "unsigned-feed",
+      "outcome": "passed",
+      "installedVersion": "0.1.0",
+      "archiveRequests": 0,
+      "inputs": {
+        "hostControlledInstallation": true,
+        "retainedPublicFixtures": true,
+        "executionContext": {
+          "SCREENREC_HOME": "/var/folders/62/pphwbgd15b1b9q7cjgf8m9pm0000gn/T/screenrec-update-lab-2gDP5d/home",
+          "SCREENREC_DEFAULTS": "dev.screenrec.update-lab.268bbc45-247b-4860-be6a-0a8397601856.settings"
+        },
+        "publicKey": "1ZuUAMUGRqnx0ghND5scPZrAjxQtzox8fnFAxpeC4yM=",
+        "fixtureURL": "http://127.0.0.1:50851",
+        "oldArchiveSha256": "fb7be80720330dd983864c5ef0e7531f5aace70a86da316f25d88670c0e65fb9",
+        "appcastSha256": "9feeac7234ccd6795ad8d5c5966ea3827725474222126953d268bb233771fc71",
+        "archiveSha256": "858f481090d2e4aeff7249476bb9b32a6416442f8f6bc119f570443b50603b8e"
+      },
+      "reportPath": "/var/folders/62/pphwbgd15b1b9q7cjgf8m9pm0000gn/T/screenrec-update-lab-2gDP5d/report.json",
+      "reportSha256": "43144415bdeeeced42dd87d4a80c7ba268babb2286e119de81fcbc2c195e2577",
+      "eventSequence": [
+        "launch",
+        "cycle"
+      ],
+      "observations": [
+        {
+          "arguments": [
+            "/var/folders/62/pphwbgd15b1b9q7cjgf8m9pm0000gn/T/screenrec-update-lab-2gDP5d/installed/UpdateLab.app/Contents/MacOS/UpdateLab"
+          ],
+          "version": "0.1.0",
+          "event": "launch",
+          "executionContext": {
+            "SCREENREC_HOME": "/var/folders/62/pphwbgd15b1b9q7cjgf8m9pm0000gn/T/screenrec-update-lab-2gDP5d/home",
+            "SCREENREC_DEFAULTS": "dev.screenrec.update-lab.268bbc45-247b-4860-be6a-0a8397601856.settings"
+          }
+        },
+        {
+          "replacementExcluded": false,
+          "event": "cycle",
+          "version": "0.1.0"
+        }
+      ]
+    }
+  ],
+  "independentReview": {
+    "outcome": "No actionable code defects",
+    "limits": "Independent reviewer syntax checked; two sandbox setup failures before framework load are separate infrastructure attempts and excluded from native acceptance. Root-authored suites both exited0."
+  },
+  "limits": [
+    "Self-signed scratch native fixtures; no release key or user installation touched.",
+    "Custom SPUUserDriver with scheduled checks; SUAllowsAutomaticUpdates=false. Standard automatic-install driver unsupported.",
+    "Private fixture keys deleted; exact public archives/feed/full reports retained outside Git at each reported evidence path.",
+    "No new recipient permission test; existing proof accepted per user confirmation.",
+    "Build receipt retains original builder hash; final builder-only verification correction did not change runtime source or framework.",
+    "Production native blockers, EOF shutdown, settings, packaging, installed library and GitHub HTTPS redirect acceptance remain separate."
+  ],
+  "sourceState": "Reported revision is the base HEAD at execution. Explicit runner/app/identity hashes bind the working-tree inputs committed with this receipt."
+}

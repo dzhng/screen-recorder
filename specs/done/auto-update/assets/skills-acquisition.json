@@ -1,0 +1,15 @@
+{
+  "commandBlockSha256": "fac60f628b499041ac05a855aaf7dbf283ac1607d47618d17fd2524c26ffd112",
+  "exit": 0,
+  "stdout": "Initialized empty Git repository in /private<scratch>/repo/.git/\nSOURCE_COMMIT=4ae9497604c3b8ea6d23ded3f16b6d79eb3aeb49\nSOURCE_FOLDER=<scratch>/repo/skills/screenrec\n",
+  "stderr": "From https://github.com/dzhng/screen-recorder\n * branch            4ae9497604c3b8ea6d23ded3f16b6d79eb3aeb49 -> FETCH_HEAD\nHEAD is now at 4ae9497 Plan automatic app and CLI updates in verifiable slices\n",
+  "commit": "4ae9497604c3b8ea6d23ded3f16b6d79eb3aeb49",
+  "files": {
+    "SKILL.md": "500eb410165775a49dfe625214f709180a159eb54ddbbf4e80b7bfeed8644eff",
+    "references/mcp.md": "fcd32aaa920f2773df6a6d92c4ac0ef389f76cd9a9bffa17c833ad46d25880e0",
+    "references/editorial-checks.md": "b2416ee902ebd798c1e123b0d192a3b1b5e5c1dd3f2f65bc893ad26de87e20b3",
+    "references/media-workflows.md": "bc52be82147c3eba5507d099484f4304cc4381e5fde68a1171ab1f64dc931beb",
+    "references/installation.md": "e713125ca0fe70b6bbebaba7bc32c823800c3e1b80c981f630a31095b6255cbe"
+  },
+  "scope": "Actual documented pinned-main sparse fetch; consumer folder only."
+}

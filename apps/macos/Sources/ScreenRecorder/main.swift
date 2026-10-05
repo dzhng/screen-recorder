@@ -29,6 +29,9 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     private var terminating = false
     private var quitting = false
     private var awaitingFinalization = false
+    private var updaterTermination = false
+    private var updates: UpdateCoordinator?
+    private var sparkle: SparkleDriver?
 
     func applicationDidFinishLaunching(_ notification: Notification) {
         let environment = ProcessInfo.processInfo.environment
@@ -53,11 +56,28 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         }
         let controller = CaptureController(fixtureWindow: fixture)
         self.controller = controller
+        let updates = UpdateCoordinator(blockers: { [weak self] in
+            guard let self else { return ["native.startup"] }
+            var blockers = self.controls?.updateBlockers ?? []
+            if self.controller?.isCapturing == true { blockers.append("native.capture") }
+            return blockers
+        }, fence: { [weak self] fenced in self?.controls?.fenceForUpdate(fenced) },
+        changed: { [weak self] in self?.refreshUpdateControls() })
+        self.updates = updates
+        controls?.updateProgress = { [weak updates] in updates?.progress() }
+        controller.updateProgress = { [weak updates] in updates?.progress() }
+        sparkle = SparkleDriver(owner: updates) { [weak self] in
+            guard let self, self.updates?.mayTerminateForUpdate == true else { return }
+            self.updaterTermination = true
+            NSApplication.shared.terminate(nil)
+        }
+        refreshUpdateControls()
         probe = ControlsProbe.requested(controls: controls)
         startService(capture: controller)
         // A launch that serves a client request starts the service and nothing else: nobody asked
         // to see this app, so no window of it comes forward.
-        if preferences.showSettingsAtLaunch, environment["SCREENREC_SERVICE_LAUNCH"] == nil {
+        if preferences.showSettingsAtLaunch, environment["SCREENREC_SERVICE_LAUNCH"] == nil,
+            !arguments.contains("--screenrec-update-relaunch") {
             controls?.perform(.openSettings)
         }
     }
@@ -66,6 +86,26 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     func applicationShouldHandleReopen(_ sender: NSApplication, hasVisibleWindows: Bool) -> Bool {
         controls?.perform(.openSettings)
         return false
+    }
+
+    private func refreshUpdateControls() {
+        guard let updates else { return }
+        let message: String?
+        if let error = updates.status.error { message = error.message }
+        else {
+            switch updates.status.state {
+            case "checking": message = "Checking for updates…"
+            case "downloading": message = "Downloading an update…"
+            case "waiting":
+                message = updates.status.blockers == ["launcher"]
+                    ? "An update is waiting for command-line clients to finish."
+                    : "An update is waiting for recording and background work to finish."
+            case "installing": message = "Installing an update…"
+            default: message = nil
+            }
+        }
+        controls?.configureUpdates(.init(available: updates.available, enabled: updates.enabled, status: message),
+                                   setEnabled: { [weak updates] in updates?.setEnabled($0) })
     }
 
     /// Ordinary launch owns the service only. Nothing here starts capture or touches a
@@ -85,10 +125,11 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
                         bundle: bundle,
                         onNativeCall: { operation, params, answer in
                             Task { @MainActor in answer(await capture.handle(operation, params)) }
-                        }
-                    ) { [weak self] state in
-                        Task { @MainActor in self?.apply(state) }
-                    }
+                        }, onState: { [weak self] state in
+                            Task { @MainActor in self?.apply(state) }
+                    }, onUpdateProgress: { [weak self] in
+                        MainActor.assumeIsolated { self?.updates?.progress() }
+                    })
                     self.service = host
                     capture.attach(to: host)
                     self.controls?.attach(to: host)
@@ -109,6 +150,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         case .starting:
             break
         case .ready(let pid, let socketPath):
+            if let service { updates?.attach(to: service) }
             diagnostic("service ready pid=\(pid) socket=\(socketPath)")
             // One real control round trip proves the inherited pipe, not just the spawn.
             Task { @MainActor in
@@ -160,6 +202,8 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     /// deadline must not hold the app open, and is reconciled from its own journal on the next
     /// launch. Forced termination keeps the ordinary interrupted path instead.
     func applicationShouldTerminate(_ sender: NSApplication) -> NSApplication.TerminateReply {
+        if updaterTermination { return .terminateNow }
+        updates?.ordinaryQuit()
         controls?.closePreview()
         if awaitingFinalization { return .terminateLater }
         if let selectedProbe, let probeTask {
@@ -205,7 +249,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         // Cancellation prevents another candidate or a late service launch.
         startup?.waitUntilFinished()
         probe?.stop()
-        service?.shutdown()
+        if !updaterTermination { service?.shutdown() }
         fixture?.close()
     }
 }

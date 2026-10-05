@@ -48,9 +48,13 @@ and exactly 0.5 s. The format quantization limit is now explicit consumer guidan
 This is component fallback evidence; relocated installed-bundle discovery remains
 the release gate.
 
-The release smoke owner now calls the same authored H.264/HEVC observer used by
-the scratch public journey, with the relocated CLI and discovered tool paths under
-the clean release environment. The scratch route still passes and matches the
+The separate [relocated media check](../../../scripts/release-media-smoke.mjs)
+calls the same authored H.264/HEVC observer used by the scratch public journey,
+with the packaged service and JavaScript CLI under the clean release environment.
+The archive smoke retains main’s prohibition against executing the production
+app or external launcher: their updater preferences and lock belong to the real
+account. The media fixture has no app host, so it proves service/native delivery,
+not installed host/updater coordination. The scratch route still passes and matches the
 retained source/runtime hashes, decoded clocks, landmarks and color declarations.
 Tagged-release sparse checkout includes that small retained corpus. Installed
 execution remains pending the final integrated package; wiring is not a release pass.
@@ -61,6 +65,12 @@ report](../evidence/gif-extra/distribution-smoke.json) passes: five 160×96 fram
 100 ms starts/durations and total 0.5 s. Its [8 fps fault control](../evidence/gif-extra/smoke-clock-fault.json)
 fails specifically at 0.51 s against the frozen 0.5 s requirement. This tests the
 direct-extra binary path without adding a managed GIF operation.
+
+The direct-extra path still needs a production exclusion contract: an agent
+executing the discovered FFmpeg path bypasses the external launcher’s shared
+installation lock. Prove that the complete FFmpeg/shared-library lifetime cannot
+race app replacement before calling installed direct extras complete. Preserve
+the existing one-line fallback and avoid a new operation per filter.
 
 ## Boundaries and decision budget
 

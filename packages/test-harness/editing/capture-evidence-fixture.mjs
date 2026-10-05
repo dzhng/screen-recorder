@@ -129,7 +129,10 @@ export async function captureFixtures(home, out) {
       await copyFile(
         ["synthetic", "incomplete"].includes(name)
           ? join(fixture, "narration.mov")
-          : join(root, "specs/done/agent-editing/assets/10c-capture-interruption/inputs/narration.mov"),
+          : join(
+              root,
+              "specs/done/agent-editing/assets/10c-capture-interruption/inputs/narration.mov",
+            ),
         join(directory, "narration.mov"),
         constants.COPYFILE_FICLONE,
       );

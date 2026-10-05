@@ -160,7 +160,9 @@ try {
       frames: plan.cleanup.rampFrames,
       sampleRate: plan.marks.binding.sampleRate,
       authority:
-        report.authorities["specs/done/agent-editing/assets/12e-labeled-cleanup/native-report.json"],
+        report.authorities[
+          "specs/done/agent-editing/assets/12e-labeled-cleanup/native-report.json"
+        ],
     },
     acceptedMapping: plan.cleanup.mapping,
   };

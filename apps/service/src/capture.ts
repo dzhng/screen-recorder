@@ -62,6 +62,10 @@ export function sourceDirectory(
  * device state machine of its own.
  */
 export class CaptureService {
+  onUpdateProgress: (() => void) | undefined;
+  get updateBlocked(): boolean {
+    return !!this.recovery || this.store.updateBlocked;
+  }
   private queue: Promise<unknown> = Promise.resolve();
   private stopping = false;
   private readonly lifetime = new AbortController();
@@ -559,7 +563,10 @@ export class CaptureService {
         );
       })
       .finally(() => {
-        if (this.recovery === attempt) this.recovery = undefined;
+        if (this.recovery === attempt) {
+          this.recovery = undefined;
+          this.onUpdateProgress?.();
+        }
       });
     return finalizing;
   }

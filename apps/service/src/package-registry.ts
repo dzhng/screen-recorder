@@ -75,6 +75,10 @@ export class PackageRegistry<
   T extends ArchiveManifest = ArchiveManifest,
   Parsed extends ArchiveManifest = T,
 > {
+  onUpdateProgress: (() => void) | undefined;
+  get updateBlocked(): boolean {
+    return !!this.recovering || this.entries.size > 0;
+  }
   private readonly entries = new Map<string, Entry<T>>();
   private readonly handles = new Map<string, Entry<T>>();
   private readonly terminal = new Map<string, PackageAdmission>();
@@ -346,6 +350,7 @@ export class PackageRegistry<
       entry.budget = 0;
       entry.state = entry.terminal;
       this.entries.delete(entry.id);
+      this.onUpdateProgress?.();
       this.terminal.set(entry.id, this.snapshot(entry));
       while (this.terminal.size > packageRegistryLimits.terminal)
         this.terminal.delete(this.terminal.keys().next().value!);

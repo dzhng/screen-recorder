@@ -9,6 +9,7 @@ import { credentials } from "./auth.mjs";
 import { runContainer } from "./container.mjs";
 import { releaseCli } from "./release.mjs";
 import { judgePrompt, parseJudgment } from "./judgment.mjs";
+import { skillCaseFiles } from "./runtime/skills.mjs";
 
 const directory = dirname(fileURLToPath(import.meta.url));
 const root = resolve(directory, "..");
@@ -169,6 +170,41 @@ try {
           Object.entries(skill).map(([path, bytes]) => [`${target}/${path}`, bytes]),
         );
         if (testCase.readme) files["work/README.md"] = readme;
+        if (testCase.fixture?.startsWith("skill-"))
+          Object.assign(files, skillCaseFiles(skill, testCase.fixture));
+        if (testCase.readme) {
+          const prefix = testCase.fixture?.startsWith("skill-")
+            ? "work/upstream/skills/screenrec/"
+            : "work/skills/screenrec/";
+          files["work/SOURCE.json"] = JSON.stringify({
+            kind: "complete controlled consumer-source mirror; acquisition only",
+            sourceRevision: summary.sourceRevision,
+            sourceDirty: summary.sourceDirty,
+            files: Object.fromEntries(
+              Object.entries(files)
+                .filter(([path]) => path.startsWith(prefix))
+                .map(([path, bytes]) => [
+                  path.slice(prefix.length),
+                  createHash("sha256").update(bytes).digest("hex"),
+                ]),
+            ),
+          });
+        }
+        if (testCase.fixture?.startsWith("update-health-"))
+          files["work/health.json"] = JSON.stringify({
+            fixtureOnly: true,
+            schemaStatus: "controlled service.health projection; native execution unverified",
+            version: "fixture-version",
+            status: "ready",
+            update: testCase.fixture.endsWith("waiting")
+              ? {
+                  state: "waiting",
+                  availableVersion: "fixture-next",
+                  blockers: ["capture", "delivery"],
+                  error: null,
+                }
+              : { state: "disabled", availableVersion: null, blockers: [], error: null },
+          });
         if (testCase.cli) files["cli/main.mjs"] = cli.bundle;
         const artifact = await runContainer({
           image: summary.image,

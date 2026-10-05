@@ -18,6 +18,10 @@ type Deleted = { recordingId: string; deleted: true };
 
 /** Orders existing resource owners; the catalog marker is the restart journal. */
 export class RecordingDeletion {
+  onUpdateProgress: (() => void) | undefined;
+  get updateBlocked(): boolean {
+    return this.active.size > 0;
+  }
   private readonly active = new Map<string, Promise<Deleted>>();
   private readonly lifetime = new AbortController();
   constructor(private readonly owners: Owners) {}
@@ -30,7 +34,10 @@ export class RecordingDeletion {
     const recording = this.owners.store.markDeleting(recordingId);
     if (!recording) return Promise.resolve({ recordingId, deleted: true });
     this.owners.delivery.revoke({ kind: "recording", id: recordingId });
-    const result = this.remove(recordingId).finally(() => this.active.delete(recordingId));
+    const result = this.remove(recordingId).finally(() => {
+      this.active.delete(recordingId);
+      this.onUpdateProgress?.();
+    });
     this.active.set(recordingId, result);
     return result;
   }

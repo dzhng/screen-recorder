@@ -2,15 +2,31 @@ name: Tagged release
 on:
   push:
     tags: ["v*"]
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: Version tag to validate and package; published assets remain unchanged
+        required: true
+        type: string
+env:
+  RELEASE_TAG: ${{ inputs.tag || github.ref_name }}
 permissions:
   contents: read
 concurrency:
-  group: release-${{ github.ref }}
+  group: release-${{ inputs.tag || github.ref_name }}
   cancel-in-progress: false
 jobs:
   build:
     runs-on: macos-26
     timeout-minutes: 40
+    env:
+      SCREENREC_RELEASE_BUILD: "1"
+      SCREENREC_RELEASE_IDENTITY_P12: ${{ secrets.SCREENREC_RELEASE_IDENTITY_P12 }}
+      SCREENREC_RELEASE_IDENTITY_PASSWORD: ${{ secrets.SCREENREC_RELEASE_IDENTITY_PASSWORD }}
+      SCREENREC_SPARKLE_PRIVATE_KEY: ${{ secrets.SCREENREC_SPARKLE_PRIVATE_KEY }}
+      SCREENREC_RELEASE_IDENTITY_SHA1: ${{ vars.SCREENREC_RELEASE_IDENTITY_SHA1 }}
+      SCREENREC_RELEASE_CERTIFICATE_SHA256: ${{ vars.SCREENREC_RELEASE_CERTIFICATE_SHA256 }}
+      SCREENREC_SPARKLE_PUBLIC_KEY: ${{ vars.SCREENREC_SPARKLE_PUBLIC_KEY }}
     outputs:
       revision: ${{ steps.source.outputs.revision }}
     steps:
@@ -33,7 +49,8 @@ jobs:
           bun-version-file: package.json
       - name: Validate tag and release contracts
         run: |
-          node scripts/release.mjs validate "$GITHUB_REF_NAME"
+          node scripts/release.mjs validate "$RELEASE_TAG"
+          node --input-type=module -e 'import { releaseSigningInputs } from "./scripts/release-signing.mjs"; releaseSigningInputs();'
           node --test scripts/release.test.mjs apps/macos/tests/bundled-runtime.test.mjs
       - name: Prepare pinned build inputs
         run: node scripts/release.mjs prepare
@@ -43,14 +60,17 @@ jobs:
           bunx turbo run build --filter=@screenrec/macos --concurrency=1
       - name: Package and verify relocated release
         run: |
-          node scripts/release.mjs package "$GITHUB_REF_NAME"
+          node scripts/release.mjs package "$RELEASE_TAG"
           node scripts/release-smoke.mjs
+          node scripts/release-media-smoke.mjs
           cp scripts/release-notes.md dist/release/NOTES.md
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
           name: release
           path: |
             dist/release/*.zip
+            dist/release/appcast.xml
+            scripts/release-publish.mjs
             dist/release/SHA256SUMS
             dist/release/release.json
             dist/release/NOTES.md
@@ -63,6 +83,9 @@ jobs:
     permissions:
       contents: write
     steps:
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version: "24"
       - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
         with:
           name: release
@@ -75,22 +98,5 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          cd release
-          sha256sum --check SHA256SUMS
-          test "$(jq -r .tag release.json)" = "$GITHUB_REF_NAME"
-          test "$(jq -r .revision release.json)" = "$RELEASE_COMMIT"
-          if gh release view "$GITHUB_REF_NAME" --json isDraft > existing.json; then
-            if test "$(jq -r .isDraft existing.json)" = false; then
-              echo "Release is already published; its assets remain unchanged."
-              exit 0
-            fi
-          else
-            extra=()
-            if [[ "$GITHUB_REF_NAME" == v0.* || "$GITHUB_REF_NAME" == *-* ]]; then
-              extra+=(--prerelease)
-            fi
-            gh release create "$GITHUB_REF_NAME" --verify-tag --draft \
-              --title "Screen Recorder $GITHUB_REF_NAME" --notes-file NOTES.md "${extra[@]}"
-          fi
-          gh release upload "$GITHUB_REF_NAME" ./*.zip SHA256SUMS release.json --clobber
-          gh release edit "$GITHUB_REF_NAME" --draft=false
+          cd release/dist/release
+          node ../../scripts/release-publish.mjs . "$RELEASE_TAG" "$RELEASE_COMMIT"

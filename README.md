@@ -12,39 +12,36 @@ portable CLI contracts, but cannot run the native app or capture macOS media.
 
 ### 1. Install the screenrec skill
 
-Copy the entire [consumer skill folder](skills/screenrec), including its references,
-into your agent's skill directory. Do not install this repository's `.agents/skills`:
-those are development procedures, not the product skill.
+Install the complete [consumer skill](skills/screenrec) in the project where your
+agent will work. [Skill lifecycle](skills/screenrec/references/skill-lifecycle.md)
+owns the executable fetch, install, inspect and explicit refresh steps. It pins
+`main` to one commit and fetches only `skills/screenrec`, including references;
+repository `.agents/skills` are development procedures, not the product skill.
 
-| Agent | Personal skill directory | Invoke |
-| --- | --- | --- |
-| Codex CLI | `~/.agents/skills/screenrec/` | `$screenrec` |
-| Claude Code | `~/.claude/skills/screenrec/` | `/screenrec` |
+Check that Node/npm and `npx` are available for the separate `skills@1.7.0`
+installer. The app's bundled Node does not provide this prerequisite. Git is an
+optional fetch route; the recursive GitHub contents API route needs no developer
+tools. Neither Git nor Node/npm is needed to run the released app and launcher.
 
-From a checkout, copy `skills/screenrec` to the selected directory. Without a
-checkout, fetch only the skill using Git's sparse checkout. This download method
-requires an already usable Git installation. If it is unavailable, use the agent's
-repository skill installer or the GitHub contents API for `skills/screenrec`,
-following subdirectories and downloading each file. Do not install Xcode or
-Command Line Tools solely to fetch the skill. Git and developer tools are not
-required to run the released app or CLI.
+From a checkout, run this in your target project, replacing the source path with
+the absolute path to this repository's consumer folder:
 
 ```sh
-screenrec_skill_source=$(mktemp -d)
-git clone --depth 1 --filter=blob:none --sparse \
-  https://github.com/dzhng/screen-recorder.git "$screenrec_skill_source/repo"
-git -C "$screenrec_skill_source/repo" sparse-checkout set skills/screenrec
-# For Claude Code, use "$HOME/.claude/skills" instead.
-screenrec_skill_parent="$HOME/.agents/skills"
-mkdir -p "$screenrec_skill_parent"
-# Refuse to overwrite an existing skill; review it before updating.
-test ! -e "$screenrec_skill_parent/screenrec" && \
-  test ! -L "$screenrec_skill_parent/screenrec" && \
-  cp -R "$screenrec_skill_source/repo/skills/screenrec" "$screenrec_skill_parent/screenrec"
+npx --yes skills@1.7.0 add /absolute/path/to/screen-recorder/skills/screenrec \
+  --skill screenrec --agent codex claude-code --yes
 ```
 
-Start a new agent session and confirm that `screenrec` appears in its skill list.
-Then request: “Use the screenrec skill to install the app and verify the CLI.”
+For first install, inspect existing paths before running `add`: it can overwrite
+customized skills. Select the agents you use. The canonical project folder is
+`.agents/skills/screenrec`; Claude's `.claude/skills/screenrec` must be a symlink
+resolving there. Verify the actual folder and link as the lifecycle reference
+instructs; installer output alone is insufficient. Never link the whole `.claude`
+configuration directory. Local-folder installs have no remote update tracking;
+refresh repeats pinned fetch, full-folder diff and an explicitly chosen update.
+
+Start a fresh agent session in that project and confirm discovery (`$screenrec`
+for Codex, `/screenrec` for Claude). Then request: “Use the screenrec skill to
+install the app and verify the CLI.” App updates never edit skill files.
 
 ### 2. Install the app and CLI from the latest release
 
@@ -62,8 +59,8 @@ it. Node is bundled; consumers do not need Bun, Node or Swift installed separate
 
 The skill's [installation procedure](skills/screenrec/references/installation.md)
 contains executable download/install commands and upgrade, app-location and
-macOS launch guidance. This developer preview is ad-hoc signed and not notarized;
-if blocked, the user must approve **Open Anyway** in System Settings → Privacy &
+macOS launch guidance. Check the receipt's signing status; releases are not notarized.
+If blocked, the user must approve **Open Anyway** in System Settings → Privacy &
 Security. Installation does not grant capture permissions or download speech models.
 
 ### 3. Verify before operating

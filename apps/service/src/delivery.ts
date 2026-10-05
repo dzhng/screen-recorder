@@ -28,13 +28,19 @@ export class DerivativeDelivery {
   private readonly leases = new Map<string, Lease>();
   private readonly reservations = new Set<symbol>();
   private disposed = false;
+  onUpdateProgress: (() => void) | undefined;
+  get updateBlocked(): boolean {
+    return this.leases.size > 0 || this.reservations.size > 0;
+  }
 
   /** Reserve capacity before work that may commit; release before opening its result in the same turn. */
   reserve(): () => void {
     this.requireCapacity();
     const reservation = Symbol();
     this.reservations.add(reservation);
-    return () => this.reservations.delete(reservation);
+    return () => {
+      if (this.reservations.delete(reservation)) this.onUpdateProgress?.();
+    };
   }
 
   private requireCapacity(): void {
@@ -136,6 +142,7 @@ export class DerivativeDelivery {
     this.leases.delete(token);
     clearTimeout(lease.timer);
     lease.handle.release();
+    this.onUpdateProgress?.();
   }
   revoke({ kind, id }: DerivativeOwner): void {
     for (const [token, lease] of this.leases)

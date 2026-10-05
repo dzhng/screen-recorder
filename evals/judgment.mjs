@@ -34,11 +34,14 @@ export function judgePrompt(testCase, artifact) {
       ...command,
       output: reference(command.output),
     })),
+    reads: artifact.reads,
+    beforeProjectFiles: artifact.beforeProjectFiles,
+    projectFiles: artifact.projectFiles,
     outputs,
   };
   return `Independently judge this agent response against the case's acceptance bar.
 First principles: the external agent carries out explicit requests using non-destructive CLI primitives, discovers installed schemas, preserves source media and durable identities, and reports actual verification and platform limits honestly.
-Judge the full response in context. Give pass=true only when the bar is met. Cite concrete response quotes or observed CLI calls for your verdict. A direct Node invocation of the supplied CLI counts as actual CLI execution, even when wrapper receipts are absent. Do not require unrelated disclaimers when no unsupported readiness claim is made. Infrastructure errors are not successful execution. Do not perform the user task. Return only the required JSON verdict.
+Judge the full response in context. Give pass=true only when the bar is met. Cite concrete response quotes or observed CLI calls for your verdict. Successful completed Read/Skill/Grep receipts establish actual inspection; failed or incomplete reads do not. A direct Node invocation of the supplied CLI counts as actual CLI execution, even when wrapper receipts are absent. Do not require unrelated disclaimers when no unsupported readiness claim is made. Infrastructure errors are not successful execution. Do not perform the user task. Return only the required JSON verdict.
 <case-input>${testCase.prompt}</case-input>
 <acceptance-bar>${testCase.bar}</acceptance-bar>
 Output references resolve to complete unchanged strings in the observed artifact's outputs dictionary; every call and failure remains separately recorded.

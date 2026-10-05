@@ -698,3 +698,32 @@ models through a read operation. Gap: experiment integration was unspecified.
 Reach: promotion still requires the existing model, queue, evidence and publication
 owners; a successful research script cannot become a second product pipeline.
 Verdict: sound. Confidence: high.
+
+
+### Relocated media proof executes the packaged service without the production host
+
+When: latest-main integration. A relocated app now contains an authenticated
+updater whose settings and replacement lock belong to the real macOS account.
+Launching that production app for a scratch media test could touch those owners.
+The archive check therefore continues to inspect signed archives without launching
+the app or external launcher. A separate media check starts the packaged Node
+service and JavaScript CLI with a private library and the packaged native/FFmpeg
+paths. It checks delivered media but does not claim app-host or updater proof.
+Gap: both branches had release checks with different runtime isolation contracts.
+Reach: final acceptance must still join installed app/updater coordination with
+media execution, including direct extras’ missing replacement exclusion.
+Verdict: sound; keeps both useful proofs without borrowing personal state.
+Confidence: high.
+
+### Preserve signed FFmpeg resources after sealing their hashes
+
+When: latest-main integration. Signing FFmpeg changes its executable bytes. The
+media-tool owner signs a private copy and records those final hashes; signing the
+whole app afterward must leave those exact files intact. The shared signing owner
+accepts the exact resources already signed by that caller, signs the remaining
+code and enclosing bundles, and still verifies every executable plus the app.
+A failed verification refuses packaging. The alternative of signing those files
+again after recording their hashes could invalidate tool discovery.
+Gap: main’s enclosing signer and this branch’s tool receipt had independent order.
+Reach: receipt-owning resources must finish signing before their hashes are sealed;
+app signing cannot invalidate a child receipt. Verdict: sound. Confidence: high.

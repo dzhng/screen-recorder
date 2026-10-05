@@ -1,8 +1,9 @@
-import { readFile, mkdir } from "node:fs/promises";
+import { readFile, mkdir, cp, rm } from "node:fs/promises";
 import { spawn, execFileSync } from "node:child_process";
 import { agentResult } from "./agent-result.mjs";
 import { failedJobFixture } from "./fixture.mjs";
 import { contracts } from "./contracts.mjs";
+import { projectSnapshot } from "./skills.mjs";
 
 async function lines(path) {
   try {
@@ -23,6 +24,39 @@ async function execute(request) {
     };
   if (request.mode === "contracts") return await contracts();
   await mkdir("/sandbox/home", { recursive: true });
+  if (request.fixture?.startsWith("skill-")) {
+    await mkdir("/sandbox/work/backups", { recursive: true });
+    process.env.TMPDIR = "/sandbox/work/backups";
+    process.env.DISABLE_TELEMETRY = "1";
+    process.env.NODE_DISABLE_COMPILE_CACHE = "1";
+  }
+  let fixtureSetup;
+  if (request.fixture?.startsWith("skill-") && request.fixture !== "skill-install") {
+    await cp("/sandbox/work/.agents/skills/screenrec", "/sandbox/customized-source", {
+      recursive: true,
+    });
+    await rm("/sandbox/work/.agents/skills/screenrec", { recursive: true });
+    const command = [
+      "--yes",
+      "skills@1.7.0",
+      "add",
+      "/sandbox/customized-source",
+      "--skill",
+      "screenrec",
+      "--agent",
+      "codex",
+      "claude-code",
+      "--yes",
+    ];
+    fixtureSetup = {
+      command: ["npx", ...command],
+      stdout: execFileSync("npx", command, { cwd: "/sandbox/work", encoding: "utf8" }),
+      exit: 0,
+    };
+  }
+  const beforeProjectFiles = request.fixture
+    ? await projectSnapshot("/sandbox/work", 500)
+    : undefined;
   const close = request.fixture === "failed-job" ? await failedJobFixture() : undefined;
   try {
     // Docker isolates runners; its default restrictions prevent nested bwrap namespaces.
@@ -93,6 +127,9 @@ async function execute(request) {
       error,
       cliCalls: await lines("/sandbox/cli-calls.jsonl"),
       serviceCalls: await lines("/sandbox/service-calls.jsonl"),
+      beforeProjectFiles,
+      fixtureSetup,
+      projectFiles: request.fixture ? await projectSnapshot("/sandbox/work", 500) : undefined,
     };
   } finally {
     await close?.();

@@ -54,14 +54,10 @@ test("ordinary launch owns one service child and answers health without starting
   assert.equal(statSync(join(home, "run")).mode & 0o777, 0o700);
   assert.equal(statSync(socketPath(home)).mode & 0o777, 0o600);
   const answer = await health(home, "app-health-1");
-  assert.deepEqual(Object.keys(answer.data).sort(), [
-    "home",
-    "node",
-    "pid",
-    "socketPath",
-    "status",
-    "uptimeMs",
-  ]);
+  assert.equal(answer.ok, true);
+  assert.equal(answer.data.status, "ready");
+  assert.equal(answer.data.home, home);
+  assert.equal(answer.data.socketPath, socketPath(home));
   assert.equal(answer.data.pid, servicePid);
   // Startup opens the catalog, but it must not allocate a take or capture media.
   assert.equal(exists(join(home, "recordings")), false);
