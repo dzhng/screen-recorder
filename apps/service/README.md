@@ -116,12 +116,13 @@ it supplies neither source clocks nor permission to convert. The verified native
 probe-file owner also carries explicitly selected decoded-audio inspection without
 changing receipt, held-source or attempt ownership. Ordinary asset probes omit it. The
 [HDR interpretation checkpoint](src/hdr-conversion.ts) consumes fresh native
-whole-track interpretation evidence and agreeing declarations. Its private whole-video
-producer derives an exactly representable movie clock, preserves physical sample
-support and common origin, and validates the actual held SDR derivative before
-consumption. Chapter and timecode metadata cannot add unselected output tracks.
-Managed selection, optional selected audio and durable publication remain separate
-requirements.
+whole-track interpretation evidence and agreeing declarations. Its private
+selected-stream producer derives an exactly representable common movie clock and
+validates the held SDR derivative before consumption. Explicitly selected audio
+is copied only when actual native decoded samples, format and clock remain
+identical; the work budget covers the selected support union. Chapter and timecode
+metadata cannot add unselected output tracks. Managed selection, durable provenance
+and publication remain separate requirements.
 Offline self-contained
 input and a dedicated read lease per invocation prevent pathname substitution,
 secondary resource resolution and shared cursor surprises. Source slots are

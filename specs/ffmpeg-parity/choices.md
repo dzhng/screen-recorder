@@ -1154,6 +1154,20 @@ earliest occupied start as one zero, preserving relative offsets. Verdict: sound
 as disclosed conservative admission, with broader selected ranges still open.
 Confidence: medium; this is intentionally narrower than arbitrary imported media.
 
+### Copy selected encoded audio and validate its actual decoded identity
+
+When: optional-audio producer 417cf79e and root integration. Choice: preserve the
+explicitly selected encoded audio without re-encoding, then decode the derivative
+with the same admitted native reader and compare its complete samples and exact
+source-clock mapping. An AAC source therefore keeps its already decoded sound;
+it is not subjected to another lossy pass or compared against pre-encode PCM.
+Gap: the plan did not select a first audio transport for the HDR derivative.
+Reach: container-copy failures or altered decoder support refuse this path; no
+resampler or encoder substitutes silently. The existing deadline owner receives
+the union of selected video/audio support so a short video cannot give longer
+audio an artificially short processing budget. Verdict: sound within the admitted
+contiguous source scope. Confidence: high.
+
 ## Boundary research prerequisite decisions
 
 ### Freeze proportional model-frame timing as a research hypothesis

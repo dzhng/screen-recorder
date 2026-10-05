@@ -13,11 +13,9 @@ every FFmpeg option or a replacement for a professional editing workstation.
 Implement the complete authorized plan through committed passes. Read the
 [exploration](exploration.md), [parity contract](parity.md) and current slice.
 Integrated: 01–12, 16–18, 20–21 and 24–25. Finish19 first: the private
-video-only producer now passes integrated physical-clock and numerical proof;
-fresh decoded-audio observations now pass the rebuilt linked worker and verified
-service/Core bridge, and selected-audio support/common-clock admission passes;
-next preserve explicitly selected audio in the producer, then managed jobs/provenance,
-publication and selected range/acquisition materialization. Independently finish
+selected-stream producer now passes integrated video/audio support, numerical
+and common-clock proof; next managed jobs/provenance, publication and selected
+range/acquisition materialization. Independently finish
 speaker source publication/read/projection and required portable preservation;
 the original relocated30s runtime and model-free selected-channel PCM pass, while
 consumer runtime distribution is unselected. Boundary alignment remains
@@ -49,7 +47,7 @@ facts, compressed interpretation and exact source↔derivative clocks.
 | [Native HDR inspection](evidence/native-hdr-inspection/linked-worker.json) | All14 linked-worker probe cases pass; managed conversion remains open. |
 | [Source authority](evidence/source-authority/integrated.json) | Actual picture/audio/recovery components and14 rebuilt linked probes pass. |
 | [Audio execution](evidence/audio-integrated-checkpoint.json), [wider root acceptance](evidence/audio-state-acceptance/root-integration.json) | Whole-domain refusal, retime/repeat/split/crop, decoded AAC measurement and child descriptor exhaustion/recovery pass on rebuilt root worker. No listening or encoded ceiling claim. |
-| [Encoded HDR](evidence/hdr-encoded/root-integration.json), [private producer](evidence/hdr-private-producer/root-integration.json) | Actual linked PQ/HLG numerical/clock and private held video producer pass; conservative metadata refusals remain. Selected audio and managed conversion are open. |
+| [Encoded HDR](evidence/hdr-encoded/root-integration.json), [private video producer](evidence/hdr-private-producer/root-integration.json), [selected audio](evidence/hdr-selected-audio/root-integration.json) | Actual linked PQ/HLG numerical/clock and private held producer pass; selected AAC retains decoded sound and relative offsets. Conservative metadata refusals remain; managed conversion is open. |
 | [Direct tool lifetime](evidence/direct-tool-launcher.json) | Actual prepared tools retain launcher exclusion; signed package pending. |
 | [Native SDR](evidence/sdr-execution/proof.json) | Bound OS recipe, existing cache/job/export identities. |
 | [Public H.264/HEVC](evidence/hevc-public/report.json) | Authored clocks, decoded landmarks and replay pass. |

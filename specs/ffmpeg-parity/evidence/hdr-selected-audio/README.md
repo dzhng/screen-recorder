@@ -17,3 +17,11 @@ original reproduction; no new perceptual/listening claim is made.
 This proves private held execution and validation. Durable job publication,
 provenance and portable retention, selected range/acquisition materialization,
 and packaged release acceptance remain separate unfinished boundaries.
+
+The [root integration](root-integration.json) reuses one archived HLG source with
+video 50 ms later, through the compiled root service and rebuilt linked worker
+for both native probing and CLI lifetime. Complete decoded evidence passes and
+the generated movie is byte-identical to the archived lane output. No full
+numerical reproduction was repeated. Sixteen focused service tests and the
+service build pass. An initial caller-created scratch directory correctly refused
+its non-private permissions before execution; the retry corrected that directory.

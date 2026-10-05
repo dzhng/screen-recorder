@@ -1,0 +1,588 @@
+{
+  "sourceBase": "91e1fd9f",
+  "scope": "Integrated compiled service with rebuilt linked native JSON worker and same native CLI owner. One retained HLG selected AAC source with video50ms later preserves full6000 decoded frames, exact PCM identity and common clock; generated movie equals retained lane output bytes. No managed/public/package/perceptual claim.",
+  "nativeSha256": "b4542bb090dcdd281709965255077252dbee71db235516adac84db02e2b5b3ef",
+  "sourceSha256": "4bee638463d176d22813dc3ae0f48930e56ac532b33a3c4a7a4615208a3dde36",
+  "focusedTests": 16,
+  "serviceBuildPassed": true,
+  "controlCorrection": "Initial caller-authored attempt directory used default permissions and correctly refused INVALID_STORAGE before conversion; retry sets700 on this isolated owned directory, without weakening admission.",
+  "evidence": {
+    "source": {
+      "metadata": {
+        "originUs": 0,
+        "streams": [
+          {
+            "id": "track:1",
+            "kind": "video",
+            "codec": "hvc1",
+            "decodable": true,
+            "startUs": 50000,
+            "endUs": 175000,
+            "segments": [
+              {
+                "startUs": 0,
+                "endUs": 50000,
+                "empty": true
+              },
+              {
+                "startUs": 50000,
+                "endUs": 175000,
+                "empty": false,
+                "mediaStartUs": 0,
+                "mediaDurationUs": 125000
+              }
+            ],
+            "width": 320,
+            "height": 192,
+            "orientedWidth": 320,
+            "orientedHeight": 192,
+            "orientedPixelBounds": {
+              "x": 0,
+              "y": 0,
+              "width": 320,
+              "height": 192
+            },
+            "transform": [
+              1,
+              0,
+              0,
+              1,
+              0,
+              0
+            ],
+            "hasAlpha": false,
+            "colorPrimaries": "ITU_R_2020",
+            "transferFunction": "ITU_R_2100_HLG",
+            "ycbcrMatrix": "ITU_R_2020",
+            "samples": {
+              "count": 3,
+              "firstPtsUs": 50000,
+              "lastPtsUs": 133333,
+              "minDurationUs": 41667,
+              "maxDurationUs": 41667
+            }
+          },
+          {
+            "id": "track:2",
+            "kind": "audio",
+            "codec": "aac ",
+            "decodable": true,
+            "startUs": 0,
+            "endUs": 125000,
+            "segments": [
+              {
+                "startUs": 0,
+                "endUs": 125000,
+                "empty": false,
+                "mediaStartUs": {
+                  "numerator": 64000,
+                  "denominator": 3
+                },
+                "mediaDurationUs": 125000
+              }
+            ],
+            "sampleRate": 48000,
+            "channels": 2,
+            "channelLayoutTag": 6619138
+          }
+        ]
+      },
+      "video": {
+        "id": "track:1",
+        "kind": "video",
+        "codec": "hvc1",
+        "decodable": true,
+        "startUs": 50000,
+        "endUs": 175000,
+        "segments": [
+          {
+            "startUs": 0,
+            "endUs": 50000,
+            "empty": true
+          },
+          {
+            "startUs": 50000,
+            "endUs": 175000,
+            "empty": false,
+            "mediaStartUs": 0,
+            "mediaDurationUs": 125000
+          }
+        ],
+        "width": 320,
+        "height": 192,
+        "orientedWidth": 320,
+        "orientedHeight": 192,
+        "orientedPixelBounds": {
+          "x": 0,
+          "y": 0,
+          "width": 320,
+          "height": 192
+        },
+        "transform": [
+          1,
+          0,
+          0,
+          1,
+          0,
+          0
+        ],
+        "hasAlpha": false,
+        "colorPrimaries": "ITU_R_2020",
+        "transferFunction": "ITU_R_2100_HLG",
+        "ycbcrMatrix": "ITU_R_2020",
+        "samples": {
+          "count": 3,
+          "firstPtsUs": 50000,
+          "lastPtsUs": 133333,
+          "minDurationUs": 41667,
+          "maxDurationUs": 41667,
+          "firstTimeUs": 50000,
+          "lastTimeUs": {
+            "numerator": 400000,
+            "denominator": 3
+          },
+          "lastDurationUs": {
+            "numerator": 125000,
+            "denominator": 3
+          },
+          "presentedTimingSha256": "030afcd6dde973298a5412ef9d7cda08a1cb6c96cc4cb37c12e0edf3db38f37b"
+        },
+        "colorFormats": [
+          {
+            "colorPrimaries": "ITU_R_2020",
+            "transferFunction": "ITU_R_2100_HLG",
+            "ycbcrMatrix": "ITU_R_2020",
+            "fullRange": false,
+            "bitsPerComponent": 10,
+            "interpretationExtensions": [],
+            "invalidColorDeclarations": []
+          }
+        ],
+        "codecAtomNames": [
+          [
+            "hvcC"
+          ]
+        ],
+        "compressedVideoInspection": {
+          "status": "complete",
+          "packetCount": 3,
+          "nalTypes": [
+            1,
+            20
+          ],
+          "configurationNalTypes": [
+            32,
+            33,
+            34
+          ],
+          "seiPayloadTypes": [],
+          "refusals": []
+        }
+      }
+    },
+    "output": {
+      "metadata": {
+        "originUs": 0,
+        "streams": [
+          {
+            "id": "track:1",
+            "kind": "video",
+            "codec": "ap4h",
+            "decodable": true,
+            "startUs": 50000,
+            "endUs": 175000,
+            "segments": [
+              {
+                "startUs": 0,
+                "endUs": 50000,
+                "empty": true
+              },
+              {
+                "startUs": 50000,
+                "endUs": 175000,
+                "empty": false,
+                "mediaStartUs": 0,
+                "mediaDurationUs": 125000
+              }
+            ],
+            "width": 320,
+            "height": 192,
+            "orientedWidth": 320,
+            "orientedHeight": 192,
+            "orientedPixelBounds": {
+              "x": 0,
+              "y": 0,
+              "width": 320,
+              "height": 192
+            },
+            "transform": [
+              1,
+              0,
+              0,
+              1,
+              0,
+              0
+            ],
+            "hasAlpha": false,
+            "colorPrimaries": "ITU_R_709_2",
+            "transferFunction": "ITU_R_709_2",
+            "ycbcrMatrix": "ITU_R_709_2",
+            "samples": {
+              "count": 3,
+              "firstPtsUs": 50000,
+              "lastPtsUs": 133333,
+              "minDurationUs": 41667,
+              "maxDurationUs": 41667
+            }
+          },
+          {
+            "id": "track:2",
+            "kind": "audio",
+            "codec": "aac ",
+            "decodable": true,
+            "startUs": 0,
+            "endUs": 125000,
+            "segments": [
+              {
+                "startUs": 0,
+                "endUs": 125000,
+                "empty": false,
+                "mediaStartUs": {
+                  "numerator": 64000,
+                  "denominator": 3
+                },
+                "mediaDurationUs": 125000
+              }
+            ],
+            "sampleRate": 48000,
+            "channels": 2,
+            "channelLayoutTag": 6619138
+          }
+        ]
+      },
+      "video": {
+        "id": "track:1",
+        "kind": "video",
+        "codec": "ap4h",
+        "decodable": true,
+        "startUs": 50000,
+        "endUs": 175000,
+        "segments": [
+          {
+            "startUs": 0,
+            "endUs": 50000,
+            "empty": true
+          },
+          {
+            "startUs": 50000,
+            "endUs": 175000,
+            "empty": false,
+            "mediaStartUs": 0,
+            "mediaDurationUs": 125000
+          }
+        ],
+        "width": 320,
+        "height": 192,
+        "orientedWidth": 320,
+        "orientedHeight": 192,
+        "orientedPixelBounds": {
+          "x": 0,
+          "y": 0,
+          "width": 320,
+          "height": 192
+        },
+        "transform": [
+          1,
+          0,
+          0,
+          1,
+          0,
+          0
+        ],
+        "hasAlpha": false,
+        "colorPrimaries": "ITU_R_709_2",
+        "transferFunction": "ITU_R_709_2",
+        "ycbcrMatrix": "ITU_R_709_2",
+        "samples": {
+          "count": 3,
+          "firstPtsUs": 50000,
+          "lastPtsUs": 133333,
+          "minDurationUs": 41667,
+          "maxDurationUs": 41667,
+          "firstTimeUs": 50000,
+          "lastTimeUs": {
+            "numerator": 400000,
+            "denominator": 3
+          },
+          "lastDurationUs": {
+            "numerator": 125000,
+            "denominator": 3
+          },
+          "presentedTimingSha256": "030afcd6dde973298a5412ef9d7cda08a1cb6c96cc4cb37c12e0edf3db38f37b"
+        },
+        "colorFormats": [
+          {
+            "colorPrimaries": "ITU_R_709_2",
+            "transferFunction": "ITU_R_709_2",
+            "ycbcrMatrix": "ITU_R_709_2",
+            "fullRange": null,
+            "bitsPerComponent": 12,
+            "interpretationExtensions": [],
+            "invalidColorDeclarations": []
+          }
+        ],
+        "codecAtomNames": [
+          []
+        ]
+      }
+    },
+    "sourceAudio": {
+      "metadata": {
+        "originUs": 0,
+        "streams": [
+          {
+            "id": "track:1",
+            "kind": "video",
+            "codec": "hvc1",
+            "decodable": true,
+            "startUs": 50000,
+            "endUs": 175000,
+            "segments": [
+              {
+                "startUs": 0,
+                "endUs": 50000,
+                "empty": true
+              },
+              {
+                "startUs": 50000,
+                "endUs": 175000,
+                "empty": false,
+                "mediaStartUs": 0,
+                "mediaDurationUs": 125000
+              }
+            ],
+            "width": 320,
+            "height": 192,
+            "orientedWidth": 320,
+            "orientedHeight": 192,
+            "orientedPixelBounds": {
+              "x": 0,
+              "y": 0,
+              "width": 320,
+              "height": 192
+            },
+            "transform": [
+              1,
+              0,
+              0,
+              1,
+              0,
+              0
+            ],
+            "hasAlpha": false,
+            "colorPrimaries": "ITU_R_2020",
+            "transferFunction": "ITU_R_2100_HLG",
+            "ycbcrMatrix": "ITU_R_2020",
+            "samples": {
+              "count": 3,
+              "firstPtsUs": 50000,
+              "lastPtsUs": 133333,
+              "minDurationUs": 41667,
+              "maxDurationUs": 41667
+            }
+          },
+          {
+            "id": "track:2",
+            "kind": "audio",
+            "codec": "aac ",
+            "decodable": true,
+            "startUs": 0,
+            "endUs": 125000,
+            "segments": [
+              {
+                "startUs": 0,
+                "endUs": 125000,
+                "empty": false,
+                "mediaStartUs": {
+                  "numerator": 64000,
+                  "denominator": 3
+                },
+                "mediaDurationUs": 125000
+              }
+            ],
+            "sampleRate": 48000,
+            "channels": 2,
+            "channelLayoutTag": 6619138
+          }
+        ]
+      },
+      "audio": {
+        "id": "track:2",
+        "kind": "audio",
+        "codec": "aac ",
+        "decodable": true,
+        "startUs": 0,
+        "endUs": 125000,
+        "segments": [
+          {
+            "startUs": 0,
+            "endUs": 125000,
+            "empty": false,
+            "mediaStartUs": {
+              "numerator": 64000,
+              "denominator": 3
+            },
+            "mediaDurationUs": 125000
+          }
+        ],
+        "sampleRate": 48000,
+        "channels": 2,
+        "channelLayoutTag": 6619138,
+        "decodedAudioInspection": {
+          "sampleRate": 48000,
+          "channels": 2,
+          "frames": 6000,
+          "runs": [
+            {
+              "startUs": 0,
+              "endUs": 125000,
+              "frames": 6000
+            }
+          ],
+          "pcmSha256": "6671eaefa4ada07e95f8094d2bdd6d5d291ba85d41d737aa4d6037f6f145dd70",
+          "trimming": "decoder-output-attachment-free"
+        }
+      }
+    },
+    "outputAudio": {
+      "metadata": {
+        "originUs": 0,
+        "streams": [
+          {
+            "id": "track:1",
+            "kind": "video",
+            "codec": "ap4h",
+            "decodable": true,
+            "startUs": 50000,
+            "endUs": 175000,
+            "segments": [
+              {
+                "startUs": 0,
+                "endUs": 50000,
+                "empty": true
+              },
+              {
+                "startUs": 50000,
+                "endUs": 175000,
+                "empty": false,
+                "mediaStartUs": 0,
+                "mediaDurationUs": 125000
+              }
+            ],
+            "width": 320,
+            "height": 192,
+            "orientedWidth": 320,
+            "orientedHeight": 192,
+            "orientedPixelBounds": {
+              "x": 0,
+              "y": 0,
+              "width": 320,
+              "height": 192
+            },
+            "transform": [
+              1,
+              0,
+              0,
+              1,
+              0,
+              0
+            ],
+            "hasAlpha": false,
+            "colorPrimaries": "ITU_R_709_2",
+            "transferFunction": "ITU_R_709_2",
+            "ycbcrMatrix": "ITU_R_709_2",
+            "samples": {
+              "count": 3,
+              "firstPtsUs": 50000,
+              "lastPtsUs": 133333,
+              "minDurationUs": 41667,
+              "maxDurationUs": 41667
+            }
+          },
+          {
+            "id": "track:2",
+            "kind": "audio",
+            "codec": "aac ",
+            "decodable": true,
+            "startUs": 0,
+            "endUs": 125000,
+            "segments": [
+              {
+                "startUs": 0,
+                "endUs": 125000,
+                "empty": false,
+                "mediaStartUs": {
+                  "numerator": 64000,
+                  "denominator": 3
+                },
+                "mediaDurationUs": 125000
+              }
+            ],
+            "sampleRate": 48000,
+            "channels": 2,
+            "channelLayoutTag": 6619138
+          }
+        ]
+      },
+      "audio": {
+        "id": "track:2",
+        "kind": "audio",
+        "codec": "aac ",
+        "decodable": true,
+        "startUs": 0,
+        "endUs": 125000,
+        "segments": [
+          {
+            "startUs": 0,
+            "endUs": 125000,
+            "empty": false,
+            "mediaStartUs": {
+              "numerator": 64000,
+              "denominator": 3
+            },
+            "mediaDurationUs": 125000
+          }
+        ],
+        "sampleRate": 48000,
+        "channels": 2,
+        "channelLayoutTag": 6619138,
+        "decodedAudioInspection": {
+          "sampleRate": 48000,
+          "channels": 2,
+          "frames": 6000,
+          "runs": [
+            {
+              "startUs": 0,
+              "endUs": 125000,
+              "frames": 6000
+            }
+          ],
+          "pcmSha256": "6671eaefa4ada07e95f8094d2bdd6d5d291ba85d41d737aa4d6037f6f145dd70",
+          "trimming": "decoder-output-attachment-free"
+        }
+      }
+    },
+    "family": "hlg",
+    "clock": {
+      "sourceClockAtDerivativeZeroUs": 0,
+      "sourceSupport": {
+        "startUs": 0,
+        "endUs": 175000
+      },
+      "movieTimescale": 48000
+    }
+  },
+  "sha256": "51b81a575b5b520ab1b7cd22696b635c440ae12a5e193bf3965bb303b4b0058c",
+  "bytes": 40179,
+  "retainedByteIdentity": true
+}
