@@ -1,20 +1,22 @@
 # 23c — Validated optional boundary evidence
 
 Status: open; primary human-corrected word annotations and bounded original
-audio/clock bindings are retained. Stereo attribution, lexical scoring treatment
-and the [22](22-speech-feasibility.md) provider gate remain pending. No alignment
-provider is selected or executed for acceptance.
+audio/clock bindings and a candidate/scoring freeze are retained. Original stereo
+source/channel authority and the [22](22-speech-feasibility.md) execution/quality
+gate remain pending. No alignment provider is accepted or executed for acceptance.
 
 ## Next bounded checkpoint
 
-Reuse existing real speech or permissively licensed public speech. Bind complete
-independently listened word starts/ends and neighboring words to original source
-hash, sample rate, channel and clock. Candidate timestamps and AMI forced-aligned
-word times are not those labels. Preserve ambiguous/unmarked boundaries explicitly;
-no new recording or invented placeholder may certify quality. Freeze provider,
-license/runtime and untouched confirmation before evaluating coverage at least 95%
-and p95 absolute word-endpoint error at most 50 ms, with the cost budget from 22.
-Missing words remain in the denominator; their timing error is unknown, not zero.
+Resolve explicit channel interpretation for the already frozen EN03 source bytes
+without energy selection, downmix guessing or personal-machine playback. The
+current six-case coverage ceiling fails structurally, so do not run a knowingly
+impossible acceptance. Preserve the original cohort, word labels and tagged/partial
+support. Then admit complete model/runtime inputs and implement the frozen
+model-free scorer controls through the existing evaluation owner with red/green.
+Only after those prerequisites can a bounded development run test the unchanged
+coverage ≥95%, endpoint p95 ≤50 ms and cost gates from 22; confirmation stays
+untouched until the frozen development protocol passes. Missing words remain in
+the denominator; their timing error stays unknown, not zero.
 
 ## Implementation contract after a passed gate
 
@@ -84,3 +86,34 @@ bytes. Both channels remain intact and attribution is explicitly ambiguous; no
 energy heuristic, channel selection or downmix is admitted. Provider/license/runtime
 and any declared channel interpretation remain separate prerequisites. No speech
 model, playback, recording, endpoint accuracy or sound-quality acceptance occurred.
+
+
+## Candidate and scoring protocol checkpoint
+
+The [candidate/scoring record](../evidence/boundary-doreco/alignment-protocol/README.md)
+retains pinned primary provider/license metadata and the inspected local CPU
+alignment path. Its tiny synthetic native API control executes without model
+weights; it proves mechanics only. The exact Wav2Vec2 base candidate, frontend,
+token sequence, proportional frame clock, original occurrence matching, endpoint
+percentile and cost measurement scope are frozen before acoustic observations.
+Weight pointers are expected acquisition identities, not verified local weights,
+and critical runtime hashes are not a relocated dependency closure. No model
+acquisition, audio preprocessing or acoustic inference occurred.
+
+Original DoReCo conventions define exact `<p:>` as a silent pause. The frozen word
+coverage denominator includes all other fully contained wd occurrences, including
+tagged/unknown or unrepresentable words as missing support. Original clipped rows
+and neighbors retain their before-acquisition partial/context status. Seventeen
+model-free controls specify omission, repeated-word, pause/tag, invalid clock,
+unknown stereo, zero denominator and p95 behavior before any scorer changes; they
+are not represented as a passed implementation.
+
+The 415 full non-pause rows include 209 mono and 206 stereo rows. At most 196 rows
+are currently representable with admitted mono source meaning, so the complete
+cohort's coverage ceiling is 196/415 (47.2%), below 95%. This is an honest structural
+prerequisite failure, not model quality. Accessible original DoReCo and linked
+official Multi-CAST metadata identify EN03 but supply no channel mapping; the
+original FRED website and exact older collection tag were unavailable. Supporting
+newer collection metadata cannot certify earlier media equivalence. Channel
+difference does not imply different speakers. The full six cases remain frozen,
+original stereo stays intact and no mono-only pass can close the family.

@@ -1,0 +1,43 @@
+{
+  "scope": "Model-free synthetic native API control; no audio/model/checkpoint/quality or cost inference",
+  "expectedPath": [
+    [
+      1,
+      0,
+      2
+    ]
+  ],
+  "actualPath": [
+    [
+      1,
+      0,
+      2
+    ]
+  ],
+  "expectedExclusiveSpans": [
+    [
+      1,
+      0,
+      1
+    ],
+    [
+      2,
+      2,
+      3
+    ]
+  ],
+  "actualExclusiveSpans": [
+    [
+      1,
+      0,
+      1
+    ],
+    [
+      2,
+      2,
+      3
+    ]
+  ],
+  "verdict": "pass",
+  "network": "OS denied"
+}

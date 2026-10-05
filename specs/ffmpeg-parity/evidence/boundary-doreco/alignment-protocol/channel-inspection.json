@@ -1,0 +1,39 @@
+{
+  "scope": "Bounded primary source/channel metadata inspection, no additional audio acquired and no model/provider inference or playback.",
+  "primaryDoreco": "Complete original dataset-info, metadata CSV, conventions and four master EAFs retained in boundary-doreco/annotations.tar.xz; metadata and tier participant identify EN03 but contain no selected-channel mapping.",
+  "MultiCAST": {
+    "collectionLink": "https://multicast.aspra.uni-bamberg.de/#english",
+    "observedRedirect": "https://fd-repo.uni-bamberg.de/records/gwpts-v7x40",
+    "officialEnglishRecord": "https://zenodo.org/api/records/14858835",
+    "officialLinkedRepository": "https://github.com/Multi-CAST/mcenglish/tree/v2211",
+    "inspectedCommit": "5bbe89199f74b3b15deed510457588f8e7211043",
+    "inspectedFiles": [
+      "README.md",
+      "cldf/README.md",
+      "cldf/media.csv",
+      "cldf/texts.csv",
+      "cldf/TextCorpus-metadata.json"
+    ],
+    "finding": "Texts name kent03/EN03, year 1976, and audio resources; no channel\u2194speaker or authorized downmix mapping. v2211 README identifies DoReCo source subset as version2207; current inspected v2211 metadata is supporting historical context, not proof of exact earlier media equivalence."
+  },
+  "unavailableSources": [
+    {
+      "url": "https://fred.ub.uni-freiburg.de/",
+      "failure": "TLSV1_ALERT_PROTOCOL_VERSION; no content/authority inferred"
+    },
+    {
+      "url": "https://api.github.com/repos/Multi-CAST/mcenglish/commits/v2207",
+      "failure": "HTTP422; exact older version not admitted"
+    },
+    {
+      "url": "https://api.github.com/repos/Multi-CAST/mcenglish/git/trees/v2207?recursive=1",
+      "failure": "HTTP404; exact older version not admitted"
+    },
+    {
+      "url": "https://raw.githubusercontent.com/Multi-CAST/mcenglish/5bbe89199f74b3b15deed510457588f8e7211043/cldf/speakers.csv",
+      "failure": "HTTP404; speaker attributes instead occur in admitted texts.csv"
+    }
+  ],
+  "channelVerdict": "Unknown for all selected EN03 stereo windows. Unequal channel bytes establish difference, not separate speakers. No channel selection or mixture is authorized by these sources. Original stereo preserved.",
+  "nextPrerequisite": "Explicit source/channel authority for these original selected bytes, plus provider token representability/scorer admission; do not run an impossible six-case acceptance."
+}

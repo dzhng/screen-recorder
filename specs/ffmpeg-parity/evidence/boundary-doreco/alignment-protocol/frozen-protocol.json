@@ -1,0 +1,121 @@
+{
+  "createdAt": "2026-10-05T06:50:23.206393+00:00",
+  "phase": "Frozen before provider audio preprocessing, model-weight acquisition, acoustic inference or development/confirmation endpoint observations.",
+  "status": "Exact research candidate and independent scoring contract frozen; full-cohort acceptance structurally unavailable pending source/channel authority. Not a selected production provider or passed family.",
+  "sourceSelectionSha256": "bcfface0a89855848b4a5515f893a1d07de24ce0528fe264be898116025c69fa",
+  "sourceBindingsSha256": "faf67a17be22b9290e809f027acf9d3957d494ea57f59e72d6891e6cabcf17a4",
+  "sourceOperandsArchiveSha256": "1378cd39e53124aab73d462b1488f1a32507e45aa1a78042eb1b8daeaf904a90",
+  "rowEligibilitySha256": "10f21c7707fd821fcbb32a720d009467720c946591b45ecf55720c980cfb6bb3",
+  "blindProviderInputsSha256": "59013f1d831f4d4285abce927128409a6a3895acdf90870d47be1a5bed20781a",
+  "primaryOperandsArchiveSha256": "fb116fcec859585d673dcda4503a220c946772136fafb2be4b095707a7d8b7c3",
+  "cohort": {
+    "cases": 6,
+    "development": 2,
+    "confirmation": 4,
+    "durationSecondsEach": 30,
+    "rule": "Preserve every original case/window/split. No confirmation output is generated, inspected, calibrated or discarded before the recipe/scorer are admitted and development passes. A mono-only diagnostic cannot certify all six."
+  },
+  "candidate": {
+    "id": "facebook/wav2vec2-base-960h + local transformers forward + torchaudio CPU CTC forced alignment",
+    "modelRepository": "facebook/wav2vec2-base-960h",
+    "modelRevision": "22aad52d435eb6dbaf354bdad9b0da84ce7d6156",
+    "modelLicense": "Apache-2.0 declared by pinned primary model card; exact card/source operands retained",
+    "expectedWeight": {
+      "filename": "model.safetensors",
+      "bytes": 377607901,
+      "sha256": "8aa76ab2243c81747a1f832954586bc566090c83a0ac167df6f31f0fa917d74a",
+      "authority": "Pinned primary HF LFS pointer, not locally verified weight bytes",
+      "locallyAcquired": false
+    },
+    "otherModelFiles": [
+      "config.json",
+      "preprocessor_config.json",
+      "vocab.json",
+      "tokenizer_config.json",
+      "special_tokens_map.json"
+    ],
+    "runtimeInspectionSha256": "2f7198ac234907b852de6f6a85f9f5ada9347f37e768310b9136c5eb5b3fe5b1",
+    "runtime": "Existing /tmp/screenrec-nemo-env/bin/python with original ordered supplementary speech-research dependency layer; exact versions/critical source/native hashes retained. Full immutable dependency closure must be admitted before acoustic inference; no relocation/packaging claim.",
+    "entry": "Python -I -B, OS network deny, HF_HUB_OFFLINE=1, TRANSFORMERS_OFFLINE=1, owned HF/XDG/cache scratch; no ambient current/user import paths or automatic downloads.",
+    "loader": "Wav2Vec2Processor.from_pretrained(exact local model directory, local_files_only=True, trust_remote_code=False); Wav2Vec2ForCTC.from_pretrained(same, local_files_only=True, use_safetensors=True, trust_remote_code=False, torch_dtype=torch.float32). No alternate weights, tokenizer, provider or device.",
+    "execution": {
+      "device": "cpu",
+      "dtype": "float32",
+      "batch": 1,
+      "threads": 4,
+      "interopThreads": 1,
+      "seed": 0,
+      "evalMode": true,
+      "inferenceMode": true,
+      "mixedPrecision": false,
+      "network": "OS-deny; not offline flags alone"
+    },
+    "preprocessing": {
+      "channel": "Only admitted original mono. EN03 stereo is unavailable: never auto-selected, mixed, summed, averaged or chosen by energy.",
+      "sourceEncoding": "original 44100 Hz interleaved PCM16",
+      "preparedEncoding": "little-endian mono float32 at 16000 Hz, exactly 480000 samples/30s",
+      "conversion": "Selected bundled FFmpeg receipt 27350ff2f953bbd4d6ca8bfe0f6808b99b9752192657d289146b50319099f66a; raw s16le mono44100 input, aresample=16000:resampler=swr:filter_size=32:phase_shift=10:linear_interp=1:exact_rational=1, mono float32 output. Once only; exact output count/hash required, no trim/pad/channel operation. No preprocessing was executed in this freeze.",
+      "processor": "Pinned feature extractor do_normalize=true: (x-mean(x))/sqrt(var(x)+1e-7); sampling_rate=16000; padding=False; return_attention_mask=False; no VAD, gain fitting, silence trimming or reference-timed subwindows."
+    },
+    "transcript": "Use blind-provider-inputs ordered original row occurrences. Known ordinary rows, including explicit partial edge rows, normalize only through existing normalizeWord then uppercase. Preserve original strings separately; only A-Z/apostrophe are representable. Tagged/unknown/unsupported rows are not rewritten, expanded or passed as guessed words; their row IDs remain explicit unknown/missing. No source ph tier, phone times or word timestamps enter the aligner.",
+    "alignment": "Model eval forward over the full30s prepared waveform; log_softmax(logits, dim=-1) yields finite [1,T,32]. Build exact character targets with vocabulary | delimiter id4 between known original word units; blank id0 is never a target, unknown id3 is forbidden. CPU torchaudio.functional.forced_align(blank=0) then merge_tokens; require exact target token order/count, preserve raw path/scores/token spans, exclude delimiter spans from word endpoint grouping. Group only each supplied row occurrence\u2019s complete character spans; no threshold, star/wildcard substitution, ASR rewrite or reference timing offset.",
+    "timeMapping": {
+      "rule": "Native merged-token spans are [startFrame,endFrameExclusive). Retain integers and N/T source-to-emission ratio; output local seconds = frame*N/(T*16000), as the pinned upstream proportional-frame recipe, without rounding to ms or fitting an offset. Original selected clock = local seconds + declared window origin.",
+      "N": 480000,
+      "expectedT": 1499,
+      "expectedTAuthority": "Derived mechanically from pinned conv_kernel/conv_stride for480000 samples, must also match actual forward shape. No forward was run.",
+      "latency": "No manually fitted shift or p95 rescue. Record frame quantum/ratio and unknown label precision."
+    },
+    "retention": "Save complete prepared audio, model/runtime/source recipe hashes, finite emissions, full native path/scores/token spans and per-row timed/unknown/missing results before gates. Invalid native output remains unverified diagnostic data; never repair nonfinite/out-of-clock values."
+  },
+  "scoring": {
+    "owner": "Extend existing packages/test-harness/speech/evaluate.mjs under write-tests red/green; no second percentile or matching owner. This protocol freezes test-first controls, not an implemented/passed scorer.",
+    "unit": "One original wd-tier occurrence, not a guessed split/merge of a row or a bag of words. Preserve original IDs/text/order and all neighboring/partial/tagged rows.",
+    "denominator": "All fully-contained original wd rows except exact <p:>. Exact <p:> is a non-word silent pause under the original conventions. Every other fully-contained marked, unknown, unrepresentable, missing or source-channel-unknown word remains in timed-word coverage denominator and contributes no fictitious error.",
+    "partialAndNeighbors": "Original clipped rows and outside neighbors remain independently reported with partial/unknown support. They do not enter the fully-contained word-pair denominator fixed by source-selection; never clamp their reference endpoints to clip edges or pretend a full word was scored. Their missing endpoints remain unknown.",
+    "matching": "Preserve supplied stable original row occurrence IDs and normalized text, ordered and unique. Require matching source/PCM/recipe identity and admitted mono channel. A repeated word can match at most its own supplied occurrence; duplicate/foreign IDs or a lexical mismatch cannot fill an omitted occurrence. Never choose a match by better reference endpoint proximity.",
+    "validCandidate": "A matched pair must have both finite ordered positive-length bounds inside the declared30s clock, exact raw-token/frame provenance and correct occurrence/text. Missing either endpoint leaves the word untimed. Invalid evidence refuses scoring rather than clamping or replacing null/NaN/Inf with zero.",
+    "coverage": "timed matched full-word pairs / all full non-pause word rows. Zero denominator is undefined/pending, never100%. Report numerator/denominator and every untimed ID/reason, independently per case, development, confirmation and full cohort.",
+    "endpointErrors": "Both absolute start and end error per admitted timed word against original human-corrected wd times on the exact original/window clock. Missing/unknown endpoint errors remain null and are counted separately, never0. Retain all known errors, nearest-rank p95 = sorted[ceil(.95*n)-1] from existing percentile owner, median, maximum, signed errors and threshold outliers.",
+    "gates": {
+      "minimumTimedWordCoverage": 0.95,
+      "maximumP95AbsoluteEndpointErrorMs": 50,
+      "maximumPeakProcessRssBytes": 4294967296,
+      "maximumInferenceSecondsPerAudioSecond": 2,
+      "coldStartup": "Import/model-load time reported separately, never relabeled as warm inference. Inference phase includes processor+forward+forced_align+span/output production, not a model-only sub-timer. No cost was measured.",
+      "promotion": "Full original six-case coverage/endpoint/cost/provenance admission required. Development and untouched confirmation reported separately; a narrow mono result cannot promote the family."
+    }
+  },
+  "structuralGate": {
+    "fullWordRows": 415,
+    "currentlyMaximumTimedWords": 196,
+    "coverageCeiling": 0.472289156626506,
+    "minimumRequiredMatchedWords": 395,
+    "status": "FAIL feasibility of current complete-cohort acceptance before inference; source/channel support unknown, not a measured model-quality failure.",
+    "next": "Resolve exact EN03 source/channel interpretation and admit representability/scorer/runtime/model inputs before authorizing a meaningful development run. Do not download weights or run knowingly impossible acceptance just to obtain a predictable coverage failure."
+  },
+  "alternativesInspected": [
+    {
+      "repository": "facebook/mms-1b-all",
+      "revision": "3d33597edbdaaba14a8e858e2c8caa76e3cec0cd",
+      "license": "CC-BY-NC-4.0 in primary metadata",
+      "status": "Not selected; no inference; this license observation applies to this exact inspected repo, not a generic family."
+    },
+    {
+      "repository": "Qwen/Qwen3-ForcedAligner-0.6B",
+      "revision": "c7cbfc2048c462b0d63a45797104fc9db3ad62b7",
+      "license": "Apache-2.0 in primary metadata",
+      "status": "Not selected; no verified local exact alignment weight/runtime closure admitted in this inspection."
+    }
+  ],
+  "notRun": [
+    "model acquisition",
+    "audio preprocessing",
+    "acoustic inference",
+    "development or confirmation candidate observations",
+    "playback",
+    "personal recording",
+    "provider quality/cost acceptance",
+    "product runtime assembly/operations"
+  ]
+}

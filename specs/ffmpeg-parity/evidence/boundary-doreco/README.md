@@ -18,7 +18,9 @@ This is reference-authority evidence, not an alignment quality result. The initi
 inspection acquired no original audio. The later [source admission](source-admission/README.md)
 binds a selection frozen before audio acquisition to original complete-stream
 hashes, selected PCM, physical clocks/channels and unchanged neighboring labels.
-Stereo channel attribution remains ambiguous. Provider and lexical scoring treatment
-still need freezing before inference; no provider ran and no listening occurred.
+The later [candidate and scoring freeze](alignment-protocol/README.md) retains
+primary provider/license operands and independent row eligibility. The full cohort
+cannot pass while stereo source/channel support remains unknown; no provider ran
+and no listening occurred.
 Preserve ambiguous labels explicitly rather than manufacturing clean words or
 certifying annotator precision we have not measured.

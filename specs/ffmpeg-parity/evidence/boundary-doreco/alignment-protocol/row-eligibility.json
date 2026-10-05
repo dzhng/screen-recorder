@@ -1,0 +1,4576 @@
+{
+  "status": "Frozen independent rules before any model observation; no lexical or channel outcome consulted.",
+  "sourceBindingsSha256": "faf67a17be22b9290e809f027acf9d3957d494ea57f59e72d6891e6cabcf17a4",
+  "normalizationOwner": "packages/test-harness/speech/evaluate.mjs normalizeWord: lower case; retain Unicode letters/numbers/apostrophe. Current selected unmarked values are ASCII, verified separately. Original values never change. ASCII A-Z/apostrophe alone are representable by this candidate; other normalized symbols remain missing.",
+  "pauseAuthority": "Complete original conventions explicitly identify exact <p:> as silent pause and require no extra content. No other tag is stripped or treated as a known word.",
+  "counts": {
+    "fullyContainedNonPauseRows": 415,
+    "maximumTimedWordsWithoutChannelClarification": 196,
+    "fullCohortCoverageCeiling": 0.472289156626506
+  },
+  "cases": [
+    {
+      "caseId": "doreco_sout3282_mc_english_kent02_b_part1-60000",
+      "split": "development",
+      "sourceWholeFileSha256": "47164f99ee152e44686ad0463eec4b7854365c4418ed5ff8a21e9909fa718508",
+      "selectedPcmSha256": "5abafb6d4601cf016d829da86f7bdcdcc44685b28bbe5fc3c557a6f1ebada321",
+      "channels": 1,
+      "channelStatus": "known-original-mono",
+      "wordCoverageDenominator": 78,
+      "maximumTimedWordsBeforeChannelClarification": 73,
+      "rows": [
+        {
+          "annotationId": "a1483",
+          "originalValue": "cottages",
+          "support": "neighbor-outside-window",
+          "wordCoverageDenominator": false,
+          "timingPairAdmitted": false,
+          "reason": "outside-window/context-only",
+          "providerText": null
+        },
+        {
+          "annotationId": "a1484",
+          "originalValue": "<p:>",
+          "support": "partial",
+          "wordCoverageDenominator": false,
+          "timingPairAdmitted": false,
+          "reason": "original-silent-pause/non-word",
+          "providerText": null
+        },
+        {
+          "annotationId": "a1485",
+          "originalValue": "and",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": true,
+          "reason": "scorable-known-word",
+          "providerText": "AND"
+        },
+        {
+          "annotationId": "a1486",
+          "originalValue": "the",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": true,
+          "reason": "scorable-known-word",
+          "providerText": "THE"
+        },
+        {
+          "annotationId": "a1487",
+          "originalValue": "other",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": true,
+          "reason": "scorable-known-word",
+          "providerText": "OTHER"
+        },
+        {
+          "annotationId": "a1488",
+          "originalValue": "land",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": true,
+          "reason": "scorable-known-word",
+          "providerText": "LAND"
+        },
+        {
+          "annotationId": "a1489",
+          "originalValue": "<p:>",
+          "support": "fully-contained",
+          "wordCoverageDenominator": false,
+          "timingPairAdmitted": false,
+          "reason": "original-silent-pause/non-word",
+          "providerText": null
+        },
+        {
+          "annotationId": "a1490",
+          "originalValue": "and",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": true,
+          "reason": "scorable-known-word",
+          "providerText": "AND"
+        },
+        {
+          "annotationId": "a1491",
+          "originalValue": "they",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": true,
+          "reason": "scorable-known-word",
+          "providerText": "THEY"
+        },
+        {
+          "annotationId": "a1492",
+          "originalValue": "put",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": true,
+          "reason": "scorable-known-word",
+          "providerText": "PUT"
+        },
+        {
+          "annotationId": "a1493",
+          "originalValue": "eleven",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": true,
+          "reason": "scorable-known-word",
+          "providerText": "ELEVEN"
+        },
+        {
+          "annotationId": "a1494",
+          "originalValue": "acres",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": true,
+          "reason": "scorable-known-word",
+          "providerText": "ACRES"
+        },
+        {
+          "annotationId": "a1495",
+          "originalValue": "on",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": true,
+          "reason": "scorable-known-word",
+          "providerText": "ON"
+        },
+        {
+          "annotationId": "a1496",
+          "originalValue": "it",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": true,
+          "reason": "scorable-known-word",
+          "providerText": "IT"
+        },
+        {
+          "annotationId": "a1497",
+          "originalValue": "<p:>",
+          "support": "fully-contained",
+          "wordCoverageDenominator": false,
+          "timingPairAdmitted": false,
+          "reason": "original-silent-pause/non-word",
+          "providerText": null
+        },
+        {
+          "annotationId": "a1498",
+          "originalValue": "there",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": true,
+          "reason": "scorable-known-word",
+          "providerText": "THERE"
+        },
+        {
+          "annotationId": "a1499",
+          "originalValue": "were",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": true,
+          "reason": "scorable-known-word",
+          "providerText": "WERE"
+        },
+        {
+          "annotationId": "a1500",
+          "originalValue": "<<fs>>",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": false,
+          "reason": "tagged-or-unknown-word/unmatchable",
+          "providerText": null
+        },
+        {
+          "annotationId": "a1501",
+          "originalValue": "<p:>",
+          "support": "fully-contained",
+          "wordCoverageDenominator": false,
+          "timingPairAdmitted": false,
+          "reason": "original-silent-pause/non-word",
+          "providerText": null
+        },
+        {
+          "annotationId": "a1502",
+          "originalValue": "no",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": true,
+          "reason": "scorable-known-word",
+          "providerText": "NO"
+        },
+        {
+          "annotationId": "a1503",
+          "originalValue": "nine",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": true,
+          "reason": "scorable-known-word",
+          "providerText": "NINE"
+        },
+        {
+          "annotationId": "a1504",
+          "originalValue": "acres",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": true,
+          "reason": "scorable-known-word",
+          "providerText": "ACRES"
+        },
+        {
+          "annotationId": "a1505",
+          "originalValue": "there",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": true,
+          "reason": "scorable-known-word",
+          "providerText": "THERE"
+        },
+        {
+          "annotationId": "a1506",
+          "originalValue": "was",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": true,
+          "reason": "scorable-known-word",
+          "providerText": "WAS"
+        },
+        {
+          "annotationId": "a1507",
+          "originalValue": "twenty-six",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": true,
+          "reason": "scorable-known-word",
+          "providerText": "TWENTYSIX"
+        },
+        {
+          "annotationId": "a1508",
+          "originalValue": "they",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": true,
+          "reason": "scorable-known-word",
+          "providerText": "THEY"
+        },
+        {
+          "annotationId": "a1509",
+          "originalValue": "fixed",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": true,
+          "reason": "scorable-known-word",
+          "providerText": "FIXED"
+        },
+        {
+          "annotationId": "a1510",
+          "originalValue": "us",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": true,
+          "reason": "scorable-known-word",
+          "providerText": "US"
+        },
+        {
+          "annotationId": "a1511",
+          "originalValue": "up",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": true,
+          "reason": "scorable-known-word",
+          "providerText": "UP"
+        },
+        {
+          "annotationId": "a1512",
+          "originalValue": "the",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": true,
+          "reason": "scorable-known-word",
+          "providerText": "THE"
+        },
+        {
+          "annotationId": "a1513",
+          "originalValue": "thirty-one",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": true,
+          "reason": "scorable-known-word",
+          "providerText": "THIRTYONE"
+        },
+        {
+          "annotationId": "a1514",
+          "originalValue": "now",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": true,
+          "reason": "scorable-known-word",
+          "providerText": "NOW"
+        },
+        {
+          "annotationId": "a1515",
+          "originalValue": "there",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": true,
+          "reason": "scorable-known-word",
+          "providerText": "THERE"
+        },
+        {
+          "annotationId": "a1516",
+          "originalValue": "there",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": true,
+          "reason": "scorable-known-word",
+          "providerText": "THERE"
+        },
+        {
+          "annotationId": "a1517",
+          "originalValue": "was",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": true,
+          "reason": "scorable-known-word",
+          "providerText": "WAS"
+        },
+        {
+          "annotationId": "a1518",
+          "originalValue": "three",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": true,
+          "reason": "scorable-known-word",
+          "providerText": "THREE"
+        },
+        {
+          "annotationId": "a1519",
+          "originalValue": "acres",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": true,
+          "reason": "scorable-known-word",
+          "providerText": "ACRES"
+        },
+        {
+          "annotationId": "a1520",
+          "originalValue": "<p:>",
+          "support": "fully-contained",
+          "wordCoverageDenominator": false,
+          "timingPairAdmitted": false,
+          "reason": "original-silent-pause/non-word",
+          "providerText": null
+        },
+        {
+          "annotationId": "a1521",
+          "originalValue": "nothing",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": true,
+          "reason": "scorable-known-word",
+          "providerText": "NOTHING"
+        },
+        {
+          "annotationId": "a1522",
+          "originalValue": "do",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": true,
+          "reason": "scorable-known-word",
+          "providerText": "DO"
+        },
+        {
+          "annotationId": "a1523",
+          "originalValue": "with",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": true,
+          "reason": "scorable-known-word",
+          "providerText": "WITH"
+        },
+        {
+          "annotationId": "a1524",
+          "originalValue": "it",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": true,
+          "reason": "scorable-known-word",
+          "providerText": "IT"
+        },
+        {
+          "annotationId": "a1525",
+          "originalValue": "<p:>",
+          "support": "fully-contained",
+          "wordCoverageDenominator": false,
+          "timingPairAdmitted": false,
+          "reason": "original-silent-pause/non-word",
+          "providerText": null
+        },
+        {
+          "annotationId": "a1526",
+          "originalValue": "twenty-six",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": true,
+          "reason": "scorable-known-word",
+          "providerText": "TWENTYSIX"
+        },
+        {
+          "annotationId": "a1527",
+          "originalValue": "and",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": true,
+          "reason": "scorable-known-word",
+          "providerText": "AND"
+        },
+        {
+          "annotationId": "a1528",
+          "originalValue": "nine",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": true,
+          "reason": "scorable-known-word",
+          "providerText": "NINE"
+        },
+        {
+          "annotationId": "a1529",
+          "originalValue": "what's",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": true,
+          "reason": "scorable-known-word",
+          "providerText": "WHAT'S"
+        },
+        {
+          "annotationId": "a1530",
+          "originalValue": "that",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": true,
+          "reason": "scorable-known-word",
+          "providerText": "THAT"
+        },
+        {
+          "annotationId": "a1531",
+          "originalValue": "<p:>",
+          "support": "fully-contained",
+          "wordCoverageDenominator": false,
+          "timingPairAdmitted": false,
+          "reason": "original-silent-pause/non-word",
+          "providerText": null
+        },
+        {
+          "annotationId": "a1532",
+          "originalValue": "Oh",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": true,
+          "reason": "scorable-known-word",
+          "providerText": "OH"
+        },
+        {
+          "annotationId": "a1533",
+          "originalValue": "then",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": true,
+          "reason": "scorable-known-word",
+          "providerText": "THEN"
+        },
+        {
+          "annotationId": "a1534",
+          "originalValue": "there",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": true,
+          "reason": "scorable-known-word",
+          "providerText": "THERE"
+        },
+        {
+          "annotationId": "a1535",
+          "originalValue": "was",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": true,
+          "reason": "scorable-known-word",
+          "providerText": "WAS"
+        },
+        {
+          "annotationId": "a1536",
+          "originalValue": "<<fs>>",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": false,
+          "reason": "tagged-or-unknown-word/unmatchable",
+          "providerText": null
+        },
+        {
+          "annotationId": "a1537",
+          "originalValue": "It",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": true,
+          "reason": "scorable-known-word",
+          "providerText": "IT"
+        },
+        {
+          "annotationId": "a1538",
+          "originalValue": "was",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": true,
+          "reason": "scorable-known-word",
+          "providerText": "WAS"
+        },
+        {
+          "annotationId": "a1539",
+          "originalValue": "<<fs>>",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": false,
+          "reason": "tagged-or-unknown-word/unmatchable",
+          "providerText": null
+        },
+        {
+          "annotationId": "a1540",
+          "originalValue": "<p:>",
+          "support": "fully-contained",
+          "wordCoverageDenominator": false,
+          "timingPairAdmitted": false,
+          "reason": "original-silent-pause/non-word",
+          "providerText": null
+        },
+        {
+          "annotationId": "a1541",
+          "originalValue": "thirty-one",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": true,
+          "reason": "scorable-known-word",
+          "providerText": "THIRTYONE"
+        },
+        {
+          "annotationId": "a1542",
+          "originalValue": "altogether",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": true,
+          "reason": "scorable-known-word",
+          "providerText": "ALTOGETHER"
+        },
+        {
+          "annotationId": "a1543",
+          "originalValue": "<p:>",
+          "support": "fully-contained",
+          "wordCoverageDenominator": false,
+          "timingPairAdmitted": false,
+          "reason": "original-silent-pause/non-word",
+          "providerText": null
+        },
+        {
+          "annotationId": "a1544",
+          "originalValue": "that",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": true,
+          "reason": "scorable-known-word",
+          "providerText": "THAT"
+        },
+        {
+          "annotationId": "a1545",
+          "originalValue": "was",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": true,
+          "reason": "scorable-known-word",
+          "providerText": "WAS"
+        },
+        {
+          "annotationId": "a1546",
+          "originalValue": "including",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": true,
+          "reason": "scorable-known-word",
+          "providerText": "INCLUDING"
+        },
+        {
+          "annotationId": "a1547",
+          "originalValue": "the",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": true,
+          "reason": "scorable-known-word",
+          "providerText": "THE"
+        },
+        {
+          "annotationId": "a1548",
+          "originalValue": "house",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": true,
+          "reason": "scorable-known-word",
+          "providerText": "HOUSE"
+        },
+        {
+          "annotationId": "a1549",
+          "originalValue": "<p:>",
+          "support": "fully-contained",
+          "wordCoverageDenominator": false,
+          "timingPairAdmitted": false,
+          "reason": "original-silent-pause/non-word",
+          "providerText": null
+        },
+        {
+          "annotationId": "a1550",
+          "originalValue": "Oh",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": true,
+          "reason": "scorable-known-word",
+          "providerText": "OH"
+        },
+        {
+          "annotationId": "a1551",
+          "originalValue": "no",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": true,
+          "reason": "scorable-known-word",
+          "providerText": "NO"
+        },
+        {
+          "annotationId": "a1552",
+          "originalValue": "then",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": true,
+          "reason": "scorable-known-word",
+          "providerText": "THEN"
+        },
+        {
+          "annotationId": "a1553",
+          "originalValue": "we",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": true,
+          "reason": "scorable-known-word",
+          "providerText": "WE"
+        },
+        {
+          "annotationId": "a1554",
+          "originalValue": "bought",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": true,
+          "reason": "scorable-known-word",
+          "providerText": "BOUGHT"
+        },
+        {
+          "annotationId": "a1555",
+          "originalValue": "two",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": true,
+          "reason": "scorable-known-word",
+          "providerText": "TWO"
+        },
+        {
+          "annotationId": "a1556",
+          "originalValue": "acres",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": true,
+          "reason": "scorable-known-word",
+          "providerText": "ACRES"
+        },
+        {
+          "annotationId": "a1557",
+          "originalValue": "of",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": true,
+          "reason": "scorable-known-word",
+          "providerText": "OF"
+        },
+        {
+          "annotationId": "a1558",
+          "originalValue": "orchard",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": true,
+          "reason": "scorable-known-word",
+          "providerText": "ORCHARD"
+        },
+        {
+          "annotationId": "a1559",
+          "originalValue": "<p:>",
+          "support": "fully-contained",
+          "wordCoverageDenominator": false,
+          "timingPairAdmitted": false,
+          "reason": "original-silent-pause/non-word",
+          "providerText": null
+        },
+        {
+          "annotationId": "a1560",
+          "originalValue": "<<ui>>",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": false,
+          "reason": "tagged-or-unknown-word/unmatchable",
+          "providerText": null
+        },
+        {
+          "annotationId": "a1561",
+          "originalValue": "off",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": true,
+          "reason": "scorable-known-word",
+          "providerText": "OFF"
+        },
+        {
+          "annotationId": "a1562",
+          "originalValue": "<<ui>>",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": false,
+          "reason": "tagged-or-unknown-word/unmatchable",
+          "providerText": null
+        },
+        {
+          "annotationId": "a1563",
+          "originalValue": "what",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": true,
+          "reason": "scorable-known-word",
+          "providerText": "WHAT"
+        },
+        {
+          "annotationId": "a1564",
+          "originalValue": "back",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": true,
+          "reason": "scorable-known-word",
+          "providerText": "BACK"
+        },
+        {
+          "annotationId": "a1565",
+          "originalValue": "here",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": true,
+          "reason": "scorable-known-word",
+          "providerText": "HERE"
+        },
+        {
+          "annotationId": "a1566",
+          "originalValue": "<p:>",
+          "support": "fully-contained",
+          "wordCoverageDenominator": false,
+          "timingPairAdmitted": false,
+          "reason": "original-silent-pause/non-word",
+          "providerText": null
+        },
+        {
+          "annotationId": "a1567",
+          "originalValue": "lives",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": true,
+          "reason": "scorable-known-word",
+          "providerText": "LIVES"
+        },
+        {
+          "annotationId": "a1568",
+          "originalValue": "back",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": true,
+          "reason": "scorable-known-word",
+          "providerText": "BACK"
+        },
+        {
+          "annotationId": "a1569",
+          "originalValue": "here",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": true,
+          "reason": "scorable-known-word",
+          "providerText": "HERE"
+        },
+        {
+          "annotationId": "a1570",
+          "originalValue": "<p:>",
+          "support": "fully-contained",
+          "wordCoverageDenominator": false,
+          "timingPairAdmitted": false,
+          "reason": "original-silent-pause/non-word",
+          "providerText": null
+        },
+        {
+          "annotationId": "a1571",
+          "originalValue": "so",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": true,
+          "reason": "scorable-known-word",
+          "providerText": "SO"
+        },
+        {
+          "annotationId": "a1572",
+          "originalValue": "as",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": true,
+          "reason": "scorable-known-word",
+          "providerText": "AS"
+        },
+        {
+          "annotationId": "a1573",
+          "originalValue": "we",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": true,
+          "reason": "scorable-known-word",
+          "providerText": "WE"
+        },
+        {
+          "annotationId": "a1574",
+          "originalValue": "could",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": true,
+          "reason": "scorable-known-word",
+          "providerText": "COULD"
+        },
+        {
+          "annotationId": "a1575",
+          "originalValue": "get",
+          "support": "partial",
+          "wordCoverageDenominator": false,
+          "timingPairAdmitted": false,
+          "reason": "partial-word/full-endpoints-unavailable",
+          "providerText": "GET"
+        },
+        {
+          "annotationId": "a1576",
+          "originalValue": "from",
+          "support": "neighbor-outside-window",
+          "wordCoverageDenominator": false,
+          "timingPairAdmitted": false,
+          "reason": "outside-window/context-only",
+          "providerText": null
+        }
+      ]
+    },
+    {
+      "caseId": "doreco_sout3282_mc_english_kent02_b_part2-60000",
+      "split": "confirmation",
+      "sourceWholeFileSha256": "842565fe2fb1503d489b8b832c09c2c0fd4215fff2bc11ba916b28751df62e9a",
+      "selectedPcmSha256": "ab210b8744577db5a4a91f81e03a2db6954f542862097dbdf020133e02728f36",
+      "channels": 1,
+      "channelStatus": "known-original-mono",
+      "wordCoverageDenominator": 50,
+      "maximumTimedWordsBeforeChannelClarification": 46,
+      "rows": [
+        {
+          "annotationId": "a1453",
+          "originalValue": "year",
+          "support": "neighbor-outside-window",
+          "wordCoverageDenominator": false,
+          "timingPairAdmitted": false,
+          "reason": "outside-window/context-only",
+          "providerText": null
+        },
+        {
+          "annotationId": "a1454",
+          "originalValue": "older",
+          "support": "partial",
+          "wordCoverageDenominator": false,
+          "timingPairAdmitted": false,
+          "reason": "partial-word/full-endpoints-unavailable",
+          "providerText": "OLDER"
+        },
+        {
+          "annotationId": "a1455",
+          "originalValue": "than",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": true,
+          "reason": "scorable-known-word",
+          "providerText": "THAN"
+        },
+        {
+          "annotationId": "a1456",
+          "originalValue": "I",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": true,
+          "reason": "scorable-known-word",
+          "providerText": "I"
+        },
+        {
+          "annotationId": "a1457",
+          "originalValue": "was",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": true,
+          "reason": "scorable-known-word",
+          "providerText": "WAS"
+        },
+        {
+          "annotationId": "a1458",
+          "originalValue": "I",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": true,
+          "reason": "scorable-known-word",
+          "providerText": "I"
+        },
+        {
+          "annotationId": "a1459",
+          "originalValue": "expect",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": true,
+          "reason": "scorable-known-word",
+          "providerText": "EXPECT"
+        },
+        {
+          "annotationId": "a1460",
+          "originalValue": "<p:>",
+          "support": "fully-contained",
+          "wordCoverageDenominator": false,
+          "timingPairAdmitted": false,
+          "reason": "original-silent-pause/non-word",
+          "providerText": null
+        },
+        {
+          "annotationId": "a1461",
+          "originalValue": "Too",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": true,
+          "reason": "scorable-known-word",
+          "providerText": "TOO"
+        },
+        {
+          "annotationId": "a1462",
+          "originalValue": "fly",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": true,
+          "reason": "scorable-known-word",
+          "providerText": "FLY"
+        },
+        {
+          "annotationId": "a1463",
+          "originalValue": "for",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": true,
+          "reason": "scorable-known-word",
+          "providerText": "FOR"
+        },
+        {
+          "annotationId": "a1464",
+          "originalValue": "me",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": true,
+          "reason": "scorable-known-word",
+          "providerText": "ME"
+        },
+        {
+          "annotationId": "a1465",
+          "originalValue": "wadn't",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": true,
+          "reason": "scorable-known-word",
+          "providerText": "WADN'T"
+        },
+        {
+          "annotationId": "a1466",
+          "originalValue": "he",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": true,
+          "reason": "scorable-known-word",
+          "providerText": "HE"
+        },
+        {
+          "annotationId": "a1467",
+          "originalValue": "<p:>",
+          "support": "fully-contained",
+          "wordCoverageDenominator": false,
+          "timingPairAdmitted": false,
+          "reason": "original-silent-pause/non-word",
+          "providerText": null
+        },
+        {
+          "annotationId": "a1468",
+          "originalValue": "Too",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": true,
+          "reason": "scorable-known-word",
+          "providerText": "TOO"
+        },
+        {
+          "annotationId": "a1469",
+          "originalValue": "fly",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": true,
+          "reason": "scorable-known-word",
+          "providerText": "FLY"
+        },
+        {
+          "annotationId": "a1470",
+          "originalValue": "for",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": true,
+          "reason": "scorable-known-word",
+          "providerText": "FOR"
+        },
+        {
+          "annotationId": "a1471",
+          "originalValue": "me",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": true,
+          "reason": "scorable-known-word",
+          "providerText": "ME"
+        },
+        {
+          "annotationId": "a1472",
+          "originalValue": "wadn't",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": true,
+          "reason": "scorable-known-word",
+          "providerText": "WADN'T"
+        },
+        {
+          "annotationId": "a1473",
+          "originalValue": "he",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": true,
+          "reason": "scorable-known-word",
+          "providerText": "HE"
+        },
+        {
+          "annotationId": "a1474",
+          "originalValue": "<p:>",
+          "support": "fully-contained",
+          "wordCoverageDenominator": false,
+          "timingPairAdmitted": false,
+          "reason": "original-silent-pause/non-word",
+          "providerText": null
+        },
+        {
+          "annotationId": "a1475",
+          "originalValue": "He",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": true,
+          "reason": "scorable-known-word",
+          "providerText": "HE"
+        },
+        {
+          "annotationId": "a1476",
+          "originalValue": "found",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": true,
+          "reason": "scorable-known-word",
+          "providerText": "FOUND"
+        },
+        {
+          "annotationId": "a1477",
+          "originalValue": "the",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": true,
+          "reason": "scorable-known-word",
+          "providerText": "THE"
+        },
+        {
+          "annotationId": "a1478",
+          "originalValue": "moletrap",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": true,
+          "reason": "scorable-known-word",
+          "providerText": "MOLETRAP"
+        },
+        {
+          "annotationId": "a1479",
+          "originalValue": "and",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": true,
+          "reason": "scorable-known-word",
+          "providerText": "AND"
+        },
+        {
+          "annotationId": "a1480",
+          "originalValue": "he",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": true,
+          "reason": "scorable-known-word",
+          "providerText": "HE"
+        },
+        {
+          "annotationId": "a1481",
+          "originalValue": "<<fs>>",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": false,
+          "reason": "tagged-or-unknown-word/unmatchable",
+          "providerText": null
+        },
+        {
+          "annotationId": "a1482",
+          "originalValue": "picked",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": true,
+          "reason": "scorable-known-word",
+          "providerText": "PICKED"
+        },
+        {
+          "annotationId": "a1483",
+          "originalValue": "it",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": true,
+          "reason": "scorable-known-word",
+          "providerText": "IT"
+        },
+        {
+          "annotationId": "a1484",
+          "originalValue": "up",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": true,
+          "reason": "scorable-known-word",
+          "providerText": "UP"
+        },
+        {
+          "annotationId": "a1485",
+          "originalValue": "and",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": true,
+          "reason": "scorable-known-word",
+          "providerText": "AND"
+        },
+        {
+          "annotationId": "a1486",
+          "originalValue": "popped",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": true,
+          "reason": "scorable-known-word",
+          "providerText": "POPPED"
+        },
+        {
+          "annotationId": "a1487",
+          "originalValue": "it",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": true,
+          "reason": "scorable-known-word",
+          "providerText": "IT"
+        },
+        {
+          "annotationId": "a1488",
+          "originalValue": "in",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": true,
+          "reason": "scorable-known-word",
+          "providerText": "IN"
+        },
+        {
+          "annotationId": "a1489",
+          "originalValue": "his",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": true,
+          "reason": "scorable-known-word",
+          "providerText": "HIS"
+        },
+        {
+          "annotationId": "a1490",
+          "originalValue": "pock",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": true,
+          "reason": "scorable-known-word",
+          "providerText": "POCK"
+        },
+        {
+          "annotationId": "a1491",
+          "originalValue": "et",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": true,
+          "reason": "scorable-known-word",
+          "providerText": "ET"
+        },
+        {
+          "annotationId": "a1492",
+          "originalValue": "<p:>",
+          "support": "fully-contained",
+          "wordCoverageDenominator": false,
+          "timingPairAdmitted": false,
+          "reason": "original-silent-pause/non-word",
+          "providerText": null
+        },
+        {
+          "annotationId": "a1493",
+          "originalValue": "About",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": true,
+          "reason": "scorable-known-word",
+          "providerText": "ABOUT"
+        },
+        {
+          "annotationId": "a1494",
+          "originalValue": "four",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": true,
+          "reason": "scorable-known-word",
+          "providerText": "FOUR"
+        },
+        {
+          "annotationId": "a1495",
+          "originalValue": "year",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": true,
+          "reason": "scorable-known-word",
+          "providerText": "YEAR"
+        },
+        {
+          "annotationId": "a1496",
+          "originalValue": "<p:>",
+          "support": "fully-contained",
+          "wordCoverageDenominator": false,
+          "timingPairAdmitted": false,
+          "reason": "original-silent-pause/non-word",
+          "providerText": null
+        },
+        {
+          "annotationId": "a1497",
+          "originalValue": "<<fs>>",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": false,
+          "reason": "tagged-or-unknown-word/unmatchable",
+          "providerText": null
+        },
+        {
+          "annotationId": "a1498",
+          "originalValue": "<<bc>>",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": false,
+          "reason": "tagged-or-unknown-word/unmatchable",
+          "providerText": null
+        },
+        {
+          "annotationId": "a1499",
+          "originalValue": "<p:>",
+          "support": "fully-contained",
+          "wordCoverageDenominator": false,
+          "timingPairAdmitted": false,
+          "reason": "original-silent-pause/non-word",
+          "providerText": null
+        },
+        {
+          "annotationId": "a1500",
+          "originalValue": "would",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": true,
+          "reason": "scorable-known-word",
+          "providerText": "WOULD"
+        },
+        {
+          "annotationId": "a1501",
+          "originalValue": "that",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": true,
+          "reason": "scorable-known-word",
+          "providerText": "THAT"
+        },
+        {
+          "annotationId": "a1502",
+          "originalValue": "be",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": true,
+          "reason": "scorable-known-word",
+          "providerText": "BE"
+        },
+        {
+          "annotationId": "a1503",
+          "originalValue": "when",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": true,
+          "reason": "scorable-known-word",
+          "providerText": "WHEN"
+        },
+        {
+          "annotationId": "a1504",
+          "originalValue": "I",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": true,
+          "reason": "scorable-known-word",
+          "providerText": "I"
+        },
+        {
+          "annotationId": "a1505",
+          "originalValue": "was",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": true,
+          "reason": "scorable-known-word",
+          "providerText": "WAS"
+        },
+        {
+          "annotationId": "a1506",
+          "originalValue": "<p:>",
+          "support": "fully-contained",
+          "wordCoverageDenominator": false,
+          "timingPairAdmitted": false,
+          "reason": "original-silent-pause/non-word",
+          "providerText": null
+        },
+        {
+          "annotationId": "a1507",
+          "originalValue": "<<ui>>",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": false,
+          "reason": "tagged-or-unknown-word/unmatchable",
+          "providerText": null
+        },
+        {
+          "annotationId": "a1508",
+          "originalValue": "<p:>",
+          "support": "fully-contained",
+          "wordCoverageDenominator": false,
+          "timingPairAdmitted": false,
+          "reason": "original-silent-pause/non-word",
+          "providerText": null
+        },
+        {
+          "annotationId": "a1509",
+          "originalValue": "eighteen",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": true,
+          "reason": "scorable-known-word",
+          "providerText": "EIGHTEEN"
+        },
+        {
+          "annotationId": "a1510",
+          "originalValue": "seventeen",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": true,
+          "reason": "scorable-known-word",
+          "providerText": "SEVENTEEN"
+        },
+        {
+          "annotationId": "a1511",
+          "originalValue": "eig",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": true,
+          "reason": "scorable-known-word",
+          "providerText": "EIG"
+        },
+        {
+          "annotationId": "a1512",
+          "originalValue": "hteen",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": true,
+          "reason": "scorable-known-word",
+          "providerText": "HTEEN"
+        },
+        {
+          "annotationId": "a1513",
+          "originalValue": "<p:>",
+          "support": "partial",
+          "wordCoverageDenominator": false,
+          "timingPairAdmitted": false,
+          "reason": "original-silent-pause/non-word",
+          "providerText": null
+        },
+        {
+          "annotationId": "a1514",
+          "originalValue": "Advertise",
+          "support": "neighbor-outside-window",
+          "wordCoverageDenominator": false,
+          "timingPairAdmitted": false,
+          "reason": "outside-window/context-only",
+          "providerText": null
+        }
+      ]
+    },
+    {
+      "caseId": "doreco_sout3282_mc_english_kent02_b_part2-120000",
+      "split": "confirmation",
+      "sourceWholeFileSha256": "842565fe2fb1503d489b8b832c09c2c0fd4215fff2bc11ba916b28751df62e9a",
+      "selectedPcmSha256": "ac3299942f105e6e34ee049ee4689f7af668336a02395d965a14e8db6c95e671",
+      "channels": 1,
+      "channelStatus": "known-original-mono",
+      "wordCoverageDenominator": 81,
+      "maximumTimedWordsBeforeChannelClarification": 77,
+      "rows": [
+        {
+          "annotationId": "a1593",
+          "originalValue": "You",
+          "support": "neighbor-outside-window",
+          "wordCoverageDenominator": false,
+          "timingPairAdmitted": false,
+          "reason": "outside-window/context-only",
+          "providerText": null
+        },
+        {
+          "annotationId": "a1594",
+          "originalValue": "tell",
+          "support": "partial",
+          "wordCoverageDenominator": false,
+          "timingPairAdmitted": false,
+          "reason": "partial-word/full-endpoints-unavailable",
+          "providerText": "TELL"
+        },
+        {
+          "annotationId": "a1595",
+          "originalValue": "by",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": true,
+          "reason": "scorable-known-word",
+          "providerText": "BY"
+        },
+        {
+          "annotationId": "a1596",
+          "originalValue": "the",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": true,
+          "reason": "scorable-known-word",
+          "providerText": "THE"
+        },
+        {
+          "annotationId": "a1597",
+          "originalValue": "skin",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": true,
+          "reason": "scorable-known-word",
+          "providerText": "SKIN"
+        },
+        {
+          "annotationId": "a1598",
+          "originalValue": "you",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": true,
+          "reason": "scorable-known-word",
+          "providerText": "YOU"
+        },
+        {
+          "annotationId": "a1599",
+          "originalValue": "look",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": true,
+          "reason": "scorable-known-word",
+          "providerText": "LOOK"
+        },
+        {
+          "annotationId": "a1600",
+          "originalValue": "inside",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": true,
+          "reason": "scorable-known-word",
+          "providerText": "INSIDE"
+        },
+        {
+          "annotationId": "a1601",
+          "originalValue": "see",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": true,
+          "reason": "scorable-known-word",
+          "providerText": "SEE"
+        },
+        {
+          "annotationId": "a1602",
+          "originalValue": "the",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": true,
+          "reason": "scorable-known-word",
+          "providerText": "THE"
+        },
+        {
+          "annotationId": "a1603",
+          "originalValue": "shotmarks",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": true,
+          "reason": "scorable-known-word",
+          "providerText": "SHOTMARKS"
+        },
+        {
+          "annotationId": "a1604",
+          "originalValue": "in",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": true,
+          "reason": "scorable-known-word",
+          "providerText": "IN"
+        },
+        {
+          "annotationId": "a1605",
+          "originalValue": "it",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": true,
+          "reason": "scorable-known-word",
+          "providerText": "IT"
+        },
+        {
+          "annotationId": "a1606",
+          "originalValue": "you",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": true,
+          "reason": "scorable-known-word",
+          "providerText": "YOU"
+        },
+        {
+          "annotationId": "a1607",
+          "originalValue": "see",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": true,
+          "reason": "scorable-known-word",
+          "providerText": "SEE"
+        },
+        {
+          "annotationId": "a1608",
+          "originalValue": "<p:>",
+          "support": "fully-contained",
+          "wordCoverageDenominator": false,
+          "timingPairAdmitted": false,
+          "reason": "original-silent-pause/non-word",
+          "providerText": null
+        },
+        {
+          "annotationId": "a1609",
+          "originalValue": "And",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": true,
+          "reason": "scorable-known-word",
+          "providerText": "AND"
+        },
+        {
+          "annotationId": "a1610",
+          "originalValue": "you",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": true,
+          "reason": "scorable-known-word",
+          "providerText": "YOU"
+        },
+        {
+          "annotationId": "a1611",
+          "originalValue": "you",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": true,
+          "reason": "scorable-known-word",
+          "providerText": "YOU"
+        },
+        {
+          "annotationId": "a1612",
+          "originalValue": "were",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": true,
+          "reason": "scorable-known-word",
+          "providerText": "WERE"
+        },
+        {
+          "annotationId": "a1613",
+          "originalValue": "used",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": true,
+          "reason": "scorable-known-word",
+          "providerText": "USED"
+        },
+        {
+          "annotationId": "a1614",
+          "originalValue": "to",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": true,
+          "reason": "scorable-known-word",
+          "providerText": "TO"
+        },
+        {
+          "annotationId": "a1615",
+          "originalValue": "get",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": true,
+          "reason": "scorable-known-word",
+          "providerText": "GET"
+        },
+        {
+          "annotationId": "a1616",
+          "originalValue": "<p:>",
+          "support": "fully-contained",
+          "wordCoverageDenominator": false,
+          "timingPairAdmitted": false,
+          "reason": "original-silent-pause/non-word",
+          "providerText": null
+        },
+        {
+          "annotationId": "a1617",
+          "originalValue": "fifteen",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": true,
+          "reason": "scorable-known-word",
+          "providerText": "FIFTEEN"
+        },
+        {
+          "annotationId": "a1618",
+          "originalValue": "shillings",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": true,
+          "reason": "scorable-known-word",
+          "providerText": "SHILLINGS"
+        },
+        {
+          "annotationId": "a1619",
+          "originalValue": "for",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": true,
+          "reason": "scorable-known-word",
+          "providerText": "FOR"
+        },
+        {
+          "annotationId": "a1620",
+          "originalValue": "a",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": true,
+          "reason": "scorable-known-word",
+          "providerText": "A"
+        },
+        {
+          "annotationId": "a1621",
+          "originalValue": "foxskin",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": true,
+          "reason": "scorable-known-word",
+          "providerText": "FOXSKIN"
+        },
+        {
+          "annotationId": "a1622",
+          "originalValue": "<p:>",
+          "support": "fully-contained",
+          "wordCoverageDenominator": false,
+          "timingPairAdmitted": false,
+          "reason": "original-silent-pause/non-word",
+          "providerText": null
+        },
+        {
+          "annotationId": "a1623",
+          "originalValue": "I",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": true,
+          "reason": "scorable-known-word",
+          "providerText": "I"
+        },
+        {
+          "annotationId": "a1624",
+          "originalValue": "<<fs>>",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": false,
+          "reason": "tagged-or-unknown-word/unmatchable",
+          "providerText": null
+        },
+        {
+          "annotationId": "a1625",
+          "originalValue": "<p:>",
+          "support": "fully-contained",
+          "wordCoverageDenominator": false,
+          "timingPairAdmitted": false,
+          "reason": "original-silent-pause/non-word",
+          "providerText": null
+        },
+        {
+          "annotationId": "a1626",
+          "originalValue": "I'd",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": true,
+          "reason": "scorable-known-word",
+          "providerText": "I'D"
+        },
+        {
+          "annotationId": "a1627",
+          "originalValue": "catch",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": true,
+          "reason": "scorable-known-word",
+          "providerText": "CATCH"
+        },
+        {
+          "annotationId": "a1628",
+          "originalValue": "a",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": true,
+          "reason": "scorable-known-word",
+          "providerText": "A"
+        },
+        {
+          "annotationId": "a1629",
+          "originalValue": "fox",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": true,
+          "reason": "scorable-known-word",
+          "providerText": "FOX"
+        },
+        {
+          "annotationId": "a1630",
+          "originalValue": "in",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": true,
+          "reason": "scorable-known-word",
+          "providerText": "IN"
+        },
+        {
+          "annotationId": "a1631",
+          "originalValue": "a",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": true,
+          "reason": "scorable-known-word",
+          "providerText": "A"
+        },
+        {
+          "annotationId": "a1632",
+          "originalValue": "hare",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": true,
+          "reason": "scorable-known-word",
+          "providerText": "HARE"
+        },
+        {
+          "annotationId": "a1633",
+          "originalValue": "wire",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": true,
+          "reason": "scorable-known-word",
+          "providerText": "WIRE"
+        },
+        {
+          "annotationId": "a1634",
+          "originalValue": "we",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": true,
+          "reason": "scorable-known-word",
+          "providerText": "WE"
+        },
+        {
+          "annotationId": "a1635",
+          "originalValue": "used",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": true,
+          "reason": "scorable-known-word",
+          "providerText": "USED"
+        },
+        {
+          "annotationId": "a1636",
+          "originalValue": "to",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": true,
+          "reason": "scorable-known-word",
+          "providerText": "TO"
+        },
+        {
+          "annotationId": "a1637",
+          "originalValue": "<<ui>>",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": false,
+          "reason": "tagged-or-unknown-word/unmatchable",
+          "providerText": null
+        },
+        {
+          "annotationId": "a1638",
+          "originalValue": "<p:>",
+          "support": "fully-contained",
+          "wordCoverageDenominator": false,
+          "timingPairAdmitted": false,
+          "reason": "original-silent-pause/non-word",
+          "providerText": null
+        },
+        {
+          "annotationId": "a1639",
+          "originalValue": "snares",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": true,
+          "reason": "scorable-known-word",
+          "providerText": "SNARES"
+        },
+        {
+          "annotationId": "a1640",
+          "originalValue": "up",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": true,
+          "reason": "scorable-known-word",
+          "providerText": "UP"
+        },
+        {
+          "annotationId": "a1641",
+          "originalValue": "for",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": true,
+          "reason": "scorable-known-word",
+          "providerText": "FOR"
+        },
+        {
+          "annotationId": "a1642",
+          "originalValue": "hares",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": true,
+          "reason": "scorable-known-word",
+          "providerText": "HARES"
+        },
+        {
+          "annotationId": "a1643",
+          "originalValue": "you",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": true,
+          "reason": "scorable-known-word",
+          "providerText": "YOU"
+        },
+        {
+          "annotationId": "a1644",
+          "originalValue": "know",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": true,
+          "reason": "scorable-known-word",
+          "providerText": "KNOW"
+        },
+        {
+          "annotationId": "a1645",
+          "originalValue": "<p:>",
+          "support": "fully-contained",
+          "wordCoverageDenominator": false,
+          "timingPairAdmitted": false,
+          "reason": "original-silent-pause/non-word",
+          "providerText": null
+        },
+        {
+          "annotationId": "a1646",
+          "originalValue": "proper",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": true,
+          "reason": "scorable-known-word",
+          "providerText": "PROPER"
+        },
+        {
+          "annotationId": "a1647",
+          "originalValue": "make",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": true,
+          "reason": "scorable-known-word",
+          "providerText": "MAKE"
+        },
+        {
+          "annotationId": "a1648",
+          "originalValue": "them",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": true,
+          "reason": "scorable-known-word",
+          "providerText": "THEM"
+        },
+        {
+          "annotationId": "a1649",
+          "originalValue": "I",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": true,
+          "reason": "scorable-known-word",
+          "providerText": "I"
+        },
+        {
+          "annotationId": "a1650",
+          "originalValue": "used",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": true,
+          "reason": "scorable-known-word",
+          "providerText": "USED"
+        },
+        {
+          "annotationId": "a1651",
+          "originalValue": "to",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": true,
+          "reason": "scorable-known-word",
+          "providerText": "TO"
+        },
+        {
+          "annotationId": "a1652",
+          "originalValue": "make",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": true,
+          "reason": "scorable-known-word",
+          "providerText": "MAKE"
+        },
+        {
+          "annotationId": "a1653",
+          "originalValue": "'em",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": true,
+          "reason": "scorable-known-word",
+          "providerText": "'EM"
+        },
+        {
+          "annotationId": "a1654",
+          "originalValue": "<p:>",
+          "support": "fully-contained",
+          "wordCoverageDenominator": false,
+          "timingPairAdmitted": false,
+          "reason": "original-silent-pause/non-word",
+          "providerText": null
+        },
+        {
+          "annotationId": "a1655",
+          "originalValue": "And",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": true,
+          "reason": "scorable-known-word",
+          "providerText": "AND"
+        },
+        {
+          "annotationId": "a1656",
+          "originalValue": "I",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": true,
+          "reason": "scorable-known-word",
+          "providerText": "I"
+        },
+        {
+          "annotationId": "a1657",
+          "originalValue": "went",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": true,
+          "reason": "scorable-known-word",
+          "providerText": "WENT"
+        },
+        {
+          "annotationId": "a1658",
+          "originalValue": "down",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": true,
+          "reason": "scorable-known-word",
+          "providerText": "DOWN"
+        },
+        {
+          "annotationId": "a1659",
+          "originalValue": "there",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": true,
+          "reason": "scorable-known-word",
+          "providerText": "THERE"
+        },
+        {
+          "annotationId": "a1660",
+          "originalValue": "one",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": true,
+          "reason": "scorable-known-word",
+          "providerText": "ONE"
+        },
+        {
+          "annotationId": "a1661",
+          "originalValue": "morning",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": true,
+          "reason": "scorable-known-word",
+          "providerText": "MORNING"
+        },
+        {
+          "annotationId": "a1662",
+          "originalValue": "was",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": true,
+          "reason": "scorable-known-word",
+          "providerText": "WAS"
+        },
+        {
+          "annotationId": "a1663",
+          "originalValue": "a",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": true,
+          "reason": "scorable-known-word",
+          "providerText": "A"
+        },
+        {
+          "annotationId": "a1664",
+          "originalValue": "fox",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": true,
+          "reason": "scorable-known-word",
+          "providerText": "FOX"
+        },
+        {
+          "annotationId": "a1665",
+          "originalValue": "in",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": true,
+          "reason": "scorable-known-word",
+          "providerText": "IN"
+        },
+        {
+          "annotationId": "a1666",
+          "originalValue": "this",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": true,
+          "reason": "scorable-known-word",
+          "providerText": "THIS"
+        },
+        {
+          "annotationId": "a1667",
+          "originalValue": "<<fs>net>",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": false,
+          "reason": "tagged-or-unknown-word/unmatchable",
+          "providerText": null
+        },
+        {
+          "annotationId": "a1668",
+          "originalValue": "<p:>",
+          "support": "fully-contained",
+          "wordCoverageDenominator": false,
+          "timingPairAdmitted": false,
+          "reason": "original-silent-pause/non-word",
+          "providerText": null
+        },
+        {
+          "annotationId": "a1669",
+          "originalValue": "this",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": true,
+          "reason": "scorable-known-word",
+          "providerText": "THIS"
+        },
+        {
+          "annotationId": "a1670",
+          "originalValue": "wire",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": true,
+          "reason": "scorable-known-word",
+          "providerText": "WIRE"
+        },
+        {
+          "annotationId": "a1671",
+          "originalValue": "<p:>",
+          "support": "fully-contained",
+          "wordCoverageDenominator": false,
+          "timingPairAdmitted": false,
+          "reason": "original-silent-pause/non-word",
+          "providerText": null
+        },
+        {
+          "annotationId": "a1672",
+          "originalValue": "And",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": true,
+          "reason": "scorable-known-word",
+          "providerText": "AND"
+        },
+        {
+          "annotationId": "a1673",
+          "originalValue": "<p:>",
+          "support": "fully-contained",
+          "wordCoverageDenominator": false,
+          "timingPairAdmitted": false,
+          "reason": "original-silent-pause/non-word",
+          "providerText": null
+        },
+        {
+          "annotationId": "a1674",
+          "originalValue": "<<ui>>",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": false,
+          "reason": "tagged-or-unknown-word/unmatchable",
+          "providerText": null
+        },
+        {
+          "annotationId": "a1675",
+          "originalValue": "<p:>",
+          "support": "fully-contained",
+          "wordCoverageDenominator": false,
+          "timingPairAdmitted": false,
+          "reason": "original-silent-pause/non-word",
+          "providerText": null
+        },
+        {
+          "annotationId": "a1676",
+          "originalValue": "tap",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": true,
+          "reason": "scorable-known-word",
+          "providerText": "TAP"
+        },
+        {
+          "annotationId": "a1677",
+          "originalValue": "him",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": true,
+          "reason": "scorable-known-word",
+          "providerText": "HIM"
+        },
+        {
+          "annotationId": "a1678",
+          "originalValue": "on",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": true,
+          "reason": "scorable-known-word",
+          "providerText": "ON"
+        },
+        {
+          "annotationId": "a1679",
+          "originalValue": "the",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": true,
+          "reason": "scorable-known-word",
+          "providerText": "THE"
+        },
+        {
+          "annotationId": "a1680",
+          "originalValue": "head",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": true,
+          "reason": "scorable-known-word",
+          "providerText": "HEAD"
+        },
+        {
+          "annotationId": "a1681",
+          "originalValue": "n",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": true,
+          "reason": "scorable-known-word",
+          "providerText": "N"
+        },
+        {
+          "annotationId": "a1682",
+          "originalValue": "<p:>",
+          "support": "fully-contained",
+          "wordCoverageDenominator": false,
+          "timingPairAdmitted": false,
+          "reason": "original-silent-pause/non-word",
+          "providerText": null
+        },
+        {
+          "annotationId": "a1683",
+          "originalValue": "take",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": true,
+          "reason": "scorable-known-word",
+          "providerText": "TAKE"
+        },
+        {
+          "annotationId": "a1684",
+          "originalValue": "him",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": true,
+          "reason": "scorable-known-word",
+          "providerText": "HIM"
+        },
+        {
+          "annotationId": "a1685",
+          "originalValue": "home",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": true,
+          "reason": "scorable-known-word",
+          "providerText": "HOME"
+        },
+        {
+          "annotationId": "a1686",
+          "originalValue": "and",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": true,
+          "reason": "scorable-known-word",
+          "providerText": "AND"
+        },
+        {
+          "annotationId": "a1687",
+          "originalValue": "skin",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": true,
+          "reason": "scorable-known-word",
+          "providerText": "SKIN"
+        },
+        {
+          "annotationId": "a1688",
+          "originalValue": "him",
+          "support": "partial",
+          "wordCoverageDenominator": false,
+          "timingPairAdmitted": false,
+          "reason": "partial-word/full-endpoints-unavailable",
+          "providerText": "HIM"
+        },
+        {
+          "annotationId": "a1689",
+          "originalValue": "see",
+          "support": "neighbor-outside-window",
+          "wordCoverageDenominator": false,
+          "timingPairAdmitted": false,
+          "reason": "outside-window/context-only",
+          "providerText": null
+        }
+      ]
+    },
+    {
+      "caseId": "doreco_sout3282_mc_english_kent03_b_part1-60000",
+      "split": "development",
+      "sourceWholeFileSha256": "91b5fdbb2479460586037f98a7955c1c54b2d2ee6caef3121a73511f728c1371",
+      "selectedPcmSha256": "f1c4604daed02162e1ea24bc9065a9b29d7babe83ea63b2f533bcf9b3661d35b",
+      "channels": 2,
+      "channelStatus": "unknown-original-stereo/never-selected-or-mixed",
+      "wordCoverageDenominator": 51,
+      "maximumTimedWordsBeforeChannelClarification": 0,
+      "rows": [
+        {
+          "annotationId": "a1024",
+          "originalValue": "<<fp>>",
+          "support": "neighbor-outside-window",
+          "wordCoverageDenominator": false,
+          "timingPairAdmitted": false,
+          "reason": "outside-window/context-only",
+          "providerText": null
+        },
+        {
+          "annotationId": "a1025",
+          "originalValue": "<p:>",
+          "support": "partial",
+          "wordCoverageDenominator": false,
+          "timingPairAdmitted": false,
+          "reason": "original-silent-pause/non-word",
+          "providerText": null
+        },
+        {
+          "annotationId": "a1026",
+          "originalValue": "<<pr>Oh>",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": false,
+          "reason": "tagged-or-unknown-word/unmatchable",
+          "providerText": null
+        },
+        {
+          "annotationId": "a1027",
+          "originalValue": "they",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": false,
+          "reason": "source-channel-authority-unknown",
+          "providerText": "THEY"
+        },
+        {
+          "annotationId": "a1028",
+          "originalValue": "used",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": false,
+          "reason": "source-channel-authority-unknown",
+          "providerText": "USED"
+        },
+        {
+          "annotationId": "a1029",
+          "originalValue": "have",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": false,
+          "reason": "source-channel-authority-unknown",
+          "providerText": "HAVE"
+        },
+        {
+          "annotationId": "a1030",
+          "originalValue": "all",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": false,
+          "reason": "source-channel-authority-unknown",
+          "providerText": "ALL"
+        },
+        {
+          "annotationId": "a1031",
+          "originalValue": "sorts",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": false,
+          "reason": "source-channel-authority-unknown",
+          "providerText": "SORTS"
+        },
+        {
+          "annotationId": "a1032",
+          "originalValue": "of",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": false,
+          "reason": "source-channel-authority-unknown",
+          "providerText": "OF"
+        },
+        {
+          "annotationId": "a1033",
+          "originalValue": "<p:>",
+          "support": "fully-contained",
+          "wordCoverageDenominator": false,
+          "timingPairAdmitted": false,
+          "reason": "original-silent-pause/non-word",
+          "providerText": null
+        },
+        {
+          "annotationId": "a1034",
+          "originalValue": "remedies",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": false,
+          "reason": "source-channel-authority-unknown",
+          "providerText": "REMEDIES"
+        },
+        {
+          "annotationId": "a1035",
+          "originalValue": "and",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": false,
+          "reason": "source-channel-authority-unknown",
+          "providerText": "AND"
+        },
+        {
+          "annotationId": "a1036",
+          "originalValue": "secrets",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": false,
+          "reason": "source-channel-authority-unknown",
+          "providerText": "SECRETS"
+        },
+        {
+          "annotationId": "a1037",
+          "originalValue": "<p:>",
+          "support": "fully-contained",
+          "wordCoverageDenominator": false,
+          "timingPairAdmitted": false,
+          "reason": "original-silent-pause/non-word",
+          "providerText": null
+        },
+        {
+          "annotationId": "a1038",
+          "originalValue": "of",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": false,
+          "reason": "source-channel-authority-unknown",
+          "providerText": "OF"
+        },
+        {
+          "annotationId": "a1039",
+          "originalValue": "their",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": false,
+          "reason": "source-channel-authority-unknown",
+          "providerText": "THEIR"
+        },
+        {
+          "annotationId": "a1040",
+          "originalValue": "own",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": false,
+          "reason": "source-channel-authority-unknown",
+          "providerText": "OWN"
+        },
+        {
+          "annotationId": "a1041",
+          "originalValue": "you",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": false,
+          "reason": "source-channel-authority-unknown",
+          "providerText": "YOU"
+        },
+        {
+          "annotationId": "a1042",
+          "originalValue": "know",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": false,
+          "reason": "source-channel-authority-unknown",
+          "providerText": "KNOW"
+        },
+        {
+          "annotationId": "a1043",
+          "originalValue": "<p:>",
+          "support": "fully-contained",
+          "wordCoverageDenominator": false,
+          "timingPairAdmitted": false,
+          "reason": "original-silent-pause/non-word",
+          "providerText": null
+        },
+        {
+          "annotationId": "a1044",
+          "originalValue": "Well",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": false,
+          "reason": "source-channel-authority-unknown",
+          "providerText": "WELL"
+        },
+        {
+          "annotationId": "a1045",
+          "originalValue": "of",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": false,
+          "reason": "source-channel-authority-unknown",
+          "providerText": "OF"
+        },
+        {
+          "annotationId": "a1046",
+          "originalValue": "course",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": false,
+          "reason": "source-channel-authority-unknown",
+          "providerText": "COURSE"
+        },
+        {
+          "annotationId": "a1047",
+          "originalValue": "we",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": false,
+          "reason": "source-channel-authority-unknown",
+          "providerText": "WE"
+        },
+        {
+          "annotationId": "a1048",
+          "originalValue": "all",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": false,
+          "reason": "source-channel-authority-unknown",
+          "providerText": "ALL"
+        },
+        {
+          "annotationId": "a1049",
+          "originalValue": "know",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": false,
+          "reason": "source-channel-authority-unknown",
+          "providerText": "KNOW"
+        },
+        {
+          "annotationId": "a1050",
+          "originalValue": "that",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": false,
+          "reason": "source-channel-authority-unknown",
+          "providerText": "THAT"
+        },
+        {
+          "annotationId": "a1051",
+          "originalValue": "there",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": false,
+          "reason": "source-channel-authority-unknown",
+          "providerText": "THERE"
+        },
+        {
+          "annotationId": "a1052",
+          "originalValue": "was",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": false,
+          "reason": "source-channel-authority-unknown",
+          "providerText": "WAS"
+        },
+        {
+          "annotationId": "a1053",
+          "originalValue": "<p:>",
+          "support": "fully-contained",
+          "wordCoverageDenominator": false,
+          "timingPairAdmitted": false,
+          "reason": "original-silent-pause/non-word",
+          "providerText": null
+        },
+        {
+          "annotationId": "a1054",
+          "originalValue": "a",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": false,
+          "reason": "source-channel-authority-unknown",
+          "providerText": "A"
+        },
+        {
+          "annotationId": "a1055",
+          "originalValue": "secret",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": false,
+          "reason": "source-channel-authority-unknown",
+          "providerText": "SECRET"
+        },
+        {
+          "annotationId": "a1056",
+          "originalValue": "for",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": false,
+          "reason": "source-channel-authority-unknown",
+          "providerText": "FOR"
+        },
+        {
+          "annotationId": "a1057",
+          "originalValue": "travelling",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": false,
+          "reason": "source-channel-authority-unknown",
+          "providerText": "TRAVELLING"
+        },
+        {
+          "annotationId": "a1058",
+          "originalValue": "<p:>",
+          "support": "fully-contained",
+          "wordCoverageDenominator": false,
+          "timingPairAdmitted": false,
+          "reason": "original-silent-pause/non-word",
+          "providerText": null
+        },
+        {
+          "annotationId": "a1059",
+          "originalValue": "those",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": false,
+          "reason": "source-channel-authority-unknown",
+          "providerText": "THOSE"
+        },
+        {
+          "annotationId": "a1060",
+          "originalValue": "great",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": false,
+          "reason": "source-channel-authority-unknown",
+          "providerText": "GREAT"
+        },
+        {
+          "annotationId": "a1061",
+          "originalValue": "big",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": false,
+          "reason": "source-channel-authority-unknown",
+          "providerText": "BIG"
+        },
+        {
+          "annotationId": "a1062",
+          "originalValue": "stallionhorses",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": false,
+          "reason": "source-channel-authority-unknown",
+          "providerText": "STALLIONHORSES"
+        },
+        {
+          "annotationId": "a1063",
+          "originalValue": "<p:>",
+          "support": "fully-contained",
+          "wordCoverageDenominator": false,
+          "timingPairAdmitted": false,
+          "reason": "original-silent-pause/non-word",
+          "providerText": null
+        },
+        {
+          "annotationId": "a1064",
+          "originalValue": "in",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": false,
+          "reason": "source-channel-authority-unknown",
+          "providerText": "IN"
+        },
+        {
+          "annotationId": "a1065",
+          "originalValue": "the",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": false,
+          "reason": "source-channel-authority-unknown",
+          "providerText": "THE"
+        },
+        {
+          "annotationId": "a1066",
+          "originalValue": "what",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": false,
+          "reason": "source-channel-authority-unknown",
+          "providerText": "WHAT"
+        },
+        {
+          "annotationId": "a1067",
+          "originalValue": "I",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": false,
+          "reason": "source-channel-authority-unknown",
+          "providerText": "I"
+        },
+        {
+          "annotationId": "a1068",
+          "originalValue": "mean",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": false,
+          "reason": "source-channel-authority-unknown",
+          "providerText": "MEAN"
+        },
+        {
+          "annotationId": "a1069",
+          "originalValue": "to",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": false,
+          "reason": "source-channel-authority-unknown",
+          "providerText": "TO"
+        },
+        {
+          "annotationId": "a1070",
+          "originalValue": "say",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": false,
+          "reason": "source-channel-authority-unknown",
+          "providerText": "SAY"
+        },
+        {
+          "annotationId": "a1071",
+          "originalValue": "in",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": false,
+          "reason": "source-channel-authority-unknown",
+          "providerText": "IN"
+        },
+        {
+          "annotationId": "a1072",
+          "originalValue": "the",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": false,
+          "reason": "source-channel-authority-unknown",
+          "providerText": "THE"
+        },
+        {
+          "annotationId": "a1073",
+          "originalValue": "breedingtime",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": false,
+          "reason": "source-channel-authority-unknown",
+          "providerText": "BREEDINGTIME"
+        },
+        {
+          "annotationId": "a1074",
+          "originalValue": "they",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": false,
+          "reason": "source-channel-authority-unknown",
+          "providerText": "THEY"
+        },
+        {
+          "annotationId": "a1075",
+          "originalValue": "wouldn't",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": false,
+          "reason": "source-channel-authority-unknown",
+          "providerText": "WOULDN'T"
+        },
+        {
+          "annotationId": "a1076",
+          "originalValue": "go",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": false,
+          "reason": "source-channel-authority-unknown",
+          "providerText": "GO"
+        },
+        {
+          "annotationId": "a1077",
+          "originalValue": "along",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": false,
+          "reason": "source-channel-authority-unknown",
+          "providerText": "ALONG"
+        },
+        {
+          "annotationId": "a1078",
+          "originalValue": "with",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": false,
+          "reason": "source-channel-authority-unknown",
+          "providerText": "WITH"
+        },
+        {
+          "annotationId": "a1079",
+          "originalValue": "any",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": false,
+          "reason": "source-channel-authority-unknown",
+          "providerText": "ANY"
+        },
+        {
+          "annotationId": "a1080",
+          "originalValue": "ordinary",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": false,
+          "reason": "source-channel-authority-unknown",
+          "providerText": "ORDINARY"
+        },
+        {
+          "annotationId": "a1081",
+          "originalValue": "person",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": false,
+          "reason": "source-channel-authority-unknown",
+          "providerText": "PERSON"
+        },
+        {
+          "annotationId": "a1082",
+          "originalValue": "you",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": false,
+          "reason": "source-channel-authority-unknown",
+          "providerText": "YOU"
+        },
+        {
+          "annotationId": "a1083",
+          "originalValue": "know",
+          "support": "partial",
+          "wordCoverageDenominator": false,
+          "timingPairAdmitted": false,
+          "reason": "partial-word/full-endpoints-unavailable",
+          "providerText": "KNOW"
+        },
+        {
+          "annotationId": "a1084",
+          "originalValue": "<p:>",
+          "support": "neighbor-outside-window",
+          "wordCoverageDenominator": false,
+          "timingPairAdmitted": false,
+          "reason": "original-silent-pause/non-word",
+          "providerText": null
+        }
+      ]
+    },
+    {
+      "caseId": "doreco_sout3282_mc_english_kent03_b_part2-60000",
+      "split": "confirmation",
+      "sourceWholeFileSha256": "28bbaeedff197bed94f0d4fc37b1142718ad5e1d78e4c0795a62ea95b97a843f",
+      "selectedPcmSha256": "5e18360b8007cc41b5c654a9fcdf12fcfe1836831902d3913d6d36079d5faeca",
+      "channels": 2,
+      "channelStatus": "unknown-original-stereo/never-selected-or-mixed",
+      "wordCoverageDenominator": 62,
+      "maximumTimedWordsBeforeChannelClarification": 0,
+      "rows": [
+        {
+          "annotationId": "a878",
+          "originalValue": "clean",
+          "support": "neighbor-outside-window",
+          "wordCoverageDenominator": false,
+          "timingPairAdmitted": false,
+          "reason": "outside-window/context-only",
+          "providerText": null
+        },
+        {
+          "annotationId": "a879",
+          "originalValue": "him",
+          "support": "partial",
+          "wordCoverageDenominator": false,
+          "timingPairAdmitted": false,
+          "reason": "partial-word/full-endpoints-unavailable",
+          "providerText": "HIM"
+        },
+        {
+          "annotationId": "a880",
+          "originalValue": "up",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": false,
+          "reason": "source-channel-authority-unknown",
+          "providerText": "UP"
+        },
+        {
+          "annotationId": "a881",
+          "originalValue": "a",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": false,
+          "reason": "source-channel-authority-unknown",
+          "providerText": "A"
+        },
+        {
+          "annotationId": "a882",
+          "originalValue": "bit",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": false,
+          "reason": "source-channel-authority-unknown",
+          "providerText": "BIT"
+        },
+        {
+          "annotationId": "a883",
+          "originalValue": "<p:>",
+          "support": "fully-contained",
+          "wordCoverageDenominator": false,
+          "timingPairAdmitted": false,
+          "reason": "original-silent-pause/non-word",
+          "providerText": null
+        },
+        {
+          "annotationId": "a884",
+          "originalValue": "We",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": false,
+          "reason": "source-channel-authority-unknown",
+          "providerText": "WE"
+        },
+        {
+          "annotationId": "a885",
+          "originalValue": "used",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": false,
+          "reason": "source-channel-authority-unknown",
+          "providerText": "USED"
+        },
+        {
+          "annotationId": "a886",
+          "originalValue": "to",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": false,
+          "reason": "source-channel-authority-unknown",
+          "providerText": "TO"
+        },
+        {
+          "annotationId": "a887",
+          "originalValue": "go",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": false,
+          "reason": "source-channel-authority-unknown",
+          "providerText": "GO"
+        },
+        {
+          "annotationId": "a888",
+          "originalValue": "back",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": false,
+          "reason": "source-channel-authority-unknown",
+          "providerText": "BACK"
+        },
+        {
+          "annotationId": "a889",
+          "originalValue": "after",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": false,
+          "reason": "source-channel-authority-unknown",
+          "providerText": "AFTER"
+        },
+        {
+          "annotationId": "a890",
+          "originalValue": "tea",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": false,
+          "reason": "source-channel-authority-unknown",
+          "providerText": "TEA"
+        },
+        {
+          "annotationId": "a891",
+          "originalValue": "after",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": false,
+          "reason": "source-channel-authority-unknown",
+          "providerText": "AFTER"
+        },
+        {
+          "annotationId": "a892",
+          "originalValue": "we'd",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": false,
+          "reason": "source-channel-authority-unknown",
+          "providerText": "WE'D"
+        },
+        {
+          "annotationId": "a893",
+          "originalValue": "had",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": false,
+          "reason": "source-channel-authority-unknown",
+          "providerText": "HAD"
+        },
+        {
+          "annotationId": "a894",
+          "originalValue": "our",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": false,
+          "reason": "source-channel-authority-unknown",
+          "providerText": "OUR"
+        },
+        {
+          "annotationId": "a895",
+          "originalValue": "<p:>",
+          "support": "fully-contained",
+          "wordCoverageDenominator": false,
+          "timingPairAdmitted": false,
+          "reason": "original-silent-pause/non-word",
+          "providerText": null
+        },
+        {
+          "annotationId": "a896",
+          "originalValue": "tea",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": false,
+          "reason": "source-channel-authority-unknown",
+          "providerText": "TEA"
+        },
+        {
+          "annotationId": "a897",
+          "originalValue": "and",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": false,
+          "reason": "source-channel-authority-unknown",
+          "providerText": "AND"
+        },
+        {
+          "annotationId": "a898",
+          "originalValue": "<p:>",
+          "support": "fully-contained",
+          "wordCoverageDenominator": false,
+          "timingPairAdmitted": false,
+          "reason": "original-silent-pause/non-word",
+          "providerText": null
+        },
+        {
+          "annotationId": "a899",
+          "originalValue": "do",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": false,
+          "reason": "source-channel-authority-unknown",
+          "providerText": "DO"
+        },
+        {
+          "annotationId": "a900",
+          "originalValue": "that",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": false,
+          "reason": "source-channel-authority-unknown",
+          "providerText": "THAT"
+        },
+        {
+          "annotationId": "a901",
+          "originalValue": "<p:>",
+          "support": "fully-contained",
+          "wordCoverageDenominator": false,
+          "timingPairAdmitted": false,
+          "reason": "original-silent-pause/non-word",
+          "providerText": null
+        },
+        {
+          "annotationId": "a902",
+          "originalValue": "generally",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": false,
+          "reason": "source-channel-authority-unknown",
+          "providerText": "GENERALLY"
+        },
+        {
+          "annotationId": "a903",
+          "originalValue": "<p:>",
+          "support": "fully-contained",
+          "wordCoverageDenominator": false,
+          "timingPairAdmitted": false,
+          "reason": "original-silent-pause/non-word",
+          "providerText": null
+        },
+        {
+          "annotationId": "a904",
+          "originalValue": "Cause",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": false,
+          "reason": "source-channel-authority-unknown",
+          "providerText": "CAUSE"
+        },
+        {
+          "annotationId": "a905",
+          "originalValue": "they",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": false,
+          "reason": "source-channel-authority-unknown",
+          "providerText": "THEY"
+        },
+        {
+          "annotationId": "a906",
+          "originalValue": "would",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": false,
+          "reason": "source-channel-authority-unknown",
+          "providerText": "WOULD"
+        },
+        {
+          "annotationId": "a907",
+          "originalValue": "be",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": false,
+          "reason": "source-channel-authority-unknown",
+          "providerText": "BE"
+        },
+        {
+          "annotationId": "a908",
+          "originalValue": "dry",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": false,
+          "reason": "source-channel-authority-unknown",
+          "providerText": "DRY"
+        },
+        {
+          "annotationId": "a909",
+          "originalValue": "then",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": false,
+          "reason": "source-channel-authority-unknown",
+          "providerText": "THEN"
+        },
+        {
+          "annotationId": "a910",
+          "originalValue": "<p:>",
+          "support": "fully-contained",
+          "wordCoverageDenominator": false,
+          "timingPairAdmitted": false,
+          "reason": "original-silent-pause/non-word",
+          "providerText": null
+        },
+        {
+          "annotationId": "a911",
+          "originalValue": "<<fp>Hm>",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": false,
+          "reason": "tagged-or-unknown-word/unmatchable",
+          "providerText": null
+        },
+        {
+          "annotationId": "a912",
+          "originalValue": "<p:>",
+          "support": "fully-contained",
+          "wordCoverageDenominator": false,
+          "timingPairAdmitted": false,
+          "reason": "original-silent-pause/non-word",
+          "providerText": null
+        },
+        {
+          "annotationId": "a913",
+          "originalValue": "Oh",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": false,
+          "reason": "source-channel-authority-unknown",
+          "providerText": "OH"
+        },
+        {
+          "annotationId": "a914",
+          "originalValue": "there",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": false,
+          "reason": "source-channel-authority-unknown",
+          "providerText": "THERE"
+        },
+        {
+          "annotationId": "a915",
+          "originalValue": "was",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": false,
+          "reason": "source-channel-authority-unknown",
+          "providerText": "WAS"
+        },
+        {
+          "annotationId": "a916",
+          "originalValue": "a",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": false,
+          "reason": "source-channel-authority-unknown",
+          "providerText": "A"
+        },
+        {
+          "annotationId": "a917",
+          "originalValue": "lot",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": false,
+          "reason": "source-channel-authority-unknown",
+          "providerText": "LOT"
+        },
+        {
+          "annotationId": "a918",
+          "originalValue": "of",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": false,
+          "reason": "source-channel-authority-unknown",
+          "providerText": "OF"
+        },
+        {
+          "annotationId": "a919",
+          "originalValue": "work",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": false,
+          "reason": "source-channel-authority-unknown",
+          "providerText": "WORK"
+        },
+        {
+          "annotationId": "a920",
+          "originalValue": "with",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": false,
+          "reason": "source-channel-authority-unknown",
+          "providerText": "WITH"
+        },
+        {
+          "annotationId": "a921",
+          "originalValue": "a",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": false,
+          "reason": "source-channel-authority-unknown",
+          "providerText": "A"
+        },
+        {
+          "annotationId": "a922",
+          "originalValue": "team",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": false,
+          "reason": "source-channel-authority-unknown",
+          "providerText": "TEAM"
+        },
+        {
+          "annotationId": "a923",
+          "originalValue": "of",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": false,
+          "reason": "source-channel-authority-unknown",
+          "providerText": "OF"
+        },
+        {
+          "annotationId": "a924",
+          "originalValue": "horses",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": false,
+          "reason": "source-channel-authority-unknown",
+          "providerText": "HORSES"
+        },
+        {
+          "annotationId": "a925",
+          "originalValue": "<p:>",
+          "support": "fully-contained",
+          "wordCoverageDenominator": false,
+          "timingPairAdmitted": false,
+          "reason": "original-silent-pause/non-word",
+          "providerText": null
+        },
+        {
+          "annotationId": "a926",
+          "originalValue": "You",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": false,
+          "reason": "source-channel-authority-unknown",
+          "providerText": "YOU"
+        },
+        {
+          "annotationId": "a927",
+          "originalValue": "was",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": false,
+          "reason": "source-channel-authority-unknown",
+          "providerText": "WAS"
+        },
+        {
+          "annotationId": "a928",
+          "originalValue": "never",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": false,
+          "reason": "source-channel-authority-unknown",
+          "providerText": "NEVER"
+        },
+        {
+          "annotationId": "a929",
+          "originalValue": "done",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": false,
+          "reason": "source-channel-authority-unknown",
+          "providerText": "DONE"
+        },
+        {
+          "annotationId": "a930",
+          "originalValue": "<p:>",
+          "support": "fully-contained",
+          "wordCoverageDenominator": false,
+          "timingPairAdmitted": false,
+          "reason": "original-silent-pause/non-word",
+          "providerText": null
+        },
+        {
+          "annotationId": "a931",
+          "originalValue": "Five",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": false,
+          "reason": "source-channel-authority-unknown",
+          "providerText": "FIVE"
+        },
+        {
+          "annotationId": "a932",
+          "originalValue": "o'clock",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": false,
+          "reason": "source-channel-authority-unknown",
+          "providerText": "O'CLOCK"
+        },
+        {
+          "annotationId": "a933",
+          "originalValue": "half",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": false,
+          "reason": "source-channel-authority-unknown",
+          "providerText": "HALF"
+        },
+        {
+          "annotationId": "a934",
+          "originalValue": "past",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": false,
+          "reason": "source-channel-authority-unknown",
+          "providerText": "PAST"
+        },
+        {
+          "annotationId": "a935",
+          "originalValue": "four",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": false,
+          "reason": "source-channel-authority-unknown",
+          "providerText": "FOUR"
+        },
+        {
+          "annotationId": "a936",
+          "originalValue": "five",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": false,
+          "reason": "source-channel-authority-unknown",
+          "providerText": "FIVE"
+        },
+        {
+          "annotationId": "a937",
+          "originalValue": "o'clock",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": false,
+          "reason": "source-channel-authority-unknown",
+          "providerText": "O'CLOCK"
+        },
+        {
+          "annotationId": "a938",
+          "originalValue": "in",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": false,
+          "reason": "source-channel-authority-unknown",
+          "providerText": "IN"
+        },
+        {
+          "annotationId": "a939",
+          "originalValue": "the",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": false,
+          "reason": "source-channel-authority-unknown",
+          "providerText": "THE"
+        },
+        {
+          "annotationId": "a940",
+          "originalValue": "morning",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": false,
+          "reason": "source-channel-authority-unknown",
+          "providerText": "MORNING"
+        },
+        {
+          "annotationId": "a941",
+          "originalValue": "you'd",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": false,
+          "reason": "source-channel-authority-unknown",
+          "providerText": "YOU'D"
+        },
+        {
+          "annotationId": "a942",
+          "originalValue": "got",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": false,
+          "reason": "source-channel-authority-unknown",
+          "providerText": "GOT"
+        },
+        {
+          "annotationId": "a943",
+          "originalValue": "to",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": false,
+          "reason": "source-channel-authority-unknown",
+          "providerText": "TO"
+        },
+        {
+          "annotationId": "a944",
+          "originalValue": "get",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": false,
+          "reason": "source-channel-authority-unknown",
+          "providerText": "GET"
+        },
+        {
+          "annotationId": "a945",
+          "originalValue": "there",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": false,
+          "reason": "source-channel-authority-unknown",
+          "providerText": "THERE"
+        },
+        {
+          "annotationId": "a946",
+          "originalValue": "n",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": false,
+          "reason": "source-channel-authority-unknown",
+          "providerText": "N"
+        },
+        {
+          "annotationId": "a947",
+          "originalValue": "feed'em",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": false,
+          "reason": "source-channel-authority-unknown",
+          "providerText": "FEED'EM"
+        },
+        {
+          "annotationId": "a948",
+          "originalValue": "<p:>",
+          "support": "fully-contained",
+          "wordCoverageDenominator": false,
+          "timingPairAdmitted": false,
+          "reason": "original-silent-pause/non-word",
+          "providerText": null
+        },
+        {
+          "annotationId": "a949",
+          "originalValue": "Yeah",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": false,
+          "reason": "source-channel-authority-unknown",
+          "providerText": "YEAH"
+        },
+        {
+          "annotationId": "a950",
+          "originalValue": "<p:>",
+          "support": "fully-contained",
+          "wordCoverageDenominator": false,
+          "timingPairAdmitted": false,
+          "reason": "original-silent-pause/non-word",
+          "providerText": null
+        },
+        {
+          "annotationId": "a951",
+          "originalValue": "Well",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": false,
+          "reason": "source-channel-authority-unknown",
+          "providerText": "WELL"
+        },
+        {
+          "annotationId": "a952",
+          "originalValue": "no",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": false,
+          "reason": "source-channel-authority-unknown",
+          "providerText": "NO"
+        },
+        {
+          "annotationId": "a953",
+          "originalValue": "when",
+          "support": "partial",
+          "wordCoverageDenominator": false,
+          "timingPairAdmitted": false,
+          "reason": "partial-word/full-endpoints-unavailable",
+          "providerText": "WHEN"
+        },
+        {
+          "annotationId": "a954",
+          "originalValue": "you",
+          "support": "neighbor-outside-window",
+          "wordCoverageDenominator": false,
+          "timingPairAdmitted": false,
+          "reason": "outside-window/context-only",
+          "providerText": null
+        }
+      ]
+    },
+    {
+      "caseId": "doreco_sout3282_mc_english_kent03_b_part2-120000",
+      "split": "confirmation",
+      "sourceWholeFileSha256": "28bbaeedff197bed94f0d4fc37b1142718ad5e1d78e4c0795a62ea95b97a843f",
+      "selectedPcmSha256": "15747a348ce11b904c6b15afdd29a2d08d2f080d94daec8194bb00b7673395ab",
+      "channels": 2,
+      "channelStatus": "unknown-original-stereo/never-selected-or-mixed",
+      "wordCoverageDenominator": 93,
+      "maximumTimedWordsBeforeChannelClarification": 0,
+      "rows": [
+        {
+          "annotationId": "a1017",
+          "originalValue": "before",
+          "support": "neighbor-outside-window",
+          "wordCoverageDenominator": false,
+          "timingPairAdmitted": false,
+          "reason": "outside-window/context-only",
+          "providerText": null
+        },
+        {
+          "annotationId": "a1018",
+          "originalValue": "we",
+          "support": "partial",
+          "wordCoverageDenominator": false,
+          "timingPairAdmitted": false,
+          "reason": "partial-word/full-endpoints-unavailable",
+          "providerText": "WE"
+        },
+        {
+          "annotationId": "a1019",
+          "originalValue": "went",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": false,
+          "reason": "source-channel-authority-unknown",
+          "providerText": "WENT"
+        },
+        {
+          "annotationId": "a1020",
+          "originalValue": "home",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": false,
+          "reason": "source-channel-authority-unknown",
+          "providerText": "HOME"
+        },
+        {
+          "annotationId": "a1021",
+          "originalValue": "n",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": false,
+          "reason": "source-channel-authority-unknown",
+          "providerText": "N"
+        },
+        {
+          "annotationId": "a1022",
+          "originalValue": "<p:>",
+          "support": "fully-contained",
+          "wordCoverageDenominator": false,
+          "timingPairAdmitted": false,
+          "reason": "original-silent-pause/non-word",
+          "providerText": null
+        },
+        {
+          "annotationId": "a1023",
+          "originalValue": "n",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": false,
+          "reason": "source-channel-authority-unknown",
+          "providerText": "N"
+        },
+        {
+          "annotationId": "a1024",
+          "originalValue": "that",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": false,
+          "reason": "source-channel-authority-unknown",
+          "providerText": "THAT"
+        },
+        {
+          "annotationId": "a1025",
+          "originalValue": "was",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": false,
+          "reason": "source-channel-authority-unknown",
+          "providerText": "WAS"
+        },
+        {
+          "annotationId": "a1026",
+          "originalValue": "finished",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": false,
+          "reason": "source-channel-authority-unknown",
+          "providerText": "FINISHED"
+        },
+        {
+          "annotationId": "a1027",
+          "originalValue": "Well",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": false,
+          "reason": "source-channel-authority-unknown",
+          "providerText": "WELL"
+        },
+        {
+          "annotationId": "a1028",
+          "originalValue": "you",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": false,
+          "reason": "source-channel-authority-unknown",
+          "providerText": "YOU"
+        },
+        {
+          "annotationId": "a1029",
+          "originalValue": "used",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": false,
+          "reason": "source-channel-authority-unknown",
+          "providerText": "USED"
+        },
+        {
+          "annotationId": "a1030",
+          "originalValue": "to",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": false,
+          "reason": "source-channel-authority-unknown",
+          "providerText": "TO"
+        },
+        {
+          "annotationId": "a1031",
+          "originalValue": "get",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": false,
+          "reason": "source-channel-authority-unknown",
+          "providerText": "GET"
+        },
+        {
+          "annotationId": "a1032",
+          "originalValue": "<<ui>there>",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": false,
+          "reason": "tagged-or-unknown-word/unmatchable",
+          "providerText": null
+        },
+        {
+          "annotationId": "a1033",
+          "originalValue": "in",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": false,
+          "reason": "source-channel-authority-unknown",
+          "providerText": "IN"
+        },
+        {
+          "annotationId": "a1034",
+          "originalValue": "the",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": false,
+          "reason": "source-channel-authority-unknown",
+          "providerText": "THE"
+        },
+        {
+          "annotationId": "a1035",
+          "originalValue": "morning",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": false,
+          "reason": "source-channel-authority-unknown",
+          "providerText": "MORNING"
+        },
+        {
+          "annotationId": "a1036",
+          "originalValue": "course",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": false,
+          "reason": "source-channel-authority-unknown",
+          "providerText": "COURSE"
+        },
+        {
+          "annotationId": "a1037",
+          "originalValue": "<p:>",
+          "support": "fully-contained",
+          "wordCoverageDenominator": false,
+          "timingPairAdmitted": false,
+          "reason": "original-silent-pause/non-word",
+          "providerText": null
+        },
+        {
+          "annotationId": "a1038",
+          "originalValue": "go",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": false,
+          "reason": "source-channel-authority-unknown",
+          "providerText": "GO"
+        },
+        {
+          "annotationId": "a1039",
+          "originalValue": "down",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": false,
+          "reason": "source-channel-authority-unknown",
+          "providerText": "DOWN"
+        },
+        {
+          "annotationId": "a1040",
+          "originalValue": "about",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": false,
+          "reason": "source-channel-authority-unknown",
+          "providerText": "ABOUT"
+        },
+        {
+          "annotationId": "a1041",
+          "originalValue": "six",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": false,
+          "reason": "source-channel-authority-unknown",
+          "providerText": "SIX"
+        },
+        {
+          "annotationId": "a1042",
+          "originalValue": "o'clock",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": false,
+          "reason": "source-channel-authority-unknown",
+          "providerText": "O'CLOCK"
+        },
+        {
+          "annotationId": "a1043",
+          "originalValue": "n",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": false,
+          "reason": "source-channel-authority-unknown",
+          "providerText": "N"
+        },
+        {
+          "annotationId": "a1044",
+          "originalValue": "<p:>",
+          "support": "fully-contained",
+          "wordCoverageDenominator": false,
+          "timingPairAdmitted": false,
+          "reason": "original-silent-pause/non-word",
+          "providerText": null
+        },
+        {
+          "annotationId": "a1045",
+          "originalValue": "give'em",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": false,
+          "reason": "source-channel-authority-unknown",
+          "providerText": "GIVE'EM"
+        },
+        {
+          "annotationId": "a1046",
+          "originalValue": "a",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": false,
+          "reason": "source-channel-authority-unknown",
+          "providerText": "A"
+        },
+        {
+          "annotationId": "a1047",
+          "originalValue": "bit",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": false,
+          "reason": "source-channel-authority-unknown",
+          "providerText": "BIT"
+        },
+        {
+          "annotationId": "a1048",
+          "originalValue": "o",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": false,
+          "reason": "source-channel-authority-unknown",
+          "providerText": "O"
+        },
+        {
+          "annotationId": "a1049",
+          "originalValue": "<p:>",
+          "support": "fully-contained",
+          "wordCoverageDenominator": false,
+          "timingPairAdmitted": false,
+          "reason": "original-silent-pause/non-word",
+          "providerText": null
+        },
+        {
+          "annotationId": "a1050",
+          "originalValue": "grub",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": false,
+          "reason": "source-channel-authority-unknown",
+          "providerText": "GRUB"
+        },
+        {
+          "annotationId": "a1051",
+          "originalValue": "chuck'em",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": false,
+          "reason": "source-channel-authority-unknown",
+          "providerText": "CHUCK'EM"
+        },
+        {
+          "annotationId": "a1052",
+          "originalValue": "in",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": false,
+          "reason": "source-channel-authority-unknown",
+          "providerText": "IN"
+        },
+        {
+          "annotationId": "a1053",
+          "originalValue": "a",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": false,
+          "reason": "source-channel-authority-unknown",
+          "providerText": "A"
+        },
+        {
+          "annotationId": "a1054",
+          "originalValue": "bit",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": false,
+          "reason": "source-channel-authority-unknown",
+          "providerText": "BIT"
+        },
+        {
+          "annotationId": "a1055",
+          "originalValue": "of",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": false,
+          "reason": "source-channel-authority-unknown",
+          "providerText": "OF"
+        },
+        {
+          "annotationId": "a1056",
+          "originalValue": "grub",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": false,
+          "reason": "source-channel-authority-unknown",
+          "providerText": "GRUB"
+        },
+        {
+          "annotationId": "a1057",
+          "originalValue": "<p:>",
+          "support": "fully-contained",
+          "wordCoverageDenominator": false,
+          "timingPairAdmitted": false,
+          "reason": "original-silent-pause/non-word",
+          "providerText": null
+        },
+        {
+          "annotationId": "a1058",
+          "originalValue": "before",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": false,
+          "reason": "source-channel-authority-unknown",
+          "providerText": "BEFORE"
+        },
+        {
+          "annotationId": "a1059",
+          "originalValue": "they",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": false,
+          "reason": "source-channel-authority-unknown",
+          "providerText": "THEY"
+        },
+        {
+          "annotationId": "a1060",
+          "originalValue": "went",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": false,
+          "reason": "source-channel-authority-unknown",
+          "providerText": "WENT"
+        },
+        {
+          "annotationId": "a1061",
+          "originalValue": "out",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": false,
+          "reason": "source-channel-authority-unknown",
+          "providerText": "OUT"
+        },
+        {
+          "annotationId": "a1062",
+          "originalValue": "<p:>",
+          "support": "fully-contained",
+          "wordCoverageDenominator": false,
+          "timingPairAdmitted": false,
+          "reason": "original-silent-pause/non-word",
+          "providerText": null
+        },
+        {
+          "annotationId": "a1063",
+          "originalValue": "They",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": false,
+          "reason": "source-channel-authority-unknown",
+          "providerText": "THEY"
+        },
+        {
+          "annotationId": "a1064",
+          "originalValue": "used",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": false,
+          "reason": "source-channel-authority-unknown",
+          "providerText": "USED"
+        },
+        {
+          "annotationId": "a1065",
+          "originalValue": "to",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": false,
+          "reason": "source-channel-authority-unknown",
+          "providerText": "TO"
+        },
+        {
+          "annotationId": "a1066",
+          "originalValue": "have",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": false,
+          "reason": "source-channel-authority-unknown",
+          "providerText": "HAVE"
+        },
+        {
+          "annotationId": "a1067",
+          "originalValue": "to",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": false,
+          "reason": "source-channel-authority-unknown",
+          "providerText": "TO"
+        },
+        {
+          "annotationId": "a1068",
+          "originalValue": "get",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": false,
+          "reason": "source-channel-authority-unknown",
+          "providerText": "GET"
+        },
+        {
+          "annotationId": "a1069",
+          "originalValue": "out",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": false,
+          "reason": "source-channel-authority-unknown",
+          "providerText": "OUT"
+        },
+        {
+          "annotationId": "a1070",
+          "originalValue": "<p:>",
+          "support": "fully-contained",
+          "wordCoverageDenominator": false,
+          "timingPairAdmitted": false,
+          "reason": "original-silent-pause/non-word",
+          "providerText": null
+        },
+        {
+          "annotationId": "a1071",
+          "originalValue": "about",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": false,
+          "reason": "source-channel-authority-unknown",
+          "providerText": "ABOUT"
+        },
+        {
+          "annotationId": "a1072",
+          "originalValue": "seven",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": false,
+          "reason": "source-channel-authority-unknown",
+          "providerText": "SEVEN"
+        },
+        {
+          "annotationId": "a1073",
+          "originalValue": "o'clock",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": false,
+          "reason": "source-channel-authority-unknown",
+          "providerText": "O'CLOCK"
+        },
+        {
+          "annotationId": "a1074",
+          "originalValue": "same",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": false,
+          "reason": "source-channel-authority-unknown",
+          "providerText": "SAME"
+        },
+        {
+          "annotationId": "a1075",
+          "originalValue": "as",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": false,
+          "reason": "source-channel-authority-unknown",
+          "providerText": "AS"
+        },
+        {
+          "annotationId": "a1076",
+          "originalValue": "the",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": false,
+          "reason": "source-channel-authority-unknown",
+          "providerText": "THE"
+        },
+        {
+          "annotationId": "a1077",
+          "originalValue": "rest",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": false,
+          "reason": "source-channel-authority-unknown",
+          "providerText": "REST"
+        },
+        {
+          "annotationId": "a1078",
+          "originalValue": "<p:>",
+          "support": "fully-contained",
+          "wordCoverageDenominator": false,
+          "timingPairAdmitted": false,
+          "reason": "original-silent-pause/non-word",
+          "providerText": null
+        },
+        {
+          "annotationId": "a1079",
+          "originalValue": "Yes",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": false,
+          "reason": "source-channel-authority-unknown",
+          "providerText": "YES"
+        },
+        {
+          "annotationId": "a1080",
+          "originalValue": "they",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": false,
+          "reason": "source-channel-authority-unknown",
+          "providerText": "THEY"
+        },
+        {
+          "annotationId": "a1081",
+          "originalValue": "used",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": false,
+          "reason": "source-channel-authority-unknown",
+          "providerText": "USED"
+        },
+        {
+          "annotationId": "a1082",
+          "originalValue": "to",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": false,
+          "reason": "source-channel-authority-unknown",
+          "providerText": "TO"
+        },
+        {
+          "annotationId": "a1083",
+          "originalValue": "get",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": false,
+          "reason": "source-channel-authority-unknown",
+          "providerText": "GET"
+        },
+        {
+          "annotationId": "a1084",
+          "originalValue": "pretty",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": false,
+          "reason": "source-channel-authority-unknown",
+          "providerText": "PRETTY"
+        },
+        {
+          "annotationId": "a1085",
+          "originalValue": "tired",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": false,
+          "reason": "source-channel-authority-unknown",
+          "providerText": "TIRED"
+        },
+        {
+          "annotationId": "a1086",
+          "originalValue": "by",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": false,
+          "reason": "source-channel-authority-unknown",
+          "providerText": "BY"
+        },
+        {
+          "annotationId": "a1087",
+          "originalValue": "the",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": false,
+          "reason": "source-channel-authority-unknown",
+          "providerText": "THE"
+        },
+        {
+          "annotationId": "a1088",
+          "originalValue": "time",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": false,
+          "reason": "source-channel-authority-unknown",
+          "providerText": "TIME"
+        },
+        {
+          "annotationId": "a1089",
+          "originalValue": "night",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": false,
+          "reason": "source-channel-authority-unknown",
+          "providerText": "NIGHT"
+        },
+        {
+          "annotationId": "a1090",
+          "originalValue": "come",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": false,
+          "reason": "source-channel-authority-unknown",
+          "providerText": "COME"
+        },
+        {
+          "annotationId": "a1091",
+          "originalValue": "<p:>",
+          "support": "fully-contained",
+          "wordCoverageDenominator": false,
+          "timingPairAdmitted": false,
+          "reason": "original-silent-pause/non-word",
+          "providerText": null
+        },
+        {
+          "annotationId": "a1092",
+          "originalValue": "If",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": false,
+          "reason": "source-channel-authority-unknown",
+          "providerText": "IF"
+        },
+        {
+          "annotationId": "a1093",
+          "originalValue": "they",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": false,
+          "reason": "source-channel-authority-unknown",
+          "providerText": "THEY"
+        },
+        {
+          "annotationId": "a1094",
+          "originalValue": "got",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": false,
+          "reason": "source-channel-authority-unknown",
+          "providerText": "GOT"
+        },
+        {
+          "annotationId": "a1095",
+          "originalValue": "<p:>",
+          "support": "fully-contained",
+          "wordCoverageDenominator": false,
+          "timingPairAdmitted": false,
+          "reason": "original-silent-pause/non-word",
+          "providerText": null
+        },
+        {
+          "annotationId": "a1096",
+          "originalValue": "too",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": false,
+          "reason": "source-channel-authority-unknown",
+          "providerText": "TOO"
+        },
+        {
+          "annotationId": "a1097",
+          "originalValue": "out",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": false,
+          "reason": "source-channel-authority-unknown",
+          "providerText": "OUT"
+        },
+        {
+          "annotationId": "a1098",
+          "originalValue": "of",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": false,
+          "reason": "source-channel-authority-unknown",
+          "providerText": "OF"
+        },
+        {
+          "annotationId": "a1099",
+          "originalValue": "breath",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": false,
+          "reason": "source-channel-authority-unknown",
+          "providerText": "BREATH"
+        },
+        {
+          "annotationId": "a1100",
+          "originalValue": "cause",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": false,
+          "reason": "source-channel-authority-unknown",
+          "providerText": "CAUSE"
+        },
+        {
+          "annotationId": "a1101",
+          "originalValue": "they'd",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": false,
+          "reason": "source-channel-authority-unknown",
+          "providerText": "THEY'D"
+        },
+        {
+          "annotationId": "a1102",
+          "originalValue": "always",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": false,
+          "reason": "source-channel-authority-unknown",
+          "providerText": "ALWAYS"
+        },
+        {
+          "annotationId": "a1103",
+          "originalValue": "hang",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": false,
+          "reason": "source-channel-authority-unknown",
+          "providerText": "HANG"
+        },
+        {
+          "annotationId": "a1104",
+          "originalValue": "their",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": false,
+          "reason": "source-channel-authority-unknown",
+          "providerText": "THEIR"
+        },
+        {
+          "annotationId": "a1105",
+          "originalValue": "tongue",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": false,
+          "reason": "source-channel-authority-unknown",
+          "providerText": "TONGUE"
+        },
+        {
+          "annotationId": "a1106",
+          "originalValue": "out",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": false,
+          "reason": "source-channel-authority-unknown",
+          "providerText": "OUT"
+        },
+        {
+          "annotationId": "a1107",
+          "originalValue": "when",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": false,
+          "reason": "source-channel-authority-unknown",
+          "providerText": "WHEN"
+        },
+        {
+          "annotationId": "a1108",
+          "originalValue": "they",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": false,
+          "reason": "source-channel-authority-unknown",
+          "providerText": "THEY"
+        },
+        {
+          "annotationId": "a1109",
+          "originalValue": "was",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": false,
+          "reason": "source-channel-authority-unknown",
+          "providerText": "WAS"
+        },
+        {
+          "annotationId": "a1110",
+          "originalValue": "out",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": false,
+          "reason": "source-channel-authority-unknown",
+          "providerText": "OUT"
+        },
+        {
+          "annotationId": "a1111",
+          "originalValue": "of",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": false,
+          "reason": "source-channel-authority-unknown",
+          "providerText": "OF"
+        },
+        {
+          "annotationId": "a1112",
+          "originalValue": "breath",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": false,
+          "reason": "source-channel-authority-unknown",
+          "providerText": "BREATH"
+        },
+        {
+          "annotationId": "a1113",
+          "originalValue": "<p:>",
+          "support": "fully-contained",
+          "wordCoverageDenominator": false,
+          "timingPairAdmitted": false,
+          "reason": "original-silent-pause/non-word",
+          "providerText": null
+        },
+        {
+          "annotationId": "a1114",
+          "originalValue": "Always",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": false,
+          "reason": "source-channel-authority-unknown",
+          "providerText": "ALWAYS"
+        },
+        {
+          "annotationId": "a1115",
+          "originalValue": "have",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": false,
+          "reason": "source-channel-authority-unknown",
+          "providerText": "HAVE"
+        },
+        {
+          "annotationId": "a1116",
+          "originalValue": "to",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": false,
+          "reason": "source-channel-authority-unknown",
+          "providerText": "TO"
+        },
+        {
+          "annotationId": "a1117",
+          "originalValue": "turn'em",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": false,
+          "reason": "source-channel-authority-unknown",
+          "providerText": "TURN'EM"
+        },
+        {
+          "annotationId": "a1118",
+          "originalValue": "round",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": false,
+          "reason": "source-channel-authority-unknown",
+          "providerText": "ROUND"
+        },
+        {
+          "annotationId": "a1119",
+          "originalValue": "head",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": false,
+          "reason": "source-channel-authority-unknown",
+          "providerText": "HEAD"
+        },
+        {
+          "annotationId": "a1120",
+          "originalValue": "to",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": false,
+          "reason": "source-channel-authority-unknown",
+          "providerText": "TO"
+        },
+        {
+          "annotationId": "a1121",
+          "originalValue": "the",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": false,
+          "reason": "source-channel-authority-unknown",
+          "providerText": "THE"
+        },
+        {
+          "annotationId": "a1122",
+          "originalValue": "wind",
+          "support": "fully-contained",
+          "wordCoverageDenominator": true,
+          "timingPairAdmitted": false,
+          "reason": "source-channel-authority-unknown",
+          "providerText": "WIND"
+        },
+        {
+          "annotationId": "a1123",
+          "originalValue": "and",
+          "support": "partial",
+          "wordCoverageDenominator": false,
+          "timingPairAdmitted": false,
+          "reason": "partial-word/full-endpoints-unavailable",
+          "providerText": "AND"
+        },
+        {
+          "annotationId": "a1124",
+          "originalValue": "<p:>",
+          "support": "neighbor-outside-window",
+          "wordCoverageDenominator": false,
+          "timingPairAdmitted": false,
+          "reason": "original-silent-pause/non-word",
+          "providerText": null
+        }
+      ]
+    }
+  ]
+}
