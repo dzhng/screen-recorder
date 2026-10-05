@@ -140,6 +140,11 @@ input and a dedicated read lease per invocation prevent pathname substitution,
 secondary resource resolution and shared cursor surprises. Source slots are
 explicitly rewound in the existing CLI owner; this never reopens the donor path.
 
+The render-attempt owner initializes its private parent on first use, including
+when portable adoption admitted assets without a prior native import. Existing
+parents still undergo the same privacy, identity and lock admission; initialization
+never repairs an unsafe directory. Startup cleanup can skip an absent parent.
+
 Managed FFmpeg artifacts reuse the render-attempt lifetime. The
 [artifact seam](src/ffmpeg-artifact.ts) reserves an output slot in the held private
 workspace, then requires the recipe's domain validator before exposing a readonly

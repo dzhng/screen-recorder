@@ -85,6 +85,24 @@ async function ready(parent: string) {
   throw new Error("Worker never reached staging");
 }
 
+it("first-use render initializes its absent parent and retires only its owned attempt", async () => {
+  const { parent, run } = await fixture();
+  await rm(parent, { recursive: true });
+  const result = await withRenderAttempt(
+    run,
+    parent,
+    new AbortController().signal,
+    async (directory) => {
+      const path = join(directory, "derivative.mov");
+      await writeFile(path, "completed derivative");
+      return path;
+    },
+    async (path) => readFile(path, "utf8"),
+  );
+  expect(result).toBe("completed derivative");
+  expect(await readdir(parent)).toEqual([]);
+});
+
 it("deadline failure reclaims the closed attempt and preserves its reason", async () => {
   const { parent, run } = await fixture();
   const worker: MediaWorker = (operation, params, options) =>

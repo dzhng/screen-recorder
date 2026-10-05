@@ -61,7 +61,7 @@ changes a name.
 | export.create (new SRT/VTT kinds) | Project+revision; explicit caption placements; SRT/VTT; destination/replay ID | Pinned cues/text; rounding/overlap/omission facts; publication receipt |
 | asset.convert | Immutable asset+whole selected streams; explicit frozen HDR→SDR recipe; canonical replay key | New immutable asset; retained source/provenance; transform and support receipt |
 | Processor/output variants | Ordered typed grade/dynamics recipe; state domains; discriminated HEVC settings | Same compiled meaning, preparation dependency and actual implementation everywhere |
-| Optional speech evidence reads | Source/model generation or project revision; family/range/page | Source observations/occurrences, confidence, coverage, unknowns and generation pins |
+| Optional speech evidence reads | Source/model generation or project revision; family/range/page | Source observations/occurrences, anonymous slots, uncalibrated scores, exact support and generation pins |
 
 Consumer helpers reuse existing public operations and return task-side manifests;
 no second shared service contract is introduced just to package evidence. Promote

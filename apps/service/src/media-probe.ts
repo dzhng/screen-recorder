@@ -1,5 +1,5 @@
 import { randomUUID, createHash } from "node:crypto";
-import { mkdir, open, rm } from "node:fs/promises";
+import { open, rm } from "node:fs/promises";
 import { join } from "node:path";
 import { CatalogError } from "@screenrec/core/catalog";
 import { withRenderAttempt } from "./render.js";
@@ -78,7 +78,6 @@ export async function readMediaProbe(
 /** Asset preparation borrows the existing render-attempt owner for its transient metadata file. */
 export function assetProbe(worker: MediaWorker, workspace: string) {
   return async (path: string, signal: AbortSignal, lifetime?: { readonly fd: number }) => {
-    await mkdir(workspace, { recursive: true, mode: 0o700 });
     return withRenderAttempt(
       worker,
       workspace,

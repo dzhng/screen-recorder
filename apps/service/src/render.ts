@@ -138,7 +138,6 @@ export async function withRenderedFile(
     authority: RenderAttemptAuthority,
   ) => Promise<unknown>,
 ): Promise<unknown> {
-  await mkdir(request.attemptParent, { recursive: true, mode: 0o700 });
   return withRenderAttempt(
     worker,
     request.attemptParent,
@@ -180,6 +179,7 @@ export async function withRenderAttempt<Artifact, Result>(
     if (signal.aborted) throw new CatalogError("CANCELED", "Media render was canceled");
   };
   checkCanceled();
+  await mkdir(parent, { recursive: true, mode: 0o700 });
   return withLockedRenderWorkspace(
     worker,
     parent,
