@@ -16,6 +16,13 @@ different speakers. Both original channels stay intact; their attribution remain
 unknown. The next prerequisite is source/channel clarification, not an impossible
 acceptance run or new personal recording.
 
+The [channel algebra check](channel-algebra.json) compares the retained EN03
+PCM16 bytes without resampling or playback. The channels are strongly but
+imperfectly correlated with a three-to-four-sample offset; they are not exact
+copies, negations or one constant gain transform. This descriptive relationship
+does not establish speaker identity, duplicated capture, a selected channel or an
+authorized downmix, so the source/channel prerequisite remains open.
+
 The [frozen protocol](frozen-protocol.json) names one research candidate: the
 pinned Apache-2.0 Wav2Vec2 base English checkpoint, the existing inspected local
 Transformers forward path, and the pinned torchaudio CPU CTC alignment API.

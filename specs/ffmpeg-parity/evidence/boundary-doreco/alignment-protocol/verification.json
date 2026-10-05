@@ -37,14 +37,14 @@
   "scorerControls": "17 golden contracts frozen; 14 non-refusal arithmetic fixtures checked against their fixed operands. Invalid-evidence controls remain required test-first behavior, not passed executable scorer tests.",
   "review": {
     "shape": "One research evidence record, existing evaluation/model/runtime owners remain authoritative. No product worker/backend/schema changes.",
-    "diff": "No channel/downmix, unknown-token substitution, phone-reference borrowing, confirmation observation or numerical gate change. Expected remote weight identities remain distinct from local acquired bytes.",
+    "diff": "No channel/downmix, unknown-token substitution, phone-reference borrowing, confirmation observation or numerical gate change. Expected remote weight identities remain distinct from local acquired bytes. Read-only EN03 channel algebra added: no exact copy/gain/sign/integer-delay identity; channel authority remains unknown.",
     "docs": "Touched link chain resolves and distinguishes prerequisite failure from provider failure/production support."
   },
   "files": [
     {
       "name": "README.md",
-      "bytes": 3264,
-      "sha256": "17178d2cb847e1daa75a53ab7264a348a6cffa28f106d42df0c82edf2144cb34"
+      "bytes": 3725,
+      "sha256": "af2ad45bec3d76d9d4739ff8038b2d741db5ae89742ef25a8bf515b6c6940b03"
     },
     {
       "name": "blind-provider-inputs.json",
@@ -90,6 +90,11 @@
       "name": "scorer-controls.json",
       "bytes": 22202,
       "sha256": "8e3a0c2a9ce9dcccba523c64527608835ea79d356647116cdf1b47fae0c751f5"
+    },
+    {
+      "name": "channel-algebra.json",
+      "bytes": 2701,
+      "sha256": "883cffea0cde0c633576850b6d03c73d74233cedc54584eb47b80a721e696a45"
     }
   ]
 }
