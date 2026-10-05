@@ -967,3 +967,116 @@ managed conversion must consume the same qualified meaning and frozen transform;
 new source families require their own parity proof. Verdict: sound for the two
 measured encoded controls, with managed support and publication still unfinished.
 Confidence: medium.
+
+
+### Shipping the full optional NeMo closure remains open
+
+- When: original 30-second runtime checkpoint.
+- The choice: prove a complete local dependency artifact before deciding how to
+  ship it. A caller preparing the original model today supplies a verified local
+  runtime containing Python, the primary package tree and two supplemental trees.
+  That artifact is 1,961,322,776 logical bytes, separate from the 471,367,680-byte
+  model checkpoint. The actual preparation/readiness/restart took 405.079 seconds.
+  Bundling it with every app or supplying an optional download could make setup
+  easier, but neither distribution option or consumer budget was tested here.
+- The gap: authorization allows packaging when useful, but does not choose this
+  dependency closure as the shipping artifact, an acceptable installation size,
+  preparation delay or ongoing release/support cost.
+- The reach: final distribution and release receipts must retain licenses,
+  signatures and exact execution identity; runtime minimization cannot silently
+  change dependencies/recipe and borrow this preservation/quality pass.
+- Verdict: needs-user for the consumer distribution/cost policy. Recommended
+  provisional call: retain explicit local runtimeSource while public evidence is
+  built; separately measure minimization/preparation and select the distribution
+  route at release. This can be reversed by replacing the optional artifact with
+  another equivalently proven closure, without changing source-evidence semantics.
+- Confidence: low that the user would choose this full artifact for all consumers;
+  high that it is sufficient as a controlled local preservation checkpoint.
+
+## Sound — lower confidence first
+
+
+### Allow only named thin-arm64 loader-search metadata edits
+
+- When: native packaging closure gate.
+- The choice: remove explicitly inventoried foreign absolute loader search paths
+  from cloned native files, then re-sign those clones ad-hoc. An imported wheel
+  may still mention its builder's Homebrew/Anaconda directory even though its
+  required libraries are inside the artifact. Removing that search path prevents
+  accidental donor lookup; its computational sections, addresses, flags and full
+  dependency command kinds/version requirements must remain identical. The
+  policy cannot change install identifiers, model weights or code sections.
+- The gap: native inspection found 54 affected files and 56 search commands; the
+  permitted relocation operation and size of complete diagnostics were unspecified.
+- The reach: this helper admits only thin arm64 Mach-O and up to 64 MiB combined
+  before/final operands. Other architectures or larger diagnostic sets need an
+  explicit new packaging policy, not an invisible broader rewrite. The retained
+  full binary operands remain locally outside the runtime; repository evidence
+  stores their hashes/section/load observations without redistributing binaries.
+- Verdict: sound for this frozen closure, which preserves 656 native sections and
+  passes origin checks. The finite bound makes oversized packaging refuse early.
+  Ad-hoc signature success is not product signing or redistribution acceptance.
+- Confidence: medium.
+
+
+### Exclude developer metadata without rewriting donor links
+
+- When: first assembly refusal and repaired assembly.
+- The choice: leave base pkg-config metadata outside the execution closure. The
+  first attempt found two developer symlinks pointing into vanished download
+  scratch, and refused rather than guessing targets. Python and its admitted
+  runtime libraries do not need that build-tool metadata to execute. Rewriting
+  the donor or manufacturing a target would invent authority and violate source
+  preservation; a synthetic escaping-link check proves the selected exclusion.
+- The gap: the initial base-library inclusion rule also admitted development-only
+  metadata, with no policy separating build lookup from execution lookup.
+- The reach: one clone-only assembler still owns the artifact; actual execution
+  files and package/model license metadata remain retained. The failed attempt,
+  repair protocol and final assembly receipts stay available as history.
+- Verdict: sound; execution origins and exact original outputs pass after the
+  one allowed mechanical repair, without donor changes or package upgrades.
+- Confidence: high.
+
+
+### Freeze historical execution and strengthen its retrospective evidence
+
+- When: final independent review.
+- The choice: keep the original invocation/protocol byte-for-byte intact and add
+  a post-run verifier that compares the complete retained actual runtime inventory
+  to the expected pre-bound assembly digest. Review found the original driver
+  computed a new digest without checking that expected identity before preparation.
+  A changed runtime could therefore have been accepted by that harness. The
+  actual retained descriptor/inventory matches the expected digest, all sources
+  and all 15 semantic fields. The new model-free refusal control rejects a changed
+  inventory and saves both complete operands before its gate. A later native
+  failure correction saves invalid final bytes/hash and preserves the original
+  command failure; its original execution source is archived at the frozen hash,
+  and the post-run observer reports current-source evolution explicitly.
+- The gap: the frozen invocation omitted an explicit artifact-target comparison;
+  re-running an expensive model to repair a historical observer would not change
+  the already retained operands and could obscure the exact one-call scope.
+- The reach: the historical driver must not be reused; future protocols must bind
+  and validate their actual runtime before preparation. Its current source/temp
+  facts remain honest: owned TMPDIR was proved only by the import probe, while
+  the model invocation used default tempfile with explicit model/cache paths.
+- Verdict: sound; independent post-run verification closes the observed identity
+  claim without rewriting history, reassembly or another model-bearing call.
+- Confidence: high.
+
+
+### Retain a frozen label selection and a derived clock-binding record
+
+When: original-source admission 49e9ed8c.
+Choice: Preserve the before-acquisition selected-label artifact unchanged, then place exact original labels beside their rational sample positions in a separate derived binding artifact. For example, an original annotation at 60,001 ms maps to 2,646,044.1 source samples; the frozen label file still says 60,001 ms, and the binding record carries 2,646,044,100/1,000 samples plus its original id/value and neighbors. An alternative would replace the frozen file or round the endpoint, losing either before-acquisition identity or timestamp resolution.
+Gap: The parent fixed exact original labels and clocks but did not select an evidence representation for derived arithmetic.
+Reach: This is review evidence, not a product/import schema. The derived record repeats original rows so each binding is assessable without reconstructing the EAF; independent verification checks every value/id/time/neighbor against the complete original master. Future provider work must not treat the fractional positions as human sample precision, and can choose its own runtime representation while preserving these frozen operands.
+Verdict: sound for a scoped immutable evidence record. Confidence: medium; the artifact shape is larger than a normalized id-reference representation, but changes no runtime or persisted product contract.
+
+
+### Tag bracket/parenthetical material only as an inventory
+
+When: original-source admission 49e9ed8c.
+Choice: A row containing angle brackets or parentheses is described as original-marked material; an ordinary row is described as original-unmarked. For example, a pause <p:> stays exactly <p:> with its original endpoint and is counted among raw rows. It is not silently removed, renamed as a word, or assigned an alignment-score denominator. The alternative would decide now which unusual rows count as words before provider/scoring admission.
+Gap: The parent required all labels to survive but did not select inventory flags for the retained read surface.
+Reach: This mechanical field is not lexical normalization or a scoring rule. The committed record explicitly leaves special-label, partial-support and missing-word treatment pending; scoring must freeze before any inference.
+Verdict: sound; the flag describes retained syntax and confers no scoring eligibility. Confidence: high.

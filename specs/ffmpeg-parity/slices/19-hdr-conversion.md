@@ -1,6 +1,6 @@
 # 19 — Explicit HDR source conversion
 
-Status: native conversion facts in progress; managed conversion not started. Question: **Can the proven transform produce a new managed SDR asset without changing original meaning?**
+Status: native facts, held interpretation and encoded numerical reproduction verified; exact managed clocks/producer in progress, durable publication and selected-range conversion remain open. Question: **Can the proven transform produce a new managed SDR asset without changing original meaning?**
 
 Dependencies: [18](18-hdr-feasibility.md), [05](05-managed-output.md).
 
@@ -320,3 +320,10 @@ it. The repeated faulty pin retains all three full raw operands before refusal.
 The fixture uses an exact 90,000 Hz movie clock only as an independently authored
 control. Production still derives its movie clock from fresh exact operands and
 must validate actual output support rather than importing that control setting.
+
+The [rebuilt-root receipt](../evidence/hdr-encoded/root-integration.json) repeats
+only this encoded reproduction on the release0.1.4-reconciled native executable.
+It retains complete actual operands and report. All source/derivative physical
+clocks agree, explicit pins reproduce full output bytes, and wrong-range controls
+still differ. The original numerical budgets and conservative unstripped encoder
+refusals remain unchanged; this adds no managed or perceptual acceptance claim.

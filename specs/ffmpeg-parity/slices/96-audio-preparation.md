@@ -1,6 +1,6 @@
 # 96 — Declared audio domains and held prepared spans
 
-Status: compiler/native/service execution checkpoint verified; public consumer acceptance remains open. Question: **Can one compiled state
+Status: compiler/native/service execution and rebuilt-root wider acceptance verified; final consumer/release acceptance26 remains open. Question: **Can one compiled state
 schedule carry native and FFmpeg processors through the same prepared signal?**
 
 Dependencies: [05](05-managed-output.md), [10](10-loudness.md), and the frozen
@@ -159,7 +159,7 @@ unbound requirements. All were reproduced or verified and corrected. The public
 processed-package export/open/adopt journey now preserves all three processor
 records under adopted identities and survives package closure. Native also refuses a replaced preparation implementation before prefix
 work. Wider refusal/retiming coverage is retained below; release-level consumer proof
-and final root integration remain open.
+and final consumer/release acceptance26 remain open.
 The parent owns integration and the final full-suite run.
 
 ## Main reconciliation checkpoint
@@ -229,3 +229,12 @@ control also failing decoding. The compressed review log preserves these limits
 separately from the successful unsandboxed acceptance receipts. The shape/diff/docs
 pass retains one shared worker owner and the explicit fixed-LTS removal condition;
 no new execution surface or media policy was added.
+
+The [root integration receipt](../evidence/audio-state-acceptance/root-integration.json)
+rebuilds the actual worker after release0.1.4 app-identity reconciliation and passes
+all four new real acceptance cases plus50 worker/CLI/artifact/update checks.
+Identical source, prepared and decoded PCM bytes reuse the original retained
+archive; the distinct encoded movie and root receipts are retained separately.
+This closes the wider root integration gap, while installed/signed acceptance,
+listening and the final full suite remain separate. Consumer/release acceptance26
+owns the remaining release gate for shared preparation and13–15.

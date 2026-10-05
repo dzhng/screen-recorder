@@ -14,12 +14,16 @@ Implement the complete authorized plan through committed passes. Read the
 [exploration](exploration.md), [parity contract](parity.md) and current slice.
 Integrated: 01–12, 16–18, 20–21 and 24–25, plus the shared audio compiler,
 native/service execution and purpose-checked optional runtime checkpoints.
-Next: finish the wider refusal/retiming/resource-exhaustion acceptance for shared
-preparation and 13–15. Independently, finish19 managed HDR conversion and each
-speech family’s research/implementation gate. The exact30s speaker worker and
-shared clone-only runtime assembler pass lightweight controls; model-bearing
-relocation and public speaker evidence remain open. Source rendering/recovery
-now retains shared input authority, and integrated component/linked-worker checks pass.
+Next: finish19 managed HDR conversion, starting with exact clock admission and
+the whole-stream producer before durable publication and selected-range support.
+Independently, finish speaker source/public evidence, freeze boundary provider and
+scoring over the admitted original cohort, and resolve the still-failed acoustic
+event gates. Root wider audio refusal/retiming/AAC/resource acceptance passes;
+shared preparation and13–15 await final consumer/release acceptance26.
+The exact30s speaker runtime now passes relocated model-bearing preservation,
+lightweight controls and retained-operand verification. Its consumer distribution
+remains unselected. Primary boundary labels and original byte/clock bindings are
+retained; stereo attribution and lexical scoring remain unresolved.
 
 Final release build/ZIP, relocated acceptance26 and the full suite follow those
 branches. Latest main through c5765423 (release 0.1.4) is integrated; its app
@@ -42,13 +46,14 @@ facts, compressed interpretation and exact source↔derivative clocks.
 | [Pinned zimg/build](evidence/zimg-build) | Refreshed 02–05 component proofs pass. |
 | [Native HDR inspection](evidence/native-hdr-inspection/linked-worker.json) | All14 linked-worker probe cases pass; managed conversion remains open. |
 | [Source authority](evidence/source-authority/integrated.json) | Actual picture/audio/recovery components and14 rebuilt linked probes pass. |
-| [Audio execution](evidence/audio-integrated-checkpoint.json) | Integrated real recipes, prepared evidence and update lifetime checks pass; wider acceptance pending. |
+| [Audio execution](evidence/audio-integrated-checkpoint.json), [wider root acceptance](evidence/audio-state-acceptance/root-integration.json) | Whole-domain refusal, retime/repeat/split/crop, decoded AAC measurement and child descriptor exhaustion/recovery pass on rebuilt root worker. No listening or encoded ceiling claim. |
+| [Encoded HDR](evidence/hdr-encoded/root-integration.json) | Actual linked PQ/HLG numerical/clock reproduction passes; conservative encoder metadata refusals remain. Managed conversion is still open. |
 | [Direct tool lifetime](evidence/direct-tool-launcher.json) | Actual prepared tools retain launcher exclusion; signed package pending. |
 | [Native SDR](evidence/sdr-execution/proof.json) | Bound OS recipe, existing cache/job/export identities. |
 | [Public H.264/HEVC](evidence/hevc-public/report.json) | Authored clocks, decoded landmarks and replay pass. |
 | [Consumer trials](evidence/consumer-acceptance/README.md), [launcher handoff](evidence/consumer-launcher/README.md) | Concrete planning and unavailable execution pass twice. Explicitly requested launcher recovery passes twice; ordinary summaries omit it. Earlier failures and changed task inputs retained. |
 | [Direct GIF](evidence/gif-extra/report.json) | Discovered component tools work; centisecond quantization explicit. |
-| [Speech families](slices/22-speech-feasibility.md) | Original official speaker runtime passes its bounded six-case research gate; production closure/projection remain open. Earlier speaker/event failures remain retained. Primary human word annotations are retained; original audio admission and alignment evaluation remain open. |
+| [Speech families](slices/22-speech-feasibility.md), [speaker runtime](evidence/speaker-runtime/README.md), [boundary source](evidence/boundary-doreco/source-admission/README.md) | Original speaker recipe and one relocated30s runtime preservation pass; public source/projection/distribution remain open. Human word annotations and six original PCM windows are bound; provider/scoring/quality remain open. Earlier failures remain retained. |
 
 Use small isolated fixtures and test-first changes. Do not record or edit personal
 media or repeat searches for the inaccessible running recorder. The user tests the

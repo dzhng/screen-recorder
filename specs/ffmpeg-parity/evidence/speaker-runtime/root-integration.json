@@ -1,0 +1,38 @@
+{
+  "integratedCommit": "39b75854",
+  "sourceBase": "e6ea3227",
+  "passed": true,
+  "scope": "17 lightweight controls plus retained-operand verification; no new assembly, model call or shipping acceptance.",
+  "checks": [
+    {
+      "command": "node --test helpers/model-runtime/assembly.test.mjs helpers/model-runtime/native.test.mjs helpers/model-runtime/evidence.test.mjs helpers/model-runtime/launch.test.mjs helpers/speaker/worker.test.mjs",
+      "tests": 17,
+      "log": {
+        "name": "root-controls.log.xz",
+        "bytes": 968,
+        "sha256": "67988d640d5ae5be5b04edfa3ded9144cb3a5722672aa9d465fb7703c38443ee"
+      }
+    },
+    {
+      "command": "node specs/ffmpeg-parity/evidence/speaker-runtime/verify-retained.mjs --out <fresh isolated directory>",
+      "receipt": {
+        "name": "root-verification.json",
+        "bytes": 1708,
+        "sha256": "41b993d0cabe29fd7b3ccfd6cd466adc2d697a1ea0a9cb865edfe79d9fd15bd9"
+      }
+    },
+    {
+      "command": "node --test helpers/model-runtime/native.test.mjs",
+      "tests": 7,
+      "log": "root-native-hash-controls.log.xz",
+      "sourceFix": "968e3124"
+    }
+  ],
+  "review": {
+    "command": "codex review --commit 39b75854",
+    "finding": "P2: Hash final pending clone before replacing prior snapshot; a failed hash left stale receipt metadata against replaced bytes.",
+    "status": "resolved in root968e3124; pending clone hash completes before replacement; regression proves preserved prior operand/metadata and original error chain",
+    "log": "root-review.log.xz",
+    "fixReview": "root-native-hash-review.log.xz"
+  }
+}

@@ -18,6 +18,8 @@ complete byte counts passed before those windows were admitted. The bounded
 An acquisition failure cannot authorize an unchanged retry or a partial binding.
 The [retained verification](verification.json) checks archive members and reconstructs
 original labels, immediate neighbors and sample-clock arithmetic independently.
+The [root verification](root-verification.json) independently reconstructs those
+bindings from the committed archives; it does not repeat source acquisition.
 
 The complete original master EAFs and dataset documentation remain in the parent
 `annotations.tar.xz`. [Selected labels](selected-labels.json) preserve original

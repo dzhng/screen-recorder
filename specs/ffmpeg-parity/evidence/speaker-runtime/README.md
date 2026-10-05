@@ -90,6 +90,11 @@ Its [receipt](retained-verification.json) is a post-run check, not another execu
 A model-free refusal control proves a changed runtime inventory cannot borrow
 this checkpoint's frozen pass.
 
+The [root integration](root-integration.json) reruns the lightweight controls and
+retained observer after reconciliation, without another assembly or model call.
+Its independent review is scoped separately from successful execution and
+retains any diagnostic failure finding and correction.
+
 Independent review found that the historical invocation driver computed a runtime
 digest without comparing it to the already bound assembly digest before preparing.
 The retained complete actual descriptor/inventory matches that expected digest,

@@ -1,0 +1,171 @@
+{
+  "settings": {
+    "container": "mp4",
+    "video": {
+      "codec": "h264",
+      "encoder": {
+        "hardware": "auto",
+        "id": null,
+        "gpu": null
+      },
+      "color": "rec709",
+      "rateControl": {
+        "mode": "average",
+        "bitrate": 8000000
+      },
+      "profile": "high",
+      "level": "auto",
+      "keyframeInterval": 120,
+      "keyframeIntervalSeconds": 2,
+      "frameReordering": false,
+      "entropy": "cabac",
+      "temporalCompression": true,
+      "openGop": false,
+      "prioritizeSpeed": false,
+      "powerEfficient": false,
+      "dataRateLimits": [],
+      "bufferDurationSeconds": null,
+      "initialBufferDelayPercent": null,
+      "spatialAdaptiveQuantization": true,
+      "lookAheadFrames": null,
+      "nonDroppableFrameRate": null,
+      "minimumQuantizer": null,
+      "maximumQuantizer": null
+    },
+    "audio": {
+      "codec": "aac",
+      "sampleRate": 48000,
+      "layout": "stereo",
+      "rateControl": {
+        "mode": "constant",
+        "bitrate": 192000
+      },
+      "quality": "high"
+    }
+  },
+  "sourceSha256": "bee63510a2e04fa42aaa5095bc1798b33ff42b75b534ba70a25924286e164993",
+  "requested": [
+    {
+      "type": "normalization",
+      "mode": "gain-only",
+      "targetIntegratedLufs": -6,
+      "truePeakCeilingDbtp": -1,
+      "maxLoudnessRangeLu": 7
+    },
+    {
+      "type": "limiter",
+      "ceilingDbfs": -6,
+      "lookaheadMs": 5,
+      "releaseMs": 50
+    }
+  ],
+  "prepared": {
+    "integratedLufs": -7.5,
+    "loudnessRangeLu": 0,
+    "samplePeakDbfs": -6,
+    "truePeakDbtp": -6,
+    "integratedReason": null,
+    "rangeReason": null,
+    "algorithm": "FFmpeg ebur128 BS.1770/R128; true-peak libswresample; one-decimal summary",
+    "version": "9.0.2"
+  },
+  "encodedDecoded": {
+    "integratedLufs": -7.5,
+    "loudnessRangeLu": 0,
+    "samplePeakDbfs": -5.8,
+    "truePeakDbtp": -5.8,
+    "integratedReason": null,
+    "rangeReason": null,
+    "algorithm": "FFmpeg ebur128 BS.1770/R128; true-peak libswresample; one-decimal summary",
+    "version": "9.0.2"
+  },
+  "movie": {
+    "channels": 2,
+    "clippedSamples": 0,
+    "decoderContext": {
+      "maximumPrerollFrames": 0,
+      "maximumTailFrames": 0,
+      "policy": "bounded-current-retained-run",
+      "sampleRate": 48000
+    },
+    "frames": 384000,
+    "maximumBlockFrames": 8192,
+    "peak": 0.5011872053146362,
+    "peakResidentBytes": 52232192,
+    "sampleRate": 48000,
+    "sourceWork": {
+      "decoded": [],
+      "descriptorDeliveredBytes": 8296,
+      "descriptorInputs": 1,
+      "descriptorReadBytes": 8308,
+      "preparedRetimeRuns": 0,
+      "unknownReadInputs": 0
+    },
+    "unavailable": [
+      {
+        "clipId": "clip",
+        "ranges": []
+      }
+    ],
+    "processingEvidence": [
+      {
+        "domainIndex": 1,
+        "recipe": {
+          "type": "normalization",
+          "mode": "gain-only",
+          "targetIntegratedLufs": -6,
+          "truePeakCeilingDbtp": -1,
+          "maxLoudnessRangeLu": 7
+        },
+        "sampleRange": {
+          "start": 0,
+          "end": 384000
+        },
+        "implementationId": "measured-normalization-v1:27350ff2f953bbd4d6ca8bfe0f6808b99b9752192657d289146b50319099f66a:native-audio-state-domains-v1",
+        "normalization": {
+          "before": {
+            "integratedLufs": -3.5,
+            "loudnessRangeLu": 0,
+            "samplePeakDbfs": -1.9,
+            "truePeakDbtp": -1.9,
+            "integratedReason": null,
+            "rangeReason": null,
+            "algorithm": "FFmpeg ebur128 BS.1770/R128; true-peak libswresample; one-decimal summary",
+            "version": "9.0.2"
+          },
+          "after": {
+            "integratedLufs": -6,
+            "loudnessRangeLu": 0,
+            "samplePeakDbfs": -4.4,
+            "truePeakDbtp": -4.4,
+            "integratedReason": null,
+            "rangeReason": null,
+            "algorithm": "FFmpeg ebur128 BS.1770/R128; true-peak libswresample; one-decimal summary",
+            "version": "9.0.2"
+          },
+          "meterImplementationId": "ffmpeg-ebur128-v1:27350ff2f953bbd4d6ca8bfe0f6808b99b9752192657d289146b50319099f66a",
+          "tolerances": {
+            "integratedAbsoluteLu": 0.2,
+            "rangeMaximumExcessLu": 0.2,
+            "meterSpecificTruePeakExcessDb": 0.15
+          }
+        }
+      },
+      {
+        "domainIndex": 0,
+        "recipe": {
+          "type": "limiter",
+          "ceilingDbfs": -6,
+          "lookaheadMs": 5,
+          "releaseMs": 50
+        },
+        "sampleRange": {
+          "start": 0,
+          "end": 384000
+        },
+        "implementationId": "linked-mono-max-limiter-v1:27350ff2f953bbd4d6ca8bfe0f6808b99b9752192657d289146b50319099f66a:native-audio-state-domains-v1"
+      }
+    ]
+  },
+  "decodedFrames": 384000
+}

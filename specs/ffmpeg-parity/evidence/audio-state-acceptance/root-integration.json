@@ -1,0 +1,119 @@
+{
+  "sourceBase": "e6ea3227",
+  "main": "c5765423",
+  "passed": true,
+  "scope": "Rebuilt root native worker and four wider audio acceptance cases; not listening, signed/installed or final full-suite acceptance. Earlier nine recipe cases intentionally unselected and retained separately.",
+  "nativeSha256": "6a78e2d1996ed3578c2d30876782d4f01b63904ae8bfca95a387ea25023f10dc",
+  "ffmpegReceiptSha256": "27350ff2f953bbd4d6ca8bfe0f6808b99b9752192657d289146b50319099f66a",
+  "checks": [
+    {
+      "command": "bun run --cwd apps/service test src/worker.test.ts src/cli-worker.test.ts src/cli-worker-macos.test.ts src/ffmpeg-artifact.test.ts src/lifetime.test.ts",
+      "tests": 50,
+      "log": "root-contracts.log.xz"
+    },
+    {
+      "command": "SCREENREC_NATIVE=<rebuilt root worker> SCREENREC_FFMPEG_DIRECTORY=<prepared distribution> SCREENREC_AUDIO_ACCEPTANCE_EVIDENCE=<isolated directory> bun run --cwd apps/service test src/audio-processing.test.ts -t \"complete recipe context|retimed repeated|AAC delivery|descriptor exhaustion\"",
+      "tests": 4,
+      "unselected": 9,
+      "seconds": 55.53,
+      "log": "root-real.log.xz"
+    }
+  ],
+  "codec": {
+    "frames": 384000,
+    "rate": 48000,
+    "channels": 2,
+    "preparedSampleAndTruePeakDb": -6,
+    "decodedAacSampleAndTruePeakDb": -5.8,
+    "meterResolution": "one-decimal ebur128 summary",
+    "encodedCeilingGuarantee": false
+  },
+  "operands": [
+    {
+      "name": "source.wav",
+      "bytes": 3072044,
+      "sha256": "bee63510a2e04fa42aaa5095bc1798b33ff42b75b534ba70a25924286e164993"
+    },
+    {
+      "name": "prepared.wav",
+      "bytes": 3076096,
+      "sha256": "5d2144120cf23f526b67ff88901b47f7f96475e7c94a77c65e19415a680e6650"
+    },
+    {
+      "name": "decoded.wav",
+      "bytes": 3076096,
+      "sha256": "249f9fdef4d5743aa92d339798e7bc288d01c6fb0e05e2af0b85c14b01e600fb"
+    },
+    {
+      "name": "delivery.mp4",
+      "bytes": 203589,
+      "sha256": "2d502749fe758e05434ec5a32cb4e8738cc943cee929795e517a8b3bddf3c159"
+    },
+    {
+      "name": "encoded-evidence.json",
+      "bytes": 4793,
+      "sha256": "b6aec3ff9b1ba25bea7f77343cd6ab4204e90191645961edb9d7e97dc02322ab"
+    }
+  ],
+  "sharedIdenticalOperands": [
+    {
+      "name": "source.wav",
+      "bytes": 3072044,
+      "sha256": "bee63510a2e04fa42aaa5095bc1798b33ff42b75b534ba70a25924286e164993",
+      "archive": "encoded-operands.tar.xz",
+      "member": "encoded/source.wav"
+    },
+    {
+      "name": "prepared.wav",
+      "bytes": 3076096,
+      "sha256": "5d2144120cf23f526b67ff88901b47f7f96475e7c94a77c65e19415a680e6650",
+      "archive": "encoded-operands.tar.xz",
+      "member": "encoded/prepared.wav"
+    },
+    {
+      "name": "decoded.wav",
+      "bytes": 3076096,
+      "sha256": "249f9fdef4d5743aa92d339798e7bc288d01c6fb0e05e2af0b85c14b01e600fb",
+      "archive": "encoded-operands.tar.xz",
+      "member": "encoded/decoded.wav"
+    }
+  ],
+  "uniqueEncodedArchive": "root-encoded-unique.tar.xz",
+  "retainedInventory": [
+    {
+      "name": "root-encoded-evidence.json",
+      "bytes": 4793,
+      "sha256": "b6aec3ff9b1ba25bea7f77343cd6ab4204e90191645961edb9d7e97dc02322ab"
+    },
+    {
+      "name": "root-descriptors-64.json",
+      "bytes": 3019,
+      "sha256": "3c2718820b15cbd1b4391f5d154d5d30fc2a1b26de5cc40a52ccff3dcb30e8a7"
+    },
+    {
+      "name": "root-descriptors-256.json",
+      "bytes": 98375,
+      "sha256": "8243b9bfac2271b2b0f0a05674d0382b98eb198744cb1b892f5995244cec52d7"
+    },
+    {
+      "name": "root-encoded-unique.tar.xz",
+      "bytes": 178124,
+      "sha256": "e013fb7b544d295c9e9972d8c8dff002c1d8bcae44f11b2e178489e828997c94"
+    },
+    {
+      "name": "root-contracts.log.xz",
+      "bytes": 304,
+      "sha256": "474d276c8a21d7a3e95cdea2b61cb697a1a0983cb70002fd32a0bdf7e1e0a807"
+    },
+    {
+      "name": "root-real.log.xz",
+      "bytes": 336,
+      "sha256": "3c7cec8898519ed3949d22eb98e60c6eef93e71b94c67afd6d07e466a3d25f7d"
+    },
+    {
+      "name": "root-native-build.log.xz",
+      "bytes": 600,
+      "sha256": "5afef52bb9c81de9dde4ff379f040aefcba9667ae6994fa2c39354f80d24d71f"
+    }
+  ]
+}

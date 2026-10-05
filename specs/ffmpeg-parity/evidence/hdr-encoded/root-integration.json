@@ -1,0 +1,237 @@
+{
+  "sourceBase": "e6ea3227",
+  "main": "c5765423",
+  "passed": true,
+  "scope": "Actual linked encoded PQ/HLG numerical/clock reproduction, held original source authority and explicit color pins. No managed publication, perceptual or broad phone-HDR claim.",
+  "command": "node packages/test-harness/editing/hdr-conversion.mjs helpers/ffmpeg/.build/distribution helpers/mac/.build/debug/screenrec-native <isolated directory> encoded",
+  "nativeSha256": "6a78e2d1996ed3578c2d30876782d4f01b63904ae8bfca95a387ea25023f10dc",
+  "ffmpegReceiptSha256": "27350ff2f953bbd4d6ca8bfe0f6808b99b9752192657d289146b50319099f66a",
+  "report": "root-report.json",
+  "archive": {
+    "name": "root-operands.tar.xz",
+    "bytes": 118816,
+    "sha256": "1316fc6e61deb09df8943aff859fceca4ff1241830efe52eb3e2e61c118750e5"
+  },
+  "retainedLog": {
+    "name": "root-run.log.xz",
+    "bytes": 208,
+    "sha256": "afa7940db65aaf3feb2557a15c1f10a3c356a5d0036c50620dea223fd7e6820e"
+  },
+  "operandInventory": [
+    {
+      "name": "hlg-baseline-refusal.log",
+      "bytes": 1541,
+      "sha256": "7d75d13e129df916c3e901ba81ef3efa6191680acbd9472e6f3f22795df2af4d"
+    },
+    {
+      "name": "hlg-candidate.png",
+      "bytes": 2357,
+      "sha256": "dba6c265ad3c6c0c27e5d4df137d333c869d1dec03564bcec40ea1c48dd3709e"
+    },
+    {
+      "name": "hlg-candidate.rgb",
+      "bytes": 184320,
+      "sha256": "9e6f0947caa6ff32b0e0ddf29706190c7413900441b70c584a7cd528047cdd13"
+    },
+    {
+      "name": "hlg-chart.mov",
+      "bytes": 2137,
+      "sha256": "98fc0ec1b171ade67cc502806bc12dc67df0b289d12b6eaed220931e72e056ef"
+    },
+    {
+      "name": "hlg-chart.yuv",
+      "bytes": 368640,
+      "sha256": "16fa781b375bde4d463b8d301687acbbcb5581a86ff3508894e7d368c5cc2bae"
+    },
+    {
+      "name": "hlg-clock-operands.json",
+      "bytes": 4066,
+      "sha256": "3b2b5f69f995b0b35846d49f3250248aed5ee1961539fdd431fc0d54cd784d1a"
+    },
+    {
+      "name": "hlg-converted.mov",
+      "bytes": 37272,
+      "sha256": "33ea576a0bd9408519144495caa25d061bfcc25b3b13aa748e2d806e690b8615"
+    },
+    {
+      "name": "hlg-encoded.mov",
+      "bytes": 1684,
+      "sha256": "8941c24eeab7b2abd25092b97fdb1c2d0115fb347dc73dde458a978f88ba6246"
+    },
+    {
+      "name": "hlg-frozen-converted.mov",
+      "bytes": 37272,
+      "sha256": "33ea576a0bd9408519144495caa25d061bfcc25b3b13aa748e2d806e690b8615"
+    },
+    {
+      "name": "hlg-h264-control.mp4",
+      "bytes": 11587,
+      "sha256": "ed8b7199207829e4b2f65bbe5464ea10bb2e4c4ac827b8f05d62476c65ece082"
+    },
+    {
+      "name": "hlg-independent-sdr.ppm",
+      "bytes": 184335,
+      "sha256": "039abbe69f5cc8253888b38af44f0848dc5c7a837a61414f9f3432653174e904"
+    },
+    {
+      "name": "hlg-input-operands.json",
+      "bytes": 5058,
+      "sha256": "5b7e9056711f1fb391fd646eb30fa78e08e91a0ee75de0a9e9a8519814efc690"
+    },
+    {
+      "name": "hlg-intermediate.png",
+      "bytes": 11969,
+      "sha256": "817165dcfe9b8af97755878d1980a3b09248b65212004753ebb2e12393f92115"
+    },
+    {
+      "name": "hlg-intermediate.rgb",
+      "bytes": 184320,
+      "sha256": "184e8cefa7a9195ec2c961a3babe37f5edff5846816fa8cf4258f156f7e2f940"
+    },
+    {
+      "name": "hlg-oracle.json",
+      "bytes": 1450,
+      "sha256": "8923671aeac7f5127168f42f40a4cee32e0f64662375f8507db005a15e77c7c1"
+    },
+    {
+      "name": "hlg-pin-operands.json",
+      "bytes": 457,
+      "sha256": "974708c0844ff6e01769a2a6550cb3e468816eb77e5f814da5197f907b052afc"
+    },
+    {
+      "name": "hlg-pinned.rgb",
+      "bytes": 184320,
+      "sha256": "9e6f0947caa6ff32b0e0ddf29706190c7413900441b70c584a7cd528047cdd13"
+    },
+    {
+      "name": "hlg-reference.png",
+      "bytes": 1053,
+      "sha256": "126566eaabe0be7d9acaf1c0ae8f3a07ba6104ad43bf8f1cadea138c453fc57c"
+    },
+    {
+      "name": "hlg-three.yuv",
+      "bytes": 1105920,
+      "sha256": "74f7b1e3f02240b74fac451f9a2e17d37d93f90fa2f049c74ca7434a04f82017"
+    },
+    {
+      "name": "hlg-unstripped.mov",
+      "bytes": 3025,
+      "sha256": "8750579bc4ca5b2afb8d96e8ae88c3b60e0b3c230ea77a493c110643e16e2ec4"
+    },
+    {
+      "name": "hlg-wrong-range.rgb",
+      "bytes": 184320,
+      "sha256": "953c368cfc047fe6ca3ad39fab346fdf6a16c04d8968898ed73cdf8e4d080f6e"
+    },
+    {
+      "name": "pq-baseline-refusal.log",
+      "bytes": 1534,
+      "sha256": "db1b730d2236d2620578ad3605a42cd8d427348afb408bc316e020c5d4e9a81b"
+    },
+    {
+      "name": "pq-candidate.png",
+      "bytes": 2718,
+      "sha256": "554f5fd686c6959122c132a49bd7b2f2b758a7938184df3628345996eefc4140"
+    },
+    {
+      "name": "pq-candidate.rgb",
+      "bytes": 184320,
+      "sha256": "a2082d86a8a8a70595f4236eee5a80b6ff525f6b5d4fb006ca643176a5108509"
+    },
+    {
+      "name": "pq-chart.mov",
+      "bytes": 2095,
+      "sha256": "c172cfa47f57073a1743182db70db71a56bccb2516199247d86bd2bd8783c556"
+    },
+    {
+      "name": "pq-chart.yuv",
+      "bytes": 368640,
+      "sha256": "ea8f6b76afa6ea45fd229a4f7be4e49e9943a4154579830736a022e921c9a5a8"
+    },
+    {
+      "name": "pq-clock-operands.json",
+      "bytes": 4070,
+      "sha256": "358322055573238b7c38314b21539b52000944a33ad96f47763fbb8562dd0d5d"
+    },
+    {
+      "name": "pq-converted.mov",
+      "bytes": 36728,
+      "sha256": "ba9c4ac13599cb4268a9c015a1853e9910307c9e1a281734ebc1296a726abec5"
+    },
+    {
+      "name": "pq-encoded.mov",
+      "bytes": 1421,
+      "sha256": "5b4aaf3bd7c11be0148a4974b926fb13699a8c0b794d0771a82e3f3ea6d5c905"
+    },
+    {
+      "name": "pq-frozen-converted.mov",
+      "bytes": 36728,
+      "sha256": "ba9c4ac13599cb4268a9c015a1853e9910307c9e1a281734ebc1296a726abec5"
+    },
+    {
+      "name": "pq-h264-control.mp4",
+      "bytes": 11784,
+      "sha256": "1931a5323c1b5d5c23e857ef5ae72ae8eba5f7f70829b9de9e5c280ef9a55787"
+    },
+    {
+      "name": "pq-independent-sdr.ppm",
+      "bytes": 184335,
+      "sha256": "039abbe69f5cc8253888b38af44f0848dc5c7a837a61414f9f3432653174e904"
+    },
+    {
+      "name": "pq-input-operands.json",
+      "bytes": 5004,
+      "sha256": "967c508bb69392d9e4daf572bf3e6fa1ce63aa304cf23d397b23179643a0d055"
+    },
+    {
+      "name": "pq-intermediate.png",
+      "bytes": 11887,
+      "sha256": "abdfb8acbebb628064e7d98224b305daab1d8bfdebb9b89ac8f92b02532edb1f"
+    },
+    {
+      "name": "pq-intermediate.rgb",
+      "bytes": 184320,
+      "sha256": "ef2e8b4b03b612d8af75257e48ef4aec6879a17045212267f47b1983592ea1a2"
+    },
+    {
+      "name": "pq-oracle.json",
+      "bytes": 1449,
+      "sha256": "600865cbc1e79b1f491adb497542ba1ae43a93301fab4dc757b46d5af35e74f1"
+    },
+    {
+      "name": "pq-pin-operands.json",
+      "bytes": 454,
+      "sha256": "8d6a82cf829f4a9bfcc6d6071765bceb3684bf0c481b40ca3cc74d9f030640b1"
+    },
+    {
+      "name": "pq-pinned.rgb",
+      "bytes": 184320,
+      "sha256": "a2082d86a8a8a70595f4236eee5a80b6ff525f6b5d4fb006ca643176a5108509"
+    },
+    {
+      "name": "pq-reference.png",
+      "bytes": 1053,
+      "sha256": "126566eaabe0be7d9acaf1c0ae8f3a07ba6104ad43bf8f1cadea138c453fc57c"
+    },
+    {
+      "name": "pq-three.yuv",
+      "bytes": 1105920,
+      "sha256": "10836273c3875f9b68aa8bf34e7932a6f1484a4f2663e2500163542881a76452"
+    },
+    {
+      "name": "pq-unstripped.mov",
+      "bytes": 1484,
+      "sha256": "05964cb69f474089c663918bd3284054e6aac55bfc50ca124ce34ae818bc272c"
+    },
+    {
+      "name": "pq-wrong-range.rgb",
+      "bytes": 184320,
+      "sha256": "4915f9fba662b168f9ac82bbd4ed951f8fd4a1b88329b95b7cf95e2acfef1ec1"
+    },
+    {
+      "name": "report.json",
+      "bytes": 28149,
+      "sha256": "124fc880137b6f076fc0457074ddc0451421fdf58fba62fda757e991e263b754"
+    }
+  ]
+}
