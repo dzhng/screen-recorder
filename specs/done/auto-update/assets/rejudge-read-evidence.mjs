@@ -1,10 +1,10 @@
 // Replays separate judgments from immutable saved runner transcripts.
-// node specs/auto-update/assets/rejudge-read-evidence.mjs <final-result-directory>
+// node specs/done/auto-update/assets/rejudge-read-evidence.mjs <final-result-directory>
 import { readFile, writeFile, mkdir, readdir } from "node:fs/promises";
 import { join, resolve, dirname } from "node:path";
 import { pathToFileURL, fileURLToPath } from "node:url";
 import { createHash } from "node:crypto";
-const root = resolve(dirname(fileURLToPath(import.meta.url)), "../../..");
+const root = resolve(dirname(fileURLToPath(import.meta.url)), "../../../..");
 const { agentResult } = await import(pathToFileURL(join(root, "evals/runtime/agent-result.mjs")));
 const { judgePrompt, parseJudgment } = await import(
   pathToFileURL(join(root, "evals/judgment.mjs"))

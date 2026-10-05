@@ -3,7 +3,7 @@
 Status: completed discovery record; implementation has not started. The
 [implementation ladder](README.md) now owns pickup order, refinements and proof status.
 This map preserves settled product decisions and their attribution. Publishing remains
-version, tag, [release](../../scripts/README.md#versioned-github-releases), without
+version, tag, [release](../../../scripts/README.md#versioned-github-releases), without
 a tester rollout or release approval process.
 
 ## Known knowns
@@ -24,15 +24,15 @@ Confirmed by the user:
 
 Established by the territory:
 
-- The [release packager](../../scripts/release.mjs) bundles Node, CLI, service and
+- The [release packager](../../../scripts/release.mjs) bundles Node, CLI, service and
   workers in the app. Its external launcher resolves bundled executables from
   `SCREENREC_APP` or the default location. One bundle replacement can update
   these components together without separately installing a CLI runtime.
-- The [native app](../../apps/macos/README.md) owns the service lifetime. The
-  [library layout](../../packages/protocol/src/layout.ts) lives outside the app.
+- The [native app](../../../apps/macos/README.md) owns the service lifetime. The
+  [library layout](../../../packages/protocol/src/layout.ts) lives outside the app.
   Source media must stay intact; installing a build must not migrate a library.
 - Existing releases contain no updater. Current
-  [onboarding](../../skills/screenrec/references/installation.md) is manual;
+  [onboarding](../../../skills/screenrec/references/installation.md) is manual;
   the new skill instructions described here have not shipped.
 - Sparkle supports Ed25519-authenticated updates without paid Apple signing.
   Its [setup guide](https://sparkle-project.org/documentation/) recommends
@@ -75,7 +75,7 @@ process the user did not want, and bespoke skill commands duplicated the upstrea
 installer. Those reactions establish ordinary releases and reuse as preferences.
 
 Consumers are external agents using the skill and CLI. The runtime target is
-Apple Silicon/macOS 26+, established by [onboarding](../../README.md#agent-setup).
+Apple Silicon/macOS 26+, established by [onboarding](../../../README.md#agent-setup).
 Docker exercises portable agent behavior; it cannot prove macOS updates or
 permission retention. Done means quiet app/CLI replacement, a usable existing
 library, finished accepted work, and one canonical skill folder after explicit
@@ -103,15 +103,15 @@ inspected. This is boundary discovery, not an executed installed-upgrade test.
 
 | Finding and evidence | Why it bites; disposition |
 | --- | --- |
-| [Service close](../../apps/service/src/project-service.ts#L114) aborts model work and revokes leases; [job idle](../../packages/core/src/jobs.ts#L985) ignores queued jobs and shutdown interrupts attempts. | Ordinary quit/idle can destroy accepted work. **Decided:** admission/drain gate over existing owners. |
-| [Socket](../../apps/service/src/index.ts#L83), [control dispatch](../../apps/service/src/control.ts#L77) and [native controls](../../apps/macos/Sources/ScreenRecorder/RecordingControls.swift#L231) admit through different paths. | Status snapshots race new work; countdown precedes the service request. **Decided:** fence every admission path, including native intent. **OPEN:** race proof. |
-| [Launcher](../../scripts/release.mjs#L148) loads bundled Node/CLI before connecting to the service. | A service gate cannot protect file loads during replacement; running clients may retain old code. **OPEN:** coordinate launcher loading/swap and long-lived MCP/CLI clients; prove no partial bundle or unsafe mixed release. |
-| [Capture](../../apps/macos/Sources/ScreenRecorder/CaptureController.swift#L68), [save chooser](../../apps/macos/Sources/ScreenRecorder/ExportController.swift#L43), [preview](../../apps/macos/Sources/ScreenRecorder/PreviewController.swift#L88), [delivery](../../apps/service/src/delivery.ts#L22) and [package handles](../../apps/service/src/package-registry.ts#L73) outlive requests. | “No active request” is insufficient; preview renewals/polling may prevent idle. **Decided:** keep legitimate blockers, gate new acquisition, use existing release/expiry semantics; never revoke to update. |
-| [Native quit](../../apps/macos/Sources/ScreenRecorder/main.swift#L162) finalizes capture; [service shutdown](../../apps/macos/Sources/ScreenRecorder/ServiceHost.swift#L210) escalates to signals. | Updater quit could stop a recording or kill work. **Decided:** idle before updater shutdown; failed drain defers rather than forcing termination. **OPEN:** all Sparkle install paths, including ordinary quit. |
-| [Catalog](../../packages/core/src/catalog.ts#L29) refuses other persisted formats without migration. | Successful replacement can leave a library unusable. **Decided:** same-format automatic updates only; validate authenticated candidate metadata first. |
-| [Plist](../../apps/macos/Info.plist#L11) fixes build version; [builder](../../scripts/build-macos.mjs#L88) writes only display version. | Sparkle needs increasing comparable versions. **Decided:** derive stable bundle/feed versions from the app manifest and verify agreement. |
-| [Workflow](../../.github/workflows/release.yml#L88) makes all `v0.*` tags prerelease while onboarding uses latest stable. | Published versions disappear from normal discovery. **Decided:** align normal-tag publication and feed; publish all assets together from draft. |
-| [Packager](../../scripts/release.mjs#L137) re-signs ad hoc; [personal installer](../../scripts/install-personal.mjs#L97) uses separate identity and can reference host Node. | Stable signing can be overwritten; app swap cannot repair a host-bound launcher. **Decided:** preserve release signing and bootstrap once. **OPEN:** permission continuity. |
+| [Service close](../../../apps/service/src/project-service.ts#L114) aborts model work and revokes leases; [job idle](../../../packages/core/src/jobs.ts#L985) ignores queued jobs and shutdown interrupts attempts. | Ordinary quit/idle can destroy accepted work. **Decided:** admission/drain gate over existing owners. |
+| [Socket](../../../apps/service/src/index.ts#L83), [control dispatch](../../../apps/service/src/control.ts#L77) and [native controls](../../../apps/macos/Sources/ScreenRecorder/RecordingControls.swift#L231) admit through different paths. | Status snapshots race new work; countdown precedes the service request. **Decided:** fence every admission path, including native intent. **OPEN:** race proof. |
+| [Launcher](../../../scripts/release.mjs#L148) loads bundled Node/CLI before connecting to the service. | A service gate cannot protect file loads during replacement; running clients may retain old code. **OPEN:** coordinate launcher loading/swap and long-lived MCP/CLI clients; prove no partial bundle or unsafe mixed release. |
+| [Capture](../../../apps/macos/Sources/ScreenRecorder/CaptureController.swift#L68), [save chooser](../../../apps/macos/Sources/ScreenRecorder/ExportController.swift#L43), [preview](../../../apps/macos/Sources/ScreenRecorder/PreviewController.swift#L88), [delivery](../../../apps/service/src/delivery.ts#L22) and [package handles](../../../apps/service/src/package-registry.ts#L73) outlive requests. | “No active request” is insufficient; preview renewals/polling may prevent idle. **Decided:** keep legitimate blockers, gate new acquisition, use existing release/expiry semantics; never revoke to update. |
+| [Native quit](../../../apps/macos/Sources/ScreenRecorder/main.swift#L162) finalizes capture; [service shutdown](../../../apps/macos/Sources/ScreenRecorder/ServiceHost.swift#L210) escalates to signals. | Updater quit could stop a recording or kill work. **Decided:** idle before updater shutdown; failed drain defers rather than forcing termination. **OPEN:** all Sparkle install paths, including ordinary quit. |
+| [Catalog](../../../packages/core/src/catalog.ts#L29) refuses other persisted formats without migration. | Successful replacement can leave a library unusable. **Decided:** same-format automatic updates only; validate authenticated candidate metadata first. |
+| [Plist](../../../apps/macos/Info.plist#L11) fixes build version; [builder](../../../scripts/build-macos.mjs#L88) writes only display version. | Sparkle needs increasing comparable versions. **Decided:** derive stable bundle/feed versions from the app manifest and verify agreement. |
+| [Workflow](../../../.github/workflows/release.yml#L88) makes all `v0.*` tags prerelease while onboarding uses latest stable. | Published versions disappear from normal discovery. **Decided:** align normal-tag publication and feed; publish all assets together from draft. |
+| [Packager](../../../scripts/release.mjs#L137) re-signs ad hoc; [personal installer](../../../scripts/install-personal.mjs#L97) uses separate identity and can reference host Node. | Stable signing can be overwritten; app swap cannot repair a host-bound launcher. **Decided:** preserve release signing and bootstrap once. **OPEN:** permission continuity. |
 | Sparkle [customization](https://sparkle-project.org/documentation/customization/) and [delegate](https://github.com/sparkle-project/Sparkle/blob/2.x/Sparkle/SPUUpdaterDelegate.h) provide deferred install-on-quit with an immediate-install block. | Default silent install waits for quit; a relaunch delegate is not a universal gate. **Decided:** invoke the install block only when our gate permits it; verify quit paths. |
 | [Programmatic setup](https://sparkle-project.org/documentation/programmatic-setup/) needs framework/helper embedding outside Xcode. | Lost symlinks, executable modes, rpath or incompatible library validation can break a relocated app. **OPEN:** pin Sparkle and prove packaged helper execution/signatures. |
 | Published [skills CLI](https://github.com/vercel-labs/skills) clones this whole repo for direct GitHub sources, may fall back to copies, and lacks read-only update mode. | Media clones, independent copies or accidental updates violate the contract. **Decided:** pinned lightweight fetch, scratch diff, local add and link verification. A scratch probe verified canonical installation, Claude links, references, overwrite and unrelated settings. Updated instructions/evals remain **OPEN**. |

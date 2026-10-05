@@ -1,10 +1,10 @@
-// Run from the repository root: node specs/auto-update/assets/reproduce-skills.mjs
+// Run from the repository root: node specs/done/auto-update/assets/reproduce-skills.mjs
 import assert from "node:assert/strict";
 import { execFileSync } from "node:child_process";
 import { mkdtemp, mkdir, writeFile, readFile, rm } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
-import { projectSnapshot } from "../../../evals/runtime/skills.mjs";
+import { projectSnapshot } from "../../../../evals/runtime/skills.mjs";
 
 const baseline = "fff09bfcc1fb540ea026f0a85f916a50ed717304";
 const scratch = await mkdtemp(join(tmpdir(), "screenrec-skill-proof-"));
@@ -30,5 +30,5 @@ try {
   install(); receipt.reinstalled = await projectSnapshot(project);
   assert.equal(await readFile(join(project, ".agents/skills/screenrec/SKILL.md"), "utf8"), await readFile(join(source, "skills/screenrec/SKILL.md"), "utf8"));
   receipt.verdict = "Prior limited claims reproduced; this is not production-step or model parity.";
-  await writeFile("specs/auto-update/assets/skills-reproduction.json", JSON.stringify(receipt, null, 2) + "\n");
+  await writeFile("specs/done/auto-update/assets/skills-reproduction.json", JSON.stringify(receipt, null, 2) + "\n");
 } finally { await rm(scratch, { recursive: true, force: true }); }

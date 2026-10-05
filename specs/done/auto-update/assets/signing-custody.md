@@ -2,7 +2,7 @@
 
 The release identity and Sparkle update key are separate credentials. The first
 keeps app signatures stable across builds; the second authenticates the archive
-and feed. The [scratch signing lab](../../../scripts/signing-lab.mjs) proves
+and feed. The [scratch signing lab](../../../../scripts/signing-lab.mjs) proves
 PKCS#12 import and certificate-anchored signatures without adding certificate
 trust. It never creates a production key or borrows `Screen Recorder Local`.
 
@@ -32,7 +32,7 @@ and receipts.
 
 Configured secret names in the existing `dzhng/screen-recorder` repository:
 
-| Proposed secret | Contents |
+| Secret | Contents |
 | --- | --- |
 | `SCREENREC_RELEASE_IDENTITY_P12` | Base64 encoding of the encrypted PKCS#12 file. |
 | `SCREENREC_RELEASE_IDENTITY_PASSWORD` | Its password. |
@@ -58,7 +58,7 @@ Public repository variables accompany those secrets:
 `SCREENREC_RELEASE_CERTIFICATE_SHA256` pins its public fingerprint, and
 `SCREENREC_SPARKLE_PUBLIC_KEY` pins the updater public key. They derive from the
 created credentials; they are not placeholder values. The
-[signing owner](../../../scripts/release-signing.mjs) checks actual certificate/key
+[signing owner](../../../../scripts/release-signing.mjs) checks actual certificate/key
 bytes against them before signing and owns the input/import contract.
 
 Slice 05 imports the PKCS#12 into a fresh temporary keychain and always passes
@@ -85,8 +85,8 @@ packaging before publishing. No key/certificate trust is installed on recipients
 
 The user confirmed on 2026-10-04 that earlier replacement/permission proof is
 already sufficient and explicitly asked not to repeat it. Reuse that confirmation
-and the [historical signed-copy observation](../../done/agent-editing/assets/20e-selected-device-probe/follow-up.md)
-([raw discovery](../../done/agent-editing/assets/20e-selected-device-probe/discovery.json))
+and the [historical signed-copy observation](../../agent-editing/assets/20e-selected-device-probe/follow-up.md)
+([raw discovery](../../agent-editing/assets/20e-selected-device-probe/discovery.json))
 as the accepted prerequisite. That observation reports existing screen, camera
 and microphone grants on its own signed working copy; it is not relabelled as a
 new release-certificate or recipient-account test. No new permission/Gatekeeper

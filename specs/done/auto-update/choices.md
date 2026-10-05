@@ -156,7 +156,7 @@ handoff, rather than changing these product contracts.
 
 - **When:** release pipeline, `6f3ceec0`, and account-home integration.
 - **The choice:** The install kit ships the C launcher from
-  [its production owner](../../scripts/launcher/main.c). Before reading Node or
+  [its production owner](../../../scripts/launcher/main.c). Before reading Node or
   CLI from the replaceable app, it acquires shared exclusion and passes that open
   descriptor through `exec` into Node. Node retains exclusion for the complete CLI
   or idle MCP lifetime; process exit releases it. The shell bootstrap and lock

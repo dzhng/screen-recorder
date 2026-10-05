@@ -6,7 +6,7 @@ settings style and scroll access to lower controls. The historical baseline is
 context, not a user-approved design to reproduce exactly.
 
 The [receipt](receipt.json) binds source, platform, runner and every image. The
-[renderer](../../../../apps/macos/tests/settings-view-shots.mjs) draws the actual
+[renderer](../../../../../apps/macos/tests/settings-view-shots.mjs) draws the actual
 production SettingsView with synthetic owner state in offscreen windows, without
 service launch, desktop capture, permission inspection or preference changes.
 Source revision alone is the pass baseline; listed hashes bind added/changed bytes.

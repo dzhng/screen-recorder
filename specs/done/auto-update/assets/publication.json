@@ -1,0 +1,54 @@
+{
+  "schema": 1,
+  "status": "passed",
+  "releaseURL": "https://github.com/dzhng/screen-recorder/releases/tag/v0.1.3",
+  "tag": "v0.1.3",
+  "acceptedSource": "4387da97d841e76c1774eb871fd31242f921d332",
+  "latestStable": true,
+  "artifacts": [
+    {
+      "name": "ScreenRecorder-v0.1.3-macos-arm64.zip",
+      "url": "https://github.com/dzhng/screen-recorder/releases/latest/download/ScreenRecorder-v0.1.3-macos-arm64.zip",
+      "status": 200,
+      "bytes": 50738675,
+      "sha256": "172c05309d1ebd82aaf0ec01e4e3322bed79feeefa960f47b4fd3518631f763f",
+      "equalsVerifiedLocal": true
+    },
+    {
+      "name": "ScreenRecorder-v0.1.3-update-macos-arm64.zip",
+      "url": "https://github.com/dzhng/screen-recorder/releases/latest/download/ScreenRecorder-v0.1.3-update-macos-arm64.zip",
+      "status": 200,
+      "bytes": 50732434,
+      "sha256": "fce306a343c0b712e78f8265e907d9d245ca1a0590a5771f5ba202ef5a8e9e7e",
+      "equalsVerifiedLocal": true
+    },
+    {
+      "name": "appcast.xml",
+      "url": "https://github.com/dzhng/screen-recorder/releases/latest/download/appcast.xml",
+      "status": 200,
+      "bytes": 1111,
+      "sha256": "f22a46d663777ac0895d5403e31b7b7b4a78cb0ccced320066b469f4b6a9f337",
+      "equalsVerifiedLocal": true
+    },
+    {
+      "name": "release.json",
+      "url": "https://github.com/dzhng/screen-recorder/releases/latest/download/release.json",
+      "status": 200,
+      "bytes": 992,
+      "sha256": "eceb1710e3ffe20548cf0cb307012108497478054d51d27b7119e231a368bc69",
+      "equalsVerifiedLocal": true
+    },
+    {
+      "name": "SHA256SUMS",
+      "url": "https://github.com/dzhng/screen-recorder/releases/latest/download/SHA256SUMS",
+      "status": 200,
+      "bytes": 183,
+      "sha256": "f484126ad51cfd0ff3d30940f5a1131aedffc9037091254fbaf204f1adfa1259",
+      "equalsVerifiedLocal": true
+    }
+  ],
+  "limits": [
+    "Exact locally verified bytes published through existing publisher; tag CI may independently rebuild but must leave this published release unchanged.",
+    "Remote byte equality and HTTPS path availability establish delivery; no new native capture or permission claim."
+  ]
+}

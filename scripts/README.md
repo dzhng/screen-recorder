@@ -57,7 +57,7 @@ The [signing owner](release-signing.mjs) requires externally supplied durable
 credentials and public fingerprints, imports the identity into an ephemeral
 keychain, and signs nested code before its enclosing bundles. Secret material
 never belongs in the app, release directory, receipt or logs. The
-[custody handoff](../specs/auto-update/assets/signing-custody.md) owns backup and CI
+[custody handoff](../specs/done/auto-update/assets/signing-custody.md) owns backup and CI
 credential transfer; a missing input fails rather than creating another identity.
 The [protected engine](sparkle/README.md) owns framework preparation; an explicit
 framework override must match its pinned build receipt. Source builds link the
@@ -96,7 +96,7 @@ and state ownership before running a lab against a real installation.
 The [updater boundary lab](update-lab.mjs) reproduces pinned Sparkle behavior in
 uniquely identified scratch bundles. Its suite includes an expected defect
 reproduction; a passing lab suite does not approve the engine. The
-[active updater proof](../specs/auto-update/slices/01-sparkle-replication.md#proof-status)
+[active updater proof](../specs/done/auto-update/README.md#evidence-and-limits)
 records acceptance separately from observed behavior.
 
 The [protected Sparkle input](sparkle/README.md) owns the pinned source patch
@@ -116,6 +116,6 @@ The [scratch signing lab](signing-lab.mjs) proves certificate-anchored app and
 nested signatures, encrypted identity restoration and relocation with explicitly
 selected framework/Node inputs. It creates and deletes only scratch keys; it
 changes no certificate trust and performs no permission checks. The
-[release signing checkpoint](../specs/auto-update/slices/02-signing-identity.md#signing-checkpoint)
+[release signing checkpoint](../specs/done/auto-update/README.md#evidence-and-limits)
 keeps the scratch recipe separate from owner-approved
-[production credential custody](../specs/auto-update/assets/signing-custody.md).
+[production credential custody](../specs/done/auto-update/assets/signing-custody.md).

@@ -60,5 +60,14 @@
       "sha256": "f22a46d663777ac0895d5403e31b7b7b4a78cb0ccced320066b469f4b6a9f337"
     },
     "notarized": false
+  },
+  "finalArchiveSmoke": {
+    "outcome": "passed",
+    "exitStatus": 0,
+    "command": "node scripts/release-smoke.mjs",
+    "acceptedSource": "4387da97d841e76c1774eb871fd31242f921d332",
+    "log": "/Users/server/.local/share/screenrec-dev-evidence/auto-update/final-release-smoke.log",
+    "sha256": "09b735b57f7be7ca19aee6241a5b2fb30f1e2c972a804b694ba2712d31b4104d",
+    "observations": "Relocated archives: identical signed app trees, bundled Node/CLI schema load, native ping and signed launcher inspection pass. Host/service/updater and launcher execution belong to the isolated installed lab."
   }
 }

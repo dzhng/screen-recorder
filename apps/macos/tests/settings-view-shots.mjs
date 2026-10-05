@@ -5,7 +5,7 @@ import { join, resolve } from "node:path";
 import { compileControlsCheck } from "./fixtures/swift-controls.mjs";
 
 // Render the production SettingsView without a service, permission reads or desktop capture.
-const output = resolve(process.env.SHOTS ?? "specs/auto-update/assets/update-settings/candidate");
+const output = resolve(process.env.SHOTS ?? "specs/done/auto-update/assets/update-settings/candidate");
 mkdirSync(output, { recursive: true });
 const scratch = mkdtempSync(join(tmpdir(), "screenrec-settings-view-"));
 try {

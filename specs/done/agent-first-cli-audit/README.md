@@ -82,7 +82,7 @@ work produced no visual product change or media-quality claim.
 
 ## Decisions outside this closeout
 
-[Automatic updates](../../auto-update/README.md) owns the later installed-update
+[Automatic updates](../auto-update/README.md) owns the later installed-update
 plan, stable-release policy and explicit skill-management workflow. Tagged release
 publishing alone does not update installed apps, and this sampled onboarding audit
 does not prove those later contracts or full native agent workflows.
