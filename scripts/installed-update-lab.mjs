@@ -20,6 +20,7 @@ import { parseArgs } from "node:util";
 import { releaseSigningInputs, withReleaseIdentity, signReleaseTree } from "./release-signing.mjs";
 import { frameworkIdentity } from "./sparkle/framework.mjs";
 import { seedSource, populateLibrary, observeLibrary } from "./installed-update-lab/library.mjs";
+import { waitForObservation, waitForHealth } from "./installed-update-lab/health.mjs";
 
 const repo = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const { values } = parseArgs({
@@ -126,16 +127,12 @@ const spawnOwned = (command, args, options) => {
   child.once("close", () => children.delete(child));
   return child;
 };
-async function wait(predicate, label, ms = 30_000) {
-  const end = Date.now() + ms;
-  while (Date.now() < end) {
-    if (interrupted) throw interrupted;
-    const value = await predicate();
-    if (value) return value;
-    await delay(100);
-  }
-  throw new Error(`${label} timed out; ${reportPath}`);
-}
+const wait = (predicate, label, ms = 30_000) =>
+  waitForObservation(predicate, label, {
+    timeoutMs: ms,
+    interrupted: () => interrupted,
+    evidence: reportPath,
+  });
 function launch() {
   appChild = spawnOwned(join(app, "Contents/MacOS/ScreenRecorder"), [], {
     cwd: "/",
@@ -159,16 +156,8 @@ const cli = (operation, params = {}) => {
   trace("cli", { operation, status: result.status, reply });
   return reply;
 };
-async function health() {
-  return wait(() => {
-    try {
-      const reply = cli("service.health");
-      return reply.ok && reply.data.status === "ready" && reply.data;
-    } catch {
-      return false;
-    }
-  }, "ready service");
-}
+const health = (expectedUpdateState) =>
+  waitForHealth(() => cli("service.health"), wait, expectedUpdateState);
 async function quit(child = appChild) {
   if (!child || child.exitCode !== null || child.signalCode !== null) return;
   child.kill("SIGTERM");
@@ -474,7 +463,7 @@ try {
   client.stdin.end();
   await wait(() => client.exitCode !== null || client.signalCode !== null, "old MCP exit");
   launch();
-  const disabled = await health();
+  const disabled = await health("disabled");
   trace("persisted-off-relaunch", { health: disabled });
   assert.equal(disabled.update.state, "disabled");
   const requestsBefore = report.trace.filter((item) => item.event === "feed-request").length;

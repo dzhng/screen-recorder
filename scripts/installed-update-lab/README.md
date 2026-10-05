@@ -25,7 +25,10 @@ An old MCP process holds the launcher lock. The SDK defers rather than waiting
 for client closure to trigger installation. The runner records the live usable
 old installation, then uses ordinary quit/relaunch and resets only its own
 last-check preference to obtain a controlled next automatic cycle. Controlled
-Off input proves persistence and prevents checks on the next launch. It does not
+Off input proves persistence and prevents checks on the next launch. The
+[health observer](health.mjs) waits for the native updater report as well as socket
+readiness; those are asynchronous boundaries. A timeout retains the last health
+reply and its updater error. It does not
 exercise the Settings action's live cancellation path; the native-owner and
 protected-engine proofs own that contract.
 
