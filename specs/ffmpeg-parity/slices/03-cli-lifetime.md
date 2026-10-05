@@ -72,3 +72,8 @@ fd (`EBADF` after exec), and exact zero/nonzero/signal status. The shared servic
 `cli-owner.fixture.ts` compiles the same two production native sources in scratch
 state for tests that need the owned topology; no second executable implementation
 or release build is introduced.
+
+Isolated service-death test hosts import the exact worker TypeScript source using
+Node 24 type stripping, so an old service build cannot silently substitute a
+previous lifetime contract. Compiled-worker/package proof remains separate in the
+real prepared-tool smoke script and release integration checks.

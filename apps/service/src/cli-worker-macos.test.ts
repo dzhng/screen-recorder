@@ -94,7 +94,7 @@ it("service death triggers existing native parent watcher to retire the whole CL
   const host = join(directory, "service.mjs");
   await writeFile(
     host,
-    `import {cliWorker} from ${JSON.stringify(resolve("dist/worker.js"))};await cliWorker({executable:${JSON.stringify(process.execPath)},ownerExecutable:${JSON.stringify(owner)},args:${JSON.stringify([tool, readyFile])}});`,
+    `import {cliWorker} from ${JSON.stringify(resolve("src/worker.ts"))};await cliWorker({executable:${JSON.stringify(process.execPath)},ownerExecutable:${JSON.stringify(owner)},args:${JSON.stringify([tool, readyFile])}});`,
   );
   const service = spawn(process.execPath, [host], { stdio: "ignore" });
   if (service.pid) ownedPids.push(service.pid);
@@ -126,7 +126,7 @@ it("service death after CLI exit still retires descendants while service events 
   const host = join(directory, "finished-service.mjs");
   await writeFile(
     host,
-    `import {cliWorker} from ${JSON.stringify(resolve("dist/worker.js"))};await cliWorker({executable:${JSON.stringify(process.execPath)},ownerExecutable:${JSON.stringify(owner)},args:${JSON.stringify([tool, readyFile])}});`,
+    `import {cliWorker} from ${JSON.stringify(resolve("src/worker.ts"))};await cliWorker({executable:${JSON.stringify(process.execPath)},ownerExecutable:${JSON.stringify(owner)},args:${JSON.stringify([tool, readyFile])}});`,
   );
   const service = spawn(process.execPath, [host], { stdio: "ignore" });
   if (service.pid) ownedPids.push(service.pid);
