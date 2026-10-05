@@ -24,3 +24,10 @@ closeout. Existing probe consumers were updated for the removed menu.
 Live camera, microphone and system-audio checks are **UNVERIFIED**. No physical
 capture or app installation was performed. Earlier evidence directories preserve
 only their own stated fixture, publication, admission and paging observations.
+
+Release integration reviewed the complete feature diff against current main,
+including its manual updater. That review identified stale camera intent after
+external capture, absent microphone identity in presentation, and stale Library
+scroll restoration. All three were corrected; the focused follow-up review had
+no findings and merged native app compilation passed. Live-device checks remain
+unverified as agreed.

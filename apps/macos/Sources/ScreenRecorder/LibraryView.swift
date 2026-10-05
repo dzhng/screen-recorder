@@ -57,6 +57,7 @@ final class LibraryView: NSView, NSSearchFieldDelegate {
         filter = ""
         filterField.stringValue = ""
         scrollPositions[tab] = .zero
+        scrollView.contentView.scroll(to: .zero)
         renderContent()
     }
     func control(identifier: String) -> NSControl? { controls[identifier] }
@@ -134,7 +135,7 @@ final class LibraryView: NSView, NSSearchFieldDelegate {
     }
 
     private func renderContent() {
-        let oldOrigin = scrollPositions[tab] ?? scrollView.contentView.bounds.origin
+        let oldOrigin = scrollView.contentView.bounds.origin
         for view in document.subviews where view !== filterField { view.removeFromSuperview() }
         controls = controls.filter { $0.key.hasPrefix("tab.") || $0.key == "storage.refresh" }
         let retained = Set(controls.values.map(ObjectIdentifier.init))
@@ -264,6 +265,8 @@ final class LibraryView: NSView, NSSearchFieldDelegate {
         filter = ""
         filterField.stringValue = ""
         render()
+        scrollView.contentView.scroll(to: scrollPositions[tab] ?? .zero)
+        scrollView.reflectScrolledClipView(scrollView.contentView)
     }
 }
 

@@ -552,6 +552,7 @@ final class RecordingControls: NSObject {
             recordingId: answer.device.recordingId, elapsedUs: answer.device.elapsedUs)
         if let selection = answer.device.selection {
             state.selection.apply(selection, catalog: state.sources)
+            companionCameraRequested = state.selection.cameraDeviceId != nil
         }
         state.take = answer.recording.map {
             ControlsState.TakeStatus(
@@ -720,9 +721,15 @@ final class RecordingControls: NSObject {
             cameras.append(.init(title: "Selected camera unavailable", intent: .camera(id)))
             selectedCamera = cameras.count - 1
         }
-        let microphones: [CaptureViewInput.Choice] = [.init(title: "System default input", intent: .controls(.selectMicrophone(nil)))] + state.sources.microphones.map { .init(title: $0.name, intent: .controls(.selectMicrophone($0.id))) }
+        var microphones: [CaptureViewInput.Choice] = [.init(title: "System default input", intent: .controls(.selectMicrophone(nil)))] + state.sources.microphones.map { .init(title: $0.name, intent: .controls(.selectMicrophone($0.id))) }
+        for choice in [state.selection.microphone, state.selection.awaitedMicrophone].compactMap({ $0 }) {
+            if case .device(let id, let name) = choice,
+                !microphones.contains(where: { $0.intent == .controls(.selectMicrophone(id)) }) {
+                microphones.append(.init(title: "\(name) — unavailable", intent: .controls(.selectMicrophone(id))))
+            }
+        }
         let selectedMic: Int
-        if case .device(let id, _) = state.selection.microphone { selectedMic = state.sources.microphones.firstIndex { $0.id == id }.map { $0 + 1 } ?? 0 }
+        if case .device(let id, _) = state.selection.microphone { selectedMic = microphones.firstIndex { $0.intent == .controls(.selectMicrophone(id)) }! }
         else { selectedMic = 0 }
         let transport = CapturePresentation.transport(for: state)
         let missingCamera = !state.isLive && !state.counting && companionCameraRequested && state.selection.cameraDeviceId == nil
@@ -738,6 +745,9 @@ final class RecordingControls: NSObject {
         input.startTitle = transport[0].title
         input.startShortcut = ShortcutDefaults(bindings: bindings, registered: held).display(of: .startOrStop)
         input.notices = CapturePresentation.noticeLines(for: state)
+        if state.selection.microphone == .systemDefault && state.selection.awaitedMicrophone != nil {
+            input.notices.append("Microphone: \(CapturePresentation.microphoneTitle(for: state)).")
+        }
         if missingCamera { input.notices.append("Choose a camera before recording.") }
         let required: [PermissionKind] = PermissionKind.allCases.filter { kind in
             switch kind {
