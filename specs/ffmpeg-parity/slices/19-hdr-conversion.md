@@ -369,3 +369,9 @@ This checkpoint remains private and video-only. Whole selected-stream conversion
 optional explicitly selected audio, frozen provenance, managed JobQueue publication
 and portable preservation remain unfinished. It is not public conversion support
 or range/acquisition materialization.
+
+The [integrated private receipt](../evidence/hdr-private-producer/root-integration.json)
+repeats the producer on the root branch, with complete actual source/derivative
+operands, all twelve focused tests and the service build retained. Source/output
+clocks, frozen RGB operands, auxiliary exclusion and padded refusal pass; the
+next prerequisite is actual decoded selected-audio support, before publication.

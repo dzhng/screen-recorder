@@ -49,3 +49,7 @@ separate and unobserved by a provider.
 The [verification record](verification.json) distinguishes checked source/hash,
 eligibility and golden arithmetic from unimplemented scorer behavior and pending
 acoustic quality, cost and runtime-closure acceptance.
+
+The [root verification](root-verification.json) independently checks retained file
+and archive-member identities and the structural denominator arithmetic. It
+adds no model execution, scorer implementation or channel authority.

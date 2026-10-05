@@ -1,0 +1,14 @@
+{
+  "sourceCommit": "accb2e48",
+  "rootBase": "9dfede21",
+  "scope": "Independent retained-file/archive member hashes and full-cohort structural count arithmetic; no alignment scorer implementation, inference, source-channel admission, cost or model quality proof.",
+  "passed": true,
+  "verifiedFiles": 10,
+  "verifiedArchiveMembers": 26,
+  "denominator": 415,
+  "maximumCurrentlyTimeable": 196,
+  "coverageCeilingPercent": 47.2289156626506,
+  "requiredMinimumTimedFor95Percent": 395,
+  "sourceChannelAuthority": "EN03 unresolved; original channels intact",
+  "providerExecution": "none"
+}

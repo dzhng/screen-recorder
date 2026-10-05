@@ -1105,3 +1105,43 @@ This adds one native API parameter consumed by the observation sink, with no new
 validator or public operation setting. Verdict: sound; one source-format owner
 protects channel identity while existing native behavior stays intact. Confidence:
 high; public generation/decoder identity remains a later integration contract.
+
+
+## Boundary research prerequisite decisions
+
+### Freeze proportional model-frame timing as a research hypothesis
+
+When: boundary alignment prerequisite accb2e48. Choice: map an aligner's integer
+frame span to the full input sample count divided by its actual emission count,
+following the pinned upstream example, without fitting an offset to human labels.
+For example, frame ten stays frame ten even if another frame-center interpretation
+would score better. The spec supplied an endpoint gate but no model-frame clock.
+This reaches only a frozen experiment; it is not a product timing contract.
+Verdict: sound as a reversible hypothesis whose quality can fail. Confidence: medium;
+convolution-center timing remains a possible separately frozen alternative.
+
+### Select a pinned CPU alignment candidate and frontend before observations
+
+When: boundary prerequisite accb2e48. Choice: inspect the Apache-2.0 English
+Wav2Vec2 base checkpoint and existing Transformers/torchaudio CPU path, then freeze
+one resampling recipe, float32 execution and bounded thread budget. Unexpected
+prepared sample counts refuse instead of being padded or trimmed. An alternative
+provider/frontend would be another experiment, not an automatic fallback. The
+plan required local feasibility but did not prescribe these experimental settings.
+They bind future research inputs and cost measurements; model bytes, complete
+runtime closure and full-cohort source authority still need admission.
+Verdict: sound provisional research selection. Confidence: medium; neither
+accuracy nor performance has been measured and the pinned alignment API is
+deprecated in later upstream versions.
+
+### Keep one occurrence per original word and refuse invalid scoring evidence
+
+When: boundary prerequisite accb2e48. Choice: keep original row IDs through
+supplied-transcript alignment, so the second “the” cannot borrow the first one's
+time. Missing bounds stay untimed; a foreign/duplicate ID, wrong source or invalid
+time refuses scoring instead of being dropped or clamped into a favorable score.
+The gate did not specify occurrence matching and malformed-output semantics.
+This reaches the future existing evaluator extension; these frozen controls are
+not implemented scorer tests. Verdict: sound; it preserves the task and exposes
+missing information rather than manufacturing accuracy. Confidence: high.
+

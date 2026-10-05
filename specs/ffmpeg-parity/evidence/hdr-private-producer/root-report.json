@@ -1,0 +1,1113 @@
+{
+  "recipe": "zscale=t=linear:npl=100:agamma=0,format=gbrpf32le,zscale=p=bt709,tonemap=tonemap=hable:desat=0:peak=10,zscale=t=bt709:m=bt709:r=limited:dither=error_diffusion:agamma=0",
+  "rawTolerance8bit": 3,
+  "heldOut": false,
+  "encoded": true,
+  "producer": true,
+  "intermediateTolerance8bit": 3,
+  "runtime": {
+    "ffmpeg": "8410694433e927bdf2cc751b8c81cb4545b2302828fdffed6044018b10f39f31",
+    "ffprobe": "10cca670f6de7b7c7ab96c53205d1a6370f63f506b028942d930fef4426048ee",
+    "native": "6a78e2d1996ed3578c2d30876782d4f01b63904ae8bfca95a387ea25023f10dc"
+  },
+  "families": [
+    {
+      "family": "pq",
+      "producerEvidence": {
+        "sha256": "028ba34a6395e04b4c3b34cbbf4f0dd32021de653fcd40a11939057a6e992783",
+        "bytes": 36728,
+        "clock": {
+          "sourceClockAtDerivativeZeroUs": 0,
+          "movieTimescale": 24
+        },
+        "normalizedRgbMatches": true
+      },
+      "zeroExitControl": {
+        "validatorReached": true,
+        "retainedBytes": 0,
+        "code": "NATIVE_DECODE_FAILED",
+        "message": "Media handle has no readable container header."
+      },
+      "producerAuxiliary": {
+        "inputStreamCount": 3,
+        "outputStreamCount": 1,
+        "sha256": "028ba34a6395e04b4c3b34cbbf4f0dd32021de653fcd40a11939057a6e992783"
+      },
+      "sourceSha256": "5b4aaf3bd7c11be0148a4974b926fb13699a8c0b794d0771a82e3f3ea6d5c905",
+      "metadata": {
+        "originUs": 0,
+        "streams": [
+          {
+            "codec": "hvc1",
+            "codecAtomNames": [
+              [
+                "hvcC"
+              ]
+            ],
+            "colorFormats": [
+              {
+                "bitsPerComponent": 10,
+                "colorPrimaries": "ITU_R_2020",
+                "fullRange": false,
+                "interpretationExtensions": [],
+                "invalidColorDeclarations": [],
+                "transferFunction": "SMPTE_ST_2084_PQ",
+                "ycbcrMatrix": "ITU_R_2020"
+              }
+            ],
+            "colorPrimaries": "ITU_R_2020",
+            "compressedVideoInspection": {
+              "configurationNalTypes": [
+                32,
+                33,
+                34
+              ],
+              "nalTypes": [
+                1,
+                20
+              ],
+              "packetCount": 3,
+              "refusals": [],
+              "seiPayloadTypes": [],
+              "status": "complete"
+            },
+            "decodable": true,
+            "endUs": 125000,
+            "hasAlpha": false,
+            "height": 192,
+            "id": "track:1",
+            "kind": "video",
+            "orientedHeight": 192,
+            "orientedPixelBounds": {
+              "height": 192,
+              "width": 320,
+              "x": 0,
+              "y": 0
+            },
+            "orientedWidth": 320,
+            "samples": {
+              "count": 3,
+              "firstPtsUs": 0,
+              "firstTimeUs": 0,
+              "lastDurationUs": {
+                "denominator": 3,
+                "numerator": 125000
+              },
+              "lastPtsUs": 83333,
+              "lastTimeUs": {
+                "denominator": 3,
+                "numerator": 250000
+              },
+              "maxDurationUs": 41667,
+              "minDurationUs": 41667,
+              "presentedTimingSha256": "030afcd6dde973298a5412ef9d7cda08a1cb6c96cc4cb37c12e0edf3db38f37b"
+            },
+            "segments": [
+              {
+                "empty": false,
+                "endUs": 125000,
+                "mediaDurationUs": 125000,
+                "mediaStartUs": 0,
+                "startUs": 0
+              }
+            ],
+            "startUs": 0,
+            "transferFunction": "SMPTE_ST_2084_PQ",
+            "transform": [
+              1,
+              0,
+              0,
+              1,
+              0,
+              0
+            ],
+            "width": 320,
+            "ycbcrMatrix": "ITU_R_2020"
+          }
+        ]
+      },
+      "interpretation": {
+        "family": "pq"
+      },
+      "encodedControl": {
+        "sha256": "1a7c6c1ecb3480845ea07387e2287f3e46fce516bdc955567bf21f45a200bf32",
+        "metadata": {
+          "originUs": 0,
+          "streams": [
+            {
+              "codec": "hvc1",
+              "codecAtomNames": [
+                [
+                  "hvcC"
+                ]
+              ],
+              "colorFormats": [
+                {
+                  "bitsPerComponent": 10,
+                  "colorPrimaries": "ITU_R_2020",
+                  "fullRange": false,
+                  "interpretationExtensions": [],
+                  "invalidColorDeclarations": [],
+                  "transferFunction": "SMPTE_ST_2084_PQ",
+                  "ycbcrMatrix": "ITU_R_2020"
+                }
+              ],
+              "colorPrimaries": "ITU_R_2020",
+              "compressedVideoInspection": {
+                "configurationNalTypes": [
+                  32,
+                  33,
+                  34
+                ],
+                "nalTypes": [
+                  1,
+                  20,
+                  39
+                ],
+                "packetCount": 3,
+                "refusals": [
+                  "unqualified SEI payload 5"
+                ],
+                "seiPayloadTypes": [
+                  5
+                ],
+                "status": "complete"
+              },
+              "decodable": true,
+              "endUs": 125000,
+              "hasAlpha": false,
+              "height": 192,
+              "id": "track:1",
+              "kind": "video",
+              "orientedHeight": 192,
+              "orientedPixelBounds": {
+                "height": 192,
+                "width": 320,
+                "x": 0,
+                "y": 0
+              },
+              "orientedWidth": 320,
+              "samples": {
+                "count": 3,
+                "firstPtsUs": 0,
+                "firstTimeUs": 0,
+                "lastDurationUs": {
+                  "denominator": 3,
+                  "numerator": 125000
+                },
+                "lastPtsUs": 83333,
+                "lastTimeUs": {
+                  "denominator": 3,
+                  "numerator": 250000
+                },
+                "maxDurationUs": 41667,
+                "minDurationUs": 41667,
+                "presentedTimingSha256": "030afcd6dde973298a5412ef9d7cda08a1cb6c96cc4cb37c12e0edf3db38f37b"
+              },
+              "segments": [
+                {
+                  "empty": false,
+                  "endUs": 125000,
+                  "mediaDurationUs": 125000,
+                  "mediaStartUs": 0,
+                  "startUs": 0
+                }
+              ],
+              "startUs": 0,
+              "transferFunction": "SMPTE_ST_2084_PQ",
+              "transform": [
+                1,
+                0,
+                0,
+                1,
+                0,
+                0
+              ],
+              "width": 320,
+              "ycbcrMatrix": "ITU_R_2020"
+            }
+          ]
+        }
+      },
+      "explicitPins": {
+        "recipe": "zscale=pin=bt2020:tin=smpte2084:min=bt2020nc:rin=limited:t=linear:npl=100:agamma=0,format=gbrpf32le,zscale=p=bt709,tonemap=tonemap=hable:desat=0:peak=10,zscale=t=bt709:m=bt709:r=limited:dither=error_diffusion:agamma=0",
+        "rawMaximum": 0,
+        "wrongRangeMaximum": 13,
+        "frozenSha256": "ba9c4ac13599cb4268a9c015a1853e9910307c9e1a281734ebc1296a726abec5",
+        "pinnedSha256": "ba9c4ac13599cb4268a9c015a1853e9910307c9e1a281734ebc1296a726abec5"
+      },
+      "outputSha256": "ba9c4ac13599cb4268a9c015a1853e9910307c9e1a281734ebc1296a726abec5",
+      "outputMetadata": {
+        "originUs": 0,
+        "streams": [
+          {
+            "codec": "ap4h",
+            "codecAtomNames": [
+              []
+            ],
+            "colorFormats": [
+              {
+                "bitsPerComponent": 12,
+                "colorPrimaries": "ITU_R_709_2",
+                "fullRange": null,
+                "interpretationExtensions": [],
+                "invalidColorDeclarations": [],
+                "transferFunction": "ITU_R_709_2",
+                "ycbcrMatrix": "ITU_R_709_2"
+              }
+            ],
+            "colorPrimaries": "ITU_R_709_2",
+            "decodable": true,
+            "endUs": 125000,
+            "hasAlpha": false,
+            "height": 192,
+            "id": "track:1",
+            "kind": "video",
+            "orientedHeight": 192,
+            "orientedPixelBounds": {
+              "height": 192,
+              "width": 320,
+              "x": 0,
+              "y": 0
+            },
+            "orientedWidth": 320,
+            "samples": {
+              "count": 3,
+              "firstPtsUs": 0,
+              "firstTimeUs": 0,
+              "lastDurationUs": {
+                "denominator": 3,
+                "numerator": 125000
+              },
+              "lastPtsUs": 83333,
+              "lastTimeUs": {
+                "denominator": 3,
+                "numerator": 250000
+              },
+              "maxDurationUs": 41667,
+              "minDurationUs": 41667,
+              "presentedTimingSha256": "030afcd6dde973298a5412ef9d7cda08a1cb6c96cc4cb37c12e0edf3db38f37b"
+            },
+            "segments": [
+              {
+                "empty": false,
+                "endUs": 125000,
+                "mediaDurationUs": 125000,
+                "mediaStartUs": 0,
+                "startUs": 0
+              }
+            ],
+            "startUs": 0,
+            "transferFunction": "ITU_R_709_2",
+            "transform": [
+              1,
+              0,
+              0,
+              1,
+              0,
+              0
+            ],
+            "width": 320,
+            "ycbcrMatrix": "ITU_R_709_2"
+          }
+        ]
+      },
+      "rawCalibration": [
+        {
+          "row": 0,
+          "column": 0,
+          "maxError": 0,
+          "meanError": 0
+        },
+        {
+          "row": 0,
+          "column": 1,
+          "maxError": 0,
+          "meanError": 0
+        },
+        {
+          "row": 0,
+          "column": 2,
+          "maxError": 0,
+          "meanError": 0
+        },
+        {
+          "row": 0,
+          "column": 3,
+          "maxError": 0,
+          "meanError": 0
+        },
+        {
+          "row": 0,
+          "column": 4,
+          "maxError": 0,
+          "meanError": 0
+        },
+        {
+          "row": 0,
+          "column": 5,
+          "maxError": 1,
+          "meanError": 0.004166666666666667
+        },
+        {
+          "row": 0,
+          "column": 6,
+          "maxError": 0,
+          "meanError": 0
+        },
+        {
+          "row": 0,
+          "column": 7,
+          "maxError": 0,
+          "meanError": 0
+        },
+        {
+          "row": 0,
+          "column": 8,
+          "maxError": 0,
+          "meanError": 0
+        },
+        {
+          "row": 0,
+          "column": 9,
+          "maxError": 1,
+          "meanError": 0.016666666666666666
+        },
+        {
+          "row": 1,
+          "column": 0,
+          "maxError": 1,
+          "meanError": 0.3333333333333333
+        },
+        {
+          "row": 1,
+          "column": 1,
+          "maxError": 1,
+          "meanError": 0.3333333333333333
+        },
+        {
+          "row": 1,
+          "column": 2,
+          "maxError": 0,
+          "meanError": 0
+        },
+        {
+          "row": 1,
+          "column": 3,
+          "maxError": 1,
+          "meanError": 0.34010416666666665
+        },
+        {
+          "row": 1,
+          "column": 4,
+          "maxError": 1,
+          "meanError": 0.3333333333333333
+        },
+        {
+          "row": 1,
+          "column": 5,
+          "maxError": 1,
+          "meanError": 0.0049479166666666664
+        },
+        {
+          "row": 1,
+          "column": 6,
+          "maxError": 1,
+          "meanError": 0.6666666666666666
+        },
+        {
+          "row": 1,
+          "column": 7,
+          "maxError": 1,
+          "meanError": 0.04114583333333333
+        },
+        {
+          "row": 1,
+          "column": 8,
+          "maxError": 0,
+          "meanError": 0
+        },
+        {
+          "row": 1,
+          "column": 9,
+          "maxError": 2,
+          "meanError": 0.32135416666666666
+        }
+      ],
+      "intermediateCalibration": [
+        {
+          "row": 0,
+          "column": 0,
+          "maxError": 0,
+          "meanError": 0
+        },
+        {
+          "row": 0,
+          "column": 1,
+          "maxError": 0,
+          "meanError": 0
+        },
+        {
+          "row": 0,
+          "column": 2,
+          "maxError": 0,
+          "meanError": 0
+        },
+        {
+          "row": 0,
+          "column": 3,
+          "maxError": 1,
+          "meanError": 0.2
+        },
+        {
+          "row": 0,
+          "column": 4,
+          "maxError": 0,
+          "meanError": 0
+        },
+        {
+          "row": 0,
+          "column": 5,
+          "maxError": 1,
+          "meanError": 0.0109375
+        },
+        {
+          "row": 0,
+          "column": 6,
+          "maxError": 0,
+          "meanError": 0
+        },
+        {
+          "row": 0,
+          "column": 7,
+          "maxError": 0,
+          "meanError": 0
+        },
+        {
+          "row": 0,
+          "column": 8,
+          "maxError": 0,
+          "meanError": 0
+        },
+        {
+          "row": 0,
+          "column": 9,
+          "maxError": 2,
+          "meanError": 0.0171875
+        },
+        {
+          "row": 1,
+          "column": 0,
+          "maxError": 1,
+          "meanError": 0.3377604166666667
+        },
+        {
+          "row": 1,
+          "column": 1,
+          "maxError": 1,
+          "meanError": 0.33125
+        },
+        {
+          "row": 1,
+          "column": 2,
+          "maxError": 1,
+          "meanError": 0.13229166666666667
+        },
+        {
+          "row": 1,
+          "column": 3,
+          "maxError": 1,
+          "meanError": 0.34348958333333335
+        },
+        {
+          "row": 1,
+          "column": 4,
+          "maxError": 1,
+          "meanError": 0.43854166666666666
+        },
+        {
+          "row": 1,
+          "column": 5,
+          "maxError": 1,
+          "meanError": 0.05286458333333333
+        },
+        {
+          "row": 1,
+          "column": 6,
+          "maxError": 1,
+          "meanError": 0.6033854166666667
+        },
+        {
+          "row": 1,
+          "column": 7,
+          "maxError": 1,
+          "meanError": 0.05677083333333333
+        },
+        {
+          "row": 1,
+          "column": 8,
+          "maxError": 1,
+          "meanError": 0.021875
+        },
+        {
+          "row": 1,
+          "column": 9,
+          "maxError": 2,
+          "meanError": 0.20130208333333333
+        }
+      ],
+      "approximateGammaMaximum": 2,
+      "wholeFrameRawToIntermediateMaximum": 2,
+      "h264BoundaryMaximum": 38,
+      "intermediateInput": "held original while pathname replacement persists",
+      "heldPathSubstitution": "original retained inode decoded after replacement"
+    },
+    {
+      "family": "hlg",
+      "producerEvidence": {
+        "sha256": "41146ee3c9175503fe6fcbf8a67bf6009b0053b0c9625192cdd977a4d4bb4471",
+        "bytes": 37272,
+        "clock": {
+          "sourceClockAtDerivativeZeroUs": 0,
+          "movieTimescale": 24
+        },
+        "normalizedRgbMatches": true
+      },
+      "producerAuxiliary": {
+        "inputStreamCount": 3,
+        "outputStreamCount": 1,
+        "sha256": "41146ee3c9175503fe6fcbf8a67bf6009b0053b0c9625192cdd977a4d4bb4471"
+      },
+      "sourceSha256": "8941c24eeab7b2abd25092b97fdb1c2d0115fb347dc73dde458a978f88ba6246",
+      "metadata": {
+        "originUs": 0,
+        "streams": [
+          {
+            "codec": "hvc1",
+            "codecAtomNames": [
+              [
+                "hvcC"
+              ]
+            ],
+            "colorFormats": [
+              {
+                "bitsPerComponent": 10,
+                "colorPrimaries": "ITU_R_2020",
+                "fullRange": false,
+                "interpretationExtensions": [],
+                "invalidColorDeclarations": [],
+                "transferFunction": "ITU_R_2100_HLG",
+                "ycbcrMatrix": "ITU_R_2020"
+              }
+            ],
+            "colorPrimaries": "ITU_R_2020",
+            "compressedVideoInspection": {
+              "configurationNalTypes": [
+                32,
+                33,
+                34
+              ],
+              "nalTypes": [
+                1,
+                20
+              ],
+              "packetCount": 3,
+              "refusals": [],
+              "seiPayloadTypes": [],
+              "status": "complete"
+            },
+            "decodable": true,
+            "endUs": 125000,
+            "hasAlpha": false,
+            "height": 192,
+            "id": "track:1",
+            "kind": "video",
+            "orientedHeight": 192,
+            "orientedPixelBounds": {
+              "height": 192,
+              "width": 320,
+              "x": 0,
+              "y": 0
+            },
+            "orientedWidth": 320,
+            "samples": {
+              "count": 3,
+              "firstPtsUs": 0,
+              "firstTimeUs": 0,
+              "lastDurationUs": {
+                "denominator": 3,
+                "numerator": 125000
+              },
+              "lastPtsUs": 83333,
+              "lastTimeUs": {
+                "denominator": 3,
+                "numerator": 250000
+              },
+              "maxDurationUs": 41667,
+              "minDurationUs": 41667,
+              "presentedTimingSha256": "030afcd6dde973298a5412ef9d7cda08a1cb6c96cc4cb37c12e0edf3db38f37b"
+            },
+            "segments": [
+              {
+                "empty": false,
+                "endUs": 125000,
+                "mediaDurationUs": 125000,
+                "mediaStartUs": 0,
+                "startUs": 0
+              }
+            ],
+            "startUs": 0,
+            "transferFunction": "ITU_R_2100_HLG",
+            "transform": [
+              1,
+              0,
+              0,
+              1,
+              0,
+              0
+            ],
+            "width": 320,
+            "ycbcrMatrix": "ITU_R_2020"
+          }
+        ]
+      },
+      "interpretation": {
+        "family": "hlg"
+      },
+      "encodedControl": {
+        "sha256": "09362166424daba26e4a63fcadc7befd280cbff28c8f34a4524ecb36a7a08abe",
+        "metadata": {
+          "originUs": 0,
+          "streams": [
+            {
+              "codec": "hvc1",
+              "codecAtomNames": [
+                [
+                  "hvcC"
+                ]
+              ],
+              "colorFormats": [
+                {
+                  "bitsPerComponent": 10,
+                  "colorPrimaries": "ITU_R_2020",
+                  "fullRange": false,
+                  "interpretationExtensions": [],
+                  "invalidColorDeclarations": [],
+                  "transferFunction": "ITU_R_2100_HLG",
+                  "ycbcrMatrix": "ITU_R_2020"
+                }
+              ],
+              "colorPrimaries": "ITU_R_2020",
+              "compressedVideoInspection": {
+                "configurationNalTypes": [
+                  32,
+                  33,
+                  34
+                ],
+                "nalTypes": [
+                  1,
+                  20,
+                  39,
+                  62
+                ],
+                "packetCount": 3,
+                "refusals": [
+                  "unqualified NAL type 62",
+                  "unqualified SEI payload 5"
+                ],
+                "seiPayloadTypes": [
+                  5
+                ],
+                "status": "complete"
+              },
+              "decodable": true,
+              "endUs": 125000,
+              "hasAlpha": false,
+              "height": 192,
+              "id": "track:1",
+              "kind": "video",
+              "orientedHeight": 192,
+              "orientedPixelBounds": {
+                "height": 192,
+                "width": 320,
+                "x": 0,
+                "y": 0
+              },
+              "orientedWidth": 320,
+              "samples": {
+                "count": 3,
+                "firstPtsUs": 0,
+                "firstTimeUs": 0,
+                "lastDurationUs": {
+                  "denominator": 3,
+                  "numerator": 125000
+                },
+                "lastPtsUs": 83333,
+                "lastTimeUs": {
+                  "denominator": 3,
+                  "numerator": 250000
+                },
+                "maxDurationUs": 41667,
+                "minDurationUs": 41667,
+                "presentedTimingSha256": "030afcd6dde973298a5412ef9d7cda08a1cb6c96cc4cb37c12e0edf3db38f37b"
+              },
+              "segments": [
+                {
+                  "empty": false,
+                  "endUs": 125000,
+                  "mediaDurationUs": 125000,
+                  "mediaStartUs": 0,
+                  "startUs": 0
+                }
+              ],
+              "startUs": 0,
+              "transferFunction": "ITU_R_2100_HLG",
+              "transform": [
+                1,
+                0,
+                0,
+                1,
+                0,
+                0
+              ],
+              "width": 320,
+              "ycbcrMatrix": "ITU_R_2020"
+            }
+          ]
+        }
+      },
+      "explicitPins": {
+        "recipe": "zscale=pin=bt2020:tin=arib-std-b67:min=bt2020nc:rin=limited:t=linear:npl=100:agamma=0,format=gbrpf32le,zscale=p=bt709,tonemap=tonemap=hable:desat=0:peak=10,zscale=t=bt709:m=bt709:r=limited:dither=error_diffusion:agamma=0",
+        "rawMaximum": 0,
+        "wrongRangeMaximum": 18,
+        "frozenSha256": "33ea576a0bd9408519144495caa25d061bfcc25b3b13aa748e2d806e690b8615",
+        "pinnedSha256": "33ea576a0bd9408519144495caa25d061bfcc25b3b13aa748e2d806e690b8615"
+      },
+      "outputSha256": "33ea576a0bd9408519144495caa25d061bfcc25b3b13aa748e2d806e690b8615",
+      "outputMetadata": {
+        "originUs": 0,
+        "streams": [
+          {
+            "codec": "ap4h",
+            "codecAtomNames": [
+              []
+            ],
+            "colorFormats": [
+              {
+                "bitsPerComponent": 12,
+                "colorPrimaries": "ITU_R_709_2",
+                "fullRange": null,
+                "interpretationExtensions": [],
+                "invalidColorDeclarations": [],
+                "transferFunction": "ITU_R_709_2",
+                "ycbcrMatrix": "ITU_R_709_2"
+              }
+            ],
+            "colorPrimaries": "ITU_R_709_2",
+            "decodable": true,
+            "endUs": 125000,
+            "hasAlpha": false,
+            "height": 192,
+            "id": "track:1",
+            "kind": "video",
+            "orientedHeight": 192,
+            "orientedPixelBounds": {
+              "height": 192,
+              "width": 320,
+              "x": 0,
+              "y": 0
+            },
+            "orientedWidth": 320,
+            "samples": {
+              "count": 3,
+              "firstPtsUs": 0,
+              "firstTimeUs": 0,
+              "lastDurationUs": {
+                "denominator": 3,
+                "numerator": 125000
+              },
+              "lastPtsUs": 83333,
+              "lastTimeUs": {
+                "denominator": 3,
+                "numerator": 250000
+              },
+              "maxDurationUs": 41667,
+              "minDurationUs": 41667,
+              "presentedTimingSha256": "030afcd6dde973298a5412ef9d7cda08a1cb6c96cc4cb37c12e0edf3db38f37b"
+            },
+            "segments": [
+              {
+                "empty": false,
+                "endUs": 125000,
+                "mediaDurationUs": 125000,
+                "mediaStartUs": 0,
+                "startUs": 0
+              }
+            ],
+            "startUs": 0,
+            "transferFunction": "ITU_R_709_2",
+            "transform": [
+              1,
+              0,
+              0,
+              1,
+              0,
+              0
+            ],
+            "width": 320,
+            "ycbcrMatrix": "ITU_R_709_2"
+          }
+        ]
+      },
+      "rawCalibration": [
+        {
+          "row": 0,
+          "column": 0,
+          "maxError": 0,
+          "meanError": 0
+        },
+        {
+          "row": 0,
+          "column": 1,
+          "maxError": 0,
+          "meanError": 0
+        },
+        {
+          "row": 0,
+          "column": 2,
+          "maxError": 0,
+          "meanError": 0
+        },
+        {
+          "row": 0,
+          "column": 3,
+          "maxError": 0,
+          "meanError": 0
+        },
+        {
+          "row": 0,
+          "column": 4,
+          "maxError": 0,
+          "meanError": 0
+        },
+        {
+          "row": 0,
+          "column": 5,
+          "maxError": 1,
+          "meanError": 0.008333333333333333
+        },
+        {
+          "row": 0,
+          "column": 6,
+          "maxError": 0,
+          "meanError": 0
+        },
+        {
+          "row": 0,
+          "column": 7,
+          "maxError": 0,
+          "meanError": 0
+        },
+        {
+          "row": 0,
+          "column": 8,
+          "maxError": 0,
+          "meanError": 0
+        },
+        {
+          "row": 0,
+          "column": 9,
+          "maxError": 0,
+          "meanError": 0
+        },
+        {
+          "row": 1,
+          "column": 0,
+          "maxError": 1,
+          "meanError": 0.0625
+        },
+        {
+          "row": 1,
+          "column": 1,
+          "maxError": 1,
+          "meanError": 0.3333333333333333
+        },
+        {
+          "row": 1,
+          "column": 2,
+          "maxError": 1,
+          "meanError": 0.33359375
+        },
+        {
+          "row": 1,
+          "column": 3,
+          "maxError": 1,
+          "meanError": 0.01015625
+        },
+        {
+          "row": 1,
+          "column": 4,
+          "maxError": 0,
+          "meanError": 0
+        },
+        {
+          "row": 1,
+          "column": 5,
+          "maxError": 1,
+          "meanError": 0.009375
+        },
+        {
+          "row": 1,
+          "column": 6,
+          "maxError": 1,
+          "meanError": 0.3333333333333333
+        },
+        {
+          "row": 1,
+          "column": 7,
+          "maxError": 1,
+          "meanError": 0.003125
+        },
+        {
+          "row": 1,
+          "column": 8,
+          "maxError": 0,
+          "meanError": 0
+        },
+        {
+          "row": 1,
+          "column": 9,
+          "maxError": 1,
+          "meanError": 0.029427083333333333
+        }
+      ],
+      "intermediateCalibration": [
+        {
+          "row": 0,
+          "column": 0,
+          "maxError": 0,
+          "meanError": 0
+        },
+        {
+          "row": 0,
+          "column": 1,
+          "maxError": 0,
+          "meanError": 0
+        },
+        {
+          "row": 0,
+          "column": 2,
+          "maxError": 0,
+          "meanError": 0
+        },
+        {
+          "row": 0,
+          "column": 3,
+          "maxError": 1,
+          "meanError": 0.1015625
+        },
+        {
+          "row": 0,
+          "column": 4,
+          "maxError": 0,
+          "meanError": 0
+        },
+        {
+          "row": 0,
+          "column": 5,
+          "maxError": 1,
+          "meanError": 0.004166666666666667
+        },
+        {
+          "row": 0,
+          "column": 6,
+          "maxError": 0,
+          "meanError": 0
+        },
+        {
+          "row": 0,
+          "column": 7,
+          "maxError": 0,
+          "meanError": 0
+        },
+        {
+          "row": 0,
+          "column": 8,
+          "maxError": 0,
+          "meanError": 0
+        },
+        {
+          "row": 0,
+          "column": 9,
+          "maxError": 0,
+          "meanError": 0
+        },
+        {
+          "row": 1,
+          "column": 0,
+          "maxError": 1,
+          "meanError": 0.22265625
+        },
+        {
+          "row": 1,
+          "column": 1,
+          "maxError": 1,
+          "meanError": 0.2421875
+        },
+        {
+          "row": 1,
+          "column": 2,
+          "maxError": 1,
+          "meanError": 0.30807291666666664
+        },
+        {
+          "row": 1,
+          "column": 3,
+          "maxError": 1,
+          "meanError": 0.030989583333333334
+        },
+        {
+          "row": 1,
+          "column": 4,
+          "maxError": 1,
+          "meanError": 0.0020833333333333333
+        },
+        {
+          "row": 1,
+          "column": 5,
+          "maxError": 1,
+          "meanError": 0.0109375
+        },
+        {
+          "row": 1,
+          "column": 6,
+          "maxError": 1,
+          "meanError": 0.4828125
+        },
+        {
+          "row": 1,
+          "column": 7,
+          "maxError": 1,
+          "meanError": 0.2515625
+        },
+        {
+          "row": 1,
+          "column": 8,
+          "maxError": 1,
+          "meanError": 0.013802083333333333
+        },
+        {
+          "row": 1,
+          "column": 9,
+          "maxError": 1,
+          "meanError": 0.18723958333333332
+        }
+      ],
+      "approximateGammaMaximum": 22,
+      "wholeFrameRawToIntermediateMaximum": 3,
+      "h264BoundaryMaximum": 38,
+      "intermediateInput": "held original while pathname replacement persists",
+      "heldPathSubstitution": "original retained inode decoded after replacement"
+    }
+  ]
+}
