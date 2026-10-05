@@ -1,0 +1,180 @@
+{
+  "incumbent": null,
+  "providerSelected": null,
+  "status": "Fixed default-cohort hypothesis resolved; neither candidate qualifies; confirmation untouched",
+  "budget": {
+    "modelCalls": 4,
+    "audioSecondsExecuted": 120,
+    "maximumAudioSeconds": 270,
+    "inferenceSeconds": 9.224736094474792,
+    "wallSeconds": 15.799714500999999,
+    "infrastructureCorrections": 1,
+    "newModelBytes": 0,
+    "selectedCompleteOriginalBytes": 52865492
+  },
+  "attempts": [
+    {
+      "provider": "community",
+      "case": "bspxd",
+      "raw": "results/community-bspxd.json",
+      "rawSha256": "979efd7230823b8495010192f267928de6073acdf1117a2a27db8657dae05c5f",
+      "attempt": "results/community-bspxd-attempt.json",
+      "der": 0.2576526371467527,
+      "metrics": {
+        "referenceSpeakerSeconds": 29.840000000000003,
+        "overlapSeconds": 3.039999999999992,
+        "silenceSeconds": 3.1999999999999886,
+        "missedSpeakerSeconds": 2.7417327594757097,
+        "falseSpeakerSeconds": 0.20224197387695142,
+        "confusedSpeakerSeconds": 4.744379959106439,
+        "mapping": {
+          "S1": "spk00",
+          "S2": "spk02"
+        },
+        "der": 0.2576526371467527
+      },
+      "qualityPassed": false,
+      "resourcePassed": true,
+      "inferenceSeconds": 0.208670973777771,
+      "coldModelLoadSeconds": 0.09305393695831299,
+      "peakProcessRSSBytes": 187449344,
+      "wallSeconds": 0.345025167,
+      "verdict": "discard-no-confirmation"
+    },
+    {
+      "provider": "sortformer",
+      "case": "bspxd",
+      "raw": "results/sortformer-bspxd.json",
+      "rawSha256": "a54a24998f8494ab64f6cacc78110a78f3513729d2b1300aea92e069b6aa2ee7",
+      "attempt": "results/sortformer-bspxd-attempt.json",
+      "der": 0.05495977905097067,
+      "metrics": {
+        "referenceSpeakerSeconds": 29.840000000000003,
+        "overlapSeconds": 3.039999999999992,
+        "silenceSeconds": 3.1999999999999886,
+        "missedSpeakerSeconds": 1.0799999976158219,
+        "falseSpeakerSeconds": 0.5199997901916547,
+        "confusedSpeakerSeconds": 0.0400000190734886,
+        "mapping": {
+          "S0": "spk01",
+          "S1": "spk00",
+          "S2": "spk02"
+        },
+        "der": 0.05495977905097067
+      },
+      "qualityPassed": true,
+      "resourcePassed": true,
+      "inferenceSeconds": 1.751891016960144,
+      "coldModelLoadSeconds": 2.1059809923171997,
+      "peakProcessRSSBytes": 528842752,
+      "wallSeconds": 3.910134042,
+      "verdict": "pass-development-only"
+    },
+    {
+      "provider": "sortformer",
+      "case": "ccokr",
+      "raw": "results/sortformer-ccokr.json",
+      "rawSha256": "1ffbdc2b13409a3f670363688032b76230253219e93c7f1e02b08439944e487b",
+      "attempt": "results/sortformer-ccokr-attempt.json",
+      "der": 0.15902587869618146,
+      "metrics": {
+        "referenceSpeakerSeconds": 27.92,
+        "overlapSeconds": 1.7600000000000051,
+        "silenceSeconds": 3.8400000000000034,
+        "missedSpeakerSeconds": 1.6000011885166003,
+        "falseSpeakerSeconds": 1.9200008106231508,
+        "confusedSpeakerSeconds": 0.9200005340576354,
+        "mapping": {
+          "S0": "spk03",
+          "S1": "spk02"
+        },
+        "der": 0.15902587869618146
+      },
+      "qualityPassed": true,
+      "resourcePassed": true,
+      "inferenceSeconds": 2.0092800855636597,
+      "coldModelLoadSeconds": 2.118162989616394,
+      "peakProcessRSSBytes": 528875520,
+      "wallSeconds": 4.179765124999999,
+      "verdict": "pass-development-only"
+    },
+    {
+      "provider": "sortformer",
+      "case": "cmfyw",
+      "raw": "results/sortformer-cmfyw.json",
+      "rawSha256": "19f0a6d30d497d3d4589216dd32831a971c2a9ff2c436f1425cbd662a272fca0",
+      "attempt": "results/sortformer-cmfyw-attempt.json",
+      "der": 0.24904701094766699,
+      "metrics": {
+        "referenceSpeakerSeconds": 31.479999999999997,
+        "overlapSeconds": 4.68,
+        "silenceSeconds": 3.200000000000003,
+        "missedSpeakerSeconds": 4.559999027252189,
+        "falseSpeakerSeconds": 1.0000014877319288,
+        "confusedSpeakerSeconds": 2.279999389648438,
+        "mapping": {
+          "S0": "spk03",
+          "S1": "spk01",
+          "S2": "spk04"
+        },
+        "der": 0.24904701094766699
+      },
+      "qualityPassed": false,
+      "resourcePassed": true,
+      "inferenceSeconds": 5.254894018173218,
+      "coldModelLoadSeconds": 2.058008074760437,
+      "peakProcessRSSBytes": 528826368,
+      "wallSeconds": 7.364790166999999,
+      "verdict": "discard-no-confirmation"
+    }
+  ],
+  "confirmation": {
+    "caseIds": [
+      "aepyx",
+      "aggyz",
+      "aiqwk"
+    ],
+    "inferenceCalls": 0,
+    "scored": false
+  },
+  "effects": [
+    {
+      "parameter": "Independent acoustic reference with unchanged22 settings",
+      "effect": "Sortformer passes two new development cases but fails third; Community fails first after legitimate source mapping. Not a matched-corpus causal proof of AMI padding effect",
+      "confidence": "Measured on these windows only; old failed AMI untouched"
+    },
+    {
+      "parameter": "Community zero-padding-to-source mapping",
+      "effect": "Excluded67.911ms outside physical input; restored valid source support, DER25.7653% still fails. No interior edit",
+      "confidence": "Pinned executed source snapshots, complete raw failure, frozenclockprotocol, red/green adapter tests"
+    },
+    {
+      "parameter": "Default Sortformer context",
+      "effect": "5.496%,15.903%,24.905% DER; misses4.56s and confuses2.28s on cmfyw; pooled score cannot promote",
+      "confidence": "No tuning, exact cached binary/model/settings"
+    }
+  ],
+  "hypotheses": [
+    {
+      "id": "acoustic-reference",
+      "verdict": "discard as sufficient default-provider qualification",
+      "next": "separately frozen development calibration before any untouched confirmation"
+    },
+    {
+      "id": "provider-support-clock",
+      "verdict": "keep audited padding mapping; reject generic unexplained clamp",
+      "next": "general source-clock adapter applies only to proven SDK recipe"
+    },
+    {
+      "id": "clustering/segmentation calibration",
+      "verdict": "next, not executed here",
+      "prediction": "Documented thresholds may improve speaker confusion/short or overlap support without supplying reference speaker counts",
+      "falsifier": "No frozen candidate passes every development case/cost; do not score confirmation"
+    }
+  ],
+  "handoff": {
+    "next": "Freeze tiny documented Community1 calibration using development only, immutable models, new private configurable wrapper identity; no known speaker counts or identities",
+    "regressionSet": "All three development windows and old22 failures remain retained",
+    "productGate": "23a remains open; no provider, operation or product persistence selected"
+  }
+}

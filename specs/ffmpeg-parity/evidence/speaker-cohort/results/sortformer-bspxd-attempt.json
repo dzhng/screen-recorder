@@ -1,0 +1,15 @@
+{
+  "command": [
+    "/usr/bin/sandbox-exec",
+    "-p",
+    "(version 1)(allow default)(deny network*)",
+    "/tmp/screenrec-speech-research-native/runner/.build/out/Products/Debug/AlternativeRunner",
+    "/tmp/screenrec-speech-research-cache/sortformer-model",
+    "/tmp/screenrec-speech-research-cache/voxconverse/bspxd.f32",
+    "/tmp/screenrec-speaker-cohort-results/sortformer-bspxd.json"
+  ],
+  "wallSeconds": 3.910134042,
+  "exitCode": 0,
+  "networkDenied": true,
+  "role": "development"
+}

@@ -1,0 +1,33 @@
+{
+  "provider": "sortformer",
+  "id": "cmfyw",
+  "role": "development",
+  "metrics": {
+    "referenceSpeakerSeconds": 31.479999999999997,
+    "overlapSeconds": 4.68,
+    "silenceSeconds": 3.200000000000003,
+    "missedSpeakerSeconds": 4.559999027252189,
+    "falseSpeakerSeconds": 1.0000014877319288,
+    "confusedSpeakerSeconds": 2.279999389648438,
+    "mapping": {
+      "S0": "spk03",
+      "S1": "spk01",
+      "S2": "spk04"
+    },
+    "der": 0.24904701094766699
+  },
+  "error": null,
+  "resource": {
+    "audioSeconds": 30,
+    "coldModelLoadSeconds": 2.058008074760437,
+    "audioReadSeconds": 0.03746497631072998,
+    "inferenceSeconds": 5.254894018173218,
+    "peakProcessRSSBytes": 528826368,
+    "config": "SortformerConfig.default, DiarizerTimelineConfig.sortformerDefault; 6/1/7 chunk/left/right;40FIFO;188cache",
+    "finalizedFrameCount": 373
+  },
+  "qualityPassed": false,
+  "resourcePassed": true,
+  "sourceSupportValid": true,
+  "passed": false
+}

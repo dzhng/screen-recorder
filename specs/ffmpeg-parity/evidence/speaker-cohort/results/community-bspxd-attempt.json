@@ -1,0 +1,15 @@
+{
+  "command": [
+    "/usr/bin/sandbox-exec",
+    "-p",
+    "(version 1)(allow default)(deny network*)",
+    "/tmp/screenrec-speech-research-native/runner/.build/out/Products/Debug/Runner",
+    "/tmp/screenrec-speech-research-cache/diarization-model",
+    "/tmp/screenrec-speech-research-cache/voxconverse/bspxd.f32",
+    "/tmp/screenrec-speaker-cohort-results/community-bspxd.json"
+  ],
+  "wallSeconds": 0.345025167,
+  "exitCode": 0,
+  "networkDenied": true,
+  "role": "development"
+}

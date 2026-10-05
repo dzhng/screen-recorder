@@ -1,0 +1,33 @@
+{
+  "provider": "sortformer",
+  "id": "bspxd",
+  "role": "development",
+  "metrics": {
+    "referenceSpeakerSeconds": 29.840000000000003,
+    "overlapSeconds": 3.039999999999992,
+    "silenceSeconds": 3.1999999999999886,
+    "missedSpeakerSeconds": 1.0799999976158219,
+    "falseSpeakerSeconds": 0.5199997901916547,
+    "confusedSpeakerSeconds": 0.0400000190734886,
+    "mapping": {
+      "S0": "spk01",
+      "S1": "spk00",
+      "S2": "spk02"
+    },
+    "der": 0.05495977905097067
+  },
+  "error": null,
+  "resource": {
+    "audioSeconds": 30,
+    "coldModelLoadSeconds": 2.1059809923171997,
+    "audioReadSeconds": 0.038008928298950195,
+    "inferenceSeconds": 1.751891016960144,
+    "peakProcessRSSBytes": 528842752,
+    "config": "SortformerConfig.default, DiarizerTimelineConfig.sortformerDefault; 6/1/7 chunk/left/right;40FIFO;188cache",
+    "finalizedFrameCount": 373
+  },
+  "qualityPassed": true,
+  "resourcePassed": true,
+  "sourceSupportValid": true,
+  "passed": true
+}

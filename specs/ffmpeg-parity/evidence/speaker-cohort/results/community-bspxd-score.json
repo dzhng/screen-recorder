@@ -1,0 +1,31 @@
+{
+  "provider": "community",
+  "id": "bspxd",
+  "role": "development",
+  "metrics": null,
+  "error": {
+    "message": "Invalid interval",
+    "invalidIntervals": [
+      {
+        "end": 30.06791114807129,
+        "speaker": "S2",
+        "start": 27.198640823364258
+      }
+    ]
+  },
+  "resource": {
+    "audioSeconds": 30,
+    "coldModelLoadSeconds": 0.09305393695831299,
+    "audioReadSeconds": 0.03141605854034424,
+    "inferenceSeconds": 0.208670973777771,
+    "peakProcessRSSBytes": 187449344,
+    "config": {
+      "clusteringThreshold": 0.7,
+      "exclusiveSegments": false
+    }
+  },
+  "qualityPassed": false,
+  "resourcePassed": true,
+  "sourceSupportValid": false,
+  "passed": false
+}

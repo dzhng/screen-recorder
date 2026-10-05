@@ -1,0 +1,22 @@
+{
+  "sdkRevision": "41540ea237350afe5117a082b5c28eda642d0612",
+  "files": [
+    {
+      "path": "sdk-OfflineSegmentationProcessor.swift.gz",
+      "sourceSha256": "8085de7a588cd9e1c2c7a1824a229ae9d4691d9a69301cb114fe1fb1d68d4d9f"
+    },
+    {
+      "path": "sdk-OfflineReconstruction.swift.gz",
+      "sourceSha256": "10a0db69e2cbc9acdd5495ee75020a3db979ea8830823a3e85b23177782ac348"
+    },
+    {
+      "path": "sdk-OfflineDiarizerManager.swift.gz",
+      "sourceSha256": "5ac1c05b04068c76617c3c78bdf779e703e4bccec8874d3220f77331d0bf6f10"
+    },
+    {
+      "path": "sdk-OfflineDiarizerTypes.swift.gz",
+      "sourceSha256": "ff7e63e82330e48c7986ca5a5a6194a8f1a2304d2f5dd3afa1249932d8b6d271"
+    }
+  ],
+  "notice": "sdk-notice.txt"
+}

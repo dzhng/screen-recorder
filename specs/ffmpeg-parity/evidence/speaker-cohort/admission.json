@@ -1,0 +1,29 @@
+{
+  "frozenProtocolSha256": "d46d5d146685afe7564933fe2310179d26c04270180af8e34ac35addf69a74d7",
+  "selectionSha256": "3122991d85d0c71e6396fc53193312e008c4edff2e15e11992c92da1f43be08c",
+  "providers": [
+    {
+      "binary": "/tmp/screenrec-speech-research-native/runner/.build/out/Products/Debug/Runner",
+      "sha256": "dce8d17edeb36e97aa0bc89c12fb441daa0206ad6e2fde43a6b5f618a61c1978",
+      "modelInventorySha256": "94a035ba25655e0cb5afa706a6092826f997cb4c446bbf547e8700e06f4e6afb",
+      "inventoryFilesVerified": 25,
+      "bytesVerified": 21634526
+    },
+    {
+      "binary": "/tmp/screenrec-speech-research-native/runner/.build/out/Products/Debug/AlternativeRunner",
+      "sha256": "3b00fdbcd189e1167669081a97889d921992755ed948ba4b544a4cf7ae6c8d95",
+      "modelInventorySha256": "45a4338072990dcbffaa0f035e2ba4bfec380adc377074ff36f7a7dc7dcc1df0",
+      "inventoryFilesVerified": 11,
+      "bytesVerified": 240564223
+    }
+  ],
+  "checks": [
+    "Exact originalPCMwindow equals retainedwindowbytes",
+    "EveryFloat32sample exactly equals originalPCM16/32768; no resampling/downmix/timechange",
+    "OriginalRIFF clocks16kmonoPCM16;480000frames/window;1920000floatbytes",
+    "OriginalRTTM hashes and exact clampedsourceoffset reference reconstruction agree",
+    "Everypinnedmodelinventoryfile size/hash agrees; exactcachedbinaries reused"
+  ],
+  "inferenceStarted": false,
+  "scope": "Admission only, not provider quality; HTTP Range/membership/CRC already validated by acquisition controller"
+}

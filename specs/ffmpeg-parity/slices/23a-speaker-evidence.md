@@ -3,15 +3,47 @@
 Status: open, gated by failed [22](22-speech-feasibility.md) provider experiments.
 No provider or implementation is selected.
 
-## Next bounded checkpoint
+## Frozen independent acoustic cohort
 
-Validate acoustic speaker support on an untouched real corpus window with overlap
-and silence. Independent transcriber segment labels include padding, and published
-SDK scores use a different forced-aligned reference. Freeze the new label authority,
-model lineage, no-tuning confirmation split and the unchanged 20% DER/cost gates
-before another comparison. Keep miss, confusion, false speech and overlap
-separate; anonymous speaker IDs are not recognition of known people. Resolve the
-root Sortformer variant's conflicting lineage/license metadata before selection.
+The [protocol](../evidence/speaker-cohort/frozen-protocol.json) and original
+[selection/RTTM](../evidence/speaker-cohort/selection.json) freeze six 30-second
+VoxConverse v0.3 windows before inference: three official development and three
+untouched official test cases. Selection uses only original corrected human
+speaker intervals, with two to four anonymous speakers, overlap and silence.
+The [paper's manual verification](https://arxiv.org/abs/2007.01216) explicitly
+corrects automatic intervals after watching/listening, targeting boundaries within
+100 ms. This is independent acoustic speaker support, not AMI transcript padding
+or human word-boundary authority. Zero collar and overlap scoring stay unchanged.
+
+Reuse both exact prepared 22 binaries/models/settings without copies, tuning or
+new model acquisition. Audit range extraction, original RIFF and exact sample
+clocks first. Compare development cases serially; only a candidate passing every
+development case and cost may reach untouched confirmation, chosen by pooled DER.
+Every confirmation case and pooled speaker-time DER must be at most 20%; an
+average cannot conceal a failed window. No qualifying development candidate means
+no provider selection and confirmation remains unscored. These stricter guards do
+not reinterpret the retained failed AMI results or prove why they failed.
+
+No product persistence/operations or provider license resolution follows from
+this research. The root Sortformer variant's lineage ambiguity remains; RSS
+excludes CoreML/ANE services, unknown-assignment confidence is untested, and
+VoxConverse identity population/training overlap limits general claims.
+
+## Default cohort result and next calibration
+
+The [independent acoustic research](../evidence/speaker-cohort/README.md) retains
+four exact cached-provider calls. Neither candidate qualifies; no confirmation
+inference occurred and no product provider is selected. Community source-clock
+padding is explained and mapped under a separately frozen protocol, retaining
+its raw invalid failure; its adapted quality still fails. No average overrides
+a failed development case. The research map owns measured outcomes and budgets.
+
+The next candidate is a separately frozen, small documented Community1 calibration
+using development windows only, without reference speaker counts or identities.
+Keep original sources, model identity, overlap, no collar, every-case 20% DER and
+cost fixed. A new configurable wrapper needs its own source/binary identity and
+private build output. Only a recipe passing every development gate can reach the
+untouched test windows once. Do not retune confirmation or promote failed recipes.
 
 ## Implementation contract after a passed gate
 

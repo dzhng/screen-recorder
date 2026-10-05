@@ -1,0 +1,42 @@
+{
+  "version": 2,
+  "parentProtocolSha256": "d46d5d146685afe7564933fe2310179d26c04270180af8e34ac35addf69a74d7",
+  "frozenBeforeAdaptedRescoring": true,
+  "repair": "One permitted infrastructure/source-clock correction; no model/settings/reference/evaluator/quality threshold change",
+  "provider": "community",
+  "sourceProof": [
+    {
+      "path": "/tmp/screenrec-speech-research-native/FluidAudio/Sources/FluidAudio/Diarizer/Offline/Segmentation/OfflineSegmentationProcessor.swift",
+      "sha256": "8085de7a588cd9e1c2c7a1824a229ae9d4691d9a69301cb114fe1fb1d68d4d9f",
+      "meaning": "Source count, integer-stride offsets, zero clearing after final available sample, full model frame duration"
+    },
+    {
+      "path": "/tmp/screenrec-speech-research-native/FluidAudio/Sources/FluidAudio/Diarizer/Offline/Utils/OfflineReconstruction.swift",
+      "sha256": "10a0db69e2cbc9acdd5495ee75020a3db979ea8830823a3e85b23177782ac348",
+      "meaning": "Global frame count includes entire trailing padded window; sanitize never clamps source duration"
+    },
+    {
+      "path": "/tmp/screenrec-speech-research-native/FluidAudio/Sources/FluidAudio/Diarizer/Offline/Core/OfflineDiarizerManager.swift",
+      "sha256": "5ac1c05b04068c76617c3c78bdf779e703e4bccec8874d3220f77331d0bf6f10",
+      "meaning": "Reconstruction output returned unchanged"
+    },
+    {
+      "path": "/tmp/screenrec-speech-research-native/FluidAudio/Sources/FluidAudio/Diarizer/Offline/Core/OfflineDiarizerTypes.swift",
+      "sha256": "ff7e63e82330e48c7986ca5a5a6194a8f1a2304d2f5dd3afa1249932d8b6d271",
+      "meaning": "Community defaults: 16000Hz,10s window,.2 step ratio"
+    }
+  ],
+  "observedExecution": {
+    "log": "results/community-bspxd.log",
+    "logSha256": "4fdf34c0ece24c38878041a6c8a6b7c9cfd1a7729da786d734ba1a23e5f1c94c",
+    "sourceFrameCount": 480000,
+    "sampleRate": 16000,
+    "windowSamples": 160000,
+    "stepSamples": 32000,
+    "outputFramesPerWindow": 589
+  },
+  "mapping": "Compute original support from integer PCM frame count/sample rate. SDK analysis support is ceil((last integer-stride window offset + window duration)/model frame duration) * model frame duration, with Float32 endpoint rounding. Reject negative/non-finite/reversed/unproven out-of-analysis intervals. Intersect only proven zero-padded tail with original support; retain raw intervals and removed padding. All endpoints inside physical support remain identical. Do not shift/merge/relabel/repair anything inside support. Purely padded intervals are explicitly retained as excluded, not source evidence.",
+  "selectionMeaning": "Research confirmation comparator only: quality cannot resolve weight lineage, recognition, confidence or product selection",
+  "gate": "Unchanged version1, every development and confirmation case DER<=.20, overlap included, no collar; source validation + scoped cost also required",
+  "next": "Rescore retained raw Community bspxd only. If it fails stop without more Community inference; otherwise remaining two development calls, then confirmation only if each passes."
+}

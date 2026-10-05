@@ -1,0 +1,44 @@
+{
+  "audioReadSeconds" : 0.031416058540344238,
+  "audioSeconds" : 30,
+  "coldModelLoadSeconds" : 0.093053936958312988,
+  "config" : {
+    "clusteringThreshold" : 0.69999999999999996,
+    "exclusiveSegments" : false
+  },
+  "inferenceSeconds" : 0.208670973777771,
+  "peakProcessRSSBytes" : 187449344,
+  "sampleRate" : 16000,
+  "segments" : [
+    {
+      "end" : 2.4108657836914062,
+      "speaker" : "S2",
+      "start" : 0
+    },
+    {
+      "end" : 16.281833648681641,
+      "speaker" : "S1",
+      "start" : 2.6485569477081299
+    },
+    {
+      "end" : 10.373514175415039,
+      "speaker" : "S2",
+      "start" : 9.0662136077880859
+    },
+    {
+      "end" : 22.461799621582031,
+      "speaker" : "S2",
+      "start" : 18.115449905395508
+    },
+    {
+      "end" : 26.298810958862305,
+      "speaker" : "S2",
+      "start" : 23.497453689575195
+    },
+    {
+      "end" : 30.067911148071289,
+      "speaker" : "S2",
+      "start" : 27.198640823364258
+    }
+  ]
+}

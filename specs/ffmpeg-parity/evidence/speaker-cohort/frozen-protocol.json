@@ -1,0 +1,74 @@
+{
+  "version": 1,
+  "frozenBeforeInference": true,
+  "objective": "Determine whether same failed AMI candidates pass independently human-corrected acoustic speaker support on new untouched bounded real windows, without tuning their settings or relabeling failed AMI corpus",
+  "scope": "six30smono16k windows,2\u20134speakers; threeofficialdev development andthreeofficialtest confirmation, no claimed known-person recognition/general quality",
+  "sourceSelection": "selection.json",
+  "providers": [
+    {
+      "binary": "/tmp/screenrec-speech-research-native/runner/.build/out/Products/Debug/Runner",
+      "binarySha256": "dce8d17edeb36e97aa0bc89c12fb441daa0206ad6e2fde43a6b5f618a61c1978",
+      "wrapperSource": "packages/test-harness/speech/feasibility/diarize.swift",
+      "wrapperSha256": "82aa2ca869bb2d1fb8ac783257dc5173b6fb0fba0f79088c13e0f926cf0345d1",
+      "modelDirectory": "/tmp/screenrec-speech-research-cache/diarization-model",
+      "modelInventory": "../speech-feasibility/diarization-model-inventory.json",
+      "config": {
+        "clusteringThreshold": 0.7,
+        "exclusiveSegments": false,
+        "computeUnits": "all, FBank cpuOnly"
+      }
+    },
+    {
+      "binary": "/tmp/screenrec-speech-research-native/runner/.build/out/Products/Debug/AlternativeRunner",
+      "binarySha256": "3b00fdbcd189e1167669081a97889d921992755ed948ba4b544a4cf7ae6c8d95",
+      "wrapperSource": "packages/test-harness/speech/feasibility/sortformer.swift",
+      "wrapperSha256": "e4108652e2b641ae918656c53757b9ef86f67eb5949d8f2e15a552515c445cae",
+      "modelDirectory": "/tmp/screenrec-speech-research-cache/sortformer-model",
+      "modelInventory": "../speech-feasibility/sortformer-model-inventory.json",
+      "config": {
+        "modelVariant": "root Sortformer.mlmodelc",
+        "config": "SortformerConfig.default",
+        "overlap": "all speaker timelines",
+        "computeUnits": "all"
+      }
+    }
+  ],
+  "gate": {
+    "der": 0.2,
+    "collarSeconds": 0,
+    "ignoreOverlap": false,
+    "peakProcessRSSBytes": 4294967296,
+    "inferenceWallAudioRatio": 2,
+    "confirmation": "Each confirmation case AND pooled speaker-time DER pass; no aggregate hides a failed case"
+  },
+  "plan": {
+    "first": "input/range/RIFF/sampleclock/native PCM identity audit only",
+    "development": "Same two frozen candidates on three dev cases, serial; compare raw error mix. Max6calls. No parameter edits",
+    "selection": "Choose lowest pooled development DER among candidates passing all development cases and scoped cost. If neither passes, no provider selected; confirmation stays unscored",
+    "confirmation": "Selected unchanged candidate at most3calls; preserve all planned outputs. No replacements/tuning after quality observations",
+    "repairAllowance": "One input/infrastructure-only correction if actual failure, recorded new attempt; never repeat failure unchanged",
+    "inferenceDeadlineSecondsPerCall": 90,
+    "totalAudioSecondsMaximum": 270
+  },
+  "hypotheses": [
+    {
+      "id": "acoustic-reference",
+      "prediction": "Verified acoustic RTTM labels remove human transcript-padding denominator inflation; same candidates may show lower missed speech relative to fixed failed AMI baseline",
+      "falsifier": "Same frozen settings still exceed DER gate on independently corrected acoustic dev labels",
+      "next": "stop before confirmation if no devcandidate qualifies; retain failed AMI untouched"
+    },
+    {
+      "id": "error-mix",
+      "prediction": "Sortformer may retain lower confusion but miss overlap/short support; unchanged Community1 may be adequate on new acoustic corpus",
+      "falsifier": "Both miss/confuse past20%case gates",
+      "next": "Any future context/provider change requires separate dev/protocol; this pass does not download newmodels"
+    }
+  ],
+  "limitations": [
+    "VoxConverse human boundary instructionwithin100ms; zerocollar scoring unchanged, no50msboundary claim",
+    "Originaldatasetcopyright ownersretain rights; no product redistribution permission inferred",
+    "Model training-set overlap not audited; bounded unseen-to-this-research confirmation only",
+    "Unknown assignment confidence/known-person recognition are separate unproved23a contracts",
+    "RSS excludesCoreML/ANEservice memory; startupincludes hostcaches"
+  ]
+}
