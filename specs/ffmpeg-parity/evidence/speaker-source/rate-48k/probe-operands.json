@@ -1,0 +1,12 @@
+{
+  "request": {
+    "id": "speaker-48k-probe",
+    "operation": "media.probe",
+    "params": {
+      "path": "/Users/server/.t3/worktrees/screen-recorder/t3code-42e83c50/fixtures/narrated-workbench/narration.mov"
+    }
+  },
+  "exitCode": 0,
+  "stdout": "{\"data\":{\"originUs\":48675,\"streams\":[{\"channels\":1,\"codec\":\"lpcm\",\"decodable\":true,\"endUs\":133973334,\"id\":\"track:1\",\"kind\":\"audio\",\"sampleRate\":48000,\"segments\":[{\"empty\":true,\"endUs\":0,\"startUs\":-48675},{\"empty\":false,\"endUs\":133973334,\"mediaDurationUs\":133973334,\"mediaStartUs\":0,\"startUs\":0}],\"startUs\":0}]},\"id\":\"speaker-48k-probe\",\"ok\":true}\n",
+  "stderr": ""
+}

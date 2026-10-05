@@ -1,0 +1,19 @@
+{
+  "codeCommit": "922ad07b",
+  "operation": "media.sourceSpeakerPCM",
+  "modelInference": false,
+  "files": {
+    "native": {
+      "path": "/tmp/screenrec-parity-speaker-cohort/helpers/mac/.build/debug/screenrec-native",
+      "resolvedPath": "/private/tmp/screenrec-parity-speaker-cohort/helpers/mac/.build/out/Products/Debug/screenrec-native",
+      "bytes": 31652736,
+      "sha256": "87ab52a892bab7b0d1773898d92fd9af61380b7499049b71d3bc4975a3a81037"
+    },
+    "source": {
+      "path": "/Users/server/.t3/worktrees/screen-recorder/t3code-42e83c50/fixtures/narrated-workbench/narration.mov",
+      "resolvedPath": "/Users/server/.t3/worktrees/screen-recorder/t3code-42e83c50/fixtures/narrated-workbench/narration.mov",
+      "bytes": 25730774,
+      "sha256": "2bf4af51122816d6e4c4a6731ddd1a73375be3ed61d82d8cd66bec824638962c"
+    }
+  }
+}

@@ -1137,3 +1137,16 @@ the plan required provenance but left its portable representation unspecified.
 Reach: catalog26 refuses older catalogs, including the intermediate speaker25
 schema; no migration or personal-library deletion occurs. Verdict: sound; uses
 the existing asset dependency and package owners. Confidence: high.
+
+### Canonical conversion requests recover their original frozen job
+
+When: managed HDR6dc1a796. Repeating the same immutable asset, selected streams
+and recipe returns its existing conversion job, even when tools have been removed
+or relocated. The queue retrieves the saved exact input by a semantic request
+key; execution still requires its frozen binary hashes. File paths locate those
+binaries but do not identify the recipe. Gap: the plan required replay without
+choosing an additional request-ID field. Reach: callers use shared job retry or
+cancel rather than silently generating a new conversion under changed tools.
+Verdict: sound; preserves saved output and reuses existing indexed job/artifact
+rows without another receipt store. Confidence: medium because this extends the
+queue's lookup contract to canonical JSON request keys.

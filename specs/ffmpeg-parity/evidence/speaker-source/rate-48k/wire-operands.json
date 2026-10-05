@@ -1,0 +1,51 @@
+{
+  "request": {
+    "id": "speaker-48k-pcm",
+    "operation": "media.sourceSpeakerPCM",
+    "params": {
+      "source": {
+        "source": "/Users/server/.t3/worktrees/screen-recorder/t3code-42e83c50/fixtures/narrated-workbench/narration.mov",
+        "streamId": "track:1",
+        "sourceOffsetUs": -48675,
+        "available": [
+          {
+            "startUs": 0,
+            "endUs": 133973334
+          }
+        ]
+      },
+      "range": {
+        "startUs": 0,
+        "endUs": 30000000
+      },
+      "channel": 0,
+      "output": "/var/folders/62/pphwbgd15b1b9q7cjgf8m9pm0000gn/T/speaker-48k-wire-448wu1zw/wire.f32"
+    }
+  },
+  "exitCode": 0,
+  "receipt": {
+    "data": {
+      "bytes": 1920000,
+      "channel": 0,
+      "channels": 1,
+      "decodedFrames": 1440001,
+      "file": "/var/folders/62/pphwbgd15b1b9q7cjgf8m9pm0000gn/T/speaker-48k-wire-448wu1zw/wire.f32",
+      "frames": 480000,
+      "providerVersion": "Version 27.0.1 (Build 26A434)",
+      "range": {
+        "endUs": 30000000,
+        "startUs": 0
+      },
+      "recipe": "source-selected-span-avfoundation-f32-16k-v1",
+      "representation": "float32-le",
+      "sampleRate": 16000,
+      "sha256": "5efffd5c79504cbd3874c8f45e414d72790b223e5512628ccf01338952a4eaeb",
+      "sourceChannels": 1,
+      "sourceOffsetUs": -48675,
+      "sourceSampleRate": 48000
+    },
+    "id": "speaker-48k-pcm",
+    "ok": true
+  },
+  "stderr": ""
+}

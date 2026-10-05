@@ -194,14 +194,18 @@ unpublished under a typed job-owned generation reference. This does not connect 
 public operation or native model invocation. The
 [separate integrated PCM receipt](../evidence/speaker-source/root-integration.json)
 proves selected-channel byte preservation at16k and format-change refusal before
-synthesis. Other-rate preparation and complete decoder/generation identity remain
-prerequisites before public execution; no model-bearing run is needed just to
+synthesis. The additional existing48k mono narration fixture produces the exact
+30s/480000-frame16k operand through the public worker's private PCM wire, with
+native/source hashes, clock and channel retained in
+[the rate receipt](../evidence/speaker-source/rate-48k/wire-operands.json).
+Public source dispatch and retained read/restart now pass focused controls;
+project reads and portable preservation remain required. No model-bearing run is needed just to
 prove publication lifecycle. The product registry retains the verified original
 descriptor/runtime/checkpoint identities and requires explicit local model and
 runtime inputs. Its generated compressed descriptor follows the existing single-file
 app bundler, without a separate resource loader or runtime inventory in discovery
 responses. Catalog format25 refuses older catalogs rather than migrating them.
-Public source/project reads, dispatch and portable preservation remain required.
+Project reads and portable preservation remain required.
 
 Retained-read control now survives replacement of the installed native executable
 identity and OS build as well as removal of prepared runtime bytes. Selection

@@ -12,11 +12,10 @@ every FFmpeg option or a replacement for a professional editing workstation.
 
 Implement the complete authorized plan through committed passes. Read the
 [exploration](exploration.md), [parity contract](parity.md) and current slice.
-Integrated: 01–18, 20–22 and 24–25. Finish19 first: the private
-selected-stream producer now passes integrated video/audio support, numerical
-and common-clock proof. Catalog26 now retains portable conversion provenance and
-original-source dependencies; next managed jobs and public publication for the
-proven whole-stream inputs. Independently finish
+Integrated: 01–22 and24–25. Whole-stream HDR conversion now publishes through
+`asset.convert`, retains its original source and portable provenance, and recovers
+the same job without available tools. The actual HLG/AAC fixture output matches
+the retained private derivative exactly. Finish
 speaker source publication/read/projection and required portable preservation;
 the original relocated30s runtime and model-free selected-channel PCM pass.
 Speaker preparation requires explicit verified local model/runtime inputs;
@@ -45,7 +44,7 @@ facts, compressed interpretation and exact source↔derivative clocks.
 | Retained evidence | Current claim |
 | --- | --- |
 | [Pinned zimg/build](evidence/zimg-build) | Refreshed 02–05 component proofs pass. |
-| [Native HDR inspection](evidence/native-hdr-inspection/linked-worker.json) | All14 linked-worker probe cases pass; managed conversion remains open. |
+| [Native HDR inspection](evidence/native-hdr-inspection/linked-worker.json), [managed conversion](evidence/hdr-managed/README.md) | Linked probes and whole-stream managed publication pass. |
 | [Source authority](evidence/source-authority/integrated.json) | Actual picture/audio/recovery components and14 rebuilt linked probes pass. |
 | [Audio execution](evidence/audio-integrated-checkpoint.json), [wider root acceptance](evidence/audio-state-acceptance/root-integration.json) | Whole-domain refusal, retime/repeat/split/crop, decoded AAC measurement and child descriptor exhaustion/recovery pass on rebuilt root worker. No listening or encoded ceiling claim. |
 | [Encoded HDR](evidence/hdr-encoded/root-integration.json), [private video producer](evidence/hdr-private-producer/root-integration.json), [selected audio](evidence/hdr-selected-audio/root-integration.json) | Actual linked PQ/HLG numerical/clock and private held producer pass; selected AAC retains decoded sound and relative offsets. Conservative metadata refusals remain; managed conversion is open. |
@@ -84,7 +83,7 @@ Update handoff, choices and slice markers before each checkpoint.
 - [x] [16 — SDR correction reproduction](slices/16-sdr-feasibility.md)
 - [x] [17 — Typed SDR correction](slices/17-sdr-grade.md)
 - [x] [18 — HDR-to-SDR reproduction](slices/18-hdr-feasibility.md)
-- [ ] [19 — Explicit HDR source conversion](slices/19-hdr-conversion.md)
+- [x] [19 — Explicit HDR source conversion](slices/19-hdr-conversion.md)
 - [x] [20 — Transparent motion input feasibility](slices/20-alpha-feasibility.md)
 - [x] [21 — Immutable motion-asset interchange](slices/21-motion-import.md)
 - [x] [22 — Local speaker feasibility](slices/22-speaker-feasibility.md)

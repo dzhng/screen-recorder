@@ -93,6 +93,14 @@ the same dry/processed frames at the intended viewing size. Settings apply in th
 ordered stack, so moving the step can change its input. Preserve the native recipe
 identity and refuse unavailable execution rather than substituting another grade.
 
+For an explicit HDR-to-SDR conversion, inspect `asset.convert` help and select
+the immutable asset, one whole video stream and any audio stream to preserve.
+Use the advertised frozen recipe; do not invent exposure or color settings.
+Poll the shared job and inspect the returned derivative, stream IDs and clock
+mapping before placing it. The original remains intact. Trim or place the
+derivative through ordinary edits; conversion does not accept excerpt/acquisition
+selections or create an HDR export. An unsupported source remains a refusal.
+
 To retain a lossless processed mix, call `audio.prepare` with an explicit project
 and revision. It prepares the full output without editing the project. Pin that
 selection while polling; use `job.get/retry/cancel` for its attempts rather than
