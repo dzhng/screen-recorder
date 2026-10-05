@@ -1,0 +1,12 @@
+[
+  {
+    "name": "limited",
+    "max": 1,
+    "mae": 0.0625
+  },
+  {
+    "name": "full-h264",
+    "max": 0,
+    "mae": 0
+  }
+]

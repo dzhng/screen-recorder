@@ -1,0 +1,97 @@
+[
+  {
+    "request": {
+      "id": "1",
+      "operation": "media.probe",
+      "params": {
+        "path": "/tmp/screenrec-sdr-video-research/p3.mov"
+      }
+    },
+    "reply": {
+      "data": {
+        "originUs": 0,
+        "streams": [
+          {
+            "codec": "apch",
+            "colorPrimaries": "P3_D65",
+            "decodable": true,
+            "endUs": 250000,
+            "height": 64,
+            "id": "track:1",
+            "kind": "video",
+            "orientedHeight": 64,
+            "orientedPixelBounds": {
+              "height": 64,
+              "width": 128,
+              "x": 0,
+              "y": 0
+            },
+            "orientedWidth": 128,
+            "samples": {
+              "count": 1,
+              "firstPtsUs": 0,
+              "lastPtsUs": 0,
+              "maxDurationUs": 250000,
+              "minDurationUs": 250000
+            },
+            "segments": [
+              {
+                "empty": false,
+                "endUs": 250000,
+                "mediaDurationUs": 250000,
+                "mediaStartUs": 0,
+                "startUs": 0
+              }
+            ],
+            "startUs": 0,
+            "transferFunction": "ITU_R_709_2",
+            "transform": [
+              1,
+              0,
+              0,
+              1,
+              0,
+              0
+            ],
+            "width": 128,
+            "ycbcrMatrix": "ITU_R_709_2"
+          }
+        ]
+      },
+      "id": "1",
+      "ok": true
+    }
+  },
+  {
+    "request": {
+      "id": "2",
+      "operation": "media.sourceFrame",
+      "params": {
+        "asset": {
+          "assetId": "p3",
+          "streamId": "track:1",
+          "path": "/tmp/screenrec-sdr-video-research/p3.mov",
+          "originUs": 0
+        },
+        "available": [
+          {
+            "startUs": 0,
+            "endUs": 250000
+          }
+        ],
+        "atUs": 0,
+        "output": "/tmp/screenrec-sdr-video-research/p3-refused.png"
+      }
+    },
+    "reply": {
+      "error": {
+        "code": "NOT_READY",
+        "details": {},
+        "message": "Source color profile requires an explicit HDR, wide-gamut or custom-profile conversion.",
+        "retryable": false
+      },
+      "id": "2",
+      "ok": false
+    }
+  }
+]

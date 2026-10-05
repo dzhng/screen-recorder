@@ -1,0 +1,2 @@
+- [P2] Handle unnamed ICC profiles in imported-image reports — /Users/server/.t3/worktrees/screen-recorder/t3code-42e83c50/packages/test-harness/editing/SDRReproduction.swift:322-322
+  When the imported frame has a valid ICC profile without a CoreGraphics name, `loaded.colorSpace!.name!` traps instead of writing the report. This is reproducible with a PNG encoded using the system `AdobeRGB1998.icc`: ImageIO returns a valid RGB color space whose `name` is nil. Handle unnamed profiles without force-unwrapping so supported imported frames can complete the reproduction.

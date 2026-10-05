@@ -13,7 +13,7 @@ every FFmpeg option or a replacement for a professional editing workstation.
 Implement the complete user-authorized plan through committed passes. Read the
 [exploration map](exploration.md), [parity contract](parity.md) and
 [isolated evidence](tool-proof.md). Integrated: 01–09, 11–12, 20–21 and 24–25.
-Current pickup: finish SDR reproduction 16, then typed correction 17. Independent
+Current pickup: typed SDR correction 17, using the frozen recipe in completed 16. Independent
 lanes: HDR 18→19, loudness 10→audio recipe/treatment branches and speech
 22→23. Frozen FFmpeg lacks PQ/HLG conversion; HDR research may reopen pinned
 build 01 with a necessary dependency and refresh affected readiness proofs.
@@ -70,7 +70,7 @@ prompt, slice status and retained evidence before ending each implementation pas
 - [ ] [13 — Explicit normalization](slices/13-normalization.md)
 - [ ] [14 — Explicit limiter](slices/14-limiter.md)
 - [ ] [15 — Explicit compressor and ducking](slices/15-sidechain.md)
-- [ ] [16 — SDR correction reproduction](slices/16-sdr-feasibility.md)
+- [x] [16 — SDR correction reproduction](slices/16-sdr-feasibility.md)
 - [ ] [17 — Typed SDR correction](slices/17-sdr-grade.md)
 - [ ] [18 — HDR-to-SDR reproduction](slices/18-hdr-feasibility.md)
 - [ ] [19 — Explicit HDR source conversion](slices/19-hdr-conversion.md)

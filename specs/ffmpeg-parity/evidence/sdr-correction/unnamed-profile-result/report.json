@@ -1,0 +1,11 @@
+{
+  "changedControls" : [
+    "exposure",
+    "saturation"
+  ],
+  "decodedProfile" : "unnamed or unspecified ICC",
+  "height" : 48,
+  "identityExact" : true,
+  "source" : "\/tmp\/screenrec-sdr-unnamed.png",
+  "width" : 64
+}

@@ -1,0 +1,113 @@
+[
+  {
+    "request": {
+      "id": "1",
+      "operation": "media.probe",
+      "params": {
+        "path": "/tmp/screenrec-sdr-video-research/full-h264.mov"
+      }
+    },
+    "reply": {
+      "data": {
+        "originUs": 0,
+        "streams": [
+          {
+            "codec": "avc1",
+            "colorPrimaries": "ITU_R_709_2",
+            "decodable": true,
+            "endUs": 250000,
+            "height": 64,
+            "id": "track:1",
+            "kind": "video",
+            "orientedHeight": 64,
+            "orientedPixelBounds": {
+              "height": 64,
+              "width": 128,
+              "x": 0,
+              "y": 0
+            },
+            "orientedWidth": 128,
+            "samples": {
+              "count": 1,
+              "firstPtsUs": 0,
+              "lastPtsUs": 0,
+              "maxDurationUs": 250000,
+              "minDurationUs": 250000
+            },
+            "segments": [
+              {
+                "empty": false,
+                "endUs": 250000,
+                "mediaDurationUs": 250000,
+                "mediaStartUs": 0,
+                "startUs": 0
+              }
+            ],
+            "startUs": 0,
+            "transferFunction": "ITU_R_709_2",
+            "transform": [
+              1,
+              0,
+              0,
+              1,
+              0,
+              0
+            ],
+            "width": 128,
+            "ycbcrMatrix": "ITU_R_709_2"
+          }
+        ]
+      },
+      "id": "1",
+      "ok": true
+    }
+  },
+  {
+    "request": {
+      "id": "2",
+      "operation": "media.sourceFrame",
+      "params": {
+        "asset": {
+          "assetId": "full-h264",
+          "streamId": "track:1",
+          "path": "/tmp/screenrec-sdr-video-research/full-h264.mov",
+          "originUs": 0
+        },
+        "available": [
+          {
+            "startUs": 0,
+            "endUs": 250000
+          }
+        ],
+        "atUs": 0,
+        "output": "/tmp/screenrec-sdr-video-research/full-h264-native.png"
+      }
+    },
+    "reply": {
+      "data": {
+        "actualSourceUs": 0,
+        "assetId": "full-h264",
+        "bytes": 453,
+        "decodedSamples": 1,
+        "file": "/tmp/screenrec-sdr-video-research/full-h264-native.png",
+        "height": 64,
+        "mediaType": "image/png",
+        "readerOpens": 1,
+        "requestedSourceUs": 0,
+        "sample": {
+          "endTimescale": 1000,
+          "endValue": "250",
+          "originUs": 0,
+          "timescale": 16384,
+          "value": "0"
+        },
+        "sourceHeight": 64,
+        "sourceWidth": 128,
+        "streamId": "track:1",
+        "width": 128
+      },
+      "id": "2",
+      "ok": true
+    }
+  }
+]

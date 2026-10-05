@@ -1,0 +1,11 @@
+{
+  "changedControls" : [
+    "exposure",
+    "saturation"
+  ],
+  "decodedProfile" : "kCGColorSpaceSRGB",
+  "height" : 48,
+  "identityExact" : true,
+  "source" : "specs\/ffmpeg-parity\/evidence\/motion-interchange\/phase-0.png",
+  "width" : 64
+}

@@ -413,3 +413,22 @@ does not replace any existing tests. The plan required the full final check but
 did not name an owner for these new pure Node tests. Future build-helper and
 consumer-tool checks use this suite. Verdict: sound; one discoverable final gate.
 Confidence: high.
+
+### SDR correction uses explicit source-neutral Core Image semantics
+
+When: slice 16. An agent requests cooler or brighter footage. The typed correction
+will apply the requested source-white correction first, exposure second, and
+contrast/saturation last in the existing extended linear sRGB picture context.
+Source-neutral temperature describes the white being corrected toward 6500K;
+lowering it cools gray, rather than acting as an arbitrary warmth slider. Contrast
+pivots at linear 0.5. Transparent pixels preserve alpha, and intermediate values
+can exceed the display range until existing output conversion. An alternative
+camera-calibrated grade would need camera metadata and a separate validated recipe.
+
+Gap: the plan named correction controls without specifying units, order or provider
+semantics. Reach: recipe identity must include the actual Core Image/OS implementation;
+missing bound recipes refuse. Initial static admission bounds are -8..8 exposure
+stops, 0..2 contrast/saturation, 2000..10000 source-neutral Kelvin and -100..100
+tint. These bound requests, not good taste or calibrated accuracy.
+Verdict: sound; preserves the measured native recipe and existing source admission.
+Confidence: medium.

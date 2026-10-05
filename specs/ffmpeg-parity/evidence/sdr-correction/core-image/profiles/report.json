@@ -1,0 +1,32 @@
+{
+  "passed" : true,
+  "results" : [
+    {
+      "cgReferenceMAE" : 0.0625,
+      "cgReferenceMax" : 1,
+      "decodedProfile" : "kCGColorSpaceITUR_709",
+      "identityExact" : true,
+      "name" : "rec709"
+    },
+    {
+      "cgReferenceMAE" : 0,
+      "cgReferenceMax" : 0,
+      "decodedProfile" : "kCGColorSpaceDisplayP3",
+      "identityExact" : true,
+      "name" : "display-p3"
+    },
+    {
+      "cgReferenceMAE" : 0,
+      "cgReferenceMax" : 0,
+      "decodedProfile" : "kCGColorSpaceSRGB",
+      "identityExact" : true,
+      "name" : "srgb"
+    },
+    {
+      "decodedProfile" : "kCGColorSpaceSRGB",
+      "identityExact" : true,
+      "interpretation" : "ImageIO existing default; creator intent unknown",
+      "name" : "untagged"
+    }
+  ]
+}

@@ -1,0 +1,12 @@
+With those roles clarified, **no concrete visible discrepancy remains in the intended matched pairs**:
+
+- Display-P3 identity #16 ↔ reference #17.
+- Rec.709 identity #19 ↔ reference #20.
+- sRGB identity #22 ↔ reference #23.
+- Untagged identity #26 ↔ control #25.
+
+Original Rec.709 input **#21 still appears brighter and paler**, especially in gray and orange, than #19–20. Confidence in that appearance difference is high, but it does **not** demonstrate an identity-conversion defect: #21 retains its source profile and raw levels.
+
+Inputs #18, #21, #24, and #27 are therefore excluded from candidate/reference matching. The earlier treatment, silhouette, and video observations remain unchanged.
+
+Limits remain: visual agreement is not pixel equality, and these tiny flat patches cannot establish subtle alpha preservation, fine edge quality, or newly introduced clipping.

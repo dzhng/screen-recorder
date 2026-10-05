@@ -1,0 +1,5 @@
+- **High confidence:** [Rec.709 candidate](/tmp/screenrec-sdr-reproduction-final/profiles/rec709.png) (#28) fails to match its reference and identity images (#27, #26). The gray is visibly lighter, and the orange, green, and blue bands look paler.
+
+No other visible defects found across all 38 images.
+
+Coverage limits: these small, flat patches cannot establish subtle color accuracy, gradient banding, highlight-detail clipping, or alpha-edge behavior against other backgrounds. Flat white regions alone do not prove unwanted clipping.

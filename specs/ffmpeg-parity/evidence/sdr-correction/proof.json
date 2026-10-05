@@ -1,0 +1,265 @@
+{
+  "passed": true,
+  "scope": "Platform SDR recipe reproduction, not typed product grade or installed readiness",
+  "command": "swiftc packages/test-harness/editing/SDRReproduction.swift -o /tmp/screenrec-sdr-reproduction; /tmp/screenrec-sdr-reproduction NEW_DIRECTORY specs/ffmpeg-parity/evidence/motion-interchange/phase-0.png",
+  "recipe": [
+    "CITemperatureAndTint source neutral Kelvin/tint \u2192 target6500K/0",
+    "CIExposureAdjust EV stops",
+    "CIColorControls contrast/saturation, brightness0"
+  ],
+  "workingSpace": "extended linear sRGB",
+  "workingFormat": "RGBAh",
+  "gamut": "extended negative/above1 values remain until existing output conversion; no early clamp",
+  "alpha": "premultiplied RGB homogeneous under alpha; alpha preserved, zero remains zero",
+  "units": {
+    "exposureEV": "stops;0identity",
+    "contrast": "multiplier around linear0.5;1identity",
+    "saturation": "multiplier with CoreImage luminance0.2125/0.7154/0.0721;1identity",
+    "neutralKelvin": "source-neutral Kelvin corrected toward6500;6500identity",
+    "neutralTint": "CoreImage source-neutral tint corrected toward0;0identity"
+  },
+  "thresholds": {
+    "floatAbsoluteError": 0.002,
+    "profileChannelLevels": 2,
+    "videoReferenceChannelLevels": 2,
+    "identity": "exact decoded pixels"
+  },
+  "numericFalsifier": "Negated applied exposure EV yields0.2 when expected0.05 and fails",
+  "reviewFix": "Valid unnamed ICC trapped imported report; original profile input reproduced red, fixed reporting passes",
+  "visualRoleIssue": "Original tagged rec709.png retains source profile/rawlevels and is not common-sRGB candidate. Identity and independent reference agree; raw input viewingdifference retained",
+  "tooling": "CoreImage under independent readonly reviewer sandbox renders evenconstantblackzero; reviewer could compile but not verify GPU pixels. Actual unrestricted native hostrun passes",
+  "limits": [
+    "White balance/tint are pinned CoreImage semantics; no calibrated camera/color accuracy claim",
+    "P3 still interpretation preserved; P3 movie remains explicitlyrefused by existing admission",
+    "Untagged source uses existing ImageIO default; no creatorintent inferred",
+    "FullrangeH264 fixture encoded with localGPLx264 as reference only, not bundled dependency",
+    "ProRes full-range flag produced actuallimitedrange; MJPEG fullrange probed but native decode refused, no wider admissionclaim",
+    "Tiny patches/imported marker only; no representative performance, skin-tone realism or general gamut fidelity claim",
+    "No new Preview window opened due priorownedbatch cleanup limitation"
+  ],
+  "nativeSha256": "af28fcc5260b79bca3909be2af1a9c90875bc3497d30d9649d3921648ef8c82d",
+  "sourceSha256": "d0b26f1c3d9cb975566b9a454338c9132255543350874039230636e3213c9c1c",
+  "harnessSha256": "3bab3d719f2405225bbc15dce648c0ab24a2a13bee62af4bb24521bfc546e78f",
+  "files": {
+    "initial-visual-review.txt": {
+      "bytes": 537,
+      "sha256": "00efeb2d92f64b5d4506e1dc944e6e8b5707d077645488f31dabf00235a8fa4f"
+    },
+    "unnamed-profile.png": {
+      "bytes": 658,
+      "sha256": "661d15aab570c4a2e2f108c6af058831082ff8fb92eb4df13ee7e35fb0828bc9"
+    },
+    "code-review.txt": {
+      "bytes": 575,
+      "sha256": "4a483cb3688ff92555150926d83ee716d947a1270428e725a77da84cccd57af9"
+    },
+    "nearest-visual-review.txt": {
+      "bytes": 1662,
+      "sha256": "c05ada44c3d885f15c52946079ca7547d4505a95dbb9da1ee6ee27285fbae6d4"
+    },
+    "video/p3.mov": {
+      "bytes": 1175,
+      "sha256": "78315bc835e5bac78a5b0786e2579d0d1c36c58444c472ba497d5626fa3e07e1"
+    },
+    "video/limited-native-srgb.png": {
+      "bytes": 555,
+      "sha256": "e0317c60ffb0664480bfe28847193036b8dec11ccf9e97f7e3dfa7113161f3b4"
+    },
+    "video/limited-reference-receipt.json": {
+      "bytes": 337,
+      "sha256": "ea9ced09059ed3b20c0704770992355c408dd965a8c7c17246c1044135fab42c"
+    },
+    "video/full-h264-reference.png": {
+      "bytes": 486,
+      "sha256": "4b1d5f92d0c3bf779438ceb5f316889a1643cdb46c7ec28dad0653df06cc9c31"
+    },
+    "video/limited.mov": {
+      "bytes": 1175,
+      "sha256": "f4b232e62879b859b0beb6cb221c555d15423fe56c33dca44206dfa7100374e1"
+    },
+    "video/limited-reference.png": {
+      "bytes": 555,
+      "sha256": "78094dbfbc2397c7fff8cb5f876de3be0fdaa2c1c09a17731074cbf59abe4c32"
+    },
+    "video/comparison.json": {
+      "bytes": 128,
+      "sha256": "24e2ed06dbac0f936ab094fa9caaae401d3a2727a46b29a7e2cb25b09c4a59e4"
+    },
+    "video/full-h264.mov": {
+      "bytes": 1606,
+      "sha256": "1879126e2d6a20a23fdfc4fa7bf755478a8badd04007611b558b601b6b42311d"
+    },
+    "video/limited-native.png": {
+      "bytes": 543,
+      "sha256": "e61cdc387d47b7b937d57906cf13ced38de1a3d7eee03cea0283911aaf6615c8"
+    },
+    "video/full-source-exchanges.json": {
+      "bytes": 2675,
+      "sha256": "85426e8587587f0420802ea206dca9125b94f4ad9f539e7eda03376c36e90b31"
+    },
+    "video/p3-refusal.json": {
+      "bytes": 2257,
+      "sha256": "27e1825aa56f9f12db81203eb77e46c3f4238ed99965d6368bb04314527908e1"
+    },
+    "video/chart.rgba": {
+      "bytes": 32768,
+      "sha256": "8cbccbf8e44c9985aca4e14afd49a306d4c1db164ffd11bcba079d55bdf6559e"
+    },
+    "video/full-h264-native.png": {
+      "bytes": 453,
+      "sha256": "ed59fc15e2456c7f6913b186c7d65900e40c816c41402191ccf340122d3951c9"
+    },
+    "video/full-h264-reference-receipt.json": {
+      "bytes": 339,
+      "sha256": "a68f08ec3b8d14db09a5e71c0df728367944ed4f6663e3604c828699ebde481c"
+    },
+    "video/full-h264-native-srgb.png": {
+      "bytes": 486,
+      "sha256": "4b1d5f92d0c3bf779438ceb5f316889a1643cdb46c7ec28dad0653df06cc9c31"
+    },
+    "comparisons/white-balance.png": {
+      "bytes": 497,
+      "sha256": "2033f33e30199bc0a1c9ca3c40cf6a8f2445586e71cbd81bd3013d419fd6cbcf"
+    },
+    "comparisons/contrast.png": {
+      "bytes": 481,
+      "sha256": "7fe275a3c032241a24728337d47003a3ae56f484504b782aacdc7126adf9e5b3"
+    },
+    "comparisons/combined.png": {
+      "bytes": 499,
+      "sha256": "985f15ed5a26c4dbd72fba021b7abf797d8d636daf189cd21634bdb16c497d68"
+    },
+    "comparisons/exposure.png": {
+      "bytes": 486,
+      "sha256": "9867fedeb50d5634993d4735e1e2e419a3e2739fc9e7e4786abee9aa6a0b0203"
+    },
+    "comparisons/saturation.png": {
+      "bytes": 511,
+      "sha256": "cf5c1834310fe1b3a1f0a82bffcebe8c05555f834dfaffba27293eb88d36c72b"
+    },
+    "unnamed-profile-result/report.json": {
+      "bytes": 223,
+      "sha256": "fd0389b48e84f8408f89c670c0b32c109afa6c9cd1cd719b28963c3debec4681"
+    },
+    "unnamed-profile-result/control.png": {
+      "bytes": 352,
+      "sha256": "76482549c6467f7d144706375dd395a41a9337a65612cf399629bef52570da8a"
+    },
+    "unnamed-profile-result/exposure.png": {
+      "bytes": 368,
+      "sha256": "7a73c337d9b0372552762cb2e8596212b20cb804f103c43dbfd4c57324674898"
+    },
+    "unnamed-profile-result/identity.png": {
+      "bytes": 352,
+      "sha256": "76482549c6467f7d144706375dd395a41a9337a65612cf399629bef52570da8a"
+    },
+    "unnamed-profile-result/saturation.png": {
+      "bytes": 362,
+      "sha256": "459fdbdb8c96291b2bacbdcf760efce4823e305cd60f9c050ee878ccff46e0aa"
+    },
+    "core-image/numerical/white-balance.png": {
+      "bytes": 630,
+      "sha256": "d8249b43960254642b34cc04ec06bd7ad4bc68b6403d2bf1e599d0ffbd782dd5"
+    },
+    "core-image/numerical/report.json": {
+      "bytes": 15881,
+      "sha256": "57f21b2ead290fd91934b9bb45b5ce6c19bcee43e5695c517f78e7370b08ede3"
+    },
+    "core-image/numerical/contrast.png": {
+      "bytes": 566,
+      "sha256": "e70304774abdcbca73bccadc410443df08cc5e4453b721b56c0278a8e36c6c99"
+    },
+    "core-image/numerical/control.png": {
+      "bytes": 620,
+      "sha256": "249959aab98f202f7c1a0ad00a296e7d9fa9ccabf9ced5c280c14aa972e5033a"
+    },
+    "core-image/numerical/combined.png": {
+      "bytes": 632,
+      "sha256": "246bc147e35123bb904d55504087e14839a5964958e076fcfb57a391caca56e9"
+    },
+    "core-image/numerical/exposure.png": {
+      "bytes": 617,
+      "sha256": "b52b2b04802bcb7e30a92230a78800e1560e1a6f8a0c52315222270be5ad8376"
+    },
+    "core-image/numerical/saturation.png": {
+      "bytes": 616,
+      "sha256": "ee3ff86e8eed6702c508bf32d6f36e5d3e7cb8656aa749808da2a14116514d59"
+    },
+    "core-image/imported/report.json": {
+      "bytes": 245,
+      "sha256": "2aca4f6f2bc3675df75b65f0656e17442aaa37470d569b771da11a293077ebae"
+    },
+    "core-image/imported/control.png": {
+      "bytes": 376,
+      "sha256": "f5c622005ac99bd9c7763680c896dab3d03c2b9f1f25bf07d3241308b4f2ac54"
+    },
+    "core-image/imported/exposure.png": {
+      "bytes": 386,
+      "sha256": "3eefe5d536c7ef2e05b0329c5a61132a88155b0f0de929c29404660d7e7efa04"
+    },
+    "core-image/imported/identity.png": {
+      "bytes": 376,
+      "sha256": "f5c622005ac99bd9c7763680c896dab3d03c2b9f1f25bf07d3241308b4f2ac54"
+    },
+    "core-image/imported/saturation.png": {
+      "bytes": 357,
+      "sha256": "d8722fab1c4a536f6165892dc5f69f1281199bc35e16ce6d756440defa427ef4"
+    },
+    "core-image/profiles/rec709-reference.png": {
+      "bytes": 559,
+      "sha256": "e394dd5c727bcee158b6debd2f0d15276019502b9dce64066db81b022dc03907"
+    },
+    "core-image/profiles/srgb-identity.png": {
+      "bytes": 557,
+      "sha256": "46939608067bef0af6dcca91ddf777966d2567aaa30b861c860133a0a5d5d332"
+    },
+    "core-image/profiles/display-p3-identity.png": {
+      "bytes": 561,
+      "sha256": "488d25f74e46c8a6fd818839037932a5a8a8666f3f012fd0e4298fca9eab625c"
+    },
+    "core-image/profiles/report.json": {
+      "bytes": 756,
+      "sha256": "34571f000f65abe9b30f859360ac9aaf7d105acc59e961589b22215e026bb95a"
+    },
+    "core-image/profiles/display-p3.png": {
+      "bytes": 915,
+      "sha256": "a5bd91b9d3ff860740f45ffab32f397a91a71388419835c9180b2dbdf1c38d1d"
+    },
+    "core-image/profiles/srgb-reference.png": {
+      "bytes": 557,
+      "sha256": "46939608067bef0af6dcca91ddf777966d2567aaa30b861c860133a0a5d5d332"
+    },
+    "core-image/profiles/srgb.png": {
+      "bytes": 557,
+      "sha256": "46939608067bef0af6dcca91ddf777966d2567aaa30b861c860133a0a5d5d332"
+    },
+    "core-image/profiles/rec709-identity.png": {
+      "bytes": 559,
+      "sha256": "a7003668febc0b517fde131d44277c9b577819d3622f6e33df1562259d361836"
+    },
+    "core-image/profiles/untagged.png": {
+      "bytes": 464,
+      "sha256": "77f74fb94d8f60f1c553257e507462562c70f91a8599205bb40b53af22efaaba"
+    },
+    "core-image/profiles/rec709.png": {
+      "bytes": 926,
+      "sha256": "3d82bc138912cecdf6bd4df1d8e0e881ef34302d4a95a03d33af871845109947"
+    },
+    "core-image/profiles/untagged-identity.png": {
+      "bytes": 557,
+      "sha256": "46939608067bef0af6dcca91ddf777966d2567aaa30b861c860133a0a5d5d332"
+    },
+    "core-image/profiles/display-p3-reference.png": {
+      "bytes": 561,
+      "sha256": "488d25f74e46c8a6fd818839037932a5a8a8666f3f012fd0e4298fca9eab625c"
+    },
+    "core-image/profiles/untagged-control.png": {
+      "bytes": 557,
+      "sha256": "46939608067bef0af6dcca91ddf777966d2567aaa30b861c860133a0a5d5d332"
+    },
+    "visual-role-clarification.txt": {
+      "bytes": 884,
+      "sha256": "d66df40acc52b05137ec12ff214819d573133c72d09ed408c288c9aa05c53a5a"
+    }
+  }
+}

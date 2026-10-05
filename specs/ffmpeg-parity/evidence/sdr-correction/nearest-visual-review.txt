@@ -1,0 +1,16 @@
+Reviewed all 31 images. **No confirmed visible identity mismatch, silhouette movement, blur, halo, or edge displacement.**
+
+The conspicuous discrepancy is **#21, standalone `rec709.png`**: it is brighter and paler than reference #20 and identity #19, particularly in the gray and orange bands. **High confidence in the difference.** It is a defect if this image should preserve the reference appearance; its intended treatment is unspecified.
+
+Coverage:
+
+| Images | Visible assessment |
+|---|---|
+| #1–5, #10–15: treatments | Exposure brightens intermediate tones; contrast darkens them against the endpoints; saturation removes color; white balance cools gray; combined shows mixed treatment. Paired and standalone candidates look consistent. |
+| #6–9: imported | Identity matches control. Exposure and saturation preserve position and silhouette. Exposure provides little visible brightening on these already saturated colors. |
+| #16–18: Display-P3 | No visible discrepancy among reference, identity, and standalone. |
+| #19–21: Rec.709 | Reference and identity match; standalone differs as described above. |
+| #22–27: sRGB, untagged | No visible identity discrepancies. |
+| #28–31: video | Neither native/reference pair shows a confirmed visible mismatch. |
+
+**Coverage limits:** The tiny, flat patches provide weak evidence about subtle edge quality, gradients, or realistic footage. Saturated source primaries and white cannot distinguish expected endpoint saturation from newly introduced clipping. The displayed backgrounds also cannot establish whether alpha values were preserved. These are visual judgments, not proof of pixel equality.
