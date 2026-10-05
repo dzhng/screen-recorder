@@ -1,0 +1,10 @@
+{
+  "frozenBeforeConfirmation": true,
+  "protocolSha256": "fdc9db463808328222297fd9a4eadb61d5b319de86b7c4f3a3ca5246ef08eed6",
+  "developmentReportSha256": "a7fb5bcc541c3d7b0261da0c8d4edceeac1d8c1ba82ae8408727eb725faa8552",
+  "mappingSha256": "e7911c8cf603e354ae0e391c96164dcbaa99cfb82b8bcbb8c5b9053d7b0f27cf",
+  "selectedThresholds": {
+    "Clapping": 0.5
+  },
+  "confirmationExecuted": false
+}

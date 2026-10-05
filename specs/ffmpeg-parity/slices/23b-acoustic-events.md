@@ -3,6 +3,17 @@
 Status: open, gated by failed [22](22-speech-feasibility.md) presence experiments
 and missing independently timed event support. No provider/categories are selected.
 
+## Independent timed cohort
+
+The [STARSS23 research](../evidence/event-temporal/README.md) binds reusable
+original audio to human 100 ms Laughter and Clapping occupancy, with explicit
+negatives and a frozen source projection. Reused YAMNet Laughter fails development;
+Clapping passes train calibration but fails its once-frozen untouched confirmation.
+No category/provider is selected. Applause and Gasp remain independently unfinished;
+Clapping is not an alias for applause. The research map retains exact bin
+denominators, consumed test inputs, clocks and costs. New semantic/provider recipes
+require new untouched confirmation, with no post-test threshold rescue.
+
 ## Next bounded checkpoint
 
 Build separate real development and untouched confirmation operands for each
