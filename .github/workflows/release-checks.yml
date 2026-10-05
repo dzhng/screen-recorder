@@ -7,6 +7,10 @@ on:
       - helpers/denoise/provenance.json
       - scripts/release*
       - scripts/build-macos.mjs
+      - scripts/launcher/**
+      - scripts/launcher.test.mjs
+      - scripts/sparkle/**
+      - packages/core/src/catalog.ts
       - apps/macos/package.json
       - apps/macos/Sources/ScreenRecorder/ServiceBundle.swift
       - apps/macos/Sources/ScreenRecorder/NodeRuntime.swift
@@ -19,6 +23,10 @@ on:
       - helpers/denoise/provenance.json
       - scripts/release*
       - scripts/build-macos.mjs
+      - scripts/launcher/**
+      - scripts/launcher.test.mjs
+      - scripts/sparkle/**
+      - packages/core/src/catalog.ts
       - apps/macos/package.json
       - apps/macos/Sources/ScreenRecorder/ServiceBundle.swift
       - apps/macos/Sources/ScreenRecorder/NodeRuntime.swift
@@ -39,4 +47,4 @@ jobs:
       - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
         with:
           node-version-file: .node-version
-      - run: node --test scripts/release.test.mjs apps/macos/tests/bundled-runtime.test.mjs
+      - run: node --test scripts/release*.test.mjs scripts/launcher.test.mjs apps/macos/tests/bundled-runtime.test.mjs

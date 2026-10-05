@@ -1,3 +1,4 @@
+import { createHash, generateKeyPairSync } from "node:crypto";
 import assert from "node:assert/strict";
 import { spawnSync } from "node:child_process";
 import { copyFileSync, mkdirSync, mkdtempSync, rmSync, writeFileSync } from "node:fs";
@@ -9,9 +10,18 @@ const script = fileURLToPath(new URL("release.mjs", import.meta.url));
 
 function fixture() {
   const scratch = mkdtempSync(join(tmpdir(), "screenrec-release-inputs-"));
-  for (const folder of ["scripts", "apps/macos", "helpers/denoise", "dist/release-inputs"])
+  for (const folder of [
+    "scripts",
+    "apps/macos",
+    "helpers/denoise",
+    "dist/release-inputs",
+    "scripts/sparkle",
+    "packages/core/dist",
+  ])
     mkdirSync(join(scratch, folder), { recursive: true });
   copyFileSync(script, join(scratch, "scripts/release.mjs"));
+  for (const file of ["release-signing.mjs", "release-info.mjs", "sparkle/framework.mjs"])
+    copyFileSync(new URL(file, import.meta.url), join(scratch, "scripts", file));
   writeFileSync(join(scratch, ".node-version"), "24.0.0\n");
   writeFileSync(join(scratch, "apps/macos/package.json"), JSON.stringify({ version: "0.0.0" }));
   writeFileSync(
@@ -57,6 +67,105 @@ test("preparation refuses a corrupt cached runtime before downloading or staging
     });
     assert.equal(answer.status, 1, answer.stdout + answer.stderr);
     assert.match(answer.stderr, /Checksum mismatch:.*node-v24\.0\.0-darwin-arm64\.tar\.gz/);
+  } finally {
+    rmSync(scratch, { recursive: true, force: true });
+  }
+});
+
+test("release packaging refuses missing durable signing inputs before touching artifacts", () => {
+  const scratch = fixture();
+  try {
+    const env = { ...process.env };
+    for (const name of Object.keys(env))
+      if (name.startsWith("SCREENREC_RELEASE_") || name.startsWith("SCREENREC_SPARKLE_"))
+        delete env[name];
+    const answer = spawnSync(
+      process.execPath,
+      [join(scratch, "scripts/release.mjs"), "package", "v0.0.0"],
+      {
+        env,
+        encoding: "utf8",
+        timeout: 5000,
+      },
+    );
+    assert.equal(answer.status, 1, answer.stdout + answer.stderr);
+    assert.match(answer.stderr, /Missing release signing inputs/);
+    assert.equal(answer.stdout, "");
+  } finally {
+    rmSync(scratch, { recursive: true, force: true });
+  }
+});
+
+test("packaging rejects omitted or stale built catalog metadata before signing an archive", () => {
+  const scratch = fixture();
+  try {
+    const invoke = (command, args) => {
+      const r = spawnSync(command, args, { cwd: scratch, encoding: "utf8" });
+      assert.equal(r.status, 0, r.stderr);
+      return r.stdout.trim();
+    };
+    const bytes = Buffer.from("verified runtime fixture");
+    writeFileSync(join(scratch, "dist/release-inputs/node-v24.0.0-darwin-arm64.tar.gz"), bytes);
+    writeFileSync(
+      join(scratch, "scripts/release-inputs.json"),
+      JSON.stringify({ node: { sha256: createHash("sha256").update(bytes).digest("hex") } }),
+    );
+    writeFileSync(
+      join(scratch, "packages/core/dist/catalog.js"),
+      "export const catalogFormat=23;\n",
+    );
+    writeFileSync(join(scratch, "package.json"), '{"type":"module"}');
+    const service = join(scratch, "dist/ScreenRecorder.app/Contents/Resources/service");
+    mkdirSync(service, { recursive: true });
+    const plist = join(scratch, "dist/ScreenRecorder.app/Contents/Info.plist");
+    writeFileSync(
+      plist,
+      '<?xml version="1.0"?><plist version="1.0"><dict><key>CFBundleShortVersionString</key><string>0.0.0</string><key>LSMinimumSystemVersion</key><string>26.0</string></dict></plist>',
+    );
+    writeFileSync(join(scratch, ".gitignore"), "dist/\n");
+    invoke("git", ["init", "-q"]);
+    invoke("git", ["add", "."]);
+    invoke("git", [
+      "-c",
+      "user.name=Fixture",
+      "-c",
+      "user.email=fixture@example.invalid",
+      "commit",
+      "-qm",
+      "fixture",
+    ]);
+    const revision = invoke("git", ["rev-parse", "HEAD"]);
+    const keys = generateKeyPairSync("ed25519");
+    const env = {
+      ...process.env,
+      SCREENREC_RELEASE_IDENTITY_P12: Buffer.from("fixture-p12-not-imported").toString("base64"),
+      SCREENREC_RELEASE_IDENTITY_PASSWORD: "fixture-not-imported",
+      SCREENREC_RELEASE_IDENTITY_SHA1: "a".repeat(40),
+      SCREENREC_RELEASE_CERTIFICATE_SHA256: "b".repeat(64),
+      SCREENREC_SPARKLE_PRIVATE_KEY: keys.privateKey
+        .export({ format: "der", type: "pkcs8" })
+        .subarray(-32)
+        .toString("base64"),
+      SCREENREC_SPARKLE_PUBLIC_KEY: keys.publicKey
+        .export({ format: "der", type: "spki" })
+        .subarray(-32)
+        .toString("base64"),
+    };
+    for (const catalogFormat of [undefined, 24]) {
+      writeFileSync(
+        join(service, "runtime.json"),
+        JSON.stringify({ version: "0.0.0", revision, catalogFormat }),
+      );
+      const answer = spawnSync(
+        process.execPath,
+        [join(scratch, "scripts/release.mjs"), "package", "v0.0.0"],
+        { env, encoding: "utf8" },
+      );
+      assert.equal(answer.status, 1, answer.stdout + answer.stderr);
+      assert.match(answer.stderr, /Built runtime catalogFormat does not match committed source/);
+      assert.equal(answer.stdout, "");
+      assert.ok(!answer.stderr.includes(env.SCREENREC_SPARKLE_PRIVATE_KEY));
+    }
   } finally {
     rmSync(scratch, { recursive: true, force: true });
   }

@@ -117,6 +117,15 @@
   without imposing a physical-backup ceremony or claiming uncreated files exist.
 - **Confidence:** medium.
 
+### Give pre-dispatch launcher failures a fixed identity
+
+- **When:** slice 05 release pipeline checkpoint.
+  **The choice:** Treat the launcher startup refusal as an operation-shaped JSON failure with the fixed identity `launcher`. When replacement owns the exclusive lock, no user request or bundled CLI has started, so the external executable emits `UPDATING` with `retryable:true` and exits 75 before reading bundle code. Trying to obtain a request identity from the CLI would first load the very bytes whose replacement is being fenced.
+  **The gap:** The plan required framed retryable startup failure before dispatch, but did not name the identity for a failure occurring before a request exists.
+  **The reach:** Consumers can recognize a bounded startup refusal; the external launcher does not become another request parser or replay mutations.
+  **Verdict:** sound — preserves the pre-load exclusion boundary and distinguishes startup from a dispatched operation.
+  **Confidence:** medium.
+
 ### Reproduce the rejected engine instead of pretending the lab is acceptance
 
 - **When:** slice 01 replication checkpoint.
@@ -368,3 +377,13 @@
 - **Verdict:** sound: the held-command negative control failed before cleanup and
   passed afterward, including reaped child and removed private material.
 - **Confidence:** high.
+
+### Re-embed the verified framework before release signing
+
+- **When:** slice 05 release pipeline checkpoint.
+  **The choice:** Copy the verified protected framework into the staging app again before final release signing. A developer may have built the app with a differently signed or older framework. Packaging takes the current framework whose bytes match the pinned builder receipt, puts that exact SDK into the staging bundle, then signs the complete app. Keeping the developer's embedded copy would let a stale installer survive despite checking a correct separate SDK artifact.
+  **The gap:** The plan required pinned inputs and intact nested code but did not specify how packaging treats the already signed developer bundle's framework.
+  **The reach:** Release assembly owns the framework copy used by the installer; developer signatures are never release credentials. App-only and install-kit archives are made from that same final app.
+  **Verdict:** sound — ensures the release installer is the verified engine rather than whichever framework the prior local build retained.
+  **Confidence:** high.
+

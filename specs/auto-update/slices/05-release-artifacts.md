@@ -74,3 +74,26 @@ private-key backup/export/import and isolated CI-signing steps; implement with
 actual authorized credentials, never a checked-in placeholder. Version/trust/source
 ownership and one-time bootstrap are fixed. Human review inspects receipt/feed and
 bootstrap commands; paid signing or a new release ceremony is out of scope.
+
+## Source checkpoint — 2026-10-04
+
+The release pipeline now derives runtime and receipt facts from the app manifest
+and exported core catalog format. Release packaging requires supplied durable
+credentials, uses the proved temporary-keychain signing recipe, and assembles
+app-only/authenticated-feed and app-plus-fixed-launcher artifacts from one signed
+app tree. The production launcher holds the persistent account lock before loading
+Node or CLI and until that process ends. Normal version tags publish stable,
+including the selected next version `0.1.3`; suffixed tags remain prerelease.
+
+Focused script proofs cover missing signing inputs, omitted/stale built catalog
+facts, production launcher lock lifetime and startup refusal, upload-before-publish,
+stable classification, immutable published assets and update receipt tampering.
+Disabling launcher flock or built metadata validation made their respective checks
+fail. The package links the exact protected r3 framework; the real SDK manifest
+and its frozen build receipt were inspected without another framework build.
+
+This is a source checkpoint, not completed artifact acceptance. Final signed
+archive/feed verification, identical extracted app-tree comparison and relocated
+assembled native smoke remain required once actual credentials and slice 06's
+native sources are integrated. Permission continuity is an accepted prerequisite;
+this pass does not repeat it or claim a new recipient/Gatekeeper observation.

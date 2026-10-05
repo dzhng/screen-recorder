@@ -1,10 +1,16 @@
 import { execFileSync } from "node:child_process";
-import { copyFileSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
+import { copyFileSync, mkdirSync, writeFileSync } from "node:fs";
 import { dirname, join, resolve } from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
+import { bundleFacts, verifiedFramework } from "./release-info.mjs";
+import { releaseSigningInputs, signReleaseTree } from "./release-signing.mjs";
 import { findIdentity } from "./signing-identity.mjs";
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), "..");
+if (process.env.SCREENREC_RELEASE_BUILD === "1") releaseSigningInputs();
+const { framework } = verifiedFramework(root);
+process.env.SCREENREC_SPARKLE_FRAMEWORK = framework;
+const facts = await bundleFacts(root);
 const signingIdentity = () => findIdentity() ?? "-";
 // The app runs its service under the interpreter recorded below and accepts only Node 24, so a
 // build under any other interpreter would ship a bundle that cannot start its service.
@@ -47,6 +53,8 @@ for (const [directory, executable] of [
   copyFileSync(join(bin, executable), join(macOS, executable));
 }
 
+mkdirSync(join(app, "Contents/Frameworks"), { recursive: true });
+execFileSync("ditto", [framework, join(app, "Contents/Frameworks/Sparkle.framework")]);
 const rnnoiseNotices = join(app, "Contents/Resources/ThirdParty/RNNoise");
 mkdirSync(rnnoiseNotices, { recursive: true });
 for (const file of ["COPYING", "provenance.json"])
@@ -74,6 +82,7 @@ writeFileSync(
   join(service, "runtime.json"),
   JSON.stringify(
     {
+      ...facts,
       nodePath: process.execPath,
       controlFrameBytes: protocol.CONTROL_FRAME_BYTES,
       maxPendingCalls: protocol.MAX_PENDING_CONTROL_CALLS,
@@ -85,15 +94,20 @@ writeFileSync(
 );
 
 copyFileSync(join(root, "apps/macos/Info.plist"), join(app, "Contents/Info.plist"));
-const { version } = JSON.parse(readFileSync(join(root, "apps/macos/package.json"), "utf8"));
+const { version } = facts;
 execFileSync("/usr/libexec/PlistBuddy", [
   "-c",
   `Add :CFBundleShortVersionString string ${version}`,
+  join(app, "Contents/Info.plist"),
+]);
+execFileSync("/usr/libexec/PlistBuddy", [
+  "-c",
+  `Set :CFBundleVersion ${version}`,
   join(app, "Contents/Info.plist"),
 ]);
 // Rendered by scripts/render-app-icon.swift and checked in, so a build needs no drawing step.
 copyFileSync(join(root, "apps/macos/AppIcon.icns"), join(app, "Contents/Resources/AppIcon.icns"));
 // macOS keys screen and microphone access to the signature it saw. Ad-hoc signatures change with
 // every build, so a local identity, when this Mac has one, keeps those grants across builds.
-execFileSync("codesign", ["--force", "--sign", signingIdentity(), app], { stdio: "inherit" });
+signReleaseTree(app, signingIdentity());
 console.error(`Built ${app}`);

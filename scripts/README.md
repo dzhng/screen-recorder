@@ -31,14 +31,32 @@ its assets; a correction receives a new version.
 
 The [tag workflow](../.github/workflows/release.yml) validates version agreement,
 prepares pinned inputs, builds on macOS, checks the relocated package and publishes
-only verified assets. The workflow owns triggers, permissions and prerelease policy.
+only verified assets. The workflow owns triggers and permissions. Normal version tags, including `v0.*`,
+publish stable; suffixed tags publish prerelease. The [publication owner](release-publish.mjs)
+uploads the complete draft before publishing, verifies receipts, and leaves
+published releases untouched.
 [Focused CI](../.github/workflows/release-checks.yml) checks release contracts on
 relevant source changes without starting capture or model inference.
 
 The [release tool](release.mjs) owns validation, explicit preparation and packaging.
 [Release inputs](release-inputs.json), the repository's Node version and denoiser
 provenance bind acquired bytes. Package receipts bind source and runtime identity;
-checksums bind delivered bytes. Neither is a notarization claim. The
+checksums bind delivered bytes. The install kit and app-only update ZIP contain
+the same finalized signed app; the kit's checksums remain scoped to the kit and
+receipt, while Sparkle authenticates the update ZIP and finalized feed.
+The [signing owner](release-signing.mjs) requires externally supplied durable
+credentials and public fingerprints, imports the identity into an ephemeral
+keychain, and signs nested code before its enclosing bundles. Secret material
+never belongs in the app, release directory, receipt or logs. The
+[custody handoff](../specs/auto-update/assets/signing-custody.md) owns backup and CI
+credential transfer; a missing input fails rather than creating another identity.
+The [protected engine](sparkle/README.md) owns framework preparation; an explicit
+framework override must match its pinned build receipt. Source builds link the
+same SDK but have no feed or public update key. Only release packaging enables
+updates and derives compatibility metadata from core. The fixed
+[launcher](launcher/main.c) holds shared kernel exclusion before any bundled code
+read and until the CLI process ends. Its account lock is persistent across bundle
+replacement; neither launcher nor updater may unlink it. Neither is a notarization claim. The
 [recipient guide](release-notes.md) is also the release-notes template and links
 to [agent setup](../README.md#agent-setup). The consumer skill's
 [installation procedure](../skills/screenrec/references/installation.md) owns

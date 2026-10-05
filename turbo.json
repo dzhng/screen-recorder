@@ -14,15 +14,27 @@
     },
     "@screenrec/macos#build": {
       "dependsOn": ["^build"],
+      "passThroughEnv": [
+        "SCREENREC_SPARKLE_FRAMEWORK",
+        "SCREENREC_RELEASE_BUILD",
+        "SCREENREC_RELEASE_IDENTITY_P12",
+        "SCREENREC_RELEASE_IDENTITY_PASSWORD",
+        "SCREENREC_RELEASE_IDENTITY_SHA1",
+        "SCREENREC_RELEASE_CERTIFICATE_SHA256",
+        "SCREENREC_SPARKLE_PRIVATE_KEY",
+        "SCREENREC_SPARKLE_PUBLIC_KEY"
+      ],
       "cache": false,
       "outputs": []
     },
     "@screenrec/macos#test": {
       "dependsOn": ["build"],
+      "passThroughEnv": ["SCREENREC_SPARKLE_FRAMEWORK"],
       "cache": false
     },
     "@screenrec/test-harness#test": {
       "dependsOn": ["build", "@screenrec/macos#build"],
+      "passThroughEnv": ["SCREENREC_SPARKLE_FRAMEWORK"],
       "cache": false
     }
   },
