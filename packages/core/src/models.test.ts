@@ -590,8 +590,15 @@ test("a locally sourced model refuses network acquisition before preparation and
       requests.push(String(input));
       throw new Error("fixture network acquisition refused");
     },
-    [speaker],
+    [speaker, f.voice],
   );
+  const listed = models.list();
+  expect(
+    listed.find((value) => value.modelId === speaker.name)?.preparation.modelSourceRequired,
+  ).toBe(true);
+  expect(
+    listed.find((value) => value.modelId === f.voice.name)?.preparation.modelSourceRequired,
+  ).toBe(false);
   await expect(
     models.prepare(speaker.name, new AbortController().signal, { runtimeSource: f.runtime }),
   ).rejects.toMatchObject({ code: "MODEL_SOURCE_REQUIRED", retryable: false });
