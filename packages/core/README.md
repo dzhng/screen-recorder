@@ -40,7 +40,9 @@ must be rechecked when asynchronous work crosses a publication boundary.
 slots and complete native score operands. A slot never identifies a person across
 observations, and a sigmoid value never claims calibrated assignment confidence.
 Captured refusal operands remain evidence; only queue settlement publishes a
-validated generation.
+validated generation. Retained reads bind that generation's original decoder,
+independently of the currently installed executable or prepared runtime. Chronological
+pagination preserves native row ordinals and simultaneous observations.
 
 ## Transactions, replay and lifetime
 

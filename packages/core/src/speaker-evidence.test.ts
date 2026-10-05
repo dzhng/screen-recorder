@@ -1,5 +1,5 @@
 import { afterEach, expect, test } from "vitest";
-import { mkdtemp, rm } from "node:fs/promises";
+import { mkdtemp, rm, writeFile } from "node:fs/promises";
 import { join } from "node:path";
 import { Catalog } from "./catalog.js";
 import { SpeakerEvidenceStore } from "./speaker-evidence.js";
@@ -155,4 +155,36 @@ test("malformed complete operands refuse before exposing a generation", async ()
     }),
   ).toThrow("retained Float32");
   expect(() => f.store.metadata(f.identity)).toThrow("not ready");
+});
+
+test("chronological interval pages retain original native ordinals across simultaneous boundaries", async () => {
+  const f = await fixture();
+  const raw = nativeOutput([
+    "2.000 3.000 speaker_0",
+    "1.000 2.000 speaker_1",
+    "0.000 2.000 speaker_2",
+    "0.000 1.000 speaker_3",
+  ]);
+  const staged = f.store.stage(f.identity, speakerSource, raw);
+  f.catalog.transaction(() => staged.publish());
+  const first = f.store.intervalPage({ identity: f.identity, limit: 2 });
+  const second = f.store.intervalPage({
+    identity: f.identity,
+    limit: 2,
+    afterSequence: first.nextSequence!,
+  });
+  await writeFile(
+    f.path + ".comparison.json",
+    JSON.stringify({ raw, first, second, expectedOrdinals: [2, 3, 1, 0] }),
+  );
+  expect(first.intervals.map((v) => [v.ordinal, v.slot])).toEqual([
+    [2, 2],
+    [3, 3],
+  ]);
+  expect(second.intervals.map((v) => [v.ordinal, v.slot])).toEqual([
+    [1, 1],
+    [0, 0],
+  ]);
+  expect(second.nextSequence).toBeNull();
+  expect(f.store.operands(f.identity)).toEqual(raw);
 });

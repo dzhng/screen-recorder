@@ -122,6 +122,7 @@ async function fixture() {
     },
     execute: (execution) => processing.execute(execution),
   });
+  const decoder = { ...speakerSource.decoder };
   processing = new SpeakerProcessing({
     assets,
     acquisitions,
@@ -129,7 +130,7 @@ async function fixture() {
     jobs,
     evidence,
     observe,
-    decoder: speakerSource.decoder,
+    decoder,
   });
   cleanup.push(async () => {
     control.release();
@@ -144,7 +145,7 @@ async function fixture() {
     sourceRange: speakerSource.observationRange,
     modelId: manifest.name,
   };
-  return { processing, jobs, models, requests, evidence, input, control, home };
+  return { processing, jobs, models, requests, evidence, input, control, home, decoder };
 }
 
 test("a repeated explicit observation joins the source job and ready reads need no runtime", async () => {
@@ -222,4 +223,24 @@ test("native refusals retain exact original operands but never expose ready inte
   });
   expect(status.published).toBeNull();
   expect(() => f.evidence.intervalPage({ identity })).toThrow("not ready");
+});
+
+test("retained reads bind the original decoder after native identity replacement", async () => {
+  const f = await fixture();
+  f.processing.prepareSource(f.input);
+  await expect.poll(() => f.processing.sourceStatus(f.input).state).toBe("ready");
+  const original = f.processing.sourceStatus(f.input);
+  f.decoder.workerSha256 = hash("replacement native executable");
+  f.decoder.osBuild = "replacement OS build";
+  const replacement = f.processing.sourceStatus(f.input);
+  await writeFile(
+    join(f.home, "decoder-read-comparison.json"),
+    JSON.stringify({ original, replacement }),
+  );
+  expect(replacement).toEqual(original);
+  expect(f.processing.prepareSource(f.input)).toEqual(original);
+  expect(f.processing.sourceStatus({ ...f.input, channel: 0 }).published).toBeNull();
+  expect(f.requests.length).toBe(1);
+  await rm(join(f.home, "models", f.input.modelId), { recursive: true });
+  expect(f.processing.sourceStatus(f.input)).toEqual(original);
 });

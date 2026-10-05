@@ -59,19 +59,24 @@ export class SpeakerProcessing {
       engine: this.options.models.speaker(selected.modelId).engine,
     };
   }
-  private identity(input: SpeakerSourceInput) {
+  private identity(input: SpeakerSourceInput, decoder = this.options.decoder) {
     const selected = this.selected(input);
     return {
       target: { kind: "asset" as const, assetId: selected.selection.assetId },
       artifact,
       input: JSON.stringify({
         request: speakerSourceSchema.parse(input),
-        source: this.descriptor(selected),
+        source: { ...this.descriptor(selected), decoder },
       }),
     };
   }
   sourceStatus(input: SpeakerSourceInput) {
-    const identity = this.identity(input),
+    const selected = this.selected(input);
+    const retained = this.options.evidence.latestObservation(
+      input.assetId,
+      this.descriptor(selected),
+    );
+    const identity = this.identity(input, retained?.source.decoder),
       status = this.options.jobs.status(identity);
     // Published evidence has no runtime dependency; readiness reads cannot prepare or invoke a model.
     const modelMissing =

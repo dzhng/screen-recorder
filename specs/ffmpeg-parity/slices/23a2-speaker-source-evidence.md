@@ -202,3 +202,10 @@ runtime inputs. Its generated compressed descriptor follows the existing single-
 app bundler, without a separate resource loader or runtime inventory in discovery
 responses. Catalog format25 refuses older catalogs rather than migrating them.
 Public source/project reads, dispatch and portable preservation remain required.
+
+Retained-read control now survives replacement of the installed native executable
+identity and OS build as well as removal of prepared runtime bytes. Selection
+still pins the original source support/channel/range and engine semantics. Interval
+seek order follows exact source start and native ordinal, preserving original
+slot-grouped rows in the retained operands. The combined catalog26 checkpoint must
+refuse intermediate25 databases whose speaker record keys used native ordinals.

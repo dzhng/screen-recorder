@@ -46,6 +46,11 @@ export const speakerEvidenceSourceSchema = z.strictObject({
   }),
 });
 export type SpeakerEvidenceSource = z.infer<typeof speakerEvidenceSourceSchema>;
+const observationSourceSchema = speakerEvidenceSourceSchema
+  .omit({ pcm: true, decoder: true })
+  .strip();
+const observationExpression = "json_remove(json_extract(metadata,'$.source'),'$.pcm','$.decoder')";
+
 const speakerIdentitySchema = z
   .strictObject({
     owner: z.strictObject({ kind: z.literal("asset"), assetId: sha256 }),
@@ -231,8 +236,10 @@ export class SpeakerEvidenceStore {
       PRIMARY KEY(ownerId,sourceId,generation,policy)) STRICT;
       CREATE TABLE IF NOT EXISTS speaker_evidence_records (
       ownerId TEXT NOT NULL,sourceId TEXT NOT NULL,generation TEXT NOT NULL,policy TEXT NOT NULL,
-      kind TEXT NOT NULL,ordinal INTEGER NOT NULL,content TEXT NOT NULL,
-      PRIMARY KEY(ownerId,sourceId,generation,policy,kind,ordinal)) STRICT;`);
+      kind TEXT NOT NULL,sequence INTEGER NOT NULL,content TEXT NOT NULL,
+      PRIMARY KEY(ownerId,sourceId,generation,policy,kind,sequence)) STRICT;
+      CREATE INDEX IF NOT EXISTS speaker_evidence_observation ON
+      speaker_evidence_generations(ownerId,${observationExpression}) WHERE complete=1;`);
   }
   /** The producer's job retains raw operands through refusal until retry or retirement. */
   capture(
@@ -322,8 +329,13 @@ export class SpeakerEvidenceStore {
         const insert = this.store.catalog.prepare(
           "INSERT INTO speaker_evidence_records VALUES(?,?,?,?,?,?,?)",
         );
-        for (const interval of result.intervals)
-          insert.run(...key(identity), "interval", interval.ordinal, JSON.stringify(interval));
+        const chronological = result.intervals.toSorted(
+          (a, b) =>
+            compare(fromTime(a.sourceRange.startUs), fromTime(b.sourceRange.startUs)) ||
+            a.ordinal - b.ordinal,
+        );
+        for (const [sequence, interval] of chronological.entries())
+          insert.run(...key(identity), "interval", sequence, JSON.stringify(interval));
         for (const score of result.scores)
           insert.run(...key(identity), "score", score.frameIndex, JSON.stringify(score));
         this.store.catalog
@@ -348,6 +360,27 @@ export class SpeakerEvidenceStore {
       },
     };
   }
+  /** Retained observations bind semantic source/engine pins, independently of current decoder availability. */
+  latestObservation(assetId: string, source: z.infer<typeof observationSourceSchema>) {
+    const row = this.store.catalog
+      .prepare(`SELECT metadata FROM speaker_evidence_generations
+        WHERE ownerId=? AND ${observationExpression}=? AND complete=1 ORDER BY rowid DESC LIMIT 1`)
+      .get(assetId, JSON.stringify(observationSourceSchema.parse(source))) as
+      | { metadata: string }
+      | undefined;
+    if (!row) return null;
+    const metadata = JSON.parse(row.metadata) as SpeakerEvidenceMetadata;
+    this.validateOwner(
+      {
+        owner: metadata.owner,
+        sourceId: metadata.sourceId,
+        generation: metadata.generation,
+        policy: metadata.policy,
+      },
+      metadata.source,
+    );
+    return metadata;
+  }
   metadata(identity: SpeakerEvidenceIdentity): SpeakerEvidenceMetadata {
     const row = this.row(identity);
     if (!row || row.complete !== 1)
@@ -366,20 +399,20 @@ export class SpeakerEvidenceStore {
   }
   intervalPage(request: {
     identity: SpeakerEvidenceIdentity;
-    afterOrdinal?: number;
+    afterSequence?: number;
     limit?: number;
     range?: SelectionRange;
   }) {
     const page = this.page<SpeakerObservation>(
       request.identity,
       "interval",
-      request.afterOrdinal ?? -1,
+      request.afterSequence ?? -1,
       request.limit ?? 100,
     );
     const intervals = request.range
       ? page.records.filter((v) => intersects(v.sourceRange, request.range!))
       : page.records;
-    return { metadata: page.metadata, intervals, nextOrdinal: page.nextOrdinal };
+    return { metadata: page.metadata, intervals, nextSequence: page.nextSequence };
   }
   scorePage(request: {
     identity: SpeakerEvidenceIdentity;
@@ -396,7 +429,7 @@ export class SpeakerEvidenceStore {
     const scores = request.range
       ? page.records.filter((v) => intersects(v.sourceRange, request.range!))
       : page.records;
-    return { metadata: page.metadata, scores, nextFrame: page.nextOrdinal };
+    return { metadata: page.metadata, scores, nextFrame: page.nextSequence };
   }
   private page<T>(
     identity: SpeakerEvidenceIdentity,
@@ -410,20 +443,20 @@ export class SpeakerEvidenceStore {
       after < -1 ||
       !Number.isSafeInteger(limit) ||
       limit < 1 ||
-      limit > 100
+      limit > 1000
     )
       throw new CatalogError("INVALID_PARAMS", "Invalid speaker evidence page");
     const rows = this.store.catalog
       .prepare(
-        `SELECT ordinal,content FROM speaker_evidence_records WHERE ${where} AND kind=? AND ordinal>? ORDER BY ordinal LIMIT ?`,
+        `SELECT sequence,content FROM speaker_evidence_records WHERE ${where} AND kind=? AND sequence>? ORDER BY sequence LIMIT ?`,
       )
-      .all(...key(identity), kind, after, limit + 1) as { ordinal: number; content: string }[];
+      .all(...key(identity), kind, after, limit + 1) as { sequence: number; content: string }[];
     const more = rows.length > limit;
     if (more) rows.pop();
     return {
       metadata,
       records: rows.map((v) => JSON.parse(v.content) as T),
-      nextOrdinal: more ? rows.at(-1)!.ordinal : null,
+      nextSequence: more ? rows.at(-1)!.sequence : null,
     };
   }
   /** Caller first retires references and fences all producers through the shared queue. */
