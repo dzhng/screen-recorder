@@ -1,6 +1,11 @@
 # 02 — Primary camera publication proof
 
-Status: TODO. Dependencies: 01 is the first user-facing checkpoint; this gate has no media-device dependency.
+Status: implemented and verified in isolated authority branch; integration waits for slice 01. Dependencies: 01 is the first user-facing checkpoint; this gate has no media-device dependency.
+
+Evidence: [retained primary-camera proof](../assets/evidence/02-primary-camera-authority/README.md).
+The deterministic gate passed normal finish, recovery, staged held-byte export,
+core publication/evidence admission and catalog reopen. The preservation gates are
+green. Physical acquisition and public device identity remain later slices.
 
 ## Contract
 

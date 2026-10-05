@@ -273,8 +273,30 @@ package final class CaptureWriter: NSObject, SCStreamOutput, @unchecked Sendable
         ingest(sample, of: type)
     }
 
-    /// Ordered ingress shared by normal SCStream delivery and the clock measurement probe.
+    /// Screen completeness and geometry belong to the ScreenCaptureKit adapter.
     package func ingest(_ sample: CMSampleBuffer, of type: SCStreamOutputType) {
+        switch type {
+        case .screen:
+            guard let attachments = CMSampleBufferGetSampleAttachmentsArray(
+                sample, createIfNecessary: false) as? [[SCStreamFrameInfo: Any]],
+                let info = attachments.first, let status = info[.status] as? Int else { return }
+            let usable = status == SCFrameStatus.complete.rawValue || status == SCFrameStatus.started.rawValue
+            ingest(sample, role: "video", screenInfo: info, usable: usable)
+        case .audio: ingest(sample, role: "system")
+        case .microphone: ingest(sample, role: "narration")
+        @unknown default: return
+        }
+    }
+
+    /// Usable primary pictures in host time use the same writer and source clock as screen input.
+    /// The caller converts its device clock before delivery; no screen attachments are required.
+    @discardableResult
+    package func ingestPrimaryVideo(_ sample: CMSampleBuffer) -> IngressReceipt {
+        observeIngress(role: "video") { ingest(sample, role: "video") }
+    }
+
+    private func ingest(_ sample: CMSampleBuffer, role: String,
+        screenInfo: [SCStreamFrameInfo: Any]? = nil, usable: Bool = true) {
         guard !finishing, failure == nil, sample.isValid, CMSampleBufferDataIsReady(sample) else {
             return
         }
@@ -291,21 +313,10 @@ package final class CaptureWriter: NSObject, SCStreamOutput, @unchecked Sendable
                     .value)
             : 0
         let durationUs =
-            observedDurationUs > 0 ? observedDurationUs : (type == .screen ? 33_333 : 0)
-        let role: String
-        switch type {
-        case .screen:
-            role = "video"
-            guard
-                let attachments = CMSampleBufferGetSampleAttachmentsArray(
-                    sample, createIfNecessary: false) as? [[SCStreamFrameInfo: Any]],
-                let info = attachments.first, let status = info[.status] as? Int
-            else { return }
-            let usable =
-                (status == SCFrameStatus.complete.rawValue
-                    || status == SCFrameStatus.started.rawValue) && sample.imageBuffer != nil
-            // Source zero belongs to the first usable frame, so the geometry that frame reports is
-            // placed at source zero rather than in the take's unplaceable prologue.
+            observedDurationUs > 0 ? observedDurationUs : (role == "video" ? 33_333 : 0)
+        if role == "video" {
+            let usable = usable && sample.imageBuffer != nil
+            // The first usable primary picture establishes zero before screen geometry is placed.
             if usable, clock.start(at: hostUs, durationUs: durationUs) {
                 publishClock()
                 guard record({
@@ -313,11 +324,10 @@ package final class CaptureWriter: NSObject, SCStreamOutput, @unchecked Sendable
                         placedPauses: self.clock.pauses)
                 }) else { return }
             }
-            updateGeometry(from: info, hostUs: hostUs, durationUs: durationUs, usable: usable)
+            if let screenInfo {
+                updateGeometry(from: screenInfo, hostUs: hostUs, durationUs: durationUs, usable: usable)
+            }
             guard usable else { return }
-        case .audio: role = "system"
-        case .microphone: role = "narration"
-        @unknown default: return
         }
         guard var sourceUs = clock.sourceTime(for: hostUs, durationUs: role == "video" ? durationUs : 0) else {
             omitted[role, default: 0] += 1
@@ -453,11 +463,14 @@ package final class CaptureWriter: NSObject, SCStreamOutput, @unchecked Sendable
     }
     package func ingestObserved(_ sample: CMSampleBuffer, of type: SCStreamOutputType) -> IngressReceipt {
         let role = type == .screen ? "video" : (type == .microphone ? "narration" : "system")
+        return observeIngress(role: role) { ingest(sample, of: type) }
+    }
+    private func observeIngress(role: String, ingest: () -> Void) -> IngressReceipt {
         let before = tracks[role]?.samples ?? 0
         let previousDropped = dropped[role, default: 0]
         let previousOmitted = omitted[role, default: 0]
         let accepting = ingressState.accepting
-        ingest(sample, of: type)
+        ingest()
         let disposition = (tracks[role]?.samples ?? 0) > before ? "accepted"
             : !accepting ? "sealed-or-failed" : dropped[role, default: 0] > previousDropped ? "backpressure"
             : omitted[role, default: 0] > previousOmitted ? "outside-support" : "invalid-or-unusable"

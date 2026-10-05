@@ -9,8 +9,8 @@ replies are joined and each attempted resource is stopped.
 
 ## One acquisition clock
 
-Delivered tracks share the host timestamp domain. The first complete screen
-sample establishes source zero; preceding samples are omitted. Pauses remove the
+Delivered tracks share the host timestamp domain. The first usable primary
+picture establishes source zero; preceding samples are omitted. Pauses remove the
 same elapsed interval from every track, including late callbacks after resume.
 An audio buffer crossing a pause boundary is omitted so paused speech cannot leak
 through. Intentional omission and writer backpressure are different observations.
@@ -26,6 +26,12 @@ may deliver blank frames; pixel color cannot distinguish that from source loss.
 Only the platform's interruption signal supplies that lifecycle fact. Interruption
 seals the native clock and writers, then the app uses the same joined stop/discard
 path rather than creating a second teardown owner.
+
+Primary authority is an allocation role, independent of a physical camera or screen
+source. The primary writer accepts usable host-time pictures; its ScreenCaptureKit
+adapter separately owns screen completeness and geometry. Primary camera keeps the
+ordinary packed journal without companion binding or camera proof members. The
+companion camera keeps its device binding, independent origin and camera proofs.
 
 ## Closure is separate from publication
 

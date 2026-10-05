@@ -168,7 +168,7 @@ package enum MediaRecovery {
         guard layout == 2 else {
             let result = await inspect(directory: directory)
             try Task.checkCancellation()
-            if result.journal?.header?.source.kind == "camera" || result.journal?.header?.cameraBinding != nil {
+            if layout == 1 && (result.journal?.header?.source.kind == "camera" || result.journal?.header?.cameraBinding != nil) {
                 return try await recoverCamera(directory: directory, leased: leased)
             }
             if let failure = result.tracks.compactMap(\.failure).first(where: { $0.code == "MEDIA_UNAVAILABLE" }) { throw failure }

@@ -81,6 +81,32 @@ test("pages equal-time raw samples with explicit range and stable continuation",
   ).toEqual({ samples: [{ sequence: 3, ...f.samples[2] }], nextSequence: null });
 });
 
+test("layout-2 primary camera evidence retains unbound device provenance", async () => {
+  const f = fixture();
+  const receipt = {
+    ...f.receipt,
+    header: { sessionID: f.identity.sourceId, schemaVersion: 2, source: { kind: "camera" } },
+    publications: {},
+  };
+  const admitted = await f.evidence.ingest({ ...f.identity, file: f.file, receipt });
+  expect(admitted.receipt).toEqual(receipt);
+  expect(f.evidence.page({ ...f.identity, range: { startUs: 0, endUs: 30 } }).samples).toEqual(
+    f.samples.map((sample, i) => ({ sequence: i + 1, ...sample })),
+  );
+});
+
+test("unbound camera evidence refuses missing and unsupported primary layouts", async () => {
+  const f = fixture();
+  for (const schemaVersion of [undefined, 3]) {
+    const receipt = {
+      ...f.receipt,
+      header: { sessionID: f.identity.sourceId, schemaVersion, source: { kind: "camera" } },
+      publications: {},
+    };
+    await expect(f.evidence.ingest({ ...f.identity, file: f.file, receipt })).rejects.toThrow();
+  }
+});
+
 test("declared camera evidence cannot be indexed without its verified publication", async () => {
   const f = fixture();
   const receipt = {

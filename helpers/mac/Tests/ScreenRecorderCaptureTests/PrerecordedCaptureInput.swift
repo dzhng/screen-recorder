@@ -30,6 +30,7 @@ final class PrerecordedCaptureInput: CaptureInputSession {
     var cursorFixture = false
     var cameraFramesEnabled = true
     var primaryFramesEnabled = true
+    var primaryVideoIngress = false
     var cameraBeforePrimary = true
     var cameraPrologueEnabled = true
     var beforeCameraClose: (() throws -> Void)?
@@ -115,8 +116,10 @@ final class PrerecordedCaptureInput: CaptureInputSession {
             offeredVideoFrames += 1
             let timed = try captureFixtureRetimed(sample,
                 at: CMTimeAdd(time(microseconds: origin), sample.presentationTimeStamp))
-            let attachments = CMSampleBufferGetSampleAttachmentsArray(timed, createIfNecessary: true)! as NSArray
-            (attachments[0] as! NSMutableDictionary)[SCStreamFrameInfo.status.rawValue] = SCFrameStatus.complete.rawValue
+            if !primaryVideoIngress {
+                let attachments = CMSampleBufferGetSampleAttachmentsArray(timed, createIfNecessary: true)! as NSArray
+                (attachments[0] as! NSMutableDictionary)[SCStreamFrameInfo.status.rawValue] = SCFrameStatus.complete.rawValue
+            }
             finalCameraSample = timed
             writer.queue.sync {
                 if let probe {
@@ -132,7 +135,8 @@ final class PrerecordedCaptureInput: CaptureInputSession {
                         probe.accept(try! rawProbeSample(timed), role: .camera, from: sourceClock)
                     }
                 } else if primaryFramesEnabled {
-                    if let sharedIngress { sharedIngress.acceptStream(try! rawProbeSample(timed), of: .screen, from: sourceClock) }
+                    if primaryVideoIngress { writer.ingestPrimaryVideo(timed) }
+                    else if let sharedIngress { sharedIngress.acceptStream(try! rawProbeSample(timed), of: .screen, from: sourceClock) }
                     else { captureOutput.stream!(stream, didOutputSampleBuffer: timed, of: .screen) }
                 }
             }

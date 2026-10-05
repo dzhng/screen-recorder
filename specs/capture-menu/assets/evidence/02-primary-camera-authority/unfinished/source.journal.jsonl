@@ -1,0 +1,2 @@
+{"data":{"height":120,"microphone":false,"schemaVersion":2,"sessionID":"primary-camera","source":{"kind":"camera"},"systemAudio":false,"width":160},"event":"header","sequence":1}
+{"data":{"declaredHostUs":"1000000","rawPTS":{"epoch":"0","flags":1,"timescale":1000000,"value":"1000000"}},"event":"pcmOrigin","sequence":2}
