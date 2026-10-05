@@ -82,6 +82,10 @@ A signing identity is not notarization or permission to start capture.
 
 ## Developer labs
 
+The [installed update runner](installed-update-lab/README.md) proves assembled
+app/CLI replacement and library preservation using uniquely owned signed fixtures.
+Its controlled local feed is separate from published GitHub artifact readiness.
+
 Probe and measurement scripts exercise selected platform or product boundaries.
 The [verification guide](../packages/test-harness/README.md) explains their evidence
 roles and how to choose a focused existing runner. Read the selected tool's inputs
