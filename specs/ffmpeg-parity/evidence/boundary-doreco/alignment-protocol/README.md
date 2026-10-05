@@ -60,3 +60,7 @@ acoustic quality, cost and runtime-closure acceptance.
 The [root verification](root-verification.json) independently checks retained file
 and archive-member identities and the structural denominator arithmetic. It
 adds no model execution, scorer implementation or channel authority.
+
+The [root channel verification](root-channel-verification.json) repeats exact
+original member/hash, channel dimensions and complete equality/negation counts.
+It does not repeat the descriptive correlation fit or establish channel identity.

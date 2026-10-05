@@ -1144,4 +1144,3 @@ The gate did not specify occurrence matching and malformed-output semantics.
 This reaches the future existing evaluator extension; these frozen controls are
 not implemented scorer tests. Verdict: sound; it preserves the task and exposes
 missing information rather than manufacturing accuracy. Confidence: high.
-

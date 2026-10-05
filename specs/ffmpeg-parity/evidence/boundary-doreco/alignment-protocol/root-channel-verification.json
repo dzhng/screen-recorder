@@ -1,0 +1,30 @@
+{
+  "sourceCommit": "bf10876fb6836a6c8c8d67b06d176d7ceab5df0a",
+  "rootBase": "358e1a40",
+  "scope": "Independent retained source/member hashes, PCM16 channel dimensions and complete exact equality/negation counts. Correlation/gain/lag statistics not independently repeated; no channel attribution, preprocessing or inference.",
+  "passed": true,
+  "cases": [
+    {
+      "member": "pcm/doreco_sout3282_mc_english_kent03_b_part1-60000.pcm",
+      "sha256": "f1c4604daed02162e1ea24bc9065a9b29d7babe83ea63b2f533bcf9b3661d35b",
+      "samplesPerChannel": 1323000,
+      "exactEqualSamples": 987,
+      "exactNegatedSamples": 349
+    },
+    {
+      "member": "pcm/doreco_sout3282_mc_english_kent03_b_part2-120000.pcm",
+      "sha256": "15747a348ce11b904c6b15afdd29a2d08d2f080d94daec8194bb00b7673395ab",
+      "samplesPerChannel": 1323000,
+      "exactEqualSamples": 1636,
+      "exactNegatedSamples": 686
+    },
+    {
+      "member": "pcm/doreco_sout3282_mc_english_kent03_b_part2-60000.pcm",
+      "sha256": "5e18360b8007cc41b5c654a9fcdf12fcfe1836831902d3913d6d36079d5faeca",
+      "samplesPerChannel": 1323000,
+      "exactEqualSamples": 2015,
+      "exactNegatedSamples": 860
+    }
+  ],
+  "channelAuthority": "unknown; structural coverage unchanged"
+}
