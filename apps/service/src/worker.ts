@@ -1,4 +1,5 @@
 import { spawn } from "node:child_process";
+import { setTimeout as delay } from "node:timers/promises";
 import { isAbsolute } from "node:path";
 import {
   MEDIA_WORKER_TIMEOUT_MS,
@@ -103,128 +104,277 @@ export function mediaWorker(
     );
 }
 
-/** One process/pipe lifetime for native media and explicitly prepared sidecars. */
-export function jsonWorker(
-  command: {
-    executable: string | undefined;
-    args?: readonly string[];
-    environment?: NodeJS.ProcessEnv;
+type WorkerCommand = {
+  executable: string | undefined;
+  args?: readonly string[];
+  environment?: NodeJS.ProcessEnv;
+};
+type WorkerOptions = { signal?: AbortSignal; timeoutMs?: number; descriptors?: readonly number[] };
+
+/** Process lifetime is shared; each wire protocol owns its decoding and completion rule. */
+function ownedProcess(
+  command: WorkerCommand,
+  operation: string,
+  options: WorkerOptions,
+  protocol: {
+    input?: Buffer;
+    group?: boolean;
+    stdout: (chunk: Buffer) => OperationResult | undefined;
+    stderr?: (chunk: Buffer) => OperationResult | undefined;
+    completion?: (chunk: Buffer) => OperationResult | true | undefined;
+    completed: (exitCode: number | null) => OperationResult;
   },
-  timeoutMs: number = MEDIA_WORKER_TIMEOUT_MS,
-): MediaWorker {
-  return (
-    operation,
-    params,
-    { signal, timeoutMs: callTimeoutMs = timeoutMs, descriptors = [] } = {},
-  ) =>
-    new Promise<OperationResult>((settle) => {
-      const canceled = () => operationError("CANCELED", `${operation} was canceled`);
-      if (signal?.aborted) {
-        settle(canceled());
-        return;
-      }
-      if (
-        !Number.isFinite(callTimeoutMs) ||
-        callTimeoutMs <= 0 ||
-        callTimeoutMs > MAX_MEDIA_TIMEOUT_MS
-      ) {
-        settle(
-          operationError("INVALID_REQUEST", "Native deadline must be positive and fit a timer"),
-        );
-        return;
-      }
-      const executable = command.executable;
-      if (!executable || !isAbsolute(executable)) {
-        settle(
-          operationError(
-            "MEDIA_WORKER_UNAVAILABLE",
-            `${NATIVE_EXECUTABLE_VARIABLE} must name the packaged native worker executable`,
-          ),
-        );
-        return;
-      }
-      let frame: Buffer;
-      try {
-        frame = encodeJsonLine(
-          { id: `worker-${operation}`, operation, params },
-          REQUEST_FRAME_BYTES,
-        );
-      } catch {
-        settle(
-          operationError("INVALID_REQUEST", `Cannot encode ${operation} for the native worker`),
-        );
-        return;
-      }
-      if (descriptors.some((fd) => !Number.isSafeInteger(fd) || fd < 0)) {
-        settle(
-          operationError("INVALID_REQUEST", "Inherited descriptors must be open file descriptors"),
-        );
-        return;
-      }
-      const child = spawn(executable, [...(command.args ?? [])], {
-        ...(command.environment ? { env: command.environment } : {}),
-        cwd: "/",
-        stdio: ["pipe", "pipe", "ignore", ...descriptors] as [
-          "pipe",
-          "pipe",
-          "ignore",
-          ...number[],
-        ],
-      });
-      const reader = new JsonLineReader(RESPONSE_FRAME_BYTES);
-      let result: OperationResult | undefined;
-      const finish = (value: OperationResult) => {
-        if (result !== undefined) return;
-        result = value;
-        clearTimeout(deadline);
-        signal?.removeEventListener("abort", abort);
-        child.kill("SIGKILL");
-      };
-      const abort = () => finish(canceled());
-      const deadline = setTimeout(
-        () =>
-          finish(
-            operationError("MEDIA_WORKER_TIMEOUT", `${operation} did not answer in time`, true, {
-              operation,
-              timeoutMs: callTimeoutMs,
-            }),
-          ),
-        callTimeoutMs,
-      );
-      child.on("error", (error) =>
-        finish(
-          operationError("MEDIA_WORKER_UNAVAILABLE", `Cannot run ${executable}: ${error.message}`),
+): Promise<OperationResult> {
+  return new Promise((settle) => {
+    const { signal, timeoutMs = MEDIA_WORKER_TIMEOUT_MS, descriptors = [] } = options;
+    if (signal?.aborted) {
+      settle(operationError("CANCELED", operation + " was canceled"));
+      return;
+    }
+    if (
+      !Number.isFinite(timeoutMs) ||
+      timeoutMs <= 0 ||
+      timeoutMs > MAX_MEDIA_TIMEOUT_MS ||
+      descriptors.some((fd) => !Number.isSafeInteger(fd) || fd < 0)
+    ) {
+      settle(operationError("INVALID_REQUEST", "Worker deadline/descriptors are invalid"));
+      return;
+    }
+    if (!command.executable || !isAbsolute(command.executable)) {
+      settle(
+        operationError(
+          "MEDIA_WORKER_UNAVAILABLE",
+          "Worker must name an absolute packaged executable",
         ),
       );
-      // `close` rather than `exit`: a child can exit with its answer still buffered in this
-      // process's pipe, and that answer must not be thrown away as a failure.
-      child.on("close", () => {
-        clearTimeout(deadline);
-        signal?.removeEventListener("abort", abort);
-        // A scheduler may reuse capacity as soon as this promise settles. Keep the slot
-        // until the child and its pipes are closed, even after a successful response.
-        settle(
-          result ?? operationError("MEDIA_WORKER_FAILED", `${operation} produced no result`, true),
-        );
-      });
-      child.stdout!.on("data", (chunk: Buffer) => {
-        let value: unknown;
-        try {
-          value = reader.push(chunk);
-        } catch (error) {
-          finish(operationError("MEDIA_WORKER_FAILED", (error as Error).message));
-          return;
-        }
-        if (value === undefined) return;
-        const parsed = resultSchema.safeParse(value);
-        finish(
-          parsed.success
-            ? parsed.data
-            : operationError("MEDIA_WORKER_FAILED", `${operation} returned an unreadable result`),
-        );
-      });
-      child.stdin!.on("error", () => {});
-      signal?.addEventListener("abort", abort, { once: true });
-      child.stdin!.end(frame);
+      return;
+    }
+    const child = spawn(command.executable, [...(command.args ?? [])], {
+      ...(command.environment ? { env: command.environment } : {}),
+      cwd: "/",
+      detached: protocol.group === true,
+      stdio: [
+        "pipe",
+        "pipe",
+        protocol.stderr ? "pipe" : "ignore",
+        ...descriptors,
+        ...(protocol.completion ? ["pipe" as const] : []),
+      ],
     });
+    let result: OperationResult | undefined;
+    const stop = () => {
+      if (protocol.group && child.pid) {
+        try {
+          process.kill(-child.pid, "SIGKILL");
+        } catch (error) {
+          if ((error as NodeJS.ErrnoException).code !== "ESRCH") child.kill("SIGKILL");
+        }
+      } else child.kill("SIGKILL");
+    };
+    const finish = (value: OperationResult) => {
+      if (result !== undefined) return;
+      result = value;
+      clearTimeout(deadline);
+      signal?.removeEventListener("abort", abort);
+      stop();
+    };
+    const abort = () => finish(operationError("CANCELED", operation + " was canceled"));
+    const deadline = setTimeout(
+      () =>
+        finish(
+          operationError("MEDIA_WORKER_TIMEOUT", operation + " did not answer in time", true, {
+            operation,
+            timeoutMs,
+          }),
+        ),
+      timeoutMs,
+    );
+    child.on("error", (error) =>
+      finish(operationError("MEDIA_WORKER_UNAVAILABLE", "Cannot run worker: " + error.message)),
+    );
+    // A killed wrapper can leave descendants holding pipes. Retire its known group
+    // at exit, before waiting for close; close alone would deadlock on those pipes.
+    child.on("exit", () => {
+      if (protocol.group) stop();
+    });
+    child.on("close", async (exitCode) => {
+      clearTimeout(deadline);
+      if (protocol.group && child.pid) {
+        const started = performance.now();
+        let overrun = false;
+        for (;;) {
+          try {
+            process.kill(-child.pid, 0);
+          } catch (error) {
+            if ((error as NodeJS.ErrnoException).code === "ESRCH") break;
+          }
+          if (!overrun && performance.now() - started >= 5000) {
+            overrun = true;
+            console.error(
+              "screenrec: CLI process group retirement exceeded 5s; retaining owned work",
+              { groupId: child.pid },
+            );
+          }
+          // A closed pipe is not descendant retirement. No safe synthetic result
+          // can release this slot while the kernel still reports the owned group.
+          await delay(overrun ? 1000 : 10);
+        }
+      }
+      signal?.removeEventListener("abort", abort);
+      settle(result ?? protocol.completed(exitCode));
+    });
+    const completion = child.stdio[3 + descriptors.length];
+    if (protocol.completion && completion && "on" in completion) {
+      completion.on("data", (chunk: Buffer) => {
+        const value = protocol.completion!(chunk);
+        if (value === true) stop();
+        else if (value) finish(value);
+      });
+    }
+    child.stdout!.on("data", (chunk: Buffer) => {
+      if (result !== undefined) return;
+      try {
+        const value = protocol.stdout(chunk);
+        if (value) finish(value);
+      } catch (error) {
+        finish(operationError("MEDIA_WORKER_FAILED", (error as Error).message));
+      }
+    });
+    child.stderr?.on("data", (chunk: Buffer) => {
+      if (result !== undefined) return;
+      const value = protocol.stderr?.(chunk);
+      if (value) finish(value);
+    });
+    child.stdin!.on("error", () => {});
+    signal?.addEventListener("abort", abort, { once: true });
+    child.stdin!.end(protocol.input);
+  });
+}
+
+/** Native answers one JSON line; answering still retires the child before resolving. */
+export function jsonWorker(
+  command: WorkerCommand,
+  timeoutMs = MEDIA_WORKER_TIMEOUT_MS,
+): MediaWorker {
+  return (operation, params, options = {}) => {
+    let frame: Buffer;
+    try {
+      frame = encodeJsonLine({ id: "worker-" + operation, operation, params }, REQUEST_FRAME_BYTES);
+    } catch {
+      return Promise.resolve(
+        operationError("INVALID_REQUEST", "Cannot encode " + operation + " for the native worker"),
+      );
+    }
+    const reader = new JsonLineReader(RESPONSE_FRAME_BYTES);
+    return ownedProcess(
+      command,
+      operation,
+      { ...options, timeoutMs: options.timeoutMs ?? timeoutMs },
+      {
+        input: frame,
+        stdout: (chunk) => {
+          const value = reader.push(chunk);
+          if (value === undefined) return;
+          const parsed = resultSchema.safeParse(value);
+          return parsed.success
+            ? parsed.data
+            : operationError("MEDIA_WORKER_FAILED", operation + " returned an unreadable result");
+        },
+        completed: () =>
+          operationError("MEDIA_WORKER_FAILED", operation + " produced no result", true),
+      },
+    );
+  };
+}
+
+/** The existing native executable watches service death for this private CLI mode. */
+export function cliWorker(
+  command: {
+    executable: string;
+    ownerExecutable: string;
+    args: readonly string[];
+    environment?: NodeJS.ProcessEnv;
+  },
+  options: WorkerOptions & { maxBytes?: number; output?: "bytes" | "json" } = {},
+): Promise<OperationResult> {
+  const maximum = options.maxBytes ?? RESPONSE_FRAME_BYTES;
+  if (!isAbsolute(command.executable) || !Number.isSafeInteger(maximum) || maximum < 1)
+    return Promise.resolve(
+      operationError("INVALID_REQUEST", "CLI executable/output bound is invalid"),
+    );
+  const stdout: Buffer[] = [],
+    stderr: Buffer[] = [];
+  let size = 0;
+  let completion = Buffer.alloc(0);
+  let commandExit: number | undefined;
+  const capture = (chunks: Buffer[], chunk: Buffer) => {
+    size += chunk.length;
+    if (size > maximum)
+      return operationError("MEDIA_WORKER_FAILED", "CLI output exceeds its byte bound");
+    chunks.push(chunk);
+  };
+  return ownedProcess(
+    {
+      executable: command.ownerExecutable,
+      args: [
+        "--run-cli",
+        String(3 + (options.descriptors?.length ?? 0)),
+        command.executable,
+        ...command.args,
+      ],
+      ...(command.environment ? { environment: command.environment } : {}),
+    },
+    "CLI",
+    options,
+    {
+      group: true,
+      completion: (chunk) => {
+        if (completion.length + chunk.length > 4 || commandExit !== undefined)
+          return operationError("MEDIA_WORKER_FAILED", "CLI completion is malformed or duplicated");
+        completion = Buffer.concat([completion, chunk]);
+        if (!completion.includes(10)) return;
+        const text = completion.toString("utf8");
+        if (!/^(0|[1-9][0-9]{0,2})\n$/.test(text) || Number(text) > 255)
+          return operationError("MEDIA_WORKER_FAILED", "CLI completion is malformed or duplicated");
+        commandExit = Number(text);
+        return true;
+      },
+      stdout: (chunk) => capture(stdout, chunk),
+      stderr: (chunk) => capture(stderr, chunk),
+      completed: (wrapperExit) => {
+        const exitCode = commandExit;
+        const diagnostic = Buffer.concat(stderr).toString("utf8");
+        if (exitCode === undefined)
+          return operationError(
+            "MEDIA_WORKER_FAILED",
+            "CLI owner exited without command completion",
+            true,
+            { exitCode: wrapperExit, stderr: diagnostic },
+          );
+        if (exitCode !== 0)
+          return operationError("MEDIA_WORKER_FAILED", "CLI exited unsuccessfully", true, {
+            exitCode,
+            stderr: diagnostic,
+          });
+        const bytes = Buffer.concat(stdout);
+        if (options.output === "json") {
+          try {
+            return {
+              ok: true,
+              data: {
+                output: JSON.parse(new TextDecoder("utf-8", { fatal: true }).decode(bytes)),
+                stderr: diagnostic,
+                exitCode,
+              },
+            };
+          } catch {
+            return operationError("MEDIA_WORKER_FAILED", "CLI returned malformed JSON", false, {
+              stderr: diagnostic,
+            });
+          }
+        }
+        return { ok: true, data: { stdout: bytes, stderr: diagnostic, exitCode } };
+      },
+    },
+  );
 }

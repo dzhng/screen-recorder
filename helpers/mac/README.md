@@ -31,6 +31,16 @@ exit and rechecks identity after registration to cover reparenting races. Servic
 cancellation terminates the worker; attempt ownership must therefore clean staging
 even when native cleanup cannot run.
 
+The private [CLI mode](Sources/ScreenRecorderNative/CommandWorker.swift) uses this
+same parent watcher to own an argv-only child and its inherited process group.
+Standard streams and admitted descriptors pass through unchanged. A private
+completion pipe follows caller descriptors and is closed on command exec. The
+wrapper reports command status there and keeps parent watching active until
+the service retires its group. The service
+creates the group, retires it on cancellation or unexpected wrapper exit, and
+waits for kernel absence before settling work; parent death retires the group
+from the native watcher when the service can no longer do so.
+
 [Recovery](Sources/ScreenRecorderWire/MediaRecovery.swift) restores each source's
 proven support independently. Optional audio cannot shorten video extent, and an
 unrequested track is different from an unexplained missing one. Library reconciliation

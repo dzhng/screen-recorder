@@ -1,6 +1,10 @@
 import Foundation
 import ScreenRecorderWire
 
+if CommandLine.arguments.dropFirst().first == "--run-cli" {
+    CommandWorker.run(Array(CommandLine.arguments.dropFirst()))
+}
+
 // Held for this worker's whole life: every request it serves belongs to the process that
 // spawned it, and none of that work outlives its owner.
 let parentExit = ParentLifetime.endWorkWhenParentExits()
