@@ -18,19 +18,21 @@ exclusion through host/helper failure and cancellation. Xcode 27 is initialized.
 Do not return to upstream's unsafe ordinary-quit installation or substitute a
 host-only lock. [01](slices/01-sparkle-replication.md#proof-status) owns this contract.
 
-Next, integrate the native coordinator and release pipeline in parallel. Native
-owns clean service EOF/exit and persistent opt-out; packaging owns release-only
-configuration, direct framework linking, stable signing, the coordinated launcher
-and authenticated feed. The fixed release lock is account-owned
+Next, integrate the native coordinator and Settings projection. The release
+pipeline is committed; its account-home lock and binary certificate parser fixes
+are being finalized. Native owns clean service EOF/exit and persistent opt-out;
+packaging owns release-only configuration, direct framework linking, stable signing,
+the coordinated launcher and authenticated feed. The fixed release lock is account-owned
 `Library/Caches/com.david.screenrec/launch.lock`, outside the replaced bundle.
-The manifest's next release is 0.1.3; commit that version before final artifacts.
-Production signing credentials require the prepared concrete custody handoff;
-no keys have been silently created.
+The manifest's committed release version is 0.1.3. The owner authorized private
+local key custody and GitHub secrets; stable credentials are now provisioned.
+[Public identity and custody](assets/signing-custody.md) records the handoff.
 
 Service admission is committed. The launcher primitive and engine's real MCP-lock
 barrier are proved; assembled launcher/discovery parity remains. Consumer skills
-and focused Docker trials are committed; final repeated trials and live
-published-source onboarding remain. Use existing evidence, then run the complete
+and focused Docker trials are committed. The final Docker matrix is running
+from consumer-source commit `4fbeee26`: 11 cases × 2 agents × 2 fresh trials, with
+the production CLI bundling route. Live published-source onboarding remains. Use existing evidence, then run the complete
 repository checks once when implementation is finished.
 
 The user explicitly accepted prior permission continuity on 2026-10-04 and asked

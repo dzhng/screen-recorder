@@ -36,8 +36,8 @@ backup/import/CI-secret handoff. Do not create production credentials silently.
 - Release and personal-source bundle identities remain distinct.
 
 Retain public certificate fingerprints and signing-command/config identities,
-never private material. Actual credential custody is still an implementation
-input; updater authentication is separate from app-signature identity.
+never private material. Updater authentication is separate from app-signature
+identity; the owner-approved custody is recorded below.
 
 ## Signing checkpoint
 
@@ -50,9 +50,10 @@ framework and runs Node. This does not prove an installer-helper update cycle or
 production packaging parity. The [lab](../../../scripts/signing-lab.mjs) contains
 no permission calls.
 
-The [prepared custody handoff](../assets/signing-custody.md) owns proposed
-backup/import/CI-secret inputs. Actual authorized credentials and final
-package/helper execution remain open; repeated permission checks are removed.
+The [custody handoff](../assets/signing-custody.md) records the owner-approved
+private folder and configured GitHub secrets. The stable identity and separate
+update key are provisioned, with [public fingerprints](../assets/release-identity.json).
+Final package/helper execution remains open; repeated permission checks are removed.
 
 ## Verdict and freedoms
 
