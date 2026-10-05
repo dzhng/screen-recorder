@@ -1,27 +1,29 @@
+> Historical planning research. The closed README and current code own final scope and behavior.
+
 # Evidence and unresolved platform questions
 
 This is planning evidence from source inspection and primary documentation on
 October 5, 2026. No native build, test, recording or physical reproduction ran
 during spec writing. The source revision and frozen reference hashes live in
-[the manifest](assets/reference-manifest.json).
+[the manifest](../assets/reference-manifest.json).
 
 ## Camera is a device kind; primary is an allocation role
 
-The [protocol](../../packages/protocol/src/capture.ts) admits screen sources and
-an optional companion camera. The [service capture owner](../../apps/service/src/capture.ts)
+The [protocol](../../../../packages/protocol/src/capture.ts) admits screen sources and
+an optional companion camera. The [service capture owner](../../../../apps/service/src/capture.ts)
 allocates one primary source and an optional camera sibling. Its canonical replay
 arguments currently distinguish window/display/region, so adding a primary camera
 must also include its exact device identity in replay comparison.
 
-The [core publication validator](../../packages/core/src/capture-publication.ts)
+The [core publication validator](../../../../packages/core/src/capture-publication.ts)
 requires a primary layout-2 journal, without companion binding or camera-proof
-members. The [native authority validator](../../helpers/mac/Sources/ScreenRecorderCapture/CaptureSourcePublication.swift)
+members. The [native authority validator](../../../../helpers/mac/Sources/ScreenRecorderCapture/CaptureSourcePublication.swift)
 currently equates camera device kind with companion role. The chosen plan separates
 these concepts: a primary camera uses existing primary publication; the companion
 camera keeps its existing bound layout-1 contract. This is a must-pass fixture
 gate before live acquisition, not an assertion that the feature already works.
 
-The [independent camera clock tests](../../helpers/mac/Tests/ScreenRecorderCaptureTests/IndependentCameraClockTests.swift)
+The [independent camera clock tests](../../../../helpers/mac/Tests/ScreenRecorderCaptureTests/IndependentCameraClockTests.swift)
 show a companion camera can establish its own origin before a later primary
 frame. The exploration map's screen-zero warning concerns the primary writer;
 it does not authorize rebasing companion media. Existing source origins and host
@@ -33,11 +35,11 @@ Apple's [capture-session guide](https://developer.apple.com/documentation/avfoun
 describes camera/audio input and output composition. Its
 [synchronizationClock](https://developer.apple.com/documentation/avfoundation/avcapturesession/synchronizationclock)
 documentation places output timestamps on the session clock. The existing
-[clock ingress](../../helpers/mac/Sources/ScreenRecorderCapture/CaptureClockIngress.swift)
+[clock ingress](../../../../helpers/mac/Sources/ScreenRecorderCapture/CaptureClockIngress.swift)
 already converts external timestamps into the host domain. Reuse it; do not
 derive another clock from callback arrival or UI wall time.
 
-The [primary writer](../../helpers/mac/Sources/ScreenRecorderCapture/CaptureWriter.swift)
+The [primary writer](../../../../helpers/mac/Sources/ScreenRecorderCapture/CaptureWriter.swift)
 currently expects ScreenCaptureKit frame attachments. Camera frames need a
 general primary-video seam; fabricated screen attachments are not evidence.
 An asymmetric prerecorded picture and authored timestamps will prove the new
@@ -45,7 +47,7 @@ seam before opening a physical device.
 
 Apple's [ScreenCaptureKit sample](https://developer.apple.com/documentation/screencapturekit/capturing-screen-content-in-macos)
 shows separately registered output types and content filters. The existing
-[input owner](../../helpers/mac/Sources/ScreenRecorderCapture/CaptureInputSession.swift)
+[input owner](../../../../helpers/mac/Sources/ScreenRecorderCapture/CaptureInputSession.swift)
 already uses a separate whole-system stream with only audio output registered.
 This is the first candidate for Camera Only system sound. Documentation and
 inspection do not prove it can operate, synchronize and drain without a screen
@@ -62,32 +64,32 @@ container cannot meet these together, reslice that presentation boundary before
 substituting a single nonactivating anchored panel. Do not ship two containers.
 
 Apple describes [NSWindow.SharingType.none](https://developer.apple.com/documentation/appkit/nswindow/sharingtype-swift.enum/none)
-as a legacy constant. The [screen input owner](../../helpers/mac/Sources/ScreenRecorderCapture/CaptureInputSession.swift)
+as a legacy constant. The [screen input owner](../../../../helpers/mac/Sources/ScreenRecorderCapture/CaptureInputSession.swift)
 also excludes this app by bundle identity for display capture. Preserve that
 filter; do not claim exclusion merely because the new window sets sharingType.
-The existing [physical exclusion test](../../apps/macos/tests/capture-exclusion.test.mjs)
+The existing [physical exclusion test](../../../../apps/macos/tests/capture-exclusion.test.mjs)
 can be inconclusive on a changing desktop. A skipped/inconclusive result is not
 a pass; use a controlled fixture and decoded pictures for the final claim.
 
 Apple's [authorization guide](https://developer.apple.com/documentation/avfoundation/requesting-authorization-to-capture-and-save-media)
 describes permission inspection, explicit camera access and bundle usage
-descriptions. The app's [usage descriptions](../../apps/macos/Info.plist) already
+descriptions. The app's [usage descriptions](../../../../apps/macos/Info.plist) already
 include camera, but its wording refers to a synchronization probe. The permission
 slice makes the description truthful for requested recording, verifies the actual
 signing/sandbox requirements, and never prompts on discovery or menu opening.
 
 ## Library breadth follows existing contracts
 
-The [operation catalog](../../packages/protocol/src/operations.ts) already provides
-bounded recording cursor pages. The [native Library controller](../../apps/macos/Sources/ScreenRecorder/LibraryController.swift)
+The [operation catalog](../../../../packages/protocol/src/operations.ts) already provides
+bounded recording cursor pages. The [native Library controller](../../../../apps/macos/Sources/ScreenRecorder/LibraryController.swift)
 currently reads a recent page. Add page navigation there, preserving its delayed
 reply fences and last-good data. The chosen filter applies only to the visible
 page; complete-library text search is outside this feature.
 
-The [export observer](../../apps/macos/Sources/ScreenRecorder/ExportController.swift)
+The [export observer](../../../../apps/macos/Sources/ScreenRecorder/ExportController.swift)
 discovers unfinished exports and retains tracked deliveries. Moving it to Library
 does not supply a complete historical export archive. Label the view honestly and
-retain the [recovery distinctions](../../apps/macos/Sources/ScreenRecorderControls/ExportMenu.swift).
+retain the [recovery distinctions](https://github.com/dzhng/screen-recorder/blob/ec8a59df761c6bfbb0c78a8cba93717f25fee066/apps/macos/Sources/ScreenRecorderControls/ExportMenu.swift).
 
 ## Draft synthesis
 

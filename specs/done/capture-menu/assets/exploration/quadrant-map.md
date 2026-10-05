@@ -14,12 +14,12 @@ These are screenshots of a self-contained HTML concept. Image generation was una
 
 ## 1. Known knowns — settled ground
 
-- Native macOS is the target. Capture setup, live controls, Settings and keyboard shortcuts already share one state/action path. Preserve that ownership. Evidence: [native app README](../../../../apps/macos/README.md), [RecordingControls](../../../../apps/macos/Sources/ScreenRecorder/RecordingControls.swift).
-- The current menu mixes capture with saved recordings, projects, exports and storage. The new popover keeps capture and navigation; saved-media content moves into Library. Evidence: [ControlsMenu](../../../../apps/macos/Sources/ScreenRecorderControls/ControlsMenu.swift), [StatusMenu](../../../../apps/macos/Sources/ScreenRecorder/StatusMenu.swift).
-- Display, Window and Region are current primary capture sources. Optional camera recording exists beside them. Camera Only is a new shared behavior contract. Evidence: [capture schema](../../../../packages/protocol/src/capture.ts), [controls selection](../../../../apps/macos/Sources/ScreenRecorderControls/ControlsState.swift).
-- Discovery does not select or activate cameras. Explicit stable device selection is required. Evidence: [discovery contract](../../../../packages/protocol/src/capture.ts), [native device discovery](../../../../helpers/mac/Sources/ScreenRecorderCapture/NativeCapture.swift).
-- Original screen, camera, microphone and system sound remain independent source media. Capture makes no automatic picture-in-picture composition or editing project. Evidence: [capture principles](../../../../helpers/mac/Sources/ScreenRecorderCapture/README.md).
-- The existing Library and export controllers own reading, identity, deletion and delivery. New views must reuse these actions rather than create a second service boundary. Evidence: [LibraryController](../../../../apps/macos/Sources/ScreenRecorder/LibraryController.swift), [ExportMenu](../../../../apps/macos/Sources/ScreenRecorderControls/ExportMenu.swift).
+- Native macOS is the target. Capture setup, live controls, Settings and keyboard shortcuts already share one state/action path. Preserve that ownership. Evidence: [native app README](../../../../../apps/macos/README.md), [RecordingControls](../../../../../apps/macos/Sources/ScreenRecorder/RecordingControls.swift).
+- The current menu mixes capture with saved recordings, projects, exports and storage. The new popover keeps capture and navigation; saved-media content moves into Library. Evidence: [ControlsMenu](https://github.com/dzhng/screen-recorder/blob/ec8a59df761c6bfbb0c78a8cba93717f25fee066/apps/macos/Sources/ScreenRecorderControls/ControlsMenu.swift), [StatusMenu](https://github.com/dzhng/screen-recorder/blob/ec8a59df761c6bfbb0c78a8cba93717f25fee066/apps/macos/Sources/ScreenRecorder/StatusMenu.swift).
+- Display, Window and Region are current primary capture sources. Optional camera recording exists beside them. Camera Only is a new shared behavior contract. Evidence: [capture schema](../../../../../packages/protocol/src/capture.ts), [controls selection](../../../../../apps/macos/Sources/ScreenRecorderControls/ControlsState.swift).
+- Discovery does not select or activate cameras. Explicit stable device selection is required. Evidence: [discovery contract](../../../../../packages/protocol/src/capture.ts), [native device discovery](../../../../../helpers/mac/Sources/ScreenRecorderCapture/NativeCapture.swift).
+- Original screen, camera, microphone and system sound remain independent source media. Capture makes no automatic picture-in-picture composition or editing project. Evidence: [capture principles](../../../../../helpers/mac/Sources/ScreenRecorderCapture/README.md).
+- The existing Library and export controllers own reading, identity, deletion and delivery. New views must reuse these actions rather than create a second service boundary. Evidence: [LibraryController](../../../../../apps/macos/Sources/ScreenRecorder/LibraryController.swift), [ExportMenu](https://github.com/dzhng/screen-recorder/blob/ec8a59df761c6bfbb0c78a8cba93717f25fee066/apps/macos/Sources/ScreenRecorderControls/ExportMenu.swift).
 - Authorization covers this exploration and mockup handoff. Production code, builds and native recordings were not changed or run. Existing unrelated workspace changes remain intact.
 
 ## 2. Known unknowns — decisions and attribution
@@ -99,7 +99,7 @@ Coverage: a bounded sweep of 19 source/contract files around menu rendering, sha
 
 ### 1. Camera Only currently depends on a screen source — OPEN
 
-**Evidence:** [primary source schema](../../../../packages/protocol/src/capture.ts), [start selection](../../../../apps/macos/Sources/ScreenRecorderControls/ControlsState.swift), [screen-derived source zero](../../../../helpers/mac/Sources/ScreenRecorderCapture/README.md), [camera ingress uses the main writer's state](../../../../helpers/mac/Sources/ScreenRecorderCapture/CaptureClockIngress.swift).
+**Evidence:** [primary source schema](../../../../../packages/protocol/src/capture.ts), [start selection](../../../../../apps/macos/Sources/ScreenRecorderControls/ControlsState.swift), [screen-derived source zero](../../../../../helpers/mac/Sources/ScreenRecorderCapture/README.md), [camera ingress uses the main writer's state](../../../../../helpers/mac/Sources/ScreenRecorderCapture/CaptureClockIngress.swift).
 
 **Why it bites:** A new tile cannot produce a valid camera-only take through the current primary-source contract. A hidden screen stream would add unwanted media/permissions and leave the clock tied to the wrong source.
 
@@ -107,7 +107,7 @@ Coverage: a bounded sweep of 19 source/contract files around menu rendering, sha
 
 ### 2. Discovery and permission actions are screen-centric — decided requirement, OPEN mechanics
 
-**Evidence:** [discovery screen gate](../../../../apps/macos/Sources/ScreenRecorder/CaptureController.swift), [screen input authorization](../../../../helpers/mac/Sources/ScreenRecorderCapture/CaptureInputSession.swift), [permission actions lack camera](../../../../apps/macos/Sources/ScreenRecorderControls/Permissions.swift), [native permission request supports screen/microphone only](../../../../helpers/mac/Sources/ScreenRecorderCapture/NativeCapture.swift).
+**Evidence:** [discovery screen gate](../../../../../apps/macos/Sources/ScreenRecorder/CaptureController.swift), [screen input authorization](../../../../../helpers/mac/Sources/ScreenRecorderCapture/CaptureInputSession.swift), [permission actions lack camera](../../../../../apps/macos/Sources/ScreenRecorderControls/Permissions.swift), [native permission request supports screen/microphone only](../../../../../helpers/mac/Sources/ScreenRecorderCapture/NativeCapture.swift).
 
 **Why it bites:** Without changing these boundaries, denying screen access hides cameras and the mockup's camera Allow action has no native path.
 
@@ -115,7 +115,7 @@ Coverage: a bounded sweep of 19 source/contract files around menu rendering, sha
 
 ### 3. Recorder chrome can change focus or enter the captured frame — sharp edge
 
-**Evidence:** [nonactivating, unshared overlay](../../../../apps/macos/Sources/ScreenRecorder/OverlayPanel.swift), [user-open window activation](../../../../apps/macos/Sources/ScreenRecorder/SettingsWindow.swift), [shortcut failure reveals menu](../../../../apps/macos/Sources/ScreenRecorder/RecordingControls.swift).
+**Evidence:** [nonactivating, unshared overlay](../../../../../apps/macos/Sources/ScreenRecorder/OverlayPanel.swift), [user-open window activation](../../../../../apps/macos/Sources/ScreenRecorder/SettingsWindow.swift), [shortcut failure reveals menu](../../../../../apps/macos/Sources/ScreenRecorder/RecordingControls.swift).
 
 **Why it bites:** A generic activating window used for live controls can redirect recorded keystrokes. Capture controls opening during a take can contaminate its video.
 
@@ -123,7 +123,7 @@ Coverage: a bounded sweep of 19 source/contract files around menu rendering, sha
 
 ### 4. Successful media closure is not complete publication — sharp edge
 
-**Evidence:** [independent source publication](../../../../helpers/mac/Sources/ScreenRecorderCapture/README.md), [joined native publication](../../../../helpers/mac/Sources/ScreenRecorderCapture/NativeCapture.swift), [retry cleanup differs from retry export](../../../../apps/macos/Sources/ScreenRecorderControls/ExportMenu.swift).
+**Evidence:** [independent source publication](../../../../../helpers/mac/Sources/ScreenRecorderCapture/README.md), [joined native publication](../../../../../helpers/mac/Sources/ScreenRecorderCapture/NativeCapture.swift), [retry cleanup differs from retry export](https://github.com/dzhng/screen-recorder/blob/ec8a59df761c6bfbb0c78a8cba93717f25fee066/apps/macos/Sources/ScreenRecorderControls/ExportMenu.swift).
 
 **Why it bites:** A generic Ready pill or Retry button could hide an incomplete sibling source, republish a committed export, or erase recoverable authority.
 
@@ -131,7 +131,7 @@ Coverage: a bounded sweep of 19 source/contract files around menu rendering, sha
 
 ### 5. Library reads are bounded and generation-fenced — sharp edge; search breadth OPEN
 
-**Evidence:** [five-item recent query and stale-reply fence](../../../../apps/macos/Sources/ScreenRecorder/LibraryController.swift), [project page navigation](../../../../apps/macos/Sources/ScreenRecorder/LibraryController.swift), [explicit deletion invalidates read generations](../../../../apps/macos/Sources/ScreenRecorder/LibraryController.swift).
+**Evidence:** [five-item recent query and stale-reply fence](../../../../../apps/macos/Sources/ScreenRecorder/LibraryController.swift), [project page navigation](../../../../../apps/macos/Sources/ScreenRecorder/LibraryController.swift), [explicit deletion invalidates read generations](../../../../../apps/macos/Sources/ScreenRecorder/LibraryController.swift).
 
 **Why it bites:** A new window that fetches independently can resurrect deleted items or replace newer state with stale replies. Filtering one recent page cannot honestly search the full library.
 

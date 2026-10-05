@@ -6,7 +6,7 @@ import { join, resolve } from "node:path";
 import { compileControlsCheck } from "./fixtures/swift-controls.mjs";
 
 // Draw and drive the production view. Facts are synthetic; no device/service/permission access.
-const output = resolve(process.env.SHOTS ?? "specs/capture-menu/evidence/01-capture/candidate");
+const output = resolve(process.env.SHOTS ?? "/tmp/screenrec-capture-view-shots");
 mkdirSync(output, { recursive: true });
 const scratch = mkdtempSync(join(tmpdir(), "screenrec-capture-view-"));
 try {

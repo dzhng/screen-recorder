@@ -6,7 +6,7 @@ import { join, resolve } from "node:path";
 import { compileControlsCheck } from "./fixtures/swift-controls.mjs";
 
 // Library presentation only: synthetic observations, native controls, no service or activation.
-const output = resolve(process.env.SHOTS ?? "specs/capture-menu/evidence/03-library/candidate");
+const output = resolve(process.env.SHOTS ?? "/tmp/screenrec-library-view-shots");
 mkdirSync(output, { recursive: true });
 const scratch = mkdtempSync(join(tmpdir(), "screenrec-library-view-"));
 try {

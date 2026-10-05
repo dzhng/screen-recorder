@@ -2,11 +2,11 @@
 
 The recording and project pages use separate service cursors: recordings move
 backward with `beforeSequence`; projects retain `afterSequence`. The existing
-[controller](../../../../apps/macos/Sources/ScreenRecorder/LibraryController.swift)
+[controller](../../../../../apps/macos/Sources/ScreenRecorder/LibraryController.swift)
 owns page history, delayed-answer fences and visible source preparation reads.
 Deletion retries retain the exact typed owner and captured title after navigation.
 
-This is the backend portion of [slice 07](../../slices/07-library-browsing.md).
+This is the backend portion of [slice 07](../../README.md).
 Window binding, page-local filtering and visual acceptance remain open. Project
 cursor/state names need the coordinated consumer rename during menu cutover;
 this pass adds no aliases. No devices, permissions, focus or media runs occurred.

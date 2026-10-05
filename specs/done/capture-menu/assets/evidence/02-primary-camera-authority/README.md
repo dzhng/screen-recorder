@@ -5,11 +5,11 @@ existing persisted formats. Primary camera uses the ordinary primary source,
 layout-2 journal snapshot and primary receipt, without companion binding or proof
 members. Bound companion camera retains layout 1 and its independent clock.
 
-The [native fixture](../../../../../helpers/mac/Tests/ScreenRecorderCaptureTests/PrimaryCameraPublicationTests.swift)
+The [native fixture](../../../../../../helpers/mac/Tests/ScreenRecorderCaptureTests/PrimaryCameraPublicationTests.swift)
 drives authored asymmetric prerecorded pictures through the production primary
 writer and NativeCapture finish. It never fabricates screen completeness
 attachments, opens a device or requests permission. The
-[core admission probe](../../../../../helpers/mac/Tests/fixtures/primary-camera-admission.mjs)
+[core admission probe](../../../../../../helpers/mac/Tests/fixtures/primary-camera-admission.mjs)
 consumes the actual publication and normalized evidence and reopens their catalog.
 The [manifest](manifest.json) freezes every retained operand and report; raw runner
 logs are losslessly gzip-compressed, with both compressed and original identities. Finished
