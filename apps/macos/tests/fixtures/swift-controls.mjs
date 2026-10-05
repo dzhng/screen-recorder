@@ -18,8 +18,6 @@ export function compileControlsCheck(scratch, appSources, check, onCompile = () 
     "native",
     "--package-path",
     packagePath,
-    "--build-system",
-    "native",
     "--target",
     "ScreenRecorderControls",
     "--jobs",

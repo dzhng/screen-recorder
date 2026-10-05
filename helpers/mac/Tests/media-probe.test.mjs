@@ -156,5 +156,6 @@ test("probe maps B-frame edit lists and excludes stream-copy preroll", (t) => {
   assert.equal(clipped.samples.firstPtsUs, 0);
   assert.equal(clipped.samples.count, 26);
   assert.equal(clipped.samples.lastPtsUs, 1125000);
-  assert.equal(clipped.endUs, 1166000);
+  // The last presented frame ends at 28/24 seconds; preserve its exact edit clock.
+  assert.deepEqual(clipped.endUs, { numerator: 3500000, denominator: 3 });
 });
