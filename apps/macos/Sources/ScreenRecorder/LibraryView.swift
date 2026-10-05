@@ -197,6 +197,10 @@ final class LibraryView: NSView, NSSearchFieldDelegate {
             document.addSubview(rule)
             y += 1
         }
+        if y == 114 {
+            label(filter.isEmpty ? "No tracked deliveries." : "No items match this page filter.", frame: NSRect(x: 22, y: y, width: width - 44, height: 44), size: 12, color: .secondaryLabelColor, in: document, wrap: true)
+            y += 50
+        }
         if tab == .recordings && page.items.contains(where: { $0.kind == .recording }) {
             y += 19
             let note = NSView(frame: NSRect(x: 22, y: y, width: width - 44, height: 76))
@@ -213,10 +217,6 @@ final class LibraryView: NSView, NSSearchFieldDelegate {
         for command in page.actions {
             button(command.title, id: command.action.id, frame: NSRect(x: 22, y: y, width: 142, height: 26), action: command.action, enabled: command.enabled, in: document)
             y += 32
-        }
-        if y == 114 {
-            label(filter.isEmpty ? "No tracked deliveries." : "No items match this page filter.", frame: NSRect(x: 22, y: y, width: width - 44, height: 44), size: 12, color: .secondaryLabelColor, in: document, wrap: true)
-            y += 50
         }
         document.frame = NSRect(x: 0, y: 0, width: width, height: max(bounds.height, y + 22))
         scrollView.contentView.scroll(to: oldOrigin)
