@@ -18,6 +18,10 @@ explains its verified build input; the [FFmpeg owner](../helpers/ffmpeg/README.m
 prepares the pinned LGPL executable and shared-library distribution. Speech and voice model readiness is explicit
 runtime work, not permission to download models during ordinary execution.
 
+Prepare the FFmpeg distribution before an app build. Build and release staging
+share its signing-and-receipt owner; copying a receipt from unsigned bytes cannot
+describe the signed package. Matching sources and notices travel with the tools.
+
 Personal source builds may record a host interpreter. Tagged packages include
 an interpreter resolved relative to the app, so moving the package cannot retain
 a builder's machine path. [Runtime resolution](../apps/macos/README.md#runtime-resolution)

@@ -14,6 +14,7 @@ import {
   rmSync,
   writeFileSync,
   copyFileSync,
+  cpSync,
 } from "node:fs";
 import { dirname, join, resolve, relative, sep } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -77,6 +78,34 @@ export async function verifyFFmpeg(directory) {
   if (JSON.stringify(actual) !== JSON.stringify(Object.keys(receipt.files).sort()))
     throw new Error("Prepared FFmpeg distribution membership differs");
   return receipt;
+}
+
+/** Signing changes binary bytes. Verify first, sign a private copy, then bind those bytes. */
+export async function stageFFmpeg({ source = defaultOutput, destination, sign }) {
+  const receipt = await verifyFFmpeg(source);
+  if (!destination || existsSync(destination) || typeof sign !== "function")
+    throw new Error("FFmpeg staging requires a new destination and an explicit signer");
+  const preparedReceiptSha256 = await sha(join(source, "receipt.json"));
+  try {
+    cpSync(source, destination, { recursive: true, verbatimSymlinks: true });
+    for (const file of Object.keys(receipt.files)) {
+      if (
+        (file.startsWith("bin/") || file.endsWith(".dylib")) &&
+        lstatSync(join(destination, file)).isFile()
+      )
+        await sign(join(destination, file));
+    }
+    const identities = {};
+    for (const file of Object.keys(receipt.files))
+      identities[file] = await sha(join(destination, file));
+    const signed = { ...receipt, preparedReceiptSha256, files: identities };
+    writeFileSync(join(destination, "receipt.json"), JSON.stringify(signed, null, 2) + "\n");
+    await verifyFFmpeg(destination);
+    return signed;
+  } catch (error) {
+    rmSync(destination, { recursive: true, force: true });
+    throw error;
+  }
 }
 async function acquire(cache) {
   mkdirSync(cache, { recursive: true });

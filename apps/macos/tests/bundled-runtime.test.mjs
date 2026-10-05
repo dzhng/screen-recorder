@@ -23,7 +23,7 @@ before(() => {
     `import Foundation
 ServiceBundle.resolve(in: Bundle(path: CommandLine.arguments[1])!, environment: [:]) { result in
     switch result {
-    case .success(let value): print(value.node); exit(0)
+    case .success(let value): print(value.node); print(value.ffmpegDirectory?.path ?? "missing"); exit(0)
     case .failure(let error): print(error.localizedDescription); exit(2)
     }
 }
@@ -66,6 +66,8 @@ test("a relocated app resolves its bundled Node without the builder's path or sh
     join(service, "runtime.json"),
     JSON.stringify({
       nodePath: "../node/bin/node",
+      ffmpegDirectory: "../ffmpeg",
+      ffmpegReceiptSha256: "a".repeat(64),
       controlFrameBytes: 65536,
       maxPendingCalls: 32,
       callTimeoutMs: 10000,
@@ -81,5 +83,8 @@ test("a relocated app resolves its bundled Node without the builder's path or sh
     timeout: 20_000,
   });
   assert.equal(answer.status, 0, answer.stderr + answer.stdout);
-  assert.equal(answer.stdout.trim(), join(moved, "Contents/Resources/node/bin/node"));
+  assert.deepEqual(answer.stdout.trim().split("\n"), [
+    join(moved, "Contents/Resources/node/bin/node"),
+    join(moved, "Contents/Resources/ffmpeg"),
+  ]);
 });

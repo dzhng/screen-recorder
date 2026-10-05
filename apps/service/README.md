@@ -43,6 +43,12 @@ plans; [native workers](../../helpers/mac/README.md) execute physical media work
 Authoring support and execution readiness are separate. Capability discovery
 must report actual prepared/native requirements rather than inventing a fallback.
 
+`service.health` remains a cheap listener-readiness check. Explicit `service.tools`
+discovery verifies the selected app's bundled tool receipt and resource hashes,
+then probes its executable version and configuration under bounded work. Missing
+or altered tools report unavailable without blocking native operation discovery.
+Inventory is evidence about those binaries, not a promise of typed editing support.
+
 Capture admission and donor retirement share one [source coordinator](src/capture-sources.ts).
 A ready acquisition owns its media independently of its recording donor. Deletion
 joins borrowers and unfinished native work before donor removal; a mutable path

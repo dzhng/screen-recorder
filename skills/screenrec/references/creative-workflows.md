@@ -35,6 +35,10 @@ Use the installed CLI's schemas and execution capabilities for every operation.
 
 ## Read many takes without losing word evidence
 
+Use the [compact transcript helper](../scripts/compact-transcripts.mjs) with the
+Node path returned by `screenrec service.tools`; read its `--help`. It reads current
+evidence without starting transcription. Keep its continuation and exact rows.
+
 Make a compact reading view grouped by source and, when supplied, speaker. Show
 one phrase per line with a display time range, literal text and a pointer to the
 original word rows/generation. Choose phrase breaks for readability, while keeping

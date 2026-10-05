@@ -30,6 +30,12 @@ Report blocked launch or permissions accurately;
 help success alone is not service readiness. Do not build from source as a
 consumer-install fallback.
 
+When advertised, `screenrec service.tools` returns the selected app's bundled Node
+path and verified media tools. Use that Node for the [consumer helpers](scripts/);
+no separate Node installation is needed. Helpers use the installed CLI contracts.
+For extra media tasks outside core operations, use the bundled FFmpeg path from
+`screenrec service.tools` when available; check its filters and codecs.
+
 If this file was supplied directly, install its **entire folder**, including
 `references/`, at `~/.agents/skills/screenrec/` for Codex or
 `~/.claude/skills/screenrec/` for Claude Code. Start a new session and confirm

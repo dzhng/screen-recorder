@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { spawn, spawnSync, execFileSync } from "node:child_process";
-import { mkdtempSync, readFileSync, rmSync } from "node:fs";
+import { mkdtempSync, readFileSync, rmSync, realpathSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -73,6 +73,33 @@ try {
   const health = call("service.health");
   assert.equal(health.data.status, "ready");
   assert.equal(health.data.node, receipt.nodeVersion);
+  const tools = call("service.tools").data;
+  assert.equal(tools.node.path, realpathSync(join(app, "Contents/Resources/node/bin/node")));
+  const ffmpeg = tools.ffmpeg;
+  assert.equal(ffmpeg.available, true, JSON.stringify(ffmpeg));
+  assert.equal(ffmpeg.version, receipt.ffmpeg.version);
+  assert.equal(ffmpeg.receiptSha256, receipt.ffmpeg.receiptSha256);
+  assert.equal(
+    realpathSync(ffmpeg.directory),
+    realpathSync(join(app, "Contents/Resources/ffmpeg")),
+  );
+  for (const [name, executable] of Object.entries(ffmpeg.executables)) {
+    assert.equal(executable.path, join(ffmpeg.directory, "bin", name));
+    execFileSync("codesign", ["--verify", "--strict", executable.path]);
+    const version = execFileSync(executable.path, ["-version"], {
+      env,
+      cwd: "/",
+      encoding: "utf8",
+      timeout: 5000,
+    });
+    assert.ok(version.startsWith(`${name} version ${ffmpeg.version} `));
+  }
+  execFileSync(process.execPath, [join(root, "helpers/ffmpeg/smoke.mjs"), ffmpeg.directory], {
+    env,
+    cwd: "/",
+    stdio: "inherit",
+    timeout: 30000,
+  });
   assert.deepEqual(call("recording.list").data.recordings, []);
   const native = spawnSync(join(app, "Contents/MacOS/screenrec-native"), [], {
     cwd: "/",

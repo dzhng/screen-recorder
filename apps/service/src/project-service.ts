@@ -82,10 +82,13 @@ import {
   type MediaWorker,
 } from "./worker.js";
 import { operationFailure } from "./operation-errors.js";
+import { inspectFFmpegTools, type FFmpegInstallation } from "./ffmpeg-tools.js";
 
 export async function startProjectService(options: {
   home: string;
   worker?: MediaWorker;
+  nativeExecutable?: string;
+  ffmpeg?: FFmpegInstallation | undefined;
   control?: { input: Readable; output: Writable };
 }) {
   const started = performance.now();
@@ -163,7 +166,9 @@ export async function startProjectService(options: {
     );
     const capture = new CaptureSourceRead(assets, acquisitions, evidence);
     const sceneRecords = new SceneEvidenceStore(catalog, assetSceneOwner(assets, acquisitions));
-    const worker = options.worker ?? mediaWorker();
+    const nativeExecutable = options.nativeExecutable ?? process.env.SCREENREC_NATIVE;
+    const worker =
+      options.worker ?? mediaWorker({ ...process.env, SCREENREC_NATIVE: nativeExecutable });
     const models = new Models(library);
     modelsOwner = models;
     const transcriptStore = new TranscriptStore(
@@ -666,7 +671,7 @@ export async function startProjectService(options: {
     await projectDeletion.resume((error) => console.error(error));
     const status = (jobId: string) => queue.inspect(jobId);
     const describeCapture = captureSources.describe.bind(captureSources);
-    const handle: LocalHandler = async (request): Promise<OperationResult> => {
+    const handle: LocalHandler = async (request, requestSignal): Promise<OperationResult> => {
       if (closing) return operationError("SERVICE_STOPPED", "Service is closing", true);
       if (!operationNames.has(request.operation))
         return operationError("UNKNOWN_OPERATION", "Unknown service operation");
@@ -689,6 +694,14 @@ export async function startProjectService(options: {
                 home: options.home,
                 node: process.versions.node,
                 uptimeMs: Math.round(performance.now() - started),
+              },
+            };
+          case "service.tools":
+            return {
+              ok: true,
+              data: {
+                node: { path: process.execPath, version: process.versions.node },
+                ffmpeg: await inspectFFmpegTools(options.ffmpeg, requestSignal, nativeExecutable),
               },
             };
           case "recording.delete":

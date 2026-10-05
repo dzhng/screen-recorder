@@ -6,6 +6,12 @@ import { StartupFailure } from "./startup.js";
 try {
   const service = await startProjectService({
     home: personalHome(),
+    ffmpeg: process.env.SCREENREC_FFMPEG_DIRECTORY
+      ? {
+          directory: process.env.SCREENREC_FFMPEG_DIRECTORY,
+          receiptSha256: process.env.SCREENREC_FFMPEG_RECEIPT_SHA256 ?? "",
+        }
+      : undefined,
     control: { input: process.stdin, output: process.stdout },
   });
   for (const signal of ["SIGTERM", "SIGINT", "SIGHUP"] as const)

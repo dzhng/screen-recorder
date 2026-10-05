@@ -45,6 +45,10 @@ the bundle manifest and explicit overrides. An invalid override is reported rath
 than silently selecting another interpreter. A movable bundle resolves its runtime
 relative to itself.
 
+The same bundle manifest names its FFmpeg distribution and pins the signed
+receipt. The app passes that selected authority to its service; neither the
+service nor an external agent searches Homebrew for a replacement tool.
+
 Probes run off the main thread with bounded output and termination. One startup
 deadline covers interpreter discovery and service readiness, preventing each
 candidate from borrowing a fresh service-sized budget.

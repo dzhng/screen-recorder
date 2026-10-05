@@ -114,6 +114,8 @@ explains version ownership, CI hooks and personal source installs.
 - [Native media](helpers/mac/README.md): capture, physical sample support and plan execution.
   The [prepared voice worker](helpers/voice/README.md) executes the separately owned
   local inference runtime.
+  The [FFmpeg dependency owner](helpers/ffmpeg/README.md) prepares relocatable
+  media tools and their redistribution inputs.
 
 The consumer [screenrec skill](skills/screenrec/SKILL.md) teaches external agents
 how to use the toolkit. Repository development skills live separately under

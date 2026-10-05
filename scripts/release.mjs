@@ -67,6 +67,7 @@ async function prepare() {
     denoise.modelArchiveSha256,
   );
   run(process.execPath, [join(root, "helpers/denoise/prepare.mjs"), join(inputs, modelName)]);
+  run(process.execPath, [join(root, "helpers/ffmpeg/prepare.mjs"), "prepare", "--cache", inputs]);
 }
 async function packageRelease(tag) {
   validate(tag);
@@ -133,6 +134,20 @@ async function packageRelease(tag) {
     const manifestFile = join(resources, "service/runtime.json");
     const manifest = JSON.parse(readFileSync(manifestFile));
     manifest.nodePath = "../node/bin/node";
+    const { stageFFmpeg } = await import("../helpers/ffmpeg/prepare.mjs");
+    const tools = join(resources, "ffmpeg");
+    rmSync(tools, { recursive: true, force: true });
+    const ffmpeg = await stageFFmpeg({
+      source: join(built, "Contents/Resources/ffmpeg"),
+      destination: tools,
+      sign: (file) => {
+        const arch = execFileSync("lipo", ["-archs", file], { encoding: "utf8" }).trim();
+        if (arch !== "arm64") throw new Error(`Expected arm64 FFmpeg resource: ${file} (${arch})`);
+        run("codesign", ["--force", "--sign", "-", file]);
+      },
+    });
+    manifest.ffmpegDirectory = "../ffmpeg";
+    manifest.ffmpegReceiptSha256 = await sha(join(tools, "receipt.json"));
     writeFileSync(manifestFile, JSON.stringify(manifest, null, 2) + "\n");
     for (const executable of [
       join(runtime, "node"),
@@ -169,6 +184,12 @@ exec "$app/Contents/Resources/node/bin/node" "$app/Contents/Resources/cli/main.m
           minimumMacOS,
           architecture: "arm64",
           nodeVersion: node.version,
+          ffmpeg: {
+            version: ffmpeg.version,
+            sourceSha256: ffmpeg.sourceSha256,
+            recipeSha256: ffmpeg.recipeSha256,
+            receiptSha256: manifest.ffmpegReceiptSha256,
+          },
           signature: "ad-hoc",
           notarized: false,
         },

@@ -10,14 +10,13 @@ every FFmpeg option or a replacement for a professional editing workstation.
 
 ## Next agent prompt
 
-You are implementing the user-authorized plan through committed passes. Read the
+Implement the complete user-authorized plan through committed passes. Read the
 [exploration map](exploration.md), [parity contract](parity.md) and
-[isolated evidence](tool-proof.md). Slice 01 has a verified pinned LGPL build. Continue at
-[slice 02](slices/02-installed-tools.md): package and discover the selected app’s
-relocatable tools. Slice 03 can proceed from the same frozen build. Independent
-06/07/25 passes are active in isolated worktrees and must be integrated with their
-own tests and decision audits.
-The user invoked /goal /implement-spec. Implement the complete plan, continue after each verified commit, and preserve the no-demo-edit constraint. Independent passes may run in isolated worktrees; integrate their focused checks and decisions.
+[isolated evidence](tool-proof.md). Foundation 01–03 and compact reading 07 are
+integrated. Next integrate ready 06/25/12 passes, then maintain this handoff and
+continue the live wavefront: retained input authority 04→05, timeline 08→09→24,
+and independent caption/color/alpha/speech branches. Each isolated worktree owns
+its focused tests, review and choices; integration reruns affected checks.
 
 Keep each pass to one focused contract; use write-tests before changing behavior.
 Existing small fixtures are sufficient. Do not record or edit the user's media.
@@ -28,17 +27,18 @@ not reach the reported running 0.1.0 app; that does not block independent slices
 
 Descriptor/lifetime proof, HDR/alpha feasibility and speech
 quality remain research checkpoints. Failed experiments stay incomplete. No
-compatibility wrappers or migrations are planned; reopen any unavoidable required
-persisted-format change rather than rewriting or losing a library. Update this
+compatibility wrappers or migrations are planned. The sole user authorized
+deleting development data; new schemas use fresh catalogs and retain explicit
+old-format refusal, with no automatic personal-data deletion. Update this
 prompt, slice status and retained evidence before ending each implementation pass.
 
 - [x] [01 — Pinned LGPL build](slices/01-lgpl-build.md)
-- [ ] [02 — Relocatable installed tools](slices/02-installed-tools.md)
-- [ ] [03 — Owned CLI execution](slices/03-cli-lifetime.md)
+- [x] [02 — Relocatable installed tools](slices/02-installed-tools.md)
+- [x] [03 — Owned CLI execution](slices/03-cli-lifetime.md)
 - [ ] [04 — Retained FFmpeg input authority](slices/04-input-authority.md)
 - [ ] [05 — Managed FFmpeg publication](slices/05-managed-output.md)
 - [ ] [06 — Bounded selected-file preparation](slices/06-batch-preparation.md)
-- [ ] [07 — Compact transcript reading](slices/07-compact-transcripts.md)
+- [x] [07 — Compact transcript reading](slices/07-compact-transcripts.md)
 - [ ] [08 — Aligned timeline inspection](slices/08-timeline-inspection.md)
 - [ ] [09 — Read-only revision review bundle](slices/09-review-bundle.md)
 - [ ] [10 — Read-only loudness measurement](slices/10-loudness.md)
@@ -130,7 +130,7 @@ accepted branches. Dependencies order checks, not simultaneous expensive work. A
 | Slice | Contract | Dependencies |
 | --- | --- | --- |
 | 01 | [Pinned LGPL build](slices/01-lgpl-build.md) | existing owners |
-| 02 | [Relocatable installed tools](slices/02-installed-tools.md) | 1 |
+| 02 | [Relocatable installed tools](slices/02-installed-tools.md) | 1, 3 |
 | 03 | [Owned CLI execution](slices/03-cli-lifetime.md) | 1 |
 | 04 | [Retained FFmpeg input authority](slices/04-input-authority.md) | 3 |
 | 05 | [Managed FFmpeg publication](slices/05-managed-output.md) | 3, 4 |

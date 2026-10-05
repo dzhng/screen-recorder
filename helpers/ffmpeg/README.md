@@ -14,6 +14,9 @@ The distribution includes matching sources, the build controller, configuration
 and required notices. To rebuild from those inputs, use its source folder as
 --cache and choose a new --output directory; developer prerequisites apply.
 Shared libraries remain replaceable; packaging must preserve their relative load paths.
+Staging verifies a prepared distribution before signing a private copy, then seals
+that copy's changed hashes. Source and recipe identities remain unchanged. The
+app's manifest pins the staged receipt; preparation never rewrites its original.
 
 ```sh
 node helpers/ffmpeg/prepare.mjs prepare --jobs 4

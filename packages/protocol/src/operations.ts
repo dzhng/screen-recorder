@@ -897,6 +897,12 @@ export const operationSchema = z.discriminatedUnion("operation", [
     .strict()
     .describe("Read local service readiness without starting capture."),
   z
+    .object({ operation: z.literal("service.tools"), params: z.object({}).strict() })
+    .strict()
+    .describe(
+      "Discover the selected app's Node runtime and verified bundled FFmpeg/ffprobe paths, hashes, version and configuration. Missing or mismatched tools report unavailable without changing native defaults; tool inventory does not imply core operation support.",
+    ),
+  z
     .object({ operation: z.literal("capture.sources"), params: z.object({}).strict() })
     .strict()
     .describe(

@@ -17,6 +17,8 @@ struct ServiceBundle {
     /// The bundled native worker the service runs for bounded media work, named once here from
     /// this app's own executable directory.
     let native: URL
+    var ffmpegDirectory: URL? = nil
+    var ffmpegReceiptSha256: String? = nil
     let controlFrameBytes: Int
     let maxPendingCalls: Int
     let callTimeout: TimeInterval
@@ -27,6 +29,8 @@ struct ServiceBundle {
 
     private struct Manifest: Decodable {
         let nodePath: String
+        let ffmpegDirectory: String?
+        let ffmpegReceiptSha256: String?
         let controlFrameBytes: Int
         let maxPendingCalls: Int
         let callTimeoutMs: Int
@@ -71,6 +75,10 @@ struct ServiceBundle {
                     node: node,
                     native: executable.deletingLastPathComponent().appendingPathComponent(
                         "screenrec-native"),
+                    ffmpegDirectory: manifest.ffmpegDirectory.map {
+                        URL(fileURLWithPath: $0, relativeTo: manifestURL.deletingLastPathComponent()).standardizedFileURL
+                    },
+                    ffmpegReceiptSha256: manifest.ffmpegReceiptSha256,
                     controlFrameBytes: manifest.controlFrameBytes,
                     maxPendingCalls: manifest.maxPendingCalls,
                     callTimeout: callTimeout,

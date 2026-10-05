@@ -71,6 +71,8 @@ final class ServiceHost: @unchecked Sendable {
         // resolves no bundle layout of its own.
         var environment = ProcessInfo.processInfo.environment
         environment["SCREENREC_NATIVE"] = bundle.native.path
+        environment["SCREENREC_FFMPEG_DIRECTORY"] = bundle.ffmpegDirectory?.path
+        environment["SCREENREC_FFMPEG_RECEIPT_SHA256"] = bundle.ffmpegReceiptSha256
         child.environment = environment
         child.standardInput = input
         child.standardOutput = output

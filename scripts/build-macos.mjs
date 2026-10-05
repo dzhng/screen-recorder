@@ -1,8 +1,10 @@
 import { execFileSync } from "node:child_process";
-import { copyFileSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
+import { copyFileSync, mkdirSync, readFileSync, writeFileSync, rmSync } from "node:fs";
+import { createHash } from "node:crypto";
 import { dirname, join, resolve } from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
 import { findIdentity } from "./signing-identity.mjs";
+import { stageFFmpeg, verifyFFmpeg } from "../helpers/ffmpeg/prepare.mjs";
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const signingIdentity = () => findIdentity() ?? "-";
@@ -24,6 +26,7 @@ try {
 execFileSync(process.execPath, [join(root, "helpers/denoise/prepare.mjs"), "--verify"], {
   stdio: "inherit",
 });
+await verifyFFmpeg(join(root, "helpers/ffmpeg/.build/distribution"));
 const app = join(root, "dist/ScreenRecorder.app");
 const macOS = join(app, "Contents/MacOS");
 mkdirSync(macOS, { recursive: true });
@@ -55,6 +58,15 @@ for (const file of ["COPYING", "provenance.json"])
 // The bundled service and CLI run outside the checkout with no node_modules in reach, so
 // each ships as one file with Node builtins left external.
 const service = join(app, "Contents/Resources/service");
+const ffmpegDirectory = join(app, "Contents/Resources/ffmpeg");
+rmSync(ffmpegDirectory, { recursive: true, force: true });
+const identity = signingIdentity();
+await stageFFmpeg({
+  destination: ffmpegDirectory,
+  sign: (file) => {
+    execFileSync("codesign", ["--force", "--sign", identity, file], { stdio: "inherit" });
+  },
+});
 for (const [entry, outfile] of [
   ["apps/service/dist/main.js", join(service, "main.mjs")],
   ["apps/cli/dist/main.js", join(app, "Contents/Resources/cli/main.mjs")],
@@ -75,6 +87,10 @@ writeFileSync(
   JSON.stringify(
     {
       nodePath: process.execPath,
+      ffmpegDirectory: "../ffmpeg",
+      ffmpegReceiptSha256: createHash("sha256")
+        .update(readFileSync(join(ffmpegDirectory, "receipt.json")))
+        .digest("hex"),
       controlFrameBytes: protocol.CONTROL_FRAME_BYTES,
       maxPendingCalls: protocol.MAX_PENDING_CONTROL_CALLS,
       callTimeoutMs: protocol.DEFAULT_CALL_TIMEOUT_MS,
@@ -95,5 +111,5 @@ execFileSync("/usr/libexec/PlistBuddy", [
 copyFileSync(join(root, "apps/macos/AppIcon.icns"), join(app, "Contents/Resources/AppIcon.icns"));
 // macOS keys screen and microphone access to the signature it saw. Ad-hoc signatures change with
 // every build, so a local identity, when this Mac has one, keeps those grants across builds.
-execFileSync("codesign", ["--force", "--sign", signingIdentity(), app], { stdio: "inherit" });
+execFileSync("codesign", ["--force", "--sign", identity, app], { stdio: "inherit" });
 console.error(`Built ${app}`);

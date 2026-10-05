@@ -1,0 +1,518 @@
+{
+  "scope": "Relocated staged app resolver, signed FFmpeg closure and bundled-Node production service socket tool discovery under isolated HOME and system-only PATH; thin production CLI owner only; not a released ZIP, full native target or native app-launch proof",
+  "receipt": {
+    "format": 1,
+    "version": "9.0.2",
+    "architecture": "arm64",
+    "minimumMacOS": "26.0",
+    "license": "LGPL-2.1-or-later",
+    "sourceSha256": "8c3850283eb25fa026482078a04051e0be17347b09ef81a0849bec15a96e002e",
+    "recipeSha256": "8e11246e56ef1ccc5737c91c34eda5319fd8e0654112a2e88a37ee4d72ae161e",
+    "files": {
+      "bin/ffmpeg": "95c44e34bcdf029bb5215ecbc598a5d32bd3c45b0ed87589371da9971466f458",
+      "bin/ffprobe": "2cff178a398ae04c250eadef55f3948b3137f9495c77135820a768df90a00d84",
+      "inventory.json": "31da9469886a4b958a971c73f2bc3b9123a8538731ac5435fa3ec985e2cd4aca",
+      "lib/libavcodec.63.1.102.dylib": "84fb1e85712d658a1a17eab49e527d342fb24a65c800b35da1062f5165583e92",
+      "lib/libavcodec.63.dylib": "84fb1e85712d658a1a17eab49e527d342fb24a65c800b35da1062f5165583e92",
+      "lib/libavcodec.dylib": "84fb1e85712d658a1a17eab49e527d342fb24a65c800b35da1062f5165583e92",
+      "lib/libavdevice.63.1.102.dylib": "36e09a39c3f8695d18ccfcdef40d6d839d69473264477ea753576a2211534c56",
+      "lib/libavdevice.63.dylib": "36e09a39c3f8695d18ccfcdef40d6d839d69473264477ea753576a2211534c56",
+      "lib/libavdevice.dylib": "36e09a39c3f8695d18ccfcdef40d6d839d69473264477ea753576a2211534c56",
+      "lib/libavfilter.12.1.102.dylib": "cfdaf55287440829e85c67070d0def88177dd62f93864450c1cef1ddc8a60648",
+      "lib/libavfilter.12.dylib": "cfdaf55287440829e85c67070d0def88177dd62f93864450c1cef1ddc8a60648",
+      "lib/libavfilter.dylib": "cfdaf55287440829e85c67070d0def88177dd62f93864450c1cef1ddc8a60648",
+      "lib/libavformat.63.1.102.dylib": "e306a8fcda3073c3b9b985d3ebb310c0df638b89883dc04ab90f8e94a55871de",
+      "lib/libavformat.63.dylib": "e306a8fcda3073c3b9b985d3ebb310c0df638b89883dc04ab90f8e94a55871de",
+      "lib/libavformat.dylib": "e306a8fcda3073c3b9b985d3ebb310c0df638b89883dc04ab90f8e94a55871de",
+      "lib/libavutil.61.1.102.dylib": "573817a2adef26ec458c43141d4b8c6e504ce6053383336414f8592c603dd096",
+      "lib/libavutil.61.dylib": "573817a2adef26ec458c43141d4b8c6e504ce6053383336414f8592c603dd096",
+      "lib/libavutil.dylib": "573817a2adef26ec458c43141d4b8c6e504ce6053383336414f8592c603dd096",
+      "lib/libswresample.7.1.102.dylib": "c90a1f46ecfc0023f44ae78b5a6f40d065d000c4a19bc8d23d11f16a499dd6a4",
+      "lib/libswresample.7.dylib": "c90a1f46ecfc0023f44ae78b5a6f40d065d000c4a19bc8d23d11f16a499dd6a4",
+      "lib/libswresample.dylib": "c90a1f46ecfc0023f44ae78b5a6f40d065d000c4a19bc8d23d11f16a499dd6a4",
+      "lib/libswscale.10.1.102.dylib": "97394c52b0c620a6f25ec363a5cf71bca80f342d56ba5657f4872f8b45d9ae13",
+      "lib/libswscale.10.dylib": "97394c52b0c620a6f25ec363a5cf71bca80f342d56ba5657f4872f8b45d9ae13",
+      "lib/libswscale.dylib": "97394c52b0c620a6f25ec363a5cf71bca80f342d56ba5657f4872f8b45d9ae13",
+      "sources/COPYING.LGPLv2.1": "246041b6ecf9bc32d718a62c57877c78b5eb397b6467e74ed7ae2626ab189c30",
+      "sources/LICENSE.md": "2e1d16c72fd74e12063776371da757322f8b77589386532f4fd8634bde7de1af",
+      "sources/ffmpeg-9.0.2.tar.xz": "8c3850283eb25fa026482078a04051e0be17347b09ef81a0849bec15a96e002e",
+      "sources/prepare.mjs": "8a04cd3110601029e5f2b30adf24244a98f853ea6be9af377b234e3bbb09ea98",
+      "sources/provenance.json": "695e7690f61291002bf68b975f34e1a5002ad66d214a2cd37cbe8117f8891e02"
+    },
+    "preparedReceiptSha256": "f526b140e2453d511249e2d205e3250f63ae9a26392ef852e45ab28e00c3e7d6"
+  },
+  "closure": [
+    {
+      "file": "bin/ffmpeg",
+      "loads": [
+        "@rpath/libavdevice.63.dylib",
+        "@rpath/libavfilter.12.dylib",
+        "@rpath/libavformat.63.dylib",
+        "@rpath/libavcodec.63.dylib",
+        "@rpath/libswresample.7.dylib",
+        "@rpath/libswscale.10.dylib",
+        "@rpath/libavutil.61.dylib",
+        "/System/Library/Frameworks/AudioToolbox.framework/Versions/A/AudioToolbox",
+        "/System/Library/Frameworks/CoreAudio.framework/Versions/A/CoreAudio",
+        "/usr/lib/libSystem.B.dylib",
+        "/usr/lib/libz.1.dylib",
+        "/System/Library/Frameworks/VideoToolbox.framework/Versions/A/VideoToolbox",
+        "/System/Library/Frameworks/CoreFoundation.framework/Versions/A/CoreFoundation",
+        "/System/Library/Frameworks/CoreMedia.framework/Versions/A/CoreMedia",
+        "/System/Library/Frameworks/CoreVideo.framework/Versions/A/CoreVideo",
+        "/System/Library/Frameworks/CoreServices.framework/Versions/A/CoreServices",
+        "/usr/lib/libbz2.1.0.dylib",
+        "/System/Library/Frameworks/Security.framework/Versions/A/Security"
+      ]
+    },
+    {
+      "file": "bin/ffprobe",
+      "loads": [
+        "@rpath/libavdevice.63.dylib",
+        "@rpath/libavfilter.12.dylib",
+        "@rpath/libavformat.63.dylib",
+        "@rpath/libavcodec.63.dylib",
+        "@rpath/libswresample.7.dylib",
+        "@rpath/libswscale.10.dylib",
+        "@rpath/libavutil.61.dylib",
+        "/System/Library/Frameworks/AudioToolbox.framework/Versions/A/AudioToolbox",
+        "/System/Library/Frameworks/CoreAudio.framework/Versions/A/CoreAudio",
+        "/usr/lib/libSystem.B.dylib",
+        "/usr/lib/libz.1.dylib",
+        "/System/Library/Frameworks/VideoToolbox.framework/Versions/A/VideoToolbox",
+        "/System/Library/Frameworks/CoreFoundation.framework/Versions/A/CoreFoundation",
+        "/System/Library/Frameworks/CoreMedia.framework/Versions/A/CoreMedia",
+        "/System/Library/Frameworks/CoreVideo.framework/Versions/A/CoreVideo",
+        "/System/Library/Frameworks/CoreServices.framework/Versions/A/CoreServices",
+        "/usr/lib/libbz2.1.0.dylib",
+        "/System/Library/Frameworks/Security.framework/Versions/A/Security"
+      ]
+    },
+    {
+      "file": "lib/libavcodec.63.1.102.dylib",
+      "loads": [
+        "@rpath/libavcodec.63.dylib",
+        "@rpath/libswresample.7.dylib",
+        "@rpath/libavutil.61.dylib",
+        "/usr/lib/libSystem.B.dylib",
+        "/System/Library/Frameworks/AudioToolbox.framework/Versions/A/AudioToolbox",
+        "/usr/lib/libz.1.dylib",
+        "/System/Library/Frameworks/VideoToolbox.framework/Versions/A/VideoToolbox",
+        "/System/Library/Frameworks/CoreFoundation.framework/Versions/A/CoreFoundation",
+        "/System/Library/Frameworks/CoreMedia.framework/Versions/A/CoreMedia",
+        "/System/Library/Frameworks/CoreVideo.framework/Versions/A/CoreVideo",
+        "/System/Library/Frameworks/CoreServices.framework/Versions/A/CoreServices"
+      ]
+    },
+    {
+      "file": "lib/libavcodec.63.dylib",
+      "loads": [
+        "@rpath/libavcodec.63.dylib",
+        "@rpath/libswresample.7.dylib",
+        "@rpath/libavutil.61.dylib",
+        "/usr/lib/libSystem.B.dylib",
+        "/System/Library/Frameworks/AudioToolbox.framework/Versions/A/AudioToolbox",
+        "/usr/lib/libz.1.dylib",
+        "/System/Library/Frameworks/VideoToolbox.framework/Versions/A/VideoToolbox",
+        "/System/Library/Frameworks/CoreFoundation.framework/Versions/A/CoreFoundation",
+        "/System/Library/Frameworks/CoreMedia.framework/Versions/A/CoreMedia",
+        "/System/Library/Frameworks/CoreVideo.framework/Versions/A/CoreVideo",
+        "/System/Library/Frameworks/CoreServices.framework/Versions/A/CoreServices"
+      ]
+    },
+    {
+      "file": "lib/libavcodec.dylib",
+      "loads": [
+        "@rpath/libavcodec.63.dylib",
+        "@rpath/libswresample.7.dylib",
+        "@rpath/libavutil.61.dylib",
+        "/usr/lib/libSystem.B.dylib",
+        "/System/Library/Frameworks/AudioToolbox.framework/Versions/A/AudioToolbox",
+        "/usr/lib/libz.1.dylib",
+        "/System/Library/Frameworks/VideoToolbox.framework/Versions/A/VideoToolbox",
+        "/System/Library/Frameworks/CoreFoundation.framework/Versions/A/CoreFoundation",
+        "/System/Library/Frameworks/CoreMedia.framework/Versions/A/CoreMedia",
+        "/System/Library/Frameworks/CoreVideo.framework/Versions/A/CoreVideo",
+        "/System/Library/Frameworks/CoreServices.framework/Versions/A/CoreServices"
+      ]
+    },
+    {
+      "file": "lib/libavdevice.63.1.102.dylib",
+      "loads": [
+        "@rpath/libavdevice.63.dylib",
+        "@rpath/libavfilter.12.dylib",
+        "@rpath/libswscale.10.dylib",
+        "@rpath/libavformat.63.dylib",
+        "@rpath/libavcodec.63.dylib",
+        "@rpath/libswresample.7.dylib",
+        "@rpath/libavutil.61.dylib",
+        "/System/Library/Frameworks/AudioToolbox.framework/Versions/A/AudioToolbox",
+        "/System/Library/Frameworks/CoreAudio.framework/Versions/A/CoreAudio",
+        "/usr/lib/libSystem.B.dylib",
+        "/usr/lib/libz.1.dylib",
+        "/System/Library/Frameworks/VideoToolbox.framework/Versions/A/VideoToolbox",
+        "/System/Library/Frameworks/CoreFoundation.framework/Versions/A/CoreFoundation",
+        "/System/Library/Frameworks/CoreMedia.framework/Versions/A/CoreMedia",
+        "/System/Library/Frameworks/CoreVideo.framework/Versions/A/CoreVideo",
+        "/System/Library/Frameworks/CoreServices.framework/Versions/A/CoreServices",
+        "/usr/lib/libbz2.1.0.dylib",
+        "/System/Library/Frameworks/Security.framework/Versions/A/Security"
+      ]
+    },
+    {
+      "file": "lib/libavdevice.63.dylib",
+      "loads": [
+        "@rpath/libavdevice.63.dylib",
+        "@rpath/libavfilter.12.dylib",
+        "@rpath/libswscale.10.dylib",
+        "@rpath/libavformat.63.dylib",
+        "@rpath/libavcodec.63.dylib",
+        "@rpath/libswresample.7.dylib",
+        "@rpath/libavutil.61.dylib",
+        "/System/Library/Frameworks/AudioToolbox.framework/Versions/A/AudioToolbox",
+        "/System/Library/Frameworks/CoreAudio.framework/Versions/A/CoreAudio",
+        "/usr/lib/libSystem.B.dylib",
+        "/usr/lib/libz.1.dylib",
+        "/System/Library/Frameworks/VideoToolbox.framework/Versions/A/VideoToolbox",
+        "/System/Library/Frameworks/CoreFoundation.framework/Versions/A/CoreFoundation",
+        "/System/Library/Frameworks/CoreMedia.framework/Versions/A/CoreMedia",
+        "/System/Library/Frameworks/CoreVideo.framework/Versions/A/CoreVideo",
+        "/System/Library/Frameworks/CoreServices.framework/Versions/A/CoreServices",
+        "/usr/lib/libbz2.1.0.dylib",
+        "/System/Library/Frameworks/Security.framework/Versions/A/Security"
+      ]
+    },
+    {
+      "file": "lib/libavdevice.dylib",
+      "loads": [
+        "@rpath/libavdevice.63.dylib",
+        "@rpath/libavfilter.12.dylib",
+        "@rpath/libswscale.10.dylib",
+        "@rpath/libavformat.63.dylib",
+        "@rpath/libavcodec.63.dylib",
+        "@rpath/libswresample.7.dylib",
+        "@rpath/libavutil.61.dylib",
+        "/System/Library/Frameworks/AudioToolbox.framework/Versions/A/AudioToolbox",
+        "/System/Library/Frameworks/CoreAudio.framework/Versions/A/CoreAudio",
+        "/usr/lib/libSystem.B.dylib",
+        "/usr/lib/libz.1.dylib",
+        "/System/Library/Frameworks/VideoToolbox.framework/Versions/A/VideoToolbox",
+        "/System/Library/Frameworks/CoreFoundation.framework/Versions/A/CoreFoundation",
+        "/System/Library/Frameworks/CoreMedia.framework/Versions/A/CoreMedia",
+        "/System/Library/Frameworks/CoreVideo.framework/Versions/A/CoreVideo",
+        "/System/Library/Frameworks/CoreServices.framework/Versions/A/CoreServices",
+        "/usr/lib/libbz2.1.0.dylib",
+        "/System/Library/Frameworks/Security.framework/Versions/A/Security"
+      ]
+    },
+    {
+      "file": "lib/libavfilter.12.1.102.dylib",
+      "loads": [
+        "@rpath/libavfilter.12.dylib",
+        "@rpath/libswscale.10.dylib",
+        "@rpath/libavformat.63.dylib",
+        "@rpath/libavcodec.63.dylib",
+        "@rpath/libswresample.7.dylib",
+        "@rpath/libavutil.61.dylib",
+        "/usr/lib/libSystem.B.dylib",
+        "/usr/lib/libz.1.dylib",
+        "/System/Library/Frameworks/VideoToolbox.framework/Versions/A/VideoToolbox",
+        "/System/Library/Frameworks/CoreFoundation.framework/Versions/A/CoreFoundation",
+        "/System/Library/Frameworks/CoreMedia.framework/Versions/A/CoreMedia",
+        "/System/Library/Frameworks/CoreVideo.framework/Versions/A/CoreVideo",
+        "/System/Library/Frameworks/CoreServices.framework/Versions/A/CoreServices",
+        "/usr/lib/libbz2.1.0.dylib",
+        "/System/Library/Frameworks/Security.framework/Versions/A/Security",
+        "/System/Library/Frameworks/AudioToolbox.framework/Versions/A/AudioToolbox"
+      ]
+    },
+    {
+      "file": "lib/libavfilter.12.dylib",
+      "loads": [
+        "@rpath/libavfilter.12.dylib",
+        "@rpath/libswscale.10.dylib",
+        "@rpath/libavformat.63.dylib",
+        "@rpath/libavcodec.63.dylib",
+        "@rpath/libswresample.7.dylib",
+        "@rpath/libavutil.61.dylib",
+        "/usr/lib/libSystem.B.dylib",
+        "/usr/lib/libz.1.dylib",
+        "/System/Library/Frameworks/VideoToolbox.framework/Versions/A/VideoToolbox",
+        "/System/Library/Frameworks/CoreFoundation.framework/Versions/A/CoreFoundation",
+        "/System/Library/Frameworks/CoreMedia.framework/Versions/A/CoreMedia",
+        "/System/Library/Frameworks/CoreVideo.framework/Versions/A/CoreVideo",
+        "/System/Library/Frameworks/CoreServices.framework/Versions/A/CoreServices",
+        "/usr/lib/libbz2.1.0.dylib",
+        "/System/Library/Frameworks/Security.framework/Versions/A/Security",
+        "/System/Library/Frameworks/AudioToolbox.framework/Versions/A/AudioToolbox"
+      ]
+    },
+    {
+      "file": "lib/libavfilter.dylib",
+      "loads": [
+        "@rpath/libavfilter.12.dylib",
+        "@rpath/libswscale.10.dylib",
+        "@rpath/libavformat.63.dylib",
+        "@rpath/libavcodec.63.dylib",
+        "@rpath/libswresample.7.dylib",
+        "@rpath/libavutil.61.dylib",
+        "/usr/lib/libSystem.B.dylib",
+        "/usr/lib/libz.1.dylib",
+        "/System/Library/Frameworks/VideoToolbox.framework/Versions/A/VideoToolbox",
+        "/System/Library/Frameworks/CoreFoundation.framework/Versions/A/CoreFoundation",
+        "/System/Library/Frameworks/CoreMedia.framework/Versions/A/CoreMedia",
+        "/System/Library/Frameworks/CoreVideo.framework/Versions/A/CoreVideo",
+        "/System/Library/Frameworks/CoreServices.framework/Versions/A/CoreServices",
+        "/usr/lib/libbz2.1.0.dylib",
+        "/System/Library/Frameworks/Security.framework/Versions/A/Security",
+        "/System/Library/Frameworks/AudioToolbox.framework/Versions/A/AudioToolbox"
+      ]
+    },
+    {
+      "file": "lib/libavformat.63.1.102.dylib",
+      "loads": [
+        "@rpath/libavformat.63.dylib",
+        "@rpath/libavcodec.63.dylib",
+        "@rpath/libswresample.7.dylib",
+        "@rpath/libavutil.61.dylib",
+        "/usr/lib/libSystem.B.dylib",
+        "/usr/lib/libbz2.1.0.dylib",
+        "/usr/lib/libz.1.dylib",
+        "/System/Library/Frameworks/CoreFoundation.framework/Versions/A/CoreFoundation",
+        "/System/Library/Frameworks/Security.framework/Versions/A/Security",
+        "/System/Library/Frameworks/AudioToolbox.framework/Versions/A/AudioToolbox",
+        "/System/Library/Frameworks/VideoToolbox.framework/Versions/A/VideoToolbox",
+        "/System/Library/Frameworks/CoreMedia.framework/Versions/A/CoreMedia",
+        "/System/Library/Frameworks/CoreVideo.framework/Versions/A/CoreVideo",
+        "/System/Library/Frameworks/CoreServices.framework/Versions/A/CoreServices"
+      ]
+    },
+    {
+      "file": "lib/libavformat.63.dylib",
+      "loads": [
+        "@rpath/libavformat.63.dylib",
+        "@rpath/libavcodec.63.dylib",
+        "@rpath/libswresample.7.dylib",
+        "@rpath/libavutil.61.dylib",
+        "/usr/lib/libSystem.B.dylib",
+        "/usr/lib/libbz2.1.0.dylib",
+        "/usr/lib/libz.1.dylib",
+        "/System/Library/Frameworks/CoreFoundation.framework/Versions/A/CoreFoundation",
+        "/System/Library/Frameworks/Security.framework/Versions/A/Security",
+        "/System/Library/Frameworks/AudioToolbox.framework/Versions/A/AudioToolbox",
+        "/System/Library/Frameworks/VideoToolbox.framework/Versions/A/VideoToolbox",
+        "/System/Library/Frameworks/CoreMedia.framework/Versions/A/CoreMedia",
+        "/System/Library/Frameworks/CoreVideo.framework/Versions/A/CoreVideo",
+        "/System/Library/Frameworks/CoreServices.framework/Versions/A/CoreServices"
+      ]
+    },
+    {
+      "file": "lib/libavformat.dylib",
+      "loads": [
+        "@rpath/libavformat.63.dylib",
+        "@rpath/libavcodec.63.dylib",
+        "@rpath/libswresample.7.dylib",
+        "@rpath/libavutil.61.dylib",
+        "/usr/lib/libSystem.B.dylib",
+        "/usr/lib/libbz2.1.0.dylib",
+        "/usr/lib/libz.1.dylib",
+        "/System/Library/Frameworks/CoreFoundation.framework/Versions/A/CoreFoundation",
+        "/System/Library/Frameworks/Security.framework/Versions/A/Security",
+        "/System/Library/Frameworks/AudioToolbox.framework/Versions/A/AudioToolbox",
+        "/System/Library/Frameworks/VideoToolbox.framework/Versions/A/VideoToolbox",
+        "/System/Library/Frameworks/CoreMedia.framework/Versions/A/CoreMedia",
+        "/System/Library/Frameworks/CoreVideo.framework/Versions/A/CoreVideo",
+        "/System/Library/Frameworks/CoreServices.framework/Versions/A/CoreServices"
+      ]
+    },
+    {
+      "file": "lib/libavutil.61.1.102.dylib",
+      "loads": [
+        "@rpath/libavutil.61.dylib",
+        "/usr/lib/libSystem.B.dylib",
+        "/usr/lib/libz.1.dylib",
+        "/System/Library/Frameworks/VideoToolbox.framework/Versions/A/VideoToolbox",
+        "/System/Library/Frameworks/CoreFoundation.framework/Versions/A/CoreFoundation",
+        "/System/Library/Frameworks/CoreMedia.framework/Versions/A/CoreMedia",
+        "/System/Library/Frameworks/CoreVideo.framework/Versions/A/CoreVideo",
+        "/System/Library/Frameworks/CoreServices.framework/Versions/A/CoreServices"
+      ]
+    },
+    {
+      "file": "lib/libavutil.61.dylib",
+      "loads": [
+        "@rpath/libavutil.61.dylib",
+        "/usr/lib/libSystem.B.dylib",
+        "/usr/lib/libz.1.dylib",
+        "/System/Library/Frameworks/VideoToolbox.framework/Versions/A/VideoToolbox",
+        "/System/Library/Frameworks/CoreFoundation.framework/Versions/A/CoreFoundation",
+        "/System/Library/Frameworks/CoreMedia.framework/Versions/A/CoreMedia",
+        "/System/Library/Frameworks/CoreVideo.framework/Versions/A/CoreVideo",
+        "/System/Library/Frameworks/CoreServices.framework/Versions/A/CoreServices"
+      ]
+    },
+    {
+      "file": "lib/libavutil.dylib",
+      "loads": [
+        "@rpath/libavutil.61.dylib",
+        "/usr/lib/libSystem.B.dylib",
+        "/usr/lib/libz.1.dylib",
+        "/System/Library/Frameworks/VideoToolbox.framework/Versions/A/VideoToolbox",
+        "/System/Library/Frameworks/CoreFoundation.framework/Versions/A/CoreFoundation",
+        "/System/Library/Frameworks/CoreMedia.framework/Versions/A/CoreMedia",
+        "/System/Library/Frameworks/CoreVideo.framework/Versions/A/CoreVideo",
+        "/System/Library/Frameworks/CoreServices.framework/Versions/A/CoreServices"
+      ]
+    },
+    {
+      "file": "lib/libswresample.7.1.102.dylib",
+      "loads": [
+        "@rpath/libswresample.7.dylib",
+        "@rpath/libavutil.61.dylib",
+        "/usr/lib/libSystem.B.dylib",
+        "/usr/lib/libz.1.dylib",
+        "/System/Library/Frameworks/VideoToolbox.framework/Versions/A/VideoToolbox",
+        "/System/Library/Frameworks/CoreFoundation.framework/Versions/A/CoreFoundation",
+        "/System/Library/Frameworks/CoreMedia.framework/Versions/A/CoreMedia",
+        "/System/Library/Frameworks/CoreVideo.framework/Versions/A/CoreVideo",
+        "/System/Library/Frameworks/CoreServices.framework/Versions/A/CoreServices"
+      ]
+    },
+    {
+      "file": "lib/libswresample.7.dylib",
+      "loads": [
+        "@rpath/libswresample.7.dylib",
+        "@rpath/libavutil.61.dylib",
+        "/usr/lib/libSystem.B.dylib",
+        "/usr/lib/libz.1.dylib",
+        "/System/Library/Frameworks/VideoToolbox.framework/Versions/A/VideoToolbox",
+        "/System/Library/Frameworks/CoreFoundation.framework/Versions/A/CoreFoundation",
+        "/System/Library/Frameworks/CoreMedia.framework/Versions/A/CoreMedia",
+        "/System/Library/Frameworks/CoreVideo.framework/Versions/A/CoreVideo",
+        "/System/Library/Frameworks/CoreServices.framework/Versions/A/CoreServices"
+      ]
+    },
+    {
+      "file": "lib/libswresample.dylib",
+      "loads": [
+        "@rpath/libswresample.7.dylib",
+        "@rpath/libavutil.61.dylib",
+        "/usr/lib/libSystem.B.dylib",
+        "/usr/lib/libz.1.dylib",
+        "/System/Library/Frameworks/VideoToolbox.framework/Versions/A/VideoToolbox",
+        "/System/Library/Frameworks/CoreFoundation.framework/Versions/A/CoreFoundation",
+        "/System/Library/Frameworks/CoreMedia.framework/Versions/A/CoreMedia",
+        "/System/Library/Frameworks/CoreVideo.framework/Versions/A/CoreVideo",
+        "/System/Library/Frameworks/CoreServices.framework/Versions/A/CoreServices"
+      ]
+    },
+    {
+      "file": "lib/libswscale.10.1.102.dylib",
+      "loads": [
+        "@rpath/libswscale.10.dylib",
+        "@rpath/libavutil.61.dylib",
+        "/usr/lib/libSystem.B.dylib",
+        "/usr/lib/libz.1.dylib",
+        "/System/Library/Frameworks/VideoToolbox.framework/Versions/A/VideoToolbox",
+        "/System/Library/Frameworks/CoreFoundation.framework/Versions/A/CoreFoundation",
+        "/System/Library/Frameworks/CoreMedia.framework/Versions/A/CoreMedia",
+        "/System/Library/Frameworks/CoreVideo.framework/Versions/A/CoreVideo",
+        "/System/Library/Frameworks/CoreServices.framework/Versions/A/CoreServices"
+      ]
+    },
+    {
+      "file": "lib/libswscale.10.dylib",
+      "loads": [
+        "@rpath/libswscale.10.dylib",
+        "@rpath/libavutil.61.dylib",
+        "/usr/lib/libSystem.B.dylib",
+        "/usr/lib/libz.1.dylib",
+        "/System/Library/Frameworks/VideoToolbox.framework/Versions/A/VideoToolbox",
+        "/System/Library/Frameworks/CoreFoundation.framework/Versions/A/CoreFoundation",
+        "/System/Library/Frameworks/CoreMedia.framework/Versions/A/CoreMedia",
+        "/System/Library/Frameworks/CoreVideo.framework/Versions/A/CoreVideo",
+        "/System/Library/Frameworks/CoreServices.framework/Versions/A/CoreServices"
+      ]
+    },
+    {
+      "file": "lib/libswscale.dylib",
+      "loads": [
+        "@rpath/libswscale.10.dylib",
+        "@rpath/libavutil.61.dylib",
+        "/usr/lib/libSystem.B.dylib",
+        "/usr/lib/libz.1.dylib",
+        "/System/Library/Frameworks/VideoToolbox.framework/Versions/A/VideoToolbox",
+        "/System/Library/Frameworks/CoreFoundation.framework/Versions/A/CoreFoundation",
+        "/System/Library/Frameworks/CoreMedia.framework/Versions/A/CoreMedia",
+        "/System/Library/Frameworks/CoreVideo.framework/Versions/A/CoreVideo",
+        "/System/Library/Frameworks/CoreServices.framework/Versions/A/CoreServices"
+      ]
+    }
+  ],
+  "smoke": {
+    "recipeSha256": "8e11246e56ef1ccc5737c91c34eda5319fd8e0654112a2e88a37ee4d72ae161e",
+    "sourceSha256": "8c3850283eb25fa026482078a04051e0be17347b09ef81a0849bec15a96e002e",
+    "probes": [
+      {
+        "codec": "h264",
+        "codec_name": "h264",
+        "width": 320,
+        "height": 180,
+        "duration": "1.000000"
+      },
+      {
+        "codec": "hevc",
+        "codec_name": "hevc",
+        "width": 320,
+        "height": 180,
+        "duration": "1.000000"
+      },
+      {
+        "extension": "wav",
+        "codec_name": "pcm_f32le",
+        "sample_rate": "48000"
+      },
+      {
+        "extension": "m4a",
+        "codec_name": "aac",
+        "sample_rate": "48000"
+      }
+    ],
+    "filterExecution": [
+      "ebur128",
+      "loudnorm",
+      "alimiter",
+      "sidechaincompress",
+      "colorbalance"
+    ]
+  },
+  "tools": {
+    "ok": true,
+    "data": {
+      "node": {
+        "path": "/private/tmp/screenrec-selected-tools-EOJjEk/Moved release with spaces.app/Contents/Resources/node/bin/node",
+        "version": "24.21.0"
+      },
+      "ffmpeg": {
+        "available": true,
+        "directory": "/tmp/screenrec-selected-tools-EOJjEk/Moved release with spaces.app/Contents/Resources/ffmpeg",
+        "receiptSha256": "a6122931c34689b013fea65dfb116ad40ab48764001b6d78630085c55f4401a0",
+        "version": "9.0.2",
+        "configuration": "--prefix=/ --enable-shared --disable-static --disable-autodetect --disable-gpl --disable-nonfree --disable-version3 --disable-doc --disable-ffplay --arch=arm64 --target-os=darwin --cc=/usr/bin/clang --cxx=/usr/bin/clang++ --install-name-dir='@rpath' --enable-videotoolbox --enable-audiotoolbox --enable-zlib --enable-bzlib --enable-securetransport --extra-cflags='-mmacosx-version-min=26.0' --extra-ldflags='-mmacosx-version-min=26.0 -Wl,-rpath,@executable_path/../lib'",
+        "recipeSha256": "8e11246e56ef1ccc5737c91c34eda5319fd8e0654112a2e88a37ee4d72ae161e",
+        "sourceSha256": "8c3850283eb25fa026482078a04051e0be17347b09ef81a0849bec15a96e002e",
+        "executables": {
+          "ffmpeg": {
+            "path": "/tmp/screenrec-selected-tools-EOJjEk/Moved release with spaces.app/Contents/Resources/ffmpeg/bin/ffmpeg",
+            "sha256": "95c44e34bcdf029bb5215ecbc598a5d32bd3c45b0ed87589371da9971466f458"
+          },
+          "ffprobe": {
+            "path": "/tmp/screenrec-selected-tools-EOJjEk/Moved release with spaces.app/Contents/Resources/ffmpeg/bin/ffprobe",
+            "sha256": "2cff178a398ae04c250eadef55f3948b3137f9495c77135820a768df90a00d84"
+          }
+        }
+      }
+    },
+    "id": "proof"
+  }
+}
