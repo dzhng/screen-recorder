@@ -48,7 +48,8 @@ public final class AudioPCMStream: AudioPCMSource {
     }
 
     /// Selected transcription spans preserve their cumulative sample clock and join ramps.
-    public static func open(source: AudioSourceSelection, spans: [ExactRange], sampleRate: Int? = nil)
+    public static func open(source: AudioSourceSelection, spans: [ExactRange], sampleRate: Int? = nil,
+        strictWindowFormat: Bool = false)
         async throws -> AudioPCMStream {
         try ExcerptValidation.check(source: source, maximumIntervals: AudioLimits.maximumRetainedAvailableIntervals)
         try ExcerptValidation.check(spans: spans, maximumDurationUs: TimeSpan.maximumMicroseconds,
@@ -56,7 +57,8 @@ public final class AudioPCMStream: AudioPCMSource {
         if let sampleRate, !(1...AudioLimits.maximumSampleRate).contains(sampleRate) {
             throw NativeFailure("INVALID_REQUEST", "Output rate is out of bounds.")
         }
-        return try await AudioPCMStream(source: SourceTrack.open(selection: source),
+        return try await AudioPCMStream(source: SourceTrack.open(selection: source,
+            strictWindowFormat: strictWindowFormat),
             spans: spans, sampleRate: sampleRate)
     }
 

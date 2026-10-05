@@ -1,0 +1,249 @@
+{
+  "sourceCheckpoints": [
+    "e143bb32",
+    "0fa828c9",
+    "f72eca1d"
+  ],
+  "rootBase": "9dfede21",
+  "scope": "Five Core source-admission controls and core build; actual native exact30s selected-channel byte preservation and source format-change red/green. Internal PCM/admission only, no public operations, inference, resampling generality or installed package proof.",
+  "passed": true,
+  "coreControls": 5,
+  "coreBuildPassed": true,
+  "command": "SCREENREC_SOURCE_AUDIO_EVIDENCE=<owned scratch> swift run --package-path helpers/mac ScreenRecorderSourceAudioTests --speaker-pcm",
+  "nativeTestSha256": "8568f68d0b2d869efe1c8b7d59e5675d5a4ba13bc8541824a0aced12e2433ef9",
+  "formatRegression": {
+    "red": {
+      "outputExists": true,
+      "refusal": null,
+      "selectedChannel": 1,
+      "sourceChannels": [
+        2,
+        1
+      ],
+      "sourceSha256": "75442497b1cf69f9c8059b897bdd1ce390a549e095f8d45a2f1381c6bad0d4d2",
+      "sourceUnchanged": true
+    },
+    "green": {
+      "outputExists": false,
+      "refusal": "UNSUPPORTED_FORMAT",
+      "selectedChannel": 1,
+      "sourceChannels": [
+        2,
+        1
+      ],
+      "sourceSha256": "c233ad717fa9451707d892cf21ce1faf60ef2c30e617262131da5ee332ed68fa",
+      "sourceUnchanged": true
+    },
+    "redExitCode": 133,
+    "greenExitCode": 0,
+    "unverifiedRedPCM": {
+      "bytes": 1920000,
+      "frames": 480000,
+      "first": -0.5,
+      "firstMonoFrame": 0.75,
+      "last": 0.75,
+      "sha256": "47da7b5494632f95f64d58fe45a45fc93dc7174c8e50311465ce477f0c658f2c"
+    },
+    "initialControl": "Initial exact-tail donors exported14.976s occupied halves, so an unrelated support refusal invalidated that control. Preserved separately; sixteen-second donors now supply complete selected fifteen-second halves, asserted from native segments/extent. Red then actually published an unverified synthetic channel."
+  },
+  "archive": {
+    "name": "root-operands.tar.xz",
+    "bytes": 18924,
+    "sha256": "b36637f01c6db6be9d1a0853e377daf86d39fc6ef50e08c499cf6be0da09d58f",
+    "members": [
+      {
+        "member": "red-complete/speaker-actual.f32",
+        "bytes": 1920000,
+        "sha256": "37ba0e87e9cb12dac1437b85a866f82da61cecd2cd55239091f69c39e3372b97"
+      },
+      {
+        "member": "red-complete/speaker-changing-channel-unverified.f32",
+        "bytes": 1920000,
+        "sha256": "47da7b5494632f95f64d58fe45a45fc93dc7174c8e50311465ce477f0c658f2c"
+      },
+      {
+        "member": "red-complete/speaker-changing-channels.mov",
+        "bytes": 4800881,
+        "sha256": "75442497b1cf69f9c8059b897bdd1ce390a549e095f8d45a2f1381c6bad0d4d2"
+      },
+      {
+        "member": "red-complete/speaker-channels.caf",
+        "bytes": 4100096,
+        "sha256": "459fc76bca927c04ec7bddaaa2f1ea39ac3a2a46a747e92eae8ea021c654c75f"
+      },
+      {
+        "member": "red-complete/speaker-expected.f32",
+        "bytes": 1920000,
+        "sha256": "37ba0e87e9cb12dac1437b85a866f82da61cecd2cd55239091f69c39e3372b97"
+      },
+      {
+        "member": "red-complete/speaker-format-change.json",
+        "bytes": 228,
+        "sha256": "3a11323a08125fb9ba21e15b05c82335d3db811638baeb17956fed9860524331"
+      },
+      {
+        "member": "red-complete/speaker-mono-half.caf",
+        "bytes": 1028096,
+        "sha256": "e612c313a55730151944b5e32dfce7eee997280237c21e07940ba9a4f583d872"
+      },
+      {
+        "member": "red-complete/speaker-mono-half.caf.mov",
+        "bytes": 1024741,
+        "sha256": "bd6901be70d599259acaa3be9aa08e7672815d9614f814cefe35ce83482a1ee0"
+      },
+      {
+        "member": "red-complete/speaker-pcm-receipt.json",
+        "bytes": 702,
+        "sha256": "462e710fb7fd7a4e2cab398bd022e3cae43e39ef6ab7d407a81f4d38b064ff7b"
+      },
+      {
+        "member": "red-complete/speaker-source-after.caf",
+        "bytes": 4100096,
+        "sha256": "459fc76bca927c04ec7bddaaa2f1ea39ac3a2a46a747e92eae8ea021c654c75f"
+      },
+      {
+        "member": "red-complete/speaker-stereo-half.caf",
+        "bytes": 2052096,
+        "sha256": "0f4baabbc3927e2f54ab18fab946a9e7d5aa32fd48f1aad7aa5c6c443771d86f"
+      },
+      {
+        "member": "red-complete/speaker-stereo-half.caf.mov",
+        "bytes": 2048741,
+        "sha256": "40a07c82ceaefc146aa3ac4d770e6badffd525374deed2a0148503cef415a4f1"
+      },
+      {
+        "member": "green-complete/speaker-actual.f32",
+        "bytes": 1920000,
+        "sha256": "37ba0e87e9cb12dac1437b85a866f82da61cecd2cd55239091f69c39e3372b97"
+      },
+      {
+        "member": "green-complete/speaker-changing-channels.mov",
+        "bytes": 4800881,
+        "sha256": "c233ad717fa9451707d892cf21ce1faf60ef2c30e617262131da5ee332ed68fa"
+      },
+      {
+        "member": "green-complete/speaker-channels.caf",
+        "bytes": 4100096,
+        "sha256": "459fc76bca927c04ec7bddaaa2f1ea39ac3a2a46a747e92eae8ea021c654c75f"
+      },
+      {
+        "member": "green-complete/speaker-expected.f32",
+        "bytes": 1920000,
+        "sha256": "37ba0e87e9cb12dac1437b85a866f82da61cecd2cd55239091f69c39e3372b97"
+      },
+      {
+        "member": "green-complete/speaker-format-change.json",
+        "bytes": 245,
+        "sha256": "a2cc271e4701bd0406c2a7e6c36ce35bdc6c0eff90101313201375d03a4009b7"
+      },
+      {
+        "member": "green-complete/speaker-mono-half.caf",
+        "bytes": 1028096,
+        "sha256": "e612c313a55730151944b5e32dfce7eee997280237c21e07940ba9a4f583d872"
+      },
+      {
+        "member": "green-complete/speaker-mono-half.caf.mov",
+        "bytes": 1024741,
+        "sha256": "8805e1a7c0754307dcb7dd057d4105d780bd56da1431bf77f778c31738c24daa"
+      },
+      {
+        "member": "green-complete/speaker-pcm-receipt.json",
+        "bytes": 701,
+        "sha256": "852716ed51dec97a888ee19d5a948e8bef11c9b0deacd3566cf7e953320153cd"
+      },
+      {
+        "member": "green-complete/speaker-source-after.caf",
+        "bytes": 4100096,
+        "sha256": "459fc76bca927c04ec7bddaaa2f1ea39ac3a2a46a747e92eae8ea021c654c75f"
+      },
+      {
+        "member": "green-complete/speaker-stereo-half.caf",
+        "bytes": 2052096,
+        "sha256": "0f4baabbc3927e2f54ab18fab946a9e7d5aa32fd48f1aad7aa5c6c443771d86f"
+      },
+      {
+        "member": "green-complete/speaker-stereo-half.caf.mov",
+        "bytes": 2048741,
+        "sha256": "171e2f7e3564399227b824482dcf68e701ce3266f5ca1ee64e501742c8862a46"
+      },
+      {
+        "member": "initial-gapped-control/speaker-actual.f32",
+        "bytes": 1920000,
+        "sha256": "37ba0e87e9cb12dac1437b85a866f82da61cecd2cd55239091f69c39e3372b97"
+      },
+      {
+        "member": "initial-gapped-control/speaker-changing-channels.mov",
+        "bytes": 4793249,
+        "sha256": "d9474daf934a8238dca0f98570ad263fd3f532ce3839a6ca6f7af21ed82d8a46"
+      },
+      {
+        "member": "initial-gapped-control/speaker-channels.caf",
+        "bytes": 4100096,
+        "sha256": "459fc76bca927c04ec7bddaaa2f1ea39ac3a2a46a747e92eae8ea021c654c75f"
+      },
+      {
+        "member": "initial-gapped-control/speaker-expected.f32",
+        "bytes": 1920000,
+        "sha256": "37ba0e87e9cb12dac1437b85a866f82da61cecd2cd55239091f69c39e3372b97"
+      },
+      {
+        "member": "initial-gapped-control/speaker-format-change.json",
+        "bytes": 246,
+        "sha256": "53e3695a16932e1afb3dc0c2d569c42eefc2c2f348a3d5f8bba9540181ac1f4d"
+      },
+      {
+        "member": "initial-gapped-control/speaker-mono-half.caf",
+        "bytes": 964096,
+        "sha256": "b9f5feea4e29c8211659abc5b6218079926c3142bc7c8c70d8a697253029754e"
+      },
+      {
+        "member": "initial-gapped-control/speaker-mono-half.caf.mov",
+        "bytes": 959213,
+        "sha256": "6f4233836584489719c24156b3581d333be5d4c6ca15fdc68167b08ab524600f"
+      },
+      {
+        "member": "initial-gapped-control/speaker-pcm-receipt.json",
+        "bytes": 693,
+        "sha256": "1655aa903945ec3fabff5a87a29431da06d4ec3c33333e8c847cf30b33433915"
+      },
+      {
+        "member": "initial-gapped-control/speaker-source-after.caf",
+        "bytes": 4100096,
+        "sha256": "459fc76bca927c04ec7bddaaa2f1ea39ac3a2a46a747e92eae8ea021c654c75f"
+      },
+      {
+        "member": "initial-gapped-control/speaker-stereo-half.caf",
+        "bytes": 1924096,
+        "sha256": "ec1985417f33b2639b58d493c9a1b989d1824ca2d8c7668f3f8fe91874d52dd3"
+      },
+      {
+        "member": "initial-gapped-control/speaker-stereo-half.caf.mov",
+        "bytes": 1917677,
+        "sha256": "d7fcf3299968dd1cf5131d0f74138428f80aa1a34a79651a885ef7d4467f6245"
+      }
+    ]
+  },
+  "logs": [
+    {
+      "name": "root-red.log.xz",
+      "bytes": 472,
+      "sha256": "4d1b32aac1636747a29e849ad7402c6dea130e0f2f1b95f383a9390b8d14165c"
+    },
+    {
+      "name": "root-green.log.xz",
+      "bytes": 512,
+      "sha256": "1b576e8764a3ead7a11aedf6daace093de97e59d63f5eec97cbd734b20198f6c"
+    },
+    {
+      "name": "root-first-review.log.xz",
+      "bytes": 63236,
+      "sha256": "630dcab136a531e3973b897d4f9ee5f24ff6f5744a6bd2c9124ecde0c687cf30"
+    },
+    {
+      "name": "root-followup-review-incomplete.log.xz",
+      "bytes": 311400,
+      "sha256": "57125cf512f4bb7e0a6d76d0e09b486ea7831b3986c3574d63f98f558a936b10"
+    }
+  ],
+  "review": "Initial bounded independent review found missing existing strict source format admission. Root connected shared policy, reproduced publication of a synthesized channel with unfixed code and proved refusal plus unchanged valid PCM after fixing. Follow-up static review was stopped after ten minutes and over three minutes without output; it produced no final verdict and is not a clean-review claim."
+}

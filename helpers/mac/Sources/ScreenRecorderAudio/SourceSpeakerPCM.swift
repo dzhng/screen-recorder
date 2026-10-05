@@ -31,7 +31,8 @@ public enum SourceSpeakerPCM {
         guard try range.startUs.compare(ExactTime(Int128(startFrame) * 1_000_000, 16_000)) == .orderedSame else {
             throw NativeFailure("INVALID_REQUEST", "Speaker PCM must start on the 16k sample grid.")
         }
-        let stream = try await AudioPCMStream.open(source: source, spans: [range], sampleRate: 16_000)
+        let stream = try await AudioPCMStream.open(source: source, spans: [range], sampleRate: 16_000,
+            strictWindowFormat: true)
         guard channel >= 0 && channel < stream.format.channels else {
             throw NativeFailure("INVALID_REQUEST", "Speaker PCM channel is not present in the selected source.")
         }

@@ -187,5 +187,9 @@ status and the owning plan handoff before ending the pass. Source admission now
 has model-free red/green controls through real asset/acquisition stores for
 physical/acquisition gaps, exact source origin/channel and fractional sample-grid
 start, non-30s extent, unknown/out-of-range channels and off-grid refusal. No
-native decoder, worker or persistence is connected yet; these controls do not
-establish source PCM preservation or public readiness.
+public native request, worker invocation or persistence is connected yet. The
+[separate integrated PCM receipt](../evidence/speaker-source/root-integration.json)
+proves selected-channel byte preservation at16k and format-change refusal before
+synthesis. Other-rate preparation and complete decoder/generation identity remain
+prerequisites before public execution; no model-bearing run is needed just to
+prove publication lifecycle.

@@ -1080,3 +1080,28 @@ Choice: A row containing angle brackets or parentheses is described as original-
 Gap: The parent required all labels to survive but did not select inventory flags for the retained read surface.
 Reach: This mechanical field is not lexical normalization or a scoring rule. The committed record explicitly leaves special-label, partial-support and missing-word treatment pending; scoring must freeze before any inference.
 Verdict: sound; the flag describes retained syntax and confers no scoring eligibility. Confidence: high.
+
+
+## Source PCM prerequisite decisions
+
+### Assemble the bounded speaker PCM operand in memory before publication
+
+When: source-speaker PCM e143bb32. Choice: accumulate the one fixed30s mono
+Float32 operand (1,920,000 bytes) before the existing atomic file owner publishes
+it. A streamed file sink would add lifetime machinery without a current memory
+need. The spec required complete immutable PCM but left the sink structure open.
+This reaches only the bounded internal primitive; admitting larger windows must
+revisit the finite allocation, rather than silently scaling it. Verdict: sound
+within the fixed observation size and current margin. Confidence: high.
+
+### Apply existing strict source-format policy only to selected-channel observations
+
+When: root source PCM review. Choice: let the existing spans decoder opt into its
+existing strict format validation and select that policy for speaker PCM. This
+refuses a stereo-to-mono transition before a decoder can synthesize channel one;
+ordinary transcription spans keep their established default. The spec forbids
+implicit channel mixing but did not choose how to connect native format admission.
+This adds one native API parameter consumed by the observation sink, with no new
+validator or public operation setting. Verdict: sound; one source-format owner
+protects channel identity while existing native behavior stays intact. Confidence:
+high; public generation/decoder identity remains a later integration contract.
