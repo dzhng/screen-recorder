@@ -1110,3 +1110,40 @@ resampler or encoder substitutes silently. The existing deadline owner receives
 the union of selected video/audio support so a short video cannot give longer
 audio an artificially short processing budget. Verdict: sound within the admitted
 contiguous source scope. Confidence: high.
+
+## Speaker persistence and portable HDR choices
+
+### Compress the verified speaker descriptor into the existing service bundle
+
+When: speaker foundation 0fc85caf. A released service is one bundled JavaScript
+file. Its verified speaker descriptor contains the complete runtime inventory,
+so the registry embeds compressed JSON rather than adding another resource loader.
+Parsed values and all runtime entries match the retained original descriptor;
+minification changes JSON serialization bytes. The model/runtime identities stay
+unchanged. Gap: the plan did not select descriptor packaging. Reach: discovery
+must not print the full inventory, and changing dependencies still requires a new
+verified identity. Verdict: sound; fits the existing bundler without another
+installation owner. Confidence: medium because the generated source is sizable.
+
+### Retained speaker reads use the observation's decoder and chronological order
+
+When: retained-read correction 973b64da. An app upgrade changes the installed
+decoder, but an already published observation still reads with its original
+decoder identity and needs no model runtime. Source/channel/range and engine
+semantics remain pinned. Native output groups intervals by speaker slot; stored
+chronological sequence supports paging while retaining each original native
+ordinal. Gap: the plan required durable reads without prescribing this lookup
+and ordering. Reach: new observations use the current decoder; old pages cannot
+silently switch observations. Verdict: sound; evidence survives upgrades without
+rerunning inference or losing simultaneous speakers. Confidence: high.
+
+### Portable HDR derivatives retain the original source and occupied support
+
+When: HDR provenance b6c79ebe. Exporting a project containing a converted movie
+also retains its immutable original. The conversion receipt binds both movies'
+selected streams, occupied media support, exact common clock and audio identity;
+package admission compares the receipt to both retained metadata records. Gap:
+the plan required provenance but left its portable representation unspecified.
+Reach: catalog26 refuses older catalogs, including the intermediate speaker25
+schema; no migration or personal-library deletion occurs. Verdict: sound; uses
+the existing asset dependency and package owners. Confidence: high.

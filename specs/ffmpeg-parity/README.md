@@ -14,8 +14,9 @@ Implement the complete authorized plan through committed passes. Read the
 [exploration](exploration.md), [parity contract](parity.md) and current slice.
 Integrated: 01–12, 16–18, 20–21 and 24–25. Finish19 first: the private
 selected-stream producer now passes integrated video/audio support, numerical
-and common-clock proof; next managed jobs/provenance, publication and selected
-range/acquisition materialization. Independently finish
+and common-clock proof. Catalog26 now retains portable conversion provenance and
+original-source dependencies; next managed jobs and public publication for the
+proven whole-stream inputs. Independently finish
 speaker source publication/read/projection and required portable preservation;
 the original relocated30s runtime and model-free selected-channel PCM pass, while
 consumer runtime distribution is unselected. Speaker evidence is the sole new
