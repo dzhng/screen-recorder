@@ -140,3 +140,22 @@ it("service death after CLI exit still retires descendants while service events 
   await closed;
   await Promise.all(Object.values(pids).map(gone));
 });
+
+it("source rewind refuses writable and non-regular inherited descriptors", async () => {
+  const writable = await open(join(directory, "rewind-writable"), "w+");
+  const folder = await open(directory, "r");
+  try {
+    for (const file of [writable, folder])
+      expect(
+        await cliWorker(
+          { executable: "/bin/echo", ownerExecutable: owner, args: ["must not run"] },
+          { descriptors: [file.fd], rewindDescriptors: [3] },
+        ),
+      ).toMatchObject({
+        ok: false,
+        error: { code: "MEDIA_WORKER_FAILED", details: { exitCode: 64 } },
+      });
+  } finally {
+    await Promise.all([writable.close(), folder.close()]);
+  }
+});

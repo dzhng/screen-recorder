@@ -6,11 +6,22 @@ import Foundation
 /// unexpected wrapper exit can retire every inherited descendant without PID discovery.
 enum CommandWorker {
     static func run(_ arguments: [String]) -> Never {
-        guard arguments.count >= 3, arguments[0] == "--run-cli",
+        guard arguments.count >= 4, arguments[0] == "--run-cli",
               let completion = Int32(arguments[1]), completion >= 3,
-              arguments[2].hasPrefix("/"), getpgrp() == getpid()
+              arguments[3].hasPrefix("/"), getpgrp() == getpid()
         else { exit(64) }
         guard fcntl(completion, F_SETFD, FD_CLOEXEC) == 0 else { exit(64) }
+        let slots = arguments[2] == "-" ? [] : arguments[2].split(separator: ",", omittingEmptySubsequences: false)
+        let rewind = slots.compactMap { Int32($0) }
+        guard rewind.count == slots.count, Set(rewind).count == rewind.count else { exit(64) }
+        for descriptor in rewind {
+            var info = stat()
+            let flags = fcntl(descriptor, F_GETFL)
+            guard descriptor >= 3, descriptor < completion,
+                  flags >= 0, flags & O_ACCMODE == O_RDONLY,
+                  fstat(descriptor, &info) == 0, info.st_mode & S_IFMT == S_IFREG,
+                  lseek(descriptor, 0, SEEK_SET) == 0 else { exit(64) }
+        }
         let ownedGroup = getpid()
         let parentExit = ParentLifetime.endWorkWhenParentExits {
             // The service no longer exists to retire this group. SIGKILL includes
@@ -18,7 +29,7 @@ enum CommandWorker {
             kill(-ownedGroup, SIGKILL)
         }
         return withExtendedLifetime(parentExit) { () -> Never in
-            let strings = arguments.dropFirst(2).map { strdup($0)! }
+            let strings = arguments.dropFirst(3).map { strdup($0)! }
             defer { strings.forEach { free($0) } }
             var argv: [UnsafeMutablePointer<CChar>?] = strings.map { $0 } + [nil]
             var child: pid_t = 0

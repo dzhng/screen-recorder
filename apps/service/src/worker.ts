@@ -295,9 +295,23 @@ export function cliWorker(
     args: readonly string[];
     environment?: NodeJS.ProcessEnv;
   },
-  options: WorkerOptions & { maxBytes?: number; output?: "bytes" | "json" } = {},
+  options: WorkerOptions & {
+    maxBytes?: number;
+    output?: "bytes" | "json";
+    rewindDescriptors?: readonly number[];
+  } = {},
 ): Promise<OperationResult> {
   const maximum = options.maxBytes ?? RESPONSE_FRAME_BYTES;
+  const rewind = options.rewindDescriptors ?? [];
+  if (
+    new Set(rewind).size !== rewind.length ||
+    rewind.some(
+      (fd) => !Number.isSafeInteger(fd) || fd < 3 || fd >= 3 + (options.descriptors?.length ?? 0),
+    )
+  )
+    return Promise.resolve(
+      operationError("INVALID_REQUEST", "CLI rewind must name admitted descriptor slots"),
+    );
   if (!isAbsolute(command.executable) || !Number.isSafeInteger(maximum) || maximum < 1)
     return Promise.resolve(
       operationError("INVALID_REQUEST", "CLI executable/output bound is invalid"),
@@ -319,6 +333,7 @@ export function cliWorker(
       args: [
         "--run-cli",
         String(3 + (options.descriptors?.length ?? 0)),
+        rewind.length ? rewind.join(",") : "-",
         command.executable,
         ...command.args,
       ],

@@ -61,3 +61,9 @@ keep separate owners rather than rerunning a full behavioral suite as setup.
 The [verification guide](../../packages/test-harness/README.md) locates independent
 references, platform reproductions and retained acceptance limits. Compile success
 cannot establish physical device behavior, framing, synchronization or listening.
+
+CLI callers may explicitly name inherited source slots for rewind. The private
+runner permits this only for regular read-only files and seeks them to byte zero
+before execution. Invocation-owned read leases avoid shared cursor races; omitted
+rewind leaves admitted descriptors unchanged. No pathname is reopened to obtain
+another read description.
