@@ -29,8 +29,10 @@ Keep existing `SHA256SUMS` scoped to the install kit and receipt: onboarding
 fetches only those before verifying every listed entry. Feed/update ZIP authenticity
 comes from Sparkle signatures. Keep app trees in the install kit and update ZIP
 identical, including signed metadata and helpers. Upload all assets to a draft
-before publishing; mark normal stable tags latest explicitly so GitHub discovery
-agrees with policy. Never mutate published assets or tags. No server, tester-feedback stage or rollout channel is introduced.
+before publishing; delegate latest stable selection to GitHub’s semantic-version
+policy so a delayed older draft cannot force the update feed backward. Prereleases
+never become latest. Never mutate published assets or tags. No server,
+tester-feedback stage or rollout channel is introduced.
 
 Only release packaging injects feed URL/public update key and enables the updater;
 source/personal builds remain inert despite the source plist sharing release ID.

@@ -24,18 +24,19 @@ try {
     if (!artifact || artifact.name.includes("/") || digest(artifact.name) !== artifact.sha256)
       throw new Error("Authenticated update artifact differs from package receipt");
   }
-  const gh = (args) => {
-    const result = spawnSync("gh", ["release", ...args], { cwd: root, encoding: "utf8" });
+  const gh = (args, input) => {
+    const result = spawnSync("gh", args, { cwd: root, encoding: "utf8", input });
     if (result.error) throw result.error;
     return result;
   };
-  const existing = gh(["view", tag, "--json", "isDraft"]);
+  const existing = gh(["release", "view", tag, "--json", "isDraft"]);
   if (existing.status === 0 && JSON.parse(existing.stdout).isDraft === false) {
     console.log("Release is already published; its assets remain unchanged.");
   } else {
     const prerelease = tag.includes("-");
     if (existing.status !== 0) {
       const created = gh([
+        "release",
         "create",
         tag,
         "--verify-tag",
@@ -50,15 +51,20 @@ try {
     }
     const assets = [`ScreenRecorder-${tag}-macos-arm64.zip`, receipt.updateArchive.name];
     for (const name of ["appcast.xml", "SHA256SUMS", "release.json"]) assets.push(name);
-    const upload = gh(["upload", tag, ...assets, "--clobber"]);
+    const upload = gh(["release", "upload", tag, ...assets, "--clobber"]);
     if (upload.status !== 0) throw new Error(upload.stderr || "Draft upload failed");
-    const published = gh([
-      "edit",
-      tag,
-      "--draft=false",
-      `--prerelease=${prerelease}`,
-      `--latest=${!prerelease}`,
-    ]);
+    const release = gh(["release", "view", tag, "--json", "databaseId"]);
+    if (release.status !== 0) throw new Error(release.stderr || "Release lookup failed");
+    const { databaseId } = JSON.parse(release.stdout);
+    const published = gh(
+      ["api", "--method", "PATCH", `repos/{owner}/{repo}/releases/${databaseId}`, "--input", "-"],
+      JSON.stringify({
+        draft: false,
+        prerelease,
+        // GitHub owns semantic latest selection, including delayed older drafts.
+        make_latest: prerelease ? "false" : "legacy",
+      }),
+    );
     if (published.status !== 0) throw new Error(published.stderr || "Release publication failed");
   }
 } catch (error) {

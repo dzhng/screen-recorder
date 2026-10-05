@@ -41,7 +41,9 @@ updater lifetime proof uses an isolated signed fixture identity. The workflow ow
 triggers and permissions. Normal version tags, including `v0.*`,
 publish stable; suffixed tags publish prerelease. The [publication owner](release-publish.mjs)
 uploads the complete draft before publishing, verifies receipts, and leaves
-published releases untouched.
+published releases untouched. GitHub selects the latest stable release by its
+semantic-version policy, so publishing a delayed older draft cannot force the
+update feed backward. Prereleases do not become latest.
 [Focused CI](../.github/workflows/release-checks.yml) checks release contracts on
 relevant source changes without starting capture or model inference.
 
