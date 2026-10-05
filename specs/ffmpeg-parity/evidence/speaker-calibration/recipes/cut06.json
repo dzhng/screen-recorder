@@ -1,0 +1,5 @@
+{
+  "clusteringThreshold": 0.6,
+  "segmentationStepRatio": 0.2,
+  "minSegmentDuration": 1
+}

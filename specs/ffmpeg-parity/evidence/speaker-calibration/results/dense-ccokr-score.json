@@ -1,0 +1,168 @@
+{
+  "recipe": "dense",
+  "id": "ccokr",
+  "role": "development",
+  "protocolSha256": "3f0a1a3e92c8e663abc268ee275b735bcff4b8dba53ca28d7928ff24fa86a62b",
+  "rawSha256": "25069df2de7c2e0fa424f19e6d5be878fe407be6f88d3bb845749444fad370b1",
+  "sourcePreparedSha256": "b6ee2f835aa7a9426e2eb54124f8350816e20c33aa00391419683c737620305f",
+  "dimensions": {
+    "sourceFrameCount": 480000,
+    "sampleRate": 16000,
+    "windowSamples": 160000,
+    "stepSamples": 16000,
+    "outputFramesPerWindow": 589
+  },
+  "mapping": {
+    "segments": [
+      {
+        "end": 3.276740312576294,
+        "speaker": "S1",
+        "start": 0
+      },
+      {
+        "end": 18.35314178466797,
+        "speaker": "S1",
+        "start": 4.312393665313721
+      },
+      {
+        "end": 9.286927223205566,
+        "speaker": "S2",
+        "start": 8.573854446411133
+      },
+      {
+        "end": 9.864176750183105,
+        "speaker": "S2",
+        "start": 9.677419662475586
+      },
+      {
+        "end": 18.981325149536133,
+        "speaker": "S2",
+        "start": 18.04753875732422
+      },
+      {
+        "end": 28.030559539794922,
+        "speaker": "S2",
+        "start": 19.52461814880371
+      },
+      {
+        "end": 20.23769187927246,
+        "speaker": "S1",
+        "start": 19.558574676513672
+      },
+      {
+        "end": 28.04753875732422,
+        "speaker": "S3",
+        "start": 28.030559539794922
+      },
+      {
+        "end": 28.098472595214844,
+        "speaker": "S2",
+        "start": 28.04753875732422
+      },
+      {
+        "end": 28.115449905395508,
+        "speaker": "S3",
+        "start": 28.098472595214844
+      },
+      {
+        "end": 28.183361053466797,
+        "speaker": "S2",
+        "start": 28.115449905395508
+      },
+      {
+        "end": 28.200340270996094,
+        "speaker": "S3",
+        "start": 28.183361053466797
+      },
+      {
+        "end": 29.11714744567871,
+        "speaker": "S2",
+        "start": 28.200340270996094
+      },
+      {
+        "end": 29.151103973388672,
+        "speaker": "S3",
+        "start": 29.11714744567871
+      },
+      {
+        "end": 29.168081283569336,
+        "speaker": "S2",
+        "start": 29.151103973388672
+      },
+      {
+        "end": 29.21901512145996,
+        "speaker": "S3",
+        "start": 29.168081283569336
+      },
+      {
+        "end": 29.235992431640625,
+        "speaker": "S2",
+        "start": 29.21901512145996
+      },
+      {
+        "end": 29.354839324951172,
+        "speaker": "S3",
+        "start": 29.235992431640625
+      },
+      {
+        "end": 29.371816635131836,
+        "speaker": "S2",
+        "start": 29.354839324951172
+      },
+      {
+        "end": 29.439727783203125,
+        "speaker": "S3",
+        "start": 29.371816635131836
+      },
+      {
+        "end": 29.456707000732422,
+        "speaker": "S2",
+        "start": 29.439727783203125
+      },
+      {
+        "end": 29.49066162109375,
+        "speaker": "S3",
+        "start": 29.456707000732422
+      },
+      {
+        "end": 30,
+        "speaker": "S2",
+        "start": 29.49066162109375
+      }
+    ],
+    "excludedPadding": [
+      {
+        "index": 23,
+        "speaker": "S3",
+        "start": 30,
+        "end": 30.016977310180664
+      },
+      {
+        "index": 24,
+        "speaker": "S2",
+        "start": 30.016977310180664,
+        "end": 30.10186767578125
+      }
+    ],
+    "sourceEnd": 30,
+    "analysisEnd": 39.015281677246094,
+    "analysisFrames": 2298
+  },
+  "metrics": {
+    "referenceSpeakerSeconds": 27.92,
+    "overlapSeconds": 1.7600000000000051,
+    "silenceSeconds": 3.8400000000000034,
+    "missedSpeakerSeconds": 0.6242426586151026,
+    "falseSpeakerSeconds": 3.0098464012145882,
+    "confusedSpeakerSeconds": 0.007538757324226708,
+    "mapping": {
+      "S1": "spk03",
+      "S2": "spk02"
+    },
+    "der": 0.13043079574333516
+  },
+  "qualityPassed": true,
+  "resourcePassed": true,
+  "sourceSupportValid": true,
+  "passed": true
+}

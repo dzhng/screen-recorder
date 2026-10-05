@@ -1,0 +1,2 @@
+Read-only replay and independent evidence checks support the 23a update: frozen recipes and source clocks agree with retained results, every variant fails the all-case gate, and confirmation remains untouched. No edits, acquisition, inference or builds were performed.
+Read-only replay and independent evidence checks support the 23a update: frozen recipes and source clocks agree with retained results, every variant fails the all-case gate, and confirmation remains untouched. No edits, acquisition, inference or builds were performed.

@@ -1,0 +1,335 @@
+Fetching binary artifact https://github.com/FluidInference/text-processing-rs/releases/download/v0.3.0/NemoTextProcessing.xcframework.zip from cache
+Fetched https://github.com/FluidInference/text-processing-rs/releases/download/v0.3.0/NemoTextProcessing.xcframework.zip from cache (1.12s)
+Building for debugging...
+[Planning deferred tasks]
+[41 / 61]
+/private/tmp/screenrec-speech-research-native/FluidAudio/Sources/FastClusterWrapper/FastClusterWrapper.cpp:15:34: warning: unknown warning group '-Wpragma-messages', ignored [-Wunknown-warning-option]
+   15 | #pragma clang diagnostic ignored "-Wpragma-messages"
+      |                                  ^
+In file included from /private/tmp/screenrec-speech-research-native/FluidAudio/Sources/FastClusterWrapper/FastClusterWrapper.cpp:18:
+/private/tmp/screenrec-speech-research-native/FluidAudio/Sources/FastClusterWrapper/fastcluster_internal.hpp:53:9: warning: Use fenv header. [-W#pragma-messages]
+   53 | #pragma message("Use fenv header.")
+      |         ^
+2 warnings generated.
+[43 / 62] FastClusterWrapper
+[45 / 75] FastClusterWrapper
+[54 / 75]
+[61 / 156]
+[68 / 156]
+[74 / 156]
+[76 / 156]
+[81 / 156]
+[84 / 156]
+[90 / 156]
+[93 / 156]
+[99 / 156]
+[101 / 156]
+[106 / 156]
+[107 / 156]
+[113 / 156]
+[116 / 156]
+[119 / 156]
+[122 / 156]
+[125 / 156]
+[127 / 156]
+[128 / 156]
+[131 / 156] FluidAudio
+/private/tmp/screenrec-speech-research-native/FluidAudio/Sources/FluidAudio/Shared/SystemInfo.swift:144:16: warning: 'init(cString:)' is deprecated: Use String(decoding: array, as: UTF8.self) instead, after truncating the null termination. [#DeprecatedDeclaration]
+142 |         }
+143 |         guard result == 0 else { return nil }
+144 |         return String(cString: buffer)
+    |                `- warning: 'init(cString:)' is deprecated: Use String(decoding: array, as: UTF8.self) instead, after truncating the null termination. [#DeprecatedDeclaration]
+145 |         #else
+146 |         return nil
+
+[#DeprecatedDeclaration]: <https://docs.swift.org/compiler/documentation/diagnostics/deprecated-declaration>
+[132 / 156] FluidAudio
+[134 / 156] FluidAudio
+/private/tmp/screenrec-speech-research-native/FluidAudio/Sources/FluidAudio/ASR/Cohere/CoherePipeline.swift:159:17: warning: initialization of 'UnsafePointer<Float>' results in a dangling pointer [#TemporaryPointers]
+ 157 |             let start = frame * config.hopLength
+ 158 |             vDSP_vmul(
+ 159 |                 UnsafePointer(padded).advanced(by: start), 1,
+     |                 |             |- note: implicit argument conversion from '[Float]' to 'UnsafePointer<Float>' produces a pointer valid only for the duration of the call to 'init(_:)'
+     |                 |             `- note: use the 'withUnsafeBufferPointer' method on Array in order to explicitly convert argument to buffer pointer valid for a defined scope
+     |                 `- warning: initialization of 'UnsafePointer<Float>' results in a dangling pointer [#TemporaryPointers]
+ 160 |                 paddedWindow, 1,
+ 161 |                 &windowed, 1,
+
+[#TemporaryPointers]: <https://docs.swift.org/compiler/documentation/diagnostics/temporary-pointers>
+[140 / 156] FluidAudio
+/private/tmp/screenrec-speech-research-native/FluidAudio/Sources/FluidAudio/Diarizer/Offline/Clustering/VBxClustering.swift:313:25: warning: 'cblas_dgemv' was deprecated in macOS 13.3: An updated CBLAS interface supporting ILP64 is available.  Please compile with -DACCELERATE_NEW_LAPACK to access the new headers and -DACCELERATE_LAPACK_ILP64 for ILP64 support. [#DeprecatedDeclaration]
+311 |                             let sumBase = sumPtr.baseAddress
+312 |                         else { return }
+313 |                         cblas_dgemv(
+    |                         `- warning: 'cblas_dgemv' was deprecated in macOS 13.3: An updated CBLAS interface supporting ILP64 is available.  Please compile with -DACCELERATE_NEW_LAPACK to access the new headers and -DACCELERATE_LAPACK_ILP64 for ILP64 support. [#DeprecatedDeclaration]
+314 |                             CblasRowMajor,
+315 |                             CblasTrans,
+
+/private/tmp/screenrec-speech-research-native/FluidAudio/Sources/FluidAudio/Diarizer/Offline/Clustering/VBxClustering.swift:343:25: warning: 'cblas_dgemm' was deprecated in macOS 13.3: An updated CBLAS interface supporting ILP64 is available.  Please compile with -DACCELERATE_NEW_LAPACK to access the new headers and -DACCELERATE_LAPACK_ILP64 for ILP64 support. [#DeprecatedDeclaration]
+341 |                 rho.withUnsafeBufferPointer { rhoPtr in
+342 |                     temp.withUnsafeMutableBufferPointer { tempPtr in
+343 |                         cblas_dgemm(
+    |                         `- warning: 'cblas_dgemm' was deprecated in macOS 13.3: An updated CBLAS interface supporting ILP64 is available.  Please compile with -DACCELERATE_NEW_LAPACK to access the new headers and -DACCELERATE_LAPACK_ILP64 for ILP64 support. [#DeprecatedDeclaration]
+344 |                             CblasRowMajor,
+345 |                             CblasTrans,
+
+/private/tmp/screenrec-speech-research-native/FluidAudio/Sources/FluidAudio/Diarizer/Offline/Clustering/VBxClustering.swift:442:25: warning: 'cblas_dgemm' was deprecated in macOS 13.3: An updated CBLAS interface supporting ILP64 is available.  Please compile with -DACCELERATE_NEW_LAPACK to access the new headers and -DACCELERATE_LAPACK_ILP64 for ILP64 support. [#DeprecatedDeclaration]
+440 |                 alpha.withUnsafeBufferPointer { alphaPtr in
+441 |                     logP.withUnsafeMutableBufferPointer { logPtr in
+442 |                         cblas_dgemm(
+    |                         `- warning: 'cblas_dgemm' was deprecated in macOS 13.3: An updated CBLAS interface supporting ILP64 is available.  Please compile with -DACCELERATE_NEW_LAPACK to access the new headers and -DACCELERATE_LAPACK_ILP64 for ILP64 support. [#DeprecatedDeclaration]
+443 |                             CblasRowMajor,
+444 |                             CblasNoTrans,
+
+/private/tmp/screenrec-speech-research-native/FluidAudio/Sources/FluidAudio/Diarizer/Offline/Clustering/VBxClustering.swift:587:25: warning: 'cblas_dgemv' was deprecated in macOS 13.3: An updated CBLAS interface supporting ILP64 is available.  Please compile with -DACCELERATE_NEW_LAPACK to access the new headers and -DACCELERATE_LAPACK_ILP64 for ILP64 support. [#DeprecatedDeclaration]
+585 |                             let piBase = piPtr.baseAddress
+586 |                         else { return }
+587 |                         cblas_dgemv(
+    |                         `- warning: 'cblas_dgemv' was deprecated in macOS 13.3: An updated CBLAS interface supporting ILP64 is available.  Please compile with -DACCELERATE_NEW_LAPACK to access the new headers and -DACCELERATE_LAPACK_ILP64 for ILP64 support. [#DeprecatedDeclaration]
+588 |                             CblasRowMajor,
+589 |                             CblasTrans,
+
+/private/tmp/screenrec-speech-research-native/FluidAudio/Sources/FluidAudio/Diarizer/Offline/Core/OfflineDiarizerManager.swift:753:33: warning: 'cblas_daxpy' was deprecated in macOS 13.3: An updated CBLAS interface supporting ILP64 is available.  Please compile with -DACCELERATE_NEW_LAPACK to access the new headers and -DACCELERATE_LAPACK_ILP64 for ILP64 support. [#DeprecatedDeclaration]
+ 751 |                                     let destinationBase = destinationPointer.baseAddress
+ 752 |                                 else { return }
+ 753 |                                 cblas_daxpy(
+     |                                 `- warning: 'cblas_daxpy' was deprecated in macOS 13.3: An updated CBLAS interface supporting ILP64 is available.  Please compile with -DACCELERATE_NEW_LAPACK to access the new headers and -DACCELERATE_LAPACK_ILP64 for ILP64 support. [#DeprecatedDeclaration]
+ 754 |                                     Int32(dimension),
+ 755 |                                     weight,
+
+/private/tmp/screenrec-speech-research-native/FluidAudio/Sources/FluidAudio/Diarizer/Offline/Core/OfflineDiarizerManager.swift:806:21: warning: 'cblas_daxpy' was deprecated in macOS 13.3: An updated CBLAS interface supporting ILP64 is available.  Please compile with -DACCELERATE_NEW_LAPACK to access the new headers and -DACCELERATE_LAPACK_ILP64 for ILP64 support. [#DeprecatedDeclaration]
+ 804 |                         let destinationBase = destinationPointer.baseAddress
+ 805 |                     else { return }
+ 806 |                     cblas_daxpy(
+     |                     `- warning: 'cblas_daxpy' was deprecated in macOS 13.3: An updated CBLAS interface supporting ILP64 is available.  Please compile with -DACCELERATE_NEW_LAPACK to access the new headers and -DACCELERATE_LAPACK_ILP64 for ILP64 support. [#DeprecatedDeclaration]
+ 807 |                         Int32(embedding.count),
+ 808 |                         1.0,
+
+/private/tmp/screenrec-speech-research-native/FluidAudio/Sources/FluidAudio/Diarizer/Offline/Core/OfflineDiarizerManager.swift:851:21: warning: 'cblas_daxpy' was deprecated in macOS 13.3: An updated CBLAS interface supporting ILP64 is available.  Please compile with -DACCELERATE_NEW_LAPACK to access the new headers and -DACCELERATE_LAPACK_ILP64 for ILP64 support. [#DeprecatedDeclaration]
+ 849 |                         let destinationBase = destinationPointer.baseAddress
+ 850 |                     else { return }
+ 851 |                     cblas_daxpy(
+     |                     `- warning: 'cblas_daxpy' was deprecated in macOS 13.3: An updated CBLAS interface supporting ILP64 is available.  Please compile with -DACCELERATE_NEW_LAPACK to access the new headers and -DACCELERATE_LAPACK_ILP64 for ILP64 support. [#DeprecatedDeclaration]
+ 852 |                         Int32(first.count),
+ 853 |                         1.0,
+
+/private/tmp/screenrec-speech-research-native/FluidAudio/Sources/FluidAudio/Diarizer/Offline/Extraction/OfflineEmbeddingExtractor.swift:776:12: warning: unnecessary check for 'macOS'; enclosing scope ensures guard will always be true [#UselessAvailabilityCheck]
+  61 | 
+  62 | @available(macOS 14.0, iOS 17.0, *)
+  63 | struct OfflineEmbeddingExtractor {
+     |        `- note: enclosing scope here
+  64 |     private let fbankModel: MLModel
+  65 |     private let embeddingModel: MLModel
+     :
+ 774 | 
+ 775 |         let options = MLPredictionOptions()
+ 776 |         if #available(macOS 14.0, iOS 17.0, *) {
+     |            `- warning: unnecessary check for 'macOS'; enclosing scope ensures guard will always be true [#UselessAvailabilityCheck]
+ 777 |             for array in audioArrays {
+ 778 |                 array.prefetchToNeuralEngine()
+
+/private/tmp/screenrec-speech-research-native/FluidAudio/Sources/FluidAudio/Diarizer/Offline/Extraction/OfflineEmbeddingExtractor.swift:883:12: warning: unnecessary check for 'macOS'; enclosing scope ensures guard will always be true [#UselessAvailabilityCheck]
+  61 | 
+  62 | @available(macOS 14.0, iOS 17.0, *)
+  63 | struct OfflineEmbeddingExtractor {
+     |        `- note: enclosing scope here
+  64 |     private let fbankModel: MLModel
+  65 |     private let embeddingModel: MLModel
+     :
+ 881 |         )
+ 882 |         let options = MLPredictionOptions()
+ 883 |         if #available(macOS 14.0, iOS 17.0, *) {
+     |            `- warning: unnecessary check for 'macOS'; enclosing scope ensures guard will always be true [#UselessAvailabilityCheck]
+ 884 |             fbankFeatures.prefetchToNeuralEngine()
+ 885 |             weightsArray.prefetchToNeuralEngine()
+
+/private/tmp/screenrec-speech-research-native/FluidAudio/Sources/FluidAudio/Diarizer/Offline/Utils/OfflineReconstruction.swift:319:25: warning: 'cblas_saxpy' was deprecated in macOS 13.3: An updated CBLAS interface supporting ILP64 is available.  Please compile with -DACCELERATE_NEW_LAPACK to access the new headers and -DACCELERATE_LAPACK_ILP64 for ILP64 support. [#DeprecatedDeclaration]
+317 |                             let destinationBase = destinationPointer.baseAddress
+318 |                         else { return }
+319 |                         cblas_saxpy(
+    |                         `- warning: 'cblas_saxpy' was deprecated in macOS 13.3: An updated CBLAS interface supporting ILP64 is available.  Please compile with -DACCELERATE_NEW_LAPACK to access the new headers and -DACCELERATE_LAPACK_ILP64 for ILP64 support. [#DeprecatedDeclaration]
+320 |                             Int32(embedding.count),
+321 |                             1.0,
+
+/private/tmp/screenrec-speech-research-native/FluidAudio/Sources/FluidAudio/Diarizer/Offline/Utils/VDSPOperations.swift:48:21: warning: 'cblas_sgemv' was deprecated in macOS 13.3: An updated CBLAS interface supporting ILP64 is available.  Please compile with -DACCELERATE_NEW_LAPACK to access the new headers and -DACCELERATE_LAPACK_ILP64 for ILP64 support. [#DeprecatedDeclaration]
+ 46 |             vector.withUnsafeBufferPointer { vectorPointer in
+ 47 |                 result.withUnsafeMutableBufferPointer { resultPointer in
+ 48 |                     cblas_sgemv(
+    |                     `- warning: 'cblas_sgemv' was deprecated in macOS 13.3: An updated CBLAS interface supporting ILP64 is available.  Please compile with -DACCELERATE_NEW_LAPACK to access the new headers and -DACCELERATE_LAPACK_ILP64 for ILP64 support. [#DeprecatedDeclaration]
+ 49 |                         CblasRowMajor,
+ 50 |                         CblasNoTrans,
+
+/private/tmp/screenrec-speech-research-native/FluidAudio/Sources/FluidAudio/Diarizer/Offline/Utils/VDSPOperations.swift:107:21: warning: 'cblas_sgemm' was deprecated in macOS 13.3: An updated CBLAS interface supporting ILP64 is available.  Please compile with -DACCELERATE_NEW_LAPACK to access the new headers and -DACCELERATE_LAPACK_ILP64 for ILP64 support. [#DeprecatedDeclaration]
+105 |             flatB.withUnsafeBufferPointer { bPointer in
+106 |                 flatResult.withUnsafeMutableBufferPointer { resultPointer in
+107 |                     cblas_sgemm(
+    |                     `- warning: 'cblas_sgemm' was deprecated in macOS 13.3: An updated CBLAS interface supporting ILP64 is available.  Please compile with -DACCELERATE_NEW_LAPACK to access the new headers and -DACCELERATE_LAPACK_ILP64 for ILP64 support. [#DeprecatedDeclaration]
+108 |                         CblasRowMajor,
+109 |                         CblasNoTrans,
+
+/private/tmp/screenrec-speech-research-native/FluidAudio/Sources/FluidAudio/Diarizer/Offline/Utils/VDSPOperations.swift:249:21: warning: 'cblas_sgemm' was deprecated in macOS 13.3: An updated CBLAS interface supporting ILP64 is available.  Please compile with -DACCELERATE_NEW_LAPACK to access the new headers and -DACCELERATE_LAPACK_ILP64 for ILP64 support. [#DeprecatedDeclaration]
+247 |             flatB.withUnsafeBufferPointer { bPointer in
+248 |                 dotProducts.withUnsafeMutableBufferPointer { resultPointer in
+249 |                     cblas_sgemm(
+    |                     `- warning: 'cblas_sgemm' was deprecated in macOS 13.3: An updated CBLAS interface supporting ILP64 is available.  Please compile with -DACCELERATE_NEW_LAPACK to access the new headers and -DACCELERATE_LAPACK_ILP64 for ILP64 support. [#DeprecatedDeclaration]
+250 |                         CblasRowMajor,
+251 |                         CblasNoTrans,
+
+[#DeprecatedDeclaration]: <https://docs.swift.org/compiler/documentation/diagnostics/deprecated-declaration>
+[#UselessAvailabilityCheck]: <https://docs.swift.org/compiler/documentation/diagnostics/useless-availability-check>
+/private/tmp/screenrec-speech-research-native/FluidAudio/Sources/FluidAudio/TTS/KokoroAne/G2P/Mandarin/MandarinNumberNormalizer.swift:95:27: warning: will never be executed
+ 92 |         }
+ 93 |         if h > 0 {
+ 94 |             if pendingZero {
+    |                `- note: condition always evaluates to false
+ 95 |                 result += "零"
+    |                           `- warning: will never be executed
+ 96 |                 pendingZero = false
+ 97 |             }
+[141 / 156] FluidAudio-product
+/private/tmp/screenrec-speech-research-native/FluidAudio/Sources/FluidAudio/TTS/StyleTTS2/Pipeline/Synthesize/StyleTTS2GlueOps.swift:90:21: warning: 'cblas_sgemm' was deprecated in macOS 13.3: An updated CBLAS interface supporting ILP64 is available.  Please compile with -DACCELERATE_NEW_LAPACK to access the new headers and -DACCELERATE_LAPACK_ILP64 for ILP64 support. [#DeprecatedDeclaration]
+ 88 |             features.withUnsafeBufferPointer { fPtr in
+ 89 |                 alignment.withUnsafeBufferPointer { aPtr in
+ 90 |                     cblas_sgemm(
+    |                     `- warning: 'cblas_sgemm' was deprecated in macOS 13.3: An updated CBLAS interface supporting ILP64 is available.  Please compile with -DACCELERATE_NEW_LAPACK to access the new headers and -DACCELERATE_LAPACK_ILP64 for ILP64 support. [#DeprecatedDeclaration]
+ 91 |                         CblasRowMajor, CblasNoTrans, CblasNoTrans,
+ 92 |                         Int32(channels), Int32(totalFrames), Int32(realN),
+
+/private/tmp/screenrec-speech-research-native/FluidAudio/Sources/FluidAudio/TTS/StyleTTS2/Pipeline/Synthesize/StyleTTS2MultiArray.swift:45:9: warning: switch must be exhaustive
+43 |         let n = arr.count
+44 |         var out = [Float](repeating: 0, count: n)
+45 |         switch arr.dataType {
+   |         |- warning: switch must be exhaustive
+   |         `- note: add missing case: '.int8'
+46 |         case .float32:
+47 |             let src = arr.dataPointer.bindMemory(to: Float.self, capacity: n)
+
+[#DeprecatedDeclaration]: <https://docs.swift.org/compiler/documentation/diagnostics/deprecated-declaration>
+[142 / 156] FluidAudio-product
+/private/tmp/screenrec-speech-research-native/FluidAudio/Sources/FluidAudio/TTS/PocketTTS/Pipeline/PocketTtsVoiceCloner.swift:93:21: warning: 'cblas_sgemm' was deprecated in macOS 13.3: An updated CBLAS interface supporting ILP64 is available.  Please compile with -DACCELERATE_NEW_LAPACK to access the new headers and -DACCELERATE_LAPACK_ILP64 for ILP64 support. [#DeprecatedDeclaration]
+ 91 |             projection.encoderRecoverPinv.withUnsafeBufferPointer { pinv in
+ 92 |                 latents.withUnsafeMutableBufferPointer { out in
+ 93 |                     cblas_sgemm(
+    |                     `- warning: 'cblas_sgemm' was deprecated in macOS 13.3: An updated CBLAS interface supporting ILP64 is available.  Please compile with -DACCELERATE_NEW_LAPACK to access the new headers and -DACCELERATE_LAPACK_ILP64 for ILP64 support. [#DeprecatedDeclaration]
+ 94 |                         CblasRowMajor, CblasNoTrans, CblasNoTrans,
+ 95 |                         Int32(frames), Int32(k), Int32(d),
+
+/private/tmp/screenrec-speech-research-native/FluidAudio/Sources/FluidAudio/TTS/PocketTTS/Pipeline/PocketTtsVoiceCloner.swift:108:21: warning: 'cblas_sgemm' was deprecated in macOS 13.3: An updated CBLAS interface supporting ILP64 is available.  Please compile with -DACCELERATE_NEW_LAPACK to access the new headers and -DACCELERATE_LAPACK_ILP64 for ILP64 support. [#DeprecatedDeclaration]
+106 |             projection.targetProj.withUnsafeBufferPointer { proj in
+107 |                 result.withUnsafeMutableBufferPointer { out in
+108 |                     cblas_sgemm(
+    |                     `- warning: 'cblas_sgemm' was deprecated in macOS 13.3: An updated CBLAS interface supporting ILP64 is available.  Please compile with -DACCELERATE_NEW_LAPACK to access the new headers and -DACCELERATE_LAPACK_ILP64 for ILP64 support. [#DeprecatedDeclaration]
+109 |                         CblasRowMajor, CblasNoTrans, CblasTrans,
+110 |                         Int32(frames), Int32(d), Int32(k),
+
+[#DeprecatedDeclaration]: <https://docs.swift.org/compiler/documentation/diagnostics/deprecated-declaration>
+/private/tmp/screenrec-speech-research-native/FluidAudio/Sources/FluidAudio/TTS/Supertonic3/Pipeline/Synthesize/Supertonic3MultiArray.swift:49:9: warning: switch must be exhaustive
+47 |         let n = arr.count
+48 |         var out = [Float](repeating: 0, count: n)
+49 |         switch arr.dataType {
+   |         |- warning: switch must be exhaustive
+   |         `- note: add missing case: '.int8'
+50 |         case .float32:
+51 |             let src = arr.dataPointer.bindMemory(to: Float.self, capacity: n)
+[145 / 156] FluidAudio
+[146 / 156] FluidAudio
+/private/tmp/screenrec-speech-research-native/FluidAudio/Sources/FluidAudio/ASR/Parakeet/SlidingWindow/SlidingWindowAsrManager.swift:222:30: warning: 'weak' ownership of capture 'self' differs from implicitly-captured strong reference in outer scope [#ImplicitStrongCapture]
+219 |             self.updateContinuation = continuation
+220 | 
+221 |             continuation.onTermination = { @Sendable _ in
+    |                                          |- note: 'self' implicitly strongly captured here
+    |                                          `- note: add 'self' as a capture list item to silence
+222 |                 Task { [weak self] in
+    |                              |- warning: 'weak' ownership of capture 'self' differs from implicitly-captured strong reference in outer scope [#ImplicitStrongCapture]
+    |                              `- note: explicitly assign the capture list item to silence
+223 |                     await self?.clearUpdateContinuation()
+224 |                 }
+
+/private/tmp/screenrec-speech-research-native/FluidAudio/Sources/FluidAudio/ASR/Parakeet/SlidingWindow/SlidingWindowAsrManager.swift:345:13: warning: initialization of immutable value 'sampleRate' was never used; consider replacing with assignment to '_' or removing it [#NoUsage]
+343 |         let right = config.rightContextSamples
+344 |         let left = config.leftContextSamples
+345 |         let sampleRate = config.asrConfig.sampleRate
+    |             `- warning: initialization of immutable value 'sampleRate' was never used; consider replacing with assignment to '_' or removing it [#NoUsage]
+346 | 
+347 |         var currentAbsEnd = bufferStartIndex + sampleBuffer.count
+
+/private/tmp/screenrec-speech-research-native/FluidAudio/Sources/FluidAudio/ASR/Parakeet/SlidingWindow/SlidingWindowAsrManager.swift:379:13: warning: initialization of immutable value 'sampleRate' was never used; consider replacing with assignment to '_' or removing it [#NoUsage]
+377 |         let chunk = config.chunkSamples
+378 |         let left = config.leftContextSamples
+379 |         let sampleRate = config.asrConfig.sampleRate
+    |             `- warning: initialization of immutable value 'sampleRate' was never used; consider replacing with assignment to '_' or removing it [#NoUsage]
+380 | 
+381 |         var currentAbsEnd = bufferStartIndex + sampleBuffer.count
+
+/private/tmp/screenrec-speech-research-native/FluidAudio/Sources/FluidAudio/ASR/Parakeet/SlidingWindow/TDT/Decoder/EncoderFrameView.swift:97:13: warning: 'cblas_scopy' was deprecated in macOS 13.3: An updated CBLAS interface supporting ILP64 is available.  Please compile with -DACCELERATE_NEW_LAPACK to access the new headers and -DACCELERATE_LAPACK_ILP64 for ILP64 support. [#DeprecatedDeclaration]
+ 95 |             destination.update(from: sourcePointer, count: hiddenSize)
+ 96 |         } else {
+ 97 |             cblas_scopy(count, sourcePointer, incX, destination, destStrideCblas)
+    |             `- warning: 'cblas_scopy' was deprecated in macOS 13.3: An updated CBLAS interface supporting ILP64 is available.  Please compile with -DACCELERATE_NEW_LAPACK to access the new headers and -DACCELERATE_LAPACK_ILP64 for ILP64 support. [#DeprecatedDeclaration]
+ 98 |         }
+ 99 |     }
+
+[#DeprecatedDeclaration]: <https://docs.swift.org/compiler/documentation/diagnostics/deprecated-declaration>
+[#ImplicitStrongCapture]: <https://docs.swift.org/compiler/documentation/diagnostics/implicit-strong-capture>
+[#NoUsage]: <https://docs.swift.org/compiler/documentation/diagnostics/no-usage>
+[147 / 156] FluidAudio
+/private/tmp/screenrec-speech-research-native/FluidAudio/Sources/FluidAudio/Shared/ANEMemoryUtils.swift:101:9: warning: switch must be exhaustive
+ 99 |     /// Get element size in bytes for a given data type
+100 |     public static func getElementSize(for dataType: MLMultiArrayDataType) -> Int {
+101 |         switch dataType {
+    |         |- warning: switch must be exhaustive
+    |         `- note: add missing case: '.int8'
+102 |         case .float16:
+103 |             return 2
+
+/private/tmp/screenrec-speech-research-native/FluidAudio/Sources/FluidAudio/Shared/AudioConverter.swift:166:21: warning: result of call to 'withUnsafeBufferPointer' is unused [#NoUsage]
+164 |         // Copy samples into buffer
+165 |         if let channelData = inputBuffer.floatChannelData {
+166 |             samples.withUnsafeBufferPointer { src in
+    |                     `- warning: result of call to 'withUnsafeBufferPointer' is unused [#NoUsage]
+167 |                 memcpy(channelData[0], src.baseAddress!, samples.count * MemoryLayout<Float>.stride)
+168 |             }
+
+[#NoUsage]: <https://docs.swift.org/compiler/documentation/diagnostics/no-usage>
+[147 / 156] CalibrationRunner-product
+[150 / 157]
+[152 / 159] CalibrationRunner-product
+[153 / 159] CalibrationRunner-product
+/private/tmp/screenrec-speech-research-native/FluidAudio/Sources/FluidAudio/ASR/Parakeet/SlidingWindow/TDT/Decoder/TdtModelInference.swift:249:9: warning: 'cblas_scopy' was deprecated in macOS 13.3: An updated CBLAS interface supporting ILP64 is available.  Please compile with -DACCELERATE_NEW_LAPACK to access the new headers and -DACCELERATE_LAPACK_ILP64 for ILP64 support. [#DeprecatedDeclaration]
+247 |         let count = try makeBlasIndex(hiddenSize, label: "Decoder projection length")
+248 |         let stride = try makeBlasIndex(hiddenStride, label: "Decoder projection stride")
+249 |         cblas_scopy(count, startPtr, stride, destPtr, destStrideCblas)
+    |         `- warning: 'cblas_scopy' was deprecated in macOS 13.3: An updated CBLAS interface supporting ILP64 is available.  Please compile with -DACCELERATE_NEW_LAPACK to access the new headers and -DACCELERATE_LAPACK_ILP64 for ILP64 support. [#DeprecatedDeclaration]
+250 | 
+251 |         return out
+
+/private/tmp/screenrec-speech-research-native/FluidAudio/Sources/FluidAudio/ASR/Parakeet/Streaming/Nemotron/StreamingNemotronMultilingualAsrManager+Pipeline.swift:311:53: warning: no 'async' operations occur within 'await' expression [#UnnecessaryEffectMarker]
+309 |             let jointBatched = self.jointNoEncProjBatched,
+310 |             let decoder = self.decoder,
+311 |             let encProjResolved: MLMultiArray = try await {
+    |                                                     `- warning: no 'async' operations occur within 'await' expression [#UnnecessaryEffectMarker]
+312 |                 if let direct = encoderProj { return direct }
+313 |                 return nil
+
+/private/tmp/screenrec-speech-research-native/FluidAudio/Sources/FluidAudio/ASR/Parakeet/Streaming/Nemotron/StreamingNemotronMultilingualAsrManager+Pipeline.swift:311:49: warning: no calls to throwing functions occur within 'try' expression [#UnnecessaryEffectMarker]
+309 |             let jointBatched = self.jointNoEncProjBatched,
+310 |             let decoder = self.decoder,
+311 |             let encProjResolved: MLMultiArray = try await {
+    |                                                 `- warning: no calls to throwing functions occur within 'try' expression [#UnnecessaryEffectMarker]
+312 |                 if let direct = encoderProj { return direct }
+313 |                 return nil
+
+/private/tmp/screenrec-speech-research-native/FluidAudio/Sources/FluidAudio/ASR/Parakeet/Streaming/RnntDecoder.swift:91:17: warning: initialization of immutable value 'globalT' was never used; consider replacing with assignment to '_' or removing it [#NoUsage]
+ 89 | 
+ 90 |         outerLoop: for t in startT..<maxT {
+ 91 |             let globalT = timeOffset + t
+    |                 `- warning: initialization of immutable value 'globalT' was never used; consider replacing with assignment to '_' or removing it [#NoUsage]
+ 92 | 
+ 93 |             // Extract encoder step
+
+[#DeprecatedDeclaration]: <https://docs.swift.org/compiler/documentation/diagnostics/deprecated-declaration>
+[#NoUsage]: <https://docs.swift.org/compiler/documentation/diagnostics/no-usage>
+[#UnnecessaryEffectMarker]: <https://docs.swift.org/compiler/documentation/diagnostics/unnecessary-effect-marker>
+[154 / 159] FluidAudio
+[157 / 159] CalibrationRunner-product
+Build complete! (19.24 sec)

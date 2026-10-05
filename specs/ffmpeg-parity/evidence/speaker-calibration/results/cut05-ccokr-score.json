@@ -1,0 +1,62 @@
+{
+  "recipe": "cut05",
+  "id": "ccokr",
+  "role": "development",
+  "protocolSha256": "3f0a1a3e92c8e663abc268ee275b735bcff4b8dba53ca28d7928ff24fa86a62b",
+  "rawSha256": "4b625ea943e7a9021e5fc83fd2ee09f27e051c7e0ad94468bd212a482f3d1ed7",
+  "sourcePreparedSha256": "b6ee2f835aa7a9426e2eb54124f8350816e20c33aa00391419683c737620305f",
+  "dimensions": {
+    "sourceFrameCount": 480000,
+    "sampleRate": 16000,
+    "windowSamples": 160000,
+    "stepSamples": 32000,
+    "outputFramesPerWindow": 589
+  },
+  "mapping": {
+    "segments": [
+      {
+        "end": 3.276740312576294,
+        "speaker": "S1",
+        "start": 0
+      },
+      {
+        "end": 18.336162567138672,
+        "speaker": "S1",
+        "start": 4.312393665313721
+      },
+      {
+        "end": 30,
+        "speaker": "S2",
+        "start": 19.52461814880371
+      }
+    ],
+    "excludedPadding": [
+      {
+        "index": 2,
+        "speaker": "S2",
+        "start": 30,
+        "end": 30.084890365600586
+      }
+    ],
+    "sourceEnd": 30,
+    "analysisEnd": 38.01358413696289,
+    "analysisFrames": 2239
+  },
+  "metrics": {
+    "referenceSpeakerSeconds": 27.92,
+    "overlapSeconds": 1.7600000000000051,
+    "silenceSeconds": 3.8400000000000034,
+    "missedSpeakerSeconds": 2.5070971202850245,
+    "falseSpeakerSeconds": 2.362988185882557,
+    "confusedSpeakerSeconds": 0.3361625671386719,
+    "mapping": {
+      "S1": "spk03",
+      "S2": "spk02"
+    },
+    "der": 0.18647019603532425
+  },
+  "qualityPassed": true,
+  "resourcePassed": true,
+  "sourceSupportValid": true,
+  "passed": true
+}

@@ -1,0 +1,363 @@
+{
+  "providerSelected": null,
+  "recipeSelected": null,
+  "status": "Bounded documented calibration resolved; no every-case passing candidate",
+  "protocolSha256": "3f0a1a3e92c8e663abc268ee275b735bcff4b8dba53ca28d7928ff24fa86a62b",
+  "control": "Same-default configurable wrapper raw segments bit-identical to retained default result; requested configurations returned exactly for all12variantcalls",
+  "budget": {
+    "modelCalls": 13,
+    "developmentVariantCalls": 12,
+    "controlCalls": 1,
+    "confirmationCalls": 0,
+    "audioSeconds": 390,
+    "inferenceSeconds": 3.3786197900772095,
+    "wallSeconds": 7.835027002,
+    "newModelBytes": 0,
+    "privateBuildWallSeconds": 19.24,
+    "buildJobs": 2,
+    "infrastructureRepairs": 0
+  },
+  "cases": [
+    {
+      "recipe": "cut06",
+      "config": {
+        "clusteringThreshold": 0.6,
+        "segmentationStepRatio": 0.2,
+        "minSegmentDuration": 1
+      },
+      "cases": [
+        {
+          "id": "bspxd",
+          "der": 0.2576526371467527,
+          "miss": 2.7417327594757097,
+          "false": 0.20224197387695142,
+          "confusion": 4.744379959106439,
+          "passed": false
+        },
+        {
+          "id": "ccokr",
+          "der": 0.18647019603532425,
+          "miss": 2.5070971202850245,
+          "false": 2.362988185882557,
+          "confusion": 0.3361625671386719,
+          "passed": true
+        },
+        {
+          "id": "cmfyw",
+          "der": 0.6210124707736996,
+          "miss": 3.3893388557434108,
+          "false": 1.9093364715576229,
+          "confusion": 14.250797252655026,
+          "passed": false
+        }
+      ],
+      "pooledDer": 0.3635597842416115,
+      "allCasesPassed": false,
+      "verdict": "discard-no-confirmation"
+    },
+    {
+      "recipe": "cut05",
+      "config": {
+        "clusteringThreshold": 0.5,
+        "segmentationStepRatio": 0.2,
+        "minSegmentDuration": 1
+      },
+      "cases": [
+        {
+          "id": "bspxd",
+          "der": 0.2576526371467527,
+          "miss": 2.7417327594757097,
+          "false": 0.20224197387695142,
+          "confusion": 4.744379959106439,
+          "passed": false
+        },
+        {
+          "id": "ccokr",
+          "der": 0.18647019603532425,
+          "miss": 2.5070971202850245,
+          "false": 2.362988185882557,
+          "confusion": 0.3361625671386719,
+          "passed": true
+        },
+        {
+          "id": "cmfyw",
+          "der": 0.6210124707736996,
+          "miss": 3.3893388557434108,
+          "false": 1.9093364715576229,
+          "confusion": 14.250797252655026,
+          "passed": false
+        }
+      ],
+      "pooledDer": 0.3635597842416115,
+      "allCasesPassed": false,
+      "verdict": "discard-no-confirmation"
+    },
+    {
+      "recipe": "dense",
+      "config": {
+        "clusteringThreshold": 0.7,
+        "segmentationStepRatio": 0.1,
+        "minSegmentDuration": 0
+      },
+      "cases": [
+        {
+          "id": "bspxd",
+          "der": 0.2596462881916652,
+          "miss": 1.5813929653167804,
+          "false": 0.5699158859252975,
+          "confusion": 5.596536388397212,
+          "passed": false
+        },
+        {
+          "id": "ccokr",
+          "der": 0.13043079574333516,
+          "miss": 0.6242426586151026,
+          "false": 3.0098464012145882,
+          "confusion": 0.007538757324226708,
+          "passed": true
+        },
+        {
+          "id": "cmfyw",
+          "der": 0.3220198175655693,
+          "miss": 2.5523256111145045,
+          "false": 2.0740226745605526,
+          "confusion": 5.510835571289064,
+          "passed": false
+        }
+      ],
+      "pooledDer": 0.2412220631304048,
+      "allCasesPassed": false,
+      "verdict": "discard-no-confirmation"
+    },
+    {
+      "recipe": "densecut06",
+      "config": {
+        "clusteringThreshold": 0.6,
+        "segmentationStepRatio": 0.1,
+        "minSegmentDuration": 0
+      },
+      "cases": [
+        {
+          "id": "bspxd",
+          "der": 0.2596462881916652,
+          "miss": 1.5813929653167804,
+          "false": 0.5699158859252975,
+          "confusion": 5.596536388397212,
+          "passed": false
+        },
+        {
+          "id": "ccokr",
+          "der": 0.13043079574333516,
+          "miss": 0.6242426586151026,
+          "false": 3.0098464012145882,
+          "confusion": 0.007538757324226708,
+          "passed": true
+        },
+        {
+          "id": "cmfyw",
+          "der": 0.3220198175655693,
+          "miss": 2.5523256111145045,
+          "false": 2.0740226745605526,
+          "confusion": 5.510835571289064,
+          "passed": false
+        }
+      ],
+      "pooledDer": 0.2412220631304048,
+      "allCasesPassed": false,
+      "verdict": "discard-no-confirmation"
+    }
+  ],
+  "attempts": [
+    {
+      "recipe": "control",
+      "id": "bspxd",
+      "raw": "results/control-bspxd.json",
+      "rawSha256": "2d61654840be5b72a76d40af67d3ed7d3f7ad95260d81965c343e06315fa7653",
+      "attempt": "results/control-bspxd-attempt.json",
+      "inferenceSeconds": 0.20996594429016113,
+      "startupSeconds": 2.8245400190353394,
+      "peakProcessRSSBytes": 201195520,
+      "wallSeconds": 3.474445292,
+      "exitCode": 0
+    },
+    {
+      "recipe": "cut06",
+      "id": "bspxd",
+      "raw": "results/cut06-bspxd.json",
+      "rawSha256": "18e6bb651d6f690a60f0e529b8d03e613b2aa3bc9f7e4d56175e5bdbd6442ff4",
+      "attempt": "results/cut06-bspxd-attempt.json",
+      "inferenceSeconds": 0.1891239881515503,
+      "startupSeconds": 0.054141998291015625,
+      "peakProcessRSSBytes": 187383808,
+      "wallSeconds": 0.28766404199999984,
+      "exitCode": 0
+    },
+    {
+      "recipe": "cut06",
+      "id": "ccokr",
+      "raw": "results/cut06-ccokr.json",
+      "rawSha256": "b7d9af39619b0bd54df7a77aab40dd9242792b3459adf25494b862f750016ed5",
+      "attempt": "results/cut06-ccokr-attempt.json",
+      "inferenceSeconds": 0.19283998012542725,
+      "startupSeconds": 0.054612040519714355,
+      "peakProcessRSSBytes": 187383808,
+      "wallSeconds": 0.290040667,
+      "exitCode": 0
+    },
+    {
+      "recipe": "cut06",
+      "id": "cmfyw",
+      "raw": "results/cut06-cmfyw.json",
+      "rawSha256": "7228208681063faf112873b93fc85e2ff901647d1c49bf9d0ad91e1ac16101f4",
+      "attempt": "results/cut06-cmfyw-attempt.json",
+      "inferenceSeconds": 0.19579994678497314,
+      "startupSeconds": 0.05552196502685547,
+      "peakProcessRSSBytes": 187301888,
+      "wallSeconds": 0.2947369170000007,
+      "exitCode": 0
+    },
+    {
+      "recipe": "cut05",
+      "id": "bspxd",
+      "raw": "results/cut05-bspxd.json",
+      "rawSha256": "821bffced13fd83c62ebddd0510e8a488c6bc909b39668333c865fa4b8401f5a",
+      "attempt": "results/cut05-bspxd-attempt.json",
+      "inferenceSeconds": 0.18755602836608887,
+      "startupSeconds": 0.05438804626464844,
+      "peakProcessRSSBytes": 187482112,
+      "wallSeconds": 0.2864676250000002,
+      "exitCode": 0
+    },
+    {
+      "recipe": "cut05",
+      "id": "ccokr",
+      "raw": "results/cut05-ccokr.json",
+      "rawSha256": "4b625ea943e7a9021e5fc83fd2ee09f27e051c7e0ad94468bd212a482f3d1ed7",
+      "attempt": "results/cut05-ccokr-attempt.json",
+      "inferenceSeconds": 0.19771194458007812,
+      "startupSeconds": 0.0552220344543457,
+      "peakProcessRSSBytes": 187318272,
+      "wallSeconds": 0.29616845799999947,
+      "exitCode": 0
+    },
+    {
+      "recipe": "cut05",
+      "id": "cmfyw",
+      "raw": "results/cut05-cmfyw.json",
+      "rawSha256": "6e99d3bcfa045f446a0e4f5c9e0f8dbfe7e9709808eae805380f17d4a109a945",
+      "attempt": "results/cut05-cmfyw-attempt.json",
+      "inferenceSeconds": 0.1939990520477295,
+      "startupSeconds": 0.054779052734375,
+      "peakProcessRSSBytes": 187367424,
+      "wallSeconds": 0.2932251249999993,
+      "exitCode": 0
+    },
+    {
+      "recipe": "dense",
+      "id": "bspxd",
+      "raw": "results/dense-bspxd.json",
+      "rawSha256": "2cedc1446a65b43cf1e5d9413289dc97e6069bd1bbd5a583f85349896270f629",
+      "attempt": "results/dense-bspxd-attempt.json",
+      "inferenceSeconds": 0.34182894229888916,
+      "startupSeconds": 0.0563359260559082,
+      "peakProcessRSSBytes": 289800192,
+      "wallSeconds": 0.44264054200000036,
+      "exitCode": 0
+    },
+    {
+      "recipe": "dense",
+      "id": "ccokr",
+      "raw": "results/dense-ccokr.json",
+      "rawSha256": "25069df2de7c2e0fa424f19e6d5be878fe407be6f88d3bb845749444fad370b1",
+      "attempt": "results/dense-ccokr-attempt.json",
+      "inferenceSeconds": 0.3313390016555786,
+      "startupSeconds": 0.05508995056152344,
+      "peakProcessRSSBytes": 289669120,
+      "wallSeconds": 0.43050750000000004,
+      "exitCode": 0
+    },
+    {
+      "recipe": "dense",
+      "id": "cmfyw",
+      "raw": "results/dense-cmfyw.json",
+      "rawSha256": "0e864bd98390447d728977c28a3c57dcb6cd0860e1837db97a40b47f090fd9cd",
+      "attempt": "results/dense-cmfyw-attempt.json",
+      "inferenceSeconds": 0.3401719331741333,
+      "startupSeconds": 0.05509603023529053,
+      "peakProcessRSSBytes": 289816576,
+      "wallSeconds": 0.4407203339999999,
+      "exitCode": 0
+    },
+    {
+      "recipe": "densecut06",
+      "id": "bspxd",
+      "raw": "results/densecut06-bspxd.json",
+      "rawSha256": "91b94b46c3d3549cdbc5b4852b6dfc29aeb9351b6f7024330b1d8b8682e036bc",
+      "attempt": "results/densecut06-bspxd-attempt.json",
+      "inferenceSeconds": 0.3333960771560669,
+      "startupSeconds": 0.05475509166717529,
+      "peakProcessRSSBytes": 289816576,
+      "wallSeconds": 0.43265345899999996,
+      "exitCode": 0
+    },
+    {
+      "recipe": "densecut06",
+      "id": "ccokr",
+      "raw": "results/densecut06-ccokr.json",
+      "rawSha256": "7208f8335cb41565dce0fd4e83786b4660d8003b1b917a01231c6346c860922f",
+      "attempt": "results/densecut06-ccokr-attempt.json",
+      "inferenceSeconds": 0.3313959836959839,
+      "startupSeconds": 0.0567549467086792,
+      "peakProcessRSSBytes": 289800192,
+      "wallSeconds": 0.4322838330000005,
+      "exitCode": 0
+    },
+    {
+      "recipe": "densecut06",
+      "id": "cmfyw",
+      "raw": "results/densecut06-cmfyw.json",
+      "rawSha256": "6c57c8c535fdfe94bf5c98edb7da55513b1be2acdb4255effd6beef6fae47210",
+      "attempt": "results/densecut06-cmfyw-attempt.json",
+      "inferenceSeconds": 0.3334909677505493,
+      "startupSeconds": 0.0546339750289917,
+      "peakProcessRSSBytes": 289800192,
+      "wallSeconds": 0.43347320800000055,
+      "exitCode": 0
+    }
+  ],
+  "effects": [
+    {
+      "parameter": "AHC Euclidean cut .5/.6 vs frozen .7baseline",
+      "observation": "cut05 andcut06 produce identical segments/DER on allthreewindows; .6cut anddefault.7identical bspxd. No claim .7null onothercases because priorbaselineonlybspxd",
+      "mechanism": "Smaller cut theoretically reduces warm-start merges, but laterVBx may eliminate effect; actual mechanism not experimentally isolated",
+      "verdict": "discard no measured win/qualification"
+    },
+    {
+      "parameter": "Documented densewindow/minimumduration bundle .1step,0min at .7",
+      "observation": "Relative to cut06, missed speech falls on allthreecases and confusion falls markedly oncmfyw; bspxd confusion rises and every-case gate still fails",
+      "attribution": "Coupled documented recipe; cannot attribute gain tosteporminimumduration alone",
+      "verdict": "partialwin-developmentonly; no promotion"
+    },
+    {
+      "parameter": "Preplanned dense+.6 cut combination",
+      "observation": "Allthree rawsegmentlists identicaltodense.7; no addedqualitybenefit",
+      "verdict": "discard redundantcoupling"
+    }
+  ],
+  "confirmation": {
+    "ids": [
+      "aepyx",
+      "aggyz",
+      "aiqwk"
+    ],
+    "inferenceCalls": 0,
+    "scored": false
+  },
+  "handoff": {
+    "incumbent": null,
+    "activeFailure": "bspxd confusion andcmfyw confusion remain abovegate",
+    "stopReason": "Frozen fourcandidatebudget finished; no eligibleprovider",
+    "next": "Use a separately frozen genuinely different provider/context recipe on development only, with exact rootvariant lineage settled; alternatively independently labeled full-length original acoustic support to test chunk-edge sensitivity, never weaken gate. No more blind samefamilythreshold sweeps. Testwindowsreserved.",
+    "product": "23a remains gated; no model preparation/catalog/persistence/runtime selection"
+  }
+}

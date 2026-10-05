@@ -1,0 +1,77 @@
+{
+  "recipe": "cut05",
+  "id": "bspxd",
+  "role": "development",
+  "protocolSha256": "3f0a1a3e92c8e663abc268ee275b735bcff4b8dba53ca28d7928ff24fa86a62b",
+  "rawSha256": "821bffced13fd83c62ebddd0510e8a488c6bc909b39668333c865fa4b8401f5a",
+  "sourcePreparedSha256": "9ba2131687811bfbb9fb08d915648738cd83b35476370b55ae95b5c809133bb1",
+  "dimensions": {
+    "sourceFrameCount": 480000,
+    "sampleRate": 16000,
+    "windowSamples": 160000,
+    "stepSamples": 32000,
+    "outputFramesPerWindow": 589
+  },
+  "mapping": {
+    "segments": [
+      {
+        "end": 2.4108657836914062,
+        "speaker": "S2",
+        "start": 0
+      },
+      {
+        "end": 16.28183364868164,
+        "speaker": "S1",
+        "start": 2.64855694770813
+      },
+      {
+        "end": 10.373514175415039,
+        "speaker": "S2",
+        "start": 9.066213607788086
+      },
+      {
+        "end": 22.46179962158203,
+        "speaker": "S2",
+        "start": 18.115449905395508
+      },
+      {
+        "end": 26.298810958862305,
+        "speaker": "S2",
+        "start": 23.497453689575195
+      },
+      {
+        "end": 30,
+        "speaker": "S2",
+        "start": 27.198640823364258
+      }
+    ],
+    "excludedPadding": [
+      {
+        "index": 5,
+        "speaker": "S2",
+        "start": 30,
+        "end": 30.084890365600586
+      }
+    ],
+    "sourceEnd": 30,
+    "analysisEnd": 38.01358413696289,
+    "analysisFrames": 2239
+  },
+  "metrics": {
+    "referenceSpeakerSeconds": 29.840000000000003,
+    "overlapSeconds": 3.039999999999992,
+    "silenceSeconds": 3.1999999999999886,
+    "missedSpeakerSeconds": 2.7417327594757097,
+    "falseSpeakerSeconds": 0.20224197387695142,
+    "confusedSpeakerSeconds": 4.744379959106439,
+    "mapping": {
+      "S1": "spk00",
+      "S2": "spk02"
+    },
+    "der": 0.2576526371467527
+  },
+  "qualityPassed": false,
+  "resourcePassed": true,
+  "sourceSupportValid": true,
+  "passed": false
+}

@@ -1,0 +1,133 @@
+{
+  "version": 1,
+  "frozenBeforeInference": true,
+  "parent": "../speaker-cohort/frozen-protocol.json",
+  "parentSha256": "d46d5d146685afe7564933fe2310179d26c04270180af8e34ac35addf69a74d7",
+  "sourceClockProtocol": "../speaker-cohort/clock-protocol.json",
+  "sourceClockProtocolSha256": "45cc4570953904fa3b17eb76d722460856e2f294805d3cabf5bd9561d0bd73d9",
+  "selection": "../speaker-cohort/selection.json",
+  "selectionSha256": "3122991d85d0c71e6396fc53193312e008c4edff2e15e11992c92da1f43be08c",
+  "scope": "Community1 documented calibration only, all three development windows. Never supply reference speaker count/identity, alter references, tune confirmation, download models, or mutate product state",
+  "recipes": [
+    {
+      "id": "control",
+      "config": {
+        "clusteringThreshold": 0.7,
+        "segmentationStepRatio": 0.2,
+        "minSegmentDuration": 1
+      },
+      "configSha256": "b52d11ece960c77ef137bc713ac81bd6ff4c97621a929433794957256e220583",
+      "mechanism": "Rebuilt configurable wrapper same defaults; raw interior segments must match retained default bspxd before variants"
+    },
+    {
+      "id": "cut06",
+      "config": {
+        "clusteringThreshold": 0.6,
+        "segmentationStepRatio": 0.2,
+        "minSegmentDuration": 1
+      },
+      "configSha256": "7720ce74e196a96cf5026d5f72d00b643ba06cfec37ac3c8ad95337b1363c1fd",
+      "mechanism": "Lower Euclidean AHC cut may retain third speaker, fewer merges"
+    },
+    {
+      "id": "cut05",
+      "config": {
+        "clusteringThreshold": 0.5,
+        "segmentationStepRatio": 0.2,
+        "minSegmentDuration": 1
+      },
+      "configSha256": "0bc477632b116f72d80973dbd32ede56beb06d6a0d3297706aa171edd7dc32eb",
+      "mechanism": "Stronger reduction in AHC merges; may over-split"
+    },
+    {
+      "id": "dense",
+      "config": {
+        "clusteringThreshold": 0.7,
+        "segmentationStepRatio": 0.1,
+        "minSegmentDuration": 0
+      },
+      "configSha256": "f9be5a4cf17de50aeac58a3441724de192411ffb6697206862da0a7472740be3",
+      "mechanism": "Documented high-fidelity coupled recipe: denserwindows + no minsegmentduration filter/extraction floor"
+    },
+    {
+      "id": "densecut06",
+      "config": {
+        "clusteringThreshold": 0.6,
+        "segmentationStepRatio": 0.1,
+        "minSegmentDuration": 0
+      },
+      "configSha256": "e008bf76a0d4270b672b2ac87e9016fdd267be4d1b31f7553c21b3ac0d094919",
+      "mechanism": "Preplanned combination; compare against cut06 and dense"
+    }
+  ],
+  "provider": {
+    "binary": "/tmp/screenrec-speech-calibration/.build/debug/CalibrationRunner",
+    "binarySha256": "3fcd8955e1c3de8cd81a2bbe78ec37d7637de8a108678236340f4596aa65a964",
+    "wrapper": "runner.swift",
+    "wrapperSha256": "da00802f5d760b0b5962b53dfdd6f0d3b2403155398d8eae58629d0dc0fa6f9f",
+    "packageSha256": "5a67e5f0784be49173f7e1636eb2841385d9378f732fe8fceac5161508c89464",
+    "modelDirectory": "/tmp/screenrec-speech-research-cache/diarization-model",
+    "modelInventory": "../speech-feasibility/diarization-model-inventory.json",
+    "modelInventorySha256": "94a035ba25655e0cb5afa706a6092826f997cb4c446bbf547e8700e06f4e6afb",
+    "sdkRevision": "41540ea237350afe5117a082b5c28eda642d0612",
+    "traits": [],
+    "buildJobs": 2,
+    "copiedBuildOutput": false
+  },
+  "documentation": [
+    {
+      "path": "/tmp/screenrec-speech-research-native/FluidAudio/Documentation/Diarization/GettingStarted.md",
+      "sha256": "e1dba32757eba21a68c1b2cc09a657d6b212e1cce9d13ecddb6b7694c3a91382"
+    },
+    {
+      "path": "/tmp/screenrec-speech-research-native/FluidAudio/Documentation/Benchmarks.md",
+      "sha256": "f5748055a2f6600ae0c369978bb4a94501629443e3ff8dab93acab1e2065e729"
+    },
+    {
+      "path": "/tmp/screenrec-speech-research-native/FluidAudio/Sources/FluidAudio/Diarizer/Offline/Clustering/AHCClustering.swift",
+      "sha256": "6d4469390620a07fbdbdddc986b5d59bf7aa1d00848f24e51bcbfb752a2aa56e"
+    }
+  ],
+  "gate": {
+    "der": 0.2,
+    "collarSeconds": 0,
+    "ignoreOverlap": false,
+    "peakProcessRSSBytes": 4294967296,
+    "inferenceWallAudioRatio": 2,
+    "confirmation": "Everycase plus pooledspeaker-time must pass20%; no aggregate rescues a failure"
+  },
+  "plan": {
+    "controlCalls": 1,
+    "maxDevelopmentVariantCalls": 12,
+    "maxConfirmationCalls": 3,
+    "deadlineSecondsPerCall": 90,
+    "maxAudioSeconds": 480,
+    "sequence": "controlbspxd then4recipes x3development serial. Lowest pooledDER amongeverycase/costpassingrecipes; tielexicographicid. Onlyselectedunchangedrecipe onceonthreeuntouchedtestwindows. Neitherqualifiesmeansconfirmationremainsunscored. No replacements/tuning",
+    "infraRepairAllowance": 1,
+    "interiorMapping": "integerPCMframecount/sampleRate;sameprovenSDKzero-paddingsourcemapping; stepSamples comesfromfrozenconfigandmustmatchnativelog. Reject unprovedoverruns; preserve raw/excludedpadding. No quality adaptation"
+  },
+  "hypotheses": [
+    {
+      "id": "merging",
+      "prediction": "Smaller cuts reduce confusion where two clusters cover three true speakers",
+      "falsifier": "confusion/DER does notimprove orover-splits; thresholdsnotguaranteedspeaker-countknobsafterVBx"
+    },
+    {
+      "id": "shortturn",
+      "prediction": "Denserwindow/minimumduration bundle lowers missedshort/overlapping support",
+      "falsifier": "missesstayhighorincreaseconfusion/false speech; noinsideclockchanges"
+    },
+    {
+      "id": "combination",
+      "prediction": "Dense + .6 may combine individual improvements",
+      "falsifier": "Fails anycase or loses to simpler eligible recipe"
+    }
+  ],
+  "limitations": [
+    "Original100mshumanboundaries; unchangedno-collarspeakerDER, noword50msclaim",
+    "Both documentationbenchmarkscollar.25sec/ignoreoverlaptrue notours; publishedscoresdonotqualifycandidate",
+    "No productproviderselectionevenifqualitypass; weightlineage/unknownconfidence/runtimeintegrationremainindependent",
+    "HostCoreMLcaches reused; processRSS excludesANEservices",
+    "NoVADparametergridthispass; boundedhigh-informationclustering/segmentationonly"
+  ]
+}

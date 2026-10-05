@@ -1,0 +1,110 @@
+{
+  "recipe": "dense",
+  "id": "bspxd",
+  "role": "development",
+  "protocolSha256": "3f0a1a3e92c8e663abc268ee275b735bcff4b8dba53ca28d7928ff24fa86a62b",
+  "rawSha256": "2cedc1446a65b43cf1e5d9413289dc97e6069bd1bbd5a583f85349896270f629",
+  "sourcePreparedSha256": "9ba2131687811bfbb9fb08d915648738cd83b35476370b55ae95b5c809133bb1",
+  "dimensions": {
+    "sourceFrameCount": 480000,
+    "sampleRate": 16000,
+    "windowSamples": 160000,
+    "stepSamples": 16000,
+    "outputFramesPerWindow": 589
+  },
+  "mapping": {
+    "segments": [
+      {
+        "end": 2.4108657836914062,
+        "speaker": "S2",
+        "start": 0
+      },
+      {
+        "end": 2.444821834564209,
+        "speaker": "S1",
+        "start": 2.4108657836914062
+      },
+      {
+        "end": 2.64855694770813,
+        "speaker": "S2",
+        "start": 2.444821834564209
+      },
+      {
+        "end": 16.28183364868164,
+        "speaker": "S1",
+        "start": 2.64855694770813
+      },
+      {
+        "end": 3.32767391204834,
+        "speaker": "S2",
+        "start": 2.665534734725952
+      },
+      {
+        "end": 10.373514175415039,
+        "speaker": "S2",
+        "start": 9.066213607788086
+      },
+      {
+        "end": 11.001697540283203,
+        "speaker": "S3",
+        "start": 10.373514175415039
+      },
+      {
+        "end": 22.46179962158203,
+        "speaker": "S2",
+        "start": 18.115449905395508
+      },
+      {
+        "end": 26.298810958862305,
+        "speaker": "S2",
+        "start": 23.497453689575195
+      },
+      {
+        "end": 30,
+        "speaker": "S2",
+        "start": 27.198640823364258
+      }
+    ],
+    "excludedPadding": [
+      {
+        "index": 10,
+        "speaker": "S3",
+        "start": 30,
+        "end": 30.016977310180664
+      },
+      {
+        "index": 11,
+        "speaker": "S2",
+        "start": 30.016977310180664,
+        "end": 30.06791114807129
+      },
+      {
+        "index": 12,
+        "speaker": "S3",
+        "start": 30.06791114807129,
+        "end": 30.084890365600586
+      }
+    ],
+    "sourceEnd": 30,
+    "analysisEnd": 39.015281677246094,
+    "analysisFrames": 2298
+  },
+  "metrics": {
+    "referenceSpeakerSeconds": 29.840000000000003,
+    "overlapSeconds": 3.039999999999992,
+    "silenceSeconds": 3.1999999999999886,
+    "missedSpeakerSeconds": 1.5813929653167804,
+    "falseSpeakerSeconds": 0.5699158859252975,
+    "confusedSpeakerSeconds": 5.596536388397212,
+    "mapping": {
+      "S1": "spk00",
+      "S2": "spk02",
+      "S3": "spk01"
+    },
+    "der": 0.2596462881916652
+  },
+  "qualityPassed": false,
+  "resourcePassed": true,
+  "sourceSupportValid": true,
+  "passed": false
+}

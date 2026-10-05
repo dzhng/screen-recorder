@@ -1,0 +1,20 @@
+{
+  "command": [
+    "/usr/bin/sandbox-exec",
+    "-p",
+    "(version 1)(allow default)(deny network*)",
+    "/tmp/screenrec-speech-calibration/.build/debug/CalibrationRunner",
+    "/tmp/screenrec-speech-research-cache/diarization-model",
+    "/tmp/screenrec-speech-research-cache/voxconverse/ccokr.f32",
+    "/private/tmp/screenrec-parity-speaker-cohort/specs/ffmpeg-parity/evidence/speaker-calibration/results/cut06-ccokr.json",
+    "/private/tmp/screenrec-parity-speaker-cohort/specs/ffmpeg-parity/evidence/speaker-calibration/recipes/cut06.json"
+  ],
+  "wallSeconds": 0.290040667,
+  "exitCode": 0,
+  "timedOut": false,
+  "networkDenied": true,
+  "role": "development",
+  "protocolSha256": "3f0a1a3e92c8e663abc268ee275b735bcff4b8dba53ca28d7928ff24fa86a62b",
+  "binarySha256": "3fcd8955e1c3de8cd81a2bbe78ec37d7637de8a108678236340f4596aa65a964",
+  "sourcePreparedSha256": "b6ee2f835aa7a9426e2eb54124f8350816e20c33aa00391419683c737620305f"
+}

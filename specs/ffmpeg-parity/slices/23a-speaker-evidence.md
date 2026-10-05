@@ -38,12 +38,13 @@ padding is explained and mapped under a separately frozen protocol, retaining
 its raw invalid failure; its adapted quality still fails. No average overrides
 a failed development case. The research map owns measured outcomes and budgets.
 
-The next candidate is a separately frozen, small documented Community1 calibration
-using development windows only, without reference speaker counts or identities.
-Keep original sources, model identity, overlap, no collar, every-case 20% DER and
-cost fixed. A new configurable wrapper needs its own source/binary identity and
-private build output. Only a recipe passing every development gate can reach the
-untouched test windows once. Do not retune confirmation or promote failed recipes.
+The separately [frozen Community1 calibration](../evidence/speaker-calibration/README.md)
+uses only development windows, documented knobs and immutable cached models.
+Its same-default configurable wrapper control preserves the original segments;
+all four frozen recipes fail an every-case gate. No recipe reaches untouched test
+windows. Keep these null and partial effects in the research map; another grid
+cannot substitute for a different justified hypothesis or provider. Product
+implementation remains gated, independently of source/model licensing.
 
 ## Implementation contract after a passed gate
 

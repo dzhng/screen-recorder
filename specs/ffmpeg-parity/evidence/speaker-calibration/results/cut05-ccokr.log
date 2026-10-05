@@ -1,0 +1,21 @@
+[20:34:13.940] [INFO] [FluidAudio.OfflineDiarizer] Offline diarizer models initialized
+[20:34:13.972] [DEBUG] [FluidAudio.OfflineSegmentation] Offline segmentation: chunkSize=160000, stepSize=32000, totalSamples=480000
+[20:34:13.972] [DEBUG] [FluidAudio.OfflineEmbedding] Offline embedding configured with FBANK input audio[1×1×160000] → fbank_features; embedding consumes fbank_features + weights[1×589] (frames=589), maxBatch=32, output=embedding
+[20:34:14.091] [DEBUG] [FluidAudio.OfflineSegmentation] Chunk 0 speaker frame counts: [0, 528, 84]
+[20:34:14.113] [DEBUG] [FluidAudio.OfflineSegmentation] Segmentation histogram: speechFrames=7324 totalFrames=8835 speechRatio=0.829 avgNonSpeechProb=0.186
+[Profiling] Segmentation timings: windows=15 prepareTotal=0.43ms (perWindow=0.0287ms) predictionTotal=93.25ms (perWindow=6.2170ms)
+[20:34:14.113] [DEBUG] [FluidAudio.OfflineSegmentation] Segmentation mask speech frames = 7352 / 8835 (ratio=0.832, speechSeconds≈124.8s)
+[20:34:14.113] [DEBUG] [FluidAudio.OfflineSegmentation] Winning speaker probability stats: count=7324, avg=0.889, min=0.261, max=1.000
+[20:34:14.113] [DEBUG] [FluidAudio.OfflineSegmentation] Winning probability distribution ≥0.500:6921, ≥0.700:6334, ≥0.800:5943, ≥0.900:4979, ≥0.950:4169, ≥0.980:3149, ≥0.990:2589, ≥0.995:1912, ≥0.999:588
+[20:34:14.113] [DEBUG] [FluidAudio.OfflineSegmentation] Empty-class probability on speech frames: avg=0.039
+[20:34:14.113] [DEBUG] [FluidAudio.OfflineSegmentation] Segmentation timings: windows=15 prepareTotal=0.43ms (perWindow=0.0287ms) predictionTotal=93.25ms (perWindow=6.2170ms)
+[Profiling] Embedding timings: fbankTotal=13.45ms (perWindow=0.897ms), maskPrepTotal=0.92ms (perEval=0.020ms), resampleTotal=0.00ms (perValid=0.000ms), embeddingTotal=26.61ms (perValid=1.478ms), pldaTotal=0.44ms (perValid=0.024ms), batches(fbank=1, plda=1)
+[20:34:14.157] [DEBUG] [FluidAudio.OfflineEmbedding] Embedding masks generated: 18 (meanActiveFrames=372.78, fallbackMasks=0, emptyMasks=27)
+[20:34:14.157] [DEBUG] [FluidAudio.OfflineEmbedding] Embedding timings: fbankTotal=13.45ms (perWindow=0.897ms), maskPrepTotal=0.92ms (perEval=0.020ms), resampleTotal=0.00ms (perValid=0.000ms), embeddingTotal=26.61ms (perValid=1.478ms), pldaTotal=0.44ms (perValid=0.024ms), batches(fbank=1, plda=1)
+[20:34:14.157] [DEBUG] [FluidAudio.OfflineDiarizer] Segmentation completed in 0.14104902744293213s (async)
+[20:34:14.157] [DEBUG] [FluidAudio.OfflineDiarizer] Embedding extraction produced 18 vectors in 0.18552899360656738s (async)
+[20:34:14.158] [DEBUG] [FluidAudio.OfflineDiarizer] Clustering will use 18/18 embeddings (NaN filtered)
+[20:34:14.158] [DEBUG] [FluidAudio.OfflineVBx] VBx warm start clusters: 8 histogram: [7: 1, 3: 1, 5: 1, 1: 1, 6: 1, 2: 2, 4: 4, 0: 7]
+[20:34:14.158] [DEBUG] [FluidAudio.OfflineVBx] VBx mixture weights – min: 7.439127223030494e-19, max: 0.5040936284412729, count: 8
+[20:34:14.159] [DEBUG] [FluidAudio.OfflineDiarizer] Clustering completed in 0.001237034797668457s with 4 centroids (assignment histogram: [2: 1, 3: 1, 1: 7, 0: 9])
+[20:34:14.166] [DEBUG] [FluidAudio.OfflineReconstruction] Speaker-count histogram 0:559, 1:1576, 2:103
