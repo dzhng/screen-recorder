@@ -6,6 +6,48 @@ and fixture selection are discretion, not new product decisions.
 
 ## Sound choices
 
+### Transferred notes remain historical caller-owned evidence
+
+When: slice 24. Another agent receives a small versioned notes file beside a
+project package. It preserves chosen/rejected candidates, reasons and exact
+owner receipts. The helper reads only project metadata and the pinned historical
+revision, then reports whether the current head changed. It checks transferred
+file presence without importing, preparing, remapping identities or applying edits.
+A present file does not imply watched, listened or accepted content.
+
+Gap: the plan required portable notes but left the task file/resumption shape open.
+Reach: notes have their own version, independent of product package schemas;
+there is no new catalog, revision format or mandatory transfer payload.
+Verdict: sound; caller annotations remain separate from authoritative media state.
+Confidence: high.
+
+### Notes retain actual independent owner anchors and raw receipts
+
+When: slice 24. A saved acquisition, source, job or export receipt can identify
+its owner independently; an occurrence still requires project and pinned revision,
+and a stream requires its asset. Nullable absent fields and an export's nested
+snapshot remain verbatim. Inventing a render identifier or forcing every receipt
+into one top-level revision shape would reject real product evidence.
+
+Gap: the plan did not specify how heterogeneous artifact receipts are admitted.
+Reach: future receipt families must use their authoritative identities; local
+artifact keys connect annotations to transferred files but cannot invent owners.
+Verdict: sound; validation follows actual contracts. Confidence: high.
+
+### Bounded task files are opened without waiting for a producer
+
+When: slice 24. A selected notes path could be a named pipe rather than a file.
+The common bounded reader opens nonblocking, then checks the same descriptor is
+a regular file within the byte limit. A normal blocking open stalled before that
+check. Delivered timeline evidence now reuses this general reader, rather than
+adding a second file-reader implementation.
+
+Gap: expanding the existing delivered-file reader exposed an untested pipe case.
+Reach: all explicit task file consumers share the regular-file and byte contract;
+symlink containment checks for transferred artifact presence stay separate.
+Verdict: sound; bounds apply before potentially unbounded reads. Confidence: high.
+
+
 ### Bottom-center layout in caller safe area
 
 When: slice 11. Given

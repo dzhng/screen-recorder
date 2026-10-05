@@ -12,9 +12,9 @@ every FFmpeg option or a replacement for a professional editing workstation.
 
 Implement the complete user-authorized plan through committed passes. Read the
 [exploration map](exploration.md), [parity contract](parity.md) and
-[isolated evidence](tool-proof.md). Integrated: 01–09, 11–12, 20–21 and 25.
+[isolated evidence](tool-proof.md). Integrated: 01–09, 11–12, 20–21 and 24–25.
 Current pickup: finish SDR reproduction 16, then typed correction 17. Independent
-lanes: HDR 18→19, loudness 10→audio recipe/treatment branches, notes 24 and speech
+lanes: HDR 18→19, loudness 10→audio recipe/treatment branches and speech
 22→23. Frozen FFmpeg lacks PQ/HLG conversion; HDR research may reopen pinned
 build 01 with a necessary dependency and refresh affected readiness proofs.
 Speech's first candidates failed their quality gates; no family is promoted yet.
@@ -78,7 +78,7 @@ prompt, slice status and retained evidence before ending each implementation pas
 - [x] [21 — Immutable motion-asset interchange](slices/21-motion-import.md)
 - [ ] [22 — Local speech evidence feasibility](slices/22-speech-feasibility.md)
 - [ ] [23 — Validated optional speech evidence](slices/23-speech-evidence.md)
-- [ ] [24 — Portable task-side editorial notes](slices/24-editorial-notes.md)
+- [x] [24 — Portable task-side editorial notes](slices/24-editorial-notes.md)
 - [x] [25 — Everyday typed HEVC delivery](slices/25-hevc-output.md)
 - [ ] [26 — Consumer skill and release acceptance](slices/26-consumer-release.md)
 

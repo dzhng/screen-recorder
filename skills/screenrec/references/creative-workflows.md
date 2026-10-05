@@ -38,6 +38,13 @@ with bundled Node and read its `--help`. Save its resumable task manifest before
 processing; pending work retains concurrency slots. Name transcript streams
 explicitly and request failed-work retries deliberately.
 
+Transfer selected/rejected candidates, rationale, unresolved issues and exact
+receipts in task-side notes beside the project package. On resumption, use the
+[task notes helper](../scripts/task-notes.mjs) and read its `--help`. It checks
+historical revision availability and transferred file presence; it neither verifies
+their content nor imports, prepares or applies edits. Keep missing artifacts and
+changed current-head identities visible before reusing an earlier judgment.
+
 ## Read many takes without losing word evidence
 
 Use the [compact transcript helper](../scripts/compact-transcripts.mjs) with the
