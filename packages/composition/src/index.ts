@@ -141,3 +141,6 @@ export {
   audioOutputCapabilities,
 } from "./output-settings.js";
 export type { AudioOutputSettings, AudioOutputSettingsInput } from "./output-settings.js";
+
+export { captionSidecar, captionSidecarRequestSchema } from "./caption-sidecars.js";
+export type { CaptionSidecarRequest, CaptionCue } from "./caption-sidecars.js";

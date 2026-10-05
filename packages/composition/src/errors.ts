@@ -6,7 +6,9 @@ export class CompositionError extends Error {
       | "UNKNOWN_CLIP"
       | "UNKNOWN_SOURCE"
       | "INVALID_EDIT"
-      | "NOT_READY",
+      | "NOT_READY"
+      | "LIMIT_EXCEEDED"
+      | "UNSUPPORTED_FORMAT",
     message: string,
     readonly details: Record<string, unknown> = {},
   ) {

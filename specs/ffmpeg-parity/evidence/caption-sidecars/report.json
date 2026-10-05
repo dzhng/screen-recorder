@@ -1,0 +1,3172 @@
+{
+  "passed": true,
+  "trace": [
+    {
+      "operation": "asset.import",
+      "transport": "cli",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "operation": "job.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "asset.get",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "project.create",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "edit.apply",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "export.create",
+      "transport": "cli",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "operation": "edit.apply",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "export.create",
+      "transport": "cli",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "operation": "export.create",
+      "transport": "cli",
+      "ok": false,
+      "error": {
+        "code": "REQUEST_CONFLICT",
+        "message": "Export identity names a different request",
+        "retryable": false,
+        "details": {}
+      }
+    },
+    {
+      "operation": "export.retry",
+      "transport": "cli",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "operation": "export.status",
+      "transport": "cli",
+      "ok": true,
+      "state": "committed"
+    },
+    {
+      "operation": "export.create",
+      "transport": "cli",
+      "ok": true,
+      "state": "committed"
+    },
+    {
+      "operation": "export.retry",
+      "transport": "cli",
+      "ok": true,
+      "state": "committed"
+    },
+    {
+      "operation": "export.create",
+      "transport": "mcp",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "operation": "export.status",
+      "transport": "cli",
+      "ok": true,
+      "state": "committed"
+    },
+    {
+      "operation": "export.create",
+      "transport": "cli",
+      "ok": false,
+      "error": {
+        "code": "INVALID_COMPOSITION",
+        "message": "Caption payload cannot contain controls, invalid Unicode or blank lines",
+        "retryable": false,
+        "details": {
+          "placementId": "clip:60d66f132f0893ae90f9b68e565356abd96f5eec8a82ab07587e07f096b270f3:4"
+        }
+      }
+    },
+    {
+      "operation": "export.create",
+      "transport": "cli",
+      "ok": false,
+      "error": {
+        "code": "UNKNOWN_CLIP",
+        "message": "Caption placement does not exist",
+        "retryable": false,
+        "details": {
+          "placementId": "unknown-placement"
+        }
+      }
+    },
+    {
+      "operation": "export.create",
+      "transport": "cli",
+      "ok": false,
+      "error": {
+        "code": "UNSUPPORTED_FORMAT",
+        "message": "SRT cannot reliably preserve literal subtitle syntax; choose VTT",
+        "retryable": false,
+        "details": {
+          "placementId": "clip:60d66f132f0893ae90f9b68e565356abd96f5eec8a82ab07587e07f096b270f3:5",
+          "format": "srt",
+          "alternative": "vtt"
+        }
+      }
+    },
+    {
+      "operation": "export.create",
+      "transport": "cli",
+      "ok": false,
+      "error": {
+        "code": "UNSUPPORTED_FORMAT",
+        "message": "SRT cannot reliably preserve literal subtitle syntax; choose VTT",
+        "retryable": false,
+        "details": {
+          "placementId": "clip:60d66f132f0893ae90f9b68e565356abd96f5eec8a82ab07587e07f096b270f3:6",
+          "format": "srt",
+          "alternative": "vtt"
+        }
+      }
+    },
+    {
+      "operation": "export.create",
+      "transport": "cli",
+      "ok": false,
+      "error": {
+        "code": "UNSUPPORTED_FORMAT",
+        "message": "SRT cannot reliably preserve literal subtitle syntax; choose VTT",
+        "retryable": false,
+        "details": {
+          "placementId": "clip:60d66f132f0893ae90f9b68e565356abd96f5eec8a82ab07587e07f096b270f3:7",
+          "format": "srt",
+          "alternative": "vtt"
+        }
+      }
+    },
+    {
+      "operation": "export.create",
+      "transport": "cli",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "operation": "export.status",
+      "transport": "cli",
+      "ok": true,
+      "state": "committed"
+    },
+    {
+      "operation": "export.create",
+      "transport": "cli",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "operation": "export.status",
+      "transport": "cli",
+      "ok": true,
+      "state": "committed"
+    },
+    {
+      "operation": "export.create",
+      "transport": "cli",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "operation": "export.status",
+      "transport": "cli",
+      "ok": true,
+      "state": "committed"
+    },
+    {
+      "operation": "export.create",
+      "transport": "cli",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "operation": "export.status",
+      "transport": "cli",
+      "ok": true,
+      "state": "failed"
+    },
+    {
+      "operation": "export.abandon",
+      "transport": "cli",
+      "ok": true
+    }
+  ],
+  "exchanges": [
+    {
+      "request": {
+        "operation": "asset.import",
+        "params": {
+          "requestId": "f6cdd1e9-8e20-4785-8ebe-ed1d90e9c169",
+          "path": "/System/Library/Fonts/Supplemental/Arial.ttf"
+        },
+        "transport": "cli",
+        "error": false
+      },
+      "response": {
+        "ok": true,
+        "data": {
+          "jobId": "3f7f14ff-e67d-4161-8361-5d106570c0ff",
+          "attemptId": "8d957296-fd4f-444f-967c-2b7e4a644a91",
+          "artifact": "asset.import",
+          "lane": "heavy",
+          "state": "running",
+          "reason": null,
+          "generation": 1,
+          "errorCode": null,
+          "inputSha256": "c420ca0cb8dc79683332971bfb95288255d1147c547109461c6bc49c8eec9d32",
+          "target": {
+            "kind": "import",
+            "importId": "f5c5d5d6-0afe-49e9-b3ec-f404a9ceac0d"
+          },
+          "retryable": false,
+          "errorDetails": null,
+          "result": null
+        },
+        "id": "39584310-0515-4558-ad68-9fac42e03813"
+      }
+    },
+    {
+      "request": {
+        "operation": "job.get",
+        "params": {
+          "jobId": "3f7f14ff-e67d-4161-8361-5d106570c0ff"
+        },
+        "transport": "cli",
+        "error": false
+      },
+      "response": {
+        "ok": true,
+        "data": {
+          "jobId": "3f7f14ff-e67d-4161-8361-5d106570c0ff",
+          "attemptId": "8d957296-fd4f-444f-967c-2b7e4a644a91",
+          "artifact": "asset.import",
+          "lane": "heavy",
+          "state": "ready",
+          "reason": null,
+          "generation": 1,
+          "errorCode": null,
+          "inputSha256": "c420ca0cb8dc79683332971bfb95288255d1147c547109461c6bc49c8eec9d32",
+          "target": {
+            "kind": "import",
+            "importId": "f5c5d5d6-0afe-49e9-b3ec-f404a9ceac0d"
+          },
+          "retryable": false,
+          "errorDetails": null,
+          "result": {
+            "assetId": "525979822591a3447cfc49d943d6f7683508e25543407871c0ed8fed05fd2bd9"
+          }
+        },
+        "id": "75200ca6-f2f8-42bb-b72f-a101f8c87b82"
+      }
+    },
+    {
+      "request": {
+        "operation": "asset.get",
+        "params": {
+          "assetId": "525979822591a3447cfc49d943d6f7683508e25543407871c0ed8fed05fd2bd9"
+        },
+        "transport": "cli",
+        "error": false
+      },
+      "response": {
+        "ok": true,
+        "data": {
+          "originUs": 0,
+          "streams": [],
+          "fontFaces": [
+            {
+              "postScriptName": "ArialMT",
+              "familyName": "Arial",
+              "styleName": "Regular"
+            }
+          ],
+          "id": "525979822591a3447cfc49d943d6f7683508e25543407871c0ed8fed05fd2bd9",
+          "bytes": 773236,
+          "createdAt": "2026-10-05T01:24:53.407Z",
+          "fileName": "525979822591a3447cfc49d943d6f7683508e25543407871c0ed8fed05fd2bd9.ttf"
+        },
+        "id": "a917ee06-b773-49af-882b-46dafd94e487"
+      }
+    },
+    {
+      "request": {
+        "operation": "project.create",
+        "params": {
+          "requestId": "57d27c93-dfbd-4a5f-9be7-035e8c1d0fc3",
+          "canvas": {
+            "width": 320,
+            "height": 80,
+            "fps": {
+              "numerator": 8,
+              "denominator": 1
+            },
+            "background": "#000000ff"
+          }
+        },
+        "transport": "cli",
+        "error": false
+      },
+      "response": {
+        "ok": true,
+        "data": {
+          "project": {
+            "projectId": "590cc767-1cb0-4818-b8b1-0ceedac896b8",
+            "title": "Untitled",
+            "createdAt": "2026-10-05T01:24:53.601Z",
+            "currentRevisionId": "e6463a63-8f61-405b-8225-f9c635db09ca"
+          },
+          "revision": {
+            "id": "e6463a63-8f61-405b-8225-f9c635db09ca",
+            "projectId": "590cc767-1cb0-4818-b8b1-0ceedac896b8",
+            "ordinal": 0,
+            "createdAt": "2026-10-05T01:24:53.601Z",
+            "operation": "create",
+            "document": {
+              "canvas": {
+                "width": 320,
+                "height": 80,
+                "fps": {
+                  "numerator": 8,
+                  "denominator": 1
+                },
+                "background": "#000000ff"
+              },
+              "tracks": [],
+              "groups": [],
+              "clips": [],
+              "syncGroups": [],
+              "processing": []
+            }
+          }
+        },
+        "id": "88ebb041-c1d8-4cb8-858f-240382ef456f"
+      }
+    },
+    {
+      "request": {
+        "operation": "edit.apply",
+        "params": {
+          "projectId": "590cc767-1cb0-4818-b8b1-0ceedac896b8",
+          "requestId": "2543eb7c-4814-4668-b8ae-3e55a8109c80",
+          "expectedRevisionId": "e6463a63-8f61-405b-8225-f9c635db09ca",
+          "operations": [
+            {
+              "operation": "track.add",
+              "track": {
+                "kind": "video",
+                "order": 0
+              },
+              "label": "captions"
+            },
+            {
+              "operation": "place",
+              "label": "first",
+              "clip": {
+                "trackId": {
+                  "label": "captions"
+                },
+                "source": {
+                  "kind": "text",
+                  "text": "Café & x < y\n二",
+                  "font": {
+                    "assetId": "525979822591a3447cfc49d943d6f7683508e25543407871c0ed8fed05fd2bd9",
+                    "postScriptName": "ArialMT"
+                  },
+                  "width": 320,
+                  "height": 80,
+                  "size": 32,
+                  "color": "#ffffffff",
+                  "alignment": "left",
+                  "wrap": true
+                },
+                "placement": {
+                  "kind": "project",
+                  "range": {
+                    "startUs": 999,
+                    "endUs": 1500
+                  }
+                }
+              }
+            },
+            {
+              "operation": "place",
+              "label": "second",
+              "clip": {
+                "trackId": {
+                  "label": "captions"
+                },
+                "source": {
+                  "kind": "text",
+                  "text": "Next",
+                  "font": {
+                    "assetId": "525979822591a3447cfc49d943d6f7683508e25543407871c0ed8fed05fd2bd9",
+                    "postScriptName": "ArialMT"
+                  },
+                  "width": 320,
+                  "height": 80,
+                  "size": 32,
+                  "color": "#ffffffff",
+                  "alignment": "left",
+                  "wrap": true
+                },
+                "placement": {
+                  "kind": "project",
+                  "range": {
+                    "startUs": 1500,
+                    "endUs": 2501
+                  }
+                }
+              }
+            },
+            {
+              "operation": "place",
+              "label": "empty",
+              "clip": {
+                "trackId": {
+                  "label": "captions"
+                },
+                "source": {
+                  "kind": "text",
+                  "text": "",
+                  "font": {
+                    "assetId": "525979822591a3447cfc49d943d6f7683508e25543407871c0ed8fed05fd2bd9",
+                    "postScriptName": "ArialMT"
+                  },
+                  "width": 320,
+                  "height": 80,
+                  "size": 32,
+                  "color": "#ffffffff",
+                  "alignment": "left",
+                  "wrap": true
+                },
+                "placement": {
+                  "kind": "project",
+                  "range": {
+                    "startUs": 3000,
+                    "endUs": 4000
+                  }
+                }
+              }
+            },
+            {
+              "operation": "place",
+              "label": "malformed",
+              "clip": {
+                "trackId": {
+                  "label": "captions"
+                },
+                "source": {
+                  "kind": "text",
+                  "text": "one\n\ntwo",
+                  "font": {
+                    "assetId": "525979822591a3447cfc49d943d6f7683508e25543407871c0ed8fed05fd2bd9",
+                    "postScriptName": "ArialMT"
+                  },
+                  "width": 320,
+                  "height": 80,
+                  "size": 32,
+                  "color": "#ffffffff",
+                  "alignment": "left",
+                  "wrap": true
+                },
+                "placement": {
+                  "kind": "project",
+                  "range": {
+                    "startUs": 5000,
+                    "endUs": 6000
+                  }
+                }
+              }
+            },
+            {
+              "operation": "place",
+              "label": "literal",
+              "clip": {
+                "trackId": {
+                  "label": "captions"
+                },
+                "source": {
+                  "kind": "text",
+                  "text": "<b>literal</b>",
+                  "font": {
+                    "assetId": "525979822591a3447cfc49d943d6f7683508e25543407871c0ed8fed05fd2bd9",
+                    "postScriptName": "ArialMT"
+                  },
+                  "width": 320,
+                  "height": 80,
+                  "size": 32,
+                  "color": "#ffffffff",
+                  "alignment": "left",
+                  "wrap": true
+                },
+                "placement": {
+                  "kind": "project",
+                  "range": {
+                    "startUs": 7000,
+                    "endUs": 8000
+                  }
+                }
+              }
+            },
+            {
+              "operation": "place",
+              "label": "timing",
+              "clip": {
+                "trackId": {
+                  "label": "captions"
+                },
+                "source": {
+                  "kind": "text",
+                  "text": "Before\n00:00:10,000 --> 00:00:20,000\nAfter",
+                  "font": {
+                    "assetId": "525979822591a3447cfc49d943d6f7683508e25543407871c0ed8fed05fd2bd9",
+                    "postScriptName": "ArialMT"
+                  },
+                  "width": 320,
+                  "height": 80,
+                  "size": 32,
+                  "color": "#ffffffff",
+                  "alignment": "left",
+                  "wrap": true
+                },
+                "placement": {
+                  "kind": "project",
+                  "range": {
+                    "startUs": 9000,
+                    "endUs": 10000
+                  }
+                }
+              }
+            },
+            {
+              "operation": "place",
+              "label": "spaced-tag",
+              "clip": {
+                "trackId": {
+                  "label": "captions"
+                },
+                "source": {
+                  "kind": "text",
+                  "text": "hello < b>bold",
+                  "font": {
+                    "assetId": "525979822591a3447cfc49d943d6f7683508e25543407871c0ed8fed05fd2bd9",
+                    "postScriptName": "ArialMT"
+                  },
+                  "width": 320,
+                  "height": 80,
+                  "size": 32,
+                  "color": "#ffffffff",
+                  "alignment": "left",
+                  "wrap": true
+                },
+                "placement": {
+                  "kind": "project",
+                  "range": {
+                    "startUs": 11000,
+                    "endUs": 12000
+                  }
+                }
+              }
+            }
+          ]
+        },
+        "transport": "cli",
+        "error": false
+      },
+      "response": {
+        "ok": true,
+        "data": {
+          "revision": {
+            "id": "383a0a74-0c61-42be-8231-052254c3047b",
+            "projectId": "590cc767-1cb0-4818-b8b1-0ceedac896b8",
+            "ordinal": 1,
+            "createdAt": "2026-10-05T01:24:53.681Z",
+            "operation": "apply",
+            "document": {
+              "canvas": {
+                "width": 320,
+                "height": 80,
+                "fps": {
+                  "numerator": 8,
+                  "denominator": 1
+                },
+                "background": "#000000ff"
+              },
+              "tracks": [
+                {
+                  "id": "track:60d66f132f0893ae90f9b68e565356abd96f5eec8a82ab07587e07f096b270f3:0",
+                  "kind": "video",
+                  "order": 0
+                }
+              ],
+              "groups": [],
+              "clips": [
+                {
+                  "id": "clip:60d66f132f0893ae90f9b68e565356abd96f5eec8a82ab07587e07f096b270f3:1",
+                  "trackId": "track:60d66f132f0893ae90f9b68e565356abd96f5eec8a82ab07587e07f096b270f3:0",
+                  "placement": {
+                    "kind": "project",
+                    "range": {
+                      "startUs": 999,
+                      "endUs": 1500
+                    }
+                  },
+                  "source": {
+                    "kind": "text",
+                    "text": "Café & x < y\n二",
+                    "font": {
+                      "assetId": "525979822591a3447cfc49d943d6f7683508e25543407871c0ed8fed05fd2bd9",
+                      "postScriptName": "ArialMT"
+                    },
+                    "width": 320,
+                    "height": 80,
+                    "size": 32,
+                    "color": "#ffffffff",
+                    "alignment": "left",
+                    "wrap": true
+                  }
+                },
+                {
+                  "id": "clip:60d66f132f0893ae90f9b68e565356abd96f5eec8a82ab07587e07f096b270f3:2",
+                  "trackId": "track:60d66f132f0893ae90f9b68e565356abd96f5eec8a82ab07587e07f096b270f3:0",
+                  "placement": {
+                    "kind": "project",
+                    "range": {
+                      "startUs": 1500,
+                      "endUs": 2501
+                    }
+                  },
+                  "source": {
+                    "kind": "text",
+                    "text": "Next",
+                    "font": {
+                      "assetId": "525979822591a3447cfc49d943d6f7683508e25543407871c0ed8fed05fd2bd9",
+                      "postScriptName": "ArialMT"
+                    },
+                    "width": 320,
+                    "height": 80,
+                    "size": 32,
+                    "color": "#ffffffff",
+                    "alignment": "left",
+                    "wrap": true
+                  }
+                },
+                {
+                  "id": "clip:60d66f132f0893ae90f9b68e565356abd96f5eec8a82ab07587e07f096b270f3:3",
+                  "trackId": "track:60d66f132f0893ae90f9b68e565356abd96f5eec8a82ab07587e07f096b270f3:0",
+                  "placement": {
+                    "kind": "project",
+                    "range": {
+                      "startUs": 3000,
+                      "endUs": 4000
+                    }
+                  },
+                  "source": {
+                    "kind": "text",
+                    "text": "",
+                    "font": {
+                      "assetId": "525979822591a3447cfc49d943d6f7683508e25543407871c0ed8fed05fd2bd9",
+                      "postScriptName": "ArialMT"
+                    },
+                    "width": 320,
+                    "height": 80,
+                    "size": 32,
+                    "color": "#ffffffff",
+                    "alignment": "left",
+                    "wrap": true
+                  }
+                },
+                {
+                  "id": "clip:60d66f132f0893ae90f9b68e565356abd96f5eec8a82ab07587e07f096b270f3:4",
+                  "trackId": "track:60d66f132f0893ae90f9b68e565356abd96f5eec8a82ab07587e07f096b270f3:0",
+                  "placement": {
+                    "kind": "project",
+                    "range": {
+                      "startUs": 5000,
+                      "endUs": 6000
+                    }
+                  },
+                  "source": {
+                    "kind": "text",
+                    "text": "one\n\ntwo",
+                    "font": {
+                      "assetId": "525979822591a3447cfc49d943d6f7683508e25543407871c0ed8fed05fd2bd9",
+                      "postScriptName": "ArialMT"
+                    },
+                    "width": 320,
+                    "height": 80,
+                    "size": 32,
+                    "color": "#ffffffff",
+                    "alignment": "left",
+                    "wrap": true
+                  }
+                },
+                {
+                  "id": "clip:60d66f132f0893ae90f9b68e565356abd96f5eec8a82ab07587e07f096b270f3:5",
+                  "trackId": "track:60d66f132f0893ae90f9b68e565356abd96f5eec8a82ab07587e07f096b270f3:0",
+                  "placement": {
+                    "kind": "project",
+                    "range": {
+                      "startUs": 7000,
+                      "endUs": 8000
+                    }
+                  },
+                  "source": {
+                    "kind": "text",
+                    "text": "<b>literal</b>",
+                    "font": {
+                      "assetId": "525979822591a3447cfc49d943d6f7683508e25543407871c0ed8fed05fd2bd9",
+                      "postScriptName": "ArialMT"
+                    },
+                    "width": 320,
+                    "height": 80,
+                    "size": 32,
+                    "color": "#ffffffff",
+                    "alignment": "left",
+                    "wrap": true
+                  }
+                },
+                {
+                  "id": "clip:60d66f132f0893ae90f9b68e565356abd96f5eec8a82ab07587e07f096b270f3:6",
+                  "trackId": "track:60d66f132f0893ae90f9b68e565356abd96f5eec8a82ab07587e07f096b270f3:0",
+                  "placement": {
+                    "kind": "project",
+                    "range": {
+                      "startUs": 9000,
+                      "endUs": 10000
+                    }
+                  },
+                  "source": {
+                    "kind": "text",
+                    "text": "Before\n00:00:10,000 --> 00:00:20,000\nAfter",
+                    "font": {
+                      "assetId": "525979822591a3447cfc49d943d6f7683508e25543407871c0ed8fed05fd2bd9",
+                      "postScriptName": "ArialMT"
+                    },
+                    "width": 320,
+                    "height": 80,
+                    "size": 32,
+                    "color": "#ffffffff",
+                    "alignment": "left",
+                    "wrap": true
+                  }
+                },
+                {
+                  "id": "clip:60d66f132f0893ae90f9b68e565356abd96f5eec8a82ab07587e07f096b270f3:7",
+                  "trackId": "track:60d66f132f0893ae90f9b68e565356abd96f5eec8a82ab07587e07f096b270f3:0",
+                  "placement": {
+                    "kind": "project",
+                    "range": {
+                      "startUs": 11000,
+                      "endUs": 12000
+                    }
+                  },
+                  "source": {
+                    "kind": "text",
+                    "text": "hello < b>bold",
+                    "font": {
+                      "assetId": "525979822591a3447cfc49d943d6f7683508e25543407871c0ed8fed05fd2bd9",
+                      "postScriptName": "ArialMT"
+                    },
+                    "width": 320,
+                    "height": 80,
+                    "size": 32,
+                    "color": "#ffffffff",
+                    "alignment": "left",
+                    "wrap": true
+                  }
+                }
+              ],
+              "syncGroups": [],
+              "processing": []
+            }
+          },
+          "edit": {
+            "changed": true,
+            "createdIds": [
+              {
+                "kind": "track",
+                "id": "track:60d66f132f0893ae90f9b68e565356abd96f5eec8a82ab07587e07f096b270f3:0"
+              },
+              {
+                "kind": "clip",
+                "id": "clip:60d66f132f0893ae90f9b68e565356abd96f5eec8a82ab07587e07f096b270f3:1"
+              },
+              {
+                "kind": "clip",
+                "id": "clip:60d66f132f0893ae90f9b68e565356abd96f5eec8a82ab07587e07f096b270f3:2"
+              },
+              {
+                "kind": "clip",
+                "id": "clip:60d66f132f0893ae90f9b68e565356abd96f5eec8a82ab07587e07f096b270f3:3"
+              },
+              {
+                "kind": "clip",
+                "id": "clip:60d66f132f0893ae90f9b68e565356abd96f5eec8a82ab07587e07f096b270f3:4"
+              },
+              {
+                "kind": "clip",
+                "id": "clip:60d66f132f0893ae90f9b68e565356abd96f5eec8a82ab07587e07f096b270f3:5"
+              },
+              {
+                "kind": "clip",
+                "id": "clip:60d66f132f0893ae90f9b68e565356abd96f5eec8a82ab07587e07f096b270f3:6"
+              },
+              {
+                "kind": "clip",
+                "id": "clip:60d66f132f0893ae90f9b68e565356abd96f5eec8a82ab07587e07f096b270f3:7"
+              }
+            ],
+            "labels": {
+              "captions": "track:60d66f132f0893ae90f9b68e565356abd96f5eec8a82ab07587e07f096b270f3:0",
+              "first": "clip:60d66f132f0893ae90f9b68e565356abd96f5eec8a82ab07587e07f096b270f3:1",
+              "second": "clip:60d66f132f0893ae90f9b68e565356abd96f5eec8a82ab07587e07f096b270f3:2",
+              "empty": "clip:60d66f132f0893ae90f9b68e565356abd96f5eec8a82ab07587e07f096b270f3:3",
+              "malformed": "clip:60d66f132f0893ae90f9b68e565356abd96f5eec8a82ab07587e07f096b270f3:4",
+              "literal": "clip:60d66f132f0893ae90f9b68e565356abd96f5eec8a82ab07587e07f096b270f3:5",
+              "timing": "clip:60d66f132f0893ae90f9b68e565356abd96f5eec8a82ab07587e07f096b270f3:6",
+              "spaced-tag": "clip:60d66f132f0893ae90f9b68e565356abd96f5eec8a82ab07587e07f096b270f3:7"
+            },
+            "normalized": [
+              {
+                "operationIndex": 0,
+                "changes": [
+                  {
+                    "kind": "track",
+                    "id": "track:60d66f132f0893ae90f9b68e565356abd96f5eec8a82ab07587e07f096b270f3:0",
+                    "value": {
+                      "id": "track:60d66f132f0893ae90f9b68e565356abd96f5eec8a82ab07587e07f096b270f3:0",
+                      "kind": "video",
+                      "order": 0
+                    }
+                  }
+                ]
+              },
+              {
+                "operationIndex": 1,
+                "changes": [
+                  {
+                    "kind": "clip",
+                    "id": "clip:60d66f132f0893ae90f9b68e565356abd96f5eec8a82ab07587e07f096b270f3:1",
+                    "value": {
+                      "id": "clip:60d66f132f0893ae90f9b68e565356abd96f5eec8a82ab07587e07f096b270f3:1",
+                      "trackId": "track:60d66f132f0893ae90f9b68e565356abd96f5eec8a82ab07587e07f096b270f3:0",
+                      "placement": {
+                        "kind": "project",
+                        "range": {
+                          "startUs": 999,
+                          "endUs": 1500
+                        }
+                      },
+                      "source": {
+                        "kind": "text",
+                        "text": "Café & x < y\n二",
+                        "font": {
+                          "assetId": "525979822591a3447cfc49d943d6f7683508e25543407871c0ed8fed05fd2bd9",
+                          "postScriptName": "ArialMT"
+                        },
+                        "width": 320,
+                        "height": 80,
+                        "size": 32,
+                        "color": "#ffffffff",
+                        "alignment": "left",
+                        "wrap": true
+                      }
+                    }
+                  }
+                ]
+              },
+              {
+                "operationIndex": 2,
+                "changes": [
+                  {
+                    "kind": "clip",
+                    "id": "clip:60d66f132f0893ae90f9b68e565356abd96f5eec8a82ab07587e07f096b270f3:2",
+                    "value": {
+                      "id": "clip:60d66f132f0893ae90f9b68e565356abd96f5eec8a82ab07587e07f096b270f3:2",
+                      "trackId": "track:60d66f132f0893ae90f9b68e565356abd96f5eec8a82ab07587e07f096b270f3:0",
+                      "placement": {
+                        "kind": "project",
+                        "range": {
+                          "startUs": 1500,
+                          "endUs": 2501
+                        }
+                      },
+                      "source": {
+                        "kind": "text",
+                        "text": "Next",
+                        "font": {
+                          "assetId": "525979822591a3447cfc49d943d6f7683508e25543407871c0ed8fed05fd2bd9",
+                          "postScriptName": "ArialMT"
+                        },
+                        "width": 320,
+                        "height": 80,
+                        "size": 32,
+                        "color": "#ffffffff",
+                        "alignment": "left",
+                        "wrap": true
+                      }
+                    }
+                  }
+                ]
+              },
+              {
+                "operationIndex": 3,
+                "changes": [
+                  {
+                    "kind": "clip",
+                    "id": "clip:60d66f132f0893ae90f9b68e565356abd96f5eec8a82ab07587e07f096b270f3:3",
+                    "value": {
+                      "id": "clip:60d66f132f0893ae90f9b68e565356abd96f5eec8a82ab07587e07f096b270f3:3",
+                      "trackId": "track:60d66f132f0893ae90f9b68e565356abd96f5eec8a82ab07587e07f096b270f3:0",
+                      "placement": {
+                        "kind": "project",
+                        "range": {
+                          "startUs": 3000,
+                          "endUs": 4000
+                        }
+                      },
+                      "source": {
+                        "kind": "text",
+                        "text": "",
+                        "font": {
+                          "assetId": "525979822591a3447cfc49d943d6f7683508e25543407871c0ed8fed05fd2bd9",
+                          "postScriptName": "ArialMT"
+                        },
+                        "width": 320,
+                        "height": 80,
+                        "size": 32,
+                        "color": "#ffffffff",
+                        "alignment": "left",
+                        "wrap": true
+                      }
+                    }
+                  }
+                ]
+              },
+              {
+                "operationIndex": 4,
+                "changes": [
+                  {
+                    "kind": "clip",
+                    "id": "clip:60d66f132f0893ae90f9b68e565356abd96f5eec8a82ab07587e07f096b270f3:4",
+                    "value": {
+                      "id": "clip:60d66f132f0893ae90f9b68e565356abd96f5eec8a82ab07587e07f096b270f3:4",
+                      "trackId": "track:60d66f132f0893ae90f9b68e565356abd96f5eec8a82ab07587e07f096b270f3:0",
+                      "placement": {
+                        "kind": "project",
+                        "range": {
+                          "startUs": 5000,
+                          "endUs": 6000
+                        }
+                      },
+                      "source": {
+                        "kind": "text",
+                        "text": "one\n\ntwo",
+                        "font": {
+                          "assetId": "525979822591a3447cfc49d943d6f7683508e25543407871c0ed8fed05fd2bd9",
+                          "postScriptName": "ArialMT"
+                        },
+                        "width": 320,
+                        "height": 80,
+                        "size": 32,
+                        "color": "#ffffffff",
+                        "alignment": "left",
+                        "wrap": true
+                      }
+                    }
+                  }
+                ]
+              },
+              {
+                "operationIndex": 5,
+                "changes": [
+                  {
+                    "kind": "clip",
+                    "id": "clip:60d66f132f0893ae90f9b68e565356abd96f5eec8a82ab07587e07f096b270f3:5",
+                    "value": {
+                      "id": "clip:60d66f132f0893ae90f9b68e565356abd96f5eec8a82ab07587e07f096b270f3:5",
+                      "trackId": "track:60d66f132f0893ae90f9b68e565356abd96f5eec8a82ab07587e07f096b270f3:0",
+                      "placement": {
+                        "kind": "project",
+                        "range": {
+                          "startUs": 7000,
+                          "endUs": 8000
+                        }
+                      },
+                      "source": {
+                        "kind": "text",
+                        "text": "<b>literal</b>",
+                        "font": {
+                          "assetId": "525979822591a3447cfc49d943d6f7683508e25543407871c0ed8fed05fd2bd9",
+                          "postScriptName": "ArialMT"
+                        },
+                        "width": 320,
+                        "height": 80,
+                        "size": 32,
+                        "color": "#ffffffff",
+                        "alignment": "left",
+                        "wrap": true
+                      }
+                    }
+                  }
+                ]
+              },
+              {
+                "operationIndex": 6,
+                "changes": [
+                  {
+                    "kind": "clip",
+                    "id": "clip:60d66f132f0893ae90f9b68e565356abd96f5eec8a82ab07587e07f096b270f3:6",
+                    "value": {
+                      "id": "clip:60d66f132f0893ae90f9b68e565356abd96f5eec8a82ab07587e07f096b270f3:6",
+                      "trackId": "track:60d66f132f0893ae90f9b68e565356abd96f5eec8a82ab07587e07f096b270f3:0",
+                      "placement": {
+                        "kind": "project",
+                        "range": {
+                          "startUs": 9000,
+                          "endUs": 10000
+                        }
+                      },
+                      "source": {
+                        "kind": "text",
+                        "text": "Before\n00:00:10,000 --> 00:00:20,000\nAfter",
+                        "font": {
+                          "assetId": "525979822591a3447cfc49d943d6f7683508e25543407871c0ed8fed05fd2bd9",
+                          "postScriptName": "ArialMT"
+                        },
+                        "width": 320,
+                        "height": 80,
+                        "size": 32,
+                        "color": "#ffffffff",
+                        "alignment": "left",
+                        "wrap": true
+                      }
+                    }
+                  }
+                ]
+              },
+              {
+                "operationIndex": 7,
+                "changes": [
+                  {
+                    "kind": "clip",
+                    "id": "clip:60d66f132f0893ae90f9b68e565356abd96f5eec8a82ab07587e07f096b270f3:7",
+                    "value": {
+                      "id": "clip:60d66f132f0893ae90f9b68e565356abd96f5eec8a82ab07587e07f096b270f3:7",
+                      "trackId": "track:60d66f132f0893ae90f9b68e565356abd96f5eec8a82ab07587e07f096b270f3:0",
+                      "placement": {
+                        "kind": "project",
+                        "range": {
+                          "startUs": 11000,
+                          "endUs": 12000
+                        }
+                      },
+                      "source": {
+                        "kind": "text",
+                        "text": "hello < b>bold",
+                        "font": {
+                          "assetId": "525979822591a3447cfc49d943d6f7683508e25543407871c0ed8fed05fd2bd9",
+                          "postScriptName": "ArialMT"
+                        },
+                        "width": 320,
+                        "height": 80,
+                        "size": 32,
+                        "color": "#ffffffff",
+                        "alignment": "left",
+                        "wrap": true
+                      }
+                    }
+                  }
+                ]
+              }
+            ],
+            "clipLineage": [],
+            "removedAttachments": [],
+            "processingLineage": [],
+            "touchedFixedAnchors": [],
+            "linkChanges": []
+          }
+        },
+        "id": "054ab7fc-30b1-4af7-82ec-95bab48c48bd"
+      }
+    },
+    {
+      "request": {
+        "operation": "export.create",
+        "params": {
+          "projectId": "590cc767-1cb0-4818-b8b1-0ceedac896b8",
+          "revisionId": "383a0a74-0c61-42be-8231-052254c3047b",
+          "placementIds": [
+            "clip:60d66f132f0893ae90f9b68e565356abd96f5eec8a82ab07587e07f096b270f3:2",
+            "clip:60d66f132f0893ae90f9b68e565356abd96f5eec8a82ab07587e07f096b270f3:1"
+          ],
+          "directory": "/tmp/screenrec-sidecars-reviewed",
+          "kind": "srt",
+          "exportId": "4a6a346c-09c6-4648-9b34-f187ca694d3b",
+          "leaf": "captions.srt"
+        },
+        "transport": "cli",
+        "error": false
+      },
+      "response": {
+        "ok": true,
+        "data": {
+          "exportId": "4a6a346c-09c6-4648-9b34-f187ca694d3b",
+          "kind": "srt",
+          "state": "running",
+          "abandoning": false,
+          "cleanupPending": false,
+          "recovery": {
+            "state": "not_requested",
+            "jobId": null,
+            "reason": null,
+            "retryable": false,
+            "published": null
+          },
+          "projectId": "590cc767-1cb0-4818-b8b1-0ceedac896b8",
+          "snapshot": {
+            "projectId": "590cc767-1cb0-4818-b8b1-0ceedac896b8",
+            "revisionId": "383a0a74-0c61-42be-8231-052254c3047b",
+            "kind": "srt",
+            "placementIds": [
+              "clip:60d66f132f0893ae90f9b68e565356abd96f5eec8a82ab07587e07f096b270f3:1",
+              "clip:60d66f132f0893ae90f9b68e565356abd96f5eec8a82ab07587e07f096b270f3:2"
+            ],
+            "cueCount": 2,
+            "omitted": [],
+            "addedOverlaps": [
+              {
+                "left": {
+                  "placementId": "clip:60d66f132f0893ae90f9b68e565356abd96f5eec8a82ab07587e07f096b270f3:1",
+                  "fragment": 0
+                },
+                "right": {
+                  "placementId": "clip:60d66f132f0893ae90f9b68e565356abd96f5eec8a82ab07587e07f096b270f3:2",
+                  "fragment": 0
+                },
+                "startMs": 1,
+                "endMs": 2
+              }
+            ],
+            "discardedStyling": [
+              "clip:60d66f132f0893ae90f9b68e565356abd96f5eec8a82ab07587e07f096b270f3:1",
+              "clip:60d66f132f0893ae90f9b68e565356abd96f5eec8a82ab07587e07f096b270f3:2"
+            ]
+          },
+          "destination": {
+            "directory": "/private/tmp/screenrec-sidecars-reviewed",
+            "leaf": "captions.srt"
+          },
+          "receipt": null,
+          "output": null,
+          "jobId": "069888b0-fbe6-4903-9021-476fbfa7e713",
+          "reason": null,
+          "retryable": false
+        },
+        "id": "c3391556-346f-4be4-841f-2ff34e9a6b79"
+      }
+    },
+    {
+      "request": {
+        "operation": "edit.apply",
+        "params": {
+          "projectId": "590cc767-1cb0-4818-b8b1-0ceedac896b8",
+          "requestId": "4d376d13-027b-4cec-b6f5-c36ef87fe9da",
+          "expectedRevisionId": "383a0a74-0c61-42be-8231-052254c3047b",
+          "operations": [
+            {
+              "operation": "text.set",
+              "clipId": "clip:60d66f132f0893ae90f9b68e565356abd96f5eec8a82ab07587e07f096b270f3:1",
+              "source": {
+                "kind": "text",
+                "text": "Later corrected revision",
+                "font": {
+                  "assetId": "525979822591a3447cfc49d943d6f7683508e25543407871c0ed8fed05fd2bd9",
+                  "postScriptName": "ArialMT"
+                },
+                "width": 320,
+                "height": 80,
+                "size": 32,
+                "color": "#ffffffff",
+                "alignment": "left",
+                "wrap": true
+              }
+            }
+          ]
+        },
+        "transport": "cli",
+        "error": false
+      },
+      "response": {
+        "ok": true,
+        "data": {
+          "revision": {
+            "id": "421eb28b-a1df-4e9f-803f-ad4d2e4ff754",
+            "projectId": "590cc767-1cb0-4818-b8b1-0ceedac896b8",
+            "ordinal": 2,
+            "createdAt": "2026-10-05T01:24:54.057Z",
+            "operation": "apply",
+            "document": {
+              "canvas": {
+                "width": 320,
+                "height": 80,
+                "fps": {
+                  "numerator": 8,
+                  "denominator": 1
+                },
+                "background": "#000000ff"
+              },
+              "tracks": [
+                {
+                  "id": "track:60d66f132f0893ae90f9b68e565356abd96f5eec8a82ab07587e07f096b270f3:0",
+                  "kind": "video",
+                  "order": 0
+                }
+              ],
+              "groups": [],
+              "clips": [
+                {
+                  "id": "clip:60d66f132f0893ae90f9b68e565356abd96f5eec8a82ab07587e07f096b270f3:1",
+                  "trackId": "track:60d66f132f0893ae90f9b68e565356abd96f5eec8a82ab07587e07f096b270f3:0",
+                  "placement": {
+                    "kind": "project",
+                    "range": {
+                      "startUs": 999,
+                      "endUs": 1500
+                    }
+                  },
+                  "source": {
+                    "kind": "text",
+                    "text": "Later corrected revision",
+                    "font": {
+                      "assetId": "525979822591a3447cfc49d943d6f7683508e25543407871c0ed8fed05fd2bd9",
+                      "postScriptName": "ArialMT"
+                    },
+                    "width": 320,
+                    "height": 80,
+                    "size": 32,
+                    "color": "#ffffffff",
+                    "alignment": "left",
+                    "wrap": true
+                  }
+                },
+                {
+                  "id": "clip:60d66f132f0893ae90f9b68e565356abd96f5eec8a82ab07587e07f096b270f3:2",
+                  "trackId": "track:60d66f132f0893ae90f9b68e565356abd96f5eec8a82ab07587e07f096b270f3:0",
+                  "placement": {
+                    "kind": "project",
+                    "range": {
+                      "startUs": 1500,
+                      "endUs": 2501
+                    }
+                  },
+                  "source": {
+                    "kind": "text",
+                    "text": "Next",
+                    "font": {
+                      "assetId": "525979822591a3447cfc49d943d6f7683508e25543407871c0ed8fed05fd2bd9",
+                      "postScriptName": "ArialMT"
+                    },
+                    "width": 320,
+                    "height": 80,
+                    "size": 32,
+                    "color": "#ffffffff",
+                    "alignment": "left",
+                    "wrap": true
+                  }
+                },
+                {
+                  "id": "clip:60d66f132f0893ae90f9b68e565356abd96f5eec8a82ab07587e07f096b270f3:3",
+                  "trackId": "track:60d66f132f0893ae90f9b68e565356abd96f5eec8a82ab07587e07f096b270f3:0",
+                  "placement": {
+                    "kind": "project",
+                    "range": {
+                      "startUs": 3000,
+                      "endUs": 4000
+                    }
+                  },
+                  "source": {
+                    "kind": "text",
+                    "text": "",
+                    "font": {
+                      "assetId": "525979822591a3447cfc49d943d6f7683508e25543407871c0ed8fed05fd2bd9",
+                      "postScriptName": "ArialMT"
+                    },
+                    "width": 320,
+                    "height": 80,
+                    "size": 32,
+                    "color": "#ffffffff",
+                    "alignment": "left",
+                    "wrap": true
+                  }
+                },
+                {
+                  "id": "clip:60d66f132f0893ae90f9b68e565356abd96f5eec8a82ab07587e07f096b270f3:4",
+                  "trackId": "track:60d66f132f0893ae90f9b68e565356abd96f5eec8a82ab07587e07f096b270f3:0",
+                  "placement": {
+                    "kind": "project",
+                    "range": {
+                      "startUs": 5000,
+                      "endUs": 6000
+                    }
+                  },
+                  "source": {
+                    "kind": "text",
+                    "text": "one\n\ntwo",
+                    "font": {
+                      "assetId": "525979822591a3447cfc49d943d6f7683508e25543407871c0ed8fed05fd2bd9",
+                      "postScriptName": "ArialMT"
+                    },
+                    "width": 320,
+                    "height": 80,
+                    "size": 32,
+                    "color": "#ffffffff",
+                    "alignment": "left",
+                    "wrap": true
+                  }
+                },
+                {
+                  "id": "clip:60d66f132f0893ae90f9b68e565356abd96f5eec8a82ab07587e07f096b270f3:5",
+                  "trackId": "track:60d66f132f0893ae90f9b68e565356abd96f5eec8a82ab07587e07f096b270f3:0",
+                  "placement": {
+                    "kind": "project",
+                    "range": {
+                      "startUs": 7000,
+                      "endUs": 8000
+                    }
+                  },
+                  "source": {
+                    "kind": "text",
+                    "text": "<b>literal</b>",
+                    "font": {
+                      "assetId": "525979822591a3447cfc49d943d6f7683508e25543407871c0ed8fed05fd2bd9",
+                      "postScriptName": "ArialMT"
+                    },
+                    "width": 320,
+                    "height": 80,
+                    "size": 32,
+                    "color": "#ffffffff",
+                    "alignment": "left",
+                    "wrap": true
+                  }
+                },
+                {
+                  "id": "clip:60d66f132f0893ae90f9b68e565356abd96f5eec8a82ab07587e07f096b270f3:6",
+                  "trackId": "track:60d66f132f0893ae90f9b68e565356abd96f5eec8a82ab07587e07f096b270f3:0",
+                  "placement": {
+                    "kind": "project",
+                    "range": {
+                      "startUs": 9000,
+                      "endUs": 10000
+                    }
+                  },
+                  "source": {
+                    "kind": "text",
+                    "text": "Before\n00:00:10,000 --> 00:00:20,000\nAfter",
+                    "font": {
+                      "assetId": "525979822591a3447cfc49d943d6f7683508e25543407871c0ed8fed05fd2bd9",
+                      "postScriptName": "ArialMT"
+                    },
+                    "width": 320,
+                    "height": 80,
+                    "size": 32,
+                    "color": "#ffffffff",
+                    "alignment": "left",
+                    "wrap": true
+                  }
+                },
+                {
+                  "id": "clip:60d66f132f0893ae90f9b68e565356abd96f5eec8a82ab07587e07f096b270f3:7",
+                  "trackId": "track:60d66f132f0893ae90f9b68e565356abd96f5eec8a82ab07587e07f096b270f3:0",
+                  "placement": {
+                    "kind": "project",
+                    "range": {
+                      "startUs": 11000,
+                      "endUs": 12000
+                    }
+                  },
+                  "source": {
+                    "kind": "text",
+                    "text": "hello < b>bold",
+                    "font": {
+                      "assetId": "525979822591a3447cfc49d943d6f7683508e25543407871c0ed8fed05fd2bd9",
+                      "postScriptName": "ArialMT"
+                    },
+                    "width": 320,
+                    "height": 80,
+                    "size": 32,
+                    "color": "#ffffffff",
+                    "alignment": "left",
+                    "wrap": true
+                  }
+                }
+              ],
+              "syncGroups": [],
+              "processing": []
+            }
+          },
+          "edit": {
+            "changed": true,
+            "createdIds": [],
+            "labels": {},
+            "normalized": [
+              {
+                "operationIndex": 0,
+                "changes": [
+                  {
+                    "kind": "clip",
+                    "id": "clip:60d66f132f0893ae90f9b68e565356abd96f5eec8a82ab07587e07f096b270f3:1",
+                    "value": {
+                      "id": "clip:60d66f132f0893ae90f9b68e565356abd96f5eec8a82ab07587e07f096b270f3:1",
+                      "trackId": "track:60d66f132f0893ae90f9b68e565356abd96f5eec8a82ab07587e07f096b270f3:0",
+                      "placement": {
+                        "kind": "project",
+                        "range": {
+                          "startUs": 999,
+                          "endUs": 1500
+                        }
+                      },
+                      "source": {
+                        "kind": "text",
+                        "text": "Later corrected revision",
+                        "font": {
+                          "assetId": "525979822591a3447cfc49d943d6f7683508e25543407871c0ed8fed05fd2bd9",
+                          "postScriptName": "ArialMT"
+                        },
+                        "width": 320,
+                        "height": 80,
+                        "size": 32,
+                        "color": "#ffffffff",
+                        "alignment": "left",
+                        "wrap": true
+                      }
+                    }
+                  }
+                ]
+              }
+            ],
+            "clipLineage": [],
+            "removedAttachments": [],
+            "processingLineage": [],
+            "touchedFixedAnchors": [],
+            "linkChanges": []
+          }
+        },
+        "id": "bb73728f-c212-4771-bdaf-41d8e6c61937"
+      }
+    },
+    {
+      "request": {
+        "operation": "export.create",
+        "params": {
+          "projectId": "590cc767-1cb0-4818-b8b1-0ceedac896b8",
+          "revisionId": "383a0a74-0c61-42be-8231-052254c3047b",
+          "placementIds": [
+            "clip:60d66f132f0893ae90f9b68e565356abd96f5eec8a82ab07587e07f096b270f3:1",
+            "clip:60d66f132f0893ae90f9b68e565356abd96f5eec8a82ab07587e07f096b270f3:2"
+          ],
+          "directory": "/tmp/screenrec-sidecars-reviewed",
+          "kind": "srt",
+          "exportId": "4a6a346c-09c6-4648-9b34-f187ca694d3b",
+          "leaf": "captions.srt"
+        },
+        "transport": "cli",
+        "error": false
+      },
+      "response": {
+        "ok": true,
+        "data": {
+          "exportId": "4a6a346c-09c6-4648-9b34-f187ca694d3b",
+          "kind": "srt",
+          "state": "running",
+          "abandoning": false,
+          "cleanupPending": false,
+          "recovery": {
+            "state": "not_requested",
+            "jobId": null,
+            "reason": null,
+            "retryable": false,
+            "published": null
+          },
+          "projectId": "590cc767-1cb0-4818-b8b1-0ceedac896b8",
+          "snapshot": {
+            "projectId": "590cc767-1cb0-4818-b8b1-0ceedac896b8",
+            "revisionId": "383a0a74-0c61-42be-8231-052254c3047b",
+            "kind": "srt",
+            "placementIds": [
+              "clip:60d66f132f0893ae90f9b68e565356abd96f5eec8a82ab07587e07f096b270f3:1",
+              "clip:60d66f132f0893ae90f9b68e565356abd96f5eec8a82ab07587e07f096b270f3:2"
+            ],
+            "cueCount": 2,
+            "omitted": [],
+            "addedOverlaps": [
+              {
+                "left": {
+                  "placementId": "clip:60d66f132f0893ae90f9b68e565356abd96f5eec8a82ab07587e07f096b270f3:1",
+                  "fragment": 0
+                },
+                "right": {
+                  "placementId": "clip:60d66f132f0893ae90f9b68e565356abd96f5eec8a82ab07587e07f096b270f3:2",
+                  "fragment": 0
+                },
+                "startMs": 1,
+                "endMs": 2
+              }
+            ],
+            "discardedStyling": [
+              "clip:60d66f132f0893ae90f9b68e565356abd96f5eec8a82ab07587e07f096b270f3:1",
+              "clip:60d66f132f0893ae90f9b68e565356abd96f5eec8a82ab07587e07f096b270f3:2"
+            ]
+          },
+          "destination": {
+            "directory": "/private/tmp/screenrec-sidecars-reviewed",
+            "leaf": "captions.srt"
+          },
+          "receipt": null,
+          "output": null,
+          "jobId": "069888b0-fbe6-4903-9021-476fbfa7e713",
+          "reason": null,
+          "retryable": false
+        },
+        "id": "55fd2489-d42d-4fe3-b2be-1ba43adca7c6"
+      }
+    },
+    {
+      "request": {
+        "operation": "export.create",
+        "params": {
+          "projectId": "590cc767-1cb0-4818-b8b1-0ceedac896b8",
+          "revisionId": "383a0a74-0c61-42be-8231-052254c3047b",
+          "placementIds": [
+            "clip:60d66f132f0893ae90f9b68e565356abd96f5eec8a82ab07587e07f096b270f3:2",
+            "clip:60d66f132f0893ae90f9b68e565356abd96f5eec8a82ab07587e07f096b270f3:1"
+          ],
+          "directory": "/tmp/screenrec-sidecars-reviewed",
+          "kind": "srt",
+          "exportId": "4a6a346c-09c6-4648-9b34-f187ca694d3b",
+          "leaf": "changed.srt"
+        },
+        "transport": "cli",
+        "error": true
+      },
+      "response": {
+        "ok": false,
+        "error": {
+          "code": "REQUEST_CONFLICT",
+          "message": "Export identity names a different request",
+          "retryable": false,
+          "details": {}
+        },
+        "id": "71827647-2453-4c03-ac00-90a8ebf77bd6"
+      }
+    },
+    {
+      "request": {
+        "operation": "export.retry",
+        "params": {
+          "exportId": "4a6a346c-09c6-4648-9b34-f187ca694d3b"
+        },
+        "transport": "cli",
+        "error": false
+      },
+      "response": {
+        "ok": true,
+        "data": {
+          "exportId": "4a6a346c-09c6-4648-9b34-f187ca694d3b",
+          "kind": "srt",
+          "state": "running",
+          "abandoning": false,
+          "cleanupPending": false,
+          "recovery": {
+            "state": "not_requested",
+            "jobId": null,
+            "reason": null,
+            "retryable": false,
+            "published": null
+          },
+          "projectId": "590cc767-1cb0-4818-b8b1-0ceedac896b8",
+          "snapshot": {
+            "projectId": "590cc767-1cb0-4818-b8b1-0ceedac896b8",
+            "revisionId": "383a0a74-0c61-42be-8231-052254c3047b",
+            "kind": "srt",
+            "placementIds": [
+              "clip:60d66f132f0893ae90f9b68e565356abd96f5eec8a82ab07587e07f096b270f3:1",
+              "clip:60d66f132f0893ae90f9b68e565356abd96f5eec8a82ab07587e07f096b270f3:2"
+            ],
+            "cueCount": 2,
+            "omitted": [],
+            "addedOverlaps": [
+              {
+                "left": {
+                  "placementId": "clip:60d66f132f0893ae90f9b68e565356abd96f5eec8a82ab07587e07f096b270f3:1",
+                  "fragment": 0
+                },
+                "right": {
+                  "placementId": "clip:60d66f132f0893ae90f9b68e565356abd96f5eec8a82ab07587e07f096b270f3:2",
+                  "fragment": 0
+                },
+                "startMs": 1,
+                "endMs": 2
+              }
+            ],
+            "discardedStyling": [
+              "clip:60d66f132f0893ae90f9b68e565356abd96f5eec8a82ab07587e07f096b270f3:1",
+              "clip:60d66f132f0893ae90f9b68e565356abd96f5eec8a82ab07587e07f096b270f3:2"
+            ]
+          },
+          "destination": {
+            "directory": "/private/tmp/screenrec-sidecars-reviewed",
+            "leaf": "captions.srt"
+          },
+          "receipt": null,
+          "output": null,
+          "jobId": "069888b0-fbe6-4903-9021-476fbfa7e713",
+          "reason": null,
+          "retryable": false
+        },
+        "id": "43d0a6f2-fc3f-4c12-b5dc-f81cc8dbe4b9"
+      }
+    },
+    {
+      "request": {
+        "operation": "export.status",
+        "params": {
+          "exportId": "4a6a346c-09c6-4648-9b34-f187ca694d3b"
+        },
+        "transport": "cli",
+        "error": false
+      },
+      "response": {
+        "ok": true,
+        "data": {
+          "exportId": "4a6a346c-09c6-4648-9b34-f187ca694d3b",
+          "kind": "srt",
+          "state": "committed",
+          "abandoning": false,
+          "cleanupPending": false,
+          "recovery": {
+            "state": "not_requested",
+            "jobId": null,
+            "reason": null,
+            "retryable": false,
+            "published": null
+          },
+          "projectId": "590cc767-1cb0-4818-b8b1-0ceedac896b8",
+          "snapshot": {
+            "projectId": "590cc767-1cb0-4818-b8b1-0ceedac896b8",
+            "revisionId": "383a0a74-0c61-42be-8231-052254c3047b",
+            "kind": "srt",
+            "placementIds": [
+              "clip:60d66f132f0893ae90f9b68e565356abd96f5eec8a82ab07587e07f096b270f3:1",
+              "clip:60d66f132f0893ae90f9b68e565356abd96f5eec8a82ab07587e07f096b270f3:2"
+            ],
+            "cueCount": 2,
+            "omitted": [],
+            "addedOverlaps": [
+              {
+                "left": {
+                  "placementId": "clip:60d66f132f0893ae90f9b68e565356abd96f5eec8a82ab07587e07f096b270f3:1",
+                  "fragment": 0
+                },
+                "right": {
+                  "placementId": "clip:60d66f132f0893ae90f9b68e565356abd96f5eec8a82ab07587e07f096b270f3:2",
+                  "fragment": 0
+                },
+                "startMs": 1,
+                "endMs": 2
+              }
+            ],
+            "discardedStyling": [
+              "clip:60d66f132f0893ae90f9b68e565356abd96f5eec8a82ab07587e07f096b270f3:1",
+              "clip:60d66f132f0893ae90f9b68e565356abd96f5eec8a82ab07587e07f096b270f3:2"
+            ]
+          },
+          "destination": {
+            "directory": "/private/tmp/screenrec-sidecars-reviewed",
+            "leaf": "captions.srt"
+          },
+          "receipt": {
+            "bytes": 89,
+            "destination": {
+              "dev": "16777232",
+              "ino": "2945281"
+            },
+            "file": {
+              "dev": "16777232",
+              "ino": "2945386"
+            },
+            "leaf": "captions.srt",
+            "sha256": "31bcfd8253bd8bccd0840064da34eca9872cc1208a08c7a7da47d43183df90d8",
+            "stage": {
+              "dev": "16777232",
+              "ino": "2945368"
+            }
+          },
+          "output": "/private/tmp/screenrec-sidecars-reviewed/captions.srt",
+          "jobId": "069888b0-fbe6-4903-9021-476fbfa7e713",
+          "reason": null,
+          "retryable": false
+        },
+        "id": "d5d15e25-8c4b-4489-851a-3faadd221ef2"
+      }
+    },
+    {
+      "request": {
+        "operation": "export.create",
+        "params": {
+          "projectId": "590cc767-1cb0-4818-b8b1-0ceedac896b8",
+          "revisionId": "383a0a74-0c61-42be-8231-052254c3047b",
+          "placementIds": [
+            "clip:60d66f132f0893ae90f9b68e565356abd96f5eec8a82ab07587e07f096b270f3:2",
+            "clip:60d66f132f0893ae90f9b68e565356abd96f5eec8a82ab07587e07f096b270f3:1"
+          ],
+          "directory": "/tmp/screenrec-sidecars-reviewed",
+          "kind": "srt",
+          "exportId": "4a6a346c-09c6-4648-9b34-f187ca694d3b",
+          "leaf": "captions.srt"
+        },
+        "transport": "cli",
+        "error": false
+      },
+      "response": {
+        "ok": true,
+        "data": {
+          "exportId": "4a6a346c-09c6-4648-9b34-f187ca694d3b",
+          "kind": "srt",
+          "state": "committed",
+          "abandoning": false,
+          "cleanupPending": false,
+          "recovery": {
+            "state": "not_requested",
+            "jobId": null,
+            "reason": null,
+            "retryable": false,
+            "published": null
+          },
+          "projectId": "590cc767-1cb0-4818-b8b1-0ceedac896b8",
+          "snapshot": {
+            "projectId": "590cc767-1cb0-4818-b8b1-0ceedac896b8",
+            "revisionId": "383a0a74-0c61-42be-8231-052254c3047b",
+            "kind": "srt",
+            "placementIds": [
+              "clip:60d66f132f0893ae90f9b68e565356abd96f5eec8a82ab07587e07f096b270f3:1",
+              "clip:60d66f132f0893ae90f9b68e565356abd96f5eec8a82ab07587e07f096b270f3:2"
+            ],
+            "cueCount": 2,
+            "omitted": [],
+            "addedOverlaps": [
+              {
+                "left": {
+                  "placementId": "clip:60d66f132f0893ae90f9b68e565356abd96f5eec8a82ab07587e07f096b270f3:1",
+                  "fragment": 0
+                },
+                "right": {
+                  "placementId": "clip:60d66f132f0893ae90f9b68e565356abd96f5eec8a82ab07587e07f096b270f3:2",
+                  "fragment": 0
+                },
+                "startMs": 1,
+                "endMs": 2
+              }
+            ],
+            "discardedStyling": [
+              "clip:60d66f132f0893ae90f9b68e565356abd96f5eec8a82ab07587e07f096b270f3:1",
+              "clip:60d66f132f0893ae90f9b68e565356abd96f5eec8a82ab07587e07f096b270f3:2"
+            ]
+          },
+          "destination": {
+            "directory": "/private/tmp/screenrec-sidecars-reviewed",
+            "leaf": "captions.srt"
+          },
+          "receipt": {
+            "bytes": 89,
+            "destination": {
+              "dev": "16777232",
+              "ino": "2945281"
+            },
+            "file": {
+              "dev": "16777232",
+              "ino": "2945386"
+            },
+            "leaf": "captions.srt",
+            "sha256": "31bcfd8253bd8bccd0840064da34eca9872cc1208a08c7a7da47d43183df90d8",
+            "stage": {
+              "dev": "16777232",
+              "ino": "2945368"
+            }
+          },
+          "output": "/private/tmp/screenrec-sidecars-reviewed/captions.srt",
+          "jobId": "069888b0-fbe6-4903-9021-476fbfa7e713",
+          "reason": null,
+          "retryable": false
+        },
+        "id": "59045b85-1942-4611-8848-b914e539bb2f"
+      }
+    },
+    {
+      "request": {
+        "operation": "export.retry",
+        "params": {
+          "exportId": "4a6a346c-09c6-4648-9b34-f187ca694d3b"
+        },
+        "transport": "cli",
+        "error": false
+      },
+      "response": {
+        "ok": true,
+        "data": {
+          "exportId": "4a6a346c-09c6-4648-9b34-f187ca694d3b",
+          "kind": "srt",
+          "state": "committed",
+          "abandoning": false,
+          "cleanupPending": false,
+          "recovery": {
+            "state": "not_requested",
+            "jobId": null,
+            "reason": null,
+            "retryable": false,
+            "published": null
+          },
+          "projectId": "590cc767-1cb0-4818-b8b1-0ceedac896b8",
+          "snapshot": {
+            "projectId": "590cc767-1cb0-4818-b8b1-0ceedac896b8",
+            "revisionId": "383a0a74-0c61-42be-8231-052254c3047b",
+            "kind": "srt",
+            "placementIds": [
+              "clip:60d66f132f0893ae90f9b68e565356abd96f5eec8a82ab07587e07f096b270f3:1",
+              "clip:60d66f132f0893ae90f9b68e565356abd96f5eec8a82ab07587e07f096b270f3:2"
+            ],
+            "cueCount": 2,
+            "omitted": [],
+            "addedOverlaps": [
+              {
+                "left": {
+                  "placementId": "clip:60d66f132f0893ae90f9b68e565356abd96f5eec8a82ab07587e07f096b270f3:1",
+                  "fragment": 0
+                },
+                "right": {
+                  "placementId": "clip:60d66f132f0893ae90f9b68e565356abd96f5eec8a82ab07587e07f096b270f3:2",
+                  "fragment": 0
+                },
+                "startMs": 1,
+                "endMs": 2
+              }
+            ],
+            "discardedStyling": [
+              "clip:60d66f132f0893ae90f9b68e565356abd96f5eec8a82ab07587e07f096b270f3:1",
+              "clip:60d66f132f0893ae90f9b68e565356abd96f5eec8a82ab07587e07f096b270f3:2"
+            ]
+          },
+          "destination": {
+            "directory": "/private/tmp/screenrec-sidecars-reviewed",
+            "leaf": "captions.srt"
+          },
+          "receipt": {
+            "bytes": 89,
+            "destination": {
+              "dev": "16777232",
+              "ino": "2945281"
+            },
+            "file": {
+              "dev": "16777232",
+              "ino": "2945386"
+            },
+            "leaf": "captions.srt",
+            "sha256": "31bcfd8253bd8bccd0840064da34eca9872cc1208a08c7a7da47d43183df90d8",
+            "stage": {
+              "dev": "16777232",
+              "ino": "2945368"
+            }
+          },
+          "output": "/private/tmp/screenrec-sidecars-reviewed/captions.srt",
+          "jobId": "069888b0-fbe6-4903-9021-476fbfa7e713",
+          "reason": null,
+          "retryable": false
+        },
+        "id": "63391425-2ea0-492b-9e3f-f6e1dad5f036"
+      }
+    },
+    {
+      "request": {
+        "operation": "export.create",
+        "params": {
+          "projectId": "590cc767-1cb0-4818-b8b1-0ceedac896b8",
+          "revisionId": "383a0a74-0c61-42be-8231-052254c3047b",
+          "placementIds": [
+            "clip:60d66f132f0893ae90f9b68e565356abd96f5eec8a82ab07587e07f096b270f3:2",
+            "clip:60d66f132f0893ae90f9b68e565356abd96f5eec8a82ab07587e07f096b270f3:1"
+          ],
+          "directory": "/tmp/screenrec-sidecars-reviewed",
+          "kind": "vtt",
+          "exportId": "0df0fe8c-35a5-4b36-bb78-a2fa168f64a8",
+          "leaf": "captions.vtt"
+        },
+        "transport": "mcp",
+        "error": false
+      },
+      "response": {
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"ok\":true,\"data\":{\"exportId\":\"0df0fe8c-35a5-4b36-bb78-a2fa168f64a8\",\"kind\":\"vtt\",\"state\":\"running\",\"abandoning\":false,\"cleanupPending\":false,\"recovery\":{\"state\":\"not_requested\",\"jobId\":null,\"reason\":null,\"retryable\":false,\"published\":null},\"projectId\":\"590cc767-1cb0-4818-b8b1-0ceedac896b8\",\"snapshot\":{\"projectId\":\"590cc767-1cb0-4818-b8b1-0ceedac896b8\",\"revisionId\":\"383a0a74-0c61-42be-8231-052254c3047b\",\"kind\":\"vtt\",\"placementIds\":[\"clip:60d66f132f0893ae90f9b68e565356abd96f5eec8a82ab07587e07f096b270f3:1\",\"clip:60d66f132f0893ae90f9b68e565356abd96f5eec8a82ab07587e07f096b270f3:2\"],\"cueCount\":2,\"omitted\":[],\"addedOverlaps\":[{\"left\":{\"placementId\":\"clip:60d66f132f0893ae90f9b68e565356abd96f5eec8a82ab07587e07f096b270f3:1\",\"fragment\":0},\"right\":{\"placementId\":\"clip:60d66f132f0893ae90f9b68e565356abd96f5eec8a82ab07587e07f096b270f3:2\",\"fragment\":0},\"startMs\":1,\"endMs\":2}],\"discardedStyling\":[\"clip:60d66f132f0893ae90f9b68e565356abd96f5eec8a82ab07587e07f096b270f3:1\",\"clip:60d66f132f0893ae90f9b68e565356abd96f5eec8a82ab07587e07f096b270f3:2\"]},\"destination\":{\"directory\":\"/private/tmp/screenrec-sidecars-reviewed\",\"leaf\":\"captions.vtt\"},\"receipt\":null,\"output\":null,\"jobId\":\"dc9661d1-68b2-43d9-9093-2c57060fdf9a\",\"reason\":null,\"retryable\":false},\"id\":\"8b81b60f-c403-4460-a0d1-ce4aa3b869f5\"}"
+          }
+        ],
+        "structuredContent": {
+          "ok": true,
+          "data": {
+            "exportId": "0df0fe8c-35a5-4b36-bb78-a2fa168f64a8",
+            "kind": "vtt",
+            "state": "running",
+            "abandoning": false,
+            "cleanupPending": false,
+            "recovery": {
+              "state": "not_requested",
+              "jobId": null,
+              "reason": null,
+              "retryable": false,
+              "published": null
+            },
+            "projectId": "590cc767-1cb0-4818-b8b1-0ceedac896b8",
+            "snapshot": {
+              "projectId": "590cc767-1cb0-4818-b8b1-0ceedac896b8",
+              "revisionId": "383a0a74-0c61-42be-8231-052254c3047b",
+              "kind": "vtt",
+              "placementIds": [
+                "clip:60d66f132f0893ae90f9b68e565356abd96f5eec8a82ab07587e07f096b270f3:1",
+                "clip:60d66f132f0893ae90f9b68e565356abd96f5eec8a82ab07587e07f096b270f3:2"
+              ],
+              "cueCount": 2,
+              "omitted": [],
+              "addedOverlaps": [
+                {
+                  "left": {
+                    "placementId": "clip:60d66f132f0893ae90f9b68e565356abd96f5eec8a82ab07587e07f096b270f3:1",
+                    "fragment": 0
+                  },
+                  "right": {
+                    "placementId": "clip:60d66f132f0893ae90f9b68e565356abd96f5eec8a82ab07587e07f096b270f3:2",
+                    "fragment": 0
+                  },
+                  "startMs": 1,
+                  "endMs": 2
+                }
+              ],
+              "discardedStyling": [
+                "clip:60d66f132f0893ae90f9b68e565356abd96f5eec8a82ab07587e07f096b270f3:1",
+                "clip:60d66f132f0893ae90f9b68e565356abd96f5eec8a82ab07587e07f096b270f3:2"
+              ]
+            },
+            "destination": {
+              "directory": "/private/tmp/screenrec-sidecars-reviewed",
+              "leaf": "captions.vtt"
+            },
+            "receipt": null,
+            "output": null,
+            "jobId": "dc9661d1-68b2-43d9-9093-2c57060fdf9a",
+            "reason": null,
+            "retryable": false
+          },
+          "id": "8b81b60f-c403-4460-a0d1-ce4aa3b869f5"
+        },
+        "isError": false
+      }
+    },
+    {
+      "request": {
+        "operation": "export.status",
+        "params": {
+          "exportId": "0df0fe8c-35a5-4b36-bb78-a2fa168f64a8"
+        },
+        "transport": "cli",
+        "error": false
+      },
+      "response": {
+        "ok": true,
+        "data": {
+          "exportId": "0df0fe8c-35a5-4b36-bb78-a2fa168f64a8",
+          "kind": "vtt",
+          "state": "committed",
+          "abandoning": false,
+          "cleanupPending": false,
+          "recovery": {
+            "state": "not_requested",
+            "jobId": null,
+            "reason": null,
+            "retryable": false,
+            "published": null
+          },
+          "projectId": "590cc767-1cb0-4818-b8b1-0ceedac896b8",
+          "snapshot": {
+            "projectId": "590cc767-1cb0-4818-b8b1-0ceedac896b8",
+            "revisionId": "383a0a74-0c61-42be-8231-052254c3047b",
+            "kind": "vtt",
+            "placementIds": [
+              "clip:60d66f132f0893ae90f9b68e565356abd96f5eec8a82ab07587e07f096b270f3:1",
+              "clip:60d66f132f0893ae90f9b68e565356abd96f5eec8a82ab07587e07f096b270f3:2"
+            ],
+            "cueCount": 2,
+            "omitted": [],
+            "addedOverlaps": [
+              {
+                "left": {
+                  "placementId": "clip:60d66f132f0893ae90f9b68e565356abd96f5eec8a82ab07587e07f096b270f3:1",
+                  "fragment": 0
+                },
+                "right": {
+                  "placementId": "clip:60d66f132f0893ae90f9b68e565356abd96f5eec8a82ab07587e07f096b270f3:2",
+                  "fragment": 0
+                },
+                "startMs": 1,
+                "endMs": 2
+              }
+            ],
+            "discardedStyling": [
+              "clip:60d66f132f0893ae90f9b68e565356abd96f5eec8a82ab07587e07f096b270f3:1",
+              "clip:60d66f132f0893ae90f9b68e565356abd96f5eec8a82ab07587e07f096b270f3:2"
+            ]
+          },
+          "destination": {
+            "directory": "/private/tmp/screenrec-sidecars-reviewed",
+            "leaf": "captions.vtt"
+          },
+          "receipt": {
+            "bytes": 100,
+            "destination": {
+              "dev": "16777232",
+              "ino": "2945281"
+            },
+            "file": {
+              "dev": "16777232",
+              "ino": "2945407"
+            },
+            "leaf": "captions.vtt",
+            "sha256": "f8e559d768928c9a6047b2f9827a0db5c8528bcdd1ade2a848c030d64eb060c6",
+            "stage": {
+              "dev": "16777232",
+              "ino": "2945401"
+            }
+          },
+          "output": "/private/tmp/screenrec-sidecars-reviewed/captions.vtt",
+          "jobId": "dc9661d1-68b2-43d9-9093-2c57060fdf9a",
+          "reason": null,
+          "retryable": false
+        },
+        "id": "9febf0fd-12ed-49ea-82ee-1955d9ac82df"
+      }
+    },
+    {
+      "request": {
+        "operation": "export.create",
+        "params": {
+          "projectId": "590cc767-1cb0-4818-b8b1-0ceedac896b8",
+          "revisionId": "383a0a74-0c61-42be-8231-052254c3047b",
+          "placementIds": [
+            "clip:60d66f132f0893ae90f9b68e565356abd96f5eec8a82ab07587e07f096b270f3:4"
+          ],
+          "directory": "/tmp/screenrec-sidecars-reviewed",
+          "exportId": "978e8bfa-f912-4a79-a3e5-756f549b7b43",
+          "kind": "srt",
+          "leaf": "bad.srt"
+        },
+        "transport": "cli",
+        "error": true
+      },
+      "response": {
+        "ok": false,
+        "error": {
+          "code": "INVALID_COMPOSITION",
+          "message": "Caption payload cannot contain controls, invalid Unicode or blank lines",
+          "retryable": false,
+          "details": {
+            "placementId": "clip:60d66f132f0893ae90f9b68e565356abd96f5eec8a82ab07587e07f096b270f3:4"
+          }
+        },
+        "id": "f9f0052f-748a-40f9-b875-eef99c83f1d8"
+      }
+    },
+    {
+      "request": {
+        "operation": "export.create",
+        "params": {
+          "projectId": "590cc767-1cb0-4818-b8b1-0ceedac896b8",
+          "revisionId": "383a0a74-0c61-42be-8231-052254c3047b",
+          "placementIds": [
+            "unknown-placement"
+          ],
+          "directory": "/tmp/screenrec-sidecars-reviewed",
+          "exportId": "a6dfb3f6-d02c-4a2b-a20a-b20978fe9a9b",
+          "kind": "srt",
+          "leaf": "unknown.srt"
+        },
+        "transport": "cli",
+        "error": true
+      },
+      "response": {
+        "ok": false,
+        "error": {
+          "code": "UNKNOWN_CLIP",
+          "message": "Caption placement does not exist",
+          "retryable": false,
+          "details": {
+            "placementId": "unknown-placement"
+          }
+        },
+        "id": "dc988a88-f088-4a2e-9ec1-4503fb5a8eea"
+      }
+    },
+    {
+      "request": {
+        "operation": "export.create",
+        "params": {
+          "projectId": "590cc767-1cb0-4818-b8b1-0ceedac896b8",
+          "revisionId": "383a0a74-0c61-42be-8231-052254c3047b",
+          "placementIds": [
+            "clip:60d66f132f0893ae90f9b68e565356abd96f5eec8a82ab07587e07f096b270f3:5"
+          ],
+          "directory": "/tmp/screenrec-sidecars-reviewed",
+          "exportId": "24276041-c0ef-4c93-8de4-23c3b213bb5a",
+          "kind": "srt",
+          "leaf": "literal.srt"
+        },
+        "transport": "cli",
+        "error": true
+      },
+      "response": {
+        "ok": false,
+        "error": {
+          "code": "UNSUPPORTED_FORMAT",
+          "message": "SRT cannot reliably preserve literal subtitle syntax; choose VTT",
+          "retryable": false,
+          "details": {
+            "placementId": "clip:60d66f132f0893ae90f9b68e565356abd96f5eec8a82ab07587e07f096b270f3:5",
+            "format": "srt",
+            "alternative": "vtt"
+          }
+        },
+        "id": "0212d76c-dd06-42a1-9b27-8be03340ec50"
+      }
+    },
+    {
+      "request": {
+        "operation": "export.create",
+        "params": {
+          "projectId": "590cc767-1cb0-4818-b8b1-0ceedac896b8",
+          "revisionId": "383a0a74-0c61-42be-8231-052254c3047b",
+          "placementIds": [
+            "clip:60d66f132f0893ae90f9b68e565356abd96f5eec8a82ab07587e07f096b270f3:6"
+          ],
+          "directory": "/tmp/screenrec-sidecars-reviewed",
+          "exportId": "f62e6dd2-ade9-44e6-b79b-1dc9a4ce359e",
+          "kind": "srt",
+          "leaf": "timing.srt"
+        },
+        "transport": "cli",
+        "error": true
+      },
+      "response": {
+        "ok": false,
+        "error": {
+          "code": "UNSUPPORTED_FORMAT",
+          "message": "SRT cannot reliably preserve literal subtitle syntax; choose VTT",
+          "retryable": false,
+          "details": {
+            "placementId": "clip:60d66f132f0893ae90f9b68e565356abd96f5eec8a82ab07587e07f096b270f3:6",
+            "format": "srt",
+            "alternative": "vtt"
+          }
+        },
+        "id": "a79d468f-84c0-4ce0-9c4b-e295f7ce21d9"
+      }
+    },
+    {
+      "request": {
+        "operation": "export.create",
+        "params": {
+          "projectId": "590cc767-1cb0-4818-b8b1-0ceedac896b8",
+          "revisionId": "383a0a74-0c61-42be-8231-052254c3047b",
+          "placementIds": [
+            "clip:60d66f132f0893ae90f9b68e565356abd96f5eec8a82ab07587e07f096b270f3:7"
+          ],
+          "directory": "/tmp/screenrec-sidecars-reviewed",
+          "exportId": "126c4bf0-6298-4455-a881-f0eb7a6479d0",
+          "kind": "srt",
+          "leaf": "spaced-tag.srt"
+        },
+        "transport": "cli",
+        "error": true
+      },
+      "response": {
+        "ok": false,
+        "error": {
+          "code": "UNSUPPORTED_FORMAT",
+          "message": "SRT cannot reliably preserve literal subtitle syntax; choose VTT",
+          "retryable": false,
+          "details": {
+            "placementId": "clip:60d66f132f0893ae90f9b68e565356abd96f5eec8a82ab07587e07f096b270f3:7",
+            "format": "srt",
+            "alternative": "vtt"
+          }
+        },
+        "id": "df3090cf-3d24-4576-b750-dec0475c74a2"
+      }
+    },
+    {
+      "request": {
+        "operation": "export.create",
+        "params": {
+          "projectId": "590cc767-1cb0-4818-b8b1-0ceedac896b8",
+          "revisionId": "383a0a74-0c61-42be-8231-052254c3047b",
+          "placementIds": [
+            "clip:60d66f132f0893ae90f9b68e565356abd96f5eec8a82ab07587e07f096b270f3:5"
+          ],
+          "directory": "/tmp/screenrec-sidecars-reviewed",
+          "exportId": "7e070c64-7d30-4b59-8d43-472ea9cbb09b",
+          "kind": "vtt",
+          "leaf": "literal.vtt"
+        },
+        "transport": "cli",
+        "error": false
+      },
+      "response": {
+        "ok": true,
+        "data": {
+          "exportId": "7e070c64-7d30-4b59-8d43-472ea9cbb09b",
+          "kind": "vtt",
+          "state": "running",
+          "abandoning": false,
+          "cleanupPending": false,
+          "recovery": {
+            "state": "not_requested",
+            "jobId": null,
+            "reason": null,
+            "retryable": false,
+            "published": null
+          },
+          "projectId": "590cc767-1cb0-4818-b8b1-0ceedac896b8",
+          "snapshot": {
+            "projectId": "590cc767-1cb0-4818-b8b1-0ceedac896b8",
+            "revisionId": "383a0a74-0c61-42be-8231-052254c3047b",
+            "kind": "vtt",
+            "placementIds": [
+              "clip:60d66f132f0893ae90f9b68e565356abd96f5eec8a82ab07587e07f096b270f3:5"
+            ],
+            "cueCount": 1,
+            "omitted": [],
+            "addedOverlaps": [],
+            "discardedStyling": [
+              "clip:60d66f132f0893ae90f9b68e565356abd96f5eec8a82ab07587e07f096b270f3:5"
+            ]
+          },
+          "destination": {
+            "directory": "/private/tmp/screenrec-sidecars-reviewed",
+            "leaf": "literal.vtt"
+          },
+          "receipt": null,
+          "output": null,
+          "jobId": "1a8bbdb6-1302-4454-b8ce-468fbec6da4b",
+          "reason": null,
+          "retryable": false
+        },
+        "id": "a5329168-86c7-4fa3-84d2-633239b92556"
+      }
+    },
+    {
+      "request": {
+        "operation": "export.status",
+        "params": {
+          "exportId": "7e070c64-7d30-4b59-8d43-472ea9cbb09b"
+        },
+        "transport": "cli",
+        "error": false
+      },
+      "response": {
+        "ok": true,
+        "data": {
+          "exportId": "7e070c64-7d30-4b59-8d43-472ea9cbb09b",
+          "kind": "vtt",
+          "state": "committed",
+          "abandoning": false,
+          "cleanupPending": false,
+          "recovery": {
+            "state": "not_requested",
+            "jobId": null,
+            "reason": null,
+            "retryable": false,
+            "published": null
+          },
+          "projectId": "590cc767-1cb0-4818-b8b1-0ceedac896b8",
+          "snapshot": {
+            "projectId": "590cc767-1cb0-4818-b8b1-0ceedac896b8",
+            "revisionId": "383a0a74-0c61-42be-8231-052254c3047b",
+            "kind": "vtt",
+            "placementIds": [
+              "clip:60d66f132f0893ae90f9b68e565356abd96f5eec8a82ab07587e07f096b270f3:5"
+            ],
+            "cueCount": 1,
+            "omitted": [],
+            "addedOverlaps": [],
+            "discardedStyling": [
+              "clip:60d66f132f0893ae90f9b68e565356abd96f5eec8a82ab07587e07f096b270f3:5"
+            ]
+          },
+          "destination": {
+            "directory": "/private/tmp/screenrec-sidecars-reviewed",
+            "leaf": "literal.vtt"
+          },
+          "receipt": {
+            "bytes": 66,
+            "destination": {
+              "dev": "16777232",
+              "ino": "2945281"
+            },
+            "file": {
+              "dev": "16777232",
+              "ino": "2945431"
+            },
+            "leaf": "literal.vtt",
+            "sha256": "a549475aa543a2e3aa49a8e11dadc96e0e2f9b5836f36965ec73d8cd4ea66269",
+            "stage": {
+              "dev": "16777232",
+              "ino": "2945425"
+            }
+          },
+          "output": "/private/tmp/screenrec-sidecars-reviewed/literal.vtt",
+          "jobId": "1a8bbdb6-1302-4454-b8ce-468fbec6da4b",
+          "reason": null,
+          "retryable": false
+        },
+        "id": "fed0b95e-c2c2-4880-a711-dd26e0fd6206"
+      }
+    },
+    {
+      "request": {
+        "operation": "export.create",
+        "params": {
+          "projectId": "590cc767-1cb0-4818-b8b1-0ceedac896b8",
+          "revisionId": "383a0a74-0c61-42be-8231-052254c3047b",
+          "placementIds": [
+            "clip:60d66f132f0893ae90f9b68e565356abd96f5eec8a82ab07587e07f096b270f3:6",
+            "clip:60d66f132f0893ae90f9b68e565356abd96f5eec8a82ab07587e07f096b270f3:7"
+          ],
+          "directory": "/tmp/screenrec-sidecars-reviewed",
+          "exportId": "48189337-8ed0-4a8a-8270-ab1bf5f08b14",
+          "kind": "vtt",
+          "leaf": "syntax.vtt"
+        },
+        "transport": "cli",
+        "error": false
+      },
+      "response": {
+        "ok": true,
+        "data": {
+          "exportId": "48189337-8ed0-4a8a-8270-ab1bf5f08b14",
+          "kind": "vtt",
+          "state": "running",
+          "abandoning": false,
+          "cleanupPending": false,
+          "recovery": {
+            "state": "not_requested",
+            "jobId": null,
+            "reason": null,
+            "retryable": false,
+            "published": null
+          },
+          "projectId": "590cc767-1cb0-4818-b8b1-0ceedac896b8",
+          "snapshot": {
+            "projectId": "590cc767-1cb0-4818-b8b1-0ceedac896b8",
+            "revisionId": "383a0a74-0c61-42be-8231-052254c3047b",
+            "kind": "vtt",
+            "placementIds": [
+              "clip:60d66f132f0893ae90f9b68e565356abd96f5eec8a82ab07587e07f096b270f3:6",
+              "clip:60d66f132f0893ae90f9b68e565356abd96f5eec8a82ab07587e07f096b270f3:7"
+            ],
+            "cueCount": 2,
+            "omitted": [],
+            "addedOverlaps": [],
+            "discardedStyling": [
+              "clip:60d66f132f0893ae90f9b68e565356abd96f5eec8a82ab07587e07f096b270f3:6",
+              "clip:60d66f132f0893ae90f9b68e565356abd96f5eec8a82ab07587e07f096b270f3:7"
+            ]
+          },
+          "destination": {
+            "directory": "/private/tmp/screenrec-sidecars-reviewed",
+            "leaf": "syntax.vtt"
+          },
+          "receipt": null,
+          "output": null,
+          "jobId": "1b0abf8a-7a00-4483-ad4c-e28e7a6edaa4",
+          "reason": null,
+          "retryable": false
+        },
+        "id": "fc553ec8-feed-4d13-8504-897ccb0caa1b"
+      }
+    },
+    {
+      "request": {
+        "operation": "export.status",
+        "params": {
+          "exportId": "48189337-8ed0-4a8a-8270-ab1bf5f08b14"
+        },
+        "transport": "cli",
+        "error": false
+      },
+      "response": {
+        "ok": true,
+        "data": {
+          "exportId": "48189337-8ed0-4a8a-8270-ab1bf5f08b14",
+          "kind": "vtt",
+          "state": "committed",
+          "abandoning": false,
+          "cleanupPending": false,
+          "recovery": {
+            "state": "not_requested",
+            "jobId": null,
+            "reason": null,
+            "retryable": false,
+            "published": null
+          },
+          "projectId": "590cc767-1cb0-4818-b8b1-0ceedac896b8",
+          "snapshot": {
+            "projectId": "590cc767-1cb0-4818-b8b1-0ceedac896b8",
+            "revisionId": "383a0a74-0c61-42be-8231-052254c3047b",
+            "kind": "vtt",
+            "placementIds": [
+              "clip:60d66f132f0893ae90f9b68e565356abd96f5eec8a82ab07587e07f096b270f3:6",
+              "clip:60d66f132f0893ae90f9b68e565356abd96f5eec8a82ab07587e07f096b270f3:7"
+            ],
+            "cueCount": 2,
+            "omitted": [],
+            "addedOverlaps": [],
+            "discardedStyling": [
+              "clip:60d66f132f0893ae90f9b68e565356abd96f5eec8a82ab07587e07f096b270f3:6",
+              "clip:60d66f132f0893ae90f9b68e565356abd96f5eec8a82ab07587e07f096b270f3:7"
+            ]
+          },
+          "destination": {
+            "directory": "/private/tmp/screenrec-sidecars-reviewed",
+            "leaf": "syntax.vtt"
+          },
+          "receipt": {
+            "bytes": 137,
+            "destination": {
+              "dev": "16777232",
+              "ino": "2945281"
+            },
+            "file": {
+              "dev": "16777232",
+              "ino": "2945452"
+            },
+            "leaf": "syntax.vtt",
+            "sha256": "41a3af70684f2887e0eb5fcc3085bca48930d9f4f87a18787b61d038b0e2f184",
+            "stage": {
+              "dev": "16777232",
+              "ino": "2945445"
+            }
+          },
+          "output": "/private/tmp/screenrec-sidecars-reviewed/syntax.vtt",
+          "jobId": "1b0abf8a-7a00-4483-ad4c-e28e7a6edaa4",
+          "reason": null,
+          "retryable": false
+        },
+        "id": "0a7f7d36-e698-49f7-8f17-7aef1a39eae5"
+      }
+    },
+    {
+      "request": {
+        "operation": "export.create",
+        "params": {
+          "projectId": "590cc767-1cb0-4818-b8b1-0ceedac896b8",
+          "revisionId": "383a0a74-0c61-42be-8231-052254c3047b",
+          "placementIds": [
+            "clip:60d66f132f0893ae90f9b68e565356abd96f5eec8a82ab07587e07f096b270f3:3"
+          ],
+          "directory": "/tmp/screenrec-sidecars-reviewed",
+          "exportId": "601af47a-08f9-4eae-aa0c-85b823fd2517",
+          "kind": "srt",
+          "leaf": "empty.srt"
+        },
+        "transport": "cli",
+        "error": false
+      },
+      "response": {
+        "ok": true,
+        "data": {
+          "exportId": "601af47a-08f9-4eae-aa0c-85b823fd2517",
+          "kind": "srt",
+          "state": "running",
+          "abandoning": false,
+          "cleanupPending": false,
+          "recovery": {
+            "state": "not_requested",
+            "jobId": null,
+            "reason": null,
+            "retryable": false,
+            "published": null
+          },
+          "projectId": "590cc767-1cb0-4818-b8b1-0ceedac896b8",
+          "snapshot": {
+            "projectId": "590cc767-1cb0-4818-b8b1-0ceedac896b8",
+            "revisionId": "383a0a74-0c61-42be-8231-052254c3047b",
+            "kind": "srt",
+            "placementIds": [
+              "clip:60d66f132f0893ae90f9b68e565356abd96f5eec8a82ab07587e07f096b270f3:3"
+            ],
+            "cueCount": 0,
+            "omitted": [
+              {
+                "placementId": "clip:60d66f132f0893ae90f9b68e565356abd96f5eec8a82ab07587e07f096b270f3:3",
+                "reason": "empty-text"
+              }
+            ],
+            "addedOverlaps": [],
+            "discardedStyling": []
+          },
+          "destination": {
+            "directory": "/private/tmp/screenrec-sidecars-reviewed",
+            "leaf": "empty.srt"
+          },
+          "receipt": null,
+          "output": null,
+          "jobId": "4a28d900-af76-4e3a-bd7e-88eab605ee64",
+          "reason": null,
+          "retryable": false
+        },
+        "id": "01f1a156-27fb-4fe9-a183-800da5edbb2e"
+      }
+    },
+    {
+      "request": {
+        "operation": "export.status",
+        "params": {
+          "exportId": "601af47a-08f9-4eae-aa0c-85b823fd2517"
+        },
+        "transport": "cli",
+        "error": false
+      },
+      "response": {
+        "ok": true,
+        "data": {
+          "exportId": "601af47a-08f9-4eae-aa0c-85b823fd2517",
+          "kind": "srt",
+          "state": "committed",
+          "abandoning": false,
+          "cleanupPending": false,
+          "recovery": {
+            "state": "not_requested",
+            "jobId": null,
+            "reason": null,
+            "retryable": false,
+            "published": null
+          },
+          "projectId": "590cc767-1cb0-4818-b8b1-0ceedac896b8",
+          "snapshot": {
+            "projectId": "590cc767-1cb0-4818-b8b1-0ceedac896b8",
+            "revisionId": "383a0a74-0c61-42be-8231-052254c3047b",
+            "kind": "srt",
+            "placementIds": [
+              "clip:60d66f132f0893ae90f9b68e565356abd96f5eec8a82ab07587e07f096b270f3:3"
+            ],
+            "cueCount": 0,
+            "omitted": [
+              {
+                "placementId": "clip:60d66f132f0893ae90f9b68e565356abd96f5eec8a82ab07587e07f096b270f3:3",
+                "reason": "empty-text"
+              }
+            ],
+            "addedOverlaps": [],
+            "discardedStyling": []
+          },
+          "destination": {
+            "directory": "/private/tmp/screenrec-sidecars-reviewed",
+            "leaf": "empty.srt"
+          },
+          "receipt": {
+            "bytes": 0,
+            "destination": {
+              "dev": "16777232",
+              "ino": "2945281"
+            },
+            "file": {
+              "dev": "16777232",
+              "ino": "2945472"
+            },
+            "leaf": "empty.srt",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "stage": {
+              "dev": "16777232",
+              "ino": "2945466"
+            }
+          },
+          "output": "/private/tmp/screenrec-sidecars-reviewed/empty.srt",
+          "jobId": "4a28d900-af76-4e3a-bd7e-88eab605ee64",
+          "reason": null,
+          "retryable": false
+        },
+        "id": "048294ac-cf57-442c-88ed-104cea9a6fb8"
+      }
+    },
+    {
+      "request": {
+        "operation": "export.create",
+        "params": {
+          "projectId": "590cc767-1cb0-4818-b8b1-0ceedac896b8",
+          "revisionId": "383a0a74-0c61-42be-8231-052254c3047b",
+          "placementIds": [
+            "clip:60d66f132f0893ae90f9b68e565356abd96f5eec8a82ab07587e07f096b270f3:2",
+            "clip:60d66f132f0893ae90f9b68e565356abd96f5eec8a82ab07587e07f096b270f3:1"
+          ],
+          "directory": "/tmp/screenrec-sidecars-reviewed",
+          "exportId": "7e6fa18b-ec72-415f-9596-9d3fcf5adabe",
+          "kind": "srt",
+          "leaf": "taken.srt"
+        },
+        "transport": "cli",
+        "error": false
+      },
+      "response": {
+        "ok": true,
+        "data": {
+          "exportId": "7e6fa18b-ec72-415f-9596-9d3fcf5adabe",
+          "kind": "srt",
+          "state": "running",
+          "abandoning": false,
+          "cleanupPending": false,
+          "recovery": {
+            "state": "not_requested",
+            "jobId": null,
+            "reason": null,
+            "retryable": false,
+            "published": null
+          },
+          "projectId": "590cc767-1cb0-4818-b8b1-0ceedac896b8",
+          "snapshot": {
+            "projectId": "590cc767-1cb0-4818-b8b1-0ceedac896b8",
+            "revisionId": "383a0a74-0c61-42be-8231-052254c3047b",
+            "kind": "srt",
+            "placementIds": [
+              "clip:60d66f132f0893ae90f9b68e565356abd96f5eec8a82ab07587e07f096b270f3:1",
+              "clip:60d66f132f0893ae90f9b68e565356abd96f5eec8a82ab07587e07f096b270f3:2"
+            ],
+            "cueCount": 2,
+            "omitted": [],
+            "addedOverlaps": [
+              {
+                "left": {
+                  "placementId": "clip:60d66f132f0893ae90f9b68e565356abd96f5eec8a82ab07587e07f096b270f3:1",
+                  "fragment": 0
+                },
+                "right": {
+                  "placementId": "clip:60d66f132f0893ae90f9b68e565356abd96f5eec8a82ab07587e07f096b270f3:2",
+                  "fragment": 0
+                },
+                "startMs": 1,
+                "endMs": 2
+              }
+            ],
+            "discardedStyling": [
+              "clip:60d66f132f0893ae90f9b68e565356abd96f5eec8a82ab07587e07f096b270f3:1",
+              "clip:60d66f132f0893ae90f9b68e565356abd96f5eec8a82ab07587e07f096b270f3:2"
+            ]
+          },
+          "destination": {
+            "directory": "/private/tmp/screenrec-sidecars-reviewed",
+            "leaf": "taken.srt"
+          },
+          "receipt": null,
+          "output": null,
+          "jobId": "73fd177d-3fac-4ac7-a3cb-7f64111bc448",
+          "reason": null,
+          "retryable": false
+        },
+        "id": "f04c4b58-f611-4664-93ce-5754f892742e"
+      }
+    },
+    {
+      "request": {
+        "operation": "export.status",
+        "params": {
+          "exportId": "7e6fa18b-ec72-415f-9596-9d3fcf5adabe"
+        },
+        "transport": "cli",
+        "error": false
+      },
+      "response": {
+        "ok": true,
+        "data": {
+          "exportId": "7e6fa18b-ec72-415f-9596-9d3fcf5adabe",
+          "kind": "srt",
+          "state": "failed",
+          "abandoning": false,
+          "cleanupPending": true,
+          "recovery": {
+            "state": "ready",
+            "jobId": "66edc5f4-05e4-4ec3-90d3-619382a083ce",
+            "reason": null,
+            "retryable": false,
+            "published": {
+              "artifact": "export-recovery",
+              "generation": 1,
+              "input": "7e6fa18b-ec72-415f-9596-9d3fcf5adabe/96373d63-4c9a-4a11-ab17-23dc0e6826ca",
+              "result": "{\"observation\":\"replaced\"}",
+              "target": {
+                "kind": "project",
+                "projectId": "590cc767-1cb0-4818-b8b1-0ceedac896b8",
+                "revisionId": "383a0a74-0c61-42be-8231-052254c3047b"
+              }
+            }
+          },
+          "projectId": "590cc767-1cb0-4818-b8b1-0ceedac896b8",
+          "snapshot": {
+            "projectId": "590cc767-1cb0-4818-b8b1-0ceedac896b8",
+            "revisionId": "383a0a74-0c61-42be-8231-052254c3047b",
+            "kind": "srt",
+            "placementIds": [
+              "clip:60d66f132f0893ae90f9b68e565356abd96f5eec8a82ab07587e07f096b270f3:1",
+              "clip:60d66f132f0893ae90f9b68e565356abd96f5eec8a82ab07587e07f096b270f3:2"
+            ],
+            "cueCount": 2,
+            "omitted": [],
+            "addedOverlaps": [
+              {
+                "left": {
+                  "placementId": "clip:60d66f132f0893ae90f9b68e565356abd96f5eec8a82ab07587e07f096b270f3:1",
+                  "fragment": 0
+                },
+                "right": {
+                  "placementId": "clip:60d66f132f0893ae90f9b68e565356abd96f5eec8a82ab07587e07f096b270f3:2",
+                  "fragment": 0
+                },
+                "startMs": 1,
+                "endMs": 2
+              }
+            ],
+            "discardedStyling": [
+              "clip:60d66f132f0893ae90f9b68e565356abd96f5eec8a82ab07587e07f096b270f3:1",
+              "clip:60d66f132f0893ae90f9b68e565356abd96f5eec8a82ab07587e07f096b270f3:2"
+            ]
+          },
+          "destination": {
+            "directory": "/private/tmp/screenrec-sidecars-reviewed",
+            "leaf": "taken.srt"
+          },
+          "receipt": null,
+          "output": null,
+          "jobId": "73fd177d-3fac-4ac7-a3cb-7f64111bc448",
+          "reason": "Export destination belongs to another file or was modified",
+          "retryable": false
+        },
+        "id": "6fd76ac8-9024-44e5-a858-1ae78e57b416"
+      }
+    },
+    {
+      "request": {
+        "operation": "export.abandon",
+        "params": {
+          "exportId": "7e6fa18b-ec72-415f-9596-9d3fcf5adabe"
+        },
+        "transport": "cli",
+        "error": false
+      },
+      "response": {
+        "ok": true,
+        "data": {
+          "exportId": "7e6fa18b-ec72-415f-9596-9d3fcf5adabe",
+          "abandoned": true
+        },
+        "id": "8c4dc2bb-2054-414e-a216-f79998613f37"
+      }
+    }
+  ],
+  "nativeSha256": "af28fcc5260b79bca3909be2af1a9c90875bc3497d30d9649d3921648ef8c82d",
+  "checks": [
+    "CLI/MCP same owner",
+    "exact UTF8 text and format-specific escaping independently decoded",
+    "outward timing with overlap",
+    "pinned revision survives edit/crash/replay",
+    "malformed/unknown selection refusal",
+    "empty payload omission",
+    "no overwrite and cleanup",
+    "media and ASR work unavailable",
+    "SRT timestamp/whitespace-tag syntax refuses; VTT preserves literal text and original timing"
+  ],
+  "fontSha256": "525979822591a3447cfc49d943d6f7683508e25543407871c0ed8fed05fd2bd9",
+  "srt": {
+    "exportId": "4a6a346c-09c6-4648-9b34-f187ca694d3b",
+    "kind": "srt",
+    "state": "committed",
+    "abandoning": false,
+    "cleanupPending": false,
+    "recovery": {
+      "state": "not_requested",
+      "jobId": null,
+      "reason": null,
+      "retryable": false,
+      "published": null
+    },
+    "projectId": "590cc767-1cb0-4818-b8b1-0ceedac896b8",
+    "snapshot": {
+      "projectId": "590cc767-1cb0-4818-b8b1-0ceedac896b8",
+      "revisionId": "383a0a74-0c61-42be-8231-052254c3047b",
+      "kind": "srt",
+      "placementIds": [
+        "clip:60d66f132f0893ae90f9b68e565356abd96f5eec8a82ab07587e07f096b270f3:1",
+        "clip:60d66f132f0893ae90f9b68e565356abd96f5eec8a82ab07587e07f096b270f3:2"
+      ],
+      "cueCount": 2,
+      "omitted": [],
+      "addedOverlaps": [
+        {
+          "left": {
+            "placementId": "clip:60d66f132f0893ae90f9b68e565356abd96f5eec8a82ab07587e07f096b270f3:1",
+            "fragment": 0
+          },
+          "right": {
+            "placementId": "clip:60d66f132f0893ae90f9b68e565356abd96f5eec8a82ab07587e07f096b270f3:2",
+            "fragment": 0
+          },
+          "startMs": 1,
+          "endMs": 2
+        }
+      ],
+      "discardedStyling": [
+        "clip:60d66f132f0893ae90f9b68e565356abd96f5eec8a82ab07587e07f096b270f3:1",
+        "clip:60d66f132f0893ae90f9b68e565356abd96f5eec8a82ab07587e07f096b270f3:2"
+      ]
+    },
+    "destination": {
+      "directory": "/private/tmp/screenrec-sidecars-reviewed",
+      "leaf": "captions.srt"
+    },
+    "receipt": {
+      "bytes": 89,
+      "destination": {
+        "dev": "16777232",
+        "ino": "2945281"
+      },
+      "file": {
+        "dev": "16777232",
+        "ino": "2945386"
+      },
+      "leaf": "captions.srt",
+      "sha256": "31bcfd8253bd8bccd0840064da34eca9872cc1208a08c7a7da47d43183df90d8",
+      "stage": {
+        "dev": "16777232",
+        "ino": "2945368"
+      }
+    },
+    "output": "/private/tmp/screenrec-sidecars-reviewed/captions.srt",
+    "jobId": "069888b0-fbe6-4903-9021-476fbfa7e713",
+    "reason": null,
+    "retryable": false
+  },
+  "vtt": {
+    "exportId": "0df0fe8c-35a5-4b36-bb78-a2fa168f64a8",
+    "kind": "vtt",
+    "state": "committed",
+    "abandoning": false,
+    "cleanupPending": false,
+    "recovery": {
+      "state": "not_requested",
+      "jobId": null,
+      "reason": null,
+      "retryable": false,
+      "published": null
+    },
+    "projectId": "590cc767-1cb0-4818-b8b1-0ceedac896b8",
+    "snapshot": {
+      "projectId": "590cc767-1cb0-4818-b8b1-0ceedac896b8",
+      "revisionId": "383a0a74-0c61-42be-8231-052254c3047b",
+      "kind": "vtt",
+      "placementIds": [
+        "clip:60d66f132f0893ae90f9b68e565356abd96f5eec8a82ab07587e07f096b270f3:1",
+        "clip:60d66f132f0893ae90f9b68e565356abd96f5eec8a82ab07587e07f096b270f3:2"
+      ],
+      "cueCount": 2,
+      "omitted": [],
+      "addedOverlaps": [
+        {
+          "left": {
+            "placementId": "clip:60d66f132f0893ae90f9b68e565356abd96f5eec8a82ab07587e07f096b270f3:1",
+            "fragment": 0
+          },
+          "right": {
+            "placementId": "clip:60d66f132f0893ae90f9b68e565356abd96f5eec8a82ab07587e07f096b270f3:2",
+            "fragment": 0
+          },
+          "startMs": 1,
+          "endMs": 2
+        }
+      ],
+      "discardedStyling": [
+        "clip:60d66f132f0893ae90f9b68e565356abd96f5eec8a82ab07587e07f096b270f3:1",
+        "clip:60d66f132f0893ae90f9b68e565356abd96f5eec8a82ab07587e07f096b270f3:2"
+      ]
+    },
+    "destination": {
+      "directory": "/private/tmp/screenrec-sidecars-reviewed",
+      "leaf": "captions.vtt"
+    },
+    "receipt": {
+      "bytes": 100,
+      "destination": {
+        "dev": "16777232",
+        "ino": "2945281"
+      },
+      "file": {
+        "dev": "16777232",
+        "ino": "2945407"
+      },
+      "leaf": "captions.vtt",
+      "sha256": "f8e559d768928c9a6047b2f9827a0db5c8528bcdd1ade2a848c030d64eb060c6",
+      "stage": {
+        "dev": "16777232",
+        "ino": "2945401"
+      }
+    },
+    "output": "/private/tmp/screenrec-sidecars-reviewed/captions.vtt",
+    "jobId": "dc9661d1-68b2-43d9-9093-2c57060fdf9a",
+    "reason": null,
+    "retryable": false
+  },
+  "independent": {
+    "srt": {
+      "parsed": {
+        "packets": [
+          {
+            "codec_type": "subtitle",
+            "stream_index": 0,
+            "pts": 0,
+            "pts_time": "0.000000",
+            "dts": 0,
+            "dts_time": "0.000000",
+            "duration": 2,
+            "duration_time": "0.002000",
+            "size": "17",
+            "pos": "2",
+            "flags": "K__"
+          },
+          {
+            "codec_type": "subtitle",
+            "stream_index": 0,
+            "pts": 1,
+            "pts_time": "0.001000",
+            "dts": 1,
+            "dts_time": "0.001000",
+            "duration": 2,
+            "duration_time": "0.002000",
+            "size": "4",
+            "pos": "53",
+            "flags": "K__"
+          }
+        ]
+      },
+      "decoded": "[Script Info]\n; Script generated by FFmpeg/Lavc63.1.102\nScriptType: v4.00+\nPlayResX: 384\nPlayResY: 288\nScaledBorderAndShadow: yes\nYCbCr Matrix: None\n\n[V4+ Styles]\nFormat: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding\nStyle: Default,Arial,16,&Hffffff,&Hffffff,&H0,&H0,0,0,0,0,100,100,0,0,1,1,0,2,10,10,10,1\n\n[Events]\nFormat: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text\nDialogue: 0,0:00:00.00,0:00:00.00,Default,,0,0,0,,Café & x < y\\N二\nDialogue: 0,0:00:00.00,0:00:00.00,Default,,0,0,0,,Next\n"
+    },
+    "vtt": {
+      "parsed": {
+        "packets": [
+          {
+            "codec_type": "subtitle",
+            "stream_index": 0,
+            "pts": 0,
+            "pts_time": "0.000000",
+            "dts": 0,
+            "dts_time": "0.000000",
+            "duration": 2,
+            "duration_time": "0.002000",
+            "size": "24",
+            "pos": "64",
+            "flags": "K__"
+          },
+          {
+            "codec_type": "subtitle",
+            "stream_index": 0,
+            "pts": 1,
+            "pts_time": "0.001000",
+            "dts": 1,
+            "dts_time": "0.001000",
+            "duration": 2,
+            "duration_time": "0.002000",
+            "size": "4",
+            "pos": "100",
+            "flags": "K__"
+          }
+        ]
+      },
+      "decoded": "[Script Info]\n; Script generated by FFmpeg/Lavc63.1.102\nScriptType: v4.00+\nPlayResX: 384\nPlayResY: 288\nScaledBorderAndShadow: yes\nYCbCr Matrix: None\n\n[V4+ Styles]\nFormat: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding\nStyle: Default,Arial,16,&Hffffff,&Hffffff,&H0,&H0,0,0,0,0,100,100,0,0,1,1,0,2,10,10,10,1\n\n[Events]\nFormat: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text\nDialogue: 0,0:00:00.00,0:00:00.00,Default,,0,0,0,,Café & x < y\\N二\nDialogue: 0,0:00:00.00,0:00:00.00,Default,,0,0,0,,Next\n"
+    }
+  },
+  "literalVtt": {
+    "status": {
+      "exportId": "7e070c64-7d30-4b59-8d43-472ea9cbb09b",
+      "kind": "vtt",
+      "state": "committed",
+      "abandoning": false,
+      "cleanupPending": false,
+      "recovery": {
+        "state": "not_requested",
+        "jobId": null,
+        "reason": null,
+        "retryable": false,
+        "published": null
+      },
+      "projectId": "590cc767-1cb0-4818-b8b1-0ceedac896b8",
+      "snapshot": {
+        "projectId": "590cc767-1cb0-4818-b8b1-0ceedac896b8",
+        "revisionId": "383a0a74-0c61-42be-8231-052254c3047b",
+        "kind": "vtt",
+        "placementIds": [
+          "clip:60d66f132f0893ae90f9b68e565356abd96f5eec8a82ab07587e07f096b270f3:5"
+        ],
+        "cueCount": 1,
+        "omitted": [],
+        "addedOverlaps": [],
+        "discardedStyling": [
+          "clip:60d66f132f0893ae90f9b68e565356abd96f5eec8a82ab07587e07f096b270f3:5"
+        ]
+      },
+      "destination": {
+        "directory": "/private/tmp/screenrec-sidecars-reviewed",
+        "leaf": "literal.vtt"
+      },
+      "receipt": {
+        "bytes": 66,
+        "destination": {
+          "dev": "16777232",
+          "ino": "2945281"
+        },
+        "file": {
+          "dev": "16777232",
+          "ino": "2945431"
+        },
+        "leaf": "literal.vtt",
+        "sha256": "a549475aa543a2e3aa49a8e11dadc96e0e2f9b5836f36965ec73d8cd4ea66269",
+        "stage": {
+          "dev": "16777232",
+          "ino": "2945425"
+        }
+      },
+      "output": "/private/tmp/screenrec-sidecars-reviewed/literal.vtt",
+      "jobId": "1a8bbdb6-1302-4454-b8ce-468fbec6da4b",
+      "reason": null,
+      "retryable": false
+    },
+    "decoded": "[Script Info]\n; Script generated by FFmpeg/Lavc63.1.102\nScriptType: v4.00+\nPlayResX: 384\nPlayResY: 288\nScaledBorderAndShadow: yes\nYCbCr Matrix: None\n\n[V4+ Styles]\nFormat: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding\nStyle: Default,Arial,16,&Hffffff,&Hffffff,&H0,&H0,0,0,0,0,100,100,0,0,1,1,0,2,10,10,10,1\n\n[Events]\nFormat: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text\nDialogue: 0,0:00:00.01,0:00:00.01,Default,,0,0,0,,<b>literal</b>\n"
+  },
+  "syntaxVtt": {
+    "status": {
+      "exportId": "48189337-8ed0-4a8a-8270-ab1bf5f08b14",
+      "kind": "vtt",
+      "state": "committed",
+      "abandoning": false,
+      "cleanupPending": false,
+      "recovery": {
+        "state": "not_requested",
+        "jobId": null,
+        "reason": null,
+        "retryable": false,
+        "published": null
+      },
+      "projectId": "590cc767-1cb0-4818-b8b1-0ceedac896b8",
+      "snapshot": {
+        "projectId": "590cc767-1cb0-4818-b8b1-0ceedac896b8",
+        "revisionId": "383a0a74-0c61-42be-8231-052254c3047b",
+        "kind": "vtt",
+        "placementIds": [
+          "clip:60d66f132f0893ae90f9b68e565356abd96f5eec8a82ab07587e07f096b270f3:6",
+          "clip:60d66f132f0893ae90f9b68e565356abd96f5eec8a82ab07587e07f096b270f3:7"
+        ],
+        "cueCount": 2,
+        "omitted": [],
+        "addedOverlaps": [],
+        "discardedStyling": [
+          "clip:60d66f132f0893ae90f9b68e565356abd96f5eec8a82ab07587e07f096b270f3:6",
+          "clip:60d66f132f0893ae90f9b68e565356abd96f5eec8a82ab07587e07f096b270f3:7"
+        ]
+      },
+      "destination": {
+        "directory": "/private/tmp/screenrec-sidecars-reviewed",
+        "leaf": "syntax.vtt"
+      },
+      "receipt": {
+        "bytes": 137,
+        "destination": {
+          "dev": "16777232",
+          "ino": "2945281"
+        },
+        "file": {
+          "dev": "16777232",
+          "ino": "2945452"
+        },
+        "leaf": "syntax.vtt",
+        "sha256": "41a3af70684f2887e0eb5fcc3085bca48930d9f4f87a18787b61d038b0e2f184",
+        "stage": {
+          "dev": "16777232",
+          "ino": "2945445"
+        }
+      },
+      "output": "/private/tmp/screenrec-sidecars-reviewed/syntax.vtt",
+      "jobId": "1b0abf8a-7a00-4483-ad4c-e28e7a6edaa4",
+      "reason": null,
+      "retryable": false
+    },
+    "parsed": {
+      "packets": [
+        {
+          "codec_type": "subtitle",
+          "stream_index": 0,
+          "pts": 9,
+          "pts_time": "0.009000",
+          "dts": 9,
+          "dts_time": "0.009000",
+          "duration": 1,
+          "duration_time": "0.001000",
+          "size": "45",
+          "pos": "85",
+          "flags": "K__"
+        },
+        {
+          "codec_type": "subtitle",
+          "stream_index": 0,
+          "pts": 11,
+          "pts_time": "0.011000",
+          "dts": 11,
+          "dts_time": "0.011000",
+          "duration": 1,
+          "duration_time": "0.001000",
+          "size": "20",
+          "pos": "137",
+          "flags": "K__"
+        }
+      ]
+    },
+    "decoded": "[Script Info]\n; Script generated by FFmpeg/Lavc63.1.102\nScriptType: v4.00+\nPlayResX: 384\nPlayResY: 288\nScaledBorderAndShadow: yes\nYCbCr Matrix: None\n\n[V4+ Styles]\nFormat: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding\nStyle: Default,Arial,16,&Hffffff,&Hffffff,&H0,&H0,0,0,0,0,100,100,0,0,1,1,0,2,10,10,10,1\n\n[Events]\nFormat: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text\nDialogue: 0,0:00:00.01,0:00:00.01,Default,,0,0,0,,Before\\N00:00:10,000 --> 00:00:20,000\\NAfter\nDialogue: 0,0:00:00.01,0:00:00.01,Default,,0,0,0,,hello < b>bold\n"
+  },
+  "logs": []
+}

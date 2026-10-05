@@ -37,6 +37,13 @@ completeness in an immutable revision. Completeness describes the original sourc
 range surviving in an occurrence, not whatever smaller display window was later
 requested. Repeated uses must remain distinct through evidence queries.
 
+[Caption sidecars](src/caption-sidecars.ts) serialize explicitly selected displayed
+text using resolved surviving support. Transcript word timing and clip envelopes
+cannot replace that support. Millisecond rounding encloses each exact fragment;
+new overlaps are reported, while genuine overlaps keep their authored meaning.
+Plain subtitles discard visual styling. Format-specific refusal protects literal
+text when a reader could interpret it as formatting rather than silently rewriting it.
+
 ## Routing, processing and curves
 
 Processing groups define combination; synchronization groups define linked editing.

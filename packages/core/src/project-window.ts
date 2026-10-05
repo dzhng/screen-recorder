@@ -1,6 +1,8 @@
 import type { SignedTimeValue } from "@screenrec/composition";
 import {
   createCompiler,
+  captionSidecar,
+  type CaptionSidecarRequest,
   documentAssetIds,
   isMediaClip,
   processingCapabilities,
@@ -235,3 +237,20 @@ export function projectWindow(
 ) {
   return projectComposition(projects, assets, input).window(input, support, component);
 }
+
+/** Sidecar intent freezes displayed text and exact placement support before asynchronous publication. */
+export function projectCaptionSidecar(
+  projects: ProjectStore,
+  assets: AssetStore,
+  input: CaptionSidecarRequest & { projectId: string; revisionId: string },
+) {
+  const context = projectComposition(projects, assets, input);
+  const placementIds = [...input.placementIds].sort();
+  return {
+    projectId: context.projectId,
+    revisionId: context.revisionId,
+    placementIds,
+    ...captionSidecar(context.model, { kind: input.kind, placementIds }),
+  };
+}
+export type PinnedCaptionSidecar = ReturnType<typeof projectCaptionSidecar>;

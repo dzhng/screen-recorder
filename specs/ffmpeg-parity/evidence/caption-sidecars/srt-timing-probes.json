@@ -1,0 +1,286 @@
+[
+  {
+    "input": "00:00:10,000 --> 00:00:20,000",
+    "packets": [
+      {
+        "codec_type": "subtitle",
+        "stream_index": 0,
+        "pts": 0,
+        "pts_time": "0.000000",
+        "dts": 0,
+        "dts_time": "0.000000",
+        "duration": 1000,
+        "duration_time": "1.000000",
+        "size": "6",
+        "pos": "2",
+        "flags": "K__"
+      },
+      {
+        "codec_type": "subtitle",
+        "stream_index": 0,
+        "pts": 10000,
+        "pts_time": "10.000000",
+        "dts": 10000,
+        "dts_time": "10.000000",
+        "duration": 10000,
+        "duration_time": "10.000000",
+        "size": "5",
+        "pos": "39",
+        "flags": "K__"
+      }
+    ]
+  },
+  {
+    "input": "0:0:10.0 --> 0:0:20.0",
+    "packets": [
+      {
+        "codec_type": "subtitle",
+        "stream_index": 0,
+        "pts": 0,
+        "pts_time": "0.000000",
+        "dts": 0,
+        "dts_time": "0.000000",
+        "duration": 1000,
+        "duration_time": "1.000000",
+        "size": "6",
+        "pos": "2",
+        "flags": "K__"
+      },
+      {
+        "codec_type": "subtitle",
+        "stream_index": 0,
+        "pts": 10000,
+        "pts_time": "10.000000",
+        "dts": 10000,
+        "dts_time": "10.000000",
+        "duration": 10000,
+        "duration_time": "10.000000",
+        "size": "5",
+        "pos": "39",
+        "flags": "K__"
+      }
+    ]
+  },
+  {
+    "input": "00:00:10,000-->00:00:20,000",
+    "packets": [
+      {
+        "codec_type": "subtitle",
+        "stream_index": 0,
+        "pts": 0,
+        "pts_time": "0.000000",
+        "dts": 0,
+        "dts_time": "0.000000",
+        "duration": 1000,
+        "duration_time": "1.000000",
+        "size": "6",
+        "pos": "2",
+        "flags": "K__"
+      },
+      {
+        "codec_type": "subtitle",
+        "stream_index": 0,
+        "pts": 10000,
+        "pts_time": "10.000000",
+        "dts": 10000,
+        "dts_time": "10.000000",
+        "duration": 10000,
+        "duration_time": "10.000000",
+        "size": "5",
+        "pos": "39",
+        "flags": "K__"
+      }
+    ]
+  },
+  {
+    "input": "  00:00:10,000 --> 00:00:20,000",
+    "packets": [
+      {
+        "codec_type": "subtitle",
+        "stream_index": 0,
+        "pts": 0,
+        "pts_time": "0.000000",
+        "dts": 0,
+        "dts_time": "0.000000",
+        "duration": 1000,
+        "duration_time": "1.000000",
+        "size": "6",
+        "pos": "2",
+        "flags": "K__"
+      },
+      {
+        "codec_type": "subtitle",
+        "stream_index": 0,
+        "pts": 10000,
+        "pts_time": "10.000000",
+        "dts": 10000,
+        "dts_time": "10.000000",
+        "duration": 10000,
+        "duration_time": "10.000000",
+        "size": "5",
+        "pos": "39",
+        "flags": "K__"
+      }
+    ]
+  },
+  {
+    "input": "x 00:00:10,000 --> 00:00:20,000",
+    "packets": [
+      {
+        "codec_type": "subtitle",
+        "stream_index": 0,
+        "pts": 0,
+        "pts_time": "0.000000",
+        "dts": 0,
+        "dts_time": "0.000000",
+        "duration": 1000,
+        "duration_time": "1.000000",
+        "size": "44",
+        "pos": "2",
+        "flags": "K__"
+      }
+    ]
+  },
+  {
+    "input": "00:00:10,000 --> 00:00:20,000 suffix",
+    "packets": [
+      {
+        "codec_type": "subtitle",
+        "stream_index": 0,
+        "pts": 0,
+        "pts_time": "0.000000",
+        "dts": 0,
+        "dts_time": "0.000000",
+        "duration": 1000,
+        "duration_time": "1.000000",
+        "size": "6",
+        "pos": "2",
+        "flags": "K__"
+      },
+      {
+        "codec_type": "subtitle",
+        "stream_index": 0,
+        "pts": 10000,
+        "pts_time": "10.000000",
+        "dts": 10000,
+        "dts_time": "10.000000",
+        "duration": 10000,
+        "duration_time": "10.000000",
+        "size": "5",
+        "pos": "39",
+        "flags": "K__"
+      }
+    ]
+  },
+  {
+    "input": "+00:+00:+10,+000 --> +00:+00:+20,+000",
+    "packets": [
+      {
+        "codec_type": "subtitle",
+        "stream_index": 0,
+        "pts": 0,
+        "pts_time": "0.000000",
+        "dts": 0,
+        "dts_time": "0.000000",
+        "duration": 1000,
+        "duration_time": "1.000000",
+        "size": "6",
+        "pos": "2",
+        "flags": "K__"
+      },
+      {
+        "codec_type": "subtitle",
+        "stream_index": 0,
+        "pts": 10000,
+        "pts_time": "10.000000",
+        "dts": 10000,
+        "dts_time": "10.000000",
+        "duration": 10000,
+        "duration_time": "10.000000",
+        "size": "5",
+        "pos": "39",
+        "flags": "K__"
+      }
+    ]
+  },
+  {
+    "input": "00:00:-10,000 --> 00:00:20,000",
+    "packets": [
+      {
+        "codec_type": "subtitle",
+        "stream_index": 0,
+        "pts": -10000,
+        "pts_time": "-10.000000",
+        "dts": -10000,
+        "dts_time": "-10.000000",
+        "duration": 30000,
+        "duration_time": "30.000000",
+        "size": "5",
+        "pos": "39",
+        "flags": "K__"
+      },
+      {
+        "codec_type": "subtitle",
+        "stream_index": 0,
+        "pts": 0,
+        "pts_time": "0.000000",
+        "dts": 0,
+        "dts_time": "0.000000",
+        "duration": 1000,
+        "duration_time": "1.000000",
+        "size": "6",
+        "pos": "2",
+        "flags": "K__"
+      }
+    ]
+  },
+  {
+    "input": "1\n00:00:10,000 --> 00:00:20,000",
+    "packets": [
+      {
+        "codec_type": "subtitle",
+        "stream_index": 0,
+        "pts": 0,
+        "pts_time": "0.000000",
+        "dts": 0,
+        "dts_time": "0.000000",
+        "duration": 1000,
+        "duration_time": "1.000000",
+        "size": "6",
+        "pos": "2",
+        "flags": "K__"
+      },
+      {
+        "codec_type": "subtitle",
+        "stream_index": 0,
+        "pts": 10000,
+        "pts_time": "10.000000",
+        "dts": 10000,
+        "dts_time": "10.000000",
+        "duration": 10000,
+        "duration_time": "10.000000",
+        "size": "5",
+        "pos": "41",
+        "flags": "K__"
+      }
+    ]
+  },
+  {
+    "input": "00:00:10 --> 00:00:20",
+    "packets": [
+      {
+        "codec_type": "subtitle",
+        "stream_index": 0,
+        "pts": 0,
+        "pts_time": "0.000000",
+        "dts": 0,
+        "dts_time": "0.000000",
+        "duration": 1000,
+        "duration_time": "1.000000",
+        "size": "34",
+        "pos": "2",
+        "flags": "K__"
+      }
+    ]
+  }
+]

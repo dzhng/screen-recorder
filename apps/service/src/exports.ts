@@ -7,6 +7,10 @@ import {
 import { ResourceReferences, resourceKinds } from "@screenrec/core/references";
 import { resourceIdentity } from "@screenrec/core/project-package";
 import type { ProjectPackages, PinnedProjectPackage } from "./project-packages.js";
+import type { operationSchema } from "@screenrec/protocol";
+import { projectCaptionSidecar, type PinnedCaptionSidecar } from "@screenrec/core/project-window";
+import type { AssetStore } from "@screenrec/core/assets";
+import { writeFile } from "node:fs/promises";
 import { randomUUID } from "node:crypto";
 import { join } from "node:path";
 import { setImmediate } from "node:timers/promises";
@@ -41,15 +45,10 @@ import type {
   PinnedProjectAudioExport,
 } from "@screenrec/core/audio-inspection";
 
-type Request = {
-  exportId: string;
-  settings?: OutputSettingsInput | AudioOutputSettingsInput | undefined;
-  revisionId?: string | undefined;
-  directory: string;
-  leaf: string;
-  kind: "video" | "audio" | "processed-package";
-  projectId: string;
-};
+type Request = Extract<
+  ReturnType<typeof operationSchema.parse>,
+  { operation: "export.create" }
+>["params"];
 type ExportOwner = Extract<JobOwner, { kind: "project" }>;
 type ExportCursor = {
   projectId: string | null;
@@ -68,7 +67,11 @@ type Intent = {
   targetKind: "project";
   targetId: string;
   request: string;
-  snapshot: PinnedProjectPreview | PinnedProjectAudioExport | PinnedProjectPackage;
+  snapshot:
+    | PinnedProjectPreview
+    | PinnedProjectAudioExport
+    | PinnedProjectPackage
+    | PinnedCaptionSidecar;
   destination: { directory: string; identity: DirectoryIdentity; leaf: string };
   staging: DirectoryIdentity | null;
   stagingCleared: 0 | 1;
@@ -100,11 +103,16 @@ type PackageSnapshotSummary = {
 };
 // SQLite owns this derived immutable projection. Status reads the indexed expression,
 // leaving the complete pinned snapshot authoritative for execution and recovery.
+type CaptionSnapshotSummary = Omit<PinnedCaptionSidecar, "content" | "cues"> & { cueCount: number };
 const statusSnapshotSql = `CASE WHEN targetKind='project' AND kind='processed-package'
   THEN json_object('projectId',targetId,'revisionId',json_extract(snapshot,'$.revisionId'),
     'historyThroughOrdinal',json_array_length(snapshot,'$.snapshot.revisions')-1,
     'revisionCount',json_array_length(snapshot,'$.snapshot.revisions'),
     'resourceCount',json_array_length(snapshot,'$.resources'))
+  WHEN kind IN ('srt','vtt') THEN json_object('projectId',targetId,'revisionId',json_extract(snapshot,'$.revisionId'),
+    'kind',kind,'placementIds',json_extract(snapshot,'$.placementIds'),
+    'cueCount',json_array_length(snapshot,'$.cues'),'omitted',json_extract(snapshot,'$.omitted'),
+    'addedOverlaps',json_extract(snapshot,'$.addedOverlaps'),'discardedStyling',json_extract(snapshot,'$.discardedStyling'))
   ELSE snapshot END`;
 const artifact = "export-media",
   recoveryArtifact = "export-recovery";
@@ -162,6 +170,7 @@ export class MediaExports {
       files: Pick<ManagedFiles, "externalDirectory">;
       project: {
         store: ProjectStore;
+        assets: AssetStore;
         preview: ProjectPreviewInspection;
         audio?: MediaAudioInspection;
         package?: ProjectPackages;
@@ -174,7 +183,7 @@ export class MediaExports {
       ON jobs(targetKind,targetId,revisionId,input) WHERE artifact='${recoveryArtifact}';
     CREATE TABLE IF NOT EXISTS export_intents (
       exportId TEXT PRIMARY KEY, targetKind TEXT NOT NULL CHECK(targetKind IN ('recording','project')), targetId TEXT NOT NULL,
-      kind TEXT NOT NULL CHECK(kind IN ('video','audio','processed-package')),
+      kind TEXT NOT NULL CHECK(kind IN ('video','audio','processed-package','srt','vtt')),
       request TEXT NOT NULL, snapshot TEXT NOT NULL, destination TEXT NOT NULL,
       staging TEXT, stagingCleared INTEGER NOT NULL DEFAULT 0 CHECK(stagingCleared IN (0,1)),
       preview TEXT, sourceEvidence TEXT, packageEvidence TEXT, assembly TEXT, receipt TEXT,
@@ -372,7 +381,8 @@ export class MediaExports {
       jobId: string | null;
       published: { generation: number; preview: { cacheId: string; bytes: number } } | null;
     };
-    if (intent.kind === "processed-package") return { state: "ready" };
+    if (intent.kind === "processed-package" || intent.kind === "srt" || intent.kind === "vtt")
+      return { state: "ready" };
     if (intent.kind === "audio") {
       const audio = this.projectAudio().resumeExport(intent.snapshot as PinnedProjectAudioExport);
       ready = {
@@ -520,12 +530,15 @@ export class MediaExports {
       );
     const targetKind = "project";
     const targetId = request.projectId;
-    if (request.settings && request.kind === "processed-package")
+    const settings = "settings" in request ? request.settings : undefined;
+    if (settings && request.kind !== "video" && request.kind !== "audio")
       throw new CatalogError("INVALID_PARAMS", "Output settings require a project media export");
     const settingsRequest =
       request.kind === "audio"
-        ? normalizeAudioOutputRequest(request.settings as AudioOutputSettingsInput)
-        : normalizeOutputRequest(request.settings as OutputSettingsInput);
+        ? normalizeAudioOutputRequest(settings as AudioOutputSettingsInput)
+        : request.kind === "video"
+          ? normalizeOutputRequest(settings as OutputSettingsInput)
+          : {};
     const key = JSON.stringify([
       request.kind,
       targetKind,
@@ -534,6 +547,7 @@ export class MediaExports {
       request.directory,
       request.leaf,
       ...(Object.keys(settingsRequest).length ? [settingsRequest] : []),
+      ...("placementIds" in request ? [[...request.placementIds].sort()] : []),
     ]);
     const existing = this.find(request.exportId);
     if (existing) {
@@ -542,7 +556,10 @@ export class MediaExports {
       this.requireActive(existing);
       this.assertOwner(existing);
       if (!existing.receipt) {
-        if (existing.kind !== "processed-package" && !this.hasPreparedInput(existing)) {
+        if (
+          (existing.kind === "video" || existing.kind === "audio") &&
+          !this.hasPreparedInput(existing)
+        ) {
           const prepared = await this.prepareProjectMedia(
             existing.kind,
             existing.snapshot as PinnedProjectPreview | PinnedProjectAudioExport,
@@ -564,15 +581,18 @@ export class MediaExports {
       return this.status(existing.exportId);
     }
     const preparedPreview =
-      request.kind !== "processed-package"
+      request.kind === "video" || request.kind === "audio"
         ? await this.prepareProjectMedia(request.kind, {
             projectId: targetId,
             revisionId: request.revisionId,
-            settings: request.settings,
+            settings,
           })
         : undefined;
     const snapshot =
-      preparedPreview?.snapshot ?? this.projectPackage().pin(targetId, request.revisionId);
+      preparedPreview?.snapshot ??
+      ("placementIds" in request
+        ? projectCaptionSidecar(this.owners.project.store, this.owners.project.assets, request)
+        : this.projectPackage().pin(targetId, request.revisionId));
     const selected = await this.owners.files.externalDirectory(
       request.directory,
       this.lifetime.signal,
@@ -737,7 +757,8 @@ export class MediaExports {
       snapshot: JSON.parse(row.snapshot) as
         | PinnedProjectPreview
         | PinnedProjectAudioExport
-        | PackageSnapshotSummary,
+        | PackageSnapshotSummary
+        | CaptionSnapshotSummary,
       destination: JSON.parse(row.destination) as Intent["destination"],
       receipt: row.receipt ? (JSON.parse(row.receipt) as PublicationReceipt) : null,
     };
@@ -990,6 +1011,24 @@ export class MediaExports {
               signal,
             });
           });
+        } else if (intent.kind === "srt" || intent.kind === "vtt") {
+          const output = this.owners.cache.reserve(this.owner(intent));
+          try {
+            await writeFile(output.path, (intent.snapshot as PinnedCaptionSidecar).content, {
+              flag: "wx",
+              mode: 0o600,
+              signal,
+            });
+            const cached = await this.owners.cache.publish(output.id);
+            signal.throwIfAborted();
+            await this.owners.cache.withDescriptor(output.id, (source) =>
+              publication.prepare(source, intent.destination.leaf, Math.max(1, cached.bytes), {
+                signal,
+              }),
+            );
+          } finally {
+            this.owners.cache.remove(output.id);
+          }
         } else {
           try {
             if (!intent.preview) throw new JobDependencyLost("Preview is not admitted");

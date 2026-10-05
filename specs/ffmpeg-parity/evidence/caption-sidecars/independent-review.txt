@@ -1,0 +1,18 @@
+The focused composition and protocol tests pass, but independent FFmpeg/FFprobe probes demonstrate two admitted SRT payloads that change displayed text or cue timing.
+
+Full review comments:
+
+- [P2] Reject SRT payload lines that parse as cue timestamps — /private/tmp/screenrec-parity-sidecars/packages/composition/src/caption-sidecars.ts:145-146
+  A displayed caption containing `Before\n00:00:10,000 --> 00:00:20,000\nAfter` passes validation but is serialized as executable SRT timing syntax. FFprobe reads two cues instead of one, moving `After` to 10–20 seconds and dropping the literal timestamp text; a payload consisting solely of that timestamp line disappears entirely. Refuse timing-shaped payload lines for SRT rather than publishing content that changes the pinned text and support.
+
+- [P2] Reject whitespace-prefixed SRT formatting tags — /private/tmp/screenrec-parity-sidecars/packages/composition/src/caption-sidecars.ts:79-79
+  For literal text such as `hello < b>bold`, this expression misses the tag because it requires a letter immediately after `<`. FFmpeg nevertheless recognizes `< b>` as a bold tag, removes it from the displayed text and applies formatting. Extend the SRT refusal check to cover whitespace-prefixed tags recognized by readers, preserving the existing VTT alternative instead of silently changing literal captions.
+The focused composition and protocol tests pass, but independent FFmpeg/FFprobe probes demonstrate two admitted SRT payloads that change displayed text or cue timing.
+
+Full review comments:
+
+- [P2] Reject SRT payload lines that parse as cue timestamps — /private/tmp/screenrec-parity-sidecars/packages/composition/src/caption-sidecars.ts:145-146
+  A displayed caption containing `Before\n00:00:10,000 --> 00:00:20,000\nAfter` passes validation but is serialized as executable SRT timing syntax. FFprobe reads two cues instead of one, moving `After` to 10–20 seconds and dropping the literal timestamp text; a payload consisting solely of that timestamp line disappears entirely. Refuse timing-shaped payload lines for SRT rather than publishing content that changes the pinned text and support.
+
+- [P2] Reject whitespace-prefixed SRT formatting tags — /private/tmp/screenrec-parity-sidecars/packages/composition/src/caption-sidecars.ts:79-79
+  For literal text such as `hello < b>bold`, this expression misses the tag because it requires a letter immediately after `<`. FFmpeg nevertheless recognizes `< b>` as a bold tag, removes it from the displayed text and applies formatting. Extend the SRT refusal check to cover whitespace-prefixed tags recognized by readers, preserving the existing VTT alternative instead of silently changing literal captions.

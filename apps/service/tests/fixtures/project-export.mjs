@@ -180,7 +180,7 @@ export async function fixture(
     },
   });
   preview = new ProjectPreviewInspection(projects, assets, jobs, cache, binding, prepared);
-  const domain = { store: projects, preview };
+  const domain = { store: projects, assets, preview };
   exports = new MediaExports({
     catalog,
     jobs,

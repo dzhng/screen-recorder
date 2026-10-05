@@ -1,0 +1,30 @@
+[
+  {
+    "input": "x < y, 2 < 3 > 1, R&D",
+    "dialogue": "Dialogue: 0,0:00:00.00,0:00:01.00,Default,,0,0,0,,x < y, 2 < 3 > 1, R&D"
+  },
+  {
+    "input": "x < y > z",
+    "dialogue": "Dialogue: 0,0:00:00.00,0:00:01.00,Default,,0,0,0,,x < y > z"
+  },
+  {
+    "input": "hello < b>bold",
+    "dialogue": "Dialogue: 0,0:00:00.00,0:00:01.00,Default,,0,0,0,,hello {\\b1}bold"
+  },
+  {
+    "input": "hello < / b>literal",
+    "dialogue": "Dialogue: 0,0:00:00.00,0:00:01.00,Default,,0,0,0,,hello < / b>literal"
+  },
+  {
+    "input": "hello <\nb>bold",
+    "dialogue": "Dialogue: 0,0:00:00.00,0:00:01.00,Default,,0,0,0,,hello <\\Nb>bold"
+  },
+  {
+    "input": "x < y",
+    "dialogue": "Dialogue: 0,0:00:00.00,0:00:01.00,Default,,0,0,0,,x < y"
+  },
+  {
+    "input": "2 < 3 > 1",
+    "dialogue": "Dialogue: 0,0:00:00.00,0:00:01.00,Default,,0,0,0,,2 < 3 > 1"
+  }
+]

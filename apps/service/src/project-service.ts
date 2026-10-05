@@ -639,7 +639,7 @@ export async function startProjectService(options: {
       cache,
       worker,
       files,
-      project: { store: projects, preview, audio: mediaAudio, package: projectPackages },
+      project: { store: projects, assets, preview, audio: mediaAudio, package: projectPackages },
     });
     exports = mediaExports;
     const managedStorage = new ManagedStorage(null, cache, library, (signal) =>

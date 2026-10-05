@@ -6,6 +6,7 @@ import {
   mediaClipSchema,
   editOperationSchema,
   textSeedCuesSchema,
+  captionSidecarRequestSchema,
   processingTargetSchema,
   processingTapSchema,
 } from "@screenrec/composition";
@@ -393,11 +394,14 @@ export const operationSchema = z.discriminatedUnion("operation", [
           })
           .strict(),
         project.extend({ ...exportDestination, kind: z.literal("processed-package") }).strict(),
+        project
+          .extend({ ...exportDestination, ...captionSidecarRequestSchema.shape, revisionId: id })
+          .strict(),
       ]),
     })
     .strict()
     .describe(
-      "Export a pinned revision to an existing absolute directory without replacing files. Reuse exportId for a lost response; poll export.status. Managed projects export video, standalone audio (Float32 WAV or AAC/M4A), or an editable processed-package ZIP; audio defaults to lossless 48kHz stereo WAV, pins the full processed mix, and requires no video preparation. Export never removes video or changes the project. Project packaging selects the requested revision and retained history through it; later donor edits are excluded. Project package JSON uses inventory members with a 128 MiB aggregate working-memory admission. Package export requires all acquired evidence: acquired narration waits for its transcript, reports MODEL_NOT_PREPARED until model.prepare has completed, and fails if transcription failed until an explicit source job retry succeeds.",
+      "Export a pinned revision to an existing absolute directory without replacing files. Reuse exportId for a lost response; poll export.status. Managed projects export video, standalone audio (Float32 WAV or AAC/M4A), an editable processed-package ZIP, or plain SRT/VTT sidecars; sidecars require revisionId and explicit unique text placementIds, use displayed corrected text and exact surviving support, round outward to milliseconds and report introduced overlaps/omissions/discarded styling. They require no video/audio encoder or ASR. Unsupported cue payloads and limits refuse rather than rewrite text; audio defaults to lossless 48kHz stereo WAV, pins the full processed mix, and requires no video preparation. Export never removes video or changes the project. Project packaging selects the requested revision and retained history through it; later donor edits are excluded. Project package JSON uses inventory members with a 128 MiB aggregate working-memory admission. Package export requires all acquired evidence: acquired narration waits for its transcript, reports MODEL_NOT_PREPARED until model.prepare has completed, and fails if transcription failed until an explicit source job retry succeeds.",
     ),
   z
     .object({

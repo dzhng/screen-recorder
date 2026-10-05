@@ -328,3 +328,30 @@ it("source capture continuations retain every reader head through both public op
     ).toBe(false);
   }
 });
+
+it("caption sidecar export requires pinned revision and explicit unique placements without media settings", () => {
+  const params = {
+    kind: "srt",
+    projectId: "p",
+    revisionId: "r",
+    placementIds: ["caption"],
+    exportId: "11111111-1111-4111-8111-111111111111",
+    directory: "/tmp",
+    leaf: "selected.srt",
+  };
+  expect(operationSchema.safeParse({ operation: "export.create", params }).success).toBe(true);
+  expect(
+    operationSchema.safeParse({ operation: "export.create", params: { ...params, kind: "vtt" } })
+      .success,
+  ).toBe(true);
+  for (const invalid of [
+    { ...params, revisionId: undefined },
+    { ...params, placementIds: [] },
+    { ...params, placementIds: ["caption", "caption"] },
+    { ...params, settings: {} },
+  ]) {
+    expect(operationSchema.safeParse({ operation: "export.create", params: invalid }).success).toBe(
+      false,
+    );
+  }
+});

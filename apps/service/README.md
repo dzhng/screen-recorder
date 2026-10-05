@@ -55,8 +55,10 @@ joins borrowers and unfinished native work before donor removal; a mutable path
 or alias cannot replace the frozen authority already admitted.
 
 [Export coordination](src/exports.ts) executes a pinned durable intent. Video,
-standalone audio and portable packages use the same publication lifetime;
-audio-only export does not require picture preparation. Output format meaning
+standalone audio, plain caption sidecars and portable packages use the same
+publication lifetime. Caption bytes are frozen at admission and need neither a
+media encoder nor speech inference; an edit during delivery cannot replace them.
+Audio-only export does not require picture preparation. Output format meaning
 belongs to the composition settings owner, not another service allowlist.
 
 Package extraction proves containment and retained resource identity. Adoption

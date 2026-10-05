@@ -130,12 +130,12 @@ const worker = async (operation, params, options) => {
     if (!result.ok) throw new Error(JSON.stringify(result));
     await new Promise((resolve) => {
       const done = () => {
-        options.signal.removeEventListener("abort", done);
+        options.signal?.removeEventListener("abort", done);
         resolve();
       };
-      options.signal.addEventListener("abort", done, { once: true });
+      options.signal?.addEventListener("abort", done, { once: true });
       process.send({ type: "barrier.hit", id: fault.id, operation, nativeSucceeded: true });
-      if (options.signal.aborted) done();
+      if (options.signal?.aborted) done();
     });
   }
   return result;
