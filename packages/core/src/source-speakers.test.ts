@@ -46,6 +46,7 @@ async function fixture(
     assetId: asset.id,
     streamId: "a1",
     channel: 1,
+    modelId: "speaker-runtime-control",
     sourceRange: { startUs: 1_000_000, endUs: 31_000_000 },
   };
   return {

@@ -18,6 +18,7 @@ export const speakerSourceSchema = sourceSelectionSchema
   .extend({
     channel: z.int().nonnegative(),
     sourceRange: selectionRangeSchema,
+    modelId: z.string().min(1),
   })
   .strict();
 export type SpeakerSourceInput = z.infer<typeof speakerSourceSchema>;
@@ -28,7 +29,7 @@ export function selectSpeakerSource(
   acquisitions: AcquisitionStore,
   input: SpeakerSourceInput,
 ) {
-  const { channel, sourceRange, ...selection } = speakerSourceSchema.parse(input);
+  const { channel, sourceRange, modelId, ...selection } = speakerSourceSchema.parse(input);
   const source = selectSource(assets, acquisitions, selection);
   if (source.stream.kind !== "audio")
     throw new CatalogError("UNSUPPORTED_MEDIA", "Speaker observations require an audio stream");
@@ -60,6 +61,7 @@ export function selectSpeakerSource(
     ...source,
     originUs: assets.get(selection.assetId).originUs,
     channel,
+    modelId,
     sourceRange,
     expectedPCM: { sampleRate: 16_000, frames: 480_000 },
   };
