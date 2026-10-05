@@ -62,6 +62,12 @@ voice/model preparation, runtime and jobs owners. Research does not select a
 separate Python installer/service, bundle NeMo dependencies or authorize implicit
 model downloads. Preserve the actual NVIDIA license and source/model receipts.
 
+The first production checkpoint is [23a1](23a1-speaker-runtime.md): exact original
+30-second prepared-input/runtime preservation through existing preparation and
+worker owners. General ranges and durable source/public projection require the
+following contract to be resliced after that seam; they are not silently included
+in runtime readiness.
+
 ## Implementation contract after a passed gate
 
 Use existing model preparation/runtime/jobs and core source evidence generation.
