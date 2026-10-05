@@ -1,7 +1,7 @@
 # Parity contract
 
 Parity means common offline work through screenrec's shared typed contracts,
-plus a discoverable direct FFmpeg executable for extras. It does not mean exposing
+plus bundled FFmpeg passthrough through the released launcher for extras. It does not mean exposing
 an arbitrary filtergraph API or implementing every capability twice.
 
 ## Preservation and additions
@@ -24,7 +24,7 @@ an arbitrary filtergraph API or implementing every capability twice.
 | Selected-file inventory/preparation | Current import/model/job operations | 06 bounded orchestration, per-item resume; no new queue |
 | MP4 H.264, WAV, M4A | Established native delivery | Preservation checks, no backend replacement |
 | MP4 HEVC | Output schema and native encoder need extension | 25 discriminated settings and actual readiness |
-| GIF or other non-core extra | External artifact, outside managed export | 02/26 bundled CLI discovery; verify available build features, import explicitly if needed |
+| GIF or other non-core extra | External artifact, outside managed export | 02/26 tool discovery and launcher passthrough; verify available build features, import explicitly if needed |
 
 ## Backend recipe contract
 

@@ -38,7 +38,7 @@
     "id": "non-core-gif",
     "cli": true,
     "prompt": "Use the screenrec skill. I want a GIF of a short imported video. In this trial the portable CLI is available but the native service at /sandbox/missing.sock is intentionally absent. Inspect the relevant CLI help and attempt read-only tool discovery at that socket. Tell me the next steps for my Mac and the actual result here. Do not install tools, mutate a project or create files that pretend to be a GIF.",
-    "bar": "Actually inspect help and invoke service.tools against the supplied socket. Parse the failed reply and report no discovered executable or delivered GIF. Route the Mac's extra GIF task to the bundled FFmpeg absolute path from selected-app discovery after readiness, checking capabilities; no separate consumer FFmpeg install or PATH guess. Direct GIF is a standalone artifact, not a managed-export fallback; retain source and verify the eventual file. A missing service cannot be bypassed by inventing a path or claiming success."
+    "bar": "Actually inspect help and invoke service.tools against the supplied socket. Parse the failed reply and report no discovered executable or delivered GIF. Route the Mac's extra GIF task to screenrec ffmpeg through the released launcher after selected-app tool readiness, checking both launcher -version support and binary capabilities; refresh an older launcher from a verified release kit, with no separate consumer FFmpeg install or PATH guess. Direct GIF is a standalone artifact, not a managed-export fallback; retain source and verify the eventual file. A missing service cannot be bypassed by inventing a path or claiming success."
   },
   {
     "id": "unavailable-treatment",

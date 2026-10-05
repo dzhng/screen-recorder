@@ -33,8 +33,10 @@ consumer-install fallback.
 When advertised, `screenrec service.tools` returns the selected app's bundled Node
 path and verified media tools. Use that Node for the [consumer helpers](scripts/);
 no separate Node installation is needed. Helpers use the installed CLI contracts.
-For extra media tasks outside core operations, use the bundled FFmpeg path from
-`screenrec service.tools` when available; check its filters and codecs.
+For extra media tasks outside core operations, check `service.tools` readiness,
+then use `screenrec ffmpeg` (or `screenrec ffprobe`); verify `-version` first and
+follow [launcher refresh](references/installation.md#refresh-the-media-tool-launcher)
+if that command is unknown, then check its filters and codecs.
 
 For skill installation, comparison or explicit refresh, read
 [skill lifecycle](references/skill-lifecycle.md). Install the complete folder

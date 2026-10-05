@@ -1,0 +1,32 @@
+{
+  "sourceBase": "c1168c1a",
+  "passed": true,
+  "claim": "Actual integrated native source authority component execution; no managed HDR conversion or packaged release claim",
+  "checks": [
+    {
+      "product": "ScreenRecorderFrameTests",
+      "selection": "--source-authority",
+      "result": "PASS inherited and normal-path presentation retain unchanged pixels/sample time after close, unlink and replacement; unopened metadata retains the same source",
+      "logSha256": "a1293fbf66c0e88e5dfbb839d3a54fb75472b84feec00925cb4c2359ce025303"
+    },
+    {
+      "product": "ScreenRecorderSourceAudioTests",
+      "selection": "--source-streaming",
+      "result": "PASS bounded metadata and whole-source PCM beyond64MiB preserve all frames and final nonzero stereo samples",
+      "logSha256": "a6974d1a97449d7014102015e257dbdf89f2af14c4f1a25b7ea67d9c5639e2ec"
+    },
+    {
+      "product": "ScreenRecorderCaptureTests",
+      "selection": "SCREENREC_CAPTURE_INPUT_AUTHORITY=1",
+      "result": "PASS capture recovery preserves ordinary source decoding and refuses external references before reading samples",
+      "logSha256": "d97be45a04196519b11b93b44fb9b3aa3971355bb5d13ffbb56fea3fbf447c2f"
+    }
+  ],
+  "linkedProbe": {
+    "command": "swift build --build-system native --package-path helpers/mac --product screenrec-native --jobs 2 && node --test helpers/mac/Tests/media-probe.test.mjs",
+    "passed": true,
+    "tests": 14,
+    "nativeSha256": "244e2d1d8ef341db7b4cb9e07659cdebba4aff19326cd29b6bfdb0c66d6bf23f",
+    "logSha256": "1eab447b2bf5ca638cba3ad9e05a3340d802fbc6ceeeadfa9c097363b89d4d36"
+  }
+}

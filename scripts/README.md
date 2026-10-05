@@ -98,6 +98,15 @@ to [agent setup](../README.md#agent-setup). The consumer skill's
 [installation procedure](../skills/screenrec/references/installation.md) owns
 executable release-install commands and readiness checks.
 
+The released launcher also dispatches direct media-tool invocations under that
+same exclusion, without entering Node or the service. Tool arguments, streams and
+exit status pass through unchanged. Raw discovered executable paths remain useful
+inventory evidence; executing them directly bypasses the launcher's update protection.
+Direct tool output is outside managed export identity and publication.
+Automatic updates leave the external launcher in place; installations with an
+older launcher require the consumer installation reference's verified refresh
+before using its new media passthrough.
+
 ## Personal source installation
 
 The [installer](install-personal.mjs) owns app and launcher destinations and

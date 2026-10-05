@@ -222,6 +222,8 @@ async function main() {
             "screenrec <operation> [--socket PATH] [--params JSON|-] [--id ID] [--output FILE|NEW_DIRECTORY] | screenrec mcp [--socket PATH]",
           service:
             "Without --socket, calls use $SCREENREC_HOME/run/service.sock (default ~/.screen-recorder) and launch the personal app once, within ten seconds, when nothing answers there. --socket connects to that path directly and never launches an app.",
+          bundledMedia:
+            "The released screenrec launcher also accepts ffmpeg or ffprobe followed by that tool's own arguments. It runs the selected app's bundled executable under installation exclusion without starting the service; streams and exit status belong to the media tool, not the operation JSON protocol.",
           timeUnits:
             "Microseconds. Endpoints accept integers or exact reduced fractions where the operation's input schema permits them. Ranges are half-open in the selected anchor domain and expectedRevisionId.",
           mutations:

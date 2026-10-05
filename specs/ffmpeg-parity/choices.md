@@ -804,3 +804,40 @@ through framework errors. An absent cursor is never proof of decoding support.
 Gap: the earlier native probe assumed the primary file implied all sample storage.
 Reach: source-bearing consumers need the same retained owner and real execution
 checks; metadata inspection alone cannot certify it. Verdict: sound. Confidence: high.
+
+
+### Direct media tools share the installed launcher’s replacement lock
+
+When: slice26 following latest-main integration. An agent requests a GIF and runs
+bundled FFmpeg while the app update wants to replace that same binary and its
+libraries. The released `screenrec` launcher now accepts `ffmpeg` or `ffprobe`,
+locks the installation before reading the app, then becomes that tool process.
+Its inherited operating-system lock survives for the tool’s lifetime. Tool arguments,
+standard streams and exit status are unchanged, and no service job or managed export
+is created. Calling a discovered binary path alone would bypass replacement protection;
+building a service operation per filter would expand the product unnecessarily.
+Gap: the plan allowed direct bundled extras before authenticated updating landed,
+without selecting how those lifetimes would coexist. Reach: consumer fallback uses
+the released launcher; raw paths remain discovery and internal execution evidence. Automatic updates
+retain the external launcher, so agents verify both passthrough versions and refresh
+an older launcher explicitly from a checksum-verified release kit. No runtime
+negotiation or automatic launcher updater is added. The component proof uses scratch account lookup, so signed packaged acceptance still
+must exercise the final artifacts separately. Verdict: sound; one existing lifetime
+owner protects both CLI and direct tools. Confidence: high.
+
+### Ordinary source paths retain authority before native preparation
+
+When: source-owner follow-up c1168c1a. A source path can be replaced after native
+preparation while a picture or audio read is still running. The shared input owner
+now opens and retains the original regular file for ordinary paths as well as inherited
+handles. Picture preparation and capture recovery keep this owner alive, qualify
+selected sample storage, then explicitly switch from bounded metadata reads to
+streaming. The alternative URL-only decoder could resolve another file or an external
+MOV reference after admission. Existing symlinks resolve before the final leaf is
+opened without following a new leaf link; original permission errors keep their
+operational meaning. This protects close, unlink and pathname replacement, while
+existing file-version and admission checks still own in-place content mutation.
+Gap: the follow-up required shared authority but did not specify regular-path retention
+and wrapper-error preservation. Reach: all live source consumers share the same
+metadata/streaming boundary; generated-output inspection is a separate contract.
+Verdict: sound. Confidence: high.

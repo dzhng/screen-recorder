@@ -6,6 +6,8 @@ The CLI is the primary external-agent adapter, paired with the
 MCP stdio exposes the same contracts. The [protocol declaration](../../packages/protocol/README.md)
 owns schemas and help; adapters never edit the catalog or infer another operation.
 [Builds and installation](../../scripts/README.md) own checkout and installed launchers.
+The released launcher’s media-tool passthrough uses each tool's CLI and output
+contract, separately from service operations; the build guide owns its update exclusion.
 
 ## Discover the contract before executing
 

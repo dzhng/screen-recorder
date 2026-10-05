@@ -91,6 +91,42 @@ Report the installed release tag, app/launcher paths and observed health result.
 If only help passed, say so; blocked app launch is not verified service readiness.
 Use the installed CLI's schemas even when this skill is newer than that release.
 
+## Refresh the media-tool launcher
+
+After `service.tools` reports bundled media readiness, run `screenrec ffmpeg -version`
+and `screenrec ffprobe -version`. Both must exit successfully and identify the
+requested tool. An `UNKNOWN_OPERATION` or argument-parsing failure can mean the app
+updated while its external launcher stayed older. Tool readiness alone does not
+prove launcher support. Do not bypass update protection by running the raw path.
+
+Use the download-and-verify procedure above to obtain a complete release kit that
+supports media passthrough. If its launcher still does not recognize these commands,
+report the unavailable capability; installing a separate FFmpeg is not the remedy.
+Wait for existing CLI/MCP clients to finish. Retain the existing launcher and replace
+only that launcher from the verified kit using a same-directory staged rename:
+
+```sh
+(
+  set -eu
+  screenrec_unpacked="/absolute/path/printed/above/unpacked"
+  screenrec_launcher=$(command -v screenrec)
+  test -f "$screenrec_launcher"
+  test ! -L "$screenrec_launcher"
+  test -x "$screenrec_unpacked/screenrec"
+  screenrec_backup=$(mktemp -d)
+  cp -p "$screenrec_launcher" "$screenrec_backup/screenrec"
+  screenrec_staged=$(mktemp "${screenrec_launcher}.refresh.XXXXXX")
+  trap 'rm -f "$screenrec_staged"' EXIT
+  cp "$screenrec_unpacked/screenrec" "$screenrec_staged"
+  chmod +x "$screenrec_staged"
+  mv "$screenrec_staged" "$screenrec_launcher"
+  printf 'Previous launcher retained at: %s\n' "$screenrec_backup/screenrec"
+)
+```
+
+Repeat both version checks and ordinary CLI help. App and library contents remain
+in place; a missing or unready app requires the full installation procedure.
+
 ## App updates and recovery
 
 An older installation without the updater or coordinated launcher needs one

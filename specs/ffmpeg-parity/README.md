@@ -14,14 +14,14 @@ Implement the complete authorized plan through committed passes. Read the
 [exploration](exploration.md), [parity contract](parity.md) and current slice.
 Integrated: 01–12, 16–18, 20–21 and 24–25. The audio-domain compiler and shared purpose-checked optional runtime are integrated;
 native audio preparation/execution and explicit treatments 13–15 remain next. Independently,
-integrate the live source-owner authority follow-up, finish 19 managed HDR
+finish 19 managed HDR
 conversion and family-specific speech research. Final release
 build/ZIP, relocated component acceptance 26 and the full suite follow integration.
 The release check is wired to reuse the public delivery observer; installed
 execution is still pending. Latest main adds authenticated updates: archive smoke
 keeps its production-host exclusion; a separate relocated media check executes
-the packaged service/JavaScript CLI in scratch state. Direct FFmpeg extras still
-need app-replacement exclusion proof before the final release gate.
+the packaged service/JavaScript CLI in scratch state. Direct FFmpeg extras use the released launcher’s media passthrough under the same
+installation lock; actual component execution passes, with final packaged proof pending.
 
 Audio ownership is fixed by [shared preparation](slices/96-audio-preparation.md):
 composition declares state/dependency domains, native owns graph/prefix PCM,
@@ -34,7 +34,7 @@ facts, compressed interpretation and exact source↔derivative clocks.
 | Retained evidence | Current claim |
 | --- | --- |
 | [Pinned zimg/build](evidence/zimg-build) | Refreshed 02–05 component proofs pass. |
-| [Native HDR inspection](evidence/native-hdr-inspection/linked-worker.json) | All 14 linked-worker probe cases pass; live source authority and managed conversion remain open. |
+| [Native HDR inspection](evidence/native-hdr-inspection/linked-worker.json) | All 14 linked-worker probe cases pass; source authority component execution also passes; managed conversion remains open. |
 | [Native SDR](evidence/sdr-execution/proof.json) | Bound OS recipe, existing cache/job/export identities. |
 | [Public H.264/HEVC](evidence/hevc-public/report.json) | Authored clocks, decoded landmarks and replay pass. |
 | [Consumer trials](evidence/consumer-acceptance/README.md) | Concrete planning, GIF routing and unavailable execution pass twice; earlier failures retained. |
@@ -125,7 +125,7 @@ screenrec operations already execute natively and do not need consumer FFmpeg.
 After packaged proof, the skill gets one simple line:
 
 > For extra media tasks outside screenrec’s core operations, use bundled FFmpeg
-> at the installed path returned by tool discovery; check its filters and codecs.
+> through `screenrec ffmpeg` after tool discovery; check its filters and codecs.
 
 Direct extras such as GIF are standalone outputs. Ordinary import and explicit
 placement bring them into projects. A direct file never silently satisfies a

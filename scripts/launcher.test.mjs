@@ -113,3 +113,105 @@ struct passwd *fixture_getpwuid(uid_t uid) { static struct passwd account; accou
     rmSync(scratch, { recursive: true, force: true });
   }
 });
+
+test("bundled media tools preserve arguments, streams and exit status while excluding installation", async () => {
+  const scratch = mkdtempSync(join(tmpdir(), "screenrec-media-launcher-"));
+  const accountHome = join(scratch, "Account home");
+  let child, closed;
+  try {
+    mkdirSync(accountHome);
+    const accountShim = join(scratch, "account.c");
+    writeFileSync(
+      accountShim,
+      `#include <pwd.h>
+struct passwd *fixture_getpwuid(uid_t uid) { static struct passwd account; account.pw_uid=uid; account.pw_dir=${JSON.stringify(accountHome)}; return &account; }
+`,
+    );
+    const launcher = join(scratch, "screenrec");
+    const lockExec = join(scratch, "lock-exec");
+    execFileSync("clang", [
+      "-Wall",
+      "-Wextra",
+      "-Werror",
+      "-Dgetpwuid=fixture_getpwuid",
+      "scripts/launcher/main.c",
+      accountShim,
+      "-o",
+      launcher,
+    ]);
+    execFileSync("clang", ["scripts/launcher-lab/lock-exec.c", "-o", lockExec]);
+    const app = join(scratch, "Relocated App.app");
+    const bin = join(app, "Contents/Resources/ffmpeg/bin");
+    mkdirSync(bin, { recursive: true });
+    const source = join(scratch, "tool.c");
+    writeFileSync(
+      source,
+      `#include <stdio.h>
+int main(int argc, char **argv) {
+  for (int i=1; i<argc; ++i) puts(argv[i]);
+  fflush(stdout);
+  fputs("tool diagnostic\\n", stderr);
+  int value;
+  while ((value=getchar()) != EOF) putchar(value);
+  return 23;
+}
+`,
+    );
+    execFileSync("clang", [source, "-o", join(bin, "ffmpeg")]);
+    copyFileSync(join(bin, "ffmpeg"), join(bin, "ffprobe"));
+    const env = { ...process.env, HOME: scratch, SCREENREC_APP: app };
+    const lock = join(accountHome, "Library/Caches/com.david.screenrec/launch.lock");
+    for (const tool of ["ffmpeg", "ffprobe"]) {
+      const args = [
+        "-filter_complex",
+        "drawtext=text='literal $(text) with spaces'",
+        "-i",
+        "pipe:0",
+      ];
+      child = spawn(launcher, [tool, ...args], { env, stdio: ["pipe", "pipe", "pipe"] });
+      closed = new Promise((resolve) => child.once("close", resolve));
+      let output = "",
+        errors = "";
+      child.stdout.on("data", (bytes) => {
+        output += bytes;
+      });
+      child.stderr.on("data", (bytes) => {
+        errors += bytes;
+      });
+      await new Promise((resolve, reject) => {
+        const timer = setTimeout(() => reject(new Error("Tool entry timed out")), 5000);
+        child.stdout.once("data", () => {
+          clearTimeout(timer);
+          resolve();
+        });
+        child.once("close", () => {
+          clearTimeout(timer);
+          reject(new Error("Tool exited before entry"));
+        });
+      });
+      assert.equal(spawnSync(lockExec, ["exclusive", lock, "/usr/bin/true"]).status, 75);
+      child.stdin.end("stdin payload\n");
+      assert.equal(await closed, 23);
+      child = undefined;
+      assert.equal(output, args.join("\n") + "\nstdin payload\n");
+      assert.equal(errors, "tool diagnostic\n");
+      assert.equal(spawnSync(lockExec, ["exclusive", lock, "/usr/bin/true"]).status, 0);
+      child = spawn(lockExec, ["exclusive", lock, "/bin/cat"], { stdio: ["pipe", "pipe", "pipe"] });
+      closed = new Promise((resolve) => child.once("close", resolve));
+      child.stdin.write("exclusive owner\n");
+      await new Promise((resolve) => child.stdout.once("data", resolve));
+      const denied = spawnSync(launcher, [tool, "-version"], { env, encoding: "utf8" });
+      assert.equal(denied.status, 75);
+      assert.equal(JSON.parse(denied.stdout).error.code, "UPDATING");
+      child.stdin.end();
+      assert.equal(await closed, 0);
+      child = undefined;
+    }
+  } finally {
+    if (child) {
+      child.kill("SIGKILL");
+      await closed;
+    }
+    rmSync(scratch, { recursive: true, force: true });
+  }
+});

@@ -34,7 +34,7 @@ int main(int argc, char **argv) {
     }
     if (snprintf(path, sizeof(path), "%s/Library/Caches/com.david.screenrec/launch.lock", lockHome) >= (int)sizeof(path))
         return fail("SERVICE_UNAVAILABLE", "Account home path is too long", 0, 74);
-    // Deliberately inherited by Node: exclusion owns the complete CLI/MCP process lifetime.
+    // Deliberately inherited: exclusion owns the complete CLI/MCP or media tool lifetime.
     int fd = open(path, O_CREAT | O_RDWR | O_NOFOLLOW, 0600);
     struct stat info, named;
     if (fd < 0 || fstat(fd, &info) != 0 || lstat(path, &named) != 0 || !S_ISREG(info.st_mode) || info.st_uid != getuid() || info.st_nlink != 1 || (info.st_mode & 077) != 0 || info.st_dev != named.st_dev || info.st_ino != named.st_ino)
@@ -50,10 +50,16 @@ int main(int argc, char **argv) {
             return fail("SERVICE_UNAVAILABLE", "App path is too long", 0, 74);
     } else if (snprintf(app, sizeof(app), "%s/Applications/Screen Recorder.app", appHome) >= (int)sizeof(app))
         return fail("SERVICE_UNAVAILABLE", "App path is too long", 0, 74);
+    setenv("SCREENREC_APP", app, 1);
+    if (argc > 1 && (!strcmp(argv[1], "ffmpeg") || !strcmp(argv[1], "ffprobe"))) {
+        if (snprintf(path, sizeof(path), "%s/Contents/Resources/ffmpeg/bin/%s", app, argv[1]) >= (int)sizeof(path))
+            return fail("SERVICE_UNAVAILABLE", "App path is too long", 0, 74);
+        execv(path, argv + 1);
+        return fail("SERVICE_UNAVAILABLE", "Bundled media tool could not start; verify the installed app", 0, 74);
+    }
     if (snprintf(node, sizeof(node), "%s/Contents/Resources/node/bin/node", app) >= (int)sizeof(node) ||
         snprintf(cli, sizeof(cli), "%s/Contents/Resources/cli/main.mjs", app) >= (int)sizeof(cli))
         return fail("SERVICE_UNAVAILABLE", "App path is too long", 0, 74);
-    setenv("SCREENREC_APP", app, 1);
     char **arguments = calloc((size_t)argc + 2, sizeof(char *));
     if (!arguments) return fail("SERVICE_UNAVAILABLE", "Cannot allocate launcher arguments", 0, 74);
     arguments[0] = node; arguments[1] = cli;

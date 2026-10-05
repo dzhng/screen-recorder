@@ -1,0 +1,52 @@
+{
+  "passed": true,
+  "scope": "Actual prepared FFmpeg/ffprobe through production launcher compiled with scratch account lookup; no installed app or updater execution",
+  "tools": [
+    {
+      "tool": "ffmpeg",
+      "args": [
+        "-v",
+        "error",
+        "-re",
+        "-f",
+        "lavfi",
+        "-i",
+        "color=s=16x16:r=10",
+        "-f",
+        "rawvideo",
+        "pipe:1"
+      ],
+      "version": "ffmpeg version 9.0.2 Copyright (c) 2000-2026 the FFmpeg developers",
+      "mediaBytes": 1536,
+      "replacementDuring": 75,
+      "terminal": {
+        "status": null,
+        "signal": "SIGKILL"
+      },
+      "replacementAfter": 0
+    },
+    {
+      "tool": "ffprobe",
+      "args": [
+        "-v",
+        "error",
+        "-f",
+        "lavfi",
+        "-i",
+        "color=s=16x16:r=1",
+        "-show_packets",
+        "-of",
+        "compact"
+      ],
+      "version": "ffprobe version 9.0.2 Copyright (c) 2007-2026 the FFmpeg developers",
+      "mediaBytes": 65536,
+      "replacementDuring": 75,
+      "terminal": {
+        "status": null,
+        "signal": "SIGKILL"
+      },
+      "replacementAfter": 0
+    }
+  ],
+  "receiptSha256": "27350ff2f953bbd4d6ca8bfe0f6808b99b9752192657d289146b50319099f66a"
+}

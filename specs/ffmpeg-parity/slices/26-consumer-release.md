@@ -8,7 +8,7 @@ Dependencies: [02](02-installed-tools.md), [05](05-managed-output.md), [06](06-b
 
 Consumer skill/references and existing fresh-agent eval/media/release owners.
 
-Add one line pointing to discovered installed FFmpeg for non-core extras only after bundle proof. General imported-footage first; retain optional 30ms fades/30–200ms padding and other audition examples as guidance. Teach exact pins, explicit treatments, coverage, resumption and delivery. Do not advertise unsupported research families. Account separately for diarization, acoustic events and boundary alignment: each shipped family passes its own research/implementation gate; any unfinished family remains named unfinished scope, not complete by aggregation.
+Add one line using the released launcher’s bundled FFmpeg passthrough after tool readiness for non-core extras. General imported-footage first; retain optional 30ms fades/30–200ms padding and other audition examples as guidance. Teach exact pins, explicit treatments, coverage, resumption and delivery. Do not advertise unsupported research families. Account separately for diarization, acoustic events and boundary alignment: each shipped family passes its own research/implementation gate; any unfinished family remains named unfinished scope, not complete by aggregation.
 
 ## Focused proof and review
 
@@ -66,11 +66,28 @@ report](../evidence/gif-extra/distribution-smoke.json) passes: five 160×96 fram
 fails specifically at 0.51 s against the frozen 0.5 s requirement. This tests the
 direct-extra binary path without adding a managed GIF operation.
 
-The direct-extra path still needs a production exclusion contract: an agent
-executing the discovered FFmpeg path bypasses the external launcher’s shared
-installation lock. Prove that the complete FFmpeg/shared-library lifetime cannot
-race app replacement before calling installed direct extras complete. Preserve
-the existing one-line fallback and avoid a new operation per filter.
+The released launcher accepts `ffmpeg` and `ffprobe` followed by unmodified tool
+arguments, choosing its selected app’s binary only after holding shared installation
+exclusion. It directly replaces itself with that tool, keeping the existing inherited
+lock lifetime; it starts neither Node nor the service. Standard streams and tool exit
+status remain raw, separate from operation envelopes. The one-line consumer fallback
+uses this route; discovered raw paths remain inventory and internal execution evidence.
+No operation per filter, second supervisor or installer is added. Independent review
+identified that Sparkle retains older external launchers even when bundled tools
+are ready. Consumer guidance therefore probes both tool versions before execution
+and routes unknown-command failures through a verified-kit launcher refresh. The
+installation reference owns backup, same-directory staging and verification; it
+never silently substitutes a raw unprotected executable path.
+
+The regression was red when media arguments fell through to bundled Node and green
+with passthrough. Both tools preserve literal argument boundaries, stdin bytes,
+stdout/stderr and nonzero status, hold exclusion until exit, and refuse before entry
+under an exclusive owner. The [actual-tool component receipt](../evidence/direct-tool-launcher.json)
+checks the prepared binaries through production launcher source with scratch account
+lookup: observed running media packets prevent exclusive acquisition; killing each
+tool releases it. This does not execute the production account’s launcher or updater
+and does not replace final signed relocated-package acceptance. Arbitrary inherited
+descriptor protocols beyond standard streams are not covered by this component proof.
 
 ## Boundaries and decision budget
 
