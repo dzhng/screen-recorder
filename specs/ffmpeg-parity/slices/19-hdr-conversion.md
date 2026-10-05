@@ -485,3 +485,21 @@ support versus occupied support, not a video/audio origin mismatch; this is not
 evidence of an actual combined leading-empty source. Public managed publication,
 frozen provenance, portable retention and range/acquisition materialization remain
 unfinished. No public operation is exposed by this checkpoint.
+
+
+## Durable conversion origin checkpoint
+
+Core now admits frozen HDR conversion origins with explicit source dependency,
+selected source/output support, unretimed media operands, fresh-fact digests and
+pinned implementation hashes. Portable adoption retains the original dependency
+and refuses a source or output selection/support contradiction. Counts and outer
+endpoints alone cannot conceal a shorter occupied segment. Original byte identity
+and source clocks remain intact. Catalog 26 refuses 25 writers, which cannot
+preserve this origin meaning or the integrated speaker chronological seek contract.
+
+Focused asset/package/catalog/speaker tests and Core types/build pass. Independent
+review exposed both a shortened occupied-support contradiction and malformed
+audio-rate arithmetic escaping structured package refusal; regressions were seen
+red and fixed. These are durable schema and portability proofs, without new media
+execution. Managed job publication and range/acquisition materialization remain
+open; this checkpoint exposes no public conversion operation.

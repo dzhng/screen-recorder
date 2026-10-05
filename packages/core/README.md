@@ -22,6 +22,11 @@ separately from video sample-cursor support; packet capacity never becomes decod
 audio evidence. Absent declarations remain absent; a successful parse does not establish
 decoded appearance or authorize a treatment.
 
+Converted assets retain their original dependency and frozen [conversion evidence](src/asset-origins.ts).
+Portable adoption binds selected source and derivative occupied support to that
+same clock, including unretimed media operands. A digest identifies fresh facts;
+it never substitutes for those support bindings or grants conversion permission.
+
 Read-only acoustic measurements retain the selected PCM generation and recipe.
 Integrated loudness requires complete admitted support; a hole cannot become
 measured silence or concatenate neighboring material. A null gate result is

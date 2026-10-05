@@ -59,6 +59,176 @@ test("generated assets stay unpublished until their owner's transaction commits"
     await staged.close();
   }
 });
+
+test("portable HDR derivative admission retains its exact conversion clock and original dependency", async () => {
+  const { root, catalog, store } = await setup();
+  const originalPath = join(root, "original.mov");
+  const outputPath = join(root, "derivative.mov");
+  await writeFile(originalPath, "immutable original HDR bytes");
+  await writeFile(outputPath, "immutable converted SDR bytes");
+  const videoProbe =
+    (startUs: number, endUs: number, originUs: number, codec: string) => async () => ({
+      originUs,
+      streams: [
+        {
+          id: "track:1",
+          kind: "video",
+          codec,
+          decodable: true,
+          startUs,
+          endUs,
+          hasAlpha: false,
+          width: 320,
+          height: 192,
+          samples: {
+            count: 3,
+            firstPtsUs: startUs,
+            lastPtsUs: endUs - 41667,
+            minDurationUs: 41667,
+            maxDurationUs: 41667,
+          },
+          segments: [
+            { startUs, endUs, empty: false, mediaStartUs: 0, mediaDurationUs: endUs - startUs },
+          ],
+        },
+      ],
+    });
+  const original = await store.import(
+    originalPath,
+    { kind: "import" },
+    videoProbe(5000, 130000, 0, "hvc1"),
+  );
+  const derivative = await store.import(
+    outputPath,
+    { kind: "generated" },
+    videoProbe(0, 125000, 5000, "ap4h"),
+  );
+  const digest = "a".repeat(64);
+  const origin = {
+    kind: "hdr-conversion",
+    recipe: "hdr-to-sdr-hable-1000nit-v1",
+    family: "pq",
+    implementation: {
+      implementationId: "controlled-hdr-v1",
+      receiptSha256: digest,
+      nativeExecutableSha256: digest,
+      ffmpegSha256: digest,
+      ffprobeSha256: digest,
+    },
+    source: {
+      assetId: original.id,
+      originUs: 0,
+      factsSha256: digest,
+      video: {
+        streamId: "track:1",
+        startUs: 5000,
+        endUs: 130000,
+        mediaStartUs: 0,
+        mediaDurationUs: 125000,
+        samples: 3,
+        presentedTimingSha256: digest,
+      },
+    },
+    output: {
+      originUs: 5000,
+      factsSha256: digest,
+      video: {
+        streamId: "track:1",
+        startUs: 0,
+        endUs: 125000,
+        mediaStartUs: 0,
+        mediaDurationUs: 125000,
+        samples: 3,
+        presentedTimingSha256: digest,
+      },
+    },
+    clock: {
+      sourceClockAtDerivativeZeroUs: 5000,
+      movieTimescale: 48000,
+      sourceSupport: { startUs: 5000, endUs: 130000 },
+    },
+  };
+  const staged = await store.stagePortable(
+    { asset: derivative, origins: [origin], dependencies: [{ kind: "asset", id: original.id }] },
+    outputPath,
+    new AbortController().signal,
+  );
+  try {
+    catalog.transaction(() => staged.publish());
+    const portable = store.portable(derivative.id);
+    expect(portable.origins).toContainEqual(origin);
+    expect(portable.dependencies).toEqual([{ kind: "asset", id: original.id }]);
+    expect(store.references(original.id)).toContainEqual({ kind: "asset", id: derivative.id });
+  } finally {
+    await staged.close();
+  }
+  await expect(
+    store
+      .stagePortable(
+        { asset: derivative, origins: [origin], dependencies: [] },
+        outputPath,
+        new AbortController().signal,
+      )
+      .then(async (candidate) => {
+        await candidate.close();
+        return "admitted";
+      }),
+  ).rejects.toMatchObject({ code: "INVALID_PACKAGE" });
+  const malformed = {
+    ...structuredClone(origin),
+    source: {
+      ...origin.source,
+      audio: {
+        ...origin.source.video,
+        streamId: "track:2",
+        frames: 6000,
+        sampleRate: 0,
+        channels: 2,
+        pcmSha256: digest,
+      },
+    },
+    output: {
+      ...origin.output,
+      audio: {
+        ...origin.output.video,
+        streamId: "track:2",
+        frames: 6000,
+        sampleRate: 0,
+        channels: 2,
+        pcmSha256: digest,
+      },
+    },
+  };
+  await expect(
+    store.stagePortable(
+      {
+        asset: derivative,
+        origins: [malformed],
+        dependencies: [{ kind: "asset", id: original.id }],
+      },
+      outputPath,
+      new AbortController().signal,
+    ),
+  ).rejects.toMatchObject({ code: "INVALID_PACKAGE" });
+  const changed = structuredClone(origin);
+  changed.output.video.streamId = "track:9";
+  await expect(
+    store
+      .stagePortable(
+        {
+          asset: derivative,
+          origins: [changed],
+          dependencies: [{ kind: "asset", id: original.id }],
+        },
+        outputPath,
+        new AbortController().signal,
+      )
+      .then(async (candidate) => {
+        await candidate.close();
+        return "admitted";
+      }),
+  ).rejects.toMatchObject({ code: "INVALID_PACKAGE" });
+});
 test("concurrent large identical imports survive staging-link cleanup", async () => {
   const { root, store } = await setup();
   const source = join(root, "large.png");

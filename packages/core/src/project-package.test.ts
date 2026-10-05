@@ -267,3 +267,188 @@ test("inventory-bound asset metadata is mandatory, exact and validated before cl
     }),
   );
 });
+
+test("HDR package receipts bind the selected source to the retained original metadata", () => {
+  const sourceId = "a".repeat(64),
+    outputId = "b".repeat(64),
+    digest = "c".repeat(64);
+  const asset = (id: string, codec: string) => ({
+    id,
+    bytes: 1,
+    fileName: id + ".mov",
+    createdAt: "controlled",
+    originUs: 0,
+    streams: [
+      {
+        id: "track:1",
+        kind: "video" as const,
+        codec,
+        decodable: true,
+        startUs: 0,
+        endUs: 1000000,
+        width: 160,
+        height: 96,
+        orientedWidth: 160,
+        orientedHeight: 96,
+        hasAlpha: false,
+        segments: [
+          { startUs: 0, endUs: 1000000, empty: false, mediaStartUs: 0, mediaDurationUs: 1000000 },
+        ],
+        samples: {
+          count: 24,
+          firstPtsUs: 0,
+          lastPtsUs: 958333,
+          minDurationUs: 41667,
+          maxDurationUs: 41667,
+        },
+      },
+      {
+        id: "track:2",
+        kind: "audio" as const,
+        codec: "aac ",
+        decodable: true,
+        startUs: 0,
+        endUs: 1000000,
+        sampleRate: 48000,
+        channels: 2,
+        segments: [
+          {
+            startUs: 0,
+            endUs: 1000000,
+            empty: false,
+            mediaStartUs: { numerator: 64000, denominator: 3 },
+            mediaDurationUs: 1000000,
+          },
+        ],
+      },
+    ],
+  });
+  const snapshot = snapshotFixture();
+  snapshot.references = [{ revisionId: "r0", resources: [{ kind: "asset", id: outputId }] }];
+  const revision = JSON.stringify(snapshot.revisions[0]);
+  const read = (sourceStreamId = "track:1", changedAsset?: 0 | 1, changedStream: 0 | 1 = 0) => {
+    const records: PortableResource[] = [
+      {
+        kind: "asset",
+        asset: asset(sourceId, "hvc1"),
+        origins: [{ kind: "import" }],
+        dependencies: [],
+      },
+      {
+        kind: "asset",
+        asset: asset(outputId, "ap4h"),
+        dependencies: [{ kind: "asset", id: sourceId }],
+        origins: [
+          {
+            kind: "hdr-conversion",
+            recipe: "hdr-to-sdr-hable-1000nit-v1",
+            family: "hlg",
+            implementation: {
+              implementationId: "controlled-hdr-v1",
+              receiptSha256: digest,
+              nativeExecutableSha256: digest,
+              ffmpegSha256: digest,
+              ffprobeSha256: digest,
+            },
+            source: {
+              assetId: sourceId,
+              originUs: 0,
+              factsSha256: digest,
+              video: {
+                streamId: sourceStreamId,
+                startUs: 0,
+                endUs: 1000000,
+                mediaStartUs: 0,
+                mediaDurationUs: 1000000,
+                samples: 24,
+                presentedTimingSha256: digest,
+              },
+              audio: {
+                streamId: "track:2",
+                startUs: 0,
+                endUs: 1000000,
+                mediaStartUs: { numerator: 64000, denominator: 3 },
+                mediaDurationUs: 1000000,
+                frames: 48000,
+                sampleRate: 48000,
+                channels: 2,
+                pcmSha256: digest,
+              },
+            },
+            output: {
+              originUs: 0,
+              factsSha256: digest,
+              video: {
+                streamId: "track:1",
+                startUs: 0,
+                endUs: 1000000,
+                mediaStartUs: 0,
+                mediaDurationUs: 1000000,
+                samples: 24,
+                presentedTimingSha256: digest,
+              },
+              audio: {
+                streamId: "track:2",
+                startUs: 0,
+                endUs: 1000000,
+                mediaStartUs: { numerator: 64000, denominator: 3 },
+                mediaDurationUs: 1000000,
+                frames: 48000,
+                sampleRate: 48000,
+                channels: 2,
+                pcmSha256: digest,
+              },
+            },
+            clock: {
+              sourceClockAtDerivativeZeroUs: 0,
+              movieTimescale: 48000,
+              sourceSupport: { startUs: 0, endUs: 1000000 },
+            },
+          },
+        ],
+      },
+    ];
+    if (changedAsset !== undefined) {
+      const record = records[changedAsset]!;
+      if (record.kind !== "asset") throw Error("controlled asset required");
+      record.asset.streams[changedStream]!.segments![0]!.endUs = 500000;
+      record.asset.streams[changedStream]!.segments![0]!.mediaDurationUs = 500000;
+    }
+    const members = records.map(resourceMetadataMember);
+    const manifest = projectPackageManifest(snapshot, records, [
+      {
+        path: "revisions/0.json",
+        bytes: Buffer.byteLength(revision),
+        sha256: createHash("sha256").update(revision).digest("hex"),
+      },
+      ...records.flatMap((record) =>
+        record.kind === "asset"
+          ? [
+              {
+                path: `assets/${record.asset.fileName}`,
+                bytes: record.asset.bytes,
+                sha256: record.asset.id,
+              },
+            ]
+          : [],
+      ),
+      ...members.map((member) => member.reference.metadata),
+    ]);
+    return validateProjectPackage(
+      JSON.stringify(manifest),
+      new Map([["revisions/0.json", revision]]),
+      archiveLimits,
+      new Map(members.map((member) => [member.reference.metadata.path, member.body])),
+    );
+  };
+  expect(read().resources.map((resource) => resourceIdentity(resource).id)).toEqual([
+    sourceId,
+    outputId,
+  ]);
+  expect(() => read("track:9")).toThrowError(expect.objectContaining({ code: "INVALID_PACKAGE" }));
+  for (const changedAsset of [0, 1] as const)
+    for (const changedStream of [0, 1] as const)
+      expect(() => read("track:1", changedAsset, changedStream)).toThrowError(
+        expect.objectContaining({ code: "INVALID_PACKAGE" }),
+      );
+});

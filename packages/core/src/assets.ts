@@ -5,7 +5,11 @@ import {
   compare,
   type SelectionRange,
 } from "@screenrec/composition";
-import { assetOriginSchema, type AssetProvenance } from "./asset-origins.js";
+import {
+  assetOriginSchema,
+  hdrConversionEvidenceMatchesMetadata,
+  type AssetProvenance,
+} from "./asset-origins.js";
 export type { AssetProvenance } from "./asset-origins.js";
 import { isDeepStrictEqual } from "node:util";
 import { ResourceReferences, resourceKinds, type ResourceOwner } from "./references.js";
@@ -103,20 +107,36 @@ export const mediaProbeSchema = z
   );
 export type MediaProbe = z.infer<typeof mediaProbeSchema>;
 export type Asset = MediaProbe & { id: string; bytes: number; createdAt: string; fileName: string };
-export const portableAssetSchema = z.strictObject({
-  asset: mediaProbeSchema
-    .safeExtend({
-      id: z.string().regex(/^[a-f0-9]{64}$/),
-      bytes: integer.nonnegative(),
-      createdAt: z.string().min(1),
-      fileName: z.string().regex(/^[a-f0-9]{64}(?:\.[a-z0-9]{1,12})?$/),
-    })
-    .strict(),
-  origins: z.array(assetOriginSchema).max(1000),
-  dependencies: z
-    .array(z.strictObject({ kind: z.enum(resourceKinds), id: z.string().min(1).max(2048) }))
-    .max(25_000),
-});
+export const portableAssetSchema = z
+  .strictObject({
+    asset: mediaProbeSchema
+      .safeExtend({
+        id: z.string().regex(/^[a-f0-9]{64}$/),
+        bytes: integer.nonnegative(),
+        createdAt: z.string().min(1),
+        fileName: z.string().regex(/^[a-f0-9]{64}(?:\.[a-z0-9]{1,12})?$/),
+      })
+      .strict(),
+    origins: z.array(assetOriginSchema).max(1000),
+    dependencies: z
+      .array(z.strictObject({ kind: z.enum(resourceKinds), id: z.string().min(1).max(2048) }))
+      .max(25_000),
+  })
+  .refine(
+    ({ asset, origins, dependencies }) =>
+      origins.every(
+        (origin) =>
+          origin.kind !== "hdr-conversion" ||
+          (origin.source.assetId !== asset.id &&
+            dependencies.some(
+              (dependency) =>
+                dependency.kind === "asset" && dependency.id === origin.source.assetId,
+            ) &&
+            asset.streams.length === (origin.output.audio ? 2 : 1) &&
+            hdrConversionEvidenceMatchesMetadata(origin.output, asset)),
+      ),
+    "HDR conversion requires its immutable original asset dependency",
+  );
 export type PortableAsset = z.infer<typeof portableAssetSchema>;
 export type AssetSummary = Pick<Asset, "id" | "bytes" | "createdAt" | "fileName"> & {
   mediaKinds: MediaProbe["streams"][number]["kind"][];

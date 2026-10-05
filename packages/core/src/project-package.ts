@@ -12,6 +12,7 @@ import {
   validateComposition,
 } from "@screenrec/composition";
 import { CatalogError } from "./catalog.js";
+import { hdrConversionEvidenceMatchesMetadata } from "./asset-origins.js";
 import { compositionAsset, portableAssetSchema } from "./assets.js";
 import { sourcePublicationFiles } from "./source-admission.js";
 import {
@@ -534,6 +535,18 @@ export function resolveProjectPackage(
   );
   if (closure.length !== resources.size || consumed.size !== inventory.size)
     invalid("Unreferenced project inventory member");
+  for (const resource of closure) {
+    if (resource.kind !== "asset") continue;
+    for (const origin of resource.origins) {
+      if (origin.kind !== "hdr-conversion") continue;
+      const original = resources.get(key({ kind: "asset", id: origin.source.assetId }));
+      if (
+        original?.kind !== "asset" ||
+        !hdrConversionEvidenceMatchesMetadata(origin.source, original.asset)
+      )
+        invalid("HDR conversion receipt differs from its retained original source");
+    }
+  }
   const assets = closure.flatMap((resource) =>
     resource.kind === "asset" ? [compositionAsset(resource.asset)] : [],
   );
