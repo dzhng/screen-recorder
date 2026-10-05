@@ -4,6 +4,15 @@ Status: next. This slice proves preparation and invocation of the accepted exact
 original recipe. Durable source evidence and public projection remain in 23a;
 this checkpoint must not claim those operations are implemented.
 
+Mechanical checkpoint: the [internal worker](../../../helpers/speaker/README.md)
+and [shared assembly owner](../../../helpers/model-runtime/README.md) now have
+lightweight input, diagnostic, retry and dependency-precedence controls. The
+purpose-checked model runtime accessor is shared with voice. No speaker model is
+registered and no relocated model-bearing invocation has passed. Source native
+inspection found foreign wheel build rpaths; the next packaging gate must freeze
+their removal from clones, retain original/final native operands, verify unchanged
+section content and run the original first development input once.
+
 ## Frozen preservation contract
 
 The [original checkpoint protocol](../evidence/speaker-original/frozen-protocol.json),

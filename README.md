@@ -113,6 +113,9 @@ explains version ownership, CI hooks and personal source installs.
   local inference runtime.
   The [FFmpeg dependency owner](helpers/ffmpeg/README.md) prepares relocatable
   media tools and their redistribution inputs.
+  [Optional runtime assembly](helpers/model-runtime/README.md) preserves local
+  dependency layers; the [speaker primitive](helpers/speaker/README.md) remains
+  an internal execution seam awaiting runtime and public-evidence integration.
 
 The consumer [screenrec skill](skills/screenrec/SKILL.md) teaches external agents
 how to use the toolkit. Repository development skills live separately under

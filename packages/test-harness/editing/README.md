@@ -53,6 +53,10 @@ reference state domain must match the requested graph, not just the delivered ta
 from lexical, identity and splice-quality evidence. Their measurement boundaries
 remain separate from caller edit intent.
 
+[Optional runtime assembly](../../../helpers/model-runtime/README.md) preserves
+explicit dependency precedence for local inference experiments. It produces an
+artifact for the existing preparation owner, never another installer.
+
 ## Delivery, lifetime and work
 
 Public journeys exercise the complete request, readiness, delivery and publication

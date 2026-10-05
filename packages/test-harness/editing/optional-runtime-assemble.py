@@ -9,11 +9,32 @@ import shutil
 import stat
 
 parser = argparse.ArgumentParser()
-for name in ["base", "venv", "entry", "out"]:
+for name in ["base", "primary", "worker", "launcher", "out"]:
     parser.add_argument("--" + name, required=True)
+parser.add_argument("--supplemental", action="append", default=[])
+parser.add_argument("--resource", action="append", nargs=2, default=[], metavar=("SOURCE", "NAME"))
+parser.add_argument("--omit-path-file", action="append", default=[])
 args = parser.parse_args()
-base, venv, entry, out = (Path(getattr(args, name)).resolve() for name in ["base", "venv", "entry", "out"])
-assert not any(out.is_relative_to(root) or root.is_relative_to(out) for root in [base, venv, entry.parent]), "Bundle output must not overlap a donor"
+base, primary, worker, launcher, out = (Path(getattr(args, name)).resolve() for name in ["base", "primary", "worker", "launcher", "out"])
+supplemental = [Path(path).resolve() for path in args.supplemental]
+resources = [(Path(path).resolve(), name) for path, name in args.resource]
+for _, name in resources:
+    assert Path(name).name == name and name not in ["worker.py", "launch.py", "imports.json", ".", ".."], "Resource name must be a distinct basename"
+assert len({name for _, name in resources}) == len(resources), "Duplicate entry resources"
+for name in args.omit_path_file:
+    path = primary / name
+    assert Path(name).name == name and name.endswith(".pth") and path.is_file(), "Only named top-level primary path files may be omitted"
+    lines = [line.strip() for line in path.read_text().splitlines() if line.strip() and not line.lstrip().startswith("#")]
+    assert lines and all(Path(line).is_absolute() and Path(line).resolve() in supplemental for line in lines), "Omitted file must contain only the declared supplemental donor paths"
+for path in primary.glob("*.pth"):
+    if path.name in args.omit_path_file:
+        continue
+    for line in path.read_text().splitlines():
+        line = line.strip()
+        if not line or line.startswith(("#", "import ", "import\t")):
+            continue
+        assert not Path(line).is_absolute() and (primary / line).resolve().is_relative_to(primary), "Undeclared primary import path escapes the prepared artifact"
+assert not any(out.is_relative_to(root) or root.is_relative_to(out) for root in [base, primary, worker.parent, launcher.parent, *supplemental, *(path.parent for path, _ in resources)]), "Bundle output must not overlap a donor"
 assert not out.exists()
 out.mkdir(mode=0o700)
 bundle = out / "bundle"
@@ -34,9 +55,10 @@ def copy(source, destination):
         assert not os.path.isabs(target), "Absolute donor symlink needs an explicit packaging decision"
         destination.symlink_to(target)
     elif source.is_dir():
-        destination.mkdir(mode=stat.S_IMODE(source.stat().st_mode), parents=True)
+        destination.mkdir(parents=True)
         for child in sorted(source.iterdir()):
             copy(child, destination / child.name)
+        destination.chmod(stat.S_IMODE(source.stat().st_mode))
     else:
         destination.parent.mkdir(parents=True, exist_ok=True)
         if clone(os.fsencode(source), os.fsencode(destination), 0):
@@ -68,10 +90,22 @@ try:
     for child in sorted((base / "lib/python3.12").iterdir()):
         if child.name != "site-packages":
             copy(child, python / "lib/python3.12" / child.name)
-    copy(venv / "lib/python3.12/site-packages", python / "lib/python3.12/site-packages")
-    (bundle / "voice").mkdir()
-    for name in ["worker.py", "pins.json"]:
-        copy(entry.parent / name, bundle / "voice" / name)
+    site = python / "lib/python3.12/site-packages"
+    site.mkdir()
+    for child in sorted(primary.iterdir()):
+        if child.name not in args.omit_path_file:
+            copy(child, site / child.name)
+    layers = []
+    for i, layer in enumerate(supplemental, 1):
+        relative = f"python/lib/python3.12/model-layers/{i}"
+        copy(layer, bundle / relative)
+        layers.append(relative)
+    (bundle / "execution").mkdir()
+    copy(worker, bundle / "execution/worker.py")
+    copy(launcher, bundle / "execution/launch.py")
+    for path, name in resources:
+        copy(path, bundle / "execution" / name)
+    (bundle / "execution/imports.json").write_text(json.dumps({"supplemental": layers}, sort_keys=True)+"\n")
     entries = []
     for path in sorted(bundle.rglob("*")):
         item = {"path": str(path.relative_to(bundle)), "mode": stat.S_IMODE(path.lstat().st_mode)}
@@ -82,7 +116,10 @@ try:
             item.update(kind="directory")
         else:
             item.update(kind="file", bytes=path.stat().st_size, sha256=sha(path))
-            assert item["sha256"] == sha(Path(sources[item["path"]])), "Copied byte mismatch"
+            if item["path"] in sources:
+                assert item["sha256"] == sha(Path(sources[item["path"]])), "Copied byte mismatch"
+            else:
+                assert item["path"] == "execution/imports.json", "Unexpected generated runtime file"
         entries.append(item)
     manifest = json.dumps(entries, sort_keys=True, separators=(",", ":")).encode()
     (out / "manifest.json").write_bytes(manifest)
@@ -92,10 +129,11 @@ try:
               "logicalBytes": sum(x.get("bytes", 0) for x in entries),
               "freeBefore": before, "freeAfter": after, "observedFreeDelta": before-after,
               "copyMethod": "clonefile only; distinct source/destination inodes checked; no fallback",
-              "sourceRoots": {"base": str(base), "venv": str(venv), "entry": str(entry)},
-              "layout": "Standalone base interpreter binary and lib tree; effective venv site-packages replace the base-only site-packages; unchanged entry/pins",
-              "excluded": ["base-only pip/site-packages (not visible in frozen venv)", "base headers/share/docs and unused bin tools", "venv config, activation and console scripts with absolute donor paths"],
+              "sourceRoots": {"base": str(base), "primary": str(primary), "supplemental": list(map(str, supplemental)), "worker": str(worker), "launcher": str(launcher)},
+              "layout": "Standalone base interpreter/stdlib, unchanged primary site-packages with ordinary startup semantics, declared bundle-relative supplemental layers appended after primary; unchanged worker/resources",
+              "excluded": ["base-only default site-packages (explicit layers own dependency visibility)", "base headers/share/docs and unused bin tools", "venv config, activation and absolute console scripts", *args.omit_path_file],
               "configuration": ["python/bin/python is a new relative symlink to unchanged python3.12", "no pyvenv.cfg; sys.prefix derives from the self-contained interpreter layout"],
+              "imports": {"primary": "python/lib/python3.12/site-packages", "supplemental": layers, "entry": "execution/launch.py"},
               "model": "not copied; must remain an explicit separately verified input"}
     (out / "assembly.json").write_text(json.dumps(report, indent=2)+"\n")
     print(json.dumps(report), flush=True)
