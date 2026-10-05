@@ -141,6 +141,9 @@ private final class DescriptorLoader: NSObject, AVAssetResourceLoaderDelegate, @
         maximumBytes = purpose == .inspection ? identificationBudget : nil
         self.descriptor = descriptor
         length = try descriptor.size
+        guard length >= 12 else {
+            throw NativeFailure("INVALID_MEDIA", "Media handle is too short to contain a readable container header.")
+        }
         var prefix = [UInt8](repeating: 0, count: 12)
         let count = pread(descriptor.descriptor, &prefix, prefix.count, 0)
         readBytes = Int64(max(0, count))

@@ -182,7 +182,11 @@ func runCaptureAudioMaterializerTests() async throws {
         candidate: folder.appendingPathComponent("candidate.mov"))
       preconditionFailure("Invalid physical media must not yield a verified candidate")
     } catch {
-      precondition(!CaptureFinalizationError(error).retryable, "Proven invalid input must not be classified as transient")
+      FileHandle.standardError.write(Data("INVALID \(mode): \(error)\n".utf8))
+      let failure = CaptureFinalizationError(error)
+      precondition(failure.code == "INVALID_MEDIA",
+        "Invalid \(mode) input must retain its proven media refusal: \(error)")
+      precondition(!failure.retryable, "Proven invalid \(mode) input must not be classified as transient: \(error)")
       precondition(
         !FileManager.default.fileExists(atPath: folder.appendingPathComponent("candidate.mov").path)
       )

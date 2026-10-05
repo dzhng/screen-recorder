@@ -62,6 +62,8 @@ if ProcessInfo.processInfo.environment["SCREENREC_CAPTURE_INPUT_AUTHORITY"] != n
 } else if let output = ProcessInfo.processInfo.environment["SCREENREC_NATIVE_PUBLICATION_OUTPUT"] {
   try await runNativeCapturePublicationProbe(output: output,
     corpus: ProcessInfo.processInfo.environment["SCREENREC_CAPTURE_GAP_CORPUS"] ?? "")
+} else if ProcessInfo.processInfo.environment["SCREENREC_MATERIALIZER_TESTS"] != nil {
+  try await runCaptureAudioMaterializerTests()
 } else if let output = ProcessInfo.processInfo.environment["SCREENREC_MATERIALIZER_DESCRIPTOR_OUTPUT"] {
   try await runCaptureAudioMaterializerDescriptorProbe(output: output)
 } else if let output = ProcessInfo.processInfo.environment["SCREENREC_MATERIALIZER_OUTPUT"] {
