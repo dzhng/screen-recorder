@@ -1,0 +1,45 @@
+{
+  "type": "file",
+  "oid": "364cb25af0da47b19dc430059008716624fc7d8d",
+  "size": 471367680,
+  "lfs": {
+    "oid": "8abd32832159c6ac1148c926b7276f35ba34582c444e559dce1f1253fea42ef8",
+    "size": 471367680,
+    "pointerSize": 134
+  },
+  "xetHash": "d52a001bbd423822af7a02c9cf2430e05c7a124b3310e4e4516f2ac0407ee436",
+  "path": "diar_streaming_sortformer_4spk-v2.1.nemo",
+  "lastCommit": {
+    "id": "b8a58af585476d98e92d97a616102828e38edd5b",
+    "title": "Upload diar_streaming_sortformer_4spk-v2.1.nemo",
+    "date": "2025-10-22T21:50:36.000Z"
+  },
+  "securityFileStatus": {
+    "status": "safe",
+    "protectAiScan": {
+      "status": "safe",
+      "message": "This file has no security findings.",
+      "reportLink": "https://insights-db.paloaltonetworks.com/models/nvidia/diar_streaming_sortformer_4spk-v2.1/cd03eee90fbec18297ac31b8c21546e596b7f71c/files?blob-id=364cb25af0da47b19dc430059008716624fc7d8d&utm_source=huggingface"
+    },
+    "avScan": {
+      "status": "safe",
+      "message": "",
+      "version": "1.5.1/27800"
+    },
+    "pickleImportScan": {
+      "status": "unscanned",
+      "pickleImports": [],
+      "version": "0.0.0"
+    },
+    "virusTotalScan": {
+      "status": "safe",
+      "message": "0/76 engines detect it as malicious.",
+      "reportLink": "https://www.virustotal.com/gui/file/8abd32832159c6ac1148c926b7276f35ba34582c444e559dce1f1253fea42ef8?utm_source=huggingface"
+    },
+    "jFrogScan": {
+      "status": "safe",
+      "message": "Safe model, does not support code execution on load.",
+      "reportLink": "https://research.jfrog.com/model-threats/noautoload-suscode?utm_source=huggingface"
+    }
+  }
+}

@@ -1,0 +1,72 @@
+[NeMo W 2026-10-04 21:12:28 megatron_init:62] Megatron num_microbatches_calculator not found, using Apex version.
+W1004 21:12:28.502000 85028 /private/tmp/screenrec-speech-research-env/lib/python3.12/site-packages/torch/distributed/elastic/multiprocessing/redirects.py:29] NOTE: Redirects are currently not supported in Windows or MacOs.
+OneLogger: Setting error_handling_strategy to DISABLE_QUIETLY_AND_REPORT_METRIC_ERROR for rank (rank=0) with OneLogger disabled. To override: explicitly set error_handling_strategy parameter.
+No exporters were provided. This means that no telemetry data will be collected.
+[NeMo W 2026-10-04 21:12:29 modelPT:188] If you intend to do training or fine-tuning, please call the ModelPT.setup_training_data() method and provide a valid configuration file to setup the train data loader.
+    Train config : 
+    manifest_filepath: null
+    sample_rate: 16000
+    num_spks: 4
+    session_len_sec: 90
+    soft_label_thres: 0.5
+    soft_targets: false
+    labels: null
+    batch_size: 4
+    shuffle: true
+    num_workers: 18
+    validation_mode: false
+    use_lhotse: false
+    use_bucketing: false
+    pin_memory: true
+    window_stride: 0.01
+    subsampling_factor: 8
+    
+[NeMo W 2026-10-04 21:12:29 modelPT:195] If you intend to do validation, please call the ModelPT.setup_validation_data() or ModelPT.setup_multiple_validation_data() method and provide a valid configuration file to setup the validation data loader(s). 
+    Validation config : 
+    manifest_filepath: null
+    is_tarred: false
+    tarred_audio_filepaths: null
+    sample_rate: 16000
+    num_spks: 4
+    session_len_sec: 90
+    soft_label_thres: 0.5
+    soft_targets: false
+    labels: null
+    batch_size: 4
+    shuffle: false
+    num_workers: 18
+    validation_mode: true
+    use_lhotse: false
+    use_bucketing: false
+    drop_last: false
+    pin_memory: true
+    window_stride: 0.01
+    subsampling_factor: 8
+    
+[NeMo W 2026-10-04 21:12:29 modelPT:202] Please call the ModelPT.setup_test_data() or ModelPT.setup_multiple_test_data() method and provide a valid configuration file to setup the test data loader(s).
+    Test config : 
+    manifest_filepath: null
+    is_tarred: false
+    tarred_audio_filepaths: null
+    sample_rate: 16000
+    num_spks: 4
+    session_len_sec: 90
+    soft_label_thres: 0.5
+    soft_targets: false
+    labels: null
+    batch_size: 4
+    shuffle: false
+    seq_eval_mode: true
+    num_workers: 18
+    validation_mode: true
+    use_lhotse: false
+    use_bucketing: false
+    drop_last: false
+    pin_memory: true
+    window_stride: 0.01
+    subsampling_factor: 8
+    
+[NeMo I 2026-10-04 21:12:29 save_restore_connector:285] Model SortformerEncLabelModel was successfully restored from /tmp/screenrec-speech-research-cache/official-nemo/diar_streaming_sortformer_4spk-v2.1.nemo.
+[NeMo W 2026-10-04 21:12:29 sortformer_modules:179] spkcache_update_period (300) is less than chunk_len (340). The effective update period will be 340.
+[NeMo I 2026-10-04 21:12:29 vad_utils:81] No postprocessing YAML file has been provided. Default postprocessing configurations will be applied.
+Streaming Steps:   0%|          | 0/2 [00:00<?, ?it/s]Streaming Steps:  50%|█████     | 1/2 [00:00<00:00,  3.44it/s]Streaming Steps: 100%|██████████| 2/2 [00:00<00:00,  4.51it/s]Streaming Steps: 100%|██████████| 2/2 [00:00<00:00,  4.31it/s]

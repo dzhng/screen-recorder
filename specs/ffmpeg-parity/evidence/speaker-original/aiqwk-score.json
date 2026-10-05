@@ -1,0 +1,26 @@
+{
+  "id": "aiqwk",
+  "role": "confirmation",
+  "rawSha256": "7c06c7e7521e057c54d4629ee21f378afef2dda8312d34c8ada8bf76bae4f5ec",
+  "protocolSha256": "e10865095f4babb8ea83d7b74c519292a53169f60364c5a444de0940080b45e5",
+  "metrics": {
+    "referenceSpeakerSeconds": 28.880000000000003,
+    "overlapSeconds": 2.230000000000004,
+    "silenceSeconds": 3.3500000000000014,
+    "missedSpeakerSeconds": 3.2000000000000135,
+    "falseSpeakerSeconds": 0.39000000000000745,
+    "confusedSpeakerSeconds": 0.7199999999999989,
+    "mapping": {
+      "speaker_0": "spk02",
+      "speaker_1": "spk03",
+      "speaker_2": "spk04",
+      "speaker_3": "spk05"
+    },
+    "der": 0.1492382271468151
+  },
+  "qualityPassed": true,
+  "resourcePassed": true,
+  "sourceSupportValid": true,
+  "mapping": "No adaptation: 375 native80ms rows exactly cover30s; all raw endpoints within source support",
+  "passed": true
+}

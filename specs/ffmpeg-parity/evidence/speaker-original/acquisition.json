@@ -1,0 +1,8 @@
+{
+  "url": "https://huggingface.co/nvidia/diar_streaming_sortformer_4spk-v2.1/resolve/cd03eee90fbec18297ac31b8c21546e596b7f71c/diar_streaming_sortformer_4spk-v2.1.nemo",
+  "bytes": 471367680,
+  "sha256": "8abd32832159c6ac1148c926b7276f35ba34582c444e559dce1f1253fea42ef8",
+  "wallSeconds": 11.964239209,
+  "protocolSha256": "e10865095f4babb8ea83d7b74c519292a53169f60364c5a444de0940080b45e5",
+  "downloadOnly": true
+}

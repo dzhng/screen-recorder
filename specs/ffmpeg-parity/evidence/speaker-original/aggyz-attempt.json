@@ -1,0 +1,19 @@
+{
+  "command": [
+    "/usr/bin/sandbox-exec",
+    "-p",
+    "(version 1)(allow default)(deny network*)",
+    "/tmp/screenrec-nemo-env/bin/python",
+    "/tmp/screenrec-nemo-original-evidence/runner.py",
+    "/tmp/screenrec-speech-research-cache/official-nemo/diar_streaming_sortformer_4spk-v2.1.nemo",
+    "/tmp/screenrec-speech-research-cache/voxconverse/aggyz.f32",
+    "/tmp/screenrec-nemo-original-evidence/aggyz.json"
+  ],
+  "exitCode": 0,
+  "timedOut": false,
+  "wallSeconds": 4.42209812499641,
+  "protocolSha256": "e10865095f4babb8ea83d7b74c519292a53169f60364c5a444de0940080b45e5",
+  "sourceSha256": "f0a91b5ec6961ac79c6cab1ade18385b3a7bc6e2662c6d491d91f47153a97cad",
+  "networkDenied": true,
+  "cacheScope": "Owned HF/MPL/XDG scratch only"
+}

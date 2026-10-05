@@ -1,0 +1,24 @@
+{
+  "id": "aepyx",
+  "role": "confirmation",
+  "rawSha256": "d6818e223c267077ab4ee49a15115d3d78ec069d7ef7a24e517e96b117da504a",
+  "protocolSha256": "e10865095f4babb8ea83d7b74c519292a53169f60364c5a444de0940080b45e5",
+  "metrics": {
+    "referenceSpeakerSeconds": 25.660000000000004,
+    "overlapSeconds": 1.1899999999999977,
+    "silenceSeconds": 5.529999999999994,
+    "missedSpeakerSeconds": 1.1199999999999974,
+    "falseSpeakerSeconds": 0.649999999999999,
+    "confusedSpeakerSeconds": 0,
+    "mapping": {
+      "speaker_0": "spk00",
+      "speaker_1": "spk01"
+    },
+    "der": 0.06897895557287592
+  },
+  "qualityPassed": true,
+  "resourcePassed": true,
+  "sourceSupportValid": true,
+  "mapping": "No adaptation: 375 native80ms rows exactly cover30s; all raw endpoints within source support",
+  "passed": true
+}

@@ -1,0 +1,25 @@
+{
+  "id": "cmfyw",
+  "role": "development",
+  "rawSha256": "003a6577558c1ae75afa20cbbec6fe3e8e9ce1bf03da5f7de9b8c2dd2b153b51",
+  "protocolSha256": "e10865095f4babb8ea83d7b74c519292a53169f60364c5a444de0940080b45e5",
+  "metrics": {
+    "referenceSpeakerSeconds": 31.479999999999997,
+    "overlapSeconds": 4.68,
+    "silenceSeconds": 3.200000000000003,
+    "missedSpeakerSeconds": 2.649999999999997,
+    "falseSpeakerSeconds": 1.2400000000000038,
+    "confusedSpeakerSeconds": 0,
+    "mapping": {
+      "speaker_0": "spk03",
+      "speaker_1": "spk01",
+      "speaker_2": "spk04"
+    },
+    "der": 0.12357052096569253
+  },
+  "qualityPassed": true,
+  "resourcePassed": true,
+  "sourceSupportValid": true,
+  "mapping": "No adaptation: 375 native80ms rows exactly cover30s; all raw endpoints within source support",
+  "passed": true
+}

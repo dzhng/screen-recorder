@@ -1,0 +1,2 @@
+Independent Codex read-only review confirms all six DER/cost/source-support conjunctions, original artifact identities and native postprocessing reconstruction. Confounding and model training overlap limitations are supported.
+P2: Historical scorer/controller hashes were absent from operand manifest. Fixed by explicitly binding invoke.py and the unchanged shared score.mjs. Two scratch comment-byte mutation probes failed before binding and pass after; no inference/acquisition.

@@ -1,0 +1,90 @@
+{
+  "version": 1,
+  "frozenBeforeWeightAcquisitionAndInference": true,
+  "objective": "Bounded exact original official checkpoint reproduction to separate converted/CoreML lineage and recipe from provider quality. No production selection/bundling",
+  "sourceSelection": "/tmp/screenrec-parity-speaker-cohort/specs/ffmpeg-parity/evidence/speaker-cohort/selection.json",
+  "selectionSha256": "3122991d85d0c71e6396fc53193312e008c4edff2e15e11992c92da1f43be08c",
+  "model": {
+    "repository": "nvidia/diar_streaming_sortformer_4spk-v2.1",
+    "revision": "cd03eee90fbec18297ac31b8c21546e596b7f71c",
+    "url": "https://huggingface.co/nvidia/diar_streaming_sortformer_4spk-v2.1/resolve/cd03eee90fbec18297ac31b8c21546e596b7f71c/diar_streaming_sortformer_4spk-v2.1.nemo",
+    "sha256": "8abd32832159c6ac1148c926b7276f35ba34582c444e559dce1f1253fea42ef8",
+    "bytes": 471367680,
+    "path": "/tmp/screenrec-speech-research-cache/official-nemo/diar_streaming_sortformer_4spk-v2.1.nemo",
+    "license": "NVIDIA Open Model License, Oct 24, 2025; commercial use/redistribution permitted subject to terms, license + NVIDIA notice, Trustworthy AI terms; not described as CC BY or unrestricted",
+    "cardSha256": "0cfd901cb5e44b20b107f939532f772905a4f1da453182a4047963e6eb87d619",
+    "licensePageSha256": "74f5fb1e4396d12cf36c7d204fbb48d7c6a62cfe1febf99d77639c42f9daa1a6",
+    "modelDownloadDeadlineSeconds": 120
+  },
+  "runtime": {
+    "python": "/tmp/screenrec-nemo-env/bin/python",
+    "nemoToolkit": "2.7.3",
+    "torch": "2.8.0",
+    "torchaudio": "2.8.0",
+    "numpy": "2.3.5",
+    "sourceSnapshots": [
+      {
+        "path": "/tmp/screenrec-nemo-env/lib/python3.12/site-packages/nemo/collections/asr/models/sortformer_diar_models.py",
+        "sha256": "456585429f6b6428ffa1e5540732b992bc9704c31d29994a0c058d13a6ebba07"
+      },
+      {
+        "path": "/tmp/screenrec-nemo-env/lib/python3.12/site-packages/nemo/collections/asr/parts/mixins/diarization.py",
+        "sha256": "5365e416ecab192cf59f1b9d6554ebce0ed3bdb2fee7575966ac1e3fca1a1408"
+      },
+      {
+        "path": "/tmp/screenrec-nemo-env/lib/python3.12/site-packages/nemo/collections/asr/parts/utils/vad_utils.py",
+        "sha256": "5b96b3637ebaf597ad33ead6fc20419053699549e28c40f7b74d99b5706f48dc"
+      }
+    ],
+    "environmentSha256": "b7b182d5438bc7b92c021aafcef87b9b0e6dfc34b2ddb414adf0f0eca84f1fa8",
+    "wrapperSha256": "0f8f8d7faa53ef5bb9ef856093d71c7a8f69a4c9c9106d21927495bd33283838",
+    "privateLayer": "Sharedunchanged22/systemdependencies referencedread-only; new/differentpackagesinprivatevenv, no copiedTorch/model/build output",
+    "cpuThreads": 2,
+    "interopThreads": 2,
+    "device": "cpu",
+    "load": "restore_from exactlocalfile,map_locationcpu,strictTrue; no from_pretrained, acquisition/fallback duringinference",
+    "network": "sandbox-exec deny network* plus HF_HUB_OFFLINE/TRANSFORMERS_OFFLINE; ownedHF/MPL/XDG scratchcaches"
+  },
+  "config": {
+    "chunk_len": 340,
+    "chunk_right_context": 40,
+    "fifo_len": 40,
+    "spkcache_update_period": 300,
+    "spkcache_len": 188,
+    "postprocessing": {
+      "onset": 0.5,
+      "offset": 0.5,
+      "pad_onset": 0,
+      "pad_offset": 0,
+      "min_duration_on": 0,
+      "min_duration_off": 0
+    },
+    "otherModelConfig": "Exact encoded checkpoint config boundtooriginalartifactSHA; nativecfgretained, no mutation beyond documented streamingfields",
+    "frameSeconds": 0.08,
+    "overlap": "Retain every speaker timeline, never argmax/exclusive"
+  },
+  "clock": "Native NeMo ts_vad outputs originate atsource0, repeat eachrowencoder_subsampling_factor(8)x10ms; retainedrawTincludespaddedanalysisframes. Validate rawboundswithin0..T*.08; intersectonlyprovenanalysisoutsideoriginalinteger480000/16000 support. Preserve all interior bounds/rawprobabilities/excludedtail. Reject negative/reversed/unprovedout-of-analysis observations; unchangedscorer/source labels",
+  "gate": {
+    "der": 0.2,
+    "collarSeconds": 0,
+    "ignoreOverlap": false,
+    "peakProcessRSSBytes": 4294967296,
+    "inferenceWallAudioRatio": 2,
+    "everyCaseAndPooledRequired": true
+  },
+  "plan": {
+    "first": "One dev bspxd. Stop on cost/quality/sourceinvalid, preserve failure. Onlyifpasses remaining2development serial, stopatfirstfailedcase. Onlyifall3devpass run3untouchedtestcasesonce",
+    "maxCalls": 6,
+    "maxAudioSeconds": 180,
+    "deadlineSecondsPerCall": 120,
+    "infraRepairAllowance": 1,
+    "noQualityTuning": true
+  },
+  "limitations": [
+    "Officialcard explicitly listsVoxConversev0.3astrainingdata. Testis untouchedtoourcalibration only, nevercertifiedtraining-heldout",
+    "NVIDIAcardRTFmeasuredRTX6000; no CPU/MPSspeedclaim",
+    "Providerhas4speakermaximum; no knownpersonrecognition/unknownconfidence",
+    "CPUprocessRSS scoped; import/loadseparate; no trueuncachedclaim",
+    "Acquisition/researchlicense receipts do notselect/bundle productprovider"
+  ]
+}

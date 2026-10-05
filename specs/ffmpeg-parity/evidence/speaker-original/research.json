@@ -1,0 +1,202 @@
+{
+  "status": "Boundedoriginalcheckpoint/recipe passes; productionprovider/runtime NOT selected",
+  "calls": 6,
+  "audioSeconds": 180,
+  "phases": {
+    "development": {
+      "pooled": {
+        "referenceSpeakerSeconds": 89.24000000000001,
+        "missedSpeakerSeconds": 4.310000000000031,
+        "falseSpeakerSeconds": 4.080000000000017,
+        "confusedSpeakerSeconds": 0.1600000000000108,
+        "der": 0.09580905423576935
+      },
+      "everyCasePassed": true,
+      "passed": true
+    },
+    "confirmation": {
+      "pooled": {
+        "referenceSpeakerSeconds": 83.31000000000002,
+        "missedSpeakerSeconds": 5.230000000000016,
+        "falseSpeakerSeconds": 2.6900000000000013,
+        "confusedSpeakerSeconds": 3.269999999999982,
+        "der": 0.13431760893050051
+      },
+      "everyCasePassed": true,
+      "passed": true
+    }
+  },
+  "cases": [
+    {
+      "id": "bspxd",
+      "role": "development",
+      "rawSha256": "30f9f3d858669f9d71236d0f81c0047b9099a801a9ae6de9ee6942f9b6394d1d",
+      "protocolSha256": "e10865095f4babb8ea83d7b74c519292a53169f60364c5a444de0940080b45e5",
+      "metrics": {
+        "referenceSpeakerSeconds": 29.840000000000003,
+        "overlapSeconds": 3.039999999999992,
+        "silenceSeconds": 3.1999999999999886,
+        "missedSpeakerSeconds": 0.9700000000000182,
+        "falseSpeakerSeconds": 0.32000000000000783,
+        "confusedSpeakerSeconds": 0.0400000000000027,
+        "mapping": {
+          "speaker_0": "spk01",
+          "speaker_1": "spk00",
+          "speaker_2": "spk02"
+        },
+        "der": 0.044571045576408466
+      },
+      "qualityPassed": true,
+      "resourcePassed": true,
+      "sourceSupportValid": true,
+      "mapping": "No adaptation: 375 native80ms rows exactly cover30s; all raw endpoints within source support",
+      "passed": true
+    },
+    {
+      "id": "ccokr",
+      "role": "development",
+      "rawSha256": "69472649dcd75999472582c3f5aedfc28b92efc1025212372025cf028e46dd81",
+      "protocolSha256": "e10865095f4babb8ea83d7b74c519292a53169f60364c5a444de0940080b45e5",
+      "metrics": {
+        "referenceSpeakerSeconds": 27.92,
+        "overlapSeconds": 1.7600000000000051,
+        "silenceSeconds": 3.8400000000000034,
+        "missedSpeakerSeconds": 0.6900000000000156,
+        "falseSpeakerSeconds": 2.5200000000000053,
+        "confusedSpeakerSeconds": 0.1200000000000081,
+        "mapping": {
+          "speaker_0": "spk03",
+          "speaker_1": "spk02"
+        },
+        "der": 0.11926934097421306
+      },
+      "qualityPassed": true,
+      "resourcePassed": true,
+      "sourceSupportValid": true,
+      "mapping": "No adaptation: 375 native80ms rows exactly cover30s; all raw endpoints within source support",
+      "passed": true
+    },
+    {
+      "id": "cmfyw",
+      "role": "development",
+      "rawSha256": "003a6577558c1ae75afa20cbbec6fe3e8e9ce1bf03da5f7de9b8c2dd2b153b51",
+      "protocolSha256": "e10865095f4babb8ea83d7b74c519292a53169f60364c5a444de0940080b45e5",
+      "metrics": {
+        "referenceSpeakerSeconds": 31.479999999999997,
+        "overlapSeconds": 4.68,
+        "silenceSeconds": 3.200000000000003,
+        "missedSpeakerSeconds": 2.649999999999997,
+        "falseSpeakerSeconds": 1.2400000000000038,
+        "confusedSpeakerSeconds": 0,
+        "mapping": {
+          "speaker_0": "spk03",
+          "speaker_1": "spk01",
+          "speaker_2": "spk04"
+        },
+        "der": 0.12357052096569253
+      },
+      "qualityPassed": true,
+      "resourcePassed": true,
+      "sourceSupportValid": true,
+      "mapping": "No adaptation: 375 native80ms rows exactly cover30s; all raw endpoints within source support",
+      "passed": true
+    },
+    {
+      "id": "aepyx",
+      "role": "confirmation",
+      "rawSha256": "d6818e223c267077ab4ee49a15115d3d78ec069d7ef7a24e517e96b117da504a",
+      "protocolSha256": "e10865095f4babb8ea83d7b74c519292a53169f60364c5a444de0940080b45e5",
+      "metrics": {
+        "referenceSpeakerSeconds": 25.660000000000004,
+        "overlapSeconds": 1.1899999999999977,
+        "silenceSeconds": 5.529999999999994,
+        "missedSpeakerSeconds": 1.1199999999999974,
+        "falseSpeakerSeconds": 0.649999999999999,
+        "confusedSpeakerSeconds": 0,
+        "mapping": {
+          "speaker_0": "spk00",
+          "speaker_1": "spk01"
+        },
+        "der": 0.06897895557287592
+      },
+      "qualityPassed": true,
+      "resourcePassed": true,
+      "sourceSupportValid": true,
+      "mapping": "No adaptation: 375 native80ms rows exactly cover30s; all raw endpoints within source support",
+      "passed": true
+    },
+    {
+      "id": "aggyz",
+      "role": "confirmation",
+      "rawSha256": "6c108700ee25b0f12489d05159588c8de0b67358352364f2d8b98639737943ae",
+      "protocolSha256": "e10865095f4babb8ea83d7b74c519292a53169f60364c5a444de0940080b45e5",
+      "metrics": {
+        "referenceSpeakerSeconds": 28.77000000000001,
+        "overlapSeconds": 2.0200000000000102,
+        "silenceSeconds": 3.25,
+        "missedSpeakerSeconds": 0.9100000000000055,
+        "falseSpeakerSeconds": 1.649999999999995,
+        "confusedSpeakerSeconds": 2.549999999999983,
+        "mapping": {
+          "speaker_0": "spk06",
+          "speaker_1": "spk03",
+          "speaker_2": "spk02"
+        },
+        "der": 0.17761557177615508
+      },
+      "qualityPassed": true,
+      "resourcePassed": true,
+      "sourceSupportValid": true,
+      "mapping": "No adaptation: 375 native80ms rows exactly cover30s; all raw endpoints within source support",
+      "passed": true
+    },
+    {
+      "id": "aiqwk",
+      "role": "confirmation",
+      "rawSha256": "7c06c7e7521e057c54d4629ee21f378afef2dda8312d34c8ada8bf76bae4f5ec",
+      "protocolSha256": "e10865095f4babb8ea83d7b74c519292a53169f60364c5a444de0940080b45e5",
+      "metrics": {
+        "referenceSpeakerSeconds": 28.880000000000003,
+        "overlapSeconds": 2.230000000000004,
+        "silenceSeconds": 3.3500000000000014,
+        "missedSpeakerSeconds": 3.2000000000000135,
+        "falseSpeakerSeconds": 0.39000000000000745,
+        "confusedSpeakerSeconds": 0.7199999999999989,
+        "mapping": {
+          "speaker_0": "spk02",
+          "speaker_1": "spk03",
+          "speaker_2": "spk04",
+          "speaker_3": "spk05"
+        },
+        "der": 0.1492382271468151
+      },
+      "qualityPassed": true,
+      "resourcePassed": true,
+      "sourceSupportValid": true,
+      "mapping": "No adaptation: 375 native80ms rows exactly cover30s; all raw endpoints within source support",
+      "passed": true
+    }
+  ],
+  "cost": {
+    "maxInferenceSeconds": 0.6591035419987747,
+    "maxPeakProcessRSSBytes": 1954529280,
+    "maxImportsLoadSeconds": 10.64573395899788
+  },
+  "effects": [
+    "Originalofficialcheckpoint+nativehigh-contextrecipe passes all6cohort windows; converted/CoreMLdefaultrecipe faileddevelopmentcmfyw",
+    "Checkpointlineage/conversion/runtime/recipe differ simultaneously, so conversion defect or causal quality attribution NOT established",
+    "No interior endpoint changes/adaptation: each375x80msnativegrid exactly covers30s physicalsupport"
+  ],
+  "limitations": [
+    "VoxConversev0.3 explicitlyintrainingdata; ourconfirmation onlycalibration-untouched, nottraining-heldout",
+    "Sixwindows,4speakerceiling; unknownassignmentconfidence untested",
+    "PrivatePython researchenvironment reusesread-only caches; no independent shippingdependency closure, clean-installclaim or uncachedmac-performanceclaim",
+    "NVIDIAOpenModelLicense conditions must be preserved beforeproductmodelpreparation/bundling",
+    "ExistingfailedAMI/defaultCommunity/convertedSortformer results remain failures"
+  ],
+  "next": [
+    "Maporiginalrecipe into existing optionalvoice/modelpreparation/runtime/jobs owners",
+    "Freeze small23aproduction integration slice before selecting shipping architecture; no separatePython installer/serviceownerfromresearch",
+    "Temporalevent alternatives require separatefrozenprotocol/newconfirmation; boundaryhuman-labelauthority remains open"
+  ]
+}

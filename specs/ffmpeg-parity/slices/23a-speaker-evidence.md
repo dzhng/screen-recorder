@@ -1,7 +1,7 @@
 # 23a — Validated optional speaker evidence
 
-Status: open, gated by failed [22](22-speech-feasibility.md) provider experiments.
-No provider or implementation is selected.
+Status: open. Exact original-checkpoint research passes the bounded acoustic gate;
+production runtime/dependency integration remains unselected and unimplemented.
 
 ## Frozen independent acoustic cohort
 
@@ -43,8 +43,24 @@ uses only development windows, documented knobs and immutable cached models.
 Its same-default configurable wrapper control preserves the original segments;
 all four frozen recipes fail an every-case gate. No recipe reaches untouched test
 windows. Keep these null and partial effects in the research map; another grid
-cannot substitute for a different justified hypothesis or provider. Product
-implementation remains gated, independently of source/model licensing.
+cannot substitute for a different justified hypothesis or provider. Those recipes remain failed evidence, independently of source/model licensing.
+
+## Exact original checkpoint result
+
+The [official original NeMo reproduction](../evidence/speaker-original/README.md)
+uses a separately frozen exact checkpoint and native high-context recipe. All
+three development and three calibration-untouched confirmation cases pass the
+unchanged every-case quality, cost and source-support gate. Pooled confirmation
+DER is 13.432%; no endpoint adapter or quality tuning was needed. VoxConverse
+v0.3 is explicitly in model training data, so this is never training-held-out.
+Different artifact/runtime/recipe choices confound comparison with the retained
+converted/CoreML failure; no conversion defect is established.
+
+Before production implementation, freeze a small integration slice retaining
+this exact original recipe and mapping dependencies into existing optional
+voice/model preparation, runtime and jobs owners. Research does not select a
+separate Python installer/service, bundle NeMo dependencies or authorize implicit
+model downloads. Preserve the actual NVIDIA license and source/model receipts.
 
 ## Implementation contract after a passed gate
 

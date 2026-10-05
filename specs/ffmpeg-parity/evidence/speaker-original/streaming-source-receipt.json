@@ -1,0 +1,7 @@
+{
+  "path": "/tmp/screenrec-nemo-env/lib/python3.12/site-packages/nemo/collections/asr/modules/sortformer_modules.py",
+  "sha256": "3d136c245e3bf7a88c47fdd2eae1edb9189bbeddc3ff779cb5679a29d890b7eb",
+  "recordedAfterInference": true,
+  "identity": "Installed originalNeMo2.7.3 unchangedsource, no post-inference config/recipe correction",
+  "nativeEffect": "Configured update_period300; chunk_len340 makes effective update340 pernativeimplementation/logs"
+}

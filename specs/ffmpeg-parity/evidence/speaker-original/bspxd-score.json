@@ -1,0 +1,25 @@
+{
+  "id": "bspxd",
+  "role": "development",
+  "rawSha256": "30f9f3d858669f9d71236d0f81c0047b9099a801a9ae6de9ee6942f9b6394d1d",
+  "protocolSha256": "e10865095f4babb8ea83d7b74c519292a53169f60364c5a444de0940080b45e5",
+  "metrics": {
+    "referenceSpeakerSeconds": 29.840000000000003,
+    "overlapSeconds": 3.039999999999992,
+    "silenceSeconds": 3.1999999999999886,
+    "missedSpeakerSeconds": 0.9700000000000182,
+    "falseSpeakerSeconds": 0.32000000000000783,
+    "confusedSpeakerSeconds": 0.0400000000000027,
+    "mapping": {
+      "speaker_0": "spk01",
+      "speaker_1": "spk00",
+      "speaker_2": "spk02"
+    },
+    "der": 0.044571045576408466
+  },
+  "qualityPassed": true,
+  "resourcePassed": true,
+  "sourceSupportValid": true,
+  "mapping": "No adaptation: 375 native80ms rows exactly cover30s; all raw endpoints within source support",
+  "passed": true
+}

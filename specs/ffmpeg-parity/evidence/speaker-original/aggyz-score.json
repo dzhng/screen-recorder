@@ -1,0 +1,25 @@
+{
+  "id": "aggyz",
+  "role": "confirmation",
+  "rawSha256": "6c108700ee25b0f12489d05159588c8de0b67358352364f2d8b98639737943ae",
+  "protocolSha256": "e10865095f4babb8ea83d7b74c519292a53169f60364c5a444de0940080b45e5",
+  "metrics": {
+    "referenceSpeakerSeconds": 28.77000000000001,
+    "overlapSeconds": 2.0200000000000102,
+    "silenceSeconds": 3.25,
+    "missedSpeakerSeconds": 0.9100000000000055,
+    "falseSpeakerSeconds": 1.649999999999995,
+    "confusedSpeakerSeconds": 2.549999999999983,
+    "mapping": {
+      "speaker_0": "spk06",
+      "speaker_1": "spk03",
+      "speaker_2": "spk02"
+    },
+    "der": 0.17761557177615508
+  },
+  "qualityPassed": true,
+  "resourcePassed": true,
+  "sourceSupportValid": true,
+  "mapping": "No adaptation: 375 native80ms rows exactly cover30s; all raw endpoints within source support",
+  "passed": true
+}
