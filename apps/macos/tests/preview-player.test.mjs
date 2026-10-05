@@ -153,8 +153,9 @@ struct Refused: LocalizedError { var errorDescription: String? { "NOT_FOUND: pro
         service.brokenFile = true
         let beforeFailure = failures.count
         owner.open("take"); await settle(); owner.tick()
+        // A playback failure arrives before the asynchronous service release can finish.
         for _ in 0..<30 {
-            if failures.count > beforeFailure { break }
+            if failures.count > beforeFailure && service.closed.contains(service.lastToken) { break }
             await settle()
         }
         precondition(failures.count > beforeFailure && visible() == nil

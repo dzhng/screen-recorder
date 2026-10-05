@@ -549,9 +549,10 @@ import ScreenRecorderControls
             reveal: { revealed.append($0) }, changed: {}, failure: { failures.append($0) })
 
         first.export(projectId, kind: .video)
-        await until(60, first.tick) { first.state.records.first?.committed == true || !failures.isEmpty }
+        await until(60, first.tick) { first.state.records.first?.settled == true || !failures.isEmpty }
         precondition(failures.isEmpty, "Export failed: \(failures)")
         let committed = first.state.records[0]
+        precondition(committed.committed, "Export stopped before committing: \(committed)")
         precondition(committed.revisionId == pinnedRevision && committed.leaf == "demo.mp4" && committed.directory == directory,
             "The committed export is the revision pinned before the edit: \(committed)")
         first.reveal(committed.exportId)
@@ -616,7 +617,8 @@ import ScreenRecorderControls
           resolve({ code, signal, stdout, stderr });
         });
       });
-      assert.equal(result.code, 0, result.stderr + result.stdout);
+      await writeFile(join(home, "export-controls-process.json"), JSON.stringify(result, null, 2));
+      assert.equal(result.code, 0, `Retained scratch home: ${home}\n${result.stderr}${result.stdout}`);
       assert.match(result.stdout, /PASS native exports commit/);
       const [, committed] = result.stdout.match(/EXPORTS committed=(\S+) failed=(\S+)/);
       assert.deepEqual(
