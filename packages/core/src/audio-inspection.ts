@@ -1,4 +1,10 @@
 import {
+  audioProcessingEvidenceSchema,
+  admitNormalization,
+  normalizationGain,
+  type AudioProcessingEvidence,
+} from "./audio-measurement.js";
+import {
   selectionRangeSchema,
   resolveAudioOutputSettings,
   resolvedAudioOutputSettingsSchema,
@@ -109,6 +115,7 @@ export const projectAudioReceiptSchema = z.object({
     maximumTailFrames: integer,
   }),
   unavailable: z.array(z.object({ clipId: z.string(), ranges: z.array(sampleRangeSchema) })),
+  processingEvidence: z.array(audioProcessingEvidenceSchema).optional(),
 });
 export type ProjectAudioInput = {
   /** Internal immutable preparation binding. */
@@ -773,6 +780,7 @@ export class MediaAudioInspection {
         await owner.renderer.render({ ...plan, prepared, output }, signal),
         plan.window,
         output,
+        prepared,
       );
       signal.throwIfAborted();
       const sampleRange = plan.window.manifest.sampleRange;
@@ -888,10 +896,49 @@ export function checkProjectAudioResult(
   result: unknown,
   window: CompositionWindow,
   output: string,
+  retained?: { value: { processingEvidence?: AudioProcessingEvidence[] | undefined } },
 ) {
   const receipt = projectAudioReceiptSchema.safeParse(result);
   if (!receipt.success) invalid("Malformed project audio receipt");
   const value = receipt.data;
+  const evidence = value.processingEvidence ?? [];
+  if (retained) {
+    if (!isDeepStrictEqual(evidence, retained.value.processingEvidence ?? []))
+      invalid("Retained audio changed its complete processing evidence");
+  } else {
+    const domains = window.audioState()?.domains ?? [];
+    const expected = new Map(
+      domains.flatMap((domain, index) =>
+        domain.recipe.type === "rnnoise" || domain.sampleRange.end === domain.sampleRange.start
+          ? []
+          : [[index, domain] as const],
+      ),
+    );
+    for (const item of evidence) {
+      const domain = expected.get(item.domainIndex);
+      if (
+        !domain ||
+        !isDeepStrictEqual(item.recipe, domain.recipe) ||
+        !isDeepStrictEqual(item.sampleRange, domain.sampleRange)
+      )
+        invalid("Audio processing evidence differs from its complete compiled domain");
+      const binding = window.manifest.requirements.find(
+        (requirement) =>
+          requirement.kind === "processor" && requirement.processor.type === domain.recipe.type,
+      );
+      if (!binding?.implementationId || binding.implementationId !== item.implementationId)
+        invalid("Audio processing evidence changed its pinned implementation");
+      if (item.recipe.type === "normalization") {
+        if (!item.normalization)
+          invalid("Normalization omitted complete before/after measurements");
+        normalizationGain(item.recipe, item.normalization.before);
+        admitNormalization(item.recipe, item.normalization.after);
+      } else if (item.normalization)
+        invalid("Non-normalization domain supplied normalization measurements");
+      expected.delete(item.domainIndex);
+    }
+    if (expected.size) invalid("Audio processing omitted a complete prepared domain");
+  }
   const sampleRange = window.manifest.sampleRange;
   if (
     value.file !== output ||

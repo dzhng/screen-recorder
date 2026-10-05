@@ -1,3 +1,4 @@
+import { loudnessMeasurementSchema, type LoudnessMeasurement } from "./audio-measurement.js";
 import {
   selectionRangeSchema,
   sourceAvailability,
@@ -51,23 +52,13 @@ const loudnessOptions = waveformOptions.omit({ bucketFrames: true, policy: true 
   signalRecipe: loudnessSignalSchema,
   scope: z.enum(["full-signal", "excerpt"]),
 });
-export const loudnessMeasurementSchema = z.strictObject({
-  integratedLufs: z.number().finite().nullable(),
-  loudnessRangeLu: z.number().finite().nonnegative().nullable(),
-  samplePeakDbfs: z.number().finite().nullable(),
-  truePeakDbtp: z.number().finite().nullable(),
-  integratedReason: z.enum(["insufficient-duration", "below-gate"]).nullable(),
-  rangeReason: z.enum(["insufficient-duration", "below-gate"]).nullable(),
-  algorithm: z.string().min(1),
-  version: z.string().min(1),
-});
-export type LoudnessMeasurement = z.infer<typeof loudnessMeasurementSchema>;
+export { loudnessMeasurementSchema, type LoudnessMeasurement } from "./audio-measurement.js";
 export type LoudnessAnalyzer = {
   implementationId: string;
   measure(
     request: {
       source: { fd: number; bytes: number };
-      audio: AudioArtifact;
+      audio: Pick<AudioArtifact, "frames" | "sampleRate" | "channels">;
       channelInterpretation: "native" | "dual-mono";
       truePeak: boolean;
     },

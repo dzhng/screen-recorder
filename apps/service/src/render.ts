@@ -6,6 +6,10 @@ import { CatalogError } from "@screenrec/core/catalog";
 import { O_EXLOCK, O_SHLOCK, O_NOFOLLOW_ANY } from "@screenrec/core/files";
 import { nativeConfirmed, type MediaWorker } from "./worker.js";
 
+export type RenderAttemptAuthority = {
+  descriptors: readonly number[];
+  identity: DirectoryIdentity;
+};
 type LockedWorkspace = {
   directory: string;
   descriptors: readonly number[];
@@ -128,16 +132,20 @@ export async function withRenderedFile(
     filename: "audio.wav" | "audio.m4a" | "frame.png" | "presentation.jsonl";
   },
   signal: AbortSignal,
-  produce: (output: string, worker: MediaWorker) => Promise<unknown>,
+  produce: (
+    output: string,
+    worker: MediaWorker,
+    authority: RenderAttemptAuthority,
+  ) => Promise<unknown>,
 ): Promise<unknown> {
   await mkdir(request.attemptParent, { recursive: true, mode: 0o700 });
   return withRenderAttempt(
     worker,
     request.attemptParent,
     signal,
-    async (directory, boundWorker) => {
+    async (directory, boundWorker, authority) => {
       const file = join(directory, request.filename);
-      const receipt = await produce(file, boundWorker);
+      const receipt = await produce(file, boundWorker, authority);
       if (!receipt || typeof receipt !== "object" || !("file" in receipt) || receipt.file !== file)
         throw new CatalogError("INVALID_RESPONSE", "Media receipt changed the render attempt path");
       return { ...receipt, file };

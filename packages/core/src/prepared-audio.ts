@@ -111,21 +111,24 @@ export type PreparedAudioResolution = {
   audio: PreparedAudio;
   recipe: ExecutionWindowManifest;
 };
-function matchesRecipe(
+function bindRecordedRecipe(
   window: ReturnType<ReturnType<typeof projectComposition>["compiler"]["audioWindow"]>,
   recipe: ExecutionWindowManifest,
 ) {
   const bound = {
-    ...window.manifest,
-    requirements: window.manifest.requirements.map((requirement, index) => ({
-      ...requirement,
-      implementationId: recipe.requirements[index]?.implementationId ?? null,
-    })),
+    ...window,
+    manifest: {
+      ...window.manifest,
+      requirements: window.manifest.requirements.map((requirement, index) => ({
+        ...requirement,
+        implementationId: recipe.requirements[index]?.implementationId ?? null,
+      })),
+    },
   };
-  return (
-    recipe.requirements.every((requirement) => requirement.implementationId !== null) &&
-    isDeepStrictEqual({ ...recipe, revisionId: window.manifest.revisionId }, bound)
-  );
+  return recipe.requirements.every((requirement) => requirement.implementationId !== null) &&
+    isDeepStrictEqual({ ...recipe, revisionId: window.manifest.revisionId }, bound.manifest)
+    ? bound
+    : null;
 }
 
 /** Durable bytes use AssetStore; the queue alone publishes their recipe and revision binding. */
@@ -187,7 +190,7 @@ export class PreparedAudioStore {
       if (pinned && reference.id !== pinned) continue;
       const publication = this.publication(reference.id);
       const recipe = readRecipe(publication.input, "INVALID_STORAGE");
-      if (!matchesRecipe(window, recipe)) continue;
+      if (!bindRecordedRecipe(window, recipe)) continue;
       // A compatible but broken publication must remain visible, even alongside another policy.
       const read = this.open(reference.id);
       try {
@@ -416,9 +419,10 @@ export class PreparedAudioStore {
       rendition: { sampleRate: 48000, channels: 2 },
       tap: { target: { kind: "output" }, point: { kind: "processed" } },
     });
+    const bound = bindRecordedRecipe(window, recipe);
     if (
       recipe.revisionId !== portable.revisionId ||
-      !matchesRecipe(window, recipe) ||
+      !bound ||
       !isDeepStrictEqual(portable.audio.sampleRange, window.manifest.sampleRange)
     ) {
       throw new CatalogError(
@@ -440,7 +444,7 @@ export class PreparedAudioStore {
     )
       throw new CatalogError("INVALID_PACKAGE", "Prepared audio omitted an upstream dependency");
     signal.throwIfAborted();
-    checkProjectAudioResult({ ...portable.audio, file: path }, window, path);
+    checkProjectAudioResult({ ...portable.audio, file: path }, bound, path);
     const file = await open(path, "r");
     let identity: FileIdentity;
     try {

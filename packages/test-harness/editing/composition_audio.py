@@ -68,7 +68,7 @@ class NativeAudio:
             receipt = json.loads(result.stdout)
         data = pcm(Path(value['output']))
         assert len(data) == (value['range']['end'] - value['range']['start']) * 8
-        assert not list(self.out.glob('.retime-*')) and not list(self.out.glob('.rnnoise-*'))
+        assert not list(self.out.glob('.retime-*')) and not list(self.out.glob('.audio-state-*'))
         self.report['checks'].append({'case': name, 'sha256': hashlib.sha256(data).hexdigest(), 'receipt': receipt})
         (self.out / 'report.json').write_text(json.dumps(self.report, indent=2) + '\n')
         return data, receipt

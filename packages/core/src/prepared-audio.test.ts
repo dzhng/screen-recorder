@@ -1293,3 +1293,56 @@ test("an explicit acoustic measurement pin survives PCM admission and retry amon
     measurement: { integratedLufs: -23 },
   });
 });
+
+test("external state recipes bind runtime identity and retain full input support for a short window", async () => {
+  const f = await fixture();
+  const changed = f.current.projects.apply(f.input.projectId, {
+    requestId: "explicit-limiter",
+    expectedRevisionId: f.input.revisionId,
+    operations: [
+      {
+        operation: "processing.set",
+        target: { kind: "output" },
+        steps: [
+          {
+            processor: {
+              type: "limiter",
+              ceilingDbfs: -3,
+              lookaheadMs: 5,
+              releaseMs: 50,
+            },
+          },
+        ],
+      },
+    ],
+  });
+  const composition = projectComposition(f.current.projects, f.current.assets, {
+    ...f.input,
+    revisionId: changed.revision.id,
+  });
+  const support = {
+    implementationId: "native-window",
+    processors: { limiter: "linked-limiter:runtime-one" },
+  };
+  const plan = composition.window({ range: { startUs: 700000, endUs: 800000 } }, support, "audio");
+  expect(plan.window.manifest.state!.domains).toMatchObject([
+    { sampleRange: { start: 0, end: 48000 }, recipe: { type: "limiter" } },
+  ]);
+  expect(
+    plan.window.manifest.requirements.filter((item) => item.kind === "processor"),
+  ).toMatchObject([
+    { processor: { type: "limiter" }, implementationId: "linked-limiter:runtime-one" },
+  ]);
+  expect(plan.window.manifest.state!.inputs[0]!.selected).toEqual([{ startUs: 0, endUs: 1000000 }]);
+  expect(() => composition.window({}, { implementationId: "native-window" }, "audio")).toThrow(
+    expect.objectContaining({ code: "NOT_READY" }),
+  );
+  const next = composition.window(
+    {},
+    { ...support, processors: { limiter: "linked-limiter:runtime-two" } },
+    "audio",
+  );
+  expect(
+    next.window.manifest.requirements.filter((item) => item.kind === "processor"),
+  ).toMatchObject([{ implementationId: "linked-limiter:runtime-two" }]);
+});

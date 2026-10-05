@@ -4,7 +4,7 @@ import { join } from "node:path";
 import { isDeepStrictEqual } from "node:util";
 import { CatalogError } from "@screenrec/core/catalog";
 import { fileIdentity, hashFile, O_NOFOLLOW_ANY, type FileIdentity } from "@screenrec/core/files";
-import { withRenderAttempt } from "./render.js";
+import { withRenderAttempt, type RenderAttemptAuthority } from "./render.js";
 import { cliWorker, type MediaWorker } from "./worker.js";
 
 export type FfmpegArtifact<Evidence> = {
@@ -22,7 +22,6 @@ export type FfmpegArtifact<Evidence> = {
 export async function withFfmpegArtifact<Evidence, Result>(
   worker: MediaWorker,
   request: {
-    attemptParent: string;
     filename: string;
     executable: string;
     ownerExecutable: string;
@@ -31,74 +30,79 @@ export async function withFfmpegArtifact<Evidence, Result>(
     args: (outputSlot: number) => readonly string[];
     timeoutMs?: number;
     maxBytes?: number;
-  },
+  } & (
+    | { attemptParent: string }
+    | { attempt: { directory: string; worker: MediaWorker; authority: RenderAttemptAuthority } }
+  ),
   signal: AbortSignal,
   validate: (file: FileHandle, signal: AbortSignal, worker: MediaWorker) => Promise<Evidence>,
   consume: (artifact: FfmpegArtifact<Evidence>) => Promise<Result>,
 ): Promise<Result> {
   let retained: FileHandle | undefined;
   try {
-    return await withRenderAttempt(
-      worker,
-      request.attemptParent,
-      signal,
-      async (directory, boundWorker, authority) => {
-        const placeholder = await open("/dev/null", "w");
-        const outputSlot = 3 + request.descriptors.length;
-        let completion;
-        try {
-          completion = await cliWorker(
-            {
-              executable: request.executable,
-              ownerExecutable: request.ownerExecutable,
-              args: request.args(outputSlot),
+    const produce = async (
+      directory: string,
+      boundWorker: MediaWorker,
+      authority: RenderAttemptAuthority,
+    ) => {
+      const placeholder = await open("/dev/null", "w");
+      const outputSlot = 3 + request.descriptors.length;
+      let completion;
+      try {
+        completion = await cliWorker(
+          {
+            executable: request.executable,
+            ownerExecutable: request.ownerExecutable,
+            args: request.args(outputSlot),
+          },
+          {
+            signal,
+            ...(request.timeoutMs === undefined ? {} : { timeoutMs: request.timeoutMs }),
+            ...(request.maxBytes === undefined ? {} : { maxBytes: request.maxBytes }),
+            descriptors: [...request.descriptors, placeholder.fd, ...authority.descriptors],
+            rewindDescriptors: request.rewindDescriptors ?? [],
+            stagedOutput: {
+              directoryDescriptor: outputSlot + 1,
+              descriptor: outputSlot,
+              name: request.filename,
             },
-            {
-              signal,
-              ...(request.timeoutMs === undefined ? {} : { timeoutMs: request.timeoutMs }),
-              ...(request.maxBytes === undefined ? {} : { maxBytes: request.maxBytes }),
-              descriptors: [...request.descriptors, placeholder.fd, ...authority.descriptors],
-              rewindDescriptors: request.rewindDescriptors ?? [],
-              stagedOutput: {
-                directoryDescriptor: outputSlot + 1,
-                descriptor: outputSlot,
-                name: request.filename,
-              },
-            },
-          );
-        } finally {
-          await placeholder.close();
-        }
-        if (!completion.ok)
-          throw new CatalogError(
-            completion.error.code,
-            completion.error.message,
-            completion.error.details,
-            completion.error.retryable,
-          );
-        const allocation = (
-          completion.data as { allocatedOutput: { device: string; inode: string } }
-        ).allocatedOutput;
-        const path = join(directory, request.filename);
-        retained = await open(path, constants.O_RDONLY | constants.O_NONBLOCK | O_NOFOLLOW_ANY);
-        const actual = await retained.stat({ bigint: true });
-        if (
-          !actual.isFile() ||
-          actual.nlink !== 1n ||
-          actual.size > BigInt(Number.MAX_SAFE_INTEGER) ||
-          actual.dev.toString() !== allocation.device ||
-          actual.ino.toString() !== allocation.inode
-        )
-          throw new CatalogError("INVALID_STORAGE", "CLI staged output changed before validation");
-        const identity = fileIdentity(actual);
-        const evidence = await validate(retained, signal, boundWorker);
-        if (!isDeepStrictEqual(identity, fileIdentity(await retained.stat({ bigint: true }))))
-          throw new CatalogError("INVALID_STORAGE", "CLI staged output changed during validation");
-        const hash = await hashFile(retained, Number(actual.size), signal);
-        return { path, file: retained, worker: boundWorker, identity, evidence, ...hash };
-      },
-      consume,
-    );
+          },
+        );
+      } finally {
+        await placeholder.close();
+      }
+      if (!completion.ok)
+        throw new CatalogError(
+          completion.error.code,
+          completion.error.message,
+          completion.error.details,
+          completion.error.retryable,
+        );
+      const allocation = (completion.data as { allocatedOutput: { device: string; inode: string } })
+        .allocatedOutput;
+      const path = join(directory, request.filename);
+      retained = await open(path, constants.O_RDONLY | constants.O_NONBLOCK | O_NOFOLLOW_ANY);
+      const actual = await retained.stat({ bigint: true });
+      if (
+        !actual.isFile() ||
+        actual.nlink !== 1n ||
+        actual.size > BigInt(Number.MAX_SAFE_INTEGER) ||
+        actual.dev.toString() !== allocation.device ||
+        actual.ino.toString() !== allocation.inode
+      )
+        throw new CatalogError("INVALID_STORAGE", "CLI staged output changed before validation");
+      const identity = fileIdentity(actual);
+      const evidence = await validate(retained, signal, boundWorker);
+      if (!isDeepStrictEqual(identity, fileIdentity(await retained.stat({ bigint: true }))))
+        throw new CatalogError("INVALID_STORAGE", "CLI staged output changed during validation");
+      const hash = await hashFile(retained, Number(actual.size), signal);
+      return { path, file: retained, worker: boundWorker, identity, evidence, ...hash };
+    };
+    if ("attempt" in request)
+      return await consume(
+        await produce(request.attempt.directory, request.attempt.worker, request.attempt.authority),
+      );
+    return await withRenderAttempt(worker, request.attemptParent, signal, produce, consume);
   } finally {
     await retained?.close();
   }

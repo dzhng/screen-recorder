@@ -283,8 +283,8 @@ public enum CompositionAudio {
         let childOrdinals: [Int: Int]
         let support: [Int: [(Plan.Samples, Bool)]]
         func stream(range: Plan.Samples, target: CompositionProcessing.Target, before: String? = nil,
-                    prepared: PreparedState? = nil, reportSourceWork: Bool = false) -> Stream {
-            Stream(range: range, graph: self, target: target, before: before, prepared: prepared, reportSourceWork: reportSourceWork)
+                    prepared: PreparedState? = nil, reportSourceWork: Bool = false, endStepIndex: Int? = nil) -> Stream {
+            Stream(range: range, graph: self, target: target, before: before, prepared: prepared, reportSourceWork: reportSourceWork, endStepIndex: endStepIndex)
         }
     }
     static func graph(_ plan: CompositionAudioPlan, forest: Bool = false,
@@ -341,7 +341,7 @@ public enum CompositionAudio {
                     continue
                 }
                 guard !step.id.isEmpty, stepIds.insert(step.id).inserted,
-                    ["gain", "rnnoise"].contains(step.processor.type)
+                    step.processor.type == "gain" || step.processor.stateRecipe != nil
                 else { throw invalid("Unsupported audio processing step.") }
                 if step.processor.type == "gain" {
                 guard let gain = step.processor.gain else { throw invalid("Missing gain.") }
@@ -352,6 +352,7 @@ public enum CompositionAudio {
                 case .program(let program): try program.validate()
                 }
                 } else {
+                    try step.processor.stateRecipe?.validate()
                     guard step.processor.active != nil else { throw invalid("Missing state activation spans.") }
                     if let mix = step.processor.mix {
                         switch mix {
@@ -501,14 +502,14 @@ public enum CompositionAudio {
             children: children, parents: parents, childOrdinals: childOrdinals, support: support)
     }
 
-    public static func open(_ plan: CompositionAudioPlan) async throws -> Stream {
+    public static func open(_ plan: CompositionAudioPlan, held: [HeldState] = []) async throws -> Stream {
         try validateRetimeBinding(plan)
         let sources = Sources()
         let state = try await resolveState(plan, sources: sources)
         let graph = try await graph(plan, sources: sources)
         if let state { try prepareRetime(state.graph, parent: URL(fileURLWithPath: plan.output).deletingLastPathComponent()) }
         try prepareRetime(graph, parent: URL(fileURLWithPath: plan.output).deletingLastPathComponent())
-        let prepared = try await prepareState(state, output: plan.output)
+        let prepared = try await prepareState(state, output: plan.output, held: held)
         return graph.stream(range: plan.range, target: graph.nodes.last!.target, prepared: prepared, reportSourceWork: true)
     }
 
@@ -521,18 +522,20 @@ public enum CompositionAudio {
         private var inputs: [Int: Input] = [:]
         private let target: CompositionProcessing.Target
         private let before: String?
+        private let endStepIndex: Int?
         private let prepared: PreparedState?
         private let reportSourceWork: Bool
         private var consumed = false
 
         init(
             range: Plan.Samples, graph: Graph, target: CompositionProcessing.Target,
-            before: String?, prepared: PreparedState?, reportSourceWork: Bool
+            before: String?, prepared: PreparedState?, reportSourceWork: Bool, endStepIndex: Int?
         ) {
             self.range = range
             self.graph = graph
             self.target = target
             self.before = before
+            self.endStepIndex = endStepIndex
             self.prepared = prepared
             self.reportSourceWork = reportSourceWork
         }
@@ -543,7 +546,12 @@ public enum CompositionAudio {
             defer { for input in inputs.values { input.suspend() } }
             guard let root = graph.byTarget[target] else { throw invalid("Unknown audio view target.") }
             let endpoint: Int
-            if let before {
+            if let endStepIndex {
+                guard endStepIndex >= 0 && endStepIndex <= nodes[root].steps.count else {
+                    throw invalid("Audio prefix endpoint exceeds its compiled stack.")
+                }
+                endpoint = endStepIndex
+            } else if let before {
                 guard let index = nodes[root].steps.firstIndex(where: { $0.id == before }) else {
                     throw invalid("Unknown exclusive audio prefix endpoint.")
                 }
@@ -577,7 +585,7 @@ public enum CompositionAudio {
                         events.append((span.range.end, index, stepIndex, nil))
                         support(index, span.range)
                     }
-                    if step.processor.type == "rnnoise" {
+                    if step.processor.stateRecipe != nil {
                         for span in step.processor.active ?? [] { support(index, .init(start: span.start, end: span.end)) }
                     } else if step.processor.type == "gain", let gain = step.processor.gain,
                         gain.constant == nil || gain.constant!.sign == .minus {
@@ -701,9 +709,9 @@ public enum CompositionAudio {
                         for step in node.steps[firstStep..<limits[index]!] where step.enabled {
                             if step.processor.type == "gain" {
                                 try applyGain(step.processor, to: &samples, position: position)
-                            } else if step.processor.type == "rnnoise",
+                            } else if step.processor.stateRecipe != nil,
                                 (step.processor.active ?? []).contains(where: { $0.start <= position && position < $0.end }) {
-                                throw invalid("Active RNNoise has no prepared coverage.")
+                                throw invalid("Active state processor has no prepared coverage.")
                             }
                         }
                         buffers[index] = samples
@@ -742,8 +750,8 @@ public enum CompositionAudio {
         }
     }
 
-    public static func write(_ plan: CompositionAudioPlan) async throws -> CompositionAudioResult {
-        let stream = try await open(plan)
+    public static func write(_ plan: CompositionAudioPlan, held: [HeldState] = []) async throws -> CompositionAudioResult {
+        let stream = try await open(plan, held: held)
         let writer = try AudioWaveWriter(
             sampleRate: rate, frames: plan.range.end - plan.range.start, channels: 2,
             output: URL(fileURLWithPath: plan.output),

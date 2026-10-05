@@ -31,7 +31,7 @@ public enum NativeWire {
                 }, unexpected: { NativeFailure("INVALID_REQUEST", $0.localizedDescription) }),
             "media.audioCapabilities": media { params in
                 try WireRequest.requireEmpty(params)
-                return ["rnnoise": CompositionAudio.rnnoiseImplementation, "retime": CompositionAudio.retimeImplementation]
+                return ["rnnoise": CompositionAudio.rnnoiseImplementation, "retime": CompositionAudio.retimeImplementation, "statePreparation": CompositionAudio.statePreparationImplementation]
             },
             "media.pictureCapabilities": media { params in
                 try WireRequest.requireEmpty(params)
@@ -49,6 +49,7 @@ public enum NativeWire {
             "media.renderCompositionVideo": media { try json(await CompositionVideoOperation.execute($0)) },
             "media.renderCompositionMovie": media { try json(await CompositionMovieOperation.execute($0)) },
             "media.validateCompositionAudio": media { try await CompositionAudioOperation.validate($0) },
+            "media.prepareCompositionAudioDomain": media { try json(await CompositionAudioOperation.prepare($0)) },
             "media.mixCompositionAudio": media { try json(await CompositionAudioOperation.execute($0)) },
             "media.validateAudioOutput": media { try json(AudioFileOperation.validate($0)) },
             "media.encodeAudioFile": media { try json(await AudioFileOperation.execute($0)) },

@@ -11,7 +11,9 @@ enum CompositionMovieOperation {
         let clips: [CompositionAudioPlan.Clip]
         let state: CompositionAudioPlan.State?
         let retained: RetainedAudioInput?
+        let held: [CompositionAudioOperation.HeldInput]?
         let retimeImplementationId: String?
+        let statePreparationImplementationId: String?
     }
     struct EncodedAudio: Encodable {
         let sampleRate: Int
@@ -56,7 +58,7 @@ enum CompositionMovieOperation {
         try request.validateOutput(hasAudio: schedule.range.start != schedule.range.end)
         let audioPlan = CompositionAudioPlan(output: request.output, range: schedule.range,
             clips: schedule.clips, processing: request.processing, assets: request.assets,
-            state: schedule.state, retimeImplementationId: schedule.retimeImplementationId)
+            state: schedule.state, retimeImplementationId: schedule.retimeImplementationId, statePreparationImplementationId: schedule.statePreparationImplementationId)
         try CompositionAudio.validateRetimeImplementation(schedule.retimeImplementationId)
         let audio: (any AudioPCMSource)?
         var generated: CompositionAudio.Stream?
@@ -68,10 +70,11 @@ enum CompositionMovieOperation {
             }
             audio = nil
         } else if let input = schedule.retained {
+            guard schedule.held == nil else { throw NativeFailure("INVALID_REQUEST", "Retained output cannot also request state substitution.") }
             retained = try input.open(expected: schedule.range)
             audio = retained
         } else {
-            generated = try await CompositionAudio.open(audioPlan)
+            generated = try await CompositionAudio.open(audioPlan, held: CompositionAudioOperation.held(audioObject))
             audio = generated
         }
         let output = try NewFile(at: request.output, assembledAs: "movie.mp4")

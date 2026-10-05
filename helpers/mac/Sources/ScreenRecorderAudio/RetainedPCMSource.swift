@@ -44,6 +44,29 @@ public final class RetainedPCMSource: AudioPCMSource {
             throw NativeFailure("ARTIFACT_CHANGED", "Retained PCM changed during consumption.")
         }
     }
+    public var frameCount: Int64 { range.end - range.start }
+    public func readFrames(position: Int64, count: Int) throws -> [Float] {
+        guard position >= range.start, count >= 0, Int128(position) + Int128(count) <= Int128(range.end) else {
+            throw NativeFailure("INVALID_REQUEST", "Retained PCM read exceeds its selected frames.")
+        }
+        try checkIdentity()
+        var samples = [Float](repeating: 0, count: count * 2)
+        try samples.withUnsafeMutableBytes { buffer in
+            var copied = 0
+            while copied < buffer.count {
+                let read = pread(fd, buffer.baseAddress!.advanced(by: copied), buffer.count - copied,
+                                 offset + position * 8 + Int64(copied))
+                if read < 0 && errno == EINTR { continue }
+                guard read > 0 else { throw NativeFailure("ARTIFACT_CHANGED", "Retained PCM ended before its pinned frame count.") }
+                copied += read
+            }
+        }
+        guard samples.allSatisfy({ $0.isFinite }) else {
+            throw NativeFailure("INVALID_RESPONSE", "Retained PCM contains non-finite samples.")
+        }
+        try checkIdentity()
+        return samples
+    }
     public func consume(_ sink: (AudioPCMBlock) async throws -> Void) async throws {
         guard !consumed else { throw NativeFailure("INVALID_REQUEST", "Retained PCM has already been consumed.") }
         consumed = true
@@ -52,21 +75,9 @@ public final class RetainedPCMSource: AudioPCMSource {
         var clipped: Int64 = 0
         while position < range.end {
             try Task.checkCancellation()
-            try checkIdentity()
             let count = Int(min(8192, range.end - position))
-            var samples = [Float](repeating: 0, count: count * 2)
-            try samples.withUnsafeMutableBytes { buffer in
-                var copied = 0
-                while copied < buffer.count {
-                    let read = pread(fd, buffer.baseAddress!.advanced(by: copied), buffer.count - copied,
-                                     offset + position * 8 + Int64(copied))
-                    if read < 0 && errno == EINTR { continue }
-                    guard read > 0 else { throw NativeFailure("ARTIFACT_CHANGED", "Retained PCM ended before its pinned frame count.") }
-                    copied += read
-                }
-            }
+            let samples = try readFrames(position: position, count: count)
             for sample in samples {
-                guard sample.isFinite else { throw NativeFailure("INVALID_RESPONSE", "Retained PCM contains non-finite samples.") }
                 peak = max(peak, abs(Double(sample)))
                 if abs(sample) > 1 { clipped += 1 }
             }

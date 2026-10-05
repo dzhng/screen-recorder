@@ -7,10 +7,21 @@ extension CompositionAudio {
     /// Identifies the compiled model and the complete fixed sample recipe, not a selectable quality preset.
     public static let rnnoiseImplementation = "rnnoise-70f1d256-d6021b7697677c4d2274c912975e143765552b0e6f25500aa660fdb4a9849be5-f480-s32768-flush2-delay960-independent-channels-v2"
 
+    public static let statePreparationImplementation = "native-audio-state-domains-v1"
+    public struct HeldState {
+        let domainIndex: Int
+        let recipe: AudioStateRecipe
+        let sampleRange: Plan.Samples
+        let source: RetainedPCMSource
+        public init(domainIndex: Int, recipe: AudioStateRecipe, sampleRange: CompositionAudioPlan.Samples, source: RetainedPCMSource) {
+            self.domainIndex = domainIndex; self.recipe = recipe; self.sampleRange = sampleRange; self.source = source
+        }
+    }
     final class PreparedState {
         struct Span {
             let range: Plan.Samples
-            let offsets: (UInt64, UInt64)
+            enum Storage { case planar(UInt64, UInt64); case retained(RetainedPCMSource, Int64) }
+            let storage: Storage
         }
         let directory: URL
         let input: FileHandle
@@ -19,7 +30,7 @@ extension CompositionAudio {
         var maximumPreroll: Int64 = 0
         var maximumTail: Int64 = 0
         init(parent: URL) throws {
-            directory = parent.appendingPathComponent(".rnnoise-\(UUID().uuidString)", isDirectory: true)
+            directory = parent.appendingPathComponent(".audio-state-\(UUID().uuidString)", isDirectory: true)
             try FileManager.default.createDirectory(at: directory, withIntermediateDirectories: false)
             do {
                 let a = directory.appendingPathComponent("input.f32")
@@ -46,8 +57,12 @@ extension CompositionAudio {
                 guard position >= span.range.start, position + Int64(count) <= span.range.end else {
                     throw invalid("Prepared state read exceeds its component.")
                 }
+                if case .retained(let source, let fileStart) = span.storage {
+                    return try source.readFrames(position: fileStart + position - span.range.start, count: count)
+                }
+                guard case .planar(let left, let right) = span.storage else { throw invalid("Unknown prepared storage.") }
                 var result = [Float](repeating: 0, count: count * 2)
-                for (channel, offset) in [span.offsets.0, span.offsets.1].enumerated() {
+                for (channel, offset) in [left, right].enumerated() {
                     try output.seek(toOffset: offset + UInt64(position - span.range.start) * 4)
                     let data = try output.read(upToCount: count * 4) ?? Data()
                     guard data.count == count * 4 else { throw invalid("Prepared state PCM is truncated.") }
@@ -70,6 +85,11 @@ extension CompositionAudio {
     }
     static func resolveState(_ plan: Plan, sources: Sources) async throws -> StatePreparation? {
         guard let state = plan.state else { return nil }
+        if plan.statePreparationImplementationId != nil || state.domains.contains(where: { $0.recipe != .rnnoise && $0.sampleRange.end > $0.sampleRange.start }) {
+            guard plan.statePreparationImplementationId == statePreparationImplementation else {
+                throw NativeFailure("NOT_READY", "The bound audio state preparation implementation is unavailable.")
+            }
+        }
         guard state.implementationId == rnnoiseImplementation, !state.domains.isEmpty,
             state.domains.count <= 20_000, state.domains.reduce(0, { $0 + $1.members.count }) <= 20_000, state.formats.count <= 10_000 else {
             throw invalid("Unknown RNNoise implementation or invalid state plan bounds.")
@@ -79,6 +99,7 @@ extension CompositionAudio {
         var memberships: [String: [Plan.Samples]] = [:]
         for (index, domain) in state.domains.enumerated() {
             try Task.checkCancellation()
+            try domain.recipe.validate()
             guard domain.sampleRange.start >= 0, domain.sampleRange.end >= domain.sampleRange.start,
                 domain.sampleRange.end <= TimeSpan.maximumMicroseconds, !domain.members.isEmpty,
                 domain.dependencies.allSatisfy({ $0 >= 0 && $0 < state.domains.count && $0 != index }),
@@ -91,8 +112,24 @@ extension CompositionAudio {
                     member.sampleRange.end <= domain.sampleRange.end,
                     let node = nodes[member.target]?.first,
                     let step = node.steps.first(where: { $0.id == member.stepId }),
-                    step.enabled, step.processor.type == "rnnoise" else {
-                    throw invalid("State members must cover their component with owned RNNoise endpoints.")
+                    step.enabled, let recipe = step.processor.stateRecipe,
+                    domain.recipe.matches(recipe, memberTarget: member.target, detectorTarget: member.detector?.target,
+                                          beforeStepIndex: member.detector?.beforeStepIndex) else {
+                    throw invalid("State members must cover their component with the bound recipe.")
+                }
+                let requiresDetector: Bool
+                if case .compressor(let recipe) = domain.recipe { requiresDetector = recipe.detector.kind != "input" }
+                else { requiresDetector = false }
+                guard requiresDetector == (member.detector != nil) else { throw invalid("State detector membership is incomplete.") }
+                if let detector = member.detector {
+                    guard let endpoint = nodes[detector.target]?.first, detector.beforeStepIndex >= 0,
+                        detector.beforeStepIndex <= endpoint.steps.count,
+                        endpoint.mediaKind == "audio" || endpoint.mediaKind == "output" else {
+                        throw invalid("State detector endpoint differs from its compiled audio graph.")
+                    }
+                    if case .compressor(let recipe) = domain.recipe, recipe.detector.kind == "tap" {
+                        guard recipe.detector.tap?.target == detector.target else { throw invalid("State detector target differs from its recipe.") }
+                    }
                 }
                 position = member.sampleRange.end
                 memberships[member.stepId, default: []].append(member.sampleRange)
@@ -105,7 +142,7 @@ extension CompositionAudio {
             for member in domain.members { byStep[member.stepId, default: []].append((index, member.sampleRange)) }
         }
         for node in state.processing {
-            for step in node.steps where step.enabled && step.processor.type == "rnnoise" {
+            for step in node.steps where step.enabled && step.processor.stateRecipe != nil {
                 let expected = (byStep[step.id] ?? []).map { $0.1 }.filter { $0.end > $0.start }.sorted { $0.start < $1.start }
                 let actual = (step.processor.active ?? []).map { Plan.Samples(start: $0.start, end: $0.end) }
                 guard expected == actual else { throw invalid("State activation differs from component membership.") }
@@ -144,7 +181,7 @@ extension CompositionAudio {
             processing: state.processing, assets: plan.assets)
         let graph = try await graph(prerequisite, forest: true, sources: sources)
         guard graph.missing.allSatisfy({ $0.ranges.isEmpty }) else {
-            throw NativeFailure("NOT_READY", "Selected RNNoise input has unavailable source support.")
+            throw NativeFailure("NOT_READY", "Selected state input has unavailable source support.")
         }
         var formats: [[String]: Plan.State.Format] = [:]
         for format in state.formats {
@@ -157,21 +194,47 @@ extension CompositionAudio {
         for (key, source) in sources.opened {
             guard let format = formats[key], (source.channels == 1 || source.channels == 2),
                 format.channels == source.channels, format.sampleRate == source.sampleRate else {
-                throw NativeFailure("NOT_READY", "RNNoise requires verified mono or stereo provenance matching the opened stream.")
+                throw NativeFailure("NOT_READY", "State processing requires verified mono or stereo provenance matching the opened stream.")
             }
         }
         return StatePreparation(state: state, nodes: nodes, order: order, graph: graph)
     }
 
-    static func prepareState(_ resolution: StatePreparation?, output: String) async throws -> PreparedState? {
-        guard let resolution else { return nil }
+    static func prepareState(_ resolution: StatePreparation?, output: String, held: [HeldState] = [], selected: Set<Int>? = nil) async throws -> PreparedState? {
+        guard let resolution else {
+            guard held.isEmpty else { throw invalid("Held state has no compiled state plan.") }
+            return nil
+        }
         let state = resolution.state, nodes = resolution.nodes, order = resolution.order, graph = resolution.graph
+        var heldByDomain: [Int: HeldState] = [:]
+        for span in held {
+            guard state.domains.indices.contains(span.domainIndex), heldByDomain[span.domainIndex] == nil else {
+                throw invalid("Held state must identify distinct compiled domains.")
+            }
+            let domain = state.domains[span.domainIndex]
+            guard domain.recipe != .rnnoise, span.recipe == domain.recipe, span.sampleRange == domain.sampleRange,
+                span.source.frameCount == domain.sampleRange.end - domain.sampleRange.start else {
+                throw invalid("Held state recipe, range or count differs from its compiled domain.")
+            }
+            heldByDomain[span.domainIndex] = span
+        }
         let prepared = try PreparedState(parent: URL(fileURLWithPath: output).deletingLastPathComponent())
         for index in order {
+            if let selected, !selected.contains(index) { continue }
             let domain = state.domains[index]
             try Task.checkCancellation()
             let count = domain.sampleRange.end - domain.sampleRange.start
             if count == 0 { continue }
+            if domain.recipe != .rnnoise {
+                guard let span = heldByDomain[index] else {
+                    throw NativeFailure("NOT_READY", "The compiled state domain has no held prepared coverage.")
+                }
+                for member in domain.members where member.sampleRange.end > member.sampleRange.start {
+                    prepared.spans[member.stepId, default: []].append(.init(range: member.sampleRange,
+                        storage: .retained(span.source, member.sampleRange.start - domain.sampleRange.start)))
+                }
+                continue
+            }
             try prepared.input.truncate(atOffset: 0)
             try prepared.input.seek(toOffset: 0)
             var received: Int64 = 0
@@ -257,7 +320,7 @@ extension CompositionAudio {
             for member in domain.members where member.sampleRange.end > member.sampleRange.start {
                 let displacement = UInt64(member.sampleRange.start - domain.sampleRange.start) * 4
                 prepared.spans[member.stepId, default: []].append(.init(range: member.sampleRange,
-                    offsets: (offsets[0] + displacement, offsets[1] + displacement)))
+                    storage: .planar(offsets[0] + displacement, offsets[1] + displacement)))
             }
         }
         return prepared

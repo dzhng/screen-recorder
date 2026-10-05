@@ -37,8 +37,8 @@ def validate(name, value, error=None, file=False):
         path = out/(name+'.json'); path.write_text(json.dumps(value)); value = {'planFile': str(path)}
     result = call(name, 'media.validateCompositionAudio', value, error)
     assert not (out/'must-not-exist').exists()
-    assert not any(p.name.startswith(('.retime-', '.rnnoise-', '.screenrec-output-')) for p in out.iterdir())
-    if not error: assert result == {'retime': RETIME_IMPLEMENTATION}, result
+    assert not any(p.name.startswith(('.retime-', '.audio-state-', '.screenrec-output-')) for p in out.iterdir())
+    if not error: assert result == {'retime': RETIME_IMPLEMENTATION, 'statePreparation': 'native-audio-state-domains-v1'}, result
 
 cap = call('capability', 'media.audioCapabilities', {})
 assert cap['retime'] == RETIME_IMPLEMENTATION
@@ -140,5 +140,5 @@ validate('metadata-only-selected-nan', poison_plan)
 poison_plan['output'] = str(out/'nan-output.wav')
 call('decode-rejects-selected-nan', 'media.mixCompositionAudio', poison_plan, 'INVALID_REQUEST')
 assert not Path(poison_plan['output']).exists()
-assert not any(p.name.startswith(('.retime-', '.rnnoise-', '.screenrec-output-')) for p in out.iterdir())
+assert not any(p.name.startswith(('.retime-', '.audio-state-', '.screenrec-output-')) for p in out.iterdir())
 print(json.dumps({'checks':len(report['checks']), 'report':str(out/'report.json')}))

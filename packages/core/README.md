@@ -18,7 +18,10 @@ several projects without merging their occurrence identities.
 Read-only acoustic measurements retain the selected PCM generation and recipe.
 Integrated loudness requires complete admitted support; a hole cannot become
 measured silence or concatenate neighboring material. A null gate result is
-evidence of measurement limits, never an instruction to normalize. An explicit
+evidence of measurement limits, never an instruction to normalize. Explicit
+normalization publication retains complete before/after measurements and refuses
+infeasible or missed requested targets. Prepared excerpts preserve that complete
+processing evidence rather than relabeling it as an excerpt measurement. An explicit
 prepared signal pin must match the processed output tap.
 
 Source evidence retains its source clock. Project evidence projects it through

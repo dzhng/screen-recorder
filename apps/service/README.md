@@ -117,3 +117,21 @@ existing CLI lifetime owner and records meter identity. Empty scanner gates are
 reported as unmeasurable; peak evidence remains separate from integrated loudness.
 A requested sample ceiling or a scoped meter comparison is not a universal encoded
 true-peak guarantee.
+
+[Typed audio processing](src/audio-processing.ts) borrows the native domain
+scheduler: native renders complete exclusive program/detector prefixes and
+consumes identified held results. The service runs only the requested static
+recipe against that PCM. Full-domain state makes an excerpt a crop of the same
+processed signal rather than a cold processor restart. Recipe artifacts share
+one render attempt; each retained external domain adds one service file descriptor
+and an inherited/duplicated descriptor pair in the consuming native child. The
+compiler's existing plan bounds and worker/job admission still apply; this cost
+is not a global concurrency guarantee, and descriptor exhaustion refuses work
+without publishing a partial signal.
+
+Normalization retains whole-domain before/after meter evidence and admits its
+requested postconditions before publication. Gain-only feasibility is explicit;
+a dynamic request also refuses a missed target. Prepared reads retain those full
+measurements even when a consumer requests a short excerpt. Native and bundled
+implementation identities bind the prepared recipe; neither discovery nor an
+empty measurement authorizes another treatment.

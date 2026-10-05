@@ -5,6 +5,7 @@ import {
   type CaptionSidecarRequest,
   documentAssetIds,
   isMediaClip,
+  isStatefulProcessor,
   processingCapabilities,
   rangeSchema,
   requireWindowReady,
@@ -20,6 +21,7 @@ import { compositionPointerSources } from "./composition-pointer.js";
 export type ProjectRenderSupport = {
   implementationId: string;
   sdrCorrection?: string;
+  processors?: ProcessorImplementations;
   rnnoise?: string;
   retime?: string;
   validateAudio?: (request: AudioWindowInput) => Promise<void>;
@@ -51,10 +53,15 @@ export async function validateProjectAudio(
   support: ProjectRenderSupport,
   request: AudioWindowInput,
 ) {
-  if (!request.window.manifest.requirements.some((requirement) => requirement.kind === "retime"))
-    return;
-  if (!support.retime || !support.validateAudio)
-    throw new CatalogError("NOT_READY", "Native retiming admission is unavailable", {}, true);
+  const retime = request.window.manifest.requirements.some(
+    (requirement) => requirement.kind === "retime",
+  );
+  const externalState = request.window.manifest.state?.domains.some(
+    (domain) => domain.recipe.type !== "rnnoise",
+  );
+  if (!retime && !externalState) return;
+  if (!support.validateAudio || (retime && !support.retime))
+    throw new CatalogError("NOT_READY", "Native audio input admission is unavailable", {}, true);
   await support.validateAudio(request);
 }
 
@@ -94,7 +101,7 @@ function requireStateInputsReady(manifest: CompositionWindow["manifest"]) {
   }
   for (const node of manifest.state.nodes)
     for (const step of node.steps)
-      if (step.enabled && step.processor.type !== "gain" && step.processor.type !== "rnnoise")
+      if (step.enabled && step.processor.type !== "gain" && !isStatefulProcessor(step.processor))
         issues.push({
           kind: "unverified-channel-prefix",
           target: node.target,
@@ -116,6 +123,7 @@ const implementations = (support: ProjectRenderSupport): ProcessorImplementation
   gain: support.implementationId,
   ...(support.rnnoise ? { rnnoise: support.rnnoise } : {}),
   ...(support.pointers ? { pointer: support.implementationId } : {}),
+  ...support.processors,
 });
 export const projectCapabilities = (support: ProjectRenderSupport) =>
   processingCapabilities(implementations(support));

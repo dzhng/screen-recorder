@@ -1,9 +1,10 @@
 import { applyBatch, createCompiler, validateComposition } from "@screenrec/composition";
 import { encodeJsonLine, REQUEST_FRAME_BYTES } from "@screenrec/protocol";
-import { mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
+import { mkdtemp, readFile, rm, writeFile, readdir } from "node:fs/promises";
 import { join } from "node:path";
 import { tmpdir } from "node:os";
 import { expect, test } from "vitest";
+import { executeComposition } from "./composition-worker.js";
 import { audioDeadline, projectAudioRenderer } from "./project-render.js";
 import { renderWindowDeadlineMs, type MediaWorker } from "./worker.js";
 
@@ -312,4 +313,37 @@ test("fractional frame-duration preparation receives a conservative bounded dead
   // Query + state + retime output each cost six seconds; input is 246478 / 48000 seconds.
   expect(audioDeadline(window)).toBe(30000 + 2 * Math.ceil(18000 + 246478 / 48));
   expect(audioDeadline(window, true)).toBe(42000);
+});
+
+test("successive bulk domain requests retire their control files in the same attempt", async () => {
+  const directory = await mkdtemp(join(tmpdir(), "bulk-domain-plan-"));
+  try {
+    const worker: MediaWorker = async (operation, params) => {
+      encodeJsonLine({ id: "bulk", operation, params }, REQUEST_FRAME_BYTES);
+      const plan =
+        typeof params.planFile === "string"
+          ? JSON.parse(await readFile(params.planFile, "utf8"))
+          : params;
+      return {
+        ok: true,
+        data: { input: plan.input, domainIndex: plan.domainIndex, operand: plan.operand },
+      };
+    };
+    const operand = "x".repeat(REQUEST_FRAME_BYTES + 1);
+    for (const [domainIndex, input] of [
+      [0, "program"],
+      [1, "detector"],
+    ] as const) {
+      const result = await executeComposition(
+        worker,
+        "media.prepareCompositionAudioDomain",
+        { output: join(directory, "prefix.wav"), domainIndex, input, operand },
+        { signal: new AbortController().signal },
+      );
+      expect(result).toEqual({ ok: true, data: { input, domainIndex, operand } });
+      expect(await readdir(directory)).toEqual([]);
+    }
+  } finally {
+    await rm(directory, { recursive: true, force: true });
+  }
 });

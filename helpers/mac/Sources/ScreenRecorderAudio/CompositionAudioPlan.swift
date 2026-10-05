@@ -12,10 +12,11 @@ public struct CompositionAudioPlan: Codable, Sendable {
     public let assets: [CompositionAsset]
     public let state: State?
     public let retimeImplementationId: String?
+    public let statePreparationImplementationId: String?
 
     public init(
         output: String, range: Samples, clips: [Clip], processing: [CompositionProcessing],
-        assets: [CompositionAsset], state: State? = nil, retimeImplementationId: String? = nil
+        assets: [CompositionAsset], state: State? = nil, retimeImplementationId: String? = nil, statePreparationImplementationId: String? = nil
     ) {
         self.output = output
         self.range = range
@@ -24,11 +25,13 @@ public struct CompositionAudioPlan: Codable, Sendable {
         self.assets = assets
         self.state = state
         self.retimeImplementationId = retimeImplementationId
+        self.statePreparationImplementationId = statePreparationImplementationId
     }
 
     public struct Samples: Codable, Sendable, Equatable {
         public let start: Int64
         public let end: Int64
+        public init(start: Int64, end: Int64) { self.start = start; self.end = end }
         var valid: Bool { start >= 0 && end > start && end <= TimeSpan.maximumMicroseconds }
     }
     public struct Clip: Codable, Sendable {
@@ -49,6 +52,7 @@ public struct CompositionAudioPlan: Codable, Sendable {
         let domains: [Domain]
         let formats: [Format]
         struct Domain: Codable, Sendable {
+            let recipe: AudioStateRecipe
             let sampleRange: Samples
             let dependencies: [Int]
             let members: [Member]
@@ -56,7 +60,12 @@ public struct CompositionAudioPlan: Codable, Sendable {
         struct Member: Codable, Sendable {
             let target: CompositionProcessing.Target
             let stepId: String
+            let detector: DetectorEndpoint?
             let sampleRange: Samples
+        }
+        struct DetectorEndpoint: Codable, Sendable {
+            let target: CompositionProcessing.Target
+            let beforeStepIndex: Int
         }
         struct Format: Codable, Sendable {
             let assetId: String

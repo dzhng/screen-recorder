@@ -1,6 +1,7 @@
 import { divide, fromTime, sampleAt, subtract } from "@screenrec/composition";
 import type { AudioWindowInput, ProjectRenderSupport } from "@screenrec/core/project-window";
-import { encodeJsonLine, REQUEST_FRAME_BYTES } from "@screenrec/protocol";
+import { executeComposition } from "./composition-worker.js";
+import { withAudioProcessing, type AudioProcessingRuntime } from "./audio-processing.js";
 import { nativeProcessing } from "./native-processing.js";
 import { constants } from "node:fs";
 import { copyFile, mkdir, open } from "node:fs/promises";
@@ -57,7 +58,11 @@ function picturePayload(
     throw new CatalogError("NOT_READY", "The bound native SDR correction recipe is unavailable");
   return { sdrCorrectionImplementationId: capabilities.sdrCorrection };
 }
-export type NativeAudioCapabilities = { rnnoise?: string; retime?: string };
+export type NativeAudioCapabilities = {
+  rnnoise?: string;
+  retime?: string;
+  statePreparation?: string;
+};
 /** An absent/older worker leaves authoring and retained reads usable. */
 export async function nativeAudioCapabilities(
   worker: MediaWorker,
@@ -67,7 +72,9 @@ export async function nativeAudioCapabilities(
     if (typeof result !== "object" || result === null) return {};
     const rnnoise = "rnnoise" in result ? result.rnnoise : undefined;
     const retime = "retime" in result ? result.retime : undefined;
+    const statePreparation = "statePreparation" in result ? result.statePreparation : undefined;
     return {
+      ...(statePreparation === "native-audio-state-domains-v1" ? { statePreparation } : {}),
       ...(typeof rnnoise === "string" && /^rnnoise-[a-zA-Z0-9-]{1,240}$/.test(rnnoise)
         ? { rnnoise }
         : {}),
@@ -100,7 +107,7 @@ function nativeAudioSupport(
 ): Pick<ProjectRenderSupport, "rnnoise" | "retime" | "validateAudio"> {
   return {
     ...capabilities,
-    ...(capabilities.retime
+    ...(capabilities.retime || capabilities.statePreparation
       ? {
           async validateAudio({ window, assets }: AudioWindowInput) {
             await mkdir(workspace, { recursive: true, mode: 0o700 });
@@ -119,7 +126,7 @@ function nativeAudioSupport(
                       clips: [...window.audio()],
                       processing: nativeProcessing(window.processing()),
                       assets,
-                      ...statePayload(window, capabilities.rnnoise),
+                      ...statePayload(window, capabilities.rnnoise, capabilities.statePreparation),
                       ...retimePayload(window, capabilities.retime),
                     },
                     { signal, timeoutMs: 5000 },
@@ -128,12 +135,17 @@ function nativeAudioSupport(
                 if (
                   !result ||
                   typeof result !== "object" ||
-                  !("retime" in result) ||
-                  result.retime !== capabilities.retime
+                  (window.manifest.requirements.some((item) => item.kind === "retime") &&
+                    (!("retime" in result) || result.retime !== capabilities.retime)) ||
+                  (window.manifest.state?.domains.some(
+                    (domain) => domain.recipe.type !== "rnnoise",
+                  ) &&
+                    (!("statePreparation" in result) ||
+                      result.statePreparation !== capabilities.statePreparation))
                 )
                   throw new CatalogError(
                     "INVALID_NATIVE_RESPONSE",
-                    "Native admission did not confirm the bound retiming recipe",
+                    "Native admission did not confirm the bound audio recipe",
                   );
               },
               async () => undefined,
@@ -142,30 +154,6 @@ function nativeAudioSupport(
         }
       : {}),
   };
-}
-/** Large compiled plans share the attempt lifetime; control framing stays bounded. */
-async function executeComposition(
-  worker: MediaWorker,
-  operation:
-    | "media.mixCompositionAudio"
-    | "media.renderCompositionMovie"
-    | "media.validateCompositionAudio",
-  params: Record<string, unknown> & { output: string },
-  options: NonNullable<Parameters<MediaWorker>[2]>,
-) {
-  options.signal?.throwIfAborted();
-  // Validate strict JSON before choosing a transport, including omitted optional fields.
-  const frame = encodeJsonLine({ id: `worker-${operation}`, operation, params }, 64 * 1024 ** 2);
-  if (frame.length <= REQUEST_FRAME_BYTES) return worker(operation, params, options);
-  const planFile = join(dirname(params.output), "composition-plan.json");
-  const handle = await open(planFile, "wx", 0o600);
-  try {
-    await handle.writeFile(JSON.stringify(params), { signal: options.signal });
-  } finally {
-    await handle.close();
-  }
-  options.signal?.throwIfAborted();
-  return worker(operation, { planFile }, options);
 }
 
 function retainedPayload(
@@ -199,11 +187,19 @@ function retainedPayload(
 function statePayload(
   window: Parameters<ProjectAudioRenderer["render"]>[0]["window"],
   identity?: string,
+  preparationId?: string,
 ) {
   const state = window.audioState();
   if (!state) return {};
   if (!identity) throw new CatalogError("NOT_READY", "The native RNNoise recipe is unavailable");
+  const external = state.domains.some(
+    (domain) =>
+      domain.recipe.type !== "rnnoise" && domain.sampleRange.end > domain.sampleRange.start,
+  );
+  if (external && !preparationId)
+    throw new CatalogError("NOT_READY", "The native audio state preparation recipe is unavailable");
   return {
+    ...(external ? { statePreparationImplementationId: preparationId } : {}),
     state: { ...state, processing: nativeProcessing(state.processing), implementationId: identity },
   };
 }
@@ -317,12 +313,15 @@ export function projectMovieRenderer(
   capabilities: NativeAudioCapabilities = {},
   admissionSignal: AbortSignal = new AbortController().signal,
   pictureCapabilities: NativePictureCapabilities = {},
+  processingRuntime?: AudioProcessingRuntime,
 ): ProjectMovieRenderer {
   return {
     implementationId:
       "native-composition-movie-v21" +
-      (pictureCapabilities.sdrCorrection ? ":" + pictureCapabilities.sdrCorrection : ""),
+      (pictureCapabilities.sdrCorrection ? ":" + pictureCapabilities.sdrCorrection : "") +
+      (processingRuntime ? ":" + processingRuntime.implementationId : ""),
     ...pictureCapabilities,
+    ...(processingRuntime ? { processors: processingRuntime.processors } : {}),
     ...nativeAudioSupport(worker, workspace, capabilities, admissionSignal),
     ...(pointers ? { pointers: pointers.preparation } : {}),
     async render(request, signal) {
@@ -333,7 +332,7 @@ export function projectMovieRenderer(
         worker,
         workspace,
         signal,
-        async (directory, execute) => {
+        async (directory, execute, authority) => {
           const prepared = await pointerFile(pointers, request, directory, signal);
           const frames = join(directory, "frames.jsonl");
           const handle = await open(frames, "wx", 0o600);
@@ -355,41 +354,84 @@ export function projectMovieRenderer(
           }
           signal.throwIfAborted();
           const file = join(directory, "movie.mp4");
-          const response = await executeComposition(
-            execute,
-            "media.renderCompositionMovie",
-            {
-              output: file,
-              ...(prepared ? { pointers: prepared } : {}),
-              frames,
-              range: manifest.range,
-              canvas: manifest.canvas,
-              ...pictureRecipe,
-              settings: request.settings,
-              processing: nativeProcessing(request.window.processing()),
-              assets: request.assets,
-              fonts: request.fonts,
-              audio: {
-                range: manifest.sampleRange,
-                clips: [...request.window.audio()],
-                ...(request.prepared
-                  ? retainedPayload(request.prepared, request.window)
-                  : {
-                      ...statePayload(request.window, capabilities.rnnoise),
-                      ...retimePayload(request.window, capabilities.retime),
-                    }),
+          const params = {
+            output: file,
+            ...(prepared ? { pointers: prepared } : {}),
+            frames,
+            range: manifest.range,
+            canvas: manifest.canvas,
+            ...pictureRecipe,
+            settings: request.settings,
+            processing: nativeProcessing(request.window.processing()),
+            assets: request.assets,
+            fonts: request.fonts,
+            audio: {
+              range: manifest.sampleRange,
+              clips: [...request.window.audio()],
+              ...(request.prepared
+                ? retainedPayload(request.prepared, request.window)
+                : {
+                    ...statePayload(
+                      request.window,
+                      capabilities.rnnoise,
+                      capabilities.statePreparation,
+                    ),
+                    ...retimePayload(request.window, capabilities.retime),
+                  }),
+            },
+          };
+          const timeoutMs = audioDeadline(request.window, !!request.prepared);
+          const consume = async (
+            bound: MediaWorker,
+            held: unknown[],
+            descriptors: number[],
+            processingEvidence: unknown[],
+          ) => {
+            const response = await executeComposition(
+              bound,
+              "media.renderCompositionMovie",
+              {
+                ...params,
+                audio: { ...params.audio, ...(held.length ? { held } : {}) },
               },
-            },
-            {
-              signal,
-              // Video rendering and PCM/AAC assembly each get the retained playback duration.
-              // Sparse source seeks do not budget discarded recording prefixes.
-              timeoutMs: audioDeadline(request.window, !!request.prepared),
-              ...(request.prepared ? { descriptors: [request.prepared.fd] } : {}),
-            },
-          );
+              {
+                signal,
+                timeoutMs,
+                descriptors: request.prepared ? [request.prepared.fd] : descriptors,
+              },
+            );
+            const movie = nativeResult(response) as CompositionMovie;
+            const evidence = request.prepared?.value.processingEvidence ?? processingEvidence;
+            return {
+              ...movie,
+              ...(movie.audio && evidence.length
+                ? { audio: { ...movie.audio, processingEvidence: evidence } }
+                : {}),
+            };
+          };
+          const movieResult = request.prepared
+            ? await consume(execute, [], [], [])
+            : await withAudioProcessing(
+                {
+                  window: request.window,
+                  assets: request.assets,
+                  directory,
+                  worker: execute,
+                  authority,
+                  plan: {
+                    output: file,
+                    ...params.audio,
+                    processing: params.processing,
+                    assets: params.assets,
+                  },
+                  runtime: processingRuntime,
+                  timeoutMs,
+                },
+                signal,
+                consume,
+              );
           signal.throwIfAborted();
-          const movie = nativeResult(response) as CompositionMovie;
+          const movie = movieResult;
           if (movie.file !== file || movie.frameCount !== frameCount)
             throw new CatalogError(
               "INVALID_RESPONSE",
@@ -411,9 +453,13 @@ export function projectAudioRenderer(
   workspace: string,
   capabilities: NativeAudioCapabilities = {},
   admissionSignal: AbortSignal = new AbortController().signal,
+  processingRuntime?: AudioProcessingRuntime,
 ): ProjectAudioRenderer {
   return {
-    implementationId: "native-composition-audio-v10",
+    implementationId:
+      "native-composition-audio-v10" +
+      (processingRuntime ? ":" + processingRuntime.implementationId : ""),
+    ...(processingRuntime ? { processors: processingRuntime.processors } : {}),
     encodingImplementationId: "native-aac-file-v1",
     validateOutput: async (settings) => {
       nativeResult(
@@ -451,31 +497,60 @@ export function projectAudioRenderer(
         worker,
         { attemptParent: workspace, output, filename: "audio.wav" },
         signal,
-        async (file, execute) =>
-          nativeResult(
-            await executeComposition(
-              execute,
-              "media.mixCompositionAudio",
-              {
-                output: file,
-                range: window.manifest.sampleRange,
-                ...(prepared
-                  ? retainedPayload(prepared, window)
-                  : {
-                      ...statePayload(window, capabilities.rnnoise),
-                      ...retimePayload(window, capabilities.retime),
-                    }),
-                clips: [...window.audio()],
-                processing: nativeProcessing(window.processing()),
-                assets,
-              },
-              {
+        async (file, execute, authority) => {
+          const plan = {
+            output: file,
+            range: window.manifest.sampleRange,
+            ...(prepared
+              ? retainedPayload(prepared, window)
+              : {
+                  ...statePayload(window, capabilities.rnnoise, capabilities.statePreparation),
+                  ...retimePayload(window, capabilities.retime),
+                }),
+            clips: [...window.audio()],
+            processing: nativeProcessing(window.processing()),
+            assets,
+          };
+          const timeoutMs = audioDeadline(window, !!prepared);
+          const consume = async (
+            bound: MediaWorker,
+            held: unknown[],
+            descriptors: number[],
+            processingEvidence: unknown[],
+          ) => {
+            const result = nativeResult(
+              await executeComposition(
+                bound,
+                "media.mixCompositionAudio",
+                {
+                  ...plan,
+                  ...(held.length ? { held } : {}),
+                },
+                { signal, timeoutMs, descriptors: prepared ? [prepared.fd] : descriptors },
+              ),
+            );
+            if (!result || typeof result !== "object")
+              throw new CatalogError("INVALID_RESPONSE", "Malformed composition audio result");
+            const evidence = prepared?.value.processingEvidence ?? processingEvidence;
+            return { ...result, ...(evidence.length ? { processingEvidence: evidence } : {}) };
+          };
+          return prepared
+            ? consume(execute, [], [], [])
+            : withAudioProcessing(
+                {
+                  window,
+                  assets,
+                  directory: dirname(file),
+                  worker: execute,
+                  authority,
+                  plan,
+                  runtime: processingRuntime,
+                  timeoutMs,
+                },
                 signal,
-                timeoutMs: audioDeadline(window, !!prepared),
-                ...(prepared ? { descriptors: [prepared.fd] } : {}),
-              },
-            ),
-          ),
+                consume,
+              );
+        },
       ),
   };
 }

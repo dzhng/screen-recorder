@@ -89,6 +89,7 @@ import {
 } from "./worker.js";
 import { operationFailure } from "./operation-errors.js";
 import { inspectFFmpegTools, type FFmpegInstallation } from "./ffmpeg-tools.js";
+import { audioProcessingRuntime } from "./audio-processing.js";
 import { ffmpegLoudnessAnalyzer } from "./loudness.js";
 
 export async function startProjectService(options: {
@@ -397,11 +398,18 @@ export async function startProjectService(options: {
     });
     const audioCapabilities = await nativeAudioCapabilities(worker);
     const pictureCapabilities = await nativePictureCapabilities(worker);
+    const processingRuntime = await audioProcessingRuntime(
+      options.ffmpeg,
+      nativeExecutable,
+      audioCapabilities.statePreparation,
+      modelLifetime.signal,
+    );
     const audioRenderer = projectAudioRenderer(
       worker,
       workspace,
       audioCapabilities,
       modelLifetime.signal,
+      processingRuntime,
     );
     preparedAudio = new PreparedAudioStore({
       catalog,
@@ -553,6 +561,7 @@ export async function startProjectService(options: {
         audioCapabilities,
         modelLifetime.signal,
         pictureCapabilities,
+        processingRuntime,
       ),
       preparedAudio,
     );

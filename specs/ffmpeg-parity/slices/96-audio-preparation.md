@@ -1,6 +1,6 @@
 # 96 — Declared audio domains and held prepared spans
 
-Status: compiler checkpoint verified; native/service execution remains open. Question: **Can one compiled state
+Status: compiler/native/service execution checkpoint verified; public consumer acceptance remains open. Question: **Can one compiled state
 schedule carry native and FFmpeg processors through the same prepared signal?**
 
 Dependencies: [05](05-managed-output.md), [10](10-loudness.md), and the frozen
@@ -127,3 +127,37 @@ processing/state/edit run passed124tests and composition type checking. The
 independent reviews found six detector gaps, all reproduced and corrected before
 this checkpoint. Native/service execution, processor capabilities, public PCM
 acceptance and production13–15 remain open.
+
+## Execution checkpoint
+
+The native held-span/prefix contract, typed service dependency walk, shared
+composition transport and reuse of one render-attempt artifact authority are
+implemented. Real bundled proof covers signed asymmetric stereo, missing and
+mismatched held operands, full-domain late crops, shared split continuity,
+RNNoise→limiter→RNNoise, a declared silent external detector, both normalization
+modes, infeasible gain, unmeasurable silence and the frozen stepped LRA refusal.
+Core requires complete bound processing evidence and normalization postconditions
+at publication and portable adoption. Prepared excerpt reads preserve the
+original whole-domain measurements. No playback or sound-quality claim is made.
+
+Each completed external domain holds one service fd; native inherits and
+duplicates it for bounded positional reads. All recipe outputs share the outer
+attempt's two directory leases, with temporary prefixes retired before downstream
+work. The observed soft limit is 1,048,575 and the existing compiler bounds domains
+at 20,000; this proves the measured single-job fixture path only, not a global
+concurrency guarantee. Resource exhaustion must fail cleanly under existing
+worker/artifact/job owners; no nominal 128-domain policy is introduced.
+
+Production13–15 are wired to actual bundled/native preparation capability.
+Public socket proof now covers import, explicit normalization→limiter→compressor,
+pinned full preparation and a retained late excerpt. A restart with a distinct
+verified tool receipt produces a different unprepared cache job; removing the
+renderer binding reproduced cache reuse red. Native movie consumption is verified.
+The independent execution reviews found the runtime/cache binding, empty
+domains, a stale harness expectation and portable evidence being checked against
+unbound requirements. All were reproduced or verified and corrected. The public
+processed-package export/open/adopt journey now preserves all three processor
+records under adopted identities and survives package closure. Native also refuses a replaced preparation implementation before prefix
+work. Wider refusal/retiming coverage, release-level consumer proof and root integration
+remain open.
+The parent owns integration and the final full-suite run.

@@ -1,6 +1,6 @@
 # 13 — Explicit normalization
 
-Status: not started. Question: **Can an explicitly requested loudness treatment retain mode and full-context identity?**
+Status: typed execution checkpoint verified; consumer/release acceptance remains open. Question: **Can an explicitly requested loudness treatment retain mode and full-context identity?**
 
 Dependencies: [13a](13a-normalization-reproduction.md), [10](10-loudness.md); managed FFmpeg requires 01–05 and [96](96-audio-preparation.md).
 
@@ -32,3 +32,5 @@ peak ceiling under the declared tolerances, with exact sample count. Retain
 requested/achieved values. The failed stepped dynamic candidate is a mandatory
 refusal fixture, not permission to reduce targets or substitute gain-only.
 The shared preparation contract must exist before implementation.
+
+Implementation and scoped execution proof live with the [shared state checkpoint](96-audio-preparation.md#execution-checkpoint). This is not a sound-quality or encoded-peak claim.

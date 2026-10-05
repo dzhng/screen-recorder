@@ -26,7 +26,7 @@ export function readAudioWaveFile(path: string, expectedBytes?: number) {
 }
 
 /** Read authoritative finite Float32 dimensions without interpreting a rounded media duration. */
-export function readAudioWave(file: RetainedRead) {
+export function readAudioWave(file: Pick<RetainedRead, "bytes" | "read">) {
   const read = (at: number, size: number) => {
     const bytes = Buffer.alloc(size);
     if (file.read(bytes, at) !== size) invalid("Truncated WAV metadata");
@@ -93,7 +93,7 @@ export function readAudioWave(file: RetainedRead) {
 }
 
 /** One RIFF validator for published native PCM and bounded acoustic readers. */
-export function validateAudioWave(file: RetainedRead, value: AudioDimensions) {
+export function validateAudioWave(file: Pick<RetainedRead, "bytes" | "read">, value: AudioDimensions) {
   const actual = readAudioWave(file);
   if (
     actual.bytes !== value.bytes ||

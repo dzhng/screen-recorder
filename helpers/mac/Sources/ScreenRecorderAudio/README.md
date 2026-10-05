@@ -24,6 +24,15 @@ process summed child PCM; empty or bypassed stacks do not add an implicit gain o
 join policy. Learned state is independent per output channel, and preparation
 publishes only a complete paired result through the existing durable owner.
 
+Composition audio state may also borrow a complete identified PCM domain from
+the service's typed recipe executor. The native domain operation owns prefix
+routing, absolute sample clocks and ordered member concatenation; its file
+positions begin at zero. Held state is admitted only against the selected
+compiled recipe and complete domain. The same state owner supplies RNNoise
+prerequisites and downstream processing, and movie muxing consumes those held
+spans through the ordinary composition stream. Missing, changed or mismatched
+coverage refuses instead of restarting a processor or supplying silence.
+
 The [RNNoise dependency](../../../denoise/README.md) owns its fixed mono recipe;
 [time/pitch processing](../../../stretch/README.md) owns the adopted stretch library.
 Those dependencies do not choose project context or create preparation lifecycles.
