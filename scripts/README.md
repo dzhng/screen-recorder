@@ -40,6 +40,9 @@ its assets; a correction receives a new version.
 The [tag workflow](../.github/workflows/release.yml) validates version agreement,
 prepares pinned inputs, builds on macOS, checks the relocated package and publishes
 only verified assets. The workflow owns triggers, permissions and prerelease policy.
+The relocated check reuses the retained delivery fixture through the packaged CLI,
+including exact audio landmarks and export replay. Its scratch library is separate
+from personal state; complete media receipts remain in ignored release output.
 [Focused CI](../.github/workflows/release-checks.yml) checks release contracts on
 relevant source changes without starting capture or model inference.
 

@@ -3,33 +3,17 @@ import { randomUUID } from "node:crypto";
 import { mkdir, mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
 import { join, resolve } from "node:path";
 import { parseArgs } from "node:util";
+import { fileURLToPath } from "node:url";
 import { JourneyService, hash, poll, run, root } from "./source-evidence-fixture.mjs";
 
-const { values } = parseArgs({ options: { out: { type: "string" } } });
-assert.ok(
-  values.out && process.env.SCREENREC_NATIVE,
-  "Pass --out NEW_DIRECTORY and SCREENREC_NATIVE",
-);
-const out = resolve(values.out);
-await mkdir(out);
-const home = await mkdtemp("/tmp/screenrec-hevc-public-");
-const source = join(root, "specs/done/agent-editing/assets/00-corpus/a.mov");
-const ffmpeg = join(root, "helpers/ffmpeg/.build/distribution/bin/ffmpeg");
-const ffprobe = join(root, "helpers/ffmpeg/.build/distribution/bin/ffprobe");
-const report = {
-  passed: false,
-  trace: [],
-  exchanges: [],
-  operands: {},
-  sourceSha256: hash(await readFile(source)),
-  nativeSha256: hash(await readFile(process.env.SCREENREC_NATIVE)),
-  ffmpegSha256: hash(await readFile(ffmpeg)),
-  ffprobeSha256: hash(await readFile(ffprobe)),
-};
-const service = new JourneyService(home, report);
-const call = service.call.bind(service);
-const save = () => writeFile(join(out, "report.json"), JSON.stringify(report, null, 2) + "\n");
-try {
+/** Match the same authored codec/clock/PCM/replay fixture on scratch or installed transport. */
+export async function verifyVideoDelivery({ call, out, ffmpeg, ffprobe, report, env }) {
+  const source = join(root, "specs/done/agent-editing/assets/00-corpus/a.mov");
+  report.sourceSha256 = hash(await readFile(source));
+  report.ffmpegSha256 = hash(await readFile(ffmpeg));
+  report.ffprobeSha256 = hash(await readFile(ffprobe));
+  report.operands = {};
+  const save = () => writeFile(join(out, "report.json"), JSON.stringify(report, null, 2) + "\n");
   // Stereo Float32 impulses expose channel identity, delay and AAC packet tails.
   const wave = Buffer.alloc(44 + 48000 * 8);
   wave.write("RIFF", 0);
@@ -49,7 +33,6 @@ try {
   const audio = join(out, "impulse.wav");
   await writeFile(audio, wave);
   report.audioSha256 = hash(wave);
-  await service.start();
   report.capabilities = await call("output.capabilities", { kind: "video" });
   const assets = [];
   for (const [path, kind] of [
@@ -122,6 +105,7 @@ try {
       (
         await run(ffprobe, ["-v", "error", "-show_streams", "-show_frames", "-of", "json", path], {
           timeout: 30000,
+          env,
         })
       ).stdout,
     );
@@ -130,6 +114,7 @@ try {
         await run(ffmpeg, ["-v", "error", "-i", path, "-map", "0:a:0", "-f", "f32le", "pipe:1"], {
           encoding: "buffer",
           timeout: 30000,
+          env,
         })
       ).stdout,
     );
@@ -182,15 +167,41 @@ try {
   }
   assert.equal(hash(await readFile(source)), report.sourceSha256);
   report.passed = true;
-} finally {
+}
+
+if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
+  const { values } = parseArgs({ options: { out: { type: "string" } } });
+  assert.ok(
+    values.out && process.env.SCREENREC_NATIVE,
+    "Pass --out NEW_DIRECTORY and SCREENREC_NATIVE",
+  );
+  const out = resolve(values.out);
+  await mkdir(out);
+  const home = await mkdtemp("/tmp/screenrec-hevc-public-");
+  const ffmpeg = join(root, "helpers/ffmpeg/.build/distribution/bin/ffmpeg");
+  const ffprobe = join(root, "helpers/ffmpeg/.build/distribution/bin/ffprobe");
+  const report = {
+    passed: false,
+    trace: [],
+    exchanges: [],
+    nativeSha256: hash(await readFile(process.env.SCREENREC_NATIVE)),
+  };
+  const service = new JourneyService(home, report);
+  const call = service.call.bind(service);
+  const save = () => writeFile(join(out, "report.json"), JSON.stringify(report, null, 2) + "\n");
   try {
-    await save();
+    await service.start();
+    await verifyVideoDelivery({ call, out, ffmpeg, ffprobe, report });
   } finally {
     try {
-      await service.stop();
+      await save();
     } finally {
-      await rm(home, { recursive: true, force: true });
+      try {
+        await service.stop();
+      } finally {
+        await rm(home, { recursive: true, force: true });
+      }
     }
   }
+  console.log(JSON.stringify({ passed: report.passed, out, codecs: Object.keys(report.operands) }));
 }
-console.log(JSON.stringify({ passed: report.passed, out, codecs: Object.keys(report.operands) }));

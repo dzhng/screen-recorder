@@ -12,44 +12,35 @@ every FFmpeg option or a replacement for a professional editing workstation.
 
 Implement the complete authorized plan through committed passes. Read the
 [exploration](exploration.md), [parity contract](parity.md) and current slice.
-Integrated: 01–12, 16–18, 20–21 and 24–25. Root pickup: consumer/release
-contracts that can be prepared independently, then integrate the remaining lanes.
-Highest-risk next production seam is audio domain preparation: compiler owns state
-and dependency domains, native owns graph/prefix PCM, existing FFmpeg CLI/artifact
-lifetime executes individual recipes, and PreparedAudioStore retains the result.
-No service timeline interpreter or native ad-hoc subprocess runner.
+Integrated: 01–12, 16–18, 20–21 and 24–25. Next: integrate the audio-domain
+compiler/native/execution checkpoint, then explicit treatments 13–15. Independently,
+finish 19 managed HDR conversion and family-specific speech research. Final release
+build/ZIP, relocated component acceptance 26 and the full suite follow integration.
+The release check is wired to reuse the public delivery observer; installed
+execution is still pending.
 
-Independent lanes: 19 managed HDR conversion; [shared audio preparation](slices/96-audio-preparation.md)→13–15;
-separate speaker/event/boundary research. Audio reproductions are frozen, including
-strict normalization postconditions and a common-envelope limiter that preserves
-the original numerical gates. Native HDR facts
-and source-export refusal tests are integrated; linked-worker conversion remains
-open. Both speaker defaults fail the independent VoxConverse development cohort;
-documented calibration also fails, preserving untouched confirmation. STARSS23 supplies independently
-timed laughter/clapping labels; applause/gasp and complete word-boundary authority
-remain open. No speech family is promoted.
+Audio ownership is fixed by [shared preparation](slices/96-audio-preparation.md):
+composition declares state/dependency domains, native owns graph/prefix PCM,
+existing FFmpeg CLI/artifact lifetime executes recipes, and PreparedAudioStore
+retains results. Preserve frozen reproductions, strict normalization postconditions
+and the common-envelope limiter's original gates. No service timeline interpreter
+or native ad-hoc subprocess runner. HDR admission must validate fresh physical
+facts, compressed interpretation and exact source↔derivative clocks.
 
-The adopted pinned zimg distribution and refreshed 02–05 proofs are under
-[evidence/zimg-build](evidence/zimg-build). Root verification and component smoke
-pass, with nine preparation/release and seventeen focused service checks after
-integration. Read-only loudness uses existing acoustic/PCM ownership; core 56,
-service two and protocol fifteen focused checks pass after integration. Public
-HEVC/H.264 publication, decoded landmarks and replay are retained under
-[evidence/hevc-public](evidence/hevc-public). [SDR evidence](evidence/sdr-execution/proof.json) binds actual native
-OS recipe through existing cache/job/export identities. [HDR reproduction](slices/18-hdr-feasibility.md)
-freezes exact-gamma Hable conversion and a ProRes intermediate; 19 must validate
-fresh native sample/color facts and source↔derivative clocks. Release ZIP,
-consumer acceptance 26 and the full suite remain last. Portable consumer planning,
-GIF routing and unavailable-execution trials each pass twice; initial prose-plan
-failures and the resolved judge input-limit failure remain retained. An actual
-direct GIF component request uses discovered verified tools; its centisecond
-timing limitation is explicit.
+| Retained evidence | Current claim |
+| --- | --- |
+| [Pinned zimg/build](evidence/zimg-build) | Refreshed 02–05 component proofs pass. |
+| [Native SDR](evidence/sdr-execution/proof.json) | Bound OS recipe, existing cache/job/export identities. |
+| [Public H.264/HEVC](evidence/hevc-public/report.json) | Authored clocks, decoded landmarks and replay pass. |
+| [Consumer trials](evidence/consumer-acceptance/README.md) | Concrete planning, GIF routing and unavailable execution pass twice; earlier failures retained. |
+| [Direct GIF](evidence/gif-extra/report.json) | Discovered component tools work; centisecond quantization explicit. |
+| [Speech families](slices/22-speech-feasibility.md) | Speaker defaults/calibration and tested events fail; boundary authority missing. No family promoted. |
 
 Use small isolated fixtures and test-first changes. Do not record or edit personal
 media or repeat searches for the inaccessible running recorder. The user tests the
-general imported-footage demo later. Fresh development schemas explicitly refuse
-old formats; deletion is authorized if needed, with no automatic personal deletion
-or migrations. Update handoff, choices and slice markers before each checkpoint.
+imported-footage demo later. Fresh schemas explicitly refuse old formats; deletion
+is authorized if needed, without automatic personal deletion or migrations.
+Update handoff, choices and slice markers before each checkpoint.
 
 - [x] [01 — Pinned LGPL build](slices/01-lgpl-build.md)
 - [x] [02 — Relocatable installed tools](slices/02-installed-tools.md)

@@ -48,6 +48,13 @@ and exactly 0.5 s. The format quantization limit is now explicit consumer guidan
 This is component fallback evidence; relocated installed-bundle discovery remains
 the release gate.
 
+The release smoke owner now calls the same authored H.264/HEVC observer used by
+the scratch public journey, with the relocated CLI and discovered tool paths under
+the clean release environment. The scratch route still passes and matches the
+retained source/runtime hashes, decoded clocks, landmarks and color declarations.
+Tagged-release sparse checkout includes that small retained corpus. Installed
+execution remains pending the final integrated package; wiring is not a release pass.
+
 ## Boundaries and decision budget
 
 Inherit the [global contract](../README.md#contracts-and-ownership) and narrow verification policy. Write-tests red/green precedes behavior changes. Existing native output and persisted identity remain unchanged unless this slice names the extension.

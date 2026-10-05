@@ -1,10 +1,11 @@
 import assert from "node:assert/strict";
 import { spawn, spawnSync, execFileSync } from "node:child_process";
-import { mkdtempSync, readFileSync, rmSync, realpathSync } from "node:fs";
+import { mkdtempSync, readFileSync, rmSync, realpathSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { setTimeout as delay } from "node:timers/promises";
+import { verifyVideoDelivery } from "../packages/test-harness/editing/hevc-delivery.mjs";
 const root = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const receipt = JSON.parse(readFileSync(join(root, "dist/release/release.json")));
 const scratch = mkdtempSync("/tmp/screenrec-release-");
@@ -101,6 +102,27 @@ try {
     timeout: 30000,
   });
   assert.deepEqual(call("recording.list").data.recordings, []);
+  const mediaOut = mkdtempSync(join(root, "dist/release/media-smoke-"));
+  const mediaReport = { passed: false, trace: [], exchanges: [], release: receipt, tools };
+  try {
+    await verifyVideoDelivery({
+      call: async (operation, params) => {
+        const response = call(operation, params);
+        mediaReport.exchanges.push({ request: { operation, params }, response });
+        assert.equal(response.ok, true, JSON.stringify(response));
+        mediaReport.trace.push({ operation });
+        return response.data;
+      },
+      out: mediaOut,
+      ffmpeg: ffmpeg.executables.ffmpeg.path,
+      ffprobe: ffmpeg.executables.ffprobe.path,
+      report: mediaReport,
+      env,
+    });
+  } finally {
+    writeFileSync(join(mediaOut, "report.json"), JSON.stringify(mediaReport, null, 2) + "\n");
+  }
+  console.log(`Relocated managed delivery evidence: ${mediaOut}`);
   const native = spawnSync(join(app, "Contents/MacOS/screenrec-native"), [], {
     cwd: "/",
     env,
@@ -123,7 +145,7 @@ try {
   assert.equal(help.status, 0, help.stderr);
   assert.ok(JSON.parse(help.stdout).operations.some((entry) => entry.name === "edit.apply"));
   console.log(
-    "Relocated release: bundled Node, app-owned service, CLI and native worker pass; no capture or inference.",
+    "Relocated release: bundled tools, app-owned service, CLI, native worker and managed H.264/HEVC delivery pass; no capture or inference.",
   );
 } finally {
   if (child?.pid && child.exitCode === null) {

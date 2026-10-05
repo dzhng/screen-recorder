@@ -111,6 +111,23 @@ separate from development calibration; annotation rights do not grant audio righ
 Verdict: sound; declared model input support cannot masquerade as real recording.
 Confidence: medium.
 
+### Installed acceptance reuses the public delivery observer
+
+When: release acceptance preparation. A package can launch successfully while its
+actual CLI import or export fails. The relocated check now runs the same one-second
+video plus authored stereo-marker fixture as the scratch public journey, using
+the packaged CLI and discovered tools under the clean release environment. Both
+routes share the expected codec, color, clock, audio-landmark and replay checks;
+they keep separate caller lifetimes and complete reports. A second installed-only
+oracle could silently weaken those requirements.
+
+Gap: the plan required installed component acceptance without choosing how to
+reuse the existing publication proof. Reach: tagged CI must fetch the small retained
+corpus; every attempt keeps media/receipts in a new ignored release directory.
+Wiring and a passing scratch route do not certify the final installed package.
+Verdict: sound; one observer preserves the same public-delivery requirements.
+Confidence: high.
+
 ### Judge evidence shares bytes without dropping execution history
 
 When: consumer acceptance preparation. An agent reads the same large operation

@@ -1,0 +1,43 @@
+{
+  "claim": "Refactored shared delivery observer preserves the prior scratch result; installed execution remains pending.",
+  "sourceBase": "606ff1ec",
+  "archive": "shared-observer.tar.xz",
+  "archiveSha256": "119f9a61a8d33b318f31687acde74fadcc27100f52abf63fed54cc91cdbffad4",
+  "matchedPriorReportFields": [
+    "sourceSha256",
+    "audioSha256",
+    "nativeSha256",
+    "ffmpegSha256",
+    "ffprobeSha256",
+    "audioMarkers",
+    "decodedAudioFrames",
+    "codec/profile/color declarations",
+    "video/audio presented timestamps and durations"
+  ],
+  "review": {
+    "first": "Tagged release checkout excluded the retained corpus. Git sparse rules reproduced exclusion; workflow input fixed and inclusion verified.",
+    "second": "No actionable regressions; release contract tests and observer import passed. Relocated media execution not verified without final package."
+  },
+  "files": [
+    {
+      "path": "h264.mp4",
+      "bytes": 37057,
+      "sha256": "535c0416b070e4b841add99c87bbcb97221d5256592577e3fe26cbd5ba37c4af"
+    },
+    {
+      "path": "hevc.mp4",
+      "bytes": 36863,
+      "sha256": "f79529ccbbec3fbf6129f1840b046230269a350c4c4b589abe19fdb53fdaa9d2"
+    },
+    {
+      "path": "impulse.wav",
+      "bytes": 384044,
+      "sha256": "1687f6162b4cd5c83af495f380fc0bf3416058b119ed04809811e62ed6bd4826"
+    },
+    {
+      "path": "report.json",
+      "bytes": 288320,
+      "sha256": "abcbb34ccb3a33f814fcef0fe2fcea2579bb2a5e30e2b796fc52982839e6ef91"
+    }
+  ]
+}
