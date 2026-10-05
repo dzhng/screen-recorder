@@ -77,7 +77,9 @@ never overwrite customized skills or download speech models.
 
 The [published artifacts](assets/publication.json) bind tag `v0.1.3` to source
 `4387da97` and exact locally verified bytes delivered by GitHub's latest stable
-HTTPS links. Evidence/docs followups do not move that tag. The
+HTTPS links. Evidence/docs followups do not move that tag. Hosted signing, packaging and
+relocation smoke subsequently passed; the publisher left the original assets
+unchanged. The
 [final package comparison](assets/final-release-parity.json) binds unchanged
 compiled app/worker/Node/launcher text and exact CLI/service bundles to the earlier
 installed payload; separate archive smoke verifies final nested signatures and

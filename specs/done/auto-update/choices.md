@@ -478,6 +478,9 @@ contracts.
 - **The reach:** The retry source and published artifact source remain distinct.
   This retry establishes hosted build readiness, not new release delivery. A
   product correction still needs a new version; this adds no second publisher.
+  Before creating or uploading an unpublished release, the publisher resolves the
+  exact remote tag and requires its commit to match the package build record. A
+  same-version checkout alone cannot authorize different bytes under that tag.
 - **Verdict:** sound; the same release owner validates retries and preserves
   published provenance.
 - **Confidence:** high.

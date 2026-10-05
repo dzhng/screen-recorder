@@ -48,7 +48,55 @@
     }
   ],
   "limits": [
-    "Exact locally verified bytes published through existing publisher; tag CI may independently rebuild but must leave this published release unchanged.",
+    "Exact locally verified bytes were published through the existing publisher; subsequent successful hosted rebuilding left this published release unchanged.",
     "Remote byte equality and HTTPS path availability establish delivery; no new native capture or permission claim."
-  ]
+  ],
+  "hostedVerification": {
+    "status": "passed",
+    "initialTagRun": "https://github.com/dzhng/screen-recorder/actions/runs/37253023571",
+    "firstRepairRun": "https://github.com/dzhng/screen-recorder/actions/runs/37254292348",
+    "diagnosisProbe": "https://github.com/dzhng/screen-recorder/actions/runs/37255649796",
+    "diagnosis": "Scoped tiny executable failed with no identity found before the owned keychain was available to certificate-chain lookup.",
+    "repairedProbe": "https://github.com/dzhng/screen-recorder/actions/runs/37256143356",
+    "probeResult": "Tiny executable and immutable released-app copy signed and passed strict verification with the same untrusted certificate; no certificate trust was added.",
+    "normalWorkflow": "https://github.com/dzhng/screen-recorder/actions/runs/37256230729",
+    "workflowSource": "ad64d13b095beea27935e788e7f632352bf72a68",
+    "build": "passed",
+    "signedPackagingAndRelocationSmoke": "passed",
+    "publication": "already-published no-op",
+    "publishedAssetIdsDigestsSizesAndUpdatedTimesUnchanged": true,
+    "tagStillResolvesToAcceptedSource": true,
+    "logs": {
+      "/Users/server/.local/share/screenrec-dev-evidence/auto-update/release/screenrec-tag-workflow-failure.log": {
+        "sha256": "27763596b8c2fea5d590f1fa5fc91b15b42809c5bf71b19df50679a6dd5a0105",
+        "bytes": 1908
+      },
+      "/Users/server/.local/share/screenrec-dev-evidence/auto-update/release/screenrec-hosted-release-failure.log": {
+        "sha256": "0dcc8092e2bb1dd19ff4a372363c2c92d32b38bc5ed2c04c5eb17f1ead64501c",
+        "bytes": 1994
+      },
+      "/Users/server/.local/share/screenrec-dev-evidence/auto-update/release/screenrec-ci-signing-probe.log": {
+        "sha256": "6458ca0a11995e2202e217c43a284c11f7e62c5b8b13d5eb727e75d41b3beab3",
+        "bytes": 30966
+      },
+      "/Users/server/.local/share/screenrec-dev-evidence/auto-update/release/screenrec-ci-signing-probe-fixed.log": {
+        "sha256": "cea2743b12769267337521ccb7ded6be6164ea05dbc8d0c376248a892af7f417",
+        "bytes": 29232
+      },
+      "/Users/server/.local/share/screenrec-dev-evidence/auto-update/release/hosted-release-final.log": {
+        "sha256": "01c82697be05561b0e7902251c44ecdf45b17e3b02ee6bcd1a950e495612aa48",
+        "bytes": 1869238
+      }
+    },
+    "limits": [
+      "Original failed packaging diagnostics did not identify the precise tool error. The short probe isolated identity discovery and the scoped search-list correction passed both probe and normal workflow.",
+      "The rebuilt CI kit is verification output, not a replacement for the frozen published artifacts."
+    ]
+  },
+  "publisherSourceBindingFollowup": {
+    "source": "85c261b2",
+    "focusedTestsPassed": 6,
+    "exactRemoteTagRefLookup": "Matched accepted source4387da97 through the live GitHub API.",
+    "livePublishedRetry": "Already-published no-op; no native rebuild needed."
+  }
 }
