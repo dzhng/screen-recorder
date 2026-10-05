@@ -60,6 +60,7 @@ const cursorSchema = z.strictObject({
 });
 export type ProjectEvidenceCursor = z.infer<typeof cursorSchema>;
 export type ProjectEvidenceInput = {
+  prepare?: boolean | undefined;
   projectId: string;
   revisionId?: string | undefined;
   range?: { startUs: number; endUs: number } | undefined;
@@ -296,7 +297,7 @@ export class ProjectEvidenceInspection {
   }
   request(input: QueryInput) {
     const plan = this.plan(input),
-      dependencies = this.dependencies(plan.selections, true, plan.query.domain);
+      dependencies = this.dependencies(plan.selections, input.prepare !== false, plan.query.domain);
     const pending = dependencies.filter((dependency) =>
       dependency.capture
         ? !!dependency.capture.scene &&

@@ -849,7 +849,10 @@ export async function startProjectService(options: {
                 ? {}
                 : { acquisitionId: params.acquisitionId }),
             };
-            const current = transcripts.publishedSource(selection);
+            const current =
+              "prepare" in params && params.prepare === false
+                ? transcripts.sourceStatus(selection)
+                : transcripts.publishedSource(selection);
             if (!current.published) {
               if (params.cursor)
                 throw new CatalogError(

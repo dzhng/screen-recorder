@@ -617,9 +617,10 @@ export const operationSchema = z.discriminatedUnion("operation", [
     .object({
       operation: z.literal("transcript.get"),
       params: z.union([
-        projectEvidenceParams,
+        projectEvidenceParams.extend({ prepare: z.boolean().optional() }),
         sourceSelection
           .extend({
+            prepare: z.boolean().optional(),
             range: range.optional(),
             limit: z.int().min(1).max(1000).default(250),
             cursor: z
@@ -636,7 +637,7 @@ export const operationSchema = z.discriminatedUnion("operation", [
     })
     .strict()
     .describe(
-      "Request a project transcript with projectId and optional revisionId, range and trackIds, a selected asset-stream source transcript. Project rows retain occurrence identity and exact editorial fragments, ordered by project time; query windows do not change editorial partiality. Continue even when a project page is empty if nextCursor exists. Project continuations pin the original revision and source generations. Asset ranges use the normalized source clock; acquisitionId omission uses physical support. Returns readiness until complete, then word and acquisition-gap rows in the selected time domain. Asset ranges select source windows and mark intersected rows partial while preserving their full source range. Words keep verbatim text, kind and a per-generation ID. Without narration it is unavailable:no_narration; unprepared models are a retryable unavailable:model_not_prepared (see model.prepare). Continue with the returned cursor to pin selection, generation and range.",
+      "Request a project transcript with projectId and optional revisionId, range and trackIds, a selected asset-stream source transcript. Project rows retain occurrence identity and exact editorial fragments, ordered by project time; query windows do not change editorial partiality. Continue even when a project page is empty if nextCursor exists. Project continuations pin the original revision and source generations. Asset ranges use the normalized source clock; acquisitionId omission uses physical support. Use prepare:false to inspect current source readiness without enqueueing transcription; an already ready project may still prepare its read-only evidence manifest. Omission preserves preparation behavior. Returns readiness until complete, then word and acquisition-gap rows in the selected time domain. Asset ranges select source windows and mark intersected rows partial while preserving their full source range. Words keep verbatim text, kind and a per-generation ID. Without narration it is unavailable:no_narration; unprepared models are a retryable unavailable:model_not_prepared (see model.prepare). Continue with the returned cursor to pin selection, generation and range.",
     ),
   z
     .object({

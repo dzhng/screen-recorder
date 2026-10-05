@@ -326,6 +326,50 @@ test("selected-source transcript preserves filler, phrase and ready retry throug
   if (!imported.ok) throw new Error(JSON.stringify(imported));
   const ready = await f.job((imported.data as { jobId: string }).jobId, "ready");
   const selection = { assetId: ready.result!.assetId, streamId: "track:1" };
+  expect(await f.call("transcript.get", { ...selection, prepare: false })).toMatchObject({
+    ok: true,
+    data: { state: "not_requested", jobId: null, page: null },
+  });
+  const created = await f.call("project.create", { requestId: "cached-read", canvas });
+  if (!created.ok) throw new Error(JSON.stringify(created));
+  const initial = created.data as { project: { projectId: string }; revision: { id: string } };
+  const edited = await f.call("edit.apply", {
+    projectId: initial.project.projectId,
+    expectedRevisionId: initial.revision.id,
+    requestId: "cached-place",
+    operations: [
+      { operation: "track.add", track: { kind: "audio", order: 0 }, label: "dialogue" },
+      {
+        operation: "place",
+        clip: {
+          trackId: { label: "dialogue" },
+          ...selection,
+          source: { kind: "range", range: { startUs: 0, endUs: 2000000 } },
+          placement: { kind: "project", range: { startUs: 0, endUs: 2000000 } },
+        },
+      },
+    ],
+  });
+  if (!edited.ok) throw new Error(JSON.stringify(edited));
+  const projectSelection = {
+    projectId: initial.project.projectId,
+    revisionId: (edited.data as { revision: { id: string } }).revision.id,
+  };
+  expect(await f.call("transcript.get", { ...projectSelection, prepare: false })).toMatchObject({
+    ok: true,
+    data: {
+      state: "not_ready",
+      reason: "source_evidence_not_ready",
+      page: null,
+      dependencies: [{ state: "not_requested", jobId: null }],
+    },
+  });
+  const database = new DatabaseSync(join(f.home, "library", "catalog.sqlite"));
+  cleanups.push(async () => database.close());
+  expect(database.prepare("SELECT artifact FROM jobs WHERE artifact='transcript'").all()).toEqual(
+    [],
+  );
+  expect(requests).toEqual([]);
   const pending = await f.call("transcript.get", selection);
   if (!pending.ok) throw new Error(JSON.stringify(pending));
   const jobId = (pending.data as { jobId: string }).jobId;
@@ -402,7 +446,14 @@ test("selected-source transcript preserves filler, phrase and ready retry throug
     },
   });
   expect(await readFile(requests[0]!.track.source, "utf8")).toBe("image bytes");
-  expect(await f.call("project.list", {})).toMatchObject({ ok: true, data: { projects: [] } });
+  expect(await f.call("project.list", {})).toMatchObject({
+    ok: true,
+    data: {
+      projects: [
+        { projectId: projectSelection.projectId, currentRevisionId: projectSelection.revisionId },
+      ],
+    },
+  });
 });
 
 test("ready and canceled source jobs retain identity through public cancel and restart", async () => {
