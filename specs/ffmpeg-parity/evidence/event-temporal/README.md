@@ -54,6 +54,16 @@ cannot certify timed intervals. A different temporal provider or semantic recipe
 needs a separately frozen protocol and new untouched confirmation; lowering a
 threshold after observing this failed test cannot promote this recipe.
 
+The [bounded primary candidate admission](primary-candidate-admission.json)
+inspected four unique AudioSet Strong Eval YouTube watch pages for each requested
+Laughter, Applause and Gasp category, including the previously inspected Applause
+page. AudioSet labels identify candidate intervals, but neither the label TSV nor
+the watch pages grants permission to acquire or redistribute the underlying audio.
+The pages expose no explicit content reuse license; generic engine DRM/license
+strings are not a content license. No candidate is admitted, and no audio was
+downloaded or played. A future cohort needs an explicit primary permissive grant
+for every selected file before source acquisition.
+
 The [independent review](review.txt) led to explicit preflight rejection of stale
 frozen decision bindings and existing attempt diagnostics. Seven mutation probes
 failed before those guards and pass after, without running any model. Historical

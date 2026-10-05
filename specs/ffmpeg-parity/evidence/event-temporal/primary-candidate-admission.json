@@ -1,0 +1,347 @@
+{
+  "status": "No candidate admitted; no audio acquired, downloaded, played or provider/cohort selected.",
+  "scope": "Bounded primary YouTube watch-page metadata/license inspection for four unique AudioSet Strong Eval candidate pages per Laughter, Applause and Gasp, with root OCTGiPOygds retained. AudioSet labels identify candidate occurrence intervals but do not grant audio reuse.",
+  "selection": {
+    "laughter": [
+      "2VjbDttFK44",
+      "80nWT6sboTo",
+      "Kh6UUEKShro",
+      "N4PeCoQzfBo"
+    ],
+    "applause": [
+      "OCTGiPOygds",
+      "QRKc90kuAaE",
+      "aWzHvxPoWdo",
+      "uH5XAeKdrjM"
+    ],
+    "gasp": [
+      "xWwYEmqyTB4",
+      "wG59D9drJGY",
+      "Vuqt6ip9kME",
+      "chtrHNfaT9U"
+    ]
+  },
+  "sourceOperands": {
+    "labelNamesUrl": "https://storage.googleapis.com/us_audioset/youtube_corpus/strong/mid_to_display_name.tsv",
+    "labelNamesBytes": 10477,
+    "labelNamesSha256": "6aeaa2144223933eab75566ca478366ad80e59f381611e308cbe536913d7ddf7",
+    "strongEvalUrl": "https://storage.googleapis.com/us_audioset/youtube_corpus/strong/audioset_eval_strong.tsv",
+    "strongEvalBytes": 5618305,
+    "strongEvalSha256": "ffda064647a3e7c7eb473d5fcde944f4800c5ce3a7c1f3dfcf131b95dcd30f60",
+    "targetLabels": {
+      "laughter": "/m/01j3sz",
+      "applause": "/m/028ght",
+      "gasp": "/m/07s0dtb"
+    },
+    "labelInterpretation": "AudioSet segment labels are candidate metadata, not independent human interval quality and not a copyright/reuse grant."
+  },
+  "records": [
+    {
+      "category": "applause",
+      "videoId": "OCTGiPOygds",
+      "url": "https://www.youtube.com/watch?v=OCTGiPOygds",
+      "status": 200,
+      "finalUrl": "https://www.youtube.com/watch?v=OCTGiPOygds",
+      "bytes": 1140623,
+      "sha256": "ded758566bd12762dcc1fc6a11eeb12c7afa23059105ec97ff4efd7119d9772a",
+      "title": "Sounds of West Texas Classic Country Music Show",
+      "lengthSeconds": "325",
+      "author": null,
+      "playerStatus": "OK",
+      "primaryPageLicenseFields": [],
+      "explicitCreativeCommonsOccurrences": [],
+      "permissionVerdict": "UNKNOWN: retained initial primary watch-page inspection had no content licensing fields; generic engine DRM/license strings were ignored.",
+      "labelOccurrences": [
+        {
+          "segmentId": "OCTGiPOygds_30000",
+          "startSeconds": "0.116",
+          "endSeconds": "0.168",
+          "label": "/m/028ght"
+        },
+        {
+          "segmentId": "OCTGiPOygds_30000",
+          "startSeconds": "0.486",
+          "endSeconds": "0.526",
+          "label": "/m/028ght"
+        },
+        {
+          "segmentId": "OCTGiPOygds_30000",
+          "startSeconds": "1.197",
+          "endSeconds": "2.844",
+          "label": "/m/028ght"
+        },
+        {
+          "segmentId": "OCTGiPOygds_30000",
+          "startSeconds": "3.740",
+          "endSeconds": "5.803",
+          "label": "/m/028ght"
+        }
+      ]
+    },
+    {
+      "category": "laughter",
+      "videoId": "2VjbDttFK44",
+      "url": "https://www.youtube.com/watch?v=2VjbDttFK44",
+      "status": 200,
+      "finalUrl": "https://www.youtube.com/watch?v=2VjbDttFK44",
+      "bytes": 1199924,
+      "sha256": "4da21485d47789507edb7bfea4b436ab4055a0efd81f3602b112cf14e11528d2",
+      "title": "Making the band WTF!!!",
+      "lengthSeconds": "668",
+      "author": "Sweetaddictionstv",
+      "playerStatus": "OK",
+      "primaryPageLicenseFields": [],
+      "explicitCreativeCommonsOccurrences": [],
+      "permissionVerdict": "UNKNOWN: no explicit content reuse license grant in the primary watch-page metadata; generic engine DRM/license strings were ignored.",
+      "labelOccurrences": [
+        {
+          "segmentId": "2VjbDttFK44_540000",
+          "startSeconds": "8.228",
+          "endSeconds": "9.370",
+          "label": "/m/01j3sz"
+        }
+      ]
+    },
+    {
+      "category": "laughter",
+      "videoId": "80nWT6sboTo",
+      "url": "https://www.youtube.com/watch?v=80nWT6sboTo",
+      "status": 200,
+      "finalUrl": "https://www.youtube.com/watch?v=80nWT6sboTo",
+      "bytes": 860149,
+      "sha256": "ecae7bf3f2c55ca27c4032e83e1eebc7fde27745dd42c4fb976e5931c2d48830",
+      "title": null,
+      "lengthSeconds": null,
+      "author": null,
+      "playerStatus": "LOGIN_REQUIRED",
+      "primaryPageLicenseFields": [],
+      "explicitCreativeCommonsOccurrences": [],
+      "permissionVerdict": "UNKNOWN: no explicit content reuse license grant in the primary watch-page metadata; generic engine DRM/license strings were ignored.",
+      "labelOccurrences": [
+        {
+          "segmentId": "80nWT6sboTo_60000",
+          "startSeconds": "4.606",
+          "endSeconds": "5.606",
+          "label": "/m/01j3sz"
+        }
+      ]
+    },
+    {
+      "category": "laughter",
+      "videoId": "Kh6UUEKShro",
+      "url": "https://www.youtube.com/watch?v=Kh6UUEKShro",
+      "status": 200,
+      "finalUrl": "https://www.youtube.com/watch?v=Kh6UUEKShro",
+      "bytes": 1210815,
+      "sha256": "137883c503cd22a9bf96aed057f555a265349382074cf95b288a00c5f99cc65a",
+      "title": "Ismail b pigeon voyageur KHALID BEN ABBI",
+      "lengthSeconds": "540",
+      "author": "Ismail Bouzoubir",
+      "playerStatus": "OK",
+      "primaryPageLicenseFields": [],
+      "explicitCreativeCommonsOccurrences": [],
+      "permissionVerdict": "UNKNOWN: no explicit content reuse license grant in the primary watch-page metadata; generic engine DRM/license strings were ignored.",
+      "labelOccurrences": [
+        {
+          "segmentId": "Kh6UUEKShro_30000",
+          "startSeconds": "1.526",
+          "endSeconds": "2.341",
+          "label": "/m/01j3sz"
+        }
+      ]
+    },
+    {
+      "category": "laughter",
+      "videoId": "N4PeCoQzfBo",
+      "url": "https://www.youtube.com/watch?v=N4PeCoQzfBo",
+      "status": 200,
+      "finalUrl": "https://www.youtube.com/watch?v=N4PeCoQzfBo",
+      "bytes": 1134324,
+      "sha256": "fe99c9bace7e29afece4ec784016a0a245457395a0bd46b00abd01523214c097",
+      "title": "HerbieGoesBananas BluRayReview Part II",
+      "lengthSeconds": "377",
+      "author": "MrFlix1983",
+      "playerStatus": "OK",
+      "primaryPageLicenseFields": [],
+      "explicitCreativeCommonsOccurrences": [],
+      "permissionVerdict": "UNKNOWN: no explicit content reuse license grant in the primary watch-page metadata; generic engine DRM/license strings were ignored.",
+      "labelOccurrences": [
+        {
+          "segmentId": "N4PeCoQzfBo_70000",
+          "startSeconds": "1.701",
+          "endSeconds": "2.110",
+          "label": "/m/01j3sz"
+        }
+      ]
+    },
+    {
+      "category": "applause",
+      "videoId": "QRKc90kuAaE",
+      "url": "https://www.youtube.com/watch?v=QRKc90kuAaE",
+      "status": 200,
+      "finalUrl": "https://www.youtube.com/watch?v=QRKc90kuAaE",
+      "bytes": 794808,
+      "sha256": "dda19973b7c32e78eb2d51d7d71dbfa299b70d05811c33318b2ad73129b72dd1",
+      "title": null,
+      "lengthSeconds": null,
+      "author": null,
+      "playerStatus": "ERROR",
+      "primaryPageLicenseFields": [],
+      "explicitCreativeCommonsOccurrences": [],
+      "permissionVerdict": "UNKNOWN: no explicit content reuse license grant in the primary watch-page metadata; generic engine DRM/license strings were ignored.",
+      "labelOccurrences": [
+        {
+          "segmentId": "QRKc90kuAaE_560000",
+          "startSeconds": "0.008",
+          "endSeconds": "2.063",
+          "label": "/m/028ght"
+        }
+      ]
+    },
+    {
+      "category": "applause",
+      "videoId": "aWzHvxPoWdo",
+      "url": "https://www.youtube.com/watch?v=aWzHvxPoWdo",
+      "status": 200,
+      "finalUrl": "https://www.youtube.com/watch?v=aWzHvxPoWdo",
+      "bytes": 1144805,
+      "sha256": "fea66e1d1dad76e245918f7d7d9a9c14504fdf4cba26afadac67eeeb51be2aa0",
+      "title": "Wesele 6/10",
+      "lengthSeconds": "591",
+      "author": "ZaxChest",
+      "playerStatus": "OK",
+      "primaryPageLicenseFields": [],
+      "explicitCreativeCommonsOccurrences": [],
+      "permissionVerdict": "UNKNOWN: no explicit content reuse license grant in the primary watch-page metadata; generic engine DRM/license strings were ignored.",
+      "labelOccurrences": [
+        {
+          "segmentId": "aWzHvxPoWdo_220000",
+          "startSeconds": "6.882",
+          "endSeconds": "10.000",
+          "label": "/m/028ght"
+        }
+      ]
+    },
+    {
+      "category": "applause",
+      "videoId": "uH5XAeKdrjM",
+      "url": "https://www.youtube.com/watch?v=uH5XAeKdrjM",
+      "status": 200,
+      "finalUrl": "https://www.youtube.com/watch?v=uH5XAeKdrjM",
+      "bytes": 1467762,
+      "sha256": "c13e298fc4cacb0481f617d3f02afa679da42395f128e5804e3740ec943014f7",
+      "title": "Cecily Strong complete remarks at 2015 White House Correspondents' Dinner (C-SPAN)",
+      "lengthSeconds": "1363",
+      "author": "C-SPAN",
+      "playerStatus": "OK",
+      "primaryPageLicenseFields": [],
+      "explicitCreativeCommonsOccurrences": [],
+      "permissionVerdict": "UNKNOWN: no explicit content reuse license grant in the primary watch-page metadata; generic engine DRM/license strings were ignored.",
+      "labelOccurrences": [
+        {
+          "segmentId": "uH5XAeKdrjM_150000",
+          "startSeconds": "0.894",
+          "endSeconds": "8.566",
+          "label": "/m/028ght"
+        }
+      ]
+    },
+    {
+      "category": "gasp",
+      "videoId": "xWwYEmqyTB4",
+      "url": "https://www.youtube.com/watch?v=xWwYEmqyTB4",
+      "status": 200,
+      "finalUrl": "https://www.youtube.com/watch?v=xWwYEmqyTB4",
+      "bytes": 1172784,
+      "sha256": "e7886b512a96033d21899133191327dea233b10c48f463000aea759a761f5480",
+      "title": "Demonic Twist and Shout Division Toy",
+      "lengthSeconds": "208",
+      "author": "EricaMarieJ",
+      "playerStatus": "OK",
+      "primaryPageLicenseFields": [],
+      "explicitCreativeCommonsOccurrences": [],
+      "permissionVerdict": "UNKNOWN: no explicit content reuse license grant in the primary watch-page metadata; generic engine DRM/license strings were ignored.",
+      "labelOccurrences": [
+        {
+          "segmentId": "xWwYEmqyTB4_30000",
+          "startSeconds": "3.548",
+          "endSeconds": "3.857",
+          "label": "/m/07s0dtb"
+        }
+      ]
+    },
+    {
+      "category": "gasp",
+      "videoId": "wG59D9drJGY",
+      "url": "https://www.youtube.com/watch?v=wG59D9drJGY",
+      "status": 200,
+      "finalUrl": "https://www.youtube.com/watch?v=wG59D9drJGY",
+      "bytes": 1189631,
+      "sha256": "1edaf81d289d66947011de032cef7fe131ab5a663c66d63f7b2ff277cb3c9514",
+      "title": "JUSTICE FOR ERIC GARNER! (GRANDPA GOES CRAZY!)",
+      "lengthSeconds": "307",
+      "author": "TheAngryGrandpaShow",
+      "playerStatus": "OK",
+      "primaryPageLicenseFields": [],
+      "explicitCreativeCommonsOccurrences": [],
+      "permissionVerdict": "UNKNOWN: no explicit content reuse license grant in the primary watch-page metadata; generic engine DRM/license strings were ignored.",
+      "labelOccurrences": [
+        {
+          "segmentId": "wG59D9drJGY_280000",
+          "startSeconds": "9.307",
+          "endSeconds": "9.485",
+          "label": "/m/07s0dtb"
+        }
+      ]
+    },
+    {
+      "category": "gasp",
+      "videoId": "Vuqt6ip9kME",
+      "url": "https://www.youtube.com/watch?v=Vuqt6ip9kME",
+      "status": 200,
+      "finalUrl": "https://www.youtube.com/watch?v=Vuqt6ip9kME",
+      "bytes": 1213097,
+      "sha256": "60295657cf754b8babc6faacaee836f75962bd2513fb7aba5492c0914f3de475",
+      "title": "SHAMANIC BREATHING AUBREY MARCUS JOE ROGAN",
+      "lengthSeconds": "432",
+      "author": "201xJustSayKNOW",
+      "playerStatus": "OK",
+      "primaryPageLicenseFields": [],
+      "explicitCreativeCommonsOccurrences": [],
+      "permissionVerdict": "UNKNOWN: no explicit content reuse license grant in the primary watch-page metadata; generic engine DRM/license strings were ignored.",
+      "labelOccurrences": [
+        {
+          "segmentId": "Vuqt6ip9kME_30000",
+          "startSeconds": "9.894",
+          "endSeconds": "10.000",
+          "label": "/m/07s0dtb"
+        }
+      ]
+    },
+    {
+      "category": "gasp",
+      "videoId": "chtrHNfaT9U",
+      "url": "https://www.youtube.com/watch?v=chtrHNfaT9U",
+      "status": 200,
+      "finalUrl": "https://www.youtube.com/watch?v=chtrHNfaT9U",
+      "bytes": 1366201,
+      "sha256": "cbd0d7518b5dd903190a1c9c1514a069833fa1aebca176d23735d3f7b3b25742",
+      "title": "THE FAREWELL DINNER!!",
+      "lengthSeconds": "613",
+      "author": "KidBehindACamera",
+      "playerStatus": "OK",
+      "primaryPageLicenseFields": [],
+      "explicitCreativeCommonsOccurrences": [],
+      "permissionVerdict": "UNKNOWN: no explicit content reuse license grant in the primary watch-page metadata; generic engine DRM/license strings were ignored.",
+      "labelOccurrences": [
+        {
+          "segmentId": "chtrHNfaT9U_70000",
+          "startSeconds": "3.740",
+          "endSeconds": "4.134",
+          "label": "/m/07s0dtb"
+        }
+      ]
+    }
+  ],
+  "verdict": "All 12 primary watch pages either expose no content licensing field or are unavailable/login/error; no explicit permissive grant was found. Generic page-engine DRM/license strings are not content licensing. Do not acquire audio or freeze an event cohort until each selected file has an explicit primary permissive grant or separately documented permission."
+}
