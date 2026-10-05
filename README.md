@@ -59,8 +59,8 @@ it. Node is bundled; consumers do not need Bun, Node or Swift installed separate
 
 The skill's [installation procedure](skills/screenrec/references/installation.md)
 contains executable download/install commands and upgrade, app-location and
-macOS launch guidance. This developer preview is ad-hoc signed and not notarized;
-if blocked, the user must approve **Open Anyway** in System Settings → Privacy &
+macOS launch guidance. Check the receipt's signing status; releases are not notarized.
+If blocked, the user must approve **Open Anyway** in System Settings → Privacy &
 Security. Installation does not grant capture permissions or download speech models.
 
 ### 3. Verify before operating

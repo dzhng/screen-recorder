@@ -43,6 +43,9 @@ waiting for idle does not authorize stopping work, and disabled automatic update
 do not prove the service is unhealthy. Do not invent an updater command or kill,
 cancel, close or stop work to obtain idle. Older releases may not advertise update
 state; say so. Fixture health JSON is interpretation evidence, not native proof.
+For manual bootstrap or a failed update, follow the update/recovery section in
+[installation](references/installation.md). A disconnected or closing service is
+unavailable; do not claim it reopened or retry writes blindly.
 
 ## Workflow
 

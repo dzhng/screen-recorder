@@ -79,8 +79,9 @@ set `SCREENREC_APP` to that bundle's absolute path; the launcher defaults to
 2. Run `screenrec service.health`. Inspect `ok` and the returned service status.
    This may launch the installed app's service, but never starts capture.
 3. If macOS blocks launch, have the user try opening the installed app, then approve
-   System Settings → Privacy & Security → **Open Anyway**. This developer preview
-   is ad-hoc signed and not notarized; managed Macs may prohibit that override.
+   System Settings → Privacy & Security → **Open Anyway**. Check the receipt's
+   signing status; these releases are not notarized. Managed Macs may prohibit
+   that override.
    Do not remove quarantine attributes or disable Gatekeeper to bypass it.
 4. Discover `capture.sources` and `capture.status` before an actual recording
    request. Screen, microphone and camera permissions are separate user actions.
@@ -89,3 +90,35 @@ set `SCREENREC_APP` to that bundle's absolute path; the launcher defaults to
 Report the installed release tag, app/launcher paths and observed health result.
 If only help passed, say so; blocked app launch is not verified service readiness.
 Use the installed CLI's schemas even when this skill is newer than that release.
+
+## App updates and recovery
+
+An older installation without the updater or coordinated launcher needs one
+manual bootstrap using the complete app-plus-launcher kit above. Wait for accepted
+work and old client processes to finish before replacing it; never kill clients,
+cancel jobs or stop a recording merely to install an update. Retain the old bundle
+and launcher and leave the library intact.
+
+Updater-bearing releases download candidates automatically and install when the
+app, service and existing CLI clients permit it. The app bundle contains the actual
+CLI, Node, service and workers, so they update together; the external launcher stays
+in place. An already-running CLI remains its old generation until it exits. The
+app's automatic-update preference persists; turning it off cancels download or
+staged installation until replacement has been finally authorized. After that
+point it applies to the successor. Skill files are refreshed separately through
+the skill lifecycle.
+
+Read advertised `service.health` update state and errors literally. `UPDATING`
+is a retryable installation fence; retry after relaunch, following the operation's
+write-identity contract. `UPDATE_RESTART_REQUIRED` or `UPDATE_SHUTDOWN_FAILED`
+requires ordinary user quit and reopen. A shutdown failure after the service pipe
+closes can leave the service unavailable; it does not imply the old service
+reopened. Do not force-kill a closing child, launch a competing service or replay
+an uncertain mutation. Reopen only after the existing app and child have exited,
+within the user's request.
+
+If an installed update cannot start, retain the reported failure and use the same
+verified download/install procedure for a specifically chosen previous release
+with the same catalog format. Back up the app/launcher, preserve the library, and
+verify health after reinstalling. Do not promise arbitrary downgrades, automatic
+post-launch rollback or restoration of capture permissions from a checksum alone.
