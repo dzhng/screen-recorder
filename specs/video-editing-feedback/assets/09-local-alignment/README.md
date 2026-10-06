@@ -62,5 +62,6 @@ Original absolute paths in frozen receipts are historical identities; replay is
 relocatable. Raw source media and user-managed state remain intact.
 
 The [verdict](verdict.json) owns measured gate results and remaining limits.
-Slice 10 still needs bounded preparation, production-entry parity and the shared
-source/evidence owners; this reference does not implement that public contract.
+This reference alone does not implement the public contract. Its integrated
+preparation, retained reads and portable project-tap proof live with the
+[slice10 evidence](../10-word-attribution/README.md).

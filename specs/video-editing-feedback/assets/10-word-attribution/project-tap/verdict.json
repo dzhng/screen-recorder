@@ -1,0 +1,50 @@
+{
+  "scope": "Actual public native prepared project tap, one bounded NeMo alignment generation, package export/open/continuation/adoption and offline restart. Conditional evidence, never lexical truth.",
+  "passed": true,
+  "cells": 96,
+  "pcm": {
+    "sha256": "931940132607eba19333bfcff28e00a9362cca00ffea40a08d09ba987cb34748",
+    "sampleRate": 16000,
+    "frames": 15216
+  },
+  "decoder": {
+    "recipe": "source-selected-span-avfoundation-f32-16k-v1",
+    "workerSha256": "d96b44eb125d32f7229a3a10af35f320e0ebd806c386d86891374b19ab1d9bba",
+    "osBuild": "Version 27.0.1 (Build 26A434)"
+  },
+  "engine": {
+    "modelId": "nemo-ctc110",
+    "descriptorDigest": "4daa068432aaa63d6ae8187ef0bb33d424b97bce62f9b948a24211c7e293bb33",
+    "modelDigest": "f1c0ef541ed67bc64cc7bf22db0070e8071d6b8e2fe69bcf3594272f9c0b474e",
+    "modelSha256": "1e6b5c3bcaa390b479bd8112512ede515d2ef5b61495568f2c266d6d5e680c3a",
+    "runtimeDigest": "1e25a3c61e34840ce67d0548901f6d9b6ab0df01d1bd7ede64a42f54aca208fd",
+    "workerSha256": "9e920202b1ccd336b7d001adaf32c7eced0b65c290ec6531e528c0019cb9b65c",
+    "recipe": "nemo-auxiliary-ctc110-v1"
+  },
+  "gates": [
+    "All96 project cells have direct project-clock ranges and null source clip occurrence",
+    "All96 immutable package cells exactly equal donor raw rows",
+    "All96 adopted project rows exactly equal donor projected rows through handle closure/restart",
+    "Wrong prepared-tap pin and cursors from donor context are refused",
+    "Idempotent package adoption returns same publication",
+    "Receiver has no prepared alignment model; actual sourceChannelPCM/probe/audio mix/speech operations disabled during complete offline read"
+  ],
+  "redGreen": "Removing the durable generation reference from actual stage() causes cleanup to delete ready project evidence, failing NOT_READY. Restored implementation passes focused processing/projection/portable checks.",
+  "limits": [
+    "Complete source/tap evidence owners retained; project-owned attempt is not replayed as a source job",
+    "Frozen fixture is short, mono source into existing stereo48k tap; no universal ASR or phonetic-boundary accuracy claim",
+    "Native up/downsampling means actual project PCM digest differs from original source, and is retained as its own signal"
+  ],
+  "canonicalRoot": "The initial scratch probe used /tmp, an OS symlink. O_NOFOLLOW_ANY correctly refused retained audio opens. Runner canonicalizes caller-supplied scratch home/output/source before preparation; no product fallback or data migration.",
+  "review": {
+    "originalVerdict": "NOT CLEAN for closeout documentation; scoped implementation/test contract accepted.",
+    "triage": [
+      {
+        "finding": "P1 stale handoff notes describe10B publication as unfinished",
+        "disposition": "Fixed: both integration checkpoints explicitly historical and linked to current prepared project-tap evidence. Historical raw receipts remain frozen."
+      }
+    ],
+    "finalScopedVerdict": "Shape/code/docs clean after documentation correction. No production behavior or inference changed.",
+    "choicesAudit": "No new product API, store, dependency or lifetime decision. Harness canonicalizes caller scratch paths to preserve existing no-symlink admission; existing package/adoption owners and references are reused."
+  }
+}

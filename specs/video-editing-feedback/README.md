@@ -16,20 +16,20 @@ merge, push or installed-app change has been requested. Hard cutover remains
 binding: no aliases, dual readers or migrations; preserve external originals and
 frozen historical evidence.
 
-Current pickup: promote10 project-tap portability proof.10's public
-source acoustic evidence passes; project-tap package continuation remains open.
+Current pickup: contextual join evidence12; integrate the reviewed20 lexical scout.
+Public source acoustic context and complete project-tap package replay pass.
 The matching native worker includes22's rounded glyph strokes; frame/movie cache
 identities change with that rendering behavior. Generic operations omit tonal fields,
 while an actual correction must supply them.
 
-Priority after integration:10 project-tap portability →20 lexical synchronization →
+Priority:20 mixed-reference synchronization →
 21 switched-angle delivery;12 contextual joins;15/16 face/framing delivery;23 entrance
 motion;25 reference-conditioned tone;27–29 delivered transitions/trajectory/blur;
 30 delivered scenes;31/32 speaker continuity/attribution;33 runnable workflows →34
 fresh-agent delivery/replay. Follow slice dependencies rather than this list when
 independent work is available.
 
-Completed:02–09,11,13–14,17–19,22,24,26.01 retains exact source-rate PCM, full-raster pictures and
+Completed:02–11,13–14,17–19,22,24,26.01 retains exact source-rate PCM, full-raster pictures and
 five original/derivative speech comparisons, but multicamera/speaker certification
 remains open. Partial21 declares exact caller-selected angle clocks;23 maps timed
 UTF-16 highlights;25 extends the shared SDR correction;27 lowers transitions into
@@ -54,8 +54,9 @@ still fails ten-minute four-speaker overlap at57.49%, below the unchanged80% gat
 no long-form provider is promoted.10 retains the accepted NeMo alignment reference
 and verified default runtime acquisition; its public source acoustic cells pass
 exact sample/peak/clock checks and a derived RMS rounding bound. Word identity stays
-unknown; project-tap package continuation remains open. Independent15/16 delivery
-work runs alongside20 lexical research.
+unknown. Complete project-tap rows survive package adoption/restart with no model
+or decode work. Independent15/16 delivery and23 timed motion run alongside20
+mixed-reference research; its separate-window lexical scout also refused all pairs.
 
 Prepare/download pinned first-class Yap models/runtime as needed by default;
 recommend external capabilities only when the brief warrants them. Ordinary
@@ -78,7 +79,7 @@ Numbering is a review order; actual prerequisites live in the slice headers.
 - [x] [07 — Honest overlapping/instant speech observations](slices/07-speech-timing-admission.md)
 - [x] [08 — Explicit bounded transcript preparation](slices/08-bounded-speech-preparation.md)
 - [x] [09 — Local alignment feasibility and frozen reference](slices/09-alignment-replication.md)
-- [ ] [10 — Alignment and acoustic boundary evidence](slices/10-alignment-and-boundaries.md)
+- [x] [10 — Alignment and acoustic boundary evidence](slices/10-alignment-and-boundaries.md)
 - [x] [11 — Speech recognition of actual revision audio](slices/11-rendered-speech.md)
 - [ ] [12 — Contextual join verification and agent repair](slices/12-contextual-join-verification.md)
 - [x] [13 — Decoded-picture replication](slices/13-decode-replication.md)
@@ -94,7 +95,7 @@ Numbering is a review order; actual prerequisites live in the slice headers.
 - [ ] [23 — Timed word highlighting and entrance motion](slices/23-timed-word-captions.md)
 - [x] [24 — Explicit blend semantics](slices/24-blend-modes.md)
 - [ ] [25 — Tone and color controls](slices/25-tone-controls.md)
-- [ ] [26 — Immutable imported LUTs](slices/26-immutable-luts.md)
+- [x] [26 — Immutable imported LUTs](slices/26-immutable-luts.md)
 - [ ] [27 — Crossfade, dip and flash recipes](slices/27-basic-transitions.md)
 - [ ] [28 — Whip/zoom trajectory and coverage](slices/28-whip-zoom-trajectory.md)
 - [ ] [29 — Bounded motion blur](slices/29-motion-blur.md)

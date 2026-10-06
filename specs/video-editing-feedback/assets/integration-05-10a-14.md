@@ -1,5 +1,9 @@
 # Integrated owner checks
 
+Historical checkpoint at the integration of05,10A and14. Its open-work statements
+describe that revision; current10 completion is owned by the
+[prepared project-tap evidence](10-word-attribution/README.md#prepared-project-tap-delivery).
+
 The reviewed05,14 and10A commits were cherry-picked independently without
 conflicts after18. Protocol/Core/service/CLI builds pass. Merged checks: eight
 service frame/publication/prepared-worker/materialization tests, two protocol

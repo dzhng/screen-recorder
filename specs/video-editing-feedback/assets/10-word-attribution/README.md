@@ -5,8 +5,8 @@ through a prepared public runtime. Its checkpoint, literal tokenizer input, CTC
 matrix, frame support and path arithmetic retain the accepted meaning. This is
 provider parity, never lexical truth or physical admission of a word boundary.
 Checkpoint B owns retained source/project evidence and public operations. Source
-and project-tap lifecycle are implemented; portable project-tap delivery remains
-a separate open gate.
+and project-tap lifecycle and package continuation pass through the existing
+owners. These receipts certify conditional evidence and acoustic context.
 
 ## Acquisition and relocation
 
@@ -105,7 +105,7 @@ and deleted runtime bytes. The absolute checkpoint regression first failed throu
 the existing speaker processor; it now passes through the shared selected-channel
 route. The CLI wait mutation returns the job's unrelated output when its pinned
 preparation route is absent; restoring the route passes. Project-tap lifecycle is
-implemented in B2; portable project-package continuation remains open.
+implemented in B2; the complete public tap/package checkpoint is retained below.
 
 [Source review](review-source.json) records the independent B1 review and focused
 consumer corrections. Both stale private-wire test contracts were updated to the
@@ -130,3 +130,29 @@ directly in project clock. `alignment.prepare` owns the project job and pins the
 prepared resource, revision, range, channel, literal text and model through retry and
 restart; retained rows remain keyed to the generated tap asset so the existing
 evidence/package owner remains single.
+
+## Prepared project-tap delivery
+
+[Public tap proof](project-tap/verdict.json) uses real native preparation and the
+registered NeMo runtime. The actual project PCM is a separately pinned rendered
+signal, including the existing up/downsampling; it is never labeled as unchanged
+source PCM. All acoustic rows keep direct project time and null clip occurrence.
+The complete [public report](project-tap/report.json) preserves package export,
+immutable continuation and adoption. Every packaged source row and adopted project
+row matches the donor. Wrong tap pins and cross-context cursors refuse.
+
+[Offline replay](project-tap/offline-read.json) retains every row after handle
+closure and restart in a receiver with no prepared model and actual decoding,
+mixing and recognition operations disabled. A project attempt retains the same
+generation resource that source attempts use; removing this reference makes the
+cleanup regression fail. Cancellation/retry separately checks the pinned tap and
+fresh attempt through the existing queue. The
+[runner](../../../../packages/test-harness/editing/alignment-project-portable.mjs)
+owns usage and canonicalizes scratch paths so retained file admission never
+traverses the operating system's `/tmp` symlink.
+
+[Independent closeout review](project-tap/independent-review.md) accepted the
+scoped harness/test contract and found stale integration handoff notes. Those
+notes now explicitly identify their historical revision and point here. The
+final closeout keeps conditional timing, source acoustic cells and project-tap
+portability separate from lexical cut quality.

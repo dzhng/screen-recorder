@@ -293,4 +293,47 @@ test("project alignment uses a project job while retaining the prepared tap sour
     kind: "asset",
     assetId: f.input.assetId,
   });
+  const beforeCleanup = f.processing.prepareProject(request);
+  await f.processing.cleanup(new AbortController().signal);
+  expect(f.processing.prepareProject(request)).toEqual(beforeCleanup);
+});
+
+test("project alignment cancellation drains the pinned tap and retry publishes a fresh generation", async () => {
+  const f = await fixture();
+  f.options.project = {
+    resolve(input) {
+      return {
+        source: f.input,
+        projectId: input.projectId,
+        revisionId: input.revisionId!,
+        preparedResourceId: input.preparedResourceId,
+      };
+    },
+  };
+  const request = {
+    projectId: "project",
+    revisionId: "revision",
+    preparedResourceId: "prepared",
+    tap: { target: { kind: "output" }, point: { kind: "processed" } },
+    range: f.input.sourceRange,
+    channel: f.input.channel,
+    text: f.input.text,
+    modelId: f.input.modelId,
+  } as const;
+  f.control.hold = true;
+  const requested = f.processing.prepareProject(request);
+  await expect.poll(() => f.requests.length).toBe(1);
+  const firstAttempt = f.jobs.job(requested.jobId!).attemptId;
+  const draining = f.jobs.drainJob(requested.jobId!);
+  f.control.release();
+  await draining;
+  expect(f.processing.prepareProject(request).published).toBeNull();
+  f.control.hold = false;
+  f.jobs.retry(requested.jobId!);
+  await expect.poll(() => f.processing.prepareProject(request).state).toBe("ready");
+  const ready = f.processing.prepareProject(request);
+  expect(ready.published!.evidence.generation).not.toBe(firstAttempt);
+  expect(ready.published!.evidence.source.streamId).toBe(f.input.streamId);
+  expect(ready.published!.evidence.source.observationRange).toEqual(f.input.sourceRange);
+  expect(ready.preparedResourceId).toBe(request.preparedResourceId);
 });

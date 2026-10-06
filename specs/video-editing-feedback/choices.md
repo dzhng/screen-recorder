@@ -1167,3 +1167,19 @@ choice is embedded in the imported-font coverage.
 The size/domain/Float32 trilinear sampler choices were explicitly delegated
 reference-replication discretion. Their frozen recipe and rejected quantized
 Apple cube candidate are in the slice26 evidence; no user-only decision remains.
+
+## Preserve file admission in portable checks — slice10 closeout
+
+- **When:** prepared project-tap package proof.
+- **The choice:** Resolve scratch paths to their actual filesystem location before
+  importing or preparing audio. On this Mac, `/tmp` points to `/private/tmp`.
+  Using the alias made the existing retained-file reader correctly refuse the
+  symlink even though the final audio file was ordinary. The runner now submits
+  the actual location; the product's refusal stays intact.
+- **The gap:** The fixture procedure did not specify whether scratch roots could
+  be filesystem aliases. Weakening the reader or adding a fallback would change
+  product behavior merely to accommodate a test path.
+- **The reach:** Only the harness resolves caller-supplied paths. No new storage
+  owner, compatibility mechanism or production exception is introduced.
+- **Verdict:** sound; it exercises existing admission with truthful file operands.
+- **Confidence:** high.

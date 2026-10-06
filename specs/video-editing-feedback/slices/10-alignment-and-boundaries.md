@@ -1,6 +1,6 @@
 # 10 — Publish alignment and acoustic boundary evidence
 
-Status: checkpoint A, B1 and the selected project-tap portion of B2 are implemented and reviewed. Source and prepared project-tap observations share the retained alignment evidence owner; project jobs pin the prepared tap, revision and generated PCM asset through restart and retry. Public source acoustic evidence passes; portable project-tap delivery and the final slice verdict remain open. Depends on: [09](09-alignment-replication.md), [08](08-bounded-speech-preparation.md).
+Status: implemented; checkpoint A, B1 and B2 evidence pass. Source and prepared project-tap observations share the retained alignment evidence owner. Public source acoustic context and complete tap package/adoption/offline replay pass; project jobs retain the tap, revision and PCM through cleanup, cancellation and retry. Word identity remains unknown. Depends on: [09](09-alignment-replication.md), [08](08-bounded-speech-preparation.md).
 
 ## Contract
 

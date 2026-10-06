@@ -1,5 +1,9 @@
 # Reviewed integration checkpoint
 
+Historical checkpoint at the integration of10B1,19 and31. The remaining10B2 work
+described here is now covered by the
+[prepared project-tap evidence](10-word-attribution/README.md#prepared-project-tap-delivery).
+
 10B1 source alignment,19 dialogue finishing and31 native-cache research are
 integrated in the isolated feature branch. Owning receipts remain
 [10B1](10-word-attribution/review-source.json),
