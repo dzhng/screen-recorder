@@ -819,3 +819,19 @@ unlisted architecture or user-only choice was found in this research pass.
   inventing bounds or substituting a glyph.
 - **Verdict:** sound. The composition schema permits empty text and the native test proves it.
 - **Confidence:** high.
+
+## Native caption decorations — slice22B
+
+- **When:** slice22B, native text decoration checkpoint.
+- **The choice:** Stroke, shadow and caption background are explicit bounded fields on the
+  text source. Native TextRaster draws them from the same glyph geometry as the caption and
+  reports the requested decoration fields plus a decoration bounds receipt. A background
+  receives padding and corner radius; a shadow uses explicit offsets and blur; no preset is
+  imposed on callers.
+- **The gap:** The styling contract named useful decorations but had no public fields,
+  bounds or native pixel checkpoint.
+- **The reach:** Composition validation, compiled layers, native rendering and receipt
+  validation share the same schema and reject out-of-range values or mismatched receipts.
+- **Verdict:** focused decoration authoring and native actual-pixel checks pass. Public
+  static-sheet evidence and visual comparison remain open for the full slice.
+- **Confidence:** medium-high.

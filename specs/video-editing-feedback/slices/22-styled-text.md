@@ -1,6 +1,6 @@
 # 22 — Lay out readable native captions
 
-Status: partial — vertical layout receipt is implemented; decoration stage remains open. Depends on: [06](06-exact-removal.md).
+Status: partial — vertical layout and native decoration receipts are implemented; public static-sheet evidence remains open. Depends on: [06](06-exact-removal.md).
 
 ## Contract
 
@@ -33,8 +33,11 @@ graphic for that brief; never silently replace it with a monochrome/tofu glyph.
 
 The native `YapFrameTests --text-vertical` checkpoint exercises a real CoreText font and
 asserts glyph-path bounds for omitted/top, center and bottom alignment, including
-centered and edge-clipped receipts. Composition authoring preserves the optional field.
-Decoration and public static-sheet coverage remain the next checkpoint.
+centered and edge-clipped receipts. `YapFrameTests --text-decorations` renders a real
+font with stroke, shadow and rounded background, checks the returned decoration fields
+and bounds, and inspects nontransparent pixels. Composition authoring and public frame
+receipt validation retain and compare the same bounded decoration request. Public static
+caption-sheet coverage remains the next checkpoint.
 
 Expose a case-selected command or existing lab entry with its own usage. Store accepted requests/results and artifact identities in feature-owned evidence. The implementing agent checks actual output; the user may view it for direction without becoming a QA gate.
 
@@ -48,9 +51,9 @@ Variable A: vertical/glyph placement, text-box mask. Variable B after A: stroke/
 
 Run [compare-screenshots](../../../.agents/skills/compare-screenshots/SKILL.md) on matched before/reference/candidate shots with the stated masks and numeric interpretation. Inspect motion temporally when a still cannot establish the claim. Run an unprimed [screenshot-critique](../../../.agents/skills/screenshot-critique/SKILL.md) as the **last visual acceptance check**. Show useful output with [preview-shots](../../../.agents/skills/preview-shots/SKILL.md); never request human QA or wait for approval. Record critique, coverage and any residual uncertainty.
 
-A vertical pass is green with the native glyph-bounds receipt and focused authoring
-checks. The full slice remains open until stroke/shadow/background rendering and the
-public static-sheet evidence are complete. An unavailable stub or undocumented fallback
+The vertical and decoration passes are green with native glyph-bounds/decoration receipts,
+focused authoring checks and an actual-pixel assertion. The full slice remains open until
+the public static-sheet evidence is complete. An unavailable stub or undocumented fallback
 is not implementation completion.
 
 ## Delegated choices

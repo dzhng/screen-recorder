@@ -166,7 +166,9 @@ unlike-microphone comparisons all refuse. [The frozen result](assets/20-synchron
 keeps the synchronization feedback open for lexical-anchor research; equal
 duration/session provenance does not close it.
 
-Slice22A evidence: composition authoring retains optional `verticalAlignment`; native TextRaster
-reports glyph-path `inkBounds`, clipped `visibleBounds`, and `verticalOffset`. Focused
-`YapFrameTests --text-vertical` proves top/center/bottom placement against a real Arial font,
-including empty text. Decoration and public caption-sheet evidence remain open in22B.
+Slice22A/22B evidence: composition authoring retains optional `verticalAlignment` plus
+bounded stroke/shadow/background fields; native TextRaster reports glyph-path `inkBounds`,
+clipped `visibleBounds`, `verticalOffset`, decoration bounds and echoed decoration fields.
+Focused `YapFrameTests --text-vertical` proves top/center/bottom placement against a real
+Arial font, including empty text, and `--text-decorations` renders/inspects nontransparent
+decorated pixels. Public caption-sheet evidence remains open.
