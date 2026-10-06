@@ -118,3 +118,62 @@ are retained as additional evidence, without a second quality judge in product c
 - Verdict: sound. Hashes describe actual bytes, and matched original outputs remain
   a separate preservation record rather than a substitute runtime identity.
 - Confidence: high.
+
+## Bounded alignment reference decisions — integrated d49a2259
+
+## Sound — medium confidence
+
+**Treat matched as observed provider correspondence.** When supplied text says
+privacy and greedy CTC says prophey, retain privacy as unmatched and prophey as
+an extra observation; a successful forced path never upgrades privacy to a fact.
+When both strings say blue, a unique ordered occurrence may be matched while its
+forced timing stays conditional. The plan left the meaning of matched/unmatched
+underspecified; root approved this bounded interpretation before cached admission.
+It lets10 expose useful evidence without a fake confidence number or a promise
+of independent lexical truth. Future callers must see the interpretation rather
+than treat matched as a verified transcript.
+
+**Use isolated generated utterance placement as mechanical controls.** Blue,
+seven and blue were requested separately and planted at known sample offsets.
+This can disprove an aligner that places seven far from its actual source clip;
+it does not certify connected-speech word/phoneme boundaries. The research plan
+requested independent controls without requiring a human labeler. The choice
+keeps fixture truth narrow and leaves partial phonetic identity unknown.
+
+**Retain normalized bounded PCM as numerical research operands.** Full matrices,
+path arrays and the selected tiny/25s prepared PCM make the failed and accepted
+reference independently replayable without reacquiring original media or models.
+Compressed numerical operands remain feature-owned spec evidence, while raw
+reusable media belongs to fixture ownership. Parent requested LFS and no weights,
+runtime/build copies or raw-source replication. This costs about18MB of LFS data
+and no additional production dependency.
+
+## Sound — high confidence
+
+**Never pick a convenient repeated-word tie.** If supplied text has two final
+blue occurrences but native greedy text has one, all optimal ordered sequence
+correspondences can pair either occurrence. Both supplied occurrences stay
+unknown. Choosing the first or the nearest by timestamp would silently invent
+an occurrence decision. The plan demanded repeated/missing/extra evidence but
+not the tie rule; root approved all-optimal occurrence matching, consistent with
+08's native window matcher. Production10 must share that arithmetic owner.
+
+**Refuse token cells crossing physical source support without clipping clocks.**
+The original model emits .08s cells and can include a final partly unsupported
+cell. If a conditional token ends .4s but PCM ends .391375s, retain the full native
+path and separately refuse that operand's timing support. Shortening .4s to the
+PCM end would conceal uncertainty. This is evidence admission, not a claim the
+model is unusable in valid context; root explicitly accepted this distinction.
+
+**Reuse the prepared research runtime without declaring a new product runtime.**
+The original checkpoint strict-restores in pinned NeMo/Torch already prepared
+for speaker research. Its ready weights and successful inference do not establish
+a first-class bounded transcription runtime install or closure for10. No engine
+registration, app data, consumer install or model binary ships in09. The plan
+permits existing prepared runtimes; future10 still owns preparation and parity.
+
+Candidate selection and exact CTC head/clock/score preservation were explicitly
+delegated by09 and are recorded in the accepted reference rather than invented
+product policies. Original NeMo protocol inherited Fluid-only descriptive fields;
+accepted-recipe interpretation corrects their meaning while preserving historical
+bytes, actual worker/preprocessing and all measured operands.

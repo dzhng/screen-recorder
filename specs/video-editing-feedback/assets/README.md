@@ -23,3 +23,6 @@ successes and required failures; it does not establish production readiness.
 
 [Player reference coverage](13-reference-coverage/README.md) records partial decode
 failures without changing successful pictures; the full picture recipe remains open.
+
+[Local alignment reference](09-local-alignment/README.md) separates observed provider
+text correspondence from conditional timing, with preserved rejected controls.
