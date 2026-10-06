@@ -198,7 +198,9 @@ The skill's [installation procedure](skills/yap/references/installation.md)
 contains executable download/install commands and upgrade, app-location and
 macOS launch guidance. Check the receipt's signing status; releases are not notarized.
 If blocked, the user must approve **Open Anyway** in System Settings → Privacy &
-Security. Installation does not grant capture permissions or download speech models.
+Security. Installation does not grant capture permissions. When a first-class Yap
+speech feature is used, its registered pinned model/runtime is prepared automatically;
+external models remain recommendation-only.
 
 ### 3. Verify before operating
 
