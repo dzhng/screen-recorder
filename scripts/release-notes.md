@@ -2,16 +2,15 @@ Yap is the macOS recording and agent-operated video toolkit. This release ships
 `Yap.app`, the `yap` CLI and the `com.dzhng.yap` app identity. Install the complete
 kit for this identity; capture permissions must be granted to Yap separately.
 
-The capture popover uses lighter surfaces without outlined device cards,
-monochrome controls, native macOS switches and a centered Library action.
-The header uses the custom Yap artwork; its idle menu-bar mark carries the
-speech-bubble silhouette and eyes as a monochrome template.
-Its transparent surface and 352-point geometry remain intact. Settings stays
-visible across permission panes and returns when Yap becomes active again.
+The capture popover is tighter, with all four source choices in one row, smaller
+native switches, aligned device selectors and a readable blue Start action.
+Library has one entry in the header. Permission actions are compact rows;
+missing access and operational errors remain visible. The native popover owns
+the continuous background and arrow, and outside clicks dismiss the panel.
 
-The menu bar now opens a compact capture panel with Display, Window, Area and
-Camera Only. Saved recordings, projects, tracked exports and storage move to a
-separate Library window that stays open while you return to capture controls.
+The header and menu-bar mark use the Yap artwork. Settings stays visible across
+permission panes and returns when Yap becomes active again. Saved recordings,
+projects, tracked exports and storage remain in the separate Library window.
 
 Camera Only records the explicitly selected camera with optional microphone and
 system audio. Existing recordings remain readable; no library migration is

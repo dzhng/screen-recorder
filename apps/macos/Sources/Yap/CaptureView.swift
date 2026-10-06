@@ -63,9 +63,6 @@ final class CaptureView: NSView {
         self.perform = perform
         super.init(frame: .zero)
         wantsLayer = true
-        layer?.cornerRadius = 19
-        layer?.borderWidth = 0
-        layer?.masksToBounds = true
         scrollView.drawsBackground = false
         scrollView.hasVerticalScroller = true
         scrollView.scrollerStyle = .overlay
@@ -125,7 +122,8 @@ final class CaptureView: NSView {
         button.target = self
         button.action = #selector(activate(_:))
         button.identifier = .init(id)
-        button.setAccessibilityLabel(title)
+        if case .permission(let role) = kind { button.setAccessibilityLabel("\(role). \(title)") }
+        else { button.setAccessibilityLabel(title) }
         if button.superview !== document { document.addSubview(button, positioned: .above, relativeTo: nil) }
         controls[id] = button
         intents[ObjectIdentifier(button)] = intent
@@ -134,7 +132,13 @@ final class CaptureView: NSView {
     private func toggle(_ title: String, id: String, frame: NSRect, intent: CaptureViewIntent?, on: Bool, enabled: Bool) {
         usedControls.insert(id)
         let toggle = controls[id] as? NSSwitch ?? NSSwitch()
+        toggle.controlSize = .small
+        toggle.sizeToFit()
+        let nativeSize = toggle.frame.size
+        // NSSwitch keeps its regular intrinsic size even for small/mini on macOS 26.
+        // Scale its native drawing instead of clipping it into a narrower frame.
         toggle.frame = frame
+        toggle.bounds = NSRect(origin: .zero, size: nativeSize)
         toggle.state = on ? .on : .off
         toggle.isEnabled = enabled && intent != nil
         toggle.target = self
@@ -151,7 +155,7 @@ final class CaptureView: NSView {
         let popup = controls[id] as? CapturePopup ?? CapturePopup(frame: frame, pullsDown: false)
         popup.frame = frame
         popup.isBordered = false
-        popup.font = .systemFont(ofSize: 12, weight: id == "source.device" ? .regular : .semibold)
+        popup.font = .systemFont(ofSize: 12, weight: .regular)
         if choices[ObjectIdentifier(popup)] != values {
             let menu = NSMenu()
             menu.autoenablesItems = false
@@ -170,19 +174,9 @@ final class CaptureView: NSView {
         choices[ObjectIdentifier(popup)] = values
     }
 
-    private func card(_ frame: NSRect, radius: CGFloat = 11,
-                      fill: NSColor = NSColor.controlBackgroundColor.withAlphaComponent(0.42)) {
-        let card = NSView(frame: frame)
-        card.wantsLayer = true
-        card.layer?.cornerRadius = radius
-        card.layer?.backgroundColor = fill.cgColor
-        document.addSubview(card, positioned: .below, relativeTo: nil)
-    }
-
-    private func icon(_ name: String, frame: NSRect, color: NSColor = .secondaryLabelColor) {
+    private func icon(_ name: String, frame: NSRect, color: NSColor = NSColor.labelColor.withAlphaComponent(0.65)) {
         let image = NSImageView(frame: frame)
         image.image = captureSymbol(name, color: color)
-        image.contentTintColor = color
         image.imageScaling = .scaleProportionallyUpOrDown
         document.addSubview(image)
     }
@@ -190,27 +184,26 @@ final class CaptureView: NSView {
     private func build() {
         usedControls = []
         for child in document.subviews where child.identifier == nil { child.removeFromSuperview() }
-        let brand = NSImageView(frame: NSRect(x: 18, y: 20, width: 39, height: 39))
+        let brand = NSImageView(frame: NSRect(x: 16, y: 14, width: 30, height: 30))
         brand.image = appIcon
         brand.imageScaling = .scaleProportionallyUpOrDown
         brand.setAccessibilityLabel("Yap")
         document.addSubview(brand)
-        label("Yap", NSRect(x: 66, y: 30, width: 181, height: 24), size: 17, weight: .semibold)
-        button("Open library", id: "header.library", frame: NSRect(x: 253, y: 23, width: 34, height: 34), intent: .openLibrary, symbol: "play.rectangle.on.rectangle")
-        button("Settings", id: "header.settings", frame: NSRect(x: 297, y: 23, width: 34, height: 34), intent: .controls(.openSettings), symbol: "gearshape")
-        label("RECORD", NSRect(x: 17, y: 76, width: 100, height: 14), size: 11, weight: .semibold, color: .secondaryLabelColor)
-        let titles = ["Display", "Window", "Area", "Camera Only"]
+        label("Yap", NSRect(x: 54, y: 20, width: 180, height: 22), size: 16, weight: .semibold)
+        button("Open library", id: "header.library", frame: NSRect(x: 274, y: 16, width: 26, height: 26), intent: .openLibrary, symbol: "play.rectangle.on.rectangle")
+        button("Settings", id: "header.settings", frame: NSRect(x: 310, y: 16, width: 26, height: 26), intent: .controls(.openSettings), symbol: "gearshape")
+        label("Record", NSRect(x: 16, y: 58, width: 100, height: 16), size: 11, weight: .medium, color: .secondaryLabelColor)
+        let titles = ["Display", "Window", "Area", "Camera"]
         let symbols = ["display", "macwindow", "viewfinder", "video"]
         for (index, source) in CaptureViewInput.Source.allCases.enumerated() {
             button(titles[index], id: "source.\(source.rawValue)",
-                frame: NSRect(x: 17 + CGFloat(index % 2) * 162.5, y: 98 + CGFloat(index / 2) * 90, width: 153.5, height: 81),
+                frame: NSRect(x: 16 + CGFloat(index) * 82, y: 80, width: 74, height: 64),
                 intent: .chooseSource(source), kind: .tile(selected: source == input.selectedSource), symbol: symbols[index], enabled: input.inputsEnabled)
         }
-        var y: CGFloat = 282
+        var y: CGFloat = 156
         if input.selectedSource != .cameraOnly {
-            card(NSRect(x: 17, y: y, width: 316, height: 40), radius: 10)
-            popup(input.sourceChoices, selected: input.selectedSourceChoice, id: "source.device", frame: NSRect(x: 30, y: y + 8, width: 290, height: 24))
-            y += 53
+            popup(input.sourceChoices, selected: input.selectedSourceChoice, id: "source.device", frame: NSRect(x: 22, y: y, width: 306, height: 28))
+            y += 36
         }
         let microphoneIntent: CaptureViewIntent? = input.microphoneOn ? .controls(.disableMicrophone)
             : input.microphoneChoices.indices.contains(input.selectedMicrophone) ? input.microphoneChoices[input.selectedMicrophone].intent : nil
@@ -221,29 +214,27 @@ final class CaptureView: NSView {
             ("countdown", "stopwatch", nil, input.countdown, .countdown(!input.countdown)),
         ]
         for (id, symbol, subtitle, on, intent) in rows {
-            card(NSRect(x: 17, y: y, width: 316, height: 55))
-            icon(symbol, frame: NSRect(x: 30, y: y + 17.5, width: 20, height: 20))
-            let textY = subtitle == nil ? y + 16 : y + 8
+            let rowHeight: CGFloat = subtitle == nil ? 38 : 48
+            let centerY = y + rowHeight / 2
+            icon(symbol, frame: NSRect(x: 22, y: centerY - 8, width: 16, height: 16))
+            let textY = subtitle == nil ? centerY - 9 : y + 6
             if id == "camera" {
-                popup(input.cameraChoices, selected: input.selectedCamera, id: "camera.device", frame: NSRect(x: 60, y: textY - 1, width: input.selectedSource == .cameraOnly ? 191 : 210, height: 24))
+                popup(input.cameraChoices, selected: input.selectedCamera, id: "camera.device", frame: NSRect(x: 48, y: textY - 3, width: input.selectedSource == .cameraOnly ? 210 : 236, height: 24))
             } else if id == "microphone" {
-                popup(input.microphoneChoices, selected: input.selectedMicrophone, id: "microphone.device", frame: NSRect(x: 60, y: textY - 1, width: 210, height: 24))
+                popup(input.microphoneChoices, selected: input.selectedMicrophone, id: "microphone.device", frame: NSRect(x: 48, y: textY - 3, width: 236, height: 24))
             } else {
-                label(id == "systemAudio" ? "System audio" : "3-second countdown", NSRect(x: 60, y: textY, width: 210, height: 20), size: 13, weight: .semibold, color: input.inputsEnabled ? .labelColor : .secondaryLabelColor)
+                label(id == "systemAudio" ? "System audio" : "3-second countdown", NSRect(x: 46, y: textY, width: 238, height: 18), size: 12, color: input.inputsEnabled ? .labelColor : .secondaryLabelColor)
             }
-            if let subtitle { label(subtitle, NSRect(x: 60, y: y + 30, width: 218, height: 16), size: 11, color: .secondaryLabelColor) }
+            if let subtitle { label(subtitle, NSRect(x: 46, y: y + 25, width: 232, height: 16), size: 10, color: .secondaryLabelColor) }
             if id == "camera", input.selectedSource == .cameraOnly {
-                card(NSRect(x: 260, y: y + 17, width: 59, height: 22), radius: 6, fill: NSColor.systemBlue.withAlphaComponent(0.12))
-                label("Required", NSRect(x: 267, y: y + 20, width: 49, height: 16), size: 10, weight: .semibold, color: .systemBlue)
+                label("Required", NSRect(x: 280, y: centerY - 8, width: 56, height: 16), size: 10, weight: .medium, color: .systemBlue)
             } else {
-                toggle(id == "systemAudio" ? "System audio" : id.capitalized, id: "\(id).toggle", frame: NSRect(x: 278, y: y + 15, width: 42, height: 25), intent: intent, on: on, enabled: input.inputsEnabled)
+                toggle(id == "systemAudio" ? "System audio" : id.capitalized, id: "\(id).toggle", frame: NSRect(x: 296, y: centerY - 9, width: 38, height: 18), intent: intent, on: on, enabled: input.inputsEnabled)
             }
-            y += 64
+            y += rowHeight
         }
-        y += 5
+        y += 12
         if !input.notices.isEmpty || !input.permissionActions.isEmpty {
-            let top = y
-            y += 12
             for notice in input.notices {
                 let font = NSFont.systemFont(ofSize: 11)
                 let text = NSTextField(wrappingLabelWithString: notice)
@@ -255,22 +246,38 @@ final class CaptureView: NSView {
                 document.addSubview(text)
                 y += height + 6
             }
-            for action in input.permissionActions {
-                button(action.title, id: action.action.id, frame: NSRect(x: 29, y: y, width: 292, height: 30), intent: .controls(action.action), kind: .secondary, enabled: action.enabled)
-                y += 36
+            if input.permissionActions.contains(where: {
+                switch $0.action {
+                case .requestScreenPermission, .requestMicrophonePermission, .requestCameraPermission: true
+                default: false
+                }
+            }) {
+                label("Access required to record", NSRect(x: 24, y: y, width: 292, height: 16), size: 10, color: .secondaryLabelColor)
+                y += 20
             }
-            y += 6
-            card(NSRect(x: 17, y: top, width: 316, height: y - top), radius: 10)
-            y += 14
+            for action in input.permissionActions {
+                let role: String
+                let symbol: String
+                switch action.action {
+                case .requestScreenPermission: role = "Screen recording"; symbol = "display"
+                case .requestMicrophonePermission: role = "Microphone"; symbol = "mic"
+                case .requestCameraPermission: role = "Camera"; symbol = "video"
+                default:
+                    button(action.title, id: action.action.id, frame: NSRect(x: 17, y: y, width: 320, height: 30), intent: .controls(action.action), kind: .secondary, enabled: action.enabled)
+                    y += 32
+                    continue
+                }
+                button(action.title, id: action.action.id, frame: NSRect(x: 17, y: y, width: 320, height: 30), intent: .controls(action.action), kind: .permission(role: role), symbol: symbol, enabled: action.enabled)
+                y += 32
+            }
+            y += 8
         }
-        button(input.startTitle == "Start Recording" ? "Start recording" : input.startTitle, id: "capture.start", frame: NSRect(x: 17, y: y, width: 316, height: 44), intent: .controls(.startOrStop), kind: .primary(shortcut: input.startShortcut), enabled: input.startEnabled)
-        y += 53
+        button(input.startTitle == "Start Recording" ? "Start recording" : input.startTitle, id: "capture.start", frame: NSRect(x: 17, y: y, width: 320, height: 36), intent: .controls(.startOrStop), kind: .primary(shortcut: input.startShortcut), enabled: input.startEnabled)
+        y += 44
         for action in input.transport {
-            button(action.title, id: action.action.id, frame: NSRect(x: 17, y: y, width: 316, height: 30), intent: .controls(action.action), kind: .secondary, enabled: action.enabled)
+            button(action.title, id: action.action.id, frame: NSRect(x: 17, y: y, width: 316, height: 28), intent: .controls(action.action), kind: .secondary, enabled: action.enabled)
             y += 39
         }
-        button("Open library", id: "library.open", frame: NSRect(x: 17, y: y, width: 316, height: 37), intent: .openLibrary, kind: .library, symbol: "play.rectangle.on.rectangle")
-        y += 45
         let rule = NSBox(frame: NSRect(x: 0, y: y, width: 350, height: 1))
         rule.boxType = .separator
         document.addSubview(rule)
@@ -309,7 +316,7 @@ private final class CaptureDocument: NSView {
 /// Native momentary buttons draw the frozen geometry; they never mutate their supplied selection.
 @MainActor
 private final class CaptureButton: NSButton {
-    enum Kind { case plain, tile(selected: Bool), primary(shortcut: String?), library, secondary }
+    enum Kind { case plain, tile(selected: Bool), primary(shortcut: String?), permission(role: String), secondary }
     private var kind: Kind
     private var symbol: String?
     override var isFlipped: Bool { true }
@@ -355,39 +362,40 @@ private final class CaptureButton: NSButton {
         }
         switch kind {
         case .tile(let selected):
-            let path = NSBezierPath(roundedRect: bounds.insetBy(dx: 0.75, dy: 0.75), xRadius: 12, yRadius: 12)
-            (selected ? NSColor.systemBlue.withAlphaComponent(0.12) : NSColor.controlBackgroundColor.withAlphaComponent(0.42)).setFill()
+            let path = NSBezierPath(roundedRect: bounds.insetBy(dx: 0.75, dy: 0.75), xRadius: 9, yRadius: 9)
+            (selected ? NSColor.systemBlue.withAlphaComponent(0.12) : captureRaisedColor()).setFill()
             path.fill()
             if selected {
                 blue.withAlphaComponent(0.55).setStroke()
                 path.lineWidth = 1
                 path.stroke()
             }
-            image(NSRect(x: (bounds.width - 24) / 2, y: 14, width: 24, height: 24), color: muted)
-            text(title, y: 45, size: 13, weight: .semibold, color: isEnabled ? .labelColor : muted)
+            image(NSRect(x: (bounds.width - 18) / 2, y: 11, width: 18, height: 18), color: selected ? blue : muted)
+            text(title, y: 37, size: 11, weight: .medium, color: isEnabled ? .labelColor : muted)
             if selected {
                 let attributes: [NSAttributedString.Key: Any] = [.font: NSFont.systemFont(ofSize: 11), .foregroundColor: blue]
                 ("✓" as NSString).draw(at: NSPoint(x: bounds.width - 18, y: 7), withAttributes: attributes)
             }
         case .primary(let binding):
-            (isEnabled ? blue : NSColor.systemGray).setFill()
+            (isEnabled ? blue : blue.withAlphaComponent(0.16)).setFill()
+            let foreground = isEnabled ? NSColor.white : captureDisabledBlue()
             NSBezierPath(roundedRect: bounds, xRadius: 10, yRadius: 10).fill()
-            let action = NSAttributedString(string: "●  \(title)", attributes: [.font: NSFont.systemFont(ofSize: 13, weight: .semibold), .foregroundColor: NSColor.white])
-            let shortcut = NSAttributedString(string: binding.map { "   \($0)" } ?? "", attributes: [.font: NSFont.systemFont(ofSize: 11), .foregroundColor: NSColor.white.withAlphaComponent(0.85)])
+            let action = NSAttributedString(string: "●  \(title)", attributes: [.font: NSFont.systemFont(ofSize: 13, weight: .semibold), .foregroundColor: foreground])
+            let shortcut = NSAttributedString(string: binding.map { "   \($0)" } ?? "", attributes: [.font: NSFont.systemFont(ofSize: 11), .foregroundColor: foreground.withAlphaComponent(0.8)])
             let x = (bounds.width - action.size().width - shortcut.size().width) / 2
             action.draw(at: NSPoint(x: x, y: (bounds.height - action.size().height) / 2))
             shortcut.draw(at: NSPoint(x: x + action.size().width, y: (bounds.height - shortcut.size().height) / 2))
-        case .library:
-            let caption = NSAttributedString(string: title, attributes: [.font: NSFont.systemFont(ofSize: 12), .foregroundColor: muted])
-            let groupWidth = 18 + 8 + caption.size().width + 12 + 7
-            let x = (bounds.width - groupWidth) / 2
-            image(NSRect(x: x, y: bounds.midY - 9, width: 18, height: 18), color: muted)
-            caption.draw(at: NSPoint(x: x + 26, y: bounds.midY - caption.size().height / 2))
-            image(NSRect(x: x + 26 + caption.size().width + 12, y: bounds.midY - 5, width: 7, height: 10), color: muted, name: "chevron.right")
+        case .permission(let role):
+            image(NSRect(x: 7, y: bounds.midY - 7, width: 14, height: 14), color: muted)
+            let heading = NSAttributedString(string: role, attributes: [.font: NSFont.systemFont(ofSize: 11), .foregroundColor: NSColor.labelColor])
+            heading.draw(at: NSPoint(x: 31, y: (bounds.height - heading.size().height) / 2))
+            let actionTitle = title == "Allow in System Settings…" ? "Open Settings…" : "Allow…"
+            let action = NSAttributedString(string: actionTitle, attributes: [.font: NSFont.systemFont(ofSize: 11, weight: .medium), .foregroundColor: isEnabled ? blue : muted])
+            action.draw(at: NSPoint(x: bounds.width - action.size().width - 7, y: (bounds.height - action.size().height) / 2))
         case .secondary:
-            NSColor.controlBackgroundColor.withAlphaComponent(0.42).setFill()
+            captureRaisedColor().setFill()
             NSBezierPath(roundedRect: bounds, xRadius: 7, yRadius: 7).fill()
-            text(title, y: 8, size: 11, weight: .medium, color: isEnabled ? .labelColor : .secondaryLabelColor)
+            text(title, y: (bounds.height - 14) / 2, size: 11, weight: .medium, color: isEnabled ? .labelColor : .secondaryLabelColor)
         case .plain:
             if symbol != nil { image(bounds.insetBy(dx: 6, dy: 6), color: muted) }
             else { text(title, y: (bounds.height - NSFont.systemFont(ofSize: 11).boundingRectForFont.height) / 2, size: 11, weight: .regular, color: muted) }
@@ -408,9 +416,13 @@ private final class CapturePopup: NSPopUpButton {
             .foregroundColor: isEnabled ? NSColor.labelColor : NSColor.secondaryLabelColor,
             .paragraphStyle: paragraph,
         ]
-        ((selectedItem?.title ?? "Choose a source…") as NSString).draw(in: NSRect(x: 0, y: 5, width: bounds.width - 18, height: 18), withAttributes: attributes)
+        let title = selectedItem?.title ?? "Choose a source…"
+        let measured = (title as NSString).size(withAttributes: attributes)
+        let textWidth = min(measured.width, bounds.width - 22)
+        let textY = (bounds.height - measured.height) / 2
+        (title as NSString).draw(in: NSRect(x: 0, y: textY, width: textWidth, height: measured.height), withAttributes: attributes)
         if let image = captureSymbol("chevron.down", color: .secondaryLabelColor) {
-            image.draw(in: NSRect(x: bounds.width - 12, y: 8, width: 10, height: 8))
+            image.draw(in: NSRect(x: textWidth + 7, y: bounds.midY - 3, width: 8, height: 6), from: .zero, operation: .sourceOver, fraction: 1, respectFlipped: true, hints: nil)
         }
     }
 }
@@ -423,5 +435,21 @@ private func captureSymbol(_ name: String, color: NSColor) -> NSImage? {
         color.setFill()
         rect.fill(using: .sourceIn)
         return true
+    }
+}
+
+private func captureRaisedColor() -> NSColor {
+    NSColor(name: nil) { appearance in
+        appearance.bestMatch(from: [.darkAqua, .aqua]) == .darkAqua
+            ? NSColor.white.withAlphaComponent(0.065)
+            : NSColor.black.withAlphaComponent(0.045)
+    }
+}
+
+private func captureDisabledBlue() -> NSColor {
+    NSColor(name: nil) { appearance in
+        appearance.bestMatch(from: [.darkAqua, .aqua]) == .darkAqua
+            ? NSColor.systemBlue.blended(withFraction: 0.4, of: .white)!
+            : NSColor.systemBlue.blended(withFraction: 0.2, of: .black)!
     }
 }

@@ -621,7 +621,7 @@ final class RecordingControls: NSObject {
         guard let view = captureView else { return [] }
         return nativeControls(in: view).map { control in
             let nativeID = control.identifier!.rawValue
-            let item = nativeID == "capture.start" ? ControlsAction.startOrStop.id : nativeID == "library.open" ? ControlsAction.openLibrary.id : nativeID == "systemAudio.toggle" ? ControlsAction.toggleSystemAudio.id : nativeID
+            let item = nativeID == "capture.start" ? ControlsAction.startOrStop.id : nativeID == "header.library" ? ControlsAction.openLibrary.id : nativeID == "systemAudio.toggle" ? ControlsAction.toggleSystemAudio.id : nativeID
             var row: [String: Any] = ["item": item, "identifier": nativeID, "enabled": control.isEnabled,
                 "title": (control as? NSButton)?.title ?? (control as? NSPopUpButton)?.titleOfSelectedItem ?? nativeID,
                 "checked": (control as? NSSwitch).map { $0.state == .on } ?? ((control.accessibilityValue() as? NSNumber)?.boolValue ?? false)]
@@ -655,7 +655,7 @@ final class RecordingControls: NSObject {
             return true
         }
         guard let view = captureView else { return false }
-        let nativeID = identifier == ControlsAction.startOrStop.id ? "capture.start" : identifier == ControlsAction.openLibrary.id ? "library.open" : identifier == ControlsAction.toggleSystemAudio.id ? "systemAudio.toggle" : identifier
+        let nativeID = identifier == ControlsAction.startOrStop.id ? "capture.start" : identifier == ControlsAction.openLibrary.id ? "header.library" : identifier == ControlsAction.toggleSystemAudio.id ? "systemAudio.toggle" : identifier
         if let control = view.control(identifier: nativeID), control.isEnabled {
             control.performClick(nil)
             return true

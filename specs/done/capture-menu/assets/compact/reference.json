@@ -1,0 +1,13 @@
+{
+  "kind": "generated UI concept; not an implemented screenshot",
+  "generator": "Duet CLI, openai/gpt-image-2.5-flare",
+  "selection": "User selected A: one compact row of source tiles",
+  "prompt": "Compact native macOS Yap menu-bar popover, four source tiles in one row, small aligned native switches, adjacent camera and microphone carets, blue primary action, only header Library entry point, translucent native material. Arrow and panel form one continuous silhouette with no line across the arrow base.",
+  "sourceResearch": "https://github.com/Licoy/CodexRunway/blob/main/Sources/CodexRunway/StatusController.swift",
+  "constraints": [
+    "NSPopover owns the material and arrow; no inset background panel or outline",
+    "Generated carets on System audio and Countdown are artifacts, not requirements",
+    "Live source choices, notices and permissions preserve existing supplied facts",
+    "Compare shape and layout at a 352-point native width; wallpaper and generated text are illustrative"
+  ]
+}

@@ -8,6 +8,11 @@ import YapControls
         let input = fixture()
         let appIcon = NSImage(contentsOfFile: CommandLine.arguments[2])!
         let view = CaptureView(appIcon: appIcon, input: input) { recorded.append($0) }
+        precondition(view.control(identifier: "library.open") == nil, "Library has one entry point in the header")
+        let library = view.control(identifier: "header.library") as! NSButton
+        library.performClick(nil)
+        precondition(recorded == [.openLibrary], "Header library action reaches the caller")
+        recorded.removeAll()
         view.frame.size = NSSize(width: CaptureView.preferredWidth, height: view.contentHeight)
         let window = NSWindow(contentRect: NSRect(x: -10000, y: -10000, width: CaptureView.preferredWidth, height: view.contentHeight),
             styleMask: .borderless, backing: .buffered, defer: false)
@@ -54,12 +59,18 @@ import YapControls
             if let toggle = control as? NSSwitch { toggle.performClick(nil) }
         }
         precondition(lockedActions.isEmpty, "Inapplicable actions cannot escape the view")
+        let permissions = CaptureView(appIcon: appIcon, input: permissionFixture()) { recorded.append($0) }
+        let screenAccess = permissions.control(identifier: "permission.screen") as! NSButton
+        screenAccess.performClick(nil)
+        precondition(recorded.last == .controls(.requestScreenPermission), "Permission rows dispatch the supplied access request")
+        precondition(screenAccess.frame.height <= 30, "Permission actions fit a compact single-line row")
         let output = CommandLine.arguments[1]
         var observations: [[String: Any]] = []
         for (name, facts, limit) in [
             ("idle", fixture(), CGFloat(0)),
             ("camera-only", fixture(cameraOnly: true), CGFloat(0)),
             ("permissions", permissionFixture(), CGFloat(0)),
+            ("permissions-dark", permissionFixture(), CGFloat(0)),
             ("dark", fixture(), CGFloat(0)),
             ("long-names", fixture(longNames: true), CGFloat(0)),
             ("short-screen", fixture(longNames: true), CGFloat(440)),
@@ -68,7 +79,7 @@ import YapControls
             let height = limit > 0 ? limit : capture.contentHeight
             let stage = NSView(frame: NSRect(x: 0, y: 0, width: CaptureView.preferredWidth + 40, height: height + 40))
             stage.wantsLayer = true
-            stage.layer?.backgroundColor = NSColor(white: name == "dark" ? 0.16 : 0.93, alpha: 1).cgColor
+            stage.layer?.backgroundColor = NSColor(white: name.contains("dark") ? 0.16 : 0.93, alpha: 1).cgColor
             capture.frame = NSRect(x: 20, y: 20, width: CaptureView.preferredWidth, height: height)
             stage.addSubview(capture)
             let caption = NSTextField(labelWithString: "Synthetic facts · presentation fixture")
@@ -78,7 +89,7 @@ import YapControls
             stage.addSubview(caption)
             let shotWindow = NSWindow(contentRect: NSRect(x: -10000, y: -10000, width: CaptureView.preferredWidth + 40, height: height + 40), styleMask: .borderless, backing: .buffered, defer: false)
             shotWindow.isReleasedWhenClosed = false
-            shotWindow.appearance = NSAppearance(named: name == "dark" ? .darkAqua : .aqua)
+            shotWindow.appearance = NSAppearance(named: name.contains("dark") ? .darkAqua : .aqua)
             shotWindow.contentView = stage
             shotWindow.orderBack(nil)
             RunLoop.current.run(until: Date().addingTimeInterval(0.15))
@@ -91,14 +102,14 @@ import YapControls
             save("")
             let scroll = capture.scrollView
             let doc = scroll.documentView!
-            let ids = ["header.library", "header.settings", "source.display", "source.window", "source.area", "source.cameraOnly", "camera.device", "microphone.device", "microphone.toggle", "systemAudio.toggle", "countdown.toggle", "capture.start", "library.open", "app.quit"] + (facts.selectedSource == .cameraOnly ? [] : ["source.device", "camera.toggle"])
+            let ids = ["header.library", "header.settings", "source.display", "source.window", "source.area", "source.cameraOnly", "camera.device", "microphone.device", "microphone.toggle", "systemAudio.toggle", "countdown.toggle", "capture.start", "app.quit"] + (facts.selectedSource == .cameraOnly ? [] : ["source.device", "camera.toggle"])
             var frames: [String: [Double]] = [:]
             for id in ids {
                 let control = capture.control(identifier: id)!
                 let rect = control.convert(control.bounds, to: doc)
                 frames[id] = [rect.minX, rect.minY, rect.width, rect.height]
             }
-            observations.append(["fixture": name, "facts": "synthetic; no service/devices/permissions", "appearance": name == "dark" ? "darkAqua" : "aqua", "widthPoints": CaptureView.preferredWidth, "heightPoints": height, "contentHeightPoints": capture.contentHeight, "backingScale": shotWindow.backingScaleFactor, "controls": frames])
+            observations.append(["fixture": name, "facts": "synthetic; no service/devices/permissions", "appearance": name.contains("dark") ? "darkAqua" : "aqua", "widthPoints": CaptureView.preferredWidth, "heightPoints": height, "contentHeightPoints": capture.contentHeight, "backingScale": shotWindow.backingScaleFactor, "controls": frames])
             // Retain the complete operands before a reachability assertion can stop the run.
             let report = try! JSONSerialization.data(withJSONObject: observations, options: [.prettyPrinted, .sortedKeys])
             try! report.write(to: URL(fileURLWithPath: "\(output)/native-metadata.json"))
@@ -125,18 +136,17 @@ import YapControls
     }
 
     @MainActor static func permissionFixture() -> CaptureViewInput {
-        var input = fixture(locked: true, status: "Idle")
-        input.notices = ["Screen recording access is not granted. Allow it in System Settings > Privacy & Security."]
+        var input = fixture(startEnabled: false, status: "Idle")
         input.permissionActions = [.init(.requestScreenPermission, "Allow in System Settings…", enabled: true), .init(.requestMicrophonePermission, "Allow Microphone Access…", enabled: true)]
         return input
     }
 
-    @MainActor static func fixture(locked: Bool = false, cameraOnly: Bool = false, longNames: Bool = false, duplicateNames: Bool = false, microphoneOn: Bool = true, secondSource: Bool = false, status: String = "Ready to record") -> CaptureViewInput {
+    @MainActor static func fixture(locked: Bool = false, cameraOnly: Bool = false, longNames: Bool = false, duplicateNames: Bool = false, microphoneOn: Bool = true, secondSource: Bool = false, startEnabled: Bool? = nil, status: String = "Ready to record") -> CaptureViewInput {
         .init(selectedSource: cameraOnly ? .cameraOnly : .display, selectedSourceChoice: secondSource ? 1 : 0, sourceChoices: [.init(title: longNames ? "A very long external display name for a conference studio · 5120 × 2880" : "Built-in Retina Display · 3024 × 1964", intent: .controls(.selectDisplay(1)))] + (secondSource ? [.init(title: "Studio Display", intent: .controls(.selectDisplay(2)))] : []),
             cameraChoices: (cameraOnly ? [] : [.init(title: "No camera", intent: .camera(nil))]) + [.init(title: longNames ? "Conference room camera with an unusually long name" : "FaceTime HD Camera", intent: .camera("fixture-camera"))] + (duplicateNames ? [.init(title: "FaceTime HD Camera", intent: .camera("fixture-camera-second")), .init(title: "Another camera", intent: .camera("fixture-camera-third"))] : []),
             selectedCamera: cameraOnly ? 0 : longNames ? 1 : 0, cameraOn: cameraOnly || longNames,
             microphoneChoices: [.init(title: longNames ? "Conference room microphone with an unusually long name" : "MacBook Pro Microphone", intent: .controls(.selectMicrophone("fixture-mic")))],
             selectedMicrophone: 0, microphoneOn: microphoneOn, systemAudio: true, countdown: true,
-            inputsEnabled: !locked, startEnabled: !locked, status: status)
+            inputsEnabled: !locked, startEnabled: startEnabled ?? !locked, status: status)
     }
 }
