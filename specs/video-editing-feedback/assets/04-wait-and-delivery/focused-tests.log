@@ -1,0 +1,7 @@
+RUN  v5.0.0 /Users/server/dev/yap-exact-removal
+
+
+ Test Files  8 passed (8)
+      Tests  130 passed (130)
+   Start at  23:13:06
+   Duration  10.68s (tests 73%, transform 21%, import 6%)

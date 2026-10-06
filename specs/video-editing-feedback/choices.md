@@ -211,3 +211,174 @@ bytes, actual worker/preprocessing and all measured operands.
   received the complete captured set, so selected retention did not select the verdict.
 - Verdict: sound as declared sampled evidence, with no exhaustive playback claim.
 - Confidence: medium.
+
+## Bounded speech decisions — integrated34a21754
+
+These are decisions made in gaps in the original slice, approved by the integrator
+while implementing. Recipe sizing was explicitly delegated and is recorded with
+its measured evidence rather than treated as an invented decision.
+
+## Sound — medium confidence
+
+### Shared context establishes occurrence correspondence through mandatory word order
+
+When two decodes report the same word on opposite 80ms frames, their estimated
+intervals can touch without overlapping. Rejecting this pair solely on overlap
+loses a valid preparation; accepting the nearest timestamp would invent a tolerance.
+The work instead compares word sequences inside their exact shared decoded support.
+A guarded word must pair with the same peer in every longest ordered matching
+sequence. Missing or repeated ambiguous matches refuse; true points require equal
+point estimates. Selected text, confidence and times remain the original observation.
+
+The original slice required boundary agreement without specifying correspondence.
+This decision constrains subsequent alignment reuse: the generic sequence certainty
+can be shared, while source support, points and ownership remain speech policy.
+It is sound because uncertainty stays explicit and no timestamp becomes a repair;
+confidence is medium because this evidence establishes correspondence, not audible truth.
+
+### Conflicting start ownership keeps one original observation deterministically
+
+A seam at 20s can have a left word starting 19.95s and a right peer starting 20.03s,
+so both decodes provisionally own it. The opposite shift can leave neither owning
+it. Once ordered correspondence is uniquely established, the work retains the
+original single owner if there is one; when both or neither own, it retains the
+left observation once. It does not average, clamp or change estimates.
+
+The plan required no duplicates or lost seam occurrences without selecting an
+estimate on conflicting starts. This deterministic rule lets retained preparations
+remain reproducible and keeps raw alternatives inspectable. It is sound for an
+evidence primitive; confidence is medium because neither estimate is proved more
+accurate and the policy deliberately makes no such claim.
+
+## Sound — high confidence
+
+### Phrase continuity follows connected primary observations
+
+A phrase whose first word crosses 20s and whose second begins 20.2s should remain
+searchable when inference merely used two windows. Words therefore share a phrase
+run when transcribed primary ownership touches exactly. A skipped interval or real
+unowned/missing support starts a new run. Each native window ordinal is also stored
+privately, so portable receipts still count each window's words independently.
+
+The old source search treated every inference segment as a phrase barrier; the
+slice did not choose how bounded windows should affect it. This change prevents
+window size from changing ordinary source phrase semantics. It is sound because
+only continuous observed ownership joins, and original estimates remain unchanged.
+
+### Native readable support is retained separately from ownership
+
+For a request owning 18–22s with context 16–24s in a 25s source, the source outside
+primary ownership was not transcribed, but it still physically exists. The receipt
+retains actual readable 0–25s support separately from 18–22s primary ownership and
+16–24s decoded support. Reads distinguish `not_observed` from `not_acquired` using
+those retained facts; packages preserve them after the original runtime disappears.
+
+The original slice distinguished gaps but did not name the native support echo
+needed to preserve physically narrowed source facts. This adds one required retained
+input, with strict execution/ownership receipts and a hard format cutover. It is
+sound because masking bounded decode work cannot relabel existing media as missing.
+
+## Selected corpus speech decisions — integratedfd0401d0
+
+These are the choices made during the three-case pass. The parent owns the permanent ledger and global handoff. Frozen07 execution, exact token/word parity rather than lexical ground truth, six bounded calls, preserved historical failures, network-denied inference and no root-build/model/original mutation were explicit assignment constraints.
+
+## Sound — medium confidence
+
+### Preserve the pre-run source hash with a narrowly described post-run observation
+
+- When: selected speech parity pass at source9368acc.
+- Choice: Before inference, hash both complete multi-GB originals and each selected derivative. Afterwards, rehash the small derivatives and the executable/source pins, and check original file size and modification time. The final receipt says exactly which checks ran. It does not claim that a second original hash was computed. Rehashing every original after these read-only operations would cost work without evidence of a writer.
+- Gap: The assignment requested source/model closure scope after execution without redundant expensive reruns, but did not prescribe the last check.
+- Reach: A future pass that writes an original, observes changed metadata, or sees evidence of another writer must re-establish byte identity. This narrow observation cannot substitute for such a check.
+- Verdict: sound; no operation in the pass writes an original, all six native requests read bounded source intervals, and the limit of the metadata observation is explicit.
+- Confidence: medium; the source-preservation principle supports this tradeoff, but post-run metadata alone is intentionally weaker than a second complete hash.
+
+## Sound — high confidence
+
+### Compare every native raw field except per-call processing time
+
+- When: selected speech parity comparison.
+- Choice: If the original and derivative recognize the same words, compare their complete native raw records after subtracting only the original source origin. Keep source support, token confidence, token times, word recognition/spoken times, sample counts and ASR duration. Exclude only processingTime because otherwise two equivalent decodes would fail due to how long the computer took. Preserve that time in both untouched raw outputs and the comparison receipt. There is no tolerance or text cleanup.
+- Gap: The protocol specified exact token/word parity and allowed documented incidental duration exclusions; it did not specify a complete raw-record equality check or canonical hash encoding.
+- Reach: Future comparisons can detect an unexpected field difference instead of silently checking only a selected subset. A new incidental field requires explicit reasoning rather than automatic omission.
+- Verdict: sound; equality is stronger than the required observation operands, and the single exclusion cannot hide recognition differences.
+- Confidence: high.
+
+### Build the frozen owner in isolated output rather than use an unrelated executable
+
+- When: preparation before native inference.
+- Choice: The root binary was the old baseline, and the other agent's once-valid07 binary had been rebuilt with unintegrated08 speech windows. Build native at the integrated07 source revision in fresh scratch, using symlinks to unchanged pinned SDK/denoiser inputs. Do not share mutable build products or claim an08 binary proves07 behavior. The failed root-traits invocation is preserved, then corrected according to the existing root manifest; it never invoked inference.
+- Gap: The required implementation was clear, but no valid executable of that frozen revision remained available.
+- Reach: Every raw observation now identifies the actual isolated executable and source revision. Later08 output needs its own requests and receipts, even if its result happens to agree.
+- Verdict: sound; it preserves one product speech owner and separates runtime identity without copying dependencies or mutating the root build.
+- Confidence: high.
+
+No unsound or needs-user choice was found. Evidence filenames, compact ordinary Git JSON/text storage and scratch-only resource sampling are internal discretion. Resource claims retain native-reported process peak memory separately from sampled RSS, and fresh processes with OS caches are never described as a warm resident worker.
+
+## Historical caller verification boundary — sound, high confidence
+
+- When:08 root caller cutover.
+- Choice: Short, unchanged whole-support speech inputs compare every historical raw
+  operand after validating new ownership and candidate metadata. Measured processing
+  time is excluded; longer/context inputs cannot use this comparison. For example,
+  the old6s observation and new6s observation must retain all words/tokens/times,
+  while a25s input processed in multiple windows needs its own accepted recipe proof.
+- Gap: the hard cutover invalidates historical raw admission without specifying how
+  to keep historical reference comparisons useful.
+- Reach: frozen evidence stays intact; only explicitly labeled reference derivatives
+  gain modern provenance. No production compatibility reader or accuracy relaxation.
+- Verdict: sound; contract additions are checked rather than silently discarded.
+- Confidence: high.
+
+## Bounded delivery owner decisions — integrated148a7b11
+
+All six choices below are sound, high confidence;04 left these arrangements
+unspecified. They preserve the existing owners rather than adding new schedulers.
+
+- **Measurement JSON uses cache-backed leases.** When a measurement becomes ready,
+  CLI reads identified chunks and closes its lease. Opening a private service-cache
+  path would bypass the same lifetime used by other media; future evidence delivery
+  inherits the public lease contract.
+- **Single and batch artifacts share atomic publication.** If writing the first
+  frame fails halfway, its final filename stays absent while a later sibling can
+  succeed.04 did not explicitly name the batch path; both paths now use the same
+  staged validation and no-overwrite owner.
+- **Initial getters observe themselves and pin completed attempts.** If
+  `transcript.get` starts pending and later returns a page without a job ID, the page
+  still has to match the earlier observed attempt. The alternative would accept a
+  replacement page simply because it said ready. This constrains all waited reads.
+- **Export recovery is current work; the first receipt is history.** If original
+  publication failed and reconciliation is queued, waiting follows the reconciliation
+  job and returns the export's destination/history. A later failure stays a failure
+  even if an older committed file exists. Generic job replacement would erase domain
+  meaning, so export reads refresh and reinspect the current attempt.
+- **Package waiting observes its existing process-local admission.** A returned
+  `data.id` is passed as `admissionId` to `package.status`; the private context-job ID
+  cannot be inspected through public `job.get`. If the service restarts and that
+  admission disappears, waiting retains the acknowledgement and reports interruption.
+  It never opens the package again or claims rollback/durability.
+- **JSON disk validation and MCP buffering retain different bounds.** A producer's
+  valid JSON up to16MiB can be atomically delivered to disk; model-facing MCP buffering
+  retains its existing4MiB limit.04 required validation without selecting a memory
+  policy. Reusing each consumer's established budget avoids a new universal limit.
+
+## Slice17 — complete tap preparation
+
+### Sound decisions
+
+- **Preparing a selected signal uses the existing whole-program duration.** A clip,
+  track, group or intermediate step uses the same tap selection and processing-state
+  domains as ordinary inspection; the request adds no arbitrary excerpt normalization
+  contract. This follows the compiler's existing semantics and keeps history/retry
+  identity literal. The public help states complete domains; dynamic feasibility still
+  requires actual execution. No separate duration policy or scheduler was added.
+- **Only the prepared final mix may replace movie audio.** Dry and intermediate
+  preparations remain useful evidence but cannot silently become the delivered soundtrack.
+  Recorded tap and ordered recipe bind retained resolution and portable adoption;
+  omission still means processed output. The public native export test borrows that
+  retained mix and forbids audio recomputation during picture encoding.
+- **Preflight preserves the existing export order.** The movie owner already prepares
+  complete audio and checks strict normalization before encoding pictures. The pass
+  adds an externally observable refusal regression rather than another execution path
+  or diagnostic store. Existing job failures retain measured reasons; edit admission
+  remains cheap and no loudness tolerance changes.

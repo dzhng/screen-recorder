@@ -985,7 +985,9 @@ export async function startProjectService(options: {
                     : projectPackages.projectSpeakers(
                         operation.params.packageHandle,
                         (() => {
-                          const { packageHandle, view, ...input } = operation.params;
+                          const input = { ...operation.params };
+                          delete input.packageHandle;
+                          delete input.view;
                           return input;
                         })(),
                       ),
@@ -1246,20 +1248,21 @@ export async function startProjectService(options: {
           }
           case "audio.measure": {
             const status = await acoustics.request({ ...operation.params, kind: "loudness" });
-            const value = status.published?.artifact;
-            if (value) {
-              return {
-                ok: true,
-                data: {
-                  ...status,
-                  published: publishedOutput(
-                    status.published,
-                    (publication) => publication.artifact,
-                  ),
-                },
-              };
-            }
-            return { ok: true, data: status };
+            return {
+              ok: true,
+              data: {
+                ...status,
+                published: publishedOutput(status.published, (value) => value.artifact),
+                delivery: status.published
+                  ? delivery.open(
+                      "projectId" in status
+                        ? { kind: "project", id: status.projectId }
+                        : { kind: "asset", id: status.assetId },
+                      () => cache.acquire(status.published!.artifact.cacheId),
+                    )
+                  : null,
+              },
+            };
           }
           case "audio.get":
           case "audio.retry": {

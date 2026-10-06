@@ -265,6 +265,30 @@ test("retains exact PCM and immutable revision dependencies; bounded reads survi
   expect((await f.current.prepared.request(f.input)).state).toBe("ready");
   expect(f.reads).toBe(1);
 });
+
+test("preparation retains the selected complete tap and cannot reuse it as the processed output", async () => {
+  const f = await fixture();
+  const selected = {
+    ...f.input,
+    tap: {
+      target: { kind: "clip" as const, id: f.placed.edit.labels.clip! },
+      point: { kind: "dry" as const },
+    },
+  };
+  await f.current.prepared.request(selected);
+  await f.current.jobs.idle();
+  const status = await f.current.prepared.request(selected);
+  expect(status.state).toBe("ready");
+  expect(JSON.parse(status.published!.input).tap).toEqual(selected.tap);
+  const composition = projectComposition(f.current.projects, f.current.assets, f.input);
+  const retained = f.current.prepared.resolve(composition, selected.tap);
+  expect(retained?.resourceId).toBe(JSON.parse(status.published!.result).resourceId);
+  expect(f.current.prepared.resolve(composition)).toBeNull();
+  expect(f.reads).toBe(1);
+  const output = await ready(f);
+  expect(output.resourceId).not.toBe(retained?.resourceId);
+  expect(f.reads).toBe(2);
+});
 test("an expanded executor can prepare the same revision after a nonretryable old failure", async () => {
   const f = await fixture([], "bounded-executor");
   const document = JSON.stringify(f.placed.revision.document);
@@ -540,108 +564,127 @@ test("identical prepared bytes do not merge unrelated project source closures", 
   ).not.toContainEqual({ kind: "asset", id: f.asset.id });
 });
 
-test("portable preparation retains original recipe and bounded PCM under adopted identities", async () => {
-  const donor = await fixture(),
-    receiver = await fixture([], "different-local-renderer");
-  const original = await ready(donor);
-  const portable = donor.current.prepared.portable(original.resourceId);
-  const adoption = receiver.current.projects.prepareAdoption({
-    requestId: "adopt",
-    packageIdentity: "prepared",
-    snapshot: donor.current.projects.snapshot(donor.input.projectId),
-  });
-  const assets: Awaited<ReturnType<AssetStore["stagePortable"]>>[] = [];
-  for (const id of [donor.asset.id, original.assetId]) {
-    const stage = await receiver.current.assets.stagePortable(
-      donor.current.assets.portable(id),
-      donor.current.assets.path(id),
+test.each(["processed", "dry"] as const)(
+  "portable %s preparation retains its selected recipe and bounded PCM under adopted identities",
+  async (kind) => {
+    const donor = await fixture(),
+      receiver = await fixture([], "different-local-renderer");
+    const tap = { target: { kind: "output" as const }, point: { kind } };
+    await donor.current.prepared.request({ ...donor.input, tap });
+    await donor.current.jobs.idle();
+    const status = await donor.current.prepared.request({ ...donor.input, tap });
+    expect(status.state).toBe("ready");
+    const original = JSON.parse(status.published!.result) as PreparedAudio;
+    const portable = donor.current.prepared.portable(original.resourceId);
+    const adoption = receiver.current.projects.prepareAdoption({
+      requestId: "adopt",
+      packageIdentity: "prepared",
+      snapshot: donor.current.projects.snapshot(donor.input.projectId),
+    });
+    const assets: Awaited<ReturnType<AssetStore["stagePortable"]>>[] = [];
+    for (const id of [donor.asset.id, original.assetId]) {
+      const stage = await receiver.current.assets.stagePortable(
+        donor.current.assets.portable(id),
+        donor.current.assets.path(id),
+        new AbortController().signal,
+      );
+      await stage.close();
+      assets.push(stage);
+    }
+    const revision = adoption.revisions.find(
+      (r) => r.id === adoption.revisionIds[donor.input.revisionId],
+    )!;
+    const composition = projectCompositionFromRevision(revision, receiver.current.assets, []);
+    const stage = await receiver.current.prepared.stagePortable(
+      portable,
+      composition,
+      assets[1]!.path,
+      (reference) => reference,
       new AbortController().signal,
     );
-    await stage.close();
-    assets.push(stage);
-  }
-  const revision = adoption.revisions.find(
-    (r) => r.id === adoption.revisionIds[donor.input.revisionId],
-  )!;
-  const composition = projectCompositionFromRevision(revision, receiver.current.assets, []);
-  const stage = await receiver.current.prepared.stagePortable(
-    portable,
-    composition,
-    assets[1]!.path,
-    (reference) => reference,
-    new AbortController().signal,
-  );
-  const controller = new AbortController();
-  const canceled = await receiver.current.prepared.stagePortable(
-    portable,
-    composition,
-    assets[1]!.path,
-    (reference) => reference,
-    controller.signal,
-  );
-  controller.abort();
-  expect(() =>
+    const controller = new AbortController();
+    const canceled = await receiver.current.prepared.stagePortable(
+      portable,
+      composition,
+      assets[1]!.path,
+      (reference) => reference,
+      controller.signal,
+    );
+    controller.abort();
+    expect(() =>
+      adoption.publish(() => assets.forEach((asset) => asset.publish()), {
+        reference: (r) => r,
+        publish: () => canceled.publish(),
+      }),
+    ).toThrow();
+    expect(() => receiver.current.projects.get(adoption.project.projectId)).toThrow();
+    expect(() => receiver.current.assets.get(original.assetId)).toThrow();
+    await expect(
+      receiver.current.prepared.stagePortable(
+        { ...portable, audio: { ...portable.audio, dependencies: [] } },
+        composition,
+        assets[1]!.path,
+        (reference) => reference,
+        new AbortController().signal,
+      ),
+    ).rejects.toThrow("upstream dependency");
+    await expect(
+      receiver.current.prepared.stagePortable(
+        { ...portable, audio: { ...portable.audio, frames: portable.audio.frames - 1 } },
+        composition,
+        assets[1]!.path,
+        (reference) => reference,
+        new AbortController().signal,
+      ),
+    ).rejects.toThrow("pinned sample window");
+    const unresolved = JSON.parse(portable.publication.input);
+    unresolved.requirements[0].implementationId = null;
+    await expect(
+      receiver.current.prepared.stagePortable(
+        {
+          ...portable,
+          publication: { ...portable.publication, input: JSON.stringify(unresolved) },
+        },
+        composition,
+        assets[1]!.path,
+        (reference) => reference,
+        new AbortController().signal,
+      ),
+    ).rejects.toThrow("unresolved execution requirements");
+    expect(() => receiver.current.prepared.open(stage.resourceId)).toThrow();
     adoption.publish(() => assets.forEach((asset) => asset.publish()), {
-      reference: (r) => r,
-      publish: () => canceled.publish(),
-    }),
-  ).toThrow();
-  expect(() => receiver.current.projects.get(adoption.project.projectId)).toThrow();
-  expect(() => receiver.current.assets.get(original.assetId)).toThrow();
-  await expect(
-    receiver.current.prepared.stagePortable(
-      { ...portable, audio: { ...portable.audio, dependencies: [] } },
-      composition,
-      assets[1]!.path,
-      (reference) => reference,
-      new AbortController().signal,
-    ),
-  ).rejects.toThrow("upstream dependency");
-  await expect(
-    receiver.current.prepared.stagePortable(
-      { ...portable, audio: { ...portable.audio, frames: portable.audio.frames - 1 } },
-      composition,
-      assets[1]!.path,
-      (reference) => reference,
-      new AbortController().signal,
-    ),
-  ).rejects.toThrow("pinned sample window");
-  const unresolved = JSON.parse(portable.publication.input);
-  unresolved.requirements[0].implementationId = null;
-  await expect(
-    receiver.current.prepared.stagePortable(
-      { ...portable, publication: { ...portable.publication, input: JSON.stringify(unresolved) } },
-      composition,
-      assets[1]!.path,
-      (reference) => reference,
-      new AbortController().signal,
-    ),
-  ).rejects.toThrow("unresolved execution requirements");
-  expect(() => receiver.current.prepared.open(stage.resourceId)).toThrow();
-  adoption.publish(() => assets.forEach((asset) => asset.publish()), {
-    reference: (reference) =>
-      reference.kind === "prepared-audio" ? { ...reference, id: stage.resourceId } : reference,
-    publish: () => stage.publish(),
-  });
-  const adopted = receiver.current.prepared.portable(stage.resourceId);
-  expect(JSON.parse(adopted.publication.input)).toEqual({
-    ...JSON.parse(portable.publication.input),
-    revisionId: revision.id,
-  });
-  expect(adopted.audio).toEqual(portable.audio);
-  await rm(donor.current.assets.path(original.assetId));
-  await receiver.reopen();
-  const read = receiver.current.prepared.open(stage.resourceId, { start: 47980, end: 48000 });
-  try {
-    const bytes = Buffer.alloc(20 * 8);
-    expect(read.read(bytes, 0)).toBe(bytes.length);
-    expect(bytes).toEqual(wave(48000).subarray(44 + 47980 * 8));
-    expect(read.read(bytes, bytes.length)).toBe(0);
-  } finally {
-    read.release();
-  }
-  expect(receiver.reads).toBe(0);
-});
+      reference: (reference) =>
+        reference.kind === "prepared-audio" ? { ...reference, id: stage.resourceId } : reference,
+      publish: () => stage.publish(),
+    });
+    const adopted = receiver.current.prepared.portable(stage.resourceId);
+    expect(JSON.parse(adopted.publication.input)).toEqual({
+      ...JSON.parse(portable.publication.input),
+      revisionId: revision.id,
+    });
+    expect(adopted.audio).toEqual(portable.audio);
+    await rm(donor.current.assets.path(original.assetId));
+    await receiver.reopen();
+    const retained = await receiver.current.prepared.request({
+      projectId: composition.projectId,
+      revisionId: revision.id,
+      tap,
+    });
+    expect(retained.state).toBe("ready");
+    expect(JSON.parse(retained.published!.result).resourceId).toBe(stage.resourceId);
+    expect(JSON.parse(retained.published!.input).tap).toEqual(tap);
+    const read = receiver.current.prepared.open(stage.resourceId, { start: 47980, end: 48000 });
+    try {
+      const bytes = Buffer.alloc(20 * 8);
+      expect(read.read(bytes, 0)).toBe(bytes.length);
+      expect(bytes).toEqual(wave(48000).subarray(44 + 47980 * 8));
+      expect(read.read(bytes, bytes.length)).toBe(0);
+    } finally {
+      read.release();
+    }
+    expect(receiver.reads).toBe(0);
+  },
+);
 
 test("an adopted ready preparation does not start a replacement job", async () => {
   const f = await fixture();
@@ -1169,7 +1212,7 @@ test("an explicit prepared output pin refuses an incompatible tap instead of cho
       },
       value.resourceId,
     ),
-  ).toThrow("processed output");
+  ).toThrow("no longer matches");
   expect(
     f.current.prepared.resolve(composition, {
       target: { kind: "output" },

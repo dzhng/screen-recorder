@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 import { randomUUID } from "node:crypto";
 import appManifest from "../../macos/package.json" with { type: "json" };
-import { mkdir, mkdtemp, writeFile } from "node:fs/promises";
+import { mkdir, mkdtemp } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join, resolve } from "node:path";
 import {
@@ -10,7 +10,10 @@ import {
   batchReferences,
   ArtifactDeliveryError,
   consumeBatch,
+  closeArtifact,
+  publishArtifactFile,
 } from "./artifact-delivery.js";
+import { waitForWork, waitSucceeded } from "./wait.js";
 import { mcpContent, mcpInlineBytes, mcpResult } from "./mcp-result.js";
 import { parseArgs } from "node:util";
 import { z } from "zod";
@@ -199,6 +202,8 @@ async function main() {
       socket: { type: "string" },
       params: { type: "string" },
       output: { type: "string" },
+      wait: { type: "boolean" },
+      "timeout-ms": { type: "string" },
       id: { type: "string" },
       help: { type: "boolean", short: "h" },
       version: { type: "boolean" },
@@ -226,7 +231,9 @@ async function main() {
         {
           version,
           usage:
-            "yap <operation> [--socket PATH] [--params JSON|-] [--id ID] [--output FILE|NEW_DIRECTORY] | yap mcp [--socket PATH] | yap --version",
+            "yap <operation> [--socket PATH] [--params JSON|-] [--id ID] [--output FILE|NEW_DIRECTORY] [--wait --timeout-ms MS] | yap mcp [--socket PATH] | yap --version",
+          waiting:
+            "--wait requires --timeout-ms, a positive integer up to 2147483647. One deadline covers discovery, admission, polling and delivery. Polls every 100 ms; never retries failures or resubmits writes. wait metadata distinguishes settled work, timed_out pending work (exit 2), and interrupted waiting (exit 1); success requires the requested output to be ready.",
           service:
             "Without --socket, calls use $YAP_HOME/run/service.sock (default ~/.yap) and launch the personal app once, within ten seconds, when nothing answers there. --socket connects to that path directly and never launches an app.",
           bundledMedia:
@@ -246,9 +253,21 @@ async function main() {
   const [operation] = positionals;
   if (positionals.length !== 1 || operation === undefined)
     throw new Error("Expected one operation name or mcp");
+  const timeoutMs = values["timeout-ms"] === undefined ? undefined : Number(values["timeout-ms"]);
+  if (
+    Boolean(values.wait) !== (timeoutMs !== undefined) ||
+    (timeoutMs !== undefined &&
+      (!Number.isSafeInteger(timeoutMs) || timeoutMs < 1 || timeoutMs > 2_147_483_647))
+  )
+    throw new UsageError(
+      "INVALID_REQUEST",
+      "--wait requires a positive integer --timeout-ms (at most 2147483647)",
+    );
+  const controller = new AbortController();
   const selection: ServiceSelection = { socketPath: values.socket };
   if (operation === "mcp") {
-    if (values.params || values.id || values.output) throw new Error("mcp accepts --socket only");
+    if (values.params || values.id || values.output || values.wait || values["timeout-ms"])
+      throw new Error("mcp accepts --socket only");
     // Listing tools describes the registry; only a called tool looks for a service.
     await mcp(selection);
     return;
@@ -256,49 +275,149 @@ async function main() {
   if (values.output && !artifactOperations.has(operation) && !previewOperations.has(operation))
     throw new Error("--output applies only to artifact inspection operations");
   const sending = request(responseId, operation, await readParams(values.params ?? "{}"));
-  const selected = { ...selection, socketPath: await resolveServiceSocket(selection) };
-  let result = await invoke(selected, sending);
-  const batchReference = batchReferences.get(operation);
-  if (batchReference) {
-    let directory: string | undefined;
-    let outputError: unknown;
-    result = await consumeBatch(
-      selected,
-      result,
-      batchReference,
-      async (media, index) => {
-        if (outputError) throw outputError;
-        if (!directory) {
-          try {
-            directory = values.output
-              ? resolve(values.output)
-              : await mkdtemp(join(tmpdir(), "yap-frames-"));
-            if (values.output) await mkdir(directory);
-          } catch (error) {
-            outputError = error;
-            throw error;
+  const timer = values.wait
+    ? setTimeout(() => controller.abort("wait_deadline"), timeoutMs!)
+    : undefined;
+  const abort = () => controller.abort("caller_canceled");
+  if (values.wait) {
+    process.once("SIGINT", abort);
+    process.once("SIGTERM", abort);
+    selection.signal = controller.signal;
+  }
+  try {
+    const selected = { ...selection, socketPath: await resolveServiceSocket(selection) };
+    let result = await invoke(selected, sending);
+    if (values.wait && result.ok)
+      result = await waitForWork({
+        request: sending,
+        initial: result,
+        timeoutMs: timeoutMs!,
+        signal: controller.signal,
+        call: (operation, params) => invoke(selected, request(sending.id, operation, params)),
+        close: (token) => closeArtifact(selected.socketPath, token),
+        progress: (message) => process.stderr.write(message + "\n"),
+      });
+    if (values.wait && !result.ok && controller.signal.aborted)
+      result = {
+        ...result,
+        wait:
+          controller.signal.reason === "wait_deadline"
+            ? { state: "timed_out", timeoutMs: timeoutMs! }
+            : { state: "interrupted", timeoutMs: timeoutMs!, error: result.error },
+      };
+    const canDeliver = !values.wait || result.wait?.state === "settled";
+    const batchReference = batchReferences.get(operation);
+    if (batchReference && canDeliver) {
+      let directory: string | undefined;
+      let outputError: unknown;
+      result = await consumeBatch(
+        selected,
+        result,
+        batchReference,
+        async (media, index) => {
+          if (outputError) throw outputError;
+          if (!directory) {
+            try {
+              directory = values.output
+                ? resolve(values.output)
+                : await mkdtemp(join(tmpdir(), "yap-frames-"));
+              if (values.output) await mkdir(directory);
+            } catch (error) {
+              outputError = error;
+              throw error;
+            }
           }
-        }
-        const output = join(directory, `${String(index + 1).padStart(2, "0")}.png`);
-        await writeFile(output, media.bytes, { flag: "wx" });
-        return { output };
-      },
-      (error) => errorResult(sending.id, error).error,
-    );
-  } else if (artifactOperations.has(operation) || previewOperations.has(operation)) {
-    try {
-      const media = await artifactFile(selected, result, values.output);
-      if (media && result.ok)
+          const output = join(directory, `${String(index + 1).padStart(2, "0")}.png`);
+          await publishArtifactFile(
+            { bytes: media.bytes.length, mediaType: media.mediaType },
+            [media.bytes],
+            output,
+            selected.signal,
+          );
+          return { output };
+        },
+        (error) => errorResult(sending.id, error).error,
+      );
+      if (values.wait && controller.signal.aborted) {
         result = {
           ...result,
-          data: { ...(result.data as Record<string, unknown>), output: media.output },
+          wait:
+            controller.signal.reason === "wait_deadline"
+              ? {
+                  state: "timed_out",
+                  timeoutMs: timeoutMs!,
+                  ...(result.wait?.job ? { job: result.wait.job } : {}),
+                }
+              : {
+                  state: "interrupted",
+                  timeoutMs: timeoutMs!,
+                  ...(result.wait?.job ? { job: result.wait.job } : {}),
+                  error: {
+                    code: "ABORTED",
+                    message: "Waiting was interrupted; admitted work is not rolled back",
+                    retryable: false,
+                    details: {},
+                  },
+                },
         };
-    } catch (error) {
-      result = errorResult(sending.id, error);
+      }
+    } else if (
+      canDeliver &&
+      (artifactOperations.has(operation) || previewOperations.has(operation))
+    ) {
+      try {
+        const media = await artifactFile(selected, result, values.output);
+        if (media && result.ok)
+          result = {
+            ...result,
+            data: { ...(result.data as Record<string, unknown>), output: media.output },
+          };
+      } catch (error) {
+        const failure = errorResult(sending.id, error);
+        result = values.wait
+          ? {
+              ...result,
+              wait:
+                controller.signal.aborted && controller.signal.reason === "wait_deadline"
+                  ? {
+                      state: "timed_out",
+                      timeoutMs: timeoutMs!,
+                      ...(result.wait?.job ? { job: result.wait.job } : {}),
+                    }
+                  : {
+                      state: "interrupted",
+                      timeoutMs: timeoutMs!,
+                      ...(result.wait?.job ? { job: result.wait.job } : {}),
+                      error: failure.error,
+                    },
+            }
+          : failure;
+      }
+    }
+    process.stdout.write(JSON.stringify(result) + "\n");
+
+    if (result.wait?.state === "timed_out") process.exitCode = 2;
+    else if (
+      !result.ok ||
+      (values.wait && (result.wait?.state === "interrupted" || !waitSucceeded(result)))
+    )
+      process.exitCode = 1;
+  } catch (error) {
+    if (!values.wait || !controller.signal.aborted) throw error;
+    const result = errorResult(sending.id, error);
+    const wait =
+      controller.signal.reason === "wait_deadline"
+        ? { state: "timed_out", timeoutMs: timeoutMs! }
+        : { state: "interrupted", timeoutMs: timeoutMs!, error: result.error };
+    process.stdout.write(JSON.stringify({ ...result, wait }) + "\n");
+    process.exitCode = wait.state === "timed_out" ? 2 : 1;
+  } finally {
+    if (timer) clearTimeout(timer);
+    if (values.wait) {
+      process.removeListener("SIGINT", abort);
+      process.removeListener("SIGTERM", abort);
     }
   }
-  process.stdout.write(JSON.stringify(result) + "\n");
-  if (!result.ok) process.exitCode = 1;
 }
 
 try {

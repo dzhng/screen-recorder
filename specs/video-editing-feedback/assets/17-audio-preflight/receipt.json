@@ -1,0 +1,53 @@
+{
+  "scope": "complete selected-tap preparation and audio-before-picture ordering",
+  "fixture": "authored deterministic Float32 stereo, 48kHz; 8-second native public project, no personal media",
+  "checks": [
+    {
+      "name": "core prepared-audio",
+      "tests": 27,
+      "result": "passed",
+      "includes": "selected clip dry separation, selected output dry/processed portable adoption and restart, stale recipe refusal and retained read lifetime"
+    },
+    {
+      "name": "native movie normalization refusal",
+      "result": "passed",
+      "code": "NORMALIZATION_NOT_FEASIBLE",
+      "nativePictureCalls": 0,
+      "finalMp4": "absent",
+      "falsification": "inserting picture consumption before audio processing fails with Picture encoding started before known audio refusal"
+    },
+    {
+      "name": "public selected preparation, retained movie and package adoption",
+      "result": "passed",
+      "selection": "output/dry separate from output/processed",
+      "reuseProof": "native domain preparation and mixing refuse if requested during video export; movie request must borrow held retained descriptor",
+      "nativeMovieCalls": 1,
+      "elapsedSeconds": 6.91
+    },
+    {
+      "name": "portable dry adoption falsification",
+      "result": "red as required",
+      "failure": "Prepared audio recipe differs from its pinned revision when adoption compiles processed output instead of recorded dry tap"
+    }
+  ],
+  "runtime": {
+    "nativePath": "/Users/server/dev/yap-capability-skill/helpers/mac/.build/debug/yap-native",
+    "nativeSha256": "eb4cd02bf8dcffa1ad4d9387ebe75189386613446c3917bb3f1acff8451b5b31",
+    "ffmpegReceiptSha256": "758e4224dc11936db602806fa17876dcf46b46f4b2fcd9749c02c754bb1b921c"
+  },
+  "setupFailures": [
+    "Obsolete default FFmpeg receipt refused NOT_READY; corrected explicit frozen receipt.",
+    "New test initially passed a string to mediaWorker environment factory; corrected to existing YAP_NATIVE environment contract.",
+    "New test initially asserted top-level retained payload; corrected to existing movie audio.retained wire contract."
+  ],
+  "limits": [
+    "No mastering algorithm change or new audio accuracy claim.",
+    "No picture design or appearance change; black tiny canvas only exercises native mux and publication.",
+    "Full suite deferred until whole-spec completion."
+  ],
+  "review": {
+    "verdict": "no actionable regressions",
+    "eventsSha256": "efc183ca245dc36100f40d7e24bff6a798cb79336a64ba30550f5cdf698d9b41",
+    "turnCompleted": true
+  }
+}

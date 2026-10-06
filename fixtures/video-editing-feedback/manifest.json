@@ -72,8 +72,15 @@
         "comparedSamples": 158760
       },
       "baseline": {
-        "state": "unverified",
-        "reason": "recognizer behavior requires a separate original/derivative run"
+        "state": "recognition-parity-pass",
+        "sourceRevision": "9368acce7c2c4165c0a1fb2528a193c7097e26db",
+        "workerSha256": "158afe97934754e13ed7913e61eb47b8cd4f77e3ac03958d0ae27326209acfbc",
+        "evidence": "../../specs/video-editing-feedback/assets/01-corpus-audio/speech-parity/comparison.json",
+        "recipe": "Frozen integrated07 selected-interval Parakeet recipe; no08 window/context topology",
+        "wordCount": 3,
+        "tokenCount": 11,
+        "scope": "Exact selected original/derivative raw observations after source-origin subtraction; result.processingTime excluded, every other field retained.",
+        "disposition": "Selected source and derivative both recognize Fortunate maybe fortunately. Historical fortun- fragment is comparison context; this output does not establish the fragment identity, partial-word completeness or cut safety."
       }
     },
     {
@@ -148,8 +155,12 @@
         "comparedSamples": 2205000
       },
       "baseline": {
-        "state": "unverified",
-        "reason": "recognizer behavior requires a separate original/derivative run"
+        "state": "fixed-current",
+        "basis": "Frozen integrated07 bounded original/derivative selections preserve exact tokens and word operands after source-clock rebasing; overlapping estimates retained without clamp. Does not establish08 window parity or lexical truth.",
+        "wordCount": 83,
+        "tokenCount": 150,
+        "normalizedSha256": "0d61e429061771ecb32ee2f788c8c957dc6779571b8f60d08c1c21b118372574",
+        "evidence": "../../specs/video-editing-feedback/assets/07-speech-timing/bounded-baseline-comparison.json"
       }
     },
     {
@@ -224,8 +235,12 @@
         "comparedSamples": 2205000
       },
       "baseline": {
-        "state": "unverified",
-        "reason": "recognizer behavior requires a separate original/derivative run"
+        "state": "fixed-current",
+        "basis": "Frozen integrated07 bounded original/derivative selections preserve exact tokens and word operands after source-clock rebasing; overlapping estimates retained without clamp. Does not establish08 window parity or lexical truth.",
+        "wordCount": 78,
+        "tokenCount": 140,
+        "normalizedSha256": "42d8f94029c614d62e75b99cdc8aea2cdded62e6bbffd4454d6bdeccae34135e",
+        "evidence": "../../specs/video-editing-feedback/assets/07-speech-timing/bounded-baseline-comparison.json"
       }
     },
     {
@@ -300,8 +315,15 @@
         "comparedSamples": 2337300
       },
       "baseline": {
-        "state": "unverified",
-        "reason": "recognizer behavior requires a separate original/derivative run"
+        "state": "recognition-parity-pass",
+        "sourceRevision": "9368acce7c2c4165c0a1fb2528a193c7097e26db",
+        "workerSha256": "158afe97934754e13ed7913e61eb47b8cd4f77e3ac03958d0ae27326209acfbc",
+        "evidence": "../../specs/video-editing-feedback/assets/01-corpus-audio/speech-parity/comparison.json",
+        "recipe": "Frozen integrated07 selected-interval Parakeet recipe; no08 window/context topology",
+        "wordCount": 49,
+        "tokenCount": 88,
+        "scope": "Exact selected original/derivative raw observations after source-origin subtraction; result.processingTime excluded, every other field retained.",
+        "disposition": "Selected source and derivative both recognize trend in full context. Historical edited/narrower turn and cut-loss observations remain comparison inputs, not independently confirmed lexical truth or a join-safety pass."
       }
     },
     {
@@ -377,8 +399,15 @@
         "comparedSamples": 194040
       },
       "baseline": {
-        "state": "unverified",
-        "reason": "recognizer behavior requires a separate original/derivative run"
+        "state": "recognition-parity-pass",
+        "sourceRevision": "9368acce7c2c4165c0a1fb2528a193c7097e26db",
+        "workerSha256": "158afe97934754e13ed7913e61eb47b8cd4f77e3ac03958d0ae27326209acfbc",
+        "evidence": "../../specs/video-editing-feedback/assets/01-corpus-audio/speech-parity/comparison.json",
+        "recipe": "Frozen integrated07 selected-interval Parakeet recipe; no08 window/context topology",
+        "wordCount": 13,
+        "tokenCount": 22,
+        "scope": "Exact selected original/derivative raw observations after source-origin subtraction; result.processingTime excluded, every other field retained.",
+        "disposition": "Selected source and derivative both recognize prophecy. Existing tiny1877.30/1877.55 controls recognize privacy while1877.45/1877.68 controls recognize prophecy; retained context sensitivity is not independent lexical truth."
       }
     },
     {

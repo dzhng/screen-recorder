@@ -1,0 +1,104 @@
+{
+  "protocol": "protocol.json",
+  "execution": "execution.json",
+  "requestFile": "requests.json",
+  "excludedIncidentalFields": [
+    "result.processingTime"
+  ],
+  "verdict": "all three selected original/derivative pairs exactly equal after declared source-origin subtraction; no clipping, lexical repair, timing tolerance, or fallback",
+  "cases": [
+    {
+      "id": "phrase-final-trend",
+      "state": "recognition-parity-pass",
+      "originUs": 1550000000,
+      "durationUs": 26500000,
+      "wordCount": 49,
+      "tokenCount": 88,
+      "tokensEqual": true,
+      "wordsEqualAfterRebase": true,
+      "completeNormalizedRawEqual": true,
+      "normalizedSha256": "89baa482b339d117441674a5ef23ab0fe897a5202a8aa00ee7be51b496390613",
+      "canonicalization": "Python json.dumps(sort_keys=True,separators=(comma,colon),ensure_ascii=False), UTF-8; source origins subtracted; result.processingTime omitted; every other field retained",
+      "observedText": "So many agents in the market right now, the personal agents, the work agents, among all the agents we have here, which agent do you think they will be around in five years? Yeah, that's a good question. I mean, arguably OpenClaw is already on a downward trend, possibly.",
+      "runs": {
+        "derivative": {
+          "rawSha256": "5e5429e818efcf6336c909407ba140d3ffb414f91f3056f36012ea6e86e85837",
+          "rawBytes": 17478,
+          "processingTime": 0.42201507091522217,
+          "wallMs": 49929.036334,
+          "peakResidentBytes": 549945344
+        },
+        "original": {
+          "rawSha256": "08bf53ccd18fc3d7caddeff23570c9352892a236da69314ff65ae9c121882cce",
+          "rawBytes": 17748,
+          "processingTime": 0.4138580560684204,
+          "wallMs": 1836.156124999994,
+          "peakResidentBytes": 115900416
+        }
+      },
+      "scope": "One exact selected pair under frozen integrated07 recipe; recognition observations, not lexical/audible truth or later08 recipe output."
+    },
+    {
+      "id": "false-start",
+      "state": "recognition-parity-pass",
+      "originUs": 559200000,
+      "durationUs": 1800000,
+      "wordCount": 3,
+      "tokenCount": 11,
+      "tokensEqual": true,
+      "wordsEqualAfterRebase": true,
+      "completeNormalizedRawEqual": true,
+      "normalizedSha256": "20553732ace8bc85b818ced10808737aeb473ae3d67dff6de1d5bbfca670b951",
+      "canonicalization": "Python json.dumps(sort_keys=True,separators=(comma,colon),ensure_ascii=False), UTF-8; source origins subtracted; result.processingTime omitted; every other field retained",
+      "observedText": "Fortunate maybe fortunately.",
+      "runs": {
+        "derivative": {
+          "rawSha256": "83c5d16f5eb500a4c474b6380252a727e0df2ef968474eff507f797800fa20de",
+          "rawBytes": 1790,
+          "processingTime": 0.09177196025848389,
+          "wallMs": 731.1172920000026,
+          "peakResidentBytes": 101662720
+        },
+        "original": {
+          "rawSha256": "354c2bec1fc33135af48273c80d043eb3027691a172a554989dbfae5833e0e75",
+          "rawBytes": 1814,
+          "processingTime": 0.15474390983581543,
+          "wallMs": 2404.7585830000025,
+          "peakResidentBytes": 105349120
+        }
+      },
+      "scope": "One exact selected pair under frozen integrated07 recipe; recognition observations, not lexical/audible truth or later08 recipe output."
+    },
+    {
+      "id": "madison-context",
+      "state": "recognition-parity-pass",
+      "originUs": 1876300000,
+      "durationUs": 4400000,
+      "wordCount": 13,
+      "tokenCount": 22,
+      "tokensEqual": true,
+      "wordsEqualAfterRebase": true,
+      "completeNormalizedRawEqual": true,
+      "normalizedSha256": "732430dc93b1ea9a1a63a19a06996492767304a740741f8fa7474cfc98d88273",
+      "canonicalization": "Python json.dumps(sort_keys=True,separators=(comma,colon),ensure_ascii=False), UTF-8; source origins subtracted; result.processingTime omitted; every other field retained",
+      "observedText": "Oh my, I don't know, I just kind of gave up on prophecy.",
+      "runs": {
+        "derivative": {
+          "rawSha256": "6d3d21e3fe8d66a770664c4c08d512048deeb8071b2d56cdd00b97deda0498b8",
+          "rawBytes": 4604,
+          "processingTime": 0.09561502933502197,
+          "wallMs": 790.7540829999998,
+          "peakResidentBytes": 102170624
+        },
+        "original": {
+          "rawSha256": "573a2b873cd48d602347848f4be69a2de349bb068a64bab6495395263bf21eda",
+          "rawBytes": 4702,
+          "processingTime": 0.21471500396728516,
+          "wallMs": 894.6163330000054,
+          "peakResidentBytes": 105037824
+        }
+      },
+      "scope": "One exact selected pair under frozen integrated07 recipe; recognition observations, not lexical/audible truth or later08 recipe output."
+    }
+  ]
+}

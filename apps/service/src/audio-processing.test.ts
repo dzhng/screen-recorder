@@ -681,6 +681,96 @@ real(
   },
   30000,
 );
+
+real(
+  "movie preflight refuses impossible gain before native picture encoding",
+  async () => {
+    const f = await fixture(
+      [
+        {
+          id: "normalize",
+          enabled: true,
+          processor: {
+            type: "normalization",
+            mode: "gain-only",
+            targetIntegratedLufs: -5,
+            truePeakCeilingDbtp: -9,
+            maxLoudnessRangeLu: 7,
+          },
+        },
+      ],
+      8000000,
+    );
+    let pictures = 0,
+      passed = false;
+    try {
+      const model = validateComposition(f.document, [f.asset]);
+      const compiled = createCompiler(model, "revision").window({
+        range: { startUs: 0, endUs: 8000000 },
+        rendition: { sampleRate: 48000, channels: 2 },
+        tap: { target: { kind: "output" }, point: { kind: "processed" } },
+      });
+      const window = {
+        ...compiled,
+        manifest: {
+          ...compiled.manifest,
+          requirements: compiled.manifest.requirements.map((r) => ({
+            ...r,
+            implementationId:
+              r.kind === "processor"
+                ? (f.runtime!.processors[r.processor.type] ?? null)
+                : r.kind === "executor"
+                  ? "preflight-movie"
+                  : r.implementationId,
+          })),
+        },
+      };
+      const renderer = projectMovieRenderer(
+        async (operation, ...args) => {
+          if (operation === "media.renderCompositionMovie") {
+            pictures++;
+            throw new Error("Picture encoding started before known audio refusal");
+          }
+          return f.worker(operation, ...args);
+        },
+        join(f.dir, "render"),
+        undefined,
+        f.capabilities,
+        new AbortController().signal,
+        {},
+        f.runtime,
+      );
+      const output = join(f.dir, "refused.mp4");
+      await expect(
+        renderer.render(
+          {
+            model,
+            window,
+            assets: [
+              {
+                assetId: f.asset.id,
+                streamId: "track:1",
+                path: join(f.dir, "source.wav"),
+                originUs: 0,
+              },
+            ],
+            fonts: [],
+            output,
+            settings: resolveOutputSettings(),
+          },
+          new AbortController().signal,
+        ),
+      ).rejects.toMatchObject({ code: "NORMALIZATION_NOT_FEASIBLE" });
+      expect(pictures).toBe(0);
+      await expect(open(output)).rejects.toMatchObject({ code: "ENOENT" });
+      passed = true;
+    } finally {
+      if (passed) await rm(f.dir, { recursive: true, force: true });
+      else process.stderr.write(`Unverified preflight operands retained: ${f.dir}\n`);
+    }
+  },
+  30000,
+);
 real(
   "AAC delivery retains separately measured decoded peak evidence",
   async () => {
@@ -859,12 +949,30 @@ real(
     const home = await realpath(await mkdtemp(join(tmpdir(), "public-typed-audio-")));
     let service: Awaited<ReturnType<typeof startProjectService>> | undefined;
     let passed = false;
+    let requireRetainedMix = false,
+      retainedMovieCalls = 0;
+    const nativeWorker = mediaWorker({ YAP_NATIVE: native });
+    const worker: typeof nativeWorker = async (operation, params, options) => {
+      if (requireRetainedMix) {
+        if (
+          operation === "media.prepareCompositionAudioDomain" ||
+          operation === "media.mixCompositionAudio"
+        )
+          throw new Error("Prepared movie unexpectedly rerendered audio");
+        if (operation === "media.renderCompositionMovie") {
+          expect(params).toMatchObject({ audio: { retained: { descriptor: 3 } } });
+          retainedMovieCalls++;
+        }
+      }
+      return nativeWorker(operation, params, options);
+    };
     try {
       const path = join(home, "source.wav");
       await writeFile(path, wave(384000));
       service = await startProjectService({
         home,
         nativeExecutable: native!,
+        worker,
         ffmpeg: {
           directory: installation!,
           receiptSha256:
@@ -967,6 +1075,15 @@ real(
         jobId: string;
         published: null | { output: { resourceId: string; processingEvidence: unknown[] } };
       };
+      const drySelection = {
+        ...selection,
+        tap: { target: { kind: "output" }, point: { kind: "dry" } },
+      };
+      const dryPending = await call<Prepared>("audio.prepare", drySelection);
+      await job(dryPending.jobId);
+      const dryReady = await call<Prepared>("audio.prepare", drySelection);
+      expect(dryReady.state).toBe("ready");
+      expect(dryReady.published!.output.processingEvidence ?? []).toEqual([]);
       const cachedInput = { ...selection, range: { startUs: 7000000, endUs: 7100000 } };
       const originalCache = await call<{ jobId: string }>("audio.get", cachedInput);
       await job(originalCache.jobId);
@@ -985,6 +1102,7 @@ real(
       service = await startProjectService({
         home,
         nativeExecutable: native!,
+        worker,
         ffmpeg: {
           directory: replaced,
           receiptSha256: createHash("sha256").update(receiptBytes).digest("hex"),
@@ -996,6 +1114,7 @@ real(
       const pending = await call<Prepared>("audio.prepare", selection);
       await job(pending.jobId);
       const ready = await call<Prepared>("audio.prepare", selection);
+      expect(ready.published!.output.resourceId).not.toBe(dryReady.published!.output.resourceId);
       expect(ready).toMatchObject({
         state: "ready",
         jobId: pending.jobId,
@@ -1026,6 +1145,29 @@ real(
         sampleRange: { start: 336000, end: 340800 },
         processingEvidence: ready.published!.output.processingEvidence,
       });
+      requireRetainedMix = true;
+      const movieExportId = randomUUID();
+      await call("export.create", {
+        ...selection,
+        exportId: movieExportId,
+        kind: "video",
+        directory: home,
+        leaf: "prepared.mp4",
+      });
+      const movieDeadline = performance.now() + 10000;
+      for (;;) {
+        const status = await call<{ state: string }>("export.status", { exportId: movieExportId });
+        if (status.state === "committed") break;
+        if (
+          ["failed", "unavailable", "canceled", "conflicted"].includes(status.state) ||
+          performance.now() > movieDeadline
+        )
+          throw Error(JSON.stringify(status));
+        await delay(10);
+      }
+      expect(retainedMovieCalls).toBe(1);
+      expect((await readFile(join(home, "prepared.mp4"))).length).toBeGreaterThan(0);
+      requireRetainedMix = false;
       const exportId = randomUUID();
       await call("export.create", {
         ...selection,

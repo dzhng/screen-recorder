@@ -28,12 +28,37 @@ export const operationErrorSchema = z.object({
   retryable: z.boolean(),
   details: z.record(z.string(), z.unknown()),
 });
+export const waitJobSchema = z.object({
+  jobId: z.string().min(1),
+  generation: z.int().positive().max(Number.MAX_SAFE_INTEGER),
+  attemptId: z.string().min(1),
+});
+/** Adapter deadline outcome; it does not change the service's work or publication state. */
+export const waitMetadataSchema = z.discriminatedUnion("state", [
+  z.object({
+    state: z.literal("settled"),
+    timeoutMs: z.int().positive().max(2_147_483_647),
+    job: waitJobSchema.optional(),
+  }),
+  z.object({
+    state: z.literal("timed_out"),
+    timeoutMs: z.int().positive().max(2_147_483_647),
+    job: waitJobSchema.optional(),
+  }),
+  z.object({
+    state: z.literal("interrupted"),
+    timeoutMs: z.int().positive().max(2_147_483_647),
+    job: waitJobSchema.optional(),
+    error: operationErrorSchema,
+  }),
+]);
+export type WaitMetadata = z.infer<typeof waitMetadataSchema>;
 const successSchema = z.object({ ok: z.literal(true), data: z.unknown() });
 const failureSchema = z.object({ ok: z.literal(false), error: operationErrorSchema });
 export const resultSchema = z.discriminatedUnion("ok", [successSchema, failureSchema]);
 export const responseSchema = z.discriminatedUnion("ok", [
-  successSchema.extend({ id: requestSchema.shape.id }),
-  failureSchema.extend({ id: requestSchema.shape.id }),
+  successSchema.extend({ id: requestSchema.shape.id, wait: waitMetadataSchema.optional() }),
+  failureSchema.extend({ id: requestSchema.shape.id, wait: waitMetadataSchema.optional() }),
 ]);
 export type OperationResult = z.infer<typeof resultSchema>;
 export type OperationResponse = z.infer<typeof responseSchema>;

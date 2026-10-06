@@ -1,9 +1,14 @@
 import { randomUUID } from "node:crypto";
-import { link, mkdtemp, open, rm } from "node:fs/promises";
+import { link, mkdtemp, open, rm, readFile } from "node:fs/promises";
 import { dirname, join, resolve } from "node:path";
 import { tmpdir } from "node:os";
 import { z } from "zod";
-import { callLocal, resolveServiceSocket, type ServiceSelection } from "@yap/client";
+import {
+  callLocal,
+  resolveServiceSocket,
+  LocalTransportError,
+  type ServiceSelection,
+} from "@yap/client";
 import {
   ARTIFACT_CHUNK_BYTES,
   resultSchema,
@@ -20,6 +25,7 @@ export const artifactOperations = new Set([
   "index.frame",
   "frame.get",
   "frame.retry",
+  "audio.measure",
   "audio.get",
   "audio.retry",
   "waveform.get",
@@ -97,6 +103,15 @@ export function describeArtifact(result: OperationResponse) {
     delivery: parsed.data.delivery,
     buffered: bufferedPolicy({ bytes, mediaType }),
   };
+}
+
+/** Cleanup outlives caller cancellation; expiry is the fallback if the service vanished. */
+export async function closeArtifact(socket: string, token: string): Promise<void> {
+  await callLocal(
+    socket,
+    { id: randomUUID(), operation: "artifact.close", params: { token } },
+    { timeoutMs: 1000 },
+  ).catch(() => undefined);
 }
 
 /** One transport validator for buffered model content and streamed playable files. */
@@ -182,11 +197,15 @@ async function consumeArtifact<T>(
     return await consume({ bytes, mediaType }, chunks());
   } finally {
     // Expiry releases the same pin if the service disappeared or the caller was canceled.
-    await callLocal(
-      socket,
-      { id: randomUUID(), operation: "artifact.close", params: { token } },
-      { timeoutMs: 1000 },
-    ).catch(() => undefined);
+    await closeArtifact(socket, token);
+  }
+}
+
+function validateJson(bytes: Buffer): void {
+  try {
+    JSON.parse(new TextDecoder("utf-8", { fatal: true }).decode(bytes));
+  } catch {
+    throw new ArtifactDeliveryError("INVALID_RESPONSE", "Evidence is not valid UTF-8 JSON");
   }
 }
 
@@ -206,18 +225,43 @@ export async function artifactBytes(
       chunk.copy(output, offset);
       offset += chunk.length;
     }
-    if (mediaType === "application/json") {
-      try {
-        JSON.parse(new TextDecoder("utf-8", { fatal: true }).decode(output));
-      } catch {
-        throw new ArtifactDeliveryError("INVALID_RESPONSE", "Evidence is not valid UTF-8 JSON");
-      }
-    }
+    if (mediaType === "application/json") validateJson(output);
     return { bytes: output, mediaType };
   });
 }
 
-/** Publish only the complete file, without replacing a caller's existing destination. */
+/** Single and batch delivery publish complete files without replacing existing destinations. */
+export async function publishArtifactFile(
+  info: ArtifactInfo,
+  chunks: AsyncIterable<Buffer> | Iterable<Buffer>,
+  destination: string,
+  signal?: AbortSignal,
+): Promise<ArtifactInfo & { output: string }> {
+  if (info.mediaType === "application/json" && info.bytes > 16 * 1024 ** 2)
+    throw new ArtifactDeliveryError(
+      "LIMIT_EXCEEDED",
+      "JSON evidence exceeds its file validation byte limit",
+    );
+  const output = resolve(destination);
+  const staging = await mkdtemp(join(dirname(output), ".yap-media-"));
+  try {
+    const file = await open(join(staging, "media"), "wx", 0o600);
+    try {
+      for await (const part of chunks) await file.writeFile(part);
+      await file.sync();
+    } finally {
+      await file.close();
+    }
+    if (info.mediaType === "application/json") validateJson(await readFile(join(staging, "media")));
+    if (signal?.aborted)
+      throw new LocalTransportError("ABORTED", "Media delivery canceled before publication");
+    await link(join(staging, "media"), output);
+    return { ...info, output };
+  } finally {
+    await rm(staging, { recursive: true, force: true });
+  }
+}
+
 export async function artifactFile(
   selection: ServiceSelection,
   result: OperationResponse,
@@ -230,7 +274,7 @@ export async function artifactFile(
         "image/png": "frame.png",
         "audio/wav": "excerpt.wav",
         "video/mp4": "preview.mp4",
-        "application/json": "waveform.json",
+        "application/json": "evidence.json",
       };
       const output = destination
         ? resolve(destination)
@@ -238,20 +282,7 @@ export async function artifactFile(
             (ownedDirectory = await mkdtemp(join(tmpdir(), "yap-media-"))),
             names[info.mediaType],
           );
-      const staging = await mkdtemp(join(dirname(output), ".yap-media-"));
-      try {
-        const file = await open(join(staging, "media"), "wx", 0o600);
-        try {
-          for await (const part of chunks) await file.writeFile(part);
-          await file.sync();
-        } finally {
-          await file.close();
-        }
-        await link(join(staging, "media"), output);
-        return { ...info, output };
-      } finally {
-        await rm(staging, { recursive: true, force: true });
-      }
+      return publishArtifactFile(info, chunks, output, selection.signal);
     });
   } catch (error) {
     if (ownedDirectory) await rm(ownedDirectory, { recursive: true, force: true });

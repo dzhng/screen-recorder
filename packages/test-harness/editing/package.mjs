@@ -167,6 +167,7 @@ try {
     streamId: speech.streams.find((stream) => stream.kind === "audio").id,
     limit: 1000,
   };
+  await call("transcript.prepare", { assetId: speech.id, streamId: transcriptParams.streamId });
   const donorTranscript = await poll(
     () => call("transcript.get", transcriptParams, { transport: "mcp" }),
     (value) => value.state === "ready",

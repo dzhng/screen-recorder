@@ -1,0 +1,15 @@
+{
+  "scope": "08 historical caller cutover and final getter/acquisition follow-up",
+  "reviews": [
+    {
+      "name": "yap08-caller-review",
+      "turnCompleted": true,
+      "eventsSha256": "81b04b02551f003ee7925a1e1ec5578e9cd8944d5e99755659f3c6f0967fb8be"
+    },
+    {
+      "name": "yap08-followup",
+      "turnCompleted": true,
+      "eventsSha256": "d36efdccd193bb545a52d09382ff3f5e319f00e902e52bc0c308062c99dc462b"
+    }
+  ]
+}

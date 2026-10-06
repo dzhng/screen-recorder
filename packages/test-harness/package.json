@@ -6,7 +6,7 @@
   "scripts": {
     "build": "tsc -p tsconfig.json",
     "check-types": "tsc -p tsconfig.check.json",
-    "test": "node dist/bootstrap.js && node --test speech/evaluate.test.mjs editing/speech/annotation-time.test.mjs editing/speech-labeling.test.mjs editing/source-evidence-fixture.test.mjs editing/video-corpus.test.mjs editing/picture-reference.test.mjs editing/decoded-picture-proof.test.mjs editing/denoise-routing.test.mjs personal-release.test.mjs",
+    "test": "node dist/bootstrap.js && node --test speech/evaluate.test.mjs editing/speech/annotation-time.test.mjs editing/speech-labeling.test.mjs editing/speech-parity-records.test.mjs editing/source-evidence-fixture.test.mjs editing/video-corpus.test.mjs editing/picture-reference.test.mjs editing/decoded-picture-proof.test.mjs editing/denoise-routing.test.mjs personal-release.test.mjs",
     "lab:index-scale": "node --test ../../apps/macos/tests/index-scale.mjs",
     "lab:render-timing": "node --test render-timing.mjs",
     "lab:package-archive": "node --test ../../apps/service/tests/package-archive.mjs",

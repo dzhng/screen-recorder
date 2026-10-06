@@ -174,7 +174,9 @@ and publication owners remain responsible for durable delivery.
 other acoustic inspection. It executes the selected bundled scanner through the
 existing CLI lifetime owner and records meter identity. Empty scanner gates are
 reported as unmeasurable; peak evidence remains separate from integrated loudness.
-A requested sample ceiling or a scoped meter comparison is not a universal encoded
+Measurement JSON is delivered through the same cache-backed lease owner as other
+acoustic evidence; callers do not reopen private cache paths. A requested sample
+ceiling or a scoped meter comparison is not a universal encoded
 true-peak guarantee.
 
 [Typed audio processing](src/audio-processing.ts) borrows the native domain
@@ -193,4 +195,8 @@ requested postconditions before publication. Gain-only feasibility is explicit;
 a dynamic request also refuses a missed target. Prepared reads retain those full
 measurements even when a consumer requests a short excerpt. Native and bundled
 implementation identities bind the prepared recipe; neither discovery nor an
-empty measurement authorizes another treatment.
+empty measurement authorizes another treatment. Audio preparation settles the
+complete selected processing tap without picture work. Movie rendering resolves
+matching retained final audio, or executes its full audio processing and strict
+postconditions, before starting expensive picture encoding. A prepared dry signal
+or intermediate step never substitutes for that final mix.

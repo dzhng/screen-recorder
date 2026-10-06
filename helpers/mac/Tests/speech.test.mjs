@@ -1,3 +1,4 @@
+import { speechExecution } from "../../../packages/core/dist/transcript.js";
 import assert from "node:assert/strict";
 import { spawnSync } from "node:child_process";
 import { createHash } from "node:crypto";
@@ -18,8 +19,7 @@ import { fileURLToPath } from "node:url";
 import { test } from "node:test";
 
 const executable =
-  process.env.YAP_NATIVE ??
-  fileURLToPath(new URL("../.build/debug/yap-native", import.meta.url));
+  process.env.YAP_NATIVE ?? fileURLToPath(new URL("../.build/debug/yap-native", import.meta.url));
 
 // Stand-in model files: the worker checks bytes and digests, not what they mean, so none of these
 // requests needs the real model. Nested paths exercise the directory walk.
@@ -48,6 +48,7 @@ function fixture(t) {
   const attempt = join(home, "evidence", "transcript", "attempt");
   mkdirSync(attempt, { recursive: true });
   const params = {
+    execution: speechExecution(),
     models: { directory, files },
     track: {
       source: join(home, "source", "narration.mov"),
@@ -200,10 +201,12 @@ test("absent model files are unavailable and changed ones invalid, before any lo
 
 test("verified models still refuse an occupied output and report unreadable narration", (t) => {
   const { attempt, params } = fixture(t);
+  tone(params.track.source, 0.1);
   writeFileSync(params.output, "earlier");
   const [occupied, unreadable] = transcribe(params, {
     ...params,
     output: join(attempt, "other.jsonl"),
+    track: { ...params.track, source: join(attempt, "absent.mov") },
   });
   assert.equal(occupied.error.code, "INVALID_OUTPUT", occupied.error.message);
   assert.equal(readFileSync(params.output, "utf8"), "earlier");
@@ -229,7 +232,14 @@ test("only readable narration becomes segments, and a fragment too short is skip
   assert.equal(reply.ok, true, JSON.stringify(reply.error));
   const readable = { startUs: 250000, endUs: 400000 };
   assert.deepEqual(reply.data.segments, [
-    { ordinal: 0, source: readable, state: "skipped", reason: "too_short", wordCount: 0 },
+    {
+      ordinal: 0,
+      source: readable,
+      owned: readable,
+      state: "skipped",
+      reason: "too_short",
+      wordCount: 0,
+    },
   ]);
   assert.equal(reply.data.wordCount, 0);
   assert.deepEqual(reply.data.engine, {
@@ -253,11 +263,14 @@ test("only readable narration becomes segments, and a fragment too short is skip
     {
       ordinal: 0,
       source: readable,
+      owned: readable,
       state: "skipped",
       reason: "too_short",
       sampleRate: 16000,
       samples: 2400,
       words: [],
+      observations: [],
+      selectedObservationIndexes: [],
     },
   ]);
   assert.deepEqual(readdirSync(attempt), ["raw.jsonl"]);
@@ -336,6 +349,7 @@ test("selected audio streams stay distinct and an omitted ambiguous selection is
       {
         ordinal: 0,
         source: { startUs: 0, endUs },
+        owned: { startUs: 0, endUs },
         state: "skipped",
         reason: "too_short",
         wordCount: 0,

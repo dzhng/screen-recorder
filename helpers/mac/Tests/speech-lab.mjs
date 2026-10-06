@@ -1,3 +1,4 @@
+import { speechExecution } from "../../../packages/core/dist/transcript.js";
 // Opt-in: transcribes generated narration through the worker with network denied and compares each
 // interval with the pinned FluidAudio CLI. Needs a cache from `node scripts/speech-eval.mjs prepare
 // parakeet CACHE`: YAP_SPEECH_CACHE=CACHE node helpers/mac/Tests/speech-lab.mjs
@@ -21,14 +22,12 @@ import { fileURLToPath } from "node:url";
 
 const cache = process.env.YAP_SPEECH_CACHE;
 assert.ok(cache && isAbsolute(cache), "Set YAP_SPEECH_CACHE to a prepared speech-eval cache");
-const out =
-  process.env.YAP_SPEECH_LAB_EVIDENCE ?? mkdtempSync(join(tmpdir(), "yap-speech-lab-"));
+const out = process.env.YAP_SPEECH_LAB_EVIDENCE ?? mkdtempSync(join(tmpdir(), "yap-speech-lab-"));
 assert.ok(isAbsolute(out));
 mkdirSync(out, { recursive: true });
 assert.deepEqual(readdirSync(out), [], "Evidence directory must start empty");
 const executable =
-  process.env.YAP_NATIVE ??
-  fileURLToPath(new URL("../.build/debug/yap-native", import.meta.url));
+  process.env.YAP_NATIVE ?? fileURLToPath(new URL("../.build/debug/yap-native", import.meta.url));
 const selectedReference =
   process.env.YAP_SOURCE_AUDIO_TESTS ??
   fileURLToPath(new URL("../.build/debug/YapSourceAudioTests", import.meta.url));
@@ -158,6 +157,7 @@ const track = {
 
 const output = join(out, "raw.jsonl");
 const transcription = worker("speech.transcribe", {
+  execution: speechExecution(),
   models: { directory, files },
   track,
   output,
@@ -169,9 +169,13 @@ assert.equal(data.output.bytes, raw.length);
 const lines = raw.toString("utf8").trim().split("\n").map(JSON.parse);
 assert.equal(lines.length, data.segments.length);
 
-// Segments are exactly the occupied intervals, within a microsecond of container rounding.
+// Each authored phrase is shorter than one primary window; longer intervals
+// use the bounded-window recipe exercised by its separate replay cases.
+assert.ok(expected.every((span) => span.endUs - span.startUs <= 20_000_000));
 assert.equal(data.segments.length, expected.length, JSON.stringify(data.segments));
+assert.deepEqual(data.execution, speechExecution());
 for (const [index, segment] of data.segments.entries()) {
+  assert.deepEqual(segment.owned, segment.source);
   assert.ok(
     Math.abs(segment.source.startUs - expected[index].startUs) <= 1,
     JSON.stringify(segment),

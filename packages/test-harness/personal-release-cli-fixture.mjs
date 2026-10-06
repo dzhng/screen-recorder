@@ -163,6 +163,9 @@ switch (operation) {
       ],
     };
     break;
+  case "transcript.prepare":
+    data = { ...params, state: "ready" };
+    break;
   case "transcript.get":
     data = readyTranscript;
     if (process.env.YAP_CALLER_REPEAT_CURSOR) {

@@ -1,0 +1,3 @@
+error: Cannot find module '@yap/protocol' from '/Users/server/dev/yap-local-alignment/apps/service/src/worker.ts'
+
+Bun v1.4.2 (macOS arm64)

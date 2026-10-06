@@ -36,7 +36,7 @@ import {
 import { fileIdentity, IdentifiedFiles, retainedFileRead, type FileIdentity } from "./files.js";
 import { validateAudioWave } from "./audio-wave.js";
 
-type Input = { projectId: string; revisionId?: string };
+type Input = { projectId: string; revisionId?: string; tap?: ProcessingTap | undefined };
 export type PreparedAudio = Omit<ReturnType<typeof checkProjectAudioResult>, "file"> & {
   resourceId: string;
   dependencies: ResourceReference[];
@@ -166,24 +166,16 @@ export class PreparedAudioStore {
     tap?: ProcessingTap,
     pinned?: string,
   ): PreparedAudioResolution | null {
-    if (tap && (tap.target.kind !== "output" || tap.point.kind !== "processed")) {
-      if (pinned)
-        throw new CatalogError(
-          "INVALID_PARAMS",
-          "A prepared signal pin requires the processed output tap",
-        );
-      return null;
-    }
     const references = this.owners.projects
       .revisionDependencies(composition.projectId, composition.revisionId)
       .filter((reference) => reference.kind === "prepared-audio");
     if (pinned && !references.some((reference) => reference.id === pinned))
-      throw new CatalogError("ARTIFACT_CHANGED", "Pinned prepared output is no longer referenced");
+      throw new CatalogError("ARTIFACT_CHANGED", "Pinned prepared signal is no longer referenced");
     if (!references.length) return null;
     const window = composition.compiler.audioWindow({
       range: { startUs: 0, endUs: composition.model.durationUs },
       rendition: { sampleRate: 48000, channels: 2 },
-      tap: { target: { kind: "output" }, point: { kind: "processed" } },
+      tap: tap ?? { target: { kind: "output" }, point: { kind: "processed" } },
     });
     const candidates: PreparedAudioResolution[] = [];
     for (const reference of references) {
@@ -207,7 +199,7 @@ export class PreparedAudioStore {
     if (pinned && !candidates.length)
       throw new CatalogError(
         "ARTIFACT_CHANGED",
-        "Pinned prepared output no longer matches this revision",
+        "Pinned prepared signal no longer matches this revision",
       );
     const equivalent = new Map<string, PreparedAudioResolution>();
     for (const candidate of candidates) {
@@ -235,7 +227,7 @@ export class PreparedAudioStore {
   }
   async request(input: Input): Promise<ArtifactStatus> {
     const composition = projectComposition(this.owners.projects, this.owners.assets, input);
-    const retained = this.resolve(composition);
+    const retained = this.resolve(composition, input.tap);
     if (retained)
       return {
         state: "ready",
@@ -244,7 +236,7 @@ export class PreparedAudioStore {
         retryable: false,
         published: retained.publication,
       };
-    const plan = composition.window({}, this.owners.renderer, "audio");
+    const plan = composition.window({ tap: input.tap }, this.owners.renderer, "audio");
     const frames = plan.window.manifest.sampleRange.end - plan.window.manifest.sampleRange.start;
     if (frames > audioOutputCapabilities.maximumInternalPCMFrames)
       throw new CatalogError(
@@ -277,7 +269,10 @@ export class PreparedAudioStore {
   async execute({ job, signal }: JobExecution): Promise<StagedJobResult> {
     if (job.target.kind !== "project" || job.artifact !== "prepared-audio")
       throw new CatalogError("UNSUPPORTED_JOB", "Prepared audio requires a project revision");
-    const plan = this.plan(job.target);
+    const plan = this.plan({
+      ...job.target,
+      tap: readRecipe(job.input, "INVALID_STORAGE").tap,
+    });
     if (JSON.stringify(plan.window.manifest) !== job.input)
       throw new CatalogError("ARTIFACT_CHANGED", "Prepared audio recipe is no longer available");
     const output = join(this.owners.staging, `${job.attemptId}.wav`);
@@ -417,7 +412,7 @@ export class PreparedAudioStore {
     const window = composition.compiler.audioWindow({
       range: { startUs: 0, endUs: composition.model.durationUs },
       rendition: { sampleRate: 48000, channels: 2 },
-      tap: { target: { kind: "output" }, point: { kind: "processed" } },
+      tap: recipe.tap,
     });
     const bound = bindRecordedRecipe(window, recipe);
     if (
@@ -490,7 +485,7 @@ export class PreparedAudioStore {
       selection.end > value.sampleRange.end ||
       selection.end <= selection.start
     )
-      throw new CatalogError("INVALID_RANGE", "Requested PCM is outside the prepared output");
+      throw new CatalogError("INVALID_RANGE", "Requested PCM is outside the prepared signal");
     const path = this.owners.assets.path(value.assetId);
     const files = new IdentifiedFiles(dirname(path), [
       { path: basename(path), bytes: value.bytes, identity: value.identity },

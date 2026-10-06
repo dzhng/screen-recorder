@@ -1,0 +1,13 @@
+{
+  "scope": "git diff HEAD at9368acce7c2c4165c0a1fb2528a193c7097e26db plus new speech-parity evidence, all frozen during independent review. Final verifier/review receipts added afterwards; no raw evidence or reviewed manifest/doc changes.",
+  "kind": "independent read-only Codex CLI review",
+  "cliVersion": "0.160.0",
+  "exitCode": 0,
+  "turnCompleted": true,
+  "verdict": "independent-review.md",
+  "verdictSha256": "2106cd53ea6911f781eaa2e50faba4775b667360759e7a2d2c087cbc64f83aaa",
+  "eventsSha256": "41dbd44ce4fa8be65ad78c7b18223f7614de0b2b1c7698a83e56889147c189cd",
+  "promptSha256": "53e7caa105f75fc170bc4d75dfc577ec7329d2cd19a3751dfcae708170c2f96e",
+  "findings": [],
+  "limits": "Named slice01 evidence/data scope only; no model acquisition, inference, build, broad test, product change or later08 proof."
+}
