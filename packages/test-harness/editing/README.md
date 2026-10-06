@@ -43,6 +43,8 @@ encoding loss must not be mistaken for a composition or color-management error.
 vignette against an independent linear-light reference through the public compiler and
 native still/movie operations. Its [retained evidence](../../../specs/video-editing-feedback/assets/24-blend-sheet/README.md)
 keeps full-raster still proof separate from movie patch-interior codec tolerance.
+The [public blend journey](blend-public.mjs) adds CLI/MCP admission, delivered bytes,
+exact sample support and export publication over those same frozen operands.
 
 [Loudness references](loudness/README.md) separate independent BS.1770 arithmetic
 from the exact signal/coverage reported by public operations. Meter agreement is

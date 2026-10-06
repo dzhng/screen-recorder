@@ -39,7 +39,7 @@ specific claim needed for this item.
 | E11 | Encoded peak/meter discrepancy retained in18: PCM admission passes; decoded AAC oracle differs | [18](slices/18-reliable-mastering.md), [33](slices/33-editing-references.md) | PCM and actual encoded measurements retain meter/rate/channel identity; document measured differences without silently redefining ceilings. |
 | E12 | Probabilistic boundaries; alignment, quiet context and join checks missing | [09](slices/09-alignment-replication.md), [10](slices/10-alignment-and-boundaries.md), [12](slices/12-contextual-join-verification.md) | 09 wrong/extra/repeated text correspondence and placement controls passed; production10 and trend/turn join evidence remain pending. Independent acoustic evidence; no constant timing bias claim. |
 | E13 | Grade controls thin for reference looks; current gap | [25](slices/25-tone-controls.md), [26](slices/26-immutable-luts.md), [33](slices/33-editing-references.md) | Explicit tone/hue/LUT contracts with identity controls and face/wall masks; deterministic vignette/grain overlays remain useful. |
-| E14 | Blend modes missing; current gap | [24](slices/24-blend-modes.md) | Multiply/screen/soft-light arithmetic, color/alpha/order and transparent/identity controls through existing compositor. |
+| E14 | Explicit modes and public arithmetic/admission pass; full-raster movie hard-edge fidelity unresolved | [24](slices/24-blend-modes.md) | Multiply/screen/soft-light arithmetic, color/alpha/order and transparent/identity controls through existing compositor. |
 | E15 | No music source; deliberate external capability | [02](slices/02-capability-first-skill.md), [33](slices/33-editing-references.md) | Discover usable music tools/assets, study requested reference and retain source/recipe; recommend only a materially needed missing capability. |
 | E16 | Fit/push-in, imported fonts and labeled batches work well; positive evidence | [16](slices/16-subject-reframe.md), [22](slices/22-styled-text.md), [34](slices/34-autonomous-trailer-acceptance.md) | Preserve exact geometry/phase, admitted font rendering and one labeled batch through real consumer checks. No replacement without parity. |
 | E17 | Cross-mic synchronization absent; current gap | [20](slices/20-sync-replication.md), [21](slices/21-synced-angles.md) | Known offsets, weak single-mic signals, unrelated audio and drift controls; estimates expose alternatives and unsuitable constant offsets. |
@@ -180,16 +180,24 @@ Slice24 evidence: the composition processor registry and compiled visual operati
 bounded `normal`, `multiply`, `screen` and `soft-light` modes. The native compositor applies
 Core Image blend kernels when a surface joins its parent, while ordinary surfaces retain
 normal alpha-over behavior. `YapFrameTests --blend-modes` renders red/blue swatches and
-checks multiply black, screen magenta and the bounded soft-light response. Reference-sheet
-and vignette comparison remain open.
-| U35 | Public styled-caption static sheet | [22](slices/22-styled-text.md) | `captions.mjs --case styled-sheet` drives public frame admission for top/center/bottom and stroke/shadow/background variants; receipt rows are keyed by clip identity and the same request retains a PNG. Native execution/evidence generation remains unverified in this worktree. |
-| U36 | Styled-caption public run and fresh visual critique | [22](slices/22-styled-text.md) | Service admission/CLI-MCP setup reached `frame.get`, but the available native worker returned `Malformed picture receipt`; isolated native vertical/decorations tests passed. The public PNG, receipt inspection, compare-screenshots metrics and unprimed critique remain open; see [22 evidence](assets/22-styled-text/). |
+checks multiply black, screen magenta and the bounded soft-light response. The
+[independent sheet/vignette checkpoint](assets/24-blend-sheet/README.md) verifies full-raster
+still arithmetic and sampled movie arithmetic through the public compiler/native seam.
+The public journey verifies all seven modes through CLI authoring, MCP processor
+readback, delivered PNG/movie and committed export bytes. Review hardening verifies
+exact raster dimensions, reference hashes, rational terminal support and export
+identity/destination; all fourteen retained movies have independently observed clocks.
+Fresh image-only critiques disagree on codec boundary seams. Still arithmetic and
+the declared movie mask pass; full-raster movie hard-edge fidelity remains open.
 
-Slice27 evidence: `edit.apply` now lowers explicit crossfade, dip and flash recipes into ordinary gain/opacity curves. Crossfade requires two distinct targets; dip and flash require one target and a representable midpoint. No source overlap, retime, implicit media or color asset is invented; native delivery and temporal visual critique remain open.
-
-Slice21 evidence: composition angle groups now retain a session identity, explicit origin clip,
+Slice21 evidence: composition angle groups retain a session identity, explicit origin clip,
 selected asset/stream identities, project validity ranges, exact rational offsets and accepted
 sync evidence identity. `angle.declare` and `angle.remove` are public operations separate from
 linked-edit `syncGroups`; model validation refuses foreign sources, unknown/repeated members,
 invalid origins and ranges outside the clip interval. Slice20's failed waveform hypothesis still
 blocks sync promotion and delivered switched-view replay.
+
+Slice27 evidence: `edit.apply` now lowers explicit crossfade, dip and flash recipes into ordinary
+gain/opacity curves. Crossfade requires two distinct targets; dip and flash require one target and
+a representable midpoint. No source overlap, retime, implicit media or color asset is invented;
+native delivery and temporal visual critique remain open.

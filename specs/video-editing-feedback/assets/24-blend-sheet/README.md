@@ -1,34 +1,42 @@
 # Independent layer arithmetic evidence
 
-The [runner](../../../../packages/test-harness/editing/blend-sheet.mjs) submits explicit
-surfaces through the public composition compiler and native frame/video operations.
-The [reference](../../../../packages/test-harness/editing/blend-reference.mjs) implements
-[W3C separable blending and source-over](https://www.w3.org/TR/compositing-1/#blending)
-without importing the product renderer. It decodes sRGB operands before premultiplied
-linear-light arithmetic and encodes the result as sRGB. Existing delivered-PNG and
-movie display readers remain the observation owners.
+The [native runner](../../../../packages/test-harness/editing/blend-sheet.mjs)
+submits explicit surfaces through the public composition compiler and native
+frame/video operations. The [public runner](../../../../packages/test-harness/editing/blend-public.mjs)
+uses the same frozen operands through real CLI authoring, MCP processor readback,
+delivered frame/preview and committed export. Their help owns invocation. The
+[reference](../../../../packages/test-harness/editing/blend-reference.mjs) implements
+[W3C separable blending/source-over](https://www.w3.org/TR/compositing-1/#blending)
+in premultiplied linear-sRGB without importing the product renderer. Existing
+PNG, movie display and exact-sample-support observers remain the readers.
 
-[Requests/results](report.json) freeze the OS and worker identity, authored documents,
-native receipts, source/output hashes and numeric masks. The runner's help owns
-invocation. This proves the public compiler/native seam, not service/CLI admission.
-No user media was changed.
+[Original native requests/results](report.json) freeze OS/worker identity,
+documents, receipts and artifact hashes. [Public requests/results](public/report.json)
+freeze all seven CLI/MCP cases. [Parity](public/parity.json) proves their stills
+and decoded samples match retained native outputs byte for byte. Exports publish
+exact verified preview bytes and original operands remain unchanged. No user
+media was changed.
 
-Accepted full-raster PNG comparisons differ by at most one RGBA level; both decoded
-movie samples differ by at most four levels against the reference and still output.
-PNG limits apply everywhere. Movie patch comparisons exclude two pixels beside hard
-patch boundaries because chroma subsampling mixes adjacent colors; the smooth vignette
-excludes nothing. Limits were set before observing results. The retained
-[patch-vignette failure](historical-patch-vignette-failure.log) led to a smooth source
-control, not a relaxed threshold. Deliberately removing uncovered-alpha arithmetic or
-substituting normal for the requested multiply mode makes the checks fail.
+Review hardening adds exact raster dimensions/lengths, independent-reference
+identity, rational terminal movie support, export destination/identity and native
+operand hashes before still rendering and after movie delivery. The
+[hardened native run](hardened-native-report.json) exercises all seven cases;
+the [hardened public multiply run](public/hardened-multiply-report.json) exercises
+the corrected public assertions. Other public evidence predates hardening;
+[fresh timing observations](public/retained-support.json) verify all fourteen
+retained movies without claiming that newer code produced the old public results.
 
-[Native-scale comparison artifacts](comparison/) and the supplementary
-[4× nearest-neighbor sheet](comparison-sheet-4x.png) preserve actual output. Sheet columns
-are normal-before, arithmetic reference, native PNG, first decoded movie frame; rows
-follow the runner's case order. Still boundaries match the reference. Movie boundaries
-show visible codec color mixing, outside the interior numerical claim. The vignette's
-complete falloff matches its reference.
+Full-raster PNG error is at most one RGBA level. Both movie samples differ by at
+most four levels under the frozen comparison: patch interiors exclude two pixels
+beside hard boundaries; the smooth vignette is unmasked. Independent exact clocks
+show two 100ms sample spans covering precisely [0,200ms). These masks and limits
+were fixed before results. The [abrupt patch-vignette failure](historical-patch-vignette-failure.log)
+remains retained. Disabling the requested blend fails [public delivered-pixel verification](public/effect-disabled-red.log);
+disabling timing verification fails the [terminal-support regression](public/support-red.log).
 
-Numerical checkpoint: passed. Fresh unprimed visual critique, independent code-review
-completion and public CLI/service admission remain open; this record does not close
-those gates or the whole slice.
+[Native-scale pairs](comparison/), the [4× sheet](comparison-sheet-4x.png) and
+[visual adjudication](visual-review.md) retain actual appearance. Still arithmetic
+and public admission pass. Fresh visual reviewers disagree about movie hard-edge
+codec seams; full-raster movie fidelity remains unresolved. [Scoped review](review.md)
+records the five verification fixes and independent follow-up status. This evidence
+does not close the whole slice or claim whole-product certification.

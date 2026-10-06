@@ -1,6 +1,6 @@
 # 24 — Define useful layer blend arithmetic
 
-Status: partial — native swatches and independent sheet/vignette frame/movie arithmetic pass; fresh visual critique and public CLI/service admission remain open. Depends on: [13](13-decode-replication.md).
+Status: partial — native and public CLI/MCP arithmetic/admission pass; fresh critiques are retained, with full-raster decoded-movie hard-edge fidelity unresolved and independent rereview incomplete. Depends on: [13](13-decode-replication.md).
 
 ## Contract
 
@@ -30,7 +30,10 @@ soft-light in the native compositor and checks the delivered pixels. Composition
 retains the explicit mode as a blend operation on the layer surface; the native media
 contract carries the same mode. The [independent sheet checkpoint](../assets/24-blend-sheet/README.md)
 freezes color/alpha/order/group and vignette arithmetic through the public compiler and
-native still/movie seam. Fresh visual critique and service/CLI admission remain open.
+native still/movie seam. The public journey now verifies CLI authoring, MCP readback,
+delivered pixels, exact rational movie support and committed export bytes/destination.
+Fresh visual critiques disagree about hard-edge codec seams; see the retained
+[visual adjudication](../assets/24-blend-sheet/visual-review.md).
 
 Expose a case-selected command or existing lab entry with its own usage. Store accepted requests/results and artifact identities in feature-owned evidence. The implementing agent checks actual output; the user may view it for direction without becoming a QA gate.
 
@@ -45,8 +48,9 @@ Variable: blend response only. Mask: fixed swatches/overlay region; no new grade
 Run [compare-screenshots](../../../.agents/skills/compare-screenshots/SKILL.md) on matched before/reference/candidate shots with the stated masks and numeric interpretation. Inspect motion temporally when a still cannot establish the claim. Run an unprimed [screenshot-critique](../../../.agents/skills/screenshot-critique/SKILL.md) as the **last visual acceptance check**. Show useful output with [preview-shots](../../../.agents/skills/preview-shots/SKILL.md); never request human QA or wait for approval. Record critique, coverage and any residual uncertainty.
 
 The focused pass is green when composition planning retains the explicit mode and native
-delivery matches the expected swatch arithmetic. The full slice remains open until the
-independent visual critique and public admission are complete. An unavailable stub or
+delivery matches the expected swatch arithmetic. Independent visual critiques and public admission are complete within the retained
+arithmetic scope. The full slice remains open because full-raster decoded movie
+hard-edge fidelity has a conflicting defect verdict; this is not a clean visual gate. An unavailable stub or
 undocumented fallback is not implementation completion.
 
 ## Delegated choices

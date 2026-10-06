@@ -1,0 +1,1028 @@
+{
+  "scope": "Fresh independent exact-clock observation of previously retained movies; no rerender",
+  "passed": true,
+  "rows": [
+    {
+      "scenario": "normal",
+      "boundary": "native",
+      "sha256": "fa1eca374b8786bcc43d5398ca62c1946c1894fb583a43c2009000e6c4099c92",
+      "support": {
+        "file": "/Users/server/dev/yap-blend-sheet/specs/video-editing-feedback/assets/24-blend-sheet/normal/candidate.mp4",
+        "segments": [
+          {
+            "empty": false,
+            "sourceStart": {
+              "value": "0",
+              "timescale": 1000000
+            },
+            "targetDuration": {
+              "value": "200000",
+              "timescale": 1000000
+            },
+            "sourceDuration": {
+              "value": "200000",
+              "timescale": 1000000
+            },
+            "targetStart": {
+              "value": "0",
+              "timescale": 1000000
+            },
+            "ordinal": 0
+          }
+        ],
+        "trackId": 1,
+        "samples": [
+          {
+            "end": {
+              "timescale": 1000000,
+              "value": "100000"
+            },
+            "mediaDuration": {
+              "timescale": 1000000,
+              "value": "100000"
+            },
+            "mediaPTS": {
+              "timescale": 1000000,
+              "value": "0"
+            },
+            "start": {
+              "timescale": 1000000,
+              "value": "0"
+            },
+            "roundedUs": 0,
+            "segment": 0
+          },
+          {
+            "start": {
+              "timescale": 1000000,
+              "value": "100000"
+            },
+            "roundedUs": 100000,
+            "mediaDuration": {
+              "timescale": 1000000,
+              "value": "100000"
+            },
+            "segment": 0,
+            "mediaPTS": {
+              "timescale": 1000000,
+              "value": "100000"
+            },
+            "end": {
+              "timescale": 1000000,
+              "value": "200000"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "scenario": "normal",
+      "boundary": "public",
+      "sha256": "1387724f3b1c7455869a55b50524c3602944db142c62cb741685aa001f435b72",
+      "support": {
+        "segments": [
+          {
+            "sourceStart": {
+              "value": "0",
+              "timescale": 1000000
+            },
+            "sourceDuration": {
+              "value": "1200000",
+              "timescale": 6000000
+            },
+            "targetStart": {
+              "value": "0",
+              "timescale": 6000000
+            },
+            "empty": false,
+            "targetDuration": {
+              "value": "1200000",
+              "timescale": 6000000
+            },
+            "ordinal": 0
+          }
+        ],
+        "file": "/Users/server/dev/yap-blend-sheet/specs/video-editing-feedback/assets/24-blend-sheet/public/normal/preview.mp4",
+        "trackId": 1,
+        "samples": [
+          {
+            "segment": 0,
+            "mediaDuration": {
+              "value": "100000",
+              "timescale": 1000000
+            },
+            "roundedUs": 0,
+            "end": {
+              "value": "100000",
+              "timescale": 1000000
+            },
+            "start": {
+              "value": "0",
+              "timescale": 1000000
+            },
+            "mediaPTS": {
+              "value": "0",
+              "timescale": 1000000
+            }
+          },
+          {
+            "segment": 0,
+            "mediaDuration": {
+              "value": "100000",
+              "timescale": 1000000
+            },
+            "roundedUs": 100000,
+            "end": {
+              "value": "1200000",
+              "timescale": 6000000
+            },
+            "start": {
+              "value": "100000",
+              "timescale": 1000000
+            },
+            "mediaPTS": {
+              "value": "100000",
+              "timescale": 1000000
+            }
+          }
+        ]
+      }
+    },
+    {
+      "scenario": "multiply",
+      "boundary": "native",
+      "sha256": "bbc9079908031579c47f4ab160107e436656bbcd5e28fa5bc2f24ecc8c931e0e",
+      "support": {
+        "file": "/Users/server/dev/yap-blend-sheet/specs/video-editing-feedback/assets/24-blend-sheet/multiply/candidate.mp4",
+        "samples": [
+          {
+            "end": {
+              "timescale": 1000000,
+              "value": "100000"
+            },
+            "mediaDuration": {
+              "timescale": 1000000,
+              "value": "100000"
+            },
+            "start": {
+              "timescale": 1000000,
+              "value": "0"
+            },
+            "roundedUs": 0,
+            "segment": 0,
+            "mediaPTS": {
+              "timescale": 1000000,
+              "value": "0"
+            }
+          },
+          {
+            "mediaPTS": {
+              "value": "100000",
+              "timescale": 1000000
+            },
+            "mediaDuration": {
+              "value": "100000",
+              "timescale": 1000000
+            },
+            "roundedUs": 100000,
+            "start": {
+              "value": "100000",
+              "timescale": 1000000
+            },
+            "end": {
+              "value": "200000",
+              "timescale": 1000000
+            },
+            "segment": 0
+          }
+        ],
+        "trackId": 1,
+        "segments": [
+          {
+            "ordinal": 0,
+            "sourceStart": {
+              "value": "0",
+              "timescale": 1000000
+            },
+            "sourceDuration": {
+              "value": "200000",
+              "timescale": 1000000
+            },
+            "empty": false,
+            "targetStart": {
+              "value": "0",
+              "timescale": 1000000
+            },
+            "targetDuration": {
+              "timescale": 1000000,
+              "value": "200000"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "scenario": "multiply",
+      "boundary": "public",
+      "sha256": "4182f37548a358334bf75f606d668576fc20b73800ce2680a6551f78fc419dd6",
+      "support": {
+        "trackId": 1,
+        "samples": [
+          {
+            "end": {
+              "value": "100000",
+              "timescale": 1000000
+            },
+            "start": {
+              "value": "0",
+              "timescale": 1000000
+            },
+            "mediaDuration": {
+              "value": "100000",
+              "timescale": 1000000
+            },
+            "roundedUs": 0,
+            "segment": 0,
+            "mediaPTS": {
+              "value": "0",
+              "timescale": 1000000
+            }
+          },
+          {
+            "end": {
+              "value": "1200000",
+              "timescale": 6000000
+            },
+            "start": {
+              "value": "100000",
+              "timescale": 1000000
+            },
+            "mediaDuration": {
+              "value": "100000",
+              "timescale": 1000000
+            },
+            "roundedUs": 100000,
+            "segment": 0,
+            "mediaPTS": {
+              "value": "100000",
+              "timescale": 1000000
+            }
+          }
+        ],
+        "segments": [
+          {
+            "empty": false,
+            "sourceStart": {
+              "value": "0",
+              "timescale": 1000000
+            },
+            "targetDuration": {
+              "value": "1200000",
+              "timescale": 6000000
+            },
+            "sourceDuration": {
+              "value": "1200000",
+              "timescale": 6000000
+            },
+            "targetStart": {
+              "value": "0",
+              "timescale": 6000000
+            },
+            "ordinal": 0
+          }
+        ],
+        "file": "/Users/server/dev/yap-blend-sheet/specs/video-editing-feedback/assets/24-blend-sheet/public/multiply/preview.mp4"
+      }
+    },
+    {
+      "scenario": "screen",
+      "boundary": "native",
+      "sha256": "a83f6e91e0b4344188df4e68051cb6810984cd9b21d6664f092584f4815d4764",
+      "support": {
+        "samples": [
+          {
+            "end": {
+              "timescale": 1000000,
+              "value": "100000"
+            },
+            "start": {
+              "timescale": 1000000,
+              "value": "0"
+            },
+            "mediaPTS": {
+              "timescale": 1000000,
+              "value": "0"
+            },
+            "segment": 0,
+            "mediaDuration": {
+              "timescale": 1000000,
+              "value": "100000"
+            },
+            "roundedUs": 0
+          },
+          {
+            "roundedUs": 100000,
+            "mediaDuration": {
+              "value": "100000",
+              "timescale": 1000000
+            },
+            "mediaPTS": {
+              "value": "100000",
+              "timescale": 1000000
+            },
+            "start": {
+              "value": "100000",
+              "timescale": 1000000
+            },
+            "end": {
+              "value": "200000",
+              "timescale": 1000000
+            },
+            "segment": 0
+          }
+        ],
+        "segments": [
+          {
+            "sourceStart": {
+              "value": "0",
+              "timescale": 1000000
+            },
+            "sourceDuration": {
+              "timescale": 1000000,
+              "value": "200000"
+            },
+            "targetDuration": {
+              "value": "200000",
+              "timescale": 1000000
+            },
+            "targetStart": {
+              "value": "0",
+              "timescale": 1000000
+            },
+            "empty": false,
+            "ordinal": 0
+          }
+        ],
+        "trackId": 1,
+        "file": "/Users/server/dev/yap-blend-sheet/specs/video-editing-feedback/assets/24-blend-sheet/screen/candidate.mp4"
+      }
+    },
+    {
+      "scenario": "screen",
+      "boundary": "public",
+      "sha256": "c3f9290930428599d8de989fef160098405eedb565f34df12f61c81573e5c534",
+      "support": {
+        "samples": [
+          {
+            "mediaDuration": {
+              "timescale": 1000000,
+              "value": "100000"
+            },
+            "roundedUs": 0,
+            "mediaPTS": {
+              "timescale": 1000000,
+              "value": "0"
+            },
+            "start": {
+              "timescale": 1000000,
+              "value": "0"
+            },
+            "segment": 0,
+            "end": {
+              "timescale": 1000000,
+              "value": "100000"
+            }
+          },
+          {
+            "mediaDuration": {
+              "timescale": 1000000,
+              "value": "100000"
+            },
+            "roundedUs": 100000,
+            "mediaPTS": {
+              "timescale": 1000000,
+              "value": "100000"
+            },
+            "start": {
+              "timescale": 1000000,
+              "value": "100000"
+            },
+            "segment": 0,
+            "end": {
+              "timescale": 6000000,
+              "value": "1200000"
+            }
+          }
+        ],
+        "file": "/Users/server/dev/yap-blend-sheet/specs/video-editing-feedback/assets/24-blend-sheet/public/screen/preview.mp4",
+        "trackId": 1,
+        "segments": [
+          {
+            "ordinal": 0,
+            "empty": false,
+            "sourceDuration": {
+              "value": "1200000",
+              "timescale": 6000000
+            },
+            "targetStart": {
+              "value": "0",
+              "timescale": 6000000
+            },
+            "sourceStart": {
+              "value": "0",
+              "timescale": 1000000
+            },
+            "targetDuration": {
+              "value": "1200000",
+              "timescale": 6000000
+            }
+          }
+        ]
+      }
+    },
+    {
+      "scenario": "soft-light",
+      "boundary": "native",
+      "sha256": "a966898aa1082855dd940b000a94a5bae322126242ea65f08a8786e948a32935",
+      "support": {
+        "samples": [
+          {
+            "segment": 0,
+            "end": {
+              "timescale": 1000000,
+              "value": "100000"
+            },
+            "mediaPTS": {
+              "timescale": 1000000,
+              "value": "0"
+            },
+            "mediaDuration": {
+              "timescale": 1000000,
+              "value": "100000"
+            },
+            "roundedUs": 0,
+            "start": {
+              "timescale": 1000000,
+              "value": "0"
+            }
+          },
+          {
+            "mediaPTS": {
+              "value": "100000",
+              "timescale": 1000000
+            },
+            "roundedUs": 100000,
+            "start": {
+              "value": "100000",
+              "timescale": 1000000
+            },
+            "segment": 0,
+            "mediaDuration": {
+              "value": "100000",
+              "timescale": 1000000
+            },
+            "end": {
+              "value": "200000",
+              "timescale": 1000000
+            }
+          }
+        ],
+        "file": "/Users/server/dev/yap-blend-sheet/specs/video-editing-feedback/assets/24-blend-sheet/soft-light/candidate.mp4",
+        "trackId": 1,
+        "segments": [
+          {
+            "sourceDuration": {
+              "value": "200000",
+              "timescale": 1000000
+            },
+            "ordinal": 0,
+            "targetDuration": {
+              "value": "200000",
+              "timescale": 1000000
+            },
+            "targetStart": {
+              "timescale": 1000000,
+              "value": "0"
+            },
+            "empty": false,
+            "sourceStart": {
+              "value": "0",
+              "timescale": 1000000
+            }
+          }
+        ]
+      }
+    },
+    {
+      "scenario": "soft-light",
+      "boundary": "public",
+      "sha256": "4cdbf0eab20b8d610986334394d42107a2bd26da652a2122077868831986290b",
+      "support": {
+        "file": "/Users/server/dev/yap-blend-sheet/specs/video-editing-feedback/assets/24-blend-sheet/public/soft-light/preview.mp4",
+        "segments": [
+          {
+            "ordinal": 0,
+            "sourceDuration": {
+              "value": "1200000",
+              "timescale": 6000000
+            },
+            "targetStart": {
+              "value": "0",
+              "timescale": 6000000
+            },
+            "targetDuration": {
+              "value": "1200000",
+              "timescale": 6000000
+            },
+            "sourceStart": {
+              "value": "0",
+              "timescale": 1000000
+            },
+            "empty": false
+          }
+        ],
+        "samples": [
+          {
+            "segment": 0,
+            "start": {
+              "timescale": 1000000,
+              "value": "0"
+            },
+            "mediaDuration": {
+              "timescale": 1000000,
+              "value": "100000"
+            },
+            "end": {
+              "timescale": 1000000,
+              "value": "100000"
+            },
+            "roundedUs": 0,
+            "mediaPTS": {
+              "timescale": 1000000,
+              "value": "0"
+            }
+          },
+          {
+            "segment": 0,
+            "start": {
+              "timescale": 1000000,
+              "value": "100000"
+            },
+            "mediaDuration": {
+              "timescale": 1000000,
+              "value": "100000"
+            },
+            "end": {
+              "timescale": 6000000,
+              "value": "1200000"
+            },
+            "roundedUs": 100000,
+            "mediaPTS": {
+              "timescale": 1000000,
+              "value": "100000"
+            }
+          }
+        ],
+        "trackId": 1
+      }
+    },
+    {
+      "scenario": "soft-light-reversed",
+      "boundary": "native",
+      "sha256": "f74cfb562b36df754bf43a56c864f7ef420930390bb77587dd85cd3994d275ec",
+      "support": {
+        "segments": [
+          {
+            "empty": false,
+            "targetStart": {
+              "timescale": 1000000,
+              "value": "0"
+            },
+            "sourceStart": {
+              "value": "0",
+              "timescale": 1000000
+            },
+            "sourceDuration": {
+              "value": "200000",
+              "timescale": 1000000
+            },
+            "ordinal": 0,
+            "targetDuration": {
+              "value": "200000",
+              "timescale": 1000000
+            }
+          }
+        ],
+        "file": "/Users/server/dev/yap-blend-sheet/specs/video-editing-feedback/assets/24-blend-sheet/soft-light-reversed/candidate.mp4",
+        "trackId": 1,
+        "samples": [
+          {
+            "end": {
+              "value": "100000",
+              "timescale": 1000000
+            },
+            "roundedUs": 0,
+            "mediaPTS": {
+              "value": "0",
+              "timescale": 1000000
+            },
+            "start": {
+              "value": "0",
+              "timescale": 1000000
+            },
+            "segment": 0,
+            "mediaDuration": {
+              "value": "100000",
+              "timescale": 1000000
+            }
+          },
+          {
+            "segment": 0,
+            "roundedUs": 100000,
+            "mediaPTS": {
+              "value": "100000",
+              "timescale": 1000000
+            },
+            "mediaDuration": {
+              "value": "100000",
+              "timescale": 1000000
+            },
+            "start": {
+              "value": "100000",
+              "timescale": 1000000
+            },
+            "end": {
+              "value": "200000",
+              "timescale": 1000000
+            }
+          }
+        ]
+      }
+    },
+    {
+      "scenario": "soft-light-reversed",
+      "boundary": "public",
+      "sha256": "ba6a2d541cffd0c384d3652eb0121cacb4c864676a947575f5920ae64656c377",
+      "support": {
+        "segments": [
+          {
+            "sourceStart": {
+              "timescale": 1000000,
+              "value": "0"
+            },
+            "sourceDuration": {
+              "timescale": 6000000,
+              "value": "1200000"
+            },
+            "targetStart": {
+              "timescale": 6000000,
+              "value": "0"
+            },
+            "ordinal": 0,
+            "targetDuration": {
+              "timescale": 6000000,
+              "value": "1200000"
+            },
+            "empty": false
+          }
+        ],
+        "file": "/Users/server/dev/yap-blend-sheet/specs/video-editing-feedback/assets/24-blend-sheet/public/soft-light-reversed/preview.mp4",
+        "trackId": 1,
+        "samples": [
+          {
+            "end": {
+              "timescale": 1000000,
+              "value": "100000"
+            },
+            "roundedUs": 0,
+            "segment": 0,
+            "mediaDuration": {
+              "timescale": 1000000,
+              "value": "100000"
+            },
+            "start": {
+              "timescale": 1000000,
+              "value": "0"
+            },
+            "mediaPTS": {
+              "timescale": 1000000,
+              "value": "0"
+            }
+          },
+          {
+            "end": {
+              "timescale": 6000000,
+              "value": "1200000"
+            },
+            "roundedUs": 100000,
+            "segment": 0,
+            "mediaDuration": {
+              "timescale": 1000000,
+              "value": "100000"
+            },
+            "start": {
+              "timescale": 1000000,
+              "value": "100000"
+            },
+            "mediaPTS": {
+              "timescale": 1000000,
+              "value": "100000"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "scenario": "multiply-nested",
+      "boundary": "native",
+      "sha256": "5577342cee9b88b13623f9804fa2f4649866e7e2a65f2bed8468e5ae703c0391",
+      "support": {
+        "file": "/Users/server/dev/yap-blend-sheet/specs/video-editing-feedback/assets/24-blend-sheet/multiply-nested/candidate.mp4",
+        "trackId": 1,
+        "samples": [
+          {
+            "mediaDuration": {
+              "value": "100000",
+              "timescale": 1000000
+            },
+            "segment": 0,
+            "mediaPTS": {
+              "value": "0",
+              "timescale": 1000000
+            },
+            "end": {
+              "value": "100000",
+              "timescale": 1000000
+            },
+            "roundedUs": 0,
+            "start": {
+              "value": "0",
+              "timescale": 1000000
+            }
+          },
+          {
+            "mediaDuration": {
+              "timescale": 1000000,
+              "value": "100000"
+            },
+            "mediaPTS": {
+              "timescale": 1000000,
+              "value": "100000"
+            },
+            "start": {
+              "timescale": 1000000,
+              "value": "100000"
+            },
+            "roundedUs": 100000,
+            "segment": 0,
+            "end": {
+              "timescale": 1000000,
+              "value": "200000"
+            }
+          }
+        ],
+        "segments": [
+          {
+            "empty": false,
+            "ordinal": 0,
+            "sourceDuration": {
+              "timescale": 1000000,
+              "value": "200000"
+            },
+            "targetStart": {
+              "timescale": 1000000,
+              "value": "0"
+            },
+            "targetDuration": {
+              "timescale": 1000000,
+              "value": "200000"
+            },
+            "sourceStart": {
+              "value": "0",
+              "timescale": 1000000
+            }
+          }
+        ]
+      }
+    },
+    {
+      "scenario": "multiply-nested",
+      "boundary": "public",
+      "sha256": "9b0a675d603c704a4d335e20e22d2723a3e028ec7906f5dfadb7763190d1e80a",
+      "support": {
+        "file": "/Users/server/dev/yap-blend-sheet/specs/video-editing-feedback/assets/24-blend-sheet/public/multiply-nested/preview.mp4",
+        "samples": [
+          {
+            "mediaDuration": {
+              "value": "100000",
+              "timescale": 1000000
+            },
+            "segment": 0,
+            "end": {
+              "value": "100000",
+              "timescale": 1000000
+            },
+            "roundedUs": 0,
+            "mediaPTS": {
+              "value": "0",
+              "timescale": 1000000
+            },
+            "start": {
+              "value": "0",
+              "timescale": 1000000
+            }
+          },
+          {
+            "mediaDuration": {
+              "value": "100000",
+              "timescale": 1000000
+            },
+            "segment": 0,
+            "end": {
+              "value": "1200000",
+              "timescale": 6000000
+            },
+            "roundedUs": 100000,
+            "mediaPTS": {
+              "value": "100000",
+              "timescale": 1000000
+            },
+            "start": {
+              "value": "100000",
+              "timescale": 1000000
+            }
+          }
+        ],
+        "trackId": 1,
+        "segments": [
+          {
+            "ordinal": 0,
+            "sourceDuration": {
+              "timescale": 6000000,
+              "value": "1200000"
+            },
+            "targetDuration": {
+              "timescale": 6000000,
+              "value": "1200000"
+            },
+            "sourceStart": {
+              "timescale": 1000000,
+              "value": "0"
+            },
+            "targetStart": {
+              "timescale": 6000000,
+              "value": "0"
+            },
+            "empty": false
+          }
+        ]
+      }
+    },
+    {
+      "scenario": "vignette",
+      "boundary": "native",
+      "sha256": "43421b81cbda98fffeb74d236de0a3d709e63d8919e9feceaf481eda9e7d42f7",
+      "support": {
+        "trackId": 1,
+        "file": "/Users/server/dev/yap-blend-sheet/specs/video-editing-feedback/assets/24-blend-sheet/vignette/candidate.mp4",
+        "segments": [
+          {
+            "ordinal": 0,
+            "empty": false,
+            "sourceStart": {
+              "timescale": 1000000,
+              "value": "0"
+            },
+            "targetStart": {
+              "timescale": 1000000,
+              "value": "0"
+            },
+            "sourceDuration": {
+              "timescale": 1000000,
+              "value": "200000"
+            },
+            "targetDuration": {
+              "value": "200000",
+              "timescale": 1000000
+            }
+          }
+        ],
+        "samples": [
+          {
+            "start": {
+              "timescale": 1000000,
+              "value": "0"
+            },
+            "segment": 0,
+            "mediaPTS": {
+              "timescale": 1000000,
+              "value": "0"
+            },
+            "end": {
+              "timescale": 1000000,
+              "value": "100000"
+            },
+            "mediaDuration": {
+              "timescale": 1000000,
+              "value": "100000"
+            },
+            "roundedUs": 0
+          },
+          {
+            "mediaDuration": {
+              "value": "100000",
+              "timescale": 1000000
+            },
+            "segment": 0,
+            "start": {
+              "value": "100000",
+              "timescale": 1000000
+            },
+            "mediaPTS": {
+              "value": "100000",
+              "timescale": 1000000
+            },
+            "roundedUs": 100000,
+            "end": {
+              "value": "200000",
+              "timescale": 1000000
+            }
+          }
+        ]
+      }
+    },
+    {
+      "scenario": "vignette",
+      "boundary": "public",
+      "sha256": "327d53e5424d7119290d42d308f8afd713edfed49b6bb5e5e560385ece94f669",
+      "support": {
+        "samples": [
+          {
+            "mediaDuration": {
+              "value": "100000",
+              "timescale": 1000000
+            },
+            "start": {
+              "value": "0",
+              "timescale": 1000000
+            },
+            "end": {
+              "value": "100000",
+              "timescale": 1000000
+            },
+            "roundedUs": 0,
+            "segment": 0,
+            "mediaPTS": {
+              "value": "0",
+              "timescale": 1000000
+            }
+          },
+          {
+            "mediaDuration": {
+              "value": "100000",
+              "timescale": 1000000
+            },
+            "start": {
+              "value": "100000",
+              "timescale": 1000000
+            },
+            "end": {
+              "value": "1200000",
+              "timescale": 6000000
+            },
+            "roundedUs": 100000,
+            "segment": 0,
+            "mediaPTS": {
+              "value": "100000",
+              "timescale": 1000000
+            }
+          }
+        ],
+        "file": "/Users/server/dev/yap-blend-sheet/specs/video-editing-feedback/assets/24-blend-sheet/public/vignette/preview.mp4",
+        "trackId": 1,
+        "segments": [
+          {
+            "targetDuration": {
+              "value": "1200000",
+              "timescale": 6000000
+            },
+            "sourceStart": {
+              "value": "0",
+              "timescale": 1000000
+            },
+            "sourceDuration": {
+              "value": "1200000",
+              "timescale": 6000000
+            },
+            "empty": false,
+            "ordinal": 0,
+            "targetStart": {
+              "value": "0",
+              "timescale": 6000000
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

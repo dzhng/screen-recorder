@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { blendPixel } from "./blend-reference.mjs";
+import { blendPixel, compareBlendRaster, verifyBlendMovieSupport } from "./blend-reference.mjs";
 
 test("partial-alpha multiply includes uncovered source and backdrop in premultiplied linear light", () => {
   // Source straight .8 at alpha .5, backdrop straight .4 at alpha .75.
@@ -25,4 +25,45 @@ test("transparent source is identity and screen/multiply neutral patches stay ne
     assert.deepEqual(blendPixel([0, 0, 0, 0], below, mode), below);
   assert.deepEqual(blendPixel([1, 1, 1, 1], [0.2, 0.3, 0.4, 1], "multiply"), [0.2, 0.3, 0.4, 1]);
   assert.deepEqual(blendPixel([0, 0, 0, 1], [0.2, 0.3, 0.4, 1], "screen"), [0.2, 0.3, 0.4, 1]);
+});
+
+test("raster verification refuses a delivered channel outside the declared arithmetic limit", () => {
+  const expected = Buffer.from([20, 80, 140, 255, 40, 60, 90, 255]);
+  const actual = Buffer.from(expected);
+  actual[2] += 3;
+  assert.throws(
+    () => compareBlendRaster(actual, expected, { width: 2, height: 1, limit: 2 }),
+    /maximum 3 exceeds 2/,
+  );
+  actual[2] -= 2;
+  assert.equal(compareBlendRaster(actual, expected, { width: 2, height: 1, limit: 2 }).maximum, 1);
+});
+
+test("raster verification cannot certify only the matching prefix of an oversized image", () => {
+  const expected = Buffer.from([20, 80, 140, 255]);
+  assert.throws(
+    () =>
+      compareBlendRaster(Buffer.concat([expected, Buffer.from([0, 0, 0, 255])]), expected, {
+        width: 1,
+        height: 1,
+        limit: 2,
+      }),
+    /raster size/,
+  );
+});
+
+test("movie verification refuses wrong terminal support even when both requested pictures exist", () => {
+  const clock = (value) => ({ value: String(value), timescale: 1000000 });
+  const support = {
+    segments: [{ ordinal: 0, empty: false, targetStart: clock(0), targetDuration: clock(200000) }],
+    samples: [
+      { segment: 0, start: clock(0), end: clock(100000) },
+      { segment: 0, start: clock(100000), end: clock(200000) },
+    ],
+  };
+  verifyBlendMovieSupport(support);
+  const bad = structuredClone(support);
+  bad.segments[0].targetDuration = clock(250000);
+  bad.samples[1].end = clock(250000);
+  assert.throws(() => verifyBlendMovieSupport(bad), /duration|end/);
 });

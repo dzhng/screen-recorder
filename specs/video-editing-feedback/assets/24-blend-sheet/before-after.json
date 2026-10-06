@@ -1,0 +1,44 @@
+[
+  {
+    "case": "normal",
+    "changedPixels": 256,
+    "maximum": 1,
+    "movieSamplesIdentical": true
+  },
+  {
+    "case": "multiply",
+    "changedPixels": 5120,
+    "maximum": 255,
+    "movieSamplesIdentical": true
+  },
+  {
+    "case": "screen",
+    "changedPixels": 3072,
+    "maximum": 205,
+    "movieSamplesIdentical": true
+  },
+  {
+    "case": "soft-light",
+    "changedPixels": 5888,
+    "maximum": 255,
+    "movieSamplesIdentical": true
+  },
+  {
+    "case": "soft-light-reversed",
+    "changedPixels": 5888,
+    "maximum": 255,
+    "movieSamplesIdentical": true
+  },
+  {
+    "case": "multiply-nested",
+    "changedPixels": 3072,
+    "maximum": 205,
+    "movieSamplesIdentical": true
+  },
+  {
+    "case": "vignette",
+    "changedPixels": 8192,
+    "maximum": 143,
+    "movieSamplesIdentical": true
+  }
+]

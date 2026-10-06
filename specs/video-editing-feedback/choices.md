@@ -929,54 +929,43 @@ unlisted architecture or user-only choice was found in this research pass.
   turn uncertain overlap into an editorial decision.
 - **Confidence:** high.
 
-## Public styled-caption sheet shape — slice22
+## Independent blend reference envelope — slice24 sheet
 
-- **When:** slice22 public static-sheet checkpoint.
-- **The choice:** The public proof renders four caption variants into one selected
-  frame: the default/top placement, centered stroke, bottom shadow and centered
-  rounded background. Each variant has its own video track and clip identity, so
-  the returned `frame.get` receipt can be matched to the authored request without
-  guessing which layer produced a row. The same frame is retained as the visual
-  PNG artifact; no separate native-only raster is treated as public proof.
-- **The gap:** The slice required a public styled-caption artifact and receipt but
-  did not define whether to capture one representative style or a matrix, nor how
-  to associate receipt rows with the visual samples.
-- **The reach:** Future caption decoration changes can rerun one bounded static
-  sheet and compare each style's literal text, vertical offset, decoration echo and
-  bounds. The checkpoint intentionally does not claim animation, moving-footage
-  legibility or human visual sign-off.
-- **Verdict:** sound, high confidence. One public frame keeps the evidence small,
-  exercises all decoration owners, and uses stable clip IDs rather than ordering
-  as the row key.
-- **Confidence:** high.
-
-## Public sheet acceptance stays open after a malformed receipt — slice22 follow-up
-
-- **When:** slice22 public admission and visual follow-up.
-- **The choice:** Treat the public run as an admission checkpoint only when the
-  service queues the `frame.get` request and the native response validates into a
-  delivered receipt plus PNG. The available run reached the service and settled
-  with `Malformed picture receipt`, so it remains unverified; isolated native
-  text tests are retained as narrower evidence and cannot close the public gate.
-- **The gap:** The plan required a public static sheet and an unprimed visual
-  critique but did not state whether a failed native receipt could count as
-  partial evidence or how to separate service admission from rendered output.
-- **The reach:** Future visual work must retain the public response and artifact
-  before claiming a sheet is rendered. This prevents a native-only success or a
-  queued job from being mistaken for public output parity.
-- **Verdict:** sound, high confidence. The decision follows the existing
-  published-work contract and keeps each evidence owner honest. Revisit only
-  after a matching worker produces a parseable receipt and PNG.
-- **Confidence:** high.
-
-## Transition recipe lowering — slice27
-
-- **When:** slice27 public composition checkpoint.
-- **The choice:** Keep transitions as caller-authored convenience operations that lower to the existing gain and opacity processors. Crossfade names two distinct targets and emits opposing ramps; dip and flash name one target and emit a three-point pulse. A project/source pulse must have an even whole-microsecond midpoint, while clip anchors retain exact fractions. The recipe does not add assets, retime media or synthesize an SFX/color layer.
-- **The gap:** The transition request needed a reusable public seam but the native graph already owned all required scalar execution. Adding a second transition renderer would create a second clock and duplicate alpha/audio behavior.
-- **The reach:** Public composition tests prove the authored curves and explicit midpoint refusal. The canvas/background or caller-selected overlay controls the visible dip/flash color; delivered native transition evidence and motion critique remain open.
-- **Verdict:** sound, medium-high confidence. The lowering is small and shares the existing processor/executor contracts, but visual/audio delivery still needs its own evidence gate.
+- **When:** slice24 independent sheet/vignette checkpoint.
+- **The choice:** Compare every delivered PNG pixel against scalar linear-light equations,
+  while comparing encoded patch interiors separately from their edges. When a blue patch
+  touches an orange patch, the movie codec shares color samples across the boundary; that
+  is visible in the retained images even though the compositor drew the correct pixels.
+  The movie arithmetic claim therefore excludes a two-pixel fringe around hard patches.
+  A separate smooth vignette checks every movie pixel, including the complete outer falloff.
+- **The gap:** The spec required independent arithmetic and movie parity but did not name
+  the fixtures or distinguish compositor error from codec boundary mixing.
+- **The reach:** This reference can detect missing modes, incorrect alpha and wrong order
+  without adding a production renderer. It cannot certify movie patch boundaries or public
+  CLI admission; those remain explicit limits rather than silently broadening the claim.
+- **Verdict:** sound. PNG proof remains unmasked and the separate smooth movie control keeps
+  the codec mask from hiding an actual blend/falloff defect. Thresholds were set before results.
 - **Confidence:** medium-high.
+
+
+## Public blend evidence and visual disagreement — slice24
+
+- **When:** public CLI/MCP closeout and independent review hardening.
+- **The choice:** Reuse the frozen native/reference operands and existing service,
+  acquisition, PNG/movie and rational-clock observers. Verify export against the
+  actual pinned preview and requested canonical destination. Replay retained movie
+  clocks without rerendering media unchanged by the new verification code.
+- **The gap:** Earlier proof omitted output extent and destination identity, and
+  the native preservation check started after still rendering. Five scoped review
+  findings prompted direct assertions rather than another product owner.
+- **The reach:** Public admission is now evidenced for all seven cases; hardened
+  assertions ran on public multiply and all seven native cases. Older public
+  receipts remain identified as pre-hardening. Two fresh visual reviews conflict
+  on movie seams, so full-raster movie fidelity stays open despite a clean review.
+- **Verdict:** sound evidence ownership and honest scope; no threshold, mask or
+  release criterion changed to conceal a reported defect.
+- **Confidence:** high for arithmetic/admission and exact support; unresolved for
+  the disputed movie hard-edge appearance.
 
 ## Explicit angle-session ownership — slice21
 
@@ -986,3 +975,12 @@ unlisted architecture or user-only choice was found in this research pass.
 - **The reach:** Validation rejects foreign/unknown/repeated members, non-media clips, origins outside the group and ranges outside the resolved clip interval. The relationship can survive ordinary placements without adding a second timeline, while slice20's failed waveform hypothesis still blocks promotion and switched-view delivery.
 - **Verdict:** sound, medium confidence. The data owner is explicit and hard-cutover friendly, but sync evidence and native replay remain unfinished.
 - **Confidence:** medium.
+
+## Transition recipe lowering — slice27
+
+- **When:** slice27 public composition checkpoint.
+- **The choice:** Keep transitions as caller-authored convenience operations that lower to the existing gain and opacity processors. Crossfade names two distinct targets and emits opposing ramps; dip and flash name one target and emit a three-point pulse. A project/source pulse must have an even whole-microsecond midpoint, while clip anchors retain exact fractions. The recipe does not add assets, retime media or synthesize an SFX/color layer.
+- **The gap:** The transition request needed a reusable public seam but the native graph already owned all required scalar execution. Adding a second transition renderer would create a second clock and duplicate alpha/audio behavior.
+- **The reach:** Public composition tests prove the authored curves and explicit midpoint refusal. The canvas/background or caller-selected overlay controls the visible dip/flash color; delivered native transition evidence and motion critique remain open.
+- **Verdict:** sound, medium-high confidence. The lowering is small and shares the existing processor/executor contracts, but visual/audio delivery still needs its own evidence gate.
+- **Confidence:** medium-high.

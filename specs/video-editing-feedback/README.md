@@ -16,26 +16,20 @@ merge, push or installed-app change has been requested. Hard cutover remains
 binding: no aliases, dual readers or migrations; preserve external originals and
 frozen historical evidence.
 
-Current pickup: close stage24's fresh visual critique and public CLI/service admission,
-then continue the remaining synchronization, tone/LUT, transition and speaker gates.
-The public
-styled-caption static sheet for stage22 is integrated, and slice23's active-word timing checkpoint is implemented:
+Current pickup: close stage24's remaining visual/movie fidelity limit, then continue synchronization, tone/LUT, transition and speaker gates. Stage21 now has an explicit angle-session declaration/removal contract with source identity, validity and exact offsets; accepted sync evidence and switched-view delivery remain open. Slice23's active-word timing checkpoint is implemented:
 exact UTF-16 ranges, source-clock mapping and native colored-glyph receipts pass;
-entrance/pop motion remains open. Stage27's crossfade/dip/flash recipes now lower to
-ordinary bounded gain/opacity curves; native delivered transition evidence remains
-open. Stage21 now has an explicit angle-session declaration/removal contract with
-source identity, validity and exact offsets; accepted sync evidence and switched-view
-delivery remain open. The20 waveform research is retained but
+entrance/pop motion remains open. The20 waveform research is retained but
 all nine real comparisons refuse its frozen acoustic gates, so lexical anchors remain
 open. Reviewed atomic export, delivered picture observations, bounded alignment
 including the prepared project-tap job/read seam, retained source portability,
-bounded subject framing, generation-pinned speaker label bindings and native-cache
-research are integrated; the distinct speaker provider remains research-only until its
-quality gates pass. Stage22 now preserves bounded stroke/shadow/background fields and native
+bounded subject framing and native-cache research are integrated; the distinct speaker
+provider remains research-only until its quality gates pass. Stage22 now preserves bounded stroke/shadow/background fields and native
 decoration bounds alongside the vertical glyph receipts. Stage24 now carries explicit
 normal/multiply/screen/soft-light composition modes through the public and native seams;
-its independent full-raster and sampled-movie sheet passes are green, with visual
-critique and CLI/service admission still open.
+its independent sheet/vignette arithmetic and public CLI/MCP admission pass in frames
+and sampled movies, including exact support and committed export. Fresh critiques
+disagree about codec seams at hard movie boundaries; full-raster movie fidelity remains
+open. Retained evidence records that limit and the scoped independent review.
 
 Completed: 02, 03, 04, 05, 06, 07, 08, 09, 13, 14, 17, 18, 19. Partial01 has exact source-rate PCM,
 full-raster picture inputs and all five frozen07 original/derivative speech

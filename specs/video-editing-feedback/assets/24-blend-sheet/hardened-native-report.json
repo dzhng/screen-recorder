@@ -1,0 +1,7088 @@
+{
+  "recipe": "W3C separable blend/source-over; premultiplied linear-sRGB operands, encoded sRGB PNG",
+  "os": "ProductName:\t\tmacOS\nProductVersion:\t\t27.0.1\nBuildVersion:\t\t26A434\n",
+  "workerSHA256": "3770b84ca47cbcd07e2a8624f891b731129a94e4753d5cedaa11613990dbcea7",
+  "referenceSHA256": "b1405ec21e0a431a2102d0ce4e28b6f2b33063013810430c8388665c8832358e",
+  "cases": [
+    {
+      "scenario": "normal",
+      "mode": "normal",
+      "document": {
+        "canvas": {
+          "width": 128,
+          "height": 64,
+          "fps": {
+            "numerator": 10,
+            "denominator": 1
+          },
+          "background": "#000000ff"
+        },
+        "tracks": [
+          {
+            "id": "below",
+            "kind": "video",
+            "order": 0
+          },
+          {
+            "id": "above",
+            "kind": "video",
+            "order": 1
+          }
+        ],
+        "groups": [],
+        "clips": [
+          {
+            "id": "below",
+            "trackId": "below",
+            "assetId": "below",
+            "streamId": "image:0",
+            "source": {
+              "kind": "hold",
+              "atUs": 0
+            },
+            "placement": {
+              "kind": "project",
+              "range": {
+                "startUs": 0,
+                "endUs": 200000
+              }
+            }
+          },
+          {
+            "id": "above",
+            "trackId": "above",
+            "assetId": "above",
+            "streamId": "image:0",
+            "source": {
+              "kind": "hold",
+              "atUs": 0
+            },
+            "placement": {
+              "kind": "project",
+              "range": {
+                "startUs": 0,
+                "endUs": 200000
+              }
+            }
+          }
+        ],
+        "processing": [
+          {
+            "target": {
+              "kind": "track",
+              "id": "above"
+            },
+            "steps": [
+              {
+                "id": "combine",
+                "enabled": true,
+                "processor": {
+                  "type": "blend",
+                  "mode": "normal"
+                }
+              }
+            ]
+          }
+        ],
+        "syncGroups": []
+      },
+      "frameRequest": {
+        "output": "/tmp/yap-blend-native-hardened/normal/candidate.png",
+        "canvas": {
+          "width": 128,
+          "height": 64,
+          "fps": {
+            "numerator": 10,
+            "denominator": 1
+          },
+          "background": "#000000ff"
+        },
+        "frame": {
+          "index": 0,
+          "sampleAtUs": 0,
+          "visibleRange": {
+            "startUs": 0,
+            "endUs": 100000
+          },
+          "layers": [
+            {
+              "clipId": "below",
+              "trackId": "below",
+              "assetId": "below",
+              "streamId": "image:0",
+              "kind": "image",
+              "availability": "available",
+              "width": 128,
+              "height": 64
+            },
+            {
+              "clipId": "above",
+              "trackId": "above",
+              "assetId": "above",
+              "streamId": "image:0",
+              "kind": "image",
+              "availability": "available",
+              "width": 128,
+              "height": 64
+            }
+          ],
+          "visual": [
+            {
+              "target": {
+                "kind": "clip",
+                "id": "below"
+              },
+              "inputs": [],
+              "operations": [
+                {
+                  "kind": "clamp",
+                  "x": 0.5,
+                  "y": 0.5,
+                  "width": 127,
+                  "height": 63
+                },
+                {
+                  "kind": "affine",
+                  "matrix": [
+                    1,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0
+                  ]
+                },
+                {
+                  "kind": "affine",
+                  "matrix": [
+                    1,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0
+                  ]
+                },
+                {
+                  "kind": "coverage",
+                  "points": [
+                    {
+                      "x": 0,
+                      "y": 0
+                    },
+                    {
+                      "x": 128,
+                      "y": 0
+                    },
+                    {
+                      "x": 128,
+                      "y": 64
+                    },
+                    {
+                      "x": 0,
+                      "y": 64
+                    }
+                  ],
+                  "width": 128,
+                  "height": 64
+                }
+              ]
+            },
+            {
+              "target": {
+                "kind": "track",
+                "id": "below"
+              },
+              "inputs": [
+                {
+                  "kind": "clip",
+                  "id": "below"
+                }
+              ],
+              "operations": []
+            },
+            {
+              "target": {
+                "kind": "clip",
+                "id": "above"
+              },
+              "inputs": [],
+              "operations": [
+                {
+                  "kind": "clamp",
+                  "x": 0.5,
+                  "y": 0.5,
+                  "width": 127,
+                  "height": 63
+                },
+                {
+                  "kind": "affine",
+                  "matrix": [
+                    1,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0
+                  ]
+                },
+                {
+                  "kind": "affine",
+                  "matrix": [
+                    1,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0
+                  ]
+                },
+                {
+                  "kind": "coverage",
+                  "points": [
+                    {
+                      "x": 0,
+                      "y": 0
+                    },
+                    {
+                      "x": 128,
+                      "y": 0
+                    },
+                    {
+                      "x": 128,
+                      "y": 64
+                    },
+                    {
+                      "x": 0,
+                      "y": 64
+                    }
+                  ],
+                  "width": 128,
+                  "height": 64
+                }
+              ]
+            },
+            {
+              "target": {
+                "kind": "track",
+                "id": "above"
+              },
+              "inputs": [
+                {
+                  "kind": "clip",
+                  "id": "above"
+                }
+              ],
+              "operations": [
+                {
+                  "kind": "blend",
+                  "mode": "normal"
+                }
+              ]
+            },
+            {
+              "target": {
+                "kind": "output"
+              },
+              "inputs": [
+                {
+                  "kind": "track",
+                  "id": "below"
+                },
+                {
+                  "kind": "track",
+                  "id": "above"
+                }
+              ],
+              "operations": []
+            }
+          ]
+        },
+        "processing": [
+          {
+            "target": {
+              "kind": "clip",
+              "id": "below"
+            },
+            "mediaKind": "video",
+            "inputs": [],
+            "steps": []
+          },
+          {
+            "target": {
+              "kind": "track",
+              "id": "below"
+            },
+            "mediaKind": "video",
+            "inputs": [
+              {
+                "kind": "clip",
+                "id": "below"
+              }
+            ],
+            "steps": []
+          },
+          {
+            "target": {
+              "kind": "clip",
+              "id": "above"
+            },
+            "mediaKind": "video",
+            "inputs": [],
+            "steps": []
+          },
+          {
+            "target": {
+              "kind": "track",
+              "id": "above"
+            },
+            "mediaKind": "video",
+            "inputs": [
+              {
+                "kind": "clip",
+                "id": "above"
+              }
+            ],
+            "steps": [
+              {
+                "id": "combine",
+                "enabled": true,
+                "processor": {
+                  "type": "blend",
+                  "mode": "normal"
+                }
+              }
+            ]
+          },
+          {
+            "target": {
+              "kind": "output"
+            },
+            "mediaKind": "output",
+            "inputs": [
+              {
+                "kind": "track",
+                "id": "below"
+              },
+              {
+                "kind": "track",
+                "id": "above"
+              }
+            ],
+            "steps": []
+          }
+        ],
+        "assets": [
+          {
+            "assetId": "below",
+            "streamId": "image:0",
+            "path": "/tmp/yap-blend-native-hardened/normal/below.png",
+            "originUs": 0
+          },
+          {
+            "assetId": "above",
+            "streamId": "image:0",
+            "path": "/tmp/yap-blend-native-hardened/normal/above.png",
+            "originUs": 0
+          }
+        ],
+        "profile": "h264-rec709",
+        "maxLongEdge": 128
+      },
+      "receipt": {
+        "bytes": 661,
+        "decodedImages": 2,
+        "decodedSamples": 0,
+        "file": "/tmp/yap-blend-native-hardened/normal/candidate.png",
+        "frame": {
+          "index": 0,
+          "layers": [
+            {
+              "assetId": "below",
+              "availability": "available",
+              "clipId": "below",
+              "height": 64,
+              "kind": "image",
+              "streamId": "image:0",
+              "trackId": "below",
+              "width": 128
+            },
+            {
+              "assetId": "above",
+              "availability": "available",
+              "clipId": "above",
+              "height": 64,
+              "kind": "image",
+              "streamId": "image:0",
+              "trackId": "above",
+              "width": 128
+            }
+          ],
+          "sampleAtUs": 0,
+          "visibleRange": {
+            "endUs": 100000,
+            "startUs": 0
+          },
+          "visual": [
+            {
+              "inputs": [],
+              "operations": [
+                {
+                  "height": 63,
+                  "kind": "clamp",
+                  "width": 127,
+                  "x": 0.5,
+                  "y": 0.5
+                },
+                {
+                  "kind": "affine",
+                  "matrix": [
+                    1,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0
+                  ]
+                },
+                {
+                  "kind": "affine",
+                  "matrix": [
+                    1,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0
+                  ]
+                },
+                {
+                  "height": 64,
+                  "kind": "coverage",
+                  "points": [
+                    {
+                      "x": 0,
+                      "y": 0
+                    },
+                    {
+                      "x": 128,
+                      "y": 0
+                    },
+                    {
+                      "x": 128,
+                      "y": 64
+                    },
+                    {
+                      "x": 0,
+                      "y": 64
+                    }
+                  ],
+                  "width": 128
+                }
+              ],
+              "target": {
+                "id": "below",
+                "kind": "clip"
+              }
+            },
+            {
+              "inputs": [
+                {
+                  "id": "below",
+                  "kind": "clip"
+                }
+              ],
+              "operations": [],
+              "target": {
+                "id": "below",
+                "kind": "track"
+              }
+            },
+            {
+              "inputs": [],
+              "operations": [
+                {
+                  "height": 63,
+                  "kind": "clamp",
+                  "width": 127,
+                  "x": 0.5,
+                  "y": 0.5
+                },
+                {
+                  "kind": "affine",
+                  "matrix": [
+                    1,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0
+                  ]
+                },
+                {
+                  "kind": "affine",
+                  "matrix": [
+                    1,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0
+                  ]
+                },
+                {
+                  "height": 64,
+                  "kind": "coverage",
+                  "points": [
+                    {
+                      "x": 0,
+                      "y": 0
+                    },
+                    {
+                      "x": 128,
+                      "y": 0
+                    },
+                    {
+                      "x": 128,
+                      "y": 64
+                    },
+                    {
+                      "x": 0,
+                      "y": 64
+                    }
+                  ],
+                  "width": 128
+                }
+              ],
+              "target": {
+                "id": "above",
+                "kind": "clip"
+              }
+            },
+            {
+              "inputs": [
+                {
+                  "id": "above",
+                  "kind": "clip"
+                }
+              ],
+              "operations": [
+                {
+                  "kind": "blend",
+                  "mode": "normal"
+                }
+              ],
+              "target": {
+                "id": "above",
+                "kind": "track"
+              }
+            },
+            {
+              "inputs": [
+                {
+                  "id": "below",
+                  "kind": "track"
+                },
+                {
+                  "id": "above",
+                  "kind": "track"
+                }
+              ],
+              "operations": [],
+              "target": {
+                "kind": "output"
+              }
+            }
+          ]
+        },
+        "height": 64,
+        "mediaType": "image/png",
+        "pictures": [
+          {
+            "assetId": "below",
+            "clipId": "below",
+            "kind": "image",
+            "status": "available",
+            "streamId": "image:0"
+          },
+          {
+            "assetId": "above",
+            "clipId": "above",
+            "kind": "image",
+            "status": "available",
+            "streamId": "image:0"
+          }
+        ],
+        "profile": "h264-rec709",
+        "readerOpens": 2,
+        "sourceHeight": 64,
+        "sourceWidth": 128,
+        "width": 128
+      },
+      "observation": {
+        "height": 64,
+        "opaque": true,
+        "width": 128,
+        "outputProfile": "kCGColorSpaceSRGB",
+        "sourceProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e",
+        "sourceProfile": "kCGColorSpaceSRGB"
+      },
+      "frame": {
+        "maximum": 1,
+        "mae": 0.0078125,
+        "samples": 32768,
+        "limit": 2,
+        "interior": false
+      },
+      "artifacts": {
+        "reference.png": "1568d7bf027b62595923ebbc1fe6923c7c6b7a44968186625b21625fb63851ff",
+        "normal-before.png": "1568d7bf027b62595923ebbc1fe6923c7c6b7a44968186625b21625fb63851ff",
+        "candidate.png": "65ecfef2fd125763e4e5f428f8e8f12f50997b1c6b5650393383ab83afe67f0f",
+        "below.png": "d8d55bf5879c5c6b4e8e221e4c48c2613e44c3234cb766c58b37b2bd3bd0d0a5",
+        "above.png": "67bd0a36c10e641bf0911adf896e9e4a000e710351a6eb9624892891fea13037",
+        "candidate.mp4": "03cf114c810118dd020ce43776e44f9923a12e19f65eb84e77d4fecbc90062f3",
+        "frames.jsonl": "8d4af666935d17da495d66cc66552c32dc4e6f0f4e305d236f231e5d975750c8"
+      },
+      "support": {
+        "samples": [
+          {
+            "start": {
+              "timescale": 1000000,
+              "value": "0"
+            },
+            "mediaDuration": {
+              "value": "100000",
+              "timescale": 1000000
+            },
+            "end": {
+              "timescale": 1000000,
+              "value": "100000"
+            },
+            "roundedUs": 0,
+            "mediaPTS": {
+              "value": "0",
+              "timescale": 1000000
+            },
+            "segment": 0
+          },
+          {
+            "roundedUs": 100000,
+            "mediaDuration": {
+              "value": "100000",
+              "timescale": 1000000
+            },
+            "end": {
+              "value": "200000",
+              "timescale": 1000000
+            },
+            "segment": 0,
+            "mediaPTS": {
+              "value": "100000",
+              "timescale": 1000000
+            },
+            "start": {
+              "value": "100000",
+              "timescale": 1000000
+            }
+          }
+        ],
+        "trackId": 1,
+        "file": "/tmp/yap-blend-native-hardened/normal/candidate.mp4",
+        "segments": [
+          {
+            "sourceDuration": {
+              "timescale": 1000000,
+              "value": "200000"
+            },
+            "empty": false,
+            "sourceStart": {
+              "value": "0",
+              "timescale": 1000000
+            },
+            "ordinal": 0,
+            "targetDuration": {
+              "timescale": 1000000,
+              "value": "200000"
+            },
+            "targetStart": {
+              "timescale": 1000000,
+              "value": "0"
+            }
+          }
+        ]
+      },
+      "movie": {
+        "request": {
+          "output": "/tmp/yap-blend-native-hardened/normal/candidate.mp4",
+          "frames": "/tmp/yap-blend-native-hardened/normal/frames.jsonl",
+          "range": {
+            "startUs": 0,
+            "endUs": 200000
+          },
+          "canvas": {
+            "width": 128,
+            "height": 64,
+            "fps": {
+              "numerator": 10,
+              "denominator": 1
+            },
+            "background": "#000000ff"
+          },
+          "processing": [
+            {
+              "target": {
+                "kind": "clip",
+                "id": "below"
+              },
+              "mediaKind": "video",
+              "inputs": [],
+              "steps": []
+            },
+            {
+              "target": {
+                "kind": "track",
+                "id": "below"
+              },
+              "mediaKind": "video",
+              "inputs": [
+                {
+                  "kind": "clip",
+                  "id": "below"
+                }
+              ],
+              "steps": []
+            },
+            {
+              "target": {
+                "kind": "clip",
+                "id": "above"
+              },
+              "mediaKind": "video",
+              "inputs": [],
+              "steps": []
+            },
+            {
+              "target": {
+                "kind": "track",
+                "id": "above"
+              },
+              "mediaKind": "video",
+              "inputs": [
+                {
+                  "kind": "clip",
+                  "id": "above"
+                }
+              ],
+              "steps": [
+                {
+                  "id": "combine",
+                  "enabled": true,
+                  "processor": {
+                    "type": "blend",
+                    "mode": "normal"
+                  }
+                }
+              ]
+            },
+            {
+              "target": {
+                "kind": "output"
+              },
+              "mediaKind": "output",
+              "inputs": [
+                {
+                  "kind": "track",
+                  "id": "below"
+                },
+                {
+                  "kind": "track",
+                  "id": "above"
+                }
+              ],
+              "steps": []
+            }
+          ],
+          "assets": [
+            {
+              "assetId": "below",
+              "streamId": "image:0",
+              "path": "/tmp/yap-blend-native-hardened/normal/below.png",
+              "originUs": 0
+            },
+            {
+              "assetId": "above",
+              "streamId": "image:0",
+              "path": "/tmp/yap-blend-native-hardened/normal/above.png",
+              "originUs": 0
+            }
+          ],
+          "settings": {
+            "container": "mp4",
+            "video": {
+              "codec": "h264",
+              "encoder": {
+                "hardware": "auto",
+                "id": null,
+                "gpu": null
+              },
+              "color": "rec709",
+              "rateControl": {
+                "mode": "average",
+                "bitrate": 20000000
+              },
+              "profile": "high",
+              "level": "auto",
+              "keyframeInterval": 120,
+              "keyframeIntervalSeconds": 2,
+              "frameReordering": false,
+              "entropy": "cabac",
+              "temporalCompression": true,
+              "openGop": false,
+              "prioritizeSpeed": false,
+              "powerEfficient": false,
+              "dataRateLimits": [],
+              "bufferDurationSeconds": null,
+              "initialBufferDelayPercent": null,
+              "spatialAdaptiveQuantization": true,
+              "lookAheadFrames": null,
+              "nonDroppableFrameRate": null,
+              "minimumQuantizer": null,
+              "maximumQuantizer": null
+            },
+            "audio": {
+              "codec": "aac",
+              "sampleRate": 48000,
+              "layout": "stereo",
+              "rateControl": {
+                "mode": "constant",
+                "bitrate": 192000
+              },
+              "quality": "high"
+            }
+          }
+        },
+        "receipt": {
+          "bytes": 1172,
+          "decodedImages": 2,
+          "decodedSamples": 0,
+          "durationUs": 200000,
+          "encodedVideo": {
+            "level": "3.2",
+            "profile": "high"
+          },
+          "file": "/tmp/yap-blend-native-hardened/normal/candidate.mp4",
+          "frames": 2,
+          "height": 64,
+          "maximumSequentialAdvanceUs": 1000000,
+          "mediaType": "video/mp4",
+          "pixelPoolAllocationThreshold": 4,
+          "pointerRasterizations": 0,
+          "rasterizedFrames": 1,
+          "readerOpens": 2,
+          "retainedSourceBuffersBound": 2,
+          "settings": {
+            "audio": {
+              "codec": "aac",
+              "layout": "stereo",
+              "quality": "high",
+              "rateControl": {
+                "bitrate": 192000,
+                "mode": "constant"
+              },
+              "sampleRate": 48000
+            },
+            "container": "mp4",
+            "video": {
+              "codec": "h264",
+              "color": "rec709",
+              "dataRateLimits": [],
+              "encoder": {
+                "hardware": "auto"
+              },
+              "entropy": "cabac",
+              "frameReordering": false,
+              "keyframeInterval": 120,
+              "keyframeIntervalSeconds": 2,
+              "level": "auto",
+              "openGop": false,
+              "powerEfficient": false,
+              "prioritizeSpeed": false,
+              "profile": "high",
+              "rateControl": {
+                "bitrate": 20000000,
+                "mode": "average"
+              },
+              "spatialAdaptiveQuantization": true,
+              "temporalCompression": true
+            }
+          },
+          "width": 128
+        },
+        "reads": [
+          {
+            "read": {
+              "sourceProfileSHA256": "a1096ca47d80ba9df7f9f8fa87a0b9446d9b6a2c94ab11e4144495616b1eb29b",
+              "outputProfile": "kCGColorSpaceSRGB",
+              "outputProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e",
+              "actualValue": "0",
+              "width": 128,
+              "file": "/tmp/yap-blend-native-hardened/normal/movie-frames/000.png",
+              "status": "available",
+              "index": 0,
+              "height": 64,
+              "sourceProfile": "kCGColorSpaceCoreMedia709",
+              "requestedUs": 0,
+              "actualTimescale": 1000000
+            },
+            "observation": {
+              "outputProfile": "kCGColorSpaceSRGB",
+              "opaque": true,
+              "sourceProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e",
+              "width": 128,
+              "height": 64,
+              "sourceProfile": "kCGColorSpaceSRGB"
+            },
+            "arithmetic": {
+              "maximum": 4,
+              "mae": 0.8052300347222222,
+              "samples": 18432,
+              "limit": 8,
+              "interior": true
+            },
+            "frameParity": {
+              "maximum": 4,
+              "mae": 0.8130425347222222,
+              "samples": 18432,
+              "limit": 8,
+              "interior": true
+            }
+          },
+          {
+            "read": {
+              "file": "/tmp/yap-blend-native-hardened/normal/movie-frames/001.png",
+              "sourceProfileSHA256": "a1096ca47d80ba9df7f9f8fa87a0b9446d9b6a2c94ab11e4144495616b1eb29b",
+              "width": 128,
+              "height": 64,
+              "requestedUs": 100000,
+              "outputProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e",
+              "outputProfile": "kCGColorSpaceSRGB",
+              "index": 1,
+              "status": "available",
+              "sourceProfile": "kCGColorSpaceCoreMedia709",
+              "actualValue": "100000",
+              "actualTimescale": 1000000
+            },
+            "observation": {
+              "sourceProfile": "kCGColorSpaceSRGB",
+              "sourceProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e",
+              "opaque": true,
+              "height": 64,
+              "outputProfile": "kCGColorSpaceSRGB",
+              "width": 128
+            },
+            "arithmetic": {
+              "maximum": 4,
+              "mae": 0.8052300347222222,
+              "samples": 18432,
+              "limit": 8,
+              "interior": true
+            },
+            "frameParity": {
+              "maximum": 4,
+              "mae": 0.8130425347222222,
+              "samples": 18432,
+              "limit": 8,
+              "interior": true
+            }
+          }
+        ]
+      }
+    },
+    {
+      "scenario": "multiply",
+      "mode": "multiply",
+      "document": {
+        "canvas": {
+          "width": 128,
+          "height": 64,
+          "fps": {
+            "numerator": 10,
+            "denominator": 1
+          },
+          "background": "#000000ff"
+        },
+        "tracks": [
+          {
+            "id": "below",
+            "kind": "video",
+            "order": 0
+          },
+          {
+            "id": "above",
+            "kind": "video",
+            "order": 1
+          }
+        ],
+        "groups": [],
+        "clips": [
+          {
+            "id": "below",
+            "trackId": "below",
+            "assetId": "below",
+            "streamId": "image:0",
+            "source": {
+              "kind": "hold",
+              "atUs": 0
+            },
+            "placement": {
+              "kind": "project",
+              "range": {
+                "startUs": 0,
+                "endUs": 200000
+              }
+            }
+          },
+          {
+            "id": "above",
+            "trackId": "above",
+            "assetId": "above",
+            "streamId": "image:0",
+            "source": {
+              "kind": "hold",
+              "atUs": 0
+            },
+            "placement": {
+              "kind": "project",
+              "range": {
+                "startUs": 0,
+                "endUs": 200000
+              }
+            }
+          }
+        ],
+        "processing": [
+          {
+            "target": {
+              "kind": "track",
+              "id": "above"
+            },
+            "steps": [
+              {
+                "id": "combine",
+                "enabled": true,
+                "processor": {
+                  "type": "blend",
+                  "mode": "multiply"
+                }
+              }
+            ]
+          }
+        ],
+        "syncGroups": []
+      },
+      "frameRequest": {
+        "output": "/tmp/yap-blend-native-hardened/multiply/candidate.png",
+        "canvas": {
+          "width": 128,
+          "height": 64,
+          "fps": {
+            "numerator": 10,
+            "denominator": 1
+          },
+          "background": "#000000ff"
+        },
+        "frame": {
+          "index": 0,
+          "sampleAtUs": 0,
+          "visibleRange": {
+            "startUs": 0,
+            "endUs": 100000
+          },
+          "layers": [
+            {
+              "clipId": "below",
+              "trackId": "below",
+              "assetId": "below",
+              "streamId": "image:0",
+              "kind": "image",
+              "availability": "available",
+              "width": 128,
+              "height": 64
+            },
+            {
+              "clipId": "above",
+              "trackId": "above",
+              "assetId": "above",
+              "streamId": "image:0",
+              "kind": "image",
+              "availability": "available",
+              "width": 128,
+              "height": 64
+            }
+          ],
+          "visual": [
+            {
+              "target": {
+                "kind": "clip",
+                "id": "below"
+              },
+              "inputs": [],
+              "operations": [
+                {
+                  "kind": "clamp",
+                  "x": 0.5,
+                  "y": 0.5,
+                  "width": 127,
+                  "height": 63
+                },
+                {
+                  "kind": "affine",
+                  "matrix": [
+                    1,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0
+                  ]
+                },
+                {
+                  "kind": "affine",
+                  "matrix": [
+                    1,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0
+                  ]
+                },
+                {
+                  "kind": "coverage",
+                  "points": [
+                    {
+                      "x": 0,
+                      "y": 0
+                    },
+                    {
+                      "x": 128,
+                      "y": 0
+                    },
+                    {
+                      "x": 128,
+                      "y": 64
+                    },
+                    {
+                      "x": 0,
+                      "y": 64
+                    }
+                  ],
+                  "width": 128,
+                  "height": 64
+                }
+              ]
+            },
+            {
+              "target": {
+                "kind": "track",
+                "id": "below"
+              },
+              "inputs": [
+                {
+                  "kind": "clip",
+                  "id": "below"
+                }
+              ],
+              "operations": []
+            },
+            {
+              "target": {
+                "kind": "clip",
+                "id": "above"
+              },
+              "inputs": [],
+              "operations": [
+                {
+                  "kind": "clamp",
+                  "x": 0.5,
+                  "y": 0.5,
+                  "width": 127,
+                  "height": 63
+                },
+                {
+                  "kind": "affine",
+                  "matrix": [
+                    1,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0
+                  ]
+                },
+                {
+                  "kind": "affine",
+                  "matrix": [
+                    1,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0
+                  ]
+                },
+                {
+                  "kind": "coverage",
+                  "points": [
+                    {
+                      "x": 0,
+                      "y": 0
+                    },
+                    {
+                      "x": 128,
+                      "y": 0
+                    },
+                    {
+                      "x": 128,
+                      "y": 64
+                    },
+                    {
+                      "x": 0,
+                      "y": 64
+                    }
+                  ],
+                  "width": 128,
+                  "height": 64
+                }
+              ]
+            },
+            {
+              "target": {
+                "kind": "track",
+                "id": "above"
+              },
+              "inputs": [
+                {
+                  "kind": "clip",
+                  "id": "above"
+                }
+              ],
+              "operations": [
+                {
+                  "kind": "blend",
+                  "mode": "multiply"
+                }
+              ]
+            },
+            {
+              "target": {
+                "kind": "output"
+              },
+              "inputs": [
+                {
+                  "kind": "track",
+                  "id": "below"
+                },
+                {
+                  "kind": "track",
+                  "id": "above"
+                }
+              ],
+              "operations": []
+            }
+          ]
+        },
+        "processing": [
+          {
+            "target": {
+              "kind": "clip",
+              "id": "below"
+            },
+            "mediaKind": "video",
+            "inputs": [],
+            "steps": []
+          },
+          {
+            "target": {
+              "kind": "track",
+              "id": "below"
+            },
+            "mediaKind": "video",
+            "inputs": [
+              {
+                "kind": "clip",
+                "id": "below"
+              }
+            ],
+            "steps": []
+          },
+          {
+            "target": {
+              "kind": "clip",
+              "id": "above"
+            },
+            "mediaKind": "video",
+            "inputs": [],
+            "steps": []
+          },
+          {
+            "target": {
+              "kind": "track",
+              "id": "above"
+            },
+            "mediaKind": "video",
+            "inputs": [
+              {
+                "kind": "clip",
+                "id": "above"
+              }
+            ],
+            "steps": [
+              {
+                "id": "combine",
+                "enabled": true,
+                "processor": {
+                  "type": "blend",
+                  "mode": "multiply"
+                }
+              }
+            ]
+          },
+          {
+            "target": {
+              "kind": "output"
+            },
+            "mediaKind": "output",
+            "inputs": [
+              {
+                "kind": "track",
+                "id": "below"
+              },
+              {
+                "kind": "track",
+                "id": "above"
+              }
+            ],
+            "steps": []
+          }
+        ],
+        "assets": [
+          {
+            "assetId": "below",
+            "streamId": "image:0",
+            "path": "/tmp/yap-blend-native-hardened/multiply/below.png",
+            "originUs": 0
+          },
+          {
+            "assetId": "above",
+            "streamId": "image:0",
+            "path": "/tmp/yap-blend-native-hardened/multiply/above.png",
+            "originUs": 0
+          }
+        ],
+        "profile": "h264-rec709",
+        "maxLongEdge": 128
+      },
+      "receipt": {
+        "bytes": 628,
+        "decodedImages": 2,
+        "decodedSamples": 0,
+        "file": "/tmp/yap-blend-native-hardened/multiply/candidate.png",
+        "frame": {
+          "index": 0,
+          "layers": [
+            {
+              "assetId": "below",
+              "availability": "available",
+              "clipId": "below",
+              "height": 64,
+              "kind": "image",
+              "streamId": "image:0",
+              "trackId": "below",
+              "width": 128
+            },
+            {
+              "assetId": "above",
+              "availability": "available",
+              "clipId": "above",
+              "height": 64,
+              "kind": "image",
+              "streamId": "image:0",
+              "trackId": "above",
+              "width": 128
+            }
+          ],
+          "sampleAtUs": 0,
+          "visibleRange": {
+            "endUs": 100000,
+            "startUs": 0
+          },
+          "visual": [
+            {
+              "inputs": [],
+              "operations": [
+                {
+                  "height": 63,
+                  "kind": "clamp",
+                  "width": 127,
+                  "x": 0.5,
+                  "y": 0.5
+                },
+                {
+                  "kind": "affine",
+                  "matrix": [
+                    1,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0
+                  ]
+                },
+                {
+                  "kind": "affine",
+                  "matrix": [
+                    1,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0
+                  ]
+                },
+                {
+                  "height": 64,
+                  "kind": "coverage",
+                  "points": [
+                    {
+                      "x": 0,
+                      "y": 0
+                    },
+                    {
+                      "x": 128,
+                      "y": 0
+                    },
+                    {
+                      "x": 128,
+                      "y": 64
+                    },
+                    {
+                      "x": 0,
+                      "y": 64
+                    }
+                  ],
+                  "width": 128
+                }
+              ],
+              "target": {
+                "id": "below",
+                "kind": "clip"
+              }
+            },
+            {
+              "inputs": [
+                {
+                  "id": "below",
+                  "kind": "clip"
+                }
+              ],
+              "operations": [],
+              "target": {
+                "id": "below",
+                "kind": "track"
+              }
+            },
+            {
+              "inputs": [],
+              "operations": [
+                {
+                  "height": 63,
+                  "kind": "clamp",
+                  "width": 127,
+                  "x": 0.5,
+                  "y": 0.5
+                },
+                {
+                  "kind": "affine",
+                  "matrix": [
+                    1,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0
+                  ]
+                },
+                {
+                  "kind": "affine",
+                  "matrix": [
+                    1,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0
+                  ]
+                },
+                {
+                  "height": 64,
+                  "kind": "coverage",
+                  "points": [
+                    {
+                      "x": 0,
+                      "y": 0
+                    },
+                    {
+                      "x": 128,
+                      "y": 0
+                    },
+                    {
+                      "x": 128,
+                      "y": 64
+                    },
+                    {
+                      "x": 0,
+                      "y": 64
+                    }
+                  ],
+                  "width": 128
+                }
+              ],
+              "target": {
+                "id": "above",
+                "kind": "clip"
+              }
+            },
+            {
+              "inputs": [
+                {
+                  "id": "above",
+                  "kind": "clip"
+                }
+              ],
+              "operations": [
+                {
+                  "kind": "blend",
+                  "mode": "multiply"
+                }
+              ],
+              "target": {
+                "id": "above",
+                "kind": "track"
+              }
+            },
+            {
+              "inputs": [
+                {
+                  "id": "below",
+                  "kind": "track"
+                },
+                {
+                  "id": "above",
+                  "kind": "track"
+                }
+              ],
+              "operations": [],
+              "target": {
+                "kind": "output"
+              }
+            }
+          ]
+        },
+        "height": 64,
+        "mediaType": "image/png",
+        "pictures": [
+          {
+            "assetId": "below",
+            "clipId": "below",
+            "kind": "image",
+            "status": "available",
+            "streamId": "image:0"
+          },
+          {
+            "assetId": "above",
+            "clipId": "above",
+            "kind": "image",
+            "status": "available",
+            "streamId": "image:0"
+          }
+        ],
+        "profile": "h264-rec709",
+        "readerOpens": 2,
+        "sourceHeight": 64,
+        "sourceWidth": 128,
+        "width": 128
+      },
+      "observation": {
+        "opaque": true,
+        "width": 128,
+        "sourceProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e",
+        "outputProfile": "kCGColorSpaceSRGB",
+        "height": 64,
+        "sourceProfile": "kCGColorSpaceSRGB"
+      },
+      "frame": {
+        "maximum": 0,
+        "mae": 0,
+        "samples": 32768,
+        "limit": 2,
+        "interior": false
+      },
+      "artifacts": {
+        "reference.png": "4fd83e0510f4f9c8452e0171017d713e1d26129a5ac16cd5b4977717c00291bb",
+        "normal-before.png": "1568d7bf027b62595923ebbc1fe6923c7c6b7a44968186625b21625fb63851ff",
+        "candidate.png": "ebce23b41add693725ab99a7fda5fba556ac0a5ac265282a405c8f4386422e9f",
+        "below.png": "d8d55bf5879c5c6b4e8e221e4c48c2613e44c3234cb766c58b37b2bd3bd0d0a5",
+        "above.png": "67bd0a36c10e641bf0911adf896e9e4a000e710351a6eb9624892891fea13037",
+        "candidate.mp4": "4171d7ba793759d4bcfc6936244f67421b8d80524f596dcea3318c3575c57b1e",
+        "frames.jsonl": "8566fb3bd2f0ecb8ef86b183cbefedfff241af40fefa9e184514726afff6d461"
+      },
+      "support": {
+        "samples": [
+          {
+            "start": {
+              "value": "0",
+              "timescale": 1000000
+            },
+            "segment": 0,
+            "mediaDuration": {
+              "timescale": 1000000,
+              "value": "100000"
+            },
+            "end": {
+              "value": "100000",
+              "timescale": 1000000
+            },
+            "roundedUs": 0,
+            "mediaPTS": {
+              "timescale": 1000000,
+              "value": "0"
+            }
+          },
+          {
+            "start": {
+              "value": "100000",
+              "timescale": 1000000
+            },
+            "roundedUs": 100000,
+            "mediaPTS": {
+              "value": "100000",
+              "timescale": 1000000
+            },
+            "end": {
+              "value": "200000",
+              "timescale": 1000000
+            },
+            "segment": 0,
+            "mediaDuration": {
+              "value": "100000",
+              "timescale": 1000000
+            }
+          }
+        ],
+        "file": "/tmp/yap-blend-native-hardened/multiply/candidate.mp4",
+        "segments": [
+          {
+            "sourceDuration": {
+              "timescale": 1000000,
+              "value": "200000"
+            },
+            "targetStart": {
+              "value": "0",
+              "timescale": 1000000
+            },
+            "targetDuration": {
+              "timescale": 1000000,
+              "value": "200000"
+            },
+            "sourceStart": {
+              "value": "0",
+              "timescale": 1000000
+            },
+            "ordinal": 0,
+            "empty": false
+          }
+        ],
+        "trackId": 1
+      },
+      "movie": {
+        "request": {
+          "output": "/tmp/yap-blend-native-hardened/multiply/candidate.mp4",
+          "frames": "/tmp/yap-blend-native-hardened/multiply/frames.jsonl",
+          "range": {
+            "startUs": 0,
+            "endUs": 200000
+          },
+          "canvas": {
+            "width": 128,
+            "height": 64,
+            "fps": {
+              "numerator": 10,
+              "denominator": 1
+            },
+            "background": "#000000ff"
+          },
+          "processing": [
+            {
+              "target": {
+                "kind": "clip",
+                "id": "below"
+              },
+              "mediaKind": "video",
+              "inputs": [],
+              "steps": []
+            },
+            {
+              "target": {
+                "kind": "track",
+                "id": "below"
+              },
+              "mediaKind": "video",
+              "inputs": [
+                {
+                  "kind": "clip",
+                  "id": "below"
+                }
+              ],
+              "steps": []
+            },
+            {
+              "target": {
+                "kind": "clip",
+                "id": "above"
+              },
+              "mediaKind": "video",
+              "inputs": [],
+              "steps": []
+            },
+            {
+              "target": {
+                "kind": "track",
+                "id": "above"
+              },
+              "mediaKind": "video",
+              "inputs": [
+                {
+                  "kind": "clip",
+                  "id": "above"
+                }
+              ],
+              "steps": [
+                {
+                  "id": "combine",
+                  "enabled": true,
+                  "processor": {
+                    "type": "blend",
+                    "mode": "multiply"
+                  }
+                }
+              ]
+            },
+            {
+              "target": {
+                "kind": "output"
+              },
+              "mediaKind": "output",
+              "inputs": [
+                {
+                  "kind": "track",
+                  "id": "below"
+                },
+                {
+                  "kind": "track",
+                  "id": "above"
+                }
+              ],
+              "steps": []
+            }
+          ],
+          "assets": [
+            {
+              "assetId": "below",
+              "streamId": "image:0",
+              "path": "/tmp/yap-blend-native-hardened/multiply/below.png",
+              "originUs": 0
+            },
+            {
+              "assetId": "above",
+              "streamId": "image:0",
+              "path": "/tmp/yap-blend-native-hardened/multiply/above.png",
+              "originUs": 0
+            }
+          ],
+          "settings": {
+            "container": "mp4",
+            "video": {
+              "codec": "h264",
+              "encoder": {
+                "hardware": "auto",
+                "id": null,
+                "gpu": null
+              },
+              "color": "rec709",
+              "rateControl": {
+                "mode": "average",
+                "bitrate": 20000000
+              },
+              "profile": "high",
+              "level": "auto",
+              "keyframeInterval": 120,
+              "keyframeIntervalSeconds": 2,
+              "frameReordering": false,
+              "entropy": "cabac",
+              "temporalCompression": true,
+              "openGop": false,
+              "prioritizeSpeed": false,
+              "powerEfficient": false,
+              "dataRateLimits": [],
+              "bufferDurationSeconds": null,
+              "initialBufferDelayPercent": null,
+              "spatialAdaptiveQuantization": true,
+              "lookAheadFrames": null,
+              "nonDroppableFrameRate": null,
+              "minimumQuantizer": null,
+              "maximumQuantizer": null
+            },
+            "audio": {
+              "codec": "aac",
+              "sampleRate": 48000,
+              "layout": "stereo",
+              "rateControl": {
+                "mode": "constant",
+                "bitrate": 192000
+              },
+              "quality": "high"
+            }
+          }
+        },
+        "receipt": {
+          "bytes": 1068,
+          "decodedImages": 2,
+          "decodedSamples": 0,
+          "durationUs": 200000,
+          "encodedVideo": {
+            "level": "3.2",
+            "profile": "high"
+          },
+          "file": "/tmp/yap-blend-native-hardened/multiply/candidate.mp4",
+          "frames": 2,
+          "height": 64,
+          "maximumSequentialAdvanceUs": 1000000,
+          "mediaType": "video/mp4",
+          "pixelPoolAllocationThreshold": 4,
+          "pointerRasterizations": 0,
+          "rasterizedFrames": 1,
+          "readerOpens": 2,
+          "retainedSourceBuffersBound": 2,
+          "settings": {
+            "audio": {
+              "codec": "aac",
+              "layout": "stereo",
+              "quality": "high",
+              "rateControl": {
+                "bitrate": 192000,
+                "mode": "constant"
+              },
+              "sampleRate": 48000
+            },
+            "container": "mp4",
+            "video": {
+              "codec": "h264",
+              "color": "rec709",
+              "dataRateLimits": [],
+              "encoder": {
+                "hardware": "auto"
+              },
+              "entropy": "cabac",
+              "frameReordering": false,
+              "keyframeInterval": 120,
+              "keyframeIntervalSeconds": 2,
+              "level": "auto",
+              "openGop": false,
+              "powerEfficient": false,
+              "prioritizeSpeed": false,
+              "profile": "high",
+              "rateControl": {
+                "bitrate": 20000000,
+                "mode": "average"
+              },
+              "spatialAdaptiveQuantization": true,
+              "temporalCompression": true
+            }
+          },
+          "width": 128
+        },
+        "reads": [
+          {
+            "read": {
+              "requestedUs": 0,
+              "outputProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e",
+              "actualValue": "0",
+              "sourceProfileSHA256": "a1096ca47d80ba9df7f9f8fa87a0b9446d9b6a2c94ab11e4144495616b1eb29b",
+              "height": 64,
+              "width": 128,
+              "sourceProfile": "kCGColorSpaceCoreMedia709",
+              "file": "/tmp/yap-blend-native-hardened/multiply/movie-frames/000.png",
+              "index": 0,
+              "outputProfile": "kCGColorSpaceSRGB",
+              "status": "available",
+              "actualTimescale": 1000000
+            },
+            "observation": {
+              "sourceProfile": "kCGColorSpaceSRGB",
+              "width": 128,
+              "sourceProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e",
+              "height": 64,
+              "opaque": true,
+              "outputProfile": "kCGColorSpaceSRGB"
+            },
+            "arithmetic": {
+              "maximum": 3,
+              "mae": 0.484375,
+              "samples": 18432,
+              "limit": 8,
+              "interior": true
+            },
+            "frameParity": {
+              "maximum": 3,
+              "mae": 0.484375,
+              "samples": 18432,
+              "limit": 8,
+              "interior": true
+            }
+          },
+          {
+            "read": {
+              "sourceProfileSHA256": "a1096ca47d80ba9df7f9f8fa87a0b9446d9b6a2c94ab11e4144495616b1eb29b",
+              "requestedUs": 100000,
+              "actualTimescale": 1000000,
+              "outputProfile": "kCGColorSpaceSRGB",
+              "height": 64,
+              "width": 128,
+              "status": "available",
+              "outputProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e",
+              "actualValue": "100000",
+              "index": 1,
+              "sourceProfile": "kCGColorSpaceCoreMedia709",
+              "file": "/tmp/yap-blend-native-hardened/multiply/movie-frames/001.png"
+            },
+            "observation": {
+              "outputProfile": "kCGColorSpaceSRGB",
+              "sourceProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e",
+              "opaque": true,
+              "width": 128,
+              "height": 64,
+              "sourceProfile": "kCGColorSpaceSRGB"
+            },
+            "arithmetic": {
+              "maximum": 3,
+              "mae": 0.484375,
+              "samples": 18432,
+              "limit": 8,
+              "interior": true
+            },
+            "frameParity": {
+              "maximum": 3,
+              "mae": 0.484375,
+              "samples": 18432,
+              "limit": 8,
+              "interior": true
+            }
+          }
+        ]
+      }
+    },
+    {
+      "scenario": "screen",
+      "mode": "screen",
+      "document": {
+        "canvas": {
+          "width": 128,
+          "height": 64,
+          "fps": {
+            "numerator": 10,
+            "denominator": 1
+          },
+          "background": "#000000ff"
+        },
+        "tracks": [
+          {
+            "id": "below",
+            "kind": "video",
+            "order": 0
+          },
+          {
+            "id": "above",
+            "kind": "video",
+            "order": 1
+          }
+        ],
+        "groups": [],
+        "clips": [
+          {
+            "id": "below",
+            "trackId": "below",
+            "assetId": "below",
+            "streamId": "image:0",
+            "source": {
+              "kind": "hold",
+              "atUs": 0
+            },
+            "placement": {
+              "kind": "project",
+              "range": {
+                "startUs": 0,
+                "endUs": 200000
+              }
+            }
+          },
+          {
+            "id": "above",
+            "trackId": "above",
+            "assetId": "above",
+            "streamId": "image:0",
+            "source": {
+              "kind": "hold",
+              "atUs": 0
+            },
+            "placement": {
+              "kind": "project",
+              "range": {
+                "startUs": 0,
+                "endUs": 200000
+              }
+            }
+          }
+        ],
+        "processing": [
+          {
+            "target": {
+              "kind": "track",
+              "id": "above"
+            },
+            "steps": [
+              {
+                "id": "combine",
+                "enabled": true,
+                "processor": {
+                  "type": "blend",
+                  "mode": "screen"
+                }
+              }
+            ]
+          }
+        ],
+        "syncGroups": []
+      },
+      "frameRequest": {
+        "output": "/tmp/yap-blend-native-hardened/screen/candidate.png",
+        "canvas": {
+          "width": 128,
+          "height": 64,
+          "fps": {
+            "numerator": 10,
+            "denominator": 1
+          },
+          "background": "#000000ff"
+        },
+        "frame": {
+          "index": 0,
+          "sampleAtUs": 0,
+          "visibleRange": {
+            "startUs": 0,
+            "endUs": 100000
+          },
+          "layers": [
+            {
+              "clipId": "below",
+              "trackId": "below",
+              "assetId": "below",
+              "streamId": "image:0",
+              "kind": "image",
+              "availability": "available",
+              "width": 128,
+              "height": 64
+            },
+            {
+              "clipId": "above",
+              "trackId": "above",
+              "assetId": "above",
+              "streamId": "image:0",
+              "kind": "image",
+              "availability": "available",
+              "width": 128,
+              "height": 64
+            }
+          ],
+          "visual": [
+            {
+              "target": {
+                "kind": "clip",
+                "id": "below"
+              },
+              "inputs": [],
+              "operations": [
+                {
+                  "kind": "clamp",
+                  "x": 0.5,
+                  "y": 0.5,
+                  "width": 127,
+                  "height": 63
+                },
+                {
+                  "kind": "affine",
+                  "matrix": [
+                    1,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0
+                  ]
+                },
+                {
+                  "kind": "affine",
+                  "matrix": [
+                    1,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0
+                  ]
+                },
+                {
+                  "kind": "coverage",
+                  "points": [
+                    {
+                      "x": 0,
+                      "y": 0
+                    },
+                    {
+                      "x": 128,
+                      "y": 0
+                    },
+                    {
+                      "x": 128,
+                      "y": 64
+                    },
+                    {
+                      "x": 0,
+                      "y": 64
+                    }
+                  ],
+                  "width": 128,
+                  "height": 64
+                }
+              ]
+            },
+            {
+              "target": {
+                "kind": "track",
+                "id": "below"
+              },
+              "inputs": [
+                {
+                  "kind": "clip",
+                  "id": "below"
+                }
+              ],
+              "operations": []
+            },
+            {
+              "target": {
+                "kind": "clip",
+                "id": "above"
+              },
+              "inputs": [],
+              "operations": [
+                {
+                  "kind": "clamp",
+                  "x": 0.5,
+                  "y": 0.5,
+                  "width": 127,
+                  "height": 63
+                },
+                {
+                  "kind": "affine",
+                  "matrix": [
+                    1,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0
+                  ]
+                },
+                {
+                  "kind": "affine",
+                  "matrix": [
+                    1,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0
+                  ]
+                },
+                {
+                  "kind": "coverage",
+                  "points": [
+                    {
+                      "x": 0,
+                      "y": 0
+                    },
+                    {
+                      "x": 128,
+                      "y": 0
+                    },
+                    {
+                      "x": 128,
+                      "y": 64
+                    },
+                    {
+                      "x": 0,
+                      "y": 64
+                    }
+                  ],
+                  "width": 128,
+                  "height": 64
+                }
+              ]
+            },
+            {
+              "target": {
+                "kind": "track",
+                "id": "above"
+              },
+              "inputs": [
+                {
+                  "kind": "clip",
+                  "id": "above"
+                }
+              ],
+              "operations": [
+                {
+                  "kind": "blend",
+                  "mode": "screen"
+                }
+              ]
+            },
+            {
+              "target": {
+                "kind": "output"
+              },
+              "inputs": [
+                {
+                  "kind": "track",
+                  "id": "below"
+                },
+                {
+                  "kind": "track",
+                  "id": "above"
+                }
+              ],
+              "operations": []
+            }
+          ]
+        },
+        "processing": [
+          {
+            "target": {
+              "kind": "clip",
+              "id": "below"
+            },
+            "mediaKind": "video",
+            "inputs": [],
+            "steps": []
+          },
+          {
+            "target": {
+              "kind": "track",
+              "id": "below"
+            },
+            "mediaKind": "video",
+            "inputs": [
+              {
+                "kind": "clip",
+                "id": "below"
+              }
+            ],
+            "steps": []
+          },
+          {
+            "target": {
+              "kind": "clip",
+              "id": "above"
+            },
+            "mediaKind": "video",
+            "inputs": [],
+            "steps": []
+          },
+          {
+            "target": {
+              "kind": "track",
+              "id": "above"
+            },
+            "mediaKind": "video",
+            "inputs": [
+              {
+                "kind": "clip",
+                "id": "above"
+              }
+            ],
+            "steps": [
+              {
+                "id": "combine",
+                "enabled": true,
+                "processor": {
+                  "type": "blend",
+                  "mode": "screen"
+                }
+              }
+            ]
+          },
+          {
+            "target": {
+              "kind": "output"
+            },
+            "mediaKind": "output",
+            "inputs": [
+              {
+                "kind": "track",
+                "id": "below"
+              },
+              {
+                "kind": "track",
+                "id": "above"
+              }
+            ],
+            "steps": []
+          }
+        ],
+        "assets": [
+          {
+            "assetId": "below",
+            "streamId": "image:0",
+            "path": "/tmp/yap-blend-native-hardened/screen/below.png",
+            "originUs": 0
+          },
+          {
+            "assetId": "above",
+            "streamId": "image:0",
+            "path": "/tmp/yap-blend-native-hardened/screen/above.png",
+            "originUs": 0
+          }
+        ],
+        "profile": "h264-rec709",
+        "maxLongEdge": 128
+      },
+      "receipt": {
+        "bytes": 681,
+        "decodedImages": 2,
+        "decodedSamples": 0,
+        "file": "/tmp/yap-blend-native-hardened/screen/candidate.png",
+        "frame": {
+          "index": 0,
+          "layers": [
+            {
+              "assetId": "below",
+              "availability": "available",
+              "clipId": "below",
+              "height": 64,
+              "kind": "image",
+              "streamId": "image:0",
+              "trackId": "below",
+              "width": 128
+            },
+            {
+              "assetId": "above",
+              "availability": "available",
+              "clipId": "above",
+              "height": 64,
+              "kind": "image",
+              "streamId": "image:0",
+              "trackId": "above",
+              "width": 128
+            }
+          ],
+          "sampleAtUs": 0,
+          "visibleRange": {
+            "endUs": 100000,
+            "startUs": 0
+          },
+          "visual": [
+            {
+              "inputs": [],
+              "operations": [
+                {
+                  "height": 63,
+                  "kind": "clamp",
+                  "width": 127,
+                  "x": 0.5,
+                  "y": 0.5
+                },
+                {
+                  "kind": "affine",
+                  "matrix": [
+                    1,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0
+                  ]
+                },
+                {
+                  "kind": "affine",
+                  "matrix": [
+                    1,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0
+                  ]
+                },
+                {
+                  "height": 64,
+                  "kind": "coverage",
+                  "points": [
+                    {
+                      "x": 0,
+                      "y": 0
+                    },
+                    {
+                      "x": 128,
+                      "y": 0
+                    },
+                    {
+                      "x": 128,
+                      "y": 64
+                    },
+                    {
+                      "x": 0,
+                      "y": 64
+                    }
+                  ],
+                  "width": 128
+                }
+              ],
+              "target": {
+                "id": "below",
+                "kind": "clip"
+              }
+            },
+            {
+              "inputs": [
+                {
+                  "id": "below",
+                  "kind": "clip"
+                }
+              ],
+              "operations": [],
+              "target": {
+                "id": "below",
+                "kind": "track"
+              }
+            },
+            {
+              "inputs": [],
+              "operations": [
+                {
+                  "height": 63,
+                  "kind": "clamp",
+                  "width": 127,
+                  "x": 0.5,
+                  "y": 0.5
+                },
+                {
+                  "kind": "affine",
+                  "matrix": [
+                    1,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0
+                  ]
+                },
+                {
+                  "kind": "affine",
+                  "matrix": [
+                    1,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0
+                  ]
+                },
+                {
+                  "height": 64,
+                  "kind": "coverage",
+                  "points": [
+                    {
+                      "x": 0,
+                      "y": 0
+                    },
+                    {
+                      "x": 128,
+                      "y": 0
+                    },
+                    {
+                      "x": 128,
+                      "y": 64
+                    },
+                    {
+                      "x": 0,
+                      "y": 64
+                    }
+                  ],
+                  "width": 128
+                }
+              ],
+              "target": {
+                "id": "above",
+                "kind": "clip"
+              }
+            },
+            {
+              "inputs": [
+                {
+                  "id": "above",
+                  "kind": "clip"
+                }
+              ],
+              "operations": [
+                {
+                  "kind": "blend",
+                  "mode": "screen"
+                }
+              ],
+              "target": {
+                "id": "above",
+                "kind": "track"
+              }
+            },
+            {
+              "inputs": [
+                {
+                  "id": "below",
+                  "kind": "track"
+                },
+                {
+                  "id": "above",
+                  "kind": "track"
+                }
+              ],
+              "operations": [],
+              "target": {
+                "kind": "output"
+              }
+            }
+          ]
+        },
+        "height": 64,
+        "mediaType": "image/png",
+        "pictures": [
+          {
+            "assetId": "below",
+            "clipId": "below",
+            "kind": "image",
+            "status": "available",
+            "streamId": "image:0"
+          },
+          {
+            "assetId": "above",
+            "clipId": "above",
+            "kind": "image",
+            "status": "available",
+            "streamId": "image:0"
+          }
+        ],
+        "profile": "h264-rec709",
+        "readerOpens": 2,
+        "sourceHeight": 64,
+        "sourceWidth": 128,
+        "width": 128
+      },
+      "observation": {
+        "opaque": true,
+        "height": 64,
+        "sourceProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e",
+        "width": 128,
+        "outputProfile": "kCGColorSpaceSRGB",
+        "sourceProfile": "kCGColorSpaceSRGB"
+      },
+      "frame": {
+        "maximum": 0,
+        "mae": 0,
+        "samples": 32768,
+        "limit": 2,
+        "interior": false
+      },
+      "artifacts": {
+        "reference.png": "d049acde5ba8d29fb1a3d671b03793811d6c22ae549422b75555832e012de86c",
+        "normal-before.png": "1568d7bf027b62595923ebbc1fe6923c7c6b7a44968186625b21625fb63851ff",
+        "candidate.png": "067e5a9218bf4fdd46f1a21afaae3369db4599696e2e4419811b288171604bc4",
+        "below.png": "d8d55bf5879c5c6b4e8e221e4c48c2613e44c3234cb766c58b37b2bd3bd0d0a5",
+        "above.png": "67bd0a36c10e641bf0911adf896e9e4a000e710351a6eb9624892891fea13037",
+        "candidate.mp4": "68a578e45177010a8c7da283033f9967dd9fec4b4c47cad308d294353652a7a6",
+        "frames.jsonl": "41d2e44857fb55474dc9978f9587f9693a75a9687f97df3cd363ad60494be486"
+      },
+      "support": {
+        "file": "/tmp/yap-blend-native-hardened/screen/candidate.mp4",
+        "segments": [
+          {
+            "ordinal": 0,
+            "empty": false,
+            "sourceDuration": {
+              "value": "200000",
+              "timescale": 1000000
+            },
+            "targetDuration": {
+              "timescale": 1000000,
+              "value": "200000"
+            },
+            "targetStart": {
+              "value": "0",
+              "timescale": 1000000
+            },
+            "sourceStart": {
+              "value": "0",
+              "timescale": 1000000
+            }
+          }
+        ],
+        "samples": [
+          {
+            "start": {
+              "timescale": 1000000,
+              "value": "0"
+            },
+            "mediaDuration": {
+              "timescale": 1000000,
+              "value": "100000"
+            },
+            "end": {
+              "timescale": 1000000,
+              "value": "100000"
+            },
+            "segment": 0,
+            "mediaPTS": {
+              "value": "0",
+              "timescale": 1000000
+            },
+            "roundedUs": 0
+          },
+          {
+            "segment": 0,
+            "mediaDuration": {
+              "value": "100000",
+              "timescale": 1000000
+            },
+            "mediaPTS": {
+              "value": "100000",
+              "timescale": 1000000
+            },
+            "start": {
+              "value": "100000",
+              "timescale": 1000000
+            },
+            "roundedUs": 100000,
+            "end": {
+              "value": "200000",
+              "timescale": 1000000
+            }
+          }
+        ],
+        "trackId": 1
+      },
+      "movie": {
+        "request": {
+          "output": "/tmp/yap-blend-native-hardened/screen/candidate.mp4",
+          "frames": "/tmp/yap-blend-native-hardened/screen/frames.jsonl",
+          "range": {
+            "startUs": 0,
+            "endUs": 200000
+          },
+          "canvas": {
+            "width": 128,
+            "height": 64,
+            "fps": {
+              "numerator": 10,
+              "denominator": 1
+            },
+            "background": "#000000ff"
+          },
+          "processing": [
+            {
+              "target": {
+                "kind": "clip",
+                "id": "below"
+              },
+              "mediaKind": "video",
+              "inputs": [],
+              "steps": []
+            },
+            {
+              "target": {
+                "kind": "track",
+                "id": "below"
+              },
+              "mediaKind": "video",
+              "inputs": [
+                {
+                  "kind": "clip",
+                  "id": "below"
+                }
+              ],
+              "steps": []
+            },
+            {
+              "target": {
+                "kind": "clip",
+                "id": "above"
+              },
+              "mediaKind": "video",
+              "inputs": [],
+              "steps": []
+            },
+            {
+              "target": {
+                "kind": "track",
+                "id": "above"
+              },
+              "mediaKind": "video",
+              "inputs": [
+                {
+                  "kind": "clip",
+                  "id": "above"
+                }
+              ],
+              "steps": [
+                {
+                  "id": "combine",
+                  "enabled": true,
+                  "processor": {
+                    "type": "blend",
+                    "mode": "screen"
+                  }
+                }
+              ]
+            },
+            {
+              "target": {
+                "kind": "output"
+              },
+              "mediaKind": "output",
+              "inputs": [
+                {
+                  "kind": "track",
+                  "id": "below"
+                },
+                {
+                  "kind": "track",
+                  "id": "above"
+                }
+              ],
+              "steps": []
+            }
+          ],
+          "assets": [
+            {
+              "assetId": "below",
+              "streamId": "image:0",
+              "path": "/tmp/yap-blend-native-hardened/screen/below.png",
+              "originUs": 0
+            },
+            {
+              "assetId": "above",
+              "streamId": "image:0",
+              "path": "/tmp/yap-blend-native-hardened/screen/above.png",
+              "originUs": 0
+            }
+          ],
+          "settings": {
+            "container": "mp4",
+            "video": {
+              "codec": "h264",
+              "encoder": {
+                "hardware": "auto",
+                "id": null,
+                "gpu": null
+              },
+              "color": "rec709",
+              "rateControl": {
+                "mode": "average",
+                "bitrate": 20000000
+              },
+              "profile": "high",
+              "level": "auto",
+              "keyframeInterval": 120,
+              "keyframeIntervalSeconds": 2,
+              "frameReordering": false,
+              "entropy": "cabac",
+              "temporalCompression": true,
+              "openGop": false,
+              "prioritizeSpeed": false,
+              "powerEfficient": false,
+              "dataRateLimits": [],
+              "bufferDurationSeconds": null,
+              "initialBufferDelayPercent": null,
+              "spatialAdaptiveQuantization": true,
+              "lookAheadFrames": null,
+              "nonDroppableFrameRate": null,
+              "minimumQuantizer": null,
+              "maximumQuantizer": null
+            },
+            "audio": {
+              "codec": "aac",
+              "sampleRate": 48000,
+              "layout": "stereo",
+              "rateControl": {
+                "mode": "constant",
+                "bitrate": 192000
+              },
+              "quality": "high"
+            }
+          }
+        },
+        "receipt": {
+          "bytes": 1119,
+          "decodedImages": 2,
+          "decodedSamples": 0,
+          "durationUs": 200000,
+          "encodedVideo": {
+            "level": "3.2",
+            "profile": "high"
+          },
+          "file": "/tmp/yap-blend-native-hardened/screen/candidate.mp4",
+          "frames": 2,
+          "height": 64,
+          "maximumSequentialAdvanceUs": 1000000,
+          "mediaType": "video/mp4",
+          "pixelPoolAllocationThreshold": 4,
+          "pointerRasterizations": 0,
+          "rasterizedFrames": 1,
+          "readerOpens": 2,
+          "retainedSourceBuffersBound": 2,
+          "settings": {
+            "audio": {
+              "codec": "aac",
+              "layout": "stereo",
+              "quality": "high",
+              "rateControl": {
+                "bitrate": 192000,
+                "mode": "constant"
+              },
+              "sampleRate": 48000
+            },
+            "container": "mp4",
+            "video": {
+              "codec": "h264",
+              "color": "rec709",
+              "dataRateLimits": [],
+              "encoder": {
+                "hardware": "auto"
+              },
+              "entropy": "cabac",
+              "frameReordering": false,
+              "keyframeInterval": 120,
+              "keyframeIntervalSeconds": 2,
+              "level": "auto",
+              "openGop": false,
+              "powerEfficient": false,
+              "prioritizeSpeed": false,
+              "profile": "high",
+              "rateControl": {
+                "bitrate": 20000000,
+                "mode": "average"
+              },
+              "spatialAdaptiveQuantization": true,
+              "temporalCompression": true
+            }
+          },
+          "width": 128
+        },
+        "reads": [
+          {
+            "read": {
+              "requestedUs": 0,
+              "status": "available",
+              "sourceProfileSHA256": "a1096ca47d80ba9df7f9f8fa87a0b9446d9b6a2c94ab11e4144495616b1eb29b",
+              "outputProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e",
+              "index": 0,
+              "outputProfile": "kCGColorSpaceSRGB",
+              "sourceProfile": "kCGColorSpaceCoreMedia709",
+              "actualValue": "0",
+              "height": 64,
+              "file": "/tmp/yap-blend-native-hardened/screen/movie-frames/000.png",
+              "width": 128,
+              "actualTimescale": 1000000
+            },
+            "observation": {
+              "sourceProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e",
+              "height": 64,
+              "sourceProfile": "kCGColorSpaceSRGB",
+              "outputProfile": "kCGColorSpaceSRGB",
+              "width": 128,
+              "opaque": true
+            },
+            "arithmetic": {
+              "maximum": 3,
+              "mae": 0.8984375,
+              "samples": 18432,
+              "limit": 8,
+              "interior": true
+            },
+            "frameParity": {
+              "maximum": 3,
+              "mae": 0.8984375,
+              "samples": 18432,
+              "limit": 8,
+              "interior": true
+            }
+          },
+          {
+            "read": {
+              "outputProfile": "kCGColorSpaceSRGB",
+              "file": "/tmp/yap-blend-native-hardened/screen/movie-frames/001.png",
+              "actualValue": "100000",
+              "actualTimescale": 1000000,
+              "index": 1,
+              "width": 128,
+              "height": 64,
+              "requestedUs": 100000,
+              "sourceProfile": "kCGColorSpaceCoreMedia709",
+              "outputProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e",
+              "status": "available",
+              "sourceProfileSHA256": "a1096ca47d80ba9df7f9f8fa87a0b9446d9b6a2c94ab11e4144495616b1eb29b"
+            },
+            "observation": {
+              "sourceProfile": "kCGColorSpaceSRGB",
+              "sourceProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e",
+              "outputProfile": "kCGColorSpaceSRGB",
+              "opaque": true,
+              "width": 128,
+              "height": 64
+            },
+            "arithmetic": {
+              "maximum": 3,
+              "mae": 0.8984375,
+              "samples": 18432,
+              "limit": 8,
+              "interior": true
+            },
+            "frameParity": {
+              "maximum": 3,
+              "mae": 0.8984375,
+              "samples": 18432,
+              "limit": 8,
+              "interior": true
+            }
+          }
+        ]
+      }
+    },
+    {
+      "scenario": "soft-light",
+      "mode": "soft-light",
+      "document": {
+        "canvas": {
+          "width": 128,
+          "height": 64,
+          "fps": {
+            "numerator": 10,
+            "denominator": 1
+          },
+          "background": "#000000ff"
+        },
+        "tracks": [
+          {
+            "id": "below",
+            "kind": "video",
+            "order": 0
+          },
+          {
+            "id": "above",
+            "kind": "video",
+            "order": 1
+          }
+        ],
+        "groups": [],
+        "clips": [
+          {
+            "id": "below",
+            "trackId": "below",
+            "assetId": "below",
+            "streamId": "image:0",
+            "source": {
+              "kind": "hold",
+              "atUs": 0
+            },
+            "placement": {
+              "kind": "project",
+              "range": {
+                "startUs": 0,
+                "endUs": 200000
+              }
+            }
+          },
+          {
+            "id": "above",
+            "trackId": "above",
+            "assetId": "above",
+            "streamId": "image:0",
+            "source": {
+              "kind": "hold",
+              "atUs": 0
+            },
+            "placement": {
+              "kind": "project",
+              "range": {
+                "startUs": 0,
+                "endUs": 200000
+              }
+            }
+          }
+        ],
+        "processing": [
+          {
+            "target": {
+              "kind": "track",
+              "id": "above"
+            },
+            "steps": [
+              {
+                "id": "combine",
+                "enabled": true,
+                "processor": {
+                  "type": "blend",
+                  "mode": "soft-light"
+                }
+              }
+            ]
+          }
+        ],
+        "syncGroups": []
+      },
+      "frameRequest": {
+        "output": "/tmp/yap-blend-native-hardened/soft-light/candidate.png",
+        "canvas": {
+          "width": 128,
+          "height": 64,
+          "fps": {
+            "numerator": 10,
+            "denominator": 1
+          },
+          "background": "#000000ff"
+        },
+        "frame": {
+          "index": 0,
+          "sampleAtUs": 0,
+          "visibleRange": {
+            "startUs": 0,
+            "endUs": 100000
+          },
+          "layers": [
+            {
+              "clipId": "below",
+              "trackId": "below",
+              "assetId": "below",
+              "streamId": "image:0",
+              "kind": "image",
+              "availability": "available",
+              "width": 128,
+              "height": 64
+            },
+            {
+              "clipId": "above",
+              "trackId": "above",
+              "assetId": "above",
+              "streamId": "image:0",
+              "kind": "image",
+              "availability": "available",
+              "width": 128,
+              "height": 64
+            }
+          ],
+          "visual": [
+            {
+              "target": {
+                "kind": "clip",
+                "id": "below"
+              },
+              "inputs": [],
+              "operations": [
+                {
+                  "kind": "clamp",
+                  "x": 0.5,
+                  "y": 0.5,
+                  "width": 127,
+                  "height": 63
+                },
+                {
+                  "kind": "affine",
+                  "matrix": [
+                    1,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0
+                  ]
+                },
+                {
+                  "kind": "affine",
+                  "matrix": [
+                    1,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0
+                  ]
+                },
+                {
+                  "kind": "coverage",
+                  "points": [
+                    {
+                      "x": 0,
+                      "y": 0
+                    },
+                    {
+                      "x": 128,
+                      "y": 0
+                    },
+                    {
+                      "x": 128,
+                      "y": 64
+                    },
+                    {
+                      "x": 0,
+                      "y": 64
+                    }
+                  ],
+                  "width": 128,
+                  "height": 64
+                }
+              ]
+            },
+            {
+              "target": {
+                "kind": "track",
+                "id": "below"
+              },
+              "inputs": [
+                {
+                  "kind": "clip",
+                  "id": "below"
+                }
+              ],
+              "operations": []
+            },
+            {
+              "target": {
+                "kind": "clip",
+                "id": "above"
+              },
+              "inputs": [],
+              "operations": [
+                {
+                  "kind": "clamp",
+                  "x": 0.5,
+                  "y": 0.5,
+                  "width": 127,
+                  "height": 63
+                },
+                {
+                  "kind": "affine",
+                  "matrix": [
+                    1,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0
+                  ]
+                },
+                {
+                  "kind": "affine",
+                  "matrix": [
+                    1,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0
+                  ]
+                },
+                {
+                  "kind": "coverage",
+                  "points": [
+                    {
+                      "x": 0,
+                      "y": 0
+                    },
+                    {
+                      "x": 128,
+                      "y": 0
+                    },
+                    {
+                      "x": 128,
+                      "y": 64
+                    },
+                    {
+                      "x": 0,
+                      "y": 64
+                    }
+                  ],
+                  "width": 128,
+                  "height": 64
+                }
+              ]
+            },
+            {
+              "target": {
+                "kind": "track",
+                "id": "above"
+              },
+              "inputs": [
+                {
+                  "kind": "clip",
+                  "id": "above"
+                }
+              ],
+              "operations": [
+                {
+                  "kind": "blend",
+                  "mode": "soft-light"
+                }
+              ]
+            },
+            {
+              "target": {
+                "kind": "output"
+              },
+              "inputs": [
+                {
+                  "kind": "track",
+                  "id": "below"
+                },
+                {
+                  "kind": "track",
+                  "id": "above"
+                }
+              ],
+              "operations": []
+            }
+          ]
+        },
+        "processing": [
+          {
+            "target": {
+              "kind": "clip",
+              "id": "below"
+            },
+            "mediaKind": "video",
+            "inputs": [],
+            "steps": []
+          },
+          {
+            "target": {
+              "kind": "track",
+              "id": "below"
+            },
+            "mediaKind": "video",
+            "inputs": [
+              {
+                "kind": "clip",
+                "id": "below"
+              }
+            ],
+            "steps": []
+          },
+          {
+            "target": {
+              "kind": "clip",
+              "id": "above"
+            },
+            "mediaKind": "video",
+            "inputs": [],
+            "steps": []
+          },
+          {
+            "target": {
+              "kind": "track",
+              "id": "above"
+            },
+            "mediaKind": "video",
+            "inputs": [
+              {
+                "kind": "clip",
+                "id": "above"
+              }
+            ],
+            "steps": [
+              {
+                "id": "combine",
+                "enabled": true,
+                "processor": {
+                  "type": "blend",
+                  "mode": "soft-light"
+                }
+              }
+            ]
+          },
+          {
+            "target": {
+              "kind": "output"
+            },
+            "mediaKind": "output",
+            "inputs": [
+              {
+                "kind": "track",
+                "id": "below"
+              },
+              {
+                "kind": "track",
+                "id": "above"
+              }
+            ],
+            "steps": []
+          }
+        ],
+        "assets": [
+          {
+            "assetId": "below",
+            "streamId": "image:0",
+            "path": "/tmp/yap-blend-native-hardened/soft-light/below.png",
+            "originUs": 0
+          },
+          {
+            "assetId": "above",
+            "streamId": "image:0",
+            "path": "/tmp/yap-blend-native-hardened/soft-light/above.png",
+            "originUs": 0
+          }
+        ],
+        "profile": "h264-rec709",
+        "maxLongEdge": 128
+      },
+      "receipt": {
+        "bytes": 623,
+        "decodedImages": 2,
+        "decodedSamples": 0,
+        "file": "/tmp/yap-blend-native-hardened/soft-light/candidate.png",
+        "frame": {
+          "index": 0,
+          "layers": [
+            {
+              "assetId": "below",
+              "availability": "available",
+              "clipId": "below",
+              "height": 64,
+              "kind": "image",
+              "streamId": "image:0",
+              "trackId": "below",
+              "width": 128
+            },
+            {
+              "assetId": "above",
+              "availability": "available",
+              "clipId": "above",
+              "height": 64,
+              "kind": "image",
+              "streamId": "image:0",
+              "trackId": "above",
+              "width": 128
+            }
+          ],
+          "sampleAtUs": 0,
+          "visibleRange": {
+            "endUs": 100000,
+            "startUs": 0
+          },
+          "visual": [
+            {
+              "inputs": [],
+              "operations": [
+                {
+                  "height": 63,
+                  "kind": "clamp",
+                  "width": 127,
+                  "x": 0.5,
+                  "y": 0.5
+                },
+                {
+                  "kind": "affine",
+                  "matrix": [
+                    1,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0
+                  ]
+                },
+                {
+                  "kind": "affine",
+                  "matrix": [
+                    1,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0
+                  ]
+                },
+                {
+                  "height": 64,
+                  "kind": "coverage",
+                  "points": [
+                    {
+                      "x": 0,
+                      "y": 0
+                    },
+                    {
+                      "x": 128,
+                      "y": 0
+                    },
+                    {
+                      "x": 128,
+                      "y": 64
+                    },
+                    {
+                      "x": 0,
+                      "y": 64
+                    }
+                  ],
+                  "width": 128
+                }
+              ],
+              "target": {
+                "id": "below",
+                "kind": "clip"
+              }
+            },
+            {
+              "inputs": [
+                {
+                  "id": "below",
+                  "kind": "clip"
+                }
+              ],
+              "operations": [],
+              "target": {
+                "id": "below",
+                "kind": "track"
+              }
+            },
+            {
+              "inputs": [],
+              "operations": [
+                {
+                  "height": 63,
+                  "kind": "clamp",
+                  "width": 127,
+                  "x": 0.5,
+                  "y": 0.5
+                },
+                {
+                  "kind": "affine",
+                  "matrix": [
+                    1,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0
+                  ]
+                },
+                {
+                  "kind": "affine",
+                  "matrix": [
+                    1,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0
+                  ]
+                },
+                {
+                  "height": 64,
+                  "kind": "coverage",
+                  "points": [
+                    {
+                      "x": 0,
+                      "y": 0
+                    },
+                    {
+                      "x": 128,
+                      "y": 0
+                    },
+                    {
+                      "x": 128,
+                      "y": 64
+                    },
+                    {
+                      "x": 0,
+                      "y": 64
+                    }
+                  ],
+                  "width": 128
+                }
+              ],
+              "target": {
+                "id": "above",
+                "kind": "clip"
+              }
+            },
+            {
+              "inputs": [
+                {
+                  "id": "above",
+                  "kind": "clip"
+                }
+              ],
+              "operations": [
+                {
+                  "kind": "blend",
+                  "mode": "soft-light"
+                }
+              ],
+              "target": {
+                "id": "above",
+                "kind": "track"
+              }
+            },
+            {
+              "inputs": [
+                {
+                  "id": "below",
+                  "kind": "track"
+                },
+                {
+                  "id": "above",
+                  "kind": "track"
+                }
+              ],
+              "operations": [],
+              "target": {
+                "kind": "output"
+              }
+            }
+          ]
+        },
+        "height": 64,
+        "mediaType": "image/png",
+        "pictures": [
+          {
+            "assetId": "below",
+            "clipId": "below",
+            "kind": "image",
+            "status": "available",
+            "streamId": "image:0"
+          },
+          {
+            "assetId": "above",
+            "clipId": "above",
+            "kind": "image",
+            "status": "available",
+            "streamId": "image:0"
+          }
+        ],
+        "profile": "h264-rec709",
+        "readerOpens": 2,
+        "sourceHeight": 64,
+        "sourceWidth": 128,
+        "width": 128
+      },
+      "observation": {
+        "sourceProfile": "kCGColorSpaceSRGB",
+        "sourceProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e",
+        "opaque": true,
+        "height": 64,
+        "outputProfile": "kCGColorSpaceSRGB",
+        "width": 128
+      },
+      "frame": {
+        "maximum": 1,
+        "mae": 0.0078125,
+        "samples": 32768,
+        "limit": 2,
+        "interior": false
+      },
+      "artifacts": {
+        "reference.png": "ebd30d2a1e6fc6a8e305771fb830e15075f9d30b3c9a2992c39ad5e29e26b3de",
+        "normal-before.png": "1568d7bf027b62595923ebbc1fe6923c7c6b7a44968186625b21625fb63851ff",
+        "candidate.png": "f29d4db3e28cecfc7e7a23d1eec081fa49ac7690e76a8c80966bf903c0f37b31",
+        "below.png": "d8d55bf5879c5c6b4e8e221e4c48c2613e44c3234cb766c58b37b2bd3bd0d0a5",
+        "above.png": "67bd0a36c10e641bf0911adf896e9e4a000e710351a6eb9624892891fea13037",
+        "candidate.mp4": "f4c6df77d5f04a93907890eff07857d722800bd386694ad2311b959222f36389",
+        "frames.jsonl": "cbe9d904f620dcfc3015d0d5f87bfb27874176fa7eac7087e8e5593070f43f6a"
+      },
+      "support": {
+        "trackId": 1,
+        "segments": [
+          {
+            "sourceDuration": {
+              "timescale": 1000000,
+              "value": "200000"
+            },
+            "empty": false,
+            "targetStart": {
+              "value": "0",
+              "timescale": 1000000
+            },
+            "targetDuration": {
+              "value": "200000",
+              "timescale": 1000000
+            },
+            "ordinal": 0,
+            "sourceStart": {
+              "value": "0",
+              "timescale": 1000000
+            }
+          }
+        ],
+        "samples": [
+          {
+            "segment": 0,
+            "start": {
+              "timescale": 1000000,
+              "value": "0"
+            },
+            "end": {
+              "timescale": 1000000,
+              "value": "100000"
+            },
+            "mediaPTS": {
+              "value": "0",
+              "timescale": 1000000
+            },
+            "mediaDuration": {
+              "value": "100000",
+              "timescale": 1000000
+            },
+            "roundedUs": 0
+          },
+          {
+            "mediaDuration": {
+              "value": "100000",
+              "timescale": 1000000
+            },
+            "start": {
+              "value": "100000",
+              "timescale": 1000000
+            },
+            "mediaPTS": {
+              "value": "100000",
+              "timescale": 1000000
+            },
+            "segment": 0,
+            "end": {
+              "value": "200000",
+              "timescale": 1000000
+            },
+            "roundedUs": 100000
+          }
+        ],
+        "file": "/tmp/yap-blend-native-hardened/soft-light/candidate.mp4"
+      },
+      "movie": {
+        "request": {
+          "output": "/tmp/yap-blend-native-hardened/soft-light/candidate.mp4",
+          "frames": "/tmp/yap-blend-native-hardened/soft-light/frames.jsonl",
+          "range": {
+            "startUs": 0,
+            "endUs": 200000
+          },
+          "canvas": {
+            "width": 128,
+            "height": 64,
+            "fps": {
+              "numerator": 10,
+              "denominator": 1
+            },
+            "background": "#000000ff"
+          },
+          "processing": [
+            {
+              "target": {
+                "kind": "clip",
+                "id": "below"
+              },
+              "mediaKind": "video",
+              "inputs": [],
+              "steps": []
+            },
+            {
+              "target": {
+                "kind": "track",
+                "id": "below"
+              },
+              "mediaKind": "video",
+              "inputs": [
+                {
+                  "kind": "clip",
+                  "id": "below"
+                }
+              ],
+              "steps": []
+            },
+            {
+              "target": {
+                "kind": "clip",
+                "id": "above"
+              },
+              "mediaKind": "video",
+              "inputs": [],
+              "steps": []
+            },
+            {
+              "target": {
+                "kind": "track",
+                "id": "above"
+              },
+              "mediaKind": "video",
+              "inputs": [
+                {
+                  "kind": "clip",
+                  "id": "above"
+                }
+              ],
+              "steps": [
+                {
+                  "id": "combine",
+                  "enabled": true,
+                  "processor": {
+                    "type": "blend",
+                    "mode": "soft-light"
+                  }
+                }
+              ]
+            },
+            {
+              "target": {
+                "kind": "output"
+              },
+              "mediaKind": "output",
+              "inputs": [
+                {
+                  "kind": "track",
+                  "id": "below"
+                },
+                {
+                  "kind": "track",
+                  "id": "above"
+                }
+              ],
+              "steps": []
+            }
+          ],
+          "assets": [
+            {
+              "assetId": "below",
+              "streamId": "image:0",
+              "path": "/tmp/yap-blend-native-hardened/soft-light/below.png",
+              "originUs": 0
+            },
+            {
+              "assetId": "above",
+              "streamId": "image:0",
+              "path": "/tmp/yap-blend-native-hardened/soft-light/above.png",
+              "originUs": 0
+            }
+          ],
+          "settings": {
+            "container": "mp4",
+            "video": {
+              "codec": "h264",
+              "encoder": {
+                "hardware": "auto",
+                "id": null,
+                "gpu": null
+              },
+              "color": "rec709",
+              "rateControl": {
+                "mode": "average",
+                "bitrate": 20000000
+              },
+              "profile": "high",
+              "level": "auto",
+              "keyframeInterval": 120,
+              "keyframeIntervalSeconds": 2,
+              "frameReordering": false,
+              "entropy": "cabac",
+              "temporalCompression": true,
+              "openGop": false,
+              "prioritizeSpeed": false,
+              "powerEfficient": false,
+              "dataRateLimits": [],
+              "bufferDurationSeconds": null,
+              "initialBufferDelayPercent": null,
+              "spatialAdaptiveQuantization": true,
+              "lookAheadFrames": null,
+              "nonDroppableFrameRate": null,
+              "minimumQuantizer": null,
+              "maximumQuantizer": null
+            },
+            "audio": {
+              "codec": "aac",
+              "sampleRate": 48000,
+              "layout": "stereo",
+              "rateControl": {
+                "mode": "constant",
+                "bitrate": 192000
+              },
+              "quality": "high"
+            }
+          }
+        },
+        "receipt": {
+          "bytes": 1071,
+          "decodedImages": 2,
+          "decodedSamples": 0,
+          "durationUs": 200000,
+          "encodedVideo": {
+            "level": "3.2",
+            "profile": "high"
+          },
+          "file": "/tmp/yap-blend-native-hardened/soft-light/candidate.mp4",
+          "frames": 2,
+          "height": 64,
+          "maximumSequentialAdvanceUs": 1000000,
+          "mediaType": "video/mp4",
+          "pixelPoolAllocationThreshold": 4,
+          "pointerRasterizations": 0,
+          "rasterizedFrames": 1,
+          "readerOpens": 2,
+          "retainedSourceBuffersBound": 2,
+          "settings": {
+            "audio": {
+              "codec": "aac",
+              "layout": "stereo",
+              "quality": "high",
+              "rateControl": {
+                "bitrate": 192000,
+                "mode": "constant"
+              },
+              "sampleRate": 48000
+            },
+            "container": "mp4",
+            "video": {
+              "codec": "h264",
+              "color": "rec709",
+              "dataRateLimits": [],
+              "encoder": {
+                "hardware": "auto"
+              },
+              "entropy": "cabac",
+              "frameReordering": false,
+              "keyframeInterval": 120,
+              "keyframeIntervalSeconds": 2,
+              "level": "auto",
+              "openGop": false,
+              "powerEfficient": false,
+              "prioritizeSpeed": false,
+              "profile": "high",
+              "rateControl": {
+                "bitrate": 20000000,
+                "mode": "average"
+              },
+              "spatialAdaptiveQuantization": true,
+              "temporalCompression": true
+            }
+          },
+          "width": 128
+        },
+        "reads": [
+          {
+            "read": {
+              "index": 0,
+              "sourceProfileSHA256": "a1096ca47d80ba9df7f9f8fa87a0b9446d9b6a2c94ab11e4144495616b1eb29b",
+              "height": 64,
+              "status": "available",
+              "outputProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e",
+              "width": 128,
+              "requestedUs": 0,
+              "actualValue": "0",
+              "outputProfile": "kCGColorSpaceSRGB",
+              "actualTimescale": 1000000,
+              "file": "/tmp/yap-blend-native-hardened/soft-light/movie-frames/000.png",
+              "sourceProfile": "kCGColorSpaceCoreMedia709"
+            },
+            "observation": {
+              "opaque": true,
+              "height": 64,
+              "width": 128,
+              "sourceProfile": "kCGColorSpaceSRGB",
+              "outputProfile": "kCGColorSpaceSRGB",
+              "sourceProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e"
+            },
+            "arithmetic": {
+              "maximum": 3,
+              "mae": 0.484375,
+              "samples": 18432,
+              "limit": 8,
+              "interior": true
+            },
+            "frameParity": {
+              "maximum": 3,
+              "mae": 0.4921875,
+              "samples": 18432,
+              "limit": 8,
+              "interior": true
+            }
+          },
+          {
+            "read": {
+              "height": 64,
+              "actualTimescale": 1000000,
+              "status": "available",
+              "actualValue": "100000",
+              "width": 128,
+              "file": "/tmp/yap-blend-native-hardened/soft-light/movie-frames/001.png",
+              "outputProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e",
+              "requestedUs": 100000,
+              "outputProfile": "kCGColorSpaceSRGB",
+              "sourceProfileSHA256": "a1096ca47d80ba9df7f9f8fa87a0b9446d9b6a2c94ab11e4144495616b1eb29b",
+              "index": 1,
+              "sourceProfile": "kCGColorSpaceCoreMedia709"
+            },
+            "observation": {
+              "opaque": true,
+              "sourceProfile": "kCGColorSpaceSRGB",
+              "outputProfile": "kCGColorSpaceSRGB",
+              "sourceProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e",
+              "width": 128,
+              "height": 64
+            },
+            "arithmetic": {
+              "maximum": 3,
+              "mae": 0.484375,
+              "samples": 18432,
+              "limit": 8,
+              "interior": true
+            },
+            "frameParity": {
+              "maximum": 3,
+              "mae": 0.4921875,
+              "samples": 18432,
+              "limit": 8,
+              "interior": true
+            }
+          }
+        ]
+      }
+    },
+    {
+      "scenario": "soft-light-reversed",
+      "mode": "soft-light",
+      "document": {
+        "canvas": {
+          "width": 128,
+          "height": 64,
+          "fps": {
+            "numerator": 10,
+            "denominator": 1
+          },
+          "background": "#000000ff"
+        },
+        "tracks": [
+          {
+            "id": "below",
+            "kind": "video",
+            "order": 0
+          },
+          {
+            "id": "above",
+            "kind": "video",
+            "order": 1
+          }
+        ],
+        "groups": [],
+        "clips": [
+          {
+            "id": "below",
+            "trackId": "below",
+            "assetId": "below",
+            "streamId": "image:0",
+            "source": {
+              "kind": "hold",
+              "atUs": 0
+            },
+            "placement": {
+              "kind": "project",
+              "range": {
+                "startUs": 0,
+                "endUs": 200000
+              }
+            }
+          },
+          {
+            "id": "above",
+            "trackId": "above",
+            "assetId": "above",
+            "streamId": "image:0",
+            "source": {
+              "kind": "hold",
+              "atUs": 0
+            },
+            "placement": {
+              "kind": "project",
+              "range": {
+                "startUs": 0,
+                "endUs": 200000
+              }
+            }
+          }
+        ],
+        "processing": [
+          {
+            "target": {
+              "kind": "track",
+              "id": "above"
+            },
+            "steps": [
+              {
+                "id": "combine",
+                "enabled": true,
+                "processor": {
+                  "type": "blend",
+                  "mode": "soft-light"
+                }
+              }
+            ]
+          }
+        ],
+        "syncGroups": []
+      },
+      "frameRequest": {
+        "output": "/tmp/yap-blend-native-hardened/soft-light-reversed/candidate.png",
+        "canvas": {
+          "width": 128,
+          "height": 64,
+          "fps": {
+            "numerator": 10,
+            "denominator": 1
+          },
+          "background": "#000000ff"
+        },
+        "frame": {
+          "index": 0,
+          "sampleAtUs": 0,
+          "visibleRange": {
+            "startUs": 0,
+            "endUs": 100000
+          },
+          "layers": [
+            {
+              "clipId": "below",
+              "trackId": "below",
+              "assetId": "below",
+              "streamId": "image:0",
+              "kind": "image",
+              "availability": "available",
+              "width": 128,
+              "height": 64
+            },
+            {
+              "clipId": "above",
+              "trackId": "above",
+              "assetId": "above",
+              "streamId": "image:0",
+              "kind": "image",
+              "availability": "available",
+              "width": 128,
+              "height": 64
+            }
+          ],
+          "visual": [
+            {
+              "target": {
+                "kind": "clip",
+                "id": "below"
+              },
+              "inputs": [],
+              "operations": [
+                {
+                  "kind": "clamp",
+                  "x": 0.5,
+                  "y": 0.5,
+                  "width": 127,
+                  "height": 63
+                },
+                {
+                  "kind": "affine",
+                  "matrix": [
+                    1,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0
+                  ]
+                },
+                {
+                  "kind": "affine",
+                  "matrix": [
+                    1,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0
+                  ]
+                },
+                {
+                  "kind": "coverage",
+                  "points": [
+                    {
+                      "x": 0,
+                      "y": 0
+                    },
+                    {
+                      "x": 128,
+                      "y": 0
+                    },
+                    {
+                      "x": 128,
+                      "y": 64
+                    },
+                    {
+                      "x": 0,
+                      "y": 64
+                    }
+                  ],
+                  "width": 128,
+                  "height": 64
+                }
+              ]
+            },
+            {
+              "target": {
+                "kind": "track",
+                "id": "below"
+              },
+              "inputs": [
+                {
+                  "kind": "clip",
+                  "id": "below"
+                }
+              ],
+              "operations": []
+            },
+            {
+              "target": {
+                "kind": "clip",
+                "id": "above"
+              },
+              "inputs": [],
+              "operations": [
+                {
+                  "kind": "clamp",
+                  "x": 0.5,
+                  "y": 0.5,
+                  "width": 127,
+                  "height": 63
+                },
+                {
+                  "kind": "affine",
+                  "matrix": [
+                    1,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0
+                  ]
+                },
+                {
+                  "kind": "affine",
+                  "matrix": [
+                    1,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0
+                  ]
+                },
+                {
+                  "kind": "coverage",
+                  "points": [
+                    {
+                      "x": 0,
+                      "y": 0
+                    },
+                    {
+                      "x": 128,
+                      "y": 0
+                    },
+                    {
+                      "x": 128,
+                      "y": 64
+                    },
+                    {
+                      "x": 0,
+                      "y": 64
+                    }
+                  ],
+                  "width": 128,
+                  "height": 64
+                }
+              ]
+            },
+            {
+              "target": {
+                "kind": "track",
+                "id": "above"
+              },
+              "inputs": [
+                {
+                  "kind": "clip",
+                  "id": "above"
+                }
+              ],
+              "operations": [
+                {
+                  "kind": "blend",
+                  "mode": "soft-light"
+                }
+              ]
+            },
+            {
+              "target": {
+                "kind": "output"
+              },
+              "inputs": [
+                {
+                  "kind": "track",
+                  "id": "below"
+                },
+                {
+                  "kind": "track",
+                  "id": "above"
+                }
+              ],
+              "operations": []
+            }
+          ]
+        },
+        "processing": [
+          {
+            "target": {
+              "kind": "clip",
+              "id": "below"
+            },
+            "mediaKind": "video",
+            "inputs": [],
+            "steps": []
+          },
+          {
+            "target": {
+              "kind": "track",
+              "id": "below"
+            },
+            "mediaKind": "video",
+            "inputs": [
+              {
+                "kind": "clip",
+                "id": "below"
+              }
+            ],
+            "steps": []
+          },
+          {
+            "target": {
+              "kind": "clip",
+              "id": "above"
+            },
+            "mediaKind": "video",
+            "inputs": [],
+            "steps": []
+          },
+          {
+            "target": {
+              "kind": "track",
+              "id": "above"
+            },
+            "mediaKind": "video",
+            "inputs": [
+              {
+                "kind": "clip",
+                "id": "above"
+              }
+            ],
+            "steps": [
+              {
+                "id": "combine",
+                "enabled": true,
+                "processor": {
+                  "type": "blend",
+                  "mode": "soft-light"
+                }
+              }
+            ]
+          },
+          {
+            "target": {
+              "kind": "output"
+            },
+            "mediaKind": "output",
+            "inputs": [
+              {
+                "kind": "track",
+                "id": "below"
+              },
+              {
+                "kind": "track",
+                "id": "above"
+              }
+            ],
+            "steps": []
+          }
+        ],
+        "assets": [
+          {
+            "assetId": "below",
+            "streamId": "image:0",
+            "path": "/tmp/yap-blend-native-hardened/soft-light-reversed/below.png",
+            "originUs": 0
+          },
+          {
+            "assetId": "above",
+            "streamId": "image:0",
+            "path": "/tmp/yap-blend-native-hardened/soft-light-reversed/above.png",
+            "originUs": 0
+          }
+        ],
+        "profile": "h264-rec709",
+        "maxLongEdge": 128
+      },
+      "receipt": {
+        "bytes": 628,
+        "decodedImages": 2,
+        "decodedSamples": 0,
+        "file": "/tmp/yap-blend-native-hardened/soft-light-reversed/candidate.png",
+        "frame": {
+          "index": 0,
+          "layers": [
+            {
+              "assetId": "below",
+              "availability": "available",
+              "clipId": "below",
+              "height": 64,
+              "kind": "image",
+              "streamId": "image:0",
+              "trackId": "below",
+              "width": 128
+            },
+            {
+              "assetId": "above",
+              "availability": "available",
+              "clipId": "above",
+              "height": 64,
+              "kind": "image",
+              "streamId": "image:0",
+              "trackId": "above",
+              "width": 128
+            }
+          ],
+          "sampleAtUs": 0,
+          "visibleRange": {
+            "endUs": 100000,
+            "startUs": 0
+          },
+          "visual": [
+            {
+              "inputs": [],
+              "operations": [
+                {
+                  "height": 63,
+                  "kind": "clamp",
+                  "width": 127,
+                  "x": 0.5,
+                  "y": 0.5
+                },
+                {
+                  "kind": "affine",
+                  "matrix": [
+                    1,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0
+                  ]
+                },
+                {
+                  "kind": "affine",
+                  "matrix": [
+                    1,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0
+                  ]
+                },
+                {
+                  "height": 64,
+                  "kind": "coverage",
+                  "points": [
+                    {
+                      "x": 0,
+                      "y": 0
+                    },
+                    {
+                      "x": 128,
+                      "y": 0
+                    },
+                    {
+                      "x": 128,
+                      "y": 64
+                    },
+                    {
+                      "x": 0,
+                      "y": 64
+                    }
+                  ],
+                  "width": 128
+                }
+              ],
+              "target": {
+                "id": "below",
+                "kind": "clip"
+              }
+            },
+            {
+              "inputs": [
+                {
+                  "id": "below",
+                  "kind": "clip"
+                }
+              ],
+              "operations": [],
+              "target": {
+                "id": "below",
+                "kind": "track"
+              }
+            },
+            {
+              "inputs": [],
+              "operations": [
+                {
+                  "height": 63,
+                  "kind": "clamp",
+                  "width": 127,
+                  "x": 0.5,
+                  "y": 0.5
+                },
+                {
+                  "kind": "affine",
+                  "matrix": [
+                    1,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0
+                  ]
+                },
+                {
+                  "kind": "affine",
+                  "matrix": [
+                    1,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0
+                  ]
+                },
+                {
+                  "height": 64,
+                  "kind": "coverage",
+                  "points": [
+                    {
+                      "x": 0,
+                      "y": 0
+                    },
+                    {
+                      "x": 128,
+                      "y": 0
+                    },
+                    {
+                      "x": 128,
+                      "y": 64
+                    },
+                    {
+                      "x": 0,
+                      "y": 64
+                    }
+                  ],
+                  "width": 128
+                }
+              ],
+              "target": {
+                "id": "above",
+                "kind": "clip"
+              }
+            },
+            {
+              "inputs": [
+                {
+                  "id": "above",
+                  "kind": "clip"
+                }
+              ],
+              "operations": [
+                {
+                  "kind": "blend",
+                  "mode": "soft-light"
+                }
+              ],
+              "target": {
+                "id": "above",
+                "kind": "track"
+              }
+            },
+            {
+              "inputs": [
+                {
+                  "id": "below",
+                  "kind": "track"
+                },
+                {
+                  "id": "above",
+                  "kind": "track"
+                }
+              ],
+              "operations": [],
+              "target": {
+                "kind": "output"
+              }
+            }
+          ]
+        },
+        "height": 64,
+        "mediaType": "image/png",
+        "pictures": [
+          {
+            "assetId": "below",
+            "clipId": "below",
+            "kind": "image",
+            "status": "available",
+            "streamId": "image:0"
+          },
+          {
+            "assetId": "above",
+            "clipId": "above",
+            "kind": "image",
+            "status": "available",
+            "streamId": "image:0"
+          }
+        ],
+        "profile": "h264-rec709",
+        "readerOpens": 2,
+        "sourceHeight": 64,
+        "sourceWidth": 128,
+        "width": 128
+      },
+      "observation": {
+        "height": 64,
+        "opaque": true,
+        "sourceProfile": "kCGColorSpaceSRGB",
+        "width": 128,
+        "sourceProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e",
+        "outputProfile": "kCGColorSpaceSRGB"
+      },
+      "frame": {
+        "maximum": 0,
+        "mae": 0,
+        "samples": 32768,
+        "limit": 2,
+        "interior": false
+      },
+      "artifacts": {
+        "reference.png": "939525ce0fb841489c2dee7632c8f4855d2bb98444ecf03370fd9bacf53bee83",
+        "normal-before.png": "0e9256243f3591dc22e7c31b5459a67f25a6d89b4b7a57f1c390bde5148d5325",
+        "candidate.png": "82016f2f570928488b218348dcab466118d4fa6f7378546a092049fbfa9a0640",
+        "below.png": "67bd0a36c10e641bf0911adf896e9e4a000e710351a6eb9624892891fea13037",
+        "above.png": "d8d55bf5879c5c6b4e8e221e4c48c2613e44c3234cb766c58b37b2bd3bd0d0a5",
+        "candidate.mp4": "491d4e77036367faafb647983b1849b7708edaffa356a3ef791f457805977042",
+        "frames.jsonl": "cbe9d904f620dcfc3015d0d5f87bfb27874176fa7eac7087e8e5593070f43f6a"
+      },
+      "support": {
+        "file": "/tmp/yap-blend-native-hardened/soft-light-reversed/candidate.mp4",
+        "trackId": 1,
+        "segments": [
+          {
+            "sourceStart": {
+              "timescale": 1000000,
+              "value": "0"
+            },
+            "targetDuration": {
+              "timescale": 1000000,
+              "value": "200000"
+            },
+            "empty": false,
+            "targetStart": {
+              "value": "0",
+              "timescale": 1000000
+            },
+            "ordinal": 0,
+            "sourceDuration": {
+              "timescale": 1000000,
+              "value": "200000"
+            }
+          }
+        ],
+        "samples": [
+          {
+            "mediaDuration": {
+              "timescale": 1000000,
+              "value": "100000"
+            },
+            "segment": 0,
+            "roundedUs": 0,
+            "end": {
+              "value": "100000",
+              "timescale": 1000000
+            },
+            "mediaPTS": {
+              "value": "0",
+              "timescale": 1000000
+            },
+            "start": {
+              "value": "0",
+              "timescale": 1000000
+            }
+          },
+          {
+            "mediaPTS": {
+              "timescale": 1000000,
+              "value": "100000"
+            },
+            "start": {
+              "timescale": 1000000,
+              "value": "100000"
+            },
+            "end": {
+              "timescale": 1000000,
+              "value": "200000"
+            },
+            "mediaDuration": {
+              "timescale": 1000000,
+              "value": "100000"
+            },
+            "roundedUs": 100000,
+            "segment": 0
+          }
+        ]
+      },
+      "movie": {
+        "request": {
+          "output": "/tmp/yap-blend-native-hardened/soft-light-reversed/candidate.mp4",
+          "frames": "/tmp/yap-blend-native-hardened/soft-light-reversed/frames.jsonl",
+          "range": {
+            "startUs": 0,
+            "endUs": 200000
+          },
+          "canvas": {
+            "width": 128,
+            "height": 64,
+            "fps": {
+              "numerator": 10,
+              "denominator": 1
+            },
+            "background": "#000000ff"
+          },
+          "processing": [
+            {
+              "target": {
+                "kind": "clip",
+                "id": "below"
+              },
+              "mediaKind": "video",
+              "inputs": [],
+              "steps": []
+            },
+            {
+              "target": {
+                "kind": "track",
+                "id": "below"
+              },
+              "mediaKind": "video",
+              "inputs": [
+                {
+                  "kind": "clip",
+                  "id": "below"
+                }
+              ],
+              "steps": []
+            },
+            {
+              "target": {
+                "kind": "clip",
+                "id": "above"
+              },
+              "mediaKind": "video",
+              "inputs": [],
+              "steps": []
+            },
+            {
+              "target": {
+                "kind": "track",
+                "id": "above"
+              },
+              "mediaKind": "video",
+              "inputs": [
+                {
+                  "kind": "clip",
+                  "id": "above"
+                }
+              ],
+              "steps": [
+                {
+                  "id": "combine",
+                  "enabled": true,
+                  "processor": {
+                    "type": "blend",
+                    "mode": "soft-light"
+                  }
+                }
+              ]
+            },
+            {
+              "target": {
+                "kind": "output"
+              },
+              "mediaKind": "output",
+              "inputs": [
+                {
+                  "kind": "track",
+                  "id": "below"
+                },
+                {
+                  "kind": "track",
+                  "id": "above"
+                }
+              ],
+              "steps": []
+            }
+          ],
+          "assets": [
+            {
+              "assetId": "below",
+              "streamId": "image:0",
+              "path": "/tmp/yap-blend-native-hardened/soft-light-reversed/below.png",
+              "originUs": 0
+            },
+            {
+              "assetId": "above",
+              "streamId": "image:0",
+              "path": "/tmp/yap-blend-native-hardened/soft-light-reversed/above.png",
+              "originUs": 0
+            }
+          ],
+          "settings": {
+            "container": "mp4",
+            "video": {
+              "codec": "h264",
+              "encoder": {
+                "hardware": "auto",
+                "id": null,
+                "gpu": null
+              },
+              "color": "rec709",
+              "rateControl": {
+                "mode": "average",
+                "bitrate": 20000000
+              },
+              "profile": "high",
+              "level": "auto",
+              "keyframeInterval": 120,
+              "keyframeIntervalSeconds": 2,
+              "frameReordering": false,
+              "entropy": "cabac",
+              "temporalCompression": true,
+              "openGop": false,
+              "prioritizeSpeed": false,
+              "powerEfficient": false,
+              "dataRateLimits": [],
+              "bufferDurationSeconds": null,
+              "initialBufferDelayPercent": null,
+              "spatialAdaptiveQuantization": true,
+              "lookAheadFrames": null,
+              "nonDroppableFrameRate": null,
+              "minimumQuantizer": null,
+              "maximumQuantizer": null
+            },
+            "audio": {
+              "codec": "aac",
+              "sampleRate": 48000,
+              "layout": "stereo",
+              "rateControl": {
+                "mode": "constant",
+                "bitrate": 192000
+              },
+              "quality": "high"
+            }
+          }
+        },
+        "receipt": {
+          "bytes": 1068,
+          "decodedImages": 2,
+          "decodedSamples": 0,
+          "durationUs": 200000,
+          "encodedVideo": {
+            "level": "3.2",
+            "profile": "high"
+          },
+          "file": "/tmp/yap-blend-native-hardened/soft-light-reversed/candidate.mp4",
+          "frames": 2,
+          "height": 64,
+          "maximumSequentialAdvanceUs": 1000000,
+          "mediaType": "video/mp4",
+          "pixelPoolAllocationThreshold": 4,
+          "pointerRasterizations": 0,
+          "rasterizedFrames": 1,
+          "readerOpens": 2,
+          "retainedSourceBuffersBound": 2,
+          "settings": {
+            "audio": {
+              "codec": "aac",
+              "layout": "stereo",
+              "quality": "high",
+              "rateControl": {
+                "bitrate": 192000,
+                "mode": "constant"
+              },
+              "sampleRate": 48000
+            },
+            "container": "mp4",
+            "video": {
+              "codec": "h264",
+              "color": "rec709",
+              "dataRateLimits": [],
+              "encoder": {
+                "hardware": "auto"
+              },
+              "entropy": "cabac",
+              "frameReordering": false,
+              "keyframeInterval": 120,
+              "keyframeIntervalSeconds": 2,
+              "level": "auto",
+              "openGop": false,
+              "powerEfficient": false,
+              "prioritizeSpeed": false,
+              "profile": "high",
+              "rateControl": {
+                "bitrate": 20000000,
+                "mode": "average"
+              },
+              "spatialAdaptiveQuantization": true,
+              "temporalCompression": true
+            }
+          },
+          "width": 128
+        },
+        "reads": [
+          {
+            "read": {
+              "sourceProfileSHA256": "a1096ca47d80ba9df7f9f8fa87a0b9446d9b6a2c94ab11e4144495616b1eb29b",
+              "height": 64,
+              "sourceProfile": "kCGColorSpaceCoreMedia709",
+              "file": "/tmp/yap-blend-native-hardened/soft-light-reversed/movie-frames/000.png",
+              "outputProfile": "kCGColorSpaceSRGB",
+              "index": 0,
+              "requestedUs": 0,
+              "outputProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e",
+              "actualTimescale": 1000000,
+              "status": "available",
+              "actualValue": "0",
+              "width": 128
+            },
+            "observation": {
+              "sourceProfile": "kCGColorSpaceSRGB",
+              "opaque": true,
+              "sourceProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e",
+              "outputProfile": "kCGColorSpaceSRGB",
+              "width": 128,
+              "height": 64
+            },
+            "arithmetic": {
+              "maximum": 3,
+              "mae": 0.5703125,
+              "samples": 18432,
+              "limit": 8,
+              "interior": true
+            },
+            "frameParity": {
+              "maximum": 3,
+              "mae": 0.5703125,
+              "samples": 18432,
+              "limit": 8,
+              "interior": true
+            }
+          },
+          {
+            "read": {
+              "height": 64,
+              "index": 1,
+              "requestedUs": 100000,
+              "outputProfile": "kCGColorSpaceSRGB",
+              "actualTimescale": 1000000,
+              "sourceProfileSHA256": "a1096ca47d80ba9df7f9f8fa87a0b9446d9b6a2c94ab11e4144495616b1eb29b",
+              "outputProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e",
+              "sourceProfile": "kCGColorSpaceCoreMedia709",
+              "status": "available",
+              "file": "/tmp/yap-blend-native-hardened/soft-light-reversed/movie-frames/001.png",
+              "width": 128,
+              "actualValue": "100000"
+            },
+            "observation": {
+              "outputProfile": "kCGColorSpaceSRGB",
+              "opaque": true,
+              "width": 128,
+              "height": 64,
+              "sourceProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e",
+              "sourceProfile": "kCGColorSpaceSRGB"
+            },
+            "arithmetic": {
+              "maximum": 3,
+              "mae": 0.5703125,
+              "samples": 18432,
+              "limit": 8,
+              "interior": true
+            },
+            "frameParity": {
+              "maximum": 3,
+              "mae": 0.5703125,
+              "samples": 18432,
+              "limit": 8,
+              "interior": true
+            }
+          }
+        ]
+      }
+    },
+    {
+      "scenario": "multiply-nested",
+      "mode": "multiply",
+      "document": {
+        "canvas": {
+          "width": 128,
+          "height": 64,
+          "fps": {
+            "numerator": 10,
+            "denominator": 1
+          },
+          "background": "#000000ff"
+        },
+        "tracks": [
+          {
+            "id": "below",
+            "kind": "video",
+            "order": 0,
+            "parentId": "inner"
+          },
+          {
+            "id": "above",
+            "kind": "video",
+            "order": 1,
+            "parentId": "inner"
+          }
+        ],
+        "groups": [
+          {
+            "id": "inner",
+            "kind": "video",
+            "order": 0,
+            "parentId": "outer"
+          },
+          {
+            "id": "outer",
+            "kind": "video",
+            "order": 0
+          }
+        ],
+        "clips": [
+          {
+            "id": "below",
+            "trackId": "below",
+            "assetId": "below",
+            "streamId": "image:0",
+            "source": {
+              "kind": "hold",
+              "atUs": 0
+            },
+            "placement": {
+              "kind": "project",
+              "range": {
+                "startUs": 0,
+                "endUs": 200000
+              }
+            }
+          },
+          {
+            "id": "above",
+            "trackId": "above",
+            "assetId": "above",
+            "streamId": "image:0",
+            "source": {
+              "kind": "hold",
+              "atUs": 0
+            },
+            "placement": {
+              "kind": "project",
+              "range": {
+                "startUs": 0,
+                "endUs": 200000
+              }
+            }
+          }
+        ],
+        "processing": [
+          {
+            "target": {
+              "kind": "track",
+              "id": "above"
+            },
+            "steps": [
+              {
+                "id": "combine",
+                "enabled": true,
+                "processor": {
+                  "type": "blend",
+                  "mode": "multiply"
+                }
+              }
+            ]
+          }
+        ],
+        "syncGroups": []
+      },
+      "frameRequest": {
+        "output": "/tmp/yap-blend-native-hardened/multiply-nested/candidate.png",
+        "canvas": {
+          "width": 128,
+          "height": 64,
+          "fps": {
+            "numerator": 10,
+            "denominator": 1
+          },
+          "background": "#000000ff"
+        },
+        "frame": {
+          "index": 0,
+          "sampleAtUs": 0,
+          "visibleRange": {
+            "startUs": 0,
+            "endUs": 100000
+          },
+          "layers": [
+            {
+              "clipId": "below",
+              "trackId": "below",
+              "assetId": "below",
+              "streamId": "image:0",
+              "kind": "image",
+              "availability": "available",
+              "width": 128,
+              "height": 64
+            },
+            {
+              "clipId": "above",
+              "trackId": "above",
+              "assetId": "above",
+              "streamId": "image:0",
+              "kind": "image",
+              "availability": "available",
+              "width": 128,
+              "height": 64
+            }
+          ],
+          "visual": [
+            {
+              "target": {
+                "kind": "clip",
+                "id": "below"
+              },
+              "inputs": [],
+              "operations": [
+                {
+                  "kind": "clamp",
+                  "x": 0.5,
+                  "y": 0.5,
+                  "width": 127,
+                  "height": 63
+                },
+                {
+                  "kind": "affine",
+                  "matrix": [
+                    1,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0
+                  ]
+                },
+                {
+                  "kind": "affine",
+                  "matrix": [
+                    1,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0
+                  ]
+                },
+                {
+                  "kind": "coverage",
+                  "points": [
+                    {
+                      "x": 0,
+                      "y": 0
+                    },
+                    {
+                      "x": 128,
+                      "y": 0
+                    },
+                    {
+                      "x": 128,
+                      "y": 64
+                    },
+                    {
+                      "x": 0,
+                      "y": 64
+                    }
+                  ],
+                  "width": 128,
+                  "height": 64
+                }
+              ]
+            },
+            {
+              "target": {
+                "kind": "track",
+                "id": "below"
+              },
+              "inputs": [
+                {
+                  "kind": "clip",
+                  "id": "below"
+                }
+              ],
+              "operations": []
+            },
+            {
+              "target": {
+                "kind": "clip",
+                "id": "above"
+              },
+              "inputs": [],
+              "operations": [
+                {
+                  "kind": "clamp",
+                  "x": 0.5,
+                  "y": 0.5,
+                  "width": 127,
+                  "height": 63
+                },
+                {
+                  "kind": "affine",
+                  "matrix": [
+                    1,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0
+                  ]
+                },
+                {
+                  "kind": "affine",
+                  "matrix": [
+                    1,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0
+                  ]
+                },
+                {
+                  "kind": "coverage",
+                  "points": [
+                    {
+                      "x": 0,
+                      "y": 0
+                    },
+                    {
+                      "x": 128,
+                      "y": 0
+                    },
+                    {
+                      "x": 128,
+                      "y": 64
+                    },
+                    {
+                      "x": 0,
+                      "y": 64
+                    }
+                  ],
+                  "width": 128,
+                  "height": 64
+                }
+              ]
+            },
+            {
+              "target": {
+                "kind": "track",
+                "id": "above"
+              },
+              "inputs": [
+                {
+                  "kind": "clip",
+                  "id": "above"
+                }
+              ],
+              "operations": [
+                {
+                  "kind": "blend",
+                  "mode": "multiply"
+                }
+              ]
+            },
+            {
+              "target": {
+                "kind": "group",
+                "id": "inner"
+              },
+              "inputs": [
+                {
+                  "kind": "track",
+                  "id": "below"
+                },
+                {
+                  "kind": "track",
+                  "id": "above"
+                }
+              ],
+              "operations": []
+            },
+            {
+              "target": {
+                "kind": "group",
+                "id": "outer"
+              },
+              "inputs": [
+                {
+                  "kind": "group",
+                  "id": "inner"
+                }
+              ],
+              "operations": []
+            },
+            {
+              "target": {
+                "kind": "output"
+              },
+              "inputs": [
+                {
+                  "kind": "group",
+                  "id": "outer"
+                }
+              ],
+              "operations": []
+            }
+          ]
+        },
+        "processing": [
+          {
+            "target": {
+              "kind": "clip",
+              "id": "below"
+            },
+            "mediaKind": "video",
+            "inputs": [],
+            "steps": []
+          },
+          {
+            "target": {
+              "kind": "track",
+              "id": "below"
+            },
+            "mediaKind": "video",
+            "inputs": [
+              {
+                "kind": "clip",
+                "id": "below"
+              }
+            ],
+            "steps": []
+          },
+          {
+            "target": {
+              "kind": "clip",
+              "id": "above"
+            },
+            "mediaKind": "video",
+            "inputs": [],
+            "steps": []
+          },
+          {
+            "target": {
+              "kind": "track",
+              "id": "above"
+            },
+            "mediaKind": "video",
+            "inputs": [
+              {
+                "kind": "clip",
+                "id": "above"
+              }
+            ],
+            "steps": [
+              {
+                "id": "combine",
+                "enabled": true,
+                "processor": {
+                  "type": "blend",
+                  "mode": "multiply"
+                }
+              }
+            ]
+          },
+          {
+            "target": {
+              "kind": "group",
+              "id": "inner"
+            },
+            "mediaKind": "video",
+            "inputs": [
+              {
+                "kind": "track",
+                "id": "below"
+              },
+              {
+                "kind": "track",
+                "id": "above"
+              }
+            ],
+            "steps": []
+          },
+          {
+            "target": {
+              "kind": "group",
+              "id": "outer"
+            },
+            "mediaKind": "video",
+            "inputs": [
+              {
+                "kind": "group",
+                "id": "inner"
+              }
+            ],
+            "steps": []
+          },
+          {
+            "target": {
+              "kind": "output"
+            },
+            "mediaKind": "output",
+            "inputs": [
+              {
+                "kind": "group",
+                "id": "outer"
+              }
+            ],
+            "steps": []
+          }
+        ],
+        "assets": [
+          {
+            "assetId": "below",
+            "streamId": "image:0",
+            "path": "/tmp/yap-blend-native-hardened/multiply-nested/below.png",
+            "originUs": 0
+          },
+          {
+            "assetId": "above",
+            "streamId": "image:0",
+            "path": "/tmp/yap-blend-native-hardened/multiply-nested/above.png",
+            "originUs": 0
+          }
+        ],
+        "profile": "h264-rec709",
+        "maxLongEdge": 128
+      },
+      "receipt": {
+        "bytes": 683,
+        "decodedImages": 2,
+        "decodedSamples": 0,
+        "file": "/tmp/yap-blend-native-hardened/multiply-nested/candidate.png",
+        "frame": {
+          "index": 0,
+          "layers": [
+            {
+              "assetId": "below",
+              "availability": "available",
+              "clipId": "below",
+              "height": 64,
+              "kind": "image",
+              "streamId": "image:0",
+              "trackId": "below",
+              "width": 128
+            },
+            {
+              "assetId": "above",
+              "availability": "available",
+              "clipId": "above",
+              "height": 64,
+              "kind": "image",
+              "streamId": "image:0",
+              "trackId": "above",
+              "width": 128
+            }
+          ],
+          "sampleAtUs": 0,
+          "visibleRange": {
+            "endUs": 100000,
+            "startUs": 0
+          },
+          "visual": [
+            {
+              "inputs": [],
+              "operations": [
+                {
+                  "height": 63,
+                  "kind": "clamp",
+                  "width": 127,
+                  "x": 0.5,
+                  "y": 0.5
+                },
+                {
+                  "kind": "affine",
+                  "matrix": [
+                    1,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0
+                  ]
+                },
+                {
+                  "kind": "affine",
+                  "matrix": [
+                    1,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0
+                  ]
+                },
+                {
+                  "height": 64,
+                  "kind": "coverage",
+                  "points": [
+                    {
+                      "x": 0,
+                      "y": 0
+                    },
+                    {
+                      "x": 128,
+                      "y": 0
+                    },
+                    {
+                      "x": 128,
+                      "y": 64
+                    },
+                    {
+                      "x": 0,
+                      "y": 64
+                    }
+                  ],
+                  "width": 128
+                }
+              ],
+              "target": {
+                "id": "below",
+                "kind": "clip"
+              }
+            },
+            {
+              "inputs": [
+                {
+                  "id": "below",
+                  "kind": "clip"
+                }
+              ],
+              "operations": [],
+              "target": {
+                "id": "below",
+                "kind": "track"
+              }
+            },
+            {
+              "inputs": [],
+              "operations": [
+                {
+                  "height": 63,
+                  "kind": "clamp",
+                  "width": 127,
+                  "x": 0.5,
+                  "y": 0.5
+                },
+                {
+                  "kind": "affine",
+                  "matrix": [
+                    1,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0
+                  ]
+                },
+                {
+                  "kind": "affine",
+                  "matrix": [
+                    1,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0
+                  ]
+                },
+                {
+                  "height": 64,
+                  "kind": "coverage",
+                  "points": [
+                    {
+                      "x": 0,
+                      "y": 0
+                    },
+                    {
+                      "x": 128,
+                      "y": 0
+                    },
+                    {
+                      "x": 128,
+                      "y": 64
+                    },
+                    {
+                      "x": 0,
+                      "y": 64
+                    }
+                  ],
+                  "width": 128
+                }
+              ],
+              "target": {
+                "id": "above",
+                "kind": "clip"
+              }
+            },
+            {
+              "inputs": [
+                {
+                  "id": "above",
+                  "kind": "clip"
+                }
+              ],
+              "operations": [
+                {
+                  "kind": "blend",
+                  "mode": "multiply"
+                }
+              ],
+              "target": {
+                "id": "above",
+                "kind": "track"
+              }
+            },
+            {
+              "inputs": [
+                {
+                  "id": "below",
+                  "kind": "track"
+                },
+                {
+                  "id": "above",
+                  "kind": "track"
+                }
+              ],
+              "operations": [],
+              "target": {
+                "id": "inner",
+                "kind": "group"
+              }
+            },
+            {
+              "inputs": [
+                {
+                  "id": "inner",
+                  "kind": "group"
+                }
+              ],
+              "operations": [],
+              "target": {
+                "id": "outer",
+                "kind": "group"
+              }
+            },
+            {
+              "inputs": [
+                {
+                  "id": "outer",
+                  "kind": "group"
+                }
+              ],
+              "operations": [],
+              "target": {
+                "kind": "output"
+              }
+            }
+          ]
+        },
+        "height": 64,
+        "mediaType": "image/png",
+        "pictures": [
+          {
+            "assetId": "below",
+            "clipId": "below",
+            "kind": "image",
+            "status": "available",
+            "streamId": "image:0"
+          },
+          {
+            "assetId": "above",
+            "clipId": "above",
+            "kind": "image",
+            "status": "available",
+            "streamId": "image:0"
+          }
+        ],
+        "profile": "h264-rec709",
+        "readerOpens": 2,
+        "sourceHeight": 64,
+        "sourceWidth": 128,
+        "width": 128
+      },
+      "observation": {
+        "height": 64,
+        "sourceProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e",
+        "sourceProfile": "kCGColorSpaceSRGB",
+        "outputProfile": "kCGColorSpaceSRGB",
+        "opaque": true,
+        "width": 128
+      },
+      "frame": {
+        "maximum": 0,
+        "mae": 0,
+        "samples": 32768,
+        "limit": 2,
+        "interior": false
+      },
+      "artifacts": {
+        "reference.png": "3ba0d2daa11baa3786548f94cdac6cf1f443de0a41d2d0de3e4590b5ff276c08",
+        "normal-before.png": "1568d7bf027b62595923ebbc1fe6923c7c6b7a44968186625b21625fb63851ff",
+        "candidate.png": "f5ce511307334b6302b60c49f43dc5228c43056c089075e6f5d52e7a19905689",
+        "below.png": "d8d55bf5879c5c6b4e8e221e4c48c2613e44c3234cb766c58b37b2bd3bd0d0a5",
+        "above.png": "67bd0a36c10e641bf0911adf896e9e4a000e710351a6eb9624892891fea13037",
+        "candidate.mp4": "795dba502ac0918f727b31f380c7fb86b18e1b8698e9a62240a4c99f071777b6",
+        "frames.jsonl": "8e1580ee619ce6440a5873cdcd209fc47283e895bc1bf11de4fb3708a1e7f4b4"
+      },
+      "support": {
+        "segments": [
+          {
+            "ordinal": 0,
+            "targetStart": {
+              "value": "0",
+              "timescale": 1000000
+            },
+            "empty": false,
+            "sourceDuration": {
+              "value": "200000",
+              "timescale": 1000000
+            },
+            "sourceStart": {
+              "timescale": 1000000,
+              "value": "0"
+            },
+            "targetDuration": {
+              "value": "200000",
+              "timescale": 1000000
+            }
+          }
+        ],
+        "samples": [
+          {
+            "roundedUs": 0,
+            "segment": 0,
+            "mediaPTS": {
+              "value": "0",
+              "timescale": 1000000
+            },
+            "end": {
+              "value": "100000",
+              "timescale": 1000000
+            },
+            "mediaDuration": {
+              "timescale": 1000000,
+              "value": "100000"
+            },
+            "start": {
+              "value": "0",
+              "timescale": 1000000
+            }
+          },
+          {
+            "mediaPTS": {
+              "timescale": 1000000,
+              "value": "100000"
+            },
+            "start": {
+              "timescale": 1000000,
+              "value": "100000"
+            },
+            "mediaDuration": {
+              "timescale": 1000000,
+              "value": "100000"
+            },
+            "segment": 0,
+            "end": {
+              "timescale": 1000000,
+              "value": "200000"
+            },
+            "roundedUs": 100000
+          }
+        ],
+        "file": "/tmp/yap-blend-native-hardened/multiply-nested/candidate.mp4",
+        "trackId": 1
+      },
+      "movie": {
+        "request": {
+          "output": "/tmp/yap-blend-native-hardened/multiply-nested/candidate.mp4",
+          "frames": "/tmp/yap-blend-native-hardened/multiply-nested/frames.jsonl",
+          "range": {
+            "startUs": 0,
+            "endUs": 200000
+          },
+          "canvas": {
+            "width": 128,
+            "height": 64,
+            "fps": {
+              "numerator": 10,
+              "denominator": 1
+            },
+            "background": "#000000ff"
+          },
+          "processing": [
+            {
+              "target": {
+                "kind": "clip",
+                "id": "below"
+              },
+              "mediaKind": "video",
+              "inputs": [],
+              "steps": []
+            },
+            {
+              "target": {
+                "kind": "track",
+                "id": "below"
+              },
+              "mediaKind": "video",
+              "inputs": [
+                {
+                  "kind": "clip",
+                  "id": "below"
+                }
+              ],
+              "steps": []
+            },
+            {
+              "target": {
+                "kind": "clip",
+                "id": "above"
+              },
+              "mediaKind": "video",
+              "inputs": [],
+              "steps": []
+            },
+            {
+              "target": {
+                "kind": "track",
+                "id": "above"
+              },
+              "mediaKind": "video",
+              "inputs": [
+                {
+                  "kind": "clip",
+                  "id": "above"
+                }
+              ],
+              "steps": [
+                {
+                  "id": "combine",
+                  "enabled": true,
+                  "processor": {
+                    "type": "blend",
+                    "mode": "multiply"
+                  }
+                }
+              ]
+            },
+            {
+              "target": {
+                "kind": "group",
+                "id": "inner"
+              },
+              "mediaKind": "video",
+              "inputs": [
+                {
+                  "kind": "track",
+                  "id": "below"
+                },
+                {
+                  "kind": "track",
+                  "id": "above"
+                }
+              ],
+              "steps": []
+            },
+            {
+              "target": {
+                "kind": "group",
+                "id": "outer"
+              },
+              "mediaKind": "video",
+              "inputs": [
+                {
+                  "kind": "group",
+                  "id": "inner"
+                }
+              ],
+              "steps": []
+            },
+            {
+              "target": {
+                "kind": "output"
+              },
+              "mediaKind": "output",
+              "inputs": [
+                {
+                  "kind": "group",
+                  "id": "outer"
+                }
+              ],
+              "steps": []
+            }
+          ],
+          "assets": [
+            {
+              "assetId": "below",
+              "streamId": "image:0",
+              "path": "/tmp/yap-blend-native-hardened/multiply-nested/below.png",
+              "originUs": 0
+            },
+            {
+              "assetId": "above",
+              "streamId": "image:0",
+              "path": "/tmp/yap-blend-native-hardened/multiply-nested/above.png",
+              "originUs": 0
+            }
+          ],
+          "settings": {
+            "container": "mp4",
+            "video": {
+              "codec": "h264",
+              "encoder": {
+                "hardware": "auto",
+                "id": null,
+                "gpu": null
+              },
+              "color": "rec709",
+              "rateControl": {
+                "mode": "average",
+                "bitrate": 20000000
+              },
+              "profile": "high",
+              "level": "auto",
+              "keyframeInterval": 120,
+              "keyframeIntervalSeconds": 2,
+              "frameReordering": false,
+              "entropy": "cabac",
+              "temporalCompression": true,
+              "openGop": false,
+              "prioritizeSpeed": false,
+              "powerEfficient": false,
+              "dataRateLimits": [],
+              "bufferDurationSeconds": null,
+              "initialBufferDelayPercent": null,
+              "spatialAdaptiveQuantization": true,
+              "lookAheadFrames": null,
+              "nonDroppableFrameRate": null,
+              "minimumQuantizer": null,
+              "maximumQuantizer": null
+            },
+            "audio": {
+              "codec": "aac",
+              "sampleRate": 48000,
+              "layout": "stereo",
+              "rateControl": {
+                "mode": "constant",
+                "bitrate": 192000
+              },
+              "quality": "high"
+            }
+          }
+        },
+        "receipt": {
+          "bytes": 1212,
+          "decodedImages": 2,
+          "decodedSamples": 0,
+          "durationUs": 200000,
+          "encodedVideo": {
+            "level": "3.2",
+            "profile": "high"
+          },
+          "file": "/tmp/yap-blend-native-hardened/multiply-nested/candidate.mp4",
+          "frames": 2,
+          "height": 64,
+          "maximumSequentialAdvanceUs": 1000000,
+          "mediaType": "video/mp4",
+          "pixelPoolAllocationThreshold": 4,
+          "pointerRasterizations": 0,
+          "rasterizedFrames": 1,
+          "readerOpens": 2,
+          "retainedSourceBuffersBound": 2,
+          "settings": {
+            "audio": {
+              "codec": "aac",
+              "layout": "stereo",
+              "quality": "high",
+              "rateControl": {
+                "bitrate": 192000,
+                "mode": "constant"
+              },
+              "sampleRate": 48000
+            },
+            "container": "mp4",
+            "video": {
+              "codec": "h264",
+              "color": "rec709",
+              "dataRateLimits": [],
+              "encoder": {
+                "hardware": "auto"
+              },
+              "entropy": "cabac",
+              "frameReordering": false,
+              "keyframeInterval": 120,
+              "keyframeIntervalSeconds": 2,
+              "level": "auto",
+              "openGop": false,
+              "powerEfficient": false,
+              "prioritizeSpeed": false,
+              "profile": "high",
+              "rateControl": {
+                "bitrate": 20000000,
+                "mode": "average"
+              },
+              "spatialAdaptiveQuantization": true,
+              "temporalCompression": true
+            }
+          },
+          "width": 128
+        },
+        "reads": [
+          {
+            "read": {
+              "width": 128,
+              "height": 64,
+              "status": "available",
+              "outputProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e",
+              "requestedUs": 0,
+              "file": "/tmp/yap-blend-native-hardened/multiply-nested/movie-frames/000.png",
+              "actualValue": "0",
+              "outputProfile": "kCGColorSpaceSRGB",
+              "sourceProfileSHA256": "a1096ca47d80ba9df7f9f8fa87a0b9446d9b6a2c94ab11e4144495616b1eb29b",
+              "sourceProfile": "kCGColorSpaceCoreMedia709",
+              "actualTimescale": 1000000,
+              "index": 0
+            },
+            "observation": {
+              "height": 64,
+              "sourceProfile": "kCGColorSpaceSRGB",
+              "outputProfile": "kCGColorSpaceSRGB",
+              "opaque": true,
+              "width": 128,
+              "sourceProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e"
+            },
+            "arithmetic": {
+              "maximum": 4,
+              "mae": 0.7584635416666666,
+              "samples": 18432,
+              "limit": 8,
+              "interior": true
+            },
+            "frameParity": {
+              "maximum": 4,
+              "mae": 0.7584635416666666,
+              "samples": 18432,
+              "limit": 8,
+              "interior": true
+            }
+          },
+          {
+            "read": {
+              "requestedUs": 100000,
+              "index": 1,
+              "actualValue": "100000",
+              "actualTimescale": 1000000,
+              "width": 128,
+              "sourceProfile": "kCGColorSpaceCoreMedia709",
+              "sourceProfileSHA256": "a1096ca47d80ba9df7f9f8fa87a0b9446d9b6a2c94ab11e4144495616b1eb29b",
+              "outputProfile": "kCGColorSpaceSRGB",
+              "status": "available",
+              "outputProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e",
+              "height": 64,
+              "file": "/tmp/yap-blend-native-hardened/multiply-nested/movie-frames/001.png"
+            },
+            "observation": {
+              "sourceProfile": "kCGColorSpaceSRGB",
+              "height": 64,
+              "sourceProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e",
+              "outputProfile": "kCGColorSpaceSRGB",
+              "width": 128,
+              "opaque": true
+            },
+            "arithmetic": {
+              "maximum": 4,
+              "mae": 0.7584635416666666,
+              "samples": 18432,
+              "limit": 8,
+              "interior": true
+            },
+            "frameParity": {
+              "maximum": 4,
+              "mae": 0.7584635416666666,
+              "samples": 18432,
+              "limit": 8,
+              "interior": true
+            }
+          }
+        ]
+      }
+    },
+    {
+      "scenario": "vignette",
+      "mode": "multiply",
+      "document": {
+        "canvas": {
+          "width": 128,
+          "height": 64,
+          "fps": {
+            "numerator": 10,
+            "denominator": 1
+          },
+          "background": "#000000ff"
+        },
+        "tracks": [
+          {
+            "id": "below",
+            "kind": "video",
+            "order": 0
+          },
+          {
+            "id": "above",
+            "kind": "video",
+            "order": 1
+          }
+        ],
+        "groups": [],
+        "clips": [
+          {
+            "id": "below",
+            "trackId": "below",
+            "assetId": "below",
+            "streamId": "image:0",
+            "source": {
+              "kind": "hold",
+              "atUs": 0
+            },
+            "placement": {
+              "kind": "project",
+              "range": {
+                "startUs": 0,
+                "endUs": 200000
+              }
+            }
+          },
+          {
+            "id": "above",
+            "trackId": "above",
+            "assetId": "above",
+            "streamId": "image:0",
+            "source": {
+              "kind": "hold",
+              "atUs": 0
+            },
+            "placement": {
+              "kind": "project",
+              "range": {
+                "startUs": 0,
+                "endUs": 200000
+              }
+            }
+          }
+        ],
+        "processing": [
+          {
+            "target": {
+              "kind": "track",
+              "id": "above"
+            },
+            "steps": [
+              {
+                "id": "combine",
+                "enabled": true,
+                "processor": {
+                  "type": "blend",
+                  "mode": "multiply"
+                }
+              }
+            ]
+          }
+        ],
+        "syncGroups": []
+      },
+      "frameRequest": {
+        "output": "/tmp/yap-blend-native-hardened/vignette/candidate.png",
+        "canvas": {
+          "width": 128,
+          "height": 64,
+          "fps": {
+            "numerator": 10,
+            "denominator": 1
+          },
+          "background": "#000000ff"
+        },
+        "frame": {
+          "index": 0,
+          "sampleAtUs": 0,
+          "visibleRange": {
+            "startUs": 0,
+            "endUs": 100000
+          },
+          "layers": [
+            {
+              "clipId": "below",
+              "trackId": "below",
+              "assetId": "below",
+              "streamId": "image:0",
+              "kind": "image",
+              "availability": "available",
+              "width": 128,
+              "height": 64
+            },
+            {
+              "clipId": "above",
+              "trackId": "above",
+              "assetId": "above",
+              "streamId": "image:0",
+              "kind": "image",
+              "availability": "available",
+              "width": 128,
+              "height": 64
+            }
+          ],
+          "visual": [
+            {
+              "target": {
+                "kind": "clip",
+                "id": "below"
+              },
+              "inputs": [],
+              "operations": [
+                {
+                  "kind": "clamp",
+                  "x": 0.5,
+                  "y": 0.5,
+                  "width": 127,
+                  "height": 63
+                },
+                {
+                  "kind": "affine",
+                  "matrix": [
+                    1,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0
+                  ]
+                },
+                {
+                  "kind": "affine",
+                  "matrix": [
+                    1,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0
+                  ]
+                },
+                {
+                  "kind": "coverage",
+                  "points": [
+                    {
+                      "x": 0,
+                      "y": 0
+                    },
+                    {
+                      "x": 128,
+                      "y": 0
+                    },
+                    {
+                      "x": 128,
+                      "y": 64
+                    },
+                    {
+                      "x": 0,
+                      "y": 64
+                    }
+                  ],
+                  "width": 128,
+                  "height": 64
+                }
+              ]
+            },
+            {
+              "target": {
+                "kind": "track",
+                "id": "below"
+              },
+              "inputs": [
+                {
+                  "kind": "clip",
+                  "id": "below"
+                }
+              ],
+              "operations": []
+            },
+            {
+              "target": {
+                "kind": "clip",
+                "id": "above"
+              },
+              "inputs": [],
+              "operations": [
+                {
+                  "kind": "clamp",
+                  "x": 0.5,
+                  "y": 0.5,
+                  "width": 127,
+                  "height": 63
+                },
+                {
+                  "kind": "affine",
+                  "matrix": [
+                    1,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0
+                  ]
+                },
+                {
+                  "kind": "affine",
+                  "matrix": [
+                    1,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0
+                  ]
+                },
+                {
+                  "kind": "coverage",
+                  "points": [
+                    {
+                      "x": 0,
+                      "y": 0
+                    },
+                    {
+                      "x": 128,
+                      "y": 0
+                    },
+                    {
+                      "x": 128,
+                      "y": 64
+                    },
+                    {
+                      "x": 0,
+                      "y": 64
+                    }
+                  ],
+                  "width": 128,
+                  "height": 64
+                }
+              ]
+            },
+            {
+              "target": {
+                "kind": "track",
+                "id": "above"
+              },
+              "inputs": [
+                {
+                  "kind": "clip",
+                  "id": "above"
+                }
+              ],
+              "operations": [
+                {
+                  "kind": "blend",
+                  "mode": "multiply"
+                }
+              ]
+            },
+            {
+              "target": {
+                "kind": "output"
+              },
+              "inputs": [
+                {
+                  "kind": "track",
+                  "id": "below"
+                },
+                {
+                  "kind": "track",
+                  "id": "above"
+                }
+              ],
+              "operations": []
+            }
+          ]
+        },
+        "processing": [
+          {
+            "target": {
+              "kind": "clip",
+              "id": "below"
+            },
+            "mediaKind": "video",
+            "inputs": [],
+            "steps": []
+          },
+          {
+            "target": {
+              "kind": "track",
+              "id": "below"
+            },
+            "mediaKind": "video",
+            "inputs": [
+              {
+                "kind": "clip",
+                "id": "below"
+              }
+            ],
+            "steps": []
+          },
+          {
+            "target": {
+              "kind": "clip",
+              "id": "above"
+            },
+            "mediaKind": "video",
+            "inputs": [],
+            "steps": []
+          },
+          {
+            "target": {
+              "kind": "track",
+              "id": "above"
+            },
+            "mediaKind": "video",
+            "inputs": [
+              {
+                "kind": "clip",
+                "id": "above"
+              }
+            ],
+            "steps": [
+              {
+                "id": "combine",
+                "enabled": true,
+                "processor": {
+                  "type": "blend",
+                  "mode": "multiply"
+                }
+              }
+            ]
+          },
+          {
+            "target": {
+              "kind": "output"
+            },
+            "mediaKind": "output",
+            "inputs": [
+              {
+                "kind": "track",
+                "id": "below"
+              },
+              {
+                "kind": "track",
+                "id": "above"
+              }
+            ],
+            "steps": []
+          }
+        ],
+        "assets": [
+          {
+            "assetId": "below",
+            "streamId": "image:0",
+            "path": "/tmp/yap-blend-native-hardened/vignette/below.png",
+            "originUs": 0
+          },
+          {
+            "assetId": "above",
+            "streamId": "image:0",
+            "path": "/tmp/yap-blend-native-hardened/vignette/above.png",
+            "originUs": 0
+          }
+        ],
+        "profile": "h264-rec709",
+        "maxLongEdge": 128
+      },
+      "receipt": {
+        "bytes": 8429,
+        "decodedImages": 2,
+        "decodedSamples": 0,
+        "file": "/tmp/yap-blend-native-hardened/vignette/candidate.png",
+        "frame": {
+          "index": 0,
+          "layers": [
+            {
+              "assetId": "below",
+              "availability": "available",
+              "clipId": "below",
+              "height": 64,
+              "kind": "image",
+              "streamId": "image:0",
+              "trackId": "below",
+              "width": 128
+            },
+            {
+              "assetId": "above",
+              "availability": "available",
+              "clipId": "above",
+              "height": 64,
+              "kind": "image",
+              "streamId": "image:0",
+              "trackId": "above",
+              "width": 128
+            }
+          ],
+          "sampleAtUs": 0,
+          "visibleRange": {
+            "endUs": 100000,
+            "startUs": 0
+          },
+          "visual": [
+            {
+              "inputs": [],
+              "operations": [
+                {
+                  "height": 63,
+                  "kind": "clamp",
+                  "width": 127,
+                  "x": 0.5,
+                  "y": 0.5
+                },
+                {
+                  "kind": "affine",
+                  "matrix": [
+                    1,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0
+                  ]
+                },
+                {
+                  "kind": "affine",
+                  "matrix": [
+                    1,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0
+                  ]
+                },
+                {
+                  "height": 64,
+                  "kind": "coverage",
+                  "points": [
+                    {
+                      "x": 0,
+                      "y": 0
+                    },
+                    {
+                      "x": 128,
+                      "y": 0
+                    },
+                    {
+                      "x": 128,
+                      "y": 64
+                    },
+                    {
+                      "x": 0,
+                      "y": 64
+                    }
+                  ],
+                  "width": 128
+                }
+              ],
+              "target": {
+                "id": "below",
+                "kind": "clip"
+              }
+            },
+            {
+              "inputs": [
+                {
+                  "id": "below",
+                  "kind": "clip"
+                }
+              ],
+              "operations": [],
+              "target": {
+                "id": "below",
+                "kind": "track"
+              }
+            },
+            {
+              "inputs": [],
+              "operations": [
+                {
+                  "height": 63,
+                  "kind": "clamp",
+                  "width": 127,
+                  "x": 0.5,
+                  "y": 0.5
+                },
+                {
+                  "kind": "affine",
+                  "matrix": [
+                    1,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0
+                  ]
+                },
+                {
+                  "kind": "affine",
+                  "matrix": [
+                    1,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0
+                  ]
+                },
+                {
+                  "height": 64,
+                  "kind": "coverage",
+                  "points": [
+                    {
+                      "x": 0,
+                      "y": 0
+                    },
+                    {
+                      "x": 128,
+                      "y": 0
+                    },
+                    {
+                      "x": 128,
+                      "y": 64
+                    },
+                    {
+                      "x": 0,
+                      "y": 64
+                    }
+                  ],
+                  "width": 128
+                }
+              ],
+              "target": {
+                "id": "above",
+                "kind": "clip"
+              }
+            },
+            {
+              "inputs": [
+                {
+                  "id": "above",
+                  "kind": "clip"
+                }
+              ],
+              "operations": [
+                {
+                  "kind": "blend",
+                  "mode": "multiply"
+                }
+              ],
+              "target": {
+                "id": "above",
+                "kind": "track"
+              }
+            },
+            {
+              "inputs": [
+                {
+                  "id": "below",
+                  "kind": "track"
+                },
+                {
+                  "id": "above",
+                  "kind": "track"
+                }
+              ],
+              "operations": [],
+              "target": {
+                "kind": "output"
+              }
+            }
+          ]
+        },
+        "height": 64,
+        "mediaType": "image/png",
+        "pictures": [
+          {
+            "assetId": "below",
+            "clipId": "below",
+            "kind": "image",
+            "status": "available",
+            "streamId": "image:0"
+          },
+          {
+            "assetId": "above",
+            "clipId": "above",
+            "kind": "image",
+            "status": "available",
+            "streamId": "image:0"
+          }
+        ],
+        "profile": "h264-rec709",
+        "readerOpens": 2,
+        "sourceHeight": 64,
+        "sourceWidth": 128,
+        "width": 128
+      },
+      "observation": {
+        "opaque": true,
+        "width": 128,
+        "height": 64,
+        "sourceProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e",
+        "sourceProfile": "kCGColorSpaceSRGB",
+        "outputProfile": "kCGColorSpaceSRGB"
+      },
+      "frame": {
+        "maximum": 1,
+        "mae": 0.00775146484375,
+        "samples": 32768,
+        "limit": 2,
+        "interior": false
+      },
+      "artifacts": {
+        "reference.png": "4ab1992508fa88ef7799bb343007bea8ed206b58873700e3005488c51b8e91d2",
+        "normal-before.png": "93af694abee7f5d8e07e6952406a337a15fd920e8f5e4343879c4bb3fb234c36",
+        "candidate.png": "3fdc727e8d61ae2aef09063c9452ca9910f4db3a3e371f0f8a484f3424e67a45",
+        "below.png": "0320de7df99e4bbe267328b5e9673537c6597c867b370b6d9a0141525f5c68e4",
+        "above.png": "93af694abee7f5d8e07e6952406a337a15fd920e8f5e4343879c4bb3fb234c36",
+        "candidate.mp4": "ca114064843f02c3536094a600181e78ab8f4078e7920f23054f9bd159fffbf0",
+        "frames.jsonl": "8566fb3bd2f0ecb8ef86b183cbefedfff241af40fefa9e184514726afff6d461"
+      },
+      "support": {
+        "trackId": 1,
+        "segments": [
+          {
+            "sourceDuration": {
+              "timescale": 1000000,
+              "value": "200000"
+            },
+            "targetDuration": {
+              "timescale": 1000000,
+              "value": "200000"
+            },
+            "empty": false,
+            "ordinal": 0,
+            "targetStart": {
+              "timescale": 1000000,
+              "value": "0"
+            },
+            "sourceStart": {
+              "timescale": 1000000,
+              "value": "0"
+            }
+          }
+        ],
+        "samples": [
+          {
+            "start": {
+              "timescale": 1000000,
+              "value": "0"
+            },
+            "mediaPTS": {
+              "value": "0",
+              "timescale": 1000000
+            },
+            "mediaDuration": {
+              "value": "100000",
+              "timescale": 1000000
+            },
+            "roundedUs": 0,
+            "segment": 0,
+            "end": {
+              "timescale": 1000000,
+              "value": "100000"
+            }
+          },
+          {
+            "mediaDuration": {
+              "timescale": 1000000,
+              "value": "100000"
+            },
+            "start": {
+              "timescale": 1000000,
+              "value": "100000"
+            },
+            "end": {
+              "timescale": 1000000,
+              "value": "200000"
+            },
+            "segment": 0,
+            "roundedUs": 100000,
+            "mediaPTS": {
+              "timescale": 1000000,
+              "value": "100000"
+            }
+          }
+        ],
+        "file": "/tmp/yap-blend-native-hardened/vignette/candidate.mp4"
+      },
+      "movie": {
+        "request": {
+          "output": "/tmp/yap-blend-native-hardened/vignette/candidate.mp4",
+          "frames": "/tmp/yap-blend-native-hardened/vignette/frames.jsonl",
+          "range": {
+            "startUs": 0,
+            "endUs": 200000
+          },
+          "canvas": {
+            "width": 128,
+            "height": 64,
+            "fps": {
+              "numerator": 10,
+              "denominator": 1
+            },
+            "background": "#000000ff"
+          },
+          "processing": [
+            {
+              "target": {
+                "kind": "clip",
+                "id": "below"
+              },
+              "mediaKind": "video",
+              "inputs": [],
+              "steps": []
+            },
+            {
+              "target": {
+                "kind": "track",
+                "id": "below"
+              },
+              "mediaKind": "video",
+              "inputs": [
+                {
+                  "kind": "clip",
+                  "id": "below"
+                }
+              ],
+              "steps": []
+            },
+            {
+              "target": {
+                "kind": "clip",
+                "id": "above"
+              },
+              "mediaKind": "video",
+              "inputs": [],
+              "steps": []
+            },
+            {
+              "target": {
+                "kind": "track",
+                "id": "above"
+              },
+              "mediaKind": "video",
+              "inputs": [
+                {
+                  "kind": "clip",
+                  "id": "above"
+                }
+              ],
+              "steps": [
+                {
+                  "id": "combine",
+                  "enabled": true,
+                  "processor": {
+                    "type": "blend",
+                    "mode": "multiply"
+                  }
+                }
+              ]
+            },
+            {
+              "target": {
+                "kind": "output"
+              },
+              "mediaKind": "output",
+              "inputs": [
+                {
+                  "kind": "track",
+                  "id": "below"
+                },
+                {
+                  "kind": "track",
+                  "id": "above"
+                }
+              ],
+              "steps": []
+            }
+          ],
+          "assets": [
+            {
+              "assetId": "below",
+              "streamId": "image:0",
+              "path": "/tmp/yap-blend-native-hardened/vignette/below.png",
+              "originUs": 0
+            },
+            {
+              "assetId": "above",
+              "streamId": "image:0",
+              "path": "/tmp/yap-blend-native-hardened/vignette/above.png",
+              "originUs": 0
+            }
+          ],
+          "settings": {
+            "container": "mp4",
+            "video": {
+              "codec": "h264",
+              "encoder": {
+                "hardware": "auto",
+                "id": null,
+                "gpu": null
+              },
+              "color": "rec709",
+              "rateControl": {
+                "mode": "average",
+                "bitrate": 20000000
+              },
+              "profile": "high",
+              "level": "auto",
+              "keyframeInterval": 120,
+              "keyframeIntervalSeconds": 2,
+              "frameReordering": false,
+              "entropy": "cabac",
+              "temporalCompression": true,
+              "openGop": false,
+              "prioritizeSpeed": false,
+              "powerEfficient": false,
+              "dataRateLimits": [],
+              "bufferDurationSeconds": null,
+              "initialBufferDelayPercent": null,
+              "spatialAdaptiveQuantization": true,
+              "lookAheadFrames": null,
+              "nonDroppableFrameRate": null,
+              "minimumQuantizer": null,
+              "maximumQuantizer": null
+            },
+            "audio": {
+              "codec": "aac",
+              "sampleRate": 48000,
+              "layout": "stereo",
+              "rateControl": {
+                "mode": "constant",
+                "bitrate": 192000
+              },
+              "quality": "high"
+            }
+          }
+        },
+        "receipt": {
+          "bytes": 3794,
+          "decodedImages": 2,
+          "decodedSamples": 0,
+          "durationUs": 200000,
+          "encodedVideo": {
+            "level": "3.2",
+            "profile": "high"
+          },
+          "file": "/tmp/yap-blend-native-hardened/vignette/candidate.mp4",
+          "frames": 2,
+          "height": 64,
+          "maximumSequentialAdvanceUs": 1000000,
+          "mediaType": "video/mp4",
+          "pixelPoolAllocationThreshold": 4,
+          "pointerRasterizations": 0,
+          "rasterizedFrames": 1,
+          "readerOpens": 2,
+          "retainedSourceBuffersBound": 2,
+          "settings": {
+            "audio": {
+              "codec": "aac",
+              "layout": "stereo",
+              "quality": "high",
+              "rateControl": {
+                "bitrate": 192000,
+                "mode": "constant"
+              },
+              "sampleRate": 48000
+            },
+            "container": "mp4",
+            "video": {
+              "codec": "h264",
+              "color": "rec709",
+              "dataRateLimits": [],
+              "encoder": {
+                "hardware": "auto"
+              },
+              "entropy": "cabac",
+              "frameReordering": false,
+              "keyframeInterval": 120,
+              "keyframeIntervalSeconds": 2,
+              "level": "auto",
+              "openGop": false,
+              "powerEfficient": false,
+              "prioritizeSpeed": false,
+              "profile": "high",
+              "rateControl": {
+                "bitrate": 20000000,
+                "mode": "average"
+              },
+              "spatialAdaptiveQuantization": true,
+              "temporalCompression": true
+            }
+          },
+          "width": 128
+        },
+        "reads": [
+          {
+            "read": {
+              "index": 0,
+              "outputProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e",
+              "file": "/tmp/yap-blend-native-hardened/vignette/movie-frames/000.png",
+              "sourceProfile": "kCGColorSpaceCoreMedia709",
+              "actualValue": "0",
+              "actualTimescale": 1000000,
+              "width": 128,
+              "requestedUs": 0,
+              "height": 64,
+              "outputProfile": "kCGColorSpaceSRGB",
+              "status": "available",
+              "sourceProfileSHA256": "a1096ca47d80ba9df7f9f8fa87a0b9446d9b6a2c94ab11e4144495616b1eb29b"
+            },
+            "observation": {
+              "height": 64,
+              "opaque": true,
+              "sourceProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e",
+              "width": 128,
+              "outputProfile": "kCGColorSpaceSRGB",
+              "sourceProfile": "kCGColorSpaceSRGB"
+            },
+            "arithmetic": {
+              "maximum": 4,
+              "mae": 0.64410400390625,
+              "samples": 32768,
+              "limit": 8,
+              "interior": false
+            },
+            "frameParity": {
+              "maximum": 4,
+              "mae": 0.6431884765625,
+              "samples": 32768,
+              "limit": 8,
+              "interior": false
+            }
+          },
+          {
+            "read": {
+              "file": "/tmp/yap-blend-native-hardened/vignette/movie-frames/001.png",
+              "sourceProfileSHA256": "a1096ca47d80ba9df7f9f8fa87a0b9446d9b6a2c94ab11e4144495616b1eb29b",
+              "outputProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e",
+              "actualTimescale": 1000000,
+              "outputProfile": "kCGColorSpaceSRGB",
+              "sourceProfile": "kCGColorSpaceCoreMedia709",
+              "requestedUs": 100000,
+              "index": 1,
+              "status": "available",
+              "height": 64,
+              "width": 128,
+              "actualValue": "100000"
+            },
+            "observation": {
+              "sourceProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e",
+              "outputProfile": "kCGColorSpaceSRGB",
+              "opaque": true,
+              "height": 64,
+              "sourceProfile": "kCGColorSpaceSRGB",
+              "width": 128
+            },
+            "arithmetic": {
+              "maximum": 4,
+              "mae": 0.64410400390625,
+              "samples": 32768,
+              "limit": 8,
+              "interior": false
+            },
+            "frameParity": {
+              "maximum": 4,
+              "mae": 0.6431884765625,
+              "samples": 32768,
+              "limit": 8,
+              "interior": false
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

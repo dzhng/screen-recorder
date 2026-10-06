@@ -11,7 +11,7 @@ import {
   validateComposition,
 } from "../../composition/dist/index.js";
 import { nativeProcessing } from "../../../apps/service/src/native-processing.ts";
-import { blendPixel } from "./blend-reference.mjs";
+import { blendPixel, compareBlendRaster, verifyBlendMovieSupport } from "./blend-reference.mjs";
 import { verifyPicturePixels } from "./decoded-picture-proof.mjs";
 
 if (process.argv.includes("--help")) {
@@ -28,10 +28,12 @@ const out = resolve(process.argv[2]),
   run = promisify(execFile);
 await mkdir(out);
 const tool = join(out, "frame-pixels"),
-  reference = join(out, "frame-reference");
+  reference = join(out, "frame-reference"),
+  supportReader = join(out, "support-reader");
 for (const [source, executable] of [
   ["FrameImagePixels.swift", tool],
   ["FrameColorReference.swift", reference],
+  ["FrameSampleSupport.swift", supportReader],
 ])
   await run(
     "swiftc",
@@ -107,25 +109,7 @@ async function pixels(path) {
   verifyPicturePixels(receipt);
   return { receipt, bytes: await readFile(raw) };
 }
-function compare(actual, expected, limit, interior = false) {
-  let maximum = 0,
-    sum = 0,
-    count = 0;
-  for (let y = 0; y < height; y++)
-    for (let x = 0; x < width; x++) {
-      // Codec comparisons exclude 2px around authored patch boundaries, where 4:2:0 mixes unlike colors.
-      if (interior && (x % 16 < 2 || x % 16 > 13 || y % 16 < 2 || y % 16 > 13)) continue;
-      for (let c = 0; c < 4; c++) {
-        const at = (y * width + x) * 4 + c,
-          error = Math.abs(actual[at] - expected[at]);
-        maximum = Math.max(maximum, error);
-        sum += error;
-        count++;
-      }
-    }
-  assert.ok(maximum <= limit, `RGBA maximum ${maximum} exceeds ${limit}`);
-  return { maximum, mae: sum / count, samples: count, limit, interior };
-}
+
 const report = {
   recipe: "W3C separable blend/source-over; premultiplied linear-sRGB operands, encoded sRGB PNG",
   os: (await run("sw_vers", [])).stdout,
@@ -239,6 +223,9 @@ for (const scenario of [
     profile: "h264-rec709",
     maxLongEdge: width,
   };
+  const originalHashes = await Promise.all(
+    bindings.map(async ({ path }) => hash(await readFile(path))),
+  );
   const receipt = call("media.renderCompositionFrame", frameRequest);
   const actual = await pixels(receipt.file);
   const row = {
@@ -248,7 +235,7 @@ for (const scenario of [
     frameRequest,
     receipt,
     observation: actual.receipt,
-    frame: compare(actual.bytes, expected, 2),
+    frame: compareBlendRaster(actual.bytes, expected, { width, height, limit: 2 }),
     artifacts: {},
   };
   for (const file of [
@@ -271,6 +258,24 @@ for (const scenario of [
     settings: resolveOutputSettings({ preset: "sharp" }),
   };
   const movie = call("media.renderCompositionVideo", movieRequest);
+  assert.deepEqual(
+    await Promise.all(bindings.map(async ({ path }) => hash(await readFile(path)))),
+    originalHashes,
+    "Native frame/movie operations preserve original operands",
+  );
+  const supportRequest = join(directory, "movie-support-request.json");
+  await writeFile(
+    supportRequest,
+    JSON.stringify({
+      file: movie.file,
+      points: [
+        { numerator: 0, denominator: 1 },
+        { numerator: 100000, denominator: 1 },
+      ],
+    }),
+  );
+  row.support = JSON.parse((await run(supportReader, [supportRequest], { timeout: 60000 })).stdout);
+  verifyBlendMovieSupport(row.support);
   row.artifacts["candidate.mp4"] = hash(await readFile(movie.file));
   row.artifacts["frames.jsonl"] = hash(await readFile(records));
   const decoded = join(directory, "movie-frames");
@@ -289,8 +294,18 @@ for (const scenario of [
     row.movie.reads.push({
       read,
       observation: sample.receipt,
-      arithmetic: compare(sample.bytes, expected, 8, !vignette),
-      frameParity: compare(sample.bytes, actual.bytes, 8, !vignette),
+      arithmetic: compareBlendRaster(sample.bytes, expected, {
+        width,
+        height,
+        limit: 8,
+        interior: !vignette,
+      }),
+      frameParity: compareBlendRaster(sample.bytes, actual.bytes, {
+        width,
+        height,
+        limit: 8,
+        interior: !vignette,
+      }),
     });
   }
   report.cases.push(row);
