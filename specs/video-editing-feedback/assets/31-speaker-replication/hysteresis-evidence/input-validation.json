@@ -1,0 +1,8 @@
+{
+  "shortPCMsha256": "d5b47fcc546370ebf65b395d6ae7d2c5f5e9ebc3e3529c6550b89b82ea3bd759",
+  "longPCMsha256": "147d2e7008361647c2f4b0824d754b6159f783c94e12f7f39dc2e1e2f853d59b",
+  "shortPCMBytes": 1920000,
+  "longPCMBytes": 38400000,
+  "repetitionCount": 20,
+  "everyRepetitionExactlyMatchesShortPCM": true
+}
