@@ -1,0 +1,81 @@
+{
+  "schema": "face-localization-failure-audit-v1",
+  "evidence": {
+    "nativeEvidenceSha256": "2b721288aba5eac0582c8878343fb496168f319617b03c7a57a69b344c960860",
+    "gatesSha256": "48038db6feef214f74d1b20961abddf7789a9fe4a6b70f22464c0dfbe5a16d77",
+    "workerSha256": "1d2980d63cce3e420528551a0b639af5f2aef84478457dbdbbc5edcf4b230161",
+    "scope": "Every one of the retained 72 source frames per host at 640x360; independent source-image face zones are frozen before Vision inference. Coverage is sampled-frame coverage, never interpolation or named identity."
+  },
+  "failure": {
+    "host": "graham",
+    "failedFrameCount": 27,
+    "failedOrdinals": [
+      44,
+      45,
+      47,
+      48,
+      49,
+      50,
+      51,
+      52,
+      53,
+      54,
+      55,
+      56,
+      57,
+      58,
+      59,
+      60,
+      61,
+      62,
+      63,
+      64,
+      65,
+      66,
+      67,
+      68,
+      69,
+      70,
+      71
+    ],
+    "contiguousRanges": [
+      [
+        44,
+        45
+      ],
+      [
+        47,
+        71
+      ]
+    ],
+    "iou": {
+      "minimum": 0.32805929352396973,
+      "maximum": 0.49199874490116097,
+      "mean": 0.38365325658563154
+    },
+    "detectorConfidence": {
+      "minimum": 0.7843687534332275,
+      "maximum": 0.8852634429931641,
+      "mean": 0.8286938314084653
+    },
+    "boxAreaRatioToAuthoredZone": {
+      "minimum": 0.32805929352396973,
+      "maximum": 0.5203952901597981,
+      "mean": 0.4343889200386257
+    },
+    "centerInsideAuthoredZone": true
+  },
+  "comparison": {
+    "passingFrameIoU": {
+      "minimum": 0.5048359966358285,
+      "maximum": 0.8084076433121019,
+      "mean": 0.716095423184623
+    },
+    "allCentersInsideAuthoredZones": true
+  },
+  "interpretation": "The failure is a localized box-size/visibility mismatch: the detector center stays inside the authored face zone while the box contracts during the Graham hand/pose interval. Confidence remains high, so confidence thresholding or track association cannot repair it. Do not widen boxes, lower the IoU gate, or certify full-face localization. A future correction must independently recover the complete visible/head region and replay this same frozen oracle.",
+  "nativeReplay": {
+    "landmarkAwareWorkerObserved": "core",
+    "landmarkAwareWorkerMeaning": "Vision returned all core landmark groups for the contracted rectangle; this does not establish complete-head coverage and does not change the frozen result."
+  }
+}

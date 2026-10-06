@@ -39,6 +39,15 @@ landmarks from a complete head region; it must preserve this failure if Vision
 cannot support the requested localization. Scores are evidence, never quality
 or permission to frame automatically.
 
+The exact failure audit is retained in [failure-audit.json](failure-audit.json).
+It records the two failed ranges (44–45 and 47–71), IoU 0.328–0.492, confidence
+0.784–0.885, and the fact that every failed center remains inside the authored
+zone. A fresh landmark-aware worker replay returned `core` landmark groups for
+the contracted rectangles; that is useful quality evidence but does not recover
+the hidden head area or change the frozen verdict. Confidence thresholding,
+association, box widening and a relaxed IoU gate are therefore rejected as
+corrections.
+
 A previous scratch metadata control was counter-rotated in the wrong direction;
 its upside-down raster is retained in [failed-controls.json](failed-controls.json).
 The corrected control is byte-identical to its upright input. Initial integer-us

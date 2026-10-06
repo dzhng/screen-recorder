@@ -1765,6 +1765,25 @@ Apple cube candidate are in the slice26 evidence; no user-only decision remains.
   and core tests pass, while the media-aware native worker receipt still needs a
   prepared full runtime.
 
+## Preserve the contracted-box failure as a bounded face-quality audit — slice15
+
+- **When:** a fresh Graham-only replay used the landmark-aware Vision worker against
+  the frozen 72-frame corpus.
+- **The choice:** retain a machine-readable audit showing the 27 failed ordinals,
+  contiguous ranges, IoU/confidence bands, and center containment. Keep the full-face
+  gate red even though Vision returns core landmark groups for the contracted boxes.
+- **The gap:** the existing receipt showed that the rectangle shrank but did not
+  quantify why confidence thresholding, tracking, or landmark presence could not
+  repair the mismatch.
+- **The reach:** dependent framing work has an explicit refusal boundary and a
+  reproducible reason to reject box widening, relaxed overlap, or automatic head
+  completion. A future detector change must replay the same frozen oracle and prove
+  complete-region recovery before this gate changes.
+- **Verdict:** sound scoped evidence; no product correction is justified by the
+  current native Vision path.
+- **Confidence:** high for the retained arithmetic and replay identity; low for any
+  future detector that might recover hidden head area.
+
 
 ## Use the authored rectangle for whip coverage — slice28
 
