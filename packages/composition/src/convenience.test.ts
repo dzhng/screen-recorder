@@ -674,6 +674,60 @@ test("angle declaration refuses synchronization evidence without an accepted sou
     ],
   }], { assets, namespace: "angle-evidence-refused" }),
   ).toThrow(/accepted synchronization evidence/);
+
+  expect(() => applyBatch(setup.document, [{
+    operation: "angle.declare", sessionId: "session-duplicate", originClipId: setup.labels.a!,
+    evidence: {
+      id: "sync-evidence", generation: "g1", status: "accepted", method: "mixed-reference",
+      fingerprint: "sha256:duplicate-source", sources: [
+        { assetId: "camera-a", streamId: "video" }, { assetId: "camera-a", streamId: "video" },
+      ],
+    },
+    members: [
+      { clipId: setup.labels.a!, offsetUs: 0, validRange: { startUs: 0, endUs: 1000000 } },
+      { clipId: setup.labels.b!, offsetUs: 0, validRange: { startUs: 0, endUs: 1000000 } },
+    ],
+  }], { assets, namespace: "angle-evidence-duplicate" }),
+  ).toThrow(/repeats a source/);
+});
+
+test("angle declarations require video streams", () => {
+  const assets = ["a", "b"].map((id) => ({
+    id: `microphone-${id}`,
+    streams: [{
+      id: "audio", kind: "audio" as const, sampleRate: 48000, channels: 1,
+      bounds: { startUs: 0, endUs: 1000000 },
+      available: [{ startUs: 0, endUs: 1000000 }],
+    }],
+  }));
+  const setup = applyBatch(empty, [
+    { operation: "track.add", track: { kind: "audio", order: 0 }, label: "a-track" },
+    { operation: "track.add", track: { kind: "audio", order: 1 }, label: "b-track" },
+    ...assets.map((asset) => ({
+      operation: "place" as const,
+      label: asset.id,
+      clip: {
+        assetId: asset.id,
+        streamId: "audio",
+        trackId: { label: `${asset.id === "microphone-a" ? "a" : "b"}-track` },
+        source: { kind: "range" as const, range: { startUs: 0, endUs: 1000000 } },
+        placement: { kind: "project" as const, range: { startUs: 0, endUs: 1000000 } },
+      },
+    })),
+  ], { assets, namespace: "audio-angle" });
+  expect(() => applyBatch(setup.document, [{
+    operation: "angle.declare",
+    sessionId: "audio-session",
+    originClipId: setup.labels["microphone-a"]!,
+    evidence: {
+      id: "audio-evidence", generation: "g1", status: "accepted", method: "waveform",
+      fingerprint: "sha256:audio-angle", sources: assets.map((asset) => ({ assetId: asset.id, streamId: "audio" })),
+    },
+    members: assets.map((asset) => ({
+      clipId: setup.labels[asset.id]!, offsetUs: 0,
+      validRange: { startUs: 0, endUs: 1000000 },
+    })),
+  }], { assets, namespace: "audio-angle-declare" })).toThrow(/video stream/);
 });
 
 test("ordinary placements replay a three-angle switch without automatic selection", () => {

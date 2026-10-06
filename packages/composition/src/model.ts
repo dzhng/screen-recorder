@@ -416,6 +416,8 @@ export function resolveComposition(
     for (const member of group.members) {
       const clip = resolved.get(member.clipId)!;
       if (!isMediaClip(clip.clip)) invalid(`Angle member has no media source: ${member.clipId}`);
+      if (clip.stream?.kind !== "video")
+        invalid(`Angle member requires a video stream: ${member.clipId}`);
       if (clip.clip.assetId !== member.assetId || clip.clip.streamId !== member.streamId)
         invalid(`Angle member source does not match clip: ${member.clipId}`);
       const valid = exact(member.validRange);
