@@ -1,10 +1,10 @@
 # 25 — Add explicit tonal and color controls
 
-Status: partial —25A delivered tonal recovery matches independent chart/real-wall references; scoped code and final visual review are pending.25B explicit hue/split-tone/curve response remains open through the existing immutable LUT owner. Depends on: [13](13-decode-replication.md), [14](14-picture-statistics.md).
+Status: complete for the frozen acceptance envelope — 25A tonal recovery and 25B caller-authored split-tone/LUT response both pass independent public/native receipts with region masks. General movie fidelity and aesthetic matching remain outside this scoped contract. Depends on: [13](13-decode-replication.md), [14](14-picture-statistics.md).
 
 ## Contract
 
-Caller-selected bounded shadows/highlights controls can shape source footage without crushing a face to darken its wall. The existing exposure/contrast/saturation/neutral controls remain one ordered correction step; split tone and curve research remain open.
+Caller-selected bounded shadows/highlights controls can shape source footage without crushing a face to darken its wall. The existing exposure/contrast/saturation/neutral controls remain one ordered correction step; caller-authored split-tone and curve responses use the existing immutable LUT owner.
 
 ## Seam and ownership
 
@@ -30,7 +30,7 @@ reversed highlight convention in the existing native owner. Its
 [frozen evidence](../assets/25-tone-controls/README.md) separates lossless response,
 matched movie encoding and historical former-control parity.25B uses26's explicit
 immutable LUT contract for caller-authored curves and hue/split-tone, with a
-separate frozen numerical/color reference; representation alone does not close it. A native LUT probe in [25B evidence](../assets/25-tone-controls/split-tone/README.md) matches its analytic response within one code value, but public CLI/MCP delivery and neutral/color masks remain open.
+separate frozen numerical/color reference. The retained [25B public receipt](../assets/25-tone-controls/split-tone/public/README.md) drives CLI/MCP import, authoring and native delivery; its independent chart matches within one code value and retains neutral, shadow-color and highlight-neutral masks.
 
 Chart/real-wall before/after scopes and reference-conditioned grade frames.
 
@@ -46,7 +46,7 @@ Variable A: tonal distribution, face/wall masks. Variable B after A: hue/split t
 
 Run [compare-screenshots](../../../.agents/skills/compare-screenshots/SKILL.md) on matched before/reference/candidate shots with the stated masks and numeric interpretation. Inspect motion temporally when a still cannot establish the claim. Run an unprimed [screenshot-critique](../../../.agents/skills/screenshot-critique/SKILL.md) as the **last visual acceptance check**. Show useful output with [preview-shots](../../../.agents/skills/preview-shots/SKILL.md); never request human QA or wait for approval. Record critique, coverage and any residual uncertainty.
 
-Composition schema/native parameter coverage is green; a spike passes with a frozen accepted recipe/reference, or records a failed verdict and reslices dependent work. Reference-conditioned picture evidence and native visual acceptance remain open. An unavailable stub or undocumented fallback is not implementation completion.
+Composition schema/native parameter coverage and the frozen public/native receipts are green for this envelope. The accepted proof covers the declared chart, masks, codec and LUT recipe; arbitrary reference-conditioned movie fidelity remains a separate future slice. An unavailable stub or undocumented fallback is not implementation completion.
 
 ## Delegated choices
 

@@ -36,7 +36,7 @@ media owner; its nine negative and boundary controls are retained under
 open, so do not mark slice 01 complete from the control receipt alone.
 
 Priority order: 20 global synchronization remains refused on the frozen unlike-mic
-evidence; 15/16 face/framing and 25 tone remain partial; 27–30 now have public
+evidence; 15/16 face/framing remain partial; 27–30 now have public
 transition, moving-coverage and bounded-blur delivery receipts but broader visual
 parity remains open; 31/32 project-level continuity and attribution are the next
 feasibility gate; 33/34 finish media-aware workflows and fresh-agent replay.
@@ -101,7 +101,7 @@ Numbering is a review order; actual prerequisites live in the slice headers.
 - [x] [22 — Native typography and caption styling](slices/22-styled-text.md)
 - [x] [23 — Timed word highlighting and entrance motion](slices/23-timed-word-captions.md)
 - [x] [24 — Explicit blend semantics](slices/24-blend-modes.md)
-- [ ] [25 — Tone and color controls](slices/25-tone-controls.md)
+- [x] [25 — Tone and color controls](slices/25-tone-controls.md)
 - [x] [26 — Immutable imported LUTs](slices/26-immutable-luts.md)
 - [ ] [27 — Crossfade, dip and flash recipes](slices/27-basic-transitions.md)
 - [ ] [28 — Whip/zoom trajectory and coverage](slices/28-whip-zoom-trajectory.md)
