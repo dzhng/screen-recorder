@@ -133,3 +133,9 @@ table maps import/replay, helper provenance, transcription, inconsistent replies
 speech checking, reference interpretation, geometry, audio, exports, QA coverage and
 reproduction to the slices above. Retained excerpts are selected evidence, not a
 claim to have replayed every tool call or viewed the historical final videos.
+
+Speech timing checkpoint [07](assets/07-speech-timing/README.md) now preserves
+raw overlapping and instant observations. Its paired bounded source/derivative
+receipts certify the two overlap corpus inputs without implying independent
+lexical truth or whole-corpus completion. Root integration rebuilt the affected
+package owners and passed 68 reader/seed/project checks plus 27 consumer checks.

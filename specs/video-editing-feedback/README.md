@@ -23,16 +23,17 @@ exact tiny historical PCM16 retention, full-frame picture/multicam/speaker input
 and remaining independent controls are pending. Do not infer ASR fidelity from
 PCM equality or transcribe whole originals to locate known cases.
 
-Parallel priority: integrate [07 — honest speech timing](slices/07-speech-timing-admission.md)
-and [04 — bounded waiting](slices/04-wait-and-json-delivery.md), then begin
-[08 — bounded preparation](slices/08-bounded-speech-preparation.md).
+Parallel priority: integrate [04 — bounded waiting](slices/04-wait-and-json-delivery.md);
+[08 — bounded preparation](slices/08-bounded-speech-preparation.md) is active
+on the integrated honest speech timing contract.
 [31 — speaker replication](slices/31-speaker-continuity-replication.md) recovered
 the original runtime and passed three-speaker continuity controls. Four-speaker
 overlap fails under both original and official low-latency recipes; a separately
 pinned alternate is under bounded investigation. Preserve the red gate.
 
 Completed checkpoints: [02](assets/02-capability-first-skill/README.md),
-[03](assets/03-published-work/README.md) and [06](assets/06-exact-removal/README.md). Parakeet is verified in isolated scratch
+[03](assets/03-published-work/README.md), [06](assets/06-exact-removal/README.md)
+and [07](assets/07-speech-timing/README.md). Parakeet is verified in isolated scratch
 state. Prepare/download pinned models for first-class Yap features as needed by
 default; recommend missing external capabilities only when the brief warrants
 them. Ordinary inference remains offline.
@@ -55,7 +56,7 @@ Numbering is a review order; actual prerequisites live in the slice headers.
 - [ ] [04 — Bounded wait and ordinary JSON/artifact delivery](slices/04-wait-and-json-delivery.md)
 - [ ] [05 — Atomic replacement of owned exports](slices/05-atomic-export-replacement.md)
 - [x] [06 — Exact rational remove ranges](slices/06-exact-removal.md)
-- [ ] [07 — Honest overlapping/instant speech observations](slices/07-speech-timing-admission.md)
+- [x] [07 — Honest overlapping/instant speech observations](slices/07-speech-timing-admission.md)
 - [ ] [08 — Explicit bounded transcript preparation](slices/08-bounded-speech-preparation.md)
 - [ ] [09 — Local alignment feasibility and frozen reference](slices/09-alignment-replication.md)
 - [ ] [10 — Alignment and acoustic boundary evidence](slices/10-alignment-and-boundaries.md)
