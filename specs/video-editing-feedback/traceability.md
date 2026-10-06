@@ -46,7 +46,7 @@ specific claim needed for this item.
 | E18 | Vertical text alignment missing; current gap | [22](slices/22-styled-text.md) | Rendered glyph bounds match explicit top/middle/bottom alignment, including multi-line/oversize text. |
 | E19 | Compressor makeup fixed at unity; current gap | [19](slices/19-dialogue-matching.md) | Explicit makeup changes prepared output through the existing compressor recipe and meter, with bypass identity. |
 | E20 | Labels batch-local; intended behavior, useful error | [02](slices/02-capability-first-skill.md), [33](slices/33-editing-references.md) | Examples consume returned real IDs in later revisions. Keep label scope/error clear; no persistent label alias system. |
-| E21 | Face boxes, tracks and subject reframe requested; current gap and priority | [15](slices/15-face-observations.md), [16](slices/16-subject-reframe.md) | All boxes, oriented coordinates, temporal gaps/ambiguity and explicit subject selection; no largest-face default or unauthorized crop. |
+| E21 | Face boxes, tracks and subject reframe requested; current gap and priority | [15](slices/15-face-observations.md), [16](slices/16-subject-reframe.md) | All boxes, oriented coordinates, temporal gaps/ambiguity and explicit subject selection; landmark groups and core/partial/unavailable quality evidence now flow through tracks; partial quality is surfaced by framing, with no largest-face default, detector-box expansion or unauthorized crop. |
 | E22 | Dialogue loudness matching requires manual measurement/gains; convenience gap | [19](slices/19-dialogue-matching.md), [33](slices/33-editing-references.md) | Pinned per-clip measured gain proposals, short/unmeasurable cases and explicit application before full mix/master. |
 | E23 | Atomic owned replacement verified05; foreign overwrite remains explicit | [05](slices/05-atomic-export-replacement.md) | Atomic replacement of unchanged owned destination; foreign/modified needs explicit overwrite; failure preserves previous good file and replay intent. |
 | E24 | Shared raw camera clock undeclared; linked clip sync groups are different | [21](slices/21-synced-angles.md) | Session/angle declarations retain rational offsets, support and explicit evidence; ordinary placements switch aligned cameras. |
@@ -241,7 +241,10 @@ out of scope.
 
 Slice15 evidence: `@yap/core/face-tracking` associates adjacent retained Vision rows by bounded
 box overlap, preserves explicit no-face gaps, and marks close competing candidates ambiguous.
-It never assigns person identity or interpolates across an error/reset. Native delivery covers all216 exact retained source samples plus moving/multi-face/edge/oriented/occluded controls. The frozen full-face overlap gate remains red for27 Graham hand/pose frames; continuous association cannot certify it. Slice16 delivered contain perimeters, explicit conflicts, pinned hold curves and public split/repeat/retime are verified separately; see the feature-owned evidence.
+It never assigns person identity or interpolates across an error/reset. Native delivery now
+also carries the Vision landmark groups actually returned for each rectangle, while the
+planner surfaces partial/unavailable coverage as a framing violation without widening a
+box. Native delivery covers all216 exact retained source samples plus moving/multi-face/edge/oriented/occluded controls. The frozen full-face overlap gate remains red for27 Graham hand/pose frames; continuous association or landmark coverage cannot certify it. Slice16 delivered contain perimeters, explicit conflicts, pinned hold curves and public split/repeat/retime are verified separately; see the feature-owned evidence.
 
 Slice28/29 checkpoint evidence: explicit video transition recipes now lower zoom trajectories and
 overscanned directional whip trajectories into the existing geometry processor. Whip travel is

@@ -16,11 +16,18 @@ export type FaceTrackSample =
       faceId: string;
       boundingBox: FaceObservations["faces"][number]["boundingBox"];
       confidence: number;
+      landmarkCoverage?: FaceObservations["faces"][number]["landmarkCoverage"];
+      landmarkGroups?: FaceObservations["faces"][number]["landmarkGroups"];
     }
   | { atUs: number; status: "gap"; reason: string };
 export type FaceTrack = { id: string; samples: FaceTrackSample[]; ambiguous: boolean };
 
 type Box = FaceObservations["faces"][number]["boundingBox"];
+function landmarkEvidence(face: FaceObservations["faces"][number]) {
+  return face.landmarkCoverage === undefined
+    ? {}
+    : { landmarkCoverage: face.landmarkCoverage, landmarkGroups: face.landmarkGroups };
+}
 function iou(a: Box, b: Box) {
   const left = Math.max(a.x, b.x),
     top = Math.max(a.y, b.y);
@@ -86,6 +93,7 @@ export function trackFaceObservations(
         faceId: chosen.face.id,
         boundingBox: chosen.face.boundingBox,
         confidence: chosen.face.confidence,
+        ...landmarkEvidence(chosen.face),
       };
       next.push({ track: active.track, box: chosen.face.boundingBox, observedAtUs: sample.atUs });
     }
@@ -105,6 +113,7 @@ export function trackFaceObservations(
         faceId: face.id,
         boundingBox: face.boundingBox,
         confidence: face.confidence,
+        ...landmarkEvidence(face),
       });
       tracks.push(track);
       next.push({ track, box: face.boundingBox, observedAtUs: sample.atUs });

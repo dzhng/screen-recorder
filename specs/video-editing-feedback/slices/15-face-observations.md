@@ -1,6 +1,6 @@
 # 15 — Detect and track subjects explicitly
 
-Status: partial — complete native sampled-window delivery, planted controls and retained association are verified; the frozen full-face localization gate fails27 Graham occlusion/pose frames and remains open. Depends on: [14](14-picture-statistics.md).
+Status: partial — complete native sampled-window delivery, planted controls, retained association and landmark-coverage evidence are verified; the frozen full-face localization gate fails27 Graham occlusion/pose frames and remains open. Depends on: [14](14-picture-statistics.md).
 
 ## Contract
 
@@ -22,6 +22,13 @@ These are current discovery pointers, not a claim every listed module must chang
 ## Scope and frozen decisions
 
 Return all faces and detector/OS recipe, top-left oriented coordinates, native scores and no-face/error state. Tracking retains sample times, association/occlusion gaps and scene resets. `trackFaceObservations` owns bounded adjacent-frame association from retained Vision rows; it preserves no-face gaps, marks close competing matches ambiguous, and never assigns a name or interpolates a box across an error/reset. First freeze single-frame localization, then temporal association as separate acceptance artifacts. Never silently select largest face or interpolate across unknown intervals.
+
+Each face may also carry the landmark groups Vision actually returned and a
+`core`/`partial`/`unavailable` coverage state. This is a bounded quality signal,
+separate from detector confidence: `core` means the required landmark groups were
+observed, not that a complete head silhouette was recovered. A missing or partial
+landmark result therefore remains visible to callers and cannot silently widen a
+rectangle or authorize a crop.
 
 Retain the accepted observation generation used to author a reframe. Replay renders
 the saved explicit geometry; it never reruns Vision and substitutes new boxes as

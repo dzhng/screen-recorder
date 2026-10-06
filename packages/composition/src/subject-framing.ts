@@ -6,11 +6,27 @@ const coordinate = z.number().finite();
 const boxSchema = z
   .object({ x: coordinate, y: coordinate, width: dimension, height: dimension })
   .strict();
+const landmarkGroupSchema = z.enum([
+  "face_contour",
+  "left_eye",
+  "right_eye",
+  "left_eyebrow",
+  "right_eyebrow",
+  "nose",
+  "nose_crest",
+  "median_line",
+  "outer_lips",
+  "inner_lips",
+  "left_pupil",
+  "right_pupil",
+]);
 const faceSchema = z
   .object({
     id: z.string().min(1),
     boundingBox: boxSchema,
     confidence: z.number().finite().min(0).max(1).optional(),
+    landmarkCoverage: z.enum(["core", "partial", "unavailable"]).optional(),
+    landmarkGroups: z.array(landmarkGroupSchema).max(12).optional(),
   })
   .strict();
 const domainSchema = z.object({ width: dimension, height: dimension }).strict();
@@ -44,7 +60,9 @@ export type SubjectFramingViolation =
   | "zoom_floor"
   | "source_bounds"
   | "margins_unreachable"
-  | "target_unreachable";
+  | "target_unreachable"
+  | "subject_landmarks_partial"
+  | "subject_landmarks_unavailable";
 export type SubjectFramingPlan = {
   status: "ready" | "refused";
   geometry: Geometry | null;
@@ -81,6 +99,13 @@ export function planSubjectFraming(input: SubjectFramingRequest): SubjectFraming
   if (!inBounds)
     return { status: "refused", geometry: null, zoom: null, violations: ["subject_out_of_bounds"] };
 
+  const qualityViolation =
+    matches[0]!.landmarkCoverage === "partial"
+      ? "subject_landmarks_partial"
+      : matches[0]!.landmarkCoverage === "unavailable"
+        ? "subject_landmarks_unavailable"
+        : null;
+
   if (request.preservation === "contain") {
     const scale = Math.min(
       request.canvas.width / request.source.width,
@@ -92,7 +117,7 @@ export function planSubjectFraming(input: SubjectFramingRequest): SubjectFraming
       x: request.target.x * request.canvas.width,
       y: request.target.y * request.canvas.height,
     };
-    const violations: SubjectFramingViolation[] = [];
+    const violations: SubjectFramingViolation[] = qualityViolation ? [qualityViolation] : [];
     if (scale > request.zoom.max) violations.push("zoom_cap");
     if (scale < request.zoom.min) violations.push("zoom_floor");
     const desiredOffset = {
@@ -141,7 +166,7 @@ export function planSubjectFraming(input: SubjectFramingRequest): SubjectFraming
     request.canvas.width / request.source.width,
     request.canvas.height / request.source.height,
   );
-  const violations: SubjectFramingViolation[] = [];
+  const violations: SubjectFramingViolation[] = qualityViolation ? [qualityViolation] : [];
   if (requestedZoom > request.zoom.max) violations.push("zoom_cap");
   if (requestedZoom < request.zoom.min) violations.push("zoom_floor");
   const zoom = clamp(Math.max(requestedZoom, sourceZoom), request.zoom.min, request.zoom.max);

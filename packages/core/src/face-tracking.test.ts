@@ -30,6 +30,31 @@ test("face tracks preserve movement and explicit no-face gaps", () => {
   ]);
 });
 
+test("face tracks retain landmark quality evidence for the selected observation", () => {
+  const base = observation([{ x: 10, y: 10, width: 20, height: 20 }]);
+  const tracks = trackFaceObservations([
+    {
+      atUs: 0,
+      observations: {
+        ...base,
+        faces: [
+          {
+            ...base.faces[0]!,
+            landmarkCoverage: "partial" as const,
+            landmarkGroups: ["face_contour", "nose"] as const,
+          },
+        ],
+      },
+    },
+  ]);
+
+  expect(tracks[0]!.samples[0]).toMatchObject({
+    status: "observed",
+    landmarkCoverage: "partial",
+    landmarkGroups: ["face_contour", "nose"],
+  });
+});
+
 test("ambiguous adjacent candidates are retained as ambiguity instead of silently selecting identity", () => {
   const tracks = trackFaceObservations([
     { atUs: 0, observations: observation([{ x: 10, y: 10, width: 20, height: 20 }]) },

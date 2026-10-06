@@ -32,3 +32,32 @@ test("face states refuse contradictory boxes", () => {
     }).success,
   ).toBe(false);
 });
+
+test("face observations retain landmark coverage evidence separately from detector confidence", () => {
+  const result = faceObservationsSchema.safeParse({
+    recipe: "vision-face-rectangles-v1",
+    implementationId: "vision-face-rectangles-v1:revision-3:fixture-OS",
+    coordinateSpace: "delivered-top-left-pixels",
+    width: 100,
+    height: 80,
+    status: "available",
+    faces: [
+      {
+        id: "face-0",
+        boundingBox: { x: 10, y: 20, width: 30, height: 40 },
+        confidence: 0.99,
+        landmarkCoverage: "partial",
+        landmarkGroups: ["face_contour", "nose", "outer_lips"],
+      },
+    ],
+  });
+
+  expect(result.success).toBe(true);
+  if (result.success) {
+    expect(result.data.faces[0]).toMatchObject({
+      confidence: 0.99,
+      landmarkCoverage: "partial",
+      landmarkGroups: ["face_contour", "nose", "outer_lips"],
+    });
+  }
+});

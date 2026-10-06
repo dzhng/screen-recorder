@@ -5,6 +5,11 @@ Vision rectangle and confidence, the actual Vision revision/macOS implementation
 and explicit no-face/error states. It does not establish a person's name, a
 complete head silhouette, an edit target or permission to crop.
 
+Every native face row also retains the landmark groups returned for that exact
+rectangle and a `core`, `partial` or `unavailable` coverage state. The state is
+quality evidence only: detector confidence is not promoted into a complete-face
+claim, and no group is inferred when the landmark request fails.
+
 [The checkpoint](../../../../packages/test-harness/editing/subject-observations.mjs)
 owns invocation and selected inputs. [Frozen gates](gates.json) were authored from
 source images before inference. [Native evidence](native-evidence.json) retains

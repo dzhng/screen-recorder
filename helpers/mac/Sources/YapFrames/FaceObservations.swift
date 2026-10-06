@@ -19,6 +19,11 @@ public struct FaceObservations: Encodable {
         let id: String
         let boundingBox: Box
         let confidence: Double
+        // Landmark coverage is quality evidence for the caller. `core` means the
+        // detector returned the core landmark groups; it is not a complete-head
+        // guarantee and must not authorize an automatic crop by itself.
+        let landmarkCoverage: String
+        let landmarkGroups: [String]
     }
     struct Box: Encodable {
         let x: Int
@@ -43,7 +48,7 @@ public struct FaceObservations: Encodable {
         }
         let handler = VNImageRequestHandler(cgImage: image, orientation: .up, options: [:])
         let request = VNDetectFaceRectanglesRequest()
-        let implementationId = "vision-face-rectangles-v1:revision-\(request.revision):"
+        var implementationId = "vision-face-rectangles-v1:revision-\(request.revision):"
             + ProcessInfo.processInfo.operatingSystemVersionString
         func result(status: String, faces: [Face], reason: String?) -> Self {
             Self(implementationId: implementationId, width: width, height: height,
@@ -64,6 +69,52 @@ public struct FaceObservations: Encodable {
                 return result(status: "error", faces: [], reason: "invalid_face_confidence")
             }
         }
+
+        // Run landmarks against the exact rectangles we are publishing. A
+        // landmark failure leaves rectangle evidence available and marks its
+        // quality as unavailable; it never expands a detector box to make the
+        // frozen full-face oracle pass.
+        let landmarkRequest = VNDetectFaceLandmarksRequest()
+        landmarkRequest.inputFaceObservations = results
+        var landmarkResults: [VNFaceObservation] = []
+        if (try? handler.perform([landmarkRequest])) != nil {
+            landmarkResults = landmarkRequest.results ?? []
+        }
+        implementationId += ":landmarks-revision-\(landmarkRequest.revision)"
+        func overlap(_ a: CGRect, _ b: CGRect) -> CGFloat {
+            let intersection = a.intersection(b)
+            guard !intersection.isNull, intersection.width > 0, intersection.height > 0 else { return 0 }
+            let area = a.width * a.height + b.width * b.height - intersection.width * intersection.height
+            return area > 0 ? (intersection.width * intersection.height) / area : 0
+        }
+        func coverage(for rectangle: VNFaceObservation) -> (String, [String]) {
+            guard let landmarks = landmarkResults.max(by: {
+                overlap($0.boundingBox, rectangle.boundingBox) < overlap($1.boundingBox, rectangle.boundingBox)
+            }), overlap(landmarks.boundingBox, rectangle.boundingBox) >= 0.5,
+            let face = landmarks.landmarks else {
+                return ("unavailable", [])
+            }
+            let groups: [(String, VNFaceLandmarkRegion2D?)] = [
+                ("face_contour", face.faceContour),
+                ("left_eye", face.leftEye),
+                ("right_eye", face.rightEye),
+                ("left_eyebrow", face.leftEyebrow),
+                ("right_eyebrow", face.rightEyebrow),
+                ("nose", face.nose),
+                ("nose_crest", face.noseCrest),
+                ("median_line", face.medianLine),
+                ("outer_lips", face.outerLips),
+                ("inner_lips", face.innerLips),
+                ("left_pupil", face.leftPupil),
+                ("right_pupil", face.rightPupil),
+            ].compactMap { name, region in
+                guard let region, region.pointCount > 0 else { return nil }
+                return (name, region)
+            }
+            let names = groups.map(\.0)
+            let core = ["face_contour", "left_eye", "right_eye", "nose", "outer_lips"].allSatisfy(names.contains)
+            return (core ? "core" : (names.isEmpty ? "unavailable" : "partial"), names)
+        }
         let faces: [Face] = results.sorted {
             if $0.boundingBox.minX != $1.boundingBox.minX { return $0.boundingBox.minX < $1.boundingBox.minX }
             return $0.boundingBox.minY > $1.boundingBox.minY
@@ -74,7 +125,8 @@ public struct FaceObservations: Encodable {
             let right = max(x, min(width, Int((box.maxX * Double(width)).rounded(.up))))
             let bottom = max(y, min(height, Int(((1 - box.minY) * Double(height)).rounded(.up))))
             guard right > x, bottom > y else { return nil }
-            return Face(id: "face-\(index)", boundingBox: Box(x: x, y: y, width: right - x, height: bottom - y), confidence: Double(observation.confidence))
+            let landmark = coverage(for: observation)
+            return Face(id: "face-\(index)", boundingBox: Box(x: x, y: y, width: right - x, height: bottom - y), confidence: Double(observation.confidence), landmarkCoverage: landmark.0, landmarkGroups: landmark.1)
         }
         return result(status: faces.isEmpty ? "no_face" : "available", faces: faces, reason: faces.isEmpty ? "no_face" : nil)
     }

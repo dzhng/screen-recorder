@@ -33,6 +33,31 @@ test("plans a bounded crop that places the selected face at the requested target
   });
 });
 
+test("surfaces partial landmark coverage before offering subject framing", () => {
+  const result = planSubjectFraming({
+    source: { width: 1920, height: 1080 },
+    canvas: { width: 1080, height: 1080 },
+    faces: [
+      {
+        id: "speaker",
+        boundingBox: { x: 700, y: 300, width: 200, height: 300 },
+        confidence: 0.99,
+        landmarkCoverage: "partial",
+        landmarkGroups: ["face_contour", "nose"],
+      },
+    ],
+    subjectId: "speaker",
+    target: { x: 0.5, y: 0.5 },
+    margins: { x: 120, y: 120 },
+    zoom: { min: 1, max: 3 },
+    preservation: "crop",
+  });
+
+  expect(result.status).toBe("refused");
+  expect(result.violations).toContain("subject_landmarks_partial");
+  expect(result.geometry?.crop).toEqual({ x: 530, y: 180, width: 540, height: 540 });
+});
+
 test("reports a zoom-cap violation instead of silently exceeding the caller bound", () => {
   const result = planSubjectFraming({
     source: { width: 1920, height: 1080 },

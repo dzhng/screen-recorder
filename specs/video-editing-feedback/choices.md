@@ -1741,6 +1741,30 @@ Apple cube candidate are in the slice26 evidence; no user-only decision remains.
 - **Confidence:** medium; focused core/protocol checks pass, while the full public
   media workflow is still open.
 
+## Carry landmark coverage into framing without widening detector boxes — slice15/16
+
+- **When:** the frozen full-face localization gate stayed red because Vision's
+  rectangle remained high-confidence while Graham's hand and pose hid part of the
+  face.
+- **The choice:** Run Vision landmarks against the exact published rectangles,
+  retain the groups actually returned with `core`, `partial` or `unavailable`
+  coverage, and carry that evidence through face tracks. Subject framing keeps its
+  caller-authored geometry proposal but adds a quality violation for partial or
+  unavailable coverage.
+- **The gap:** Detector confidence and continuous association did not tell a caller
+  whether the selected rectangle had enough visible landmarks for a quality-aware
+  reframe. Expanding the rectangle or lowering the gate would have hidden the
+  observed failure and changed the frozen oracle.
+- **The reach:** Consumers can distinguish detector presence from landmark quality
+  without a second face identity owner or an automatic crop. The full-face gate
+  remains red until an independently verified recipe supports it; no named identity
+  or complete-head claim is made.
+- **Verdict:** sound for bounded quality evidence and refusal reporting; native
+  full-face localization and broader visual acceptance remain open.
+- **Confidence:** medium; Swift target compilation and focused protocol, composition
+  and core tests pass, while the media-aware native worker receipt still needs a
+  prepared full runtime.
+
 
 ## Use the authored rectangle for whip coverage — slice28
 

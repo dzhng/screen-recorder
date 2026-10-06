@@ -6,6 +6,11 @@ Vision, applies an edit or claims an impossible request succeeded. The caller
 owns the target, margins, zoom bounds, preservation policy and whether a refused
 proposal should be inspected or applied.
 
+When retained face evidence reports partial or unavailable landmark coverage, the
+planner keeps the explicit geometry proposal but adds a corresponding framing
+violation. This preserves a useful preview while preventing quality uncertainty
+from being mistaken for a successful automatic reframe.
+
 [The public checkpoint](../../../../packages/test-harness/editing/subject-observations.mjs)
 reuses the frozen source observations and existing CLI/MCP lifetime owner.
 [Delivered evidence](delivery-evidence.json) retains every explicit request,

@@ -48,8 +48,11 @@ face detection or universal exposure targets.
 [Face observations](FaceObservations.swift) run Vision on that same delivered,
 upright CGImage when explicitly requested. They return every detected box in
 top-left pixel coordinates, preserve no-face and detector-error states, and
-carry no person identity or largest-face selection. This is evidence for the
-caller; it never changes composition or framing.
+carry the landmark groups actually returned for each box as separate
+`core`/`partial`/`unavailable` quality evidence. Landmark coverage does not claim
+a complete head silhouette, and it carries no person identity or largest-face
+selection. This is evidence for the caller; it never changes composition or
+framing.
 
 Native text retains its literal UTF-16 and imported font identity. Glyph-path
 bounds own vertical placement; decorations retain separate bounds and clipping.
