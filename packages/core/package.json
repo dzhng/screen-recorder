@@ -288,6 +288,7 @@
   },
   "dependencies": {
     "@yap/composition": "workspace:*",
-    "zod": "4.6.5"
+    "zod": "4.6.5",
+    "@yap/protocol": "workspace:*"
   }
 }

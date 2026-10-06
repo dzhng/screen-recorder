@@ -573,7 +573,7 @@ export function projectFrameRenderer(
     ...capabilities,
     ...(pointers ? { pointers: pointers.preparation } : {}),
     render: async (request, signal) => {
-      const { window, assets, fonts, output, maxLongEdge } = request;
+      const { window, assets, fonts, output, maxLongEdge, observations } = request;
       const pictureRecipe = picturePayload(window, capabilities);
       return withRenderedFile(
         worker,
@@ -595,6 +595,7 @@ export function projectFrameRenderer(
                 assets,
                 fonts,
                 maxLongEdge,
+                ...(observations === undefined ? {} : { observations }),
               },
               { signal },
             ),

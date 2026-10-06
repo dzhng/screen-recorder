@@ -54,6 +54,9 @@ export async function materializeSourceIndex(
       ...(identity.acquisitionId === undefined ? {} : { acquisitionId: identity.acquisitionId }),
       atUs: request.requestedSourceUs,
       maxLongEdge: identity.maxLongEdge,
+      ...(identity.observationRequest === undefined
+        ? {}
+        : { observations: identity.observationRequest }),
     };
     const status = await waitForIndexFrame(
       () => frames.request(input),

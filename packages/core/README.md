@@ -121,3 +121,12 @@ sources. Aggregate [storage observations](src/storage.ts) measure managed files;
 shared media does not have an invented per-project byte share. Models and external
 donors have separate ownership, and shutdown joins observations before closing
 the catalog.
+
+[Frame inspection](src/frame-inspection.ts) retains optional picture measurements
+beside its existing source sample or compiled revision identity. Requested masks
+and thresholds participate in the frame and index recipes, so plain pixels cannot
+stand in for measured evidence and another rectangle cannot reuse its receipt.
+The [pure public observation contract](../protocol/src/picture.ts) admits masks,
+coverage and histogram operands; native still owns their computation on the
+inspected raster. Index retention copies the complete evidence with its PNG and
+proves only the sampled picture, never intervening visibility or a quality grade.

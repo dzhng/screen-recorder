@@ -12,6 +12,7 @@ public enum SourceFrameRenderer {
         public let output: String
         let maxLongEdge: Int?
         let maxEncodedBytes: Int?
+        let observations: PictureObservationRequest?
     }
     public struct Sample: Encodable {
         let value: String
@@ -35,6 +36,7 @@ public enum SourceFrameRenderer {
         let decodedSamples: Int
         let readerOpens = 1
         let bytes: Int
+        let observations: PictureObservations?
     }
 
     public static func write(_ request: Request) async throws -> Result {
@@ -65,8 +67,9 @@ public enum SourceFrameRenderer {
         }
         let actualUs = try ExactTime(stamp).subtract(request.asset.originUs).sample(1_000_000, nearest: true)
         let image = try FrameImage(buffer: buffer, transform: source.transform, maxLongEdge: edge)
-        let bytes = try image.publishPNG(to: output,
-            context: CIContext(options: [.cacheIntermediates: false]), maxEncodedBytes: limit)
+        let published = try image.publishPNG(to: output,
+            context: CIContext(options: [.cacheIntermediates: false]), maxEncodedBytes: limit,
+            observations: request.observations)
         return Result(file: request.output, assetId: request.asset.assetId,
             streamId: request.asset.streamId, requestedSourceUs: request.atUs,
             actualSourceUs: actualUs,
@@ -74,6 +77,7 @@ public enum SourceFrameRenderer {
                 endValue: String(selected.end.value), endTimescale: selected.end.timescale,
                 originUs: request.asset.originUs),
             width: image.width, height: image.height, sourceWidth: source.width,
-            sourceHeight: source.height, decodedSamples: source.decodedCount, bytes: bytes)
+            sourceHeight: source.height, decodedSamples: source.decodedCount,
+            bytes: published.bytes, observations: published.observations)
     }
 }

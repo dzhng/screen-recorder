@@ -11,6 +11,7 @@ import {
   processingTapSchema,
 } from "@yap/composition";
 import { z } from "zod";
+import { pictureObservationRequestSchema } from "./picture.js";
 import { captureSelectionSchema } from "./capture.js";
 import { DEFAULT_CALL_TIMEOUT_MS, MEDIA_WORKER_TIMEOUT_MS } from "./framing.js";
 
@@ -154,6 +155,7 @@ const projectFrameParams = project
     revisionId: id.optional(),
     atUs: time,
     maxLongEdge: maxLongEdge,
+    observations: pictureObservationRequestSchema.optional(),
     tap: processingTapSchema.optional(),
   })
   .strict();
@@ -161,12 +163,16 @@ const sourceFrameParams = sourceSelection
   .extend({
     atUs: time,
     maxLongEdge: maxLongEdge,
+    observations: pictureObservationRequestSchema.optional(),
   })
   .strict();
 const frameParams = z.union([
   projectFrameParams,
   sourceFrameParams,
-  sourceSelection.omit({ acquisitionId: true }).extend({ maxLongEdge: maxLongEdge }).strict(),
+  sourceSelection
+    .omit({ acquisitionId: true })
+    .extend({ maxLongEdge: maxLongEdge, observations: pictureObservationRequestSchema.optional() })
+    .strict(),
 ]);
 
 const audioRange = range.refine(({ startUs, endUs }) => endUs > startUs, {
@@ -214,7 +220,10 @@ const spectrogramParams = z.union([
 ]);
 
 const projectIndexParams = projectFrameParams.omit({ atUs: true });
-const projectIndexReference = projectIndexParams.required().extend({ generation: id });
+const projectIndexReference = projectIndexParams
+  .required()
+  .partial({ observations: true })
+  .extend({ generation: id });
 const paged = <T extends z.ZodRawShape, S extends z.ZodRawShape, C extends z.ZodRawShape>(
   target: z.ZodObject<T>,
   fields: S,
@@ -575,7 +584,10 @@ export const operationSchema = z.discriminatedUnion("operation", [
         }),
         paged(
           sourceSelection,
-          { limit: z.int().min(1).max(200).default(50) },
+          {
+            limit: z.int().min(1).max(200).default(50),
+            observations: pictureObservationRequestSchema.optional(),
+          },
           {
             generation: id,
             afterOrdinal: z.int().nonnegative(),
@@ -585,12 +597,15 @@ export const operationSchema = z.discriminatedUnion("operation", [
     })
     .strict()
     .describe(
-      "Request a retained screenshot index for a project or selected asset video stream. Projects select the whole revision and an optional video tap, defaulting to processed output; maxLongEdge controls picture size. Source selectors use assetId/streamId and optional acquisitionId. Scene preparation precedes index preparation. Returns readiness until complete, then paged metadata with selection reasons and stable frame references. An empty index may be ready. Project coverage marks only delivered frame visibility as sampled; intervening ranges remain unproven. Continue with the returned cursor to pin identity; use index.frame or index.frames for image bytes.",
+      "Request a retained screenshot index for a project or selected asset video stream. Projects select the whole revision and an optional video tap, defaulting to processed output; maxLongEdge controls picture size. Source selectors use assetId/streamId and optional acquisitionId. Scene preparation precedes index preparation. Returns readiness until complete, then paged metadata with selection reasons and stable frame references. An empty index may be ready. Project coverage marks only delivered frame visibility as sampled; intervening ranges remain unproven. Continue with the returned cursor to pin identity; use index.frame or index.frames for image bytes. Optional observations participates in index identity and retains the sampled frame measurements; it does not prove intervening pixels.",
     ),
   z
     .object({
       operation: z.literal("index.retry"),
-      params: z.union([projectIndexParams, sourceSelection]),
+      params: z.union([
+        projectIndexParams,
+        sourceSelection.extend({ observations: pictureObservationRequestSchema.optional() }),
+      ]),
     })
     .strict()
     .describe(
@@ -812,7 +827,7 @@ export const operationSchema = z.discriminatedUnion("operation", [
     })
     .strict()
     .describe(
-      "Request one to eight ordered frames pinned to one revision. Each item retains its own readiness/error; duplicates reuse work. Poll the returned revision and retry individual failures with frame.retry.",
+      "Request one to eight ordered frames pinned to one revision. Each item retains its own readiness/error; duplicates reuse work. Poll the returned revision and retry individual failures with frame.retry. Optional observations measures the same delivered upright raster; rectangles use delivered top-left pixels and metrics include only fully opaque pixels.",
     ),
   z
     .object({
@@ -914,7 +929,7 @@ export const operationSchema = z.discriminatedUnion("operation", [
     })
     .strict()
     .describe(
-      "Request a raw PNG/JPEG image with assetId, streamId and optional maxLongEdge; omit atUs and acquisitionId for images. The delivered PNG is upright; its receipt retains source orientation and has no sample clock. Request a selected video source picture with assetId, streamId, optional acquisitionId and source-clock atUs. Physical gaps return unavailable without a synthetic image. Or request a project picture at atUs with optional revisionId, maxLongEdge and video processing tap. Its global sample time can precede the requested time; the receipt separates compiled timing from actual decoded source samples. Project stills use the movie compositor and do not add capture pointer overlays. Pin the returned revision when polling.",
+      "Request a raw PNG/JPEG image with assetId, streamId and optional maxLongEdge; omit atUs and acquisitionId for images. The delivered PNG is upright; its receipt retains source orientation and has no sample clock. Request a selected video source picture with assetId, streamId, optional acquisitionId and source-clock atUs. Physical gaps return unavailable without a synthetic image. Or request a project picture at atUs with optional revisionId, maxLongEdge and video processing tap. Its global sample time can precede the requested time; the receipt separates compiled timing from actual decoded source samples. Project stills use the movie compositor and do not add capture pointer overlays. Pin the returned revision when polling. Optional observations:{} returns full/explicit-region encoded-sRGB luma and RGB histograms, endpoint fractions, alpha/clipping coverage and measured dark-edge candidates. Rectangles address delivered upright top-left pixels; candidates and caller region labels never establish letterboxing, face detection or an automatic grade.",
     ),
   z
     .object({ operation: z.literal("frame.retry"), params: frameParams })

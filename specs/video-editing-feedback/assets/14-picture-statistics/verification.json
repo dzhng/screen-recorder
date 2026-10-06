@@ -1,0 +1,49 @@
+{
+  "passed": true,
+  "scope": "13 demanded source/project PNGs plus 4 index PNG deliveries, all full/explicit-region histograms and premultiplied RGBA hashes exact after independent decode; read-only plain PNG identity. Not HDR, all-frame, native face segmentation or an editorial grade.",
+  "publicRunner": "packages/test-harness/editing/picture-observations.mjs --help",
+  "public": [
+    "CLI output delivery",
+    "MCP readiness and complete results",
+    "one-row source/project index continuations",
+    "index.frame CLI PNG delivery"
+  ],
+  "redGreen": [
+    {
+      "gate": "native authored picture tracer",
+      "red": "Requested observations must be returned from the delivered picture",
+      "green": "native-clean.log PASS chart/masks/alpha/dark/border/rotation/unchanged/refusal"
+    },
+    {
+      "gate": "public frame cache/receipt",
+      "red": "frame.batch observations refused before implementation",
+      "green": "service tracer normalizes defaults and retains distinct measured derivative"
+    },
+    {
+      "gate": "production compiled-picture adapter",
+      "red": "Picture measurements differ from their requested masks or delivered raster; adapter dropped requested observations",
+      "green": "public-native-green.report passed"
+    },
+    {
+      "gate": "retained index request",
+      "red": "plain frame accepted under measured index recipe",
+      "green": "rejects INVALID_RESPONSE"
+    },
+    {
+      "gate": "native receipt operand admission",
+      "red": "falsified conservation callback expected true to be false",
+      "green": "restored parser refuses malformed histogram/coverage/region/edge/ICC without throwing"
+    }
+  ],
+  "focusedChecks": {
+    "core": "80 tests / 7 affected files, including portable index retention",
+    "service": "9 tests / frame batch and compiled renderer",
+    "protocol": "2 picture receipt tests",
+    "types": "core, protocol, service, CLI pass",
+    "native": "YapFrameTests --picture-observations passed; default suite includes tracer"
+  },
+  "workerSha256": "0387e46bc4fdbd6504bcd1f44efebf7b201aec268aa588d1f0b6ce6f2bffb3f8",
+  "acceptedReportSha256": "1f22a347be8a2a8ae88b90a5c610b8c39f27675389da9289876e2ffe755ebfac",
+  "visualReview": "visual-review.md (fresh scoped review; corrected border description; includes 4 index deliveries)",
+  "codeReview": "code-review.md (2 P2 findings fixed: aggregate region area cap and edge histogram conservation)"
+}
