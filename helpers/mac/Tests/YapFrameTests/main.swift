@@ -32,6 +32,11 @@ if CommandLine.arguments.contains("--sdr-correction") {
     finish()
 }
 
+if CommandLine.arguments.contains("--composition-identity") {
+    try await verifyCompositionPNG(in: images)
+    finish()
+}
+
 if CommandLine.arguments.contains("--source-authority") {
     try await verifySourceAuthority(in: images)
     finish()

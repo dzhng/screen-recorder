@@ -6,6 +6,16 @@ import YapMedia
 @testable import YapFrames
 
 func verifySDRCorrection(in directory: URL) async throws {
+  let missingTone: [String: Any] = [
+    "kind": "sdr-correction", "exposureEV": 0, "contrast": 1, "saturation": 1,
+    "neutralKelvin": 6500, "neutralTint": 0,
+  ]
+  let incomplete = try JSONDecoder().decode(CompositionPictureExecutor.Frame.Operation.self,
+    from: JSONSerialization.data(withJSONObject: missingTone))
+  do {
+    _ = try incomplete.correction()
+    preconditionFailure("Incomplete correction must not acquire implicit tone defaults")
+  } catch let error as NativeFailure { precondition(error.code == "INVALID_REQUEST") }
   let linear = CGColorSpace(name: CGColorSpace.extendedLinearSRGB)!
   let context = CIContext(options: [
     .workingColorSpace: linear, .workingFormat: CIFormat.RGBAh.rawValue,

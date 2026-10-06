@@ -65,13 +65,14 @@ public final class CompositionPictureExecutor {
             let exposureEV: Double?
             let contrast: Double?
             let saturation: Double?
-            let shadows: Double
-            let highlights: Double
+            let shadows: Double?
+            let highlights: Double?
             let neutralKelvin: Double?
             let neutralTint: Double?
             let mode: String?
             func correction() throws -> SDRCorrection.Parameters {
-                guard let exposureEV, let contrast, let saturation, let neutralKelvin, let neutralTint else {
+                guard let exposureEV, let contrast, let saturation, let shadows, let highlights,
+                    let neutralKelvin, let neutralTint else {
                     throw NativeFailure("INVALID_REQUEST", "Missing SDR correction parameters.")
                 }
                 return SDRCorrection.Parameters(
