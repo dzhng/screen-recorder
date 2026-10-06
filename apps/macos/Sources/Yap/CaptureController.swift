@@ -1,4 +1,5 @@
 import AppKit
+import AVFoundation
 import ScreenCaptureKit
 import YapCapture
 
@@ -34,11 +35,14 @@ final class CaptureController {
     private let startHold: FixtureStartHold?
     private weak var host: ServiceHost?
     var updateProgress: (() -> Void)?
+    /// Latest camera frame from the one capture session, delivered on its writer queue.
+    nonisolated(unsafe) var onCameraFrame: (@Sendable (NativeCapture.CameraPreviewFrame) -> Void)?
 
     init(fixtureWindow: NSWindow?, capture: NativeCapture = NativeCapture()) {
         self.capture = capture
         self.fixtureWindow = fixtureWindow
         self.startHold = FixtureStartHold.inFixture(fixtureWindow)
+        capture.onCameraFrame = { [weak self] frame in self?.onCameraFrame?(frame) }
         capture.onInterruption = { [weak self] reason in
             guard let self, let interrupted = self.take ?? self.pendingStart else { return }
             let recordingId = interrupted.recordingId
@@ -185,7 +189,7 @@ final class CaptureController {
         let screen = screenAuthorized ? try await screens() : (displays: [], windows: [])
         return [
             "displays": screen.displays, "windows": screen.windows,
-            "cameras": cameras().map { ["id": $0.id, "name": $0.name] },
+            "cameras": cameras().map { ["id": $0.id, "name": $0.name, "isDefault": $0.isDefault] },
             "microphones": microphones().map { ["id": $0.id, "name": $0.name, "isDefault": $0.isDefault] },
         ]
     }

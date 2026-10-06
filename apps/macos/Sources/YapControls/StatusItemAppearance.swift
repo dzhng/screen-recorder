@@ -1,8 +1,7 @@
 import AppKit
 
-/// How the always-visible status-bar item reads. A person who is recording should be able to see
-/// that from the menu bar alone, without opening anything, so the item carries the take's own
-/// elapsed playback time beside a symbol for what the device is doing.
+/// How the always-visible status-bar item reads. Recording details live in the on-screen overlay;
+/// the menu bar stays a compact state icon.
 public enum StatusItemAppearance {
     public static func symbolName(for state: ControlsState) -> String {
         if case .unavailable = state.service { return "exclamationmark.triangle" }
@@ -47,8 +46,4 @@ public enum StatusItemAppearance {
         return image
     }
 
-    /// The text beside the symbol: a live take's clock, and nothing at all when none is running.
-    public static func title(for state: ControlsState) -> String {
-        state.isLive && state.device?.state != .idle ? ElapsedTime.format(state.device?.elapsedUs) : ""
-    }
 }

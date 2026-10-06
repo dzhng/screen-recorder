@@ -39,6 +39,7 @@ func runPreferenceTests() {
 
     let first = launch()
     precondition(first.showSettingsAtLaunch, "Settings opens at launch until a person turns it off")
+    precondition(first.showCameraPreview, "Camera preview is visible by default")
     precondition(
         first.countdown?.remaining == Countdown.defaultSeconds,
         "A start counts down until a person turns that off")
@@ -54,12 +55,14 @@ func runPreferenceTests() {
     first.recording = edited.selection.recordingDefaults
     first.showSettingsAtLaunch = false
     first.countdownBeforeRecording = false
+    first.showCameraPreview = false
 
     let relaunched = launch()
     precondition(!relaunched.showSettingsAtLaunch, "Turning the window off survives a relaunch")
     precondition(
         relaunched.countdown == nil,
         "Turning the countdown off survives a relaunch, and then a start records immediately")
+    precondition(!relaunched.showCameraPreview, "Hiding the camera preview survives a relaunch")
     let restored = ControlsState(recording: relaunched.recording)
     precondition(
         restored.selection.microphone == .device(id: "mic-headset", name: "Studio Headset")

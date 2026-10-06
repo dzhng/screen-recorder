@@ -80,7 +80,10 @@ export async function projectServiceFixture(
   cleanups: (() => Promise<void>)[],
   worker: MediaWorker,
   existingHome?: string,
-  serviceOptions: Pick<Parameters<typeof startProjectService>[0], "control" | "version"> = {},
+  serviceOptions: Pick<
+    Parameters<typeof startProjectService>[0],
+    "control" | "version" | "autoPrepareModels"
+  > = {},
 ) {
   const home = existingHome ?? (await mkdtemp(join(tmpdir(), "asset-service-")));
   if (!existingHome) cleanups.push(() => rm(home, { recursive: true, force: true }));
@@ -88,6 +91,7 @@ export async function projectServiceFixture(
   await writeFile(path, "image bytes");
   const service = await startProjectService({
     ...serviceOptions,
+    autoPrepareModels: false,
     home,
     worker: probeFileFixture(home, worker),
   });

@@ -17,7 +17,9 @@ final class LibraryWindow {
         window.contentView = view
         window.contentMinSize = NSSize(width: 566, height: 280)
         window.collectionBehavior = [.managed, .fullScreenAuxiliary]
-        window.sharingType = .none
+        // Library is an ordinary user-facing window; allow screenshots and screen recording so
+        // bugs can be reported. The preview window remains excluded from capture separately.
+        window.sharingType = .readOnly
         window.center()
     }
 

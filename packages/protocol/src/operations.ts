@@ -756,7 +756,7 @@ export const operationSchema = z.discriminatedUnion("operation", [
     })
     .strict()
     .describe(
-      "Verify the selected registered model locally without network access. Returns absent, preparing with byte progress, ready, invalid, or failed. Readiness awaits bounded asynchronous runtime verification; unrelated requests remain available.",
+      "Verify the selected registered model locally without network access. Returns absent, preparing with byte progress and etaMs, ready, invalid, or failed. While preparing, poll this operation; etaMs is a measured estimate and may be null before enough bytes arrive.",
     ),
   z
     .object({
@@ -988,7 +988,9 @@ export const operationSchema = z.discriminatedUnion("operation", [
   z
     .object({ operation: z.literal("service.health"), params: z.object({}).strict() })
     .strict()
-    .describe("Read local service readiness without starting capture."),
+    .describe(
+      "Read local service readiness without starting capture. Includes every registered model's purpose and readiness; preparing models report receivedBytes, totalBytes and etaMs so an agent can wait without guessing.",
+    ),
   z
     .object({ operation: z.literal("service.tools"), params: z.object({}).strict() })
     .strict()

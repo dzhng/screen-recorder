@@ -4,6 +4,7 @@ dist/
 .build/
 .swiftpm/
 .DS_Store
+.release-signing/
 *.tsbuildinfo
 .claude/worktrees/
 evals/.cache/

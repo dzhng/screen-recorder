@@ -60,6 +60,22 @@ func runAwaitedMicrophoneTests() {
 }
 
 func runSelectionTests() {
+    var defaultCamera = ControlsState()
+    defaultCamera.observeSources(.init(cameras: [
+        .init(id: "external", name: "External"),
+        .init(id: "default", name: "Default camera", isDefault: true),
+    ]))
+    defaultCamera.selectDefaultCameraIfNeeded(enabled: false)
+    precondition(defaultCamera.selection.cameraDeviceId == nil, "Discovery must leave disabled camera capture off")
+    defaultCamera.selectDefaultCameraIfNeeded(enabled: true)
+    precondition(defaultCamera.selection.cameraDeviceId == "default", "Enabling camera capture chooses the native default, not the first device")
+    defaultCamera.selection.cameraDeviceId = "external"
+    defaultCamera.selectDefaultCameraIfNeeded(enabled: true)
+    precondition(defaultCamera.selection.cameraDeviceId == "external", "Refresh preserves a chosen camera identity")
+    precondition(CapturePresentation.cameraIsRequired(cameraOnly: true, selectedCameraIndex: 1) == false,
+                 "A selected camera does not carry a redundant Required label")
+    precondition(CapturePresentation.cameraIsRequired(cameraOnly: true, selectedCameraIndex: 0),
+                 "Camera-only mode keeps guidance while no usable camera is selected")
     let cameraData = Data(#"{"source":{"kind":"camera","deviceId":"selected-camera"},"microphone":false,"systemAudio":false}"#.utf8)
     guard let cameraStart = try? JSONDecoder().decode(ControlsState.CaptureSelection.Start.self, from: cameraData) else {
         preconditionFailure("A primary camera start crosses the shared controls boundary")

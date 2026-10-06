@@ -39,6 +39,7 @@ const pin = (path: string, body: Buffer) => ({
 const manifest: ModelManifest = {
   name: "tiny",
   purpose: "transcription",
+  autoPrepare: true,
   platform: { system: process.platform, architecture: process.arch },
   repo: "test/tiny-coreml",
   revision: "r1",
@@ -130,6 +131,14 @@ test("prepare installs pinned files whole and reports them for the native reques
   ]);
   expect(await staged()).toEqual([]);
   expect((await stat(models)).mode & 0o777).toBe(0o700);
+});
+
+test("startup preparation includes every model opted into the lifecycle catalog", async () => {
+  const { open } = await fixture();
+  const speech = open();
+  const preparing = speech.prepareAuto(new AbortController().signal);
+  await preparing;
+  expect(await speech.status("tiny")).toEqual({ state: "ready" });
 });
 
 test("the runtime pinned beside the model is the one the native worker resolves", async () => {
@@ -287,6 +296,7 @@ test("concurrent prepares join one download", async () => {
   expect(await speech.status("tiny")).toMatchObject({
     state: "preparing",
     totalBytes: manifest.files.reduce((total, file) => total + file.bytes, 0),
+    etaMs: expect.any(Number),
   });
   const second = speech.prepare("tiny", new AbortController().signal);
   held[0]!.end(contents["Model.mlmodelc/weights/weight.bin"]!.subarray(1024));

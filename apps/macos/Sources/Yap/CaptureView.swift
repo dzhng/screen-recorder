@@ -33,6 +33,7 @@ struct CaptureViewInput: Equatable {
     let inputsEnabled: Bool
     let startEnabled: Bool
     let status: String
+    var screenSourcesEnabled = true
     var notices: [String] = []
     var permissionActions: [PresentedControlsAction] = []
     var transport: [PresentedControlsAction] = []
@@ -50,6 +51,8 @@ final class CaptureView: NSView {
     private let appIcon: NSImage?
     let scrollView = NSScrollView()
     private let document = CaptureDocument()
+    private let footer = CaptureDocument()
+    private static let footerHeight: CGFloat = 62
     private var controls: [String: NSControl] = [:]
     private var intents: [ObjectIdentifier: CaptureViewIntent] = [:]
     private var usedControls = Set<String>()
@@ -62,12 +65,16 @@ final class CaptureView: NSView {
         self.appIcon = appIcon
         self.perform = perform
         super.init(frame: .zero)
+        appearance = NSAppearance(named: .darkAqua)
         wantsLayer = true
         scrollView.drawsBackground = false
         scrollView.hasVerticalScroller = true
         scrollView.scrollerStyle = .overlay
+        scrollView.verticalScrollElasticity = .none
         scrollView.documentView = document
         addSubview(scrollView)
+        footer.wantsLayer = true
+        addSubview(footer)
         build()
     }
     required init?(coder: NSCoder) { nil }
@@ -85,35 +92,39 @@ final class CaptureView: NSView {
 
     override func viewDidChangeEffectiveAppearance() {
         super.viewDidChangeEffectiveAppearance()
-        effectiveAppearance.performAsCurrentDrawingAppearance {
-            build()
-        }
+        build()
         document.needsDisplay = true
         for child in document.subviews { child.needsDisplay = true }
     }
 
     override func layout() {
         super.layout()
-        scrollView.frame = bounds.insetBy(dx: 1, dy: 1)
-        document.frame = NSRect(x: 0, y: 0, width: bounds.width - 2, height: contentHeight - 2)
+        let frame = bounds.insetBy(dx: 1, dy: 1)
+        footer.frame = NSRect(x: frame.minX, y: frame.maxY - Self.footerHeight,
+                              width: frame.width, height: Self.footerHeight)
+        scrollView.frame = NSRect(x: frame.minX, y: frame.minY, width: frame.width,
+                                   height: max(1, frame.height - Self.footerHeight))
+        document.frame = NSRect(x: 0, y: 0, width: scrollView.contentView.bounds.width,
+                                height: max(contentHeight - Self.footerHeight - 2, scrollView.contentView.bounds.height))
     }
 
     /// Identifiers address native controls by user-visible purpose, including accessibility/probes.
     func control(identifier: String) -> NSControl? { controls[identifier] }
 
     private func label(_ text: String, _ frame: NSRect, size: CGFloat, weight: NSFont.Weight = .regular,
-                       color: NSColor = .labelColor) {
+                       color: NSColor = .labelColor, host: NSView? = nil) {
         let field = NSTextField(labelWithString: text)
         field.font = .systemFont(ofSize: size, weight: weight)
         field.textColor = color
         field.frame = frame
         field.lineBreakMode = .byTruncatingTail
         field.maximumNumberOfLines = 1
-        document.addSubview(field)
+        (host ?? document).addSubview(field)
     }
 
     private func button(_ title: String, id: String, frame: NSRect, intent: CaptureViewIntent?,
-                        kind: CaptureButton.Kind = .plain, symbol: String? = nil, enabled: Bool = true) {
+                        kind: CaptureButton.Kind = .plain, symbol: String? = nil, enabled: Bool = true,
+                        host: NSView? = nil) {
         usedControls.insert(id)
         let button = controls[id] as? CaptureButton ?? CaptureButton(title: title, kind: kind, symbol: symbol)
         button.configure(title: title, kind: kind, symbol: symbol)
@@ -124,7 +135,8 @@ final class CaptureView: NSView {
         button.identifier = .init(id)
         if case .permission(let role) = kind { button.setAccessibilityLabel("\(role). \(title)") }
         else { button.setAccessibilityLabel(title) }
-        if button.superview !== document { document.addSubview(button, positioned: .above, relativeTo: nil) }
+        let parent = host ?? document
+        if button.superview !== parent { parent.addSubview(button, positioned: .above, relativeTo: nil) }
         controls[id] = button
         intents[ObjectIdentifier(button)] = intent
     }
@@ -163,7 +175,7 @@ final class CaptureView: NSView {
             popup.menu = menu
         }
         if popup.indexOfSelectedItem != selected { popup.selectItem(at: values.indices.contains(selected) ? selected : -1) }
-        popup.isEnabled = input.inputsEnabled && !values.isEmpty
+        popup.isEnabled = input.inputsEnabled && !values.isEmpty && (id != "source.device" || input.screenSourcesEnabled)
         popup.target = self
         popup.action = #selector(selectChoice(_:))
         popup.identifier = .init(id)
@@ -182,27 +194,36 @@ final class CaptureView: NSView {
     }
 
     private func build() {
+        effectiveAppearance.performAsCurrentDrawingAppearance { buildContents() }
+    }
+
+    private func buildContents() {
         usedControls = []
         for child in document.subviews where child.identifier == nil { child.removeFromSuperview() }
+        footer.subviews.forEach { $0.removeFromSuperview() }
         let brand = NSImageView(frame: NSRect(x: 16, y: 14, width: 30, height: 30))
         brand.image = appIcon
         brand.imageScaling = .scaleProportionallyUpOrDown
         brand.setAccessibilityLabel("Yap")
         document.addSubview(brand)
         label("Yap", NSRect(x: 54, y: 20, width: 180, height: 22), size: 16, weight: .semibold)
-        button("Open library", id: "header.library", frame: NSRect(x: 274, y: 16, width: 26, height: 26), intent: .openLibrary, symbol: "play.rectangle.on.rectangle")
-        button("Settings", id: "header.settings", frame: NSRect(x: 310, y: 16, width: 26, height: 26), intent: .controls(.openSettings), symbol: "gearshape")
+        button("Open library", id: "header.library", frame: NSRect(x: 258, y: 12, width: 34, height: 34), intent: .openLibrary, symbol: "play.rectangle.on.rectangle")
+        button("Settings", id: "header.settings", frame: NSRect(x: 307, y: 12, width: 34, height: 34), intent: .controls(.openSettings), symbol: "gearshape")
         label("Record", NSRect(x: 16, y: 58, width: 100, height: 16), size: 11, weight: .medium, color: .secondaryLabelColor)
         let titles = ["Display", "Window", "Area", "Camera"]
         let symbols = ["display", "macwindow", "viewfinder", "video"]
         for (index, source) in CaptureViewInput.Source.allCases.enumerated() {
             button(titles[index], id: "source.\(source.rawValue)",
                 frame: NSRect(x: 16 + CGFloat(index) * 82, y: 80, width: 74, height: 64),
-                intent: .chooseSource(source), kind: .tile(selected: source == input.selectedSource), symbol: symbols[index], enabled: input.inputsEnabled)
+                intent: .chooseSource(source), kind: .tile(selected: source == input.selectedSource), symbol: symbols[index],
+                enabled: input.inputsEnabled && (source == .cameraOnly || input.screenSourcesEnabled))
         }
         var y: CGFloat = 156
         if input.selectedSource != .cameraOnly {
-            popup(input.sourceChoices, selected: input.selectedSourceChoice, id: "source.device", frame: NSRect(x: 22, y: y, width: 306, height: 28))
+            let sourceChoices = input.screenSourcesEnabled ? input.sourceChoices
+                : [.init(title: "Screen Recording access required", intent: .chooseSource(input.selectedSource))]
+            popup(sourceChoices, selected: input.screenSourcesEnabled ? input.selectedSourceChoice : 0,
+                  id: "source.device", frame: NSRect(x: 22, y: y, width: 306, height: 28))
             y += 36
         }
         let microphoneIntent: CaptureViewIntent? = input.microphoneOn ? .controls(.disableMicrophone)
@@ -226,7 +247,7 @@ final class CaptureView: NSView {
                 label(id == "systemAudio" ? "System audio" : "3-second countdown", NSRect(x: 46, y: textY, width: 238, height: 18), size: 12, color: input.inputsEnabled ? .labelColor : .secondaryLabelColor)
             }
             if let subtitle { label(subtitle, NSRect(x: 46, y: y + 25, width: 232, height: 16), size: 10, color: .secondaryLabelColor) }
-            if id == "camera", input.selectedSource == .cameraOnly {
+            if id == "camera", CapturePresentation.cameraIsRequired(cameraOnly: input.selectedSource == .cameraOnly, selectedCameraIndex: input.selectedCamera) {
                 label("Required", NSRect(x: 280, y: centerY - 8, width: 56, height: 16), size: 10, weight: .medium, color: .systemBlue)
             } else {
                 toggle(id == "systemAudio" ? "System audio" : id.capitalized, id: "\(id).toggle", frame: NSRect(x: 296, y: centerY - 9, width: 38, height: 18), intent: intent, on: on, enabled: input.inputsEnabled)
@@ -252,7 +273,7 @@ final class CaptureView: NSView {
                 default: false
                 }
             }) {
-                label("Access required to record", NSRect(x: 24, y: y, width: 292, height: 16), size: 10, color: .secondaryLabelColor)
+                label("Recording permissions", NSRect(x: 24, y: y, width: 292, height: 16), size: 10, color: .secondaryLabelColor)
                 y += 20
             }
             for action in input.permissionActions {
@@ -273,29 +294,35 @@ final class CaptureView: NSView {
             y += 8
         }
         button(input.startTitle == "Start Recording" ? "Start recording" : input.startTitle, id: "capture.start", frame: NSRect(x: 17, y: y, width: 320, height: 36), intent: .controls(.startOrStop), kind: .primary(shortcut: input.startShortcut), enabled: input.startEnabled)
-        y += 44
+        y += 36
         for action in input.transport {
-            button(action.title, id: action.action.id, frame: NSRect(x: 17, y: y, width: 316, height: 28), intent: .controls(action.action), kind: .secondary, enabled: action.enabled)
-            y += 39
+            y += 8
+            button(action.title, id: action.action.id, frame: NSRect(x: 17, y: y, width: 320, height: 28), intent: .controls(action.action), kind: .secondary, enabled: action.enabled)
+            y += 28
         }
-        let rule = NSBox(frame: NSRect(x: 0, y: y, width: 350, height: 1))
+        let footerY = y
+        // Keep the breathing space above status fixed even when content scrolls to its edge.
+        let rule = NSBox(frame: NSRect(x: 0, y: 24, width: 350, height: 1))
         rule.boxType = .separator
-        document.addSubview(rule)
-        let statusDot = NSView(frame: NSRect(x: 17, y: y + 16, width: 5, height: 5))
+        footer.addSubview(rule)
+        let statusDot = NSView(frame: NSRect(x: 17, y: 40, width: 5, height: 5))
         statusDot.wantsLayer = true
         statusDot.layer?.cornerRadius = 2.5
         statusDot.layer?.backgroundColor = (input.startEnabled ? NSColor.systemGreen : NSColor.secondaryLabelColor).cgColor
-        document.addSubview(statusDot)
-        label(input.status, NSRect(x: 28, y: y + 11, width: 247, height: 16), size: 11, color: .secondaryLabelColor)
-        button("Quit", id: "app.quit", frame: NSRect(x: 295, y: y + 8, width: 37, height: 22), intent: .controls(.quit))
+        footer.addSubview(statusDot)
+        label(input.status, NSRect(x: 28, y: 35, width: 247, height: 16), size: 11, color: .secondaryLabelColor, host: footer)
+        button("Quit", id: "app.quit", frame: NSRect(x: 295, y: 32, width: 37, height: 22), intent: .controls(.quit), host: footer)
         for (id, control) in controls where !usedControls.contains(id) {
             control.removeFromSuperview()
             intents.removeValue(forKey: ObjectIdentifier(control))
             choices.removeValue(forKey: ObjectIdentifier(control))
         }
         controls = controls.filter { usedControls.contains($0.key) }
-        contentHeight = y + 37
-        document.frame = NSRect(x: 0, y: 0, width: Self.preferredWidth, height: contentHeight - 2)
+        contentHeight = footerY + Self.footerHeight + 2
+        document.frame = NSRect(x: 0, y: 0, width: Self.preferredWidth,
+                                height: max(1, footerY))
+        footer.frame = NSRect(x: 1, y: max(1, contentHeight - Self.footerHeight),
+                              width: Self.preferredWidth - 2, height: Self.footerHeight)
     }
 
     @objc private func activate(_ sender: NSControl) {
@@ -362,20 +389,17 @@ private final class CaptureButton: NSButton {
         }
         switch kind {
         case .tile(let selected):
+            let selectionColor = isEnabled ? blue : muted
             let path = NSBezierPath(roundedRect: bounds.insetBy(dx: 0.75, dy: 0.75), xRadius: 9, yRadius: 9)
-            (selected ? NSColor.systemBlue.withAlphaComponent(0.12) : captureRaisedColor()).setFill()
+            (selected ? selectionColor.withAlphaComponent(0.12) : captureRaisedColor()).setFill()
             path.fill()
             if selected {
-                blue.withAlphaComponent(0.55).setStroke()
+                selectionColor.withAlphaComponent(0.55).setStroke()
                 path.lineWidth = 1
                 path.stroke()
             }
-            image(NSRect(x: (bounds.width - 18) / 2, y: 11, width: 18, height: 18), color: selected ? blue : muted)
+            image(NSRect(x: (bounds.width - 18) / 2, y: 11, width: 18, height: 18), color: selected ? selectionColor : muted)
             text(title, y: 37, size: 11, weight: .medium, color: isEnabled ? .labelColor : muted)
-            if selected {
-                let attributes: [NSAttributedString.Key: Any] = [.font: NSFont.systemFont(ofSize: 11), .foregroundColor: blue]
-                ("✓" as NSString).draw(at: NSPoint(x: bounds.width - 18, y: 7), withAttributes: attributes)
-            }
         case .primary(let binding):
             (isEnabled ? blue : blue.withAlphaComponent(0.16)).setFill()
             let foreground = isEnabled ? NSColor.white : captureDisabledBlue()

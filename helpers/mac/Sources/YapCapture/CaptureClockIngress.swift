@@ -28,6 +28,7 @@ package final class CaptureClockIngress: NSObject, SCStreamOutput, AVCaptureVide
     private let observations: FileHandle?
     package let observationURL: URL?
     package var captureSessionClock: (@Sendable () -> CMClockOrTimebase?)?
+    package var previewFrame: (@Sendable (NativeCapture.CameraPreviewFrame) -> Void)?
     private let failure: @Sendable (CaptureFailure) -> Void
     private var stopped = false
     private let maximumRows: Int
@@ -91,6 +92,7 @@ package final class CaptureClockIngress: NSObject, SCStreamOutput, AVCaptureVide
             let receipt: CaptureWriter.IngressReceipt
             var frame: CameraFrameMapping?
             if role == .camera {
+                if let image = sample.imageBuffer { previewFrame?(NativeCapture.CameraPreviewFrame(image)) }
                 switch destination {
                 case .companion(let camera):
                     (receipt, frame) = try camera.append(converted, state: writer.ingressState)

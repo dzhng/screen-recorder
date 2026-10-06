@@ -9,17 +9,21 @@ import YapControls
         state.library.recent = [.init(recordingId: "fixture-recording", createdAt: "2026-10-05T19:18:00Z", state: "complete", sourceDurationUs: 154_000_000, interruptionReason: nil)]
         var actions: [ControlsAction] = []
         let view = LibraryView(state: state, exports: ExportsState()) { actions.append($0) }
-        guard let action = view.actionItem(identifier: "recording.delete.fixture-recording") else {
-            preconditionFailure("The recording's explicit delete remains reachable")
+        guard let play = view.control(identifier: "actions.fixture-recording.0") as? NSButton,
+              let copy = view.control(identifier: "actions.fixture-recording.1") as? NSButton else {
+            preconditionFailure("The recording exposes play and copy-agent-prompt buttons")
         }
-        NSApplication.shared.sendAction(action.action!, to: action.target, from: action)
-        precondition(actions == [.deleteRecording("fixture-recording")], "The native Library preserves shared action identity")
+        play.performClick(nil)
+        copy.performClick(nil)
+        precondition(actions == [.playRecording("fixture-recording"), .copyRecordingPrompt("fixture-recording")], "The native Library preserves shared recording actions")
         let denied = LibraryView(state: ControlsState(), exports: ExportsState()) { actions.append($0) }
         denied.update(state: { var locked = state; locked.service = .unavailable("fixture service failure"); return locked }(), exports: ExportsState())
-        let deniedDelete = denied.actionItem(identifier: "recording.delete.fixture-recording")!
-        precondition(!deniedDelete.isEnabled, "Unavailable service keeps native delete inapplicable")
-        NSApplication.shared.sendAction(deniedDelete.action!, to: deniedDelete.target, from: deniedDelete)
-        precondition(actions == [.deleteRecording("fixture-recording")], "Inapplicable Library actions cannot escape")
+        let deniedPlay = denied.control(identifier: "actions.fixture-recording.0") as! NSButton
+        let deniedCopy = denied.control(identifier: "actions.fixture-recording.1") as! NSButton
+        precondition(!deniedPlay.isEnabled && deniedCopy.isEnabled, "Playback needs media service while prompt copying remains local")
+        deniedPlay.performClick(nil)
+        deniedCopy.performClick(nil)
+        precondition(actions == [.playRecording("fixture-recording"), .copyRecordingPrompt("fixture-recording"), .copyRecordingPrompt("fixture-recording")], "Inapplicable playback cannot escape while local copying remains available")
         let output = CommandLine.arguments[1]
         var observations: [[String: Any]] = []
         for (name, facts, deliveries, tab, height) in [
@@ -84,10 +88,7 @@ import YapControls
                 let field = content.control(identifier: "library.filter") as! NSSearchField
                 field.stringValue = "fixture-recording-two"
                 content.controlTextDidChange(Notification(name: NSControl.textDidChangeNotification, object: field))
-                precondition(content.actionItem(identifier: "recording.delete.fixture-recording-one") == nil, "Filter is limited to displayed observations")
-                precondition(content.actionItem(identifier: "recording.delete.fixture-recording-two") != nil)
                 content.clearPageFilter()
-                precondition(content.actionItem(identifier: "recording.delete.fixture-recording-one") != nil, "Explicit page reset clears the presentation filter")
             }
             if name == "exports" {
                 let retry = content.actionItem(identifier: "export.retry.fixture-export")!

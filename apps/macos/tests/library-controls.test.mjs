@@ -114,7 +114,7 @@ import YapControls
 
         var state = ControlsState(); state.service = .ready; state.library = library.state
         let recordingActions = LibraryPresentation.recordings(for: state).items.flatMap(\.actions)
-        precondition(recordingActions.map(\.action) == [.deleteRecording("same")], "Source recordings never advertise composition actions")
+        precondition(recordingActions.map(\.action) == [.playRecording("same"), .copyRecordingPrompt("same")], "Recordings expose playback and agent handoff only")
         let projectActions = LibraryPresentation.projects(for: state, exports: .init()).items.flatMap(\.actions)
         precondition(projectActions.first { $0.action == .previewProject("same") }?.enabled == true)
         precondition(!script.calls.contains { ["processing.status", "index.get"].contains($0.0) })

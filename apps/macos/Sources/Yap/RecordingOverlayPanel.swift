@@ -46,6 +46,8 @@ final class RecordingOverlayPanel {
         }
     }
 
+    func updatePreview(_ image: NSImage?) { model.preview = image }
+
     private func show() {
         guard panel == nil else { return }
         let content = NSHostingView(
@@ -112,6 +114,7 @@ final class RecordingOverlayPanel {
 private final class RecordingOverlayModel: ObservableObject {
     @Published var presentation = RecordingOverlay.Presentation(
         elapsed: "0:00", paused: false, symbol: "record.circle.fill")
+    @Published var preview: NSImage?
 }
 
 /// The controls themselves: a state dot, the take's playback time, and the three transport
@@ -123,37 +126,39 @@ private struct RecordingOverlayView: View {
     private var paused: Bool { model.presentation.paused }
 
     var body: some View {
-        HStack(spacing: 10) {
-            // The mark the menu bar already shows for this state, in the colour a recorder's
-            // running light has. Shape carries the state as well as colour does, so a person who
-            // reads no colour at all still sees which one this is.
-            Image(systemName: model.presentation.symbol)
-                .font(.system(size: 13, weight: .medium))
-                .foregroundStyle(paused ? AnyShapeStyle(.primary) : AnyShapeStyle(Color.red))
-                .frame(width: 15)
-                .accessibilityLabel(paused ? "Paused" : "Recording")
-            // A clock that has stopped says so, rather than leaving the colour of one dot to
-            // carry the whole difference between recording and paused.
-            Text(model.presentation.elapsed)
-                .font(.system(size: 15, weight: .medium))
-                .monospacedDigit()
-                .foregroundStyle(paused ? AnyShapeStyle(.secondary) : AnyShapeStyle(.primary))
-                // Room for an hours field from the start: a take that passes an hour must not
-                // make the row it sits in reflow around it.
-                .frame(minWidth: 78, alignment: .leading)
-                .lineLimit(1)
-                .fixedSize(horizontal: true, vertical: false)
-            Divider().frame(height: 22)
-            // Finishing keeps the take and canceling throws it away, so the two never sit together
-            // as a pair of grey squares: the stop is the recorder's red, the bin is a bin, and the
-            // gap between them says they are not the same kind of ending.
-            HStack(spacing: 2) {
-                button(paused ? "play.fill" : "pause.fill",
-                    paused ? "Resume Recording" : "Pause Recording", .pauseOrResume)
-                button("stop.fill", "Finish Recording", .startOrStop, tint: .red)
+        VStack(spacing: 0) {
+            if let preview = model.preview {
+                Image(nsImage: preview)
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(width: 280, height: 158)
+                    .clipped()
+                    .clipShape(RoundedRectangle(cornerRadius: 10))
+                    .padding(.horizontal, 8)
+                    .padding(.top, 8)
             }
-            Divider().frame(height: 22)
-            button("trash.fill", "Cancel Take", .cancel)
+            HStack(spacing: 10) {
+                Image(systemName: model.presentation.symbol)
+                    .font(.system(size: 13, weight: .medium))
+                    .foregroundStyle(paused ? AnyShapeStyle(.primary) : AnyShapeStyle(Color.red))
+                    .frame(width: 15)
+                    .accessibilityLabel(paused ? "Paused" : "Recording")
+                Text(model.presentation.elapsed)
+                    .font(.system(size: 15, weight: .medium))
+                    .monospacedDigit()
+                    .foregroundStyle(paused ? AnyShapeStyle(.secondary) : AnyShapeStyle(.primary))
+                    .frame(minWidth: 78, alignment: .leading)
+                    .lineLimit(1)
+                    .fixedSize(horizontal: true, vertical: false)
+                Divider().frame(height: 22)
+                HStack(spacing: 2) {
+                    button(paused ? "play.fill" : "pause.fill",
+                        paused ? "Resume Recording" : "Pause Recording", .pauseOrResume)
+                    button("stop.fill", "Finish Recording", .startOrStop, tint: .red)
+                }
+                Divider().frame(height: 22)
+                button("trash.fill", "Cancel Take", .cancel)
+            }
         }
         // A button's tappable box reaches past the mark it draws, so the trailing edge needs less
         // room than the leading one for the two to look the same.

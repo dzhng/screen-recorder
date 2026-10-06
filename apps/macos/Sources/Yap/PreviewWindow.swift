@@ -85,6 +85,55 @@ final class PreviewWindow: NSObject, PreviewPresenting, NSWindowDelegate {
         playerView?.player?.play()
     }
 
+    func playLocalFile(title: String, file: String, mediaType: String) {
+        close()
+        open(title: title, retry: {}, closed: {})
+        play(title: title, file: file, mediaType: mediaType, failed: { _ in })
+    }
+
+    /// A captured take stores picture and microphone narration as separate canonical members.
+    /// AVPlayer accepts an in-memory composition, so the library can preview both without
+    /// manufacturing a derived file or changing the retained source.
+    func playLocalRecording(title: String, video: String, narration: String) {
+        close()
+        open(title: title, retry: {}, closed: {})
+        let picture = AVURLAsset(url: URL(fileURLWithPath: video),
+            options: [AVURLAssetOverrideMIMETypeKey: "video/quicktime"])
+        let voice = AVURLAsset(url: URL(fileURLWithPath: narration),
+            options: [AVURLAssetOverrideMIMETypeKey: "video/quicktime"])
+        let composition = AVMutableComposition()
+        do {
+            guard let pictureTrack = try awaitAssetTrack(picture, mediaType: .video),
+                  let voiceTrack = try awaitAssetTrack(voice, mediaType: .audio) else {
+                throw NSError(domain: "YapPreview", code: 1,
+                    userInfo: [NSLocalizedDescriptionKey: "Recording media has no playable tracks."])
+            }
+            guard let composedPicture = composition.addMutableTrack(withMediaType: .video,
+                preferredTrackID: kCMPersistentTrackID_Invalid),
+                let composedVoice = composition.addMutableTrack(withMediaType: .audio,
+                    preferredTrackID: kCMPersistentTrackID_Invalid) else {
+                throw NSError(domain: "YapPreview", code: 2,
+                    userInfo: [NSLocalizedDescriptionKey: "Could not create preview tracks."])
+            }
+            try composedPicture.insertTimeRange(pictureTrack.timeRange, of: pictureTrack, at: .zero)
+            try composedVoice.insertTimeRange(voiceTrack.timeRange, of: voiceTrack, at: .zero)
+            let item = AVPlayerItem(asset: composition)
+            playerObservation = item.observe(\.status, options: [.new]) { item, _ in
+                guard item.status == .failed else { return }
+            }
+            message?.isHidden = true
+            retry?.isHidden = true
+            playerView?.player = AVPlayer(playerItem: item)
+            playerView?.player?.play()
+        } catch {
+            show(title: title, message: error.localizedDescription, canRetry: false)
+        }
+    }
+
+    private func awaitAssetTrack(_ asset: AVAsset, mediaType: AVMediaType) throws -> AVAssetTrack? {
+        asset.tracks(withMediaType: mediaType).first
+    }
+
     func close() {
         playerObservation = nil
         playerView?.player?.pause()

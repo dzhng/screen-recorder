@@ -100,7 +100,7 @@ private final class RegionPanel: NSPanel {
 
 /// Dims its display, follows the drag, and reports the rectangle the drag selected.
 @MainActor
-private final class RegionSelectionView: NSView {
+final class RegionSelectionView: NSView {
     private let answer: (CGRect?) -> Void
     private var origin: CGPoint?
     private var current: CGPoint?
@@ -129,7 +129,13 @@ private final class RegionSelectionView: NSView {
     override func mouseUp(with event: NSEvent) {
         guard let origin else { return answer(nil) }
         let end = convert(event.locationInWindow, from: nil)
-        answer(RegionGeometry.region(from: origin, to: end, inDisplayOfSize: bounds.size))
+        guard let region = RegionGeometry.region(from: origin, to: end, inDisplayOfSize: bounds.size) else {
+            self.origin = nil
+            current = nil
+            needsDisplay = true
+            return
+        }
+        answer(region)
     }
 
     override func draw(_ dirtyRect: NSRect) {

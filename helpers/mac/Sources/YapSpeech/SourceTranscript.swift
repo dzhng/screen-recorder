@@ -96,12 +96,31 @@ public enum SourceTranscript {
             if samples.count >= ParakeetEngine.minimumSamples {
                 if engine == nil { engine = try await ParakeetEngine.load(models) }
                 let result = try await engine!.transcribe(samples)
-                let words = try WordTimingMerger.mergeTokensIntoWords(result.tokenTimings ?? []).map {
-                    RawWord(
-                        text: $0.word, startSeconds: $0.startTime, endSeconds: $0.endTime,
-                        spokenStartSeconds: $0.spokenStart, spokenEndSeconds: $0.spokenEnd,
-                        confidence: $0.confidence,
-                        source: try sourceSpan(from: $0.spokenStart, to: $0.spokenEnd, in: interval))
+                var words: [RawWord] = []
+                var previousEndUs: Int64?
+                let intervalEndUs = try interval.endUs.sample(1_000_000, nearest: true)
+                for word in WordTimingMerger.mergeTokensIntoWords(result.tokenTimings ?? []) {
+                    var source = try sourceSpan(from: word.spokenStart, to: word.spokenEnd, in: interval)
+                    // Engine timestamps are fractional seconds; adjacent words can round onto
+                    // the same microsecond even after token overlap repair. Keep the public source
+                    // clock half-open and monotonic so ingestion can safely use these ranges for
+                    // cuts and excerpts.
+                    if let previousEndUs, source.startUs < previousEndUs {
+                        source = TimeSpan(startUs: previousEndUs, endUs: max(previousEndUs, source.endUs))
+                    }
+                    if source.endUs <= source.startUs {
+                        let end = source.startUs == intervalEndUs
+                            ? source.startUs
+                            : source.startUs + 1
+                        source = TimeSpan(startUs: source.startUs, endUs: end)
+                    }
+                    guard source.endUs > source.startUs else { continue }
+                    previousEndUs = source.endUs
+                    words.append(
+                        RawWord(
+                            text: word.word, startSeconds: word.startTime, endSeconds: word.endTime,
+                            spokenStartSeconds: word.spokenStart, spokenEndSeconds: word.spokenEnd,
+                            confidence: word.confidence, source: source))
                 }
                 line = RawSegment(
                     ordinal: ordinal, source: interval, state: .transcribed, reason: nil,

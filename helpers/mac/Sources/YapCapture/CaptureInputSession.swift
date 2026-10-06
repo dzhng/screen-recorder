@@ -17,6 +17,7 @@ package protocol CaptureInputSession: AnyObject {
     var width: Int { get }
     var height: Int { get }
     var requestedSourceRect: CGRect? { get }
+    var previewFrame: (@Sendable (NativeCapture.CameraPreviewFrame) -> Void)? { get set }
     func start(writer: CaptureWriter, output: any SCStreamOutput, framesPerSecond: Int?, onFailure: @escaping @Sendable (CaptureFailure) -> Void,
         checkInterruption: @escaping @MainActor () throws -> Void) async throws
     func startCursorSampling(writer: CaptureWriter)
@@ -36,6 +37,7 @@ package final class ScreenCaptureInput: CaptureInputSession {
     package let width: Int
     package let height: Int
     package let requestedSourceRect: CGRect?
+    package var previewFrame: (@Sendable (NativeCapture.CameraPreviewFrame) -> Void)?
     private let request: CaptureRequest
     private let content: SCShareableContent
     private let filter: SCContentFilter
