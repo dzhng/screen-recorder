@@ -4,7 +4,9 @@ Checkpoint A preserves the [accepted09 recipe](../09-local-alignment/README.md)
 through a prepared public runtime. Its checkpoint, literal tokenizer input, CTC
 matrix, frame support and path arithmetic retain the accepted meaning. This is
 provider parity, never lexical truth or physical admission of a word boundary.
-Checkpoint B still owns retained source/project evidence and public operations.
+Checkpoint B owns retained source/project evidence and public operations. Source
+and project-tap lifecycle are implemented; portable project-tap delivery remains
+a separate open gate.
 
 ## Acquisition and relocation
 
@@ -67,6 +69,22 @@ correction and pass afterward. The independent review identified the inherited-m
 defect; its confined corrective review completed with no actionable findings.
 
 ## Retained source evidence
+
+[Public acoustic proof](acoustic-public/verdict.json) checks both frozen intact and
+truncated inputs through CLI and MCP. Every acoustic cell preserves selected PCM,
+sample support, peaks, source-clock bounds and caller-selected classification.
+The final partial cells remain complete. RMS comparisons use a floating-point
+forward-error bound derived from the sum length because independent serial and
+compensated summation round differently. This is not an empirical tolerance.
+The complete [report](acoustic-public/report.json) and original provider operands
+retain the numerical observations. Mutating inclusive threshold equality fails
+on the exact-zero tail; the restored production comparison passes.
+
+The intact tail is quiet and the clipped tail active at the explicit threshold.
+This supports acoustic boundary context, never a phonetic label or permission to
+edit. Word identity remains unknown with no invented assignment confidence. The
+[runner](../../../../packages/test-harness/editing/alignment-acoustics.mjs) owns
+usage and reuses matching retained inference in an isolated prepared scratch home.
 
 [Source evidence parity](source-evidence-parity.json) preserves every possible pair,
 omission, conditional frame estimate and physical refusal for all23 accepted text

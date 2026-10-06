@@ -1,0 +1,46 @@
+{"name":"fortunate-intact","state":"preparing"}
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
++ actual - expected
+
+  {
++   activity: 'quiet',
+-   activity: 'active',
+    endSample: 15216,
+    lexicalIdentity: 'unknown',
+    ordinal: 95,
+    peak: 0,
+    sourceRange: {
+
+    at file:///Users/server/dev/yap-video-editing/packages/test-harness/editing/alignment-acoustics.mjs:129:16
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5) {
+  generatedMessage: true,
+  code: 'ERR_ASSERTION',
+  actual: {
+    ordinal: 95,
+    startSample: 15200,
+    endSample: 15216,
+    peak: 0,
+    sourceRange: { startUs: 950000, endUs: 951000 },
+    activity: 'quiet',
+    thresholdRMS: 0,
+    lexicalIdentity: 'unknown'
+  },
+  expected: {
+    ordinal: 95,
+    startSample: 15200,
+    endSample: 15216,
+    peak: 0,
+    sourceRange: { startUs: 950000, endUs: 951000 },
+    activity: 'active',
+    thresholdRMS: 0,
+    lexicalIdentity: 'unknown'
+  },
+  operator: 'deepStrictEqual',
+  diff: 'simple'
+}
+
+Node.js v24.21.0

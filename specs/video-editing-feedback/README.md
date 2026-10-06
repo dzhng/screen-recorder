@@ -16,13 +16,13 @@ merge, push or installed-app change has been requested. Hard cutover remains
 binding: no aliases, dual readers or migrations; preserve external originals and
 frozen historical evidence.
 
-Current pickup: finish10's public acoustic boundary evidence while independent11
-rendered-speech and26 LUT reviews complete, then integrate their commits.
+Current pickup: integrate reviewed11 rendered-speech and26 LUT commits.10's public
+source acoustic evidence passes; project-tap package continuation remains open.
 The matching native worker includes22's rounded glyph strokes; frame/movie cache
 identities change with that rendering behavior. Generic operations omit tonal fields,
 while an actual correction must supply them.
 
-Priority after integration:10 acoustic boundary verdict →20 lexical synchronization →
+Priority after integration:10 project-tap portability →20 lexical synchronization →
 21 switched-angle delivery;12 contextual joins;15/16 face/framing delivery;23 entrance
 motion;25 reference-conditioned tone;27–29 delivered transitions/trajectory/blur;
 30 delivered scenes;31/32 speaker continuity/attribution;33 runnable workflows →34
@@ -44,7 +44,10 @@ Independent visual/code review is accepted for this declared-codec scope. [20](a
 all nine real waveform comparisons, so lexical anchors remain necessary. [31](assets/31-speaker-replication/README.md)
 still fails ten-minute four-speaker overlap at57.49%, below the unchanged80% gate;
 no long-form provider is promoted.10 retains the accepted NeMo alignment reference
-and verified default runtime acquisition; public acoustic boundaries remain open.
+and verified default runtime acquisition; its public source acoustic cells pass
+exact sample/peak/clock checks and a derived RMS rounding bound. Word identity stays
+unknown; project-tap package continuation remains open. Independent15/16 delivery
+work runs alongside20 lexical research.
 
 Prepare/download pinned first-class Yap models/runtime as needed by default;
 recommend external capabilities only when the brief warrants them. Ordinary

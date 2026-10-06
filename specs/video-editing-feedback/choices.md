@@ -1070,3 +1070,24 @@ choice is embedded in the imported-font coverage.
   and duplicates; disabling the guards fails those tests. Native all-case and
   public multiply consumers pass without editing banked originals.
 - **Confidence:** high.
+
+## Independent RMS arithmetic — slice10 acoustic checkpoint
+
+- **When:** public acoustic boundary verification.
+- **The choice:** Compare rounding error separately from classification. When two
+  programs measure the same short audio cell, one adds squared samples serially
+  and the other compensates for lost low bits. Their RMS values (the square root
+  of average sample energy) can differ in the last few digits. Require the same
+  exact samples, peak and clock bounds, then bound RMS error from the number of
+  additions and double-precision rounding. Classify activity against the retained
+  value and the caller's literal threshold, including equality.
+- **The gap:** The spec required independent acoustic verification without
+  specifying cross-language floating-point comparison. Bit equality would reject
+  correctly rounded measurements; a measured arbitrary tolerance would hide bugs.
+- **The reach:** This is a verification rule, with no product threshold change,
+  lexical label or editing policy. Known zero-energy support still tests exact
+  threshold equality. Matching content-addressed source generations are reused;
+  a new managed home may require one explicit initial preparation.
+- **Verdict:** sound. The bound follows nonnegative summation arithmetic and is
+  independent of observed discrepancies; exact claims remain exact.
+- **Confidence:** high.
