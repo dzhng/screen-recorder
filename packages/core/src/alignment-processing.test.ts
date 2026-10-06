@@ -7,13 +7,13 @@ import { AssetStore } from "./assets.js";
 import { AcquisitionStore } from "./acquisitions.js";
 import { Models, type ModelManifest } from "./models.js";
 import { JobQueue } from "./jobs.js";
-import { SpeakerEvidenceStore, assetSpeakerOwner } from "./speaker-evidence.js";
+import { AlignmentEvidenceStore, assetAlignmentOwner } from "./alignment-evidence.js";
 import {
-  SpeakerProcessing,
-  type SpeakerObserver,
-  type SpeakerProcessingOptions,
-} from "./speaker-processing.js";
-import { nativeOutput, speakerSource } from "./speaker-evidence.fixture.js";
+  AlignmentProcessing,
+  type AlignmentObserver,
+  type AlignmentProcessingOptions,
+} from "./alignment-processing.js";
+import { alignmentOutput, alignmentSource } from "./alignment-evidence.fixture.js";
 
 const cleanup: (() => Promise<void>)[] = [];
 afterEach(async () => {
@@ -21,7 +21,7 @@ afterEach(async () => {
 });
 const hash = (v: string) => createHash("sha256").update(v).digest("hex");
 async function fixture() {
-  const home = await mkdtemp("/tmp/speaker-processing-");
+  const home = await mkdtemp("/tmp/alignment-processing-");
   const catalog = new Catalog(join(home, "catalog.sqlite"));
   const assets = new AssetStore(catalog, home),
     acquisitions = new AcquisitionStore(catalog);
@@ -61,18 +61,18 @@ async function fixture() {
     },
   ];
   const manifest: ModelManifest = {
-    name: "speaker-control",
-    purpose: "speaker",
+    name: "alignment-control",
+    purpose: "alignment",
     modelSourceRequired: true,
     platform: { system: process.platform, architecture: process.arch },
-    repo: "fixture/original30s",
+    repo: "fixture/nemo-auxiliary-ctc110-v1",
     revision: "r1",
     folderName: "model",
     engine: {
       runtime: "control",
       runtimeVersion: "1",
       runtimeRevision: "r1",
-      decoder: "sortformer-original30s",
+      decoder: "nemo-auxiliary-ctc110-v1",
     },
     files: [{ path: "model.nemo", bytes: 16, sha256: hash("controlled model") }],
     runtimeArtifact: {
@@ -86,31 +86,30 @@ async function fixture() {
     throw new Error("network refused");
   }, [manifest]);
   await models.prepare(manifest.name, new AbortController().signal, { runtimeSource, modelSource });
-  const evidence = new SpeakerEvidenceStore(catalog, assetSpeakerOwner(assets, acquisitions));
-  const requests: Parameters<SpeakerObserver>[0][] = [];
+  const evidence = new AlignmentEvidenceStore(catalog, assetAlignmentOwner(assets, acquisitions));
+  const requests: Parameters<AlignmentObserver>[0][] = [];
   const control = { hold: false, deleting: false, fail: false, release: () => {} };
-  const observe: SpeakerObserver = async (request) => {
+  const observe: AlignmentObserver = async (request) => {
     requests.push(request);
     if (control.hold)
       await new Promise<void>((resolve) => {
         control.release = resolve;
       });
-    if (control.fail)
-      return {
-        pcm: speakerSource.pcm,
-        operands: {
-          nativeReceipt: nativeOutput(["0.000 30.001 speaker_0"], request.engine.modelSha256)
-            .nativeReceipt,
-          report: "{}",
-        },
-        failure: new CatalogError("MODEL_CONTRACT_CHANGED", "Native endpoint is outside support"),
-      };
+    const operands = alignmentOutput();
+    for (const field of ["nativeReceipt", "report"] as const) {
+      const parsed = JSON.parse(operands[field]);
+      parsed.modelSha256 = request.engine.modelSha256;
+      operands[field] = JSON.stringify(parsed);
+    }
     return {
-      pcm: speakerSource.pcm,
-      operands: nativeOutput(undefined, request.engine.modelSha256),
+      pcm: alignmentSource.pcm,
+      operands,
+      ...(control.fail
+        ? { failure: new CatalogError("MODEL_CONTRACT_CHANGED", "Controlled failure") }
+        : {}),
     };
   };
-  let processing: SpeakerProcessing;
+  let processing: AlignmentProcessing;
   const jobs = new JobQueue({
     store: catalog,
     providers: { newId: randomUUID },
@@ -126,8 +125,8 @@ async function fixture() {
     },
     execute: (execution) => processing.execute(execution),
   });
-  const decoder = { ...speakerSource.decoder };
-  const options: SpeakerProcessingOptions = {
+  const decoder = { ...alignmentSource.decoder };
+  const options: AlignmentProcessingOptions = {
     assets,
     acquisitions,
     models,
@@ -136,7 +135,7 @@ async function fixture() {
     observe,
     decoder,
   };
-  processing = new SpeakerProcessing(options);
+  processing = new AlignmentProcessing(options);
   cleanup.push(async () => {
     control.release();
     await jobs.close();
@@ -146,9 +145,10 @@ async function fixture() {
   const input = {
     assetId: asset.id,
     streamId: "a1",
-    channel: 1,
-    sourceRange: speakerSource.observationRange,
+    channel: 0,
+    sourceRange: alignmentSource.observationRange,
     modelId: manifest.name,
+    text: alignmentSource.text,
   };
   return {
     processing,
@@ -173,14 +173,13 @@ test("a repeated explicit observation joins the source job and ready reads need 
   const status = f.processing.sourceStatus(f.input);
   const metadata = status.published!.evidence;
   expect(
-    f.evidence.intervalPage({ identity: metadata }).intervals.map((v) => [v.slot, v.identity]),
-  ).toEqual([
-    [0, "unknown"],
-    [1, "unknown"],
-  ]);
+    f.evidence
+      .page(metadata, "words", -1, 100)
+      .rows.map((v) => ("correspondence" in v ? v.correspondence : null)),
+  ).toEqual(["unknown", "unmatched", "unknown", "unknown"]);
   expect(
     f.requests.map((v) => ({ channel: v.selected.channel, range: v.selected.sourceRange })),
-  ).toEqual([{ channel: 1, range: f.input.sourceRange }]);
+  ).toEqual([{ channel: 0, range: f.input.sourceRange }]);
   await rm(join(f.home, "models", f.input.modelId), { recursive: true });
   expect(f.processing.sourceStatus(f.input)).toEqual(status);
 });
@@ -199,47 +198,14 @@ test("cancellation drains a held worker and explicit retry publishes a fresh gen
   expect(() =>
     f.evidence.metadata({
       owner: { kind: "asset", assetId: f.input.assetId },
-      sourceId: f.input.assetId,
       generation: first,
-      policy: "speaker-v1",
+      policy: "alignment-v1",
     }),
   ).toThrow("not ready");
   f.control.hold = false;
   f.jobs.retry(jobId);
   await expect.poll(() => f.processing.sourceStatus(f.input).state).toBe("ready");
   expect(f.processing.sourceStatus(f.input).published!.evidence.generation).not.toBe(first);
-});
-
-test("native refusals retain exact original operands but never expose ready intervals", async () => {
-  const f = await fixture();
-  f.control.fail = true;
-  f.processing.prepareSource(f.input);
-  await expect.poll(() => f.processing.sourceStatus(f.input).state).toBe("failed");
-  const status = f.processing.sourceStatus(f.input),
-    job = f.jobs.job(status.jobId!);
-  const identity = {
-    owner: { kind: "asset" as const, assetId: f.input.assetId },
-    sourceId: f.input.assetId,
-    generation: job.attemptId,
-    policy: "speaker-v1" as const,
-  };
-  const expected = {
-    nativeReceipt: nativeOutput(
-      ["0.000 30.001 speaker_0"],
-      f.models.speaker(f.input.modelId).engine.modelSha256,
-    ).nativeReceipt,
-    report: "{}",
-  };
-  await f.processing.cleanupAsset(f.input.assetId);
-  expect(f.evidence.capturedOperands(identity)).toEqual(expected);
-  expect(job.errorCode).toBe("MODEL_CONTRACT_CHANGED");
-  expect(job.errorDetails).toMatchObject({
-    generation: job.attemptId,
-    nativeReceiptSha256: hash(expected.nativeReceipt),
-    verified: false,
-  });
-  expect(status.published).toBeNull();
-  expect(() => f.evidence.intervalPage({ identity })).toThrow("not ready");
 });
 
 test("retained reads bind the original decoder after native identity replacement", async () => {
@@ -256,7 +222,7 @@ test("retained reads bind the original decoder after native identity replacement
   );
   expect(replacement).toEqual(original);
   expect(f.processing.prepareSource(f.input)).toEqual(original);
-  expect(f.processing.sourceStatus({ ...f.input, channel: 0 }).published).toBeNull();
+  expect(f.processing.sourceStatus({ ...f.input, channel: 1 }).published).toBeNull();
   expect(f.requests.length).toBe(1);
   expect(f.requests[0]!.checkpoint).toBe(join(f.requests[0]!.runtime.model, "model.nemo"));
   await rm(join(f.home, "models", f.input.modelId), { recursive: true });
@@ -270,7 +236,7 @@ test("missing native decoder leaves retained reads ready and new observations un
   const original = f.processing.sourceStatus(f.input);
   f.options.decoder = null;
   const retained = f.processing.sourceStatus(f.input);
-  const unobserved = f.processing.prepareSource({ ...f.input, channel: 0 });
+  const unobserved = f.processing.prepareSource({ ...f.input, channel: 1 });
   await writeFile(
     join(f.home, "absent-decoder-comparison.json"),
     JSON.stringify({ original, retained, unobserved }),
@@ -281,44 +247,5 @@ test("missing native decoder leaves retained reads ready and new observations un
     reason: "native_decoder_unavailable",
     published: null,
   });
-  expect(f.requests.map((v) => v.selected.channel)).toEqual([1]);
-});
-
-test("publication replay preserves the original observation without a runtime or current decoder", async () => {
-  const donor = await fixture();
-  donor.processing.prepareSource(donor.input);
-  await expect.poll(() => donor.processing.sourceStatus(donor.input).state).toBe("ready");
-  const published = donor.processing.sourceStatus(donor.input).published!;
-  const publication = donor.processing.portablePublication(published.evidence)!;
-  const receiver = await fixture();
-  await rm(join(receiver.home, "models", receiver.input.modelId), { recursive: true });
-  receiver.options.decoder = null;
-  const operands = donor.evidence.operands(published.evidence);
-  const identity = {
-    owner: published.evidence.owner,
-    sourceId: published.evidence.sourceId,
-    generation: published.evidence.generation,
-    policy: published.evidence.policy,
-  };
-  const staged = receiver.evidence.stage(identity, published.evidence.source, operands);
-  receiver.catalog.transaction(() => {
-    staged.publish();
-    receiver.processing.adoptPublication(staged.metadata, publication);
-  });
-  await receiver.processing.cleanup(new AbortController().signal);
-  const received = receiver.processing.sourceStatus(receiver.input);
-  await writeFile(
-    join(receiver.home, "publication-replay.json"),
-    JSON.stringify({ published, publication, received, operands }),
-  );
-  expect(received.published).toEqual(published);
-  expect(received.state).toBe("ready");
-  expect(receiver.evidence.operands(received.published!.evidence)).toEqual(operands);
-  expect(receiver.requests).toEqual([]);
-  expect(() =>
-    receiver.processing.adoptPublication(staged.metadata, {
-      ...publication,
-      attemptId: "different",
-    }),
-  ).toThrow("publication differs");
+  expect(f.requests.map((v) => v.selected.channel)).toEqual([0]);
 });

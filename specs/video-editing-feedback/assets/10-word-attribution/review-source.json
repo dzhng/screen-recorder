@@ -1,0 +1,24 @@
+{
+  "scope": "checkpoint B1 source/public lifecycle",
+  "initialReview": {
+    "exitCode": 0,
+    "turnCompleted": true,
+    "verdict": "Not clean. Two confirmed P1 findings:\n\n- **P1 \u2014 stale native operation names:** [helpers/mac/Tests/speaker-pcm-wire.test.mjs:20](/Users/server/dev/yap-word-attribution/helpers/mac/Tests/speaker-pcm-wire.test.mjs:20) still calls removed `media.speakerCapabilities` and `media.sourceSpeakerPCM`. The current wire registers only `media.sourceChannelCapabilities` and `media.sourceChannelPCM`, so this test fails with unknown-operation errors.\n\n- **P1 \u2014 stale bridge fixture contract:** [apps/macos/tests/library-preview-bridge.test.mjs:128](/Users/server/dev/yap-word-attribution/apps/macos/tests/library-preview-bridge.test.mjs:128) rejects the new `media.sourceChannelCapabilities` request, while [line 202](/Users/server/dev/yap-word-attribution/apps/macos/tests/library-preview-bridge.test.mjs:202) still expects `media.speakerCapabilities`. The fixture records a refused startup request and the bridge test fails.\n\nNo tests or builds were run, per constraint.",
+    "disposition": "Both findings confirmed and repaired: native dispatch fixture and app startup bridge now consume shared selected-channel wire. Historical media/metadata archives unchanged."
+  },
+  "focusedEvidence": {
+    "sourceLifecycle": "8 passing evidence/processing cases",
+    "sourcePublic": "4 passing alignment/speaker service cases",
+    "modelsAndSourceChannel": "36 passing Models/source-speakers cases",
+    "cliWait": "Missing wait route mutation red, restored route green",
+    "frozenProviderOutputs": "All23 candidates exactly match retained09 correspondence/status/frame/support operands; zero new inference",
+    "nativeWire": "Old endpoint names fail UNKNOWN_OPERATION; new shared names pass the actual native worker",
+    "appBridge": "Actual current service/native/Swift caller passes; reverting whitelist to speaker-only refuses startup and fails. Restored green passes in3.35s."
+  },
+  "limits": "No full suite, physical device test or new model inference. Actual app bridge is a headless controller check in scratch managed state.",
+  "correctiveReview": {
+    "exitCode": 0,
+    "turnCompleted": true,
+    "verdict": "No actionable findings.\n\nThe replacement native test preserves the recipe, provider-version, and unknown-field rejection assertions while switching to the operations registered in `Wire.swift`. The controller bridge updates both its forwarding allowlist and expected startup requests consistently. Removing the historical worker hash permits the current worker; its fingerprint is still recorded and checked for stability.\n\nEvidence limit: static inspection of the scoped tests, HEAD comparison, and relevant `Wire.swift` dispatch entries only. No tests or builds ran; runtime behavior and supporting controller/PCM implementations were not verified."
+  }
+}

@@ -20,7 +20,7 @@ recipe and physical PCM receipt; it does not invoke a speaker model.
 Its private wire capability binds the recipe and OS provider. Selected PCM uses
 the prepared sample grid; missing support refuses before publication rather than
 padding or changing selected channel meaning. General selected-channel windows
-use the same decoder and receipt; each provider's wire adapter owns its narrower
+use the same decoder and receipt; each provider's core admission owns its narrower
 model window restriction, including the speaker model's complete 30-second span.
 
 Prepared audio retains the shared [media input](../YapMedia/README.md)

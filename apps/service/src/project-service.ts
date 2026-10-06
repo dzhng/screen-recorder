@@ -94,10 +94,15 @@ import { operationFailure } from "./operation-errors.js";
 import { inspectFFmpegTools, type FFmpegInstallation } from "./ffmpeg-tools.js";
 import { audioProcessingRuntime } from "./audio-processing.js";
 import { ffmpegLoudnessAnalyzer } from "./loudness.js";
+import { AlignmentEvidenceStore, assetAlignmentOwner } from "@yap/core/alignment-evidence";
+import { AlignmentProcessing } from "@yap/core/alignment-processing";
+import { SourceAlignmentRead } from "@yap/core/alignment-read";
+import { alignmentObserver } from "./alignment.js";
 import { SpeakerEvidenceStore, assetSpeakerOwner } from "@yap/core/speaker-evidence";
 import { SpeakerProcessing } from "@yap/core/speaker-processing";
 import { SourceSpeakerRead } from "@yap/core/speaker-read";
-import { speakerDecoder, speakerObserver } from "./speaker.js";
+import { speakerObserver } from "./speaker.js";
+import { sourcePCMDecoder } from "./source-channel.js";
 
 export async function startProjectService(options: {
   home: string;
@@ -234,7 +239,11 @@ export async function startProjectService(options: {
       catalog,
       assetSpeakerOwner(assets, acquisitions),
     );
-    const decoder = await speakerDecoder(worker, nativeExecutable, modelLifetime.signal);
+    const alignmentRecords = new AlignmentEvidenceStore(
+      catalog,
+      assetAlignmentOwner(assets, acquisitions),
+    );
+    const decoder = await sourcePCMDecoder(worker, nativeExecutable, modelLifetime.signal);
     modelsOwner = models;
     const transcriptStore = new TranscriptStore(
       catalog,
@@ -308,6 +317,7 @@ export async function startProjectService(options: {
     let mediaFrames: MediaFrameInspection;
     let transcripts: TranscriptProcessing;
     let speakers: SpeakerProcessing;
+    let alignments: AlignmentProcessing;
     let projectEvidence: ProjectEvidenceInspection;
     let mediaAudio: MediaAudioInspection;
     let preparedAudio: PreparedAudioStore;
@@ -364,6 +374,8 @@ export async function startProjectService(options: {
           return mediaAudio.execute({ job, signal });
         if (job.target.kind === "project" && job.artifact === "project.evidence")
           return projectEvidence.execute({ job, signal });
+        if (job.target.kind === "asset" && job.artifact === "source-alignment")
+          return alignments.execute({ job, signal });
         if (job.target.kind === "asset" && job.artifact === "source-speakers")
           return speakers.execute({ job, signal });
         if (job.artifact === "transcript") return transcripts.execute({ job, signal });
@@ -419,6 +431,15 @@ export async function startProjectService(options: {
       evidence: speakerRecords,
       decoder,
       observe: speakerObserver(worker, workspace),
+    });
+    alignments = new AlignmentProcessing({
+      assets,
+      acquisitions,
+      models,
+      jobs: queue,
+      evidence: alignmentRecords,
+      decoder,
+      observe: alignmentObserver(worker, workspace),
     });
     transcripts = new TranscriptProcessing({
       jobs: queue,
@@ -768,6 +789,7 @@ export async function startProjectService(options: {
     await transcripts.cleanup(modelLifetime.signal);
     await scenes.cleanup(modelLifetime.signal);
     await speakers.cleanup(modelLifetime.signal);
+    await alignments.cleanup(modelLifetime.signal);
     await indexes.cleanup(modelLifetime.signal);
     const projectDeletion = new ProjectDeletion(
       projects,
@@ -964,6 +986,46 @@ export async function startProjectService(options: {
               });
             }
             return { ok: true, data: await models.status(modelId) };
+          }
+          case "alignment.prepare": {
+            const status = alignments.prepareSource(operation.params);
+            return {
+              ok: true,
+              data: {
+                ...status,
+                published: publishedOutput(status.published, (value) => value.evidence),
+              },
+            };
+          }
+          case "alignment.get": {
+            const { assetId, generation, ...query } = operation.params;
+            const identity = {
+              owner: { kind: "asset" as const, assetId },
+              generation,
+              policy: "alignment-v1" as const,
+            };
+            const metadata = (() => {
+              try {
+                return alignmentRecords.metadata(identity);
+              } catch (error) {
+                if (
+                  query.view === "raw" &&
+                  error instanceof CatalogError &&
+                  error.code === "NOT_READY"
+                )
+                  return alignmentRecords.capturedMetadata(identity);
+                throw error;
+              }
+            })();
+            return {
+              ok: true,
+              data: {
+                assetId,
+                state: "wordCount" in metadata ? "ready" : "captured",
+                generation,
+                page: new SourceAlignmentRead(alignmentRecords, metadata).page(query),
+              },
+            };
           }
           case "speaker.prepare": {
             const status = speakers.prepareSource(operation.params);

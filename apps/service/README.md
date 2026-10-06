@@ -130,9 +130,13 @@ Service shutdown drains jobs, readers, publication and storage observations befo
 closing the catalog. The [release disposition](../../specs/done/agent-editing/release-closeout.md)
 records installed evidence separately from an isolated service check.
 
-[Speaker observations](src/speaker.ts) select one complete source channel/window
-through the existing native PCM owner and invoke an explicitly prepared local
-runtime through the shared JSON process owner. Execution is offline. Original
+[Selected-channel observations](src/source-channel.ts) share complete support,
+channel and native PCM receipt admission. [Speaker observations](src/speaker.ts)
+and [conditional alignment](src/alignment.ts) each retain their provider's narrower
+window policy and invoke an explicitly prepared runtime through the shared process
+owner. Alignment preserves the literal supplied text and computes correspondence
+through the shared native ordered arithmetic. Raw operands survive failed attempts;
+retained source pages never invoke inference. Execution is offline. Original
 sidecar operands are captured before attempt cleanup, including model refusals.
 `speaker.get` reads retained source generations or their revision projection without
 native or model execution; `speaker.prepare` alone requests new acoustic work.

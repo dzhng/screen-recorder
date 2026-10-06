@@ -148,3 +148,9 @@ operands, alpha coverage and read-only pixel identity, including scratch-authore
 exposure controls and retained index receipts. Its help owns selected inputs and
 invocation. [Accepted observations](../../../specs/video-editing-feedback/assets/14-picture-statistics/README.md)
 retain measured scopes without turning camera histograms into grade targets.
+
+[Alignment evidence parity](alignment-evidence-parity.mjs) reuses existing controlled
+provider outputs and complete frozen word operands through the native correspondence,
+core publication and retained-read boundaries. It checks every possible pairing,
+conditional frame bound and physical refusal; it neither reruns inference nor treats
+supplied text as independent lexical truth.

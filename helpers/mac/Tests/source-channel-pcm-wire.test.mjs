@@ -8,7 +8,7 @@ const native =
   fileURLToPath(new URL("../.build/debug/yap-native", import.meta.url));
 function request(operation, params) {
   const result = spawnSync(native, [], {
-    input: JSON.stringify({ id: "speaker", operation, params }) + "\n",
+    input: JSON.stringify({ id: "source-channel", operation, params }) + "\n",
     encoding: "utf8",
     timeout: 30000,
   });
@@ -16,25 +16,25 @@ function request(operation, params) {
   return JSON.parse(result.stdout);
 }
 
-test("private speaker PCM dispatch advertises its physical recipe and rejects unknown fields before source execution", () => {
-  const capability = request("media.speakerCapabilities", {});
+test("private selected-channel PCM dispatch advertises its physical recipe and rejects unknown fields before source execution", () => {
+  const capability = request("media.sourceChannelCapabilities", {});
   assert.equal(capability.ok, true, JSON.stringify(capability));
   assert.equal(capability.data.recipe, "source-selected-span-avfoundation-f32-16k-v1");
   assert.match(capability.data.providerVersion, /Build/);
   assert.equal(
-    request("media.speakerCapabilities", { source: "/tmp/unrequested" }).error.code,
+    request("media.sourceChannelCapabilities", { source: "/tmp/unrequested" }).error.code,
     "INVALID_REQUEST",
   );
   const params = {
     source: {
-      source: "/tmp/nonexistent-speaker-source",
+      source: "/tmp/nonexistent-selected-channel-source",
       sourceOffsetUs: 0,
       available: [{ startUs: 0, endUs: 30000000 }],
     },
     range: { startUs: 0, endUs: 30000000 },
     channel: 0,
-    output: "/tmp/unrequested-speaker-output",
+    output: "/tmp/unrequested-selected-channel-output",
     editorial: true,
   };
-  assert.equal(request("media.sourceSpeakerPCM", params).error.code, "INVALID_REQUEST");
+  assert.equal(request("media.sourceChannelPCM", params).error.code, "INVALID_REQUEST");
 });

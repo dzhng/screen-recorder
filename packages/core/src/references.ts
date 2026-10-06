@@ -5,6 +5,7 @@ export const resourceKinds = [
   "acquisition",
   "scene-generation",
   "speaker-generation",
+  "alignment-generation",
   "transcript-generation",
   "prepared-audio",
   "index-generation",

@@ -631,10 +631,23 @@ test("speaker runtime uses managed preparation and remains readable offline afte
 
 test("alignment runtime keeps pinned checkpoint and runtime identity through managed preparation", async () => {
   const f = await voiceFixture();
+  const body = Buffer.from("pinned alignment worker");
+  await mkdir(join(f.runtime, "execution"), { mode: 0o700 });
+  await writeFile(join(f.runtime, "execution/worker.py"), body, { mode: 0o700 });
+  const entries = [
+    ...f.voice.runtimeArtifact!.entries,
+    { kind: "directory" as const, path: "execution", mode: 0o700 },
+    { kind: "file" as const, mode: 0o700, ...pin("execution/worker.py", body) },
+  ];
   const alignment: ModelManifest = {
     ...f.voice,
     name: "alignment",
     purpose: "alignment",
+    runtimeArtifact: {
+      ...f.voice.runtimeArtifact!,
+      entries,
+      digest: createHash("sha256").update(JSON.stringify(entries)).digest("hex"),
+    },
     engine: { ...f.voice.engine, decoder: "nemo-auxiliary-ctc110-v1" },
     files: [f.voice.files[0]!],
   };
@@ -645,6 +658,7 @@ test("alignment runtime keeps pinned checkpoint and runtime identity through man
   await models.prepare(alignment.name, new AbortController().signal, f.sources);
   const restored = new Models(f.home, offline, [alignment]).alignment(alignment.name);
   expect(restored.engine).toEqual(provider.engine);
+  expect(restored.engine.workerSha256).toBe(pin("execution/worker.py", body).sha256);
   expect(restored.checkpoint).toBe(alignment.files[0]!.path);
   const runtime = await restored.runtime();
   expect(runtime.runtimeDigest).toBe(restored.engine.runtimeDigest);

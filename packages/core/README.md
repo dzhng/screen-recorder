@@ -68,6 +68,16 @@ validated generation. Retained reads bind that generation's original decoder,
 independently of the currently installed executable or prepared runtime. Chronological
 pagination preserves native row ordinals and simultaneous observations.
 
+[Conditional alignment](src/alignment-operands.ts) preserves literal supplied text,
+complete native matrices and all-optimal provider correspondence. Supplied path
+estimates and greedy observed words remain separate. A textual match never proves
+lexical truth; ambiguous repetitions stay unknown, and native cells outside selected
+physical support retain their bounds with a refusal. Retained acoustic classification
+uses only the caller's threshold and never assigns a word or authorizes a cut.
+[Publication](src/alignment-processing.ts) shares the existing jobs and Models owners;
+[retained reads](src/alignment-read.ts) need neither inference nor runtime bytes.
+Captured failed operands remain inspectable without claiming ready word evidence.
+
 Project speaker reads keep the observation generation beside each clip occurrence.
 Repeated uses and overlapping observations never merge anonymous slots. Coverage
 separates unavailable source support from retained audio that has no observation;

@@ -1,0 +1,327 @@
+{
+  "inferenceRuns": 0,
+  "proof": [
+    {
+      "case": "constructed-repeats",
+      "candidate": 0,
+      "generation": "constructed-repeats-0",
+      "rows": 6,
+      "matrixSha256": "79db3e32a6689b8af051d8a35ba84e1cdfff49af44b82968c1bb69d53687533a",
+      "completeCorrespondenceParity": true,
+      "conditionalBoundsParity": true,
+      "rawOperandHashes": {
+        "nativeReceipt": "45b7bca519db97ee79f06ed2b755b636fb4d76c90eb0fcb2d78691a8e6adc486",
+        "report": "6207c3cbb28cdf75372efb4521c2a1636b7a5551ab74174dbb8f1d7d74cd06b3",
+        "correspondence": "8ab5011abb02b012d149e119b9ec0e29d084da596865dd9340264d9c3cb0778e"
+      }
+    },
+    {
+      "case": "constructed-repeats",
+      "candidate": 1,
+      "generation": "constructed-repeats-1",
+      "rows": 6,
+      "matrixSha256": "79db3e32a6689b8af051d8a35ba84e1cdfff49af44b82968c1bb69d53687533a",
+      "completeCorrespondenceParity": true,
+      "conditionalBoundsParity": true,
+      "rawOperandHashes": {
+        "nativeReceipt": "35f50ed23c81c882fc80e08cbcbdae789df34b8bf0b370578e2267b323d9ec55",
+        "report": "f408dd79304b50c09499771d24d876283a71169452ec935d365dbaf668a4baef",
+        "correspondence": "5835d6821ebefb1cbae6cf845c4382af70a0032080c8aea09ca9ce7092c74e42"
+      }
+    },
+    {
+      "case": "constructed-repeats",
+      "candidate": 2,
+      "generation": "constructed-repeats-2",
+      "rows": 5,
+      "matrixSha256": "79db3e32a6689b8af051d8a35ba84e1cdfff49af44b82968c1bb69d53687533a",
+      "completeCorrespondenceParity": true,
+      "conditionalBoundsParity": true,
+      "rawOperandHashes": {
+        "nativeReceipt": "cb6126ec4cf410b8aa2b1a82deff3bc9e11c5334abd343353b836c44b7fc662d",
+        "report": "813bc8c38d20ecb2e5b6e25b2c463f1f0762a0071fea3d6f561905e3566e674f",
+        "correspondence": "d7afc96b8eaae86cb3432cd2f14bf5fe34e8d5e2d9b7c8f0d5512664bb925bba"
+      }
+    },
+    {
+      "case": "constructed-repeats",
+      "candidate": 3,
+      "generation": "constructed-repeats-3",
+      "rows": 6,
+      "matrixSha256": "79db3e32a6689b8af051d8a35ba84e1cdfff49af44b82968c1bb69d53687533a",
+      "completeCorrespondenceParity": true,
+      "conditionalBoundsParity": true,
+      "rawOperandHashes": {
+        "nativeReceipt": "a4ac5f3d2a00bd421b43336170bca58c9c65f58580e46dc071a54a439fb2060c",
+        "report": "224d6651adb3add96e558f1048476823a0fee5b7d45c5c905e22e443178e4f76",
+        "correspondence": "5835d6821ebefb1cbae6cf845c4382af70a0032080c8aea09ca9ce7092c74e42"
+      }
+    },
+    {
+      "case": "constructed-repeats",
+      "candidate": 4,
+      "generation": "constructed-repeats-4",
+      "rows": 7,
+      "matrixSha256": "79db3e32a6689b8af051d8a35ba84e1cdfff49af44b82968c1bb69d53687533a",
+      "completeCorrespondenceParity": true,
+      "conditionalBoundsParity": true,
+      "rawOperandHashes": {
+        "nativeReceipt": "a387ce8485376a1f999a3b08559c10c638a126c56ddc7c6a117ebd8260b6f4c5",
+        "report": "adc91506cf256d5353e76d2b86fde2771e27c131746e7720f8993c524b60583d",
+        "correspondence": "b5e90b8c3d9337ebe0527aa71a176bd6d433ee7a31917639ddcc237329bbc0f2"
+      }
+    },
+    {
+      "case": "false-start",
+      "candidate": 0,
+      "generation": "false-start-0",
+      "rows": 4,
+      "matrixSha256": "32f8469bac5542be718342a257f022e88d4f00c9e4267cff1693246df20ac0cb",
+      "completeCorrespondenceParity": true,
+      "conditionalBoundsParity": true,
+      "rawOperandHashes": {
+        "nativeReceipt": "e1a8afc99b9d67df88eacb7dc3209e1c6a5ca473e8eff2eb02174028df00fd50",
+        "report": "ab6ee4b5a0051585524f8df21834450a832cf8e885db397146a91a2899208fb7",
+        "correspondence": "b37e96590849230c81670953cf6a0612300834cf6f241497357f9aa24a21067c"
+      }
+    },
+    {
+      "case": "false-start",
+      "candidate": 1,
+      "generation": "false-start-1",
+      "rows": 4,
+      "matrixSha256": "32f8469bac5542be718342a257f022e88d4f00c9e4267cff1693246df20ac0cb",
+      "completeCorrespondenceParity": true,
+      "conditionalBoundsParity": true,
+      "rawOperandHashes": {
+        "nativeReceipt": "d3bec10a4f6cd1881a14df63dcb49dd9d2b41be1b668265bba64b0bcefeed6ef",
+        "report": "1e798f85ebafac559be04001d4e3af9726654b32f61c6716fad26723d9b57e8c",
+        "correspondence": "5b2f48c6c8fd66dc7bc47bfbf7d7e1747cfd981596b5e55c814744c1c29735ce"
+      }
+    },
+    {
+      "case": "false-start",
+      "candidate": 2,
+      "generation": "false-start-2",
+      "rows": 6,
+      "matrixSha256": "32f8469bac5542be718342a257f022e88d4f00c9e4267cff1693246df20ac0cb",
+      "completeCorrespondenceParity": true,
+      "conditionalBoundsParity": true,
+      "rawOperandHashes": {
+        "nativeReceipt": "8647eca158bd1a1ac5e7d1dd62a558b3f8c23cb63c636fbc2c8576bdc2b7c1ae",
+        "report": "757c46dc015e11333bf3b468374d2193c65f9612ea90e9459355593f8ff702e1",
+        "correspondence": "4b1d71c8af38747cc61777cbe3d4d2f84f0622107c26df695b808b361fbbe6ac"
+      }
+    },
+    {
+      "case": "fortunate-contextual",
+      "candidate": 0,
+      "generation": "fortunate-contextual-0",
+      "rows": 2,
+      "matrixSha256": "abff8fa3be0e2b9fa4697cbdea1499eaa15d2e88498dd59b84d2a7ec8471d9b8",
+      "completeCorrespondenceParity": true,
+      "conditionalBoundsParity": true,
+      "rawOperandHashes": {
+        "nativeReceipt": "1b41efaa336ea69864405d5f1455d4aad214889f0cd1cf7d65b4ae4f72840b73",
+        "report": "aaa0c0b2445ddaa0cae2a517635cc1c2bfb5c21a7397cfde1771da6d2b6b7602",
+        "correspondence": "eb922462628b6f612b54a6db2d9e10de17f3b64954b4ba550744f9dd639afcf4"
+      }
+    },
+    {
+      "case": "fortunate-contextual",
+      "candidate": 1,
+      "generation": "fortunate-contextual-1",
+      "rows": 2,
+      "matrixSha256": "abff8fa3be0e2b9fa4697cbdea1499eaa15d2e88498dd59b84d2a7ec8471d9b8",
+      "completeCorrespondenceParity": true,
+      "conditionalBoundsParity": true,
+      "rawOperandHashes": {
+        "nativeReceipt": "c1c0422882d057a92aaed770859216181bbc2e383bc4992ae7c30ffd8d4ed17f",
+        "report": "85125d90fb9d625c3fcb1b8a893eec88a752c9a23e37b4ab54d3949cd2cb7bea",
+        "correspondence": "867efdbf3078f1416f3bf67af0b3af100f29c209fefd6df981f62082bb4f5a65"
+      }
+    },
+    {
+      "case": "fortunate-contextual",
+      "candidate": 2,
+      "generation": "fortunate-contextual-2",
+      "rows": 2,
+      "matrixSha256": "abff8fa3be0e2b9fa4697cbdea1499eaa15d2e88498dd59b84d2a7ec8471d9b8",
+      "completeCorrespondenceParity": true,
+      "conditionalBoundsParity": true,
+      "rawOperandHashes": {
+        "nativeReceipt": "737fe4acaa82906d46ae75cbf53191de8d79ce8dfa5769d41ca0a479f7b0a5f6",
+        "report": "6ac379447931b7369cd1a4614402b57b3e61042937bb783a9d28ed2951e4d3d0",
+        "correspondence": "867efdbf3078f1416f3bf67af0b3af100f29c209fefd6df981f62082bb4f5a65"
+      }
+    },
+    {
+      "case": "fortunate-intact",
+      "candidate": 0,
+      "generation": "fortunate-intact-0",
+      "rows": 2,
+      "matrixSha256": "a727f09fbf16d84c6077d6ed447f88ec6941394d11a2b982a17ed5e5c81579f8",
+      "completeCorrespondenceParity": true,
+      "conditionalBoundsParity": true,
+      "rawOperandHashes": {
+        "nativeReceipt": "60456a854e75e183c3268a325693cabb35288dca52cc20ecc3b783492e9fea98",
+        "report": "26f6b8de7102985399c13611d8bca86e40263bed6291fba480eea60599c63ca3",
+        "correspondence": "eb922462628b6f612b54a6db2d9e10de17f3b64954b4ba550744f9dd639afcf4"
+      }
+    },
+    {
+      "case": "fortunate-intact",
+      "candidate": 1,
+      "generation": "fortunate-intact-1",
+      "rows": 2,
+      "matrixSha256": "a727f09fbf16d84c6077d6ed447f88ec6941394d11a2b982a17ed5e5c81579f8",
+      "completeCorrespondenceParity": true,
+      "conditionalBoundsParity": true,
+      "rawOperandHashes": {
+        "nativeReceipt": "91241453d60e07cafcbb55ae2212fffebaf64ec0f672f32fe01964fc4d8af055",
+        "report": "dfbc649cab90bf2a07ca18470e56754d48055f1d769bde1f2f03b24d74586108",
+        "correspondence": "867efdbf3078f1416f3bf67af0b3af100f29c209fefd6df981f62082bb4f5a65"
+      }
+    },
+    {
+      "case": "fortunate-intact",
+      "candidate": 2,
+      "generation": "fortunate-intact-2",
+      "rows": 2,
+      "matrixSha256": "a727f09fbf16d84c6077d6ed447f88ec6941394d11a2b982a17ed5e5c81579f8",
+      "completeCorrespondenceParity": true,
+      "conditionalBoundsParity": true,
+      "rawOperandHashes": {
+        "nativeReceipt": "f869d7f6de6c05bb66aeadc9cb63bd1ef487a4a49054f54a6e41eafe4c62ba5d",
+        "report": "a3422fc1fd7fe4c5d8b3ed5163836e7d0c35e8e6f9d5231f1782e575a04e0bf9",
+        "correspondence": "867efdbf3078f1416f3bf67af0b3af100f29c209fefd6df981f62082bb4f5a65"
+      }
+    },
+    {
+      "case": "fortunate-truncated",
+      "candidate": 0,
+      "generation": "fortunate-truncated-0",
+      "rows": 2,
+      "matrixSha256": "9ca68f2aeba1abf19fa3327cd34bd8829f8f72f0179b6b1ce5533694bfbda621",
+      "completeCorrespondenceParity": true,
+      "conditionalBoundsParity": true,
+      "rawOperandHashes": {
+        "nativeReceipt": "1288e6702c8917edce769f2aef9ad6981ec8bd304b59667323bc33d4589136b1",
+        "report": "45dbdd3a4624194a17e65b03126f43a72dce3b9041b29bcb6614013eb3f2f52d",
+        "correspondence": "867efdbf3078f1416f3bf67af0b3af100f29c209fefd6df981f62082bb4f5a65"
+      }
+    },
+    {
+      "case": "fortunate-truncated",
+      "candidate": 1,
+      "generation": "fortunate-truncated-1",
+      "rows": 2,
+      "matrixSha256": "9ca68f2aeba1abf19fa3327cd34bd8829f8f72f0179b6b1ce5533694bfbda621",
+      "completeCorrespondenceParity": true,
+      "conditionalBoundsParity": true,
+      "rawOperandHashes": {
+        "nativeReceipt": "4d3b0179be34ac77aebbb99835dfba86479457dc4d4b4dd4d6c42b7b3616f452",
+        "report": "776f1b636bc0c30a13e8c9d7b9590f306c86cbd61d3656f8987f88335179e928",
+        "correspondence": "867efdbf3078f1416f3bf67af0b3af100f29c209fefd6df981f62082bb4f5a65"
+      }
+    },
+    {
+      "case": "fortunate-truncated",
+      "candidate": 2,
+      "generation": "fortunate-truncated-2",
+      "rows": 2,
+      "matrixSha256": "9ca68f2aeba1abf19fa3327cd34bd8829f8f72f0179b6b1ce5533694bfbda621",
+      "completeCorrespondenceParity": true,
+      "conditionalBoundsParity": true,
+      "rawOperandHashes": {
+        "nativeReceipt": "7e8cc241cb59813983ab6a35bd79c1fbc8a7c42364eda2f3dcc83ce2070ed6f5",
+        "report": "ad104d9789fca5dd262941c84043ed1c9c1449d7163d99c6c77adf52fce0fabb",
+        "correspondence": "867efdbf3078f1416f3bf67af0b3af100f29c209fefd6df981f62082bb4f5a65"
+      }
+    },
+    {
+      "case": "madison-tiny",
+      "candidate": 0,
+      "generation": "madison-tiny-0",
+      "rows": 16,
+      "matrixSha256": "22fc1aa33c3a2017e057fe2bd6be9484bdba964a2936a0ab2c14a303b9d11405",
+      "completeCorrespondenceParity": true,
+      "conditionalBoundsParity": true,
+      "rawOperandHashes": {
+        "nativeReceipt": "674f5118eb9d9dfe7d0c85ab0f91132eb65367e8ab8772b34a04ef7cfe626df5",
+        "report": "2007f16a1078235a845d849935869617d751c46dc0710290d0dab80189871bfd",
+        "correspondence": "bc198efc2602b8c9056c3bcb0d78896afc35488a86f68950c2149f70af2d0fff"
+      }
+    },
+    {
+      "case": "madison-tiny",
+      "candidate": 1,
+      "generation": "madison-tiny-1",
+      "rows": 16,
+      "matrixSha256": "22fc1aa33c3a2017e057fe2bd6be9484bdba964a2936a0ab2c14a303b9d11405",
+      "completeCorrespondenceParity": true,
+      "conditionalBoundsParity": true,
+      "rawOperandHashes": {
+        "nativeReceipt": "d0501c8a8b784dcc8e8145daf85bc2107c9103c7d18c8bf415887773d51a666a",
+        "report": "d35abb4b54d141a2b57043260b8d6258fd7bb702d0af0de487fcd1b00732bfa4",
+        "correspondence": "4c2e3f00c0ae0801824c5b17ec3e411461e6b5e3598357ebdc44d6829bc2c1d1"
+      }
+    },
+    {
+      "case": "madison-tiny",
+      "candidate": 2,
+      "generation": "madison-tiny-2",
+      "rows": 13,
+      "matrixSha256": "22fc1aa33c3a2017e057fe2bd6be9484bdba964a2936a0ab2c14a303b9d11405",
+      "completeCorrespondenceParity": true,
+      "conditionalBoundsParity": true,
+      "rawOperandHashes": {
+        "nativeReceipt": "9705ff87dec845945c0753dac05988f2d12f08444bbf84b55991e91aac5e2bbd",
+        "report": "0a4b552b406f0119f9e3018e58dbb868bc5fd02bd9b7c0c29e145482f3586e98",
+        "correspondence": "89e4ea7f3f32dec4a1db5d8d12054990c5ff76d69e04cb13aefecd78ff97cd15"
+      }
+    },
+    {
+      "case": "madison-tiny",
+      "candidate": 3,
+      "generation": "madison-tiny-3",
+      "rows": 17,
+      "matrixSha256": "22fc1aa33c3a2017e057fe2bd6be9484bdba964a2936a0ab2c14a303b9d11405",
+      "completeCorrespondenceParity": true,
+      "conditionalBoundsParity": true,
+      "rawOperandHashes": {
+        "nativeReceipt": "b32c6452e110521f4114dbcae920e13d1b61a12f8cff06f379d1041dc0173bdd",
+        "report": "6271b58be19bbb0e1a2c63b19267be9ad537696faa2087ae1771d158e7a00915",
+        "correspondence": "f77dce04010eacc7f185b21bb3faed6df62355e8e8b3039158d8f5a3072c7ccf"
+      }
+    },
+    {
+      "case": "overlap25",
+      "candidate": 0,
+      "generation": "overlap25-0",
+      "rows": 170,
+      "matrixSha256": "740c42b60daf692546614021d2edeecb423491d9b8610df3468e8a4a87fc88ee",
+      "completeCorrespondenceParity": true,
+      "conditionalBoundsParity": true,
+      "rawOperandHashes": {
+        "nativeReceipt": "af286fcc5c1d637ec68b1a8df4745b56691d4cbf170d1467b2530647a844e846",
+        "report": "80b99160b307408f99b1cfe3d9661e85c5950b6c45c98ea1e5c243c267f453a6",
+        "correspondence": "7620614a065f494f5f9857627f7e6a88f57371edad0d6e1d462ac29b21e12de5"
+      }
+    },
+    {
+      "case": "overlap25",
+      "candidate": 1,
+      "generation": "overlap25-1",
+      "rows": 94,
+      "matrixSha256": "740c42b60daf692546614021d2edeecb423491d9b8610df3468e8a4a87fc88ee",
+      "completeCorrespondenceParity": true,
+      "conditionalBoundsParity": true,
+      "rawOperandHashes": {
+        "nativeReceipt": "69b704bf26724bd5c69ae23adf0c899cd7b2ecebb6806c61d0324a6cd43432d1",
+        "report": "0a8ed0c2893c4778d149591c35e75102b3db7804f330609e8dce23378de2c693",
+        "correspondence": "8c035891678f66d821863b8b14d5ee362ed6842586741ef9fbfc1a1e0962d062"
+      }
+    }
+  ]
+}
