@@ -1,0 +1,414 @@
+{
+  "passed": true,
+  "scope": "Public import, source-index and project/export delivery of an AVFoundation physical empty-edit fixture",
+  "source": {
+    "path": "/private/tmp/yap-empty-edit/specs/done/agent-editing/assets/10d-source-frames/visual/source.mov",
+    "sha256": "42f5673bebaa1faedf0f22da32445f4f9626222190b47d1db54a0714d4b490fc",
+    "bytes": 3880
+  },
+  "nativeSha256": "dbb3e7aa7674f8cb4d4c416ac3ef082f482993874d7ebb06ddc2054fb41b38f4",
+  "trace": [
+    {
+      "operation": "asset.import",
+      "transport": "cli",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "operation": "job.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "asset.get",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "index.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "index.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "index.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "index.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "index.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "index.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "index.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "index.coverage",
+      "transport": "mcp",
+      "ok": true
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "unavailable"
+    },
+    {
+      "operation": "project.create",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "edit.apply",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "295b4921-c663-4087-8a66-c1166b9dcee9"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready",
+      "revisionId": "295b4921-c663-4087-8a66-c1166b9dcee9"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "295b4921-c663-4087-8a66-c1166b9dcee9"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready",
+      "revisionId": "295b4921-c663-4087-8a66-c1166b9dcee9"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "295b4921-c663-4087-8a66-c1166b9dcee9"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready",
+      "revisionId": "295b4921-c663-4087-8a66-c1166b9dcee9"
+    },
+    {
+      "operation": "export.create",
+      "transport": "cli",
+      "ok": true,
+      "state": "queued"
+    },
+    {
+      "operation": "export.status",
+      "transport": "mcp",
+      "ok": true,
+      "state": "queued"
+    },
+    {
+      "operation": "export.status",
+      "transport": "mcp",
+      "ok": true,
+      "state": "queued"
+    },
+    {
+      "operation": "export.status",
+      "transport": "mcp",
+      "ok": true,
+      "state": "queued"
+    },
+    {
+      "operation": "export.status",
+      "transport": "mcp",
+      "ok": true,
+      "state": "committed"
+    }
+  ],
+  "checks": {
+    "sourceCoverage": {
+      "generation": "c63f49de-02bd-4f32-8190-202ce77e1655",
+      "gap": {
+        "sequence": 2,
+        "ordinal": null,
+        "state": "unavailable",
+        "basis": "support",
+        "source": {
+          "startUs": 400000,
+          "endUs": 600000
+        }
+      }
+    },
+    "project": {
+      "projectId": "bf1b804d-a9b5-4ab9-a683-5dcce1d437a8",
+      "revisionId": "295b4921-c663-4087-8a66-c1166b9dcee9",
+      "frames": {
+        "300000": {
+          "output": "/tmp/empty-edit-run.Rob0c1/project-300000.png",
+          "receipt": {
+            "file": "/private/var/folders/62/pphwbgd15b1b9q7cjgf8m9pm0000gn/T/yap-empty-edit-delivery-oV5ggo/library/cache/derived/f26f3525-6b00-4d9a-ab69-dabdc613aa88.cache",
+            "mediaType": "image/png",
+            "width": 64,
+            "height": 48,
+            "sourceWidth": 64,
+            "sourceHeight": 48,
+            "bytes": 429,
+            "profile": "h264-rec709",
+            "frame": {
+              "index": 3,
+              "sampleAtUs": 300000,
+              "visibleRange": {
+                "startUs": 300000,
+                "endUs": 400000
+              },
+              "layers": [
+                {
+                  "kind": "video",
+                  "assetId": "42f5673bebaa1faedf0f22da32445f4f9626222190b47d1db54a0714d4b490fc",
+                  "streamId": "track:1",
+                  "sourceUs": 300000,
+                  "clipId": "clip:bca4c56235064f252219248fe4f43e45aab1ab48c3b60a878e3defdc12f08388:1",
+                  "trackId": "track:bca4c56235064f252219248fe4f43e45aab1ab48c3b60a878e3defdc12f08388:0",
+                  "availability": "available",
+                  "width": 64,
+                  "height": 48
+                }
+              ]
+            },
+            "decodedSamples": 1,
+            "readerOpens": 1,
+            "decodedImages": 0,
+            "pictures": [
+              {
+                "kind": "video",
+                "status": "available",
+                "clipId": "clip:bca4c56235064f252219248fe4f43e45aab1ab48c3b60a878e3defdc12f08388:1",
+                "assetId": "42f5673bebaa1faedf0f22da32445f4f9626222190b47d1db54a0714d4b490fc",
+                "streamId": "track:1",
+                "requestedSourceUs": 300000,
+                "actualSourceUs": 300000,
+                "sample": {
+                  "value": "15872",
+                  "timescale": 10240,
+                  "originUs": 1250000
+                }
+              }
+            ],
+            "atUs": 300000,
+            "maxLongEdge": 64,
+            "tap": {
+              "target": {
+                "kind": "output"
+              },
+              "point": {
+                "kind": "processed"
+              }
+            },
+            "implementationId": "native-composition-picture-v20:coreimage-sdr-source-neutral-recovery-v2:Version 27.0.1 (Build 26A434):coreimage-unit-linear-srgb-cube-trilinear-v1:Version 27.0.1 (Build 26A434)",
+            "projectId": "bf1b804d-a9b5-4ab9-a683-5dcce1d437a8",
+            "revisionId": "295b4921-c663-4087-8a66-c1166b9dcee9",
+            "cacheId": "f26f3525-6b00-4d9a-ab69-dabdc613aa88"
+          }
+        },
+        "450000": {
+          "output": "/tmp/empty-edit-run.Rob0c1/project-450000.png",
+          "receipt": {
+            "file": "/private/var/folders/62/pphwbgd15b1b9q7cjgf8m9pm0000gn/T/yap-empty-edit-delivery-oV5ggo/library/cache/derived/ccfd578f-528c-426d-bcf2-2910a13a9701.cache",
+            "mediaType": "image/png",
+            "width": 64,
+            "height": 48,
+            "sourceWidth": 64,
+            "sourceHeight": 48,
+            "bytes": 254,
+            "profile": "h264-rec709",
+            "frame": {
+              "index": 4,
+              "sampleAtUs": 400000,
+              "visibleRange": {
+                "startUs": 400000,
+                "endUs": 500000
+              },
+              "layers": [
+                {
+                  "kind": "video",
+                  "assetId": "42f5673bebaa1faedf0f22da32445f4f9626222190b47d1db54a0714d4b490fc",
+                  "streamId": "track:1",
+                  "sourceUs": 400000,
+                  "clipId": "clip:bca4c56235064f252219248fe4f43e45aab1ab48c3b60a878e3defdc12f08388:1",
+                  "trackId": "track:bca4c56235064f252219248fe4f43e45aab1ab48c3b60a878e3defdc12f08388:0",
+                  "availability": "source-unavailable",
+                  "width": 64,
+                  "height": 48
+                }
+              ]
+            },
+            "decodedSamples": 0,
+            "readerOpens": 1,
+            "decodedImages": 0,
+            "pictures": [
+              {
+                "kind": "video",
+                "status": "unavailable",
+                "clipId": "clip:bca4c56235064f252219248fe4f43e45aab1ab48c3b60a878e3defdc12f08388:1",
+                "assetId": "42f5673bebaa1faedf0f22da32445f4f9626222190b47d1db54a0714d4b490fc",
+                "streamId": "track:1",
+                "requestedSourceUs": 400000,
+                "reason": "source-unavailable"
+              }
+            ],
+            "atUs": 450000,
+            "maxLongEdge": 64,
+            "tap": {
+              "target": {
+                "kind": "output"
+              },
+              "point": {
+                "kind": "processed"
+              }
+            },
+            "implementationId": "native-composition-picture-v20:coreimage-sdr-source-neutral-recovery-v2:Version 27.0.1 (Build 26A434):coreimage-unit-linear-srgb-cube-trilinear-v1:Version 27.0.1 (Build 26A434)",
+            "projectId": "bf1b804d-a9b5-4ab9-a683-5dcce1d437a8",
+            "revisionId": "295b4921-c663-4087-8a66-c1166b9dcee9",
+            "cacheId": "ccfd578f-528c-426d-bcf2-2910a13a9701"
+          }
+        },
+        "700000": {
+          "output": "/tmp/empty-edit-run.Rob0c1/project-700000.png",
+          "receipt": {
+            "file": "/private/var/folders/62/pphwbgd15b1b9q7cjgf8m9pm0000gn/T/yap-empty-edit-delivery-oV5ggo/library/cache/derived/59e3a44f-3556-419c-9e80-8c2af527ef7a.cache",
+            "mediaType": "image/png",
+            "width": 64,
+            "height": 48,
+            "sourceWidth": 64,
+            "sourceHeight": 48,
+            "bytes": 429,
+            "profile": "h264-rec709",
+            "frame": {
+              "index": 7,
+              "sampleAtUs": 700000,
+              "visibleRange": {
+                "startUs": 700000,
+                "endUs": 800000
+              },
+              "layers": [
+                {
+                  "kind": "video",
+                  "assetId": "42f5673bebaa1faedf0f22da32445f4f9626222190b47d1db54a0714d4b490fc",
+                  "streamId": "track:1",
+                  "sourceUs": 700000,
+                  "clipId": "clip:bca4c56235064f252219248fe4f43e45aab1ab48c3b60a878e3defdc12f08388:1",
+                  "trackId": "track:bca4c56235064f252219248fe4f43e45aab1ab48c3b60a878e3defdc12f08388:0",
+                  "availability": "available",
+                  "width": 64,
+                  "height": 48
+                }
+              ]
+            },
+            "decodedSamples": 1,
+            "readerOpens": 1,
+            "decodedImages": 0,
+            "pictures": [
+              {
+                "kind": "video",
+                "status": "available",
+                "clipId": "clip:bca4c56235064f252219248fe4f43e45aab1ab48c3b60a878e3defdc12f08388:1",
+                "assetId": "42f5673bebaa1faedf0f22da32445f4f9626222190b47d1db54a0714d4b490fc",
+                "streamId": "track:1",
+                "requestedSourceUs": 700000,
+                "actualSourceUs": 700000,
+                "sample": {
+                  "value": "19968",
+                  "timescale": 10240,
+                  "originUs": 1250000
+                }
+              }
+            ],
+            "atUs": 700000,
+            "maxLongEdge": 64,
+            "tap": {
+              "target": {
+                "kind": "output"
+              },
+              "point": {
+                "kind": "processed"
+              }
+            },
+            "implementationId": "native-composition-picture-v20:coreimage-sdr-source-neutral-recovery-v2:Version 27.0.1 (Build 26A434):coreimage-unit-linear-srgb-cube-trilinear-v1:Version 27.0.1 (Build 26A434)",
+            "projectId": "bf1b804d-a9b5-4ab9-a683-5dcce1d437a8",
+            "revisionId": "295b4921-c663-4087-8a66-c1166b9dcee9",
+            "cacheId": "59e3a44f-3556-419c-9e80-8c2af527ef7a"
+          }
+        }
+      }
+    },
+    "export": {
+      "exportId": "05c224e9-f5f3-42de-b081-12a92a535f15",
+      "receipt": {
+        "bytes": 27206,
+        "destination": {
+          "dev": "16777232",
+          "ino": "9573805"
+        },
+        "file": {
+          "dev": "16777232",
+          "ino": "9573839"
+        },
+        "leaf": "physical-gap.mp4",
+        "replacement": null,
+        "sha256": "b9edddd133369739d17c2ef2c8ab0c6dcd8fce6881d77cc6180f24ced501e1cc",
+        "stage": {
+          "dev": "16777232",
+          "ino": "9573835"
+        }
+      },
+      "file": {
+        "path": "/private/tmp/empty-edit-run.Rob0c1/exports/physical-gap.mp4",
+        "bytes": 27206,
+        "sha256": "b9edddd133369739d17c2ef2c8ab0c6dcd8fce6881d77cc6180f24ced501e1cc"
+      },
+      "decodedFrames": 10,
+      "decodedMeanRgb": [
+        83.99891493055556,
+        0,
+        83.99685329861111
+      ]
+    },
+    "interpretation": "The source index marks 400000–600000 as unavailable from physical support; a direct source frame request at 450000 is refused, while the project frame and exported pixels show the same black interval between available neighbors."
+  }
+}

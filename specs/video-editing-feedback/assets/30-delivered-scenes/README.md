@@ -20,7 +20,9 @@ bunx vitest run skills/yap/scripts/delivered-scenes.test.mjs
 
 The portable receipt does not close the native checkpoint; the retained native
 run below covers the delivered export/import/scene-read path and visual review.
-The physical empty-edit-list proof remains separate.
+The separate [`native/empty-edit`](native/empty-edit/README.md) receipt now
+covers a physical empty edit through source coverage, project still delivery
+and committed export; declared acquisition holes remain separate.
 
 ## Native delivered-export checkpoint (2026-10-06)
 
@@ -45,7 +47,3 @@ framing or decode artifact; the solid-color fixture makes the planted
 boundaries unambiguous. The repository compare helper was invoked but could
 not run because this checkout lacks its optional `pngjs` dependency; the
 native report and direct frame inspection are retained instead.
-
-This run does not close the separate physical empty-edit-list proof: the
-delivered file used for this checkpoint has continuous encoded samples, so
-native `available` ranges for a real gap remain an open follow-up.

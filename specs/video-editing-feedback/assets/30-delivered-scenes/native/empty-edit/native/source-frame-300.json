@@ -1,0 +1,315 @@
+{
+  "operation": "media.renderCompositionFrame",
+  "request": {
+    "output": "/private/var/folders/62/pphwbgd15b1b9q7cjgf8m9pm0000gn/T/yap-empty-edit-delivery-oV5ggo/library/render/render-uTycSr/frame.png",
+    "frame": {
+      "index": 3,
+      "sampleAtUs": 300000,
+      "visibleRange": {
+        "startUs": 300000,
+        "endUs": 300001
+      },
+      "layers": [
+        {
+          "clipId": "clip:bca4c56235064f252219248fe4f43e45aab1ab48c3b60a878e3defdc12f08388:1",
+          "trackId": "track:bca4c56235064f252219248fe4f43e45aab1ab48c3b60a878e3defdc12f08388:0",
+          "assetId": "42f5673bebaa1faedf0f22da32445f4f9626222190b47d1db54a0714d4b490fc",
+          "streamId": "track:1",
+          "kind": "video",
+          "sourceUs": 300000,
+          "availability": "available",
+          "width": 64,
+          "height": 48
+        }
+      ],
+      "visual": [
+        {
+          "target": {
+            "kind": "clip",
+            "id": "clip:bca4c56235064f252219248fe4f43e45aab1ab48c3b60a878e3defdc12f08388:1"
+          },
+          "inputs": [],
+          "operations": [
+            {
+              "kind": "clamp",
+              "x": 0.5,
+              "y": 0.5,
+              "width": 63,
+              "height": 47
+            },
+            {
+              "kind": "affine",
+              "matrix": [
+                1,
+                0,
+                0,
+                1,
+                0,
+                0
+              ]
+            },
+            {
+              "kind": "affine",
+              "matrix": [
+                1,
+                0,
+                0,
+                1,
+                0,
+                0
+              ]
+            },
+            {
+              "kind": "coverage",
+              "points": [
+                {
+                  "x": 0,
+                  "y": 0
+                },
+                {
+                  "x": 64,
+                  "y": 0
+                },
+                {
+                  "x": 64,
+                  "y": 48
+                },
+                {
+                  "x": 0,
+                  "y": 48
+                }
+              ],
+              "width": 64,
+              "height": 48
+            }
+          ]
+        },
+        {
+          "target": {
+            "kind": "track",
+            "id": "track:bca4c56235064f252219248fe4f43e45aab1ab48c3b60a878e3defdc12f08388:0"
+          },
+          "inputs": [
+            {
+              "kind": "clip",
+              "id": "clip:bca4c56235064f252219248fe4f43e45aab1ab48c3b60a878e3defdc12f08388:1"
+            }
+          ],
+          "operations": []
+        },
+        {
+          "target": {
+            "kind": "output"
+          },
+          "inputs": [
+            {
+              "kind": "track",
+              "id": "track:bca4c56235064f252219248fe4f43e45aab1ab48c3b60a878e3defdc12f08388:0"
+            }
+          ],
+          "operations": []
+        }
+      ]
+    },
+    "canvas": {
+      "width": 64,
+      "height": 48,
+      "fps": {
+        "numerator": 10,
+        "denominator": 1
+      },
+      "background": "#000000ff"
+    },
+    "profile": "h264-rec709",
+    "processing": [
+      {
+        "target": {
+          "kind": "clip",
+          "id": "clip:bca4c56235064f252219248fe4f43e45aab1ab48c3b60a878e3defdc12f08388:1"
+        },
+        "mediaKind": "video",
+        "inputs": [],
+        "steps": []
+      },
+      {
+        "target": {
+          "kind": "track",
+          "id": "track:bca4c56235064f252219248fe4f43e45aab1ab48c3b60a878e3defdc12f08388:0"
+        },
+        "mediaKind": "video",
+        "inputs": [
+          {
+            "kind": "clip",
+            "id": "clip:bca4c56235064f252219248fe4f43e45aab1ab48c3b60a878e3defdc12f08388:1"
+          }
+        ],
+        "steps": []
+      },
+      {
+        "target": {
+          "kind": "output"
+        },
+        "mediaKind": "output",
+        "inputs": [
+          {
+            "kind": "track",
+            "id": "track:bca4c56235064f252219248fe4f43e45aab1ab48c3b60a878e3defdc12f08388:0"
+          }
+        ],
+        "steps": []
+      }
+    ],
+    "assets": [
+      {
+        "assetId": "42f5673bebaa1faedf0f22da32445f4f9626222190b47d1db54a0714d4b490fc",
+        "streamId": "track:1",
+        "path": "/var/folders/62/pphwbgd15b1b9q7cjgf8m9pm0000gn/T/yap-empty-edit-delivery-oV5ggo/library/assets/42f5673bebaa1faedf0f22da32445f4f9626222190b47d1db54a0714d4b490fc.mov",
+        "originUs": 1250000
+      }
+    ],
+    "fonts": [],
+    "luts": [],
+    "maxLongEdge": 64
+  },
+  "response": {
+    "ok": true,
+    "data": {
+      "bytes": 429,
+      "decodedImages": 0,
+      "decodedSamples": 1,
+      "file": "/private/var/folders/62/pphwbgd15b1b9q7cjgf8m9pm0000gn/T/yap-empty-edit-delivery-oV5ggo/library/render/render-uTycSr/frame.png",
+      "frame": {
+        "index": 3,
+        "layers": [
+          {
+            "assetId": "42f5673bebaa1faedf0f22da32445f4f9626222190b47d1db54a0714d4b490fc",
+            "availability": "available",
+            "clipId": "clip:bca4c56235064f252219248fe4f43e45aab1ab48c3b60a878e3defdc12f08388:1",
+            "height": 48,
+            "kind": "video",
+            "sourceUs": 300000,
+            "streamId": "track:1",
+            "trackId": "track:bca4c56235064f252219248fe4f43e45aab1ab48c3b60a878e3defdc12f08388:0",
+            "width": 64
+          }
+        ],
+        "sampleAtUs": 300000,
+        "visibleRange": {
+          "endUs": 300001,
+          "startUs": 300000
+        },
+        "visual": [
+          {
+            "inputs": [],
+            "operations": [
+              {
+                "height": 47,
+                "kind": "clamp",
+                "width": 63,
+                "x": 0.5,
+                "y": 0.5
+              },
+              {
+                "kind": "affine",
+                "matrix": [
+                  1,
+                  0,
+                  0,
+                  1,
+                  0,
+                  0
+                ]
+              },
+              {
+                "kind": "affine",
+                "matrix": [
+                  1,
+                  0,
+                  0,
+                  1,
+                  0,
+                  0
+                ]
+              },
+              {
+                "height": 48,
+                "kind": "coverage",
+                "points": [
+                  {
+                    "x": 0,
+                    "y": 0
+                  },
+                  {
+                    "x": 64,
+                    "y": 0
+                  },
+                  {
+                    "x": 64,
+                    "y": 48
+                  },
+                  {
+                    "x": 0,
+                    "y": 48
+                  }
+                ],
+                "width": 64
+              }
+            ],
+            "target": {
+              "id": "clip:bca4c56235064f252219248fe4f43e45aab1ab48c3b60a878e3defdc12f08388:1",
+              "kind": "clip"
+            }
+          },
+          {
+            "inputs": [
+              {
+                "id": "clip:bca4c56235064f252219248fe4f43e45aab1ab48c3b60a878e3defdc12f08388:1",
+                "kind": "clip"
+              }
+            ],
+            "operations": [],
+            "target": {
+              "id": "track:bca4c56235064f252219248fe4f43e45aab1ab48c3b60a878e3defdc12f08388:0",
+              "kind": "track"
+            }
+          },
+          {
+            "inputs": [
+              {
+                "id": "track:bca4c56235064f252219248fe4f43e45aab1ab48c3b60a878e3defdc12f08388:0",
+                "kind": "track"
+              }
+            ],
+            "operations": [],
+            "target": {
+              "kind": "output"
+            }
+          }
+        ]
+      },
+      "height": 48,
+      "mediaType": "image/png",
+      "pictures": [
+        {
+          "actualSourceUs": 300000,
+          "assetId": "42f5673bebaa1faedf0f22da32445f4f9626222190b47d1db54a0714d4b490fc",
+          "clipId": "clip:bca4c56235064f252219248fe4f43e45aab1ab48c3b60a878e3defdc12f08388:1",
+          "kind": "video",
+          "requestedSourceUs": 300000,
+          "sample": {
+            "originUs": 1250000,
+            "timescale": 10240,
+            "value": "15872"
+          },
+          "status": "available",
+          "streamId": "track:1"
+        }
+      ],
+      "profile": "h264-rec709",
+      "readerOpens": 1,
+      "sourceHeight": 48,
+      "sourceWidth": 64,
+      "width": 64
+    }
+  }
+}

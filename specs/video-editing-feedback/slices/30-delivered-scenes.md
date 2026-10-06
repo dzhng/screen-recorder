@@ -1,6 +1,6 @@
 # 30 — Inspect scene changes in exported pixels
 
-Status: partial — the portable delivered-scene report helper and focused public-operation tests are implemented; a native planted flash/hold delivered-export checkpoint is retained, while physical empty-edit-list gap evidence remains open. Depends on: [13](13-decode-replication.md), [04](04-wait-and-json-delivery.md).
+Status: partial — the portable delivered-scene report helper and focused public-operation tests are implemented; native planted flash/hold and physical empty-edit-list delivered-export checkpoints are retained. Broader transition/audio and visual review gates remain open. Depends on: [13](13-decode-replication.md), [04](04-wait-and-json-delivery.md).
 
 ## Contract
 
@@ -33,7 +33,7 @@ Expose a case-selected command or existing lab entry with its own usage. Store a
 
 Invoke [write-tests](../../../.agents/skills/write-tests/SKILL.md) before changing behavior. Use the narrowest real consumer check and capture red/green evidence where behavior changes.
 
-Source file unchanged hash, encoded timestamp mapping, mismatch at authored join, graphics-only change and detection gaps. Detector candidates are observations, not editing permission.
+Source file unchanged hash, encoded timestamp mapping, mismatch at authored join, graphics-only change, physical empty-edit support and detection gaps. Detector candidates are observations, not editing permission.
 
 Variable: scene-change coverage/timing. Mask: change windows and full frame for planted flash/gap; look matching out of scope.
 

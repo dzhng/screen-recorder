@@ -37,7 +37,7 @@ remains open. Speaker replication remains below the unchanged
 80% long-form gate. Public split-tone delivery now has an independent CLI/MCP/native
 receipt with neutral and color masks. Native transition picture delivery now has
 crossfade/dip/flash receipts; native audio acceptance remains open for transitions,
-motion blur and the physical empty-edit-list scene gap;
+motion blur and physical empty-edit-list delivery;
 the delivered-scene export/import checkpoint covers planted flash/hold observations.
 Caption, blend, immutable-LUT, delivered-scene-helper, focused-use-case-routing and source
 acoustic/package-replay receipts are accepted for their declared scopes; their
@@ -84,7 +84,7 @@ Numbering is a review order; actual prerequisites live in the slice headers.
 - [ ] [27 — Crossfade, dip and flash recipes](slices/27-basic-transitions.md)
 - [ ] [28 — Whip/zoom trajectory and coverage](slices/28-whip-zoom-trajectory.md)
 - [ ] [29 — Bounded motion blur](slices/29-motion-blur.md)
-- [ ] [30 — Scene observations from delivered pixels](slices/30-delivered-scenes.md) (helper integrated; native planted-pixel gate open)
+- [ ] [30 — Scene observations from delivered pixels](slices/30-delivered-scenes.md) (helper integrated; native planted flash/hold and physical empty-edit receipts retained; broader delivery gates open)
 - [ ] [31 — Speaker continuity and attribution replication](slices/31-speaker-continuity-replication.md)
 - [ ] [32 — Public speaker labeling and transcript views](slices/32-speaker-labeling.md)
 - [ ] [33 — Focused launch, podcast and teaser references](slices/33-editing-references.md)

@@ -1,0 +1,115 @@
+{
+  "request": {
+    "asset": {
+      "assetId": "42f5673bebaa1faedf0f22da32445f4f9626222190b47d1db54a0714d4b490fc",
+      "streamId": "track:1",
+      "path": "/var/folders/62/pphwbgd15b1b9q7cjgf8m9pm0000gn/T/yap-empty-edit-delivery-oV5ggo/library/assets/42f5673bebaa1faedf0f22da32445f4f9626222190b47d1db54a0714d4b490fc.mov",
+      "originUs": 1250000
+    },
+    "available": [
+      {
+        "startUs": 0,
+        "endUs": 400000
+      },
+      {
+        "startUs": 600000,
+        "endUs": 1000000
+      }
+    ],
+    "atSourceUs": [
+      0,
+      200000,
+      400000,
+      600000,
+      800000,
+      999999
+    ]
+  },
+  "response": {
+    "assetId": "42f5673bebaa1faedf0f22da32445f4f9626222190b47d1db54a0714d4b490fc",
+    "decodedSamples": 9,
+    "originUs": 1250000,
+    "readerOpens": 1,
+    "samples": [
+      {
+        "actualSourceUs": 0,
+        "continuousFromPrevious": false,
+        "height": 48,
+        "requestedSourceUs": 0,
+        "sample": {
+          "endTimescale": 10240,
+          "endValue": "13824",
+          "timescale": 10240,
+          "value": "12800"
+        },
+        "status": "available",
+        "width": 64
+      },
+      {
+        "actualSourceUs": 200000,
+        "continuousFromPrevious": true,
+        "height": 48,
+        "requestedSourceUs": 200000,
+        "sample": {
+          "endTimescale": 10240,
+          "endValue": "15872",
+          "timescale": 10240,
+          "value": "14848"
+        },
+        "status": "available",
+        "width": 64
+      },
+      {
+        "continuousFromPrevious": false,
+        "reason": "outside_support",
+        "requestedSourceUs": 400000,
+        "status": "unavailable"
+      },
+      {
+        "actualSourceUs": 600000,
+        "continuousFromPrevious": false,
+        "height": 48,
+        "requestedSourceUs": 600000,
+        "sample": {
+          "endTimescale": 10240,
+          "endValue": "19968",
+          "timescale": 10240,
+          "value": "18944"
+        },
+        "status": "available",
+        "width": 64
+      },
+      {
+        "actualSourceUs": 800000,
+        "continuousFromPrevious": true,
+        "height": 48,
+        "requestedSourceUs": 800000,
+        "sample": {
+          "endTimescale": 10240,
+          "endValue": "22016",
+          "timescale": 10240,
+          "value": "20992"
+        },
+        "status": "available",
+        "width": 64
+      },
+      {
+        "actualSourceUs": 900000,
+        "continuousFromPrevious": true,
+        "height": 48,
+        "requestedSourceUs": 999999,
+        "sample": {
+          "endTimescale": 10240,
+          "endValue": "23040",
+          "timescale": 10240,
+          "value": "22016"
+        },
+        "status": "available",
+        "width": 64
+      }
+    ],
+    "sourceHeight": 48,
+    "sourceWidth": 64,
+    "streamId": "track:1"
+  }
+}

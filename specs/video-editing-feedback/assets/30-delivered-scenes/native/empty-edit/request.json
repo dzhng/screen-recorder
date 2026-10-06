@@ -1,0 +1,24 @@
+{
+  "source": {
+    "path": "specs/done/agent-editing/assets/10d-source-frames/visual/source.mov",
+    "sha256": "42f5673bebaa1faedf0f22da32445f4f9626222190b47d1db54a0714d4b490fc"
+  },
+  "selection": {
+    "assetId": "42f5673bebaa1faedf0f22da32445f4f9626222190b47d1db54a0714d4b490fc",
+    "streamId": "track:1"
+  },
+  "project": {
+    "projectId": "bf1b804d-a9b5-4ab9-a683-5dcce1d437a8",
+    "revisionId": "295b4921-c663-4087-8a66-c1166b9dcee9",
+    "maxLongEdge": 64
+  },
+  "range": {
+    "startUs": 0,
+    "endUs": 1000000
+  },
+  "export": {
+    "exportId": "05c224e9-f5f3-42de-b081-12a92a535f15",
+    "directory": "exports",
+    "leaf": "physical-gap.mp4"
+  }
+}

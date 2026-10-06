@@ -171,6 +171,13 @@ exposure controls and retained index receipts. Its help owns selected inputs and
 invocation. [Accepted observations](../../../specs/video-editing-feedback/assets/14-picture-statistics/README.md)
 retain measured scopes without turning camera histograms into grade targets.
 
+[Physical empty-edit delivery](empty-edit-delivery.mjs) imports the frozen
+AVFoundation empty-edit fixture through the public source/project/export path.
+It keeps physical support coverage, refused source reads, black gap pixels and
+available neighbors as separate observations; a black output without physical
+support evidence is not accepted as an empty edit. The retained receipt lives at
+[`30-delivered-scenes/native/empty-edit`](../../../specs/video-editing-feedback/assets/30-delivered-scenes/native/empty-edit/README.md).
+
 [Dialogue matching](dialogue-matching.mjs) drives the public CLI and pure consumer
 helper with two identified real-speaker controls. It verifies independent
 processed-clip matching, ordered explicit gains and complete strict mastering;

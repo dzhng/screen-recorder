@@ -1462,8 +1462,8 @@ Apple cube candidate are in the slice26 evidence; no user-only decision remains.
 
 - **When:** slice30 portable report pass.
 - **The choice:** Inspect the committed export file as an immutable external artifact, import that same path through the public asset lifecycle, and read scene observations from the imported video separately from authored project cuts. For example, a measured scene boundary near a project video join is reported as a match, while an audio cut or an unobserved authored join stays distinct. The report declares no editorial decision.
-- **The gap:** The slice required delivered-pixel observations and authored-join association but did not prescribe a new detector or a combined timeline shape. Existing source-scene observations are the current owner; the native export/import checkpoint now covers planted flash/hold changes, while a physical empty-edit-list gap remains unproven.
-- **The reach:** Future repair and review work can use one report to compare physical delivered changes with the revision that produced them without relabeling cuts or silently editing a project. A real encoded empty-edit-list gap must still be supplied before that coverage can be claimed.
+- **The gap:** The slice required delivered-pixel observations and authored-join association but did not prescribe a new detector or a combined timeline shape. Existing source-scene observations remain the owner; the native export/import checkpoint covers planted flash/hold changes, and the retained physical empty-edit receipt now proves source support, refused direct reads and the corresponding black project/export interval separately.
+- **The reach:** Future repair and review work can use one report to compare physical delivered changes with the revision that produced them without relabeling cuts or silently editing a project. A black frame without source-support evidence remains insufficient; declared acquisition holes and authored black cards stay separate.
 - **Verdict:** sound. It preserves source bytes, exact clocks, coverage state and the product boundary that detection supplies evidence rather than permission.
 - **Confidence:** high.
 
