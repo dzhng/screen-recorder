@@ -54,3 +54,7 @@ matching, compressor makeup and a complete independently measured strict master.
 [Synchronization waveform research](20-synchronization/README.md) retains exact
 real microphone operands, independent controls and all frozen acoustic refusals;
 it establishes no camera clock or production provider.
+
+[Independent blend arithmetic](24-blend-sheet/README.md) retains color/alpha sheets and
+a smooth vignette through the public compiler/native still/movie seam, with explicit
+codec masks and unfinished visual/public-admission gates.

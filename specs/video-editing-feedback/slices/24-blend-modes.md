@@ -1,6 +1,6 @@
 # 24 — Define useful layer blend arithmetic
 
-Status: partial — explicit blend modes and native swatch verification are integrated; independent visual comparison evidence remains open. Depends on: [13](13-decode-replication.md).
+Status: partial — native swatches and independent sheet/vignette frame/movie arithmetic pass; fresh visual critique and public CLI/service admission remain open. Depends on: [13](13-decode-replication.md).
 
 ## Contract
 
@@ -28,8 +28,9 @@ Freeze working color space, premultiplied-alpha handling, blend order and transp
 `YapFrameTests --blend-modes` renders red/blue swatches through multiply, screen and
 soft-light in the native compositor and checks the delivered pixels. Composition authoring
 retains the explicit mode as a blend operation on the layer surface; the native media
-contract carries the same mode. Independent reference-sheet and vignette comparison remain
-the next checkpoint.
+contract carries the same mode. The [independent sheet checkpoint](../assets/24-blend-sheet/README.md)
+freezes color/alpha/order/group and vignette arithmetic through the public compiler and
+native still/movie seam. Fresh visual critique and service/CLI admission remain open.
 
 Expose a case-selected command or existing lab entry with its own usage. Store accepted requests/results and artifact identities in feature-owned evidence. The implementing agent checks actual output; the user may view it for direction without becoming a QA gate.
 
@@ -45,7 +46,7 @@ Run [compare-screenshots](../../../.agents/skills/compare-screenshots/SKILL.md) 
 
 The focused pass is green when composition planning retains the explicit mode and native
 delivery matches the expected swatch arithmetic. The full slice remains open until the
-independent reference-sheet/vignette comparison is complete. An unavailable stub or
+independent visual critique and public admission are complete. An unavailable stub or
 undocumented fallback is not implementation completion.
 
 ## Delegated choices

@@ -1,0 +1,22 @@
+PASS normal: frame maximum 1, movie maximum 4
+PASS multiply: frame maximum 0, movie maximum 3
+PASS screen: frame maximum 0, movie maximum 3
+PASS soft-light: frame maximum 1, movie maximum 3
+PASS soft-light-reversed: frame maximum 0, movie maximum 3
+PASS multiply-nested: frame maximum 0, movie maximum 4
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: RGBA maximum 92 exceeds 8
+    at compare (file:///Users/server/dev/yap-blend-sheet/packages/test-harness/editing/blend-sheet.mjs:67:10)
+    at file:///Users/server/dev/yap-blend-sheet/packages/test-harness/editing/blend-sheet.mjs:120:75 {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: false,
+  expected: true,
+  operator: '==',
+  diff: 'simple'
+}
+
+Node.js v24.21.0

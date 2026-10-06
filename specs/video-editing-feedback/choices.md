@@ -964,3 +964,20 @@ unlisted architecture or user-only choice was found in this research pass.
 - **Verdict:** sound, high confidence. The sheet is small, exercises each decoration
   owner and uses stable clip IDs.
 - **Confidence:** high.
+
+## Independent blend reference envelope — slice24
+
+- **When:** slice24 independent sheet/vignette checkpoint.
+- **The choice:** Compare every delivered PNG pixel against scalar linear-light
+  equations, while comparing encoded patch interiors separately from their edges. A
+  movie codec can share color samples across a hard patch boundary even when the
+  compositor drew the correct pixels, so the patch movie claim excludes a two-pixel
+  fringe. A smooth vignette checks every movie pixel, including the outer falloff.
+- **The gap:** The spec required independent arithmetic and movie parity but did not
+  name fixtures or distinguish compositor error from codec boundary mixing.
+- **The reach:** This reference detects missing modes, incorrect alpha and wrong order
+  without adding a production renderer. It does not certify patch boundaries or public
+  CLI admission; those remain explicit gates.
+- **Verdict:** sound, medium-high confidence. PNG proof remains unmasked and the smooth
+  movie control prevents the codec mask from hiding a real falloff defect.
+- **Confidence:** medium-high.
