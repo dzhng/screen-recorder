@@ -1,0 +1,9 @@
+{
+  "kind": "matched-visual-review",
+  "completed": true,
+  "exitCode": 0,
+  "eventsSha256": "b9bad5bbd9c19de9a4fa4526b46080a64122046b8de4afb6510f8a24375fcb1a",
+  "verdictSha256": "2a084a24f3937eac7342ba0650fb8c539e36b3bd80c0ee5474ca41cb653eb21a",
+  "scope": "five full images and five4x face crops: original, independent reference, PNG, encoded reference and encoded candidate",
+  "disposition": "PNG and matched encoded response accepted; shared encoded lift/softness retained; dry/reference color difference is caller-requested transform rather than editorial defect"
+}

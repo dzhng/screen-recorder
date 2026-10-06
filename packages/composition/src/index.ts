@@ -1,3 +1,4 @@
+export { lutMetadataSchema } from "./lut.js";
 export {
   assetSchema,
   acquisitionContextSchema,

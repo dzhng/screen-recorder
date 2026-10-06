@@ -1,0 +1,14 @@
+{
+  "kind": "unprimed-visual-review",
+  "completed": true,
+  "scope": [
+    "dry PNG",
+    "independent reference PNG",
+    "graded PNG",
+    "first decoded held-shot movie frame",
+    "enlarged face crops"
+  ],
+  "verdict": "PNG accepted; sampled movie mild tonal drift and softness",
+  "limits": "No moving-shot or full-raster movie fidelity claim",
+  "verdictSha256": "eb0c2c977d955a456ec62782393d65648f1e92a8b996b3e230ed0db09475098c"
+}

@@ -43,7 +43,7 @@ import {
   projectWindow,
   type CompositionWindow,
   type CompositionAssetBinding,
-  type FontAssetBinding,
+  type ImmutableAssetBinding,
   type ProjectRenderSupport,
 } from "./project-window.js";
 
@@ -208,7 +208,8 @@ export type ProjectFrameRenderer = ProjectRenderSupport & {
       model: import("@yap/composition").ValidatedComposition;
       window: CompositionWindow;
       assets: readonly CompositionAssetBinding[];
-      fonts: readonly FontAssetBinding[];
+      fonts: readonly ImmutableAssetBinding[];
+      luts: readonly ImmutableAssetBinding[];
       output: string;
       maxLongEdge: number;
       observations?: NormalizedPictureObservationRequest | undefined;
@@ -929,6 +930,7 @@ export class MediaFrameInspection {
             window: plan.window,
             assets: plan.assets,
             fonts: plan.fonts,
+            luts: plan.luts,
             output,
             maxLongEdge: plan.options.maxLongEdge,
             ...(plan.options.observationRequest === undefined

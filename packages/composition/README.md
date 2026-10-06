@@ -67,6 +67,14 @@ slider. Temporal windows and curves are not admitted for this static processor.
 The [reproduction](../../specs/done/ffmpeg-parity/evidence/sdr-correction) owns the
 measured provider semantics and limits; operation discovery owns parameter bounds.
 
+An explicitly imported LUT is an immutable processing dependency, even when its
+step is bypassed or retained only in history. It has no invented stream or
+clock. [The LUT contract](src/lut.ts) requires the caller to declare the color
+interpretation; raw .cube text does not identify a camera profile. Ordered LUT
+steps share the same compilation and tap boundaries as other picture processors.
+[The native parser and recipe](../../helpers/mac/Sources/YapFrames/README.md)
+own supported file semantics and measured output.
+
 ## Compilation is distinct from readiness
 
 [The compiler](src/compiler.ts) indexes an immutable revision and compiles requested

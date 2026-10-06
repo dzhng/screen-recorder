@@ -426,7 +426,7 @@ export function resolveComposition(
     last.set(clip.track.id, clip);
     durationUs = Math.max(durationUs, ceil(clip.range.end));
   }
-  validateProcessing(document);
+  validateProcessing(document, assets);
   return freeze({ document, assets, acquisitions, clips: ordered, durationUs });
 }
 

@@ -60,9 +60,13 @@ real microphone operands, independent controls and all frozen acoustic refusals;
 it establishes no camera clock or production provider.
 
 [Independent blend arithmetic](24-blend-sheet/README.md) retains color/alpha sheets and
-a smooth vignette through the public compiler/native still/movie seam, with explicit
-codec masks and unfinished visual/public-admission gates.
+a smooth vignette through the public compiler/native still/movie seam, with retained raw codec loss and complete matched encoded references; public
+admission and scoped independent visual review pass.
 
 [Styled caption layout](22-styled-text/README.md) retains accepted static native/public
 placement and decorations, explicit color emoji/complex-script glyphs, matched
 pixels and independent review. It makes no universal-font or animation claim.
+
+[Immutable LUT response](26-immutable-luts/README.md) retains parser/interpolation
+controls, exact identity PNG, independently calculated grade pixels and package
+replay after owned donor-state deletion. Movie response covers both complete held-shot frames against a matched native-encoded reference; the fresh critique's shared drift/softening and unmasked raw-reference mismatch remain retained.

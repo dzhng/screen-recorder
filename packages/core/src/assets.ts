@@ -1,4 +1,5 @@
 import {
+  lutMetadataSchema,
   signedTimeValueSchema,
   timeValueSchema,
   fromTime,
@@ -84,6 +85,7 @@ export const mediaProbeSchema = z
   .object({
     originUs: signedTimeValueSchema,
     streams: z.array(stream).max(256),
+    lut: lutMetadataSchema.optional(),
     fontFaces: z
       .array(
         z
@@ -99,13 +101,15 @@ export const mediaProbeSchema = z
       .optional(),
   })
   .refine(
-    ({ originUs, streams, fontFaces }) =>
-      fontFaces
-        ? originUs === 0 &&
-          streams.length === 0 &&
-          new Set(fontFaces.map((face) => face.postScriptName)).size === fontFaces.length
-        : streams.length > 0,
-    "Expected playable streams or unambiguous, non-timed font faces",
+    ({ originUs, streams, fontFaces, lut }) =>
+      lut
+        ? originUs === 0 && streams.length === 0 && fontFaces === undefined
+        : fontFaces
+          ? originUs === 0 &&
+            streams.length === 0 &&
+            new Set(fontFaces.map((face) => face.postScriptName)).size === fontFaces.length
+          : streams.length > 0,
+    "Expected playable streams, unambiguous non-timed font faces or a non-timed LUT",
   )
   .refine(
     ({ streams }) => new Set(streams.map((stream) => stream.id)).size === streams.length,
@@ -723,6 +727,7 @@ export class AssetStore {
           );
         const metadata = parsed.data;
         if (
+          !metadata.lut &&
           !metadata.fontFaces &&
           !metadata.streams.some((stream) => stream.kind !== "unsupported" && stream.decodable)
         )
@@ -795,6 +800,7 @@ export class AssetStore {
 export function compositionAsset(asset: Asset): CompositionAsset {
   return {
     id: asset.id,
+    ...(asset.lut ? { lut: asset.lut } : {}),
     ...(asset.fontFaces ? { fontFaces: asset.fontFaces.map((face) => face.postScriptName) } : {}),
     streams: asset.streams.flatMap((stream): CompositionAsset["streams"] => {
       if (!stream.decodable || stream.kind === "unsupported") return [];

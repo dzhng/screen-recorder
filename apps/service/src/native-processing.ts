@@ -7,7 +7,7 @@ export function nativeProcessing(plan: readonly CompiledProcessingInstruction[])
     steps: steps.map(({ id, enabled, processor }) => ({
       id,
       enabled,
-      processor: ["opacity", "geometry", "sdr-correction"].includes(processor.type)
+      processor: ["opacity", "geometry", "sdr-correction", "lut"].includes(processor.type)
         ? { type: processor.type }
         : processor,
     })),

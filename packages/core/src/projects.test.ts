@@ -666,3 +666,67 @@ test("pinned revision ownership preserves missing, foreign and deleted project r
   expect(error(() => store.requireRevision(projectId, revisionId))).toEqual(expected);
   expect(error(() => store.revisionDependencies(projectId, revisionId))).toEqual(expected);
 });
+
+test("LUT-only revision dependencies survive cleared stacks, relocation and restored history", async () => {
+  const donor = await setup(),
+    receiver = await setup();
+  const source = join(donor.home, "look.cube");
+  await writeFile(source, "immutable LUT bytes");
+  const lut = await donor.assets.import(source, { kind: "import" }, async () => ({
+    originUs: 0,
+    streams: [],
+    lut: { format: "cube-3d", size: 2, domain: "unit", ordering: "red-fastest" },
+  }));
+  const original = donor.store.create({ requestId: "create", canvas });
+  const id = original.project.projectId;
+  const authored = donor.store.apply(id, {
+    requestId: "look",
+    expectedRevisionId: original.revision.id,
+    operations: [
+      {
+        operation: "processing.set",
+        target: { kind: "output" },
+        steps: [
+          {
+            processor: {
+              type: "lut",
+              assetId: lut.id,
+              colorSpace: "linear-srgb",
+              interpolation: "trilinear",
+            },
+          },
+        ],
+      },
+    ],
+  });
+  const cleared = donor.store.apply(id, {
+    requestId: "clear",
+    expectedRevisionId: authored.revision.id,
+    operations: [{ operation: "processing.set", target: { kind: "output" }, steps: [] }],
+  });
+  expect(donor.assets.references(lut.id)).toContainEqual({
+    kind: "revision",
+    id: authored.revision.id,
+  });
+  const staged = await receiver.assets.stagePortable(
+    donor.assets.portable(lut.id),
+    donor.assets.path(lut.id),
+    new AbortController().signal,
+  );
+  const adopted = receiver.store
+    .prepareAdoption({
+      requestId: "relocate",
+      packageIdentity: "lut-package",
+      snapshot: donor.store.snapshot(id),
+    })
+    .publish(() => staged.publish());
+  await staged.close();
+  await rm(donor.assets.path(lut.id));
+  const undone = receiver.store.undo(adopted.project.projectId, {
+    requestId: "restore-look",
+    expectedRevisionId: adopted.revision.id,
+  });
+  expect(undone.document).toEqual(authored.revision.document);
+  expect(receiver.assets.get(lut.id).lut).toEqual(lut.lut);
+  expect(cleared.revision.document.processing).toEqual([]);
+});

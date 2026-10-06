@@ -39,7 +39,10 @@ public enum NativeWire {
             },
             "media.pictureCapabilities": media { params in
                 try WireRequest.requireEmpty(params)
-                return SDRCorrection.implementationId.map { ["sdrCorrection": $0] } ?? [:]
+                var capabilities: [String: String] = [:]
+                capabilities["sdrCorrection"] = SDRCorrection.implementationId
+                capabilities["lut"] = LUTColor.implementationId
+                return capabilities
             },
             "media.outputCapabilities": media { params in
                 try WireRequest.requireEmpty(params)

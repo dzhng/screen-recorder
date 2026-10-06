@@ -21,6 +21,7 @@ import { compositionPointerSources } from "./composition-pointer.js";
 export type ProjectRenderSupport = {
   implementationId: string;
   sdrCorrection?: string;
+  lut?: string;
   processors?: ProcessorImplementations;
   rnnoise?: string;
   retime?: string;
@@ -29,7 +30,7 @@ export type ProjectRenderSupport = {
 };
 
 export type CompositionWindow = ReturnType<ReturnType<typeof createCompiler>["window"]>;
-export type FontAssetBinding = { assetId: string; path: string };
+export type ImmutableAssetBinding = { assetId: string; path: string };
 export type CompositionAssetBinding = {
   assetId: string;
   streamId: string;
@@ -117,6 +118,7 @@ function requireStateInputsReady(manifest: CompositionWindow["manifest"]) {
 }
 
 const implementations = (support: ProjectRenderSupport): ProcessorImplementations => ({
+  ...(support.lut ? { lut: support.lut } : {}),
   ...(support.sdrCorrection ? { "sdr-correction": support.sdrCorrection } : {}),
   geometry: support.implementationId,
   opacity: support.implementationId,
@@ -222,6 +224,7 @@ export function projectCompositionFromRevision(
         }),
         window: bound,
         assets: [...bindings.values()],
+        luts: bound.manifest.luts.map((assetId) => ({ assetId, path: assets.path(assetId) })),
         fonts: [...new Set(bound.manifest.fonts.map((font) => font.assetId))].map((assetId) => ({
           assetId,
           path: assets.path(assetId),

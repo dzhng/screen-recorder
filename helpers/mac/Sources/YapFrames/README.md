@@ -55,3 +55,14 @@ Native text retains its literal UTF-16 and imported font identity. Glyph-path
 bounds own vertical placement; decorations retain separate bounds and clipping.
 Rounded stroke joins keep acute glyph corners inside the reported half-width
 expansion instead of producing unreported sharp spikes.
+
+[LUT execution](LUTColor.swift) evaluates imported samples in the shared linear
+working space. [Admission](../YapMedia/CubeLUT.swift) owns the bounded .cube grid;
+unknown transforms and non-unit domains refuse. The explicit recipe uses
+trilinear interpolation with linear extension of the edge cells, preserves
+alpha and leaves final output conversion with the existing picture owner.
+Identity grids return the input directly, so an identity treatment cannot
+introduce another quantization/resampling step. Ordinary cube text alone does
+not establish that its samples describe linear sRGB; the caller declares that
+interpretation. The [numeric and public checkpoint](../../../../specs/video-editing-feedback/assets/26-immutable-luts/README.md)
+retains measured operands and scope.

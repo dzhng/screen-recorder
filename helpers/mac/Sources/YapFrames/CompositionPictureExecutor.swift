@@ -70,6 +70,9 @@ public final class CompositionPictureExecutor {
             let neutralKelvin: Double?
             let neutralTint: Double?
             let mode: String?
+            let assetId: String?
+            let colorSpace: String?
+            let interpolation: String?
             func correction() throws -> SDRCorrection.Parameters {
                 guard let exposureEV, let contrast, let saturation, let shadows, let highlights,
                     let neutralKelvin, let neutralTint else {
@@ -152,6 +155,9 @@ public final class CompositionPictureExecutor {
     private let deliveredSize: (width: Int, height: Int)
     private let assets: [String: CompositionAsset]
     private let fonts: [String: FontAssetBinding]
+    private let lutBindings: [String: LUTAssetBinding]
+    private var luts: [String: CubeLUT] = [:]
+    private let lutImplementationId: String?
     private let background: CIImage
     private let backgroundIsOpaque: Bool
     let color = CVImageBufferCreateColorSpaceFromAttachments(
@@ -185,10 +191,11 @@ public final class CompositionPictureExecutor {
     private(set) var outputIsKnownOpaque = false
     var decodedSamples: Int { decoded + readers.values.reduce(0) { $0 + $1.source.decodedCount } }
 
-    init(canvas: Canvas, deliveredSize: (width: Int, height: Int), bindings: [CompositionAsset], fonts: [FontAssetBinding] = [], pointers: PreparedPointersReceipt? = nil, sdrCorrectionImplementationId: String? = nil)
+    init(canvas: Canvas, deliveredSize: (width: Int, height: Int), bindings: [CompositionAsset], fonts: [FontAssetBinding] = [], luts: [LUTAssetBinding] = [], lutImplementationId: String? = nil, pointers: PreparedPointersReceipt? = nil, sdrCorrectionImplementationId: String? = nil)
         throws
     {
         self.sdrCorrectionImplementationId = sdrCorrectionImplementationId
+        self.lutImplementationId = lutImplementationId
         self.preparedPointers = try pointers.map(PreparedPointers.init)
         try canvas.validate()
         var assets: [String: CompositionAsset] = [:]
@@ -209,6 +216,13 @@ public final class CompositionPictureExecutor {
             guard fontBindings.updateValue(font, forKey: font.assetId) == nil else { throw Self.invalid("Duplicate font asset binding.") }
         }
         self.fonts = fontBindings
+        var lutBindings: [String: LUTAssetBinding] = [:]
+        for lut in luts {
+            guard lutBindings.updateValue(lut, forKey: lut.assetId) == nil else {
+                throw Self.invalid("Duplicate LUT asset binding.")
+            }
+        }
+        self.lutBindings = lutBindings
     }
 
     func image(_ frame: Frame) async throws -> CIImage {
@@ -580,6 +594,10 @@ public final class CompositionPictureExecutor {
 
     private func preflightSurfaces(_ frame: Frame) throws -> Set<Frame.Operation> {
         var masks = Set<Frame.Operation>()
+        let requiredLuts = Set(frame.visual.flatMap(\.operations).filter { $0.kind == "lut" }.compactMap(\.assetId))
+        luts = luts.filter { requiredLuts.contains($0.key) }
+        var lutBytes: Int64 = 0
+        var seenLuts = Set<String>()
         var intermediatePixels: Int64 = 0
         var overlayPixels: Int64 = 0
         let area = Int64(canvas.width) * Int64(canvas.height)
@@ -614,6 +632,14 @@ public final class CompositionPictureExecutor {
                         where node.operations[reference].kind == "rasterize" {
                             intermediatePixels += area
                         }
+                    }
+                } else if operation.kind == "lut" {
+                    try LUTColor.requireImplementation(lutImplementationId)
+                    let cube = try lut(operation)
+                    if seenLuts.insert(operation.assetId!).inserted {
+                        lutBytes += Int64(cube.rgba.count * MemoryLayout<Float>.size)
+                        try Self.requireBudget("lut-sample-bytes", requested: lutBytes,
+                            limit: 16 * 1024 * 1024, frame: frame.index)
                     }
                 } else if operation.kind == "sdr-correction" {
                     try SDRCorrection.requireImplementation(sdrCorrectionImplementationId)
@@ -774,6 +800,17 @@ public final class CompositionPictureExecutor {
         return sources
     }
 
+    private func lut(_ operation: Frame.Operation) throws -> CubeLUT {
+        guard operation.colorSpace == "linear-srgb", operation.interpolation == "trilinear",
+            let assetId = operation.assetId, let binding = lutBindings[assetId] else {
+            throw Self.invalid("LUT requires an explicit immutable asset and supported interpretation.")
+        }
+        if let cube = luts[assetId] { return cube }
+        let cube = try CubeLUT.load(binding)
+        luts[assetId] = cube
+        return cube
+    }
+
     private func apply(_ operation: Frame.Operation, to image: CIImage) throws -> CIImage {
         switch operation.kind {
         case "clamp":
@@ -823,6 +860,8 @@ public final class CompositionPictureExecutor {
             let matrix = try Self.affine(operation)
             if matrix.a * matrix.d - matrix.b * matrix.c == 0 { return CIImage.empty() }
             return image.transformed(by: matrix)
+        case "lut":
+            return try LUTColor.apply(lut(operation), to: image)
         case "sdr-correction":
             return try SDRCorrection.apply(operation.correction(), to: image)
         case "opacity":

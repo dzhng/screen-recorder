@@ -1113,3 +1113,57 @@ choice is embedded in the imported-font coverage.
   equating recognized text with a clean join.
 - **Verdict:** sound, high confidence for identity/lifetime/mapping; no general
   lexical cut-quality claim or portable package publication claim.
+
+## Extended colors keep the existing clipping owner — slice26
+
+- **When:** slice26 native LUT recipe pass.
+- **The choice:** Use the last two samples on a grid edge to continue its color
+  response for values below zero or above one. For example, an earlier exposure
+  step can make a bright wall brighter than the nominal white value. The LUT
+  still transforms that value; the final PNG/movie conversion clips only when
+  producing the display format. Clamping before the LUT would silently erase
+  the highlight information and change the meaning of ordered corrections.
+- **The gap:** The delegated grid/color recipe did not spell out what to do with
+  extended working values outside its unit sample domain.
+- **The reach:** Future LUT implementations must preserve this interpretation
+  and recipe identity rather than inserting a new clipping stage.
+- **Verdict:** sound. Independent extended-value and exposure-order controls pass;
+  it preserves the established working-space/output-conversion boundary.
+- **Confidence:** medium-high.
+
+## An exact identity request keeps the same pixels — slice26
+
+- **When:** slice26 real-shot identity red/green.
+- **The choice:** Return the existing image unchanged when every admitted 32-bit floating-point
+  grid sample is exactly its identity value. Passing an identity through another
+  image kernel changed a few delivered code values because the image engine
+  regrouped filters. Returning the same image means that asking for an exact
+  no-op cannot introduce another calculation or rounding step; non-identity
+  grids still execute the measured trilinear sampler.
+- **The gap:** The plan required exact dry pixels but did not prescribe how the
+  native image engine should keep an identity from changing filter fusion.
+- **The reach:** Exact identity is a semantic guarantee of this recipe. Decimal
+  approximations that change a grid value remain real transforms.
+- **Verdict:** sound. Complete delivered RGB matches exactly while nonlinear
+  interpolation and partial-alpha controls still exercise the real kernel.
+- **Confidence:** high.
+
+## Bound the active table set without another cache owner — slice26
+
+- **When:** slice26 native shared-executor integration.
+- **The choice:** Retain only tables required by the current frame and refuse
+  a frame whose unique active 32-bit floating-point samples exceed 16 MiB. If a timeline moves
+  from one grade to another, the old table is dropped; a later frame can reload
+  its immutable bytes. The alternative was a growing timeline-wide table cache
+  or another scheduler, although the executor already owns surface budgets.
+- **The gap:** The bounded format limited one file but left multiple simultaneous
+  imported tables' working memory unspecified.
+- **The reach:** Complex requests get a truthful budget refusal through the
+  existing native error path; no eviction service or new resource kind exists.
+- **Verdict:** sound. It is a finite general working-set policy, with individual
+  table size bounded independently; it does not weaken the interpolation gate.
+- **Confidence:** medium-high.
+
+The size/domain/Float32 trilinear sampler choices were explicitly delegated
+reference-replication discretion. Their frozen recipe and rejected quantized
+Apple cube candidate are in the slice26 evidence; no user-only decision remains.

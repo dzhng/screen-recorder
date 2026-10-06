@@ -16,7 +16,7 @@ import {
   validateProjectAudio,
   type CompositionWindow,
   type CompositionAssetBinding,
-  type FontAssetBinding,
+  type ImmutableAssetBinding,
   type ProjectRenderSupport,
 } from "./project-window.js";
 export type { CompositionWindow, CompositionAssetBinding } from "./project-window.js";
@@ -50,7 +50,8 @@ export type ProjectMovieRenderer = ProjectRenderSupport & {
       model: import("@yap/composition").ValidatedComposition;
       window: CompositionWindow;
       assets: readonly CompositionAssetBinding[];
-      fonts: readonly FontAssetBinding[];
+      fonts: readonly ImmutableAssetBinding[];
+      luts: readonly ImmutableAssetBinding[];
       output: string;
       settings: OutputSettings;
     },

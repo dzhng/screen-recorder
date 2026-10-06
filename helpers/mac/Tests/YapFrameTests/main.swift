@@ -27,6 +27,11 @@ if CommandLine.arguments.contains("--picture-observations") {
     finish()
 }
 
+if CommandLine.arguments.contains("--lut") {
+    try await verifyLUTs(in: images)
+    finish()
+}
+
 if CommandLine.arguments.contains("--sdr-correction") {
     try await verifySDRCorrection(in: images)
     finish()

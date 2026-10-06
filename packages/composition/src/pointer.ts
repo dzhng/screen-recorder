@@ -37,6 +37,7 @@ export const visualOperationsSchema = z
       } else if (
         operation.kind !== "opacity" &&
         operation.kind !== "sdr-correction" &&
+        operation.kind !== "lut" &&
         operation.kind !== "blend"
       )
         geometry.push(index);

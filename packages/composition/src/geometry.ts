@@ -1,3 +1,4 @@
+import { lutParameters } from "./lut.js";
 import { sdrCorrectionParameters } from "./sdr-correction.js";
 import { z } from "zod";
 import { CompositionError } from "./errors.js";
@@ -35,6 +36,7 @@ export type ImageDomain = { width: number; height: number };
 export type Affine = [number, number, number, number, number, number];
 export const picturePrimitiveSchema = z.discriminatedUnion("kind", [
   z.object({ kind: z.literal("sdr-correction"), ...sdrCorrectionParameters }).strict(),
+  z.object({ kind: z.literal("lut"), ...lutParameters }).strict(),
   z.object({ kind: z.literal("rasterize"), width: size, height: size }).strict(),
   z
     .object({ kind: z.literal("clamp"), x: coordinate, y: coordinate, width: size, height: size })

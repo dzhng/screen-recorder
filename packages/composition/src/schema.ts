@@ -1,3 +1,4 @@
+import { lutMetadataSchema, lutParameters } from "./lut.js";
 import { sdrCorrectionParameters } from "./sdr-correction.js";
 import { pointerSchema } from "./pointer.js";
 import { geometrySchemaWithScalars } from "./geometry.js";
@@ -283,7 +284,12 @@ export const acquisitionContextSchema = z
   .strict();
 export type AcquisitionContext = z.infer<typeof acquisitionContextSchema>;
 export const assetSchema = z
-  .object({ id, streams: z.array(streamSchema), fontFaces: z.array(id).optional() })
+  .object({
+    id,
+    streams: z.array(streamSchema),
+    fontFaces: z.array(id).optional(),
+    lut: lutMetadataSchema.optional(),
+  })
   .strict();
 export const routingNodeSchema = z
   .object({
@@ -448,6 +454,16 @@ export const processorRegistry = {
       pivot: "normalized rectangle",
     },
   },
+  lut: {
+    schema: z.object({ type: z.literal("lut"), ...lutParameters }).strict(),
+    targets: allProcessingTargets,
+    mediaKind: "video" as const,
+    units: {
+      colorSpace:
+        "unpremultiplied linear sRGB RGB; unit grid with edge-linear extrapolation; alpha preserved",
+      interpolation: "trilinear cube samples, red index changes fastest",
+    },
+  },
   "sdr-correction": {
     schema: z.object({ type: z.literal("sdr-correction"), ...sdrCorrectionParameters }).strict(),
     targets: allProcessingTargets,
@@ -537,6 +553,7 @@ export const processingStepSchema = z
       processorRegistry.opacity.schema,
       processorRegistry.blend.schema,
       processorRegistry["sdr-correction"].schema,
+      processorRegistry.lut.schema,
     ]),
   })
   .strict();
@@ -640,8 +657,18 @@ export function clipAssetIds(clip: {
       ? []
       : [clip.assetId];
 }
-export function documentAssetIds(document: { clips: readonly Clip[] }): string[] {
-  return [...new Set(document.clips.flatMap(clipAssetIds))];
+export function documentAssetIds(document: {
+  clips: readonly Clip[];
+  processing?: readonly { steps: readonly ProcessingStep[] }[];
+}): string[] {
+  return [
+    ...new Set([
+      ...document.clips.flatMap(clipAssetIds),
+      ...(document.processing ?? []).flatMap(({ steps }) =>
+        steps.flatMap(({ processor }) => (processor.type === "lut" ? [processor.assetId] : [])),
+      ),
+    ]),
+  ];
 }
 
 export function documentAcquisitionIds(document: { clips: readonly Clip[] }): string[] {

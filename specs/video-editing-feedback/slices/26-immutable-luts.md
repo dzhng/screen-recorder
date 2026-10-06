@@ -1,10 +1,13 @@
 # 26 — Apply an explicitly imported LUT
 
-Status: planned. Depends on: [25](25-tone-controls.md).
+Status: implemented immutable/LUT response and package contract; complete two-frame held-shot movie response, with broader movie fidelity open. Depends on: [25](25-tone-controls.md).
 
 ## Contract
 
-Immutable LUT bytes can be an explicit retained dependency of a grade.
+Immutable LUT bytes are admitted through `asset.import`, with non-playable `lut`
+metadata, then retained as explicit revision dependencies. `processing.set` accepts
+`{type:"lut", assetId, colorSpace:"linear-srgb", interpolation:"trilinear"}`
+in the existing ordered picture stack. No new asset kind or global lookup exists.
 
 ## Seam and ownership
 
@@ -21,7 +24,18 @@ These are current discovery pointers, not a claim every listed module must chang
 
 ## Scope and frozen decisions
 
-Replicate and freeze a bounded .cube format with domain/size/interpolation/color assumptions. Import bytes by identity, retain through undo/package, and apply an explicit ordered LUT step. Identity LUT must reproduce dry pixels. Refuse malformed/unknown transforms; no ambient global LUT lookup.
+Frozen recipe: UTF-8 3D .cube up to 4 MiB, size 2–33, red-fastest samples, optional
+unit domain headers, finite unit RGB outputs. The native sampler uses Float32
+trilinear interpolation in unpremultiplied linear sRGB, extends edge cells linearly
+for extended inputs and preserves alpha. Final clipping stays with existing output
+conversion. Exact identity grids return the original image unchanged. Native loads
+verify immutable SHA256 bytes; active tables share a 16 MiB sample working-set bound.
+Malformed/unknown transforms, domains and grid rows refuse.
+
+Direct Apple cube candidates failed the unchanged 0.0002 numerical tolerance. The
+accepted float sampler passes independent nonlinear response/alpha/order controls;
+identity bypass also passes exact real-shot delivered pixels. These delegated
+format/provider choices are frozen in [evidence](../assets/26-immutable-luts/README.md).
 
 ## Runnable checkpoint
 
@@ -56,3 +70,29 @@ Run review/refactor-clean/code-review/write-docs appropriate to the change; reta
 ## Direction that would change this slice
 
 A changed user brief, reference or product policy can redirect it. Human listening, watching or transcript labeling is never an acceptance prerequisite. Record material deviations and their evidence instead of silently changing requirements.
+
+## Retained pass verdict
+
+[Public checkpoint](../../../packages/test-harness/editing/lut-assets.mjs) proves
+CLI/MCP import/discovery, exact identity PNG, known gain response within one code
+value, ordered native execution, byte refusals, revision/undo retention and exact
+PNG replay after donor scratch state deletion and independent package adoption.
+Focused checks and immutable source controls pass; composition 320 tests, composition
+and service typechecks and scoped lint pass. Four existing Core index type errors
+remain outside this pass. Full suite waits until final spec completion.
+
+[Unprimed final visual critique](../assets/26-immutable-luts/matched-visual-review.md) accepts
+lossless PNG response and framing. The matched native-encoded independent
+reference passes complete RGB over both held-shot frames at MAE 0.47703/255, with no boundary mask; fresh full/crop critique
+accepts matching response. Both encodings retain mild lift/softness versus lossless
+images. The raw independent-reference mismatch remains MAE 3.37562/255, maximum 37.
+This certifies the complete held-shot response, not moving-shot/general delivery
+fidelity. The latter shared gate remains open. Preview was unresponsive, and the
+owned AppleEvent attempt was canceled; artifacts are directly viewable with no human
+QA dependency. Scoped code/shape/docs review and choices audit are retained with
+the evidence.
+
+The independent code review's sole compatibility finding is intentionally
+dismissed: legacy prepared-audio manifests without `luts` refuse under the
+explicit hard cutover. No default reader or migration was introduced. See
+[review receipt](../assets/26-immutable-luts/code-review.json).

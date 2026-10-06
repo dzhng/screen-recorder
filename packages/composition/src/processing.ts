@@ -69,7 +69,7 @@ export function processingScalars(
   return {};
 }
 
-export function validateProcessing(document: Document) {
+export function validateProcessing(document: Document, assets: ValidatedComposition["assets"]) {
   const kinds = targetKinds(document);
   const clips = new Map(document.clips.map((clip) => [clip.id, clip]));
   const targets = new Set<string>();
@@ -83,6 +83,11 @@ export function validateProcessing(document: Document) {
       if (stepIds.has(step.id)) invalid("Duplicate processing step ID", { stepId: step.id });
       stepIds.add(step.id);
       const definition = processorRegistry[step.processor.type];
+      if (step.processor.type === "lut") {
+        const assetId = step.processor.assetId;
+        if (!assets.some((asset) => asset.id === assetId && asset.lut))
+          invalid("LUT processor requires an admitted immutable cube asset", { stepId: step.id });
+      }
       if (step.processor.type === "compressor" && step.processor.detector.kind === "tap") {
         const tap = step.processor.detector.tap;
         const detectorKind = targetKind(kinds, tap.target);

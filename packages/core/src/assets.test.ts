@@ -898,3 +898,27 @@ test("admission discovery and portable metadata retain one signed origin and fra
     await staged.close();
   }
 });
+
+test("immutable cube assets retain non-playable LUT metadata through portable adoption", async () => {
+  const donor = await setup();
+  const source = join(donor.root, "look.cube");
+  const bytes = "LUT_3D_SIZE 2\n0 0 0\n1 0 0\n0 1 0\n1 1 0\n0 0 1\n1 0 1\n0 1 1\n1 1 1\n";
+  await writeFile(source, bytes);
+  const lut = { format: "cube-3d", size: 2, domain: "unit", ordering: "red-fastest" };
+  const asset = await donor.store.import(source, { kind: "import" }, async () => ({
+    originUs: 0,
+    streams: [],
+    lut,
+  }));
+  expect(compositionAsset(asset)).toEqual({ id: asset.id, streams: [], lut });
+  const recipient = await setup();
+  const staged = await recipient.store.stagePortable(
+    donor.store.portable(asset.id),
+    donor.store.path(asset.id),
+    new AbortController().signal,
+  );
+  recipient.catalog.transaction(() => staged.publish());
+  await staged.close();
+  expect(recipient.store.get(asset.id).lut).toEqual(lut);
+  expect(await readFile(recipient.store.path(asset.id), "utf8")).toBe(bytes);
+});

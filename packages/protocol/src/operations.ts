@@ -352,7 +352,7 @@ export const operationSchema = z.discriminatedUnion("operation", [
     })
     .strict()
     .describe(
-      "Admit local media or a font file as an immutable asset through a durable job. Fonts retain all explicitly named faces without installation or playable streams. Replay requestId to recover the same import; inspect job.get, retry failed work with job.retry and cancel with job.cancel.",
+      "Admit local media, a font file or a bounded 3D .cube LUT as an immutable asset through a durable job. Fonts retain all explicitly named faces without installation or playable streams. LUTs retain byte identity and typed non-playable grid metadata; use processing.set with an explicit LUT asset, colorSpace and interpolation. Replay requestId to recover the same import; inspect job.get, retry failed work with job.retry and cancel with job.cancel.",
     ),
   z
     .object({
@@ -373,7 +373,7 @@ export const operationSchema = z.discriminatedUnion("operation", [
     .object({ operation: z.literal("asset.get"), params: z.object({ assetId: id }).strict() })
     .strict()
     .describe(
-      "Read immutable stream headers with segmentCount; use asset.segments for complete physical timing rows, including empty gaps. Non-timed fontFaces remain available. Select a font face by assetId and its exact postScriptName; names are scoped to those immutable bytes, not the installed system fonts.",
+      "Read immutable stream headers with segmentCount; use asset.segments for complete physical timing rows, including empty gaps. Non-timed fontFaces and lut grid metadata remain available. Select a font face by assetId and its exact postScriptName; names are scoped to those immutable bytes, not the installed system fonts.",
     ),
   z
     .object({
