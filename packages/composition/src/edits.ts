@@ -1,6 +1,6 @@
 import { hasStatefulProcessing, normalizeStateEdit } from "./processing-state.js";
 import { clipGraph } from "./clip-graph.js";
-import { placementForRange, resolveComposition } from "./model.js";
+import { placementForRange, resolveComposition, resolvePlacement } from "./model.js";
 import { getProcessing, processingKey } from "./processing.js";
 import { CompositionError } from "./errors.js";
 import { z } from "zod";
@@ -36,6 +36,9 @@ type Document = ValidatedComposition["document"];
 type EntityKind = "clip" | "track" | "group" | "syncGroup" | "processingStep";
 const reference = z.union([z.string().min(1), z.object({ label: z.string().min(1) }).strict()]);
 const label = z.string().min(1).optional();
+function greatestCommonDivisor(a: bigint, b: bigint): bigint {
+  return b === 0n ? a : greatestCommonDivisor(b, a % b);
+}
 const routingTarget = z.object({ kind: z.enum(["track", "group"]), id: reference }).strict();
 const processingTarget = z.union([
   processingTargetSchema.options[0].extend({ id: reference }),
@@ -93,6 +96,23 @@ const transition = {
   interpolation: interpolationSchema.default("linear"),
   label,
 };
+const transitionRecipe = z
+  .object({
+    operation: z.literal("transition"),
+    kind: z.enum(["crossfade", "dip", "flash"]),
+    targets: z.array(processingTarget).min(1).max(2),
+    mediaKind: z.enum(["audio", "video"]),
+    window: exactAnchor,
+    interpolation: interpolationSchema.default("linear"),
+    label,
+  })
+  .strict()
+  .superRefine((value, context) => {
+    if (value.kind === "crossfade" && value.targets.length !== 2)
+      context.addIssue({ code: z.ZodIssueCode.custom, message: "Crossfade requires two targets" });
+    if (value.kind !== "crossfade" && value.targets.length !== 1)
+      context.addIssue({ code: z.ZodIssueCode.custom, message: "Dip and flash require one target" });
+  });
 export const editOperationSchema = z.discriminatedUnion("operation", [
   z
     .object({ operation: z.literal("text.set"), clipId: reference, source: textSourceSchema })
@@ -107,6 +127,7 @@ export const editOperationSchema = z.discriminatedUnion("operation", [
       geometry: processorRegistry.geometry.schema.omit({ type: true, scale: true }).optional(),
     })
     .strict(),
+  transitionRecipe,
   z
     .object({
       operation: z.literal("processing.set"),
@@ -803,6 +824,103 @@ export function applyBatch(
         operationIndex = end - 1;
         continue;
       }
+      if (authored.operation === "transition") {
+        const operation = authored;
+        const targets = operation.targets.map((target) =>
+          target.kind === "output"
+            ? target
+            : { kind: target.kind, id: resolve(target.id, target.kind) },
+        );
+        if (new Set(targets.map((target) => processingKey(target))).size !== targets.length)
+          invalid("Transition targets must be distinct");
+        const window =
+          operation.window.kind === "project"
+            ? operation.window
+            : { ...operation.window, clipId: resolve(operation.window.clipId, "clip") };
+        const transitionRange = resolvePlacement(model, window).range;
+        for (const target of targets) {
+          if (target.kind !== "clip") continue;
+          const clip = model.clips.find((value) => value.clip.id === target.id);
+          if (
+            !clip ||
+            compare(transitionRange.start, clip.range.start) < 0 ||
+            compare(transitionRange.end, clip.range.end) > 0
+          )
+            invalid("Transition window exceeds a target's available handle", { target });
+        }
+        const endpoints =
+          window.kind === "clip"
+            ? [window.start, window.end]
+            : window.kind === "content"
+              ? [window.sourceRange.startUs, window.sourceRange.endUs]
+              : [window.range.startUs, window.range.endUs];
+        if (
+          window.kind !== "clip" &&
+          (typeof endpoints[0] !== "number" || typeof endpoints[1] !== "number")
+        )
+          invalid(
+            "Transition source/project endpoints must be whole microseconds; use a clip anchor for fractional boundaries",
+          );
+        const midpoint = operation.kind === "crossfade" ? undefined : (() => {
+          if (window.kind === "clip") {
+            const denominator =
+              2n * BigInt(window.start.denominator) * BigInt(window.end.denominator);
+            const numerator =
+              BigInt(window.start.numerator) * BigInt(window.end.denominator) +
+              BigInt(window.end.numerator) * BigInt(window.start.denominator);
+            const divisor = greatestCommonDivisor(
+              numerator < 0n ? -numerator : numerator,
+              denominator,
+            );
+            return {
+              numerator: Number(numerator / divisor),
+              denominator: Number(denominator / divisor),
+            };
+          }
+          const start = endpoints[0] as number,
+            end = endpoints[1] as number;
+          if ((start + end) % 2 !== 0)
+            invalid("Dip and flash require an even whole-microsecond midpoint");
+          return (start + end) / 2;
+        })();
+        const values =
+          operation.kind === "crossfade"
+            ? targets.map((_, index) => (index === 0 ? [1, 0] : [0, 1]))
+            : targets.map(() => [1, 0, 1]);
+        const updates = targets.map((target, index) => {
+          const valuesForTarget = values[index]!;
+          const at =
+            valuesForTarget.length === 2
+              ? endpoints
+              : [endpoints[0], midpoint!, endpoints[1]];
+          const curve = {
+            keys: valuesForTarget.map((value, keyIndex) => ({
+              at: at[keyIndex]!,
+              value,
+              interpolation:
+                keyIndex === valuesForTarget.length - 1 ? ("hold" as const) : operation.interpolation,
+            })),
+          };
+          const processor =
+            operation.mediaKind === "audio"
+              ? { type: "gain" as const, gain: curve }
+              : { type: "opacity" as const, opacity: curve };
+          return processingStack({
+            operation: "processing.set",
+            target,
+            steps: [
+              ...getProcessing(model, target),
+              {
+                enabled: true,
+                ...(index === 0 && operation.label ? { label: operation.label } : {}),
+                window,
+                processor,
+              },
+            ],
+          });
+        });
+        next = replaceProcessing(before, updates);
+      } else {
       let operation = authored;
       if (operation.operation === "fade" || operation.operation === "zoom") {
         const target =
@@ -1269,6 +1387,7 @@ export function applyBatch(
           };
           break;
         }
+      }
       }
       const candidate = resolveComposition(next, model.assets, model.acquisitions);
       const stateDocument = normalizeStateEdit(model, candidate);

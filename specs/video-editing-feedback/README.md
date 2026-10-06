@@ -1,6 +1,6 @@
 # Reliable autonomous video editing
 
-Status: implementation active; core contracts through19 are integrated, bounded source/project alignment and generation-pinned speaker labels are implemented, synchronization and long-form speaker quality gates remain open, and caption/blend evidence is in focused checkpoints. Last updated: 2026-10-06.
+Status: implementation active; core contracts through19 are integrated, bounded source/project alignment and generation-pinned speaker labels are implemented, transition lowering and focused caption/blend checkpoints are present, and synchronization, native delivery and long-form speaker quality gates remain open. Last updated: 2026-10-06.
 
 Yap supplies explicit editing primitives and reproducible observations. The consumer
 agent chooses the story, uses available creative tools, checks actual output and
@@ -21,7 +21,9 @@ then continue the remaining synchronization, tone/LUT, transition and speaker ga
 The public
 styled-caption static sheet for stage22 is integrated, and slice23's active-word timing checkpoint is implemented:
 exact UTF-16 ranges, source-clock mapping and native colored-glyph receipts pass;
-entrance/pop motion remains open. The20 waveform research is retained but
+entrance/pop motion remains open. Stage27's crossfade/dip/flash recipes now lower to
+ordinary bounded gain/opacity curves; native delivered transition evidence remains
+open. The20 waveform research is retained but
 all nine real comparisons refuse its frozen acoustic gates, so lexical anchors remain
 open. Reviewed atomic export, delivered picture observations, bounded alignment
 including the prepared project-tap job/read seam, retained source portability,
@@ -89,7 +91,7 @@ Numbering is a review order; actual prerequisites live in the slice headers.
 - [ ] [24 — Explicit blend semantics](slices/24-blend-modes.md)
 - [ ] [25 — Tone and color controls](slices/25-tone-controls.md)
 - [ ] [26 — Immutable imported LUTs](slices/26-immutable-luts.md)
-- [ ] [27 — Crossfade, dip and flash recipes](slices/27-basic-transitions.md)
+- [x] [27 — Crossfade, dip and flash recipes](slices/27-basic-transitions.md)
 - [ ] [28 — Whip/zoom trajectory and coverage](slices/28-whip-zoom-trajectory.md)
 - [ ] [29 — Bounded motion blur](slices/29-motion-blur.md)
 - [ ] [30 — Scene observations from delivered pixels](slices/30-delivered-scenes.md)

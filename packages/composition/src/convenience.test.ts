@@ -254,3 +254,138 @@ test("content fade keys stay in source time and output fades explicitly select t
   const output = result.document.processing.find((s) => s.target.kind === "output")!;
   expect(output.steps[0]!.processor.type).toBe("opacity");
 });
+
+test("crossfade lowers to opposing opacity ramps on two explicit overlapping targets", () => {
+  const assets = [
+    { id: "a", streams: [{ id: "v", kind: "image", width: 64, height: 48 }] },
+    { id: "b", streams: [{ id: "v", kind: "image", width: 64, height: 48 }] },
+  ];
+  const result = applyBatch(
+    empty,
+    [
+      { operation: "track.add", track: { kind: "video", order: 0 }, label: "first" },
+      { operation: "track.add", track: { kind: "video", order: 1 }, label: "second" },
+      {
+        operation: "place",
+        label: "a",
+        clip: {
+          assetId: "a",
+          streamId: "v",
+          trackId: { label: "first" },
+          source: { kind: "hold", atUs: 0 },
+          placement: { kind: "project", range: { startUs: 0, endUs: 1000000 } },
+        },
+      },
+      {
+        operation: "place",
+        label: "b",
+        clip: {
+          assetId: "b",
+          streamId: "v",
+          trackId: { label: "second" },
+          source: { kind: "hold", atUs: 0 },
+          placement: { kind: "project", range: { startUs: 0, endUs: 1000000 } },
+        },
+      },
+      {
+        operation: "transition",
+        kind: "crossfade",
+        targets: [
+          { kind: "clip", id: { label: "a" } },
+          { kind: "clip", id: { label: "b" } },
+        ],
+        mediaKind: "video",
+        window: {
+          kind: "project",
+          range: { startUs: 250000, endUs: 750000 },
+        },
+      },
+    ],
+    { assets, namespace: "crossfade" },
+  );
+  const stacks = result.document.processing.filter((stack) => stack.target.kind === "clip");
+  expect(stacks).toHaveLength(2);
+  expect(stacks.map((stack) => stack.steps[0]!.processor)).toEqual([
+    {
+      type: "opacity",
+      opacity: {
+        keys: [
+          { at: 250000, value: 1, interpolation: "linear" },
+          { at: 750000, value: 0, interpolation: "hold" },
+        ],
+      },
+    },
+    {
+      type: "opacity",
+      opacity: {
+        keys: [
+          { at: 250000, value: 0, interpolation: "linear" },
+          { at: 750000, value: 1, interpolation: "hold" },
+        ],
+      },
+    },
+  ]);
+});
+
+test("dip and flash use a bounded three-point alpha pulse and refuse an unrepresentable midpoint", () => {
+  const assets = [{ id: "a", streams: [{ id: "v", kind: "image", width: 64, height: 48 }] }];
+  const setup = applyBatch(
+    empty,
+    [
+      { operation: "track.add", track: { kind: "video", order: 0 }, label: "video" },
+      {
+        operation: "place",
+        label: "clip",
+        clip: {
+          assetId: "a",
+          streamId: "v",
+          trackId: { label: "video" },
+          source: { kind: "hold", atUs: 0 },
+          placement: { kind: "project", range: { startUs: 0, endUs: 1000000 } },
+        },
+      },
+    ],
+    { assets, namespace: "pulse-setup" },
+  );
+  const target = { kind: "clip", id: setup.labels.clip };
+  for (const kind of ["dip", "flash"] as const) {
+    const result = applyBatch(
+      setup.document,
+      [
+        {
+          operation: "transition",
+          kind,
+          targets: [target],
+          mediaKind: "video",
+          window: { kind: "project", range: { startUs: 200000, endUs: 800000 } },
+        },
+      ],
+      { assets, namespace: `pulse-${kind}` },
+    );
+    expect(result.document.processing[0]!.steps[0]!.processor).toEqual({
+      type: "opacity",
+      opacity: {
+        keys: [
+          { at: 200000, value: 1, interpolation: "linear" },
+          { at: 500000, value: 0, interpolation: "linear" },
+          { at: 800000, value: 1, interpolation: "hold" },
+        ],
+      },
+    });
+  }
+  expect(() =>
+    applyBatch(
+      setup.document,
+      [
+        {
+          operation: "transition",
+          kind: "dip",
+          targets: [target],
+          mediaKind: "video",
+          window: { kind: "project", range: { startUs: 200001, endUs: 800000 } },
+        },
+      ],
+      { assets, namespace: "pulse-odd" },
+    ),
+  ).toThrow(/midpoint/);
+});
