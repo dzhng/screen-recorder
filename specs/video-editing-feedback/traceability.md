@@ -209,9 +209,11 @@ receipts remain observable but cannot be consumed. `angle.declare` and `angle.re
 operations separate from linked-edit `syncGroups`; model validation refuses foreign sources,
 unknown/repeated members, mismatched evidence source sets, nonzero origins and ranges outside
 the clip interval. The composition compiler replays an explicit three-angle sequential switch
-through ordinary placements and preserves each selected source identity per frame; native
-delivered switched-view render remains open. Slice20's failed waveform hypothesis still blocks
-sync promotion.
+through ordinary placements and preserves each selected source identity per frame. The retained
+[native switched-angle receipt](assets/21-synced-angles/README.md) additionally imports three
+caller-authored controls through CLI/MCP, reads all three native frame intervals and delivers the
+complete six-frame preview. Slice20's failed waveform hypothesis still blocks sync promotion;
+no automatic camera selection or speaker inference is introduced.
 
 Slice27 evidence: `edit.apply` now lowers explicit crossfade, dip and flash recipes into ordinary
 gain/opacity curves. Crossfade requires two distinct targets; dip and flash require one target and

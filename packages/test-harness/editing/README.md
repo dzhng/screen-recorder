@@ -187,6 +187,11 @@ offsets, retained unlike-microphone PCM and competing-anchor refusals from decla
 source relationships. Its runner owns acquisition and replay; no clock is inferred
 from equal duration or one correlation peak.
 
+[Switched-angle delivery](switched-angle-delivery.mjs) imports three caller-authored
+camera controls through CLI/MCP, declares source-bound accepted angle evidence, and
+checks native frame and preview delivery for an explicit sequential switch. It does
+not infer synchronization, speakers or camera selection.
+
 [Immutable LUT checkpoint](lut-assets.mjs) exercises explicit import, public
 processing, delivered pixels and project-package replay using isolated managed
 state. Its usage owns required executable inputs. The retained

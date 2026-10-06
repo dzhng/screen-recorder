@@ -1,6 +1,6 @@
 # 21 — Declare angle clocks
 
-Status: partial — explicit angle-session declaration/removal, source/range validation, source-bound accepted-evidence admission, and compiler-level ordinary-placement switched-view replay are implemented; the sync estimator and delivered switched-view render remain open. Depends on: [20](20-sync-replication.md), [03](03-published-work-contract.md).
+Status: partial — explicit angle-session declaration/removal, source/range validation, source-bound accepted-evidence admission, compiler-level ordinary-placement replay, and native public switched-view delivery are implemented; the sync estimator remains open. Depends on: [20](20-sync-replication.md), [03](03-published-work-contract.md).
 
 ## Contract
 
@@ -42,11 +42,14 @@ Wrong/foreign sync evidence, unlike session, changed raw offsets and microphone 
 No visual verdict is required for a JSON-only checkpoint. If this slice produces a visual artifact, declare its variable/mask, compare it using compare-screenshots and obtain an unprimed screenshot-critique as the last visual check before acceptance. Artifact viewing never requires human QA.
 
 The composition checkpoint is green for explicit declaration, accepted source-bound evidence,
-source identity/range validation, exact offsets and removal, plus ordinary-placement
-compiler replay of a three-angle switch. It does not promote the failed waveform hypothesis in [20](20-sync-replication.md)
-or claim a delivered switched-view render. A spike passes with a frozen accepted recipe/reference,
-or records a failed verdict and reslices dependent work. An unavailable stub or undocumented fallback
-is not implementation completion.
+source identity/range validation, exact offsets and removal, plus ordinary-placement compiler replay
+of a three-angle switch. The [native switched-angle receipt](../assets/21-synced-angles/README.md)
+also passes public CLI/MCP import and authoring, native frame delivery at all three sequential
+intervals, and native preview delivery of the complete six-frame project. It does not promote the
+failed waveform hypothesis in [20](20-sync-replication.md), infer a speaker or choose a camera.
+The sync estimator and evidence from unlike microphones remain open. A spike passes with a frozen
+accepted recipe/reference, or records a failed verdict and reslices dependent work. An unavailable
+stub or undocumented fallback is not implementation completion.
 
 ## Delegated choices
 

@@ -1,0 +1,3108 @@
+{
+  "passed": true,
+  "trace": [
+    {
+      "operation": "asset.import",
+      "transport": "cli",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "operation": "job.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "asset.get",
+      "transport": "mcp",
+      "ok": true
+    },
+    {
+      "operation": "asset.import",
+      "transport": "cli",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "operation": "job.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "asset.get",
+      "transport": "mcp",
+      "ok": true
+    },
+    {
+      "operation": "asset.import",
+      "transport": "cli",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "operation": "job.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "asset.get",
+      "transport": "mcp",
+      "ok": true
+    },
+    {
+      "operation": "project.create",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "edit.apply",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "df720bec-c384-4e0c-b121-05c6bb0d7ce1"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready",
+      "revisionId": "df720bec-c384-4e0c-b121-05c6bb0d7ce1"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready",
+      "revisionId": "df720bec-c384-4e0c-b121-05c6bb0d7ce1"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "df720bec-c384-4e0c-b121-05c6bb0d7ce1"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready",
+      "revisionId": "df720bec-c384-4e0c-b121-05c6bb0d7ce1"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready",
+      "revisionId": "df720bec-c384-4e0c-b121-05c6bb0d7ce1"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "df720bec-c384-4e0c-b121-05c6bb0d7ce1"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready",
+      "revisionId": "df720bec-c384-4e0c-b121-05c6bb0d7ce1"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready",
+      "revisionId": "df720bec-c384-4e0c-b121-05c6bb0d7ce1"
+    },
+    {
+      "operation": "preview.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "df720bec-c384-4e0c-b121-05c6bb0d7ce1"
+    },
+    {
+      "operation": "preview.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "df720bec-c384-4e0c-b121-05c6bb0d7ce1"
+    },
+    {
+      "operation": "preview.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready",
+      "revisionId": "df720bec-c384-4e0c-b121-05c6bb0d7ce1"
+    }
+  ],
+  "exchanges": [
+    {
+      "request": {
+        "operation": "asset.import",
+        "params": {
+          "requestId": "2c8e0e65-d298-49c9-8fda-61a9eefc3f5a",
+          "path": "/tmp/switched-angle-final.gIq91k/angle-A.mp4"
+        },
+        "transport": "cli",
+        "error": false
+      },
+      "response": {
+        "ok": true,
+        "data": {
+          "jobId": "03eebc92-26a7-422d-88df-102321f65ac6",
+          "attemptId": "e77b95c5-bc75-4ac2-9d3d-7018e561eb65",
+          "artifact": "asset.import",
+          "lane": "heavy",
+          "state": "running",
+          "reason": null,
+          "generation": 1,
+          "errorCode": null,
+          "inputSha256": "12bee225bfe420578ba559bfcc0023fe6c78563cb24f8fe3be99d9150eeafa61",
+          "target": {
+            "kind": "import",
+            "importId": "3be486d4-1f35-45c3-a8b2-fb5a1209b42e"
+          },
+          "retryable": false,
+          "errorDetails": null,
+          "published": null
+        },
+        "id": "efe3c895-3f02-42eb-b2a0-a5a3727c7427"
+      }
+    },
+    {
+      "request": {
+        "operation": "job.get",
+        "params": {
+          "jobId": "03eebc92-26a7-422d-88df-102321f65ac6"
+        },
+        "transport": "cli",
+        "error": false
+      },
+      "response": {
+        "ok": true,
+        "data": {
+          "jobId": "03eebc92-26a7-422d-88df-102321f65ac6",
+          "attemptId": "e77b95c5-bc75-4ac2-9d3d-7018e561eb65",
+          "artifact": "asset.import",
+          "lane": "heavy",
+          "state": "ready",
+          "reason": null,
+          "generation": 1,
+          "errorCode": null,
+          "inputSha256": "12bee225bfe420578ba559bfcc0023fe6c78563cb24f8fe3be99d9150eeafa61",
+          "target": {
+            "kind": "import",
+            "importId": "3be486d4-1f35-45c3-a8b2-fb5a1209b42e"
+          },
+          "retryable": false,
+          "errorDetails": null,
+          "published": {
+            "generation": 1,
+            "attemptId": "e77b95c5-bc75-4ac2-9d3d-7018e561eb65",
+            "output": {
+              "assetId": "fa673b448800be4d19ea74bb91cd5caa51a6b8cb10314953c71b2b599aaaacdb"
+            }
+          }
+        },
+        "id": "c57bbcce-232c-4b70-9984-a25d83e56488"
+      }
+    },
+    {
+      "request": {
+        "operation": "asset.get",
+        "params": {
+          "assetId": "fa673b448800be4d19ea74bb91cd5caa51a6b8cb10314953c71b2b599aaaacdb"
+        },
+        "transport": "mcp",
+        "error": false
+      },
+      "response": {
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"ok\":true,\"data\":{\"originUs\":0,\"streams\":[{\"id\":\"track:1\",\"kind\":\"video\",\"codec\":\"avc1\",\"decodable\":true,\"startUs\":0,\"endUs\":1000000,\"width\":64,\"height\":48,\"orientedWidth\":64,\"orientedHeight\":48,\"orientedPixelBounds\":{\"x\":0,\"y\":0,\"width\":64,\"height\":48},\"transform\":[1,0,0,1,0,0],\"hasAlpha\":false,\"samples\":{\"count\":2,\"firstPtsUs\":0,\"lastPtsUs\":500000,\"minDurationUs\":500000,\"maxDurationUs\":500000},\"segmentCount\":1}],\"id\":\"fa673b448800be4d19ea74bb91cd5caa51a6b8cb10314953c71b2b599aaaacdb\",\"bytes\":1609,\"createdAt\":\"2026-10-06T19:17:52.712Z\",\"fileName\":\"fa673b448800be4d19ea74bb91cd5caa51a6b8cb10314953c71b2b599aaaacdb.mp4\"},\"id\":\"c6831e70-d768-43a9-87e7-0aa2c88dc055\"}"
+          }
+        ],
+        "structuredContent": {
+          "ok": true,
+          "data": {
+            "originUs": 0,
+            "streams": [
+              {
+                "id": "track:1",
+                "kind": "video",
+                "codec": "avc1",
+                "decodable": true,
+                "startUs": 0,
+                "endUs": 1000000,
+                "width": 64,
+                "height": 48,
+                "orientedWidth": 64,
+                "orientedHeight": 48,
+                "orientedPixelBounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 64,
+                  "height": 48
+                },
+                "transform": [
+                  1,
+                  0,
+                  0,
+                  1,
+                  0,
+                  0
+                ],
+                "hasAlpha": false,
+                "samples": {
+                  "count": 2,
+                  "firstPtsUs": 0,
+                  "lastPtsUs": 500000,
+                  "minDurationUs": 500000,
+                  "maxDurationUs": 500000
+                },
+                "segmentCount": 1
+              }
+            ],
+            "id": "fa673b448800be4d19ea74bb91cd5caa51a6b8cb10314953c71b2b599aaaacdb",
+            "bytes": 1609,
+            "createdAt": "2026-10-06T19:17:52.712Z",
+            "fileName": "fa673b448800be4d19ea74bb91cd5caa51a6b8cb10314953c71b2b599aaaacdb.mp4"
+          },
+          "id": "c6831e70-d768-43a9-87e7-0aa2c88dc055"
+        },
+        "isError": false
+      }
+    },
+    {
+      "request": {
+        "operation": "asset.import",
+        "params": {
+          "requestId": "2778aa93-4909-43d7-b109-aa16b6573933",
+          "path": "/tmp/switched-angle-final.gIq91k/angle-B.mp4"
+        },
+        "transport": "cli",
+        "error": false
+      },
+      "response": {
+        "ok": true,
+        "data": {
+          "jobId": "bbf11fd4-a9af-48d7-bc3d-b09e038a6366",
+          "attemptId": "5523d815-dc64-4007-bb38-ff1b9565a1db",
+          "artifact": "asset.import",
+          "lane": "heavy",
+          "state": "running",
+          "reason": null,
+          "generation": 1,
+          "errorCode": null,
+          "inputSha256": "63090165fcb39ff3dbccc94ba0b2c4a7dbf1041cd9a44d9262167e6d6b957187",
+          "target": {
+            "kind": "import",
+            "importId": "0457a1e8-fe19-4592-a8a8-34a18cc49a2d"
+          },
+          "retryable": false,
+          "errorDetails": null,
+          "published": null
+        },
+        "id": "e9c2e184-45ca-4d80-98c4-f03557b55161"
+      }
+    },
+    {
+      "request": {
+        "operation": "job.get",
+        "params": {
+          "jobId": "bbf11fd4-a9af-48d7-bc3d-b09e038a6366"
+        },
+        "transport": "cli",
+        "error": false
+      },
+      "response": {
+        "ok": true,
+        "data": {
+          "jobId": "bbf11fd4-a9af-48d7-bc3d-b09e038a6366",
+          "attemptId": "5523d815-dc64-4007-bb38-ff1b9565a1db",
+          "artifact": "asset.import",
+          "lane": "heavy",
+          "state": "ready",
+          "reason": null,
+          "generation": 1,
+          "errorCode": null,
+          "inputSha256": "63090165fcb39ff3dbccc94ba0b2c4a7dbf1041cd9a44d9262167e6d6b957187",
+          "target": {
+            "kind": "import",
+            "importId": "0457a1e8-fe19-4592-a8a8-34a18cc49a2d"
+          },
+          "retryable": false,
+          "errorDetails": null,
+          "published": {
+            "generation": 1,
+            "attemptId": "5523d815-dc64-4007-bb38-ff1b9565a1db",
+            "output": {
+              "assetId": "eca43caff26556cdc413de14cc5c6e8606b11b05b99c1ff3e41303816514d856"
+            }
+          }
+        },
+        "id": "053c457a-b22d-46ea-8a2e-2b38f08cbab5"
+      }
+    },
+    {
+      "request": {
+        "operation": "asset.get",
+        "params": {
+          "assetId": "eca43caff26556cdc413de14cc5c6e8606b11b05b99c1ff3e41303816514d856"
+        },
+        "transport": "mcp",
+        "error": false
+      },
+      "response": {
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"ok\":true,\"data\":{\"originUs\":0,\"streams\":[{\"id\":\"track:1\",\"kind\":\"video\",\"codec\":\"avc1\",\"decodable\":true,\"startUs\":0,\"endUs\":1000000,\"width\":64,\"height\":48,\"orientedWidth\":64,\"orientedHeight\":48,\"orientedPixelBounds\":{\"x\":0,\"y\":0,\"width\":64,\"height\":48},\"transform\":[1,0,0,1,0,0],\"hasAlpha\":false,\"samples\":{\"count\":2,\"firstPtsUs\":0,\"lastPtsUs\":500000,\"minDurationUs\":500000,\"maxDurationUs\":500000},\"segmentCount\":1}],\"id\":\"eca43caff26556cdc413de14cc5c6e8606b11b05b99c1ff3e41303816514d856\",\"bytes\":1609,\"createdAt\":\"2026-10-06T19:17:52.891Z\",\"fileName\":\"eca43caff26556cdc413de14cc5c6e8606b11b05b99c1ff3e41303816514d856.mp4\"},\"id\":\"bb25ff28-b04d-4f91-858e-2956b9949c9f\"}"
+          }
+        ],
+        "structuredContent": {
+          "ok": true,
+          "data": {
+            "originUs": 0,
+            "streams": [
+              {
+                "id": "track:1",
+                "kind": "video",
+                "codec": "avc1",
+                "decodable": true,
+                "startUs": 0,
+                "endUs": 1000000,
+                "width": 64,
+                "height": 48,
+                "orientedWidth": 64,
+                "orientedHeight": 48,
+                "orientedPixelBounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 64,
+                  "height": 48
+                },
+                "transform": [
+                  1,
+                  0,
+                  0,
+                  1,
+                  0,
+                  0
+                ],
+                "hasAlpha": false,
+                "samples": {
+                  "count": 2,
+                  "firstPtsUs": 0,
+                  "lastPtsUs": 500000,
+                  "minDurationUs": 500000,
+                  "maxDurationUs": 500000
+                },
+                "segmentCount": 1
+              }
+            ],
+            "id": "eca43caff26556cdc413de14cc5c6e8606b11b05b99c1ff3e41303816514d856",
+            "bytes": 1609,
+            "createdAt": "2026-10-06T19:17:52.891Z",
+            "fileName": "eca43caff26556cdc413de14cc5c6e8606b11b05b99c1ff3e41303816514d856.mp4"
+          },
+          "id": "bb25ff28-b04d-4f91-858e-2956b9949c9f"
+        },
+        "isError": false
+      }
+    },
+    {
+      "request": {
+        "operation": "asset.import",
+        "params": {
+          "requestId": "5d5f0121-fa31-4ebf-8141-292587b6ee66",
+          "path": "/tmp/switched-angle-final.gIq91k/angle-C.mp4"
+        },
+        "transport": "cli",
+        "error": false
+      },
+      "response": {
+        "ok": true,
+        "data": {
+          "jobId": "3eb91efd-db88-470c-9ca0-246510ac0dc0",
+          "attemptId": "427402b5-77cb-48fc-962f-d0b87f4a3779",
+          "artifact": "asset.import",
+          "lane": "heavy",
+          "state": "running",
+          "reason": null,
+          "generation": 1,
+          "errorCode": null,
+          "inputSha256": "bf8df09b1673a0aa871f570792d9d228964bf8c82934ac172fa39d110d053e78",
+          "target": {
+            "kind": "import",
+            "importId": "019cc68e-c6e2-4ce3-b489-02d594c22fc7"
+          },
+          "retryable": false,
+          "errorDetails": null,
+          "published": null
+        },
+        "id": "50de1b7a-f403-4b9f-b416-e30f82d1aa61"
+      }
+    },
+    {
+      "request": {
+        "operation": "job.get",
+        "params": {
+          "jobId": "3eb91efd-db88-470c-9ca0-246510ac0dc0"
+        },
+        "transport": "cli",
+        "error": false
+      },
+      "response": {
+        "ok": true,
+        "data": {
+          "jobId": "3eb91efd-db88-470c-9ca0-246510ac0dc0",
+          "attemptId": "427402b5-77cb-48fc-962f-d0b87f4a3779",
+          "artifact": "asset.import",
+          "lane": "heavy",
+          "state": "ready",
+          "reason": null,
+          "generation": 1,
+          "errorCode": null,
+          "inputSha256": "bf8df09b1673a0aa871f570792d9d228964bf8c82934ac172fa39d110d053e78",
+          "target": {
+            "kind": "import",
+            "importId": "019cc68e-c6e2-4ce3-b489-02d594c22fc7"
+          },
+          "retryable": false,
+          "errorDetails": null,
+          "published": {
+            "generation": 1,
+            "attemptId": "427402b5-77cb-48fc-962f-d0b87f4a3779",
+            "output": {
+              "assetId": "87842eb3e718ef7b7d345f20af32c8097c38d7b1e83eb1cddd49cabf0c2ba538"
+            }
+          }
+        },
+        "id": "8d79f71f-e613-4c69-b8f5-946ea9d0a297"
+      }
+    },
+    {
+      "request": {
+        "operation": "asset.get",
+        "params": {
+          "assetId": "87842eb3e718ef7b7d345f20af32c8097c38d7b1e83eb1cddd49cabf0c2ba538"
+        },
+        "transport": "mcp",
+        "error": false
+      },
+      "response": {
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"ok\":true,\"data\":{\"originUs\":0,\"streams\":[{\"id\":\"track:1\",\"kind\":\"video\",\"codec\":\"avc1\",\"decodable\":true,\"startUs\":0,\"endUs\":1000000,\"width\":64,\"height\":48,\"orientedWidth\":64,\"orientedHeight\":48,\"orientedPixelBounds\":{\"x\":0,\"y\":0,\"width\":64,\"height\":48},\"transform\":[1,0,0,1,0,0],\"hasAlpha\":false,\"samples\":{\"count\":2,\"firstPtsUs\":0,\"lastPtsUs\":500000,\"minDurationUs\":500000,\"maxDurationUs\":500000},\"segmentCount\":1}],\"id\":\"87842eb3e718ef7b7d345f20af32c8097c38d7b1e83eb1cddd49cabf0c2ba538\",\"bytes\":1609,\"createdAt\":\"2026-10-06T19:17:53.075Z\",\"fileName\":\"87842eb3e718ef7b7d345f20af32c8097c38d7b1e83eb1cddd49cabf0c2ba538.mp4\"},\"id\":\"342ddf28-e8b2-402a-8a27-cdc0a14c25e8\"}"
+          }
+        ],
+        "structuredContent": {
+          "ok": true,
+          "data": {
+            "originUs": 0,
+            "streams": [
+              {
+                "id": "track:1",
+                "kind": "video",
+                "codec": "avc1",
+                "decodable": true,
+                "startUs": 0,
+                "endUs": 1000000,
+                "width": 64,
+                "height": 48,
+                "orientedWidth": 64,
+                "orientedHeight": 48,
+                "orientedPixelBounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 64,
+                  "height": 48
+                },
+                "transform": [
+                  1,
+                  0,
+                  0,
+                  1,
+                  0,
+                  0
+                ],
+                "hasAlpha": false,
+                "samples": {
+                  "count": 2,
+                  "firstPtsUs": 0,
+                  "lastPtsUs": 500000,
+                  "minDurationUs": 500000,
+                  "maxDurationUs": 500000
+                },
+                "segmentCount": 1
+              }
+            ],
+            "id": "87842eb3e718ef7b7d345f20af32c8097c38d7b1e83eb1cddd49cabf0c2ba538",
+            "bytes": 1609,
+            "createdAt": "2026-10-06T19:17:53.075Z",
+            "fileName": "87842eb3e718ef7b7d345f20af32c8097c38d7b1e83eb1cddd49cabf0c2ba538.mp4"
+          },
+          "id": "342ddf28-e8b2-402a-8a27-cdc0a14c25e8"
+        },
+        "isError": false
+      }
+    },
+    {
+      "request": {
+        "operation": "project.create",
+        "params": {
+          "requestId": "e53117e3-d91c-4d1b-8e7d-da3e32406ebe",
+          "canvas": {
+            "width": 64,
+            "height": 48,
+            "fps": {
+              "numerator": 2,
+              "denominator": 1
+            },
+            "background": "#000000ff"
+          }
+        },
+        "transport": "cli",
+        "error": false
+      },
+      "response": {
+        "ok": true,
+        "data": {
+          "project": {
+            "projectId": "cad805f1-46ca-4acf-822c-aa669d467157",
+            "title": "Untitled",
+            "createdAt": "2026-10-06T19:17:53.179Z",
+            "currentRevisionId": "f5c78932-0c51-4d34-9abe-b17cc7287b90"
+          },
+          "revision": {
+            "id": "f5c78932-0c51-4d34-9abe-b17cc7287b90",
+            "projectId": "cad805f1-46ca-4acf-822c-aa669d467157",
+            "ordinal": 0,
+            "createdAt": "2026-10-06T19:17:53.179Z",
+            "operation": "create",
+            "document": {
+              "canvas": {
+                "width": 64,
+                "height": 48,
+                "fps": {
+                  "numerator": 2,
+                  "denominator": 1
+                },
+                "background": "#000000ff"
+              },
+              "tracks": [],
+              "groups": [],
+              "clips": [],
+              "syncGroups": [],
+              "processing": []
+            }
+          }
+        },
+        "id": "d441a596-4381-45c0-9740-05bd5c1f55de"
+      }
+    },
+    {
+      "request": {
+        "operation": "edit.apply",
+        "params": {
+          "projectId": "cad805f1-46ca-4acf-822c-aa669d467157",
+          "expectedRevisionId": "f5c78932-0c51-4d34-9abe-b17cc7287b90",
+          "requestId": "10510130-3429-40c3-a72b-82656bcbccc3",
+          "operations": [
+            {
+              "operation": "track.add",
+              "label": "angles",
+              "track": {
+                "kind": "video",
+                "order": 0
+              }
+            },
+            {
+              "operation": "place",
+              "label": "angle-A",
+              "clip": {
+                "trackId": {
+                  "label": "angles"
+                },
+                "assetId": "fa673b448800be4d19ea74bb91cd5caa51a6b8cb10314953c71b2b599aaaacdb",
+                "streamId": "track:1",
+                "source": {
+                  "kind": "range",
+                  "range": {
+                    "startUs": 0,
+                    "endUs": 1000000
+                  }
+                },
+                "placement": {
+                  "kind": "project",
+                  "range": {
+                    "startUs": 0,
+                    "endUs": 1000000
+                  }
+                }
+              }
+            },
+            {
+              "operation": "place",
+              "label": "angle-B",
+              "clip": {
+                "trackId": {
+                  "label": "angles"
+                },
+                "assetId": "eca43caff26556cdc413de14cc5c6e8606b11b05b99c1ff3e41303816514d856",
+                "streamId": "track:1",
+                "source": {
+                  "kind": "range",
+                  "range": {
+                    "startUs": 0,
+                    "endUs": 1000000
+                  }
+                },
+                "placement": {
+                  "kind": "project",
+                  "range": {
+                    "startUs": 1000000,
+                    "endUs": 2000000
+                  }
+                }
+              }
+            },
+            {
+              "operation": "place",
+              "label": "angle-C",
+              "clip": {
+                "trackId": {
+                  "label": "angles"
+                },
+                "assetId": "87842eb3e718ef7b7d345f20af32c8097c38d7b1e83eb1cddd49cabf0c2ba538",
+                "streamId": "track:1",
+                "source": {
+                  "kind": "range",
+                  "range": {
+                    "startUs": 0,
+                    "endUs": 1000000
+                  }
+                },
+                "placement": {
+                  "kind": "project",
+                  "range": {
+                    "startUs": 2000000,
+                    "endUs": 3000000
+                  }
+                }
+              }
+            },
+            {
+              "operation": "angle.declare",
+              "label": "angles-session",
+              "sessionId": "session-angle-delivery",
+              "originClipId": {
+                "label": "angle-A"
+              },
+              "evidence": {
+                "id": "known-angle-control",
+                "generation": "g1",
+                "status": "accepted",
+                "method": "waveform",
+                "fingerprint": "sha256:known-angle-control",
+                "sources": [
+                  {
+                    "assetId": "fa673b448800be4d19ea74bb91cd5caa51a6b8cb10314953c71b2b599aaaacdb",
+                    "streamId": "track:1"
+                  },
+                  {
+                    "assetId": "eca43caff26556cdc413de14cc5c6e8606b11b05b99c1ff3e41303816514d856",
+                    "streamId": "track:1"
+                  },
+                  {
+                    "assetId": "87842eb3e718ef7b7d345f20af32c8097c38d7b1e83eb1cddd49cabf0c2ba538",
+                    "streamId": "track:1"
+                  }
+                ]
+              },
+              "members": [
+                {
+                  "clipId": {
+                    "label": "angle-A"
+                  },
+                  "offsetUs": 0,
+                  "validRange": {
+                    "startUs": 0,
+                    "endUs": 1000000
+                  }
+                },
+                {
+                  "clipId": {
+                    "label": "angle-B"
+                  },
+                  "offsetUs": 0,
+                  "validRange": {
+                    "startUs": 1000000,
+                    "endUs": 2000000
+                  }
+                },
+                {
+                  "clipId": {
+                    "label": "angle-C"
+                  },
+                  "offsetUs": 0,
+                  "validRange": {
+                    "startUs": 2000000,
+                    "endUs": 3000000
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        "transport": "cli",
+        "error": false
+      },
+      "response": {
+        "ok": true,
+        "data": {
+          "revision": {
+            "id": "df720bec-c384-4e0c-b121-05c6bb0d7ce1",
+            "projectId": "cad805f1-46ca-4acf-822c-aa669d467157",
+            "ordinal": 1,
+            "createdAt": "2026-10-06T19:17:53.261Z",
+            "operation": "apply",
+            "document": {
+              "canvas": {
+                "width": 64,
+                "height": 48,
+                "fps": {
+                  "numerator": 2,
+                  "denominator": 1
+                },
+                "background": "#000000ff"
+              },
+              "tracks": [
+                {
+                  "id": "track:7a8440afb4e174776d7ca4f79b6fb606980209bdad5adbb256185f1fed7302dc:0",
+                  "kind": "video",
+                  "order": 0
+                }
+              ],
+              "groups": [],
+              "clips": [
+                {
+                  "id": "clip:7a8440afb4e174776d7ca4f79b6fb606980209bdad5adbb256185f1fed7302dc:1",
+                  "trackId": "track:7a8440afb4e174776d7ca4f79b6fb606980209bdad5adbb256185f1fed7302dc:0",
+                  "placement": {
+                    "kind": "project",
+                    "range": {
+                      "startUs": 0,
+                      "endUs": 1000000
+                    }
+                  },
+                  "assetId": "fa673b448800be4d19ea74bb91cd5caa51a6b8cb10314953c71b2b599aaaacdb",
+                  "streamId": "track:1",
+                  "source": {
+                    "kind": "range",
+                    "range": {
+                      "startUs": 0,
+                      "endUs": 1000000
+                    }
+                  }
+                },
+                {
+                  "id": "clip:7a8440afb4e174776d7ca4f79b6fb606980209bdad5adbb256185f1fed7302dc:2",
+                  "trackId": "track:7a8440afb4e174776d7ca4f79b6fb606980209bdad5adbb256185f1fed7302dc:0",
+                  "placement": {
+                    "kind": "project",
+                    "range": {
+                      "startUs": 1000000,
+                      "endUs": 2000000
+                    }
+                  },
+                  "assetId": "eca43caff26556cdc413de14cc5c6e8606b11b05b99c1ff3e41303816514d856",
+                  "streamId": "track:1",
+                  "source": {
+                    "kind": "range",
+                    "range": {
+                      "startUs": 0,
+                      "endUs": 1000000
+                    }
+                  }
+                },
+                {
+                  "id": "clip:7a8440afb4e174776d7ca4f79b6fb606980209bdad5adbb256185f1fed7302dc:3",
+                  "trackId": "track:7a8440afb4e174776d7ca4f79b6fb606980209bdad5adbb256185f1fed7302dc:0",
+                  "placement": {
+                    "kind": "project",
+                    "range": {
+                      "startUs": 2000000,
+                      "endUs": 3000000
+                    }
+                  },
+                  "assetId": "87842eb3e718ef7b7d345f20af32c8097c38d7b1e83eb1cddd49cabf0c2ba538",
+                  "streamId": "track:1",
+                  "source": {
+                    "kind": "range",
+                    "range": {
+                      "startUs": 0,
+                      "endUs": 1000000
+                    }
+                  }
+                }
+              ],
+              "syncGroups": [],
+              "angleGroups": [
+                {
+                  "id": "angleGroup:7a8440afb4e174776d7ca4f79b6fb606980209bdad5adbb256185f1fed7302dc:4",
+                  "sessionId": "session-angle-delivery",
+                  "originClipId": "clip:7a8440afb4e174776d7ca4f79b6fb606980209bdad5adbb256185f1fed7302dc:1",
+                  "evidence": {
+                    "id": "known-angle-control",
+                    "generation": "g1",
+                    "status": "accepted",
+                    "method": "waveform",
+                    "fingerprint": "sha256:known-angle-control",
+                    "sources": [
+                      {
+                        "assetId": "fa673b448800be4d19ea74bb91cd5caa51a6b8cb10314953c71b2b599aaaacdb",
+                        "streamId": "track:1"
+                      },
+                      {
+                        "assetId": "eca43caff26556cdc413de14cc5c6e8606b11b05b99c1ff3e41303816514d856",
+                        "streamId": "track:1"
+                      },
+                      {
+                        "assetId": "87842eb3e718ef7b7d345f20af32c8097c38d7b1e83eb1cddd49cabf0c2ba538",
+                        "streamId": "track:1"
+                      }
+                    ]
+                  },
+                  "members": [
+                    {
+                      "clipId": "clip:7a8440afb4e174776d7ca4f79b6fb606980209bdad5adbb256185f1fed7302dc:1",
+                      "assetId": "fa673b448800be4d19ea74bb91cd5caa51a6b8cb10314953c71b2b599aaaacdb",
+                      "streamId": "track:1",
+                      "offsetUs": 0,
+                      "validRange": {
+                        "startUs": 0,
+                        "endUs": 1000000
+                      }
+                    },
+                    {
+                      "clipId": "clip:7a8440afb4e174776d7ca4f79b6fb606980209bdad5adbb256185f1fed7302dc:2",
+                      "assetId": "eca43caff26556cdc413de14cc5c6e8606b11b05b99c1ff3e41303816514d856",
+                      "streamId": "track:1",
+                      "offsetUs": 0,
+                      "validRange": {
+                        "startUs": 1000000,
+                        "endUs": 2000000
+                      }
+                    },
+                    {
+                      "clipId": "clip:7a8440afb4e174776d7ca4f79b6fb606980209bdad5adbb256185f1fed7302dc:3",
+                      "assetId": "87842eb3e718ef7b7d345f20af32c8097c38d7b1e83eb1cddd49cabf0c2ba538",
+                      "streamId": "track:1",
+                      "offsetUs": 0,
+                      "validRange": {
+                        "startUs": 2000000,
+                        "endUs": 3000000
+                      }
+                    }
+                  ]
+                }
+              ],
+              "processing": []
+            }
+          },
+          "edit": {
+            "changed": true,
+            "createdIds": [
+              {
+                "kind": "track",
+                "id": "track:7a8440afb4e174776d7ca4f79b6fb606980209bdad5adbb256185f1fed7302dc:0"
+              },
+              {
+                "kind": "clip",
+                "id": "clip:7a8440afb4e174776d7ca4f79b6fb606980209bdad5adbb256185f1fed7302dc:1"
+              },
+              {
+                "kind": "clip",
+                "id": "clip:7a8440afb4e174776d7ca4f79b6fb606980209bdad5adbb256185f1fed7302dc:2"
+              },
+              {
+                "kind": "clip",
+                "id": "clip:7a8440afb4e174776d7ca4f79b6fb606980209bdad5adbb256185f1fed7302dc:3"
+              },
+              {
+                "kind": "angleGroup",
+                "id": "angleGroup:7a8440afb4e174776d7ca4f79b6fb606980209bdad5adbb256185f1fed7302dc:4"
+              }
+            ],
+            "labels": {
+              "angles": "track:7a8440afb4e174776d7ca4f79b6fb606980209bdad5adbb256185f1fed7302dc:0",
+              "angle-A": "clip:7a8440afb4e174776d7ca4f79b6fb606980209bdad5adbb256185f1fed7302dc:1",
+              "angle-B": "clip:7a8440afb4e174776d7ca4f79b6fb606980209bdad5adbb256185f1fed7302dc:2",
+              "angle-C": "clip:7a8440afb4e174776d7ca4f79b6fb606980209bdad5adbb256185f1fed7302dc:3",
+              "angles-session": "angleGroup:7a8440afb4e174776d7ca4f79b6fb606980209bdad5adbb256185f1fed7302dc:4"
+            },
+            "normalized": [
+              {
+                "operationIndex": 0,
+                "changes": [
+                  {
+                    "kind": "track",
+                    "id": "track:7a8440afb4e174776d7ca4f79b6fb606980209bdad5adbb256185f1fed7302dc:0",
+                    "value": {
+                      "id": "track:7a8440afb4e174776d7ca4f79b6fb606980209bdad5adbb256185f1fed7302dc:0",
+                      "kind": "video",
+                      "order": 0
+                    }
+                  }
+                ]
+              },
+              {
+                "operationIndex": 1,
+                "changes": [
+                  {
+                    "kind": "clip",
+                    "id": "clip:7a8440afb4e174776d7ca4f79b6fb606980209bdad5adbb256185f1fed7302dc:1",
+                    "value": {
+                      "id": "clip:7a8440afb4e174776d7ca4f79b6fb606980209bdad5adbb256185f1fed7302dc:1",
+                      "trackId": "track:7a8440afb4e174776d7ca4f79b6fb606980209bdad5adbb256185f1fed7302dc:0",
+                      "placement": {
+                        "kind": "project",
+                        "range": {
+                          "startUs": 0,
+                          "endUs": 1000000
+                        }
+                      },
+                      "assetId": "fa673b448800be4d19ea74bb91cd5caa51a6b8cb10314953c71b2b599aaaacdb",
+                      "streamId": "track:1",
+                      "source": {
+                        "kind": "range",
+                        "range": {
+                          "startUs": 0,
+                          "endUs": 1000000
+                        }
+                      }
+                    }
+                  }
+                ]
+              },
+              {
+                "operationIndex": 2,
+                "changes": [
+                  {
+                    "kind": "clip",
+                    "id": "clip:7a8440afb4e174776d7ca4f79b6fb606980209bdad5adbb256185f1fed7302dc:2",
+                    "value": {
+                      "id": "clip:7a8440afb4e174776d7ca4f79b6fb606980209bdad5adbb256185f1fed7302dc:2",
+                      "trackId": "track:7a8440afb4e174776d7ca4f79b6fb606980209bdad5adbb256185f1fed7302dc:0",
+                      "placement": {
+                        "kind": "project",
+                        "range": {
+                          "startUs": 1000000,
+                          "endUs": 2000000
+                        }
+                      },
+                      "assetId": "eca43caff26556cdc413de14cc5c6e8606b11b05b99c1ff3e41303816514d856",
+                      "streamId": "track:1",
+                      "source": {
+                        "kind": "range",
+                        "range": {
+                          "startUs": 0,
+                          "endUs": 1000000
+                        }
+                      }
+                    }
+                  }
+                ]
+              },
+              {
+                "operationIndex": 3,
+                "changes": [
+                  {
+                    "kind": "clip",
+                    "id": "clip:7a8440afb4e174776d7ca4f79b6fb606980209bdad5adbb256185f1fed7302dc:3",
+                    "value": {
+                      "id": "clip:7a8440afb4e174776d7ca4f79b6fb606980209bdad5adbb256185f1fed7302dc:3",
+                      "trackId": "track:7a8440afb4e174776d7ca4f79b6fb606980209bdad5adbb256185f1fed7302dc:0",
+                      "placement": {
+                        "kind": "project",
+                        "range": {
+                          "startUs": 2000000,
+                          "endUs": 3000000
+                        }
+                      },
+                      "assetId": "87842eb3e718ef7b7d345f20af32c8097c38d7b1e83eb1cddd49cabf0c2ba538",
+                      "streamId": "track:1",
+                      "source": {
+                        "kind": "range",
+                        "range": {
+                          "startUs": 0,
+                          "endUs": 1000000
+                        }
+                      }
+                    }
+                  }
+                ]
+              },
+              {
+                "operationIndex": 4,
+                "changes": [
+                  {
+                    "kind": "angleGroup",
+                    "id": "angleGroup:7a8440afb4e174776d7ca4f79b6fb606980209bdad5adbb256185f1fed7302dc:4",
+                    "value": {
+                      "id": "angleGroup:7a8440afb4e174776d7ca4f79b6fb606980209bdad5adbb256185f1fed7302dc:4",
+                      "sessionId": "session-angle-delivery",
+                      "originClipId": "clip:7a8440afb4e174776d7ca4f79b6fb606980209bdad5adbb256185f1fed7302dc:1",
+                      "evidence": {
+                        "id": "known-angle-control",
+                        "generation": "g1",
+                        "status": "accepted",
+                        "method": "waveform",
+                        "fingerprint": "sha256:known-angle-control",
+                        "sources": [
+                          {
+                            "assetId": "fa673b448800be4d19ea74bb91cd5caa51a6b8cb10314953c71b2b599aaaacdb",
+                            "streamId": "track:1"
+                          },
+                          {
+                            "assetId": "eca43caff26556cdc413de14cc5c6e8606b11b05b99c1ff3e41303816514d856",
+                            "streamId": "track:1"
+                          },
+                          {
+                            "assetId": "87842eb3e718ef7b7d345f20af32c8097c38d7b1e83eb1cddd49cabf0c2ba538",
+                            "streamId": "track:1"
+                          }
+                        ]
+                      },
+                      "members": [
+                        {
+                          "clipId": "clip:7a8440afb4e174776d7ca4f79b6fb606980209bdad5adbb256185f1fed7302dc:1",
+                          "assetId": "fa673b448800be4d19ea74bb91cd5caa51a6b8cb10314953c71b2b599aaaacdb",
+                          "streamId": "track:1",
+                          "offsetUs": 0,
+                          "validRange": {
+                            "startUs": 0,
+                            "endUs": 1000000
+                          }
+                        },
+                        {
+                          "clipId": "clip:7a8440afb4e174776d7ca4f79b6fb606980209bdad5adbb256185f1fed7302dc:2",
+                          "assetId": "eca43caff26556cdc413de14cc5c6e8606b11b05b99c1ff3e41303816514d856",
+                          "streamId": "track:1",
+                          "offsetUs": 0,
+                          "validRange": {
+                            "startUs": 1000000,
+                            "endUs": 2000000
+                          }
+                        },
+                        {
+                          "clipId": "clip:7a8440afb4e174776d7ca4f79b6fb606980209bdad5adbb256185f1fed7302dc:3",
+                          "assetId": "87842eb3e718ef7b7d345f20af32c8097c38d7b1e83eb1cddd49cabf0c2ba538",
+                          "streamId": "track:1",
+                          "offsetUs": 0,
+                          "validRange": {
+                            "startUs": 2000000,
+                            "endUs": 3000000
+                          }
+                        }
+                      ]
+                    }
+                  }
+                ]
+              }
+            ],
+            "clipLineage": [],
+            "removedAttachments": [],
+            "processingLineage": [],
+            "touchedFixedAnchors": [],
+            "linkChanges": []
+          }
+        },
+        "id": "8601db77-4092-427d-b978-5755dd57dd07"
+      }
+    },
+    {
+      "request": {
+        "operation": "frame.get",
+        "params": {
+          "assetId": "fa673b448800be4d19ea74bb91cd5caa51a6b8cb10314953c71b2b599aaaacdb",
+          "streamId": "track:1",
+          "atUs": 0,
+          "maxLongEdge": 64
+        },
+        "transport": "cli",
+        "error": false
+      },
+      "response": {
+        "ok": true,
+        "data": {
+          "assetId": "fa673b448800be4d19ea74bb91cd5caa51a6b8cb10314953c71b2b599aaaacdb",
+          "streamId": "track:1",
+          "atUs": 0,
+          "maxLongEdge": 64,
+          "supportDigest": "c958e88eb8d17b83b42fd6074dd2140e23d27627cd58325ca0c09aead703a36e",
+          "implementationId": "native-source-picture-v6",
+          "state": "processing",
+          "reason": null,
+          "retryable": false,
+          "jobId": "dd8fd55f-32a8-4236-9744-73724e78a2a3",
+          "published": null,
+          "delivery": null
+        },
+        "id": "7364c4df-f6c0-4252-b4ab-dce98ad181e8"
+      }
+    },
+    {
+      "request": {
+        "operation": "frame.get",
+        "params": {
+          "assetId": "fa673b448800be4d19ea74bb91cd5caa51a6b8cb10314953c71b2b599aaaacdb",
+          "streamId": "track:1",
+          "atUs": 0,
+          "maxLongEdge": 64
+        },
+        "transport": "cli",
+        "error": false
+      },
+      "response": {
+        "ok": true,
+        "data": {
+          "assetId": "fa673b448800be4d19ea74bb91cd5caa51a6b8cb10314953c71b2b599aaaacdb",
+          "streamId": "track:1",
+          "atUs": 0,
+          "maxLongEdge": 64,
+          "supportDigest": "c958e88eb8d17b83b42fd6074dd2140e23d27627cd58325ca0c09aead703a36e",
+          "implementationId": "native-source-picture-v6",
+          "state": "ready",
+          "reason": null,
+          "retryable": false,
+          "jobId": "dd8fd55f-32a8-4236-9744-73724e78a2a3",
+          "published": {
+            "generation": 1,
+            "output": {
+              "file": "/private/tmp/yap-switched-angle-delivery-tDMXjN/library/cache/derived/bb4cf7ff-4939-4376-9208-b5a46cdbd8e6.cache",
+              "mediaType": "image/png",
+              "width": 64,
+              "height": 48,
+              "sourceWidth": 64,
+              "sourceHeight": 48,
+              "bytes": 278,
+              "decodedSamples": 1,
+              "readerOpens": 1,
+              "assetId": "fa673b448800be4d19ea74bb91cd5caa51a6b8cb10314953c71b2b599aaaacdb",
+              "streamId": "track:1",
+              "requestedSourceUs": 0,
+              "actualSourceUs": 0,
+              "sample": {
+                "value": "0",
+                "timescale": 16384,
+                "endValue": "8192",
+                "endTimescale": 16384,
+                "originUs": 0
+              },
+              "atUs": 0,
+              "maxLongEdge": 64,
+              "supportDigest": "c958e88eb8d17b83b42fd6074dd2140e23d27627cd58325ca0c09aead703a36e",
+              "implementationId": "native-source-picture-v6",
+              "cacheId": "bb4cf7ff-4939-4376-9208-b5a46cdbd8e6"
+            }
+          },
+          "delivery": {
+            "token": "ba1c8a42-4a97-4484-a998-5a0a8cd6a1af",
+            "bytes": 278,
+            "expiresAt": 1791314303525
+          },
+          "output": "/var/folders/62/pphwbgd15b1b9q7cjgf8m9pm0000gn/T/yap-media-kIDhnn/frame.png"
+        },
+        "id": "2b3d0bb0-8502-4688-b99b-89ee26a341c9"
+      }
+    },
+    {
+      "request": {
+        "operation": "frame.get",
+        "params": {
+          "assetId": "fa673b448800be4d19ea74bb91cd5caa51a6b8cb10314953c71b2b599aaaacdb",
+          "streamId": "track:1",
+          "atUs": 0,
+          "maxLongEdge": 64
+        },
+        "transport": "cli",
+        "error": false,
+        "output": "/tmp/switched-angle-final.gIq91k/source-A.png"
+      },
+      "response": {
+        "ok": true,
+        "data": {
+          "assetId": "fa673b448800be4d19ea74bb91cd5caa51a6b8cb10314953c71b2b599aaaacdb",
+          "streamId": "track:1",
+          "atUs": 0,
+          "maxLongEdge": 64,
+          "supportDigest": "c958e88eb8d17b83b42fd6074dd2140e23d27627cd58325ca0c09aead703a36e",
+          "implementationId": "native-source-picture-v6",
+          "state": "ready",
+          "reason": null,
+          "retryable": false,
+          "jobId": "dd8fd55f-32a8-4236-9744-73724e78a2a3",
+          "published": {
+            "generation": 1,
+            "output": {
+              "file": "/private/tmp/yap-switched-angle-delivery-tDMXjN/library/cache/derived/bb4cf7ff-4939-4376-9208-b5a46cdbd8e6.cache",
+              "mediaType": "image/png",
+              "width": 64,
+              "height": 48,
+              "sourceWidth": 64,
+              "sourceHeight": 48,
+              "bytes": 278,
+              "decodedSamples": 1,
+              "readerOpens": 1,
+              "assetId": "fa673b448800be4d19ea74bb91cd5caa51a6b8cb10314953c71b2b599aaaacdb",
+              "streamId": "track:1",
+              "requestedSourceUs": 0,
+              "actualSourceUs": 0,
+              "sample": {
+                "value": "0",
+                "timescale": 16384,
+                "endValue": "8192",
+                "endTimescale": 16384,
+                "originUs": 0
+              },
+              "atUs": 0,
+              "maxLongEdge": 64,
+              "supportDigest": "c958e88eb8d17b83b42fd6074dd2140e23d27627cd58325ca0c09aead703a36e",
+              "implementationId": "native-source-picture-v6",
+              "cacheId": "bb4cf7ff-4939-4376-9208-b5a46cdbd8e6"
+            }
+          },
+          "delivery": {
+            "token": "29125632-b3d4-4d21-a96e-224a2665dd0d",
+            "bytes": 278,
+            "expiresAt": 1791314303609
+          },
+          "output": "/tmp/switched-angle-final.gIq91k/source-A.png"
+        },
+        "id": "723334b9-cb31-4775-ba4a-134052f3f204"
+      }
+    },
+    {
+      "request": {
+        "operation": "frame.get",
+        "params": {
+          "assetId": "eca43caff26556cdc413de14cc5c6e8606b11b05b99c1ff3e41303816514d856",
+          "streamId": "track:1",
+          "atUs": 0,
+          "maxLongEdge": 64
+        },
+        "transport": "cli",
+        "error": false
+      },
+      "response": {
+        "ok": true,
+        "data": {
+          "assetId": "eca43caff26556cdc413de14cc5c6e8606b11b05b99c1ff3e41303816514d856",
+          "streamId": "track:1",
+          "atUs": 0,
+          "maxLongEdge": 64,
+          "supportDigest": "c958e88eb8d17b83b42fd6074dd2140e23d27627cd58325ca0c09aead703a36e",
+          "implementationId": "native-source-picture-v6",
+          "state": "processing",
+          "reason": null,
+          "retryable": false,
+          "jobId": "74e24847-b17e-46d1-8e84-373f9a4bc408",
+          "published": null,
+          "delivery": null
+        },
+        "id": "45527bbe-a10e-4471-b464-da5b172b1e6e"
+      }
+    },
+    {
+      "request": {
+        "operation": "frame.get",
+        "params": {
+          "assetId": "eca43caff26556cdc413de14cc5c6e8606b11b05b99c1ff3e41303816514d856",
+          "streamId": "track:1",
+          "atUs": 0,
+          "maxLongEdge": 64
+        },
+        "transport": "cli",
+        "error": false
+      },
+      "response": {
+        "ok": true,
+        "data": {
+          "assetId": "eca43caff26556cdc413de14cc5c6e8606b11b05b99c1ff3e41303816514d856",
+          "streamId": "track:1",
+          "atUs": 0,
+          "maxLongEdge": 64,
+          "supportDigest": "c958e88eb8d17b83b42fd6074dd2140e23d27627cd58325ca0c09aead703a36e",
+          "implementationId": "native-source-picture-v6",
+          "state": "ready",
+          "reason": null,
+          "retryable": false,
+          "jobId": "74e24847-b17e-46d1-8e84-373f9a4bc408",
+          "published": {
+            "generation": 1,
+            "output": {
+              "file": "/private/tmp/yap-switched-angle-delivery-tDMXjN/library/cache/derived/207a99fd-be08-42c1-8e13-6e29582e5d70.cache",
+              "mediaType": "image/png",
+              "width": 64,
+              "height": 48,
+              "sourceWidth": 64,
+              "sourceHeight": 48,
+              "bytes": 278,
+              "decodedSamples": 1,
+              "readerOpens": 1,
+              "assetId": "eca43caff26556cdc413de14cc5c6e8606b11b05b99c1ff3e41303816514d856",
+              "streamId": "track:1",
+              "requestedSourceUs": 0,
+              "actualSourceUs": 0,
+              "sample": {
+                "value": "0",
+                "timescale": 16384,
+                "endValue": "8192",
+                "endTimescale": 16384,
+                "originUs": 0
+              },
+              "atUs": 0,
+              "maxLongEdge": 64,
+              "supportDigest": "c958e88eb8d17b83b42fd6074dd2140e23d27627cd58325ca0c09aead703a36e",
+              "implementationId": "native-source-picture-v6",
+              "cacheId": "207a99fd-be08-42c1-8e13-6e29582e5d70"
+            }
+          },
+          "delivery": {
+            "token": "f3d15761-be7e-46f8-aa47-f93e0df942f4",
+            "bytes": 278,
+            "expiresAt": 1791314303893
+          },
+          "output": "/var/folders/62/pphwbgd15b1b9q7cjgf8m9pm0000gn/T/yap-media-3M771I/frame.png"
+        },
+        "id": "71bb2d45-498b-44f8-834e-901640256702"
+      }
+    },
+    {
+      "request": {
+        "operation": "frame.get",
+        "params": {
+          "assetId": "eca43caff26556cdc413de14cc5c6e8606b11b05b99c1ff3e41303816514d856",
+          "streamId": "track:1",
+          "atUs": 0,
+          "maxLongEdge": 64
+        },
+        "transport": "cli",
+        "error": false,
+        "output": "/tmp/switched-angle-final.gIq91k/source-B.png"
+      },
+      "response": {
+        "ok": true,
+        "data": {
+          "assetId": "eca43caff26556cdc413de14cc5c6e8606b11b05b99c1ff3e41303816514d856",
+          "streamId": "track:1",
+          "atUs": 0,
+          "maxLongEdge": 64,
+          "supportDigest": "c958e88eb8d17b83b42fd6074dd2140e23d27627cd58325ca0c09aead703a36e",
+          "implementationId": "native-source-picture-v6",
+          "state": "ready",
+          "reason": null,
+          "retryable": false,
+          "jobId": "74e24847-b17e-46d1-8e84-373f9a4bc408",
+          "published": {
+            "generation": 1,
+            "output": {
+              "file": "/private/tmp/yap-switched-angle-delivery-tDMXjN/library/cache/derived/207a99fd-be08-42c1-8e13-6e29582e5d70.cache",
+              "mediaType": "image/png",
+              "width": 64,
+              "height": 48,
+              "sourceWidth": 64,
+              "sourceHeight": 48,
+              "bytes": 278,
+              "decodedSamples": 1,
+              "readerOpens": 1,
+              "assetId": "eca43caff26556cdc413de14cc5c6e8606b11b05b99c1ff3e41303816514d856",
+              "streamId": "track:1",
+              "requestedSourceUs": 0,
+              "actualSourceUs": 0,
+              "sample": {
+                "value": "0",
+                "timescale": 16384,
+                "endValue": "8192",
+                "endTimescale": 16384,
+                "originUs": 0
+              },
+              "atUs": 0,
+              "maxLongEdge": 64,
+              "supportDigest": "c958e88eb8d17b83b42fd6074dd2140e23d27627cd58325ca0c09aead703a36e",
+              "implementationId": "native-source-picture-v6",
+              "cacheId": "207a99fd-be08-42c1-8e13-6e29582e5d70"
+            }
+          },
+          "delivery": {
+            "token": "515e7678-06a4-4b09-9e10-ea21586ce353",
+            "bytes": 278,
+            "expiresAt": 1791314303977
+          },
+          "output": "/tmp/switched-angle-final.gIq91k/source-B.png"
+        },
+        "id": "0abc37ca-d0da-4aed-9ddd-6c52c81e3e3f"
+      }
+    },
+    {
+      "request": {
+        "operation": "frame.get",
+        "params": {
+          "assetId": "87842eb3e718ef7b7d345f20af32c8097c38d7b1e83eb1cddd49cabf0c2ba538",
+          "streamId": "track:1",
+          "atUs": 0,
+          "maxLongEdge": 64
+        },
+        "transport": "cli",
+        "error": false
+      },
+      "response": {
+        "ok": true,
+        "data": {
+          "assetId": "87842eb3e718ef7b7d345f20af32c8097c38d7b1e83eb1cddd49cabf0c2ba538",
+          "streamId": "track:1",
+          "atUs": 0,
+          "maxLongEdge": 64,
+          "supportDigest": "c958e88eb8d17b83b42fd6074dd2140e23d27627cd58325ca0c09aead703a36e",
+          "implementationId": "native-source-picture-v6",
+          "state": "processing",
+          "reason": null,
+          "retryable": false,
+          "jobId": "f3fa1a04-bc16-42aa-a03a-337f69e73c52",
+          "published": null,
+          "delivery": null
+        },
+        "id": "39ae126a-e4a0-41bc-b6c4-fbd83e61b33a"
+      }
+    },
+    {
+      "request": {
+        "operation": "frame.get",
+        "params": {
+          "assetId": "87842eb3e718ef7b7d345f20af32c8097c38d7b1e83eb1cddd49cabf0c2ba538",
+          "streamId": "track:1",
+          "atUs": 0,
+          "maxLongEdge": 64
+        },
+        "transport": "cli",
+        "error": false
+      },
+      "response": {
+        "ok": true,
+        "data": {
+          "assetId": "87842eb3e718ef7b7d345f20af32c8097c38d7b1e83eb1cddd49cabf0c2ba538",
+          "streamId": "track:1",
+          "atUs": 0,
+          "maxLongEdge": 64,
+          "supportDigest": "c958e88eb8d17b83b42fd6074dd2140e23d27627cd58325ca0c09aead703a36e",
+          "implementationId": "native-source-picture-v6",
+          "state": "ready",
+          "reason": null,
+          "retryable": false,
+          "jobId": "f3fa1a04-bc16-42aa-a03a-337f69e73c52",
+          "published": {
+            "generation": 1,
+            "output": {
+              "file": "/private/tmp/yap-switched-angle-delivery-tDMXjN/library/cache/derived/e793524c-f554-49b6-acee-12f44cecc335.cache",
+              "mediaType": "image/png",
+              "width": 64,
+              "height": 48,
+              "sourceWidth": 64,
+              "sourceHeight": 48,
+              "bytes": 280,
+              "decodedSamples": 1,
+              "readerOpens": 1,
+              "assetId": "87842eb3e718ef7b7d345f20af32c8097c38d7b1e83eb1cddd49cabf0c2ba538",
+              "streamId": "track:1",
+              "requestedSourceUs": 0,
+              "actualSourceUs": 0,
+              "sample": {
+                "value": "0",
+                "timescale": 16384,
+                "endValue": "8192",
+                "endTimescale": 16384,
+                "originUs": 0
+              },
+              "atUs": 0,
+              "maxLongEdge": 64,
+              "supportDigest": "c958e88eb8d17b83b42fd6074dd2140e23d27627cd58325ca0c09aead703a36e",
+              "implementationId": "native-source-picture-v6",
+              "cacheId": "e793524c-f554-49b6-acee-12f44cecc335"
+            }
+          },
+          "delivery": {
+            "token": "965b0bc3-e311-4ded-b513-425d90efaaf0",
+            "bytes": 280,
+            "expiresAt": 1791314304262
+          },
+          "output": "/var/folders/62/pphwbgd15b1b9q7cjgf8m9pm0000gn/T/yap-media-aiLefX/frame.png"
+        },
+        "id": "a6feb3ec-956e-406d-8987-485d1e40c34d"
+      }
+    },
+    {
+      "request": {
+        "operation": "frame.get",
+        "params": {
+          "assetId": "87842eb3e718ef7b7d345f20af32c8097c38d7b1e83eb1cddd49cabf0c2ba538",
+          "streamId": "track:1",
+          "atUs": 0,
+          "maxLongEdge": 64
+        },
+        "transport": "cli",
+        "error": false,
+        "output": "/tmp/switched-angle-final.gIq91k/source-C.png"
+      },
+      "response": {
+        "ok": true,
+        "data": {
+          "assetId": "87842eb3e718ef7b7d345f20af32c8097c38d7b1e83eb1cddd49cabf0c2ba538",
+          "streamId": "track:1",
+          "atUs": 0,
+          "maxLongEdge": 64,
+          "supportDigest": "c958e88eb8d17b83b42fd6074dd2140e23d27627cd58325ca0c09aead703a36e",
+          "implementationId": "native-source-picture-v6",
+          "state": "ready",
+          "reason": null,
+          "retryable": false,
+          "jobId": "f3fa1a04-bc16-42aa-a03a-337f69e73c52",
+          "published": {
+            "generation": 1,
+            "output": {
+              "file": "/private/tmp/yap-switched-angle-delivery-tDMXjN/library/cache/derived/e793524c-f554-49b6-acee-12f44cecc335.cache",
+              "mediaType": "image/png",
+              "width": 64,
+              "height": 48,
+              "sourceWidth": 64,
+              "sourceHeight": 48,
+              "bytes": 280,
+              "decodedSamples": 1,
+              "readerOpens": 1,
+              "assetId": "87842eb3e718ef7b7d345f20af32c8097c38d7b1e83eb1cddd49cabf0c2ba538",
+              "streamId": "track:1",
+              "requestedSourceUs": 0,
+              "actualSourceUs": 0,
+              "sample": {
+                "value": "0",
+                "timescale": 16384,
+                "endValue": "8192",
+                "endTimescale": 16384,
+                "originUs": 0
+              },
+              "atUs": 0,
+              "maxLongEdge": 64,
+              "supportDigest": "c958e88eb8d17b83b42fd6074dd2140e23d27627cd58325ca0c09aead703a36e",
+              "implementationId": "native-source-picture-v6",
+              "cacheId": "e793524c-f554-49b6-acee-12f44cecc335"
+            }
+          },
+          "delivery": {
+            "token": "3ede2811-4d36-45e6-a25c-afa28a0cb6fa",
+            "bytes": 280,
+            "expiresAt": 1791314304351
+          },
+          "output": "/tmp/switched-angle-final.gIq91k/source-C.png"
+        },
+        "id": "862588ba-1e63-4c5a-ad7f-4f9dd83f5ca8"
+      }
+    },
+    {
+      "request": {
+        "operation": "frame.get",
+        "params": {
+          "projectId": "cad805f1-46ca-4acf-822c-aa669d467157",
+          "revisionId": "df720bec-c384-4e0c-b121-05c6bb0d7ce1",
+          "atUs": 250000,
+          "maxLongEdge": 64
+        },
+        "transport": "cli",
+        "error": false
+      },
+      "response": {
+        "ok": true,
+        "data": {
+          "projectId": "cad805f1-46ca-4acf-822c-aa669d467157",
+          "revisionId": "df720bec-c384-4e0c-b121-05c6bb0d7ce1",
+          "atUs": 250000,
+          "maxLongEdge": 64,
+          "tap": {
+            "target": {
+              "kind": "output"
+            },
+            "point": {
+              "kind": "processed"
+            }
+          },
+          "implementationId": "native-composition-picture-v20:coreimage-sdr-source-neutral-recovery-v2:Version 27.0.1 (Build 26A434):coreimage-unit-linear-srgb-cube-trilinear-v1:Version 27.0.1 (Build 26A434)",
+          "state": "processing",
+          "reason": null,
+          "retryable": false,
+          "jobId": "0885efc1-74a5-4473-bc65-1094370f2475",
+          "published": null,
+          "delivery": null
+        },
+        "id": "1932fa43-028e-4da6-8304-c71fa529cd81"
+      }
+    },
+    {
+      "request": {
+        "operation": "frame.get",
+        "params": {
+          "projectId": "cad805f1-46ca-4acf-822c-aa669d467157",
+          "revisionId": "df720bec-c384-4e0c-b121-05c6bb0d7ce1",
+          "atUs": 250000,
+          "maxLongEdge": 64
+        },
+        "transport": "cli",
+        "error": false
+      },
+      "response": {
+        "ok": true,
+        "data": {
+          "projectId": "cad805f1-46ca-4acf-822c-aa669d467157",
+          "revisionId": "df720bec-c384-4e0c-b121-05c6bb0d7ce1",
+          "atUs": 250000,
+          "maxLongEdge": 64,
+          "tap": {
+            "target": {
+              "kind": "output"
+            },
+            "point": {
+              "kind": "processed"
+            }
+          },
+          "implementationId": "native-composition-picture-v20:coreimage-sdr-source-neutral-recovery-v2:Version 27.0.1 (Build 26A434):coreimage-unit-linear-srgb-cube-trilinear-v1:Version 27.0.1 (Build 26A434)",
+          "state": "ready",
+          "reason": null,
+          "retryable": false,
+          "jobId": "0885efc1-74a5-4473-bc65-1094370f2475",
+          "published": {
+            "generation": 1,
+            "output": {
+              "file": "/private/tmp/yap-switched-angle-delivery-tDMXjN/library/cache/derived/ae593277-2d7c-4509-8e2d-fa7b29f731ad.cache",
+              "mediaType": "image/png",
+              "width": 64,
+              "height": 48,
+              "sourceWidth": 64,
+              "sourceHeight": 48,
+              "bytes": 255,
+              "profile": "h264-rec709",
+              "frame": {
+                "index": 0,
+                "sampleAtUs": 0,
+                "visibleRange": {
+                  "startUs": 0,
+                  "endUs": 500000
+                },
+                "layers": [
+                  {
+                    "kind": "video",
+                    "assetId": "fa673b448800be4d19ea74bb91cd5caa51a6b8cb10314953c71b2b599aaaacdb",
+                    "streamId": "track:1",
+                    "sourceUs": 0,
+                    "clipId": "clip:7a8440afb4e174776d7ca4f79b6fb606980209bdad5adbb256185f1fed7302dc:1",
+                    "trackId": "track:7a8440afb4e174776d7ca4f79b6fb606980209bdad5adbb256185f1fed7302dc:0",
+                    "availability": "available",
+                    "width": 64,
+                    "height": 48
+                  }
+                ]
+              },
+              "decodedSamples": 1,
+              "readerOpens": 1,
+              "decodedImages": 0,
+              "pictures": [
+                {
+                  "kind": "video",
+                  "status": "available",
+                  "clipId": "clip:7a8440afb4e174776d7ca4f79b6fb606980209bdad5adbb256185f1fed7302dc:1",
+                  "assetId": "fa673b448800be4d19ea74bb91cd5caa51a6b8cb10314953c71b2b599aaaacdb",
+                  "streamId": "track:1",
+                  "requestedSourceUs": 0,
+                  "actualSourceUs": 0,
+                  "sample": {
+                    "value": "0",
+                    "timescale": 16384,
+                    "originUs": 0
+                  }
+                }
+              ],
+              "atUs": 250000,
+              "maxLongEdge": 64,
+              "tap": {
+                "target": {
+                  "kind": "output"
+                },
+                "point": {
+                  "kind": "processed"
+                }
+              },
+              "implementationId": "native-composition-picture-v20:coreimage-sdr-source-neutral-recovery-v2:Version 27.0.1 (Build 26A434):coreimage-unit-linear-srgb-cube-trilinear-v1:Version 27.0.1 (Build 26A434)",
+              "projectId": "cad805f1-46ca-4acf-822c-aa669d467157",
+              "revisionId": "df720bec-c384-4e0c-b121-05c6bb0d7ce1",
+              "cacheId": "ae593277-2d7c-4509-8e2d-fa7b29f731ad"
+            }
+          },
+          "delivery": {
+            "token": "f519a5c5-3afe-4370-850f-a6a4fd5e171d",
+            "bytes": 255,
+            "expiresAt": 1791314304644
+          },
+          "output": "/var/folders/62/pphwbgd15b1b9q7cjgf8m9pm0000gn/T/yap-media-xYzz42/frame.png"
+        },
+        "id": "ef4acea5-1a8e-4a1c-a920-8c6b20b6106f"
+      }
+    },
+    {
+      "request": {
+        "operation": "frame.get",
+        "params": {
+          "projectId": "cad805f1-46ca-4acf-822c-aa669d467157",
+          "revisionId": "df720bec-c384-4e0c-b121-05c6bb0d7ce1",
+          "atUs": 250000,
+          "maxLongEdge": 64
+        },
+        "transport": "cli",
+        "error": false,
+        "output": "/tmp/switched-angle-final.gIq91k/frame-A.png"
+      },
+      "response": {
+        "ok": true,
+        "data": {
+          "projectId": "cad805f1-46ca-4acf-822c-aa669d467157",
+          "revisionId": "df720bec-c384-4e0c-b121-05c6bb0d7ce1",
+          "atUs": 250000,
+          "maxLongEdge": 64,
+          "tap": {
+            "target": {
+              "kind": "output"
+            },
+            "point": {
+              "kind": "processed"
+            }
+          },
+          "implementationId": "native-composition-picture-v20:coreimage-sdr-source-neutral-recovery-v2:Version 27.0.1 (Build 26A434):coreimage-unit-linear-srgb-cube-trilinear-v1:Version 27.0.1 (Build 26A434)",
+          "state": "ready",
+          "reason": null,
+          "retryable": false,
+          "jobId": "0885efc1-74a5-4473-bc65-1094370f2475",
+          "published": {
+            "generation": 1,
+            "output": {
+              "file": "/private/tmp/yap-switched-angle-delivery-tDMXjN/library/cache/derived/ae593277-2d7c-4509-8e2d-fa7b29f731ad.cache",
+              "mediaType": "image/png",
+              "width": 64,
+              "height": 48,
+              "sourceWidth": 64,
+              "sourceHeight": 48,
+              "bytes": 255,
+              "profile": "h264-rec709",
+              "frame": {
+                "index": 0,
+                "sampleAtUs": 0,
+                "visibleRange": {
+                  "startUs": 0,
+                  "endUs": 500000
+                },
+                "layers": [
+                  {
+                    "kind": "video",
+                    "assetId": "fa673b448800be4d19ea74bb91cd5caa51a6b8cb10314953c71b2b599aaaacdb",
+                    "streamId": "track:1",
+                    "sourceUs": 0,
+                    "clipId": "clip:7a8440afb4e174776d7ca4f79b6fb606980209bdad5adbb256185f1fed7302dc:1",
+                    "trackId": "track:7a8440afb4e174776d7ca4f79b6fb606980209bdad5adbb256185f1fed7302dc:0",
+                    "availability": "available",
+                    "width": 64,
+                    "height": 48
+                  }
+                ]
+              },
+              "decodedSamples": 1,
+              "readerOpens": 1,
+              "decodedImages": 0,
+              "pictures": [
+                {
+                  "kind": "video",
+                  "status": "available",
+                  "clipId": "clip:7a8440afb4e174776d7ca4f79b6fb606980209bdad5adbb256185f1fed7302dc:1",
+                  "assetId": "fa673b448800be4d19ea74bb91cd5caa51a6b8cb10314953c71b2b599aaaacdb",
+                  "streamId": "track:1",
+                  "requestedSourceUs": 0,
+                  "actualSourceUs": 0,
+                  "sample": {
+                    "value": "0",
+                    "timescale": 16384,
+                    "originUs": 0
+                  }
+                }
+              ],
+              "atUs": 250000,
+              "maxLongEdge": 64,
+              "tap": {
+                "target": {
+                  "kind": "output"
+                },
+                "point": {
+                  "kind": "processed"
+                }
+              },
+              "implementationId": "native-composition-picture-v20:coreimage-sdr-source-neutral-recovery-v2:Version 27.0.1 (Build 26A434):coreimage-unit-linear-srgb-cube-trilinear-v1:Version 27.0.1 (Build 26A434)",
+              "projectId": "cad805f1-46ca-4acf-822c-aa669d467157",
+              "revisionId": "df720bec-c384-4e0c-b121-05c6bb0d7ce1",
+              "cacheId": "ae593277-2d7c-4509-8e2d-fa7b29f731ad"
+            }
+          },
+          "delivery": {
+            "token": "7d4104fb-2879-4899-9443-f867d87a00d9",
+            "bytes": 255,
+            "expiresAt": 1791314304728
+          },
+          "output": "/tmp/switched-angle-final.gIq91k/frame-A.png"
+        },
+        "id": "df692523-406c-4ab6-aefe-009bf46b0b42"
+      }
+    },
+    {
+      "request": {
+        "operation": "frame.get",
+        "params": {
+          "projectId": "cad805f1-46ca-4acf-822c-aa669d467157",
+          "revisionId": "df720bec-c384-4e0c-b121-05c6bb0d7ce1",
+          "atUs": 1250000,
+          "maxLongEdge": 64
+        },
+        "transport": "cli",
+        "error": false
+      },
+      "response": {
+        "ok": true,
+        "data": {
+          "projectId": "cad805f1-46ca-4acf-822c-aa669d467157",
+          "revisionId": "df720bec-c384-4e0c-b121-05c6bb0d7ce1",
+          "atUs": 1250000,
+          "maxLongEdge": 64,
+          "tap": {
+            "target": {
+              "kind": "output"
+            },
+            "point": {
+              "kind": "processed"
+            }
+          },
+          "implementationId": "native-composition-picture-v20:coreimage-sdr-source-neutral-recovery-v2:Version 27.0.1 (Build 26A434):coreimage-unit-linear-srgb-cube-trilinear-v1:Version 27.0.1 (Build 26A434)",
+          "state": "processing",
+          "reason": null,
+          "retryable": false,
+          "jobId": "6d93d803-0642-472c-8b51-1723573277c1",
+          "published": null,
+          "delivery": null
+        },
+        "id": "242c7eba-3ca5-488e-b4f3-d0ab1ad3f342"
+      }
+    },
+    {
+      "request": {
+        "operation": "frame.get",
+        "params": {
+          "projectId": "cad805f1-46ca-4acf-822c-aa669d467157",
+          "revisionId": "df720bec-c384-4e0c-b121-05c6bb0d7ce1",
+          "atUs": 1250000,
+          "maxLongEdge": 64
+        },
+        "transport": "cli",
+        "error": false
+      },
+      "response": {
+        "ok": true,
+        "data": {
+          "projectId": "cad805f1-46ca-4acf-822c-aa669d467157",
+          "revisionId": "df720bec-c384-4e0c-b121-05c6bb0d7ce1",
+          "atUs": 1250000,
+          "maxLongEdge": 64,
+          "tap": {
+            "target": {
+              "kind": "output"
+            },
+            "point": {
+              "kind": "processed"
+            }
+          },
+          "implementationId": "native-composition-picture-v20:coreimage-sdr-source-neutral-recovery-v2:Version 27.0.1 (Build 26A434):coreimage-unit-linear-srgb-cube-trilinear-v1:Version 27.0.1 (Build 26A434)",
+          "state": "ready",
+          "reason": null,
+          "retryable": false,
+          "jobId": "6d93d803-0642-472c-8b51-1723573277c1",
+          "published": {
+            "generation": 1,
+            "output": {
+              "file": "/private/tmp/yap-switched-angle-delivery-tDMXjN/library/cache/derived/0d69a55e-eae4-4468-b63e-d10548a624da.cache",
+              "mediaType": "image/png",
+              "width": 64,
+              "height": 48,
+              "sourceWidth": 64,
+              "sourceHeight": 48,
+              "bytes": 255,
+              "profile": "h264-rec709",
+              "frame": {
+                "index": 2,
+                "sampleAtUs": 1000000,
+                "visibleRange": {
+                  "startUs": 1000000,
+                  "endUs": 1500000
+                },
+                "layers": [
+                  {
+                    "kind": "video",
+                    "assetId": "eca43caff26556cdc413de14cc5c6e8606b11b05b99c1ff3e41303816514d856",
+                    "streamId": "track:1",
+                    "sourceUs": 0,
+                    "clipId": "clip:7a8440afb4e174776d7ca4f79b6fb606980209bdad5adbb256185f1fed7302dc:2",
+                    "trackId": "track:7a8440afb4e174776d7ca4f79b6fb606980209bdad5adbb256185f1fed7302dc:0",
+                    "availability": "available",
+                    "width": 64,
+                    "height": 48
+                  }
+                ]
+              },
+              "decodedSamples": 1,
+              "readerOpens": 1,
+              "decodedImages": 0,
+              "pictures": [
+                {
+                  "kind": "video",
+                  "status": "available",
+                  "clipId": "clip:7a8440afb4e174776d7ca4f79b6fb606980209bdad5adbb256185f1fed7302dc:2",
+                  "assetId": "eca43caff26556cdc413de14cc5c6e8606b11b05b99c1ff3e41303816514d856",
+                  "streamId": "track:1",
+                  "requestedSourceUs": 0,
+                  "actualSourceUs": 0,
+                  "sample": {
+                    "value": "0",
+                    "timescale": 16384,
+                    "originUs": 0
+                  }
+                }
+              ],
+              "atUs": 1250000,
+              "maxLongEdge": 64,
+              "tap": {
+                "target": {
+                  "kind": "output"
+                },
+                "point": {
+                  "kind": "processed"
+                }
+              },
+              "implementationId": "native-composition-picture-v20:coreimage-sdr-source-neutral-recovery-v2:Version 27.0.1 (Build 26A434):coreimage-unit-linear-srgb-cube-trilinear-v1:Version 27.0.1 (Build 26A434)",
+              "projectId": "cad805f1-46ca-4acf-822c-aa669d467157",
+              "revisionId": "df720bec-c384-4e0c-b121-05c6bb0d7ce1",
+              "cacheId": "0d69a55e-eae4-4468-b63e-d10548a624da"
+            }
+          },
+          "delivery": {
+            "token": "8affc01f-bb21-4416-a0ce-e02669106ce1",
+            "bytes": 255,
+            "expiresAt": 1791314305008
+          },
+          "output": "/var/folders/62/pphwbgd15b1b9q7cjgf8m9pm0000gn/T/yap-media-XxaFtC/frame.png"
+        },
+        "id": "7855c1c6-11d1-43f4-9b75-038d247559fc"
+      }
+    },
+    {
+      "request": {
+        "operation": "frame.get",
+        "params": {
+          "projectId": "cad805f1-46ca-4acf-822c-aa669d467157",
+          "revisionId": "df720bec-c384-4e0c-b121-05c6bb0d7ce1",
+          "atUs": 1250000,
+          "maxLongEdge": 64
+        },
+        "transport": "cli",
+        "error": false,
+        "output": "/tmp/switched-angle-final.gIq91k/frame-B.png"
+      },
+      "response": {
+        "ok": true,
+        "data": {
+          "projectId": "cad805f1-46ca-4acf-822c-aa669d467157",
+          "revisionId": "df720bec-c384-4e0c-b121-05c6bb0d7ce1",
+          "atUs": 1250000,
+          "maxLongEdge": 64,
+          "tap": {
+            "target": {
+              "kind": "output"
+            },
+            "point": {
+              "kind": "processed"
+            }
+          },
+          "implementationId": "native-composition-picture-v20:coreimage-sdr-source-neutral-recovery-v2:Version 27.0.1 (Build 26A434):coreimage-unit-linear-srgb-cube-trilinear-v1:Version 27.0.1 (Build 26A434)",
+          "state": "ready",
+          "reason": null,
+          "retryable": false,
+          "jobId": "6d93d803-0642-472c-8b51-1723573277c1",
+          "published": {
+            "generation": 1,
+            "output": {
+              "file": "/private/tmp/yap-switched-angle-delivery-tDMXjN/library/cache/derived/0d69a55e-eae4-4468-b63e-d10548a624da.cache",
+              "mediaType": "image/png",
+              "width": 64,
+              "height": 48,
+              "sourceWidth": 64,
+              "sourceHeight": 48,
+              "bytes": 255,
+              "profile": "h264-rec709",
+              "frame": {
+                "index": 2,
+                "sampleAtUs": 1000000,
+                "visibleRange": {
+                  "startUs": 1000000,
+                  "endUs": 1500000
+                },
+                "layers": [
+                  {
+                    "kind": "video",
+                    "assetId": "eca43caff26556cdc413de14cc5c6e8606b11b05b99c1ff3e41303816514d856",
+                    "streamId": "track:1",
+                    "sourceUs": 0,
+                    "clipId": "clip:7a8440afb4e174776d7ca4f79b6fb606980209bdad5adbb256185f1fed7302dc:2",
+                    "trackId": "track:7a8440afb4e174776d7ca4f79b6fb606980209bdad5adbb256185f1fed7302dc:0",
+                    "availability": "available",
+                    "width": 64,
+                    "height": 48
+                  }
+                ]
+              },
+              "decodedSamples": 1,
+              "readerOpens": 1,
+              "decodedImages": 0,
+              "pictures": [
+                {
+                  "kind": "video",
+                  "status": "available",
+                  "clipId": "clip:7a8440afb4e174776d7ca4f79b6fb606980209bdad5adbb256185f1fed7302dc:2",
+                  "assetId": "eca43caff26556cdc413de14cc5c6e8606b11b05b99c1ff3e41303816514d856",
+                  "streamId": "track:1",
+                  "requestedSourceUs": 0,
+                  "actualSourceUs": 0,
+                  "sample": {
+                    "value": "0",
+                    "timescale": 16384,
+                    "originUs": 0
+                  }
+                }
+              ],
+              "atUs": 1250000,
+              "maxLongEdge": 64,
+              "tap": {
+                "target": {
+                  "kind": "output"
+                },
+                "point": {
+                  "kind": "processed"
+                }
+              },
+              "implementationId": "native-composition-picture-v20:coreimage-sdr-source-neutral-recovery-v2:Version 27.0.1 (Build 26A434):coreimage-unit-linear-srgb-cube-trilinear-v1:Version 27.0.1 (Build 26A434)",
+              "projectId": "cad805f1-46ca-4acf-822c-aa669d467157",
+              "revisionId": "df720bec-c384-4e0c-b121-05c6bb0d7ce1",
+              "cacheId": "0d69a55e-eae4-4468-b63e-d10548a624da"
+            }
+          },
+          "delivery": {
+            "token": "39efb809-d011-43af-8f8b-e97bbe5d16b0",
+            "bytes": 255,
+            "expiresAt": 1791314305092
+          },
+          "output": "/tmp/switched-angle-final.gIq91k/frame-B.png"
+        },
+        "id": "2a2d26b0-7477-4c2c-b806-bd3b7c5650a5"
+      }
+    },
+    {
+      "request": {
+        "operation": "frame.get",
+        "params": {
+          "projectId": "cad805f1-46ca-4acf-822c-aa669d467157",
+          "revisionId": "df720bec-c384-4e0c-b121-05c6bb0d7ce1",
+          "atUs": 2250000,
+          "maxLongEdge": 64
+        },
+        "transport": "cli",
+        "error": false
+      },
+      "response": {
+        "ok": true,
+        "data": {
+          "projectId": "cad805f1-46ca-4acf-822c-aa669d467157",
+          "revisionId": "df720bec-c384-4e0c-b121-05c6bb0d7ce1",
+          "atUs": 2250000,
+          "maxLongEdge": 64,
+          "tap": {
+            "target": {
+              "kind": "output"
+            },
+            "point": {
+              "kind": "processed"
+            }
+          },
+          "implementationId": "native-composition-picture-v20:coreimage-sdr-source-neutral-recovery-v2:Version 27.0.1 (Build 26A434):coreimage-unit-linear-srgb-cube-trilinear-v1:Version 27.0.1 (Build 26A434)",
+          "state": "processing",
+          "reason": null,
+          "retryable": false,
+          "jobId": "aae491b9-7e2e-42a4-8cb4-e0d0c75e7739",
+          "published": null,
+          "delivery": null
+        },
+        "id": "c8970b14-14a9-4b9a-8f18-11408900ac84"
+      }
+    },
+    {
+      "request": {
+        "operation": "frame.get",
+        "params": {
+          "projectId": "cad805f1-46ca-4acf-822c-aa669d467157",
+          "revisionId": "df720bec-c384-4e0c-b121-05c6bb0d7ce1",
+          "atUs": 2250000,
+          "maxLongEdge": 64
+        },
+        "transport": "cli",
+        "error": false
+      },
+      "response": {
+        "ok": true,
+        "data": {
+          "projectId": "cad805f1-46ca-4acf-822c-aa669d467157",
+          "revisionId": "df720bec-c384-4e0c-b121-05c6bb0d7ce1",
+          "atUs": 2250000,
+          "maxLongEdge": 64,
+          "tap": {
+            "target": {
+              "kind": "output"
+            },
+            "point": {
+              "kind": "processed"
+            }
+          },
+          "implementationId": "native-composition-picture-v20:coreimage-sdr-source-neutral-recovery-v2:Version 27.0.1 (Build 26A434):coreimage-unit-linear-srgb-cube-trilinear-v1:Version 27.0.1 (Build 26A434)",
+          "state": "ready",
+          "reason": null,
+          "retryable": false,
+          "jobId": "aae491b9-7e2e-42a4-8cb4-e0d0c75e7739",
+          "published": {
+            "generation": 1,
+            "output": {
+              "file": "/private/tmp/yap-switched-angle-delivery-tDMXjN/library/cache/derived/7be29eca-fdcc-43a0-aab0-dde5e8106c44.cache",
+              "mediaType": "image/png",
+              "width": 64,
+              "height": 48,
+              "sourceWidth": 64,
+              "sourceHeight": 48,
+              "bytes": 255,
+              "profile": "h264-rec709",
+              "frame": {
+                "index": 4,
+                "sampleAtUs": 2000000,
+                "visibleRange": {
+                  "startUs": 2000000,
+                  "endUs": 2500000
+                },
+                "layers": [
+                  {
+                    "kind": "video",
+                    "assetId": "87842eb3e718ef7b7d345f20af32c8097c38d7b1e83eb1cddd49cabf0c2ba538",
+                    "streamId": "track:1",
+                    "sourceUs": 0,
+                    "clipId": "clip:7a8440afb4e174776d7ca4f79b6fb606980209bdad5adbb256185f1fed7302dc:3",
+                    "trackId": "track:7a8440afb4e174776d7ca4f79b6fb606980209bdad5adbb256185f1fed7302dc:0",
+                    "availability": "available",
+                    "width": 64,
+                    "height": 48
+                  }
+                ]
+              },
+              "decodedSamples": 1,
+              "readerOpens": 1,
+              "decodedImages": 0,
+              "pictures": [
+                {
+                  "kind": "video",
+                  "status": "available",
+                  "clipId": "clip:7a8440afb4e174776d7ca4f79b6fb606980209bdad5adbb256185f1fed7302dc:3",
+                  "assetId": "87842eb3e718ef7b7d345f20af32c8097c38d7b1e83eb1cddd49cabf0c2ba538",
+                  "streamId": "track:1",
+                  "requestedSourceUs": 0,
+                  "actualSourceUs": 0,
+                  "sample": {
+                    "value": "0",
+                    "timescale": 16384,
+                    "originUs": 0
+                  }
+                }
+              ],
+              "atUs": 2250000,
+              "maxLongEdge": 64,
+              "tap": {
+                "target": {
+                  "kind": "output"
+                },
+                "point": {
+                  "kind": "processed"
+                }
+              },
+              "implementationId": "native-composition-picture-v20:coreimage-sdr-source-neutral-recovery-v2:Version 27.0.1 (Build 26A434):coreimage-unit-linear-srgb-cube-trilinear-v1:Version 27.0.1 (Build 26A434)",
+              "projectId": "cad805f1-46ca-4acf-822c-aa669d467157",
+              "revisionId": "df720bec-c384-4e0c-b121-05c6bb0d7ce1",
+              "cacheId": "7be29eca-fdcc-43a0-aab0-dde5e8106c44"
+            }
+          },
+          "delivery": {
+            "token": "f5aadbb4-d90a-4855-a073-6c45d9474d96",
+            "bytes": 255,
+            "expiresAt": 1791314305385
+          },
+          "output": "/var/folders/62/pphwbgd15b1b9q7cjgf8m9pm0000gn/T/yap-media-Vf1Obe/frame.png"
+        },
+        "id": "cd6eb732-17e2-4921-a128-b127e686471d"
+      }
+    },
+    {
+      "request": {
+        "operation": "frame.get",
+        "params": {
+          "projectId": "cad805f1-46ca-4acf-822c-aa669d467157",
+          "revisionId": "df720bec-c384-4e0c-b121-05c6bb0d7ce1",
+          "atUs": 2250000,
+          "maxLongEdge": 64
+        },
+        "transport": "cli",
+        "error": false,
+        "output": "/tmp/switched-angle-final.gIq91k/frame-C.png"
+      },
+      "response": {
+        "ok": true,
+        "data": {
+          "projectId": "cad805f1-46ca-4acf-822c-aa669d467157",
+          "revisionId": "df720bec-c384-4e0c-b121-05c6bb0d7ce1",
+          "atUs": 2250000,
+          "maxLongEdge": 64,
+          "tap": {
+            "target": {
+              "kind": "output"
+            },
+            "point": {
+              "kind": "processed"
+            }
+          },
+          "implementationId": "native-composition-picture-v20:coreimage-sdr-source-neutral-recovery-v2:Version 27.0.1 (Build 26A434):coreimage-unit-linear-srgb-cube-trilinear-v1:Version 27.0.1 (Build 26A434)",
+          "state": "ready",
+          "reason": null,
+          "retryable": false,
+          "jobId": "aae491b9-7e2e-42a4-8cb4-e0d0c75e7739",
+          "published": {
+            "generation": 1,
+            "output": {
+              "file": "/private/tmp/yap-switched-angle-delivery-tDMXjN/library/cache/derived/7be29eca-fdcc-43a0-aab0-dde5e8106c44.cache",
+              "mediaType": "image/png",
+              "width": 64,
+              "height": 48,
+              "sourceWidth": 64,
+              "sourceHeight": 48,
+              "bytes": 255,
+              "profile": "h264-rec709",
+              "frame": {
+                "index": 4,
+                "sampleAtUs": 2000000,
+                "visibleRange": {
+                  "startUs": 2000000,
+                  "endUs": 2500000
+                },
+                "layers": [
+                  {
+                    "kind": "video",
+                    "assetId": "87842eb3e718ef7b7d345f20af32c8097c38d7b1e83eb1cddd49cabf0c2ba538",
+                    "streamId": "track:1",
+                    "sourceUs": 0,
+                    "clipId": "clip:7a8440afb4e174776d7ca4f79b6fb606980209bdad5adbb256185f1fed7302dc:3",
+                    "trackId": "track:7a8440afb4e174776d7ca4f79b6fb606980209bdad5adbb256185f1fed7302dc:0",
+                    "availability": "available",
+                    "width": 64,
+                    "height": 48
+                  }
+                ]
+              },
+              "decodedSamples": 1,
+              "readerOpens": 1,
+              "decodedImages": 0,
+              "pictures": [
+                {
+                  "kind": "video",
+                  "status": "available",
+                  "clipId": "clip:7a8440afb4e174776d7ca4f79b6fb606980209bdad5adbb256185f1fed7302dc:3",
+                  "assetId": "87842eb3e718ef7b7d345f20af32c8097c38d7b1e83eb1cddd49cabf0c2ba538",
+                  "streamId": "track:1",
+                  "requestedSourceUs": 0,
+                  "actualSourceUs": 0,
+                  "sample": {
+                    "value": "0",
+                    "timescale": 16384,
+                    "originUs": 0
+                  }
+                }
+              ],
+              "atUs": 2250000,
+              "maxLongEdge": 64,
+              "tap": {
+                "target": {
+                  "kind": "output"
+                },
+                "point": {
+                  "kind": "processed"
+                }
+              },
+              "implementationId": "native-composition-picture-v20:coreimage-sdr-source-neutral-recovery-v2:Version 27.0.1 (Build 26A434):coreimage-unit-linear-srgb-cube-trilinear-v1:Version 27.0.1 (Build 26A434)",
+              "projectId": "cad805f1-46ca-4acf-822c-aa669d467157",
+              "revisionId": "df720bec-c384-4e0c-b121-05c6bb0d7ce1",
+              "cacheId": "7be29eca-fdcc-43a0-aab0-dde5e8106c44"
+            }
+          },
+          "delivery": {
+            "token": "702fff3d-8c7f-459f-b82e-4f9879561142",
+            "bytes": 255,
+            "expiresAt": 1791314305472
+          },
+          "output": "/tmp/switched-angle-final.gIq91k/frame-C.png"
+        },
+        "id": "fea45bdc-9238-4ca1-8868-42a7528d313a"
+      }
+    },
+    {
+      "request": {
+        "operation": "preview.get",
+        "params": {
+          "projectId": "cad805f1-46ca-4acf-822c-aa669d467157",
+          "revisionId": "df720bec-c384-4e0c-b121-05c6bb0d7ce1",
+          "range": {
+            "startUs": 0,
+            "endUs": 3000000
+          }
+        },
+        "transport": "cli",
+        "error": false,
+        "output": "/tmp/switched-angle-final.gIq91k/switched-angle-preview.mp4"
+      },
+      "response": {
+        "ok": true,
+        "data": {
+          "projectId": "cad805f1-46ca-4acf-822c-aa669d467157",
+          "revisionId": "df720bec-c384-4e0c-b121-05c6bb0d7ce1",
+          "range": {
+            "startUs": 0,
+            "endUs": 3000000
+          },
+          "settings": {
+            "container": "mp4",
+            "video": {
+              "codec": "h264",
+              "encoder": {
+                "hardware": "auto",
+                "id": null,
+                "gpu": null
+              },
+              "color": "rec709",
+              "rateControl": {
+                "mode": "average",
+                "bitrate": 8000000
+              },
+              "profile": "high",
+              "level": "auto",
+              "keyframeInterval": 120,
+              "keyframeIntervalSeconds": 2,
+              "frameReordering": false,
+              "entropy": "cabac",
+              "temporalCompression": true,
+              "openGop": false,
+              "prioritizeSpeed": false,
+              "powerEfficient": false,
+              "dataRateLimits": [],
+              "bufferDurationSeconds": null,
+              "initialBufferDelayPercent": null,
+              "spatialAdaptiveQuantization": true,
+              "lookAheadFrames": null,
+              "nonDroppableFrameRate": null,
+              "minimumQuantizer": null,
+              "maximumQuantizer": null
+            },
+            "audio": {
+              "codec": "aac",
+              "sampleRate": 48000,
+              "layout": "stereo",
+              "rateControl": {
+                "mode": "constant",
+                "bitrate": 192000
+              },
+              "quality": "high"
+            }
+          },
+          "state": "processing",
+          "reason": null,
+          "retryable": false,
+          "jobId": "a4a058c0-baa3-4ee5-ae7a-599e155c908f",
+          "published": null,
+          "delivery": null
+        },
+        "id": "013ea82f-d4a6-4eec-a3d3-54db532e9f03"
+      }
+    },
+    {
+      "request": {
+        "operation": "preview.get",
+        "params": {
+          "projectId": "cad805f1-46ca-4acf-822c-aa669d467157",
+          "revisionId": "df720bec-c384-4e0c-b121-05c6bb0d7ce1",
+          "range": {
+            "startUs": 0,
+            "endUs": 3000000
+          }
+        },
+        "transport": "cli",
+        "error": false,
+        "output": "/tmp/switched-angle-final.gIq91k/switched-angle-preview.mp4"
+      },
+      "response": {
+        "ok": true,
+        "data": {
+          "projectId": "cad805f1-46ca-4acf-822c-aa669d467157",
+          "revisionId": "df720bec-c384-4e0c-b121-05c6bb0d7ce1",
+          "range": {
+            "startUs": 0,
+            "endUs": 3000000
+          },
+          "settings": {
+            "container": "mp4",
+            "video": {
+              "codec": "h264",
+              "encoder": {
+                "hardware": "auto",
+                "id": null,
+                "gpu": null
+              },
+              "color": "rec709",
+              "rateControl": {
+                "mode": "average",
+                "bitrate": 8000000
+              },
+              "profile": "high",
+              "level": "auto",
+              "keyframeInterval": 120,
+              "keyframeIntervalSeconds": 2,
+              "frameReordering": false,
+              "entropy": "cabac",
+              "temporalCompression": true,
+              "openGop": false,
+              "prioritizeSpeed": false,
+              "powerEfficient": false,
+              "dataRateLimits": [],
+              "bufferDurationSeconds": null,
+              "initialBufferDelayPercent": null,
+              "spatialAdaptiveQuantization": true,
+              "lookAheadFrames": null,
+              "nonDroppableFrameRate": null,
+              "minimumQuantizer": null,
+              "maximumQuantizer": null
+            },
+            "audio": {
+              "codec": "aac",
+              "sampleRate": 48000,
+              "layout": "stereo",
+              "rateControl": {
+                "mode": "constant",
+                "bitrate": 192000
+              },
+              "quality": "high"
+            }
+          },
+          "state": "processing",
+          "reason": null,
+          "retryable": false,
+          "jobId": "a4a058c0-baa3-4ee5-ae7a-599e155c908f",
+          "published": null,
+          "delivery": null
+        },
+        "id": "88d95c9e-ceaf-445f-a69e-8fde6ef35cba"
+      }
+    },
+    {
+      "request": {
+        "operation": "preview.get",
+        "params": {
+          "projectId": "cad805f1-46ca-4acf-822c-aa669d467157",
+          "revisionId": "df720bec-c384-4e0c-b121-05c6bb0d7ce1",
+          "range": {
+            "startUs": 0,
+            "endUs": 3000000
+          }
+        },
+        "transport": "cli",
+        "error": false,
+        "output": "/tmp/switched-angle-final.gIq91k/switched-angle-preview.mp4"
+      },
+      "response": {
+        "ok": true,
+        "data": {
+          "projectId": "cad805f1-46ca-4acf-822c-aa669d467157",
+          "revisionId": "df720bec-c384-4e0c-b121-05c6bb0d7ce1",
+          "range": {
+            "startUs": 0,
+            "endUs": 3000000
+          },
+          "settings": {
+            "container": "mp4",
+            "video": {
+              "codec": "h264",
+              "encoder": {
+                "hardware": "auto",
+                "id": null,
+                "gpu": null
+              },
+              "color": "rec709",
+              "rateControl": {
+                "mode": "average",
+                "bitrate": 8000000
+              },
+              "profile": "high",
+              "level": "auto",
+              "keyframeInterval": 120,
+              "keyframeIntervalSeconds": 2,
+              "frameReordering": false,
+              "entropy": "cabac",
+              "temporalCompression": true,
+              "openGop": false,
+              "prioritizeSpeed": false,
+              "powerEfficient": false,
+              "dataRateLimits": [],
+              "bufferDurationSeconds": null,
+              "initialBufferDelayPercent": null,
+              "spatialAdaptiveQuantization": true,
+              "lookAheadFrames": null,
+              "nonDroppableFrameRate": null,
+              "minimumQuantizer": null,
+              "maximumQuantizer": null
+            },
+            "audio": {
+              "codec": "aac",
+              "sampleRate": 48000,
+              "layout": "stereo",
+              "rateControl": {
+                "mode": "constant",
+                "bitrate": 192000
+              },
+              "quality": "high"
+            }
+          },
+          "state": "ready",
+          "reason": null,
+          "retryable": false,
+          "jobId": "a4a058c0-baa3-4ee5-ae7a-599e155c908f",
+          "published": {
+            "generation": 1,
+            "output": {
+              "audio": {
+                "channels": 2,
+                "clippedSamples": 0,
+                "decoderContext": {
+                  "maximumPrerollFrames": 0,
+                  "maximumTailFrames": 0,
+                  "policy": "bounded-current-retained-run",
+                  "sampleRate": 48000
+                },
+                "frames": 144000,
+                "maximumBlockFrames": 8192,
+                "peak": 0,
+                "peakResidentBytes": 53624832,
+                "sampleRate": 48000,
+                "sourceWork": {
+                  "decoded": [],
+                  "descriptorDeliveredBytes": 0,
+                  "descriptorInputs": 0,
+                  "descriptorReadBytes": 0,
+                  "preparedRetimeRuns": 0,
+                  "unknownReadInputs": 0
+                },
+                "unavailable": []
+              },
+              "bytes": 75454,
+              "codec": "h264",
+              "durationUs": 3000000,
+              "encodedAudio": {
+                "channels": 2,
+                "durationTimescale": 6000000,
+                "durationValue": 18000000,
+                "sampleRate": 48000
+              },
+              "encodedVideo": {
+                "level": "3.0",
+                "profile": "high"
+              },
+              "file": "/private/tmp/yap-switched-angle-delivery-tDMXjN/library/cache/derived/7ac39a40-f95a-4abc-a538-b7cba7987ab2.cache",
+              "frameCount": 6,
+              "height": 48,
+              "mediaType": "video/mp4",
+              "peakResidentBytes": 53624832,
+              "settings": {
+                "container": "mp4",
+                "video": {
+                  "codec": "h264",
+                  "encoder": {
+                    "hardware": "auto",
+                    "id": null,
+                    "gpu": null
+                  },
+                  "color": "rec709",
+                  "rateControl": {
+                    "mode": "average",
+                    "bitrate": 8000000
+                  },
+                  "profile": "high",
+                  "level": "auto",
+                  "keyframeInterval": 120,
+                  "keyframeIntervalSeconds": 2,
+                  "frameReordering": false,
+                  "entropy": "cabac",
+                  "temporalCompression": true,
+                  "openGop": false,
+                  "prioritizeSpeed": false,
+                  "powerEfficient": false,
+                  "dataRateLimits": [],
+                  "bufferDurationSeconds": null,
+                  "initialBufferDelayPercent": null,
+                  "spatialAdaptiveQuantization": true,
+                  "lookAheadFrames": null,
+                  "nonDroppableFrameRate": null,
+                  "minimumQuantizer": null,
+                  "maximumQuantizer": null
+                },
+                "audio": {
+                  "codec": "aac",
+                  "sampleRate": 48000,
+                  "layout": "stereo",
+                  "rateControl": {
+                    "mode": "constant",
+                    "bitrate": 192000
+                  },
+                  "quality": "high"
+                }
+              },
+              "width": 64,
+              "preparedResourceId": null,
+              "range": {
+                "startUs": 0,
+                "endUs": 3000000
+              },
+              "implementationId": "native-composition-movie-v24:coreimage-sdr-source-neutral-recovery-v2:Version 27.0.1 (Build 26A434):coreimage-unit-linear-srgb-cube-trilinear-v1:Version 27.0.1 (Build 26A434)",
+              "projectId": "cad805f1-46ca-4acf-822c-aa669d467157",
+              "revisionId": "df720bec-c384-4e0c-b121-05c6bb0d7ce1",
+              "cacheId": "7ac39a40-f95a-4abc-a538-b7cba7987ab2"
+            }
+          },
+          "delivery": {
+            "token": "81d6c069-38ad-4b99-a74c-87ea92c0dcaa",
+            "bytes": 75454,
+            "expiresAt": 1791314305973
+          },
+          "output": "/tmp/switched-angle-final.gIq91k/switched-angle-preview.mp4"
+        },
+        "id": "af2ea281-8de0-419c-8ff9-8c0eece58a5d"
+      }
+    }
+  ],
+  "checks": [
+    "public CLI/MCP imports three caller-authored angle sources and declares source-bound accepted evidence",
+    "native frame delivery selects A, B and C at their explicit sequential placements",
+    "native preview delivery preserves the six 2fps frames and each selected angle"
+  ],
+  "nativeSha256": "dbb3e7aa7674f8cb4d4c416ac3ef082f482993874d7ebb06ddc2054fb41b38f4",
+  "recipe": {
+    "kind": "declared-angle-switch",
+    "mediaKind": "video",
+    "projectRange": {
+      "startUs": 0,
+      "endUs": 3000000
+    },
+    "sourceRange": {
+      "startUs": 0,
+      "endUs": 1000000
+    },
+    "angles": [
+      "A",
+      "B",
+      "C"
+    ],
+    "colors": {
+      "A": [
+        255,
+        0,
+        0
+      ],
+      "B": [
+        0,
+        255,
+        0
+      ],
+      "C": [
+        0,
+        0,
+        255
+      ]
+    },
+    "evidence": {
+      "id": "known-angle-control",
+      "generation": "g1",
+      "status": "accepted",
+      "method": "waveform",
+      "fingerprint": "sha256:known-angle-control"
+    }
+  },
+  "project": {
+    "projectId": "cad805f1-46ca-4acf-822c-aa669d467157",
+    "revisionId": "df720bec-c384-4e0c-b121-05c6bb0d7ce1"
+  },
+  "sources": {
+    "A": [
+      246,
+      36,
+      0
+    ],
+    "B": [
+      63,
+      251,
+      0
+    ],
+    "C": [
+      26,
+      34,
+      255
+    ]
+  },
+  "samples": {
+    "A": {
+      "atUs": 250000,
+      "meanRGB": [
+        246,
+        36,
+        0
+      ],
+      "output": {
+        "implementationId": "native-composition-picture-v20:coreimage-sdr-source-neutral-recovery-v2:Version 27.0.1 (Build 26A434):coreimage-unit-linear-srgb-cube-trilinear-v1:Version 27.0.1 (Build 26A434)",
+        "frame": {
+          "index": 0,
+          "sampleAtUs": 0,
+          "visibleRange": {
+            "startUs": 0,
+            "endUs": 500000
+          },
+          "layers": [
+            {
+              "kind": "video",
+              "assetId": "fa673b448800be4d19ea74bb91cd5caa51a6b8cb10314953c71b2b599aaaacdb",
+              "streamId": "track:1",
+              "sourceUs": 0,
+              "clipId": "clip:7a8440afb4e174776d7ca4f79b6fb606980209bdad5adbb256185f1fed7302dc:1",
+              "trackId": "track:7a8440afb4e174776d7ca4f79b6fb606980209bdad5adbb256185f1fed7302dc:0",
+              "availability": "available",
+              "width": 64,
+              "height": 48
+            }
+          ]
+        }
+      }
+    },
+    "B": {
+      "atUs": 1250000,
+      "meanRGB": [
+        63,
+        251,
+        0
+      ],
+      "output": {
+        "implementationId": "native-composition-picture-v20:coreimage-sdr-source-neutral-recovery-v2:Version 27.0.1 (Build 26A434):coreimage-unit-linear-srgb-cube-trilinear-v1:Version 27.0.1 (Build 26A434)",
+        "frame": {
+          "index": 2,
+          "sampleAtUs": 1000000,
+          "visibleRange": {
+            "startUs": 1000000,
+            "endUs": 1500000
+          },
+          "layers": [
+            {
+              "kind": "video",
+              "assetId": "eca43caff26556cdc413de14cc5c6e8606b11b05b99c1ff3e41303816514d856",
+              "streamId": "track:1",
+              "sourceUs": 0,
+              "clipId": "clip:7a8440afb4e174776d7ca4f79b6fb606980209bdad5adbb256185f1fed7302dc:2",
+              "trackId": "track:7a8440afb4e174776d7ca4f79b6fb606980209bdad5adbb256185f1fed7302dc:0",
+              "availability": "available",
+              "width": 64,
+              "height": 48
+            }
+          ]
+        }
+      }
+    },
+    "C": {
+      "atUs": 2250000,
+      "meanRGB": [
+        26,
+        34,
+        255
+      ],
+      "output": {
+        "implementationId": "native-composition-picture-v20:coreimage-sdr-source-neutral-recovery-v2:Version 27.0.1 (Build 26A434):coreimage-unit-linear-srgb-cube-trilinear-v1:Version 27.0.1 (Build 26A434)",
+        "frame": {
+          "index": 4,
+          "sampleAtUs": 2000000,
+          "visibleRange": {
+            "startUs": 2000000,
+            "endUs": 2500000
+          },
+          "layers": [
+            {
+              "kind": "video",
+              "assetId": "87842eb3e718ef7b7d345f20af32c8097c38d7b1e83eb1cddd49cabf0c2ba538",
+              "streamId": "track:1",
+              "sourceUs": 0,
+              "clipId": "clip:7a8440afb4e174776d7ca4f79b6fb606980209bdad5adbb256185f1fed7302dc:3",
+              "trackId": "track:7a8440afb4e174776d7ca4f79b6fb606980209bdad5adbb256185f1fed7302dc:0",
+              "availability": "available",
+              "width": 64,
+              "height": 48
+            }
+          ]
+        }
+      }
+    }
+  },
+  "preview": {
+    "receipt": {
+      "audio": {
+        "channels": 2,
+        "clippedSamples": 0,
+        "decoderContext": {
+          "maximumPrerollFrames": 0,
+          "maximumTailFrames": 0,
+          "policy": "bounded-current-retained-run",
+          "sampleRate": 48000
+        },
+        "frames": 144000,
+        "maximumBlockFrames": 8192,
+        "peak": 0,
+        "peakResidentBytes": 53624832,
+        "sampleRate": 48000,
+        "sourceWork": {
+          "decoded": [],
+          "descriptorDeliveredBytes": 0,
+          "descriptorInputs": 0,
+          "descriptorReadBytes": 0,
+          "preparedRetimeRuns": 0,
+          "unknownReadInputs": 0
+        },
+        "unavailable": []
+      },
+      "bytes": 75454,
+      "codec": "h264",
+      "durationUs": 3000000,
+      "encodedAudio": {
+        "channels": 2,
+        "durationTimescale": 6000000,
+        "durationValue": 18000000,
+        "sampleRate": 48000
+      },
+      "encodedVideo": {
+        "level": "3.0",
+        "profile": "high"
+      },
+      "file": "/private/tmp/yap-switched-angle-delivery-tDMXjN/library/cache/derived/7ac39a40-f95a-4abc-a538-b7cba7987ab2.cache",
+      "frameCount": 6,
+      "height": 48,
+      "mediaType": "video/mp4",
+      "peakResidentBytes": 53624832,
+      "settings": {
+        "container": "mp4",
+        "video": {
+          "codec": "h264",
+          "encoder": {
+            "hardware": "auto",
+            "id": null,
+            "gpu": null
+          },
+          "color": "rec709",
+          "rateControl": {
+            "mode": "average",
+            "bitrate": 8000000
+          },
+          "profile": "high",
+          "level": "auto",
+          "keyframeInterval": 120,
+          "keyframeIntervalSeconds": 2,
+          "frameReordering": false,
+          "entropy": "cabac",
+          "temporalCompression": true,
+          "openGop": false,
+          "prioritizeSpeed": false,
+          "powerEfficient": false,
+          "dataRateLimits": [],
+          "bufferDurationSeconds": null,
+          "initialBufferDelayPercent": null,
+          "spatialAdaptiveQuantization": true,
+          "lookAheadFrames": null,
+          "nonDroppableFrameRate": null,
+          "minimumQuantizer": null,
+          "maximumQuantizer": null
+        },
+        "audio": {
+          "codec": "aac",
+          "sampleRate": 48000,
+          "layout": "stereo",
+          "rateControl": {
+            "mode": "constant",
+            "bitrate": 192000
+          },
+          "quality": "high"
+        }
+      },
+      "width": 64,
+      "preparedResourceId": null,
+      "range": {
+        "startUs": 0,
+        "endUs": 3000000
+      },
+      "implementationId": "native-composition-movie-v24:coreimage-sdr-source-neutral-recovery-v2:Version 27.0.1 (Build 26A434):coreimage-unit-linear-srgb-cube-trilinear-v1:Version 27.0.1 (Build 26A434)",
+      "projectId": "cad805f1-46ca-4acf-822c-aa669d467157",
+      "revisionId": "df720bec-c384-4e0c-b121-05c6bb0d7ce1",
+      "cacheId": "7ac39a40-f95a-4abc-a538-b7cba7987ab2"
+    },
+    "frames": [
+      {
+        "index": 0,
+        "meanRGB": [
+          245,
+          31,
+          1
+        ]
+      },
+      {
+        "index": 1,
+        "meanRGB": [
+          245,
+          31,
+          1
+        ]
+      },
+      {
+        "index": 2,
+        "meanRGB": [
+          54,
+          250,
+          0
+        ]
+      },
+      {
+        "index": 3,
+        "meanRGB": [
+          54,
+          250,
+          0
+        ]
+      },
+      {
+        "index": 4,
+        "meanRGB": [
+          23,
+          30,
+          254
+        ]
+      },
+      {
+        "index": 5,
+        "meanRGB": [
+          23,
+          30,
+          254
+        ]
+      }
+    ],
+    "rgbSha256": "fc3eb7a29809d5aa35f522d518c8ae26b3308278e2c6df265ef06c53f3e1f402"
+  }
+}

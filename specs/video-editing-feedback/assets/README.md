@@ -68,6 +68,11 @@ matching, compressor makeup and a complete independently measured strict master.
 real microphone operands, independent controls and all frozen acoustic refusals;
 it establishes no camera clock or production provider.
 
+[Native switched-angle delivery](21-synced-angles/README.md) retains a public
+CLI/MCP/native replay of three explicit angle sources, source-bound accepted
+evidence, sequential frame selection and complete preview delivery. It does not
+promote global synchronization or automatic camera selection.
+
 [Independent blend arithmetic](24-blend-sheet/README.md) retains color/alpha sheets and
 a smooth vignette through the public compiler/native still/movie seam, with retained raw codec loss and complete matched encoded references; public
 admission and scoped independent visual review pass.

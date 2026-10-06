@@ -114,7 +114,7 @@ The user clarified that pinned models for first-class Yap features, specifically
 - **The gap:** the spec asked for durable evidence but did not choose between copying a full media report and documenting the public shape. The implementation chose a small shape example plus the executable test receipt so generated waveform and model output do not become a second fixture source.
 - **The reach:** future slices can point at one public report contract and one receipt while keeping raw media and model operands with their existing owners.
 - **Verdict:** sound. It keeps documentation useful without duplicating code-discoverable rosters or inventing a second evidence database.
-- **Confidence:** medium.
+- **Confidence:** medium-high for caller-authored delivery; medium for global synchronization.
 
 ## Exact-removal verification boundary — sound, high confidence
 
@@ -1082,8 +1082,8 @@ unlisted architecture or user-only choice was found in this research pass.
 - **When:** slice21 composition relationship checkpoint.
 - **The choice:** Add an `angleGroups` owner separate from linked-edit `syncGroups`. Each group stores a session identity, caller-selected origin clip, evidence id/generation, source asset/stream identities, project validity range and exact signed offset for every member. Public `angle.declare` and `angle.remove` manage the relationship; no speaker name or automatic camera edit is inferred.
 - **The gap:** Existing synchronization entries only linked clips for structural editing and could not carry accepted evidence or a source clock relationship.
-- **The reach:** Validation rejects foreign/unknown/repeated members, non-media clips, origins outside the group and ranges outside the resolved clip interval. The relationship can survive ordinary placements without adding a second timeline, while slice20's failed waveform hypothesis still blocks promotion and switched-view delivery.
-- **Verdict:** sound, medium confidence. The data owner is explicit and hard-cutover friendly, but sync evidence and native replay remain unfinished.
+- **The reach:** Validation rejects foreign/unknown/repeated members, non-media clips, origins outside the group and ranges outside the resolved clip interval. The relationship can survive ordinary placements without adding a second timeline. A retained public/native replay now imports three caller-authored controls, declares their accepted source-bound receipt, and checks frame and preview delivery across the explicit switch; slice20's failed waveform hypothesis still blocks promotion.
+- **Verdict:** sound, medium-high confidence for caller-authored delivery. The data owner is explicit and hard-cutover friendly; global synchronization evidence and automatic selection remain deliberately unfinished.
 - **Confidence:** medium.
 
 ## Transition recipe lowering — slice27
