@@ -800,7 +800,7 @@ export const operationSchema = z.discriminatedUnion("operation", [
         .strict(),
     })
     .describe(
-      "Explicitly prepare one selected source channel over exactly thirty seconds of complete available support, starting on the 16k sample grid. Joins the same observation; job.retry owns failed/canceled recovery. Requires explicitly prepared optional model/runtime and an admitted native decoder. Never fills holes, mixes channels, infers edits or modifies original media.",
+      "Explicitly prepare one selected source channel over exactly thirty seconds of complete available support, starting on the 16k sample grid. Joins the same observation; job.retry owns failed/canceled recovery. First-party Yap speech models/runtime inputs are prepared through their pinned acquisition descriptor by default; verified local sources may be supplied. An admitted native decoder is still required. Never fills holes, mixes channels, infers edits or modifies original media.",
     ),
   z
     .strictObject({
