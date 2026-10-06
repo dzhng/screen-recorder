@@ -44,6 +44,7 @@ struct CaptureViewInput: Equatable {
 /// Scrolling preserves approved control sizes when the native container has less vertical room.
 @MainActor
 final class CaptureView: NSView {
+    static let preferredWidth: CGFloat = 352
     private(set) var input: CaptureViewInput
     private let perform: (CaptureViewIntent) -> Void
     let scrollView = NSScrollView()
@@ -61,8 +62,7 @@ final class CaptureView: NSView {
         super.init(frame: .zero)
         wantsLayer = true
         layer?.cornerRadius = 19
-        layer?.borderWidth = 1
-        layer?.borderColor = NSColor.separatorColor.cgColor
+        layer?.borderWidth = 0
         layer?.masksToBounds = true
         scrollView.drawsBackground = false
         scrollView.hasVerticalScroller = true
@@ -87,7 +87,6 @@ final class CaptureView: NSView {
     override func viewDidChangeEffectiveAppearance() {
         super.viewDidChangeEffectiveAppearance()
         effectiveAppearance.performAsCurrentDrawingAppearance {
-            layer?.borderColor = NSColor.separatorColor.cgColor
             build()
         }
         document.needsDisplay = true
@@ -154,13 +153,14 @@ final class CaptureView: NSView {
         choices[ObjectIdentifier(popup)] = values
     }
 
-    private func card(_ frame: NSRect, radius: CGFloat = 11, fill: NSColor = .controlBackgroundColor) {
+    private func card(_ frame: NSRect, radius: CGFloat = 11,
+                      fill: NSColor = NSColor.controlBackgroundColor.withAlphaComponent(0.42)) {
         let card = NSView(frame: frame)
         card.wantsLayer = true
         card.layer?.cornerRadius = radius
         card.layer?.backgroundColor = fill.cgColor
         card.layer?.borderWidth = 1
-        card.layer?.borderColor = NSColor.separatorColor.cgColor
+        card.layer?.borderColor = NSColor.separatorColor.withAlphaComponent(0.38).cgColor
         document.addSubview(card, positioned: .below, relativeTo: nil)
     }
 
@@ -175,7 +175,7 @@ final class CaptureView: NSView {
     private func build() {
         usedControls = []
         for child in document.subviews where child.identifier == nil { child.removeFromSuperview() }
-        card(NSRect(x: 18, y: 20, width: 39, height: 39))
+        card(NSRect(x: 18, y: 20, width: 39, height: 39), radius: 10)
         icon("record.circle", frame: NSRect(x: 24, y: 26, width: 27, height: 27), color: .systemBlue)
         label("Screen Recorder", NSRect(x: 66, y: 30, width: 181, height: 24), size: 17, weight: .semibold)
         button("Open library", id: "header.library", frame: NSRect(x: 253, y: 23, width: 34, height: 34), intent: .openLibrary, symbol: "play.rectangle.on.rectangle")
@@ -242,7 +242,7 @@ final class CaptureView: NSView {
                 y += 36
             }
             y += 6
-            card(NSRect(x: 17, y: top, width: 316, height: y - top), radius: 10, fill: NSColor.controlBackgroundColor)
+            card(NSRect(x: 17, y: top, width: 316, height: y - top), radius: 10)
             y += 14
         }
         button(input.startTitle == "Start Recording" ? "Start recording" : input.startTitle, id: "capture.start", frame: NSRect(x: 17, y: y, width: 316, height: 44), intent: .controls(.startOrStop), kind: .primary(shortcut: input.startShortcut), enabled: input.startEnabled)
@@ -270,7 +270,7 @@ final class CaptureView: NSView {
         }
         controls = controls.filter { usedControls.contains($0.key) }
         contentHeight = y + 37
-        document.frame = NSRect(x: 0, y: 0, width: 350, height: contentHeight - 2)
+        document.frame = NSRect(x: 0, y: 0, width: Self.preferredWidth, height: contentHeight - 2)
     }
 
     @objc private func activate(_ sender: NSControl) {
@@ -286,10 +286,6 @@ final class CaptureView: NSView {
 @MainActor
 private final class CaptureDocument: NSView {
     override var isFlipped: Bool { true }
-    override func draw(_ dirtyRect: NSRect) {
-        NSColor.windowBackgroundColor.setFill()
-        bounds.fill()
-    }
 }
 
 /// Native momentary buttons draw the frozen geometry; they never mutate their supplied selection.
@@ -332,22 +328,28 @@ private final class CaptureButton: NSButton {
         func text(_ value: String, y: CGFloat, size: CGFloat, weight: NSFont.Weight, color: NSColor) {
             let attributes: [NSAttributedString.Key: Any] = [.font: NSFont.systemFont(ofSize: size, weight: weight), .foregroundColor: color]
             let width = (value as NSString).size(withAttributes: attributes).width
-            (value as NSString).draw(at: NSPoint(x: (bounds.width - width) / 2, y: y), withAttributes: attributes)
+            let font = attributes[.font] as! NSFont
+            let baseline = y + (font.ascender - font.descender) / 2 - font.ascender
+            (value as NSString).draw(at: NSPoint(x: (bounds.width - width) / 2, y: baseline), withAttributes: attributes)
         }
         func image(_ frame: NSRect, color: NSColor) {
             guard let symbol else { return }
-            captureSymbol(symbol, color: color)?.draw(in: frame)
+            guard let image = captureSymbol(symbol, color: color), image.size.width > 0, image.size.height > 0 else { return }
+            let scale = min(frame.width / image.size.width, frame.height / image.size.height)
+            let size = NSSize(width: image.size.width * scale, height: image.size.height * scale)
+            let fitted = NSRect(x: frame.midX - size.width / 2, y: frame.midY - size.height / 2, width: size.width, height: size.height)
+            image.draw(in: fitted, from: .zero, operation: .sourceOver, fraction: 1, respectFlipped: true, hints: [.interpolation: NSImageInterpolation.high])
         }
         switch kind {
         case .tile(let selected):
             let path = NSBezierPath(roundedRect: bounds.insetBy(dx: 0.75, dy: 0.75), xRadius: 12, yRadius: 12)
-            (selected ? NSColor.systemBlue.withAlphaComponent(0.12) : NSColor.controlBackgroundColor).setFill()
+            (selected ? NSColor.systemBlue.withAlphaComponent(0.12) : NSColor.controlBackgroundColor.withAlphaComponent(0.42)).setFill()
             path.fill()
             (selected ? blue : NSColor.separatorColor).setStroke()
             path.lineWidth = selected ? 1.5 : 1
             path.stroke()
-            image(NSRect(x: (bounds.width - 26) / 2, y: 17, width: 26, height: 26), color: selected ? blue : muted)
-            text(title, y: 49, size: 13, weight: .semibold, color: isEnabled ? .labelColor : muted)
+            image(NSRect(x: (bounds.width - 24) / 2, y: 14, width: 24, height: 24), color: selected ? blue : muted)
+            text(title, y: 45, size: 13, weight: .semibold, color: isEnabled ? .labelColor : muted)
             if selected {
                 let attributes: [NSAttributedString.Key: Any] = [.font: NSFont.systemFont(ofSize: 11), .foregroundColor: blue]
                 ("✓" as NSString).draw(at: NSPoint(x: bounds.width - 18, y: 7), withAttributes: attributes)
@@ -370,9 +372,9 @@ private final class CaptureButton: NSButton {
             text(title, y: 11, size: 12, weight: .regular, color: muted)
             ("›" as NSString).draw(at: NSPoint(x: 215, y: 6), withAttributes: [.font: NSFont.systemFont(ofSize: 23), .foregroundColor: muted])
         case .secondary:
-            NSColor.controlBackgroundColor.setFill()
+            NSColor.controlBackgroundColor.withAlphaComponent(0.42).setFill()
             NSBezierPath(roundedRect: bounds, xRadius: 7, yRadius: 7).fill()
-            NSColor.separatorColor.setStroke()
+            NSColor.separatorColor.withAlphaComponent(0.38).setStroke()
             NSBezierPath(roundedRect: bounds.insetBy(dx: 0.5, dy: 0.5), xRadius: 7, yRadius: 7).stroke()
             text(title, y: 8, size: 11, weight: .medium, color: isEnabled ? .labelColor : .secondaryLabelColor)
         case .plain:

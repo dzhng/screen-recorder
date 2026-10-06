@@ -5,6 +5,7 @@ import AppKit
 final class CapturePopover {
     private let popover = NSPopover()
     private let controller = NSViewController()
+    private let surface = NSVisualEffectView()
     private let perform: (CaptureViewIntent) -> Void
     private(set) var view: CaptureView?
     var isShown: Bool { popover.isShown }
@@ -13,6 +14,15 @@ final class CapturePopover {
         self.perform = perform
         popover.behavior = .transient
         popover.animates = false
+        surface.material = .popover
+        surface.blendingMode = .behindWindow
+        surface.state = .active
+        surface.wantsLayer = true
+        surface.layer?.cornerRadius = 18
+        surface.layer?.masksToBounds = true
+        surface.layer?.borderWidth = 1
+        surface.layer?.borderColor = NSColor.separatorColor.withAlphaComponent(0.45).cgColor
+        controller.view = surface
         popover.contentViewController = controller
     }
 
@@ -21,7 +31,7 @@ final class CapturePopover {
         else {
             let view = CaptureView(input: input, perform: perform)
             self.view = view
-            controller.view = view
+            surface.addSubview(view)
         }
         resize()
     }
@@ -39,9 +49,10 @@ final class CapturePopover {
         guard let view else { return }
         let available = (screen ?? view.window?.screen ?? NSScreen.main)?.visibleFrame.height ?? view.contentHeight + 32
         let height = min(view.contentHeight, max(200, available - 32))
-        let size = NSSize(width: 352, height: height)
+        let size = NSSize(width: CaptureView.preferredWidth, height: height)
         guard popover.contentSize != size else { return }
         popover.contentSize = size
+        surface.frame = NSRect(origin: .zero, size: size)
         view.frame.size = size
     }
 }

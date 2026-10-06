@@ -1,3 +1,9 @@
+The macOS capture menu keeps its approved 352-point geometry while using a translucent
+popover surface, lighter card treatment, fitted icons and vertically centered labels.
+Settings remains visible across macOS permission panes and returns to the front after
+Screen Recorder becomes active again. Live camera and microphone checks remain unverified
+on the development Mac, which has no camera or microphone input.
+
 The menu bar now opens a compact capture panel with Display, Window, Area and
 Camera Only. Saved recordings, projects, tracked exports and storage move to a
 separate Library window that stays open while you return to capture controls.

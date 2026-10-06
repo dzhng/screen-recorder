@@ -7,8 +7,8 @@ import ScreenRecorderControls
         var recorded: [CaptureViewIntent] = []
         let input = fixture()
         let view = CaptureView(input: input) { recorded.append($0) }
-        view.frame.size = NSSize(width: 352, height: view.contentHeight)
-        let window = NSWindow(contentRect: NSRect(x: -10000, y: -10000, width: 352, height: view.contentHeight),
+        view.frame.size = NSSize(width: CaptureView.preferredWidth, height: view.contentHeight)
+        let window = NSWindow(contentRect: NSRect(x: -10000, y: -10000, width: CaptureView.preferredWidth, height: view.contentHeight),
             styleMask: .borderless, backing: .buffered, defer: false)
         window.isReleasedWhenClosed = false
         window.contentView = view
@@ -60,17 +60,17 @@ import ScreenRecorderControls
         ] {
             let capture = CaptureView(input: facts) { recorded.append($0) }
             let height = limit > 0 ? limit : capture.contentHeight
-            let stage = NSView(frame: NSRect(x: 0, y: 0, width: 392, height: height + 40))
+            let stage = NSView(frame: NSRect(x: 0, y: 0, width: CaptureView.preferredWidth + 40, height: height + 40))
             stage.wantsLayer = true
             stage.layer?.backgroundColor = NSColor(white: 0.93, alpha: 1).cgColor
-            capture.frame = NSRect(x: 20, y: 20, width: 352, height: height)
+            capture.frame = NSRect(x: 20, y: 20, width: CaptureView.preferredWidth, height: height)
             stage.addSubview(capture)
             let caption = NSTextField(labelWithString: "Synthetic facts · presentation fixture")
             caption.font = .systemFont(ofSize: 9)
             caption.textColor = .secondaryLabelColor
-            caption.frame = NSRect(x: 20, y: 2, width: 352, height: 14)
+            caption.frame = NSRect(x: 20, y: 2, width: CaptureView.preferredWidth, height: 14)
             stage.addSubview(caption)
-            let shotWindow = NSWindow(contentRect: NSRect(x: -10000, y: -10000, width: 392, height: height + 40), styleMask: .borderless, backing: .buffered, defer: false)
+            let shotWindow = NSWindow(contentRect: NSRect(x: -10000, y: -10000, width: CaptureView.preferredWidth + 40, height: height + 40), styleMask: .borderless, backing: .buffered, defer: false)
             shotWindow.isReleasedWhenClosed = false
             shotWindow.appearance = NSAppearance(named: .aqua)
             shotWindow.contentView = stage
@@ -92,7 +92,7 @@ import ScreenRecorderControls
                 let rect = control.convert(control.bounds, to: doc)
                 frames[id] = [rect.minX, rect.minY, rect.width, rect.height]
             }
-            observations.append(["fixture": name, "facts": "synthetic; no service/devices/permissions", "appearance": "aqua", "widthPoints": 352, "heightPoints": height, "contentHeightPoints": capture.contentHeight, "backingScale": shotWindow.backingScaleFactor, "controls": frames])
+            observations.append(["fixture": name, "facts": "synthetic; no service/devices/permissions", "appearance": "aqua", "widthPoints": CaptureView.preferredWidth, "heightPoints": height, "contentHeightPoints": capture.contentHeight, "backingScale": shotWindow.backingScaleFactor, "controls": frames])
             // Retain the complete operands before a reachability assertion can stop the run.
             let report = try! JSONSerialization.data(withJSONObject: observations, options: [.prettyPrinted, .sortedKeys])
             try! report.write(to: URL(fileURLWithPath: "\(output)/native-metadata.json"))

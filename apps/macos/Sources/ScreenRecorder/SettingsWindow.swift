@@ -36,15 +36,10 @@ final class SettingsWindow: NSObject, NSWindowDelegate {
             forName: NSApplication.didBecomeActiveNotification, object: nil, queue: .main
         ) { [weak self] _ in
             MainActor.assumeIsolated {
-                guard let self, self.isVisible else { return }
-                self.refreshSystemState()
+                self?.restoreAfterExternalSettings()
             }
         }
     }
-
-    /// On screen where a person can see it. A window in the Dock is not, which is why opening
-    /// Settings again has to bring it back rather than treat it as already shown.
-    var isVisible: Bool { window?.isVisible == true && window?.isMiniaturized == false }
 
     /// An accessory app is never frontmost on its own, so a person opening the window activates it.
     /// A launch a check drives orders the same window in behind everything instead: taking the
@@ -79,6 +74,17 @@ final class SettingsWindow: NSObject, NSWindowDelegate {
         if let window { preferences.settingsFrame = window.frameDescriptor }
     }
 
+    /// Permission prompts and the Privacy pane activate another app. Keep Settings available
+    /// during that handoff, then put this window back in front when Screen Recorder returns.
+    private func restoreAfterExternalSettings() {
+        guard let window, window.isVisible, !window.isMiniaturized else { return }
+        refreshSystemState()
+        guard !ControlsProbe.observed else { return }
+        NSApplication.shared.activate(ignoringOtherApps: true)
+        window.orderFrontRegardless()
+        window.makeKey()
+    }
+
     private func refreshSystemState() {
         refreshPermissions()
         model.readLoginItem()
@@ -94,6 +100,7 @@ final class SettingsWindow: NSObject, NSWindowDelegate {
             styleMask: [.titled, .closable, .miniaturizable], backing: .buffered, defer: false)
         window.title = Self.title
         window.isReleasedWhenClosed = false
+        window.hidesOnDeactivate = false
         window.contentView = content
         window.delegate = self
         // Where it was left, if that is still somewhere this Mac can show it: a window saved on a

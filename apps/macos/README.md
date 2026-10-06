@@ -20,6 +20,9 @@ screen access produces empty screen choices, while an actual discovery failure
 retains the last-good catalog and reports the error. A camera choice preserves
 its device identity and never silently substitutes a disconnected device.
 Login registration is the system's answer, not a second locally cached preference.
+The Settings window stays available while macOS presents a permission or privacy
+pane, then refreshes its state and returns to the front when Screen Recorder
+becomes active again.
 A client-triggered service launch suppresses the ordinary launch window; a headless
 check must not take focus or play audio.
 
