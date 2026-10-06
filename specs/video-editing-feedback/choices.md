@@ -928,3 +928,21 @@ unlisted architecture or user-only choice was found in this research pass.
 - **Verdict:** sound, high confidence. It keeps timing evidence exact and refuses to
   turn uncertain overlap into an editorial decision.
 - **Confidence:** high.
+
+## Generation-pinned speaker names — slice32
+
+- **When:** slice32 public binding checkpoint.
+- **The choice:** `speaker.bind` stores caller-authored display names against one
+  retained speaker observation generation and anonymous slot. A later `speaker.get`
+  joins those names onto interval rows only when it reads that same generation;
+  rebinding replaces the names without rerunning diarization or changing words. A
+  cursor includes the binding identity, so a rename cannot silently continue an old
+  page. Unknown and overlapping intervals remain unlabeled.
+- **The gap:** The spec required names without a second speaker-evidence owner but
+  left storage scope and cursor invalidation open.
+- **The reach:** Labels are durable and packageable with the evidence generation, but
+  they do not prove continuity across sessions or word attribution. Selected-range
+  preparation, project transcript joins and package replay remain later gates.
+- **Verdict:** sound, high confidence. It keeps names explicit and generation-local,
+  while the red long-form quality gate prevents overclaiming stable identity.
+- **Confidence:** high.
