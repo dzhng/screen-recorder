@@ -34,11 +34,13 @@ ledger retains four local mixed-reference bridges but refuses a global clock;
 composition preserves that refusal. The composition compiler also replays an
 explicit three-angle sequential switch; native delivered switched-angle render
 remains open. Speaker replication remains below the unchanged
-80% long-form gate. Native delivered-picture/audio acceptance is still open for
-transitions, motion blur and planted scene changes. Caption, blend, immutable-LUT,
-delivered-scene-helper and source acoustic/package-replay receipts are accepted for
-their declared scopes; their remaining native parity gates stay explicit in the
-slice files.
+80% long-form gate. Public split-tone delivery now has an independent CLI/MCP/native
+receipt with neutral and color masks. Native delivered-picture/audio acceptance is
+still open for transitions, motion blur and the physical empty-edit-list scene gap;
+the delivered-scene export/import checkpoint covers planted flash/hold observations.
+Caption, blend, immutable-LUT, delivered-scene-helper and source
+acoustic/package-replay receipts are accepted for their declared scopes; their
+remaining native parity gates stay explicit in the slice files.
 
 Prepare/download pinned first-class Yap models/runtime as needed by default;
 recommend external capabilities only when the brief warrants them. Ordinary
