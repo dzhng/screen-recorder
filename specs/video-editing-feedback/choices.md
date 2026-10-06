@@ -895,3 +895,36 @@ unlisted architecture or user-only choice was found in this research pass.
 - **Verdict:** sound, high confidence. The rule follows the actual resource owner and
   prevents both premature deletion and unbounded stale evidence.
 - **Confidence:** high.
+
+## Subject framing geometry owner — slice16
+
+- **When:** slice16 bounded authoring checkpoint.
+- **The choice:** The caller names the face to frame and supplies the target point,
+  margins, zoom limits and crop/contain policy. `planSubjectFraming` turns that one
+  pinned observation into geometry and explicit violations; it never chooses among
+  faces or silently crops to make an impossible request look successful. A missing or
+  duplicate subject refuses, and source-edge or zoom-limit conflicts stay in the plan.
+- **The gap:** The slice required constrained framing but left the boundary between
+  detection and the edit geometry open.
+- **The reach:** Later visual rendering can consume one deterministic plan and compare
+  delivered edges. No detector, named-person inference or automatic editorial crop is
+  introduced; host-view rendering and mask evidence remain the next gate.
+- **Verdict:** sound, high confidence. It preserves the product boundary that
+  observations inform explicit caller edits.
+- **Confidence:** high.
+
+## Active-word caption timing — slice23
+
+- **When:** slice23 active-word timing checkpoint.
+- **The choice:** A caption stores UTF-16 character ranges and exact source-clock word
+  windows. The compiler maps each pinned occurrence into project time, and the native
+  rasterizer colors all active ranges at the same absolute phase; overlapping speech
+  stays overlapping. It does not invent exclusive durations or widen an instant into
+  speech support. Entrance/pop motion is a separate later variable.
+- **The gap:** The slice named timed highlighting and entrance motion together but did
+  not choose the text-index unit or whether overlapping estimates should be sequenced.
+- **The reach:** Corrected words need explicit ranges, and all preview/export paths can
+  share one clock. Visual static-sheet and entrance-motion evidence remain open.
+- **Verdict:** sound, high confidence. It keeps timing evidence exact and refuses to
+  turn uncertain overlap into an editorial decision.
+- **Confidence:** high.
