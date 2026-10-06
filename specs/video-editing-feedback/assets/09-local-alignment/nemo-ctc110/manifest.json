@@ -1,0 +1,24 @@
+{
+  "name": "alignment-nemo-ctc110-reference",
+  "purpose": "transcription",
+  "platform": {
+    "system": "darwin",
+    "architecture": "arm64"
+  },
+  "repo": "nvidia/parakeet-tdt_ctc-110m",
+  "revision": "431a349f3051ab85c22b9b7a2741b5fe77065665",
+  "folderName": "checkpoint",
+  "engine": {
+    "runtime": "NeMo",
+    "runtimeVersion": "2.7.3",
+    "runtimeRevision": "b4e03d54e631fc5b15dbcd772508940f58ce7aeb2b1e4695427e0332644d2b5c",
+    "decoder": "hybrid-ctc-head-reference"
+  },
+  "files": [
+    {
+      "path": "parakeet-tdt_ctc-110m.nemo",
+      "bytes": 459243520,
+      "sha256": "1e6b5c3bcaa390b479bd8112512ede515d2ef5b61495568f2c266d6d5e680c3a"
+    }
+  ]
+}

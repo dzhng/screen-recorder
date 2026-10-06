@@ -1,0 +1,14 @@
+{
+  "status": "frozen-before-admission",
+  "sourceProtocolSha256": "e1ef2f6fa9ffa35567fef3d8c88750d38967e8844613d7aa404611d197746510",
+  "arithmeticWorkerSha256": "674d84455fca29bcb5c0b81701b870af8dcf973319f38283e7f3a5c3b383218b",
+  "admissionWorkerSha256": "740aa5ba484dd9cf01bff6eb2c1c2127863a9ac007e0078b7602797bdd694938",
+  "nativeClock": {
+    "frameSamples": 1280,
+    "sampleRate": 16000,
+    "provenance": "Original configured window_stride .01 \u00d7 encoder subsampling8; preserve native ceil encoded_len and no clock fit"
+  },
+  "supportPolicy": "Refuse any conditional token span whose half-open frame-cell support crosses physical PCM sample support. Preserve all original path operands. No padding clamp. Other paths are conditional evidence with lexical assignment unknown; never successful recognition.",
+  "lexicalPolicy": "Every supplied-text forced path has assignmentConfidence null. Greedy is a diagnostic comparison, not independently correct truth. Wrong/extra/omitted text never admitted as verified words. Native likelihood uncalibrated; no threshold.",
+  "partialPolicy": "Physical truncation fixture known; lexical partial identity unknown. No guessed generator prefix is truth."
+}

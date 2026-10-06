@@ -1,0 +1,233 @@
+{
+  "id": "fortunate-contextual",
+  "sourceFrames": 47216,
+  "sourceEmissionSha256": "875840791adac604eea504b20df4539a4f88032851706e1e03919d946c8bd2ff",
+  "arithmeticReportSha256": "144d3f023774188e13e9c5514aeb87c23324c5f8e3f6a3a53fa3c8b6cc9efe51",
+  "greedyText": "Fortunate.",
+  "candidates": [
+    {
+      "text": "fortunate",
+      "optimum": 1,
+      "requested": [
+        {
+          "index": 0,
+          "text": "fortunate",
+          "folded": "fortunate",
+          "status": "matched",
+          "observedIndices": [
+            0
+          ],
+          "omissionPossible": false,
+          "nativeDecodedTarget": "fortunate",
+          "nativeTokenizationUnknown": false,
+          "providerInterpretation": "Observed greedy textual correspondence only; no lexical ground truth claim",
+          "estimatedBounds": {
+            "startSeconds": 1.12,
+            "endSeconds": 1.68,
+            "startFrame": 14,
+            "endFrame": 21,
+            "interpretation": "conditional supplied-text CTC path, not phonetic boundaries"
+          },
+          "physicalAdmission": "within_source_support",
+          "confidence": null,
+          "tokens": [
+            {
+              "token": 75,
+              "startFrame": 14,
+              "endFrame": 15,
+              "correspondence": "matched",
+              "physicalAdmission": "within_source_support"
+            },
+            {
+              "token": 968,
+              "startFrame": 16,
+              "endFrame": 17,
+              "correspondence": "matched",
+              "physicalAdmission": "within_source_support"
+            },
+            {
+              "token": 198,
+              "startFrame": 18,
+              "endFrame": 19,
+              "correspondence": "matched",
+              "physicalAdmission": "within_source_support"
+            },
+            {
+              "token": 159,
+              "startFrame": 20,
+              "endFrame": 21,
+              "correspondence": "matched",
+              "physicalAdmission": "within_source_support"
+            }
+          ]
+        }
+      ],
+      "observed": [
+        {
+          "index": 0,
+          "text": "Fortunate.",
+          "folded": "fortunate",
+          "status": "matched",
+          "suppliedIndices": [
+            0
+          ],
+          "extraPossible": false,
+          "nativeTokens": [
+            221,
+            197,
+            198,
+            159,
+            986
+          ],
+          "startFrame": 14,
+          "endFrame": 37,
+          "physicalAdmission": "refused_unowned_support",
+          "confidence": null
+        }
+      ],
+      "partialLexicalInterpretation": "not_inferred"
+    },
+    {
+      "text": "purple",
+      "optimum": 0,
+      "requested": [
+        {
+          "index": 0,
+          "text": "purple",
+          "folded": "purple",
+          "status": "unmatched",
+          "observedIndices": [],
+          "omissionPossible": true,
+          "nativeDecodedTarget": "purple",
+          "nativeTokenizationUnknown": false,
+          "providerInterpretation": "Observed greedy textual correspondence only; no lexical ground truth claim",
+          "estimatedBounds": {
+            "startSeconds": 1.12,
+            "endSeconds": 1.68,
+            "startFrame": 14,
+            "endFrame": 21,
+            "interpretation": "conditional supplied-text CTC path, not phonetic boundaries"
+          },
+          "physicalAdmission": "within_source_support",
+          "confidence": null,
+          "tokens": [
+            {
+              "token": 26,
+              "startFrame": 14,
+              "endFrame": 15,
+              "correspondence": "unmatched",
+              "physicalAdmission": "within_source_support"
+            },
+            {
+              "token": 78,
+              "startFrame": 16,
+              "endFrame": 17,
+              "correspondence": "unmatched",
+              "physicalAdmission": "within_source_support"
+            },
+            {
+              "token": 526,
+              "startFrame": 20,
+              "endFrame": 21,
+              "correspondence": "unmatched",
+              "physicalAdmission": "within_source_support"
+            }
+          ]
+        }
+      ],
+      "observed": [
+        {
+          "index": 0,
+          "text": "Fortunate.",
+          "folded": "fortunate",
+          "status": "observed_extra",
+          "suppliedIndices": [],
+          "extraPossible": true,
+          "nativeTokens": [
+            221,
+            197,
+            198,
+            159,
+            986
+          ],
+          "startFrame": 14,
+          "endFrame": 37,
+          "physicalAdmission": "refused_unowned_support",
+          "confidence": null
+        }
+      ],
+      "partialLexicalInterpretation": "not_inferred"
+    },
+    {
+      "text": "fortu",
+      "optimum": 0,
+      "requested": [
+        {
+          "index": 0,
+          "text": "fortu",
+          "folded": "fortu",
+          "status": "unmatched",
+          "observedIndices": [],
+          "omissionPossible": true,
+          "nativeDecodedTarget": "fortu",
+          "nativeTokenizationUnknown": false,
+          "providerInterpretation": "Observed greedy textual correspondence only; no lexical ground truth claim",
+          "estimatedBounds": {
+            "startSeconds": 1.12,
+            "endSeconds": 1.52,
+            "startFrame": 14,
+            "endFrame": 19,
+            "interpretation": "conditional supplied-text CTC path, not phonetic boundaries"
+          },
+          "physicalAdmission": "within_source_support",
+          "confidence": null,
+          "tokens": [
+            {
+              "token": 75,
+              "startFrame": 14,
+              "endFrame": 15,
+              "correspondence": "unmatched",
+              "physicalAdmission": "within_source_support"
+            },
+            {
+              "token": 968,
+              "startFrame": 16,
+              "endFrame": 17,
+              "correspondence": "unmatched",
+              "physicalAdmission": "within_source_support"
+            },
+            {
+              "token": 978,
+              "startFrame": 18,
+              "endFrame": 19,
+              "correspondence": "unmatched",
+              "physicalAdmission": "within_source_support"
+            }
+          ]
+        }
+      ],
+      "observed": [
+        {
+          "index": 0,
+          "text": "Fortunate.",
+          "folded": "fortunate",
+          "status": "observed_extra",
+          "suppliedIndices": [],
+          "extraPossible": true,
+          "nativeTokens": [
+            221,
+            197,
+            198,
+            159,
+            986
+          ],
+          "startFrame": 14,
+          "endFrame": 37,
+          "physicalAdmission": "refused_unowned_support",
+          "confidence": null
+        }
+      ],
+      "partialLexicalInterpretation": "not_inferred"
+    }
+  ]
+}

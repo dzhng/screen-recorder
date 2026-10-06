@@ -1,0 +1,55 @@
+{
+  "status": "frozen-before-path-analysis",
+  "emissionRecipe": "/tmp/yap-editing-alignment-replication/nemo-ctc110/protocol-r2.json",
+  "emissionProtocolSha256": "e1ef2f6fa9ffa35567fef3d8c88750d38967e8844613d7aa404611d197746510",
+  "workerSha256": "674d84455fca29bcb5c0b81701b870af8dcf973319f38283e7f3a5c3b383218b",
+  "runtimeDigest": "b4e03d54e631fc5b15dbcd772508940f58ce7aeb2b1e4695427e0332644d2b5c",
+  "runtimePurpose": "Existing prepared original research closure reused only for arithmetic Torchaudio2.8 alignment; no original speaker model inference",
+  "algorithm": "torchaudio.functional.forced_align + merge_tokens, CPU2threads, blankId native1024, supplied pinnedBPEtokens in original order, no text rewrite or score threshold",
+  "gates": {
+    "nativeOperandsFinite": true,
+    "inferenceWallAudioRatioMaximum": 2,
+    "RSSBytesMaximum": 4294967296,
+    "orderedRepeatedOccurrences": "All three caller words align to respective independently placed isolated-source support, not reused occurrence",
+    "wrongText": "Forced path is not successful word evidence by itself; preserve native scores/greedy contrast and explicit mismatch/unknown. No arbitrary probability threshold.",
+    "partialLexical": "Truncation known by sourcebytes; no generator prefix/recognizer text serves as independent partial phonetic truth",
+    "support": "No retained token span beyond physical PCM; omitted utterances and abrupt/contextual changes require explicit evidence, never inferred silence"
+  },
+  "cases": [
+    {
+      "id": "madison-tiny",
+      "emissions": "/tmp/yap-editing-alignment-replication/nemo-ctc110/madison-tiny.json",
+      "output": "/tmp/yap-editing-alignment-replication/nemo-ctc110-alignment/madison-tiny.json"
+    },
+    {
+      "id": "overlap25",
+      "emissions": "/tmp/yap-editing-alignment-replication/nemo-ctc110/overlap25.json",
+      "output": "/tmp/yap-editing-alignment-replication/nemo-ctc110-alignment/overlap25.json"
+    },
+    {
+      "id": "false-start",
+      "emissions": "/tmp/yap-editing-alignment-replication/nemo-ctc110/false-start.json",
+      "output": "/tmp/yap-editing-alignment-replication/nemo-ctc110-alignment/false-start.json"
+    },
+    {
+      "id": "constructed-repeats",
+      "emissions": "/tmp/yap-editing-alignment-replication/nemo-ctc110/constructed-repeats.json",
+      "output": "/tmp/yap-editing-alignment-replication/nemo-ctc110-alignment/constructed-repeats.json"
+    },
+    {
+      "id": "fortunate-intact",
+      "emissions": "/tmp/yap-editing-alignment-replication/nemo-ctc110/fortunate-intact.json",
+      "output": "/tmp/yap-editing-alignment-replication/nemo-ctc110-alignment/fortunate-intact.json"
+    },
+    {
+      "id": "fortunate-truncated",
+      "emissions": "/tmp/yap-editing-alignment-replication/nemo-ctc110/fortunate-truncated.json",
+      "output": "/tmp/yap-editing-alignment-replication/nemo-ctc110-alignment/fortunate-truncated.json"
+    },
+    {
+      "id": "fortunate-contextual",
+      "emissions": "/tmp/yap-editing-alignment-replication/nemo-ctc110/fortunate-contextual.json",
+      "output": "/tmp/yap-editing-alignment-replication/nemo-ctc110-alignment/fortunate-contextual.json"
+    }
+  ]
+}

@@ -1,0 +1,77 @@
+{
+  "result": {
+    "ok": true,
+    "data": {
+      "cases": [
+        {
+          "id": "madison-tiny",
+          "greedyText": "",
+          "statuses": [
+            "forced_path_observation",
+            "forced_path_observation",
+            "forced_path_observation",
+            "forced_path_observation"
+          ]
+        },
+        {
+          "id": "overlap25",
+          "greedyText": "some confence of something completely different. It's like with My all some or something. part",
+          "statuses": [
+            "forced_path_observation",
+            "forced_path_observation"
+          ]
+        },
+        {
+          "id": "false-start",
+          "greedyText": "",
+          "statuses": [
+            "forced_path_observation",
+            "forced_path_observation",
+            "forced_path_observation"
+          ]
+        },
+        {
+          "id": "constructed-repeats",
+          "greedyText": "",
+          "statuses": [
+            "forced_path_observation",
+            "forced_path_observation",
+            "forced_path_observation",
+            "forced_path_observation",
+            "forced_path_observation"
+          ]
+        },
+        {
+          "id": "fortunate-intact",
+          "greedyText": "",
+          "statuses": [
+            "forced_path_observation",
+            "forced_path_observation",
+            "forced_path_observation"
+          ]
+        },
+        {
+          "id": "fortunate-truncated",
+          "greedyText": "",
+          "statuses": [
+            "forced_path_observation",
+            "forced_path_observation",
+            "forced_path_observation"
+          ]
+        },
+        {
+          "id": "fortunate-contextual",
+          "greedyText": "",
+          "statuses": [
+            "forced_path_observation",
+            "forced_path_observation",
+            "forced_path_observation"
+          ]
+        }
+      ],
+      "wallSeconds": 1.5142440409981646,
+      "peakProcessRSSBytes": 271155200
+    }
+  },
+  "networkDenied": true
+}

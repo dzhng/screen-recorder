@@ -1,0 +1,66 @@
+{
+  "status": "accepted_bounded_reference_interpretation",
+  "historicalInferenceProtocol": "nemo-ctc110/protocol-r2.json",
+  "historicalInferenceProtocolSha256": "e1ef2f6fa9ffa35567fef3d8c88750d38967e8844613d7aa404611d197746510",
+  "workerSha256": "7a645353c2a2582135ad961f2cd81961dfeaddbb23fbc57fe5798d5fd3a51948",
+  "model": {
+    "name": "alignment-nemo-ctc110-reference",
+    "purpose": "transcription",
+    "platform": {
+      "system": "darwin",
+      "architecture": "arm64"
+    },
+    "repo": "nvidia/parakeet-tdt_ctc-110m",
+    "revision": "431a349f3051ab85c22b9b7a2741b5fe77065665",
+    "folderName": "checkpoint",
+    "engine": {
+      "runtime": "NeMo",
+      "runtimeVersion": "2.7.3",
+      "runtimeRevision": "b4e03d54e631fc5b15dbcd772508940f58ce7aeb2b1e4695427e0332644d2b5c",
+      "decoder": "hybrid-ctc-head-reference"
+    },
+    "files": [
+      {
+        "path": "parakeet-tdt_ctc-110m.nemo",
+        "bytes": 459243520,
+        "sha256": "1e6b5c3bcaa390b479bd8112512ede515d2ef5b61495568f2c266d6d5e680c3a"
+      }
+    ]
+  },
+  "runtime": {
+    "python": "/private/tmp/yap-editing-speaker-replication/prepared-library/models/speaker-replication-r1/cd03eee90fbec18297ac31b8c21546e596b7f71c/runtime/python/bin/python",
+    "entry": "/private/tmp/yap-editing-speaker-replication/prepared-library/models/speaker-replication-r1/cd03eee90fbec18297ac31b8c21546e596b7f71c/runtime/execution/launch.py",
+    "model": "/private/tmp/yap-editing-speaker-replication/prepared-library/models/speaker-replication-r1/cd03eee90fbec18297ac31b8c21546e596b7f71c/original-model",
+    "cache": "/private/tmp/yap-editing-speaker-replication/prepared-library/models/.cache/speaker-replication-r1",
+    "descriptorDigest": "d6378d03528660f4cc350d0fb6b1bcdfa873624f71a91c5e2e0d7f2bf668eb70",
+    "runtimeDigest": "b4e03d54e631fc5b15dbcd772508940f58ce7aeb2b1e4695427e0332644d2b5c",
+    "modelDigest": "ed338c0f61f62a177b04c10e2c01c8f9e987ed006c0bbe4681c9a565acc8f338",
+    "runtimeRevision": "b4e03d54e631fc5b15dbcd772508940f58ce7aeb2b1e4695427e0332644d2b5c",
+    "modelRevision": "cd03eee90fbec18297ac31b8c21546e596b7f71c"
+  },
+  "inputIdentityOwner": "inputs/manifest.json and historical request cases, complete bounded prepared PCM",
+  "processing": {
+    "sampleRate": 16000,
+    "channels": 1,
+    "sampleType": "Float32 little-endian",
+    "class": "EncDecHybridRNNTCTCBPEModel",
+    "restore": "strict local restore, CPU, eval, dither0, pad_to0, two inference/inter-op threads",
+    "ctcFlow": "one direct bounded input encoder\u2192ctc_decoder; actual encoded_len trims model padding; no TDT decoding and no Fluid sliding-window merge",
+    "scores": "ctc_decoder native log-probs with no temperature or blank-bias transform",
+    "tokenizer": "pinned model.tokenizer.text_to_ids literal caller text; no rewrite/normalization/numeral expansion",
+    "blankId": 1024,
+    "frameClock": {
+      "samples": 1280,
+      "sampleRate": 16000,
+      "origin": "configured .01 preprocessor window_stride \u00d78 encoder subsampling; ceil encoded length retained"
+    },
+    "inferenceNetwork": "denied"
+  },
+  "acceptedEvidence": "nemo-ctc110-correspondence/protocol.json plus separate nemo-ctc110-admission/protocol.json; original paths remain conditional, match is provider text correspondence only",
+  "historicalInterpretationCorrections": {
+    "sourceClosureDigest": "Field was inherited from Fluid comparison protocol and refers only to Fluid SDK source closure. NeMo executable source/runtime identity is the prepared runtime receipt/digest and strict restore; do not use inherited Fluid source digest for NeMo.",
+    "limits25sUpstreamChunkMerge": "Inherited Fluid-only limitation does not describe NeMo. The direct NeMo25s forward call has no sliding-window chunk merge.",
+    "temperatureBlankBias": "Inherited descriptive unity/zero values are not NeMo processing stages. Native ctc_decoder log-probs are not modified."
+  },
+  "correctionScope": "Documentation of already frozen and executed worker flow; no input/model/preprocessing/timebase/gate changes or re-inference."
+}

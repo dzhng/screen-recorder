@@ -1,0 +1,15 @@
+{
+  "status": "frozen-before-correspondence-analysis",
+  "emissionRecipeSha256": "e1ef2f6fa9ffa35567fef3d8c88750d38967e8844613d7aa404611d197746510",
+  "arithmeticSourceSha256": "989995b52e00ca2d8770c93d958c9587c0482ef2bd43839a7d6da3bde75f4ed7",
+  "producerSha256": "585055db1282cebb29811da06bfe7bee772d140952b8390e008e1497c2262bec",
+  "normalizationOwner": "/Users/server/dev/yap-video-editing/packages/core/src/word-kind.ts",
+  "normalizationSha256": "02d61654027a0910fef4b919ca10ed1ad3fbc6662fa40b0670db1dc4ee731bd8",
+  "normalization": "core foldWord exact lowercase and edge punctuation trim; no stemming, numeral expansion or fragment guessing",
+  "policy": "All-optimal word-level ordered LCS. A match must be a unique pair in every optimal correspondence, with neither occurrence omissible. No possible correspondence unmatched; possible nonunique correspondence unknown. Greedy extras remain observed_extra/unknown with native intervals. Match is provider textual correspondence, not independent lexical ground truth.",
+  "bounds": "Supplied forced path estimates stay conditional. Original .08s/1280-sample frame-cell bounds retained; any token/observed word entering unowned PCM cells has refused_unowned_support. No clamp.",
+  "confidence": null,
+  "partialFragment": "Provider strings can correspond but partial lexical interpretation remains unknown; no phonetic prefix identity claim.",
+  "modelsDownloaded": false,
+  "inferenceRuns": 0
+}

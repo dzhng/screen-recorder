@@ -1,0 +1,11 @@
+{
+  "python": "/private/tmp/yap-editing-speaker-replication/prepared-library/models/speaker-replication-r1/cd03eee90fbec18297ac31b8c21546e596b7f71c/runtime/python/bin/python",
+  "entry": "/private/tmp/yap-editing-speaker-replication/prepared-library/models/speaker-replication-r1/cd03eee90fbec18297ac31b8c21546e596b7f71c/runtime/execution/launch.py",
+  "model": "/private/tmp/yap-editing-speaker-replication/prepared-library/models/speaker-replication-r1/cd03eee90fbec18297ac31b8c21546e596b7f71c/original-model",
+  "cache": "/private/tmp/yap-editing-speaker-replication/prepared-library/models/.cache/speaker-replication-r1",
+  "descriptorDigest": "d6378d03528660f4cc350d0fb6b1bcdfa873624f71a91c5e2e0d7f2bf668eb70",
+  "runtimeDigest": "b4e03d54e631fc5b15dbcd772508940f58ce7aeb2b1e4695427e0332644d2b5c",
+  "modelDigest": "ed338c0f61f62a177b04c10e2c01c8f9e987ed006c0bbe4681c9a565acc8f338",
+  "runtimeRevision": "b4e03d54e631fc5b15dbcd772508940f58ce7aeb2b1e4695427e0332644d2b5c",
+  "modelRevision": "cd03eee90fbec18297ac31b8c21546e596b7f71c"
+}

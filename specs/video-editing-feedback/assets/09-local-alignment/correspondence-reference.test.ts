@@ -1,0 +1,14 @@
+import assert from 'node:assert/strict';
+import {correspond} from './correspondence-reference.ts';
+assert.deepEqual(correspond(['blue','seven','blue'],['Blue','Seven','Blue.']).requested.map(r=>r.status),['matched','matched','matched']);
+assert.deepEqual(correspond(['blue','purple','blue'],['Blue','Seven','Blue.']).requested.map(r=>r.status),['matched','unmatched','matched']);
+assert.deepEqual(correspond(['blue','seven','blue','blue'],['Blue','Seven','Blue.']).requested.map(r=>r.status),['matched','matched','unknown','unknown']);
+assert.deepEqual(correspond(['blue','seven'],['Blue','Seven','Blue.']).observed.map(r=>r.status),['matched','matched','observed_extra']);
+assert.deepEqual(correspond(['blue','7','blue'],['Blue','Seven','Blue.']).requested.map(r=>r.status),['matched','unmatched','matched']);
+assert.equal(correspond(['fortunate'],['Forge.']).requested[0].status,'unmatched');
+assert.equal(correspond(['fortun'],['for','maybe','fortun.']).requested[0].status,'matched');
+assert.deepEqual(correspond(['blue'],['blue','blue']).requested[0].observedIndices,[0,1]);
+assert.equal(correspond(['blue'],['blue','blue']).requested[0].status,'unknown');
+assert.equal(correspond(['x'],[]).requested[0].status,'unmatched');
+assert.equal(correspond([],['x']).observed[0].status,'observed_extra');
+console.log('11 correspondence controls passed');

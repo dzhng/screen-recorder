@@ -1,0 +1,12 @@
+{
+  "result": {
+    "ok": false,
+    "error": {
+      "code": "MEDIA_WORKER_FAILED",
+      "message": "Invalid UTF-8 or JSON",
+      "retryable": false,
+      "details": {}
+    }
+  },
+  "networkDenied": true
+}

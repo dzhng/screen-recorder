@@ -1,0 +1,99 @@
+{
+  "name": "alignment-ctc110-reference",
+  "purpose": "transcription",
+  "platform": {
+    "system": "darwin",
+    "architecture": "arm64"
+  },
+  "repo": "FluidInference/parakeet-ctc-110m-coreml",
+  "revision": "accdafd8cf8a2ff1cabe3c11e54416b405d409aa",
+  "folderName": "parakeet-ctc-110m-coreml",
+  "engine": {
+    "runtime": "FluidAudio",
+    "runtimeVersion": "0.15.7",
+    "runtimeRevision": "41540ea237350afe5117a082b5c28eda642d0612",
+    "decoder": "ctc-emissions-reference"
+  },
+  "files": [
+    {
+      "path": "AudioEncoder.mlmodelc/analytics/coremldata.bin",
+      "bytes": 243,
+      "sha256": "8906c823e9bb3bf6b16d9f0308f98cd70573526333ad85dd767dc3f9ae6b25fa"
+    },
+    {
+      "path": "AudioEncoder.mlmodelc/coremldata.bin",
+      "bytes": 505,
+      "sha256": "a88b002b58193b4c31211754cdfdf220a85f9651dc61caf336ab84400cbc191a"
+    },
+    {
+      "path": "AudioEncoder.mlmodelc/metadata.json",
+      "bytes": 3456,
+      "sha256": "4f288bfe5cbe867ef1e592cdae33578b2fe59ada69182fc12209879558f985c2"
+    },
+    {
+      "path": "AudioEncoder.mlmodelc/model.mil",
+      "bytes": 1060924,
+      "sha256": "2f84ef93a69115e55f3b5d8ce695b3c937de1833d4d229620634fae967cd587e"
+    },
+    {
+      "path": "AudioEncoder.mlmodelc/weights/weight.bin",
+      "bytes": 100778304,
+      "sha256": "af0734b4a5d7465ad9e8bb170f0c53c5e6b91ebb75a9bdf88d3f59ae4ad6aebd"
+    },
+    {
+      "path": "MelSpectrogram.mlmodelc/analytics/coremldata.bin",
+      "bytes": 243,
+      "sha256": "22f2a8cba1de25c984050566b534a1d8caf22a82f9fe6c1c6f3149a0dd7e8ae3"
+    },
+    {
+      "path": "MelSpectrogram.mlmodelc/coremldata.bin",
+      "bytes": 330,
+      "sha256": "3a32ec67c76aa0aa2faef518413c311493e89aeb7fa11289fa4b8653ab8a160c"
+    },
+    {
+      "path": "MelSpectrogram.mlmodelc/metadata.json",
+      "bytes": 1962,
+      "sha256": "5e11d21a65c02bcfc37db43e941978e5d60d59e0efeadfda08e41f33b4f835d3"
+    },
+    {
+      "path": "MelSpectrogram.mlmodelc/model.mil",
+      "bytes": 12584,
+      "sha256": "0a7cb5693b39667295218bac5c7c09053f6bcd4b32699a83d06ac35d14ac6b79"
+    },
+    {
+      "path": "MelSpectrogram.mlmodelc/weights/weight.bin",
+      "bytes": 567712,
+      "sha256": "0a89c055bfde9022029d3cc59a23e949385e063974460d8eaec3a7614c3eaaa8"
+    },
+    {
+      "path": "README.md",
+      "bytes": 7419,
+      "sha256": "1aa99e33e37d4d36f01f15b7d81f878a43a85210c184aebebf1f27d5a4c3b189"
+    },
+    {
+      "path": "config.json",
+      "bytes": 121,
+      "sha256": "1fd77c83ea89285c242608d95a7992f146867481adc3938be730a064f3a63305"
+    },
+    {
+      "path": "special_tokens_map.json",
+      "bytes": 279,
+      "sha256": "af8c98917af6cb493513e5f1f8a35efdc28fa82cac15b2bb5f065d64f8bc904d"
+    },
+    {
+      "path": "tokenizer.json",
+      "bytes": 360106,
+      "sha256": "9f7c517c0bf644b1b690ab037bab4d4c53aecd38e047e7154d011013ab9160db"
+    },
+    {
+      "path": "tokenizer_config.json",
+      "bytes": 632,
+      "sha256": "7a29ed0fec88768d8666d65be8dc00ae41a60c4b7758c4df99a912108e62a23a"
+    },
+    {
+      "path": "vocab.json",
+      "bytes": 16086,
+      "sha256": "319d386eead79aadc80df9c3ecc8340d1a727efb7c02a8847eb940380dd61e1f"
+    }
+  ]
+}

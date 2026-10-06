@@ -1,6 +1,6 @@
 # 09 — Replicate local alignment before selecting a provider
 
-Status: planned. Depends on: [01](01-certified-corpus.md), [08](08-bounded-speech-preparation.md).
+Status: complete — bounded provider-correspondence reference accepted. Research depends on selected certified [01](01-certified-corpus.md) PCM controls; public [10](10-alignment-and-boundaries.md) still requires [08](08-bounded-speech-preparation.md).
 
 ## Contract
 
@@ -56,3 +56,25 @@ Run review/refactor-clean/code-review/write-docs appropriate to the change; reta
 ## Direction that would change this slice
 
 A changed user brief, reference or product policy can redirect it. Human listening, watching or transcript labeling is never an acceptance prerequisite. Record material deviations and their evidence instead of silently changing requirements.
+
+## Accepted reference and scope
+
+The [frozen reference](../assets/09-local-alignment/README.md) selects the original
+NeMo auxiliary CTC head and rejects the tested FluidAudio CoreML conversion on
+known-placement controls. The [verdict](../assets/09-local-alignment/verdict.json)
+owns separate gate results; retained observations and read-only replay are linked
+from the reference. No model weights, runtime installation or public operation
+ships in this research pass.
+
+`Matched` means observed provider textual correspondence: literal folded words
+have one pair in every optimal ordered correspondence with greedy CTC output.
+Missing supplied words are unmatched, ambiguous repeated occurrences unknown,
+and extra observed words remain explicit. This is neither independently correct
+lexical identity nor a calibrated probability. Forced bounds remain conditional;
+unaltered native cells beyond physical PCM receive operand refusal. Partial
+lexical interpretation remains unknown even when a provider fragment string
+corresponds. These limits carry into10 instead of becoming a lexical-success stub.
+
+Production10 must share ordered correspondence arithmetic with08's native window
+reconciliation and reuse core `foldWord`, not add a second production matcher.
+Its bounded prepared runtime/model and request/output parity remain unbuilt here.

@@ -1,0 +1,17 @@
+[
+  {
+    "url": "https://huggingface.co/api/models/FluidInference/parakeet-ctc-0.6b-coreml",
+    "bytes": 1882,
+    "sha256": "53bef8fb380a50a6b2904c525182b7b54a00f868f20c5c3d12080651b40901cf"
+  },
+  {
+    "url": "https://huggingface.co/FluidInference/parakeet-ctc-0.6b-coreml/raw/c5e129ca09f50759e3025eca7609f68485fa09a7/README.md",
+    "bytes": 5041,
+    "sha256": "50d48e89f0d0ff3bfba54f7b8247341d3789f508611327064502eefb09e7b4da"
+  },
+  {
+    "url": "https://huggingface.co/api/models/FluidInference/parakeet-ctc-0.6b-coreml/tree/c5e129ca09f50759e3025eca7609f68485fa09a7?recursive=true&expand=false",
+    "bytes": 6597,
+    "sha256": "e639c8bcdef324689533a9b5e9038c50cfe12601c143de0425818c9aa0b38e92"
+  }
+]

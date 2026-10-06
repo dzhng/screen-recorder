@@ -1,0 +1,76 @@
+[
+  {
+    "metadataOutputVersion" : "3.0",
+    "storagePrecision" : "Float16",
+    "outputSchema" : [
+      {
+        "hasShapeFlexibility" : "0",
+        "isOptional" : "0",
+        "dataType" : "Float16",
+        "formattedType" : "MultiArray (Float16 1 × 1 × 1501 × 80)",
+        "shortDescription" : "",
+        "shape" : "[1, 1, 1501, 80]",
+        "name" : "melspectrogram_features",
+        "type" : "MultiArray"
+      }
+    ],
+    "modelParameters" : [
+
+    ],
+    "specificationVersion" : 8,
+    "mlProgramOperationTypeHistogram" : {
+      "Ios17.mul" : 2,
+      "Ios17.sqrt" : 1,
+      "Ios17.square" : 3,
+      "Ios17.transpose" : 1,
+      "Ios17.sub" : 2,
+      "Ios17.matmul" : 1,
+      "Ios17.conv" : 2,
+      "Ios17.log" : 1,
+      "Ios17.sliceByIndex" : 2,
+      "Ios17.add" : 3,
+      "Ios16.reduceMean" : 2,
+      "Ios17.realDiv" : 1,
+      "Ios17.expandDims" : 4,
+      "Ios17.squeeze" : 2,
+      "Ios17.reshape" : 2,
+      "Identity" : 1,
+      "Pad" : 2
+    },
+    "computePrecision" : "Mixed (Float16, Float32, Int32)",
+    "isUpdatable" : "0",
+    "stateSchema" : [
+
+    ],
+    "availability" : {
+      "macOS" : "14.0",
+      "tvOS" : "17.0",
+      "visionOS" : "1.0",
+      "watchOS" : "10.0",
+      "iOS" : "17.0",
+      "macCatalyst" : "17.0"
+    },
+    "modelType" : {
+      "name" : "MLModelType_mlProgram"
+    },
+    "userDefinedMetadata" : {
+      "com.github.apple.coremltools.source_dialect" : "TorchScript",
+      "com.github.apple.coremltools.source" : "torch==2.5.0",
+      "com.github.apple.coremltools.version" : "8.3.0"
+    },
+    "inputSchema" : [
+      {
+        "hasShapeFlexibility" : "0",
+        "isOptional" : "0",
+        "dataType" : "Float16",
+        "formattedType" : "MultiArray (Float16 240000)",
+        "shortDescription" : "",
+        "shape" : "[240000]",
+        "name" : "audio",
+        "type" : "MultiArray"
+      }
+    ],
+    "generatedClassName" : "MelSpectrogram",
+    "method" : "predict"
+  }
+]
