@@ -170,7 +170,9 @@ and publication owners remain responsible for durable delivery.
 other acoustic inspection. It executes the selected bundled scanner through the
 existing CLI lifetime owner and records meter identity. Empty scanner gates are
 reported as unmeasurable; peak evidence remains separate from integrated loudness.
-A requested sample ceiling or a scoped meter comparison is not a universal encoded
+Measurement JSON is delivered through the same cache-backed lease owner as other
+acoustic evidence; callers do not reopen private cache paths. A requested sample
+ceiling or a scoped meter comparison is not a universal encoded
 true-peak guarantee.
 
 [Typed audio processing](src/audio-processing.ts) borrows the native domain

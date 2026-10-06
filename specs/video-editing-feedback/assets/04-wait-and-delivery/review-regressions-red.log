@@ -1,0 +1,279 @@
+## phrase getter
+
+ RUN  v5.0.0 /Users/server/dev/yap-exact-removal
+
+ ❯ apps/cli/src/wait.test.ts (27 tests | 1 failed | 26 skipped) 115ms
+   × retry phrase waits through transcript.search while preserving the search query 114ms
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 26 skipped (27)
+   Start at  22:38:43
+   Duration  365ms (transform 43%, tests 37%, import 20%)
+
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  apps/cli/src/wait.test.ts > retry phrase waits through transcript.search while preserving the search query
+AssertionError: expected 1 to be +0 // Object.is equality
+
+- Expected
++ Received
+
+- 0
++ 1
+
+ ❯ apps/cli/src/wait.test.ts:829:23
+    827|     "1000",
+    828|   ]);
+    829|   expect(output.code).toBe(0);
+       |                       ^
+    830|   expect(f.calls.map((r) => r.operation)).toEqual([
+    831|     "transcript.retry",
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+Exit: 1
+
+## export getter
+
+ RUN  v5.0.0 /Users/server/dev/yap-exact-removal
+
+ ❯ apps/cli/src/wait.test.ts (27 tests | 1 failed | 26 skipped) 113ms
+   × export.create waits for export.status and returns the committed receipt 113ms
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 26 skipped (27)
+   Start at  22:38:44
+   Duration  372ms (transform 44%, tests 37%, import 19%, worker 1%)
+
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  apps/cli/src/wait.test.ts > export.create waits for export.status and returns the committed receipt
+AssertionError: expected { ok: true, …(3) } to match object { …(2) }
+(12 matching properties omitted from actual)
+
+- Expected
++ Received
+
+  {
+    "data": {
+-     "output": "/tmp/final.mp4",
+-     "state": "committed",
++     "state": "ready",
+    },
+    "wait": {
+      "state": "settled",
+    },
+  }
+
+ ❯ apps/cli/src/wait.test.ts:927:37
+    925|   );
+    926|   expect(output.code).toBe(0);
+    927|   expect(JSON.parse(output.stdout)).toMatchObject({
+       |                                     ^
+    928|     data: { state: "committed", output: "/tmp/final.mp4" },
+    929|     wait: { state: "settled" },
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+Exit: 1
+
+## capture getter
+
+ RUN  v5.0.0 /Users/server/dev/yap-exact-removal
+
+ ❯ apps/cli/src/wait.test.ts (27 tests | 1 failed | 26 skipped) 117ms
+   × capture.stop waits for recording.get after finalization 116ms
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 26 skipped (27)
+   Start at  22:38:44
+   Duration  373ms (transform 46%, tests 36%, import 17%)
+
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  apps/cli/src/wait.test.ts > capture.stop waits for recording.get after finalization
+AssertionError: expected 1 to be +0 // Object.is equality
+
+- Expected
++ Received
+
+- 0
++ 1
+
+ ❯ apps/cli/src/wait.test.ts:948:23
+    946|     "1000",
+    947|   ]);
+    948|   expect(output.code).toBe(0);
+       |                       ^
+    949|   expect(JSON.parse(output.stdout)).toMatchObject({
+    950|     data: { recordingId: "recording", state: "complete" },
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+Exit: 1
+
+## batch deadline classification
+
+ RUN  v5.0.0 /Users/server/dev/yap-exact-removal
+
+ ❯ apps/cli/src/wait.test.ts (27 tests | 1 failed | 26 skipped) 200ms
+   × batch media delivery timeout reclassifies settled wait while keeping completed item facts 199ms
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 26 skipped (27)
+   Start at  22:38:45
+   Duration  452ms (tests 51%, transform 33%, import 16%)
+
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  apps/cli/src/wait.test.ts > batch media delivery timeout reclassifies settled wait while keeping completed item facts
+AssertionError: expected 1 to be 2 // Object.is equality
+
+- Expected
++ Received
+
+- 2
++ 1
+
+ ❯ apps/cli/src/wait.test.ts:994:23
+    992|     `${f.home}/batch`,
+    993|   ]);
+    994|   expect(output.code).toBe(2);
+       |                       ^
+    995|   expect(JSON.parse(output.stdout)).toMatchObject({
+    996|     wait: { state: "timed_out" },
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+Exit: 1
+
+## Direct recording getter
+
+ RUN  v5.0.0 /Users/server/dev/yap-exact-removal
+
+ ❯ apps/cli/src/wait.test.ts (37 tests | 1 failed | 36 skipped) 82ms
+   × recording.get waits for recording.get after finalization 82ms
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 36 skipped (37)
+   Start at  22:49:11
+   Duration  266ms (transform 42%, tests 37%, import 21%)
+
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  apps/cli/src/wait.test.ts > recording.get waits for recording.get after finalization
+AssertionError: expected 1 to be +0 // Object.is equality
+
+- Expected
++ Received
+
+- 0
++ 1
+
+ ❯ apps/cli/src/wait.test.ts:1000:23
+    998|     "1000",
+    999|   ]);
+    1000|   expect(output.code).toBe(0);
+       |                       ^
+    1001|   expect(JSON.parse(output.stdout)).toMatchObject({
+    1002|     data: { recordingId: "recording", state: "complete" },
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+Exit: 1
+
+## Package admission identity
+
+ RUN  v5.0.0 /Users/server/dev/yap-exact-removal
+
+ ❯ apps/cli/src/wait.test.ts (42 tests | 1 failed | 41 skipped) 210ms
+   × package admission foreign preserves the admitted identity 209ms
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 41 skipped (42)
+   Start at  22:52:25
+   Duration  506ms (tests 47%, transform 39%, import 14%)
+
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  apps/cli/src/wait.test.ts > package admission foreign preserves the admitted identity
+AssertionError: expected +0 to be 1 // Object.is equality
+
+- Expected
++ Received
+
+- 1
++ 0
+
+ ❯ apps/cli/src/wait.test.ts:325:23
+    323|     : admission }));
+    324|   const output = await f.run("package.open", { path: "/fixture/project…
+    325|   expect(output.code).toBe(mode === "deadline" ? 2 : 1);
+       |                       ^
+    326|   const reply = JSON.parse(output.stdout);
+    327|   expect(reply).toMatchObject({ data: admission, wait: { state: mode =…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+Exit: 1
+
+## Terminal recovery retry race
+
+ RUN  v5.0.0 /Users/server/dev/yap-exact-removal
+
+ ❯ apps/cli/src/wait.test.ts (49 tests | 1 failed | 48 skipped) 222ms
+   × terminal export getter refresh still refuses a concurrent recovery retry 222ms
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 48 skipped (49)
+   Start at  23:12:17
+   Duration  511ms (tests 49%, transform 36%, import 14%)
+
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  apps/cli/src/wait.test.ts > terminal export getter refresh still refuses a concurrent recovery retry
+AssertionError: expected { ok: true, data: { …(8) }, …(2) } to match object { data: { …(8) }, wait: { …(3) } }
+(3 matching properties omitted from actual)
+
+- Expected
++ Received
+
+@@ -11,16 +11,13 @@
+        "state": "failed",
+      },
+      "state": "failed",
+    },
+    "wait": {
+-     "error": {
+-       "code": "INVALID_RESPONSE",
+-     },
+      "job": {
+        "attemptId": "attempt-2",
+        "generation": 2,
+        "jobId": "recovery-job",
+      },
+-     "state": "interrupted",
++     "state": "settled",
+    },
+  }
+
+ ❯ apps/cli/src/wait.test.ts:1257:37
+
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+Exit: 1
