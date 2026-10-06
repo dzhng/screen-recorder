@@ -1,0 +1,272 @@
+[
+  {
+    "path": "python/lib/python3.12/site-packages/PIL/.dylibs/libjpeg.62.4.0.dylib",
+    "computationalAndSupportEqual": true,
+    "wholeFileEqual": true
+  },
+  {
+    "path": "python/lib/python3.12/site-packages/scipy/linalg/_fblas.cpython-312-darwin.so",
+    "computationalAndSupportEqual": true,
+    "wholeFileEqual": true
+  },
+  {
+    "path": "python/lib/python3.12/site-packages/sklearn/__check_build/_check_build.cpython-312-darwin.so",
+    "computationalAndSupportEqual": true,
+    "wholeFileEqual": true
+  },
+  {
+    "path": "python/lib/python3.12/site-packages/sklearn/_cyutility.cpython-312-darwin.so",
+    "computationalAndSupportEqual": true,
+    "wholeFileEqual": true
+  },
+  {
+    "path": "python/lib/python3.12/site-packages/sklearn/_isotonic.cpython-312-darwin.so",
+    "computationalAndSupportEqual": true,
+    "wholeFileEqual": true
+  },
+  {
+    "path": "python/lib/python3.12/site-packages/sklearn/cluster/_dbscan_inner.cpython-312-darwin.so",
+    "computationalAndSupportEqual": true,
+    "wholeFileEqual": true
+  },
+  {
+    "path": "python/lib/python3.12/site-packages/sklearn/cluster/_hdbscan/_linkage.cpython-312-darwin.so",
+    "computationalAndSupportEqual": true,
+    "wholeFileEqual": true
+  },
+  {
+    "path": "python/lib/python3.12/site-packages/sklearn/cluster/_hdbscan/_reachability.cpython-312-darwin.so",
+    "computationalAndSupportEqual": true,
+    "wholeFileEqual": true
+  },
+  {
+    "path": "python/lib/python3.12/site-packages/sklearn/cluster/_hdbscan/_tree.cpython-312-darwin.so",
+    "computationalAndSupportEqual": true,
+    "wholeFileEqual": true
+  },
+  {
+    "path": "python/lib/python3.12/site-packages/sklearn/cluster/_hierarchical_fast.cpython-312-darwin.so",
+    "computationalAndSupportEqual": true,
+    "wholeFileEqual": true
+  },
+  {
+    "path": "python/lib/python3.12/site-packages/sklearn/datasets/_svmlight_format_fast.cpython-312-darwin.so",
+    "computationalAndSupportEqual": true,
+    "wholeFileEqual": true
+  },
+  {
+    "path": "python/lib/python3.12/site-packages/sklearn/decomposition/_cdnmf_fast.cpython-312-darwin.so",
+    "computationalAndSupportEqual": true,
+    "wholeFileEqual": true
+  },
+  {
+    "path": "python/lib/python3.12/site-packages/sklearn/decomposition/_online_lda_fast.cpython-312-darwin.so",
+    "computationalAndSupportEqual": true,
+    "wholeFileEqual": true
+  },
+  {
+    "path": "python/lib/python3.12/site-packages/sklearn/ensemble/_gradient_boosting.cpython-312-darwin.so",
+    "computationalAndSupportEqual": true,
+    "wholeFileEqual": true
+  },
+  {
+    "path": "python/lib/python3.12/site-packages/sklearn/ensemble/_hist_gradient_boosting/common.cpython-312-darwin.so",
+    "computationalAndSupportEqual": true,
+    "wholeFileEqual": true
+  },
+  {
+    "path": "python/lib/python3.12/site-packages/sklearn/feature_extraction/_hashing_fast.cpython-312-darwin.so",
+    "computationalAndSupportEqual": true,
+    "wholeFileEqual": true
+  },
+  {
+    "path": "python/lib/python3.12/site-packages/sklearn/linear_model/_cd_fast.cpython-312-darwin.so",
+    "computationalAndSupportEqual": true,
+    "wholeFileEqual": true
+  },
+  {
+    "path": "python/lib/python3.12/site-packages/sklearn/linear_model/_sag_fast.cpython-312-darwin.so",
+    "computationalAndSupportEqual": true,
+    "wholeFileEqual": true
+  },
+  {
+    "path": "python/lib/python3.12/site-packages/sklearn/linear_model/_sgd_fast.cpython-312-darwin.so",
+    "computationalAndSupportEqual": true,
+    "wholeFileEqual": true
+  },
+  {
+    "path": "python/lib/python3.12/site-packages/sklearn/manifold/_utils.cpython-312-darwin.so",
+    "computationalAndSupportEqual": true,
+    "wholeFileEqual": true
+  },
+  {
+    "path": "python/lib/python3.12/site-packages/sklearn/metrics/_dist_metrics.cpython-312-darwin.so",
+    "computationalAndSupportEqual": true,
+    "wholeFileEqual": true
+  },
+  {
+    "path": "python/lib/python3.12/site-packages/sklearn/metrics/_pairwise_distances_reduction/_datasets_pair.cpython-312-darwin.so",
+    "computationalAndSupportEqual": true,
+    "wholeFileEqual": true
+  },
+  {
+    "path": "python/lib/python3.12/site-packages/sklearn/metrics/_pairwise_distances_reduction/_middle_term_computer.cpython-312-darwin.so",
+    "computationalAndSupportEqual": true,
+    "wholeFileEqual": true
+  },
+  {
+    "path": "python/lib/python3.12/site-packages/sklearn/metrics/cluster/_expected_mutual_info_fast.cpython-312-darwin.so",
+    "computationalAndSupportEqual": true,
+    "wholeFileEqual": true
+  },
+  {
+    "path": "python/lib/python3.12/site-packages/sklearn/neighbors/_ball_tree.cpython-312-darwin.so",
+    "computationalAndSupportEqual": true,
+    "wholeFileEqual": true
+  },
+  {
+    "path": "python/lib/python3.12/site-packages/sklearn/neighbors/_kd_tree.cpython-312-darwin.so",
+    "computationalAndSupportEqual": true,
+    "wholeFileEqual": true
+  },
+  {
+    "path": "python/lib/python3.12/site-packages/sklearn/neighbors/_partition_nodes.cpython-312-darwin.so",
+    "computationalAndSupportEqual": true,
+    "wholeFileEqual": true
+  },
+  {
+    "path": "python/lib/python3.12/site-packages/sklearn/neighbors/_quad_tree.cpython-312-darwin.so",
+    "computationalAndSupportEqual": true,
+    "wholeFileEqual": true
+  },
+  {
+    "path": "python/lib/python3.12/site-packages/sklearn/preprocessing/_csr_polynomial_expansion.cpython-312-darwin.so",
+    "computationalAndSupportEqual": true,
+    "wholeFileEqual": true
+  },
+  {
+    "path": "python/lib/python3.12/site-packages/sklearn/preprocessing/_target_encoder_fast.cpython-312-darwin.so",
+    "computationalAndSupportEqual": true,
+    "wholeFileEqual": true
+  },
+  {
+    "path": "python/lib/python3.12/site-packages/sklearn/svm/_liblinear.cpython-312-darwin.so",
+    "computationalAndSupportEqual": true,
+    "wholeFileEqual": true
+  },
+  {
+    "path": "python/lib/python3.12/site-packages/sklearn/svm/_libsvm.cpython-312-darwin.so",
+    "computationalAndSupportEqual": true,
+    "wholeFileEqual": true
+  },
+  {
+    "path": "python/lib/python3.12/site-packages/sklearn/svm/_libsvm_sparse.cpython-312-darwin.so",
+    "computationalAndSupportEqual": true,
+    "wholeFileEqual": true
+  },
+  {
+    "path": "python/lib/python3.12/site-packages/sklearn/svm/_newrand.cpython-312-darwin.so",
+    "computationalAndSupportEqual": true,
+    "wholeFileEqual": true
+  },
+  {
+    "path": "python/lib/python3.12/site-packages/sklearn/tree/_criterion.cpython-312-darwin.so",
+    "computationalAndSupportEqual": true,
+    "wholeFileEqual": true
+  },
+  {
+    "path": "python/lib/python3.12/site-packages/sklearn/tree/_partitioner.cpython-312-darwin.so",
+    "computationalAndSupportEqual": true,
+    "wholeFileEqual": true
+  },
+  {
+    "path": "python/lib/python3.12/site-packages/sklearn/tree/_splitter.cpython-312-darwin.so",
+    "computationalAndSupportEqual": true,
+    "wholeFileEqual": true
+  },
+  {
+    "path": "python/lib/python3.12/site-packages/sklearn/tree/_tree.cpython-312-darwin.so",
+    "computationalAndSupportEqual": true,
+    "wholeFileEqual": true
+  },
+  {
+    "path": "python/lib/python3.12/site-packages/sklearn/tree/_utils.cpython-312-darwin.so",
+    "computationalAndSupportEqual": true,
+    "wholeFileEqual": true
+  },
+  {
+    "path": "python/lib/python3.12/site-packages/sklearn/utils/_bitset.cpython-312-darwin.so",
+    "computationalAndSupportEqual": true,
+    "wholeFileEqual": true
+  },
+  {
+    "path": "python/lib/python3.12/site-packages/sklearn/utils/_cython_blas.cpython-312-darwin.so",
+    "computationalAndSupportEqual": true,
+    "wholeFileEqual": true
+  },
+  {
+    "path": "python/lib/python3.12/site-packages/sklearn/utils/_fast_dict.cpython-312-darwin.so",
+    "computationalAndSupportEqual": true,
+    "wholeFileEqual": true
+  },
+  {
+    "path": "python/lib/python3.12/site-packages/sklearn/utils/_heap.cpython-312-darwin.so",
+    "computationalAndSupportEqual": true,
+    "wholeFileEqual": true
+  },
+  {
+    "path": "python/lib/python3.12/site-packages/sklearn/utils/_isfinite.cpython-312-darwin.so",
+    "computationalAndSupportEqual": true,
+    "wholeFileEqual": true
+  },
+  {
+    "path": "python/lib/python3.12/site-packages/sklearn/utils/_random.cpython-312-darwin.so",
+    "computationalAndSupportEqual": true,
+    "wholeFileEqual": true
+  },
+  {
+    "path": "python/lib/python3.12/site-packages/sklearn/utils/_seq_dataset.cpython-312-darwin.so",
+    "computationalAndSupportEqual": true,
+    "wholeFileEqual": true
+  },
+  {
+    "path": "python/lib/python3.12/site-packages/sklearn/utils/_sorting.cpython-312-darwin.so",
+    "computationalAndSupportEqual": true,
+    "wholeFileEqual": true
+  },
+  {
+    "path": "python/lib/python3.12/site-packages/sklearn/utils/_typedefs.cpython-312-darwin.so",
+    "computationalAndSupportEqual": true,
+    "wholeFileEqual": true
+  },
+  {
+    "path": "python/lib/python3.12/site-packages/sklearn/utils/_vector_sentinel.cpython-312-darwin.so",
+    "computationalAndSupportEqual": true,
+    "wholeFileEqual": true
+  },
+  {
+    "path": "python/lib/python3.12/site-packages/sklearn/utils/_weight_vector.cpython-312-darwin.so",
+    "computationalAndSupportEqual": true,
+    "wholeFileEqual": true
+  },
+  {
+    "path": "python/lib/python3.12/site-packages/sklearn/utils/arrayfuncs.cpython-312-darwin.so",
+    "computationalAndSupportEqual": true,
+    "wholeFileEqual": true
+  },
+  {
+    "path": "python/lib/python3.12/site-packages/sklearn/utils/murmurhash.cpython-312-darwin.so",
+    "computationalAndSupportEqual": true,
+    "wholeFileEqual": true
+  },
+  {
+    "path": "python/lib/python3.12/site-packages/sklearn/utils/sparsefuncs_fast.cpython-312-darwin.so",
+    "computationalAndSupportEqual": true,
+    "wholeFileEqual": true
+  },
+  {
+    "path": "python/lib/python3.12/site-packages/torch/_C.cpython-312-darwin.so",
+    "computationalAndSupportEqual": true,
+    "wholeFileEqual": true
+  }
+]

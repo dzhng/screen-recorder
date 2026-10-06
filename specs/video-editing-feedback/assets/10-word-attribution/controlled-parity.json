@@ -1,0 +1,209 @@
+[
+  {
+    "case": "constructed-repeats",
+    "candidate": 0,
+    "text": "blue seven blue",
+    "matrixSha256": "79db3e32a6689b8af051d8a35ba84e1cdfff49af44b82968c1bb69d53687533a",
+    "workerSha256": "9e920202b1ccd336b7d001adaf32c7eced0b65c290ec6531e528c0019cb9b65c",
+    "status": "forced_path_observation",
+    "completeConditionalParity": true
+  },
+  {
+    "case": "constructed-repeats",
+    "candidate": 1,
+    "text": "blue purple blue",
+    "matrixSha256": "79db3e32a6689b8af051d8a35ba84e1cdfff49af44b82968c1bb69d53687533a",
+    "workerSha256": "9e920202b1ccd336b7d001adaf32c7eced0b65c290ec6531e528c0019cb9b65c",
+    "status": "forced_path_observation",
+    "completeConditionalParity": true
+  },
+  {
+    "case": "constructed-repeats",
+    "candidate": 2,
+    "text": "blue seven",
+    "matrixSha256": "79db3e32a6689b8af051d8a35ba84e1cdfff49af44b82968c1bb69d53687533a",
+    "workerSha256": "9e920202b1ccd336b7d001adaf32c7eced0b65c290ec6531e528c0019cb9b65c",
+    "status": "forced_path_observation",
+    "completeConditionalParity": true
+  },
+  {
+    "case": "constructed-repeats",
+    "candidate": 3,
+    "text": "blue 7 blue",
+    "matrixSha256": "79db3e32a6689b8af051d8a35ba84e1cdfff49af44b82968c1bb69d53687533a",
+    "workerSha256": "9e920202b1ccd336b7d001adaf32c7eced0b65c290ec6531e528c0019cb9b65c",
+    "status": "forced_path_observation",
+    "completeConditionalParity": true
+  },
+  {
+    "case": "constructed-repeats",
+    "candidate": 4,
+    "text": "blue seven blue blue",
+    "matrixSha256": "79db3e32a6689b8af051d8a35ba84e1cdfff49af44b82968c1bb69d53687533a",
+    "workerSha256": "9e920202b1ccd336b7d001adaf32c7eced0b65c290ec6531e528c0019cb9b65c",
+    "status": "forced_path_observation",
+    "completeConditionalParity": true
+  },
+  {
+    "case": "false-start",
+    "candidate": 0,
+    "text": "fortunately",
+    "matrixSha256": "32f8469bac5542be718342a257f022e88d4f00c9e4267cff1693246df20ac0cb",
+    "workerSha256": "9e920202b1ccd336b7d001adaf32c7eced0b65c290ec6531e528c0019cb9b65c",
+    "status": "forced_path_observation",
+    "completeConditionalParity": true
+  },
+  {
+    "case": "false-start",
+    "candidate": 1,
+    "text": "fortun",
+    "matrixSha256": "32f8469bac5542be718342a257f022e88d4f00c9e4267cff1693246df20ac0cb",
+    "workerSha256": "9e920202b1ccd336b7d001adaf32c7eced0b65c290ec6531e528c0019cb9b65c",
+    "status": "forced_path_observation",
+    "completeConditionalParity": true
+  },
+  {
+    "case": "false-start",
+    "candidate": 2,
+    "text": "a purple elephant",
+    "matrixSha256": "32f8469bac5542be718342a257f022e88d4f00c9e4267cff1693246df20ac0cb",
+    "workerSha256": "9e920202b1ccd336b7d001adaf32c7eced0b65c290ec6531e528c0019cb9b65c",
+    "status": "forced_path_observation",
+    "completeConditionalParity": true
+  },
+  {
+    "case": "fortunate-contextual",
+    "candidate": 0,
+    "text": "fortunate",
+    "matrixSha256": "abff8fa3be0e2b9fa4697cbdea1499eaa15d2e88498dd59b84d2a7ec8471d9b8",
+    "workerSha256": "9e920202b1ccd336b7d001adaf32c7eced0b65c290ec6531e528c0019cb9b65c",
+    "status": "forced_path_observation",
+    "completeConditionalParity": true
+  },
+  {
+    "case": "fortunate-contextual",
+    "candidate": 1,
+    "text": "purple",
+    "matrixSha256": "abff8fa3be0e2b9fa4697cbdea1499eaa15d2e88498dd59b84d2a7ec8471d9b8",
+    "workerSha256": "9e920202b1ccd336b7d001adaf32c7eced0b65c290ec6531e528c0019cb9b65c",
+    "status": "forced_path_observation",
+    "completeConditionalParity": true
+  },
+  {
+    "case": "fortunate-contextual",
+    "candidate": 2,
+    "text": "fortu",
+    "matrixSha256": "abff8fa3be0e2b9fa4697cbdea1499eaa15d2e88498dd59b84d2a7ec8471d9b8",
+    "workerSha256": "9e920202b1ccd336b7d001adaf32c7eced0b65c290ec6531e528c0019cb9b65c",
+    "status": "forced_path_observation",
+    "completeConditionalParity": true
+  },
+  {
+    "case": "fortunate-intact",
+    "candidate": 0,
+    "text": "fortunate",
+    "matrixSha256": "a727f09fbf16d84c6077d6ed447f88ec6941394d11a2b982a17ed5e5c81579f8",
+    "workerSha256": "9e920202b1ccd336b7d001adaf32c7eced0b65c290ec6531e528c0019cb9b65c",
+    "status": "forced_path_observation",
+    "completeConditionalParity": true
+  },
+  {
+    "case": "fortunate-intact",
+    "candidate": 1,
+    "text": "purple",
+    "matrixSha256": "a727f09fbf16d84c6077d6ed447f88ec6941394d11a2b982a17ed5e5c81579f8",
+    "workerSha256": "9e920202b1ccd336b7d001adaf32c7eced0b65c290ec6531e528c0019cb9b65c",
+    "status": "forced_path_observation",
+    "completeConditionalParity": true
+  },
+  {
+    "case": "fortunate-intact",
+    "candidate": 2,
+    "text": "fortu",
+    "matrixSha256": "a727f09fbf16d84c6077d6ed447f88ec6941394d11a2b982a17ed5e5c81579f8",
+    "workerSha256": "9e920202b1ccd336b7d001adaf32c7eced0b65c290ec6531e528c0019cb9b65c",
+    "status": "forced_path_observation",
+    "completeConditionalParity": true
+  },
+  {
+    "case": "fortunate-truncated",
+    "candidate": 0,
+    "text": "fortunate",
+    "matrixSha256": "9ca68f2aeba1abf19fa3327cd34bd8829f8f72f0179b6b1ce5533694bfbda621",
+    "workerSha256": "9e920202b1ccd336b7d001adaf32c7eced0b65c290ec6531e528c0019cb9b65c",
+    "status": "forced_path_observation",
+    "completeConditionalParity": true
+  },
+  {
+    "case": "fortunate-truncated",
+    "candidate": 1,
+    "text": "fortu",
+    "matrixSha256": "9ca68f2aeba1abf19fa3327cd34bd8829f8f72f0179b6b1ce5533694bfbda621",
+    "workerSha256": "9e920202b1ccd336b7d001adaf32c7eced0b65c290ec6531e528c0019cb9b65c",
+    "status": "forced_path_observation",
+    "completeConditionalParity": true
+  },
+  {
+    "case": "fortunate-truncated",
+    "candidate": 2,
+    "text": "purple",
+    "matrixSha256": "9ca68f2aeba1abf19fa3327cd34bd8829f8f72f0179b6b1ce5533694bfbda621",
+    "workerSha256": "9e920202b1ccd336b7d001adaf32c7eced0b65c290ec6531e528c0019cb9b65c",
+    "status": "forced_path_observation",
+    "completeConditionalParity": true
+  },
+  {
+    "case": "madison-tiny",
+    "candidate": 0,
+    "text": "I just kind of gave up on privacy",
+    "matrixSha256": "22fc1aa33c3a2017e057fe2bd6be9484bdba964a2936a0ab2c14a303b9d11405",
+    "workerSha256": "9e920202b1ccd336b7d001adaf32c7eced0b65c290ec6531e528c0019cb9b65c",
+    "status": "forced_path_observation",
+    "completeConditionalParity": true
+  },
+  {
+    "case": "madison-tiny",
+    "candidate": 1,
+    "text": "I just kind of bought a purple elephant",
+    "matrixSha256": "22fc1aa33c3a2017e057fe2bd6be9484bdba964a2936a0ab2c14a303b9d11405",
+    "workerSha256": "9e920202b1ccd336b7d001adaf32c7eced0b65c290ec6531e528c0019cb9b65c",
+    "status": "forced_path_observation",
+    "completeConditionalParity": true
+  },
+  {
+    "case": "madison-tiny",
+    "candidate": 2,
+    "text": "I gave up on privacy",
+    "matrixSha256": "22fc1aa33c3a2017e057fe2bd6be9484bdba964a2936a0ab2c14a303b9d11405",
+    "workerSha256": "9e920202b1ccd336b7d001adaf32c7eced0b65c290ec6531e528c0019cb9b65c",
+    "status": "forced_path_observation",
+    "completeConditionalParity": true
+  },
+  {
+    "case": "madison-tiny",
+    "candidate": 3,
+    "text": "I just just kind of gave up on privacy",
+    "matrixSha256": "22fc1aa33c3a2017e057fe2bd6be9484bdba964a2936a0ab2c14a303b9d11405",
+    "workerSha256": "9e920202b1ccd336b7d001adaf32c7eced0b65c290ec6531e528c0019cb9b65c",
+    "status": "forced_path_observation",
+    "completeConditionalParity": true
+  },
+  {
+    "case": "overlap25",
+    "candidate": 0,
+    "text": "But I think it might make sense to have a new conference to try something completely different. It's like all of our papers are AI reviewed. We're going to do it as well as we possibly can, but we're going to review all of them with AI and then maybe have some mild human intervention at the end to filter it down or something. And then it's like, sure, submit 100,000 papers to this conference, and we'll pick the best 100 to feature.",
+    "matrixSha256": "740c42b60daf692546614021d2edeecb423491d9b8610df3468e8a4a87fc88ee",
+    "workerSha256": "9e920202b1ccd336b7d001adaf32c7eced0b65c290ec6531e528c0019cb9b65c",
+    "status": "forced_path_observation",
+    "completeConditionalParity": true
+  },
+  {
+    "case": "overlap25",
+    "candidate": 1,
+    "text": "A purple elephant dances under the ocean",
+    "matrixSha256": "740c42b60daf692546614021d2edeecb423491d9b8610df3468e8a4a87fc88ee",
+    "workerSha256": "9e920202b1ccd336b7d001adaf32c7eced0b65c290ec6531e528c0019cb9b65c",
+    "status": "forced_path_observation",
+    "completeConditionalParity": true
+  }
+]

@@ -101,6 +101,12 @@ Registered acquisition policy can require explicitly supplied local model bytes;
 it does not change execution identity. An already verified preparation remains
 idempotent without repeating its original acquisition inputs.
 
+Curated runtime acquisition uses the same downloader and cancellation owner.
+The [runtime recipe](../../helpers/model-runtime/README.md) identifies public
+interpreter/package inputs and offline assembly; the service supplies execution
+lifetime. Full measured inventory admission precedes publication. Neither a
+successful installer nor a matching package version is runtime readiness.
+
 ## Publication and storage
 
 Export intent pins revision and destination before execution. Acknowledgement

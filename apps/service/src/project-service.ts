@@ -29,6 +29,7 @@ import type { SourceVisualObservations } from "@yap/core/source-scenes";
 import { MediaAudioInspection } from "@yap/core/audio-inspection";
 import { ProjectEvidenceInspection } from "@yap/core/project-evidence";
 import { Models } from "@yap/core/models";
+import { runtimeMaterializer } from "./runtime-materialization.js";
 import { TranscriptStore, type SpeechTranscriptionReceipt } from "@yap/core/transcript";
 import { TranscriptProcessing, assetTranscriptOwner } from "@yap/core/transcript-processing";
 import { SourceTranscriptRead } from "@yap/core/transcript-read";
@@ -223,7 +224,12 @@ export async function startProjectService(options: {
     const sceneRecords = new SceneEvidenceStore(catalog, assetSceneOwner(assets, acquisitions));
     const nativeExecutable = options.nativeExecutable ?? process.env.YAP_NATIVE;
     const worker = options.worker ?? mediaWorker({ ...process.env, YAP_NATIVE: nativeExecutable });
-    const models = new Models(library);
+    const models = new Models(
+      library,
+      globalThis.fetch,
+      undefined,
+      runtimeMaterializer(nativeExecutable),
+    );
     const speakerRecords = new SpeakerEvidenceStore(
       catalog,
       assetSpeakerOwner(assets, acquisitions),
