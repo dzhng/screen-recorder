@@ -14,7 +14,9 @@ canceling it creates no take. Recorder-owned controls stay outside recorded medi
 and do not activate the app over the source being recorded.
 
 Authorization is read from native capture and requested only through an explicit
-action. Permission denial remains actionable without choosing another device.
+action. Screen source controls remain disabled until access is granted and explain
+which permission enables them; camera-only capture stays independent of screen access.
+Permission denial remains actionable without choosing another device.
 Camera and microphone discovery do not depend on screen authorization. Missing
 screen access produces empty screen choices, while an actual discovery failure
 retains the last-good catalog and reports the error. A camera choice preserves
@@ -125,8 +127,10 @@ and the installed-update gate.
 The [capture view](Sources/Yap/CaptureView.swift) consumes immutable
 rendering facts and emits supplied intents. It holds no capture selection, service
 state or recording clock. The controls owner admits those intents; the transient popover owns native dismissal
-and leaves capture selection with the shared controls state. Camera Only requires
-an explicitly selected device and never substitutes a missing camera.
+and leaves capture selection with the shared controls state. Enabling camera capture offers the
+system's default camera when no device has been chosen; an existing choice never substitutes a
+disconnected device. The dark capture palette remains stable while another app is active,
+and status stays outside the scrolling controls.
 The native popover frame owns the backdrop and arrow together; content adds no
 outer panel or stroke. Library has one entry point in the capture header, and its
 canonical controls action stays the same regardless of that placement.

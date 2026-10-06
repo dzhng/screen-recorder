@@ -147,7 +147,9 @@ export const captureSourcesSchema = z
     windows: z.array(
       z.object({ id: z.int(), title: z.string(), application: z.string() }).strict(),
     ),
-    cameras: z.array(z.object({ id: id, name: z.string() }).strict()),
+    cameras: z.array(
+      z.object({ id: id, name: z.string(), isDefault: z.boolean().optional() }).strict(),
+    ),
     microphones: z.array(z.object({ id: id, name: z.string(), isDefault: z.boolean() }).strict()),
   })
   .strict();

@@ -22,8 +22,8 @@ test("public discovery preserves native camera order and empty results without s
   const f = await fixture(undefined, undefined, "capture.sources");
   for (const cameras of [
     [
-      { id: "camera-b", name: "External camera" },
-      { id: "camera-a", name: "Built-in camera" },
+      { id: "camera-b", name: "External camera", isDefault: false },
+      { id: "camera-a", name: "Built-in camera", isDefault: true },
     ],
     [],
   ]) {

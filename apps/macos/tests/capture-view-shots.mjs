@@ -40,7 +40,7 @@ try {
   );
   const executable = compileControlsCheck(
     scratch,
-    ["CaptureView"],
+    ["CaptureView", "CapturePopover", "CaptureDisplays", "RegionSelection"],
     readFileSync(new URL("./fixtures/capture-view.swift", import.meta.url), "utf8"),
   );
   execFileSync(executable, [output, resolve("apps/macos/BrandMark.png")], {

@@ -137,9 +137,14 @@ public struct ControlsState: Equatable, Sendable {
     }
 
     public struct Camera: Equatable, Sendable {
-        public init(id: String, name: String) { self.id = id; self.name = name }
+        public init(id: String, name: String, isDefault: Bool = false) {
+            self.id = id
+            self.name = name
+            self.isDefault = isDefault
+        }
         public let id: String
         public let name: String
+        public let isDefault: Bool
     }
 
     public struct SourceCatalog: Equatable, Sendable {
@@ -180,7 +185,7 @@ public struct ControlsState: Equatable, Sendable {
         case display(Display)
         case window(Window)
         case region(Region)
-        /// Camera mode remains incomplete until a person selects its device.
+        /// Camera mode requires a selected device.
         case camera
     }
 
@@ -395,6 +400,13 @@ extension ControlsState {
     public mutating func observeSources(_ catalog: SourceCatalog) {
         sources = catalog
         if let lost = reconcileSelection() { failure = lost }
+    }
+
+    /// Offers the system's preferred camera only when the caller has enabled camera capture.
+    /// A disabled companion camera must remain disabled.
+    public mutating func selectDefaultCameraIfNeeded(enabled: Bool) {
+        guard enabled, selection.cameraDeviceId == nil, !sources.cameras.isEmpty else { return }
+        selection.cameraDeviceId = (sources.cameras.first(where: \.isDefault) ?? sources.cameras[0]).id
     }
 
     /// A catalog read that failed says nothing about which sources exist, so the last catalog and

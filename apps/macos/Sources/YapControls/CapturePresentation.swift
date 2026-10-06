@@ -2,6 +2,7 @@ import Foundation
 
 /// Capture labels and action applicability; observations supply lifecycle and time.
 public enum CapturePresentation {
+    public static let screenSelectionPermissionNotice = "Allow Screen Recording access to choose a display, window, or area."
     public static func statusTitle(for state: ControlsState) -> String {
         if case .unavailable(let message) = state.service { return "Unavailable — \(message)" }
         if state.take?.state == "finalizing" {

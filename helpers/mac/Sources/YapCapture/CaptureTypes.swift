@@ -84,14 +84,16 @@ public struct CaptureAudioDevice: Codable, Sendable, Equatable {
     public let isDefault: Bool
 }
 
-/// A camera's discovery identity and display name; discovery supplies no default selection.
+/// Camera discovery identifies the system preference without activating a device.
 public struct CaptureVideoDevice: Codable, Sendable, Equatable {
-    public init(id: String, name: String) {
+    public init(id: String, name: String, isDefault: Bool = false) {
         self.id = id
         self.name = name
+        self.isDefault = isDefault
     }
     public let id: String
     public let name: String
+    public let isDefault: Bool
 }
 
 /// Supplied camera identity; service allocation validation belongs to the capture lifecycle owner.

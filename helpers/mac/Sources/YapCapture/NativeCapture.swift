@@ -50,7 +50,10 @@ public final class NativeCapture {
 
     /// Discovery preserves native device order and never chooses or activates a camera.
     public static func cameraDevices() -> [CaptureVideoDevice] {
-        cameraCandidates().map { CaptureVideoDevice(id: $0.uniqueID, name: $0.localizedName) }
+        let preferred = AVCaptureDevice.default(for: .video)?.uniqueID
+        return cameraCandidates().map {
+            CaptureVideoDevice(id: $0.uniqueID, name: $0.localizedName, isDefault: $0.uniqueID == preferred)
+        }
     }
 
     package static func cameraCandidates() -> [AVCaptureDevice] {

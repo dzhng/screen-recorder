@@ -2,20 +2,22 @@ Yap is the macOS recording and agent-operated video toolkit. This release ships
 `Yap.app`, the `yap` CLI and the `com.dzhng.yap` app identity. Install the complete
 kit for this identity; capture permissions must be granted to Yap separately.
 
-The capture popover is tighter, with all four source choices in one row, smaller
-native switches, aligned device selectors and a readable blue Start action.
-Library has one entry in the header. Permission actions are compact rows;
-missing access and operational errors remain visible. The native popover owns
-the continuous background and arrow, and outside clicks dismiss the panel.
+Recording controls stay dark from the first opening, with readable icons, more
+space beneath Start Recording and a fixed status footer outside scrolling.
 
-The header and menu-bar mark use the Yap artwork. Settings stays visible across
-permission panes and returns when Yap becomes active again. Saved recordings,
-projects, tracked exports and storage remain in the separate Library window.
+Display, Window and Area controls are disabled until Screen Recording access is
+granted, with a clear permission explanation and Allow action. Camera Only remains
+available independently. To select an area, choose Area and drag a rectangle on
+the screen; a click or tiny drag keeps the picker open, and selection returns to
+the recording controls.
 
-Camera Only records the explicitly selected camera with optional microphone and
-system audio. Existing recordings remain readable; no library migration is
-required. Live camera, microphone and camera-only system-audio checks remain
-unverified on the development Mac, which has no camera or microphone input.
+Enabled camera capture selects the system's default camera when none has been
+chosen. The default microphone shows its device name after discovery. Existing
+device choices are preserved, including unavailable devices.
+
+Live camera, microphone and camera-only system-audio checks remain unverified on
+the development Mac, which has no camera or microphone input. Existing recordings
+remain readable; no library migration is required for this update.
 
 Check and download updates immediately from Settings → General → Check for Updates
 or the public CLI `update.check` operation. Both use the same native updater;

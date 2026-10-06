@@ -19,6 +19,8 @@ final class CapturePopover: NSObject, NSPopoverDelegate {
         popover.delegate = self
         // The transparent host leaves both backdrop and arrow to NSPopover.
         popover.contentViewController = controller
+        popover.appearance = NSAppearance(named: .darkAqua)
+        controller.view.appearance = popover.appearance
     }
 
     func update(_ input: CaptureViewInput) {
@@ -33,8 +35,8 @@ final class CapturePopover: NSObject, NSPopoverDelegate {
         resize(screen: anchor.window?.screen)
         popover.show(relativeTo: anchor.bounds, of: anchor, preferredEdge: .minY)
         view?.window?.title = "Yap Capture"
-        // Match an active native panel without moving keyboard focus from the source.
-        (view?.window?.contentView?.superview as? NSVisualEffectView)?.state = .active
+        view?.window?.appearance = NSAppearance(named: .darkAqua)
+        configureBackdrop()
         if popover.isShown {
             outsideClickMonitor = NSEvent.addGlobalMonitorForEvents(matching: [.leftMouseDown, .rightMouseDown]) { [weak self] _ in
                 MainActor.assumeIsolated { self?.close() }
@@ -43,6 +45,21 @@ final class CapturePopover: NSObject, NSPopoverDelegate {
     }
 
     func close() { popover.close() }
+
+    func popoverDidShow(_ notification: Notification) { configureBackdrop() }
+
+    /// The menu-bar app remains inactive while the user records another app. Its backdrop must
+    /// not follow key-window state or change tone when a control receives a click.
+    private func configureBackdrop() {
+        var ancestor: NSView? = view
+        while let current = ancestor {
+            if let effect = current as? NSVisualEffectView {
+                effect.state = .active
+                effect.isEmphasized = true
+            }
+            ancestor = current.superview
+        }
+    }
 
     func popoverDidClose(_ notification: Notification) {
         if let outsideClickMonitor {

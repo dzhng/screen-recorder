@@ -4,10 +4,36 @@ import YapControls
 @main struct CaptureViewCheck {
     @MainActor static func main() {
         NSApplication.shared.setActivationPolicy(.prohibited)
+        var regions: [CGRect?] = []
+        let regionView = RegionSelectionView(frame: NSRect(x: 0, y: 0, width: 200, height: 200)) { regions.append($0) }
+        func mouse(_ type: NSEvent.EventType, _ x: CGFloat, _ y: CGFloat) -> NSEvent {
+            NSEvent.mouseEvent(with: type, location: NSPoint(x: x, y: y), modifierFlags: [],
+                              timestamp: 0, windowNumber: 0, context: nil, eventNumber: 0,
+                              clickCount: 1, pressure: 1)!
+        }
+        regionView.mouseDown(with: mouse(.leftMouseDown, 10, 20))
+        regionView.mouseUp(with: mouse(.leftMouseUp, 10, 20))
+        precondition(regions.isEmpty, "A simple click must leave the area chooser open for a drag")
+        regionView.mouseDown(with: mouse(.leftMouseDown, 10, 20))
+        regionView.mouseUp(with: mouse(.leftMouseUp, 70, 100))
+        precondition(regions == [CGRect(x: 10, y: 100, width: 60, height: 80)], "A drag completes selection in display-local coordinates")
         var recorded: [CaptureViewIntent] = []
         let input = fixture()
         let appIcon = NSImage(contentsOfFile: CommandLine.arguments[2])!
         let view = CaptureView(appIcon: appIcon, input: input) { recorded.append($0) }
+        let rowIcons = view.scrollView.documentView!.subviews.compactMap { $0 as? NSImageView }.filter { $0.frame.width == 16 }
+        for icon in rowIcons {
+            let bitmap = NSBitmapImageRep(data: icon.image!.tiffRepresentation!)!
+            var brightest: CGFloat = 0
+            for y in 0..<bitmap.pixelsHigh {
+                for x in 0..<bitmap.pixelsWide {
+                    if let color = bitmap.colorAt(x: x, y: y)?.usingColorSpace(.deviceRGB), color.alphaComponent > 0.2 {
+                        brightest = max(brightest, max(color.redComponent, color.greenComponent, color.blueComponent))
+                    }
+                }
+            }
+            precondition(brightest > 0.4, "Row icons must contrast with the dark surface on initial construction")
+        }
         precondition(view.control(identifier: "library.open") == nil, "Library has one entry point in the header")
         let library = view.control(identifier: "header.library") as! NSButton
         library.performClick(nil)
@@ -20,6 +46,24 @@ import YapControls
         window.contentView = view
         window.orderBack(nil)
         RunLoop.current.run(until: Date().addingTimeInterval(0.2))
+        let popover = CapturePopover { recorded.append($0) }
+        popover.update(input)
+        popover.toggle(relativeTo: view)
+        RunLoop.current.run(until: Date().addingTimeInterval(0.1))
+        precondition(popover.view?.effectiveAppearance.bestMatch(from: [.aqua, .darkAqua]) == .darkAqua,
+                     "First popover presentation must use dark appearance")
+        var ancestor: NSView? = popover.view
+        var activeEffects = 0
+        while let current = ancestor {
+            if let effect = current as? NSVisualEffectView {
+                precondition(effect.state == .active, "Popover backdrop must stay active without a key window")
+                precondition(effect.isEmphasized, "Popover emphasis must not wait for a click")
+                activeEffects += 1
+            }
+            ancestor = current.superview
+        }
+        precondition(activeEffects > 0, "The native popover backdrop must be configured")
+        popover.close()
         guard let button = view.control(identifier: "source.cameraOnly") as? NSButton else {
             preconditionFailure("Camera Only must be an explicit source choice")
         }
@@ -60,10 +104,25 @@ import YapControls
         }
         precondition(lockedActions.isEmpty, "Inapplicable actions cannot escape the view")
         let permissions = CaptureView(appIcon: appIcon, input: permissionFixture()) { recorded.append($0) }
+        for id in ["source.display", "source.window", "source.area", "source.device"] {
+            precondition(!permissions.control(identifier: id)!.isEnabled, "Screen selection must be disabled without permission: \(id)")
+        }
+        precondition(permissions.control(identifier: "source.cameraOnly")!.isEnabled,
+                     "Missing screen access must not disable camera-only capture")
+        precondition((permissions.control(identifier: "source.device") as! NSPopUpButton).titleOfSelectedItem == "Screen Recording access required",
+                     "The disabled source chooser must explain the missing permission")
         let screenAccess = permissions.control(identifier: "permission.screen") as! NSButton
         screenAccess.performClick(nil)
         precondition(recorded.last == .controls(.requestScreenPermission), "Permission rows dispatch the supplied access request")
         precondition(screenAccess.frame.height <= 30, "Permission actions fit a compact single-line row")
+        var authorized = permissionFixture()
+        authorized.screenSourcesEnabled = true
+        authorized.permissionActions = []
+        authorized.notices = []
+        permissions.update(authorized)
+        for id in ["source.display", "source.window", "source.area", "source.device"] {
+            precondition(permissions.control(identifier: id)!.isEnabled, "Granting access must re-enable screen selection: \(id)")
+        }
         let output = CommandLine.arguments[1]
         var observations: [[String: Any]] = []
         for (name, facts, limit) in [
@@ -79,7 +138,9 @@ import YapControls
             let height = limit > 0 ? limit : capture.contentHeight
             let stage = NSView(frame: NSRect(x: 0, y: 0, width: CaptureView.preferredWidth + 40, height: height + 40))
             stage.wantsLayer = true
-            stage.layer?.backgroundColor = NSColor(white: name.contains("dark") ? 0.16 : 0.93, alpha: 1).cgColor
+            // The capture surface always uses a dark native popover backdrop, including when
+            // the surrounding application/system uses light appearance.
+            stage.layer?.backgroundColor = NSColor(white: 0.10, alpha: 1).cgColor
             capture.frame = NSRect(x: 20, y: 20, width: CaptureView.preferredWidth, height: height)
             stage.addSubview(capture)
             let caption = NSTextField(labelWithString: "Synthetic facts · presentation fixture")
@@ -94,6 +155,11 @@ import YapControls
             shotWindow.orderBack(nil)
             RunLoop.current.run(until: Date().addingTimeInterval(0.15))
             capture.layoutSubtreeIfNeeded()
+            if limit == 0 {
+                let start = capture.control(identifier: "capture.start")!
+                let rect = start.convert(start.bounds, to: capture.scrollView.documentView!)
+                precondition(capture.scrollView.contentView.bounds.contains(rect), "The full-height view must show the complete Start button without scrolling")
+            }
             func save(_ suffix: String) {
                 let bitmap = stage.bitmapImageRepForCachingDisplay(in: stage.bounds)!
                 stage.cacheDisplay(in: stage.bounds, to: bitmap)
@@ -102,6 +168,8 @@ import YapControls
             save("")
             let scroll = capture.scrollView
             let doc = scroll.documentView!
+            let quit = capture.control(identifier: "app.quit")!
+            let anchoredQuit = quit.convert(quit.bounds, to: capture)
             let ids = ["header.library", "header.settings", "source.display", "source.window", "source.area", "source.cameraOnly", "camera.device", "microphone.device", "microphone.toggle", "systemAudio.toggle", "countdown.toggle", "capture.start", "app.quit"] + (facts.selectedSource == .cameraOnly ? [] : ["source.device", "camera.toggle"])
             var frames: [String: [Double]] = [:]
             for id in ids {
@@ -116,9 +184,16 @@ import YapControls
             for id in ids {
                 let control = capture.control(identifier: id)!
                 let rect = control.convert(control.bounds, to: doc)
+                // The status footer is fixed to the capture surface rather than part of the
+                // scrolling document. It is reachable without moving the document.
+                if id == "app.quit" {
+                    precondition(capture.bounds.contains(control.convert(control.bounds, to: capture)), "Fixed footer action must remain visible: \(id)")
+                    continue
+                }
                 doc.scrollToVisible(rect)
                 scroll.reflectScrolledClipView(scroll.contentView)
                 precondition(scroll.contentView.bounds.contains(rect), "Scrolling must reveal the complete action: \(id)")
+                precondition(quit.convert(quit.bounds, to: capture) == anchoredQuit, "Scrolling must not move the status footer")
             }
             if name == "short-screen" {
                 doc.scrollToVisible(NSRect(x: 0, y: doc.bounds.height - 1, width: 1, height: 1))
@@ -137,6 +212,8 @@ import YapControls
 
     @MainActor static func permissionFixture() -> CaptureViewInput {
         var input = fixture(startEnabled: false, status: "Idle")
+        input.screenSourcesEnabled = false
+        input.notices = [CapturePresentation.screenSelectionPermissionNotice]
         input.permissionActions = [.init(.requestScreenPermission, "Allow in System Settings…", enabled: true), .init(.requestMicrophonePermission, "Allow Microphone Access…", enabled: true)]
         return input
     }

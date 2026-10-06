@@ -185,7 +185,7 @@ final class CaptureController {
         let screen = screenAuthorized ? try await screens() : (displays: [], windows: [])
         return [
             "displays": screen.displays, "windows": screen.windows,
-            "cameras": cameras().map { ["id": $0.id, "name": $0.name] },
+            "cameras": cameras().map { ["id": $0.id, "name": $0.name, "isDefault": $0.isDefault] },
             "microphones": microphones().map { ["id": $0.id, "name": $0.name, "isDefault": $0.isDefault] },
         ]
     }
