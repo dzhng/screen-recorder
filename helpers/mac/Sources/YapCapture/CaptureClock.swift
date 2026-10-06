@@ -124,7 +124,7 @@ public struct CaptureClock: Sendable {
                 "AUDIO_FORMAT_CHANGED", "PCM rate changed within the declared phase.")
         }
         let anchor = try prior?.anchorUs ?? nearest(relative, scale)
-        let first: Int64
+        var first: Int64
         if let prior {
             // Compare adjacent callbacks, not each callback against a fixed host-clock
             // phase. Sub-frame clock residue must not accumulate into invented gaps.
@@ -145,6 +145,15 @@ public struct CaptureClock: Sendable {
                 throw CaptureFailure("INVALID_AUDIO_TIMING", "PCM position exceeds capture bounds.")
             }
             first = position
+            // The session clock can move by a fraction of one PCM frame between adjacent
+            // callbacks. Preserve a continuous sample grid across that residue; a full-frame
+            // overlap remains invalid and is still rejected below.
+            let frameCount = Int128(prior.endFrame - prior.firstFrame)
+            let overlapBoundary = (frameCount - 1) * fractionalDenominator
+            let rawDistance = elapsed * 1_000_000 - removed * denominator
+            if distance < frameCount, rawDistance > overlapBoundary {
+                first = prior.endFrame
+            }
         } else {
             first = try nearest(
                 (relative - Int128(anchor) * scale) * Int128(rate), scale * 1_000_000)

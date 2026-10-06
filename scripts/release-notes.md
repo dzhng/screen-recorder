@@ -2,6 +2,10 @@ Yap is the macOS recording and agent-operated video toolkit. This release ships
 `Yap.app`, the `yap` CLI and the `com.dzhng.yap` app identity. Install the complete
 kit for this identity; capture permissions must be granted to Yap separately.
 
+This release keeps Camera Only recordings alive when camera-session audio
+timestamps carry a sub-frame synchronization residue. Continuous PCM stays on
+one sample grid, while genuine full-frame overlaps remain rejected.
+
 Fixes audio conversion that could interrupt Camera Only recording immediately after
 countdown with `INVALID_AUDIO_FORMAT: Cannot create canonical PCM buffer.` Live PCM
 callbacks can omit frame-duration metadata; conversion now derives the PCM frame

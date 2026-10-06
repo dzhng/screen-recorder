@@ -177,5 +177,18 @@ private func runPCMRepresentationTests() throws {
         hostPTS: CMTime(value: origin + 100000, timescale: 1_000_000), frames: 1024, rate: 47999)!
     precondition(valid.anchorUs == 100000 && valid.firstFrame == 0 && !valid.joinsPrevious,
         "A refused phase must not advance or establish accepted state")
+    var jitter = CaptureClock()
+    jitter.start(at: origin)
+    _ = try! jitter.recordAcceptedPCM(role: "narration",
+        hostPTS: CMTime(value: origin + 100000, timescale: 1_000_000), frames: 1024, rate: 48000)
+    let residue = Int64((1024 * 1_000_000_000) / 48000)
+    _ = try! jitter.recordAcceptedPCM(role: "narration",
+        hostPTS: CMTime(value: (origin + 100000) * 1000 + residue,
+            timescale: 1_000_000_000), frames: 1024, rate: 48000)
+    let continuous = try! jitter.recordAcceptedPCM(role: "narration",
+        hostPTS: CMTime(value: (origin + 100000) * 1000 + residue * 2 - 12000,
+            timescale: 1_000_000_000), frames: 1024, rate: 48000)!
+    precondition(continuous.firstFrame == 2048 && continuous.joinsPrevious,
+        "Sub-frame callback jitter must not interrupt continuous PCM admission")
     print("PASS exact container representability precedes PCM acceptance without changing common native phase")
 }
