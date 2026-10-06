@@ -977,3 +977,12 @@ unlisted architecture or user-only choice was found in this research pass.
 - **The reach:** Public composition tests prove the authored curves and explicit midpoint refusal. The canvas/background or caller-selected overlay controls the visible dip/flash color; delivered native transition evidence and motion critique remain open.
 - **Verdict:** sound, medium-high confidence. The lowering is small and shares the existing processor/executor contracts, but visual/audio delivery still needs its own evidence gate.
 - **Confidence:** medium-high.
+
+## Explicit angle-session ownership — slice21
+
+- **When:** slice21 composition relationship checkpoint.
+- **The choice:** Add an `angleGroups` owner separate from linked-edit `syncGroups`. Each group stores a session identity, caller-selected origin clip, evidence id/generation, source asset/stream identities, project validity range and exact signed offset for every member. Public `angle.declare` and `angle.remove` manage the relationship; no speaker name or automatic camera edit is inferred.
+- **The gap:** Existing synchronization entries only linked clips for structural editing and could not carry accepted evidence or a source clock relationship.
+- **The reach:** Validation rejects foreign/unknown/repeated members, non-media clips, origins outside the group and ranges outside the resolved clip interval. The relationship can survive ordinary placements without adding a second timeline, while slice20's failed waveform hypothesis still blocks promotion and switched-view delivery.
+- **Verdict:** sound, medium confidence. The data owner is explicit and hard-cutover friendly, but sync evidence and native replay remain unfinished.
+- **Confidence:** medium.

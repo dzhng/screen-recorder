@@ -28,6 +28,7 @@ export {
   signedTimeValueSchema,
   timeValueSchema,
   selectionRangeSchema,
+  angleGroupSchema,
 } from "./schema.js";
 export type {
   Anchor,
@@ -45,6 +46,7 @@ export type {
   TimeValue,
   SignedTimeValue,
   Stream,
+  AngleGroup,
 } from "./schema.js";
 export type { Rational } from "./rational.js";
 export {

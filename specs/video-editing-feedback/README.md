@@ -23,7 +23,9 @@ styled-caption static sheet for stage22 is integrated, and slice23's active-word
 exact UTF-16 ranges, source-clock mapping and native colored-glyph receipts pass;
 entrance/pop motion remains open. Stage27's crossfade/dip/flash recipes now lower to
 ordinary bounded gain/opacity curves; native delivered transition evidence remains
-open. The20 waveform research is retained but
+open. Stage21 now has an explicit angle-session declaration/removal contract with
+source identity, validity and exact offsets; accepted sync evidence and switched-view
+delivery remain open. The20 waveform research is retained but
 all nine real comparisons refuse its frozen acoustic gates, so lexical anchors remain
 open. Reviewed atomic export, delivered picture observations, bounded alignment
 including the prepared project-tap job/read seam, retained source portability,

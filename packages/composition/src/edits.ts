@@ -11,6 +11,7 @@ import {
   textClipSchema,
   textSourceSchema,
   compositionSchema,
+  isMediaClip,
   isStatefulProcessor,
   rangeSchema,
   selectionRangeSchema,
@@ -20,6 +21,7 @@ import {
   processingTapSchema,
   processorRegistry,
   interpolationSchema,
+  signedTimeValueSchema,
 } from "./schema.js";
 import { validateComposition, type ValidatedComposition, type ExactRange } from "./model.js";
 
@@ -33,7 +35,7 @@ import { replaceClip } from "./replace.js";
 import { retimeClips } from "./retime.js";
 
 type Document = ValidatedComposition["document"];
-type EntityKind = "clip" | "track" | "group" | "syncGroup" | "processingStep";
+type EntityKind = "clip" | "track" | "group" | "syncGroup" | "angleGroup" | "processingStep";
 const reference = z.union([z.string().min(1), z.object({ label: z.string().min(1) }).strict()]);
 const label = z.string().min(1).optional();
 function greatestCommonDivisor(a: bigint, b: bigint): bigint {
@@ -113,6 +115,13 @@ const transitionRecipe = z
     if (value.kind !== "crossfade" && value.targets.length !== 1)
       context.addIssue({ code: z.ZodIssueCode.custom, message: "Dip and flash require one target" });
   });
+const angleMember = z
+  .object({
+    clipId: reference,
+    offsetUs: signedTimeValueSchema,
+    validRange: selectionRangeSchema,
+  })
+  .strict();
 export const editOperationSchema = z.discriminatedUnion("operation", [
   z
     .object({ operation: z.literal("text.set"), clipId: reference, source: textSourceSchema })
@@ -128,6 +137,17 @@ export const editOperationSchema = z.discriminatedUnion("operation", [
     })
     .strict(),
   transitionRecipe,
+  z
+    .object({
+      operation: z.literal("angle.declare"),
+      sessionId: z.string().min(1),
+      originClipId: reference,
+      evidence: z.object({ id: z.string().min(1), generation: z.string().min(1) }).strict(),
+      members: z.array(angleMember).min(2),
+      label,
+    })
+    .strict(),
+  z.object({ operation: z.literal("angle.remove"), angleGroupId: reference }).strict(),
   z
     .object({
       operation: z.literal("processing.set"),
@@ -273,7 +293,12 @@ export type EditChange =
   | { kind: "track"; id: string; value: Document["tracks"][number] | null }
   | { kind: "group"; id: string; value: Document["groups"][number] | null }
   | { kind: "clip"; id: string; value: Document["clips"][number] | null }
-  | { kind: "syncGroup"; id: string; value: Document["syncGroups"][number] | null };
+  | { kind: "syncGroup"; id: string; value: Document["syncGroups"][number] | null }
+  | {
+      kind: "angleGroup";
+      id: string;
+      value: NonNullable<Document["angleGroups"]>[number] | null;
+    };
 export type EditBatchResult = {
   document: Document;
   changed: boolean;
@@ -320,6 +345,10 @@ function changes(before: Document, after: Document): EditChange[] {
       kind: "syncGroup" as const,
       ...change,
     })),
+    ...difference(before.angleGroups ?? [], after.angleGroups ?? []).map((change) => ({
+      kind: "angleGroup" as const,
+      ...change,
+    })),
   ];
   const previous = new Map(before.processing.map((stack) => [processingKey(stack.target), stack]));
   for (const stack of after.processing) {
@@ -363,6 +392,7 @@ export function applyBatch(
     ),
     group: new Set(initial.groups.map((value) => value.id)),
     syncGroup: new Set(initial.syncGroups.map((value) => value.id)),
+    angleGroup: new Set((initial.angleGroups ?? []).map((value) => value.id)),
   };
   const createdIds: EditBatchResult["createdIds"] = [];
   const bindings = new Map<string, { kind: EntityKind; id: string }>();
@@ -1384,6 +1414,48 @@ export function applyBatch(
               const clipIds = group.clipIds.filter((id) => !ids.has(id));
               return clipIds.length >= 2 ? [{ ...group, clipIds }] : [];
             }),
+          };
+          break;
+        }
+        case "angle.declare": {
+          const memberIds = clips(operation.members.map((member) => member.clipId));
+          const originClipId = clips([operation.originClipId])[0]!;
+          if (!memberIds.includes(originClipId)) invalid("Angle origin must be a member");
+          const members = operation.members.map((member, index) => {
+            const clip = model.clips.find((value) => value.clip.id === memberIds[index])!;
+            if (!isMediaClip(clip.clip)) invalid("Angle members require media clips");
+            return {
+              clipId: clip.clip.id,
+              assetId: clip.clip.assetId,
+              streamId: clip.clip.streamId,
+              offsetUs: member.offsetUs,
+              validRange: member.validRange,
+            };
+          });
+          const id = allocate("angleGroup");
+          bind(operation.label, "angleGroup", id);
+          next = {
+            ...before,
+            angleGroups: [
+              ...(before.angleGroups ?? []),
+              {
+                id,
+                sessionId: operation.sessionId,
+                originClipId,
+                evidence: operation.evidence,
+                members,
+              },
+            ],
+          };
+          break;
+        }
+        case "angle.remove": {
+          const id = resolve(operation.angleGroupId, "angleGroup");
+          if (!(before.angleGroups ?? []).some((group) => group.id === id))
+            invalid("Unknown angle group", { angleGroupId: id });
+          next = {
+            ...before,
+            angleGroups: (before.angleGroups ?? []).filter((group) => group.id !== id),
           };
           break;
         }

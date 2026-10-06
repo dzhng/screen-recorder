@@ -186,3 +186,10 @@ and vignette comparison remain open.
 | U36 | Styled-caption public run and fresh visual critique | [22](slices/22-styled-text.md) | Service admission/CLI-MCP setup reached `frame.get`, but the available native worker returned `Malformed picture receipt`; isolated native vertical/decorations tests passed. The public PNG, receipt inspection, compare-screenshots metrics and unprimed critique remain open; see [22 evidence](assets/22-styled-text/). |
 
 Slice27 evidence: `edit.apply` now lowers explicit crossfade, dip and flash recipes into ordinary gain/opacity curves. Crossfade requires two distinct targets; dip and flash require one target and a representable midpoint. No source overlap, retime, implicit media or color asset is invented; native delivery and temporal visual critique remain open.
+
+Slice21 evidence: composition angle groups now retain a session identity, explicit origin clip,
+selected asset/stream identities, project validity ranges, exact rational offsets and accepted
+sync evidence identity. `angle.declare` and `angle.remove` are public operations separate from
+linked-edit `syncGroups`; model validation refuses foreign sources, unknown/repeated members,
+invalid origins and ranges outside the clip interval. Slice20's failed waveform hypothesis still
+blocks sync promotion and delivered switched-view replay.

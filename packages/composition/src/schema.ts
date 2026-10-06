@@ -571,6 +571,27 @@ export const stateRecipeSchema = z.union([
     })
     .strict(),
 ]);
+export const angleGroupSchema = z
+  .object({
+    id,
+    sessionId: id,
+    originClipId: id,
+    evidence: z.object({ id, generation: id }).strict(),
+    members: z
+      .array(
+        z
+          .object({
+            clipId: id,
+            assetId: id,
+            streamId: id,
+            offsetUs: signedTimeValueSchema,
+            validRange: selectionRangeSchema,
+          })
+          .strict(),
+      )
+      .min(2),
+  })
+  .strict();
 export const compositionSchema = z
   .object({
     canvas: z
@@ -585,6 +606,7 @@ export const compositionSchema = z
     groups: z.array(routingNodeSchema),
     clips: z.array(clipSchema),
     syncGroups: z.array(z.object({ id, clipIds: z.array(id).min(2) }).strict()),
+    angleGroups: z.array(angleGroupSchema).optional(),
     processing: z.array(processingStackSchema),
   })
   .strict();
@@ -600,6 +622,7 @@ export function isMediaClip(clip: Clip): clip is MediaClip {
 export type Stream = z.infer<typeof streamSchema>;
 export type Asset = z.infer<typeof assetSchema>;
 export type Composition = z.infer<typeof compositionSchema>;
+export type AngleGroup = z.infer<typeof angleGroupSchema>;
 
 export type TextSource = z.infer<typeof textSourceSchema>;
 export type TextSeed = z.infer<typeof textSeedSchema>;

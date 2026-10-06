@@ -389,3 +389,128 @@ test("dip and flash use a bounded three-point alpha pulse and refuse an unrepres
     ),
   ).toThrow(/midpoint/);
 });
+
+test("angle declaration retains explicit session members, source identity, offsets and validity", () => {
+  const assets = [
+    {
+      id: "camera-a",
+      streams: [
+        {
+          id: "video",
+          kind: "video",
+          width: 64,
+          height: 48,
+          bounds: { startUs: 0, endUs: 2000000 },
+          available: [{ startUs: 0, endUs: 2000000 }],
+        },
+      ],
+    },
+    {
+      id: "camera-b",
+      streams: [
+        {
+          id: "video",
+          kind: "video",
+          width: 64,
+          height: 48,
+          bounds: { startUs: 0, endUs: 2000000 },
+          available: [{ startUs: 0, endUs: 2000000 }],
+        },
+      ],
+    },
+  ];
+  const result = applyBatch(
+    empty,
+    [
+      { operation: "track.add", track: { kind: "video", order: 0 }, label: "a-track" },
+      { operation: "track.add", track: { kind: "video", order: 1 }, label: "b-track" },
+      {
+        operation: "place",
+        label: "a",
+        clip: {
+          assetId: "camera-a",
+          streamId: "video",
+          trackId: { label: "a-track" },
+          source: { kind: "range", range: { startUs: 0, endUs: 2000000 } },
+          placement: { kind: "project", range: { startUs: 0, endUs: 2000000 } },
+        },
+      },
+      {
+        operation: "place",
+        label: "b",
+        clip: {
+          assetId: "camera-b",
+          streamId: "video",
+          trackId: { label: "b-track" },
+          source: { kind: "range", range: { startUs: 0, endUs: 2000000 } },
+          placement: { kind: "project", range: { startUs: 0, endUs: 2000000 } },
+        },
+      },
+      {
+        operation: "angle.declare",
+        label: "angles",
+        sessionId: "session-1",
+        originClipId: { label: "a" },
+        evidence: { id: "sync-evidence", generation: "g1" },
+        members: [
+          {
+            clipId: { label: "a" },
+            offsetUs: 0,
+            validRange: { startUs: 0, endUs: 2000000 },
+          },
+          {
+            clipId: { label: "b" },
+            offsetUs: { numerator: 1, denominator: 2 },
+            validRange: { startUs: 0, endUs: 2000000 },
+          },
+        ],
+      },
+    ],
+    { assets, namespace: "angles" },
+  );
+  expect(result.labels.angles).toMatch(/^angleGroup:angles:/);
+  expect(result.document.angleGroups).toEqual([
+    {
+      id: result.labels.angles,
+      sessionId: "session-1",
+      originClipId: result.labels.a,
+      evidence: { id: "sync-evidence", generation: "g1" },
+      members: [
+        {
+          clipId: result.labels.a,
+          assetId: "camera-a",
+          streamId: "video",
+          offsetUs: 0,
+          validRange: { startUs: 0, endUs: 2000000 },
+        },
+        {
+          clipId: result.labels.b,
+          assetId: "camera-b",
+          streamId: "video",
+          offsetUs: { numerator: 1, denominator: 2 },
+          validRange: { startUs: 0, endUs: 2000000 },
+        },
+      ],
+    },
+  ]);
+  expect(() =>
+    validateComposition(
+      {
+        ...result.document,
+        angleGroups: result.document.angleGroups!.map((group) => ({
+          ...group,
+          members: group.members.map((member, index) =>
+            index === 0 ? { ...member, assetId: "foreign" } : member,
+          ),
+        })),
+      },
+      assets,
+    ),
+  ).toThrow(/source does not match/);
+  const removed = applyBatch(
+    result.document,
+    [{ operation: "angle.remove", angleGroupId: result.labels.angles }],
+    { assets, namespace: "angles-remove" },
+  );
+  expect(removed.document.angleGroups).toEqual([]);
+});

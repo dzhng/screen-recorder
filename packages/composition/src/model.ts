@@ -284,6 +284,21 @@ export function resolveComposition(
       if (grouped.has(id)) invalid(`Clip belongs to multiple synchronization entries: ${id}`);
       grouped.add(id);
     }
+  const angleMembers = new Set<string>();
+  for (const group of unique(document.angleGroups ?? [], "angle group").values()) {
+    const members = new Set<string>();
+    if (group.members.length < 2) invalid(`Angle group needs at least two members: ${group.id}`);
+    for (const member of group.members) {
+      if (!clips.has(member.clipId)) invalid(`Unknown angle clip: ${member.clipId}`);
+      if (members.has(member.clipId)) invalid(`Repeated angle member: ${member.clipId}`);
+      members.add(member.clipId);
+      if (angleMembers.has(member.clipId))
+        invalid(`Clip belongs to multiple angle groups: ${member.clipId}`);
+      angleMembers.add(member.clipId);
+    }
+    if (!members.has(group.originClipId))
+      invalid(`Angle origin is not a member: ${group.originClipId}`);
+  }
   const ready: Clip[] = [],
     children = new Map<string, Clip[]>();
   for (const clip of clips.values()) {
@@ -385,6 +400,17 @@ export function resolveComposition(
     for (const child of children.get(clip.id) ?? []) ready.push(child);
   }
   if (resolved.size !== clips.size) invalid("Anchor dependency cycle");
+  for (const group of document.angleGroups ?? []) {
+    for (const member of group.members) {
+      const clip = resolved.get(member.clipId)!;
+      if (!isMediaClip(clip.clip)) invalid(`Angle member has no media source: ${member.clipId}`);
+      if (clip.clip.assetId !== member.assetId || clip.clip.streamId !== member.streamId)
+        invalid(`Angle member source does not match clip: ${member.clipId}`);
+      const valid = exact(member.validRange);
+      if (compare(valid.start, clip.range.start) < 0 || compare(valid.end, clip.range.end) > 0)
+        invalid(`Angle validity exceeds clip interval: ${member.clipId}`);
+    }
+  }
   const ordered = [...resolved.values()].sort(
     (a, b) =>
       compare(a.range.start, b.range.start) ||
