@@ -90,6 +90,11 @@ mapping, overlapping word windows and explicit entrance motion through public
 stills, encoded references, offgrid preview, splits, repeats and retiming. Declared
 observations isolate those contracts from speech-model accuracy.
 
+[Native transition delivery](27-29-transitions/crossfade/README.md) retains public
+crossfade/dip/flash picture and audio receipts plus a frozen nine-pair comparator
+run against deterministic solid-color controls. Moving-shot and
+reference-conditioned acceptance remains open.
+
 [Focused use-case routing](33-editing-references/README.md) retains the
 case-selected launch, podcast and teaser reference identities and portable
 hash receipt. It is a documentation checkpoint; media-aware fresh-agent

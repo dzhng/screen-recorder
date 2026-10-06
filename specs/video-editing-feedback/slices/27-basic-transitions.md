@@ -1,6 +1,6 @@
 # 27 — Author reusable crossfade/dip/flash recipes
 
-Status: partial — public composition lowering and native delivered crossfade/dip/flash picture, preview and two-source audio receipts are green; visual comparator/critique remains open. Depends on: [06](06-exact-removal.md), [24](24-blend-modes.md).
+Status: partial — public composition lowering and native delivered crossfade/dip/flash picture, preview and two-source audio receipts are green; deterministic comparator and unprimed critique are green for the solid-color controls, while moving-shot/reference-conditioned visual acceptance remains open. Depends on: [06](06-exact-removal.md), [24](24-blend-modes.md).
 
 ## Contract
 
@@ -38,9 +38,10 @@ The focused composition checkpoint is
 three-point pulses and the explicit midpoint refusal. A delivered transition
 receipt in [crossfade evidence](../assets/27-29-transitions/crossfade/README.md)
 now proves one explicit picture crossfade plus one dip and one flash pulse through
-public import, authoring, native frame reads and preview export. Audio and final
-visual critique remain required before this slice is promoted to a complete native
-verdict.
+public import, authoring, native frame reads and preview export. A matched
+nine-pair comparator run and an unprimed critique are retained for the
+deterministic solid-color controls. Motion/reference-conditioned acceptance
+remains required before this slice is promoted to a complete native verdict.
 
 Expose a case-selected command or existing lab entry with its own usage. Store accepted requests/results and artifact identities in feature-owned evidence. The implementing agent checks actual output; the user may view it for direction without becoming a QA gate.
 
@@ -52,7 +53,7 @@ Exact start/end, one-frame duration, insufficient handles, independent A/V, alph
 
 Variable: each transition's continuity. Mask: its window/perimeter; grade/captions/music design frozen.
 
-Run [compare-screenshots](../../../.agents/skills/compare-screenshots/SKILL.md) on matched before/reference/candidate shots with the stated masks and numeric interpretation. Inspect motion temporally when a still cannot establish the claim. Run an unprimed [screenshot-critique](../../../.agents/skills/screenshot-critique/SKILL.md) as the **last visual acceptance check**. Show useful output with [preview-shots](../../../.agents/skills/preview-shots/SKILL.md); never request human QA or wait for approval. Record critique, coverage and any residual uncertainty.
+Run [compare-screenshots](../../../.agents/skills/compare-screenshots/SKILL.md) on matched before/reference/candidate shots with the stated masks and numeric interpretation. The retained deterministic run is under the crossfade evidence comparator directory. Inspect motion temporally when a still cannot establish the claim. Run an unprimed [screenshot-critique](../../../.agents/skills/screenshot-critique/SKILL.md) as the **last visual acceptance check**. Show useful output with [preview-shots](../../../.agents/skills/preview-shots/SKILL.md); never request human QA or wait for approval. Record critique, coverage and any residual uncertainty.
 
 A spike passes with a frozen accepted recipe/reference, or records a failed verdict and reslices dependent work. An unavailable stub or undocumented fallback is not implementation completion.
 
