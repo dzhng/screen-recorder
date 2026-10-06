@@ -16,8 +16,9 @@ merge, push or installed-app change has been requested. Hard cutover remains
 binding: no aliases, dual readers or migrations; preserve external originals and
 frozen historical evidence.
 
-Current pickup: finish the independent color-sheet evidence for stage24, then continue
-the remaining synchronization, tone/LUT, transition and speaker gates. The public
+Current pickup: close stage24's fresh visual critique and public CLI/service admission,
+then continue the remaining synchronization, tone/LUT, transition and speaker gates.
+The public
 styled-caption static sheet for stage22 is integrated, and slice23's active-word timing checkpoint is implemented:
 exact UTF-16 ranges, source-clock mapping and native colored-glyph receipts pass;
 entrance/pop motion remains open. The20 waveform research is retained but
@@ -28,7 +29,9 @@ bounded subject framing, generation-pinned speaker label bindings and native-cac
 research are integrated; the distinct speaker provider remains research-only until its
 quality gates pass. Stage22 now preserves bounded stroke/shadow/background fields and native
 decoration bounds alongside the vertical glyph receipts. Stage24 now carries explicit
-normal/multiply/screen/soft-light composition modes through the public and native seams.
+normal/multiply/screen/soft-light composition modes through the public and native seams;
+its independent full-raster and sampled-movie sheet passes are green, with visual
+critique and CLI/service admission still open.
 
 Completed: 02, 03, 04, 05, 06, 07, 08, 09, 13, 14, 17, 18, 19. Partial01 has exact source-rate PCM,
 full-raster picture inputs and all five frozen07 original/derivative speech

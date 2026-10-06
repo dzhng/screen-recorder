@@ -183,6 +183,8 @@ Slice24 evidence: the composition processor registry and compiled visual operati
 bounded `normal`, `multiply`, `screen` and `soft-light` modes. The native compositor applies
 Core Image blend kernels when a surface joins its parent, while ordinary surfaces retain
 normal alpha-over behavior. `YapFrameTests --blend-modes` renders red/blue swatches and
-checks multiply black, screen magenta and the bounded soft-light response. Reference-sheet
-and vignette comparison remain open.
+checks multiply black, screen magenta and the bounded soft-light response. The independent
+sheet/vignette checkpoint verifies full-raster still arithmetic and sampled movie arithmetic
+through the public compiler/native seam. Fresh visual critique and CLI/service admission
+remain open.
 | U35 | Public styled-caption static sheet | [22](slices/22-styled-text.md) | `captions.mjs --case styled-sheet` drives public frame admission for top/center/bottom and stroke/shadow/background variants; receipt rows are keyed by clip identity and the same request retains a PNG. Native execution/evidence generation remains unverified in this worktree. |
