@@ -390,6 +390,114 @@ test("dip and flash use a bounded three-point alpha pulse and refuse an unrepres
   ).toThrow(/midpoint/);
 });
 
+test("zoom transition lowers to a bounded geometry trajectory and whip refuses uncovered travel", () => {
+  const assets = [{ id: "image", streams: [{ id: "s", kind: "image", width: 80, height: 60 }] }];
+  const setup = applyBatch(
+    empty,
+    [
+      { operation: "track.add", track: { kind: "video", order: 0 }, label: "video" },
+      {
+        operation: "place",
+        label: "image",
+        clip: {
+          assetId: "image",
+          streamId: "s",
+          trackId: { label: "video" },
+          source: { kind: "hold", atUs: 0 },
+          placement: { kind: "project", range: { startUs: 0, endUs: 1000000 } },
+        },
+      },
+    ],
+    { assets, namespace: "trajectory" },
+  );
+  const target = { kind: "clip", id: setup.labels.image };
+  const window = {
+    kind: "clip",
+    clipId: setup.labels.image,
+    start: { numerator: 0, denominator: 1 },
+    end: { numerator: 1, denominator: 1 },
+  };
+  const zoom = applyBatch(
+    setup.document,
+    [
+      {
+        operation: "transition",
+        kind: "zoom",
+        targets: [target],
+        mediaKind: "video",
+        from: 1,
+        to: 2,
+        window,
+      },
+    ],
+    { assets, namespace: "zoom-transition" },
+  );
+  const zoomStep = zoom.document.processing[0]!.steps[0]!.processor;
+  expect(zoomStep).toMatchObject({
+    type: "geometry",
+    scale: { x: { keys: [{ value: 1 }, { value: 2 }] }, y: { keys: [{ value: 1 }, { value: 2 }] } },
+  });
+  expect(() =>
+    applyBatch(
+      setup.document,
+      [
+        {
+          operation: "transition",
+          kind: "whip",
+          targets: [target],
+          mediaKind: "video",
+          direction: "left",
+          distance: 80,
+          overscan: 1,
+          window,
+        },
+      ],
+      { assets, namespace: "whip-invalid" },
+    ),
+  ).toThrow(/coverage|overscan|distance/i);
+  const whip = applyBatch(
+    setup.document,
+    [
+      {
+        operation: "transition",
+        kind: "whip",
+        targets: [target],
+        mediaKind: "video",
+        direction: "left",
+        distance: 8,
+        overscan: 1.5,
+        window,
+      },
+    ],
+    { assets, namespace: "whip" },
+  );
+  const whipStep = whip.document.processing[0]!.steps[0]!.processor;
+  expect(whipStep).toMatchObject({
+    type: "geometry",
+    scale: { x: 1.5, y: 1.5 },
+    rect: { x: { keys: [{ value: 8 }, { value: 0 }] } },
+  });
+  const right = applyBatch(
+    setup.document,
+    [
+      {
+        operation: "transition",
+        kind: "whip",
+        targets: [target],
+        mediaKind: "video",
+        direction: "right",
+        distance: 8,
+        overscan: 1.5,
+        window,
+      },
+    ],
+    { assets, namespace: "whip-right" },
+  );
+  expect(right.document.processing[0]!.steps[0]!.processor).toMatchObject({
+    rect: { x: { keys: [{ value: -8 }, { value: 0 }] } },
+  });
+});
+
 test("angle declaration retains explicit session members, source identity, offsets and validity", () => {
   const assets = [
     {

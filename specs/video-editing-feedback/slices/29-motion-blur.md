@@ -1,6 +1,6 @@
 # 29 — Add bounded blur to authored motion
 
-Status: planned. Depends on: [28](28-whip-zoom-trajectory.md).
+Status: bounded composition/native primitive implemented; matched moving-delivery evidence and cost report remain open. Depends on: [28](28-whip-zoom-trajectory.md).
 
 ## Contract
 

@@ -454,6 +454,18 @@ export const processorRegistry = {
       pivot: "normalized rectangle",
     },
   },
+  "motion-blur": {
+    schema: z
+      .object({
+        type: z.literal("motion-blur"),
+        samples: z.number().int().min(1).max(8),
+        shutter: z.number().finite().min(0).max(1),
+      })
+      .strict(),
+    targets: allProcessingTargets,
+    mediaKind: "video" as const,
+    units: { samples: "bounded temporal samples", shutter: "fraction of one frame interval" },
+  },
   lut: {
     schema: z.object({ type: z.literal("lut"), ...lutParameters }).strict(),
     targets: allProcessingTargets,
@@ -550,6 +562,7 @@ export const processingStepSchema = z
       processorRegistry.pointer.schema,
       processorRegistry.gain.schema,
       processorRegistry.geometry.schema,
+      processorRegistry["motion-blur"].schema,
       processorRegistry.opacity.schema,
       processorRegistry.blend.schema,
       processorRegistry["sdr-correction"].schema,

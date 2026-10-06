@@ -19,8 +19,22 @@ const blendOperationSchema = z
     mode: z.enum(["normal", "multiply", "screen", "soft-light"]),
   })
   .strict();
+const motionBlurOperationSchema = z
+  .object({
+    kind: z.literal("motion-blur"),
+    samples: z.number().int().min(1).max(8),
+    shutter: z.number().finite().min(0).max(1),
+  })
+  .strict();
 export const visualOperationsSchema = z
-  .array(z.union([picturePrimitiveSchema, pointerOperationSchema, blendOperationSchema]))
+  .array(
+    z.union([
+      picturePrimitiveSchema,
+      pointerOperationSchema,
+      blendOperationSchema,
+      motionBlurOperationSchema,
+    ]),
+  )
   .superRefine((operations, context) => {
     const geometry: number[] = [];
     for (const [index, operation] of operations.entries()) {
@@ -38,7 +52,8 @@ export const visualOperationsSchema = z
         operation.kind !== "opacity" &&
         operation.kind !== "sdr-correction" &&
         operation.kind !== "lut" &&
-        operation.kind !== "blend"
+        operation.kind !== "blend" &&
+        operation.kind !== "motion-blur"
       )
         geometry.push(index);
     }

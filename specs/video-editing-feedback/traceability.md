@@ -225,3 +225,13 @@ picture measurements and visual acceptance remain open.
 Slice15 evidence: `@yap/core/face-tracking` associates adjacent retained Vision rows by bounded
 box overlap, preserves explicit no-face gaps, and marks close competing candidates ambiguous.
 It never assigns person identity or interpolates across an error/reset. Native delivery covers all216 exact retained source samples plus moving/multi-face/edge/oriented/occluded controls. The frozen full-face overlap gate remains red for27 Graham hand/pose frames; continuous association cannot certify it. Slice16 delivered contain perimeters, explicit conflicts, pinned hold curves and public split/repeat/retime are verified separately; see the feature-owned evidence.
+
+Slice28/29 checkpoint evidence: explicit video transition recipes now lower zoom trajectories and
+overscanned directional whip trajectories into the existing geometry processor. Whip travel is
+bounded by caller-supplied overscan and refuses distances that could expose uncovered canvas edges;
+opposite directions retain mirrored signed paths. The bounded motion-blur processor carries a
+sample count (1–8) and shutter fraction (0–1) into compiled visual operations and the native
+picture executor; identity settings bypass the filter and native preflight charges sample work
+against the existing intermediate-pixel budget. Focused composition tests and TypeScript checks
+pass. Delivered frame/movie trajectory coverage, blur appearance parity, source-edge refusal
+receipts, visual critique and observed cost remain open.

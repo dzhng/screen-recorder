@@ -102,11 +102,17 @@ const transition = {
 const transitionRecipe = z
   .object({
     operation: z.literal("transition"),
-    kind: z.enum(["crossfade", "dip", "flash"]),
+    kind: z.enum(["crossfade", "dip", "flash", "zoom", "whip"]),
     targets: z.array(processingTarget).min(1).max(2),
     mediaKind: z.enum(["audio", "video"]),
     window: exactAnchor,
     interpolation: interpolationSchema.default("linear"),
+    from: z.number().finite().optional(),
+    to: z.number().finite().optional(),
+    geometry: processorRegistry.geometry.schema.omit({ type: true, scale: true }).optional(),
+    direction: z.enum(["left", "right", "up", "down"]).optional(),
+    distance: z.number().finite().positive().optional(),
+    overscan: z.number().finite().min(1).max(16).optional(),
     label,
   })
   .strict()
@@ -114,7 +120,15 @@ const transitionRecipe = z
     if (value.kind === "crossfade" && value.targets.length !== 2)
       context.addIssue({ code: z.ZodIssueCode.custom, message: "Crossfade requires two targets" });
     if (value.kind !== "crossfade" && value.targets.length !== 1)
-      context.addIssue({ code: z.ZodIssueCode.custom, message: "Dip and flash require one target" });
+      context.addIssue({ code: z.ZodIssueCode.custom, message: "Transition requires one target" });
+    if (value.kind === "zoom") {
+      if (value.mediaKind !== "video" || value.from === undefined || value.to === undefined || value.from < 1 || value.to < 1)
+        context.addIssue({ code: z.ZodIssueCode.custom, message: "Zoom requires video from/to scales at least 1" });
+    }
+    if (value.kind === "whip") {
+      if (value.mediaKind !== "video" || value.direction === undefined || value.distance === undefined || value.overscan === undefined)
+        context.addIssue({ code: z.ZodIssueCode.custom, message: "Whip requires video direction, distance and overscan" });
+    }
   });
 const angleMember = z
   .object({
@@ -587,7 +601,7 @@ export function applyBatch(
   for (let operationIndex = 0; operationIndex < parsed.data.length; operationIndex++) {
     const authored = parsed.data[operationIndex]!;
     const before = model.document;
-    let next: Document;
+    let next: Document = before;
     try {
       if (
         authored.operation === "move" &&
@@ -879,6 +893,68 @@ export function applyBatch(
           )
             invalid("Transition window exceeds a target's available handle", { target });
         }
+        if (operation.kind === "zoom" || operation.kind === "whip") {
+          if (operation.mediaKind !== "video" || targets.length !== 1 || targets[0]!.kind === "output")
+            invalid("Trajectory requires one video target");
+          const target = targets[0]!;
+          const [start, end] =
+            window.kind === "clip"
+              ? [window.start, window.end]
+              : window.kind === "content"
+                ? [window.sourceRange.startUs, window.sourceRange.endUs]
+                : [window.range.startUs, window.range.endUs];
+          if (window.kind !== "clip" && (typeof start !== "number" || typeof end !== "number"))
+            invalid("Trajectory endpoints must be whole microseconds; use a clip anchor for fractional boundaries");
+          const curve = {
+            keys: [
+              { at: start, value: operation.kind === "zoom" ? operation.from! : 0, interpolation: operation.interpolation },
+              { at: end, value: operation.kind === "zoom" ? operation.to! : 0, interpolation: "hold" as const },
+            ],
+          };
+          const processor =
+            operation.kind === "zoom"
+              ? { type: "geometry" as const, ...operation.geometry, scale: { x: curve, y: curve } }
+              : (() => {
+                  const dimension =
+                    operation.direction === "left" || operation.direction === "right"
+                      ? model.document.canvas.width
+                      : model.document.canvas.height;
+                  const maximum = ((operation.overscan! - 1) * dimension) / 2;
+                  if (operation.distance! > maximum)
+                    invalid("Whip distance exceeds overscan coverage; increase overscan or reduce distance", {
+                      distance: operation.distance,
+                      maximum,
+                    });
+                  const signed =
+                    operation.direction === "left" || operation.direction === "up"
+                      ? operation.distance!
+                      : -operation.distance!;
+                  const x =
+                    operation.direction === "left" || operation.direction === "right"
+                      ? { keys: [{ at: start, value: signed, interpolation: operation.interpolation }, { at: end, value: 0, interpolation: "hold" as const }] }
+                      : 0;
+                  const y =
+                    operation.direction === "up" || operation.direction === "down"
+                      ? { keys: [{ at: start, value: signed, interpolation: operation.interpolation }, { at: end, value: 0, interpolation: "hold" as const }] }
+                      : 0;
+                  return {
+                    type: "geometry" as const,
+                    ...operation.geometry,
+                    rect: {
+                      x,
+                      y,
+                      width: operation.geometry?.rect?.width ?? model.document.canvas.width,
+                      height: operation.geometry?.rect?.height ?? model.document.canvas.height,
+                    },
+                    scale: { x: operation.overscan!, y: operation.overscan! },
+                  };
+                })();
+          next = replaceProcessing(before, [processingStack({
+            operation: "processing.set",
+            target,
+            steps: [...getProcessing(model, target), { enabled: true, window, processor }],
+          })]);
+        } else {
         const endpoints =
           window.kind === "clip"
             ? [window.start, window.end]
@@ -951,6 +1027,7 @@ export function applyBatch(
           });
         });
         next = replaceProcessing(before, updates);
+        }
       } else {
       let operation = authored;
       if (operation.operation === "fade" || operation.operation === "zoom") {

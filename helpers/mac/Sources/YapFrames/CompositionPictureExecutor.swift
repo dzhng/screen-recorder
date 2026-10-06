@@ -73,6 +73,8 @@ public final class CompositionPictureExecutor {
             let assetId: String?
             let colorSpace: String?
             let interpolation: String?
+            let samples: Int?
+            let shutter: Double?
             func correction() throws -> SDRCorrection.Parameters {
                 guard let exposureEV, let contrast, let saturation, let shadows, let highlights,
                     let neutralKelvin, let neutralTint else {
@@ -644,6 +646,13 @@ public final class CompositionPictureExecutor {
                 } else if operation.kind == "sdr-correction" {
                     try SDRCorrection.requireImplementation(sdrCorrectionImplementationId)
                     try operation.correction().validate()
+                } else if operation.kind == "motion-blur" {
+                    guard let samples = operation.samples, samples >= 1, samples <= 8,
+                        let shutter = operation.shutter, shutter.isFinite, shutter >= 0, shutter <= 1
+                    else { throw Self.invalid("Invalid bounded motion-blur recipe.") }
+                    if samples > 1 && shutter > 0 {
+                        intermediatePixels += Int64(samples) * area
+                    }
                 } else if operation.kind != "opacity" && operation.kind != "blend" {
                     geometry.append(index)
                 }
@@ -872,6 +881,17 @@ public final class CompositionPictureExecutor {
             return image.applyingFilter(
                 "CIColorMatrix",
                 parameters: ["inputAVector": CIVector(x: 0, y: 0, z: 0, w: opacity)])
+        case "motion-blur":
+            guard let samples = operation.samples, samples >= 1, samples <= 8,
+                let shutter = operation.shutter, shutter.isFinite, shutter >= 0, shutter <= 1
+            else { throw Self.invalid("Invalid bounded motion-blur recipe.") }
+            if samples == 1 || shutter == 0 { return image }
+            return image.applyingFilter(
+                "CIMotionBlur",
+                parameters: [
+                    kCIInputRadiusKey: max(0.5, shutter * Double(samples)),
+                    kCIInputAngleKey: 0,
+                ])
         default: throw Self.unsupported("Unknown compiled picture primitive.")
         }
     }

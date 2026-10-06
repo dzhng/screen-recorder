@@ -1,6 +1,6 @@
 # 28 — Make whip/zoom motion preserve coverage
 
-Status: planned. Depends on: [27](27-basic-transitions.md).
+Status: composition checkpoint implemented; delivered trajectory/perimeter evidence remains open. Depends on: [27](27-basic-transitions.md).
 
 ## Contract
 
