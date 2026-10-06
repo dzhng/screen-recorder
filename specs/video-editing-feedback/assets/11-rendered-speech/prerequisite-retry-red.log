@@ -1,0 +1,30 @@
+
+ RUN  v5.0.0 /Users/server/dev/yap-rendered-speech/packages/core
+
+ ❯ src/rendered-speech.test.ts (6 tests | 1 failed | 5 skipped) 43ms
+   × explicit rendered retry recovers a failed extraction prerequisite 43ms
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 5 skipped (6)
+   Start at  05:35:36
+   Duration  289ms (transform 61%, import 21%, tests 17%)
+
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/rendered-speech.test.ts > explicit rendered retry recovers a failed extraction prerequisite
+AssertionError: {"jobId":"f55873af-4a91-47d6-9a6c-dcf5acb740d1","attemptId":"bb8dc8d8-f562-4541-a2aa-e7a376349706","artifact":"rendered-speech","lane":"heavy","state":"failed","reason":"Controlled render failure","generation":2,"errorCode":"RENDER_FAILED","inputSha256":"51853ea9d939a069b24faf9f398c4e5ad207c1703e944404e36be46c8dbe6515","target":{"kind":"project","projectId":"c831cf2d-4de5-40ef-b246-ff09fd088dbe","revisionId":"cea4d85c-61e2-4f1e-9b77-145b2d2a30bc"},"retryable":true,"errorDetails":{"dependencyJobId":"a3405b59-42cc-4634-bd41-f1fb34dc7681","state":"failed"},"published":null}: expected 'failed' to be 'ready' // Object.is equality
+
+Expected: "ready"
+Received: "failed"
+
+ ❯ src/rendered-speech.test.ts:476:71
+    474|   await f.jobs.idle();
+    475|   const ready = f.rendered.prepare(f.selection);
+    476|   expect(ready.state, JSON.stringify(f.jobs.inspect(pending.jobId!))).…
+       |                                                                       ^
+    477|   expect(f.rendered.get({ projectId: f.selection.projectId,
+    478|     revisionId: f.selection.revisionId, generation: ready.published!.s…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+

@@ -29,6 +29,10 @@ latest bounded result. The operation declarations own parameter names and bounds
 [core evidence](../core/README.md) owns physical support, primary ownership and
 phrase continuity across inference seams.
 
+Rendered-speech preparation requests a fresh observation of pinned revision PCM;
+project transcript projection only maps retained source words. Their evidence kinds
+and generation pins remain distinct. A measured word is not a clean-cut verdict.
+
 Optional adapter `wait` metadata describes how observation ended while preserving
 the domain reply. The [envelope schema](src/index.ts) owns this outcome and current
 job identity. Timeout or interruption leaves admitted work uncertain; settled

@@ -90,6 +90,17 @@ even when the head changes. If evidence expires or changes, start a fresh query.
 Project retry rebuilds the query manifest only; diagnose and explicitly retry any
 failed source dependency using its returned selection. Use project phrase search
 only when advertised; source search cannot stand in for edited speech order.
+
+For fresh recognition of what an edit produced, discover `transcript.render.prepare` and
+select the exact revision, tap, range and PCM rendition. Prepare required first-class
+speech models through the advertised model operation. Keep the returned rendered
+generation and read it with `transcript.render.get`; preserve PCM origin, model
+provenance and both PCM/project ranges. These reads need no inference. Diagnose
+failed/canceled work before explicit `transcript.render.retry` with the same
+selection. Missing source support is a refusal, not silence. Fresh ASR may complete
+a clipped word: compare it with source evidence and inspect actual boundary audio
+before deciding that a join is clean or defective.
+
 For any paginated project inspection, including raw cursor/event reads, keep the
 first page's full `dependencies` array for that query. Continuations
 return `dependencies: { manifestId }` for that same query, even on the last page.

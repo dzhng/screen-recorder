@@ -55,6 +55,14 @@ only through full-support identity; bounded reads and project dependencies pin t
 retained generation explicitly. Native windows remain raw provenance, while
 connected primary observation runs preserve phrase continuity across accepted seams.
 
+[Rendered recognition](src/rendered-speech.ts) measures newly extracted revision PCM;
+source-text projection remains a separate read. Each project attempt owns fresh
+inference even when its bytes match an existing source asset. Its identity pins
+model, decoder and transcript admission policy together. Retained words keep
+the PCM clock and map to project time from the actual first selected sample.
+Missing source support refuses recognition rather than becoming measured silence.
+PCM, engine provenance and words remain readable without current model readiness.
+
 Source evidence retains its source clock. Project evidence projects it through
 a revision's exact mapping without rewriting the source observation. Generation
 and dependency identity bind pagination, prepared output and caches; freshness

@@ -16,7 +16,7 @@ merge, push or installed-app change has been requested. Hard cutover remains
 binding: no aliases, dual readers or migrations; preserve external originals and
 frozen historical evidence.
 
-Current pickup: integrate reviewed11 rendered-speech and26 LUT commits.10's public
+Current pickup: integrate reviewed26 LUT, then promote10 project-tap portability proof.10's public
 source acoustic evidence passes; project-tap package continuation remains open.
 The matching native worker includes22's rounded glyph strokes; frame/movie cache
 identities change with that rendering behavior. Generic operations omit tonal fields,
@@ -29,11 +29,15 @@ motion;25 reference-conditioned tone;27–29 delivered transitions/trajectory/bl
 fresh-agent delivery/replay. Follow slice dependencies rather than this list when
 independent work is available.
 
-Completed:02–09,13–14,17–19,22,24.01 retains exact source-rate PCM, full-raster pictures and
+Completed:02–09,11,13–14,17–19,22,24.01 retains exact source-rate PCM, full-raster pictures and
 five original/derivative speech comparisons, but multicamera/speaker certification
 remains open. Partial21 declares exact caller-selected angle clocks;23 maps timed
 UTF-16 highlights;25 extends the shared SDR correction;27 lowers transitions into
 ordinary opacity/gain curves. Each still needs its remaining delivery evidence.
+
+11 recognizes actual prepared PCM with exact project-clock origins and durable
+read/retry identities. Parakeet still completes a cut word in the planted source
+case, so contextual lexical cut judgment remains12.
 
 Evidence ledger: [assets](assets/README.md) locates scoped verdicts. [22](assets/22-styled-text/README.md)
 has accepted public static-sheet/Unicode receipts and pixels, matched comparisons,
@@ -71,7 +75,7 @@ Numbering is a review order; actual prerequisites live in the slice headers.
 - [x] [08 — Explicit bounded transcript preparation](slices/08-bounded-speech-preparation.md)
 - [x] [09 — Local alignment feasibility and frozen reference](slices/09-alignment-replication.md)
 - [ ] [10 — Alignment and acoustic boundary evidence](slices/10-alignment-and-boundaries.md)
-- [ ] [11 — Speech recognition of actual revision audio](slices/11-rendered-speech.md)
+- [x] [11 — Speech recognition of actual revision audio](slices/11-rendered-speech.md)
 - [ ] [12 — Contextual join verification and agent repair](slices/12-contextual-join-verification.md)
 - [x] [13 — Decoded-picture replication](slices/13-decode-replication.md)
 - [x] [14 — Objective picture observations](slices/14-picture-statistics.md)

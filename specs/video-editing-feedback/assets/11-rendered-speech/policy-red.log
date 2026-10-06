@@ -1,0 +1,168 @@
+
+ RUN  v5.0.0 /Users/server/dev/yap-rendered-speech/packages/core
+
+ ❯ src/rendered-speech.test.ts (7 tests | 1 failed | 6 skipped) 53ms
+   × a retained rendered publication without the current transcript policy cannot answer a new request 53ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/rendered-speech.test.ts > a retained rendered publication without the current transcript policy cannot answer a new request
+AssertionError: expected { generation: 1, speech: { …(5) } } to be null
+
+- Expected:
+null
+
++ Received:
+{
+  "generation": 1,
+  "speech": {
+    "generation": "11910aac-0352-4637-83a6-b765e7aeeebc",
+    "kind": "rendered-speech",
+    "pcm": {
+      "assetId": "115a1890d2fc0463a728c331ec8d0c44c550819a50f45e037306dbde0620f246",
+      "channels": 1,
+      "durationUs": 1000000,
+      "frames": 16000,
+      "origin": {
+        "conversion": {
+          "channelPolicy": "equal-weight-double-rounded-float32",
+          "contextPolicy": "complete-selected-pcm-zero-origin",
+          "implementationId": "controlled-native-conversion",
+        },
+        "input": {
+          "channels": 2,
+          "frames": 48000,
+          "sampleRate": 48000,
+        },
+        "kind": "extraction",
+        "output": {
+          "channels": 1,
+          "frames": 16000,
+          "sampleRate": 16000,
+        },
+        "selection": {
+          "kind": "project",
+          "processingSha256": "347c883ff0a2da5b22cb0483ce262d12c37cc8175dcb9c688283ad836d822dd4",
+          "projectId": "8b9e90fc-d2d4-4a11-bd2d-857d0eaebacb",
+          "range": {
+            "endUs": 2000001,
+            "startUs": 1000001,
+          },
+          "revisionId": "fea82cef-84d7-496c-af14-04b7adee6fbb",
+          "sampleRange": {
+            "end": 96000,
+            "start": 48000,
+          },
+          "tap": {
+            "point": {
+              "kind": "processed",
+            },
+            "target": {
+              "kind": "output",
+            },
+          },
+          "unavailable": [
+            {
+              "clipId": "clip:3c0379cc7f6247869eeb9ac9c8999a0959d7b1e3e5db441e2d3e21a3ba01dfbb:1",
+              "ranges": [],
+            },
+          ],
+        },
+        "selectionImplementationId": "controlled-native-project-pcm",
+      },
+      "sampleRate": 16000,
+      "streamId": "audio",
+    },
+    "selection": {
+      "projectId": "8b9e90fc-d2d4-4a11-bd2d-857d0eaebacb",
+      "range": {
+        "endUs": 2000001,
+        "startUs": 1000001,
+      },
+      "rendition": {
+        "channels": 1,
+        "sampleRate": 16000,
+      },
+      "revisionId": "cbe1ec56-35c1-4c30-96eb-b34de271a271",
+      "tap": {
+        "point": {
+          "kind": "processed",
+        },
+        "target": {
+          "kind": "output",
+        },
+      },
+    },
+    "transcript": {
+      "available": [
+        {
+          "endUs": 1000000,
+          "startUs": 0,
+        },
+      ],
+      "engine": {
+        "computeUnits": "cpuAndNeuralEngine",
+        "decoder": "parakeet-tdt-batch",
+        "encoderPrecision": "int8",
+        "kindPolicy": "word-kind-v1",
+        "model": "Parakeet",
+        "modelDigest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "modelRevision": "frozen",
+        "policy": "historical-policy",
+        "runtime": "FluidAudio",
+        "runtimeRevision": "frozen",
+        "runtimeVersion": "0.15.7",
+      },
+      "execution": {
+        "context": {
+          "afterUs": 0,
+          "beforeUs": 0,
+        },
+        "executionRange": null,
+        "recipe": "source-windows-20s-context4s-guard1s-v2",
+      },
+      "gapCount": 0,
+      "generation": "11910aac-0352-4637-83a6-b765e7aeeebc",
+      "maxWordUs": 200000,
+      "owner": {
+        "assetId": "115a1890d2fc0463a728c331ec8d0c44c550819a50f45e037306dbde0620f246",
+        "kind": "asset",
+      },
+      "raw": {
+        "bytes": 283,
+        "sha256": "fdd427cfae6af092f997108686df68bae7669e76ea5e411020da78696cdec553",
+      },
+      "segmentCount": 1,
+      "source": {
+        "durationUs": 1000000,
+        "kind": "asset",
+        "streamId": "audio",
+        "supportDigest": "c958e88eb8d17b83b42fd6074dd2140e23d27627cd58325ca0c09aead703a36e",
+      },
+      "sourceId": "115a1890d2fc0463a728c331ec8d0c44c550819a50f45e037306dbde0620f246",
+      "track": {
+        "source": "/tmp/rendered-speech-LkiGUM/assets/115a1890d2fc0463a728c331ec8d0c44c550819a50f45e037306dbde0620f246.wav",
+        "sourceOffsetUs": 0,
+        "streamId": "audio",
+      },
+      "wordCount": 2,
+    },
+  },
+}
+
+ ❯ src/rendered-speech.test.ts:519:29
+    517|   });
+    518|   const pending = f.rendered.prepare(selection);
+    519|   expect(pending.published).toBeNull();
+       |                             ^
+    520|   await f.jobs.idle();
+    521|   const ready = f.rendered.prepare(selection);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 6 skipped (7)
+   Start at  06:00:35
+   Duration  326ms (transform 62%, import 19%, tests 19%)
+

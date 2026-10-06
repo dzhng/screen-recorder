@@ -1091,3 +1091,25 @@ choice is embedded in the imported-font coverage.
 - **Verdict:** sound. The bound follows nonnegative summation arithmetic and is
   independent of observed discrepancies; exact claims remain exact.
 - **Confidence:** high.
+
+## Fresh rendered-speech evidence — slice11
+
+- **The choice:** A project attempt performs fresh recognition through the existing
+  transcript owner; byte-identical PCM never joins an ordinary asset transcript job.
+  Durable references retain the generated PCM and transcript generation. The plan
+  required fresh evidence but did not prescribe its publication ownership.
+- **The reach:** A failed original transcript cannot block this observation. Source
+  projection and newly measured words remain separate contracts. Engine metadata
+  travels with retained reads so model removal cannot erase observation provenance.
+- **Support policy:** Refuse missing selected source support before ASR, preserving
+  PCM identity and unavailable intervals in the failure. Zero-filled output cannot
+  impersonate observed silence. The caller can explicitly select other support.
+- **Cancellation/retry:** Cancel only the parent; independently shared extraction
+  remains reusable. Explicit rendered retry recovers a failed/canceled extraction
+  prerequisite and creates a new parent attempt. No silent prerequisite retries.
+- **Proof boundary:** Consumed PCM identity and independent sample landmarks prove
+  a new mapped measurement. Lexical difference is not a gate: real Parakeet completed
+  a word whose retained source estimate was cut. Slice12 must inspect contextual evidence rather than
+  equating recognized text with a clean join.
+- **Verdict:** sound, high confidence for identity/lifetime/mapping; no general
+  lexical cut-quality claim or portable package publication claim.

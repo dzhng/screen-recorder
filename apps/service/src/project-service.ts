@@ -6,6 +6,7 @@ import { ManagedStorage } from "@yap/core/storage";
 import { VoiceGenerationJobs } from "@yap/core/voice-generation";
 import { voiceRenderer } from "./voice.js";
 import { AudioExtraction } from "@yap/core/audio-extraction";
+import { RenderedSpeech } from "@yap/core/rendered-speech";
 import { assetProbe } from "./media-probe.js";
 import { sourceExporter } from "./source-export.js";
 import { PreparedAudioStore } from "@yap/core/prepared-audio";
@@ -332,6 +333,7 @@ export async function startProjectService(options: {
     let mediaAudio: MediaAudioInspection;
     let preparedAudio: PreparedAudioStore;
     let extractedAudio: AudioExtraction;
+    let renderedSpeech: RenderedSpeech;
     let generatedVoice: VoiceGenerationJobs;
     let convertedAssets: AssetConversionJobs;
     let acoustics: AcousticInspection;
@@ -358,6 +360,7 @@ export async function startProjectService(options: {
         if (job.artifact === "asset-conversion") return convertedAssets.execute({ job, signal });
         if (job.artifact === "voice-generation") return generatedVoice.execute({ job, signal });
         if (job.artifact === "audio-extract") return extractedAudio.execute({ job, signal });
+        if (job.artifact === "rendered-speech") return renderedSpeech.execute({ job, signal });
         if (job.artifact === "prepared-audio") return preparedAudio.execute({ job, signal });
         if (job.artifact === "pointer-presentation") return pointers.execute({ job, signal });
         if (
@@ -385,8 +388,8 @@ export async function startProjectService(options: {
         if (job.target.kind === "project" && job.artifact === "project.evidence")
           return projectEvidence.execute({ job, signal });
         if (
-          ((job.target.kind === "asset" && job.artifact === "source-alignment") ||
-            (job.target.kind === "project" && job.artifact === "project-alignment"))
+          (job.target.kind === "asset" && job.artifact === "source-alignment") ||
+          (job.target.kind === "project" && job.artifact === "project-alignment")
         )
           return alignments.execute({ job, signal });
         if (job.target.kind === "asset" && job.artifact === "source-speakers")
@@ -466,11 +469,7 @@ export async function startProjectService(options: {
               "INVALID_RANGE",
               "Project alignment range exceeds the pinned revision",
             );
-          const prepared = preparedAudio.resolve(
-            composition,
-            input.tap,
-            input.preparedResourceId,
-          );
+          const prepared = preparedAudio.resolve(composition, input.tap, input.preparedResourceId);
           if (!prepared)
             throw new CatalogError(
               "NOT_READY",
@@ -602,6 +601,15 @@ export async function startProjectService(options: {
       },
     });
     await extractedAudio.recover();
+    renderedSpeech = new RenderedSpeech({
+      catalog,
+      projects,
+      assets,
+      jobs: queue,
+      extraction: extractedAudio,
+      transcripts,
+      records: transcriptStore,
+    });
     generatedVoice = new VoiceGenerationJobs({
       assets,
       jobs: queue,
@@ -844,6 +852,7 @@ export async function startProjectService(options: {
     storage = managedStorage;
     queue.startAdmission((job) => {
       if (job.target.kind === "project") {
+        if (job.artifact === "rendered-speech") return renderedSpeech.admit(job);
         if (job.artifact === "audio-file") return mediaAudio.admitExport(job);
         if (job.artifact === "preview") return preview.admit(job);
         if (job.artifact === "frame") return mediaFrames.admit(job);
@@ -1298,6 +1307,21 @@ export async function startProjectService(options: {
               data: { ...selection, observationRange, generation, bindings: labels },
             };
           }
+          case "transcript.render.prepare":
+          case "transcript.render.retry": {
+            const status = renderedSpeech[
+              operation.operation === "transcript.render.retry" ? "retry" : "prepare"
+            ](operation.params);
+            return {
+              ok: true,
+              data: {
+                ...status,
+                published: publishedOutput(status.published, (value) => value.speech),
+              },
+            };
+          }
+          case "transcript.render.get":
+            return { ok: true, data: renderedSpeech.get(operation.params) };
           case "transcript.prepare": {
             transcripts.prepareSource(operation.params);
             const status = transcripts.sourceStatus(operation.params);

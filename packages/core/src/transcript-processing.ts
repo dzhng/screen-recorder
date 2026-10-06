@@ -101,6 +101,13 @@ export class TranscriptProcessing {
   private execution() {
     return { modelDigest: this.models.modelDigest, pins: this.models.pins, decoderExecution };
   }
+  /** Pin the same native/model identity when a project job owns fresh recognition. */
+  recognitionExecution() {
+    return { ...this.execution(), policy: transcriptPolicy };
+  }
+  recognitionReadiness() {
+    return this.models.status();
+  }
   private sourceIdentity(
     selected: ReturnType<typeof selectedAudio>,
     execution: ReturnType<TranscriptProcessing["execution"]>,
@@ -317,6 +324,26 @@ export class TranscriptProcessing {
     return this.transcripts.reclaim(
       owner,
       (generation) => this.jobs.retainsAttempt(owner, artifact, generation),
+      signal,
+    );
+  }
+
+  /** The caller's shared job owns this fresh attempt and retains its generation before execution. */
+  async recognizeSource(selection: SourceSelection, generation: string, signal: AbortSignal) {
+    const selected = selectedAudio(this.asset, selection);
+    if (!selected.track.available.length) throw new CatalogError("UNAVAILABLE", "no_audio");
+    if (this.models.status().state !== "ready")
+      throw new CatalogError("MODEL_NOT_PREPARED", "Speech models are not prepared", {}, true);
+    await this.cleanupAsset(selection.assetId, signal);
+    return this.transcribeSource(
+      {
+        owner: { kind: "asset", assetId: selection.assetId },
+        sourceId: selection.assetId,
+        generation,
+      },
+      sourceDescriptor(selected),
+      selected.track,
+      speechExecution(),
       signal,
     );
   }

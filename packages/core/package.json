@@ -244,6 +244,10 @@
       "types": "./dist/audio-extraction.d.ts",
       "default": "./dist/audio-extraction.js"
     },
+    "./rendered-speech": {
+      "types": "./dist/rendered-speech.d.ts",
+      "default": "./dist/rendered-speech.js"
+    },
     "./asset-origins": {
       "types": "./dist/asset-origins.d.ts",
       "default": "./dist/asset-origins.js"

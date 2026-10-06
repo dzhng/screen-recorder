@@ -1,0 +1,28 @@
+{
+  "case": "trend-cut",
+  "nativeSha256": "b6719ae0dbc9493e24bd2992b4addf23bba98c4a3c42ca071f71f517dff187af",
+  "sourceSha256": "9bc9e36ae2571dd2585db7c36569feb16bdb17c9b2f8029867655f7bcb0df5d7",
+  "selection": {
+    "projectId": "d466a423-175d-4d17-9bfc-cb3bdf32c79a",
+    "revisionId": "84bd5d74-ce92-492f-affb-28ecc11786f1",
+    "range": {
+      "startUs": 3000001,
+      "endUs": 7680001
+    },
+    "tap": {
+      "target": {
+        "kind": "output"
+      },
+      "point": {
+        "kind": "processed"
+      }
+    },
+    "rendition": {
+      "sampleRate": 16000,
+      "channels": 1
+    }
+  },
+  "projectedText": "Arguably, OpenClaw is already on a downward trend,",
+  "measuredText": "Arguably, OpenClaw is already on a downward trend.",
+  "pcmSha256": "de3c6669778b07ae06241cb381e07d9a9856131e4ca55ca33dcd8ecf90cd1ce1"
+}

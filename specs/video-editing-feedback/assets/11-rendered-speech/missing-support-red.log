@@ -1,0 +1,53 @@
+
+ RUN  v5.0.0 /Users/server/dev/yap-rendered-speech/packages/core
+
+ ❯ src/rendered-speech.test.ts (5 tests | 1 failed | 4 skipped) 52ms
+   × missing selected support refuses recognition while preserving extraction identity 51ms
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 4 skipped (5)
+   Start at  05:34:42
+   Duration  304ms (transform 60%, import 20%, tests 20%)
+
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/rendered-speech.test.ts > missing selected support refuses recognition while preserving extraction identity
+AssertionError: expected { …(13) } to match object { state: 'failed', …(3) }
+(15 matching properties omitted from actual)
+
+- Expected
++ Received
+
+  {
+-   "errorCode": "UNAVAILABLE_SUPPORT",
+-   "errorDetails": {
+-     "pcmAssetId": StringMatching /^[a-f0-9]{64}$/,
+-     "unavailable": [
+-       {
+-         "ranges": [
+-           {
+-             "end": 48100,
+-             "start": 48000,
+-           },
+-         ],
+-       },
+-     ],
+-   },
++   "errorCode": null,
++   "errorDetails": null,
+    "retryable": false,
+-   "state": "failed",
++   "state": "ready",
+  }
+
+ ❯ src/rendered-speech.test.ts:366:42
+    364|   const pending = f.rendered.prepare(f.selection);
+    365|   await f.jobs.idle();
+    366|   expect(f.jobs.inspect(pending.jobId!)).toMatchObject({
+       |                                          ^
+    367|     state: "failed",
+    368|     errorCode: "UNAVAILABLE_SUPPORT",
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+

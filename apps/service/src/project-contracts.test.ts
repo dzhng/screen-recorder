@@ -77,6 +77,30 @@ async function sendRaw(socketPath: string, bytes: Buffer) {
     });
   });
 }
+test("public rendered recognition rejects absent generations and refuses out-of-project rendering through its job", async () => {
+  const f = await emptyProject();
+  const selector = { projectId: f.project.projectId, revisionId: f.revision.id };
+  expect(
+    await f.call("transcript.render.get", {
+      ...selector,
+      generation: "c6df7efc-a023-4c40-aa08-3b8b1c0b1b90",
+    }),
+  ).toMatchObject({ ok: false, error: { code: "NOT_FOUND" } });
+  const request = {
+    ...selector,
+    range: { startUs: 0, endUs: 1000000 },
+    tap: { target: { kind: "output" }, point: { kind: "processed" } },
+    rendition: { sampleRate: 16000, channels: 1 },
+  };
+  const pending = await f.call("transcript.render.prepare", request);
+  expect(pending).toMatchObject({ ok: true, data: { ...selector, published: null } });
+  if (!pending.ok) throw Error(JSON.stringify(pending));
+  const job = await f.job((pending.data as { jobId: string }).jobId, "failed");
+  expect(job).toMatchObject({
+    errorCode: "INVALID_PARAMS",
+    reason: "Rendering requires a nonempty range within the pinned project",
+  });
+});
 test("oversized independently valid project mutation does not dispatch", async () => {
   const f = await emptyProject();
   const before = await f.state();

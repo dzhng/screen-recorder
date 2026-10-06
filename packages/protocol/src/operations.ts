@@ -174,7 +174,11 @@ const frameParams = z.union([
   sourceFrameParams,
   sourceSelection
     .omit({ acquisitionId: true })
-    .extend({ maxLongEdge: maxLongEdge, observations: pictureObservationRequestSchema.optional(), faceObservations: faceObservationRequestSchema.optional() })
+    .extend({
+      maxLongEdge: maxLongEdge,
+      observations: pictureObservationRequestSchema.optional(),
+      faceObservations: faceObservationRequestSchema.optional(),
+    })
     .strict(),
 ]);
 
@@ -195,6 +199,14 @@ const extractedAudioRendition = z.strictObject({
   sampleRate: z.int().min(1).max(192000),
   channels: z.union([z.literal(1), z.literal(2)]),
 });
+const renderedSpeechPreparation = projectAudioParams
+  .extend({
+    revisionId: id,
+    range: audioRange,
+    tap: processingTapSchema,
+    rendition: extractedAudioRendition,
+  })
+  .strict();
 const audioParams = z.union([projectAudioParams, sourceAudioParams]);
 const loudnessFields = {
   channelInterpretation: z.enum(["native", "dual-mono"]).optional(),
@@ -608,7 +620,10 @@ export const operationSchema = z.discriminatedUnion("operation", [
       operation: z.literal("index.retry"),
       params: z.union([
         projectIndexParams,
-        sourceSelection.extend({ observations: pictureObservationRequestSchema.optional(), faceObservations: faceObservationRequestSchema.optional() }),
+        sourceSelection.extend({
+          observations: pictureObservationRequestSchema.optional(),
+          faceObservations: faceObservationRequestSchema.optional(),
+        }),
       ]),
     })
     .strict()
@@ -702,28 +717,27 @@ export const operationSchema = z.discriminatedUnion("operation", [
             modelId: id,
           })
           .strict(),
-        z
-          .strictObject({
-            projectId: id,
-            revisionId: id.optional(),
-            preparedResourceId: id,
-            tap: processingTapSchema,
-            range: selectionRangeSchema,
-            channel: z.int().nonnegative(),
-            text: z
-              .string()
-              .min(1)
-              .max(8192)
-              .refine((value) => {
-                const words = value.match(/\S+/gu) ?? [];
-                return (
-                  words.length > 0 &&
-                  words.length <= 512 &&
-                  words.every((word) => new TextEncoder().encode(word).byteLength <= 1024)
-                );
-              }),
-            modelId: id,
-          }),
+        z.strictObject({
+          projectId: id,
+          revisionId: id.optional(),
+          preparedResourceId: id,
+          tap: processingTapSchema,
+          range: selectionRangeSchema,
+          channel: z.int().nonnegative(),
+          text: z
+            .string()
+            .min(1)
+            .max(8192)
+            .refine((value) => {
+              const words = value.match(/\S+/gu) ?? [];
+              return (
+                words.length > 0 &&
+                words.length <= 512 &&
+                words.every((word) => new TextEncoder().encode(word).byteLength <= 1024)
+              );
+            }),
+          modelId: id,
+        }),
       ]),
     })
     .describe(
@@ -825,6 +839,46 @@ export const operationSchema = z.discriminatedUnion("operation", [
     })
     .describe(
       "Bind caller-authored display labels to anonymous slots in one retained speaker generation. The generation, source selection, channel and observation range must match published evidence; rebinding replaces the prior names without changing acoustic observations or transcript words. No cross-session identity or automatic naming is performed.",
+    ),
+  z
+    .strictObject({
+      operation: z.literal("transcript.render.prepare"),
+      params: renderedSpeechPreparation,
+    })
+    .describe(
+      "Recognize actual rendered PCM for an explicit project revision, processing tap, range and PCM rendition. One project job chains immutable audio extraction and fresh Parakeet inference; it never depends on source transcript readiness or reuses projected source text. Missing source support refuses before recognition rather than treating unavailable samples as silence. Published output retains the PCM asset, conversion/origin, exact sample bounds, transcript and fresh generation. Repeat the same request to join/reuse work; models must be prepared through model.prepare. Reads stay offline. Use transcript.render.retry for failed/canceled extraction dependencies, or job.cancel to cancel the parent; shared extraction remains independently reusable.",
+    ),
+  z
+    .strictObject({
+      operation: z.literal("transcript.render.retry"),
+      params: renderedSpeechPreparation,
+    })
+    .describe(
+      "Explicitly retry previously requested rendered recognition and any failed/canceled extraction dependency for the same pinned project revision, tap, range and rendition. A fresh parent attempt produces fresh measured words; successful retained output is reused unchanged. This does not retry source transcription or prepare models.",
+    ),
+  z
+    .strictObject({
+      operation: z.literal("transcript.render.get"),
+      params: project
+        .extend({
+          revisionId: id,
+          generation: z.uuid(),
+          limit: z.int().min(1).max(1000).optional(),
+          cursor: z
+            .strictObject({
+              generation: z.uuid(),
+              sourceCursor: z.strictObject({
+                ...sourceTranscriptReference,
+                afterOrdinal: time.nullable(),
+                range: range.nullable(),
+              }),
+            })
+            .optional(),
+        })
+        .strict(),
+    })
+    .describe(
+      "Read one retained rendered-speech generation without rendering, inference or model readiness. Rows retain their PCM source range and a distinct exact projectRange mapped from the extraction's actual first sample, not its rounded requested start. Receipt identifies the original revision/tap/range/rendition and immutable PCM asset. Continue with nextCursor, which pins both rendered and PCM transcript generations. transcript.get remains projected source evidence and never aliases this measured output.",
     ),
   z
     .strictObject({

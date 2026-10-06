@@ -368,6 +368,58 @@ test("bounded transcript preparation waits for its admitted generation without r
   expect(f.calls[2]!.params).toEqual({ ...selection, generation });
 });
 
+test("rendered recognition waits on the project attempt with its complete pinned selection", async () => {
+  const params = {
+    projectId: "p",
+    revisionId: "r",
+    range: { startUs: 1000000, endUs: 2000000 },
+    tap: { target: { kind: "output" }, point: { kind: "processed" } },
+    rendition: { sampleRate: 16000, channels: 1 },
+  };
+  const generation = "c6df7efc-a023-4c40-aa08-3b8b1c0b1b90";
+  let preparations = 0;
+  const f = await fixture((request) => {
+    if (request.operation === "job.get")
+      return {
+        ok: true,
+        data: {
+          ...job("ready"),
+          attemptId: generation,
+          target: { kind: "project", projectId: "p", revisionId: "r" },
+        },
+      };
+    expect(request.operation).toBe("transcript.render.prepare");
+    expect(request.params).toEqual(params);
+    return {
+      ok: true,
+      data: {
+        ...params,
+        state: ++preparations === 1 ? "queued" : "ready",
+        jobId: "job",
+        published:
+          preparations === 1
+            ? null
+            : {
+                generation: 2,
+                attemptId: generation,
+                output: { kind: "rendered-speech", generation, pcm: { assetId: "measured" } },
+              },
+      },
+    };
+  });
+  const output = await f.run("transcript.render.prepare", params, [
+    "--wait",
+    "--timeout-ms",
+    "1000",
+  ]);
+  expect(output.code, output.stdout + output.stderr).toBe(0);
+  expect(JSON.parse(output.stdout)).toMatchObject({
+    data: { state: "ready", published: { output: { generation } } },
+    wait: { state: "settled", job: { attemptId: generation } },
+  });
+  expect(f.calls.filter((call) => call.operation === "transcript.render.prepare")).toHaveLength(2);
+});
+
 test.each(["package.open", "package.status"])(
   "%s observes the process-local admission through package.status",
   async (operation) => {

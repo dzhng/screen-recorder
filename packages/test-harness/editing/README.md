@@ -31,6 +31,12 @@ recognition comparisons validate new ownership and candidate fields before compa
 every original raw operand except measured processing time. Context or multi-window
 results have different inference topology and cannot use that historical comparison.
 
+[Rendered speech](rendered-speech-public.mjs) compares projected source words with
+fresh recognition of retained revision PCM through CLI/MCP. Independent audio
+landmarks check the selected sample clock; restart reads prove that retained evidence
+needs neither rendering nor inference. Its [accepted evidence](../../../specs/video-editing-feedback/assets/11-rendered-speech/README.md)
+keeps the planted edge-cut limitation separate from fresh-observation proof.
+
 ## Pictures, audio and processing
 
 Picture checks separate source-frame membership, sampled project time, geometry

@@ -1,0 +1,44 @@
+
+ RUN  v5.0.0 /Users/server/dev/yap-rendered-speech/packages/core
+
+ ❯ src/rendered-speech.test.ts (5 tests | 1 failed | 4 skipped) 54ms
+   × rendered recognition survives failed original transcription and maps actual selected sample origin 54ms
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 4 skipped (5)
+   Start at  05:34:43
+   Duration  304ms (transform 59%, tests 21%, import 20%)
+
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/rendered-speech.test.ts > rendered recognition survives failed original transcription and maps actual selected sample origin
+AssertionError: expected { type: 'word', id: 'w0', …(8) } to match object { Object (type, text, ...) }
+(6 matching properties omitted from actual)
+
+- Expected
++ Received
+
+@@ -1,9 +1,9 @@
+  {
+    "projectRange": {
+-     "endUs": 1300000,
+-     "startUs": 1100000,
++     "endUs": 1300001,
++     "startUs": 1100001,
+    },
+    "sourceRange": {
+      "endUs": 300000,
+      "startUs": 100000,
+    },
+
+ ❯ src/rendered-speech.test.ts:339:30
+    337|   });
+    338|   expect(first).toHaveProperty("transcript", ready.published!.speech.t…
+    339|   expect(first.page.rows[0]).toMatchObject({
+       |                              ^
+    340|     type: "word",
+    341|     text: "rendered",
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+

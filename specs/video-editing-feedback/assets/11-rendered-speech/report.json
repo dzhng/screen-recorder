@@ -1,0 +1,4137 @@
+{
+  "passed": true,
+  "case": "trend-cut",
+  "home": "/private/tmp/yap-rendered-speech-public-v15EtD",
+  "source": "/Users/server/dev/yap-rendered-speech/fixtures/video-editing-feedback/phrase-final-trend.wav",
+  "trace": [
+    {
+      "operation": "model.prepare",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "model.status",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "asset.import",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "job.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "asset.get",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "transcript.prepare",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "project.create",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "edit.apply",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "6ed7e6fd-2f77-4149-a642-33f7194b73a8"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready",
+      "revisionId": "6ed7e6fd-2f77-4149-a642-33f7194b73a8"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready",
+      "revisionId": "6ed7e6fd-2f77-4149-a642-33f7194b73a8"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready",
+      "revisionId": "6ed7e6fd-2f77-4149-a642-33f7194b73a8"
+    },
+    {
+      "operation": "transcript.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready",
+      "revisionId": "6ed7e6fd-2f77-4149-a642-33f7194b73a8"
+    },
+    {
+      "operation": "asset.import",
+      "transport": "cli",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "operation": "job.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "asset.get",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "edit.apply",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "transcript.render.prepare",
+      "transport": "cli",
+      "ok": true,
+      "state": "queued",
+      "revisionId": "de83d9a7-25fb-40cf-9e3f-f1b40195404a"
+    },
+    {
+      "operation": "transcript.render.prepare",
+      "transport": "cli",
+      "ok": true,
+      "state": "queued",
+      "revisionId": "de83d9a7-25fb-40cf-9e3f-f1b40195404a"
+    },
+    {
+      "operation": "transcript.render.prepare",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "de83d9a7-25fb-40cf-9e3f-f1b40195404a"
+    },
+    {
+      "operation": "transcript.render.prepare",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "de83d9a7-25fb-40cf-9e3f-f1b40195404a"
+    },
+    {
+      "operation": "transcript.render.prepare",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready",
+      "revisionId": "de83d9a7-25fb-40cf-9e3f-f1b40195404a"
+    },
+    {
+      "operation": "transcript.render.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready",
+      "revisionId": "de83d9a7-25fb-40cf-9e3f-f1b40195404a"
+    },
+    {
+      "operation": "transcript.render.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready",
+      "revisionId": "de83d9a7-25fb-40cf-9e3f-f1b40195404a"
+    },
+    {
+      "operation": "transcript.render.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready",
+      "revisionId": "de83d9a7-25fb-40cf-9e3f-f1b40195404a"
+    },
+    {
+      "operation": "transcript.render.get",
+      "transport": "mcp",
+      "ok": true,
+      "state": "ready",
+      "revisionId": "de83d9a7-25fb-40cf-9e3f-f1b40195404a"
+    },
+    {
+      "operation": "asset.get",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "transcript.render.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready",
+      "revisionId": "de83d9a7-25fb-40cf-9e3f-f1b40195404a"
+    },
+    {
+      "operation": "transcript.render.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready",
+      "revisionId": "de83d9a7-25fb-40cf-9e3f-f1b40195404a"
+    }
+  ],
+  "exchanges": [
+    {
+      "request": {
+        "operation": "model.prepare",
+        "params": {
+          "modelId": "parakeet",
+          "modelSource": "/private/tmp/yap-editing-model-preparation/library/models/parakeet/ee09c569f73759e6d44c9bd16766f477b2b36d39/parakeet-tdt-0.6b-v2"
+        },
+        "transport": "cli",
+        "error": false
+      },
+      "response": {
+        "ok": true,
+        "data": {
+          "state": "ready"
+        },
+        "id": "c0f81c6b-4255-42e6-b294-073559222c1e"
+      }
+    },
+    {
+      "request": {
+        "operation": "model.status",
+        "params": {
+          "modelId": "parakeet"
+        },
+        "transport": "cli",
+        "error": false
+      },
+      "response": {
+        "ok": true,
+        "data": {
+          "state": "ready"
+        },
+        "id": "eb740f30-a25b-4bbc-988a-df26450d2beb"
+      }
+    },
+    {
+      "request": {
+        "operation": "asset.import",
+        "params": {
+          "requestId": "rendered-speech-source",
+          "path": "/Users/server/dev/yap-rendered-speech/fixtures/video-editing-feedback/phrase-final-trend.wav"
+        },
+        "transport": "cli",
+        "error": false
+      },
+      "response": {
+        "ok": true,
+        "data": {
+          "jobId": "c581fcda-5a52-43cd-aa55-491eb7450ee0",
+          "attemptId": "f88a31bc-7f69-4401-9fcd-b179d3e06bab",
+          "artifact": "asset.import",
+          "lane": "heavy",
+          "state": "ready",
+          "reason": null,
+          "generation": 1,
+          "errorCode": null,
+          "inputSha256": "01935873d89d9c03a7f54f35ede0aea9653bf99f1ada63dce6f136ec09addf73",
+          "target": {
+            "kind": "import",
+            "importId": "b7ee0718-d759-4d32-9010-d2cafbb9302a"
+          },
+          "retryable": false,
+          "errorDetails": null,
+          "published": {
+            "generation": 1,
+            "attemptId": "f88a31bc-7f69-4401-9fcd-b179d3e06bab",
+            "output": {
+              "assetId": "9bc9e36ae2571dd2585db7c36569feb16bdb17c9b2f8029867655f7bcb0df5d7"
+            }
+          }
+        },
+        "id": "1d41e65d-3990-474f-8e32-192cd1e3dc1a"
+      }
+    },
+    {
+      "request": {
+        "operation": "job.get",
+        "params": {
+          "jobId": "c581fcda-5a52-43cd-aa55-491eb7450ee0"
+        },
+        "transport": "cli",
+        "error": false
+      },
+      "response": {
+        "ok": true,
+        "data": {
+          "jobId": "c581fcda-5a52-43cd-aa55-491eb7450ee0",
+          "attemptId": "f88a31bc-7f69-4401-9fcd-b179d3e06bab",
+          "artifact": "asset.import",
+          "lane": "heavy",
+          "state": "ready",
+          "reason": null,
+          "generation": 1,
+          "errorCode": null,
+          "inputSha256": "01935873d89d9c03a7f54f35ede0aea9653bf99f1ada63dce6f136ec09addf73",
+          "target": {
+            "kind": "import",
+            "importId": "b7ee0718-d759-4d32-9010-d2cafbb9302a"
+          },
+          "retryable": false,
+          "errorDetails": null,
+          "published": {
+            "generation": 1,
+            "attemptId": "f88a31bc-7f69-4401-9fcd-b179d3e06bab",
+            "output": {
+              "assetId": "9bc9e36ae2571dd2585db7c36569feb16bdb17c9b2f8029867655f7bcb0df5d7"
+            }
+          }
+        },
+        "id": "c52e81ae-5bb3-4256-b601-a0c0fcd7dd8c"
+      }
+    },
+    {
+      "request": {
+        "operation": "asset.get",
+        "params": {
+          "assetId": "9bc9e36ae2571dd2585db7c36569feb16bdb17c9b2f8029867655f7bcb0df5d7"
+        },
+        "transport": "cli",
+        "error": false
+      },
+      "response": {
+        "ok": true,
+        "data": {
+          "originUs": 0,
+          "streams": [
+            {
+              "id": "track:1",
+              "kind": "audio",
+              "codec": "lpcm",
+              "decodable": true,
+              "startUs": 0,
+              "endUs": 26500000,
+              "sampleRate": 44100,
+              "channels": 2,
+              "segmentCount": 1
+            }
+          ],
+          "id": "9bc9e36ae2571dd2585db7c36569feb16bdb17c9b2f8029867655f7bcb0df5d7",
+          "bytes": 9353296,
+          "createdAt": "2026-10-06T12:27:56.734Z",
+          "fileName": "9bc9e36ae2571dd2585db7c36569feb16bdb17c9b2f8029867655f7bcb0df5d7.wav"
+        },
+        "id": "06faa501-96bb-44d4-aa80-e83d49ef348a"
+      }
+    },
+    {
+      "request": {
+        "operation": "transcript.prepare",
+        "params": {
+          "assetId": "9bc9e36ae2571dd2585db7c36569feb16bdb17c9b2f8029867655f7bcb0df5d7",
+          "streamId": "track:1",
+          "executionRange": {
+            "startUs": 20500000,
+            "endUs": 26500000
+          }
+        },
+        "transport": "cli",
+        "error": false
+      },
+      "response": {
+        "ok": true,
+        "data": {
+          "assetId": "9bc9e36ae2571dd2585db7c36569feb16bdb17c9b2f8029867655f7bcb0df5d7",
+          "streamId": "track:1",
+          "state": "ready",
+          "reason": null,
+          "retryable": false,
+          "jobId": "4330f114-3f56-474f-a575-3326efc4f7c1",
+          "published": {
+            "generation": 1,
+            "output": {
+              "owner": {
+                "kind": "asset",
+                "assetId": "9bc9e36ae2571dd2585db7c36569feb16bdb17c9b2f8029867655f7bcb0df5d7"
+              },
+              "sourceId": "9bc9e36ae2571dd2585db7c36569feb16bdb17c9b2f8029867655f7bcb0df5d7",
+              "generation": "5217c1b6-f330-4067-9100-bf7246cb15d3",
+              "source": {
+                "kind": "asset",
+                "streamId": "track:1",
+                "supportDigest": "1766f91e669719eb646a695e742e2c69af27dfeb48b977987b7fb3ee477521fb",
+                "durationUs": 26500000
+              },
+              "engine": {
+                "runtime": "FluidAudio",
+                "runtimeVersion": "0.15.7",
+                "runtimeRevision": "41540ea237350afe5117a082b5c28eda642d0612",
+                "decoder": "parakeet-tdt-batch",
+                "model": "FluidInference/parakeet-tdt-0.6b-v2-coreml",
+                "modelRevision": "ee09c569f73759e6d44c9bd16766f477b2b36d39",
+                "modelDigest": "4fe3f59cc82bab4ee7d06349b9a37c92d4b5758553b2cbb87a54ecc2dee6824a",
+                "encoderPrecision": "int8",
+                "computeUnits": "cpuAndNeuralEngine",
+                "policy": "transcript-v3",
+                "kindPolicy": "word-kind-v1"
+              },
+              "execution": {
+                "executionRange": {
+                  "startUs": 20500000,
+                  "endUs": 26500000
+                },
+                "context": {
+                  "beforeUs": 0,
+                  "afterUs": 0
+                },
+                "recipe": "source-windows-20s-context4s-guard1s-v2"
+              },
+              "available": [
+                {
+                  "startUs": 0,
+                  "endUs": 26500000
+                }
+              ],
+              "track": {
+                "source": "/private/tmp/yap-rendered-speech-public-v15EtD/library/assets/9bc9e36ae2571dd2585db7c36569feb16bdb17c9b2f8029867655f7bcb0df5d7.wav",
+                "streamId": "track:1",
+                "sourceOffsetUs": 0
+              },
+              "segmentCount": 1,
+              "wordCount": 9,
+              "gapCount": 1,
+              "maxWordUs": 1200000,
+              "raw": {
+                "bytes": 6312,
+                "sha256": "262e36e56d744efa1dab0580ecb5e279237b3820b09567285e0d851da1d68772"
+              }
+            }
+          },
+          "models": {
+            "state": "ready"
+          },
+          "dependencies": []
+        },
+        "id": "72703fad-5671-4150-b3ad-060165e9b878"
+      }
+    },
+    {
+      "request": {
+        "operation": "project.create",
+        "params": {
+          "requestId": "rendered-speech-project-landmark",
+          "canvas": {
+            "width": 16,
+            "height": 16,
+            "fps": {
+              "numerator": 30,
+              "denominator": 1
+            },
+            "background": "#000000ff"
+          }
+        },
+        "transport": "cli",
+        "error": false
+      },
+      "response": {
+        "ok": true,
+        "data": {
+          "project": {
+            "projectId": "09a76eff-f86c-4262-a09b-77288e453da2",
+            "title": "Untitled",
+            "createdAt": "2026-10-06T12:31:12.270Z",
+            "currentRevisionId": "70f6e4c8-0c3a-4769-8a32-93e779f2833e"
+          },
+          "revision": {
+            "id": "70f6e4c8-0c3a-4769-8a32-93e779f2833e",
+            "projectId": "09a76eff-f86c-4262-a09b-77288e453da2",
+            "ordinal": 0,
+            "createdAt": "2026-10-06T12:31:12.270Z",
+            "operation": "create",
+            "document": {
+              "canvas": {
+                "width": 16,
+                "height": 16,
+                "fps": {
+                  "numerator": 30,
+                  "denominator": 1
+                },
+                "background": "#000000ff"
+              },
+              "tracks": [],
+              "groups": [],
+              "clips": [],
+              "syncGroups": [],
+              "processing": []
+            }
+          }
+        },
+        "id": "ecb5a597-cc2d-474a-b251-b0ceb896672a"
+      }
+    },
+    {
+      "request": {
+        "operation": "edit.apply",
+        "params": {
+          "projectId": "09a76eff-f86c-4262-a09b-77288e453da2",
+          "expectedRevisionId": "70f6e4c8-0c3a-4769-8a32-93e779f2833e",
+          "requestId": "plant-trend-cut-landmark",
+          "operations": [
+            {
+              "operation": "track.add",
+              "label": "dialogue",
+              "track": {
+                "kind": "audio",
+                "order": 0
+              }
+            },
+            {
+              "operation": "place",
+              "clip": {
+                "assetId": "9bc9e36ae2571dd2585db7c36569feb16bdb17c9b2f8029867655f7bcb0df5d7",
+                "streamId": "track:1",
+                "trackId": {
+                  "label": "dialogue"
+                },
+                "source": {
+                  "kind": "range",
+                  "range": {
+                    "startUs": 20500000,
+                    "endUs": 25180000
+                  }
+                },
+                "placement": {
+                  "kind": "project",
+                  "range": {
+                    "startUs": 3000001,
+                    "endUs": 7680001
+                  }
+                }
+              }
+            }
+          ]
+        },
+        "transport": "cli",
+        "error": false
+      },
+      "response": {
+        "ok": true,
+        "data": {
+          "revision": {
+            "id": "6ed7e6fd-2f77-4149-a642-33f7194b73a8",
+            "projectId": "09a76eff-f86c-4262-a09b-77288e453da2",
+            "ordinal": 1,
+            "createdAt": "2026-10-06T12:31:12.351Z",
+            "operation": "apply",
+            "document": {
+              "canvas": {
+                "width": 16,
+                "height": 16,
+                "fps": {
+                  "numerator": 30,
+                  "denominator": 1
+                },
+                "background": "#000000ff"
+              },
+              "tracks": [
+                {
+                  "id": "track:a5bf24f0dacf9ed7d65a98166c84b5dde1f9808ae5ca1a9bf541bbce8ba0bcf5:0",
+                  "kind": "audio",
+                  "order": 0
+                }
+              ],
+              "groups": [],
+              "clips": [
+                {
+                  "id": "clip:a5bf24f0dacf9ed7d65a98166c84b5dde1f9808ae5ca1a9bf541bbce8ba0bcf5:1",
+                  "trackId": "track:a5bf24f0dacf9ed7d65a98166c84b5dde1f9808ae5ca1a9bf541bbce8ba0bcf5:0",
+                  "placement": {
+                    "kind": "project",
+                    "range": {
+                      "startUs": 3000001,
+                      "endUs": 7680001
+                    }
+                  },
+                  "assetId": "9bc9e36ae2571dd2585db7c36569feb16bdb17c9b2f8029867655f7bcb0df5d7",
+                  "streamId": "track:1",
+                  "source": {
+                    "kind": "range",
+                    "range": {
+                      "startUs": 20500000,
+                      "endUs": 25180000
+                    }
+                  }
+                }
+              ],
+              "syncGroups": [],
+              "processing": []
+            }
+          },
+          "edit": {
+            "changed": true,
+            "createdIds": [
+              {
+                "kind": "track",
+                "id": "track:a5bf24f0dacf9ed7d65a98166c84b5dde1f9808ae5ca1a9bf541bbce8ba0bcf5:0"
+              },
+              {
+                "kind": "clip",
+                "id": "clip:a5bf24f0dacf9ed7d65a98166c84b5dde1f9808ae5ca1a9bf541bbce8ba0bcf5:1"
+              }
+            ],
+            "labels": {
+              "dialogue": "track:a5bf24f0dacf9ed7d65a98166c84b5dde1f9808ae5ca1a9bf541bbce8ba0bcf5:0"
+            },
+            "normalized": [
+              {
+                "operationIndex": 0,
+                "changes": [
+                  {
+                    "kind": "track",
+                    "id": "track:a5bf24f0dacf9ed7d65a98166c84b5dde1f9808ae5ca1a9bf541bbce8ba0bcf5:0",
+                    "value": {
+                      "id": "track:a5bf24f0dacf9ed7d65a98166c84b5dde1f9808ae5ca1a9bf541bbce8ba0bcf5:0",
+                      "kind": "audio",
+                      "order": 0
+                    }
+                  }
+                ]
+              },
+              {
+                "operationIndex": 1,
+                "changes": [
+                  {
+                    "kind": "clip",
+                    "id": "clip:a5bf24f0dacf9ed7d65a98166c84b5dde1f9808ae5ca1a9bf541bbce8ba0bcf5:1",
+                    "value": {
+                      "id": "clip:a5bf24f0dacf9ed7d65a98166c84b5dde1f9808ae5ca1a9bf541bbce8ba0bcf5:1",
+                      "trackId": "track:a5bf24f0dacf9ed7d65a98166c84b5dde1f9808ae5ca1a9bf541bbce8ba0bcf5:0",
+                      "placement": {
+                        "kind": "project",
+                        "range": {
+                          "startUs": 3000001,
+                          "endUs": 7680001
+                        }
+                      },
+                      "assetId": "9bc9e36ae2571dd2585db7c36569feb16bdb17c9b2f8029867655f7bcb0df5d7",
+                      "streamId": "track:1",
+                      "source": {
+                        "kind": "range",
+                        "range": {
+                          "startUs": 20500000,
+                          "endUs": 25180000
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            ],
+            "clipLineage": [],
+            "removedAttachments": [],
+            "processingLineage": [],
+            "touchedFixedAnchors": [],
+            "linkChanges": []
+          }
+        },
+        "id": "e98cc46f-83b3-4680-9284-2d8ed90f7a89"
+      }
+    },
+    {
+      "request": {
+        "operation": "transcript.get",
+        "params": {
+          "projectId": "09a76eff-f86c-4262-a09b-77288e453da2",
+          "revisionId": "6ed7e6fd-2f77-4149-a642-33f7194b73a8",
+          "sourceGenerations": [
+            {
+              "assetId": "9bc9e36ae2571dd2585db7c36569feb16bdb17c9b2f8029867655f7bcb0df5d7",
+              "streamId": "track:1",
+              "generation": "5217c1b6-f330-4067-9100-bf7246cb15d3"
+            }
+          ],
+          "trackIds": [
+            "track:a5bf24f0dacf9ed7d65a98166c84b5dde1f9808ae5ca1a9bf541bbce8ba0bcf5:0"
+          ]
+        },
+        "transport": "cli",
+        "error": false
+      },
+      "response": {
+        "ok": true,
+        "data": {
+          "sourceGenerations": [
+            {
+              "assetId": "9bc9e36ae2571dd2585db7c36569feb16bdb17c9b2f8029867655f7bcb0df5d7",
+              "streamId": "track:1",
+              "generation": "5217c1b6-f330-4067-9100-bf7246cb15d3"
+            }
+          ],
+          "domain": "transcript",
+          "projectId": "09a76eff-f86c-4262-a09b-77288e453da2",
+          "revisionId": "6ed7e6fd-2f77-4149-a642-33f7194b73a8",
+          "range": {
+            "startUs": 0,
+            "endUs": 7680001
+          },
+          "trackIds": [
+            "track:a5bf24f0dacf9ed7d65a98166c84b5dde1f9808ae5ca1a9bf541bbce8ba0bcf5:0"
+          ],
+          "policy": "project-transcript-v3",
+          "state": "processing",
+          "reason": null,
+          "retryable": false,
+          "jobId": "635499e5-23eb-4845-835c-b8b0c5ed1cce",
+          "published": null,
+          "dependencies": [
+            {
+              "selection": {
+                "assetId": "9bc9e36ae2571dd2585db7c36569feb16bdb17c9b2f8029867655f7bcb0df5d7",
+                "streamId": "track:1"
+              },
+              "transcript": {
+                "owner": {
+                  "kind": "asset",
+                  "assetId": "9bc9e36ae2571dd2585db7c36569feb16bdb17c9b2f8029867655f7bcb0df5d7"
+                },
+                "sourceId": "9bc9e36ae2571dd2585db7c36569feb16bdb17c9b2f8029867655f7bcb0df5d7",
+                "generation": "5217c1b6-f330-4067-9100-bf7246cb15d3",
+                "source": {
+                  "kind": "asset",
+                  "streamId": "track:1",
+                  "supportDigest": "1766f91e669719eb646a695e742e2c69af27dfeb48b977987b7fb3ee477521fb",
+                  "durationUs": 26500000
+                },
+                "engine": {
+                  "runtime": "FluidAudio",
+                  "runtimeVersion": "0.15.7",
+                  "runtimeRevision": "41540ea237350afe5117a082b5c28eda642d0612",
+                  "decoder": "parakeet-tdt-batch",
+                  "model": "FluidInference/parakeet-tdt-0.6b-v2-coreml",
+                  "modelRevision": "ee09c569f73759e6d44c9bd16766f477b2b36d39",
+                  "modelDigest": "4fe3f59cc82bab4ee7d06349b9a37c92d4b5758553b2cbb87a54ecc2dee6824a",
+                  "encoderPrecision": "int8",
+                  "computeUnits": "cpuAndNeuralEngine",
+                  "policy": "transcript-v3",
+                  "kindPolicy": "word-kind-v1"
+                },
+                "execution": {
+                  "executionRange": {
+                    "startUs": 20500000,
+                    "endUs": 26500000
+                  },
+                  "context": {
+                    "beforeUs": 0,
+                    "afterUs": 0
+                  },
+                  "recipe": "source-windows-20s-context4s-guard1s-v2"
+                },
+                "available": [
+                  {
+                    "startUs": 0,
+                    "endUs": 26500000
+                  }
+                ],
+                "track": {
+                  "source": "/private/tmp/yap-rendered-speech-public-v15EtD/library/assets/9bc9e36ae2571dd2585db7c36569feb16bdb17c9b2f8029867655f7bcb0df5d7.wav",
+                  "streamId": "track:1",
+                  "sourceOffsetUs": 0
+                },
+                "segmentCount": 1,
+                "wordCount": 9,
+                "gapCount": 1,
+                "maxWordUs": 1200000,
+                "raw": {
+                  "bytes": 6312,
+                  "sha256": "262e36e56d744efa1dab0580ecb5e279237b3820b09567285e0d851da1d68772"
+                }
+              },
+              "state": "ready",
+              "reason": null,
+              "retryable": false,
+              "jobId": null
+            }
+          ],
+          "page": null
+        },
+        "id": "d15f7822-8f25-4e6a-bb78-93fc8750db0c"
+      }
+    },
+    {
+      "request": {
+        "operation": "transcript.get",
+        "params": {
+          "projectId": "09a76eff-f86c-4262-a09b-77288e453da2",
+          "revisionId": "6ed7e6fd-2f77-4149-a642-33f7194b73a8",
+          "sourceGenerations": [
+            {
+              "assetId": "9bc9e36ae2571dd2585db7c36569feb16bdb17c9b2f8029867655f7bcb0df5d7",
+              "streamId": "track:1",
+              "generation": "5217c1b6-f330-4067-9100-bf7246cb15d3"
+            }
+          ],
+          "trackIds": [
+            "track:a5bf24f0dacf9ed7d65a98166c84b5dde1f9808ae5ca1a9bf541bbce8ba0bcf5:0"
+          ]
+        },
+        "transport": "cli",
+        "error": false
+      },
+      "response": {
+        "ok": true,
+        "data": {
+          "projectId": "09a76eff-f86c-4262-a09b-77288e453da2",
+          "revisionId": "6ed7e6fd-2f77-4149-a642-33f7194b73a8",
+          "state": "ready",
+          "dependencies": [
+            {
+              "selection": {
+                "assetId": "9bc9e36ae2571dd2585db7c36569feb16bdb17c9b2f8029867655f7bcb0df5d7",
+                "streamId": "track:1"
+              },
+              "transcript": {
+                "owner": {
+                  "kind": "asset",
+                  "assetId": "9bc9e36ae2571dd2585db7c36569feb16bdb17c9b2f8029867655f7bcb0df5d7"
+                },
+                "sourceId": "9bc9e36ae2571dd2585db7c36569feb16bdb17c9b2f8029867655f7bcb0df5d7",
+                "generation": "5217c1b6-f330-4067-9100-bf7246cb15d3",
+                "source": {
+                  "kind": "asset",
+                  "streamId": "track:1",
+                  "supportDigest": "1766f91e669719eb646a695e742e2c69af27dfeb48b977987b7fb3ee477521fb",
+                  "durationUs": 26500000
+                },
+                "engine": {
+                  "runtime": "FluidAudio",
+                  "runtimeVersion": "0.15.7",
+                  "runtimeRevision": "41540ea237350afe5117a082b5c28eda642d0612",
+                  "decoder": "parakeet-tdt-batch",
+                  "model": "FluidInference/parakeet-tdt-0.6b-v2-coreml",
+                  "modelRevision": "ee09c569f73759e6d44c9bd16766f477b2b36d39",
+                  "modelDigest": "4fe3f59cc82bab4ee7d06349b9a37c92d4b5758553b2cbb87a54ecc2dee6824a",
+                  "encoderPrecision": "int8",
+                  "computeUnits": "cpuAndNeuralEngine",
+                  "policy": "transcript-v3",
+                  "kindPolicy": "word-kind-v1"
+                },
+                "execution": {
+                  "executionRange": {
+                    "startUs": 20500000,
+                    "endUs": 26500000
+                  },
+                  "context": {
+                    "beforeUs": 0,
+                    "afterUs": 0
+                  },
+                  "recipe": "source-windows-20s-context4s-guard1s-v2"
+                },
+                "available": [
+                  {
+                    "startUs": 0,
+                    "endUs": 26500000
+                  }
+                ],
+                "track": {
+                  "source": "/private/tmp/yap-rendered-speech-public-v15EtD/library/assets/9bc9e36ae2571dd2585db7c36569feb16bdb17c9b2f8029867655f7bcb0df5d7.wav",
+                  "streamId": "track:1",
+                  "sourceOffsetUs": 0
+                },
+                "segmentCount": 1,
+                "wordCount": 9,
+                "gapCount": 1,
+                "maxWordUs": 1200000,
+                "raw": {
+                  "bytes": 6312,
+                  "sha256": "262e36e56d744efa1dab0580ecb5e279237b3820b09567285e0d851da1d68772"
+                }
+              },
+              "state": "ready",
+              "reason": null,
+              "retryable": false,
+              "jobId": null
+            }
+          ],
+          "page": {
+            "rows": [
+              {
+                "type": "word",
+                "id": "w0",
+                "ordinal": 0,
+                "text": "Arguably,",
+                "kind": "speech",
+                "confidence": 0.92545575,
+                "segment": 0,
+                "sourceRange": {
+                  "startUs": 20740000,
+                  "endUs": 21380000
+                },
+                "partial": false,
+                "clipId": "clip:a5bf24f0dacf9ed7d65a98166c84b5dde1f9808ae5ca1a9bf541bbce8ba0bcf5:1",
+                "assetId": "9bc9e36ae2571dd2585db7c36569feb16bdb17c9b2f8029867655f7bcb0df5d7",
+                "streamId": "track:1",
+                "trackId": "track:a5bf24f0dacf9ed7d65a98166c84b5dde1f9808ae5ca1a9bf541bbce8ba0bcf5:0",
+                "trackRank": 0,
+                "generation": "5217c1b6-f330-4067-9100-bf7246cb15d3",
+                "fragments": [
+                  {
+                    "source": {
+                      "startUs": 20740000,
+                      "endUs": 21380000
+                    },
+                    "project": {
+                      "startUs": 3240001,
+                      "endUs": 3880001
+                    }
+                  }
+                ]
+              },
+              {
+                "type": "word",
+                "id": "w1",
+                "ordinal": 1,
+                "text": "OpenClaw",
+                "kind": "speech",
+                "confidence": 0.95242745,
+                "segment": 0,
+                "sourceRange": {
+                  "startUs": 21460000,
+                  "endUs": 22660000
+                },
+                "partial": false,
+                "clipId": "clip:a5bf24f0dacf9ed7d65a98166c84b5dde1f9808ae5ca1a9bf541bbce8ba0bcf5:1",
+                "assetId": "9bc9e36ae2571dd2585db7c36569feb16bdb17c9b2f8029867655f7bcb0df5d7",
+                "streamId": "track:1",
+                "trackId": "track:a5bf24f0dacf9ed7d65a98166c84b5dde1f9808ae5ca1a9bf541bbce8ba0bcf5:0",
+                "trackRank": 0,
+                "generation": "5217c1b6-f330-4067-9100-bf7246cb15d3",
+                "fragments": [
+                  {
+                    "source": {
+                      "startUs": 21460000,
+                      "endUs": 22660000
+                    },
+                    "project": {
+                      "startUs": 3960001,
+                      "endUs": 5160001
+                    }
+                  }
+                ]
+              },
+              {
+                "type": "word",
+                "id": "w2",
+                "ordinal": 2,
+                "text": "is",
+                "kind": "speech",
+                "confidence": 1,
+                "segment": 0,
+                "sourceRange": {
+                  "startUs": 22980000,
+                  "endUs": 23300000
+                },
+                "partial": false,
+                "clipId": "clip:a5bf24f0dacf9ed7d65a98166c84b5dde1f9808ae5ca1a9bf541bbce8ba0bcf5:1",
+                "assetId": "9bc9e36ae2571dd2585db7c36569feb16bdb17c9b2f8029867655f7bcb0df5d7",
+                "streamId": "track:1",
+                "trackId": "track:a5bf24f0dacf9ed7d65a98166c84b5dde1f9808ae5ca1a9bf541bbce8ba0bcf5:0",
+                "trackRank": 0,
+                "generation": "5217c1b6-f330-4067-9100-bf7246cb15d3",
+                "fragments": [
+                  {
+                    "source": {
+                      "startUs": 22980000,
+                      "endUs": 23300000
+                    },
+                    "project": {
+                      "startUs": 5480001,
+                      "endUs": 5800001
+                    }
+                  }
+                ]
+              },
+              {
+                "type": "word",
+                "id": "w3",
+                "ordinal": 3,
+                "text": "already",
+                "kind": "speech",
+                "confidence": 1,
+                "segment": 0,
+                "sourceRange": {
+                  "startUs": 23780000,
+                  "endUs": 24340000
+                },
+                "partial": false,
+                "clipId": "clip:a5bf24f0dacf9ed7d65a98166c84b5dde1f9808ae5ca1a9bf541bbce8ba0bcf5:1",
+                "assetId": "9bc9e36ae2571dd2585db7c36569feb16bdb17c9b2f8029867655f7bcb0df5d7",
+                "streamId": "track:1",
+                "trackId": "track:a5bf24f0dacf9ed7d65a98166c84b5dde1f9808ae5ca1a9bf541bbce8ba0bcf5:0",
+                "trackRank": 0,
+                "generation": "5217c1b6-f330-4067-9100-bf7246cb15d3",
+                "fragments": [
+                  {
+                    "source": {
+                      "startUs": 23780000,
+                      "endUs": 24340000
+                    },
+                    "project": {
+                      "startUs": 6280001,
+                      "endUs": 6840001
+                    }
+                  }
+                ]
+              },
+              {
+                "type": "word",
+                "id": "w4",
+                "ordinal": 4,
+                "text": "on",
+                "kind": "speech",
+                "confidence": 1,
+                "segment": 0,
+                "sourceRange": {
+                  "startUs": 24340000,
+                  "endUs": 24500000
+                },
+                "partial": false,
+                "clipId": "clip:a5bf24f0dacf9ed7d65a98166c84b5dde1f9808ae5ca1a9bf541bbce8ba0bcf5:1",
+                "assetId": "9bc9e36ae2571dd2585db7c36569feb16bdb17c9b2f8029867655f7bcb0df5d7",
+                "streamId": "track:1",
+                "trackId": "track:a5bf24f0dacf9ed7d65a98166c84b5dde1f9808ae5ca1a9bf541bbce8ba0bcf5:0",
+                "trackRank": 0,
+                "generation": "5217c1b6-f330-4067-9100-bf7246cb15d3",
+                "fragments": [
+                  {
+                    "source": {
+                      "startUs": 24340000,
+                      "endUs": 24500000
+                    },
+                    "project": {
+                      "startUs": 6840001,
+                      "endUs": 7000001
+                    }
+                  }
+                ]
+              },
+              {
+                "type": "word",
+                "id": "w5",
+                "ordinal": 5,
+                "text": "a",
+                "kind": "speech",
+                "confidence": 1,
+                "segment": 0,
+                "sourceRange": {
+                  "startUs": 24500000,
+                  "endUs": 24660000
+                },
+                "partial": false,
+                "clipId": "clip:a5bf24f0dacf9ed7d65a98166c84b5dde1f9808ae5ca1a9bf541bbce8ba0bcf5:1",
+                "assetId": "9bc9e36ae2571dd2585db7c36569feb16bdb17c9b2f8029867655f7bcb0df5d7",
+                "streamId": "track:1",
+                "trackId": "track:a5bf24f0dacf9ed7d65a98166c84b5dde1f9808ae5ca1a9bf541bbce8ba0bcf5:0",
+                "trackRank": 0,
+                "generation": "5217c1b6-f330-4067-9100-bf7246cb15d3",
+                "fragments": [
+                  {
+                    "source": {
+                      "startUs": 24500000,
+                      "endUs": 24660000
+                    },
+                    "project": {
+                      "startUs": 7000001,
+                      "endUs": 7160001
+                    }
+                  }
+                ]
+              },
+              {
+                "type": "word",
+                "id": "w6",
+                "ordinal": 6,
+                "text": "downward",
+                "kind": "speech",
+                "confidence": 1,
+                "segment": 0,
+                "sourceRange": {
+                  "startUs": 24660000,
+                  "endUs": 25060000
+                },
+                "partial": false,
+                "clipId": "clip:a5bf24f0dacf9ed7d65a98166c84b5dde1f9808ae5ca1a9bf541bbce8ba0bcf5:1",
+                "assetId": "9bc9e36ae2571dd2585db7c36569feb16bdb17c9b2f8029867655f7bcb0df5d7",
+                "streamId": "track:1",
+                "trackId": "track:a5bf24f0dacf9ed7d65a98166c84b5dde1f9808ae5ca1a9bf541bbce8ba0bcf5:0",
+                "trackRank": 0,
+                "generation": "5217c1b6-f330-4067-9100-bf7246cb15d3",
+                "fragments": [
+                  {
+                    "source": {
+                      "startUs": 24660000,
+                      "endUs": 25060000
+                    },
+                    "project": {
+                      "startUs": 7160001,
+                      "endUs": 7560001
+                    }
+                  }
+                ]
+              },
+              {
+                "type": "word",
+                "id": "w7",
+                "ordinal": 7,
+                "text": "trend,",
+                "kind": "speech",
+                "confidence": 0.9608154,
+                "segment": 0,
+                "sourceRange": {
+                  "startUs": 25060000,
+                  "endUs": 25460000
+                },
+                "partial": true,
+                "clipId": "clip:a5bf24f0dacf9ed7d65a98166c84b5dde1f9808ae5ca1a9bf541bbce8ba0bcf5:1",
+                "assetId": "9bc9e36ae2571dd2585db7c36569feb16bdb17c9b2f8029867655f7bcb0df5d7",
+                "streamId": "track:1",
+                "trackId": "track:a5bf24f0dacf9ed7d65a98166c84b5dde1f9808ae5ca1a9bf541bbce8ba0bcf5:0",
+                "trackRank": 0,
+                "generation": "5217c1b6-f330-4067-9100-bf7246cb15d3",
+                "fragments": [
+                  {
+                    "source": {
+                      "startUs": 25060000,
+                      "endUs": 25180000
+                    },
+                    "project": {
+                      "startUs": 7560001,
+                      "endUs": 7680001
+                    }
+                  }
+                ]
+              }
+            ],
+            "nextCursor": null
+          }
+        },
+        "id": "ea05d1f3-bbab-488e-9987-00e5bcfc5e10"
+      }
+    },
+    {
+      "request": {
+        "operation": "transcript.get",
+        "params": {
+          "projectId": "09a76eff-f86c-4262-a09b-77288e453da2",
+          "revisionId": "6ed7e6fd-2f77-4149-a642-33f7194b73a8",
+          "sourceGenerations": [
+            {
+              "assetId": "9bc9e36ae2571dd2585db7c36569feb16bdb17c9b2f8029867655f7bcb0df5d7",
+              "streamId": "track:1",
+              "generation": "5217c1b6-f330-4067-9100-bf7246cb15d3"
+            }
+          ],
+          "trackIds": [
+            "track:a5bf24f0dacf9ed7d65a98166c84b5dde1f9808ae5ca1a9bf541bbce8ba0bcf5:0"
+          ],
+          "limit": 3
+        },
+        "transport": "cli",
+        "error": false
+      },
+      "response": {
+        "ok": true,
+        "data": {
+          "projectId": "09a76eff-f86c-4262-a09b-77288e453da2",
+          "revisionId": "6ed7e6fd-2f77-4149-a642-33f7194b73a8",
+          "state": "ready",
+          "dependencies": [
+            {
+              "selection": {
+                "assetId": "9bc9e36ae2571dd2585db7c36569feb16bdb17c9b2f8029867655f7bcb0df5d7",
+                "streamId": "track:1"
+              },
+              "transcript": {
+                "owner": {
+                  "kind": "asset",
+                  "assetId": "9bc9e36ae2571dd2585db7c36569feb16bdb17c9b2f8029867655f7bcb0df5d7"
+                },
+                "sourceId": "9bc9e36ae2571dd2585db7c36569feb16bdb17c9b2f8029867655f7bcb0df5d7",
+                "generation": "5217c1b6-f330-4067-9100-bf7246cb15d3",
+                "source": {
+                  "kind": "asset",
+                  "streamId": "track:1",
+                  "supportDigest": "1766f91e669719eb646a695e742e2c69af27dfeb48b977987b7fb3ee477521fb",
+                  "durationUs": 26500000
+                },
+                "engine": {
+                  "runtime": "FluidAudio",
+                  "runtimeVersion": "0.15.7",
+                  "runtimeRevision": "41540ea237350afe5117a082b5c28eda642d0612",
+                  "decoder": "parakeet-tdt-batch",
+                  "model": "FluidInference/parakeet-tdt-0.6b-v2-coreml",
+                  "modelRevision": "ee09c569f73759e6d44c9bd16766f477b2b36d39",
+                  "modelDigest": "4fe3f59cc82bab4ee7d06349b9a37c92d4b5758553b2cbb87a54ecc2dee6824a",
+                  "encoderPrecision": "int8",
+                  "computeUnits": "cpuAndNeuralEngine",
+                  "policy": "transcript-v3",
+                  "kindPolicy": "word-kind-v1"
+                },
+                "execution": {
+                  "executionRange": {
+                    "startUs": 20500000,
+                    "endUs": 26500000
+                  },
+                  "context": {
+                    "beforeUs": 0,
+                    "afterUs": 0
+                  },
+                  "recipe": "source-windows-20s-context4s-guard1s-v2"
+                },
+                "available": [
+                  {
+                    "startUs": 0,
+                    "endUs": 26500000
+                  }
+                ],
+                "track": {
+                  "source": "/private/tmp/yap-rendered-speech-public-v15EtD/library/assets/9bc9e36ae2571dd2585db7c36569feb16bdb17c9b2f8029867655f7bcb0df5d7.wav",
+                  "streamId": "track:1",
+                  "sourceOffsetUs": 0
+                },
+                "segmentCount": 1,
+                "wordCount": 9,
+                "gapCount": 1,
+                "maxWordUs": 1200000,
+                "raw": {
+                  "bytes": 6312,
+                  "sha256": "262e36e56d744efa1dab0580ecb5e279237b3820b09567285e0d851da1d68772"
+                }
+              },
+              "state": "ready",
+              "reason": null,
+              "retryable": false,
+              "jobId": null
+            }
+          ],
+          "page": {
+            "rows": [
+              {
+                "type": "word",
+                "id": "w0",
+                "ordinal": 0,
+                "text": "Arguably,",
+                "kind": "speech",
+                "confidence": 0.92545575,
+                "segment": 0,
+                "sourceRange": {
+                  "startUs": 20740000,
+                  "endUs": 21380000
+                },
+                "partial": false,
+                "clipId": "clip:a5bf24f0dacf9ed7d65a98166c84b5dde1f9808ae5ca1a9bf541bbce8ba0bcf5:1",
+                "assetId": "9bc9e36ae2571dd2585db7c36569feb16bdb17c9b2f8029867655f7bcb0df5d7",
+                "streamId": "track:1",
+                "trackId": "track:a5bf24f0dacf9ed7d65a98166c84b5dde1f9808ae5ca1a9bf541bbce8ba0bcf5:0",
+                "trackRank": 0,
+                "generation": "5217c1b6-f330-4067-9100-bf7246cb15d3",
+                "fragments": [
+                  {
+                    "source": {
+                      "startUs": 20740000,
+                      "endUs": 21380000
+                    },
+                    "project": {
+                      "startUs": 3240001,
+                      "endUs": 3880001
+                    }
+                  }
+                ]
+              },
+              {
+                "type": "word",
+                "id": "w1",
+                "ordinal": 1,
+                "text": "OpenClaw",
+                "kind": "speech",
+                "confidence": 0.95242745,
+                "segment": 0,
+                "sourceRange": {
+                  "startUs": 21460000,
+                  "endUs": 22660000
+                },
+                "partial": false,
+                "clipId": "clip:a5bf24f0dacf9ed7d65a98166c84b5dde1f9808ae5ca1a9bf541bbce8ba0bcf5:1",
+                "assetId": "9bc9e36ae2571dd2585db7c36569feb16bdb17c9b2f8029867655f7bcb0df5d7",
+                "streamId": "track:1",
+                "trackId": "track:a5bf24f0dacf9ed7d65a98166c84b5dde1f9808ae5ca1a9bf541bbce8ba0bcf5:0",
+                "trackRank": 0,
+                "generation": "5217c1b6-f330-4067-9100-bf7246cb15d3",
+                "fragments": [
+                  {
+                    "source": {
+                      "startUs": 21460000,
+                      "endUs": 22660000
+                    },
+                    "project": {
+                      "startUs": 3960001,
+                      "endUs": 5160001
+                    }
+                  }
+                ]
+              },
+              {
+                "type": "word",
+                "id": "w2",
+                "ordinal": 2,
+                "text": "is",
+                "kind": "speech",
+                "confidence": 1,
+                "segment": 0,
+                "sourceRange": {
+                  "startUs": 22980000,
+                  "endUs": 23300000
+                },
+                "partial": false,
+                "clipId": "clip:a5bf24f0dacf9ed7d65a98166c84b5dde1f9808ae5ca1a9bf541bbce8ba0bcf5:1",
+                "assetId": "9bc9e36ae2571dd2585db7c36569feb16bdb17c9b2f8029867655f7bcb0df5d7",
+                "streamId": "track:1",
+                "trackId": "track:a5bf24f0dacf9ed7d65a98166c84b5dde1f9808ae5ca1a9bf541bbce8ba0bcf5:0",
+                "trackRank": 0,
+                "generation": "5217c1b6-f330-4067-9100-bf7246cb15d3",
+                "fragments": [
+                  {
+                    "source": {
+                      "startUs": 22980000,
+                      "endUs": 23300000
+                    },
+                    "project": {
+                      "startUs": 5480001,
+                      "endUs": 5800001
+                    }
+                  }
+                ]
+              }
+            ],
+            "nextCursor": {
+              "projectId": "09a76eff-f86c-4262-a09b-77288e453da2",
+              "revisionId": "6ed7e6fd-2f77-4149-a642-33f7194b73a8",
+              "manifestId": "b8972630-a1ff-421b-92a8-5a8da1aec324",
+              "checkpointId": "6ae1fb37-75b1-4100-9dff-84bd480ef6eb",
+              "queryDigest": "18b024f5983444799e660a30e7ff734ec09ca7c74ca6fdbe1b2a41e94011b8fb"
+            }
+          }
+        },
+        "id": "a636b2e9-40a3-4e58-9428-bc9f3028d6f4"
+      }
+    },
+    {
+      "request": {
+        "operation": "transcript.get",
+        "params": {
+          "projectId": "09a76eff-f86c-4262-a09b-77288e453da2",
+          "revisionId": "6ed7e6fd-2f77-4149-a642-33f7194b73a8",
+          "sourceGenerations": [
+            {
+              "assetId": "9bc9e36ae2571dd2585db7c36569feb16bdb17c9b2f8029867655f7bcb0df5d7",
+              "streamId": "track:1",
+              "generation": "5217c1b6-f330-4067-9100-bf7246cb15d3"
+            }
+          ],
+          "trackIds": [
+            "track:a5bf24f0dacf9ed7d65a98166c84b5dde1f9808ae5ca1a9bf541bbce8ba0bcf5:0"
+          ],
+          "limit": 3,
+          "cursor": {
+            "projectId": "09a76eff-f86c-4262-a09b-77288e453da2",
+            "revisionId": "6ed7e6fd-2f77-4149-a642-33f7194b73a8",
+            "manifestId": "b8972630-a1ff-421b-92a8-5a8da1aec324",
+            "checkpointId": "6ae1fb37-75b1-4100-9dff-84bd480ef6eb",
+            "queryDigest": "18b024f5983444799e660a30e7ff734ec09ca7c74ca6fdbe1b2a41e94011b8fb"
+          }
+        },
+        "transport": "cli",
+        "error": false
+      },
+      "response": {
+        "ok": true,
+        "data": {
+          "projectId": "09a76eff-f86c-4262-a09b-77288e453da2",
+          "revisionId": "6ed7e6fd-2f77-4149-a642-33f7194b73a8",
+          "state": "ready",
+          "dependencies": {
+            "manifestId": "b8972630-a1ff-421b-92a8-5a8da1aec324"
+          },
+          "page": {
+            "rows": [
+              {
+                "type": "word",
+                "id": "w3",
+                "ordinal": 3,
+                "text": "already",
+                "kind": "speech",
+                "confidence": 1,
+                "segment": 0,
+                "sourceRange": {
+                  "startUs": 23780000,
+                  "endUs": 24340000
+                },
+                "partial": false,
+                "clipId": "clip:a5bf24f0dacf9ed7d65a98166c84b5dde1f9808ae5ca1a9bf541bbce8ba0bcf5:1",
+                "assetId": "9bc9e36ae2571dd2585db7c36569feb16bdb17c9b2f8029867655f7bcb0df5d7",
+                "streamId": "track:1",
+                "trackId": "track:a5bf24f0dacf9ed7d65a98166c84b5dde1f9808ae5ca1a9bf541bbce8ba0bcf5:0",
+                "trackRank": 0,
+                "generation": "5217c1b6-f330-4067-9100-bf7246cb15d3",
+                "fragments": [
+                  {
+                    "source": {
+                      "startUs": 23780000,
+                      "endUs": 24340000
+                    },
+                    "project": {
+                      "startUs": 6280001,
+                      "endUs": 6840001
+                    }
+                  }
+                ]
+              },
+              {
+                "type": "word",
+                "id": "w4",
+                "ordinal": 4,
+                "text": "on",
+                "kind": "speech",
+                "confidence": 1,
+                "segment": 0,
+                "sourceRange": {
+                  "startUs": 24340000,
+                  "endUs": 24500000
+                },
+                "partial": false,
+                "clipId": "clip:a5bf24f0dacf9ed7d65a98166c84b5dde1f9808ae5ca1a9bf541bbce8ba0bcf5:1",
+                "assetId": "9bc9e36ae2571dd2585db7c36569feb16bdb17c9b2f8029867655f7bcb0df5d7",
+                "streamId": "track:1",
+                "trackId": "track:a5bf24f0dacf9ed7d65a98166c84b5dde1f9808ae5ca1a9bf541bbce8ba0bcf5:0",
+                "trackRank": 0,
+                "generation": "5217c1b6-f330-4067-9100-bf7246cb15d3",
+                "fragments": [
+                  {
+                    "source": {
+                      "startUs": 24340000,
+                      "endUs": 24500000
+                    },
+                    "project": {
+                      "startUs": 6840001,
+                      "endUs": 7000001
+                    }
+                  }
+                ]
+              },
+              {
+                "type": "word",
+                "id": "w5",
+                "ordinal": 5,
+                "text": "a",
+                "kind": "speech",
+                "confidence": 1,
+                "segment": 0,
+                "sourceRange": {
+                  "startUs": 24500000,
+                  "endUs": 24660000
+                },
+                "partial": false,
+                "clipId": "clip:a5bf24f0dacf9ed7d65a98166c84b5dde1f9808ae5ca1a9bf541bbce8ba0bcf5:1",
+                "assetId": "9bc9e36ae2571dd2585db7c36569feb16bdb17c9b2f8029867655f7bcb0df5d7",
+                "streamId": "track:1",
+                "trackId": "track:a5bf24f0dacf9ed7d65a98166c84b5dde1f9808ae5ca1a9bf541bbce8ba0bcf5:0",
+                "trackRank": 0,
+                "generation": "5217c1b6-f330-4067-9100-bf7246cb15d3",
+                "fragments": [
+                  {
+                    "source": {
+                      "startUs": 24500000,
+                      "endUs": 24660000
+                    },
+                    "project": {
+                      "startUs": 7000001,
+                      "endUs": 7160001
+                    }
+                  }
+                ]
+              }
+            ],
+            "nextCursor": {
+              "projectId": "09a76eff-f86c-4262-a09b-77288e453da2",
+              "revisionId": "6ed7e6fd-2f77-4149-a642-33f7194b73a8",
+              "manifestId": "b8972630-a1ff-421b-92a8-5a8da1aec324",
+              "checkpointId": "a1c3d664-4ad6-460b-b28d-db2d96d6f6f0",
+              "queryDigest": "18b024f5983444799e660a30e7ff734ec09ca7c74ca6fdbe1b2a41e94011b8fb"
+            }
+          }
+        },
+        "id": "95ecdf2f-ee67-491f-afba-98e4cda71776"
+      }
+    },
+    {
+      "request": {
+        "operation": "transcript.get",
+        "params": {
+          "projectId": "09a76eff-f86c-4262-a09b-77288e453da2",
+          "revisionId": "6ed7e6fd-2f77-4149-a642-33f7194b73a8",
+          "sourceGenerations": [
+            {
+              "assetId": "9bc9e36ae2571dd2585db7c36569feb16bdb17c9b2f8029867655f7bcb0df5d7",
+              "streamId": "track:1",
+              "generation": "5217c1b6-f330-4067-9100-bf7246cb15d3"
+            }
+          ],
+          "trackIds": [
+            "track:a5bf24f0dacf9ed7d65a98166c84b5dde1f9808ae5ca1a9bf541bbce8ba0bcf5:0"
+          ],
+          "limit": 3,
+          "cursor": {
+            "projectId": "09a76eff-f86c-4262-a09b-77288e453da2",
+            "revisionId": "6ed7e6fd-2f77-4149-a642-33f7194b73a8",
+            "manifestId": "b8972630-a1ff-421b-92a8-5a8da1aec324",
+            "checkpointId": "a1c3d664-4ad6-460b-b28d-db2d96d6f6f0",
+            "queryDigest": "18b024f5983444799e660a30e7ff734ec09ca7c74ca6fdbe1b2a41e94011b8fb"
+          }
+        },
+        "transport": "cli",
+        "error": false
+      },
+      "response": {
+        "ok": true,
+        "data": {
+          "projectId": "09a76eff-f86c-4262-a09b-77288e453da2",
+          "revisionId": "6ed7e6fd-2f77-4149-a642-33f7194b73a8",
+          "state": "ready",
+          "dependencies": {
+            "manifestId": "b8972630-a1ff-421b-92a8-5a8da1aec324"
+          },
+          "page": {
+            "rows": [
+              {
+                "type": "word",
+                "id": "w6",
+                "ordinal": 6,
+                "text": "downward",
+                "kind": "speech",
+                "confidence": 1,
+                "segment": 0,
+                "sourceRange": {
+                  "startUs": 24660000,
+                  "endUs": 25060000
+                },
+                "partial": false,
+                "clipId": "clip:a5bf24f0dacf9ed7d65a98166c84b5dde1f9808ae5ca1a9bf541bbce8ba0bcf5:1",
+                "assetId": "9bc9e36ae2571dd2585db7c36569feb16bdb17c9b2f8029867655f7bcb0df5d7",
+                "streamId": "track:1",
+                "trackId": "track:a5bf24f0dacf9ed7d65a98166c84b5dde1f9808ae5ca1a9bf541bbce8ba0bcf5:0",
+                "trackRank": 0,
+                "generation": "5217c1b6-f330-4067-9100-bf7246cb15d3",
+                "fragments": [
+                  {
+                    "source": {
+                      "startUs": 24660000,
+                      "endUs": 25060000
+                    },
+                    "project": {
+                      "startUs": 7160001,
+                      "endUs": 7560001
+                    }
+                  }
+                ]
+              },
+              {
+                "type": "word",
+                "id": "w7",
+                "ordinal": 7,
+                "text": "trend,",
+                "kind": "speech",
+                "confidence": 0.9608154,
+                "segment": 0,
+                "sourceRange": {
+                  "startUs": 25060000,
+                  "endUs": 25460000
+                },
+                "partial": true,
+                "clipId": "clip:a5bf24f0dacf9ed7d65a98166c84b5dde1f9808ae5ca1a9bf541bbce8ba0bcf5:1",
+                "assetId": "9bc9e36ae2571dd2585db7c36569feb16bdb17c9b2f8029867655f7bcb0df5d7",
+                "streamId": "track:1",
+                "trackId": "track:a5bf24f0dacf9ed7d65a98166c84b5dde1f9808ae5ca1a9bf541bbce8ba0bcf5:0",
+                "trackRank": 0,
+                "generation": "5217c1b6-f330-4067-9100-bf7246cb15d3",
+                "fragments": [
+                  {
+                    "source": {
+                      "startUs": 25060000,
+                      "endUs": 25180000
+                    },
+                    "project": {
+                      "startUs": 7560001,
+                      "endUs": 7680001
+                    }
+                  }
+                ]
+              }
+            ],
+            "nextCursor": null
+          }
+        },
+        "id": "fbf816af-952f-4218-9721-63c53247cdf9"
+      }
+    },
+    {
+      "request": {
+        "operation": "asset.import",
+        "params": {
+          "requestId": "independent-landmark",
+          "path": "/private/tmp/yap-rendered-speech-public-v15EtD/landmark.wav"
+        },
+        "transport": "cli",
+        "error": false
+      },
+      "response": {
+        "ok": true,
+        "data": {
+          "jobId": "11ff58f0-9dad-47f7-9f1b-c24a5c2d5d1e",
+          "attemptId": "0bdfcb51-d041-455b-bb93-75281c0104ef",
+          "artifact": "asset.import",
+          "lane": "heavy",
+          "state": "running",
+          "reason": null,
+          "generation": 1,
+          "errorCode": null,
+          "inputSha256": "271eae06338e8d55a3382547d964ed02a22cce973fa646f2566ff743d0ea4359",
+          "target": {
+            "kind": "import",
+            "importId": "5d32c417-2e11-48fa-ba1a-442310fed899"
+          },
+          "retryable": false,
+          "errorDetails": null,
+          "published": null
+        },
+        "id": "99fc2dec-e504-43dc-be1b-03179ae67641"
+      }
+    },
+    {
+      "request": {
+        "operation": "job.get",
+        "params": {
+          "jobId": "11ff58f0-9dad-47f7-9f1b-c24a5c2d5d1e"
+        },
+        "transport": "cli",
+        "error": false
+      },
+      "response": {
+        "ok": true,
+        "data": {
+          "jobId": "11ff58f0-9dad-47f7-9f1b-c24a5c2d5d1e",
+          "attemptId": "0bdfcb51-d041-455b-bb93-75281c0104ef",
+          "artifact": "asset.import",
+          "lane": "heavy",
+          "state": "ready",
+          "reason": null,
+          "generation": 1,
+          "errorCode": null,
+          "inputSha256": "271eae06338e8d55a3382547d964ed02a22cce973fa646f2566ff743d0ea4359",
+          "target": {
+            "kind": "import",
+            "importId": "5d32c417-2e11-48fa-ba1a-442310fed899"
+          },
+          "retryable": false,
+          "errorDetails": null,
+          "published": {
+            "generation": 1,
+            "attemptId": "0bdfcb51-d041-455b-bb93-75281c0104ef",
+            "output": {
+              "assetId": "8ccacc309e171d8fe34067c852f898f1b836fdec6c279c196e8b0e29582aa7a4"
+            }
+          }
+        },
+        "id": "e2182f4d-12df-4ce6-9967-f58d02693683"
+      }
+    },
+    {
+      "request": {
+        "operation": "asset.get",
+        "params": {
+          "assetId": "8ccacc309e171d8fe34067c852f898f1b836fdec6c279c196e8b0e29582aa7a4"
+        },
+        "transport": "cli",
+        "error": false
+      },
+      "response": {
+        "ok": true,
+        "data": {
+          "originUs": 0,
+          "streams": [
+            {
+              "id": "track:1",
+              "kind": "audio",
+              "codec": "lpcm",
+              "decodable": true,
+              "startUs": 0,
+              "endUs": 1000000,
+              "sampleRate": 48000,
+              "channels": 1,
+              "segmentCount": 1
+            }
+          ],
+          "id": "8ccacc309e171d8fe34067c852f898f1b836fdec6c279c196e8b0e29582aa7a4",
+          "bytes": 192044,
+          "createdAt": "2026-10-06T12:31:13.108Z",
+          "fileName": "8ccacc309e171d8fe34067c852f898f1b836fdec6c279c196e8b0e29582aa7a4.wav"
+        },
+        "id": "dfe305b1-f380-446d-b1e4-b00eef3296e3"
+      }
+    },
+    {
+      "request": {
+        "operation": "edit.apply",
+        "params": {
+          "projectId": "09a76eff-f86c-4262-a09b-77288e453da2",
+          "expectedRevisionId": "6ed7e6fd-2f77-4149-a642-33f7194b73a8",
+          "requestId": "place-independent-landmark",
+          "operations": [
+            {
+              "operation": "track.add",
+              "label": "landmark",
+              "track": {
+                "kind": "audio",
+                "order": 1
+              }
+            },
+            {
+              "operation": "place",
+              "clip": {
+                "assetId": "8ccacc309e171d8fe34067c852f898f1b836fdec6c279c196e8b0e29582aa7a4",
+                "streamId": "track:1",
+                "trackId": {
+                  "label": "landmark"
+                },
+                "source": {
+                  "kind": "range",
+                  "range": {
+                    "startUs": 0,
+                    "endUs": 1000000
+                  }
+                },
+                "placement": {
+                  "kind": "project",
+                  "range": {
+                    "startUs": 7680001,
+                    "endUs": 8680001
+                  }
+                }
+              }
+            }
+          ]
+        },
+        "transport": "cli",
+        "error": false
+      },
+      "response": {
+        "ok": true,
+        "data": {
+          "revision": {
+            "id": "de83d9a7-25fb-40cf-9e3f-f1b40195404a",
+            "projectId": "09a76eff-f86c-4262-a09b-77288e453da2",
+            "ordinal": 2,
+            "createdAt": "2026-10-06T12:31:13.334Z",
+            "operation": "apply",
+            "document": {
+              "canvas": {
+                "width": 16,
+                "height": 16,
+                "fps": {
+                  "numerator": 30,
+                  "denominator": 1
+                },
+                "background": "#000000ff"
+              },
+              "tracks": [
+                {
+                  "id": "track:a5bf24f0dacf9ed7d65a98166c84b5dde1f9808ae5ca1a9bf541bbce8ba0bcf5:0",
+                  "kind": "audio",
+                  "order": 0
+                },
+                {
+                  "id": "track:6c6684191ea642bb20e0eef15f1b25baecfbce28b511748d5fc3672c6952e55a:0",
+                  "kind": "audio",
+                  "order": 1
+                }
+              ],
+              "groups": [],
+              "clips": [
+                {
+                  "id": "clip:a5bf24f0dacf9ed7d65a98166c84b5dde1f9808ae5ca1a9bf541bbce8ba0bcf5:1",
+                  "trackId": "track:a5bf24f0dacf9ed7d65a98166c84b5dde1f9808ae5ca1a9bf541bbce8ba0bcf5:0",
+                  "placement": {
+                    "kind": "project",
+                    "range": {
+                      "startUs": 3000001,
+                      "endUs": 7680001
+                    }
+                  },
+                  "assetId": "9bc9e36ae2571dd2585db7c36569feb16bdb17c9b2f8029867655f7bcb0df5d7",
+                  "streamId": "track:1",
+                  "source": {
+                    "kind": "range",
+                    "range": {
+                      "startUs": 20500000,
+                      "endUs": 25180000
+                    }
+                  }
+                },
+                {
+                  "id": "clip:6c6684191ea642bb20e0eef15f1b25baecfbce28b511748d5fc3672c6952e55a:1",
+                  "trackId": "track:6c6684191ea642bb20e0eef15f1b25baecfbce28b511748d5fc3672c6952e55a:0",
+                  "placement": {
+                    "kind": "project",
+                    "range": {
+                      "startUs": 7680001,
+                      "endUs": 8680001
+                    }
+                  },
+                  "assetId": "8ccacc309e171d8fe34067c852f898f1b836fdec6c279c196e8b0e29582aa7a4",
+                  "streamId": "track:1",
+                  "source": {
+                    "kind": "range",
+                    "range": {
+                      "startUs": 0,
+                      "endUs": 1000000
+                    }
+                  }
+                }
+              ],
+              "syncGroups": [],
+              "processing": []
+            }
+          },
+          "edit": {
+            "changed": true,
+            "createdIds": [
+              {
+                "kind": "track",
+                "id": "track:6c6684191ea642bb20e0eef15f1b25baecfbce28b511748d5fc3672c6952e55a:0"
+              },
+              {
+                "kind": "clip",
+                "id": "clip:6c6684191ea642bb20e0eef15f1b25baecfbce28b511748d5fc3672c6952e55a:1"
+              }
+            ],
+            "labels": {
+              "landmark": "track:6c6684191ea642bb20e0eef15f1b25baecfbce28b511748d5fc3672c6952e55a:0"
+            },
+            "normalized": [
+              {
+                "operationIndex": 0,
+                "changes": [
+                  {
+                    "kind": "track",
+                    "id": "track:6c6684191ea642bb20e0eef15f1b25baecfbce28b511748d5fc3672c6952e55a:0",
+                    "value": {
+                      "id": "track:6c6684191ea642bb20e0eef15f1b25baecfbce28b511748d5fc3672c6952e55a:0",
+                      "kind": "audio",
+                      "order": 1
+                    }
+                  }
+                ]
+              },
+              {
+                "operationIndex": 1,
+                "changes": [
+                  {
+                    "kind": "clip",
+                    "id": "clip:6c6684191ea642bb20e0eef15f1b25baecfbce28b511748d5fc3672c6952e55a:1",
+                    "value": {
+                      "id": "clip:6c6684191ea642bb20e0eef15f1b25baecfbce28b511748d5fc3672c6952e55a:1",
+                      "trackId": "track:6c6684191ea642bb20e0eef15f1b25baecfbce28b511748d5fc3672c6952e55a:0",
+                      "placement": {
+                        "kind": "project",
+                        "range": {
+                          "startUs": 7680001,
+                          "endUs": 8680001
+                        }
+                      },
+                      "assetId": "8ccacc309e171d8fe34067c852f898f1b836fdec6c279c196e8b0e29582aa7a4",
+                      "streamId": "track:1",
+                      "source": {
+                        "kind": "range",
+                        "range": {
+                          "startUs": 0,
+                          "endUs": 1000000
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            ],
+            "clipLineage": [],
+            "removedAttachments": [],
+            "processingLineage": [],
+            "touchedFixedAnchors": [],
+            "linkChanges": []
+          }
+        },
+        "id": "18a15a3f-15d7-427c-a668-312c26cb0bd9"
+      }
+    },
+    {
+      "request": {
+        "operation": "transcript.render.prepare",
+        "params": {
+          "projectId": "09a76eff-f86c-4262-a09b-77288e453da2",
+          "revisionId": "de83d9a7-25fb-40cf-9e3f-f1b40195404a",
+          "range": {
+            "startUs": 3000001,
+            "endUs": 8680001
+          },
+          "tap": {
+            "target": {
+              "kind": "output"
+            },
+            "point": {
+              "kind": "processed"
+            }
+          },
+          "rendition": {
+            "sampleRate": 16000,
+            "channels": 1
+          }
+        },
+        "transport": "cli",
+        "error": false
+      },
+      "response": {
+        "ok": true,
+        "data": {
+          "projectId": "09a76eff-f86c-4262-a09b-77288e453da2",
+          "revisionId": "de83d9a7-25fb-40cf-9e3f-f1b40195404a",
+          "range": {
+            "startUs": 3000001,
+            "endUs": 8680001
+          },
+          "tap": {
+            "target": {
+              "kind": "output"
+            },
+            "point": {
+              "kind": "processed"
+            }
+          },
+          "rendition": {
+            "sampleRate": 16000,
+            "channels": 1
+          },
+          "state": "queued",
+          "jobId": "24e864ca-4936-4cdb-aa0c-1680d1859a3e",
+          "reason": "d5449959-1aee-43bf-a423-09340bab5f95",
+          "retryable": false,
+          "published": null
+        },
+        "id": "4d1260e5-0a1c-402b-adec-070ab528a544"
+      }
+    },
+    {
+      "request": {
+        "operation": "transcript.render.prepare",
+        "params": {
+          "projectId": "09a76eff-f86c-4262-a09b-77288e453da2",
+          "revisionId": "de83d9a7-25fb-40cf-9e3f-f1b40195404a",
+          "range": {
+            "startUs": 3000001,
+            "endUs": 8680001
+          },
+          "tap": {
+            "target": {
+              "kind": "output"
+            },
+            "point": {
+              "kind": "processed"
+            }
+          },
+          "rendition": {
+            "sampleRate": 16000,
+            "channels": 1
+          }
+        },
+        "transport": "cli",
+        "error": false
+      },
+      "response": {
+        "ok": true,
+        "data": {
+          "projectId": "09a76eff-f86c-4262-a09b-77288e453da2",
+          "revisionId": "de83d9a7-25fb-40cf-9e3f-f1b40195404a",
+          "range": {
+            "startUs": 3000001,
+            "endUs": 8680001
+          },
+          "tap": {
+            "target": {
+              "kind": "output"
+            },
+            "point": {
+              "kind": "processed"
+            }
+          },
+          "rendition": {
+            "sampleRate": 16000,
+            "channels": 1
+          },
+          "state": "queued",
+          "jobId": "24e864ca-4936-4cdb-aa0c-1680d1859a3e",
+          "reason": "d5449959-1aee-43bf-a423-09340bab5f95",
+          "retryable": false,
+          "published": null
+        },
+        "id": "06715ff2-554f-48a5-b7d4-2fc473aa7f7e"
+      }
+    },
+    {
+      "request": {
+        "operation": "transcript.render.prepare",
+        "params": {
+          "projectId": "09a76eff-f86c-4262-a09b-77288e453da2",
+          "revisionId": "de83d9a7-25fb-40cf-9e3f-f1b40195404a",
+          "range": {
+            "startUs": 3000001,
+            "endUs": 8680001
+          },
+          "tap": {
+            "target": {
+              "kind": "output"
+            },
+            "point": {
+              "kind": "processed"
+            }
+          },
+          "rendition": {
+            "sampleRate": 16000,
+            "channels": 1
+          }
+        },
+        "transport": "cli",
+        "error": false
+      },
+      "response": {
+        "ok": true,
+        "data": {
+          "projectId": "09a76eff-f86c-4262-a09b-77288e453da2",
+          "revisionId": "de83d9a7-25fb-40cf-9e3f-f1b40195404a",
+          "range": {
+            "startUs": 3000001,
+            "endUs": 8680001
+          },
+          "tap": {
+            "target": {
+              "kind": "output"
+            },
+            "point": {
+              "kind": "processed"
+            }
+          },
+          "rendition": {
+            "sampleRate": 16000,
+            "channels": 1
+          },
+          "state": "processing",
+          "jobId": "24e864ca-4936-4cdb-aa0c-1680d1859a3e",
+          "reason": null,
+          "retryable": false,
+          "published": null
+        },
+        "id": "b9a7a33e-5b58-4176-ab09-2251db92740f"
+      }
+    },
+    {
+      "request": {
+        "operation": "transcript.render.prepare",
+        "params": {
+          "projectId": "09a76eff-f86c-4262-a09b-77288e453da2",
+          "revisionId": "de83d9a7-25fb-40cf-9e3f-f1b40195404a",
+          "range": {
+            "startUs": 3000001,
+            "endUs": 8680001
+          },
+          "tap": {
+            "target": {
+              "kind": "output"
+            },
+            "point": {
+              "kind": "processed"
+            }
+          },
+          "rendition": {
+            "sampleRate": 16000,
+            "channels": 1
+          }
+        },
+        "transport": "cli",
+        "error": false
+      },
+      "response": {
+        "ok": true,
+        "data": {
+          "projectId": "09a76eff-f86c-4262-a09b-77288e453da2",
+          "revisionId": "de83d9a7-25fb-40cf-9e3f-f1b40195404a",
+          "range": {
+            "startUs": 3000001,
+            "endUs": 8680001
+          },
+          "tap": {
+            "target": {
+              "kind": "output"
+            },
+            "point": {
+              "kind": "processed"
+            }
+          },
+          "rendition": {
+            "sampleRate": 16000,
+            "channels": 1
+          },
+          "state": "processing",
+          "jobId": "24e864ca-4936-4cdb-aa0c-1680d1859a3e",
+          "reason": null,
+          "retryable": false,
+          "published": null
+        },
+        "id": "4adee047-b603-47a1-ab13-7db7dc8d20db"
+      }
+    },
+    {
+      "request": {
+        "operation": "transcript.render.prepare",
+        "params": {
+          "projectId": "09a76eff-f86c-4262-a09b-77288e453da2",
+          "revisionId": "de83d9a7-25fb-40cf-9e3f-f1b40195404a",
+          "range": {
+            "startUs": 3000001,
+            "endUs": 8680001
+          },
+          "tap": {
+            "target": {
+              "kind": "output"
+            },
+            "point": {
+              "kind": "processed"
+            }
+          },
+          "rendition": {
+            "sampleRate": 16000,
+            "channels": 1
+          }
+        },
+        "transport": "cli",
+        "error": false
+      },
+      "response": {
+        "ok": true,
+        "data": {
+          "projectId": "09a76eff-f86c-4262-a09b-77288e453da2",
+          "revisionId": "de83d9a7-25fb-40cf-9e3f-f1b40195404a",
+          "range": {
+            "startUs": 3000001,
+            "endUs": 8680001
+          },
+          "tap": {
+            "target": {
+              "kind": "output"
+            },
+            "point": {
+              "kind": "processed"
+            }
+          },
+          "rendition": {
+            "sampleRate": 16000,
+            "channels": 1
+          },
+          "state": "ready",
+          "jobId": "24e864ca-4936-4cdb-aa0c-1680d1859a3e",
+          "reason": null,
+          "retryable": false,
+          "published": {
+            "generation": 1,
+            "output": {
+              "kind": "rendered-speech",
+              "generation": "299be457-1954-4015-834f-38ff3459fe7d",
+              "selection": {
+                "projectId": "09a76eff-f86c-4262-a09b-77288e453da2",
+                "revisionId": "de83d9a7-25fb-40cf-9e3f-f1b40195404a",
+                "range": {
+                  "startUs": 3000001,
+                  "endUs": 8680001
+                },
+                "tap": {
+                  "target": {
+                    "kind": "output"
+                  },
+                  "point": {
+                    "kind": "processed"
+                  }
+                },
+                "rendition": {
+                  "sampleRate": 16000,
+                  "channels": 1
+                }
+              },
+              "pcm": {
+                "assetId": "9f8709dd8866846459daed358fdce8f1c4df7bb06fde3c30f2c4277b2ef6c163",
+                "streamId": "track:1",
+                "sampleRate": 16000,
+                "channels": 1,
+                "frames": 90880,
+                "durationUs": 5680000,
+                "origin": {
+                  "kind": "extraction",
+                  "selection": {
+                    "kind": "project",
+                    "projectId": "09a76eff-f86c-4262-a09b-77288e453da2",
+                    "revisionId": "de83d9a7-25fb-40cf-9e3f-f1b40195404a",
+                    "range": {
+                      "startUs": 3000001,
+                      "endUs": 8680001
+                    },
+                    "sampleRange": {
+                      "start": 144000,
+                      "end": 416640
+                    },
+                    "tap": {
+                      "target": {
+                        "kind": "output"
+                      },
+                      "point": {
+                        "kind": "processed"
+                      }
+                    },
+                    "processingSha256": "4c67420f93b7db6b1d9d09f76f0ef1e451dba886061dd32fb5dd8fdf6f165fe3",
+                    "unavailable": [
+                      {
+                        "clipId": "clip:a5bf24f0dacf9ed7d65a98166c84b5dde1f9808ae5ca1a9bf541bbce8ba0bcf5:1",
+                        "ranges": []
+                      },
+                      {
+                        "clipId": "clip:6c6684191ea642bb20e0eef15f1b25baecfbce28b511748d5fc3672c6952e55a:1",
+                        "ranges": []
+                      }
+                    ]
+                  },
+                  "selectionImplementationId": "native-composition-audio-v10",
+                  "input": {
+                    "sampleRate": 48000,
+                    "channels": 2,
+                    "frames": 272640
+                  },
+                  "output": {
+                    "sampleRate": 16000,
+                    "channels": 1,
+                    "frames": 90880
+                  },
+                  "conversion": {
+                    "implementationId": "native-finite-pcm-v1",
+                    "channelPolicy": "equal-weight-double-rounded-float32",
+                    "contextPolicy": "complete-selected-pcm-zero-origin"
+                  }
+                }
+              },
+              "transcript": {
+                "owner": {
+                  "kind": "asset",
+                  "assetId": "9f8709dd8866846459daed358fdce8f1c4df7bb06fde3c30f2c4277b2ef6c163"
+                },
+                "sourceId": "9f8709dd8866846459daed358fdce8f1c4df7bb06fde3c30f2c4277b2ef6c163",
+                "generation": "299be457-1954-4015-834f-38ff3459fe7d",
+                "source": {
+                  "kind": "asset",
+                  "streamId": "track:1",
+                  "supportDigest": "e967a2f8326736a689b104b17961d25c6a10ec976d80c592cf5385c2f7fd2627",
+                  "durationUs": 5680000
+                },
+                "engine": {
+                  "runtime": "FluidAudio",
+                  "runtimeVersion": "0.15.7",
+                  "runtimeRevision": "41540ea237350afe5117a082b5c28eda642d0612",
+                  "decoder": "parakeet-tdt-batch",
+                  "model": "FluidInference/parakeet-tdt-0.6b-v2-coreml",
+                  "modelRevision": "ee09c569f73759e6d44c9bd16766f477b2b36d39",
+                  "modelDigest": "4fe3f59cc82bab4ee7d06349b9a37c92d4b5758553b2cbb87a54ecc2dee6824a",
+                  "encoderPrecision": "int8",
+                  "computeUnits": "cpuAndNeuralEngine",
+                  "policy": "transcript-v3",
+                  "kindPolicy": "word-kind-v1"
+                },
+                "execution": {
+                  "executionRange": null,
+                  "context": {
+                    "beforeUs": 0,
+                    "afterUs": 0
+                  },
+                  "recipe": "source-windows-20s-context4s-guard1s-v2"
+                },
+                "available": [
+                  {
+                    "startUs": 0,
+                    "endUs": 5680000
+                  }
+                ],
+                "track": {
+                  "source": "/private/tmp/yap-rendered-speech-public-v15EtD/library/assets/9f8709dd8866846459daed358fdce8f1c4df7bb06fde3c30f2c4277b2ef6c163.wav",
+                  "streamId": "track:1",
+                  "sourceOffsetUs": 0
+                },
+                "segmentCount": 1,
+                "wordCount": 8,
+                "gapCount": 0,
+                "maxWordUs": 1200000,
+                "raw": {
+                  "bytes": 5443,
+                  "sha256": "bbcbc1a9eb17bbc07ceb031a9e4e79c85f9bc6d512e4b222fc2686fbdf523d52"
+                }
+              }
+            }
+          }
+        },
+        "id": "480db9e1-5629-492e-bc4a-34af47186133"
+      }
+    },
+    {
+      "request": {
+        "operation": "transcript.render.get",
+        "params": {
+          "projectId": "09a76eff-f86c-4262-a09b-77288e453da2",
+          "revisionId": "de83d9a7-25fb-40cf-9e3f-f1b40195404a",
+          "generation": "299be457-1954-4015-834f-38ff3459fe7d",
+          "limit": 3
+        },
+        "transport": "cli",
+        "error": false
+      },
+      "response": {
+        "ok": true,
+        "data": {
+          "projectId": "09a76eff-f86c-4262-a09b-77288e453da2",
+          "revisionId": "de83d9a7-25fb-40cf-9e3f-f1b40195404a",
+          "generation": "299be457-1954-4015-834f-38ff3459fe7d",
+          "kind": "rendered-speech",
+          "state": "ready",
+          "pcm": {
+            "assetId": "9f8709dd8866846459daed358fdce8f1c4df7bb06fde3c30f2c4277b2ef6c163",
+            "streamId": "track:1",
+            "sampleRate": 16000,
+            "channels": 1,
+            "frames": 90880,
+            "durationUs": 5680000,
+            "origin": {
+              "kind": "extraction",
+              "selection": {
+                "kind": "project",
+                "projectId": "09a76eff-f86c-4262-a09b-77288e453da2",
+                "revisionId": "de83d9a7-25fb-40cf-9e3f-f1b40195404a",
+                "range": {
+                  "startUs": 3000001,
+                  "endUs": 8680001
+                },
+                "sampleRange": {
+                  "start": 144000,
+                  "end": 416640
+                },
+                "tap": {
+                  "target": {
+                    "kind": "output"
+                  },
+                  "point": {
+                    "kind": "processed"
+                  }
+                },
+                "processingSha256": "4c67420f93b7db6b1d9d09f76f0ef1e451dba886061dd32fb5dd8fdf6f165fe3",
+                "unavailable": [
+                  {
+                    "clipId": "clip:a5bf24f0dacf9ed7d65a98166c84b5dde1f9808ae5ca1a9bf541bbce8ba0bcf5:1",
+                    "ranges": []
+                  },
+                  {
+                    "clipId": "clip:6c6684191ea642bb20e0eef15f1b25baecfbce28b511748d5fc3672c6952e55a:1",
+                    "ranges": []
+                  }
+                ]
+              },
+              "selectionImplementationId": "native-composition-audio-v10",
+              "input": {
+                "sampleRate": 48000,
+                "channels": 2,
+                "frames": 272640
+              },
+              "output": {
+                "sampleRate": 16000,
+                "channels": 1,
+                "frames": 90880
+              },
+              "conversion": {
+                "implementationId": "native-finite-pcm-v1",
+                "channelPolicy": "equal-weight-double-rounded-float32",
+                "contextPolicy": "complete-selected-pcm-zero-origin"
+              }
+            }
+          },
+          "transcriptGeneration": "299be457-1954-4015-834f-38ff3459fe7d",
+          "page": {
+            "rows": [
+              {
+                "type": "word",
+                "id": "w0",
+                "ordinal": 0,
+                "text": "Arguably,",
+                "kind": "speech",
+                "confidence": 0.9641927,
+                "segment": 0,
+                "sourceRange": {
+                  "startUs": 240000,
+                  "endUs": 880000
+                },
+                "partial": false,
+                "projectRange": {
+                  "startUs": 3240000,
+                  "endUs": 3880000
+                }
+              },
+              {
+                "type": "word",
+                "id": "w1",
+                "ordinal": 1,
+                "text": "OpenClaw",
+                "kind": "speech",
+                "confidence": 0.9108538,
+                "segment": 0,
+                "sourceRange": {
+                  "startUs": 960000,
+                  "endUs": 2160000
+                },
+                "partial": false,
+                "projectRange": {
+                  "startUs": 3960000,
+                  "endUs": 5160000
+                }
+              },
+              {
+                "type": "word",
+                "id": "w2",
+                "ordinal": 2,
+                "text": "is",
+                "kind": "speech",
+                "confidence": 1,
+                "segment": 0,
+                "sourceRange": {
+                  "startUs": 2480000,
+                  "endUs": 2800000
+                },
+                "partial": false,
+                "projectRange": {
+                  "startUs": 5480000,
+                  "endUs": 5800000
+                }
+              }
+            ],
+            "nextCursor": {
+              "generation": "299be457-1954-4015-834f-38ff3459fe7d",
+              "sourceCursor": {
+                "assetId": "9f8709dd8866846459daed358fdce8f1c4df7bb06fde3c30f2c4277b2ef6c163",
+                "streamId": "track:1",
+                "acquisitionId": null,
+                "generation": "299be457-1954-4015-834f-38ff3459fe7d",
+                "supportDigest": "e967a2f8326736a689b104b17961d25c6a10ec976d80c592cf5385c2f7fd2627",
+                "range": null,
+                "afterSourceUs": 2480000,
+                "afterOrdinal": 2
+              }
+            }
+          }
+        },
+        "id": "decfb25b-5c2a-49f1-a573-538931e160c1"
+      }
+    },
+    {
+      "request": {
+        "operation": "transcript.render.get",
+        "params": {
+          "projectId": "09a76eff-f86c-4262-a09b-77288e453da2",
+          "revisionId": "de83d9a7-25fb-40cf-9e3f-f1b40195404a",
+          "generation": "299be457-1954-4015-834f-38ff3459fe7d",
+          "limit": 3,
+          "cursor": {
+            "generation": "299be457-1954-4015-834f-38ff3459fe7d",
+            "sourceCursor": {
+              "assetId": "9f8709dd8866846459daed358fdce8f1c4df7bb06fde3c30f2c4277b2ef6c163",
+              "streamId": "track:1",
+              "acquisitionId": null,
+              "generation": "299be457-1954-4015-834f-38ff3459fe7d",
+              "supportDigest": "e967a2f8326736a689b104b17961d25c6a10ec976d80c592cf5385c2f7fd2627",
+              "range": null,
+              "afterSourceUs": 2480000,
+              "afterOrdinal": 2
+            }
+          }
+        },
+        "transport": "cli",
+        "error": false
+      },
+      "response": {
+        "ok": true,
+        "data": {
+          "projectId": "09a76eff-f86c-4262-a09b-77288e453da2",
+          "revisionId": "de83d9a7-25fb-40cf-9e3f-f1b40195404a",
+          "generation": "299be457-1954-4015-834f-38ff3459fe7d",
+          "kind": "rendered-speech",
+          "state": "ready",
+          "pcm": {
+            "assetId": "9f8709dd8866846459daed358fdce8f1c4df7bb06fde3c30f2c4277b2ef6c163",
+            "streamId": "track:1",
+            "sampleRate": 16000,
+            "channels": 1,
+            "frames": 90880,
+            "durationUs": 5680000,
+            "origin": {
+              "kind": "extraction",
+              "selection": {
+                "kind": "project",
+                "projectId": "09a76eff-f86c-4262-a09b-77288e453da2",
+                "revisionId": "de83d9a7-25fb-40cf-9e3f-f1b40195404a",
+                "range": {
+                  "startUs": 3000001,
+                  "endUs": 8680001
+                },
+                "sampleRange": {
+                  "start": 144000,
+                  "end": 416640
+                },
+                "tap": {
+                  "target": {
+                    "kind": "output"
+                  },
+                  "point": {
+                    "kind": "processed"
+                  }
+                },
+                "processingSha256": "4c67420f93b7db6b1d9d09f76f0ef1e451dba886061dd32fb5dd8fdf6f165fe3",
+                "unavailable": [
+                  {
+                    "clipId": "clip:a5bf24f0dacf9ed7d65a98166c84b5dde1f9808ae5ca1a9bf541bbce8ba0bcf5:1",
+                    "ranges": []
+                  },
+                  {
+                    "clipId": "clip:6c6684191ea642bb20e0eef15f1b25baecfbce28b511748d5fc3672c6952e55a:1",
+                    "ranges": []
+                  }
+                ]
+              },
+              "selectionImplementationId": "native-composition-audio-v10",
+              "input": {
+                "sampleRate": 48000,
+                "channels": 2,
+                "frames": 272640
+              },
+              "output": {
+                "sampleRate": 16000,
+                "channels": 1,
+                "frames": 90880
+              },
+              "conversion": {
+                "implementationId": "native-finite-pcm-v1",
+                "channelPolicy": "equal-weight-double-rounded-float32",
+                "contextPolicy": "complete-selected-pcm-zero-origin"
+              }
+            }
+          },
+          "transcriptGeneration": "299be457-1954-4015-834f-38ff3459fe7d",
+          "page": {
+            "rows": [
+              {
+                "type": "word",
+                "id": "w3",
+                "ordinal": 3,
+                "text": "already",
+                "kind": "speech",
+                "confidence": 1,
+                "segment": 0,
+                "sourceRange": {
+                  "startUs": 3280000,
+                  "endUs": 3840000
+                },
+                "partial": false,
+                "projectRange": {
+                  "startUs": 6280000,
+                  "endUs": 6840000
+                }
+              },
+              {
+                "type": "word",
+                "id": "w4",
+                "ordinal": 4,
+                "text": "on",
+                "kind": "speech",
+                "confidence": 1,
+                "segment": 0,
+                "sourceRange": {
+                  "startUs": 3840000,
+                  "endUs": 4000000
+                },
+                "partial": false,
+                "projectRange": {
+                  "startUs": 6840000,
+                  "endUs": 7000000
+                }
+              },
+              {
+                "type": "word",
+                "id": "w5",
+                "ordinal": 5,
+                "text": "a",
+                "kind": "speech",
+                "confidence": 0.9995117,
+                "segment": 0,
+                "sourceRange": {
+                  "startUs": 4000000,
+                  "endUs": 4080000
+                },
+                "partial": false,
+                "projectRange": {
+                  "startUs": 7000000,
+                  "endUs": 7080000
+                }
+              }
+            ],
+            "nextCursor": {
+              "generation": "299be457-1954-4015-834f-38ff3459fe7d",
+              "sourceCursor": {
+                "assetId": "9f8709dd8866846459daed358fdce8f1c4df7bb06fde3c30f2c4277b2ef6c163",
+                "streamId": "track:1",
+                "acquisitionId": null,
+                "generation": "299be457-1954-4015-834f-38ff3459fe7d",
+                "supportDigest": "e967a2f8326736a689b104b17961d25c6a10ec976d80c592cf5385c2f7fd2627",
+                "range": null,
+                "afterSourceUs": 4000000,
+                "afterOrdinal": 5
+              }
+            }
+          }
+        },
+        "id": "eb514db4-0911-4048-be33-74996ae47192"
+      }
+    },
+    {
+      "request": {
+        "operation": "transcript.render.get",
+        "params": {
+          "projectId": "09a76eff-f86c-4262-a09b-77288e453da2",
+          "revisionId": "de83d9a7-25fb-40cf-9e3f-f1b40195404a",
+          "generation": "299be457-1954-4015-834f-38ff3459fe7d",
+          "limit": 3,
+          "cursor": {
+            "generation": "299be457-1954-4015-834f-38ff3459fe7d",
+            "sourceCursor": {
+              "assetId": "9f8709dd8866846459daed358fdce8f1c4df7bb06fde3c30f2c4277b2ef6c163",
+              "streamId": "track:1",
+              "acquisitionId": null,
+              "generation": "299be457-1954-4015-834f-38ff3459fe7d",
+              "supportDigest": "e967a2f8326736a689b104b17961d25c6a10ec976d80c592cf5385c2f7fd2627",
+              "range": null,
+              "afterSourceUs": 4000000,
+              "afterOrdinal": 5
+            }
+          }
+        },
+        "transport": "cli",
+        "error": false
+      },
+      "response": {
+        "ok": true,
+        "data": {
+          "projectId": "09a76eff-f86c-4262-a09b-77288e453da2",
+          "revisionId": "de83d9a7-25fb-40cf-9e3f-f1b40195404a",
+          "generation": "299be457-1954-4015-834f-38ff3459fe7d",
+          "kind": "rendered-speech",
+          "state": "ready",
+          "pcm": {
+            "assetId": "9f8709dd8866846459daed358fdce8f1c4df7bb06fde3c30f2c4277b2ef6c163",
+            "streamId": "track:1",
+            "sampleRate": 16000,
+            "channels": 1,
+            "frames": 90880,
+            "durationUs": 5680000,
+            "origin": {
+              "kind": "extraction",
+              "selection": {
+                "kind": "project",
+                "projectId": "09a76eff-f86c-4262-a09b-77288e453da2",
+                "revisionId": "de83d9a7-25fb-40cf-9e3f-f1b40195404a",
+                "range": {
+                  "startUs": 3000001,
+                  "endUs": 8680001
+                },
+                "sampleRange": {
+                  "start": 144000,
+                  "end": 416640
+                },
+                "tap": {
+                  "target": {
+                    "kind": "output"
+                  },
+                  "point": {
+                    "kind": "processed"
+                  }
+                },
+                "processingSha256": "4c67420f93b7db6b1d9d09f76f0ef1e451dba886061dd32fb5dd8fdf6f165fe3",
+                "unavailable": [
+                  {
+                    "clipId": "clip:a5bf24f0dacf9ed7d65a98166c84b5dde1f9808ae5ca1a9bf541bbce8ba0bcf5:1",
+                    "ranges": []
+                  },
+                  {
+                    "clipId": "clip:6c6684191ea642bb20e0eef15f1b25baecfbce28b511748d5fc3672c6952e55a:1",
+                    "ranges": []
+                  }
+                ]
+              },
+              "selectionImplementationId": "native-composition-audio-v10",
+              "input": {
+                "sampleRate": 48000,
+                "channels": 2,
+                "frames": 272640
+              },
+              "output": {
+                "sampleRate": 16000,
+                "channels": 1,
+                "frames": 90880
+              },
+              "conversion": {
+                "implementationId": "native-finite-pcm-v1",
+                "channelPolicy": "equal-weight-double-rounded-float32",
+                "contextPolicy": "complete-selected-pcm-zero-origin"
+              }
+            }
+          },
+          "transcriptGeneration": "299be457-1954-4015-834f-38ff3459fe7d",
+          "page": {
+            "rows": [
+              {
+                "type": "word",
+                "id": "w6",
+                "ordinal": 6,
+                "text": "downward",
+                "kind": "speech",
+                "confidence": 1,
+                "segment": 0,
+                "sourceRange": {
+                  "startUs": 4080000,
+                  "endUs": 4560000
+                },
+                "partial": false,
+                "projectRange": {
+                  "startUs": 7080000,
+                  "endUs": 7560000
+                }
+              },
+              {
+                "type": "word",
+                "id": "w7",
+                "ordinal": 7,
+                "text": "trend.",
+                "kind": "speech",
+                "confidence": 0.9055176,
+                "segment": 0,
+                "sourceRange": {
+                  "startUs": 4560000,
+                  "endUs": 5040000
+                },
+                "partial": false,
+                "projectRange": {
+                  "startUs": 7560000,
+                  "endUs": 8040000
+                }
+              }
+            ],
+            "nextCursor": null
+          }
+        },
+        "id": "db762c0b-f0d8-4e13-8647-cd424b41d29f"
+      }
+    },
+    {
+      "request": {
+        "operation": "transcript.render.get",
+        "params": {
+          "projectId": "09a76eff-f86c-4262-a09b-77288e453da2",
+          "revisionId": "de83d9a7-25fb-40cf-9e3f-f1b40195404a",
+          "generation": "299be457-1954-4015-834f-38ff3459fe7d"
+        },
+        "transport": "mcp",
+        "error": false
+      },
+      "response": {
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"ok\":true,\"data\":{\"projectId\":\"09a76eff-f86c-4262-a09b-77288e453da2\",\"revisionId\":\"de83d9a7-25fb-40cf-9e3f-f1b40195404a\",\"generation\":\"299be457-1954-4015-834f-38ff3459fe7d\",\"kind\":\"rendered-speech\",\"state\":\"ready\",\"pcm\":{\"assetId\":\"9f8709dd8866846459daed358fdce8f1c4df7bb06fde3c30f2c4277b2ef6c163\",\"streamId\":\"track:1\",\"sampleRate\":16000,\"channels\":1,\"frames\":90880,\"durationUs\":5680000,\"origin\":{\"kind\":\"extraction\",\"selection\":{\"kind\":\"project\",\"projectId\":\"09a76eff-f86c-4262-a09b-77288e453da2\",\"revisionId\":\"de83d9a7-25fb-40cf-9e3f-f1b40195404a\",\"range\":{\"startUs\":3000001,\"endUs\":8680001},\"sampleRange\":{\"start\":144000,\"end\":416640},\"tap\":{\"target\":{\"kind\":\"output\"},\"point\":{\"kind\":\"processed\"}},\"processingSha256\":\"4c67420f93b7db6b1d9d09f76f0ef1e451dba886061dd32fb5dd8fdf6f165fe3\",\"unavailable\":[{\"clipId\":\"clip:a5bf24f0dacf9ed7d65a98166c84b5dde1f9808ae5ca1a9bf541bbce8ba0bcf5:1\",\"ranges\":[]},{\"clipId\":\"clip:6c6684191ea642bb20e0eef15f1b25baecfbce28b511748d5fc3672c6952e55a:1\",\"ranges\":[]}]},\"selectionImplementationId\":\"native-composition-audio-v10\",\"input\":{\"sampleRate\":48000,\"channels\":2,\"frames\":272640},\"output\":{\"sampleRate\":16000,\"channels\":1,\"frames\":90880},\"conversion\":{\"implementationId\":\"native-finite-pcm-v1\",\"channelPolicy\":\"equal-weight-double-rounded-float32\",\"contextPolicy\":\"complete-selected-pcm-zero-origin\"}}},\"transcriptGeneration\":\"299be457-1954-4015-834f-38ff3459fe7d\",\"page\":{\"rows\":[{\"type\":\"word\",\"id\":\"w0\",\"ordinal\":0,\"text\":\"Arguably,\",\"kind\":\"speech\",\"confidence\":0.9641927,\"segment\":0,\"sourceRange\":{\"startUs\":240000,\"endUs\":880000},\"partial\":false,\"projectRange\":{\"startUs\":3240000,\"endUs\":3880000}},{\"type\":\"word\",\"id\":\"w1\",\"ordinal\":1,\"text\":\"OpenClaw\",\"kind\":\"speech\",\"confidence\":0.9108538,\"segment\":0,\"sourceRange\":{\"startUs\":960000,\"endUs\":2160000},\"partial\":false,\"projectRange\":{\"startUs\":3960000,\"endUs\":5160000}},{\"type\":\"word\",\"id\":\"w2\",\"ordinal\":2,\"text\":\"is\",\"kind\":\"speech\",\"confidence\":1,\"segment\":0,\"sourceRange\":{\"startUs\":2480000,\"endUs\":2800000},\"partial\":false,\"projectRange\":{\"startUs\":5480000,\"endUs\":5800000}},{\"type\":\"word\",\"id\":\"w3\",\"ordinal\":3,\"text\":\"already\",\"kind\":\"speech\",\"confidence\":1,\"segment\":0,\"sourceRange\":{\"startUs\":3280000,\"endUs\":3840000},\"partial\":false,\"projectRange\":{\"startUs\":6280000,\"endUs\":6840000}},{\"type\":\"word\",\"id\":\"w4\",\"ordinal\":4,\"text\":\"on\",\"kind\":\"speech\",\"confidence\":1,\"segment\":0,\"sourceRange\":{\"startUs\":3840000,\"endUs\":4000000},\"partial\":false,\"projectRange\":{\"startUs\":6840000,\"endUs\":7000000}},{\"type\":\"word\",\"id\":\"w5\",\"ordinal\":5,\"text\":\"a\",\"kind\":\"speech\",\"confidence\":0.9995117,\"segment\":0,\"sourceRange\":{\"startUs\":4000000,\"endUs\":4080000},\"partial\":false,\"projectRange\":{\"startUs\":7000000,\"endUs\":7080000}},{\"type\":\"word\",\"id\":\"w6\",\"ordinal\":6,\"text\":\"downward\",\"kind\":\"speech\",\"confidence\":1,\"segment\":0,\"sourceRange\":{\"startUs\":4080000,\"endUs\":4560000},\"partial\":false,\"projectRange\":{\"startUs\":7080000,\"endUs\":7560000}},{\"type\":\"word\",\"id\":\"w7\",\"ordinal\":7,\"text\":\"trend.\",\"kind\":\"speech\",\"confidence\":0.9055176,\"segment\":0,\"sourceRange\":{\"startUs\":4560000,\"endUs\":5040000},\"partial\":false,\"projectRange\":{\"startUs\":7560000,\"endUs\":8040000}}],\"nextCursor\":null}},\"id\":\"613b922a-b951-433c-a0af-fb9b73b924f2\"}"
+          }
+        ],
+        "structuredContent": {
+          "ok": true,
+          "data": {
+            "projectId": "09a76eff-f86c-4262-a09b-77288e453da2",
+            "revisionId": "de83d9a7-25fb-40cf-9e3f-f1b40195404a",
+            "generation": "299be457-1954-4015-834f-38ff3459fe7d",
+            "kind": "rendered-speech",
+            "state": "ready",
+            "pcm": {
+              "assetId": "9f8709dd8866846459daed358fdce8f1c4df7bb06fde3c30f2c4277b2ef6c163",
+              "streamId": "track:1",
+              "sampleRate": 16000,
+              "channels": 1,
+              "frames": 90880,
+              "durationUs": 5680000,
+              "origin": {
+                "kind": "extraction",
+                "selection": {
+                  "kind": "project",
+                  "projectId": "09a76eff-f86c-4262-a09b-77288e453da2",
+                  "revisionId": "de83d9a7-25fb-40cf-9e3f-f1b40195404a",
+                  "range": {
+                    "startUs": 3000001,
+                    "endUs": 8680001
+                  },
+                  "sampleRange": {
+                    "start": 144000,
+                    "end": 416640
+                  },
+                  "tap": {
+                    "target": {
+                      "kind": "output"
+                    },
+                    "point": {
+                      "kind": "processed"
+                    }
+                  },
+                  "processingSha256": "4c67420f93b7db6b1d9d09f76f0ef1e451dba886061dd32fb5dd8fdf6f165fe3",
+                  "unavailable": [
+                    {
+                      "clipId": "clip:a5bf24f0dacf9ed7d65a98166c84b5dde1f9808ae5ca1a9bf541bbce8ba0bcf5:1",
+                      "ranges": []
+                    },
+                    {
+                      "clipId": "clip:6c6684191ea642bb20e0eef15f1b25baecfbce28b511748d5fc3672c6952e55a:1",
+                      "ranges": []
+                    }
+                  ]
+                },
+                "selectionImplementationId": "native-composition-audio-v10",
+                "input": {
+                  "sampleRate": 48000,
+                  "channels": 2,
+                  "frames": 272640
+                },
+                "output": {
+                  "sampleRate": 16000,
+                  "channels": 1,
+                  "frames": 90880
+                },
+                "conversion": {
+                  "implementationId": "native-finite-pcm-v1",
+                  "channelPolicy": "equal-weight-double-rounded-float32",
+                  "contextPolicy": "complete-selected-pcm-zero-origin"
+                }
+              }
+            },
+            "transcriptGeneration": "299be457-1954-4015-834f-38ff3459fe7d",
+            "page": {
+              "rows": [
+                {
+                  "type": "word",
+                  "id": "w0",
+                  "ordinal": 0,
+                  "text": "Arguably,",
+                  "kind": "speech",
+                  "confidence": 0.9641927,
+                  "segment": 0,
+                  "sourceRange": {
+                    "startUs": 240000,
+                    "endUs": 880000
+                  },
+                  "partial": false,
+                  "projectRange": {
+                    "startUs": 3240000,
+                    "endUs": 3880000
+                  }
+                },
+                {
+                  "type": "word",
+                  "id": "w1",
+                  "ordinal": 1,
+                  "text": "OpenClaw",
+                  "kind": "speech",
+                  "confidence": 0.9108538,
+                  "segment": 0,
+                  "sourceRange": {
+                    "startUs": 960000,
+                    "endUs": 2160000
+                  },
+                  "partial": false,
+                  "projectRange": {
+                    "startUs": 3960000,
+                    "endUs": 5160000
+                  }
+                },
+                {
+                  "type": "word",
+                  "id": "w2",
+                  "ordinal": 2,
+                  "text": "is",
+                  "kind": "speech",
+                  "confidence": 1,
+                  "segment": 0,
+                  "sourceRange": {
+                    "startUs": 2480000,
+                    "endUs": 2800000
+                  },
+                  "partial": false,
+                  "projectRange": {
+                    "startUs": 5480000,
+                    "endUs": 5800000
+                  }
+                },
+                {
+                  "type": "word",
+                  "id": "w3",
+                  "ordinal": 3,
+                  "text": "already",
+                  "kind": "speech",
+                  "confidence": 1,
+                  "segment": 0,
+                  "sourceRange": {
+                    "startUs": 3280000,
+                    "endUs": 3840000
+                  },
+                  "partial": false,
+                  "projectRange": {
+                    "startUs": 6280000,
+                    "endUs": 6840000
+                  }
+                },
+                {
+                  "type": "word",
+                  "id": "w4",
+                  "ordinal": 4,
+                  "text": "on",
+                  "kind": "speech",
+                  "confidence": 1,
+                  "segment": 0,
+                  "sourceRange": {
+                    "startUs": 3840000,
+                    "endUs": 4000000
+                  },
+                  "partial": false,
+                  "projectRange": {
+                    "startUs": 6840000,
+                    "endUs": 7000000
+                  }
+                },
+                {
+                  "type": "word",
+                  "id": "w5",
+                  "ordinal": 5,
+                  "text": "a",
+                  "kind": "speech",
+                  "confidence": 0.9995117,
+                  "segment": 0,
+                  "sourceRange": {
+                    "startUs": 4000000,
+                    "endUs": 4080000
+                  },
+                  "partial": false,
+                  "projectRange": {
+                    "startUs": 7000000,
+                    "endUs": 7080000
+                  }
+                },
+                {
+                  "type": "word",
+                  "id": "w6",
+                  "ordinal": 6,
+                  "text": "downward",
+                  "kind": "speech",
+                  "confidence": 1,
+                  "segment": 0,
+                  "sourceRange": {
+                    "startUs": 4080000,
+                    "endUs": 4560000
+                  },
+                  "partial": false,
+                  "projectRange": {
+                    "startUs": 7080000,
+                    "endUs": 7560000
+                  }
+                },
+                {
+                  "type": "word",
+                  "id": "w7",
+                  "ordinal": 7,
+                  "text": "trend.",
+                  "kind": "speech",
+                  "confidence": 0.9055176,
+                  "segment": 0,
+                  "sourceRange": {
+                    "startUs": 4560000,
+                    "endUs": 5040000
+                  },
+                  "partial": false,
+                  "projectRange": {
+                    "startUs": 7560000,
+                    "endUs": 8040000
+                  }
+                }
+              ],
+              "nextCursor": null
+            }
+          },
+          "id": "613b922a-b951-433c-a0af-fb9b73b924f2"
+        },
+        "isError": false
+      }
+    },
+    {
+      "request": {
+        "operation": "asset.get",
+        "params": {
+          "assetId": "9f8709dd8866846459daed358fdce8f1c4df7bb06fde3c30f2c4277b2ef6c163"
+        },
+        "transport": "cli",
+        "error": false
+      },
+      "response": {
+        "ok": true,
+        "data": {
+          "originUs": 0,
+          "streams": [
+            {
+              "id": "track:1",
+              "kind": "audio",
+              "codec": "lpcm",
+              "decodable": true,
+              "startUs": 0,
+              "endUs": 5680000,
+              "sampleRate": 16000,
+              "channels": 1,
+              "segmentCount": 1
+            }
+          ],
+          "id": "9f8709dd8866846459daed358fdce8f1c4df7bb06fde3c30f2c4277b2ef6c163",
+          "bytes": 367616,
+          "createdAt": "2026-10-06T12:31:13.713Z",
+          "fileName": "9f8709dd8866846459daed358fdce8f1c4df7bb06fde3c30f2c4277b2ef6c163.wav"
+        },
+        "id": "b44679bc-fb04-4826-9867-b195b315d8b2"
+      }
+    },
+    {
+      "request": {
+        "operation": "transcript.render.get",
+        "params": {
+          "projectId": "09a76eff-f86c-4262-a09b-77288e453da2",
+          "revisionId": "de83d9a7-25fb-40cf-9e3f-f1b40195404a",
+          "generation": "299be457-1954-4015-834f-38ff3459fe7d"
+        },
+        "transport": "cli",
+        "error": false
+      },
+      "response": {
+        "ok": true,
+        "data": {
+          "projectId": "09a76eff-f86c-4262-a09b-77288e453da2",
+          "revisionId": "de83d9a7-25fb-40cf-9e3f-f1b40195404a",
+          "generation": "299be457-1954-4015-834f-38ff3459fe7d",
+          "kind": "rendered-speech",
+          "state": "ready",
+          "pcm": {
+            "assetId": "9f8709dd8866846459daed358fdce8f1c4df7bb06fde3c30f2c4277b2ef6c163",
+            "streamId": "track:1",
+            "sampleRate": 16000,
+            "channels": 1,
+            "frames": 90880,
+            "durationUs": 5680000,
+            "origin": {
+              "kind": "extraction",
+              "selection": {
+                "kind": "project",
+                "projectId": "09a76eff-f86c-4262-a09b-77288e453da2",
+                "revisionId": "de83d9a7-25fb-40cf-9e3f-f1b40195404a",
+                "range": {
+                  "startUs": 3000001,
+                  "endUs": 8680001
+                },
+                "sampleRange": {
+                  "start": 144000,
+                  "end": 416640
+                },
+                "tap": {
+                  "target": {
+                    "kind": "output"
+                  },
+                  "point": {
+                    "kind": "processed"
+                  }
+                },
+                "processingSha256": "4c67420f93b7db6b1d9d09f76f0ef1e451dba886061dd32fb5dd8fdf6f165fe3",
+                "unavailable": [
+                  {
+                    "clipId": "clip:a5bf24f0dacf9ed7d65a98166c84b5dde1f9808ae5ca1a9bf541bbce8ba0bcf5:1",
+                    "ranges": []
+                  },
+                  {
+                    "clipId": "clip:6c6684191ea642bb20e0eef15f1b25baecfbce28b511748d5fc3672c6952e55a:1",
+                    "ranges": []
+                  }
+                ]
+              },
+              "selectionImplementationId": "native-composition-audio-v10",
+              "input": {
+                "sampleRate": 48000,
+                "channels": 2,
+                "frames": 272640
+              },
+              "output": {
+                "sampleRate": 16000,
+                "channels": 1,
+                "frames": 90880
+              },
+              "conversion": {
+                "implementationId": "native-finite-pcm-v1",
+                "channelPolicy": "equal-weight-double-rounded-float32",
+                "contextPolicy": "complete-selected-pcm-zero-origin"
+              }
+            }
+          },
+          "transcriptGeneration": "299be457-1954-4015-834f-38ff3459fe7d",
+          "page": {
+            "rows": [
+              {
+                "type": "word",
+                "id": "w0",
+                "ordinal": 0,
+                "text": "Arguably,",
+                "kind": "speech",
+                "confidence": 0.9641927,
+                "segment": 0,
+                "sourceRange": {
+                  "startUs": 240000,
+                  "endUs": 880000
+                },
+                "partial": false,
+                "projectRange": {
+                  "startUs": 3240000,
+                  "endUs": 3880000
+                }
+              },
+              {
+                "type": "word",
+                "id": "w1",
+                "ordinal": 1,
+                "text": "OpenClaw",
+                "kind": "speech",
+                "confidence": 0.9108538,
+                "segment": 0,
+                "sourceRange": {
+                  "startUs": 960000,
+                  "endUs": 2160000
+                },
+                "partial": false,
+                "projectRange": {
+                  "startUs": 3960000,
+                  "endUs": 5160000
+                }
+              },
+              {
+                "type": "word",
+                "id": "w2",
+                "ordinal": 2,
+                "text": "is",
+                "kind": "speech",
+                "confidence": 1,
+                "segment": 0,
+                "sourceRange": {
+                  "startUs": 2480000,
+                  "endUs": 2800000
+                },
+                "partial": false,
+                "projectRange": {
+                  "startUs": 5480000,
+                  "endUs": 5800000
+                }
+              },
+              {
+                "type": "word",
+                "id": "w3",
+                "ordinal": 3,
+                "text": "already",
+                "kind": "speech",
+                "confidence": 1,
+                "segment": 0,
+                "sourceRange": {
+                  "startUs": 3280000,
+                  "endUs": 3840000
+                },
+                "partial": false,
+                "projectRange": {
+                  "startUs": 6280000,
+                  "endUs": 6840000
+                }
+              },
+              {
+                "type": "word",
+                "id": "w4",
+                "ordinal": 4,
+                "text": "on",
+                "kind": "speech",
+                "confidence": 1,
+                "segment": 0,
+                "sourceRange": {
+                  "startUs": 3840000,
+                  "endUs": 4000000
+                },
+                "partial": false,
+                "projectRange": {
+                  "startUs": 6840000,
+                  "endUs": 7000000
+                }
+              },
+              {
+                "type": "word",
+                "id": "w5",
+                "ordinal": 5,
+                "text": "a",
+                "kind": "speech",
+                "confidence": 0.9995117,
+                "segment": 0,
+                "sourceRange": {
+                  "startUs": 4000000,
+                  "endUs": 4080000
+                },
+                "partial": false,
+                "projectRange": {
+                  "startUs": 7000000,
+                  "endUs": 7080000
+                }
+              },
+              {
+                "type": "word",
+                "id": "w6",
+                "ordinal": 6,
+                "text": "downward",
+                "kind": "speech",
+                "confidence": 1,
+                "segment": 0,
+                "sourceRange": {
+                  "startUs": 4080000,
+                  "endUs": 4560000
+                },
+                "partial": false,
+                "projectRange": {
+                  "startUs": 7080000,
+                  "endUs": 7560000
+                }
+              },
+              {
+                "type": "word",
+                "id": "w7",
+                "ordinal": 7,
+                "text": "trend.",
+                "kind": "speech",
+                "confidence": 0.9055176,
+                "segment": 0,
+                "sourceRange": {
+                  "startUs": 4560000,
+                  "endUs": 5040000
+                },
+                "partial": false,
+                "projectRange": {
+                  "startUs": 7560000,
+                  "endUs": 8040000
+                }
+              }
+            ],
+            "nextCursor": null
+          }
+        },
+        "id": "555b9840-1fe0-4f05-a49d-bb1679c6553c"
+      }
+    },
+    {
+      "request": {
+        "operation": "transcript.render.get",
+        "params": {
+          "projectId": "09a76eff-f86c-4262-a09b-77288e453da2",
+          "revisionId": "de83d9a7-25fb-40cf-9e3f-f1b40195404a",
+          "generation": "299be457-1954-4015-834f-38ff3459fe7d"
+        },
+        "transport": "cli",
+        "error": false
+      },
+      "response": {
+        "ok": true,
+        "data": {
+          "projectId": "09a76eff-f86c-4262-a09b-77288e453da2",
+          "revisionId": "de83d9a7-25fb-40cf-9e3f-f1b40195404a",
+          "generation": "299be457-1954-4015-834f-38ff3459fe7d",
+          "kind": "rendered-speech",
+          "state": "ready",
+          "pcm": {
+            "assetId": "9f8709dd8866846459daed358fdce8f1c4df7bb06fde3c30f2c4277b2ef6c163",
+            "streamId": "track:1",
+            "sampleRate": 16000,
+            "channels": 1,
+            "frames": 90880,
+            "durationUs": 5680000,
+            "origin": {
+              "kind": "extraction",
+              "selection": {
+                "kind": "project",
+                "projectId": "09a76eff-f86c-4262-a09b-77288e453da2",
+                "revisionId": "de83d9a7-25fb-40cf-9e3f-f1b40195404a",
+                "range": {
+                  "startUs": 3000001,
+                  "endUs": 8680001
+                },
+                "sampleRange": {
+                  "start": 144000,
+                  "end": 416640
+                },
+                "tap": {
+                  "target": {
+                    "kind": "output"
+                  },
+                  "point": {
+                    "kind": "processed"
+                  }
+                },
+                "processingSha256": "4c67420f93b7db6b1d9d09f76f0ef1e451dba886061dd32fb5dd8fdf6f165fe3",
+                "unavailable": [
+                  {
+                    "clipId": "clip:a5bf24f0dacf9ed7d65a98166c84b5dde1f9808ae5ca1a9bf541bbce8ba0bcf5:1",
+                    "ranges": []
+                  },
+                  {
+                    "clipId": "clip:6c6684191ea642bb20e0eef15f1b25baecfbce28b511748d5fc3672c6952e55a:1",
+                    "ranges": []
+                  }
+                ]
+              },
+              "selectionImplementationId": "native-composition-audio-v10",
+              "input": {
+                "sampleRate": 48000,
+                "channels": 2,
+                "frames": 272640
+              },
+              "output": {
+                "sampleRate": 16000,
+                "channels": 1,
+                "frames": 90880
+              },
+              "conversion": {
+                "implementationId": "native-finite-pcm-v1",
+                "channelPolicy": "equal-weight-double-rounded-float32",
+                "contextPolicy": "complete-selected-pcm-zero-origin"
+              }
+            }
+          },
+          "transcriptGeneration": "299be457-1954-4015-834f-38ff3459fe7d",
+          "page": {
+            "rows": [
+              {
+                "type": "word",
+                "id": "w0",
+                "ordinal": 0,
+                "text": "Arguably,",
+                "kind": "speech",
+                "confidence": 0.9641927,
+                "segment": 0,
+                "sourceRange": {
+                  "startUs": 240000,
+                  "endUs": 880000
+                },
+                "partial": false,
+                "projectRange": {
+                  "startUs": 3240000,
+                  "endUs": 3880000
+                }
+              },
+              {
+                "type": "word",
+                "id": "w1",
+                "ordinal": 1,
+                "text": "OpenClaw",
+                "kind": "speech",
+                "confidence": 0.9108538,
+                "segment": 0,
+                "sourceRange": {
+                  "startUs": 960000,
+                  "endUs": 2160000
+                },
+                "partial": false,
+                "projectRange": {
+                  "startUs": 3960000,
+                  "endUs": 5160000
+                }
+              },
+              {
+                "type": "word",
+                "id": "w2",
+                "ordinal": 2,
+                "text": "is",
+                "kind": "speech",
+                "confidence": 1,
+                "segment": 0,
+                "sourceRange": {
+                  "startUs": 2480000,
+                  "endUs": 2800000
+                },
+                "partial": false,
+                "projectRange": {
+                  "startUs": 5480000,
+                  "endUs": 5800000
+                }
+              },
+              {
+                "type": "word",
+                "id": "w3",
+                "ordinal": 3,
+                "text": "already",
+                "kind": "speech",
+                "confidence": 1,
+                "segment": 0,
+                "sourceRange": {
+                  "startUs": 3280000,
+                  "endUs": 3840000
+                },
+                "partial": false,
+                "projectRange": {
+                  "startUs": 6280000,
+                  "endUs": 6840000
+                }
+              },
+              {
+                "type": "word",
+                "id": "w4",
+                "ordinal": 4,
+                "text": "on",
+                "kind": "speech",
+                "confidence": 1,
+                "segment": 0,
+                "sourceRange": {
+                  "startUs": 3840000,
+                  "endUs": 4000000
+                },
+                "partial": false,
+                "projectRange": {
+                  "startUs": 6840000,
+                  "endUs": 7000000
+                }
+              },
+              {
+                "type": "word",
+                "id": "w5",
+                "ordinal": 5,
+                "text": "a",
+                "kind": "speech",
+                "confidence": 0.9995117,
+                "segment": 0,
+                "sourceRange": {
+                  "startUs": 4000000,
+                  "endUs": 4080000
+                },
+                "partial": false,
+                "projectRange": {
+                  "startUs": 7000000,
+                  "endUs": 7080000
+                }
+              },
+              {
+                "type": "word",
+                "id": "w6",
+                "ordinal": 6,
+                "text": "downward",
+                "kind": "speech",
+                "confidence": 1,
+                "segment": 0,
+                "sourceRange": {
+                  "startUs": 4080000,
+                  "endUs": 4560000
+                },
+                "partial": false,
+                "projectRange": {
+                  "startUs": 7080000,
+                  "endUs": 7560000
+                }
+              },
+              {
+                "type": "word",
+                "id": "w7",
+                "ordinal": 7,
+                "text": "trend.",
+                "kind": "speech",
+                "confidence": 0.9055176,
+                "segment": 0,
+                "sourceRange": {
+                  "startUs": 4560000,
+                  "endUs": 5040000
+                },
+                "partial": false,
+                "projectRange": {
+                  "startUs": 7560000,
+                  "endUs": 8040000
+                }
+              }
+            ],
+            "nextCursor": null
+          }
+        },
+        "id": "80c47314-1264-4ecf-8869-ce2173ea451b"
+      }
+    }
+  ],
+  "nativeSha256": "b6719ae0dbc9493e24bd2992b4addf23bba98c4a3c42ca071f71f517dff187af",
+  "sourceSha256": "9bc9e36ae2571dd2585db7c36569feb16bdb17c9b2f8029867655f7bcb0df5d7",
+  "projected": [
+    {
+      "type": "word",
+      "id": "w0",
+      "ordinal": 0,
+      "text": "Arguably,",
+      "kind": "speech",
+      "confidence": 0.92545575,
+      "segment": 0,
+      "sourceRange": {
+        "startUs": 20740000,
+        "endUs": 21380000
+      },
+      "partial": false,
+      "clipId": "clip:a5bf24f0dacf9ed7d65a98166c84b5dde1f9808ae5ca1a9bf541bbce8ba0bcf5:1",
+      "assetId": "9bc9e36ae2571dd2585db7c36569feb16bdb17c9b2f8029867655f7bcb0df5d7",
+      "streamId": "track:1",
+      "trackId": "track:a5bf24f0dacf9ed7d65a98166c84b5dde1f9808ae5ca1a9bf541bbce8ba0bcf5:0",
+      "trackRank": 0,
+      "generation": "5217c1b6-f330-4067-9100-bf7246cb15d3",
+      "fragments": [
+        {
+          "source": {
+            "startUs": 20740000,
+            "endUs": 21380000
+          },
+          "project": {
+            "startUs": 3240001,
+            "endUs": 3880001
+          }
+        }
+      ]
+    },
+    {
+      "type": "word",
+      "id": "w1",
+      "ordinal": 1,
+      "text": "OpenClaw",
+      "kind": "speech",
+      "confidence": 0.95242745,
+      "segment": 0,
+      "sourceRange": {
+        "startUs": 21460000,
+        "endUs": 22660000
+      },
+      "partial": false,
+      "clipId": "clip:a5bf24f0dacf9ed7d65a98166c84b5dde1f9808ae5ca1a9bf541bbce8ba0bcf5:1",
+      "assetId": "9bc9e36ae2571dd2585db7c36569feb16bdb17c9b2f8029867655f7bcb0df5d7",
+      "streamId": "track:1",
+      "trackId": "track:a5bf24f0dacf9ed7d65a98166c84b5dde1f9808ae5ca1a9bf541bbce8ba0bcf5:0",
+      "trackRank": 0,
+      "generation": "5217c1b6-f330-4067-9100-bf7246cb15d3",
+      "fragments": [
+        {
+          "source": {
+            "startUs": 21460000,
+            "endUs": 22660000
+          },
+          "project": {
+            "startUs": 3960001,
+            "endUs": 5160001
+          }
+        }
+      ]
+    },
+    {
+      "type": "word",
+      "id": "w2",
+      "ordinal": 2,
+      "text": "is",
+      "kind": "speech",
+      "confidence": 1,
+      "segment": 0,
+      "sourceRange": {
+        "startUs": 22980000,
+        "endUs": 23300000
+      },
+      "partial": false,
+      "clipId": "clip:a5bf24f0dacf9ed7d65a98166c84b5dde1f9808ae5ca1a9bf541bbce8ba0bcf5:1",
+      "assetId": "9bc9e36ae2571dd2585db7c36569feb16bdb17c9b2f8029867655f7bcb0df5d7",
+      "streamId": "track:1",
+      "trackId": "track:a5bf24f0dacf9ed7d65a98166c84b5dde1f9808ae5ca1a9bf541bbce8ba0bcf5:0",
+      "trackRank": 0,
+      "generation": "5217c1b6-f330-4067-9100-bf7246cb15d3",
+      "fragments": [
+        {
+          "source": {
+            "startUs": 22980000,
+            "endUs": 23300000
+          },
+          "project": {
+            "startUs": 5480001,
+            "endUs": 5800001
+          }
+        }
+      ]
+    },
+    {
+      "type": "word",
+      "id": "w3",
+      "ordinal": 3,
+      "text": "already",
+      "kind": "speech",
+      "confidence": 1,
+      "segment": 0,
+      "sourceRange": {
+        "startUs": 23780000,
+        "endUs": 24340000
+      },
+      "partial": false,
+      "clipId": "clip:a5bf24f0dacf9ed7d65a98166c84b5dde1f9808ae5ca1a9bf541bbce8ba0bcf5:1",
+      "assetId": "9bc9e36ae2571dd2585db7c36569feb16bdb17c9b2f8029867655f7bcb0df5d7",
+      "streamId": "track:1",
+      "trackId": "track:a5bf24f0dacf9ed7d65a98166c84b5dde1f9808ae5ca1a9bf541bbce8ba0bcf5:0",
+      "trackRank": 0,
+      "generation": "5217c1b6-f330-4067-9100-bf7246cb15d3",
+      "fragments": [
+        {
+          "source": {
+            "startUs": 23780000,
+            "endUs": 24340000
+          },
+          "project": {
+            "startUs": 6280001,
+            "endUs": 6840001
+          }
+        }
+      ]
+    },
+    {
+      "type": "word",
+      "id": "w4",
+      "ordinal": 4,
+      "text": "on",
+      "kind": "speech",
+      "confidence": 1,
+      "segment": 0,
+      "sourceRange": {
+        "startUs": 24340000,
+        "endUs": 24500000
+      },
+      "partial": false,
+      "clipId": "clip:a5bf24f0dacf9ed7d65a98166c84b5dde1f9808ae5ca1a9bf541bbce8ba0bcf5:1",
+      "assetId": "9bc9e36ae2571dd2585db7c36569feb16bdb17c9b2f8029867655f7bcb0df5d7",
+      "streamId": "track:1",
+      "trackId": "track:a5bf24f0dacf9ed7d65a98166c84b5dde1f9808ae5ca1a9bf541bbce8ba0bcf5:0",
+      "trackRank": 0,
+      "generation": "5217c1b6-f330-4067-9100-bf7246cb15d3",
+      "fragments": [
+        {
+          "source": {
+            "startUs": 24340000,
+            "endUs": 24500000
+          },
+          "project": {
+            "startUs": 6840001,
+            "endUs": 7000001
+          }
+        }
+      ]
+    },
+    {
+      "type": "word",
+      "id": "w5",
+      "ordinal": 5,
+      "text": "a",
+      "kind": "speech",
+      "confidence": 1,
+      "segment": 0,
+      "sourceRange": {
+        "startUs": 24500000,
+        "endUs": 24660000
+      },
+      "partial": false,
+      "clipId": "clip:a5bf24f0dacf9ed7d65a98166c84b5dde1f9808ae5ca1a9bf541bbce8ba0bcf5:1",
+      "assetId": "9bc9e36ae2571dd2585db7c36569feb16bdb17c9b2f8029867655f7bcb0df5d7",
+      "streamId": "track:1",
+      "trackId": "track:a5bf24f0dacf9ed7d65a98166c84b5dde1f9808ae5ca1a9bf541bbce8ba0bcf5:0",
+      "trackRank": 0,
+      "generation": "5217c1b6-f330-4067-9100-bf7246cb15d3",
+      "fragments": [
+        {
+          "source": {
+            "startUs": 24500000,
+            "endUs": 24660000
+          },
+          "project": {
+            "startUs": 7000001,
+            "endUs": 7160001
+          }
+        }
+      ]
+    },
+    {
+      "type": "word",
+      "id": "w6",
+      "ordinal": 6,
+      "text": "downward",
+      "kind": "speech",
+      "confidence": 1,
+      "segment": 0,
+      "sourceRange": {
+        "startUs": 24660000,
+        "endUs": 25060000
+      },
+      "partial": false,
+      "clipId": "clip:a5bf24f0dacf9ed7d65a98166c84b5dde1f9808ae5ca1a9bf541bbce8ba0bcf5:1",
+      "assetId": "9bc9e36ae2571dd2585db7c36569feb16bdb17c9b2f8029867655f7bcb0df5d7",
+      "streamId": "track:1",
+      "trackId": "track:a5bf24f0dacf9ed7d65a98166c84b5dde1f9808ae5ca1a9bf541bbce8ba0bcf5:0",
+      "trackRank": 0,
+      "generation": "5217c1b6-f330-4067-9100-bf7246cb15d3",
+      "fragments": [
+        {
+          "source": {
+            "startUs": 24660000,
+            "endUs": 25060000
+          },
+          "project": {
+            "startUs": 7160001,
+            "endUs": 7560001
+          }
+        }
+      ]
+    },
+    {
+      "type": "word",
+      "id": "w7",
+      "ordinal": 7,
+      "text": "trend,",
+      "kind": "speech",
+      "confidence": 0.9608154,
+      "segment": 0,
+      "sourceRange": {
+        "startUs": 25060000,
+        "endUs": 25460000
+      },
+      "partial": true,
+      "clipId": "clip:a5bf24f0dacf9ed7d65a98166c84b5dde1f9808ae5ca1a9bf541bbce8ba0bcf5:1",
+      "assetId": "9bc9e36ae2571dd2585db7c36569feb16bdb17c9b2f8029867655f7bcb0df5d7",
+      "streamId": "track:1",
+      "trackId": "track:a5bf24f0dacf9ed7d65a98166c84b5dde1f9808ae5ca1a9bf541bbce8ba0bcf5:0",
+      "trackRank": 0,
+      "generation": "5217c1b6-f330-4067-9100-bf7246cb15d3",
+      "fragments": [
+        {
+          "source": {
+            "startUs": 25060000,
+            "endUs": 25180000
+          },
+          "project": {
+            "startUs": 7560001,
+            "endUs": 7680001
+          }
+        }
+      ]
+    }
+  ],
+  "project": {
+    "projectId": "09a76eff-f86c-4262-a09b-77288e453da2",
+    "revisionId": "de83d9a7-25fb-40cf-9e3f-f1b40195404a"
+  },
+  "selection": {
+    "projectId": "09a76eff-f86c-4262-a09b-77288e453da2",
+    "revisionId": "de83d9a7-25fb-40cf-9e3f-f1b40195404a",
+    "range": {
+      "startUs": 3000001,
+      "endUs": 8680001
+    },
+    "tap": {
+      "target": {
+        "kind": "output"
+      },
+      "point": {
+        "kind": "processed"
+      }
+    },
+    "rendition": {
+      "sampleRate": 16000,
+      "channels": 1
+    }
+  },
+  "prepared": {
+    "projectId": "09a76eff-f86c-4262-a09b-77288e453da2",
+    "revisionId": "de83d9a7-25fb-40cf-9e3f-f1b40195404a",
+    "range": {
+      "startUs": 3000001,
+      "endUs": 8680001
+    },
+    "tap": {
+      "target": {
+        "kind": "output"
+      },
+      "point": {
+        "kind": "processed"
+      }
+    },
+    "rendition": {
+      "sampleRate": 16000,
+      "channels": 1
+    },
+    "state": "ready",
+    "jobId": "24e864ca-4936-4cdb-aa0c-1680d1859a3e",
+    "reason": null,
+    "retryable": false,
+    "published": {
+      "generation": 1,
+      "output": {
+        "kind": "rendered-speech",
+        "generation": "299be457-1954-4015-834f-38ff3459fe7d",
+        "selection": {
+          "projectId": "09a76eff-f86c-4262-a09b-77288e453da2",
+          "revisionId": "de83d9a7-25fb-40cf-9e3f-f1b40195404a",
+          "range": {
+            "startUs": 3000001,
+            "endUs": 8680001
+          },
+          "tap": {
+            "target": {
+              "kind": "output"
+            },
+            "point": {
+              "kind": "processed"
+            }
+          },
+          "rendition": {
+            "sampleRate": 16000,
+            "channels": 1
+          }
+        },
+        "pcm": {
+          "assetId": "9f8709dd8866846459daed358fdce8f1c4df7bb06fde3c30f2c4277b2ef6c163",
+          "streamId": "track:1",
+          "sampleRate": 16000,
+          "channels": 1,
+          "frames": 90880,
+          "durationUs": 5680000,
+          "origin": {
+            "kind": "extraction",
+            "selection": {
+              "kind": "project",
+              "projectId": "09a76eff-f86c-4262-a09b-77288e453da2",
+              "revisionId": "de83d9a7-25fb-40cf-9e3f-f1b40195404a",
+              "range": {
+                "startUs": 3000001,
+                "endUs": 8680001
+              },
+              "sampleRange": {
+                "start": 144000,
+                "end": 416640
+              },
+              "tap": {
+                "target": {
+                  "kind": "output"
+                },
+                "point": {
+                  "kind": "processed"
+                }
+              },
+              "processingSha256": "4c67420f93b7db6b1d9d09f76f0ef1e451dba886061dd32fb5dd8fdf6f165fe3",
+              "unavailable": [
+                {
+                  "clipId": "clip:a5bf24f0dacf9ed7d65a98166c84b5dde1f9808ae5ca1a9bf541bbce8ba0bcf5:1",
+                  "ranges": []
+                },
+                {
+                  "clipId": "clip:6c6684191ea642bb20e0eef15f1b25baecfbce28b511748d5fc3672c6952e55a:1",
+                  "ranges": []
+                }
+              ]
+            },
+            "selectionImplementationId": "native-composition-audio-v10",
+            "input": {
+              "sampleRate": 48000,
+              "channels": 2,
+              "frames": 272640
+            },
+            "output": {
+              "sampleRate": 16000,
+              "channels": 1,
+              "frames": 90880
+            },
+            "conversion": {
+              "implementationId": "native-finite-pcm-v1",
+              "channelPolicy": "equal-weight-double-rounded-float32",
+              "contextPolicy": "complete-selected-pcm-zero-origin"
+            }
+          }
+        },
+        "transcript": {
+          "owner": {
+            "kind": "asset",
+            "assetId": "9f8709dd8866846459daed358fdce8f1c4df7bb06fde3c30f2c4277b2ef6c163"
+          },
+          "sourceId": "9f8709dd8866846459daed358fdce8f1c4df7bb06fde3c30f2c4277b2ef6c163",
+          "generation": "299be457-1954-4015-834f-38ff3459fe7d",
+          "source": {
+            "kind": "asset",
+            "streamId": "track:1",
+            "supportDigest": "e967a2f8326736a689b104b17961d25c6a10ec976d80c592cf5385c2f7fd2627",
+            "durationUs": 5680000
+          },
+          "engine": {
+            "runtime": "FluidAudio",
+            "runtimeVersion": "0.15.7",
+            "runtimeRevision": "41540ea237350afe5117a082b5c28eda642d0612",
+            "decoder": "parakeet-tdt-batch",
+            "model": "FluidInference/parakeet-tdt-0.6b-v2-coreml",
+            "modelRevision": "ee09c569f73759e6d44c9bd16766f477b2b36d39",
+            "modelDigest": "4fe3f59cc82bab4ee7d06349b9a37c92d4b5758553b2cbb87a54ecc2dee6824a",
+            "encoderPrecision": "int8",
+            "computeUnits": "cpuAndNeuralEngine",
+            "policy": "transcript-v3",
+            "kindPolicy": "word-kind-v1"
+          },
+          "execution": {
+            "executionRange": null,
+            "context": {
+              "beforeUs": 0,
+              "afterUs": 0
+            },
+            "recipe": "source-windows-20s-context4s-guard1s-v2"
+          },
+          "available": [
+            {
+              "startUs": 0,
+              "endUs": 5680000
+            }
+          ],
+          "track": {
+            "source": "/private/tmp/yap-rendered-speech-public-v15EtD/library/assets/9f8709dd8866846459daed358fdce8f1c4df7bb06fde3c30f2c4277b2ef6c163.wav",
+            "streamId": "track:1",
+            "sourceOffsetUs": 0
+          },
+          "segmentCount": 1,
+          "wordCount": 8,
+          "gapCount": 0,
+          "maxWordUs": 1200000,
+          "raw": {
+            "bytes": 5443,
+            "sha256": "bbcbc1a9eb17bbc07ceb031a9e4e79c85f9bc6d512e4b222fc2686fbdf523d52"
+          }
+        }
+      }
+    }
+  },
+  "measured": [
+    {
+      "type": "word",
+      "id": "w0",
+      "ordinal": 0,
+      "text": "Arguably,",
+      "kind": "speech",
+      "confidence": 0.9641927,
+      "segment": 0,
+      "sourceRange": {
+        "startUs": 240000,
+        "endUs": 880000
+      },
+      "partial": false,
+      "projectRange": {
+        "startUs": 3240000,
+        "endUs": 3880000
+      }
+    },
+    {
+      "type": "word",
+      "id": "w1",
+      "ordinal": 1,
+      "text": "OpenClaw",
+      "kind": "speech",
+      "confidence": 0.9108538,
+      "segment": 0,
+      "sourceRange": {
+        "startUs": 960000,
+        "endUs": 2160000
+      },
+      "partial": false,
+      "projectRange": {
+        "startUs": 3960000,
+        "endUs": 5160000
+      }
+    },
+    {
+      "type": "word",
+      "id": "w2",
+      "ordinal": 2,
+      "text": "is",
+      "kind": "speech",
+      "confidence": 1,
+      "segment": 0,
+      "sourceRange": {
+        "startUs": 2480000,
+        "endUs": 2800000
+      },
+      "partial": false,
+      "projectRange": {
+        "startUs": 5480000,
+        "endUs": 5800000
+      }
+    },
+    {
+      "type": "word",
+      "id": "w3",
+      "ordinal": 3,
+      "text": "already",
+      "kind": "speech",
+      "confidence": 1,
+      "segment": 0,
+      "sourceRange": {
+        "startUs": 3280000,
+        "endUs": 3840000
+      },
+      "partial": false,
+      "projectRange": {
+        "startUs": 6280000,
+        "endUs": 6840000
+      }
+    },
+    {
+      "type": "word",
+      "id": "w4",
+      "ordinal": 4,
+      "text": "on",
+      "kind": "speech",
+      "confidence": 1,
+      "segment": 0,
+      "sourceRange": {
+        "startUs": 3840000,
+        "endUs": 4000000
+      },
+      "partial": false,
+      "projectRange": {
+        "startUs": 6840000,
+        "endUs": 7000000
+      }
+    },
+    {
+      "type": "word",
+      "id": "w5",
+      "ordinal": 5,
+      "text": "a",
+      "kind": "speech",
+      "confidence": 0.9995117,
+      "segment": 0,
+      "sourceRange": {
+        "startUs": 4000000,
+        "endUs": 4080000
+      },
+      "partial": false,
+      "projectRange": {
+        "startUs": 7000000,
+        "endUs": 7080000
+      }
+    },
+    {
+      "type": "word",
+      "id": "w6",
+      "ordinal": 6,
+      "text": "downward",
+      "kind": "speech",
+      "confidence": 1,
+      "segment": 0,
+      "sourceRange": {
+        "startUs": 4080000,
+        "endUs": 4560000
+      },
+      "partial": false,
+      "projectRange": {
+        "startUs": 7080000,
+        "endUs": 7560000
+      }
+    },
+    {
+      "type": "word",
+      "id": "w7",
+      "ordinal": 7,
+      "text": "trend.",
+      "kind": "speech",
+      "confidence": 0.9055176,
+      "segment": 0,
+      "sourceRange": {
+        "startUs": 4560000,
+        "endUs": 5040000
+      },
+      "partial": false,
+      "projectRange": {
+        "startUs": 7560000,
+        "endUs": 8040000
+      }
+    }
+  ],
+  "pcmSha256": "9f8709dd8866846459daed358fdce8f1c4df7bb06fde3c30f2c4277b2ef6c163",
+  "landmarks": [
+    {
+      "expectedFrame": 78880,
+      "peakFrame": 78880,
+      "peak": 0.12000000476837158,
+      "projectUs": 7930000
+    },
+    {
+      "expectedFrame": 82880,
+      "peakFrame": 82880,
+      "peak": 0.21000000834465027,
+      "projectUs": 8180000
+    },
+    {
+      "expectedFrame": 86880,
+      "peakFrame": 86880,
+      "peak": 0.15000000596046448,
+      "projectUs": 8430000
+    }
+  ],
+  "recognizedPCM": {
+    "path": "/private/tmp/yap-rendered-speech-public-v15EtD/library/assets/9f8709dd8866846459daed358fdce8f1c4df7bb06fde3c30f2c4277b2ef6c163.wav",
+    "sha256": "9f8709dd8866846459daed358fdce8f1c4df7bb06fde3c30f2c4277b2ef6c163"
+  },
+  "projectedText": "Arguably, OpenClaw is already on a downward trend,",
+  "measuredText": "Arguably, OpenClaw is already on a downward trend.",
+  "interpretation": "Fresh ASR may complete the planted truncated word. Consumed PCM identity and independent sample landmarks prove measured output and mapping; lexical differences alone never certify a clean or defective cut."
+}

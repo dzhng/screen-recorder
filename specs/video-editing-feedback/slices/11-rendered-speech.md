@@ -1,6 +1,6 @@
 # 11 — Recognize actual revision audio
 
-Status: planned. Depends on: [08](08-bounded-speech-preparation.md), [03](03-published-work-contract.md).
+Status: complete; public real-Parakeet and retained-read checkpoints pass. Depends on: [08](08-bounded-speech-preparation.md), [03](03-published-work-contract.md).
 
 ## Contract
 
@@ -54,3 +54,32 @@ Run review/refactor-clean/code-review/write-docs appropriate to the change; reta
 ## Direction that would change this slice
 
 A changed user brief, reference or product policy can redirect it. Human listening, watching or transcript labeling is never an acceptance prerequisite. Record material deviations and their evidence instead of silently changing requirements.
+
+## Accepted implementation
+
+The [rendered-speech owner](../../../packages/core/src/rendered-speech.ts) chains
+immutable extraction with fresh recognition inside one project job. A parent attempt
+never joins an ordinary source transcript job, including for byte-identical PCM.
+[Public declarations](../../../packages/protocol/src/operations.ts) own preparation,
+explicit prerequisite retry and generation-pinned retained reads. Missing selected
+source support refuses before ASR and retains unavailable intervals in failure detail.
+
+[Accepted evidence](../assets/11-rendered-speech/README.md) records real CLI/MCP
+recognition, independently placed exact sample landmarks and restart reads with
+rendering/inference unavailable. Controlled regressions cover failed original
+transcription, model absence, source gaps, cancellation, explicit extraction recovery
+and generation/revision refusal. Mapping, gap refusal and dependency retry were
+falsified and restored; the byte-identical source-job regression was red before the
+fresh-attempt correction.
+
+Parakeet completed the word “trend” after a cut inside its retained source-word estimate. This checkpoint proves
+new measured evidence and its consumed PCM, not that ASR detects or certifies a
+clipped word. [Slice12](12-contextual-join-verification.md) still owns contextual
+boundary judgment and repair. No whole-spec, package-portability or release claim.
+
+Independent Codex review found a missing transcript-policy cache pin. The existing
+transcript execution owner now supplies its existing source policy to rendered identity.
+A seeded stale publication reused historical-policy output before the fix and
+admitted fresh work afterward. All review findings are resolved; retained
+[review and regression evidence](../assets/11-rendered-speech/README.md#scoped-review)
+records the exact scope.

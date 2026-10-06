@@ -27,6 +27,10 @@ successes and required failures; it does not establish production readiness.
 [Player reference coverage](13-reference-coverage/README.md) records partial decode
 failures without changing successful pictures; the accepted sampled recipe follows below.
 
+[Rendered recognition](11-rendered-speech/README.md) preserves fresh Parakeet
+PCM consumption, independently placed sample landmarks and retained CLI/MCP reads.
+It does not certify lexical cut quality.
+
 [Local alignment reference](09-local-alignment/README.md) separates observed provider
 text correspondence from conditional timing, with preserved rejected controls.
 
