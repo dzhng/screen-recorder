@@ -14,8 +14,10 @@ controls. Its four-speaker control misses required simultaneous speech.
 [Alternative recipes](alternative-evidence/README.md) preserve the low-latency and
 Nemotron failures, including separately frozen calibration choices. The
 [Community-1 trial](fluidaudio-evidence/README.md) preserves native endpoint refusals
-and merged identities. Model preparation and network-denied loading succeeded;
-provider quality remains failed.
+and merged identities. [Asymmetric hysteresis](hysteresis-evidence/README.md) passes
+short quality and three-speaker continuity, then fails required ten-minute
+four-speaker overlap. Model preparation and network-denied loading succeeded;
+no long-form provider is admitted.
 
 Each bundle owns a read-only `replay.mjs` accepting the repository root. Replay
 checks retained operand hashes and recomputes metrics through the existing scorer;

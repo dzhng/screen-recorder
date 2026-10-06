@@ -29,3 +29,18 @@ transforms rather than applying a second independent mark-size rule.
 records with their original sample times and clipped visible intervals. Publication
 uses the shared new-file owner. [Appearance and temporal references](../../../../packages/test-harness/editing/README.md#platform-reproductions)
 separate pixel execution from codec loss and physical-input acceptance.
+
+[Picture observations](PictureObservations.swift) measure the very CGImage sent
+to lossless PNG encoding. The requested rectangles use delivered top-left pixels,
+after orientation, sizing and composition. Observation does not draw, crop or
+change color treatment. A separate profile-managed sRGB RGBA8 measurement retains
+its raster digest, the rendered input profile and actual measurement profile;
+a named CoreGraphics space without exportable ICC bytes keeps an explicit absent
+hash. This is not source-media tag equivalence.
+
+Only fully opaque pixels contribute to luma and channel metrics. Transparent,
+partial-alpha, clipped and outside-raster coverage remain explicit. Edge bands
+are measured contiguous dark candidates; a completely dark scene may reach the
+opposite edge without an observed transition. Neither case proves letterboxing
+or authorizes cropping. Region names describe the caller's rectangles, not native
+face detection or universal exposure targets.

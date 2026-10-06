@@ -1,0 +1,37 @@
+{
+  "inputSha256": "9d4c9e3d56c47fc54bce594245850ecec9b062e868c5a64e523bf078315a561a",
+  "ffmpegSha256": "78cd5ab1a088c0db965893f9c4a475beb60525d8dc1f0ecad80e2e8959a8cc33",
+  "oracleSha256": "0360d66e62e7429b734175a0ac581889902eb4a2163a23825999619fc31bc9ac",
+  "first": {
+    "input_i": "-16.44",
+    "input_tp": "-0.85",
+    "input_lra": "8.30",
+    "input_thresh": "-26.52",
+    "output_i": "-12.68",
+    "output_tp": "+0.00",
+    "output_lra": "3.10",
+    "output_thresh": "-22.75",
+    "normalization_type": "dynamic",
+    "target_offset": "-1.82"
+  },
+  "before": {
+    "frames": 576000.0,
+    "integratedLufs": -16.8346116,
+    "loudnessRangeLu": 8.95892501,
+    "samplePeakDbfs": -0.87723805,
+    "truePeakDbtp": -0.846585974
+  },
+  "baseline": {
+    "offset": -1.82,
+    "recipe": "loudnorm=I=-14.5:TP=0:LRA=7:linear=false:measured_I=-16.44:measured_TP=-0.85:measured_LRA=8.30:measured_thresh=-26.52:offset=-1.82",
+    "after": {
+      "frames": 576000.0,
+      "integratedLufs": -14.2553531,
+      "loudnessRangeLu": 3.33451379,
+      "samplePeakDbfs": 0.00100224687,
+      "truePeakDbtp": 0.00106022455
+    },
+    "seconds": 0.299834833,
+    "outputSha256": "8bf41d4523cd7602b2e25843faa49215cd5ec17a22216d52b992f348ecf167d8"
+  }
+}

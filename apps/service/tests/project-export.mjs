@@ -470,6 +470,7 @@ test("settings-free export replay retains its original request identity", async 
       null,
       request.directory,
       request.leaf,
+      false,
     ]),
   );
   const replay = await f.exports.create({ ...request, settings: {} });

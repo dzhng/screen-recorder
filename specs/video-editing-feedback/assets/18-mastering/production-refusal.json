@@ -1,0 +1,70 @@
+{
+  "code": "NORMALIZATION_TARGETS_UNMET",
+  "details": {
+    "recipe": {
+      "type": "normalization",
+      "mode": "dynamic",
+      "targetIntegratedLufs": -14.5,
+      "truePeakCeilingDbtp": 0,
+      "maxLoudnessRangeLu": 7
+    },
+    "after": {
+      "integratedLufs": -16.4,
+      "loudnessRangeLu": 0.1,
+      "samplePeakDbfs": 0,
+      "truePeakDbtp": 0,
+      "integratedReason": null,
+      "rangeReason": null,
+      "algorithm": "FFmpeg ebur128 BS.1770/R128; true-peak libswresample; one-decimal summary",
+      "version": "9.0.2"
+    },
+    "tolerances": {
+      "integratedAbsoluteLu": 0.2,
+      "rangeMaximumExcessLu": 0.2,
+      "meterSpecificTruePeakExcessDb": 0.15
+    },
+    "attempts": [
+      {
+        "offsetDb": 1.68,
+        "after": {
+          "integratedLufs": -16.7,
+          "loudnessRangeLu": 0.2,
+          "samplePeakDbfs": 0,
+          "truePeakDbtp": 0,
+          "integratedReason": null,
+          "rangeReason": null,
+          "algorithm": "FFmpeg ebur128 BS.1770/R128; true-peak libswresample; one-decimal summary",
+          "version": "9.0.2"
+        }
+      },
+      {
+        "offsetDb": 3.879999999999999,
+        "after": {
+          "integratedLufs": -16.5,
+          "loudnessRangeLu": 0.1,
+          "samplePeakDbfs": 0,
+          "truePeakDbtp": 0,
+          "integratedReason": null,
+          "rangeReason": null,
+          "algorithm": "FFmpeg ebur128 BS.1770/R128; true-peak libswresample; one-decimal summary",
+          "version": "9.0.2"
+        }
+      },
+      {
+        "offsetDb": 5.879999999999999,
+        "after": {
+          "integratedLufs": -16.4,
+          "loudnessRangeLu": 0.1,
+          "samplePeakDbfs": 0,
+          "truePeakDbtp": 0,
+          "integratedReason": null,
+          "rangeReason": null,
+          "algorithm": "FFmpeg ebur128 BS.1770/R128; true-peak libswresample; one-decimal summary",
+          "version": "9.0.2"
+        }
+      }
+    ],
+    "stopReason": "budget-exhausted"
+  },
+  "retryable": false
+}

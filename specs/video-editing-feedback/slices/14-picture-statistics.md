@@ -1,6 +1,6 @@
 # 14 — Expose objective picture observations
 
-Status: planned. Depends on: [13](13-decode-replication.md), [03](03-published-work-contract.md).
+Status: implemented and independently reviewed; focused fixes landed. Depends on: [13](13-decode-replication.md), [03](03-published-work-contract.md).
 
 ## Contract
 
@@ -56,3 +56,21 @@ Run review/refactor-clean/code-review/write-docs appropriate to the change; reta
 ## Direction that would change this slice
 
 A changed user brief, reference or product policy can redirect it. Human listening, watching or transcript labeling is never an acceptance prerequisite. Record material deviations and their evidence instead of silently changing requirements.
+
+
+## Implemented evidence
+
+[Delivered-raster observations](../assets/14-picture-statistics/README.md) retain
+the accepted public requests, complete measurements, control operands and PNG
+identities. Default interpretation has one pure protocol owner reused by core;
+native Codable requires complete normalized inputs. The shared frame owner
+measures its encoded CGImage; no second decode/statistics runtime or store exists.
+Frame and index recipes retain the requested masks and thresholds separately from
+their measured receipt, beside existing source/sample or revision/tap identity.
+
+Independent delivered-PNG decode exactly reproduces opaque RGB/luma histograms,
+alpha coverage and complete premultiplied RGBA hashes. Authored orientation,
+endpoint, alpha, clipped/missing region, fully dark scene and border transitions
+remain distinct. Public camera/explicit exposure and one-row retained index
+checks are sampled evidence, without a grading verdict or edit authorization.
+Scoped closeout and residual limits live with that evidence.

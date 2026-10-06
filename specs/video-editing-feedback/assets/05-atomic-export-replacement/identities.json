@@ -1,0 +1,20 @@
+{
+  "base": "fd0401d00ab18bdb49c5fe68ca5207c924f81614",
+  "branch": "slice05-atomic-exports",
+  "binary": {
+    "path": "/tmp/yap-slice05-native-WpMVla/publication-owner",
+    "sha256": "d241fc8a642f6305d6eb0791abae159d4065c0dc7f488ac1a48e06e95a52a639"
+  },
+  "sources": {
+    "helpers/mac/Sources/YapWire/PublicationOperation.swift": "7f8efbe968ad1ec3850e5cb2acd8c19a18fd3e88f43f97fc7ad23986a125c4d4",
+    "helpers/mac/Tests/fixtures/publication-owner.mjs": "483f964a61ae7ce48984820a96bed95d17e94d66e31d5bb569a51b66822fe122",
+    "helpers/mac/Tests/fixtures/publication-swap-interpose.c": "94cb727f620ec6c6576bdc356bd38c636a9a6639fcfba7e57b5145f46c0ac618",
+    "apps/service/src/exports.ts": "986b6794787209427c0d0758b3d79d589e44e39ec98aa5958da28470569839d3",
+    "apps/service/src/publication.ts": "2e124fae09d4677bce6bc735948d7aa870ce9ed9127eaa19f57a4491d7380dcd",
+    "packages/core/src/assets.ts": "422ff9a92b0da66f0c18aa3ce110af8aa79eb47202a9198116d21b91802169bf",
+    "packages/protocol/src/operations.ts": "d46bca487fd3b635e0e111d4d7fc35bc0efea4b10eb223de08742fdb633887ee"
+  },
+  "os": "ProductName:\t\tmacOS\nProductVersion:\t\t27.0.1\nBuildVersion:\t\t26A434",
+  "compiler": "Apple Swift version 6.4 (swiftlang-6.4.0.34.1 clang-2100.3.34.1)\nTarget: arm64-apple-macosx27.0.0",
+  "scope": "Real production publication, held storage and lifetime owners; focused compile excludes codecs, speech and model dependencies."
+}

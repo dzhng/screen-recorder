@@ -1,0 +1,50 @@
+✖ pinned unchanged victim is atomically exchanged and retained until acknowledgement (100.656791ms)
+✖ confirmed replacement survives interrupted cleanup without republishing (81.241791ms)
+ℹ tests 2
+ℹ suites 0
+ℹ pass 0
+ℹ fail 2
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 224.214875
+
+✖ failing tests:
+
+test at helpers/mac/Tests/publication.test.mjs:151:1
+✖ pinned unchanged victim is atomically exchanged and retained until acknowledgement (100.656791ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  794 !== 407
+  
+      at TestContext.<anonymous> (file:///Users/server/dev/yap-exact-removal/helpers/mac/Tests/publication.test.mjs:171:10)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async Test.run (node:internal/test_runner/test:1409:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 794,
+    expected: 407,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at helpers/mac/Tests/publication.test.mjs:277:1
+✖ confirmed replacement survives interrupted cleanup without republishing (81.241791ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'unprepared'
+  - 'committed'
+  
+      at TestContext.<anonymous> (file:///Users/server/dev/yap-exact-removal/helpers/mac/Tests/publication.test.mjs:284:10)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async Test.run (node:internal/test_runner/test:1409:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'unprepared',
+    expected: 'committed',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }

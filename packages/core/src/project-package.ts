@@ -298,7 +298,7 @@ export function transcriptMemberPath(
     .digest("hex");
   return `transcripts/${id}/${leaf}`;
 }
-const projectPackageVersion = 5;
+const projectPackageVersion = 6;
 const manifestSchema = z.strictObject({
   format: z.literal("yap-project"),
   version: z.literal(projectPackageVersion),

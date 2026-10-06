@@ -1,0 +1,8 @@
+
+ RUN  v5.0.0 /Users/server/dev/yap-picture-statistics/apps/service
+
+
+ Test Files  1 passed (1)
+      Tests  1 passed | 3 skipped (4)
+   Start at  23:48:17
+   Duration  1.10s (transform 64%, import 27%, tests 9%)

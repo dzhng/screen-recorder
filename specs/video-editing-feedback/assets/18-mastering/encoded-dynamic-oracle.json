@@ -1,0 +1,12 @@
+{
+  "after": {
+    "frames": 576000,
+    "integratedLufs": "-14.6261433",
+    "loudnessRangeLu": "0.255637358",
+    "samplePeakDbfs": "0.146801525",
+    "truePeakDbtp": "0.151025553"
+  },
+  "mp4Sha256": "784f53af1dca89e89f2eb34ed26849428c67c9dfc2e4109cc2ddac4e5dca192b",
+  "decodedWaveSha256": "8a5922d6895aa20baddde9a4140d1e09c9adc288d22f84d1d032ee816e04c78b",
+  "association": "Latest native rerun changed container bytes; decoded WAV SHA256 is unchanged, so the independent decoded-PCM measurement is reused."
+}

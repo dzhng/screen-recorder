@@ -110,10 +110,54 @@ test("normalization publication requires complete bound evidence and met targets
       normalization: {
         before: { ...measurement, integratedLufs: -25, truePeakDbtp: -12 },
         after: measurement,
+        attempts: [{ offsetDb: null, after: measurement }],
+        selectedAttempt: 0,
         meterImplementationId: "meter-runtime",
         tolerances: normalizationTolerance,
       },
     };
+    expect(() =>
+      checkProjectAudioResult(
+        {
+          ...receipt,
+          processingEvidence: [
+            { ...evidence, normalization: { ...evidence.normalization, attempts: [] } },
+          ],
+        },
+        window,
+        output,
+      ),
+    ).toThrow();
+    expect(() =>
+      checkProjectAudioResult(
+        {
+          ...receipt,
+          processingEvidence: [
+            {
+              ...evidence,
+              normalization: {
+                ...evidence.normalization,
+                attempts: [{ offsetDb: null, after: { ...measurement, integratedLufs: -21 } }],
+              },
+            },
+          ],
+        },
+        window,
+        output,
+      ),
+    ).toThrow();
+    expect(() =>
+      checkProjectAudioResult(
+        {
+          ...receipt,
+          processingEvidence: [
+            { ...evidence, normalization: { ...evidence.normalization, selectedAttempt: 1 } },
+          ],
+        },
+        window,
+        output,
+      ),
+    ).toThrow();
     expect(() => checkProjectAudioResult(receipt, window, output)).toThrow();
     expect(() =>
       checkProjectAudioResult(

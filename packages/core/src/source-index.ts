@@ -1,3 +1,7 @@
+import {
+  pictureObservationRequestSchema,
+  type NormalizedPictureObservationRequest,
+} from "@yap/protocol";
 import { sourceIndexQueryRanges } from "./source-index-selection.js";
 import {
   signedTimeValueSchema,
@@ -23,6 +27,7 @@ import {
   sourceFrameUnavailableSchema,
   retainedSourceFrameSchema,
   validateSourceFrameGeometry,
+  validatePictureObservations,
   type SourceFrameArtifact,
   type SourceFrameUnavailable,
   type MediaFrameInspection,
@@ -37,6 +42,7 @@ export type SourceIndexIdentity = SourceSelection & {
   selectionPolicy: string;
   implementationId: string;
   maxLongEdge: number;
+  observationRequest?: NormalizedPictureObservationRequest | undefined;
 };
 export type SourceIndexCandidate = {
   ordinal: number;
@@ -74,6 +80,7 @@ export const portableSourceIndexMetadataSchema = sourceSelectionSchema
     selectionPolicy: z.literal(sourceIndexPolicy.id),
     implementationId: z.string().min(1).max(256),
     maxLongEdge: z.int().min(1).max(8192),
+    observationRequest: pictureObservationRequestSchema.optional(),
     durationUs: portableTime,
     candidateCount: portableTime.max(25000),
     coverageCount: portableTime.max(25000),
@@ -171,6 +178,7 @@ export function sourceIndexDomain(
       selectionPolicy: i.selectionPolicy,
       implementationId: i.implementationId,
       maxLongEdge: i.maxLongEdge,
+      ...(i.observationRequest === undefined ? {} : { observationRequest: i.observationRequest }),
     }),
     begin(identity) {
       const source = selected(identity);
@@ -196,6 +204,7 @@ export function sourceIndexDomain(
       if (source.stream.kind !== "video")
         throw new CatalogError("INVALID_EVIDENCE", "Source index requires video geometry");
       validateSourceFrameGeometry(frame, source.stream, identity.maxLongEdge);
+      validatePictureObservations(frame, identity.observationRequest);
       if (
         !Number.isSafeInteger(candidate.requestedSourceUs) ||
         !sourceIndexQueryRanges(source.track.available).some(
@@ -214,6 +223,7 @@ export function sourceIndexDomain(
           subtract(fromTime(0), fromTime(source.track.sourceOffsetUs)),
         ) !== 0 ||
         frame.maxLongEdge !== identity.maxLongEdge ||
+        !isDeepStrictEqual(frame.observationRequest, identity.observationRequest) ||
         frame.atUs !== candidate.requestedSourceUs ||
         frame.requestedSourceUs !== candidate.requestedSourceUs
       )
@@ -273,6 +283,7 @@ export function sourceIndexDomain(
               frame.supportDigest !== source.supportDigest ||
               frame.implementationId !== identity.implementationId ||
               frame.maxLongEdge !== identity.maxLongEdge ||
+              !isDeepStrictEqual(frame.observationRequest, identity.observationRequest) ||
               (admission === "produced" &&
                 (!frames ||
                   !isDeepStrictEqual(
@@ -281,6 +292,7 @@ export function sourceIndexDomain(
                       ...frame.selection,
                       atUs: frame.atUs,
                       maxLongEdge: frame.maxLongEdge,
+                      observations: frame.observationRequest,
                     }),
                   )))
             )

@@ -18,6 +18,13 @@ export const normalizationTolerance = {
   rangeMaximumExcessLu: 0.2,
   meterSpecificTruePeakExcessDb: 0.15,
 } as const;
+export const normalizationCorrectionPolicy = {
+  maximumCandidates: 3,
+  minimumErrorImprovementLu: 0.02,
+  desiredErrorLu: normalizationTolerance.integratedAbsoluteLu / 2,
+  minimumOffsetDb: -99,
+  maximumOffsetDb: 99,
+} as const;
 const tolerances = z.strictObject({
   integratedAbsoluteLu: z.literal(normalizationTolerance.integratedAbsoluteLu),
   rangeMaximumExcessLu: z.literal(normalizationTolerance.rangeMaximumExcessLu),
@@ -32,6 +39,24 @@ export const audioProcessingEvidenceSchema = z.strictObject({
     .strictObject({
       before: loudnessMeasurementSchema,
       after: loudnessMeasurementSchema,
+      attempts: z
+        .array(
+          z.strictObject({
+            offsetDb: z
+              .number()
+              .finite()
+              .min(normalizationCorrectionPolicy.minimumOffsetDb)
+              .max(normalizationCorrectionPolicy.maximumOffsetDb)
+              .nullable(),
+            after: loudnessMeasurementSchema,
+          }),
+        )
+        .min(1)
+        .max(normalizationCorrectionPolicy.maximumCandidates),
+      selectedAttempt: z
+        .int()
+        .nonnegative()
+        .max(normalizationCorrectionPolicy.maximumCandidates - 1),
       meterImplementationId: z.string().min(1),
       tolerances,
     })
@@ -66,16 +91,24 @@ export function normalizationGain(recipe: Normalization, before: LoudnessMeasure
     );
   return 10 ** (gainDb / 20);
 }
+export function normalizationFailures(recipe: Normalization, after: LoudnessMeasurement) {
+  return {
+    integrated:
+      after.integratedLufs === null ||
+      Math.abs(after.integratedLufs - recipe.targetIntegratedLufs) >
+        normalizationTolerance.integratedAbsoluteLu,
+    range:
+      after.loudnessRangeLu === null ||
+      after.loudnessRangeLu >
+        recipe.maxLoudnessRangeLu + normalizationTolerance.rangeMaximumExcessLu,
+    peak:
+      after.truePeakDbtp === null ||
+      after.truePeakDbtp >
+        recipe.truePeakCeilingDbtp + normalizationTolerance.meterSpecificTruePeakExcessDb,
+  };
+}
 export function admitNormalization(recipe: Normalization, after: LoudnessMeasurement) {
-  if (
-    !measurable(after) ||
-    Math.abs(after.integratedLufs! - recipe.targetIntegratedLufs) >
-      normalizationTolerance.integratedAbsoluteLu ||
-    after.loudnessRangeLu! >
-      recipe.maxLoudnessRangeLu + normalizationTolerance.rangeMaximumExcessLu ||
-    after.truePeakDbtp! >
-      recipe.truePeakCeilingDbtp + normalizationTolerance.meterSpecificTruePeakExcessDb
-  )
+  if (Object.values(normalizationFailures(recipe, after)).some(Boolean))
     throw new CatalogError(
       "NORMALIZATION_TARGETS_UNMET",
       "The complete treated signal misses the requested normalization targets",

@@ -1,6 +1,6 @@
 # 31 — Prove speaker continuity and word attribution
 
-Status: partial; required four-speaker quality gate red. Research depends on selected certified [01](01-certified-corpus.md) inputs; word-attribution integration additionally requires [08](08-bounded-speech-preparation.md).
+Status: partial; asymmetric hysteresis passes short quality, but required ten-minute four-speaker overlap remains red. Research depends on selected certified [01](01-certified-corpus.md) inputs; word-attribution integration additionally requires [08](08-bounded-speech-preparation.md).
 
 ## Contract
 
@@ -48,8 +48,10 @@ reslicing, not a “ready” output made from unrelated local slot IDs.
 
 [Retained replayable evidence](../assets/31-speaker-replication/README.md) preserves
 exact original short-window parity, passing three-speaker continuity controls and
-failed four-speaker overlap under every measured candidate. All three bundles
-replay on the integrated root without new inference. No provider is promoted.
+failed long-form four-speaker overlap. The [fixed asymmetric interpretation](../assets/31-speaker-replication/hysteresis-evidence/README.md)
+passes both required short cases and longer three-speaker returns, then fails the
+ten-minute four-speaker control. Its complete raw operands replay without new
+inference. No provider is promoted.
 The historical DER-only pass never established simultaneous-speaker recall.
 
 Keep the required gate unchanged; proceed through these separately verifiable passes:
@@ -57,10 +59,18 @@ Keep the required gate unchanged; proceed through these separately verifiable pa
 1. **Provider and short-case admission.** Freeze licensing, complete raw-observation
    access, exact physical support and a candidate recipe before confirmation. Pass
    the existing short quality/count/overlap gates on independent controls. The
-   original, low-latency, Nemotron and Community-1 recipes remain failed records.
+   original, low-latency, equal-threshold Nemotron and Community-1 recipes remain
+   failed records. The fixed asymmetric Nemotron interpretation passes the selected
+   short gate only, with its training-overlap and held-out limitations intact.
 2. **Global continuity.** Only a short-quality winner proceeds to bounded long
    calls with return, silence, overlapping voices and planted identity swaps.
    Existing three-speaker successes remain valid within their stated scope.
+   The asymmetric ten-minute failure banks every score and a planted identity-swap
+   control. Next inspect the pinned model's supported streaming/cache and
+   full-input preprocessing contracts; freeze one independently justified bounded
+   native configuration before another run. If no supported path exists, use a
+   distinct local overlap-capable provider. Do not tune thresholds on the failed
+   assembly or repeat unchanged long inference.
 3. **Prepared execution closure.** Seal and relocate the winning model/runtime;
    offline inference must use only the prepared closure and reproduce its operands.
    The original private reconstruction and alternate byte/load readiness are

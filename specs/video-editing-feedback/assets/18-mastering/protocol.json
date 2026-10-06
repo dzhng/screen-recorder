@@ -1,0 +1,58 @@
+{
+  "scope": "bounded reconstruction of frozen trailer placeholder music; authored numerical inputs, not the removed original project mix",
+  "incumbent": "current production two-pass dynamic loudnorm, original full PCM, measured first-pass inputs and target_offset",
+  "runtime": "bundled FFmpeg9.0.2 receipt758e4224dc11936db602806fa17876dcf46b46f4b2fcd9749c02c754bb1b921c",
+  "fixedTargets": {
+    "integratedLufs": -14.5,
+    "truePeakDbtp": 0,
+    "loudnessRangeLu": 7
+  },
+  "fixedGates": {
+    "integratedAbsoluteLu": 0.2,
+    "rangeMaximumExcessLu": 0.2,
+    "meterSpecificTruePeakExcessDb": 0.15,
+    "frames": "exact",
+    "finitePCM": true
+  },
+  "budget": {
+    "secondsPerProcess": 30,
+    "baselineCandidates": 1,
+    "hypotheses": 2,
+    "maximumCandidatesPerSolver": 3,
+    "minimumLoudnessErrorImprovementLu": 0.02
+  },
+  "hypotheses": [
+    {
+      "id": "safe-measured-gain",
+      "change": "apply measured residual gain only when range is compliant and predicted peak remains within the existing ceiling tolerance",
+      "prediction": "exact integrated correction without changing range; skips instead of violating peak",
+      "status": "not selected: extra-gain eligibility only, rejects peak-limited input"
+    },
+    {
+      "id": "original-input-offset",
+      "change": "change loudnorm offset by independently observed signed residual; always rerender original PCM with unchanged I/TP/LRA and frozen first-pass statistics",
+      "prediction": "undershoot decreases; refuse/no-progress after bounded budget",
+      "status": "accepted bounded original-input offset recipe; strict production and independent output gates green"
+    }
+  ],
+  "confirmation": "balanced-dialogue12 authored untouched case with higher dialogue/beat ratio; silence/infeasible range/peak; mono44.1k and stereo48k; real public retained preparation then one encoded delivery",
+  "activeTask": "native correction and encoded dynamic delivery confirmed; research and actual output remain separately identified",
+  "regressionTasks": [
+    "peaky-dialogue12 peak-limited control",
+    "lift62 frozen placeholder reconstruction"
+  ],
+  "acceptedRecipe": {
+    "maximumCandidates": 3,
+    "minimumErrorImprovementLu": 0.02,
+    "desiredErrorLu": 0.1,
+    "offsetRange": [
+      -99,
+      99
+    ],
+    "input": "always original complete prefix PCM",
+    "constraints": "unchanged requested I/TP/LRA; no gain-only fallback",
+    "stop": "gate/range/peak failure, no progress, unsupported offset or candidate budget; strict final admission remains authoritative",
+    "evidence": "every candidate offset/after retained; selectedAttempt binds delivered after, including fallback to an earlier admitted candidate",
+    "admissibleRetention": "Keep the lowest integrated-error strictly admitted candidate held through the existing artifact owner until bounded correction settles; selectedAttempt identifies delivered PCM while all attempts remain evidence."
+  }
+}

@@ -710,3 +710,18 @@ test("retained index validation yields to a real cancellation timer before publi
   expect(controller.signal.aborted).toBe(true);
   expect(f.index.portableGenerations({ kind: "asset", assetId: f.identity.assetId })).toEqual([]);
 });
+
+test("an index cannot retain a plain frame when its recipe requested picture measurements", async () => {
+  const f = await fixture();
+  Object.assign(f.identity, {
+    observationRequest: {
+      darkAtOrBelow: 5,
+      brightAtOrAbove: 250,
+      edgeDarkFraction: 0.98,
+      edgeOpaqueFraction: 1,
+      regions: [],
+    },
+  });
+  f.index.begin(f.identity);
+  await expect(f.append()).rejects.toMatchObject({ code: "INVALID_RESPONSE" });
+});

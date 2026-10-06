@@ -1,6 +1,6 @@
 # 05 — Replace explicitly owned exports atomically
 
-Status: planned. Depends on: [03](03-published-work-contract.md).
+Status: complete; focused contract gates and scoped review pass. Depends on: [03](03-published-work-contract.md).
 
 ## Contract
 
@@ -23,6 +23,34 @@ These are current discovery pointers, not a claim every listed module must chang
 ## Scope and frozen decisions
 
 Default replacement is allowed only when the live destination matches a trusted Yap publication receipt. Modified formerly owned content is foreign. Foreign replacement requires overwrite:true. Stage on the destination filesystem, validate before atomic replacement, preserve old bytes on failure, and bind recovery to the expected destination. Reusing exportId recovers the same intent; a different revision needs a new identity. Never target original source media.
+
+## Frozen native concurrency boundary
+
+Yap publishers hold an exclusive destination-directory descriptor lock; admission
+and publication inspect the actual regular leaf through that held directory.
+Replacement pins its device/inode, length and SHA-256 in the immutable export
+intent and prepared native receipt. An absent destination stays an exclusive
+new-file publication. Symlink and non-regular destinations found at admission or the commit check are refused even with
+foreign overwrite opt-in. Original imported source identities remain protected.
+
+The macOS primitive is `renameatx_np(RENAME_SWAP | RENAME_NOFOLLOW_ANY)`, not a
+pathname precheck followed by a destructive rename. A private hard link retains
+the complete new payload; swapping a second link into the destination retains
+the displaced leaf inside the same staging lifetime. Before acknowledgement,
+the native owner validates that displaced leaf against the admitted identity and
+digest. Crash/lost acknowledgement recovery reads the same prepared evidence.
+A superseded pinned intent never replaces a newer destination.
+
+The OS offers no expected-inode/digest compare-and-swap against noncooperating
+same-user writers. Such writers do not honor the directory lock. If one changes
+the leaf between native validation and swap, the owner reports a conflict and
+retains the displaced leaf (including a raced final symlink, which rename swaps
+without following its referent); it never deletes unknown displaced bytes or swaps
+back over a possible successor. This unsupported race can leave the new payload
+visible without a committed receipt. Neither an error nor recovery claims the
+old destination remained unchanged in that race. Cooperative Yap publishers and
+changes completed before the commit check retain the strict refusal contract.
+No second publication queue, janitor, migration or compatibility path is added.
 
 ## Runnable checkpoint
 
@@ -55,3 +83,19 @@ Run review/refactor-clean/code-review/write-docs appropriate to the change; reta
 ## Direction that would change this slice
 
 A changed user brief, reference or product policy can redirect it. Human listening, watching or transcript labeling is never an acceptance prerequisite. Record material deviations and their evidence instead of silently changing requirements.
+
+## Retained checkpoint
+
+[Atomic publication evidence](../assets/05-atomic-export-replacement/README.md)
+retains public CLI exchanges, native crash/race red-green proof, source and binary
+identities, budget/storage checks and scoped review. The fixture runs only against
+scratch state. Parent owns global handoff/traceability and the final feature gate.
+
+Replacement verification budgets include the pinned previous file under the
+existing worker cap. Confirmed native evidence survives marker-only interrupted
+cleanup, and storage counts shared receipt hardlinks once. Unknown displaced
+entries remain through failed abandonment and recovery; public job failure
+details explicitly mark destination visibility uncertain. A retained swap symlink
+contributes only its own no-follow metadata length; aggregate storage remains
+readable and does not traverse or count its referent. The independent whole-change
+review's storage finding was fixed test-first and its corrective rereview is clean.

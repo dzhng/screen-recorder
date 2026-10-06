@@ -1,0 +1,37 @@
+[
+  {
+    "id": "chart",
+    "file": "controls/chart.png",
+    "sha256": "dbf3adcbb37043f7316ad57c99fd5514b8382433008c26011219f2240fffb215",
+    "width": 4,
+    "height": 4
+  },
+  {
+    "id": "alpha",
+    "file": "controls/alpha.png",
+    "sha256": "192d7e72bed03afa0b3debf45ccee7b17991fa82648f49e485a9f8df85c9a5b7",
+    "width": 3,
+    "height": 1
+  },
+  {
+    "id": "dark",
+    "file": "controls/dark.png",
+    "sha256": "2ba6a45037a4c832e5b485e0a14651d2028231ce3853ce8f6c76086befdf83fe",
+    "width": 4,
+    "height": 4
+  },
+  {
+    "id": "border",
+    "file": "controls/border.png",
+    "sha256": "8943b5b68b3edfd33546731f537d6541af7908539de404dc738e6d7c34b14fa0",
+    "width": 4,
+    "height": 4
+  },
+  {
+    "id": "rotated",
+    "file": "controls/rotated.png",
+    "sha256": "b48fc9abee787d77c15cf3cec04d4a802770c13980b46cc68d45df92dba58fdc",
+    "width": 3,
+    "height": 4
+  }
+]

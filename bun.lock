@@ -78,6 +78,7 @@
       "version": "0.0.0",
       "dependencies": {
         "@yap/composition": "workspace:*",
+        "@yap/protocol": "workspace:*",
         "zod": "4.6.5",
       },
     },

@@ -1,0 +1,754 @@
+{
+  "visibleSha256": "74a9caf79cc35641e6c32bb433633ee1f5f0dfbbd909842ee5e8f91bcd2acc58",
+  "displaced": {
+    "sha256": "8a7cdaa5de36caa65a0283e3e94f8cd5eaed6af4a59e71aba94d66376077c51b"
+  },
+  "storage": {
+    "recordingId": null,
+    "observedAt": "2026-10-06T07:12:14.469Z",
+    "measurement": "live",
+    "sourceBytes": 0,
+    "evidenceBytes": 0,
+    "cacheBytes": 0,
+    "otherBytes": 408,
+    "sharedBytes": 409621,
+    "totalBytes": 410029
+  },
+  "exchanges": [
+    {
+      "operation": "asset.import",
+      "params": {
+        "path": "/tmp/yap-replacement-output-4XIPu3/original-font.bin",
+        "requestId": "font"
+      },
+      "code": 0,
+      "response": {
+        "ok": true,
+        "data": {
+          "jobId": "14b6ba76-4781-491f-8c96-41a5b1d92f9a",
+          "attemptId": "d9e330e0-a194-4006-aa89-67884bee5667",
+          "artifact": "asset.import",
+          "lane": "heavy",
+          "state": "ready",
+          "reason": null,
+          "generation": 1,
+          "errorCode": null,
+          "inputSha256": "5b7ba8253b36e89474f54561731bdb6527820ebd4f38bcaa265f9b81e084db2c",
+          "target": {
+            "kind": "import",
+            "importId": "b0a3f61a-5f17-4f27-921f-ea4ccf5822aa"
+          },
+          "retryable": false,
+          "errorDetails": null,
+          "published": {
+            "generation": 1,
+            "attemptId": "d9e330e0-a194-4006-aa89-67884bee5667",
+            "output": {
+              "assetId": "50497fa19a4d5a1db72d6ead883f6f54572a12f6f170abc4f1932273770f4274"
+            }
+          }
+        },
+        "id": "dfece8c3-241f-457d-817a-cae046fc4d2e",
+        "wait": {
+          "state": "settled",
+          "timeoutMs": 5000,
+          "job": {
+            "jobId": "14b6ba76-4781-491f-8c96-41a5b1d92f9a",
+            "generation": 1,
+            "attemptId": "d9e330e0-a194-4006-aa89-67884bee5667"
+          }
+        }
+      }
+    },
+    {
+      "operation": "project.create",
+      "params": {
+        "requestId": "project",
+        "canvas": {
+          "width": 160,
+          "height": 96,
+          "fps": {
+            "numerator": 30,
+            "denominator": 1
+          },
+          "background": "#000000ff"
+        }
+      },
+      "code": 0,
+      "response": {
+        "ok": true,
+        "data": {
+          "project": {
+            "projectId": "dc3e16e3-e416-43bf-9de2-5521408643be",
+            "title": "Untitled",
+            "createdAt": "2026-10-06T07:12:12.551Z",
+            "currentRevisionId": "667681a9-f71f-47d9-9a7e-de9a06937e3d"
+          },
+          "revision": {
+            "id": "667681a9-f71f-47d9-9a7e-de9a06937e3d",
+            "projectId": "dc3e16e3-e416-43bf-9de2-5521408643be",
+            "ordinal": 0,
+            "createdAt": "2026-10-06T07:12:12.551Z",
+            "operation": "create",
+            "document": {
+              "canvas": {
+                "width": 160,
+                "height": 96,
+                "fps": {
+                  "numerator": 30,
+                  "denominator": 1
+                },
+                "background": "#000000ff"
+              },
+              "tracks": [],
+              "groups": [],
+              "clips": [],
+              "syncGroups": [],
+              "processing": []
+            }
+          }
+        },
+        "id": "663d397d-7c2a-4de4-a550-8e5616f79706"
+      }
+    },
+    {
+      "operation": "edit.apply",
+      "params": {
+        "projectId": "dc3e16e3-e416-43bf-9de2-5521408643be",
+        "requestId": "first-text",
+        "expectedRevisionId": "667681a9-f71f-47d9-9a7e-de9a06937e3d",
+        "operations": [
+          {
+            "operation": "track.add",
+            "track": {
+              "kind": "video",
+              "order": 0
+            },
+            "label": "captions"
+          },
+          {
+            "operation": "place",
+            "label": "text",
+            "clip": {
+              "trackId": {
+                "label": "captions"
+              },
+              "source": {
+                "kind": "text",
+                "text": "First words",
+                "font": {
+                  "assetId": "50497fa19a4d5a1db72d6ead883f6f54572a12f6f170abc4f1932273770f4274",
+                  "postScriptName": "FixtureFont"
+                },
+                "width": 160,
+                "height": 96,
+                "size": 32,
+                "color": "#ffffffff",
+                "alignment": "left",
+                "wrap": true
+              },
+              "placement": {
+                "kind": "project",
+                "range": {
+                  "startUs": 0,
+                  "endUs": 1000000
+                }
+              }
+            }
+          }
+        ]
+      },
+      "code": 0,
+      "response": {
+        "ok": true,
+        "data": {
+          "revision": {
+            "id": "33e8ee57-9d02-47fb-a8c7-c5730fe753cc",
+            "projectId": "dc3e16e3-e416-43bf-9de2-5521408643be",
+            "ordinal": 1,
+            "createdAt": "2026-10-06T07:12:12.661Z",
+            "operation": "apply",
+            "document": {
+              "canvas": {
+                "width": 160,
+                "height": 96,
+                "fps": {
+                  "numerator": 30,
+                  "denominator": 1
+                },
+                "background": "#000000ff"
+              },
+              "tracks": [
+                {
+                  "id": "track:8fc89100712fc68f8420e080f1710d1f95ec4b2c2e83c747afc07bc992385e5c:0",
+                  "kind": "video",
+                  "order": 0
+                }
+              ],
+              "groups": [],
+              "clips": [
+                {
+                  "id": "clip:8fc89100712fc68f8420e080f1710d1f95ec4b2c2e83c747afc07bc992385e5c:1",
+                  "trackId": "track:8fc89100712fc68f8420e080f1710d1f95ec4b2c2e83c747afc07bc992385e5c:0",
+                  "placement": {
+                    "kind": "project",
+                    "range": {
+                      "startUs": 0,
+                      "endUs": 1000000
+                    }
+                  },
+                  "source": {
+                    "kind": "text",
+                    "text": "First words",
+                    "font": {
+                      "assetId": "50497fa19a4d5a1db72d6ead883f6f54572a12f6f170abc4f1932273770f4274",
+                      "postScriptName": "FixtureFont"
+                    },
+                    "width": 160,
+                    "height": 96,
+                    "size": 32,
+                    "color": "#ffffffff",
+                    "alignment": "left",
+                    "wrap": true
+                  }
+                }
+              ],
+              "syncGroups": [],
+              "processing": []
+            }
+          },
+          "edit": {
+            "changed": true,
+            "createdIds": [
+              {
+                "kind": "track",
+                "id": "track:8fc89100712fc68f8420e080f1710d1f95ec4b2c2e83c747afc07bc992385e5c:0"
+              },
+              {
+                "kind": "clip",
+                "id": "clip:8fc89100712fc68f8420e080f1710d1f95ec4b2c2e83c747afc07bc992385e5c:1"
+              }
+            ],
+            "labels": {
+              "captions": "track:8fc89100712fc68f8420e080f1710d1f95ec4b2c2e83c747afc07bc992385e5c:0",
+              "text": "clip:8fc89100712fc68f8420e080f1710d1f95ec4b2c2e83c747afc07bc992385e5c:1"
+            },
+            "normalized": [
+              {
+                "operationIndex": 0,
+                "changes": [
+                  {
+                    "kind": "track",
+                    "id": "track:8fc89100712fc68f8420e080f1710d1f95ec4b2c2e83c747afc07bc992385e5c:0",
+                    "value": {
+                      "id": "track:8fc89100712fc68f8420e080f1710d1f95ec4b2c2e83c747afc07bc992385e5c:0",
+                      "kind": "video",
+                      "order": 0
+                    }
+                  }
+                ]
+              },
+              {
+                "operationIndex": 1,
+                "changes": [
+                  {
+                    "kind": "clip",
+                    "id": "clip:8fc89100712fc68f8420e080f1710d1f95ec4b2c2e83c747afc07bc992385e5c:1",
+                    "value": {
+                      "id": "clip:8fc89100712fc68f8420e080f1710d1f95ec4b2c2e83c747afc07bc992385e5c:1",
+                      "trackId": "track:8fc89100712fc68f8420e080f1710d1f95ec4b2c2e83c747afc07bc992385e5c:0",
+                      "placement": {
+                        "kind": "project",
+                        "range": {
+                          "startUs": 0,
+                          "endUs": 1000000
+                        }
+                      },
+                      "source": {
+                        "kind": "text",
+                        "text": "First words",
+                        "font": {
+                          "assetId": "50497fa19a4d5a1db72d6ead883f6f54572a12f6f170abc4f1932273770f4274",
+                          "postScriptName": "FixtureFont"
+                        },
+                        "width": 160,
+                        "height": 96,
+                        "size": 32,
+                        "color": "#ffffffff",
+                        "alignment": "left",
+                        "wrap": true
+                      }
+                    }
+                  }
+                ]
+              }
+            ],
+            "clipLineage": [],
+            "removedAttachments": [],
+            "processingLineage": [],
+            "touchedFixedAnchors": [],
+            "linkChanges": []
+          }
+        },
+        "id": "827275bd-0717-4d71-97c2-5a670ca3e2da"
+      }
+    },
+    {
+      "operation": "export.create",
+      "params": {
+        "projectId": "dc3e16e3-e416-43bf-9de2-5521408643be",
+        "revisionId": "33e8ee57-9d02-47fb-a8c7-c5730fe753cc",
+        "placementIds": [
+          "clip:8fc89100712fc68f8420e080f1710d1f95ec4b2c2e83c747afc07bc992385e5c:1"
+        ],
+        "kind": "srt",
+        "directory": "/tmp/yap-replacement-output-4XIPu3",
+        "leaf": "captions.srt",
+        "exportId": "a2403e80-1dc2-4742-85f6-399435d2b94b"
+      },
+      "code": 0,
+      "response": {
+        "ok": true,
+        "data": {
+          "exportId": "a2403e80-1dc2-4742-85f6-399435d2b94b",
+          "kind": "srt",
+          "state": "committed",
+          "abandoning": false,
+          "cleanupPending": false,
+          "recovery": {
+            "state": "not_requested",
+            "jobId": null,
+            "reason": null,
+            "retryable": false,
+            "published": null
+          },
+          "projectId": "dc3e16e3-e416-43bf-9de2-5521408643be",
+          "snapshot": {
+            "projectId": "dc3e16e3-e416-43bf-9de2-5521408643be",
+            "revisionId": "33e8ee57-9d02-47fb-a8c7-c5730fe753cc",
+            "kind": "srt",
+            "placementIds": [
+              "clip:8fc89100712fc68f8420e080f1710d1f95ec4b2c2e83c747afc07bc992385e5c:1"
+            ],
+            "cueCount": 1,
+            "omitted": [],
+            "addedOverlaps": [],
+            "discardedStyling": [
+              "clip:8fc89100712fc68f8420e080f1710d1f95ec4b2c2e83c747afc07bc992385e5c:1"
+            ]
+          },
+          "destination": {
+            "directory": "/private/tmp/yap-replacement-output-4XIPu3",
+            "leaf": "captions.srt"
+          },
+          "receipt": {
+            "sha256": "d3726c471cc132643b511af50750f4cadb3a08c116e65d6773ecd2c77a766572",
+            "destination": {
+              "ino": "7333413",
+              "dev": "16777232"
+            },
+            "file": {
+              "ino": "7333519",
+              "dev": "16777232"
+            },
+            "bytes": 45,
+            "replacement": null,
+            "stage": {
+              "dev": "16777232",
+              "ino": "7333513"
+            },
+            "leaf": "captions.srt"
+          },
+          "output": "/private/tmp/yap-replacement-output-4XIPu3/captions.srt",
+          "jobId": "79e1d74f-4948-46dc-b2c7-2193fd328176",
+          "reason": null,
+          "retryable": false
+        },
+        "id": "034866ba-f7b7-4277-a36d-636ab003d5ea",
+        "wait": {
+          "state": "settled",
+          "timeoutMs": 5000,
+          "job": {
+            "jobId": "79e1d74f-4948-46dc-b2c7-2193fd328176",
+            "generation": 1,
+            "attemptId": "8d25377e-0f74-4610-a231-12f1b775548f"
+          }
+        }
+      }
+    },
+    {
+      "operation": "edit.apply",
+      "params": {
+        "projectId": "dc3e16e3-e416-43bf-9de2-5521408643be",
+        "requestId": "34bbc8f4-cb64-4fd1-8de5-1636bfdc4a1d",
+        "expectedRevisionId": "33e8ee57-9d02-47fb-a8c7-c5730fe753cc",
+        "operations": [
+          {
+            "operation": "text.set",
+            "clipId": "clip:8fc89100712fc68f8420e080f1710d1f95ec4b2c2e83c747afc07bc992385e5c:1",
+            "source": {
+              "kind": "text",
+              "text": "Uncertain new output",
+              "font": {
+                "assetId": "50497fa19a4d5a1db72d6ead883f6f54572a12f6f170abc4f1932273770f4274",
+                "postScriptName": "FixtureFont"
+              },
+              "width": 160,
+              "height": 96,
+              "size": 32,
+              "color": "#ffffffff",
+              "alignment": "left",
+              "wrap": true
+            }
+          }
+        ]
+      },
+      "code": 0,
+      "response": {
+        "ok": true,
+        "data": {
+          "revision": {
+            "id": "0604f8eb-6638-43c7-82d9-a41209a2d451",
+            "projectId": "dc3e16e3-e416-43bf-9de2-5521408643be",
+            "ordinal": 2,
+            "createdAt": "2026-10-06T07:12:13.150Z",
+            "operation": "apply",
+            "document": {
+              "canvas": {
+                "width": 160,
+                "height": 96,
+                "fps": {
+                  "numerator": 30,
+                  "denominator": 1
+                },
+                "background": "#000000ff"
+              },
+              "tracks": [
+                {
+                  "id": "track:8fc89100712fc68f8420e080f1710d1f95ec4b2c2e83c747afc07bc992385e5c:0",
+                  "kind": "video",
+                  "order": 0
+                }
+              ],
+              "groups": [],
+              "clips": [
+                {
+                  "id": "clip:8fc89100712fc68f8420e080f1710d1f95ec4b2c2e83c747afc07bc992385e5c:1",
+                  "trackId": "track:8fc89100712fc68f8420e080f1710d1f95ec4b2c2e83c747afc07bc992385e5c:0",
+                  "placement": {
+                    "kind": "project",
+                    "range": {
+                      "startUs": 0,
+                      "endUs": 1000000
+                    }
+                  },
+                  "source": {
+                    "kind": "text",
+                    "text": "Uncertain new output",
+                    "font": {
+                      "assetId": "50497fa19a4d5a1db72d6ead883f6f54572a12f6f170abc4f1932273770f4274",
+                      "postScriptName": "FixtureFont"
+                    },
+                    "width": 160,
+                    "height": 96,
+                    "size": 32,
+                    "color": "#ffffffff",
+                    "alignment": "left",
+                    "wrap": true
+                  }
+                }
+              ],
+              "syncGroups": [],
+              "processing": []
+            }
+          },
+          "edit": {
+            "changed": true,
+            "createdIds": [],
+            "labels": {},
+            "normalized": [
+              {
+                "operationIndex": 0,
+                "changes": [
+                  {
+                    "kind": "clip",
+                    "id": "clip:8fc89100712fc68f8420e080f1710d1f95ec4b2c2e83c747afc07bc992385e5c:1",
+                    "value": {
+                      "id": "clip:8fc89100712fc68f8420e080f1710d1f95ec4b2c2e83c747afc07bc992385e5c:1",
+                      "trackId": "track:8fc89100712fc68f8420e080f1710d1f95ec4b2c2e83c747afc07bc992385e5c:0",
+                      "placement": {
+                        "kind": "project",
+                        "range": {
+                          "startUs": 0,
+                          "endUs": 1000000
+                        }
+                      },
+                      "source": {
+                        "kind": "text",
+                        "text": "Uncertain new output",
+                        "font": {
+                          "assetId": "50497fa19a4d5a1db72d6ead883f6f54572a12f6f170abc4f1932273770f4274",
+                          "postScriptName": "FixtureFont"
+                        },
+                        "width": 160,
+                        "height": 96,
+                        "size": 32,
+                        "color": "#ffffffff",
+                        "alignment": "left",
+                        "wrap": true
+                      }
+                    }
+                  }
+                ]
+              }
+            ],
+            "clipLineage": [],
+            "removedAttachments": [],
+            "processingLineage": [],
+            "touchedFixedAnchors": [],
+            "linkChanges": []
+          }
+        },
+        "id": "06073c92-6dd6-4f9b-9dbb-600c5f72b42a"
+      }
+    },
+    {
+      "operation": "export.create",
+      "params": {
+        "projectId": "dc3e16e3-e416-43bf-9de2-5521408643be",
+        "revisionId": "0604f8eb-6638-43c7-82d9-a41209a2d451",
+        "placementIds": [
+          "clip:8fc89100712fc68f8420e080f1710d1f95ec4b2c2e83c747afc07bc992385e5c:1"
+        ],
+        "kind": "srt",
+        "directory": "/tmp/yap-replacement-output-4XIPu3",
+        "leaf": "captions.srt",
+        "exportId": "3a532ea4-fded-411f-b18a-0f48d62af94d"
+      },
+      "code": 1,
+      "response": {
+        "ok": true,
+        "data": {
+          "exportId": "3a532ea4-fded-411f-b18a-0f48d62af94d",
+          "kind": "srt",
+          "state": "failed",
+          "abandoning": false,
+          "cleanupPending": true,
+          "recovery": {
+            "state": "ready",
+            "jobId": "c7a9643e-8862-4c60-bf2a-a976e2f61557",
+            "reason": null,
+            "retryable": false,
+            "published": {
+              "artifact": "export-recovery",
+              "generation": 1,
+              "input": "3a532ea4-fded-411f-b18a-0f48d62af94d/19b10fda-c5f3-4fa6-aace-4330f039acfe",
+              "result": "{\"observation\":\"conflicted\"}",
+              "target": {
+                "kind": "project",
+                "projectId": "dc3e16e3-e416-43bf-9de2-5521408643be",
+                "revisionId": "0604f8eb-6638-43c7-82d9-a41209a2d451"
+              }
+            }
+          },
+          "projectId": "dc3e16e3-e416-43bf-9de2-5521408643be",
+          "snapshot": {
+            "projectId": "dc3e16e3-e416-43bf-9de2-5521408643be",
+            "revisionId": "0604f8eb-6638-43c7-82d9-a41209a2d451",
+            "kind": "srt",
+            "placementIds": [
+              "clip:8fc89100712fc68f8420e080f1710d1f95ec4b2c2e83c747afc07bc992385e5c:1"
+            ],
+            "cueCount": 1,
+            "omitted": [],
+            "addedOverlaps": [],
+            "discardedStyling": [
+              "clip:8fc89100712fc68f8420e080f1710d1f95ec4b2c2e83c747afc07bc992385e5c:1"
+            ]
+          },
+          "destination": {
+            "directory": "/private/tmp/yap-replacement-output-4XIPu3",
+            "leaf": "captions.srt"
+          },
+          "receipt": null,
+          "output": null,
+          "jobId": "3297f873-3330-48aa-b077-66c24ee29de9",
+          "reason": "Export destination belongs to another file or was modified",
+          "retryable": false
+        },
+        "id": "029bc2ab-2ea4-4613-aa3e-b09a57883805",
+        "wait": {
+          "state": "settled",
+          "timeoutMs": 5000,
+          "job": {
+            "jobId": "c7a9643e-8862-4c60-bf2a-a976e2f61557",
+            "generation": 1,
+            "attemptId": "399759d1-3d88-468c-8aff-eed9eca3f44b"
+          }
+        }
+      }
+    },
+    {
+      "operation": "job.get",
+      "params": {
+        "jobId": "3297f873-3330-48aa-b077-66c24ee29de9"
+      },
+      "code": 0,
+      "response": {
+        "ok": true,
+        "data": {
+          "jobId": "3297f873-3330-48aa-b077-66c24ee29de9",
+          "attemptId": "19b10fda-c5f3-4fa6-aace-4330f039acfe",
+          "artifact": "export-media",
+          "lane": "heavy",
+          "state": "failed",
+          "reason": "Export destination belongs to another file or was modified",
+          "generation": 1,
+          "errorCode": "DESTINATION_CHANGED",
+          "inputSha256": "83dc7dd137fd57eabd50d4c1f7b0b18f59f7dec77134a33f0a06deccb40a3dbc",
+          "target": {
+            "kind": "project",
+            "projectId": "dc3e16e3-e416-43bf-9de2-5521408643be",
+            "revisionId": "0604f8eb-6638-43c7-82d9-a41209a2d451"
+          },
+          "retryable": false,
+          "errorDetails": {
+            "state": "conflicted",
+            "destinationVisibility": "uncertain",
+            "retainedDisplaced": "/private/tmp/yap-replacement-output-4XIPu3/.yap-export-3a532ea4-fded-411f-b18a-0f48d62af94d/swap"
+          },
+          "published": null
+        },
+        "id": "cbdd2fb1-c106-45e6-bcda-51fd59fa2622"
+      }
+    },
+    {
+      "operation": "export.recover",
+      "params": {
+        "exportId": "3a532ea4-fded-411f-b18a-0f48d62af94d"
+      },
+      "code": 1,
+      "response": {
+        "ok": true,
+        "data": {
+          "exportId": "3a532ea4-fded-411f-b18a-0f48d62af94d",
+          "kind": "srt",
+          "state": "failed",
+          "abandoning": false,
+          "cleanupPending": true,
+          "recovery": {
+            "state": "ready",
+            "jobId": "c7a9643e-8862-4c60-bf2a-a976e2f61557",
+            "reason": null,
+            "retryable": false,
+            "published": {
+              "artifact": "export-recovery",
+              "generation": 2,
+              "input": "3a532ea4-fded-411f-b18a-0f48d62af94d/19b10fda-c5f3-4fa6-aace-4330f039acfe",
+              "result": "{\"observation\":\"conflicted\"}",
+              "target": {
+                "kind": "project",
+                "projectId": "dc3e16e3-e416-43bf-9de2-5521408643be",
+                "revisionId": "0604f8eb-6638-43c7-82d9-a41209a2d451"
+              }
+            }
+          },
+          "projectId": "dc3e16e3-e416-43bf-9de2-5521408643be",
+          "snapshot": {
+            "projectId": "dc3e16e3-e416-43bf-9de2-5521408643be",
+            "revisionId": "0604f8eb-6638-43c7-82d9-a41209a2d451",
+            "kind": "srt",
+            "placementIds": [
+              "clip:8fc89100712fc68f8420e080f1710d1f95ec4b2c2e83c747afc07bc992385e5c:1"
+            ],
+            "cueCount": 1,
+            "omitted": [],
+            "addedOverlaps": [],
+            "discardedStyling": [
+              "clip:8fc89100712fc68f8420e080f1710d1f95ec4b2c2e83c747afc07bc992385e5c:1"
+            ]
+          },
+          "destination": {
+            "directory": "/private/tmp/yap-replacement-output-4XIPu3",
+            "leaf": "captions.srt"
+          },
+          "receipt": null,
+          "output": null,
+          "jobId": "3297f873-3330-48aa-b077-66c24ee29de9",
+          "reason": "Export destination belongs to another file or was modified",
+          "retryable": false
+        },
+        "id": "596ba6da-c6fd-4f7b-a43e-207885670ed9",
+        "wait": {
+          "state": "settled",
+          "timeoutMs": 5000,
+          "job": {
+            "jobId": "c7a9643e-8862-4c60-bf2a-a976e2f61557",
+            "generation": 2,
+            "attemptId": "9ceccdde-1943-454f-8a79-3c3d40142a69"
+          }
+        }
+      }
+    },
+    {
+      "operation": "export.retry",
+      "params": {
+        "exportId": "3a532ea4-fded-411f-b18a-0f48d62af94d"
+      },
+      "code": 1,
+      "response": {
+        "ok": false,
+        "error": {
+          "code": "UNAVAILABLE",
+          "message": "This job cannot be retried",
+          "retryable": false,
+          "details": {
+            "state": "failed",
+            "reason": "Export destination belongs to another file or was modified",
+            "errorCode": "DESTINATION_CHANGED"
+          }
+        },
+        "id": "eabc6013-d3c8-47af-ace7-8aa48e7fc373"
+      }
+    },
+    {
+      "operation": "export.abandon",
+      "params": {
+        "exportId": "3a532ea4-fded-411f-b18a-0f48d62af94d"
+      },
+      "code": 1,
+      "response": {
+        "ok": false,
+        "error": {
+          "code": "PUBLICATION_CONFLICT",
+          "message": "Unknown displaced bytes remain in private staging; cleanup cannot remove them.",
+          "retryable": true,
+          "details": {
+            "exportId": "3a532ea4-fded-411f-b18a-0f48d62af94d"
+          }
+        },
+        "id": "bfe9597f-ad59-443d-ab40-e44f6c888185"
+      }
+    },
+    {
+      "operation": "storage.usage",
+      "params": {},
+      "code": 0,
+      "response": {
+        "ok": true,
+        "data": {
+          "recordingId": null,
+          "observedAt": "2026-10-06T07:12:14.469Z",
+          "measurement": "live",
+          "sourceBytes": 0,
+          "evidenceBytes": 0,
+          "cacheBytes": 0,
+          "otherBytes": 408,
+          "sharedBytes": 409621,
+          "totalBytes": 410029
+        },
+        "id": "fc9ae6a4-2b75-4058-8bae-9ca783d27034"
+      }
+    }
+  ]
+}

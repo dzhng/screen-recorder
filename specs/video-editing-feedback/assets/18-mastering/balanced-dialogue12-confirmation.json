@@ -1,0 +1,36 @@
+[
+  {
+    "ordinal": 1,
+    "offset": 1.2529339000000004,
+    "recipe": "loudnorm=I=-14.5:TP=0:LRA=7:linear=false:measured_I=-22.39:measured_TP=-5.34:measured_LRA=0.70:measured_thresh=-32.39:offset=1.2529339000000004",
+    "after": {
+      "frames": 576000.0,
+      "integratedLufs": -14.7183983,
+      "loudnessRangeLu": 0.262946334,
+      "samplePeakDbfs": 0.0208845221,
+      "truePeakDbtp": 0.0208845221
+    },
+    "errorLu": 0.2183983000000005,
+    "improvementLu": 0.19453560000000003,
+    "admitted": false,
+    "seconds": 0.45936683300000003,
+    "outputSha256": "6bd05411c1b307b02cbba0561d457d0c8826e60dd12637a96153e67f9917edca"
+  },
+  {
+    "ordinal": 2,
+    "offset": 1.4713322000000009,
+    "recipe": "loudnorm=I=-14.5:TP=0:LRA=7:linear=false:measured_I=-22.39:measured_TP=-5.34:measured_LRA=0.70:measured_thresh=-32.39:offset=1.4713322000000009",
+    "after": {
+      "frames": 576000.0,
+      "integratedLufs": -14.6084335,
+      "loudnessRangeLu": 0.259503391,
+      "samplePeakDbfs": 0.0208845221,
+      "truePeakDbtp": 0.0208845221
+    },
+    "errorLu": 0.1084335000000003,
+    "improvementLu": 0.1099648000000002,
+    "admitted": true,
+    "seconds": 0.470652625,
+    "outputSha256": "21bc6354572b13d5a0baeb7018cbfb3aa1614f014344ef88114f8424fdf686e7"
+  }
+]

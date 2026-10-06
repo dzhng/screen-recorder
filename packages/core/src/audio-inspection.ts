@@ -931,6 +931,17 @@ export function checkProjectAudioResult(
       if (item.recipe.type === "normalization") {
         if (!item.normalization)
           invalid("Normalization omitted complete before/after measurements");
+        const attempts = item.normalization.attempts;
+        if (
+          !isDeepStrictEqual(
+            attempts[item.normalization.selectedAttempt]?.after,
+            item.normalization.after,
+          ) ||
+          (item.recipe.mode === "gain-only"
+            ? attempts.length !== 1 || attempts[0]!.offsetDb !== null
+            : attempts.some((attempt) => attempt.offsetDb === null))
+        )
+          invalid("Normalization candidate evidence differs from its final signal or mode");
         normalizationGain(item.recipe, item.normalization.before);
         admitNormalization(item.recipe, item.normalization.after);
       } else if (item.normalization)

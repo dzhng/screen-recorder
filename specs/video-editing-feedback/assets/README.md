@@ -36,3 +36,7 @@ player/source/project agreement and keeps FFmpeg diagnostics separate.
 [17 audio preflight](17-audio-preflight/README.md) retains complete selected tap,
 strict audio-before-picture refusal, native final-mix reuse, portable adoption and
 independent review evidence. No mastering algorithm change is claimed.
+
+[18 bounded mastering](18-mastering/README.md) records strict original-input
+correction, candidate selection, independent PCM and decoded AAC observations,
+measured refusals and completed independent review.
