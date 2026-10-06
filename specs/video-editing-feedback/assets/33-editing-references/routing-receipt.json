@@ -1,0 +1,108 @@
+{
+  "version": 1,
+  "scope": "fresh-agent case-selected use-case routing only; native media delivery remains separate",
+  "cases": {
+    "launch": {
+      "version": 1,
+      "useCase": "launch",
+      "route": {
+        "index": "references/video-use-cases.md",
+        "reference": "references/launch-videos.md",
+        "purpose": "one product promise with visible proof and a truthful next action",
+        "ending": "benefit and next action",
+        "checks": [
+          "capability discovery",
+          "reference-conditioned picture and audio",
+          "delivered opening, proof and ending"
+        ]
+      },
+      "provenance": {
+        "referenceRoot": "references",
+        "index": {
+          "bytes": 4215,
+          "sha256": "a549911e1545263c57d8c04c32f7998baf66f62f12b31e72fbd72966184e1ba6"
+        },
+        "focusedReference": {
+          "bytes": 3430,
+          "sha256": "2e4ee83e5f626c579fba7a0a98e5d57079a5c1da03e9977ed02c4eed9c58da97"
+        }
+      },
+      "policy": {
+        "capabilityQuestionFirst": true,
+        "firstPartyYapModelsPreparedWhenNeeded": true,
+        "externalCapabilitiesRecommendedOnlyWhenMateriallyRequired": true,
+        "humanQaRequired": false,
+        "sourceMediaPreserved": true
+      },
+      "scope": "routing only; media inspection, edits, delivery and visual/audio acceptance remain separate checks"
+    },
+    "podcast": {
+      "version": 1,
+      "useCase": "podcast",
+      "route": {
+        "index": "references/video-use-cases.md",
+        "reference": "references/podcast-videos.md",
+        "purpose": "a complete interview exchange or episode introduction",
+        "ending": "answer and consequence, or a transition into the episode",
+        "checks": [
+          "complete exchange",
+          "declared source clocks and speaker evidence",
+          "delivered joins, captions and encoded audio"
+        ]
+      },
+      "provenance": {
+        "referenceRoot": "references",
+        "index": {
+          "bytes": 4215,
+          "sha256": "a549911e1545263c57d8c04c32f7998baf66f62f12b31e72fbd72966184e1ba6"
+        },
+        "focusedReference": {
+          "bytes": 3211,
+          "sha256": "7b64a0b4d75d7b8027f2a61f04789ba00bf626d2df50a9f7a36ffa0264a82c46"
+        }
+      },
+      "policy": {
+        "capabilityQuestionFirst": true,
+        "firstPartyYapModelsPreparedWhenNeeded": true,
+        "externalCapabilitiesRecommendedOnlyWhenMateriallyRequired": true,
+        "humanQaRequired": false,
+        "sourceMediaPreserved": true
+      },
+      "scope": "routing only; media inspection, edits, delivery and visual/audio acceptance remain separate checks"
+    },
+    "teaser": {
+      "version": 1,
+      "useCase": "teaser",
+      "route": {
+        "index": "references/video-use-cases.md",
+        "reference": "references/teaser-videos.md",
+        "purpose": "one honest curiosity loop for a teaser or episode cold open",
+        "ending": "an open question or the truthful destination supplied by the brief",
+        "checks": [
+          "complete question in context",
+          "answer withheld only when the brief permits it",
+          "no answer leak through captions, graphics or reactions"
+        ]
+      },
+      "provenance": {
+        "referenceRoot": "references",
+        "index": {
+          "bytes": 4215,
+          "sha256": "a549911e1545263c57d8c04c32f7998baf66f62f12b31e72fbd72966184e1ba6"
+        },
+        "focusedReference": {
+          "bytes": 3227,
+          "sha256": "544f6110b8fcf0ef456a3102f9f637dae3d853f04bb772923eaceab5844cd647"
+        }
+      },
+      "policy": {
+        "capabilityQuestionFirst": true,
+        "firstPartyYapModelsPreparedWhenNeeded": true,
+        "externalCapabilitiesRecommendedOnlyWhenMateriallyRequired": true,
+        "humanQaRequired": false,
+        "sourceMediaPreserved": true
+      },
+      "scope": "routing only; media inspection, edits, delivery and visual/audio acceptance remain separate checks"
+    }
+  }
+}

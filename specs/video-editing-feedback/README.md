@@ -1,6 +1,6 @@
 # Reliable autonomous video editing
 
-Status: implementation active; core contracts through19 are integrated, contextual joins now include a fresh-agent Parakeet repair replay, and caption, blend, synchronization-evidence, motion and delivered-scene helpers are present. Native delivery, synchronization delivery and long-form speaker quality gates remain open. Last updated: 2026-10-06.
+Status: implementation active; core contracts through19 are integrated, contextual joins now include a fresh-agent Parakeet repair replay, and caption, blend, synchronization-evidence, motion, delivered-scene and focused-use-case routing helpers are present. Native delivery, synchronization delivery and long-form speaker quality gates remain open. Last updated: 2026-10-06.
 
 Yap supplies explicit editing primitives and reproducible observations. The consumer
 agent chooses the story, uses available creative tools, checks actual output and
@@ -39,7 +39,7 @@ receipt with neutral and color masks. Native transition picture delivery now has
 crossfade/dip/flash receipts; native audio acceptance remains open for transitions,
 motion blur and the physical empty-edit-list scene gap;
 the delivered-scene export/import checkpoint covers planted flash/hold observations.
-Caption, blend, immutable-LUT, delivered-scene-helper and source
+Caption, blend, immutable-LUT, delivered-scene-helper, focused-use-case-routing and source
 acoustic/package-replay receipts are accepted for their declared scopes; their
 remaining native parity gates stay explicit in the slice files.
 

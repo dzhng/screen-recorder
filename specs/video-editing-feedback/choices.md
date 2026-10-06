@@ -1510,3 +1510,23 @@ Apple cube candidate are in the slice26 evidence; no user-only decision remains.
 - **The reach:** The helper can be replayed from retained operands without a timecode hint, while the threshold and case selection remain fixture-scoped consumer logic rather than a new product verdict.
 - **Verdict:** sound. The real isolated run discovered `clipped`, advanced the revision, rendered Parakeet again and observed `Fortunately,`; phonetic completeness remains unknown.
 - **Confidence:** medium; the planner is intentionally narrow to this retained fixture and is not a general editorial detector.
+
+## Route focused use-case references through one case-selected helper — slice33
+
+- **When:** fresh-agent routing checkpoint for launch, podcast and teaser workflows.
+- **The choice:** Keep the three story references separate, but give a new
+  consumer one public, case-selected helper that verifies the index link,
+  records the exact reference hashes and returns the shared capability-first,
+  no-default-install and no-human-QA policy. For example, a fresh process can
+  pipe `{ "useCase": "teaser" }` to `use-case-routing.mjs` and receive a
+  portable receipt before it touches media.
+- **The gap:** The focused references existed, but a fresh agent had no small
+  runnable checkpoint proving which file owned each story shape or that the
+  installed bytes matched the retained evidence.
+- **The reach:** Routing is now reproducible and provenance-pinned without
+  pretending that documentation has delivered a video. Caption/music
+  interchange, native editing and clean-state media replay remain slice34 work.
+- **Verdict:** sound for the routing checkpoint; slice33 remains partial until
+  its media-aware examples and slice34 delivery gates pass.
+- **Confidence:** high for path/link/hash policy, low for the still-open native
+  delivery and visual/audio acceptance gates.

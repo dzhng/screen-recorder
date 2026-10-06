@@ -84,3 +84,8 @@ replay after owned donor-state deletion. Movie response covers both complete hel
 mapping, overlapping word windows and explicit entrance motion through public
 stills, encoded references, offgrid preview, splits, repeats and retiming. Declared
 observations isolate those contracts from speech-model accuracy.
+
+[Focused use-case routing](33-editing-references/README.md) retains the
+case-selected launch, podcast and teaser reference identities and portable
+hash receipt. It is a documentation checkpoint; media-aware fresh-agent
+delivery remains open under slice 34.

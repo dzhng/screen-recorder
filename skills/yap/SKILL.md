@@ -114,6 +114,11 @@ unavailable; do not claim it reopened or retry writes blindly.
    the same evidence operations you use on the recording. Use its media in the
    edit only when the user asks. Done when no material choice is left open.
 
+   When a focused story shape is useful, select it with the installed
+   `scripts/use-case-routing.mjs` helper (`launch`, `podcast` or `teaser`). It
+   verifies the index link and records the installed reference hashes before
+   media work; it performs no edits, installs or model preparation.
+
 3. **Find the material.** Inspect the operation you need with
    `yap <operation> --help`. It returns its JSON description and parameter
    schema without launching the app. If you need to discover operation names,

@@ -1,8 +1,8 @@
 # 33 — Teach complete workflows and external interchange
 
 Status: partial — focused launch, podcast/interview and teaser references plus
-use-case routing are implemented. Runnable fresh-agent examples and final
-delivery acceptance remain with slice 34. Depends on: [02](02-capability-first-skill.md), [12](12-contextual-join-verification.md), [16](16-subject-reframe.md), [19](19-dialogue-matching.md), [21](21-synced-angles.md), [23](23-timed-word-captions.md), [26](26-immutable-luts.md), [29](29-motion-blur.md), [30](30-delivered-scenes.md), [32](32-speaker-labeling.md).
+case-selected routing are implemented. Media-aware fresh-agent examples and
+final delivery acceptance remain with slice 34. Depends on: [02](02-capability-first-skill.md), [12](12-contextual-join-verification.md), [16](16-subject-reframe.md), [19](19-dialogue-matching.md), [21](21-synced-angles.md), [23](23-timed-word-captions.md), [26](26-immutable-luts.md), [29](29-motion-blur.md), [30](30-delivered-scenes.md), [32](32-speaker-labeling.md).
 
 ## Contract
 
@@ -45,7 +45,23 @@ consolidates the complete workflows and removes duplicated procedure text.
 
 ## Runnable checkpoint
 
-A complete runnable example using discovered tools, caption/music or graphic interchange, and a documentation/eval case for each use case without requiring media editing by a person.
+A case-selected routing helper now gives a fresh agent the exact focused
+reference, provenance hashes and review checklist for each use case. It is
+documentation/eval evidence only: it does not claim caption/music interchange
+or media delivery. Media-aware examples remain the slice 34 gate.
+
+Run the helper from the installed skill with one of these requests:
+
+```sh
+printf '{"useCase":"launch"}\n' | node skills/yap/scripts/use-case-routing.mjs
+printf '{"useCase":"podcast"}\n' | node skills/yap/scripts/use-case-routing.mjs
+printf '{"useCase":"teaser"}\n' | node skills/yap/scripts/use-case-routing.mjs
+```
+
+The retained [routing receipt](../assets/33-editing-references/routing-receipt.json)
+records the three case identities. The model-eval cases are
+`launch-reference-routing`, `podcast-reference-routing` and
+`teaser-reference-routing` in [evals/cases.json](../../../evals/cases.json).
 
 Expose a case-selected command or existing lab entry with its own usage. Store accepted requests/results and artifact identities in feature-owned evidence. The implementing agent checks actual output; the user may view it for direction without becoming a QA gate.
 

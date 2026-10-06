@@ -60,7 +60,7 @@ specific claim needed for this item.
 
 | ID | Report / present disposition | Owning slices | Acceptance |
 | --- | --- | --- | --- |
-| S01 | Helpers unused; need usable examples; help already fixed in source | [02](slices/02-capability-first-skill.md), [33](slices/33-editing-references.md) | Fresh agent executes copy-pasteable minimal inputs using returned IDs, rather than inventing input JSON or private cache access. |
+| S01 | Helpers unused; need usable examples; help already fixed in source | [02](slices/02-capability-first-skill.md), [33](slices/33-editing-references.md) | Fresh agent now has a copy-pasteable case-selected routing helper with retained hashes for each focused reference; media helpers still consume returned public IDs rather than private cache paths. |
 | S02 | Multicamera/multisource workflow missing | [21](slices/21-synced-angles.md), [32](slices/32-speaker-labeling.md), [33](slices/33-editing-references.md) | Dedicated podcast reference distinguishes raw session clocks, edited references, mixed-recording speaker labeling, explicit speaker bindings and ambiguous sync. |
 | S03 | Picture QA missing | [14](slices/14-picture-statistics.md), [16](slices/16-subject-reframe.md), [33](slices/33-editing-references.md) | Agent independently checks actual exposure, framing and content preservation with masks/coverage; no human gate. |
 | S04 | Long-source transcript failure/recovery not taught | [07](slices/07-speech-timing-admission.md), [08](slices/08-bounded-speech-preparation.md), [33](slices/33-editing-references.md) | Explicit bounded preparation, nonretryable invalid evidence and resumable gaps; no extract/offset/retry storm as default workflow. |

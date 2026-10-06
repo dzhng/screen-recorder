@@ -32,3 +32,12 @@ Focused checks:
   pointer, avoiding duplicated launch/podcast rules;
 - capability-first discovery and no-default-install policy point to the existing
   capability-discovery owner.
+
+The case-selected [use-case routing helper](../../../../skills/yap/scripts/use-case-routing.mjs)
+is the fresh-agent checkpoint for this slice. It reads the installed reference
+bytes, verifies that each focused file is linked from the index and retains
+portable SHA-256 identities plus the shared no-human-QA/external-capability
+policy. The [routing receipt](routing-receipt.json) was generated for launch,
+podcast and teaser. The corresponding model-eval cases are retained in
+`evals/cases.json`; this checkpoint does not claim media editing, caption/music
+interchange or native delivery.

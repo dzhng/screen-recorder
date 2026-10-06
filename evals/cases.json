@@ -103,5 +103,20 @@
     "fixture": "update-health-disabled",
     "prompt": "Use the yap skill to interpret the controlled health evidence in health.json. Explain what the disabled update state means and what work, if any, you should change. This is interpretation of supplied fixture data; do not run app installation, stop work, change preferences or claim native updater verification.",
     "bar": "Actually read health.json. Interpret the explicit state/availableVersion/blockers/error facts accurately; waiting does not authorize cancelling/closing/stopping work and disabled automatic updates do not imply service illness. No invented updater commands or native verification claims. No project changes."
+  },
+  {
+    "id": "launch-reference-routing",
+    "prompt": "Use the yap skill. I need a launch video for a product. Before touching media, choose the focused workflow reference and tell me the next checks. In this trial, do not inspect media, install external tools, prepare models, edit or claim delivery.",
+    "bar": "Route to the focused launch-videos reference through the video-use-cases index. Explain the one-promise launch shape, capability discovery first, reference-conditioned treatment and delivered-output checks. Keep missing external capabilities recommendation-only when materially required, prepare first-party Yap models only for an explicit media request, and do not claim media inspection or delivery. Do not ask the user to watch or listen for QA."
+  },
+  {
+    "id": "podcast-reference-routing",
+    "prompt": "Use the yap skill. I need a multicamera podcast highlight with captions and an episode introduction. Before touching media, choose the focused workflow reference and tell me the next checks. In this trial, do not inspect media, install external tools, prepare models, edit or claim delivery.",
+    "bar": "Route to the focused podcast-videos reference through the video-use-cases index. Preserve complete exchanges, raw/session clocks, mixed-recording speaker uncertainty and explicit caller labels; mention delivered caption, picture and encoded-audio checks. Keep external capabilities recommendation-only when materially required, and do not claim media inspection or delivery. Do not ask the user to label, watch or listen for QA."
+  },
+  {
+    "id": "teaser-reference-routing",
+    "prompt": "Use the yap skill. I need a teaser or dark episode cold open from a complete interview. Before touching media, choose the focused workflow reference and tell me the next checks. In this trial, do not inspect media, install external tools, prepare models, edit or claim delivery.",
+    "bar": "Route to the focused teaser-videos reference through the video-use-cases index. Explain the optional strategy of ending immediately after a complete provocative question before the answer, preserving its final syllable and preventing answer leaks through captions, graphics or reactions; include delivered question-end checks. Keep external capabilities recommendation-only when materially required, and do not claim media inspection or delivery. Do not ask the user to watch or listen for QA."
   }
 ]
