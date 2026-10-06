@@ -24,8 +24,10 @@ only; the exact-30-second provider remains provisional and the unchanged long-fo
 four-speaker continuity gate is still red. Do not promote the provider to long-form
 continuity or named-person inference. The slice32
 binding checkpoint now replays caller-authored labels through source, project and
-immutable package reads, and source transcript pages can attach generation-pinned
-word attribution with explicit unknown/overlap states. Slice 12D now passes: a fresh receipt-driven consumer
+immutable package reads, project transcript words can join selected speaker
+generations through retimes and cursor continuation, and source transcript pages
+can attach generation-pinned word attribution with explicit unknown/overlap states.
+Slice 12D now passes: a fresh receipt-driven consumer
 discovered the clipped Parakeet edge, authored one bounded replacement and
 rechecked the changed revision with fresh rendered recognition. The helper never
 chooses repairs or retries blindly.

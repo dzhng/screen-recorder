@@ -451,6 +451,31 @@ async function fixture({
                   jobId: null,
                 };
               }),
+            sourceStatus: (request: {
+              assetId: string;
+              streamId: string;
+              acquisitionId?: string;
+              channel: number;
+              modelId: string;
+              sourceRange: import("@yap/composition").SelectionRange;
+            }) => {
+              const found = speakerMetadata.find(
+                (value) =>
+                  value.owner.assetId === request.assetId &&
+                  value.source.streamId === request.streamId &&
+                  value.source.channel === request.channel &&
+                  value.source.engine.modelId === request.modelId &&
+                  JSON.stringify(value.source.observationRange) ===
+                    JSON.stringify(request.sourceRange),
+              );
+              return {
+                state: found ? ("ready" as const) : ("not_requested" as const),
+                reason: found ? null : "speaker_evidence_unobserved",
+                retryable: false,
+                jobId: null,
+                published: found ? { generation: found.generation, evidence: found } : null,
+              };
+            },
           },
         }
       : {}),
@@ -619,6 +644,44 @@ test("project transcript reads never infer and explicitly select retained bounde
       fragments: [{ source: { startUs: 400, endUs: 500 }, project: { startUs: 400, endUs: 500 } }],
     },
   ]);
+});
+
+test("project transcript rows preserve explicit speaker attribution through retiming", async () => {
+  const f = await fixture({ speakers: true, durationUs: 40_000_000 });
+  const input = f.create([track("speech"), clip(f.asset.id, "take", "speech", 0, 1000)]);
+  const speaker = f.observeSpeaker("speaker-project-transcript");
+  const transcriptSource = { assetId: f.asset.id, streamId: "speech" };
+  f.transcripts.prepareSource(transcriptSource);
+  await f.jobs.idle();
+  const transcript = f.transcripts.sourceStatus(transcriptSource).published!.transcript;
+  const query = {
+    ...input,
+    sourceGenerations: [{ ...transcriptSource, generation: transcript.generation }],
+    speakerGenerations: [
+      {
+        ...transcriptSource,
+        channel: speaker.source.channel,
+        modelId: speaker.source.engine.modelId,
+        observationRange: speaker.source.observationRange,
+        generation: speaker.generation,
+      },
+    ],
+  };
+  await f.ready(query);
+  const page = await f.evidence.get({ ...query, limit: 1 });
+  expect(page).toMatchObject({ state: "ready" });
+  const word = page.page!.rows.find((row) => row.type === "word");
+  expect(word).toMatchObject({
+    text: "one",
+    speaker: { state: "attributed", slot: 0 },
+  });
+  const cursor = page.page!.nextCursor;
+  expect(cursor).not.toBeNull();
+  const continued = await f.evidence.get({ projectId: input.projectId, cursor, limit: 1 });
+  expect(continued.page!.rows[0]).toMatchObject({
+    type: "word",
+    speaker: { state: "attributed", slot: 0 },
+  });
 });
 
 test("project pages merge repeated, retimed and tied track words exactly at limit one", async () => {

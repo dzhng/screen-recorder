@@ -43,10 +43,16 @@ import {
   type ProjectSpeakerPosition,
   type ProjectSpeakerDependency,
 } from "./project-speakers.js";
-import type { SpeakerEvidenceStore } from "./speaker-evidence.js";
+import type { SpeakerEvidenceMetadata, SpeakerEvidenceStore } from "./speaker-evidence.js";
 import type { SpeakerProcessing } from "./speaker-processing.js";
 export type { ProjectSpeakerRow, ProjectSpeakerDependency } from "./project-speakers.js";
 export type ProjectSpeakerInput = ProjectEvidenceInput & { channel: number; modelId: string };
+export type ProjectTranscriptSpeaker = SourceSelection & {
+  channel: number;
+  modelId: string;
+  observationRange: SelectionRange;
+  generation: string;
+};
 type ProjectCheckpoint =
   | (EvidenceCheckpoint<TranscriptPosition> & { kind: "transcript" })
   | (EvidenceCheckpoint<ProjectEventPosition> & { kind: "events" })
@@ -78,6 +84,7 @@ export type ProjectEvidenceCursor = z.infer<typeof cursorSchema>;
 export type ProjectEvidenceInput = {
   prepare?: boolean | undefined;
   sourceGenerations?: readonly (SourceSelection & { generation: string })[] | undefined;
+  speakerGenerations?: readonly ProjectTranscriptSpeaker[] | undefined;
   projectId: string;
   revisionId?: string | undefined;
   range?: { startUs: number; endUs: number } | undefined;
@@ -93,6 +100,8 @@ type QueryInput = ProjectEvidenceInput & {
 };
 type Query = {
   sourceGenerations?: (SourceSelection & { generation: string })[];
+  speakerGenerations?: ProjectTranscriptSpeaker[];
+  speakerBindingDigests?: { selection: string; generation: string; digest: string }[];
   domain: "transcript" | "transcript.search" | CaptureDomain | "speakers";
   channel?: number;
   modelId?: string;
@@ -153,6 +162,8 @@ export class ProjectEvidenceInspection {
       events?: SourceEvents;
       speakers?: Pick<SpeakerProcessing, "resolveMany"> & {
         records: Pick<SpeakerEvidenceStore, "intervalPage">;
+        sourceStatus?: SpeakerProcessing["sourceStatus"];
+        labels?: (metadata: SpeakerEvidenceMetadata) => ReadonlyMap<number, string>;
       };
     },
   ) {}
@@ -220,6 +231,26 @@ export class ProjectEvidenceInspection {
             .pick({ channel: true, modelId: true })
             .parse({ channel: input.channel, modelId: input.modelId })
         : {};
+    const speakerBindingDigests =
+      input.speakerGenerations &&
+      this.options.speakers?.sourceStatus &&
+      this.options.speakers.labels
+        ? input.speakerGenerations.map((selector) => {
+            const status = this.options.speakers!.sourceStatus!({
+              ...selector,
+              sourceRange: selector.observationRange,
+            });
+            const labels =
+              status.published?.evidence.generation === selector.generation
+                ? [...this.options.speakers!.labels!(status.published.evidence).entries()]
+                : [];
+            return {
+              selection: selectionKey(selector),
+              generation: selector.generation,
+              digest: digest(labels),
+            };
+          })
+        : undefined;
     const query: Query = {
       ...speaker,
       ...(input.sourceGenerations === undefined
@@ -229,6 +260,14 @@ export class ProjectEvidenceInspection {
               selectionKey(a).localeCompare(selectionKey(b)),
             ),
           }),
+      ...(input.speakerGenerations === undefined
+        ? {}
+        : {
+            speakerGenerations: [...input.speakerGenerations].sort((a, b) =>
+              selectionKey(a).localeCompare(selectionKey(b)),
+            ),
+          }),
+      ...(speakerBindingDigests === undefined ? {} : { speakerBindingDigests }),
       domain,
       ...(input.text === undefined ? {} : { text: input.text }),
       projectId: input.projectId,
@@ -266,6 +305,14 @@ export class ProjectEvidenceInspection {
         throw new CatalogError(
           "INVALID_REQUEST",
           "Transcript generation selectors must uniquely name selected project sources",
+        );
+    }
+    if (plan.query.speakerGenerations) {
+      const keys = plan.query.speakerGenerations.map(selectionKey);
+      if (new Set(keys).size !== keys.length || keys.some((key) => !selections.has(key)))
+        throw new CatalogError(
+          "INVALID_REQUEST",
+          "Speaker generation selectors must uniquely name selected project sources",
         );
     }
     return {
@@ -344,9 +391,36 @@ export class ProjectEvidenceInspection {
         ...selection,
         ...(generation === undefined ? {} : { generation }),
       });
+      const speakerSelector = query.speakerGenerations?.find(
+        (value) => selectionKey(value) === selectionKey(selection),
+      );
+      let speaker: ProjectSpeakerDependency | undefined;
+      if (speakerSelector) {
+        if (!this.options.speakers?.sourceStatus)
+          throw new CatalogError("UNAVAILABLE", "Speaker attribution is unavailable");
+        const status = this.options.speakers.sourceStatus({
+          ...selection,
+          channel: speakerSelector.channel,
+          modelId: speakerSelector.modelId,
+          sourceRange: speakerSelector.observationRange,
+        });
+        const evidence =
+          status.published && status.published.evidence.generation === speakerSelector.generation
+            ? [status.published.evidence]
+            : [];
+        speaker = {
+          selection,
+          evidence,
+          state: evidence.length ? "ready" : status.state,
+          reason: evidence.length ? null : (status.reason ?? "speaker_evidence_changed"),
+          retryable: evidence.length ? false : status.retryable,
+          jobId: null,
+        };
+      }
       return {
         selection,
         transcript: status.published?.transcript ?? null,
+        ...(speaker === undefined ? {} : { speaker }),
         state: status.published ? "ready" : status.state,
         reason: status.published ? null : status.reason,
         retryable: status.published ? false : status.retryable,
@@ -377,7 +451,10 @@ export class ProjectEvidenceInspection {
       dependency.capture
         ? !!dependency.capture.scene &&
           !["ready", "unavailable"].includes(dependency.capture.scene.state)
-        : !dependency.speaker && !dependency.transcript && dependency.reason !== "no_audio",
+        : (plan.query.speakerGenerations !== undefined &&
+            dependency.speaker !== undefined &&
+            dependency.speaker.state !== "ready") ||
+          (!dependency.speaker && !dependency.transcript && dependency.reason !== "no_audio"),
     );
     if (pending.length)
       return {
@@ -608,6 +685,7 @@ export class ProjectEvidenceInspection {
           range: input.range ?? manifest.query.range,
           trackIds: input.trackIds ?? manifest.query.trackIds,
           sourceGenerations: input.sourceGenerations ?? manifest.query.sourceGenerations,
+          speakerGenerations: input.speakerGenerations ?? manifest.query.speakerGenerations,
         },
         input.range === undefined,
       );
@@ -657,7 +735,15 @@ export class ProjectEvidenceInspection {
                 events: mergeEvents(manifest, plan, state, limit, this.options.events!),
               }
             : {
-                ...mergeTranscript(manifest, plan, state, limit, this.options.records),
+                ...mergeTranscript(
+                  manifest,
+                  plan,
+                  state,
+                  limit,
+                  this.options.records,
+                  this.options.speakers?.records,
+                  this.options.speakers?.labels,
+                ),
                 events: [],
                 speakers: [],
               };

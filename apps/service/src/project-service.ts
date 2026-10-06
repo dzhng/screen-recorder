@@ -722,7 +722,12 @@ export async function startProjectService(options: {
       events: sourceEvents,
       speakers: {
         resolveMany: (selections, choice) => speakers.resolveMany(selections, choice),
+        sourceStatus: (input) => speakers.sourceStatus(input),
         records: speakerRecords,
+        labels: (metadata) =>
+          new Map(
+            speakerLabels.read(metadata).map((binding) => [binding.slot, binding.displayName]),
+          ),
       },
     });
     preview = new ProjectPreviewInspection(

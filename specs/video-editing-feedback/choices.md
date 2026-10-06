@@ -1720,6 +1720,27 @@ Apple cube candidate are in the slice26 evidence; no user-only decision remains.
 - **Confidence:** high for acquisition identity and lifecycle behavior; low for any
   claim beyond the retained exact-window evidence.
 
+## Join selected speaker generations in project transcript rows — sound, medium confidence
+
+- **When:** slice32 managed project-transcript checkpoint.
+- **The choice:** accept an explicit `speakerGenerations` selector per project
+  source. The project evidence owner resolves the pinned generation, reads its
+  retained turns once, and decorates projected words with the existing attributed,
+  overlap or unknown result. The selector and a digest of its caller bindings are
+  part of the immutable query identity, so retimed repeats and cursor continuation
+  cannot silently switch evidence or labels.
+- **The gap:** project speaker interval reads already projected turns, but project
+  transcript rows had no way to carry the same evidence; consumers had to join two
+  independently paged responses and could misalign repeated occurrences.
+- **The reach:** the public protocol and managed core now keep one project-owned
+  join. It never infers identity, assigns partial words, or treats a camera owner
+  as a speaker. Immutable package transcript joins and selected-range continuity
+  remain separate open gates.
+- **Verdict:** sound for explicit managed project joins; the long-form quality and
+  package replay gates remain unchanged.
+- **Confidence:** medium; focused core/protocol checks pass, while the full public
+  media workflow is still open.
+
 
 ## Use the authored rectangle for whip coverage — slice28
 

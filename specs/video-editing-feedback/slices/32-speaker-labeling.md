@@ -1,6 +1,6 @@
 # 32 — Publish speaker-labeled transcript views
 
-Status: partial — generation-pinned caller label binding, source/project-row decoration, immutable package replay and source-transcript word attribution are integrated and reviewed; selected-range preparation, project transcript joins and continuity gates remain open. Depends on: [31](31-speaker-continuity-replication.md), [21](21-synced-angles.md), [03](03-published-work-contract.md), [07](07-speech-timing-admission.md).
+Status: partial — generation-pinned caller label binding, source/project-row decoration, immutable package replay, source-transcript word attribution and managed project-transcript speaker joins are integrated and reviewed; selected-range preparation and continuity gates remain open. Depends on: [31](31-speaker-continuity-replication.md), [21](21-synced-angles.md), [03](03-published-work-contract.md), [07](07-speech-timing-admission.md).
 
 ## Contract
 
@@ -60,8 +60,11 @@ No automatic voiceprint enrollment, cross-session naming or person recognition.
 
 The public CLI prepares a mixed multiwindow selection, reads labeled turns and a
 compact labeled transcript, binds supported names, then reads an edited revision
-with a repeated/retimed passage. A per-person raw-angle case and an overlapping
-conversation case show the distinct attribution paths and remaining unknowns.
+with a repeated/retimed passage. Project transcript reads can now supply explicit
+`speakerGenerations` selectors; projected words carry the same attributed,
+overlap or unknown state through retimes and cursor continuation. A per-person
+raw-angle case and an overlapping conversation case show the distinct attribution
+paths and remaining unknowns.
 
 ## Verification and verdict
 

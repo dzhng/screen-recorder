@@ -356,6 +356,29 @@ it("transcript pages and searches are bounded and their cursors name the pinned 
     expect(parse(operation, params).success, JSON.stringify(params)).toBe(false);
 });
 
+it("project transcript reads admit explicit speaker-generation joins", () => {
+  const params = {
+    projectId: "project",
+    speakerGenerations: [
+      {
+        assetId: "asset",
+        streamId: "speaker-audio",
+        channel: 0,
+        modelId: "sortformer",
+        observationRange: { startUs: 0, endUs: 30_000_000 },
+        generation: "speaker-generation",
+      },
+    ],
+  };
+  expect(operationSchema.safeParse({ operation: "transcript.get", params }).success).toBe(true);
+  expect(
+    operationSchema.safeParse({
+      operation: "transcript.get",
+      params: { ...params, speakerGenerations: [{ ...params.speakerGenerations[0], extra: true }] },
+    }).success,
+  ).toBe(false);
+});
+
 it("project exports preserve their target and refuse ambiguous owners", () => {
   const destination = {
     exportId: "67a0c032-a3ee-44b9-81f8-7269f0f3195e",
