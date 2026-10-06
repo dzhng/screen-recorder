@@ -54,6 +54,19 @@ const sourceTranscriptReference = {
   supportDigest: id,
   afterSourceUs: time,
 };
+const transcriptSpeaker = z
+  .strictObject({
+    streamId: id,
+    acquisitionId: id.optional(),
+    channel: z.int().nonnegative(),
+    modelId: id,
+    observationRange: selectionRangeSchema,
+    generation: id,
+  })
+  .describe("A generation-pinned speaker observation used only for transcript attribution");
+const transcriptSpeakerCursor = transcriptSpeaker.extend({
+  bindingDigest: z.string().regex(/^[a-f0-9]{64}$/),
+});
 const project = z.object({ projectId: id }).strict();
 const projectEvidenceParams = project
   .extend({
@@ -925,6 +938,7 @@ export const operationSchema = z.discriminatedUnion("operation", [
         projectTranscriptParams,
         sourceSelection
           .extend({
+            speaker: transcriptSpeaker.optional(),
             generation: z.uuid().optional(),
             range: range.optional(),
             limit: z.int().min(1).max(1000).default(250),
@@ -933,6 +947,7 @@ export const operationSchema = z.discriminatedUnion("operation", [
                 ...sourceTranscriptReference,
                 afterOrdinal: time.nullable(),
                 range: range.nullable(),
+                speaker: transcriptSpeakerCursor.optional(),
               })
               .strict()
               .optional(),
@@ -942,7 +957,7 @@ export const operationSchema = z.discriminatedUnion("operation", [
     })
     .strict()
     .describe(
-      "Request a project transcript with projectId and optional revisionId, range and trackIds, a selected asset-stream source transcript. Project rows retain occurrence identity and exact editorial fragments, ordered by project time; query windows do not change editorial partiality. Continue even when a project page is empty if nextCursor exists. Project continuations pin the original revision and source generations. Asset ranges use the normalized source clock; acquisitionId omission uses physical support. Reads and search never enqueue transcription or prepare models. Use transcript.prepare to request inference. generation selects retained source evidence; bounded preparations require that pin (a continuation already pins it). Omitted generation resolves only full-support preparation identity. Project sourceGenerations explicitly select bounded retained dependencies; omitted selections resolve full-support identities. A ready project may prepare its read-only evidence manifest. Returns readiness until complete, then word and acquisition-gap rows in the selected time domain. Unfiltered asset enumeration returns every retained observation, including points at the source end. Explicit source/project interval selections remain half-open. Asset ranges mark intersected rows partial while preserving their full source range; overlapping estimates and exact instant points are not playable cut support. Words keep verbatim text, kind and a per-generation ID. Without narration it is unavailable:no_narration; unprepared models are a retryable unavailable:model_not_prepared (see model.prepare). Continue with the returned cursor to pin selection, generation and range.",
+      "Request a project transcript with projectId and optional revisionId, range and trackIds, or a selected asset-stream source transcript. Project rows retain occurrence identity and exact editorial fragments, ordered by project time; query windows do not change editorial partiality. Continue even when a project page is empty if nextCursor exists. Project continuations pin the original revision and source generations. Asset ranges use the normalized source clock; acquisitionId omission uses physical support. Reads and search never enqueue transcription or prepare models. Use transcript.prepare to request inference. generation selects retained source evidence; bounded preparations require that pin (a continuation already pins it). Omitted generation resolves only full-support preparation identity. Project sourceGenerations explicitly select bounded retained dependencies; omitted selections resolve full-support identities. A ready project may prepare its read-only evidence manifest. Returns readiness until complete, then word and acquisition-gap rows in the selected time domain. Unfiltered asset enumeration returns every retained observation, including points at the source end. Explicit source/project interval selections remain half-open. Words keep verbatim text, kind and a per-generation ID. A source read may include a generation-pinned speaker selector; each word is attributed only when one retained turn wholly covers it, while crossing turns, overlap and unobserved support remain explicit unknown/overlap states. The returned continuation pins the speaker binding digest so a rename cannot silently change a page. Without narration it is unavailable:no_narration; unprepared models are a retryable unavailable:model_not_prepared (see model.prepare). Continue with the returned cursor to pin selection, generation and range.",
     ),
   z
     .object({

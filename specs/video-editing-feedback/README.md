@@ -19,7 +19,8 @@ frozen historical evidence.
 
 Current pickup: slice 31/32 speaker continuity and labeling feasibility. The slice32
 binding checkpoint now replays caller-authored labels through source, project and
-immutable package reads. Slice 12D now passes: a fresh receipt-driven consumer
+immutable package reads, and source transcript pages can attach generation-pinned
+word attribution with explicit unknown/overlap states. Slice 12D now passes: a fresh receipt-driven consumer
 discovered the clipped Parakeet edge, authored one bounded replacement and
 rechecked the changed revision with fresh rendered recognition. The helper never
 chooses repairs or retries blindly.
@@ -27,7 +28,7 @@ chooses repairs or retries blindly.
 Priority order: 20 global synchronization remains refused on the frozen unlike-mic
 evidence; 15/16 face/framing and 25 tone remain partial; 27–30 now have public
 transition, moving-coverage and bounded-blur delivery receipts but broader visual
-parity remains open; 31/32 speaker continuity and attribution are the next
+parity remains open; 31/32 project-level continuity and attribution are the next
 feasibility gate; 33/34 finish media-aware workflows and fresh-agent replay.
 Follow slice dependencies when a later item is independently ready.
 

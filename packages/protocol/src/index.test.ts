@@ -313,11 +313,28 @@ it("transcript pages and searches are bounded and their cursors name the pinned 
     generation: "attempt",
     supportDigest: "digest",
   };
+  const speaker = {
+    streamId: "speaker-audio",
+    channel: 0,
+    modelId: "parakeet-speaker",
+    observationRange: { startUs: 0, endUs: 30_000_000 },
+    generation: "speaker-generation",
+  };
   const accepted: [string, Record<string, unknown>][] = [
     ["transcript.get", { limit: 1000 }],
+    ["transcript.get", { speaker }],
     [
       "transcript.get",
-      { cursor: { ...position, afterSourceUs: 0, afterOrdinal: null, range: null } },
+      {
+        speaker,
+        cursor: {
+          ...position,
+          afterSourceUs: 0,
+          afterOrdinal: null,
+          range: null,
+          speaker: { ...speaker, bindingDigest: "a".repeat(64) },
+        },
+      },
     ],
     ["transcript.search", { text: "x".repeat(200), limit: 500 }],
     [

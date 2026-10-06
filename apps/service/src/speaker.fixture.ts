@@ -1,4 +1,14 @@
 import type { SpeakerEvidenceSource } from "@yap/core/speaker-evidence";
+import { randomUUID } from "node:crypto";
+import { join } from "node:path";
+import { Catalog } from "@yap/core/catalog";
+import { AssetStore } from "@yap/core/assets";
+import { AcquisitionStore } from "@yap/core/acquisitions";
+import { Models } from "@yap/core/models";
+import { JobQueue } from "@yap/core/jobs";
+import { SpeakerEvidenceStore, assetSpeakerOwner } from "@yap/core/speaker-evidence";
+import { SpeakerProcessing } from "@yap/core/speaker-processing";
+import { selectSpeakerSource, type SpeakerSourceInput } from "@yap/core/source-speakers";
 
 export function nativeOutput(
   lines = ["0.000 1.000 speaker_0", "0.500 2.000 speaker_1"],
@@ -59,3 +69,79 @@ export const speakerSource: SpeakerEvidenceSource = {
     recipe: "original30s",
   },
 };
+
+export async function publishControlledObservation(home: string, input: SpeakerSourceInput) {
+  const library = join(home, "library"),
+    catalog = new Catalog(join(library, "catalog.sqlite"));
+  const assets = new AssetStore(catalog, library),
+    acquisitions = new AcquisitionStore(catalog),
+    models = new Models(library),
+    selected = selectSpeakerSource(assets, acquisitions, input),
+    evidence = new SpeakerEvidenceStore(catalog, assetSpeakerOwner(assets, acquisitions)),
+    jobs = new JobQueue({
+      store: catalog,
+      deferExecution: true,
+      providers: { newId: randomUUID },
+      targets: {
+        pin: (target) =>
+          target.kind === "project"
+            ? { ...target, revisionId: target.revisionId ?? null }
+            : { ...target, revisionId: null },
+        isAvailable: () => true,
+        isDeleting: () => false,
+        isCapturing: () => false,
+      },
+      execute: async () => {
+        throw new Error("Retained fixture cannot execute a model");
+      },
+    });
+  try {
+    const source = {
+      ...speakerSource,
+      streamId: input.streamId,
+      channel: input.channel,
+      observationRange: input.sourceRange,
+      supportDigest: selected.supportDigest,
+      originUs: selected.originUs,
+      durationUs: selected.durationUs,
+      engine: models.speaker(input.modelId).engine,
+    };
+    const identity = {
+      owner: { kind: "asset" as const, assetId: input.assetId },
+      sourceId: input.assetId,
+      generation: "retained-control-g1",
+      policy: "speaker-v1" as const,
+    };
+    const staged = evidence.stage(
+      identity,
+      source,
+      nativeOutput(undefined, source.engine.modelSha256),
+    );
+    const processing = new SpeakerProcessing({
+      assets,
+      acquisitions,
+      models,
+      jobs,
+      evidence,
+      decoder: null,
+      observe: async () => {
+        throw new Error("Retained fixture cannot observe");
+      },
+    });
+    const executionSource = Object.fromEntries(
+      Object.entries(source).filter(([key]) => key !== "pcm"),
+    );
+    catalog.transaction(() => {
+      staged.publish();
+      processing.adoptPublication(staged.metadata, {
+        generation: 1,
+        attemptId: identity.generation,
+        input: JSON.stringify({ request: input, source: executionSource }),
+      });
+    });
+    return staged.metadata;
+  } finally {
+    await jobs.close();
+    catalog.close();
+  }
+}

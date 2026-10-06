@@ -284,6 +284,10 @@
       "types": "./dist/speaker-read.d.ts",
       "default": "./dist/speaker-read.js"
     },
+    "./speaker-attribution": {
+      "types": "./dist/speaker-attribution.d.ts",
+      "default": "./dist/speaker-attribution.js"
+    },
     "./speaker-labels": {
       "types": "./dist/speaker-labels.d.ts",
       "default": "./dist/speaker-labels.js"

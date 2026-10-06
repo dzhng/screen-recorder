@@ -11,6 +11,7 @@ import type { SourceTranscriptRow } from "@yap/core/transcript-read";
 import { callLocal } from "@yap/client";
 import { REQUEST_FRAME_BYTES, type OperationRequest, type OperationResponse } from "@yap/protocol";
 import { projectServiceFixture } from "./project-service.fixture.js";
+import { publishControlledObservation, speakerSource } from "./speaker.fixture.js";
 
 const cleanups: (() => Promise<void>)[] = [];
 afterEach(async () => {
@@ -290,6 +291,17 @@ test("selected-source transcript preserves filler, phrase and ready retry throug
                 { startUs: 6000000, endUs: 10000000, empty: true },
               ],
             },
+            {
+              id: "audio",
+              kind: "audio",
+              codec: "pcm",
+              decodable: true,
+              channels: 2,
+              sampleRate: 16000,
+              startUs: 0,
+              endUs: 40000000,
+              segments: [{ startUs: 0, endUs: 40000000, empty: false }],
+            },
           ],
         },
       };
@@ -342,8 +354,9 @@ test("selected-source transcript preserves filler, phrase and ready retry throug
   const receipt = await readFile(model.receipt);
   const status = await f.call("model.status", { modelId: "parakeet" });
   expect(status).toMatchObject({ ok: true, data: { state: "ready" } });
-  expect(await f.call("model.prepare", { modelId: "parakeet" })).toEqual(status);
-  expect(await f.call("model.prepare", { modelId: "parakeet" })).toEqual(status);
+  const prepared = await f.call("model.prepare", { modelId: "parakeet" });
+  expect(prepared).toMatchObject({ ok: true, data: { state: "ready" } });
+  expect(await f.call("model.prepare", { modelId: "parakeet" })).toEqual(prepared);
   expect(await readFile(model.receipt)).toEqual(receipt);
   const imported = await f.call("asset.import", { requestId: "speech", path: f.path });
   if (!imported.ok) throw new Error(JSON.stringify(imported));
@@ -397,6 +410,117 @@ test("selected-source transcript preserves filler, phrase and ready retry throug
   if (!pending.ok) throw new Error(JSON.stringify(pending));
   const jobId = (pending.data as { jobId: string }).jobId;
   await f.job(jobId, "ready");
+  const speakerInput = {
+    assetId: selection.assetId,
+    streamId: "audio",
+    channel: 0,
+    sourceRange: { startUs: 0, endUs: 30000000 },
+    modelId: speakerSource.engine.modelId,
+  };
+  const speakerMetadata = await publishControlledObservation(f.home, speakerInput);
+  expect(
+    await f.call("speaker.bind", {
+      assetId: speakerInput.assetId,
+      streamId: speakerInput.streamId,
+      channel: speakerInput.channel,
+      modelId: speakerInput.modelId,
+      observationRange: speakerInput.sourceRange,
+      generation: speakerMetadata.generation,
+      bindings: [
+        { slot: 0, displayName: "Ada" },
+        { slot: 1, displayName: "Grace" },
+      ],
+    }),
+  ).toMatchObject({ ok: true });
+  const attributed = await f.call("transcript.get", {
+    ...selection,
+    limit: 4,
+    speaker: {
+      streamId: speakerInput.streamId,
+      channel: speakerInput.channel,
+      modelId: speakerInput.modelId,
+      observationRange: speakerInput.sourceRange,
+      generation: speakerMetadata.generation,
+    },
+  });
+  expect(attributed).toMatchObject({
+    ok: true,
+    data: {
+      page: {
+        rows: [
+          { id: "w0", speaker: { state: "attributed", slot: 0, displayName: "Ada" } },
+          { id: "w1", speaker: { state: "overlap", slots: [0, 1] } },
+          { id: "w2", speaker: { state: "attributed", slot: 1, displayName: "Grace" } },
+          { id: "w3", speaker: { state: "attributed", slot: 1, displayName: "Grace" } },
+        ],
+        nextCursor: expect.any(Object),
+      },
+    },
+  });
+  if (!attributed.ok) throw new Error(JSON.stringify(attributed));
+  const attributedCursor = (attributed.data as { page: { nextCursor: unknown } }).page.nextCursor;
+  expect(attributedCursor).toMatchObject({ speaker: { bindingDigest: expect.any(String) } });
+  const reorderedSpeaker = {
+    generation: speakerMetadata.generation,
+    observationRange: speakerInput.sourceRange,
+    modelId: speakerInput.modelId,
+    channel: speakerInput.channel,
+    streamId: speakerInput.streamId,
+  };
+  expect(
+    await f.call("transcript.get", {
+      ...selection,
+      limit: 4,
+      speaker: reorderedSpeaker,
+      cursor: attributedCursor,
+    }),
+  ).toMatchObject({ ok: true });
+  expect(
+    await f.call("speaker.bind", {
+      assetId: speakerInput.assetId,
+      streamId: speakerInput.streamId,
+      channel: speakerInput.channel,
+      modelId: speakerInput.modelId,
+      observationRange: speakerInput.sourceRange,
+      generation: speakerMetadata.generation,
+      bindings: [
+        { slot: 0, displayName: "Adele" },
+        { slot: 1, displayName: "Grace" },
+      ],
+    }),
+  ).toMatchObject({ ok: true });
+  expect(
+    await f.call("transcript.get", { ...selection, limit: 4, cursor: attributedCursor }),
+  ).toMatchObject({ ok: false, error: { code: "ARTIFACT_CHANGED" } });
+  expect(
+    await f.call("speaker.bind", {
+      assetId: speakerInput.assetId,
+      streamId: speakerInput.streamId,
+      channel: speakerInput.channel,
+      modelId: speakerInput.modelId,
+      observationRange: speakerInput.sourceRange,
+      generation: speakerMetadata.generation,
+      bindings: [
+        { slot: 0, displayName: "Ada" },
+        { slot: 1, displayName: "Grace" },
+      ],
+    }),
+  ).toMatchObject({ ok: true });
+  expect(
+    await f.call("transcript.get", { ...selection, limit: 4, cursor: attributedCursor }),
+  ).toMatchObject({
+    ok: true,
+    data: {
+      page: {
+        rows: [
+          { type: "gap", reason: "not_acquired" },
+          { id: "w4", speaker: { state: "unknown" } },
+          { id: "w5", speaker: { state: "unknown" } },
+          { id: "w6", speaker: { state: "unknown" } },
+        ],
+      },
+    },
+  });
   const rows: SourceTranscriptRow[] = [];
   let cursor: unknown;
   let generation: string | undefined;

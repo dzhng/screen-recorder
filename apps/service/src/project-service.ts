@@ -60,7 +60,7 @@ import { DerivedCache } from "@yap/core/cache";
 import { ManagedFiles } from "./managed-files.js";
 import { ProjectDeletion } from "./project-deletion.js";
 import { ProjectStore } from "@yap/core/projects";
-import { randomUUID } from "node:crypto";
+import { createHash, randomUUID } from "node:crypto";
 import { join } from "node:path";
 import { AssetStore } from "@yap/core/assets";
 import { CatalogError } from "@yap/core/catalog";
@@ -110,9 +110,36 @@ import { alignmentObserver } from "./alignment.js";
 import { SpeakerEvidenceStore, assetSpeakerOwner } from "@yap/core/speaker-evidence";
 import { SpeakerProcessing } from "@yap/core/speaker-processing";
 import { SourceSpeakerRead } from "@yap/core/speaker-read";
+import { attributeTranscriptWords } from "@yap/core/speaker-attribution";
 import { speakerObserver } from "./speaker.js";
 import { SpeakerLabelStore } from "@yap/core/speaker-labels";
+import type { SelectionRange } from "@yap/composition";
 import { sourcePCMDecoder } from "./source-channel.js";
+
+type TranscriptSpeakerRequest = {
+  streamId: string;
+  acquisitionId?: string;
+  channel: number;
+  modelId: string;
+  observationRange: SelectionRange;
+  generation: string;
+};
+type TranscriptSpeakerCursor = TranscriptSpeakerRequest & { bindingDigest?: string };
+
+function sameTranscriptSpeakerRequest(
+  a: TranscriptSpeakerRequest,
+  b: TranscriptSpeakerRequest,
+): boolean {
+  return (
+    a.streamId === b.streamId &&
+    a.acquisitionId === b.acquisitionId &&
+    a.channel === b.channel &&
+    a.modelId === b.modelId &&
+    a.generation === b.generation &&
+    a.observationRange.startUs === b.observationRange.startUs &&
+    a.observationRange.endUs === b.observationRange.endUs
+  );
+}
 
 export async function startProjectService(options: {
   home: string;
@@ -1439,6 +1466,21 @@ export async function startProjectService(options: {
                 : { acquisitionId: params.acquisitionId }),
             };
             const generation = params.generation ?? params.cursor?.generation;
+            const sourceParams = params as typeof params & {
+              speaker?: TranscriptSpeakerRequest;
+              cursor?: { speaker?: TranscriptSpeakerCursor } & Record<string, unknown>;
+            };
+            const cursorSpeaker = sourceParams.cursor?.speaker;
+            const speakerRequest = sourceParams.speaker ?? cursorSpeaker;
+            if (
+              sourceParams.speaker &&
+              cursorSpeaker &&
+              !sameTranscriptSpeakerRequest(sourceParams.speaker, cursorSpeaker)
+            )
+              throw new CatalogError(
+                "ARTIFACT_CHANGED",
+                "Transcript continuation used another speaker generation",
+              );
             const current = transcripts.sourceStatus({
               ...selection,
               ...(generation === undefined ? {} : { generation }),
@@ -1453,14 +1495,106 @@ export async function startProjectService(options: {
             }
             const metadata = current.published.transcript;
             const read = new SourceTranscriptRead(transcriptStore, metadata);
-            const page = "text" in params ? read.search(params) : read.page(params);
+            const sourceCursor = sourceParams.cursor
+              ? (() => {
+                  const { speaker: _speaker, ...cursor } = sourceParams.cursor!;
+                  return cursor;
+                })()
+              : undefined;
+            const page =
+              "text" in params
+                ? read.search({ text: params.text, cursor: sourceCursor, limit: params.limit })
+                : read.page({ range: params.range, cursor: sourceCursor, limit: params.limit });
+            let attributedPage = page;
+            let pinnedSpeaker: TranscriptSpeakerCursor | undefined;
+            if (speakerRequest && "rows" in page) {
+              const speakerStatus = speakers.sourceStatus({
+                assetId: selection.assetId,
+                streamId: speakerRequest.streamId,
+                ...(speakerRequest.acquisitionId === undefined
+                  ? {}
+                  : { acquisitionId: speakerRequest.acquisitionId }),
+                channel: speakerRequest.channel,
+                modelId: speakerRequest.modelId,
+                sourceRange: speakerRequest.observationRange,
+              });
+              if (!speakerStatus.published) {
+                throw new CatalogError(
+                  "NOT_READY",
+                  "Speaker evidence is not ready for transcript attribution",
+                  {},
+                  speakerStatus.retryable,
+                );
+              }
+              if (speakerStatus.published.evidence.generation !== speakerRequest.generation)
+                throw new CatalogError(
+                  "ARTIFACT_CHANGED",
+                  "Transcript attribution generation is no longer published",
+                );
+              const labels = new Map(
+                speakerLabels
+                  .read(speakerStatus.published.evidence)
+                  .map((binding) => [binding.slot, binding.displayName]),
+              );
+              const bindingDigest = createHash("sha256")
+                .update(JSON.stringify([...labels.entries()]))
+                .digest("hex");
+              if (cursorSpeaker?.bindingDigest && cursorSpeaker.bindingDigest !== bindingDigest)
+                throw new CatalogError("ARTIFACT_CHANGED", "Transcript attribution labels changed");
+              pinnedSpeaker = { ...speakerRequest, bindingDigest };
+              const speakerRead = new SourceSpeakerRead(
+                speakerRecords,
+                speakerStatus.published.evidence,
+                JSON.stringify([...labels.entries()]),
+              );
+              const turns: { slot: number; sourceRange: SelectionRange }[] = [];
+              let speakerCursor: string | undefined;
+              do {
+                const speakerPage = speakerRead.page({
+                  view: "intervals",
+                  sourceRange: speakerRequest.observationRange,
+                  limit: 1000,
+                  ...(speakerCursor === undefined ? {} : { cursor: speakerCursor }),
+                });
+                turns.push(
+                  ...speakerPage.rows
+                    .filter(
+                      (row): row is Extract<(typeof speakerPage.rows)[number], { slot: number }> =>
+                        "slot" in row,
+                    )
+                    .map((row) => ({ slot: row.slot, sourceRange: row.sourceRange })),
+                );
+                speakerCursor = speakerPage.nextCursor ?? undefined;
+              } while (speakerCursor);
+              const words = page.rows.filter((row) => row.type === "word");
+              const decorated = attributeTranscriptWords(words, turns, { labels });
+              const byId = new Map(decorated.map((word) => [word.id, word.speaker]));
+              attributedPage = {
+                ...page,
+                rows: page.rows.map((row) =>
+                  row.type === "word" ? { ...row, speaker: byId.get(row.id)! } : row,
+                ),
+              };
+            }
             return {
               ok: true,
               data: {
                 ...selection,
                 state: "ready",
                 generation: metadata.generation,
-                page: { transcript: metadata, ...page },
+                page: {
+                  transcript: metadata,
+                  ...attributedPage,
+                  ...(pinnedSpeaker === undefined ? {} : { speaker: pinnedSpeaker }),
+                  ...(attributedPage.nextCursor === null
+                    ? {}
+                    : {
+                        nextCursor: {
+                          ...attributedPage.nextCursor,
+                          ...(pinnedSpeaker === undefined ? {} : { speaker: pinnedSpeaker }),
+                        },
+                      }),
+                },
               },
             };
           }

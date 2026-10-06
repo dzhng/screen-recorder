@@ -20,7 +20,15 @@ Focused evidence:
   list, so source and project package readers use the archived binding rather than
   the live managed label store.
 
-Selected-range preparation, project transcript word attribution, overlap/unknown
-presentation and long-form continuity remain open. Slice
+Source transcript reads now accept a generation-pinned speaker selector with its
+explicit speaker-bearing stream and channel. Words are
+decorated only when one retained turn wholly covers the word; boundary crossings
+remain `unknown`, simultaneous full coverage remains `overlap`, and caller names
+come from the immutable binding digest pinned into the continuation. The pure
+attribution rule is covered by `packages/core/src/speaker-attribution.test.ts` and
+the strict selector/cursor shape by `packages/protocol/src/index.test.ts`.
+
+Project transcript joins, selected-range preparation and long-form continuity
+remain open. Slice
 31's ten-minute four-speaker quality gate is still red, so this is a partial
-public binding checkpoint rather than completion of slice 32.
+source/project attribution checkpoint rather than completion of slice 32.

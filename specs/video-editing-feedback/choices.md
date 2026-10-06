@@ -21,6 +21,50 @@ User decisions remain binding; this ledger records implementation discretion out
 - **Confidence:** medium; the focused public replay test and core/service builds
   pass, while the ten-minute continuity quality gate remains open.
 
+## Attribute source words only from complete retained turns — sound, medium confidence
+
+- **When:** slice32 source-transcript attribution checkpoint.
+- **The choice:** add an optional generation-pinned speaker selector, including
+  its explicit audio stream and channel, to a source transcript read. A mixed
+  recording can therefore use a speaker-bearing stream without assuming it is
+  the transcript stream. For each word, the reader compares its exact source interval
+  with retained anonymous speaker turns. One turn that contains the entire word
+  yields one slot and its caller binding; no containing turn yields `unknown`, and
+  more than one yields `overlap`. A word that merely touches a turn is never
+  assigned by nearest time or majority overlap. The continuation carries a digest
+  of the caller's bindings so renaming between pages refuses instead of changing
+  an already-started view.
+- **The gap:** the plan required honest word attribution but did not prescribe the
+  join algorithm or how label edits should interact with a paginated read.
+- **The reach:** source transcript consumers can render named, anonymous,
+  unknown and simultaneous speech without treating camera ownership, energy or a
+  diarizer score as identity. Project transcript joins still need the same rule,
+  and long-form continuity must still pass before the full labeling slice closes.
+- **Verdict:** sound for the source-read seam. It preserves explicit uncertainty
+  and gives cursors a stable evidence boundary; it does not overclaim project or
+  cross-session identity.
+- **Confidence:** medium.
+
+## Compare speaker cursor selectors by meaning — sound, high confidence
+
+- **When:** slice32 source-transcript cursor checkpoint.
+- **The choice:** when a caller repeats a speaker selector alongside a transcript
+  cursor, compare its stream, optional acquisition, channel, model, generation and
+  exact observation endpoints field by field. For example, a cursor created from
+  `{ streamId, channel, modelId, observationRange, generation }` can be resumed
+  with the same fields written in a different JSON key order. The continuation
+  remains valid because the selected evidence is the same; changing any value
+  still refuses with `ARTIFACT_CHANGED`.
+- **The gap:** the contract required a cursor to pin the speaker evidence but did
+  not define how an explicitly repeated selector should be compared. JSON-text
+  comparison would treat harmless key reordering as a different request.
+- **The reach:** future cursor-bearing operations should compare normalized
+  contract fields or a canonical digest rather than incidental serialization
+  order. This keeps retries stable without weakening generation or binding pins.
+- **Verdict:** sound. The comparison follows the semantic selector identity and
+  the focused public journey covers reordered keys.
+- **Confidence:** high.
+
 ## Split-tone public receipt — sound, high confidence
 
 - **When:** slice25B public delivery checkpoint.
