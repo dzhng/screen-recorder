@@ -278,6 +278,7 @@ the macOS SDK and command-line tools), Bun at the version pinned in
 root, run:
 
 ```sh
+export DEVELOPER_DIR=/Applications/Xcode.app/Contents/Developer
 bun install --frozen-lockfile
 node scripts/release.mjs prepare
 bun run build
