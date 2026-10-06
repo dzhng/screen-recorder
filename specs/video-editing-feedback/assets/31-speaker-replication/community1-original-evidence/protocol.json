@@ -1,0 +1,111 @@
+{
+  "status": "frozen-before-first-inference",
+  "frozenAt": "2026-10-06T08:36:31.376490+00:00",
+  "hypothesis": "Original upstream PyTorch Community-1 segmentation/embedding/VBx path can retain global identities and simultaneous speech that the converted CoreML path lost. Distinct provider/runtime, not threshold or speaker-count tuning.",
+  "candidate": {
+    "pyannoteVersion": "4.0.0",
+    "torchVersion": "2.8.0",
+    "modelManifest": {
+      "name": "community1-original-checkpoint-research",
+      "purpose": "speaker",
+      "platform": {
+        "system": "darwin",
+        "architecture": "arm64"
+      },
+      "repo": "pyannote-community/speaker-diarization-community-1",
+      "revision": "8a527374977391da736e0daaef26855d949d9685",
+      "folderName": "checkpoint",
+      "engine": {
+        "runtime": "pyannote.audio",
+        "runtimeVersion": "4.0.0",
+        "runtimeRevision": "not-prepared",
+        "decoder": "community1-original-research-only"
+      },
+      "files": [
+        {
+          "path": "config.yaml",
+          "bytes": 444,
+          "sha256": "5ce2bfa9a938dc132cec1172592d65173cbb8f444ea1e4133f10f9391de155be"
+        },
+        {
+          "path": "segmentation/pytorch_model.bin",
+          "bytes": 5906507,
+          "sha256": "7ad24338d844fb95985486eb1a464e32d229f6d7a03c9abe60f978bacf3f816e"
+        },
+        {
+          "path": "embedding/pytorch_model.bin",
+          "bytes": 26646242,
+          "sha256": "6f10ff60898a1d185fa22e1d11e0bfa8a92efec811f11bca48cb8cafebefd929"
+        },
+        {
+          "path": "plda/plda.npz",
+          "bytes": 133852,
+          "sha256": "9b77bcd840692710dd3496f62ecfeed8d8e5f002fd991b785079b244eab7d255"
+        },
+        {
+          "path": "plda/xvec_transform.npz",
+          "bytes": 134376,
+          "sha256": "325f1ce8e48f7e55e9c8aa47e05d2766b7c48c4b25b8de8dd751e7a4cc5fbe8f"
+        }
+      ]
+    },
+    "modelPath": "/tmp/yap-speaker-hysteresis-20261006/community1-admission/model-library/models/community1-original-checkpoint-research/8a527374977391da736e0daaef26855d949d9685/checkpoint",
+    "parameters": "Unmodified pinned config.yaml defaults: VBx threshold.6/Fa.07/Fb.8; min_duration_off0; batch32; overlap-excluded embedding; default automatic count; CPU2. No num/min/max speaker hints.",
+    "workerSha256": "70b6e82a908d053b88c77a4c23c861cce96b9d8de30368b0367b6ac0c1791d98",
+    "rawObservation": "Complete native model forward output matrices, segmentation/count/embedding/discrete native hooks and centroid bytes plus unmodified regular/exclusive annotations. Only regular annotation used for overlap scoring.",
+    "support": "PCM frame count and hash before imports; native final turns must lie in exact physical PCM support. Full native operands saved before support admission; no clipping/rewrite of endpoints or local-slot concatenation."
+  },
+  "references": {
+    "path": "/Users/server/dev/yap-speaker-provider/specs/video-editing-feedback/assets/31-speaker-replication/alternative-evidence/nemotron-feasibility/protocol.json",
+    "sha256": "6782b4d8846fceca1ad44012d6a8f203f87f856ed4bf72fe9d761755739bc20f"
+  },
+  "caseOrder": [
+    "bspxd30",
+    "aiqwk30",
+    "returns-overlap-silence"
+  ],
+  "gates": {
+    "everyCaseDERMaximum": 0.2,
+    "inferenceWallAudioRatioMaximum": 2,
+    "RSSBytesMaximum": 4294967296,
+    "globalIdentityConfusionRatioMaximum": 0.05,
+    "overlapRecallMinimum": 0.8,
+    "everyCaseObservedSpeakerCountMatchesReference": true
+  },
+  "advance": "One independent native call per case; score complete admitted raw result; next case only after every prior gate passes. Any quality/support/resource failure stops; no retuning/count truth. All short pass before preregistering long BSP336/four600.",
+  "execution": {
+    "timeoutSecondsPerCall": 180,
+    "maximumNativeCalls": 3,
+    "threads": 2,
+    "networkDenied": true,
+    "PYANNOTE_METRICS_ENABLED": "false",
+    "repairAllowance": "One infrastructure-only repair with new identity; failed native attempts retained. No quality recipe repairs.",
+    "researchNativeWallBudgetSeconds": 540
+  },
+  "runtime": {
+    "python": "/private/tmp/yap-editing-speaker-replication/prepared-library/models/speaker-replication-r1/cd03eee90fbec18297ac31b8c21546e596b7f71c/runtime/python/bin/python",
+    "inheritedPreparedRuntime": {
+      "python": "/private/tmp/yap-editing-speaker-replication/prepared-library/models/speaker-replication-r1/cd03eee90fbec18297ac31b8c21546e596b7f71c/runtime/python/bin/python",
+      "entry": "/private/tmp/yap-editing-speaker-replication/prepared-library/models/speaker-replication-r1/cd03eee90fbec18297ac31b8c21546e596b7f71c/runtime/execution/launch.py",
+      "model": "/private/tmp/yap-editing-speaker-replication/prepared-library/models/speaker-replication-r1/cd03eee90fbec18297ac31b8c21546e596b7f71c/original-model",
+      "cache": "/private/tmp/yap-editing-speaker-replication/prepared-library/models/.cache/speaker-replication-r1",
+      "descriptorDigest": "d6378d03528660f4cc350d0fb6b1bcdfa873624f71a91c5e2e0d7f2bf668eb70",
+      "runtimeDigest": "b4e03d54e631fc5b15dbcd772508940f58ce7aeb2b1e4695427e0332644d2b5c",
+      "modelDigest": "ed338c0f61f62a177b04c10e2c01c8f9e987ed006c0bbe4681c9a565acc8f338",
+      "runtimeRevision": "b4e03d54e631fc5b15dbcd772508940f58ce7aeb2b1e4695427e0332644d2b5c",
+      "modelRevision": "cd03eee90fbec18297ac31b8c21546e596b7f71c"
+    },
+    "layer": "/tmp/yap-speaker-hysteresis-20261006/community1-admission/dependency-layer",
+    "precedence": "Explicit prepend of frozen new layer; immutable donor ordinary startup preserved. No donor mutation.",
+    "dependencyInventorySha256": "ecb754342ee7539dab33d6c084eb5cd2cbc8a67c6bd15e49c1b19ff25119efd5",
+    "sealedRelocated": false
+  },
+  "limitations": [
+    "Same reused development/confirmation fixtures; not untouched or training-held-out.",
+    "Model benchmark/training overlap not independently excluded.",
+    "No known-person identification or word attribution claim.",
+    "Optional research donor/layer is not a consumer installation or sealed relocated runtime.",
+    "Process RSS excludes separate system/accelerator services; CPU execution selected.",
+    "Single native run per input; resource differences not speedup claims."
+  ]
+}

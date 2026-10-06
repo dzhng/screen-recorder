@@ -1,0 +1,193 @@
+{
+  "packages": [
+    {
+      "name": "pyannote-audio",
+      "version": "4.0.0",
+      "url": "https://files.pythonhosted.org/packages/3b/19/f8cd6048f7adbac919c68273a7d7f46a29c975f931bf7f229af0600ba964/pyannote_audio-4.0.0-py3-none-any.whl",
+      "sha256": "5a662f5a498aea8133bd05471af0acb229a55640cec476126e56d1e2f1bcecc4",
+      "bytes": 891429,
+      "downloadedNow": false
+    },
+    {
+      "name": "torchcodec",
+      "version": "0.6.0",
+      "url": "https://files.pythonhosted.org/packages/d9/b3/11326a0e7a3c803a95975cfce4ac88fa4ea1a0d432bb876081046c5a5554/torchcodec-0.6.0-cp312-cp312-macosx_11_0_arm64.whl",
+      "sha256": "fba260145a239b5afe13336e3a5bc1b089c9c31a073e9a7c2026d4cbd853fdd9",
+      "bytes": 3482584,
+      "downloadedNow": true
+    },
+    {
+      "name": "opentelemetry-api",
+      "version": "1.34.0",
+      "url": "https://files.pythonhosted.org/packages/98/f9/d50ba0c92a97a6d0861357d0ecd67e850d319ac7e7be1895cc236b6ed2b5/opentelemetry_api-1.34.0-py3-none-any.whl",
+      "sha256": "390b81984affe4453180820ca518de55e3be051111e70cc241bb3b0071ca3a2c",
+      "bytes": 65768,
+      "downloadedNow": true
+    },
+    {
+      "name": "opentelemetry-exporter-otlp",
+      "version": "1.34.0",
+      "url": "https://files.pythonhosted.org/packages/71/9e/53cf14827b7e3084f28c73934f899cd3a3dde22efc3fe869a0ff7151ffd4/opentelemetry_exporter_otlp-1.34.0-py3-none-any.whl",
+      "sha256": "73e2465560ef4e932b5348598593db202621eb666c34349c9cefc90a19aaf5c6",
+      "bytes": 7039,
+      "downloadedNow": true
+    },
+    {
+      "name": "opentelemetry-sdk",
+      "version": "1.34.0",
+      "url": "https://files.pythonhosted.org/packages/55/96/5b788eef90a65543a67988729f0e44fc46eac1da455505ae5091f418a9d9/opentelemetry_sdk-1.34.0-py3-none-any.whl",
+      "sha256": "7850bcd5b5c95f9aae48603d6592bdad5c7bdef50c03e06393f8f457d891fe32",
+      "bytes": 118385,
+      "downloadedNow": true
+    },
+    {
+      "name": "opentelemetry-exporter-otlp-proto-grpc",
+      "version": "1.34.0",
+      "url": "https://files.pythonhosted.org/packages/bd/42/094c93ffda2834631a121cdc89af80c7a9f2ee6249a4498d7f5151beb57e/opentelemetry_exporter_otlp_proto_grpc-1.34.0-py3-none-any.whl",
+      "sha256": "31c41017af85833242d49beb07bde7341b0a145f0b898ee383f3e3019037afb1",
+      "bytes": 18612,
+      "downloadedNow": true
+    },
+    {
+      "name": "opentelemetry-exporter-otlp-proto-http",
+      "version": "1.34.0",
+      "url": "https://files.pythonhosted.org/packages/69/c5/468c245231feff02ac41573a1d73b1bbd5ff0412365f441de785a4fa178c/opentelemetry_exporter_otlp_proto_http-1.34.0-py3-none-any.whl",
+      "sha256": "b3cc9dd5152fae2dd32f3566bbfbc7d26d6ab3ef6c6b3f85bc9f6adc059d713f",
+      "bytes": 17743,
+      "downloadedNow": true
+    },
+    {
+      "name": "opentelemetry-semantic-conventions",
+      "version": "0.55b0",
+      "url": "https://files.pythonhosted.org/packages/ca/b1/d7a2472f7da7e39f1a85f63951ad653c1126a632d6491c056ec6284a10a7/opentelemetry_semantic_conventions-0.55b0-py3-none-any.whl",
+      "sha256": "63bb15b67377700e51c422d0d24092ca6ce9f3a4cb6f032375aa8af1fc2aab65",
+      "bytes": 196224,
+      "downloadedNow": true
+    },
+    {
+      "name": "opentelemetry-exporter-otlp-proto-common",
+      "version": "1.34.0",
+      "url": "https://files.pythonhosted.org/packages/e9/78/7bfd2d027aa36a68fff4019950569f8cda27793441098cda0a82ea2ecb89/opentelemetry_exporter_otlp_proto_common-1.34.0-py3-none-any.whl",
+      "sha256": "a5ab7a9b7c3c7ba957c8ddcb08c0c93b1d732e066f544682a250ecf4d7a9ceef",
+      "bytes": 18835,
+      "downloadedNow": true
+    },
+    {
+      "name": "opentelemetry-proto",
+      "version": "1.34.0",
+      "url": "https://files.pythonhosted.org/packages/db/58/708881f5ad3c72954caa61ac970d3c01209dbebf5e534fb840dfb777bad2/opentelemetry_proto-1.34.0-py3-none-any.whl",
+      "sha256": "ffb1f1b27552fda5a1cd581e34243cc0b6f134fb14c1c2a33cc3b4b208c9bf97",
+      "bytes": 55691,
+      "downloadedNow": true
+    },
+    {
+      "name": "asteroid-filterbanks",
+      "version": "0.4.0",
+      "url": "https://files.pythonhosted.org/packages/c5/7c/83ff6046176a675e6a1e8aeefed8892cd97fe7c46af93cc540d1b24b8323/asteroid_filterbanks-0.4.0-py3-none-any.whl",
+      "sha256": "4932ac8b6acc6e08fb87cbe8ece84215b5a74eee284fe83acf3540a72a02eaf5",
+      "bytes": 29912,
+      "downloadedNow": true
+    },
+    {
+      "name": "pyannote-pipeline",
+      "version": "4.0.0",
+      "url": "https://files.pythonhosted.org/packages/d8/83/51290b8a17a3007bc4e4a5ea897f0765f30a6598d58670ba12d35ac0cc36/pyannote_pipeline-4.0.0-py3-none-any.whl",
+      "sha256": "6b0bfc19e684d89cc1608bb39448e15ff1231d4a87e99fc7e812e7891b8cd555",
+      "bytes": 22215,
+      "downloadedNow": true
+    },
+    {
+      "name": "pyannoteai-sdk",
+      "version": "0.4.0",
+      "url": "https://files.pythonhosted.org/packages/f9/8d/16e62133ff748931e923c2d29a150a710c85283f533a4148adc42addb6a8/pyannoteai_sdk-0.4.0-py3-none-any.whl",
+      "sha256": "36a0175978e0427f27843d690eb4d1e8ec839009ea540516d6dfcdce749cd883",
+      "bytes": 8886,
+      "downloadedNow": true
+    },
+    {
+      "name": "pytorch-metric-learning",
+      "version": "2.9.0",
+      "url": "https://files.pythonhosted.org/packages/46/7d/73ef5052f57b7720cad00e16598db3592a5ef4826745ffca67a2f085d4dc/pytorch_metric_learning-2.9.0-py3-none-any.whl",
+      "sha256": "d51646006dc87168f00cf954785db133a4c5aac81253877248737aa42ef6432a",
+      "bytes": 127801,
+      "downloadedNow": true
+    },
+    {
+      "name": "rich",
+      "version": "15.0.0",
+      "url": "https://files.pythonhosted.org/packages/82/3b/64d4899d73f91ba49a8c18a8ff3f0ea8f1c1d75481760df8c68ef5235bf5/rich-15.0.0-py3-none-any.whl",
+      "sha256": "33bd4ef74232fb73fe9279a257718407f169c09b78a87ad3d296f548e27de0bb",
+      "bytes": 310654,
+      "downloadedNow": true
+    },
+    {
+      "name": "torch-audiomentations",
+      "version": "0.12.0",
+      "url": "https://files.pythonhosted.org/packages/21/9d/1ee04f49c15d2d632f6f7102061d7c07652858e6d91b58a091531034e84f/torch_audiomentations-0.12.0-py3-none-any.whl",
+      "sha256": "1b80b91d2016ccf83979622cac8f702072a79b7dcc4c2bee40f00b26433a786b",
+      "bytes": 48506,
+      "downloadedNow": true
+    },
+    {
+      "name": "importlib_metadata",
+      "version": "8.7.1",
+      "url": "https://files.pythonhosted.org/packages/fa/5e/f8e9a1d23b9c20a551a8a02ea3637b4642e22c2626e3a13a9a29cdea99eb/importlib_metadata-8.7.1-py3-none-any.whl",
+      "sha256": "5a1f80bf1daa489495071efbb095d75a634cf28a8bc299581244063b53176151",
+      "bytes": 27865,
+      "downloadedNow": true
+    },
+    {
+      "name": "julius",
+      "version": "0.2.8",
+      "url": "https://files.pythonhosted.org/packages/86/43/efdb0bcb07c47826fa55857cec0deb743f74cd83b6ba5ec9e413505a72e6/julius-0.2.8-py3-none-any.whl",
+      "sha256": "6891235cbc355e629d839f87489bff8ca46e57a0e7cc35abb909c7a2aa538c25",
+      "bytes": 21819,
+      "downloadedNow": true
+    },
+    {
+      "name": "markdown-it-py",
+      "version": "4.2.0",
+      "url": "https://files.pythonhosted.org/packages/b3/81/4da04ced5a082363ecfa159c010d200ecbd959ae410c10c0264a38cac0f5/markdown_it_py-4.2.0-py3-none-any.whl",
+      "sha256": "9f7ebbcd14fe59494226453aed97c1070d83f8d24b6fc3a3bcf9a38092641c4a",
+      "bytes": 91687,
+      "downloadedNow": true
+    },
+    {
+      "name": "torch_pitch_shift",
+      "version": "1.2.5",
+      "url": "https://files.pythonhosted.org/packages/27/4c/96ac2a09efb56cc3c41fb3ce9b6f4d8c0604499f7481d4a13a7b03e21382/torch_pitch_shift-1.2.5-py3-none-any.whl",
+      "sha256": "6f8500cbc13f1c98b11cde1805ce5084f82cdd195c285f34287541f168a7c6a7",
+      "bytes": 5005,
+      "downloadedNow": true
+    },
+    {
+      "name": "mdurl",
+      "version": "0.1.2",
+      "url": "https://files.pythonhosted.org/packages/b3/38/89ba8ad64ae25be8de66a6d463314cf1eb366222074cfda9ee839c56a4b4/mdurl-0.1.2-py3-none-any.whl",
+      "sha256": "84008a41e51615a49fc9966191ff91509e3c40b939176e643fd50a5c2196b8f8",
+      "bytes": 9979,
+      "downloadedNow": true
+    },
+    {
+      "name": "primePy",
+      "version": "1.3",
+      "url": "https://files.pythonhosted.org/packages/74/c1/bb7e334135859c3a92ec399bc89293ea73f28e815e35b43929c8db6af030/primePy-1.3-py3-none-any.whl",
+      "sha256": "5ed443718765be9bf7e2ff4c56cdff71b42140a15b39d054f9d99f0009e2317a",
+      "bytes": 4040,
+      "downloadedNow": true
+    },
+    {
+      "name": "zipp",
+      "version": "4.1.1",
+      "url": "https://files.pythonhosted.org/packages/b5/98/df615823cd9419131ce19fba00de53a663794369e198aade064a244b385d/zipp-4.1.1-py3-none-any.whl",
+      "sha256": "8979f52d874162f485ff2981e3891f3a3317b7a3dd43ff1e1775b9304f307a9c",
+      "bytes": 10582,
+      "downloadedNow": true
+    }
+  ],
+  "newBytes": 4699832,
+  "seconds": 1.87831025,
+  "inferenceCalls": 0,
+  "donorsMutated": false,
+  "plannerDownloads": "Initial pip dry-run downloaded the same23 wheels transiently with no-cache; additional spend not excluded; sum all entries once plus this newBytes."
+}

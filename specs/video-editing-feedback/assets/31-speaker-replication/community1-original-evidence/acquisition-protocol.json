@@ -1,0 +1,62 @@
+{
+  "scope": "Pinned checkpoint-only acquisition through existing Core Models; no quality or execution readiness promotion",
+  "manifest": {
+    "name": "community1-original-checkpoint-research",
+    "purpose": "speaker",
+    "platform": {
+      "system": "darwin",
+      "architecture": "arm64"
+    },
+    "repo": "pyannote-community/speaker-diarization-community-1",
+    "revision": "8a527374977391da736e0daaef26855d949d9685",
+    "folderName": "checkpoint",
+    "engine": {
+      "runtime": "pyannote.audio",
+      "runtimeVersion": "4.0.0",
+      "runtimeRevision": "not-prepared",
+      "decoder": "community1-original-research-only"
+    },
+    "files": [
+      {
+        "path": "config.yaml",
+        "bytes": 444,
+        "sha256": "5ce2bfa9a938dc132cec1172592d65173cbb8f444ea1e4133f10f9391de155be"
+      },
+      {
+        "path": "segmentation/pytorch_model.bin",
+        "bytes": 5906507,
+        "sha256": "7ad24338d844fb95985486eb1a464e32d229f6d7a03c9abe60f978bacf3f816e"
+      },
+      {
+        "path": "embedding/pytorch_model.bin",
+        "bytes": 26646242,
+        "sha256": "6f10ff60898a1d185fa22e1d11e0bfa8a92efec811f11bca48cb8cafebefd929"
+      },
+      {
+        "path": "plda/plda.npz",
+        "bytes": 133852,
+        "sha256": "9b77bcd840692710dd3496f62ecfeed8d8e5f002fd991b785079b244eab7d255"
+      },
+      {
+        "path": "plda/xvec_transform.npz",
+        "bytes": 134376,
+        "sha256": "325f1ce8e48f7e55e9c8aa47e05d2766b7c48c4b25b8de8dd751e7a4cc5fbe8f"
+      }
+    ]
+  },
+  "upstream": {
+    "repo": "pyannote/speaker-diarization-community-1",
+    "revision": "3533c8cf8e369892e6b79ff1bf80f7b0286a54ee",
+    "metadataSha256": "29c9531945bbed49262da1d73bad9b2d670467496c4d2770c75eca92c2be5e93"
+  },
+  "redistributionMetadataSha256": "7afbd81cf3a78a704fac39432b5596a30d3ab3f6cc98ed7e89d4c21792fc74e2",
+  "license": "CC-BY-4.0",
+  "attribution": "pyannote; Community-1; upstream model card citations retained; original models unmodified",
+  "modelCardSha256": "2db91f9265bd81f1653ff088b5bff22bf6aebebea03328513af65501643f8a31",
+  "acquisitionBudget": {
+    "maximumBytes": 32821421,
+    "timeoutSeconds": 180,
+    "retries": 0
+  },
+  "nativeInference": false
+}

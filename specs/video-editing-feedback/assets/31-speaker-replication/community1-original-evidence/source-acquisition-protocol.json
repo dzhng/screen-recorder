@@ -1,0 +1,9 @@
+{
+  "package": "pyannote.audio==4.0.0",
+  "url": "https://files.pythonhosted.org/packages/3b/19/f8cd6048f7adbac919c68273a7d7f46a29c975f931bf7f229af0600ba964/pyannote_audio-4.0.0-py3-none-any.whl",
+  "bytes": 891429,
+  "sha256": "5a662f5a498aea8133bd05471af0acb229a55640cec476126e56d1e2f1bcecc4",
+  "scope": "Source inspection only; no installation/import/inference",
+  "timeoutSeconds": 30,
+  "retries": 0
+}

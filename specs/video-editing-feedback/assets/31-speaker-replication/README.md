@@ -24,6 +24,10 @@ parity on selected single-stream controls, so its unchanged long run is skipped.
 The [documented buffering profile](context-evidence/README.md) fails independent
 short confirmation and does not proceed to longer inputs. Their shared
 [research record](native-cache-research.json) owns the next provider hypothesis.
+The [original PyTorch Community-1 path](community1-original-evidence/README.md)
+independently merges identities on its first short control, despite native support
+and resource admission. Its complete raw operands and transport repair are retained;
+other short and long controls remain untested under the frozen stop rule.
 
 Each bundle links its read-only replay accepting the repository root. Replay
 checks retained operand hashes and recomputes metrics through the existing scorer;
