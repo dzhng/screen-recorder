@@ -395,3 +395,31 @@ test("project frame receipts preserve rational source requests with integer labe
     pictures: [{ requestedSourceUs: { numerator: 2900000, denominator: 3 } }],
   });
 });
+
+test("face observations measured on another raster cannot publish as the requested picture", async () => {
+  const f = await fixture({
+    ...renderer,
+    async render(request, signal) {
+      const value = await renderer.render(request, signal);
+      return {
+        ...(value as object),
+        faceObservations: {
+          recipe: "vision-face-rectangles-v1",
+          implementationId: "vision-face-rectangles-v1:revision-3:fixture-OS",
+          coordinateSpace: "delivered-top-left-pixels",
+          width: 161,
+          height: 96,
+          status: "available",
+          faces: [
+            { id: "face-0", boundingBox: { x: 10, y: 10, width: 20, height: 30 }, confidence: 0.9 },
+          ],
+        },
+      };
+    },
+  });
+  const request = { projectId: f.projectId, atUs: 75001, faceObservations: {} };
+  f.frames.request(request);
+  await f.jobs.idle();
+  expect(f.frames.request(request)).toMatchObject({ state: "failed", published: null });
+  expect(f.cache.bytes).toBe(0);
+});

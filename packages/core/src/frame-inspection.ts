@@ -97,10 +97,8 @@ const textLayoutSchema = z
       z.tuple([]),
     ]),
     decorationBounds: z.tuple([
-      z.number().finite(),
-      z.number().finite(),
-      z.number().finite().nonnegative(),
-      z.number().finite().nonnegative(),
+      z.number().finite(), z.number().finite(),
+      z.number().finite().nonnegative(), z.number().finite().nonnegative(),
     ]),
     verticalOffset: z.number().finite(),
     stroke: textStrokeSchema.optional(),
@@ -287,6 +285,7 @@ export type SourceImageRenderer = {
       asset: Pick<CompositionAssetBinding, "assetId" | "streamId" | "path">;
       maxLongEdge: number;
       observations?: NormalizedPictureObservationRequest | undefined;
+      faceObservations?: FaceObservationRequest | undefined;
       output: string;
     },
     signal: AbortSignal,
@@ -345,8 +344,8 @@ export type SourceFrameArtifact = z.infer<typeof sourceReceiptSchema> &
     maxLongEdge: number;
     supportDigest: string;
     implementationId: string;
-  observationRequest?: NormalizedPictureObservationRequest | undefined;
-  faceObservationRequest?: FaceObservationRequest | undefined;
+    observationRequest?: NormalizedPictureObservationRequest | undefined;
+    faceObservationRequest?: FaceObservationRequest | undefined;
     cacheId: string;
   };
 
@@ -365,14 +364,23 @@ export function validateSourceFrameGeometry(
     throw new CatalogError("INVALID_RESPONSE", "Source picture receipt changed its geometry");
 }
 
-function validateFaceObservations(
-  value: { faceObservations?: unknown },
+export function validateFaceObservations(
+  value: { width: number; height: number; faceObservations?: unknown },
   request: FaceObservationRequest | undefined,
 ): void {
-  if (request !== undefined && !faceObservationsSchema.safeParse(value.faceObservations).success)
+  if (request === undefined) {
+    if (value.faceObservations !== undefined)
+      throw new CatalogError("INVALID_RESPONSE", "Unexpected face observations were returned");
+    return;
+  }
+  const observations = faceObservationsSchema.safeParse(value.faceObservations);
+  if (!observations.success)
     throw new CatalogError("INVALID_RESPONSE", "Requested face observations were not returned");
-  if (request === undefined && value.faceObservations !== undefined)
-    throw new CatalogError("INVALID_RESPONSE", "Unexpected face observations were returned");
+  if (observations.data.width !== value.width || observations.data.height !== value.height)
+    throw new CatalogError(
+      "INVALID_RESPONSE",
+      "Face observations address another delivered raster",
+    );
 }
 
 export const retainedSourceFrameSchema = sourceReceiptSchema
@@ -383,6 +391,7 @@ export const retainedSourceFrameSchema = sourceReceiptSchema
     supportDigest: sourceOptionsSchema.shape.supportDigest,
     implementationId: z.string().min(1).max(256),
     observationRequest: pictureObservationRequestSchema.optional(),
+    faceObservationRequest: faceObservationRequestSchema.optional(),
   })
   .strict();
 
@@ -436,7 +445,9 @@ export class MediaFrameInspection {
       selection: { assetId: asset.id, streamId: stream.id },
       maxLongEdge: input.maxLongEdge ?? 1600,
       ...(input.observations === undefined ? {} : { observationRequest: input.observations }),
-      ...(input.faceObservations === undefined ? {} : { faceObservationRequest: input.faceObservations }),
+      ...(input.faceObservations === undefined
+        ? {}
+        : { faceObservationRequest: input.faceObservations }),
       implementationId: renderer.implementationId,
     });
     return {
@@ -507,7 +518,9 @@ export class MediaFrameInspection {
       atUs: input.atUs,
       maxLongEdge: input.maxLongEdge ?? 1600,
       ...(input.observations === undefined ? {} : { observationRequest: input.observations }),
-      ...(input.faceObservations === undefined ? {} : { faceObservationRequest: input.faceObservations }),
+      ...(input.faceObservations === undefined
+        ? {}
+        : { faceObservationRequest: input.faceObservations }),
       supportDigest: source.supportDigest,
       implementationId: this.owners.sourceRenderer.implementationId,
     });
@@ -792,7 +805,9 @@ export class MediaFrameInspection {
       atUs: input.atUs,
       maxLongEdge: input.maxLongEdge ?? 1600,
       ...(input.observations === undefined ? {} : { observationRequest: input.observations }),
-      ...(input.faceObservations === undefined ? {} : { faceObservationRequest: input.faceObservations }),
+      ...(input.faceObservations === undefined
+        ? {}
+        : { faceObservationRequest: input.faceObservations }),
       tap: input.tap ?? { target: { kind: "output" }, point: { kind: "processed" } },
       implementationId: this.project.renderer.implementationId,
     });

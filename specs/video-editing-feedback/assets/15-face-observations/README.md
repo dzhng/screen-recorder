@@ -1,17 +1,48 @@
-# Face observation checkpoint
+# Retained native face observations
 
-This checkpoint freezes the first slice of face localization: an explicit
-`vision-face-rectangles-v1` request runs Vision on the same delivered upright
-CGImage used for PNG publication. It returns every detector box in top-left
-integer pixels, sorted deterministically left-to-right, with native confidence.
-`no_face` and detector `error` are retained as states; no largest-face choice,
-person identity or framing edit is inferred.
+Face evidence describes the delivered upright raster. It contains every native
+Vision rectangle and confidence, the actual Vision revision/macOS implementation,
+and explicit no-face/error states. It does not establish a person's name, a
+complete head silhouette, an edit target or permission to crop.
 
-The native no-face control is in
-[FaceObservationTests.swift](../../../../helpers/mac/Tests/YapFrameTests/FaceObservationTests.swift).
-The protocol admission and contradictory-state tests are in
-[faces.test.ts](../../../../packages/protocol/src/faces.test.ts).
+[The checkpoint](../../../../packages/test-harness/editing/subject-observations.mjs)
+owns invocation and selected inputs. [Frozen gates](gates.json) were authored from
+source images before inference. [Native evidence](native-evidence.json) retains
+all observations, exact native sample clocks, original hashes, immutable frame
+pins, association rows, controls and failed localization comparisons. Its small
+[contact sheets](shots/) provide the full sampled window; annotated detail shots
+show native boxes in green and independent regions in magenta.
 
-Temporal association, occlusion gaps, scene resets and real multi-face fixture
-coverage remain the next checkpoint. This evidence does not claim tracking,
-identity or a reframe.
+Delivery and association are green across every retained native frame from the
+three short host windows. Planted movement, two simultaneous faces, a source-edge
+face, full occlusion and metadata orientation are delivered natively. Metadata
+rotation must reproduce upright bytes before it can certify oriented box space.
+Tracker controls retain gaps, refuse identities after the declared horizon, and
+reset on explicit scenes, detector errors and changed provider/raster domains.
+Missing temporal support is never interpolated. [Public index evidence](public-index-evidence.json)
+checks plain and face-enriched source/project indexes through both transports,
+including native request forwarding, delivered receipts and ordinary cursors.
+
+**Full-face localization remains red.** The frozen overlap requirement fails in
+27 Graham frames as his hand covers his face and his head turns. The native
+rectangle shrinks while its confidence remains high. The same source window
+still supplies one continuously associated detector track, and every returned
+center stays inside the independent region. These facts cannot turn the failed
+full-face gate green. No threshold was widened and no rectangle was expanded to
+match the oracle. Follow-up must distinguish independently authored visible-face
+landmarks from a complete head region; it must preserve this failure if Vision
+cannot support the requested localization. Scores are evidence, never quality
+or permission to frame automatically.
+
+A previous scratch metadata control was counter-rotated in the wrong direction;
+its upside-down raster is retained in [failed-controls.json](failed-controls.json).
+The corrected control is byte-identical to its upright input. Initial integer-us
+sample rounding also repeated predecessor frames; that abandoned run is not
+native-window coverage. The accepted capture uses ceiling requests and proves
+every native rational sample separately.
+
+Closeout review: the independent visual pass found no visible stretch, orientation,
+or source-corner loss in the complete sheets. It did not certify continuous motion
+between sampled frames, and enlarged detail crops are soft because the retained
+fixtures are enlarged for inspection. Those are evidence limits, not detector
+quality claims; the 27 full-face failures remain red.

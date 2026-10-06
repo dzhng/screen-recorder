@@ -1,6 +1,6 @@
 # 15 — Detect and track subjects explicitly
 
-Status: partial — single-frame localization and a bounded retained-observation tracker are integrated; native multi-frame delivery/coverage evidence remains open. Depends on: [14](14-picture-statistics.md).
+Status: partial — complete native sampled-window delivery, planted controls and retained association are verified; the frozen full-face localization gate fails27 Graham occlusion/pose frames and remains open. Depends on: [14](14-picture-statistics.md).
 
 ## Contract
 
@@ -43,7 +43,7 @@ Variable A: face localization, box masks. Variable B (after A passes): track con
 
 Run [compare-screenshots](../../../.agents/skills/compare-screenshots/SKILL.md) on matched before/reference/candidate shots with the stated masks and numeric interpretation. Inspect motion temporally when a still cannot establish the claim. Run an unprimed [screenshot-critique](../../../.agents/skills/screenshot-critique/SKILL.md) as the **last visual acceptance check**. Show useful output with [preview-shots](../../../.agents/skills/preview-shots/SKILL.md); never request human QA or wait for approval. Record critique, coverage and any residual uncertainty.
 
-The pure retained-observation checkpoint is green for movement, explicit no-face gaps and ambiguity. Native multi-frame acquisition, occlusion/reset coverage and visual overlay evidence remain open. A spike passes with a frozen accepted recipe/reference, or records a failed verdict and reslices dependent work. An unavailable stub or undocumented fallback is not implementation completion.
+The retained-observation and native delivery checkpoints are green for exact sampled clocks, movement, multiple/edge/oriented faces, explicit no-face gaps, scene/provider resets and ambiguity. The [retained evidence](../assets/15-face-observations/README.md) keeps the red full-face overlap gate separate:27 Graham hand/pose frames do not satisfy it. Do not certify full-face localization from continuous association or native confidence. A spike passes with a frozen accepted recipe/reference, or records a failed verdict and reslices dependent work. An unavailable stub or undocumented fallback is not implementation completion.
 
 ## Delegated choices
 

@@ -27,6 +27,7 @@ public struct FaceObservations: Encodable {
         let height: Int
     }
     let recipe = "vision-face-rectangles-v1"
+    let implementationId: String
     let coordinateSpace = "delivered-top-left-pixels"
     let width: Int
     let height: Int
@@ -42,19 +43,25 @@ public struct FaceObservations: Encodable {
         }
         let handler = VNImageRequestHandler(cgImage: image, orientation: .up, options: [:])
         let request = VNDetectFaceRectanglesRequest()
+        let implementationId = "vision-face-rectangles-v1:revision-\(request.revision):"
+            + ProcessInfo.processInfo.operatingSystemVersionString
+        func result(status: String, faces: [Face], reason: String?) -> Self {
+            Self(implementationId: implementationId, width: width, height: height,
+                status: status, faces: faces, reason: reason)
+        }
         do {
             try handler.perform([request])
         } catch {
-            return Self(width: width, height: height, status: "error", faces: [], reason: String(String(describing: error).prefix(4096)))
+            return result(status: "error", faces: [], reason: String(String(describing: error).prefix(4096)))
         }
         let results = request.results ?? []
         guard results.count <= 64 else {
-            return Self(width: width, height: height, status: "error", faces: [], reason: "face_count_exceeds_limit")
+            return result(status: "error", faces: [], reason: "face_count_exceeds_limit")
         }
         for observation in results {
             let confidence = Double(observation.confidence)
             guard confidence.isFinite, (0...1).contains(confidence) else {
-                return Self(width: width, height: height, status: "error", faces: [], reason: "invalid_face_confidence")
+                return result(status: "error", faces: [], reason: "invalid_face_confidence")
             }
         }
         let faces: [Face] = results.sorted {
@@ -69,6 +76,6 @@ public struct FaceObservations: Encodable {
             guard right > x, bottom > y else { return nil }
             return Face(id: "face-\(index)", boundingBox: Box(x: x, y: y, width: right - x, height: bottom - y), confidence: Double(observation.confidence))
         }
-        return Self(width: width, height: height, status: faces.isEmpty ? "no_face" : "available", faces: faces, reason: faces.isEmpty ? "no_face" : nil)
+        return result(status: faces.isEmpty ? "no_face" : "available", faces: faces, reason: faces.isEmpty ? "no_face" : nil)
     }
 }

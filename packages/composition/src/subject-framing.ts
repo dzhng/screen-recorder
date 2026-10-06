@@ -109,18 +109,19 @@ export function planSubjectFraming(input: SubjectFramingRequest): SubjectFraming
       x: boundedOffset.x - (request.canvas.width - contentWidth) / 2,
       y: boundedOffset.y - (request.canvas.height - contentHeight) / 2,
     };
-    const geometry: Geometry = close(translation.x, 0) && close(translation.y, 0)
-      ? containGeometry()
-      : {
-          type: "geometry",
-          rect: {
-            x: translation.x,
-            y: translation.y,
-            width: request.canvas.width,
-            height: request.canvas.height,
-          },
-          fit: "contain",
-        };
+    const geometry: Geometry =
+      close(translation.x, 0) && close(translation.y, 0)
+        ? containGeometry()
+        : {
+            type: "geometry",
+            rect: {
+              x: translation.x,
+              y: translation.y,
+              width: request.canvas.width,
+              height: request.canvas.height,
+            },
+            fit: "contain",
+          };
     geometrySchema.parse(geometry);
     return {
       status: violations.length ? "refused" : "ready",
@@ -144,7 +145,13 @@ export function planSubjectFraming(input: SubjectFramingRequest): SubjectFraming
   if (requestedZoom > request.zoom.max) violations.push("zoom_cap");
   if (requestedZoom < request.zoom.min) violations.push("zoom_floor");
   const zoom = clamp(Math.max(requestedZoom, sourceZoom), request.zoom.min, request.zoom.max);
-  if (zoom < sourceZoom - 1e-9) violations.push("source_bounds");
+  if (zoom < sourceZoom - 1e-9)
+    return {
+      status: "refused",
+      geometry: null,
+      zoom: null,
+      violations: [...violations, "source_bounds"],
+    };
   const cropWidth = Math.min(request.canvas.width / zoom, request.source.width);
   const cropHeight = Math.min(request.canvas.height / zoom, request.source.height);
   const maxX = request.source.width - cropWidth;

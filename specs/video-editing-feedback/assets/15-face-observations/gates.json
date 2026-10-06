@@ -1,0 +1,8 @@
+{
+  "scope": "Every one of the retained 72 source frames per host at 640x360; independent source-image face zones are frozen before Vision inference. Coverage is sampled-frame coverage, never interpolation or named identity.",
+  "faces": {"graham":{"x":280,"y":68,"width":116,"height":164},"madison":{"x":234,"y":56,"width":167,"height":210},"lily":{"x":242,"y":134,"width":141,"height":203}},
+  "localization": {"singleHostCount":1,"minimumBoxIoU":0.5,"centerInsideAuthoredZone":true},
+  "tracking": {"maxGapUs":500000,"singleHostTracks":1,"allSamplesObserved":true,"maximumAssociationComparisonsPerSample":"retained faces squared; max64 faces per raster"},
+  "controls": {"translationOffsets":[0,12,24],"edgeOffsetX":-280,"multipleOffsets":[0,320],"multipleScale":0.5,"occlusion":"full raster blank; exact no_face","orientation":6},
+  "framing": {"maximumFaceTargetErrorPixels":2,"maximumPerimeterChannelDifference":8,"meanPerimeterChannelDifference":2,"blackOutsideContent":"exact black RGB","zoomBounds":"exact authored min/max; violations retained"}
+}

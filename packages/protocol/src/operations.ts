@@ -238,7 +238,7 @@ const spectrogramParams = z.union([
 const projectIndexParams = projectFrameParams.omit({ atUs: true });
 const projectIndexReference = projectIndexParams
   .required()
-  .partial({ observations: true })
+  .partial({ observations: true, faceObservations: true })
   .extend({ generation: id });
 const paged = <T extends z.ZodRawShape, S extends z.ZodRawShape, C extends z.ZodRawShape>(
   target: z.ZodObject<T>,

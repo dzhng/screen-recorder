@@ -1,6 +1,6 @@
 # 16 — Author constrained subject geometry
 
-Status: partial — bounded subject geometry planning is integrated and reviewed; real host-view rendering/mask evidence remains open. Depends on: [15](15-face-observations.md), [06](06-exact-removal.md).
+Status: implemented geometric delivery — real host views, full source-perimeter masks, explicit conflicts, pinned hold motion and public split/repeat/retime are verified. Source full-face quality remains open in15. Depends on: [15](15-face-observations.md), [06](06-exact-removal.md).
 
 ## Contract
 
@@ -39,7 +39,7 @@ Variable: framing. Mask: subject trajectory and full source perimeter. Freeze co
 
 Run [compare-screenshots](../../../.agents/skills/compare-screenshots/SKILL.md) on matched before/reference/candidate shots with the stated masks and numeric interpretation. Inspect motion temporally when a still cannot establish the claim. Run an unprimed [screenshot-critique](../../../.agents/skills/screenshot-critique/SKILL.md) as the **last visual acceptance check**. Show useful output with [preview-shots](../../../.agents/skills/preview-shots/SKILL.md); never request human QA or wait for approval. Record critique, coverage and any residual uncertainty.
 
-A spike passes with a frozen accepted recipe/reference, or records a failed verdict and reslices dependent work. An unavailable stub or undocumented fallback is not implementation completion.
+[Delivered evidence](../assets/16-subject-reframe/README.md) separates accepted geometry from refused proposals and the source detector's red full-face gate. Independent linear-light references pass all contain perimeter pixels under unchanged tolerance; the earlier encoded-space reference failure remains retained. Explicit unsmoothed hold curves, planted missing-observation hold and public occurrence operations preserve geometry.
 
 ## Delegated choices
 

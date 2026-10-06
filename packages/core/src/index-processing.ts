@@ -1,4 +1,9 @@
-import { pictureObservationRequestSchema, type PictureObservationRequest } from "@yap/protocol";
+import {
+  faceObservationRequestSchema,
+  type FaceObservationRequest,
+  pictureObservationRequestSchema,
+  type PictureObservationRequest,
+} from "@yap/protocol";
 import type { ProjectStore } from "./projects.js";
 import type { ProjectFrameInput } from "./frame-inspection.js";
 import { projectComposition } from "./project-window.js";
@@ -39,7 +44,10 @@ type SourceIndexInput = Omit<SourceIndexIdentity, "generation">;
 export type ProjectIndexReference = Pick<
   ProjectIndexIdentity,
   "projectId" | "revisionId" | "generation" | "tap" | "maxLongEdge"
-> & { observations?: PictureObservationRequest | undefined };
+> & {
+  observations?: PictureObservationRequest | undefined;
+  faceObservations?: FaceObservationRequest | undefined;
+};
 export type ProjectIndexInput = Omit<ProjectFrameInput, "atUs">;
 type ProjectIndexRecipe = Omit<ProjectIndexIdentity, "generation">;
 function projectRecipe(metadata: ProjectIndexRecipe): ProjectIndexRecipe {
@@ -50,6 +58,9 @@ function projectRecipe(metadata: ProjectIndexRecipe): ProjectIndexRecipe {
     ...(metadata.observationRequest === undefined
       ? {}
       : { observationRequest: metadata.observationRequest }),
+    ...(metadata.faceObservationRequest === undefined
+      ? {}
+      : { faceObservationRequest: metadata.faceObservationRequest }),
     tap: metadata.tap,
     implementationId: metadata.implementationId,
     selectionPolicy: metadata.selectionPolicy,
@@ -199,6 +210,8 @@ export class IndexProcessing {
     input: ProjectIndexReference | ProjectIndexIdentity,
   ): ProjectIndexReference {
     const observations = "scenes" in input ? input.observationRequest : input.observations;
+    const faceObservations =
+      "scenes" in input ? input.faceObservationRequest : input.faceObservations;
     return {
       projectId: input.projectId,
       revisionId: input.revisionId,
@@ -208,6 +221,9 @@ export class IndexProcessing {
       ...(observations === undefined
         ? {}
         : { observations: pictureObservationRequestSchema.parse(observations) }),
+      ...(faceObservations === undefined
+        ? {}
+        : { faceObservations: faceObservationRequestSchema.parse(faceObservations) }),
     };
   }
   private projectRead(reference: ProjectIndexReference) {
@@ -234,6 +250,11 @@ export class IndexProcessing {
           !isDeepStrictEqual(
             input.cursor.observations,
             pictureObservationRequestSchema.parse(input.observations),
+          )) ||
+        (input.faceObservations !== undefined &&
+          !isDeepStrictEqual(
+            input.cursor.faceObservations,
+            faceObservationRequestSchema.parse(input.faceObservations),
           )))
     )
       throw new CatalogError(
@@ -281,7 +302,11 @@ export class IndexProcessing {
         { implementationId: input.implementationId },
         true,
       );
-    const plan = this.projectPlan({ ...input, observations: input.observationRequest });
+    const plan = this.projectPlan({
+      ...input,
+      observations: input.observationRequest,
+      faceObservations: input.faceObservationRequest,
+    });
     return (
       this.project.frames.projectSupport.pointers?.admit(plan.pointerSources) ?? { state: "ready" }
     );
@@ -290,7 +315,11 @@ export class IndexProcessing {
     if (job.target.kind !== "project" || job.artifact !== artifact)
       throw new CatalogError("UNSUPPORTED_JOB", "Project index requires a project job");
     const input = JSON.parse(job.input) as ProjectIndexRecipe;
-    const plan = this.projectPlan({ ...input, observations: input.observationRequest });
+    const plan = this.projectPlan({
+      ...input,
+      observations: input.observationRequest,
+      faceObservations: input.faceObservationRequest,
+    });
     const { scenes, ...identity } = input;
     if (
       job.target.projectId !== input.projectId ||
@@ -421,6 +450,9 @@ export class IndexProcessing {
       ...(metadata.observationRequest === undefined
         ? {}
         : { observationRequest: metadata.observationRequest }),
+      ...(metadata.faceObservationRequest === undefined
+        ? {}
+        : { faceObservationRequest: metadata.faceObservationRequest }),
     };
     if (
       publication.attemptId !== metadata.generation ||
@@ -450,10 +482,16 @@ export class IndexProcessing {
       ...(options.observationRequest === undefined
         ? {}
         : { observationRequest: options.observationRequest }),
+      ...(options.faceObservationRequest === undefined
+        ? {}
+        : { faceObservationRequest: options.faceObservationRequest }),
     };
   }
   requestSource(
-    selection: SourceSelection & { observations?: PictureObservationRequest | undefined },
+    selection: SourceSelection & {
+      observations?: PictureObservationRequest | undefined;
+      faceObservations?: FaceObservationRequest | undefined;
+    },
   ) {
     const plan = this.asset.frames.sourcePlan({ ...selection, atUs: 0 });
     selection = plan.source.selection;
@@ -500,7 +538,10 @@ export class IndexProcessing {
     };
   }
   retrySource(
-    selection: SourceSelection & { observations?: PictureObservationRequest | undefined },
+    selection: SourceSelection & {
+      observations?: PictureObservationRequest | undefined;
+      faceObservations?: FaceObservationRequest | undefined;
+    },
   ) {
     const status = this.requestSource(selection);
     if (status.jobId) this.jobs.retry(status.jobId);
@@ -547,6 +588,7 @@ export class IndexProcessing {
   getSource(
     input: SourceSelection & {
       observations?: PictureObservationRequest | undefined;
+      faceObservations?: FaceObservationRequest | undefined;
       cursor?: IndexReadCursor<SourceIndexReference> | undefined;
       limit?: number;
     },
@@ -576,6 +618,17 @@ export class IndexProcessing {
       throw new CatalogError(
         "ARTIFACT_CHANGED",
         "Source index continuation changed its picture masks",
+      );
+    if (
+      input.faceObservations !== undefined &&
+      !isDeepStrictEqual(
+        metadata.faceObservationRequest,
+        faceObservationRequestSchema.parse(input.faceObservations),
+      )
+    )
+      throw new CatalogError(
+        "ARTIFACT_CHANGED",
+        "Source index continuation changed its face request",
       );
     return this.sourceRead(metadata).get({ cursor: input.cursor, limit: input.limit });
   }
@@ -619,6 +672,7 @@ export class IndexProcessing {
       ...input,
       atUs: 0,
       observations: input.observationRequest,
+      faceObservations: input.faceObservationRequest,
     });
     if (!isDeepStrictEqual(input, this.sourceRecipe(options, input.scenes)))
       throw new CatalogError("ARTIFACT_CHANGED", "Source index recipe changed");

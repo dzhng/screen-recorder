@@ -1,0 +1,99 @@
+{
+  "scope": "Abandoned scratch EXIF6 control: upside-down delivered raster; not a Vision orientation gate. Corrected control proves upright byte identity.",
+  "control": {
+    "id": "orientation6",
+    "source": {
+      "assetId": "c470855036600b6fa3694f1f367053ccdb415591fb36f1bb9a68bd99782e5a38",
+      "streamId": "image:0"
+    },
+    "receipt": {
+      "file": "/private/tmp/yap-subject-observations-vZGOhr/library/cache/derived/d954a17e-0b46-4aba-aecd-d9f4de19d70f.cache",
+      "mediaType": "image/png",
+      "width": 640,
+      "height": 360,
+      "faceObservations": {
+        "recipe": "vision-face-rectangles-v1",
+        "implementationId": "vision-face-rectangles-v1:revision-3:Version 27.0.1 (Build 26A434)",
+        "coordinateSpace": "delivered-top-left-pixels",
+        "width": 640,
+        "height": 360,
+        "status": "available",
+        "faces": [
+          {
+            "id": "face-0",
+            "boundingBox": {
+              "x": 240,
+              "y": 145,
+              "width": 115,
+              "height": 115
+            },
+            "confidence": 0.898403525352478
+          }
+        ]
+      },
+      "sourceWidth": 640,
+      "sourceHeight": 360,
+      "bytes": 274744,
+      "kind": "image",
+      "assetId": "c470855036600b6fa3694f1f367053ccdb415591fb36f1bb9a68bd99782e5a38",
+      "streamId": "image:0",
+      "orientation": 6,
+      "hasAlpha": true,
+      "decodedImages": 1,
+      "readerOpens": 1,
+      "maxLongEdge": 640,
+      "implementationId": "native-source-image-v2",
+      "faceObservationRequest": {
+        "recipe": "vision-face-rectangles-v1"
+      },
+      "cacheId": "d954a17e-0b46-4aba-aecd-d9f4de19d70f"
+    },
+    "observations": {
+      "recipe": "vision-face-rectangles-v1",
+      "implementationId": "vision-face-rectangles-v1:revision-3:Version 27.0.1 (Build 26A434)",
+      "coordinateSpace": "delivered-top-left-pixels",
+      "width": 640,
+      "height": 360,
+      "status": "available",
+      "faces": [
+        {
+          "id": "face-0",
+          "boundingBox": {
+            "x": 240,
+            "y": 145,
+            "width": 115,
+            "height": 115
+          },
+          "confidence": 0.898403525352478
+        }
+      ]
+    },
+    "matches": [
+      {
+        "zone": {
+          "x": 280,
+          "y": 68,
+          "width": 116,
+          "height": 164
+        },
+        "face": {
+          "id": "face-0",
+          "boundingBox": {
+            "x": 240,
+            "y": 145,
+            "width": 115,
+            "height": 115
+          },
+          "confidence": 0.898403525352478
+        },
+        "overlap": 0.2536541750894107
+      }
+    ],
+    "localization": {
+      "passed": false,
+      "failures": [
+        "Independent zone IoU 0.2536541750894107 below 0.5"
+      ]
+    }
+  }
+}

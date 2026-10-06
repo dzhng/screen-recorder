@@ -529,3 +529,21 @@ it("rejects unknown fields on speaker label bindings", () => {
     }).success,
   ).toBe(false);
 });
+
+it("ordinary project index references remain usable without face observations", () => {
+  const reference = {
+    projectId: "p",
+    revisionId: "r",
+    generation: "g",
+    maxLongEdge: 1600,
+    tap: { target: { kind: "output" }, point: { kind: "processed" } },
+  };
+  for (const request of [
+    { operation: "index.frame", params: { ...reference, ordinal: 0 } },
+    {
+      operation: "index.get",
+      params: { projectId: "p", cursor: { ...reference, afterOrdinal: 0 } },
+    },
+  ])
+    expect(operationSchema.parse(request).params).toMatchObject(request.params);
+});

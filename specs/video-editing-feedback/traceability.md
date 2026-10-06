@@ -222,5 +222,4 @@ picture measurements and visual acceptance remain open.
 
 Slice15 evidence: `@yap/core/face-tracking` associates adjacent retained Vision rows by bounded
 box overlap, preserves explicit no-face gaps, and marks close competing candidates ambiguous.
-It never assigns person identity or interpolates across an error/reset. Native multi-frame
-acquisition, occlusion/reset coverage and visual overlay evidence remain open.
+It never assigns person identity or interpolates across an error/reset. Native delivery covers all216 exact retained source samples plus moving/multi-face/edge/oriented/occluded controls. The frozen full-face overlap gate remains red for27 Graham hand/pose frames; continuous association cannot certify it. Slice16 delivered contain perimeters, explicit conflicts, pinned hold curves and public split/repeat/retime are verified separately; see the feature-owned evidence.

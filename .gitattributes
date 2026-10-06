@@ -7,3 +7,5 @@ specs/video-editing-feedback/assets/01-corpus-picture/**/*.png filter=lfs diff=l
 specs/video-editing-feedback/assets/31-speaker-replication/**/*.gz filter=lfs diff=lfs merge=lfs -text
 specs/video-editing-feedback/assets/09-local-alignment/**/*.gz filter=lfs diff=lfs merge=lfs -text
 specs/video-editing-feedback/assets/13-decoded-picture/**/*.png filter=lfs diff=lfs merge=lfs -text
+specs/video-editing-feedback/assets/15-face-observations/shots/**/*.png filter=lfs diff=lfs merge=lfs -text
+specs/video-editing-feedback/assets/16-subject-reframe/shots/**/*.png filter=lfs diff=lfs merge=lfs -text

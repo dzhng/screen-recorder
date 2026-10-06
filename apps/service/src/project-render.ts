@@ -24,27 +24,19 @@ import type { SourceEvidenceReader } from "@yap/core/evidence-read";
 import type { PresentationReceipt } from "@yap/core/presentation-evidence";
 import { prepareCompositionPointers } from "@yap/core/composition-pointer";
 import { renderPlan } from "@yap/core/presentation-time";
-export type NativePictureCapabilities = { sdrCorrection?: string; lut?: string };
+export type NativePictureCapabilities = { sdrCorrection?: string };
 export async function nativePictureCapabilities(
   worker: MediaWorker,
 ): Promise<NativePictureCapabilities> {
   try {
     const result = nativeResult(await worker("media.pictureCapabilities", {}, { timeoutMs: 5000 }));
-    if (typeof result !== "object" || result === null) return {};
-    const sdr = "sdrCorrection" in result ? result.sdrCorrection : undefined;
-    const lut = "lut" in result ? result.lut : undefined;
-    return {
-      ...(typeof sdr === "string" &&
-      sdr.startsWith("coreimage-sdr-source-neutral-recovery-v2:") &&
-      sdr.length <= 256
-        ? { sdrCorrection: sdr }
-        : {}),
-      ...(typeof lut === "string" &&
-      lut.startsWith("coreimage-unit-linear-srgb-cube-trilinear-v1:") &&
-      lut.length <= 256
-        ? { lut }
-        : {}),
-    };
+    if (typeof result !== "object" || result === null || !("sdrCorrection" in result)) return {};
+    const identity = result.sdrCorrection;
+    return typeof identity === "string" &&
+      identity.startsWith("coreimage-sdr-source-neutral-v1:") &&
+      identity.length <= 256
+      ? { sdrCorrection: identity }
+      : {};
   } catch {
     return {};
   }
@@ -53,20 +45,16 @@ function picturePayload(
   window: AudioWindowInput["window"],
   capabilities: NativePictureCapabilities,
 ) {
-  const payload: { sdrCorrectionImplementationId?: string; lutImplementationId?: string } = {};
-  for (const [type, identity, field] of [
-    ["sdr-correction", capabilities.sdrCorrection, "sdrCorrectionImplementationId"],
-    ["lut", capabilities.lut, "lutImplementationId"],
-  ] as const) {
-    const requirements = window.manifest.requirements.filter(
-      (item) => item.kind === "processor" && item.processor.type === type,
-    );
-    if (!requirements.length) continue;
-    if (!identity || requirements.some((item) => item.implementationId !== identity))
-      throw new CatalogError("NOT_READY", `The bound native ${type} recipe is unavailable`);
-    payload[field] = identity;
-  }
-  return payload;
+  const requirements = window.manifest.requirements.filter(
+    (item) => item.kind === "processor" && item.processor.type === "sdr-correction",
+  );
+  if (!requirements.length) return {};
+  if (
+    !capabilities.sdrCorrection ||
+    requirements.some((item) => item.implementationId !== capabilities.sdrCorrection)
+  )
+    throw new CatalogError("NOT_READY", "The bound native SDR correction recipe is unavailable");
+  return { sdrCorrectionImplementationId: capabilities.sdrCorrection };
 }
 export type NativeAudioCapabilities = {
   rnnoise?: string;
@@ -334,9 +322,8 @@ export function projectMovieRenderer(
 ): ProjectMovieRenderer {
   return {
     implementationId:
-      "native-composition-movie-v24" +
+      "native-composition-movie-v22" +
       (pictureCapabilities.sdrCorrection ? ":" + pictureCapabilities.sdrCorrection : "") +
-      (pictureCapabilities.lut ? ":" + pictureCapabilities.lut : "") +
       (processingRuntime ? ":" + processingRuntime.implementationId : ""),
     ...pictureCapabilities,
     ...(processingRuntime ? { processors: processingRuntime.processors } : {}),
@@ -383,7 +370,6 @@ export function projectMovieRenderer(
             processing: nativeProcessing(request.window.processing()),
             assets: request.assets,
             fonts: request.fonts,
-            luts: request.luts,
             audio: {
               range: manifest.sampleRange,
               clips: [...request.window.audio()],
@@ -582,13 +568,12 @@ export function projectFrameRenderer(
 ): ProjectFrameRenderer {
   return {
     implementationId:
-      "native-composition-picture-v20" +
-      (capabilities.sdrCorrection ? ":" + capabilities.sdrCorrection : "") +
-      (capabilities.lut ? ":" + capabilities.lut : ""),
+      "native-composition-picture-v18" +
+      (capabilities.sdrCorrection ? ":" + capabilities.sdrCorrection : ""),
     ...capabilities,
     ...(pointers ? { pointers: pointers.preparation } : {}),
     render: async (request, signal) => {
-      const { window, assets, fonts, luts, output, maxLongEdge, observations } = request;
+      const { window, assets, fonts, output, maxLongEdge, observations, faceObservations } = request;
       const pictureRecipe = picturePayload(window, capabilities);
       return withRenderedFile(
         worker,
@@ -609,9 +594,9 @@ export function projectFrameRenderer(
                 processing: nativeProcessing(window.processing()),
                 assets,
                 fonts,
-                luts,
                 maxLongEdge,
                 ...(observations === undefined ? {} : { observations }),
+                ...(faceObservations === undefined ? {} : { faceObservations }),
               },
               { signal },
             ),

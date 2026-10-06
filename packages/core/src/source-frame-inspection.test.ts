@@ -10,6 +10,7 @@ import { JobQueue } from "./jobs.js";
 import { DerivedCache } from "./cache.js";
 import {
   MediaFrameInspection,
+  retainedSourceFrameSchema,
   type SourceFrameRenderer,
   type SourceImageRenderer,
 } from "./frame-inspection.js";
@@ -186,6 +187,17 @@ test("selected source frames retain context and sample provenance through evicti
       .prepare("SELECT name FROM sqlite_master WHERE name='recordings' OR name='projects'")
       .all(),
   ).toEqual([]);
+});
+
+test("retained source frames preserve a requested face-observation recipe", async () => {
+  const f = await fixture();
+  const request = { recipe: "vision-face-rectangles-v1" as const };
+  f.frames.request(f.request);
+  await f.jobs.idle();
+  const { cacheId: _cacheId, ...frame } = f.frames.request(f.request).published!.frame;
+  expect(
+    retainedSourceFrameSchema.parse({ ...frame, faceObservationRequest: request }),
+  ).toMatchObject({ faceObservationRequest: request });
 });
 test("physical holes and acquisition exclusions remain distinct and schedule no frames", async () => {
   const f = await fixture();

@@ -187,6 +187,7 @@ export async function fixture(
                 : {
                     faceObservations: {
                       recipe: "vision-face-rectangles-v1",
+                      implementationId: "vision-face-rectangles-v1:revision-3:fixture-OS",
                       coordinateSpace: "delivered-top-left-pixels",
                       width: 1,
                       height: 1,
@@ -240,6 +241,7 @@ export async function fixture(
               : {
                   faceObservations: {
                     recipe: "vision-face-rectangles-v1",
+                    implementationId: "vision-face-rectangles-v1:revision-3:fixture-OS",
                     coordinateSpace: "delivered-top-left-pixels",
                     width: 1,
                     height: 1,

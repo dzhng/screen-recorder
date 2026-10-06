@@ -213,3 +213,22 @@ test("reports a zoom-floor violation when the minimum zoom would cut into the re
   expect(result.violations).toContain("zoom_floor");
   expect(result.zoom).toBe(3);
 });
+
+test("an infeasible uniform zoom refuses without offering a stretched crop", () => {
+  const result = planSubjectFraming({
+    source: { width: 1920, height: 1080 },
+    canvas: { width: 640, height: 640 },
+    faces: [{ id: "speaker", boundingBox: { x: 840, y: 300, width: 300, height: 300 } }],
+    subjectId: "speaker",
+    target: { x: 0.5, y: 0.5 },
+    margins: { x: 72, y: 72 },
+    zoom: { min: 0.1, max: 0.4 },
+    preservation: "crop",
+  });
+  expect(result).toEqual({
+    status: "refused",
+    geometry: null,
+    zoom: null,
+    violations: ["zoom_cap", "source_bounds"],
+  });
+});
