@@ -68,8 +68,9 @@ appearance envelope against an unblurred authored trajectory; strict reference-c
 parity remains open. The delivered-scene export/import
 checkpoint covers planted flash/hold observations and a physical empty-edit-list
 gap through native project/export delivery.
-Caption, blend, immutable-LUT, delivered-scene-helper, focused-use-case-routing,
-source acoustic/package-replay and speaker-binding receipts are accepted for their
+Caption, blend, immutable-LUT, delivered-scene-helper, delivered-scene replay,
+focused-use-case-routing, source acoustic/package-replay and speaker-binding
+receipts are accepted for their
 declared scopes; their remaining native parity gates stay explicit in the slice files.
 
 Prepare/download pinned first-class Yap models/runtime as needed by default;
