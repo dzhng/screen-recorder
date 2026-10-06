@@ -1,0 +1,357 @@
+{
+  "capability": {
+    "data": {
+      "lut": "coreimage-unit-linear-srgb-cube-trilinear-v1:Version 27.0.1 (Build 26A434)",
+      "sdrCorrection": "coreimage-sdr-source-neutral-v1:Version 27.0.1 (Build 26A434)"
+    },
+    "id": "old-capability",
+    "ok": true
+  },
+  "request": {
+    "id": "old-tone-delivery",
+    "operation": "media.renderCompositionFrame",
+    "params": {
+      "output": "/tmp/yap-tone-controls-2/chart-shadows-old.png",
+      "frame": {
+        "index": 0,
+        "sampleAtUs": 0,
+        "visibleRange": {
+          "startUs": 1,
+          "endUs": 2
+        },
+        "layers": [
+          {
+            "clipId": "clip:63d1e25ca61d667eedee37a5fe457969033f2e34713f84d7268d47757c157d7e:1",
+            "trackId": "track:63d1e25ca61d667eedee37a5fe457969033f2e34713f84d7268d47757c157d7e:0",
+            "assetId": "334a57f2f3b415b593e545abb4d25b99f1668503e17be9ec4817d83f33020cf4",
+            "streamId": "image:0",
+            "kind": "image",
+            "availability": "available",
+            "width": 320,
+            "height": 180
+          }
+        ],
+        "visual": [
+          {
+            "target": {
+              "kind": "clip",
+              "id": "clip:63d1e25ca61d667eedee37a5fe457969033f2e34713f84d7268d47757c157d7e:1"
+            },
+            "inputs": [],
+            "operations": [
+              {
+                "kind": "clamp",
+                "x": 0.5,
+                "y": 0.5,
+                "width": 319,
+                "height": 179
+              },
+              {
+                "kind": "affine",
+                "matrix": [
+                  1,
+                  0,
+                  0,
+                  1,
+                  0,
+                  0
+                ]
+              },
+              {
+                "kind": "affine",
+                "matrix": [
+                  1,
+                  0,
+                  0,
+                  1,
+                  0,
+                  0
+                ]
+              },
+              {
+                "kind": "coverage",
+                "points": [
+                  {
+                    "x": 0,
+                    "y": 0
+                  },
+                  {
+                    "x": 320,
+                    "y": 0
+                  },
+                  {
+                    "x": 320,
+                    "y": 180
+                  },
+                  {
+                    "x": 0,
+                    "y": 180
+                  }
+                ],
+                "width": 320,
+                "height": 180
+              }
+            ]
+          },
+          {
+            "target": {
+              "kind": "track",
+              "id": "track:63d1e25ca61d667eedee37a5fe457969033f2e34713f84d7268d47757c157d7e:0"
+            },
+            "inputs": [
+              {
+                "kind": "clip",
+                "id": "clip:63d1e25ca61d667eedee37a5fe457969033f2e34713f84d7268d47757c157d7e:1"
+              }
+            ],
+            "operations": []
+          },
+          {
+            "target": {
+              "kind": "output"
+            },
+            "inputs": [
+              {
+                "kind": "track",
+                "id": "track:63d1e25ca61d667eedee37a5fe457969033f2e34713f84d7268d47757c157d7e:0"
+              }
+            ],
+            "operations": [
+              {
+                "kind": "sdr-correction",
+                "exposureEV": 0,
+                "contrast": 1,
+                "saturation": 1,
+                "shadows": 0.2,
+                "highlights": 0,
+                "neutralKelvin": 6500,
+                "neutralTint": 0
+              }
+            ]
+          }
+        ]
+      },
+      "canvas": {
+        "width": 320,
+        "height": 180,
+        "fps": {
+          "numerator": 4,
+          "denominator": 1
+        },
+        "background": "#000000ff"
+      },
+      "sdrCorrectionImplementationId": "coreimage-sdr-source-neutral-v1:Version 27.0.1 (Build 26A434)",
+      "profile": "h264-rec709",
+      "processing": [
+        {
+          "target": {
+            "kind": "clip",
+            "id": "clip:63d1e25ca61d667eedee37a5fe457969033f2e34713f84d7268d47757c157d7e:1"
+          },
+          "mediaKind": "video",
+          "inputs": [],
+          "steps": []
+        },
+        {
+          "target": {
+            "kind": "track",
+            "id": "track:63d1e25ca61d667eedee37a5fe457969033f2e34713f84d7268d47757c157d7e:0"
+          },
+          "mediaKind": "video",
+          "inputs": [
+            {
+              "kind": "clip",
+              "id": "clip:63d1e25ca61d667eedee37a5fe457969033f2e34713f84d7268d47757c157d7e:1"
+            }
+          ],
+          "steps": []
+        },
+        {
+          "target": {
+            "kind": "output"
+          },
+          "mediaKind": "output",
+          "inputs": [
+            {
+              "kind": "track",
+              "id": "track:63d1e25ca61d667eedee37a5fe457969033f2e34713f84d7268d47757c157d7e:0"
+            }
+          ],
+          "steps": [
+            {
+              "id": "processingStep:b945acad918778e1248df62e702023a5c22d35db2c5f0f3061c89d6fa58cbc8f:0",
+              "enabled": true,
+              "processor": {
+                "type": "sdr-correction"
+              }
+            }
+          ]
+        }
+      ],
+      "assets": [
+        {
+          "assetId": "334a57f2f3b415b593e545abb4d25b99f1668503e17be9ec4817d83f33020cf4",
+          "streamId": "image:0",
+          "path": "/tmp/yap-tone-controls-2/chart-source.png",
+          "originUs": 0
+        }
+      ],
+      "fonts": [],
+      "luts": [],
+      "maxLongEdge": 320
+    }
+  },
+  "response": {
+    "data": {
+      "bytes": 1897,
+      "decodedImages": 1,
+      "decodedSamples": 0,
+      "file": "/tmp/yap-tone-controls-2/chart-shadows-old.png",
+      "frame": {
+        "index": 0,
+        "layers": [
+          {
+            "assetId": "334a57f2f3b415b593e545abb4d25b99f1668503e17be9ec4817d83f33020cf4",
+            "availability": "available",
+            "clipId": "clip:63d1e25ca61d667eedee37a5fe457969033f2e34713f84d7268d47757c157d7e:1",
+            "height": 180,
+            "kind": "image",
+            "streamId": "image:0",
+            "trackId": "track:63d1e25ca61d667eedee37a5fe457969033f2e34713f84d7268d47757c157d7e:0",
+            "width": 320
+          }
+        ],
+        "sampleAtUs": 0,
+        "visibleRange": {
+          "endUs": 2,
+          "startUs": 1
+        },
+        "visual": [
+          {
+            "inputs": [],
+            "operations": [
+              {
+                "height": 179,
+                "kind": "clamp",
+                "width": 319,
+                "x": 0.5,
+                "y": 0.5
+              },
+              {
+                "kind": "affine",
+                "matrix": [
+                  1,
+                  0,
+                  0,
+                  1,
+                  0,
+                  0
+                ]
+              },
+              {
+                "kind": "affine",
+                "matrix": [
+                  1,
+                  0,
+                  0,
+                  1,
+                  0,
+                  0
+                ]
+              },
+              {
+                "height": 180,
+                "kind": "coverage",
+                "points": [
+                  {
+                    "x": 0,
+                    "y": 0
+                  },
+                  {
+                    "x": 320,
+                    "y": 0
+                  },
+                  {
+                    "x": 320,
+                    "y": 180
+                  },
+                  {
+                    "x": 0,
+                    "y": 180
+                  }
+                ],
+                "width": 320
+              }
+            ],
+            "target": {
+              "id": "clip:63d1e25ca61d667eedee37a5fe457969033f2e34713f84d7268d47757c157d7e:1",
+              "kind": "clip"
+            }
+          },
+          {
+            "inputs": [
+              {
+                "id": "clip:63d1e25ca61d667eedee37a5fe457969033f2e34713f84d7268d47757c157d7e:1",
+                "kind": "clip"
+              }
+            ],
+            "operations": [],
+            "target": {
+              "id": "track:63d1e25ca61d667eedee37a5fe457969033f2e34713f84d7268d47757c157d7e:0",
+              "kind": "track"
+            }
+          },
+          {
+            "inputs": [
+              {
+                "id": "track:63d1e25ca61d667eedee37a5fe457969033f2e34713f84d7268d47757c157d7e:0",
+                "kind": "track"
+              }
+            ],
+            "operations": [
+              {
+                "contrast": 1,
+                "exposureEV": 0,
+                "highlights": 0,
+                "kind": "sdr-correction",
+                "neutralKelvin": 6500,
+                "neutralTint": 0,
+                "saturation": 1,
+                "shadows": 0.2
+              }
+            ],
+            "target": {
+              "kind": "output"
+            }
+          }
+        ]
+      },
+      "height": 180,
+      "mediaType": "image/png",
+      "pictures": [
+        {
+          "assetId": "334a57f2f3b415b593e545abb4d25b99f1668503e17be9ec4817d83f33020cf4",
+          "clipId": "clip:63d1e25ca61d667eedee37a5fe457969033f2e34713f84d7268d47757c157d7e:1",
+          "kind": "image",
+          "status": "available",
+          "streamId": "image:0"
+        }
+      ],
+      "profile": "h264-rec709",
+      "readerOpens": 1,
+      "sourceHeight": 180,
+      "sourceWidth": 320,
+      "width": 320
+    },
+    "id": "old-tone-delivery",
+    "ok": true
+  },
+  "stderr": "",
+  "comparison": {
+    "meanError": 28.919791666666665,
+    "maximumError": 68,
+    "channels": 172800,
+    "gate": "complete RGB max1",
+    "passed": false
+  }
+}

@@ -1,6 +1,6 @@
 # 25 — Add explicit tonal and color controls
 
-Status: partial — bounded shadows/highlights controls now share the existing SDR correction processor and native Core Image executor; reference-conditioned grade frames and native visual acceptance remain open. Depends on: [13](13-decode-replication.md), [14](14-picture-statistics.md).
+Status: partial —25A delivered tonal recovery matches independent chart/real-wall references; scoped code and final visual review are pending.25B explicit hue/split-tone/curve response remains open through the existing immutable LUT owner. Depends on: [13](13-decode-replication.md), [14](14-picture-statistics.md).
 
 ## Contract
 
@@ -24,6 +24,13 @@ These are current discovery pointers, not a claim every listed module must chang
 The current bounded representation adds `shadows` and `highlights` to the existing source-neutral correction contract and lowers them to the shared native `CIHighlightShadowAdjust` stage after temperature, exposure and color controls. Working space, alpha and clipping behavior remain those of the existing executor. Freeze tone shaping first, then explicit hue/split-tone treatment. Measurements remain evidence; no automatic face grade. Simple vignette/grain can be authored with existing geometry/blends and deterministic imported overlays under [33](33-editing-references.md).
 
 ## Runnable checkpoint
+
+25A preserves the public zero-identity convention and translates the provider's
+reversed highlight convention in the existing native owner. Its
+[frozen evidence](../assets/25-tone-controls/README.md) separates lossless response,
+matched movie encoding and historical former-control parity.25B uses26's explicit
+immutable LUT contract for caller-authored curves and hue/split-tone, with a
+separate frozen numerical/color reference; representation alone does not close it. A native LUT probe in [25B evidence](../assets/25-tone-controls/split-tone/README.md) matches its analytic response within one code value, but public CLI/MCP delivery and neutral/color masks remain open.
 
 Chart/real-wall before/after scopes and reference-conditioned grade frames.
 

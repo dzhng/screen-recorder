@@ -44,7 +44,7 @@ try {
   const capability = report.capabilities.find((c) => c.type === "sdr-correction");
   assert.ok(
     capability.execution &&
-      capability.implementationId.startsWith("coreimage-sdr-source-neutral-v1:"),
+      capability.implementationId.startsWith("coreimage-sdr-source-neutral-recovery-v2:"),
   );
   const admitted = await call("asset.import", { requestId: randomUUID(), path: source });
   const ready = await poll(
@@ -165,6 +165,8 @@ try {
                   exposureEV: 1,
                   contrast: 1,
                   saturation: 1,
+                  shadows: 0,
+                  highlights: 0,
                   neutralKelvin: 6500,
                   neutralTint: 0,
                 },

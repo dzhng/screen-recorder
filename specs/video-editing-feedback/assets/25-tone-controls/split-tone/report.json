@@ -1,0 +1,333 @@
+{
+  "request": {
+    "output": "/tmp/yap-split-tone-probe/candidate.png",
+    "frame": {
+      "index": 0,
+      "sampleAtUs": 0,
+      "visibleRange": {
+        "startUs": 1,
+        "endUs": 2
+      },
+      "layers": [
+        {
+          "clipId": "clip:94701da78ec52b8eeb7346b5c947f0cad74225da88e42df83333b55381a9913c:1",
+          "trackId": "track:94701da78ec52b8eeb7346b5c947f0cad74225da88e42df83333b55381a9913c:0",
+          "assetId": "0c0581d287ab2aa3fc0cd3285583f187b367896a7a743b14b80e421f0dc24cb5",
+          "streamId": "image:0",
+          "kind": "image",
+          "availability": "available",
+          "width": 320,
+          "height": 180
+        }
+      ],
+      "visual": [
+        {
+          "target": {
+            "kind": "clip",
+            "id": "clip:94701da78ec52b8eeb7346b5c947f0cad74225da88e42df83333b55381a9913c:1"
+          },
+          "inputs": [],
+          "operations": [
+            {
+              "kind": "clamp",
+              "x": 0.5,
+              "y": 0.5,
+              "width": 319,
+              "height": 179
+            },
+            {
+              "kind": "affine",
+              "matrix": [
+                1,
+                0,
+                0,
+                1,
+                0,
+                0
+              ]
+            },
+            {
+              "kind": "affine",
+              "matrix": [
+                1,
+                0,
+                0,
+                1,
+                0,
+                0
+              ]
+            },
+            {
+              "kind": "coverage",
+              "points": [
+                {
+                  "x": 0,
+                  "y": 0
+                },
+                {
+                  "x": 320,
+                  "y": 0
+                },
+                {
+                  "x": 320,
+                  "y": 180
+                },
+                {
+                  "x": 0,
+                  "y": 180
+                }
+              ],
+              "width": 320,
+              "height": 180
+            }
+          ]
+        },
+        {
+          "target": {
+            "kind": "track",
+            "id": "track:94701da78ec52b8eeb7346b5c947f0cad74225da88e42df83333b55381a9913c:0"
+          },
+          "inputs": [
+            {
+              "kind": "clip",
+              "id": "clip:94701da78ec52b8eeb7346b5c947f0cad74225da88e42df83333b55381a9913c:1"
+            }
+          ],
+          "operations": []
+        },
+        {
+          "target": {
+            "kind": "output"
+          },
+          "inputs": [
+            {
+              "kind": "track",
+              "id": "track:94701da78ec52b8eeb7346b5c947f0cad74225da88e42df83333b55381a9913c:0"
+            }
+          ],
+          "operations": [
+            {
+              "kind": "lut",
+              "assetId": "511e5ccf0d38cbb979f83b8288d19be1f7a3b4b438045cbe8fcd453c081c5c8e",
+              "colorSpace": "linear-srgb",
+              "interpolation": "trilinear"
+            }
+          ]
+        }
+      ]
+    },
+    "canvas": {
+      "width": 320,
+      "height": 180,
+      "fps": {
+        "numerator": 4,
+        "denominator": 1
+      },
+      "background": "#000000ff"
+    },
+    "profile": "h264-rec709",
+    "processing": [
+      {
+        "target": {
+          "kind": "clip",
+          "id": "clip:94701da78ec52b8eeb7346b5c947f0cad74225da88e42df83333b55381a9913c:1"
+        },
+        "mediaKind": "video",
+        "inputs": [],
+        "steps": []
+      },
+      {
+        "target": {
+          "kind": "track",
+          "id": "track:94701da78ec52b8eeb7346b5c947f0cad74225da88e42df83333b55381a9913c:0"
+        },
+        "mediaKind": "video",
+        "inputs": [
+          {
+            "kind": "clip",
+            "id": "clip:94701da78ec52b8eeb7346b5c947f0cad74225da88e42df83333b55381a9913c:1"
+          }
+        ],
+        "steps": []
+      },
+      {
+        "target": {
+          "kind": "output"
+        },
+        "mediaKind": "output",
+        "inputs": [
+          {
+            "kind": "track",
+            "id": "track:94701da78ec52b8eeb7346b5c947f0cad74225da88e42df83333b55381a9913c:0"
+          }
+        ],
+        "steps": []
+      }
+    ],
+    "assets": [
+      {
+        "assetId": "0c0581d287ab2aa3fc0cd3285583f187b367896a7a743b14b80e421f0dc24cb5",
+        "streamId": "image:0",
+        "path": "/tmp/yap-tone-controls-2/wall-grade.png",
+        "originUs": 0
+      }
+    ],
+    "fonts": [],
+    "luts": [
+      {
+        "assetId": "511e5ccf0d38cbb979f83b8288d19be1f7a3b4b438045cbe8fcd453c081c5c8e",
+        "path": "/tmp/yap-split-tone-probe/split.cube"
+      }
+    ],
+    "maxLongEdge": 320,
+    "lutImplementationId": "coreimage-unit-linear-srgb-cube-trilinear-v1:Version 27.0.1 (Build 26A434)"
+  },
+  "response": {
+    "data": {
+      "bytes": 95750,
+      "decodedImages": 1,
+      "decodedSamples": 0,
+      "file": "/tmp/yap-split-tone-probe/candidate.png",
+      "frame": {
+        "index": 0,
+        "layers": [
+          {
+            "assetId": "0c0581d287ab2aa3fc0cd3285583f187b367896a7a743b14b80e421f0dc24cb5",
+            "availability": "available",
+            "clipId": "clip:94701da78ec52b8eeb7346b5c947f0cad74225da88e42df83333b55381a9913c:1",
+            "height": 180,
+            "kind": "image",
+            "streamId": "image:0",
+            "trackId": "track:94701da78ec52b8eeb7346b5c947f0cad74225da88e42df83333b55381a9913c:0",
+            "width": 320
+          }
+        ],
+        "sampleAtUs": 0,
+        "visibleRange": {
+          "endUs": 2,
+          "startUs": 1
+        },
+        "visual": [
+          {
+            "inputs": [],
+            "operations": [
+              {
+                "height": 179,
+                "kind": "clamp",
+                "width": 319,
+                "x": 0.5,
+                "y": 0.5
+              },
+              {
+                "kind": "affine",
+                "matrix": [
+                  1,
+                  0,
+                  0,
+                  1,
+                  0,
+                  0
+                ]
+              },
+              {
+                "kind": "affine",
+                "matrix": [
+                  1,
+                  0,
+                  0,
+                  1,
+                  0,
+                  0
+                ]
+              },
+              {
+                "height": 180,
+                "kind": "coverage",
+                "points": [
+                  {
+                    "x": 0,
+                    "y": 0
+                  },
+                  {
+                    "x": 320,
+                    "y": 0
+                  },
+                  {
+                    "x": 320,
+                    "y": 180
+                  },
+                  {
+                    "x": 0,
+                    "y": 180
+                  }
+                ],
+                "width": 320
+              }
+            ],
+            "target": {
+              "id": "clip:94701da78ec52b8eeb7346b5c947f0cad74225da88e42df83333b55381a9913c:1",
+              "kind": "clip"
+            }
+          },
+          {
+            "inputs": [
+              {
+                "id": "clip:94701da78ec52b8eeb7346b5c947f0cad74225da88e42df83333b55381a9913c:1",
+                "kind": "clip"
+              }
+            ],
+            "operations": [],
+            "target": {
+              "id": "track:94701da78ec52b8eeb7346b5c947f0cad74225da88e42df83333b55381a9913c:0",
+              "kind": "track"
+            }
+          },
+          {
+            "inputs": [
+              {
+                "id": "track:94701da78ec52b8eeb7346b5c947f0cad74225da88e42df83333b55381a9913c:0",
+                "kind": "track"
+              }
+            ],
+            "operations": [
+              {
+                "assetId": "511e5ccf0d38cbb979f83b8288d19be1f7a3b4b438045cbe8fcd453c081c5c8e",
+                "colorSpace": "linear-srgb",
+                "interpolation": "trilinear",
+                "kind": "lut"
+              }
+            ],
+            "target": {
+              "kind": "output"
+            }
+          }
+        ]
+      },
+      "height": 180,
+      "mediaType": "image/png",
+      "pictures": [
+        {
+          "assetId": "0c0581d287ab2aa3fc0cd3285583f187b367896a7a743b14b80e421f0dc24cb5",
+          "clipId": "clip:94701da78ec52b8eeb7346b5c947f0cad74225da88e42df83333b55381a9913c:1",
+          "kind": "image",
+          "status": "available",
+          "streamId": "image:0"
+        }
+      ],
+      "profile": "h264-rec709",
+      "readerOpens": 1,
+      "sourceHeight": 180,
+      "sourceWidth": 320,
+      "width": 320
+    },
+    "id": "split",
+    "ok": true
+  },
+  "nativeSHA256": "fbe4573d01d0222da5a1d1bf480aee03fbe6a693cf7f7b3904f3b4e51948eb5f",
+  "lutSHA256": "511e5ccf0d38cbb979f83b8288d19be1f7a3b4b438045cbe8fcd453c081c5c8e",
+  "comparison": {
+    "mae": 0.011261574074074075,
+    "maximum": 1,
+    "channels": 172800
+  }
+}

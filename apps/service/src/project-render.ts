@@ -35,7 +35,7 @@ export async function nativePictureCapabilities(
     const lut = "lut" in result ? result.lut : undefined;
     return {
       ...(typeof sdr === "string" &&
-      sdr.startsWith("coreimage-sdr-source-neutral-v1:") &&
+      sdr.startsWith("coreimage-sdr-source-neutral-recovery-v2:") &&
       sdr.length <= 256
         ? { sdrCorrection: sdr }
         : {}),
@@ -334,7 +334,7 @@ export function projectMovieRenderer(
 ): ProjectMovieRenderer {
   return {
     implementationId:
-      "native-composition-movie-v23" +
+      "native-composition-movie-v24" +
       (pictureCapabilities.sdrCorrection ? ":" + pictureCapabilities.sdrCorrection : "") +
       (pictureCapabilities.lut ? ":" + pictureCapabilities.lut : "") +
       (processingRuntime ? ":" + processingRuntime.implementationId : ""),
@@ -582,7 +582,7 @@ export function projectFrameRenderer(
 ): ProjectFrameRenderer {
   return {
     implementationId:
-      "native-composition-picture-v19" +
+      "native-composition-picture-v20" +
       (capabilities.sdrCorrection ? ":" + capabilities.sdrCorrection : "") +
       (capabilities.lut ? ":" + capabilities.lut : ""),
     ...capabilities,

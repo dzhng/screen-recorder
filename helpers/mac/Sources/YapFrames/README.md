@@ -56,6 +56,13 @@ bounds own vertical placement; decorations retain separate bounds and clipping.
 Rounded stroke joins keep acute glyph corners inside the reported half-width
 expansion instead of producing unreported sharp spikes.
 
+[SDR correction](SDRCorrection.swift) expresses both tonal recovery controls as
+zero for no treatment. Core Image's highlight control uses the opposite direction;
+the native owner translates that provider convention once. The recipe identity
+includes that response and the tone provider's availability. The
+[tone checkpoint](../../../../specs/video-editing-feedback/assets/25-tone-controls/README.md)
+keeps independent provider references distinct from movie encoding loss.
+
 [LUT execution](LUTColor.swift) evaluates imported samples in the shared linear
 working space. [Admission](../YapMedia/CubeLUT.swift) owns the bounded .cube grid;
 unknown transforms and non-unit domains refuse. The explicit recipe uses

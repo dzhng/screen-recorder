@@ -25,11 +25,11 @@ public enum SDRCorrection {
   }
   public static var implementationId: String? {
     guard
-      ["CITemperatureAndTint", "CIExposureAdjust", "CIColorControls"].allSatisfy({
+      ["CITemperatureAndTint", "CIExposureAdjust", "CIColorControls", "CIHighlightShadowAdjust"].allSatisfy({
         CIFilter(name: $0) != nil
       })
     else { return nil }
-    return "coreimage-sdr-source-neutral-v1:" + ProcessInfo.processInfo.operatingSystemVersionString
+    return "coreimage-sdr-source-neutral-recovery-v2:" + ProcessInfo.processInfo.operatingSystemVersionString
   }
   static func requireImplementation(_ identity: String?) throws {
     guard let identity, identity == implementationId else {
@@ -64,7 +64,7 @@ public enum SDRCorrection {
         "CIHighlightShadowAdjust",
         parameters: [
           "inputShadowAmount": parameters.shadows,
-          "inputHighlightAmount": parameters.highlights,
+          "inputHighlightAmount": 1 - parameters.highlights,
         ])
     }
     return result

@@ -65,7 +65,8 @@ inspection. Consumers must not restart animation or duplicate anchor math.
 state continuity and retained preparation dependencies.
 
 Static SDR correction uses source-neutral white correction, exposure, then
-contrast/saturation in that order. It preserves alpha and extended working values
+contrast/saturation and then shadow/highlight recovery in that order. Recovery
+amounts start at identity zero; enabling one does not request the other. It preserves alpha and extended working values
 until the existing output conversion. Source-neutral temperature describes the
 white being corrected toward the recipe's target, not a camera-calibrated warmth
 slider. Temporal windows and curves are not admitted for this static processor.

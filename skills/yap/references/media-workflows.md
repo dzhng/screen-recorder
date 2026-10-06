@@ -119,7 +119,10 @@ processed audio/video. Verify returned settings separately from rendered
 media, and report whichever stage is still unavailable.
 
 For advertised `sdr-correction`, choose exposure, contrast, saturation and source
-neutral white balance explicitly. Neutral Kelvin/tint describe the illuminant the
+neutral white balance explicitly. Use advertised shadow/highlight recovery for
+separate tonal shaping when a global contrast change crushes the subject before
+controlling a bright background. Zero recovery leaves that tonal treatment off;
+do not infer a request from measured regions. Neutral Kelvin/tint describe the illuminant the
 processor corrects toward its neutral reference; they are not a warmth slider or
 camera calibration. Start from identity, adjust one cause at a time and compare
 the same dry/processed frames at the intended viewing size. Settings apply in the

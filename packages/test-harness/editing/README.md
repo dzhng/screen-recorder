@@ -192,3 +192,10 @@ processing, delivered pixels and project-package replay using isolated managed
 state. Its usage owns required executable inputs. The retained
 [evidence](../../../specs/video-editing-feedback/assets/26-immutable-luts/README.md)
 distinguishes numerical response from editorial grade quality.
+
+[Tone controls](tone-controls.mjs) compares actual public PNG/movie delivery with
+an independent provider reference over a chart and retained bright-wall picture.
+It freezes treatment before delivery, observes caller-declared regions and
+separates matched codec response from lossless reference fidelity. Its usage owns
+invocation; [accepted evidence](../../../specs/video-editing-feedback/assets/25-tone-controls/README.md)
+records the narrow visual scope.

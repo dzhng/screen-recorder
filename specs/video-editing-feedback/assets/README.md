@@ -12,6 +12,10 @@ Actual video/audio derivatives belong under the repository's fixture owner and f
 
 ## Implementation evidence
 
+[Tonal recovery](25-tone-controls/README.md) retains25A public chart/real-wall
+references, provider red/green, former-control parity and matched held-shot movies.
+Hue/split-tone/curve delivery remains a separate25B checkpoint.
+
 [Capability-first workflow](02-capability-first-skill/README.md),
 [publication contract](03-published-work/README.md) and
 [exact removal](06-exact-removal/README.md) record completed boundaries.

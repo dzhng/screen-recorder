@@ -38,6 +38,32 @@ func verifySDRCorrection(in directory: URL) async throws {
     neutralKelvin: 6500, neutralTint: 0)
   let unchanged = try SDRCorrection.apply(identity, to: image)
   precondition(pixels(unchanged) == pixels(image))
+  var shadowsOnly = identity
+  shadowsOnly.shadows = 0.5
+  let independentShadows = image.applyingFilter(
+    "CIHighlightShadowAdjust",
+    parameters: ["inputShadowAmount": 0.5, "inputHighlightAmount": 1.0])
+  let shadowsResult = pixels(try SDRCorrection.apply(shadowsOnly, to: image))
+  precondition(
+    shadowsResult == pixels(independentShadows),
+    "Shadow recovery must not implicitly enable highlight recovery")
+  var previous = pixels(image)
+  for amount in [0.25, 0.5, 1.0] {
+    var config = identity
+    config.highlights = amount
+    let actual = pixels(try SDRCorrection.apply(config, to: image))
+    let independent = image.applyingFilter(
+      "CIHighlightShadowAdjust",
+      parameters: ["inputShadowAmount": 0.0, "inputHighlightAmount": 1 - amount])
+    precondition(actual == pixels(independent), "Highlight recovery amount has reversed provider meaning")
+    for i in 0..<3 {
+      precondition(actual[i] <= previous[i] + 0.00001, "More recovery must not brighten highlights")
+    }
+    for i in stride(from: 3, to: actual.count, by: 4) {
+      precondition(actual[i] == source[i], "Tone correction must preserve alpha")
+    }
+    previous = actual
+  }
   for ev in [-1.0, 1.0] {
     var config = identity
     config.exposureEV = ev

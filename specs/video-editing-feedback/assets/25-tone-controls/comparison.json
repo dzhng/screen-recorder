@@ -1,0 +1,453 @@
+{
+  "scope": "matched independent provider references, full raster and caller-declared regions",
+  "comparisons": [
+    {
+      "input": "chart",
+      "case": "shadows",
+      "region": "full",
+      "rectangle": [
+        0,
+        0,
+        320,
+        180
+      ],
+      "grayscaleMAE": 0.0,
+      "grayscaleRMSE": 0.0,
+      "diffRatio16": 0.0
+    },
+    {
+      "input": "chart",
+      "case": "shadows",
+      "region": "face",
+      "rectangle": [
+        20,
+        110,
+        120,
+        50
+      ],
+      "grayscaleMAE": 0.0,
+      "grayscaleRMSE": 0.0,
+      "diffRatio16": 0.0
+    },
+    {
+      "input": "chart",
+      "case": "shadows",
+      "region": "wall",
+      "rectangle": [
+        180,
+        110,
+        120,
+        50
+      ],
+      "grayscaleMAE": 0.0,
+      "grayscaleRMSE": 0.0,
+      "diffRatio16": 0.0
+    },
+    {
+      "input": "chart",
+      "case": "shadows",
+      "region": "neutral",
+      "rectangle": [
+        70,
+        20,
+        30,
+        50
+      ],
+      "grayscaleMAE": 0.0,
+      "grayscaleRMSE": 0.0,
+      "diffRatio16": 0.0
+    },
+    {
+      "input": "chart",
+      "case": "highlights",
+      "region": "full",
+      "rectangle": [
+        0,
+        0,
+        320,
+        180
+      ],
+      "grayscaleMAE": 0.0,
+      "grayscaleRMSE": 0.0,
+      "diffRatio16": 0.0
+    },
+    {
+      "input": "chart",
+      "case": "highlights",
+      "region": "face",
+      "rectangle": [
+        20,
+        110,
+        120,
+        50
+      ],
+      "grayscaleMAE": 0.0,
+      "grayscaleRMSE": 0.0,
+      "diffRatio16": 0.0
+    },
+    {
+      "input": "chart",
+      "case": "highlights",
+      "region": "wall",
+      "rectangle": [
+        180,
+        110,
+        120,
+        50
+      ],
+      "grayscaleMAE": 0.0,
+      "grayscaleRMSE": 0.0,
+      "diffRatio16": 0.0
+    },
+    {
+      "input": "chart",
+      "case": "highlights",
+      "region": "neutral",
+      "rectangle": [
+        70,
+        20,
+        30,
+        50
+      ],
+      "grayscaleMAE": 0.0,
+      "grayscaleRMSE": 0.0,
+      "diffRatio16": 0.0
+    },
+    {
+      "input": "chart",
+      "case": "grade",
+      "region": "full",
+      "rectangle": [
+        0,
+        0,
+        320,
+        180
+      ],
+      "grayscaleMAE": 0.0,
+      "grayscaleRMSE": 0.0,
+      "diffRatio16": 0.0
+    },
+    {
+      "input": "chart",
+      "case": "grade",
+      "region": "face",
+      "rectangle": [
+        20,
+        110,
+        120,
+        50
+      ],
+      "grayscaleMAE": 0.0,
+      "grayscaleRMSE": 0.0,
+      "diffRatio16": 0.0
+    },
+    {
+      "input": "chart",
+      "case": "grade",
+      "region": "wall",
+      "rectangle": [
+        180,
+        110,
+        120,
+        50
+      ],
+      "grayscaleMAE": 0.0,
+      "grayscaleRMSE": 0.0,
+      "diffRatio16": 0.0
+    },
+    {
+      "input": "chart",
+      "case": "grade",
+      "region": "neutral",
+      "rectangle": [
+        70,
+        20,
+        30,
+        50
+      ],
+      "grayscaleMAE": 0.0,
+      "grayscaleRMSE": 0.0,
+      "diffRatio16": 0.0
+    },
+    {
+      "input": "chart",
+      "case": "ordered",
+      "region": "full",
+      "rectangle": [
+        0,
+        0,
+        320,
+        180
+      ],
+      "grayscaleMAE": 0.0,
+      "grayscaleRMSE": 0.0,
+      "diffRatio16": 0.0
+    },
+    {
+      "input": "chart",
+      "case": "ordered",
+      "region": "face",
+      "rectangle": [
+        20,
+        110,
+        120,
+        50
+      ],
+      "grayscaleMAE": 0.0,
+      "grayscaleRMSE": 0.0,
+      "diffRatio16": 0.0
+    },
+    {
+      "input": "chart",
+      "case": "ordered",
+      "region": "wall",
+      "rectangle": [
+        180,
+        110,
+        120,
+        50
+      ],
+      "grayscaleMAE": 0.0,
+      "grayscaleRMSE": 0.0,
+      "diffRatio16": 0.0
+    },
+    {
+      "input": "chart",
+      "case": "ordered",
+      "region": "neutral",
+      "rectangle": [
+        70,
+        20,
+        30,
+        50
+      ],
+      "grayscaleMAE": 0.0,
+      "grayscaleRMSE": 0.0,
+      "diffRatio16": 0.0
+    },
+    {
+      "input": "wall",
+      "case": "shadows",
+      "region": "full",
+      "rectangle": [
+        0,
+        0,
+        320,
+        180
+      ],
+      "grayscaleMAE": 0.0,
+      "grayscaleRMSE": 0.0,
+      "diffRatio16": 0.0
+    },
+    {
+      "input": "wall",
+      "case": "shadows",
+      "region": "face",
+      "rectangle": [
+        110,
+        44,
+        94,
+        115
+      ],
+      "grayscaleMAE": 0.0,
+      "grayscaleRMSE": 0.0,
+      "diffRatio16": 0.0
+    },
+    {
+      "input": "wall",
+      "case": "shadows",
+      "region": "wall",
+      "rectangle": [
+        238,
+        20,
+        75,
+        140
+      ],
+      "grayscaleMAE": 0.0,
+      "grayscaleRMSE": 0.0,
+      "diffRatio16": 0.0
+    },
+    {
+      "input": "wall",
+      "case": "shadows",
+      "region": "neutral",
+      "rectangle": [
+        20,
+        0,
+        55,
+        30
+      ],
+      "grayscaleMAE": 0.0,
+      "grayscaleRMSE": 0.0,
+      "diffRatio16": 0.0
+    },
+    {
+      "input": "wall",
+      "case": "highlights",
+      "region": "full",
+      "rectangle": [
+        0,
+        0,
+        320,
+        180
+      ],
+      "grayscaleMAE": 0.0,
+      "grayscaleRMSE": 0.0,
+      "diffRatio16": 0.0
+    },
+    {
+      "input": "wall",
+      "case": "highlights",
+      "region": "face",
+      "rectangle": [
+        110,
+        44,
+        94,
+        115
+      ],
+      "grayscaleMAE": 0.0,
+      "grayscaleRMSE": 0.0,
+      "diffRatio16": 0.0
+    },
+    {
+      "input": "wall",
+      "case": "highlights",
+      "region": "wall",
+      "rectangle": [
+        238,
+        20,
+        75,
+        140
+      ],
+      "grayscaleMAE": 0.0,
+      "grayscaleRMSE": 0.0,
+      "diffRatio16": 0.0
+    },
+    {
+      "input": "wall",
+      "case": "highlights",
+      "region": "neutral",
+      "rectangle": [
+        20,
+        0,
+        55,
+        30
+      ],
+      "grayscaleMAE": 0.0,
+      "grayscaleRMSE": 0.0,
+      "diffRatio16": 0.0
+    },
+    {
+      "input": "wall",
+      "case": "grade",
+      "region": "full",
+      "rectangle": [
+        0,
+        0,
+        320,
+        180
+      ],
+      "grayscaleMAE": 0.0,
+      "grayscaleRMSE": 0.0,
+      "diffRatio16": 0.0
+    },
+    {
+      "input": "wall",
+      "case": "grade",
+      "region": "face",
+      "rectangle": [
+        110,
+        44,
+        94,
+        115
+      ],
+      "grayscaleMAE": 0.0,
+      "grayscaleRMSE": 0.0,
+      "diffRatio16": 0.0
+    },
+    {
+      "input": "wall",
+      "case": "grade",
+      "region": "wall",
+      "rectangle": [
+        238,
+        20,
+        75,
+        140
+      ],
+      "grayscaleMAE": 0.0,
+      "grayscaleRMSE": 0.0,
+      "diffRatio16": 0.0
+    },
+    {
+      "input": "wall",
+      "case": "grade",
+      "region": "neutral",
+      "rectangle": [
+        20,
+        0,
+        55,
+        30
+      ],
+      "grayscaleMAE": 0.0,
+      "grayscaleRMSE": 0.0,
+      "diffRatio16": 0.0
+    },
+    {
+      "input": "wall",
+      "case": "ordered",
+      "region": "full",
+      "rectangle": [
+        0,
+        0,
+        320,
+        180
+      ],
+      "grayscaleMAE": 0.0,
+      "grayscaleRMSE": 0.0,
+      "diffRatio16": 0.0
+    },
+    {
+      "input": "wall",
+      "case": "ordered",
+      "region": "face",
+      "rectangle": [
+        110,
+        44,
+        94,
+        115
+      ],
+      "grayscaleMAE": 0.0,
+      "grayscaleRMSE": 0.0,
+      "diffRatio16": 0.0
+    },
+    {
+      "input": "wall",
+      "case": "ordered",
+      "region": "wall",
+      "rectangle": [
+        238,
+        20,
+        75,
+        140
+      ],
+      "grayscaleMAE": 0.0,
+      "grayscaleRMSE": 0.0,
+      "diffRatio16": 0.0
+    },
+    {
+      "input": "wall",
+      "case": "ordered",
+      "region": "neutral",
+      "rectangle": [
+        20,
+        0,
+        55,
+        30
+      ],
+      "grayscaleMAE": 0.0,
+      "grayscaleRMSE": 0.0,
+      "diffRatio16": 0.0
+    }
+  ]
+}
