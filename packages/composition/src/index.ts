@@ -30,6 +30,7 @@ export {
   timeValueSchema,
   selectionRangeSchema,
   angleGroupSchema,
+  synchronizationEvidenceSchema,
 } from "./schema.js";
 export type {
   Anchor,
@@ -48,6 +49,7 @@ export type {
   SignedTimeValue,
   Stream,
   AngleGroup,
+  SynchronizationEvidence,
 } from "./schema.js";
 export type { Rational } from "./rational.js";
 export {

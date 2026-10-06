@@ -1,6 +1,6 @@
 # 20 — Prove synchronization on unlike microphones
 
-Status: waveform research and isolated-microphone lexical prerequisites refused on frozen real inputs; mixed-reference local sampled checkpoint retained; global synchronization still open. Depends on: [08](08-bounded-speech-preparation.md), [10](10-alignment-and-boundaries.md), [01](01-certified-corpus.md).
+Status: waveform research and isolated-microphone lexical prerequisites refused on frozen real inputs; mixed-reference local sampled checkpoint retained; global synchronization still open. Slice21 now requires a source-bound accepted receipt before any angle relationship can consume synchronization evidence. Depends on: [08](08-bounded-speech-preparation.md), [10](10-alignment-and-boundaries.md), [01](01-certified-corpus.md).
 
 ## Contract
 
@@ -73,3 +73,9 @@ completed local recognition. Keep edited master clocks piecewise, retain
 the original known125ms/maximum2ms precision control and long-span/drift refusals,
 and never promote conditional CTC timing as sample-precise sync. No source
 relationship or clock owner changed.
+
+The composition boundary does not manufacture a verdict from these refusals. It
+accepts only a caller-supplied synchronization receipt whose status is accepted,
+whose fingerprint and generation are retained, and whose source set is checked
+against the declared angle members. The estimator and its accepted real evidence
+remain open.

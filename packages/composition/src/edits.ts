@@ -22,6 +22,7 @@ import {
   processorRegistry,
   interpolationSchema,
   signedTimeValueSchema,
+  synchronizationEvidenceSchema,
 } from "./schema.js";
 import { validateComposition, type ValidatedComposition, type ExactRange } from "./model.js";
 
@@ -142,7 +143,7 @@ export const editOperationSchema = z.discriminatedUnion("operation", [
       operation: z.literal("angle.declare"),
       sessionId: z.string().min(1),
       originClipId: reference,
-      evidence: z.object({ id: z.string().min(1), generation: z.string().min(1) }).strict(),
+      evidence: synchronizationEvidenceSchema,
       members: z.array(angleMember).min(2),
       label,
     })

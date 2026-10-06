@@ -451,7 +451,12 @@ test("angle declaration retains explicit session members, source identity, offse
         label: "angles",
         sessionId: "session-1",
         originClipId: { label: "a" },
-        evidence: { id: "sync-evidence", generation: "g1" },
+        evidence: {
+          id: "sync-evidence", generation: "g1", status: "accepted", method: "mixed-reference",
+          fingerprint: "sha256:angle-evidence", sources: [
+            { assetId: "camera-a", streamId: "video" }, { assetId: "camera-b", streamId: "video" },
+          ],
+        },
         members: [
           {
             clipId: { label: "a" },
@@ -474,7 +479,12 @@ test("angle declaration retains explicit session members, source identity, offse
       id: result.labels.angles,
       sessionId: "session-1",
       originClipId: result.labels.a,
-      evidence: { id: "sync-evidence", generation: "g1" },
+      evidence: {
+        id: "sync-evidence", generation: "g1", status: "accepted", method: "mixed-reference",
+        fingerprint: "sha256:angle-evidence", sources: [
+          { assetId: "camera-a", streamId: "video" }, { assetId: "camera-b", streamId: "video" },
+        ],
+      },
       members: [
         {
           clipId: result.labels.a,
@@ -513,4 +523,47 @@ test("angle declaration retains explicit session members, source identity, offse
     { assets, namespace: "angles-remove" },
   );
   expect(removed.document.angleGroups).toEqual([]);
+});
+
+test("angle declaration refuses synchronization evidence without an accepted source-bound verdict", () => {
+  const assets = [
+    {
+      id: "camera-a",
+      streams: [{ id: "video", kind: "video", width: 64, height: 48,
+        bounds: { startUs: 0, endUs: 1000000 }, available: [{ startUs: 0, endUs: 1000000 }] }],
+    },
+    {
+      id: "camera-b",
+      streams: [{ id: "video", kind: "video", width: 64, height: 48,
+        bounds: { startUs: 0, endUs: 1000000 }, available: [{ startUs: 0, endUs: 1000000 }] }],
+    },
+  ];
+  const setup = applyBatch(empty, [
+    { operation: "track.add", track: { kind: "video", order: 0 }, label: "a-track" },
+    { operation: "track.add", track: { kind: "video", order: 1 }, label: "b-track" },
+    { operation: "place", label: "a", clip: {
+      assetId: "camera-a", streamId: "video", trackId: { label: "a-track" },
+      source: { kind: "range", range: { startUs: 0, endUs: 1000000 } },
+      placement: { kind: "project", range: { startUs: 0, endUs: 1000000 } },
+    } },
+    { operation: "place", label: "b", clip: {
+      assetId: "camera-b", streamId: "video", trackId: { label: "b-track" },
+      source: { kind: "range", range: { startUs: 0, endUs: 1000000 } },
+      placement: { kind: "project", range: { startUs: 0, endUs: 1000000 } },
+    } },
+  ], { assets, namespace: "angle-evidence-setup" });
+  expect(() => applyBatch(setup.document, [{
+    operation: "angle.declare", sessionId: "session-1", originClipId: setup.labels.a!,
+    evidence: {
+      id: "sync-evidence", generation: "g1", status: "refused", method: "waveform",
+      fingerprint: "sha256:refused", sources: [
+        { assetId: "camera-a", streamId: "video" }, { assetId: "camera-b", streamId: "video" },
+      ],
+    },
+    members: [
+      { clipId: setup.labels.a!, offsetUs: 0, validRange: { startUs: 0, endUs: 1000000 } },
+      { clipId: setup.labels.b!, offsetUs: 0, validRange: { startUs: 0, endUs: 1000000 } },
+    ],
+  }], { assets, namespace: "angle-evidence-refused" }),
+  ).toThrow(/accepted synchronization evidence/);
 });

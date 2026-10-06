@@ -39,7 +39,7 @@ five original/derivative speech comparisons, but multicamera/speaker certificati
 remains open. 23 resolves exact corrected UTF-16/source-fragment highlights and
 proves explicit entrance curves through public still/movie/export, including
 offgrid preview, split and retimed occurrences. Partial21 declares exact
-caller-selected angle clocks;25 extends the shared SDR correction;27 lowers transitions into
+caller-selected angle clocks and admits only source-bound accepted sync receipts;25 extends the shared SDR correction;27 lowers transitions into
 ordinary opacity/gain curves;28 adds bounded overscanned whip/zoom geometry;29 carries bounded
 motion-blur recipes into the native picture executor. Each still needs its remaining delivery
 evidence.
@@ -61,7 +61,9 @@ Independent visual/code review is accepted for this declared-codec scope. [20](a
 all nine real waveform comparisons. [Mixed-reference research](assets/20-synchronization/bridge/README.md)
 retains four independently recognized local sampled bridges, with surrounding-window
 and global-clock refusals intact. Cropped fixtures replay retained operands and
-recognition, not full-domain candidate selection. [31](assets/31-speaker-replication/README.md)
+recognition, not full-domain candidate selection. The composition boundary
+preserves these verdicts as source-bound receipts and rejects refused evidence;
+it does not promote a global clock. [31](assets/31-speaker-replication/README.md)
 still fails ten-minute four-speaker overlap at57.49%, below the unchanged80% gate;
 no long-form provider is promoted.10 retains the accepted NeMo alignment reference
 and verified default runtime acquisition; its public source acoustic cells pass

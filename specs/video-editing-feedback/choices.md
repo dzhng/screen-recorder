@@ -1308,6 +1308,7 @@ Apple cube candidate are in the slice26 evidence; no user-only decision remains.
 - **Confidence:** high for retained operand preservation and literal local provider
   observations; global clock and unsampled continuity are not established.
 
+<<<<<<< HEAD
 ## Keep join repair caller-owned — slice12C/12D
 
 - **When:** bounded contextual repair helper.
@@ -1325,3 +1326,53 @@ Apple cube candidate are in the slice26 evidence; no user-only decision remains.
 - **Verdict:** sound; one owner per concept and no new public edit operation.
 - **Confidence:** high for sequencing and authority boundaries; medium for the
   still-open real-media fixture exercise.
+=======
+## Source-bound synchronization receipts — slices20–21
+
+- **When:** angle-evidence admission pass.
+- **The choice:** Make synchronization evidence a caller-supplied receipt that
+  names its evidence id and generation, records an accepted or refused verdict,
+  identifies the measurement family (waveform, lexical anchor or mixed
+  reference), carries a nonempty fingerprint, and enumerates the asset/stream
+  sources. For example, a refused waveform experiment can remain in the saved
+  evidence record, but `angle.declare` rejects it; a future accepted estimator
+  must provide a receipt whose source list names the same camera streams. The
+  composition layer checks and preserves this receipt; it never runs the
+  estimator or turns a refusal into an accepted clock.
+- **The gap:** Slice20 required a frozen accepted recipe/reference before
+  promotion and slice21 required accepted evidence, but neither prescribed the
+  durable receipt fields or how a refused experiment should travel through the
+  composition boundary.
+- **The reach:** Future estimator work owns producing accepted receipts and
+  their fingerprints. Angle declarations cannot consume foreign, duplicated or
+  refused evidence, while the original failed research remains replayable.
+  Changing the receipt taxonomy would affect the public operation and stored
+  angle-group format.
+- **Verdict:** sound. It keeps measurement ownership with the estimator and
+  makes the composition contract explicit without claiming that global sync is
+  solved.
+- **Confidence:** medium; the boundary follows the plan, while the exact method
+  labels and fingerprint field are implementation choices the plan left open.
+
+## Exact source set and origin clock — slices20–21
+
+- **When:** angle validation pass.
+- **The choice:** Require the evidence source set to equal the distinct member
+  asset/stream identities, reject duplicate evidence sources, and require the
+  declared origin member to have zero offset. For example, evidence for cameras
+  A and B cannot be reused to declare A and C, and a relationship whose origin
+  starts at +500 microseconds cannot quietly redefine the session clock; the
+  caller must express that offset on the other member instead.
+- **The gap:** The slice named selected sources, a session origin and rational
+  offsets, but did not state whether evidence could cover a superset or whether
+  origin offsets were normalized by the validator.
+- **The reach:** Every downstream angle consumer can treat the origin as the
+  stable zero of the declared relationship and can trust that each evidence
+  operand is represented exactly once. Future multi-source or nonzero-origin
+  semantics require an explicit contract change rather than silent normalization.
+- **Verdict:** sound. The validator refuses ambiguous ownership and preserves
+  caller-authored offsets without adding a second clock transform.
+- **Confidence:** medium; this is the simplest contract consistent with the
+  existing exact-offset and source-preservation rules, but the original slice
+  delegated relationship semantics.
+>>>>>>> c2058de4 (feat: gate angle declarations on sync evidence)

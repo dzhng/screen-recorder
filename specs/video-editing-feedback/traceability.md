@@ -203,11 +203,13 @@ rereview is clean; slice24 closes for declared-codec reproducibility, with raw
 edge-loss failures retained.
 
 Slice21 evidence: composition angle groups retain a session identity, explicit origin clip,
-selected asset/stream identities, project validity ranges, exact rational offsets and accepted
-sync evidence identity. `angle.declare` and `angle.remove` are public operations separate from
-linked-edit `syncGroups`; model validation refuses foreign sources, unknown/repeated members,
-invalid origins and ranges outside the clip interval. Slice20's failed waveform hypothesis still
-blocks sync promotion and delivered switched-view replay.
+selected asset/stream identities, project validity ranges, exact rational offsets and a
+source-bound synchronization receipt. Only accepted receipts may declare an angle; refused
+receipts remain observable but cannot be consumed. `angle.declare` and `angle.remove` are public
+operations separate from linked-edit `syncGroups`; model validation refuses foreign sources,
+unknown/repeated members, mismatched evidence source sets, nonzero origins and ranges outside
+the clip interval. Slice20's failed waveform hypothesis still blocks sync promotion and
+delivered switched-view replay.
 
 Slice27 evidence: `edit.apply` now lowers explicit crossfade, dip and flash recipes into ordinary
 gain/opacity curves. Crossfade requires two distinct targets; dip and flash require one target and

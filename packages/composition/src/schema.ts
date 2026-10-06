@@ -590,12 +590,30 @@ export const stateRecipeSchema = z.union([
     })
     .strict(),
 ]);
+const synchronizationSourceSchema = z
+  .object({ assetId: id, streamId: id })
+  .strict();
+/**
+ * Evidence is an immutable caller-supplied receipt. Composition validates its
+ * identity and verdict; it never computes or promotes synchronization itself.
+ */
+export const synchronizationEvidenceSchema = z
+  .object({
+    id,
+    generation: id,
+    status: z.enum(["accepted", "refused"]),
+    method: z.enum(["waveform", "lexical-anchor", "mixed-reference"]),
+    fingerprint: id,
+    sources: z.array(synchronizationSourceSchema).min(2),
+  })
+  .strict();
+export type SynchronizationEvidence = z.infer<typeof synchronizationEvidenceSchema>;
 export const angleGroupSchema = z
   .object({
     id,
     sessionId: id,
     originClipId: id,
-    evidence: z.object({ id, generation: id }).strict(),
+    evidence: synchronizationEvidenceSchema,
     members: z
       .array(
         z

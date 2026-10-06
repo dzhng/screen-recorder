@@ -286,8 +286,13 @@ export function resolveComposition(
     }
   const angleMembers = new Set<string>();
   for (const group of unique(document.angleGroups ?? [], "angle group").values()) {
+    if (group.evidence.status !== "accepted")
+      invalid(`Angle group requires accepted synchronization evidence: ${group.id}`);
     const members = new Set<string>();
+    const sources = new Set(group.evidence.sources.map((source) => `${source.assetId}\0${source.streamId}`));
     if (group.members.length < 2) invalid(`Angle group needs at least two members: ${group.id}`);
+    if (sources.size !== group.evidence.sources.length)
+      invalid(`Synchronization evidence repeats a source: ${group.id}`);
     for (const member of group.members) {
       if (!clips.has(member.clipId)) invalid(`Unknown angle clip: ${member.clipId}`);
       if (members.has(member.clipId)) invalid(`Repeated angle member: ${member.clipId}`);
@@ -295,9 +300,16 @@ export function resolveComposition(
       if (angleMembers.has(member.clipId))
         invalid(`Clip belongs to multiple angle groups: ${member.clipId}`);
       angleMembers.add(member.clipId);
+      if (!sources.has(`${member.assetId}\0${member.streamId}`))
+        invalid(`Angle member source does not match synchronization evidence: ${member.clipId}`);
     }
+    if (sources.size !== members.size)
+      invalid(`Synchronization evidence source set differs from angle members: ${group.id}`);
     if (!members.has(group.originClipId))
       invalid(`Angle origin is not a member: ${group.originClipId}`);
+    const origin = group.members.find((member) => member.clipId === group.originClipId)!;
+    if (compare(fromTime(origin.offsetUs), integer(0)) !== 0)
+      invalid(`Angle origin must have zero offset: ${group.originClipId}`);
   }
   const ready: Clip[] = [],
     children = new Map<string, Clip[]>();
