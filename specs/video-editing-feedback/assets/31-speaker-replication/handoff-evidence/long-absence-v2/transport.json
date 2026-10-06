@@ -1,0 +1,27 @@
+{
+  "result": {
+    "ok": true,
+    "data": {
+      "cases": [
+        {
+          "id": "long-absence600",
+          "audioSeconds": 600,
+          "inferenceSeconds": 11.240385707991663,
+          "peakProcessRSSBytes": 2931113984,
+          "pcmSha256": "35057deda649d9e37f4844a2d6b7fb3c70507c3c239fe42d5d27aca8bb82add0"
+        }
+      ],
+      "coldLoadSeconds": 9.65767012500146,
+      "recipe": {
+        "chunk_len": 340,
+        "chunk_right_context": 40,
+        "fifo_len": 40,
+        "spkcache_update_period": 300,
+        "spkcache_len": 188
+      },
+      "stateScope": "one fresh state per selected input; persistent across all native internal chunks"
+    }
+  },
+  "wallSeconds": 21.513065750000003,
+  "networkDenied": true
+}

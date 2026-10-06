@@ -1,0 +1,11 @@
+{
+  "result": {
+    "ok": true,
+    "data": {
+      "restored": true,
+      "seconds": 7.906457375007449
+    }
+  },
+  "wallSeconds": 7.9834580420000005,
+  "networkDenied": true
+}

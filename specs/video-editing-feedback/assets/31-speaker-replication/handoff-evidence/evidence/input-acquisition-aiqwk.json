@@ -1,0 +1,62 @@
+{
+  "case": {
+    "id": "aiqwk",
+    "role": "confirmation",
+    "split": "test",
+    "archive": {
+      "url": "https://www.robots.ox.ac.uk/~vgg/data/voxconverse/data/voxconverse_test_wav.zip",
+      "totalBytes": 4272764397,
+      "etag": "\"fead35ed-5c7a1fc24ca4c\"",
+      "directorySha256": "0f184d9b8f5f59645943c129d7164e7e1c8c8a0c4a2c9904666ba7ce14b43a53"
+    },
+    "member": {
+      "name": "voxconverse_test_wav/aiqwk.wav",
+      "method": 8,
+      "crc32": 4072623740,
+      "compressedBytes": 5207765,
+      "bytes": 6363214,
+      "offset": 703059987
+    },
+    "sourceSha256": "a27b68c2f5b7e006f094c8edab29d89d2c9f15228d845190264fa50a7a482ea5",
+    "originalFrames": 3181568,
+    "sampleRate": 16000,
+    "channels": 1,
+    "sampleWidthBytes": 2,
+    "sourceStartFrame": 960000,
+    "frames": 480000,
+    "durationSeconds": 30.0,
+    "pcmSha256": "de6f58156583829058b6d40b466de77d8d8bba745f253f3be990a6a2027c62af",
+    "windowSha256": "bd9e95c6a1ed8c6d6cc84de97a0bd4a329e462e574a9924431d8c95789cd5e87",
+    "preparedFloatSha256": "d5b47fcc546370ebf65b395d6ae7d2c5f5e9ebc3e3529c6550b89b82ea3bd759",
+    "conversion": "exact PCM16 /32768 to Float32, no resampling/channel mixture/time shift",
+    "peakAbsolutePCM16": 9939,
+    "rmsPCM16": 1183.8624117120128,
+    "wav": "/tmp/screenrec-speech-research-cache/voxconverse/aiqwk.wav",
+    "prepared": "/tmp/screenrec-speech-research-cache/voxconverse/aiqwk.f32"
+  },
+  "rangeReceipts": [
+    {
+      "start": 703059987,
+      "end": 703060016,
+      "contentRange": "bytes 703059987-703060016/4272764397",
+      "etag": "\"fead35ed-5c7a1fc24ca4c\"",
+      "sha256": "7a36549ddb42ab55873129596a904431edba732825b70f87b53dc5b8d8b734c1"
+    },
+    {
+      "start": 703060017,
+      "end": 703060078,
+      "contentRange": "bytes 703060017-703060078/4272764397",
+      "etag": "\"fead35ed-5c7a1fc24ca4c\"",
+      "sha256": "7ceaa811065d454fd3a9fd6a71cc4a01d3c07248fd21e37b24872a682d299eee"
+    },
+    {
+      "start": 703060079,
+      "end": 708267843,
+      "contentRange": "bytes 703060079-708267843/4272764397",
+      "etag": "\"fead35ed-5c7a1fc24ca4c\"",
+      "sha256": "f6955e4e47cbfd792e822bb2c59babe0fa197dbc25648fc60bbb6049665e84e2"
+    }
+  ],
+  "window": "/tmp/yap-editing-speaker-replication/aiqwk.f32",
+  "verified": true
+}

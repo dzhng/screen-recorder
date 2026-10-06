@@ -1,0 +1,134 @@
+[
+  {
+    "type": "file",
+    "oid": "ee93e73362f0b2ee47e8bf1f9dc207678b1b3eeb",
+    "size": 1896,
+    "path": ".gitattributes"
+  },
+  {
+    "type": "file",
+    "oid": "6d86ea88c0eebed10bd7c161878d9eaea00a7c2a",
+    "size": 16331,
+    "path": "ASR_INTEGRATION_GUIDE.md"
+  },
+  {
+    "type": "file",
+    "oid": "f542ad216e5600f52c15987246f699df698a02f2",
+    "size": 198676480,
+    "lfs": {
+      "oid": "867c53f552998f772e5b5e5c082962ae85ee7ca5669c2bc17d7f615133d4e96d",
+      "size": 198676480,
+      "pointerSize": 134
+    },
+    "xetHash": "f45de62bab823f84f69c721a396d6f2f8b612a3449f235752656c1b033fc04bf",
+    "path": "Nemotron-3-Diarization.nemo"
+  },
+  {
+    "type": "file",
+    "oid": "03fe996f050dd23349a56ab53c8005a21957470d",
+    "size": 107012128,
+    "lfs": {
+      "oid": "08456d9e22cd9a323c0364d98375f3746d6e68507ebb705cd46438c534c7a3a1",
+      "size": 107012128,
+      "pointerSize": 134
+    },
+    "xetHash": "0bede27d43502a641f19972f7b6d4496b63124e231f6e672425c845a94651da8",
+    "path": "Nemotron-3-Diarization.q8_0.gguf"
+  },
+  {
+    "type": "file",
+    "oid": "98045f8a7eda17cb99e48dfca4a7e9401811e6b1",
+    "size": 43239,
+    "path": "README.md"
+  },
+  {
+    "type": "file",
+    "oid": "d2c93e0076af6c03d471a639da78b61f5c411afa",
+    "size": 296,
+    "path": "bias.md"
+  },
+  {
+    "type": "file",
+    "oid": "d09665951c8d48abe9c74626cd39fbfd615297fe",
+    "size": 1458,
+    "path": "config.json"
+  },
+  {
+    "type": "file",
+    "oid": "36730d2efccf177b817d216920cd1a9d5000962a",
+    "size": 6898,
+    "path": "diarization_evaluation.md"
+  },
+  {
+    "type": "file",
+    "oid": "d86d18e42dc517aec857004ee47935ed6562ca65",
+    "size": 2330,
+    "path": "explainability.md"
+  },
+  {
+    "type": "file",
+    "oid": "e6354d288eb56c3db0cd7a78774039e8d4967104",
+    "size": 396954592,
+    "lfs": {
+      "oid": "c074d86335b3b794f8fa5edc25594558f128bdb3914d27806a3a5a2e44963cb6",
+      "size": 396954592,
+      "pointerSize": 134
+    },
+    "xetHash": "a20a7e4d16da94653c5deeb458da252be7f00becbe5a6761081e0474c9891ece",
+    "path": "model.safetensors"
+  },
+  {
+    "type": "file",
+    "oid": "635277618581de07cff071b537b224a226c8d865",
+    "size": 2453587,
+    "lfs": {
+      "oid": "292668a8679eb27f039f7afb0ed938165b399762d2cd3ecef017b600e82457e7",
+      "size": 2453587,
+      "pointerSize": 132
+    },
+    "xetHash": "d0db3e34f3aac12c2c6cac5bb2345442d3bba365c88af241a50f089a86f79056",
+    "path": "nemotron3_tts_8_open_voices.mp4"
+  },
+  {
+    "type": "file",
+    "oid": "6b55712fc47a40448a6e4900cb7e09f640f98226",
+    "size": 1283,
+    "path": "privacy.md"
+  },
+  {
+    "type": "file",
+    "oid": "5779fbbbb8401983be84e0b4f09a236ad8227dfe",
+    "size": 623,
+    "path": "processor_config.json"
+  },
+  {
+    "type": "file",
+    "oid": "56a2cab67d7fa45dfeb8e3d79e9b034fcb426403",
+    "size": 489,
+    "path": "safety.md"
+  },
+  {
+    "type": "file",
+    "oid": "e4734c92eb8966e520b926719d536968ad6d5012",
+    "size": 4604955,
+    "lfs": {
+      "oid": "30eda66150b34e0140a9b92a761362450f8518b575c056211df6208362e2194b",
+      "size": 4604955,
+      "pointerSize": 132
+    },
+    "xetHash": "c815b4312bd4fe92df28748275dc4aac501ca9e68a75e231f824fcde92982003",
+    "path": "streaming_diarization_demo.gif"
+  },
+  {
+    "type": "file",
+    "oid": "908ccb7d28e4457ad8fe3216d3ec51869344ed03",
+    "size": 78317,
+    "lfs": {
+      "oid": "05dd18ddd1068dbfff5195f3a9bd8d8acb2c3002498fe35a9ebad96a45afbe8f",
+      "size": 78317,
+      "pointerSize": 130
+    },
+    "xetHash": "1479c81856e575228f120044a4322b4e6dca7dcb78ce681ba1b1c8e35a865c9c",
+    "path": "streaming_diarization_demo.png"
+  }
+]

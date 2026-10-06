@@ -1,0 +1,13 @@
+{
+  "result": {
+    "ok": false,
+    "error": {
+      "code": "reference_failure",
+      "message": "modelMissing(repo: \"speaker-diarization\", missing: [\"Embedding.mlmodelc\", \"FBank.mlmodelc\", \"PldaRho.mlmodelc\", \"Segmentation.mlmodelc\", \"plda-parameters.json\"])",
+      "retryable": false,
+      "details": {}
+    }
+  },
+  "wallSeconds": 0.23459362499999997,
+  "networkDenied": true
+}

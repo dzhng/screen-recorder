@@ -1,0 +1,49 @@
+{
+  "scope": "Checkpoint-only preparation with existing Core Models; no production runtime/profile readiness claim",
+  "manifest": {
+    "name": "nemotron3-checkpoint-research",
+    "purpose": "speaker",
+    "platform": {
+      "system": "darwin",
+      "architecture": "arm64"
+    },
+    "repo": "nvidia/Nemotron-3-Diarization",
+    "revision": "f667ed73aee57d40cc39428eb768b4fd87a0a29e",
+    "folderName": "checkpoint",
+    "engine": {
+      "runtime": "NeMo",
+      "runtimeVersion": "3.0.0",
+      "runtimeRevision": "not-prepared",
+      "decoder": "nemotron3-research-only"
+    },
+    "files": [
+      {
+        "path": "Nemotron-3-Diarization.nemo",
+        "bytes": 198676480,
+        "sha256": "867c53f552998f772e5b5e5c082962ae85ee7ca5669c2bc17d7f615133d4e96d"
+      }
+    ]
+  },
+  "license": "OpenMDW1.1",
+  "licenseURL": "https://openmdw.ai/license/1-1/",
+  "cardSha256": "5fe88ca4020d2ee134f806a0a02c52c19855b73047bc2e6f25b9171e1abeebfd",
+  "qualityGates": {
+    "DERMaximum": 0.2,
+    "identityConfusionMaximum": 0.05,
+    "overlapRecallMinimum": 0.8,
+    "RSSBytesMaximum": 4294967296,
+    "inferenceWallAudioRatioMaximum": 2
+  },
+  "candidateRecipe": {
+    "chunk_len": 340,
+    "chunk_right_context": 40,
+    "fifo_len": 40,
+    "spkcache_update_period": 300,
+    "spkcache_len": 264
+  },
+  "sourceRoles": {
+    "calibration": "bspxd30 and independent100s return/overlap assembly",
+    "heldOut": "aiqwk30 before longer4speaker control"
+  },
+  "originalBoundary": "Original pinned2.7.3 runtime, checkpoint and matched15fields retained exactly; this is a distinct provider"
+}

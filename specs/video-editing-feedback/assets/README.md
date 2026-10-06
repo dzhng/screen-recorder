@@ -8,4 +8,15 @@
 
 [Research receipts](research/sources.json) preserve fetched primary-source identities and excerpts. Documented upstream capability is not a local execution pass.
 
-Actual video/audio derivatives belong under the repository's fixture owner, planned in [the fixture contract](../fixtures.md). No derived media or new source observations have been produced by this planning pass.
+Actual video/audio derivatives belong under the repository's fixture owner and follow [the fixture contract](../fixtures.md). The planning snapshot itself contains no new source observations.
+
+## Implementation evidence
+
+[Capability-first workflow](02-capability-first-skill/README.md),
+[publication contract](03-published-work/README.md) and
+[exact removal](06-exact-removal/README.md) record completed boundaries.
+[Audio corpus](01-corpus-audio/README.md),
+[full-frame picture corpus](01-corpus-picture/README.md) and
+[honest speech timing](07-speech-timing/README.md) retain scoped operands.
+[Speaker feasibility](31-speaker-replication/README.md) retains reproducible partial
+successes and required failures; it does not establish production readiness.

@@ -1,0 +1,446 @@
+{
+  "selected": 0.5,
+  "candidates": [
+    {
+      "threshold": 0.5,
+      "passed": true,
+      "pooledDER": 0.01509853782581064,
+      "cases": [
+        {
+          "id": "bspxd30",
+          "threshold": 0.5,
+          "metrics": {
+            "referenceSpeakerSeconds": 29.839999999999996,
+            "overlapSeconds": 3.0399999999999903,
+            "silenceSeconds": 3.199999999999992,
+            "missedSpeakerSeconds": 0.3899999999999978,
+            "falseSpeakerSeconds": 0.5999999999999972,
+            "confusedSpeakerSeconds": 0,
+            "mapping": {
+              "speaker_0": "spk01",
+              "speaker_1": "spk00",
+              "speaker_2": "spk02"
+            },
+            "der": 0.03317694369973174
+          },
+          "overlapRecall": 0.8980263157894761,
+          "confusionRatio": 0,
+          "passed": true
+        },
+        {
+          "id": "returns-overlap-silence",
+          "threshold": 0.5,
+          "metrics": {
+            "referenceSpeakerSeconds": 96,
+            "overlapSeconds": 8,
+            "silenceSeconds": 12,
+            "missedSpeakerSeconds": 0.16000000000000014,
+            "falseSpeakerSeconds": 0.750000000000016,
+            "confusedSpeakerSeconds": 0,
+            "mapping": {
+              "speaker_0": "bspxd:spk00",
+              "speaker_1": "bspxd:spk01",
+              "speaker_2": "bspxd:spk02"
+            },
+            "der": 0.009479166666666835
+          },
+          "overlapRecall": 1,
+          "confusionRatio": 0,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "threshold": 0.4,
+      "passed": true,
+      "pooledDER": 0.024872854418308797,
+      "cases": [
+        {
+          "id": "bspxd30",
+          "threshold": 0.4,
+          "metrics": {
+            "referenceSpeakerSeconds": 29.840000000000003,
+            "overlapSeconds": 3.039999999999992,
+            "silenceSeconds": 3.1999999999999886,
+            "missedSpeakerSeconds": 0.16000000000000025,
+            "falseSpeakerSeconds": 1.1199999999999914,
+            "confusedSpeakerSeconds": 0.019999999999997797,
+            "mapping": {
+              "speaker_0": "spk01",
+              "speaker_1": "spk00",
+              "speaker_2": "spk02"
+            },
+            "der": 0.04356568364611225
+          },
+          "overlapRecall": 0.9473684210526314,
+          "confusionRatio": 0.0006702412868631968,
+          "passed": true
+        },
+        {
+          "id": "returns-overlap-silence",
+          "threshold": 0.4,
+          "metrics": {
+            "referenceSpeakerSeconds": 96,
+            "overlapSeconds": 8,
+            "silenceSeconds": 12,
+            "missedSpeakerSeconds": 0.05999999999999872,
+            "falseSpeakerSeconds": 1.7699999999999907,
+            "confusedSpeakerSeconds": 0,
+            "mapping": {
+              "speaker_0": "bspxd:spk00",
+              "speaker_1": "bspxd:spk01",
+              "speaker_2": "bspxd:spk02"
+            },
+            "der": 0.01906249999999989
+          },
+          "overlapRecall": 1,
+          "confusionRatio": 0,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "threshold": 0.3,
+      "passed": true,
+      "pooledDER": 0.03957406230133487,
+      "cases": [
+        {
+          "id": "bspxd30",
+          "threshold": 0.3,
+          "metrics": {
+            "referenceSpeakerSeconds": 29.840000000000003,
+            "overlapSeconds": 3.039999999999992,
+            "silenceSeconds": 3.1999999999999886,
+            "missedSpeakerSeconds": 0.12999999999999645,
+            "falseSpeakerSeconds": 2.069999999999993,
+            "confusedSpeakerSeconds": 0,
+            "mapping": {
+              "speaker_0": "spk01",
+              "speaker_1": "spk00",
+              "speaker_2": "spk02"
+            },
+            "der": 0.07372654155495943
+          },
+          "overlapRecall": 0.9572368421052643,
+          "confusionRatio": 0,
+          "passed": true
+        },
+        {
+          "id": "returns-overlap-silence",
+          "threshold": 0.3,
+          "metrics": {
+            "referenceSpeakerSeconds": 96,
+            "overlapSeconds": 8,
+            "silenceSeconds": 12,
+            "missedSpeakerSeconds": 0,
+            "falseSpeakerSeconds": 2.7799999999999905,
+            "confusedSpeakerSeconds": 0,
+            "mapping": {
+              "speaker_0": "bspxd:spk00",
+              "speaker_1": "bspxd:spk01",
+              "speaker_2": "bspxd:spk02"
+            },
+            "der": 0.028958333333333235
+          },
+          "overlapRecall": 1,
+          "confusionRatio": 0,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "threshold": 0.2,
+      "passed": true,
+      "pooledDER": 0.05761284170375068,
+      "cases": [
+        {
+          "id": "bspxd30",
+          "threshold": 0.2,
+          "metrics": {
+            "referenceSpeakerSeconds": 29.840000000000003,
+            "overlapSeconds": 3.039999999999992,
+            "silenceSeconds": 3.1999999999999886,
+            "missedSpeakerSeconds": 0.04999999999999771,
+            "falseSpeakerSeconds": 3.0199999999999942,
+            "confusedSpeakerSeconds": 0,
+            "mapping": {
+              "speaker_0": "spk01",
+              "speaker_1": "spk00",
+              "speaker_2": "spk02"
+            },
+            "der": 0.10288203753351179
+          },
+          "overlapRecall": 0.9835526315789481,
+          "confusionRatio": 0,
+          "passed": true
+        },
+        {
+          "id": "returns-overlap-silence",
+          "threshold": 0.2,
+          "metrics": {
+            "referenceSpeakerSeconds": 96,
+            "overlapSeconds": 8,
+            "silenceSeconds": 12,
+            "missedSpeakerSeconds": 0,
+            "falseSpeakerSeconds": 4.179999999999994,
+            "confusedSpeakerSeconds": 0,
+            "mapping": {
+              "speaker_0": "bspxd:spk00",
+              "speaker_1": "bspxd:spk01",
+              "speaker_2": "bspxd:spk02"
+            },
+            "der": 0.04354166666666661
+          },
+          "overlapRecall": 1,
+          "confusionRatio": 0,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "threshold": 0.1,
+      "passed": true,
+      "pooledDER": 0.08073744437380777,
+      "cases": [
+        {
+          "id": "bspxd30",
+          "threshold": 0.1,
+          "metrics": {
+            "referenceSpeakerSeconds": 29.840000000000003,
+            "overlapSeconds": 3.039999999999992,
+            "silenceSeconds": 3.1999999999999886,
+            "missedSpeakerSeconds": 0.009999999999997677,
+            "falseSpeakerSeconds": 4.5899999999999945,
+            "confusedSpeakerSeconds": 0,
+            "mapping": {
+              "speaker_0": "spk01",
+              "speaker_1": "spk00",
+              "speaker_2": "spk02"
+            },
+            "der": 0.15415549597855202
+          },
+          "overlapRecall": 0.9967105263157903,
+          "confusionRatio": 0,
+          "passed": true
+        },
+        {
+          "id": "returns-overlap-silence",
+          "threshold": 0.1,
+          "metrics": {
+            "referenceSpeakerSeconds": 96,
+            "overlapSeconds": 8,
+            "silenceSeconds": 12,
+            "missedSpeakerSeconds": 0,
+            "falseSpeakerSeconds": 5.559999999999977,
+            "confusedSpeakerSeconds": 0,
+            "mapping": {
+              "speaker_0": "bspxd:spk00",
+              "speaker_1": "bspxd:spk01",
+              "speaker_2": "bspxd:spk02"
+            },
+            "der": 0.05791666666666643
+          },
+          "overlapRecall": 1,
+          "confusionRatio": 0,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "threshold": 0.05,
+      "passed": true,
+      "pooledDER": 0.09432612841703736,
+      "cases": [
+        {
+          "id": "bspxd30",
+          "threshold": 0.05,
+          "metrics": {
+            "referenceSpeakerSeconds": 29.840000000000003,
+            "overlapSeconds": 3.039999999999992,
+            "silenceSeconds": 3.1999999999999886,
+            "missedSpeakerSeconds": 0,
+            "falseSpeakerSeconds": 5.109999999999998,
+            "confusedSpeakerSeconds": 0,
+            "mapping": {
+              "speaker_0": "spk01",
+              "speaker_1": "spk00",
+              "speaker_2": "spk02"
+            },
+            "der": 0.17124664879356558
+          },
+          "overlapRecall": 1,
+          "confusionRatio": 0,
+          "passed": true
+        },
+        {
+          "id": "returns-overlap-silence",
+          "threshold": 0.05,
+          "metrics": {
+            "referenceSpeakerSeconds": 96,
+            "overlapSeconds": 8,
+            "silenceSeconds": 12,
+            "missedSpeakerSeconds": 0,
+            "falseSpeakerSeconds": 6.759999999999984,
+            "confusedSpeakerSeconds": 0,
+            "mapping": {
+              "speaker_0": "bspxd:spk00",
+              "speaker_1": "bspxd:spk01",
+              "speaker_2": "bspxd:spk02"
+            },
+            "der": 0.0704166666666665
+          },
+          "overlapRecall": 1,
+          "confusionRatio": 0,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "threshold": 0.02,
+      "passed": true,
+      "pooledDER": 0.11260330578512395,
+      "cases": [
+        {
+          "id": "bspxd30",
+          "threshold": 0.02,
+          "metrics": {
+            "referenceSpeakerSeconds": 29.840000000000003,
+            "overlapSeconds": 3.039999999999992,
+            "silenceSeconds": 3.1999999999999886,
+            "missedSpeakerSeconds": 0,
+            "falseSpeakerSeconds": 5.769999999999994,
+            "confusedSpeakerSeconds": 0,
+            "mapping": {
+              "speaker_0": "spk01",
+              "speaker_1": "spk00",
+              "speaker_2": "spk02"
+            },
+            "der": 0.19336461126005342
+          },
+          "overlapRecall": 1,
+          "confusionRatio": 0,
+          "passed": true
+        },
+        {
+          "id": "returns-overlap-silence",
+          "threshold": 0.02,
+          "metrics": {
+            "referenceSpeakerSeconds": 96,
+            "overlapSeconds": 8,
+            "silenceSeconds": 12,
+            "missedSpeakerSeconds": 0,
+            "falseSpeakerSeconds": 8.400000000000004,
+            "confusedSpeakerSeconds": 0,
+            "mapping": {
+              "speaker_0": "bspxd:spk00",
+              "speaker_1": "bspxd:spk01",
+              "speaker_2": "bspxd:spk02"
+            },
+            "der": 0.08750000000000004
+          },
+          "overlapRecall": 1,
+          "confusionRatio": 0,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "threshold": 0.01,
+      "passed": false,
+      "pooledDER": 0.12579465988556893,
+      "cases": [
+        {
+          "id": "bspxd30",
+          "threshold": 0.01,
+          "metrics": {
+            "referenceSpeakerSeconds": 29.840000000000003,
+            "overlapSeconds": 3.039999999999992,
+            "silenceSeconds": 3.1999999999999886,
+            "missedSpeakerSeconds": 0,
+            "falseSpeakerSeconds": 6.289999999999998,
+            "confusedSpeakerSeconds": 0,
+            "mapping": {
+              "speaker_0": "spk01",
+              "speaker_1": "spk00",
+              "speaker_2": "spk02"
+            },
+            "der": 0.21079088471849858
+          },
+          "overlapRecall": 1,
+          "confusionRatio": 0,
+          "passed": false
+        },
+        {
+          "id": "returns-overlap-silence",
+          "threshold": 0.01,
+          "metrics": {
+            "referenceSpeakerSeconds": 96,
+            "overlapSeconds": 8,
+            "silenceSeconds": 12,
+            "missedSpeakerSeconds": 0,
+            "falseSpeakerSeconds": 9.539999999999997,
+            "confusedSpeakerSeconds": 0,
+            "mapping": {
+              "speaker_0": "bspxd:spk00",
+              "speaker_1": "bspxd:spk01",
+              "speaker_2": "bspxd:spk02"
+            },
+            "der": 0.09937499999999998
+          },
+          "overlapRecall": 1,
+          "confusionRatio": 0,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "threshold": 0.005,
+      "passed": false,
+      "pooledDER": 0.1377940241576606,
+      "cases": [
+        {
+          "id": "bspxd30",
+          "threshold": 0.005,
+          "metrics": {
+            "referenceSpeakerSeconds": 29.840000000000003,
+            "overlapSeconds": 3.039999999999992,
+            "silenceSeconds": 3.1999999999999886,
+            "missedSpeakerSeconds": 0,
+            "falseSpeakerSeconds": 6.8299999999999965,
+            "confusedSpeakerSeconds": 0,
+            "mapping": {
+              "speaker_0": "spk01",
+              "speaker_1": "spk00",
+              "speaker_2": "spk02"
+            },
+            "der": 0.22888739946380682
+          },
+          "overlapRecall": 1,
+          "confusionRatio": 0,
+          "passed": false
+        },
+        {
+          "id": "returns-overlap-silence",
+          "threshold": 0.005,
+          "metrics": {
+            "referenceSpeakerSeconds": 96,
+            "overlapSeconds": 8,
+            "silenceSeconds": 12,
+            "missedSpeakerSeconds": 0,
+            "falseSpeakerSeconds": 10.510000000000012,
+            "confusedSpeakerSeconds": 0,
+            "mapping": {
+              "speaker_0": "bspxd:spk00",
+              "speaker_1": "bspxd:spk01",
+              "speaker_2": "bspxd:spk02"
+            },
+            "der": 0.1094791666666668
+          },
+          "overlapRecall": 1,
+          "confusionRatio": 0,
+          "passed": true
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,62 @@
+{
+  "case": {
+    "id": "bspxd",
+    "role": "development",
+    "split": "dev",
+    "archive": {
+      "url": "https://www.robots.ox.ac.uk/~vgg/data/voxconverse/data/voxconverse_dev_wav.zip",
+      "totalBytes": 1988647478,
+      "etag": "\"76885a36-5c7a2104ed3f9\"",
+      "directorySha256": "671e0db47c93abe7174b16f6b2523379d5c76e809c03e18f35124e884923e351"
+    },
+    "member": {
+      "name": "audio/bspxd.wav",
+      "method": 8,
+      "crc32": 2539467305,
+      "compressedBytes": 9274180,
+      "bytes": 10763598,
+      "offset": 1016306389
+    },
+    "sourceSha256": "6493309580cdd06decf3460bcfd72817eb497360a768ddce1a2a302d8543f1a1",
+    "originalFrames": 5381760,
+    "sampleRate": 16000,
+    "channels": 1,
+    "sampleWidthBytes": 2,
+    "sourceStartFrame": 960000,
+    "frames": 480000,
+    "durationSeconds": 30.0,
+    "pcmSha256": "9fb9ad4527f4fc3f9b2a30a657e54f6a897c751186c3e67c7ba1cba9f3f04fc2",
+    "windowSha256": "75b3ad439262e11f7e0e2c076173bd3bdc6196a82cf32f3c882be329b9e10577",
+    "preparedFloatSha256": "9ba2131687811bfbb9fb08d915648738cd83b35476370b55ae95b5c809133bb1",
+    "conversion": "exact PCM16 /32768 to Float32, no resampling/channel mixture/time shift",
+    "peakAbsolutePCM16": 21528,
+    "rmsPCM16": 1668.6041545761386,
+    "wav": "/tmp/screenrec-speech-research-cache/voxconverse/bspxd.wav",
+    "prepared": "/tmp/screenrec-speech-research-cache/voxconverse/bspxd.f32"
+  },
+  "rangeReceipts": [
+    {
+      "start": 1016306389,
+      "end": 1016306418,
+      "contentRange": "bytes 1016306389-1016306418/1988647478",
+      "etag": "\"76885a36-5c7a2104ed3f9\"",
+      "sha256": "44a4c21ca25d80ef043574d15a47cd888649c585cd9c4389046ce29b302dc848"
+    },
+    {
+      "start": 1016306419,
+      "end": 1016306461,
+      "contentRange": "bytes 1016306419-1016306461/1988647478",
+      "etag": "\"76885a36-5c7a2104ed3f9\"",
+      "sha256": "4d9373931b031734450fbd7cd44ce18d738facd674b80e35ab41bfc56fbcc0ac"
+    },
+    {
+      "start": 1016306462,
+      "end": 1025580641,
+      "contentRange": "bytes 1016306462-1025580641/1988647478",
+      "etag": "\"76885a36-5c7a2104ed3f9\"",
+      "sha256": "20f2f68450d412fe1408768bd7debe9f37de8e81526b90c36a412894e8f8c268"
+    }
+  ],
+  "window": "/tmp/yap-editing-speaker-replication/bspxd.f32",
+  "verified": true
+}

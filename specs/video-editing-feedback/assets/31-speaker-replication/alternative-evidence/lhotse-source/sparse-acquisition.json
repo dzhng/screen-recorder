@@ -1,0 +1,62 @@
+{
+  "revision": "ed4eb7a242aeeca23077d08bd455030ce88b5175",
+  "commands": [
+    {
+      "args": [
+        "git",
+        "clone",
+        "--filter=blob:none",
+        "--sparse",
+        "--no-checkout",
+        "--depth",
+        "1",
+        "https://github.com/lhotse-speech/lhotse.git",
+        "/tmp/yap-editing-speaker-replication/lhotse-source/sparse"
+      ],
+      "exitCode": 0,
+      "stdout": "",
+      "stderr": "Cloning into '/tmp/yap-editing-speaker-replication/lhotse-source/sparse'...\n"
+    },
+    {
+      "args": [
+        "git",
+        "-C",
+        "/tmp/yap-editing-speaker-replication/lhotse-source/sparse",
+        "sparse-checkout",
+        "set",
+        "lhotse"
+      ],
+      "exitCode": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "args": [
+        "git",
+        "-C",
+        "/tmp/yap-editing-speaker-replication/lhotse-source/sparse",
+        "fetch",
+        "--depth",
+        "1",
+        "origin",
+        "ed4eb7a242aeeca23077d08bd455030ce88b5175"
+      ],
+      "exitCode": 0,
+      "stdout": "",
+      "stderr": "From https://github.com/lhotse-speech/lhotse\n * branch            ed4eb7a242aeeca23077d08bd455030ce88b5175 -> FETCH_HEAD\n"
+    },
+    {
+      "args": [
+        "git",
+        "-C",
+        "/tmp/yap-editing-speaker-replication/lhotse-source/sparse",
+        "checkout",
+        "--detach",
+        "ed4eb7a242aeeca23077d08bd455030ce88b5175"
+      ],
+      "exitCode": 0,
+      "stdout": "",
+      "stderr": "HEAD is now at ed4eb7a Import urllib3 lazily so a plain install can import lhotse (#1593)\n"
+    }
+  ]
+}

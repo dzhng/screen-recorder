@@ -1,0 +1,46 @@
+{
+  "scope": "New isolated closure, exact original30s computational preservation checkpoint before continuity spike; no public registry integration",
+  "runtimeDigest": "b4e03d54e631fc5b15dbcd772508940f58ce7aeb2b1e4695427e0332644d2b5c",
+  "originalRuntimeDigest": "6d21b755cf6ef36ef0146688d6c7ca35863ed9a4dbb5fb14d5affd62812fdb02",
+  "modelSha256": "8abd32832159c6ac1148c926b7276f35ba34582c444e559dce1f1253fea42ef8",
+  "pcmSha256": "9ba2131687811bfbb9fb08d915648738cd83b35476370b55ae95b5c809133bb1",
+  "exactFields": [
+    "segments",
+    "nativeSegmentLines",
+    "nativeProbabilities",
+    "probabilityShape",
+    "sampleRate",
+    "sourceFrames",
+    "audioSeconds",
+    "frameSeconds",
+    "config",
+    "postprocessing",
+    "modelConfig",
+    "modelSha256",
+    "pcmSha256",
+    "torch",
+    "numpy"
+  ],
+  "gate": {
+    "inferenceSecondsMaximum": 60,
+    "peakProcessRSSBytesMaximum": 4294967296
+  },
+  "boundSources": [
+    {
+      "path": "helpers/speaker/worker.py",
+      "sha256": "60c3f08f5d1fc1cf9c93eab0e11fead3398b4c73b4e640ed0a2072c05876fd97"
+    },
+    {
+      "path": "helpers/model-runtime/launch.py",
+      "sha256": "608260f4b0d26effd8a9f082fd9aeadfd6537df8639ed530a6e3c92203c0c547"
+    },
+    {
+      "path": "packages/test-harness/editing/optional-runtime-assemble.py",
+      "sha256": "2fb53dbb96127344d851da56aa3be1e681861e9573751ebf7af67db1dd493d6b"
+    },
+    {
+      "path": "packages/test-harness/editing/runtime-native.py",
+      "sha256": "04ab0ea1081a7dd4d9e583799acd90ae533870313a3e7857b987859095254af2"
+    }
+  ]
+}

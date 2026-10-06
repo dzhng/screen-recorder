@@ -139,3 +139,12 @@ raw overlapping and instant observations. Its paired bounded source/derivative
 receipts certify the two overlap corpus inputs without implying independent
 lexical truth or whole-corpus completion. Root integration rebuilt the affected
 package owners and passed 68 reader/seed/project checks plus 27 consumer checks.
+
+## Current speaker feasibility evidence
+
+E05 and S02 remain open. [The retained trials](assets/31-speaker-replication/README.md)
+reproduce original short-window parity and passing three-speaker continuity, but all
+measured providers fail the required four-speaker quality envelope. Model byte/load
+readiness is separate from quality. Slice31 is resliced into short-quality admission,
+global continuity, prepared execution closure and word attribution; slice32 cannot
+claim labeling ready from those partial results.

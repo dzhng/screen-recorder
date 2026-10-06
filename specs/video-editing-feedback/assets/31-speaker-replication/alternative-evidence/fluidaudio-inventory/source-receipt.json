@@ -1,0 +1,61 @@
+{
+  "version": "0.15.7",
+  "revision": "41540ea237350afe5117a082b5c28eda642d0612",
+  "files": [
+    {
+      "path": "LICENSE",
+      "bytes": 11357,
+      "sha256": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+    },
+    {
+      "path": "Sources/FluidAudio/ModelNames.swift",
+      "bytes": 74315,
+      "sha256": "39d2c08dab5d36ce92092ada2960cd322665d26d1de05a83512a81f17ef165b1"
+    },
+    {
+      "path": "Sources/FluidAudio/ModelRegistry.swift",
+      "bytes": 7518,
+      "sha256": "4c760c5cbb06ffbea4aa7b3c994c9633bc813a6ff1d0000072fcfa63e7de032d"
+    },
+    {
+      "path": "Sources/FluidAudio/Diarizer/Offline/Core/OfflineDiarizerTypes.swift",
+      "bytes": 28528,
+      "sha256": "ff7e63e82330e48c7986ca5a5a6194a8f1a2304d2f5dd3afa1249932d8b6d271"
+    },
+    {
+      "path": "Sources/FluidAudio/Diarizer/Offline/Core/OfflineDiarizerModels.swift",
+      "bytes": 6815,
+      "sha256": "89407ffa029ca71aa63c419020cd6898f61b48bfa1a12b0dc114f6a94fc6641c"
+    },
+    {
+      "path": "Sources/FluidAudio/Diarizer/Offline/Core/OfflineDiarizerManager.swift",
+      "bytes": 41295,
+      "sha256": "5ac1c05b04068c76617c3c78bdf779e703e4bccec8874d3220f77331d0bf6f10"
+    },
+    {
+      "path": "Sources/FluidAudio/Diarizer/Offline/Core/PreparedDiarization.swift",
+      "bytes": 731,
+      "sha256": "68f4e93218676cd694e67d73214779281e384c28e3e0518401b32964661c96bf"
+    },
+    {
+      "path": "Sources/FluidAudio/Diarizer/Offline/Utils/OfflineReconstruction.swift",
+      "bytes": 19956,
+      "sha256": "10a0db69e2cbc9acdd5495ee75020a3db979ea8830823a3e85b23177782ac348"
+    },
+    {
+      "path": "Sources/FluidAudio/Diarizer/Offline/Clustering/VBxClustering.swift",
+      "bytes": 32461,
+      "sha256": "5af3e04c6fbf5dd9e8d7ad29f818936ca51d11d8a69d0a79c418cdfd9fe1139e"
+    },
+    {
+      "path": "Sources/FluidAudio/Diarizer/Offline/Clustering/ConstrainedClusterAssignment.swift",
+      "bytes": 1899,
+      "sha256": "bd997ad7030a03f7f26d3def0395d28a82b60c82dd39901dabbc232225e471ab"
+    },
+    {
+      "path": "Sources/FluidAudio/Diarizer/Offline/Segmentation/OfflineSegmentationProcessor.swift",
+      "bytes": 23428,
+      "sha256": "8085de7a588cd9e1c2c7a1824a229ae9d4691d9a69301cb114fe1fb1d68d4d9f"
+    }
+  ]
+}

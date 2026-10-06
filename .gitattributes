@@ -4,3 +4,4 @@ fixtures/video-editing-feedback/**/*.wav filter=lfs diff=lfs merge=lfs -text
 fixtures/video-editing-feedback/**/*.mp4 filter=lfs diff=lfs merge=lfs -text
 fixtures/video-editing-feedback/**/*.mov filter=lfs diff=lfs merge=lfs -text
 specs/video-editing-feedback/assets/01-corpus-picture/**/*.png filter=lfs diff=lfs merge=lfs -text
+specs/video-editing-feedback/assets/31-speaker-replication/**/*.gz filter=lfs diff=lfs merge=lfs -text

@@ -85,3 +85,36 @@ source comparison is recorded. Slice01 did not specify whether regeneration alon
 should declare quality passed. Keeping that boundary prevents a newly generated
 file from certifying its own appearance; matched bytes on a selected regeneration
 are retained as additional evidence, without a second quality judge in product code.
+
+## Speaker research resource boundary — sound, medium confidence
+
+- When: retained slice31 research and maintenance checkpoint.
+- Choice: report the inference process's peak resident memory as the measured
+  resource bound. When a CoreML trial finishes, this reports memory attributed to
+  that process; system model caches and separate accelerator services can hold
+  additional memory. It does not claim a bound for the entire Mac.
+- Gap: the planned memory gate did not identify which operating-system accounting
+  boundary to use. The trial measurements supply process RSS (resident memory),
+  while whole-system memory would require a separate controlled comparison.
+- Reach: these trials can establish their stated process cost, but a future packaged
+  provider must name its resource boundary and cannot inherit a total-memory claim.
+- Verdict: sound as a scoped research measurement. No failed provider or broader
+  memory claim is promoted. A distribution needing a total-machine bound requires
+  its own measurement before that claim becomes public.
+- Confidence: medium.
+
+## Recovered runtime has a new identity — sound, high confidence
+
+- When: retained original speaker replication.
+- Choice: reconstruct missing dependencies through the existing preparation owner
+  and give that complete artifact a new hash. For example, a rebuilt dependency
+  library can preserve the speaker calculation while changing runtime bytes; exact
+  matched calculations prove that scoped behavior, not identical installation.
+- Gap: the historical runtime was gone, and the plan required preserving its
+  computation without specifying how to identify a rebuilt dependency closure.
+- Reach: future packaging must pin the actual complete prepared artifact. The
+  private trial does not change the default registered runtime or reuse its old
+  digest; Nemotron source layers likewise remain separate from their base runtime.
+- Verdict: sound. Hashes describe actual bytes, and matched original outputs remain
+  a separate preservation record rather than a substitute runtime identity.
+- Confidence: high.

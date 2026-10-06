@@ -1,0 +1,150 @@
+sample_rate: 16000
+pil_weight: 0.75
+ats_weight: 0.25
+ats_tolerance: 0
+activity_weight: 0.5
+activity_loss:
+  _target_: nemo.collections.asr.losses.aux_diarization_loss.ActivityLoss
+phantom_weight: 0.1
+phantom_target: both
+phantom_loss:
+  _target_: nemo.collections.asr.losses.aux_diarization_loss.PhantomLoss
+  threshold: 0.25
+  temperature: 0.5
+phantom_threshold: 0.25
+phantom_temperature: 0.5
+max_num_of_spks: 8
+high_resolution: true
+output_subsampling_factor: 1
+streaming_mode: true
+max_causal_tail_len: 222
+causal_tail_prob: 0.5
+min_causal_tail_block_size: 1
+max_causal_tail_block_size: 8
+model_defaults:
+  fc_d_model: 512
+  tf_d_model: 192
+train_ds:
+  manifest_filepath: null
+  validate_manifest_paths: false
+  sample_rate: 16000
+  num_spks: 8
+  session_len_sec: 105
+  soft_targets: false
+  batch_size: 42
+  shuffle: true
+  num_workers: 18
+  pin_memory: true
+  use_lhotse: false
+  subsegment_mode: true
+  subsegment_single_chunk_min_len_sec: 45
+  subsegment_two_chunks_rate: 0.5
+  subsegment_two_chunk_min_len_sec: 22
+  subsegment_nspk_bias: 1.5
+  subsegment_start_guard_sec: 0.25
+  subsegment_min_first_spk_sec: 0.5
+  subsegment_splice_silence_sec: 0.1
+validation_ds:
+  manifest_filepath: null
+  sample_rate: 16000
+  num_spks: 8
+  session_len_sec: -1
+  soft_targets: false
+  batch_size: 32
+  shuffle: false
+  num_workers: 18
+  drop_last: false
+  pin_memory: true
+  use_lhotse: false
+test_ds:
+  manifest_filepath: null
+  sample_rate: 16000
+  num_spks: 8
+  session_len_sec: -1
+  soft_targets: false
+  batch_size: 32
+  shuffle: false
+  num_workers: 18
+  drop_last: false
+  pin_memory: true
+  use_lhotse: false
+preprocessor:
+  _target_: nemo.collections.asr.modules.AudioToMelSpectrogramPreprocessor
+  normalize: NA
+  window_size: 0.025
+  sample_rate: 16000
+  window_stride: 0.01
+  window: hann
+  features: 128
+  n_fft: 512
+  frame_splicing: 1
+  dither: 1.0e-05
+spec_augment:
+  _target_: nemo.collections.asr.modules.SpectrogramAugmentation
+  freq_masks: 2
+  time_masks: 0
+  freq_width: 24
+  time_width: 0.02
+  mask_value: -15
+sortformer_modules:
+  _target_: nemo.collections.asr.modules.sortformer_modules.SortformerModules
+  num_spks: 8
+  dropout_rate: 0.5
+  fc_d_model: 512
+  tf_d_model: 192
+  spkcache_len: 264
+  fifo_len: 0
+  chunk_len: 264
+  spkcache_update_period: 264
+  chunk_left_context: 0
+  chunk_right_context: 0
+  spkcache_sil_frames_per_spk: 1
+  scores_add_rnd: 0
+  pred_score_threshold: 0.25
+  max_index: 99999
+  scores_boost_latest: 0.05
+  sil_threshold: 0.2
+  strong_boost_rate: 0.75
+  weak_boost_rate: 1.5
+  min_pos_scores_rate: 0.5
+  causal_attn_rate: 0
+  use_learnable_sil_emb: true
+encoder:
+  _target_: nemo.collections.asr.modules.TransformerEncoder
+  feat_in: 128
+  feat_out: -1
+  n_layers: 31
+  d_model: 512
+  n_heads: 8
+  subsampling: feature_stacking
+  subsampling_factor: 8
+  ff_expansion: 4.0
+  self_attention_model: rope
+  pos_emb_max_len: 5000
+  xscaling: false
+  qkv_bias: false
+  qk_norm: false
+  pre_block_norm: true
+  attn_mode: full
+  drop_rate: 0.1
+  dropout_pre_encoder: 0.1
+  dropout_emb: 0.0
+  sync_max_audio_length: true
+loss:
+  _target_: nemo.collections.asr.losses.bce_loss.BCEWithLogitsLoss
+  reduction: mean
+lr: 0.0001
+optim:
+  name: adamw
+  lr: 0.0001
+  betas:
+  - 0.9
+  - 0.98
+  weight_decay: 0.001
+  sched:
+    name: InverseSquareRootAnnealing
+    warmup_steps: 2000
+    warmup_ratio: null
+    min_lr: 1.0e-06
+target: nemo.collections.asr.models.sortformer_diar_models.SortformerEncLabelModel
+nemo_version: 3.0.0

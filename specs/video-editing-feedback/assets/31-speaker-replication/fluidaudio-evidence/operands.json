@@ -1,0 +1,194 @@
+{
+  "files": [
+    {
+      "path": "LICENSE",
+      "bytes": 19759,
+      "sha256": "736763bf08829e36266b8a3bebcc041ac68575424e976490671a7e6b43a525cf"
+    },
+    {
+      "path": "NOTICE.md",
+      "bytes": 1925,
+      "sha256": "0964a66893fa5c3a574758257d30d2944669f44eeed5784b30ec3bab902012b3"
+    },
+    {
+      "path": "Package.swift",
+      "bytes": 350,
+      "sha256": "8584a2b7898bb12076c916ba72307457509890f23dc7b3ff9f1a61f1b28e2fbc"
+    },
+    {
+      "path": "README.md",
+      "bytes": 4927,
+      "sha256": "574ccff5fb824d370734932d6a71f0066e50675d750af945277b9291c1d30d45"
+    },
+    {
+      "path": "acquisition.json",
+      "bytes": 1626,
+      "sha256": "565e4df84e5f63b4fa50b4d0a536e49ce72b36de027c4db897c95888ce067f2b"
+    },
+    {
+      "path": "aiqwk30.json.gz",
+      "bytes": 55768,
+      "sha256": "964a322f3fba6f07354c9b5c1536f04ab0a108a9532c801ea175e907b38a3eda"
+    },
+    {
+      "path": "bspxd30.json.gz",
+      "bytes": 69512,
+      "sha256": "02f732c7ffbafa09a4565072ad2633a6ff9c9ba671821cccde18972308e76112"
+    },
+    {
+      "path": "build-r2.log.gz",
+      "bytes": 109,
+      "sha256": "ae8630f5f01a18cee736c3f1fb738d8874dad43eea76bf210658f4a174c4c37e"
+    },
+    {
+      "path": "build.log.gz",
+      "bytes": 4385,
+      "sha256": "d289e719f13b85c04aedcdc60ad0872fdc2317021f1d53edab2ef14b0798b340"
+    },
+    {
+      "path": "execution-r2.json",
+      "bytes": 372,
+      "sha256": "590b4adf4fcf0f126863cc8f116124410fb50351771e44fe083b79b1f34320f9"
+    },
+    {
+      "path": "execution-r3.json",
+      "bytes": 375,
+      "sha256": "c73aa393c6d5b0bd062856fdc878aa9cd893539e474c2ac70b9015065e07a54b"
+    },
+    {
+      "path": "execution.json",
+      "bytes": 372,
+      "sha256": "3993497cc151cf523c608cf72bd387b0256dfa592dad1946c9ef5a898fb19f84"
+    },
+    {
+      "path": "inspect-fluidaudio.ts",
+      "bytes": 1709,
+      "sha256": "cd128895b76f3b21dfb71cec0aea875d6b3d4753bc19bc10f9c07dd7ff486fcc"
+    },
+    {
+      "path": "invoke-fluidaudio.ts",
+      "bytes": 2418,
+      "sha256": "24b9e97e32cd72c350121c7f35f477ac93be167e485a81a084fcadf3ed9d0ed2"
+    },
+    {
+      "path": "invoke-r2.log.gz",
+      "bytes": 935,
+      "sha256": "43db03f0a8d43d2a48a13f719c0046dee83f9ab58bfd0c0a41ce87cd1ae40647"
+    },
+    {
+      "path": "invoke-r3.log.gz",
+      "bytes": 225,
+      "sha256": "69eca495d92b96d7ba0e36fe4d14dded8bdd0302786a35e50e73cf02c87c9ef7"
+    },
+    {
+      "path": "invoke.log.gz",
+      "bytes": 897,
+      "sha256": "c7e15becb879370fcd8239aef89f79ec516eed9b4300874bea5e8259ec6fd851"
+    },
+    {
+      "path": "manifest-folder-refused.json",
+      "bytes": 4635,
+      "sha256": "0b69ac814d465d73bfdd9c5728b72ccba731cfe9d710cc066187e3bc03e906ef"
+    },
+    {
+      "path": "manifest.json",
+      "bytes": 4631,
+      "sha256": "e4a43a433846b3393fb9dcbe13f827878ed6ccd59f67f492f0f90ed0eab0c356"
+    },
+    {
+      "path": "model-card.md",
+      "bytes": 4836,
+      "sha256": "d0488f898df6da6e9d36f28b0704a65a13578d598c8685a9c5af0f5f8af13978"
+    },
+    {
+      "path": "preparation-folder-refused.json",
+      "bytes": 333,
+      "sha256": "ef5fc0670b8f371d5e4d81065b38cbc883e91e70f4ae03263c087c3e3deb795a"
+    },
+    {
+      "path": "preparation.json",
+      "bytes": 331,
+      "sha256": "98cbb5fde7b854dd45504c18a158f2cdb3cb76839c8abb2b861f78f1551ed8a1"
+    },
+    {
+      "path": "prepare-fluidaudio.ts",
+      "bytes": 1277,
+      "sha256": "11e118c7c7bfb9590647e88888bdc025970cf4fb4015a99c2f24b8dd488374c4"
+    },
+    {
+      "path": "protocol-folder-refused.json",
+      "bytes": 9712,
+      "sha256": "0319f230b39342c60b700f6da096e4cc298a613d1de66a93b8db8227081995bf"
+    },
+    {
+      "path": "protocol.json",
+      "bytes": 9924,
+      "sha256": "9680102c5594a3f87ce08a1e04752bd888f45f86f6b0bedde586456d4bd6f345"
+    },
+    {
+      "path": "provenance.json",
+      "bytes": 10048,
+      "sha256": "0353430db062715c411ba32e66cb435b9caee2662bccdb298f9e5d1bae760872"
+    },
+    {
+      "path": "readiness.json",
+      "bytes": 4585,
+      "sha256": "28d69387838438659f81ce4afeb8910b1725db60174e53aa0d8cf980b4c5c121"
+    },
+    {
+      "path": "reference.swift",
+      "bytes": 4020,
+      "sha256": "d5161293ac93679473410dec8a56c8edef11a036f96d05c6afbee8d24fb89c96"
+    },
+    {
+      "path": "replay.mjs",
+      "bytes": 4711,
+      "sha256": "87a5ea8daafcd0a4afac963efec08196f0d61e7d616b16ed7e472f54e39389fb"
+    },
+    {
+      "path": "research-option.md",
+      "bytes": 3764,
+      "sha256": "d0451dacd2e1845ecced5f103cbc2e78308fd8b90f2b30fa91a27de3840f018b"
+    },
+    {
+      "path": "returns-overlap-silence.json.gz",
+      "bytes": 234151,
+      "sha256": "0f374886966bd6cc081b632c2942ff517b0de6bb253e1ceef8d098a7ae319caf"
+    },
+    {
+      "path": "score-fluidaudio.mjs",
+      "bytes": 2564,
+      "sha256": "4c724a82ad1bdf489815f893985b1ebc20aa33eff0603e55d40c6dec69d6dac8"
+    },
+    {
+      "path": "scores.json",
+      "bytes": 2146,
+      "sha256": "741ed445e9ea1f1d5c978834b2ca64243b25b702797088f57dcb75e600f1503b"
+    },
+    {
+      "path": "source-closure.json",
+      "bytes": 70551,
+      "sha256": "7278b67d9e24481a765a8e640f3cc3e559e41c2fd8c4be78919c623cf456db4b"
+    },
+    {
+      "path": "transport-r2.json",
+      "bytes": 397,
+      "sha256": "623156a5788eaa537ff8ba54e4eff910da656a37c541a312e42654a9ddfc42bb"
+    },
+    {
+      "path": "transport-r3.json",
+      "bytes": 625,
+      "sha256": "614bb20a3707db98bfd9bdbee4cd2b5799fc45219ca841f28e6bfa2a2c3e8e53"
+    },
+    {
+      "path": "transport.json",
+      "bytes": 275,
+      "sha256": "5f9773939e7b923bed09b060297469b201649b61d19293c175bc2b47afe14861"
+    },
+    {
+      "path": "tree.json",
+      "bytes": 26961,
+      "sha256": "ddaa67dedd3dfcc880853b00cd4596e38c29b42c9b841e60bca49eed537e7086"
+    }
+  ]
+}

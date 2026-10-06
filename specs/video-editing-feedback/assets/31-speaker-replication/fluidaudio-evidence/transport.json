@@ -1,0 +1,13 @@
+{
+  "result": {
+    "ok": false,
+    "error": {
+      "code": "MEDIA_WORKER_FAILED",
+      "message": "speaker.community1Reference returned an unreadable result",
+      "retryable": false,
+      "details": {}
+    }
+  },
+  "wallSeconds": 0.451825709,
+  "networkDenied": true
+}

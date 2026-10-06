@@ -1,0 +1,73 @@
+{
+  "passed": false,
+  "cases": [
+    {
+      "id": "bspxd30",
+      "role": "calibration",
+      "passed": false,
+      "sourceSupportValid": false,
+      "countMatches": false,
+      "scoreRefusal": "Invalid interval",
+      "metrics": null,
+      "confusionRatio": null,
+      "overlap": {
+        "referenceOverlapSeconds": 3.039999999999992,
+        "retainedOverlapSeconds": 1.1735141754150362,
+        "recall": 0.3860243998075787
+      },
+      "inferenceSeconds": 0.17770695686340332,
+      "peakProcessRSSBytes": 211501056,
+      "publicChunkEmbeddingCount": 20,
+      "rawModelLogitsRetained": false
+    },
+    {
+      "id": "returns-overlap-silence",
+      "role": "calibration",
+      "passed": false,
+      "sourceSupportValid": false,
+      "countMatches": true,
+      "scoreRefusal": "Invalid interval",
+      "metrics": null,
+      "confusionRatio": null,
+      "overlap": {
+        "referenceOverlapSeconds": 8,
+        "retainedOverlapSeconds": 7.945671081542969,
+        "recall": 0.9932088851928711
+      },
+      "inferenceSeconds": 0.359902024269104,
+      "peakProcessRSSBytes": 338706432,
+      "publicChunkEmbeddingCount": 75,
+      "rawModelLogitsRetained": false
+    },
+    {
+      "id": "aiqwk30",
+      "role": "held-out",
+      "passed": false,
+      "sourceSupportValid": true,
+      "countMatches": false,
+      "scoreRefusal": null,
+      "metrics": {
+        "referenceSpeakerSeconds": 28.880000000000003,
+        "overlapSeconds": 2.230000000000004,
+        "silenceSeconds": 3.3500000000000014,
+        "missedSpeakerSeconds": 2.6179629039764407,
+        "falseSpeakerSeconds": 1.5478104972839333,
+        "confusedSpeakerSeconds": 10.805330810546877,
+        "mapping": {
+          "S1": "spk02"
+        },
+        "der": 0.5183900350348771
+      },
+      "confusionRatio": 0.3741458036892963,
+      "overlap": {
+        "referenceOverlapSeconds": 2.230000000000004,
+        "retainedOverlapSeconds": 0,
+        "recall": 0
+      },
+      "inferenceSeconds": 0.14146411418914795,
+      "peakProcessRSSBytes": 338706432,
+      "publicChunkEmbeddingCount": 17,
+      "rawModelLogitsRetained": false
+    }
+  ]
+}

@@ -1,0 +1,82 @@
+{
+  "sha": "cf724ac337d1ebc7d0dda1e23fb80916f52927a5",
+  "node_id": "C_kwDOC_bI7toAKGNmNzI0YWMzMzdkMWViYzdkMGRkYTFlMjNmYjgwOTE2ZjUyOTI3YTU",
+  "commit": {
+    "author": {
+      "name": "J\u00e9r\u00f4me Louradour",
+      "email": "jeromelouradour@gmail.com",
+      "date": "2026-09-23T17:51:49Z"
+    },
+    "committer": {
+      "name": "GitHub",
+      "email": "noreply@github.com",
+      "date": "2026-09-23T17:51:49Z"
+    },
+    "message": "Fix 32-bit indexing overflow in conv subsampling chunking guard (#15858)\n\n* Fix 32-bit indexing overflow in conv subsampling chunking guard\n\nSigned-off-by: Jeronymous <jeromelouradour@gmail.com>\n\n* Size conv_split_by_batch chunking factor against input and output\n\nMirror the forward() split guard, which triggers on either the conv input or\nits first-conv output reaching the 32-bit element limit, so the auto chunking\nfactor is computed from the larger of the two rather than the output alone.\n\nSigned-off-by: Jeronymous <jeromelouradour@gmail.com>\n\n* Add unit tests for conv subsampling 32-bit indexing guard\n\nCover the boundary fix and auto chunking factor with small synthetic inputs and\na lowered limit (via monkeypatch), so no multi-GB tensors are needed:\n- _first_conv_output_numel matches the real first-conv output element count\n- the guard splits at output == limit and not one element below it\n- splitting (by batch, and by channel for batch size 1) preserves the result\n- the auto chunking factor yields chunks strictly below the limit\n\nSigned-off-by: Jeronymous <jeromelouradour@gmail.com>\n\n* remove unused import\n\nSigned-off-by: Jeronymous <jeromelouradour@gmail.com>\n\n* Split conv subsampling by single sample when factor exceeds batch size\n\nWhen the auto chunking factor rounds up past the batch size (e.g. b=3, cf=4),\nb // cf was 0, so conv_split_by_batch gave up and the forward fell back to\nconv_split_by_channel, which unsqueezes the batch and runs the full first conv\nwith the batch dimension read as channels, raising a channel-count error.\n\nSplit into batches of one instead, falling back to channel splitting only when\na single sample alone exceeds the 32-bit element limit. Add a b=3 regression\ntest.\n\nSigned-off-by: Jeronymous <jeromelouradour@gmail.com>\n\n* Trim redundant comments added in this PR\n\nSigned-off-by: Jeronymous <jeromelouradour@gmail.com>\n\n* Guard single sample against input numel too, not just output\n\nSigned-off-by: Jeronymous <jeromelouradour@gmail.com>\n\n---------\n\nSigned-off-by: Jeronymous <jeromelouradour@gmail.com>",
+    "tree": {
+      "sha": "3948711b23913985e830432d43bcdfa993493980",
+      "url": "https://api.github.com/repos/NVIDIA-NeMo/Speech/git/trees/3948711b23913985e830432d43bcdfa993493980"
+    },
+    "url": "https://api.github.com/repos/NVIDIA-NeMo/Speech/git/commits/cf724ac337d1ebc7d0dda1e23fb80916f52927a5",
+    "comment_count": 0,
+    "verification": {
+      "verified": true,
+      "reason": "valid",
+      "signature": "-----BEGIN PGP SIGNATURE-----\n\nwsFcBAABCAAQBQJqtBG1CRC1aQ7uu5UhlAAA8hgQAIL5/M6SWw1qtQk2eMpJD2Bt\n30JnvviXdTkhZhXCps+zYvYfSGDssYy0nMdwwNxBkjZIeoIHixSJ7Pf/CBId5VZ8\nEUBy5v5HVWDaChN3uY7c7BDZPrlF0qsj23kFx+sJj+qDp0THY0h7d/y3uCYdP0/h\nEIkGS4tcTc6gXDA3K4vG0bvZaLlvpnwsKpsgxpJWFd7KN4H4I6ErJgZXfdYI3b6y\nLVFlUmMnbRtkME+KaiJ40y+fJAFIfwCP7cOAgFsvRemHAcGVpRsi5diNdlWtm3hs\nHpedLNswu3fHsSCw5PQMaxa7RtWHh1mzwYgpzeJNOpBZirw6Qwotsp0eZv2Rk6gQ\nJ5WOwOcQb3E4NUqJJE62NYU6JfERVD7N3yCnCyA70DkC9drhTJYqn29YnZzstZJf\nP5Pi/7dFkreht66+L9CrgI0/pq7BrNtjcWgGKNW5Sq1bYXTo9oEGz7Bli4nEpLJe\nU3x59PV9d2aIiStXqHoYjAvwwq3lBmyaENSJ8D+bOxdo9HgTvPj5PWIaUNXLiiU2\ntZu4g02gJxm/hmRFXD+Hz60lRiGHJqbtCCwwRabkLlbELchRrzZwpP9iVPrcuWsK\n/BYQmSrpTG1K+171Nfd9qvG7G5dQCQBAkxvNs2Jv9CJAFz95NhiccjtrLJ1IsWHk\njo+rosFAGMe4jvU2HGRO\n=4byj\n-----END PGP SIGNATURE-----\n",
+      "payload": "tree 3948711b23913985e830432d43bcdfa993493980\nparent 5dbdde68d3897c03faeda1b0d9655cd90b1c5e08\nauthor J\u00e9r\u00f4me Louradour <jeromelouradour@gmail.com> 1790185909 +0200\ncommitter GitHub <noreply@github.com> 1790185909 +0000\n\nFix 32-bit indexing overflow in conv subsampling chunking guard (#15858)\n\n* Fix 32-bit indexing overflow in conv subsampling chunking guard\n\nSigned-off-by: Jeronymous <jeromelouradour@gmail.com>\n\n* Size conv_split_by_batch chunking factor against input and output\n\nMirror the forward() split guard, which triggers on either the conv input or\nits first-conv output reaching the 32-bit element limit, so the auto chunking\nfactor is computed from the larger of the two rather than the output alone.\n\nSigned-off-by: Jeronymous <jeromelouradour@gmail.com>\n\n* Add unit tests for conv subsampling 32-bit indexing guard\n\nCover the boundary fix and auto chunking factor with small synthetic inputs and\na lowered limit (via monkeypatch), so no multi-GB tensors are needed:\n- _first_conv_output_numel matches the real first-conv output element count\n- the guard splits at output == limit and not one element below it\n- splitting (by batch, and by channel for batch size 1) preserves the result\n- the auto chunking factor yields chunks strictly below the limit\n\nSigned-off-by: Jeronymous <jeromelouradour@gmail.com>\n\n* remove unused import\n\nSigned-off-by: Jeronymous <jeromelouradour@gmail.com>\n\n* Split conv subsampling by single sample when factor exceeds batch size\n\nWhen the auto chunking factor rounds up past the batch size (e.g. b=3, cf=4),\nb // cf was 0, so conv_split_by_batch gave up and the forward fell back to\nconv_split_by_channel, which unsqueezes the batch and runs the full first conv\nwith the batch dimension read as channels, raising a channel-count error.\n\nSplit into batches of one instead, falling back to channel splitting only when\na single sample alone exceeds the 32-bit element limit. Add a b=3 regression\ntest.\n\nSigned-off-by: Jeronymous <jeromelouradour@gmail.com>\n\n* Trim redundant comments added in this PR\n\nSigned-off-by: Jeronymous <jeromelouradour@gmail.com>\n\n* Guard single sample against input numel too, not just output\n\nSigned-off-by: Jeronymous <jeromelouradour@gmail.com>\n\n---------\n\nSigned-off-by: Jeronymous <jeromelouradour@gmail.com>",
+      "verified_at": "2026-09-23T17:51:50Z"
+    }
+  },
+  "url": "https://api.github.com/repos/NVIDIA-NeMo/Speech/commits/cf724ac337d1ebc7d0dda1e23fb80916f52927a5",
+  "html_url": "https://github.com/NVIDIA-NeMo/Speech/commit/cf724ac337d1ebc7d0dda1e23fb80916f52927a5",
+  "comments_url": "https://api.github.com/repos/NVIDIA-NeMo/Speech/commits/cf724ac337d1ebc7d0dda1e23fb80916f52927a5/comments",
+  "author": {
+    "login": "Jeronymous",
+    "id": 22522728,
+    "node_id": "MDQ6VXNlcjIyNTIyNzI4",
+    "avatar_url": "https://avatars.githubusercontent.com/u/22522728?v=4",
+    "gravatar_id": "",
+    "url": "https://api.github.com/users/Jeronymous",
+    "html_url": "https://github.com/Jeronymous",
+    "followers_url": "https://api.github.com/users/Jeronymous/followers",
+    "following_url": "https://api.github.com/users/Jeronymous/following{/other_user}",
+    "gists_url": "https://api.github.com/users/Jeronymous/gists{/gist_id}",
+    "starred_url": "https://api.github.com/users/Jeronymous/starred{/owner}{/repo}",
+    "subscriptions_url": "https://api.github.com/users/Jeronymous/subscriptions",
+    "organizations_url": "https://api.github.com/users/Jeronymous/orgs",
+    "repos_url": "https://api.github.com/users/Jeronymous/repos",
+    "events_url": "https://api.github.com/users/Jeronymous/events{/privacy}",
+    "received_events_url": "https://api.github.com/users/Jeronymous/received_events",
+    "type": "User",
+    "user_view_type": "public",
+    "site_admin": false
+  },
+  "committer": {
+    "login": "web-flow",
+    "id": 19864447,
+    "node_id": "MDQ6VXNlcjE5ODY0NDQ3",
+    "avatar_url": "https://avatars.githubusercontent.com/u/19864447?v=4",
+    "gravatar_id": "",
+    "url": "https://api.github.com/users/web-flow",
+    "html_url": "https://github.com/web-flow",
+    "followers_url": "https://api.github.com/users/web-flow/followers",
+    "following_url": "https://api.github.com/users/web-flow/following{/other_user}",
+    "gists_url": "https://api.github.com/users/web-flow/gists{/gist_id}",
+    "starred_url": "https://api.github.com/users/web-flow/starred{/owner}{/repo}",
+    "subscriptions_url": "https://api.github.com/users/web-flow/subscriptions",
+    "organizations_url": "https://api.github.com/users/web-flow/orgs",
+    "repos_url": "https://api.github.com/users/web-flow/repos",
+    "events_url": "https://api.github.com/users/web-flow/events{/privacy}",
+    "received_events_url": "https://api.github.com/users/web-flow/received_events",
+    "type": "User",
+    "user_view_type": "public",
+    "site_admin": false
+  },
+  "parents": [
+    {
+      "sha": "5dbdde68d3897c03faeda1b0d9655cd90b1c5e08",
+      "url": "https://api.github.com/repos/NVIDIA-NeMo/Speech/commits/5dbdde68d3897c03faeda1b0d9655cd90b1c5e08",
+      "html_url": "https://github.com/NVIDIA-NeMo/Speech/commit/5dbdde68d3897c03faeda1b0d9655cd90b1c5e08"
+    }
+  ]
+}

@@ -1,6 +1,6 @@
 # Reliable autonomous video editing
 
-Status: implementation active in isolated worktree; capability-first skill, exact rational removal and unified publication checkpoints complete. Last updated: 2026-10-05.
+Status: implementation active; four slices complete, corpus/picture and speech research underway, speaker quality gate red. Last updated: 2026-10-05.
 
 Yap supplies explicit editing primitives and reproducible observations. The consumer
 agent chooses the story, uses available creative tools, checks actual output and
@@ -16,35 +16,33 @@ merge, push or installed-app change has been requested. Hard cutover remains
 binding: no aliases, dual readers or migrations; preserve external originals and
 frozen historical evidence.
 
-Current pickup: finish [01 — corpus certification](slices/01-certified-corpus.md).
-The [audio checkpoint](assets/01-corpus-audio/README.md) retains five source-rate
-Float32 excerpts; [picture inputs](assets/01-corpus-picture/README.md) retain full
-rasters and sampled appearance with exact frame clocks. [07](assets/07-speech-timing/README.md)
-retains the exact historical tiny PCM16 input and paired overlap receipts.
-Remaining behavioral dispositions, multicamera/speaker inputs and independent
-controls are pending. Do not infer ASR fidelity from
-PCM equality or transcribe whole originals to locate known cases.
+Current pickup: finish the durable [13 — decoded-picture replication](slices/13-decode-replication.md)
+checkpoint against certified picture inputs; public unchanged project frames agree
+with the player in private scouting. Freeze coverage, metadata and the observation
+recipe before picture consumers. Continue [01 — corpus certification](slices/01-certified-corpus.md)
+with remaining speech dispositions, multicamera/speaker inputs and independent controls.
 
-Parallel priority: integrate [04 — bounded waiting](slices/04-wait-and-json-delivery.md);
-[08 — bounded preparation](slices/08-bounded-speech-preparation.md) is active
-on the integrated honest speech timing contract.
-[31 — speaker replication](slices/31-speaker-continuity-replication.md) recovered
-the original runtime and passed three-speaker continuity controls. Four-speaker
-overlap fails under both original and official low-latency recipes; a separately
-pinned alternate is under bounded investigation. Preserve the red gate.
+Parallel priorities: integrate reviewed [04 — bounded waiting](slices/04-wait-and-json-delivery.md),
+then 05; finish [08 — bounded preparation](slices/08-bounded-speech-preparation.md)
+on the integrated honest timing contract; [09 — alignment replication](slices/09-alignment-replication.md)
+is private independent research over certified PCM. Preserve failed recipe operands.
+[31 — speaker replication](slices/31-speaker-continuity-replication.md) remains red:
+all tested candidates fail mandatory four-speaker quality. Its smaller remaining
+passes are provider/short quality → global continuity → sealed runtime → word attribution.
+No failed provider is promoted into 32.
 
-Completed checkpoints: [02](assets/02-capability-first-skill/README.md),
-[03](assets/03-published-work/README.md), [06](assets/06-exact-removal/README.md)
-and [07](assets/07-speech-timing/README.md). Parakeet is verified in isolated scratch
-state. Prepare/download pinned models for first-class Yap features as needed by
-default; recommend missing external capabilities only when the brief warrants
+Completed slices: 02, 03, 06 and 07. Partial 01 retains source-rate audio and
+full-frame picture inputs with separate physical, sampled-fidelity and behavior
+claims. [Evidence assets](assets/README.md) link the checkpoint records. Parakeet is
+verified in isolated scratch. Prepare/download pinned first-class Yap models as
+needed by default; recommend external capabilities only when the brief warrants
 them. Ordinary inference remains offline.
 
-Follow actual slice dependencies; independent structural checks do not require
-whole-corpus acceptance. Freeze passing alignment, picture, synchronization,
-speaker and mastering references before their production consumers. Update slice
-verdicts, [traceability](traceability.md), [choices](choices.md) and this prompt at
-each committed pass. Narrow checks per pass; full suite once at completion.
+Follow actual slice dependencies; independent research and structural checks do
+not require whole-corpus acceptance. Frozen experiments remain distinct from
+production operations. Update slice verdicts, [traceability](traceability.md) and
+[choices](choices.md) at each committed pass. Narrow checks per pass; full suite
+once at completion. There is no human QA or sign-off dependency.
 
 ## Global TODO and review map
 

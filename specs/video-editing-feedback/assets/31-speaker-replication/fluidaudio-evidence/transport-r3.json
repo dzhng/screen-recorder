@@ -1,0 +1,28 @@
+{
+  "result": {
+    "ok": true,
+    "data": {
+      "cases": [
+        {
+          "id": "bspxd30",
+          "inferenceSeconds": 0.17770695686340332,
+          "RSSBytes": 211501056
+        },
+        {
+          "id": "returns-overlap-silence",
+          "inferenceSeconds": 0.359902024269104,
+          "RSSBytes": 338706432
+        },
+        {
+          "id": "aiqwk30",
+          "inferenceSeconds": 0.14146411418914795,
+          "RSSBytes": 338706432
+        }
+      ],
+      "modelLoadSeconds": 10.448752999305725,
+      "offlineModelsLoaded": true
+    }
+  },
+  "wallSeconds": 11.193781916,
+  "networkDenied": true
+}

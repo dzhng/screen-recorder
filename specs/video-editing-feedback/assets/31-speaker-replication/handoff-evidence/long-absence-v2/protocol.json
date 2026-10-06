@@ -1,0 +1,715 @@
+{
+  "status": "frozen-before-inference",
+  "recipe": {
+    "chunk_len": 340,
+    "chunk_right_context": 40,
+    "fifo_len": 40,
+    "spkcache_update_period": 300,
+    "spkcache_len": 188
+  },
+  "stateScope": "single native diarize call per selected input, persistent across internal27.2s chunks, resets between selections",
+  "gates": {
+    "everyCaseDERMaximum": 0.2,
+    "inferenceWallAudioRatioMaximum": 2,
+    "RSSBytesMaximum": 4294967296,
+    "globalIdentityConfusionRatioMaximum": 0.05,
+    "overlapRecallMinimum": 0.8,
+    "postReturnIdentityCoverageMinimum": 0.95
+  },
+  "sourceHashes": {
+    "bspxd": "6493309580cdd06decf3460bcfd72817eb497360a768ddce1a2a302d8543f1a1",
+    "aiqwk": "a27b68c2f5b7e006f094c8edab29d89d2c9f15228d845190264fa50a7a482ea5"
+  },
+  "rttmHashes": {
+    "bspxd": "4b6c446e4a479a1bd0358bce4c5bb8730601c793c4e80c45682a89350a097e71",
+    "aiqwk": "c4b6c53b3ff6b25db27e31f13c06270629c2e4dd4c5a49c1bae85f06f62b2099"
+  },
+  "workerSha256": "36e8a443cfec83431146f3d49e7ae26448a7f2cbda9633bfb76fb15742d24b01",
+  "runtimeDigest": "b4e03d54e631fc5b15dbcd772508940f58ce7aeb2b1e4695427e0332644d2b5c",
+  "limitations": [
+    "VoxConverse training overlap retained",
+    "repeated controls do not prove population identity",
+    "real source tracks are not isolated voice truth",
+    "scores uncalibrated; no known-person identities",
+    "full selected audio/features materialized; state bounded but arbitrary duration not yet proven"
+  ],
+  "cases": [
+    {
+      "id": "long-absence600",
+      "role": "confirmation",
+      "pcm": "/tmp/yap-editing-speaker-replication/long-absence-v2/long-absence600.f32",
+      "frames": 9600000,
+      "pcmSha256": "35057deda649d9e37f4844a2d6b7fb3c70507c3c239fe42d5d27aca8bb82add0",
+      "output": "/tmp/yap-editing-speaker-replication/long-absence-v2/long-absence600.json",
+      "reference": [
+        {
+          "speaker": "spk00",
+          "start": 0,
+          "end": 8.0
+        },
+        {
+          "speaker": "spk01",
+          "start": 9,
+          "end": 17.0
+        },
+        {
+          "speaker": "spk02",
+          "start": 18,
+          "end": 22.0
+        },
+        {
+          "speaker": "spk02",
+          "start": 22,
+          "end": 26.0
+        },
+        {
+          "speaker": "spk00",
+          "start": 28,
+          "end": 36.0
+        },
+        {
+          "speaker": "spk01",
+          "start": 37,
+          "end": 45.0
+        },
+        {
+          "speaker": "spk00",
+          "start": 46,
+          "end": 54.0
+        },
+        {
+          "speaker": "spk01",
+          "start": 55,
+          "end": 63.0
+        },
+        {
+          "speaker": "spk00",
+          "start": 64,
+          "end": 72.0
+        },
+        {
+          "speaker": "spk01",
+          "start": 73,
+          "end": 81.0
+        },
+        {
+          "speaker": "spk00",
+          "start": 82,
+          "end": 90.0
+        },
+        {
+          "speaker": "spk01",
+          "start": 91,
+          "end": 99.0
+        },
+        {
+          "speaker": "spk00",
+          "start": 100,
+          "end": 108.0
+        },
+        {
+          "speaker": "spk01",
+          "start": 109,
+          "end": 117.0
+        },
+        {
+          "speaker": "spk00",
+          "start": 118,
+          "end": 126.0
+        },
+        {
+          "speaker": "spk01",
+          "start": 127,
+          "end": 135.0
+        },
+        {
+          "speaker": "spk00",
+          "start": 136,
+          "end": 144.0
+        },
+        {
+          "speaker": "spk01",
+          "start": 145,
+          "end": 153.0
+        },
+        {
+          "speaker": "spk00",
+          "start": 154,
+          "end": 162.0
+        },
+        {
+          "speaker": "spk01",
+          "start": 163,
+          "end": 171.0
+        },
+        {
+          "speaker": "spk00",
+          "start": 172,
+          "end": 180.0
+        },
+        {
+          "speaker": "spk01",
+          "start": 181,
+          "end": 189.0
+        },
+        {
+          "speaker": "spk00",
+          "start": 190,
+          "end": 198.0
+        },
+        {
+          "speaker": "spk01",
+          "start": 199,
+          "end": 207.0
+        },
+        {
+          "speaker": "spk00",
+          "start": 208,
+          "end": 216.0
+        },
+        {
+          "speaker": "spk01",
+          "start": 217,
+          "end": 225.0
+        },
+        {
+          "speaker": "spk00",
+          "start": 226,
+          "end": 234.0
+        },
+        {
+          "speaker": "spk01",
+          "start": 235,
+          "end": 243.0
+        },
+        {
+          "speaker": "spk00",
+          "start": 244,
+          "end": 252.0
+        },
+        {
+          "speaker": "spk01",
+          "start": 253,
+          "end": 261.0
+        },
+        {
+          "speaker": "spk00",
+          "start": 262,
+          "end": 270.0
+        },
+        {
+          "speaker": "spk01",
+          "start": 271,
+          "end": 279.0
+        },
+        {
+          "speaker": "spk00",
+          "start": 280,
+          "end": 288.0
+        },
+        {
+          "speaker": "spk01",
+          "start": 289,
+          "end": 297.0
+        },
+        {
+          "speaker": "spk02",
+          "start": 306,
+          "end": 310.0
+        },
+        {
+          "speaker": "spk02",
+          "start": 310,
+          "end": 314.0
+        },
+        {
+          "speaker": "spk00",
+          "start": 316,
+          "end": 324.0
+        },
+        {
+          "speaker": "spk01",
+          "start": 325,
+          "end": 333.0
+        },
+        {
+          "speaker": "spk00",
+          "start": 334,
+          "end": 342.0
+        },
+        {
+          "speaker": "spk01",
+          "start": 343,
+          "end": 351.0
+        },
+        {
+          "speaker": "spk00",
+          "start": 352,
+          "end": 360.0
+        },
+        {
+          "speaker": "spk01",
+          "start": 361,
+          "end": 369.0
+        },
+        {
+          "speaker": "spk00",
+          "start": 370,
+          "end": 378.0
+        },
+        {
+          "speaker": "spk01",
+          "start": 379,
+          "end": 387.0
+        },
+        {
+          "speaker": "spk00",
+          "start": 388,
+          "end": 396.0
+        },
+        {
+          "speaker": "spk01",
+          "start": 397,
+          "end": 405.0
+        },
+        {
+          "speaker": "spk00",
+          "start": 406,
+          "end": 414.0
+        },
+        {
+          "speaker": "spk01",
+          "start": 415,
+          "end": 423.0
+        },
+        {
+          "speaker": "spk00",
+          "start": 424,
+          "end": 432.0
+        },
+        {
+          "speaker": "spk01",
+          "start": 433,
+          "end": 441.0
+        },
+        {
+          "speaker": "spk00",
+          "start": 442,
+          "end": 450.0
+        },
+        {
+          "speaker": "spk01",
+          "start": 451,
+          "end": 459.0
+        },
+        {
+          "speaker": "spk00",
+          "start": 580,
+          "end": 588.0
+        },
+        {
+          "speaker": "spk01",
+          "start": 589,
+          "end": 597.0
+        }
+      ],
+      "pieces": [
+        {
+          "source": "bspxd",
+          "sourceStartSeconds": 94,
+          "sourceEndSeconds": 102,
+          "atSeconds": 0,
+          "speaker": "spk00"
+        },
+        {
+          "source": "bspxd",
+          "sourceStartSeconds": 33,
+          "sourceEndSeconds": 41,
+          "atSeconds": 9,
+          "speaker": "spk01"
+        },
+        {
+          "source": "bspxd",
+          "sourceStartSeconds": 78.4,
+          "sourceEndSeconds": 82.4,
+          "atSeconds": 18,
+          "speaker": "spk02"
+        },
+        {
+          "source": "bspxd",
+          "sourceStartSeconds": 78.4,
+          "sourceEndSeconds": 82.4,
+          "atSeconds": 22,
+          "speaker": "spk02"
+        },
+        {
+          "source": "bspxd",
+          "sourceStartSeconds": 94,
+          "sourceEndSeconds": 102,
+          "atSeconds": 28,
+          "speaker": "spk00"
+        },
+        {
+          "source": "bspxd",
+          "sourceStartSeconds": 33,
+          "sourceEndSeconds": 41,
+          "atSeconds": 37,
+          "speaker": "spk01"
+        },
+        {
+          "source": "bspxd",
+          "sourceStartSeconds": 94,
+          "sourceEndSeconds": 102,
+          "atSeconds": 46,
+          "speaker": "spk00"
+        },
+        {
+          "source": "bspxd",
+          "sourceStartSeconds": 33,
+          "sourceEndSeconds": 41,
+          "atSeconds": 55,
+          "speaker": "spk01"
+        },
+        {
+          "source": "bspxd",
+          "sourceStartSeconds": 94,
+          "sourceEndSeconds": 102,
+          "atSeconds": 64,
+          "speaker": "spk00"
+        },
+        {
+          "source": "bspxd",
+          "sourceStartSeconds": 33,
+          "sourceEndSeconds": 41,
+          "atSeconds": 73,
+          "speaker": "spk01"
+        },
+        {
+          "source": "bspxd",
+          "sourceStartSeconds": 94,
+          "sourceEndSeconds": 102,
+          "atSeconds": 82,
+          "speaker": "spk00"
+        },
+        {
+          "source": "bspxd",
+          "sourceStartSeconds": 33,
+          "sourceEndSeconds": 41,
+          "atSeconds": 91,
+          "speaker": "spk01"
+        },
+        {
+          "source": "bspxd",
+          "sourceStartSeconds": 94,
+          "sourceEndSeconds": 102,
+          "atSeconds": 100,
+          "speaker": "spk00"
+        },
+        {
+          "source": "bspxd",
+          "sourceStartSeconds": 33,
+          "sourceEndSeconds": 41,
+          "atSeconds": 109,
+          "speaker": "spk01"
+        },
+        {
+          "source": "bspxd",
+          "sourceStartSeconds": 94,
+          "sourceEndSeconds": 102,
+          "atSeconds": 118,
+          "speaker": "spk00"
+        },
+        {
+          "source": "bspxd",
+          "sourceStartSeconds": 33,
+          "sourceEndSeconds": 41,
+          "atSeconds": 127,
+          "speaker": "spk01"
+        },
+        {
+          "source": "bspxd",
+          "sourceStartSeconds": 94,
+          "sourceEndSeconds": 102,
+          "atSeconds": 136,
+          "speaker": "spk00"
+        },
+        {
+          "source": "bspxd",
+          "sourceStartSeconds": 33,
+          "sourceEndSeconds": 41,
+          "atSeconds": 145,
+          "speaker": "spk01"
+        },
+        {
+          "source": "bspxd",
+          "sourceStartSeconds": 94,
+          "sourceEndSeconds": 102,
+          "atSeconds": 154,
+          "speaker": "spk00"
+        },
+        {
+          "source": "bspxd",
+          "sourceStartSeconds": 33,
+          "sourceEndSeconds": 41,
+          "atSeconds": 163,
+          "speaker": "spk01"
+        },
+        {
+          "source": "bspxd",
+          "sourceStartSeconds": 94,
+          "sourceEndSeconds": 102,
+          "atSeconds": 172,
+          "speaker": "spk00"
+        },
+        {
+          "source": "bspxd",
+          "sourceStartSeconds": 33,
+          "sourceEndSeconds": 41,
+          "atSeconds": 181,
+          "speaker": "spk01"
+        },
+        {
+          "source": "bspxd",
+          "sourceStartSeconds": 94,
+          "sourceEndSeconds": 102,
+          "atSeconds": 190,
+          "speaker": "spk00"
+        },
+        {
+          "source": "bspxd",
+          "sourceStartSeconds": 33,
+          "sourceEndSeconds": 41,
+          "atSeconds": 199,
+          "speaker": "spk01"
+        },
+        {
+          "source": "bspxd",
+          "sourceStartSeconds": 94,
+          "sourceEndSeconds": 102,
+          "atSeconds": 208,
+          "speaker": "spk00"
+        },
+        {
+          "source": "bspxd",
+          "sourceStartSeconds": 33,
+          "sourceEndSeconds": 41,
+          "atSeconds": 217,
+          "speaker": "spk01"
+        },
+        {
+          "source": "bspxd",
+          "sourceStartSeconds": 94,
+          "sourceEndSeconds": 102,
+          "atSeconds": 226,
+          "speaker": "spk00"
+        },
+        {
+          "source": "bspxd",
+          "sourceStartSeconds": 33,
+          "sourceEndSeconds": 41,
+          "atSeconds": 235,
+          "speaker": "spk01"
+        },
+        {
+          "source": "bspxd",
+          "sourceStartSeconds": 94,
+          "sourceEndSeconds": 102,
+          "atSeconds": 244,
+          "speaker": "spk00"
+        },
+        {
+          "source": "bspxd",
+          "sourceStartSeconds": 33,
+          "sourceEndSeconds": 41,
+          "atSeconds": 253,
+          "speaker": "spk01"
+        },
+        {
+          "source": "bspxd",
+          "sourceStartSeconds": 94,
+          "sourceEndSeconds": 102,
+          "atSeconds": 262,
+          "speaker": "spk00"
+        },
+        {
+          "source": "bspxd",
+          "sourceStartSeconds": 33,
+          "sourceEndSeconds": 41,
+          "atSeconds": 271,
+          "speaker": "spk01"
+        },
+        {
+          "source": "bspxd",
+          "sourceStartSeconds": 94,
+          "sourceEndSeconds": 102,
+          "atSeconds": 280,
+          "speaker": "spk00"
+        },
+        {
+          "source": "bspxd",
+          "sourceStartSeconds": 33,
+          "sourceEndSeconds": 41,
+          "atSeconds": 289,
+          "speaker": "spk01"
+        },
+        {
+          "source": "bspxd",
+          "sourceStartSeconds": 78.4,
+          "sourceEndSeconds": 82.4,
+          "atSeconds": 306,
+          "speaker": "spk02"
+        },
+        {
+          "source": "bspxd",
+          "sourceStartSeconds": 78.4,
+          "sourceEndSeconds": 82.4,
+          "atSeconds": 310,
+          "speaker": "spk02"
+        },
+        {
+          "source": "bspxd",
+          "sourceStartSeconds": 94,
+          "sourceEndSeconds": 102,
+          "atSeconds": 316,
+          "speaker": "spk00"
+        },
+        {
+          "source": "bspxd",
+          "sourceStartSeconds": 33,
+          "sourceEndSeconds": 41,
+          "atSeconds": 325,
+          "speaker": "spk01"
+        },
+        {
+          "source": "bspxd",
+          "sourceStartSeconds": 94,
+          "sourceEndSeconds": 102,
+          "atSeconds": 334,
+          "speaker": "spk00"
+        },
+        {
+          "source": "bspxd",
+          "sourceStartSeconds": 33,
+          "sourceEndSeconds": 41,
+          "atSeconds": 343,
+          "speaker": "spk01"
+        },
+        {
+          "source": "bspxd",
+          "sourceStartSeconds": 94,
+          "sourceEndSeconds": 102,
+          "atSeconds": 352,
+          "speaker": "spk00"
+        },
+        {
+          "source": "bspxd",
+          "sourceStartSeconds": 33,
+          "sourceEndSeconds": 41,
+          "atSeconds": 361,
+          "speaker": "spk01"
+        },
+        {
+          "source": "bspxd",
+          "sourceStartSeconds": 94,
+          "sourceEndSeconds": 102,
+          "atSeconds": 370,
+          "speaker": "spk00"
+        },
+        {
+          "source": "bspxd",
+          "sourceStartSeconds": 33,
+          "sourceEndSeconds": 41,
+          "atSeconds": 379,
+          "speaker": "spk01"
+        },
+        {
+          "source": "bspxd",
+          "sourceStartSeconds": 94,
+          "sourceEndSeconds": 102,
+          "atSeconds": 388,
+          "speaker": "spk00"
+        },
+        {
+          "source": "bspxd",
+          "sourceStartSeconds": 33,
+          "sourceEndSeconds": 41,
+          "atSeconds": 397,
+          "speaker": "spk01"
+        },
+        {
+          "source": "bspxd",
+          "sourceStartSeconds": 94,
+          "sourceEndSeconds": 102,
+          "atSeconds": 406,
+          "speaker": "spk00"
+        },
+        {
+          "source": "bspxd",
+          "sourceStartSeconds": 33,
+          "sourceEndSeconds": 41,
+          "atSeconds": 415,
+          "speaker": "spk01"
+        },
+        {
+          "source": "bspxd",
+          "sourceStartSeconds": 94,
+          "sourceEndSeconds": 102,
+          "atSeconds": 424,
+          "speaker": "spk00"
+        },
+        {
+          "source": "bspxd",
+          "sourceStartSeconds": 33,
+          "sourceEndSeconds": 41,
+          "atSeconds": 433,
+          "speaker": "spk01"
+        },
+        {
+          "source": "bspxd",
+          "sourceStartSeconds": 94,
+          "sourceEndSeconds": 102,
+          "atSeconds": 442,
+          "speaker": "spk00"
+        },
+        {
+          "source": "bspxd",
+          "sourceStartSeconds": 33,
+          "sourceEndSeconds": 41,
+          "atSeconds": 451,
+          "speaker": "spk01"
+        },
+        {
+          "source": "bspxd",
+          "sourceStartSeconds": 94,
+          "sourceEndSeconds": 102,
+          "atSeconds": 580,
+          "speaker": "spk00"
+        },
+        {
+          "source": "bspxd",
+          "sourceStartSeconds": 33,
+          "sourceEndSeconds": 41,
+          "atSeconds": 589,
+          "speaker": "spk01"
+        }
+      ]
+    }
+  ],
+  "scope": "Third voice returns280s later;120s digital silence; all original global gates unchanged, independent return coverage added",
+  "postReturn": {
+    "speaker": "spk02",
+    "start": 306,
+    "end": 314
+  },
+  "silence": {
+    "start": 459,
+    "end": 579,
+    "maximumFalseSpeakerSeconds": 0.24
+  },
+  "constructionValidation": {
+    "nonOverlappingPlacements": true,
+    "labelsRetainedFromOriginalIndependentExclusiveSpeakerIntervals": true,
+    "sourceSamplesCopiedExactly": true,
+    "priorAttemptDisqualified": "../long-absence/invalid-control.json"
+  }
+}

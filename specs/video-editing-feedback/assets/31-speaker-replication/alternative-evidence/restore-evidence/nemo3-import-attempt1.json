@@ -1,0 +1,13 @@
+{
+  "exitCode": 0,
+  "networkDenied": true,
+  "command": [
+    "/usr/bin/sandbox-exec",
+    "-p",
+    "(version 1)(allow default)(deny network*)(deny file-read* (subpath \"/private/tmp/yap-editing-speaker-replication/env\"))(deny file-read* (subpath \"/Users/server/dev/yap-video-editing\"))",
+    "/private/tmp/yap-editing-speaker-replication/prepared-library/models/speaker-replication-r1/cd03eee90fbec18297ac31b8c21546e596b7f71c/runtime/python/bin/python",
+    "-I",
+    "-B",
+    "/tmp/yap-editing-speaker-replication/nemo3-import.py"
+  ]
+}

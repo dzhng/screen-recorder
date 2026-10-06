@@ -1,0 +1,30 @@
+{
+  "status": "frozen-before-candidate-analysis",
+  "candidateThresholds": [
+    0.5,
+    0.4,
+    0.3,
+    0.2,
+    0.1,
+    0.05,
+    0.02,
+    0.01,
+    0.005
+  ],
+  "semantics": "Same scalar onset/offset for all four columns; strict native > onset/< offset; each10ms native row used once; no padding/filter; physical last native10ms endpoint retained. No probability calibration claim.",
+  "calibrationSource": "bspxd only",
+  "calibrationCases": [
+    "bspxd30",
+    "returns-overlap-silence"
+  ],
+  "heldOutCases": [
+    "aiqwk30"
+  ],
+  "selection": "Among profiles passing every calibration case, minimize pooled DER; higher threshold wins exact tie. Freeze selection before opening aiqwk alternative results.",
+  "gates": {
+    "everyCaseDERMaximum": 0.2,
+    "globalIdentityConfusionRatioMaximum": 0.05,
+    "overlapRecallMinimum": 0.8
+  },
+  "caveat": "Original aiqwk at0.5 previously observed failing; alternative thresholds not selected against aiqwk. These are interpretation-held-out cases, not an untouched/training-held-out dataset."
+}

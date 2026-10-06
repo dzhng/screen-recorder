@@ -1,0 +1,23 @@
+{
+  "scope": "Model-free original aiqwk short30s replay; overlap gate newly explicit, historical DER gate retained",
+  "metrics": {
+    "referenceSpeakerSeconds": 28.880000000000003,
+    "overlapSeconds": 2.230000000000004,
+    "silenceSeconds": 3.3500000000000014,
+    "missedSpeakerSeconds": 3.2000000000000135,
+    "falseSpeakerSeconds": 0.39000000000000745,
+    "confusedSpeakerSeconds": 0.7199999999999989,
+    "mapping": {
+      "speaker_0": "spk02",
+      "speaker_1": "spk03",
+      "speaker_2": "spk04",
+      "speaker_3": "spk05"
+    },
+    "der": 0.1492382271468151
+  },
+  "overlap": {
+    "seconds": 2.230000000000004,
+    "hit": 0.23999999999999844,
+    "recall": 0.10762331838564933
+  }
+}

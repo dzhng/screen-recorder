@@ -1,0 +1,8 @@
+{
+  "status": {
+    "state": "ready"
+  },
+  "modelDirectory": "/tmp/yap-editing-speaker-replication/fluidaudio-model-library/models/community1-speaker-research/df2625ac79a7ac6b65ad868fee6d80f320da4232/speaker-diarization-coreml",
+  "seconds": 9.870179375000001,
+  "claim": "Pinned byte closure prepared; offline model load pending"
+}

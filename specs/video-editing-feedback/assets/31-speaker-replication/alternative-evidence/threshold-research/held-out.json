@@ -1,0 +1,50 @@
+{
+  "passed": false,
+  "selectedThreshold": 0.4,
+  "cases": [
+    {
+      "id": "four-speaker600",
+      "threshold": 0.4,
+      "metrics": {
+        "referenceSpeakerSeconds": 577.599999999999,
+        "overlapSeconds": 44.600000000000335,
+        "silenceSeconds": 67.00000000000134,
+        "missedSpeakerSeconds": 65.96999999999983,
+        "falseSpeakerSeconds": 27.720000000001047,
+        "confusedSpeakerSeconds": 18.840000000000384,
+        "mapping": {
+          "speaker_0": "aiqwk:spk02",
+          "speaker_1": "aiqwk:spk03",
+          "speaker_2": "aiqwk:spk04",
+          "speaker_3": "aiqwk:spk05"
+        },
+        "der": 0.1948234072022186
+      },
+      "overlapRecall": 0.08071748878923637,
+      "confusionRatio": 0.032617728531856675,
+      "passed": false
+    },
+    {
+      "id": "original-aiqwk30",
+      "threshold": 0.4,
+      "metrics": {
+        "referenceSpeakerSeconds": 28.880000000000003,
+        "overlapSeconds": 2.230000000000004,
+        "silenceSeconds": 3.3500000000000014,
+        "missedSpeakerSeconds": 2.580000000000009,
+        "falseSpeakerSeconds": 0.7300000000000035,
+        "confusedSpeakerSeconds": 0.9600000000000044,
+        "mapping": {
+          "speaker_0": "spk02",
+          "speaker_1": "spk03",
+          "speaker_2": "spk04",
+          "speaker_3": "spk05"
+        },
+        "der": 0.14785318559556845
+      },
+      "overlapRecall": 0.13452914798206286,
+      "confusionRatio": 0.033240997229917045,
+      "passed": false
+    }
+  ]
+}

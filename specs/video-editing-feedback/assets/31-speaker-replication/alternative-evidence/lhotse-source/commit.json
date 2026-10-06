@@ -1,0 +1,113 @@
+{
+  "sha": "ed4eb7a242aeeca23077d08bd455030ce88b5175",
+  "node_id": "C_kwDOD2janNoAKGVkNGViN2EyNDJhZWVjYTIzMDc3ZDA4YmQ0NTUwMzBjZTg4YjUxNzU",
+  "commit": {
+    "author": {
+      "name": "Kayvan Zahiri",
+      "email": "123409429+Kayvan-Zahiri@users.noreply.github.com",
+      "date": "2026-09-24T12:34:55Z"
+    },
+    "committer": {
+      "name": "GitHub",
+      "email": "noreply@github.com",
+      "date": "2026-09-24T12:34:55Z"
+    },
+    "message": "Import urllib3 lazily so a plain install can import lhotse (#1593)\n\nImport urllib3 lazily in AISBatchLoader\n\nlhotse/__init__.py imports lhotse.ais, and batch_loader.py imported\nurllib3 at module level, but urllib3 is not an install requirement (it\nonly comes with the aistore extra). A clean install could not import\nlhotse. Move the import next to the existing lazy aistore import in\n__call__, the only place TimeoutError is used.",
+    "tree": {
+      "sha": "8beaa9282fca8a1e7d2edc4616c4cffeba51689b",
+      "url": "https://api.github.com/repos/lhotse-speech/lhotse/git/trees/8beaa9282fca8a1e7d2edc4616c4cffeba51689b"
+    },
+    "url": "https://api.github.com/repos/lhotse-speech/lhotse/git/commits/ed4eb7a242aeeca23077d08bd455030ce88b5175",
+    "comment_count": 0,
+    "verification": {
+      "verified": true,
+      "reason": "valid",
+      "signature": "-----BEGIN PGP SIGNATURE-----\n\nwsFcBAABCAAQBQJqtRjvCRC1aQ7uu5UhlAAA8FYQADh6aM6PvLAEz09t8NO0cAb4\ni/qV61sCTJTrzYunSNoOuc1mnNVe3SlYhXWy0LeufJ11cVjmTc4mrXC5/M9n9A7h\n83I8oOb/Xkab3UH7ch2aVyvU0ykv/NxCYEMi3OttL4bV75YuZqN7C6nKULUnh+4w\n7scd5EDoEFHrb0B+QFU+EU+uRhAKhx7Us/y/4cT9pERh1BjiSqGXTMOyfC+oRId+\n7KwiXPc/HUBl7arz6jaY8Kuo0EPEdtc/ktDdZ5OZWwXKse5iznJnAdCLjw/vGC6D\nQftmsCWo0CQeEGdc8MK3aMJh+N2RFwz+yz2Ad0r9cQSwVijwwhR4MEp4KwxVLpap\nvsQoChs5/fitML3v8BzaiVS2BKi/qWRXqPLbPG9TRXjr+GAOzPyY3WtNe91vPB4u\nyclj11C4FwUKrxa8tEJAtAN1O0UAUvDvOyEzQo5h8msxL8ukDWWF2U0jhzSacAYb\n4APqMxAThVeH409xBfb5Ze/9xRa+vwGPw0PloicKNXlx8GI7LSas12+XgcQjW6yH\nKsYOC1L1403jvQj28p6/ODtQDU+ewgeDaT2ujG5MeI41VvYPrTXsqNaJlK+XWlpq\nsTYFkAgLT4uU750L3IDiHUDO0+Yde0P7BytkEGFYpshLGI3ndYyheDBrJioIN2y/\nf6ND3zvkNmJ32u56kTN9\n=ew5z\n-----END PGP SIGNATURE-----\n",
+      "payload": "tree 8beaa9282fca8a1e7d2edc4616c4cffeba51689b\nparent 02ecb47d006b51195eac23ac9980790ed9aa11e6\nauthor Kayvan Zahiri <123409429+Kayvan-Zahiri@users.noreply.github.com> 1790253295 -0700\ncommitter GitHub <noreply@github.com> 1790253295 +0000\n\nImport urllib3 lazily so a plain install can import lhotse (#1593)\n\nImport urllib3 lazily in AISBatchLoader\n\nlhotse/__init__.py imports lhotse.ais, and batch_loader.py imported\nurllib3 at module level, but urllib3 is not an install requirement (it\nonly comes with the aistore extra). A clean install could not import\nlhotse. Move the import next to the existing lazy aistore import in\n__call__, the only place TimeoutError is used.",
+      "verified_at": "2026-09-24T12:34:56Z"
+    }
+  },
+  "url": "https://api.github.com/repos/lhotse-speech/lhotse/commits/ed4eb7a242aeeca23077d08bd455030ce88b5175",
+  "html_url": "https://github.com/lhotse-speech/lhotse/commit/ed4eb7a242aeeca23077d08bd455030ce88b5175",
+  "comments_url": "https://api.github.com/repos/lhotse-speech/lhotse/commits/ed4eb7a242aeeca23077d08bd455030ce88b5175/comments",
+  "author": {
+    "login": "Kayvan-Zahiri",
+    "id": 123409429,
+    "node_id": "U_kgDOB1sUFQ",
+    "avatar_url": "https://avatars.githubusercontent.com/u/123409429?v=4",
+    "gravatar_id": "",
+    "url": "https://api.github.com/users/Kayvan-Zahiri",
+    "html_url": "https://github.com/Kayvan-Zahiri",
+    "followers_url": "https://api.github.com/users/Kayvan-Zahiri/followers",
+    "following_url": "https://api.github.com/users/Kayvan-Zahiri/following{/other_user}",
+    "gists_url": "https://api.github.com/users/Kayvan-Zahiri/gists{/gist_id}",
+    "starred_url": "https://api.github.com/users/Kayvan-Zahiri/starred{/owner}{/repo}",
+    "subscriptions_url": "https://api.github.com/users/Kayvan-Zahiri/subscriptions",
+    "organizations_url": "https://api.github.com/users/Kayvan-Zahiri/orgs",
+    "repos_url": "https://api.github.com/users/Kayvan-Zahiri/repos",
+    "events_url": "https://api.github.com/users/Kayvan-Zahiri/events{/privacy}",
+    "received_events_url": "https://api.github.com/users/Kayvan-Zahiri/received_events",
+    "type": "User",
+    "user_view_type": "public",
+    "site_admin": false
+  },
+  "committer": {
+    "login": "web-flow",
+    "id": 19864447,
+    "node_id": "MDQ6VXNlcjE5ODY0NDQ3",
+    "avatar_url": "https://avatars.githubusercontent.com/u/19864447?v=4",
+    "gravatar_id": "",
+    "url": "https://api.github.com/users/web-flow",
+    "html_url": "https://github.com/web-flow",
+    "followers_url": "https://api.github.com/users/web-flow/followers",
+    "following_url": "https://api.github.com/users/web-flow/following{/other_user}",
+    "gists_url": "https://api.github.com/users/web-flow/gists{/gist_id}",
+    "starred_url": "https://api.github.com/users/web-flow/starred{/owner}{/repo}",
+    "subscriptions_url": "https://api.github.com/users/web-flow/subscriptions",
+    "organizations_url": "https://api.github.com/users/web-flow/orgs",
+    "repos_url": "https://api.github.com/users/web-flow/repos",
+    "events_url": "https://api.github.com/users/web-flow/events{/privacy}",
+    "received_events_url": "https://api.github.com/users/web-flow/received_events",
+    "type": "User",
+    "user_view_type": "public",
+    "site_admin": false
+  },
+  "parents": [
+    {
+      "sha": "02ecb47d006b51195eac23ac9980790ed9aa11e6",
+      "url": "https://api.github.com/repos/lhotse-speech/lhotse/commits/02ecb47d006b51195eac23ac9980790ed9aa11e6",
+      "html_url": "https://github.com/lhotse-speech/lhotse/commit/02ecb47d006b51195eac23ac9980790ed9aa11e6"
+    }
+  ],
+  "stats": {
+    "total": 12,
+    "additions": 10,
+    "deletions": 2
+  },
+  "files": [
+    {
+      "sha": "05d8eb77d78b3c7151579c4a116f05c50b159527",
+      "filename": "lhotse/ais/batch_loader.py",
+      "status": "modified",
+      "additions": 1,
+      "deletions": 2,
+      "changes": 3,
+      "blob_url": "https://github.com/lhotse-speech/lhotse/blob/ed4eb7a242aeeca23077d08bd455030ce88b5175/lhotse%2Fais%2Fbatch_loader.py",
+      "raw_url": "https://github.com/lhotse-speech/lhotse/raw/ed4eb7a242aeeca23077d08bd455030ce88b5175/lhotse%2Fais%2Fbatch_loader.py",
+      "contents_url": "https://api.github.com/repos/lhotse-speech/lhotse/contents/lhotse%2Fais%2Fbatch_loader.py?ref=ed4eb7a242aeeca23077d08bd455030ce88b5175",
+      "patch": "@@ -3,8 +3,6 @@\n from functools import lru_cache\n from typing import Any, Optional\n \n-from urllib3.exceptions import TimeoutError\n-\n # Get a logger instance for this module\n logger = logging.getLogger(__name__)\n \n@@ -293,6 +291,7 @@ def __call__(self, cuts: CutSet) -> CutSet:\n \n         # Execute batch request\n         from aistore.sdk.errors import AISError\n+        from urllib3.exceptions import TimeoutError\n \n         # No AIS-backed objects in this CutSet (e.g. all data lives on a non-AIS\n         # filesystem). Skip the batch call entirely to avoid spurious warnings."
+    },
+    {
+      "sha": "4be4cc043e1d519a364848d541e503f6592e1166",
+      "filename": "test/ais/test_import_without_urllib3.py",
+      "status": "added",
+      "additions": 9,
+      "deletions": 0,
+      "changes": 9,
+      "blob_url": "https://github.com/lhotse-speech/lhotse/blob/ed4eb7a242aeeca23077d08bd455030ce88b5175/test%2Fais%2Ftest_import_without_urllib3.py",
+      "raw_url": "https://github.com/lhotse-speech/lhotse/raw/ed4eb7a242aeeca23077d08bd455030ce88b5175/test%2Fais%2Ftest_import_without_urllib3.py",
+      "contents_url": "https://api.github.com/repos/lhotse-speech/lhotse/contents/test%2Fais%2Ftest_import_without_urllib3.py?ref=ed4eb7a242aeeca23077d08bd455030ce88b5175",
+      "patch": "@@ -0,0 +1,9 @@\n+import subprocess\n+import sys\n+\n+\n+def test_lhotse_importable_without_urllib3():\n+    # urllib3 only arrives with the optional aistore extra, so a plain\n+    # install of lhotse must not import it at module level.\n+    code = \"import sys; sys.modules['urllib3'] = None; import lhotse\"\n+    subprocess.run([sys.executable, \"-c\", code], check=True)"
+    }
+  ]
+}

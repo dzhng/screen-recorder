@@ -1,0 +1,19 @@
+{
+  "passed": true,
+  "files": [
+    {
+      "archived": "sdk-sortformer_diar_models.py.gz",
+      "candidate": "models/sortformer_diar_models.py",
+      "originalSha256": "456585429f6b6428ffa1e5540732b992bc9704c31d29994a0c058d13a6ebba07",
+      "candidateSha256": "456585429f6b6428ffa1e5540732b992bc9704c31d29994a0c058d13a6ebba07",
+      "exact": true
+    },
+    {
+      "archived": "sdk-sortformer_modules.py.gz",
+      "candidate": "modules/sortformer_modules.py",
+      "originalSha256": "3d136c245e3bf7a88c47fdd2eae1edb9189bbeddc3ff779cb5679a29d890b7eb",
+      "candidateSha256": "3d136c245e3bf7a88c47fdd2eae1edb9189bbeddc3ff779cb5679a29d890b7eb",
+      "exact": true
+    }
+  ]
+}

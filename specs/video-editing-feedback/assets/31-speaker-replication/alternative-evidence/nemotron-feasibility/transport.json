@@ -1,0 +1,41 @@
+{
+  "result": {
+    "ok": true,
+    "data": {
+      "cases": [
+        {
+          "id": "bspxd30",
+          "audioSeconds": 30,
+          "inferenceSeconds": 0.7615914159978274,
+          "peakProcessRSSBytes": 1588953088,
+          "pcmSha256": "9ba2131687811bfbb9fb08d915648738cd83b35476370b55ae95b5c809133bb1"
+        },
+        {
+          "id": "returns-overlap-silence",
+          "audioSeconds": 100,
+          "inferenceSeconds": 2.0633982500003185,
+          "peakProcessRSSBytes": 1693122560,
+          "pcmSha256": "e97f8450c758696193a8b9a8d0468217e24fa22a2d12631a2c37fa6eb20e9068"
+        },
+        {
+          "id": "aiqwk30",
+          "audioSeconds": 30,
+          "inferenceSeconds": 0.5674967920058407,
+          "peakProcessRSSBytes": 1693581312,
+          "pcmSha256": "d5b47fcc546370ebf65b395d6ae7d2c5f5e9ebc3e3529c6550b89b82ea3bd759"
+        }
+      ],
+      "coldLoadSeconds": 9.037838958000066,
+      "recipe": {
+        "chunk_len": 340,
+        "chunk_right_context": 40,
+        "fifo_len": 40,
+        "spkcache_update_period": 300,
+        "spkcache_len": 264
+      },
+      "stateScope": "one fresh state per selected input; persistent across all native internal chunks"
+    }
+  },
+  "wallSeconds": 12.737460667,
+  "networkDenied": true
+}

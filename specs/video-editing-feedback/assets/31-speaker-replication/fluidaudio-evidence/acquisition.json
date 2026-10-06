@@ -1,0 +1,36 @@
+{
+  "modelRevision": "df2625ac79a7ac6b65ad868fee6d80f320da4232",
+  "receipts": [
+    {
+      "url": "https://huggingface.co/api/models/FluidInference/speaker-diarization-coreml",
+      "bytes": 5779,
+      "sha256": "38724ab51b673e3be3fd222532c3e49e412f4a31f057c53e2598050fbe62525b"
+    },
+    {
+      "url": "https://huggingface.co/FluidInference/speaker-diarization-coreml/raw/df2625ac79a7ac6b65ad868fee6d80f320da4232/README.md",
+      "bytes": 4836,
+      "sha256": "d0488f898df6da6e9d36f28b0704a65a13578d598c8685a9c5af0f5f8af13978"
+    },
+    {
+      "url": "https://huggingface.co/api/models/FluidInference/speaker-diarization-coreml/tree/df2625ac79a7ac6b65ad868fee6d80f320da4232?recursive=true&expand=false",
+      "bytes": 26961,
+      "sha256": "ddaa67dedd3dfcc880853b00cd4596e38c29b42c9b841e60bca49eed537e7086"
+    },
+    {
+      "url": "https://huggingface.co/FluidInference/speaker-diarization-coreml/raw/df2625ac79a7ac6b65ad868fee6d80f320da4232/NOTICE.md",
+      "bytes": 1925,
+      "sha256": "0964a66893fa5c3a574758257d30d2944669f44eeed5784b30ec3bab902012b3"
+    },
+    {
+      "url": "https://huggingface.co/FluidInference/speaker-diarization-coreml/raw/df2625ac79a7ac6b65ad868fee6d80f320da4232/LICENSE",
+      "bytes": 19759,
+      "sha256": "736763bf08829e36266b8a3bebcc041ac68575424e976490671a7e6b43a525cf"
+    },
+    {
+      "url": "https://huggingface.co/FluidInference/speaker-diarization-coreml/raw/df2625ac79a7ac6b65ad868fee6d80f320da4232/provenance.json",
+      "bytes": 10048,
+      "sha256": "0353430db062715c411ba32e66cb435b9caee2662bccdb298f9e5d1bae760872"
+    }
+  ],
+  "weightsDownloaded": false
+}

@@ -1,6 +1,6 @@
 # 13 — Freeze a trustworthy decoded-picture recipe
 
-Status: planned. Depends on: [01](01-certified-corpus.md).
+Status: research measured; durable runner/acceptance pending. Depends on selected certified picture inputs and independent controls from [01](01-certified-corpus.md); unrelated speech/speaker corpus dispositions are not prerequisites.
 
 ## Contract
 
@@ -22,6 +22,16 @@ These are current discovery pointers, not a claim every listed module must chang
 ## Scope and frozen decisions
 
 Replicate project AVFoundation sampling and current native/FFmpeg paths on matched frames. Retain actual sample timestamps, raster dimensions, transfer/primaries/matrix/range/profile and conversion recipe. Fix silent skipped-frame coverage and named count claims. Freeze one player-oriented observation recipe, permitted differences and supported profiles before metrics/grade consumers. Reuse native source reads for imported exports.
+
+## Current research boundary
+
+The full-frame camera reduction checkpoint supplies exact physical frame clocks and
+sampled source/derivative fidelity. Private matched AVAssetImageGenerator sRGB
+experiments reproduce player/native agreement and plain FFmpeg color disagreement,
+including an asymmetric rotated control. Public unchanged project frames reproduce
+that agreement. These measurements select a candidate observation space; they are
+not slice acceptance. Bank a case-selected runner, complete request/failure coverage,
+metadata/profile declarations, numeric tolerance and final visual gates before 14.
 
 ## Runnable checkpoint
 

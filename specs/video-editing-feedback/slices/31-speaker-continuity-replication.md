@@ -1,6 +1,6 @@
 # 31 — Prove speaker continuity and word attribution
 
-Status: planned. Depends on: [01](01-certified-corpus.md), [08](08-bounded-speech-preparation.md).
+Status: partial; required four-speaker quality gate red. Research depends on selected certified [01](01-certified-corpus.md) inputs; word-attribution integration additionally requires [08](08-bounded-speech-preparation.md).
 
 ## Contract
 
@@ -43,6 +43,34 @@ Use existing prepared inputs when available; prepare/download pinned models and
 runtime for this first-class Yap feature as needed by default. The recommendation-only
 policy applies to capabilities outside Yap. Freeze one passing local recipe before 32; failed feasibility causes
 reslicing, not a “ready” output made from unrelated local slot IDs.
+
+## Current verdict and smaller remaining passes
+
+[Retained replayable evidence](../assets/31-speaker-replication/README.md) preserves
+exact original short-window parity, passing three-speaker continuity controls and
+failed four-speaker overlap under every measured candidate. All three bundles
+replay on the integrated root without new inference. No provider is promoted.
+The historical DER-only pass never established simultaneous-speaker recall.
+
+Keep the required gate unchanged; proceed through these separately verifiable passes:
+
+1. **Provider and short-case admission.** Freeze licensing, complete raw-observation
+   access, exact physical support and a candidate recipe before confirmation. Pass
+   the existing short quality/count/overlap gates on independent controls. The
+   original, low-latency, Nemotron and Community-1 recipes remain failed records.
+2. **Global continuity.** Only a short-quality winner proceeds to bounded long
+   calls with return, silence, overlapping voices and planted identity swaps.
+   Existing three-speaker successes remain valid within their stated scope.
+3. **Prepared execution closure.** Seal and relocate the winning model/runtime;
+   offline inference must use only the prepared closure and reproduce its operands.
+   The original private reconstruction and alternate byte/load readiness are
+   distinct evidence; neither changes the default registered production runtime.
+4. **Word attribution.** After 08 publishes owned words and coverage, freeze
+   deterministic overlap/unknown attribution and public stable-ID/name binding
+   contracts before 32. Camera files and transcript text are not speaker truth.
+
+Independent alignment/picture research and contract work continue while pass 1 is
+red. Do not repeat failed inference without a new independently justified hypothesis.
 
 ## Runnable checkpoint
 

@@ -1,0 +1,16 @@
+import assert from 'node:assert/strict';
+import {readFile,writeFile} from 'node:fs/promises';
+import {createHash} from 'node:crypto';
+import {jsonWorker} from '/Users/server/dev/yap-video-editing/apps/service/src/worker.ts';
+const b='/tmp/yap-editing-speaker-replication';
+const runtime=JSON.parse(await readFile(b+'/evidence/prepared-runtime.json','utf8'));
+const protocol=JSON.parse(await readFile(b+'/nemotron-feasibility/protocol.json','utf8'));
+const hash=(data:Buffer)=>createHash('sha256').update(data).digest('hex');
+assert.equal(hash(await readFile(b+'/nemotron-worker.py')),protocol.workerSha256);
+const profile='(version 1)(allow default)(deny network*)(deny file-read* (subpath "/Users/server/.cache/codex-runtimes/codex-primary-runtime/dependencies/python"))(deny file-read* (subpath "/private/tmp/yap-editing-speaker-replication/env"))(deny file-read* (subpath "/private/tmp/yap-editing-speaker-replication/assembly/bundle"))(deny file-read* (subpath "/Users/server/dev/yap-video-editing"))';
+const environment={...process.env,HF_HOME:runtime.cache,HF_HUB_OFFLINE:'1',TRANSFORMERS_OFFLINE:'1',HF_HUB_DISABLE_IMPLICIT_TOKEN:'1',PYTHONDONTWRITEBYTECODE:'1',NO_VCS_VERSION:'1',TOKENIZERS_PARALLELISM:'false',TMPDIR:b+'/cache/tmp',MPLCONFIGDIR:b+'/cache/mpl',XDG_CACHE_HOME:b+'/cache/xdg'};
+const worker=jsonWorker({executable:'/usr/bin/sandbox-exec',args:['-p',profile,runtime.python,'-I','-B',b+'/nemotron-worker.py'],environment},180000);
+const start=performance.now();
+const result=await worker('speaker.continuityLab',{model:JSON.parse(await readFile(b+'/nemotron-preparation/receipt.json','utf8')).modelPath,cases:protocol.cases.map(({id,pcm,pcmSha256,frames,output}:any)=>({id,pcm,pcmSha256,frames,output}))});
+await writeFile(b+'/nemotron-feasibility/transport.json',JSON.stringify({result,wallSeconds:(performance.now()-start)/1000,networkDenied:true},null,2),{flag:'wx'});
+assert.equal(result.ok,true,JSON.stringify(result));console.log(JSON.stringify(result));
