@@ -80,6 +80,12 @@ completeness.
 Checkpoint D still requires a fresh agent to discover the defect without a timecode
 hint and drive the bounded caller-owned repair helper.
 
+The read-only [fresh-agent audit](fresh-discovery-audit.md) confirms the clipped
+case is discoverable from the retained receipt and derives the explicit repair
+inputs. It could not replay that repair because the receipt does not retain a live
+managed service/home or original request payload, so the runnable 12D gate remains
+open.
+
 The [independent follow-up](followup-review.md) accepts the implementation. Its
 remaining receipt wording finding is resolved: eight tests and three retained
 mutation proofs. The follow-up completed with exit0 and `turn.completed`.

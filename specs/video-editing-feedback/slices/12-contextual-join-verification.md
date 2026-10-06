@@ -85,8 +85,10 @@ revision-advance refusal. See [repair verification](../assets/12-contextual-join
 The real media exercise passes with exact prepared sample support and fresh
 Parakeet recognition for the intact, clipped and repaired revisions; its lexical
 comparison remains observational and `phoneticCompleteness` stays `unknown`.
-The fresh-agent discovery and helper-driven repair run remain the next acceptance
-gate; an unavailable stub or undocumented fallback is not implementation completion.
+The fresh-agent audit now confirms report-level discovery, but the runnable helper
+replay remains the next acceptance gate because the retained receipt does not carry
+a clean managed service/home and original request payload. An unavailable stub or
+undocumented fallback is not implementation completion.
 
 ## Delegated choices
 
