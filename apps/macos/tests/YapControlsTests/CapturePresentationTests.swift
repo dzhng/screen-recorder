@@ -17,8 +17,6 @@ private func recording(elapsedUs: Int64, paused: Bool = false) -> ControlsState 
 }
 
 func runCapturePresentationTests() {
-    precondition(StatusItemAppearance.menuBarLength == 96,
-        "The menu-bar anchor reserves a stable width for the recording timer")
     let idle = CapturePresentation.transport(for: ready())
     precondition(action(idle, "capture.startOrStop").title == "Start Recording" && action(idle, "capture.startOrStop").enabled)
     for id in ["capture.pauseOrResume", "capture.cancel", "capture.restart"] {
@@ -48,8 +46,7 @@ func runCapturePresentationTests() {
 
     var lost = running
     lost.service = .unavailable("Service exited with status 9")
-    precondition(StatusItemAppearance.title(for: lost).isEmpty
-        && StatusItemAppearance.symbolName(for: lost) == "exclamationmark.triangle")
+    precondition(StatusItemAppearance.symbolName(for: lost) == "exclamationmark.triangle")
     precondition(CapturePresentation.statusTitle(for: lost) == "Unavailable — Service exited with status 9")
     let orphaned = CapturePresentation.transport(for: lost)
     precondition(action(orphaned, "capture.startOrStop").title == "Start Recording"

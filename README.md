@@ -270,6 +270,29 @@ owns build and check commands; package manifests own narrower checks and depende
 The [build guide](scripts/README.md) explains native prerequisites and why building,
 installing and packaging are separate actions.
 
+### Build from source on macOS
+
+Source builds target Apple Silicon on macOS 26 or newer. Install Xcode (including
+the macOS SDK and command-line tools), Bun at the version pinned in
+`package.json`, and Node at the version in `.node-version`. From the repository
+root, run:
+
+```sh
+bun install --frozen-lockfile
+node scripts/release.mjs prepare
+bun run build
+```
+
+`release.mjs prepare` downloads and verifies the pinned build inputs, prepares
+FFmpeg and the denoiser, and builds the pinned Sparkle framework into
+`dist/sparkle`. The same step repairs a fresh checkout; no manually installed
+Sparkle framework or Homebrew packages are required. Release signing needs the
+separate credentials described in [the release guide](scripts/README.md).
+
+For focused checks, use the package commands in the owning manifests. The full
+macOS app check also needs the native SDK and the prepared Sparkle framework;
+portable CLI tests do not prove that native build.
+
 [Verification tools](packages/test-harness/README.md) explain how to reuse existing
 fixtures, integration journeys and research. The [fixture guide](fixtures/README.md)
 explains retained media and original-byte authority; the [workbench](apps/workbench/README.md)
