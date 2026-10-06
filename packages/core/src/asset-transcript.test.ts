@@ -62,7 +62,7 @@ async function fixture(
     state: "ready",
     status: () =>
       models.state === "preparing"
-        ? { state: "preparing", receivedBytes: 0, totalBytes: 1 }
+        ? { state: "preparing", receivedBytes: 0, totalBytes: 1, etaMs: null }
         : models.state === "failed"
           ? { state: "failed", code: "fixture", message: "fixture", retryable: true }
           : { state: models.state },

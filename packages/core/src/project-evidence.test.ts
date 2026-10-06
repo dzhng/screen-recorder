@@ -473,7 +473,7 @@ async function fixture({
                 reason: found ? null : "speaker_evidence_unobserved",
                 retryable: false,
                 jobId: null,
-                published: found ? { generation: found.generation, evidence: found } : null,
+                published: found ? { generation: 1, evidence: found } : null,
               };
             },
           },
