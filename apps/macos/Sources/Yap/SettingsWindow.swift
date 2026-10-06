@@ -134,6 +134,9 @@ final class SettingsModel: ObservableObject {
     @Published var countdownBeforeRecording: Bool {
         didSet { preferences.countdownBeforeRecording = countdownBeforeRecording }
     }
+    @Published var showCameraPreview: Bool {
+        didSet { preferences.showCameraPreview = showCameraPreview }
+    }
     let perform: (ControlsAction) -> Void
     private let update: (String, [String: Any]) -> Void
     private let preferences: Preferences
@@ -148,6 +151,7 @@ final class SettingsModel: ObservableObject {
         self.update = update
         showAtLaunch = preferences.showSettingsAtLaunch
         countdownBeforeRecording = preferences.countdownBeforeRecording
+        showCameraPreview = preferences.showCameraPreview
     }
 
     func setAutomaticUpdates(_ enabled: Bool) {
@@ -283,6 +287,9 @@ struct SettingsView: View {
                 "Shows three, two, one on the display being recorded. Escape abandons the start."
             ) {
                 Toggle("", isOn: $model.countdownBeforeRecording).labelsHidden()
+            }
+            detailRow("Show Camera Preview", "Shows the camera picture above the floating recording controls.") {
+                Toggle("", isOn: $model.showCameraPreview).labelsHidden()
             }
         } header: {
             Text("Recording")
