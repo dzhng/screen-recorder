@@ -17,6 +17,8 @@ private func recording(elapsedUs: Int64, paused: Bool = false) -> ControlsState 
 }
 
 func runCapturePresentationTests() {
+    precondition(StatusItemAppearance.menuBarLength == 96,
+        "The menu-bar anchor reserves a stable width for the recording timer")
     let idle = CapturePresentation.transport(for: ready())
     precondition(action(idle, "capture.startOrStop").title == "Start Recording" && action(idle, "capture.startOrStop").enabled)
     for id in ["capture.pauseOrResume", "capture.cancel", "capture.restart"] {
@@ -109,6 +111,8 @@ func runCapturePresentationTests() {
 }
 
 func runSavedRecordingTests() {
+    precondition(LibraryPresentation.agentPrompt(for: "recording-1") ==
+        "I want you to use this recording with this ID with the Yap CLI: recording-1")
     var state = ready()
     let first = ControlsState.RecentTake(recordingId: "first", createdAt: "2026-09-15T18:04:05Z",
         state: "complete", sourceDurationUs: 65_000_000, interruptionReason: nil)
@@ -121,27 +125,24 @@ func runSavedRecordingTests() {
         observed.library.recent = [.init(recordingId: "first", createdAt: first.createdAt,
             state: status, sourceDurationUs: duration, interruptionReason: nil)]
         let offered = LibraryPresentation.recordings(for: observed).items.flatMap(\.actions).filter(\.enabled).map(\.action)
-        precondition(offered == [.deleteRecording("first")], "Source facts never authorize a composition action")
+        let expected: [ControlsAction] = status == "canceled" ? [.copyRecordingPrompt("first")] : [.playRecording("first"), .copyRecordingPrompt("first")]
+        precondition(offered == expected, "Recordings expose playback and agent handoff only")
     }
     precondition(!state.library.beginDelete(.recording("unknown")))
     precondition(state.library.beginDelete(.recording("first")))
     precondition(!state.library.beginDelete(.recording("first")), "A pending request cannot be sent twice")
     var page = LibraryPresentation.recordings(for: state)
-    precondition(!action(page.items.flatMap(\.actions), "recording.delete.first").enabled)
-    precondition(action(page.items.flatMap(\.actions), "recording.delete.first").title == "Deleting…")
-    precondition(action(page.items.flatMap(\.actions), "recording.delete.sibling").enabled)
+    precondition(page.items.flatMap(\.actions).contains { $0.action == .playRecording("first") && !$0.enabled })
+    precondition(page.items.flatMap(\.actions).contains { $0.action == .playRecording("sibling") && $0.enabled })
     state.library.recent = [sibling]
     state.library.finishDelete(.recording("first"), failure: "DELETE_FAILED: disk is unavailable")
     page = LibraryPresentation.recordings(for: state)
-    precondition(action(page.items.flatMap(\.actions), "recording.delete.first").title == "Retry Delete")
     precondition(page.items.flatMap(\.details).contains { $0.contains("DELETE_FAILED: disk is unavailable") })
-    state.service = .unavailable("offline")
-    precondition(!action(LibraryPresentation.recordings(for: state).items.flatMap(\.actions), "recording.delete.first").enabled)
     state.service = .ready
     precondition(state.library.beginDelete(.recording("first")), "Retry uses its retained target")
     state.library.finishDelete(.recording("first"), failure: nil)
     page = LibraryPresentation.recordings(for: state)
     precondition(!page.items.flatMap(\.actions).contains { $0.action == .deleteRecording("first") })
-    precondition(action(page.items.flatMap(\.actions), "recording.delete.sibling").enabled)
+    precondition(page.items.flatMap(\.actions).contains { $0.action == .playRecording("sibling") && $0.enabled })
     print("PASS saved recording actions preserve source and deletion identity")
 }

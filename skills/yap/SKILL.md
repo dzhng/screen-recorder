@@ -32,6 +32,17 @@ material settles a choice that would change the result materially, such as which
 of several recordings they meant. When the user requests alternatives, keep
 those alternatives open.
 
+**Evidence requests include readiness.** The app acquires models marked for the
+product lifecycle in the background at install and update, so an explicit request
+to watch, understand, transcribe or edit a recording should normally only wait for
+that preparation to finish. If a request still returns
+`unavailable:model_not_prepared`, verify the model catalog with `model.list` and
+`model.status`; use `model.prepare` as the advertised recovery for a failed or
+interrupted lifecycle download, then retry the same transcript selection. This
+fallback applies to an explicit media request; incidental readiness probes remain
+read-only. If preparation or transcription fails, preserve and report the returned
+error code and reason, and do not retry an unchanged failed payload indefinitely.
+
 ## Installation
 
 On first use, check `command -v yap`, then `yap capture.status --help`.
@@ -131,10 +142,14 @@ unavailable; do not claim it reopened or retry writes blindly.
    hand or cancel a completed take to retry cleanup.
 
 4. **Read the evidence.** Inspect transcript and visual evidence to locate the
-   content the brief needs. Follow returned pagination cursors, including empty
-   pages with a next cursor. Preserve the transcript generation when using word
-   identities. An empty transcript range does not prove silence, and an omitted
-   filler does not prove the speaker did not say it.
+   content the brief needs. Treat readiness as a bounded state machine:
+   `unavailable:model_not_prepared` means prepare the registered transcription
+   model and retry; `processing` means poll the same request; `failed` means
+   diagnose the returned reason and use the advertised retry only after the cause
+   is resolved. Follow returned pagination cursors, including empty pages with a
+   next cursor. Preserve the transcript generation when using word identities. An
+   empty transcript range does not prove silence, and an omitted filler does not
+   prove the speaker did not say it.
    Before assembly, save a task-side selection sheet with asset/stream IDs,
    optional acquisition, exact source ranges, transcript generation and word
    ordinals. Add project/revision and occurrence clip IDs after placement.

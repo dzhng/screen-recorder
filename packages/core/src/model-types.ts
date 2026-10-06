@@ -13,6 +13,8 @@ export type SpeechEnginePins = SpeechRuntime & Readonly<{ model: string; modelRe
 export type ModelManifest = Readonly<{
   name: string;
   purpose: "transcription" | "voice" | "speaker" | "alignment";
+  /** Prepare this model in the background when the service starts or updates. */
+  autoPrepare?: true;
   platform: Readonly<{ system: string; architecture: string }>;
   runtimeArtifact?: RuntimeArtifact;
   /** Require caller-supplied pinned model bytes; preparation cannot download them. */
@@ -27,7 +29,13 @@ export type ModelManifest = Readonly<{
 }>;
 export type ModelStatus =
   | { state: "absent" | "ready" | "invalid" }
-  | { state: "preparing"; receivedBytes: number; totalBytes: number }
+  | {
+      state: "preparing";
+      receivedBytes: number;
+      totalBytes: number;
+      /** Milliseconds remaining at the measured transfer rate; null until a rate exists. */
+      etaMs: number | null;
+    }
   | { state: "failed"; code: string; message: string; retryable: boolean };
 export type SpeechModelRequest = { directory: string; files: readonly SpeechModelFile[] };
 

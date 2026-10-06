@@ -207,8 +207,8 @@ final class CaptureView: NSView {
         brand.setAccessibilityLabel("Yap")
         document.addSubview(brand)
         label("Yap", NSRect(x: 54, y: 20, width: 180, height: 22), size: 16, weight: .semibold)
-        button("Open library", id: "header.library", frame: NSRect(x: 274, y: 16, width: 26, height: 26), intent: .openLibrary, symbol: "play.rectangle.on.rectangle")
-        button("Settings", id: "header.settings", frame: NSRect(x: 310, y: 16, width: 26, height: 26), intent: .controls(.openSettings), symbol: "gearshape")
+        button("Open library", id: "header.library", frame: NSRect(x: 258, y: 12, width: 34, height: 34), intent: .openLibrary, symbol: "play.rectangle.on.rectangle")
+        button("Settings", id: "header.settings", frame: NSRect(x: 307, y: 12, width: 34, height: 34), intent: .controls(.openSettings), symbol: "gearshape")
         label("Record", NSRect(x: 16, y: 58, width: 100, height: 16), size: 11, weight: .medium, color: .secondaryLabelColor)
         let titles = ["Display", "Window", "Area", "Camera"]
         let symbols = ["display", "macwindow", "viewfinder", "video"]

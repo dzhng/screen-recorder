@@ -172,7 +172,7 @@ final class LibraryView: NSView, NSSearchFieldDelegate {
             let details = row.details
             guard filter.isEmpty || ([row.title] + details).contains(where: { $0.localizedCaseInsensitiveContains(filter) }) else { continue }
             // Truthful fallback: a source/document symbol, never a generated media thumbnail.
-            let thumbnail = NSImageView(frame: NSRect(x: 22, y: y + 13, width: 88, height: 56))
+            let thumbnail = NSImageView(frame: NSRect(x: 22, y: y + 12, width: 88, height: 48))
             thumbnail.wantsLayer = true
             thumbnail.layer?.backgroundColor = NSColor.controlBackgroundColor.cgColor
             thumbnail.layer?.cornerRadius = 7
@@ -180,8 +180,9 @@ final class LibraryView: NSView, NSSearchFieldDelegate {
             thumbnail.contentTintColor = .secondaryLabelColor
             document.addSubview(thumbnail)
             let titleWidth = width - 214
-            label(row.title, frame: NSRect(x: 122, y: y + 13, width: titleWidth - 68, height: 20), size: 11, weight: .semibold, in: document)
-            if let status = row.status {
+            let titleLabelWidth = row.kind == .recording ? titleWidth - 100 : titleWidth - 68
+            label(row.title, frame: NSRect(x: 122, y: y + 13, width: titleLabelWidth, height: 20), size: 11, weight: .semibold, in: document)
+            if let status = row.status, row.kind != .recording {
                 label(status, frame: NSRect(x: width - 119, y: y + 17, width: 63, height: 42), size: 9, color: .secondaryLabelColor, in: document, wrap: true)
             }
             var detailY = y + 39
@@ -193,29 +194,39 @@ final class LibraryView: NSView, NSSearchFieldDelegate {
                 detailY += height + 3
             }
             let commands = row.actions
-            let more = NSPopUpButton(frame: NSRect(x: width - 49, y: y + 16, width: 27, height: 26), pullsDown: true)
-            more.isBordered = false
-            (more.cell as? NSPopUpButtonCell)?.arrowPosition = .noArrow
-            more.font = .systemFont(ofSize: 18)
-            let menu = NSMenu()
-            menu.autoenablesItems = false
-            menu.addItem(NSMenuItem(title: "⋯", action: nil, keyEquivalent: ""))
-            for command in commands {
-                let action = command.action
-                let item = NSMenuItem(title: command.title, action: #selector(activateItem(_:)), keyEquivalent: "")
-                item.target = self
-                item.isEnabled = command.enabled
-                item.representedObject = action
-                actionItems[action.id] = item
-                menu.addItem(item)
-            }
-            more.menu = menu
-            more.setAccessibilityLabel("Actions for \(row.title)")
             let id = row.id
-            more.identifier = .init("actions.\(id)")
-            document.addSubview(more)
-            controls["actions.\(id)"] = more
-            y = max(y + 82, detailY + 13)
+            if row.kind == .recording {
+                for (index, command) in commands.enumerated() {
+                    let buttonWidth: CGFloat = index == 0 ? 72 : 126
+                    let x = width - 22 - buttonWidth - (index == 0 ? 134 : 0)
+                    button(command.title, id: "actions.\(id).\(index)",
+                        frame: NSRect(x: x, y: y + 14, width: buttonWidth, height: 28),
+                        action: command.action, enabled: command.enabled, in: document)
+                }
+            } else {
+                let more = NSPopUpButton(frame: NSRect(x: width - 49, y: y + 16, width: 27, height: 26), pullsDown: true)
+                more.isBordered = false
+                (more.cell as? NSPopUpButtonCell)?.arrowPosition = .noArrow
+                more.font = .systemFont(ofSize: 18)
+                let menu = NSMenu()
+                menu.autoenablesItems = false
+                menu.addItem(NSMenuItem(title: "⋯", action: nil, keyEquivalent: ""))
+                for command in commands {
+                    let action = command.action
+                    let item = NSMenuItem(title: command.title, action: #selector(activateItem(_:)), keyEquivalent: "")
+                    item.target = self
+                    item.isEnabled = command.enabled
+                    item.representedObject = action
+                    actionItems[action.id] = item
+                    menu.addItem(item)
+                }
+                more.menu = menu
+                more.setAccessibilityLabel("Actions for \(row.title)")
+                more.identifier = .init("actions.\(id)")
+                document.addSubview(more)
+                controls["actions.\(id)"] = more
+            }
+            y = max(y + 64, detailY + 13)
             let rule = NSBox(frame: NSRect(x: 22, y: y, width: width - 44, height: 1))
             rule.boxType = .separator
             document.addSubview(rule)

@@ -120,6 +120,7 @@ export async function startProjectService(options: {
   nativeExecutable?: string;
   ffmpeg?: FFmpegInstallation | undefined;
   version?: string | null;
+  autoPrepareModels?: boolean;
   control?: { input: Readable; output: Writable; timeoutMs?: number };
 }) {
   const started = performance.now();
@@ -257,6 +258,20 @@ export async function startProjectService(options: {
     );
     const decoder = await sourcePCMDecoder(worker, nativeExecutable, modelLifetime.signal);
     modelsOwner = models;
+    // Lifecycle models are acquired in the background at service startup so the first
+    // transcript request never becomes the installer's setup wizard. The manifest owns
+    // this opt-in, which makes adding another default model a catalog change rather than
+    // another hard-coded startup path.
+    if (options.autoPrepareModels !== false) {
+      const automaticModels = models.prepareAuto(modelLifetime.signal).catch((error) => {
+        if (!modelLifetime.signal.aborted) console.error(error);
+      });
+      modelPreparations.add(automaticModels);
+      void automaticModels.finally(() => {
+        modelPreparations.delete(automaticModels);
+        admission.progress();
+      });
+    }
     const transcriptStore = new TranscriptStore(
       catalog,
       library,
@@ -910,6 +925,7 @@ export async function startProjectService(options: {
                 home: options.home,
                 node: process.versions.node,
                 uptimeMs: Math.round(performance.now() - started),
+                models: await models.statuses(),
               },
             };
           case "service.tools":
@@ -1044,7 +1060,15 @@ export async function startProjectService(options: {
           case "model.list":
             return { ok: true, data: models.list() };
           case "model.status":
-            return { ok: true, data: await models.status(operation.params.modelId) };
+            return {
+              ok: true,
+              data: {
+                modelId: operation.params.modelId,
+                purpose: models.list().find((entry) => entry.modelId === operation.params.modelId)
+                  ?.purpose,
+                ...(await models.status(operation.params.modelId)),
+              },
+            };
           case "model.prepare": {
             const { modelId } = operation.params;
             const state = await models.status(modelId);

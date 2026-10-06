@@ -40,6 +40,7 @@ type Flight = {
   done: Promise<void>;
   participants: number;
   receivedBytes: number;
+  readonly startedAtMs: number;
   sources: ModelSources;
 };
 
@@ -131,10 +132,8 @@ class Preparation {
         retryable: false,
       };
     if (this.flight)
-      return {
-        state: "preparing",
-        receivedBytes: this.flight.receivedBytes,
-        totalBytes:
+      return (() => {
+        const totalBytes =
           this.manifest.files.reduce((total, file) => total + file.bytes, 0) +
           (!this.flight.sources.runtimeSource && this.manifest.runtimeArtifact?.acquisition
             ? this.manifest.runtimeArtifact.acquisition.files.reduce(
@@ -144,8 +143,19 @@ class Preparation {
             : (this.manifest.runtimeArtifact?.entries.reduce(
                 (total, entry) => total + (entry.kind === "file" ? entry.bytes : 0),
                 0,
-              ) ?? 0)),
-      };
+              ) ?? 0));
+        const elapsedMs = Math.max(0, Date.now() - this.flight!.startedAtMs);
+        const rate = elapsedMs > 0 ? this.flight!.receivedBytes / elapsedMs : 0;
+        return {
+          state: "preparing",
+          receivedBytes: this.flight!.receivedBytes,
+          totalBytes,
+          etaMs:
+            rate > 0
+              ? Math.ceil(Math.max(0, totalBytes - this.flight!.receivedBytes) / rate)
+              : null,
+        };
+      })();
     const state = this.inspect();
     if (state === "ready" || !this.failure) return { state };
     const { code, message, retryable } = this.failure;
@@ -288,6 +298,7 @@ class Preparation {
       done: Promise.resolve(),
       participants: 0,
       receivedBytes: 0,
+      startedAtMs: Date.now(),
       sources,
     };
     this.flight = flight;
@@ -614,8 +625,25 @@ export class Models {
   async settled(): Promise<void> {
     await Promise.all([...this.preparations.values()].map((model) => model.settled()));
   }
+  /** Start background preparation for models marked as part of the app lifecycle. */
+  async prepareAuto(signal: AbortSignal): Promise<void> {
+    await Promise.all(
+      [...this.preparations.values()]
+        .filter((model) => model.manifest.autoPrepare)
+        .map((model) => model.prepare(signal, {})),
+    );
+  }
   async status(modelId: string) {
     return this.selected(modelId).status();
+  }
+  async statuses() {
+    return Promise.all(
+      [...this.preparations].map(async ([modelId, model]) => ({
+        modelId,
+        purpose: model.manifest.purpose,
+        status: await model.status(),
+      })),
+    );
   }
   prepare(modelId: string, signal: AbortSignal, sources: ModelSources = {}) {
     return this.selected(modelId).prepare(signal, sources);

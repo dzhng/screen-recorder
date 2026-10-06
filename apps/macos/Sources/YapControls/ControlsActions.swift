@@ -13,6 +13,8 @@ public enum ControlsAction: Hashable, Sendable {
     case pauseOrResume
     case cancel
     case restart
+    case playRecording(String)
+    case copyRecordingPrompt(String)
     case previewProject(String)
     case exportProject(String, ExportsState.Kind)
     case deleteProject(String)
@@ -50,6 +52,8 @@ public enum ControlsAction: Hashable, Sendable {
         case .pauseOrResume: "capture.pauseOrResume"
         case .cancel: "capture.cancel"
         case .restart: "capture.restart"
+        case .playRecording(let id): "recording.play.\(id)"
+        case .copyRecordingPrompt(let id): "recording.copyPrompt.\(id)"
         case .previewProject(let id): "project.preview.\(id)"
         case .exportProject(let id, let kind): "project.export.\(kind.rawValue).\(id)"
         case .deleteProject(let id): "project.delete.\(id)"

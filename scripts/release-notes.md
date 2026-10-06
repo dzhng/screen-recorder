@@ -2,6 +2,18 @@ Yap is the macOS recording and agent-operated video toolkit. This release ships
 `Yap.app`, the `yap` CLI and the `com.dzhng.yap` app identity. Install the complete
 kit for this identity; capture permissions must be granted to Yap separately.
 
+This release prepares the core transcription model in the background when Yap
+starts, including after an app update. The CLI and `service.health` expose model
+download state, byte progress and an estimated completion time so agents can wait
+for readiness without discovering setup prerequisites themselves. Voice generation
+and speaker diarization remain explicit downloads because they are secondary
+capabilities with multi-gigabyte model/runtime footprints.
+
+Recording library rows now focus on the two actions users need: play the recording
+and copy an agent prompt containing its ID. Source IDs are no longer presented as
+opaque details. The capture popover keeps its position when the menu-bar timer
+appears, and its header actions use the tightened button sizing.
+
 This release keeps Camera Only recordings alive when camera-session audio
 timestamps carry a sub-frame synchronization residue. Continuous PCM stays on
 one sample grid, while genuine full-frame overlaps remain rejected.
@@ -52,8 +64,9 @@ The app updater does not replace external launchers or consumer skills.
 A developer preview of the macOS recording and agent-operated editing primitives.
 The toolkit makes zero editorial decisions and preserves source media.
 
-Requires **Apple Silicon and macOS 26 or newer**. Node and FFmpeg are included; speech model
-preparation remains an explicit caller action. The ZIP includes the app, CLI
+Requires **Apple Silicon and macOS 26 or newer**. Node and FFmpeg are included; the core
+transcription model prepares automatically while secondary model downloads remain explicit.
+The ZIP includes the app, CLI
 launcher and a receipt identifying the source commit and runtime. The primary
 agent interface is the yap skill and CLI.
 

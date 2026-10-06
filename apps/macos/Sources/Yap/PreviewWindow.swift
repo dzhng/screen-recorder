@@ -85,6 +85,12 @@ final class PreviewWindow: NSObject, PreviewPresenting, NSWindowDelegate {
         playerView?.player?.play()
     }
 
+    func playLocalFile(title: String, file: String, mediaType: String) {
+        close()
+        open(title: title, retry: {}, closed: {})
+        play(title: title, file: file, mediaType: mediaType, failed: { _ in })
+    }
+
     func close() {
         playerObservation = nil
         playerView?.player?.pause()

@@ -37,30 +37,36 @@ For imported speech, select the returned `assetId` and audio `streamId` explicit
 when requesting a source transcript; include `acquisitionId` only when you intend
 its capture gaps. These ranges are normalized file timestamps, not project time.
 Keep the complete returned cursor when paging or searching; changing selection or
-generation requires a fresh read. Prepare speech explicitly with `transcript.prepare`;
-`transcript.get` and search inspect retained evidence and never run inference.
-A preparation's `executionRange` limits primary source ownership; its outer
-`context` expands decoding without extending that ownership. A read's `range`
-only filters retained observations. Pin the returned `generation` when reading
-bounded evidence; omitting it selects full-support preparation, never the latest
-bounded take. For project reads, pass advertised `sourceGenerations` pins to use
-bounded source evidence. Context observations and boundary decisions remain in
-raw evidence; unowned decoded context is `not_observed`, not silence or missing
-physical media. Inspect this evidence when a seam is refused; never repair word
-timestamps or silently discard a boundary word.
+generation requires a fresh read. The app prepares models marked for the product
+lifecycle in the background at install and update; reads wait for that work but do
+not own a new download. Prepare speech explicitly with `transcript.prepare` when a
+bounded or new execution is required; `transcript.get` and search inspect retained
+evidence and never run inference. A preparation's `executionRange` limits primary
+source ownership; its outer `context` expands decoding without extending that
+ownership. A read's `range` only filters retained observations. Pin the returned
+`generation` when reading bounded evidence; omitting it selects full-support
+preparation, never the latest bounded take. For project reads, pass advertised
+`sourceGenerations` pins to use bounded source evidence. Context observations and
+boundary decisions remain in raw evidence; unowned decoded context is
+`not_observed`, not silence or missing physical media. Inspect this evidence when a
+seam is refused; never repair word timestamps or silently discard a boundary word.
 
 Discover registered IDs, purposes and source requirements with `model.list`, then
 inspect `model.status` with the selected `modelId`. Call `model.prepare` by default
 when the requested Yap feature needs its registered model/runtime; this separate
-preparation may download pinned inputs under its advertised acquisition policy
-and needs no additional permission. Supply verified local sources when required
-instead of guessing temporary paths or installing dependencies during reads.
-Diagnose failed/canceled work before explicit transcript retry with the original
-execution selection. Phrase search can cross accepted inference seams, but cannot
-cross unavailable, unobserved or skipped source support. Preserve overlapping estimates
-and zero-width instant pins as returned. Unfiltered source enumeration retains all
-observations; explicit source/project ranges use half-open membership. Never turn
-an instant into playable duration or treat overlapping estimates as clean cuts.
+preparation may download pinned inputs under its advertised acquisition policy and
+needs no additional permission. If an explicit request still returns
+`unavailable:model_not_prepared`, use `model.prepare` as recovery for a failed or
+interrupted lifecycle download, poll until `ready`, then retry the same selection.
+Supply verified local sources when required instead of guessing temporary paths or
+installing dependencies during reads. Keep incidental probes read-only. Diagnose
+failed/canceled work before explicit transcript retry and surface the exact returned
+reason when a retry still fails. Phrase search can cross accepted inference seams,
+but cannot cross unavailable, unobserved or skipped source support. Preserve
+overlapping estimates and zero-width instant pins as returned. Unfiltered source
+enumeration retains all observations; explicit source/project ranges use half-open
+membership. Never turn an instant into playable duration or treat overlapping
+estimates as clean cuts. A source phrase cannot cross an inference segment.
 
 When anonymous speaker observations are requested, inspect `speaker.prepare` and
 `speaker.get` help first. Discover the optional model through `model.list`; its
