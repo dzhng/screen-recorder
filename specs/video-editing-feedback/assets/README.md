@@ -50,3 +50,7 @@ acquisition and provider parity; public retained alignment remains10B.
 
 [Dialogue finishing](19-dialogue-matching/README.md) retains explicit per-occurrence
 matching, compressor makeup and a complete independently measured strict master.
+
+[Synchronization waveform research](20-synchronization/README.md) retains exact
+real microphone operands, independent controls and all frozen acoustic refusals;
+it establishes no camera clock or production provider.

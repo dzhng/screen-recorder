@@ -1,0 +1,1 @@
+CLEAN. Guards precede native work, replay preserves comparisons before refusing, and comparison excludes only elapsed time. Focused tests were unavailable because the read-only sandbox could not create temporary directories; this was an environment limitation, not a test failure.

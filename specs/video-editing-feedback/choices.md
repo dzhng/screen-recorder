@@ -781,3 +781,13 @@ Neither result changes the public provider, limits, clocks or quality gates. The
 shared replay/invocation owner retains required failures, byte identities and
 termination/resource receipts. No unlisted production or user-only decision was
 introduced in this research checkpoint.
+
+## Slice20 waveform research checkpoint
+
+Anchor selection, score interpretation, competing-peak bounds and work budgets
+were explicitly delegated to20 and remain frozen with its protocol. Lossless WAV
+wrapping reuses the existing fixture/LFS owner and actual native re-decode proves
+all captured PCM bytes unchanged. No new production owner, clock policy, dependency
+or inferred edit was introduced. The failed waveform hypothesis cannot authorize
+relationship declaration; lexical research remains independently open. No
+unlisted architecture or user-only choice was found in this research pass.

@@ -1,0 +1,87 @@
+{
+  "scope": "Acoustic offset research only; no relationship declaration, edit, retime or speaker identity",
+  "incumbent": "No current estimator; original feedback reports weak envelope correlation across isolated microphones",
+  "candidate": "Three separated four-second waveform anchors, normalized linear FFT cross-correlation, explicit competing peaks",
+  "frozenControls": {
+    "sampleRate": 1000,
+    "seconds": 20,
+    "knownDelayFrames": 125,
+    "seed": 61006,
+    "maximumErrorMs": 2,
+    "requiredSeparatedAnchors": 3
+  },
+  "initialPolicy": {
+    "maximumLagSeconds": 1,
+    "anchorCentersSeconds": [
+      3,
+      10,
+      17
+    ],
+    "anchorSeconds": 4,
+    "minimumAbsoluteCorrelation": 0.35,
+    "maximumAlternativeRatio": 0.8,
+    "alternativeSeparationMs": 50,
+    "maximumAnchorSpreadMs": 2
+  },
+  "scoreMeaning": "Normalized waveform correlation, never calibrated confidence or lexical truth",
+  "hypotheses": [
+    {
+      "id": "normalized-waveform",
+      "mechanism": "Independent gains and additive noise can retain waveform correspondence; temporal drift or discontinuous edits disagree across anchors",
+      "cheapest": "Known delayed authored waveform, then silence/unrelated/repeated/drift controls",
+      "status": "refused on all nine frozen real source-pair/windows; no promotion"
+    },
+    {
+      "id": "lexical-anchors",
+      "mechanism": "Word correspondence may constrain timing when unlike microphones do not share waveform evidence",
+      "dependency": "Accepted10B retained public source alignment and bounded transcript observations",
+      "status": "not run; do not substitute supplied text for recognized shared content"
+    }
+  ],
+  "realScouts": {
+    "sources": [
+      "grahamRaw",
+      "madisonRaw",
+      "lilyRawP1"
+    ],
+    "rangesSeconds": [
+      [
+        0,
+        20
+      ],
+      [
+        240,
+        260
+      ],
+      [
+        1200,
+        1220
+      ]
+    ],
+    "channel": 0,
+    "recipe": "Existing native complete selected-channel16k Float32 owner; retain source/range/raw hashes"
+  },
+  "promotion": "Known shift must pass within2ms; unrelated, silence, ambiguous repeats, drift and discontinuous edits must not admit one constant offset; real weak/shared coverage remains reported rather than tuned into success",
+  "budget": {
+    "authoredSecondsPerCase": 5,
+    "maximumSourceDecodes": 9,
+    "secondsPerDecode": 30,
+    "maximumModelInferences": 0,
+    "candidateRepairs": 2
+  },
+  "sourcePolicy": "External originals unchanged; derive to scratch, retain small operands through the fixture owner after physical checks. Never equate durations or raw participant identity with shared content.",
+  "sources": {
+    "grahamRaw": {
+      "file": "fullvideo_graham_p1.mp4",
+      "sha256": "992bb6f6596a745373414aa17a62e2ff065b0111e26c3cbdde1994b623968210"
+    },
+    "madisonRaw": {
+      "file": "riverside_madison_raw-video-cfr_madison_kanna's stu_0035.mp4",
+      "sha256": "d05a5af37900032f5145566ada7b314a1c089b0a56f3085fe509c2ef37af80fa"
+    },
+    "lilyRawP1": {
+      "file": "fullvideo_lily_p1.mp4",
+      "sha256": "588757723f07ed21900bdc8dc33d267ceb97fc0b713a2b47fe02207feaf425b3"
+    }
+  }
+}

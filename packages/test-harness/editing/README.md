@@ -159,3 +159,8 @@ provider outputs and complete frozen word operands through the native correspond
 core publication and retained-read boundaries. It checks every possible pairing,
 conditional frame bound and physical refusal; it neither reruns inference nor treats
 supplied text as independent lexical truth.
+
+[Acoustic synchronization research](synchronization/README.md) separates planted
+offsets, retained unlike-microphone PCM and competing-anchor refusals from declared
+source relationships. Its runner owns acquisition and replay; no clock is inferred
+from equal duration or one correlation peak.

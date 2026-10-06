@@ -160,3 +160,8 @@ and provider/PCM pins survive explicit generation reads. Complete words/acoustic
 scores and captured unverified raw refusals remain distinct. Project tap inference,
 projection and package preservation stay open in10B2.31 native-cache research
 adds complete checked failure accounting, with no speaker provider promotion.
+
+Slice20 waveform checkpoint retains physical inputs and controls, but the real
+unlike-microphone comparisons all refuse. [The frozen result](assets/20-synchronization/README.md)
+keeps the synchronization feedback open for lexical-anchor research; equal
+duration/session provenance does not close it.

@@ -1,0 +1,446 @@
+{
+  "sourceReportSha256": "448b2f5998cf7c5c0064729ec53a1e85f720f416eb2a67dd969b9f5e6f768b73",
+  "nativeSha256": "cf683f84d1de590c50e98a6e05aabde084cb4a3700d641856237c77a8cfe5703",
+  "sources": {
+    "grahamRaw": {
+      "path": "/Users/server/Downloads/fullvideo_graham_p1.mp4",
+      "sha256": "992bb6f6596a745373414aa17a62e2ff065b0111e26c3cbdde1994b623968210",
+      "probe": {
+        "originUs": 0,
+        "streams": [
+          {
+            "codec": "avc1",
+            "codecAtomNames": [
+              [
+                "avcC",
+                "btrt"
+              ]
+            ],
+            "colorFormats": [
+              {
+                "bitsPerComponent": null,
+                "colorPrimaries": "ITU_R_709_2",
+                "fullRange": false,
+                "interpretationExtensions": [],
+                "invalidColorDeclarations": [],
+                "transferFunction": "ITU_R_709_2",
+                "ycbcrMatrix": "ITU_R_709_2"
+              }
+            ],
+            "colorPrimaries": "ITU_R_709_2",
+            "decodable": true,
+            "endUs": 2359959000,
+            "hasAlpha": false,
+            "height": 1080,
+            "id": "track:1",
+            "kind": "video",
+            "orientedHeight": 1080,
+            "orientedPixelBounds": {
+              "height": 1080,
+              "width": 1920,
+              "x": 0,
+              "y": 0
+            },
+            "orientedWidth": 1920,
+            "samples": {
+              "count": 56639,
+              "firstPtsUs": 0,
+              "firstTimeUs": 0,
+              "lastDurationUs": {
+                "denominator": 3,
+                "numerator": 125000
+              },
+              "lastPtsUs": 2359916667,
+              "lastTimeUs": {
+                "denominator": 3,
+                "numerator": 7079750000
+              },
+              "maxDurationUs": 41667,
+              "minDurationUs": 41667,
+              "presentedTimingSha256": "e416ed90c29695377d4d49acc2848706c057509dc90a87f12e3adcecfaa2a02b"
+            },
+            "segments": [
+              {
+                "empty": false,
+                "endUs": 2359959000,
+                "mediaDurationUs": 2359959000,
+                "mediaStartUs": 0,
+                "startUs": 0
+              }
+            ],
+            "startUs": 0,
+            "transferFunction": "ITU_R_709_2",
+            "transform": [
+              1,
+              0,
+              0,
+              1,
+              0,
+              0
+            ],
+            "width": 1920,
+            "ycbcrMatrix": "ITU_R_709_2"
+          },
+          {
+            "channelLayoutTag": 6553601,
+            "channels": 1,
+            "codec": "aac ",
+            "decodable": true,
+            "endUs": 2359971000,
+            "id": "track:2",
+            "kind": "audio",
+            "sampleRate": 44100,
+            "segments": [
+              {
+                "empty": false,
+                "endUs": 2359971000,
+                "mediaDurationUs": 2359971000,
+                "mediaStartUs": {
+                  "denominator": 441,
+                  "numerator": 10240000
+                },
+                "startUs": 0
+              }
+            ],
+            "startUs": 0
+          }
+        ]
+      }
+    },
+    "madisonRaw": {
+      "path": "/Users/server/Downloads/riverside_madison_raw-video-cfr_madison_kanna's stu_0035.mp4",
+      "sha256": "d05a5af37900032f5145566ada7b314a1c089b0a56f3085fe509c2ef37af80fa",
+      "probe": {
+        "originUs": 0,
+        "streams": [
+          {
+            "codec": "avc1",
+            "codecAtomNames": [
+              [
+                "avcC",
+                "btrt"
+              ]
+            ],
+            "colorFormats": [
+              {
+                "bitsPerComponent": null,
+                "colorPrimaries": "ITU_R_709_2",
+                "fullRange": false,
+                "interpretationExtensions": [],
+                "invalidColorDeclarations": [],
+                "transferFunction": "ITU_R_709_2",
+                "ycbcrMatrix": "ITU_R_709_2"
+              }
+            ],
+            "colorPrimaries": "ITU_R_709_2",
+            "decodable": true,
+            "endUs": 2360042000,
+            "hasAlpha": false,
+            "height": 1080,
+            "id": "track:1",
+            "kind": "video",
+            "orientedHeight": 1080,
+            "orientedPixelBounds": {
+              "height": 1080,
+              "width": 1920,
+              "x": 0,
+              "y": 0
+            },
+            "orientedWidth": 1920,
+            "samples": {
+              "count": 56641,
+              "firstPtsUs": 0,
+              "firstTimeUs": 0,
+              "lastDurationUs": {
+                "denominator": 3,
+                "numerator": 125000
+              },
+              "lastPtsUs": 2360000000,
+              "lastTimeUs": 2360000000,
+              "maxDurationUs": 41667,
+              "minDurationUs": 41667,
+              "presentedTimingSha256": "65154d40036bf2f87d5355c0344a0fd22e2df469395253f0ad2143fc042ebad5"
+            },
+            "segments": [
+              {
+                "empty": false,
+                "endUs": 2360042000,
+                "mediaDurationUs": 2360042000,
+                "mediaStartUs": 0,
+                "startUs": 0
+              }
+            ],
+            "startUs": 0,
+            "transferFunction": "ITU_R_709_2",
+            "transform": [
+              1,
+              0,
+              0,
+              1,
+              0,
+              0
+            ],
+            "width": 1920,
+            "ycbcrMatrix": "ITU_R_709_2"
+          },
+          {
+            "channelLayoutTag": 6553601,
+            "channels": 1,
+            "codec": "aac ",
+            "decodable": true,
+            "endUs": 2360011000,
+            "id": "track:2",
+            "kind": "audio",
+            "sampleRate": 44100,
+            "segments": [
+              {
+                "empty": false,
+                "endUs": 2360011000,
+                "mediaDurationUs": 2360011000,
+                "mediaStartUs": {
+                  "denominator": 441,
+                  "numerator": 10240000
+                },
+                "startUs": 0
+              }
+            ],
+            "startUs": 0
+          }
+        ]
+      }
+    },
+    "lilyRawP1": {
+      "path": "/Users/server/Downloads/fullvideo_lily_p1.mp4",
+      "sha256": "588757723f07ed21900bdc8dc33d267ceb97fc0b713a2b47fe02207feaf425b3",
+      "probe": {
+        "originUs": 0,
+        "streams": [
+          {
+            "codec": "avc1",
+            "codecAtomNames": [
+              [
+                "avcC",
+                "btrt"
+              ]
+            ],
+            "colorFormats": [
+              {
+                "bitsPerComponent": null,
+                "colorPrimaries": "ITU_R_709_2",
+                "fullRange": false,
+                "interpretationExtensions": [],
+                "invalidColorDeclarations": [],
+                "transferFunction": "ITU_R_709_2",
+                "ycbcrMatrix": "ITU_R_709_2"
+              }
+            ],
+            "colorPrimaries": "ITU_R_709_2",
+            "decodable": true,
+            "endUs": 2359959000,
+            "hasAlpha": false,
+            "height": 1080,
+            "id": "track:1",
+            "kind": "video",
+            "orientedHeight": 1080,
+            "orientedPixelBounds": {
+              "height": 1080,
+              "width": 1920,
+              "x": 0,
+              "y": 0
+            },
+            "orientedWidth": 1920,
+            "samples": {
+              "count": 56639,
+              "firstPtsUs": 0,
+              "firstTimeUs": 0,
+              "lastDurationUs": {
+                "denominator": 3,
+                "numerator": 125000
+              },
+              "lastPtsUs": 2359916667,
+              "lastTimeUs": {
+                "denominator": 3,
+                "numerator": 7079750000
+              },
+              "maxDurationUs": 41667,
+              "minDurationUs": 41667,
+              "presentedTimingSha256": "e416ed90c29695377d4d49acc2848706c057509dc90a87f12e3adcecfaa2a02b"
+            },
+            "segments": [
+              {
+                "empty": false,
+                "endUs": 2359959000,
+                "mediaDurationUs": 2359959000,
+                "mediaStartUs": 0,
+                "startUs": 0
+              }
+            ],
+            "startUs": 0,
+            "transferFunction": "ITU_R_709_2",
+            "transform": [
+              1,
+              0,
+              0,
+              1,
+              0,
+              0
+            ],
+            "width": 1920,
+            "ycbcrMatrix": "ITU_R_709_2"
+          },
+          {
+            "channelLayoutTag": 6553601,
+            "channels": 1,
+            "codec": "aac ",
+            "decodable": true,
+            "endUs": 2360014000,
+            "id": "track:2",
+            "kind": "audio",
+            "sampleRate": 44100,
+            "segments": [
+              {
+                "empty": false,
+                "endUs": 2360014000,
+                "mediaDurationUs": 2360014000,
+                "mediaStartUs": {
+                  "denominator": 441,
+                  "numerator": 10240000
+                },
+                "startUs": 0
+              }
+            ],
+            "startUs": 0
+          }
+        ]
+      }
+    }
+  },
+  "cases": [
+    {
+      "name": "grahamRaw-0",
+      "source": "grahamRaw",
+      "range": {
+        "startUs": 0,
+        "endUs": 20000000
+      },
+      "path": "grahamRaw-0.wav",
+      "bytes": 1280058,
+      "sha256": "68969187884f86e05fe74ece08f5eeab0287be7d51121d62baa3fce08aa164d8",
+      "pcmSha256": "14994b416984fad6144704e2bea08d18c71ce0672afc652694cb9ffd14cdccf1",
+      "frames": 320000,
+      "sampleRate": 16000
+    },
+    {
+      "name": "grahamRaw-240",
+      "source": "grahamRaw",
+      "range": {
+        "startUs": 240000000,
+        "endUs": 260000000
+      },
+      "path": "grahamRaw-240.wav",
+      "bytes": 1280058,
+      "sha256": "cd5867429a08916ea2303fabf9a7f9fe626cc928838f96e04e10f12f796dfa01",
+      "pcmSha256": "9efafd106e2ddef419342ee996fd22839d41048bccd041937178e8770a704ce6",
+      "frames": 320000,
+      "sampleRate": 16000
+    },
+    {
+      "name": "grahamRaw-1200",
+      "source": "grahamRaw",
+      "range": {
+        "startUs": 1200000000,
+        "endUs": 1220000000
+      },
+      "path": "grahamRaw-1200.wav",
+      "bytes": 1280058,
+      "sha256": "cf3f63f3608cb4033897f7f7e1b09788d8d8690cd12bbd075d64ad47c9f76532",
+      "pcmSha256": "39de5102e6076fa58fe2e20110d4271b2a6916af47d355d81deca42eb8766061",
+      "frames": 320000,
+      "sampleRate": 16000
+    },
+    {
+      "name": "madisonRaw-0",
+      "source": "madisonRaw",
+      "range": {
+        "startUs": 0,
+        "endUs": 20000000
+      },
+      "path": "madisonRaw-0.wav",
+      "bytes": 1280058,
+      "sha256": "7487e96981090e8ced92207524a2ee084754f57fcce45d75be1ccae89c70cbff",
+      "pcmSha256": "e096205d4686fce8afa86e3f0bbd703a09b9de40958b9c51aed2cacdc68a62b2",
+      "frames": 320000,
+      "sampleRate": 16000
+    },
+    {
+      "name": "madisonRaw-240",
+      "source": "madisonRaw",
+      "range": {
+        "startUs": 240000000,
+        "endUs": 260000000
+      },
+      "path": "madisonRaw-240.wav",
+      "bytes": 1280058,
+      "sha256": "4e4942c16beba0868970a50fd827043c84905162bccb1cbefa6b9d5ffdd363a9",
+      "pcmSha256": "b372630e00795aba97bea0ed26ec97683c2b494d428bf025193871dbc61fb617",
+      "frames": 320000,
+      "sampleRate": 16000
+    },
+    {
+      "name": "madisonRaw-1200",
+      "source": "madisonRaw",
+      "range": {
+        "startUs": 1200000000,
+        "endUs": 1220000000
+      },
+      "path": "madisonRaw-1200.wav",
+      "bytes": 1280058,
+      "sha256": "72cdd5f7006c60d3f8c1574decffde2b6f12331f5c7cfb0dd63abfabbfb72424",
+      "pcmSha256": "c590b3ad081e897e767ddfea6762eacb6858f97b920b7e45b853d8d92f0212a5",
+      "frames": 320000,
+      "sampleRate": 16000
+    },
+    {
+      "name": "lilyRawP1-0",
+      "source": "lilyRawP1",
+      "range": {
+        "startUs": 0,
+        "endUs": 20000000
+      },
+      "path": "lilyRawP1-0.wav",
+      "bytes": 1280058,
+      "sha256": "0354f9c4a79e630b0b472a5e9c435490262ec823e6a58af90ed4794f746db037",
+      "pcmSha256": "1d626f93d9782a0313441f0e73e768274797616ab7eaaaf6b00ed176a8ffcef6",
+      "frames": 320000,
+      "sampleRate": 16000
+    },
+    {
+      "name": "lilyRawP1-240",
+      "source": "lilyRawP1",
+      "range": {
+        "startUs": 240000000,
+        "endUs": 260000000
+      },
+      "path": "lilyRawP1-240.wav",
+      "bytes": 1280058,
+      "sha256": "7ccb38f0dcc2afedeb4c8db486532f7a421bfceab11da4da70e57d37bd5f8dc1",
+      "pcmSha256": "75ea42a9e5e8bc6d27a625735ebacf346be0425ee20a48f6a53270bd95cce89d",
+      "frames": 320000,
+      "sampleRate": 16000
+    },
+    {
+      "name": "lilyRawP1-1200",
+      "source": "lilyRawP1",
+      "range": {
+        "startUs": 1200000000,
+        "endUs": 1220000000
+      },
+      "path": "lilyRawP1-1200.wav",
+      "bytes": 1280058,
+      "sha256": "404572309934888bd84d0ef2a705c532dc75a962a8d551b8cf00f206049fab74",
+      "pcmSha256": "1285698a0ad1c4d2d0bd2e8754d0df1f8b1efa822c93be94c4e056ab7aa8ebe9",
+      "frames": 320000,
+      "sampleRate": 16000
+    }
+  ]
+}

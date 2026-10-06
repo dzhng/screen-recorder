@@ -27,3 +27,7 @@ remain pending under the approved fixture contract.
 
 [Real speaker dialogue controls](dialogue/README.md) retain two small identified
 crops with an explicit quiet-host attenuation for per-occurrence finishing proof.
+
+[Unlike-microphone operands](synchronization/README.md) retain lossless separated
+windows for synchronization research; their waveform refusal is separate from
+physical byte preservation and does not declare cameras synchronized.

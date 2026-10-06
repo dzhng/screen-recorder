@@ -16,7 +16,7 @@ merge, push or installed-app change has been requested. Hard cutover remains
 binding: no aliases, dual readers or migrations; preserve external originals and
 frozen historical evidence.
 
-Current pickup: retain20 synchronization waveform research in `/Users/server/dev/yap-audio-synchronization`; advance lexical anchors after accepted10B.19 dialogue matching is complete with a clean independent review.
+Current pickup: close the20 waveform research review in `/Users/server/dev/yap-audio-synchronization`; all nine real comparisons refuse the frozen acoustic gates. Advance lexical anchors after accepted10B.19 dialogue matching is complete with a clean independent review.
 Reviewed05 atomic replacement,14 delivered-picture observations,10A pinned
 alignment distribution,10B1 retained source observations and31 native-cache
 research are integrated.

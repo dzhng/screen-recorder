@@ -1,6 +1,6 @@
 # 20 — Prove synchronization on unlike microphones
 
-Status: planned. Depends on: [08](08-bounded-speech-preparation.md), [10](10-alignment-and-boundaries.md), [01](01-certified-corpus.md).
+Status: waveform research refused on frozen real inputs; lexical-anchor checkpoint open. Depends on: [08](08-bounded-speech-preparation.md), [10](10-alignment-and-boundaries.md), [01](01-certified-corpus.md).
 
 ## Contract
 
@@ -47,10 +47,19 @@ Unlisted public policy/semantic choices are a spec gap. Update the map and slice
 
 ## Must stay green
 
-No auto retime, camera selection or declaration; no dependency acquisition by default.
+No auto retime, camera selection or declaration. Prepare pinned first-class Yap dependencies by default; this numerical pass reuses an existing immutable runtime.
 
 Run review/refactor-clean/code-review/write-docs appropriate to the change; retain a scoped review verdict. Update the README's Next Agent Prompt, traceability evidence and this slice's status before ending a pass. Full-suite work waits until feature completion unless the next slice cannot be trusted without it.
 
 ## Direction that would change this slice
 
 A changed user brief, reference or product policy can redirect it. Human listening, watching or transcript labeling is never an acceptance prerequisite. Record material deviations and their evidence instead of silently changing requirements.
+
+## Current checkpoint
+
+[The waveform research](../assets/20-synchronization/README.md) preserves complete
+real unlike-microphone operands and exact retained/native replay. Authored controls
+pass; all nine real comparisons refuse the unchanged acoustic gates. This is a
+failed hypothesis, not completion or sync proof. Continue lexical-anchor research
+when10B can supply retained alignment over independently recognized shared speech.
+No source relationship or clock owner changed.

@@ -1,0 +1,227 @@
+{
+  "python": "3.12.14",
+  "numpy": "2.3.5",
+  "scipy": "1.18.1",
+  "manifestSha256": "81d788dfcb0951b7bc352d70bdcb2715a37f520ba41c6109bfdabb4037e00cf5",
+  "estimatorSha256": "47ed36fba85f35e1994917d6ac52b5b23f1e68b25a336f26a167b424185d0d2e",
+  "nativeSha256": "cf683f84d1de590c50e98a6e05aabde084cb4a3700d641856237c77a8cfe5703",
+  "nativeChecks": [
+    {
+      "name": "grahamRaw-0",
+      "receipt": {
+        "bytes": 1280000,
+        "channel": 0,
+        "channels": 1,
+        "decodedFrames": 320000,
+        "file": "/private/tmp/yap20-retained-replay/grahamRaw-0.f32",
+        "frames": 320000,
+        "providerVersion": "Version 27.0.1 (Build 26A434)",
+        "range": {
+          "endUs": 20000000,
+          "startUs": 0
+        },
+        "recipe": "source-selected-span-avfoundation-f32-16k-v1",
+        "representation": "float32-le",
+        "sampleRate": 16000,
+        "sha256": "14994b416984fad6144704e2bea08d18c71ce0672afc652694cb9ffd14cdccf1",
+        "sourceChannels": 1,
+        "sourceOffsetUs": 0,
+        "sourceSampleRate": 16000
+      },
+      "elapsedSeconds": 0.16113395898719318
+    },
+    {
+      "name": "grahamRaw-240",
+      "receipt": {
+        "bytes": 1280000,
+        "channel": 0,
+        "channels": 1,
+        "decodedFrames": 320000,
+        "file": "/private/tmp/yap20-retained-replay/grahamRaw-240.f32",
+        "frames": 320000,
+        "providerVersion": "Version 27.0.1 (Build 26A434)",
+        "range": {
+          "endUs": 20000000,
+          "startUs": 0
+        },
+        "recipe": "source-selected-span-avfoundation-f32-16k-v1",
+        "representation": "float32-le",
+        "sampleRate": 16000,
+        "sha256": "9efafd106e2ddef419342ee996fd22839d41048bccd041937178e8770a704ce6",
+        "sourceChannels": 1,
+        "sourceOffsetUs": 0,
+        "sourceSampleRate": 16000
+      },
+      "elapsedSeconds": 0.15247458301018924
+    },
+    {
+      "name": "grahamRaw-1200",
+      "receipt": {
+        "bytes": 1280000,
+        "channel": 0,
+        "channels": 1,
+        "decodedFrames": 320000,
+        "file": "/private/tmp/yap20-retained-replay/grahamRaw-1200.f32",
+        "frames": 320000,
+        "providerVersion": "Version 27.0.1 (Build 26A434)",
+        "range": {
+          "endUs": 20000000,
+          "startUs": 0
+        },
+        "recipe": "source-selected-span-avfoundation-f32-16k-v1",
+        "representation": "float32-le",
+        "sampleRate": 16000,
+        "sha256": "39de5102e6076fa58fe2e20110d4271b2a6916af47d355d81deca42eb8766061",
+        "sourceChannels": 1,
+        "sourceOffsetUs": 0,
+        "sourceSampleRate": 16000
+      },
+      "elapsedSeconds": 0.15281337502528913
+    },
+    {
+      "name": "madisonRaw-0",
+      "receipt": {
+        "bytes": 1280000,
+        "channel": 0,
+        "channels": 1,
+        "decodedFrames": 320000,
+        "file": "/private/tmp/yap20-retained-replay/madisonRaw-0.f32",
+        "frames": 320000,
+        "providerVersion": "Version 27.0.1 (Build 26A434)",
+        "range": {
+          "endUs": 20000000,
+          "startUs": 0
+        },
+        "recipe": "source-selected-span-avfoundation-f32-16k-v1",
+        "representation": "float32-le",
+        "sampleRate": 16000,
+        "sha256": "e096205d4686fce8afa86e3f0bbd703a09b9de40958b9c51aed2cacdc68a62b2",
+        "sourceChannels": 1,
+        "sourceOffsetUs": 0,
+        "sourceSampleRate": 16000
+      },
+      "elapsedSeconds": 0.15607779199490324
+    },
+    {
+      "name": "madisonRaw-240",
+      "receipt": {
+        "bytes": 1280000,
+        "channel": 0,
+        "channels": 1,
+        "decodedFrames": 320000,
+        "file": "/private/tmp/yap20-retained-replay/madisonRaw-240.f32",
+        "frames": 320000,
+        "providerVersion": "Version 27.0.1 (Build 26A434)",
+        "range": {
+          "endUs": 20000000,
+          "startUs": 0
+        },
+        "recipe": "source-selected-span-avfoundation-f32-16k-v1",
+        "representation": "float32-le",
+        "sampleRate": 16000,
+        "sha256": "b372630e00795aba97bea0ed26ec97683c2b494d428bf025193871dbc61fb617",
+        "sourceChannels": 1,
+        "sourceOffsetUs": 0,
+        "sourceSampleRate": 16000
+      },
+      "elapsedSeconds": 0.15163145802216604
+    },
+    {
+      "name": "madisonRaw-1200",
+      "receipt": {
+        "bytes": 1280000,
+        "channel": 0,
+        "channels": 1,
+        "decodedFrames": 320000,
+        "file": "/private/tmp/yap20-retained-replay/madisonRaw-1200.f32",
+        "frames": 320000,
+        "providerVersion": "Version 27.0.1 (Build 26A434)",
+        "range": {
+          "endUs": 20000000,
+          "startUs": 0
+        },
+        "recipe": "source-selected-span-avfoundation-f32-16k-v1",
+        "representation": "float32-le",
+        "sampleRate": 16000,
+        "sha256": "c590b3ad081e897e767ddfea6762eacb6858f97b920b7e45b853d8d92f0212a5",
+        "sourceChannels": 1,
+        "sourceOffsetUs": 0,
+        "sourceSampleRate": 16000
+      },
+      "elapsedSeconds": 0.15505420899717137
+    },
+    {
+      "name": "lilyRawP1-0",
+      "receipt": {
+        "bytes": 1280000,
+        "channel": 0,
+        "channels": 1,
+        "decodedFrames": 320000,
+        "file": "/private/tmp/yap20-retained-replay/lilyRawP1-0.f32",
+        "frames": 320000,
+        "providerVersion": "Version 27.0.1 (Build 26A434)",
+        "range": {
+          "endUs": 20000000,
+          "startUs": 0
+        },
+        "recipe": "source-selected-span-avfoundation-f32-16k-v1",
+        "representation": "float32-le",
+        "sampleRate": 16000,
+        "sha256": "1d626f93d9782a0313441f0e73e768274797616ab7eaaaf6b00ed176a8ffcef6",
+        "sourceChannels": 1,
+        "sourceOffsetUs": 0,
+        "sourceSampleRate": 16000
+      },
+      "elapsedSeconds": 0.15329895800095983
+    },
+    {
+      "name": "lilyRawP1-240",
+      "receipt": {
+        "bytes": 1280000,
+        "channel": 0,
+        "channels": 1,
+        "decodedFrames": 320000,
+        "file": "/private/tmp/yap20-retained-replay/lilyRawP1-240.f32",
+        "frames": 320000,
+        "providerVersion": "Version 27.0.1 (Build 26A434)",
+        "range": {
+          "endUs": 20000000,
+          "startUs": 0
+        },
+        "recipe": "source-selected-span-avfoundation-f32-16k-v1",
+        "representation": "float32-le",
+        "sampleRate": 16000,
+        "sha256": "75ea42a9e5e8bc6d27a625735ebacf346be0425ee20a48f6a53270bd95cce89d",
+        "sourceChannels": 1,
+        "sourceOffsetUs": 0,
+        "sourceSampleRate": 16000
+      },
+      "elapsedSeconds": 0.14678454198292457
+    },
+    {
+      "name": "lilyRawP1-1200",
+      "receipt": {
+        "bytes": 1280000,
+        "channel": 0,
+        "channels": 1,
+        "decodedFrames": 320000,
+        "file": "/private/tmp/yap20-retained-replay/lilyRawP1-1200.f32",
+        "frames": 320000,
+        "providerVersion": "Version 27.0.1 (Build 26A434)",
+        "range": {
+          "endUs": 20000000,
+          "startUs": 0
+        },
+        "recipe": "source-selected-span-avfoundation-f32-16k-v1",
+        "representation": "float32-le",
+        "sampleRate": 16000,
+        "sha256": "1285698a0ad1c4d2d0bd2e8754d0df1f8b1efa822c93be94c4e056ab7aa8ebe9",
+        "sourceChannels": 1,
+        "sourceOffsetUs": 0,
+        "sourceSampleRate": 16000
+      },
+      "elapsedSeconds": 0.15199733400368132
+    }
+  ],
+  "clockDeclared": false
+}
