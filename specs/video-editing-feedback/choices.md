@@ -25,6 +25,26 @@ User decisions remain binding; this ledger records implementation discretion out
   and LUT bytes, and keeps measurements from acquiring editorial authority.
 - **Confidence:** high.
 
+## Crossfade delivery control — sound, high confidence
+
+- **When:** slice27 native picture checkpoint.
+- **The choice:** prove the transition with two tiny caller-authored solid-color
+  images. The public edit places them on separate video tracks, applies one
+  crossfade window, reads frames before/during/after it, and renders a preview.
+  Because the colors are constant, a midpoint containing both colors is direct
+  evidence that the delivered pixels came from the two requested clips.
+- **The gap:** the slice required rendered samples but did not prescribe a
+  fixture. A real-camera clip would add texture and codec variation that could
+  hide an opacity or layer-order defect, so the first native checkpoint uses
+  deterministic controls and leaves audio, dip/flash and appearance review to
+  their own receipts.
+- **The reach:** future transition tests can reuse this public journey to catch
+  missing windows, wrong track order or preview/frame divergence without adding
+  another renderer. It does not establish an aesthetic grade or audio behavior.
+- **Verdict:** sound. The control isolates the transition variable and keeps
+  caller-selected media and timing explicit.
+- **Confidence:** high.
+
 ## Lexical prerequisite checkpoint — sound, high confidence
 
 - When: slice20 isolated-microphone lexical scout.

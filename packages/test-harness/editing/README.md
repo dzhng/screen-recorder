@@ -205,3 +205,9 @@ CLI/MCP import, project authoring and native frame delivery against an independe
 linear-sRGB curve. It retains neutral, shadow-color and highlight-neutral masks in
 its receipt; [the feature evidence](../../../specs/video-editing-feedback/assets/25-tone-controls/split-tone/public/README.md)
 records the scoped response.
+
+[Transition delivery](transition-delivery.mjs) runs a caller-authored crossfade
+through public import, edit authoring, native frame reads and preview export with
+solid-color controls. Its receipt isolates the transition window and midpoint;
+[the feature evidence](../../../specs/video-editing-feedback/assets/27-29-transitions/crossfade/README.md)
+keeps audio, dip/flash and visual-reference gates separate.
