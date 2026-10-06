@@ -54,9 +54,8 @@ public enum SourceTranscript {
         let words: [RawWord]
     }
 
-    /// `startSeconds` and `endSeconds` are the engine's own, kept so this record can still be
-    /// compared token for token with the evaluated CLI. `source` is when the word was spoken,
-    /// which is what every later read and edit is aimed by.
+    /// Recognition and speech-bearing token estimates remain distinct. Neither estimate is
+    /// independent audible ground truth or permission to cut the source.
     struct RawWord: Codable {
         let text: String
         let startSeconds: TimeInterval
@@ -96,12 +95,17 @@ public enum SourceTranscript {
             if samples.count >= ParakeetEngine.minimumSamples {
                 if engine == nil { engine = try await ParakeetEngine.load(models) }
                 let result = try await engine!.transcribe(samples)
-                let words = try WordTimingMerger.mergeTokensIntoWords(result.tokenTimings ?? []).map {
+                for (tokenIndex, token) in (result.tokenTimings ?? []).enumerated() {
+                    _ = try sourceSpan(from: token.startTime, to: token.endTime, in: interval,
+                        observation: "Segment \(ordinal) token \(tokenIndex)")
+                }
+                let words = try WordTimingMerger.mergeTokensIntoWords(result.tokenTimings ?? []).enumerated().map { index, word in
                     RawWord(
-                        text: $0.word, startSeconds: $0.startTime, endSeconds: $0.endTime,
-                        spokenStartSeconds: $0.spokenStart, spokenEndSeconds: $0.spokenEnd,
-                        confidence: $0.confidence,
-                        source: try sourceSpan(from: $0.spokenStart, to: $0.spokenEnd, in: interval))
+                        text: word.word, startSeconds: word.startTime, endSeconds: word.endTime,
+                        spokenStartSeconds: word.spokenStart, spokenEndSeconds: word.spokenEnd,
+                        confidence: word.confidence,
+                        source: try sourceSpan(from: word.spokenStart, to: word.spokenEnd, in: interval,
+                            observation: "Segment \(ordinal) word \(index)"))
                 }
                 line = RawSegment(
                     ordinal: ordinal, source: interval, state: .transcribed, reason: nil,
@@ -109,8 +113,7 @@ public enum SourceTranscript {
             }
             do { raw.append(try encoder.encode(line)) } catch {
                 throw NativeFailure(
-                    "TRANSCRIPTION_FAILED", "Cannot record the engine result: \(error.localizedDescription)",
-                    retryable: true)
+                    "INVALID_SPEECH_TIMING", "Segment \(ordinal) engine evidence is not representable: \(error.localizedDescription)")
             }
             raw.append(0x0a)
             segments.append(
@@ -157,24 +160,22 @@ public enum SourceTranscript {
         return samples
     }
 
-    /// Engine seconds offset the exact selected interval. Clamp before projecting the source label,
-    /// so a fractional interval origin cannot cause a second rounding at a word boundary.
-    package static func sourceSpan(from start: TimeInterval, to end: TimeInterval, in interval: ExactRange)
-        throws -> TimeSpan
+    /// Valid engine estimates offset the exact interval before the one integer-label projection.
+    package static func sourceSpan(from start: TimeInterval, to end: TimeInterval, in interval: ExactRange,
+        observation: String = "Engine observation") throws -> TimeSpan
     {
-        func clamped(_ seconds: TimeInterval) throws -> Int64 {
-            let at: ExactTime
-            if !seconds.isFinite || seconds <= 0 {
-                at = interval.startUs
-            } else if seconds > Double(maximumIntervalUs) / 1_000_000 {
-                at = interval.endUs
-            } else {
-                let requested = try interval.startUs.adding(ExactTime(seconds: seconds))
-                at = try requested.compare(interval.endUs) == .orderedDescending ? interval.endUs : requested
-            }
-            return try at.sample(1_000_000, nearest: true)
+        guard start.isFinite, end.isFinite, start >= 0, end >= start,
+              end <= Double(maximumIntervalUs) / 1_000_000 else {
+            throw NativeFailure("INVALID_SPEECH_TIMING",
+                "\(observation): invalid engine estimate [\(start),\(end)] for interval [\(interval.startUs),\(interval.endUs)).")
         }
-        let startUs = try clamped(start)
-        return TimeSpan(startUs: startUs, endUs: max(startUs, try clamped(end)))
+        let lower = try interval.startUs.adding(ExactTime(seconds: start))
+        let upper = try interval.startUs.adding(ExactTime(seconds: end))
+        guard try upper.compare(interval.endUs) != .orderedDescending else {
+            throw NativeFailure("INVALID_SPEECH_TIMING",
+                "\(observation): engine estimate [\(start),\(end)] exceeds interval [\(interval.startUs),\(interval.endUs)).")
+        }
+        return try TimeSpan(startUs: lower.sample(1_000_000, nearest: true),
+                            endUs: upper.sample(1_000_000, nearest: true))
     }
 }

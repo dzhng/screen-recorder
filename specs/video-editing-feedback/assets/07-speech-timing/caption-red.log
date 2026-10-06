@@ -1,0 +1,38 @@
+✖ overlapping estimates use the widest exact envelope for dwell, speed and placement (1.86625ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 48.098125
+
+✖ failing tests:
+
+test at scripts/caption-proposals.test.mjs:321:1
+✖ overlapping estimates use the widest exact envelope for dwell, speed and placement (1.86625ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  + actual - expected
+
+    {
+  +   endUs: 400000,
+  -   endUs: {
+  -     denominator: 2,
+  -     numerator: 2000001
+  -   },
+      startUs: 0
+    }
+
+      at TestContext.<anonymous> (file:///Users/server/dev/yap-capability-skill/scripts/caption-proposals.test.mjs:329:10)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.start (node:internal/test_runner/test:1262:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:387:17) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: { startUs: 0, endUs: 400000 },
+    expected: { startUs: 0, endUs: { numerator: 2000001, denominator: 2 } },
+    operator: 'deepStrictEqual',
+    diff: 'simple'
+  }

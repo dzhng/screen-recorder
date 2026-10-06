@@ -89,7 +89,9 @@ function origin(seed: Seed, clips: readonly AnyClip[]) {
       seed.words.every(
         (word) =>
           compare(fromTime(word.sourceRange.startUs), fromTime(source.range.endUs)) < 0 &&
-          compare(fromTime(word.sourceRange.endUs), fromTime(source.range.startUs)) > 0,
+          (word.sourceRange.startUs === word.sourceRange.endUs
+            ? compare(fromTime(word.sourceRange.startUs), fromTime(source.range.startUs)) >= 0
+            : compare(fromTime(word.sourceRange.endUs), fromTime(source.range.startUs)) > 0),
       )
     )
       return { ...clip, source };
@@ -131,6 +133,10 @@ export function seedTextOperations(
     const selected = words(seed, records).selected;
     const start = fromTime(selected[0]!.startUs),
       end = fromTime(Math.max(...selected.map((word) => word.endUs)));
+    if (selected.every((word) => word.instant))
+      invalid(
+        "Instant observations require caller-authored text duration; transcript timing supplies no dwell",
+      );
     const parentStart = fromTime(clip.source.range.startUs),
       parentEnd = fromTime(clip.source.range.endUs);
     const sourceRange = {

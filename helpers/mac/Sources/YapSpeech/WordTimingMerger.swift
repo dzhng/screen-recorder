@@ -1,34 +1,30 @@
 import FluidAudio
 import Foundation
+import YapMedia
 
 /// A word as the evaluated FluidAudio CLI reports it: engine seconds and token-averaged confidence,
-/// beside the part of that span the word was actually spoken in.
+/// beside its speech-bearing token estimate.
 public struct EngineWord: Codable, Sendable {
     public let word: String
     public let startTime: TimeInterval
     public let endTime: TimeInterval
-    /// When this word was said: the extent of its tokens that carry speech.
-    ///
-    /// The engine ends a sentence with a punctuation token of its own, and places it wherever it
-    /// decided the sentence was over — on this model, up to a second after the last sound. That
-    /// token belongs in the word's text, which is why the CLI's grouping puts it there, but not in
-    /// its time: a word's span is what a cut, an excerpt and a frame request are aimed by, and a
-    /// span that runs on through silence takes that silence with it.
+    /// The extent of tokens carrying letters or digits; an estimate, not audible truth.
+    /// Delayed punctuation remains in the broader recognition span and raw tokens.
     public let spokenStart: TimeInterval
     public let spokenEnd: TimeInterval
     public let confidence: Float
 }
 
-/// The grouping is ported verbatim from FluidAudio 0.15.7
+/// Lexical grouping follows FluidAudio 0.15.7
 /// `Sources/FluidAudioCLI/.../TranscribeCommand.swift` (`WordTimingMerger.mergeTokensIntoWords`),
 /// which lives in the CLI target rather than the library. The model gate evaluated the CLI's word
 /// timings, so the worker must group tokens the same way: a token with leading whitespace starts a
 /// word, and confidence is the token average. The library's public `buildWordTimings` differs (no
 /// confidence, skips blank pieces) and is not a substitute.
 ///
-/// The spoken extent is this repository's own, and the only thing here the CLI does not report.
+/// Speech-bearing extent and invalid-operand refusal belong to this repository.
 public enum WordTimingMerger {
-    public static func mergeTokensIntoWords(_ tokenTimings: [TokenTiming]) -> [EngineWord] {
+    public static func mergeTokensIntoWords(_ tokenTimings: [TokenTiming]) throws -> [EngineWord] {
         guard !tokenTimings.isEmpty else { return [] }
 
         var wordTimings: [EngineWord] = []
@@ -59,7 +55,13 @@ public enum WordTimingMerger {
                 ))
         }
 
-        for timing in tokenTimings {
+        for (index, timing) in tokenTimings.enumerated() {
+            guard timing.startTime.isFinite, timing.endTime.isFinite, timing.startTime >= 0,
+                  timing.endTime >= timing.startTime, timing.confidence.isFinite,
+                  timing.confidence >= 0, timing.confidence <= 1 else {
+                throw NativeFailure("INVALID_SPEECH_TIMING",
+                    "Token \(index) has invalid estimate [\(timing.startTime),\(timing.endTime)] or confidence \(timing.confidence).")
+            }
             let token = timing.token
 
             if token.hasPrefix(" ") || token.hasPrefix("\n") || token.hasPrefix("\t") {
@@ -77,9 +79,8 @@ public enum WordTimingMerger {
                 currentWord += token
                 currentEndTime = max(currentEndTime, timing.endTime)
                 if spoken(token) {
-                    // The last token of a word is not always its latest: this engine puts several
-                    // tokens on one frame, so a word ends where its speech ends, not where its
-                    // final piece happens to be timed.
+                    // Tokens may share a frame; preserve the latest speech-bearing endpoint
+                    // even when the final token ends earlier.
                     currentSpoken = (
                         currentSpoken?.start ?? timing.startTime,
                         max(currentSpoken?.end ?? timing.endTime, timing.endTime)
@@ -90,20 +91,6 @@ public enum WordTimingMerger {
         }
 
         flush()
-
-        // No word may run into the next one. The engine puts several tokens on one frame, so a
-        // contraction like "I'm going" can report a first word whose span contains the second
-        // whole — and a span is what a cut removes, so cutting the first word would take the
-        // second with it and the transcript would then say it was never spoken.
-        for index in wordTimings.indices.dropLast() {
-            let next = wordTimings[index + 1].spokenStart
-            let word = wordTimings[index]
-            guard word.spokenEnd > next else { continue }
-            wordTimings[index] = EngineWord(
-                word: word.word, startTime: word.startTime, endTime: word.endTime,
-                spokenStart: min(word.spokenStart, next), spokenEnd: max(word.spokenStart, next),
-                confidence: word.confidence)
-        }
 
         return wordTimings
     }

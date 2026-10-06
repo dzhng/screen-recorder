@@ -222,9 +222,7 @@ test("consumer command returns pure proposals even when no CLI is available", as
     stderr = "";
   child.stdout.on("data", (chunk) => (stdout += chunk));
   child.stderr.on("data", (chunk) => (stderr += chunk));
-  child.stdin.end(
-    JSON.stringify({ ...request(), cli: { executable: "/does/not/exist/yap" } }),
-  );
+  child.stdin.end(JSON.stringify({ ...request(), cli: { executable: "/does/not/exist/yap" } }));
   const code = await new Promise((resolve) => child.once("close", resolve));
   assert.equal(code, 0, stderr);
   const output = JSON.parse(stdout);
@@ -296,7 +294,7 @@ test("wrapping retains meaningful caller separators rather than silently deletin
 });
 
 test("instant word evidence remains visible without invented dwell or aborting neighboring proposals", () => {
-  const instant = word(1, "um", 200000, 200001, {
+  const instant = word(1, "um", 200000, 200000, {
     instant: true,
     fragments: [
       { source: { startUs: 200000, endUs: 200000 }, project: { startUs: 200000, endUs: 200000 } },
@@ -318,4 +316,23 @@ test("instant word evidence remains visible without invented dwell or aborting n
     ["RENDERED_LAYOUT_UNVERIFIED", "MINIMUM_DWELL", "INSTANT_WORD", "READING_SPEED_UNDEFINED"],
   );
   assert.equal(proposals[2].clip.source.text, "two");
+});
+
+test("overlapping estimates use the widest exact envelope for dwell, speed and placement", () => {
+  const end = { numerator: 2000001, denominator: 2 };
+  const input = request([word(0, "first", 0, end), word(1, "next", 200000, 400000)]);
+  input.corrections = [];
+  input.constraints.breakOnPunctuation = false;
+  input.constraints.maxCps = 10;
+  const proposal = captionProposals(input).proposals[0];
+  assert.deepEqual(proposal.rowIndexes, [0, 1]);
+  assert.deepEqual(proposal.clip.placement.sourceRange, { startUs: 0, endUs: end });
+  assert.deepEqual(
+    proposal.clip.seed.words,
+    input.entry.rows.map((row) => ({ ordinal: row.ordinal, sourceRange: row.sourceRange })),
+  );
+  assert.equal(
+    proposal.violations.some((v) => ["MINIMUM_DWELL", "READING_SPEED"].includes(v.code)),
+    false,
+  );
 });

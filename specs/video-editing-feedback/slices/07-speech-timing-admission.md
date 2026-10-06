@@ -1,10 +1,11 @@
 # 07 — Retain pathological speech timing honestly
 
-Status: planned. Depends on: [01](01-certified-corpus.md).
+Status: implemented with [scoped evidence](../assets/07-speech-timing/review.md).
+Depends on: [01](01-certified-corpus.md); this pass does not certify its entire corpus.
 
 ## Contract
 
-Estimated timing overlaps do not discard otherwise usable speech or get silently converted into alleged audible truth.
+Estimated timing overlaps do not discard otherwise usable speech or get silently converted into alleged audible truth. Unfiltered source enumeration returns every retained observation, including points at the source end; explicit source and project interval selections use half-open membership. Transcript-seeded text retains point pins but cannot infer dwell from a pure point selection; callers may author literal text with an explicit extent.
 
 ## Seam and ownership
 
@@ -27,7 +28,11 @@ First replay current raw timing and coincident instantaneous-word controls; reco
 
 ## Runnable checkpoint
 
-Tiny/25-second real-case reproduction plus deterministic raw-row replay and published transcript diagnostics.
+Tiny/25-second real-case reproduction plus deterministic raw-row replay and indexed diagnostics.
+The [case-selected checkpoint](../../../packages/test-harness/speech/timing-replay.mjs)
+owns usage; [retained requests/results](../assets/07-speech-timing/README.md) bind artifacts.
+Conservative invalid-evidence refusal includes delayed punctuation beyond selected physical support;
+no full live engine-result failure artifact is introduced by this slice.
 
 Expose a case-selected command or existing lab entry with its own usage. Store accepted requests/results and artifact identities in feature-owned evidence. The implementing agent checks actual output; the user may view it for direction without becoming a QA gate.
 

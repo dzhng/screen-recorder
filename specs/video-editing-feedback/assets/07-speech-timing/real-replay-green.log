@@ -1,0 +1,9 @@
+$ vitest run --maxWorkers=4 src/source-transcript-read.test.ts -t "retained Madison"
+
+ RUN  v5.0.0 /Users/server/dev/yap-capability-skill/packages/core
+
+
+ Test Files  1 passed (1)
+      Tests  2 passed | 9 skipped (11)
+   Start at  21:43:30
+   Duration  186ms (transform 62%, import 28%, tests 9%, worker 1%)

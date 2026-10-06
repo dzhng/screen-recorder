@@ -53,11 +53,13 @@ async function fixture({
   originUs = 500,
   scenes = false,
   speakers = false,
+  wordExtents = [100, 100, 100],
 }: {
   durationUs?: TimeValue;
   originUs?: SignedTimeValue;
   scenes?: boolean;
   speakers?: boolean;
+  wordExtents?: number[];
 } = {}) {
   const home = await mkdtemp("/tmp/project-evidence-");
   const catalog = new Catalog(join(home, "catalog.sqlite"));
@@ -252,7 +254,7 @@ async function fixture({
                 )
                 .map((start, i) => ({
                   text: ["one", "two", "three"][i]!,
-                  source: { startUs: start, endUs: start + 100 },
+                  source: { startUs: start, endUs: start + wordExtents[i]! },
                   confidence: 0.9,
                 })),
       }));
@@ -2268,4 +2270,32 @@ test("missing speaker evidence is reported without preparing sources or suppress
       .unobserved,
   ).toEqual([{ startUs: 30000000, endUs: 60000000 }]);
   expect(prepare).not.toHaveBeenCalled();
+});
+
+test("overlapping phrase search keeps its widest retimed envelope across repeated occurrences", async () => {
+  const f = await fixture({ wordExtents: [600, 100, 100] });
+  const input = f.create([
+    track("speech"),
+    clip(f.asset.id, "first", "speech", 0, 3333),
+    clip(f.asset.id, "repeat", "speech", 3333, 6666),
+  ]);
+  const query = { ...input, text: "one two" };
+  await f.ready(query);
+  const first = await f.evidence.search({ ...query, limit: 1 });
+  expect(first.page?.entries.map((entry) => entry.projectRange)).toEqual([
+    { startUs: { numerator: 3333, denominator: 10 }, endUs: { numerator: 23331, denominator: 10 } },
+  ]);
+  const second = await f.evidence.search({ ...query, limit: 1, cursor: first.page!.nextCursor });
+  expect(second.page?.entries.map((entry) => entry.projectRange)).toEqual([
+    {
+      startUs: { numerator: 36663, denominator: 10 },
+      endUs: { numerator: 56661, denominator: 10 },
+    },
+  ]);
+  expect(first.page!.entries[0]!.words.map((word) => word.sourceRange)).toEqual([
+    { startUs: 100, endUs: 700 },
+    { startUs: 400, endUs: 500 },
+  ]);
+  const repeated = f.projects.revision(input.projectId, input.revisionId).document.clips[1]!.id;
+  expect(second.page!.entries[0]!.words.map((word) => word.clipId)).toEqual([repeated, repeated]);
 });

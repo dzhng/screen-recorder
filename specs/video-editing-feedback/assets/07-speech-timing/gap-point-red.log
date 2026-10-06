@@ -1,0 +1,39 @@
+$ vitest run --maxWorkers=4 src/source-transcript-read.test.ts -t "next gap start"
+
+ RUN  v5.0.0 /Users/server/dev/yap-capability-skill/packages/core
+
+ ❯ src/source-transcript-read.test.ts (9 tests | 1 failed | 8 skipped) 15ms
+   × a point at the next gap start never hides either record in one-row continuations 15ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/source-transcript-read.test.ts > a point at the next gap start never hides either record in one-row continuations
+AssertionError: expected [ 'spoken', 'point', 'later' ] to deeply equal [ 'spoken', 'point', …(2) ]
+
+- Expected
++ Received
+
+  [
+    "spoken",
+    "point",
+-   "not_acquired",
+    "later",
+  ]
+
+ ❯ src/source-transcript-read.test.ts:382:74
+    380|     let cursor: unknown;
+    381|     do { const page = read.page({ range, cursor, limit: 1 }); rows.pus…
+    382|     expect(rows.map(row => row.type === "word" ? row.text : row.reason…
+       |                                                                          ^
+    383|   }
+    384| });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 8 skipped (9)
+   Start at  21:40:25
+   Duration  282ms (transform 62%, import 30%, tests 7%, worker 1%)
+
+error: script "test" exited with code 1

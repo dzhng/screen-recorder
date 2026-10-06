@@ -1,0 +1,29 @@
+warning: 'mac': found 1 file(s) which are unhandled; explicitly declare them as resources or exclude from the target
+    /Users/server/dev/yap-capability-skill/helpers/mac/Sources/YapCapture/README.md
+warning: 'mac': found 1 file(s) which are unhandled; explicitly declare them as resources or exclude from the target
+    /Users/server/dev/yap-capability-skill/helpers/mac/Sources/YapSpeech/README.md
+warning: 'mac': found 1 file(s) which are unhandled; explicitly declare them as resources or exclude from the target
+    /Users/server/dev/yap-capability-skill/helpers/mac/Sources/YapMedia/README.md
+warning: 'mac': found 1 file(s) which are unhandled; explicitly declare them as resources or exclude from the target
+    /Users/server/dev/yap-capability-skill/helpers/mac/Sources/YapFrames/README.md
+warning: 'mac': found 1 file(s) which are unhandled; explicitly declare them as resources or exclude from the target
+    /Users/server/dev/yap-capability-skill/helpers/mac/Sources/YapAudio/README.md
+[0/1] Planning build
+Building for debugging...
+[0/3] Write swift-version--58304C5D6DBC2206.txt
+[1/4] Write sources
+[3/6] Emitting module YapSpeech
+[4/6] Compiling YapSpeech SourceTranscript.swift
+[4/7] Write Objects.LinkFileList
+[5/7] Linking YapSpeechTests
+[6/7] Applying YapSpeechTests
+Build of product 'YapSpeechTests' complete! (1.25s)
+PASS a trailing mark does not carry the word's end through the silence after it
+PASS a mark between letters leaves the word timed by its letters
+PASS a word that is only a mark keeps the one time the engine gave it
+PASS a word of plain speech reports exactly the engine's own span
+PASS overlapping word estimates retain both extents
+PASS a word ends at its latest token, not its last one
+PASS digits count as speech
+PASS exact speech interval mapping before integer word-label projection
+PASS binary engine seconds at a decimal half-microsecond label boundary

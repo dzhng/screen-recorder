@@ -1,0 +1,9 @@
+$ vitest run --maxWorkers=4 src/text.test.ts
+
+ RUN  v5.0.0 /Users/server/dev/yap-capability-skill/packages/composition
+
+
+ Test Files  1 passed (1)
+      Tests  3 passed (3)
+   Start at  21:44:40
+   Duration  217ms (transform 63%, import 26%, tests 10%, worker 1%)

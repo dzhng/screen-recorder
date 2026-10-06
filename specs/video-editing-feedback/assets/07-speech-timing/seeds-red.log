@@ -1,0 +1,41 @@
+$ vitest run --maxWorkers=4 src/text-seeds.test.ts -t "instant pins"
+
+ RUN  v5.0.0 /Users/server/dev/yap-capability-skill/packages/core
+
+ ❯ src/text-seeds.test.ts (9 tests | 1 failed | 8 skipped) 37ms
+   × text seeds retain instant pins at the occurrence start and overlapping word envelopes 37ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/text-seeds.test.ts > text seeds retain instant pins at the occurrence start and overlapping word envelopes
+Error: [
+  {
+    "code": "custom",
+    "path": [
+      0,
+      "words",
+      0,
+      "sourceRange"
+    ],
+    "message": "Expected positive half-open range"
+  }
+]
+ ❯ parsed src/projects.ts:141:30
+    139| function parsed<T extends z.ZodType>(schema: T, value: unknown): z.inf…
+    140|   const result = schema.safeParse(value);
+    141|   if (!result.success) throw new CatalogError("INVALID_PARAMS", result…
+       |                              ^
+    142|   return result.data;
+    143| }
+ ❯ ProjectStore.seedText src/projects.ts:372:18
+ ❯ src/text-seeds.test.ts:488:26
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 8 skipped (9)
+   Start at  21:37:04
+   Duration  428ms (transform 67%, import 23%, tests 10%)
+
+error: script "test" exited with code 1

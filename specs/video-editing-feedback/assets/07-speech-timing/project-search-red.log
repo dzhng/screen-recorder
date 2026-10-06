@@ -1,0 +1,46 @@
+$ vitest run --maxWorkers=4 src/project-evidence.test.ts -t "overlapping phrase search"
+
+ RUN  v5.0.0 /Users/server/dev/yap-capability-skill/packages/core
+
+ ❯ src/project-evidence.test.ts (48 tests | 1 failed | 47 skipped) 42ms
+   × overlapping phrase search keeps its widest retimed envelope across repeated occurrences 42ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/project-evidence.test.ts > overlapping phrase search keeps its widest retimed envelope across repeated occurrences
+AssertionError: expected [ { startUs: { …(2) }, …(1) } ] to deeply equal [ { startUs: { …(2) }, …(1) } ]
+
+- Expected
++ Received
+
+@@ -1,10 +1,10 @@
+  [
+    {
+      "endUs": {
+-       "denominator": 10,
+-       "numerator": 23331,
++       "denominator": 2,
++       "numerator": 3333,
+      },
+      "startUs": {
+        "denominator": 10,
+        "numerator": 3333,
+      },
+
+ ❯ src/project-evidence.test.ts:2286:64
+    2284|   await f.ready(query);
+    2285|   const first = await f.evidence.search({ ...query, limit: 1 });
+    2286|   expect(first.page?.entries.map(entry => entry.projectRange)).toEqual…
+       |                                                                ^
+    2287|     { startUs: { numerator: 3333, denominator: 10 }, endUs: { numerato…
+    2288|   ]);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 47 skipped (48)
+   Start at  21:37:35
+   Duration  316ms (transform 64%, import 21%, tests 15%)
+
+error: script "test" exited with code 1

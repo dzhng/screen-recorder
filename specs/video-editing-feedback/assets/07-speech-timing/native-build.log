@@ -1,0 +1,86 @@
+warning: 'mac': found 1 file(s) which are unhandled; explicitly declare them as resources or exclude from the target
+    /Users/server/dev/yap-capability-skill/helpers/mac/Sources/YapCapture/README.md
+warning: 'mac': found 1 file(s) which are unhandled; explicitly declare them as resources or exclude from the target
+    /Users/server/dev/yap-capability-skill/helpers/mac/Sources/YapSpeech/README.md
+warning: 'mac': found 1 file(s) which are unhandled; explicitly declare them as resources or exclude from the target
+    /Users/server/dev/yap-capability-skill/helpers/mac/Sources/YapMedia/README.md
+warning: 'mac': found 1 file(s) which are unhandled; explicitly declare them as resources or exclude from the target
+    /Users/server/dev/yap-capability-skill/helpers/mac/Sources/YapFrames/README.md
+warning: 'mac': found 1 file(s) which are unhandled; explicitly declare them as resources or exclude from the target
+    /Users/server/dev/yap-capability-skill/helpers/mac/Sources/YapAudio/README.md
+[0/1] Planning build
+Building for debugging...
+[0/8] Write sources
+[0/8] Write yap-native-entitlement.plist
+[0/9] Write sources
+[5/9] Write swift-version--58304C5D6DBC2206.txt
+[7/47] Compiling YapCapture CaptureTypes.swift
+[8/47] Compiling YapCapture CaptureWriter.swift
+[9/47] Compiling YapCapture ClosedCameraSource.swift
+[10/47] Compiling YapCapture CursorGeometry.swift
+[11/47] Compiling YapCapture CaptureExclusion.swift
+[12/51] Compiling YapCapture CaptureClock.swift
+[13/51] Compiling YapCapture CaptureClockIngress.swift
+[14/51] Compiling YapCapture CaptureSourcePublication.swift
+[15/51] Compiling YapCapture CaptureStreamInputs.swift
+[16/51] Compiling YapCapture CaptureTermination.swift
+[17/51] Emitting module YapCapture
+[18/57] Compiling YapFrames SourceImageRenderer.swift
+[19/57] Compiling YapFrames SourceVisualSamples.swift
+[20/57] Compiling YapFrames TextRaster.swift
+[21/57] Compiling YapFrames VideoColorPolicy.swift
+[22/57] Compiling YapCapture CameraCaptureInput.swift
+[23/57] Compiling YapCapture CameraMedia.swift
+[24/57] Compiling YapCapture CameraWriter.swift
+[25/57] Compiling YapCapture CaptureAudioMaterializer.swift
+[26/57] Compiling YapCapture CaptureAudioPublication.swift
+[27/57] Emitting module YapFrames
+[33/57] Compiling YapCapture CaptureMediaInspection.swift
+[34/57] Compiling YapCapture CapturePCM.swift
+[35/57] Compiling YapCapture HeldTailFrame.swift
+[36/57] Compiling YapCapture JournalPCM.swift
+[37/57] Compiling YapCapture NativeCapture.swift
+[38/57] Compiling YapCapture PCMContainerTime.swift
+[39/57] Compiling YapCapture SelectedCaptureProbe.swift
+[40/57] Compiling YapCapture SelectedCaptureRequest.swift
+[55/82] Emitting module YapWire
+[56/82] Compiling YapWire PresentationEvidenceOperation.swift
+[57/82] Compiling YapWire ProbeOperation.swift
+[58/82] Compiling YapWire PublicationOperation.swift
+[59/82] Compiling YapWire RenderWorkspace.swift
+[60/82] Compiling YapWire RetainedAudioInput.swift
+[61/82] Compiling YapWire SelectedAudioConversionOperation.swift
+[62/82] Compiling YapWire SourceAudioOperation.swift
+[63/82] Compiling YapWire SourceEvidenceExport.swift
+[64/89] Compiling YapWire SourceFrameOperation.swift
+[65/89] Compiling YapWire SourceImageOperation.swift
+[66/89] Compiling YapWire SourceSpeakerPCMOperation.swift
+[67/89] Compiling YapWire SourceVisualSamplesOperation.swift
+[68/89] Compiling YapWire SpeechOperation.swift
+[69/89] Compiling YapWire Wire.swift
+[70/89] Compiling YapWire WireRequest.swift
+[71/89] Compiling YapWire AcousticImageOperation.swift
+[72/89] Compiling YapWire ArchiveAssembly.swift
+[73/89] Compiling YapWire ArchiveExtraction.swift
+[74/89] Compiling YapWire ArchiveOperation.swift
+[75/89] Compiling YapWire AudioFileOperation.swift
+[76/89] Compiling YapWire AudioSampleBuffer.swift
+[77/89] Compiling YapWire CompositionAudioOperation.swift
+[78/89] Compiling YapWire CompositionFrameOperation.swift
+[79/89] Compiling YapWire CompositionMovieOperation.swift
+[80/89] Compiling YapWire CompositionVideoOperation.swift
+[81/89] Compiling YapWire Descriptors.swift
+[82/89] Compiling YapWire ManagedFiles.swift
+[83/89] Compiling YapWire MediaRecovery.swift
+[84/89] Compiling YapWire MovieAudioTail.swift
+[85/89] Compiling YapWire MovieMux.swift
+[86/89] Compiling YapWire PackageWorkspace.swift
+[87/93] Compiling YapNative main.swift
+[88/93] Compiling YapNative ParentLifetime.swift
+[89/93] Compiling YapNative CommandWorker.swift
+[90/93] Emitting module YapNative
+[90/93] Write Objects.LinkFileList
+[91/93] Linking yap-native
+[92/93] Applying yap-native
+Build of product 'yap-native' complete! (5.45s)
+warning: '--build-system native' has been deprecated and will be removed in a future release; please report an issue at https://github.com/swiftlang/swift-package-manager/issues if you are unable to adopt the default build system.

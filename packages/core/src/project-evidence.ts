@@ -63,7 +63,7 @@ const policy = (domain: Query["domain"]) =>
       ? "project-events-v2"
       : domain === "cursor"
         ? "project-events-v1"
-        : "project-transcript-v1";
+        : "project-transcript-v2";
 // Provisional inspection budgets; scale acceptance owns changes to these limits.
 const maximumBytes = 8 * 1024 * 1024;
 

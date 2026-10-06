@@ -352,7 +352,7 @@ test("current decoder work separates source recipes while retained evidence stay
   expect(f.requests).toHaveLength(2);
   await f.processing.cleanup(new AbortController().signal);
   expect(f.transcripts.wordRecords(metadata, { limit: 100 })).toEqual(original);
-  expect(metadata.engine.policy).toBe("transcript-v1");
+  expect(metadata.engine.policy).toBe("transcript-v2");
 });
 
 test("portable transcripts retain raw bytes and words with models absent in the recipient", async () => {
@@ -664,12 +664,6 @@ test("selected transcript native refusal leaves no generation, indexed row or ou
       },
     ],
     [
-      "Transcript words must not overlap",
-      (lines) => {
-        lines[0]!.words[1]!.source.endUs = lines[0]!.words[2]!.source.endUs;
-      },
-    ],
-    [
       "Transcription segment ordinals must be unique and ordered",
       (lines, receipt) => {
         lines[1]!.ordinal = 0;
@@ -711,7 +705,7 @@ test("selected transcript native refusal leaves no generation, indexed row or ou
     await f.jobs.idle();
     const status = f.processing.sourceStatus(f.selection);
     await retainOutput(`state-${index}`, {
-      expected: { state: "failed", reason, retryable: true, published: null },
+      expected: { state: "failed", reason, retryable: false, published: null },
       status,
       tables: Object.fromEntries(
         [
@@ -725,7 +719,7 @@ test("selected transcript native refusal leaves no generation, indexed row or ou
     expect(status, reason).toMatchObject({
       state: "failed",
       reason,
-      retryable: true,
+      retryable: false,
       published: null,
     });
     expect(
@@ -787,7 +781,7 @@ test("selected decoded segments retain gaps, kinds, null confidence and instanta
     text: "Uhm.",
     kind: "filler",
     instant: true,
-    sourceRange: { startUs: 7200000, endUs: 7200001 },
+    sourceRange: { startUs: 7200000, endUs: 7200000 },
     segment: 1,
   });
   expect(

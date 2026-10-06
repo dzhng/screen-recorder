@@ -137,7 +137,20 @@ export const textSeedSchema = z
     generation: id,
     occurrenceClipId: id,
     words: z
-      .array(z.object({ ordinal: time, sourceRange: rangeSchema }).strict())
+      .array(
+        z
+          .object({
+            ordinal: time,
+            sourceRange: z
+              .object({ startUs: time, endUs: time })
+              .strict()
+              .refine(
+                (value) => value.startUs <= value.endUs,
+                "Expected ordered observation range",
+              ),
+          })
+          .strict(),
+      )
       .min(1)
       .max(1000)
       .readonly(),

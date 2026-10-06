@@ -239,7 +239,9 @@ export function mergeTranscript(
           words,
           projectRange: {
             startUs: words[0]!.fragments[0]!.project.startUs,
-            endUs: words.at(-1)!.fragments.at(-1)!.project.endUs,
+            endUs: words
+              .flatMap((word) => word.fragments.map((fragment) => fragment.project.endUs))
+              .reduce((a, b) => (compare(fromTime(a), fromTime(b)) >= 0 ? a : b)),
           },
         },
       };

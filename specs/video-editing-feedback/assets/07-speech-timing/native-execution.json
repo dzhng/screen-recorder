@@ -1,0 +1,17 @@
+{
+  "worker": "helpers/mac/.build/arm64-apple-macosx/debug/yap-native",
+  "workerSha256": "53dfd59f616082df1482a09622dafd28e5eaa9c3dba518d67927f459cd11a9fb",
+  "baselineRevision": "45c3faf7ddb756b20016025f6bc63357b34acfa9",
+  "changedImplementation": "working tree changes in this commit",
+  "executionCommand": [
+    "/usr/bin/sandbox-exec",
+    "-p",
+    "(version 1)(allow default)(deny network*)",
+    "helpers/mac/.build/arm64-apple-macosx/debug/yap-native"
+  ],
+  "requestFile": "green-requests.json",
+  "responseFile": "green-responses.jsonl",
+  "network": "denied",
+  "exitCode": 0,
+  "scope": "Four tiny controls and two25-second derivatives; no whole-file transcription or model acquisition."
+}

@@ -4,7 +4,6 @@ import { CatalogError } from "./catalog.js";
 import { comparePageKeys, type PageBound } from "./ordered-pages.js";
 import type { TimeRange } from "./presentation-time.js";
 import type {
-  TranscriptIdentity,
   TranscriptMetadata,
   GapReason,
   TranscriptGapRecord,
@@ -37,15 +36,15 @@ type AfterRecord = { sourceUs: number; ordinal: number | null } | null;
 class TranscriptTraversal {
   constructor(
     private readonly records: TranscriptRecords,
-    private readonly identity: TranscriptIdentity,
+    private readonly identity: TranscriptMetadata,
   ) {}
 
-  page(spans: readonly TimeRange[], count: number, after: AfterRecord) {
+  page(spans: readonly TimeRange[] | null, count: number, after: AfterRecord) {
     const records: SourceRecord[] = [];
     let more = false;
-    spans: for (const span of spans) {
+    spans: for (const span of spans ?? [null]) {
       // A later row starts after the last one, so it cannot fall in a span that ended by then.
-      if (after && span.endUs <= after.sourceUs) continue;
+      if (span && after && span.endUs <= after.sourceUs) continue;
       const words = this.spanWords(span, after, Math.min(batch, count + 1));
       const gaps = this.spanGaps(span, after, Math.min(batch, count + 1));
       let word = words.next();
@@ -66,28 +65,16 @@ class TranscriptTraversal {
     return { records, more, after };
   }
 
-  /** Admission guarantees disjoint words, so at most one predecessor can cover the window start. */
+  /** The longest retained estimate bounds lookback; SQL filters all overlapping observations. */
   private *spanWords(
-    span: TimeRange,
+    span: TimeRange | null,
     after: { sourceUs: number; ordinal: number | null } | null,
     fetch: number,
   ) {
-    const prior = this.records.wordRecords(this.identity, {
-      upper: { key: [span.startUs, 0], inclusive: false },
-      reverse: true,
-      limit: 1,
-    })[0];
-    if (
-      prior &&
-      prior.endUs > span.startUs &&
-      (!after ||
-        prior.startUs > after.sourceUs ||
-        (prior.startUs === after.sourceUs &&
-          after.ordinal !== null &&
-          prior.ordinal > after.ordinal))
-    )
-      yield prior;
-    const window: PageBound = { key: [span.startUs, 0], inclusive: true };
+    const window: PageBound = {
+      key: [span ? Math.max(0, span.startUs - this.identity.maxWordUs) : 0, 0],
+      inclusive: true,
+    };
     const resume: PageBound | null = after
       ? after.ordinal === null
         ? { key: [after.sourceUs + 1, 0], inclusive: true }
@@ -97,10 +84,10 @@ class TranscriptTraversal {
     for (;;) {
       const words = this.records.wordRecords(this.identity, {
         lower,
-        upper: { key: [span.endUs, 0], inclusive: false },
+        ...(span ? { upper: { key: [span.endUs, 0], inclusive: false }, intersects: span } : {}),
         limit: fetch,
       });
-      for (const word of words) if (word.endUs > span.startUs) yield word;
+      yield* words;
       if (words.length < fetch) return;
       const last = words.at(-1)!;
       lower = { key: [last.startUs, last.ordinal], inclusive: false };
@@ -108,22 +95,33 @@ class TranscriptTraversal {
   }
 
   /** Gaps are disjoint, so only the one starting at or before the span can already cover it. */
-  private *spanGaps(span: TimeRange, after: { sourceUs: number } | null, fetch: number) {
-    const prior = this.records.gapRecords(this.identity, {
-      upper: { key: [span.startUs], inclusive: true },
-      reverse: true,
-      limit: 1,
-    })[0];
-    if (prior && prior.endUs > span.startUs && (!after || prior.startUs > after.sourceUs))
+  private *spanGaps(span: TimeRange | null, after: AfterRecord, fetch: number) {
+    const prior = span
+      ? this.records.gapRecords(this.identity, {
+          upper: { key: [span.startUs], inclusive: true },
+          reverse: true,
+          limit: 1,
+        })[0]
+      : undefined;
+    if (
+      span &&
+      prior &&
+      prior.endUs > span.startUs &&
+      (!after ||
+        prior.startUs > after.sourceUs ||
+        (prior.startUs === after.sourceUs && after.ordinal !== null))
+    )
       yield prior;
     let lower: PageBound = {
-      key: [Math.max(span.startUs, after?.sourceUs ?? 0)],
-      inclusive: false,
+      key: [Math.max(span?.startUs ?? 0, after?.sourceUs ?? 0)],
+      inclusive:
+        (!span && !after) ||
+        !!(after && after.ordinal !== null && after.sourceUs > (span?.startUs ?? -1)),
     };
     for (;;) {
       const gaps = this.records.gapRecords(this.identity, {
         lower,
-        upper: { key: [span.endUs], inclusive: false },
+        ...(span ? { upper: { key: [span.endUs], inclusive: false } } : {}),
         limit: fetch,
       });
       yield* gaps;
@@ -242,7 +240,8 @@ export class SourceTranscriptRead {
     return cursor;
   }
 
-  /** Range filters overlapping rows; sourceRange stays original and partial reports window clipping. */
+  /** Unfiltered enumeration returns every observation. Explicit ranges select half-open support;
+   * sourceRange remains original and partial reports window clipping. */
   page(input: { range?: TimeRange | undefined; cursor?: unknown; limit?: number | undefined }) {
     const count = limit(input.limit, 250, 1000);
     const cursor = this.continuation(
@@ -265,7 +264,7 @@ export class SourceTranscriptRead {
       throw new CatalogError("INVALID_RANGE", "Range must be inside the source duration");
     const span = range ?? { startUs: 0, endUs: round(fromTime(this.metadata.source.durationUs)) };
     const { records, more, after } = this.traversal.page(
-      [span],
+      range ? [range] : null,
       count,
       cursor ? { sourceUs: cursor.afterSourceUs, ordinal: cursor.afterOrdinal } : null,
     );

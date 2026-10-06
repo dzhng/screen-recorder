@@ -1,0 +1,101 @@
+{
+  "overlap-region-derivative-green": {
+    "tokensUnchanged": true,
+    "wordCount": 83,
+    "changedWordEstimates": [
+      {
+        "ordinal": 26,
+        "text": "We're",
+        "before": {
+          "endUs": 7680000,
+          "startUs": 7440000
+        },
+        "after": {
+          "endUs": 7760000,
+          "startUs": 7440000
+        }
+      },
+      {
+        "ordinal": 40,
+        "text": "to",
+        "before": {
+          "endUs": 10240000,
+          "startUs": 10240000
+        },
+        "after": {
+          "endUs": 10320000,
+          "startUs": 10240000
+        }
+      },
+      {
+        "ordinal": 66,
+        "text": "it's",
+        "before": {
+          "endUs": 19040000,
+          "startUs": 18560000
+        },
+        "after": {
+          "endUs": 19120000,
+          "startUs": 18560000
+        }
+      }
+    ],
+    "sha256": "1b157ef54eb69bffed048e0ffbd9067c89d9cec1018b57b6ba7709e0c7305542"
+  },
+  "m1877.68-green": {
+    "tokensUnchanged": true,
+    "wordCount": 6,
+    "changedWordEstimates": [],
+    "sha256": "3145ae0eca6011ea92fa9d3fd13ace6e1d8b6b7eeba8ac0cf2e5bfa8ca4c0742"
+  },
+  "m1877.45-green": {
+    "tokensUnchanged": true,
+    "wordCount": 8,
+    "changedWordEstimates": [
+      {
+        "ordinal": 0,
+        "text": "I",
+        "before": {
+          "endUs": 80000,
+          "startUs": 0
+        },
+        "after": {
+          "endUs": 160000,
+          "startUs": 0
+        }
+      }
+    ],
+    "sha256": "07b93417583a0461d9b996d46b747a755b1f2a3066159a753a93040a75e587f6"
+  },
+  "m1877.30-green": {
+    "tokensUnchanged": true,
+    "wordCount": 8,
+    "changedWordEstimates": [],
+    "sha256": "97db208511da7606178cab873a4db345d84cbd504d813a149f22cff34fa5ab03"
+  },
+  "m1877.55-green": {
+    "tokensUnchanged": true,
+    "wordCount": 8,
+    "changedWordEstimates": [
+      {
+        "ordinal": 0,
+        "text": "I",
+        "before": {
+          "endUs": 0,
+          "startUs": 0
+        },
+        "after": {
+          "endUs": 80000,
+          "startUs": 0
+        }
+      }
+    ],
+    "sha256": "32c01722f94c383dc8cf0f65d07d5eca3c4466ceb1096854a3003acd0ce9616a"
+  },
+  "overlap-neighbor-derivative-green": {
+    "tokensUnchanged": true,
+    "wordCount": 78,
+    "changedWordEstimates": [],
+    "sha256": "4942c2d45ed5ab3b0f53b078b734566232c20170a75bb4fdd2baf082cbe3aced"
+  }
+}

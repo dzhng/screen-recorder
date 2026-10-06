@@ -1,0 +1,24 @@
+Building for debugging...
+[0/3] Write swift-version--58304C5D6DBC2206.txt
+[1/4] Write sources
+[3/7] Emitting module YapSpeech
+[4/7] Compiling YapSpeech SourceTranscript.swift
+[5/7] Compiling YapSpeech WordTimingMerger.swift
+[5/9] Write sources
+[7/11] Emitting module YapSpeechTests
+[8/11] Compiling YapSpeechTests main.swift
+[8/11] Write Objects.LinkFileList
+[9/11] Linking YapSpeechTests
+[10/11] Applying YapSpeechTests
+Build of product 'YapSpeechTests' complete! (1.39s)
+warning: '--build-system native' has been deprecated and will be removed in a future release; please report an issue at https://github.com/swiftlang/swift-package-manager/issues if you are unable to adopt the default build system.
+PASS a trailing mark does not carry the word's end through the silence after it
+PASS a mark between letters leaves the word timed by its letters
+PASS a word that is only a mark keeps the one time the engine gave it
+PASS a word of plain speech reports exactly the engine's own span
+PASS overlapping word estimates retain both extents
+PASS a word ends at its latest token, not its last one
+PASS digits count as speech
+PASS exact speech interval mapping before integer word-label projection
+PASS binary engine seconds at a decimal half-microsecond label boundary
+PASS malformed token timing/confidence reports the offending token

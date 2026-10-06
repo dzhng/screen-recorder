@@ -36,6 +36,13 @@ infeasible or missed requested targets. Prepared excerpts preserve that complete
 processing evidence rather than relabeling it as an excerpt measurement. An explicit
 prepared signal pin must match the processed output tap.
 
+[Transcript observations](src/transcript.ts) retain overlapping estimates and true
+instant points without manufacturing playable duration. [Source enumeration](src/transcript-read.ts)
+returns every retained observation when unfiltered; explicit interval queries use
+half-open membership. Search and caption grouping preserve the widest selected
+estimate rather than assuming the final word ends latest. Text seeds keep original
+word pins; a selection consisting only of points requires caller-authored text extent.
+
 Source evidence retains its source clock. Project evidence projects it through
 a revision's exact mapping without rewriting the source observation. Generation
 and dependency identity bind pagination, prepared output and caches; freshness

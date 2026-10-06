@@ -1,0 +1,26 @@
+{
+  "overlap-region": {
+    "originUs": 825000000,
+    "wordCount": 83,
+    "tokenCount": 150,
+    "tokensEqual": true,
+    "wordsEqualAfterRebase": true,
+    "normalizedSha256": "0d61e429061771ecb32ee2f788c8c957dc6779571b8f60d08c1c21b118372574",
+    "rawHashes": {
+      "derivative": "9123a1504e80da2a06a69c39f030b9c1077a84d19ef2a11e604181e1597c80e8",
+      "original": "996cdbf8afb1661851c6a06a87f8a494b66b0213da0c8d1042e6b8d8a611c439"
+    }
+  },
+  "overlap-neighbor": {
+    "originUs": 800000000,
+    "wordCount": 78,
+    "tokenCount": 140,
+    "tokensEqual": true,
+    "wordsEqualAfterRebase": true,
+    "normalizedSha256": "42d8f94029c614d62e75b99cdc8aea2cdded62e6bbffd4454d6bdeccae34135e",
+    "rawHashes": {
+      "derivative": "e7b3671e3cded03258d88711f7e51fc3f25dc900d7c44c0bfe368ee2022895ac",
+      "original": "8c2f45b3e279e5d3af6ce8da73106acf1f4fadc9f2ea832ddc9f8abd17c94edd"
+    }
+  }
+}

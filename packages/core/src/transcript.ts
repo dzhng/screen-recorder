@@ -26,7 +26,7 @@ import type { SpeechEnginePins, SpeechModelRequest } from "./models.js";
 import type { TimeRange } from "./presentation-time.js";
 import { wordKind, wordKindPolicy, type WordKind } from "./word-kind.js";
 
-export const transcriptPolicy = "transcript-v1";
+export const transcriptPolicy = "transcript-v2";
 
 /** What the native `speech.transcribe` operation receives. */
 export type SpeechTranscriptionRequest = {
@@ -222,7 +222,7 @@ export type TranscriptWordRecord = {
   kind: WordKind;
   startUs: number;
   endUs: number;
-  /** The engine emitted a zero-width word; it is stored as one microsecond so ranges stay half-open. */
+  /** An estimated instant observation, retained without inventing playable duration. */
   instant: boolean;
   confidence: number | null;
   segment: number;
@@ -237,7 +237,10 @@ export type TranscriptSegmentRecord = {
   reason: "too_short" | null;
 };
 /** Words are ordered by [startUs, ordinal] (the same order as ordinal); gaps by [startUs]; segments by [ordinal]. */
-export type TranscriptRecordQuery = Omit<PageQuery, "index">;
+export type TranscriptRecordQuery = Omit<PageQuery, "index"> & {
+  /** Estimated intervals intersect the half-open window; zero-width observations are points. */
+  intersects?: TimeRange;
+};
 export type TranscriptRecords = {
   wordRecords(identity: TranscriptIdentity, query: TranscriptRecordQuery): TranscriptWordRecord[];
   gapRecords(identity: TranscriptIdentity, query: TranscriptRecordQuery): TranscriptGapRecord[];
@@ -287,8 +290,8 @@ const lineSchema = z.object({
     }),
   ),
 });
-function invalid(message: string): never {
-  throw new CatalogError("INVALID_RESPONSE", message, {}, true);
+function invalid(message: string, details: Record<string, unknown> = {}): never {
+  throw new CatalogError("INVALID_RESPONSE", message, details);
 }
 function component(value: string): string {
   if (!value || basename(value) !== value || value === "." || value === "..")
@@ -815,8 +818,7 @@ export class TranscriptStore implements TranscriptRecords {
     let lines = 0,
       ordinal = 0,
       maxWordUs = 0,
-      previousStartUs = 0,
-      previousEndUs = 0;
+      previousStartUs = 0;
     const consume = async (bytes: Buffer) => {
       let value: unknown;
       try {
@@ -825,7 +827,8 @@ export class TranscriptStore implements TranscriptRecords {
         invalid("Raw transcript line is not JSON");
       }
       const line = lineSchema.safeParse(value);
-      if (!line.success) invalid("Raw transcript line is malformed");
+      if (!line.success)
+        invalid("Raw transcript line is malformed", { line: lines, issues: line.error.issues });
       const segment = receipt.segments[lines++];
       if (
         !segment ||
@@ -843,20 +846,20 @@ export class TranscriptStore implements TranscriptRecords {
       };
       for (const word of line.data.words) {
         const { source } = word;
-        if (source.endUs < source.startUs) invalid("Transcript word range is reversed");
+        const operands = {
+          segmentOrdinal: segment.ordinal,
+          wordOrdinal: ordinal,
+          source,
+          segmentSource: observed,
+        };
+        if (source.endUs < source.startUs) invalid("Transcript word range is reversed", operands);
         if (source.startUs < observed.startUs || source.endUs > observed.endUs)
-          invalid("Transcript word lies outside its segment");
+          invalid("Transcript word lies outside its segment", operands);
         const instant = source.startUs === source.endUs;
-        // A zero-width word at the interval end keeps its microsecond inside the interval.
-        const startUs = instant ? Math.min(source.startUs, observed.endUs - 1) : source.startUs;
-        const endUs = instant ? startUs + 1 : source.endUs;
-        if (startUs < previousStartUs) invalid("Transcript words must be ordered by start");
-        // A word's span is what a cut removes and what an excerpt plays, so two words may not
-        // claim the same time: a word whose span covered the next one would take that word with
-        // it when it was cut, and the transcript would then say it was never spoken.
-        if (startUs < previousEndUs) invalid("Transcript words must not overlap");
+        const { startUs, endUs } = source;
+        if (startUs < previousStartUs)
+          invalid("Transcript words must be ordered by start", { ...operands, previousStartUs });
         previousStartUs = startUs;
-        previousEndUs = endUs;
         maxWordUs = Math.max(maxWordUs, endUs - startUs);
         batch.push({
           ordinal: ordinal++,
@@ -985,6 +988,10 @@ export class TranscriptStore implements TranscriptRecords {
     }[table];
     const clauses = [where];
     const args: (string | number)[] = [...ownerIdentity(identity.owner), identity.generation];
+    if (query.intersects) {
+      clauses.push("startUs<? AND (endUs>? OR (startUs=endUs AND startUs>=?))");
+      args.push(query.intersects.endUs, query.intersects.startUs, query.intersects.startUs);
+    }
     const tuple = keys.length === 1 ? keys[0]! : `(${keys.join(",")})`;
     for (const [bound, operator] of [
       [query.lower, ">"],

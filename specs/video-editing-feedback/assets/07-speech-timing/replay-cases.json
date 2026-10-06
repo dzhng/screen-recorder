@@ -1,0 +1,44 @@
+{
+  "overlap-region-derivative": {
+    "raw": "overlap-region-derivative-green.jsonl",
+    "baseline": "overlap-region-derivative-baseline.jsonl",
+    "sha256": "1b157ef54eb69bffed048e0ffbd9067c89d9cec1018b57b6ba7709e0c7305542",
+    "durationUs": 25000000,
+    "wordCount": 83
+  },
+  "m1877.68": {
+    "raw": "m1877.68-green.jsonl",
+    "baseline": "m1877.68-baseline.jsonl",
+    "sha256": "3145ae0eca6011ea92fa9d3fd13ace6e1d8b6b7eeba8ac0cf2e5bfa8ca4c0742",
+    "durationUs": 2520000,
+    "wordCount": 6
+  },
+  "m1877.45": {
+    "raw": "m1877.45-green.jsonl",
+    "baseline": "m1877.45-baseline.jsonl",
+    "sha256": "07b93417583a0461d9b996d46b747a755b1f2a3066159a753a93040a75e587f6",
+    "durationUs": 2750000,
+    "wordCount": 8
+  },
+  "m1877.30": {
+    "raw": "m1877.30-green.jsonl",
+    "baseline": "m1877.30-baseline.jsonl",
+    "sha256": "97db208511da7606178cab873a4db345d84cbd504d813a149f22cff34fa5ab03",
+    "durationUs": 2900000,
+    "wordCount": 8
+  },
+  "m1877.55": {
+    "raw": "m1877.55-green.jsonl",
+    "baseline": "m1877.55-baseline.jsonl",
+    "sha256": "32c01722f94c383dc8cf0f65d07d5eca3c4466ceb1096854a3003acd0ce9616a",
+    "durationUs": 2650000,
+    "wordCount": 8
+  },
+  "overlap-neighbor-derivative": {
+    "raw": "overlap-neighbor-derivative-green.jsonl",
+    "baseline": "overlap-neighbor-derivative-baseline.jsonl",
+    "sha256": "4942c2d45ed5ab3b0f53b078b734566232c20170a75bb4fdd2baf082cbe3aced",
+    "durationUs": 25000000,
+    "wordCount": 78
+  }
+}

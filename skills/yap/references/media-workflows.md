@@ -46,7 +46,10 @@ model under its advertised acquisition policy and needs no additional permission
 Supply verified local sources
 when required instead of guessing temporary paths or installing dependencies
 during reads. Diagnose failed/canceled work before explicit transcript retry.
-A source phrase cannot cross an inference segment.
+A source phrase cannot cross an inference segment. Preserve overlapping estimates
+and zero-width instant pins as returned. Unfiltered source enumeration retains all
+observations; explicit source/project ranges use half-open membership. Never turn
+an instant into playable duration or treat overlapping estimates as clean cuts.
 
 When anonymous speaker observations are requested, inspect `speaker.prepare` and
 `speaker.get` help first. Discover the optional model through `model.list`; its
@@ -228,6 +231,8 @@ verbatim text while placement is clipped to the chosen occurrence. Review and
 correct display text explicitly. Repeated speech has distinct occurrence clip IDs
 even when it shares one source generation. Save the normalized placement/labels;
 seeding is one atomic edit and replay uses the same request and expected revision.
+A cue containing only instant observations has no inferred dwell: retain those
+pins and author literal text with an explicit extent if a caption is requested.
 
 Seed origin is immutable evidence separate from display text. Split/copy and
 `text.set` preserve it; the original clip may later disappear. New seed claims
