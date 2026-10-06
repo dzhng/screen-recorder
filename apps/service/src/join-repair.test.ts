@@ -84,7 +84,7 @@ test("join repair can prepare the changed tap with a bounded status poll", async
         thresholdRMS: 0,
       },
     },
-    async (operation, params) => {
+    async (operation: string, params: Record<string, unknown>) => {
       calls.push(operation);
       if (operation === "edit.apply") return { revision: { id: "r2" } };
       if (operation === "audio.prepare") {

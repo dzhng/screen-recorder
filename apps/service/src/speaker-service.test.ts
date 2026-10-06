@@ -394,6 +394,7 @@ test.runIf(process.platform === "darwin")(
     const { sourceRange, ...selection } = input;
     const query = { ...selection, observationRange: sourceRange, view: "scores", limit: 1000 };
     const unlabeled = await f.call("speaker.get", query);
+    if (!unlabeled.ok) throw Error(JSON.stringify(unlabeled));
     await f.call("speaker.bind", {
       ...selection,
       observationRange: sourceRange,
@@ -518,6 +519,7 @@ test.runIf(process.platform === "darwin")(
       view: "intervals",
       packageHandle,
     });
+    if (!packagedIntervals.ok) throw Error(JSON.stringify(packagedIntervals));
     expect(
       (
         packagedIntervals.data as { page: { rows: { slot: number; label?: string }[] } }
