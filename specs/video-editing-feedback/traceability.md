@@ -150,3 +150,7 @@ No provider or long-form envelope is promoted. Model byte/load
 readiness is separate from quality. Slice31 is resliced into short-quality admission,
 global continuity, prepared execution closure and word attribution; slice32 cannot
 claim labeling ready from those partial results.
+
+Slice19 acceptance is complete for E19/E22/U23; S05 retains its separate33 workflow
+scope. [The dialogue evidence](assets/19-dialogue-matching/README.md) binds the
+actual public receipts, explicit edits, unchanged inputs and independent master.

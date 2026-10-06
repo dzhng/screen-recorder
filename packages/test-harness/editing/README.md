@@ -148,3 +148,8 @@ operands, alpha coverage and read-only pixel identity, including scratch-authore
 exposure controls and retained index receipts. Its help owns selected inputs and
 invocation. [Accepted observations](../../../specs/video-editing-feedback/assets/14-picture-statistics/README.md)
 retain measured scopes without turning camera histograms into grade targets.
+
+[Dialogue matching](dialogue-matching.mjs) drives the public CLI and pure consumer
+helper with two identified real-speaker controls. It verifies independent
+processed-clip matching, ordered explicit gains and complete strict mastering;
+its usage owns case inputs. It reuses the existing journey/process owners.

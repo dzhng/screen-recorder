@@ -1,0 +1,46 @@
+{
+  "inputSha256": "e97f8450c758696193a8b9a8d0468217e24fa22a2d12631a2c37fa6eb20e9068",
+  "sampleRate": 16000,
+  "channels": 1,
+  "format": "Float32 WAV",
+  "sourceAuthority": "specs/video-editing-feedback/assets/31-speaker-replication/alternative-evidence/nemotron-feasibility/protocol.json",
+  "classification": "Real different-speaker crops with explicit quiet-speaker attenuation control; not the removed trailer mix",
+  "cases": [
+    {
+      "name": "speaker00-quiet",
+      "speaker": "bspxd:spk00",
+      "frames": [
+        0,
+        128000
+      ],
+      "sourceSeconds": [
+        94,
+        102
+      ],
+      "gainDb": -12,
+      "cropSha256": "c54695914b801a076581fdcb8d81a71e2eeced17dca7736b57a6bc64127b85c4",
+      "path": "speaker00-quiet.wav",
+      "bytes": 512044,
+      "sha256": "8e43f7a193caf7adb3a03a52e878168981a8cbb670dad6faa52ae59ce83f6c2c",
+      "pcmSha256": "0f80f53791613cb67877d4d01f77756428932fe60b7b0f975df7dcf476b59b96"
+    },
+    {
+      "name": "speaker01",
+      "speaker": "bspxd:spk01",
+      "frames": [
+        144000,
+        272000
+      ],
+      "sourceSeconds": [
+        33,
+        41
+      ],
+      "gainDb": 0,
+      "cropSha256": "c6c9276ecce7b1a13073535c7730d01c360976c1a21db3f9cb70ec8c4688971e",
+      "path": "speaker01.wav",
+      "bytes": 512044,
+      "sha256": "fedbfade79c40d53dd0a974f9cf35a0b2b49012973a4231a2a311775ac407f14",
+      "pcmSha256": "c6c9276ecce7b1a13073535c7730d01c360976c1a21db3f9cb70ec8c4688971e"
+    }
+  ]
+}

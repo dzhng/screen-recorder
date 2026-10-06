@@ -1,6 +1,6 @@
 # 19 — Match selected dialogue and expose makeup gain
 
-Status: planned. Depends on: [04](04-wait-and-json-delivery.md), [18](18-reliable-mastering.md).
+Status: complete; public real-speaker matching, strict master and scoped review verified. Depends on: [04](04-wait-and-json-delivery.md), [18](18-reliable-mastering.md).
 
 ## Contract
 
@@ -54,3 +54,19 @@ Run review/refactor-clean/code-review/write-docs appropriate to the change; reta
 ## Direction that would change this slice
 
 A changed user brief, reference or product policy can redirect it. Human listening, watching or transcript labeling is never an acceptance prerequisite. Record material deviations and their evidence instead of silently changing requirements.
+
+## Materialized checkpoint
+
+The pure [dialogue helper](../../../skills/yap/scripts/dialogue-proposals.mjs)
+consumes delivered processed-clip loudness JSON and preserves exact occurrence,
+revision, range, recipe and audio-generation pins. Caller targets/bounds/peak
+policy remain explicit; refused selections have no gain draft. A capped peak
+proposal reports that its loudness target is unmet. New drafts omit engine IDs;
+caller appends explicitly to the whole existing stack. Predictions describe only
+the measured selection, not every clip sample or the mix.
+
+Optional compressor makeup is post-compression dB in the existing recipe; omitted
+means unity and bypass remains dry. [Evidence](../assets/19-dialogue-matching/README.md)
+records native red/green scaling, two real processed-speaker matching via the
+public CLI, preserved ordered compression and complete independently measured
+strict mastering. No source mutation, automatic edits or second processor owner.

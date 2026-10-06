@@ -1,0 +1,11 @@
+{
+  "frames": 768000,
+  "integratedLufs": "-19.9633575",
+  "loudnessRangeLu": "0.943751877",
+  "samplePeakDbfs": "-3.8372967",
+  "truePeakDbtp": "-3.8302596",
+  "waveSha256": "2698b30944db4c8d4b9477724435fc4471617b6993727ff58c131dd04fdf41f5",
+  "pcmSha256": "1b14477046e4ced5670bc7daec836d004fabd5d9953a82139733ce0464cca3cb",
+  "oracleSha256": "0360d66e62e7429b734175a0ac581889902eb4a2163a23825999619fc31bc9ac",
+  "scope": "Independent full-precision measurement of actual public audio.get PCM, not encoded delivery"
+}

@@ -689,3 +689,32 @@ Region packaging and bounded thresholds were explicitly delegated to14; their
 implementation is frozen in the owning schema and evidence. No unsound or
 needs-user integration decision was found.31's provider/threshold hypotheses are
 explicitly delegated research and remain rejected for promotion at this point.
+
+## Slice19 — explicit matching proposals
+
+### Sound — high confidence
+
+- **Keep the helper on the delivered processed-clip measurement boundary.**
+  When a quiet host is already compressed, the helper predicts a static gain
+  after that measured clip stack and preserves its exact revision and range.
+  A source-only or dry receipt could instead predict a level before compression
+  while the caller applies gain after it. Gap: the plan delegated helper shape
+  without choosing a receipt boundary. Reach: the helper requires one selected
+  processed receipt per occurrence; repeats and retiming retain separate pins.
+  Predictions remain scoped to the measured selection and explicit edits must
+  be remeasured. Verdict: sound; the existing public measurement and edit owners
+  supply all state, without another product store. Confidence: high.
+- **Refuse gain bounds and distinguish explicit peak capping.** If matching
+  needs+5dB but the caller permits only+3dB, no treatment draft is supplied.
+  If the caller explicitly chooses peak capping, the helper may instead propose
+  the peak-safe gain while stating the loudness target is unmet. The alternative
+  silently clamping both policies would imply success at a target never reached.
+  Gap: explicit bounds and peak policy were required, but their interaction was
+  not specified. Reach: consumer callers can inspect constrained evidence and
+  choose another treatment; the helper never adds compression or a limiter.
+  Verdict: sound; authorization and postconditions stay distinct. Confidence: high.
+
+Parameter/helper packaging and grouping were explicitly delegated to19. Makeup
+unity on omission preserves the existing processor meaning; it is not a reader
+shim, migration or automatic matching policy. No unsound or needs-user choice
+remains in this pass.

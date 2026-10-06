@@ -216,3 +216,8 @@ selection is explicit. Final strict admission still owns publication. Scheduling
 account for these bounded traversals; retained final audio skips recomputation.
 AAC delivery is measured separately after decoding, because a compliant PCM master
 does not establish an encoded true-peak ceiling.
+
+The compressor recipe carries explicit post-compression `makeupGainDb`; omission
+is unity. Preview, prepared audio and export consume the same native-admitted
+recipe. Bypass leaves dry PCM unchanged; makeup never becomes an implicit
+loudness-matching or mastering request.

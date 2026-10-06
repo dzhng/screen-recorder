@@ -24,3 +24,6 @@ states both measured preservation and remaining temporal/behavioral limits.
 The exact historical tiny input has its own [speech-timing provenance](../speech-timing/README.md);
 it is not another Float32 copy. Multicamera and independent speaker controls
 remain pending under the approved fixture contract.
+
+[Real speaker dialogue controls](dialogue/README.md) retain two small identified
+crops with an explicit quiet-host attenuation for per-occurrence finishing proof.

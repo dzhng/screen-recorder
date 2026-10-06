@@ -47,3 +47,6 @@ replacement and truthful retained external conflicts.
 pixels to retained measurements and explicit masks.
 [10A prepared alignment](10-word-attribution/README.md) verifies fresh pinned
 acquisition and provider parity; public retained alignment remains10B.
+
+[Dialogue finishing](19-dialogue-matching/README.md) retains explicit per-occurrence
+matching, compressor makeup and a complete independently measured strict master.

@@ -28,6 +28,7 @@ public enum AudioStateRecipe: Codable, Sendable, Equatable {
         public let attackMs: Double
         public let releaseMs: Double
         public let detector: Detector
+        public let makeupGainDb: Double?
         public struct Detector: Codable, Sendable, Equatable {
             public let kind: String
             public let tap: Tap?
@@ -74,6 +75,7 @@ public enum AudioStateRecipe: Codable, Sendable, Equatable {
             beforeStepIndex == expected.detector.beforeStepIndex else { return false }
         return expected.type == actual.type && expected.thresholdDbfs == actual.thresholdDbfs && expected.ratio == actual.ratio
             && expected.kneeDb == actual.kneeDb && expected.attackMs == actual.attackMs && expected.releaseMs == actual.releaseMs
+            && expected.makeupGainDb == actual.makeupGainDb
     }
     public func validate() throws {
         func bounded(_ value: Double, _ minimum: Double, _ maximum: Double) -> Bool {
@@ -100,7 +102,7 @@ public enum AudioStateRecipe: Codable, Sendable, Equatable {
             }
             valid = bounded(r.thresholdDbfs, 20 * log10(0.000976563), 0) && bounded(r.ratio, 1, 20)
                 && bounded(r.kneeDb, 0, 20 * log10(8)) && bounded(r.attackMs, 0.01, 2000)
-                && bounded(r.releaseMs, 0.01, 9000) && endpoint
+                && bounded(r.releaseMs, 0.01, 9000) && bounded(r.makeupGainDb ?? 0, 0, 20 * log10(64)) && endpoint
         }
         guard valid else { throw NativeFailure("INVALID_REQUEST", "State recipe parameters are outside the typed contract.") }
     }

@@ -483,6 +483,61 @@ real(
   30000,
 );
 real(
+  "compressor makeup is an explicit post-compression gain and bypass remains dry",
+  async () => {
+    const base = {
+      id: "compress",
+      enabled: true,
+      processor: {
+        type: "compressor" as const,
+        thresholdDbfs: -12,
+        ratio: 4,
+        kneeDb: 3,
+        attackMs: 5,
+        releaseMs: 50,
+        detector: { kind: "input" as const },
+      },
+    };
+    const f = await fixture([base]);
+    try {
+      const control = await f.render(0, 1000000, "unity");
+      const boostedDocument = {
+        ...f.document,
+        processing: [
+          {
+            target: { kind: "output" as const },
+            steps: [{ ...base, processor: { ...base.processor, makeupGainDb: 6 } }],
+          },
+        ],
+      };
+      const boosted = await f.render(0, 1000000, "makeup", boostedDocument);
+      let delta = 0;
+      for (let at = 0; at < control.bytes.length; at += 4)
+        delta = Math.max(
+          delta,
+          Math.abs(boosted.bytes.readFloatLE(at) - control.bytes.readFloatLE(at) * 10 ** (6 / 20)),
+        );
+      expect(delta).toBeLessThanOrEqual(1e-6);
+      expect(boosted.receipt).toMatchObject({
+        processingEvidence: [{ recipe: { type: "compressor", makeupGainDb: 6 } }],
+      });
+      const bypass = await f.render(0, 1000000, "bypassed", {
+        ...boostedDocument,
+        processing: [
+          {
+            ...boostedDocument.processing[0],
+            steps: [{ ...boostedDocument.processing[0]!.steps[0]!, enabled: false }],
+          },
+        ],
+      });
+      expect(bypass.bytes.equals(wave(48000).subarray(44))).toBe(true);
+    } finally {
+      await rm(f.dir, { recursive: true, force: true });
+    }
+  },
+  30000,
+);
+real(
   "a declared silent sidechain leaves signed stereo program unchanged",
   async () => {
     const f = await fixture(

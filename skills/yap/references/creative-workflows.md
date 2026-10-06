@@ -291,6 +291,10 @@ reading. Null loudness plus a reason means silence/below-gate or insufficient
 duration. Native mono measurement and explicit dual-mono playback interpretation
 are different; report the chosen one.
 
+For multiple hosts, read [dialogue finishing](dialogue-finishing.md) before
+matching clip levels. Its pure helper preserves occurrence evidence and explicit
+peak policy; per-clip matching precedes mix balance and strict mastering.
+
 Measure integrated loudness and true peak before and after requested treatment,
 plus section levels for dialogue, music-only passages and end cards. A quiet outro
 or overpowering effect may disappear in whole-program averages. Waveform RMS is

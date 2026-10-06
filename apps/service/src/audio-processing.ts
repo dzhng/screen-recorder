@@ -259,7 +259,7 @@ export async function withAudioProcessing<T>(
         const inputs = detector
           ? "[0:a]asetnsamples=n=128:p=1[p];[1:a]asetnsamples=n=128:p=1[d]"
           : "[0:a]asetnsamples=n=128:p=1,asplit=2[p][d]";
-        filter = `${inputs};[p][d]sidechaincompress=threshold=${10 ** (recipe.thresholdDbfs / 20)}:ratio=${recipe.ratio}:attack=${recipe.attackMs}:release=${recipe.releaseMs}:knee=${10 ** (recipe.kneeDb / 20)}:detection=peak:link=maximum:level_in=1:level_sc=1:makeup=1:mix=1:mode=downward,atrim=end_sample=${frames}[out]`;
+        filter = `${inputs};[p][d]sidechaincompress=threshold=${10 ** (recipe.thresholdDbfs / 20)}:ratio=${recipe.ratio}:attack=${recipe.attackMs}:release=${recipe.releaseMs}:knee=${10 ** (recipe.kneeDb / 20)}:detection=peak:link=maximum:level_in=1:level_sc=1:makeup=${10 ** ((recipe.makeupGainDb ?? 0) / 20)}:mix=1:mode=downward,atrim=end_sample=${frames}[out]`;
       } else if (recipe.type === "normalization") {
         before = await meter.measure(
           {

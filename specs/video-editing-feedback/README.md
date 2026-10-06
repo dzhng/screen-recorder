@@ -1,6 +1,6 @@
 # Reliable autonomous video editing
 
-Status: implementation active; twelve slices complete, corpus partly certified, speaker quality gate red. Last updated: 2026-10-06.
+Status: implementation active; thirteen slices complete, corpus partly certified, speaker quality gate red. Last updated: 2026-10-06.
 
 Yap supplies explicit editing primitives and reproducible observations. The consumer
 agent chooses the story, uses available creative tools, checks actual output and
@@ -16,7 +16,7 @@ merge, push or installed-app change has been requested. Hard cutover remains
 binding: no aliases, dual readers or migrations; preserve external originals and
 frozen historical evidence.
 
-Current pickup: finish19 dialogue matching in `/Users/server/dev/yap-dialogue-matching`.
+Current pickup: retain20 synchronization waveform research in `/Users/server/dev/yap-audio-synchronization`; advance lexical anchors after accepted10B.19 dialogue matching is complete with a clean independent review.
 Reviewed05 atomic replacement,14 delivered-picture observations,10A pinned
 alignment distribution and the31 hysteresis research checkpoint are integrated.
 18 is complete: strict bounded original-input correction retains the best
@@ -24,7 +24,7 @@ admitted PCM and explicit candidate evidence. Active isolated lanes own10B
 source/project alignment,15 face observations and31 documented streaming/cache
 research. Integrate each reviewed pass independently;10B and31 remain open.
 
-Completed: 02, 03, 04, 05, 06, 07, 08, 09, 13, 14, 17, 18. Partial01 has exact source-rate PCM,
+Completed: 02, 03, 04, 05, 06, 07, 08, 09, 13, 14, 17, 18, 19. Partial01 has exact source-rate PCM,
 full-raster picture inputs and all five frozen07 original/derivative speech
 comparisons. Multicamera/speaker controls and remaining behavioral certification
 stay open.08's separate20s/4s ownership recipe is accepted; historical public/native
@@ -72,7 +72,7 @@ Numbering is a review order; actual prerequisites live in the slice headers.
 - [ ] [16 — Constrained subject framing](slices/16-subject-reframe.md)
 - [x] [17 — Audio-only normalization preflight](slices/17-normalization-preflight.md)
 - [x] [18 — Strict, reliable dynamic mastering](slices/18-reliable-mastering.md)
-- [ ] [19 — Dialogue matching and compressor makeup](slices/19-dialogue-matching.md)
+- [x] [19 — Dialogue matching and compressor makeup](slices/19-dialogue-matching.md)
 - [ ] [20 — Synchronization feasibility](slices/20-sync-replication.md)
 - [ ] [21 — Declared angle clocks](slices/21-synced-angles.md)
 - [ ] [22 — Native typography and caption styling](slices/22-styled-text.md)

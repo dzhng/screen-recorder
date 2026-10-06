@@ -335,6 +335,12 @@ export const processorRegistry = {
           .max(20 * Math.log10(8)),
         attackMs: z.number().finite().min(0.01).max(2000),
         releaseMs: z.number().finite().min(0.01).max(9000),
+        makeupGainDb: z
+          .number()
+          .finite()
+          .min(0)
+          .max(20 * Math.log10(64))
+          .optional(),
         detector: z.discriminatedUnion("kind", [
           z.object({ kind: z.literal("input") }).strict(),
           z.object({ kind: z.literal("tap"), tap: processingTapSchema }).strict(),
@@ -349,6 +355,7 @@ export const processorRegistry = {
       kneeDb: "full knee width in dB",
       attackMs: "peak detector milliseconds",
       releaseMs: "peak detector milliseconds",
+      makeupGainDb: "post-compression dB; omitted means unity (0 dB)",
     },
   },
   pointer: {
