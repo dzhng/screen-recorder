@@ -283,7 +283,11 @@ async function prepareAndVerify(
 try {
   await copyModels(home, { directory: resolve(values.model), files: parakeetModel.files });
   await service.start();
-  assert.deepEqual(await call("model.status", { modelId: "parakeet" }), { state: "ready" });
+  assert.deepEqual(await call("model.status", { modelId: "parakeet" }), {
+    modelId: "parakeet",
+    purpose: "transcription",
+    state: "ready",
+  });
   const fixture = await importFixture();
   const full = { startUs: 0, endUs: intactDurationUs };
   const clipped = { startUs: 0, endUs: cutUs };
