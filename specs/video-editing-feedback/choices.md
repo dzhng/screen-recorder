@@ -1307,3 +1307,21 @@ Apple cube candidate are in the slice26 evidence; no user-only decision remains.
 - **Verdict:** sound bounded research; no production estimator promoted.
 - **Confidence:** high for retained operand preservation and literal local provider
   observations; global clock and unsampled continuity are not established.
+
+## Keep join repair caller-owned — slice12C/12D
+
+- **When:** bounded contextual repair helper.
+- **The choice:** Put the repair loop in the consumer skill helper. It accepts
+  one explicit `edit.apply` request pinned to the inspected revision, optionally
+  prepares the changed output tap with a finite poll budget, and then calls the
+  existing read-only `join.verify` report against the advanced revision.
+- **The gap:** The product report must remain read-only, while the workflow needs
+  a concrete way to recheck an authorized repair. A product-side automatic cut
+  or candidate chooser would turn observations into editorial policy.
+- **The reach:** The helper refuses a non-advancing revision, performs no blind
+  retry or wording inference, and leaves cut selection, repair scope and no-
+  progress decisions with the caller. Real clipped/intact media fixture replay
+  remains a separate acceptance gate.
+- **Verdict:** sound; one owner per concept and no new public edit operation.
+- **Confidence:** high for sequencing and authority boundaries; medium for the
+  still-open real-media fixture exercise.

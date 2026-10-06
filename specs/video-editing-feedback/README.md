@@ -16,8 +16,11 @@ merge, push or installed-app change has been requested. Hard cutover remains
 binding: no aliases, dual readers or migrations; preserve external originals and
 frozen historical evidence.
 
-Current pickup:12C contextual repair and output recheck.12A exact boundary mapping and
+Current pickup:12C/12D media fixture exercise and fresh-agent repair discovery.12A exact boundary mapping and
 12B retained contextual reporting are reviewed.
+The consumer-side bounded repair helper is integrated: it applies one explicit
+caller edit, optionally prepares the changed tap, and rechecks `join.verify` on
+the advanced revision; it does not choose repairs.
 The reviewed20 lexical scout is integrated;
 its mixed-reference segment research continues independently.
 Public source acoustic context and complete project-tap package replay pass.

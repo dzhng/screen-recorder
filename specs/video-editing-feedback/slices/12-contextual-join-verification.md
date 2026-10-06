@@ -1,6 +1,9 @@
 # 12 — Verify joins and repair through the agent
 
-Status: checkpoints A and B implemented and reviewed. Contextual repair and changed-output recheck remain open. Depends on: [10](10-alignment-and-boundaries.md), [11](11-rendered-speech.md), [06](06-exact-removal.md).
+Status: checkpoints A and B are implemented and reviewed; the bounded
+consumer repair helper for C/D is implemented, while real clipped/intact/repaired
+media fixtures and a fresh-agent discovery run remain open. Depends on:
+[10](10-alignment-and-boundaries.md), [11](11-rendered-speech.md), [06](06-exact-removal.md).
 
 ## Contract
 
@@ -45,7 +48,12 @@ Define join.verify with pinned revision/tap, explicit boundaries/expected text a
   energy and conditional alignment remain insufficient phonetic identity.
 - D: a fresh agent discovers the withheld edge defect without a timecode hint,
   performs explicit bounded repairs within its brief and rechecks changed output.
-  Keep no-progress stop and all original lexical/physical acceptance gates.
+  Keep no-progress stop and all original lexical/physical acceptance gates. The
+  consumer helper [join-repair.mjs](../../../skills/yap/scripts/join-repair.mjs)
+  applies exactly one caller-authored `edit.apply`, optionally prepares the new
+  revision's audio tap with bounded polling, then calls `join.verify` against the
+  changed revision. It never chooses a cut, retries failed work, or treats the
+  report as permission to edit.
 
 These checkpoints split verification order; they do not reduce the slice's scope.
 
@@ -65,7 +73,11 @@ Variable: evidence alignment/coverage only. Mask: bounded join timeline and sour
 
 Run [compare-screenshots](../../../.agents/skills/compare-screenshots/SKILL.md) on matched before/reference/candidate shots with the stated masks and numeric interpretation. Inspect motion temporally when a still cannot establish the claim. Run an unprimed [screenshot-critique](../../../.agents/skills/screenshot-critique/SKILL.md) as the **last visual acceptance check**. Show useful output with [preview-shots](../../../.agents/skills/preview-shots/SKILL.md); never request human QA or wait for approval. Record critique, coverage and any residual uncertainty.
 
-A spike passes with a frozen accepted recipe/reference, or records a failed verdict and reslices dependent work. An unavailable stub or undocumented fallback is not implementation completion.
+The focused helper checkpoint passes with explicit edit/recheck receipts and a
+revision-advance refusal. See [repair verification](../assets/12-contextual-joins/repair-verification.json).
+The clipped/intact/repaired media exercise and fresh-agent discovery remain the
+next acceptance gate; an unavailable stub or undocumented fallback is not
+implementation completion.
 
 ## Delegated choices
 

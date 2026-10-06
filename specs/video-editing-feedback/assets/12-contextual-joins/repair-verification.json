@@ -1,0 +1,14 @@
+{
+  "scope": "consumer-side explicit join repair and changed-output recheck",
+  "command": "bunx vitest run apps/service/src/join-repair.test.ts --maxWorkers=1",
+  "tests": 3,
+  "contracts": [
+    "one caller-authored edit.apply is pinned to the inspected revision",
+    "a repair must advance the revision before recheck",
+    "join.verify runs against the changed revision",
+    "optional changed-output audio preparation is bounded and never blindly retried",
+    "the helper never chooses a boundary or converts evidence into an edit decision"
+  ],
+  "phoneticCompleteness": "unknown",
+  "liveDeviceChecks": "unverified; no camera or microphone hardware is available"
+}

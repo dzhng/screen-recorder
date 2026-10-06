@@ -48,6 +48,18 @@ Scope: this checkpoint adds no public operation, inference, edit or clean-cut
 verdict. Retained contextual reporting, actual output evidence and autonomous
 repair remain open in [slice12](../../slices/12-contextual-join-verification.md).
 
+## Explicit repair and changed-output recheck (12C/12D)
+
+The consumer-side [join-repair helper](../../../../skills/yap/scripts/join-repair.mjs)
+keeps editorial authority outside the product. It accepts one caller-authored
+`edit.apply` request pinned to the inspected revision, refuses a response that
+does not advance that revision, optionally prepares the changed revision's audio
+tap with a bounded poll budget, and calls `join.verify` with the new revision and
+prepared resource. It performs no candidate selection, wording inference, blind
+retry or automatic fade. The focused test proves both the ordered public calls
+and the stale-revision refusal; the helper receipt is retained in
+`repair-verification.json`.
+
 The [independent follow-up](followup-review.md) accepts the implementation. Its
 remaining receipt wording finding is resolved: eight tests and three retained
 mutation proofs. The follow-up completed with exit0 and `turn.completed`.
