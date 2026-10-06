@@ -1,3 +1,5 @@
+import { historicalWholeSupportRecords } from "./speech-parity-records.mjs";
+import { speechExecution } from "../../../packages/core/dist/transcript.js";
 import frozenWorkers from "../../../specs/done/agent-editing/assets/acceptance-maintenance/native-worker-preservation.json" with { type: "json" };
 import assert from "node:assert/strict";
 import { spawnSync } from "node:child_process";
@@ -86,12 +88,7 @@ try {
   assert.equal(audio.length, 2);
   assert.notEqual(audio[0].id, audio[1].id);
   const normalize = (lines) =>
-    lines.map((line) => {
-      if (!line.result) return line;
-      const { processingTime, ...result } = line.result;
-      assert.ok(Number.isFinite(processingTime));
-      return { ...line, result };
-    });
+    historicalWholeSupportRecords(Buffer.from(lines.map(JSON.stringify).join("\n") + "\n"));
   const wordsByStream = [];
   for (const [index, name] of ["first", "second"].entries()) {
     for (const [mask, available, expected] of [
@@ -177,7 +174,7 @@ try {
           variant === "baseline" ? values.baseline : values.native,
           id,
           "speech.transcribe",
-          { models, track, output },
+          { models, track, output, execution: speechExecution() },
         );
         assert.equal(reply.ok, true, JSON.stringify(reply));
         assert.deepEqual(
@@ -195,7 +192,13 @@ try {
       );
       assert.deepEqual(lines[2], lines[0], "Unique source selection changed frozen transcript");
       assert.deepEqual(receipts[1].engine, receipts[0].engine);
-      assert.deepEqual(receipts[1].segments, receipts[0].segments);
+      assert.deepEqual(
+        receipts[1].segments.map(({ owned, ...segment }) => {
+          assert.deepEqual(owned, segment.source);
+          return segment;
+        }),
+        receipts[0].segments,
+      );
       const text = lines[1].flatMap((line) => line.words.map((word) => word.text)).join(" ");
       if (mask === "physical") wordsByStream.push(text);
       report.checks.push({
@@ -219,6 +222,7 @@ try {
     "Distinguishable streams must not select the same speech",
   );
   const ambiguous = native(values.native, "ambiguous", "speech.transcribe", {
+    execution: speechExecution(),
     models,
     track: {
       source: join(out, "multi.mov"),

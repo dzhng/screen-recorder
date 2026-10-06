@@ -75,3 +75,26 @@ context: decoded 16–24s, 10 primary words, 128000 samples, original physical s
 support is `not_observed`. A separate tiny full-admitted-support wire check verifies null
 range echo and explicit `too_short`, without loading the engine. No source library,
 installed app, original fixture or human editorial project was changed.
+
+## Integrated caller cutover
+
+[The controlled public report](caller-cutover-report.json) and
+[scoped receipt](caller-cutover-receipt.json) exercise explicit source preparation,
+readonly CLI/MCP queries, immutable edits, PCM delivery, restart and replacement
+identity using frozen ASR responses. The modern reference derivative reports actual
+historical decoded support rather than claiming the request's entire availability.
+Every original lexical/token/source operand remains exact in short whole-support
+comparisons after checking additive ownership/candidate metadata. Longer/context
+inputs cannot inherit that topology comparison. Native wire checks use the integrated08
+binary; picture13's earlier binary is not used to claim08 speech readiness.
+
+The public CLI wait regression was red without a preparation observer and green
+with job observation followed by generation-pinned `transcript.get`. Execution range
+and context are preparation fields; they never become display filters or getter
+arguments. Personal-release callers prepare once before readonly enumeration.
+The package cancellation/retry fixture now composes the actual speaker evidence
+and processing owners, matching production even when no speaker job is requested.
+
+[Independent review](caller-cutover-review.md) covers the full caller pass and its
+final focused changes; [the receipt](caller-cutover-review-receipt.json) pins both
+completed review event streams.

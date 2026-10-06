@@ -318,12 +318,15 @@ test("canceled package keeps admitted transcript bytes through regeneration and 
       const lines = request.track.available.map((source, ordinal) => ({
         ordinal,
         source,
+        owned: source,
         state: "transcribed",
         words: [{ text: word, source: { startUs: 100, endUs: 900000 }, confidence: 0.8 }],
       }));
       const body = lines.map((line) => JSON.stringify(line) + "\n").join("");
       await writeFile(request.output, body);
       return {
+        execution: request.execution,
+        available: request.track.available,
         output: {
           file: request.output,
           bytes: Buffer.byteLength(body),

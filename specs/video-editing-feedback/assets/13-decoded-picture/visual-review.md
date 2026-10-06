@@ -40,4 +40,3 @@ Both are fixed. The scoped confirmation accepted the fixes and found a mixed-var
 profile test; independent one-variable refusal controls now pass with red falsification.
 Parent shape/diff/docs review finds one observation owner, scoped sampling claims,
 no production changes, and links from the harness and active spec to the evidence.
-

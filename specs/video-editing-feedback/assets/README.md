@@ -15,6 +15,9 @@ Actual video/audio derivatives belong under the repository's fixture owner and f
 [Capability-first workflow](02-capability-first-skill/README.md),
 [publication contract](03-published-work/README.md) and
 [exact removal](06-exact-removal/README.md) record completed boundaries.
+[Bounded wait/delivery](04-wait-and-delivery/README.md) and
+[bounded speech preparation](08-bounded-speech/README.md) record the explicit
+preparation/readonly observation cutover and its integrated caller proof.
 [Audio corpus](01-corpus-audio/README.md),
 [full-frame picture corpus](01-corpus-picture/README.md) and
 [honest speech timing](07-speech-timing/README.md) retain scoped operands.
@@ -22,7 +25,7 @@ Actual video/audio derivatives belong under the repository's fixture owner and f
 successes and required failures; it does not establish production readiness.
 
 [Player reference coverage](13-reference-coverage/README.md) records partial decode
-failures without changing successful pictures; the full picture recipe remains open.
+failures without changing successful pictures; the accepted sampled recipe follows below.
 
 [Local alignment reference](09-local-alignment/README.md) separates observed provider
 text correspondence from conditional timing, with preserved rejected controls.

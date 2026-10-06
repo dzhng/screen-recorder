@@ -24,6 +24,13 @@ contract change. Match the original operands and observable outcome instead of
 recreating the old implementation. The [preservation registry](../../../specs/done/agent-editing/assets/23-owner-fixture-ports/README.md)
 locates those scoped results and their producing code.
 
+Speech journeys explicitly prepare source dependencies before reading them.
+Historical raw responses remain frozen; the reference-only admission port adds
+required execution/ownership provenance to a derived artifact. Short whole-support
+recognition comparisons validate new ownership and candidate fields before comparing
+every original raw operand except measured processing time. Context or multi-window
+results have different inference topology and cannot use that historical comparison.
+
 ## Pictures, audio and processing
 
 Picture checks separate source-frame membership, sampled project time, geometry

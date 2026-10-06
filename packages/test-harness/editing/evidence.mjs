@@ -194,6 +194,8 @@ try {
     { transport: "mcp" },
   );
   const revisionId = edited.revision.id;
+  for (const source of sources)
+    await call("transcript.prepare", { assetId: source.sha256, streamId: source.streamId });
   const full = await poll(
     () => call("transcript.get", { projectId, revisionId, limit: 1000 }),
     (value) => value.state === "ready",
@@ -426,6 +428,11 @@ try {
   assert.ok(savedCursor);
   const masked = place("masked", 0, "captured", 0, 6000000, 20000000);
   masked.clip.acquisitionId = context.id;
+  await call("transcript.prepare", {
+    assetId: binding.assetId,
+    streamId: binding.streamId,
+    acquisitionId: context.id,
+  });
   const advanced = await call("edit.apply", {
     projectId,
     requestId: "partial-and-gap",

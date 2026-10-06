@@ -46,6 +46,7 @@ const reads = new Map([
   ["index.frames", "index.frames"],
   ["audio.measure", "audio.measure"],
   ["transcript.search", "transcript.search"],
+  ["transcript.prepare", "transcript.get"],
   ["export.create", "export.status"],
   ["export.retry", "export.status"],
   ["export.recover", "export.status"],
@@ -166,6 +167,16 @@ export async function waitForWork(options: {
     read = "transcript.search";
   let params: Record<string, unknown> =
     read === "model.status" ? { modelId: request.params.modelId } : { ...request.params };
+  const sourcePreparation =
+    read === "transcript.get" &&
+    (request.operation === "transcript.prepare" ||
+      (request.operation === "transcript.retry" && "assetId" in request.params));
+  if (sourcePreparation) {
+    delete params.executionRange;
+    delete params.context;
+    const retainedGeneration = record(record(pins.published).output).generation;
+    if (typeof retainedGeneration === "string") params.generation = retainedGeneration;
+  }
   if (request.operation === "export.create" && typeof pins.exportId === "string")
     params = { exportId: pins.exportId };
   if (request.operation === "capture.stop" && typeof pins.recordingId === "string")
@@ -350,6 +361,7 @@ export async function waitForWork(options: {
             latest = inspected;
             return metadata("settled");
           }
+          if (sourcePreparation) params.generation = job.attemptId;
           await delay(100, undefined, { signal });
           const next = await call(read, params);
           if (!next.ok && interrupted(next))

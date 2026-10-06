@@ -14,3 +14,23 @@ export function comparableSpeechRecords(bytes) {
       return { ...line, result };
     });
 }
+
+// Only historical <=20s whole-support decodes have unchanged inference topology.
+// Validate added ownership/candidate evidence, then compare every original operand.
+// Bounded/context/seam output cannot use this historical view.
+export function historicalWholeSupportRecords(bytes) {
+  return comparableSpeechRecords(bytes).map((line) => {
+    const { owned, observations, selectedObservationIndexes, boundary, ...original } = line;
+    if (owned !== undefined) assert.deepEqual(owned, line.source);
+    assert.ok(line.source.endUs - line.source.startUs <= 20_000_000);
+    assert.ok(boundary === undefined || boundary === null, "Seam output has different topology");
+    if (observations !== undefined || selectedObservationIndexes !== undefined) {
+      assert.deepEqual(observations, line.words);
+      assert.deepEqual(
+        selectedObservationIndexes,
+        line.words.map((_, index) => index),
+      );
+    }
+    return original;
+  });
+}

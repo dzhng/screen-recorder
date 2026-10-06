@@ -313,6 +313,7 @@ const main = async () => {
   const firstVisibleVideoStart = Math.min(...retainedVideoStarts);
 
   const transcriptStartedAt = Date.now();
+  call("transcript.prepare", narrationSelection);
   const transcriptFirst = await ready(
     "transcript.get",
     { ...narrationSelection, limit: 250 },

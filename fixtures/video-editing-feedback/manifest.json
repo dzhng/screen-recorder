@@ -155,8 +155,12 @@
         "comparedSamples": 2205000
       },
       "baseline": {
-        "state": "unverified",
-        "reason": "recognizer behavior requires a separate original/derivative run"
+        "state": "fixed-current",
+        "basis": "Frozen integrated07 bounded original/derivative selections preserve exact tokens and word operands after source-clock rebasing; overlapping estimates retained without clamp. Does not establish08 window parity or lexical truth.",
+        "wordCount": 83,
+        "tokenCount": 150,
+        "normalizedSha256": "0d61e429061771ecb32ee2f788c8c957dc6779571b8f60d08c1c21b118372574",
+        "evidence": "../../specs/video-editing-feedback/assets/07-speech-timing/bounded-baseline-comparison.json"
       }
     },
     {
@@ -231,8 +235,12 @@
         "comparedSamples": 2205000
       },
       "baseline": {
-        "state": "unverified",
-        "reason": "recognizer behavior requires a separate original/derivative run"
+        "state": "fixed-current",
+        "basis": "Frozen integrated07 bounded original/derivative selections preserve exact tokens and word operands after source-clock rebasing; overlapping estimates retained without clamp. Does not establish08 window parity or lexical truth.",
+        "wordCount": 78,
+        "tokenCount": 140,
+        "normalizedSha256": "42d8f94029c614d62e75b99cdc8aea2cdded62e6bbffd4454d6bdeccae34135e",
+        "evidence": "../../specs/video-editing-feedback/assets/07-speech-timing/bounded-baseline-comparison.json"
       }
     },
     {

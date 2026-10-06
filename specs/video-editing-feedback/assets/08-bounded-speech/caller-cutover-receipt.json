@@ -1,0 +1,15 @@
+{
+  "scope": "Frozen ASR responses with real CLI/MCP/service ingestion, source media admission, explicit edits, PCM delivery, restart and generation fencing; no new speech inference or lexical-quality verdict.",
+  "command": "PATH=<pinned FFmpeg distribution>/bin:$PATH YAP_NATIVE=<integrated08 native executable> node packages/test-harness/editing/speech-parity.mjs --reference specs/done/agent-editing/assets/12-speech --out <fresh scratch>",
+  "passed": true,
+  "focusedChecks": {
+    "cliWait": 50,
+    "nativeWire": 6,
+    "sourceOwnershipReads": 36,
+    "publicTranscript": 1,
+    "packageCancellationRetry": 1,
+    "personalReleaseCaller": 9,
+    "historicalRawComparison": 2
+  },
+  "checks": "Narrow suite only; complete repository checks remain the whole-spec final gate."
+}

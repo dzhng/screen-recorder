@@ -1,3 +1,4 @@
+import { historicalWholeSupportRecords } from "./speech-parity-records.mjs";
 import assert from "node:assert/strict";
 import { projectMasks } from "./source-evidence-project.mjs";
 import { mkdir, mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
@@ -107,6 +108,7 @@ try {
   };
   const transcripts = [];
   for (const [index, selection] of selections.entries()) {
+    await call("transcript.prepare", selection);
     const first = await poll(
       () => call("transcript.get", { ...selection, limit: 1 }),
       (v) => v.state === "ready",
@@ -179,12 +181,7 @@ try {
   }
   assert.notDeepEqual(transcripts[0].page.rows, transcripts[1].page.rows);
   const normalize = (lines) =>
-    lines.map((line) => {
-      if (!line.result) return line;
-      const { processingTime, ...result } = line.result;
-      assert.ok(Number.isFinite(processingTime));
-      return { ...line, result };
-    });
+    historicalWholeSupportRecords(Buffer.from(lines.map(JSON.stringify).join("\n") + "\n"));
   for (let index = 0; index < 2; index++) {
     const parseLines = async (path) =>
       (await readFile(path, "utf8")).trim().split("\n").map(JSON.parse);
@@ -277,7 +274,7 @@ try {
   assert.equal(contexts[0].binding.assetId, contexts[1].binding.assetId);
   assert.notDeepEqual(contexts[0].binding.available, contexts[1].binding.available);
   const hit = await service.arm("speech.transcribe");
-  const preparing = await call("transcript.get", contexts[0].selection);
+  const preparing = await call("transcript.prepare", contexts[0].selection);
   await hit();
   assert.ok(preparing.jobId);
   await call("job.cancel", { jobId: preparing.jobId }, { transport: "mcp" });
@@ -293,6 +290,7 @@ try {
   assert.equal(canceled.jobId, preparing.jobId);
   await call("transcript.retry", contexts[0].selection, { transport: "mcp" });
   for (const [index, item] of contexts.entries()) {
+    await call("transcript.prepare", item.selection);
     const result = await poll(
       () => call("transcript.get", { ...item.selection, limit: 1000 }),
       (v) => v.state === "ready",
@@ -326,6 +324,7 @@ try {
     assetId: contexts[0].binding.assetId,
     streamId: contexts[0].binding.streamId,
   };
+  await call("transcript.prepare", physicalSingle);
   const unmasked = await poll(
     () => call("transcript.get", { ...physicalSingle, limit: 1000 }),
     (v) => v.state === "ready",

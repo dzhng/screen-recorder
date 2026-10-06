@@ -1,6 +1,6 @@
 # 08 — Prepare transcripts for bounded source ranges
 
-Status: implemented in delegated worktree; scoped recipe/contract gates pass. Root integration owns the remaining historical harness caller cutover. Depends on: [07](07-speech-timing-admission.md), [03](03-published-work-contract.md).
+Status: complete; accepted bounded recipe and explicit preparation/read contract integrated, including historical caller cutover and generation-pinned CLI waiting. Depends on: [07](07-speech-timing-admission.md), [03](03-published-work-contract.md).
 
 ## Contract
 

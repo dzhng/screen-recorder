@@ -285,6 +285,46 @@ test("model preparation waits through its advertised model.status getter without
   ]);
 });
 
+test("bounded transcript preparation waits for its admitted generation without resubmitting inference", async () => {
+  const generation = "c6df7efc-a023-4c40-aa08-3b8b1c0b1b90";
+  const selection = { assetId: "a", streamId: "s", acquisitionId: "acquired" };
+  const f = await fixture((request) => {
+    if (request.operation === "transcript.prepare")
+      return { ok: true, data: { ...selection, state: "processing", jobId: "job" } };
+    if (request.operation === "job.get")
+      return {
+        ok: true,
+        data: {
+          ...job("ready"),
+          attemptId: generation,
+          target: { kind: "asset", assetId: "a" },
+        },
+      };
+    expect(request.operation).toBe("transcript.get");
+    return { ok: true, data: { ...selection, state: "ready", generation, page: { rows: [] } } };
+  });
+  const output = await f.run(
+    "transcript.prepare",
+    {
+      ...selection,
+      executionRange: { startUs: 0, endUs: 1000000 },
+      context: { beforeUs: 10, afterUs: 20 },
+    },
+    ["--wait", "--timeout-ms", "1000"],
+  );
+  expect(output.code, output.stdout + output.stderr).toBe(0);
+  expect(JSON.parse(output.stdout)).toMatchObject({
+    data: { state: "ready", generation },
+    wait: { state: "settled", job: { attemptId: generation } },
+  });
+  expect(f.calls.map((r) => r.operation)).toEqual([
+    "transcript.prepare",
+    "job.get",
+    "transcript.get",
+  ]);
+  expect(f.calls[2]!.params).toEqual({ ...selection, generation });
+});
+
 test.each(["package.open", "package.status"])(
   "%s observes the process-local admission through package.status",
   async (operation) => {

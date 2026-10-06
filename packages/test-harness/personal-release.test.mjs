@@ -44,6 +44,12 @@ test("a repeated ready transcript cursor stops the caller before another page re
   const calls = readFileSync(trace, "utf8").trim().split("\n").map(JSON.parse);
   assert.deepEqual(
     calls
+      .filter((call) => ["transcript.prepare", "transcript.get"].includes(call.operation))
+      .map((call) => call.operation),
+    ["transcript.prepare", "transcript.get", "transcript.get"],
+  );
+  assert.deepEqual(
+    calls
       .filter((call) => call.operation === "transcript.get")
       .map((call) => call.params.cursor ?? null),
     [
