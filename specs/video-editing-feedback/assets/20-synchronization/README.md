@@ -42,11 +42,12 @@ evidence and switched-view delivery remain open. There is no automatic retime, a
 selection or provider promotion.
 The [initial independent review](independent-review.md) found missing pre-work
 bounds and absent executable comparison against frozen receipts. All three
-regressions failed before their fixes, then passed through the outer CLI.
+regressions failed before their fixes, then passed through the outer CLI; the
+corrective prepared-runtime review now passes the offset, receipt and research
+suites.
 [Exact replay](exact-replay.json) now pins the reference hash and compares every
 field except elapsed time. Candidate comparisons remain available on refusal.
 Acquisition and optional native replay refuse invalid envelopes before native work.
-Corrective independent review of the original waveform runner is pending.
 
 [The independent lexical scout](lexical/README.md) also refuses its prerequisites
 on the same retained windows: independently recognized sources share no candidate
