@@ -929,73 +929,32 @@ unlisted architecture or user-only choice was found in this research pass.
   turn uncertain overlap into an editorial decision.
 - **Confidence:** high.
 
-## Generation-pinned speaker names — slice32
-
-- **When:** slice32 public binding checkpoint.
-- **The choice:** `speaker.bind` stores caller-authored display names against one
-  retained speaker observation generation and anonymous slot. A later `speaker.get`
-  joins those names onto interval rows only when it reads that same generation;
-  rebinding replaces the names without rerunning diarization or changing words. A
-  cursor includes the binding identity, so a rename cannot silently continue an old
-  page. Unknown and overlapping intervals remain unlabeled.
-- **The gap:** The spec required names without a second speaker-evidence owner but
-  left storage scope and cursor invalidation open.
-- **The reach:** Labels are durable and packageable with the evidence generation, but
-  they do not prove continuity across sessions or word attribution. Selected-range
-  preparation, project transcript joins and package replay remain later gates.
-- **Verdict:** sound, high confidence. It keeps names explicit and generation-local,
-  while the red long-form quality gate prevents overclaiming stable identity.
-- **Confidence:** high.
-
 ## Public styled-caption sheet shape — slice22
 
 - **When:** slice22 public static-sheet checkpoint.
 - **The choice:** The public proof renders four caption variants into one selected
-  frame: default/top, centered stroke, bottom shadow and centered rounded background.
-  Each variant has its own track and clip identity, so the `frame.get` receipt can be
-  matched to the authored request without relying on row order. The same frame is
-  retained as the PNG artifact; a native-only raster is not treated as public proof.
-- **The gap:** The slice required a public styled-caption artifact and receipt but did
-  not define whether to capture one style or a matrix, nor how to associate receipt rows
-  with visual samples.
-- **The reach:** Future decoration changes can rerun one bounded sheet and compare
-  literal text, vertical offset, decoration echo and bounds. Animation and moving-footage
-  legibility remain separate gates.
-- **Verdict:** sound, high confidence. The sheet is small, exercises each decoration
-  owner and uses stable clip IDs.
+  frame: the default/top placement, centered stroke, bottom shadow and centered
+  rounded background. Each variant has its own video track and clip identity, so
+  the returned `frame.get` receipt can be matched to the authored request without
+  guessing which layer produced a row. The same frame is retained as the visual
+  PNG artifact; no separate native-only raster is treated as public proof.
+- **The gap:** The slice required a public styled-caption artifact and receipt but
+  did not define whether to capture one representative style or a matrix, nor how
+  to associate receipt rows with the visual samples.
+- **The reach:** Future caption decoration changes can rerun one bounded static
+  sheet and compare each style's literal text, vertical offset, decoration echo and
+  bounds. The checkpoint intentionally does not claim animation, moving-footage
+  legibility or human visual sign-off.
+- **Verdict:** sound, high confidence. One public frame keeps the evidence small,
+  exercises all decoration owners, and uses stable clip IDs rather than ordering
+  as the row key.
 - **Confidence:** high.
-
-## Independent blend reference envelope — slice24
-
-- **When:** slice24 independent sheet/vignette checkpoint.
-- **The choice:** Compare every delivered PNG pixel against scalar linear-light
-  equations, while comparing encoded patch interiors separately from their edges. A
-  movie codec can share color samples across a hard patch boundary even when the
-  compositor drew the correct pixels, so the patch movie claim excludes a two-pixel
-  fringe. A smooth vignette checks every movie pixel, including the outer falloff.
-- **The gap:** The spec required independent arithmetic and movie parity but did not
-  name fixtures or distinguish compositor error from codec boundary mixing.
-- **The reach:** This reference detects missing modes, incorrect alpha and wrong order
-  without adding a production renderer. It does not certify patch boundaries or public
-  CLI admission; those remain explicit gates.
-- **Verdict:** sound, medium-high confidence. PNG proof remains unmasked and the smooth
-  movie control prevents the codec mask from hiding a real falloff defect.
-- **Confidence:** medium-high.
 
 ## Transition recipe lowering — slice27
 
 - **When:** slice27 public composition checkpoint.
-- **The choice:** Keep transitions as caller-authored convenience operations that lower to the
-  existing gain and opacity processors. Crossfade names two distinct targets and emits opposing
-  ramps; dip and flash name one target and emit a three-point pulse. A project/source pulse must
-  have an even whole-microsecond midpoint, while clip anchors retain exact fractions. The recipe
-  does not add assets, retime media or synthesize an SFX/color layer.
-- **The gap:** The transition request needed a reusable public seam but the native graph already
-  owned all required scalar execution. Adding a second transition renderer would create a second
-  clock and duplicate alpha/audio behavior.
-- **The reach:** Public composition tests prove the authored curves and explicit midpoint refusal.
-  The canvas/background or caller-selected overlay controls the visible dip/flash color; delivered
-  native transition evidence and motion critique remain open.
-- **Verdict:** sound, medium-high confidence. The lowering is small and shares the existing
-  processor/executor contracts, but visual/audio delivery still needs its own evidence gate.
+- **The choice:** Keep transitions as caller-authored convenience operations that lower to the existing gain and opacity processors. Crossfade names two distinct targets and emits opposing ramps; dip and flash name one target and emit a three-point pulse. A project/source pulse must have an even whole-microsecond midpoint, while clip anchors retain exact fractions. The recipe does not add assets, retime media or synthesize an SFX/color layer.
+- **The gap:** The transition request needed a reusable public seam but the native graph already owned all required scalar execution. Adding a second transition renderer would create a second clock and duplicate alpha/audio behavior.
+- **The reach:** Public composition tests prove the authored curves and explicit midpoint refusal. The canvas/background or caller-selected overlay controls the visible dip/flash color; delivered native transition evidence and motion critique remain open.
+- **Verdict:** sound, medium-high confidence. The lowering is small and shares the existing processor/executor contracts, but visual/audio delivery still needs its own evidence gate.
 - **Confidence:** medium-high.
