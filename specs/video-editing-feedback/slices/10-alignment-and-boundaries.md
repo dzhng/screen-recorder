@@ -1,6 +1,6 @@
 # 10 — Publish alignment and acoustic boundary evidence
 
-Status: checkpoint A and B1 committed; B2 source portability reviewed and exact source projection helper implemented; actual prepared project-tap observation and public lifecycle remain open. Depends on: [09](09-alignment-replication.md), [08](08-bounded-speech-preparation.md).
+Status: checkpoint A and B1 committed; B2 source portability reviewed and exact source projection helper implemented; the prepared project selector/read seam is public, but actual prepared project-tap observation and its project-owned lifecycle remain open. Depends on: [09](09-alignment-replication.md), [08](08-bounded-speech-preparation.md).
 
 ## Contract
 

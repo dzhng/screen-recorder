@@ -102,3 +102,9 @@ source timing through existing revision occurrences into project ranges, splitti
 available fragments and preserving null timing as unknown. It does not mutate source
 rows or create a second project clock. Actual prepared project-tap observation and its
 public lifecycle remain the next B2 pass.
+
+The public `alignment.get` project selector now requires an already-ready prepared
+resource and pins revision, tap and project range while projecting retained source
+rows. It is intentionally a projection/read seam; it does not claim fresh inference
+on the prepared output. A project-owned observation artifact and preparation job are
+still required before this checkpoint can claim actual project-tap attribution.
