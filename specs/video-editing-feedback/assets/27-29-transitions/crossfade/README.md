@@ -34,4 +34,14 @@ An unprimed visual critique inspected all six dip/flash frames: every frame is
 opaque and fully filled, the red → black → red sequence is temporally consistent,
 and no cropping, edge artifact or unexpected transparency was visible. The
 comparator evidence and critique cover this deterministic control set; temporal
-motion, real reference matching and motion blur remain separate open gates.
+motion and real reference matching remain separate open gates.
+
+The [`moving/`](moving/) receipt adds the retained asymmetric alpha and mirror
+clips to the same public crossfade path. At 100ms, 500ms and 900ms the delivered
+frames stay below the `0.98` black-pixel refusal threshold (`0.7402`, `0.8496`,
+`0.7813`) and the midpoint mean RGB differs from the 100ms control, proving a
+moving source reaches both sides of the transition without exposing an all-black
+gap. The source hashes and native implementation identity are retained in
+[`moving/report.json`](moving/report.json). These sparse alpha controls prove
+coverage and source-clock delivery; they do not claim reference-conditioned
+composition, color or trajectory parity.

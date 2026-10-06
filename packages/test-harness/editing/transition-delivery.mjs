@@ -47,6 +47,12 @@ const meanRGB = (bytes) => {
   for (let i = 0; i < bytes.length; i++) mean[i % 3] += bytes[i];
   return mean.map((value) => value / (bytes.length / 3));
 };
+const blackRatio = (bytes) => {
+  let black = 0;
+  for (let i = 0; i < bytes.length; i += 3)
+    if (bytes[i] < 4 && bytes[i + 1] < 4 && bytes[i + 2] < 4) black++;
+  return black / (bytes.length / 3);
+};
 const distance = (a, b) =>
   Math.sqrt(a.reduce((sum, value, index) => sum + (value - b[index]) ** 2, 0));
 const makeSolid = async (name, color) => {
@@ -262,6 +268,84 @@ try {
     };
   }
   report.pulses = pulseResults;
+
+  const movingAssets = [
+    await importImage(join(root, "specs/done/ffmpeg-parity/evidence/motion-alpha/alpha.mov")),
+    await importImage(join(root, "specs/done/ffmpeg-parity/evidence/motion-alpha/mirror.mov")),
+  ];
+  const movingProject = await call("project.create", {
+    requestId: randomUUID(),
+    canvas: {
+      width: 64,
+      height: 48,
+      fps: { numerator: 4, denominator: 1 },
+      background: "#000000ff",
+    },
+  });
+  const movingEdited = await call("edit.apply", {
+    projectId: movingProject.project.projectId,
+    expectedRevisionId: movingProject.revision.id,
+    requestId: randomUUID(),
+    operations: [
+      { operation: "track.add", label: "moving-a-track", track: { kind: "video", order: 0 } },
+      { operation: "track.add", label: "moving-b-track", track: { kind: "video", order: 1 } },
+      ...movingAssets.map((asset, index) => ({
+        operation: "place",
+        label: `moving-${index}`,
+        clip: {
+          trackId: { label: index === 0 ? "moving-a-track" : "moving-b-track" },
+          assetId: asset.id,
+          streamId: asset.streams.find((stream) => stream.kind === "video").id,
+          source: { kind: "range", range: { startUs: 0, endUs: 1000000 } },
+          placement: { kind: "project", range: { startUs: 0, endUs: 1000000 } },
+        },
+      })),
+      {
+        operation: "transition",
+        kind: "crossfade",
+        targets: [
+          { kind: "clip", id: { label: "moving-0" } },
+          { kind: "clip", id: { label: "moving-1" } },
+        ],
+        mediaKind: "video",
+        window: { kind: "project", range: { startUs: 250000, endUs: 750000 } },
+      },
+    ],
+  });
+  const movingSamples = {};
+  for (const atUs of [100000, 500000, 900000]) {
+    const request = {
+      projectId: movingProject.project.projectId,
+      revisionId: movingEdited.revision.id,
+      atUs,
+      maxLongEdge: 64,
+    };
+    const ready = await poll(
+      () => call("frame.get", request),
+      (value) => value.state === "ready",
+      `moving frame ${atUs}`,
+    );
+    const file = join(out, `moving-frame-${atUs}.png`);
+    await call("frame.get", request, { output: file });
+    const bytes = await decodeRGB(file);
+    movingSamples[atUs] = {
+      meanRGB: meanRGB(bytes),
+      blackRatio: blackRatio(bytes),
+      output: {
+        implementationId: ready.published.output.implementationId,
+        frame: ready.published.output.frame,
+      },
+    };
+    assert.ok(
+      movingSamples[atUs].blackRatio < 0.98,
+      "moving crossfade must not expose a black gap",
+    );
+  }
+  assert.ok(
+    distance(movingSamples[500000].meanRGB, movingSamples[100000].meanRGB) > 0.5,
+    "moving crossfade midpoint must differ from its outside-window control",
+  );
+  report.moving = { sources: movingAssets.map((asset) => asset.id), samples: movingSamples };
   const audioSourcePaths = [join(out, "audio-a.wav"), join(out, "audio-b.wav")];
   await writeSourceWave(audioSourcePaths[0], { source: 0, seconds: 1 });
   await writeSourceWave(audioSourcePaths[1], { source: 1, seconds: 1 });
@@ -358,6 +442,7 @@ try {
     "native frame delivery keeps outside-window controls and mixes both explicit sources at midpoint",
     "native preview delivery contains the declared four project frames",
     "native dip and flash picture pulses reach the black midpoint and restore the source",
+    "native moving crossfade keeps a non-black perimeter and changes at its midpoint",
     "native audio crossfade delivery matches the independent two-source PCM oracle",
   );
   report.passed = true;

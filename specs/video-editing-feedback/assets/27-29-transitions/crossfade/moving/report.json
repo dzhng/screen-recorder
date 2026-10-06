@@ -1,0 +1,144 @@
+{
+  "passed": true,
+  "nativeSha256": "d2304c6ceeb40f02ac2289e1c781a901a8d921f182847f61dcb51e9b49d14afe",
+  "moving": {
+    "sources": [
+      "d0b26f1c3d9cb975566b9a454338c9132255543350874039230636e3213c9c1c",
+      "c269397c597e511dbd7be71d906763fa802863c95da15e88d2c190130653114d"
+    ],
+    "samples": {
+      "100000": {
+        "meanRGB": [
+          43.501302083333336,
+          0,
+          5.974609375
+        ],
+        "blackRatio": 0.740234375,
+        "output": {
+          "implementationId": "native-composition-picture-v20:coreimage-sdr-source-neutral-recovery-v2:Version 27.0.1 (Build 26A434):coreimage-unit-linear-srgb-cube-trilinear-v1:Version 27.0.1 (Build 26A434)",
+          "frame": {
+            "index": 0,
+            "sampleAtUs": 0,
+            "visibleRange": {
+              "startUs": 0,
+              "endUs": 250000
+            },
+            "layers": [
+              {
+                "kind": "video",
+                "assetId": "d0b26f1c3d9cb975566b9a454338c9132255543350874039230636e3213c9c1c",
+                "streamId": "track:1",
+                "sourceUs": 0,
+                "clipId": "clip:298879a79bf562513881ef074efa67539366084e1c5248fc47200e7a4d5464ff:2",
+                "trackId": "track:298879a79bf562513881ef074efa67539366084e1c5248fc47200e7a4d5464ff:0",
+                "availability": "available",
+                "width": 64,
+                "height": 48
+              },
+              {
+                "kind": "video",
+                "assetId": "c269397c597e511dbd7be71d906763fa802863c95da15e88d2c190130653114d",
+                "streamId": "track:1",
+                "sourceUs": 0,
+                "clipId": "clip:298879a79bf562513881ef074efa67539366084e1c5248fc47200e7a4d5464ff:3",
+                "trackId": "track:298879a79bf562513881ef074efa67539366084e1c5248fc47200e7a4d5464ff:1",
+                "availability": "available",
+                "width": 64,
+                "height": 48
+              }
+            ]
+          }
+        }
+      },
+      "500000": {
+        "meanRGB": [
+          22.103515625,
+          0,
+          4.28125
+        ],
+        "blackRatio": 0.849609375,
+        "output": {
+          "implementationId": "native-composition-picture-v20:coreimage-sdr-source-neutral-recovery-v2:Version 27.0.1 (Build 26A434):coreimage-unit-linear-srgb-cube-trilinear-v1:Version 27.0.1 (Build 26A434)",
+          "frame": {
+            "index": 2,
+            "sampleAtUs": 500000,
+            "visibleRange": {
+              "startUs": 500000,
+              "endUs": 750000
+            },
+            "layers": [
+              {
+                "kind": "video",
+                "assetId": "d0b26f1c3d9cb975566b9a454338c9132255543350874039230636e3213c9c1c",
+                "streamId": "track:1",
+                "sourceUs": 500000,
+                "clipId": "clip:298879a79bf562513881ef074efa67539366084e1c5248fc47200e7a4d5464ff:2",
+                "trackId": "track:298879a79bf562513881ef074efa67539366084e1c5248fc47200e7a4d5464ff:0",
+                "availability": "available",
+                "width": 64,
+                "height": 48
+              },
+              {
+                "kind": "video",
+                "assetId": "c269397c597e511dbd7be71d906763fa802863c95da15e88d2c190130653114d",
+                "streamId": "track:1",
+                "sourceUs": 500000,
+                "clipId": "clip:298879a79bf562513881ef074efa67539366084e1c5248fc47200e7a4d5464ff:3",
+                "trackId": "track:298879a79bf562513881ef074efa67539366084e1c5248fc47200e7a4d5464ff:1",
+                "availability": "available",
+                "width": 64,
+                "height": 48
+              }
+            ]
+          }
+        }
+      },
+      "900000": {
+        "meanRGB": [
+          39.399088541666664,
+          0,
+          2.9873046875
+        ],
+        "blackRatio": 0.78125,
+        "output": {
+          "implementationId": "native-composition-picture-v20:coreimage-sdr-source-neutral-recovery-v2:Version 27.0.1 (Build 26A434):coreimage-unit-linear-srgb-cube-trilinear-v1:Version 27.0.1 (Build 26A434)",
+          "frame": {
+            "index": 3,
+            "sampleAtUs": 750000,
+            "visibleRange": {
+              "startUs": 750000,
+              "endUs": 1000000
+            },
+            "layers": [
+              {
+                "kind": "video",
+                "assetId": "d0b26f1c3d9cb975566b9a454338c9132255543350874039230636e3213c9c1c",
+                "streamId": "track:1",
+                "sourceUs": 750000,
+                "clipId": "clip:298879a79bf562513881ef074efa67539366084e1c5248fc47200e7a4d5464ff:2",
+                "trackId": "track:298879a79bf562513881ef074efa67539366084e1c5248fc47200e7a4d5464ff:0",
+                "availability": "available",
+                "width": 64,
+                "height": 48
+              },
+              {
+                "kind": "video",
+                "assetId": "c269397c597e511dbd7be71d906763fa802863c95da15e88d2c190130653114d",
+                "streamId": "track:1",
+                "sourceUs": 750000,
+                "clipId": "clip:298879a79bf562513881ef074efa67539366084e1c5248fc47200e7a4d5464ff:3",
+                "trackId": "track:298879a79bf562513881ef074efa67539366084e1c5248fc47200e7a4d5464ff:1",
+                "availability": "available",
+                "width": 64,
+                "height": 48
+              }
+            ]
+          }
+        }
+      }
+    }
+  },
+  "checks": [
+    "native moving crossfade keeps a non-black perimeter and changes at its midpoint"
+  ]
+}

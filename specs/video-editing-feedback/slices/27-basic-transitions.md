@@ -1,6 +1,6 @@
 # 27 — Author reusable crossfade/dip/flash recipes
 
-Status: partial — public composition lowering and native delivered crossfade/dip/flash picture, preview and two-source audio receipts are green; deterministic comparator and unprimed critique are green for the solid-color controls, while moving-shot/reference-conditioned visual acceptance remains open. Depends on: [06](06-exact-removal.md), [24](24-blend-modes.md).
+Status: partial — public composition lowering and native delivered crossfade/dip/flash picture, preview and two-source audio receipts are green; deterministic comparator and unprimed critique are green for the solid-color controls, and a moving alpha/mirror no-black-gap receipt is retained. Reference-conditioned visual acceptance remains open. Depends on: [06](06-exact-removal.md), [24](24-blend-modes.md).
 
 ## Contract
 
@@ -40,8 +40,10 @@ receipt in [crossfade evidence](../assets/27-29-transitions/crossfade/README.md)
 now proves one explicit picture crossfade plus one dip and one flash pulse through
 public import, authoring, native frame reads and preview export. A matched
 nine-pair comparator run and an unprimed critique are retained for the
-deterministic solid-color controls. Motion/reference-conditioned acceptance
-remains required before this slice is promoted to a complete native verdict.
+deterministic solid-color controls, and a moving alpha/mirror receipt checks
+non-black coverage at both transition edges and its midpoint. Reference-conditioned
+acceptance remains required before this slice is promoted to a complete native
+verdict.
 
 Expose a case-selected command or existing lab entry with its own usage. Store accepted requests/results and artifact identities in feature-owned evidence. The implementing agent checks actual output; the user may view it for direction without becoming a QA gate.
 
