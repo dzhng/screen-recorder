@@ -177,3 +177,37 @@ delegated by09 and are recorded in the accepted reference rather than invented
 product policies. Original NeMo protocol inherited Fluid-only descriptive fields;
 accepted-recipe interpretation corrects their meaning while preserving historical
 bytes, actual worker/preprocessing and all measured operands.
+
+## Valid measurements survive unrelated setup failure — sound, medium confidence
+
+- When: decoded-picture reference checkpoint.
+- Choice: retain four completed camera/chart cases from a run whose fifth orientation
+  control was prepared incorrectly, then pair those valid measurements with a corrected
+  orientation-only run. For example, the Graham source/project/player pictures and
+  exact physical clocks passed before an unrotated control failed its expected raster;
+  that preparation failure does not invalidate Graham's unchanged input or pixels.
+  The failed whole-run report remains failed and visible. Acceptance states exactly
+  which case records are used, and the durable runner can reproduce them together.
+- Gap: the plan did not say whether an unrelated final control setup failure requires
+  repeating valid prior expensive measurements. The repo requires reusing valid results.
+- Reach: future research may aggregate independently valid bounded observations only
+  with unchanged operands/recipes and visible failures; it cannot relabel a failed run
+  as a complete pass or inherit unmeasured temporal/HDR claims.
+- Verdict: sound. It saves redundant media work while preserving the narrower proof.
+- Confidence: medium.
+
+## Retain representative PNGs beside complete sample receipts — sound, medium confidence
+
+- When: decoded-picture reference checkpoint.
+- Choice: retain one complete player/source/project/diagnostic frame per case plus
+  supplementary montages; keep all sampled clocks, actual profiles, metrics and image
+  hashes in frozen reports. A future agent can inspect these representative full-size
+  files without downloading another large picture bank; reproducing other sampled
+  pixels uses the durable runner and existing camera/chart fixture owners.
+- Gap: the plan required reproducible evidence under a small media footprint but did
+  not prescribe how many inspection PNGs must stay in Git.
+- Reach: retained receipt replay proves its clock/profile/metric and file-integrity
+  scope; it explicitly does not remeasure unretained pixels. The fresh visual critic
+  received the complete captured set, so selected retention did not select the verdict.
+- Verdict: sound as declared sampled evidence, with no exhaustive playback claim.
+- Confidence: medium.

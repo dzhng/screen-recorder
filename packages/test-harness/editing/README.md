@@ -95,6 +95,11 @@ reduction fidelity distinct from current recognition/picture behavior.
 
 ## Platform reproductions
 
+[The decoded-picture runner](decoded-picture-replication.mjs) freezes player-oriented
+SDR comparisons against public unchanged source/project delivery, including exact
+physical clocks and actual profiles. Its [retained reference](../../../specs/video-editing-feedback/assets/13-decoded-picture/README.md)
+separates sampled acceptance from broader rendering claims.
+
 [Native rendering](RENDER-REPRODUCTION.md) explains temporal sample support;
 [color and encoding](COLOR-REPRODUCTION.md) explains appearance interpretation.
 These isolate platform behavior with matched operands. They are reference

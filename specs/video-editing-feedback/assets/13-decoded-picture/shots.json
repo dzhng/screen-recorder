@@ -1,0 +1,127 @@
+[
+  {
+    "file": "shots/chart-comparison.png",
+    "bytes": 8844,
+    "sha256": "90f14ee5851a39856df91e1ba4af7f763d633ca955ad802cb0c15701cfc1e8a6"
+  },
+  {
+    "file": "shots/chart-ffmpeg.png",
+    "bytes": 1487,
+    "sha256": "193bd18b98b80b6242902e71606ec7ee1fed4c85e2eb9c184b8d3265eb26704b"
+  },
+  {
+    "file": "shots/chart-player.png",
+    "bytes": 3104,
+    "sha256": "fd9739f0eb41ec3faa387f1e83b580416f06207691921e61de76d413261cbf21"
+  },
+  {
+    "file": "shots/chart-project.png",
+    "bytes": 3089,
+    "sha256": "dc344c0742120e03c88f52f37ef120a601cbdc72b2e78b5ec554e4568dc8fc45"
+  },
+  {
+    "file": "shots/chart-source.png",
+    "bytes": 2643,
+    "sha256": "615de6421d1785b5fce19752c69a0a6925d71b903016811b5f0d2b1a7b5d8fe1"
+  },
+  {
+    "file": "shots/graham-comparison.png",
+    "bytes": 376831,
+    "sha256": "38688c0b067a0fec0b50d0297889b15b1ff5ee490ccbe89f5c8a3dda491fc06b"
+  },
+  {
+    "file": "shots/graham-ffmpeg.png",
+    "bytes": 3508676,
+    "sha256": "39924a836f13c9e3f9cc91fb8c6c32dc1213cf985fd5012ef17add30f584e664"
+  },
+  {
+    "file": "shots/graham-player.png",
+    "bytes": 1434898,
+    "sha256": "e442266d1eb7714cdca58bc4006814353e6ae8ac03eebddc7847e9db8239e3b6"
+  },
+  {
+    "file": "shots/graham-project.png",
+    "bytes": 2140619,
+    "sha256": "68b3818e4d2f0f4bd76fc526bb50faf159f5873e79619fff09a7d1bcecc3e8a0"
+  },
+  {
+    "file": "shots/graham-source.png",
+    "bytes": 1842767,
+    "sha256": "fae45c2e8067ba5b50ba917df626bb021bf027533b8267db3b4e4a83cd34d3be"
+  },
+  {
+    "file": "shots/lily-comparison.png",
+    "bytes": 422769,
+    "sha256": "b8bc7e9e1ba6ed0313ee6f6e042c69a9c102f201ac664c48974fc3fdf6025f9b"
+  },
+  {
+    "file": "shots/lily-ffmpeg.png",
+    "bytes": 4170349,
+    "sha256": "0aea83f82b956e47699634f19a65df65f2f5b51d79fe140515cc53f4baded970"
+  },
+  {
+    "file": "shots/lily-player.png",
+    "bytes": 1683049,
+    "sha256": "8b95bbc0c6fbb833f0701665e297eb7ad49251c43b8ae3528a8d3cdb5a53329e"
+  },
+  {
+    "file": "shots/lily-project.png",
+    "bytes": 2312056,
+    "sha256": "b4f206a6aa27692ef3e5bf201f99c9ea5b5548d06d0155e39bf823881d9ffa63"
+  },
+  {
+    "file": "shots/lily-source.png",
+    "bytes": 1989024,
+    "sha256": "7f04e30e241adb007dd5612ca41c59e657f429718b0ccbef1c4f813848cf73b4"
+  },
+  {
+    "file": "shots/madison-comparison.png",
+    "bytes": 434334,
+    "sha256": "acc9cb0908c1b8935e72ce1887e4cac2396b0142782b59489ef520e3583f782e"
+  },
+  {
+    "file": "shots/madison-ffmpeg.png",
+    "bytes": 4827422,
+    "sha256": "b0a306bcb7ae31a8a672b35ddfbdcfc21c3abf8e868156b0c8ac6573bdfcaca1"
+  },
+  {
+    "file": "shots/madison-player.png",
+    "bytes": 1894207,
+    "sha256": "13bd026c112aa6dd23ef7d5406ec9bf6184e8aa930d3fa0bd9d8ca481473161a"
+  },
+  {
+    "file": "shots/madison-project.png",
+    "bytes": 2424846,
+    "sha256": "f4132395225bfbd79f909b36865dae4312232f51f36923821746851d6a1b0b16"
+  },
+  {
+    "file": "shots/madison-source.png",
+    "bytes": 2090777,
+    "sha256": "bae86063d823647eefa9193f5a1eadb1ddfdc770a5fd51b0aa4595fdd7fe8dd5"
+  },
+  {
+    "file": "shots/rotated-comparison.png",
+    "bytes": 9027,
+    "sha256": "57c6703a42842ac6c7560de6c89f9c4a0a3ddc2ea8337133ab40072d8b6d8b96"
+  },
+  {
+    "file": "shots/rotated-ffmpeg.png",
+    "bytes": 1663,
+    "sha256": "ca0747dc7359cd875848fa99a0f67dcb02d79ab68f102e5e53684d6b184b162d"
+  },
+  {
+    "file": "shots/rotated-player.png",
+    "bytes": 3215,
+    "sha256": "b33d5547d6cf43e9b0595b3410ff03f7dfd1544853d9f1722c26f9e8635f991f"
+  },
+  {
+    "file": "shots/rotated-project.png",
+    "bytes": 3218,
+    "sha256": "9692ac76741af2c6fb1ee4dbf841fb5941d64f47d1b9fdd4d6a9c2962938f726"
+  },
+  {
+    "file": "shots/rotated-source.png",
+    "bytes": 2797,
+    "sha256": "ff3383fa15da47e52c805283be1366f122c0046fc88baee30c22dfabb9081f80"
+  }
+]

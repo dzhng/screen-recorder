@@ -8,7 +8,7 @@ not a production data schema or a new permanent test suite.
 
 “Historical” means reported against v0.1.6, not freshly reproduced. “Current” means
 code inspection supports the gap, not that a media experiment has passed. Each
-slice records its scoped reproduction and acceptance. Capability-first skill/helper and exact-removal structural checkpoints have passed; selected speech timing and bounded alignment references also passed. Broader media-dependent claims remain pending.
+slice records its scoped reproduction and acceptance. Capability-first skill/helper and exact-removal structural checkpoints have passed; selected speech timing, bounded alignment and sampled SDR decoded-picture references also passed. Broader media-dependent claims remain pending.
 Slice links name the complete acceptance contract; the last column highlights the
 specific claim needed for this item.
 

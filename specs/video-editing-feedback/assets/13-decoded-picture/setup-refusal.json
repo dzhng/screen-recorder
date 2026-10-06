@@ -1,0 +1,32 @@
+{
+  "passed": false,
+  "recipe": {
+    "output": "color-managed sRGB RGBA8; full oriented raster",
+    "reference": "AVAssetImageGenerator zero requested tolerance + preferred track transform; CoreGraphics explicit sRGB",
+    "tolerance": {
+      "rgbMAEMaximum": 1,
+      "maxChannelDelta": 2
+    },
+    "plainFfmpeg": "encoded RGB values without applying PNG/display profile; diagnostic only"
+  },
+  "tools": {
+    "native": {
+      "path": "/Users/server/dev/yap-video-editing/helpers/mac/.build/debug/yap-native",
+      "sha256": "88204886120b5d99d27ea1a10c2715e3823bfc4ffea19835f152d2916b7d0db1"
+    },
+    "ffmpeg": {
+      "path": "/bin/echo",
+      "sha256": "9f13adc09376869a403068cc18bcddf51fcfa18ba189fc3568ecdb4663e8e92c"
+    },
+    "ffprobe": {
+      "path": "/bin/echo",
+      "sha256": "9f13adc09376869a403068cc18bcddf51fcfa18ba189fc3568ecdb4663e8e92c"
+    }
+  },
+  "trace": [],
+  "cases": [],
+  "error": {
+    "name": "AssertionError",
+    "message": "Expected values to be strictly equal:\n+ actual - expected\n\n+ '9f13adc09376869a403068cc18bcddf51fcfa18ba189fc3568ecdb4663e8e92c'\n- '78cd5ab1a088c0db965893f9c4a475beb60525d8dc1f0ecad80e2e8959a8cc33'\n"
+  }
+}

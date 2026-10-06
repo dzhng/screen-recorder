@@ -1,6 +1,6 @@
 # 13 — Freeze a trustworthy decoded-picture recipe
 
-Status: research measured; durable runner/acceptance pending. Depends on selected certified picture inputs and independent controls from [01](01-certified-corpus.md); unrelated speech/speaker corpus dispositions are not prerequisites.
+Status: complete — sampled unchanged SDR picture recipe accepted. Depends on selected certified picture inputs and independent controls from [01](01-certified-corpus.md); unrelated speech/speaker corpus dispositions are not prerequisites.
 
 ## Contract
 
@@ -23,17 +23,20 @@ These are current discovery pointers, not a claim every listed module must chang
 
 Replicate project AVFoundation sampling and current native/FFmpeg paths on matched frames. Retain actual sample timestamps, raster dimensions, transfer/primaries/matrix/range/profile and conversion recipe. Fix silent skipped-frame coverage and named count claims. Freeze one player-oriented observation recipe, permitted differences and supported profiles before metrics/grade consumers. Reuse native source reads for imported exports.
 
-## Current research boundary
+## Accepted reference
 
-The full-frame camera reduction checkpoint supplies exact physical frame clocks and
-sampled source/derivative fidelity. Private matched AVAssetImageGenerator sRGB
-experiments reproduce player/native agreement and plain FFmpeg color disagreement,
-including an asymmetric rotated control. Public unchanged project frames reproduce
-that agreement. These measurements select a candidate observation space; they are
-not slice acceptance. The [reference coverage checkpoint](../assets/13-reference-coverage/README.md)
-retains failed requests and actual fractional sample clocks with unchanged successful
-PNG bytes. Bank a case-selected runner, complete request/failure coverage,
-metadata/profile declarations, numeric tolerance and final visual gates before 14.
+The [durable picture reference](../assets/13-decoded-picture/README.md) freezes
+public source/project versus player comparisons, exact physical clocks, oriented
+rasters, source declarations, actual output profiles and independent sRGB pixels.
+Twenty sampled frames meet the frozen1/255 mean-error and2/255 maximum-delta
+bounds. Plain FFmpeg and its profile-aware PNG reads remain separate diagnostics.
+The failed first rotation preparation stays failed; valid camera/chart measurements
+and the corrected durable orientation proof form explicitly scoped acceptance.
+
+Four focused clock/profile tests pass with red falsification. Wrong tool pins leave
+a failed report and clean scratch. Complete visual sample sets passed fresh unprimed
+review. No product renderer, source media, color admission or editorial decision
+changed. This accepts the declared SDR sample scope, not all-frame playback or HDR.
 
 ## Runnable checkpoint
 

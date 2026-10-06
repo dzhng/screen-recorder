@@ -26,3 +26,6 @@ failures without changing successful pictures; the full picture recipe remains o
 
 [Local alignment reference](09-local-alignment/README.md) separates observed provider
 text correspondence from conditional timing, with preserved rejected controls.
+
+[Decoded-picture reference](13-decoded-picture/README.md) freezes sampled SDR
+player/source/project agreement and keeps FFmpeg diagnostics separate.

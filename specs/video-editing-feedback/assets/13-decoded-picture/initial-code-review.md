@@ -1,0 +1,5 @@
+- **P1 — sRGB/profile acceptance is not enforced.** [decoded-picture-replication.mjs:79](/Users/server/dev/yap-video-editing/packages/test-harness/editing/decoded-picture-replication.mjs:79)–86 only validate dimensions, byte count, and opacity. The documented sRGB output profile is merely recorded, never asserted or compared. Since reference and product PNGs pass through the same pixel observer, a non-sRGB observer/output profile could still pass the raster comparison.
+
+- **P2 — retained evidence links to missing files.** [README.md:46](/Users/server/dev/yap-video-editing/specs/video-editing-feedback/assets/13-decoded-picture/README.md:46) links `verification.json` and `visual-review.md`, but neither exists in `specs/video-editing-feedback/assets/13-decoded-picture/`. The acceptance record therefore points reviewers to unavailable evidence.
+
+Verdict: **not clean** within the requested slice; no other actionable defects found.

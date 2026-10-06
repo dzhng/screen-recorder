@@ -1,6 +1,6 @@
 # Reliable autonomous video editing
 
-Status: implementation active; five slices complete, corpus/picture and speech research underway, speaker quality gate red. Last updated: 2026-10-05.
+Status: implementation active; six slices complete, corpus/picture and speech research underway, speaker quality gate red. Last updated: 2026-10-05.
 
 Yap supplies explicit editing primitives and reproducible observations. The consumer
 agent chooses the story, uses available creative tools, checks actual output and
@@ -16,10 +16,10 @@ merge, push or installed-app change has been requested. Hard cutover remains
 binding: no aliases, dual readers or migrations; preserve external originals and
 frozen historical evidence.
 
-Current pickup: finish the durable [13 — decoded-picture replication](slices/13-decode-replication.md)
-checkpoint against certified picture inputs; public unchanged project frames agree
-with the player in private scouting. Freeze coverage, metadata and the observation
-recipe before picture consumers. Continue [01 — corpus certification](slices/01-certified-corpus.md)
+Current pickup: integrate reviewed [08 — bounded preparation](slices/08-bounded-speech-preparation.md)
+and finish historical public/native caller cutover, then10. The accepted
+[13 — decoded-picture reference](slices/13-decode-replication.md) unblocks14; it
+freezes sampled SDR clocks, profiles and player-oriented raster comparisons. Continue [01 — corpus certification](slices/01-certified-corpus.md)
 with remaining speech dispositions, multicamera/speaker inputs and independent controls.
 
 Parallel priorities: integrate reviewed [04 — bounded waiting](slices/04-wait-and-json-delivery.md),
@@ -31,7 +31,7 @@ all tested candidates fail mandatory four-speaker quality. Its smaller remaining
 passes are provider/short quality → global continuity → sealed runtime → word attribution.
 No failed provider is promoted into 32.
 
-Completed slices: 02, 03, 06, 07 and 09. Partial 01 retains source-rate audio and
+Completed slices: 02, 03, 06, 07, 09 and 13. Partial 01 retains source-rate audio and
 full-frame picture inputs with separate physical, sampled-fidelity and behavior
 claims. [Evidence assets](assets/README.md) link the checkpoint records. Parakeet is
 verified in isolated scratch. Prepare/download pinned first-class Yap models as
@@ -62,7 +62,7 @@ Numbering is a review order; actual prerequisites live in the slice headers.
 - [ ] [10 — Alignment and acoustic boundary evidence](slices/10-alignment-and-boundaries.md)
 - [ ] [11 — Speech recognition of actual revision audio](slices/11-rendered-speech.md)
 - [ ] [12 — Contextual join verification and agent repair](slices/12-contextual-join-verification.md)
-- [ ] [13 — Decoded-picture replication](slices/13-decode-replication.md)
+- [x] [13 — Decoded-picture replication](slices/13-decode-replication.md)
 - [ ] [14 — Objective picture observations](slices/14-picture-statistics.md)
 - [ ] [15 — Face localization and explicit tracks](slices/15-face-observations.md)
 - [ ] [16 — Constrained subject framing](slices/16-subject-reframe.md)
