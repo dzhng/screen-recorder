@@ -28,7 +28,9 @@ come from the immutable binding digest pinned into the continuation. The pure
 attribution rule is covered by `packages/core/src/speaker-attribution.test.ts` and
 the strict selector/cursor shape by `packages/protocol/src/index.test.ts`.
 
-Project transcript joins, selected-range preparation and long-form continuity
-remain open. Slice
-31's ten-minute four-speaker quality gate is still red, so this is a partial
-source/project attribution checkpoint rather than completion of slice 32.
+Project transcript joins and bounded selected-range preparation are integrated.
+Each admitted range is an independent generation on the original provider's
+80ms score grid, from 80ms through at most 30 seconds; slots are never carried
+across windows. Slice 31's ten-minute four-speaker quality gate is still red, so
+long-form continuity remains open and this is a partial source/project
+attribution checkpoint rather than completion of slice 32.

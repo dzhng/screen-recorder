@@ -29,7 +29,15 @@ export const speakerEvidenceSourceSchema = z.strictObject({
   originUs: signedTimeValueSchema,
   durationUs: timeValueSchema,
   observationRange: selectionRangeSchema,
-  pcm: z.strictObject({ sha256, sampleRate: z.literal(16000), frames: z.literal(480000) }),
+  pcm: z.strictObject({
+    sha256,
+    sampleRate: z.literal(16000),
+    frames: z
+      .int()
+      .min(1280)
+      .max(480000)
+      .refine((frames) => frames % 1280 === 0, "frames must contain complete 80ms score cells"),
+  }),
   decoder: z.strictObject({
     recipe: z.string().min(1),
     workerSha256: sha256,
@@ -77,12 +85,12 @@ export type SpeakerOperands = { nativeReceipt: string; report: string };
 export const speakerEvidenceMetadataSchema = speakerIdentitySchema.safeExtend({
   source: speakerEvidenceSourceSchema,
   intervalCount: z.int().nonnegative().max(1500),
-  scoreCount: z.literal(375),
+  scoreCount: z.int().positive().max(375),
   nativeReceiptSha256: sha256,
   reportSha256: sha256,
   tensorSha256: sha256,
   dtype: z.literal("<f4"),
-  axes: z.tuple([z.literal(1), z.literal(375), z.literal(4)]),
+  axes: z.tuple([z.literal(1), z.int().positive().max(375), z.literal(4)]),
   scoreMeaning: z.literal("uncalibrated"),
 });
 export type SpeakerEvidenceMetadata = z.infer<typeof speakerEvidenceMetadataSchema>;
@@ -106,7 +114,7 @@ const nativeSchema = z.strictObject({
   nativeTensors: z
     .array(
       z.strictObject({
-        shape: z.tuple([z.literal(1), z.literal(375), z.literal(4)]),
+        shape: z.tuple([z.literal(1), z.int().positive().max(375), z.literal(4)]),
         dtype: z.literal("<f4"),
         bytesBase64: z.string().max(8000),
       }),
@@ -116,10 +124,10 @@ const nativeSchema = z.strictObject({
 const reportSchema = z
   .object({
     nativeSegmentLines: z.array(z.string().max(128)).max(1500),
-    nativeProbabilities: z.array(scoreRow).length(375),
-    probabilityShape: z.tuple([z.literal(375), z.literal(4)]),
+    nativeProbabilities: z.array(scoreRow).min(1).max(375),
+    probabilityShape: z.tuple([z.int().positive().max(375), z.literal(4)]),
     sampleRate: z.literal(16000),
-    sourceFrames: z.literal(480000),
+    sourceFrames: z.int().min(1280).max(480000),
     frameSeconds: z.literal(0.08),
     modelSha256: sha256,
     pcmSha256: sha256,
@@ -135,11 +143,20 @@ function seconds(v: string) {
 function normalized(source: SpeakerEvidenceSource, operands: SpeakerOperands) {
   const start = fromTime(source.observationRange.startUs),
     end = fromTime(source.observationRange.endUs);
-  if (compare(subtract(end, start), rational(30000000n)) !== 0)
-    invalid("Native speaker observation requires exactly 30 seconds");
+  const frames = source.pcm.frames;
+  if (compare(subtract(end, start), rational(BigInt(frames) * 1_000_000n, 16_000n)) !== 0)
+    invalid("Native speaker observation range differs from its PCM extent");
   const native = nativeSchema.safeParse(decodeJSON(operands.nativeReceipt));
   const report = reportSchema.safeParse(decodeJSON(operands.report));
   if (!native.success || !report.success) invalid("Native speaker tensor axes or report differ");
+  const scoreCount = frames / 1280;
+  if (
+    report.data.sourceFrames !== frames ||
+    report.data.nativeProbabilities.length !== scoreCount ||
+    report.data.probabilityShape[0] !== scoreCount ||
+    native.data.nativeTensors[0]!.shape[1] !== scoreCount
+  )
+    invalid("Native speaker score extent differs from the selected PCM");
   if (
     report.data.pcmSha256 !== source.pcm.sha256 ||
     report.data.modelSha256 !== source.engine.modelSha256
@@ -149,7 +166,7 @@ function normalized(source: SpeakerEvidenceSource, operands: SpeakerOperands) {
     invalid("Native speaker segment operands differ");
   const encoded = native.data.nativeTensors[0]!.bytesBase64;
   const tensor = Buffer.from(encoded, "base64");
-  if (tensor.length !== 6000 || tensor.toString("base64") !== encoded)
+  if (tensor.length !== scoreCount * 16 || tensor.toString("base64") !== encoded)
     invalid("Native speaker tensor bytes differ from axes");
   const scores: SpeakerScore[] = report.data.nativeProbabilities.map((values, frameIndex) => {
     for (const [slot, value] of values.entries())
@@ -173,7 +190,7 @@ function normalized(source: SpeakerEvidenceSource, operands: SpeakerOperands) {
     if (
       compare(relativeStart, rational(0n)) < 0 ||
       compare(relativeStart, relativeEnd) >= 0 ||
-      compare(relativeEnd, rational(30000000n)) > 0
+      compare(relativeEnd, rational(BigInt(frames) * 1_000_000n, 16_000n)) > 0
     )
       invalid("Native speaker interval is outside observation");
     return {
@@ -443,10 +460,10 @@ export class SpeakerEvidenceStore {
     const metadata: SpeakerEvidenceMetadata = {
       ...captured,
       intervalCount: result.intervals.length,
-      scoreCount: 375,
+      scoreCount: result.scores.length,
       tensorSha256: result.tensorSha256,
       dtype: "<f4",
-      axes: [1, 375, 4],
+      axes: [1, result.scores.length, 4],
       scoreMeaning: "uncalibrated",
     };
     const content = JSON.stringify(metadata);

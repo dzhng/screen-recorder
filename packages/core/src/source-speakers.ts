@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { selectionRangeSchema, compare, subtract, fromTime, rational } from "@yap/composition";
+import { selectionRangeSchema } from "@yap/composition";
 import type { AssetStore } from "./assets.js";
 import type { AcquisitionStore } from "./acquisitions.js";
 import { CatalogError } from "./catalog.js";
@@ -14,24 +14,22 @@ export const speakerSourceSchema = sourceSelectionSchema
   .strict();
 export type SpeakerSourceInput = z.infer<typeof speakerSourceSchema>;
 
-/** The speaker provider retains its exact30s policy over shared selected-channel admission. */
+/** The original provider accepts complete, score-grid aligned windows up to 30 seconds. */
 export function selectSpeakerSource(
   assets: Pick<AssetStore, "get" | "path">,
   acquisitions: { get(id: string): Pick<ReturnType<AcquisitionStore["get"]>, "id" | "bindings"> },
   input: SpeakerSourceInput,
 ) {
   const { modelId, ...selection } = speakerSourceSchema.parse(input);
-  if (
-    compare(
-      subtract(fromTime(selection.sourceRange.endUs), fromTime(selection.sourceRange.startUs)),
-      rational(30000000n),
-    ) !== 0
-  )
-    throw new CatalogError("INVALID_PARAMS", "Speaker observations require exactly 30 seconds");
   const source = selectSourceChannelRange(assets, acquisitions, selection);
+  if (source.expectedPCM.frames < 1280)
+    throw new CatalogError("INVALID_PARAMS", "Speaker observations require at least 80ms");
+  if (source.expectedPCM.frames > 480000)
+    throw new CatalogError("INVALID_PARAMS", "Speaker observations require at most 30 seconds");
+  if (source.expectedPCM.frames % 1280 !== 0)
+    throw new CatalogError("INVALID_PARAMS", "Speaker observations must use the 80ms score grid");
   return {
     ...source,
     modelId,
-    expectedPCM: { sampleRate: 16000 as const, frames: 480000 as const },
   };
 }

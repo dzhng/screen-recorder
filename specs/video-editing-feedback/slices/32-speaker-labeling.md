@@ -1,6 +1,6 @@
 # 32 — Publish speaker-labeled transcript views
 
-Status: partial — generation-pinned caller label binding, source/project-row decoration, immutable package replay, source-transcript word attribution and managed project-transcript speaker joins are integrated and reviewed; selected-range preparation and continuity gates remain open. Depends on: [31](31-speaker-continuity-replication.md), [21](21-synced-angles.md), [03](03-published-work-contract.md), [07](07-speech-timing-admission.md).
+Status: partial — generation-pinned caller label binding, source/project-row decoration, immutable package replay, source-transcript word attribution, managed project-transcript speaker joins and bounded selected-range preparation are integrated and reviewed; long-form continuity remains open. Depends on: [31](31-speaker-continuity-replication.md), [21](21-synced-angles.md), [03](03-published-work-contract.md), [07](07-speech-timing-admission.md).
 
 ## Contract
 
@@ -31,10 +31,12 @@ Current starting points:
 ## Scope and frozen decisions
 
 Replace the exactly-30-second public execution restriction with explicit selected
-range preparation under the proven bounded recipe. Preparation identity includes
-source/acquisition/channel/range/model/decoder and continuity recipe; pages bind
-that generation. A stable ID means one voice within the admitted source-session
-observation, never the same person across independent sessions/generations by fiat.
+range preparation under the proven bounded recipe. The current envelope accepts a
+complete 80ms score-grid range from 80ms through at most 30 seconds. Preparation
+identity includes source/acquisition/channel/range/model/decoder and continuity
+recipe; pages bind that generation. Each selected range is one independent
+observation: a stable ID means one voice within that generation only, never the
+same person across independent windows/sessions by fiat.
 
 Expose turns with exact ranges, stable ID, provenance and overlap/unknown status.
 Provide an explicit public binding operation mapping selected IDs or declared raw
@@ -58,13 +60,14 @@ No automatic voiceprint enrollment, cross-session naming or person recognition.
 
 ## Runnable checkpoint
 
-The public CLI prepares a mixed multiwindow selection, reads labeled turns and a
-compact labeled transcript, binds supported names, then reads an edited revision
-with a repeated/retimed passage. Project transcript reads can now supply explicit
-`speakerGenerations` selectors; projected words carry the same attributed,
-overlap or unknown state through retimes and cursor continuation. A per-person
-raw-angle case and an overlapping conversation case show the distinct attribution
-paths and remaining unknowns.
+The public CLI prepares a complete selected range within the bounded window, reads
+labeled turns and a compact labeled transcript, binds supported names, then reads
+an edited revision with a repeated/retimed passage. Project transcript reads can
+now supply explicit `speakerGenerations` selectors; projected words carry the same
+attributed, overlap or unknown state through retimes and cursor continuation. A
+separate-window control shows that generations remain independent and do not claim
+cross-window identity. A per-person raw-angle case and an overlapping conversation
+case show the distinct attribution paths and remaining unknowns.
 
 ## Verification and verdict
 

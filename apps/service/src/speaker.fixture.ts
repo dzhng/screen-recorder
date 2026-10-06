@@ -13,9 +13,11 @@ import { selectSpeakerSource, type SpeakerSourceInput } from "@yap/core/source-s
 export function nativeOutput(
   lines = ["0.000 1.000 speaker_0", "0.500 2.000 speaker_1"],
   modelSha256 = "b".repeat(64),
+  frames = 480_000,
 ) {
-  const tensor = Buffer.alloc(375 * 4 * 4);
-  const scores = Array.from({ length: 375 }, (_, frame) =>
+  const scoreCount = frames / 1280;
+  const tensor = Buffer.alloc(scoreCount * 4 * 4);
+  const scores = Array.from({ length: scoreCount }, (_, frame) =>
     Array.from({ length: 4 }, (_, slot) => {
       const value = ((frame % 4) + slot) / 8;
       tensor.writeFloatLE(value, (frame * 4 + slot) * 4);
@@ -27,14 +29,16 @@ export function nativeOutput(
       verified: false,
       encoding: "dtype/shape + base64 native tensor bytes",
       nativeSegmentLines: [lines],
-      nativeTensors: [{ shape: [1, 375, 4], dtype: "<f4", bytesBase64: tensor.toString("base64") }],
+      nativeTensors: [
+        { shape: [1, scoreCount, 4], dtype: "<f4", bytesBase64: tensor.toString("base64") },
+      ],
     }),
     report: JSON.stringify({
       nativeSegmentLines: lines,
       nativeProbabilities: scores,
-      probabilityShape: [375, 4],
+      probabilityShape: [scoreCount, 4],
       sampleRate: 16000,
-      sourceFrames: 480000,
+      sourceFrames: frames,
       frameSeconds: 0.08,
       modelSha256,
       pcmSha256: "c".repeat(64),

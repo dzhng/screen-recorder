@@ -157,8 +157,11 @@ project interval reads decorate only explicitly bound slots, project transcript
 reads join selected speaker generations through retimed occurrences, and package
 export archives the bounded binding list so read-only source/project replay
 returns the same caller-authored labels without model execution. Selected-range
-preparation, package project-transcript joins, overlap/unknown presentation on
-the full public journey and long-form continuity remain open.
+preparation now admits complete 80ms-grid mono16k windows from 80ms through at
+most 30 seconds, retaining dynamic score extents per independent generation;
+package project-transcript joins, overlap/unknown presentation on the full public
+journey and long-form continuity remain open. Slots are never treated as stable
+identity across separate windows.
 
 Slice19 acceptance is complete for E19/E22/U23; S05 retains its separate33 workflow
 scope. [The dialogue evidence](assets/19-dialogue-matching/README.md) binds the

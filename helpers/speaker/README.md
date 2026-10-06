@@ -1,14 +1,14 @@
 # Original speaker execution
 
 This optional sidecar executes the exact accepted original Sortformer recipe on
-one explicitly prepared 30-second mono16k Float32 window. It has no registration,
+one explicitly prepared mono16k Float32 window from 80ms through 30 seconds. It has no registration,
 installer, model acquisition, persistent evidence owner or project-editing role.
 The shared model owner and service JSON process owner must prepare and invoke it;
 ordinary execution restores only the explicitly selected local checkpoint.
 
 Native anonymous slots and complete sigmoid scores are observations. Slots are
-local to an invocation, scores are uncalibrated, and a slot does not identify a
-known person. All simultaneous timelines are preserved. The caller binds source
+local to an invocation (including across separate selected windows), scores are
+uncalibrated, and a slot does not identify a known person. All simultaneous timelines are preserved. The caller binds source
 byte identity, source offset, channel and generation before durable publication
 or composition projection. Missing support cannot become measured silence.
 

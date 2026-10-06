@@ -18,7 +18,7 @@ class Array:
         self.shape=(375,4)
         return self
     def tolist(self):return [[.125,.25,.5,.875] for _ in range(375)]
-try:worker['decode_native']([[]],[Array()],'native-unverified.json')
+try:worker['decode_native']([[]],[Array()],'native-unverified.json',480000)
 except worker['Refusal'] as error:
     assert error.code=='MODEL_CONTRACT_CHANGED' and error.details=={'rawFile':'native-unverified.json','verified':False}
 else:raise AssertionError('Transposed native axes were accepted')
@@ -113,7 +113,7 @@ class Array:
         return self
     def tolist(self):return [[.125,.25,.5,.875] for _ in range(375)]
 lines=['0.0 30.0 speaker_0','1.2 4.56 speaker_3','2.4 7.2 speaker_1']
-result=worker['decode_native']([lines],[Array()],'unverified.json')
+result=worker['decode_native']([lines],[Array()],'unverified.json',480000)
 assert result=={'segments':[{'speaker':'speaker_0','start':0.0,'end':30.0},{'speaker':'speaker_3','start':1.2,'end':4.56},{'speaker':'speaker_1','start':2.4,'end':7.2}], 'nativeSegmentLines':lines, 'nativeProbabilities':[[.125,.25,.5,.875] for _ in range(375)], 'probabilityShape':[375,4]}
 print('preserved')
 `;
@@ -123,6 +123,32 @@ print('preserved')
   });
   assert.equal(child.status, 0, child.stderr);
   assert.equal(child.stdout.trim(), "preserved");
+});
+test("native decoding accepts a bounded selected window with matching score cells", () => {
+  const script = `import runpy
+worker=runpy.run_path(${JSON.stringify(entry)})
+class DType:
+    str='<f4'
+class Array:
+    dtype=DType()
+    shape=(1,125,4)
+    def reshape(self,*args):
+        assert args==(-1,4)
+        self.shape=(125,4)
+        return self
+    def tolist(self):return [[.125,.25,.375,.5] for _ in range(125)]
+lines=['0.0 10.0 speaker_0']
+result=worker['decode_native']([lines],[Array()],'unverified.json',160000)
+assert len(result['nativeProbabilities'])==125 and result['probabilityShape']==[125,4]
+assert result['segments']==[{'speaker':'speaker_0','start':0.0,'end':10.0}]
+print('bounded')
+`;
+  const child = spawnSync("/usr/bin/python3", ["-I", "-B", "-c", script], {
+    encoding: "utf8",
+    timeout: 3000,
+  });
+  assert.equal(child.status, 0, child.stderr);
+  assert.equal(child.stdout.trim(), "bounded");
 });
 test("missing source bytes are an invalid input rather than a request to prepare a model", () => {
   const scratch = mkdtempSync(join(tmpdir(), "speaker-input-"));
@@ -213,7 +239,7 @@ class Array:
     def tolist(self):return [[float('nan'),float('inf'),0.,0.]]+[[0.,0.,0.,0.] for _ in range(374)]
 path=Path(${JSON.stringify(join(scratch, "raw.native-unverified.json"))})
 with path.open('x') as file:worker['capture_native']([['malformed line']],[Array()],file)
-try:worker['decode_native']([['malformed line']],[Array()],str(path))
+try:worker['decode_native']([['malformed line']],[Array()],str(path),480000)
 except worker['Refusal'] as error:
     assert error.code=='MODEL_CONTRACT_CHANGED' and error.details['rawFile']==str(path)
 else:raise AssertionError('Expected refusal')

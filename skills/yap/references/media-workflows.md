@@ -73,8 +73,10 @@ When anonymous speaker observations are requested, inspect `speaker.prepare` and
 preparation downloads its pinned model/runtime inputs by default through the
 advertised acquisition descriptor. A verified local runtime/model source may still
 be supplied when available. Select one explicit source
-channel and exactly 30 seconds of complete support, with the start on the 16k
-sample grid. A read selects the original `observationRange`; its `sourceRange`
+channel and a complete caller-selected range of 80ms score cells, from 80ms
+through at most 30 seconds, with the start on the 16k sample grid. Separate
+windows are independent observations; slot numbers do not carry identity across
+windows or sessions. A read selects the original `observationRange`; its `sourceRange`
 only filters display and never requests inference. Keep generation, source pins
 and returned exact endpoints. Slots are anonymous and local to each observation;
 simultaneous slots may overlap, and raw scores are uncalibrated. Unavailable or

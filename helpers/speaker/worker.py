@@ -1,4 +1,4 @@
-"""Exact original 30-second speaker primitive; preparation/publication belong to callers."""
+"""Bounded original Sortformer speaker primitive; preparation/publication belong to callers."""
 import base64
 import contextlib
 import hashlib
@@ -49,17 +49,18 @@ def capture_native(segments, arrays, file):
     file.flush()
 
 
-def decode_native(segments, arrays, raw_file):
+def decode_native(segments, arrays, raw_file, frames):
     details = {"rawFile": raw_file, "verified": False}
     require(len(segments) == 1 and len(arrays) == 1,
             "MODEL_CONTRACT_CHANGED", "Expected one native observation", details)
     try:
         # The pinned native batch returns batch/time/speaker axes, never transposed.
-        require(list(arrays[0].shape) == [1, 375, 4] and arrays[0].dtype.str == "<f4",
+        score_count = frames // 1280
+        require(list(arrays[0].shape) == [1, score_count, 4] and arrays[0].dtype.str == "<f4",
                 "MODEL_CONTRACT_CHANGED", "Native tensor axes/storage differ", details)
         matrix = arrays[0].reshape(-1, 4)
         scores = matrix.tolist()
-        require(list(matrix.shape) == [375, 4] and
+        require(list(matrix.shape) == [score_count, 4] and
                 all(len(row) == 4 and all(math.isfinite(value) and 0 <= value <= 1 for value in row)
                     for row in scores),
                 "MODEL_CONTRACT_CHANGED", "Native score shape/support differs", details)
@@ -67,7 +68,7 @@ def decode_native(segments, arrays, raw_file):
         for line in segments[0]:
             start, end, speaker = line.split()
             row = {"speaker": speaker, "start": float(start), "end": float(end)}
-            require(0 <= row["start"] < row["end"] <= 30 and speaker in
+            require(0 <= row["start"] < row["end"] <= frames / 16000 and speaker in
                     ["speaker_0", "speaker_1", "speaker_2", "speaker_3"],
                     "MODEL_CONTRACT_CHANGED", "Native segments exceed physical support", details)
             raw_segments.append(row)
@@ -81,18 +82,19 @@ def observe(params):
     require(type(params) is dict and set(params) ==
             {"model", "pcm", "pcmSha256", "frames", "sampleRate", "output"},
             "INVALID_REQUEST", "Speaker request fields are invalid")
-    require(type(params["frames"]) is int and params["frames"] == 480000 and
+    require(type(params["frames"]) is int and 1280 <= params["frames"] <= 480000 and
+            params["frames"] % 1280 == 0 and
             type(params["sampleRate"]) is int and params["sampleRate"] == 16000,
-            "UNSUPPORTED_SPEAKER_WINDOW", "Only exact 30-second mono16k source windows are supported")
+            "UNSUPPORTED_SPEAKER_WINDOW", "Speaker windows must be 80ms-grid mono16k spans of at most 30 seconds")
     for key in ["model", "pcm", "output"]:
         require(type(params[key]) is str and Path(params[key]).is_absolute(),
                 "INVALID_REQUEST", "Speaker paths must be absolute")
     model, source, output = (Path(params[key]) for key in ["model", "pcm", "output"])
     try:
-        require(source.stat().st_size == 480000 * 4, "INVALID_SPEAKER_INPUT", "Physical PCM extent differs")
+        require(source.stat().st_size == params["frames"] * 4, "INVALID_SPEAKER_INPUT", "Physical PCM extent differs")
         with source.open("rb") as input_file:
-            pcm = input_file.read(480000 * 4 + 1)
-        require(len(pcm) == 480000 * 4, "INVALID_SPEAKER_INPUT", "Physical PCM extent changed")
+            pcm = input_file.read(params["frames"] * 4 + 1)
+        require(len(pcm) == params["frames"] * 4, "INVALID_SPEAKER_INPUT", "Physical PCM extent changed")
     except OSError as error:
         raise Refusal("INVALID_SPEAKER_INPUT", "Prepared source bytes are unavailable") from error
     require(hashlib.sha256(pcm).hexdigest() == params["pcmSha256"],
@@ -153,7 +155,7 @@ def execute(pcm, model, file, native):
     finished = time.perf_counter()
     arrays = [tensor.detach().cpu().numpy() for tensor in probabilities]
     capture_native(segments, arrays, native)
-    decoded = decode_native(segments, arrays, native.name)
+    decoded = decode_native(segments, arrays, native.name, len(samples))
     report = {**decoded,
         "sampleRate": 16000, "sourceFrames": len(samples), "audioSeconds": len(samples) / 16000,
         "frameSeconds": int(instance._cfg.encoder.subsampling_factor) * .01,

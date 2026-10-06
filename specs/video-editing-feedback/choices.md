@@ -1797,6 +1797,15 @@ Apple cube candidate are in the slice26 evidence; no user-only decision remains.
 - **Confidence:** high for receipt identity and refusal semantics; low for
   global/raw-to-raw synchronization, which remains an explicit open gate.
 
+## Admit bounded selected speaker ranges without cross-window identity — sound, medium confidence
+
+- **When:** slice32 selected-range preparation pass.
+- **The choice:** Replace the public exact-30-second admission with complete mono16k ranges on the provider's 80ms score grid, from 80ms through at most 30 seconds. Retain dynamic PCM and score extents in each generation. Treat every selected range as an independent invocation; slot numbers and labels never carry identity across windows or sessions.
+- **The gap:** The exact-window restriction blocked callers from preparing a selected transcript span, while the measured provider still has no passing long-form four-speaker continuity gate.
+- **The reach:** Shorter selected transcript/project reads can be prepared and replayed without padding or silently dropping score cells. Longer ranges and cross-window identity remain explicit unsupported/open behavior; no model or runtime was changed.
+- **Verdict:** sound for bounded preparation and honest refusal; slice31's long-form continuity gate remains red.
+- **Confidence:** medium; the contract and fixtures pass, but native live-device execution is unavailable in this environment.
+
 ## Use the existing production journey as the media-aware fresh-agent checkpoint — slice34
 
 - **When:** the identity-only replay gate could not prove decoded media behavior or the planted speech repair.

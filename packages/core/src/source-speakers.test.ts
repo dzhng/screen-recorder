@@ -111,14 +111,34 @@ test("speaker admission retains the selected channel, exact source clock and com
   });
 });
 
-test("speaker admission rejects a shorter source observation instead of padding its tail", async () => {
+test("speaker admission accepts a complete selected range on the 80ms score grid", async () => {
+  const f = await fixture();
+  expect(
+    selectSpeakerSource(f.assets, f.acquisitions, {
+      ...f.input,
+      sourceRange: { startUs: 1_000_000, endUs: 11_000_000 },
+    }).expectedPCM,
+  ).toEqual({ sampleRate: 16_000, frames: 160_000 });
+});
+
+test("speaker admission refuses a range longer than the bounded provider window", async () => {
   const f = await fixture();
   expect(() =>
     selectSpeakerSource(f.assets, f.acquisitions, {
       ...f.input,
-      sourceRange: { startUs: 1_000_000, endUs: 30_999_937 },
+      sourceRange: { startUs: 0, endUs: 30_080_000 },
     }),
-  ).toThrow("exactly 30 seconds");
+  ).toThrow("at most 30 seconds");
+});
+
+test("speaker admission refuses a selected range that cannot produce complete score cells", async () => {
+  const f = await fixture();
+  expect(() =>
+    selectSpeakerSource(f.assets, f.acquisitions, {
+      ...f.input,
+      sourceRange: { startUs: 0, endUs: 10_040_000 },
+    }),
+  ).toThrow("80ms score grid");
 });
 
 test("speaker admission requires a real explicitly selected channel", async () => {
