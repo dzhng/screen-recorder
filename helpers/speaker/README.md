@@ -1,4 +1,4 @@
-# Original speaker execution
+# Sortformer speaker execution
 
 This optional sidecar executes the exact accepted original Sortformer recipe on
 one explicitly prepared mono16k Float32 window from 80ms through 30 seconds. It has no registration,

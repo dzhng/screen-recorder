@@ -1,4 +1,4 @@
-"""Bounded original Sortformer speaker primitive; preparation/publication belong to callers."""
+"""Bounded Sortformer speaker primitive; preparation/publication belong to callers."""
 import base64
 import contextlib
 import hashlib

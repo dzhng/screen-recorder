@@ -14,7 +14,7 @@ export const speakerSourceSchema = sourceSelectionSchema
   .strict();
 export type SpeakerSourceInput = z.infer<typeof speakerSourceSchema>;
 
-/** The original provider accepts complete, score-grid aligned windows up to 30 seconds. */
+/** The registered Sortformer provider accepts complete, score-grid aligned windows up to 30 seconds. */
 export function selectSpeakerSource(
   assets: Pick<AssetStore, "get" | "path">,
   acquisitions: { get(id: string): Pick<ReturnType<AcquisitionStore["get"]>, "id" | "bindings"> },
