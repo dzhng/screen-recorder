@@ -127,6 +127,11 @@ operands and verifies retained bytes, sample support and exact clock mappings.
 Its [authorized inputs](../../../fixtures/video-editing-feedback/README.md) keep
 reduction fidelity distinct from current recognition/picture behavior.
 
+The [scoped behavior ledger](corpus-behavior.mjs) binds each physically certified
+real case to an existing replayable recognition/timing or picture receipt. It
+keeps the evidence scope explicit; multicamera synchronization, speaker
+continuity and editorial quality remain separate contracts.
+
 The [independent control verifier](corpus-controls.mjs) rechecks the canonical
 small synthetic operands that real-media certification cannot provide: rational
 24fps boundaries, known offset/drift, unrelated tones, rotated asymmetric

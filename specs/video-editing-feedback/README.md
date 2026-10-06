@@ -1,6 +1,6 @@
 # Reliable autonomous video editing
 
-Status: implementation active; bounded speaker ranges, project speaker joins, face-landmark quality, source-bound synchronization receipts and production-native fresh-agent replay are integrated and rechecked on the current branch. The retained corpus, native switched-angle, physical empty-edit and transition receipts remain intact. Whole behavioral corpus certification, full-face localization, global synchronization, broader reference parity, long-form speaker continuity and final review remain open. Last updated: 2026-10-06.
+Status: implementation active; bounded speaker ranges, project speaker joins, face-landmark quality, source-bound synchronization receipts and production-native fresh-agent replay are integrated and rechecked on the current branch. The retained corpus, scoped eight-case behavior ledger, native switched-angle, physical empty-edit and transition receipts remain intact. Whole multicamera behavioral certification, full-face localization, global synchronization, broader reference parity, long-form speaker continuity and final review remain open. Last updated: 2026-10-06.
 
 Yap supplies explicit editing primitives and reproducible observations. The consumer
 agent chooses the story, uses available creative tools, checks actual output and
@@ -33,17 +33,18 @@ discovered the clipped Parakeet edge, authored one bounded replacement and
 rechecked the changed revision with fresh rendered recognition. The helper never
 chooses repairs or retries blindly.
 
-Slice 01's independent-control checkpoint now passes over the canonical compact
-media owner; its nine negative and boundary controls are retained under
-`assets/01-corpus-controls/`. Real-corpus behavioral and multicamera gates stay
-open, so do not mark slice 01 complete from the control receipt alone.
+Slice 01's independent-control checkpoint and scoped eight-case behavior ledger
+now pass over the canonical compact media owner; its nine negative and boundary
+controls are retained under `assets/01-corpus-controls/`, with the aggregate
+receipt under `assets/01-corpus-behavior/`. The remaining multicamera behavioral
+gate stays open, so do not mark slice 01 complete from either receipt alone.
 
 The moving trajectory receipt now has an immutable replay checker covering its
 39-picture membership, refusal controls and exact preview/export identities;
 strict reference-conditioned moving color/perimeter parity still lacks frozen
 reference frames.
 
-Priority order: 01 whole-corpus certification remains open; 20/21 global
+Priority order: 01 whole multicamera behavioral certification remains open; 20/21 global
 synchronization remains refused on the frozen unlike-mic evidence; 15/16
 face/framing remain partial; 27–30 have public transition, moving-coverage and
 bounded-blur delivery receipts but broader visual parity remains open; 31/32

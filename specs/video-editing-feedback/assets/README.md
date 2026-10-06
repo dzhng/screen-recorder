@@ -27,6 +27,9 @@ preparation/readonly observation cutover and its integrated caller proof.
 [full-frame picture corpus](01-corpus-picture/README.md),
 [independent controls](01-corpus-controls/README.md) and
 [honest speech timing](07-speech-timing/README.md) retain scoped operands.
+[The scoped behavior ledger](01-corpus-behavior/README.md) binds each retained
+real case to an existing replayable behavior receipt without broadening its
+multicamera, speaker or editorial claims.
 [Speaker feasibility](31-speaker-replication/README.md) retains reproducible partial
 successes and required failures; it does not establish production readiness.
 

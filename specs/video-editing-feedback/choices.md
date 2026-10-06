@@ -1675,8 +1675,9 @@ Apple cube candidate are in the slice26 evidence; no user-only decision remains.
   later speaker/synchronization slices remain open.
 - **The reach:** One public verifier supplies deterministic negative controls
   without a second media owner, compatibility path, or human labeling task.
-- **Verdict:** sound for the independent-control checkpoint; slice01 remains
-  in progress until whole behavioral and multicamera certification is measured.
+- **Verdict:** sound for the independent-control checkpoint; the scoped
+  eight-case behavior ledger now passes, while slice01 remains in progress until
+  whole multicamera behavioral certification is measured.
 - **Confidence:** high for byte/oracle integrity and declared control scope.
 
 ## Keep fresh replay as an identity gate — slice34
@@ -1882,3 +1883,12 @@ Apple cube candidate are in the slice26 evidence; no user-only decision remains.
 - **The reach:** The trajectory delivery checkpoint is independently replayable in the ordinary test suite. Frozen color/perimeter parity, blur appearance parity and source-edge refusal remain explicit open gates.
 - **Verdict:** sound scoped replay; no second renderer or trajectory policy owner.
 - **Confidence:** high for receipt identity and structural delivery; low for unresolved reference-conditioned visual parity.
+
+## Bind retained corpus cases to scoped behavior receipts — slice01
+
+- **When:** the eight retained real-media cases had physical hashes and clocks, but the three picture entries still said `unverified` even though the accepted native picture replay already covered them.
+- **The choice:** add one aggregate checker that requires every physically certified case to name an existing behavior receipt, hashes that receipt, and accepts only the already-established recognition/timing or sampled-picture states. The checker reports its scope and never treats the receipt as proof of global camera synchronization, speaker continuity, or editorial quality.
+- **The gap:** the corpus manifest had separate physical and behavior evidence owners but no executable link proving that every real case was covered by one of them.
+- **The reach:** future fixture edits fail the scoped ledger before they can look certified through a stale manifest; the physical, multicamera, sync and speaker owners remain separate and can be strengthened independently.
+- **Verdict:** sound; this closes an evidence-link gap without turning a bounded receipt into a whole-spec claim.
+- **Confidence:** high for the manifest/evidence relationship; medium for the still-open multicamera behavioral gate.

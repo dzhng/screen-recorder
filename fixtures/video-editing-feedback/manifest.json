@@ -80,7 +80,8 @@
         "wordCount": 3,
         "tokenCount": 11,
         "scope": "Exact selected original/derivative raw observations after source-origin subtraction; result.processingTime excluded, every other field retained.",
-        "disposition": "Selected source and derivative both recognize Fortunate maybe fortunately. Historical fortun- fragment is comparison context; this output does not establish the fragment identity, partial-word completeness or cut safety."
+        "disposition": "Selected source and derivative both recognize Fortunate maybe fortunately. Historical fortun- fragment is comparison context; this output does not establish the fragment identity, partial-word completeness or cut safety.",
+        "evidenceSha256": "4b1d50875fde19fc0cca16a073a08e49f7496c796485793b143456d8baf736f0"
       }
     },
     {
@@ -160,7 +161,8 @@
         "wordCount": 83,
         "tokenCount": 150,
         "normalizedSha256": "0d61e429061771ecb32ee2f788c8c957dc6779571b8f60d08c1c21b118372574",
-        "evidence": "../../specs/video-editing-feedback/assets/07-speech-timing/bounded-baseline-comparison.json"
+        "evidence": "../../specs/video-editing-feedback/assets/07-speech-timing/bounded-baseline-comparison.json",
+        "evidenceSha256": "47c322d8650673f36a569f8e7bdf045368e932e09057afbd9cd335518cbf76b0"
       }
     },
     {
@@ -240,7 +242,8 @@
         "wordCount": 78,
         "tokenCount": 140,
         "normalizedSha256": "42d8f94029c614d62e75b99cdc8aea2cdded62e6bbffd4454d6bdeccae34135e",
-        "evidence": "../../specs/video-editing-feedback/assets/07-speech-timing/bounded-baseline-comparison.json"
+        "evidence": "../../specs/video-editing-feedback/assets/07-speech-timing/bounded-baseline-comparison.json",
+        "evidenceSha256": "47c322d8650673f36a569f8e7bdf045368e932e09057afbd9cd335518cbf76b0"
       }
     },
     {
@@ -323,7 +326,8 @@
         "wordCount": 49,
         "tokenCount": 88,
         "scope": "Exact selected original/derivative raw observations after source-origin subtraction; result.processingTime excluded, every other field retained.",
-        "disposition": "Selected source and derivative both recognize trend in full context. Historical edited/narrower turn and cut-loss observations remain comparison inputs, not independently confirmed lexical truth or a join-safety pass."
+        "disposition": "Selected source and derivative both recognize trend in full context. Historical edited/narrower turn and cut-loss observations remain comparison inputs, not independently confirmed lexical truth or a join-safety pass.",
+        "evidenceSha256": "4b1d50875fde19fc0cca16a073a08e49f7496c796485793b143456d8baf736f0"
       }
     },
     {
@@ -407,7 +411,8 @@
         "wordCount": 13,
         "tokenCount": 22,
         "scope": "Exact selected original/derivative raw observations after source-origin subtraction; result.processingTime excluded, every other field retained.",
-        "disposition": "Selected source and derivative both recognize prophecy. Existing tiny1877.30/1877.55 controls recognize privacy while1877.45/1877.68 controls recognize prophecy; retained context sensitivity is not independent lexical truth."
+        "disposition": "Selected source and derivative both recognize prophecy. Existing tiny1877.30/1877.55 controls recognize privacy while1877.45/1877.68 controls recognize prophecy; retained context sensitivity is not independent lexical truth.",
+        "evidenceSha256": "4b1d50875fde19fc0cca16a073a08e49f7496c796485793b143456d8baf736f0"
       }
     },
     {
@@ -502,8 +507,11 @@
         ]
       },
       "baseline": {
-        "state": "unverified",
-        "reason": "Native observation/grade behavior not yet certified"
+        "state": "picture-replication-pass",
+        "evidence": "../../specs/video-editing-feedback/assets/13-decoded-picture/verification.json",
+        "scope": "Sampled unchanged SDR source/project picture observations; no full-video, HDR or editorial verdict",
+        "case": "graham",
+        "evidenceSha256": "e32d74399c9f02f24ed0433dd5e1f65d23b5985a2bd1c015b2e732941d3b003e"
       }
     },
     {
@@ -598,8 +606,11 @@
         ]
       },
       "baseline": {
-        "state": "unverified",
-        "reason": "Native observation/grade behavior not yet certified"
+        "state": "picture-replication-pass",
+        "evidence": "../../specs/video-editing-feedback/assets/13-decoded-picture/verification.json",
+        "scope": "Sampled unchanged SDR source/project picture observations; no full-video, HDR or editorial verdict",
+        "case": "madison",
+        "evidenceSha256": "e32d74399c9f02f24ed0433dd5e1f65d23b5985a2bd1c015b2e732941d3b003e"
       }
     },
     {
@@ -694,8 +705,11 @@
         ]
       },
       "baseline": {
-        "state": "unverified",
-        "reason": "Native observation/grade behavior not yet certified"
+        "state": "picture-replication-pass",
+        "evidence": "../../specs/video-editing-feedback/assets/13-decoded-picture/verification.json",
+        "scope": "Sampled unchanged SDR source/project picture observations; no full-video, HDR or editorial verdict",
+        "case": "lily",
+        "evidenceSha256": "e32d74399c9f02f24ed0433dd5e1f65d23b5985a2bd1c015b2e732941d3b003e"
       }
     }
   ]
