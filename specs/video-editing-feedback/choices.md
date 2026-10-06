@@ -835,3 +835,18 @@ unlisted architecture or user-only choice was found in this research pass.
 - **Verdict:** focused decoration authoring and native actual-pixel checks pass. Public
   static-sheet evidence and visual comparison remain open for the full slice.
 - **Confidence:** medium-high.
+
+## Native layer blend modes — slice24
+
+- **When:** slice24, explicit layer-combination checkpoint.
+- **The choice:** Blend mode belongs to the surface that is joining its parent, so the
+  current compositor remains the sole owner of layer arithmetic. The initial bounded set is
+  `normal`, `multiply`, `screen` and `soft-light`; omitted means normal alpha-over. The mode
+  is carried through the public processor/compiled operation and the native media receipt.
+- **The gap:** The composition graph previously hard-coded alpha-over for every input and
+  had no way to request or verify a different combination.
+- **The reach:** The same operation order and working color space serve still and movie paths;
+  native Core Image kernels are selected only after the compiled mode is validated.
+- **Verdict:** focused composition and native red/blue swatch checks pass. Independent
+  reference-sheet/vignette comparison remains open before calling the slice complete.
+- **Confidence:** medium-high.

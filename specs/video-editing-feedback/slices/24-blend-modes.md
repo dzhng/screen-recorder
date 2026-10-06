@@ -1,6 +1,6 @@
 # 24 — Define useful layer blend arithmetic
 
-Status: planned. Depends on: [13](13-decode-replication.md).
+Status: partial — explicit blend modes and native swatch verification are integrated; independent visual comparison evidence remains open. Depends on: [13](13-decode-replication.md).
 
 ## Contract
 
@@ -25,7 +25,11 @@ Freeze working color space, premultiplied-alpha handling, blend order and transp
 
 ## Runnable checkpoint
 
-Independent color/alpha swatches and real vignette overlay comparison.
+`YapFrameTests --blend-modes` renders red/blue swatches through multiply, screen and
+soft-light in the native compositor and checks the delivered pixels. Composition authoring
+retains the explicit mode as a blend operation on the layer surface; the native media
+contract carries the same mode. Independent reference-sheet and vignette comparison remain
+the next checkpoint.
 
 Expose a case-selected command or existing lab entry with its own usage. Store accepted requests/results and artifact identities in feature-owned evidence. The implementing agent checks actual output; the user may view it for direction without becoming a QA gate.
 
@@ -39,7 +43,10 @@ Variable: blend response only. Mask: fixed swatches/overlay region; no new grade
 
 Run [compare-screenshots](../../../.agents/skills/compare-screenshots/SKILL.md) on matched before/reference/candidate shots with the stated masks and numeric interpretation. Inspect motion temporally when a still cannot establish the claim. Run an unprimed [screenshot-critique](../../../.agents/skills/screenshot-critique/SKILL.md) as the **last visual acceptance check**. Show useful output with [preview-shots](../../../.agents/skills/preview-shots/SKILL.md); never request human QA or wait for approval. Record critique, coverage and any residual uncertainty.
 
-A spike passes with a frozen accepted recipe/reference, or records a failed verdict and reslices dependent work. An unavailable stub or undocumented fallback is not implementation completion.
+The focused pass is green when composition planning retains the explicit mode and native
+delivery matches the expected swatch arithmetic. The full slice remains open until the
+independent reference-sheet/vignette comparison is complete. An unavailable stub or
+undocumented fallback is not implementation completion.
 
 ## Delegated choices
 

@@ -1,6 +1,6 @@
 # Reliable autonomous video editing
 
-Status: implementation active; core contracts through19 are integrated, synchronization and speaker quality gates remain open, and caption layout plus native decorations are in their first native checkpoint. Last updated: 2026-10-06.
+Status: implementation active; core contracts through19 are integrated, synchronization and speaker quality gates remain open, and caption layout/decorations plus native blend arithmetic are in focused checkpoints. Last updated: 2026-10-06.
 
 Yap supplies explicit editing primitives and reproducible observations. The consumer
 agent chooses the story, uses available creative tools, checks actual output and
@@ -17,13 +17,15 @@ binding: no aliases, dual readers or migrations; preserve external originals and
 frozen historical evidence.
 
 Current pickup: finish the true selected project-tap inference seam in10B2, then add
-the public static-sheet evidence for stage22. The20 waveform research is retained but
+the public static-sheet evidence for stage22 and the independent color-sheet evidence
+for stage24. The20 waveform research is retained but
 all nine real comparisons refuse its frozen acoustic gates, so lexical anchors remain
 open. Reviewed atomic export, delivered picture observations, bounded alignment,
 retained source portability, face observations and native-cache research are
 integrated; the distinct speaker provider remains research-only until its quality
 gates pass. Stage22 now preserves bounded stroke/shadow/background fields and native
-decoration bounds alongside the vertical glyph receipts.
+decoration bounds alongside the vertical glyph receipts. Stage24 now carries explicit
+normal/multiply/screen/soft-light composition modes through the public and native seams.
 
 Completed: 02, 03, 04, 05, 06, 07, 08, 09, 13, 14, 17, 18, 19. Partial01 has exact source-rate PCM,
 full-raster picture inputs and all five frozen07 original/derivative speech

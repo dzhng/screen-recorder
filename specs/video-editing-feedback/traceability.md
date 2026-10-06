@@ -172,3 +172,10 @@ clipped `visibleBounds`, `verticalOffset`, decoration bounds and echoed decorati
 Focused `YapFrameTests --text-vertical` proves top/center/bottom placement against a real
 Arial font, including empty text, and `--text-decorations` renders/inspects nontransparent
 decorated pixels. Public caption-sheet evidence remains open.
+
+Slice24 evidence: the composition processor registry and compiled visual operations carry
+bounded `normal`, `multiply`, `screen` and `soft-light` modes. The native compositor applies
+Core Image blend kernels when a surface joins its parent, while ordinary surfaces retain
+normal alpha-over behavior. `YapFrameTests --blend-modes` renders red/blue swatches and
+checks multiply black, screen magenta and the bounded soft-light response. Reference-sheet
+and vignette comparison remain open.
