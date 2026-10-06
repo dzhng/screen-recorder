@@ -2,6 +2,11 @@ Yap is the macOS recording and agent-operated video toolkit. This release ships
 `Yap.app`, the `yap` CLI and the `com.dzhng.yap` app identity. Install the complete
 kit for this identity; capture permissions must be granted to Yap separately.
 
+Transcript ingestion now normalizes fractional model timings at the native source
+clock boundary, so tiny adjacent-word collisions do not fail an otherwise usable
+recording. Diagnostics include the conflicting words and ranges when a malformed
+payload still reaches ingestion.
+
 The menu-bar item is compact again: it shows Yap's state icon only. The recording
 overlay remains the place for elapsed time, so starting a take does not reserve a
 large menu-bar slot or shift surrounding status items.
