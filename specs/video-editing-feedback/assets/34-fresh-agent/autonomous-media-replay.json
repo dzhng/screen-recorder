@@ -10,19 +10,19 @@
     "audio": "verified",
     "humanQaRequired": false
   },
-  "nativeSha256": "dc6b18c2dad93e98de5b6dbfa6d3996a0d56d577a743eb54a52d31ed3af921da",
+  "nativeSha256": "a28b6d6a427687fba80f455421ad89054257a8db187467197f2cfd24b73d70e8",
   "speechRepair": {
     "expectedText": "fortunate",
     "observedText": "Fortunately,",
-    "beforeRevisionId": "76121d86-76a2-467b-bc56-8795d03711cd",
-    "afterRevisionId": "483f0c4f-53e9-4b2d-bfb0-9a3e7ab06826"
+    "beforeRevisionId": "00cdf972-1c62-4427-ac70-836d082b75f6",
+    "afterRevisionId": "7f2a317c-2a53-4d0f-84cb-2312856d49f5"
   },
   "runs": [
     {
       "state": "clean",
       "delivery": {
         "bytes": 89867,
-        "sha256": "33cfe47c993af8b381e961c4bf1c7072c87e539c792a87577b2d3e0ce7478d10"
+        "sha256": "394d9ac13bd069093f681992d667214356c80a5b859a5feee98bd92b8cc1e840"
       },
       "normalized": {
         "bytes": 56056,
@@ -58,7 +58,7 @@
       "state": "relocated",
       "delivery": {
         "bytes": 89867,
-        "sha256": "0499aa5b1166725013aa2b13ff2e09a4f1d6fee44125f25eaece215e3d689749"
+        "sha256": "4b054545996ff56f100bcba01cbcbb0d2e859c979de87ea93567042441563cf7"
       },
       "normalized": {
         "bytes": 56056,
