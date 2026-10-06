@@ -56,6 +56,9 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         }
         let controller = CaptureController(fixtureWindow: fixture)
         self.controller = controller
+        controller.onCameraFrame = { [weak self] frame in
+            Task { @MainActor [weak self] in self?.controls?.receiveCameraFrame(frame) }
+        }
         let updates = UpdateCoordinator(blockers: { [weak self] in
             guard let self else { return ["native.startup"] }
             var blockers = self.controls?.updateBlockers ?? []

@@ -121,11 +121,13 @@ private final class PrimaryCameraCaptureInput: CaptureInputSession {
     var width: Int { camera.width }
     var height: Int { camera.height }
     let requestedSourceRect: CGRect? = nil
+    var previewFrame: (@Sendable (NativeCapture.CameraPreviewFrame) -> Void)?
     init(camera: any CaptureCameraSession, systemAudio: Bool) { self.camera = camera; self.systemAudio = systemAudio }
     func start(writer: CaptureWriter, output: any SCStreamOutput, framesPerSecond: Int?,
         onFailure: @escaping @Sendable (CaptureFailure) -> Void, checkInterruption: @escaping @MainActor () throws -> Void) async throws {
         let ingress = try CaptureClockIngress(writer: writer, destination: .primary(width: width, height: height), failure: onFailure)
         self.ingress = ingress
+        ingress.previewFrame = previewFrame
         ingress.captureSessionClock = { [camera] in camera.synchronizationClock }
         var operations = [CaptureStreamOperation(start: { [self] in
             observeDeviceLoss(onFailure: onFailure)
@@ -172,6 +174,10 @@ package final class CameraCaptureInput: CaptureInputSession {
     package var width: Int { primary.width }
     package var height: Int { primary.height }
     package var requestedSourceRect: CGRect? { primary.requestedSourceRect }
+    package var previewFrame: (@Sendable (NativeCapture.CameraPreviewFrame) -> Void)? {
+        get { primary.previewFrame }
+        set { primary.previewFrame = newValue }
+    }
 
     package init(primary: any CaptureInputSession, camera: any CaptureCameraSession,
         selection: CaptureCameraSelection, measurement: CameraCaptureMeasurement = .init()) {
@@ -185,6 +191,7 @@ package final class CameraCaptureInput: CaptureInputSession {
             observations: selection.binding == nil ? selection.observations : selection.directory.appendingPathComponent(CameraMedia.mappingFile),
             failure: onFailure)
         self.ingress = ingress
+        ingress.previewFrame = previewFrame
         ingress.captureSessionClock = { [camera] in camera.synchronizationClock }
         observeDeviceLoss(onFailure: onFailure)
         try await primary.start(writer: writer, output: ingress,

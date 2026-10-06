@@ -5,6 +5,10 @@ import Foundation
 
 @MainActor
 public final class NativeCapture {
+    public final class CameraPreviewFrame: @unchecked Sendable {
+        public let buffer: CVPixelBuffer
+        init(_ buffer: CVPixelBuffer) { self.buffer = buffer }
+    }
     private var input: (any CaptureInputSession)?
     private let prepareInput: @MainActor (CaptureRequest, @MainActor () throws -> Void) async throws -> any CaptureInputSession
     private var generations = CaptureGeneration()
@@ -18,6 +22,7 @@ public final class NativeCapture {
     private var publicationCancellationRequested = false
     private let termination = CaptureTermination<CaptureResult?>()
     public var onInterruption: ((CaptureFailure) -> Void)?
+    public var onCameraFrame: (@Sendable (CameraPreviewFrame) -> Void)?
     private var failure: CaptureFailure?
     private enum State: String { case idle, selecting, recording, paused, finalizing }
     private var state = State.idle
@@ -131,6 +136,7 @@ public final class NativeCapture {
             }
         }
         let prepared = try await prepareInput(request, checkStartup)
+        prepared.previewFrame = onCameraFrame
         do { try checkStartup() }
         catch {
             // Preparation has not acquired take ownership. Release only its returned resources.

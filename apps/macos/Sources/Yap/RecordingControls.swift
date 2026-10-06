@@ -1,4 +1,5 @@
 import AppKit
+import CoreImage
 import YapCapture
 import YapControls
 
@@ -86,6 +87,9 @@ final class RecordingControls: NSObject {
     private var reading = false
     private var pendingRefresh = false
     private var pendingStorageRefresh = false
+    private var cameraPreviewImage: NSImage?
+    private var lastCameraPreviewUpdate = Date.distantPast
+    private let cameraPreviewContext = CIContext()
 
     /// Bounded status cadence, including controls issued by another client.
     private static let tick: TimeInterval = 0.5
@@ -651,6 +655,8 @@ final class RecordingControls: NSObject {
         capturePopover.update(captureInput())
         libraryWindow.update(state: state, exports: exports.state)
         overlay.update(RecordingOverlay.presentation(for: state))
+        let cameraActive = state.isLive && (state.selection.source == .camera || state.selection.cameraDeviceId != nil)
+        overlay.updatePreview(cameraActive && preferences.showCameraPreview ? cameraPreviewImage : nil)
         settings.update(state, shortcuts: shortcuts)
         showStatusItem()
         pace()
@@ -658,6 +664,23 @@ final class RecordingControls: NSObject {
 
     var captureView: CaptureView? { capturePopover.view }
     var savedMediaView: LibraryView { libraryWindow.view }
+
+    func receiveCameraFrame(_ frame: NativeCapture.CameraPreviewFrame) {
+        let now = Date()
+        guard now.timeIntervalSince(lastCameraPreviewUpdate) >= 0.1 else { return }
+        lastCameraPreviewUpdate = now
+        DispatchQueue.global(qos: .userInitiated).async { [weak self] in
+            guard let self else { return }
+            let ci = CIImage(cvPixelBuffer: frame.buffer)
+            guard let cg = self.cameraPreviewContext.createCGImage(ci, from: ci.extent) else { return }
+            DispatchQueue.main.async { [weak self] in
+                guard let self, self.state.isLive else { return }
+                let image = NSImage(cgImage: cg, size: NSSize(width: ci.extent.width, height: ci.extent.height))
+                self.cameraPreviewImage = image
+                self.overlay.updatePreview(self.preferences.showCameraPreview ? image : nil)
+            }
+        }
+    }
     func openCapture() { if !capturePopover.isShown { toggleCapture() } }
     func closeCapture() { capturePopover.close() }
 

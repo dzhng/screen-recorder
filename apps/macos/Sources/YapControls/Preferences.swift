@@ -26,6 +26,7 @@ public struct Preferences {
         static let showSettingsAtLaunch = "showSettingsAtLaunch"
         static let settingsFrame = "settingsFrame"
         static let overlayOrigin = "overlayOrigin"
+        static let showCameraPreview = "showCameraPreview"
         static let countdownBeforeRecording = "countdownBeforeRecording"
         static let microphone = "recording.microphone"
         static let microphoneDeviceId = "recording.microphoneDeviceId"
@@ -49,6 +50,11 @@ public struct Preferences {
     public var overlayOrigin: NSPoint? {
         get { defaults.string(forKey: Key.overlayOrigin).map(NSPointFromString) }
         nonmutating set { defaults.set(newValue.map(NSStringFromPoint), forKey: Key.overlayOrigin) }
+    }
+
+    public var showCameraPreview: Bool {
+        get { defaults.object(forKey: Key.showCameraPreview) as? Bool ?? true }
+        nonmutating set { defaults.set(newValue, forKey: Key.showCameraPreview) }
     }
 
     /// Countdown defaults on so people have time to return to their content before capture starts.
