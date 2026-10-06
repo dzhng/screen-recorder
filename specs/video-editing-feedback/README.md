@@ -1,6 +1,6 @@
 # Reliable autonomous video editing
 
-Status: implementation active; bounded speaker ranges, project speaker joins, face-landmark quality, source-bound synchronization receipts and production-native fresh-agent replay are integrated and rechecked on the current branch. The retained corpus, scoped eight-case behavior ledger, native switched-angle, physical empty-edit and transition receipts remain intact. Whole multicamera behavioral certification, full-face localization, global synchronization, broader reference parity, long-form speaker continuity and final review remain open. Last updated: 2026-10-06.
+Status: implementation active; bounded speaker ranges, project speaker joins, face-landmark quality, source-bound synchronization receipts and production-native fresh-agent replay are integrated and rechecked on the current branch. The retained corpus, scoped eight-case behavior ledger, caller-authored multicam source-choice receipt, native switched-angle, physical empty-edit and transition receipts remain intact. Native multicamera composition, full-face localization, global synchronization, broader reference parity, long-form speaker continuity and final review remain open. Last updated: 2026-10-06.
 
 Yap supplies explicit editing primitives and reproducible observations. The consumer
 agent chooses the story, uses available creative tools, checks actual output and
@@ -36,13 +36,18 @@ chooses repairs or retries blindly.
 Slice 01's independent-control checkpoint and scoped eight-case behavior ledger
 now pass over the canonical compact media owner; its nine negative and boundary
 controls are retained under `assets/01-corpus-controls/`, with the aggregate
-receipt under `assets/01-corpus-behavior/`. The remaining multicamera behavioral
-gate stays open, so do not mark slice 01 complete from either receipt alone.
+receipt under `assets/01-corpus-behavior/`. The multicam physical checkpoint
+also has a caller-authored source-choice receipt binding all nine retained audio
+windows to same-source picture samples. Native multicamera composition,
+synchronization and speaker identity remain separate gates, so do not mark
+slice 01 complete from this receipt alone.
 
 The multicam physical checkpoint now also binds three decoded 320×180 RGB
-samples from each retained source through compact derivative movies. This is
-sampled picture behavior and fixture preservation; it does not promote a shared
-clock, speaker identity or camera selection.
+samples from each retained source through compact derivative movies. Its
+caller-authored source-choice receipt binds each of the nine retained audio
+windows to the matching source picture sample. This is source selection and
+fixture preservation; it does not promote a shared clock, speaker identity or
+automatic camera selection.
 
 The moving trajectory receipt now has an immutable replay checker covering its
 39-picture membership, refusal controls and exact preview/export identities;

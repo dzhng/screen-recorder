@@ -10,8 +10,10 @@ compact picture derivatives described by the sibling
 current run.
 
 This checkpoint certifies fixture coverage, sampled picture behavior and
-physical input preservation. It does not infer a shared camera clock, speaker
-identity or camera choice; the result intentionally reports
+physical input preservation. The companion [source-choice behavior receipt](behavior-replay.md)
+replays a caller-authored nine-selection schedule and binds each audio window
+to its same-source picture sample. It does not infer a shared camera clock,
+speaker identity or automatic camera choice; the result intentionally reports
 `synchronization: not-established`. Acoustic research and its refusals remain
-owned by [slice 20](../../slices/20-sync-replication.md), and broader
-multicam behavioral composition remains a separate gate.
+owned by [slice 20](../../slices/20-sync-replication.md), and broader native
+multicam composition remains a separate gate.

@@ -274,8 +274,10 @@ external inputs.
 Slice01 multicam evidence: `packages/test-harness/editing/multicam-corpus.mjs` now
 checks the three retained 20-second audio windows per source and nine decoded
 320×180 RGB samples from compact derivative movies, with byte and decoded-frame
-mutation refusals. The receipt remains explicit that synchronization, speaker
-identity and camera choice are not established.
+mutation refusals. `packages/test-harness/editing/multicam-behavior.mjs` replays
+the caller-authored nine-selection source schedule and binds every selected audio
+window to its same-source picture sample. Both receipts remain explicit that
+synchronization, speaker identity and automatic camera choice are not established.
 
 
 ### Slice 28 authored-rectangle coverage

@@ -2,6 +2,27 @@
 
 User decisions remain binding; this ledger records implementation discretion outside the approved plan.
 
+## Keep multicam source choice separate from synchronization — sound, high confidence
+
+- **When:** slice01 retained multicam source-choice replay.
+- **The choice:** store a small immutable recipe that chooses one retained audio
+  window and one picture sample from the same named source for each of the nine
+  physical selections. The verifier checks the original recording hash, the
+  exact PCM window hash and the decoded picture hash, then reports
+  `cameraChoice: caller-authored` and `synchronization: not-established`.
+- **The gap:** the corpus needed a replayable multicamera behavior checkpoint,
+  but the unlike-microphone evidence does not prove that the three recordings
+  share a clock or that a camera belongs to the person speaking. Combining
+  source selection with a guessed offset would have turned fixture coverage into
+  a false synchronization claim.
+- **The reach:** later native angle delivery can consume explicit source
+  choices while slices20/21 continue to own clock evidence and slices31/32 own
+  speaker attribution. The recipe has its own identity so the frozen historical
+  synchronization manifest does not need to change.
+- **Verdict:** sound. It proves the behavior that the evidence supports and
+  keeps unsupported timing and identity claims refused.
+- **Confidence:** high.
+
 ## Archive caller speaker bindings with package evidence — sound, medium confidence
 
 - **When:** slice32 immutable package replay checkpoint.
