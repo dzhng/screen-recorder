@@ -100,6 +100,72 @@ func verifyCompositionSourceColors(in directory: URL) async throws {
     print("PASS CoreMedia709 source and composition PNG have equal complete RGBA pixels")
 }
 
+private func blendPNGRequest(
+    red: URL, blue: URL, output: URL, mode: String
+) throws -> CompositionFrameRenderer.Request {
+    let redClip: [String: Any] = ["kind": "clip", "id": "red"]
+    let blueClip: [String: Any] = ["kind": "clip", "id": "blue"]
+    func layer(_ clipId: String, _ assetId: String) -> [String: Any] {
+        [
+            "kind": "image", "clipId": clipId, "trackId": clipId, "assetId": assetId,
+            "streamId": "image:0", "availability": "available", "width": 16, "height": 16,
+        ]
+    }
+    let frame: [String: Any] = [
+        "index": 0, "sampleAtUs": 0, "visibleRange": ["startUs": 0, "endUs": 33333],
+        "layers": [layer("red", "red"), layer("blue", "blue")],
+        "visual": [
+            ["target": redClip, "inputs": [], "operations": []],
+            ["target": blueClip, "inputs": [], "operations": [["kind": "blend", "mode": mode]]],
+            ["target": ["kind": "output"], "inputs": [redClip, blueClip], "operations": []],
+        ],
+    ]
+    let body: [String: Any] = [
+        "output": output.path, "profile": "h264-rec709", "processing": [], "frame": frame,
+        "canvas": ["width": 16, "height": 16, "fps": ["numerator": 30, "denominator": 1], "background": "#000000ff"],
+        "assets": [
+            ["assetId": "red", "streamId": "image:0", "path": red.path, "originUs": 0],
+            ["assetId": "blue", "streamId": "image:0", "path": blue.path, "originUs": 0],
+        ],
+        "maxLongEdge": 16,
+    ]
+    return try JSONDecoder().decode(CompositionFrameRenderer.Request.self,
+        from: JSONSerialization.data(withJSONObject: body))
+}
+
+func verifyCompositionBlends(in directory: URL) async throws {
+    func solid(_ red: UInt8, _ green: UInt8, _ blue: UInt8, at url: URL) throws {
+        let pixels = Data(repeating: 0, count: 16 * 16 * 4).enumerated().map { index, _ in
+            switch index % 4 { case 0: return red; case 1: return green; case 2: return blue; default: return 255 }
+        }
+        let image = CGImage(width: 16, height: 16, bitsPerComponent: 8, bitsPerPixel: 32,
+            bytesPerRow: 16 * 4, space: CGColorSpaceCreateDeviceRGB(),
+            bitmapInfo: CGBitmapInfo(rawValue: CGImageAlphaInfo.last.rawValue),
+            provider: CGDataProvider(data: Data(pixels) as CFData)!, decode: nil,
+            shouldInterpolate: false, intent: .defaultIntent)!
+        try encodePNG(image).write(to: url)
+    }
+    let red = directory.appendingPathComponent("blend-red.png")
+    let blue = directory.appendingPathComponent("blend-blue.png")
+    try solid(255, 0, 0, at: red)
+    try solid(0, 0, 255, at: blue)
+    var samples: [String: (red: Double, green: Double, blue: Double)] = [:]
+    for mode in ["multiply", "screen", "soft-light"] {
+        let output = directory.appendingPathComponent("blend-" + mode + ".png")
+        _ = try await CompositionFrameRenderer.write(
+            try blendPNGRequest(red: red, blue: blue, output: output, mode: mode))
+        samples[mode] = try FixtureImage(contentsOf: output).color(x: 4, y: 4, width: 8, height: 8)
+    }
+    let multiply = samples["multiply"]!, screen = samples["screen"]!, softLight = samples["soft-light"]!
+    precondition(multiply.red < 0.05 && multiply.green < 0.05 && multiply.blue < 0.05,
+        "Multiply must combine red and blue to black")
+    precondition(screen.red > 0.9 && screen.green < 0.05 && screen.blue > 0.9,
+        "Screen must combine red and blue to magenta")
+    precondition(softLight.red > 0.9 && softLight.green < 0.05 && softLight.blue < 0.05,
+        "Soft-light must preserve its bounded source-dependent response")
+    print("PASS native multiply, screen and soft-light layer combinations match swatch expectations")
+}
+
 func verifyCompositionMovieTerminal(in directory: URL) async throws {
     let source = directory.appendingPathComponent("composition-source.png")
     let request = try compositionPNGRequest(source: source, output: directory.appendingPathComponent("unused.png"))

@@ -90,6 +90,22 @@ test("nested opacity remains on flattened parents and a dry group tap excludes i
   expect(nodes.at(-1)).toEqual({ ...full.visual[4], operations: [] });
   expect(nodes.length).toBe(5);
 });
+
+test("blend processing is retained as an explicit layer-combination operation", () => {
+  const value = structuredClone(document);
+  value.processing = [
+    {
+      target: { kind: "group", id: "inner" },
+      steps: [{ id: "multiply", enabled: true, processor: { type: "blend", mode: "multiply" } }],
+    },
+  ];
+  const frame = [...compiler(value).frames({ startUs: 0, endUs: 1 })][0]!;
+  expect(
+    frame.visual.find((node) => node.target.kind === "group" && node.target.id === "inner")
+      ?.operations,
+  ).toEqual([{ kind: "blend", mode: "multiply" }]);
+});
+
 test("a second geometry crops the fixed canvas domain; disabled steps do not alter primitives", () => {
   const value = structuredClone(document);
   value.processing = [

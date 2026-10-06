@@ -62,6 +62,11 @@ if CommandLine.arguments.contains("--text-decorations") {
     finish()
 }
 
+if CommandLine.arguments.contains("--blend-modes") {
+    try await verifyCompositionBlends(in: images)
+    finish()
+}
+
 try verifyPictureObservations(in: images)
 try await verifySDRCorrection(in: images)
 try await verifyCompositionPNG(in: images)

@@ -67,6 +67,7 @@ public final class CompositionPictureExecutor {
             let saturation: Double?
             let neutralKelvin: Double?
             let neutralTint: Double?
+            let mode: String?
             func correction() throws -> SDRCorrection.Parameters {
                 guard let exposureEV, let contrast, let saturation, let neutralKelvin, let neutralTint else {
                     throw NativeFailure("INVALID_REQUEST", "Missing SDR correction parameters.")
@@ -510,11 +511,12 @@ public final class CompositionPictureExecutor {
                     else {
                         throw Self.invalid("Visual inputs must precede their one parent.")
                     }
-                    image = child.composited(over: image)
+                    image = try composite(child, over: image, mode: blendMode(for: input, in: prepared.key.visual))
                 }
                 image = image.cropped(to: canvasRect)
             }
             for operation in node.operations {
+                if operation.kind == "blend" { continue }
                 if operation.kind != "pointer" {
                     image = try apply(operation, to: image)
                     continue
@@ -542,6 +544,32 @@ public final class CompositionPictureExecutor {
             throw Self.invalid("Visual graph has unconsumed surfaces.")
         }
         return image
+    }
+
+    private func blendMode(for target: CompositionProcessing.Target, in nodes: [Frame.Node]) throws -> String {
+        guard let node = nodes.first(where: { $0.target == target }) else {
+            throw Self.invalid("Visual input has no compiled node.")
+        }
+        let modes = node.operations.compactMap { $0.kind == "blend" ? $0.mode : nil }
+        guard modes.count <= 1 else { throw Self.invalid("A visual surface cannot declare multiple blend modes.") }
+        guard let mode = modes.first else { return "normal" }
+        guard ["normal", "multiply", "screen", "soft-light"].contains(mode) else {
+            throw Self.invalid("Unknown layer blend mode.")
+        }
+        return mode
+    }
+
+    private func composite(_ source: CIImage, over backdrop: CIImage, mode: String) throws -> CIImage {
+        switch mode {
+        case "normal": return source.composited(over: backdrop)
+        case "multiply":
+            return source.applyingFilter("CIMultiplyBlendMode", parameters: [kCIInputBackgroundImageKey: backdrop])
+        case "screen":
+            return source.applyingFilter("CIScreenBlendMode", parameters: [kCIInputBackgroundImageKey: backdrop])
+        case "soft-light":
+            return source.applyingFilter("CISoftLightBlendMode", parameters: [kCIInputBackgroundImageKey: backdrop])
+        default: throw Self.invalid("Unknown layer blend mode.")
+        }
     }
 
     private func preflightSurfaces(_ frame: Frame) throws -> Set<Frame.Operation> {
@@ -584,7 +612,7 @@ public final class CompositionPictureExecutor {
                 } else if operation.kind == "sdr-correction" {
                     try SDRCorrection.requireImplementation(sdrCorrectionImplementationId)
                     try operation.correction().validate()
-                } else if operation.kind != "opacity" {
+                } else if operation.kind != "opacity" && operation.kind != "blend" {
                     geometry.append(index)
                 }
             }

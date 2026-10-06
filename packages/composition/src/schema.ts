@@ -443,6 +443,17 @@ export const processorRegistry = {
     mediaKind: "video" as const,
     units: { opacity: "linear alpha multiplier" },
   },
+  blend: {
+    schema: z
+      .object({
+        type: z.literal("blend"),
+        mode: z.enum(["normal", "multiply", "screen", "soft-light"]),
+      })
+      .strict(),
+    targets: ["clip", "track", "group"] as const,
+    mediaKind: "video" as const,
+    units: { mode: "layer combination applied when this surface joins its parent" },
+  },
   gain: {
     schema: z
       .object({
@@ -490,6 +501,7 @@ export const processingStepSchema = z
       processorRegistry.gain.schema,
       processorRegistry.geometry.schema,
       processorRegistry.opacity.schema,
+      processorRegistry.blend.schema,
       processorRegistry["sdr-correction"].schema,
     ]),
   })

@@ -64,6 +64,8 @@ export function visualPlanner(
           } else if (step.processor.type === "opacity") {
             const opacity = temporal.opacity(step, node.target, atUs);
             if (opacity !== null) operations.push({ kind: "opacity", opacity });
+          } else if (step.processor.type === "blend") {
+            operations.push({ kind: "blend", mode: step.processor.mode });
           }
         }
         if (sourceSpace)

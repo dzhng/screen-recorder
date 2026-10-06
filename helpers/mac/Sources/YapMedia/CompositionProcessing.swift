@@ -22,10 +22,11 @@ public struct CompositionProcessing: Codable, Sendable {
     public struct Processor: Codable, Sendable {
         public let type: String
         public let stateRecipe: AudioStateRecipe?
-        private enum CodingKeys: String, CodingKey { case type, gain, mix, active, trailUs, crop, rect, fit, scale, rotationDeg, pivot }
+        private enum CodingKeys: String, CodingKey { case type, mode, gain, mix, active, trailUs, crop, rect, fit, scale, rotationDeg, pivot }
         public init(from decoder: Decoder) throws {
             let fields = try decoder.container(keyedBy: CodingKeys.self)
             type = try fields.decode(String.self, forKey: .type)
+            mode = try fields.decodeIfPresent(String.self, forKey: .mode)
             gain = try fields.decodeIfPresent(SampleScalar.self, forKey: .gain)
             mix = try fields.decodeIfPresent(SampleScalar.self, forKey: .mix)
             active = try fields.decodeIfPresent([SampleSpan].self, forKey: .active)
@@ -41,6 +42,7 @@ public struct CompositionProcessing: Codable, Sendable {
         public func encode(to encoder: Encoder) throws {
             var fields = encoder.container(keyedBy: CodingKeys.self)
             try fields.encode(type, forKey: .type)
+            try fields.encodeIfPresent(mode, forKey: .mode)
             try fields.encodeIfPresent(gain, forKey: .gain)
             try fields.encodeIfPresent(mix, forKey: .mix)
             try fields.encodeIfPresent(active, forKey: .active)
@@ -54,6 +56,7 @@ public struct CompositionProcessing: Codable, Sendable {
             try stateRecipe?.encode(to: encoder)
         }
         public let gain: SampleScalar?
+        public let mode: String?
         public let mix: SampleScalar?
         public let active: [SampleSpan]?
         public struct SampleSpan: Codable, Sendable {

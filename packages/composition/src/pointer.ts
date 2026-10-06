@@ -13,8 +13,14 @@ const pointerOperationSchema = z
     geometryPrefix: z.array(z.int().nonnegative().max(Number.MAX_SAFE_INTEGER)),
   })
   .strict();
+const blendOperationSchema = z
+  .object({
+    kind: z.literal("blend"),
+    mode: z.enum(["normal", "multiply", "screen", "soft-light"]),
+  })
+  .strict();
 export const visualOperationsSchema = z
-  .array(z.union([picturePrimitiveSchema, pointerOperationSchema]))
+  .array(z.union([picturePrimitiveSchema, pointerOperationSchema, blendOperationSchema]))
   .superRefine((operations, context) => {
     const geometry: number[] = [];
     for (const [index, operation] of operations.entries()) {
@@ -28,7 +34,11 @@ export const visualOperationsSchema = z
             path: [index, "geometryPrefix"],
             message: "Pointer must reference the complete preceding geometry in execution order",
           });
-      } else if (operation.kind !== "opacity" && operation.kind !== "sdr-correction")
+      } else if (
+        operation.kind !== "opacity" &&
+        operation.kind !== "sdr-correction" &&
+        operation.kind !== "blend"
+      )
         geometry.push(index);
     }
   });
