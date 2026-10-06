@@ -1,6 +1,6 @@
 # 17 — Prepare audio before expensive picture rendering
 
-Status: planned. Depends on: [04](04-wait-and-json-delivery.md).
+Status: complete. Focused checks and independent review passed. Depends on: [04](04-wait-and-json-delivery.md).
 
 ## Contract
 
@@ -54,3 +54,18 @@ Run review/refactor-clean/code-review/write-docs appropriate to the change; reta
 ## Direction that would change this slice
 
 A changed user brief, reference or product policy can redirect it. Human listening, watching or transcript labeling is never an acceptance prerequisite. Record material deviations and their evidence instead of silently changing requirements.
+
+## Implemented verdict
+
+`audio.prepare` now accepts the existing processing-tap contract. Omission selects
+processed output. Complete selected domains, literal tap, revision inputs and
+ordered processing recipe remain pinned through execution, reuse and portable
+adoption. Another tap never substitutes for the final movie mix.
+
+Existing movie processing already refuses impossible normalization before native
+picture encoding. The regression is falsified by invoking picture consumption
+first. Existing publication/job diagnostics retain strict refusal details; no
+additional scheduler or diagnostic store was added. Native public checks and
+portable dry-tap falsification are scoped in [the retained evidence](../assets/17-audio-preflight/README.md).
+Dynamic mastering remains slice18; this pass changes no loudness tolerance or
+processor algorithm. Synthetic mux frames are not a picture design verdict.

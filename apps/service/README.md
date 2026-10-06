@@ -191,4 +191,8 @@ requested postconditions before publication. Gain-only feasibility is explicit;
 a dynamic request also refuses a missed target. Prepared reads retain those full
 measurements even when a consumer requests a short excerpt. Native and bundled
 implementation identities bind the prepared recipe; neither discovery nor an
-empty measurement authorizes another treatment.
+empty measurement authorizes another treatment. Audio preparation settles the
+complete selected processing tap without picture work. Movie rendering resolves
+matching retained final audio, or executes its full audio processing and strict
+postconditions, before starting expensive picture encoding. A prepared dry signal
+or intermediate step never substitutes for that final mix.

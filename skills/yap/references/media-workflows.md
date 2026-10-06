@@ -124,7 +124,11 @@ derivative through ordinary edits; conversion does not accept excerpt/acquisitio
 selections or create an HDR export. An unsupported source remains a refusal.
 
 To retain a lossless processed mix, call `audio.prepare` with an explicit project
-and revision. It prepares the full output without editing the project. Pin that
+and revision. Omit the tap for the complete final mix, or select the same processing
+tap used for inspection; preparation retains whole processing-state domains rather
+than a cold excerpt. Use it to settle requested normalization before spending time
+on video encoding. A dry or intermediate preparation cannot substitute for the
+export's final mix. It does not edit the project. Pin that
 selection while polling; use `job.get/retry/cancel` for its attempts rather than
 expecting a repeated request to restart failed or canceled work. Read the published
 audio asset ID, discover its stream with `asset.get`, then inspect it through the

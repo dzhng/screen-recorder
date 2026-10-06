@@ -34,7 +34,9 @@ evidence of measurement limits, never an instruction to normalize. Explicit
 normalization publication retains complete before/after measurements and refuses
 infeasible or missed requested targets. Prepared excerpts preserve that complete
 processing evidence rather than relabeling it as an excerpt measurement. An explicit
-prepared signal pin must match the processed output tap.
+prepared signal pin must match its complete tap, ordered processing recipe and revision
+inputs. Selected taps retain the same whole state domains as ordinary inspection;
+only a matching processed output may substitute for a video export's final mix.
 
 [Transcript observations](src/transcript.ts) retain overlapping estimates and true
 instant points without manufacturing playable duration. [Source enumeration](src/transcript-read.ts)

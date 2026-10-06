@@ -884,11 +884,11 @@ export const operationSchema = z.discriminatedUnion("operation", [
   z
     .object({
       operation: z.literal("audio.prepare"),
-      params: project.extend({ revisionId: id }).strict(),
+      params: project.extend({ revisionId: id, tap: processingTapSchema.optional() }).strict(),
     })
     .strict()
     .describe(
-      "Explicitly prepare the full processed audio output of a pinned project revision as a retained lossless 48kHz stereo asset. Does not change the document or current revision. Returns readiness/jobId and a published audio receipt with assetId; use asset.get to discover its stream and existing audio/waveform/spectrogram inspection. Repeat the exact selection to reuse work; failed/canceled work requires explicit job.retry, and job.cancel drains an attempt. Unavailable processors or retiming refuse before admission; no model is downloaded. This prepares only the full output domain, not an arbitrary clip or range.",
+      "Explicitly prepare a complete project processing tap of a pinned revision as a retained lossless 48kHz stereo asset. Omitted tap means processed output; clip/track/group/output and dry/processed/after-step use the same selection meaning as audio.get. Preparation preserves whole processing-state domains, never a cold excerpt, and does not edit the document or current revision. Normalization feasibility and strict measured targets settle before expensive picture encoding. Returns readiness/jobId and a published audio receipt with assetId; use asset.get and ordinary audio/waveform/spectrogram inspection. Repeat the exact selection to reuse work; failed/canceled work requires job.retry, and job.cancel drains an attempt. Only a matching processed-output preparation is reusable by video export; another tap cannot replace the final mix. Unavailable processors or retiming refuse before admission; no model is downloaded.",
     ),
   z
     .object({ operation: z.literal("audio.get"), params: audioParams })
