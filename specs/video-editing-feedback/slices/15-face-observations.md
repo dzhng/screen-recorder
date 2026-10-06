@@ -1,6 +1,6 @@
 # 15 — Detect and track subjects explicitly
 
-Status: planned. Depends on: [14](14-picture-statistics.md).
+Status: partial — single-frame localization is integrated and reviewed; temporal association remains open. Depends on: [14](14-picture-statistics.md).
 
 ## Contract
 

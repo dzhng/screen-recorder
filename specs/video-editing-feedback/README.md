@@ -1,6 +1,6 @@
 # Reliable autonomous video editing
 
-Status: implementation active; thirteen slices complete, corpus partly certified, speaker quality gate red. Last updated: 2026-10-06.
+Status: implementation active; core contracts through19 are integrated, synchronization and speaker quality gates remain open, and caption layout is in its first native checkpoint. Last updated: 2026-10-06.
 
 Yap supplies explicit editing primitives and reproducible observations. The consumer
 agent chooses the story, uses available creative tools, checks actual output and
@@ -16,14 +16,13 @@ merge, push or installed-app change has been requested. Hard cutover remains
 binding: no aliases, dual readers or migrations; preserve external originals and
 frozen historical evidence.
 
-Current pickup: close the20 waveform research review in `/Users/server/dev/yap-audio-synchronization`; all nine real comparisons refuse the frozen acoustic gates. Advance lexical anchors after accepted10B.19 dialogue matching is complete with a clean independent review.
-Reviewed05 atomic replacement,14 delivered-picture observations,10A pinned
-alignment distribution,10B1 retained source observations and31 native-cache
-research are integrated.
-18 is complete: strict bounded original-input correction retains the best
-admitted PCM and explicit candidate evidence. Active isolated lanes own10B2 project alignment/projection,15 face observations
-and31 distinct-provider research. Integrate each reviewed pass independently;
-10B and31 remain open.
+Current pickup: continue selected prepared project-tap alignment in10B2, then close
+the native caption decoration stage22B. The20 waveform research is retained but all
+nine real comparisons refuse its frozen acoustic gates, so lexical anchors remain
+open. Reviewed atomic export, delivered picture observations, bounded alignment,
+retained source portability, face observations and native-cache research are
+integrated; the distinct speaker provider remains research-only until its quality
+gates pass.
 
 Completed: 02, 03, 04, 05, 06, 07, 08, 09, 13, 14, 17, 18, 19. Partial01 has exact source-rate PCM,
 full-raster picture inputs and all five frozen07 original/derivative speech
