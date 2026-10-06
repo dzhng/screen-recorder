@@ -172,12 +172,30 @@ export class AlignmentProcessing {
           }
         : null;
     if (published) this.options.evidence.metadata(published.evidence);
-    if (status.state === "not_requested" && reason === null)
+    if (status.state === "not_requested" && reason === null) {
       this.options.jobs.submit(
         () => ({ ...identity, lane: "heavy" }),
         (job) => this.options.assets.retain({ kind: "job", id: job.jobId }, [resolved.source.assetId]),
       );
-    if (status.state === "not_requested" && reason === null) return this.prepareProject(input);
+      const next = this.options.jobs.status(identity),
+        nextPublished = next.published
+          ? {
+              generation: next.published.generation,
+              evidence: JSON.parse(next.published.result) as AlignmentEvidenceMetadata,
+            }
+          : null;
+      if (nextPublished) this.options.evidence.metadata(nextPublished.evidence);
+      return {
+        ...next,
+        state: next.state,
+        reason: next.reason,
+        published: nextPublished,
+        projectId: resolved.projectId,
+        revisionId: resolved.revisionId,
+        preparedResourceId: resolved.preparedResourceId,
+        assetId: resolved.source.assetId,
+      };
+    }
     return {
       ...status,
       state: reason ? ("unavailable" as const) : status.state,
