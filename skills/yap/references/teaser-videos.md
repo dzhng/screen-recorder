@@ -23,8 +23,9 @@ full highlight must preserve the answer and its qualifications.
 
 ### The question-end strategy
 
-When the source is a full 4:4 interview or the teaser is a dark episode
-introduction, a useful strategy is to cut **immediately after a complete,
+When the source is the complete interview or episode (including one the brief
+calls a “4:4 video”), or the teaser is a dark episode introduction, a useful
+strategy is to cut **immediately after a complete,
 provocative question and before the answer starts**. A spicy question can be the
 climax. Preserve its final syllable and inflection; do not chop the question to
 make the timing. Keep the withheld answer out of captions, titles, thumbnails,
