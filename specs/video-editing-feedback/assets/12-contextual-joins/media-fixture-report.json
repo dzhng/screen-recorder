@@ -1,0 +1,2598 @@
+{
+  "passed": true,
+  "scope": "slice 12C/12D real audio revisions: clipped, intact, repaired and intentional jump; fresh Parakeet rendered recognition and read-only contextual join evidence",
+  "nativeSha256": "c38edf1c7dd268cae31576970e9412ce06874e6d644d1b0ba659e34f9e146f90",
+  "modelManifest": {
+    "id": "parakeet",
+    "revision": "ee09c569f73759e6d44c9bd16766f477b2b36d39",
+    "files": [
+      {
+        "path": "Decoder.mlmodelc/analytics/coremldata.bin",
+        "bytes": 243,
+        "sha256": "46de1a6fe2e49d19a2125bc91acf020df7f2aea84ba821532aade8427a440b05"
+      },
+      {
+        "path": "Decoder.mlmodelc/coremldata.bin",
+        "bytes": 554,
+        "sha256": "d200ca07694a347f6d02a3886a062ae839831e094e443222f2e48a14945966a8"
+      },
+      {
+        "path": "Decoder.mlmodelc/metadata.json",
+        "bytes": 3427,
+        "sha256": "90a279b822496316458febc0ce761ab05954fadd9d66aa97bea077a35fc8f2b2"
+      },
+      {
+        "path": "Decoder.mlmodelc/model.mil",
+        "bytes": 13106,
+        "sha256": "7b95a5a6b672c652000348a67b6d4d92bb8e176b978c6666fe73c28a4d7ec579"
+      },
+      {
+        "path": "Decoder.mlmodelc/weights/weight.bin",
+        "bytes": 14429952,
+        "sha256": "27d26890221d82322c1092fd99d7b40578e435d5cf4b83c887c42603caf97aba"
+      },
+      {
+        "path": "Encoder.mlmodelc/analytics/coremldata.bin",
+        "bytes": 243,
+        "sha256": "42e638870d73f26b332918a3496ce36793fbb413a81cbd3d16ba01328637a105"
+      },
+      {
+        "path": "Encoder.mlmodelc/coremldata.bin",
+        "bytes": 485,
+        "sha256": "4def7aa848599ad0e17a8b9a982edcdbf33cf92e1f4b798de32e2ca0bc74b030"
+      },
+      {
+        "path": "Encoder.mlmodelc/metadata.json",
+        "bytes": 2926,
+        "sha256": "58222fbc48c13c49d9715567803cd50cb9c23e4360462e0f8ffcea59a2c73c63"
+      },
+      {
+        "path": "Encoder.mlmodelc/model.mil",
+        "bytes": 959769,
+        "sha256": "ed7b19156ca29fa7dfd6891deb9fda4b0e8893f68597c985d135736546a43808"
+      },
+      {
+        "path": "Encoder.mlmodelc/weights/weight.bin",
+        "bytes": 445187200,
+        "sha256": "4adc7ad44f9d05e1bffeb2b06d3bb02861a5c7602dff63a6b494aed3bf8a6c3e"
+      },
+      {
+        "path": "JointDecision.mlmodelc/analytics/coremldata.bin",
+        "bytes": 243,
+        "sha256": "f1183ba213bb94a918c8d2cad19ab045320618f97f6ca662245b3936d7b090f7"
+      },
+      {
+        "path": "JointDecision.mlmodelc/coremldata.bin",
+        "bytes": 534,
+        "sha256": "e2c6752f1c8cf2d3f6f26ec93195c9bfa759ad59edf9f806696a138154f96f11"
+      },
+      {
+        "path": "JointDecision.mlmodelc/metadata.json",
+        "bytes": 2936,
+        "sha256": "ba8d309417b9acd4a175fdb15687de6a941db2f5b06666a60e7cf3cc8e2d3c3c"
+      },
+      {
+        "path": "JointDecision.mlmodelc/model.mil",
+        "bytes": 9722,
+        "sha256": "93bf82042235127cb81ab537dcae47a1c2e7e242ce4ffdaf772981b45eedc4f0"
+      },
+      {
+        "path": "JointDecision.mlmodelc/weights/weight.bin",
+        "bytes": 3453388,
+        "sha256": "ca22a65903a05e64137677da608077578a8606090a598abf4875fa6199aaa19d"
+      },
+      {
+        "path": "Preprocessor.mlmodelc/analytics/coremldata.bin",
+        "bytes": 243,
+        "sha256": "03ab3c1327a054c54c07a40325db967ec574f2c91dcc8192bfa44aa561bcf2d8"
+      },
+      {
+        "path": "Preprocessor.mlmodelc/coremldata.bin",
+        "bytes": 494,
+        "sha256": "d88ea1fc349459c9e100d6a96688c5b29a1f0d865f544be103001724b986b6d6"
+      },
+      {
+        "path": "Preprocessor.mlmodelc/metadata.json",
+        "bytes": 2974,
+        "sha256": "fb16c581ff5e1b962e7cb2181ed892cd32f9f84c12b6e80ff3e089f28e35bcbb"
+      },
+      {
+        "path": "Preprocessor.mlmodelc/model.mil",
+        "bytes": 27166,
+        "sha256": "3e06d16fd061294c8a75be68c43a3b1ed1f593d4a9c35249e9cdbccadc59721e"
+      },
+      {
+        "path": "Preprocessor.mlmodelc/weights/weight.bin",
+        "bytes": 298880,
+        "sha256": "a5f7df6c7f47147ae9486fe18cc7792f9a44d093ec3c6a11e91ef2dc363c48dc"
+      },
+      {
+        "path": "README.md",
+        "bytes": 1665,
+        "sha256": "491eac9a160dc7b0f7ce1210dea4fff6df0222124e93ea83ae2cd72827b4ce02"
+      },
+      {
+        "path": "parakeet_vocab.json",
+        "bytes": 18762,
+        "sha256": "57019fe3c745772ca83a1b048a4bb951cd51329504ea33d4d83316b96e279a97"
+      }
+    ]
+  },
+  "fixtures": {
+    "intact": {
+      "range": {
+        "startUs": 0,
+        "endUs": 951000
+      },
+      "boundaryAtUs": 951000,
+      "prepared": {
+        "resourceId": "[\"14a15160-3f17-41f7-adc8-46dfc78c7c44\",\"6c904b73-4799-4178-b64f-dfae07e986f0\"]",
+        "frames": 45648,
+        "sampleRange": {
+          "start": 0,
+          "end": 45648
+        }
+      },
+      "rendered": {
+        "state": "ready",
+        "generation": "aebdd6f8-7713-4087-95ac-5431436922e0",
+        "frames": 15216,
+        "transcript": {
+          "generation": "aebdd6f8-7713-4087-95ac-5431436922e0",
+          "wordCount": 1,
+          "segmentCount": 1
+        }
+      },
+      "join": {
+        "projectId": "14a15160-3f17-41f7-adc8-46dfc78c7c44",
+        "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b",
+        "preparedResourceId": "[\"14a15160-3f17-41f7-adc8-46dfc78c7c44\",\"6c904b73-4799-4178-b64f-dfae07e986f0\"]",
+        "boundary": {
+          "projectAtUs": 951000,
+          "trackId": "track:893a6f376703a901c80c5e8c9e4c03c348c03ef6b8cf18213669cc63e389b283:0",
+          "mediaKind": "audio",
+          "before": {
+            "clipId": "clip:b1f629f71772fccd00ead906ecc91162d7b2d80532cf53ab6796ccf76246d31b:0",
+            "kind": "range",
+            "assetId": "c966563eae87e63c28499441bd9abe23674c64240fc758aab841a3d45f47caa9",
+            "streamId": "track:1",
+            "sourceAtUs": 951000,
+            "rate": 1
+          },
+          "after": null
+        },
+        "context": {
+          "beforeUs": 250000,
+          "afterUs": 250000
+        },
+        "projectRange": {
+          "startUs": 701000,
+          "endUs": 951000
+        },
+        "expectedText": "fortunate",
+        "thresholdRMS": 0.01,
+        "source": {
+          "before": {
+            "state": "missing",
+            "requestedRange": {
+              "startUs": 701000,
+              "endUs": 1201000
+            }
+          },
+          "after": {
+            "state": "not_applicable"
+          }
+        },
+        "rendered": {
+          "alignment": {
+            "state": "missing",
+            "requestedRange": {
+              "startUs": 701000,
+              "endUs": 951000
+            }
+          },
+          "recognition": {
+            "state": "observed",
+            "requestedRange": {
+              "startUs": 701000,
+              "endUs": 951000
+            },
+            "coverage": {
+              "observed": [
+                {
+                  "startUs": 701000,
+                  "endUs": 951000
+                }
+              ],
+              "missing": []
+            },
+            "generation": "aebdd6f8-7713-4087-95ac-5431436922e0",
+            "textComparison": {
+              "expectedText": "fortunate",
+              "observedText": "Fortunately,",
+              "literalMatch": false,
+              "interpretation": "recognition_observation_not_phonetic_certification"
+            },
+            "wordCount": 1,
+            "completePage": true,
+            "phoneticCompleteness": "unknown"
+          }
+        },
+        "audio": {
+          "dimensions": {
+            "bytes": 369280,
+            "sampleRate": 48000,
+            "channels": 2,
+            "frames": 45648,
+            "dataOffset": 4096,
+            "dataBytes": 365184
+          },
+          "sampleRange": {
+            "start": 0,
+            "end": 45648
+          },
+          "waveformBuckets": 26,
+          "spectrumColumns": 95,
+          "discontinuity": {
+            "state": "observed",
+            "edgeRMS": [
+              {
+                "gridStart": 33600,
+                "sampleRange": {
+                  "start": 33648,
+                  "end": 34080
+                },
+                "partial": true,
+                "channels": [
+                  {
+                    "min": -0.013440519571304321,
+                    "max": 0.016602836549282074,
+                    "rms": 0.006139559991081405
+                  },
+                  {
+                    "min": -0.013440519571304321,
+                    "max": 0.016602836549282074,
+                    "rms": 0.006139559991081405
+                  }
+                ]
+              },
+              {
+                "gridStart": 34080,
+                "sampleRange": {
+                  "start": 34080,
+                  "end": 34560
+                },
+                "partial": false,
+                "channels": [
+                  {
+                    "min": -0.011258442886173725,
+                    "max": 0.012327723205089569,
+                    "rms": 0.004031050930667154
+                  },
+                  {
+                    "min": -0.011258442886173725,
+                    "max": 0.012327723205089569,
+                    "rms": 0.004031050930667154
+                  }
+                ]
+              },
+              {
+                "gridStart": 45120,
+                "sampleRange": {
+                  "start": 45120,
+                  "end": 45600
+                },
+                "partial": false,
+                "channels": [
+                  {
+                    "min": -0.000002602127551654121,
+                    "max": 0.000004245748641551472,
+                    "rms": 3.1638226620016907e-7
+                  },
+                  {
+                    "min": -0.000002602127551654121,
+                    "max": 0.000004245748641551472,
+                    "rms": 3.1638226620016907e-7
+                  }
+                ]
+              },
+              {
+                "gridStart": 45600,
+                "sampleRange": {
+                  "start": 45600,
+                  "end": 45648
+                },
+                "partial": true,
+                "channels": [
+                  {
+                    "min": 0,
+                    "max": 0,
+                    "rms": 0
+                  },
+                  {
+                    "min": 0,
+                    "max": 0,
+                    "rms": 0
+                  }
+                ]
+              }
+            ],
+            "interpretation": "energy_boundary_only"
+          }
+        },
+        "candidates": [
+          {
+            "offsetUs": -100000,
+            "state": "observed",
+            "boundary": {
+              "projectAtUs": 851000,
+              "trackId": "track:893a6f376703a901c80c5e8c9e4c03c348c03ef6b8cf18213669cc63e389b283:0",
+              "mediaKind": "audio",
+              "before": {
+                "clipId": "clip:b1f629f71772fccd00ead906ecc91162d7b2d80532cf53ab6796ccf76246d31b:0",
+                "kind": "range",
+                "assetId": "c966563eae87e63c28499441bd9abe23674c64240fc758aab841a3d45f47caa9",
+                "streamId": "track:1",
+                "sourceAtUs": 851000,
+                "rate": 1
+              },
+              "after": {
+                "clipId": "clip:b1f629f71772fccd00ead906ecc91162d7b2d80532cf53ab6796ccf76246d31b:0",
+                "kind": "range",
+                "assetId": "c966563eae87e63c28499441bd9abe23674c64240fc758aab841a3d45f47caa9",
+                "streamId": "track:1",
+                "sourceAtUs": 851000,
+                "rate": 1
+              }
+            }
+          },
+          {
+            "offsetUs": 100000,
+            "state": "outside_project"
+          }
+        ],
+        "phoneticCompleteness": "unknown"
+      }
+    },
+    "clipped": {
+      "range": {
+        "startUs": 0,
+        "endUs": 391375
+      },
+      "boundaryAtUs": 391375,
+      "prepared": {
+        "resourceId": "[\"1898e6f3-ff0f-4632-b0ac-09081c9a4357\",\"632808c3-e023-40f0-8e84-d66563405559\"]",
+        "frames": 18786,
+        "sampleRange": {
+          "start": 0,
+          "end": 18786
+        }
+      },
+      "rendered": {
+        "state": "ready",
+        "generation": "e18e74e1-6a9d-4d01-9b92-ed0221647f0a",
+        "frames": 6262,
+        "transcript": {
+          "generation": "e18e74e1-6a9d-4d01-9b92-ed0221647f0a",
+          "wordCount": 1,
+          "segmentCount": 1
+        }
+      },
+      "join": {
+        "projectId": "1898e6f3-ff0f-4632-b0ac-09081c9a4357",
+        "revisionId": "bfde72c8-870e-4cba-a177-f45810bda7e6",
+        "preparedResourceId": "[\"1898e6f3-ff0f-4632-b0ac-09081c9a4357\",\"632808c3-e023-40f0-8e84-d66563405559\"]",
+        "boundary": {
+          "projectAtUs": 391375,
+          "trackId": "track:37c91108dde89c7afe60a0957120209300d27cd2d6cdfffe6c27fbcf715dd32a:0",
+          "mediaKind": "audio",
+          "before": {
+            "clipId": "clip:cff257b29f635d0a57882da2d53eea0dadf888439d4914ff413e54d54c929470:0",
+            "kind": "range",
+            "assetId": "c966563eae87e63c28499441bd9abe23674c64240fc758aab841a3d45f47caa9",
+            "streamId": "track:1",
+            "sourceAtUs": 391375,
+            "rate": 1
+          },
+          "after": null
+        },
+        "context": {
+          "beforeUs": 250000,
+          "afterUs": 250000
+        },
+        "projectRange": {
+          "startUs": 141375,
+          "endUs": 391375
+        },
+        "expectedText": "fortunate",
+        "thresholdRMS": 0.01,
+        "source": {
+          "before": {
+            "state": "missing",
+            "requestedRange": {
+              "startUs": 141375,
+              "endUs": 641375
+            }
+          },
+          "after": {
+            "state": "not_applicable"
+          }
+        },
+        "rendered": {
+          "alignment": {
+            "state": "missing",
+            "requestedRange": {
+              "startUs": 141375,
+              "endUs": 391375
+            }
+          },
+          "recognition": {
+            "state": "observed",
+            "requestedRange": {
+              "startUs": 141375,
+              "endUs": 391375
+            },
+            "coverage": {
+              "observed": [
+                {
+                  "startUs": 141375,
+                  "endUs": 391375
+                }
+              ],
+              "missing": []
+            },
+            "generation": "e18e74e1-6a9d-4d01-9b92-ed0221647f0a",
+            "textComparison": {
+              "expectedText": "fortunate",
+              "observedText": "'Kay.",
+              "literalMatch": false,
+              "interpretation": "recognition_observation_not_phonetic_certification"
+            },
+            "wordCount": 1,
+            "completePage": true,
+            "phoneticCompleteness": "unknown"
+          }
+        },
+        "audio": {
+          "dimensions": {
+            "bytes": 154384,
+            "sampleRate": 48000,
+            "channels": 2,
+            "frames": 18786,
+            "dataOffset": 4096,
+            "dataBytes": 150288
+          },
+          "sampleRange": {
+            "start": 0,
+            "end": 18786
+          },
+          "waveformBuckets": 26,
+          "spectrumColumns": 94,
+          "discontinuity": {
+            "state": "observed",
+            "edgeRMS": [
+              {
+                "gridStart": 6720,
+                "sampleRange": {
+                  "start": 6786,
+                  "end": 7200
+                },
+                "partial": true,
+                "channels": [
+                  {
+                    "min": -0.24452435970306396,
+                    "max": 0.6135127544403076,
+                    "rms": 0.20866128887734428
+                  },
+                  {
+                    "min": -0.24452435970306396,
+                    "max": 0.6135127544403076,
+                    "rms": 0.20866128887734428
+                  }
+                ]
+              },
+              {
+                "gridStart": 7200,
+                "sampleRange": {
+                  "start": 7200,
+                  "end": 7680
+                },
+                "partial": false,
+                "channels": [
+                  {
+                    "min": -0.24806857109069824,
+                    "max": 0.6376295685768127,
+                    "rms": 0.2396774121285788
+                  },
+                  {
+                    "min": -0.24806857109069824,
+                    "max": 0.6376295685768127,
+                    "rms": 0.2396774121285788
+                  }
+                ]
+              },
+              {
+                "gridStart": 18240,
+                "sampleRange": {
+                  "start": 18240,
+                  "end": 18720
+                },
+                "partial": false,
+                "channels": [
+                  {
+                    "min": -0.2014392614364624,
+                    "max": 0.1744997650384903,
+                    "rms": 0.06922913409588191
+                  },
+                  {
+                    "min": -0.2014392614364624,
+                    "max": 0.1744997650384903,
+                    "rms": 0.06922913409588191
+                  }
+                ]
+              },
+              {
+                "gridStart": 18720,
+                "sampleRange": {
+                  "start": 18720,
+                  "end": 18786
+                },
+                "partial": true,
+                "channels": [
+                  {
+                    "min": -0.11566051840782166,
+                    "max": 0.1515120267868042,
+                    "rms": 0.061766198443664364
+                  },
+                  {
+                    "min": -0.11566051840782166,
+                    "max": 0.1515120267868042,
+                    "rms": 0.061766198443664364
+                  }
+                ]
+              }
+            ],
+            "interpretation": "energy_boundary_only"
+          }
+        },
+        "candidates": [
+          {
+            "offsetUs": -100000,
+            "state": "observed",
+            "boundary": {
+              "projectAtUs": 291375,
+              "trackId": "track:37c91108dde89c7afe60a0957120209300d27cd2d6cdfffe6c27fbcf715dd32a:0",
+              "mediaKind": "audio",
+              "before": {
+                "clipId": "clip:cff257b29f635d0a57882da2d53eea0dadf888439d4914ff413e54d54c929470:0",
+                "kind": "range",
+                "assetId": "c966563eae87e63c28499441bd9abe23674c64240fc758aab841a3d45f47caa9",
+                "streamId": "track:1",
+                "sourceAtUs": 291375,
+                "rate": 1
+              },
+              "after": {
+                "clipId": "clip:cff257b29f635d0a57882da2d53eea0dadf888439d4914ff413e54d54c929470:0",
+                "kind": "range",
+                "assetId": "c966563eae87e63c28499441bd9abe23674c64240fc758aab841a3d45f47caa9",
+                "streamId": "track:1",
+                "sourceAtUs": 291375,
+                "rate": 1
+              }
+            }
+          },
+          {
+            "offsetUs": 100000,
+            "state": "outside_project"
+          }
+        ],
+        "phoneticCompleteness": "unknown"
+      }
+    },
+    "repaired": {
+      "range": {
+        "startUs": 0,
+        "endUs": 951000
+      },
+      "boundaryAtUs": 951000,
+      "prepared": {
+        "resourceId": "[\"09e1d217-ac8e-4e4c-b84c-bb2de48a9130\",\"2130d9e3-6dc5-418c-9984-55158a45bb69\"]",
+        "frames": 45648,
+        "sampleRange": {
+          "start": 0,
+          "end": 45648
+        }
+      },
+      "rendered": {
+        "state": "ready",
+        "generation": "f1af191c-a6ba-4b08-9801-459a4072827b",
+        "frames": 15216,
+        "transcript": {
+          "generation": "f1af191c-a6ba-4b08-9801-459a4072827b",
+          "wordCount": 1,
+          "segmentCount": 1
+        }
+      },
+      "join": {
+        "projectId": "09e1d217-ac8e-4e4c-b84c-bb2de48a9130",
+        "revisionId": "12aff247-9c11-474b-a5e8-7d36f647fb92",
+        "preparedResourceId": "[\"09e1d217-ac8e-4e4c-b84c-bb2de48a9130\",\"2130d9e3-6dc5-418c-9984-55158a45bb69\"]",
+        "boundary": {
+          "projectAtUs": 951000,
+          "trackId": "track:765924deab58e480bf05e01331a4fe9c3dff6e6ad05e555f15c7433939b7c636:0",
+          "mediaKind": "audio",
+          "before": {
+            "clipId": "clip:43f3a3579ba246376c23225ae3d870ac570f8e66fd4ba85a0b13fc25a3b6403e:0",
+            "kind": "range",
+            "assetId": "c966563eae87e63c28499441bd9abe23674c64240fc758aab841a3d45f47caa9",
+            "streamId": "track:1",
+            "sourceAtUs": 951000,
+            "rate": 1
+          },
+          "after": null
+        },
+        "context": {
+          "beforeUs": 250000,
+          "afterUs": 250000
+        },
+        "projectRange": {
+          "startUs": 701000,
+          "endUs": 951000
+        },
+        "expectedText": "fortunate",
+        "thresholdRMS": 0.01,
+        "source": {
+          "before": {
+            "state": "missing",
+            "requestedRange": {
+              "startUs": 701000,
+              "endUs": 1201000
+            }
+          },
+          "after": {
+            "state": "not_applicable"
+          }
+        },
+        "rendered": {
+          "alignment": {
+            "state": "missing",
+            "requestedRange": {
+              "startUs": 701000,
+              "endUs": 951000
+            }
+          },
+          "recognition": {
+            "state": "observed",
+            "requestedRange": {
+              "startUs": 701000,
+              "endUs": 951000
+            },
+            "coverage": {
+              "observed": [
+                {
+                  "startUs": 701000,
+                  "endUs": 951000
+                }
+              ],
+              "missing": []
+            },
+            "generation": "f1af191c-a6ba-4b08-9801-459a4072827b",
+            "textComparison": {
+              "expectedText": "fortunate",
+              "observedText": "Fortunately,",
+              "literalMatch": false,
+              "interpretation": "recognition_observation_not_phonetic_certification"
+            },
+            "wordCount": 1,
+            "completePage": true,
+            "phoneticCompleteness": "unknown"
+          }
+        },
+        "audio": {
+          "dimensions": {
+            "bytes": 369280,
+            "sampleRate": 48000,
+            "channels": 2,
+            "frames": 45648,
+            "dataOffset": 4096,
+            "dataBytes": 365184
+          },
+          "sampleRange": {
+            "start": 0,
+            "end": 45648
+          },
+          "waveformBuckets": 26,
+          "spectrumColumns": 95,
+          "discontinuity": {
+            "state": "observed",
+            "edgeRMS": [
+              {
+                "gridStart": 33600,
+                "sampleRange": {
+                  "start": 33648,
+                  "end": 34080
+                },
+                "partial": true,
+                "channels": [
+                  {
+                    "min": -0.013440519571304321,
+                    "max": 0.016602836549282074,
+                    "rms": 0.006139559991081405
+                  },
+                  {
+                    "min": -0.013440519571304321,
+                    "max": 0.016602836549282074,
+                    "rms": 0.006139559991081405
+                  }
+                ]
+              },
+              {
+                "gridStart": 34080,
+                "sampleRange": {
+                  "start": 34080,
+                  "end": 34560
+                },
+                "partial": false,
+                "channels": [
+                  {
+                    "min": -0.011258442886173725,
+                    "max": 0.012327723205089569,
+                    "rms": 0.004031050930667154
+                  },
+                  {
+                    "min": -0.011258442886173725,
+                    "max": 0.012327723205089569,
+                    "rms": 0.004031050930667154
+                  }
+                ]
+              },
+              {
+                "gridStart": 45120,
+                "sampleRange": {
+                  "start": 45120,
+                  "end": 45600
+                },
+                "partial": false,
+                "channels": [
+                  {
+                    "min": -0.000002602127551654121,
+                    "max": 0.000004245748641551472,
+                    "rms": 3.1638226620016907e-7
+                  },
+                  {
+                    "min": -0.000002602127551654121,
+                    "max": 0.000004245748641551472,
+                    "rms": 3.1638226620016907e-7
+                  }
+                ]
+              },
+              {
+                "gridStart": 45600,
+                "sampleRange": {
+                  "start": 45600,
+                  "end": 45648
+                },
+                "partial": true,
+                "channels": [
+                  {
+                    "min": 0,
+                    "max": 0,
+                    "rms": 0
+                  },
+                  {
+                    "min": 0,
+                    "max": 0,
+                    "rms": 0
+                  }
+                ]
+              }
+            ],
+            "interpretation": "energy_boundary_only"
+          }
+        },
+        "candidates": [
+          {
+            "offsetUs": -100000,
+            "state": "observed",
+            "boundary": {
+              "projectAtUs": 851000,
+              "trackId": "track:765924deab58e480bf05e01331a4fe9c3dff6e6ad05e555f15c7433939b7c636:0",
+              "mediaKind": "audio",
+              "before": {
+                "clipId": "clip:43f3a3579ba246376c23225ae3d870ac570f8e66fd4ba85a0b13fc25a3b6403e:0",
+                "kind": "range",
+                "assetId": "c966563eae87e63c28499441bd9abe23674c64240fc758aab841a3d45f47caa9",
+                "streamId": "track:1",
+                "sourceAtUs": 851000,
+                "rate": 1
+              },
+              "after": {
+                "clipId": "clip:43f3a3579ba246376c23225ae3d870ac570f8e66fd4ba85a0b13fc25a3b6403e:0",
+                "kind": "range",
+                "assetId": "c966563eae87e63c28499441bd9abe23674c64240fc758aab841a3d45f47caa9",
+                "streamId": "track:1",
+                "sourceAtUs": 851000,
+                "rate": 1
+              }
+            }
+          },
+          {
+            "offsetUs": 100000,
+            "state": "outside_project"
+          }
+        ],
+        "phoneticCompleteness": "unknown"
+      }
+    },
+    "intentionalJump": {
+      "range": {
+        "startUs": 0,
+        "endUs": 782375
+      },
+      "boundaryAtUs": 391375,
+      "prepared": {
+        "resourceId": "[\"79fde3f5-bbe5-4cf1-bf1e-882d89953a4c\",\"d7ca67f7-dbd2-4489-b032-3618f18d4beb\"]",
+        "frames": 37554,
+        "sampleRange": {
+          "start": 0,
+          "end": 37554
+        }
+      },
+      "rendered": {
+        "state": "failed",
+        "reason": "Segment 0 token 4: engine estimate [0.64,0.8] exceeds interval [ExactTime(numerator: 0, denominator: 1),ExactTime(numerator: 782375, denominator: 1))."
+      },
+      "join": {
+        "projectId": "79fde3f5-bbe5-4cf1-bf1e-882d89953a4c",
+        "revisionId": "94355a67-371f-4850-824a-4519322f4770",
+        "preparedResourceId": "[\"79fde3f5-bbe5-4cf1-bf1e-882d89953a4c\",\"d7ca67f7-dbd2-4489-b032-3618f18d4beb\"]",
+        "boundary": {
+          "projectAtUs": 391375,
+          "trackId": "track:1078c120f589319ecb6492d8a09ade0cb8a26efc9fd8c5b68ee2fcb16e0b502e:0",
+          "mediaKind": "audio",
+          "before": {
+            "clipId": "clip:71df9afed81cd995774b6fd52cc4983d326c6204ac633779629638422c968dc1:0",
+            "kind": "range",
+            "assetId": "c966563eae87e63c28499441bd9abe23674c64240fc758aab841a3d45f47caa9",
+            "streamId": "track:1",
+            "sourceAtUs": 391375,
+            "rate": 1
+          },
+          "after": {
+            "clipId": "clip:71df9afed81cd995774b6fd52cc4983d326c6204ac633779629638422c968dc1:1",
+            "kind": "range",
+            "assetId": "c966563eae87e63c28499441bd9abe23674c64240fc758aab841a3d45f47caa9",
+            "streamId": "track:1",
+            "sourceAtUs": 560000,
+            "rate": 1
+          }
+        },
+        "context": {
+          "beforeUs": 250000,
+          "afterUs": 250000
+        },
+        "projectRange": {
+          "startUs": 141375,
+          "endUs": 641375
+        },
+        "expectedText": "fortunate",
+        "thresholdRMS": 0.01,
+        "source": {
+          "before": {
+            "state": "missing",
+            "requestedRange": {
+              "startUs": 141375,
+              "endUs": 641375
+            }
+          },
+          "after": {
+            "state": "missing",
+            "requestedRange": {
+              "startUs": 310000,
+              "endUs": 810000
+            }
+          }
+        },
+        "rendered": {
+          "alignment": {
+            "state": "missing",
+            "requestedRange": {
+              "startUs": 141375,
+              "endUs": 641375
+            }
+          },
+          "recognition": {
+            "state": "missing",
+            "requestedRange": {
+              "startUs": 141375,
+              "endUs": 641375
+            }
+          }
+        },
+        "audio": {
+          "dimensions": {
+            "bytes": 304528,
+            "sampleRate": 48000,
+            "channels": 2,
+            "frames": 37554,
+            "dataOffset": 4096,
+            "dataBytes": 300432
+          },
+          "sampleRange": {
+            "start": 0,
+            "end": 37554
+          },
+          "waveformBuckets": 51,
+          "spectrumColumns": 188,
+          "discontinuity": {
+            "state": "observed",
+            "edgeRMS": [
+              {
+                "gridStart": 6720,
+                "sampleRange": {
+                  "start": 6786,
+                  "end": 7200
+                },
+                "partial": true,
+                "channels": [
+                  {
+                    "min": -0.24452435970306396,
+                    "max": 0.6135127544403076,
+                    "rms": 0.20866128887734428
+                  },
+                  {
+                    "min": -0.24452435970306396,
+                    "max": 0.6135127544403076,
+                    "rms": 0.20866128887734428
+                  }
+                ]
+              },
+              {
+                "gridStart": 7200,
+                "sampleRange": {
+                  "start": 7200,
+                  "end": 7680
+                },
+                "partial": false,
+                "channels": [
+                  {
+                    "min": -0.24806857109069824,
+                    "max": 0.6376295685768127,
+                    "rms": 0.2396774121285788
+                  },
+                  {
+                    "min": -0.24806857109069824,
+                    "max": 0.6376295685768127,
+                    "rms": 0.2396774121285788
+                  }
+                ]
+              },
+              {
+                "gridStart": 30240,
+                "sampleRange": {
+                  "start": 30240,
+                  "end": 30720
+                },
+                "partial": false,
+                "channels": [
+                  {
+                    "min": -0.0002457605442032218,
+                    "max": 0.0001929150748765096,
+                    "rms": 0.00008990163430003523
+                  },
+                  {
+                    "min": -0.0002457605442032218,
+                    "max": 0.0001929150748765096,
+                    "rms": 0.00008990163430003523
+                  }
+                ]
+              },
+              {
+                "gridStart": 30720,
+                "sampleRange": {
+                  "start": 30720,
+                  "end": 30786
+                },
+                "partial": true,
+                "channels": [
+                  {
+                    "min": -0.00015181765775196254,
+                    "max": 0.00006901834422023967,
+                    "rms": 0.00008201831055466349
+                  },
+                  {
+                    "min": -0.00015181765775196254,
+                    "max": 0.00006901834422023967,
+                    "rms": 0.00008201831055466349
+                  }
+                ]
+              }
+            ],
+            "interpretation": "energy_boundary_only"
+          }
+        },
+        "candidates": [
+          {
+            "offsetUs": -100000,
+            "state": "observed",
+            "boundary": {
+              "projectAtUs": 291375,
+              "trackId": "track:1078c120f589319ecb6492d8a09ade0cb8a26efc9fd8c5b68ee2fcb16e0b502e:0",
+              "mediaKind": "audio",
+              "before": {
+                "clipId": "clip:71df9afed81cd995774b6fd52cc4983d326c6204ac633779629638422c968dc1:0",
+                "kind": "range",
+                "assetId": "c966563eae87e63c28499441bd9abe23674c64240fc758aab841a3d45f47caa9",
+                "streamId": "track:1",
+                "sourceAtUs": 291375,
+                "rate": 1
+              },
+              "after": {
+                "clipId": "clip:71df9afed81cd995774b6fd52cc4983d326c6204ac633779629638422c968dc1:0",
+                "kind": "range",
+                "assetId": "c966563eae87e63c28499441bd9abe23674c64240fc758aab841a3d45f47caa9",
+                "streamId": "track:1",
+                "sourceAtUs": 291375,
+                "rate": 1
+              }
+            }
+          },
+          {
+            "offsetUs": 100000,
+            "state": "observed",
+            "boundary": {
+              "projectAtUs": 491375,
+              "trackId": "track:1078c120f589319ecb6492d8a09ade0cb8a26efc9fd8c5b68ee2fcb16e0b502e:0",
+              "mediaKind": "audio",
+              "before": {
+                "clipId": "clip:71df9afed81cd995774b6fd52cc4983d326c6204ac633779629638422c968dc1:1",
+                "kind": "range",
+                "assetId": "c966563eae87e63c28499441bd9abe23674c64240fc758aab841a3d45f47caa9",
+                "streamId": "track:1",
+                "sourceAtUs": 660000,
+                "rate": 1
+              },
+              "after": {
+                "clipId": "clip:71df9afed81cd995774b6fd52cc4983d326c6204ac633779629638422c968dc1:1",
+                "kind": "range",
+                "assetId": "c966563eae87e63c28499441bd9abe23674c64240fc758aab841a3d45f47caa9",
+                "streamId": "track:1",
+                "sourceAtUs": 660000,
+                "rate": 1
+              }
+            }
+          }
+        ],
+        "phoneticCompleteness": "unknown"
+      }
+    }
+  },
+  "trace": [
+    {
+      "operation": "model.status",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "asset.import",
+      "transport": "cli",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "operation": "job.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "asset.get",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "project.create",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "edit.apply",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "edit.apply",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "edit.apply",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "project.create",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "edit.apply",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "edit.apply",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "project.create",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "edit.apply",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "edit.apply",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "project.create",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "edit.apply",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "edit.apply",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "audio.prepare",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+    },
+    {
+      "operation": "audio.prepare",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready",
+      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+    },
+    {
+      "operation": "transcript.render.prepare",
+      "transport": "cli",
+      "ok": true,
+      "state": "queued",
+      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+    },
+    {
+      "operation": "transcript.render.prepare",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+    },
+    {
+      "operation": "transcript.render.prepare",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+    },
+    {
+      "operation": "transcript.render.prepare",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+    },
+    {
+      "operation": "transcript.render.prepare",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+    },
+    {
+      "operation": "transcript.render.prepare",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+    },
+    {
+      "operation": "transcript.render.prepare",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+    },
+    {
+      "operation": "transcript.render.prepare",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+    },
+    {
+      "operation": "transcript.render.prepare",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+    },
+    {
+      "operation": "transcript.render.prepare",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+    },
+    {
+      "operation": "transcript.render.prepare",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+    },
+    {
+      "operation": "transcript.render.prepare",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+    },
+    {
+      "operation": "transcript.render.prepare",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+    },
+    {
+      "operation": "transcript.render.prepare",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+    },
+    {
+      "operation": "transcript.render.prepare",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+    },
+    {
+      "operation": "transcript.render.prepare",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+    },
+    {
+      "operation": "transcript.render.prepare",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+    },
+    {
+      "operation": "transcript.render.prepare",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+    },
+    {
+      "operation": "transcript.render.prepare",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+    },
+    {
+      "operation": "transcript.render.prepare",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+    },
+    {
+      "operation": "transcript.render.prepare",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+    },
+    {
+      "operation": "transcript.render.prepare",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+    },
+    {
+      "operation": "transcript.render.prepare",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+    },
+    {
+      "operation": "transcript.render.prepare",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+    },
+    {
+      "operation": "transcript.render.prepare",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+    },
+    {
+      "operation": "transcript.render.prepare",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+    },
+    {
+      "operation": "transcript.render.prepare",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+    },
+    {
+      "operation": "transcript.render.prepare",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+    },
+    {
+      "operation": "transcript.render.prepare",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+    },
+    {
+      "operation": "transcript.render.prepare",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+    },
+    {
+      "operation": "transcript.render.prepare",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+    },
+    {
+      "operation": "transcript.render.prepare",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+    },
+    {
+      "operation": "transcript.render.prepare",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+    },
+    {
+      "operation": "transcript.render.prepare",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+    },
+    {
+      "operation": "transcript.render.prepare",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+    },
+    {
+      "operation": "transcript.render.prepare",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+    },
+    {
+      "operation": "transcript.render.prepare",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+    },
+    {
+      "operation": "transcript.render.prepare",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+    },
+    {
+      "operation": "transcript.render.prepare",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+    },
+    {
+      "operation": "transcript.render.prepare",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+    },
+    {
+      "operation": "transcript.render.prepare",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+    },
+    {
+      "operation": "transcript.render.prepare",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+    },
+    {
+      "operation": "transcript.render.prepare",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+    },
+    {
+      "operation": "transcript.render.prepare",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+    },
+    {
+      "operation": "transcript.render.prepare",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+    },
+    {
+      "operation": "transcript.render.prepare",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+    },
+    {
+      "operation": "transcript.render.prepare",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+    },
+    {
+      "operation": "transcript.render.prepare",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+    },
+    {
+      "operation": "transcript.render.prepare",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+    },
+    {
+      "operation": "transcript.render.prepare",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+    },
+    {
+      "operation": "transcript.render.prepare",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+    },
+    {
+      "operation": "transcript.render.prepare",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+    },
+    {
+      "operation": "transcript.render.prepare",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+    },
+    {
+      "operation": "transcript.render.prepare",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+    },
+    {
+      "operation": "transcript.render.prepare",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+    },
+    {
+      "operation": "transcript.render.prepare",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+    },
+    {
+      "operation": "transcript.render.prepare",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+    },
+    {
+      "operation": "transcript.render.prepare",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+    },
+    {
+      "operation": "transcript.render.prepare",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+    },
+    {
+      "operation": "transcript.render.prepare",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+    },
+    {
+      "operation": "transcript.render.prepare",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+    },
+    {
+      "operation": "transcript.render.prepare",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+    },
+    {
+      "operation": "transcript.render.prepare",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+    },
+    {
+      "operation": "transcript.render.prepare",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+    },
+    {
+      "operation": "transcript.render.prepare",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+    },
+    {
+      "operation": "transcript.render.prepare",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+    },
+    {
+      "operation": "transcript.render.prepare",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+    },
+    {
+      "operation": "transcript.render.prepare",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+    },
+    {
+      "operation": "transcript.render.prepare",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+    },
+    {
+      "operation": "transcript.render.prepare",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+    },
+    {
+      "operation": "transcript.render.prepare",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+    },
+    {
+      "operation": "transcript.render.prepare",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+    },
+    {
+      "operation": "transcript.render.prepare",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+    },
+    {
+      "operation": "transcript.render.prepare",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+    },
+    {
+      "operation": "transcript.render.prepare",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+    },
+    {
+      "operation": "transcript.render.prepare",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+    },
+    {
+      "operation": "transcript.render.prepare",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+    },
+    {
+      "operation": "transcript.render.prepare",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+    },
+    {
+      "operation": "transcript.render.prepare",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+    },
+    {
+      "operation": "transcript.render.prepare",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+    },
+    {
+      "operation": "transcript.render.prepare",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+    },
+    {
+      "operation": "transcript.render.prepare",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+    },
+    {
+      "operation": "transcript.render.prepare",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+    },
+    {
+      "operation": "transcript.render.prepare",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+    },
+    {
+      "operation": "transcript.render.prepare",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+    },
+    {
+      "operation": "transcript.render.prepare",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+    },
+    {
+      "operation": "transcript.render.prepare",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+    },
+    {
+      "operation": "transcript.render.prepare",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+    },
+    {
+      "operation": "transcript.render.prepare",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+    },
+    {
+      "operation": "transcript.render.prepare",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+    },
+    {
+      "operation": "transcript.render.prepare",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+    },
+    {
+      "operation": "transcript.render.prepare",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+    },
+    {
+      "operation": "transcript.render.prepare",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+    },
+    {
+      "operation": "transcript.render.prepare",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+    },
+    {
+      "operation": "transcript.render.prepare",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+    },
+    {
+      "operation": "transcript.render.prepare",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+    },
+    {
+      "operation": "transcript.render.prepare",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+    },
+    {
+      "operation": "transcript.render.prepare",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+    },
+    {
+      "operation": "transcript.render.prepare",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+    },
+    {
+      "operation": "transcript.render.prepare",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+    },
+    {
+      "operation": "transcript.render.prepare",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+    },
+    {
+      "operation": "transcript.render.prepare",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+    },
+    {
+      "operation": "transcript.render.prepare",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+    },
+    {
+      "operation": "transcript.render.prepare",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+    },
+    {
+      "operation": "transcript.render.prepare",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+    },
+    {
+      "operation": "transcript.render.prepare",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+    },
+    {
+      "operation": "transcript.render.prepare",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+    },
+    {
+      "operation": "transcript.render.prepare",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+    },
+    {
+      "operation": "transcript.render.prepare",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+    },
+    {
+      "operation": "transcript.render.prepare",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+    },
+    {
+      "operation": "transcript.render.prepare",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+    },
+    {
+      "operation": "transcript.render.prepare",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+    },
+    {
+      "operation": "transcript.render.prepare",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+    },
+    {
+      "operation": "transcript.render.prepare",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+    },
+    {
+      "operation": "transcript.render.prepare",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+    },
+    {
+      "operation": "transcript.render.prepare",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+    },
+    {
+      "operation": "transcript.render.prepare",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+    },
+    {
+      "operation": "transcript.render.prepare",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+    },
+    {
+      "operation": "transcript.render.prepare",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+    },
+    {
+      "operation": "transcript.render.prepare",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+    },
+    {
+      "operation": "transcript.render.prepare",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+    },
+    {
+      "operation": "transcript.render.prepare",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+    },
+    {
+      "operation": "transcript.render.prepare",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+    },
+    {
+      "operation": "transcript.render.prepare",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+    },
+    {
+      "operation": "transcript.render.prepare",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+    },
+    {
+      "operation": "transcript.render.prepare",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+    },
+    {
+      "operation": "transcript.render.prepare",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+    },
+    {
+      "operation": "transcript.render.prepare",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+    },
+    {
+      "operation": "transcript.render.prepare",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+    },
+    {
+      "operation": "transcript.render.prepare",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+    },
+    {
+      "operation": "transcript.render.prepare",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+    },
+    {
+      "operation": "transcript.render.prepare",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+    },
+    {
+      "operation": "transcript.render.prepare",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+    },
+    {
+      "operation": "transcript.render.prepare",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+    },
+    {
+      "operation": "transcript.render.prepare",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+    },
+    {
+      "operation": "transcript.render.prepare",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+    },
+    {
+      "operation": "transcript.render.prepare",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+    },
+    {
+      "operation": "transcript.render.prepare",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+    },
+    {
+      "operation": "transcript.render.prepare",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+    },
+    {
+      "operation": "transcript.render.prepare",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+    },
+    {
+      "operation": "transcript.render.prepare",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+    },
+    {
+      "operation": "transcript.render.prepare",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+    },
+    {
+      "operation": "transcript.render.prepare",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+    },
+    {
+      "operation": "transcript.render.prepare",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+    },
+    {
+      "operation": "transcript.render.prepare",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+    },
+    {
+      "operation": "transcript.render.prepare",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+    },
+    {
+      "operation": "transcript.render.prepare",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+    },
+    {
+      "operation": "transcript.render.prepare",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+    },
+    {
+      "operation": "transcript.render.prepare",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+    },
+    {
+      "operation": "transcript.render.prepare",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+    },
+    {
+      "operation": "transcript.render.prepare",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+    },
+    {
+      "operation": "transcript.render.prepare",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+    },
+    {
+      "operation": "transcript.render.prepare",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+    },
+    {
+      "operation": "transcript.render.prepare",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+    },
+    {
+      "operation": "transcript.render.prepare",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+    },
+    {
+      "operation": "transcript.render.prepare",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+    },
+    {
+      "operation": "transcript.render.prepare",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+    },
+    {
+      "operation": "transcript.render.prepare",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+    },
+    {
+      "operation": "transcript.render.prepare",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+    },
+    {
+      "operation": "transcript.render.prepare",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+    },
+    {
+      "operation": "transcript.render.prepare",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+    },
+    {
+      "operation": "transcript.render.prepare",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+    },
+    {
+      "operation": "transcript.render.prepare",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+    },
+    {
+      "operation": "transcript.render.prepare",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+    },
+    {
+      "operation": "transcript.render.prepare",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+    },
+    {
+      "operation": "transcript.render.prepare",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+    },
+    {
+      "operation": "transcript.render.prepare",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+    },
+    {
+      "operation": "transcript.render.prepare",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+    },
+    {
+      "operation": "transcript.render.prepare",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+    },
+    {
+      "operation": "transcript.render.prepare",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+    },
+    {
+      "operation": "transcript.render.prepare",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+    },
+    {
+      "operation": "transcript.render.prepare",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+    },
+    {
+      "operation": "transcript.render.prepare",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+    },
+    {
+      "operation": "transcript.render.prepare",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+    },
+    {
+      "operation": "transcript.render.prepare",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+    },
+    {
+      "operation": "transcript.render.prepare",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+    },
+    {
+      "operation": "transcript.render.prepare",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+    },
+    {
+      "operation": "transcript.render.prepare",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+    },
+    {
+      "operation": "transcript.render.prepare",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+    },
+    {
+      "operation": "transcript.render.prepare",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+    },
+    {
+      "operation": "transcript.render.prepare",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+    },
+    {
+      "operation": "transcript.render.prepare",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready",
+      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+    },
+    {
+      "operation": "join.verify",
+      "transport": "cli",
+      "ok": true,
+      "revisionId": "458df1c5-9553-4c3e-ae88-4bf515de1e2b"
+    },
+    {
+      "operation": "audio.prepare",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "bfde72c8-870e-4cba-a177-f45810bda7e6"
+    },
+    {
+      "operation": "audio.prepare",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready",
+      "revisionId": "bfde72c8-870e-4cba-a177-f45810bda7e6"
+    },
+    {
+      "operation": "transcript.render.prepare",
+      "transport": "cli",
+      "ok": true,
+      "state": "queued",
+      "revisionId": "bfde72c8-870e-4cba-a177-f45810bda7e6"
+    },
+    {
+      "operation": "transcript.render.prepare",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "bfde72c8-870e-4cba-a177-f45810bda7e6"
+    },
+    {
+      "operation": "transcript.render.prepare",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "bfde72c8-870e-4cba-a177-f45810bda7e6"
+    },
+    {
+      "operation": "transcript.render.prepare",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready",
+      "revisionId": "bfde72c8-870e-4cba-a177-f45810bda7e6"
+    },
+    {
+      "operation": "join.verify",
+      "transport": "cli",
+      "ok": true,
+      "revisionId": "bfde72c8-870e-4cba-a177-f45810bda7e6"
+    },
+    {
+      "operation": "audio.prepare",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "12aff247-9c11-474b-a5e8-7d36f647fb92"
+    },
+    {
+      "operation": "audio.prepare",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready",
+      "revisionId": "12aff247-9c11-474b-a5e8-7d36f647fb92"
+    },
+    {
+      "operation": "transcript.render.prepare",
+      "transport": "cli",
+      "ok": true,
+      "state": "queued",
+      "revisionId": "12aff247-9c11-474b-a5e8-7d36f647fb92"
+    },
+    {
+      "operation": "transcript.render.prepare",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "12aff247-9c11-474b-a5e8-7d36f647fb92"
+    },
+    {
+      "operation": "transcript.render.prepare",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "12aff247-9c11-474b-a5e8-7d36f647fb92"
+    },
+    {
+      "operation": "transcript.render.prepare",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready",
+      "revisionId": "12aff247-9c11-474b-a5e8-7d36f647fb92"
+    },
+    {
+      "operation": "join.verify",
+      "transport": "cli",
+      "ok": true,
+      "revisionId": "12aff247-9c11-474b-a5e8-7d36f647fb92"
+    },
+    {
+      "operation": "audio.prepare",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "94355a67-371f-4850-824a-4519322f4770"
+    },
+    {
+      "operation": "audio.prepare",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready",
+      "revisionId": "94355a67-371f-4850-824a-4519322f4770"
+    },
+    {
+      "operation": "transcript.render.prepare",
+      "transport": "cli",
+      "ok": true,
+      "state": "queued",
+      "revisionId": "94355a67-371f-4850-824a-4519322f4770"
+    },
+    {
+      "operation": "transcript.render.prepare",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "94355a67-371f-4850-824a-4519322f4770"
+    },
+    {
+      "operation": "transcript.render.prepare",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "94355a67-371f-4850-824a-4519322f4770"
+    },
+    {
+      "operation": "transcript.render.prepare",
+      "transport": "cli",
+      "ok": true,
+      "state": "failed",
+      "revisionId": "94355a67-371f-4850-824a-4519322f4770"
+    },
+    {
+      "operation": "join.verify",
+      "transport": "cli",
+      "ok": true,
+      "revisionId": "94355a67-371f-4850-824a-4519322f4770"
+    }
+  ]
+}

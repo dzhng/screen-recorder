@@ -57,8 +57,8 @@ pixels to retained measurements and explicit masks.
 retained conditional/source acoustic evidence and portable project-tap replay.
 
 [Contextual join checkpoints](12-contextual-joins/README.md) retain exact boundary
-mapping and the reviewed `join.verify` report separately from the pending repair
-and changed-output recheck.
+mapping, the reviewed `join.verify` report and the real Parakeet media exercise;
+fresh-agent repair discovery and changed-output recheck remain separate gates.
 
 [Dialogue finishing](19-dialogue-matching/README.md) retains explicit per-occurrence
 matching, compressor makeup and a complete independently measured strict master.

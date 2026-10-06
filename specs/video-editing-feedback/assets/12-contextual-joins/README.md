@@ -44,9 +44,10 @@ media is unavailable, while a gap in authored placement returns null sides.
 [Conflating availability with placement](availability-conflation-red.json) makes
 that assertion fail. This is source-coordinate proof, not an availability verdict.
 
-Scope: this checkpoint adds no public operation, inference, edit or clean-cut
-verdict. Retained contextual reporting, actual output evidence and autonomous
-repair remain open in [slice12](../../slices/12-contextual-join-verification.md).
+Scope: this checkpoint adds no public operation or editorial policy. Retained
+contextual reporting and the real-media exercise are accepted as evidence; no
+clean-cut verdict is inferred. Autonomous repair remains open in
+[slice12](../../slices/12-contextual-join-verification.md).
 
 ## Explicit repair and changed-output recheck (12C/12D)
 
@@ -59,6 +60,24 @@ prepared resource. It performs no candidate selection, wording inference, blind
 retry or automatic fade. The focused test proves both the ordered public calls
 and the stale-revision refusal; the helper receipt is retained in
 `repair-verification.json`.
+
+## Real media exercise (12C)
+
+[`contextual-join-fixture.mjs`](../../../../packages/test-harness/editing/contextual-join-fixture.mjs)
+replays the four required cases in a private managed home. It imports the retained
+`fortunate` PCM fixture, authors separate clipped, intact, repaired and intentional-
+jump revisions, prepares the pinned first-class Parakeet model, renders each output
+and records exact prepared sample support plus the read-only `join.verify` report.
+The accepted receipt is [media-fixture-report.json](media-fixture-report.json).
+The intact and repaired outputs are both recognized as `Fortunately,`; the clipped
+output is recognized as `'Kay.`. This is retained as the frozen word-completion
+limitation, not a lexical clean-cut verdict. The intentional jump refuses rendered
+recognition because a word estimate exceeds the delivered interval, while the join
+report retains its two-sided source jump, acoustic evidence and `unknown` phonetic
+completeness.
+
+Checkpoint D still requires a fresh agent to discover the defect without a timecode
+hint and drive the bounded caller-owned repair helper.
 
 The [independent follow-up](followup-review.md) accepts the implementation. Its
 remaining receipt wording finding is resolved: eight tests and three retained

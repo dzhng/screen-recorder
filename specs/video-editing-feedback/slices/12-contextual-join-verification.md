@@ -1,8 +1,7 @@
 # 12 — Verify joins and repair through the agent
 
-Status: checkpoints A and B are implemented and reviewed; the bounded
-consumer repair helper for C/D is implemented, while real clipped/intact/repaired
-media fixtures and a fresh-agent discovery run remain open. Depends on:
+Status: checkpoints A–C are implemented and reviewed; the bounded consumer repair
+helper for C/D is implemented, while a fresh-agent discovery run remains open. Depends on:
 [10](10-alignment-and-boundaries.md), [11](11-rendered-speech.md), [06](06-exact-removal.md).
 
 ## Contract
@@ -59,7 +58,15 @@ These checkpoints split verification order; they do not reduce the slice's scope
 
 ## Runnable checkpoint
 
-Clipped, intact-but-abrupt, repaired and intentional-jump cases in a focused JSON/timeline review report.
+Run `YAP_NATIVE=<worker> node packages/test-harness/editing/contextual-join-fixture.mjs
+--out <directory> --model <prepared Parakeet directory> --native <worker>`.
+The harness uses the isolated output directory as its managed home, prepares the
+pinned first-class Parakeet model from the supplied directory, and records the
+clipped, intact, repaired and intentional-jump cases in
+[media-fixture-report.json](../assets/12-contextual-joins/media-fixture-report.json).
+The intentional jump's rendered recognition is expected to refuse when a word
+estimate falls outside the delivered interval; `join.verify` still reports exact
+audio support and missing recognition rather than treating the jump as silence.
 
 Expose a case-selected command or existing lab entry with its own usage. Store accepted requests/results and artifact identities in feature-owned evidence. The implementing agent checks actual output; the user may view it for direction without becoming a QA gate.
 
@@ -75,9 +82,11 @@ Run [compare-screenshots](../../../.agents/skills/compare-screenshots/SKILL.md) 
 
 The focused helper checkpoint passes with explicit edit/recheck receipts and a
 revision-advance refusal. See [repair verification](../assets/12-contextual-joins/repair-verification.json).
-The clipped/intact/repaired media exercise and fresh-agent discovery remain the
-next acceptance gate; an unavailable stub or undocumented fallback is not
-implementation completion.
+The real media exercise passes with exact prepared sample support and fresh
+Parakeet recognition for the intact, clipped and repaired revisions; its lexical
+comparison remains observational and `phoneticCompleteness` stays `unknown`.
+The fresh-agent discovery and helper-driven repair run remain the next acceptance
+gate; an unavailable stub or undocumented fallback is not implementation completion.
 
 ## Delegated choices
 

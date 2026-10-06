@@ -1398,3 +1398,22 @@ Apple cube candidate are in the slice26 evidence; no user-only decision remains.
   cost evidence remain explicitly open.
 - **Verdict:** sound for the structural checkpoint; no delivered-quality claim.
 - **Confidence:** high for bounds and ownership, medium for native visual parity.
+
+## Keep intentional-jump recognition refusal explicit — slice12C
+
+- **When:** real-media contextual-join fixture pass.
+- **The choice:** Treat a rendered-recognition job that refuses because one word
+  estimate falls outside the intentional source jump's delivered interval as an
+  observed limitation, then run `join.verify` without a fabricated transcript.
+  For example, the jump still reports the exact before/after source positions,
+  prepared sample support and acoustic activity, while rendered recognition is
+  `missing` and phonetic completeness stays `unknown`.
+- **The gap:** The slice required an intentional-jump fixture and honest missing
+  coverage but did not say whether a failed fresh recognition attempt should be
+  retried, clipped to fit, or retained as a refusal.
+- **The reach:** Future repair workflows can distinguish a physical timeline jump
+  from missing speech evidence. The product never turns an inference refusal into
+  silence or an automatic edit; a caller must author any repair and recheck it.
+- **Verdict:** sound. It preserves the zero-editorial-decision boundary and the
+  frozen Parakeet word-completion limitation while still proving delivered audio.
+- **Confidence:** high.

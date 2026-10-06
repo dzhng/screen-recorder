@@ -16,10 +16,11 @@ merge, push or installed-app change has been requested. Hard cutover remains
 binding: no aliases, dual readers or migrations; preserve external originals and
 frozen historical evidence.
 
-Current pickup: slice 12C/12D. Exercise clipped, intact, repaired and intentional-jump
-media, then run a fresh-agent repair discovery without a timecode hint. The helper
-already applies one caller-authored edit, optionally prepares the changed tap and
-rechecks `join.verify`; it never chooses repairs or retries blindly.
+Current pickup: slice 12D. The real clipped, intact, repaired and intentional-jump
+media exercise now passes with pinned Parakeet evidence. Run a fresh-agent repair
+discovery without a timecode hint. The helper already applies one caller-authored
+edit, optionally prepares the changed tap and rechecks `join.verify`; it never
+chooses repairs or retries blindly.
 
 Priority order: 12 contextual joins → 20 global synchronization → 21 switched-angle
 delivery → 15/16 face and framing delivery → 25 tone → 27–30 delivered transitions
@@ -27,7 +28,9 @@ and scenes → 31/32 speaker continuity and attribution → 33/34 runnable workf
 fresh-agent replay. Follow slice dependencies when a later item is independently
 ready.
 
-Evidence ledger: [assets](assets/README.md) links the scoped receipts. The sync
+Evidence ledger: [assets](assets/README.md) links the scoped receipts. Slice 12's
+real-media receipt records the Parakeet word-completion limitation and an honest
+intentional-jump refusal. The sync
 ledger retains four local mixed-reference bridges but refuses a global clock;
 composition preserves that refusal. Speaker replication remains below the unchanged
 80% long-form gate. Native delivered-picture/audio acceptance is still open for
