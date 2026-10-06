@@ -27,6 +27,33 @@ User decisions remain binding; this ledger records implementation discretion out
 
 The user clarified that pinned models for first-class Yap features, specifically Parakeet, should download/prepare as needed by default. The recommendation-only policy applies to capabilities outside Yap. Preparation remains an explicit operation through the existing model owner; ordinary inference stays offline. This supersedes the broader wording in the original plan.
 
+## Contextual join report — sound, high confidence
+
+- **When:** slice12B public `join.verify` pass.
+- **The choice:** make the report a read-only composition of already-published evidence. When an agent asks about a boundary, the service checks the pinned revision and prepared tap, reads exact source/project sides, and optionally reads retained alignment or rendered recognition. It never starts Parakeet, alignment, speaker labeling, rendering or an edit. Missing evidence is returned as missing, and phonetic completeness stays unknown.
+- **The gap:** the slice required a public report but did not prescribe whether the endpoint could prepare evidence as a convenience. The implementation chose the existing preparation owners and kept review synchronous and observational.
+- **The reach:** future repair work must request padded preparation and then call the report explicitly; it cannot hide model work or editorial decisions inside verification.
+- **Verdict:** sound. The boundary preserves the product rule that detection supplies evidence and explicit edits supply treatment.
+- **Confidence:** high.
+
+## Prepared-audio evidence safety — sound, high confidence
+
+- **When:** slice12B audio evidence pass.
+- **The choice:** use the shared exact sample clock and an identity-bound prepared-file lease. If the requested project window quantizes to no sample, or overlaps unavailable prepared PCM, the report refuses explicitly instead of returning a zero-length or zero-filled signal as if it were measured. Waveform and spectrum readers share the request cancellation signal and a bounded spectral hop.
+- **The gap:** the report needed physical acoustic evidence, but the slice did not spell out how to handle fractional sample windows, source gaps or a client that disconnects mid-read. The implementation reused `sampleAt`, `PreparedAudioStore.open` and the existing bounded readers.
+- **The reach:** later repair and candidate comparison can trust that an observed waveform belongs to the pinned bytes and that unavailable or cancelled work is not silently promoted to evidence.
+- **Verdict:** sound. The decision follows the existing ownership and refusal contracts rather than adding a second audio clock or storage authority.
+- **Confidence:** high.
+
+## Report shape and evidence examples — sound, medium confidence
+
+- **When:** slice12B documentation closeout.
+- **The choice:** retain a compact example response and a verification receipt beside the contextual-join evidence. The example demonstrates observed, missing and unknown states without pretending to be a live ASR or phonetic certificate; the receipt records the real focused test command and independent verdict.
+- **The gap:** the spec asked for durable evidence but did not choose between copying a full media report and documenting the public shape. The implementation chose a small shape example plus the executable test receipt so generated waveform and model output do not become a second fixture source.
+- **The reach:** future slices can point at one public report contract and one receipt while keeping raw media and model operands with their existing owners.
+- **Verdict:** sound. It keeps documentation useful without duplicating code-discoverable rosters or inventing a second evidence database.
+- **Confidence:** medium.
+
 ## Exact-removal verification boundary — sound, high confidence
 
 The pass exercises persisted project transactions, restart, replay and undo with independent probe controls. This proves exact authoring and storage without claiming decoded-media quality; slice34 owns the final real-media gate. No downstream clock rule changed.

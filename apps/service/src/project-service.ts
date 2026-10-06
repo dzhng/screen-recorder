@@ -1,3 +1,4 @@
+import { verifyJoin } from "./join-verification.js";
 import { AssetConversionJobs, assetConversionRuntime } from "./asset-conversion.js";
 import { UpdateAdmission } from "./update-admission.js";
 import { RecordingDeletion } from "./deletion.js";
@@ -1305,6 +1306,19 @@ export async function startProjectService(options: {
             return {
               ok: true,
               data: { ...selection, observationRange, generation, bindings: labels },
+            };
+          }
+          case "join.verify": {
+            const composition = projectComposition(projects, assets, operation.params);
+            return {
+              ok: true,
+              data: await verifyJoin(operation.params, {
+                composition,
+                preparedAudio,
+                alignments: alignmentRecords,
+                renderedSpeech,
+                signal: requestSignal,
+              }),
             };
           }
           case "transcript.render.prepare":

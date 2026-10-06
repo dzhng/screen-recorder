@@ -1,5 +1,26 @@
 # Contextual join evidence
 
+## Public contextual report (12B)
+
+`join.verify` is a read-only operation over a pinned revision, processing tap and
+prepared audio publication. It returns the exact two-sided boundary, project and
+source ranges, optional retained alignment and rendered-recognition observations,
+missing coverage, nearby candidate mappings, and bounded waveform/spectrum evidence.
+It never prepares a model, runs inference, renders media or authors an edit. Matching
+text and conditional alignment remain observations; `phoneticCompleteness` is
+explicitly unknown.
+
+The implementation keeps the prepared asset identity-bound through
+`PreparedAudioStore.open`, maps project times with the shared exact sample clock,
+propagates request cancellation to bounded readers, and refuses unavailable PCM
+spans or sub-sample contexts instead of presenting zero-filled data as measured
+quiet. The example response shape is in [join-verify-report.example.json](join-verify-report.example.json).
+
+[12B verification](join-verify-verification.json) records the focused service tests,
+typecheck, formatting and the clean independent review. The reviewer’s own native
+test was sandbox-blocked by its temporary-directory policy; the same focused tests
+passed in the writable worktree.
+
 ## Exact two-sided boundaries
 
 The existing [composition cut owner](../../../../packages/composition/src/project-cuts.ts)

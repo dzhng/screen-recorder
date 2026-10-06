@@ -9,6 +9,7 @@ import {
   captionSidecarRequestSchema,
   processingTargetSchema,
   processingTapSchema,
+  timeValueSchema,
 } from "@yap/composition";
 import { z } from "zod";
 import { pictureObservationRequestSchema } from "./picture.js";
@@ -839,6 +840,35 @@ export const operationSchema = z.discriminatedUnion("operation", [
     })
     .describe(
       "Bind caller-authored display labels to anonymous slots in one retained speaker generation. The generation, source selection, channel and observation range must match published evidence; rebinding replaces the prior names without changing acoustic observations or transcript words. No cross-session identity or automatic naming is performed.",
+    ),
+  z
+    .strictObject({
+      operation: z.literal("join.verify"),
+      params: project
+        .extend({
+          revisionId: id,
+          preparedResourceId: id,
+          tap: processingTapSchema,
+          boundary: z.strictObject({ trackId: id, projectAtUs: timeValueSchema }),
+          context: z
+            .strictObject({
+              beforeUs: z.int().min(0).max(4_000_000),
+              afterUs: z.int().min(0).max(4_000_000),
+            })
+            .refine((v) => v.beforeUs + v.afterUs > 0),
+          expectedText: z.string().min(1).max(8192),
+          thresholdRMS: z.number().finite().nonnegative(),
+          candidateOffsetsUs: z.array(z.int().min(-4_000_000).max(4_000_000)).max(16).optional(),
+          sourceEvidence: z
+            .strictObject({ before: id.optional(), after: id.optional() })
+            .optional(),
+          renderedAlignmentGeneration: id.optional(),
+          renderedSpeechGeneration: z.uuid().optional(),
+        })
+        .strict(),
+    })
+    .describe(
+      "Read contextual evidence for one explicit audio-track boundary in a pinned revision and prepared tap. Opening, ending and nearby candidate coordinates keep exact source/project mappings. Optional generation pins select already-retained source alignment, prepared-tap alignment and fresh rendered recognition; omitted evidence is reported missing. Source alignment must match each side's asset, stream and acquisition; rendered evidence must match the revision and tap. Return complete bounded alignment rows, acoustic threshold activity, original operand identities, recognition text and missing coverage. Rendered recognition reads at most1000 rows and retains its continuation when incomplete. The expected text is caller-supplied context, never inferred truth. Matching text, source energy and conditional alignment never certify phonetic completeness. This synchronous report performs no inference, model preparation, audio rendering or edit. Prepare padded windows and nearby candidates through ordinary public operations, then explicitly request another report.",
     ),
   z
     .strictObject({

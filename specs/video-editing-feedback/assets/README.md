@@ -52,8 +52,9 @@ pixels to retained measurements and explicit masks.
 [Prepared alignment](10-word-attribution/README.md) verifies pinned acquisition,
 retained conditional/source acoustic evidence and portable project-tap replay.
 
-[Contextual join checkpoints](12-contextual-joins/README.md) keep exact boundary
-mapping separate from the pending public speech/disagreement report and agent repair.
+[Contextual join checkpoints](12-contextual-joins/README.md) retain exact boundary
+mapping and the reviewed `join.verify` report separately from the pending repair
+and changed-output recheck.
 
 [Dialogue finishing](19-dialogue-matching/README.md) retains explicit per-occurrence
 matching, compressor makeup and a complete independently measured strict master.

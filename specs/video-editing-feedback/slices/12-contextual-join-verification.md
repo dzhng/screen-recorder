@@ -1,6 +1,6 @@
 # 12 — Verify joins and repair through the agent
 
-Status: checkpoint A exact boundary mapping implemented and reviewed. Public report and contextual repair remain open. Depends on: [10](10-alignment-and-boundaries.md), [11](11-rendered-speech.md), [06](06-exact-removal.md).
+Status: checkpoints A and B implemented and reviewed. Contextual repair and changed-output recheck remain open. Depends on: [10](10-alignment-and-boundaries.md), [11](11-rendered-speech.md), [06](06-exact-removal.md).
 
 ## Contract
 
@@ -35,7 +35,10 @@ Define join.verify with pinned revision/tap, explicit boundaries/expected text a
   this report creates neither another inference scheduler nor an edit. Return
   complete observed operands, disagreement and missing coverage instead of a
   clean-cut verdict inferred from matching text. Ordinary public preparation
-  requests supply padded recognition and caller-selected nearby candidates.
+  requests supply padded recognition and caller-selected nearby candidates. The
+  reviewed implementation also uses the exact sample clock, an identity-bound
+  prepared-file lease, bounded waveform/spectrum reads, unavailable-span refusal,
+  and the request cancellation signal.
 - C: exercise clipped, intact-but-abrupt, repaired and intentional-jump outputs
   with complete expected wording, acoustic/context evidence and exact delivered
   sample support. Preserve the frozen Parakeet word-completion limitation. Source
