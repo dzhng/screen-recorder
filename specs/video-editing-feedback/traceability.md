@@ -183,5 +183,6 @@ normal alpha-over behavior. `YapFrameTests --blend-modes` renders red/blue swatc
 checks multiply black, screen magenta and the bounded soft-light response. Reference-sheet
 and vignette comparison remain open.
 | U35 | Public styled-caption static sheet | [22](slices/22-styled-text.md) | `captions.mjs --case styled-sheet` drives public frame admission for top/center/bottom and stroke/shadow/background variants; receipt rows are keyed by clip identity and the same request retains a PNG. Native execution/evidence generation remains unverified in this worktree. |
+| U36 | Styled-caption public run and fresh visual critique | [22](slices/22-styled-text.md) | Service admission/CLI-MCP setup reached `frame.get`, but the available native worker returned `Malformed picture receipt`; isolated native vertical/decorations tests passed. The public PNG, receipt inspection, compare-screenshots metrics and unprimed critique remain open; see [22 evidence](assets/22-styled-text/). |
 
 Slice27 evidence: `edit.apply` now lowers explicit crossfade, dip and flash recipes into ordinary gain/opacity curves. Crossfade requires two distinct targets; dip and flash require one target and a representable midpoint. No source overlap, retime, implicit media or color asset is invented; native delivery and temporal visual critique remain open.

@@ -950,6 +950,25 @@ unlisted architecture or user-only choice was found in this research pass.
   as the row key.
 - **Confidence:** high.
 
+## Public sheet acceptance stays open after a malformed receipt — slice22 follow-up
+
+- **When:** slice22 public admission and visual follow-up.
+- **The choice:** Treat the public run as an admission checkpoint only when the
+  service queues the `frame.get` request and the native response validates into a
+  delivered receipt plus PNG. The available run reached the service and settled
+  with `Malformed picture receipt`, so it remains unverified; isolated native
+  text tests are retained as narrower evidence and cannot close the public gate.
+- **The gap:** The plan required a public static sheet and an unprimed visual
+  critique but did not state whether a failed native receipt could count as
+  partial evidence or how to separate service admission from rendered output.
+- **The reach:** Future visual work must retain the public response and artifact
+  before claiming a sheet is rendered. This prevents a native-only success or a
+  queued job from being mistaken for public output parity.
+- **Verdict:** sound, high confidence. The decision follows the existing
+  published-work contract and keeps each evidence owner honest. Revisit only
+  after a matching worker produces a parseable receipt and PNG.
+- **Confidence:** high.
+
 ## Transition recipe lowering — slice27
 
 - **When:** slice27 public composition checkpoint.

@@ -16,3 +16,8 @@ Syntax, formatter and diff checks pass. The public native run and actual PNG
 inspection remain unverified in this worktree because no built `YAP_NATIVE`
 worker is available; this is a remaining evidence gate, not a code-review
 finding. No human QA or sign-off is part of the checkpoint.
+
+
+## Follow-up gate review
+
+The public admission attempt is recorded separately from rendered acceptance. It reached service startup, CLI/MCP transport, project/edit admission and job submission, then failed on a malformed native receipt. Keeping that failure unverified is correct: no receipt row or PNG was available for the static-sheet assertions or visual critique. The missing generated RNNoise source blocks a matching native rebuild; it is an environment prerequisite, not a reason to weaken the gate.

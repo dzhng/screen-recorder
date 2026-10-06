@@ -25,8 +25,12 @@ YAP_NATIVE=/absolute/path/to/yap-native \
   --case styled-sheet --out /empty/evidence/22-styled-text
 ```
 
-This worktree adds the checkpoint but has not run the macOS native worker; no
-PNG or receipt is claimed until that command completes. The slice therefore
-remains partial. The runner makes no listening, watching or human sign-off
-claim; its gate is public admission, rendered receipt fields and retained PNG
-bytes.
+The public admission attempt and fresh visual critique are recorded in
+[public-admission.md](public-admission.md) and
+[visual-critique.md](visual-critique.md). Service admission reached the queued
+`frame.get` job, but the available native worker returned `Malformed picture
+receipt`; a matching rebuild was blocked by the missing generated RNNoise source.
+The isolated native vertical/decorations checks pass, while the public PNG and
+receipt remain unverified. The runner makes no listening, watching or human
+sign-off claim; its gate is public admission, rendered receipt fields and
+retained PNG bytes.
