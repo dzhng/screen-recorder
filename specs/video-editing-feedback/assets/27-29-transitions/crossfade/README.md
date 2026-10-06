@@ -11,8 +11,7 @@ explicit source channels at its midpoint (`[136, 0, 188]` mean RGB). Dip and fla
 show the red source outside their windows (`[254, 0, 0]`) and the black canvas at
 the midpoint (`[0, 0, 0]`); every preview contains all four declared project
 frames. These are bounded picture receipts for public lowering and delivery.
-Audio transitions, reference-conditioned visual acceptance and motion delivery
-remain separate gates.
+The retained `crossfade.wav` and report also prove public native audio delivery: two full-range caller-authored sources are summed outside the window and follow opposing gain ramps through the 250–750ms window, with an independent PCM oracle at 100ms, 500ms and 900ms. Reference-conditioned visual acceptance and motion delivery remain separate gates.
 
 An unprimed visual critique inspected all six dip/flash frames: every frame is
 opaque and fully filled, the red → black → red sequence is temporally consistent,

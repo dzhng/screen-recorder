@@ -4,6 +4,7 @@ import { mkdir, mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
 import { join, resolve } from "node:path";
 import { parseArgs } from "node:util";
 import { JourneyService, hash, poll, root, run } from "./source-evidence-fixture.mjs";
+import { sample, waveHeader, writeSourceWave } from "./audio-project-fixture.mjs";
 
 const { values } = parseArgs({ options: { out: { type: "string" } } });
 assert.ok(
@@ -261,11 +262,103 @@ try {
     };
   }
   report.pulses = pulseResults;
+  const audioSourcePaths = [join(out, "audio-a.wav"), join(out, "audio-b.wav")];
+  await writeSourceWave(audioSourcePaths[0], { source: 0, seconds: 1 });
+  await writeSourceWave(audioSourcePaths[1], { source: 1, seconds: 1 });
+  const importAudio = async (path, requestId) => {
+    const imported = await call("asset.import", { requestId, path });
+    const ready = await poll(
+      () => call("job.get", { jobId: imported.jobId }),
+      (value) => value.state === "ready",
+      `${requestId} import`,
+    );
+    return call("asset.get", { assetId: ready.published.output.assetId }, { transport: "mcp" });
+  };
+  const audioAssets = [
+    await importAudio(audioSourcePaths[0], "audio-a"),
+    await importAudio(audioSourcePaths[1], "audio-b"),
+  ];
+  const audioProject = await call("project.create", {
+    requestId: randomUUID(),
+    canvas: {
+      width: 64,
+      height: 48,
+      fps: { numerator: 4, denominator: 1 },
+      background: "#000000ff",
+    },
+  });
+  const audioEdited = await call("edit.apply", {
+    projectId: audioProject.project.projectId,
+    expectedRevisionId: audioProject.revision.id,
+    requestId: randomUUID(),
+    operations: [
+      { operation: "track.add", label: "audio-a-track", track: { kind: "audio", order: 0 } },
+      { operation: "track.add", label: "audio-b-track", track: { kind: "audio", order: 1 } },
+      ...audioAssets.map((asset, index) => ({
+        operation: "place",
+        label: `audio-${index}`,
+        clip: {
+          trackId: { label: index === 0 ? "audio-a-track" : "audio-b-track" },
+          assetId: asset.id,
+          streamId: asset.streams.find((stream) => stream.kind === "audio").id,
+          source: { kind: "range", range: { startUs: 0, endUs: 1000000 } },
+          placement: { kind: "project", range: { startUs: 0, endUs: 1000000 } },
+        },
+      })),
+      {
+        operation: "transition",
+        kind: "crossfade",
+        targets: [
+          { kind: "clip", id: { label: "audio-0" } },
+          { kind: "clip", id: { label: "audio-1" } },
+        ],
+        mediaKind: "audio",
+        window: { kind: "project", range: { startUs: 250000, endUs: 750000 } },
+      },
+    ],
+  });
+  const audioFile = join(out, "crossfade.wav");
+  const audioReady = await poll(
+    () =>
+      call(
+        "audio.get",
+        { projectId: audioProject.project.projectId, revisionId: audioEdited.revision.id },
+        { output: audioFile },
+      ),
+    (value) => value.state === "ready",
+    "audio crossfade",
+  );
+  const audioBytes = await readFile(audioFile);
+  const audioHeader = waveHeader(audioBytes, audioBytes.length);
+  const audioPcm = audioBytes.subarray(audioHeader.offset);
+  const audioSamples = {};
+  for (const atUs of [100000, 500000, 900000]) {
+    const frame = Math.floor((atUs * 48000) / 1000000);
+    const offset = frame * 8;
+    const actual = [audioPcm.readFloatLE(offset), audioPcm.readFloatLE(offset + 4)];
+    const phase = Math.min(1, Math.max(0, (atUs - 250000) / 500000));
+    const expected = [0, 1].map((channel) =>
+      Math.fround(
+        phase === 0 || phase === 1
+          ? sample(0, frame, channel) / 32768 + sample(1, frame, channel) / 32768
+          : Math.fround((sample(0, frame, channel) / 32768) * Math.fround(1 - phase)) +
+              Math.fround((sample(1, frame, channel) / 32768) * Math.fround(phase)),
+      ),
+    );
+    assert.ok(actual.every((value, channel) => Math.abs(value - expected[channel]) < 1 / 32768));
+    audioSamples[atUs] = { actual, expected, frame };
+  }
+  report.audio = {
+    receipt: audioReady.published.output,
+    samples: audioSamples,
+    sourceFrames: audioHeader.frames,
+  };
   report.checks.push(
     "public CLI/MCP asset import and transition authoring",
     "native frame delivery keeps outside-window controls and mixes both explicit sources at midpoint",
     "native preview delivery contains the declared four project frames",
     "native dip and flash picture pulses reach the black midpoint and restore the source",
+    "native audio crossfade delivery matches the independent two-source PCM oracle",
   );
   report.passed = true;
 } finally {
