@@ -1,6 +1,6 @@
 # 25 — Add explicit tonal and color controls
 
-Status: partial — 25A delivered tonal recovery matches independent chart/real-wall references; its final status cleanup remains. 25B now has a public CLI/MCP split-tone delivery receipt through the immutable LUT owner, including neutral and color masks; broader curve and reference-conditioned visual acceptance remain open. Depends on: [13](13-decode-replication.md), [14](14-picture-statistics.md).
+Status: partial — 25A delivered tonal recovery matches independent chart/real-wall references. 25B has a public CLI/MCP split-tone delivery receipt through the immutable LUT owner, including neutral and color masks; broader curve and reference-conditioned visual acceptance remain open. Depends on: [13](13-decode-replication.md), [14](14-picture-statistics.md).
 
 ## Contract
 
