@@ -38,6 +38,11 @@ media owner; its nine negative and boundary controls are retained under
 `assets/01-corpus-controls/`. Real-corpus behavioral and multicamera gates stay
 open, so do not mark slice 01 complete from the control receipt alone.
 
+The moving trajectory receipt now has an immutable replay checker covering its
+39-picture membership, refusal controls and exact preview/export identities;
+strict reference-conditioned moving color/perimeter parity still lacks frozen
+reference frames.
+
 Priority order: 01 whole-corpus certification remains open; 20/21 global
 synchronization remains refused on the frozen unlike-mic evidence; 15/16
 face/framing remain partial; 27–30 have public transition, moving-coverage and
