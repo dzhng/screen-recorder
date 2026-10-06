@@ -495,3 +495,37 @@ it("admits alignment preparation over a pinned project tap", () => {
     success: true,
   });
 });
+
+it("admits generation-pinned caller speaker label bindings", () => {
+  expect(
+    operationSchema.safeParse({
+      operation: "speaker.bind",
+      params: {
+        assetId: "a".repeat(64),
+        streamId: "audio",
+        channel: 0,
+        modelId: "speaker-model",
+        observationRange: { startUs: 0, endUs: 30000000 },
+        generation: "speaker-generation",
+        bindings: [{ slot: 0, displayName: "Ada" }],
+      },
+    }).success,
+  ).toBe(true);
+});
+
+it("rejects unknown fields on speaker label bindings", () => {
+  expect(
+    operationSchema.safeParse({
+      operation: "speaker.bind",
+      params: {
+        assetId: "a".repeat(64),
+        streamId: "audio",
+        channel: 0,
+        modelId: "speaker-model",
+        observationRange: { startUs: 0, endUs: 30000000 },
+        generation: "speaker-generation",
+        bindings: [{ slot: 0, displayName: "Ada", inferred: true }],
+      },
+    }).success,
+  ).toBe(false);
+});

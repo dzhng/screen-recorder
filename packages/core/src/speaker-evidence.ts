@@ -65,6 +65,7 @@ export type SpeakerObservation = {
   slot: number;
   sourceRange: SelectionRange;
   identity: "unknown";
+  label?: string;
 };
 export type SpeakerScore = {
   frameIndex: number;
@@ -318,6 +319,7 @@ export class SpeakerEvidenceStore {
       identity: SpeakerEvidenceIdentity,
       source: SpeakerEvidenceSource,
     ) => void,
+    private readonly onRemove?: (identity: SpeakerEvidenceIdentity) => void,
   ) {
     this.references = new ResourceReferences(store);
     store.catalog.exec(`CREATE TABLE IF NOT EXISTS speaker_evidence_generations (
@@ -615,6 +617,7 @@ export class SpeakerEvidenceStore {
   /** Caller first retires references and fences all producers through the shared queue. */
   remove(identity: SpeakerEvidenceIdentity): void {
     this.store.transaction(() => {
+      this.onRemove?.(identity);
       this.store.catalog
         .prepare(`DELETE FROM speaker_evidence_records WHERE ${where}`)
         .run(...key(identity));

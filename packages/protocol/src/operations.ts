@@ -805,6 +805,29 @@ export const operationSchema = z.discriminatedUnion("operation", [
     ),
   z
     .strictObject({
+      operation: z.literal("speaker.bind"),
+      params: sourceSelection
+        .extend({
+          channel: z.int().nonnegative(),
+          modelId: id,
+          observationRange: selectionRangeSchema,
+          generation: id,
+          bindings: z
+            .array(
+              z.strictObject({
+                slot: z.int().min(0).max(3),
+                displayName: z.string().trim().min(1).max(128),
+              }),
+            )
+            .max(4),
+        })
+        .strict(),
+    })
+    .describe(
+      "Bind caller-authored display labels to anonymous slots in one retained speaker generation. The generation, source selection, channel and observation range must match published evidence; rebinding replaces the prior names without changing acoustic observations or transcript words. No cross-session identity or automatic naming is performed.",
+    ),
+  z
+    .strictObject({
       operation: z.literal("transcript.prepare"),
       params: sourceTranscriptPreparation,
     })

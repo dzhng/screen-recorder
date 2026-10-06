@@ -171,6 +171,65 @@ test("public retained speaker pages survive service restart without runtime byte
   });
 });
 
+test("public speaker bindings are pinned to one retained generation and decorate interval rows", async () => {
+  const f = await projectServiceFixture(cleanup, async (operation) => {
+    if (operation !== "media.probe") throw new Error(operation);
+    return {
+      ok: true,
+      data: {
+        originUs: -250000,
+        streams: [
+          {
+            id: "audio",
+            kind: "audio",
+            codec: "controlled",
+            decodable: true,
+            channels: 2,
+            sampleRate: 16000,
+            startUs: 0,
+            endUs: 40000000,
+            segments: [{ startUs: 0, endUs: 40000000, empty: false }],
+          },
+        ],
+      },
+    };
+  });
+  const imported = await f.call("asset.import", { requestId: "bind-speaker", path: f.path });
+  if (!imported.ok) throw new Error(JSON.stringify(imported));
+  const job = await f.job((imported.data as { jobId: string }).jobId, "ready");
+  const input = {
+    assetId: job.published!.output.assetId,
+    streamId: "audio",
+    channel: 1,
+    sourceRange: speakerSource.observationRange,
+    modelId: speakerSource.engine.modelId,
+  };
+  const metadata = await publishControlledObservation(f.home, input);
+  const { sourceRange, ...selection } = input;
+  const bound = await f.call("speaker.bind", {
+    ...selection,
+    observationRange: sourceRange,
+    generation: metadata.generation,
+    bindings: [{ slot: 1, displayName: "Ada" }],
+  });
+  const read = await f.call("speaker.get", { ...selection, observationRange: sourceRange });
+  expect(bound).toMatchObject({ ok: true, data: { bindings: [{ slot: 1, displayName: "Ada" }] } });
+  expect(read).toMatchObject({ ok: true });
+  if (read.ok) {
+    const rows = (read.data as { page: { rows: { slot: number; label?: string }[] } }).page.rows;
+    expect(rows.find((row) => row.slot === 1)).toMatchObject({ slot: 1, label: "Ada" });
+    expect(rows.find((row) => row.slot === 0)).not.toHaveProperty("label");
+  }
+  expect(
+    await f.call("speaker.bind", {
+      ...selection,
+      observationRange: sourceRange,
+      generation: "another-generation",
+      bindings: [],
+    }),
+  ).toMatchObject({ ok: false, error: { code: "ARTIFACT_CHANGED" } });
+});
+
 async function publishControlledObservation(home: string, input: SpeakerSourceInput) {
   const library = join(home, "library"),
     catalog = new Catalog(join(library, "catalog.sqlite"));

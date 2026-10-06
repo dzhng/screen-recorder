@@ -109,6 +109,7 @@ import { SpeakerEvidenceStore, assetSpeakerOwner } from "@yap/core/speaker-evide
 import { SpeakerProcessing } from "@yap/core/speaker-processing";
 import { SourceSpeakerRead } from "@yap/core/speaker-read";
 import { speakerObserver } from "./speaker.js";
+import { SpeakerLabelStore } from "@yap/core/speaker-labels";
 import { sourcePCMDecoder } from "./source-channel.js";
 
 export async function startProjectService(options: {
@@ -242,9 +243,11 @@ export async function startProjectService(options: {
       undefined,
       runtimeMaterializer(nativeExecutable),
     );
+    const speakerLabels = new SpeakerLabelStore(catalog);
     const speakerRecords = new SpeakerEvidenceStore(
       catalog,
       assetSpeakerOwner(assets, acquisitions),
+      (identity) => speakerLabels.remove(identity),
     );
     const alignmentRecords = new AlignmentEvidenceStore(
       catalog,
@@ -1246,15 +1249,53 @@ export async function startProjectService(options: {
               return { ok: true, data: { ...current, page: null } };
             }
             const metadata = current.published.evidence;
-            const page = new SourceSpeakerRead(speakerRecords, metadata).page({
+            const labels = new Map(
+              speakerLabels.read(metadata).map((binding) => [binding.slot, binding.displayName]),
+            );
+            const page = new SourceSpeakerRead(
+              speakerRecords,
+              metadata,
+              JSON.stringify([...labels.entries()]),
+            ).page({
               ...(sourceRange === undefined ? {} : { sourceRange }),
               ...(view === undefined ? {} : { view }),
               ...(limit === undefined ? {} : { limit }),
               ...(cursor === undefined ? {} : { cursor }),
             });
+            const labeledPage =
+              view === "scores"
+                ? page
+                : {
+                    ...page,
+                    rows: page.rows.map((row) =>
+                      "slot" in row && labels.has(row.slot)
+                        ? { ...row, label: labels.get(row.slot)! }
+                        : row,
+                    ),
+                  };
             return {
               ok: true,
-              data: { ...selection, state: "ready", generation: metadata.generation, page },
+              data: {
+                ...selection,
+                state: "ready",
+                generation: metadata.generation,
+                page: labeledPage,
+              },
+            };
+          }
+          case "speaker.bind": {
+            const { observationRange, generation, bindings, ...selection } = operation.params;
+            const current = speakers.sourceStatus({ ...selection, sourceRange: observationRange });
+            if (!current.published || current.published.evidence.generation !== generation)
+              throw new CatalogError(
+                "ARTIFACT_CHANGED",
+                "Speaker generation is no longer published",
+              );
+            const metadata = current.published.evidence;
+            const labels = speakerLabels.bind(metadata, bindings);
+            return {
+              ok: true,
+              data: { ...selection, observationRange, generation, bindings: labels },
             };
           }
           case "transcript.prepare": {

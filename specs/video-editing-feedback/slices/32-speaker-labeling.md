@@ -1,6 +1,6 @@
 # 32 — Publish speaker-labeled transcript views
 
-Status: planned. Depends on: [31](31-speaker-continuity-replication.md), [21](21-synced-angles.md), [03](03-published-work-contract.md), [07](07-speech-timing-admission.md).
+Status: partial — generation-pinned caller label binding and source-row decoration are integrated and reviewed; selected-range preparation, project word attribution, package replay and continuity gates remain open. Depends on: [31](31-speaker-continuity-replication.md), [21](21-synced-angles.md), [03](03-published-work-contract.md), [07](07-speech-timing-admission.md).
 
 ## Contract
 
