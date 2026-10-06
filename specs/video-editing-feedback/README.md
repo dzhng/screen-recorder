@@ -40,7 +40,9 @@ remains open. 23 resolves exact corrected UTF-16/source-fragment highlights and
 proves explicit entrance curves through public still/movie/export, including
 offgrid preview, split and retimed occurrences. Partial21 declares exact
 caller-selected angle clocks;25 extends the shared SDR correction;27 lowers transitions into
-ordinary opacity/gain curves. Each still needs its remaining delivery evidence.
+ordinary opacity/gain curves;28 adds bounded overscanned whip/zoom geometry;29 carries bounded
+motion-blur recipes into the native picture executor. Each still needs its remaining delivery
+evidence.
 
 11 recognizes actual prepared PCM with exact project-clock origins and durable
 read/retry identities. Parakeet still completes a cut word in the planted source
@@ -109,7 +111,7 @@ Numbering is a review order; actual prerequisites live in the slice headers.
 - [ ] [27 — Crossfade, dip and flash recipes](slices/27-basic-transitions.md)
 - [ ] [28 — Whip/zoom trajectory and coverage](slices/28-whip-zoom-trajectory.md)
 - [ ] [29 — Bounded motion blur](slices/29-motion-blur.md)
-- [ ] [30 — Scene observations from delivered pixels](slices/30-delivered-scenes.md)
+- [ ] [30 — Scene observations from delivered pixels](slices/30-delivered-scenes.md) (helper integrated; native planted-pixel gate open)
 - [ ] [31 — Speaker continuity and attribution replication](slices/31-speaker-continuity-replication.md)
 - [ ] [32 — Public speaker labeling and transcript views](slices/32-speaker-labeling.md)
 - [ ] [33 — Focused launch, podcast and teaser references](slices/33-editing-references.md)

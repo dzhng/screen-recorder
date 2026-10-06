@@ -1,6 +1,9 @@
 # 30 — Inspect scene changes in exported pixels
 
-Status: planned. Depends on: [13](13-decode-replication.md), [04](04-wait-and-json-delivery.md).
+Status: partial — the delivered-scene helper imports committed bytes, reads
+existing scene observations and associates them with authored video joins. The
+native planted flash/gap/hold checkpoint and retained evidence remain open.
+Depends on: [13](13-decode-replication.md), [04](04-wait-and-json-delivery.md).
 
 ## Contract
 
@@ -27,7 +30,13 @@ After export, inspect its actual file as an immutable asset using existing scene
 
 Authored joins versus actual delivered scene report, with planted extra flash/gap and deliberate hold controls.
 
-Expose a case-selected command or existing lab entry with its own usage. Store accepted requests/results and artifact identities in feature-owned evidence. The implementing agent checks actual output; the user may view it for direction without becoming a QA gate.
+The case-selected consumer helper is
+[delivered-scenes.mjs](../../../skills/yap/scripts/delivered-scenes.mjs). It
+pins the committed export bytes, imports that exact file as an immutable asset,
+reads the existing scene rows, reads authored video cuts separately, and emits
+an association report without editing. Store accepted requests/results and
+artifact identities in feature-owned evidence. The implementing agent checks
+actual output; the user may view it for direction without becoming a QA gate.
 
 ## Verification and verdict
 
