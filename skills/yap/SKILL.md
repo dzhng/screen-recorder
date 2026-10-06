@@ -35,8 +35,8 @@ those alternatives open.
 ## Installation
 
 On first use, check `command -v yap`, then `yap capture.status --help`.
-If the command or selected app is missing, install the **latest stable GitHub
-release** using [installation](references/installation.md): verify Apple Silicon
+For requested setup when the command or selected app is missing, install the
+**latest stable GitHub release** using [installation](references/installation.md): verify Apple Silicon
 and macOS 26+, download and checksum the release ZIP and receipt, install the app
 at `~/Applications/Yap.app` and the launcher at `~/.local/bin/yap`,
 then configure PATH and verify `service.health`. Node is bundled. Linux/Docker
@@ -78,7 +78,20 @@ unavailable; do not claim it reopened or retry writes blindly.
 
 ## Workflow
 
-1. **Write the brief.** Save, in a task workspace, what the user asked for and
+1. **Discover capabilities.** First ask internally: what tools, skills, models
+   and asset libraries are available beyond the Yap skill and product? Read
+   [capability discovery](references/capability-discovery.md); save the relevant
+   inventory, installed CLI/service and loaded skill identities, readiness and
+   provenance in the task workspace. Use useful available tools. Recommend
+   missing external capabilities only when materially useful or required; do not
+   install external tools/models or set up accounts by default. For Yap's own
+   requested features, prepare needed registered local models/runtime through
+   `model.prepare` by default, following the installed acquisition contract;
+   do not ask permission again. Ordinary inference and status reads never
+   download dependencies. Done when the workflow's
+   required capabilities have evidence-backed readiness or explicit gaps.
+
+2. **Write the brief.** Save, in a task workspace, what the user asked for and
    your decision for every material choice they left open: audience, length,
    aspect, structure, pacing, what must stay, captions, music and treatments.
    For a launch video, podcast, episode introduction, teaser, tutorial, update or
@@ -89,7 +102,7 @@ unavailable; do not claim it reopened or retry writes blindly.
    the same evidence operations you use on the recording. Use its media in the
    edit only when the user asks. Done when no material choice is left open.
 
-2. **Find the material.** Inspect the operation you need with
+3. **Find the material.** Inspect the operation you need with
    `yap <operation> --help`. It returns its JSON description and parameter
    schema without launching the app. If you need to discover operation names,
    save `yap --help` to a file and select relevant entries; the full catalog
@@ -116,7 +129,7 @@ unavailable; do not claim it reopened or retry writes blindly.
    their media lacks sufficient proof for removal. Do not delete those files by
    hand or cancel a completed take to retry cleanup.
 
-3. **Read the evidence.** Inspect transcript and visual evidence to locate the
+4. **Read the evidence.** Inspect transcript and visual evidence to locate the
    content the brief needs. Follow returned pagination cursors, including empty
    pages with a next cursor. Preserve the transcript generation when using word
    identities. An empty transcript range does not prove silence, and an omitted
@@ -127,7 +140,7 @@ unavailable; do not claim it reopened or retry writes blindly.
    Keep these pins with the chosen wording and rationale; rounded display times
    cannot replace them in cuts or caption seeds.
 
-4. **Edit.** Inspect uncertain cut boundaries using bounded audio excerpts and
+5. **Edit.** Inspect uncertain cut boundaries using bounded audio excerpts and
    nearby frames. Choose narration, system audio, or mix intentionally. Transcript
    word times are estimates; protect adjacent speech. Use waveform or spectrogram
    analysis when available, but do not equate low amplitude with safe silence.
@@ -141,7 +154,7 @@ unavailable; do not claim it reopened or retry writes blindly.
    After a stale-revision rejection, inspect the new state and recompute the edit
    instead of simply replacing the expected revision ID.
 
-5. **Review it yourself.** Inspect the returned revision and request its audio,
+6. **Review it yourself.** Inspect the returned revision and request its audio,
    frames, or playable preview around changed joins. Poll the same pinned request
    without `--output` while processing is pending; deliver once ready. A directory
    destination must not already exist, including when repeating an inspection.
@@ -149,10 +162,13 @@ unavailable; do not claim it reopened or retry writes blindly.
    failed job. Diagnose failures before an explicit supported retry. Compare the
    result against the brief and the inspiration; fix what falls short before
    delivering rather than handing the user a draft to critique.
-   If your tools cannot listen to audio or play video, disclose that verification
-   limit. A successful render alone does not establish a clean-sounding cut.
+   Investigate defects with available perception, rendered-excerpt transcription
+   and signal/frame evidence; repair and recheck within a bounded budget. Keep
+   each method's limits explicit. Deliver the best checked candidate with precise
+   unresolved uncertainty; do not make human listening or watching a QA gate.
+   A successful render alone does not establish a clean-sounding cut.
 
-6. **Deliver.** Export the brief's revision and format only after checking the
+7. **Deliver.** Export the brief's revision and format only after checking the
    changes. Distinguish a pending export from a published artifact. Return the
    actual output path, a short account of the choices you made, any unresolved
    verification limits, and that any change is one more sentence away. Use

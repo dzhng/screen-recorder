@@ -43,3 +43,24 @@ test("project receipts inspect actual bytes and links without following discover
     await rm(root, { recursive: true, force: true });
   }
 });
+
+test("capability provenance trial presents an older installed skill separately from complete upstream", () => {
+  const upstream = {
+    "SKILL.md": "current instructions",
+    "references/capability-discovery.md": "current discovery",
+    "references/helper-examples.md": "current examples",
+    "scripts/review-bundle.mjs": "helper",
+  };
+  const files = skillCaseFiles(upstream, "skill-provenance");
+  assert.notEqual(files["work/.agents/skills/yap/SKILL.md"], upstream["SKILL.md"]);
+  assert.equal(files["work/.agents/skills/yap/references/capability-discovery.md"], undefined);
+  assert.equal(files["work/.agents/skills/yap/references/helper-examples.md"], undefined);
+  assert.equal(
+    files["work/upstream/skills/yap/references/helper-examples.md"],
+    upstream["references/helper-examples.md"],
+  );
+  assert.equal(
+    files["work/.agents/skills/yap/scripts/review-bundle.mjs"],
+    upstream["scripts/review-bundle.mjs"],
+  );
+});

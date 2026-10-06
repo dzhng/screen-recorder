@@ -40,7 +40,10 @@ Keep the complete returned cursor when paging or searching; changing selection o
 generation requires a fresh read. Reads can prepare transcription with ready local
 models but never download models. Discover registered IDs, purposes and source
 requirements with `model.list`, then inspect `model.status` with the selected
-`modelId`. Use explicit `model.prepare` when needed; supply verified local sources
+`modelId`. Call `model.prepare` by default when the requested Yap feature needs
+its registered model/runtime; this separate preparation may download the pinned
+model under its advertised acquisition policy and needs no additional permission.
+Supply verified local sources
 when required instead of guessing temporary paths or installing dependencies
 during reads. Diagnose failed/canceled work before explicit transcript retry.
 A source phrase cannot cross an inference segment.

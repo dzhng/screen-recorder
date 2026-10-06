@@ -7,6 +7,9 @@ contracts and [editorial checks](editorial-checks.md) for acoustic joins and rev
 These are techniques, not automatic treatments or a fixed approval sequence.
 
 Use the installed CLI's schemas and execution capabilities for every operation.
+Start with [capability discovery](capability-discovery.md) before choosing tools
+or an editing workflow. Use [helper examples](helper-examples.md) when first
+running inspection or caption-draft helpers.
 
 ## Inventory → brief → assemble → review → retain
 
@@ -131,8 +134,10 @@ Start speech-led cut candidates near phrase boundaries, then inspect audio and
 picture together. Long pauses can be useful; short gaps may conceal consonants.
 Retrieve a bounded `audio.get` excerpt and nearby `frame.batch` samples for the
 pinned selection; use `waveform.get` or `spectrogram.get` to investigate uncertainty.
-Protect phonemes using actual listening and [editorial checks](editorial-checks.md),
-not a fixed padding interval. If speech timestamps omit a sound, inspect the source
+Protect phonemes using contextual rendered-audio checks in
+[editorial checks](editorial-checks.md), combining available listening,
+re-transcription and signal evidence instead of a fixed padding interval.
+If speech timestamps omit a sound, inspect the source
 rather than cutting on the assumption that the interval is empty.
 
 Useful audition starting points:
