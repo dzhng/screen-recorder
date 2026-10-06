@@ -219,6 +219,32 @@ test("public speaker bindings are pinned to one retained generation and decorate
     const rows = (read.data as { page: { rows: { slot: number; label?: string }[] } }).page.rows;
     expect(rows.find((row) => row.slot === 1)).toMatchObject({ slot: 1, label: "Ada" });
     expect(rows.find((row) => row.slot === 0)).not.toHaveProperty("label");
+    const paged = await f.call("speaker.get", {
+      ...selection,
+      observationRange: sourceRange,
+      limit: 1,
+    });
+    expect(paged).toMatchObject({ ok: true });
+    const nextCursor = paged.ok
+      ? (paged.data as { page: { nextCursor: string | null } }).page.nextCursor
+      : null;
+    if (nextCursor) {
+      expect(
+        await f.call("speaker.bind", {
+          ...selection,
+          observationRange: sourceRange,
+          generation: metadata.generation,
+          bindings: [{ slot: 1, displayName: "Grace" }],
+        }),
+      ).toMatchObject({ ok: true, data: { bindings: [{ slot: 1, displayName: "Grace" }] } });
+      expect(
+        await f.call("speaker.get", {
+          ...selection,
+          observationRange: sourceRange,
+          cursor: nextCursor,
+        }),
+      ).toMatchObject({ ok: false, error: { code: "ARTIFACT_CHANGED" } });
+    }
   }
   expect(
     await f.call("speaker.bind", {
