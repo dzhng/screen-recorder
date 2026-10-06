@@ -1,6 +1,8 @@
 # 06 — Remove exact fractional frame ranges
 
-Status: planned. Depends on: None. This exact-clock contract uses independent authored rational/text/silence controls; it does not depend on inference or real-media certification.
+Status: implemented; deterministic structural checkpoint passed. Depends on: None. This exact-clock contract uses independent authored rational/text/silence controls; it does not depend on inference or real-media certification.
+
+The [checkpoint evidence](../assets/06-exact-removal/README.md) retains the accepted request/result and narrow proof. No native lowering changed and no decoded-media claim is made here. The final real-media gate remains [34](34-autonomous-trailer-acceptance.md).
 
 ## Contract
 

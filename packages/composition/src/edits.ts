@@ -13,6 +13,7 @@ import {
   compositionSchema,
   isStatefulProcessor,
   rangeSchema,
+  selectionRangeSchema,
   routingNodeSchema,
   processingTargetSchema,
   processingStepSchema,
@@ -189,7 +190,7 @@ export const editOperationSchema = z.discriminatedUnion("operation", [
     .object({
       operation: z.literal("remove"),
       clipIds: z.array(reference).min(1),
-      ranges: z.array(rangeSchema).min(1).max(1000).optional(),
+      ranges: z.array(selectionRangeSchema).min(1).max(1000).optional(),
       scope: z.enum(["linked", "selected"]).default("linked"),
       ripple,
     })

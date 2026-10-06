@@ -1,0 +1,1037 @@
+{
+  "scope": "Deterministic admitted-stream controls; no decoded-media or native execution claim",
+  "controls": [
+    {
+      "id": "5bebbaf64f96e46e2579e4b7e7e66343c2a913851848e79332d6cb861a1faa11",
+      "streams": [
+        {
+          "id": "v",
+          "kind": "video",
+          "width": 16,
+          "height": 16,
+          "bounds": {
+            "startUs": 0,
+            "endUs": 2000000
+          },
+          "available": [
+            {
+              "startUs": 0,
+              "endUs": 2000000
+            }
+          ]
+        },
+        {
+          "id": "a",
+          "kind": "audio",
+          "bounds": {
+            "startUs": 0,
+            "endUs": 2000000
+          },
+          "available": [
+            {
+              "startUs": 0,
+              "endUs": 2000000
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "5b7d91d12f8419533fef4d51980e7f4881b729db383a3af5fd2b8d5389b6a22b",
+      "fontFaces": [
+        "Control"
+      ],
+      "streams": []
+    }
+  ],
+  "request": {
+    "requestId": "remove-frame",
+    "expectedRevisionId": "55e2a318-04f2-4060-841e-730447c3688b",
+    "operations": [
+      {
+        "operation": "remove",
+        "clipIds": [
+          "clip:9d9c55f2743c4b99d15a1b7ef2db679358e48a3cdabf5d9a9b03988d856b2d5c:3"
+        ],
+        "ranges": [
+          {
+            "startUs": {
+              "numerator": 125000,
+              "denominator": 3
+            },
+            "endUs": {
+              "numerator": 250000,
+              "denominator": 3
+            }
+          }
+        ],
+        "ripple": {
+          "trackIds": [
+            "track:9d9c55f2743c4b99d15a1b7ef2db679358e48a3cdabf5d9a9b03988d856b2d5c:0",
+            "track:9d9c55f2743c4b99d15a1b7ef2db679358e48a3cdabf5d9a9b03988d856b2d5c:1"
+          ]
+        }
+      }
+    ]
+  },
+  "response": {
+    "revision": {
+      "id": "2e6ff1cb-555c-4189-bad3-affa7fbc5c56",
+      "projectId": "5f3e53aa-a4f1-4a10-97dc-09c4d0814d46",
+      "ordinal": 2,
+      "createdAt": "2026-10-06T04:18:04.711Z",
+      "operation": "apply",
+      "document": {
+        "canvas": {
+          "width": 16,
+          "height": 16,
+          "fps": {
+            "numerator": 24,
+            "denominator": 1
+          },
+          "background": "#000000ff"
+        },
+        "tracks": [
+          {
+            "id": "track:9d9c55f2743c4b99d15a1b7ef2db679358e48a3cdabf5d9a9b03988d856b2d5c:0",
+            "kind": "video",
+            "order": 0
+          },
+          {
+            "id": "track:9d9c55f2743c4b99d15a1b7ef2db679358e48a3cdabf5d9a9b03988d856b2d5c:1",
+            "kind": "audio",
+            "order": 0
+          },
+          {
+            "id": "track:9d9c55f2743c4b99d15a1b7ef2db679358e48a3cdabf5d9a9b03988d856b2d5c:2",
+            "kind": "video",
+            "order": 1
+          }
+        ],
+        "groups": [],
+        "clips": [
+          {
+            "id": "clip:9d9c55f2743c4b99d15a1b7ef2db679358e48a3cdabf5d9a9b03988d856b2d5c:3",
+            "trackId": "track:9d9c55f2743c4b99d15a1b7ef2db679358e48a3cdabf5d9a9b03988d856b2d5c:0",
+            "placement": {
+              "kind": "project",
+              "range": {
+                "startUs": 0,
+                "endUs": {
+                  "numerator": 125000,
+                  "denominator": 3
+                }
+              }
+            },
+            "assetId": "5bebbaf64f96e46e2579e4b7e7e66343c2a913851848e79332d6cb861a1faa11",
+            "streamId": "v",
+            "source": {
+              "kind": "range",
+              "range": {
+                "startUs": 0,
+                "endUs": {
+                  "numerator": 250000,
+                  "denominator": 3
+                }
+              }
+            }
+          },
+          {
+            "id": "clip:944836e692cd5280b796a6a252cafd75a8b49a6d446d1ebe311e2abc0e47366c:0",
+            "trackId": "track:9d9c55f2743c4b99d15a1b7ef2db679358e48a3cdabf5d9a9b03988d856b2d5c:0",
+            "placement": {
+              "kind": "project",
+              "range": {
+                "startUs": {
+                  "numerator": 125000,
+                  "denominator": 3
+                },
+                "endUs": {
+                  "numerator": 2875000,
+                  "denominator": 3
+                }
+              }
+            },
+            "assetId": "5bebbaf64f96e46e2579e4b7e7e66343c2a913851848e79332d6cb861a1faa11",
+            "streamId": "v",
+            "source": {
+              "kind": "range",
+              "range": {
+                "startUs": {
+                  "numerator": 500000,
+                  "denominator": 3
+                },
+                "endUs": 2000000
+              }
+            }
+          },
+          {
+            "id": "clip:9d9c55f2743c4b99d15a1b7ef2db679358e48a3cdabf5d9a9b03988d856b2d5c:4",
+            "trackId": "track:9d9c55f2743c4b99d15a1b7ef2db679358e48a3cdabf5d9a9b03988d856b2d5c:1",
+            "placement": {
+              "kind": "project",
+              "range": {
+                "startUs": 0,
+                "endUs": {
+                  "numerator": 125000,
+                  "denominator": 3
+                }
+              }
+            },
+            "assetId": "5bebbaf64f96e46e2579e4b7e7e66343c2a913851848e79332d6cb861a1faa11",
+            "streamId": "a",
+            "source": {
+              "kind": "range",
+              "range": {
+                "startUs": 0,
+                "endUs": {
+                  "numerator": 250000,
+                  "denominator": 3
+                }
+              }
+            }
+          },
+          {
+            "id": "clip:944836e692cd5280b796a6a252cafd75a8b49a6d446d1ebe311e2abc0e47366c:1",
+            "trackId": "track:9d9c55f2743c4b99d15a1b7ef2db679358e48a3cdabf5d9a9b03988d856b2d5c:1",
+            "placement": {
+              "kind": "project",
+              "range": {
+                "startUs": {
+                  "numerator": 125000,
+                  "denominator": 3
+                },
+                "endUs": {
+                  "numerator": 2875000,
+                  "denominator": 3
+                }
+              }
+            },
+            "assetId": "5bebbaf64f96e46e2579e4b7e7e66343c2a913851848e79332d6cb861a1faa11",
+            "streamId": "a",
+            "source": {
+              "kind": "range",
+              "range": {
+                "startUs": {
+                  "numerator": 500000,
+                  "denominator": 3
+                },
+                "endUs": 2000000
+              }
+            }
+          },
+          {
+            "id": "clip:9d9c55f2743c4b99d15a1b7ef2db679358e48a3cdabf5d9a9b03988d856b2d5c:6",
+            "trackId": "track:9d9c55f2743c4b99d15a1b7ef2db679358e48a3cdabf5d9a9b03988d856b2d5c:2",
+            "placement": {
+              "kind": "content",
+              "clipId": "clip:9d9c55f2743c4b99d15a1b7ef2db679358e48a3cdabf5d9a9b03988d856b2d5c:3",
+              "sourceRange": {
+                "startUs": 0,
+                "endUs": {
+                  "numerator": 250000,
+                  "denominator": 3
+                }
+              }
+            },
+            "source": {
+              "kind": "text",
+              "text": "A complete thought",
+              "font": {
+                "assetId": "5b7d91d12f8419533fef4d51980e7f4881b729db383a3af5fd2b8d5389b6a22b",
+                "postScriptName": "Control"
+              },
+              "width": 16,
+              "height": 16,
+              "size": 8,
+              "color": "#ffffffff",
+              "alignment": "center",
+              "wrap": true
+            }
+          },
+          {
+            "id": "clip:944836e692cd5280b796a6a252cafd75a8b49a6d446d1ebe311e2abc0e47366c:2",
+            "trackId": "track:9d9c55f2743c4b99d15a1b7ef2db679358e48a3cdabf5d9a9b03988d856b2d5c:2",
+            "placement": {
+              "kind": "content",
+              "clipId": "clip:944836e692cd5280b796a6a252cafd75a8b49a6d446d1ebe311e2abc0e47366c:0",
+              "sourceRange": {
+                "startUs": {
+                  "numerator": 500000,
+                  "denominator": 3
+                },
+                "endUs": 2000000
+              }
+            },
+            "source": {
+              "kind": "text",
+              "text": "A complete thought",
+              "font": {
+                "assetId": "5b7d91d12f8419533fef4d51980e7f4881b729db383a3af5fd2b8d5389b6a22b",
+                "postScriptName": "Control"
+              },
+              "width": 16,
+              "height": 16,
+              "size": 8,
+              "color": "#ffffffff",
+              "alignment": "center",
+              "wrap": true
+            }
+          }
+        ],
+        "syncGroups": [
+          {
+            "id": "syncGroup:9d9c55f2743c4b99d15a1b7ef2db679358e48a3cdabf5d9a9b03988d856b2d5c:5",
+            "clipIds": [
+              "clip:9d9c55f2743c4b99d15a1b7ef2db679358e48a3cdabf5d9a9b03988d856b2d5c:3",
+              "clip:9d9c55f2743c4b99d15a1b7ef2db679358e48a3cdabf5d9a9b03988d856b2d5c:4"
+            ]
+          },
+          {
+            "id": "syncGroup:944836e692cd5280b796a6a252cafd75a8b49a6d446d1ebe311e2abc0e47366c:3",
+            "clipIds": [
+              "clip:944836e692cd5280b796a6a252cafd75a8b49a6d446d1ebe311e2abc0e47366c:0",
+              "clip:944836e692cd5280b796a6a252cafd75a8b49a6d446d1ebe311e2abc0e47366c:1"
+            ]
+          }
+        ],
+        "processing": [
+          {
+            "target": {
+              "kind": "clip",
+              "id": "clip:9d9c55f2743c4b99d15a1b7ef2db679358e48a3cdabf5d9a9b03988d856b2d5c:3"
+            },
+            "steps": [
+              {
+                "id": "processingStep:9d9c55f2743c4b99d15a1b7ef2db679358e48a3cdabf5d9a9b03988d856b2d5c:7",
+                "enabled": true,
+                "evaluationRange": {
+                  "start": {
+                    "numerator": 0,
+                    "denominator": 1
+                  },
+                  "end": {
+                    "numerator": 1,
+                    "denominator": 24
+                  }
+                },
+                "processor": {
+                  "type": "opacity",
+                  "opacity": {
+                    "keys": [
+                      {
+                        "at": {
+                          "numerator": 0,
+                          "denominator": 1
+                        },
+                        "value": 0,
+                        "interpolation": "linear"
+                      },
+                      {
+                        "at": {
+                          "numerator": 1,
+                          "denominator": 1
+                        },
+                        "value": 1,
+                        "interpolation": "linear"
+                      }
+                    ]
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "target": {
+              "kind": "clip",
+              "id": "clip:944836e692cd5280b796a6a252cafd75a8b49a6d446d1ebe311e2abc0e47366c:0"
+            },
+            "steps": [
+              {
+                "id": "processingStep:944836e692cd5280b796a6a252cafd75a8b49a6d446d1ebe311e2abc0e47366c:4",
+                "enabled": true,
+                "evaluationRange": {
+                  "start": {
+                    "numerator": 1,
+                    "denominator": 12
+                  },
+                  "end": {
+                    "numerator": 1,
+                    "denominator": 1
+                  }
+                },
+                "processor": {
+                  "type": "opacity",
+                  "opacity": {
+                    "keys": [
+                      {
+                        "at": {
+                          "numerator": 0,
+                          "denominator": 1
+                        },
+                        "value": 0,
+                        "interpolation": "linear"
+                      },
+                      {
+                        "at": {
+                          "numerator": 1,
+                          "denominator": 1
+                        },
+                        "value": 1,
+                        "interpolation": "linear"
+                      }
+                    ]
+                  }
+                }
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "edit": {
+      "changed": true,
+      "createdIds": [
+        {
+          "kind": "clip",
+          "id": "clip:944836e692cd5280b796a6a252cafd75a8b49a6d446d1ebe311e2abc0e47366c:0"
+        },
+        {
+          "kind": "clip",
+          "id": "clip:944836e692cd5280b796a6a252cafd75a8b49a6d446d1ebe311e2abc0e47366c:1"
+        },
+        {
+          "kind": "clip",
+          "id": "clip:944836e692cd5280b796a6a252cafd75a8b49a6d446d1ebe311e2abc0e47366c:2"
+        },
+        {
+          "kind": "syncGroup",
+          "id": "syncGroup:944836e692cd5280b796a6a252cafd75a8b49a6d446d1ebe311e2abc0e47366c:3"
+        },
+        {
+          "kind": "processingStep",
+          "id": "processingStep:944836e692cd5280b796a6a252cafd75a8b49a6d446d1ebe311e2abc0e47366c:4"
+        }
+      ],
+      "labels": {},
+      "normalized": [
+        {
+          "operationIndex": 0,
+          "changes": [
+            {
+              "kind": "clip",
+              "id": "clip:9d9c55f2743c4b99d15a1b7ef2db679358e48a3cdabf5d9a9b03988d856b2d5c:3",
+              "value": {
+                "id": "clip:9d9c55f2743c4b99d15a1b7ef2db679358e48a3cdabf5d9a9b03988d856b2d5c:3",
+                "trackId": "track:9d9c55f2743c4b99d15a1b7ef2db679358e48a3cdabf5d9a9b03988d856b2d5c:0",
+                "placement": {
+                  "kind": "project",
+                  "range": {
+                    "startUs": 0,
+                    "endUs": {
+                      "numerator": 125000,
+                      "denominator": 3
+                    }
+                  }
+                },
+                "assetId": "5bebbaf64f96e46e2579e4b7e7e66343c2a913851848e79332d6cb861a1faa11",
+                "streamId": "v",
+                "source": {
+                  "kind": "range",
+                  "range": {
+                    "startUs": 0,
+                    "endUs": {
+                      "numerator": 250000,
+                      "denominator": 3
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "kind": "clip",
+              "id": "clip:944836e692cd5280b796a6a252cafd75a8b49a6d446d1ebe311e2abc0e47366c:0",
+              "value": {
+                "id": "clip:944836e692cd5280b796a6a252cafd75a8b49a6d446d1ebe311e2abc0e47366c:0",
+                "trackId": "track:9d9c55f2743c4b99d15a1b7ef2db679358e48a3cdabf5d9a9b03988d856b2d5c:0",
+                "placement": {
+                  "kind": "project",
+                  "range": {
+                    "startUs": {
+                      "numerator": 125000,
+                      "denominator": 3
+                    },
+                    "endUs": {
+                      "numerator": 2875000,
+                      "denominator": 3
+                    }
+                  }
+                },
+                "assetId": "5bebbaf64f96e46e2579e4b7e7e66343c2a913851848e79332d6cb861a1faa11",
+                "streamId": "v",
+                "source": {
+                  "kind": "range",
+                  "range": {
+                    "startUs": {
+                      "numerator": 500000,
+                      "denominator": 3
+                    },
+                    "endUs": 2000000
+                  }
+                }
+              }
+            },
+            {
+              "kind": "clip",
+              "id": "clip:9d9c55f2743c4b99d15a1b7ef2db679358e48a3cdabf5d9a9b03988d856b2d5c:4",
+              "value": {
+                "id": "clip:9d9c55f2743c4b99d15a1b7ef2db679358e48a3cdabf5d9a9b03988d856b2d5c:4",
+                "trackId": "track:9d9c55f2743c4b99d15a1b7ef2db679358e48a3cdabf5d9a9b03988d856b2d5c:1",
+                "placement": {
+                  "kind": "project",
+                  "range": {
+                    "startUs": 0,
+                    "endUs": {
+                      "numerator": 125000,
+                      "denominator": 3
+                    }
+                  }
+                },
+                "assetId": "5bebbaf64f96e46e2579e4b7e7e66343c2a913851848e79332d6cb861a1faa11",
+                "streamId": "a",
+                "source": {
+                  "kind": "range",
+                  "range": {
+                    "startUs": 0,
+                    "endUs": {
+                      "numerator": 250000,
+                      "denominator": 3
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "kind": "clip",
+              "id": "clip:944836e692cd5280b796a6a252cafd75a8b49a6d446d1ebe311e2abc0e47366c:1",
+              "value": {
+                "id": "clip:944836e692cd5280b796a6a252cafd75a8b49a6d446d1ebe311e2abc0e47366c:1",
+                "trackId": "track:9d9c55f2743c4b99d15a1b7ef2db679358e48a3cdabf5d9a9b03988d856b2d5c:1",
+                "placement": {
+                  "kind": "project",
+                  "range": {
+                    "startUs": {
+                      "numerator": 125000,
+                      "denominator": 3
+                    },
+                    "endUs": {
+                      "numerator": 2875000,
+                      "denominator": 3
+                    }
+                  }
+                },
+                "assetId": "5bebbaf64f96e46e2579e4b7e7e66343c2a913851848e79332d6cb861a1faa11",
+                "streamId": "a",
+                "source": {
+                  "kind": "range",
+                  "range": {
+                    "startUs": {
+                      "numerator": 500000,
+                      "denominator": 3
+                    },
+                    "endUs": 2000000
+                  }
+                }
+              }
+            },
+            {
+              "kind": "clip",
+              "id": "clip:9d9c55f2743c4b99d15a1b7ef2db679358e48a3cdabf5d9a9b03988d856b2d5c:6",
+              "value": {
+                "id": "clip:9d9c55f2743c4b99d15a1b7ef2db679358e48a3cdabf5d9a9b03988d856b2d5c:6",
+                "trackId": "track:9d9c55f2743c4b99d15a1b7ef2db679358e48a3cdabf5d9a9b03988d856b2d5c:2",
+                "placement": {
+                  "kind": "content",
+                  "clipId": "clip:9d9c55f2743c4b99d15a1b7ef2db679358e48a3cdabf5d9a9b03988d856b2d5c:3",
+                  "sourceRange": {
+                    "startUs": 0,
+                    "endUs": {
+                      "numerator": 250000,
+                      "denominator": 3
+                    }
+                  }
+                },
+                "source": {
+                  "kind": "text",
+                  "text": "A complete thought",
+                  "font": {
+                    "assetId": "5b7d91d12f8419533fef4d51980e7f4881b729db383a3af5fd2b8d5389b6a22b",
+                    "postScriptName": "Control"
+                  },
+                  "width": 16,
+                  "height": 16,
+                  "size": 8,
+                  "color": "#ffffffff",
+                  "alignment": "center",
+                  "wrap": true
+                }
+              }
+            },
+            {
+              "kind": "clip",
+              "id": "clip:944836e692cd5280b796a6a252cafd75a8b49a6d446d1ebe311e2abc0e47366c:2",
+              "value": {
+                "id": "clip:944836e692cd5280b796a6a252cafd75a8b49a6d446d1ebe311e2abc0e47366c:2",
+                "trackId": "track:9d9c55f2743c4b99d15a1b7ef2db679358e48a3cdabf5d9a9b03988d856b2d5c:2",
+                "placement": {
+                  "kind": "content",
+                  "clipId": "clip:944836e692cd5280b796a6a252cafd75a8b49a6d446d1ebe311e2abc0e47366c:0",
+                  "sourceRange": {
+                    "startUs": {
+                      "numerator": 500000,
+                      "denominator": 3
+                    },
+                    "endUs": 2000000
+                  }
+                },
+                "source": {
+                  "kind": "text",
+                  "text": "A complete thought",
+                  "font": {
+                    "assetId": "5b7d91d12f8419533fef4d51980e7f4881b729db383a3af5fd2b8d5389b6a22b",
+                    "postScriptName": "Control"
+                  },
+                  "width": 16,
+                  "height": 16,
+                  "size": 8,
+                  "color": "#ffffffff",
+                  "alignment": "center",
+                  "wrap": true
+                }
+              }
+            },
+            {
+              "kind": "syncGroup",
+              "id": "syncGroup:944836e692cd5280b796a6a252cafd75a8b49a6d446d1ebe311e2abc0e47366c:3",
+              "value": {
+                "id": "syncGroup:944836e692cd5280b796a6a252cafd75a8b49a6d446d1ebe311e2abc0e47366c:3",
+                "clipIds": [
+                  "clip:944836e692cd5280b796a6a252cafd75a8b49a6d446d1ebe311e2abc0e47366c:0",
+                  "clip:944836e692cd5280b796a6a252cafd75a8b49a6d446d1ebe311e2abc0e47366c:1"
+                ]
+              }
+            },
+            {
+              "kind": "processing",
+              "target": {
+                "kind": "clip",
+                "id": "clip:9d9c55f2743c4b99d15a1b7ef2db679358e48a3cdabf5d9a9b03988d856b2d5c:3"
+              },
+              "steps": [
+                {
+                  "id": "processingStep:9d9c55f2743c4b99d15a1b7ef2db679358e48a3cdabf5d9a9b03988d856b2d5c:7",
+                  "enabled": true,
+                  "evaluationRange": {
+                    "start": {
+                      "numerator": 0,
+                      "denominator": 1
+                    },
+                    "end": {
+                      "numerator": 1,
+                      "denominator": 24
+                    }
+                  },
+                  "processor": {
+                    "type": "opacity",
+                    "opacity": {
+                      "keys": [
+                        {
+                          "at": {
+                            "numerator": 0,
+                            "denominator": 1
+                          },
+                          "value": 0,
+                          "interpolation": "linear"
+                        },
+                        {
+                          "at": {
+                            "numerator": 1,
+                            "denominator": 1
+                          },
+                          "value": 1,
+                          "interpolation": "linear"
+                        }
+                      ]
+                    }
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "processing",
+              "target": {
+                "kind": "clip",
+                "id": "clip:944836e692cd5280b796a6a252cafd75a8b49a6d446d1ebe311e2abc0e47366c:0"
+              },
+              "steps": [
+                {
+                  "id": "processingStep:944836e692cd5280b796a6a252cafd75a8b49a6d446d1ebe311e2abc0e47366c:4",
+                  "enabled": true,
+                  "evaluationRange": {
+                    "start": {
+                      "numerator": 1,
+                      "denominator": 12
+                    },
+                    "end": {
+                      "numerator": 1,
+                      "denominator": 1
+                    }
+                  },
+                  "processor": {
+                    "type": "opacity",
+                    "opacity": {
+                      "keys": [
+                        {
+                          "at": {
+                            "numerator": 0,
+                            "denominator": 1
+                          },
+                          "value": 0,
+                          "interpolation": "linear"
+                        },
+                        {
+                          "at": {
+                            "numerator": 1,
+                            "denominator": 1
+                          },
+                          "value": 1,
+                          "interpolation": "linear"
+                        }
+                      ]
+                    }
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "clipLineage": [
+        {
+          "originalId": "clip:9d9c55f2743c4b99d15a1b7ef2db679358e48a3cdabf5d9a9b03988d856b2d5c:3",
+          "clipIds": [
+            "clip:9d9c55f2743c4b99d15a1b7ef2db679358e48a3cdabf5d9a9b03988d856b2d5c:3",
+            "clip:944836e692cd5280b796a6a252cafd75a8b49a6d446d1ebe311e2abc0e47366c:0"
+          ]
+        },
+        {
+          "originalId": "clip:9d9c55f2743c4b99d15a1b7ef2db679358e48a3cdabf5d9a9b03988d856b2d5c:4",
+          "clipIds": [
+            "clip:9d9c55f2743c4b99d15a1b7ef2db679358e48a3cdabf5d9a9b03988d856b2d5c:4",
+            "clip:944836e692cd5280b796a6a252cafd75a8b49a6d446d1ebe311e2abc0e47366c:1"
+          ]
+        },
+        {
+          "originalId": "clip:9d9c55f2743c4b99d15a1b7ef2db679358e48a3cdabf5d9a9b03988d856b2d5c:6",
+          "clipIds": [
+            "clip:9d9c55f2743c4b99d15a1b7ef2db679358e48a3cdabf5d9a9b03988d856b2d5c:6",
+            "clip:944836e692cd5280b796a6a252cafd75a8b49a6d446d1ebe311e2abc0e47366c:2"
+          ]
+        }
+      ],
+      "removedAttachments": [],
+      "processingLineage": [
+        {
+          "originalId": "processingStep:9d9c55f2743c4b99d15a1b7ef2db679358e48a3cdabf5d9a9b03988d856b2d5c:7",
+          "stepId": "processingStep:944836e692cd5280b796a6a252cafd75a8b49a6d446d1ebe311e2abc0e47366c:4"
+        }
+      ],
+      "touchedFixedAnchors": [],
+      "linkChanges": [
+        {
+          "kind": "syncGroup",
+          "id": "syncGroup:944836e692cd5280b796a6a252cafd75a8b49a6d446d1ebe311e2abc0e47366c:3",
+          "value": {
+            "id": "syncGroup:944836e692cd5280b796a6a252cafd75a8b49a6d446d1ebe311e2abc0e47366c:3",
+            "clipIds": [
+              "clip:944836e692cd5280b796a6a252cafd75a8b49a6d446d1ebe311e2abc0e47366c:0",
+              "clip:944836e692cd5280b796a6a252cafd75a8b49a6d446d1ebe311e2abc0e47366c:1"
+            ]
+          }
+        }
+      ]
+    }
+  },
+  "joinedFrame": {
+    "index": 1,
+    "sampleAtUs": 41666,
+    "visibleRange": {
+      "startUs": 41666,
+      "endUs": 83333
+    },
+    "layers": [
+      {
+        "clipId": "clip:944836e692cd5280b796a6a252cafd75a8b49a6d446d1ebe311e2abc0e47366c:0",
+        "trackId": "track:9d9c55f2743c4b99d15a1b7ef2db679358e48a3cdabf5d9a9b03988d856b2d5c:0",
+        "assetId": "5bebbaf64f96e46e2579e4b7e7e66343c2a913851848e79332d6cb861a1faa11",
+        "streamId": "v",
+        "kind": "video",
+        "sourceUs": {
+          "numerator": 500000,
+          "denominator": 3
+        },
+        "availability": "available",
+        "width": 16,
+        "height": 16
+      },
+      {
+        "kind": "text",
+        "clipId": "clip:944836e692cd5280b796a6a252cafd75a8b49a6d446d1ebe311e2abc0e47366c:2",
+        "trackId": "track:9d9c55f2743c4b99d15a1b7ef2db679358e48a3cdabf5d9a9b03988d856b2d5c:2",
+        "text": {
+          "kind": "text",
+          "text": "A complete thought",
+          "font": {
+            "assetId": "5b7d91d12f8419533fef4d51980e7f4881b729db383a3af5fd2b8d5389b6a22b",
+            "postScriptName": "Control"
+          },
+          "width": 16,
+          "height": 16,
+          "size": 8,
+          "color": "#ffffffff",
+          "alignment": "center",
+          "wrap": true
+        },
+        "width": 16,
+        "height": 16,
+        "availability": "available"
+      }
+    ],
+    "visual": [
+      {
+        "target": {
+          "kind": "clip",
+          "id": "clip:944836e692cd5280b796a6a252cafd75a8b49a6d446d1ebe311e2abc0e47366c:0"
+        },
+        "inputs": [],
+        "operations": [
+          {
+            "kind": "opacity",
+            "opacity": 0.08333333333333333
+          },
+          {
+            "kind": "clamp",
+            "x": 0.5,
+            "y": 0.5,
+            "width": 15,
+            "height": 15
+          },
+          {
+            "kind": "affine",
+            "matrix": [
+              1,
+              0,
+              0,
+              1,
+              0,
+              0
+            ]
+          },
+          {
+            "kind": "affine",
+            "matrix": [
+              1,
+              0,
+              0,
+              1,
+              0,
+              0
+            ]
+          },
+          {
+            "kind": "coverage",
+            "points": [
+              {
+                "x": 0,
+                "y": 0
+              },
+              {
+                "x": 16,
+                "y": 0
+              },
+              {
+                "x": 16,
+                "y": 16
+              },
+              {
+                "x": 0,
+                "y": 16
+              }
+            ],
+            "width": 16,
+            "height": 16
+          }
+        ]
+      },
+      {
+        "target": {
+          "kind": "track",
+          "id": "track:9d9c55f2743c4b99d15a1b7ef2db679358e48a3cdabf5d9a9b03988d856b2d5c:0"
+        },
+        "inputs": [
+          {
+            "kind": "clip",
+            "id": "clip:944836e692cd5280b796a6a252cafd75a8b49a6d446d1ebe311e2abc0e47366c:0"
+          }
+        ],
+        "operations": []
+      },
+      {
+        "target": {
+          "kind": "clip",
+          "id": "clip:944836e692cd5280b796a6a252cafd75a8b49a6d446d1ebe311e2abc0e47366c:2"
+        },
+        "inputs": [],
+        "operations": [
+          {
+            "kind": "clamp",
+            "x": 0.5,
+            "y": 0.5,
+            "width": 15,
+            "height": 15
+          },
+          {
+            "kind": "affine",
+            "matrix": [
+              1,
+              0,
+              0,
+              1,
+              0,
+              0
+            ]
+          },
+          {
+            "kind": "affine",
+            "matrix": [
+              1,
+              0,
+              0,
+              1,
+              0,
+              0
+            ]
+          },
+          {
+            "kind": "coverage",
+            "points": [
+              {
+                "x": 0,
+                "y": 0
+              },
+              {
+                "x": 16,
+                "y": 0
+              },
+              {
+                "x": 16,
+                "y": 16
+              },
+              {
+                "x": 0,
+                "y": 16
+              }
+            ],
+            "width": 16,
+            "height": 16
+          }
+        ]
+      },
+      {
+        "target": {
+          "kind": "track",
+          "id": "track:9d9c55f2743c4b99d15a1b7ef2db679358e48a3cdabf5d9a9b03988d856b2d5c:2"
+        },
+        "inputs": [
+          {
+            "kind": "clip",
+            "id": "clip:944836e692cd5280b796a6a252cafd75a8b49a6d446d1ebe311e2abc0e47366c:2"
+          }
+        ],
+        "operations": []
+      },
+      {
+        "target": {
+          "kind": "output"
+        },
+        "inputs": [
+          {
+            "kind": "track",
+            "id": "track:9d9c55f2743c4b99d15a1b7ef2db679358e48a3cdabf5d9a9b03988d856b2d5c:0"
+          },
+          {
+            "kind": "track",
+            "id": "track:9d9c55f2743c4b99d15a1b7ef2db679358e48a3cdabf5d9a9b03988d856b2d5c:2"
+          }
+        ],
+        "operations": []
+      }
+    ]
+  },
+  "captions": {
+    "kind": "vtt",
+    "cues": [
+      {
+        "placementId": "clip:9d9c55f2743c4b99d15a1b7ef2db679358e48a3cdabf5d9a9b03988d856b2d5c:6",
+        "fragment": 0,
+        "text": "A complete thought",
+        "exact": {
+          "startUs": 0,
+          "endUs": {
+            "numerator": 125000,
+            "denominator": 3
+          }
+        },
+        "startMs": 0,
+        "endMs": 42
+      },
+      {
+        "placementId": "clip:944836e692cd5280b796a6a252cafd75a8b49a6d446d1ebe311e2abc0e47366c:2",
+        "fragment": 0,
+        "text": "A complete thought",
+        "exact": {
+          "startUs": {
+            "numerator": 125000,
+            "denominator": 3
+          },
+          "endUs": {
+            "numerator": 2875000,
+            "denominator": 3
+          }
+        },
+        "startMs": 41,
+        "endMs": 959
+      }
+    ],
+    "omitted": [],
+    "addedOverlaps": [
+      {
+        "left": {
+          "placementId": "clip:9d9c55f2743c4b99d15a1b7ef2db679358e48a3cdabf5d9a9b03988d856b2d5c:6",
+          "fragment": 0
+        },
+        "right": {
+          "placementId": "clip:944836e692cd5280b796a6a252cafd75a8b49a6d446d1ebe311e2abc0e47366c:2",
+          "fragment": 0
+        },
+        "startMs": 41,
+        "endMs": 42
+      }
+    ],
+    "discardedStyling": [
+      "clip:9d9c55f2743c4b99d15a1b7ef2db679358e48a3cdabf5d9a9b03988d856b2d5c:6",
+      "clip:944836e692cd5280b796a6a252cafd75a8b49a6d446d1ebe311e2abc0e47366c:2"
+    ],
+    "content": "WEBVTT\n\n00:00:00.000 --> 00:00:00.042\nA complete thought\n\n00:00:00.041 --> 00:00:00.959\nA complete thought\n\n"
+  }
+}

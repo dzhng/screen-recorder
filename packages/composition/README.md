@@ -23,8 +23,10 @@ has duration but no media source. A schema owns the allowed anchor and hold form
 
 Retain rational coordinates until a sampling boundary. Retimed selections and
 attachments can end between integer microseconds; rounding the stored document
-would change later splits and source mappings. Structural command coordinates
-retain their own integer constraints, defined by the input schema.
+would change later splits and source mappings. Removal uses the same exact
+selections as placement so a fractional frame can be deleted without changing
+its surviving neighbors. Other structural command coordinates retain their own
+integer constraints, defined by the [edit input schema](src/edits.ts).
 
 Source and project time are different clocks. A rounded forward query can map many
 project instants to one source bin; the reverse is therefore an interval, not a
