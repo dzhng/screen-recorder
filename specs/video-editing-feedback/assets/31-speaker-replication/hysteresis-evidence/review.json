@@ -1,0 +1,20 @@
+{
+  "verdict": "clean",
+  "shape": "No product/service/provider owner added. The research interpreter owns onset/offset state, and all DER scoring reuses the existing fixed scorer. No compatibility layer or provider promotion.",
+  "diff": "Source state-machine test red against equal thresholds and green against fixed hysteresis. Complete Float32/native0.5 parity, all reported successes/failures, repeated-copy diagnostics and planted global identity swap reproduce.",
+  "docs": "Root-to-spec-to-slice-to-evidence links resolve; parameter effects, failures, spend and exact next hypothesis retained. Global spec prompt/traceability/choices are owned by the integrating root.",
+  "independentCodex": {
+    "command": "codex exec --sandbox read-only -C /Users/server/dev/yap-speaker-provider review --uncommitted --json -o <scratch>/verdict.md < /dev/null",
+    "exitCode": 0,
+    "turnCompleted": true,
+    "verdict": "No actionable correctness issues were found in the staged changes.",
+    "findings": []
+  },
+  "postReviewChange": "Original captured stderr logs compressed losslessly and operand manifest refreshed; source code, protocols, observations, metrics and verdict unchanged.",
+  "checks": [
+    "node --test interpret.test.mjs:1 passed after observed behavioral red",
+    "node replay.mjs <repo-root> <hydrated-alternative-evidence-root>:verified true; slice31Complete false; promoted false",
+    "JavaScript parse checks; Python AST parse; doc-link chain; git staged whitespace check"
+  ],
+  "fullSuite": "Parent owns final feature-wide run; no product behavior changed in this research pass."
+}

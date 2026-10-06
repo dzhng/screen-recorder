@@ -1,0 +1,95 @@
+{
+  "version": 1,
+  "status": "frozen-before-candidate-analysis",
+  "frozenAt": "2026-10-06T07:29:44.143432+00:00",
+  "objective": "Test one asymmetric hysteresis interpretation of complete retained Nemotron scores; all mandatory quality/count/resource gates remain unchanged.",
+  "candidate": {
+    "onset": 0.5,
+    "offset": 0.1,
+    "slots": 8,
+    "frameSeconds": 0.01,
+    "paddingSeconds": 0,
+    "minimumDurationSeconds": 0,
+    "interpreterSha256": "0276877f5004cd4f71471d2136f1cd0606972ae857cb59a62b8836478fb569d8"
+  },
+  "parent": {
+    "onset": 0.5,
+    "offset": 0.5,
+    "modelSha256": "867c53f552998f772e5b5e5c082962ae85ee7ca5669c2bc17d7f615133d4e96d",
+    "recipe": {
+      "chunk_len": 340,
+      "chunk_right_context": 40,
+      "fifo_len": 40,
+      "spkcache_update_period": 300,
+      "spkcache_len": 264
+    },
+    "protocolSha256": "6782b4d8846fceca1ad44012d6a8f203f87f856ed4bf72fe9d761755739bc20f"
+  },
+  "mechanism": "Keep strong turn initiation while extending already active speakers through weak overlapping evidence, avoiding activation of weak phantom slots.",
+  "prediction": "Calibration remains inside all gates, and four-speaker overlap recall reaches >=80% without DER >20%, identity confusion >5%, or count mismatch.",
+  "falsifier": "Any required short gate fails; no continuity/distribution work follows.",
+  "calibrationCases": [
+    "bspxd30"
+  ],
+  "confirmationCases": [
+    "aiqwk30"
+  ],
+  "regressionIfShortPasses": [
+    "returns-overlap-silence"
+  ],
+  "gates": {
+    "everyCaseDERMaximum": 0.2,
+    "inferenceWallAudioRatioMaximum": 2,
+    "RSSBytesMaximum": 4294967296,
+    "globalIdentityConfusionRatioMaximum": 0.05,
+    "overlapRecallMinimum": 0.8,
+    "everyCaseObservedSpeakerCountMatchesReference": true
+  },
+  "semantics": "Eight independent slots; initial inactive; score > onset activates; score < offset deactivates; equality retains previous state; 10ms native frames; exact centisecond intervals; active final frame ends at audio support. No score calibration, clipping, filtering or labels in candidate.",
+  "evaluator": {
+    "path": "packages/test-harness/speech/feasibility/score.mjs",
+    "sha256": "794b3bc4275df13c77b36a3e7cab7b9cdec49c0cb6edc45003c7b1b22ed1f350"
+  },
+  "source": {
+    "repository": "NVIDIA-NeMo/Speech",
+    "revision": "3c0fdca291547aa4898cbf38d9f0325ec225d9d8",
+    "path": "nemo/collections/asr/parts/utils/vad_utils.py",
+    "sha256": "c1a1d385307e34f7b1eb7deb949f00dcebec15b83f191df55a0951449a0dd27f",
+    "function": "binarization_vectorized; onset >= offset branch"
+  },
+  "operands": [
+    {
+      "id": "bspxd30",
+      "pcmSha256": "9ba2131687811bfbb9fb08d915648738cd83b35476370b55ae95b5c809133bb1",
+      "sourceFrames": 480000,
+      "output": "nemotron-feasibility/bspxd30.json.gz"
+    },
+    {
+      "id": "returns-overlap-silence",
+      "pcmSha256": "e97f8450c758696193a8b9a8d0468217e24fa22a2d12631a2c37fa6eb20e9068",
+      "sourceFrames": 1600000,
+      "output": "nemotron-feasibility/returns-overlap-silence.json.gz"
+    },
+    {
+      "id": "aiqwk30",
+      "pcmSha256": "d5b47fcc546370ebf65b395d6ae7d2c5f5e9ebc3e3529c6550b89b82ea3bd759",
+      "sourceFrames": 480000,
+      "output": "nemotron-feasibility/aiqwk30.json.gz"
+    }
+  ],
+  "execution": {
+    "command": "node replay.mjs <repo-root> <alternative-evidence-root> calibration > <new-scratch-calibration.json>; confirmation <frozen-calibration.json> only after calibration passes; default replay compares retained results",
+    "analysisWallBudgetSeconds": 300,
+    "inferenceCalls": 0,
+    "acquisitionBytes": 0,
+    "repairAllowance": "One infrastructure/parity repair with a new identity; never retune the candidate after scores.",
+    "resourceAccounting": "Reuse exact inference time/RSS from frozen observations. Separately measure interpreter wall time and evaluator process RSS; sequential inference+interpretation wall must meet <=2x audio, maximum individual process RSS <=4GiB. Parsing/evaluator cost is descriptive, not inference."
+  },
+  "limitations": [
+    "Native aiqwk0.5 failure was already observed; aiqwk is interpretation-held-out only, not untouched or training-held-out.",
+    "VoxConverse appears in model training.",
+    "Experimental NeMo/Lhotse layered runtime is not a sealed relocated production closure.",
+    "No known-person identification or word attribution is proven.",
+    "No new inference or machine-noise confirmation; inherited inference observations are one recorded run."
+  ]
+}
