@@ -17,10 +17,10 @@ binding: no aliases, dual readers or migrations; preserve external originals and
 frozen historical evidence.
 
 Current pickup: slice 12D. The real clipped, intact, repaired and intentional-jump
-media exercise now passes with pinned Parakeet evidence. Run a fresh-agent repair
-discovery without a timecode hint. The helper already applies one caller-authored
-edit, optionally prepares the changed tap and rechecks `join.verify`; it never
-chooses repairs or retries blindly.
+media exercise now passes with pinned Parakeet evidence, including one
+helper-driven caller repair and changed-output recheck. Run a fresh-agent repair
+discovery without a timecode hint. The helper never chooses repairs or retries
+blindly.
 
 Priority order: 12 contextual joins → 20 global synchronization → 21 switched-angle
 delivery → 15/16 face and framing delivery → 25 tone → 27–30 delivered transitions
