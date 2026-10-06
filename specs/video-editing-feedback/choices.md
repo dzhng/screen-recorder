@@ -36,8 +36,8 @@ User decisions remain binding; this ledger records implementation discretion out
 - **The gap:** the slice required rendered samples but did not prescribe a
   fixture. A real-camera clip would add texture and codec variation that could
   hide an opacity or layer-order defect, so the first native checkpoint uses
-  deterministic controls and leaves audio, dip/flash and appearance review to
-  their own receipts.
+  deterministic controls and leaves audio and appearance review to their own
+  receipts; dip/flash now use the same journey with their own retained controls.
 - **The reach:** future transition tests can reuse this public journey to catch
   missing windows, wrong track order or preview/frame divergence without adding
   another renderer. It does not establish an aesthetic grade or audio behavior.
@@ -1091,7 +1091,7 @@ unlisted architecture or user-only choice was found in this research pass.
 - **When:** slice27 public composition checkpoint.
 - **The choice:** Keep transitions as caller-authored convenience operations that lower to the existing gain and opacity processors. Crossfade names two distinct targets and emits opposing ramps; dip and flash name one target and emit a three-point pulse. A project/source pulse must have an even whole-microsecond midpoint, while clip anchors retain exact fractions. The recipe does not add assets, retime media or synthesize an SFX/color layer.
 - **The gap:** The transition request needed a reusable public seam but the native graph already owned all required scalar execution. Adding a second transition renderer would create a second clock and duplicate alpha/audio behavior.
-- **The reach:** Public composition tests prove the authored curves and explicit midpoint refusal. The canvas/background or caller-selected overlay controls the visible dip/flash color; delivered native transition evidence and motion critique remain open.
+- **The reach:** Public composition tests prove the authored curves and explicit midpoint refusal. The canvas/background or caller-selected overlay controls the visible dip/flash color; delivered native audio evidence and motion critique remain open.
 - **Verdict:** sound, medium-high confidence. The lowering is small and shares the existing processor/executor contracts, but visual/audio delivery still needs its own evidence gate.
 - **Confidence:** medium-high.
 
