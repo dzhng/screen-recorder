@@ -30,7 +30,7 @@ specific claim needed for this item.
 | E02 | Explicit bounded transcript.prepare implemented; read range remains a display filter | [08](slices/08-bounded-speech-preparation.md) | Execution selection participates in identity; bounded windows return source-clock words without manual extract offsets. |
 | E03 | Portable current help/examples and old-installed provenance control passed; bundled runtime remains unverified | [02](slices/02-capability-first-skill.md) | Execute current help and examples; record installed skill/CLI provenance and explicit refresh route. |
 | E04 | Unified typed publication checkpoint passed; retained output identity stays separate from replacement work | [03](slices/03-published-work-contract.md) | One typed public publication shape across prepared operations/job reads, no aliases. |
-| E05 | Speaker labels absent; current anonymous 30-second observations do not solve long-form labeling | [31](slices/31-speaker-continuity-replication.md), [32](slices/32-speaker-labeling.md), [33](slices/33-editing-references.md) | Mixed-recording continuity, speaker-labeled word/turn views, explicit name bindings and raw-source attribution; overlap/unknowns stay explicit. |
+| E05 | Generation-pinned caller speaker bindings and interval labels now exist; anonymous 30-second evidence still does not solve long-form labeling | [31](slices/31-speaker-continuity-replication.md), [32](slices/32-speaker-labeling.md), [33](slices/33-editing-references.md) | Mixed-recording continuity, speaker-labeled word/turn views, explicit name bindings and raw-source attribution; overlap/unknowns stay explicit. |
 | E06 | Exact rational admission fixed; persisted-owner 24fps and 30000/1001 controls passed, final real-media gate pending | [06](slices/06-exact-removal.md) | Public 24fps rational ripple removal preserves exact surviving source endpoints and phase. |
 | E07 | Missing `fortun-` fragment; bounded09 reference accepted, partial lexical identity remains unknown | [09](slices/09-alignment-replication.md), [10](slices/10-alignment-and-boundaries.md), [12](slices/12-contextual-join-verification.md) | Partial-word case and omission controls; observed fragments retained, unexplained activity explicit. Lexical detection needs measured proof; energy alone cannot name a stutter. |
 | E08 | Bounded adapter wait and atomic file delivery implemented | [04](slices/04-wait-and-json-delivery.md) | One bounded wait emits truthful final/pending identity; no file-existence loops, duplicate mutation or incomplete output. |
@@ -147,9 +147,12 @@ reproduce original short-window parity. The fixed onset/offset candidate passes
 short three-/four-speaker fixtures, returns/silence and the336s interview, but
 required ten-minute four-speaker overlap is57.49% against the unchanged80% gate.
 No provider or long-form envelope is promoted. Model byte/load
-readiness is separate from quality. Slice31 is resliced into short-quality admission,
-global continuity, prepared execution closure and word attribution; slice32 cannot
-claim labeling ready from those partial results.
+readiness is separate from quality. Slice32 now has a generation-pinned `speaker.bind`
+operation and source interval decoration for explicit caller names, but selected-range
+preparation, project word attribution and package replay remain open. Slice31 is
+resliced into short-quality admission, global continuity, prepared execution closure
+and word attribution; the binding checkpoint does not claim labeling ready from those
+partial results.
 
 Slice19 acceptance is complete for E19/E22/U23; S05 retains its separate33 workflow
 scope. [The dialogue evidence](assets/19-dialogue-matching/README.md) binds the
