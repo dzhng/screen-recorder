@@ -1,7 +1,9 @@
-# Planning review
+# Planning review (historical)
 
-Reviewed 2026-10-05. Verdict: ready to begin corpus certification; implementation
-and media acceptance remain unstarted.
+Reviewed 2026-10-05, before implementation began. Verdict at that time: ready to
+begin corpus certification. The implementation and media acceptance statements
+below describe that planning pass and are not the current feature status; the
+live handoff and slice verdicts own current progress.
 
 ## Architecture and diff review
 
