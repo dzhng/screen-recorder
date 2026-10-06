@@ -1,0 +1,18 @@
+{
+  "scope": "Existing actual maximal25s inference reused; no new inference",
+  "sourceFrames": 400000,
+  "shape": [
+    313,
+    1025
+  ],
+  "nativeReceiptBytes": 1723211,
+  "reportBytes": 338437,
+  "nativeReceiptSha256": "524e657b2eec11f8ee33514d799cbe638fffae1a6eaeb724fee8550bd5902f94",
+  "reportSha256": "71a4e3e7b3f9b70e09dbbad31284a100d42d1de9f61d1757dba81f95cb65c1a4",
+  "vocabularyMaximumUTF8Bytes": 13,
+  "modelConfigUTF8Bytes": 31278,
+  "greedyRuns": 136,
+  "acousticCells": 2500,
+  "operandByteLimit": 8388608,
+  "policy": "Complete operands admitted or refused, never truncated. Native shape, token, text, word, correspondence and acoustic counts are separately bounded."
+}

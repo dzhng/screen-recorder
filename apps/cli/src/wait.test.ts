@@ -285,6 +285,49 @@ test("model preparation waits through its advertised model.status getter without
   ]);
 });
 
+test("alignment preparation waits for its admitted job and reuses the same literal request", async () => {
+  const params = {
+    assetId: "a",
+    streamId: "s",
+    channel: 0,
+    sourceRange: { startUs: 0, endUs: 1000000 },
+    text: "Hi, literal text!",
+    modelId: "nemo-ctc110",
+  };
+  let preparations = 0;
+  const f = await fixture((request) => {
+    if (request.operation === "job.get")
+      return { ok: true, data: { ...job("ready"), target: { kind: "asset", assetId: "a" } } };
+    expect(request.operation).toBe("alignment.prepare");
+    expect(request.params).toEqual(params);
+    return {
+      ok: true,
+      data:
+        ++preparations === 1
+          ? { state: "processing", jobId: "job" }
+          : {
+              state: "ready",
+              published: {
+                generation: 1,
+                attemptId: "attempt",
+                output: { generation: "attempt", source: { text: params.text } },
+              },
+            },
+    };
+  });
+  const output = await f.run("alignment.prepare", params, ["--wait", "--timeout-ms", "1000"]);
+  expect(output.code, output.stdout + output.stderr).toBe(0);
+  expect(JSON.parse(output.stdout)).toMatchObject({
+    data: { state: "ready", published: { output: { generation: "attempt" } } },
+    wait: { state: "settled" },
+  });
+  expect(f.calls.map((r) => r.operation)).toEqual([
+    "alignment.prepare",
+    "job.get",
+    "alignment.prepare",
+  ]);
+});
+
 test("bounded transcript preparation waits for its admitted generation without resubmitting inference", async () => {
   const generation = "c6df7efc-a023-4c40-aa08-3b8b1c0b1b90";
   const selection = { assetId: "a", streamId: "s", acquisitionId: "acquired" };

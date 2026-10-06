@@ -53,6 +53,8 @@ const reads = new Map([
   ["capture.stop", "recording.get"],
   ["package.open", "package.status"],
   ["speaker.get", "speaker.get"],
+  ["alignment.prepare", "alignment.prepare"],
+  ["alignment.get", "alignment.get"],
   ["model.prepare", "model.status"],
 ]);
 // Getters used as initial requests must preserve the same domain response while waiting.

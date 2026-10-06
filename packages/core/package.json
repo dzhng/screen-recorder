@@ -279,6 +279,26 @@
     "./project-speakers": {
       "types": "./dist/project-speakers.d.ts",
       "default": "./dist/project-speakers.js"
+    },
+    "./source-alignment": {
+      "types": "./dist/source-alignment.d.ts",
+      "default": "./dist/source-alignment.js"
+    },
+    "./alignment-operands": {
+      "types": "./dist/alignment-operands.d.ts",
+      "default": "./dist/alignment-operands.js"
+    },
+    "./alignment-evidence": {
+      "types": "./dist/alignment-evidence.d.ts",
+      "default": "./dist/alignment-evidence.js"
+    },
+    "./alignment-processing": {
+      "types": "./dist/alignment-processing.d.ts",
+      "default": "./dist/alignment-processing.js"
+    },
+    "./alignment-read": {
+      "types": "./dist/alignment-read.d.ts",
+      "default": "./dist/alignment-read.js"
     }
   },
   "scripts": {
@@ -288,7 +308,7 @@
   },
   "dependencies": {
     "@yap/composition": "workspace:*",
-    "zod": "4.6.5",
-    "@yap/protocol": "workspace:*"
+    "@yap/protocol": "workspace:*",
+    "zod": "4.6.5"
   }
 }

@@ -1,6 +1,6 @@
 # 10 — Publish alignment and acoustic boundary evidence
 
-Status: checkpoint A implemented and reviewed; checkpoint B not started. Depends on: [09](09-alignment-replication.md), [08](08-bounded-speech-preparation.md).
+Status: checkpoint A committed; checkpoint B1 source/public lifecycle reviewed and green; B2 project tap/projection/portable not started. Depends on: [09](09-alignment-replication.md), [08](08-bounded-speech-preparation.md).
 
 ## Contract
 
@@ -51,6 +51,16 @@ closure reproduces every bounded reference matrix. Repeated inference also
 preserves complete inventory readiness. Public attribution is still pending B.
 
 ### Checkpoint B — durable evidence and public lifecycle
+
+B1 has passed independent review and focused consumer corrections. It exposes
+explicit source preparation and retained-generation reads, including
+words, acoustic cells, native scores and original raw chunks. Thresholded reads
+never invoke a provider. Unpublished refusal operands are inspectable as captured
+and unverified; ready rows require queue settlement. Complete23-case correspondence
+and conditional-bound parity passes against09 through the shared native arithmetic
+and actual core publication/read owners. Source restart, cancellation/retry and
+missing-runtime checks pass. B2 still owns project selected-tap observations,
+source projection and portable preservation through this same evidence store.
 
 Explicit preparation publishes immutable conditional paths and correspondence,
 with literal source/text/channel/range/provider/PCM pins. Retained reads and pinned

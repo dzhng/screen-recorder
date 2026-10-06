@@ -661,9 +661,11 @@ export class Models {
     const selected = this.selected(modelId),
       runtime = selected.manifest.runtimeArtifact;
     const checkpoint = selected.manifest.files[0];
+    const worker = runtime?.entries.find((entry) => entry.path === "execution/worker.py");
     if (
       selected.manifest.purpose !== "alignment" ||
       selected.manifest.engine.decoder !== "nemo-auxiliary-ctc110-v1" ||
+      worker?.kind !== "file" ||
       !runtime ||
       selected.manifest.files.length !== 1 ||
       !checkpoint
@@ -679,6 +681,7 @@ export class Models {
         modelDigest: selected.modelDigest,
         modelSha256: checkpoint.sha256,
         runtimeDigest: runtime.digest,
+        workerSha256: worker.sha256,
         recipe: "nemo-auxiliary-ctc110-v1" as const,
       },
       checkpoint: checkpoint.path,

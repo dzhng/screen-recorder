@@ -1,0 +1,213 @@
+import { join } from "node:path";
+import { isDeepStrictEqual } from "node:util";
+import { setImmediate } from "node:timers/promises";
+import type { AssetStore } from "./assets.js";
+import type { AcquisitionStore } from "./acquisitions.js";
+import { CatalogError } from "./catalog.js";
+import type { JobQueue, JobExecution, StagedJobResult } from "./jobs.js";
+import type { Models, PreparedRuntime } from "./models.js";
+import {
+  selectAlignmentSource,
+  alignmentSourceSchema,
+  type AlignmentSourceInput,
+} from "./source-alignment.js";
+import type { AlignmentEvidenceStore, AlignmentEvidenceMetadata } from "./alignment-evidence.js";
+import type { AlignmentEvidenceSource, AlignmentOperands } from "./alignment-operands.js";
+
+const artifact = "source-alignment";
+export type AlignmentObserver = (
+  request: {
+    selected: ReturnType<typeof selectAlignmentSource>;
+    engine: AlignmentEvidenceSource["engine"];
+    decoder: AlignmentEvidenceSource["decoder"];
+    runtime: PreparedRuntime;
+    checkpoint: string;
+  },
+  signal: AbortSignal,
+) => Promise<{
+  pcm: AlignmentEvidenceSource["pcm"];
+  operands: AlignmentOperands;
+  failure?: CatalogError;
+}>;
+export type AlignmentProcessingOptions = {
+  assets: AssetStore;
+  acquisitions: AcquisitionStore;
+  models: Models;
+  jobs: JobQueue;
+  evidence: AlignmentEvidenceStore;
+  observe: AlignmentObserver;
+  decoder: AlignmentEvidenceSource["decoder"] | null;
+};
+/** Explicit work shares Models readiness, job replay, source retention and publication fences. */
+export class AlignmentProcessing {
+  constructor(private readonly options: AlignmentProcessingOptions) {}
+  private descriptor(input: AlignmentSourceInput) {
+    const selected = selectAlignmentSource(this.options.assets, this.options.acquisitions, input);
+    return {
+      selected,
+      source: {
+        streamId: selected.selection.streamId,
+        acquisitionId: selected.selection.acquisitionId ?? null,
+        supportDigest: selected.supportDigest,
+        channel: selected.channel,
+        originUs: selected.originUs,
+        durationUs: selected.durationUs,
+        observationRange: selected.sourceRange,
+        text: selected.text,
+        engine: this.options.models.alignment(input.modelId).engine,
+      },
+    };
+  }
+  private identity(input: AlignmentSourceInput, decoder = this.options.decoder) {
+    const { source } = this.descriptor(input);
+    return {
+      target: { kind: "asset" as const, assetId: input.assetId },
+      artifact,
+      input: JSON.stringify({
+        request: alignmentSourceSchema.parse(input),
+        source: { ...source, decoder },
+      }),
+    };
+  }
+  sourceStatus(input: AlignmentSourceInput) {
+    const { source } = this.descriptor(input),
+      retained = this.options.evidence.latestObservation(input.assetId, source),
+      status = this.options.jobs.status(this.identity(input, retained?.source.decoder));
+    const reason =
+      status.state !== "not_requested"
+        ? null
+        : this.options.models.alignment(input.modelId).status().state !== "ready"
+          ? "model_not_prepared"
+          : this.options.decoder === null
+            ? "native_decoder_unavailable"
+            : null;
+    const published = status.published
+      ? {
+          generation: status.published.generation,
+          evidence: JSON.parse(status.published.result) as AlignmentEvidenceMetadata,
+        }
+      : null;
+    if (published) this.options.evidence.metadata(published.evidence);
+    return {
+      ...status,
+      state: reason ? ("unavailable" as const) : status.state,
+      reason: reason ?? status.reason,
+      published,
+    };
+  }
+  prepareSource(input: AlignmentSourceInput) {
+    input = alignmentSourceSchema.parse(input);
+    const status = this.sourceStatus(input);
+    if (status.state !== "not_requested") return status;
+    this.options.jobs.submit(
+      () => ({ ...this.identity(input), lane: "heavy" }),
+      (job) => {
+        const owner = { kind: "job" as const, id: job.jobId };
+        this.options.assets.retain(owner, [input.assetId]);
+        if (input.acquisitionId !== undefined)
+          this.options.acquisitions.retain(owner, [input.acquisitionId]);
+      },
+    );
+    return this.sourceStatus(input);
+  }
+  async execute({ job, signal }: JobExecution): Promise<StagedJobResult> {
+    if (job.target.kind !== "asset" || job.artifact !== artifact)
+      throw new CatalogError("UNSUPPORTED_JOB", "Alignment processor cannot execute this job");
+    const input = alignmentSourceSchema.parse(JSON.parse(job.input).request),
+      { selected, source } = this.descriptor(input),
+      decoder = this.options.decoder;
+    if (!decoder)
+      throw new CatalogError("NOT_READY", "Native alignment decoder is unavailable", {}, true);
+    if (job.target.assetId !== input.assetId || this.identity(input).input !== job.input)
+      throw new CatalogError("ARTIFACT_CHANGED", "Alignment source or execution inputs changed");
+    signal.throwIfAborted();
+    const model = this.options.models.alignment(input.modelId),
+      runtime = await model.runtime();
+    if (
+      runtime.descriptorDigest !== source.engine.descriptorDigest ||
+      runtime.modelDigest !== source.engine.modelDigest ||
+      runtime.runtimeDigest !== source.engine.runtimeDigest
+    )
+      throw new CatalogError(
+        "ARTIFACT_CHANGED",
+        "Prepared alignment runtime differs from admitted identity",
+      );
+    signal.throwIfAborted();
+    await this.cleanupAsset(input.assetId, signal);
+    const observed = await this.options.observe(
+      {
+        selected,
+        engine: source.engine,
+        decoder,
+        runtime,
+        checkpoint: join(runtime.model, model.checkpoint),
+      },
+      signal,
+    );
+    signal.throwIfAborted();
+    const identity = {
+        owner: { kind: "asset" as const, assetId: input.assetId },
+        generation: job.attemptId,
+        policy: "alignment-v1" as const,
+      },
+      descriptor = { ...source, decoder, pcm: observed.pcm };
+    if (
+      !isDeepStrictEqual(observed.pcm.sampleRate, selected.expectedPCM.sampleRate) ||
+      observed.pcm.frames !== selected.expectedPCM.frames
+    )
+      throw new CatalogError(
+        "INVALID_EVIDENCE",
+        "Alignment PCM differs from the selected sample count",
+      );
+    if (observed.failure) {
+      const { captured } = this.options.evidence.capture(
+        identity,
+        descriptor,
+        observed.operands,
+        job.jobId,
+      );
+      Object.assign(observed.failure.details, {
+        generation: identity.generation,
+        nativeReceiptSha256: captured.nativeReceiptSha256,
+        reportSha256: captured.reportSha256,
+        correspondenceSha256: captured.correspondenceSha256,
+        verified: false,
+      });
+      throw observed.failure;
+    }
+    const staged = this.options.evidence.stage(identity, descriptor, observed.operands, job.jobId);
+    return {
+      result: JSON.stringify(staged.metadata),
+      publish: staged.publish,
+      close: staged.close,
+    };
+  }
+  cleanupAsset(assetId: string, signal?: AbortSignal) {
+    return this.options.evidence.reclaim(
+      assetId,
+      (generation) =>
+        this.options.jobs.retainsAttempt({ kind: "asset", assetId }, artifact, generation),
+      signal,
+    );
+  }
+  async cleanup(signal: AbortSignal) {
+    let afterSequence = 0;
+    let failure: unknown;
+    for (;;) {
+      signal.throwIfAborted();
+      const page = this.options.assets.list({ afterSequence, limit: 100 });
+      for (const asset of page.assets) {
+        try {
+          await this.cleanupAsset(asset.id, signal);
+        } catch (error) {
+          signal.throwIfAborted();
+          failure ??= error;
+        }
+      }
+      if (!page.nextCursor) break;
+      afterSequence = page.nextCursor.afterSequence;
+      await setImmediate(undefined, { signal });
+    }
+    if (failure) throw failure;
+  }
+}

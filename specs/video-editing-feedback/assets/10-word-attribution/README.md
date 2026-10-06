@@ -65,3 +65,30 @@ directories retain the measured inventory. The complete runtime digest is unchan
 The focused implied-directory and resource-mode regressions failed before the
 correction and pass afterward. The independent review identified the inherited-mask
 defect; its confined corrective review completed with no actionable findings.
+
+## Retained source evidence
+
+[Source evidence parity](source-evidence-parity.json) preserves every possible pair,
+omission, conditional frame estimate and physical refusal for all23 accepted text
+candidates. It reuses captured provider responses, runs the actual shared native
+arithmetic, then stages and publishes through the core evidence owner before
+reading retained pages. No new model inference occurs. The initial observed-extra classification incorrectly used unmatched; this
+complete comparison caught the error and the classification was corrected.
+
+[Maximum window](maximum-window.json) measures the already executed maximal25s
+input, complete313×1025 matrix and full report. The parser's8MiB allowance admits
+complete operands or refuses them; independent shape, text, token, correspondence
+and acoustic bounds prevent unbounded work. Pages obey a separate response budget.
+
+Public source checks cover missing model readiness, incomplete selected support,
+retained threshold/raw reads after restart, and captured-but-unpublished refusals.
+Lifecycle checks cover joining, cancellation/drain/retry, changed decoder availability
+and deleted runtime bytes. The absolute checkpoint regression first failed through
+the existing speaker processor; it now passes through the shared selected-channel
+route. The CLI wait mutation returns the job's unrelated output when its pinned
+preparation route is absent; restoring the route passes. Project taps and portable
+continuation remain checkpoint B2.
+
+[Source review](review-source.json) records the independent B1 review and focused
+consumer corrections. Both stale private-wire test contracts were updated to the
+shared selected-channel owner; frozen historical archives remain unchanged.

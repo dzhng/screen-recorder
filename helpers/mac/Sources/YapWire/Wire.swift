@@ -33,7 +33,7 @@ public enum NativeWire {
                 try WireRequest.requireEmpty(params)
                 return ["rnnoise": CompositionAudio.rnnoiseImplementation, "retime": CompositionAudio.retimeImplementation, "statePreparation": CompositionAudio.statePreparationImplementation]
             },
-            "media.speakerCapabilities": media { params in
+            "media.sourceChannelCapabilities": media { params in
                 try WireRequest.requireEmpty(params)
                 return ["recipe": SourceChannelPCM.recipe, "providerVersion": SourceChannelPCM.providerVersion]
             },
@@ -62,7 +62,6 @@ public enum NativeWire {
             "media.sourceImage": media { try json(SourceImageOperation.execute($0)) },
             "media.sourceFrame": media { try json(await SourceFrameOperation.execute($0)) },
             "media.convertSelectedAudio": media { try json(await SelectedAudioConversionOperation.execute($0)) },
-            "media.sourceSpeakerPCM": media { try json(await SourceChannelPCMOperation.execute($0, expectedFrames: 480_000)) },
             "media.sourceChannelPCM": media { try json(await SourceChannelPCMOperation.execute($0)) },
             "speech.correspond": media { try json(CorrespondenceOperation.execute($0)) },
             "media.sourceAudio": media { try json(await SourceAudioOperation.execute($0)) },

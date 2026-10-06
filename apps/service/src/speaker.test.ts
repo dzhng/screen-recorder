@@ -68,7 +68,7 @@ async function fixture(failure = false) {
       await rm(join(workspace, parent.name), { recursive: true, force: true });
       return { ok: true, data: { removed: true } };
     }
-    if (operation !== "media.sourceSpeakerPCM") throw new Error(operation);
+    if (operation !== "media.sourceChannelPCM") throw new Error(operation);
     await writeFile(String(params.output), pcm, { flag: "wx" });
     return {
       ok: true,

@@ -1,68 +1,12 @@
 import { constants } from "node:fs";
 import { open } from "node:fs/promises";
 import { join } from "node:path";
-import { isDeepStrictEqual } from "node:util";
-import { z } from "zod";
 import { CatalogError } from "@yap/core/catalog";
-import { hashFile } from "@yap/core/files";
 import type { SpeakerObserver } from "@yap/core/speaker-processing";
-import type { SpeakerEvidenceSource } from "@yap/core/speaker-evidence";
+import { sourceChannelPCM } from "./source-channel.js";
 import { withRenderAttempt } from "./render.js";
-import { nativeResult, preparedModelWorker, type MediaWorker } from "./worker.js";
+import { preparedModelWorker, type MediaWorker } from "./worker.js";
 
-const capabilitiesSchema = z.object({
-  recipe: z.string().min(1),
-  providerVersion: z.string().min(1),
-});
-const pcmSchema = z.object({
-  file: z.string(),
-  bytes: z.literal(1920000),
-  sha256: z.string().regex(/^[a-f0-9]{64}$/),
-  sampleRate: z.literal(16000),
-  frames: z.literal(480000),
-  channels: z.literal(1),
-  channel: z.int().nonnegative(),
-  sourceChannels: z.int().positive(),
-  sourceSampleRate: z.int().positive(),
-  range: z.unknown(),
-  sourceOffsetUs: z.unknown(),
-  recipe: z.string(),
-  representation: z.literal("float32-le"),
-  providerVersion: z.string(),
-});
-/** Missing optional execution leaves ready evidence readable and new observations unavailable. */
-export async function speakerDecoder(
-  native: MediaWorker,
-  executable: string | undefined,
-  signal: AbortSignal,
-): Promise<SpeakerEvidenceSource["decoder"] | null> {
-  if (!executable) return null;
-  try {
-    const capability = capabilitiesSchema.parse(
-      nativeResult(await native("media.speakerCapabilities", {}, { signal, timeoutMs: 5000 })),
-    );
-    if (capability.recipe !== "source-selected-span-avfoundation-f32-16k-v1") return null;
-    const file = await open(
-      executable,
-      constants.O_RDONLY | constants.O_NOFOLLOW | constants.O_NONBLOCK,
-    );
-    try {
-      const stat = await file.stat();
-      if (!stat.isFile()) return null;
-      const pin = await hashFile(file, stat.size, signal);
-      return {
-        recipe: capability.recipe,
-        workerSha256: pin.sha256,
-        osBuild: capability.providerVersion,
-      };
-    } finally {
-      await file.close();
-    }
-  } catch (error) {
-    if (signal.aborted) throw error;
-    return null;
-  }
-}
 async function operand(path: string): Promise<string> {
   let file;
   try {
@@ -94,51 +38,7 @@ export function speakerObserver(native: MediaWorker, workspace: string): Speaker
         const pcmPath = join(directory, "speaker.f32");
         const output = join(directory, "speaker-report.json");
         const { selected, decoder } = request;
-        const raw = nativeResult(
-          await execute(
-            "media.sourceSpeakerPCM",
-            {
-              source: selected.track,
-              range: selected.sourceRange,
-              channel: selected.channel,
-              output: pcmPath,
-            },
-            { signal, timeoutMs: 90000 },
-          ),
-        );
-        const receipt = pcmSchema.parse(raw);
-        if (
-          receipt.file !== pcmPath ||
-          receipt.channel !== selected.channel ||
-          selected.stream.kind !== "audio" ||
-          receipt.sourceChannels !== selected.stream.channels ||
-          receipt.recipe !== decoder.recipe ||
-          receipt.providerVersion !== decoder.osBuild ||
-          !isDeepStrictEqual(receipt.range, selected.sourceRange) ||
-          !isDeepStrictEqual(receipt.sourceOffsetUs, selected.track.sourceOffsetUs)
-        )
-          throw new CatalogError(
-            "ARTIFACT_CHANGED",
-            "Speaker PCM differs from the admitted source and decoder",
-          );
-        const file = await open(
-          pcmPath,
-          constants.O_RDONLY | constants.O_NOFOLLOW | constants.O_NONBLOCK,
-        );
-        try {
-          const stat = await file.stat();
-          if (
-            !stat.isFile() ||
-            stat.size !== receipt.bytes ||
-            (await hashFile(file, stat.size, signal)).sha256 !== receipt.sha256
-          )
-            throw new CatalogError(
-              "INVALID_EVIDENCE",
-              "Prepared speaker PCM differs from its complete receipt",
-            );
-        } finally {
-          await file.close();
-        }
+        const receipt = await sourceChannelPCM(execute, selected, decoder, pcmPath, signal);
         const result = await execute(
           "speaker.observe",
           {

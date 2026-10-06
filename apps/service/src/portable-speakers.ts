@@ -4,7 +4,7 @@ import { acquisitionContext } from "@yap/core/acquisitions";
 import { CatalogError } from "@yap/core/catalog";
 import { projectCompositionFromRevision } from "@yap/core/project-window";
 import { sourceSelectionKey, type SourceSelection } from "@yap/core/source-selection";
-import { selectSpeakerChannel } from "@yap/core/source-speakers";
+import { selectSourceChannel } from "@yap/core/source-selection";
 import {
   speakerOperandRecords,
   speakerGenerationResource,
@@ -162,10 +162,9 @@ export function portableProjectSpeakers(
   const dependencies: EvidenceManifest["dependencies"] = [...selections]
     .sort(([a], [b]) => a.localeCompare(b))
     .map(([, selection]) => {
-      const selected = selectSpeakerChannel(sourceAssets, sourceAcquisitions, {
+      const selected = selectSourceChannel(sourceAssets, sourceAcquisitions, {
         ...selection,
         channel: input.channel,
-        modelId: input.modelId,
       });
       const found = new Map<string, SpeakerEvidenceMetadata>();
       for (const resource of resources) {
