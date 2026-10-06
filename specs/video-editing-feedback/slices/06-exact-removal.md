@@ -1,6 +1,6 @@
 # 06 — Remove exact fractional frame ranges
 
-Status: planned. Depends on: [01](01-certified-corpus.md).
+Status: planned. Depends on: None. This exact-clock contract uses independent authored rational/text/silence controls; it does not depend on inference or real-media certification.
 
 ## Contract
 

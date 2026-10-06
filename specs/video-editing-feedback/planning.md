@@ -61,3 +61,7 @@ acquisition, fixture derivation or new media verification occurred in this pass.
 Implementation scheduling: 02 is independent of real-media certification because
 it uses current helper/public-contract controls. Media-dependent ports still wait
 for their certified cases. This removes a false dependency, not an acceptance gate.
+
+06 is also independent of raw-corpus acquisition: exact rational removal is proved
+through ordinary authored composition/service controls without decoding or models.
+Real-media integration still inherits final fixture acceptance.
