@@ -1483,6 +1483,29 @@ Apple cube candidate are in the slice26 evidence; no user-only decision remains.
 - **Verdict:** sound for the structural checkpoint; no delivered-quality claim.
 - **Confidence:** high for bounds and ownership, medium for native visual parity.
 
+## Measure blur at public delivery — slice29
+
+- **When:** motion-blur delivery receipt pass.
+- **The choice:** Record wall-clock time for the public frame journey in the
+  retained receipt, split into readiness polling, final file delivery and total
+  elapsed time for both the unblurred control and the blurred candidate. For
+  example, the current receipt can say that the candidate took about 64 ms more
+  than its same-run control, while still identifying the four requested blur
+  samples separately from the one decoded source sample.
+- **The gap:** The slice required observed render cost but did not define where
+  that measurement should be taken. A native-only counter would miss public
+  transport and delivery work; a pixel count alone would not show the caller's
+  cost.
+- **The reach:** Future blur recipes can compare bounded work at the same public
+  seam without treating one machine's wall-clock value as a quality verdict.
+  The receipt remains diagnostic and does not close the still-open appearance
+  gate.
+- **Verdict:** sound. It measures the user-visible journey while preserving the
+  distinction between requested sample count, decoded source support and local
+  elapsed time.
+- **Confidence:** medium; the plan required cost evidence but left the exact
+  receipt fields and timing boundary to the implementing agent.
+
 ## Keep intentional-jump recognition refusal explicit — slice12C
 
 - **When:** real-media contextual-join fixture pass.
