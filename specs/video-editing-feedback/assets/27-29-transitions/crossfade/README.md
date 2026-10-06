@@ -1,12 +1,22 @@
-# Native crossfade delivery
+# Native picture transition delivery
 
-`transition-delivery.mjs` drives the public CLI/MCP asset import and edit path with
-solid red and blue image sources. It applies one caller-authored crossfade from
-250ms through 750ms, reads frames outside and at the midpoint, then renders the
-same revision through `preview.get`.
+`transition-delivery.mjs` drives the public CLI/MCP asset import and edit path
+with deterministic solid-color sources. It applies one caller-authored crossfade
+from 250ms through 750ms, then one dip and one flash pulse over the same window.
+Each revision is read through `frame.get` outside and at the midpoint, and the
+same revision is delivered through `preview.get`.
 
-The native frame receipt shows the same blue top layer outside the transition and
-both explicit source channels at the midpoint (`[136, 0, 188]` mean RGB). The
-preview contains all four declared project frames. This is a bounded picture
-receipt for crossfade lowering and delivery; audio transitions, dip/flash and
-reference-conditioned visual acceptance remain separate gates.
+The native frame receipt shows the blue top layer outside the crossfade and both
+explicit source channels at its midpoint (`[136, 0, 188]` mean RGB). Dip and flash
+show the red source outside their windows (`[254, 0, 0]`) and the black canvas at
+the midpoint (`[0, 0, 0]`); every preview contains all four declared project
+frames. These are bounded picture receipts for public lowering and delivery.
+Audio transitions, reference-conditioned visual acceptance and motion delivery
+remain separate gates.
+
+An unprimed visual critique inspected all six dip/flash frames: every frame is
+opaque and fully filled, the red → black → red sequence is temporally consistent,
+and no cropping, edge artifact or unexpected transparency was visible. The
+repository screenshot comparator could not run because its `pngjs` dependency is
+not installed in this checkout; the receipt retains decoded means and alpha-safe
+PNG controls instead of claiming that metric pass.

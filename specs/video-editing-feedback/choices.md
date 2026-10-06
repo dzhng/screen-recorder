@@ -45,6 +45,25 @@ User decisions remain binding; this ledger records implementation discretion out
   caller-selected media and timing explicit.
 - **Confidence:** high.
 
+## Dip and flash delivery control — sound, high confidence
+
+- **When:** slice27 native picture checkpoint.
+- **The choice:** reuse the public transition journey with one held red image and
+  one black project canvas for each pulse. Read frames before, at and after the
+  caller's 250–750ms window, then render the same revision through preview. The
+  outside samples stay red and the midpoint reaches the black canvas, so native
+  delivery proves the three-point opacity pulse rather than only the authored keys.
+- **The gap:** the composition contract leaves the visible dip/flash color to the
+  canvas or caller-selected overlay. A black canvas is deterministic and keeps the
+  picture variable isolated; it does not claim that every future background or
+  audio treatment has been verified.
+- **The reach:** future transition receipts can use the same control to catch a
+  missing midpoint, wrong window or preview/frame divergence. Audio transition and
+  visual-reference acceptance remain independent.
+- **Verdict:** sound. The check proves the declared picture behavior without
+  inventing a color or an editorial effect.
+- **Confidence:** high.
+
 ## Lexical prerequisite checkpoint — sound, high confidence
 
 - When: slice20 isolated-microphone lexical scout.

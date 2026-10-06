@@ -1,6 +1,6 @@
 # 27 — Author reusable crossfade/dip/flash recipes
 
-Status: partial — public composition lowering and a native delivered crossfade picture/preview receipt are green; dip/flash, audio delivery and visual critique remain open. Depends on: [06](06-exact-removal.md), [24](24-blend-modes.md).
+Status: partial — public composition lowering and native delivered crossfade/dip/flash picture and preview receipts are green; audio delivery and visual critique remain open. Depends on: [06](06-exact-removal.md), [24](24-blend-modes.md).
 
 ## Contract
 
@@ -37,9 +37,10 @@ The focused composition checkpoint is
 `packages/composition/src/convenience.test.ts`; it records opposing ramps,
 three-point pulses and the explicit midpoint refusal. A delivered transition
 receipt in [crossfade evidence](../assets/27-29-transitions/crossfade/README.md)
-now proves one explicit picture crossfade through public import, authoring,
-native frame reads and preview export. Dip/flash, audio and final visual critique
-remain required before this slice is promoted to a complete native verdict.
+now proves one explicit picture crossfade plus one dip and one flash pulse through
+public import, authoring, native frame reads and preview export. Audio and final
+visual critique remain required before this slice is promoted to a complete native
+verdict.
 
 Expose a case-selected command or existing lab entry with its own usage. Store accepted requests/results and artifact identities in feature-owned evidence. The implementing agent checks actual output; the user may view it for direction without becoming a QA gate.
 

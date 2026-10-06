@@ -176,10 +176,96 @@ try {
   const movie = await decodeRGB(preview);
   assert.equal(movie.length, 4 * 64 * 48 * 3, "preview contains the four declared project frames");
   report.preview = { receipt: previewResult.published.output, frames: 4, rgbSha256: hash(movie) };
+  const pulseResults = {};
+  for (const kind of ["dip", "flash"]) {
+    const pulseProject = await call("project.create", {
+      requestId: randomUUID(),
+      canvas: {
+        width: 64,
+        height: 48,
+        fps: { numerator: 4, denominator: 1 },
+        background: "#000000ff",
+      },
+    });
+    const pulseEdited = await call("edit.apply", {
+      projectId: pulseProject.project.projectId,
+      expectedRevisionId: pulseProject.revision.id,
+      requestId: randomUUID(),
+      operations: [
+        { operation: "track.add", label: "pulse-track", track: { kind: "video", order: 0 } },
+        {
+          operation: "place",
+          label: "pulse",
+          clip: {
+            trackId: { label: "pulse-track" },
+            assetId: red.id,
+            streamId: red.streams[0].id,
+            source: { kind: "hold", atUs: 0 },
+            placement: { kind: "project", range: { startUs: 0, endUs: 1000000 } },
+          },
+        },
+        {
+          operation: "transition",
+          kind,
+          targets: [{ kind: "clip", id: { label: "pulse" } }],
+          mediaKind: "video",
+          window: { kind: "project", range: { startUs: 250000, endUs: 750000 } },
+        },
+      ],
+    });
+    const pulseSamples = {};
+    for (const atUs of [100000, 500000, 900000]) {
+      const request = {
+        projectId: pulseProject.project.projectId,
+        revisionId: pulseEdited.revision.id,
+        atUs,
+        maxLongEdge: 64,
+      };
+      const ready = await poll(
+        () => call("frame.get", request),
+        (value) => value.state === "ready",
+        `${kind} frame ${atUs}`,
+      );
+      const file = join(out, `${kind}-frame-${atUs}.png`);
+      await call("frame.get", request, { output: file });
+      pulseSamples[atUs] = {
+        meanRGB: meanRGB(await decodeRGB(file)),
+        output: {
+          implementationId: ready.published.output.implementationId,
+          frame: ready.published.output.frame,
+        },
+      };
+    }
+    assert.ok(distance(pulseSamples[100000].meanRGB, [255, 0, 0]) <= 1);
+    assert.ok(distance(pulseSamples[900000].meanRGB, [255, 0, 0]) <= 1);
+    assert.ok(pulseSamples[500000].meanRGB.every((value) => value <= 2));
+    const pulsePreview = join(out, `${kind}-preview.mp4`);
+    const pulsePreviewResult = await poll(
+      () =>
+        call(
+          "preview.get",
+          {
+            projectId: pulseProject.project.projectId,
+            revisionId: pulseEdited.revision.id,
+            range: { startUs: 0, endUs: 1000000 },
+          },
+          { output: pulsePreview },
+        ),
+      (value) => value.state === "ready",
+      `${kind} preview`,
+    );
+    assert.equal((await decodeRGB(pulsePreview)).length, 4 * 64 * 48 * 3);
+    pulseResults[kind] = {
+      samples: pulseSamples,
+      preview: { receipt: pulsePreviewResult.published.output, frames: 4 },
+    };
+  }
+  report.pulses = pulseResults;
   report.checks.push(
     "public CLI/MCP asset import and transition authoring",
     "native frame delivery keeps outside-window controls and mixes both explicit sources at midpoint",
     "native preview delivery contains the declared four project frames",
+    "native dip and flash picture pulses reach the black midpoint and restore the source",
   );
   report.passed = true;
 } finally {

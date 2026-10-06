@@ -12,9 +12,9 @@ Focused proof:
 - `bunx vitest run packages/composition/src/convenience.test.ts packages/composition/src/visual-plan.test.ts packages/composition/src/geometry-temporal.test.ts`
 - `bun run --cwd packages/composition check-types`
 
-Both pass on the implementation worktree. The [native crossfade receipt](crossfade/README.md)
-also drives a public solid-color picture edit through frame and preview delivery.
-Native package compilation, dip/flash/audio delivery and delivered moving-shot
+Both pass on the implementation worktree. The [native transition receipt](crossfade/README.md)
+also drives public solid-color crossfade, dip and flash picture edits through frame
+and preview delivery. Native package compilation, audio delivery and delivered moving-shot
 trajectory/blur receipts remain separate residual gates; no complete visual verdict
 is claimed here.
 
