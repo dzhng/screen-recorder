@@ -110,6 +110,9 @@ export async function materializeProjectIndex(
         ...(identity.observationRequest === undefined
           ? {}
           : { observations: identity.observationRequest }),
+        ...(identity.faceObservationRequest === undefined
+          ? {}
+          : { faceObservations: identity.faceObservationRequest }),
         atUs: candidate.sampleAtUs,
       };
       const status = await waitForIndexFrame(

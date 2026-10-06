@@ -57,6 +57,9 @@ export async function materializeSourceIndex(
       ...(identity.observationRequest === undefined
         ? {}
         : { observations: identity.observationRequest }),
+      ...(identity.faceObservationRequest === undefined
+        ? {}
+        : { faceObservations: identity.faceObservationRequest }),
     };
     const status = await waitForIndexFrame(
       () => frames.request(input),
