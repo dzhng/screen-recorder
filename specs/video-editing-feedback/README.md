@@ -10,38 +10,37 @@ contract using the real trailer project's [complete feedback](FEEDBACK.md) and
 
 ## Next Agent Prompt
 
-You are implementing this spec on branch spec/video-editing-feedback in
-/Users/server/dev/yap-video-editing. Work stays isolated from main; no installed
-app/library state is changed by tests. You are not replaying the old trailer editing session.
-Start at [01 — certified corpus](slices/01-certified-corpus.md): inspect the retained
-receipts, locate exact source ranges, verify original hashes and derive a compact
-case-selected corpus. Certify whether each historical defect survives reduction
-and reproduces on current Yap. Do not transcribe whole recordings just to locate
-one known failure. Read [fixtures.md](fixtures.md) before deriving media.
+Implement this spec on branch `spec/video-editing-feedback` in
+`/Users/server/dev/yap-video-editing`. Keep tests in isolated managed state; no
+merge, push or installed-app change has been requested. Hard cutover remains
+binding: no aliases, dual readers or migrations; preserve external originals and
+frozen historical evidence.
 
-The portable skill/helper checkpoint has shipped locally in this branch; built-in Parakeet is prepared in an isolated test library. The speaker checkpoint is acquired, while its execution closure is being reconstructed and measured. Public async replies and honest speech timing are active parallel passes.
+Current pickup: finish [01 — corpus certification](slices/01-certified-corpus.md).
+The [first audio checkpoint](assets/01-corpus-audio/README.md) retains five
+source-rate Float32 excerpts with exact sample/clock proof. Speech dispositions,
+exact tiny historical PCM16 retention, full-frame picture/multicam/speaker inputs
+and remaining independent controls are pending. Do not infer ASR fidelity from
+PCM equality or transcribe whole originals to locate known cases.
 
-The completed [02 — capability-first skill](slices/02-capability-first-skill.md) is the
-first useful workflow checkpoint. The agent's first internal question is what
-capabilities are available beyond Yap; it uses available tools and recommends a
-missing external capability only when the brief warrants it. Prepare/download pinned models
-for first-class Yap features as needed by default; no default external-tool installs or account setup.
+Parallel priority: [03 — publication replies](slices/03-published-work-contract.md),
+[07 — honest speech timing](slices/07-speech-timing-admission.md), then their
+consumers [04](slices/04-wait-and-json-delivery.md)/[08](slices/08-bounded-speech-preparation.md).
+[31 — speaker replication](slices/31-speaker-continuity-replication.md) is rebuilding
+its exact runtime and measuring continuity; the matched30s reference is preserved,
+but the long-form provider gate is not yet passed.
 
-Follow the dependency links in each slice. Local alignment/provider feasibility,
-single-mic synchronization, long-form speaker continuity, decoded color parity and mastering correction remain
-unproven; their replication slices must freeze a passing reference before their
-production consumers start. Exact fixture ranges/encodings are intentionally
-assigned to 01. No blocker currently prevents starting that slice.
+Completed checkpoints: [02](assets/02-capability-first-skill/README.md) and
+[06](assets/06-exact-removal/README.md). Parakeet is verified in isolated scratch
+state. Prepare/download pinned models for first-class Yap features as needed by
+default; recommend missing external capabilities only when the brief warrants
+them. Ordinary inference remains offline.
 
-Use hard cutovers throughout. Update every affected producer, consumer, test and
-skill example together; remove replaced paths. Managed current data may be reset
-if needed. Original external media and frozen historical evidence stay intact.
-There is no compatibility or migration deliverable.
-
-Before ending each pass, update this prompt, the owning slice status and the
-[traceability ledger](traceability.md) with scoped evidence and remaining work.
-Do not mark an unavailable provider, failed experiment or unchecked visual claim
-complete. Keep the checklist below current.
+Follow actual slice dependencies; independent structural checks do not require
+whole-corpus acceptance. Freeze passing alignment, picture, synchronization,
+speaker and mastering references before their production consumers. Update slice
+verdicts, [traceability](traceability.md), [choices](choices.md) and this prompt at
+each committed pass. Narrow checks per pass; full suite once at completion.
 
 ## Global TODO and review map
 

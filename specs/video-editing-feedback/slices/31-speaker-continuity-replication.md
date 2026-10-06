@@ -39,9 +39,9 @@ Declare work/memory bounds and score meaning. Measure mixed-source identity erro
 separately from timing errors and lexical ASR errors. Current four-slot constraints
 must stay explicit until a different supported envelope is proven.
 
-Use existing prepared local inputs and available capabilities. If a necessary
-provider is missing, recommend it specifically rather than installing/downloading
-by default. Freeze one passing local recipe before 32; failed feasibility causes
+Use existing prepared inputs when available; prepare/download pinned models and
+runtime for this first-class Yap feature as needed by default. The recommendation-only
+policy applies to capabilities outside Yap. Freeze one passing local recipe before 32; failed feasibility causes
 reslicing, not a “ready” output made from unrelated local slot IDs.
 
 ## Runnable checkpoint
@@ -84,7 +84,7 @@ Automatic known-person/voiceprint identification is outside this contract.
 
 Original short-window operand preservation, raw-score retention, overlapping turns,
 explicit optional preparation, pagination/replay and source-media integrity remain
-green. No second timeline, hidden provider fallback or automatic model acquisition.
+green. No second timeline, hidden provider fallback or acquisition during ordinary inference.
 Update the README prompt, traceability and spike verdict before ending the pass.
 
 ## Direction that would change this slice
