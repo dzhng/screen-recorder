@@ -296,8 +296,9 @@ final class CaptureView: NSView {
         button(input.startTitle == "Start Recording" ? "Start recording" : input.startTitle, id: "capture.start", frame: NSRect(x: 17, y: y, width: 320, height: 36), intent: .controls(.startOrStop), kind: .primary(shortcut: input.startShortcut), enabled: input.startEnabled)
         y += 36
         for action in input.transport {
-            button(action.title, id: action.action.id, frame: NSRect(x: 17, y: y, width: 316, height: 28), intent: .controls(action.action), kind: .secondary, enabled: action.enabled)
-            y += 39
+            y += 8
+            button(action.title, id: action.action.id, frame: NSRect(x: 17, y: y, width: 320, height: 28), intent: .controls(action.action), kind: .secondary, enabled: action.enabled)
+            y += 28
         }
         let footerY = y
         // Keep the breathing space above status fixed even when content scrolls to its edge.

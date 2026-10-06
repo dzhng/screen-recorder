@@ -1,6 +1,8 @@
 import Foundation
 
-if ProcessInfo.processInfo.environment["YAP_LIVE_PCM_TIMING"] != nil {
+if ProcessInfo.processInfo.environment["YAP_CAPTURE_CLOCK"] != nil {
+    runCaptureClockTests()
+} else if ProcessInfo.processInfo.environment["YAP_LIVE_PCM_TIMING"] != nil {
     try await runLivePCMTimingTests()
 } else if let output = ProcessInfo.processInfo.environment["YAP_PRIMARY_CAMERA_INPUT_OUTPUT"] {
     try await runPrimaryCameraInputTests(output: output)

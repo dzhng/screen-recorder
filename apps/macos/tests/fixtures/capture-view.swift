@@ -124,6 +124,8 @@ import YapControls
         for (name, facts, limit) in [
             ("idle", fixture(), CGFloat(0)),
             ("camera-only", fixture(cameraOnly: true), CGFloat(0)),
+            ("recording", recordingFixture(), CGFloat(0)),
+            ("paused", recordingFixture(paused: true), CGFloat(0)),
             ("permissions", permissionFixture(), CGFloat(0)),
             ("permissions-dark", permissionFixture(), CGFloat(0)),
             ("dark", fixture(), CGFloat(0)),
@@ -203,6 +205,16 @@ import YapControls
             shotWindow.orderOut(nil)
             shotWindow.close()
         }
+        let running = CaptureView(appIcon: appIcon, input: recordingFixture()) { recorded.append($0) }
+        let actionFrames = ["capture.start", ControlsAction.pauseOrResume.id, ControlsAction.cancel.id, ControlsAction.restart.id].map {
+            running.control(identifier: $0)!.frame
+        }
+        precondition(actionFrames.allSatisfy { $0.minX == actionFrames[0].minX && $0.width == actionFrames[0].width },
+                     "Recording actions must share aligned left and right edges")
+        let actionGaps = zip(actionFrames, actionFrames.dropFirst()).map { $1.minY - $0.maxY }
+        precondition(actionGaps.allSatisfy { $0 > 0 && $0 == actionGaps[0] },
+                     "Recording actions need equal positive gaps, including beneath Finish")
+
     }
 
     @MainActor static func permissionFixture() -> CaptureViewInput {
@@ -210,6 +222,18 @@ import YapControls
         input.screenSourcesEnabled = false
         input.notices = [CapturePresentation.screenSelectionPermissionNotice]
         input.permissionActions = [.init(.requestScreenPermission, "Allow in System Settings…", enabled: true), .init(.requestMicrophonePermission, "Allow Microphone Access…", enabled: true)]
+        return input
+    }
+
+    @MainActor static func recordingFixture(paused: Bool = false) -> CaptureViewInput {
+        var input = fixture(locked: true, cameraOnly: true, startEnabled: true, status: paused ? "Paused — 0:04" : "Recording — 0:04")
+        input.startTitle = "Finish Recording"
+        input.startShortcut = "⌃⌥⌘R"
+        input.transport = [
+            .init(.pauseOrResume, paused ? "Resume Recording" : "Pause Recording", enabled: true),
+            .init(.cancel, "Cancel Take", enabled: true),
+            .init(.restart, "Restart Take", enabled: true),
+        ]
         return input
     }
 

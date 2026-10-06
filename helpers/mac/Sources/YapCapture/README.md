@@ -24,6 +24,11 @@ the finished file; submission statistics are not decoded availability.
 reordering channels. Live callbacks may omit frame duration: the declared sample
 rate supplies the frame grid, while the callback supplies the first timestamp.
 Missing optional timing must not make otherwise usable narration interrupt a take.
+PCM placement compares adjacent accepted callback timestamps on the native sample
+grid. Small synchronization-clock residue must not accumulate into invented gaps
+or make continuous input appear to overlap; actual gaps, backward overlaps and
+pause exclusions remain distinct. The journal retains the callback timestamps
+independently of their admitted placement.
 
 A healthy ending can hold proven last-picture support through stop. Interrupted
 capture stops at available support instead of fabricating a tail. Hidden windows

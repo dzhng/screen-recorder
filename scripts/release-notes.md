@@ -21,6 +21,12 @@ passed. Live camera and microphone capture on physical devices remain unverified
 on the development Mac, which has no camera or microphone input. Existing recordings
 remain readable; no library migration is required for this update.
 
+This release fixes Camera Only takes that could stop after several seconds with `AUDIO_OVERLAP: PCM classification overlaps admitted samples.` Audio admission now follows adjacent native callback timestamps, so small synchronization-clock residue cannot create invented one-frame gaps or overlaps. Genuine gaps, backward overlaps and pauses remain validated separately.
+
+Recording action buttons now share aligned edges, equal spacing and consistent secondary-button sizing.
+
+Synthetic live-buffer, clock, audio-format, controls and native build checks passed. Live camera and microphone capture on physical devices remain unverified on the development Mac, which has no camera or microphone input.
+
 Check and download updates immediately from Settings → General → Check for Updates
 or the public CLI `update.check` operation. Both use the same native updater;
 `update.status` reports progress and `update.setEnabled` controls automatic updates.
