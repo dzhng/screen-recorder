@@ -1,6 +1,6 @@
 # Reliable autonomous video editing
 
-Status: implementation active in isolated worktree; capability-first skill and exact rational removal checkpoints complete. Last updated: 2026-10-05.
+Status: implementation active in isolated worktree; capability-first skill, exact rational removal and unified publication checkpoints complete. Last updated: 2026-10-05.
 
 Yap supplies explicit editing primitives and reproducible observations. The consumer
 agent chooses the story, uses available creative tools, checks actual output and
@@ -23,15 +23,16 @@ exact tiny historical PCM16 retention, full-frame picture/multicam/speaker input
 and remaining independent controls are pending. Do not infer ASR fidelity from
 PCM equality or transcribe whole originals to locate known cases.
 
-Parallel priority: [03 — publication replies](slices/03-published-work-contract.md),
-[07 — honest speech timing](slices/07-speech-timing-admission.md), then their
-consumers [04](slices/04-wait-and-json-delivery.md)/[08](slices/08-bounded-speech-preparation.md).
-[31 — speaker replication](slices/31-speaker-continuity-replication.md) is rebuilding
-its exact runtime and measuring continuity; the matched30s reference is preserved,
-but the long-form provider gate is not yet passed.
+Parallel priority: integrate [07 — honest speech timing](slices/07-speech-timing-admission.md)
+and [04 — bounded waiting](slices/04-wait-and-json-delivery.md), then begin
+[08 — bounded preparation](slices/08-bounded-speech-preparation.md).
+[31 — speaker replication](slices/31-speaker-continuity-replication.md) recovered
+the original runtime and passed three-speaker continuity controls. Four-speaker
+overlap fails under both original and official low-latency recipes; a separately
+pinned alternate is under bounded investigation. Preserve the red gate.
 
-Completed checkpoints: [02](assets/02-capability-first-skill/README.md) and
-[06](assets/06-exact-removal/README.md). Parakeet is verified in isolated scratch
+Completed checkpoints: [02](assets/02-capability-first-skill/README.md),
+[03](assets/03-published-work/README.md) and [06](assets/06-exact-removal/README.md). Parakeet is verified in isolated scratch
 state. Prepare/download pinned models for first-class Yap features as needed by
 default; recommend missing external capabilities only when the brief warrants
 them. Ordinary inference remains offline.
@@ -50,7 +51,7 @@ Numbering is a review order; actual prerequisites live in the slice headers.
 
 - [ ] [01 — Certify real fixtures and independent controls](slices/01-certified-corpus.md)
 - [x] [02 — Discover capabilities and make helper examples usable](slices/02-capability-first-skill.md)
-- [ ] [03 — Unify asynchronous public replies](slices/03-published-work-contract.md)
+- [x] [03 — Unify asynchronous public replies](slices/03-published-work-contract.md)
 - [ ] [04 — Bounded wait and ordinary JSON/artifact delivery](slices/04-wait-and-json-delivery.md)
 - [ ] [05 — Atomic replacement of owned exports](slices/05-atomic-export-replacement.md)
 - [x] [06 — Exact rational remove ranges](slices/06-exact-removal.md)

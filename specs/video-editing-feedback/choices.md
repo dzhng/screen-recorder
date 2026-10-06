@@ -17,3 +17,23 @@ Runnable examples consume IDs from saved public revision replies and retain cont
 ## Native-decoder audio fixture recipe — sound, high confidence
 
 Retain source-rate Float32 rather than compress or resample the first audio excerpts. Derive through the existing native source-audio owner and compare re-decoded retained samples against the original decoder operand. This keeps codec admission, physical sample counting and clock arithmetic with their existing owners. The 28MB inputs leave ample corpus budget. Numerical equality does not establish ASR equivalence or prove that an old failure survives; those verdicts remain separately pending.
+
+## Publication generation identity — sound, high confidence
+
+When an earlier transcript or index remains readable while a replacement runs,
+the reply identifies both the work now running and the retained output. The
+retained publication uses its owner's actual generation, which may be a number
+or a nonempty index-attempt string; it never invents a numeric generation.
+Slice03 left that representation unspecified. Keeping actual identities lets
+future waiting and cache consumers tell replacement work from readable old
+output without a second mapping table. This choice landed in `5d56d2f4`.
+
+## Historical operand boundary — sound, high confidence
+
+A saved receipt predating the public cutover still has its original fields.
+Historical comparison tools read that one frozen shape; current callers read
+the new public envelope. Converting archived receipts would destroy the original
+comparison operand, while accepting both in production would violate the hard
+cutover. Slice03 required archive preservation without prescribing fixture
+construction. Fixture-local extraction preserves both obligations and does not
+introduce a production compatibility reader. This choice landed in `5d56d2f4`.

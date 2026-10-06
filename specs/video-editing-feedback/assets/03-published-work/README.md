@@ -60,3 +60,8 @@ The frozen shape and synchronous-read scope were approved before adapter changes
 No schema migration, version negotiation, second supervisor or new storage owner
 was introduced. Internal helper composition and fixture naming were delegated
 implementation choices. The parent spec owns the accumulated choices ledger.
+
+Root integration rebuilt all seven affected package owners successfully. The new
+service/CLI publication boundary and core publication checks passed (five checks),
+and the distributed helper checks passed (22 checks). These reuse external worker
+controls; they make no new native-media or model-quality claim.
