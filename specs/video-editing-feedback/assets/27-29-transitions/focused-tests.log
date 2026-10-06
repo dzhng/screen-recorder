@@ -1,9 +1,9 @@
+$ bun run --cwd packages/composition test -- src/convenience.test.ts src/geometry-temporal.test.ts src/visual-plan.test.ts
 
- RUN  v5.0.0 /Users/server/dev/yap-video-editing
-
+ RUN  v5.0.0 /private/tmp/yap-motion-pass/packages/composition
 
  Test Files  3 passed (3)
-      Tests  36 passed (36)
-   Start at  10:04:59
-   Duration  263ms (transform 53%, tests 24%, import 22%, worker 1%)
+      Tests  37 passed (37)
 
+$ bun run --cwd packages/composition check-types
+$ tsc -p tsconfig.check.json
