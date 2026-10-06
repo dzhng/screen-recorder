@@ -29,5 +29,7 @@ remain pending under the approved fixture contract.
 crops with an explicit quiet-host attenuation for per-occurrence finishing proof.
 
 [Unlike-microphone operands](synchronization/README.md) retain lossless separated
-windows for synchronization research; their waveform refusal is separate from
-physical byte preservation and does not declare cameras synchronized.
+windows for synchronization research. The sibling picture manifest owns compact
+three-frame derivatives for sampled multicam behavior; the waveform refusal is
+separate from physical byte preservation and does not declare cameras
+synchronized.

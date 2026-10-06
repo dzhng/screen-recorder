@@ -1,0 +1,89 @@
+{
+  "version": 1,
+  "sources": {
+    "grahamRaw": {
+      "path": "pictures/grahamRaw.mp4",
+      "sha256": "759e82703340cd63bba2c82b3fc67eb0ba0111d98ab9ceeb834dcab828320e35",
+      "bytes": 38877,
+      "width": 320,
+      "height": 180,
+      "pixelFormat": "rgb24",
+      "samples": [
+        {
+          "frameIndex": 0,
+          "sourceAtUs": 0,
+          "sha256": "c5017d0499f9736abf2cea2c4cbda34fcab3bb9bcab25ab32918eda15d877096",
+          "bytes": 172800
+        },
+        {
+          "frameIndex": 1,
+          "sourceAtUs": 240000000,
+          "sha256": "cf18a1d9ce1363ceb053e1269668579ee3bfd5deab094bb728beb9279053fee3",
+          "bytes": 172800
+        },
+        {
+          "frameIndex": 2,
+          "sourceAtUs": 1200000000,
+          "sha256": "53072f4c81572b67bbeab13319060ff90c8f39c2a2bd1cffec627e2c08684f3b",
+          "bytes": 172800
+        }
+      ]
+    },
+    "lilyRawP1": {
+      "path": "pictures/lilyRawP1.mp4",
+      "sha256": "78ebac1cbb2c5756d7c26df1e5131eccf743e0600e2be88ab81eccd9bc52fa3e",
+      "bytes": 38548,
+      "width": 320,
+      "height": 180,
+      "pixelFormat": "rgb24",
+      "samples": [
+        {
+          "frameIndex": 0,
+          "sourceAtUs": 0,
+          "sha256": "8478b13fdb60240ca4e439a07e39be7071e8ff0b1feef9fb32e399158c4c8ae2",
+          "bytes": 172800
+        },
+        {
+          "frameIndex": 1,
+          "sourceAtUs": 240000000,
+          "sha256": "047d77d901449e7f1fcc187072b52c61cce80a65ff51c4a2a1ad447ff5013442",
+          "bytes": 172800
+        },
+        {
+          "frameIndex": 2,
+          "sourceAtUs": 1200000000,
+          "sha256": "d88cb74f4e64b0488d1df4295a2c3bca3665185459197a952c28945a15947197",
+          "bytes": 172800
+        }
+      ]
+    },
+    "madisonRaw": {
+      "path": "pictures/madisonRaw.mp4",
+      "sha256": "6432112a61d72ab47c7ece5e7c24b8b6b7a29712150af2c0a43a9b2824e726a8",
+      "bytes": 38109,
+      "width": 320,
+      "height": 180,
+      "pixelFormat": "rgb24",
+      "samples": [
+        {
+          "frameIndex": 0,
+          "sourceAtUs": 0,
+          "sha256": "b558a940c92cf4cdded791c8c3acfc055e0cf8da2cb3b583325fd8279f23bafc",
+          "bytes": 172800
+        },
+        {
+          "frameIndex": 1,
+          "sourceAtUs": 240000000,
+          "sha256": "5608d8073465718d3b5b92d2a54f59acd2676776e5f5f070108a5413d31ebeaa",
+          "bytes": 172800
+        },
+        {
+          "frameIndex": 2,
+          "sourceAtUs": 1200000000,
+          "sha256": "4c55359c736fbef1053814ed66c51cc42cb083b333ae61dfd6e572c1a2f19535",
+          "bytes": 172800
+        }
+      ]
+    }
+  }
+}

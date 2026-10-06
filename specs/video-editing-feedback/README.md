@@ -39,6 +39,11 @@ controls are retained under `assets/01-corpus-controls/`, with the aggregate
 receipt under `assets/01-corpus-behavior/`. The remaining multicamera behavioral
 gate stays open, so do not mark slice 01 complete from either receipt alone.
 
+The multicam physical checkpoint now also binds three decoded 320×180 RGB
+samples from each retained source through compact derivative movies. This is
+sampled picture behavior and fixture preservation; it does not promote a shared
+clock, speaker identity or camera selection.
+
 The moving trajectory receipt now has an immutable replay checker covering its
 39-picture membership, refusal controls and exact preview/export identities;
 strict reference-conditioned moving color/perimeter parity still lacks frozen

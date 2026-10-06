@@ -271,6 +271,12 @@ preservation. The compact retained receipt is
 `assets/34-fresh-agent/autonomous-media-replay.json`; source movies and model files remain
 external inputs.
 
+Slice01 multicam evidence: `packages/test-harness/editing/multicam-corpus.mjs` now
+checks the three retained 20-second audio windows per source and nine decoded
+320×180 RGB samples from compact derivative movies, with byte and decoded-frame
+mutation refusals. The receipt remains explicit that synchronization, speaker
+identity and camera choice are not established.
+
 
 ### Slice 28 authored-rectangle coverage
 

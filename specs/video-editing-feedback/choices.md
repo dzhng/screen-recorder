@@ -1892,3 +1892,12 @@ Apple cube candidate are in the slice26 evidence; no user-only decision remains.
 - **The reach:** future fixture edits fail the scoped ledger before they can look certified through a stale manifest; the physical, multicamera, sync and speaker owners remain separate and can be strengthened independently.
 - **Verdict:** sound; this closes an evidence-link gap without turning a bounded receipt into a whole-spec claim.
 - **Confidence:** high for the manifest/evidence relationship; medium for the still-open multicamera behavioral gate.
+
+## Add compact decoded picture samples to the multicam fixture owner — slice01
+
+- **When:** the retained unlike-microphone bank certified physical WAV windows but had no replayable picture behavior for the three camera sources.
+- **The choice:** retain one tiny three-frame H.264 derivative per source, bound to the existing 0s, 240s and 1200s source selections. The public verifier decodes all nine RGB samples and checks both derivative bytes and decoded-frame hashes.
+- **The gap:** source-video paths remain external and the sample set cannot prove a shared clock, continuous camera quality, speaker identity or camera selection.
+- **The reach:** multicam fixture coverage now includes a deterministic picture behavior checkpoint without copying original movies or adding a renderer. The explicit synchronization refusal and broader composition gate remain intact.
+- **Verdict:** sound for sampled picture behavior and physical preservation; whole multicamera behavioral certification is still open.
+- **Confidence:** high for the retained derivative/decoded identities; medium for broader multicam behavior outside the sampled windows.

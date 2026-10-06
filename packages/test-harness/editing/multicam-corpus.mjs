@@ -1,9 +1,10 @@
 import { createHash } from "node:crypto";
-import { createReadStream } from "node:fs";
+import { execFile } from "node:child_process";
 import { lstat, readFile } from "node:fs/promises";
 import { isAbsolute, join, relative, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { parseArgs } from "node:util";
+import { promisify } from "node:util";
 import { readAudioWaveFile } from "@yap/core/audio-wave";
 
 const EXPECTED_SOURCES = ["grahamRaw", "lilyRawP1", "madisonRaw"];
@@ -11,18 +12,47 @@ const WINDOW_DURATION_US = 20_000_000;
 const SAMPLE_RATE = 16_000;
 const CHANNELS = 1;
 const FRAMES_PER_WINDOW = (SAMPLE_RATE * WINDOW_DURATION_US) / 1_000_000;
+const PICTURE_WIDTH = 320;
+const PICTURE_HEIGHT = 180;
+const PICTURE_PIXEL_FORMAT = "rgb24";
+const PICTURE_FRAME_BYTES = PICTURE_WIDTH * PICTURE_HEIGHT * 3;
+const PICTURE_SOURCE_TIMES_US = [0, 240_000_000, 1_200_000_000];
+const execFileAsync = promisify(execFile);
 
 const refuse = (code, message) => {
   throw Object.assign(new Error(message), { code });
 };
 
-const hashFile = async (path) => {
-  const digest = createHash("sha256");
-  for await (const bytes of createReadStream(path)) digest.update(bytes);
-  return digest.digest("hex");
-};
-
 const hashBytes = (bytes) => createHash("sha256").update(bytes).digest("hex");
+
+const decodePictureSamples = async (path) => {
+  const { stdout } = await execFileAsync(
+    process.env.YAP_FFMPEG ?? "ffmpeg",
+    [
+      "-v",
+      "error",
+      "-nostdin",
+      "-i",
+      path,
+      "-frames:v",
+      "3",
+      "-f",
+      "rawvideo",
+      "-pix_fmt",
+      PICTURE_PIXEL_FORMAT,
+      "pipe:1",
+    ],
+    { encoding: "buffer", maxBuffer: PICTURE_FRAME_BYTES * 3 + 1024 },
+  );
+  if (stdout.length !== PICTURE_FRAME_BYTES * 3)
+    refuse(
+      "PICTURE_SAMPLES",
+      "Retained multicam picture derivative must decode to exactly three frames",
+    );
+  return [0, 1, 2].map((index) =>
+    stdout.subarray(index * PICTURE_FRAME_BYTES, (index + 1) * PICTURE_FRAME_BYTES),
+  );
+};
 
 const contained = (root, file) => {
   const path = resolve(root, file);
@@ -92,6 +122,57 @@ export async function verifyMulticamCorpus(directory) {
       if (windows[index - 1].endUs > windows[index].startUs)
         refuse("CASE_CLOCK", `${source}: retained windows overlap`);
   }
+  const pictureManifestBytes = await readFile(contained(directory, "picture-manifest.json"));
+  const pictureIdentity = JSON.parse(
+    await readFile(contained(directory, "picture-manifest.identity.json")),
+  );
+  if (pictureIdentity.manifestSha256 !== hashBytes(pictureManifestBytes))
+    refuse("PICTURE_MANIFEST_CHANGED", "Frozen multicam picture manifest identity changed");
+  const pictureManifest = JSON.parse(pictureManifestBytes);
+  const pictureSources = Object.keys(pictureManifest?.sources ?? {}).sort();
+  if (
+    pictureManifest?.version !== 1 ||
+    pictureSources.join("\0") !== EXPECTED_SOURCES.join("\0")
+  )
+    refuse(
+      "PICTURE_COVERAGE",
+      "Retained multicam picture samples must cover exactly three sources",
+    );
+  let pictureCount = 0;
+  for (const source of EXPECTED_SOURCES) {
+    const entry = pictureManifest.sources[source];
+    if (
+      entry.width !== PICTURE_WIDTH ||
+      entry.height !== PICTURE_HEIGHT ||
+      entry.pixelFormat !== PICTURE_PIXEL_FORMAT ||
+      !Array.isArray(entry.samples) ||
+      entry.samples.length !== PICTURE_SOURCE_TIMES_US.length ||
+      !entry.path ||
+      !/^[a-f0-9]{64}$/.test(entry.sha256)
+    )
+      refuse("PICTURE_COVERAGE", `${source}: malformed retained picture samples`);
+    for (const [index, sample] of entry.samples.entries()) {
+      if (
+        sample.frameIndex !== index ||
+        sample.sourceAtUs !== PICTURE_SOURCE_TIMES_US[index] ||
+        sample.bytes !== PICTURE_FRAME_BYTES ||
+        !/^[a-f0-9]{64}$/.test(sample.sha256)
+      )
+        refuse("PICTURE_COVERAGE", `${source}: malformed picture sample ${index}`);
+    }
+    const file = contained(directory, entry.path);
+    const stat = await lstat(file).catch(() => null);
+    if (!stat?.isFile())
+      refuse("PICTURE_MISSING", `${source}: retained picture derivative is missing`);
+    const bytes = await readFile(file);
+    if (bytes.length !== entry.bytes || hashBytes(bytes) !== entry.sha256)
+      refuse("PICTURE_CHANGED", `${source}: retained picture derivative bytes differ`);
+    const decoded = await decodePictureSamples(file);
+    for (const [index, frame] of decoded.entries())
+      if (hashBytes(frame) !== entry.samples[index].sha256)
+        refuse("PICTURE_CHANGED", `${source}: decoded picture sample ${index} differs`);
+    pictureCount += decoded.length;
+  }
   return {
     ok: true,
     sourceIdentity: "manifest-bound",
@@ -104,6 +185,14 @@ export async function verifyMulticamCorpus(directory) {
       sampleRate: SAMPLE_RATE,
       channels: CHANNELS,
       framesPerWindow: FRAMES_PER_WINDOW,
+    },
+    picture: {
+      sources: EXPECTED_SOURCES,
+      samplesPerSource: PICTURE_SOURCE_TIMES_US.length,
+      totalSamples: pictureCount,
+      width: PICTURE_WIDTH,
+      height: PICTURE_HEIGHT,
+      pixelFormat: PICTURE_PIXEL_FORMAT,
     },
   };
 }
