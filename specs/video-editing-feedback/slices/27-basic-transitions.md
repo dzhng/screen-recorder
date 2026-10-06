@@ -1,6 +1,6 @@
 # 27 — Author reusable crossfade/dip/flash recipes
 
-Status: partial — public composition lowering and native delivered crossfade/dip/flash picture, preview and two-source audio receipts are green; deterministic comparator and unprimed critique are green for the solid-color controls, and a moving alpha/mirror no-black-gap receipt is retained. Reference-conditioned visual acceptance remains open. Depends on: [06](06-exact-removal.md), [24](24-blend-modes.md).
+Status: partial — public composition lowering and native delivered crossfade/dip/flash picture, preview and two-source audio receipts are green; deterministic comparator, inference-free replay and unprimed critique are green for the nine solid-color reference controls, and a moving alpha/mirror no-black-gap receipt is retained. Reference-conditioned moving/trajectory visual acceptance remains open. Depends on: [06](06-exact-removal.md), [24](24-blend-modes.md).
 
 ## Contract
 

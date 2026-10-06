@@ -29,3 +29,9 @@ visible footprint within one pixel on each edge, preserves opacity, and still ch
 the moving control. The retained unprimed critique found no displacement, clipping or
 transparency defect; the remaining one-pixel edge softness is the declared bounded blur
 envelope rather than a scale or trajectory change.
+
+The deterministic solid-color crossfade, dip and flash reference gate now has an
+inference-free replay checker and retained result. It proves the nine frozen
+reference/candidate frame pairs and zero mismatch metrics, with the midpoint's
+known encoding tolerance. This closes only that fixed control; moving alpha/mirror,
+trajectory/blur and zoom color parity remain open.

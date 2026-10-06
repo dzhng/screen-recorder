@@ -45,3 +45,12 @@ gap. The source hashes and native implementation identity are retained in
 [`moving/report.json`](moving/report.json). These sparse alpha controls prove
 coverage and source-clock delivery; they do not claim reference-conditioned
 composition, color or trajectory parity.
+
+The matched solid-color parity receipt is now runnable through
+[`transition-parity-replay.mjs`](../../../../../packages/test-harness/editing/transition-parity-replay.mjs).
+It verifies the nine fixed reference/candidate pairs, their dimensions and
+artifact presence, zero pixel/edge mismatch gates, and the declared `0.2848`
+midpoint encoding tolerance. The [replay result](comparator/transition/report/replay.json)
+is inference-free and refuses a changed pair or metric. It closes this
+reference-conditioned deterministic control; moving alpha/mirror delivery,
+trajectory/blur and zoom color parity remain separate open gates.

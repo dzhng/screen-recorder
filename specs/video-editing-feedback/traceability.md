@@ -231,7 +231,7 @@ Slice27 evidence: `edit.apply` now lowers explicit crossfade, dip and flash reci
 gain/opacity curves. Crossfade requires two distinct targets; dip and flash require one target and
 a representable midpoint. No source overlap, retime, implicit media or color asset is invented.
 The retained native transition receipt drives public import, authoring, frame reads and preview
-export with solid-color controls for crossfade, dip and flash; the same receipt now includes a two-source native audio crossfade PCM oracle. Its frozen nine-pair comparator and unprimed critique pass the deterministic controls, and a retained alpha/mirror moving receipt checks non-black coverage and midpoint change. Reference-conditioned parity and the remaining motion/scene gates stay open.
+export with solid-color controls for crossfade, dip and flash; the same receipt now includes a two-source native audio crossfade PCM oracle. Its frozen nine-pair comparator, inference-free replay and unprimed critique pass the deterministic controls, and a retained alpha/mirror moving receipt checks non-black coverage and midpoint change. Reference-conditioned moving/trajectory parity and the remaining motion/scene gates stay open.
 
 Slice25 evidence: the existing source-neutral SDR correction now carries bounded `shadows` and
 `highlights` controls through composition schema/defaults, compiled visual operations and the
