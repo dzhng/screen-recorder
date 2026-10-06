@@ -26,76 +26,22 @@ ending that gives away or fails to deliver the intended payoff. Fix the observed
 defect, render again and recheck the changed behavior; stop after a bounded number
 of useful passes and report what remains unresolved.
 
-## Launch and demo videos
+## Route by deliverable
 
-Use one product promise:
+Use the focused reference that owns the story decisions, then return here for the
+shared evidence-first and delivery checks:
 
-`hook → problem or stakes → visible proof → benefit → next action`
+- [Launch and demo videos](launch-videos.md) owns one product promise, proof beats,
+  reference-conditioned treatments and truthful calls to action.
+- [Podcast and interview videos](podcast-videos.md) owns complete exchanges,
+  multicamera/raw-source choices, speaker evidence and episode introductions.
+- [Teasers and episode cold opens](teaser-videos.md) owns the open loop, including
+  the optional cut immediately after a complete provocative question.
 
-Open on the strongest useful result or recognizable friction. Show the workflow
-that proves the claim, keeping enough action for cause and effect to read. Replace
-a feature inventory with a few connected proof beats. End on the demonstrated
-benefit and a clear action appropriate to the brief. A launch teaser can use the
-open-loop shape below, but a promised demo needs its payoff.
-
-Useful techniques include a before/after comparison, a reaction cut after the
-result, a short product detail insert, a restrained title card, or a screen and
-talking-head split. Use them only when they clarify the promise. The first seconds
-must establish why the viewer should continue; a logo alone is rarely a hook.
-
-## Podcasts and full highlights
-
-For a self-contained interview or podcast clip, preserve the exchange's meaning:
-
-`question or setup → answer → consequence`
-
-Keep qualifications, reactions and handoffs that make the answer intelligible.
-Tighten dead air and false starts only within the requested editorial scope;
-conversation should remain natural rather than breathless. Choose speaker framing,
-captions and music from the exchange, and keep levels consistent without flattening
-expressive delivery.
-
-When selecting among takes, compare candidates for the same beat instead of
-concatenating files in source order. Preserve the strongest complete answer even
-if a shorter fragment sounds punchier. If the requested duration is too short,
-remove a weaker setup beat before removing the consequence that makes the answer
-matter.
-
-## Podcast episode introductions
-
-Build a cold open that gives the audience a reason to stay, then transition clearly
-into the episode. An effective sequence can escalate through a provocative
-question, contrasting positions and an intriguing reaction before the episode
-title or host introduction. Arrange a thread rather than a random greatest-hits
-montage.
-
-For a dark or suspenseful reference, use restrained titles, negative space,
-deliberate pauses and a rising music bed while keeping faces, dialogue and
-captions readable. The intro may withhold the answer when the full episode supplies
-it. Do not repeat the entire answer in the cold open and immediately restart it
-without a deliberate transition.
-
-## Teasers and trailers
-
-A teaser opens a specific curiosity loop and points to where the viewer can resolve
-it. When cutting from a full interview or episode, inspect the complete exchange
-first, then consider ending **immediately after a complete provocative question,
-before the answer begins**. A spicy question can be the climax; including its spicy
-answer may spend the reason to watch.
-
-- Establish only the context needed for the question to land.
-- Preserve the question's last syllable and inflection; stop before the first
-  answer word rather than chopping the question short.
-- Keep the withheld answer out of captions, titles, thumbnails and narration.
-- Use a reaction, pause, partial reveal, music sting or end card only when it
-  strengthens the loop without inventing an apparent response.
-- Use a truthful destination or release action supplied by the brief; never invent
-  a date, claim or availability.
-
-This is a teaser strategy, not a universal rule. A standalone answer clip must
-include the answer and its necessary qualifications. Do not splice a reaction from
-elsewhere into the question so that a guest appears to endorse a claim they did
-not answer.
+These references keep use cases separate so a launch demo does not inherit a
+teaser's withheld answer or a podcast highlight lose its consequence. [Creative
+workflows](creative-workflows.md) owns shared assembly techniques, while
+[editorial checks](editorial-checks.md) owns rendered-output verification.
 
 ## Tutorials, walkthroughs and updates
 

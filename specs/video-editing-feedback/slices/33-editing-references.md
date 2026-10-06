@@ -1,6 +1,8 @@
 # 33 — Teach complete workflows and external interchange
 
-Status: planned. Depends on: [02](02-capability-first-skill.md), [12](12-contextual-join-verification.md), [16](16-subject-reframe.md), [19](19-dialogue-matching.md), [21](21-synced-angles.md), [23](23-timed-word-captions.md), [26](26-immutable-luts.md), [29](29-motion-blur.md), [30](30-delivered-scenes.md), [32](32-speaker-labeling.md).
+Status: partial — focused launch, podcast/interview and teaser references plus
+use-case routing are implemented. Runnable fresh-agent examples and final
+delivery acceptance remain with slice 34. Depends on: [02](02-capability-first-skill.md), [12](12-contextual-join-verification.md), [16](16-subject-reframe.md), [19](19-dialogue-matching.md), [21](21-synced-angles.md), [23](23-timed-word-captions.md), [26](26-immutable-luts.md), [29](29-motion-blur.md), [30](30-delivered-scenes.md), [32](32-speaker-labeling.md).
 
 ## Contract
 
@@ -18,6 +20,12 @@ Current owners and starting checks:
 - [skills/yap/references/editorial-checks.md](../../../skills/yap/references/editorial-checks.md)
 - [skills/yap/references/media-workflows.md](../../../skills/yap/references/media-workflows.md)
 - [evals/README.md](../../../evals/README.md)
+
+This pass adds the focused routing references:
+
+- [Launch and demo videos](../../../skills/yap/references/launch-videos.md)
+- [Podcast and interview videos](../../../skills/yap/references/podcast-videos.md)
+- [Teasers and episode cold opens](../../../skills/yap/references/teaser-videos.md)
 
 These are current discovery pointers, not a claim every listed module must change. Extend existing behavior tests; the [global contract](../README.md) owns hard cutover and source preservation.
 
