@@ -1,6 +1,6 @@
 # 20 — Prove synchronization on unlike microphones
 
-Status: waveform research refused on frozen real inputs; lexical-anchor checkpoint open. Depends on: [08](08-bounded-speech-preparation.md), [10](10-alignment-and-boundaries.md), [01](01-certified-corpus.md).
+Status: waveform research and isolated-microphone lexical prerequisites refused on frozen real inputs; mixed/reference bridge research open. Depends on: [08](08-bounded-speech-preparation.md), [10](10-alignment-and-boundaries.md), [01](01-certified-corpus.md).
 
 ## Contract
 
@@ -60,6 +60,11 @@ A changed user brief, reference or product policy can redirect it. Human listeni
 [The waveform research](../assets/20-synchronization/README.md) preserves complete
 real unlike-microphone operands and exact retained/native replay. Authored controls
 pass; all nine real comparisons refuse the unchanged acoustic gates. This is a
-failed hypothesis, not completion or sync proof. Continue lexical-anchor research
-when10B can supply retained alignment over independently recognized shared speech.
-No source relationship or clock owner changed.
+failed hypothesis, not completion or sync proof.
+[Independent recognition](../assets/20-synchronization/lexical/README.md) of all
+nine retained windows also provides no shared five-word candidate, so alignment
+timing work did not run. Discover actual mixed/reference stream facts before
+freezing the next bridge hypothesis. Keep edited master clocks piecewise, retain
+the original known125ms/maximum2ms precision control and long-span/drift refusals,
+and never promote conditional CTC timing as sample-precise sync. No source
+relationship or clock owner changed.

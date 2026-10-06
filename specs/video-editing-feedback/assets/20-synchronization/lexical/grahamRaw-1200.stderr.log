@@ -1,0 +1,18 @@
+[06:00:15.914] [INFO] [FluidAudio.AsrModels] Loading ASR models from: /private/tmp/yap-editing-model-preparation/library/models/parakeet/ee09c569f73759e6d44c9bd16766f477b2b36d39/parakeet-tdt-0.6b-v2
+[06:00:15.915] [INFO] [FluidAudio.DownloadUtils] Host environment: macOS Version 27.0.1 (Build 26A434), arch=arm64, chip=Apple M6, cores=12/12, mem=24 GB, rosetta=false
+[06:00:15.915] [INFO] [FluidAudio.DownloadUtils] Found parakeet-tdt-0.6b-v2 locally, no download needed
+[06:00:15.944] [INFO] [FluidAudio.DownloadUtils] Compiled model Preprocessor.mlmodelc in 29.35 ms :: macOS Version 27.0.1 (Build 26A434), arch=arm64, chip=Apple M6, cores=12/12, mem=24 GB, rosetta=false
+[06:00:15.945] [INFO] [FluidAudio.AsrModels] Loaded Preprocessor.mlmodelc with compute units: cpuOnly
+[06:00:15.945] [INFO] [FluidAudio.DownloadUtils] Found parakeet-tdt-0.6b-v2 locally, no download needed
+[06:00:15.994] [INFO] [FluidAudio.DownloadUtils] Compiled model Encoder.mlmodelc in 49.09 ms :: macOS Version 27.0.1 (Build 26A434), arch=arm64, chip=Apple M6, cores=12/12, mem=24 GB, rosetta=false
+[06:00:15.994] [INFO] [FluidAudio.AsrModels] Loaded Encoder.mlmodelc with compute units: cpuAndNeuralEngine
+[06:00:15.994] [INFO] [FluidAudio.DownloadUtils] Found parakeet-tdt-0.6b-v2 locally, no download needed
+[06:00:15.998] [INFO] [FluidAudio.DownloadUtils] Compiled model Decoder.mlmodelc in 4.58 ms :: macOS Version 27.0.1 (Build 26A434), arch=arm64, chip=Apple M6, cores=12/12, mem=24 GB, rosetta=false
+[06:00:15.998] [INFO] [FluidAudio.DownloadUtils] Found parakeet-tdt-0.6b-v2 locally, no download needed
+[06:00:16.002] [INFO] [FluidAudio.DownloadUtils] Compiled model JointDecision.mlmodelc in 4.04 ms :: macOS Version 27.0.1 (Build 26A434), arch=arm64, chip=Apple M6, cores=12/12, mem=24 GB, rosetta=false
+[06:00:16.002] [INFO] [FluidAudio.AsrModels] Loaded JointDecision.mlmodelc
+[06:00:16.003] [INFO] [FluidAudio.AsrModels] Loaded vocabulary with 1031 tokens from /private/tmp/yap-editing-model-preparation/library/models/parakeet/ee09c569f73759e6d44c9bd16766f477b2b36d39/parakeet-tdt-0.6b-v2/parakeet_vocab.json
+[06:00:16.003] [INFO] [FluidAudio.AsrModels] Successfully loaded all ASR models with optimized compute units
+[06:00:16.003] [INFO] [FluidAudio.ASR] Loading AsrManager with provided models
+[06:00:16.003] [INFO] [FluidAudio.ASR] AsrManager loaded successfully with provided models
+[06:00:16.004] [DEBUG] [FluidAudio.ChunkProcessor] ChunkProcessor using worker pool of size 4

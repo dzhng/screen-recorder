@@ -38,4 +38,11 @@ regressions failed before their fixes, then passed through the outer CLI.
 [Exact replay](exact-replay.json) now pins the reference hash and compares every
 field except elapsed time. Candidate comparisons remain available on refusal.
 Acquisition and optional native replay refuse invalid envelopes before native work.
-Corrective independent review is pending.
+Corrective independent review of the original waveform runner is pending.
+
+[The independent lexical scout](lexical/README.md) also refuses its prerequisites
+on the same retained windows: independently recognized sources share no candidate
+utterance across any selected windows. No timing inference or synchronization
+promotion follows that failure. Slice20 remains open for a separately frozen
+mixed/reference bridge hypothesis; this bounded scout does not rule out shared
+content elsewhere in the originals.

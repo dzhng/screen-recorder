@@ -19,3 +19,11 @@ retains its candidate output. Both native paths validate their work envelope fir
 keep input bytes independent of parameter tuning. [Frozen research](../../../../specs/video-editing-feedback/assets/20-synchronization/README.md)
 records refused real comparisons and the justified next hypothesis. This owner
 is an experiment, never a production synchronization fallback.
+
+[The lexical scout](lexical-scout.mjs) independently recognizes retained windows
+before looking for unambiguous shared utterances. Its separate
+[frozen checkpoint](../../../../specs/video-editing-feedback/assets/20-synchronization/lexical/README.md)
+retains literal provider text and competing occurrences. Passing a lexical
+prerequisite would still require independent timing controls and source alignment;
+the scout never estimates a clock. Inference-free replay preserves every captured
+raw observation and refuses a changed frozen report identity.

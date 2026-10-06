@@ -16,7 +16,8 @@ merge, push or installed-app change has been requested. Hard cutover remains
 binding: no aliases, dual readers or migrations; preserve external originals and
 frozen historical evidence.
 
-Current pickup: contextual join evidence12; integrate the reviewed20 lexical scout.
+Current pickup: contextual join evidence12. The reviewed20 lexical scout is integrated;
+its mixed-reference segment research continues independently.
 Public source acoustic context and complete project-tap package replay pass.
 The matching native worker includes22's rounded glyph strokes; frame/movie cache
 identities change with that rendering behavior. Generic operations omit tonal fields,

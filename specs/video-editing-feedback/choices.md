@@ -2,6 +2,27 @@
 
 User decisions remain binding; this ledger records implementation discretion outside the approved plan.
 
+## Lexical prerequisite checkpoint — sound, high confidence
+
+- When: slice20 isolated-microphone lexical scout.
+- Choice: recognize the existing short audio inputs before spending on word
+  alignment. For example, Graham's window contains a paragraph while Madison's
+  corresponding window contains no recognized words. A supplied Graham paragraph
+  could still force a conditional path through Madison's signal; it cannot prove
+  Madison's microphone heard that paragraph. This pass retains both independent
+  observations, refuses their shared-speech prerequisite and performs no timing
+  inference. It does not declare the whole recordings unsynchronizable.
+- Gap: the spec assigned lexical research without prescribing the cheapest
+  staged experiment or what to do when shared content is unavailable locally.
+- Reach: the next pass needs an actual shared mixed/reference bridge or another
+  independently evidenced signal. The failed scout remains replayable, and no
+  public relationship, edit or provider contract changes.
+- Verdict: sound. Refuse missing evidence rather than let supplied text create
+  it. The protocol's prospective coarse CTC measurements are not a substitute
+  for the original125ms/maximum2ms promotion control or long-span/drift refusals.
+- Confidence: high. Preparation, source integrity and no inferred editorial
+  decision follow the user's explicit direction and the product boundary.
+
 ## Preparation boundary — sound, high confidence
 
 The user clarified that pinned models for first-class Yap features, specifically Parakeet, should download/prepare as needed by default. The recommendation-only policy applies to capabilities outside Yap. Preparation remains an explicit operation through the existing model owner; ordinary inference stays offline. This supersedes the broader wording in the original plan.
