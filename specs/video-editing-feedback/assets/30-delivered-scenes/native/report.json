@@ -1,0 +1,366 @@
+{
+  "passed": true,
+  "checks": {
+    "nativeExportImport": true,
+    "sourceBytesUnchanged": true,
+    "physicalGapAvailableRanges": null,
+    "observedSceneTimes": [
+      1000000,
+      1200000,
+      2600000,
+      3200000
+    ],
+    "visualControls": {
+      "flash": [
+        1000000,
+        1200000
+      ],
+      "gap": [
+        1200000,
+        2500000
+      ],
+      "hold": [
+        2600000,
+        3200000
+      ]
+    },
+    "authoredVideoJoins": [
+      1000000,
+      2600000
+    ],
+    "extraObservedTransitionAtHoldEnd": 3200000,
+    "editorialDecision": "none"
+  },
+  "runtime": {
+    "nativeSha256": "39c8cf1de39ae7ecd25f8fc94b1a5d2b84e1c43ca1cf1025020808c3888983df"
+  },
+  "trace": [
+    {
+      "operation": "asset.import",
+      "transport": "cli",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "operation": "job.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "asset.get",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "timeline.events",
+      "transport": "cli",
+      "ok": true,
+      "state": "not_ready"
+    },
+    {
+      "operation": "timeline.events",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    }
+  ],
+  "export": {
+    "path": "native/planted-export.mov",
+    "sha256": "977bea24eac862b56317c08ee05ab06fd989fe8972a189a0f4e4ddbadb02737d",
+    "bytes": 2636
+  },
+  "result": {
+    "version": 1,
+    "kind": "delivered-scene-report",
+    "project": {
+      "projectId": "delivered-scenes-project",
+      "revisionId": "revision-1",
+      "range": {
+        "startUs": 0,
+        "endUs": 4000000
+      }
+    },
+    "export": {
+      "exportId": "planted-export",
+      "state": "committed",
+      "snapshot": {
+        "projectId": "delivered-scenes-project",
+        "revisionId": "revision-1"
+      },
+      "file": {
+        "path": "native/planted-export.mov",
+        "bytes": 2636,
+        "sha256": "977bea24eac862b56317c08ee05ab06fd989fe8972a189a0f4e4ddbadb02737d",
+        "dev": 16777232,
+        "ino": 9462299
+      },
+      "immutable": true
+    },
+    "delivered": {
+      "assetId": "977bea24eac862b56317c08ee05ab06fd989fe8972a189a0f4e4ddbadb02737d",
+      "streamId": "track:1",
+      "range": {
+        "startUs": 0,
+        "endUs": 4000000
+      },
+      "events": {
+        "state": "ready",
+        "rows": [
+          {
+            "kind": "scene",
+            "sourceAtUs": 1000000,
+            "sourceOrdinal": 4,
+            "observation": {
+              "sample": {
+                "value": "10240",
+                "timescale": 10240,
+                "endValue": "11264",
+                "endTimescale": 10240,
+                "originUs": 0
+              }
+            }
+          },
+          {
+            "kind": "scene",
+            "sourceAtUs": 1200000,
+            "sourceOrdinal": 5,
+            "observation": {
+              "sample": {
+                "value": "12288",
+                "timescale": 10240,
+                "endValue": "13312",
+                "endTimescale": 10240,
+                "originUs": 0
+              }
+            }
+          },
+          {
+            "kind": "scene",
+            "sourceAtUs": 2600000,
+            "sourceOrdinal": 12,
+            "observation": {
+              "sample": {
+                "value": "26624",
+                "timescale": 10240,
+                "endValue": "27648",
+                "endTimescale": 10240,
+                "originUs": 0
+              }
+            }
+          },
+          {
+            "kind": "scene",
+            "sourceAtUs": 3200000,
+            "sourceOrdinal": 15,
+            "observation": {
+              "sample": {
+                "value": "32768",
+                "timescale": 10240,
+                "endValue": "33792",
+                "endTimescale": 10240,
+                "originUs": 0
+              }
+            }
+          }
+        ],
+        "coverage": null,
+        "observations": [
+          {
+            "state": "ready",
+            "context": {
+              "selection": {
+                "assetId": "977bea24eac862b56317c08ee05ab06fd989fe8972a189a0f4e4ddbadb02737d",
+                "streamId": "track:1"
+              },
+              "domain": "events",
+              "durationUs": 4000000,
+              "sourceToAssetOffsetUs": 0,
+              "supportDigest": "acc7c692d3466d1f6524b50634a4fb3c161739fd61f853825876fc0040ae17d6",
+              "evidence": null,
+              "coverage": [
+                {
+                  "kind": "pause",
+                  "state": "unavailable",
+                  "reason": "capture_context_missing"
+                },
+                {
+                  "kind": "geometry",
+                  "state": "unavailable",
+                  "reason": "capture_context_missing"
+                },
+                {
+                  "kind": "unplaced_geometry",
+                  "state": "unavailable",
+                  "reason": "no_source_time"
+                },
+                {
+                  "kind": "interruption",
+                  "state": "unavailable",
+                  "reason": "capture_context_missing"
+                },
+                {
+                  "kind": "scene",
+                  "state": "ready",
+                  "reason": null
+                },
+                {
+                  "kind": "cut",
+                  "state": "unavailable",
+                  "reason": "unsupported"
+                }
+              ],
+              "scene": {
+                "state": "ready",
+                "reason": null,
+                "retryable": false,
+                "jobId": "6d789b7a-3d6c-4c3f-853c-87b482b00bf3",
+                "evidence": {
+                  "sourceId": "977bea24eac862b56317c08ee05ab06fd989fe8972a189a0f4e4ddbadb02737d",
+                  "generation": "d29aaefa-2ab8-4d8f-9ac1-d6f946d7085e",
+                  "policy": "rgb-spatial-change-v3-presentation-v1",
+                  "sourceWidth": 64,
+                  "sourceHeight": 48,
+                  "chunkCount": 1,
+                  "comparisonCount": 20,
+                  "boundaryCount": 4,
+                  "owner": {
+                    "kind": "asset",
+                    "assetId": "977bea24eac862b56317c08ee05ab06fd989fe8972a189a0f4e4ddbadb02737d"
+                  },
+                  "source": {
+                    "kind": "asset",
+                    "streamId": "track:1",
+                    "originUs": 0,
+                    "supportDigest": "acc7c692d3466d1f6524b50634a4fb3c161739fd61f853825876fc0040ae17d6",
+                    "durationUs": 4000000
+                  }
+                }
+              }
+            }
+          }
+        ],
+        "complete": true,
+        "nextCursor": null
+      }
+    },
+    "authored": {
+      "range": {
+        "startUs": 0,
+        "endUs": 4000000
+      },
+      "events": {
+        "state": "ready",
+        "rows": [
+          {
+            "kind": "cut",
+            "mediaKind": "video",
+            "projectAtUs": 1000000,
+            "trackId": "screen",
+            "control": "flash"
+          },
+          {
+            "kind": "cut",
+            "mediaKind": "audio",
+            "projectAtUs": 1200000,
+            "trackId": "voice"
+          },
+          {
+            "kind": "cut",
+            "mediaKind": "video",
+            "projectAtUs": 2600000,
+            "trackId": "screen",
+            "control": "gap-end"
+          }
+        ],
+        "coverage": {
+          "cuts": {
+            "state": "ready"
+          }
+        },
+        "observations": [
+          {
+            "state": "ready",
+            "coverage": {
+              "cuts": {
+                "state": "ready"
+              }
+            }
+          }
+        ],
+        "complete": true,
+        "nextCursor": null
+      },
+      "cuts": [
+        {
+          "kind": "cut",
+          "mediaKind": "video",
+          "projectAtUs": 1000000,
+          "trackId": "screen",
+          "control": "flash"
+        },
+        {
+          "kind": "cut",
+          "mediaKind": "video",
+          "projectAtUs": 2600000,
+          "trackId": "screen",
+          "control": "gap-end"
+        }
+      ]
+    },
+    "mapping": {
+      "projectStartUs": 0,
+      "deliveredStartUs": 0,
+      "projectEndUs": 4000000,
+      "deliveredEndUs": 4000000,
+      "joinToleranceUs": 100000
+    },
+    "association": {
+      "observedTransitions": [
+        {
+          "deliveredAtUs": 1000000,
+          "projectAtUs": 1000000,
+          "authoredJoins": [
+            {
+              "kind": "cut",
+              "mediaKind": "video",
+              "projectAtUs": 1000000,
+              "trackId": "screen",
+              "control": "flash"
+            }
+          ]
+        },
+        {
+          "deliveredAtUs": 1200000,
+          "projectAtUs": 1200000,
+          "authoredJoins": []
+        },
+        {
+          "deliveredAtUs": 2600000,
+          "projectAtUs": 2600000,
+          "authoredJoins": [
+            {
+              "kind": "cut",
+              "mediaKind": "video",
+              "projectAtUs": 2600000,
+              "trackId": "screen",
+              "control": "gap-end"
+            }
+          ]
+        },
+        {
+          "deliveredAtUs": 3200000,
+          "projectAtUs": 3200000,
+          "authoredJoins": []
+        }
+      ],
+      "unmatchedAuthoredJoins": []
+    },
+    "checks": {
+      "sourceBytesUnchanged": true,
+      "deliveredSceneEvidence": "ready",
+      "authoredCutEvidence": "ready",
+      "editorialDecision": "none"
+    }
+  }
+}

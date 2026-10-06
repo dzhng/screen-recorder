@@ -1,0 +1,16 @@
+{
+  "projectId": "delivered-scenes-project",
+  "revisionId": "revision-1",
+  "exportId": "planted-export",
+  "projectRange": {
+    "startUs": 0,
+    "endUs": 4000000
+  },
+  "deliveredRange": {
+    "startUs": 0,
+    "endUs": 4000000
+  },
+  "joinToleranceUs": 100000,
+  "polls": 20,
+  "pollMs": 25
+}

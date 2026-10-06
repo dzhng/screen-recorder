@@ -18,6 +18,34 @@ bunx vitest run skills/yap/scripts/delivered-scenes.test.mjs
 4 tests passed
 ```
 
-This does not close the slice's native checkpoint. A future pass still needs a
-real export → import → scene-read run with planted flash/gap and deliberate hold
-controls, plus delivered-pixel comparison and an unprimed visual critique.
+The portable receipt does not close the native checkpoint; the retained native
+run below covers the delivered export/import/scene-read path and visual review.
+The physical empty-edit-list proof remains separate.
+
+## Native delivered-export checkpoint (2026-10-06)
+
+`native/` retains a real macOS run of the case-selected helper against a
+committed H.264 export. The runner imported the exact export bytes through the
+public asset lifecycle, waited for native scene observations, and passed those
+rows to `deliveredScenes` alongside separate authored video cuts. The retained
+export digest is `977bea24eac862b56317c08ee05ab06fd989fe8972a189a0f4e4ddbadb02737d`;
+the native worker digest and complete report are in `native/report.json`.
+
+Observed scene boundaries were `1.000s`, `1.200s`, `2.600s` and `3.200s`.
+The first pair brackets a planted flash; the `1.200s–2.500s` interval is the
+declared visual gap control; the `2.600s–3.200s` interval is a deliberate hold.
+Authored video joins at `1.000s` and `2.600s` matched only those delivered
+transitions. The `3.200s` hold-end transition remained observed evidence and
+was not turned into an edit. The export hash was checked before and after
+inspection and remained unchanged.
+
+The five retained PNGs are the visual review set (`frame-01`, `frame-06`,
+`frame-10`, `frame-14`, `frame-20`). A fresh inspection found no clipping,
+framing or decode artifact; the solid-color fixture makes the planted
+boundaries unambiguous. The repository compare helper was invoked but could
+not run because this checkout lacks its optional `pngjs` dependency; the
+native report and direct frame inspection are retained instead.
+
+This run does not close the separate physical empty-edit-list proof: the
+delivered file used for this checkpoint has continuous encoded samples, so
+native `available` ranges for a real gap remain an open follow-up.
