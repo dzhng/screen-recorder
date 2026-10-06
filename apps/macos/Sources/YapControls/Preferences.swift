@@ -51,8 +51,7 @@ public struct Preferences {
         nonmutating set { defaults.set(newValue.map(NSStringFromPoint), forKey: Key.overlayOrigin) }
     }
 
-    /// Standard screen recorders count down before they start, so this app does too until a
-    /// person turns it off.
+    /// Countdown defaults on so people have time to return to their content before capture starts.
     public var countdownBeforeRecording: Bool {
         get { defaults.object(forKey: Key.countdownBeforeRecording) as? Bool ?? true }
         nonmutating set { defaults.set(newValue, forKey: Key.countdownBeforeRecording) }

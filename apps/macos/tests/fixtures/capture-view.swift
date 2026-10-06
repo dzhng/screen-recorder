@@ -6,7 +6,8 @@ import YapControls
         NSApplication.shared.setActivationPolicy(.prohibited)
         var recorded: [CaptureViewIntent] = []
         let input = fixture()
-        let view = CaptureView(input: input) { recorded.append($0) }
+        let appIcon = NSImage(contentsOfFile: CommandLine.arguments[2])!
+        let view = CaptureView(appIcon: appIcon, input: input) { recorded.append($0) }
         view.frame.size = NSSize(width: CaptureView.preferredWidth, height: view.contentHeight)
         let window = NSWindow(contentRect: NSRect(x: -10000, y: -10000, width: CaptureView.preferredWidth, height: view.contentHeight),
             styleMask: .borderless, backing: .buffered, defer: false)
@@ -19,8 +20,10 @@ import YapControls
         }
         button.performClick(nil)
         precondition(recorded == [.chooseSource(.cameraOnly)], "Source choice reaches caller unchanged")
-        let microphone = view.control(identifier: "microphone.toggle") as! NSButton
-        precondition((microphone.accessibilityValue() as? NSNumber)?.boolValue == true, "Assistive clients can read the supplied microphone on state")
+        guard let microphone = view.control(identifier: "microphone.toggle") as? NSSwitch else {
+            preconditionFailure("Microphone uses the native macOS switch")
+        }
+        precondition(microphone.state == .on, "Assistive clients can read the supplied microphone on state")
         microphone.performClick(nil)
         let camera = view.control(identifier: "camera.device") as! NSPopUpButton
         camera.selectItem(at: 1)
@@ -28,26 +31,27 @@ import YapControls
         precondition(recorded == [.chooseSource(.cameraOnly), .controls(.disableMicrophone), .camera("fixture-camera")])
         window.orderOut(nil)
         window.close()
-        let selectedSource = CaptureView(input: fixture(secondSource: true)) { recorded.append($0) }
+        let selectedSource = CaptureView(appIcon: appIcon, input: fixture(secondSource: true)) { recorded.append($0) }
         let sourcePopup = selectedSource.control(identifier: "source.device") as! NSPopUpButton
         precondition(sourcePopup.titleOfSelectedItem == "Studio Display", "Rebuilding preserves the owner-selected source device")
-        let duplicate = CaptureView(input: fixture(duplicateNames: true)) { recorded.append($0) }
+        let duplicate = CaptureView(appIcon: appIcon, input: fixture(duplicateNames: true)) { recorded.append($0) }
         let duplicateCamera = duplicate.control(identifier: "camera.device") as! NSPopUpButton
         duplicateCamera.selectItem(at: duplicateCamera.numberOfItems - 1)
         _ = duplicateCamera.sendAction(duplicateCamera.action!, to: duplicateCamera.target)
         precondition(duplicateCamera.titleOfSelectedItem == "Another camera")
         precondition(recorded.last == .camera("fixture-camera-third"), "A chooser preserves identity when device labels repeat")
-        let silentMic = CaptureView(input: fixture(microphoneOn: false)) { recorded.append($0) }
-        let micEnable = silentMic.control(identifier: "microphone.toggle") as! NSButton
-        precondition((micEnable.accessibilityValue() as? NSNumber)?.boolValue == false, "Assistive clients can read the supplied microphone off state")
+        let silentMic = CaptureView(appIcon: appIcon, input: fixture(microphoneOn: false)) { recorded.append($0) }
+        let micEnable = silentMic.control(identifier: "microphone.toggle") as! NSSwitch
+        precondition(micEnable.state == .off, "Assistive clients can read the supplied microphone off state")
         micEnable.performClick(nil)
         precondition(recorded.last == .controls(.selectMicrophone("fixture-mic")), "Enabling a named microphone preserves its displayed identity")
         var lockedActions: [CaptureViewIntent] = []
-        let locked = CaptureView(input: fixture(locked: true)) { lockedActions.append($0) }
+        let locked = CaptureView(appIcon: appIcon, input: fixture(locked: true)) { lockedActions.append($0) }
         for id in ["source.cameraOnly", "microphone.toggle", "capture.start"] {
-            let control = locked.control(identifier: id) as! NSButton
+            let control = locked.control(identifier: id)!
             precondition(!control.isEnabled, "Locked take inputs and unavailable Start cannot accept actions")
-            control.performClick(nil)
+            if let button = control as? NSButton { button.performClick(nil) }
+            if let toggle = control as? NSSwitch { toggle.performClick(nil) }
         }
         precondition(lockedActions.isEmpty, "Inapplicable actions cannot escape the view")
         let output = CommandLine.arguments[1]
@@ -55,14 +59,16 @@ import YapControls
         for (name, facts, limit) in [
             ("idle", fixture(), CGFloat(0)),
             ("camera-only", fixture(cameraOnly: true), CGFloat(0)),
+            ("permissions", permissionFixture(), CGFloat(0)),
+            ("dark", fixture(), CGFloat(0)),
             ("long-names", fixture(longNames: true), CGFloat(0)),
             ("short-screen", fixture(longNames: true), CGFloat(440)),
         ] {
-            let capture = CaptureView(input: facts) { recorded.append($0) }
+            let capture = CaptureView(appIcon: appIcon, input: facts) { recorded.append($0) }
             let height = limit > 0 ? limit : capture.contentHeight
             let stage = NSView(frame: NSRect(x: 0, y: 0, width: CaptureView.preferredWidth + 40, height: height + 40))
             stage.wantsLayer = true
-            stage.layer?.backgroundColor = NSColor(white: 0.93, alpha: 1).cgColor
+            stage.layer?.backgroundColor = NSColor(white: name == "dark" ? 0.16 : 0.93, alpha: 1).cgColor
             capture.frame = NSRect(x: 20, y: 20, width: CaptureView.preferredWidth, height: height)
             stage.addSubview(capture)
             let caption = NSTextField(labelWithString: "Synthetic facts · presentation fixture")
@@ -72,7 +78,7 @@ import YapControls
             stage.addSubview(caption)
             let shotWindow = NSWindow(contentRect: NSRect(x: -10000, y: -10000, width: CaptureView.preferredWidth + 40, height: height + 40), styleMask: .borderless, backing: .buffered, defer: false)
             shotWindow.isReleasedWhenClosed = false
-            shotWindow.appearance = NSAppearance(named: .aqua)
+            shotWindow.appearance = NSAppearance(named: name == "dark" ? .darkAqua : .aqua)
             shotWindow.contentView = stage
             shotWindow.orderBack(nil)
             RunLoop.current.run(until: Date().addingTimeInterval(0.15))
@@ -92,7 +98,7 @@ import YapControls
                 let rect = control.convert(control.bounds, to: doc)
                 frames[id] = [rect.minX, rect.minY, rect.width, rect.height]
             }
-            observations.append(["fixture": name, "facts": "synthetic; no service/devices/permissions", "appearance": "aqua", "widthPoints": CaptureView.preferredWidth, "heightPoints": height, "contentHeightPoints": capture.contentHeight, "backingScale": shotWindow.backingScaleFactor, "controls": frames])
+            observations.append(["fixture": name, "facts": "synthetic; no service/devices/permissions", "appearance": name == "dark" ? "darkAqua" : "aqua", "widthPoints": CaptureView.preferredWidth, "heightPoints": height, "contentHeightPoints": capture.contentHeight, "backingScale": shotWindow.backingScaleFactor, "controls": frames])
             // Retain the complete operands before a reachability assertion can stop the run.
             let report = try! JSONSerialization.data(withJSONObject: observations, options: [.prettyPrinted, .sortedKeys])
             try! report.write(to: URL(fileURLWithPath: "\(output)/native-metadata.json"))
@@ -118,12 +124,19 @@ import YapControls
         }
     }
 
-    @MainActor static func fixture(locked: Bool = false, cameraOnly: Bool = false, longNames: Bool = false, duplicateNames: Bool = false, microphoneOn: Bool = true, secondSource: Bool = false) -> CaptureViewInput {
+    @MainActor static func permissionFixture() -> CaptureViewInput {
+        var input = fixture(locked: true, status: "Idle")
+        input.notices = ["Screen recording access is not granted. Allow it in System Settings > Privacy & Security."]
+        input.permissionActions = [.init(.requestScreenPermission, "Allow in System Settings…", enabled: true), .init(.requestMicrophonePermission, "Allow Microphone Access…", enabled: true)]
+        return input
+    }
+
+    @MainActor static func fixture(locked: Bool = false, cameraOnly: Bool = false, longNames: Bool = false, duplicateNames: Bool = false, microphoneOn: Bool = true, secondSource: Bool = false, status: String = "Ready to record") -> CaptureViewInput {
         .init(selectedSource: cameraOnly ? .cameraOnly : .display, selectedSourceChoice: secondSource ? 1 : 0, sourceChoices: [.init(title: longNames ? "A very long external display name for a conference studio · 5120 × 2880" : "Built-in Retina Display · 3024 × 1964", intent: .controls(.selectDisplay(1)))] + (secondSource ? [.init(title: "Studio Display", intent: .controls(.selectDisplay(2)))] : []),
             cameraChoices: (cameraOnly ? [] : [.init(title: "No camera", intent: .camera(nil))]) + [.init(title: longNames ? "Conference room camera with an unusually long name" : "FaceTime HD Camera", intent: .camera("fixture-camera"))] + (duplicateNames ? [.init(title: "FaceTime HD Camera", intent: .camera("fixture-camera-second")), .init(title: "Another camera", intent: .camera("fixture-camera-third"))] : []),
             selectedCamera: cameraOnly ? 0 : longNames ? 1 : 0, cameraOn: cameraOnly || longNames,
             microphoneChoices: [.init(title: longNames ? "Conference room microphone with an unusually long name" : "MacBook Pro Microphone", intent: .controls(.selectMicrophone("fixture-mic")))],
             selectedMicrophone: 0, microphoneOn: microphoneOn, systemAudio: true, countdown: true,
-            inputsEnabled: !locked, startEnabled: !locked, status: "Ready to record")
+            inputsEnabled: !locked, startEnabled: !locked, status: status)
     }
 }

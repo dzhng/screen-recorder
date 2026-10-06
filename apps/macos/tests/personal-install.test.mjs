@@ -45,9 +45,9 @@ test(
       });
     const installed = () => processes().find(({ command }) => command === executable);
     try {
-      // A copy installed under the earlier bundle name is the same app, so it is replaced.
-      const superseded = join(scratch, "Applications/Yap.app");
-      execFileSync("ditto", [join(root, "dist/Yap.app"), superseded]);
+      // An existing installation is replaced without removing its successor.
+      const existing = app;
+      execFileSync("ditto", [join(root, "dist/Yap.app"), existing]);
       const first = install();
       assert.equal(first.status, 0, first.stderr);
       assert.deepEqual(readdirSync(join(scratch, "Applications")), ["Yap.app"]);

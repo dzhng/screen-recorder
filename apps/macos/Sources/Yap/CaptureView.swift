@@ -47,6 +47,7 @@ final class CaptureView: NSView {
     static let preferredWidth: CGFloat = 352
     private(set) var input: CaptureViewInput
     private let perform: (CaptureViewIntent) -> Void
+    private let appIcon: NSImage?
     let scrollView = NSScrollView()
     private let document = CaptureDocument()
     private var controls: [String: NSControl] = [:]
@@ -56,8 +57,9 @@ final class CaptureView: NSView {
     private(set) var contentHeight: CGFloat = 0
     override var isFlipped: Bool { true }
 
-    init(input: CaptureViewInput, perform: @escaping (CaptureViewIntent) -> Void) {
+    init(appIcon: NSImage? = Bundle.main.url(forResource: "BrandMark", withExtension: "png").flatMap { NSImage(contentsOf: $0) }, input: CaptureViewInput, perform: @escaping (CaptureViewIntent) -> Void) {
         self.input = input
+        self.appIcon = appIcon
         self.perform = perform
         super.init(frame: .zero)
         wantsLayer = true
@@ -129,6 +131,21 @@ final class CaptureView: NSView {
         intents[ObjectIdentifier(button)] = intent
     }
 
+    private func toggle(_ title: String, id: String, frame: NSRect, intent: CaptureViewIntent?, on: Bool, enabled: Bool) {
+        usedControls.insert(id)
+        let toggle = controls[id] as? NSSwitch ?? NSSwitch()
+        toggle.frame = frame
+        toggle.state = on ? .on : .off
+        toggle.isEnabled = enabled && intent != nil
+        toggle.target = self
+        toggle.action = #selector(activate(_:))
+        toggle.identifier = .init(id)
+        toggle.setAccessibilityLabel(title)
+        if toggle.superview !== document { document.addSubview(toggle, positioned: .above, relativeTo: nil) }
+        controls[id] = toggle
+        intents[ObjectIdentifier(toggle)] = intent
+    }
+
     private func popup(_ values: [CaptureViewInput.Choice], selected: Int, id: String, frame: NSRect) {
         usedControls.insert(id)
         let popup = controls[id] as? CapturePopup ?? CapturePopup(frame: frame, pullsDown: false)
@@ -159,14 +176,12 @@ final class CaptureView: NSView {
         card.wantsLayer = true
         card.layer?.cornerRadius = radius
         card.layer?.backgroundColor = fill.cgColor
-        card.layer?.borderWidth = 1
-        card.layer?.borderColor = NSColor.separatorColor.withAlphaComponent(0.38).cgColor
         document.addSubview(card, positioned: .below, relativeTo: nil)
     }
 
     private func icon(_ name: String, frame: NSRect, color: NSColor = .secondaryLabelColor) {
         let image = NSImageView(frame: frame)
-        image.image = NSImage(systemSymbolName: name, accessibilityDescription: nil)
+        image.image = captureSymbol(name, color: color)
         image.contentTintColor = color
         image.imageScaling = .scaleProportionallyUpOrDown
         document.addSubview(image)
@@ -175,8 +190,11 @@ final class CaptureView: NSView {
     private func build() {
         usedControls = []
         for child in document.subviews where child.identifier == nil { child.removeFromSuperview() }
-        card(NSRect(x: 18, y: 20, width: 39, height: 39), radius: 10)
-        icon("record.circle", frame: NSRect(x: 24, y: 26, width: 27, height: 27), color: .systemBlue)
+        let brand = NSImageView(frame: NSRect(x: 18, y: 20, width: 39, height: 39))
+        brand.image = appIcon
+        brand.imageScaling = .scaleProportionallyUpOrDown
+        brand.setAccessibilityLabel("Yap")
+        document.addSubview(brand)
         label("Yap", NSRect(x: 66, y: 30, width: 181, height: 24), size: 17, weight: .semibold)
         button("Open library", id: "header.library", frame: NSRect(x: 253, y: 23, width: 34, height: 34), intent: .openLibrary, symbol: "play.rectangle.on.rectangle")
         button("Settings", id: "header.settings", frame: NSRect(x: 297, y: 23, width: 34, height: 34), intent: .controls(.openSettings), symbol: "gearshape")
@@ -211,14 +229,14 @@ final class CaptureView: NSView {
             } else if id == "microphone" {
                 popup(input.microphoneChoices, selected: input.selectedMicrophone, id: "microphone.device", frame: NSRect(x: 60, y: textY - 1, width: 210, height: 24))
             } else {
-                label(id == "systemAudio" ? "System audio" : "3-second countdown", NSRect(x: 60, y: textY, width: 210, height: 20), size: 13, weight: .semibold)
+                label(id == "systemAudio" ? "System audio" : "3-second countdown", NSRect(x: 60, y: textY, width: 210, height: 20), size: 13, weight: .semibold, color: input.inputsEnabled ? .labelColor : .secondaryLabelColor)
             }
             if let subtitle { label(subtitle, NSRect(x: 60, y: y + 30, width: 218, height: 16), size: 11, color: .secondaryLabelColor) }
             if id == "camera", input.selectedSource == .cameraOnly {
                 card(NSRect(x: 260, y: y + 17, width: 59, height: 22), radius: 6, fill: NSColor.systemBlue.withAlphaComponent(0.12))
                 label("Required", NSRect(x: 267, y: y + 20, width: 49, height: 16), size: 10, weight: .semibold, color: .systemBlue)
             } else {
-                button(id == "systemAudio" ? "System audio" : id.capitalized, id: "\(id).toggle", frame: NSRect(x: 278, y: y + 15, width: 42, height: 25), intent: intent, kind: .toggle(on: on), enabled: input.inputsEnabled)
+                toggle(id == "systemAudio" ? "System audio" : id.capitalized, id: "\(id).toggle", frame: NSRect(x: 278, y: y + 15, width: 42, height: 25), intent: intent, on: on, enabled: input.inputsEnabled)
             }
             y += 64
         }
@@ -291,7 +309,7 @@ private final class CaptureDocument: NSView {
 /// Native momentary buttons draw the frozen geometry; they never mutate their supplied selection.
 @MainActor
 private final class CaptureButton: NSButton {
-    enum Kind { case plain, tile(selected: Bool), toggle(on: Bool), primary(shortcut: String?), library, secondary }
+    enum Kind { case plain, tile(selected: Bool), primary(shortcut: String?), library, secondary }
     private var kind: Kind
     private var symbol: String?
     override var isFlipped: Bool { true }
@@ -312,9 +330,6 @@ private final class CaptureButton: NSButton {
         needsDisplay = true
         setAccessibilityElement(true)
         switch kind {
-        case .toggle(let on):
-            setAccessibilityRole(.checkBox)
-            setAccessibilityValue(NSNumber(value: on))
         case .tile(let selected):
             setAccessibilityRole(.radioButton)
             setAccessibilityValue(NSNumber(value: selected))
@@ -328,12 +343,10 @@ private final class CaptureButton: NSButton {
         func text(_ value: String, y: CGFloat, size: CGFloat, weight: NSFont.Weight, color: NSColor) {
             let attributes: [NSAttributedString.Key: Any] = [.font: NSFont.systemFont(ofSize: size, weight: weight), .foregroundColor: color]
             let width = (value as NSString).size(withAttributes: attributes).width
-            let font = attributes[.font] as! NSFont
-            let baseline = y + (font.ascender - font.descender) / 2 - font.ascender
-            (value as NSString).draw(at: NSPoint(x: (bounds.width - width) / 2, y: baseline), withAttributes: attributes)
+            (value as NSString).draw(at: NSPoint(x: (bounds.width - width) / 2, y: y), withAttributes: attributes)
         }
-        func image(_ frame: NSRect, color: NSColor) {
-            guard let symbol else { return }
+        func image(_ frame: NSRect, color: NSColor, name: String? = nil) {
+            guard let symbol = name ?? symbol else { return }
             guard let image = captureSymbol(symbol, color: color), image.size.width > 0, image.size.height > 0 else { return }
             let scale = min(frame.width / image.size.width, frame.height / image.size.height)
             let size = NSSize(width: image.size.width * scale, height: image.size.height * scale)
@@ -345,41 +358,39 @@ private final class CaptureButton: NSButton {
             let path = NSBezierPath(roundedRect: bounds.insetBy(dx: 0.75, dy: 0.75), xRadius: 12, yRadius: 12)
             (selected ? NSColor.systemBlue.withAlphaComponent(0.12) : NSColor.controlBackgroundColor.withAlphaComponent(0.42)).setFill()
             path.fill()
-            (selected ? blue : NSColor.separatorColor).setStroke()
-            path.lineWidth = selected ? 1.5 : 1
-            path.stroke()
-            image(NSRect(x: (bounds.width - 24) / 2, y: 14, width: 24, height: 24), color: selected ? blue : muted)
+            if selected {
+                blue.withAlphaComponent(0.55).setStroke()
+                path.lineWidth = 1
+                path.stroke()
+            }
+            image(NSRect(x: (bounds.width - 24) / 2, y: 14, width: 24, height: 24), color: muted)
             text(title, y: 45, size: 13, weight: .semibold, color: isEnabled ? .labelColor : muted)
             if selected {
                 let attributes: [NSAttributedString.Key: Any] = [.font: NSFont.systemFont(ofSize: 11), .foregroundColor: blue]
                 ("✓" as NSString).draw(at: NSPoint(x: bounds.width - 18, y: 7), withAttributes: attributes)
             }
-        case .toggle(let on):
-            (on ? blue : NSColor.tertiaryLabelColor).setFill()
-            NSBezierPath(roundedRect: bounds, xRadius: 12.5, yRadius: 12.5).fill()
-            NSColor.white.setFill()
-            NSBezierPath(ovalIn: NSRect(x: on ? 20 : 3, y: 3, width: 19, height: 19)).fill()
         case .primary(let binding):
             (isEnabled ? blue : NSColor.systemGray).setFill()
             NSBezierPath(roundedRect: bounds, xRadius: 10, yRadius: 10).fill()
             let action = NSAttributedString(string: "●  \(title)", attributes: [.font: NSFont.systemFont(ofSize: 13, weight: .semibold), .foregroundColor: NSColor.white])
             let shortcut = NSAttributedString(string: binding.map { "   \($0)" } ?? "", attributes: [.font: NSFont.systemFont(ofSize: 11), .foregroundColor: NSColor.white.withAlphaComponent(0.85)])
             let x = (bounds.width - action.size().width - shortcut.size().width) / 2
-            action.draw(at: NSPoint(x: x, y: 13))
-            shortcut.draw(at: NSPoint(x: x + action.size().width, y: 14))
+            action.draw(at: NSPoint(x: x, y: (bounds.height - action.size().height) / 2))
+            shortcut.draw(at: NSPoint(x: x + action.size().width, y: (bounds.height - shortcut.size().height) / 2))
         case .library:
-            image(NSRect(x: 94, y: 8, width: 22, height: 22), color: muted)
-            text(title, y: 11, size: 12, weight: .regular, color: muted)
-            ("›" as NSString).draw(at: NSPoint(x: 215, y: 6), withAttributes: [.font: NSFont.systemFont(ofSize: 23), .foregroundColor: muted])
+            let caption = NSAttributedString(string: title, attributes: [.font: NSFont.systemFont(ofSize: 12), .foregroundColor: muted])
+            let groupWidth = 18 + 8 + caption.size().width + 12 + 7
+            let x = (bounds.width - groupWidth) / 2
+            image(NSRect(x: x, y: bounds.midY - 9, width: 18, height: 18), color: muted)
+            caption.draw(at: NSPoint(x: x + 26, y: bounds.midY - caption.size().height / 2))
+            image(NSRect(x: x + 26 + caption.size().width + 12, y: bounds.midY - 5, width: 7, height: 10), color: muted, name: "chevron.right")
         case .secondary:
             NSColor.controlBackgroundColor.withAlphaComponent(0.42).setFill()
             NSBezierPath(roundedRect: bounds, xRadius: 7, yRadius: 7).fill()
-            NSColor.separatorColor.withAlphaComponent(0.38).setStroke()
-            NSBezierPath(roundedRect: bounds.insetBy(dx: 0.5, dy: 0.5), xRadius: 7, yRadius: 7).stroke()
             text(title, y: 8, size: 11, weight: .medium, color: isEnabled ? .labelColor : .secondaryLabelColor)
         case .plain:
             if symbol != nil { image(bounds.insetBy(dx: 6, dy: 6), color: muted) }
-            else { text(title, y: 4, size: 11, weight: .regular, color: muted) }
+            else { text(title, y: (bounds.height - NSFont.systemFont(ofSize: 11).boundingRectForFont.height) / 2, size: 11, weight: .regular, color: muted) }
         }
     }
 }

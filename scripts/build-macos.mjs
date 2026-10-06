@@ -127,6 +127,7 @@ execFileSync("/usr/libexec/PlistBuddy", [
 ]);
 // Rendered by scripts/render-app-icon.swift and checked in, so a build needs no drawing step.
 copyFileSync(join(root, "apps/macos/AppIcon.icns"), join(app, "Contents/Resources/AppIcon.icns"));
+copyFileSync(join(root, "apps/macos/BrandMark.png"), join(app, "Contents/Resources/BrandMark.png"));
 // macOS keys screen and microphone access to the signature it saw. Ad-hoc signatures change with
 // every build, so a local identity, when this Mac has one, keeps those grants across builds.
 signReleaseTree(app, identity, undefined, { signedResources });

@@ -89,7 +89,10 @@ Capture, geometry and media behavior belong to the [native owner](../../helpers/
 Probe entry points use those same owners; they do not define a second recorder.
 The checked-in icon is an input to the build. Its [packing tool](../../scripts/render-app-icon.swift)
 fits the [artwork](AppIcon-artwork.png) to the macOS icon grid and shape; it runs
-separately so building is not a drawing step.
+separately so building is not a drawing step. The capture header uses a transparent
+cutout from the same artwork. The idle menu-bar mark derives its speech bubble
+and eyes as a monochrome template; live recording, pause and warning indicators
+remain distinguishable at menu-bar size.
 
 ## Update controls
 

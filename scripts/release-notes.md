@@ -1,8 +1,13 @@
-The macOS capture menu keeps its approved 352-point geometry while using a translucent
-popover surface, lighter card treatment, fitted icons and vertically centered labels.
-Settings remains visible across macOS permission panes and returns to the front after
-Yap becomes active again. Live camera and microphone checks remain unverified
-on the development Mac, which has no camera or microphone input.
+Yap is the macOS recording and agent-operated video toolkit. This release ships
+`Yap.app`, the `yap` CLI and the `com.dzhng.yap` app identity. Install the complete
+kit for this identity; capture permissions must be granted to Yap separately.
+
+The capture popover uses lighter surfaces without outlined device cards,
+monochrome controls, native macOS switches and a centered Library action.
+The header uses the custom Yap artwork; its idle menu-bar mark carries the
+speech-bubble silhouette and eyes as a monochrome template.
+Its transparent surface and 352-point geometry remain intact. Settings stays
+visible across permission panes and returns when Yap becomes active again.
 
 The menu bar now opens a compact capture panel with Display, Window, Area and
 Camera Only. Saved recordings, projects, tracked exports and storage move to a
@@ -18,7 +23,7 @@ or the public CLI `update.check` operation. Both use the same native updater;
 `update.status` reports progress and `update.setEnabled` controls automatic updates.
 A manual check works with automatic updates off without changing that preference.
 Installation waits for recording, background work and CLI clients to finish.
-Existing v0.1.5–v0.1.7 installations can update without resetting their library.
+Updates within the Yap identity preserve its library.
 
 Bundled FFmpeg/ffprobe, audio dynamics and loudness measurement, SDR correction,
 qualified HDR-to-SDR conversion, HEVC delivery, caption sidecars and agent review

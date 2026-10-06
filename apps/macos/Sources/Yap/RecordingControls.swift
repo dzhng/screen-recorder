@@ -624,7 +624,7 @@ final class RecordingControls: NSObject {
             let item = nativeID == "capture.start" ? ControlsAction.startOrStop.id : nativeID == "library.open" ? ControlsAction.openLibrary.id : nativeID == "systemAudio.toggle" ? ControlsAction.toggleSystemAudio.id : nativeID
             var row: [String: Any] = ["item": item, "identifier": nativeID, "enabled": control.isEnabled,
                 "title": (control as? NSButton)?.title ?? (control as? NSPopUpButton)?.titleOfSelectedItem ?? nativeID,
-                "checked": (control.accessibilityValue() as? NSNumber)?.boolValue ?? false]
+                "checked": (control as? NSSwitch).map { $0.state == .on } ?? ((control.accessibilityValue() as? NSNumber)?.boolValue ?? false)]
             if let popup = control as? NSPopUpButton, let choices = captureChoices(identifier: nativeID, input: view.input) {
                 row["submenu"] = choices.enumerated().map { index, choice in
                     ["item": Self.intentID(choice.intent), "title": choice.title, "enabled": popup.isEnabled, "checked": index == popup.indexOfSelectedItem] as [String: Any]
@@ -656,8 +656,8 @@ final class RecordingControls: NSObject {
         }
         guard let view = captureView else { return false }
         let nativeID = identifier == ControlsAction.startOrStop.id ? "capture.start" : identifier == ControlsAction.openLibrary.id ? "library.open" : identifier == ControlsAction.toggleSystemAudio.id ? "systemAudio.toggle" : identifier
-        if let button = view.control(identifier: nativeID) as? NSButton, button.isEnabled {
-            button.performClick(nil)
+        if let control = view.control(identifier: nativeID), control.isEnabled {
+            control.performClick(nil)
             return true
         }
         for popupID in ["source.device", "camera.device", "microphone.device"] {
@@ -769,9 +769,7 @@ final class RecordingControls: NSObject {
         guard let button = statusItem.button else { return }
         let described = CapturePresentation.statusTitle(for: state)
         let elapsed = StatusItemAppearance.title(for: state)
-        button.image = NSImage(
-            systemSymbolName: StatusItemAppearance.symbolName(for: state),
-            accessibilityDescription: described)
+        button.image = StatusItemAppearance.image(for: state)
         button.image?.isTemplate = state.device?.state != .recording
         button.imagePosition = elapsed.isEmpty ? .imageOnly : .imageLeading
         button.title = elapsed.isEmpty ? "" : " \(elapsed)"

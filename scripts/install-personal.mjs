@@ -37,11 +37,6 @@ if (basename(app) !== "Yap.app") fail('--app must name a "Yap.app" bundle');
 const built = join(root, "dist/Yap.app");
 const cli = "Contents/Resources/cli/main.mjs";
 if (!existsSync(join(built, cli))) fail(`No built app at ${built}; run \`bun run build\` first.`);
-const builtIdentifier = execFileSync(
-  "/usr/libexec/PlistBuddy",
-  ["-c", "Print :CFBundleIdentifier", join(built, "Contents/Info.plist")],
-  { encoding: "utf8" },
-).trim();
 const { nodePath } = JSON.parse(
   readFileSync(join(built, "Contents/Resources/service/runtime.json"), "utf8"),
 );
@@ -53,25 +48,11 @@ if (!node.startsWith("v24.")) fail(`${nodePath} is ${node}; this personal releas
 mkdirSync(dirname(app), { recursive: true });
 app = join(realpathSync(dirname(app)), basename(app));
 
-// Earlier installs were named Yap.app under the same identity. Left beside the new copy,
-// Spotlight and Login Items would offer two apps that are one.
-const superseded = join(dirname(app), "Yap.app");
-const supersededIdentity = existsSync(superseded)
-  ? execFileSync(
-      "/usr/libexec/PlistBuddy",
-      ["-c", "Print :CFBundleIdentifier", join(superseded, "Contents/Info.plist")],
-      { encoding: "utf8" },
-    ).trim()
-  : undefined;
-const replaced = [app, ...(supersededIdentity === builtIdentifier ? [superseded] : [])];
-
 // Replacing a running app's bundle would pull its service code out from under it.
 const commands = execFileSync("ps", ["-axo", "command="], { encoding: "utf8" }).split("\n");
-for (const bundle of replaced) {
-  const executable = join(bundle, "Contents/MacOS/Yap");
-  if (commands.some((command) => command === executable || command.startsWith(`${executable} `)))
-    fail(`Quit Yap (${bundle}) before installing over it.`);
-}
+const executable = join(app, "Contents/MacOS/Yap");
+if (commands.some((command) => command === executable || command.startsWith(`${executable} `)))
+  fail(`Quit Yap (${app}) before installing over it.`);
 
 // What an install that did not finish left here. A copy set aside mid-swap is the app itself, so
 // it goes back rather than being thrown away; a half-built one is worth nothing and goes.
@@ -110,7 +91,6 @@ try {
   throw error;
 }
 if (replacing) rmSync(previous, { recursive: true, force: true });
-if (replaced.includes(superseded)) rmSync(superseded, { recursive: true, force: true });
 
 const quote = (text) => `'${text.replaceAll("'", `'\\''`)}'`;
 const launcher = join(bin, "yap");

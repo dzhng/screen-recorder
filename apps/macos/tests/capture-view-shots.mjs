@@ -16,9 +16,7 @@ try {
       {
         revision: execFileSync("git", ["rev-parse", "HEAD"], { encoding: "utf8" }).trim(),
         productionViewSha256: createHash("sha256")
-          .update(
-            readFileSync(new URL("../Sources/Yap/CaptureView.swift", import.meta.url)),
-          )
+          .update(readFileSync(new URL("../Sources/Yap/CaptureView.swift", import.meta.url)))
           .digest("hex"),
         fixtureSha256: createHash("sha256")
           .update(readFileSync(new URL("./fixtures/capture-view.swift", import.meta.url)))
@@ -45,7 +43,10 @@ try {
     ["CaptureView"],
     readFileSync(new URL("./fixtures/capture-view.swift", import.meta.url), "utf8"),
   );
-  execFileSync(executable, [output], { timeout: 20_000, stdio: "inherit" });
+  execFileSync(executable, [output, resolve("apps/macos/BrandMark.png")], {
+    timeout: 20_000,
+    stdio: "inherit",
+  });
   console.log(output);
 } finally {
   rmSync(scratch, { recursive: true, force: true });
