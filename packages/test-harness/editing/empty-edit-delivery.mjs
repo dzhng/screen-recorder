@@ -60,7 +60,12 @@ try {
   do {
     const page = await call(
       "index.coverage",
-      { ...selection, generation: indexed.page.metadata.generation, limit: 20, ...(cursor ? { cursor } : {}) },
+      {
+        ...selection,
+        generation: indexed.page.metadata.generation,
+        limit: 20,
+        ...(cursor ? { cursor } : {}),
+      },
       { transport: "mcp" },
     );
     sourceCoverage.push(...page.coverage);
@@ -81,10 +86,7 @@ try {
       basis: "support",
     },
   );
-  const missingSource = await call(
-    "frame.get",
-    { ...selection, atUs: 450000, maxLongEdge: 64 },
-  );
+  const missingSource = await call("frame.get", { ...selection, atUs: 450000, maxLongEdge: 64 });
   assert.equal(missingSource.state, "unavailable");
   assert.equal(missingSource.reason, "physical_gap");
 
@@ -115,7 +117,11 @@ try {
       },
     ],
   });
-  const project = { projectId: created.project.projectId, revisionId: edited.revision.id, maxLongEdge: 64 };
+  const project = {
+    projectId: created.project.projectId,
+    revisionId: edited.revision.id,
+    maxLongEdge: 64,
+  };
   const frames = {};
   for (const atUs of [300000, 450000, 700000]) {
     const output = join(out, `project-${atUs}.png`);
@@ -130,7 +136,10 @@ try {
       frame.published.output.frame.layers[0].availability,
       atUs === 450000 ? "source-unavailable" : "available",
     );
-    assert.equal(frame.published.output.pictures[0].status, atUs === 450000 ? "unavailable" : "available");
+    assert.equal(
+      frame.published.output.pictures[0].status,
+      atUs === 450000 ? "unavailable" : "available",
+    );
   }
 
   const exportDirectory = join(out, "exports");
@@ -168,22 +177,26 @@ try {
   const videoFrames = decoded.frames.filter((frame) => frame.media_type === "video");
   assert.equal(videoFrames.length, 10);
   const raw = (
-    await run("ffmpeg", [
-      "-v",
-      "error",
-      "-nostdin",
-      "-i",
-      committed.output,
-      "-map",
-      "0:v:0",
-      "-fps_mode",
-      "passthrough",
-      "-pix_fmt",
-      "rgba",
-      "-f",
-      "rawvideo",
-      "pipe:1",
-    ], { encoding: "buffer" })
+    await run(
+      "ffmpeg",
+      [
+        "-v",
+        "error",
+        "-nostdin",
+        "-i",
+        committed.output,
+        "-map",
+        "0:v:0",
+        "-fps_mode",
+        "passthrough",
+        "-pix_fmt",
+        "rgba",
+        "-f",
+        "rawvideo",
+        "pipe:1",
+      ],
+      { encoding: "buffer" },
+    )
   ).stdout;
   const frameBytes = 64 * 48 * 4;
   assert.equal(raw.length, 10 * frameBytes);
@@ -191,7 +204,7 @@ try {
     let total = 0;
     for (let index = offset; index < offset + frameBytes; index += 4)
       total += raw[index] + raw[index + 1] + raw[index + 2];
-    return total / (frameBytes / 4 * 3);
+    return total / ((frameBytes / 4) * 3);
   };
   const means = [3, 4, 7].map((index) => mean(index * frameBytes));
   assert.ok(means[0] > 0, `available frame unexpectedly black: ${means[0]}`);
@@ -203,18 +216,29 @@ try {
     export: {
       exportId,
       receipt: committed.receipt,
-      file: { path: committed.output, bytes: (await readFile(committed.output)).length, sha256: exportDigest },
+      file: {
+        path: committed.output,
+        bytes: (await readFile(committed.output)).length,
+        sha256: exportDigest,
+      },
       decodedFrames: videoFrames.length,
       decodedMeanRgb: means,
     },
     interpretation:
       "The source index marks 400000–600000 as unavailable from physical support; a direct source frame request at 450000 is refused, while the project frame and exported pixels show the same black interval between available neighbors.",
   };
-  assert.equal(hash(await readFile(source)), report.source.sha256, "Source changed during inspection");
+  assert.equal(
+    hash(await readFile(source)),
+    report.source.sha256,
+    "Source changed during inspection",
+  );
   report.passed = true;
   await save("report.json", report);
   await save("request.json", {
-    source: { path: "specs/done/agent-editing/assets/10d-source-frames/visual/source.mov", sha256: report.source.sha256 },
+    source: {
+      path: "specs/done/agent-editing/assets/10d-source-frames/visual/source.mov",
+      sha256: report.source.sha256,
+    },
     selection,
     project,
     range: { startUs: 0, endUs: 1000000 },
