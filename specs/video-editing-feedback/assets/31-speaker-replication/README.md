@@ -19,7 +19,13 @@ short quality and three-speaker continuity, then fails required ten-minute
 four-speaker overlap. Model preparation and network-denied loading succeeded;
 no long-form provider is admitted.
 
-Each bundle owns a read-only `replay.mjs` accepting the repository root. Replay
+The [native asynchronous path](async-evidence/README.md) gives exact complete-score
+parity on selected single-stream controls, so its unchanged long run is skipped.
+The [documented buffering profile](context-evidence/README.md) fails independent
+short confirmation and does not proceed to longer inputs. Their shared
+[research record](native-cache-research.json) owns the next provider hypothesis.
+
+Each bundle links its read-only replay accepting the repository root. Replay
 checks retained operand hashes and recomputes metrics through the existing scorer;
 it performs no acquisition or inference. [Integration receipts](replays.json)
 record successful root replay. Successful replay means the reported successes and

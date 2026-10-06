@@ -1,0 +1,87 @@
+{
+  "status": "frozen-before-candidate-inference",
+  "frozenAt": "2026-10-06T08:08:36.448812+00:00",
+  "hypothesis": "Documented1.04s buffering retains a larger recent FIFO and updates the arrival-order cache in smaller chunks, preserving weak simultaneous voices through later turns without resetting identity or lowering output thresholds.",
+  "candidate": {
+    "asyncStreaming": false,
+    "asyncPadToMax": false,
+    "asyncDesyncUpdates": false,
+    "recipe": {
+      "chunk_len": 9,
+      "chunk_right_context": 4,
+      "fifo_len": 264,
+      "spkcache_update_period": 222,
+      "spkcache_len": 264
+    },
+    "onset": 0.5,
+    "offset": 0.1,
+    "modelSha256": "867c53f552998f772e5b5e5c082962ae85ee7ca5669c2bc17d7f615133d4e96d"
+  },
+  "comparison": "Retained synchronous Nemotron observations interpreted by the same fixed .5/.1; no new baseline inference.",
+  "sourceContract": {
+    "repository": "NVIDIA-NeMo/Speech",
+    "revision": "3c0fdca291547aa4898cbf38d9f0325ec225d9d8",
+    "modelPath": "nemo/collections/asr/models/sortformer_diar_models.py",
+    "modulePath": "nemo/collections/asr/modules/sortformer_modules.py",
+    "observed": "Pinned model card recommends this complete1.04s recipe. It changes one coherent buffer/context profile versus the retained offline-style high-context profile. Parameters are80ms frames; recent FIFO expands40->264 while cache264 stays fixed. Native state persists across all chunks; no invocation reset or local-slot concatenation."
+  },
+  "references": {
+    "path": "specs/video-editing-feedback/assets/31-speaker-replication/alternative-evidence/nemotron-feasibility/protocol.json",
+    "sha256": "6782b4d8846fceca1ad44012d6a8f203f87f856ed4bf72fe9d761755739bc20f"
+  },
+  "caseOrder": [
+    "bspxd30",
+    "aiqwk30",
+    "returns-overlap-silence"
+  ],
+  "gates": {
+    "everyCaseDERMaximum": 0.2,
+    "inferenceWallAudioRatioMaximum": 2,
+    "RSSBytesMaximum": 4294967296,
+    "globalIdentityConfusionRatioMaximum": 0.05,
+    "overlapRecallMinimum": 0.8,
+    "everyCaseObservedSpeakerCountMatchesReference": true
+  },
+  "advance": "Next case only after every preceding gate passes. If all short/control cases pass, preregister long expansion before inference. Any failure stops this profile; no threshold tuning.",
+  "prediction": "Both short cases and retained returns stay inside fixed gates; larger recent context can preserve weak voices for overlap. If short gate fails, reject profile before any long inference. Full long quality remains separately required.",
+  "falsifier": "Any DER, global confusion, overlap, count or resource gate fails. No selected-case average may hide one failed gate.",
+  "scorer": {
+    "path": "packages/test-harness/speech/feasibility/score.mjs",
+    "sha256": "794b3bc4275df13c77b36a3e7cab7b9cdec49c0cb6edc45003c7b1b22ed1f350"
+  },
+  "interpreter": {
+    "path": "../hysteresis-evidence/interpret.mjs",
+    "sha256": "0276877f5004cd4f71471d2136f1cd0606972ae857cb59a62b8836478fb569d8"
+  },
+  "execution": {
+    "timeoutSecondsPerCall": 180,
+    "nativeCallsMaximum": 3,
+    "analysisWallBudgetSeconds": 300,
+    "threads": 2,
+    "acquisitionBytes": 0,
+    "networkDenied": true,
+    "repairAllowance": "One infrastructure repair with new identity; no configuration tuning."
+  },
+  "runtime": {
+    "python": "/private/tmp/yap-editing-speaker-replication/prepared-library/models/speaker-replication-r1/cd03eee90fbec18297ac31b8c21546e596b7f71c/runtime/python/bin/python",
+    "entry": "/private/tmp/yap-editing-speaker-replication/prepared-library/models/speaker-replication-r1/cd03eee90fbec18297ac31b8c21546e596b7f71c/runtime/execution/launch.py",
+    "model": "/private/tmp/yap-editing-speaker-replication/prepared-library/models/speaker-replication-r1/cd03eee90fbec18297ac31b8c21546e596b7f71c/original-model",
+    "cache": "/private/tmp/yap-editing-speaker-replication/prepared-library/models/.cache/speaker-replication-r1",
+    "descriptorDigest": "d6378d03528660f4cc350d0fb6b1bcdfa873624f71a91c5e2e0d7f2bf668eb70",
+    "runtimeDigest": "b4e03d54e631fc5b15dbcd772508940f58ce7aeb2b1e4695427e0332644d2b5c",
+    "modelDigest": "ed338c0f61f62a177b04c10e2c01c8f9e987ed006c0bbe4681c9a565acc8f338",
+    "runtimeRevision": "b4e03d54e631fc5b15dbcd772508940f58ce7aeb2b1e4695427e0332644d2b5c",
+    "modelRevision": "cd03eee90fbec18297ac31b8c21546e596b7f71c"
+  },
+  "modelPath": "/tmp/yap-editing-speaker-replication/nemotron-model-library/models/nemotron3-checkpoint-research/f667ed73aee57d40cc39428eb768b4fd87a0a29e/checkpoint/Nemotron-3-Diarization.nemo",
+  "limitations": [
+    "Native aiqwk0.5 failure was already observed; aiqwk is interpretation-held-out only, not untouched or training-held-out.",
+    "VoxConverse appears in model training.",
+    "Experimental NeMo/Lhotse layered runtime is not a sealed relocated production closure.",
+    "No known-person identification or word attribution is proven.",
+    "No new inference or machine-noise confirmation; inherited inference observations are one recorded run."
+  ],
+  "workerSha256": "e90b562a95f44b73b27a9273bd1db37290fc9676fd08198a7111782212d3cca5",
+  "modelCardSha256": "5fe88ca4020d2ee134f806a0a02c52c19855b73047bc2e6f25b9171e1abeebfd",
+  "replaySha256": "9815c38ee582354bd43f9966cad1f834ba94194d0d3758c0446218efe2bced56"
+}

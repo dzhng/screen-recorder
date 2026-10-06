@@ -66,11 +66,13 @@ Keep the required gate unchanged; proceed through these separately verifiable pa
    calls with return, silence, overlapping voices and planted identity swaps.
    Existing three-speaker successes remain valid within their stated scope.
    The asymmetric ten-minute failure banks every score and a planted identity-swap
-   control. Next inspect the pinned model's supported streaming/cache and
-   full-input preprocessing contracts; freeze one independently justified bounded
-   native configuration before another run. If no supported path exists, use a
-   distinct local overlap-capable provider. Do not tune thresholds on the failed
-   assembly or repeat unchanged long inference.
+   control. The [native cache/context comparison](../assets/31-speaker-replication/native-cache-research.json)
+   establishes exact asynchronous-path parity on selected single-stream controls
+   and a failed documented buffering profile. Next admit one distinct local
+   overlap-capable provider/runtime, with original PyTorch Community-1 as the
+   grounded hypothesis. Freeze licensing, complete raw access and physical support
+   before short inference. Do not tune thresholds/count hints on failed cases or
+   repeat unchanged long inference.
 3. **Prepared execution closure.** Seal and relocate the winning model/runtime;
    offline inference must use only the prepared closure and reproduce its operands.
    The original private reconstruction and alternate byte/load readiness are

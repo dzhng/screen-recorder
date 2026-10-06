@@ -1,0 +1,48 @@
+{
+  "verdict": "clean after four verified findings fixed",
+  "shape": "One shared native configuration replay/invocation owner; existing scorer and hysteresis interpretation reused. No product code, compatibility layer, default-provider registration or promotion.",
+  "diff": "Original complete observations and frozen protocols untouched. Replay requires protocol prefix through first failure (or all required cases), verifies complete receipt/observation manifest, and compares captured inference/RSS resources separately from newly measured interpretation time. Timeout retains elapsed/termination transport before propagating.",
+  "docs": "Root/spec/slice/evidence link chain passed; effects, null/rejection, accounting and next independent hypothesis linked to their owners. Integrating root owns global status/choices/traceability.",
+  "independentReviews": [
+    {
+      "scope": "staged native cache/context checkpoint",
+      "exitCode": 0,
+      "turnCompleted": true,
+      "findings": [
+        "P2 required case coverage omission",
+        "P2 unverified manifest-listed receipts"
+      ],
+      "resolution": "Both reproduced red through replay CLI and fixed."
+    },
+    {
+      "scope": "follow-up staged checkpoint",
+      "exitCode": 0,
+      "turnCompleted": true,
+      "findings": [
+        "P2 unverified retained deterministic resources",
+        "P2 absent timeout receipt"
+      ],
+      "resolution": "Both reproduced red through outer replay/invocation entry points and fixed. Read-only review cannot create scratch test fixtures; tests ran locally."
+    },
+    {
+      "scope": "final focused replay/invoke/test review",
+      "exitCode": 0,
+      "turnCompleted": true,
+      "findings": [],
+      "verdict": "Both async and context read-only replays pass with the fixed parent operands. Required-case stopping, manifest receipt hashes, retained inference resources, and timeout receipt handling are implemented consistently."
+    }
+  ],
+  "checks": [
+    "Three replay corruption tests red before fix then green; unmodified hydrated baseline passes before each corruption.",
+    "One invocation timeout receipt control red before fix then green; mocked external subprocess failure only, no model/inference.",
+    "Both complete retained replays verified; candidate numerical successes/failures unchanged.",
+    "Root/spec/slice/evidence doc-link chain; staged whitespace; JS/Python parse."
+  ],
+  "postReviewChange": "Test fixture helper first checks unmodified hydrated replay before applying one corruption, so unavailable LFS operands cannot accidentally satisfy refusal tests; three tests remain green. No executable research/inference behavior changed.",
+  "executionHashes": {
+    "native-cache-replay.mjs": "2dc36f1bef1d7e000cab3bedfbbea96668e2061b4d211177b999111189346486",
+    "native-cache-invoke.py": "64e51a2d6b4338e2bda6a18d0f62e70e55f74d0aa42ab91a86f0d6f0f3bb6029"
+  },
+  "frozenProtocolReplayHash": "Context protocol retains its preregistration replay hash; current accounting-fix executable identity is above. Worker/model/recipe/gates and native outputs unchanged.",
+  "fullSuite": "Integrating root owns final whole-spec run; this checkpoint changes research replay/accounting only."
+}
