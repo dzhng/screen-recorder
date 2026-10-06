@@ -192,6 +192,14 @@ support envelope; partial/discontinuous word diagnostics must remain visible.
 Instant words retain point evidence with `clip: null` and explicit unsupported
 dwell/speed diagnostics; they have no invented placeable duration.
 
+For requested word highlighting, choose explicit active/inactive colors in the
+draft style. The helper maps each corrected literal word to its retained source
+fragments, including wrapping offsets; an empty correction has no displayed run.
+Keep overlapping estimates active together rather than inventing sequential
+speech. For requested entrance motion, author ordinary geometry/opacity curves
+on the selected cue; choose its clock and bounds explicitly. Check the same
+absolute phase in stills, a preview starting inside the motion, and delivery.
+
 Place captions in the intended foreground order so overlays do not obscure them;
 verify the final composite, including later output processing. Inspect actual
 `frame.get` output and a moving preview. Check glyph coverage, wrapping, clipping

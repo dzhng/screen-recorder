@@ -1220,3 +1220,40 @@ Apple cube candidate are in the slice26 evidence; no user-only decision remains.
   results and no additional index state, lifetime or persisted format.
 - **Verdict:** sound; the existing ordering supplies all necessary information.
 - **Confidence:** high.
+
+## Declared caption observations — slice23 completion
+
+- **When:** public/native timed-caption and entrance closeout.
+- **The choice:** Use declared word observations over generated silent audio to
+  isolate mapping and motion from speech recognition. For example, the fixture
+  explicitly maps the corrected displayed `Trend!` to the retained row whose
+  original text was `wrong`; the product renders the supplied relation, while
+  the fixture report says these observations are synthetic. A real recognition
+  run would answer a different question: what the model hears in recorded audio.
+- **The gap:** The slice required exact repeated/overlapping/corrected timing
+  gates but did not select an observation source for this deterministic proof.
+- **The reach:** This fixture may certify that requested word windows and
+  animation phase survive delivery. It must never certify lexical or phonetic
+  truth, which remain with the speech/alignment and contextual-cut gates.
+- **Verdict:** sound. The real CLI/native boundary remains exercised, all source
+  pins and supplied windows are retained, and the report explicitly excludes ASR.
+- **Confidence:** high.
+
+## One mapping owner in caption drafts — slice23 completion
+
+- **When:** corrected/wrapped draft highlight mapping.
+- **The choice:** When the caller selects highlight colors, use the helper that
+  already wraps the caption to emit its exact display ranges. For example, a
+  correction containing an astral glyph occupies two UTF-16 units; the following
+  word starts after those units and the actual retained separator or line break.
+  An empty correction has no glyph range, and one fragmented row maps to its
+  retained fragments without lighting an absent source interval. Without this
+  owner, every caller would guess the offsets again after wrapping.
+- **The gap:** The product already accepted explicit timed runs; the plan did not
+  choose which workflow component should produce corrected display offsets.
+- **The reach:** Caption callers inherit literal source/display separation and
+  one wrapping calculation. They still select corrections, colors and motion;
+  this adds no style preset, fuzzy word matching or automatic treatment.
+- **Verdict:** sound. Regression falsification detects the omitted mapping, and
+  actual public still/movie output agrees with independently supplied windows.
+- **Confidence:** high.

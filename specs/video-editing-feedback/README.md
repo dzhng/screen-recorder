@@ -25,16 +25,17 @@ identities change with that rendering behavior. Generic operations omit tonal fi
 while an actual correction must supply them.
 
 Priority:20 mixed-reference synchronization →
-21 switched-angle delivery;12 contextual joins;15/16 face/framing delivery;23 entrance
-motion;25 reference-conditioned tone;27–29 delivered transitions/trajectory/blur;
+21 switched-angle delivery;12 contextual joins;15/16 face/framing delivery;25 reference-conditioned tone;27–29 delivered transitions/trajectory/blur;
 30 delivered scenes;31/32 speaker continuity/attribution;33 runnable workflows →34
 fresh-agent delivery/replay. Follow slice dependencies rather than this list when
 independent work is available.
 
-Completed:02–11,13–14,17–19,22,24,26.01 retains exact source-rate PCM, full-raster pictures and
+Completed:02–11,13–14,17–19,22–24,26.01 retains exact source-rate PCM, full-raster pictures and
 five original/derivative speech comparisons, but multicamera/speaker certification
-remains open. Partial21 declares exact caller-selected angle clocks;23 maps timed
-UTF-16 highlights;25 extends the shared SDR correction;27 lowers transitions into
+remains open. 23 resolves exact corrected UTF-16/source-fragment highlights and
+proves explicit entrance curves through public still/movie/export, including
+offgrid preview, split and retimed occurrences. Partial21 declares exact
+caller-selected angle clocks;25 extends the shared SDR correction;27 lowers transitions into
 ordinary opacity/gain curves. Each still needs its remaining delivery evidence.
 
 11 recognizes actual prepared PCM with exact project-clock origins and durable
@@ -57,7 +58,7 @@ no long-form provider is promoted.10 retains the accepted NeMo alignment referen
 and verified default runtime acquisition; its public source acoustic cells pass
 exact sample/peak/clock checks and a derived RMS rounding bound. Word identity stays
 unknown. Complete project-tap rows survive package adoption/restart with no model
-or decode work. Independent15/16 delivery and23 timed motion run alongside20
+or decode work. Independent15/16 delivery runs alongside20
 mixed-reference research; its separate-window lexical scout also refused all pairs.
 
 Prepare/download pinned first-class Yap models/runtime as needed by default;
@@ -94,7 +95,7 @@ Numbering is a review order; actual prerequisites live in the slice headers.
 - [ ] [20 — Synchronization feasibility](slices/20-sync-replication.md)
 - [ ] [21 — Declared angle clocks](slices/21-synced-angles.md)
 - [x] [22 — Native typography and caption styling](slices/22-styled-text.md)
-- [ ] [23 — Timed word highlighting and entrance motion](slices/23-timed-word-captions.md)
+- [x] [23 — Timed word highlighting and entrance motion](slices/23-timed-word-captions.md)
 - [x] [24 — Explicit blend semantics](slices/24-blend-modes.md)
 - [ ] [25 — Tone and color controls](slices/25-tone-controls.md)
 - [x] [26 — Immutable imported LUTs](slices/26-immutable-luts.md)

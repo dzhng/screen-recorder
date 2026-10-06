@@ -123,12 +123,13 @@ function textAt(model: ValidatedComposition, value: Resolved, at: Rational) {
   const source = clip.source;
   if (source.kind !== "text")
     throw new CompositionError("INVALID_COMPOSITION", "Expected text clip");
-  if (source.timedWords === undefined || source.highlight === undefined) return source;
+  const { timedWords, ...compiled } = source;
+  if (timedWords === undefined || source.highlight === undefined) return compiled;
   const seed = "seed" in clip ? clip.seed : undefined;
   const parent = seed
     ? model.clips.find((candidate) => candidate.clip.id === seed.occurrenceClipId)
     : undefined;
-  const activeRanges = source.timedWords
+  const activeRanges = timedWords
     .filter((word) => {
       const start = parent
         ? projectTime(parent, fromTime(word.sourceRange.startUs))
@@ -139,7 +140,7 @@ function textAt(model: ValidatedComposition, value: Resolved, at: Rational) {
       return compare(start, at) <= 0 && compare(at, end) < 0;
     })
     .map((word) => word.range);
-  return { ...source, activeRanges };
+  return { ...compiled, activeRanges };
 }
 
 function compileSchedules(

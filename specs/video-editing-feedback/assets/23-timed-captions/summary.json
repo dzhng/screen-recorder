@@ -1,0 +1,36 @@
+{
+  "baseCommit": "98b331b2",
+  "nativeSha256": "d124c21fb438c3021a4f5acf8400d706717b80537d6ee5de49cd985f1b0ea9fd",
+  "canvas": {
+    "width": 640,
+    "height": 180,
+    "fps": "16/1"
+  },
+  "syntheticWordObservations": true,
+  "noASR": true,
+  "stillFramesCompared": 15,
+  "nativeStillReferenceMAE": 0,
+  "movieFramesCompared": 48,
+  "encodedNumericReferenceMAE": 0,
+  "midEntranceClippedFrames": 9,
+  "maximumClippedCaptionMAE": 0.10839506172839507,
+  "codecMAELimit": 3,
+  "exactPreviewExportBytes": true,
+  "motion": {
+    "scale": [
+      0.85,
+      1
+    ],
+    "scaleEndFraction": "1/4",
+    "opacity": [
+      0,
+      1
+    ],
+    "opacityEndFraction": "1/8",
+    "clock": "normalized clip; split evaluationRange retained"
+  },
+  "fullMovieDurationUs": 3000000,
+  "authoredExitAnimation": false,
+  "terminalPostEndFrameCaptured": false,
+  "limit": "Last occupied movie frame is2937500us; no post-end exit frame or exit treatment claimed. Frozen synthetic words establish mapping, not speech-recognition accuracy."
+}

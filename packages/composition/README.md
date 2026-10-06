@@ -108,5 +108,8 @@ Authoring and execution availability remain distinct;
 
 [Compiled record schemas](src/compiled-records.ts) are the shared native boundary.
 They prevent the worker from adopting a second timing or processing policy.
+Text records carry resolved active glyph ranges; authored word windows stay in
+the composition clock. Caption entrance motion uses the same anchored geometry
+and opacity curves as other pictures, so clipping an output window cannot restart it.
 [Preservation evidence](../../specs/done/agent-editing/assets/23-owner-fixture-ports/README.md)
 records scoped downstream proof separately from pure authoring validity.

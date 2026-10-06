@@ -48,6 +48,8 @@ function appendLine(currentLines, token, separator, width, hasPrior = false) {
   if (current && !separator.includes("\n") && length(parts[0]) > width)
     currentLines.push(...((separator.trim() ? separator : "") + token).split("\n"));
   else currentLines.splice(currentLines.length - 1, 1, ...parts);
+  const end = currentLines.join("\n").length;
+  return [end - token.length, end];
 }
 const nonempty = (value) => typeof value === "string" && value.length > 0;
 
@@ -225,7 +227,13 @@ export function captionProposals(request) {
   for (const word of selected) {
     const prior = current.at(-1);
     const candidateLines = [...currentLines];
-    appendLine(candidateLines, word.text, constraints.separator, width, current.length > 0);
+    let range = appendLine(
+      candidateLines,
+      word.text,
+      constraints.separator,
+      width,
+      current.length > 0,
+    );
     const pinsFull = current.length === 1000;
     if (
       prior &&
@@ -246,11 +254,11 @@ export function captionProposals(request) {
       groups.push({ words: current, lines: currentLines });
       current = [];
       currentLines = [""];
-      appendLine(currentLines, word.text, constraints.separator, width);
+      range = appendLine(currentLines, word.text, constraints.separator, width);
       if (pinsFull && !violations.some((item) => item.code === "CUE_WORD_PIN_LIMIT"))
         violations.push({ code: "CUE_WORD_PIN_LIMIT", maximum: 1000 });
     } else currentLines = candidateLines;
-    current.push(word);
+    current.push({ ...word, range });
   }
   if (current.length) groups.push({ words: current, lines: currentLines });
   if (groups.length > 1000)
@@ -321,7 +329,20 @@ export function captionProposals(request) {
         ? null
         : {
             trackId: request.trackId,
-            source: { ...style, kind: "text", text },
+            source: {
+              ...style,
+              kind: "text",
+              text,
+              ...(style.highlight
+                ? {
+                    timedWords: group.flatMap(({ row, range }) =>
+                      range[0] === range[1]
+                        ? []
+                        : row.fragments.map(({ source }) => ({ range, sourceRange: source })),
+                    ),
+                  }
+                : {}),
+            },
             seed: {
               kind: "transcript",
               source: {
@@ -369,7 +390,7 @@ export function captionProposals(request) {
 if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {
   if (process.argv.includes("--help"))
     console.log(
-      "Usage: node caption-proposals.mjs < request.json\nPure caption drafts from one complete pinned compact-transcript entry, explicit rowIndexes/corrections, caption track, canvas, text style and constraints. Constraints: widthGraphemes, maxLines, minDwellUs/maxDwellUs, maxCps, pauseUs, breakOnPunctuation, separator, safeArea {x,y,width,height}; optional maxBytes. Returns ordinary text clip/geometry drafts, exact word pins/fragments and violations. Instant points retain evidence with clip:null and explicit unsupported dwell/speed. Never calls CLI, transcribes or applies edits. Pixel/glyph fit requires explicit application and actual frame.get inspection.",
+      "Usage: node caption-proposals.mjs < request.json\nPure caption drafts from one complete pinned compact-transcript entry, explicit rowIndexes/corrections, caption track, canvas, text style and constraints. Constraints: widthGraphemes, maxLines, minDwellUs/maxDwellUs, maxCps, pauseUs, breakOnPunctuation, separator, safeArea {x,y,width,height}; optional maxBytes. Returns ordinary text clip/geometry drafts, exact word pins/fragments and violations. Explicit style.highlight {activeColor,inactiveColor} emits corrected display UTF16 timedWords mapped to retained source fragments; empty corrections have no run. Instant points retain evidence with clip:null and explicit unsupported dwell/speed. Never calls CLI, transcribes or applies edits. Pixel/glyph fit requires explicit application and actual frame.get inspection.",
     );
   else await runJsonHelper(captionProposals);
 }

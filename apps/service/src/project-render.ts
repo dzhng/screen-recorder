@@ -334,7 +334,7 @@ export function projectMovieRenderer(
 ): ProjectMovieRenderer {
   return {
     implementationId:
-      "native-composition-movie-v22" +
+      "native-composition-movie-v23" +
       (pictureCapabilities.sdrCorrection ? ":" + pictureCapabilities.sdrCorrection : "") +
       (pictureCapabilities.lut ? ":" + pictureCapabilities.lut : "") +
       (processingRuntime ? ":" + processingRuntime.implementationId : ""),
@@ -582,7 +582,7 @@ export function projectFrameRenderer(
 ): ProjectFrameRenderer {
   return {
     implementationId:
-      "native-composition-picture-v18" +
+      "native-composition-picture-v19" +
       (capabilities.sdrCorrection ? ":" + capabilities.sdrCorrection : "") +
       (capabilities.lut ? ":" + capabilities.lut : ""),
     ...capabilities,

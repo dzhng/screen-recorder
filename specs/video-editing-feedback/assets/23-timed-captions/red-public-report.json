@@ -1,0 +1,737 @@
+{
+  "passed": false,
+  "trace": [
+    {
+      "operation": "asset.import",
+      "transport": "cli",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "operation": "job.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "asset.get",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "asset.import",
+      "transport": "cli",
+      "ok": true,
+      "state": "running"
+    },
+    {
+      "operation": "job.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "ready"
+    },
+    {
+      "operation": "asset.get",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "project.create",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "project.create",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "project.create",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "edit.apply",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "edit.apply",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "edit.apply",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "edit.apply",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "edit.apply",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "edit.apply",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "edit.apply",
+      "transport": "cli",
+      "ok": true
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "processing",
+      "revisionId": "26c7e812-6253-422f-b3c8-76336402f500"
+    },
+    {
+      "operation": "frame.get",
+      "transport": "cli",
+      "ok": true,
+      "state": "failed",
+      "revisionId": "26c7e812-6253-422f-b3c8-76336402f500"
+    }
+  ],
+  "pictures": [],
+  "checks": [],
+  "workerSha256": "d124c21fb438c3021a4f5acf8400d706717b80537d6ee5de49cd985f1b0ea9fd",
+  "captionTimedMotion": {
+    "syntheticWords": true,
+    "noASR": true,
+    "source": {
+      "assetId": "7024bc37c7b60bb5c552e8ecab135ea71eb174ff49b29bb964821ff529bb161a",
+      "streamId": "track:1"
+    },
+    "generation": "caption-fixture-observations",
+    "drafts": [
+      {
+        "rowIndexes": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "words": [
+          {
+            "type": "word",
+            "ordinal": 0,
+            "text": "new",
+            "segment": 0,
+            "partial": false,
+            "clipId": "clip:b96edea3cda96109f15427dd05db3d7aae79ce4382db35f40493a9f9f68aed9f:2",
+            "trackId": "track:b96edea3cda96109f15427dd05db3d7aae79ce4382db35f40493a9f9f68aed9f:0",
+            "assetId": "7024bc37c7b60bb5c552e8ecab135ea71eb174ff49b29bb964821ff529bb161a",
+            "streamId": "track:1",
+            "generation": "caption-fixture-observations",
+            "sourceRange": {
+              "startUs": 0,
+              "endUs": 750000
+            },
+            "fragments": [
+              {
+                "source": {
+                  "startUs": 0,
+                  "endUs": 750000
+                },
+                "project": {
+                  "startUs": 0,
+                  "endUs": 750000
+                }
+              }
+            ]
+          },
+          {
+            "type": "word",
+            "ordinal": 1,
+            "text": "omit",
+            "segment": 0,
+            "partial": false,
+            "clipId": "clip:b96edea3cda96109f15427dd05db3d7aae79ce4382db35f40493a9f9f68aed9f:2",
+            "trackId": "track:b96edea3cda96109f15427dd05db3d7aae79ce4382db35f40493a9f9f68aed9f:0",
+            "assetId": "7024bc37c7b60bb5c552e8ecab135ea71eb174ff49b29bb964821ff529bb161a",
+            "streamId": "track:1",
+            "generation": "caption-fixture-observations",
+            "sourceRange": {
+              "startUs": 500000,
+              "endUs": 1000000
+            },
+            "fragments": [
+              {
+                "source": {
+                  "startUs": 500000,
+                  "endUs": 1000000
+                },
+                "project": {
+                  "startUs": 500000,
+                  "endUs": 1000000
+                }
+              }
+            ]
+          },
+          {
+            "type": "word",
+            "ordinal": 2,
+            "text": "wrong",
+            "segment": 0,
+            "partial": false,
+            "clipId": "clip:b96edea3cda96109f15427dd05db3d7aae79ce4382db35f40493a9f9f68aed9f:2",
+            "trackId": "track:b96edea3cda96109f15427dd05db3d7aae79ce4382db35f40493a9f9f68aed9f:0",
+            "assetId": "7024bc37c7b60bb5c552e8ecab135ea71eb174ff49b29bb964821ff529bb161a",
+            "streamId": "track:1",
+            "generation": "caption-fixture-observations",
+            "sourceRange": {
+              "startUs": 625000,
+              "endUs": 1500000
+            },
+            "fragments": [
+              {
+                "source": {
+                  "startUs": 625000,
+                  "endUs": 1500000
+                },
+                "project": {
+                  "startUs": 625000,
+                  "endUs": 1500000
+                }
+              }
+            ]
+          },
+          {
+            "type": "word",
+            "ordinal": 3,
+            "text": "now",
+            "segment": 0,
+            "partial": false,
+            "clipId": "clip:b96edea3cda96109f15427dd05db3d7aae79ce4382db35f40493a9f9f68aed9f:2",
+            "trackId": "track:b96edea3cda96109f15427dd05db3d7aae79ce4382db35f40493a9f9f68aed9f:0",
+            "assetId": "7024bc37c7b60bb5c552e8ecab135ea71eb174ff49b29bb964821ff529bb161a",
+            "streamId": "track:1",
+            "generation": "caption-fixture-observations",
+            "sourceRange": {
+              "startUs": 1375000,
+              "endUs": 2000000
+            },
+            "fragments": [
+              {
+                "source": {
+                  "startUs": 1375000,
+                  "endUs": 2000000
+                },
+                "project": {
+                  "startUs": 1375000,
+                  "endUs": 2000000
+                }
+              }
+            ]
+          }
+        ],
+        "text": "New  Trend! now",
+        "projectFragments": [
+          {
+            "rowIndex": 0,
+            "source": {
+              "startUs": 0,
+              "endUs": 750000
+            },
+            "project": {
+              "startUs": 0,
+              "endUs": 750000
+            }
+          },
+          {
+            "rowIndex": 1,
+            "source": {
+              "startUs": 500000,
+              "endUs": 1000000
+            },
+            "project": {
+              "startUs": 500000,
+              "endUs": 1000000
+            }
+          },
+          {
+            "rowIndex": 2,
+            "source": {
+              "startUs": 625000,
+              "endUs": 1500000
+            },
+            "project": {
+              "startUs": 625000,
+              "endUs": 1500000
+            }
+          },
+          {
+            "rowIndex": 3,
+            "source": {
+              "startUs": 1375000,
+              "endUs": 2000000
+            },
+            "project": {
+              "startUs": 1375000,
+              "endUs": 2000000
+            }
+          }
+        ],
+        "clip": {
+          "trackId": "track:b96edea3cda96109f15427dd05db3d7aae79ce4382db35f40493a9f9f68aed9f:1",
+          "source": {
+            "font": {
+              "assetId": "525979822591a3447cfc49d943d6f7683508e25543407871c0ed8fed05fd2bd9",
+              "postScriptName": "ArialMT"
+            },
+            "width": 600,
+            "height": 100,
+            "size": 42,
+            "color": "#ffffffff",
+            "alignment": "center",
+            "verticalAlignment": "center",
+            "wrap": false,
+            "highlight": {
+              "activeColor": "#ffcc00ff",
+              "inactiveColor": "#ffffffff"
+            },
+            "kind": "text",
+            "text": "New  Trend! now",
+            "timedWords": [
+              {
+                "range": [
+                  0,
+                  3
+                ],
+                "sourceRange": {
+                  "startUs": 0,
+                  "endUs": 750000
+                }
+              },
+              {
+                "range": [
+                  5,
+                  11
+                ],
+                "sourceRange": {
+                  "startUs": 625000,
+                  "endUs": 1500000
+                }
+              },
+              {
+                "range": [
+                  12,
+                  15
+                ],
+                "sourceRange": {
+                  "startUs": 1375000,
+                  "endUs": 2000000
+                }
+              }
+            ]
+          },
+          "seed": {
+            "kind": "transcript",
+            "source": {
+              "assetId": "7024bc37c7b60bb5c552e8ecab135ea71eb174ff49b29bb964821ff529bb161a",
+              "streamId": "track:1"
+            },
+            "generation": "caption-fixture-observations",
+            "occurrenceClipId": "clip:b96edea3cda96109f15427dd05db3d7aae79ce4382db35f40493a9f9f68aed9f:2",
+            "words": [
+              {
+                "ordinal": 0,
+                "sourceRange": {
+                  "startUs": 0,
+                  "endUs": 750000
+                }
+              },
+              {
+                "ordinal": 1,
+                "sourceRange": {
+                  "startUs": 500000,
+                  "endUs": 1000000
+                }
+              },
+              {
+                "ordinal": 2,
+                "sourceRange": {
+                  "startUs": 625000,
+                  "endUs": 1500000
+                }
+              },
+              {
+                "ordinal": 3,
+                "sourceRange": {
+                  "startUs": 1375000,
+                  "endUs": 2000000
+                }
+              }
+            ]
+          },
+          "placement": {
+            "kind": "content",
+            "clipId": "clip:b96edea3cda96109f15427dd05db3d7aae79ce4382db35f40493a9f9f68aed9f:2",
+            "sourceRange": {
+              "startUs": 0,
+              "endUs": 2000000
+            }
+          }
+        },
+        "geometry": {
+          "processor": {
+            "type": "geometry",
+            "crop": {
+              "x": 0,
+              "y": 0,
+              "width": 600,
+              "height": 100
+            },
+            "rect": {
+              "x": 20,
+              "y": 60,
+              "width": 600,
+              "height": 100
+            },
+            "fit": "contain",
+            "scale": {
+              "x": 1,
+              "y": 1
+            },
+            "rotationDeg": 0,
+            "pivot": {
+              "x": 0.5,
+              "y": 0.5
+            }
+          }
+        },
+        "violations": [
+          {
+            "code": "RENDERED_LAYOUT_UNVERIFIED",
+            "checks": [
+              "pixel-width",
+              "glyph-coverage",
+              "clipping",
+              "contrast",
+              "legibility"
+            ]
+          }
+        ]
+      },
+      {
+        "rowIndexes": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "words": [
+          {
+            "type": "word",
+            "ordinal": 0,
+            "text": "new",
+            "segment": 0,
+            "partial": false,
+            "clipId": "clip:b96edea3cda96109f15427dd05db3d7aae79ce4382db35f40493a9f9f68aed9f:3",
+            "trackId": "track:b96edea3cda96109f15427dd05db3d7aae79ce4382db35f40493a9f9f68aed9f:0",
+            "assetId": "7024bc37c7b60bb5c552e8ecab135ea71eb174ff49b29bb964821ff529bb161a",
+            "streamId": "track:1",
+            "generation": "caption-fixture-observations",
+            "sourceRange": {
+              "startUs": 0,
+              "endUs": 750000
+            },
+            "fragments": [
+              {
+                "source": {
+                  "startUs": 0,
+                  "endUs": 750000
+                },
+                "project": {
+                  "startUs": 2000000,
+                  "endUs": 2750000
+                }
+              }
+            ]
+          },
+          {
+            "type": "word",
+            "ordinal": 1,
+            "text": "omit",
+            "segment": 0,
+            "partial": false,
+            "clipId": "clip:b96edea3cda96109f15427dd05db3d7aae79ce4382db35f40493a9f9f68aed9f:3",
+            "trackId": "track:b96edea3cda96109f15427dd05db3d7aae79ce4382db35f40493a9f9f68aed9f:0",
+            "assetId": "7024bc37c7b60bb5c552e8ecab135ea71eb174ff49b29bb964821ff529bb161a",
+            "streamId": "track:1",
+            "generation": "caption-fixture-observations",
+            "sourceRange": {
+              "startUs": 500000,
+              "endUs": 1000000
+            },
+            "fragments": [
+              {
+                "source": {
+                  "startUs": 500000,
+                  "endUs": 1000000
+                },
+                "project": {
+                  "startUs": 2500000,
+                  "endUs": 3000000
+                }
+              }
+            ]
+          },
+          {
+            "type": "word",
+            "ordinal": 2,
+            "text": "wrong",
+            "segment": 0,
+            "partial": false,
+            "clipId": "clip:b96edea3cda96109f15427dd05db3d7aae79ce4382db35f40493a9f9f68aed9f:3",
+            "trackId": "track:b96edea3cda96109f15427dd05db3d7aae79ce4382db35f40493a9f9f68aed9f:0",
+            "assetId": "7024bc37c7b60bb5c552e8ecab135ea71eb174ff49b29bb964821ff529bb161a",
+            "streamId": "track:1",
+            "generation": "caption-fixture-observations",
+            "sourceRange": {
+              "startUs": 625000,
+              "endUs": 1500000
+            },
+            "fragments": [
+              {
+                "source": {
+                  "startUs": 625000,
+                  "endUs": 1500000
+                },
+                "project": {
+                  "startUs": 2625000,
+                  "endUs": 3500000
+                }
+              }
+            ]
+          },
+          {
+            "type": "word",
+            "ordinal": 3,
+            "text": "now",
+            "segment": 0,
+            "partial": false,
+            "clipId": "clip:b96edea3cda96109f15427dd05db3d7aae79ce4382db35f40493a9f9f68aed9f:3",
+            "trackId": "track:b96edea3cda96109f15427dd05db3d7aae79ce4382db35f40493a9f9f68aed9f:0",
+            "assetId": "7024bc37c7b60bb5c552e8ecab135ea71eb174ff49b29bb964821ff529bb161a",
+            "streamId": "track:1",
+            "generation": "caption-fixture-observations",
+            "sourceRange": {
+              "startUs": 1375000,
+              "endUs": 2000000
+            },
+            "fragments": [
+              {
+                "source": {
+                  "startUs": 1375000,
+                  "endUs": 2000000
+                },
+                "project": {
+                  "startUs": 3375000,
+                  "endUs": 4000000
+                }
+              }
+            ]
+          }
+        ],
+        "text": "New  Trend! now",
+        "projectFragments": [
+          {
+            "rowIndex": 0,
+            "source": {
+              "startUs": 0,
+              "endUs": 750000
+            },
+            "project": {
+              "startUs": 2000000,
+              "endUs": 2750000
+            }
+          },
+          {
+            "rowIndex": 1,
+            "source": {
+              "startUs": 500000,
+              "endUs": 1000000
+            },
+            "project": {
+              "startUs": 2500000,
+              "endUs": 3000000
+            }
+          },
+          {
+            "rowIndex": 2,
+            "source": {
+              "startUs": 625000,
+              "endUs": 1500000
+            },
+            "project": {
+              "startUs": 2625000,
+              "endUs": 3500000
+            }
+          },
+          {
+            "rowIndex": 3,
+            "source": {
+              "startUs": 1375000,
+              "endUs": 2000000
+            },
+            "project": {
+              "startUs": 3375000,
+              "endUs": 4000000
+            }
+          }
+        ],
+        "clip": {
+          "trackId": "track:b96edea3cda96109f15427dd05db3d7aae79ce4382db35f40493a9f9f68aed9f:1",
+          "source": {
+            "font": {
+              "assetId": "525979822591a3447cfc49d943d6f7683508e25543407871c0ed8fed05fd2bd9",
+              "postScriptName": "ArialMT"
+            },
+            "width": 600,
+            "height": 100,
+            "size": 42,
+            "color": "#ffffffff",
+            "alignment": "center",
+            "verticalAlignment": "center",
+            "wrap": false,
+            "highlight": {
+              "activeColor": "#ffcc00ff",
+              "inactiveColor": "#ffffffff"
+            },
+            "kind": "text",
+            "text": "New  Trend! now",
+            "timedWords": [
+              {
+                "range": [
+                  0,
+                  3
+                ],
+                "sourceRange": {
+                  "startUs": 0,
+                  "endUs": 750000
+                }
+              },
+              {
+                "range": [
+                  5,
+                  11
+                ],
+                "sourceRange": {
+                  "startUs": 625000,
+                  "endUs": 1500000
+                }
+              },
+              {
+                "range": [
+                  12,
+                  15
+                ],
+                "sourceRange": {
+                  "startUs": 1375000,
+                  "endUs": 2000000
+                }
+              }
+            ]
+          },
+          "seed": {
+            "kind": "transcript",
+            "source": {
+              "assetId": "7024bc37c7b60bb5c552e8ecab135ea71eb174ff49b29bb964821ff529bb161a",
+              "streamId": "track:1"
+            },
+            "generation": "caption-fixture-observations",
+            "occurrenceClipId": "clip:b96edea3cda96109f15427dd05db3d7aae79ce4382db35f40493a9f9f68aed9f:3",
+            "words": [
+              {
+                "ordinal": 0,
+                "sourceRange": {
+                  "startUs": 0,
+                  "endUs": 750000
+                }
+              },
+              {
+                "ordinal": 1,
+                "sourceRange": {
+                  "startUs": 500000,
+                  "endUs": 1000000
+                }
+              },
+              {
+                "ordinal": 2,
+                "sourceRange": {
+                  "startUs": 625000,
+                  "endUs": 1500000
+                }
+              },
+              {
+                "ordinal": 3,
+                "sourceRange": {
+                  "startUs": 1375000,
+                  "endUs": 2000000
+                }
+              }
+            ]
+          },
+          "placement": {
+            "kind": "content",
+            "clipId": "clip:b96edea3cda96109f15427dd05db3d7aae79ce4382db35f40493a9f9f68aed9f:3",
+            "sourceRange": {
+              "startUs": 0,
+              "endUs": 2000000
+            }
+          }
+        },
+        "geometry": {
+          "processor": {
+            "type": "geometry",
+            "crop": {
+              "x": 0,
+              "y": 0,
+              "width": 600,
+              "height": 100
+            },
+            "rect": {
+              "x": 20,
+              "y": 60,
+              "width": 600,
+              "height": 100
+            },
+            "fit": "contain",
+            "scale": {
+              "x": 1,
+              "y": 1
+            },
+            "rotationDeg": 0,
+            "pivot": {
+              "x": 0.5,
+              "y": 0.5
+            }
+          }
+        },
+        "violations": [
+          {
+            "code": "RENDERED_LAYOUT_UNVERIFIED",
+            "checks": [
+              "pixel-width",
+              "glyph-coverage",
+              "clipping",
+              "contrast",
+              "legibility"
+            ]
+          }
+        ]
+      }
+    ],
+    "stillComparisons": [],
+    "movieComparisons": []
+  }
+}

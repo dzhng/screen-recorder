@@ -17,6 +17,7 @@ const layerIdentity = {
   width: z.number().finite().positive(),
   height: z.number().finite().positive(),
 };
+const compiledTextSchema = textSourceSchema.safeExtend({ timedWords: z.never().optional() });
 export const compiledFrameSchema = z
   .object({
     index,
@@ -33,7 +34,7 @@ export const compiledFrameSchema = z
     ),
     layers: z.array(
       z.discriminatedUnion("kind", [
-        z.strictObject({ kind: z.literal("text"), text: textSourceSchema, ...layerIdentity }),
+        z.strictObject({ kind: z.literal("text"), text: compiledTextSchema, ...layerIdentity }),
         z.strictObject({
           kind: z.literal("video"),
           assetId: id,

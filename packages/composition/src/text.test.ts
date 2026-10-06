@@ -1,6 +1,7 @@
 import { expect, test } from "vitest";
 import {
   applyBatch,
+  compiledFrameSchema,
   createCompiler,
   documentAssetIds,
   projectToSource,
@@ -364,4 +365,13 @@ test("timed text highlights follow exact UTF-16 ranges and overlap without seque
   ]);
   expect(activeAt(375000).activeRanges).toEqual([[5, 7]]);
   expect(activeAt(500000).activeRanges).toEqual([]);
+  expect(() => frames.forEach((frame) => compiledFrameSchema.parse(frame))).not.toThrow();
+  expect(() =>
+    compiledFrameSchema.parse({
+      ...frames[0],
+      layers: [
+        { ...frames[0]!.layers[0], text: { ...activeAt(0), timedWords: authored.timedWords } },
+      ],
+    }),
+  ).toThrow();
 });

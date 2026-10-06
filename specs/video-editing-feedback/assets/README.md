@@ -73,3 +73,8 @@ pixels and independent review. It makes no universal-font or animation claim.
 [Immutable LUT response](26-immutable-luts/README.md) retains parser/interpolation
 controls, exact identity PNG, independently calculated grade pixels and package
 replay after owned donor-state deletion. Movie response covers both complete held-shot frames against a matched native-encoded reference; the fresh critique's shared drift/softening and unmasked raw-reference mismatch remain retained.
+
+[Timed-caption delivery](23-timed-captions/README.md) retains exact corrected display
+mapping, overlapping word windows and explicit entrance motion through public
+stills, encoded references, offgrid preview, splits, repeats and retiming. Declared
+observations isolate those contracts from speech-model accuracy.

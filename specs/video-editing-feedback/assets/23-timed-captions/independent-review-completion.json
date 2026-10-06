@@ -1,0 +1,23 @@
+{
+  "processExitCode": 0,
+  "events": [
+    {
+      "type": "thread.started",
+      "thread_id": "01a1115f-26e9-7db2-8ad0-bbc377c7221c"
+    },
+    {
+      "type": "thread.started",
+      "thread_id": "01a1115f-26e9-7db2-8ad0-bbc377c7221c"
+    },
+    {
+      "type": "turn.completed",
+      "usage": {
+        "input_tokens": 1022664,
+        "cached_input_tokens": 882688,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 13899,
+        "reasoning_output_tokens": 9990
+      }
+    }
+  ]
+}

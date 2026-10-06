@@ -45,6 +45,11 @@ here because a structurally valid plan can still draw the wrong result. A decode
 image comparison needs matched input, output time and color interpretation;
 encoding loss must not be mistaken for a composition or color-management error.
 
+[Timed captions](caption-timed-motion.mjs) separate word-to-display mapping from
+entrance motion. Declared synthetic observations isolate those contracts from
+speech-model accuracy; independent numeric frame recipes check actual public
+stills and encoded movies, including a preview beginning inside the motion.
+
 [Blend arithmetic](blend-sheet.mjs) compares authored color/alpha surfaces and a smooth
 vignette against an independent linear-light reference through the public compiler and
 native still/movie operations. Its [retained evidence](../../../specs/video-editing-feedback/assets/24-blend-sheet/README.md)
