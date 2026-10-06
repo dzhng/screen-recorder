@@ -262,9 +262,10 @@ authored-trajectory control and keeps its visible envelope within one pixel on e
 strict reference-conditioned blur parity and source-edge refusal receipts remain open.
 
 Slice34 media-aware replay evidence: `packages/test-harness/editing/autonomous-media-replay.mjs`
-runs two fresh production-native public CLI/MCP journeys, replays the pinned Parakeet repair,
-normalizes the delivered movie for deterministic comparison, and checks decoded picture/audio
-invariants plus original-source preservation. The compact retained receipt is
+records the focused launch/podcast/teaser routes, then runs two fresh production-native
+public CLI/MCP journeys, replays the pinned Parakeet repair, normalizes the delivered movie
+for deterministic comparison, and checks decoded picture/audio invariants plus original-source
+preservation. The compact retained receipt is
 `assets/34-fresh-agent/autonomous-media-replay.json`; source movies and model files remain
 external inputs.
 

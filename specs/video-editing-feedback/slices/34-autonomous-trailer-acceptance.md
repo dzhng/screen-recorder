@@ -22,7 +22,9 @@ The [production-native replay harness](../../../packages/test-harness/editing/au
 now runs two fresh public CLI/MCP journeys against the retained corpus, runs the
 real bounded Parakeet repair, normalizes each delivered movie for deterministic
 comparison, and checks decoded picture/audio invariants plus original-source
-preservation. The compact receipt is retained at
+preservation. Before media work it also invokes the consumer skill's focused
+launch, podcast/interview and teaser routing and retains their reference hashes.
+The compact receipt is retained at
 [autonomous-media-replay.json](../assets/34-fresh-agent/autonomous-media-replay.json).
 It proves one concrete media workflow; it does not promote the remaining global
 synchronization or long-form speaker gates.

@@ -1833,3 +1833,23 @@ Apple cube candidate are in the slice26 evidence; no user-only decision remains.
 - **The reach:** Slice34 now has one reproducible media-aware checkpoint while global synchronization, long-form speaker continuity and strict reference parity remain separate gates.
 - **Verdict:** sound for the concrete fixture workflow; not a whole-spec completion claim.
 - **Confidence:** high for the retained run; medium for broader editorial workflows outside this fixture.
+
+## Make fresh media acceptance execute focused workflow routing — slice33/34
+
+- **When:** the media-aware replay claimed capability routing but only exercised
+  the public editing journey.
+- **The choice:** call the consumer skill's existing routing owner before media
+  work for `launch`, `podcast` and `teaser`, then retain each selected reference's
+  hash and policy in the replay receipt. The acceptance harness records the result;
+  it does not copy the route table or invent a second editorial policy.
+- **The gap:** the earlier receipt could say routing was verified while proving only
+  delivery and speech repair, leaving a fresh agent's first workflow decision
+  outside the acceptance boundary.
+- **The reach:** a changed or unlinked focused reference now fails the concrete
+  replay before media work, and the receipt tells a later agent exactly which skill
+  bytes were used. Media quality, synchronization and long-form speaker gates stay
+  separate rather than being implied by routing success.
+- **Verdict:** sound; the route helper remains the single policy owner and the
+  replay adds only provenance at the acceptance boundary.
+- **Confidence:** high; the route helper's existing focused tests and the fresh
+  media replay both pass.

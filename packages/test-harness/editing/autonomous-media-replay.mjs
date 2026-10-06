@@ -5,6 +5,7 @@ import { mkdtemp, readFile, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join, resolve } from "node:path";
 import { promisify } from "node:util";
+import { collectUseCaseRouting } from "./autonomous-routing.mjs";
 
 const run = promisify(execFile);
 const root = resolve(new URL("../../../", import.meta.url).pathname);
@@ -18,6 +19,7 @@ const native = resolve(value("--native") ?? process.env.YAP_NATIVE ?? "");
 const model = resolve(value("--model") ?? process.env.YAP_PARAKEET_MODEL ?? "");
 assert(native, "Pass --native or YAP_NATIVE");
 assert(model, "Pass --model or YAP_PARAKEET_MODEL");
+const routing = await collectUseCaseRouting(join(root, "skills/yap/references"));
 
 const hashFile = async (path) => {
   const bytes = await readFile(path);
@@ -133,6 +135,12 @@ const report = {
     humanQaRequired: false,
   },
   native: runs[0].native,
+  routing: routing.map((receipt) => ({
+    useCase: receipt.useCase,
+    route: receipt.route,
+    provenance: receipt.provenance,
+    policy: receipt.policy,
+  })),
   speechRepair: {
     expectedText: speech.freshAgentReplay.discovery.expectedText,
     observedText:

@@ -33,6 +33,7 @@ YAP_PARAKEET_MODEL=/absolute/path/to/parakeet-tdt-0.6b-v2 \
 node packages/test-harness/editing/autonomous-media-replay.mjs --out /fresh/evidence
 ```
 
-The retained receipt records the run's hashes and coverage without copying the
-source movies or model into Git. The global synchronization and long-form speaker
-continuity gates remain separate and are not inferred from this replay.
+The retained receipt records the run's hashes, the exact focused launch/podcast/teaser
+references selected by the skill, and coverage without copying source movies or model
+files into Git. The global synchronization and long-form speaker continuity gates remain
+separate and are not inferred from this replay.
