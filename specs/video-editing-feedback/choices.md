@@ -1308,7 +1308,6 @@ Apple cube candidate are in the slice26 evidence; no user-only decision remains.
 - **Confidence:** high for retained operand preservation and literal local provider
   observations; global clock and unsampled continuity are not established.
 
-<<<<<<< HEAD
 ## Keep join repair caller-owned — slice12C/12D
 
 - **When:** bounded contextual repair helper.
@@ -1326,7 +1325,6 @@ Apple cube candidate are in the slice26 evidence; no user-only decision remains.
 - **Verdict:** sound; one owner per concept and no new public edit operation.
 - **Confidence:** high for sequencing and authority boundaries; medium for the
   still-open real-media fixture exercise.
-=======
 ## Source-bound synchronization receipts — slices20–21
 
 - **When:** angle-evidence admission pass.
@@ -1375,4 +1373,3 @@ Apple cube candidate are in the slice26 evidence; no user-only decision remains.
 - **Confidence:** medium; this is the simplest contract consistent with the
   existing exact-offset and source-preservation rules, but the original slice
   delegated relationship semantics.
->>>>>>> c2058de4 (feat: gate angle declarations on sync evidence)
