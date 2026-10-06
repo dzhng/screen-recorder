@@ -168,7 +168,8 @@ export async function deliveredScenes(request, invoke, { readFile = readBytes } 
   const exportStatus = await invoke("export.status", { exportId: request.exportId });
   if (exportStatus.state !== "committed" || typeof exportStatus.output !== "string")
     throw failure("NOT_READY", `Export ${request.exportId} is not committed`);
-  if (exportStatus.snapshot?.projectId && exportStatus.snapshot.projectId !== request.projectId)
+  const exportProjectId = exportStatus.snapshot?.projectId ?? exportStatus.projectId;
+  if (exportProjectId !== request.projectId)
     throw failure("ARTIFACT_CHANGED", "Export belongs to a different project");
   if (request.revisionId && exportStatus.snapshot?.revisionId !== request.revisionId)
     throw failure("ARTIFACT_CHANGED", "Export belongs to a different revision");
