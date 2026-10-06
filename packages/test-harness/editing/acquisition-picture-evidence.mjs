@@ -310,6 +310,7 @@ try {
   );
   report.checks.preview = { receipt: preview, sha256: hash(await readFile(movie)), pictures: [] };
   for (const item of decoded) {
+    assert.equal(item.status, "available", item.error);
     const excluded = item.requestedUs >= 400000 && item.requestedUs <= 600000;
     report.checks.preview.pictures.push({
       ...item,
@@ -348,6 +349,7 @@ try {
     pictures: [],
   };
   for (const [index, item] of partialDecoded.entries()) {
+    assert.equal(item.status, "available", item.error);
     const rgba = await pixels(item.file);
     const fullPicture = await pixels(decoded[index + 3].file);
     const fullComparison = compareGeometry(rgba, fullPicture, 64, 48);

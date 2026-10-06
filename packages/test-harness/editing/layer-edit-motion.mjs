@@ -192,6 +192,7 @@ async function movie(revisionId, range, mapping, name) {
   const decoded = JSON.parse((await run(fixtures.referenceTool, [request])).stdout);
   const checked = [];
   for (const frame of decoded) {
+    assert.equal(frame.status, "available", frame.error);
     const sampleAtUs = Math.floor((selected.startUs + frame.requestedUs) / 100000) * 100000;
     const sourceUs = mapping(sampleAtUs),
       frameIndex = sourceUs === null ? null : Math.floor(sourceUs / 100000);

@@ -30,7 +30,9 @@ sampled source/derivative fidelity. Private matched AVAssetImageGenerator sRGB
 experiments reproduce player/native agreement and plain FFmpeg color disagreement,
 including an asymmetric rotated control. Public unchanged project frames reproduce
 that agreement. These measurements select a candidate observation space; they are
-not slice acceptance. Bank a case-selected runner, complete request/failure coverage,
+not slice acceptance. The [reference coverage checkpoint](../assets/13-reference-coverage/README.md)
+retains failed requests and actual fractional sample clocks with unchanged successful
+PNG bytes. Bank a case-selected runner, complete request/failure coverage,
 metadata/profile declarations, numeric tolerance and final visual gates before 14.
 
 ## Runnable checkpoint

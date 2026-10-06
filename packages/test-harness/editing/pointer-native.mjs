@@ -35,11 +35,7 @@ const run = (program, args, input) => {
 };
 const rawCall = (operation, params) =>
   JSON.parse(
-    run(
-      process.env.YAP_NATIVE,
-      [],
-      JSON.stringify({ id: "pointer", operation, params }) + "\n",
-    ),
+    run(process.env.YAP_NATIVE, [], JSON.stringify({ id: "pointer", operation, params }) + "\n"),
   );
 const call = (operation, params) => {
   const result = rawCall(operation, params);
@@ -567,6 +563,7 @@ try {
     const decoded = JSON.parse(run(referenceTool, [request]));
     const samples = [];
     for (let i = 0; i < decoded.length; i++) {
+      assert.equal(decoded[i].status, "available", decoded[i].error);
       const raw = decoded[i].file + ".rgba";
       run(pixelTool, [decoded[i].file, raw]);
       const pixels = await readFile(raw);

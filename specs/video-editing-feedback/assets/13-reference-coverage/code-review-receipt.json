@@ -1,0 +1,27 @@
+{
+  "exitCode": 0,
+  "terminalEvent": "turn.completed",
+  "threadId": "01a10fb8-e788-7df2-847d-5b093f883b78",
+  "resolutions": [
+    {
+      "finding": "outputProfile was requested target",
+      "status": "fixed",
+      "proof": "encoded PNG is re-opened; actual profile name/hash retained; independent pixel reader regression red then green"
+    },
+    {
+      "finding": "indirect consumers did not check status",
+      "status": "fixed",
+      "proof": "all shared reference readers swept; available status required before any file/pixel access"
+    },
+    {
+      "finding": "new checks absent from default package test",
+      "status": "fixed",
+      "proof": "native checks registered in owning package test command"
+    }
+  ],
+  "focusedTests": {
+    "passed": 3,
+    "failed": 0
+  },
+  "parentReview": "shape/diff/docs findings resolved; no new renderer or compatibility owner"
+}

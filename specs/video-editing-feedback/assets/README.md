@@ -20,3 +20,6 @@ Actual video/audio derivatives belong under the repository's fixture owner and f
 [honest speech timing](07-speech-timing/README.md) retain scoped operands.
 [Speaker feasibility](31-speaker-replication/README.md) retains reproducible partial
 successes and required failures; it does not establish production readiness.
+
+[Player reference coverage](13-reference-coverage/README.md) records partial decode
+failures without changing successful pictures; the full picture recipe remains open.

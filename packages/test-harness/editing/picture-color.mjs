@@ -127,6 +127,7 @@ for (const scenario of report.results) {
   assert.equal(referenceReceipt.length, compiled.length);
   const pairs = [];
   for (const [index, referenceFrame] of referenceReceipt.entries()) {
+    assert.equal(referenceFrame.status, "available", referenceFrame.error);
     const requestedUs = requested.timesUs[index];
     assert.equal(
       BigInt(referenceFrame.actualValue) * 1000000n,

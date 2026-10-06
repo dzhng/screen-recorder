@@ -206,6 +206,7 @@ async function movieGeometry(file, surface, canvas, range, fixtures, name) {
   const expected = expectedRgba(surface),
     results = [];
   for (const frame of sample) {
+    assert.equal(frame.status, "available", frame.error);
     const rgba = frame.file + ".rgba";
     await run(fixtures.pixelTool, [frame.file, rgba]);
     const actual = await readFile(rgba);

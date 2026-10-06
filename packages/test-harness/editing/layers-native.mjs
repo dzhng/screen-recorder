@@ -380,6 +380,7 @@ for (const [width, height] of [
         assert.equal(sample.status, 0, sample.stderr);
         const references = [];
         for (const sampled of JSON.parse(sample.stdout)) {
+          assert.equal(sampled.status, "available", sampled.error);
           const rgba = sampled.file + ".rgba";
           const normalized = spawnSync(pixelTool, [sampled.file, rgba], {
             encoding: "utf8",

@@ -1,0 +1,33 @@
+{
+  "scope": "Shared AVFoundation/CoreGraphics reference receipt coverage; not full slice13 acceptance",
+  "red": [
+    "Original reference aborts on requested time outside support instead of retaining request coverage",
+    "Original reference asserts actual presentation timestamp equals an integer request inside a fractional frame"
+  ],
+  "green": {
+    "nativeTests": 3,
+    "failedRequestsRetained": true,
+    "laterRequestsContinue": true,
+    "fractionalSampleClockRetained": true,
+    "unnamedGeneratedICCIdentityRetained": true,
+    "encodedOutputProfileIndependentlyVerified": true
+  },
+  "parity": [
+    {
+      "requestUs": 0,
+      "pngSHA256": "6ab166cde884878a124b406d8c82a9b55c3d5531b2bad8f3cf09f0d4415e8416",
+      "bytesIdentical": true
+    },
+    {
+      "requestUs": 500000,
+      "pngSHA256": "c8918dd8ac0187a7bc6aa8942f3ce376a63b9ab19669aedca9d60b0f3146ad7e",
+      "bytesIdentical": true
+    }
+  ],
+  "remaining": [
+    "case-selected public source/project/player/plain-FFmpeg comparison",
+    "complete source metadata, supported-profile and tolerance freeze",
+    "asymmetric rotation controls",
+    "matched visual comparison, fresh critique and Preview"
+  ]
+}

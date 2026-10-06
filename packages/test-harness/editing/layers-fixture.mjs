@@ -67,6 +67,7 @@ export async function prepareLayersFixture(home, out) {
     const { stdout } = await run(referenceTool, [request], { timeout: 60000 });
     const reference = JSON.parse(stdout)[0],
       rgbaPath = join(refs, "source.rgba");
+    assert.equal(reference.status, "available", reference.error);
     const normalized = JSON.parse((await run(pixelTool, [reference.file, rgbaPath])).stdout);
     assert.deepEqual([normalized.width, normalized.height], [width, height]);
     assert.equal(reference.sourceProfile, "kCGColorSpaceCoreMedia709");
