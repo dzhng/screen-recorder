@@ -15,6 +15,13 @@ and do not activate the app over the source being recorded. Opening the capture
 panel from the menu bar activates its window, so its native glass and controls
 are ready before the first content click.
 
+Capture status describes current work, so an idle device does not establish how its
+last take ended. Controls retain the started take's identity and resolve its
+persisted outcome after it leaves status. A new interruption reveals the controls
+with its native explanation; later polls retain that explanation without repeatedly
+reopening a dismissed panel. A read failure does not establish deletion; confirmed
+deletion releases the retained take.
+
 Authorization is read from native capture and requested only through an explicit
 action. Screen source controls remain disabled until access is granted and explain
 which permission enables them; camera-only capture stays independent of screen access.

@@ -84,21 +84,6 @@ final class CapturePCM {
         blockBufferAllocator: nil, blockBufferMemoryAllocator: nil, flags: 0, blockBufferOut: &block
       ) == noErr
     else { throw Self.invalid("Cannot read PCM planes.") }
-    var timingCount = 0
-    guard
-      CMSampleBufferGetSampleTimingInfoArray(
-        sample, entryCount: 0, arrayToFill: nil, entriesNeededOut: &timingCount) == noErr
-    else {
-      throw Self.invalid("Cannot read PCM timing.")
-    }
-    var timing = [CMSampleTimingInfo](repeating: CMSampleTimingInfo(), count: timingCount)
-    guard
-      CMSampleBufferGetSampleTimingInfoArray(
-        sample, entryCount: timingCount, arrayToFill: &timing, entriesNeededOut: &timingCount)
-        == noErr
-    else {
-      throw Self.invalid("Cannot preserve PCM timing.")
-    }
     var data = Data(count: Int(bytes))
     let converted: CMSampleBuffer = try data.withUnsafeMutableBytes { storage in
       var destination = AudioBufferList(
@@ -115,11 +100,12 @@ final class CapturePCM {
       }
       var result: CMSampleBuffer?
       guard
-        CMSampleBufferCreate(
+        // Live PCM callbacks may omit frame duration. CoreMedia derives it from the
+        // canonical audio format; the callback still owns the first frame's timestamp.
+        CMAudioSampleBufferCreateWithPacketDescriptions(
           allocator: nil, dataBuffer: nil, dataReady: false, makeDataReadyCallback: nil,
           refcon: nil, formatDescription: format, sampleCount: frames,
-          sampleTimingEntryCount: timingCount, sampleTimingArray: timing,
-          sampleSizeEntryCount: 1, sampleSizeArray: [Int(output.mBytesPerFrame)],
+          presentationTimeStamp: sample.presentationTimeStamp, packetDescriptions: nil,
           sampleBufferOut: &result) == noErr,
         let result,
         CMSampleBufferSetDataBufferFromAudioBufferList(

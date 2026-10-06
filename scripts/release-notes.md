@@ -2,31 +2,23 @@ Yap is the macOS recording and agent-operated video toolkit. This release ships
 `Yap.app`, the `yap` CLI and the `com.dzhng.yap` app identity. Install the complete
 kit for this identity; capture permissions must be granted to Yap separately.
 
-Opening recording controls from the menu bar now follows Codex Runway's native
-activation and key-window sequence, including a second focus pass on the next
-event-loop turn. The panel dismisses on outside clicks, Escape and application
-switching. Delayed recording errors do not activate over another app.
+Fixes audio conversion that could interrupt Camera Only recording immediately after
+countdown with `INVALID_AUDIO_FORMAT: Cannot create canonical PCM buffer.` Live PCM
+callbacks can omit frame-duration metadata; conversion now derives the PCM frame
+grid from the declared sample rate and preserves the timestamp and audio samples.
 
-This corrects the opening path used by v0.1.12, whose forced appearance flags did
-not resolve the reported frosted first-open state. Compilation and focused native
-checks passed; the actual first-open glass appearance remains visually unverified
-because native UI automation was unavailable. Offscreen layout shots do not prove
-composited glass appearance.
+Recording controls retain a take's identity after it leaves capture status, resolve
+its persisted outcome, and show the native interruption explanation. A new failure
+reveals the panel without repeatedly reopening it on later polls. Confirmed deletion
+releases retained controls, while transient read failures preserve their state.
 
-Readable icons, spacing beneath Start Recording and the fixed status footer remain.
+Selected source tiles use their blue highlight without a redundant checkmark.
+The dark recording panel, permission guidance, source defaults, area picker and
+fixed status footer from the previous release remain available.
 
-Display, Window and Area controls are disabled until Screen Recording access is
-granted, with a clear permission explanation and Allow action. Camera Only remains
-available independently. To select an area, choose Area and drag a rectangle on
-the screen; a click or tiny drag keeps the picker open, and selection returns to
-the recording controls.
-
-Enabled camera capture selects the system's default camera when none has been
-chosen. The default microphone shows its device name after discovery. Existing
-device choices are preserved, including unavailable devices.
-
-Live camera, microphone and camera-only system-audio checks remain unverified on
-the development Mac, which has no camera or microphone input. Existing recordings
+Synthetic live-buffer regression, decoded audio format checks and controls tests
+passed. Live camera and microphone capture on physical devices remain unverified
+on the development Mac, which has no camera or microphone input. Existing recordings
 remain readable; no library migration is required for this update.
 
 Check and download updates immediately from Settings → General → Check for Updates

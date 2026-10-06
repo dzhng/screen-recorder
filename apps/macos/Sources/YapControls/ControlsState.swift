@@ -83,20 +83,22 @@ public struct ControlsState: Equatable, Sendable {
         public let retryable: Bool
     }
 
-    public struct TakeStatus: Equatable, Sendable {
+    public struct TakeStatus: Equatable, Sendable, Decodable {
         public init(
             recordingId: String, state: String, interruptionReason: String?, sourceDurationUs: Int64?,
-            finalizationError: FinalizationError? = nil
+            finalizationError: FinalizationError? = nil, interruptionMessage: String? = nil
         ) {
             self.recordingId = recordingId
             self.state = state
             self.interruptionReason = interruptionReason
+            self.interruptionMessage = interruptionMessage
             self.sourceDurationUs = sourceDurationUs
             self.finalizationError = finalizationError
         }
         public let recordingId: String
         public let state: String
         public let interruptionReason: String?
+        public let interruptionMessage: String?
         public let sourceDurationUs: Int64?
         public let finalizationError: FinalizationError?
     }
@@ -257,6 +259,27 @@ public struct ControlsState: Equatable, Sendable {
         }
         public let totalBytes: Int64
         public let observedAt: String
+    }
+
+    /// The take whose closed inputs no longer appear in capture status.
+    public var takeNeedingResolution: String? {
+        guard let take, !["complete", "interrupted", "canceled"].contains(take.state) else { return nil }
+        return take.recordingId
+    }
+
+    /// Returns whether a newly observed interruption needs the person's attention.
+    @discardableResult
+    public mutating func observeTake(_ observed: TakeStatus?) -> Bool {
+        guard let observed else { return false }
+        let newlyInterrupted = observed.state == "interrupted"
+            && (take?.recordingId != observed.recordingId || take?.state != "interrupted")
+        take = observed
+        return newlyInterrupted
+    }
+
+    /// A confirmed deletion cannot keep controls attached to the missing take.
+    public mutating func takeWasDeleted(_ recordingId: String) {
+        if take?.recordingId == recordingId { take = nil }
     }
 
     /// Native acquisition and service recovery both retain a take until finalization settles.

@@ -1,6 +1,8 @@
 import Foundation
 
-if let output = ProcessInfo.processInfo.environment["YAP_PRIMARY_CAMERA_INPUT_OUTPUT"] {
+if ProcessInfo.processInfo.environment["YAP_LIVE_PCM_TIMING"] != nil {
+    try await runLivePCMTimingTests()
+} else if let output = ProcessInfo.processInfo.environment["YAP_PRIMARY_CAMERA_INPUT_OUTPUT"] {
     try await runPrimaryCameraInputTests(output: output)
 } else if let output = ProcessInfo.processInfo.environment["YAP_PRIMARY_CAMERA_PUBLICATION_OUTPUT"] {
     try await runPrimaryCameraPublicationTests(output: output)
@@ -96,6 +98,7 @@ if let output = ProcessInfo.processInfo.environment["YAP_PRIMARY_CAMERA_INPUT_OU
 {
   try await runCaptureAudioGapProbe(output: output, corpus: corpus)
 } else {
+  try await runLivePCMTimingTests()
   try await runCaptureInputAuthorityTests()
   try await runPrimaryCameraInputTests()
   try await runPrimaryCameraPublicationTests()

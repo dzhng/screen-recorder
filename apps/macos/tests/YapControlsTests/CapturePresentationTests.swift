@@ -57,6 +57,42 @@ func runCapturePresentationTests() {
     interrupted.take = .init(recordingId: "rec-2", state: "interrupted", interruptionReason: "SOURCE_LOST", sourceDurationUs: 4_000_000)
     precondition(CapturePresentation.noticeLines(for: interrupted).contains("Last take interrupted — SOURCE_LOST"))
 
+    interrupted.take = .init(recordingId: "camera-start", state: "interrupted",
+        interruptionReason: "SOURCE_UNAVAILABLE", sourceDurationUs: nil,
+        interruptionMessage: "Camera session did not start.")
+    precondition(CapturePresentation.noticeLines(for: interrupted).contains(
+        "Last take interrupted — SOURCE_UNAVAILABLE: Camera session did not start."),
+        "A camera failure must show its actionable native explanation")
+
+    var endedCamera = ready(source: .camera)
+    endedCamera.observeTake(.init(recordingId: "camera-start", state: "recording",
+        interruptionReason: nil, sourceDurationUs: nil))
+    endedCamera.observeTake(nil)
+    precondition(endedCamera.takeNeedingResolution == "camera-start",
+        "Idle capture status must resolve the started take rather than forget its failure")
+    precondition(endedCamera.observeTake(interrupted.take), "A newly interrupted take reopens its controls")
+    endedCamera.observeTake(nil)
+    precondition(CapturePresentation.noticeLines(for: endedCamera).contains(
+        "Last take interrupted — SOURCE_UNAVAILABLE: Camera session did not start."))
+    precondition(endedCamera.takeNeedingResolution == nil, "A terminal take needs no further reads")
+    precondition(!endedCamera.observeTake(interrupted.take), "Polling must not reopen dismissed controls")
+    endedCamera.observeTake(.init(recordingId: "next-camera", state: "recording",
+        interruptionReason: nil, sourceDurationUs: nil))
+    precondition(!CapturePresentation.noticeLines(for: endedCamera).contains(where: { $0.contains("Last take interrupted") }),
+        "Starting a new take clears the previous interruption")
+
+    endedCamera.observeTake(.init(recordingId: "deleted-take", state: "finalizing",
+        interruptionReason: nil, sourceDurationUs: nil))
+    endedCamera.takeWasDeleted("deleted-take")
+    precondition(!endedCamera.isLive && endedCamera.takeNeedingResolution == nil,
+        "A confirmed missing take must release recording controls")
+    precondition(action(CapturePresentation.transport(for: endedCamera), "capture.startOrStop").title == "Start Recording")
+    endedCamera.observeTake(.init(recordingId: "new-take", state: "recording",
+        interruptionReason: nil, sourceDurationUs: nil))
+    endedCamera.takeWasDeleted("deleted-take")
+    precondition(endedCamera.take?.recordingId == "new-take",
+        "A delayed missing-take answer cannot forget a newer recording")
+
     var recovering = ready()
     recovering.take = .init(recordingId: "rec-recovery", state: "finalizing", interruptionReason: nil,
         sourceDurationUs: nil, finalizationError: .init(code: "MEDIA_WORKER_TIMEOUT", message: "Recovery can be retried", retryable: true))

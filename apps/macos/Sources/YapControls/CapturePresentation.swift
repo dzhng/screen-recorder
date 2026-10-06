@@ -72,7 +72,8 @@ public enum CapturePresentation {
         if let failure = state.failure { lines.append(failure) }
         if let failure = state.take?.finalizationError { lines.append("Finalization failed — \(failure.code): \(failure.message)") }
         if let take = state.take, take.state == "interrupted", !state.isLive {
-            lines.append("Last take interrupted — \(take.interruptionReason ?? "reason unavailable")")
+            let detail = take.interruptionMessage.map { ": \($0)" } ?? ""
+            lines.append("Last take interrupted — \(take.interruptionReason ?? "reason unavailable")\(detail)")
         }
         if !state.unavailableShortcuts.isEmpty { lines.append("\(state.unavailableShortcuts.joined(separator: " and ")) is already in use elsewhere.") }
         return lines

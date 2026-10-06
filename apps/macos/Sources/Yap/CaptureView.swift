@@ -399,10 +399,6 @@ private final class CaptureButton: NSButton {
             }
             image(NSRect(x: (bounds.width - 18) / 2, y: 11, width: 18, height: 18), color: selected ? selectionColor : muted)
             text(title, y: 37, size: 11, weight: .medium, color: isEnabled ? .labelColor : muted)
-            if selected {
-                let attributes: [NSAttributedString.Key: Any] = [.font: NSFont.systemFont(ofSize: 11), .foregroundColor: selectionColor]
-                ("✓" as NSString).draw(at: NSPoint(x: bounds.width - 18, y: 7), withAttributes: attributes)
-            }
         case .primary(let binding):
             (isEnabled ? blue : blue.withAlphaComponent(0.16)).setFill()
             let foreground = isEnabled ? NSColor.white : captureDisabledBlue()

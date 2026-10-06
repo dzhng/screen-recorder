@@ -372,12 +372,17 @@ final class RecordingControls: NSObject {
         send("capture.start", parameters(of: request.start, requestId: request.requestId)) {
             [weak self] result in
             guard let self else { return }
-            let answer: ControlsState.StartAnswer =
-                switch result {
-                case .success(let data):
-                    .init(recordingState: (try? JSONDecoder().decode(StartedTake.self, from: data))?.state ?? "")
-                case .failure(let failure): .init(failureCode: failure.code)
+            let answer: ControlsState.StartAnswer
+            switch result {
+            case .success(let data):
+                if let take = try? JSONDecoder().decode(ControlsState.TakeStatus.self, from: data) {
+                    if state.observeTake(take) { showCaptureIfClosed() }
+                    answer = .init(recordingState: take.state)
+                } else {
+                    answer = .unanswered
                 }
+            case .failure(let failure): answer = .init(failureCode: failure.code)
+            }
             if state.finishStart(request, answer) { return start() }
             if case .failure(let failure) = result,
                 PermissionKind.missing(fromStartFailure: failure.code) != nil { readPermissions() }
@@ -579,12 +584,18 @@ final class RecordingControls: NSObject {
             state.selection.apply(selection, catalog: state.sources)
             companionCameraRequested = state.selection.source != .camera && state.selection.cameraDeviceId != nil
         }
-        state.take = answer.recording.map {
-            ControlsState.TakeStatus(
-                recordingId: $0.recordingId, state: $0.state,
-                interruptionReason: $0.interruptionReason, sourceDurationUs: $0.sourceDurationUs,
-                finalizationError: $0.finalizationError)
+        var observed = answer.recording
+        if observed == nil, let id = state.takeNeedingResolution {
+            do throws(ServiceFailure) {
+                let resolved = try await service().call(
+                    "recording.get", ["recordingId": id], as: ControlsState.TakeStatus.self)
+                // A start response may arrive while this read is in flight.
+                if state.take?.recordingId == id { observed = resolved }
+            } catch {
+                if error.code == "NOT_FOUND" { state.takeWasDeleted(id) }
+            }
         }
+        if state.observeTake(observed) { showCaptureIfClosed() }
     }
 
     private func readSources() async {
@@ -836,15 +847,8 @@ private struct StatusAnswer: Decodable {
         let elapsedUs: Int64?
         let selection: ControlsState.CaptureSelection.Start?
     }
-    struct Take: Decodable {
-        let recordingId: String
-        let state: String
-        let interruptionReason: String?
-        let sourceDurationUs: Int64?
-        let finalizationError: ControlsState.FinalizationError?
-    }
     let device: Device
-    let recording: Take?
+    let recording: ControlsState.TakeStatus?
 }
 
 private struct SourcesAnswer: Decodable {
@@ -873,8 +877,4 @@ private struct SourcesAnswer: Decodable {
     let windows: [Window]
     let microphones: [Microphone]
     let cameras: [Camera]
-}
-
-private struct StartedTake: Decodable {
-    let state: String
 }
