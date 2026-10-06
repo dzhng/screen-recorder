@@ -299,6 +299,10 @@
     "./alignment-read": {
       "types": "./dist/alignment-read.d.ts",
       "default": "./dist/alignment-read.js"
+    },
+    "./project-alignment": {
+      "types": "./dist/project-alignment.d.ts",
+      "default": "./dist/project-alignment.js"
     }
   },
   "scripts": {
