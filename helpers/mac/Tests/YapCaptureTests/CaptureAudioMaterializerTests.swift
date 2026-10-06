@@ -406,7 +406,7 @@ func runCaptureAudioMaterializerDescriptorProbe(output: String) async throws {
   precondition(result.representedFrames == 19_200_000 && result.cleanPhysicalEOF)
   precondition(result.canonical!.bytes > 64 * 1024 * 1024)
   var expected = SHA256()
-  expected.update(data: Data("screenrec.capture-pcm.v1\0".utf8))
+  expected.update(data: Data("yap.capture-pcm.v1\0".utf8))
   for value: Int64 in [48000, 1] {
     var little = value.littleEndian
     withUnsafeBytes(of: &little) { expected.update(bufferPointer: $0) }

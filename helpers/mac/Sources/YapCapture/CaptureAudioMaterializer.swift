@@ -286,7 +286,7 @@ package enum CaptureAudioMaterializer {
   }
 
   private static func supportHash(format: JournalPCMTrack, runs: [Run]) -> String {
-    var support = digest("screenrec.capture-support.v1", format: format)
+    var support = digest("yap.capture-support.v1", format: format)
     integer(format.phaseUs, into: &support)
     for run in runs {
       integer(run.physical, into: &support)
@@ -355,7 +355,7 @@ package enum CaptureAudioMaterializer {
     guard reader.startReading() else { throw reader.error ?? invalid("Cannot read packed PCM.") }
     defer { reader.cancelReading() }
     var frames: Int64 = 0
-    var hash = digest("screenrec.capture-pcm.v1", format: format)
+    var hash = digest("yap.capture-pcm.v1", format: format)
     var problem: String? = intact ? nil : "interiorPhysicalMappingLoss"
     while frames < maximum {
       try Task.checkCancellation()
@@ -462,7 +462,7 @@ package enum CaptureAudioMaterializer {
     else {
       throw invalid("Canonical media extent differs from its declared support.")
     }
-    var hash = digest("screenrec.capture-pcm.v1", format: format)
+    var hash = digest("yap.capture-pcm.v1", format: format)
     // This bounds each synchronous platform reader start, not the accepted run count. A giant
     // dense track can spend tens of seconds inside startReading before cancellation is observed.
     for first in stride(from: 0, to: runs.count, by: 1024) {

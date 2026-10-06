@@ -52,7 +52,7 @@ func runSelectedCaptureMediaTests(output: String, corpus: String) async throws {
         observations: folder.appendingPathComponent("timestamps.jsonl"))
     let receipt = try JSONDecoder().decode(CaptureAudioPublication.Receipt.self,
         from: Data(contentsOf: folder.appendingPathComponent("narration.publication.json")))
-    var hash = SHA256(); hash.update(data: Data("screenrec.capture-pcm.v1\0".utf8))
+    var hash = SHA256(); hash.update(data: Data("yap.capture-pcm.v1\0".utf8))
     for number in [input.expectedRate,input.expectedChannels] {
         var little = number.littleEndian
         hash.update(data: withUnsafeBytes(of: &little) { Data($0) })

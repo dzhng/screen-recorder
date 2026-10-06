@@ -53,7 +53,7 @@ func runSelectedCameraInputTests(output: String? = nil) async throws {
         let cursor = cursorSamples[0]
         precondition(cursor.sourceUs == 150000 && cursor.globalX == 50 && cursor.globalY == 40 && cursor.buttons == 0)
         if mode == "both-audio" {
-            var hash = SHA256(); hash.update(data: Data("screenrec.capture-pcm.v1\0".utf8))
+            var hash = SHA256(); hash.update(data: Data("yap.capture-pcm.v1\0".utf8))
             for value in [screen.expectedRate, screen.expectedChannels] {
                 var little = value.littleEndian
                 hash.update(data: withUnsafeBytes(of: &little) { Data($0) })

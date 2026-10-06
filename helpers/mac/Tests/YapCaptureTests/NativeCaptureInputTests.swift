@@ -144,7 +144,7 @@ func runNativeCapturePublicationProbe(output: String, corpus: String) async thro
             continue
         }
         var expected = SHA256()
-        expected.update(data: Data("screenrec.capture-pcm.v1\0".utf8))
+        expected.update(data: Data("yap.capture-pcm.v1\0".utf8))
         for value in [input.expectedRate, input.expectedChannels] {
             var little = value.littleEndian
             expected.update(data: withUnsafeBytes(of: &little) { Data($0) })
@@ -170,7 +170,7 @@ func runNativeCapturePublicationProbe(output: String, corpus: String) async thro
                 precondition(journal.pauses.count == 1 && journal.pauses[0].atSourceUs == 800000
                     && journal.pauses[0].elapsedPauseUs == input.pauseBounds!.end - input.pauseBounds!.start)
                 var support = SHA256()
-                support.update(data: Data("screenrec.capture-support.v1\0".utf8))
+                support.update(data: Data("yap.capture-support.v1\0".utf8))
                 func integer(_ value: Int64) { var little = value.littleEndian; support.update(data: withUnsafeBytes(of: &little) { Data($0) }) }
                 integer(input.expectedRate); integer(input.expectedChannels); integer(100001)
                 var runs: [(physical: Int64, first: Int64, count: Int64, removed: Int64)] = []
