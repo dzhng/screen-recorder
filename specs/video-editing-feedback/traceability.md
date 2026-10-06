@@ -8,7 +8,7 @@ not a production data schema or a new permanent test suite.
 
 “Historical” means reported against v0.1.6, not freshly reproduced. “Current” means
 code inspection supports the gap, not that a media experiment has passed. Each
-slice records actual reproduction and acceptance later; no implementation is done.
+slice records its scoped reproduction and acceptance. Capability-first skill/helper and exact-removal structural checkpoints have passed; media-dependent claims remain pending.
 Slice links name the complete acceptance contract; the last column highlights the
 specific claim needed for this item.
 
@@ -28,10 +28,10 @@ specific claim needed for this item.
 | --- | --- | --- | --- |
 | E01 | Large import timeout; current admission already asynchronous/stat-only | [03](slices/03-published-work-contract.md) | Delayed large import acknowledges durable identity without waiting for hashing; lost acknowledgement replays the same job. Redesign only if reproduced. |
 | E02 | Sub-range transcription absent; current read `range` is not an inference bound | [08](slices/08-bounded-speech-preparation.md) | Execution selection participates in identity; bounded windows return source-clock words without manual extract offsets. |
-| E03 | Helper help empty in old installed skill; current source has help | [02](slices/02-capability-first-skill.md) | Execute current help and examples; record installed skill/CLI provenance and explicit refresh route. |
+| E03 | Portable current help/examples and old-installed provenance control passed; bundled runtime remains unverified | [02](slices/02-capability-first-skill.md) | Execute current help and examples; record installed skill/CLI provenance and explicit refresh route. |
 | E04 | `result` versus `published` inconsistency; current interface gap | [03](slices/03-published-work-contract.md) | One typed public publication shape across prepared operations/job reads, no aliases. |
 | E05 | Speaker labels absent; current anonymous 30-second observations do not solve long-form labeling | [31](slices/31-speaker-continuity-replication.md), [32](slices/32-speaker-labeling.md), [33](slices/33-editing-references.md) | Mixed-recording continuity, speaker-labeled word/turn views, explicit name bindings and raw-source attribution; overlap/unknowns stay explicit. |
-| E06 | Integer-only remove with fractional placements; current gap | [06](slices/06-exact-removal.md) | Public 24fps rational ripple removal preserves exact surviving source endpoints and phase. |
+| E06 | Exact rational admission fixed; persisted-owner 24fps and 30000/1001 controls passed, final real-media gate pending | [06](slices/06-exact-removal.md) | Public 24fps rational ripple removal preserves exact surviving source endpoints and phase. |
 | E07 | Missing `fortun-` fragment; historical recognizer omission | [09](slices/09-alignment-replication.md), [10](slices/10-alignment-and-boundaries.md), [12](slices/12-contextual-join-verification.md) | Partial-word case and omission controls; observed fragments retained, unexplained activity explicit. Lexical detection needs measured proof; energy alone cannot name a stutter. |
 | E08 | Blind polling for frame/waveform files; current gap | [04](slices/04-wait-and-json-delivery.md) | One bounded wait emits truthful final/pending identity; no file-existence loops, duplicate mutation or incomplete output. |
 | E09 | Project transcript projects sources rather than recognizing rendered audio | [11](slices/11-rendered-speech.md), [12](slices/12-contextual-join-verification.md) | Recognize pinned processed PCM and project time directly, including when source transcript preparation failed. |

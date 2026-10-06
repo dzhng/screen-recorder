@@ -41,7 +41,7 @@ inference or full suite ran; this change adds no native lowering. The final
 real-media gate remains in slice 34.
 
 Review found one existing owner for exact ranges and no new mechanism, storage
-format, dependency or compatibility bridge. The [decision ledger](choices.md)
+format, dependency or compatibility bridge. The [decision ledger](../../choices.md)
 records the verification boundary. Independent read-only Codex review found no actionable defects. Its type
 checks and lint passed; its Vitest attempt was refused by sandbox filesystem
 permissions. The successful focused runs above were executed outside that

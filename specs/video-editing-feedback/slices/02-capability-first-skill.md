@@ -1,6 +1,8 @@
 # 02 — Discover capabilities before editing
 
-Status: planned. Depends on: None. Capability discovery/help/examples use current public contracts and existing lightweight fixtures; they do not depend on real-media certification.
+Status: implemented; portable skill/helper checkpoint passed. Depends on: None. Capability discovery/help/examples use current public contracts and existing lightweight fixtures; they do not depend on real-media certification.
+
+Focused helper and evaluation controls passed, including fresh read-only trials of provenance and the first-party preparation policy. Bundled runtime/native readiness remains unverified; no current installation was present. The [checkpoint record](../assets/02-capability-first-skill/README.md) retains the scoped proof.
 
 ## Contract
 

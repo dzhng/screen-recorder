@@ -1,6 +1,6 @@
 # Reliable autonomous video editing
 
-Status: implementation started in isolated worktree, no capability slice completed yet. Last updated: 2026-10-05.
+Status: implementation active in isolated worktree; capability-first skill and exact rational removal checkpoints complete. Last updated: 2026-10-05.
 
 Yap supplies explicit editing primitives and reproducible observations. The consumer
 agent chooses the story, uses available creative tools, checks actual output and
@@ -19,7 +19,9 @@ case-selected corpus. Certify whether each historical defect survives reduction
 and reproduces on current Yap. Do not transcribe whole recordings just to locate
 one known failure. Read [fixtures.md](fixtures.md) before deriving media.
 
-Alongside corpus certification, ship [02 — capability-first skill](slices/02-capability-first-skill.md) as the
+The portable skill/helper checkpoint has shipped locally in this branch; built-in Parakeet is prepared in an isolated test library. The speaker checkpoint is acquired, while its execution closure is being reconstructed and measured. Public async replies and honest speech timing are active parallel passes.
+
+The completed [02 — capability-first skill](slices/02-capability-first-skill.md) is the
 first useful workflow checkpoint. The agent's first internal question is what
 capabilities are available beyond Yap; it uses available tools and recommends a
 missing external capability only when the brief warrants it. Prepare/download pinned models
@@ -48,11 +50,11 @@ Consecutive small steps can land together when their verdicts remain independent
 Numbering is a review order; actual prerequisites live in the slice headers.
 
 - [ ] [01 — Certify real fixtures and independent controls](slices/01-certified-corpus.md)
-- [ ] [02 — Discover capabilities and make helper examples usable](slices/02-capability-first-skill.md)
+- [x] [02 — Discover capabilities and make helper examples usable](slices/02-capability-first-skill.md)
 - [ ] [03 — Unify asynchronous public replies](slices/03-published-work-contract.md)
 - [ ] [04 — Bounded wait and ordinary JSON/artifact delivery](slices/04-wait-and-json-delivery.md)
 - [ ] [05 — Atomic replacement of owned exports](slices/05-atomic-export-replacement.md)
-- [ ] [06 — Exact rational remove ranges](slices/06-exact-removal.md)
+- [x] [06 — Exact rational remove ranges](slices/06-exact-removal.md)
 - [ ] [07 — Honest overlapping/instant speech observations](slices/07-speech-timing-admission.md)
 - [ ] [08 — Explicit bounded transcript preparation](slices/08-bounded-speech-preparation.md)
 - [ ] [09 — Local alignment feasibility and frozen reference](slices/09-alignment-replication.md)
