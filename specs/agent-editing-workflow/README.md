@@ -2,14 +2,17 @@
 
 Status: capability assessment; implementation ordering is superseded by the
 [FFmpeg parity record](../done/ffmpeg-parity/README.md). This assessment
-identifies improvements to agent-driven editing using this checkout's public
-contracts. Installed releases may differ; operation help and execution
+preserves improvements proposed against the checkout at the time of assessment.
+Its “Today” paragraphs are historical, not current capability claims. The active
+[video-editing feedback spec](../video-editing-feedback/README.md) reconciles remaining
+gaps against current code and supersedes this document's future ordering.
+Installed releases may differ; operation help and execution
 capabilities remain authoritative. No feature below is being implemented by this
 document.
 
 The useful editorial procedures are adapted into the consumer skill's
-[creative workflows](../../skills/screenrec/references/creative-workflows.md) and
-[rendered-candidate checks](../../skills/screenrec/references/editorial-checks.md#review-the-rendered-candidate).
+[creative workflows](../../skills/yap/references/creative-workflows.md) and
+[rendered-candidate checks](../../skills/yap/references/editorial-checks.md#review-the-rendered-candidate).
 
 ## Contract to preserve
 

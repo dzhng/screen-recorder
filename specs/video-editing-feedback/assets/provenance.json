@@ -1,0 +1,132 @@
+{
+  "yapCommit": "52dd592d016ae071a2120b7e60d970f87ba9da7c",
+  "videosCommit": "5015ae950ed63e306d8f65466fc2eef0acb5f048",
+  "feedbackSource": "/Users/server/videos/FEEDBACK.md",
+  "feedbackSha256": "7dba994b572af5bb2e14edcca3667d01b16cc190a50a0193011021ed17ad9525",
+  "sessionSource": "/Users/server/.claude/projects/-Users-server-videos/49951de4-45a1-4d42-9fd4-7d91ae5b6245.jsonl",
+  "sessionSha256": "a9ee96f1741bfc310cb29f87cdfaebdba65762df9558a14df10586df27ef8f45",
+  "sessionExcerptPolicy": "Exact selected user/assistant text and tool inputs; no reasoning blocks, no tool results, no claimed audio/video observation. Record numbers are one-based JSONL indices.",
+  "captured": "2026-10-05",
+  "files": [
+    {
+      "source": "/Users/server/videos/FEEDBACK.md",
+      "snapshot": "FEEDBACK.md",
+      "sha256": "7dba994b572af5bb2e14edcca3667d01b16cc190a50a0193011021ed17ad9525",
+      "bytes": 18110
+    },
+    {
+      "source": "/Users/server/videos/sota-graham-neubig-trailer/README.md",
+      "snapshot": "assets/reference-workflow/sota-graham-neubig-trailer/README.md",
+      "sha256": "ad5f48731a468cf876080f5e475772a42df9dcebf9ef5268bb227453d1f75c1a",
+      "bytes": 4118
+    },
+    {
+      "source": "/Users/server/videos/sota-graham-neubig-trailer/references.md",
+      "snapshot": "assets/reference-workflow/sota-graham-neubig-trailer/references.md",
+      "sha256": "63c89bee4a38d6fe88fa8d9290db52eab8c3006275385632e49c24089957d0d6",
+      "bytes": 1622
+    },
+    {
+      "source": "/Users/server/videos/sota-graham-neubig-trailer/assets.json",
+      "snapshot": "assets/reference-workflow/sota-graham-neubig-trailer/assets.json",
+      "sha256": "f9b533e500a3ec6d7cc5cb2b6d3622fcbc3c67cd18a6cdb17c266b3c09b7ca6e",
+      "bytes": 3478
+    },
+    {
+      "source": "/Users/server/videos/scripts/grab-frames.swift",
+      "snapshot": "assets/reference-workflow/scripts/grab-frames.swift",
+      "sha256": "91cb2865655ff46d2fdc4452375231747a48679780f987a428431cfb16b289b2",
+      "bytes": 1960
+    },
+    {
+      "source": "/Users/server/videos/scripts/analyze-frames.swift",
+      "snapshot": "assets/reference-workflow/scripts/analyze-frames.swift",
+      "sha256": "3a64a7f30ec37faa729754bfb5779e6b7a2c52e7085030d181831991ade64f84",
+      "bytes": 4337
+    },
+    {
+      "source": "/Users/server/videos/scripts/qa-video.sh",
+      "snapshot": "assets/reference-workflow/scripts/qa-video.sh",
+      "sha256": "ccafa6859f39563638314efbde99c1f4ac4a01a18655121338a37d03648650ae",
+      "bytes": 625
+    },
+    {
+      "source": "/Users/server/videos/scripts/qa-summarize.py",
+      "snapshot": "assets/reference-workflow/scripts/qa-summarize.py",
+      "sha256": "b3085770f504b8799bc41d7cfd67b59c9426fca9dd7e3a3c190ead3ebe31dbbb",
+      "bytes": 1275
+    },
+    {
+      "source": "/Users/server/videos/scripts/faces.swift",
+      "snapshot": "assets/reference-workflow/scripts/faces.swift",
+      "sha256": "9238c4601dc4e5cad9f5b28d24945d5e820c1fe57fa71dee0b17b0cebe8bb542",
+      "bytes": 1301
+    },
+    {
+      "source": "/Users/server/videos/scripts/grade-sweep-export.py",
+      "snapshot": "assets/reference-workflow/scripts/grade-sweep-export.py",
+      "sha256": "8426cf484e831215fbf6a81e090ef39c3dd9c4b016de0309919f6766256a14e0",
+      "bytes": 3529
+    },
+    {
+      "source": "/Users/server/videos/scripts/reproduce.py",
+      "snapshot": "assets/reference-workflow/scripts/reproduce.py",
+      "sha256": "787289060bbc6d0ee7395b401add67fac7a55c1447cd7a01c11924a444789d8f",
+      "bytes": 4664
+    },
+    {
+      "source": "/Users/server/videos/scripts/synth-music.py",
+      "snapshot": "assets/reference-workflow/scripts/synth-music.py",
+      "sha256": "9b1ae72b3a8a0546e75fb34cef3f826b8887100e8b15dfdb51c1592cdadc7689",
+      "bytes": 20555
+    },
+    {
+      "source": "/Users/server/videos/sota-graham-neubig-trailer/versions/01-original/README.md",
+      "snapshot": "assets/reference-workflow/sota-graham-neubig-trailer/versions/01-original/README.md",
+      "sha256": "c67bbe72d65f9519fe39db0fd70d146f517cb491b2bace722b616ba35994f1c5",
+      "bytes": 2636
+    },
+    {
+      "source": "/Users/server/videos/sota-graham-neubig-trailer/versions/02-dwarkesh/README.md",
+      "snapshot": "assets/reference-workflow/sota-graham-neubig-trailer/versions/02-dwarkesh/README.md",
+      "sha256": "5954b78fc4160aed3217279d05f3aa18a5b3cfc4ba1919d4ec1be84775cdab94",
+      "bytes": 2309
+    },
+    {
+      "source": "/Users/server/videos/sota-graham-neubig-trailer/versions/03-a16z/README.md",
+      "snapshot": "assets/reference-workflow/sota-graham-neubig-trailer/versions/03-a16z/README.md",
+      "sha256": "072f1b00793002f4b9d02cb342ed477ec153b585cb22e7e7957c3d0e74b5b196",
+      "bytes": 1765
+    },
+    {
+      "source": "/Users/server/videos/sota-graham-neubig-trailer/versions/04-hollywood/README.md",
+      "snapshot": "assets/reference-workflow/sota-graham-neubig-trailer/versions/04-hollywood/README.md",
+      "sha256": "8b8881837035c50d3a2bee938726319c1602da460c609008cfd850a7a62e829e",
+      "bytes": 3422
+    },
+    {
+      "source": "/Users/server/videos/sota-graham-neubig-trailer/versions/05-spicy/README.md",
+      "snapshot": "assets/reference-workflow/sota-graham-neubig-trailer/versions/05-spicy/README.md",
+      "sha256": "c564cff1e53317f44a2e4337bddf27916b7f7fa3a51de4c96d1d194a90bb1502",
+      "bytes": 2171
+    },
+    {
+      "source": "/Users/server/videos/sota-graham-neubig-trailer/versions/06-balanced/README.md",
+      "snapshot": "assets/reference-workflow/sota-graham-neubig-trailer/versions/06-balanced/README.md",
+      "sha256": "ef126b4c61ca3a4283addf8024e58527812afc79f0925fb2ea0a478f0551170e",
+      "bytes": 2359
+    },
+    {
+      "source": "/Users/server/videos/sota-graham-neubig-trailer/versions/05-spicy/notes/qa-v4.txt",
+      "snapshot": "assets/reference-workflow/sota-graham-neubig-trailer/versions/05-spicy/notes/qa-v4.txt",
+      "sha256": "cd64419a8c8d9a652406f7b25e0c6bb652dcb138b64459ddc87c01cad6d967fc",
+      "bytes": 1575
+    },
+    {
+      "source": "/Users/server/videos/sota-graham-neubig-trailer/versions/06-balanced/notes/qa-v1.txt",
+      "snapshot": "assets/reference-workflow/sota-graham-neubig-trailer/versions/06-balanced/notes/qa-v1.txt",
+      "sha256": "4d8c580b821039c11b5c820121ea2744bbbf7d36e3600d4374b118f537cb9cf7",
+      "bytes": 1575
+    }
+  ]
+}
