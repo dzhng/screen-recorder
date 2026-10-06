@@ -95,3 +95,8 @@ See the [retained acceptance limits](https://github.com/dzhng/yap/blob/main/spec
 Third-party notices are included. The pretrained RNNoise model's license has not
 been explicitly clarified upstream; its [existing provenance and limitation](https://github.com/dzhng/yap/blob/main/helpers/denoise/README.md)
 remain recorded rather than implying a confirmed model-license grant.
+Camera recording now shows a live preview above the floating transport controls,
+using the same capture session as the recording. The preview is enabled by default
+and can be hidden from Settings; screen-only recordings keep the compact controls.
+Camera-only capture chooses the default available camera and no longer repeats a
+redundant “Required” label after a camera is selected.
