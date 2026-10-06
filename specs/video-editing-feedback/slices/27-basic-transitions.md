@@ -1,6 +1,6 @@
 # 27 — Author reusable crossfade/dip/flash recipes
 
-Status: implemented for public composition lowering; native delivered-picture/audio critique remains a dependent acceptance gate. Depends on: [06](06-exact-removal.md), [24](24-blend-modes.md).
+Status: partial — implemented for public composition lowering; native delivered-picture/audio critique remains a dependent acceptance gate. Depends on: [06](06-exact-removal.md), [24](24-blend-modes.md).
 
 ## Contract
 

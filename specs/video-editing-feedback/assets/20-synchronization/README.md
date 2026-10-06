@@ -29,8 +29,9 @@ no dependency or inference work was repeated for this numerical experiment.
 The waveform hypothesis is refused for these unlike microphone inputs. Slice20
 remains open. The next frozen hypothesis is lexical anchors from independently
 recognized shared content plus accepted10B alignment evidence. Supplied text alone
-cannot manufacture a shared utterance. Slice21 relationship declaration remains
-unimplemented; there is no automatic retime, angle selection or provider promotion.
+cannot manufacture a shared utterance. Slice21 now implements caller-declared angle relationships; accepted synchronization
+evidence and switched-view delivery remain open. There is no automatic retime, angle
+selection or provider promotion.
 The [initial independent review](independent-review.md) found missing pre-work
 bounds and absent executable comparison against frozen receipts. All three
 regressions failed before their fixes, then passed through the outer CLI.

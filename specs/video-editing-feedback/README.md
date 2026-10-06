@@ -16,42 +16,37 @@ merge, push or installed-app change has been requested. Hard cutover remains
 binding: no aliases, dual readers or migrations; preserve external originals and
 frozen historical evidence.
 
-Current pickup: close stage24's remaining visual/movie fidelity limit, then continue synchronization, tone/LUT, transition and speaker gates. Stage21 now has an explicit angle-session declaration/removal contract with source identity, validity and exact offsets; accepted sync evidence and switched-view delivery remain open. Stage25 now carries bounded shadows/highlights through the existing SDR correction/native executor; reference-conditioned grade evidence remains open. Slice23's active-word timing checkpoint is implemented:
-exact UTF-16 ranges, source-clock mapping and native colored-glyph receipts pass;
-entrance/pop motion remains open. The20 waveform research is retained but
-all nine real comparisons refuse its frozen acoustic gates, so lexical anchors remain
-open. Reviewed atomic export, delivered picture observations, bounded alignment
-including the prepared project-tap job/read seam, retained source portability,
-bounded subject framing and native-cache research are integrated; the distinct speaker
-provider remains research-only until its quality gates pass. Stage22 now preserves bounded stroke/shadow/background fields and native
-decoration bounds alongside the vertical glyph receipts. Stage24 now carries explicit
-normal/multiply/screen/soft-light composition modes through the public and native seams;
-its independent sheet/vignette arithmetic and public CLI/MCP admission pass in frames
-and sampled movies, including exact support and committed export. Fresh critiques
-disagree about codec seams at hard movie boundaries; full-raster movie fidelity remains
-open. Retained evidence records that limit and the scoped independent review.
+Current pickup: finish22's public static-caption and explicit color-emoji/complex-script
+proof, then integrate the independent11 rendered-speech,24 blend-movie and26 LUT passes.
+Use the current native worker built at `cead551b`; generic operations omit tonal fields,
+while an actual correction must supply them.
 
-Completed: 02, 03, 04, 05, 06, 07, 08, 09, 13, 14, 17, 18, 19. Partial01 has exact source-rate PCM,
-full-raster picture inputs and all five frozen07 original/derivative speech
-comparisons. Multicamera/speaker controls and remaining behavioral certification
-stay open.08's separate20s/4s ownership recipe is accepted; historical public/native
-callers now prepare sources explicitly, and CLI waiting pins the admitted attempt.
-[Evidence assets](assets/README.md) locate detailed scopes and failures.
+Priority after integration:10 acoustic boundary verdict →20 lexical synchronization →
+21 switched-angle delivery;12 contextual joins;15/16 face/framing delivery;23 entrance
+motion;25 reference-conditioned tone;27–29 delivered transitions/trajectory/blur;
+30 delivered scenes;31/32 speaker continuity/attribution;33 runnable workflows →34
+fresh-agent delivery/replay. Follow slice dependencies rather than this list when
+independent work is available.
 
-[31 — speaker replication](slices/31-speaker-continuity-replication.md) is red:
-the fixed hysteresis candidate passes short fixtures and the336s three-speaker
-interview, but ten-minute four-speaker overlap remains57.49%, below the unchanged
-80% gate. No provider or long-form envelope is promoted. Continue a justified
-new provider hypothesis through short quality → continuity → sealed runtime → word
-attribution; never promote a failed provider into32.10 must preserve accepted
-NeMo CTC outputs and share correspondence/PCM owners; 10A default runtime acquisition is verified, including inherited077 preparation;
-10B still owns retained public source/project alignment and acoustic boundaries.
+Completed:02–09,13–14,17–19.01 retains exact source-rate PCM, full-raster pictures and
+five original/derivative speech comparisons, but multicamera/speaker certification
+remains open. Partial21 declares exact caller-selected angle clocks;23 maps timed
+UTF-16 highlights;25 extends the shared SDR correction;27 lowers transitions into
+ordinary opacity/gain curves. Each still needs its remaining delivery evidence.
+
+Evidence ledger: [assets](assets/README.md) locates scoped verdicts. [22](assets/22-styled-text/README.md)
+now has a matching native build and passing public static-sheet receipts/pixels;
+visual closeout is in progress. [24](assets/24-blend-sheet/README.md) retains exact still
+arithmetic and the original hard-edge movie disagreement; a codec-matched full-raster
+control is under independent review. [20](assets/20-synchronization/README.md) refuses
+all nine real waveform comparisons, so lexical anchors remain necessary. [31](assets/31-speaker-replication/README.md)
+still fails ten-minute four-speaker overlap at57.49%, below the unchanged80% gate;
+no long-form provider is promoted.10 retains the accepted NeMo alignment reference
+and verified default runtime acquisition; public acoustic boundaries remain open.
 
 Prepare/download pinned first-class Yap models/runtime as needed by default;
 recommend external capabilities only when the brief warrants them. Ordinary
-inference stays offline. Follow actual slice dependencies; unrelated structural
-work need not wait for whole-corpus acceptance. Frozen research remains distinct
-from product operations. Keep [traceability](traceability.md), [choices](choices.md)
+inference stays offline. Keep [traceability](traceability.md), [choices](choices.md)
 and slice verdicts current. Narrow checks per pass; full suite once at completion.
 No human QA or sign-off dependency.
 
@@ -87,7 +82,7 @@ Numbering is a review order; actual prerequisites live in the slice headers.
 - [ ] [24 — Explicit blend semantics](slices/24-blend-modes.md)
 - [ ] [25 — Tone and color controls](slices/25-tone-controls.md)
 - [ ] [26 — Immutable imported LUTs](slices/26-immutable-luts.md)
-- [x] [27 — Crossfade, dip and flash recipes](slices/27-basic-transitions.md)
+- [ ] [27 — Crossfade, dip and flash recipes](slices/27-basic-transitions.md)
 - [ ] [28 — Whip/zoom trajectory and coverage](slices/28-whip-zoom-trajectory.md)
 - [ ] [29 — Bounded motion blur](slices/29-motion-blur.md)
 - [ ] [30 — Scene observations from delivered pixels](slices/30-delivered-scenes.md)
