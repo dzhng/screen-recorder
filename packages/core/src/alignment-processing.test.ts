@@ -115,8 +115,8 @@ async function fixture() {
     providers: { newId: randomUUID },
     targets: {
       pin: (v) => {
-        if (v.kind !== "asset") throw new Error("expected asset");
-        assets.get(v.assetId);
+        if (v.kind === "asset") assets.get(v.assetId);
+        else if (v.kind !== "project") throw new Error("expected media owner");
         return v;
       },
       isAvailable: () => !control.deleting,
@@ -256,4 +256,41 @@ test("missing native decoder leaves retained reads ready and new observations un
     published: null,
   });
   expect(f.requests.map((v) => v.selected.channel)).toEqual([0]);
+});
+
+test("project alignment uses a project job while retaining the prepared tap source", async () => {
+  const f = await fixture();
+  f.options.project = {
+    resolve(input) {
+      return {
+        source: f.input,
+        projectId: input.projectId,
+        revisionId: input.revisionId ?? "revision",
+        preparedResourceId: input.preparedResourceId,
+      };
+    },
+  };
+  const request = {
+    projectId: "project",
+    revisionId: "revision",
+    preparedResourceId: "prepared",
+    tap: { target: { kind: "output" }, point: { kind: "processed" } },
+    range: f.input.sourceRange,
+    channel: f.input.channel,
+    text: f.input.text,
+    modelId: f.input.modelId,
+  } as const;
+  const pending = f.processing.prepareProject(request);
+  expect(pending).toMatchObject({ projectId: "project", assetId: f.input.assetId });
+  expect(pending.state).toMatch(/pending|processing/);
+  expect(f.jobs.job(pending.jobId!).target).toEqual({
+    kind: "project",
+    projectId: "project",
+    revisionId: "revision",
+  });
+  await expect.poll(() => f.processing.prepareProject(request).state).toBe("ready");
+  expect(f.processing.prepareProject(request).published?.evidence.owner).toEqual({
+    kind: "asset",
+    assetId: f.input.assetId,
+  });
 });

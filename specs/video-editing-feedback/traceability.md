@@ -157,9 +157,12 @@ actual public receipts, explicit edits, unchanged inputs and independent master.
 
 10B1 retained source alignment is integrated: literal text/source/channel/range
 and provider/PCM pins survive explicit generation reads. Complete words/acoustic/
-scores and captured unverified raw refusals remain distinct. Project tap inference,
-projection and package preservation stay open in10B2.31 native-cache research
-adds complete checked failure accounting, with no speaker provider promotion.
+scores and captured unverified raw refusals remain distinct. 10B2 now runs a
+project-owned alignment job over a pinned prepared tap, retains evidence through the
+existing generated-asset owner, and reads tap rows directly in project clock while
+source rows continue through exact revision projection. Acoustic boundary acceptance
+and the final whole-slice verdict remain open. 31 native-cache research adds complete
+checked failure accounting, with no speaker provider promotion.
 
 Slice20 waveform checkpoint retains physical inputs and controls, but the real
 unlike-microphone comparisons all refuse. [The frozen result](assets/20-synchronization/README.md)

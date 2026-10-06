@@ -272,6 +272,24 @@ test("public alignment preparation refuses unavailable runtime and incomplete su
   ).toMatchObject({ ok: false, error: { code: "UNAVAILABLE_SUPPORT" } });
   expect(requests).toEqual(["media.probe"]);
 });
+
+test("project alignment preparation resolves the project-owned tap before source work", async () => {
+  const f = await projectServiceFixture(cleanup, async (operation) => {
+    if (operation === "media.probe") return { ok: true, data: probe };
+    throw new Error(`Unexpected project alignment work ${operation}`);
+  });
+  const result = await f.call("alignment.prepare", {
+    projectId: "missing-project",
+    revisionId: "missing-revision",
+    preparedResourceId: "prepared-project-tap",
+    tap: { target: { kind: "output" }, point: { kind: "processed" } },
+    range: { startUs: 0, endUs: 1_000_000 },
+    channel: 0,
+    text: "hello world",
+    modelId: "nemo-ctc110",
+  });
+  expect(result).toMatchObject({ ok: false, error: { code: "NOT_FOUND" } });
+});
 test("public pinned pages, thresholds and original bytes survive restart without models or native work", async () => {
   const f = await projectServiceFixture(cleanup, async (operation) => {
     if (operation !== "media.probe") throw new Error(operation);

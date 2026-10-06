@@ -1,6 +1,6 @@
 # 10 — Publish alignment and acoustic boundary evidence
 
-Status: checkpoint A and B1 committed; B2 source portability reviewed and exact source projection helper implemented; the prepared project selector/read seam is public, but actual prepared project-tap observation and its project-owned lifecycle remain open. Depends on: [09](09-alignment-replication.md), [08](08-bounded-speech-preparation.md).
+Status: checkpoint A, B1 and the selected project-tap portion of B2 are implemented and reviewed. Source and prepared project-tap observations share the retained alignment evidence owner; project jobs pin the prepared tap, revision and generated PCM asset through restart and retry. Acoustic boundary evidence and the final slice verdict remain open. Depends on: [09](09-alignment-replication.md), [08](08-bounded-speech-preparation.md).
 
 ## Contract
 
@@ -69,8 +69,13 @@ immutable package reads and catalog adoption; publication rechecks the live sour
 inside the existing transaction. Actual public export/open/adopt/replay/restart
 passes with receiver media/model execution forbidden, and package continuation
 refuses a managed-library cursor. Captured unpublished failures remain local
-diagnostics. The next pass must add actual selected-tap evidence and exact source
-projection without conflating these clocks.
+diagnostics. Project alignment now runs as a project-owned job after the caller
+pins an already-prepared tap. Its worker selects the generated tap asset through
+the existing source PCM owner, while retained evidence remains keyed to that
+asset for package and source reads. Project reads return direct project-clock
+ranges for tap rows with a null source occurrence; source rows continue through
+exact revision projection. Rendered-tap timing and source timing stay separate
+without inventing a clip identity.
 
 Explicit preparation publishes immutable conditional paths and correspondence,
 with literal source/text/channel/range/provider/PCM pins. Retained reads and pinned

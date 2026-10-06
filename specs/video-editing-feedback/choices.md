@@ -850,3 +850,48 @@ unlisted architecture or user-only choice was found in this research pass.
 - **Verdict:** focused composition and native red/blue swatch checks pass. Independent
   reference-sheet/vignette comparison remains open before calling the slice complete.
 - **Confidence:** medium-high.
+
+## Project-tap alignment ownership — slice10B2
+
+- **When:** slice10B2, prepared project-tap alignment pass.
+- **The choice:** A caller first prepares a project tap, then submits alignment against
+  that pinned rendered signal. The queue job belongs to the project revision so a
+  changed edit cannot silently answer the old request. The generated PCM asset still
+  owns the retained alignment rows because the existing alignment evidence/package
+  store already authenticates source media assets. On read, rows from that tap use
+  their rendered project-clock ranges and keep `occurrence: null`; source-media rows
+  continue through exact clip occurrence projection. This avoids pretending a rendered
+  mix came from one source clip or creating a second evidence owner.
+- **The gap:** The plan required actual inference on selected project audio and one
+  retained evidence owner, but did not specify whether the job or evidence owner should
+  be the project or generated tap asset.
+- **The reach:** Project deletion and revision changes drain or invalidate the project
+  job, while package portability can continue to use the existing generated-asset
+  evidence path. A future portable project package must preserve the tap asset and its
+  publication if it wants to carry these rows without re-inference.
+- **Verdict:** sound, medium confidence. It gives the project lifecycle authority to
+  the job while preserving the already-tested evidence owner and an honest null clip
+  identity for rendered audio. Revisit only if package requirements demand project-owned
+  evidence bytes rather than the retained generated asset closure.
+- **Confidence:** medium.
+
+## Project-tap evidence reclamation — slice10B2 corrective review
+
+- **When:** slice10B2 review, after tracing project deletion and retry lifetimes.
+- **The choice:** Reclaim old alignment rows from the generated tap before a new
+  observation, but keep any generation retained by either the ordinary asset-owned
+  alignment job or the project-owned tap job. The evidence table is keyed by the tap
+  asset, while the queue publication that protects a tap generation can be keyed by
+  the project revision, so cleanup checks both ownership paths. Without the second
+  check, a later request could delete a still-published project generation; without
+  cleanup, stale generations would survive after a new tap observation.
+- **The gap:** The existing source cleanup helper only knew about asset-targeted jobs;
+  the project-tap pass reused that evidence table but deliberately changed the queue
+  target to the project.
+- **The reach:** Retry, revision deletion and package reads keep their retained bytes
+  until the owning publication/reference is gone. Any future evidence owner must add
+  its queue publication to this keep rule or move the rows to a genuinely project-owned
+  store.
+- **Verdict:** sound, high confidence. The rule follows the actual resource owner and
+  prevents both premature deletion and unbounded stale evidence.
+- **Confidence:** high.

@@ -1,5 +1,5 @@
 import { expect, test } from "vitest";
-import { projectAlignmentRows } from "./project-alignment.js";
+import { projectAlignmentRows, projectTapAlignmentRows } from "./project-alignment.js";
 
 test("project alignment preserves source rows and maps each supported fragment to project time", () => {
   const t = (value: number) => ({ numerator: BigInt(value), denominator: 1n });
@@ -60,7 +60,7 @@ test("project alignment preserves source rows and maps each supported fragment t
   ]);
   expect(result).toHaveLength(1);
   expect(result[0]!.row).toBe(rows[0]);
-  expect(result[0]!.occurrence.clipId).toBe("clip-a");
+  expect(result[0]!.occurrence!.clipId).toBe("clip-a");
   expect(result[0]!.projectRanges).toEqual([
     { startUs: 11_000_000, endUs: 12_000_000 },
     { startUs: 20_000_000, endUs: 21_000_000 },
@@ -134,4 +134,34 @@ test("project alignment retains fractional exact bounds instead of rounding them
     ],
   );
   expect(result[0]!.projectRanges).toEqual([{ startUs: f(1, 10), endUs: f(1, 5) }]);
+});
+
+test("project tap alignment preserves rendered project-clock timing without inventing a clip", () => {
+  const row = {
+    kind: "observed" as const,
+    ordinal: 0,
+    text: "tap",
+    correspondence: "matched" as const,
+    possibleIndices: [0],
+    omissionPossible: false,
+    lexicalIdentity: "unknown" as const,
+    timing: {
+      startFrame: 0,
+      endFrame: 1,
+      sourceRange: { startUs: 500_000, endUs: 1_500_000 },
+      physicalAdmission: "within_source_support" as const,
+      interpretation: "greedy_observation" as const,
+    },
+    nativeTokens: [1],
+    nativeTokenizationUnknown: false,
+    assignmentConfidence: null,
+  };
+  expect(projectTapAlignmentRows([row], { startUs: 0, endUs: 1_000_000 })).toEqual([
+    {
+      row,
+      occurrence: null,
+      sourceRanges: [{ startUs: 500_000, endUs: 1_000_000 }],
+      projectRanges: [{ startUs: 500_000, endUs: 1_000_000 }],
+    },
+  ]);
 });

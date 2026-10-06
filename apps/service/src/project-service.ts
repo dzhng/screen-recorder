@@ -15,6 +15,8 @@ import {
   outputCapabilities,
   audioOutputCapabilities,
   createSourceRangeProjection,
+  compare,
+  fromTime,
 } from "@yap/composition";
 import { ProjectPackages } from "./project-packages.js";
 import { writeFile } from "node:fs/promises";
@@ -101,7 +103,7 @@ import { ffmpegLoudnessAnalyzer } from "./loudness.js";
 import { AlignmentEvidenceStore, assetAlignmentOwner } from "@yap/core/alignment-evidence";
 import { AlignmentProcessing } from "@yap/core/alignment-processing";
 import { SourceAlignmentRead } from "@yap/core/alignment-read";
-import { projectAlignmentRows } from "@yap/core/project-alignment";
+import { projectAlignmentRows, projectTapAlignmentRows } from "@yap/core/project-alignment";
 import { alignmentObserver } from "./alignment.js";
 import { SpeakerEvidenceStore, assetSpeakerOwner } from "@yap/core/speaker-evidence";
 import { SpeakerProcessing } from "@yap/core/speaker-processing";
@@ -379,7 +381,10 @@ export async function startProjectService(options: {
           return mediaAudio.execute({ job, signal });
         if (job.target.kind === "project" && job.artifact === "project.evidence")
           return projectEvidence.execute({ job, signal });
-        if (job.target.kind === "asset" && job.artifact === "source-alignment")
+        if (
+          ((job.target.kind === "asset" && job.artifact === "source-alignment") ||
+            (job.target.kind === "project" && job.artifact === "project-alignment"))
+        )
           return alignments.execute({ job, signal });
         if (job.target.kind === "asset" && job.artifact === "source-speakers")
           return speakers.execute({ job, signal });
@@ -445,6 +450,56 @@ export async function startProjectService(options: {
       evidence: alignmentRecords,
       decoder,
       observe: alignmentObserver(worker, workspace),
+      project: {
+        resolve(input) {
+          const composition = projectComposition(projects, assets, {
+              projectId: input.projectId,
+              revisionId: input.revisionId,
+            }),
+            end = fromTime(input.range.endUs),
+            duration = fromTime(composition.model.durationUs);
+          if (compare(end, duration) > 0)
+            throw new CatalogError(
+              "INVALID_RANGE",
+              "Project alignment range exceeds the pinned revision",
+            );
+          const prepared = preparedAudio.resolve(
+            composition,
+            input.tap,
+            input.preparedResourceId,
+          );
+          if (!prepared)
+            throw new CatalogError(
+              "NOT_READY",
+              "Prepared project tap is not ready",
+              {
+                projectId: input.projectId,
+                revisionId: composition.revisionId,
+                preparedResourceId: input.preparedResourceId,
+              },
+              true,
+            );
+          const asset = assets.get(prepared.audio.assetId),
+            stream = asset.streams.find((value) => value.kind === "audio");
+          if (!stream)
+            throw new CatalogError("UNSUPPORTED_MEDIA", "Prepared project tap has no audio stream");
+          if (input.channel >= (stream.channels ?? 0))
+            throw new CatalogError("INVALID_PARAMS", "Project alignment channel is unavailable");
+          return {
+            source: {
+              assetId: prepared.audio.assetId,
+              streamId: stream.id,
+              channel: input.channel,
+              sourceRange: input.range,
+              text: input.text,
+              modelId: input.modelId,
+            },
+            projectId: input.projectId,
+            revisionId: composition.revisionId,
+            preparedResourceId: prepared.resourceId,
+          };
+        },
+      },
     });
     transcripts = new TranscriptProcessing({
       jobs: queue,
@@ -995,7 +1050,19 @@ export async function startProjectService(options: {
             return { ok: true, data: await models.status(modelId) };
           }
           case "alignment.prepare": {
-            const status = alignments.prepareSource(operation.params);
+            const params = operation.params;
+            if ("projectId" in params) {
+              const status = alignments.prepareProject(params);
+              return {
+                ok: true,
+                data: {
+                  ...status,
+                  tap: params.tap,
+                  published: publishedOutput(status.published, (value) => value.evidence),
+                },
+              };
+            }
+            const status = alignments.prepareSource(params);
             return {
               ok: true,
               data: {
@@ -1059,15 +1126,17 @@ export async function startProjectService(options: {
                 }),
                 rows =
                   "rows" in sourcePage
-                    ? projectAlignmentRows(
-                        sourcePage.rows,
-                        occurrences.filter(
-                          (occurrence) =>
-                            occurrence.assetId === metadata.owner.assetId &&
-                            occurrence.streamId === metadata.source.streamId &&
-                            (occurrence.acquisitionId ?? null) === metadata.source.acquisitionId,
-                        ),
-                      )
+                    ? metadata.owner.assetId === prepared.audio.assetId
+                      ? projectTapAlignmentRows(sourcePage.rows, range)
+                      : projectAlignmentRows(
+                          sourcePage.rows,
+                          occurrences.filter(
+                            (occurrence) =>
+                              occurrence.assetId === metadata.owner.assetId &&
+                              occurrence.streamId === metadata.source.streamId &&
+                              (occurrence.acquisitionId ?? null) === metadata.source.acquisitionId,
+                          ),
+                        )
                     : [];
               return {
                 ok: true,

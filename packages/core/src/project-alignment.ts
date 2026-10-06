@@ -20,7 +20,7 @@ export type ProjectedAlignmentRow = {
   occurrence: Pick<
     SourceWindowOccurrence,
     "clipId" | "assetId" | "streamId" | "trackId" | "trackRank"
-  >;
+  > | null;
   sourceRanges: SourceRange[];
   projectRanges: ProjectedRange[];
 };
@@ -85,6 +85,29 @@ export function projectAlignmentRows(
           projectRanges,
         });
     }
+  }
+  return projected;
+}
+
+/** Project rows measured from a prepared tap; the rendered signal has project time but no source clip. */
+export function projectTapAlignmentRows(
+  rows: readonly AlignmentRow[],
+  projectRange: SourceRange,
+): ProjectedAlignmentRow[] {
+  const projected: ProjectedAlignmentRow[] = [];
+  for (const row of rows) {
+    const source = range(row);
+    if (!source) continue;
+    const selected = overlap(source, {
+      start: fromTime(projectRange.startUs),
+      end: fromTime(projectRange.endUs),
+    });
+    if (!selected) continue;
+    const mapped = {
+      startUs: toTime(selected.start),
+      endUs: toTime(selected.end),
+    };
+    projected.push({ row, occurrence: null, sourceRanges: [mapped], projectRanges: [mapped] });
   }
   return projected;
 }

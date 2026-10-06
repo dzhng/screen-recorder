@@ -2,6 +2,7 @@ import { join } from "node:path";
 import { z } from "zod";
 import { isDeepStrictEqual } from "node:util";
 import { setImmediate } from "node:timers/promises";
+import type { ProcessingTap, SelectionRange } from "@yap/composition";
 import type { AssetStore } from "./assets.js";
 import type { AcquisitionStore } from "./acquisitions.js";
 import { CatalogError } from "./catalog.js";
@@ -25,6 +26,23 @@ import {
 } from "./alignment-operands.js";
 
 const artifact = "source-alignment";
+const projectArtifact = "project-alignment";
+export type ProjectAlignmentRequest = {
+  projectId: string;
+  revisionId?: string | undefined;
+  preparedResourceId: string;
+  tap: ProcessingTap;
+  range: SelectionRange;
+  channel: number;
+  text: string;
+  modelId: string;
+};
+export type ResolvedProjectAlignment = {
+  source: AlignmentSourceInput;
+  projectId: string;
+  revisionId: string;
+  preparedResourceId: string;
+};
 export type AlignmentObserver = (
   request: {
     selected: ReturnType<typeof selectAlignmentSource>;
@@ -39,6 +57,7 @@ export type AlignmentObserver = (
   operands: AlignmentOperands;
   failure?: CatalogError;
 }>;
+type AlignmentDescriptorSource = Omit<AlignmentEvidenceSource, "pcm" | "decoder">;
 export type AlignmentProcessingOptions = {
   assets: AssetStore;
   acquisitions: AcquisitionStore;
@@ -47,6 +66,9 @@ export type AlignmentProcessingOptions = {
   evidence: AlignmentEvidenceStore;
   observe: AlignmentObserver;
   decoder: AlignmentEvidenceSource["decoder"] | null;
+  project?: {
+    resolve(input: ProjectAlignmentRequest): ResolvedProjectAlignment;
+  };
 };
 /** Explicit work shares Models readiness, job replay, source retention and publication fences. */
 export class AlignmentProcessing {
@@ -120,15 +142,90 @@ export class AlignmentProcessing {
     );
     return this.sourceStatus(input);
   }
+  prepareProject(input: ProjectAlignmentRequest) {
+    if (!this.options.project)
+      throw new CatalogError("UNSUPPORTED_JOB", "Project alignment is unavailable");
+    const resolved = this.options.project.resolve(input),
+      identity = {
+        target: {
+          kind: "project" as const,
+          projectId: resolved.projectId,
+          revisionId: resolved.revisionId,
+        },
+        artifact: projectArtifact,
+        input: JSON.stringify({ request: input, resolved }),
+      },
+      status = this.options.jobs.status(identity),
+      model = this.options.models.alignment(input.modelId),
+      reason =
+        status.state !== "not_requested"
+          ? null
+          : model.status().state !== "ready"
+            ? "model_not_prepared"
+            : this.options.decoder === null
+              ? "native_decoder_unavailable"
+              : null,
+      published = status.published
+        ? {
+            generation: status.published.generation,
+            evidence: JSON.parse(status.published.result) as AlignmentEvidenceMetadata,
+          }
+        : null;
+    if (published) this.options.evidence.metadata(published.evidence);
+    if (status.state === "not_requested" && reason === null)
+      this.options.jobs.submit(
+        () => ({ ...identity, lane: "heavy" }),
+        (job) => this.options.assets.retain({ kind: "job", id: job.jobId }, [resolved.source.assetId]),
+      );
+    if (status.state === "not_requested" && reason === null) return this.prepareProject(input);
+    return {
+      ...status,
+      state: reason ? ("unavailable" as const) : status.state,
+      reason: reason ?? status.reason,
+      published,
+      projectId: resolved.projectId,
+      revisionId: resolved.revisionId,
+      preparedResourceId: resolved.preparedResourceId,
+      assetId: resolved.source.assetId,
+    };
+  }
   async execute({ job, signal }: JobExecution): Promise<StagedJobResult> {
-    if (job.target.kind !== "asset" || job.artifact !== artifact)
+    const project = job.target.kind === "project" && job.artifact === projectArtifact;
+    if (!project && (job.target.kind !== "asset" || job.artifact !== artifact))
       throw new CatalogError("UNSUPPORTED_JOB", "Alignment processor cannot execute this job");
-    const input = alignmentSourceSchema.parse(JSON.parse(job.input).request),
-      { selected, source } = this.descriptor(input),
-      decoder = this.options.decoder;
+    let input: AlignmentSourceInput,
+      selected: ReturnType<typeof selectAlignmentSource>,
+      source: AlignmentDescriptorSource,
+      projectOwner: { kind: "project"; projectId: string } | undefined;
+    if (project) {
+      if (!this.options.project)
+        throw new CatalogError("UNSUPPORTED_JOB", "Project alignment is unavailable");
+      const value = JSON.parse(job.input) as { request: ProjectAlignmentRequest; resolved: ResolvedProjectAlignment },
+        resolved = this.options.project.resolve(value.request);
+      if (!isDeepStrictEqual(resolved, value.resolved))
+        throw new CatalogError("ARTIFACT_CHANGED", "Prepared project tap or alignment input changed");
+      if (
+        job.target.kind !== "project" ||
+        job.target.projectId !== resolved.projectId ||
+        job.target.revisionId !== resolved.revisionId
+      )
+        throw new CatalogError("ARTIFACT_CHANGED", "Prepared project revision changed");
+      projectOwner = { kind: "project", projectId: resolved.projectId };
+      input = alignmentSourceSchema.parse(resolved.source);
+      ({ selected, source } = this.descriptor(input));
+    } else {
+      input = alignmentSourceSchema.parse(JSON.parse(job.input).request);
+      ({ selected, source } = this.descriptor(input));
+    }
+    const decoder = this.options.decoder;
     if (!decoder)
       throw new CatalogError("NOT_READY", "Native alignment decoder is unavailable", {}, true);
-    if (job.target.assetId !== input.assetId || this.identity(input).input !== job.input)
+    if (
+      !project &&
+      (job.target.kind !== "asset" ||
+        job.target.assetId !== input.assetId ||
+        this.identity(input).input !== job.input)
+    )
       throw new CatalogError("ARTIFACT_CHANGED", "Alignment source or execution inputs changed");
     signal.throwIfAborted();
     const model = this.options.models.alignment(input.modelId),
@@ -143,7 +240,14 @@ export class AlignmentProcessing {
         "Prepared alignment runtime differs from admitted identity",
       );
     signal.throwIfAborted();
-    await this.cleanupAsset(input.assetId, signal);
+    await this.cleanupAsset(
+      input.assetId,
+      signal,
+      projectOwner
+        ? (generation) =>
+            this.options.jobs.retainsAttempt(projectOwner!, projectArtifact, generation)
+        : undefined,
+    );
     const observed = await this.options.observe(
       {
         selected,
@@ -192,11 +296,15 @@ export class AlignmentProcessing {
       close: staged.close,
     };
   }
-  cleanupAsset(assetId: string, signal?: AbortSignal) {
+  cleanupAsset(
+    assetId: string,
+    signal?: AbortSignal,
+    keep: (generation: string) => boolean = (generation) =>
+      this.options.jobs.retainsAttempt({ kind: "asset", assetId }, artifact, generation),
+  ) {
     return this.options.evidence.reclaim(
       assetId,
-      (generation) =>
-        this.options.jobs.retainsAttempt({ kind: "asset", assetId }, artifact, generation),
+      keep,
       signal,
     );
   }

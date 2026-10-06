@@ -475,3 +475,23 @@ it("admits project alignment reads only with an explicit prepared tap identity",
     }).success,
   ).toBe(false);
 });
+
+it("admits alignment preparation over a pinned project tap", () => {
+  expect(
+    operationSchema.safeParse({
+      operation: "alignment.prepare",
+      params: {
+        projectId: "project",
+        revisionId: "revision",
+        preparedResourceId: "prepared",
+        tap: { target: { kind: "output" }, point: { kind: "processed" } },
+        range: { startUs: 0, endUs: 1_000_000 },
+        channel: 0,
+        text: "hello world",
+        modelId: "nemo-ctc110",
+      },
+    }),
+  ).toMatchObject({
+    success: true,
+  });
+});

@@ -86,8 +86,8 @@ Lifecycle checks cover joining, cancellation/drain/retry, changed decoder availa
 and deleted runtime bytes. The absolute checkpoint regression first failed through
 the existing speaker processor; it now passes through the shared selected-channel
 route. The CLI wait mutation returns the job's unrelated output when its pinned
-preparation route is absent; restoring the route passes. Project taps and portable
-continuation remain checkpoint B2.
+preparation route is absent; restoring the route passes. Project-tap lifecycle is
+implemented in B2; portable project-package continuation remains open.
 
 [Source review](review-source.json) records the independent B1 review and focused
 consumer corrections. Both stale private-wire test contracts were updated to the
@@ -95,16 +95,20 @@ shared selected-channel owner; frozen historical archives remain unchanged.
 
 [Portable source evidence](portable-source.json) records same-parser immutable reads
 and adoption through the existing package owner. It is controlled-provider and
-actual archive/storage proof; project-tap inference and source projection remain open.
+actual archive/storage proof; project-tap evidence is retained against the generated
+tap asset and remains addressable through the project-owned preparation job.
 
 [Exact source projection](../../../../packages/core/src/project-alignment.ts) maps retained
 source timing through existing revision occurrences into project ranges, splitting at
 available fragments and preserving null timing as unknown. It does not mutate source
-rows or create a second project clock. Actual prepared project-tap observation and its
-public lifecycle remain the next B2 pass.
+rows or create a second project clock. Prepared tap rows use the same helper's direct
+project-clock path and keep their source occurrence null because a rendered signal has
+no honest clip identity.
 
-The public `alignment.get` project selector now requires an already-ready prepared
-resource and pins revision, tap and project range while projecting retained source
-rows. It is intentionally a projection/read seam; it does not claim fresh inference
-on the prepared output. A project-owned observation artifact and preparation job are
-still required before this checkpoint can claim actual project-tap attribution.
+The public `alignment.get` project selector requires an already-ready prepared
+resource and pins revision, tap and project range. Source-owned evidence is projected
+through exact revision occurrences. Evidence measured on the generated tap is read
+directly in project clock. `alignment.prepare` owns the project job and pins the
+prepared resource, revision, range, channel, literal text and model through retry and
+restart; retained rows remain keyed to the generated tap asset so the existing
+evidence/package owner remains single.

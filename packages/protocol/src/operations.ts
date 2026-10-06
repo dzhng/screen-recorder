@@ -682,28 +682,52 @@ export const operationSchema = z.discriminatedUnion("operation", [
   z
     .strictObject({
       operation: z.literal("alignment.prepare"),
-      params: sourceSelection
-        .extend({
-          channel: z.int().nonnegative(),
-          sourceRange: selectionRangeSchema,
-          text: z
-            .string()
-            .min(1)
-            .max(8192)
-            .refine((value) => {
-              const words = value.match(/\S+/gu) ?? [];
-              return (
-                words.length > 0 &&
-                words.length <= 512 &&
-                words.every((word) => new TextEncoder().encode(word).byteLength <= 1024)
-              );
-            }),
-          modelId: id,
-        })
-        .strict(),
+      params: z.union([
+        sourceSelection
+          .extend({
+            channel: z.int().nonnegative(),
+            sourceRange: selectionRangeSchema,
+            text: z
+              .string()
+              .min(1)
+              .max(8192)
+              .refine((value) => {
+                const words = value.match(/\S+/gu) ?? [];
+                return (
+                  words.length > 0 &&
+                  words.length <= 512 &&
+                  words.every((word) => new TextEncoder().encode(word).byteLength <= 1024)
+                );
+              }),
+            modelId: id,
+          })
+          .strict(),
+        z
+          .strictObject({
+            projectId: id,
+            revisionId: id.optional(),
+            preparedResourceId: id,
+            tap: processingTapSchema,
+            range: selectionRangeSchema,
+            channel: z.int().nonnegative(),
+            text: z
+              .string()
+              .min(1)
+              .max(8192)
+              .refine((value) => {
+                const words = value.match(/\S+/gu) ?? [];
+                return (
+                  words.length > 0 &&
+                  words.length <= 512 &&
+                  words.every((word) => new TextEncoder().encode(word).byteLength <= 1024)
+                );
+              }),
+            modelId: id,
+          }),
+      ]),
     })
     .describe(
-      "Explicitly prepare conditional supplied-text alignment over one complete selected source channel on the 16k sample grid, at most25 seconds. Models must already be explicitly prepared. Literal text is neither corrected nor expanded. The existing job owns join, cancel, retry and publication; original media remains intact. Provider correspondence is not lexical truth, and native likelihoods are uncalibrated. Published output supplies the retained generation for alignment.get.",
+      "Explicitly prepare conditional supplied-text alignment over one complete selected source channel on the 16k sample grid, at most25 seconds. Source requests select immutable media directly. Project requests select a pinned, already-prepared processing tap and run alignment on its rendered PCM. Models must already be explicitly prepared. Literal text is neither corrected nor expanded. The existing job owns join, cancel, retry and publication; original media remains intact. Provider correspondence is not lexical truth, and native likelihoods are uncalibrated. Published output supplies the retained generation for alignment.get.",
     ),
   z
     .strictObject({
@@ -738,7 +762,7 @@ export const operationSchema = z.discriminatedUnion("operation", [
       ]),
     })
     .describe(
-      "Read an explicit immutable alignment generation without model or native execution. Project selectors project retained source evidence through the existing exact revision map; preparedResourceId only pins readiness/identity of a tap and never claims this source evidence was measured on its output. packageHandle selects published evidence in an open read-only package; its continuation binds that context. Supplied words retain conditional path estimates separately from greedy observed words; repeated correspondence stays unknown and unmatched text stays unmatched. Complete native ceil bounds outside physical support retain null sourceRange/refused_unowned_support, never clamped timing. Scores are complete uncalibrated native cells. Acoustic view requires caller thresholdRMS, labels measured RMS >=threshold active, and never assigns a word or authorizes an edit. Raw view returns original UTF8 operands in bounded base64 chunks, including unpublished managed-library refusals as state:captured with verified:false; those never expose ready rows. Continue while nextCursor exists, including empty pages. Continuations bind the generation, display range, view, operand and threshold.",
+      "Read an explicit immutable alignment generation without model or native execution. An asset selector reads retained source evidence. A project selector with a source asset projects those rows through the exact revision map; a selector whose assetId is the prepared tap returned by alignment.prepare reads observations measured on that rendered tap and maps its source clock directly to project time without inventing a clip. preparedResourceId pins the project revision and tap. packageHandle selects published evidence in an open read-only package; its continuation binds that context. Supplied words retain conditional path estimates separately from greedy observed words; repeated correspondence stays unknown and unmatched text stays unmatched. Complete native ceil bounds outside physical support retain null sourceRange/refused_unowned_support, never clamped timing. Scores are complete uncalibrated native cells. Acoustic view requires caller thresholdRMS, labels measured RMS >=threshold active, and never assigns a word or authorizes an edit. Raw view returns original UTF8 operands in bounded base64 chunks, including unpublished managed-library refusals as state:captured with verified:false; those never expose ready rows. Continue while nextCursor exists, including empty pages. Continuations bind the generation, display range, view, operand and threshold.",
     ),
   z
     .strictObject({
