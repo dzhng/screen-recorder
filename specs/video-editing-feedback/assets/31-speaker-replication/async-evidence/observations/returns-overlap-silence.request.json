@@ -1,0 +1,15 @@
+{
+  "operation": "speaker.continuityLab",
+  "params": {
+    "model": "/tmp/yap-editing-speaker-replication/nemotron-model-library/models/nemotron3-checkpoint-research/f667ed73aee57d40cc39428eb768b4fd87a0a29e/checkpoint/Nemotron-3-Diarization.nemo",
+    "cases": [
+      {
+        "id": "returns-overlap-silence",
+        "pcm": "/tmp/yap-editing-speaker-replication/continuity/returns-overlap-silence.f32",
+        "pcmSha256": "e97f8450c758696193a8b9a8d0468217e24fa22a2d12631a2c37fa6eb20e9068",
+        "frames": 1600000,
+        "output": "/tmp/yap-speaker-hysteresis-20261006/async-returns-overlap-silence/returns-overlap-silence.json"
+      }
+    ]
+  }
+}

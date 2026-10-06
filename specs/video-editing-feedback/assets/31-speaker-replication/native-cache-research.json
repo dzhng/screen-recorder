@@ -1,0 +1,90 @@
+{
+  "fixedContract": "Both protocols retain required DER20%, identity5%, overlap80%, exact count, inference2x audio and process RSS4GiB gates; output thresholds fixed .5/.1.",
+  "incumbent": "Hysteresis short winner with long600 overlap red; no long-form provider promoted.",
+  "parameterEffectMap": [
+    {
+      "factor": "Native asynchronous vs synchronous state/cache representation",
+      "settings": "Same264 cache/40 FIFO/340 chunk/40 right/300 update",
+      "effect": "Exact complete raw Float32 and turn parity across both30s cases and100s returns; no measured quality distinction. Resource differences are one-run noise, not an optimization claim.",
+      "scope": "Selected single-stream native calls only; no claim for all lengths/ragged batches.",
+      "verdict": "null; skip unchanged600",
+      "evidence": "async-evidence/results.json"
+    },
+    {
+      "factor": "Coherent documented1.04s buffer/context profile",
+      "settings": "264 cache/264 FIFO/9 chunk/4 right/222 update; native synchronous mode",
+      "effect": "Three-speaker calibration green; four-speaker short DER25.1385%, confusion7.0637%, overlap56.9507%; count/resource gates green. More processing steps increased inference cost.",
+      "scope": "Reused short control/confirmation; no100/long claims. No parameter attribution within the coherent bundle.",
+      "verdict": "discard; no retuning",
+      "evidence": "context-evidence/results.json"
+    }
+  ],
+  "attempts": [
+    {
+      "hypothesis": "async-evidence",
+      "id": "bspxd30",
+      "nativeCalls": 1,
+      "evidence": "async-evidence/results.json",
+      "transport": "async-evidence/observations/bspxd30.transport.json",
+      "wallSeconds": 12.584776,
+      "retries": 0,
+      "networkDenied": true
+    },
+    {
+      "hypothesis": "async-evidence",
+      "id": "aiqwk30",
+      "nativeCalls": 1,
+      "evidence": "async-evidence/results.json",
+      "transport": "async-evidence/observations/aiqwk30.transport.json",
+      "wallSeconds": 14.008507625,
+      "retries": 0,
+      "networkDenied": true
+    },
+    {
+      "hypothesis": "async-evidence",
+      "id": "returns-overlap-silence",
+      "nativeCalls": 1,
+      "evidence": "async-evidence/results.json",
+      "transport": "async-evidence/observations/returns-overlap-silence.transport.json",
+      "wallSeconds": 19.331978916,
+      "retries": 0,
+      "networkDenied": true
+    },
+    {
+      "hypothesis": "context-evidence",
+      "id": "bspxd30",
+      "nativeCalls": 1,
+      "evidence": "context-evidence/results.json",
+      "transport": "context-evidence/observations/bspxd30.transport.json",
+      "wallSeconds": 13.693879832999999,
+      "retries": 0,
+      "networkDenied": true
+    },
+    {
+      "hypothesis": "context-evidence",
+      "id": "aiqwk30",
+      "nativeCalls": 1,
+      "evidence": "context-evidence/results.json",
+      "transport": "context-evidence/observations/aiqwk30.transport.json",
+      "wallSeconds": 12.860391625,
+      "retries": 0,
+      "networkDenied": true
+    }
+  ],
+  "nextHypothesis": {
+    "candidate": "Original upstream PyTorch Community-1 instead of converted CoreML",
+    "reason": "Converted runtime failed merging identities and support endpoints; original segmentation/clustering path is a distinct provider/runtime hypothesis, not count-hint or threshold tuning.",
+    "admission": "Freeze license/pins, full raw segmentation/embedding access and exact physical support before short inference. Share immutable PCM; isolated optional dependency layers; no production fallback or promotion.",
+    "confirmation": "Required short gates first; long controls only after all short gates pass. No hidden speaker-count truth in candidate."
+  },
+  "pendingJobs": [],
+  "promotion": false,
+  "spend": {
+    "newNativeCalls": 5,
+    "acquisitionBytes": 0,
+    "retries": 0,
+    "combinedWallSeconds": 72.479533999,
+    "budgetPerProtocol": "3 native calls maximum180s each; <=300s analysis, zero downloads; both ran within budget.",
+    "excluded": "Coding, source inspection and review elapsed time; cold load is retained separately from inference."
+  }
+}
