@@ -1,0 +1,12 @@
+{
+  "command": "codex exec --sandbox read-only -C /Users/server/dev/yap-exact-removal review --json -o verdict.md - < prompt.txt",
+  "exitCode": 0,
+  "turnCompleted": true,
+  "eventCount": 22,
+  "eventsSha256": "e95a07be62d4f420976342225f8ebe17bbaeaf475263bc7f7de29c1d7426eb0f",
+  "eventsPath": "/var/folders/62/pphwbgd15b1b9q7cjgf8m9pm0000gn/T/yap-slice05-rereview-8p45arry/events.jsonl",
+  "verdictSha256": "a1d53c9eb33e4fff524448754259679667f0bea15e0321c34c583892244c3b08",
+  "threadId": "01a1100e-dc8d-76f3-97e8-0a437160fc78",
+  "scope": "Corrective symlink-storage accounting regions and native/public proof; follows retained whole-change review.",
+  "disposition": "Clean; initial P2 resolved."
+}

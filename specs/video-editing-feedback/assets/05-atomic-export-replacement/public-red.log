@@ -1,0 +1,29 @@
+✖ public new export replaces unchanged Yap-owned bytes and old intent never replaces its successor (1204.383875ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1383.325875
+
+✖ failing tests:
+
+test at apps/service/tests/export-replacement.mjs:63:1
+✖ public new export replaces unchanged Yap-owned bytes and old intent never replaces its successor (1204.383875ms)
+  AssertionError [ERR_ASSERTION]: {"code":1,"response":{"ok":true,"data":{"exportId":"27f23d81-93c0-4f98-9d4f-926e27bdfd7b","kind":"srt","state":"failed","abandoning":false,"cleanupPending":true,"recovery":{"state":"ready","jobId":"64e8ae0d-4596-44dc-9854-a15bdca8623b","reason":null,"retryable":false,"published":{"artifact":"export-recovery","generation":1,"input":"27f23d81-93c0-4f98-9d4f-926e27bdfd7b/64e07427-481f-4b9d-9f07-b998fede335f","result":"{\"observation\":\"replaced\"}","target":{"kind":"project","projectId":"e2199cf3-a6da-47de-817f-7dbcaf54fed0","revisionId":"c3387a34-3872-47bc-b039-f364e3575177"}}},"projectId":"e2199cf3-a6da-47de-817f-7dbcaf54fed0","snapshot":{"projectId":"e2199cf3-a6da-47de-817f-7dbcaf54fed0","revisionId":"c3387a34-3872-47bc-b039-f364e3575177","kind":"srt","placementIds":["clip:86d17bac10d7e06af667b5c0da37a4ddf9e1037113f92eda1802123f88da37ff:1"],"cueCount":1,"omitted":[],"addedOverlaps":[],"discardedStyling":["clip:86d17bac10d7e06af667b5c0da37a4ddf9e1037113f92eda1802123f88da37ff:1"]},"destination":{"directory":"/private/tmp/yap-replacement-output-oVadDb","leaf":"captions.srt"},"receipt":null,"output":null,"jobId":"d200deb8-ee8c-49f3-b90e-267110733f88","reason":"Export destination belongs to another file or was modified","retryable":false},"id":"5afba690-e939-446c-82b3-e7832c2b4cde","wait":{"state":"settled","timeoutMs":5000,"job":{"jobId":"64e8ae0d-4596-44dc-9854-a15bdca8623b","generation":1,"attemptId":"c0c966a1-ea67-4fde-82d1-8c2ca37ed1ce"}}},"stderr":"export.create: running \nexport.create: running (d200deb8-ee8c-49f3-b90e-267110733f88, generation 1)\nexport.create: ready (d200deb8-ee8c-49f3-b90e-267110733f88, generation 1)\n"}
+  
+  1 !== 0
+  
+      at TestContext.<anonymous> (file:///Users/server/dev/yap-exact-removal/apps/service/tests/export-replacement.mjs:71:10)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async Test.run (node:internal/test_runner/test:1409:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 1,
+    expected: 0,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }

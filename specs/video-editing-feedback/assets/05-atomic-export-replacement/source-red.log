@@ -1,0 +1,29 @@
+✖ foreign overwrite never authorizes replacing an original imported source (751.266875ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 927.482042
+
+✖ failing tests:
+
+test at apps/service/tests/export-replacement.mjs:83:1
+✖ foreign overwrite never authorizes replacing an original imported source (751.266875ms)
+  AssertionError [ERR_ASSERTION]: {"code":0,"response":{"ok":true,"data":{"exportId":"a458db62-63e7-4863-ab7e-d89cfa3aa73a","kind":"srt","state":"committed","abandoning":false,"cleanupPending":false,"recovery":{"state":"not_requested","jobId":null,"reason":null,"retryable":false,"published":null},"projectId":"4a3ddfb7-e737-4d7b-91d2-f4353fbc3881","snapshot":{"projectId":"4a3ddfb7-e737-4d7b-91d2-f4353fbc3881","revisionId":"dfdf5484-f601-4f55-8acd-86f5c9c3f7ef","kind":"srt","placementIds":["clip:fbb2d460ee1dbf0f65b98a120e9f53c5d548b9096716cfdd94a3347387d5ca51:1"],"cueCount":1,"omitted":[],"addedOverlaps":[],"discardedStyling":["clip:fbb2d460ee1dbf0f65b98a120e9f53c5d548b9096716cfdd94a3347387d5ca51:1"]},"destination":{"directory":"/private/tmp/yap-replacement-output-DpBtyL","leaf":"original-font.bin"},"receipt":{"sha256":"d3726c471cc132643b511af50750f4cadb3a08c116e65d6773ecd2c77a766572","destination":{"dev":"16777232","ino":"6703675"},"file":{"dev":"16777232","ino":"6703784"},"bytes":45,"replacement":{"bytes":21,"sha256":"50497fa19a4d5a1db72d6ead883f6f54572a12f6f170abc4f1932273770f4274","file":{"dev":"16777232","ino":"6703750"}},"stage":{"dev":"16777232","ino":"6703773"},"leaf":"original-font.bin"},"output":"/private/tmp/yap-replacement-output-DpBtyL/original-font.bin","jobId":"e8a40ad6-5d57-4bb6-b88e-076195fbd919","reason":null,"retryable":false},"id":"1d0e1bfe-1f46-428f-a290-5f92e490ce81","wait":{"state":"settled","timeoutMs":5000,"job":{"jobId":"e8a40ad6-5d57-4bb6-b88e-076195fbd919","generation":1,"attemptId":"e6b0fbc8-3c0f-4cf1-9fae-4e2d28df2abf"}}},"stderr":"export.create: running \nexport.create: running (e8a40ad6-5d57-4bb6-b88e-076195fbd919, generation 1)\nexport.create: committed (e8a40ad6-5d57-4bb6-b88e-076195fbd919, generation 1)\n"}
+  
+  0 !== 1
+  
+      at TestContext.<anonymous> (file:///Users/server/dev/yap-exact-removal/apps/service/tests/export-replacement.mjs:87:10)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async Test.run (node:internal/test_runner/test:1409:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 0,
+    expected: 1,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }

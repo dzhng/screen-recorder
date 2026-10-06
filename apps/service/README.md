@@ -92,6 +92,13 @@ media encoder nor speech inference; an edit during delivery cannot replace them.
 Audio-only export does not require picture preparation. Output format meaning
 belongs to the composition settings owner, not another service allowlist.
 
+Replacement trusts the recorded file identity and complete bytes, never just a
+pathname or a formerly owned name. Imported-original identity belongs to the
+asset owner and remains protected through aliases. The [publication owner](src/publication.ts)
+retains its destination lock across native workers; the [native publication boundary](../../helpers/mac/README.md#external-publication)
+explains what cooperative ownership can guarantee and why unknown displaced
+entries survive a conflict.
+
 Package extraction proves containment and retained resource identity. Adoption
 also validates dependency meaning and owns managed copies. Inspecting a handle
 alone does not create a project; adopted projects survive handle closure and donor
