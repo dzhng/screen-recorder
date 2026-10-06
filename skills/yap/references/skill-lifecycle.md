@@ -4,9 +4,12 @@ Use the published `npx skills@1.7.0` installer. Check `node --version`,
 `npm --version` and `npx --version`; Node/npm for this command are separate from
 the app's bundled runtime. If missing, report this prerequisite and use the
 user's existing runtime installation route. Do not build the app to obtain it.
-Work in the target project; inspect `.agents/skills/yap` and each selected
-agent's skill path first. An existing customized installation requires the
-explicit update choice below. Do not blindly overwrite through a discovery link.
+Default to a whole-computer install. Honor an explicit project request. When
+scope is unspecified and the current directory has project markers (for example
+`.git`, `package.json` or `pyproject.toml`), ask “Install for this project or the
+whole computer?” before writing. Do not infer project scope from a checkout.
+Inspect the selected canonical folder and every agent's discovery path first.
+An existing customized installation requires the explicit update choice below. Do not blindly overwrite through a discovery link.
 
 ## Fetch one complete pinned folder
 
@@ -70,10 +73,34 @@ If neither route is available, report the acquisition blocker. Do not install
 Xcode/Command Line Tools merely to download a skill or clone repository media.
 For a supplied complete local snapshot, record its identity and skip acquisition.
 
+## First whole-computer install (default)
+
+Select the agents the user uses (`codex`, `claude-code` here). With the pinned
+complete source folder above:
+
+```sh
+test ! -e "$HOME/.agents/skills/yap" && test ! -L "$HOME/.agents/skills/yap" || exit 1
+test ! -e "$HOME/.codex/skills/yap" && test ! -L "$HOME/.codex/skills/yap" || exit 1
+test ! -e "$HOME/.claude/skills/yap" && test ! -L "$HOME/.claude/skills/yap" || exit 1
+npx --yes skills@1.7.0 add "$yap_source" --skill yap --agent codex claude-code --global --yes
+test -d "$HOME/.agents/skills/yap" && test ! -L "$HOME/.agents/skills/yap" || exit 1
+test -L "$HOME/.claude/skills/yap" || exit 1
+test "$(cd "$HOME/.claude/skills/yap" && pwd -P)" = "$(cd "$HOME/.agents/skills/yap" && pwd -P)" || exit 1
+diff -ru "$yap_source" "$HOME/.agents/skills/yap"
+```
+
+Codex discovers the global canonical `~/.agents/skills/yap` directly; Claude's
+link must resolve there. A pre-existing `~/.codex/skills/yap` is also a Codex
+installation: inspect it and avoid a second conflicting copy. Verify references
+and start a fresh session to confirm discovery. Local-folder sources have no
+remote update tracking. For inspection or refresh below, use the selected global
+paths rather than project paths; back up any existing agent-local discovery
+entries too. Never replace a customized global install as a first install.
+
 ## First project install
 
 In the intended project, select the agents you use (`codex`, `claude-code` here).
-Do not use `--copy`, global installation, `skills check`, a dry-run flag, or a
+Do not use `--copy`, `--global`, `skills check`, a dry-run flag, or a
 custom manager command. Local folder sources have no remote tracking.
 
 ```sh

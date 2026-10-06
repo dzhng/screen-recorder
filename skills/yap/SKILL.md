@@ -54,8 +54,9 @@ For extra media tasks outside core operations, use bundled FFmpeg through
 
 For skill installation, comparison or explicit refresh, read
 [skill lifecycle](references/skill-lifecycle.md). Install the complete folder
-through `npx skills` into a canonical project `.agents/skills/yap`, with
-selected agents' discovery links verified. Inspection never authorizes an update;
+through `npx skills` at the scope selected by the lifecycle procedure (whole
+computer by default), with selected agents' discovery links verified. Inspection
+never authorizes an update;
 preserve local content for surgical requests, and back up before explicit
 whole-folder replacement. App updating never changes these files.
 
