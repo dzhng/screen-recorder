@@ -36,8 +36,9 @@ journey now replay an explicit three-angle sequential switch; the sync estimator
 still remains open. Speaker replication remains below the unchanged
 80% long-form gate. Public split-tone delivery now has an independent CLI/MCP/native
 receipt with neutral and color masks. Native transition picture delivery now has
-crossfade/dip/flash receipts plus a two-source audio oracle; motion-blur parity and
-the transition visual comparator remain open. A public/native motion-blur receipt
+crossfade/dip/flash receipts plus a two-source audio oracle, with a moving
+alpha/mirror no-black-gap receipt. Motion-blur parity and broader
+reference-conditioned transition comparison remain open. A public/native motion-blur receipt
 now proves four-sample delivery, opacity and measured local cost; its appearance
 verdict remains open. The delivered-scene export/import
 checkpoint covers planted flash/hold observations and a physical empty-edit-list
