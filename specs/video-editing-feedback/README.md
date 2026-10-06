@@ -16,7 +16,7 @@ merge, push or installed-app change has been requested. Hard cutover remains
 binding: no aliases, dual readers or migrations; preserve external originals and
 frozen historical evidence.
 
-Current pickup: continue selected prepared project-tap alignment in10B2, then close
+Current pickup: finish the true selected project-tap inference seam in10B2, then close
 the native caption decoration stage22B. The20 waveform research is retained but all
 nine real comparisons refuse its frozen acoustic gates, so lexical anchors remain
 open. Reviewed atomic export, delivered picture observations, bounded alignment,
