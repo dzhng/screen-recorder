@@ -1,10 +1,9 @@
 # Explicit tonal recovery delivery
 
 25A accepts the existing bounded tone contract through actual public delivery.
-25B's split-tone response is accepted through the retained public CLI/MCP/native
-receipt and independent color/neutral references; broader curve coverage and
-reference-conditioned visual acceptance remain open. This checkpoint does not
-choose an editorial grade for a user's video.
+25B remains open: explicit hue/split-tone and curve response need their own
+independent color/neutral references through the existing immutable LUT owner.
+This checkpoint does not choose an editorial grade for a user's video.
 
 [The public runner](../../../../packages/test-harness/editing/tone-controls.mjs)
 freezes its recipe before delivery. The source is the retained 320×180 Lily dry
