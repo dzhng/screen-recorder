@@ -23,7 +23,7 @@ These are current discovery pointers, not a claim every listed module must chang
 
 ## Scope and frozen decisions
 
-Make the first internal question: what tools, skills, models and asset libraries are available beyond Yap? Record CLI/installed skill identities, readiness and provenance. Use available tools; recommend missing capability only when materially useful/required. No default tool installs, model downloads or account setup. Preserve existing help and add minimal complete JSON examples that consume actual returned IDs.
+Make the first internal question: what tools, skills, models and asset libraries are available beyond Yap? Record CLI/installed skill identities, readiness and provenance. Use available tools; recommend missing capability only when materially useful/required. Prepare/download pinned models for first-class Yap features as needed by default. No default external-tool installs, external model downloads or account setup. Preserve existing help and add minimal complete JSON examples that consume actual returned IDs.
 
 Replace current human-QA advice at this early checkpoint with autonomous investigation,
 bounded repair and precise uncertainty, using capabilities that actually exist today.

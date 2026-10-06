@@ -31,7 +31,7 @@ Raw paths are input arguments/environment configuration, never hard-coded build 
 | Case | Source / candidate extent | What must survive |
 | --- | --- | --- |
 | Overlap-region | Final interview: 825–850 seconds from agent feedback; inspect original receipts for exact stream/context | Raw timing failure or a current successful regression, with offending interval diagnostics; do not infer it is still broken. |
-| Tiny overlap | Madison excerpt; locate exact selection from retained original requests before derivation | 2.25-second historical failure with neighboring successful control. |
+| Tiny overlap | Madison excerpt; locate exact selection from retained original requests before derivation | Exact retained 2.65-second historical input (2.15 seconds of source plus 0.5 seconds of padding), with neighboring successful controls. The frozen feedback’s 2.25-second description is inaccurate. |
 | Phrase-final trend | Final interview: contextual 1550–1576.5 seconds and boundary 1574.4–1576.4 seconds | Estimated word identity/times, energy after original cut and subsequent measured quiet. |
 | Abrupt-start speech | Madison “I just” context; resolve edited-versus-raw clock from receipts | Intact/truncated/padded variants; no claim abrupt ASR alone independently labels ground truth. |
 | False start | Original “fortun-” passage; locate exact source request | Audible-support evidence and recognizer omission; no invented lexical disfluency label. |

@@ -22,7 +22,8 @@ one known failure. Read [fixtures.md](fixtures.md) before deriving media.
 Alongside corpus certification, ship [02 — capability-first skill](slices/02-capability-first-skill.md) as the
 first useful workflow checkpoint. The agent's first internal question is what
 capabilities are available beyond Yap; it uses available tools and recommends a
-missing capability only when the brief warrants it. No default installs/downloads.
+missing external capability only when the brief warrants it. Prepare/download pinned models
+for first-class Yap features as needed by default; no default external-tool installs or account setup.
 
 Follow the dependency links in each slice. Local alignment/provider feasibility,
 single-mic synchronization, long-form speaker continuity, decoded color parity and mastering correction remain

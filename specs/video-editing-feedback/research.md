@@ -12,7 +12,7 @@ The repo pins FluidAudio 0.15.7 in [the native package](../../helpers/mac/Packag
 
 [Newer FluidAudio model documentation](assets/research/fluidaudio-models.txt) places Qwen3-ForcedAligner-0.6B among evaluated, unsupported models with a large multi-model footprint. It is a candidate investigation, not a supported feature of the pinned SDK.
 
-Replication gate: benchmark available local candidates on correct/wrong supplied text, repeated words, numerals, false starts, overlaps and abrupt versus contextual joins. Freeze runtime/model/hash/language, missing-token behavior, time mapping, observed work and reference outputs before selecting exactly one product provider. Prefer existing prepared inputs; recommend a required unavailable model instead of downloading by default. No implicit cloud ASR.
+Replication gate: benchmark available local candidates on correct/wrong supplied text, repeated words, numerals, false starts, overlaps and abrupt versus contextual joins. Freeze runtime/model/hash/language, missing-token behavior, time mapping, observed work and reference outputs before selecting exactly one product provider. Prefer existing prepared inputs; download/prepare pinned models for first-class Yap features as needed. Recommend a required capability outside Yap rather than installing it by default. No implicit cloud ASR.
 
 ## Speaker labeling
 
