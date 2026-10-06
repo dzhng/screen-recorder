@@ -1,0 +1,7 @@
+# Subject framing checkpoint
+
+`planSubjectFraming` is the composition owner for turning one pinned face observation into ordinary geometry. It never chooses a face, reruns detection, changes a source, or applies an edit. The caller supplies the source/canvas domains, an explicit `subjectId`, target point, margins, zoom bounds and a preservation policy.
+
+The plan returns a `geometry` proposal, selected zoom scale and explicit violations. Missing or duplicate subject IDs refuse without a proposal. It accepts the complete face-observation face shape (including confidence) while using only the pinned box. Crop mode keeps the selected subject and requested margins inside the proposed source crop whenever the source and zoom bounds permit; source-edge and margin conflicts remain visible alongside unreachable targets. Contain mode preserves the full source and translates the contained image when the requested target is reachable without cropping.
+
+Focused controls live in [subject-framing.test.ts](../../../../packages/composition/src/subject-framing.test.ts). They cover a bounded crop with canonical confidence metadata, zoom cap/floor, missing/ambiguous subjects, translated and conflicted contain placement, source-corner clamping, and off-center margin preservation. This checkpoint is authoring evidence only; real host-view before/after rendering and delivered-edge masks remain open for the later visual gate.

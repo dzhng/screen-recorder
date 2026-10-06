@@ -80,6 +80,13 @@ export type { EditOperation, EditBatchResult, EditChange } from "./edits.js";
 
 export { CompositionError } from "./errors.js";
 
+export { planSubjectFraming, subjectFramingRequestSchema } from "./subject-framing.js";
+export type {
+  SubjectFramingRequest,
+  SubjectFramingPlan,
+  SubjectFramingViolation,
+} from "./subject-framing.js";
+
 export {
   getProcessing,
   processingCapabilities,

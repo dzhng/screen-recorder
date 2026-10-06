@@ -1,6 +1,6 @@
 # 16 — Author constrained subject geometry
 
-Status: planned. Depends on: [15](15-face-observations.md), [06](06-exact-removal.md).
+Status: partial — bounded subject geometry planning is integrated and reviewed; real host-view rendering/mask evidence remains open. Depends on: [15](15-face-observations.md), [06](06-exact-removal.md).
 
 ## Contract
 
