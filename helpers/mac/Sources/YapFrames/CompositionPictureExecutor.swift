@@ -65,6 +65,8 @@ public final class CompositionPictureExecutor {
             let exposureEV: Double?
             let contrast: Double?
             let saturation: Double?
+            let shadows: Double
+            let highlights: Double
             let neutralKelvin: Double?
             let neutralTint: Double?
             let mode: String?
@@ -72,7 +74,10 @@ public final class CompositionPictureExecutor {
                 guard let exposureEV, let contrast, let saturation, let neutralKelvin, let neutralTint else {
                     throw NativeFailure("INVALID_REQUEST", "Missing SDR correction parameters.")
                 }
-                return SDRCorrection.Parameters(exposureEV: exposureEV, contrast: contrast, saturation: saturation, neutralKelvin: neutralKelvin, neutralTint: neutralTint)
+                return SDRCorrection.Parameters(
+                    exposureEV: exposureEV, contrast: contrast, saturation: saturation,
+                    shadows: shadows, highlights: highlights,
+                    neutralKelvin: neutralKelvin, neutralTint: neutralTint)
             }
             let opacity: Double?
             let stepId: String?

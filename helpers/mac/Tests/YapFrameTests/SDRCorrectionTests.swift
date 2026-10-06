@@ -24,7 +24,8 @@ func verifySDRCorrection(in directory: URL) async throws {
     return out
   }
   let identity = SDRCorrection.Parameters(
-    exposureEV: 0, contrast: 1, saturation: 1, neutralKelvin: 6500, neutralTint: 0)
+    exposureEV: 0, contrast: 1, saturation: 1, shadows: 0, highlights: 0,
+    neutralKelvin: 6500, neutralTint: 0)
   let unchanged = try SDRCorrection.apply(identity, to: image)
   precondition(pixels(unchanged) == pixels(image))
   for ev in [-1.0, 1.0] {
@@ -60,7 +61,8 @@ func verifySDRCorrection(in directory: URL) async throws {
     }
   }
   let combined = SDRCorrection.Parameters(
-    exposureEV: 0.5, contrast: 1.15, saturation: 0.7, neutralKelvin: 5000, neutralTint: 10)
+    exposureEV: 0.5, contrast: 1.15, saturation: 0.7, shadows: 0, highlights: 0,
+    neutralKelvin: 5000, neutralTint: 10)
   let white = image.applyingFilter(
     "CITemperatureAndTint",
     parameters: [

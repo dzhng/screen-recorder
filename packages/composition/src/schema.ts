@@ -456,6 +456,8 @@ export const processorRegistry = {
       exposureEV: "stops",
       contrast: "multiplier around linear 0.5",
       saturation: "Core Image luminance multiplier",
+      shadows: "shadow recovery amount",
+      highlights: "highlight recovery amount",
       neutralKelvin: "source-neutral Kelvin corrected toward 6500K",
       neutralTint: "source-neutral tint corrected toward zero",
     },

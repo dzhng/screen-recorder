@@ -1,10 +1,10 @@
 # 25 — Add explicit tonal and color controls
 
-Status: planned. Depends on: [13](13-decode-replication.md), [14](14-picture-statistics.md).
+Status: partial — bounded shadows/highlights controls now share the existing SDR correction processor and native Core Image executor; reference-conditioned grade frames and native visual acceptance remain open. Depends on: [13](13-decode-replication.md), [14](14-picture-statistics.md).
 
 ## Contract
 
-Caller-selected curves/shadows/highlights and split tone can shape source footage without crushing a face to darken its wall.
+Caller-selected bounded shadows/highlights controls can shape source footage without crushing a face to darken its wall. The existing exposure/contrast/saturation/neutral controls remain one ordered correction step; split tone and curve research remain open.
 
 ## Seam and ownership
 
@@ -21,7 +21,7 @@ These are current discovery pointers, not a claim every listed module must chang
 
 ## Scope and frozen decisions
 
-Replicate identity/curve response and choose a coherent bounded curve/tonal representation. Declare working space, input domain, alpha and clipping/extended-value behavior. Freeze tone shaping first, then explicit hue/split-tone treatment. Measurements remain evidence; no automatic face grade. Simple vignette/grain can be authored with existing geometry/blends and deterministic imported overlays under [33](33-editing-references.md).
+The current bounded representation adds `shadows` and `highlights` to the existing source-neutral correction contract and lowers them to the shared native `CIHighlightShadowAdjust` stage after temperature, exposure and color controls. Working space, alpha and clipping behavior remain those of the existing executor. Freeze tone shaping first, then explicit hue/split-tone treatment. Measurements remain evidence; no automatic face grade. Simple vignette/grain can be authored with existing geometry/blends and deterministic imported overlays under [33](33-editing-references.md).
 
 ## Runnable checkpoint
 
@@ -39,7 +39,7 @@ Variable A: tonal distribution, face/wall masks. Variable B after A: hue/split t
 
 Run [compare-screenshots](../../../.agents/skills/compare-screenshots/SKILL.md) on matched before/reference/candidate shots with the stated masks and numeric interpretation. Inspect motion temporally when a still cannot establish the claim. Run an unprimed [screenshot-critique](../../../.agents/skills/screenshot-critique/SKILL.md) as the **last visual acceptance check**. Show useful output with [preview-shots](../../../.agents/skills/preview-shots/SKILL.md); never request human QA or wait for approval. Record critique, coverage and any residual uncertainty.
 
-A spike passes with a frozen accepted recipe/reference, or records a failed verdict and reslices dependent work. An unavailable stub or undocumented fallback is not implementation completion.
+Composition schema/native parameter coverage is green; a spike passes with a frozen accepted recipe/reference, or records a failed verdict and reslices dependent work. Reference-conditioned picture evidence and native visual acceptance remain open. An unavailable stub or undocumented fallback is not implementation completion.
 
 ## Delegated choices
 

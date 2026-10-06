@@ -16,7 +16,7 @@ merge, push or installed-app change has been requested. Hard cutover remains
 binding: no aliases, dual readers or migrations; preserve external originals and
 frozen historical evidence.
 
-Current pickup: close stage24's remaining visual/movie fidelity limit, then continue synchronization, tone/LUT, transition and speaker gates. Stage21 now has an explicit angle-session declaration/removal contract with source identity, validity and exact offsets; accepted sync evidence and switched-view delivery remain open. Slice23's active-word timing checkpoint is implemented:
+Current pickup: close stage24's remaining visual/movie fidelity limit, then continue synchronization, tone/LUT, transition and speaker gates. Stage21 now has an explicit angle-session declaration/removal contract with source identity, validity and exact offsets; accepted sync evidence and switched-view delivery remain open. Stage25 now carries bounded shadows/highlights through the existing SDR correction/native executor; reference-conditioned grade evidence remains open. Slice23's active-word timing checkpoint is implemented:
 exact UTF-16 ranges, source-clock mapping and native colored-glyph receipts pass;
 entrance/pop motion remains open. The20 waveform research is retained but
 all nine real comparisons refuse its frozen acoustic gates, so lexical anchors remain

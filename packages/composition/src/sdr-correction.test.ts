@@ -11,6 +11,8 @@ const correction = {
   exposureEV: 1,
   contrast: 1.2,
   saturation: 0.7,
+  shadows: 0.2,
+  highlights: 0.3,
   neutralKelvin: 5000,
   neutralTint: 10,
 };
@@ -52,6 +54,8 @@ test("SDR correction defaults normalize identity and refuse unsupported or unbou
     exposureEV: 0,
     contrast: 1,
     saturation: 1,
+    shadows: 0,
+    highlights: 0,
     neutralKelvin: 6500,
     neutralTint: 0,
   });
@@ -59,6 +63,8 @@ test("SDR correction defaults normalize identity and refuse unsupported or unbou
     { exposureEV: 9 },
     { contrast: -1 },
     { saturation: 3 },
+    { shadows: -1 },
+    { highlights: 2 },
     { neutralKelvin: 10001 },
     { neutralTint: Infinity },
     { lut: "x" },

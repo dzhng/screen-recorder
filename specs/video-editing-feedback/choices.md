@@ -984,3 +984,12 @@ unlisted architecture or user-only choice was found in this research pass.
 - **The reach:** Public composition tests prove the authored curves and explicit midpoint refusal. The canvas/background or caller-selected overlay controls the visible dip/flash color; delivered native transition evidence and motion critique remain open.
 - **Verdict:** sound, medium-high confidence. The lowering is small and shares the existing processor/executor contracts, but visual/audio delivery still needs its own evidence gate.
 - **Confidence:** medium-high.
+
+## Bounded tonal recovery owner — slice25
+
+- **When:** slice25 composition/native parameter checkpoint.
+- **The choice:** Extend the existing ordered source-neutral SDR correction with bounded `shadows` and `highlights` fields and lower them through the same native Core Image executor after temperature, exposure and color controls. Keep identity at zero and preserve the existing extended-linear-sRGB/alpha behavior.
+- **The gap:** The feedback asked for tonal controls, but adding a separate grade processor would duplicate working-space, ordering and native readiness ownership.
+- **The reach:** Callers can make explicit wall/face corrections without an automatic face grade. Curve, split-tone, reference-conditioned picture evidence and native visual acceptance remain open.
+- **Verdict:** sound, medium confidence. The shared owner is clear and focused checks are green, but the native grade still needs frozen reference receipts.
+- **Confidence:** medium.
