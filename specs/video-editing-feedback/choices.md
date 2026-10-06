@@ -1483,6 +1483,26 @@ Apple cube candidate are in the slice26 evidence; no user-only decision remains.
 - **Verdict:** sound for the structural checkpoint; no delivered-quality claim.
 - **Confidence:** high for bounds and ownership, medium for native visual parity.
 
+## Use a fixture-scoped no-gap threshold — slice27
+
+- **When:** moving crossfade delivery receipt.
+- **The choice:** Use a `0.98` black-pixel share as a refusal threshold for the
+  sparse alpha/mirror control, while keeping the actual frames and a fresh
+  visual critique in the receipt. In plain terms, the check rejects an all-black
+  or nearly empty delivered frame, but it does not pretend that a sparse source
+  should fill the entire canvas.
+- **The gap:** The slice required a black-gap check on moving footage but did
+  not define a universal scene occupancy target. Applying a full-frame density
+  threshold would reject the retained transparent-background fixture for the
+  wrong reason; omitting a threshold would miss an empty delivery.
+- **The reach:** This bound is intentionally fixture-scoped. Future
+  reference-conditioned or dense footage must declare its own coverage mask and
+  cannot inherit `0.98` as a picture-quality rule.
+- **Verdict:** sound. It tests the failure the moving control can expose without
+  turning sparse source composition into an editorial or aesthetic verdict.
+- **Confidence:** medium; the need for a no-gap refusal is in the slice, while
+  the numeric threshold and fixture scope were implementation choices.
+
 ## Measure blur at public delivery — slice29
 
 - **When:** motion-blur delivery receipt pass.
