@@ -1853,3 +1853,23 @@ Apple cube candidate are in the slice26 evidence; no user-only decision remains.
   replay adds only provenance at the acceptance boundary.
 - **Confidence:** high; the route helper's existing focused tests and the fresh
   media replay both pass.
+
+## Replay native delivered-scene evidence without rerunning detection — slice30
+
+- **When:** the native scene receipt already contained a committed export, planted
+  flash/gap/hold observations and source-preservation checks, but no cheap replay
+  guard prevented that evidence from drifting.
+- **The choice:** validate the retained report's exact scene windows, immutable
+  export metadata, bytes and hash from a small evidence checker. Keep detector
+  execution in the production scene helper; the checker only verifies the frozen
+  receipt and never turns an observation into an edit.
+- **The gap:** rerunning native scene detection for every focused test would be
+  expensive and would mix a new detector result with the historical acceptance
+  claim; a static JSON check alone would miss a changed export file.
+- **The reach:** the planted native checkpoint now fails if its physical gap,
+  hold/flash times, source-preservation flag or export bytes change. Broader
+  transition/audio and visual parity still require their own evidence.
+- **Verdict:** sound scoped replay; it adds no second scene detector or editorial
+  decision owner.
+- **Confidence:** high; the retained native report and export pass exact replay,
+  and the mutation control refuses a changed gap.

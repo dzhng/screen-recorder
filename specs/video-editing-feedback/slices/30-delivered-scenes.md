@@ -1,6 +1,6 @@
 # 30 — Inspect scene changes in exported pixels
 
-Status: partial — the portable delivered-scene report helper and focused public-operation tests are implemented; native planted flash/hold and physical empty-edit-list delivered-export checkpoints are retained. Broader transition/audio and visual review gates remain open. Depends on: [13](13-decode-replication.md), [04](04-wait-and-json-delivery.md).
+Status: partial — the portable delivered-scene report helper and focused public-operation tests are implemented; the retained native planted flash/hold and physical empty-edit-list delivered-export checkpoints now have inference-free replay checks. Broader transition/audio and visual review gates remain open. Depends on: [13](13-decode-replication.md), [04](04-wait-and-json-delivery.md).
 
 ## Contract
 

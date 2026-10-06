@@ -47,3 +47,10 @@ framing or decode artifact; the solid-color fixture makes the planted
 boundaries unambiguous. The repository compare helper was invoked but could
 not run because this checkout lacks its optional `pngjs` dependency; the
 native report and direct frame inspection are retained instead.
+
+The retained native report is replayed by
+[`scene-delivery-replay.mjs`](../../../../packages/test-harness/editing/scene-delivery-replay.mjs).
+That checker binds the planted flash, gap and hold times, source preservation,
+committed immutable export and its hash without rerunning a detector. It protects
+the evidence receipt; broader delivered-scene parity and visual review remain
+separate gates.
