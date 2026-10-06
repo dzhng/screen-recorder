@@ -23,7 +23,7 @@ let images = evidence.appendingPathComponent("images")
 try FileManager.default.createDirectory(at: images, withIntermediateDirectories: true)
 
 if CommandLine.arguments.contains("--face-fixture") {
-    try await verifyFaceFixture()
+    try await verifyFaceFixture(in: images)
     finish()
 }
 

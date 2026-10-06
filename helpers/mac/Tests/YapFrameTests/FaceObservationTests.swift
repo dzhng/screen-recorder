@@ -34,9 +34,13 @@ func verifyFaceObservations(in parent: URL) throws {
 
 @preconcurrency import AVFoundation
 
-func verifyFaceFixture() async throws {
-    guard let path = ProcessInfo.processInfo.environment["YAP_FACE_VIDEO"] else { return }
+func verifyFaceFixture(in parent: URL) async throws {
+    guard let path = ProcessInfo.processInfo.environment["YAP_FACE_VIDEO"], !path.isEmpty else {
+        preconditionFailure("YAP_FACE_VIDEO is required for --face-fixture")
+    }
     let source = URL(fileURLWithPath: path)
+    let outputRoot = parent.appendingPathComponent("face-fixture", isDirectory: true)
+    try FileManager.default.createDirectory(at: outputRoot, withIntermediateDirectories: true)
     let tracks = try await AVURLAsset(url: source).loadTracks(withMediaType: .video)
     precondition(tracks.count == 1)
     let times = (ProcessInfo.processInfo.environment["YAP_FACE_TIMES"] ?? "0,100000,200000")
@@ -46,7 +50,7 @@ func verifyFaceFixture() async throws {
         let body: [String: Any] = [
             "asset": ["assetId": "fixture", "streamId": "track:\(tracks[0].trackID)", "path": source.path, "originUs": 0],
             "available": [["startUs": 0, "endUs": 3_000_000]], "atUs": atUs,
-            "output": source.deletingLastPathComponent().appendingPathComponent("face-\(atUs).png").path,
+            "output": outputRoot.appendingPathComponent("face-\(atUs).png").path,
             "maxLongEdge": 640, "faceObservations": ["recipe": "vision-face-rectangles-v1"],
         ]
         let request = try JSONDecoder().decode(SourceFrameRenderer.Request.self, from: JSONSerialization.data(withJSONObject: body))

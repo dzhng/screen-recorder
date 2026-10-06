@@ -60,7 +60,7 @@ public struct FaceObservations: Encodable {
         let faces: [Face] = results.sorted {
             if $0.boundingBox.minX != $1.boundingBox.minX { return $0.boundingBox.minX < $1.boundingBox.minX }
             return $0.boundingBox.minY > $1.boundingBox.minY
-        }.prefix(64).enumerated().compactMap { index, observation -> Face? in
+        }.enumerated().compactMap { index, observation -> Face? in
             let box = observation.boundingBox
             let x = max(0, min(width, Int((box.minX * Double(width)).rounded(.down))))
             let y = max(0, min(height, Int(((1 - box.maxY) * Double(height)).rounded(.down))))
