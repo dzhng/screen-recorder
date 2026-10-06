@@ -55,7 +55,7 @@ try {
       (v) => v.state === "ready",
       `import ${extension}`,
     );
-    const asset = await call("asset.get", { assetId: imported.result.assetId });
+    const asset = await call("asset.get", { assetId: imported.published.output.assetId });
     const stream = asset.streams.find((s) => s.kind === "audio");
     assert(stream);
     await rm(external);

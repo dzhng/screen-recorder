@@ -201,7 +201,7 @@ async function admit(path) {
     (v) => v.state === "ready",
     "import",
   );
-  return call("asset.get", { assetId: ready.result.assetId });
+  return call("asset.get", { assetId: ready.published.output.assetId });
 }
 async function audio(selection, name, range) {
   const params = { ...selection, ...(range ? { range } : {}) };
@@ -212,7 +212,7 @@ async function audio(selection, name, range) {
   );
   const path = join(out, name + ".wav");
   const delivered = await call("audio.get", params, { output: path });
-  const receipt = delivered.published.audio,
+  const receipt = delivered.published.output,
     bytes = await readFile(path),
     h = waveHeader(bytes, bytes.length),
     pcm = bytes.subarray(h.offset, h.offset + h.bytes);
@@ -246,7 +246,7 @@ async function frame(selection, name, atUs, expected, markerPresence = []) {
       name,
       expectedCounter: expected,
       measuredCounter: counter,
-      receipt: result.published.frame,
+      receipt: result.published.output,
     });
   const marks = [20, 220, 420].map((x) =>
     Array.from(rgb.subarray((250 * width + x + 5) * 3, (250 * width + x + 5) * 3 + 3)),
@@ -272,7 +272,7 @@ async function frame(selection, name, atUs, expected, markerPresence = []) {
     path,
     rgbSha256: hash(rgb),
     sourceMarker: Array.from(rgb.subarray((324 * width + 575) * 3, (324 * width + 575) * 3 + 3)),
-    receipt: result.published.frame,
+    receipt: result.published.output,
     markerPixels: marks,
   };
   report.frames.push(row);
@@ -327,7 +327,7 @@ async function preview(selection, name, range) {
     (v) => v.state === "ready",
     name,
   );
-  report.receipts[name] = result.published.preview;
+  report.receipts[name] = result.published.output;
   await save();
   return path;
 }
@@ -819,7 +819,10 @@ try {
   );
   const retainedChanged = await prepare(changedSelection);
   assert.notEqual(retainedChanged.jobId, retainedRepeat.jobId);
-  assert.notEqual(retainedChanged.published.audio.assetId, retainedRepeat.published.audio.assetId);
+  assert.notEqual(
+    retainedChanged.published.output.assetId,
+    retainedRepeat.published.output.assetId,
+  );
   const restored = await call("edit.restore", {
     projectId,
     expectedRevisionId: revisionId,
@@ -972,11 +975,11 @@ try {
     (v) => v.state === "canceled",
     "canceled retained output",
   );
-  assert.equal(canceled.result, null);
+  assert.equal(canceled.published, null);
   await call("job.retry", { jobId: pending.jobId });
   const gainedPrepared = await prepare(gainSelection);
   assert.equal(gainedPrepared.jobId, pending.jobId);
-  assert.notEqual(gainedPrepared.published.audio.assetId, beforeGain.published.audio.assetId);
+  assert.notEqual(gainedPrepared.published.output.assetId, beforeGain.published.output.assetId);
   const gained = await audio(gainSelection, "gain-after-retime", linkedRange),
     expectedGain = Buffer.from(linkedAudio.pcm);
   for (let i = 0; i < expectedGain.length; i += 4)
@@ -1110,12 +1113,15 @@ try {
     (v) => v.state === "ready",
     "package adopt",
   );
-  const portable = { projectId: adopted.result.projectId, revisionId: adopted.result.revisionId };
+  const portable = {
+    projectId: adopted.published.output.projectId,
+    revisionId: adopted.published.output.revisionId,
+  };
   await call("package.close", { admissionId: opened.id });
   const portableAudio = await audio(portable, "portable-retained-audio", linkedRange);
   assert.deepEqual(portableAudio.pcm, gained.pcm);
   const portablePrepared = await prepare(portable);
-  assert.equal(portablePrepared.published.audio.assetId, gainedPrepared.published.audio.assetId);
+  assert.equal(portablePrepared.published.output.assetId, gainedPrepared.published.output.assetId);
   await preview(portable, "portable-retained-preview", linkedRange);
   const receiverCalls = [];
   for (const file of await readdir(join(out, "receiver-native"))) {

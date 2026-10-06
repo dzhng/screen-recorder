@@ -353,7 +353,10 @@ test("explicit source retry publishes the same acquisition and remains ready wit
   const ready = await inspect();
   expect(ready).toMatchObject({
     acquisitionId: failed.acquisitionId,
-    job: { jobId: failed.job.jobId, result: { acquisitionId: failed.acquisitionId } },
+    job: {
+      jobId: failed.job.jobId,
+      published: { output: { acquisitionId: failed.acquisitionId } },
+    },
   });
   expect(ready.job.attemptId).not.toBe(failed.job.attemptId);
   const acquisition = await f.call("acquisition.get", { acquisitionId: ready.acquisitionId });
@@ -828,7 +831,10 @@ test("an explicit-import namespace collision refuses source admission without hi
     .poll(() => f.call("job.get", { jobId: explicit.jobId }))
     .toMatchObject({
       ok: true,
-      data: { state: "ready", result: { acquisitionId: explicit.target.acquisitionId } },
+      data: {
+        state: "ready",
+        published: { output: { acquisitionId: explicit.target.acquisitionId } },
+      },
     });
   expect(
     await f.call("acquisition.get", { acquisitionId: explicit.target.acquisitionId }),

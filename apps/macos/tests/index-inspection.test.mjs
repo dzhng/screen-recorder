@@ -91,7 +91,7 @@ test("bundled source index retains selected images, pinned continuation and cach
       assert.equal(chunk.eof, true);
       const bytes = Buffer.from(chunk.data, "base64");
       assert.deepEqual(bytes.subarray(0, 8), Buffer.from([137, 80, 78, 71, 13, 10, 26, 10]));
-      return { bytes, frame: result.published.frame };
+      return { bytes, frame: result.published.output };
     } finally {
       await call("artifact.close", { token: result.delivery.token });
     }

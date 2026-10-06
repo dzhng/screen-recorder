@@ -73,7 +73,7 @@ try {
     (v) => v.state === "ready",
     "import",
   );
-  const asset = await call("asset.get", { assetId: job.result.assetId });
+  const asset = await call("asset.get", { assetId: job.published.output.assetId });
   const stream = asset.streams.find((v) => v.kind === "audio");
   assert(stream);
   const timing = await call("asset.segments", { assetId: asset.id, streamId: stream.id });

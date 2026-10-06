@@ -396,7 +396,7 @@ try {
   );
   await save("adopted.json", adopted);
   const relocated = await audio(
-    { projectId: adopted.result.projectId, range },
+    { projectId: adopted.published.output.projectId, range },
     "relocated-project",
   );
   assert.deepEqual(relocated, projectPCM);

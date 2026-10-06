@@ -17,10 +17,7 @@ assert.ok(
   args.length === 0 || (args.length === 2 && args[0] === "--out"),
   "Expected [--out DIRECTORY]",
 );
-assert.ok(
-  process.env.YAP_NATIVE,
-  "YAP_NATIVE must name an isolated frozen native build",
-);
+assert.ok(process.env.YAP_NATIVE, "YAP_NATIVE must name an isolated frozen native build");
 const out = args[1] ? resolve(args[1]) : await mkdtemp(join(tmpdir(), "acquisition-evidence-"));
 await mkdir(out, { recursive: true });
 const home = await mkdtemp(join(tmpdir(), "sr-acq-"));
@@ -409,7 +406,7 @@ try {
       (v) => v.state === "ready",
       "native preview",
     );
-    assert.equal(status.published.preview.revisionId, revisionId);
+    assert.equal(status.published.output.revisionId, revisionId);
     return { file, status, decoded: await decoded(file), sha256: hash(await readFile(file)) };
   };
   const renderedA = await render("context-a", revisionA);

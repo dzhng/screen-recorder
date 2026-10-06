@@ -127,7 +127,7 @@ final class PreviewController {
                         requestOperation = "preview.get"
                         let title = "Preview — \(target.id) — \(answer.revisionId)"
                         if answer.state == "ready" {
-                            guard let movie = answer.published?.preview, let delivered,
+                            guard let movie = answer.published?.output, let delivered,
                                 movie.target == target, movie.revisionId == answer.revisionId,
                                 movie.mediaType == "video/mp4", movie.bytes > 0,
                                 !delivered.token.isEmpty, delivered.bytes == movie.bytes,
@@ -209,7 +209,7 @@ final class PreviewController {
             published = try fields.decodeIfPresent(Published.self, forKey: .published)
         }
         struct Dependency: Decodable { let artifact: String }
-        struct Published: Decodable { let preview: Movie }
+        struct Published: Decodable { let output: Movie }
         struct Movie: Decodable {
             let target: MediaTarget
             let revisionId: String

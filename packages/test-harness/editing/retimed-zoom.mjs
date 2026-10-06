@@ -148,7 +148,7 @@ export async function runRetimedZoom(output) {
       last,
       rgbSha256: hash(rgb),
       frames,
-      receipt: result.published.preview,
+      receipt: result.published.output,
       metadata,
     });
     return { path, rgb };

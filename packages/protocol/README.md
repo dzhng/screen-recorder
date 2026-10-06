@@ -9,6 +9,16 @@ Composition schemas come from their [pure owner](../composition/README.md).
 Serializable admission is not execution readiness: supported native capabilities,
 prepared dependencies and actual media availability are separate evidence.
 
+## Published work
+
+Transport success acknowledges a handled request; it does not certify background
+completion. The [publication envelope](src/work.ts) exposes one domain payload
+beside its actual retained generation and available attempt identity. A replacement
+job can be pending while an earlier output remains published, so current work and
+retained output identities must not be conflated. Named operations define the
+payload meaning. Synchronous read pages and committed export receipts keep their
+own contracts rather than inventing asynchronous work.
+
 ## Capture roles
 
 [Capture admission](src/capture.ts) names a selected camera inside the primary

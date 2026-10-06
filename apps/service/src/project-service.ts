@@ -63,6 +63,7 @@ import type { Readable, Writable } from "node:stream";
 import { JobQueue, type JobTargets } from "@yap/core/jobs";
 import {
   operationSchema,
+  publishedOutput,
   operationNames,
   operationError,
   serviceSocketPath,
@@ -221,8 +222,7 @@ export async function startProjectService(options: {
     const capture = new CaptureSourceRead(assets, acquisitions, evidence);
     const sceneRecords = new SceneEvidenceStore(catalog, assetSceneOwner(assets, acquisitions));
     const nativeExecutable = options.nativeExecutable ?? process.env.YAP_NATIVE;
-    const worker =
-      options.worker ?? mediaWorker({ ...process.env, YAP_NATIVE: nativeExecutable });
+    const worker = options.worker ?? mediaWorker({ ...process.env, YAP_NATIVE: nativeExecutable });
     const models = new Models(library);
     const speakerRecords = new SpeakerEvidenceStore(
       catalog,
@@ -690,22 +690,24 @@ export async function startProjectService(options: {
       input:
         | Parameters<IndexProcessing["frameProject"]>[0]
         | Parameters<IndexProcessing["frameSource"]>[0],
-    ) =>
-      "projectId" in input
-        ? {
-            ...indexes.frameProject(input),
-            delivery: delivery.open({ kind: "project", id: input.projectId }, () =>
-              indexes.openReadProject(input),
-            ),
-          }
-        : {
-            ...indexes.frameSource(input),
-            delivery: delivery.open({ kind: "asset", id: input.assetId }, () =>
-              indexes.openReadSource(input),
-            ),
-          };
+    ) => {
+      const frame = "projectId" in input ? indexes.frameProject(input) : indexes.frameSource(input);
+      return {
+        ...frame,
+        published: publishedOutput({ generation: frame.generation }, () => frame.published.frame),
+        delivery:
+          "projectId" in input
+            ? delivery.open({ kind: "project", id: input.projectId }, () =>
+                indexes.openReadProject(input),
+              )
+            : delivery.open({ kind: "asset", id: input.assetId }, () =>
+                indexes.openReadSource(input),
+              ),
+      };
+    };
     const frameDelivery = (status: ReturnType<MediaFrameInspection["request"]>) => ({
       ...status,
+      published: publishedOutput(status.published, (value) => value.frame),
       delivery: status.published
         ? delivery.open(
             "projectId" in status
@@ -892,8 +894,15 @@ export async function startProjectService(options: {
           }
           case "index.retry": {
             const params = operation.params;
-            if ("projectId" in params) return { ok: true, data: indexes.retryProject(params) };
-            return { ok: true, data: indexes.retrySource(params) };
+            const status =
+              "projectId" in params ? indexes.retryProject(params) : indexes.retrySource(params);
+            return {
+              ok: true,
+              data: {
+                ...status,
+                published: publishedOutput(status.published, (value) => value.evidence),
+              },
+            };
           }
           case "index.coverage": {
             const params = operation.params;
@@ -950,8 +959,16 @@ export async function startProjectService(options: {
             }
             return { ok: true, data: await models.status(modelId) };
           }
-          case "speaker.prepare":
-            return { ok: true, data: speakers.prepareSource(operation.params) };
+          case "speaker.prepare": {
+            const status = speakers.prepareSource(operation.params);
+            return {
+              ok: true,
+              data: {
+                ...status,
+                published: publishedOutput(status.published, (value) => value.evidence),
+              },
+            };
+          }
           case "speaker.get": {
             if ("projectId" in operation.params)
               return {
@@ -1011,14 +1028,26 @@ export async function startProjectService(options: {
               data: { ...selection, state: "ready", generation: metadata.generation, page },
             };
           }
-          case "transcript.retry":
+          case "transcript.retry": {
+            if ("projectId" in operation.params) {
+              const status = projectEvidence.retry(operation.params);
+              return {
+                ok: true,
+                data: {
+                  ...status,
+                  published: publishedOutput(status.published, (value) => value.value),
+                },
+              };
+            }
+            const status = transcripts.retrySource(operation.params);
             return {
               ok: true,
-              data:
-                "projectId" in operation.params
-                  ? projectEvidence.retry(operation.params)
-                  : transcripts.retrySource(operation.params),
+              data: {
+                ...status,
+                published: publishedOutput(status.published, (value) => value.transcript),
+              },
             };
+          }
           case "transcript.get":
           case "transcript.search": {
             const params = operation.params;
@@ -1143,12 +1172,7 @@ export async function startProjectService(options: {
               ok: true,
               data: {
                 ...status,
-                published: status.published
-                  ? {
-                      generation: status.published.generation,
-                      [spectrum ? "spectrogram" : "waveform"]: status.published.artifact,
-                    }
-                  : null,
+                published: publishedOutput(status.published, (value) => value.artifact),
                 delivery: status.published
                   ? delivery.open(
                       "projectId" in status
@@ -1167,12 +1191,10 @@ export async function startProjectService(options: {
               data: {
                 ...operation.params,
                 ...status,
-                published: status.published
-                  ? {
-                      generation: status.published.generation,
-                      audio: JSON.parse(status.published.result),
-                    }
-                  : null,
+                published: publishedOutput(
+                  status.published,
+                  (value) => JSON.parse(value.result) as unknown,
+                ),
               },
             };
           }
@@ -1183,12 +1205,10 @@ export async function startProjectService(options: {
               data: {
                 ...operation.params,
                 ...status,
-                published: status.published
-                  ? {
-                      generation: status.published.generation,
-                      excerpt: JSON.parse(status.published.result),
-                    }
-                  : null,
+                published: publishedOutput(
+                  status.published,
+                  (value) => JSON.parse(value.result) as unknown,
+                ),
               },
             };
           }
@@ -1199,12 +1219,10 @@ export async function startProjectService(options: {
               data: {
                 ...operation.params,
                 ...prepared,
-                published: prepared.published
-                  ? {
-                      generation: prepared.published.generation,
-                      audio: JSON.parse(prepared.published.result),
-                    }
-                  : null,
+                published: publishedOutput(
+                  prepared.published,
+                  (value) => JSON.parse(value.result) as unknown,
+                ),
               },
             };
           }
@@ -1216,10 +1234,10 @@ export async function startProjectService(options: {
                 ok: true,
                 data: {
                   ...status,
-                  published: {
-                    generation: status.published!.generation,
-                    measurement: value,
-                  },
+                  published: publishedOutput(
+                    status.published,
+                    (publication) => publication.artifact,
+                  ),
                 },
               };
             }
@@ -1234,6 +1252,7 @@ export async function startProjectService(options: {
               ok: true,
               data: {
                 ...status,
+                published: publishedOutput(status.published, (value) => value.audio),
                 delivery: status.published
                   ? delivery.open(
                       "assetId" in params
@@ -1361,11 +1380,20 @@ export async function startProjectService(options: {
             });
             return { ok: true, data: status(job.jobId) };
           }
-          case "asset.convert":
+          case "asset.convert": {
+            const converted = await convertedAssets.request(operation.params, requestSignal);
             return {
               ok: true,
-              data: await convertedAssets.request(operation.params, requestSignal),
+              data: {
+                ...operation.params,
+                ...converted,
+                published: publishedOutput(
+                  converted.published,
+                  (value) => JSON.parse(value.result) as unknown,
+                ),
+              },
             };
+          }
           case "asset.get":
             return { ok: true, data: assets.describe(operation.params.assetId) };
           case "asset.segments":
@@ -1401,6 +1429,7 @@ export async function startProjectService(options: {
               ok: true,
               data: {
                 ...status,
+                published: publishedOutput(status.published, (value) => value.preview),
                 delivery: status.published
                   ? delivery.open({ kind: "project", id: params.projectId }, () =>
                       cache.acquire(status.published!.preview.cacheId),

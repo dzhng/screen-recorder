@@ -43,7 +43,7 @@ try {
     (v) => v.state === "ready",
     "import",
   );
-  const asset = await service.call("asset.get", { assetId: imported.result.assetId });
+  const asset = await service.call("asset.get", { assetId: imported.published.output.assetId });
   for (const count of [1, 10000]) {
     const started = performance.now();
     const made = await service.call("project.create", {
@@ -107,7 +107,7 @@ try {
       { transport: "mcp" },
     );
     assert.equal(canceled.state, "canceled");
-    assert.equal(canceled.result, null);
+    assert.equal(canceled.published, null);
     report.jobs.push({
       count,
       setupMs,

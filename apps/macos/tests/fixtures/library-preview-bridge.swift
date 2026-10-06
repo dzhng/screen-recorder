@@ -203,7 +203,7 @@ struct CheckFailure: Error, LocalizedError {
             let requests = historical.calls.filter { $0["operation"] as? String == "preview.get" }.map { $0["params"] as! NSDictionary }
             try require(requests.count == 2 && requests[0].isEqual(to: ["projectId": id]) && requests[1].isEqual(to: ["projectId": id, "revisionId": revision]),
                 "Historical preview request must retain the first returned revision")
-            let movie = (ready["published"] as! [String: Any])["preview"] as! [String: Any]
+            let movie = (ready["published"] as! [String: Any])["output"] as! [String: Any]
             try require(presentation.movies == [["title": "Preview — \(id) — \(revision)", "file": movie["file"] as! String, "mediaType": movie["mediaType"] as! String]],
                 "Historical ready receipt must dispatch its exact movie path and revision")
             preview.tick(); try await until { historical.calls.contains { $0["operation"] as? String == "project.get" } }

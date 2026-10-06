@@ -144,7 +144,7 @@ try {
       (v) => v.state === "ready",
       "source import",
     );
-    assets.push(await call("asset.get", { assetId: ready.result.assetId }));
+    assets.push(await call("asset.get", { assetId: ready.published.output.assetId }));
   }
   const made = await call("project.create", {
     requestId: "project",
@@ -311,7 +311,7 @@ try {
   report.observations.prepareMs = performance.now() - start;
   report.prepared = prepared;
   assert.deepEqual(await call("audio.prepare", selection), prepared);
-  const retained = await call("asset.get", { assetId: prepared.published.audio.assetId });
+  const retained = await call("asset.get", { assetId: prepared.published.output.assetId });
   const fullPath = join(home, "library/assets", retained.id + ".wav");
   let wet;
   const referenceAt = performance.now();
@@ -332,9 +332,9 @@ try {
       file: fullPath,
       fileSha256: await digest(fullPath),
     };
-    assert.deepEqual(prepared.published.audio.sampleRange, { start: 0, end: frames });
-    assert(prepared.published.audio.peakResidentBytes <= 4 * 1024 ** 3);
-    report.checks.nativePreparationPeakRSS = prepared.published.audio.peakResidentBytes;
+    assert.deepEqual(prepared.published.output.sampleRange, { start: 0, end: frames });
+    assert(prepared.published.output.peakResidentBytes <= 4 * 1024 ** 3);
+    report.checks.nativePreparationPeakRSS = prepared.published.output.peakResidentBytes;
   } else {
     const full = await readFile(fullPath);
     await writeFile(join(out, "prepared.wav"), full);
@@ -394,8 +394,7 @@ try {
   report.failure = { message: error.message, stack: error.stack };
   throw error;
 } finally {
-  if (priorUnavailableOperations === undefined)
-    delete process.env.YAP_TEST_UNAVAILABLE_OPERATIONS;
+  if (priorUnavailableOperations === undefined) delete process.env.YAP_TEST_UNAVAILABLE_OPERATIONS;
   else process.env.YAP_TEST_UNAVAILABLE_OPERATIONS = priorUnavailableOperations;
   clearInterval(observer);
   while (observing) await new Promise((resolve) => setImmediate(resolve));

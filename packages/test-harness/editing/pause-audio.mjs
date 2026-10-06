@@ -92,7 +92,7 @@ try {
     (v) => v.state === "ready",
     "import",
   );
-  const asset = await call("asset.get", { assetId: job.result.assetId });
+  const asset = await call("asset.get", { assetId: job.published.output.assetId });
   const made = await call("project.create", {
     requestId: "pause",
     canvas: {
@@ -164,7 +164,7 @@ try {
     "retained ambience",
   );
   assert.deepEqual(await call("audio.extract", selection, { transport: "mcp" }), extraction);
-  const excerpt = extraction.published.excerpt;
+  const excerpt = extraction.published.output;
   assert.deepEqual(
     await audio("ambience", { assetId: excerpt.assetId, streamId: excerpt.streamId }),
     sourcePCM.subarray(0, (rate / 4) * stride),
@@ -268,7 +268,7 @@ try {
     "render",
   );
   await call("preview.get", { projectId, revisionId }, { output: join(out, "filled.mp4") });
-  assert.equal(preview.published.preview.durationUs, 3500000);
+  assert.equal(preview.published.output.durationUs, 3500000);
   const exported = await call("export.create", {
     projectId,
     kind: "video",
@@ -332,7 +332,7 @@ try {
     assert(!wet.equals(silent), "The fixture must distinguish RNNoise from bypass");
     assert.deepEqual(wet.subarray(0, rate * stride), silent.subarray(0, rate * stride));
     assert.deepEqual(wet.subarray(rate * 2.5 * stride), silent.subarray(rate * 2.5 * stride));
-    const preparedAsset = await call("asset.get", { assetId: prepared.published.audio.assetId });
+    const preparedAsset = await call("asset.get", { assetId: prepared.published.output.assetId });
     assert.deepEqual(
       await audio("noise-prepared", {
         assetId: preparedAsset.id,
@@ -369,7 +369,7 @@ try {
       (v) => v.state === "ready",
       "noise preview",
     );
-    assert.equal(noisePreview.published.preview.durationUs, 3500000);
+    assert.equal(noisePreview.published.output.durationUs, 3500000);
     await call("preview.get", { projectId, revisionId }, { output: join(out, "noise-half.mp4") });
     await edit(
       "noise-bypass",

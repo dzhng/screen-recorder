@@ -105,8 +105,7 @@ function workerResidentBytes() {
   let peak = 0;
   for (const line of listed.split("\n")) {
     const match = line.trim().match(/^(\d+)\s+(.*)$/);
-    if (match && match[2].includes("yap-native"))
-      peak = Math.max(peak, Number(match[1]) * 1024);
+    if (match && match[2].includes("yap-native")) peak = Math.max(peak, Number(match[1]) * 1024);
   }
   return peak;
 }
@@ -579,7 +578,7 @@ const main = async () => {
     );
     clips.push({
       source: sourceBounds,
-      sourceUnavailable: beforeCut.published?.audio?.unavailable ?? null,
+      sourceUnavailable: beforeCut.published?.output?.unavailable ?? null,
       project: projectBounds,
     });
   }

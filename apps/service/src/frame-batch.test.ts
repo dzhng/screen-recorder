@@ -99,7 +99,7 @@ async function fixture() {
   const imported = await f.call("asset.import", { requestId: "batch-source", path: f.path });
   if (!imported.ok) throw new Error(JSON.stringify(imported));
   const job = imported.data as { jobId: string };
-  const asset = (await f.job(job.jobId, "ready")).result!;
+  const asset = (await f.job(job.jobId, "ready")).published!.output;
   return { ...f, selection: { assetId: asset.assetId, streamId: "v" }, attempts, failures };
 }
 async function ready(f: Awaited<ReturnType<typeof fixture>>, atUs: number[]) {
@@ -134,7 +134,7 @@ test("service source batches isolate invalid admission and retain ordered duplic
   expect(good[0]!.data.published).toEqual(good[1]!.data.published);
   expect(good[0]!.data.jobId).toBe(good[1]!.data.jobId);
   for (const item of good) {
-    expect(item.data.published!.frame).toMatchObject({
+    expect(item.data.published!.output).toMatchObject({
       ...f.selection,
       atUs: item.atUs,
       requestedSourceUs: item.atUs,
@@ -145,7 +145,7 @@ test("service source batches isolate invalid admission and retain ordered duplic
       ok: true,
       data: { offset: 0, nextOffset: png.length, eof: true, data: png.toString("base64") },
     });
-    expect(await readFile(item.data.published!.frame.file)).toEqual(png);
+    expect(await readFile(item.data.published!.output.file)).toEqual(png);
   }
   expect([...f.attempts].sort((a, b) => a - b)).toEqual([0, 500_000]);
   await closeDeliveries(f, result.items);
@@ -156,7 +156,7 @@ test("service source batches isolate an unreadable cached sibling", async () => 
   const initial = await ready(f, [0]);
   const first = initial.items[0]!;
   if (!first.ok) throw new Error(JSON.stringify(first));
-  const file = first.data.published!.frame.file;
+  const file = first.data.published!.output.file;
   await closeDeliveries(f, initial.items);
   await chmod(file, 0);
   try {
@@ -173,7 +173,7 @@ test("service source batches isolate an unreadable cached sibling", async () => 
     expect(retained.items[0]).toMatchObject({ atUs: 500_000, ok: true, data: { state: "ready" } });
     const item = retained.items[0]!;
     if (!item.ok) throw new Error(JSON.stringify(item));
-    expect(await readFile(item.data.published!.frame.file)).toEqual(png);
+    expect(await readFile(item.data.published!.output.file)).toEqual(png);
     await closeDeliveries(f, retained.items);
     expect([...f.attempts].sort((a, b) => a - b)).toEqual([0, 500_000]);
   } finally {
@@ -218,7 +218,7 @@ test("service source batches require independent explicit retry of a failed pict
   });
   for (const item of final.items) {
     if (!item.ok) throw new Error(JSON.stringify(item));
-    expect(await readFile(item.data.published!.frame.file)).toEqual(png);
+    expect(await readFile(item.data.published!.output.file)).toEqual(png);
   }
   expect([...f.attempts].sort((a, b) => a - b)).toEqual([0, 500_000, 500_000]);
   await closeDeliveries(f, final.items);

@@ -155,7 +155,8 @@ try {
     const deadline = performance.now() + 30000;
     for (;;) {
       const job = await call("job.get", { jobId: submitted.jobId });
-      if (job.state === "ready") return call("asset.get", { assetId: job.result.assetId });
+      if (job.state === "ready")
+        return call("asset.get", { assetId: job.published.output.assetId });
       assert.ok(["queued", "running"].includes(job.state), JSON.stringify(job));
       assert.ok(performance.now() < deadline, "Asset admission did not finish");
       await delay(20);

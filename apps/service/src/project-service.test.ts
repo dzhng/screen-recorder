@@ -964,12 +964,12 @@ test("failed probe retries through the shared job and publishes immutable media 
   expect(await f.call("asset.list", {})).toMatchObject({ ok: true, data: { assets: [] } });
   expect(await f.call("job.retry", { jobId })).toMatchObject({ ok: true, data: { jobId } });
   const ready = await f.job(jobId, "ready");
-  expect(ready.result?.assetId).toMatch(/^[a-f0-9]{64}$/);
+  expect(ready.published?.output.assetId).toMatch(/^[a-f0-9]{64}$/);
   expect(attempts).toBe(2);
   await rm(f.path);
   expect(await f.call("asset.import", { requestId: "import", path: f.path })).toMatchObject({
     ok: true,
-    data: { jobId, result: ready.result },
+    data: { jobId, published: ready.published },
   });
 });
 test("cancel drains probing and refuses changed frozen inputs on retry", async () => {
@@ -1109,7 +1109,7 @@ test("queue capacity refusal leaves no frozen import receipt to poison a later a
   expect(response.ok).toBe(true);
   if (!response.ok) return;
   const ready = await f.job((response.data as { jobId: string }).jobId, "ready");
-  expect(await readFile(f.service.assets.path(ready.result!.assetId), "utf8")).toBe(
+  expect(await readFile(f.service.assets.path(ready.published!.output.assetId), "utf8")).toBe(
     "new bytes after capacity refusal",
   );
 });
@@ -1120,7 +1120,7 @@ test("large provenance history cannot hide metadata and every origin remains pag
   expect(accepted.ok).toBe(true);
   if (!accepted.ok) return;
   const ready = await f.job((accepted.data as { jobId: string }).jobId, "ready");
-  const assetId = ready.result!.assetId;
+  const assetId = ready.published!.output.assetId;
   await f.service.close();
   // Seed persisted history at scale while no service owns the catalog; public reads are the gate.
   const catalog = new Catalog(join(f.home, "library", "catalog.sqlite"));
@@ -1279,7 +1279,7 @@ test("shutdown aborts an in-flight export destination admission before draining 
           operation: "place",
           clip: {
             trackId: { label: "picture" },
-            assetId: ready.result!.assetId,
+            assetId: ready.published!.output.assetId,
             streamId: "image:0",
             source: { kind: "hold", atUs: 0 },
             placement: { kind: "project", range: { startUs: 0, endUs: 1000000 } },
@@ -1343,7 +1343,7 @@ test("selected-source transcript reads report unprepared models without download
   expect(imported.ok).toBe(true);
   if (!imported.ok) return;
   const ready = await f.job((imported.data as { jobId: string }).jobId, "ready");
-  const selection = { assetId: ready.result!.assetId, streamId: "track:1" };
+  const selection = { assetId: ready.published!.output.assetId, streamId: "track:1" };
   expect(await f.call("model.status", { modelId: "parakeet" })).toMatchObject({
     ok: true,
     data: { state: "absent" },
@@ -1490,7 +1490,7 @@ test("selected-source audio publishes verified WAV bytes through artifact delive
   if (!imported.ok) throw new Error(JSON.stringify(imported));
   const admitted = await f.job((imported.data as { jobId: string }).jobId, "ready");
   const selection = {
-    assetId: admitted.result!.assetId,
+    assetId: admitted.published!.output.assetId,
     streamId: "audio:1",
     range: { startUs: 0, endUs: 21 },
   };
@@ -1503,7 +1503,7 @@ test("selected-source audio publishes verified WAV bytes through artifact delive
     data: {
       state: "ready",
       published: {
-        audio: {
+        output: {
           ...selection,
           frames: 1,
           sampleRate: 48000,
@@ -1650,8 +1650,8 @@ test("asset job and cache presence checks preserve source validation without hyd
   });
   const imported = await f.call("asset.import", { requestId: "tiny-segmented", path: f.path });
   if (!imported.ok) throw new Error(JSON.stringify(imported));
-  const assetId = (await f.job((imported.data as { jobId: string }).jobId, "ready")).result!
-    .assetId;
+  const assetId = (await f.job((imported.data as { jobId: string }).jobId, "ready")).published!
+    .output.assetId;
   const selection = { assetId, streamId: "video:0", atUs: 0, maxLongEdge: 2 };
   let reads = vi.spyOn(DatabaseSync.prototype, "prepare");
   let jobId: string;
@@ -1666,7 +1666,7 @@ test("asset job and cache presence checks preserve source validation without hyd
       retryable: true,
       errorCode: "MEDIA_WORKER_UNAVAILABLE",
       errorDetails: {},
-      result: null,
+      published: null,
     });
     // Only admission and execution need the source's complete physical support.
     expect
@@ -1710,15 +1710,17 @@ test("asset job and cache presence checks preserve source validation without hyd
       expect(await f.job(jobId!, "ready")).toMatchObject({
         jobId: jobId!,
         target: { kind: "asset", assetId },
-        result: {
-          assetId,
-          streamId: "video:0",
-          atUs: 0,
-          requestedSourceUs: 0,
-          actualSourceUs: 0,
-          width: 2,
-          height: 1,
-          bytes: payload.length,
+        published: {
+          output: {
+            assetId,
+            streamId: "video:0",
+            atUs: 0,
+            requestedSourceUs: 0,
+            actualSourceUs: 0,
+            width: 2,
+            height: 1,
+            bytes: payload.length,
+          },
         },
       });
       // Execution support and receipt geometry remain detailed reads; cache publication is presence-only.
@@ -1814,8 +1816,8 @@ test("asset job diagnostics do not hydrate physical segment metadata", async () 
   );
   const imported = await f.call("asset.import", { requestId: "segmented", path: f.path });
   if (!imported.ok) throw new Error(JSON.stringify(imported));
-  const assetId = (await f.job((imported.data as { jobId: string }).jobId, "ready")).result!
-    .assetId;
+  const assetId = (await f.job((imported.data as { jobId: string }).jobId, "ready")).published!
+    .output.assetId;
   const frame = await f.call("frame.get", { assetId, streamId: "video:0", atUs: 10 });
   if (!frame.ok) throw new Error(JSON.stringify(frame));
   const jobId = (frame.data as { jobId: string }).jobId;

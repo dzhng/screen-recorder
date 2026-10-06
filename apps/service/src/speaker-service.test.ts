@@ -50,7 +50,7 @@ test("public speaker source requests report missing optional preparation without
   if (!imported.ok) throw new Error(JSON.stringify(imported));
   const job = await f.job((imported.data as { jobId: string }).jobId, "ready");
   const input = {
-    assetId: job.result!.assetId,
+    assetId: job.published!.output.assetId,
     streamId: "audio",
     channel: 1,
     sourceRange: speakerSource.observationRange,
@@ -101,7 +101,7 @@ test("public retained speaker pages survive service restart without runtime byte
   if (!imported.ok) throw new Error(JSON.stringify(imported));
   const job = await f.job((imported.data as { jobId: string }).jobId, "ready");
   const input = {
-    assetId: job.result!.assetId,
+    assetId: job.published!.output.assetId,
     streamId: "audio",
     channel: 1,
     sourceRange: speakerSource.observationRange,
@@ -163,7 +163,7 @@ test("public retained speaker pages survive service restart without runtime byte
   expect(resumed).toEqual(second);
   expect(prepared).toMatchObject({
     ok: true,
-    data: { state: "ready", published: { evidence: published } },
+    data: { state: "ready", published: { output: published } },
   });
   expect(await restarted.call("speaker.get", { ...query, view: "scores", cursor })).toMatchObject({
     ok: false,
@@ -249,9 +249,7 @@ test.runIf(process.platform === "darwin")(
     const native = jsonWorker({
       executable:
         process.env.YAP_NATIVE ??
-        fileURLToPath(
-          new URL("../../../helpers/mac/.build/debug/yap-native", import.meta.url),
-        ),
+        fileURLToPath(new URL("../../../helpers/mac/.build/debug/yap-native", import.meta.url)),
       args: [],
     });
     const f = await projectServiceFixture(cleanup, async (operation, params, options) => {
@@ -280,7 +278,7 @@ test.runIf(process.platform === "darwin")(
     if (!imported.ok) throw Error(JSON.stringify(imported));
     const job = await f.job((imported.data as { jobId: string }).jobId, "ready");
     const input = {
-      assetId: job.result!.assetId,
+      assetId: job.published!.output.assetId,
       streamId: "audio",
       channel: 1,
       sourceRange: speakerSource.observationRange,
@@ -406,7 +404,10 @@ test.runIf(process.platform === "darwin")(
       packageHandle,
       requestId: "speaker-adopt",
     });
-    expect(replayed).toMatchObject({ ok: true, data: { state: "ready", result: adopted.result } });
+    expect(replayed).toMatchObject({
+      ok: true,
+      data: { state: "ready", published: adopted.published },
+    });
     await target.call("package.close", { admissionId });
     await f.service.close();
     await rm(f.home, { recursive: true, force: true });

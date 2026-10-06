@@ -155,7 +155,7 @@ try {
     (v) => v.state === "ready",
     "import",
   );
-  const asset = await call("asset.get", { assetId: loaded.result.assetId });
+  const asset = await call("asset.get", { assetId: loaded.published.output.assetId });
   const source = { assetId: asset.id, streamId: asset.streams.find((v) => v.kind === "audio").id };
   const extracted = await poll(
     () =>
@@ -167,7 +167,7 @@ try {
     (v) => v.state === "ready",
     "extract",
   );
-  const audio = await call("asset.get", { assetId: extracted.published.excerpt.assetId });
+  const audio = await call("asset.get", { assetId: extracted.published.output.assetId });
   const made = await call("project.create", {
     requestId: "project",
     canvas: {
@@ -259,8 +259,8 @@ try {
   assert.equal(baseline.pcm.rate, 48000);
   assert.equal(baseline.pcm.channels, 2);
   assert.deepEqual(baseline.pcm.data, expected, "explicit trim and gain independent oracle");
-  assert.equal(baseline.status.published.audio.sampleRange.start, 0);
-  assert.equal(baseline.status.published.audio.sampleRange.end, frames);
+  assert.equal(baseline.status.published.output.sampleRange.start, 0);
+  assert.equal(baseline.status.published.output.sampleRange.end, frames);
   report.checks.oracle = {
     frames,
     channels: 2,
@@ -594,7 +594,7 @@ try {
     await call("export.cancel", { exportId: pending.exportId });
     const canceled = await call("job.cancel", { jobId: encodedJob.jobId }, { transport: "mcp" });
     assert.equal(canceled.state, "canceled");
-    assert.equal(canceled.result, null);
+    assert.equal(canceled.published, null);
     await assert.rejects(readFile(join(out, cancelRequest.leaf)), { code: "ENOENT" });
     const cancelStatus = await call("export.status", { exportId: pending.exportId });
     assert.equal(cancelStatus.state, "canceled");
@@ -608,7 +608,7 @@ try {
     const encodedReady = await call("job.get", { jobId: encodedJob.jobId });
     assert.equal(encodedReady.state, "ready");
     assert.ok(encodedReady.generation > canceled.generation);
-    assert.ok(encodedReady.result.contentFrames > 0);
+    assert.ok(encodedReady.published.output.contentFrames > 0);
     assert.equal(retry.receipt.sha256, hash(await readFile(retry.output)));
     report.checks.aacDependencyCancellation = {
       request: cancelRequest,
@@ -636,8 +636,7 @@ try {
   await kept.afterDeletion();
   report.passed = true;
 } finally {
-  if (priorUnavailableOperations === undefined)
-    delete process.env.YAP_TEST_UNAVAILABLE_OPERATIONS;
+  if (priorUnavailableOperations === undefined) delete process.env.YAP_TEST_UNAVAILABLE_OPERATIONS;
   else process.env.YAP_TEST_UNAVAILABLE_OPERATIONS = priorUnavailableOperations;
   if (priorAudioBitrate === undefined) delete process.env.YAP_TEST_AUDIO_DEFAULT_BITRATE;
   else process.env.YAP_TEST_AUDIO_DEFAULT_BITRATE = priorAudioBitrate;

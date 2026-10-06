@@ -106,7 +106,7 @@ try {
     assert.equal(terminal?.state, expected, JSON.stringify(terminal));
     if (expected === "ready") {
       const acquisition = await call("acquisition.get", {
-        acquisitionId: terminal.result.acquisitionId,
+        acquisitionId: terminal.published.output.acquisitionId,
       });
       assert.equal(acquisition.evidence.receipt.audioIntervals, 100000);
       assert.equal(
@@ -117,7 +117,7 @@ try {
       report.normalizedSHA256 = hash(await readFile(join(out, "normalized.jsonl")));
       report.retained = await call("acquisition.get", { acquisitionId: acquisition.id });
       assert.deepEqual(report.retained, acquisition);
-    } else assert.equal(terminal.result, null);
+    } else assert.equal(terminal.published, null);
     for (const [name, digest] of Object.entries(report.inputs))
       assert.equal(hash(await readFile(join(source, name))), digest);
     report.passed = true;

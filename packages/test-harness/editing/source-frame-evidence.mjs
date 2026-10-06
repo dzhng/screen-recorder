@@ -88,7 +88,7 @@ async function ready(params) {
 function provenance(value, selection, atUs, actualUs) {
   assert.equal(value.revisionId, undefined);
   assert.equal(value.projectId, undefined);
-  const image = value.published.frame;
+  const image = value.published.output;
   assert.equal(image.assetId, selection.assetId);
   assert.equal(image.streamId, selection.streamId);
   assert.equal(image.acquisitionId, selection.acquisitionId);
@@ -266,7 +266,7 @@ try {
     { output: join(out, "retained-cli.png") },
   );
   provenance(retained, selected, 850000, 800000);
-  await matchesReference(retained.output, "first", retained.published.frame);
+  await matchesReference(retained.output, "first", retained.published.output);
   report.checks.retainedAcquisition = {
     id: acquisition.id,
     donorDeleted: true,
@@ -299,7 +299,7 @@ try {
     await matchesReference(
       batch.items[i].data.output,
       "second",
-      batch.items[i].data.published.frame,
+      batch.items[i].data.published.output,
     );
   }
   assert.equal(batch.items[0].data.published.generation, batch.items[4].data.published.generation);
@@ -353,7 +353,7 @@ try {
   await ready(canceledParams);
   const retried = await call("frame.get", canceledParams, { output: join(out, "retried-cli.png") });
   provenance(retried, first, 250000, 200000);
-  await matchesReference(retried.output, "first", retried.published.frame);
+  await matchesReference(retried.output, "first", retried.published.output);
   report.checks.cancelRetry = true;
   for (const [file, original] of originals) assert.equal(hash(await readFile(file)), original);
   report.originals = [...originals].map(([file, sha256]) => ({ file, sha256 }));

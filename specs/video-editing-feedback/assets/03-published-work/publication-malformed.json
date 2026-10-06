@@ -1,0 +1,42 @@
+{
+  "accepted": {
+    "ok": true,
+    "data": {
+      "jobId": "00ebb633-0397-4284-97a2-9ff3573bbd57",
+      "attemptId": "303f7459-1237-413e-86f8-73796911aa73",
+      "artifact": "asset.import",
+      "lane": "heavy",
+      "state": "running",
+      "reason": null,
+      "generation": 1,
+      "errorCode": null,
+      "inputSha256": "9da413620553e965a1f096e0de0636d0daf344bff467b12f247f4268725a2df0",
+      "target": {
+        "kind": "import",
+        "importId": "926e21d7-ed83-43b7-8682-3f45ee1a7f26"
+      },
+      "retryable": false,
+      "errorDetails": null,
+      "published": null
+    },
+    "id": "test"
+  },
+  "failed": {
+    "jobId": "00ebb633-0397-4284-97a2-9ff3573bbd57",
+    "attemptId": "303f7459-1237-413e-86f8-73796911aa73",
+    "artifact": "asset.import",
+    "lane": "heavy",
+    "state": "failed",
+    "reason": "Media probe returned invalid metadata",
+    "generation": 1,
+    "errorCode": "INVALID_NATIVE_RESPONSE",
+    "inputSha256": "9da413620553e965a1f096e0de0636d0daf344bff467b12f247f4268725a2df0",
+    "target": {
+      "kind": "import",
+      "importId": "926e21d7-ed83-43b7-8682-3f45ee1a7f26"
+    },
+    "retryable": false,
+    "errorDetails": {},
+    "published": null
+  }
+}

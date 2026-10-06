@@ -2527,7 +2527,7 @@ test("compact job inspection preserves publication and recipe identity through r
   const expected = {
     ...job,
     inputSha256: createHash("sha256").update(input).digest("hex"),
-    result: null,
+    published: null,
   };
   const { input: _input, ...summary } = expected;
   expect(first.queue.inspect(job.jobId)).toEqual(summary);
@@ -2535,7 +2535,7 @@ test("compact job inspection preserves publication and recipe identity through r
   await first.queue.idle();
   expect(first.queue.inspect(job.jobId)).toMatchObject({
     state: "ready",
-    result: { ready: true },
+    published: { generation: 1, attemptId: job.attemptId, output: { ready: true } },
     inputSha256: summary.inputSha256,
   });
   const ready = first.queue.inspect(job.jobId);
@@ -2624,15 +2624,15 @@ test("inspection keeps a previous publication during replacement and hides it af
   expect(f.queue.inspect(job.jobId)).toMatchObject({
     state: "running",
     generation: 8,
-    result: { retained: true },
+    published: { generation: 7, attemptId: "donor", output: { retained: true } },
   });
   f.queue.cancel(job.jobId);
   expect(f.queue.inspect(job.jobId)).toMatchObject({
     state: "canceled",
-    result: { retained: true },
+    published: { generation: 7, attemptId: "donor", output: { retained: true } },
   });
   f.targets.isAvailable = () => false;
-  expect(f.queue.inspect(job.jobId)).toMatchObject({ state: "canceled", result: null });
+  expect(f.queue.inspect(job.jobId)).toMatchObject({ state: "canceled", published: null });
 });
 
 test("source-owned recording jobs retain null identity without manufacturing a revision", async () => {
@@ -2667,7 +2667,7 @@ test("source-owned recording jobs retain null identity without manufacturing a r
   expect(reopened.queue.inspect(job.jobId)).toMatchObject({
     target: request.target,
     state: "ready",
-    result: { state: "retained" },
+    published: { output: { state: "retained" } },
   });
   expect(reopened.queue.status(request).published?.target).toEqual(request.target);
 });

@@ -114,7 +114,10 @@ async function readBytes(client: Client, token: string, bytes: number) {
 }
 const ready = (delivery: { token: string; bytes: number; expiresAt: number }) => ({
   state: "ready",
-  published: { frame: { mediaType: "image/png", recipe: { width: 640, height: 360 } } },
+  published: {
+    generation: 1,
+    output: { mediaType: "image/png", recipe: { width: 640, height: 360 } },
+  },
   delivery,
   support: { startUs: 7, endUs: 10 },
   sourceClock: "fixture",
@@ -369,9 +372,9 @@ test("an admitted batch keeps owned connection failures isolated after its selec
 });
 
 const audioArguments = { assetId: "fixture", streamId: "audio", range: { startUs: 0, endUs: 100 } };
-for (const [kind, operation, mediaType, field] of [
-  ["audio", "audio.get", "audio/wav", "audio"],
-  ["JSON", "waveform.get", "application/json", "waveform"],
+for (const [kind, operation, mediaType] of [
+  ["audio", "audio.get", "audio/wav"],
+  ["JSON", "waveform.get", "application/json"],
 ] as const) {
   test(`default SDK defers an oversized legal ${kind} envelope without consuming its lease`, async () => {
     const bytes =
@@ -382,7 +385,7 @@ for (const [kind, operation, mediaType, field] of [
       ok: true,
       data: {
         state: "ready",
-        published: { [field]: { mediaType } },
+        published: { generation: 1, output: { mediaType } },
         delivery: open(bytes, kind === "audio" ? 8 * 1024 ** 2 : bytes.length),
         evidence: { exact: true },
       },
@@ -400,7 +403,7 @@ for (const [name, operation, published, bytes, message, closes] of [
   [
     "image raw cap",
     "frame.get",
-    { frame: { mediaType: "image/png" } },
+    { generation: 1, output: { mediaType: "image/png" } },
     32 * 1024 ** 2 + 1,
     "Image exceeds its buffered delivery byte limit",
     1,
@@ -408,7 +411,7 @@ for (const [name, operation, published, bytes, message, closes] of [
   [
     "JSON raw cap",
     "waveform.get",
-    { waveform: { mediaType: "application/json" } },
+    { generation: 1, output: { mediaType: "application/json" } },
     4 * 1024 ** 2 + 1,
     "JSON evidence exceeds its buffered delivery byte limit",
     1,
@@ -416,7 +419,7 @@ for (const [name, operation, published, bytes, message, closes] of [
   [
     "large audio metadata",
     "audio.get",
-    { audio: { mediaType: "audio/wav" } },
+    { generation: 1, output: { mediaType: "audio/wav" } },
     Number.MAX_SAFE_INTEGER,
     null,
     0,
@@ -451,13 +454,12 @@ for (const [name, operation, published, bytes, message, closes] of [
     expect(f.calls).toEqual({ reads: 0, renewals: 0, closes });
   });
 }
-for (const [kind, operation, mediaType, field, bytes] of [
-  ["audio", "audio.get", "audio/wav", "audio", Buffer.from([82, 73, 70, 70, 0, 255, 33])],
+for (const [kind, operation, mediaType, bytes] of [
+  ["audio", "audio.get", "audio/wav", Buffer.from([82, 73, 70, 70, 0, 255, 33])],
   [
     "JSON",
     "waveform.get",
     "application/json",
-    "waveform",
     Buffer.from('{\n"quotes":"\\\"\\\\é", "channels":[{"min":-0.2,"max":0.9,"rms":0.3}]}\n'),
   ],
 ] as const) {
@@ -466,7 +468,7 @@ for (const [kind, operation, mediaType, field, bytes] of [
       ok: true,
       data: {
         state: "ready",
-        published: { [field]: { mediaType } },
+        published: { generation: 1, output: { mediaType } },
         delivery: { ...open(bytes), expiresAt: Date.now() + 1000 },
         clock: { originUs: 4, domain: "source" },
       },

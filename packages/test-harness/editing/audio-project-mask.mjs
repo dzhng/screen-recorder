@@ -105,8 +105,8 @@ export async function maskedProject({ home, out, call }) {
     const bytes = await readFile(path),
       header = waveHeader(bytes, bytes.length);
     assert.equal(header.frames, 48000);
-    results.push({ pcm: bytes.subarray(header.offset), receipt: ready.published.audio });
-    assert.deepEqual(ready.published.audio.unavailable, [
+    results.push({ pcm: bytes.subarray(header.offset), receipt: ready.published.output });
+    assert.deepEqual(ready.published.output.unavailable, [
       {
         clipId: edited.edit.labels[`clip-${index}`],
         ranges: index < 2 ? [{ start: 19200, end: 28800 }] : [],

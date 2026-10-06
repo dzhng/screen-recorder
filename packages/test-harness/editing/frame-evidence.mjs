@@ -109,7 +109,7 @@ async function delivered(params, transport) {
     data = result.structuredContent.data;
   }
   assert.equal(data.revisionId, ready.revisionId);
-  assert.equal(data.published.frame.bytes, bytes.length);
+  assert.equal(data.published.output.bytes, bytes.length);
   return { data, bytes, name };
 }
 try {
@@ -211,7 +211,7 @@ try {
     const cli = await delivered(params, "cli"),
       mcp = await delivered(params, "mcp");
     assert.ok(cli.bytes.equals(mcp.bytes), "CLI and inline MCP PNG differ");
-    const receipt = cli.data.published.frame;
+    const receipt = cli.data.published.output;
     assert.equal(receipt.frame.sampleAtUs, sampleAtUs);
     // The 10 fps fixture displays each global sample for 100 ms, even for
     // requests inside that interval; the request instant is not its visibility.
@@ -286,7 +286,7 @@ try {
   assert.ok(historical.bytes.equals(firstBytes));
   const current = await delivered({ projectId, atUs: 0 }, "mcp");
   assert.equal(current.data.revisionId, changed.revision.id);
-  assert.equal(current.data.published.frame.width, 320);
+  assert.equal(current.data.published.output.width, 320);
   report.checks.history = { old: revisionId, head: changed.revision.id, sameOldPng: true };
   const hit = await service.arm("media.renderCompositionFrame");
   const pending = await call("frame.get", { projectId, revisionId, atUs: 33333 });
@@ -299,7 +299,7 @@ try {
   );
   await call("frame.retry", { projectId, revisionId, atUs: 33333 });
   const retried = await delivered({ projectId, revisionId, atUs: 33333 }, "cli");
-  assert.equal(retried.data.published.frame.frame.sampleAtUs, 0);
+  assert.equal(retried.data.published.output.frame.sampleAtUs, 0);
   report.checks.cancelRetry = true;
   for (const name of ["a", "b"])
     assert.equal(hash(await readFile(join(corpus, name + ".mov"))), media[name].sha256);

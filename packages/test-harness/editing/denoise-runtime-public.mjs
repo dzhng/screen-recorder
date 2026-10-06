@@ -74,7 +74,7 @@ async function inspect(
   oracle = expected,
   oracleChannels = 1,
 ) {
-  const asset = await call("asset.get", { assetId: prepared.published.audio.assetId });
+  const asset = await call("asset.get", { assetId: prepared.published.output.assetId });
   const stream = asset.streams.find((s) => s.kind === "audio");
   assert(stream);
   const selection = { assetId: asset.id, streamId: stream.id, range: { startUs, endUs } };
@@ -187,8 +187,8 @@ async function movieDelivery(selection, name) {
   );
   assert.equal(hash(await readFile(exported.output)), hash(await readFile(movie)));
   return {
-    full: preview.published.preview,
-    range: ranged.published.preview,
+    full: preview.published.output,
+    range: ranged.published.output,
     exportByteIdenticalToFullPreview: true,
     encodedPCMEqualityClaim: false,
   };
@@ -498,7 +498,7 @@ async function unitRateJourney() {
     (v) => v.state === "ready",
     "import",
   );
-  const asset = await call("asset.get", { assetId: job.result.assetId });
+  const asset = await call("asset.get", { assetId: job.published.output.assetId });
   const made = await call("project.create", {
     requestId: "project",
     canvas: {
@@ -567,7 +567,7 @@ async function unitRateJourney() {
   await call("job.cancel", { jobId: pending.jobId });
   const canceled = await call("job.get", { jobId: pending.jobId });
   assert.equal(canceled.state, "canceled");
-  assert.equal(canceled.result, null);
+  assert.equal(canceled.published, null);
   await call("audio.prepare", selected);
   assert.deepEqual(await call("job.get", { jobId: pending.jobId }), canceled);
   await call("job.retry", { jobId: pending.jobId });
@@ -646,7 +646,7 @@ async function unitRateJourney() {
     (v) => v.state === "ready",
     "stereo import",
   );
-  const stereoAsset = await call("asset.get", { assetId: stereoJob.result.assetId });
+  const stereoAsset = await call("asset.get", { assetId: stereoJob.published.output.assetId });
   assert.equal(stereoAsset.streams[0].channels, 2);
   const stereoMade = await call("project.create", {
     requestId: "stereo-project",
@@ -780,7 +780,7 @@ async function unitRateJourney() {
   await call("job.cancel", { jobId: inFlight.jobId });
   const canceledInFlight = await call("job.get", { jobId: inFlight.jobId });
   assert.equal(canceledInFlight.state, "canceled");
-  assert.equal(canceledInFlight.result, null);
+  assert.equal(canceledInFlight.published, null);
   await poll(
     async () => ({ files: await readdir(workspace, { recursive: true }) }),
     (v) => v.files.length === 0,
@@ -890,8 +890,7 @@ try {
   else await unitRateJourney();
   report.passed = true;
 } finally {
-  if (priorUnavailableOperations === undefined)
-    delete process.env.YAP_TEST_UNAVAILABLE_OPERATIONS;
+  if (priorUnavailableOperations === undefined) delete process.env.YAP_TEST_UNAVAILABLE_OPERATIONS;
   else process.env.YAP_TEST_UNAVAILABLE_OPERATIONS = priorUnavailableOperations;
   try {
     await service.stop();

@@ -41,7 +41,7 @@ async function admit(path) {
     (value) => value.state === "ready",
     "asset",
   );
-  return call("asset.get", { assetId: job.result.assetId });
+  return call("asset.get", { assetId: job.published.output.assetId });
 }
 async function rgba(path) {
   return (
@@ -67,7 +67,7 @@ async function picture(selection, name) {
     Buffer.from(mcp.content.find((content) => content.type === "image").data, "base64"),
     bytes,
   );
-  const row = { name, selection, sha256: hash(bytes), receipt: result.published.frame };
+  const row = { name, selection, sha256: hash(bytes), receipt: result.published.output };
   report.pictures.push(row);
   return { path, bytes, receipt: row.receipt };
 }
@@ -537,8 +537,8 @@ try {
       "adopt font package",
     );
     const adopted = {
-      project: await call("project.get", { projectId: adoption.result.projectId }),
-      revision: { id: adoption.result.revisionId },
+      project: await call("project.get", { projectId: adoption.published.output.projectId }),
+      revision: { id: adoption.published.output.revisionId },
     };
     const adoptedCurrent = await picture(
       { projectId: adopted.project.projectId, revisionId: adopted.revision.id, atUs: 0 },

@@ -111,7 +111,7 @@ try {
           (x) => x.state === "ready",
           "source import",
         );
-        asset = await call("asset.get", { assetId: ready.result.assetId });
+        asset = await call("asset.get", { assetId: ready.published.output.assetId });
       }
       let generation;
       if (transcript) {
@@ -497,7 +497,7 @@ try {
         assert.equal(document.channels, 2);
         assert.equal(document.bucketFrames, 48);
         assert.deepEqual(document.buckets, expectedBuckets);
-        assert.equal(ready.published.waveform.bytes, Buffer.byteLength(text));
+        assert.equal(ready.published.output.bytes, Buffer.byteLength(text));
         if (!trial.waveform) {
           const file = `waveform-${report.cases.length}-${seconds}.json`;
           await writeFile(join(out, file), text);

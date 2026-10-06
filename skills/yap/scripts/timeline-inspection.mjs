@@ -91,7 +91,7 @@ export function timelineSvg(manifest, images) {
       text(start + 5, y + 25, data?.state ?? entry.error?.code ?? "unavailable", "#ffb38a");
     }
     text(start + 6, y + 102, `request ${(entry.atUs / 1e6).toFixed(3)} s`);
-    const frame = data?.published?.frame;
+    const frame = data?.published?.output;
     if (frame?.actualSourceUs !== undefined)
       text(
         start + 6,
@@ -353,7 +353,7 @@ export async function inspectTimeline(
               maxLongEdge: budgets.maxLongEdge,
             });
           if (data.state === "ready") {
-            const frame = data.published?.frame;
+            const frame = data.published?.output;
             if (!frame) throw failure("INVALID_RESPONSE", "Ready frame has no receipt");
             const bytes = await read(data.output);
             images[manifest.frames.length] = bytes.toString("base64");

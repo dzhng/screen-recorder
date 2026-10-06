@@ -1,0 +1,10 @@
+{
+  "ok": false,
+  "error": {
+    "code": "INVALID_STORAGE",
+    "message": "Package root must be a private owned directory",
+    "retryable": false,
+    "details": {}
+  },
+  "id": "test"
+}

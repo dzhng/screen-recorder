@@ -1,4 +1,5 @@
 import { portableProjectSpeakers, type PortableSpeakerCheckpoint } from "./portable-speakers.js";
+import { publishedOutput } from "@yap/protocol";
 import type { ProjectSpeakerInput, ProjectEvidenceCursor } from "@yap/core/project-evidence";
 import { randomUUID } from "node:crypto";
 import { resolveProjectPackageMetadata } from "./project-package-metadata.js";
@@ -261,16 +262,22 @@ export class ProjectPackages {
         return JSON.stringify(result);
       },
     );
-    if (job.state !== "ready" || !job.result)
+    if (job.state !== "ready" || !job.result) {
+      const { input: recipe, result: serialized, ...summary } = job;
       return {
         projectId: input.projectId,
         revisionId:
           input.revisionId ??
           cursor?.revisionId ??
           this.registry.lookup(packageHandle).manifest.snapshot.project.currentRevisionId,
-        ...job,
+        ...summary,
+        inputSha256: createHash("sha256").update(recipe).digest("hex"),
+        published: serialized
+          ? publishedOutput(job, () => JSON.parse(serialized) as unknown)
+          : null,
         page: null,
       };
+    }
     const result = JSON.parse(job.result) as PortableSpeakerCheckpoint;
     return {
       projectId: result.manifest.query.projectId,
@@ -1076,7 +1083,14 @@ export class ProjectPackages {
         }
       },
     );
-    return { ...job, result: job.result ? JSON.parse(job.result) : null };
+    const { input: recipe, result: serialized, ...summary } = job;
+    return {
+      ...summary,
+      packageHandle,
+      requestId,
+      inputSha256: createHash("sha256").update(recipe).digest("hex"),
+      published: serialized ? publishedOutput(job, () => JSON.parse(serialized) as unknown) : null,
+    };
   }
   async assemble(
     pinned: PinnedProjectPackage,

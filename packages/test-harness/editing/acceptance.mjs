@@ -31,10 +31,7 @@ assert.ok(
   "Pass --out fresh-directory and --media-root retained-source-directory",
 );
 assert.ok(["both", "cli", "mcp"].includes(values.transport));
-assert.ok(
-  process.env.YAP_NATIVE,
-  "Pin YAP_NATIVE to the compatible frozen native worker",
-);
+assert.ok(process.env.YAP_NATIVE, "Pin YAP_NATIVE to the compatible frozen native worker");
 const out = resolve(values.out);
 let prior;
 if (values.resume) {
@@ -106,7 +103,7 @@ try {
       (v) => v.state === "ready",
       input.key,
     );
-    const asset = await call("asset.get", { assetId: ready.result.assetId });
+    const asset = await call("asset.get", { assetId: ready.published.output.assetId });
     assert.equal(asset.id, input.sha256, "Admitted media differs from the frozen fixture bytes");
     const streams = [];
     for (const stream of asset.streams) {

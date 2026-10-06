@@ -98,7 +98,7 @@ test("a pinned project sheet retains repeated occurrences, exact fragments, chan
             output: "picture",
             published: {
               generation: 1,
-              frame: {
+              output: {
                 frame: { sampleAtUs: 100000, visibleRange: { startUs: 100000, endUs: 133333 } },
                 decodedSamples: 1,
                 readerOpens: 1,
@@ -115,7 +115,7 @@ test("a pinned project sheet retains repeated occurrences, exact fragments, chan
         revisionId: "r",
         state: "ready",
         output: "waveform",
-        published: { generation: 1, waveform: { mediaType: "application/json", ...waveform } },
+        published: { generation: 1, output: { mediaType: "application/json", ...waveform } },
       };
     if (operation === "transcript.get") {
       assert.equal(params.prepare, false);
@@ -142,7 +142,7 @@ test("a pinned project sheet retains repeated occurrences, exact fragments, chan
   assert.deepEqual(output.manifest.transcripts.selections[0].rows, rows);
   assert.deepEqual(output.manifest.events.rows, [cut]);
   assert.deepEqual(output.manifest.waveform.measurements, waveform);
-  assert.deepEqual(output.manifest.frames[0].data.published.frame.frame.visibleRange, {
+  assert.deepEqual(output.manifest.frames[0].data.published.output.frame.visibleRange, {
     startUs: 100000,
     endUs: 133333,
   });
@@ -181,7 +181,7 @@ test("source selection keeps VFR sample evidence and unavailable pictures withou
               output: "picture",
               published: {
                 generation: 1,
-                frame: {
+                output: {
                   requestedSourceUs: params.atUs[0],
                   actualSourceUs: 33333,
                   sample,
@@ -222,7 +222,7 @@ test("source selection keeps VFR sample evidence and unavailable pictures withou
     invoke,
     { readOutput: async () => png },
   );
-  assert.deepEqual(output.manifest.frames[0].data.published.frame.sample, sample);
+  assert.deepEqual(output.manifest.frames[0].data.published.output.sample, sample);
   assert.equal(output.manifest.frames[1].data.state, "unavailable");
   assert.match(output.svg, /decoded 0.033 s/);
   assert.match(output.svg, /unavailable/);

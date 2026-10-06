@@ -52,7 +52,7 @@ try {
     (v) => v.state === "ready",
     "import",
   );
-  const asset = await call("asset.get", { assetId: ready.result.assetId });
+  const asset = await call("asset.get", { assetId: ready.published.output.assetId });
   const period = sourcePeriod(0);
   for (const [seconds, occurrences] of queryOnly
     ? [[7200, 10000]]
@@ -184,7 +184,7 @@ try {
       const bytes = await readFile(path),
         header = waveHeader(bytes, bytes.length);
       assert.deepEqual(bytes.subarray(header.offset), period.subarray(((from * 48000) / 1e6) * 8));
-      assert.ok(audio.published.audio.peakResidentBytes <= report.limits.workerRSSBytes);
+      assert.ok(audio.published.output.peakResidentBytes <= report.limits.workerRSSBytes);
       result.audio.push({
         name,
         ms: performance.now() - at,

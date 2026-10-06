@@ -100,7 +100,7 @@ try {
       label: `clip-${i}`,
       clip: {
         trackId: { label: "audio" },
-        assetId: imported.result.assetId,
+        assetId: imported.published.output.assetId,
         streamId: "track:1",
         source: { kind: "range", range: { startUs: 0, endUs: 100000 } },
         placement: { kind: "project", range: { startUs: i * 100000, endUs: (i + 1) * 100000 } },

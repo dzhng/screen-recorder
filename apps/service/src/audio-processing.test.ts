@@ -886,7 +886,7 @@ real(
         for (;;) {
           const result = await call<{
             state: string;
-            result: unknown;
+            published: { output: unknown } | null;
             errorCode: string | null;
             errorMessage: string | null;
           }>("job.get", { jobId });
@@ -901,7 +901,7 @@ real(
       };
       const imported = await call<{ jobId: string }>("asset.import", { requestId: "source", path });
       const importedJob = await job(imported.jobId);
-      const assetId = (importedJob.result as { assetId: string }).assetId;
+      const assetId = (importedJob.published!.output as { assetId: string }).assetId;
       const created = await call<{ project: { projectId: string }; revision: { id: string } }>(
         "project.create",
         {
@@ -965,7 +965,7 @@ real(
       type Prepared = {
         state: string;
         jobId: string;
-        published: null | { audio: { resourceId: string; processingEvidence: unknown[] } };
+        published: null | { output: { resourceId: string; processingEvidence: unknown[] } };
       };
       const cachedInput = { ...selection, range: { startUs: 7000000, endUs: 7100000 } };
       const originalCache = await call<{ jobId: string }>("audio.get", cachedInput);
@@ -1000,7 +1000,7 @@ real(
         state: "ready",
         jobId: pending.jobId,
         published: {
-          audio: {
+          output: {
             processingEvidence: [
               {
                 recipe: { type: "normalization" },
@@ -1021,10 +1021,10 @@ real(
         range: { startUs: 7000000, endUs: 7100000 },
       });
       const excerptJob = await job(excerpt.jobId);
-      expect(excerptJob.result).toMatchObject({
+      expect(excerptJob.published?.output).toMatchObject({
         frames: 4800,
         sampleRange: { start: 336000, end: 340800 },
-        processingEvidence: ready.published!.audio.processingEvidence,
+        processingEvidence: ready.published!.output.processingEvidence,
       });
       const exportId = randomUUID();
       await call("export.create", {
@@ -1072,10 +1072,10 @@ real(
       for (;;) {
         const status = await call<{
           state: string;
-          result: { projectId: string; revisionId: string } | null;
+          published: { output: { projectId: string; revisionId: string } } | null;
         }>("package.adopt", { packageHandle, requestId: "adopt" });
         if (status.state === "ready") {
-          adopted = status.result!;
+          adopted = status.published!.output;
           break;
         }
         if (
@@ -1089,7 +1089,7 @@ real(
       const adoptedAudio = await call<Prepared>("audio.prepare", adopted!);
       expect(adoptedAudio).toMatchObject({
         state: "ready",
-        published: { audio: { processingEvidence: ready.published!.audio.processingEvidence } },
+        published: { output: { processingEvidence: ready.published!.output.processingEvidence } },
       });
       passed = true;
     } finally {
@@ -1151,7 +1151,7 @@ real(
         }
         expect(report.failed).toMatchObject({
           state: limit === 64 ? "failed" : "ready",
-          ...(limit === 64 ? { result: null } : {}),
+          ...(limit === 64 ? { published: null } : {}),
         });
         expect(report.recovered).toMatchObject({ state: "ready" });
         expect(report.completedPrefixes).toBeGreaterThan(0);

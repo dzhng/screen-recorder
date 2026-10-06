@@ -125,7 +125,7 @@ test(
           output,
         ]);
         assert.deepEqual(delivered.published, ready.published);
-        const receipt = ready.published.preview;
+        const receipt = ready.published.output;
         const metadata = JSON.parse(
           run("ffprobe", [
             "-v",

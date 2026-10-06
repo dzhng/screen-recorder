@@ -38,7 +38,7 @@ try {
     (job) => job.state === "ready",
     "font",
   );
-  const font = await call("asset.get", { assetId: fontJob.result.assetId });
+  const font = await call("asset.get", { assetId: fontJob.published.output.assetId });
   assert.ok(font.fontFaces.some((face) => face.postScriptName === "ArialMT"));
   const initial = await call("project.create", {
     requestId: randomUUID(),

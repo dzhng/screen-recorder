@@ -4,7 +4,12 @@ import { dirname, join, resolve } from "node:path";
 import { tmpdir } from "node:os";
 import { z } from "zod";
 import { callLocal, resolveServiceSocket, type ServiceSelection } from "@yap/client";
-import { ARTIFACT_CHUNK_BYTES, resultSchema, type OperationResponse } from "@yap/protocol";
+import {
+  ARTIFACT_CHUNK_BYTES,
+  resultSchema,
+  publishedOutputSchema,
+  type OperationResponse,
+} from "@yap/protocol";
 
 export const batchReferences = new Map<string, "atUs" | "ordinal">([
   ["frame.batch", "atUs"],
@@ -40,13 +45,11 @@ const receipt = z.object({
 const ready = z.object({
   state: z.literal("ready"),
   delivery: receipt,
-  published: z.union([
-    z.object({ frame: z.object({ mediaType: z.literal("image/png") }) }),
-    z.object({ audio: z.object({ mediaType: z.literal("audio/wav") }) }),
-    z.object({ preview: z.object({ mediaType: z.literal("video/mp4") }) }),
-    z.object({ spectrogram: z.object({ mediaType: z.literal("image/png") }) }),
-    z.object({ waveform: z.object({ mediaType: z.enum(["application/json", "image/png"]) }) }),
-  ]),
+  published: publishedOutputSchema(
+    z.object({
+      mediaType: z.enum(["image/png", "audio/wav", "video/mp4", "application/json"]),
+    }),
+  ),
 });
 const chunk = z.object({
   data: z.string(),
@@ -87,16 +90,7 @@ export function describeArtifact(result: OperationResponse) {
   if (!parsed.success)
     throw new ArtifactDeliveryError("INVALID_RESPONSE", "Ready artifact has no valid delivery");
   const { bytes } = parsed.data.delivery;
-  const mediaType: ArtifactType =
-    "frame" in parsed.data.published
-      ? "image/png"
-      : "audio" in parsed.data.published
-        ? "audio/wav"
-        : "spectrogram" in parsed.data.published
-          ? "image/png"
-          : "waveform" in parsed.data.published
-            ? parsed.data.published.waveform.mediaType
-            : "video/mp4";
+  const mediaType: ArtifactType = parsed.data.published.output.mediaType;
   return {
     bytes,
     mediaType,

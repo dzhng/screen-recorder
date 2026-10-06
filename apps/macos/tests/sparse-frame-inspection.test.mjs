@@ -176,25 +176,25 @@ test("sparse source pictures preserve containing-sample timing, full resolution 
     maxLongEdge: 8192,
   };
   const tie = await frame(params);
-  assert.equal(tie.published.frame.requestedSourceUs, 1000000);
-  assert.equal(tie.published.frame.actualSourceUs, 0);
-  assert.deepEqual([tie.published.frame.width, tie.published.frame.height], [width, height]);
+  assert.equal(tie.published.output.requestedSourceUs, 1000000);
+  assert.equal(tie.published.output.actualSourceUs, 0);
+  assert.deepEqual([tie.published.output.width, tie.published.output.height], [width, height]);
   assert.deepEqual(
-    [tie.published.frame.sourceWidth, tie.published.frame.sourceHeight],
+    [tie.published.output.sourceWidth, tie.published.output.sourceHeight],
     [width, height],
   );
   const start = await frame({ ...params, atUs: 0 });
-  assert.equal(start.published.frame.actualSourceUs, 0);
+  assert.equal(start.published.output.actualSourceUs, 0);
   const end = await frame({ ...params, atUs: 5999999 });
-  assert.equal(end.published.frame.actualSourceUs, 4000000);
+  assert.equal(end.published.output.actualSourceUs, 4000000);
   const resized = await frame({ ...params, maxLongEdge: 1600 });
-  assert.deepEqual([resized.published.frame.width, resized.published.frame.height], [1600, 900]);
+  assert.deepEqual([resized.published.output.width, resized.published.output.height], [1600, 900]);
 
   const boundaryParams = { ...params, atUs: 3000000 };
   const boundary = await frame(boundaryParams);
-  assert.equal(boundary.published.frame.requestedSourceUs, 3000000);
-  assert.equal(boundary.published.frame.actualSourceUs, 2000000);
-  const sample = boundary.published.frame.sample;
+  assert.equal(boundary.published.output.requestedSourceUs, 3000000);
+  assert.equal(boundary.published.output.actualSourceUs, 2000000);
+  const sample = boundary.published.output.sample;
   assert.equal(Number(sample.value) / sample.timescale, 2);
   assert.equal(Number(sample.endValue) / sample.endTimescale, 4);
   assert.equal(sample.originUs, 0);
@@ -252,7 +252,7 @@ test("sparse source pictures preserve containing-sample timing, full resolution 
     return value.items.every((item) => item.data.state === "ready") ? value : false;
   }, 20000);
   assert.deepEqual(
-    batch.items.map((item) => item.data.published.frame.actualSourceUs),
+    batch.items.map((item) => item.data.published.output.actualSourceUs),
     [2000000, 0, 2000000, 4000000, 0, 2000000, 4000000, 0],
   );
   const batchOutput = join(home, "batch-output");
@@ -323,7 +323,7 @@ test("sparse source pictures preserve containing-sample timing, full resolution 
     // explicitly so this test controls eviction independently of background admission timing.
     for (const row of catalog.catalog
       .prepare("SELECT id FROM derived_cache WHERE id != ? ORDER BY id")
-      .all(boundary.published.frame.cacheId)) {
+      .all(boundary.published.output.cacheId)) {
       const read = cache.acquire(row.id);
       assert.ok(read);
       read.release();
@@ -332,11 +332,11 @@ test("sparse source pictures preserve containing-sample timing, full resolution 
       catalog,
       library,
       ownerCheck,
-      cache.bytes - boundary.published.frame.bytes,
+      cache.bytes - boundary.published.output.bytes,
     );
     await constrained.reconcile();
-    assert.equal(constrained.acquire(boundary.published.frame.cacheId), null);
-    await assert.rejects(readFile(boundary.published.frame.file), { code: "ENOENT" });
+    assert.equal(constrained.acquire(boundary.published.output.cacheId), null);
+    await assert.rejects(readFile(boundary.published.output.file), { code: "ENOENT" });
   } finally {
     catalog.close();
   }
@@ -346,10 +346,10 @@ test("sparse source pictures preserve containing-sample timing, full resolution 
   assert.equal(regenerated.streamId, selection.streamId);
   assert.equal(regenerated.jobId, boundary.jobId);
   assert.equal(regenerated.published.generation, boundary.published.generation + 1);
-  assert.notEqual(regenerated.published.frame.cacheId, boundary.published.frame.cacheId);
-  assert.equal(regenerated.published.frame.actualSourceUs, 2000000);
+  assert.notEqual(regenerated.published.output.cacheId, boundary.published.output.cacheId);
+  assert.equal(regenerated.published.output.actualSourceUs, 2000000);
 
-  assert.deepEqual(await readFile(regenerated.published.frame.file), png);
+  assert.deepEqual(await readFile(regenerated.published.output.file), png);
   const replay = await frame(boundaryParams);
   assert.deepEqual(replay.published, regenerated.published);
   assert.deepEqual((await frame(params)).published, tie.published);

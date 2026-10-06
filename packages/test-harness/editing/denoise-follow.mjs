@@ -74,7 +74,7 @@ export async function denoiseFollow({
       (value) => value.state === "ready",
       "follow original admission",
     );
-    assert.equal(imported.result.assetId, assetId);
+    assert.equal(imported.published.output.assetId, assetId);
     imports.push({ assetId, member, bytes: bytes.length, sha256: hash(bytes) });
   }
   const made = await call("project.create", {
@@ -129,7 +129,7 @@ export async function denoiseFollow({
   const tap = { target, point: { kind: "processed" } };
   const range = { startUs: 0, endUs: 4500000 };
   await projectAudio(drySelection, tap, "follow-dry", frozen, 2, range);
-  assert.equal(report.checks["follow-dry"].ready.published.audio.preparedResourceId, null);
+  assert.equal(report.checks["follow-dry"].ready.published.output.preparedResourceId, null);
   const expected = denoise("follow-expected", frozen, 2);
   await writeFile(join(out, "follow-expected.f32"), expected);
   const reset = denoise("follow-reset-control", frozen.subarray(180000 * 8), 2);
@@ -157,7 +157,7 @@ export async function denoiseFollow({
   const lateRange = { startUs: 3750000, endUs: 4250000 };
   await projectAudio(selection, tap, "follow-late-before-full", expected, 2, lateRange);
   assert.equal(
-    report.checks["follow-late-before-full"].ready.published.audio.preparedResourceId,
+    report.checks["follow-late-before-full"].ready.published.output.preparedResourceId,
     null,
   );
   await call("audio.get", report.checks["follow-late-before-full"].params, { transport: "mcp" });

@@ -322,7 +322,7 @@ test("partial freeze survives relaunch; replay keeps failure and explicit retry 
   await reopened.queue.idle();
   expect(reopened.queue.inspect(job.jobId)).toMatchObject({
     state: "ready",
-    result: { acquisitionId: job.target.acquisitionId },
+    published: { output: { acquisitionId: job.target.acquisitionId } },
   });
   const value = reopened.acquisitions.get(job.target.acquisitionId);
   expect(value.sourceId).toBe(f.recording.sourceId);
@@ -404,7 +404,7 @@ test("a foreign source journal fails before publishing evidence or assets", asyn
     state: "failed",
     errorCode: "SOURCE_CHANGED",
     retryable: false,
-    result: null,
+    published: null,
   });
   if (job.target.kind !== "acquisition") throw new Error("Wrong domain");
   expect(f.acquisitions.ready(job.target.acquisitionId)).toBe(false);
@@ -510,7 +510,7 @@ test.each(["source", "parent"])(
     await f.queue.idle();
     expect(f.queue.inspect(job.jobId)).toMatchObject({
       state: "ready",
-      result: { acquisitionId: job.target.acquisitionId },
+      published: { output: { acquisitionId: job.target.acquisitionId } },
     });
     expect(f.acquisitions.intent(job.target.acquisitionId)).toMatchObject(frozen);
   },
@@ -538,7 +538,7 @@ test("post-freeze donor copy access failure preserves the acquisition for explic
       state: "failed",
       errorCode: "INVALID_PATH",
       retryable: true,
-      result: null,
+      published: null,
     });
     if (job.target.kind !== "acquisition") throw new Error("Wrong domain");
     frozen = f.acquisitions.intent(job.target.acquisitionId);
@@ -557,7 +557,7 @@ test("post-freeze donor copy access failure preserves the acquisition for explic
   if (job.target.kind !== "acquisition") throw new Error("Wrong domain");
   expect(f.queue.inspect(job.jobId)).toMatchObject({
     state: "ready",
-    result: { acquisitionId: job.target.acquisitionId },
+    published: { output: { acquisitionId: job.target.acquisitionId } },
   });
   expect(f.acquisitions.intent(job.target.acquisitionId)).toEqual(frozen);
 });
@@ -616,6 +616,6 @@ test("a busy donor lease preserves frozen capture identity for explicit retry", 
   await f.queue.idle();
   expect(f.queue.inspect(job.jobId)).toMatchObject({
     state: "ready",
-    result: { acquisitionId: job.target.acquisitionId },
+    published: { output: { acquisitionId: job.target.acquisitionId } },
   });
 });

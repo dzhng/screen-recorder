@@ -46,16 +46,16 @@ export async function runRetimedGain(output) {
     const bytes = await readFile(path),
       header = waveHeader(bytes, bytes.length);
     const pcm = bytes.subarray(header.offset);
-    assert.equal(result.published.audio.frames, pcm.length / 8);
-    assert.equal(result.published.audio.channels, 2);
-    assert.equal(result.published.audio.sampleRate, 48000);
+    assert.equal(result.published.output.frames, pcm.length / 8);
+    assert.equal(result.published.output.channels, 2);
+    assert.equal(result.published.output.sampleRate, 48000);
     const mcp = await service.mcp.callTool({ name: "audio.get", arguments: selection });
     assert.equal(mcp.structuredContent.ok, true);
     assert.deepEqual(
       Buffer.from(mcp.content.find((v) => v.type === "audio").data, "base64"),
       bytes,
     );
-    return { pcm, receipt: result.published.audio, sha256: hash(pcm) };
+    return { pcm, receipt: result.published.output, sha256: hash(pcm) };
   }
   try {
     const source = join(out, "source.wav");

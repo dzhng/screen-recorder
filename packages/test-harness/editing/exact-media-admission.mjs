@@ -112,7 +112,11 @@ try {
       (v) => v.state === "ready",
       name + " import",
     );
-    const asset = await call("asset.get", { assetId: job.result.assetId }, { transport: "mcp" });
+    const asset = await call(
+      "asset.get",
+      { assetId: job.published.output.assetId },
+      { transport: "mcp" },
+    );
     assert.deepEqual(
       asset.streams[0].endUs,
       expectedEnd,
@@ -156,13 +160,13 @@ try {
       name + " whole extraction",
     );
     assert.equal(
-      extracted.published.excerpt.assetId,
+      extracted.published.output.assetId,
       asset.id,
       "Whole-source extraction must retain the byte-copy identity",
     );
-    assert.deepEqual(extracted.published.excerpt.durationUs, expectedEnd);
+    assert.deepEqual(extracted.published.output.durationUs, expectedEnd);
     const extractedAsset = await call("asset.get", {
-      assetId: extracted.published.excerpt.assetId,
+      assetId: extracted.published.output.assetId,
     });
     const extractedPCM = await pcm(join(service.home, "library/assets", extractedAsset.fileName));
     assert.deepEqual(extractedPCM.pcm, original.pcm);
@@ -327,14 +331,17 @@ try {
   const portableSegments = await call("asset.segments", { ...source, limit: 1 });
   assert.deepEqual(portableSegments, report.assets[0].segments);
   const portableRevision = await call("revision.get", {
-    projectId: adopted.result.projectId,
-    revisionId: adopted.result.revisionId,
+    projectId: adopted.published.output.projectId,
+    revisionId: adopted.published.output.revisionId,
   });
   assert.deepEqual(portableRevision.revision.document, revision.document);
   report.portableExactMetadata = true;
   await call("package.close", { admissionId: opened.id });
   await audio(
-    { projectId: adopted.result.projectId, revisionId: adopted.result.revisionId },
+    {
+      projectId: adopted.published.output.projectId,
+      revisionId: adopted.published.output.revisionId,
+    },
     "portable-exact-full",
     stereo,
   );

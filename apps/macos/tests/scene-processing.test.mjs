@@ -70,7 +70,7 @@ test("selected-source scenes retain sparse actual-time transitions across transp
       );
       return response.data.state === "ready" && response.data;
     }, "Sparse video import");
-    const asset = await service.call("asset.get", { assetId: imported.result.assetId });
+    const asset = await service.call("asset.get", { assetId: imported.published.output.assetId });
     assert.equal(asset.ok, true, JSON.stringify(asset));
     const streams = asset.data.streams.filter((stream) => stream.kind === "video");
     assert.equal(streams.length, 1);

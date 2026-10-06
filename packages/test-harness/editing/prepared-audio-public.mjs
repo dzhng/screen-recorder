@@ -42,7 +42,7 @@ async function prepare(selection) {
   return result;
 }
 async function inspect(prepared, gain, name) {
-  const audio = prepared.published.audio;
+  const audio = prepared.published.output;
   const asset = await call("asset.get", { assetId: audio.assetId });
   const stream = asset.streams.find((value) => value.kind === "audio");
   assert(stream);
@@ -99,7 +99,7 @@ try {
     (value) => value.state === "ready",
     "import",
   );
-  const sourceAsset = await call("asset.get", { assetId: job.result.assetId });
+  const sourceAsset = await call("asset.get", { assetId: job.published.output.assetId });
   const made = await call("project.create", {
     requestId: "project",
     canvas: {
@@ -158,8 +158,8 @@ try {
       (value) => value.state === "ready",
       "public retimed baseline",
     );
-    assert.equal(baseline.published.audio.frames, frames);
-    assert.equal(baseline.published.audio.retimeImplementationId, retimeImplementationId);
+    assert.equal(baseline.published.output.frames, frames);
+    assert.equal(baseline.published.output.retimeImplementationId, retimeImplementationId);
     const path = join(out, "baseline.wav");
     await call("audio.get", original, { output: path });
     baselinePCM = (
@@ -176,8 +176,8 @@ try {
     (value) => value.state === "ready",
     "ordinary movie with no state prerequisites",
   );
-  assert.equal(ordinaryMovie.published.preview.durationUs, durationUs);
-  report.checks.ordinaryMovie = ordinaryMovie.published.preview;
+  assert.equal(ordinaryMovie.published.output.durationUs, durationUs);
+  report.checks.ordinaryMovie = ordinaryMovie.published.output;
   const first = await prepare(original);
   await inspect(first, 1, "original");
   const gained = await call("edit.apply", {
@@ -206,7 +206,7 @@ try {
   await call("job.cancel", { jobId: pending.jobId });
   const canceled = await call("job.get", { jobId: pending.jobId });
   assert.equal(canceled.state, "canceled");
-  assert.equal(canceled.result, null);
+  assert.equal(canceled.published, null);
   const canceledPreparation = await call("audio.prepare", selection);
   assert.equal(canceledPreparation.published, null);
   assert.deepEqual(await call("job.get", { jobId: pending.jobId }), canceled);
@@ -231,7 +231,7 @@ try {
   assert.notEqual(retried.attemptId, beforeCancel.attemptId);
   assert.equal(retried.generation, beforeCancel.generation + 1);
   report.checks.retryIdentity = { beforeCancel, canceled, retried };
-  assert.notEqual(second.published.audio.assetId, first.published.audio.assetId);
+  assert.notEqual(second.published.output.assetId, first.published.output.assetId);
   await inspect(second, 0.5, "gain");
   assert.deepEqual(await call("revision.get", selection), { projectId, revision: gained.revision });
   assert.equal((await call("project.get", { projectId })).currentRevisionId, later.revision.id);
@@ -257,10 +257,10 @@ try {
       ],
     });
     const prepared = await prepare({ projectId, revisionId: shortened.revision.id });
-    assert.equal(prepared.published.audio.frames, 24000);
-    assert.deepEqual(prepared.published.audio.sampleRange, { start: 0, end: 24000 });
+    assert.equal(prepared.published.output.frames, 24000);
+    assert.deepEqual(prepared.published.output.sampleRange, { start: 0, end: 24000 });
     assert.equal(shortened.revision.document.clips[0].pitch, "preserve");
-    report.checks.defaultPreserveRetime = prepared.published.audio;
+    report.checks.defaultPreserveRetime = prepared.published.output;
   } else {
     const mixes = [];
     for (const file of (await readdir(nativeEvidence))

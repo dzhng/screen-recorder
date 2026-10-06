@@ -59,7 +59,7 @@ try {
     "source admission",
   );
   console.log("source admitted");
-  const asset = await call("asset.get", { assetId: job.result.assetId });
+  const asset = await call("asset.get", { assetId: job.published.output.assetId });
   const selected = {
     assetId: asset.id,
     streamId: asset.streams.find((s) => s.kind === "audio").id,
@@ -113,10 +113,10 @@ try {
   );
   report.checks.prepared = await measure({
     ...project,
-    preparedResourceId: prepared.published.audio.resourceId,
+    preparedResourceId: prepared.published.output.resourceId,
   });
   await writeFile(join(out, "report.json"), JSON.stringify(report, null, 2));
-  const analysis = (r) => r.published.measurement.analysis;
+  const analysis = (r) => r.published.output.analysis;
   assert.ok(Math.abs(analysis(report.checks.mono).measurement.integratedLufs + 23) < 0.1);
   assert.deepEqual(report.checks.mcp.published, report.checks.mono.published);
   assert.ok(
@@ -129,10 +129,10 @@ try {
   assert.equal(analysis(report.checks.sampleOnly).measurement.truePeakDbtp, null);
   assert.equal(analysis(report.checks.short).measurement.integratedReason, "insufficient-duration");
   assert.equal(analysis(report.checks.project).scope, "full-signal");
-  assert.equal(report.checks.project.published.measurement.revisionId, project.revisionId);
+  assert.equal(report.checks.project.published.output.revisionId, project.revisionId);
   assert.equal(
     analysis(report.checks.prepared).signalRecipe.preparedResourceId,
-    prepared.published.audio.resourceId,
+    prepared.published.output.resourceId,
   );
   assert.equal(hash(await readFile(sourcePath)), hash(wave));
   report.passed = true;

@@ -75,7 +75,7 @@ try {
     assert.ok(performance.now() < deadline, "Import timed out");
     if (job.state !== "ready") await delay(20);
   } while (job.state !== "ready");
-  const asset = await call("asset.get", { assetId: job.result.assetId });
+  const asset = await call("asset.get", { assetId: job.published.output.assetId });
   const stream = asset.streams.find((s) => s.kind === "audio" && s.decodable);
   assert.ok(stream);
   const edit = {

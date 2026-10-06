@@ -9,11 +9,7 @@ import { Models, parakeetModel } from "@yap/core/models";
 import type { SpeechTranscriptionRequest } from "@yap/core/transcript";
 import type { SourceTranscriptRow } from "@yap/core/transcript-read";
 import { callLocal } from "@yap/client";
-import {
-  REQUEST_FRAME_BYTES,
-  type OperationRequest,
-  type OperationResponse,
-} from "@yap/protocol";
+import { REQUEST_FRAME_BYTES, type OperationRequest, type OperationResponse } from "@yap/protocol";
 import { projectServiceFixture } from "./project-service.fixture.js";
 
 const cleanups: (() => Promise<void>)[] = [];
@@ -325,7 +321,7 @@ test("selected-source transcript preserves filler, phrase and ready retry throug
   const imported = await f.call("asset.import", { requestId: "speech", path: f.path });
   if (!imported.ok) throw new Error(JSON.stringify(imported));
   const ready = await f.job((imported.data as { jobId: string }).jobId, "ready");
-  const selection = { assetId: ready.result!.assetId, streamId: "track:1" };
+  const selection = { assetId: ready.published!.output.assetId, streamId: "track:1" };
   expect(await f.call("transcript.get", { ...selection, prepare: false })).toMatchObject({
     ok: true,
     data: { state: "not_requested", jobId: null, page: null },
@@ -426,7 +422,7 @@ test("selected-source transcript preserves filler, phrase and ready retry throug
   const first = await f.call("transcript.retry", selection);
   expect(first).toMatchObject({
     ok: true,
-    data: { state: "ready", jobId, published: { transcript: { generation } } },
+    data: { state: "ready", jobId, published: { output: { generation } } },
   });
   expect(await f.call("transcript.retry", selection)).toEqual(first);
   expect(await f.call("transcript.get", selection)).toMatchObject({
@@ -520,7 +516,7 @@ test("ready and canceled source jobs retain identity through public cancel and r
   const failed = await f.call("job.get", { jobId });
   expect(failed).toMatchObject({
     ok: true,
-    data: { state: "failed", errorCode: "MEDIA_UNAVAILABLE", retryable: true },
+    data: { state: "failed", errorCode: "MEDIA_UNAVAILABLE", retryable: true, published: null },
   });
   failProbe = false;
   holdProbe = true;
@@ -532,7 +528,7 @@ test("ready and canceled source jobs retain identity through public cancel and r
   const canceled = await f.call("job.cancel", { jobId });
   expect(canceled).toMatchObject({
     ok: true,
-    data: { jobId, state: "canceled", target: { kind: "import" } },
+    data: { jobId, state: "canceled", target: { kind: "import" }, published: null },
   });
   const home = f.home;
   await f.service.close();

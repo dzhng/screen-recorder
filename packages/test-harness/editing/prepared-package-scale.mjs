@@ -371,13 +371,13 @@ try {
     () => call("package.adopt", { packageHandle: opened.packageHandle, requestId: "adopt" }),
     (v) => v.state === "ready",
   );
-  report.adopted = adopted.result;
+  report.adopted = adopted.published.output;
   await call("package.close", { admissionId: admission.id });
-  const selected = { projectId: adopted.result.projectId };
-  const audioSelection = { ...selected, revisionId: adopted.result.revisionId };
+  const selected = { projectId: adopted.published.output.projectId };
+  const audioSelection = { ...selected, revisionId: adopted.published.output.revisionId };
   const prepared = await call("audio.prepare", audioSelection);
   assert.equal(prepared.state, "ready");
-  assert.equal(prepared.published.audio.assetId, originalAudio.assetId);
+  assert.equal(prepared.published.output.assetId, originalAudio.assetId);
   const late = join(out, "adopted-late.wav");
   await poll(
     () =>

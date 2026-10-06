@@ -1,0 +1,92 @@
+{
+  "before": {
+    "project": {
+      "ok": true,
+      "data": {
+        "projectId": "79e999d5-bdce-4623-8045-623f8a8c34ea",
+        "title": "Untitled",
+        "createdAt": "2026-10-06T04:37:57.338Z",
+        "currentRevisionId": "6fc9b064-976c-42d0-bf7d-bb5677cfedd1"
+      },
+      "id": "test"
+    },
+    "history": {
+      "ok": true,
+      "data": {
+        "revisions": [
+          {
+            "id": "6fc9b064-976c-42d0-bf7d-bb5677cfedd1",
+            "projectId": "79e999d5-bdce-4623-8045-623f8a8c34ea",
+            "ordinal": 0,
+            "createdAt": "2026-10-06T04:37:57.338Z",
+            "operation": "create",
+            "document": {
+              "canvas": {
+                "width": 16,
+                "height": 16,
+                "fps": {
+                  "numerator": 30,
+                  "denominator": 1
+                },
+                "background": "#000000ff"
+              },
+              "tracks": [],
+              "groups": [],
+              "clips": [],
+              "syncGroups": [],
+              "processing": []
+            }
+          }
+        ],
+        "nextCursor": null
+      },
+      "id": "test"
+    },
+    "requests": []
+  },
+  "after": {
+    "project": {
+      "ok": true,
+      "data": {
+        "projectId": "79e999d5-bdce-4623-8045-623f8a8c34ea",
+        "title": "Untitled",
+        "createdAt": "2026-10-06T04:37:57.338Z",
+        "currentRevisionId": "6fc9b064-976c-42d0-bf7d-bb5677cfedd1"
+      },
+      "id": "test"
+    },
+    "history": {
+      "ok": true,
+      "data": {
+        "revisions": [
+          {
+            "id": "6fc9b064-976c-42d0-bf7d-bb5677cfedd1",
+            "projectId": "79e999d5-bdce-4623-8045-623f8a8c34ea",
+            "ordinal": 0,
+            "createdAt": "2026-10-06T04:37:57.338Z",
+            "operation": "create",
+            "document": {
+              "canvas": {
+                "width": 16,
+                "height": 16,
+                "fps": {
+                  "numerator": 30,
+                  "denominator": 1
+                },
+                "background": "#000000ff"
+              },
+              "tracks": [],
+              "groups": [],
+              "clips": [],
+              "syncGroups": [],
+              "processing": []
+            }
+          }
+        ],
+        "nextCursor": null
+      },
+      "id": "test"
+    },
+    "requests": []
+  }
+}

@@ -66,7 +66,10 @@ catalogs are refused rather than silently reconstructing missing semantic inputs
 [persisted reference fixtures](fixtures/README.md) preserve that refusal contract.
 
 Background jobs retain attempt ownership through cancellation and resource drain.
-A stale result cannot publish into a replacement attempt. Readiness means admitted
+A stale result cannot publish into a replacement attempt. Public
+[job inspection](src/jobs.ts) uses the [publication contract](../protocol/README.md#published-work)
+while retaining the original output identity beside current work; internal execution
+and portable storage retain their serialized result contract. Readiness means admitted
 and published output, not merely a completed native call. Models and generated
 media share these owners rather than introducing separate queues or stores.
 

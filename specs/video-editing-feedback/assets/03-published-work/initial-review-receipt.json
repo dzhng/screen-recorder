@@ -1,0 +1,11 @@
+{
+  "scope": "uncommitted publication-contract diff",
+  "sandbox": "read-only",
+  "exitCode": 0,
+  "turnCompleted": true,
+  "verdict": "initial-review.md",
+  "eventsSha256": "d80cb4593dc33a95d26ec97e306a07b854c743ad0c9903b6f66ab9b68b1fc5a1",
+  "eventsPath": "/tmp/yap-publication-review.efjaSp/events.jsonl",
+  "stderrBytes": 0,
+  "findings": "Five confirmed consumer/fixture regressions; corrected in this pass."
+}

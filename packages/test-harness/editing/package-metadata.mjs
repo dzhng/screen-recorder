@@ -69,7 +69,8 @@ try {
       path,
     );
     const imported = await call("asset.import", { requestId: "input", path });
-    assetId = (await settled("job.get", { jobId: imported.jobId }, "ready")).result.assetId;
+    assetId = (await settled("job.get", { jobId: imported.jobId }, "ready")).published.output
+      .assetId;
   }
   const acquisition = values.acquisition
     ? await call("acquisition.get", { acquisitionId: values.acquisition }, { transport: "mcp" })
@@ -186,12 +187,12 @@ try {
     { packageHandle: ready.packageHandle, requestId: "adopt" },
     "ready",
   );
-  assert.notEqual(adopted.result.projectId, created.project.projectId);
+  assert.notEqual(adopted.published.output.projectId, created.project.projectId);
   let historyCursor,
     ordinal = 0;
   do {
     const page = await call("revision.history", {
-      projectId: adopted.result.projectId,
+      projectId: adopted.published.output.projectId,
       limit: 1,
       ...(historyCursor ? { cursor: historyCursor } : {}),
     });
@@ -203,9 +204,9 @@ try {
   } while (historyCursor);
   assert.equal(ordinal, revisions.length);
   const undone = await call("edit.undo", {
-    projectId: adopted.result.projectId,
+    projectId: adopted.published.output.projectId,
     requestId: "undo-retained",
-    expectedRevisionId: adopted.result.revisionId,
+    expectedRevisionId: adopted.published.output.revisionId,
   });
   assert.deepEqual(undone.document, revisions.at(-2).document);
   report.checks.push("complete selected history and adopted undo");

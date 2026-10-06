@@ -64,6 +64,10 @@ private and owned; startup does not repair arbitrary directories in place.
 
 ## Coordinating work without another domain model
 
+Public asynchronous replies use the [protocol publication contract](../../packages/protocol/README.md#published-work).
+The operation boundary exposes validated domain output; execution recipes and
+serialized worker results stay with their internal owners.
+
 The service turns admitted requests into work for existing owners. Pure
 [composition](../../packages/composition/README.md) defines edits and compiled
 plans; [native workers](../../helpers/mac/README.md) execute physical media work.

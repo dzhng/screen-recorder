@@ -48,9 +48,9 @@ async function audio(params, name) {
   const mcp = await service.mcp.callTool({ name: "audio.get", arguments: params });
   assert.equal(mcp.structuredContent.ok, true);
   assert.deepEqual(Buffer.from(mcp.content.find((v) => v.type === "audio").data, "base64"), bytes);
-  assert.equal(ready.published.audio.frames, pcm.length / 8);
-  assert.equal(cli.published.audio.sampleRate, 48000);
-  assert.equal(cli.published.audio.channels, 2);
+  assert.equal(ready.published.output.frames, pcm.length / 8);
+  assert.equal(cli.published.output.sampleRate, 48000);
+  assert.equal(cli.published.output.channels, 2);
   report.costs.push({
     name,
     frames: pcm.length / 8,

@@ -43,7 +43,7 @@ async function picture(selection, name) {
     file,
     sha256: hash(await readFile(file)),
     selection,
-    receipt: result.published.frame,
+    receipt: result.published.output,
   };
   report.pictures.push(row);
   return row;

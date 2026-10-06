@@ -100,8 +100,7 @@ function sampleMemory(servicePid, report) {
 
 test("thirty-minute generated native index scale", { timeout: timeoutMs + 150_000 }, async (t) => {
   const output =
-    process.env.YAP_INDEX_SCALE_EVIDENCE ??
-    (await mkdtemp("/tmp/yap-index-scale-evidence-"));
+    process.env.YAP_INDEX_SCALE_EVIDENCE ?? (await mkdtemp("/tmp/yap-index-scale-evidence-"));
   assert.ok(isAbsolute(output), "Evidence output must be an absolute path");
   await mkdir(output, { recursive: true });
   assert.deepEqual(await readdir(output), [], "Evidence output must be empty");
@@ -173,7 +172,7 @@ test("thirty-minute generated native index scale", { timeout: timeoutMs + 150_00
       assert.notEqual(job.state, "canceled");
       return job.state === "ready" && job;
     }, "Scale source import");
-    const asset = await call("asset.get", { assetId: imported.result.assetId });
+    const asset = await call("asset.get", { assetId: imported.published.output.assetId });
     const streams = asset.streams.filter((stream) => stream.kind === "video");
     assert.equal(streams.length, 1);
     const selector = { assetId: asset.id, streamId: streams[0].id };
@@ -229,7 +228,7 @@ test("thirty-minute generated native index scale", { timeout: timeoutMs + 150_00
           ...report.foreground,
           state: "ready",
           elapsedMs: performance.now() - began,
-          frame: frame.published.frame,
+          frame: frame.published.output,
         };
         await save();
         await call("artifact.close", { token: frame.delivery.token });

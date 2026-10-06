@@ -16,7 +16,11 @@ test("selected imports retain success when a sibling fails and resume without du
       assert.ok(saved[0].items.some((item) => item.requestId === params.requestId));
       imports++;
       return params.path.endsWith("good.mov")
-        ? { jobId: "good-job", state: "ready", result: { assetId: "good-asset" } }
+        ? {
+            jobId: "good-job",
+            state: "ready",
+            published: { generation: 1, output: { assetId: "good-asset" } },
+          }
         : { jobId: "bad-job", state: "failed", errorCode: "DECODE_FAILED", retryable: true };
     }
     assert.equal(operation, "asset.get");
@@ -43,7 +47,11 @@ test("model absence is reported once; resume never prepares models or implicitly
   let preparationRequests = 0;
   const invoke = async (operation) => {
     if (operation === "asset.import")
-      return { jobId: "import", state: "ready", result: { assetId: "interview" } };
+      return {
+        jobId: "import",
+        state: "ready",
+        published: { generation: 1, output: { assetId: "interview" } },
+      };
     if (operation === "asset.get")
       return { assetId: "interview", streams: [{ streamId: "audio", mediaKind: "audio" }] };
     assert.equal(operation, "transcript.retry");
@@ -66,10 +74,14 @@ test("unfinished jobs hold concurrency slots across polling budgets and resume",
   const invoke = async (operation, params) => {
     if (operation === "asset.import") {
       imports.push(params.requestId);
-      return { jobId: params.requestId, state: "running", result: null };
+      return { jobId: params.requestId, state: "running", published: null };
     }
     if (operation === "job.get")
-      return { jobId: params.jobId, state: "ready", result: { assetId: params.jobId } };
+      return {
+        jobId: params.jobId,
+        state: "ready",
+        published: { generation: 1, output: { assetId: params.jobId } },
+      };
     assert.equal(operation, "asset.get");
     return { assetId: params.assetId, streams: [] };
   };
@@ -104,7 +116,11 @@ for (const errorCode of ["CLI_TIMEOUT", "TIMEOUT", "CONNECTION_ERROR", "ABORTED"
           loseAnswer = false;
           throw Object.assign(new Error("lost answer"), { code: errorCode });
         }
-        return { jobId: params.requestId, state: "ready", result: { assetId: params.requestId } };
+        return {
+          jobId: params.requestId,
+          state: "ready",
+          published: { generation: 1, output: { assetId: params.requestId } },
+        };
       }
       assert.equal(operation, "asset.get");
       return { assetId: params.assetId, streams: [] };
@@ -141,16 +157,14 @@ test("the executable saves replay identities and preserves source bytes across r
         const saved=JSON.parse(fs.readFileSync(${JSON.stringify(manifest)},"utf8"));
         if(saved.items[0].requestId!==params.requestId)process.exit(2);
         fs.appendFileSync(${JSON.stringify(log)},JSON.stringify(params)+"\\n");
-        data={jobId:"import-job",state:"ready",result:{assetId:"selected"}};
+        data={jobId:"import-job",state:"ready",published:{generation:1,output:{assetId:"selected"}}};
       } else if(process.argv[2]==="asset.get")data={assetId:"selected",streams:[]};
       else process.exit(3);
       console.log(JSON.stringify({ok:true,data}));
     });`,
     { mode: 0o755 },
   );
-  const script = fileURLToPath(
-    new URL("../skills/yap/scripts/batch-prepare.mjs", import.meta.url),
-  );
+  const script = fileURLToPath(new URL("../skills/yap/scripts/batch-prepare.mjs", import.meta.url));
   const run = () =>
     spawnSync(process.execPath, [script, "--manifest", manifest, "--cli", executable], {
       encoding: "utf8",
@@ -196,7 +210,11 @@ test("interrupted transcript admission recovers status without restarting a fail
   let checkpoint;
   const invoke = async (operation, params) => {
     if (operation === "asset.import")
-      return { jobId: "import", state: "ready", result: { assetId: "interview" } };
+      return {
+        jobId: "import",
+        state: "ready",
+        published: { generation: 1, output: { assetId: "interview" } },
+      };
     if (operation === "asset.get") return { assetId: "interview", streams: [] };
     if (operation === "transcript.retry") {
       assert.equal(checkpoint.items[0].transcripts[0].status.state, "uncertain");
@@ -232,9 +250,13 @@ test("lowering concurrency on resume drains earlier jobs before admitting a new 
   let transcripts = 0;
   const invoke = async (operation, params) => {
     if (operation === "asset.import")
-      return { jobId: params.requestId, state: "running", result: null };
+      return { jobId: params.requestId, state: "running", published: null };
     if (operation === "job.get")
-      return { jobId: params.jobId, state: "ready", result: { assetId: params.jobId } };
+      return {
+        jobId: params.jobId,
+        state: "ready",
+        published: { generation: 1, output: { assetId: params.jobId } },
+      };
     if (operation === "asset.get") return { assetId: params.assetId, streams: [] };
     assert.equal(operation, "transcript.retry");
     transcripts++;
@@ -261,7 +283,11 @@ test("resuming drains a pending stream before retrying a failed sibling", async 
   let retries = 0;
   const invoke = async (operation, params) => {
     if (operation === "asset.import")
-      return { state: "ready", jobId: "import", result: { assetId: "interview" } };
+      return {
+        state: "ready",
+        jobId: "import",
+        published: { generation: 1, output: { assetId: "interview" } },
+      };
     if (operation === "asset.get") return { assetId: "interview", streams: [] };
     if (operation === "transcript.retry") {
       if (params.streamId === "first") return { state: "failed", jobId: "first", retryable: true };

@@ -784,7 +784,7 @@ export class JobQueue {
   }
 
   /** Inspect durable state without decoding or rehashing the execution recipe. */
-  inspect(jobId: string): Omit<Job, "input"> & { inputSha256: string; result: unknown } {
+  inspect(jobId: string) {
     const row = this.store.catalog
       .prepare(`SELECT ${summaryColumns},inputSha256 FROM jobs WHERE jobId=?`)
       .get(jobId) as (Omit<JobRow, "input"> & { inputSha256: string }) | undefined;
@@ -794,10 +794,10 @@ export class JobQueue {
     const publication = this.targets.isAvailable(target)
       ? (this.store.catalog
           .prepare(
-            "SELECT result FROM artifacts WHERE targetKind=? AND targetId=? AND revisionId=? AND artifact=? AND inputSha256=?",
+            "SELECT generation,attemptId,result FROM artifacts WHERE targetKind=? AND targetId=? AND revisionId=? AND artifact=? AND inputSha256=?",
           )
           .get(targetKind, targetId, revisionId, row.artifact, row.inputSha256) as
-          | { result: string }
+          | { generation: number; attemptId: string; result: string }
           | undefined)
       : undefined;
     return {
@@ -805,7 +805,13 @@ export class JobQueue {
       target,
       retryable: Boolean(retryable),
       errorDetails: errorDetails ? JSON.parse(errorDetails) : null,
-      result: publication ? JSON.parse(publication.result) : null,
+      published: publication
+        ? {
+            generation: publication.generation,
+            attemptId: publication.attemptId,
+            output: JSON.parse(publication.result) as unknown,
+          }
+        : null,
     };
   }
 

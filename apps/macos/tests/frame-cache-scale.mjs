@@ -67,7 +67,7 @@ test(
       const imported = await waitFor(async () => {
         const job = await call("job.get", { jobId: admission.jobId });
         assert.ok(!["failed", "canceled"].includes(job.state), JSON.stringify(job));
-        return job.state === "ready" ? job.result : false;
+        return job.state === "ready" ? job.published.output : false;
       }, 20_000);
       const asset = await call("asset.get", { assetId: imported.assetId });
       assert.equal(asset.id, originalHash);
@@ -89,7 +89,7 @@ test(
           return result;
         }, 20_000);
       const first = await ready(),
-        firstFrame = first.published.frame;
+        firstFrame = first.published.output;
       const firstIdentity = await fileIdentity(firstFrame.file),
         firstBytes = await readFile(firstFrame.file);
       const output = join(home, "cache-hit.png");
@@ -152,8 +152,8 @@ test(
       const regenerated = await ready();
       assert.equal(regenerated.jobId, first.jobId);
       assert.equal(regenerated.published.generation, first.published.generation + 1);
-      assert.notEqual(regenerated.published.frame.cacheId, firstFrame.cacheId);
-      assert.deepEqual(await readFile(regenerated.published.frame.file), firstBytes);
+      assert.notEqual(regenerated.published.output.cacheId, firstFrame.cacheId);
+      assert.deepEqual(await readFile(regenerated.published.output.file), firstBytes);
       assert.equal(await hash(video), originalHash);
       assert.equal(await hash(input), originalHash);
       assert.deepEqual(await instance.reap(), []);
@@ -174,7 +174,7 @@ test(
         },
         evicted: true,
         regenerated: {
-          cacheId: regenerated.published.frame.cacheId,
+          cacheId: regenerated.published.output.cacheId,
           generation: regenerated.published.generation,
           bytesEqual: true,
         },

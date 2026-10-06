@@ -41,6 +41,11 @@ length and digest before decoding, then close the lease. Nested media has its ow
 lifetime; renewing the response does not revive expired media or undo a mutation.
 Recover uncertain writes only through their advertised exact-request replay.
 
+The [publication contract](../../packages/protocol/README.md#published-work) separates
+background readiness from transport success. Media consumption reads the published
+domain payload directly and uses its declared media type rather than guessing an
+operation-specific field.
+
 Media delivery provides actual image/audio content or an explicitly requested
 output file. Batch consumption retains the service's revision, tap and generation,
 including pending metadata and partial failures. A pathname alone is not MCP media

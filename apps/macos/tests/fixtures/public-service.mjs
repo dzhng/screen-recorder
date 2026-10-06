@@ -24,9 +24,7 @@ export async function until(read, message, timeoutMs = 15_000) {
 export async function startPublicService(
   home,
   native = process.env.YAP_NATIVE ??
-    fileURLToPath(
-      new URL("../../../../helpers/mac/.build/debug/yap-native", import.meta.url),
-    ),
+    fileURLToPath(new URL("../../../../helpers/mac/.build/debug/yap-native", import.meta.url)),
 ) {
   const child = spawn(process.execPath, [main], {
     cwd: "/",
@@ -158,7 +156,9 @@ export async function importAcquisition(service, path, requestId = randomUUID())
     );
     return reply.data.state === "ready" && reply.data;
   }, "Acquisition admission did not become ready");
-  const reply = await service.call("acquisition.get", { acquisitionId: job.result.acquisitionId });
+  const reply = await service.call("acquisition.get", {
+    acquisitionId: job.published.output.acquisitionId,
+  });
   assert.equal(reply.ok, true, JSON.stringify(reply));
   return { job, acquisition: reply.data };
 }

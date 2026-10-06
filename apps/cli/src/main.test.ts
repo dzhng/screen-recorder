@@ -612,7 +612,7 @@ async function defaultDeliveryFixture(disappear = false) {
   const operations: string[] = [];
   const ready = () => ({
     state: "ready",
-    published: { frame: { mediaType: "image/png" } },
+    published: { generation: 1, output: { mediaType: "image/png" } },
     delivery: delivery.open({ kind: "asset", id: "fixture" }, () => ({
       bytes: bytes.length,
       read: (buffer, position) => bytes.copy(buffer, 0, position, position + buffer.length),
@@ -971,7 +971,7 @@ it.each([
                 ok: true,
                 data: {
                   state: "ready",
-                  published: { frame: { mediaType: "image/png" } },
+                  published: { generation: 1, output: { mediaType: "image/png" } },
                   delivery: { token, bytes: bytes.length, expiresAt: Date.now() + 30000 },
                 },
               }),
@@ -1108,7 +1108,7 @@ it("selected-frame CLI and MCP deliver image bytes while metadata-only responses
       ? { state: "processing", published: null }
       : {
           state: "ready",
-          published: { frame: { mediaType: "image/png" } },
+          published: { generation: 1, output: { mediaType: "image/png" } },
           delivery: {
             token: `selected-${ordinal}`,
             bytes: bytes.length,

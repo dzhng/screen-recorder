@@ -1,0 +1,10 @@
+{
+  "scope": "specified publication correction consumers and direct dependencies",
+  "sandbox": "read-only",
+  "exitCode": 0,
+  "turnCompleted": true,
+  "verdict": "corrections-review.md",
+  "eventsSha256": "0be6f3d1abb6312c5dd7e31e03625c5e26e03f8df788ab8cd3a580f1f667d1ab",
+  "eventsPath": "/tmp/yap-publication-corrections-review.enW6qa/events.jsonl",
+  "stderrBytes": 0
+}

@@ -286,7 +286,7 @@ test(
         const receipt = await ready("preview.get", { ...selection, range });
         const movie = join(out, name + ".mp4");
         try {
-          await copyFile(receipt.published.preview.file, movie);
+          await copyFile(receipt.published.output.file, movie);
         } finally {
           await close(receipt.delivery.token);
         }
@@ -334,7 +334,7 @@ test(
             maxLongEdge: width,
           });
           try {
-            await copyFile(frame.published.frame.file, png);
+            await copyFile(frame.published.output.file, png);
           } finally {
             await close(frame.delivery.token);
           }
@@ -396,9 +396,9 @@ test(
           item.summary.frameMeta.frames.map((frame) => Math.round(Number(frame.pts_time) * 1e6)),
           [0, 100000, 200000],
         );
-        assert.equal(item.summary.receipt.published.preview.frameCount, 3);
+        assert.equal(item.summary.receipt.published.output.frameCount, 3);
         for (const [i, sample] of item.samples.entries()) {
-          const frame = sample.frame.published.frame;
+          const frame = sample.frame.published.output;
           assert.equal(frame.frame.sampleAtUs, times[i]);
           assert.equal(frame.pictures[0].requestedSourceUs, times[i]);
           const physical = frame.pictures[0];

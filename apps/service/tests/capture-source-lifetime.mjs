@@ -210,7 +210,7 @@ test(
     const ready = await f.terminal(admitted.jobId);
     assert.equal(ready.state, "ready", JSON.stringify(ready));
     assert.notEqual(ready.attemptId, failed.attemptId);
-    assert.deepEqual(ready.result.roles, [
+    assert.deepEqual(ready.published.output.roles, [
       { role: "narration", outcome: "removed", reason: null },
       { role: "system", outcome: "alreadyClear", reason: null },
     ]);
@@ -258,7 +258,7 @@ test(
     const admitted = await f.call("recording.cleanup", { recordingId: f.recording.recordingId });
     const ready = await f.terminal(admitted.jobId);
     assert.equal(ready.state, "ready", JSON.stringify(ready));
-    assert.deepEqual(ready.result.roles, [
+    assert.deepEqual(ready.published.output.roles, [
       { role: "narration", outcome: "retained", reason: "missing-publication" },
       { role: "system", outcome: "retained", reason: "missing-publication" },
     ]);

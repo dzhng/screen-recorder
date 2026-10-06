@@ -45,7 +45,7 @@ export async function verifyVideoDelivery({ call, out, ffmpeg, ffprobe, report, 
       (v) => v.state === "ready",
       kind,
     );
-    const asset = await call("asset.get", { assetId: ready.result.assetId });
+    const asset = await call("asset.get", { assetId: ready.published.output.assetId });
     assets.push({ asset, stream: asset.streams.find((s) => s.kind === kind) });
   }
   const project = await call("project.create", {
@@ -171,10 +171,7 @@ export async function verifyVideoDelivery({ call, out, ffmpeg, ffprobe, report, 
 
 if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
   const { values } = parseArgs({ options: { out: { type: "string" } } });
-  assert.ok(
-    values.out && process.env.YAP_NATIVE,
-    "Pass --out NEW_DIRECTORY and YAP_NATIVE",
-  );
+  assert.ok(values.out && process.env.YAP_NATIVE, "Pass --out NEW_DIRECTORY and YAP_NATIVE");
   const out = resolve(values.out);
   await mkdir(out);
   const home = await mkdtemp("/tmp/yap-hevc-public-");

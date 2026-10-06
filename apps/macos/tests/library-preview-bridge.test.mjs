@@ -98,6 +98,11 @@ test(
             const reply = JSON.parse(bytes);
             assert(reply.ok);
             historical[key] = reply.data;
+            // Archives stay byte-exact; only this current controller's scripted input changes.
+            if (historical[key].published) {
+              const { preview, ...identity } = historical[key].published;
+              historical[key].published = { ...identity, output: preview };
+            }
           }
         }
       }
@@ -146,9 +151,7 @@ child.on('close',(code,signal)=>{log({event:'close',operation,pid:child.pid,code
         compile.push(command);
         writeFileSync(join(out, "compiler.json"), JSON.stringify(compile, null, 2));
       });
-      const sources = appSources.map((name) =>
-        join(root, "Sources/Yap", `${name}.swift`),
-      );
+      const sources = appSources.map((name) => join(root, "Sources/Yap", `${name}.swift`));
       sources.push(
         ...readdirSync(join(root, "Sources/YapControls"))
           .filter((n) => n.endsWith(".swift"))
@@ -207,10 +210,7 @@ child.on('close',(code,signal)=>{log({event:'close',operation,pid:child.pid,code
           [0, null],
         ],
       );
-      const control = readFileSync(env.YAP_23K_CONTROL, "utf8")
-        .trim()
-        .split("\n")
-        .map(JSON.parse);
+      const control = readFileSync(env.YAP_23K_CONTROL, "utf8").trim().split("\n").map(JSON.parse);
       const termination = control.find((x) => x.event === "source-node-exit");
       assert.equal(termination.code, 0);
       const frames = (direction) =>

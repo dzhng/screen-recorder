@@ -243,7 +243,7 @@ async function inspector(home, source, service) {
     const output = join(home, `${name}.png`);
     const delivered = publicCommand(service.socket, "frame.get", params, ["--output", output]);
     assert.deepEqual(delivered.published, ready.published);
-    const frame = ready.published.frame;
+    const frame = ready.published.output;
     assert.deepEqual([frame.width, frame.height], [width, height]);
     compact(frame);
     results[name] = { params, output, frame, rgb: pixels(output) };
@@ -280,7 +280,7 @@ test("explicit pointer steps preserve held-frame gesture pixels and reach CLI an
       for (const name of ["default", "pause-reset"]) {
         const reply = await client.callTool({ name: "frame.get", arguments: results[name].params });
         assert.equal(reply.structuredContent.ok, true, JSON.stringify(reply));
-        assert.deepEqual(reply.structuredContent.data.published.frame, results[name].frame);
+        assert.deepEqual(reply.structuredContent.data.published.output, results[name].frame);
         const image = reply.content.find((item) => item.type === "image");
         assert.equal(image?.mimeType, "image/png");
         assert.deepEqual(Buffer.from(image.data, "base64"), await readFile(results[name].output));
