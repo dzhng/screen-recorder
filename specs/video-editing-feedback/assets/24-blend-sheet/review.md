@@ -39,3 +39,30 @@ That review is incomplete, not clean. The completed initial review's five
 findings were resolved using direct assertions and the narrow checks above; a
 completed independent rereview of those fixes remains open. No additional final
 finding was received. Review thread: `01a1110f-c5c3-7911-8e9f-debd23e78e24`.
+
+## Full-raster encoded closeout and fixture authority
+
+The completed [bounded rereview](encoding/review-before-admission.md) resolved four
+of its earlier concerns and identified two remaining gaps: native references were
+regenerated without asserting their banked identity, and default public coverage
+could silently shrink or contain duplicates. Native, public and encoded-reference
+runners now share independent-reference identity and complete unique-case admission.
+The regression tests fail when these guards are disabled and pass when restored.
+All native cases and public multiply exercise the corrected consumers.
+
+Refactor-clean: case names have one harness owner, the banked report owns retained
+reference identities, and the encoded control uses the existing compiler, worker
+lifetime and display/sample observers. It adds no product renderer, codec policy,
+installer, bridge or alternate execution path. Code-review: explicit reference
+inputs, matching frozen settings, complete unmasked comparison, physical clocks,
+source preservation and normal-substitution failure are traced through those owners.
+Eight portable tests, scoped lint and formatting pass. Write-docs: the encoded
+checkpoint owns measured scope and its rationale; the slice and handoff distinguish
+raw RGB loss from declared-codec reproducibility, without loosening thresholds.
+
+[Fresh image-only critique](encoding/visual-critique.md) accepts full-raster movie
+reproducibility, including crops and both samples. The 28 reviewed display images
+are byte-identical to the accepted permanent runner's outputs. Raw-reference edge
+failure remains retained. The [final independent review](encoding/review.md) resolves both fixture-admission
+findings and is clean for the settled five-file harness and corrected target.
+Earlier incomplete reviews remain historical.

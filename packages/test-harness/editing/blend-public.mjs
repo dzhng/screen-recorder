@@ -4,7 +4,12 @@ import { mkdir, mkdtemp, readFile, realpath, rm, writeFile } from "node:fs/promi
 import { isAbsolute, join, resolve } from "node:path";
 import { parseArgs } from "node:util";
 import { JourneyService, poll, run, root, hash } from "./source-evidence-fixture.mjs";
-import { compareBlendRaster, verifyBlendMovieSupport } from "./blend-reference.mjs";
+import {
+  compareBlendRaster,
+  verifyBlendMovieSupport,
+  selectBlendCases,
+  verifyBlendReferenceIdentity,
+} from "./blend-reference.mjs";
 import { verifyPicturePixels } from "./decoded-picture-proof.mjs";
 
 const { values } = parseArgs({
@@ -24,8 +29,7 @@ assert.ok(
 );
 const operands = join(root, "specs/video-editing-feedback/assets/24-blend-sheet");
 const frozen = JSON.parse(await readFile(join(operands, "report.json")));
-const cases = frozen.cases.filter((item) => !values.case || item.scenario === values.case);
-assert.ok(cases.length, "Select a retained case");
+const cases = selectBlendCases(frozen.cases, values.case);
 const out = resolve(values.out);
 await mkdir(out);
 const home = await mkdtemp("/tmp/yap-blend-public-");
@@ -134,11 +138,7 @@ try {
       [{ type: "blend", mode: item.mode }],
     );
     const referenceFile = join(operands, item.scenario, "reference.png");
-    assert.equal(
-      hash(await readFile(referenceFile)),
-      item.artifacts["reference.png"],
-      "Frozen independent reference identity",
-    );
+    verifyBlendReferenceIdentity(item.scenario, hash(await readFile(referenceFile)), frozen.cases);
     const reference = await observe(referenceFile, document.canvas);
     const png = join(directory, "frame.png");
     const frameParams = { projectId, revisionId, atUs: 0, maxLongEdge: document.canvas.width };

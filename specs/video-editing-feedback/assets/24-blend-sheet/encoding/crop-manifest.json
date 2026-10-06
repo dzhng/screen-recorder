@@ -1,0 +1,121 @@
+[
+  {
+    "scenario": "normal",
+    "bounds": {
+      "x": 32,
+      "y": 0,
+      "width": 32,
+      "height": 32
+    },
+    "scale": 4,
+    "columns": [
+      "unencoded reference",
+      "expected encoded0",
+      "candidate encoded0",
+      "expected encoded1",
+      "candidate encoded1"
+    ]
+  },
+  {
+    "scenario": "multiply",
+    "bounds": {
+      "x": 80,
+      "y": 32,
+      "width": 32,
+      "height": 32
+    },
+    "scale": 4,
+    "columns": [
+      "unencoded reference",
+      "expected encoded0",
+      "candidate encoded0",
+      "expected encoded1",
+      "candidate encoded1"
+    ]
+  },
+  {
+    "scenario": "screen",
+    "bounds": {
+      "x": 32,
+      "y": 32,
+      "width": 32,
+      "height": 32
+    },
+    "scale": 4,
+    "columns": [
+      "unencoded reference",
+      "expected encoded0",
+      "candidate encoded0",
+      "expected encoded1",
+      "candidate encoded1"
+    ]
+  },
+  {
+    "scenario": "soft-light",
+    "bounds": {
+      "x": 80,
+      "y": 0,
+      "width": 32,
+      "height": 32
+    },
+    "scale": 4,
+    "columns": [
+      "unencoded reference",
+      "expected encoded0",
+      "candidate encoded0",
+      "expected encoded1",
+      "candidate encoded1"
+    ]
+  },
+  {
+    "scenario": "soft-light-reversed",
+    "bounds": {
+      "x": 32,
+      "y": 32,
+      "width": 32,
+      "height": 32
+    },
+    "scale": 4,
+    "columns": [
+      "unencoded reference",
+      "expected encoded0",
+      "candidate encoded0",
+      "expected encoded1",
+      "candidate encoded1"
+    ]
+  },
+  {
+    "scenario": "multiply-nested",
+    "bounds": {
+      "x": 32,
+      "y": 32,
+      "width": 32,
+      "height": 32
+    },
+    "scale": 4,
+    "columns": [
+      "unencoded reference",
+      "expected encoded0",
+      "candidate encoded0",
+      "expected encoded1",
+      "candidate encoded1"
+    ]
+  },
+  {
+    "scenario": "vignette",
+    "bounds": {
+      "x": 16,
+      "y": 0,
+      "width": 32,
+      "height": 32
+    },
+    "scale": 4,
+    "columns": [
+      "unencoded reference",
+      "expected encoded0",
+      "candidate encoded0",
+      "expected encoded1",
+      "candidate encoded1"
+    ]
+  }
+]

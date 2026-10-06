@@ -1,0 +1,16 @@
+✔ partial-alpha multiply includes uncovered source and backdrop in premultiplied linear light (0.307791ms)
+✔ soft-light keeps source/backdrop order and both branches of its light response (0.232ms)
+✔ transparent source is identity and screen/multiply neutral patches stay neutral (0.303709ms)
+✔ raster verification refuses a delivered channel outside the declared arithmetic limit (0.309375ms)
+✔ raster verification cannot certify only the matching prefix of an oversized image (0.149417ms)
+✔ movie verification refuses wrong terminal support even when both requested pictures exist (0.158292ms)
+✔ default blend verification refuses omitted or duplicated retained cases (2.18675ms)
+✔ regenerated blend references must keep their frozen independent identity (0.420666ms)
+ℹ tests 8
+ℹ suites 0
+ℹ pass 8
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 31.611416

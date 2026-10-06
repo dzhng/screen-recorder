@@ -36,7 +36,10 @@ disabling timing verification fails the [terminal-support regression](public/sup
 
 [Native-scale pairs](comparison/), the [4× sheet](comparison-sheet-4x.png) and
 [visual adjudication](visual-review.md) retain actual appearance. Still arithmetic
-and public admission pass. Fresh visual reviewers disagree about movie hard-edge
-codec seams; full-raster movie fidelity remains unresolved. [Scoped review](review.md)
-records the five verification fixes and independent follow-up status. This evidence
-does not close the whole slice or claim whole-product certification.
+and public admission pass. The raw movie hard-edge mismatch is confirmed. The
+[full-raster encoded-reference checkpoint](encoding/README.md) separates that shared
+codec loss from blend response under unchanged settings and tolerance. Fresh
+image-only review accepts both encoded samples against their matched references.
+[Scoped review](review.md) records reference-identity and case-coverage hardening.
+Independent rereview is clean. The slice closes for declared-codec reproducibility;
+it makes no lossless-RGB or whole-product claim.

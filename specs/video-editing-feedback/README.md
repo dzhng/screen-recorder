@@ -17,7 +17,7 @@ binding: no aliases, dual readers or migrations; preserve external originals and
 frozen historical evidence.
 
 Current pickup: finish10's public acoustic boundary evidence while independent11
-rendered-speech,24 blend-movie and26 LUT reviews complete, then integrate their commits.
+rendered-speech and26 LUT reviews complete, then integrate their commits.
 The matching native worker includes22's rounded glyph strokes; frame/movie cache
 identities change with that rendering behavior. Generic operations omit tonal fields,
 while an actual correction must supply them.
@@ -29,7 +29,7 @@ motion;25 reference-conditioned tone;27–29 delivered transitions/trajectory/bl
 fresh-agent delivery/replay. Follow slice dependencies rather than this list when
 independent work is available.
 
-Completed:02–09,13–14,17–19,22.01 retains exact source-rate PCM, full-raster pictures and
+Completed:02–09,13–14,17–19,22,24.01 retains exact source-rate PCM, full-raster pictures and
 five original/derivative speech comparisons, but multicamera/speaker certification
 remains open. Partial21 declares exact caller-selected angle clocks;23 maps timed
 UTF-16 highlights;25 extends the shared SDR correction;27 lowers transitions into
@@ -38,8 +38,9 @@ ordinary opacity/gain curves. Each still needs its remaining delivery evidence.
 Evidence ledger: [assets](assets/README.md) locates scoped verdicts. [22](assets/22-styled-text/README.md)
 has accepted public static-sheet/Unicode receipts and pixels, matched comparisons,
 independent visual/code review and a red/green stroke-bounds correction. [24](assets/24-blend-sheet/README.md) retains exact still
-arithmetic and the original hard-edge movie disagreement; a codec-matched full-raster
-control is under independent review. [20](assets/20-synchronization/README.md) refuses
+arithmetic and the original raw hard-edge H.264 loss; matched encoded references
+pass every pixel of both samples in all seven cases under unchanged tolerance8.
+Independent visual/code review is accepted for this declared-codec scope. [20](assets/20-synchronization/README.md) refuses
 all nine real waveform comparisons, so lexical anchors remain necessary. [31](assets/31-speaker-replication/README.md)
 still fails ten-minute four-speaker overlap at57.49%, below the unchanged80% gate;
 no long-form provider is promoted.10 retains the accepted NeMo alignment reference
@@ -80,7 +81,7 @@ Numbering is a review order; actual prerequisites live in the slice headers.
 - [ ] [21 — Declared angle clocks](slices/21-synced-angles.md)
 - [x] [22 — Native typography and caption styling](slices/22-styled-text.md)
 - [ ] [23 — Timed word highlighting and entrance motion](slices/23-timed-word-captions.md)
-- [ ] [24 — Explicit blend semantics](slices/24-blend-modes.md)
+- [x] [24 — Explicit blend semantics](slices/24-blend-modes.md)
 - [ ] [25 — Tone and color controls](slices/25-tone-controls.md)
 - [ ] [26 — Immutable imported LUTs](slices/26-immutable-luts.md)
 - [ ] [27 — Crossfade, dip and flash recipes](slices/27-basic-transitions.md)

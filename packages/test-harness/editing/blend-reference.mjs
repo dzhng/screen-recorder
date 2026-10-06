@@ -1,5 +1,35 @@
 import assert from "node:assert/strict";
 
+export const blendScenarios = [
+  "normal",
+  "multiply",
+  "screen",
+  "soft-light",
+  "soft-light-reversed",
+  "multiply-nested",
+  "vignette",
+];
+
+export function selectBlendCases(cases, scenario) {
+  if (scenario) {
+    assert.ok(blendScenarios.includes(scenario), "Select a retained blend case");
+    const selected = cases.filter((item) => item.scenario === scenario);
+    assert.equal(selected.length, 1, "Selected blend case must be unique");
+    return selected;
+  }
+  assert.deepEqual(
+    cases.map((item) => item.scenario).sort(),
+    [...blendScenarios].sort(),
+    "Default blend verification requires the complete unique case set",
+  );
+  return cases;
+}
+
+export function verifyBlendReferenceIdentity(scenario, sha256, frozenCases) {
+  const item = selectBlendCases(frozenCases, scenario)[0];
+  assert.equal(sha256, item.artifacts["reference.png"], "Frozen independent reference identity");
+}
+
 // Independent W3C Compositing and Blending Level 1 (§10.3) arithmetic.
 // Operands/results are premultiplied linear-sRGB. No product renderer is imported.
 export function blendPixel(source, backdrop, mode) {

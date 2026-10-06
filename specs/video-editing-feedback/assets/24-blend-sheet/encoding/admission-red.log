@@ -1,0 +1,46 @@
+✔ partial-alpha multiply includes uncovered source and backdrop in premultiplied linear light (0.31375ms)
+✔ soft-light keeps source/backdrop order and both branches of its light response (0.236958ms)
+✔ transparent source is identity and screen/multiply neutral patches stay neutral (0.302209ms)
+✔ raster verification refuses a delivered channel outside the declared arithmetic limit (0.324833ms)
+✔ raster verification cannot certify only the matching prefix of an oversized image (0.155667ms)
+✔ movie verification refuses wrong terminal support even when both requested pictures exist (0.171708ms)
+✖ default blend verification refuses omitted or duplicated retained cases (2.244333ms)
+✖ regenerated blend references must keep their frozen independent identity (0.674083ms)
+ℹ tests 8
+ℹ suites 0
+ℹ pass 6
+ℹ fail 2
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 32.302167
+
+✖ failing tests:
+
+test at packages/test-harness/editing/blend-reference.test.mjs:78:1
+✖ default blend verification refuses omitted or duplicated retained cases (2.244333ms)
+  AssertionError [ERR_ASSERTION]: Missing expected exception.
+      at TestContext.<anonymous> (file:///Users/server/dev/yap-blend-sheet/packages/test-harness/editing/blend-reference.test.mjs:87:10)
+      at async Test.run (node:internal/test_runner/test:1409:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: /complete/,
+    operator: 'throws',
+    diff: 'simple'
+  }
+
+test at packages/test-harness/editing/blend-reference.test.mjs:92:1
+✖ regenerated blend references must keep their frozen independent identity (0.674083ms)
+  AssertionError [ERR_ASSERTION]: Missing expected exception.
+      at TestContext.<anonymous> (file:///Users/server/dev/yap-blend-sheet/packages/test-harness/editing/blend-reference.test.mjs:103:10)
+      at async Test.run (node:internal/test_runner/test:1409:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: /independent reference identity/,
+    operator: 'throws',
+    diff: 'simple'
+  }

@@ -39,7 +39,7 @@ specific claim needed for this item.
 | E11 | Encoded peak/meter discrepancy retained in18: PCM admission passes; decoded AAC oracle differs | [18](slices/18-reliable-mastering.md), [33](slices/33-editing-references.md) | PCM and actual encoded measurements retain meter/rate/channel identity; document measured differences without silently redefining ceilings. |
 | E12 | Probabilistic boundaries; alignment, quiet context and join checks missing | [09](slices/09-alignment-replication.md), [10](slices/10-alignment-and-boundaries.md), [12](slices/12-contextual-join-verification.md) | 09 wrong/extra/repeated text correspondence and placement controls passed; production10 and trend/turn join evidence remain pending. Independent acoustic evidence; no constant timing bias claim. |
 | E13 | Grade controls thin for reference looks; current gap | [25](slices/25-tone-controls.md), [26](slices/26-immutable-luts.md), [33](slices/33-editing-references.md) | Explicit tone/hue/LUT contracts with identity controls and face/wall masks; deterministic vignette/grain overlays remain useful. |
-| E14 | Explicit modes and public arithmetic/admission pass; full-raster movie hard-edge fidelity unresolved | [24](slices/24-blend-modes.md) | Multiply/screen/soft-light arithmetic, color/alpha/order and transparent/identity controls through existing compositor. |
+| E14 | Raw arithmetic, public admission and full-raster declared-codec movie proof pass; scoped reviews clean | [24](slices/24-blend-modes.md) | Multiply/screen/soft-light arithmetic, color/alpha/order and transparent/identity controls through existing compositor. |
 | E15 | No music source; deliberate external capability | [02](slices/02-capability-first-skill.md), [33](slices/33-editing-references.md) | Discover usable music tools/assets, study requested reference and retain source/recipe; recommend only a materially needed missing capability. |
 | E16 | Fit/push-in, imported fonts and labeled batches work well; positive evidence | [16](slices/16-subject-reframe.md), [22](slices/22-styled-text.md), [34](slices/34-autonomous-trailer-acceptance.md) | Preserve exact geometry/phase, admitted font rendering and one labeled batch through real consumer checks. No replacement without parity. |
 | E17 | Cross-mic synchronization absent; current gap | [20](slices/20-sync-replication.md), [21](slices/21-synced-angles.md) | Known offsets, weak single-mic signals, unrelated audio and drift controls; estimates expose alternatives and unsuitable constant offsets. |
@@ -192,8 +192,13 @@ The public journey verifies all seven modes through CLI authoring, MCP processor
 readback, delivered PNG/movie and committed export bytes. Review hardening verifies
 exact raster dimensions, reference hashes, rational terminal support and export
 identity/destination; all fourteen retained movies have independently observed clocks.
-Fresh image-only critiques disagree on codec boundary seams. Still arithmetic and
-the declared movie mask pass; full-raster movie hard-edge fidelity remains open.
+Full-raster raw measurements confirm shared H.264 edge loss, including normal.
+The [encoded independent-reference proof](assets/24-blend-sheet/encoding/README.md)
+compares every pixel of both samples under the unchanged movie bound; fresh
+image-only critique is clean against this declared-codec target. Banked reference
+identity and complete default case admission are now asserted. Final independent
+rereview is clean; slice24 closes for declared-codec reproducibility, with raw
+edge-loss failures retained.
 
 Slice21 evidence: composition angle groups retain a session identity, explicit origin clip,
 selected asset/stream identities, project validity ranges, exact rational offsets and accepted

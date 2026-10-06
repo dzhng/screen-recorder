@@ -1,6 +1,13 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { blendPixel, compareBlendRaster, verifyBlendMovieSupport } from "./blend-reference.mjs";
+import { readFile } from "node:fs/promises";
+import {
+  blendPixel,
+  compareBlendRaster,
+  verifyBlendMovieSupport,
+  selectBlendCases,
+  verifyBlendReferenceIdentity,
+} from "./blend-reference.mjs";
 
 test("partial-alpha multiply includes uncovered source and backdrop in premultiplied linear light", () => {
   // Source straight .8 at alpha .5, backdrop straight .4 at alpha .75.
@@ -66,4 +73,35 @@ test("movie verification refuses wrong terminal support even when both requested
   bad.segments[0].targetDuration = clock(250000);
   bad.samples[1].end = clock(250000);
   assert.throws(() => verifyBlendMovieSupport(bad), /duration|end/);
+});
+
+test("default blend verification refuses omitted or duplicated retained cases", async () => {
+  const { cases } = JSON.parse(
+    await readFile(
+      new URL(
+        "../../../specs/video-editing-feedback/assets/24-blend-sheet/report.json",
+        import.meta.url,
+      ),
+    ),
+  );
+  assert.throws(() => selectBlendCases(cases.slice(1)), /complete/);
+  assert.throws(() => selectBlendCases([...cases.slice(0, -1), cases[0]]), /complete/);
+  assert.equal(selectBlendCases(cases, "multiply")[0].scenario, "multiply");
+});
+
+test("regenerated blend references must keep their frozen independent identity", async () => {
+  const { cases } = JSON.parse(
+    await readFile(
+      new URL(
+        "../../../specs/video-editing-feedback/assets/24-blend-sheet/report.json",
+        import.meta.url,
+      ),
+    ),
+  );
+  const item = cases.find((item) => item.scenario === "multiply");
+  verifyBlendReferenceIdentity(item.scenario, item.artifacts["reference.png"], cases);
+  assert.throws(
+    () => verifyBlendReferenceIdentity(item.scenario, "0".repeat(64), cases),
+    /independent reference identity/,
+  );
 });

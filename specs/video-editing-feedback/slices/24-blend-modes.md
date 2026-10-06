@@ -1,10 +1,14 @@
 # 24 — Define useful layer blend arithmetic
 
-Status: partial — native and public CLI/MCP arithmetic/admission pass; fresh critiques are retained, with full-raster decoded-movie hard-edge fidelity unresolved and independent rereview incomplete. Depends on: [13](13-decode-replication.md).
+Status: implemented — independent raw arithmetic, public admission and full-raster declared-codec movie reproducibility pass; fresh visual and independent code reviews are clean. Depends on: [13](13-decode-replication.md).
 
 ## Contract
 
-Multiply/screen/soft-light layer combinations behave consistently in frames and movies.
+Multiply/screen/soft-light layer combinations retain independent linear-light
+arithmetic in frames. Movies reproduce that arithmetic through their declared
+codec and settings, checked over the full raster against the independently
+authored arithmetic image encoded without blend operations. This does not promise
+lossless RGB preservation from a lossy H.264 output.
 
 ## Seam and ownership
 
@@ -32,8 +36,10 @@ contract carries the same mode. The [independent sheet checkpoint](../assets/24-
 freezes color/alpha/order/group and vignette arithmetic through the public compiler and
 native still/movie seam. The public journey now verifies CLI authoring, MCP readback,
 delivered pixels, exact rational movie support and committed export bytes/destination.
-Fresh visual critiques disagree about hard-edge codec seams; see the retained
-[visual adjudication](../assets/24-blend-sheet/visual-review.md).
+The [encoded-reference checkpoint](../assets/24-blend-sheet/encoding/README.md)
+compares both movie samples without a mask. Its fresh visual critique accepts
+complete boundaries and vignette falloff. The raw-reference hard-edge red remains
+retained alongside the corrected [visual adjudication](../assets/24-blend-sheet/visual-review.md).
 
 Expose a case-selected command or existing lab entry with its own usage. Store accepted requests/results and artifact identities in feature-owned evidence. The implementing agent checks actual output; the user may view it for direction without becoming a QA gate.
 
@@ -48,9 +54,15 @@ Variable: blend response only. Mask: fixed swatches/overlay region; no new grade
 Run [compare-screenshots](../../../.agents/skills/compare-screenshots/SKILL.md) on matched before/reference/candidate shots with the stated masks and numeric interpretation. Inspect motion temporally when a still cannot establish the claim. Run an unprimed [screenshot-critique](../../../.agents/skills/screenshot-critique/SKILL.md) as the **last visual acceptance check**. Show useful output with [preview-shots](../../../.agents/skills/preview-shots/SKILL.md); never request human QA or wait for approval. Record critique, coverage and any residual uncertainty.
 
 The focused pass is green when composition planning retains the explicit mode and native
-delivery matches the expected swatch arithmetic. Independent visual critiques and public admission are complete within the retained
-arithmetic scope. The full slice remains open because full-raster decoded movie
-hard-edge fidelity has a conflicting defect verdict; this is not a clean visual gate. An unavailable stub or
+delivery matches the expected swatch arithmetic. The complete still remains under
+the original two-level tolerance. Both movie samples remain under the original
+eight-level tolerance against matched encoded arithmetic references, with no
+fringe mask; their exact physical support and export identities also pass. The
+raw-reference hard-edge bound remains red because it included normal codec loss,
+not an additional blend defect. No numeric gate or output setting was repinned.
+The final [independent rereview](../assets/24-blend-sheet/encoding/review.md)
+resolves reference-identity and default-case coverage hardening; the slice is closed
+for this measured target. An unavailable stub or
 undocumented fallback is not implementation completion.
 
 ## Delegated choices

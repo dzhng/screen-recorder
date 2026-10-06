@@ -11,7 +11,14 @@ import {
   validateComposition,
 } from "../../composition/dist/index.js";
 import { nativeProcessing } from "../../../apps/service/src/native-processing.ts";
-import { blendPixel, compareBlendRaster, verifyBlendMovieSupport } from "./blend-reference.mjs";
+import {
+  blendPixel,
+  blendScenarios,
+  compareBlendRaster,
+  verifyBlendMovieSupport,
+  selectBlendCases,
+  verifyBlendReferenceIdentity,
+} from "./blend-reference.mjs";
 import { verifyPicturePixels } from "./decoded-picture-proof.mjs";
 
 if (process.argv.includes("--help")) {
@@ -117,15 +124,17 @@ const report = {
   referenceSHA256: hash(await readFile(new URL("blend-reference.mjs", import.meta.url))),
   cases: [],
 };
-for (const scenario of [
-  "normal",
-  "multiply",
-  "screen",
-  "soft-light",
-  "soft-light-reversed",
-  "multiply-nested",
-  "vignette",
-]) {
+const frozenCases = selectBlendCases(
+  JSON.parse(
+    await readFile(
+      new URL(
+        "../../../specs/video-editing-feedback/assets/24-blend-sheet/report.json",
+        import.meta.url,
+      ),
+    ),
+  ).cases,
+);
+for (const scenario of blendScenarios) {
   const directory = join(out, scenario);
   await mkdir(directory);
   const vignette = scenario === "vignette",
@@ -165,6 +174,11 @@ for (const scenario of [
     baseline.set(encoded(nested ? blendPixel(ordinary, background, "normal") : ordinary), at);
   }
   await png(join(directory, "reference.png"), expected);
+  verifyBlendReferenceIdentity(
+    scenario,
+    hash(await readFile(join(directory, "reference.png"))),
+    frozenCases,
+  );
   await png(join(directory, "normal-before.png"), baseline);
   const assets = ["below", "above"].map((id) => ({
     id,

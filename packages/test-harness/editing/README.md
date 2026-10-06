@@ -45,6 +45,10 @@ native still/movie operations. Its [retained evidence](../../../specs/video-edit
 keeps full-raster still proof separate from movie patch-interior codec tolerance.
 The [public blend journey](blend-public.mjs) adds CLI/MCP admission, delivered bytes,
 exact sample support and export publication over those same frozen operands.
+The [encoded blend reference](blend-encoding.mjs) compares every movie pixel against
+the independent arithmetic image delivered through the same declared codec. Raw
+edge preservation and declared-codec reproducibility are separate claims; retain
+the former failure rather than letting an interior mask certify the latter.
 
 [Loudness references](loudness/README.md) separate independent BS.1770 arithmetic
 from the exact signal/coverage reported by public operations. Meter agreement is

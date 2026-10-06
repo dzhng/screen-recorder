@@ -1,0 +1,4387 @@
+{
+  "passed": true,
+  "scope": "Independent arithmetic PNG delivered as one unprocessed image through the same frozen H.264 settings; full-raster movie reproducibility, not lossless raw-RGB fidelity",
+  "workerSha256": "ea3b79e36caabbc854efa167e6b3a69b89264762661d935b41ff9c9342f22702",
+  "observers": {
+    "FrameImagePixels.swift": "fad481a23d56d34c6557b3dd599c4ccac9b55bd3dc028a935e72f86c6767e302",
+    "FrameColorReference.swift": "a661fdf57418ae36c8275f4a23bddfac0567f8cd32e477e23275ba5b6aa6d7e9",
+    "FrameSampleSupport.swift": "c47d1a4bfe11d8dbf28348df140f6f85754c4014712edf61dca7292e7b82b45c"
+  },
+  "cases": [
+    {
+      "scenario": "normal",
+      "referenceSha256": "1568d7bf027b62595923ebbc1fe6923c7c6b7a44968186625b21625fb63851ff",
+      "originalMovieSha256": "fa1eca374b8786bcc43d5398ca62c1946c1894fb583a43c2009000e6c4099c92",
+      "document": {
+        "canvas": {
+          "width": 128,
+          "height": 64,
+          "fps": {
+            "numerator": 10,
+            "denominator": 1
+          },
+          "background": "#000000ff"
+        },
+        "tracks": [
+          {
+            "id": "reference",
+            "kind": "video",
+            "order": 0
+          }
+        ],
+        "groups": [],
+        "clips": [
+          {
+            "id": "reference",
+            "trackId": "reference",
+            "assetId": "reference",
+            "streamId": "image:0",
+            "source": {
+              "kind": "hold",
+              "atUs": 0
+            },
+            "placement": {
+              "kind": "project",
+              "range": {
+                "startUs": 0,
+                "endUs": 200000
+              }
+            }
+          }
+        ],
+        "processing": [],
+        "syncGroups": []
+      },
+      "frameRequest": {
+        "output": "/tmp/yap-blend-encoding-accepted/normal/control.png",
+        "canvas": {
+          "width": 128,
+          "height": 64,
+          "fps": {
+            "numerator": 10,
+            "denominator": 1
+          },
+          "background": "#000000ff"
+        },
+        "frame": {
+          "index": 0,
+          "sampleAtUs": 0,
+          "visibleRange": {
+            "startUs": 0,
+            "endUs": 100000
+          },
+          "layers": [
+            {
+              "clipId": "reference",
+              "trackId": "reference",
+              "assetId": "reference",
+              "streamId": "image:0",
+              "kind": "image",
+              "availability": "available",
+              "width": 128,
+              "height": 64
+            }
+          ],
+          "visual": [
+            {
+              "target": {
+                "kind": "clip",
+                "id": "reference"
+              },
+              "inputs": [],
+              "operations": [
+                {
+                  "kind": "clamp",
+                  "x": 0.5,
+                  "y": 0.5,
+                  "width": 127,
+                  "height": 63
+                },
+                {
+                  "kind": "affine",
+                  "matrix": [
+                    1,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0
+                  ]
+                },
+                {
+                  "kind": "affine",
+                  "matrix": [
+                    1,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0
+                  ]
+                },
+                {
+                  "kind": "coverage",
+                  "points": [
+                    {
+                      "x": 0,
+                      "y": 0
+                    },
+                    {
+                      "x": 128,
+                      "y": 0
+                    },
+                    {
+                      "x": 128,
+                      "y": 64
+                    },
+                    {
+                      "x": 0,
+                      "y": 64
+                    }
+                  ],
+                  "width": 128,
+                  "height": 64
+                }
+              ]
+            },
+            {
+              "target": {
+                "kind": "track",
+                "id": "reference"
+              },
+              "inputs": [
+                {
+                  "kind": "clip",
+                  "id": "reference"
+                }
+              ],
+              "operations": []
+            },
+            {
+              "target": {
+                "kind": "output"
+              },
+              "inputs": [
+                {
+                  "kind": "track",
+                  "id": "reference"
+                }
+              ],
+              "operations": []
+            }
+          ]
+        },
+        "processing": [],
+        "assets": [
+          {
+            "assetId": "reference",
+            "streamId": "image:0",
+            "path": "/Users/server/dev/yap-blend-sheet/specs/video-editing-feedback/assets/24-blend-sheet/normal/reference.png",
+            "originUs": 0
+          }
+        ],
+        "profile": "h264-rec709",
+        "maxLongEdge": 128
+      },
+      "frame": {
+        "bytes": 661,
+        "decodedImages": 1,
+        "decodedSamples": 0,
+        "file": "/tmp/yap-blend-encoding-accepted/normal/control.png",
+        "frame": {
+          "index": 0,
+          "layers": [
+            {
+              "assetId": "reference",
+              "availability": "available",
+              "clipId": "reference",
+              "height": 64,
+              "kind": "image",
+              "streamId": "image:0",
+              "trackId": "reference",
+              "width": 128
+            }
+          ],
+          "sampleAtUs": 0,
+          "visibleRange": {
+            "endUs": 100000,
+            "startUs": 0
+          },
+          "visual": [
+            {
+              "inputs": [],
+              "operations": [
+                {
+                  "height": 63,
+                  "kind": "clamp",
+                  "width": 127,
+                  "x": 0.5,
+                  "y": 0.5
+                },
+                {
+                  "kind": "affine",
+                  "matrix": [
+                    1,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0
+                  ]
+                },
+                {
+                  "kind": "affine",
+                  "matrix": [
+                    1,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0
+                  ]
+                },
+                {
+                  "height": 64,
+                  "kind": "coverage",
+                  "points": [
+                    {
+                      "x": 0,
+                      "y": 0
+                    },
+                    {
+                      "x": 128,
+                      "y": 0
+                    },
+                    {
+                      "x": 128,
+                      "y": 64
+                    },
+                    {
+                      "x": 0,
+                      "y": 64
+                    }
+                  ],
+                  "width": 128
+                }
+              ],
+              "target": {
+                "id": "reference",
+                "kind": "clip"
+              }
+            },
+            {
+              "inputs": [
+                {
+                  "id": "reference",
+                  "kind": "clip"
+                }
+              ],
+              "operations": [],
+              "target": {
+                "id": "reference",
+                "kind": "track"
+              }
+            },
+            {
+              "inputs": [
+                {
+                  "id": "reference",
+                  "kind": "track"
+                }
+              ],
+              "operations": [],
+              "target": {
+                "kind": "output"
+              }
+            }
+          ]
+        },
+        "height": 64,
+        "mediaType": "image/png",
+        "pictures": [
+          {
+            "assetId": "reference",
+            "clipId": "reference",
+            "kind": "image",
+            "status": "available",
+            "streamId": "image:0"
+          }
+        ],
+        "profile": "h264-rec709",
+        "readerOpens": 1,
+        "sourceHeight": 64,
+        "sourceWidth": 128,
+        "width": 128
+      },
+      "stillProof": {
+        "maximum": 0,
+        "mae": 0,
+        "samples": 32768,
+        "limit": 2,
+        "interior": false
+      },
+      "request": {
+        "output": "/tmp/yap-blend-encoding-accepted/normal/control.mp4",
+        "frames": "/tmp/yap-blend-encoding-accepted/normal/frames.jsonl",
+        "range": {
+          "startUs": 0,
+          "endUs": 200000
+        },
+        "canvas": {
+          "width": 128,
+          "height": 64,
+          "fps": {
+            "numerator": 10,
+            "denominator": 1
+          },
+          "background": "#000000ff"
+        },
+        "processing": [],
+        "assets": [
+          {
+            "assetId": "reference",
+            "streamId": "image:0",
+            "path": "/Users/server/dev/yap-blend-sheet/specs/video-editing-feedback/assets/24-blend-sheet/normal/reference.png",
+            "originUs": 0
+          }
+        ],
+        "settings": {
+          "container": "mp4",
+          "video": {
+            "codec": "h264",
+            "encoder": {
+              "hardware": "auto",
+              "id": null,
+              "gpu": null
+            },
+            "color": "rec709",
+            "rateControl": {
+              "mode": "average",
+              "bitrate": 20000000
+            },
+            "profile": "high",
+            "level": "auto",
+            "keyframeInterval": 120,
+            "keyframeIntervalSeconds": 2,
+            "frameReordering": false,
+            "entropy": "cabac",
+            "temporalCompression": true,
+            "openGop": false,
+            "prioritizeSpeed": false,
+            "powerEfficient": false,
+            "dataRateLimits": [],
+            "bufferDurationSeconds": null,
+            "initialBufferDelayPercent": null,
+            "spatialAdaptiveQuantization": true,
+            "lookAheadFrames": null,
+            "nonDroppableFrameRate": null,
+            "minimumQuantizer": null,
+            "maximumQuantizer": null
+          },
+          "audio": {
+            "codec": "aac",
+            "sampleRate": 48000,
+            "layout": "stereo",
+            "rateControl": {
+              "mode": "constant",
+              "bitrate": 192000
+            },
+            "quality": "high"
+          }
+        }
+      },
+      "receipt": {
+        "bytes": 1172,
+        "decodedImages": 1,
+        "decodedSamples": 0,
+        "durationUs": 200000,
+        "encodedVideo": {
+          "level": "3.2",
+          "profile": "high"
+        },
+        "file": "/tmp/yap-blend-encoding-accepted/normal/control.mp4",
+        "frames": 2,
+        "height": 64,
+        "maximumSequentialAdvanceUs": 1000000,
+        "mediaType": "video/mp4",
+        "pixelPoolAllocationThreshold": 4,
+        "pointerRasterizations": 0,
+        "rasterizedFrames": 1,
+        "readerOpens": 1,
+        "retainedSourceBuffersBound": 1,
+        "settings": {
+          "audio": {
+            "codec": "aac",
+            "layout": "stereo",
+            "quality": "high",
+            "rateControl": {
+              "bitrate": 192000,
+              "mode": "constant"
+            },
+            "sampleRate": 48000
+          },
+          "container": "mp4",
+          "video": {
+            "codec": "h264",
+            "color": "rec709",
+            "dataRateLimits": [],
+            "encoder": {
+              "hardware": "auto"
+            },
+            "entropy": "cabac",
+            "frameReordering": false,
+            "keyframeInterval": 120,
+            "keyframeIntervalSeconds": 2,
+            "level": "auto",
+            "openGop": false,
+            "powerEfficient": false,
+            "prioritizeSpeed": false,
+            "profile": "high",
+            "rateControl": {
+              "bitrate": 20000000,
+              "mode": "average"
+            },
+            "spatialAdaptiveQuantization": true,
+            "temporalCompression": true
+          }
+        },
+        "width": 128
+      },
+      "support": {
+        "file": "/tmp/yap-blend-encoding-accepted/normal/control.mp4",
+        "trackId": 1,
+        "segments": [
+          {
+            "empty": false,
+            "sourceStart": {
+              "value": "0",
+              "timescale": 1000000
+            },
+            "targetDuration": {
+              "value": "200000",
+              "timescale": 1000000
+            },
+            "targetStart": {
+              "timescale": 1000000,
+              "value": "0"
+            },
+            "sourceDuration": {
+              "timescale": 1000000,
+              "value": "200000"
+            },
+            "ordinal": 0
+          }
+        ],
+        "samples": [
+          {
+            "mediaDuration": {
+              "timescale": 1000000,
+              "value": "100000"
+            },
+            "segment": 0,
+            "end": {
+              "value": "100000",
+              "timescale": 1000000
+            },
+            "mediaPTS": {
+              "timescale": 1000000,
+              "value": "0"
+            },
+            "start": {
+              "value": "0",
+              "timescale": 1000000
+            },
+            "roundedUs": 0
+          },
+          {
+            "segment": 0,
+            "start": {
+              "timescale": 1000000,
+              "value": "100000"
+            },
+            "mediaPTS": {
+              "timescale": 1000000,
+              "value": "100000"
+            },
+            "mediaDuration": {
+              "timescale": 1000000,
+              "value": "100000"
+            },
+            "end": {
+              "timescale": 1000000,
+              "value": "200000"
+            },
+            "roundedUs": 100000
+          }
+        ]
+      },
+      "controlSha256": "5fe651ba9be03974162948fe06d7408227496f4300215333cc65dce5df7ebbe9",
+      "proofs": [
+        {
+          "maximum": 3,
+          "mae": 0.09381103515625,
+          "samples": 32768,
+          "limit": 8,
+          "interior": false
+        },
+        {
+          "maximum": 3,
+          "mae": 0.09381103515625,
+          "samples": 32768,
+          "limit": 8,
+          "interior": false
+        }
+      ],
+      "controls": [
+        {
+          "read": {
+            "width": 128,
+            "requestedUs": 0,
+            "height": 64,
+            "sourceProfile": "kCGColorSpaceCoreMedia709",
+            "file": "/tmp/yap-blend-encoding-accepted/normal/control-frames/000.png",
+            "actualValue": "0",
+            "sourceProfileSHA256": "a1096ca47d80ba9df7f9f8fa87a0b9446d9b6a2c94ab11e4144495616b1eb29b",
+            "index": 0,
+            "outputProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e",
+            "status": "available",
+            "outputProfile": "kCGColorSpaceSRGB",
+            "actualTimescale": 1000000
+          },
+          "observation": {
+            "sourceProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e",
+            "opaque": true,
+            "width": 128,
+            "height": 64,
+            "outputProfile": "kCGColorSpaceSRGB",
+            "sourceProfile": "kCGColorSpaceSRGB"
+          }
+        },
+        {
+          "read": {
+            "outputProfile": "kCGColorSpaceSRGB",
+            "width": 128,
+            "outputProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e",
+            "actualValue": "100000",
+            "file": "/tmp/yap-blend-encoding-accepted/normal/control-frames/001.png",
+            "sourceProfile": "kCGColorSpaceCoreMedia709",
+            "status": "available",
+            "actualTimescale": 1000000,
+            "height": 64,
+            "sourceProfileSHA256": "a1096ca47d80ba9df7f9f8fa87a0b9446d9b6a2c94ab11e4144495616b1eb29b",
+            "index": 1,
+            "requestedUs": 100000
+          },
+          "observation": {
+            "sourceProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e",
+            "sourceProfile": "kCGColorSpaceSRGB",
+            "outputProfile": "kCGColorSpaceSRGB",
+            "width": 128,
+            "opaque": true,
+            "height": 64
+          }
+        }
+      ],
+      "actual": [
+        {
+          "read": {
+            "actualTimescale": 1000000,
+            "status": "available",
+            "height": 64,
+            "outputProfile": "kCGColorSpaceSRGB",
+            "sourceProfileSHA256": "a1096ca47d80ba9df7f9f8fa87a0b9446d9b6a2c94ab11e4144495616b1eb29b",
+            "requestedUs": 0,
+            "sourceProfile": "kCGColorSpaceCoreMedia709",
+            "file": "/tmp/yap-blend-encoding-accepted/normal/actual-frames/000.png",
+            "outputProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e",
+            "actualValue": "0",
+            "width": 128,
+            "index": 0
+          },
+          "observation": {
+            "opaque": true,
+            "width": 128,
+            "sourceProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e",
+            "outputProfile": "kCGColorSpaceSRGB",
+            "height": 64,
+            "sourceProfile": "kCGColorSpaceSRGB"
+          }
+        },
+        {
+          "read": {
+            "actualValue": "100000",
+            "outputProfile": "kCGColorSpaceSRGB",
+            "outputProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e",
+            "height": 64,
+            "sourceProfile": "kCGColorSpaceCoreMedia709",
+            "index": 1,
+            "width": 128,
+            "file": "/tmp/yap-blend-encoding-accepted/normal/actual-frames/001.png",
+            "requestedUs": 100000,
+            "sourceProfileSHA256": "a1096ca47d80ba9df7f9f8fa87a0b9446d9b6a2c94ab11e4144495616b1eb29b",
+            "status": "available",
+            "actualTimescale": 1000000
+          },
+          "observation": {
+            "sourceProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e",
+            "outputProfile": "kCGColorSpaceSRGB",
+            "height": 64,
+            "width": 128,
+            "sourceProfile": "kCGColorSpaceSRGB",
+            "opaque": true
+          }
+        }
+      ]
+    },
+    {
+      "scenario": "multiply",
+      "referenceSha256": "4fd83e0510f4f9c8452e0171017d713e1d26129a5ac16cd5b4977717c00291bb",
+      "originalMovieSha256": "bbc9079908031579c47f4ab160107e436656bbcd5e28fa5bc2f24ecc8c931e0e",
+      "document": {
+        "canvas": {
+          "width": 128,
+          "height": 64,
+          "fps": {
+            "numerator": 10,
+            "denominator": 1
+          },
+          "background": "#000000ff"
+        },
+        "tracks": [
+          {
+            "id": "reference",
+            "kind": "video",
+            "order": 0
+          }
+        ],
+        "groups": [],
+        "clips": [
+          {
+            "id": "reference",
+            "trackId": "reference",
+            "assetId": "reference",
+            "streamId": "image:0",
+            "source": {
+              "kind": "hold",
+              "atUs": 0
+            },
+            "placement": {
+              "kind": "project",
+              "range": {
+                "startUs": 0,
+                "endUs": 200000
+              }
+            }
+          }
+        ],
+        "processing": [],
+        "syncGroups": []
+      },
+      "frameRequest": {
+        "output": "/tmp/yap-blend-encoding-accepted/multiply/control.png",
+        "canvas": {
+          "width": 128,
+          "height": 64,
+          "fps": {
+            "numerator": 10,
+            "denominator": 1
+          },
+          "background": "#000000ff"
+        },
+        "frame": {
+          "index": 0,
+          "sampleAtUs": 0,
+          "visibleRange": {
+            "startUs": 0,
+            "endUs": 100000
+          },
+          "layers": [
+            {
+              "clipId": "reference",
+              "trackId": "reference",
+              "assetId": "reference",
+              "streamId": "image:0",
+              "kind": "image",
+              "availability": "available",
+              "width": 128,
+              "height": 64
+            }
+          ],
+          "visual": [
+            {
+              "target": {
+                "kind": "clip",
+                "id": "reference"
+              },
+              "inputs": [],
+              "operations": [
+                {
+                  "kind": "clamp",
+                  "x": 0.5,
+                  "y": 0.5,
+                  "width": 127,
+                  "height": 63
+                },
+                {
+                  "kind": "affine",
+                  "matrix": [
+                    1,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0
+                  ]
+                },
+                {
+                  "kind": "affine",
+                  "matrix": [
+                    1,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0
+                  ]
+                },
+                {
+                  "kind": "coverage",
+                  "points": [
+                    {
+                      "x": 0,
+                      "y": 0
+                    },
+                    {
+                      "x": 128,
+                      "y": 0
+                    },
+                    {
+                      "x": 128,
+                      "y": 64
+                    },
+                    {
+                      "x": 0,
+                      "y": 64
+                    }
+                  ],
+                  "width": 128,
+                  "height": 64
+                }
+              ]
+            },
+            {
+              "target": {
+                "kind": "track",
+                "id": "reference"
+              },
+              "inputs": [
+                {
+                  "kind": "clip",
+                  "id": "reference"
+                }
+              ],
+              "operations": []
+            },
+            {
+              "target": {
+                "kind": "output"
+              },
+              "inputs": [
+                {
+                  "kind": "track",
+                  "id": "reference"
+                }
+              ],
+              "operations": []
+            }
+          ]
+        },
+        "processing": [],
+        "assets": [
+          {
+            "assetId": "reference",
+            "streamId": "image:0",
+            "path": "/Users/server/dev/yap-blend-sheet/specs/video-editing-feedback/assets/24-blend-sheet/multiply/reference.png",
+            "originUs": 0
+          }
+        ],
+        "profile": "h264-rec709",
+        "maxLongEdge": 128
+      },
+      "frame": {
+        "bytes": 628,
+        "decodedImages": 1,
+        "decodedSamples": 0,
+        "file": "/tmp/yap-blend-encoding-accepted/multiply/control.png",
+        "frame": {
+          "index": 0,
+          "layers": [
+            {
+              "assetId": "reference",
+              "availability": "available",
+              "clipId": "reference",
+              "height": 64,
+              "kind": "image",
+              "streamId": "image:0",
+              "trackId": "reference",
+              "width": 128
+            }
+          ],
+          "sampleAtUs": 0,
+          "visibleRange": {
+            "endUs": 100000,
+            "startUs": 0
+          },
+          "visual": [
+            {
+              "inputs": [],
+              "operations": [
+                {
+                  "height": 63,
+                  "kind": "clamp",
+                  "width": 127,
+                  "x": 0.5,
+                  "y": 0.5
+                },
+                {
+                  "kind": "affine",
+                  "matrix": [
+                    1,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0
+                  ]
+                },
+                {
+                  "kind": "affine",
+                  "matrix": [
+                    1,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0
+                  ]
+                },
+                {
+                  "height": 64,
+                  "kind": "coverage",
+                  "points": [
+                    {
+                      "x": 0,
+                      "y": 0
+                    },
+                    {
+                      "x": 128,
+                      "y": 0
+                    },
+                    {
+                      "x": 128,
+                      "y": 64
+                    },
+                    {
+                      "x": 0,
+                      "y": 64
+                    }
+                  ],
+                  "width": 128
+                }
+              ],
+              "target": {
+                "id": "reference",
+                "kind": "clip"
+              }
+            },
+            {
+              "inputs": [
+                {
+                  "id": "reference",
+                  "kind": "clip"
+                }
+              ],
+              "operations": [],
+              "target": {
+                "id": "reference",
+                "kind": "track"
+              }
+            },
+            {
+              "inputs": [
+                {
+                  "id": "reference",
+                  "kind": "track"
+                }
+              ],
+              "operations": [],
+              "target": {
+                "kind": "output"
+              }
+            }
+          ]
+        },
+        "height": 64,
+        "mediaType": "image/png",
+        "pictures": [
+          {
+            "assetId": "reference",
+            "clipId": "reference",
+            "kind": "image",
+            "status": "available",
+            "streamId": "image:0"
+          }
+        ],
+        "profile": "h264-rec709",
+        "readerOpens": 1,
+        "sourceHeight": 64,
+        "sourceWidth": 128,
+        "width": 128
+      },
+      "stillProof": {
+        "maximum": 0,
+        "mae": 0,
+        "samples": 32768,
+        "limit": 2,
+        "interior": false
+      },
+      "request": {
+        "output": "/tmp/yap-blend-encoding-accepted/multiply/control.mp4",
+        "frames": "/tmp/yap-blend-encoding-accepted/multiply/frames.jsonl",
+        "range": {
+          "startUs": 0,
+          "endUs": 200000
+        },
+        "canvas": {
+          "width": 128,
+          "height": 64,
+          "fps": {
+            "numerator": 10,
+            "denominator": 1
+          },
+          "background": "#000000ff"
+        },
+        "processing": [],
+        "assets": [
+          {
+            "assetId": "reference",
+            "streamId": "image:0",
+            "path": "/Users/server/dev/yap-blend-sheet/specs/video-editing-feedback/assets/24-blend-sheet/multiply/reference.png",
+            "originUs": 0
+          }
+        ],
+        "settings": {
+          "container": "mp4",
+          "video": {
+            "codec": "h264",
+            "encoder": {
+              "hardware": "auto",
+              "id": null,
+              "gpu": null
+            },
+            "color": "rec709",
+            "rateControl": {
+              "mode": "average",
+              "bitrate": 20000000
+            },
+            "profile": "high",
+            "level": "auto",
+            "keyframeInterval": 120,
+            "keyframeIntervalSeconds": 2,
+            "frameReordering": false,
+            "entropy": "cabac",
+            "temporalCompression": true,
+            "openGop": false,
+            "prioritizeSpeed": false,
+            "powerEfficient": false,
+            "dataRateLimits": [],
+            "bufferDurationSeconds": null,
+            "initialBufferDelayPercent": null,
+            "spatialAdaptiveQuantization": true,
+            "lookAheadFrames": null,
+            "nonDroppableFrameRate": null,
+            "minimumQuantizer": null,
+            "maximumQuantizer": null
+          },
+          "audio": {
+            "codec": "aac",
+            "sampleRate": 48000,
+            "layout": "stereo",
+            "rateControl": {
+              "mode": "constant",
+              "bitrate": 192000
+            },
+            "quality": "high"
+          }
+        }
+      },
+      "receipt": {
+        "bytes": 1067,
+        "decodedImages": 1,
+        "decodedSamples": 0,
+        "durationUs": 200000,
+        "encodedVideo": {
+          "level": "3.2",
+          "profile": "high"
+        },
+        "file": "/tmp/yap-blend-encoding-accepted/multiply/control.mp4",
+        "frames": 2,
+        "height": 64,
+        "maximumSequentialAdvanceUs": 1000000,
+        "mediaType": "video/mp4",
+        "pixelPoolAllocationThreshold": 4,
+        "pointerRasterizations": 0,
+        "rasterizedFrames": 1,
+        "readerOpens": 1,
+        "retainedSourceBuffersBound": 1,
+        "settings": {
+          "audio": {
+            "codec": "aac",
+            "layout": "stereo",
+            "quality": "high",
+            "rateControl": {
+              "bitrate": 192000,
+              "mode": "constant"
+            },
+            "sampleRate": 48000
+          },
+          "container": "mp4",
+          "video": {
+            "codec": "h264",
+            "color": "rec709",
+            "dataRateLimits": [],
+            "encoder": {
+              "hardware": "auto"
+            },
+            "entropy": "cabac",
+            "frameReordering": false,
+            "keyframeInterval": 120,
+            "keyframeIntervalSeconds": 2,
+            "level": "auto",
+            "openGop": false,
+            "powerEfficient": false,
+            "prioritizeSpeed": false,
+            "profile": "high",
+            "rateControl": {
+              "bitrate": 20000000,
+              "mode": "average"
+            },
+            "spatialAdaptiveQuantization": true,
+            "temporalCompression": true
+          }
+        },
+        "width": 128
+      },
+      "support": {
+        "samples": [
+          {
+            "mediaPTS": {
+              "timescale": 1000000,
+              "value": "0"
+            },
+            "end": {
+              "timescale": 1000000,
+              "value": "100000"
+            },
+            "mediaDuration": {
+              "value": "100000",
+              "timescale": 1000000
+            },
+            "roundedUs": 0,
+            "segment": 0,
+            "start": {
+              "timescale": 1000000,
+              "value": "0"
+            }
+          },
+          {
+            "mediaDuration": {
+              "timescale": 1000000,
+              "value": "100000"
+            },
+            "mediaPTS": {
+              "timescale": 1000000,
+              "value": "100000"
+            },
+            "start": {
+              "timescale": 1000000,
+              "value": "100000"
+            },
+            "segment": 0,
+            "roundedUs": 100000,
+            "end": {
+              "timescale": 1000000,
+              "value": "200000"
+            }
+          }
+        ],
+        "file": "/tmp/yap-blend-encoding-accepted/multiply/control.mp4",
+        "trackId": 1,
+        "segments": [
+          {
+            "targetStart": {
+              "timescale": 1000000,
+              "value": "0"
+            },
+            "targetDuration": {
+              "value": "200000",
+              "timescale": 1000000
+            },
+            "empty": false,
+            "sourceDuration": {
+              "timescale": 1000000,
+              "value": "200000"
+            },
+            "sourceStart": {
+              "timescale": 1000000,
+              "value": "0"
+            },
+            "ordinal": 0
+          }
+        ]
+      },
+      "controlSha256": "bf4f71df83beb8fa038464dd85977a6bd96a0ef9c3274aa4b59d987312d3823c",
+      "proofs": [
+        {
+          "maximum": 3,
+          "mae": 0.10833740234375,
+          "samples": 32768,
+          "limit": 8,
+          "interior": false
+        },
+        {
+          "maximum": 3,
+          "mae": 0.10833740234375,
+          "samples": 32768,
+          "limit": 8,
+          "interior": false
+        }
+      ],
+      "controls": [
+        {
+          "read": {
+            "actualValue": "0",
+            "outputProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e",
+            "width": 128,
+            "height": 64,
+            "actualTimescale": 1000000,
+            "sourceProfileSHA256": "a1096ca47d80ba9df7f9f8fa87a0b9446d9b6a2c94ab11e4144495616b1eb29b",
+            "sourceProfile": "kCGColorSpaceCoreMedia709",
+            "requestedUs": 0,
+            "status": "available",
+            "index": 0,
+            "file": "/tmp/yap-blend-encoding-accepted/multiply/control-frames/000.png",
+            "outputProfile": "kCGColorSpaceSRGB"
+          },
+          "observation": {
+            "width": 128,
+            "outputProfile": "kCGColorSpaceSRGB",
+            "height": 64,
+            "sourceProfile": "kCGColorSpaceSRGB",
+            "opaque": true,
+            "sourceProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e"
+          }
+        },
+        {
+          "read": {
+            "file": "/tmp/yap-blend-encoding-accepted/multiply/control-frames/001.png",
+            "outputProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e",
+            "actualValue": "100000",
+            "outputProfile": "kCGColorSpaceSRGB",
+            "actualTimescale": 1000000,
+            "height": 64,
+            "status": "available",
+            "index": 1,
+            "width": 128,
+            "sourceProfile": "kCGColorSpaceCoreMedia709",
+            "requestedUs": 100000,
+            "sourceProfileSHA256": "a1096ca47d80ba9df7f9f8fa87a0b9446d9b6a2c94ab11e4144495616b1eb29b"
+          },
+          "observation": {
+            "outputProfile": "kCGColorSpaceSRGB",
+            "opaque": true,
+            "width": 128,
+            "sourceProfile": "kCGColorSpaceSRGB",
+            "sourceProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e",
+            "height": 64
+          }
+        }
+      ],
+      "actual": [
+        {
+          "read": {
+            "actualValue": "0",
+            "actualTimescale": 1000000,
+            "requestedUs": 0,
+            "outputProfile": "kCGColorSpaceSRGB",
+            "height": 64,
+            "outputProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e",
+            "width": 128,
+            "file": "/tmp/yap-blend-encoding-accepted/multiply/actual-frames/000.png",
+            "index": 0,
+            "sourceProfileSHA256": "a1096ca47d80ba9df7f9f8fa87a0b9446d9b6a2c94ab11e4144495616b1eb29b",
+            "sourceProfile": "kCGColorSpaceCoreMedia709",
+            "status": "available"
+          },
+          "observation": {
+            "sourceProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e",
+            "width": 128,
+            "sourceProfile": "kCGColorSpaceSRGB",
+            "height": 64,
+            "outputProfile": "kCGColorSpaceSRGB",
+            "opaque": true
+          }
+        },
+        {
+          "read": {
+            "index": 1,
+            "height": 64,
+            "actualTimescale": 1000000,
+            "outputProfile": "kCGColorSpaceSRGB",
+            "outputProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e",
+            "width": 128,
+            "status": "available",
+            "file": "/tmp/yap-blend-encoding-accepted/multiply/actual-frames/001.png",
+            "sourceProfileSHA256": "a1096ca47d80ba9df7f9f8fa87a0b9446d9b6a2c94ab11e4144495616b1eb29b",
+            "actualValue": "100000",
+            "requestedUs": 100000,
+            "sourceProfile": "kCGColorSpaceCoreMedia709"
+          },
+          "observation": {
+            "sourceProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e",
+            "height": 64,
+            "outputProfile": "kCGColorSpaceSRGB",
+            "sourceProfile": "kCGColorSpaceSRGB",
+            "opaque": true,
+            "width": 128
+          }
+        }
+      ]
+    },
+    {
+      "scenario": "screen",
+      "referenceSha256": "d049acde5ba8d29fb1a3d671b03793811d6c22ae549422b75555832e012de86c",
+      "originalMovieSha256": "a83f6e91e0b4344188df4e68051cb6810984cd9b21d6664f092584f4815d4764",
+      "document": {
+        "canvas": {
+          "width": 128,
+          "height": 64,
+          "fps": {
+            "numerator": 10,
+            "denominator": 1
+          },
+          "background": "#000000ff"
+        },
+        "tracks": [
+          {
+            "id": "reference",
+            "kind": "video",
+            "order": 0
+          }
+        ],
+        "groups": [],
+        "clips": [
+          {
+            "id": "reference",
+            "trackId": "reference",
+            "assetId": "reference",
+            "streamId": "image:0",
+            "source": {
+              "kind": "hold",
+              "atUs": 0
+            },
+            "placement": {
+              "kind": "project",
+              "range": {
+                "startUs": 0,
+                "endUs": 200000
+              }
+            }
+          }
+        ],
+        "processing": [],
+        "syncGroups": []
+      },
+      "frameRequest": {
+        "output": "/tmp/yap-blend-encoding-accepted/screen/control.png",
+        "canvas": {
+          "width": 128,
+          "height": 64,
+          "fps": {
+            "numerator": 10,
+            "denominator": 1
+          },
+          "background": "#000000ff"
+        },
+        "frame": {
+          "index": 0,
+          "sampleAtUs": 0,
+          "visibleRange": {
+            "startUs": 0,
+            "endUs": 100000
+          },
+          "layers": [
+            {
+              "clipId": "reference",
+              "trackId": "reference",
+              "assetId": "reference",
+              "streamId": "image:0",
+              "kind": "image",
+              "availability": "available",
+              "width": 128,
+              "height": 64
+            }
+          ],
+          "visual": [
+            {
+              "target": {
+                "kind": "clip",
+                "id": "reference"
+              },
+              "inputs": [],
+              "operations": [
+                {
+                  "kind": "clamp",
+                  "x": 0.5,
+                  "y": 0.5,
+                  "width": 127,
+                  "height": 63
+                },
+                {
+                  "kind": "affine",
+                  "matrix": [
+                    1,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0
+                  ]
+                },
+                {
+                  "kind": "affine",
+                  "matrix": [
+                    1,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0
+                  ]
+                },
+                {
+                  "kind": "coverage",
+                  "points": [
+                    {
+                      "x": 0,
+                      "y": 0
+                    },
+                    {
+                      "x": 128,
+                      "y": 0
+                    },
+                    {
+                      "x": 128,
+                      "y": 64
+                    },
+                    {
+                      "x": 0,
+                      "y": 64
+                    }
+                  ],
+                  "width": 128,
+                  "height": 64
+                }
+              ]
+            },
+            {
+              "target": {
+                "kind": "track",
+                "id": "reference"
+              },
+              "inputs": [
+                {
+                  "kind": "clip",
+                  "id": "reference"
+                }
+              ],
+              "operations": []
+            },
+            {
+              "target": {
+                "kind": "output"
+              },
+              "inputs": [
+                {
+                  "kind": "track",
+                  "id": "reference"
+                }
+              ],
+              "operations": []
+            }
+          ]
+        },
+        "processing": [],
+        "assets": [
+          {
+            "assetId": "reference",
+            "streamId": "image:0",
+            "path": "/Users/server/dev/yap-blend-sheet/specs/video-editing-feedback/assets/24-blend-sheet/screen/reference.png",
+            "originUs": 0
+          }
+        ],
+        "profile": "h264-rec709",
+        "maxLongEdge": 128
+      },
+      "frame": {
+        "bytes": 681,
+        "decodedImages": 1,
+        "decodedSamples": 0,
+        "file": "/tmp/yap-blend-encoding-accepted/screen/control.png",
+        "frame": {
+          "index": 0,
+          "layers": [
+            {
+              "assetId": "reference",
+              "availability": "available",
+              "clipId": "reference",
+              "height": 64,
+              "kind": "image",
+              "streamId": "image:0",
+              "trackId": "reference",
+              "width": 128
+            }
+          ],
+          "sampleAtUs": 0,
+          "visibleRange": {
+            "endUs": 100000,
+            "startUs": 0
+          },
+          "visual": [
+            {
+              "inputs": [],
+              "operations": [
+                {
+                  "height": 63,
+                  "kind": "clamp",
+                  "width": 127,
+                  "x": 0.5,
+                  "y": 0.5
+                },
+                {
+                  "kind": "affine",
+                  "matrix": [
+                    1,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0
+                  ]
+                },
+                {
+                  "kind": "affine",
+                  "matrix": [
+                    1,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0
+                  ]
+                },
+                {
+                  "height": 64,
+                  "kind": "coverage",
+                  "points": [
+                    {
+                      "x": 0,
+                      "y": 0
+                    },
+                    {
+                      "x": 128,
+                      "y": 0
+                    },
+                    {
+                      "x": 128,
+                      "y": 64
+                    },
+                    {
+                      "x": 0,
+                      "y": 64
+                    }
+                  ],
+                  "width": 128
+                }
+              ],
+              "target": {
+                "id": "reference",
+                "kind": "clip"
+              }
+            },
+            {
+              "inputs": [
+                {
+                  "id": "reference",
+                  "kind": "clip"
+                }
+              ],
+              "operations": [],
+              "target": {
+                "id": "reference",
+                "kind": "track"
+              }
+            },
+            {
+              "inputs": [
+                {
+                  "id": "reference",
+                  "kind": "track"
+                }
+              ],
+              "operations": [],
+              "target": {
+                "kind": "output"
+              }
+            }
+          ]
+        },
+        "height": 64,
+        "mediaType": "image/png",
+        "pictures": [
+          {
+            "assetId": "reference",
+            "clipId": "reference",
+            "kind": "image",
+            "status": "available",
+            "streamId": "image:0"
+          }
+        ],
+        "profile": "h264-rec709",
+        "readerOpens": 1,
+        "sourceHeight": 64,
+        "sourceWidth": 128,
+        "width": 128
+      },
+      "stillProof": {
+        "maximum": 0,
+        "mae": 0,
+        "samples": 32768,
+        "limit": 2,
+        "interior": false
+      },
+      "request": {
+        "output": "/tmp/yap-blend-encoding-accepted/screen/control.mp4",
+        "frames": "/tmp/yap-blend-encoding-accepted/screen/frames.jsonl",
+        "range": {
+          "startUs": 0,
+          "endUs": 200000
+        },
+        "canvas": {
+          "width": 128,
+          "height": 64,
+          "fps": {
+            "numerator": 10,
+            "denominator": 1
+          },
+          "background": "#000000ff"
+        },
+        "processing": [],
+        "assets": [
+          {
+            "assetId": "reference",
+            "streamId": "image:0",
+            "path": "/Users/server/dev/yap-blend-sheet/specs/video-editing-feedback/assets/24-blend-sheet/screen/reference.png",
+            "originUs": 0
+          }
+        ],
+        "settings": {
+          "container": "mp4",
+          "video": {
+            "codec": "h264",
+            "encoder": {
+              "hardware": "auto",
+              "id": null,
+              "gpu": null
+            },
+            "color": "rec709",
+            "rateControl": {
+              "mode": "average",
+              "bitrate": 20000000
+            },
+            "profile": "high",
+            "level": "auto",
+            "keyframeInterval": 120,
+            "keyframeIntervalSeconds": 2,
+            "frameReordering": false,
+            "entropy": "cabac",
+            "temporalCompression": true,
+            "openGop": false,
+            "prioritizeSpeed": false,
+            "powerEfficient": false,
+            "dataRateLimits": [],
+            "bufferDurationSeconds": null,
+            "initialBufferDelayPercent": null,
+            "spatialAdaptiveQuantization": true,
+            "lookAheadFrames": null,
+            "nonDroppableFrameRate": null,
+            "minimumQuantizer": null,
+            "maximumQuantizer": null
+          },
+          "audio": {
+            "codec": "aac",
+            "sampleRate": 48000,
+            "layout": "stereo",
+            "rateControl": {
+              "mode": "constant",
+              "bitrate": 192000
+            },
+            "quality": "high"
+          }
+        }
+      },
+      "receipt": {
+        "bytes": 1119,
+        "decodedImages": 1,
+        "decodedSamples": 0,
+        "durationUs": 200000,
+        "encodedVideo": {
+          "level": "3.2",
+          "profile": "high"
+        },
+        "file": "/tmp/yap-blend-encoding-accepted/screen/control.mp4",
+        "frames": 2,
+        "height": 64,
+        "maximumSequentialAdvanceUs": 1000000,
+        "mediaType": "video/mp4",
+        "pixelPoolAllocationThreshold": 4,
+        "pointerRasterizations": 0,
+        "rasterizedFrames": 1,
+        "readerOpens": 1,
+        "retainedSourceBuffersBound": 1,
+        "settings": {
+          "audio": {
+            "codec": "aac",
+            "layout": "stereo",
+            "quality": "high",
+            "rateControl": {
+              "bitrate": 192000,
+              "mode": "constant"
+            },
+            "sampleRate": 48000
+          },
+          "container": "mp4",
+          "video": {
+            "codec": "h264",
+            "color": "rec709",
+            "dataRateLimits": [],
+            "encoder": {
+              "hardware": "auto"
+            },
+            "entropy": "cabac",
+            "frameReordering": false,
+            "keyframeInterval": 120,
+            "keyframeIntervalSeconds": 2,
+            "level": "auto",
+            "openGop": false,
+            "powerEfficient": false,
+            "prioritizeSpeed": false,
+            "profile": "high",
+            "rateControl": {
+              "bitrate": 20000000,
+              "mode": "average"
+            },
+            "spatialAdaptiveQuantization": true,
+            "temporalCompression": true
+          }
+        },
+        "width": 128
+      },
+      "support": {
+        "samples": [
+          {
+            "mediaPTS": {
+              "value": "0",
+              "timescale": 1000000
+            },
+            "roundedUs": 0,
+            "end": {
+              "timescale": 1000000,
+              "value": "100000"
+            },
+            "start": {
+              "timescale": 1000000,
+              "value": "0"
+            },
+            "segment": 0,
+            "mediaDuration": {
+              "value": "100000",
+              "timescale": 1000000
+            }
+          },
+          {
+            "start": {
+              "timescale": 1000000,
+              "value": "100000"
+            },
+            "end": {
+              "timescale": 1000000,
+              "value": "200000"
+            },
+            "roundedUs": 100000,
+            "mediaPTS": {
+              "timescale": 1000000,
+              "value": "100000"
+            },
+            "mediaDuration": {
+              "timescale": 1000000,
+              "value": "100000"
+            },
+            "segment": 0
+          }
+        ],
+        "file": "/tmp/yap-blend-encoding-accepted/screen/control.mp4",
+        "trackId": 1,
+        "segments": [
+          {
+            "targetStart": {
+              "timescale": 1000000,
+              "value": "0"
+            },
+            "empty": false,
+            "sourceStart": {
+              "value": "0",
+              "timescale": 1000000
+            },
+            "ordinal": 0,
+            "sourceDuration": {
+              "value": "200000",
+              "timescale": 1000000
+            },
+            "targetDuration": {
+              "timescale": 1000000,
+              "value": "200000"
+            }
+          }
+        ]
+      },
+      "controlSha256": "a970d3d2e18f72b8c768716069f3e2b8e2fd4afbdebd124ebd606b6f19c36730",
+      "proofs": [
+        {
+          "maximum": 2,
+          "mae": 0.077178955078125,
+          "samples": 32768,
+          "limit": 8,
+          "interior": false
+        },
+        {
+          "maximum": 2,
+          "mae": 0.077178955078125,
+          "samples": 32768,
+          "limit": 8,
+          "interior": false
+        }
+      ],
+      "controls": [
+        {
+          "read": {
+            "width": 128,
+            "status": "available",
+            "sourceProfileSHA256": "a1096ca47d80ba9df7f9f8fa87a0b9446d9b6a2c94ab11e4144495616b1eb29b",
+            "actualTimescale": 1000000,
+            "height": 64,
+            "requestedUs": 0,
+            "index": 0,
+            "outputProfile": "kCGColorSpaceSRGB",
+            "outputProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e",
+            "actualValue": "0",
+            "sourceProfile": "kCGColorSpaceCoreMedia709",
+            "file": "/tmp/yap-blend-encoding-accepted/screen/control-frames/000.png"
+          },
+          "observation": {
+            "outputProfile": "kCGColorSpaceSRGB",
+            "width": 128,
+            "sourceProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e",
+            "opaque": true,
+            "height": 64,
+            "sourceProfile": "kCGColorSpaceSRGB"
+          }
+        },
+        {
+          "read": {
+            "outputProfile": "kCGColorSpaceSRGB",
+            "status": "available",
+            "actualValue": "100000",
+            "height": 64,
+            "actualTimescale": 1000000,
+            "width": 128,
+            "requestedUs": 100000,
+            "index": 1,
+            "sourceProfile": "kCGColorSpaceCoreMedia709",
+            "sourceProfileSHA256": "a1096ca47d80ba9df7f9f8fa87a0b9446d9b6a2c94ab11e4144495616b1eb29b",
+            "file": "/tmp/yap-blend-encoding-accepted/screen/control-frames/001.png",
+            "outputProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e"
+          },
+          "observation": {
+            "sourceProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e",
+            "height": 64,
+            "outputProfile": "kCGColorSpaceSRGB",
+            "opaque": true,
+            "width": 128,
+            "sourceProfile": "kCGColorSpaceSRGB"
+          }
+        }
+      ],
+      "actual": [
+        {
+          "read": {
+            "sourceProfileSHA256": "a1096ca47d80ba9df7f9f8fa87a0b9446d9b6a2c94ab11e4144495616b1eb29b",
+            "outputProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e",
+            "actualValue": "0",
+            "width": 128,
+            "height": 64,
+            "index": 0,
+            "sourceProfile": "kCGColorSpaceCoreMedia709",
+            "requestedUs": 0,
+            "status": "available",
+            "outputProfile": "kCGColorSpaceSRGB",
+            "actualTimescale": 1000000,
+            "file": "/tmp/yap-blend-encoding-accepted/screen/actual-frames/000.png"
+          },
+          "observation": {
+            "sourceProfile": "kCGColorSpaceSRGB",
+            "width": 128,
+            "opaque": true,
+            "sourceProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e",
+            "height": 64,
+            "outputProfile": "kCGColorSpaceSRGB"
+          }
+        },
+        {
+          "read": {
+            "width": 128,
+            "actualValue": "100000",
+            "outputProfile": "kCGColorSpaceSRGB",
+            "outputProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e",
+            "status": "available",
+            "requestedUs": 100000,
+            "sourceProfile": "kCGColorSpaceCoreMedia709",
+            "sourceProfileSHA256": "a1096ca47d80ba9df7f9f8fa87a0b9446d9b6a2c94ab11e4144495616b1eb29b",
+            "index": 1,
+            "height": 64,
+            "file": "/tmp/yap-blend-encoding-accepted/screen/actual-frames/001.png",
+            "actualTimescale": 1000000
+          },
+          "observation": {
+            "width": 128,
+            "height": 64,
+            "sourceProfile": "kCGColorSpaceSRGB",
+            "sourceProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e",
+            "outputProfile": "kCGColorSpaceSRGB",
+            "opaque": true
+          }
+        }
+      ]
+    },
+    {
+      "scenario": "soft-light",
+      "referenceSha256": "ebd30d2a1e6fc6a8e305771fb830e15075f9d30b3c9a2992c39ad5e29e26b3de",
+      "originalMovieSha256": "a966898aa1082855dd940b000a94a5bae322126242ea65f08a8786e948a32935",
+      "document": {
+        "canvas": {
+          "width": 128,
+          "height": 64,
+          "fps": {
+            "numerator": 10,
+            "denominator": 1
+          },
+          "background": "#000000ff"
+        },
+        "tracks": [
+          {
+            "id": "reference",
+            "kind": "video",
+            "order": 0
+          }
+        ],
+        "groups": [],
+        "clips": [
+          {
+            "id": "reference",
+            "trackId": "reference",
+            "assetId": "reference",
+            "streamId": "image:0",
+            "source": {
+              "kind": "hold",
+              "atUs": 0
+            },
+            "placement": {
+              "kind": "project",
+              "range": {
+                "startUs": 0,
+                "endUs": 200000
+              }
+            }
+          }
+        ],
+        "processing": [],
+        "syncGroups": []
+      },
+      "frameRequest": {
+        "output": "/tmp/yap-blend-encoding-accepted/soft-light/control.png",
+        "canvas": {
+          "width": 128,
+          "height": 64,
+          "fps": {
+            "numerator": 10,
+            "denominator": 1
+          },
+          "background": "#000000ff"
+        },
+        "frame": {
+          "index": 0,
+          "sampleAtUs": 0,
+          "visibleRange": {
+            "startUs": 0,
+            "endUs": 100000
+          },
+          "layers": [
+            {
+              "clipId": "reference",
+              "trackId": "reference",
+              "assetId": "reference",
+              "streamId": "image:0",
+              "kind": "image",
+              "availability": "available",
+              "width": 128,
+              "height": 64
+            }
+          ],
+          "visual": [
+            {
+              "target": {
+                "kind": "clip",
+                "id": "reference"
+              },
+              "inputs": [],
+              "operations": [
+                {
+                  "kind": "clamp",
+                  "x": 0.5,
+                  "y": 0.5,
+                  "width": 127,
+                  "height": 63
+                },
+                {
+                  "kind": "affine",
+                  "matrix": [
+                    1,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0
+                  ]
+                },
+                {
+                  "kind": "affine",
+                  "matrix": [
+                    1,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0
+                  ]
+                },
+                {
+                  "kind": "coverage",
+                  "points": [
+                    {
+                      "x": 0,
+                      "y": 0
+                    },
+                    {
+                      "x": 128,
+                      "y": 0
+                    },
+                    {
+                      "x": 128,
+                      "y": 64
+                    },
+                    {
+                      "x": 0,
+                      "y": 64
+                    }
+                  ],
+                  "width": 128,
+                  "height": 64
+                }
+              ]
+            },
+            {
+              "target": {
+                "kind": "track",
+                "id": "reference"
+              },
+              "inputs": [
+                {
+                  "kind": "clip",
+                  "id": "reference"
+                }
+              ],
+              "operations": []
+            },
+            {
+              "target": {
+                "kind": "output"
+              },
+              "inputs": [
+                {
+                  "kind": "track",
+                  "id": "reference"
+                }
+              ],
+              "operations": []
+            }
+          ]
+        },
+        "processing": [],
+        "assets": [
+          {
+            "assetId": "reference",
+            "streamId": "image:0",
+            "path": "/Users/server/dev/yap-blend-sheet/specs/video-editing-feedback/assets/24-blend-sheet/soft-light/reference.png",
+            "originUs": 0
+          }
+        ],
+        "profile": "h264-rec709",
+        "maxLongEdge": 128
+      },
+      "frame": {
+        "bytes": 624,
+        "decodedImages": 1,
+        "decodedSamples": 0,
+        "file": "/tmp/yap-blend-encoding-accepted/soft-light/control.png",
+        "frame": {
+          "index": 0,
+          "layers": [
+            {
+              "assetId": "reference",
+              "availability": "available",
+              "clipId": "reference",
+              "height": 64,
+              "kind": "image",
+              "streamId": "image:0",
+              "trackId": "reference",
+              "width": 128
+            }
+          ],
+          "sampleAtUs": 0,
+          "visibleRange": {
+            "endUs": 100000,
+            "startUs": 0
+          },
+          "visual": [
+            {
+              "inputs": [],
+              "operations": [
+                {
+                  "height": 63,
+                  "kind": "clamp",
+                  "width": 127,
+                  "x": 0.5,
+                  "y": 0.5
+                },
+                {
+                  "kind": "affine",
+                  "matrix": [
+                    1,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0
+                  ]
+                },
+                {
+                  "kind": "affine",
+                  "matrix": [
+                    1,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0
+                  ]
+                },
+                {
+                  "height": 64,
+                  "kind": "coverage",
+                  "points": [
+                    {
+                      "x": 0,
+                      "y": 0
+                    },
+                    {
+                      "x": 128,
+                      "y": 0
+                    },
+                    {
+                      "x": 128,
+                      "y": 64
+                    },
+                    {
+                      "x": 0,
+                      "y": 64
+                    }
+                  ],
+                  "width": 128
+                }
+              ],
+              "target": {
+                "id": "reference",
+                "kind": "clip"
+              }
+            },
+            {
+              "inputs": [
+                {
+                  "id": "reference",
+                  "kind": "clip"
+                }
+              ],
+              "operations": [],
+              "target": {
+                "id": "reference",
+                "kind": "track"
+              }
+            },
+            {
+              "inputs": [
+                {
+                  "id": "reference",
+                  "kind": "track"
+                }
+              ],
+              "operations": [],
+              "target": {
+                "kind": "output"
+              }
+            }
+          ]
+        },
+        "height": 64,
+        "mediaType": "image/png",
+        "pictures": [
+          {
+            "assetId": "reference",
+            "clipId": "reference",
+            "kind": "image",
+            "status": "available",
+            "streamId": "image:0"
+          }
+        ],
+        "profile": "h264-rec709",
+        "readerOpens": 1,
+        "sourceHeight": 64,
+        "sourceWidth": 128,
+        "width": 128
+      },
+      "stillProof": {
+        "maximum": 0,
+        "mae": 0,
+        "samples": 32768,
+        "limit": 2,
+        "interior": false
+      },
+      "request": {
+        "output": "/tmp/yap-blend-encoding-accepted/soft-light/control.mp4",
+        "frames": "/tmp/yap-blend-encoding-accepted/soft-light/frames.jsonl",
+        "range": {
+          "startUs": 0,
+          "endUs": 200000
+        },
+        "canvas": {
+          "width": 128,
+          "height": 64,
+          "fps": {
+            "numerator": 10,
+            "denominator": 1
+          },
+          "background": "#000000ff"
+        },
+        "processing": [],
+        "assets": [
+          {
+            "assetId": "reference",
+            "streamId": "image:0",
+            "path": "/Users/server/dev/yap-blend-sheet/specs/video-editing-feedback/assets/24-blend-sheet/soft-light/reference.png",
+            "originUs": 0
+          }
+        ],
+        "settings": {
+          "container": "mp4",
+          "video": {
+            "codec": "h264",
+            "encoder": {
+              "hardware": "auto",
+              "id": null,
+              "gpu": null
+            },
+            "color": "rec709",
+            "rateControl": {
+              "mode": "average",
+              "bitrate": 20000000
+            },
+            "profile": "high",
+            "level": "auto",
+            "keyframeInterval": 120,
+            "keyframeIntervalSeconds": 2,
+            "frameReordering": false,
+            "entropy": "cabac",
+            "temporalCompression": true,
+            "openGop": false,
+            "prioritizeSpeed": false,
+            "powerEfficient": false,
+            "dataRateLimits": [],
+            "bufferDurationSeconds": null,
+            "initialBufferDelayPercent": null,
+            "spatialAdaptiveQuantization": true,
+            "lookAheadFrames": null,
+            "nonDroppableFrameRate": null,
+            "minimumQuantizer": null,
+            "maximumQuantizer": null
+          },
+          "audio": {
+            "codec": "aac",
+            "sampleRate": 48000,
+            "layout": "stereo",
+            "rateControl": {
+              "mode": "constant",
+              "bitrate": 192000
+            },
+            "quality": "high"
+          }
+        }
+      },
+      "receipt": {
+        "bytes": 1071,
+        "decodedImages": 1,
+        "decodedSamples": 0,
+        "durationUs": 200000,
+        "encodedVideo": {
+          "level": "3.2",
+          "profile": "high"
+        },
+        "file": "/tmp/yap-blend-encoding-accepted/soft-light/control.mp4",
+        "frames": 2,
+        "height": 64,
+        "maximumSequentialAdvanceUs": 1000000,
+        "mediaType": "video/mp4",
+        "pixelPoolAllocationThreshold": 4,
+        "pointerRasterizations": 0,
+        "rasterizedFrames": 1,
+        "readerOpens": 1,
+        "retainedSourceBuffersBound": 1,
+        "settings": {
+          "audio": {
+            "codec": "aac",
+            "layout": "stereo",
+            "quality": "high",
+            "rateControl": {
+              "bitrate": 192000,
+              "mode": "constant"
+            },
+            "sampleRate": 48000
+          },
+          "container": "mp4",
+          "video": {
+            "codec": "h264",
+            "color": "rec709",
+            "dataRateLimits": [],
+            "encoder": {
+              "hardware": "auto"
+            },
+            "entropy": "cabac",
+            "frameReordering": false,
+            "keyframeInterval": 120,
+            "keyframeIntervalSeconds": 2,
+            "level": "auto",
+            "openGop": false,
+            "powerEfficient": false,
+            "prioritizeSpeed": false,
+            "profile": "high",
+            "rateControl": {
+              "bitrate": 20000000,
+              "mode": "average"
+            },
+            "spatialAdaptiveQuantization": true,
+            "temporalCompression": true
+          }
+        },
+        "width": 128
+      },
+      "support": {
+        "file": "/tmp/yap-blend-encoding-accepted/soft-light/control.mp4",
+        "trackId": 1,
+        "segments": [
+          {
+            "targetDuration": {
+              "timescale": 1000000,
+              "value": "200000"
+            },
+            "sourceStart": {
+              "value": "0",
+              "timescale": 1000000
+            },
+            "ordinal": 0,
+            "empty": false,
+            "sourceDuration": {
+              "timescale": 1000000,
+              "value": "200000"
+            },
+            "targetStart": {
+              "value": "0",
+              "timescale": 1000000
+            }
+          }
+        ],
+        "samples": [
+          {
+            "roundedUs": 0,
+            "mediaPTS": {
+              "value": "0",
+              "timescale": 1000000
+            },
+            "end": {
+              "timescale": 1000000,
+              "value": "100000"
+            },
+            "mediaDuration": {
+              "timescale": 1000000,
+              "value": "100000"
+            },
+            "start": {
+              "timescale": 1000000,
+              "value": "0"
+            },
+            "segment": 0
+          },
+          {
+            "roundedUs": 100000,
+            "mediaPTS": {
+              "value": "100000",
+              "timescale": 1000000
+            },
+            "mediaDuration": {
+              "value": "100000",
+              "timescale": 1000000
+            },
+            "segment": 0,
+            "start": {
+              "value": "100000",
+              "timescale": 1000000
+            },
+            "end": {
+              "value": "200000",
+              "timescale": 1000000
+            }
+          }
+        ]
+      },
+      "controlSha256": "5bb5f58407608164e632ac36f3b86717db86f2c4f7a36d6100eed3349ed67fe3",
+      "proofs": [
+        {
+          "maximum": 4,
+          "mae": 0.163116455078125,
+          "samples": 32768,
+          "limit": 8,
+          "interior": false
+        },
+        {
+          "maximum": 4,
+          "mae": 0.163116455078125,
+          "samples": 32768,
+          "limit": 8,
+          "interior": false
+        }
+      ],
+      "controls": [
+        {
+          "read": {
+            "sourceProfileSHA256": "a1096ca47d80ba9df7f9f8fa87a0b9446d9b6a2c94ab11e4144495616b1eb29b",
+            "height": 64,
+            "outputProfile": "kCGColorSpaceSRGB",
+            "file": "/tmp/yap-blend-encoding-accepted/soft-light/control-frames/000.png",
+            "actualTimescale": 1000000,
+            "actualValue": "0",
+            "width": 128,
+            "index": 0,
+            "sourceProfile": "kCGColorSpaceCoreMedia709",
+            "requestedUs": 0,
+            "status": "available",
+            "outputProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e"
+          },
+          "observation": {
+            "opaque": true,
+            "outputProfile": "kCGColorSpaceSRGB",
+            "height": 64,
+            "width": 128,
+            "sourceProfile": "kCGColorSpaceSRGB",
+            "sourceProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e"
+          }
+        },
+        {
+          "read": {
+            "file": "/tmp/yap-blend-encoding-accepted/soft-light/control-frames/001.png",
+            "actualTimescale": 1000000,
+            "index": 1,
+            "outputProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e",
+            "status": "available",
+            "height": 64,
+            "actualValue": "100000",
+            "sourceProfileSHA256": "a1096ca47d80ba9df7f9f8fa87a0b9446d9b6a2c94ab11e4144495616b1eb29b",
+            "sourceProfile": "kCGColorSpaceCoreMedia709",
+            "outputProfile": "kCGColorSpaceSRGB",
+            "requestedUs": 100000,
+            "width": 128
+          },
+          "observation": {
+            "opaque": true,
+            "sourceProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e",
+            "sourceProfile": "kCGColorSpaceSRGB",
+            "width": 128,
+            "height": 64,
+            "outputProfile": "kCGColorSpaceSRGB"
+          }
+        }
+      ],
+      "actual": [
+        {
+          "read": {
+            "index": 0,
+            "outputProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e",
+            "sourceProfileSHA256": "a1096ca47d80ba9df7f9f8fa87a0b9446d9b6a2c94ab11e4144495616b1eb29b",
+            "width": 128,
+            "sourceProfile": "kCGColorSpaceCoreMedia709",
+            "file": "/tmp/yap-blend-encoding-accepted/soft-light/actual-frames/000.png",
+            "status": "available",
+            "requestedUs": 0,
+            "actualValue": "0",
+            "actualTimescale": 1000000,
+            "outputProfile": "kCGColorSpaceSRGB",
+            "height": 64
+          },
+          "observation": {
+            "sourceProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e",
+            "sourceProfile": "kCGColorSpaceSRGB",
+            "width": 128,
+            "height": 64,
+            "opaque": true,
+            "outputProfile": "kCGColorSpaceSRGB"
+          }
+        },
+        {
+          "read": {
+            "status": "available",
+            "file": "/tmp/yap-blend-encoding-accepted/soft-light/actual-frames/001.png",
+            "sourceProfileSHA256": "a1096ca47d80ba9df7f9f8fa87a0b9446d9b6a2c94ab11e4144495616b1eb29b",
+            "width": 128,
+            "outputProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e",
+            "actualValue": "100000",
+            "requestedUs": 100000,
+            "outputProfile": "kCGColorSpaceSRGB",
+            "actualTimescale": 1000000,
+            "sourceProfile": "kCGColorSpaceCoreMedia709",
+            "height": 64,
+            "index": 1
+          },
+          "observation": {
+            "width": 128,
+            "outputProfile": "kCGColorSpaceSRGB",
+            "height": 64,
+            "sourceProfile": "kCGColorSpaceSRGB",
+            "sourceProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e",
+            "opaque": true
+          }
+        }
+      ]
+    },
+    {
+      "scenario": "soft-light-reversed",
+      "referenceSha256": "939525ce0fb841489c2dee7632c8f4855d2bb98444ecf03370fd9bacf53bee83",
+      "originalMovieSha256": "f74cfb562b36df754bf43a56c864f7ef420930390bb77587dd85cd3994d275ec",
+      "document": {
+        "canvas": {
+          "width": 128,
+          "height": 64,
+          "fps": {
+            "numerator": 10,
+            "denominator": 1
+          },
+          "background": "#000000ff"
+        },
+        "tracks": [
+          {
+            "id": "reference",
+            "kind": "video",
+            "order": 0
+          }
+        ],
+        "groups": [],
+        "clips": [
+          {
+            "id": "reference",
+            "trackId": "reference",
+            "assetId": "reference",
+            "streamId": "image:0",
+            "source": {
+              "kind": "hold",
+              "atUs": 0
+            },
+            "placement": {
+              "kind": "project",
+              "range": {
+                "startUs": 0,
+                "endUs": 200000
+              }
+            }
+          }
+        ],
+        "processing": [],
+        "syncGroups": []
+      },
+      "frameRequest": {
+        "output": "/tmp/yap-blend-encoding-accepted/soft-light-reversed/control.png",
+        "canvas": {
+          "width": 128,
+          "height": 64,
+          "fps": {
+            "numerator": 10,
+            "denominator": 1
+          },
+          "background": "#000000ff"
+        },
+        "frame": {
+          "index": 0,
+          "sampleAtUs": 0,
+          "visibleRange": {
+            "startUs": 0,
+            "endUs": 100000
+          },
+          "layers": [
+            {
+              "clipId": "reference",
+              "trackId": "reference",
+              "assetId": "reference",
+              "streamId": "image:0",
+              "kind": "image",
+              "availability": "available",
+              "width": 128,
+              "height": 64
+            }
+          ],
+          "visual": [
+            {
+              "target": {
+                "kind": "clip",
+                "id": "reference"
+              },
+              "inputs": [],
+              "operations": [
+                {
+                  "kind": "clamp",
+                  "x": 0.5,
+                  "y": 0.5,
+                  "width": 127,
+                  "height": 63
+                },
+                {
+                  "kind": "affine",
+                  "matrix": [
+                    1,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0
+                  ]
+                },
+                {
+                  "kind": "affine",
+                  "matrix": [
+                    1,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0
+                  ]
+                },
+                {
+                  "kind": "coverage",
+                  "points": [
+                    {
+                      "x": 0,
+                      "y": 0
+                    },
+                    {
+                      "x": 128,
+                      "y": 0
+                    },
+                    {
+                      "x": 128,
+                      "y": 64
+                    },
+                    {
+                      "x": 0,
+                      "y": 64
+                    }
+                  ],
+                  "width": 128,
+                  "height": 64
+                }
+              ]
+            },
+            {
+              "target": {
+                "kind": "track",
+                "id": "reference"
+              },
+              "inputs": [
+                {
+                  "kind": "clip",
+                  "id": "reference"
+                }
+              ],
+              "operations": []
+            },
+            {
+              "target": {
+                "kind": "output"
+              },
+              "inputs": [
+                {
+                  "kind": "track",
+                  "id": "reference"
+                }
+              ],
+              "operations": []
+            }
+          ]
+        },
+        "processing": [],
+        "assets": [
+          {
+            "assetId": "reference",
+            "streamId": "image:0",
+            "path": "/Users/server/dev/yap-blend-sheet/specs/video-editing-feedback/assets/24-blend-sheet/soft-light-reversed/reference.png",
+            "originUs": 0
+          }
+        ],
+        "profile": "h264-rec709",
+        "maxLongEdge": 128
+      },
+      "frame": {
+        "bytes": 628,
+        "decodedImages": 1,
+        "decodedSamples": 0,
+        "file": "/tmp/yap-blend-encoding-accepted/soft-light-reversed/control.png",
+        "frame": {
+          "index": 0,
+          "layers": [
+            {
+              "assetId": "reference",
+              "availability": "available",
+              "clipId": "reference",
+              "height": 64,
+              "kind": "image",
+              "streamId": "image:0",
+              "trackId": "reference",
+              "width": 128
+            }
+          ],
+          "sampleAtUs": 0,
+          "visibleRange": {
+            "endUs": 100000,
+            "startUs": 0
+          },
+          "visual": [
+            {
+              "inputs": [],
+              "operations": [
+                {
+                  "height": 63,
+                  "kind": "clamp",
+                  "width": 127,
+                  "x": 0.5,
+                  "y": 0.5
+                },
+                {
+                  "kind": "affine",
+                  "matrix": [
+                    1,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0
+                  ]
+                },
+                {
+                  "kind": "affine",
+                  "matrix": [
+                    1,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0
+                  ]
+                },
+                {
+                  "height": 64,
+                  "kind": "coverage",
+                  "points": [
+                    {
+                      "x": 0,
+                      "y": 0
+                    },
+                    {
+                      "x": 128,
+                      "y": 0
+                    },
+                    {
+                      "x": 128,
+                      "y": 64
+                    },
+                    {
+                      "x": 0,
+                      "y": 64
+                    }
+                  ],
+                  "width": 128
+                }
+              ],
+              "target": {
+                "id": "reference",
+                "kind": "clip"
+              }
+            },
+            {
+              "inputs": [
+                {
+                  "id": "reference",
+                  "kind": "clip"
+                }
+              ],
+              "operations": [],
+              "target": {
+                "id": "reference",
+                "kind": "track"
+              }
+            },
+            {
+              "inputs": [
+                {
+                  "id": "reference",
+                  "kind": "track"
+                }
+              ],
+              "operations": [],
+              "target": {
+                "kind": "output"
+              }
+            }
+          ]
+        },
+        "height": 64,
+        "mediaType": "image/png",
+        "pictures": [
+          {
+            "assetId": "reference",
+            "clipId": "reference",
+            "kind": "image",
+            "status": "available",
+            "streamId": "image:0"
+          }
+        ],
+        "profile": "h264-rec709",
+        "readerOpens": 1,
+        "sourceHeight": 64,
+        "sourceWidth": 128,
+        "width": 128
+      },
+      "stillProof": {
+        "maximum": 0,
+        "mae": 0,
+        "samples": 32768,
+        "limit": 2,
+        "interior": false
+      },
+      "request": {
+        "output": "/tmp/yap-blend-encoding-accepted/soft-light-reversed/control.mp4",
+        "frames": "/tmp/yap-blend-encoding-accepted/soft-light-reversed/frames.jsonl",
+        "range": {
+          "startUs": 0,
+          "endUs": 200000
+        },
+        "canvas": {
+          "width": 128,
+          "height": 64,
+          "fps": {
+            "numerator": 10,
+            "denominator": 1
+          },
+          "background": "#000000ff"
+        },
+        "processing": [],
+        "assets": [
+          {
+            "assetId": "reference",
+            "streamId": "image:0",
+            "path": "/Users/server/dev/yap-blend-sheet/specs/video-editing-feedback/assets/24-blend-sheet/soft-light-reversed/reference.png",
+            "originUs": 0
+          }
+        ],
+        "settings": {
+          "container": "mp4",
+          "video": {
+            "codec": "h264",
+            "encoder": {
+              "hardware": "auto",
+              "id": null,
+              "gpu": null
+            },
+            "color": "rec709",
+            "rateControl": {
+              "mode": "average",
+              "bitrate": 20000000
+            },
+            "profile": "high",
+            "level": "auto",
+            "keyframeInterval": 120,
+            "keyframeIntervalSeconds": 2,
+            "frameReordering": false,
+            "entropy": "cabac",
+            "temporalCompression": true,
+            "openGop": false,
+            "prioritizeSpeed": false,
+            "powerEfficient": false,
+            "dataRateLimits": [],
+            "bufferDurationSeconds": null,
+            "initialBufferDelayPercent": null,
+            "spatialAdaptiveQuantization": true,
+            "lookAheadFrames": null,
+            "nonDroppableFrameRate": null,
+            "minimumQuantizer": null,
+            "maximumQuantizer": null
+          },
+          "audio": {
+            "codec": "aac",
+            "sampleRate": 48000,
+            "layout": "stereo",
+            "rateControl": {
+              "mode": "constant",
+              "bitrate": 192000
+            },
+            "quality": "high"
+          }
+        }
+      },
+      "receipt": {
+        "bytes": 1067,
+        "decodedImages": 1,
+        "decodedSamples": 0,
+        "durationUs": 200000,
+        "encodedVideo": {
+          "level": "3.2",
+          "profile": "high"
+        },
+        "file": "/tmp/yap-blend-encoding-accepted/soft-light-reversed/control.mp4",
+        "frames": 2,
+        "height": 64,
+        "maximumSequentialAdvanceUs": 1000000,
+        "mediaType": "video/mp4",
+        "pixelPoolAllocationThreshold": 4,
+        "pointerRasterizations": 0,
+        "rasterizedFrames": 1,
+        "readerOpens": 1,
+        "retainedSourceBuffersBound": 1,
+        "settings": {
+          "audio": {
+            "codec": "aac",
+            "layout": "stereo",
+            "quality": "high",
+            "rateControl": {
+              "bitrate": 192000,
+              "mode": "constant"
+            },
+            "sampleRate": 48000
+          },
+          "container": "mp4",
+          "video": {
+            "codec": "h264",
+            "color": "rec709",
+            "dataRateLimits": [],
+            "encoder": {
+              "hardware": "auto"
+            },
+            "entropy": "cabac",
+            "frameReordering": false,
+            "keyframeInterval": 120,
+            "keyframeIntervalSeconds": 2,
+            "level": "auto",
+            "openGop": false,
+            "powerEfficient": false,
+            "prioritizeSpeed": false,
+            "profile": "high",
+            "rateControl": {
+              "bitrate": 20000000,
+              "mode": "average"
+            },
+            "spatialAdaptiveQuantization": true,
+            "temporalCompression": true
+          }
+        },
+        "width": 128
+      },
+      "support": {
+        "segments": [
+          {
+            "targetStart": {
+              "value": "0",
+              "timescale": 1000000
+            },
+            "targetDuration": {
+              "value": "200000",
+              "timescale": 1000000
+            },
+            "ordinal": 0,
+            "empty": false,
+            "sourceStart": {
+              "value": "0",
+              "timescale": 1000000
+            },
+            "sourceDuration": {
+              "value": "200000",
+              "timescale": 1000000
+            }
+          }
+        ],
+        "file": "/tmp/yap-blend-encoding-accepted/soft-light-reversed/control.mp4",
+        "samples": [
+          {
+            "mediaPTS": {
+              "timescale": 1000000,
+              "value": "0"
+            },
+            "mediaDuration": {
+              "value": "100000",
+              "timescale": 1000000
+            },
+            "start": {
+              "timescale": 1000000,
+              "value": "0"
+            },
+            "segment": 0,
+            "end": {
+              "timescale": 1000000,
+              "value": "100000"
+            },
+            "roundedUs": 0
+          },
+          {
+            "roundedUs": 100000,
+            "mediaDuration": {
+              "timescale": 1000000,
+              "value": "100000"
+            },
+            "mediaPTS": {
+              "timescale": 1000000,
+              "value": "100000"
+            },
+            "start": {
+              "timescale": 1000000,
+              "value": "100000"
+            },
+            "end": {
+              "timescale": 1000000,
+              "value": "200000"
+            },
+            "segment": 0
+          }
+        ],
+        "trackId": 1
+      },
+      "controlSha256": "c36e4748d76a7acfdbbaad72a0c39cb540350d79cfa335eede1a2cfbc926fd25",
+      "proofs": [
+        {
+          "maximum": 3,
+          "mae": 0.11669921875,
+          "samples": 32768,
+          "limit": 8,
+          "interior": false
+        },
+        {
+          "maximum": 3,
+          "mae": 0.11669921875,
+          "samples": 32768,
+          "limit": 8,
+          "interior": false
+        }
+      ],
+      "controls": [
+        {
+          "read": {
+            "requestedUs": 0,
+            "status": "available",
+            "outputProfile": "kCGColorSpaceSRGB",
+            "actualValue": "0",
+            "height": 64,
+            "file": "/tmp/yap-blend-encoding-accepted/soft-light-reversed/control-frames/000.png",
+            "outputProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e",
+            "actualTimescale": 1000000,
+            "width": 128,
+            "sourceProfile": "kCGColorSpaceCoreMedia709",
+            "index": 0,
+            "sourceProfileSHA256": "a1096ca47d80ba9df7f9f8fa87a0b9446d9b6a2c94ab11e4144495616b1eb29b"
+          },
+          "observation": {
+            "outputProfile": "kCGColorSpaceSRGB",
+            "sourceProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e",
+            "height": 64,
+            "sourceProfile": "kCGColorSpaceSRGB",
+            "opaque": true,
+            "width": 128
+          }
+        },
+        {
+          "read": {
+            "width": 128,
+            "requestedUs": 100000,
+            "height": 64,
+            "index": 1,
+            "actualTimescale": 1000000,
+            "actualValue": "100000",
+            "sourceProfileSHA256": "a1096ca47d80ba9df7f9f8fa87a0b9446d9b6a2c94ab11e4144495616b1eb29b",
+            "file": "/tmp/yap-blend-encoding-accepted/soft-light-reversed/control-frames/001.png",
+            "sourceProfile": "kCGColorSpaceCoreMedia709",
+            "outputProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e",
+            "outputProfile": "kCGColorSpaceSRGB",
+            "status": "available"
+          },
+          "observation": {
+            "sourceProfile": "kCGColorSpaceSRGB",
+            "outputProfile": "kCGColorSpaceSRGB",
+            "height": 64,
+            "sourceProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e",
+            "width": 128,
+            "opaque": true
+          }
+        }
+      ],
+      "actual": [
+        {
+          "read": {
+            "file": "/tmp/yap-blend-encoding-accepted/soft-light-reversed/actual-frames/000.png",
+            "sourceProfileSHA256": "a1096ca47d80ba9df7f9f8fa87a0b9446d9b6a2c94ab11e4144495616b1eb29b",
+            "requestedUs": 0,
+            "actualTimescale": 1000000,
+            "sourceProfile": "kCGColorSpaceCoreMedia709",
+            "outputProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e",
+            "outputProfile": "kCGColorSpaceSRGB",
+            "status": "available",
+            "width": 128,
+            "height": 64,
+            "actualValue": "0",
+            "index": 0
+          },
+          "observation": {
+            "sourceProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e",
+            "outputProfile": "kCGColorSpaceSRGB",
+            "opaque": true,
+            "height": 64,
+            "sourceProfile": "kCGColorSpaceSRGB",
+            "width": 128
+          }
+        },
+        {
+          "read": {
+            "width": 128,
+            "requestedUs": 100000,
+            "outputProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e",
+            "index": 1,
+            "status": "available",
+            "sourceProfileSHA256": "a1096ca47d80ba9df7f9f8fa87a0b9446d9b6a2c94ab11e4144495616b1eb29b",
+            "actualTimescale": 1000000,
+            "actualValue": "100000",
+            "outputProfile": "kCGColorSpaceSRGB",
+            "file": "/tmp/yap-blend-encoding-accepted/soft-light-reversed/actual-frames/001.png",
+            "sourceProfile": "kCGColorSpaceCoreMedia709",
+            "height": 64
+          },
+          "observation": {
+            "outputProfile": "kCGColorSpaceSRGB",
+            "sourceProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e",
+            "sourceProfile": "kCGColorSpaceSRGB",
+            "height": 64,
+            "opaque": true,
+            "width": 128
+          }
+        }
+      ]
+    },
+    {
+      "scenario": "multiply-nested",
+      "referenceSha256": "3ba0d2daa11baa3786548f94cdac6cf1f443de0a41d2d0de3e4590b5ff276c08",
+      "originalMovieSha256": "5577342cee9b88b13623f9804fa2f4649866e7e2a65f2bed8468e5ae703c0391",
+      "document": {
+        "canvas": {
+          "width": 128,
+          "height": 64,
+          "fps": {
+            "numerator": 10,
+            "denominator": 1
+          },
+          "background": "#000000ff"
+        },
+        "tracks": [
+          {
+            "id": "reference",
+            "kind": "video",
+            "order": 0
+          }
+        ],
+        "groups": [],
+        "clips": [
+          {
+            "id": "reference",
+            "trackId": "reference",
+            "assetId": "reference",
+            "streamId": "image:0",
+            "source": {
+              "kind": "hold",
+              "atUs": 0
+            },
+            "placement": {
+              "kind": "project",
+              "range": {
+                "startUs": 0,
+                "endUs": 200000
+              }
+            }
+          }
+        ],
+        "processing": [],
+        "syncGroups": []
+      },
+      "frameRequest": {
+        "output": "/tmp/yap-blend-encoding-accepted/multiply-nested/control.png",
+        "canvas": {
+          "width": 128,
+          "height": 64,
+          "fps": {
+            "numerator": 10,
+            "denominator": 1
+          },
+          "background": "#000000ff"
+        },
+        "frame": {
+          "index": 0,
+          "sampleAtUs": 0,
+          "visibleRange": {
+            "startUs": 0,
+            "endUs": 100000
+          },
+          "layers": [
+            {
+              "clipId": "reference",
+              "trackId": "reference",
+              "assetId": "reference",
+              "streamId": "image:0",
+              "kind": "image",
+              "availability": "available",
+              "width": 128,
+              "height": 64
+            }
+          ],
+          "visual": [
+            {
+              "target": {
+                "kind": "clip",
+                "id": "reference"
+              },
+              "inputs": [],
+              "operations": [
+                {
+                  "kind": "clamp",
+                  "x": 0.5,
+                  "y": 0.5,
+                  "width": 127,
+                  "height": 63
+                },
+                {
+                  "kind": "affine",
+                  "matrix": [
+                    1,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0
+                  ]
+                },
+                {
+                  "kind": "affine",
+                  "matrix": [
+                    1,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0
+                  ]
+                },
+                {
+                  "kind": "coverage",
+                  "points": [
+                    {
+                      "x": 0,
+                      "y": 0
+                    },
+                    {
+                      "x": 128,
+                      "y": 0
+                    },
+                    {
+                      "x": 128,
+                      "y": 64
+                    },
+                    {
+                      "x": 0,
+                      "y": 64
+                    }
+                  ],
+                  "width": 128,
+                  "height": 64
+                }
+              ]
+            },
+            {
+              "target": {
+                "kind": "track",
+                "id": "reference"
+              },
+              "inputs": [
+                {
+                  "kind": "clip",
+                  "id": "reference"
+                }
+              ],
+              "operations": []
+            },
+            {
+              "target": {
+                "kind": "output"
+              },
+              "inputs": [
+                {
+                  "kind": "track",
+                  "id": "reference"
+                }
+              ],
+              "operations": []
+            }
+          ]
+        },
+        "processing": [],
+        "assets": [
+          {
+            "assetId": "reference",
+            "streamId": "image:0",
+            "path": "/Users/server/dev/yap-blend-sheet/specs/video-editing-feedback/assets/24-blend-sheet/multiply-nested/reference.png",
+            "originUs": 0
+          }
+        ],
+        "profile": "h264-rec709",
+        "maxLongEdge": 128
+      },
+      "frame": {
+        "bytes": 683,
+        "decodedImages": 1,
+        "decodedSamples": 0,
+        "file": "/tmp/yap-blend-encoding-accepted/multiply-nested/control.png",
+        "frame": {
+          "index": 0,
+          "layers": [
+            {
+              "assetId": "reference",
+              "availability": "available",
+              "clipId": "reference",
+              "height": 64,
+              "kind": "image",
+              "streamId": "image:0",
+              "trackId": "reference",
+              "width": 128
+            }
+          ],
+          "sampleAtUs": 0,
+          "visibleRange": {
+            "endUs": 100000,
+            "startUs": 0
+          },
+          "visual": [
+            {
+              "inputs": [],
+              "operations": [
+                {
+                  "height": 63,
+                  "kind": "clamp",
+                  "width": 127,
+                  "x": 0.5,
+                  "y": 0.5
+                },
+                {
+                  "kind": "affine",
+                  "matrix": [
+                    1,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0
+                  ]
+                },
+                {
+                  "kind": "affine",
+                  "matrix": [
+                    1,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0
+                  ]
+                },
+                {
+                  "height": 64,
+                  "kind": "coverage",
+                  "points": [
+                    {
+                      "x": 0,
+                      "y": 0
+                    },
+                    {
+                      "x": 128,
+                      "y": 0
+                    },
+                    {
+                      "x": 128,
+                      "y": 64
+                    },
+                    {
+                      "x": 0,
+                      "y": 64
+                    }
+                  ],
+                  "width": 128
+                }
+              ],
+              "target": {
+                "id": "reference",
+                "kind": "clip"
+              }
+            },
+            {
+              "inputs": [
+                {
+                  "id": "reference",
+                  "kind": "clip"
+                }
+              ],
+              "operations": [],
+              "target": {
+                "id": "reference",
+                "kind": "track"
+              }
+            },
+            {
+              "inputs": [
+                {
+                  "id": "reference",
+                  "kind": "track"
+                }
+              ],
+              "operations": [],
+              "target": {
+                "kind": "output"
+              }
+            }
+          ]
+        },
+        "height": 64,
+        "mediaType": "image/png",
+        "pictures": [
+          {
+            "assetId": "reference",
+            "clipId": "reference",
+            "kind": "image",
+            "status": "available",
+            "streamId": "image:0"
+          }
+        ],
+        "profile": "h264-rec709",
+        "readerOpens": 1,
+        "sourceHeight": 64,
+        "sourceWidth": 128,
+        "width": 128
+      },
+      "stillProof": {
+        "maximum": 0,
+        "mae": 0,
+        "samples": 32768,
+        "limit": 2,
+        "interior": false
+      },
+      "request": {
+        "output": "/tmp/yap-blend-encoding-accepted/multiply-nested/control.mp4",
+        "frames": "/tmp/yap-blend-encoding-accepted/multiply-nested/frames.jsonl",
+        "range": {
+          "startUs": 0,
+          "endUs": 200000
+        },
+        "canvas": {
+          "width": 128,
+          "height": 64,
+          "fps": {
+            "numerator": 10,
+            "denominator": 1
+          },
+          "background": "#000000ff"
+        },
+        "processing": [],
+        "assets": [
+          {
+            "assetId": "reference",
+            "streamId": "image:0",
+            "path": "/Users/server/dev/yap-blend-sheet/specs/video-editing-feedback/assets/24-blend-sheet/multiply-nested/reference.png",
+            "originUs": 0
+          }
+        ],
+        "settings": {
+          "container": "mp4",
+          "video": {
+            "codec": "h264",
+            "encoder": {
+              "hardware": "auto",
+              "id": null,
+              "gpu": null
+            },
+            "color": "rec709",
+            "rateControl": {
+              "mode": "average",
+              "bitrate": 20000000
+            },
+            "profile": "high",
+            "level": "auto",
+            "keyframeInterval": 120,
+            "keyframeIntervalSeconds": 2,
+            "frameReordering": false,
+            "entropy": "cabac",
+            "temporalCompression": true,
+            "openGop": false,
+            "prioritizeSpeed": false,
+            "powerEfficient": false,
+            "dataRateLimits": [],
+            "bufferDurationSeconds": null,
+            "initialBufferDelayPercent": null,
+            "spatialAdaptiveQuantization": true,
+            "lookAheadFrames": null,
+            "nonDroppableFrameRate": null,
+            "minimumQuantizer": null,
+            "maximumQuantizer": null
+          },
+          "audio": {
+            "codec": "aac",
+            "sampleRate": 48000,
+            "layout": "stereo",
+            "rateControl": {
+              "mode": "constant",
+              "bitrate": 192000
+            },
+            "quality": "high"
+          }
+        }
+      },
+      "receipt": {
+        "bytes": 1210,
+        "decodedImages": 1,
+        "decodedSamples": 0,
+        "durationUs": 200000,
+        "encodedVideo": {
+          "level": "3.2",
+          "profile": "high"
+        },
+        "file": "/tmp/yap-blend-encoding-accepted/multiply-nested/control.mp4",
+        "frames": 2,
+        "height": 64,
+        "maximumSequentialAdvanceUs": 1000000,
+        "mediaType": "video/mp4",
+        "pixelPoolAllocationThreshold": 4,
+        "pointerRasterizations": 0,
+        "rasterizedFrames": 1,
+        "readerOpens": 1,
+        "retainedSourceBuffersBound": 1,
+        "settings": {
+          "audio": {
+            "codec": "aac",
+            "layout": "stereo",
+            "quality": "high",
+            "rateControl": {
+              "bitrate": 192000,
+              "mode": "constant"
+            },
+            "sampleRate": 48000
+          },
+          "container": "mp4",
+          "video": {
+            "codec": "h264",
+            "color": "rec709",
+            "dataRateLimits": [],
+            "encoder": {
+              "hardware": "auto"
+            },
+            "entropy": "cabac",
+            "frameReordering": false,
+            "keyframeInterval": 120,
+            "keyframeIntervalSeconds": 2,
+            "level": "auto",
+            "openGop": false,
+            "powerEfficient": false,
+            "prioritizeSpeed": false,
+            "profile": "high",
+            "rateControl": {
+              "bitrate": 20000000,
+              "mode": "average"
+            },
+            "spatialAdaptiveQuantization": true,
+            "temporalCompression": true
+          }
+        },
+        "width": 128
+      },
+      "support": {
+        "trackId": 1,
+        "file": "/tmp/yap-blend-encoding-accepted/multiply-nested/control.mp4",
+        "segments": [
+          {
+            "targetStart": {
+              "timescale": 1000000,
+              "value": "0"
+            },
+            "targetDuration": {
+              "value": "200000",
+              "timescale": 1000000
+            },
+            "ordinal": 0,
+            "empty": false,
+            "sourceStart": {
+              "timescale": 1000000,
+              "value": "0"
+            },
+            "sourceDuration": {
+              "timescale": 1000000,
+              "value": "200000"
+            }
+          }
+        ],
+        "samples": [
+          {
+            "segment": 0,
+            "mediaPTS": {
+              "value": "0",
+              "timescale": 1000000
+            },
+            "end": {
+              "value": "100000",
+              "timescale": 1000000
+            },
+            "mediaDuration": {
+              "timescale": 1000000,
+              "value": "100000"
+            },
+            "roundedUs": 0,
+            "start": {
+              "value": "0",
+              "timescale": 1000000
+            }
+          },
+          {
+            "end": {
+              "value": "200000",
+              "timescale": 1000000
+            },
+            "roundedUs": 100000,
+            "segment": 0,
+            "mediaDuration": {
+              "value": "100000",
+              "timescale": 1000000
+            },
+            "mediaPTS": {
+              "value": "100000",
+              "timescale": 1000000
+            },
+            "start": {
+              "value": "100000",
+              "timescale": 1000000
+            }
+          }
+        ]
+      },
+      "controlSha256": "aa3ef4fe078b067b4a9691c7f6cd3acf06143ee969db531ac3c1a75ab034b018",
+      "proofs": [
+        {
+          "maximum": 3,
+          "mae": 0.062225341796875,
+          "samples": 32768,
+          "limit": 8,
+          "interior": false
+        },
+        {
+          "maximum": 3,
+          "mae": 0.062225341796875,
+          "samples": 32768,
+          "limit": 8,
+          "interior": false
+        }
+      ],
+      "controls": [
+        {
+          "read": {
+            "status": "available",
+            "width": 128,
+            "height": 64,
+            "file": "/tmp/yap-blend-encoding-accepted/multiply-nested/control-frames/000.png",
+            "outputProfile": "kCGColorSpaceSRGB",
+            "actualTimescale": 1000000,
+            "actualValue": "0",
+            "index": 0,
+            "sourceProfile": "kCGColorSpaceCoreMedia709",
+            "outputProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e",
+            "sourceProfileSHA256": "a1096ca47d80ba9df7f9f8fa87a0b9446d9b6a2c94ab11e4144495616b1eb29b",
+            "requestedUs": 0
+          },
+          "observation": {
+            "width": 128,
+            "sourceProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e",
+            "opaque": true,
+            "sourceProfile": "kCGColorSpaceSRGB",
+            "outputProfile": "kCGColorSpaceSRGB",
+            "height": 64
+          }
+        },
+        {
+          "read": {
+            "status": "available",
+            "sourceProfileSHA256": "a1096ca47d80ba9df7f9f8fa87a0b9446d9b6a2c94ab11e4144495616b1eb29b",
+            "width": 128,
+            "height": 64,
+            "outputProfile": "kCGColorSpaceSRGB",
+            "index": 1,
+            "requestedUs": 100000,
+            "sourceProfile": "kCGColorSpaceCoreMedia709",
+            "file": "/tmp/yap-blend-encoding-accepted/multiply-nested/control-frames/001.png",
+            "outputProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e",
+            "actualTimescale": 1000000,
+            "actualValue": "100000"
+          },
+          "observation": {
+            "outputProfile": "kCGColorSpaceSRGB",
+            "opaque": true,
+            "sourceProfile": "kCGColorSpaceSRGB",
+            "sourceProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e",
+            "width": 128,
+            "height": 64
+          }
+        }
+      ],
+      "actual": [
+        {
+          "read": {
+            "index": 0,
+            "requestedUs": 0,
+            "actualValue": "0",
+            "sourceProfileSHA256": "a1096ca47d80ba9df7f9f8fa87a0b9446d9b6a2c94ab11e4144495616b1eb29b",
+            "file": "/tmp/yap-blend-encoding-accepted/multiply-nested/actual-frames/000.png",
+            "sourceProfile": "kCGColorSpaceCoreMedia709",
+            "height": 64,
+            "width": 128,
+            "outputProfile": "kCGColorSpaceSRGB",
+            "actualTimescale": 1000000,
+            "status": "available",
+            "outputProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e"
+          },
+          "observation": {
+            "width": 128,
+            "opaque": true,
+            "height": 64,
+            "sourceProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e",
+            "outputProfile": "kCGColorSpaceSRGB",
+            "sourceProfile": "kCGColorSpaceSRGB"
+          }
+        },
+        {
+          "read": {
+            "sourceProfile": "kCGColorSpaceCoreMedia709",
+            "outputProfile": "kCGColorSpaceSRGB",
+            "sourceProfileSHA256": "a1096ca47d80ba9df7f9f8fa87a0b9446d9b6a2c94ab11e4144495616b1eb29b",
+            "outputProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e",
+            "width": 128,
+            "height": 64,
+            "status": "available",
+            "file": "/tmp/yap-blend-encoding-accepted/multiply-nested/actual-frames/001.png",
+            "actualValue": "100000",
+            "index": 1,
+            "requestedUs": 100000,
+            "actualTimescale": 1000000
+          },
+          "observation": {
+            "opaque": true,
+            "outputProfile": "kCGColorSpaceSRGB",
+            "sourceProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e",
+            "height": 64,
+            "width": 128,
+            "sourceProfile": "kCGColorSpaceSRGB"
+          }
+        }
+      ]
+    },
+    {
+      "scenario": "vignette",
+      "referenceSha256": "4ab1992508fa88ef7799bb343007bea8ed206b58873700e3005488c51b8e91d2",
+      "originalMovieSha256": "43421b81cbda98fffeb74d236de0a3d709e63d8919e9feceaf481eda9e7d42f7",
+      "document": {
+        "canvas": {
+          "width": 128,
+          "height": 64,
+          "fps": {
+            "numerator": 10,
+            "denominator": 1
+          },
+          "background": "#000000ff"
+        },
+        "tracks": [
+          {
+            "id": "reference",
+            "kind": "video",
+            "order": 0
+          }
+        ],
+        "groups": [],
+        "clips": [
+          {
+            "id": "reference",
+            "trackId": "reference",
+            "assetId": "reference",
+            "streamId": "image:0",
+            "source": {
+              "kind": "hold",
+              "atUs": 0
+            },
+            "placement": {
+              "kind": "project",
+              "range": {
+                "startUs": 0,
+                "endUs": 200000
+              }
+            }
+          }
+        ],
+        "processing": [],
+        "syncGroups": []
+      },
+      "frameRequest": {
+        "output": "/tmp/yap-blend-encoding-accepted/vignette/control.png",
+        "canvas": {
+          "width": 128,
+          "height": 64,
+          "fps": {
+            "numerator": 10,
+            "denominator": 1
+          },
+          "background": "#000000ff"
+        },
+        "frame": {
+          "index": 0,
+          "sampleAtUs": 0,
+          "visibleRange": {
+            "startUs": 0,
+            "endUs": 100000
+          },
+          "layers": [
+            {
+              "clipId": "reference",
+              "trackId": "reference",
+              "assetId": "reference",
+              "streamId": "image:0",
+              "kind": "image",
+              "availability": "available",
+              "width": 128,
+              "height": 64
+            }
+          ],
+          "visual": [
+            {
+              "target": {
+                "kind": "clip",
+                "id": "reference"
+              },
+              "inputs": [],
+              "operations": [
+                {
+                  "kind": "clamp",
+                  "x": 0.5,
+                  "y": 0.5,
+                  "width": 127,
+                  "height": 63
+                },
+                {
+                  "kind": "affine",
+                  "matrix": [
+                    1,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0
+                  ]
+                },
+                {
+                  "kind": "affine",
+                  "matrix": [
+                    1,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0
+                  ]
+                },
+                {
+                  "kind": "coverage",
+                  "points": [
+                    {
+                      "x": 0,
+                      "y": 0
+                    },
+                    {
+                      "x": 128,
+                      "y": 0
+                    },
+                    {
+                      "x": 128,
+                      "y": 64
+                    },
+                    {
+                      "x": 0,
+                      "y": 64
+                    }
+                  ],
+                  "width": 128,
+                  "height": 64
+                }
+              ]
+            },
+            {
+              "target": {
+                "kind": "track",
+                "id": "reference"
+              },
+              "inputs": [
+                {
+                  "kind": "clip",
+                  "id": "reference"
+                }
+              ],
+              "operations": []
+            },
+            {
+              "target": {
+                "kind": "output"
+              },
+              "inputs": [
+                {
+                  "kind": "track",
+                  "id": "reference"
+                }
+              ],
+              "operations": []
+            }
+          ]
+        },
+        "processing": [],
+        "assets": [
+          {
+            "assetId": "reference",
+            "streamId": "image:0",
+            "path": "/Users/server/dev/yap-blend-sheet/specs/video-editing-feedback/assets/24-blend-sheet/vignette/reference.png",
+            "originUs": 0
+          }
+        ],
+        "profile": "h264-rec709",
+        "maxLongEdge": 128
+      },
+      "frame": {
+        "bytes": 8453,
+        "decodedImages": 1,
+        "decodedSamples": 0,
+        "file": "/tmp/yap-blend-encoding-accepted/vignette/control.png",
+        "frame": {
+          "index": 0,
+          "layers": [
+            {
+              "assetId": "reference",
+              "availability": "available",
+              "clipId": "reference",
+              "height": 64,
+              "kind": "image",
+              "streamId": "image:0",
+              "trackId": "reference",
+              "width": 128
+            }
+          ],
+          "sampleAtUs": 0,
+          "visibleRange": {
+            "endUs": 100000,
+            "startUs": 0
+          },
+          "visual": [
+            {
+              "inputs": [],
+              "operations": [
+                {
+                  "height": 63,
+                  "kind": "clamp",
+                  "width": 127,
+                  "x": 0.5,
+                  "y": 0.5
+                },
+                {
+                  "kind": "affine",
+                  "matrix": [
+                    1,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0
+                  ]
+                },
+                {
+                  "kind": "affine",
+                  "matrix": [
+                    1,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0
+                  ]
+                },
+                {
+                  "height": 64,
+                  "kind": "coverage",
+                  "points": [
+                    {
+                      "x": 0,
+                      "y": 0
+                    },
+                    {
+                      "x": 128,
+                      "y": 0
+                    },
+                    {
+                      "x": 128,
+                      "y": 64
+                    },
+                    {
+                      "x": 0,
+                      "y": 64
+                    }
+                  ],
+                  "width": 128
+                }
+              ],
+              "target": {
+                "id": "reference",
+                "kind": "clip"
+              }
+            },
+            {
+              "inputs": [
+                {
+                  "id": "reference",
+                  "kind": "clip"
+                }
+              ],
+              "operations": [],
+              "target": {
+                "id": "reference",
+                "kind": "track"
+              }
+            },
+            {
+              "inputs": [
+                {
+                  "id": "reference",
+                  "kind": "track"
+                }
+              ],
+              "operations": [],
+              "target": {
+                "kind": "output"
+              }
+            }
+          ]
+        },
+        "height": 64,
+        "mediaType": "image/png",
+        "pictures": [
+          {
+            "assetId": "reference",
+            "clipId": "reference",
+            "kind": "image",
+            "status": "available",
+            "streamId": "image:0"
+          }
+        ],
+        "profile": "h264-rec709",
+        "readerOpens": 1,
+        "sourceHeight": 64,
+        "sourceWidth": 128,
+        "width": 128
+      },
+      "stillProof": {
+        "maximum": 0,
+        "mae": 0,
+        "samples": 32768,
+        "limit": 2,
+        "interior": false
+      },
+      "request": {
+        "output": "/tmp/yap-blend-encoding-accepted/vignette/control.mp4",
+        "frames": "/tmp/yap-blend-encoding-accepted/vignette/frames.jsonl",
+        "range": {
+          "startUs": 0,
+          "endUs": 200000
+        },
+        "canvas": {
+          "width": 128,
+          "height": 64,
+          "fps": {
+            "numerator": 10,
+            "denominator": 1
+          },
+          "background": "#000000ff"
+        },
+        "processing": [],
+        "assets": [
+          {
+            "assetId": "reference",
+            "streamId": "image:0",
+            "path": "/Users/server/dev/yap-blend-sheet/specs/video-editing-feedback/assets/24-blend-sheet/vignette/reference.png",
+            "originUs": 0
+          }
+        ],
+        "settings": {
+          "container": "mp4",
+          "video": {
+            "codec": "h264",
+            "encoder": {
+              "hardware": "auto",
+              "id": null,
+              "gpu": null
+            },
+            "color": "rec709",
+            "rateControl": {
+              "mode": "average",
+              "bitrate": 20000000
+            },
+            "profile": "high",
+            "level": "auto",
+            "keyframeInterval": 120,
+            "keyframeIntervalSeconds": 2,
+            "frameReordering": false,
+            "entropy": "cabac",
+            "temporalCompression": true,
+            "openGop": false,
+            "prioritizeSpeed": false,
+            "powerEfficient": false,
+            "dataRateLimits": [],
+            "bufferDurationSeconds": null,
+            "initialBufferDelayPercent": null,
+            "spatialAdaptiveQuantization": true,
+            "lookAheadFrames": null,
+            "nonDroppableFrameRate": null,
+            "minimumQuantizer": null,
+            "maximumQuantizer": null
+          },
+          "audio": {
+            "codec": "aac",
+            "sampleRate": 48000,
+            "layout": "stereo",
+            "rateControl": {
+              "mode": "constant",
+              "bitrate": 192000
+            },
+            "quality": "high"
+          }
+        }
+      },
+      "receipt": {
+        "bytes": 3845,
+        "decodedImages": 1,
+        "decodedSamples": 0,
+        "durationUs": 200000,
+        "encodedVideo": {
+          "level": "3.2",
+          "profile": "high"
+        },
+        "file": "/tmp/yap-blend-encoding-accepted/vignette/control.mp4",
+        "frames": 2,
+        "height": 64,
+        "maximumSequentialAdvanceUs": 1000000,
+        "mediaType": "video/mp4",
+        "pixelPoolAllocationThreshold": 4,
+        "pointerRasterizations": 0,
+        "rasterizedFrames": 1,
+        "readerOpens": 1,
+        "retainedSourceBuffersBound": 1,
+        "settings": {
+          "audio": {
+            "codec": "aac",
+            "layout": "stereo",
+            "quality": "high",
+            "rateControl": {
+              "bitrate": 192000,
+              "mode": "constant"
+            },
+            "sampleRate": 48000
+          },
+          "container": "mp4",
+          "video": {
+            "codec": "h264",
+            "color": "rec709",
+            "dataRateLimits": [],
+            "encoder": {
+              "hardware": "auto"
+            },
+            "entropy": "cabac",
+            "frameReordering": false,
+            "keyframeInterval": 120,
+            "keyframeIntervalSeconds": 2,
+            "level": "auto",
+            "openGop": false,
+            "powerEfficient": false,
+            "prioritizeSpeed": false,
+            "profile": "high",
+            "rateControl": {
+              "bitrate": 20000000,
+              "mode": "average"
+            },
+            "spatialAdaptiveQuantization": true,
+            "temporalCompression": true
+          }
+        },
+        "width": 128
+      },
+      "support": {
+        "trackId": 1,
+        "file": "/tmp/yap-blend-encoding-accepted/vignette/control.mp4",
+        "samples": [
+          {
+            "roundedUs": 0,
+            "segment": 0,
+            "mediaPTS": {
+              "value": "0",
+              "timescale": 1000000
+            },
+            "mediaDuration": {
+              "timescale": 1000000,
+              "value": "100000"
+            },
+            "end": {
+              "value": "100000",
+              "timescale": 1000000
+            },
+            "start": {
+              "value": "0",
+              "timescale": 1000000
+            }
+          },
+          {
+            "roundedUs": 100000,
+            "end": {
+              "value": "200000",
+              "timescale": 1000000
+            },
+            "segment": 0,
+            "mediaPTS": {
+              "value": "100000",
+              "timescale": 1000000
+            },
+            "mediaDuration": {
+              "value": "100000",
+              "timescale": 1000000
+            },
+            "start": {
+              "value": "100000",
+              "timescale": 1000000
+            }
+          }
+        ],
+        "segments": [
+          {
+            "ordinal": 0,
+            "targetDuration": {
+              "value": "200000",
+              "timescale": 1000000
+            },
+            "empty": false,
+            "sourceStart": {
+              "value": "0",
+              "timescale": 1000000
+            },
+            "sourceDuration": {
+              "value": "200000",
+              "timescale": 1000000
+            },
+            "targetStart": {
+              "value": "0",
+              "timescale": 1000000
+            }
+          }
+        ]
+      },
+      "controlSha256": "479d70e868587b78297fdbf170677944304bf591604e2447eb4f1ad3cae4c76e",
+      "proofs": [
+        {
+          "maximum": 6,
+          "mae": 0.349639892578125,
+          "samples": 32768,
+          "limit": 8,
+          "interior": false
+        },
+        {
+          "maximum": 6,
+          "mae": 0.349639892578125,
+          "samples": 32768,
+          "limit": 8,
+          "interior": false
+        }
+      ],
+      "controls": [
+        {
+          "read": {
+            "height": 64,
+            "file": "/tmp/yap-blend-encoding-accepted/vignette/control-frames/000.png",
+            "outputProfile": "kCGColorSpaceSRGB",
+            "requestedUs": 0,
+            "index": 0,
+            "status": "available",
+            "sourceProfileSHA256": "a1096ca47d80ba9df7f9f8fa87a0b9446d9b6a2c94ab11e4144495616b1eb29b",
+            "sourceProfile": "kCGColorSpaceCoreMedia709",
+            "width": 128,
+            "actualValue": "0",
+            "actualTimescale": 1000000,
+            "outputProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e"
+          },
+          "observation": {
+            "sourceProfile": "kCGColorSpaceSRGB",
+            "opaque": true,
+            "width": 128,
+            "height": 64,
+            "sourceProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e",
+            "outputProfile": "kCGColorSpaceSRGB"
+          }
+        },
+        {
+          "read": {
+            "height": 64,
+            "width": 128,
+            "outputProfile": "kCGColorSpaceSRGB",
+            "sourceProfile": "kCGColorSpaceCoreMedia709",
+            "actualValue": "100000",
+            "status": "available",
+            "requestedUs": 100000,
+            "sourceProfileSHA256": "a1096ca47d80ba9df7f9f8fa87a0b9446d9b6a2c94ab11e4144495616b1eb29b",
+            "index": 1,
+            "actualTimescale": 1000000,
+            "outputProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e",
+            "file": "/tmp/yap-blend-encoding-accepted/vignette/control-frames/001.png"
+          },
+          "observation": {
+            "sourceProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e",
+            "height": 64,
+            "outputProfile": "kCGColorSpaceSRGB",
+            "opaque": true,
+            "width": 128,
+            "sourceProfile": "kCGColorSpaceSRGB"
+          }
+        }
+      ],
+      "actual": [
+        {
+          "read": {
+            "index": 0,
+            "actualTimescale": 1000000,
+            "width": 128,
+            "requestedUs": 0,
+            "outputProfile": "kCGColorSpaceSRGB",
+            "status": "available",
+            "actualValue": "0",
+            "sourceProfile": "kCGColorSpaceCoreMedia709",
+            "sourceProfileSHA256": "a1096ca47d80ba9df7f9f8fa87a0b9446d9b6a2c94ab11e4144495616b1eb29b",
+            "file": "/tmp/yap-blend-encoding-accepted/vignette/actual-frames/000.png",
+            "height": 64,
+            "outputProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e"
+          },
+          "observation": {
+            "sourceProfile": "kCGColorSpaceSRGB",
+            "sourceProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e",
+            "width": 128,
+            "height": 64,
+            "opaque": true,
+            "outputProfile": "kCGColorSpaceSRGB"
+          }
+        },
+        {
+          "read": {
+            "actualValue": "100000",
+            "status": "available",
+            "height": 64,
+            "outputProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e",
+            "sourceProfileSHA256": "a1096ca47d80ba9df7f9f8fa87a0b9446d9b6a2c94ab11e4144495616b1eb29b",
+            "index": 1,
+            "outputProfile": "kCGColorSpaceSRGB",
+            "width": 128,
+            "requestedUs": 100000,
+            "file": "/tmp/yap-blend-encoding-accepted/vignette/actual-frames/001.png",
+            "actualTimescale": 1000000,
+            "sourceProfile": "kCGColorSpaceCoreMedia709"
+          },
+          "observation": {
+            "sourceProfile": "kCGColorSpaceSRGB",
+            "opaque": true,
+            "height": 64,
+            "outputProfile": "kCGColorSpaceSRGB",
+            "sourceProfileSHA256": "2b3aa1645779a9e634744faf9b01e9102b0c9b88fd6deced7934df86b949af7e",
+            "width": 128
+          }
+        }
+      ]
+    }
+  ]
+}
