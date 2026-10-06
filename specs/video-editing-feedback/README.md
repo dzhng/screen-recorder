@@ -18,12 +18,14 @@ frozen historical evidence.
 
 Current pickup: add the public static-sheet evidence for stage22 and the independent
 color-sheet evidence for stage24, then continue the remaining synchronization,
-transition and speaker gates. The20 waveform research is retained but
+transition and speaker gates. Slice23's active-word timing checkpoint is implemented:
+exact UTF-16 ranges, source-clock mapping and native colored-glyph receipts pass;
+entrance/pop motion remains open. The20 waveform research is retained but
 all nine real comparisons refuse its frozen acoustic gates, so lexical anchors remain
 open. Reviewed atomic export, delivered picture observations, bounded alignment
-including the prepared project-tap job/read seam, retained source portability, face
-observations and native-cache research are integrated; the distinct speaker provider
-remains research-only until its quality gates pass. Stage22 now preserves bounded stroke/shadow/background fields and native
+including the prepared project-tap job/read seam, retained source portability,
+bounded subject framing and native-cache research are integrated; the distinct speaker
+provider remains research-only until its quality gates pass. Stage22 now preserves bounded stroke/shadow/background fields and native
 decoration bounds alongside the vertical glyph receipts. Stage24 now carries explicit
 normal/multiply/screen/soft-light composition modes through the public and native seams.
 

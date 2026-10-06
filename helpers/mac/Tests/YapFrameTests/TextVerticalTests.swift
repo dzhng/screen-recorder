@@ -15,7 +15,8 @@ func verifyTextVerticalPlacement() throws {
         try TextRaster(TextSource(
             kind: "text", text: "Tall caption\nSecond line", font: .init(assetId: digest, postScriptName: "ArialMT"),
             width: 420, height: 200, size: 32, color: "#ffffffff", alignment: "left",
-            verticalAlignment: alignment, stroke: nil, shadow: nil, background: nil, wrap: true), binding: binding).layout
+            verticalAlignment: alignment, stroke: nil, shadow: nil, background: nil,
+            highlight: nil, activeRanges: nil, wrap: true), binding: binding).layout
     }
     let top = try layout(nil)
     let center = try layout("center")
@@ -31,7 +32,8 @@ func verifyTextVerticalPlacement() throws {
     let empty = try TextRaster(TextSource(
         kind: "text", text: "", font: .init(assetId: digest, postScriptName: "ArialMT"),
         width: 420, height: 200, size: 32, color: "#ffffffff", alignment: "left",
-        verticalAlignment: nil, stroke: nil, shadow: nil, background: nil, wrap: true), binding: binding).layout
+        verticalAlignment: nil, stroke: nil, shadow: nil, background: nil,
+        highlight: nil, activeRanges: nil, wrap: true), binding: binding).layout
     precondition(empty.inkBounds == [0, 0, 0, 0] && empty.visibleBounds.isEmpty,
         "Empty text must render as a transparent zero-bounds layout")
     print("PASS native text glyph bounds honor top/center/bottom alignment")
@@ -48,13 +50,14 @@ func verifyTextDecorations() throws {
     let plainRequest = TextSource(
         kind: "text", text: "Decorated", font: font, width: 420, height: 200, size: 32,
         color: "#ffffffff", alignment: "left", verticalAlignment: "center", stroke: nil,
-        shadow: nil, background: nil, wrap: true)
+        shadow: nil, background: nil, highlight: nil, activeRanges: nil, wrap: true)
     let decoratedRequest = TextSource(
         kind: "text", text: "Decorated", font: font, width: 420, height: 200, size: 32,
         color: "#ffffffff", alignment: "left", verticalAlignment: "center",
         stroke: .init(color: "#ff0000ff", width: 4),
         shadow: .init(color: "#000000aa", offsetX: 6, offsetY: 8, blur: 5),
-        background: .init(color: "#112233dd", padding: 12, cornerRadius: 8), wrap: true)
+        background: .init(color: "#112233dd", padding: 12, cornerRadius: 8),
+        highlight: nil, activeRanges: nil, wrap: true)
     let plain = try TextRaster(plainRequest, binding: binding)
     let decorated = try TextRaster(decoratedRequest, binding: binding)
     precondition(decorated.layout.stroke == decoratedRequest.stroke)
@@ -75,4 +78,51 @@ func verifyTextDecorations() throws {
     }
     precondition(alphaBytes > 0, "Decorated text must produce visible pixels")
     print("PASS native text stroke, shadow and background decorations are rendered and receipted")
+}
+
+func verifyTextHighlights() throws {
+    let fontURL = URL(fileURLWithPath: "/System/Library/Fonts/Supplemental/Arial.ttf")
+    let digest = SHA256.hash(data: try Data(contentsOf: fontURL)).map { String(format: "%02x", $0) }.joined()
+    let binding = try JSONDecoder().decode(
+        FontAssetBinding.self,
+        from: JSONEncoder().encode(["assetId": digest, "path": fontURL.path]),
+    )
+    let font = TextSource.Font(assetId: digest, postScriptName: "ArialMT")
+    let highlight = TextSource.Highlight(activeColor: "#ff0000ff", inactiveColor: "#ffffffff")
+    let baseRequest = TextSource(
+        kind: "text", text: "word two", font: font, width: 500, height: 160, size: 64,
+        color: "#ffffffff", alignment: "left", verticalAlignment: "center", stroke: nil,
+        shadow: nil, background: nil, highlight: highlight, activeRanges: nil, wrap: true)
+    let activeRequest = TextSource(
+        kind: "text", text: "word two", font: font, width: 500, height: 160, size: 64,
+        color: "#ffffffff", alignment: "left", verticalAlignment: "center", stroke: nil,
+        shadow: nil, background: nil, highlight: highlight, activeRanges: [[0, 4]], wrap: true)
+    let base = try TextRaster(baseRequest, binding: binding)
+    let active = try TextRaster(activeRequest, binding: binding)
+    precondition(active.layout.highlight == highlight)
+    precondition(active.layout.activeRanges == [[0, 4]])
+
+    func colorCounts(_ raster: TextRaster) throws -> (red: Int, white: Int) {
+        guard let image = CIContext().createCGImage(raster.image, from: raster.image.extent),
+              let provider = image.dataProvider, let cfData = provider.data else {
+            throw NativeFailure.decodeFailed("Cannot inspect highlighted text raster.")
+        }
+        let data = cfData as Data
+        return data.withUnsafeBytes { raw in
+            var red = 0
+            var white = 0
+            for index in stride(from: 0, to: raw.count - 3, by: 4) {
+                let r = Int(raw[index]), g = Int(raw[index + 1]), b = Int(raw[index + 2]), a = Int(raw[index + 3])
+                if a > 0, r > 180, g < 100, b < 100 { red += 1 }
+                if a > 0, r > 220, g > 220, b > 220 { white += 1 }
+            }
+            return (red, white)
+        }
+    }
+    let baseColors = try colorCounts(base)
+    let activeColors = try colorCounts(active)
+    precondition(baseColors.red == 0, "Inactive text must not contain active highlight pixels")
+    precondition(activeColors.red > 0, "Active range must render active-color pixels")
+    precondition(activeColors.white < baseColors.white, "Active range must replace inactive-color pixels")
+    print("PASS native text active ranges render highlighted glyphs and receipt mappings")
 }

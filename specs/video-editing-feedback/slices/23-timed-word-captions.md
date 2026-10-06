@@ -1,6 +1,6 @@
 # 23 — Highlight the spoken word in the existing clock
 
-Status: planned. Depends on: [22](22-styled-text.md), [10](10-alignment-and-boundaries.md).
+Status: active-word timing checkpoint implemented; entrance motion remains open. Depends on: [22](22-styled-text.md), [10](10-alignment-and-boundaries.md).
 
 ## Contract
 
@@ -33,6 +33,17 @@ the renderer does not widen them into supposed speech support.
 ## Runnable checkpoint
 
 Frame strips immediately before/on/after word landmarks and separate entrance-motion preview, including corrected trend text.
+
+The active-word checkpoint is implemented in the composition compiler and native
+text rasterizer. Authored `timedWords` retain UTF-16 text ranges and source-clock
+half-open windows; compiled frames resolve those windows through the seeded
+occurrence's exact source-to-project mapping and emit `activeRanges`. Overlapping
+windows remain active together. Native CoreText applies inactive and active colors
+to those exact ranges and echoes the highlight style and ranges in its layout
+receipt. The focused composition test uses an astral glyph to exercise UTF-16
+offsets, and `YapFrameTests --text-highlights` checks receipt fields plus rendered
+active-color pixels. Entrance/pop motion is intentionally not claimed by this
+checkpoint and remains the next independent variable.
 
 Expose a case-selected command or existing lab entry with its own usage. Store accepted requests/results and artifact identities in feature-owned evidence. The implementing agent checks actual output; the user may view it for direction without becoming a QA gate.
 

@@ -9,7 +9,7 @@ import type { CompiledFrame, CompiledAudio } from "./compiled-records.js";
 import { executionWindow, executionWindowRequestSchema } from "./execution-window.js";
 import { processingPlanner } from "./processing-plan.js";
 import { CompositionError } from "./errors.js";
-import { resolvedClip, sourceTime, type ValidatedComposition } from "./model.js";
+import { projectTime, resolvedClip, sourceTime, type ValidatedComposition } from "./model.js";
 import { compare, fromTime, toTime, rational, type Rational } from "./rational.js";
 import {
   isMediaClip,
@@ -118,7 +118,32 @@ function compileAudioInput(
   };
 }
 
+function textAt(model: ValidatedComposition, value: Resolved, at: Rational) {
+  const clip = value.clip;
+  const source = clip.source;
+  if (source.kind !== "text")
+    throw new CompositionError("INVALID_COMPOSITION", "Expected text clip");
+  if (source.timedWords === undefined || source.highlight === undefined) return source;
+  const seed = "seed" in clip ? clip.seed : undefined;
+  const parent = seed
+    ? model.clips.find((candidate) => candidate.clip.id === seed.occurrenceClipId)
+    : undefined;
+  const activeRanges = source.timedWords
+    .filter((word) => {
+      const start = parent
+        ? projectTime(parent, fromTime(word.sourceRange.startUs))
+        : fromTime(word.sourceRange.startUs);
+      const end = parent
+        ? projectTime(parent, fromTime(word.sourceRange.endUs))
+        : fromTime(word.sourceRange.endUs);
+      return compare(start, at) <= 0 && compare(at, end) < 0;
+    })
+    .map((word) => word.range);
+  return { ...source, activeRanges };
+}
+
 function compileSchedules(
+  model: ValidatedComposition,
   visual: ReturnType<typeof visualPlanner>,
   processing: ReturnType<typeof processingPlanner>,
   tap: ProcessingTap | undefined,
@@ -162,7 +187,7 @@ function compileSchedules(
               kind: "text",
               clipId: clip.id,
               trackId: clip.trackId,
-              text: clip.source,
+              text: textAt(model, value, at),
               width: clip.source.width,
               height: clip.source.height,
               availability: available ? "available" : "anchor-unavailable",
@@ -311,6 +336,7 @@ export function createCompiler(model: ValidatedComposition, revisionId: string) 
       plan,
       contexts,
       compileSchedules(
+        model,
         visual,
         processing,
         request.tap,
@@ -378,7 +404,7 @@ export function createCompiler(model: ValidatedComposition, revisionId: string) 
     return compiled;
   }
   return {
-    ...compileSchedules(visual, processing, undefined, clock, query, contexts),
+    ...compileSchedules(model, visual, processing, undefined, clock, query, contexts),
     curve: (curve: unknown, anchor: unknown) => compileScalarCurve(model, curve, anchor),
     processingBoundaries(
       input: unknown = { target: { kind: "output" }, point: { kind: "processed" } },

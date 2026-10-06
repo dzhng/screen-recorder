@@ -320,3 +320,48 @@ test("text decorations are explicit, bounded, and retained in compiled layers", 
     ),
   ).toThrow();
 });
+
+test("timed text highlights follow exact UTF-16 ranges and overlap without sequencing", () => {
+  const authored = {
+    ...source,
+    text: "café 🧪",
+    highlight: { activeColor: "#ffcc00ff", inactiveColor: "#ffffffff" },
+    timedWords: [
+      { range: [0, 4], sourceRange: { startUs: 0, endUs: 300000 } },
+      { range: [5, 7], sourceRange: { startUs: 200000, endUs: 500000 } },
+    ],
+  };
+  const result = applyBatch(
+    empty,
+    [
+      { operation: "track.add", label: "v", track: { kind: "video", order: 0 } },
+      {
+        operation: "place",
+        clip: {
+          trackId: ref("v"),
+          source: authored,
+          placement: { kind: "project", range: { startUs: 0, endUs: 1000000 } },
+        },
+      },
+    ],
+    context,
+  );
+  const frames = [
+    ...createCompiler(validateComposition(result.document, assets), "r").frames({
+      startUs: 0,
+      endUs: 1000000,
+    }),
+  ];
+  const activeAt = (atUs: number) => {
+    const layer = frames.find((frame) => frame.sampleAtUs === atUs)?.layers[0];
+    if (!layer || layer.kind !== "text") throw new Error(`Missing text frame at ${atUs}`);
+    return layer.text;
+  };
+  expect(activeAt(0).activeRanges).toEqual([[0, 4]]);
+  expect(activeAt(250000).activeRanges).toEqual([
+    [0, 4],
+    [5, 7],
+  ]);
+  expect(activeAt(375000).activeRanges).toEqual([[5, 7]]);
+  expect(activeAt(500000).activeRanges).toEqual([]);
+});

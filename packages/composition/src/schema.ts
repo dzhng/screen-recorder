@@ -136,7 +136,17 @@ export const textBackgroundSchema = z
     cornerRadius: finite.nonnegative().max(256),
   })
   .strict();
-export const textSourceSchema = z
+const textCharacterRange = z
+  .tuple([z.int().nonnegative().max(8192), z.int().nonnegative().max(8192)])
+  .readonly()
+  .refine(([start, end]) => start < end, "Expected a positive UTF-16 range");
+export const textHighlightSchema = z
+  .object({ activeColor: textColor, inactiveColor: textColor })
+  .strict();
+export const textTimedWordSchema = z
+  .object({ range: textCharacterRange, sourceRange: selectionRangeSchema })
+  .strict();
+const textSourceObjectSchema = z
   .object({
     kind: z.literal("text"),
     text: z.string().max(8192),
@@ -150,9 +160,26 @@ export const textSourceSchema = z
     stroke: textStrokeSchema.optional(),
     shadow: textShadowSchema.optional(),
     background: textBackgroundSchema.optional(),
+    highlight: textHighlightSchema.optional(),
+    timedWords: z.array(textTimedWordSchema).max(10000).readonly().optional(),
+    activeRanges: z.array(textCharacterRange).max(10000).readonly().optional(),
     wrap: z.boolean(),
   })
   .strict();
+export const textSourceSchema = textSourceObjectSchema
+  .refine(
+    (source) =>
+      source.highlight !== undefined ||
+      (source.timedWords === undefined && source.activeRanges === undefined),
+    "Timed words and active ranges require a highlight style",
+  )
+  .refine((source) => {
+    const length = source.text.length;
+    return [
+      ...(source.timedWords ?? []).map((word) => word.range),
+      ...(source.activeRanges ?? []),
+    ].every(([start, end]) => start < end && end <= length);
+  }, "Text ranges must be within the UTF-16 text");
 export const textSeedSchema = z
   .object({
     kind: z.literal("transcript"),
@@ -187,7 +214,12 @@ export const textSeedCueSchema = textSeedSchema
     label: id.optional(),
     separator: z.string().max(32),
     anchor: z.enum(["project", "content", "clip"]),
-    style: textSourceSchema.omit({ kind: true, text: true }),
+    style: textSourceObjectSchema.omit({
+      kind: true,
+      text: true,
+      timedWords: true,
+      activeRanges: true,
+    }),
   })
   .strict();
 export const textSeedCuesSchema = z

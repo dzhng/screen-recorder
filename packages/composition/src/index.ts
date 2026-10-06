@@ -12,6 +12,8 @@ export {
   textStrokeSchema,
   textShadowSchema,
   textBackgroundSchema,
+  textHighlightSchema,
+  textTimedWordSchema,
   textSeedSchema,
   textSeedCueSchema,
   textSeedCuesSchema,

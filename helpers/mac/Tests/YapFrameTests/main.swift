@@ -22,16 +22,6 @@ func finish() -> Never { cleanupEvidence(); exit(0) }
 let images = evidence.appendingPathComponent("images")
 try FileManager.default.createDirectory(at: images, withIntermediateDirectories: true)
 
-if CommandLine.arguments.contains("--face-fixture") {
-    try await verifyFaceFixture(in: images)
-    finish()
-}
-
-if CommandLine.arguments.contains("--face-observations") {
-    try verifyFaceObservations(in: images)
-    finish()
-}
-
 if CommandLine.arguments.contains("--picture-observations") {
     try verifyPictureObservations(in: images)
     finish()
@@ -62,8 +52,8 @@ if CommandLine.arguments.contains("--text-decorations") {
     finish()
 }
 
-if CommandLine.arguments.contains("--blend-modes") {
-    try await verifyCompositionBlends(in: images)
+if CommandLine.arguments.contains("--text-highlights") {
+    try verifyTextHighlights()
     finish()
 }
 

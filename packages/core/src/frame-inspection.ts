@@ -26,6 +26,7 @@ import {
   textStrokeSchema,
   textShadowSchema,
   textBackgroundSchema,
+  textHighlightSchema,
   processingTapSchema,
   type ProcessingTap,
   type CompiledFrame,
@@ -105,6 +106,11 @@ const textLayoutSchema = z
     stroke: textStrokeSchema.optional(),
     shadow: textShadowSchema.optional(),
     background: textBackgroundSchema.optional(),
+    highlight: textHighlightSchema.optional(),
+    activeRanges: z
+      .array(z.tuple([time, time]).refine(([start, end]) => start < end, "Expected active range"))
+      .max(10000)
+      .optional(),
   })
   .refine((layout) => {
     const [x, y, width, height] = layout.decorationBounds;
@@ -1016,6 +1022,8 @@ function checkPictureReceipt(
             !isDeepStrictEqual(picture.layout.stroke, layer.text.stroke) ||
             !isDeepStrictEqual(picture.layout.shadow, layer.text.shadow) ||
             !isDeepStrictEqual(picture.layout.background, layer.text.background) ||
+            !isDeepStrictEqual(picture.layout.highlight, layer.text.highlight) ||
+            !isDeepStrictEqual(picture.layout.activeRanges, layer.text.activeRanges) ||
             picture.layout.visibleRange[0] + picture.layout.visibleRange[1] >
               layer.text.text.length ||
             picture.layout.lines.some(
