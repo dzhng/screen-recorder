@@ -1,7 +1,8 @@
 # Scoped review
 
 Scope: lexical prerequisite research and retained replay. The original waveform
-runner's corrective independent review is separate and remains pending.
+runner's corrective independent review is separate; its prepared-runtime receipt
+is recorded by the [parent synchronization review](../README.md).
 
 Shape: literal text folding uses the existing core owner; inference calls the
 existing native speech operation over existing fixture/model inputs. No public
