@@ -57,6 +57,11 @@ if CommandLine.arguments.contains("--text-vertical") {
     finish()
 }
 
+if CommandLine.arguments.contains("--text-decorations") {
+    try verifyTextDecorations()
+    finish()
+}
+
 try verifyPictureObservations(in: images)
 try await verifySDRCorrection(in: images)
 try await verifyCompositionPNG(in: images)

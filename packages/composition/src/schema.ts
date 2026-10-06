@@ -117,6 +117,25 @@ export const silenceClipSchema = z
   .object({ ...clipFields, source: z.object({ kind: z.literal("silence") }).strict() })
   .strict();
 export const fontReferenceSchema = z.object({ assetId: id, postScriptName: id }).strict();
+const textColor = z.string().regex(/^#[0-9a-fA-F]{8}$/);
+export const textStrokeSchema = z
+  .object({ color: textColor, width: finite.nonnegative().max(64) })
+  .strict();
+export const textShadowSchema = z
+  .object({
+    color: textColor,
+    offsetX: finite.min(-256).max(256),
+    offsetY: finite.min(-256).max(256),
+    blur: finite.nonnegative().max(128),
+  })
+  .strict();
+export const textBackgroundSchema = z
+  .object({
+    color: textColor,
+    padding: finite.nonnegative().max(256),
+    cornerRadius: finite.nonnegative().max(256),
+  })
+  .strict();
 export const textSourceSchema = z
   .object({
     kind: z.literal("text"),
@@ -125,9 +144,12 @@ export const textSourceSchema = z
     width: positive.max(4096),
     height: positive.max(4096),
     size: finite.positive().max(512),
-    color: z.string().regex(/^#[0-9a-fA-F]{8}$/),
+    color: textColor,
     alignment: z.enum(["left", "center", "right"]),
     verticalAlignment: z.enum(["top", "center", "bottom"]).optional(),
+    stroke: textStrokeSchema.optional(),
+    shadow: textShadowSchema.optional(),
+    background: textBackgroundSchema.optional(),
     wrap: z.boolean(),
   })
   .strict();

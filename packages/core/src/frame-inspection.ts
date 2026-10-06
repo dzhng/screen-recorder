@@ -23,6 +23,9 @@ import {
   compare,
   fromTime,
   fontReferenceSchema,
+  textStrokeSchema,
+  textShadowSchema,
+  textBackgroundSchema,
   processingTapSchema,
   type ProcessingTap,
   type CompiledFrame,
@@ -92,8 +95,22 @@ const textLayoutSchema = z
       ]),
       z.tuple([]),
     ]),
+    decorationBounds: z.tuple([
+      z.number().finite(),
+      z.number().finite(),
+      z.number().finite().nonnegative(),
+      z.number().finite().nonnegative(),
+    ]),
     verticalOffset: z.number().finite(),
+    stroke: textStrokeSchema.optional(),
+    shadow: textShadowSchema.optional(),
+    background: textBackgroundSchema.optional(),
   })
+  .refine((layout) => {
+    const [x, y, width, height] = layout.decorationBounds;
+    const [inkX, inkY, inkWidth, inkHeight] = layout.inkBounds;
+    return x <= inkX && y <= inkY && x + width >= inkX + inkWidth && y + height >= inkY + inkHeight;
+  }, "Decoration bounds must contain ink bounds")
   .strict();
 const nativeProjectReceiptSchema = pictureDeliverySchema.extend({
   profile: z.literal("h264-rec709"),
@@ -996,6 +1013,9 @@ function checkPictureReceipt(
           picture.status === "available" &&
           (!isDeepStrictEqual(picture.layout.font, layer.text.font) ||
             picture.layout.text !== layer.text.text ||
+            !isDeepStrictEqual(picture.layout.stroke, layer.text.stroke) ||
+            !isDeepStrictEqual(picture.layout.shadow, layer.text.shadow) ||
+            !isDeepStrictEqual(picture.layout.background, layer.text.background) ||
             picture.layout.visibleRange[0] + picture.layout.visibleRange[1] >
               layer.text.text.length ||
             picture.layout.lines.some(

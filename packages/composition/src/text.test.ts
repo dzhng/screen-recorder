@@ -265,10 +265,58 @@ test("explicit vertical text placement survives authoring and compiled frame del
     ],
     context,
   );
-  const frames = [...createCompiler(validateComposition(result.document, assets), "r").frames({
-    startUs: 0,
-    endUs: 1000000,
-  })];
+  const frames = [
+    ...createCompiler(validateComposition(result.document, assets), "r").frames({
+      startUs: 0,
+      endUs: 1000000,
+    }),
+  ];
   expect(frames[0]!.layers).toMatchObject([{ kind: "text", text: authored }]);
   expect(result.document.clips[0]!.source).toEqual(authored);
+});
+
+test("text decorations are explicit, bounded, and retained in compiled layers", () => {
+  const authored = {
+    ...source,
+    stroke: { color: "#000000cc", width: 3 },
+    shadow: { color: "#00000080", offsetX: 4, offsetY: -2, blur: 6 },
+    background: { color: "#112233dd", padding: 8, cornerRadius: 5 },
+  };
+  const result = applyBatch(
+    empty,
+    [
+      { operation: "track.add", label: "v", track: { kind: "video", order: 0 } },
+      {
+        operation: "place",
+        clip: {
+          trackId: ref("v"),
+          source: authored,
+          placement: { kind: "project", range: { startUs: 0, endUs: 1000000 } },
+        },
+      },
+    ],
+    context,
+  );
+  const frame = [
+    ...createCompiler(validateComposition(result.document, assets), "r").frames({
+      startUs: 0,
+      endUs: 1000000,
+    }),
+  ][0]!;
+  expect(frame.layers[0]!.kind).toBe("text");
+  if (frame.layers[0]!.kind === "text") expect(frame.layers[0]!.text).toEqual(authored);
+  expect(() =>
+    validateComposition(
+      {
+        ...result.document,
+        clips: [
+          {
+            ...result.document.clips[0]!,
+            source: { ...authored, stroke: { ...authored.stroke, width: 65 } },
+          },
+        ],
+      },
+      assets,
+    ),
+  ).toThrow();
 });
