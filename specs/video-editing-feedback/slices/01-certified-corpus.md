@@ -1,8 +1,8 @@
 # 01 — Certify the real-video corpus
 
-Status: in progress; physical eight-case verifier now passes with exact hashes, decoded samples, video clocks and the 250 MiB budget; selected frozen07 recognition parity, sampled full-frame picture checkpoints and the nine-control independent verifier also pass, while whole behavioral/multicam certification remains pending. Depends on: None.
+Status: in progress; physical eight-case verifier now passes with exact hashes, decoded samples, video clocks and the 250 MiB budget; selected frozen07 recognition parity, sampled full-frame picture checkpoints, the nine-control independent verifier and the three-source multicam physical-window verifier also pass, while whole behavioral/multicam certification remains pending. Depends on: None.
 
-The [audio checkpoint](../assets/01-corpus-audio/README.md) retains five native-decoder excerpts and refusal controls. Its [selected recognition receipts](../assets/01-corpus-audio/speech-parity/README.md) bind exact original/derivative observations to the frozen integrated07 recipe; later08 window topology requires its own observations. The [picture checkpoint](../assets/01-corpus-picture/README.md) adds full-raster ProRes inputs and physical frame/rational clock refusal controls. The [independent-control checkpoint](../assets/01-corpus-controls/README.md) reuses canonical synthetic media to verify rational boundaries, known offset/drift, unrelated audio, rotated asymmetric pixels, alpha/flat patches, edge landmarks, wrong supplied text, blank input and a transition gap. The exact historical tiny PCM16 input and paired overlap recognition receipts live with [07](../assets/07-speech-timing/README.md). These partial checkpoints do not certify every corpus behavioral disposition or independent multicamera/speaker controls.
+The [audio checkpoint](../assets/01-corpus-audio/README.md) retains five native-decoder excerpts and refusal controls. Its [selected recognition receipts](../assets/01-corpus-audio/speech-parity/README.md) bind exact original/derivative observations to the frozen integrated07 recipe; later08 window topology requires its own observations. The [picture checkpoint](../assets/01-corpus-picture/README.md) adds full-raster ProRes inputs and physical frame/rational clock refusal controls. The [independent-control checkpoint](../assets/01-corpus-controls/README.md) reuses canonical synthetic media to verify rational boundaries, known offset/drift, unrelated audio, rotated asymmetric pixels, alpha/flat patches, edge landmarks, wrong supplied text, blank input and a transition gap. The exact historical tiny PCM16 input and paired overlap recognition receipts live with [07](../assets/07-speech-timing/README.md). The [multicam physical checkpoint](../assets/01-corpus-multicam/README.md) verifies all retained three-source windows and explicitly refuses a shared clock. These partial checkpoints do not certify every corpus behavioral disposition or independent multicamera/speaker controls.
 
 ## Contract
 
@@ -48,7 +48,7 @@ Unlisted public policy/semantic choices are a spec gap. Update the map and slice
 
 ## Must stay green
 
-Baseline classification and fixture byte/clock certification must pass before any media-dependent production slice.
+Baseline classification, fixture byte/clock certification and the retained multicam physical-window checkpoint must pass before any media-dependent production slice. A green multicam coverage report cannot promote synchronization or speaker attribution.
 
 Run review/refactor-clean/code-review/write-docs appropriate to the change; retain a scoped review verdict. Update the README's Next Agent Prompt, traceability evidence and this slice's status before ending a pass. Full-suite work waits until feature completion unless the next slice cannot be trusted without it.
 

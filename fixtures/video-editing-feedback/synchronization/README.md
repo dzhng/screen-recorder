@@ -14,6 +14,11 @@ records the acoustic refusals and separates byte preservation from synchronizati
 quality. External originals remain unchanged. These inputs carry no speaker or
 lexical labels and authorize no edit or clock declaration.
 
+The [multicam corpus verifier](../../../packages/test-harness/editing/multicam-corpus.mjs)
+certifies the three-source, three-window physical bank and its frozen manifest
+identity. Equal selected windows establish fixture coverage only; the verifier
+always reports synchronization as not established.
+
 [Mixed-reference bridge operands](bridge/README.md) retain the separate research
 recipe and every successful/refused local case without replacing these original
 unlike-microphone inputs.

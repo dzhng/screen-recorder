@@ -1,0 +1,1 @@
+{"ok":true,"sourceIdentity":"manifest-bound","synchronization":"not-established","coverage":{"sources":["grahamRaw","lilyRawP1","madisonRaw"],"windowsPerSource":3,"totalWindows":9,"durationUs":20000000,"sampleRate":16000,"channels":1,"framesPerWindow":320000}}

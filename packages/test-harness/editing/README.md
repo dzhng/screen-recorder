@@ -202,6 +202,10 @@ offsets, retained unlike-microphone PCM and competing-anchor refusals from decla
 source relationships. Its runner owns acquisition and replay; no clock is inferred
 from equal duration or one correlation peak.
 
+The [multicam corpus verifier](multicam-corpus.mjs) certifies the retained
+three-source physical window bank and immutable WAV/PCM identities. A green
+coverage report does not promote synchronization or camera selection.
+
 [Switched-angle delivery](switched-angle-delivery.mjs) imports three caller-authored
 camera controls through CLI/MCP, declares source-bound accepted angle evidence, and
 checks native frame and preview delivery for an explicit sequential switch. It does
