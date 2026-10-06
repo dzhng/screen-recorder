@@ -1,6 +1,8 @@
 import Foundation
 
 extension ControlsState {
+    public var screenSelectionAuthorized: Bool { permissions?.screen == .granted }
+
     /// What this app may capture, as native capture reads it. Reading it asks for nothing.
     public struct Permissions: Equatable, Sendable {
         public init(screen: Access, microphone: Access, camera: Access = .undetermined) {

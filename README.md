@@ -131,7 +131,7 @@ previewed, compared, undone or restored, so letting an agent edit carries no ris
 Requires **Apple Silicon and macOS 26 or newer**.
 
 The zero-effort route is to let your agent install it. Open Claude Code or Codex
-in the project where you keep your videos and say:
+and say:
 
 > Install the yap skill and the Yap app by following
 > https://github.com/dzhng/yap#agent-setup
@@ -149,36 +149,37 @@ app or capture macOS media.
 
 ### 1. Install the yap skill
 
-Install the complete [consumer skill](skills/yap) in the project where your
-agent will work. [Skill lifecycle](skills/yap/references/skill-lifecycle.md)
-owns the executable fetch, install, inspect and explicit refresh steps. It pins
-`main` to one commit and fetches only `skills/yap`, including references;
-repository `.agents/skills` are development procedures, not the product skill.
+Install the complete [consumer skill](skills/yap) for the whole computer by
+default. If the user explicitly requests a project install, use that project.
+If scope is unspecified and the current directory looks like a project, ask
+whether to install for **this project or the whole computer** before writing.
+Being inside this repository does not itself authorize a project-local install.
 
-Check that Node/npm and `npx` are available for the separate `skills@1.7.0`
-installer. The app's bundled Node does not provide this prerequisite. Git is an
-optional fetch route; the recursive GitHub contents API route needs no developer
-tools. Neither Git nor Node/npm is needed to run the released app and launcher.
+[Skill lifecycle](skills/yap/references/skill-lifecycle.md) owns pinned acquisition,
+installation, path/link verification and explicit refresh. Repository
+`.agents/skills` are development procedures; `skills/yap` is the consumer source.
+The installer requires Node/npm and `npx` separately from the app's bundled Node.
 
-From a checkout, run this in your target project, replacing the source path with
-the absolute path to this repository's consumer folder:
+From a checkout, use the absolute path to its consumer folder. For the whole
+computer (the default):
+
+```sh
+npx --yes skills@1.7.0 add /absolute/path/to/yap/skills/yap \
+  --skill yap --agent codex claude-code --global --yes
+```
+
+For an explicitly selected project, run from that project's root without
+`--global`:
 
 ```sh
 npx --yes skills@1.7.0 add /absolute/path/to/yap/skills/yap \
   --skill yap --agent codex claude-code --yes
 ```
 
-For first install, inspect existing paths before running `add`: it can overwrite
-customized skills. Select the agents you use. The canonical project folder is
-`.agents/skills/yap`; Claude's `.claude/skills/yap` must be a symlink
-resolving there. Verify the actual folder and link as the lifecycle reference
-instructs; installer output alone is insufficient. Never link the whole `.claude`
-configuration directory. Local-folder installs have no remote update tracking;
-refresh repeats pinned fetch, full-folder diff and an explicitly chosen update.
-
-Start a fresh agent session in that project and confirm discovery (`$yap`
-for Codex, `/yap` for Claude). Then request: “Use the yap skill to
-install the app and verify the CLI.” App updates never edit skill files.
+Inspect existing destinations first and verify the full folder and discovery
+links afterward, following the lifecycle reference. Start a fresh agent session
+and confirm discovery (`$yap` for Codex, `/yap` for Claude). App updates never edit
+skill files.
 
 ### 2. Install the app and CLI from the latest release
 

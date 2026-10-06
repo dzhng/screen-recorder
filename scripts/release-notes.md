@@ -2,20 +2,34 @@ Yap is the macOS recording and agent-operated video toolkit. This release ships
 `Yap.app`, the `yap` CLI and the `com.dzhng.yap` app identity. Install the complete
 kit for this identity; capture permissions must be granted to Yap separately.
 
-The capture popover is tighter, with all four source choices in one row, smaller
-native switches, aligned device selectors and a readable blue Start action.
-Library has one entry in the header. Permission actions are compact rows;
-missing access and operational errors remain visible. The native popover owns
-the continuous background and arrow, and outside clicks dismiss the panel.
+This release keeps Camera Only recordings alive when camera-session audio
+timestamps carry a sub-frame synchronization residue. Continuous PCM stays on
+one sample grid, while genuine full-frame overlaps remain rejected.
 
-The header and menu-bar mark use the Yap artwork. Settings stays visible across
-permission panes and returns when Yap becomes active again. Saved recordings,
-projects, tracked exports and storage remain in the separate Library window.
+Fixes audio conversion that could interrupt Camera Only recording immediately after
+countdown with `INVALID_AUDIO_FORMAT: Cannot create canonical PCM buffer.` Live PCM
+callbacks can omit frame-duration metadata; conversion now derives the PCM frame
+grid from the declared sample rate and preserves the timestamp and audio samples.
 
-Camera Only records the explicitly selected camera with optional microphone and
-system audio. Existing recordings remain readable; no library migration is
-required. Live camera, microphone and camera-only system-audio checks remain
-unverified on the development Mac, which has no camera or microphone input.
+Recording controls retain a take's identity after it leaves capture status, resolve
+its persisted outcome, and show the native interruption explanation. A new failure
+reveals the panel without repeatedly reopening it on later polls. Confirmed deletion
+releases retained controls, while transient read failures preserve their state.
+
+Selected source tiles use their blue highlight without a redundant checkmark.
+The dark recording panel, permission guidance, source defaults, area picker and
+fixed status footer from the previous release remain available.
+
+Synthetic live-buffer regression, decoded audio format checks and controls tests
+passed. Live camera and microphone capture on physical devices remain unverified
+on the development Mac, which has no camera or microphone input. Existing recordings
+remain readable; no library migration is required for this update.
+
+This release fixes Camera Only takes that could stop after several seconds with `AUDIO_OVERLAP: PCM classification overlaps admitted samples.` Audio admission now follows adjacent native callback timestamps, so small synchronization-clock residue cannot create invented one-frame gaps or overlaps. Genuine gaps, backward overlaps and pauses remain validated separately.
+
+Recording action buttons now share aligned edges, equal spacing and consistent secondary-button sizing.
+
+Synthetic live-buffer, clock, audio-format, controls and native build checks passed. Live camera and microphone capture on physical devices remain unverified on the development Mac, which has no camera or microphone input.
 
 Check and download updates immediately from Settings → General → Check for Updates
 or the public CLI `update.check` operation. Both use the same native updater;

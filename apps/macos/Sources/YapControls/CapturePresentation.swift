@@ -2,6 +2,7 @@ import Foundation
 
 /// Capture labels and action applicability; observations supply lifecycle and time.
 public enum CapturePresentation {
+    public static let screenSelectionPermissionNotice = "Allow Screen Recording access to choose a display, window, or area."
     public static func statusTitle(for state: ControlsState) -> String {
         if case .unavailable(let message) = state.service { return "Unavailable — \(message)" }
         if state.take?.state == "finalizing" {
@@ -71,7 +72,8 @@ public enum CapturePresentation {
         if let failure = state.failure { lines.append(failure) }
         if let failure = state.take?.finalizationError { lines.append("Finalization failed — \(failure.code): \(failure.message)") }
         if let take = state.take, take.state == "interrupted", !state.isLive {
-            lines.append("Last take interrupted — \(take.interruptionReason ?? "reason unavailable")")
+            let detail = take.interruptionMessage.map { ": \($0)" } ?? ""
+            lines.append("Last take interrupted — \(take.interruptionReason ?? "reason unavailable")\(detail)")
         }
         if !state.unavailableShortcuts.isEmpty { lines.append("\(state.unavailableShortcuts.joined(separator: " and ")) is already in use elsewhere.") }
         return lines

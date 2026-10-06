@@ -159,7 +159,7 @@ final class RecordingControls: NSObject {
         guard let button = statusItem.button else { return }
         readPermissions()
         render()
-        capturePopover.toggle(relativeTo: button)
+        capturePopover.toggle(relativeTo: button, activate: !ControlsProbe.observed)
         if capturePopover.isShown { refresh() }
     }
 
@@ -179,27 +179,37 @@ final class RecordingControls: NSObject {
         case .openLibrary: perform(ControlsAction.openLibrary)
         case .chooseSource(let source):
             guard !state.isLive, !state.counting, !updateFenced else { return }
+            guard source == .cameraOnly || state.screenSelectionAuthorized else {
+                state.failure = CapturePresentation.screenSelectionPermissionNotice
+                render()
+                return
+            }
+            if sourceMode == .cameraOnly, source != .cameraOnly, !companionCameraRequested {
+                state.selection.cameraDeviceId = nil
+            }
             emptySourceMode = source
             switch source {
             case .display: state.selection.source = state.sources.displays.first.map { .display($0) }
             case .window: state.selection.source = state.sources.windows.first.map { .window($0) }
             case .area:
                 state.selection.source = nil
-                capturePopover.close()
                 perform(.selectRegion)
-            case .cameraOnly: state.selection.source = .camera
+            case .cameraOnly:
+                state.selection.source = .camera
+                state.selectDefaultCameraIfNeeded(enabled: true)
             }
             render()
         case .camera(let id):
             guard !state.isLive, !state.counting, !updateFenced else { return }
             if let id, !state.sources.cameras.contains(where: { $0.id == id }) { return }
             state.selection.cameraDeviceId = id
-            companionCameraRequested = id != nil
+            if sourceMode != .cameraOnly { companionCameraRequested = id != nil }
             render()
         case .cameraEnabled(let enabled):
             guard !state.isLive, !state.counting, !updateFenced, sourceMode != .cameraOnly else { return }
             companionCameraRequested = enabled
             if !enabled { state.selection.cameraDeviceId = nil }
+            else { state.selectDefaultCameraIfNeeded(enabled: true) }
             render()
         case .countdown(let enabled):
             guard !state.isLive, !state.counting, !updateFenced else { return }
@@ -219,6 +229,15 @@ final class RecordingControls: NSObject {
         }
         state.failure = nil
         state.libraryFailure = nil
+        switch action {
+        case .selectDisplay, .selectWindow, .selectRegion:
+            guard state.screenSelectionAuthorized else {
+                state.failure = CapturePresentation.screenSelectionPermissionNotice
+                render()
+                return
+            }
+        default: break
+        }
         let chosen = state.selection.recordingDefaults
         switch action {
         case .nextRecordings, .previousRecordings, .nextProjects, .previousProjects:
@@ -236,11 +255,17 @@ final class RecordingControls: NSObject {
                 state.selection.source = .window(window)
             }
         case .selectRegion:
+            guard !state.sources.displays.isEmpty else {
+                state.failure = "Allow screen recording access before choosing an area."
+                render()
+                return
+            }
             capturePopover.close()
             region.choose(displays: state.sources.displays) { [weak self] chosen in
                 guard let self else { return }
                 if let chosen { state.selection.source = .region(chosen) }
                 render()
+                showCaptureIfClosed()
             }
         case .disableMicrophone:
             state.selection.microphone = .off
@@ -347,12 +372,17 @@ final class RecordingControls: NSObject {
         send("capture.start", parameters(of: request.start, requestId: request.requestId)) {
             [weak self] result in
             guard let self else { return }
-            let answer: ControlsState.StartAnswer =
-                switch result {
-                case .success(let data):
-                    .init(recordingState: (try? JSONDecoder().decode(StartedTake.self, from: data))?.state ?? "")
-                case .failure(let failure): .init(failureCode: failure.code)
+            let answer: ControlsState.StartAnswer
+            switch result {
+            case .success(let data):
+                if let take = try? JSONDecoder().decode(ControlsState.TakeStatus.self, from: data) {
+                    if state.observeTake(take) { showCaptureIfClosed() }
+                    answer = .init(recordingState: take.state)
+                } else {
+                    answer = .unanswered
                 }
+            case .failure(let failure): answer = .init(failureCode: failure.code)
+            }
             if state.finishStart(request, answer) { return start() }
             if case .failure(let failure) = result,
                 PermissionKind.missing(fromStartFailure: failure.code) != nil { readPermissions() }
@@ -552,14 +582,20 @@ final class RecordingControls: NSObject {
             recordingId: answer.device.recordingId, elapsedUs: answer.device.elapsedUs)
         if let selection = answer.device.selection {
             state.selection.apply(selection, catalog: state.sources)
-            companionCameraRequested = state.selection.cameraDeviceId != nil
+            companionCameraRequested = state.selection.source != .camera && state.selection.cameraDeviceId != nil
         }
-        state.take = answer.recording.map {
-            ControlsState.TakeStatus(
-                recordingId: $0.recordingId, state: $0.state,
-                interruptionReason: $0.interruptionReason, sourceDurationUs: $0.sourceDurationUs,
-                finalizationError: $0.finalizationError)
+        var observed = answer.recording
+        if observed == nil, let id = state.takeNeedingResolution {
+            do throws(ServiceFailure) {
+                let resolved = try await service().call(
+                    "recording.get", ["recordingId": id], as: ControlsState.TakeStatus.self)
+                // A start response may arrive while this read is in flight.
+                if state.take?.recordingId == id { observed = resolved }
+            } catch {
+                if error.code == "NOT_FOUND" { state.takeWasDeleted(id) }
+            }
         }
+        if state.observeTake(observed) { showCaptureIfClosed() }
     }
 
     private func readSources() async {
@@ -579,8 +615,9 @@ final class RecordingControls: NSObject {
                     microphones: answer.microphones.map {
                         ControlsState.Microphone(id: $0.id, name: $0.name, isDefault: $0.isDefault)
                     }, cameras: answer.cameras.map {
-                        ControlsState.Camera(id: $0.id, name: $0.name)
+                        ControlsState.Camera(id: $0.id, name: $0.name, isDefault: $0.isDefault ?? false)
                     }))
+            state.selectDefaultCameraIfNeeded(enabled: companionCameraRequested || sourceMode == .cameraOnly)
         } catch {
             state.sourcesUnavailable(description: error.localizedDescription)
         }
@@ -721,7 +758,8 @@ final class RecordingControls: NSObject {
             cameras.append(.init(title: "Selected camera unavailable", intent: .camera(id)))
             selectedCamera = cameras.count - 1
         }
-        var microphones: [CaptureViewInput.Choice] = [.init(title: "System default input", intent: .controls(.selectMicrophone(nil)))] + state.sources.microphones.map { .init(title: $0.name, intent: .controls(.selectMicrophone($0.id))) }
+        let defaultMicrophoneTitle = state.sources.microphones.first(where: \.isDefault).map { "\($0.name) (default)" } ?? "System default input"
+        var microphones: [CaptureViewInput.Choice] = [.init(title: defaultMicrophoneTitle, intent: .controls(.selectMicrophone(nil)))] + state.sources.microphones.map { .init(title: $0.name, intent: .controls(.selectMicrophone($0.id))) }
         for choice in [state.selection.microphone, state.selection.awaitedMicrophone].compactMap({ $0 }) {
             if case .device(let id, let name) = choice,
                 !microphones.contains(where: { $0.intent == .controls(.selectMicrophone(id)) }) {
@@ -745,13 +783,20 @@ final class RecordingControls: NSObject {
         input.startTitle = transport[0].title
         input.startShortcut = ShortcutDefaults(bindings: bindings, registered: held).display(of: .startOrStop)
         input.notices = CapturePresentation.noticeLines(for: state)
+        input.screenSourcesEnabled = state.screenSelectionAuthorized
+        if !input.screenSourcesEnabled {
+            input.notices.append(CapturePresentation.screenSelectionPermissionNotice)
+        }
+        if mode == .area, state.selection.source == nil {
+            input.notices.append("Click and drag to choose the area to record.")
+        }
         if state.selection.microphone == .systemDefault && state.selection.awaitedMicrophone != nil {
             input.notices.append("Microphone: \(CapturePresentation.microphoneTitle(for: state)).")
         }
         if missingCamera { input.notices.append("Choose a camera before recording.") }
         let required: [PermissionKind] = PermissionKind.allCases.filter { kind in
             switch kind {
-            case .screen: mode != .cameraOnly || state.selection.systemAudio
+            case .screen: !input.screenSourcesEnabled || mode != .cameraOnly || state.selection.systemAudio
             case .microphone: state.selection.microphone != .off
             case .camera: mode == .cameraOnly || input.cameraOn
             }
@@ -802,15 +847,8 @@ private struct StatusAnswer: Decodable {
         let elapsedUs: Int64?
         let selection: ControlsState.CaptureSelection.Start?
     }
-    struct Take: Decodable {
-        let recordingId: String
-        let state: String
-        let interruptionReason: String?
-        let sourceDurationUs: Int64?
-        let finalizationError: ControlsState.FinalizationError?
-    }
     let device: Device
-    let recording: Take?
+    let recording: ControlsState.TakeStatus?
 }
 
 private struct SourcesAnswer: Decodable {
@@ -833,13 +871,10 @@ private struct SourcesAnswer: Decodable {
     struct Camera: Decodable {
         let id: String
         let name: String
+        let isDefault: Bool?
     }
     let displays: [Display]
     let windows: [Window]
     let microphones: [Microphone]
     let cameras: [Camera]
-}
-
-private struct StartedTake: Decodable {
-    let state: String
 }
