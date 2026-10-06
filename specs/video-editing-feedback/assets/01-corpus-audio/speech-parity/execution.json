@@ -1,0 +1,278 @@
+{
+  "protocol": "protocol.json",
+  "requests": "requests.json",
+  "network": "denied",
+  "transport": "apps/service/src/worker.ts jsonWorker",
+  "results": [
+    {
+      "id": "phrase-final-trend-derivative",
+      "started": "2026-10-06T06:04:24.181Z",
+      "finished": "2026-10-06T06:05:14.110Z",
+      "wallMs": 49929.036334,
+      "timeoutMs": 653000,
+      "nativeRss": {
+        "maximumObservedKiB": 537056,
+        "samples": 197,
+        "intervalMs": 250,
+        "basis": "ps RSS samples where command exactly equals the isolated native executable; sampled maximum, not kernel peak"
+      },
+      "response": {
+        "ok": true,
+        "data": {
+          "details": {
+            "peakResidentBytes": 549945344
+          },
+          "engine": {
+            "computeUnits": "cpuAndNeuralEngine",
+            "decoder": "parakeet-tdt-batch",
+            "encoderPrecision": "int8",
+            "runtime": "FluidAudio",
+            "runtimeVersion": "0.15.7"
+          },
+          "output": {
+            "bytes": 17478,
+            "file": "/tmp/yap-corpus-speech-parity/phrase-final-trend-derivative.jsonl",
+            "sha256": "5e5429e818efcf6336c909407ba140d3ffb414f91f3056f36012ea6e86e85837"
+          },
+          "segments": [
+            {
+              "ordinal": 0,
+              "source": {
+                "endUs": 26500000,
+                "startUs": 0
+              },
+              "state": "transcribed",
+              "wordCount": 49
+            }
+          ],
+          "wordCount": 49
+        }
+      }
+    },
+    {
+      "id": "phrase-final-trend-original",
+      "started": "2026-10-06T06:05:14.110Z",
+      "finished": "2026-10-06T06:05:15.947Z",
+      "wallMs": 1836.156124999994,
+      "timeoutMs": 653000,
+      "nativeRss": {
+        "maximumObservedKiB": 112800,
+        "samples": 7,
+        "intervalMs": 250,
+        "basis": "ps RSS samples where command exactly equals the isolated native executable; sampled maximum, not kernel peak"
+      },
+      "response": {
+        "ok": true,
+        "data": {
+          "details": {
+            "peakResidentBytes": 115900416
+          },
+          "engine": {
+            "computeUnits": "cpuAndNeuralEngine",
+            "decoder": "parakeet-tdt-batch",
+            "encoderPrecision": "int8",
+            "runtime": "FluidAudio",
+            "runtimeVersion": "0.15.7"
+          },
+          "output": {
+            "bytes": 17748,
+            "file": "/tmp/yap-corpus-speech-parity/phrase-final-trend-original.jsonl",
+            "sha256": "08bf53ccd18fc3d7caddeff23570c9352892a236da69314ff65ae9c121882cce"
+          },
+          "segments": [
+            {
+              "ordinal": 0,
+              "source": {
+                "endUs": 1576500000,
+                "startUs": 1550000000
+              },
+              "state": "transcribed",
+              "wordCount": 49
+            }
+          ],
+          "wordCount": 49
+        }
+      }
+    },
+    {
+      "id": "false-start-derivative",
+      "started": "2026-10-06T06:05:15.947Z",
+      "finished": "2026-10-06T06:05:16.678Z",
+      "wallMs": 731.1172920000026,
+      "timeoutMs": 603600,
+      "nativeRss": {
+        "maximumObservedKiB": 40784,
+        "samples": 2,
+        "intervalMs": 250,
+        "basis": "ps RSS samples where command exactly equals the isolated native executable; sampled maximum, not kernel peak"
+      },
+      "response": {
+        "ok": true,
+        "data": {
+          "details": {
+            "peakResidentBytes": 101662720
+          },
+          "engine": {
+            "computeUnits": "cpuAndNeuralEngine",
+            "decoder": "parakeet-tdt-batch",
+            "encoderPrecision": "int8",
+            "runtime": "FluidAudio",
+            "runtimeVersion": "0.15.7"
+          },
+          "output": {
+            "bytes": 1790,
+            "file": "/tmp/yap-corpus-speech-parity/false-start-derivative.jsonl",
+            "sha256": "83c5d16f5eb500a4c474b6380252a727e0df2ef968474eff507f797800fa20de"
+          },
+          "segments": [
+            {
+              "ordinal": 0,
+              "source": {
+                "endUs": 1800000,
+                "startUs": 0
+              },
+              "state": "transcribed",
+              "wordCount": 3
+            }
+          ],
+          "wordCount": 3
+        }
+      }
+    },
+    {
+      "id": "false-start-original",
+      "started": "2026-10-06T06:05:16.678Z",
+      "finished": "2026-10-06T06:05:19.083Z",
+      "wallMs": 2404.7585830000025,
+      "timeoutMs": 603600,
+      "nativeRss": {
+        "maximumObservedKiB": 102272,
+        "samples": 9,
+        "intervalMs": 250,
+        "basis": "ps RSS samples where command exactly equals the isolated native executable; sampled maximum, not kernel peak"
+      },
+      "response": {
+        "ok": true,
+        "data": {
+          "details": {
+            "peakResidentBytes": 105349120
+          },
+          "engine": {
+            "computeUnits": "cpuAndNeuralEngine",
+            "decoder": "parakeet-tdt-batch",
+            "encoderPrecision": "int8",
+            "runtime": "FluidAudio",
+            "runtimeVersion": "0.15.7"
+          },
+          "output": {
+            "bytes": 1814,
+            "file": "/tmp/yap-corpus-speech-parity/false-start-original.jsonl",
+            "sha256": "354c2bec1fc33135af48273c80d043eb3027691a172a554989dbfae5833e0e75"
+          },
+          "segments": [
+            {
+              "ordinal": 0,
+              "source": {
+                "endUs": 561000000,
+                "startUs": 559200000
+              },
+              "state": "transcribed",
+              "wordCount": 3
+            }
+          ],
+          "wordCount": 3
+        }
+      }
+    },
+    {
+      "id": "madison-context-derivative",
+      "started": "2026-10-06T06:05:19.084Z",
+      "finished": "2026-10-06T06:05:19.874Z",
+      "wallMs": 790.7540829999998,
+      "timeoutMs": 608800,
+      "nativeRss": {
+        "maximumObservedKiB": 37552,
+        "samples": 2,
+        "intervalMs": 250,
+        "basis": "ps RSS samples where command exactly equals the isolated native executable; sampled maximum, not kernel peak"
+      },
+      "response": {
+        "ok": true,
+        "data": {
+          "details": {
+            "peakResidentBytes": 102170624
+          },
+          "engine": {
+            "computeUnits": "cpuAndNeuralEngine",
+            "decoder": "parakeet-tdt-batch",
+            "encoderPrecision": "int8",
+            "runtime": "FluidAudio",
+            "runtimeVersion": "0.15.7"
+          },
+          "output": {
+            "bytes": 4604,
+            "file": "/tmp/yap-corpus-speech-parity/madison-context-derivative.jsonl",
+            "sha256": "6d3d21e3fe8d66a770664c4c08d512048deeb8071b2d56cdd00b97deda0498b8"
+          },
+          "segments": [
+            {
+              "ordinal": 0,
+              "source": {
+                "endUs": 4400000,
+                "startUs": 0
+              },
+              "state": "transcribed",
+              "wordCount": 13
+            }
+          ],
+          "wordCount": 13
+        }
+      }
+    },
+    {
+      "id": "madison-context-original",
+      "started": "2026-10-06T06:05:19.875Z",
+      "finished": "2026-10-06T06:05:20.769Z",
+      "wallMs": 894.6163330000054,
+      "timeoutMs": 608800,
+      "nativeRss": {
+        "maximumObservedKiB": 102080,
+        "samples": 3,
+        "intervalMs": 250,
+        "basis": "ps RSS samples where command exactly equals the isolated native executable; sampled maximum, not kernel peak"
+      },
+      "response": {
+        "ok": true,
+        "data": {
+          "details": {
+            "peakResidentBytes": 105037824
+          },
+          "engine": {
+            "computeUnits": "cpuAndNeuralEngine",
+            "decoder": "parakeet-tdt-batch",
+            "encoderPrecision": "int8",
+            "runtime": "FluidAudio",
+            "runtimeVersion": "0.15.7"
+          },
+          "output": {
+            "bytes": 4702,
+            "file": "/tmp/yap-corpus-speech-parity/madison-context-original.jsonl",
+            "sha256": "573a2b873cd48d602347848f4be69a2de349bb068a64bab6495395263bf21eda"
+          },
+          "segments": [
+            {
+              "ordinal": 0,
+              "source": {
+                "endUs": 1880700000,
+                "startUs": 1876300000
+              },
+              "state": "transcribed",
+              "wordCount": 13
+            }
+          ],
+          "wordCount": 13
+        }
+      }
+    }
+  ]
+}

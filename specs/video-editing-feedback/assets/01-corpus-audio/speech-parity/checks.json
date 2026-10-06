@@ -1,0 +1,11 @@
+{
+  "scope": "Evidence/data-only slice01 selected frozen07 speech comparison; no product behavior change or broad suite.",
+  "rawOperands": 6,
+  "pairComparison": "pass",
+  "manifestBindings": "pass",
+  "changedDocLinks": "pass",
+  "diffWhitespace": "pass",
+  "comparisonRule": "All native raw fields retained after declared source origin subtraction except result.processingTime; exact equality, no tolerance.",
+  "sourceClosure": "closure.json",
+  "existingCorpusOwner": "fixture-verification.json; all three selected physical WAVs passed against this manifest"
+}

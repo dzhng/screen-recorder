@@ -1,0 +1,23 @@
+{
+  "verdict": "all three selected original/derivative pairs exactly equal after declared source-origin subtraction; no clipping, lexical repair, timing tolerance, or fallback",
+  "cases": [
+    {
+      "id": "phrase-final-trend",
+      "wordCount": 49,
+      "tokenCount": 88,
+      "observedText": "So many agents in the market right now, the personal agents, the work agents, among all the agents we have here, which agent do you think they will be around in five years? Yeah, that's a good question. I mean, arguably OpenClaw is already on a downward trend, possibly."
+    },
+    {
+      "id": "false-start",
+      "wordCount": 3,
+      "tokenCount": 11,
+      "observedText": "Fortunate maybe fortunately."
+    },
+    {
+      "id": "madison-context",
+      "wordCount": 13,
+      "tokenCount": 22,
+      "observedText": "Oh my, I don't know, I just kind of gave up on prophecy."
+    }
+  ]
+}
