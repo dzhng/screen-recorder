@@ -1,0 +1,33 @@
+{
+  "exitCode": 0,
+  "terminalEvent": "turn.completed",
+  "threadId": "01a10fa2-d48a-7c90-9db9-1bcf176cb630",
+  "marker": "yap-picture-followup-20261005",
+  "resolutions": [
+    {
+      "finding": "stale repeated recipe",
+      "status": "fixed",
+      "proof": "changed arguments, filename, raster, clock and hash each refuse RECIPE_CHANGED without manifest mutation; unchanged repeat returns identical public reply"
+    },
+    {
+      "finding": "frame pixel aspect",
+      "status": "fixed",
+      "proof": "frame-only 2:1 control red then green; actual 216 video frames certify as 1:1"
+    },
+    {
+      "finding": "optional encoder pin",
+      "status": "fixed",
+      "proof": "unpinned real three-frame derive control red then green; frozen hash now required"
+    }
+  ],
+  "focusedTests": {
+    "passed": 15,
+    "failed": 0
+  },
+  "physicalCorpus": {
+    "bytes": 140035393,
+    "cases": 8,
+    "baseline": "unverified"
+  },
+  "reviewVerdict": "all confirmed findings resolved; parent shape/diff/docs review clean"
+}

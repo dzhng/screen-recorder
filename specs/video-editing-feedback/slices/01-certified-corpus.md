@@ -1,8 +1,8 @@
 # 01 — Certify the real-video corpus
 
-Status: in progress; first audio byte/sample checkpoint passed, behavioral and picture/multicam certification pending. Depends on: None.
+Status: in progress; audio byte/sample and sampled full-frame picture checkpoints passed; whole behavioral/multicam certification pending. Depends on: None.
 
-The [audio checkpoint](../assets/01-corpus-audio/README.md) retains five native-decoder excerpts and refusal controls. This partial checkpoint does not certify current ASR failure dispositions or the whole corpus.
+The [audio checkpoint](../assets/01-corpus-audio/README.md) retains five native-decoder excerpts and refusal controls. The [picture checkpoint](../assets/01-corpus-picture/README.md) adds full-raster ProRes inputs and physical frame/rational clock refusal controls. The exact historical tiny PCM16 input and paired overlap recognition receipts live with [07](../assets/07-speech-timing/README.md). These partial checkpoints do not certify every corpus behavioral disposition or independent multicamera/speaker controls.
 
 ## Contract
 

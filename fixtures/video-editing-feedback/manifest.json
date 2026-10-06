@@ -380,6 +380,294 @@
         "state": "unverified",
         "reason": "recognizer behavior requires a separate original/derivative run"
       }
+    },
+    {
+      "id": "graham-picture",
+      "classification": "real-media-reproduction",
+      "feedback": [
+        "E13",
+        "E14",
+        "S03"
+      ],
+      "purpose": "Full-frame original warm color, face, wall and edge detail; no editorial treatment",
+      "source": {
+        "file": "fullvideo_graham_p1.mp4",
+        "sha256": "992bb6f6596a745373414aa17a62e2ff065b0111e26c3cbdde1994b623968210",
+        "streamIndex": 0,
+        "range": {
+          "startUs": 1193000000,
+          "endUs": 1196000000
+        }
+      },
+      "derivative": {
+        "kind": "video",
+        "file": "graham-picture.mov",
+        "sha256": "5ce578840a41a665fe10da3c11046ef097b799f3e10a130669ef4081727b9118",
+        "bytes": 35137261,
+        "width": 1920,
+        "height": 1080,
+        "frames": 72,
+        "color": {
+          "color_range": "tv",
+          "color_space": "bt709",
+          "color_transfer": "bt709",
+          "color_primaries": "bt709"
+        }
+      },
+      "clock": {
+        "sourceAtZeroUs": 1193000000,
+        "frameDurationUs": {
+          "numerator": 125000,
+          "denominator": 3
+        }
+      },
+      "recipe": {
+        "arguments": [
+          "-nostdin",
+          "-v",
+          "error",
+          "-ss",
+          "1193",
+          "-i",
+          "SOURCE",
+          "-t",
+          "3",
+          "-map",
+          "0:v:0",
+          "-an",
+          "-c:v",
+          "prores_ks",
+          "-threads",
+          "4",
+          "-profile:v",
+          "2",
+          "-pix_fmt",
+          "yuv422p10le",
+          "-color_primaries",
+          "bt709",
+          "-color_trc",
+          "bt709",
+          "-colorspace",
+          "bt709",
+          "-color_range",
+          "tv",
+          "-fps_mode",
+          "passthrough",
+          "OUTPUT"
+        ],
+        "tool": {
+          "kind": "prepared-ffmpeg",
+          "version": "9.0.2",
+          "sha256": "78cd5ab1a088c0db965893f9c4a475beb60525d8dc1f0ecad80e2e8959a8cc33"
+        }
+      },
+      "preservation": {
+        "status": "pass",
+        "basis": "native full-frame PNG comparison at four exact matched frame supports, face/wall/full-frame RGB metrics and independent visual critique; physical clock/raster/color checked across all 72 decoded frames",
+        "evidence": "../../specs/video-editing-feedback/assets/01-corpus-picture/graham.json",
+        "comparedFrames": [
+          0,
+          12,
+          36,
+          71
+        ]
+      },
+      "baseline": {
+        "state": "unverified",
+        "reason": "Native observation/grade behavior not yet certified"
+      }
+    },
+    {
+      "id": "madison-picture",
+      "classification": "real-media-reproduction",
+      "feedback": [
+        "E13",
+        "E14",
+        "S03"
+      ],
+      "purpose": "Full-frame original warm color, face, wall and edge detail; no editorial treatment",
+      "source": {
+        "file": "riverside_madison_raw-video-cfr_madison_kanna's stu_0035.mp4",
+        "sha256": "d05a5af37900032f5145566ada7b314a1c089b0a56f3085fe509c2ef37af80fa",
+        "streamIndex": 0,
+        "range": {
+          "startUs": 1877000000,
+          "endUs": 1880000000
+        }
+      },
+      "derivative": {
+        "kind": "video",
+        "file": "madison-picture.mov",
+        "sha256": "4abc85f54c9464a1bca85504e1410cc961eb69e23b37c376504342e2d9f29483",
+        "bytes": 40773400,
+        "width": 1920,
+        "height": 1080,
+        "frames": 72,
+        "color": {
+          "color_range": "tv",
+          "color_space": "bt709",
+          "color_transfer": "bt709",
+          "color_primaries": "bt709"
+        }
+      },
+      "clock": {
+        "sourceAtZeroUs": 1877000000,
+        "frameDurationUs": {
+          "numerator": 125000,
+          "denominator": 3
+        }
+      },
+      "recipe": {
+        "arguments": [
+          "-nostdin",
+          "-v",
+          "error",
+          "-ss",
+          "1877",
+          "-i",
+          "SOURCE",
+          "-t",
+          "3",
+          "-map",
+          "0:v:0",
+          "-an",
+          "-c:v",
+          "prores_ks",
+          "-threads",
+          "4",
+          "-profile:v",
+          "2",
+          "-pix_fmt",
+          "yuv422p10le",
+          "-color_primaries",
+          "bt709",
+          "-color_trc",
+          "bt709",
+          "-colorspace",
+          "bt709",
+          "-color_range",
+          "tv",
+          "-fps_mode",
+          "passthrough",
+          "OUTPUT"
+        ],
+        "tool": {
+          "kind": "prepared-ffmpeg",
+          "version": "9.0.2",
+          "sha256": "78cd5ab1a088c0db965893f9c4a475beb60525d8dc1f0ecad80e2e8959a8cc33"
+        }
+      },
+      "preservation": {
+        "status": "pass",
+        "basis": "native full-frame PNG comparison at four exact matched frame supports, face/wall/full-frame RGB metrics and independent visual critique; physical clock/raster/color checked across all 72 decoded frames",
+        "evidence": "../../specs/video-editing-feedback/assets/01-corpus-picture/madison.json",
+        "comparedFrames": [
+          0,
+          12,
+          36,
+          71
+        ]
+      },
+      "baseline": {
+        "state": "unverified",
+        "reason": "Native observation/grade behavior not yet certified"
+      }
+    },
+    {
+      "id": "lily-picture",
+      "classification": "real-media-reproduction",
+      "feedback": [
+        "E13",
+        "E14",
+        "S03"
+      ],
+      "purpose": "Full-frame original warm color, face, wall and edge detail; no editorial treatment",
+      "source": {
+        "file": "fullvideo_lily_p1.mp4",
+        "sha256": "588757723f07ed21900bdc8dc33d267ceb97fc0b713a2b47fe02207feaf425b3",
+        "streamIndex": 0,
+        "range": {
+          "startUs": 800000000,
+          "endUs": 803000000
+        }
+      },
+      "derivative": {
+        "kind": "video",
+        "file": "lily-picture.mov",
+        "sha256": "331d500a758eaed329f0b073de6f8c2258b1bdd12188ede4323b5fc6d8f9fd7a",
+        "bytes": 35703852,
+        "width": 1920,
+        "height": 1080,
+        "frames": 72,
+        "color": {
+          "color_range": "tv",
+          "color_space": "bt709",
+          "color_transfer": "bt709",
+          "color_primaries": "bt709"
+        }
+      },
+      "clock": {
+        "sourceAtZeroUs": 800000000,
+        "frameDurationUs": {
+          "numerator": 125000,
+          "denominator": 3
+        }
+      },
+      "recipe": {
+        "arguments": [
+          "-nostdin",
+          "-v",
+          "error",
+          "-ss",
+          "800",
+          "-i",
+          "SOURCE",
+          "-t",
+          "3",
+          "-map",
+          "0:v:0",
+          "-an",
+          "-c:v",
+          "prores_ks",
+          "-threads",
+          "4",
+          "-profile:v",
+          "2",
+          "-pix_fmt",
+          "yuv422p10le",
+          "-color_primaries",
+          "bt709",
+          "-color_trc",
+          "bt709",
+          "-colorspace",
+          "bt709",
+          "-color_range",
+          "tv",
+          "-fps_mode",
+          "passthrough",
+          "OUTPUT"
+        ],
+        "tool": {
+          "kind": "prepared-ffmpeg",
+          "version": "9.0.2",
+          "sha256": "78cd5ab1a088c0db965893f9c4a475beb60525d8dc1f0ecad80e2e8959a8cc33"
+        }
+      },
+      "preservation": {
+        "status": "pass",
+        "basis": "native full-frame PNG comparison at four exact matched frame supports, face/wall/full-frame RGB metrics and independent visual critique; physical clock/raster/color checked across all 72 decoded frames",
+        "evidence": "../../specs/video-editing-feedback/assets/01-corpus-picture/lily.json",
+        "comparedFrames": [
+          0,
+          12,
+          36,
+          71
+        ]
+      },
+      "baseline": {
+        "state": "unverified",
+        "reason": "Native observation/grade behavior not yet certified"
+      }
     }
   ]
 }

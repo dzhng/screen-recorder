@@ -61,3 +61,27 @@ Review first: refusing a result whose delayed punctuation exceeds selected physi
 - Reach: this checkpoint proves raw admission and traversal, not authenticated source ownership, model loading, accuracy, or the complete public CLI journey. Existing core owner tests exercise real asset admission separately.
 - Verdict: sound, because the report names its scope and keeps the independent native/source evidence alongside it.
 - Confidence: medium.
+
+## Picture certification scope — sound, medium confidence
+
+When reducing a camera excerpt, keep the complete raster and the original warm
+lighting, backlit highlights and framing. This pass retains ProRes SQ video-only
+inputs rather than shrinking or grading them. The reduction recipe is delegated
+by slice01; the extra choice is to keep decoded-frame support and sampled visual
+fidelity as separate acceptance records. Every decoded frame's dimensions, color
+metadata and timestamp are checked, while four matched source/derivative frame
+pairs per camera establish the narrower visual claim. A fresh critic also checks
+complete contact sheets and face crops. This does not assert that every intermediate
+frame was visually inspected, and later picture primitives still need their own
+behavioral gates. The alternative would hide source defects or imply exhaustive
+visual proof from a hash. Future fixtures must state their own preservation scope.
+
+## New video derivation requires independent admission — sound, high confidence
+
+A caller can regenerate a selected clip with the frozen, hash-pinned encoder
+recipe. The tool checks physical raster and frame timing, but writes its visual
+preservation status as unverified. It refuses corpus certification until a separate
+source comparison is recorded. Slice01 did not specify whether regeneration alone
+should declare quality passed. Keeping that boundary prevents a newly generated
+file from certifying its own appearance; matched bytes on a selected regeneration
+are retained as additional evidence, without a second quality judge in product code.

@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
 import { createHash } from "node:crypto";
-import { copyFile, mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
+import { chmod, copyFile, mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
 import { join } from "node:path";
 import { tmpdir } from "node:os";
 import { execFile } from "node:child_process";
@@ -104,9 +104,19 @@ async function input(t) {
           channels: 1,
           frames: 16,
         },
-        clock: { sourceAtZeroUs: 10000000, sourceFrames: 16, trailingSilenceFrames: 0 },
-        preservation: { status: "pass", basis: "independent authored sample clock" },
-        baseline: { state: "unverified", reason: "control has no historical ASR verdict" },
+        clock: {
+          sourceAtZeroUs: 10000000,
+          sourceFrames: 16,
+          trailingSilenceFrames: 0,
+        },
+        preservation: {
+          status: "pass",
+          basis: "independent authored sample clock",
+        },
+        baseline: {
+          state: "unverified",
+          reason: "control has no historical ASR verdict",
+        },
       },
     ],
   };
@@ -127,7 +137,10 @@ test("committed corpus inputs verify their physical samples and exact source clo
 
 test("matching input bytes cannot certify an incorrect fractional source clock", async (t) => {
   const { directory, manifest } = await input(t);
-  manifest.cases[0].source.range.endUs = { numerator: 20002125, denominator: 2 };
+  manifest.cases[0].source.range.endUs = {
+    numerator: 20002125,
+    denominator: 2,
+  };
   await writeFile(join(directory, "manifest.json"), JSON.stringify(manifest));
   await assert.rejects(
     run(process.execPath, [entry, "verify", "--fixtures", directory]),
@@ -200,3 +213,303 @@ for (const [name, code, alter] of [
     );
   });
 }
+
+// A byte hash alone must never admit undecoded video as physically certified.
+test("video certification requires physical frame evidence", async (t) => {
+  const { directory, manifest } = await input(t);
+  manifest.cases[0].derivative.kind = "video";
+  await writeFile(join(directory, "manifest.json"), JSON.stringify(manifest));
+  const { verifyCorpus } = await import("./video-corpus.mjs");
+  await assert.rejects(verifyCorpus(directory), {
+    code: "VIDEO_PROBE_REQUIRED",
+  });
+});
+
+async function pictureInput(t) {
+  const fixture = await input(t);
+  const c = fixture.manifest.cases[0];
+  c.derivative = {
+    ...c.derivative,
+    kind: "video",
+    width: 1920,
+    height: 1080,
+    frames: 3,
+    color: {
+      color_range: "tv",
+      color_space: "bt709",
+      color_transfer: "bt709",
+      color_primaries: "bt709",
+    },
+  };
+  c.source.range.endUs = 10125000;
+  c.clock = {
+    sourceAtZeroUs: 10000000,
+    frameDurationUs: { numerator: 125000, denominator: 3 },
+  };
+  await writeFile(join(fixture.directory, "manifest.json"), JSON.stringify(fixture.manifest));
+  const decoded = {
+    streams: [
+      {
+        codec_type: "video",
+        width: 1920,
+        height: 1080,
+        time_base: "1/12288",
+        sample_aspect_ratio: "1:1",
+        ...c.derivative.color,
+      },
+    ],
+    frames: [0, 512, 1024].map((pts) => ({
+      pts,
+      duration: 512,
+      width: 1920,
+      height: 1080,
+      sample_aspect_ratio: "1:1",
+      ...c.derivative.color,
+    })),
+  };
+  return { ...fixture, decoded };
+}
+
+test("physical video evidence refuses a changed frame pixel aspect", async (t) => {
+  const { directory, decoded } = await pictureInput(t);
+  decoded.frames[1].sample_aspect_ratio = "2:1";
+  const { verifyCorpus } = await import("./video-corpus.mjs");
+  await assert.rejects(
+    verifyCorpus(directory, undefined, async () => decoded),
+    {
+      code: "VIDEO_CHANGED",
+    },
+  );
+});
+
+test("physical video evidence refuses a shifted frame clock despite matching bytes", async (t) => {
+  const { directory, decoded } = await pictureInput(t);
+  decoded.frames[1].pts += 1;
+  const { verifyCorpus } = await import("./video-corpus.mjs");
+  await assert.rejects(
+    verifyCorpus(directory, undefined, async () => decoded),
+    { code: "CLOCK_CHANGED" },
+  );
+});
+
+test("physical video evidence refuses a cropped frame despite matching clocks", async (t) => {
+  const { directory, decoded } = await pictureInput(t);
+  decoded.frames[2].width = 960;
+  const { verifyCorpus } = await import("./video-corpus.mjs");
+  await assert.rejects(
+    verifyCorpus(directory, undefined, async () => decoded),
+    { code: "VIDEO_CHANGED" },
+  );
+});
+
+test("physical video evidence refuses color interpretation changed within a clip", async (t) => {
+  const { directory, decoded } = await pictureInput(t);
+  decoded.frames[1].color_range = "pc";
+  const { verifyCorpus } = await import("./video-corpus.mjs");
+  await assert.rejects(
+    verifyCorpus(directory, undefined, async () => decoded),
+    { code: "VIDEO_CHANGED" },
+  );
+});
+
+test("a complete physical video report certifies the retained exact frame clock", async (t) => {
+  const { directory, decoded, wave } = await pictureInput(t);
+  const { verifyCorpus } = await import("./video-corpus.mjs");
+  assert.deepEqual(await verifyCorpus(directory, undefined, async () => decoded), {
+    ok: true,
+    bytes: wave.length,
+    cases: [{ id: "clock-control", sha256: hash(wave), baseline: "unverified" }],
+  });
+});
+
+test("selected video derivation executes the pinned recipe and keeps original bytes", async (t) => {
+  const { directory } = await input(t);
+  const ffmpeg = (await run("which", ["ffmpeg"])).stdout.trim();
+  const ffprobe = (await run("which", ["ffprobe"])).stdout.trim();
+  const sources = await mkdtemp(join(tmpdir(), "yap-picture-original-"));
+  t.after(() => rm(sources, { recursive: true, force: true }));
+  const source = join(sources, "original.mov");
+  await run(ffmpeg, [
+    "-v",
+    "error",
+    "-f",
+    "lavfi",
+    "-i",
+    "color=red:s=32x24:r=24",
+    "-vf",
+    "setparams=range=limited:color_primaries=bt709:color_trc=bt709:colorspace=bt709",
+    "-frames:v",
+    "3",
+    "-c:v",
+    "prores_ks",
+    "-profile:v",
+    "2",
+    "-pix_fmt",
+    "yuv422p10le",
+    "-color_primaries",
+    "bt709",
+    "-color_trc",
+    "bt709",
+    "-colorspace",
+    "bt709",
+    "-color_range",
+    "tv",
+    "-movflags",
+    "+write_colr",
+    source,
+  ]);
+  const original = await readFile(source);
+  const recipe = {
+    id: "red-picture",
+    source: {
+      file: "original.mov",
+      sha256: hash(original),
+      streamIndex: 0,
+      range: { startUs: 0, endUs: 125000 },
+    },
+    derivative: {
+      file: "red.mov",
+      kind: "video",
+      width: 32,
+      height: 24,
+      frames: 3,
+      color: {
+        color_range: "tv",
+        color_space: "bt709",
+        color_transfer: "bt709",
+        color_primaries: "bt709",
+      },
+    },
+    clock: {
+      sourceAtZeroUs: 0,
+      frameDurationUs: { numerator: 125000, denominator: 3 },
+    },
+    recipe: {
+      arguments: [
+        "-nostdin",
+        "-v",
+        "error",
+        "-i",
+        "SOURCE",
+        "-map",
+        "0:v:0",
+        "-c:v",
+        "copy",
+        "OUTPUT",
+      ],
+    },
+  };
+  await writeFile(join(directory, "recipes.json"), JSON.stringify({ cases: [recipe] }));
+  await rm(join(directory, "manifest.json"));
+  const { deriveCorpus, verifyCorpus, videoProbe } = await import("./video-corpus.mjs");
+  const native = async (operation) => {
+    assert.equal(operation, "media.probe");
+    return {
+      ok: true,
+      data: {
+        originUs: 0,
+        streams: [{ id: "track:1", kind: "video", startUs: 0, endUs: 125000 }],
+      },
+    };
+  };
+  await assert.rejects(
+    deriveCorpus(directory, sources, "red-picture", native, {}, { ffmpeg, ffprobe }),
+    { code: "TOOL_CHANGED" },
+  );
+  recipe.recipe.tool = { kind: "test-ffmpeg", sha256: hash(await readFile(ffmpeg)) };
+  await writeFile(join(directory, "recipes.json"), JSON.stringify({ cases: [recipe] }));
+  const result = await deriveCorpus(
+    directory,
+    sources,
+    "red-picture",
+    native,
+    {},
+    { ffmpeg, ffprobe },
+  );
+  assert.equal(result.cases[0].derivative.frames, 3);
+  assert.equal(result.cases[0].preservation.status, "unverified");
+  assert.deepEqual(await readFile(source), original);
+  await assert.rejects(verifyCorpus(directory, undefined, videoProbe(ffprobe)), {
+    code: "PRESERVATION_UNVERIFIED",
+  });
+  await rm(join(directory, "red.mov"));
+  await rm(join(directory, "manifest.json"));
+  const nativeExecutable = join(sources, "native-probe.mjs");
+  await writeFile(
+    nativeExecutable,
+    "#!" +
+      process.execPath +
+      "\n" +
+      'process.stdin.resume(); process.stdin.on("end", () => console.log(JSON.stringify(' +
+      JSON.stringify(await native("media.probe")) +
+      ")));\n",
+  );
+  await chmod(nativeExecutable, 0o755);
+  const { stdout } = await run(process.execPath, [
+    entry,
+    "derive",
+    "--fixtures",
+    directory,
+    "--sources",
+    sources,
+    "--case",
+    "red-picture",
+    "--native",
+    nativeExecutable,
+    "--ffmpeg",
+    ffmpeg,
+    "--ffprobe",
+    ffprobe,
+  ]);
+  const reply = JSON.parse(stdout);
+  assert.equal(reply.ok, true);
+  assert.equal(reply.cases[0].preservation.status, "unverified");
+  const repeated = await run(process.execPath, [
+    entry,
+    "derive",
+    "--fixtures",
+    directory,
+    "--sources",
+    sources,
+    "--case",
+    "red-picture",
+    "--native",
+    nativeExecutable,
+    "--ffmpeg",
+    ffmpeg,
+    "--ffprobe",
+    ffprobe,
+  ]);
+  assert.deepEqual(JSON.parse(repeated.stdout), reply);
+  for (const change of [
+    (value) => value.recipe.arguments.push("-bitexact"),
+    (value) => (value.derivative.file = "other.mov"),
+    (value) => (value.derivative.width = 64),
+    (value) => (value.clock.frameDurationUs.numerator += 1),
+    (value) => (value.recipe.tool.sha256 = "0".repeat(64)),
+  ]) {
+    const changed = structuredClone(recipe);
+    change(changed);
+    await writeFile(join(directory, "recipes.json"), JSON.stringify({ cases: [changed] }));
+    await assert.rejects(
+      deriveCorpus(directory, sources, "red-picture", native, {}, { ffmpeg, ffprobe }),
+      { code: "RECIPE_CHANGED" },
+    );
+    assert.deepEqual(
+      await readFile(join(directory, "manifest.json")),
+      Buffer.from(JSON.stringify({ cases: reply.cases }, null, 2) + "\n"),
+    );
+  }
+  const rejected = await run(process.execPath, [
+    entry,
+    "verify",
+    "--fixtures",
+    directory,
+    "--ffprobe",
+    ffprobe,
+  ]).then(
+    () => assert.fail("pending visual proof must refuse certification"),
+    (error) => JSON.parse(error.stdout),
+  );
+  assert.equal(rejected.error.code, "PRESERVATION_UNVERIFIED");
+});

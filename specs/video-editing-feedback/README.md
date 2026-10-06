@@ -17,10 +17,12 @@ binding: no aliases, dual readers or migrations; preserve external originals and
 frozen historical evidence.
 
 Current pickup: finish [01 — corpus certification](slices/01-certified-corpus.md).
-The [first audio checkpoint](assets/01-corpus-audio/README.md) retains five
-source-rate Float32 excerpts with exact sample/clock proof. Speech dispositions,
-exact tiny historical PCM16 retention, full-frame picture/multicam/speaker inputs
-and remaining independent controls are pending. Do not infer ASR fidelity from
+The [audio checkpoint](assets/01-corpus-audio/README.md) retains five source-rate
+Float32 excerpts; [picture inputs](assets/01-corpus-picture/README.md) retain full
+rasters and sampled appearance with exact frame clocks. [07](assets/07-speech-timing/README.md)
+retains the exact historical tiny PCM16 input and paired overlap receipts.
+Remaining behavioral dispositions, multicamera/speaker inputs and independent
+controls are pending. Do not infer ASR fidelity from
 PCM equality or transcribe whole originals to locate known cases.
 
 Parallel priority: integrate [04 — bounded waiting](slices/04-wait-and-json-delivery.md);

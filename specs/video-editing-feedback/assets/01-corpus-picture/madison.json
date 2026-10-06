@@ -1,0 +1,670 @@
+{
+  "source": {
+    "file": "riverside_madison_raw-video-cfr_madison_kanna's stu_0035.mp4",
+    "sha256": "d05a5af37900032f5145566ada7b314a1c089b0a56f3085fe509c2ef37af80fa",
+    "streamIndex": 0,
+    "range": {
+      "startUs": 1877000000,
+      "endUs": 1880000000
+    }
+  },
+  "derivative": {
+    "kind": "video",
+    "file": "madison-picture.mov",
+    "sha256": "4abc85f54c9464a1bca85504e1410cc961eb69e23b37c376504342e2d9f29483",
+    "bytes": 40773400,
+    "width": 1920,
+    "height": 1080,
+    "frames": 72,
+    "color": {
+      "color_range": "tv",
+      "color_space": "bt709",
+      "color_transfer": "bt709",
+      "color_primaries": "bt709"
+    }
+  },
+  "frames": [
+    {
+      "pts": 0,
+      "duration": 512,
+      "width": 1920,
+      "height": 1080
+    },
+    {
+      "pts": 512,
+      "duration": 512,
+      "width": 1920,
+      "height": 1080
+    },
+    {
+      "pts": 1024,
+      "duration": 512,
+      "width": 1920,
+      "height": 1080
+    },
+    {
+      "pts": 1536,
+      "duration": 512,
+      "width": 1920,
+      "height": 1080
+    },
+    {
+      "pts": 2048,
+      "duration": 512,
+      "width": 1920,
+      "height": 1080
+    },
+    {
+      "pts": 2560,
+      "duration": 512,
+      "width": 1920,
+      "height": 1080
+    },
+    {
+      "pts": 3072,
+      "duration": 512,
+      "width": 1920,
+      "height": 1080
+    },
+    {
+      "pts": 3584,
+      "duration": 512,
+      "width": 1920,
+      "height": 1080
+    },
+    {
+      "pts": 4096,
+      "duration": 512,
+      "width": 1920,
+      "height": 1080
+    },
+    {
+      "pts": 4608,
+      "duration": 512,
+      "width": 1920,
+      "height": 1080
+    },
+    {
+      "pts": 5120,
+      "duration": 512,
+      "width": 1920,
+      "height": 1080
+    },
+    {
+      "pts": 5632,
+      "duration": 512,
+      "width": 1920,
+      "height": 1080
+    },
+    {
+      "pts": 6144,
+      "duration": 512,
+      "width": 1920,
+      "height": 1080
+    },
+    {
+      "pts": 6656,
+      "duration": 512,
+      "width": 1920,
+      "height": 1080
+    },
+    {
+      "pts": 7168,
+      "duration": 512,
+      "width": 1920,
+      "height": 1080
+    },
+    {
+      "pts": 7680,
+      "duration": 512,
+      "width": 1920,
+      "height": 1080
+    },
+    {
+      "pts": 8192,
+      "duration": 512,
+      "width": 1920,
+      "height": 1080
+    },
+    {
+      "pts": 8704,
+      "duration": 512,
+      "width": 1920,
+      "height": 1080
+    },
+    {
+      "pts": 9216,
+      "duration": 512,
+      "width": 1920,
+      "height": 1080
+    },
+    {
+      "pts": 9728,
+      "duration": 512,
+      "width": 1920,
+      "height": 1080
+    },
+    {
+      "pts": 10240,
+      "duration": 512,
+      "width": 1920,
+      "height": 1080
+    },
+    {
+      "pts": 10752,
+      "duration": 512,
+      "width": 1920,
+      "height": 1080
+    },
+    {
+      "pts": 11264,
+      "duration": 512,
+      "width": 1920,
+      "height": 1080
+    },
+    {
+      "pts": 11776,
+      "duration": 512,
+      "width": 1920,
+      "height": 1080
+    },
+    {
+      "pts": 12288,
+      "duration": 512,
+      "width": 1920,
+      "height": 1080
+    },
+    {
+      "pts": 12800,
+      "duration": 512,
+      "width": 1920,
+      "height": 1080
+    },
+    {
+      "pts": 13312,
+      "duration": 512,
+      "width": 1920,
+      "height": 1080
+    },
+    {
+      "pts": 13824,
+      "duration": 512,
+      "width": 1920,
+      "height": 1080
+    },
+    {
+      "pts": 14336,
+      "duration": 512,
+      "width": 1920,
+      "height": 1080
+    },
+    {
+      "pts": 14848,
+      "duration": 512,
+      "width": 1920,
+      "height": 1080
+    },
+    {
+      "pts": 15360,
+      "duration": 512,
+      "width": 1920,
+      "height": 1080
+    },
+    {
+      "pts": 15872,
+      "duration": 512,
+      "width": 1920,
+      "height": 1080
+    },
+    {
+      "pts": 16384,
+      "duration": 512,
+      "width": 1920,
+      "height": 1080
+    },
+    {
+      "pts": 16896,
+      "duration": 512,
+      "width": 1920,
+      "height": 1080
+    },
+    {
+      "pts": 17408,
+      "duration": 512,
+      "width": 1920,
+      "height": 1080
+    },
+    {
+      "pts": 17920,
+      "duration": 512,
+      "width": 1920,
+      "height": 1080
+    },
+    {
+      "pts": 18432,
+      "duration": 512,
+      "width": 1920,
+      "height": 1080
+    },
+    {
+      "pts": 18944,
+      "duration": 512,
+      "width": 1920,
+      "height": 1080
+    },
+    {
+      "pts": 19456,
+      "duration": 512,
+      "width": 1920,
+      "height": 1080
+    },
+    {
+      "pts": 19968,
+      "duration": 512,
+      "width": 1920,
+      "height": 1080
+    },
+    {
+      "pts": 20480,
+      "duration": 512,
+      "width": 1920,
+      "height": 1080
+    },
+    {
+      "pts": 20992,
+      "duration": 512,
+      "width": 1920,
+      "height": 1080
+    },
+    {
+      "pts": 21504,
+      "duration": 512,
+      "width": 1920,
+      "height": 1080
+    },
+    {
+      "pts": 22016,
+      "duration": 512,
+      "width": 1920,
+      "height": 1080
+    },
+    {
+      "pts": 22528,
+      "duration": 512,
+      "width": 1920,
+      "height": 1080
+    },
+    {
+      "pts": 23040,
+      "duration": 512,
+      "width": 1920,
+      "height": 1080
+    },
+    {
+      "pts": 23552,
+      "duration": 512,
+      "width": 1920,
+      "height": 1080
+    },
+    {
+      "pts": 24064,
+      "duration": 512,
+      "width": 1920,
+      "height": 1080
+    },
+    {
+      "pts": 24576,
+      "duration": 512,
+      "width": 1920,
+      "height": 1080
+    },
+    {
+      "pts": 25088,
+      "duration": 512,
+      "width": 1920,
+      "height": 1080
+    },
+    {
+      "pts": 25600,
+      "duration": 512,
+      "width": 1920,
+      "height": 1080
+    },
+    {
+      "pts": 26112,
+      "duration": 512,
+      "width": 1920,
+      "height": 1080
+    },
+    {
+      "pts": 26624,
+      "duration": 512,
+      "width": 1920,
+      "height": 1080
+    },
+    {
+      "pts": 27136,
+      "duration": 512,
+      "width": 1920,
+      "height": 1080
+    },
+    {
+      "pts": 27648,
+      "duration": 512,
+      "width": 1920,
+      "height": 1080
+    },
+    {
+      "pts": 28160,
+      "duration": 512,
+      "width": 1920,
+      "height": 1080
+    },
+    {
+      "pts": 28672,
+      "duration": 512,
+      "width": 1920,
+      "height": 1080
+    },
+    {
+      "pts": 29184,
+      "duration": 512,
+      "width": 1920,
+      "height": 1080
+    },
+    {
+      "pts": 29696,
+      "duration": 512,
+      "width": 1920,
+      "height": 1080
+    },
+    {
+      "pts": 30208,
+      "duration": 512,
+      "width": 1920,
+      "height": 1080
+    },
+    {
+      "pts": 30720,
+      "duration": 512,
+      "width": 1920,
+      "height": 1080
+    },
+    {
+      "pts": 31232,
+      "duration": 512,
+      "width": 1920,
+      "height": 1080
+    },
+    {
+      "pts": 31744,
+      "duration": 512,
+      "width": 1920,
+      "height": 1080
+    },
+    {
+      "pts": 32256,
+      "duration": 512,
+      "width": 1920,
+      "height": 1080
+    },
+    {
+      "pts": 32768,
+      "duration": 512,
+      "width": 1920,
+      "height": 1080
+    },
+    {
+      "pts": 33280,
+      "duration": 512,
+      "width": 1920,
+      "height": 1080
+    },
+    {
+      "pts": 33792,
+      "duration": 512,
+      "width": 1920,
+      "height": 1080
+    },
+    {
+      "pts": 34304,
+      "duration": 512,
+      "width": 1920,
+      "height": 1080
+    },
+    {
+      "pts": 34816,
+      "duration": 512,
+      "width": 1920,
+      "height": 1080
+    },
+    {
+      "pts": 35328,
+      "duration": 512,
+      "width": 1920,
+      "height": 1080
+    },
+    {
+      "pts": 35840,
+      "duration": 512,
+      "width": 1920,
+      "height": 1080
+    },
+    {
+      "pts": 36352,
+      "duration": 512,
+      "width": 1920,
+      "height": 1080
+    }
+  ],
+  "captures": [
+    {
+      "frame": 0,
+      "kind": "original",
+      "result": {
+        "actualSourceUs": 1877000000,
+        "assetId": "d05a5af37900032f5145566ada7b314a1c089b0a56f3085fe509c2ef37af80fa",
+        "bytes": 1390756,
+        "decodedSamples": 1,
+        "file": "madison-0-original.png",
+        "height": 1080,
+        "mediaType": "image/png",
+        "readerOpens": 1,
+        "requestedSourceUs": 1877000000,
+        "sample": {
+          "endTimescale": 90000,
+          "endValue": "168933750",
+          "originUs": 0,
+          "timescale": 90000,
+          "value": "168930000"
+        },
+        "sourceHeight": 1080,
+        "sourceWidth": 1920,
+        "streamId": "track:1",
+        "width": 1920
+      }
+    },
+    {
+      "frame": 0,
+      "kind": "derivative",
+      "result": {
+        "actualSourceUs": 0,
+        "assetId": "4abc85f54c9464a1bca85504e1410cc961eb69e23b37c376504342e2d9f29483",
+        "bytes": 2030042,
+        "decodedSamples": 1,
+        "file": "madison-0-derivative.png",
+        "height": 1080,
+        "mediaType": "image/png",
+        "readerOpens": 1,
+        "requestedSourceUs": 0,
+        "sample": {
+          "endTimescale": 12288,
+          "endValue": "512",
+          "originUs": 0,
+          "timescale": 12288,
+          "value": "0"
+        },
+        "sourceHeight": 1080,
+        "sourceWidth": 1920,
+        "streamId": "track:1",
+        "width": 1920
+      }
+    },
+    {
+      "frame": 12,
+      "kind": "original",
+      "result": {
+        "actualSourceUs": 1877500000,
+        "assetId": "d05a5af37900032f5145566ada7b314a1c089b0a56f3085fe509c2ef37af80fa",
+        "bytes": 1427988,
+        "decodedSamples": 1,
+        "file": "madison-12-original.png",
+        "height": 1080,
+        "mediaType": "image/png",
+        "readerOpens": 1,
+        "requestedSourceUs": 1877500000,
+        "sample": {
+          "endTimescale": 90000,
+          "endValue": "168978750",
+          "originUs": 0,
+          "timescale": 90000,
+          "value": "168975000"
+        },
+        "sourceHeight": 1080,
+        "sourceWidth": 1920,
+        "streamId": "track:1",
+        "width": 1920
+      }
+    },
+    {
+      "frame": 12,
+      "kind": "derivative",
+      "result": {
+        "actualSourceUs": 500000,
+        "assetId": "4abc85f54c9464a1bca85504e1410cc961eb69e23b37c376504342e2d9f29483",
+        "bytes": 2046747,
+        "decodedSamples": 1,
+        "file": "madison-12-derivative.png",
+        "height": 1080,
+        "mediaType": "image/png",
+        "readerOpens": 1,
+        "requestedSourceUs": 500000,
+        "sample": {
+          "endTimescale": 12288,
+          "endValue": "6656",
+          "originUs": 0,
+          "timescale": 12288,
+          "value": "6144"
+        },
+        "sourceHeight": 1080,
+        "sourceWidth": 1920,
+        "streamId": "track:1",
+        "width": 1920
+      }
+    },
+    {
+      "frame": 36,
+      "kind": "original",
+      "result": {
+        "actualSourceUs": 1878500000,
+        "assetId": "d05a5af37900032f5145566ada7b314a1c089b0a56f3085fe509c2ef37af80fa",
+        "bytes": 1497919,
+        "decodedSamples": 1,
+        "file": "madison-36-original.png",
+        "height": 1080,
+        "mediaType": "image/png",
+        "readerOpens": 1,
+        "requestedSourceUs": 1878500000,
+        "sample": {
+          "endTimescale": 90000,
+          "endValue": "169068750",
+          "originUs": 0,
+          "timescale": 90000,
+          "value": "169065000"
+        },
+        "sourceHeight": 1080,
+        "sourceWidth": 1920,
+        "streamId": "track:1",
+        "width": 1920
+      }
+    },
+    {
+      "frame": 36,
+      "kind": "derivative",
+      "result": {
+        "actualSourceUs": 1500000,
+        "assetId": "4abc85f54c9464a1bca85504e1410cc961eb69e23b37c376504342e2d9f29483",
+        "bytes": 2090777,
+        "decodedSamples": 1,
+        "file": "madison-36-derivative.png",
+        "height": 1080,
+        "mediaType": "image/png",
+        "readerOpens": 1,
+        "requestedSourceUs": 1500000,
+        "sample": {
+          "endTimescale": 12288,
+          "endValue": "18944",
+          "originUs": 0,
+          "timescale": 12288,
+          "value": "18432"
+        },
+        "sourceHeight": 1080,
+        "sourceWidth": 1920,
+        "streamId": "track:1",
+        "width": 1920
+      }
+    },
+    {
+      "frame": 71,
+      "kind": "original",
+      "result": {
+        "actualSourceUs": 1879958333,
+        "assetId": "d05a5af37900032f5145566ada7b314a1c089b0a56f3085fe509c2ef37af80fa",
+        "bytes": 1460032,
+        "decodedSamples": 1,
+        "file": "madison-71-original.png",
+        "height": 1080,
+        "mediaType": "image/png",
+        "readerOpens": 1,
+        "requestedSourceUs": 1879958334,
+        "sample": {
+          "endTimescale": 90000,
+          "endValue": "169200000",
+          "originUs": 0,
+          "timescale": 90000,
+          "value": "169196250"
+        },
+        "sourceHeight": 1080,
+        "sourceWidth": 1920,
+        "streamId": "track:1",
+        "width": 1920
+      }
+    },
+    {
+      "frame": 71,
+      "kind": "derivative",
+      "result": {
+        "actualSourceUs": 2958333,
+        "assetId": "4abc85f54c9464a1bca85504e1410cc961eb69e23b37c376504342e2d9f29483",
+        "bytes": 2073229,
+        "decodedSamples": 1,
+        "file": "madison-71-derivative.png",
+        "height": 1080,
+        "mediaType": "image/png",
+        "readerOpens": 1,
+        "requestedSourceUs": 2958334,
+        "sample": {
+          "endTimescale": 1000,
+          "endValue": "3000",
+          "originUs": 0,
+          "timescale": 12288,
+          "value": "36352"
+        },
+        "sourceHeight": 1080,
+        "sourceWidth": 1920,
+        "streamId": "track:1",
+        "width": 1920
+      }
+    }
+  ]
+}

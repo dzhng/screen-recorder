@@ -85,6 +85,243 @@
           "endUs": 1880700000
         }
       }
+    },
+    {
+      "id": "graham-picture",
+      "classification": "real-media-reproduction",
+      "feedback": [
+        "E13",
+        "E14",
+        "S03"
+      ],
+      "purpose": "Full-frame original warm color, face, wall and edge detail; no editorial treatment",
+      "source": {
+        "file": "fullvideo_graham_p1.mp4",
+        "sha256": "992bb6f6596a745373414aa17a62e2ff065b0111e26c3cbdde1994b623968210",
+        "streamIndex": 0,
+        "range": {
+          "startUs": 1193000000,
+          "endUs": 1196000000
+        }
+      },
+      "derivative": {
+        "kind": "video",
+        "file": "graham-picture.mov",
+        "width": 1920,
+        "height": 1080,
+        "frames": 72,
+        "color": {
+          "color_range": "tv",
+          "color_space": "bt709",
+          "color_transfer": "bt709",
+          "color_primaries": "bt709"
+        }
+      },
+      "clock": {
+        "sourceAtZeroUs": 1193000000,
+        "frameDurationUs": {
+          "numerator": 125000,
+          "denominator": 3
+        }
+      },
+      "recipe": {
+        "arguments": [
+          "-nostdin",
+          "-v",
+          "error",
+          "-ss",
+          "1193",
+          "-i",
+          "SOURCE",
+          "-t",
+          "3",
+          "-map",
+          "0:v:0",
+          "-an",
+          "-c:v",
+          "prores_ks",
+          "-threads",
+          "4",
+          "-profile:v",
+          "2",
+          "-pix_fmt",
+          "yuv422p10le",
+          "-color_primaries",
+          "bt709",
+          "-color_trc",
+          "bt709",
+          "-colorspace",
+          "bt709",
+          "-color_range",
+          "tv",
+          "-fps_mode",
+          "passthrough",
+          "OUTPUT"
+        ],
+        "tool": {
+          "kind": "prepared-ffmpeg",
+          "version": "9.0.2",
+          "sha256": "78cd5ab1a088c0db965893f9c4a475beb60525d8dc1f0ecad80e2e8959a8cc33"
+        }
+      }
+    },
+    {
+      "id": "madison-picture",
+      "classification": "real-media-reproduction",
+      "feedback": [
+        "E13",
+        "E14",
+        "S03"
+      ],
+      "purpose": "Full-frame original warm color, face, wall and edge detail; no editorial treatment",
+      "source": {
+        "file": "riverside_madison_raw-video-cfr_madison_kanna's stu_0035.mp4",
+        "sha256": "d05a5af37900032f5145566ada7b314a1c089b0a56f3085fe509c2ef37af80fa",
+        "streamIndex": 0,
+        "range": {
+          "startUs": 1877000000,
+          "endUs": 1880000000
+        }
+      },
+      "derivative": {
+        "kind": "video",
+        "file": "madison-picture.mov",
+        "width": 1920,
+        "height": 1080,
+        "frames": 72,
+        "color": {
+          "color_range": "tv",
+          "color_space": "bt709",
+          "color_transfer": "bt709",
+          "color_primaries": "bt709"
+        }
+      },
+      "clock": {
+        "sourceAtZeroUs": 1877000000,
+        "frameDurationUs": {
+          "numerator": 125000,
+          "denominator": 3
+        }
+      },
+      "recipe": {
+        "arguments": [
+          "-nostdin",
+          "-v",
+          "error",
+          "-ss",
+          "1877",
+          "-i",
+          "SOURCE",
+          "-t",
+          "3",
+          "-map",
+          "0:v:0",
+          "-an",
+          "-c:v",
+          "prores_ks",
+          "-threads",
+          "4",
+          "-profile:v",
+          "2",
+          "-pix_fmt",
+          "yuv422p10le",
+          "-color_primaries",
+          "bt709",
+          "-color_trc",
+          "bt709",
+          "-colorspace",
+          "bt709",
+          "-color_range",
+          "tv",
+          "-fps_mode",
+          "passthrough",
+          "OUTPUT"
+        ],
+        "tool": {
+          "kind": "prepared-ffmpeg",
+          "version": "9.0.2",
+          "sha256": "78cd5ab1a088c0db965893f9c4a475beb60525d8dc1f0ecad80e2e8959a8cc33"
+        }
+      }
+    },
+    {
+      "id": "lily-picture",
+      "classification": "real-media-reproduction",
+      "feedback": [
+        "E13",
+        "E14",
+        "S03"
+      ],
+      "purpose": "Full-frame original warm color, face, wall and edge detail; no editorial treatment",
+      "source": {
+        "file": "fullvideo_lily_p1.mp4",
+        "sha256": "588757723f07ed21900bdc8dc33d267ceb97fc0b713a2b47fe02207feaf425b3",
+        "streamIndex": 0,
+        "range": {
+          "startUs": 800000000,
+          "endUs": 803000000
+        }
+      },
+      "derivative": {
+        "kind": "video",
+        "file": "lily-picture.mov",
+        "width": 1920,
+        "height": 1080,
+        "frames": 72,
+        "color": {
+          "color_range": "tv",
+          "color_space": "bt709",
+          "color_transfer": "bt709",
+          "color_primaries": "bt709"
+        }
+      },
+      "clock": {
+        "sourceAtZeroUs": 800000000,
+        "frameDurationUs": {
+          "numerator": 125000,
+          "denominator": 3
+        }
+      },
+      "recipe": {
+        "arguments": [
+          "-nostdin",
+          "-v",
+          "error",
+          "-ss",
+          "800",
+          "-i",
+          "SOURCE",
+          "-t",
+          "3",
+          "-map",
+          "0:v:0",
+          "-an",
+          "-c:v",
+          "prores_ks",
+          "-threads",
+          "4",
+          "-profile:v",
+          "2",
+          "-pix_fmt",
+          "yuv422p10le",
+          "-color_primaries",
+          "bt709",
+          "-color_trc",
+          "bt709",
+          "-colorspace",
+          "bt709",
+          "-color_range",
+          "tv",
+          "-fps_mode",
+          "passthrough",
+          "OUTPUT"
+        ],
+        "tool": {
+          "kind": "prepared-ffmpeg",
+          "version": "9.0.2",
+          "sha256": "78cd5ab1a088c0db965893f9c4a475beb60525d8dc1f0ecad80e2e8959a8cc33"
+        }
+      }
     }
   ]
 }
