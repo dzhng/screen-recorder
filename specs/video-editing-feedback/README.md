@@ -16,16 +16,17 @@ merge, push or installed-app change has been requested. Hard cutover remains
 binding: no aliases, dual readers or migrations; preserve external originals and
 frozen historical evidence.
 
-Current pickup: slice 20. Slice 12D now passes: a fresh receipt-driven consumer
+Current pickup: slice 31/32 speaker continuity and labeling feasibility. Slice 12D now passes: a fresh receipt-driven consumer
 discovered the clipped Parakeet edge, authored one bounded replacement and
 rechecked the changed revision with fresh rendered recognition. The helper never
 chooses repairs or retries blindly.
 
-Priority order: 20 global synchronization → 21 switched-angle
-delivery → 15/16 face and framing delivery → 25 tone → 27–30 delivered transitions
-and scenes → 31/32 speaker continuity and attribution → 33/34 runnable workflows and
-fresh-agent replay. Follow slice dependencies when a later item is independently
-ready.
+Priority order: 20 global synchronization remains refused on the frozen unlike-mic
+evidence; 15/16 face/framing and 25 tone remain partial; 27–30 now have public
+transition, moving-coverage and bounded-blur delivery receipts but broader visual
+parity remains open; 31/32 speaker continuity and attribution are the next
+feasibility gate; 33/34 finish media-aware workflows and fresh-agent replay.
+Follow slice dependencies when a later item is independently ready.
 
 Evidence ledger: [assets](assets/README.md) links the scoped receipts. Slice 12's
 real-media receipt records the Parakeet word-completion limitation, an honest
