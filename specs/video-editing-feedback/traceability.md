@@ -208,8 +208,10 @@ source-bound synchronization receipt. Only accepted receipts may declare an angl
 receipts remain observable but cannot be consumed. `angle.declare` and `angle.remove` are public
 operations separate from linked-edit `syncGroups`; model validation refuses foreign sources,
 unknown/repeated members, mismatched evidence source sets, nonzero origins and ranges outside
-the clip interval. Slice20's failed waveform hypothesis still blocks sync promotion and
-delivered switched-view replay.
+the clip interval. The composition compiler replays an explicit three-angle sequential switch
+through ordinary placements and preserves each selected source identity per frame; native
+delivered switched-view render remains open. Slice20's failed waveform hypothesis still blocks
+sync promotion.
 
 Slice27 evidence: `edit.apply` now lowers explicit crossfade, dip and flash recipes into ordinary
 gain/opacity curves. Crossfade requires two distinct targets; dip and flash require one target and

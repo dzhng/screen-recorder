@@ -675,3 +675,58 @@ test("angle declaration refuses synchronization evidence without an accepted sou
   }], { assets, namespace: "angle-evidence-refused" }),
   ).toThrow(/accepted synchronization evidence/);
 });
+
+test("ordinary placements replay a three-angle switch without automatic selection", () => {
+  const assets = ["a", "b", "c"].map((id) => ({
+    id: `camera-${id}`,
+    streams: [{
+      id: "video", kind: "video" as const, width: 64, height: 48,
+      bounds: { startUs: 0, endUs: 1000000 },
+      available: [{ startUs: 0, endUs: 1000000 }],
+    }],
+  }));
+  const result = applyBatch(empty, [
+    { operation: "track.add", track: { kind: "video", order: 0 }, label: "angles" },
+    ...assets.map((asset, index) => ({
+      operation: "place" as const,
+      label: asset.id,
+      clip: {
+        assetId: asset.id,
+        streamId: "video",
+        trackId: { label: "angles" },
+        source: { kind: "range" as const, range: { startUs: 0, endUs: 1000000 } },
+        placement: {
+          kind: "project" as const,
+          range: { startUs: index * 1000000, endUs: (index + 1) * 1000000 },
+        },
+      },
+    })),
+    {
+      operation: "angle.declare",
+      sessionId: "session-1",
+      originClipId: { label: "camera-a" },
+      evidence: {
+        id: "known-control", generation: "g1", status: "accepted", method: "waveform",
+        fingerprint: "sha256:known-control", sources: [...assets].reverse().map((asset) => ({
+          assetId: asset.id, streamId: "video",
+        })),
+      },
+      members: assets.map((asset, index) => ({
+        clipId: { label: asset.id }, offsetUs: 0,
+        validRange: { startUs: index * 1000000, endUs: (index + 1) * 1000000 },
+      })),
+    },
+  ], { assets, namespace: "angle-switch" });
+  const compiler = createCompiler(validateComposition(result.document, assets), "angle-switch");
+  const frames = [...compiler.frames({ startUs: 0, endUs: 3000000 })];
+  expect(frames).toHaveLength(24);
+  const selectedAssets = frames.map((frame) => frame.layers.map((layer) => {
+    if (layer.kind !== "video") throw new Error("Expected a video layer");
+    return layer.assetId;
+  }));
+  expect(selectedAssets).toEqual([
+    ...Array.from({ length: 8 }, () => ["camera-a"]),
+    ...Array.from({ length: 8 }, () => ["camera-b"]),
+    ...Array.from({ length: 8 }, () => ["camera-c"]),
+  ]);
+});

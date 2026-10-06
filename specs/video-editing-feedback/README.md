@@ -31,7 +31,9 @@ Evidence ledger: [assets](assets/README.md) links the scoped receipts. Slice 12'
 real-media receipt records the Parakeet word-completion limitation, an honest
 intentional-jump refusal, and a fresh-agent repair replay. The sync
 ledger retains four local mixed-reference bridges but refuses a global clock;
-composition preserves that refusal. Speaker replication remains below the unchanged
+composition preserves that refusal. The composition compiler also replays an
+explicit three-angle sequential switch; native delivered switched-angle render
+remains open. Speaker replication remains below the unchanged
 80% long-form gate. Native delivered-picture/audio acceptance is still open for
 transitions, motion blur and planted scene changes. Caption, blend, immutable-LUT,
 delivered-scene-helper and source acoustic/package-replay receipts are accepted for

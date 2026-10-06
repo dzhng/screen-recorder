@@ -1,6 +1,6 @@
 # 21 — Declare angle clocks
 
-Status: partial — explicit angle-session declaration/removal, source/range validation, and source-bound accepted-evidence admission are implemented; the sync estimator and delivered switched-view replay remain open. Depends on: [20](20-sync-replication.md), [03](03-published-work-contract.md).
+Status: partial — explicit angle-session declaration/removal, source/range validation, source-bound accepted-evidence admission, and compiler-level ordinary-placement switched-view replay are implemented; the sync estimator and delivered switched-view render remain open. Depends on: [20](20-sync-replication.md), [03](03-published-work-contract.md).
 
 ## Contract
 
@@ -26,7 +26,10 @@ Add declaration of session origin, selected asset/streams, valid range and ratio
 
 ## Runnable checkpoint
 
-Three-angle session declaration and switched-view ordinary edit. Labeled dialogue is the later 32 checkpoint.
+Three-angle session declaration and switched-view ordinary edit. The composition
+compiler checkpoint replays three explicit sequential camera placements and checks
+the selected source in every frame; it does not claim native delivered-render
+fidelity. Labeled dialogue is the later 32 checkpoint.
 
 Expose a case-selected command or existing lab entry with its own usage. Store accepted requests/results and artifact identities in feature-owned evidence. The implementing agent checks actual output; the user may view it for direction without becoming a QA gate.
 
@@ -39,7 +42,8 @@ Wrong/foreign sync evidence, unlike session, changed raw offsets and microphone 
 No visual verdict is required for a JSON-only checkpoint. If this slice produces a visual artifact, declare its variable/mask, compare it using compare-screenshots and obtain an unprimed screenshot-critique as the last visual check before acceptance. Artifact viewing never requires human QA.
 
 The composition checkpoint is green for explicit declaration, accepted source-bound evidence,
-source identity/range validation, exact offsets and removal. It does not promote the failed waveform hypothesis in [20](20-sync-replication.md)
+source identity/range validation, exact offsets and removal, plus ordinary-placement
+compiler replay of a three-angle switch. It does not promote the failed waveform hypothesis in [20](20-sync-replication.md)
 or claim a delivered switched-view render. A spike passes with a frozen accepted recipe/reference,
 or records a failed verdict and reslices dependent work. An unavailable stub or undocumented fallback
 is not implementation completion.

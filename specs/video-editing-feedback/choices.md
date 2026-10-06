@@ -1374,6 +1374,28 @@ Apple cube candidate are in the slice26 evidence; no user-only decision remains.
   existing exact-offset and source-preservation rules, but the original slice
   delegated relationship semantics.
 
+## Compiler-level switched-angle replay — slice21
+
+- **When:** ordinary-placement replay checkpoint.
+- **The choice:** Prove the first switched-angle behavior at the composition
+  compiler boundary with three explicit sequential camera placements. For
+  example, the caller places camera A for the first second, camera B for the
+  second and camera C for the third on one video track; the compiler must emit
+  only A, then only B, then only C at the frame cells. The angle declaration
+  supplies accepted source-bound evidence, but it does not select or retime a
+  camera. Native rendering is kept as a separate later gate.
+- **The gap:** Slice21 named a three-angle switched-view ordinary edit but did
+  not specify whether the first runnable proof should exercise a native encoder,
+  a delivered file, or the existing exact composition compiler.
+- **The reach:** This checkpoint locks the caller-owned switching contract and
+  catches source or frame-boundary regressions cheaply. It does not certify
+  codec output, visual quality or a global synchronization estimator; those
+  remain open and require their own evidence before delivery claims.
+- **Verdict:** sound. It tests the existing public composition path without
+  inventing an angle-selection operation or hiding an automatic editorial choice.
+- **Confidence:** high; the product boundary explicitly assigns selection to the
+  caller and keeps native delivery as a separate acceptance surface.
+
 ## Keep delivered scene changes as evidence — slice30
 
 - **When:** slice30 portable report pass.
