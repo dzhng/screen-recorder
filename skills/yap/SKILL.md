@@ -119,6 +119,14 @@ unavailable; do not claim it reopened or retry writes blindly.
    verifies the index link and records the installed reference hashes before
    media work; it performs no edits, installs or model preparation.
 
+   For a clean-state reproduction checkpoint, use the installed
+   `scripts/fresh-delivery-check.mjs` helper after producing two agent receipts:
+   one from a clean managed root and one from a relocated root. It verifies the
+   brief, source, selection, recipe and delivered-file identities, refuses source
+   overwrite and replay mismatches, and records native, visual and audio review
+   as explicitly unverified. It is an identity gate, not a substitute for
+   rendered-media inspection or a human-QA request.
+
 3. **Find the material.** Inspect the operation you need with
    `yap <operation> --help`. It returns its JSON description and parameter
    schema without launching the app. If you need to discover operation names,

@@ -22,7 +22,7 @@ These are current discovery pointers, not a claim every listed module must chang
 
 ## Scope and frozen decisions
 
-Add declaration of session origin, selected asset/streams, valid range and rational offsets referencing accepted sync evidence. The evidence receipt must carry an accepted status, generation/fingerprint, and exactly the declared member source identities; the origin member's offset is zero. `angle.declare` owns this relationship separately from linked-edit `syncGroups`; `angle.remove` removes it explicitly. Declare raw-source participants as relationship identities, not automatic audible-speaker assignments. Speaker display names and word attribution are owned by 32. Consumers plan ordinary placements; constant-offset declarations report drift/discontinuity as unsupported, not retime.
+Add declaration of session origin, selected video streams, valid range and rational offsets referencing accepted sync evidence. The evidence receipt must carry an accepted status, generation/fingerprint, and exactly the declared member source identities; the origin member's offset is zero. `angle.declare` owns this relationship separately from linked-edit `syncGroups`; `angle.remove` removes it explicitly. Declare raw-source participants as relationship identities, not automatic audible-speaker assignments. Speaker display names and word attribution are owned by 32. Consumers plan ordinary placements; constant-offset declarations report drift/discontinuity as unsupported, not retime.
 
 ## Runnable checkpoint
 
@@ -43,7 +43,8 @@ No visual verdict is required for a JSON-only checkpoint. If this slice produces
 
 The composition checkpoint is green for explicit declaration, accepted source-bound evidence,
 source identity/range validation, exact offsets and removal, plus ordinary-placement compiler replay
-of a three-angle switch. The [native switched-angle receipt](../assets/21-synced-angles/README.md)
+of a three-angle switch. Angle members that resolve to audio-only streams or repeat one source are
+refused by the composition owner. The [native switched-angle receipt](../assets/21-synced-angles/README.md)
 also passes public CLI/MCP import and authoring, native frame delivery at all three sequential
 intervals, and native preview delivery of the complete six-frame project. It does not promote the
 failed waveform hypothesis in [20](20-sync-replication.md), infer a speaker or choose a camera.

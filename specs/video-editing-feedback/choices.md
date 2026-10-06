@@ -1678,3 +1678,47 @@ Apple cube candidate are in the slice26 evidence; no user-only decision remains.
 - **Verdict:** sound for the independent-control checkpoint; slice01 remains
   in progress until whole behavioral and multicamera certification is measured.
 - **Confidence:** high for byte/oracle integrity and declared control scope.
+
+## Keep fresh replay as an identity gate — slice34
+
+- **When:** fresh-agent delivery handoff pass.
+- **The choice:** Put clean-state and relocated-state comparison in one consumer
+  helper that hashes the brief, source files, selection, recipe and delivered
+  artifact. For example, two receipts with the same source and instructions but
+  different output bytes are refused, while native readiness, decoded picture and
+  audio review remain explicitly unverified until their own checks run.
+- **The gap:** The slice required reproducible delivery without human QA but did
+  not say whether a portable checker should decode media or merely establish that
+  the two agents acted on the same inputs and produced the same bytes.
+- **The reach:** Fresh agents get a small, deterministic replay checkpoint and
+  cannot accidentally overclaim visual or audio acceptance. A later media-aware
+  workflow can consume this identity result and add its own owners without
+  duplicating source-integrity logic.
+- **Verdict:** sound. Identity parity is useful evidence, but it cannot stand in
+  for native, visual or acoustic verification.
+- **Confidence:** high; the slice explicitly separates replay identity from the
+  stronger media gates.
+
+## Keep speaker acquisition blocked until the recipe is real — slice31
+
+- **When:** speaker provider handoff pass.
+- **The choice:** Leave the registered Sortformer speaker provider marked as
+  requiring explicit local model input while its NeMo runtime has no complete
+  acquisition descriptor. For example, a first-party service may automatically
+  prepare Parakeet because its pinned files and runtime have a verified download
+  recipe, but it must refuse or report unavailable for speaker preparation rather
+  than inventing a URL, silently installing dependencies or implying that a
+  30-second observation proves long-form identity continuity.
+- **The gap:** The product policy says first-party speech features prepare their
+  pinned models by default, while the current speaker evidence only proves a
+  provisional exact-window comparator and fails the unchanged long-form quality
+  gate. The repository does not yet contain an honest end-to-end acquisition
+  recipe for this provider.
+- **The reach:** Future provider work must add a pinned model/runtime acquisition
+  owned by the model lifecycle and separately pass continuity and labeling gates
+  before changing the default. Existing anonymous observations remain useful
+  evidence and are not relabeled as named people.
+- **Verdict:** sound for the current evidence; the implementation remains open
+  until a real acquisition recipe and quality proof exist.
+- **Confidence:** high; auto-downloading an unverified or guessed runtime would
+  violate the accepted first-party model policy and make the quality claim worse.
