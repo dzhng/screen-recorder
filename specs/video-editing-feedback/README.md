@@ -1,6 +1,6 @@
 # Reliable autonomous video editing
 
-Status: implementation active; core contracts through19 are integrated, bounded source/project alignment and generation-pinned speaker labels are implemented, transition lowering and focused caption/blend checkpoints are present, and synchronization, native delivery and long-form speaker quality gates remain open. Last updated: 2026-10-06.
+Status: implementation active; core contracts through19 are integrated, source/project alignment and generation-pinned speaker labels are implemented, and caption, blend, synchronization-evidence, motion and delivered-scene helpers are present. Native delivery, contextual-join media, synchronization delivery and long-form speaker quality gates remain open. Last updated: 2026-10-06.
 
 Yap supplies explicit editing primitives and reproducible observations. The consumer
 agent chooses the story, uses available creative tools, checks actual output and
@@ -16,61 +16,25 @@ merge, push or installed-app change has been requested. Hard cutover remains
 binding: no aliases, dual readers or migrations; preserve external originals and
 frozen historical evidence.
 
-Current pickup:12C/12D media fixture exercise and fresh-agent repair discovery.12A exact boundary mapping and
-12B retained contextual reporting are reviewed.
-The consumer-side bounded repair helper is integrated: it applies one explicit
-caller edit, optionally prepares the changed tap, and rechecks `join.verify` on
-the advanced revision; it does not choose repairs.
-The reviewed20 lexical scout is integrated;
-its mixed-reference segment research continues independently.
-Public source acoustic context and complete project-tap package replay pass.
-The matching native worker includes22's rounded glyph strokes; frame/movie cache
-identities change with that rendering behavior. Generic operations omit tonal fields,
-while an actual correction must supply them.
+Current pickup: slice 12C/12D. Exercise clipped, intact, repaired and intentional-jump
+media, then run a fresh-agent repair discovery without a timecode hint. The helper
+already applies one caller-authored edit, optionally prepares the changed tap and
+rechecks `join.verify`; it never chooses repairs or retries blindly.
 
-Priority:20 global/raw-to-raw synchronization after retained local bridges →
-21 switched-angle delivery;12 contextual joins;15/16 face/framing delivery;25 reference-conditioned tone;27–29 delivered transitions/trajectory/blur;
-30 delivered scenes (portable report landed; native fixture remains open);31/32 speaker continuity/attribution;33 runnable workflows →34
-fresh-agent delivery/replay. Follow slice dependencies rather than this list when
-independent work is available.
+Priority order: 12 contextual joins → 20 global synchronization → 21 switched-angle
+delivery → 15/16 face and framing delivery → 25 tone → 27–30 delivered transitions
+and scenes → 31/32 speaker continuity and attribution → 33/34 runnable workflows and
+fresh-agent replay. Follow slice dependencies when a later item is independently
+ready.
 
-Completed:02–11,13–14,17–19,22–24,26.01 retains exact source-rate PCM, full-raster pictures and
-five original/derivative speech comparisons, but multicamera/speaker certification
-remains open. 23 resolves exact corrected UTF-16/source-fragment highlights and
-proves explicit entrance curves through public still/movie/export, including
-offgrid preview, split and retimed occurrences. Partial21 declares exact
-caller-selected angle clocks and admits only source-bound accepted sync receipts;25 extends the shared SDR correction;27 lowers transitions into
-ordinary opacity/gain curves;28 adds bounded overscanned whip/zoom geometry;29 carries bounded
-motion-blur recipes into the native picture executor. Each still needs its remaining delivery
-evidence.
-
-11 recognizes actual prepared PCM with exact project-clock origins and durable
-read/retry identities. Parakeet still completes a cut word in the planted source
-case, so contextual lexical cut judgment remains12.
-
-26 admits immutable explicit LUTs and preserves revision/package replay. Its
-independent PNG response and complete matched two-frame movie pass; raw codec
-drift/softening and general moving-shot fidelity remain scoped.
-
-Evidence ledger: [assets](assets/README.md) locates scoped verdicts. [22](assets/22-styled-text/README.md)
-has accepted public static-sheet/Unicode receipts and pixels, matched comparisons,
-independent visual/code review and a red/green stroke-bounds correction. [24](assets/24-blend-sheet/README.md) retains exact still
-arithmetic and the original raw hard-edge H.264 loss; matched encoded references
-pass every pixel of both samples in all seven cases under unchanged tolerance8.
-Independent visual/code review is accepted for this declared-codec scope. [20](assets/20-synchronization/README.md) refuses
-all nine real waveform comparisons. [Mixed-reference research](assets/20-synchronization/bridge/README.md)
-retains four independently recognized local sampled bridges, with surrounding-window
-and global-clock refusals intact. Cropped fixtures replay retained operands and
-recognition, not full-domain candidate selection. The composition boundary
-preserves these verdicts as source-bound receipts and rejects refused evidence;
-it does not promote a global clock. [31](assets/31-speaker-replication/README.md)
-still fails ten-minute four-speaker overlap at57.49%, below the unchanged80% gate;
-no long-form provider is promoted.10 retains the accepted NeMo alignment reference
-and verified default runtime acquisition; its public source acoustic cells pass
-exact sample/peak/clock checks and a derived RMS rounding bound. Word identity stays
-unknown. Complete project-tap rows survive package adoption/restart with no model
-or decode work. Independent15/16 delivery runs alongside20
-mixed-reference research; its separate-window lexical scout also refused all pairs.
+Evidence ledger: [assets](assets/README.md) links the scoped receipts. The sync
+ledger retains four local mixed-reference bridges but refuses a global clock;
+composition preserves that refusal. Speaker replication remains below the unchanged
+80% long-form gate. Native delivered-picture/audio acceptance is still open for
+transitions, motion blur and planted scene changes. Caption, blend, immutable-LUT,
+delivered-scene-helper and source acoustic/package-replay receipts are accepted for
+their declared scopes; their remaining native parity gates stay explicit in the
+slice files.
 
 Prepare/download pinned first-class Yap models/runtime as needed by default;
 recommend external capabilities only when the brief warrants them. Ordinary
