@@ -43,11 +43,10 @@ for the process; use its linked code as the authority for commands and packaging
   rename does not require rotating either, even if the certificate subject carries
   the old name. Missing local credentials are a restore task, not a reason to
   generate replacements. GitHub Actions secrets cannot be read back for local use.
-- Restore local credentials to `~/.config/yap-release` from the Obsidian backup:
-  [Release signing and key backup](</Users/david/Obsidian/personal/dev/Yap/Release signing and key backup.md>).
-  Follow its instructions and the release signing owner for current environment
-  names. Keep secret files restricted and pass secrets without printing them or
-  placing them in shell history, logs, source control or release assets.
-- Rotate only when necessary. If credentials change, update the Obsidian backup
+- Follow the release signing owner for credential inputs. Keep secret files
+  restricted and pass secrets without printing them or placing them in shell
+  history, logs, source control or release assets. Keep personal backup locations
+  and private restore instructions outside the repository.
+- Rotate only when necessary. If credentials change, update the private backup
   and restore instructions, GitHub credentials and public fingerprints together;
   verify a future developer can restore and sign, and preserve update trust.
