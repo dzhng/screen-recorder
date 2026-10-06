@@ -24,7 +24,8 @@ broader curve and visual acceptance remain a separate checkpoint.
 [bounded speech preparation](08-bounded-speech/README.md) record the explicit
 preparation/readonly observation cutover and its integrated caller proof.
 [Audio corpus](01-corpus-audio/README.md),
-[full-frame picture corpus](01-corpus-picture/README.md) and
+[full-frame picture corpus](01-corpus-picture/README.md),
+[independent controls](01-corpus-controls/README.md) and
 [honest speech timing](07-speech-timing/README.md) retain scoped operands.
 [Speaker feasibility](31-speaker-replication/README.md) retains reproducible partial
 successes and required failures; it does not establish production readiness.

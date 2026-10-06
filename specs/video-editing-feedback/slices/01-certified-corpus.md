@@ -1,8 +1,8 @@
 # 01 — Certify the real-video corpus
 
-Status: in progress; physical eight-case verifier now passes with exact hashes, decoded samples, video clocks and the 250 MiB budget; selected frozen07 recognition parity and sampled full-frame picture checkpoints also pass, while whole behavioral/multicam certification remains pending. Depends on: None.
+Status: in progress; physical eight-case verifier now passes with exact hashes, decoded samples, video clocks and the 250 MiB budget; selected frozen07 recognition parity, sampled full-frame picture checkpoints and the nine-control independent verifier also pass, while whole behavioral/multicam certification remains pending. Depends on: None.
 
-The [audio checkpoint](../assets/01-corpus-audio/README.md) retains five native-decoder excerpts and refusal controls. Its [selected recognition receipts](../assets/01-corpus-audio/speech-parity/README.md) bind exact original/derivative observations to the frozen integrated07 recipe; later08 window topology requires its own observations. The [picture checkpoint](../assets/01-corpus-picture/README.md) adds full-raster ProRes inputs and physical frame/rational clock refusal controls. The exact historical tiny PCM16 input and paired overlap recognition receipts live with [07](../assets/07-speech-timing/README.md). These partial checkpoints do not certify every corpus behavioral disposition or independent multicamera/speaker controls.
+The [audio checkpoint](../assets/01-corpus-audio/README.md) retains five native-decoder excerpts and refusal controls. Its [selected recognition receipts](../assets/01-corpus-audio/speech-parity/README.md) bind exact original/derivative observations to the frozen integrated07 recipe; later08 window topology requires its own observations. The [picture checkpoint](../assets/01-corpus-picture/README.md) adds full-raster ProRes inputs and physical frame/rational clock refusal controls. The [independent-control checkpoint](../assets/01-corpus-controls/README.md) reuses canonical synthetic media to verify rational boundaries, known offset/drift, unrelated audio, rotated asymmetric pixels, alpha/flat patches, edge landmarks, wrong supplied text, blank input and a transition gap. The exact historical tiny PCM16 input and paired overlap recognition receipts live with [07](../assets/07-speech-timing/README.md). These partial checkpoints do not certify every corpus behavioral disposition or independent multicamera/speaker controls.
 
 ## Contract
 
@@ -34,7 +34,7 @@ Expose a case-selected command or existing lab entry with its own usage. Store a
 
 Invoke [write-tests](../../../.agents/skills/write-tests/SKILL.md) before changing behavior. Use the narrowest real consumer check and capture red/green evidence where behavior changes.
 
-Missing LFS bytes, incorrect hashes, unsupported source support, compressed-away failure and transformed timestamps must fail certification. Match the historical speech region and original picture masks; synthetic controls supplement real cases.
+Missing LFS bytes, incorrect hashes, unsupported source support, compressed-away failure and transformed timestamps must fail certification. Match the historical speech region and original picture masks; independent controls must refuse changed media bytes and authored oracles. Synthetic controls supplement real cases.
 
 No visual verdict is required for a JSON-only checkpoint. If this slice produces a visual artifact, declare its variable/mask, compare it using compare-screenshots and obtain an unprimed screenshot-critique as the last visual check before acceptance. Artifact viewing never requires human QA.
 

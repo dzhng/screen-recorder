@@ -127,6 +127,14 @@ operands and verifies retained bytes, sample support and exact clock mappings.
 Its [authorized inputs](../../../fixtures/video-editing-feedback/README.md) keep
 reduction fidelity distinct from current recognition/picture behavior.
 
+The [independent control verifier](corpus-controls.mjs) rechecks the canonical
+small synthetic operands that real-media certification cannot provide: rational
+24fps boundaries, known offset/drift, unrelated tones, rotated asymmetric
+picture, alpha/flat patches, edge landmarks, wrong supplied text, blank input
+and an explicit transition gap. Its feature manifest hashes the existing
+canonical bytes and hand-authored oracles; it does not duplicate media or claim
+that synthetic controls replace the retained real recordings.
+
 ## Platform reproductions
 
 [The decoded-picture runner](decoded-picture-replication.mjs) freezes player-oriented

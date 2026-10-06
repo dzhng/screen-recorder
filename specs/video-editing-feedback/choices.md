@@ -1659,3 +1659,22 @@ Apple cube candidate are in the slice26 evidence; no user-only decision remains.
   its media-aware examples and slice34 delivery gates pass.
 - **Confidence:** high for path/link/hash policy, low for the still-open native
   delivery and visual/audio acceptance gates.
+
+## Reuse canonical media for independent corpus controls — slice01
+
+- **When:** physical corpus certification needed small negative controls without
+  duplicating source media.
+- **The choice:** Bind a feature-owned manifest and verifier to the existing
+  canonical synthetic corpus under `specs/done/agent-editing/assets/00-corpus`.
+  Hash the canonical manifest, hand-authored oracle, and each decoded operand;
+  check rational boundaries, known offset/drift, unrelated audio, asymmetric
+  rotation, alpha/flat patches, edge landmarks, wrong supplied text, blank
+  input and a transition gap.
+- **The gap:** These controls cannot establish real speech, camera quality,
+  multicamera continuity or speaker identity, so the real eight-case corpus and
+  later speaker/synchronization slices remain open.
+- **The reach:** One public verifier supplies deterministic negative controls
+  without a second media owner, compatibility path, or human labeling task.
+- **Verdict:** sound for the independent-control checkpoint; slice01 remains
+  in progress until whole behavioral and multicamera certification is measured.
+- **Confidence:** high for byte/oracle integrity and declared control scope.

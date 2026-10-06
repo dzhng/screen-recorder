@@ -1,0 +1,156 @@
+{
+  "version": 1,
+  "kind": "independent-corpus-controls",
+  "reference": {
+    "root": "specs/done/agent-editing/assets/00-corpus",
+    "manifest": "manifest.json",
+    "manifestSha256": "b6eee1f3c71329f17aca9f439aaf3880b93a744efd226d64a416c609394fa733",
+    "expected": "expected.json",
+    "expectedSha256": "929a3b138bf6dbcece450167962a70f8d8823a165be2d05aecaab698be599f14"
+  },
+  "controls": [
+    {
+      "id": "rational-24fps-boundaries",
+      "kind": "clock",
+      "frameDurationUs": { "numerator": 125000, "denominator": 3 },
+      "boundaries": [
+        { "atUs": 0, "frame": 0 },
+        { "atUs": 41666, "frame": 0 },
+        { "atUs": 41667, "frame": 1 },
+        { "atUs": 124999, "frame": 2 },
+        { "atUs": 125000, "frame": 3 },
+        { "atUs": 249999, "frame": 5 },
+        { "atUs": 250000, "frame": 6 }
+      ],
+      "expected": "half-open rational frame membership"
+    },
+    {
+      "id": "offset-and-drift",
+      "kind": "clock",
+      "anchors": [
+        { "sourceUs": 0, "projectUs": 125000 },
+        { "sourceUs": 20000000, "projectUs": 20250000 },
+        { "sourceUs": 40000000, "projectUs": 40250000 }
+      ],
+      "expected": { "offsetUs": 125000, "driftUsPerSecond": 6250 }
+    },
+    {
+      "id": "unrelated-audio",
+      "kind": "audio",
+      "files": ["a-audio.wav", "b-audio.wav"],
+      "expected": "distinct single-mic tones and impulse locations remain separate"
+    },
+    {
+      "id": "rotated-asymmetric-picture",
+      "kind": "picture",
+      "file": "orientation.mov",
+      "expected": "display rotation 90 degrees moves the asymmetric marker"
+    },
+    {
+      "id": "flat-and-transparent-patches",
+      "kind": "picture",
+      "files": ["still-alpha.png", "odd-canvas.png"],
+      "expected": "opaque, half-alpha and transparent patches remain distinguishable"
+    },
+    {
+      "id": "clipping-edge-bars",
+      "kind": "picture",
+      "file": "a.mov",
+      "expected": "edge landmarks remain saturated and spatially distinct"
+    },
+    {
+      "id": "wrong-supplied-text",
+      "kind": "speech",
+      "suppliedText": "blue",
+      "observedText": "blew",
+      "expected": "unmatched"
+    },
+    {
+      "id": "blank-detection",
+      "kind": "speech",
+      "samples": [0, 0, 0, 0, 0, 0],
+      "threshold": 0,
+      "expected": "blank"
+    },
+    {
+      "id": "transition-gap",
+      "kind": "availability",
+      "available": [
+        { "startUs": 0, "endUs": 500000 },
+        { "startUs": 1000000, "endUs": 2000000 }
+      ],
+      "expected": { "gap": { "startUs": 500000, "endUs": 1000000 } }
+    }
+  ],
+  "media": [
+    {
+      "id": "audio-a",
+      "file": "a-audio.wav",
+      "sha256": "9a457eddb6a51a697fed20e27a8d53920e375f45a465ce9e347b577c3d32108b",
+      "bytes": 192044,
+      "sampleRate": 48000,
+      "samples": 96000,
+      "frequencyHz": 440,
+      "impulses": [24000, 72000]
+    },
+    {
+      "id": "audio-b",
+      "file": "b-audio.wav",
+      "sha256": "29100dab1644936be531ddae5134b45941f92c5e42a0061b82cb0dcbe9ef1cd0",
+      "bytes": 192044,
+      "sampleRate": 48000,
+      "samples": 96000,
+      "frequencyHz": 880,
+      "impulses": [12000, 60000]
+    },
+    {
+      "id": "rotated-picture",
+      "file": "orientation.mov",
+      "sha256": "4d30d080685b32e98e6bc0897ec689dd7c7e67cff7bdc7a6ef3f20cd4b55ac3f",
+      "bytes": 4419,
+      "stream": { "codecType": "video", "width": 160, "height": 96, "fps": "4/1", "rotation": 90 },
+      "display": { "width": 96, "height": 160, "marker": { "x": 4, "y": 155, "rgb": [255, 0, 0] } }
+    },
+    {
+      "id": "alpha-patches",
+      "file": "still-alpha.png",
+      "sha256": "570c870eea807ae0bbfe3e22bdd6dbec9f1944351dcece08a38c0062c16d5c78",
+      "bytes": 174,
+      "dimensions": { "width": 47, "height": 31 },
+      "alpha": { "transparent": [0, 0], "partial": [10, 0, 128], "opaque": [30, 0, 255] }
+    },
+    {
+      "id": "odd-canvas",
+      "file": "odd-canvas.png",
+      "sha256": "c3b731a2015ad98c048b4f544cc52b7127f9ee177529254c96b5945ac24b724d",
+      "bytes": 380,
+      "dimensions": { "width": 161, "height": 97 }
+    },
+    {
+      "id": "edge-bars",
+      "file": "a.mov",
+      "sha256": "f3b7d8f718e1724f7c22bee97419cafca0df7180ce3637eaf3fb2c19513002bd",
+      "bytes": 196988,
+      "stream": { "codecType": "video", "width": 160, "height": 96, "fps": "4/1" },
+      "markers": [
+        { "x": 4, "y": 4, "rgb": [255, 0, 0] },
+        { "x": 156, "y": 92, "rgb": [0, 255, 80] }
+      ]
+    },
+    {
+      "id": "video-without-audio",
+      "file": "video-only.mov",
+      "sha256": "b56a096acd4faf9ab43691e29960eaa4631b3be3ea85fab85861447cbcfaedf7",
+      "bytes": 4419,
+      "streamTypes": ["video"]
+    },
+    {
+      "id": "transition-gap",
+      "file": "timestamp-gap.mov",
+      "sha256": "17f4bdba4ef98d4467cc0f5fa68994859dedd7ab69d75bd46aeb120bd89431a4",
+      "bytes": 3943,
+      "ptsUs": [0, 250000, 1000000, 1250000, 1500000, 1750000],
+      "durationsUs": [250000, 750000, 250000, 250000, 250000, 250000]
+    }
+  ]
+}
