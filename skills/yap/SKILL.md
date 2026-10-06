@@ -1,6 +1,6 @@
 ---
 name: yap
-description: Work with video for the user through the yap CLI — understand a recording they show you, or edit their footage end to end from a one-line prompt and optional inspiration into a finished, exported video. Use when the user shows you a recording (a bug, feedback, a walkthrough) to understand; wants a recording made, cut, tightened, captioned, reframed, cleaned up, restyled after a reference video or exported; for transcript/audio/frame inspection of their media; and on first-run setup, missing yap installation, skill installation/comparison or explicit refresh, and update-health questions.
+description: Work with video for the user through the yap CLI — understand a recording they show you, or edit their footage end to end from a one-line prompt and optional inspiration into a finished, exported video. Use for launch/demo videos, podcasts, episode introductions, teasers and trailers; when the user shows you a recording (a bug, feedback, a walkthrough) to understand; wants a recording made, cut, tightened, captioned, reframed, cleaned up, restyled after a reference video or exported; for transcript/audio/frame inspection of their media; and on first-run setup, missing yap installation, skill installation/comparison or explicit refresh, and update-health questions.
 ---
 
 # Yap
@@ -81,6 +81,9 @@ unavailable; do not claim it reopened or retry writes blindly.
 1. **Write the brief.** Save, in a task workspace, what the user asked for and
    your decision for every material choice they left open: audience, length,
    aspect, structure, pacing, what must stay, captions, music and treatments.
+   For launch videos, podcasts, episode introductions or teasers, read
+   [story shapes](references/creative-workflows.md#launch-podcast-and-teaser-story-shapes)
+   before choosing the structure and ending.
    An inspiration clip is a style target, not source material: import it as an
    ordinary asset and read its pacing, framing, caption style and structure with
    the same evidence operations you use on the recording. Use its media in the
@@ -179,7 +182,7 @@ Before importing, transcribing, inspecting media, editing, rendering or exportin
 read the relevant sections of [media workflows](references/media-workflows.md).
 That reference covers source/project clocks, processing and model readiness,
 frames/audio/timeline evidence, captions, layout and published exports.
-For assembly, multi-take selection, caption design, animation, music or
+For launch/podcast/teaser structure, assembly, multi-take selection, caption design, animation, music or
 publication choices, read [creative workflows](references/creative-workflows.md).
 It covers compact transcript reading, decision sheets and creative techniques;
 use [editorial checks](references/editorial-checks.md) for rendered-output review.

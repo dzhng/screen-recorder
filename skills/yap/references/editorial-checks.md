@@ -99,7 +99,10 @@ changes alone cannot enumerate edited joins.
   sound, caption occlusion and animation phase errors. A waveform spike is a
   candidate artifact, not an audible-pop verdict.
 - Sample the opening, ending and representative middle sections. Check that the
-  setup and payoff survive, text is readable at the intended viewing size, grades
+  setup and chosen ending survive: a complete video delivers its payoff, while a
+  [teaser](creative-workflows.md#launch-podcast-and-teaser-story-shapes) can deliberately
+  withhold the answer after a complete question. Check that captions or end cards
+  do not accidentally reveal it. Check that text is readable at the intended viewing size, grades
   match, and music/effects don't mask speech. A still cannot establish motion or
   enough reading time; watch the changed transition when possible.
 - Compare the delivered duration, dimensions, exact frame rate, streams and encoding

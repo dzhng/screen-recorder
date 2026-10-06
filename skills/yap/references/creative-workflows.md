@@ -1,7 +1,7 @@
 # Creative video workflows
 
-Use this reference for a delegated assembly, multi-take edit, captions, graphics,
-music or publication task. Use [media workflows](media-workflows.md) for operation
+Use this reference for launch videos, podcasts, teasers, delegated assembly,
+multi-take edits, captions, graphics, music or publication. Use [media workflows](media-workflows.md) for operation
 contracts and [editorial checks](editorial-checks.md) for acoustic joins and review.
 These are techniques, not automatic treatments or a fixed approval sequence.
 
@@ -103,14 +103,15 @@ rewriting the speaker.
 Choose ordering from the requested result. A demonstration may need its setup
 before the action; an interview excerpt needs enough question context to make the
 answer understandable. Check that rearranging takes preserves factual meaning and
-that the ending completes the promised explanation.
+that the ending fulfills the chosen [story shape](#launch-podcast-and-teaser-story-shapes).
 
 For each selection, save source identity/clock, exact candidate range, quoted
 content, intended beat, keep/remove rationale and any uncertainty. Once placed,
 record occurrence identity and pinned revision as well. Estimate total duration
 from the intended placement: include overlaps, holds, gaps and retiming rather
 than summing source durations blindly. If over the requested budget, revise within
-the delegated scope or surface the tradeoff; don't cut off the payoff line.
+the delegated scope or surface the tradeoff. Protect a complete video's payoff;
+a teaser may deliberately withhold it at a chosen cliffhanger.
 
 A decision sheet is not a second project format. Yap's composition and
 revision history remain authoritative. Use `edit.apply` with discovered schemas
@@ -122,6 +123,78 @@ user constraints, target runtime and output contract. Require exact selections,
 quotes, reasons and unresolved issues. Use unique output paths and immutable
 shared inputs. Parallel work is useful only when authorized, independent and
 bounded by the machine's capacity; it is not required for every animation.
+
+## Launch, podcast and teaser story shapes
+
+Choose the viewer's next action and the question the video will resolve or leave
+open. Infer these from the request and references; record the choice in the brief
+and use it to select beats before trimming for runtime. Inspect the full context
+of candidate excerpts, including what follows the proposed ending.
+
+### Launch and demo videos
+
+Build around one product promise: hook → problem or stakes → visible proof →
+payoff → next action. Start with the strongest useful result or recognizable
+friction; a logo animation alone rarely establishes why someone should care.
+Show the actual before/after or workflow that supports the claim. Keep enough
+of each action for the viewer to understand cause and result; use captions and
+motion to direct attention instead of covering the demonstration. Replace a
+feature inventory with a few connected proof beats. End with the demonstrated
+benefit and a clear action appropriate to the brief. A product teaser can instead
+use the curiosity structure below; a promised demonstration needs its payoff.
+
+### Podcasts and episode introductions
+
+For a full episode or standalone highlight, retain the exchange's meaning:
+question or setup → answer → useful consequence. Preserve speaker handoffs,
+qualifications and reactions when they make the answer intelligible. Tightening
+should improve conversational rhythm, not make every speaker sound breathless.
+Choose reframing and speaker changes from the actual exchange, and keep voices
+consistent in level without flattening expressive delivery.
+
+For an episode introduction, choose a cold open that gives the audience a reason
+to stay, then transition clearly into the episode. A dramatic montage can build
+around a provocative question, contrasting positions and an intriguing reaction.
+Arrange these into an escalating thread rather than a random greatest-hits reel.
+If the brief or reference calls for a dark, suspenseful introduction, use restrained
+titles, negative space, deliberate pauses and a rising music bed; keep faces,
+captions and dialogue readable. That style is a choice, not a podcast default.
+An intro may hold back the answer if the episode that follows supplies it.
+Do not repeat the whole answer in the intro and then restart it without a reason.
+
+### Teasers and trailers: open a loop
+
+A teaser earns curiosity with a specific unresolved question. When cutting a
+teaser from a full interview or episode, consider ending **immediately after the
+complete provocative question, before the answer begins**. A spicy question
+can be the climax; including the spicy answer can spend the reason to watch.
+Listen to the answer first so you know the full episode actually rewards the
+promise, even when you omit that answer from the teaser.
+
+- Establish only the context needed for the question to land, then build toward
+  it. A reaction, pause or partial reveal can be another hook when the material
+  supports it; withholding is an option, not an automatic edit on every question.
+- Cut at the end of the spoken question, preserving its last syllable and
+  inflection. Stop speech before the first answer word. Choose picture, music and
+  end-card timing deliberately; a music sting or visual cut can land on the
+  question without chopping its audio.
+- Keep the answer out of captions, titles, thumbnails and narration too. Point
+  to the full episode, launch or release with a brief, truthful next action;
+  use only supplied or verified dates and destinations.
+- Preserve the question's premises and the speakers' meaning. Do not splice a
+  reaction from elsewhere into an apparent response or imply a guest endorses
+  a claim merely because the host asked it. Curiosity should survive reading the
+  full exchange; misleading context is not a stronger hook.
+
+For example, an interview teaser ending on “Would you fire your cofounder?” can
+invite the full conversation. The same cut in a standalone answer clip would
+leave the requested explanation unfinished. Choose the ending from the video's
+job, not from a universal rule to always include or always omit the payoff.
+
+Review the rendered opening and ending together at normal speed. Check that a
+new viewer understands the stakes, wants the withheld answer, and knows where
+to get it. For a full video, check that the promised result arrives. If runtime
+is tight, remove a weaker setup beat before sacrificing the chosen final beat.
 
 ## Cut craft is context, not a silence threshold
 
