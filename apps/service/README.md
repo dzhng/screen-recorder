@@ -140,6 +140,8 @@ retained source pages never invoke inference. Execution is offline. Original
 sidecar operands are captured before attempt cleanup, including model refusals.
 `speaker.get` reads retained source generations or their revision projection without
 native or model execution; `speaker.prepare` alone requests new acoustic work.
+`speaker.bind` replaces caller-authored display labels for one retained generation;
+it never changes acoustic evidence or infers identity.
 Portable packages preserve complete original operands and observation ordering.
 Immutable alignment pages name the original generation and open package context;
 their continuations cannot be reused in another context. Reading or adopting them
