@@ -708,20 +708,37 @@ export const operationSchema = z.discriminatedUnion("operation", [
   z
     .strictObject({
       operation: z.literal("alignment.get"),
-      params: z.strictObject({
-        assetId: id,
-        packageHandle: id.optional(),
-        generation: id,
-        sourceRange: selectionRangeSchema.optional(),
-        view: z.enum(["words", "acoustic", "scores", "raw"]).optional(),
-        thresholdRMS: z.number().finite().nonnegative().optional(),
-        operand: z.enum(["nativeReceipt", "report", "correspondence"]).optional(),
-        limit: z.int().min(1).max(1000).optional(),
-        cursor: z.string().min(1).max(8192).optional(),
-      }),
+      params: z.union([
+        z.strictObject({
+          assetId: id,
+          packageHandle: id.optional(),
+          generation: id,
+          sourceRange: selectionRangeSchema.optional(),
+          view: z.enum(["words", "acoustic", "scores", "raw"]).optional(),
+          thresholdRMS: z.number().finite().nonnegative().optional(),
+          operand: z.enum(["nativeReceipt", "report", "correspondence"]).optional(),
+          limit: z.int().min(1).max(1000).optional(),
+          cursor: z.string().min(1).max(8192).optional(),
+        }),
+        z.strictObject({
+          projectId: id,
+          revisionId: id.optional(),
+          preparedResourceId: id,
+          tap: processingTapSchema,
+          assetId: id,
+          generation: id,
+          sourceRange: selectionRangeSchema.optional(),
+          range: range.optional(),
+          trackIds: z.array(id).optional(),
+          view: z.enum(["words", "acoustic", "scores"]).optional(),
+          thresholdRMS: z.number().finite().nonnegative().optional(),
+          limit: z.int().min(1).max(1000).optional(),
+          cursor: z.string().min(1).max(8192).optional(),
+        }),
+      ]),
     })
     .describe(
-      "Read an explicit immutable alignment generation without model or native execution. packageHandle selects published evidence in an open read-only package; its continuation binds that context. Supplied words retain conditional path estimates separately from greedy observed words; repeated correspondence stays unknown and unmatched text stays unmatched. Complete native ceil bounds outside physical support retain null sourceRange/refused_unowned_support, never clamped timing. Scores are complete uncalibrated native cells. Acoustic view requires caller thresholdRMS, labels measured RMS >=threshold active, and never assigns a word or authorizes an edit. Raw view returns original UTF8 operands in bounded base64 chunks, including unpublished managed-library refusals as state:captured with verified:false; those never expose ready rows. Continue while nextCursor exists, including empty pages. Continuations bind the generation, display range, view, operand and threshold.",
+      "Read an explicit immutable alignment generation without model or native execution. Project selectors project retained source evidence through the existing exact revision map; preparedResourceId only pins readiness/identity of a tap and never claims this source evidence was measured on its output. packageHandle selects published evidence in an open read-only package; its continuation binds that context. Supplied words retain conditional path estimates separately from greedy observed words; repeated correspondence stays unknown and unmatched text stays unmatched. Complete native ceil bounds outside physical support retain null sourceRange/refused_unowned_support, never clamped timing. Scores are complete uncalibrated native cells. Acoustic view requires caller thresholdRMS, labels measured RMS >=threshold active, and never assigns a word or authorizes an edit. Raw view returns original UTF8 operands in bounded base64 chunks, including unpublished managed-library refusals as state:captured with verified:false; those never expose ready rows. Continue while nextCursor exists, including empty pages. Continuations bind the generation, display range, view, operand and threshold.",
     ),
   z
     .strictObject({

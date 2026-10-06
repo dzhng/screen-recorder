@@ -453,3 +453,25 @@ it("loudness admission keeps source/project selectors exclusive and channel inte
         .success,
     ).toBe(false);
 });
+
+it("admits project alignment reads only with an explicit prepared tap identity", () => {
+  const request = {
+    operation: "alignment.get",
+    params: {
+      projectId: "project",
+      revisionId: "revision",
+      preparedResourceId: "prepared",
+      tap: { target: { kind: "output" }, point: { kind: "processed" } },
+      assetId: "a".repeat(64),
+      generation: "generation",
+      view: "words",
+    },
+  };
+  expect(operationSchema.safeParse(request).success).toBe(true);
+  expect(
+    operationSchema.safeParse({
+      operation: "alignment.get",
+      params: { ...request.params, projectId: undefined },
+    }).success,
+  ).toBe(false);
+});

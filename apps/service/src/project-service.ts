@@ -11,7 +11,11 @@ import { sourceExporter } from "./source-export.js";
 import { PreparedAudioStore } from "@yap/core/prepared-audio";
 import { projectComposition } from "@yap/core/project-window";
 import { selectSource } from "@yap/core/source-selection";
-import { outputCapabilities, audioOutputCapabilities } from "@yap/composition";
+import {
+  outputCapabilities,
+  audioOutputCapabilities,
+  createSourceRangeProjection,
+} from "@yap/composition";
 import { ProjectPackages } from "./project-packages.js";
 import { writeFile } from "node:fs/promises";
 import { AcousticInspection } from "@yap/core/acoustic-inspection";
@@ -97,6 +101,7 @@ import { ffmpegLoudnessAnalyzer } from "./loudness.js";
 import { AlignmentEvidenceStore, assetAlignmentOwner } from "@yap/core/alignment-evidence";
 import { AlignmentProcessing } from "@yap/core/alignment-processing";
 import { SourceAlignmentRead } from "@yap/core/alignment-read";
+import { projectAlignmentRows } from "@yap/core/project-alignment";
 import { alignmentObserver } from "./alignment.js";
 import { SpeakerEvidenceStore, assetSpeakerOwner } from "@yap/core/speaker-evidence";
 import { SpeakerProcessing } from "@yap/core/speaker-processing";
@@ -1000,7 +1005,85 @@ export async function startProjectService(options: {
             };
           }
           case "alignment.get": {
-            const { assetId, generation, packageHandle, ...query } = operation.params;
+            const params = operation.params;
+            if ("projectId" in params) {
+              const composition = projectComposition(projects, assets, {
+                projectId: params.projectId,
+                revisionId: params.revisionId,
+              });
+              const prepared = preparedAudio.resolve(
+                composition,
+                params.tap,
+                params.preparedResourceId,
+              );
+              if (!prepared)
+                throw new CatalogError(
+                  "NOT_READY",
+                  "Prepared project tap is not ready",
+                  {
+                    projectId: params.projectId,
+                    revisionId: composition.revisionId,
+                    preparedResourceId: params.preparedResourceId,
+                  },
+                  true,
+                );
+              const identity = {
+                  owner: { kind: "asset" as const, assetId: params.assetId },
+                  generation: params.generation,
+                  policy: "alignment-v1" as const,
+                },
+                metadata = alignmentRecords.metadata(identity),
+                query = {
+                  view: params.view,
+                  sourceRange: params.sourceRange,
+                  thresholdRMS: params.thresholdRMS,
+                  limit: params.limit,
+                  cursor: params.cursor,
+                },
+                sourcePage = new SourceAlignmentRead(
+                  alignmentRecords,
+                  metadata,
+                  JSON.stringify({
+                    projectId: params.projectId,
+                    revisionId: composition.revisionId,
+                    tap: params.tap,
+                    preparedResourceId: prepared.resourceId,
+                    range: params.range ?? { startUs: 0, endUs: composition.model.durationUs },
+                    trackIds: params.trackIds ?? null,
+                  }),
+                ).page(query),
+                range = params.range ?? { startUs: 0, endUs: composition.model.durationUs },
+                occurrences = createSourceRangeProjection(composition.model).window({
+                  range,
+                  ...(params.trackIds === undefined ? {} : { trackIds: params.trackIds }),
+                }),
+                rows =
+                  "rows" in sourcePage
+                    ? projectAlignmentRows(
+                        sourcePage.rows,
+                        occurrences.filter(
+                          (occurrence) =>
+                            occurrence.assetId === metadata.owner.assetId &&
+                            occurrence.streamId === metadata.source.streamId &&
+                            (occurrence.acquisitionId ?? null) === metadata.source.acquisitionId,
+                        ),
+                      )
+                    : [];
+              return {
+                ok: true,
+                data: {
+                  projectId: params.projectId,
+                  revisionId: composition.revisionId,
+                  preparedResourceId: prepared.resourceId,
+                  state: "ready",
+                  generation: params.generation,
+                  view: sourcePage.view,
+                  rows,
+                  nextCursor: sourcePage.nextCursor,
+                },
+              };
+            }
+            const { assetId, generation, packageHandle, ...query } = params;
             if (packageHandle)
               return {
                 ok: true,

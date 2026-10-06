@@ -116,6 +116,17 @@ test.runIf(process.platform === "darwin")(
         ],
       }),
     ).toMatchObject({ ok: true });
+    expect(
+      await f.call("alignment.get", {
+        projectId: project.projectId,
+        revisionId: revision.id,
+        preparedResourceId: "prepared-project-tap",
+        tap: { target: { kind: "output" }, point: { kind: "processed" } },
+        assetId,
+        generation: "portable-g1",
+        view: "words",
+      }),
+    ).toMatchObject({ ok: false, error: { code: "ARTIFACT_CHANGED" } });
     const wait = async (
       owner: typeof f,
       operation: string,
