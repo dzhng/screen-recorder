@@ -48,13 +48,13 @@ specific claim needed for this item.
 | E20 | Labels batch-local; intended behavior, useful error | [02](slices/02-capability-first-skill.md), [33](slices/33-editing-references.md) | Examples consume returned real IDs in later revisions. Keep label scope/error clear; no persistent label alias system. |
 | E21 | Face boxes, tracks and subject reframe requested; current gap and priority | [15](slices/15-face-observations.md), [16](slices/16-subject-reframe.md) | All boxes, oriented coordinates, temporal gaps/ambiguity and explicit subject selection; no largest-face default or unauthorized crop. |
 | E22 | Dialogue loudness matching requires manual measurement/gains; convenience gap | [19](slices/19-dialogue-matching.md), [33](slices/33-editing-references.md) | Pinned per-clip measured gain proposals, short/unmeasurable cases and explicit application before full mix/master. |
-| E23 | Re-export overwrite requested; current publication refusal | [05](slices/05-atomic-export-replacement.md) | Atomic replacement of unchanged owned destination; foreign/modified needs explicit overwrite; failure preserves previous good file and replay intent. |
+| E23 | Atomic owned replacement verified05; foreign overwrite remains explicit | [05](slices/05-atomic-export-replacement.md) | Atomic replacement of unchanged owned destination; foreign/modified needs explicit overwrite; failure preserves previous good file and replay intent. |
 | E24 | Shared raw camera clock undeclared; linked clip sync groups are different | [21](slices/21-synced-angles.md) | Session/angle declarations retain rational offsets, support and explicit evidence; ordinary placements switch aligned cameras. |
 | E25 | Styled/animated words missing natively; external alpha overlay succeeded | [22](slices/22-styled-text.md), [23](slices/23-timed-word-captions.md), [33](slices/33-editing-references.md) | Typography, active glyph timing and entrance motion judged separately; external ProRes4444 retains alpha/frame phase as an advanced pattern. |
 | E26 | Transition recipes and blur missing; keyframe work already possible | [27](slices/27-basic-transitions.md), [28](slices/28-whip-zoom-trajectory.md), [29](slices/29-motion-blur.md) | Crossfade/dip/flash then coverage-preserving whip/zoom then blur; exact support, no black gap, caller-supplied optional SFX. |
 | E27 | No SFX source/generation; deliberate external capability | [02](slices/02-capability-first-skill.md), [33](slices/33-editing-references.md) | Available SFX library/generation and retained bytes/recipe, without default installs or acquisition. |
 | E28 | Native/FFmpeg color discrepancy; historical measured difference | [13](slices/13-decode-replication.md), [33](slices/33-editing-references.md) | Matched native/player-oriented decode recipe and actual timestamps/profile; discrepancy reproduced/dispositioned before grade QA. |
-| E29 | Objective picture metrics absent; current gap | [14](slices/14-picture-statistics.md), [15](slices/15-face-observations.md) | Region/face/luma/channel statistics, clipping/crushing and complete sample coverage; white graphics distinguished from source exposure. |
+| E29 | Delivered-pixel/region metrics verified14; face statistics await15 | [14](slices/14-picture-statistics.md), [15](slices/15-face-observations.md) | Region/face/luma/channel statistics, clipping/crushing and complete sample coverage; white graphics distinguished from source exposure. |
 
 ## Consumer skill feedback
 
@@ -143,8 +143,10 @@ package owners and passed 68 reader/seed/project checks plus 27 consumer checks.
 ## Current speaker feasibility evidence
 
 E05 and S02 remain open. [The retained trials](assets/31-speaker-replication/README.md)
-reproduce original short-window parity and passing three-speaker continuity, but all
-measured providers fail the required four-speaker quality envelope. Model byte/load
+reproduce original short-window parity. The fixed onset/offset candidate passes
+short three-/four-speaker fixtures, returns/silence and the336s interview, but
+required ten-minute four-speaker overlap is57.49% against the unchanged80% gate.
+No provider or long-form envelope is promoted. Model byte/load
 readiness is separate from quality. Slice31 is resliced into short-quality admission,
 global continuity, prepared execution closure and word attribution; slice32 cannot
 claim labeling ready from those partial results.

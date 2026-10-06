@@ -425,3 +425,267 @@ unspecified. They preserve the existing owners rather than adding new schedulers
 The correction constants and original-input recipe were explicitly delegated to
 replication, so their frozen measured selection is not an invented policy choice.
 No unsound or needs-user decision remains in this pass.
+
+## Slice05 — atomic replacement
+
+### Cooperative ownership and truthful external conflict
+
+- **When:** slice05.
+- **Choice:** serialize Yap publishers by the destination directory, and retain
+  every unexpected displaced entry after an external race. Suppose Yap pins the
+  current output, then another same-user program replaces it immediately before
+  the kernel swap. macOS cannot condition that swap on the expected file identity
+  or digest. Yap can therefore publish its new file while discovering afterward
+  that it displaced unknown bytes. It reports a conflict with uncertain visibility
+  and retains the unknown entry. Recovery never swaps backward over a possible
+  newer output. A raced symlink is swapped as a link; its referent stays intact.
+  The alternative rollback could destroy a successor. This boundary was frozen
+  with parent approval after exercising the actual syscall.
+- **Gap:** the original atomic-replacement brief did not specify guarantees
+  against external writers that ignore ownership or the OS's final-symlink rule.
+- **Reach:** all replacement consumers inherit cooperative serialization and the
+  explicit external-race limitation; unknown displacement can block cleanup.
+- **Verdict:** sound; truthful retained conflict is the guarantee the OS permits.
+- **Confidence:** medium; this is a material platform tradeoff, not universal CAS.
+
+### Trust exact live bytes through existing receipts
+
+- **When:** slice05.
+- **Choice:** a destination is trusted only if its directory, leaf, device/inode,
+  length and SHA-256 match an existing recorded publication receipt. If a person
+  edits the output in place or puts identical bytes in another file, the new
+  export treats it as foreign and needs explicit overwrite. An index on existing
+  export records makes that lookup bounded by the selection rather than scanning
+  history. The alternative trusting the name or a formerly owned inode would
+  replace modifications that Yap did not produce.
+- **Gap:** the brief named trusted ownership but not its persisted lookup.
+- **Reach:** receipt retention supplies future replacement trust; deleting the
+  owning intent removes that trust rather than creating a separate ownership DB.
+- **Verdict:** sound; existing publication evidence stays the one owner.
+- **Confidence:** high.
+
+### Imported original identity belongs to the asset owner
+
+- **When:** slice05.
+- **Choice:** the asset store indexes the device/inode recorded when an original
+  was imported. If the person renames that original or hardlinks it as another
+  output leaf, overwrite still refuses it. Service maps native identity names
+  into the existing asset file-identity names at this boundary. It checks again
+  before commit so an import admitted during preparation is protected too. A
+  path-only blacklist would miss the renamed/aliased original.
+- **Gap:** source preservation did not name an original-identity query owner.
+- **Reach:** import records own external-original protection; no second source
+  registry or adapter-specific blacklist is introduced.
+- **Verdict:** sound; identity protection follows the current durable owner.
+- **Confidence:** high.
+
+### Explicit overwrite participates in replay identity
+
+- **When:** slice05.
+- **Choice:** omitted and false overwrite both mean no foreign replacement;
+  true is distinct in the existing request replay key. Suppose an uncertain
+  export is replayed with the same exportId but now allows foreign replacement.
+  That is a different authorization, so it refuses as REQUEST_CONFLICT instead
+  of treating it as the earlier request. Native prepared receipts require an
+  explicit replacement field, including null for absence; old receipt formats
+  are not translated.
+- **Gap:** the opt-in brief did not define normalization in durable replay.
+- **Reach:** CLI/app/shared protocol consumers agree on authorization meaning;
+  this is the authorized hard cutover, with no reader shim or migration.
+- **Verdict:** sound; recovery cannot silently widen the original request.
+- **Confidence:** high.
+
+### Confirmed evidence survives interrupted cleanup
+
+- **When:** slice05.
+- **Choice:** after validating the displaced file, native hardlinks its prepared
+  receipt as committed evidence. Suppose acknowledgement cleanup removes the
+  old leaf, payload and prepared receipt, then the publisher dies before removing
+  that last marker. Recovery can still identify the exact new output and finish
+  cleanup without publishing it again. Without that marker the missing old leaf
+  would be indistinguishable from unconfirmed displacement. Storage counts the
+  receipt's shared inode once and counts the retained old bytes separately. A
+  retained swap symlink contributes its own no-follow metadata length, so normal
+  storage reads remain available without measuring or traversing its referent.
+  Existing job conflict details still distinguish it from an owned payload.
+- **Gap:** the brief required crash recovery but did not specify partial-cleanup
+  evidence or hardlink storage accounting.
+- **Reach:** the existing staging lifetime owns the marker; no janitor or new
+  publication database is needed.
+- **Verdict:** sound; it preserves one receipt through the cleanup transition.
+- **Confidence:** high.
+
+### Publication proof isolates unrelated media work
+
+- **When:** slice05.
+- **Choice:** compile the real publication, held-storage and worker-lifetime
+  sources into a small scratch executable. Public CLI tests export plain captions
+  against the real service while substituting only font probe metadata and
+  render-workspace disposal. The fault library interposes the actual swap and
+  can kill the real native publisher before or after it. This yields filesystem
+  and public-contract proof without rebuilding codecs or downloading models;
+  the alternative full media fixture would add work unrelated to publication.
+- **Gap:** the checkpoint did not mandate a native build recipe.
+- **Reach:** these tests certify their named publication contracts only; parent
+  still runs the full feature gate. No capture or rendered-quality claim follows.
+- **Verdict:** sound; narrow real owners provide fast, meaningful evidence.
+- **Confidence:** high.
+
+### Hashing budget includes the pinned victim
+
+- **When:** slice05 closeout.
+- **Choice:** extend the existing deadline helper with the old destination's byte
+  length, budgeting the native payload and victim verification passes under the
+  established worker maximum. Suppose a tiny caption export replaces a large
+  explicitly authorized file: hashing that victim is real work even though the
+  new payload is small. A payload-only deadline would cancel valid replacement
+  work. The cap stays authoritative; no unbounded wait or different timeout
+  owner is introduced.
+- **Gap:** the existing heuristic predated replacement hashing.
+- **Reach:** all export kinds budget pinned file validation through one helper.
+- **Verdict:** sound; cost follows actual admitted work and remains capped.
+- **Confidence:** high.
+
+## Slice10A — pinned alignment preparation
+
+### Reconstruct the optional runtime from pinned public inputs
+
+- **When:** slice10, provider checkpoint A.
+- **The choice:** When a fresh consumer requests alignment model preparation, the
+  existing Models owner acquires a pinned public Python archive and package
+  inputs, then assembles the runtime offline. It checks every resulting file,
+  mode and contained link before marking it ready. Publishing a prebuilt private
+  archive would avoid assembly time but create another distribution artifact and
+  currently requires external publication the session did not authorize.
+- **The gap:** The frozen recipe identified a working local donor; it did not
+  identify a consumer acquisition route or a published runtime archive.
+- **The reach:** The repository now owns one curated reconstruction recipe and
+  measured inventory. Package changes require an explicit new inventory and
+  provider parity rather than dependency resolution at execution time.
+- **Verdict:** sound. It reuses acquisition, hashing, cancellation, readiness and
+  process owners; fresh preparation has reproduced the complete reference.
+- **Confidence:** medium. A future signed prebuilt artifact could reduce
+  preparation cost, while preserving those same admission contracts.
+
+### Remove selected native search commands without developer tools
+
+- **When:** slice10, provider checkpoint A.
+- **The choice:** Some wheel libraries contain search paths belonging to their
+  builders. The assembled clone removes only the exact declared ARM64 search
+  commands, keeps occupied sections and dependency names intact, and re-signs
+  through the operating system. Requiring the developer command-line tools would
+  prevent a clean consumer Mac from preparing the model.
+- **The gap:** The accepted experiment used a developer tool to edit these paths;
+  the consumer recipe must work without that prerequisite.
+- **The reach:** Native packaging owns a bounded parser and mutation operation,
+  with before/final operands. Unsupported binary shapes refuse rather than being
+  heuristically rewritten.
+- **Verdict:** sound. All affected outputs match the previous method byte for
+  byte, and the parser has independent refusal/movement controls.
+- **Confidence:** high.
+
+### Normalize installer metadata into public provenance
+
+- **When:** slice10, provider checkpoint A.
+- **The choice:** Installing the same wheel in two scratch folders can otherwise
+  produce different metadata because pip records a private file URL and hashes
+  discarded console wrappers whose first line names the scratch interpreter.
+  The recipe stores the pinned public URL/hash and removes only records for
+  those absent wrappers. It retains package computational files and metadata
+  lookup order. Keeping the private URL would make an inventory impossible to
+  reproduce on a fresh computer.
+- **The gap:** The frozen donor closure did not prescribe reproducible installer
+  provenance for new consumer folders.
+- **The reach:** Readiness remains tied to exact resulting bytes. Private staging
+  paths cannot silently enter runtime identity; the runtime still has its own
+  digest distinct from the donor's.
+- **Verdict:** sound. Two different private roots produce identical admitted
+  metadata, and actual inference retains exact reference outputs.
+- **Confidence:** high.
+
+### Share ordered correspondence arithmetic while keeping admission separate
+
+- **When:** slice10, provider checkpoint A.
+- **The choice:** Both speech seam reconciliation and supplied-text comparison
+  ask which ordered word pairs occur in any optimal correspondence. They use
+  one native arithmetic owner that retains all possible pairs and omissions.
+  Each caller still decides text folding, point ownership and physical support.
+  Choosing one tied path would invent a certainty the observations do not have.
+- **The gap:** The two accepted workflows had equivalent arithmetic with
+  different interpretation policies.
+- **The reach:** Future callers can reuse pair arithmetic without inheriting a
+  transcript clock or word-admission rule.
+- **Verdict:** sound. Frozen complete pair/omission operands match through the
+  production wire, and existing speech seams remain unchanged.
+- **Confidence:** high.
+
+## Slice14 — delivered picture measurements
+
+### Sound — medium confidence
+
+- **Measure color only on fully opaque delivered pixels.** A half-transparent
+  red foreground has premultiplied byte values that can resemble a dark red.
+  The receipt counts those pixels separately instead of claiming an exposure
+  value; no opaque pixels yields unavailable color. Gap: the slice did not
+  choose an alpha interpretation. Reach: future consumers need an explicit
+  background policy before evaluating partial alpha. Verdict: sound; it avoids
+  inventing color meaning. Confidence: medium.
+- **Core consumes the protocol's pure picture schema.** A public request and a
+  retained receipt now share thresholds and defaults. A second Core schema
+  could slowly acquire different defaults. Gap: the original dependency graph
+  did not place shared picture data. Reach: Core adds an acyclic workspace
+  dependency on protocol, whose schema depends only on composition and Zod.
+  Verdict: sound; parent approved this one-owner boundary. Confidence: medium.
+
+### Sound — high confidence
+
+- **Normalize request defaults at the public boundary.** When the caller omits
+  measurement thresholds, protocol fills them once; native requires those
+  normalized values instead of supplying its own defaults. Gap: the plan left
+  native/public defaults unspecified. Reach: native requests and retained
+  recipes cannot interpret the same request differently. Verdict: sound; each
+  wire still validates its untrusted input. Confidence: high.
+- **Keep requested masks separate from measured observations internally.**
+  A request asks for a face-area rectangle; returned observations contain its
+  measured values. Stored `observationRequest` holds the request so merging
+  cache options cannot overwrite calculated evidence. Gap: public naming did
+  not settle internal recipe naming. Reach: frame and index caches retain
+  both request identity and output. Verdict: sound; no second store.
+  Confidence: high.
+- **Preserve actual profile absence.** A native DeviceRGB image without
+  exportable ICC bytes records the profile name and absent hash. The delivered
+  PNG's sRGB profile remains a separately observed fact. Assigning an invented
+  ICC hash would claim identity the producer never supplied. Gap: the slice
+  did not settle this platform representation. Reach: comparisons distinguish
+  rendering-space evidence from encoded profile evidence. Verdict: sound;
+  parent explicitly required the distinction. Confidence: high.
+- **Caller rectangles remain rectangular observations.** A region named
+  face-area measures the selected delivered-pixel rectangle, clipped to actual
+  bounds; it does not become segmentation. Missing or nonopaque support stays
+  unavailable. Gap: semantic labels did not define missing-support behavior.
+  Reach: no observation silently substitutes other pixels or authorizes a crop.
+  Verdict: sound; intent stays explicit. Confidence: high.
+- **Dark edges are evidence rather than crop instructions.** A dark frame can
+  have dark edges without black bands. Receipts retain row/column luma
+  histograms, opacity and adjacent samples so consumers can inspect that
+  distinction. Gap: the slice did not prescribe edge evidence admission.
+  Reach: measured darkness cannot silently become letterboxing permission.
+  Verdict: sound; admission recomputes reported fractions from operands.
+  Confidence: high.
+- **Measured requests use existing derivative identity.** A plain cached frame
+  cannot answer a request for statistics, nor can an earlier mask answer a new
+  mask. Observation options participate in the existing frame/index key. Gap:
+  the spec did not prescribe cache identity. Reach: images and complete
+  metadata use existing copy, job and lifetime owners. Verdict: sound; no new
+  decoder, store or migration. Confidence: high.
+- **Extreme exposure controls are test fixtures.** Explicit −4/+4 EV project
+  variants demonstrate that measurements follow actual output. They do not
+  grade or alter an original recording. Gap: the acceptance needed an output
+  perturbation but no magnitude was fixed. Reach: fixture masks remain
+  verification rectangles, not product subject detection. Verdict: sound;
+  controls test a primitive without making editorial choices. Confidence: high.
+
+Region packaging and bounded thresholds were explicitly delegated to14; their
+implementation is frozen in the owning schema and evidence. No unsound or
+needs-user integration decision was found.31's provider/threshold hypotheses are
+explicitly delegated research and remain rejected for promotion at this point.

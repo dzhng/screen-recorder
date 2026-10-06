@@ -40,3 +40,10 @@ independent review evidence. No mastering algorithm change is claimed.
 [18 bounded mastering](18-mastering/README.md) records strict original-input
 correction, candidate selection, independent PCM and decoded AAC observations,
 measured refusals and completed independent review.
+
+[05 replacement](05-atomic-export-replacement/README.md) records atomic owned
+replacement and truthful retained external conflicts.
+[14 picture observations](14-picture-statistics/README.md) binds delivered PNG
+pixels to retained measurements and explicit masks.
+[10A prepared alignment](10-word-attribution/README.md) verifies fresh pinned
+acquisition and provider parity; public retained alignment remains10B.

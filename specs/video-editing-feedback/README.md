@@ -1,6 +1,6 @@
 # Reliable autonomous video editing
 
-Status: implementation active; ten slices complete, corpus partly certified, speaker quality gate red. Last updated: 2026-10-06.
+Status: implementation active; twelve slices complete, corpus partly certified, speaker quality gate red. Last updated: 2026-10-06.
 
 Yap supplies explicit editing primitives and reproducible observations. The consumer
 agent chooses the story, uses available creative tools, checks actual output and
@@ -16,14 +16,15 @@ merge, push or installed-app change has been requested. Hard cutover remains
 binding: no aliases, dual readers or migrations; preserve external originals and
 frozen historical evidence.
 
-Current pickup: integrate reviewed05 atomic replacement,14 picture observations
-and10A default alignment distribution, then finish19 dialogue matching.18 is
-complete: strict bounded original-input correction retains the best admitted PCM
-and explicit candidate evidence. Active isolated lanes own10B source/project
-alignment,15 face observations and31 speaker replication. Integrate each reviewed
-pass independently; incomplete provider work remains a red checkpoint.
+Current pickup: finish19 dialogue matching in `/Users/server/dev/yap-dialogue-matching`.
+Reviewed05 atomic replacement,14 delivered-picture observations,10A pinned
+alignment distribution and the31 hysteresis research checkpoint are integrated.
+18 is complete: strict bounded original-input correction retains the best
+admitted PCM and explicit candidate evidence. Active isolated lanes own10B
+source/project alignment,15 face observations and31 documented streaming/cache
+research. Integrate each reviewed pass independently;10B and31 remain open.
 
-Completed: 02, 03, 04, 06, 07, 08, 09, 13, 17, 18. Partial01 has exact source-rate PCM,
+Completed: 02, 03, 04, 05, 06, 07, 08, 09, 13, 14, 17, 18. Partial01 has exact source-rate PCM,
 full-raster picture inputs and all five frozen07 original/derivative speech
 comparisons. Multicamera/speaker controls and remaining behavioral certification
 stay open.08's separate20s/4s ownership recipe is accepted; historical public/native
@@ -31,11 +32,13 @@ callers now prepare sources explicitly, and CLI waiting pins the admitted attemp
 [Evidence assets](assets/README.md) locate detailed scopes and failures.
 
 [31 — speaker replication](slices/31-speaker-continuity-replication.md) is red:
-all tested candidates fail mandatory four-speaker quality. Continue a justified
+the fixed hysteresis candidate passes short fixtures and the336s three-speaker
+interview, but ten-minute four-speaker overlap remains57.49%, below the unchanged
+80% gate. No provider or long-form envelope is promoted. Continue a justified
 new provider hypothesis through short quality → continuity → sealed runtime → word
 attribution; never promote a failed provider into32.10 must preserve accepted
-NeMo CTC outputs and share correspondence/PCM owners; default runtime distribution
-is a concrete acquisition prerequisite, not a side-load completion claim.
+NeMo CTC outputs and share correspondence/PCM owners; 10A default runtime acquisition is verified, including inherited077 preparation;
+10B still owns retained public source/project alignment and acoustic boundaries.
 
 Prepare/download pinned first-class Yap models/runtime as needed by default;
 recommend external capabilities only when the brief warrants them. Ordinary
@@ -55,7 +58,7 @@ Numbering is a review order; actual prerequisites live in the slice headers.
 - [x] [02 — Discover capabilities and make helper examples usable](slices/02-capability-first-skill.md)
 - [x] [03 — Unify asynchronous public replies](slices/03-published-work-contract.md)
 - [x] [04 — Bounded wait and ordinary JSON/artifact delivery](slices/04-wait-and-json-delivery.md)
-- [ ] [05 — Atomic replacement of owned exports](slices/05-atomic-export-replacement.md)
+- [x] [05 — Atomic replacement of owned exports](slices/05-atomic-export-replacement.md)
 - [x] [06 — Exact rational remove ranges](slices/06-exact-removal.md)
 - [x] [07 — Honest overlapping/instant speech observations](slices/07-speech-timing-admission.md)
 - [x] [08 — Explicit bounded transcript preparation](slices/08-bounded-speech-preparation.md)
@@ -64,7 +67,7 @@ Numbering is a review order; actual prerequisites live in the slice headers.
 - [ ] [11 — Speech recognition of actual revision audio](slices/11-rendered-speech.md)
 - [ ] [12 — Contextual join verification and agent repair](slices/12-contextual-join-verification.md)
 - [x] [13 — Decoded-picture replication](slices/13-decode-replication.md)
-- [ ] [14 — Objective picture observations](slices/14-picture-statistics.md)
+- [x] [14 — Objective picture observations](slices/14-picture-statistics.md)
 - [ ] [15 — Face localization and explicit tracks](slices/15-face-observations.md)
 - [ ] [16 — Constrained subject framing](slices/16-subject-reframe.md)
 - [x] [17 — Audio-only normalization preflight](slices/17-normalization-preflight.md)
