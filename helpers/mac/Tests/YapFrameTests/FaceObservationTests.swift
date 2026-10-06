@@ -59,7 +59,20 @@ func verifyFaceFixture(in parent: URL) async throws {
         let observations = object["faceObservations"] as? [String: Any]
         precondition(observations != nil, "fixture frame \(atUs) did not return face observations")
         precondition(observations?["status"] as? String == "available", "fixture frame \(atUs) must expose a face")
-        available.append(["atUs": atUs, "faces": (observations?["faces"] as? [[String: Any]])?.count ?? 0])
+        guard let faces = observations?["faces"] as? [[String: Any]], !faces.isEmpty else {
+            preconditionFailure("fixture frame \(atUs) reported available without face boxes")
+        }
+        for face in faces {
+            precondition(face["id"] is String, "fixture frame \(atUs) returned a face without an id")
+            guard let box = face["boundingBox"] as? [String: Any] else {
+                preconditionFailure("fixture frame \(atUs) returned a face without a bounding box")
+            }
+            for key in ["x", "y", "width", "height"] {
+                precondition(box[key] is Int, "fixture frame \(atUs) returned a malformed bounding box")
+            }
+            precondition(face["confidence"] is Double, "fixture frame \(atUs) returned a face without confidence")
+        }
+        available.append(["atUs": atUs, "faces": faces.count])
     }
     print("PASS real face fixture: \(available)")
 }
