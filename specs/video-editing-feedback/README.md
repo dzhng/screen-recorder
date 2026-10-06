@@ -1,6 +1,6 @@
 # Reliable autonomous video editing
 
-Status: implementation active; core contracts through19 are integrated, bounded source/project alignment is implemented, synchronization and speaker quality gates remain open, and caption layout/decorations plus native blend arithmetic are in focused checkpoints. Last updated: 2026-10-06.
+Status: implementation active; core contracts through19 are integrated, bounded source/project alignment and generation-pinned speaker labels are implemented, synchronization and long-form speaker quality gates remain open, and caption/blend evidence is in focused checkpoints. Last updated: 2026-10-06.
 
 Yap supplies explicit editing primitives and reproducible observations. The consumer
 agent chooses the story, uses available creative tools, checks actual output and
@@ -16,16 +16,17 @@ merge, push or installed-app change has been requested. Hard cutover remains
 binding: no aliases, dual readers or migrations; preserve external originals and
 frozen historical evidence.
 
-Current pickup: add the public static-sheet evidence for stage22 and the independent
-color-sheet evidence for stage24, then continue the remaining synchronization,
-transition and speaker gates. Slice23's active-word timing checkpoint is implemented:
+Current pickup: finish the independent color-sheet evidence for stage24, then continue
+the remaining synchronization, tone/LUT, transition and speaker gates. The public
+styled-caption static sheet for stage22 is integrated, and slice23's active-word timing checkpoint is implemented:
 exact UTF-16 ranges, source-clock mapping and native colored-glyph receipts pass;
 entrance/pop motion remains open. The20 waveform research is retained but
 all nine real comparisons refuse its frozen acoustic gates, so lexical anchors remain
 open. Reviewed atomic export, delivered picture observations, bounded alignment
 including the prepared project-tap job/read seam, retained source portability,
-bounded subject framing and native-cache research are integrated; the distinct speaker
-provider remains research-only until its quality gates pass. Stage22 now preserves bounded stroke/shadow/background fields and native
+bounded subject framing, generation-pinned speaker label bindings and native-cache
+research are integrated; the distinct speaker provider remains research-only until its
+quality gates pass. Stage22 now preserves bounded stroke/shadow/background fields and native
 decoration bounds alongside the vertical glyph receipts. Stage24 now carries explicit
 normal/multiply/screen/soft-light composition modes through the public and native seams.
 
