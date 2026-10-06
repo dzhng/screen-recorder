@@ -1028,6 +1028,17 @@ export async function startProjectService(options: {
               data: { ...selection, state: "ready", generation: metadata.generation, page },
             };
           }
+          case "transcript.prepare": {
+            transcripts.prepareSource(operation.params);
+            const status = transcripts.sourceStatus(operation.params);
+            return {
+              ok: true,
+              data: {
+                ...status,
+                published: publishedOutput(status.published, (value) => value.transcript),
+              },
+            };
+          }
           case "transcript.retry": {
             if ("projectId" in operation.params) {
               const status = projectEvidence.retry(operation.params);
@@ -1066,10 +1077,11 @@ export async function startProjectService(options: {
                 ? {}
                 : { acquisitionId: params.acquisitionId }),
             };
-            const current =
-              "prepare" in params && params.prepare === false
-                ? transcripts.sourceStatus(selection)
-                : transcripts.publishedSource(selection);
+            const generation = params.generation ?? params.cursor?.generation;
+            const current = transcripts.sourceStatus({
+              ...selection,
+              ...(generation === undefined ? {} : { generation }),
+            });
             if (!current.published) {
               if (params.cursor)
                 throw new CatalogError(

@@ -37,16 +37,27 @@ For imported speech, select the returned `assetId` and audio `streamId` explicit
 when requesting a source transcript; include `acquisitionId` only when you intend
 its capture gaps. These ranges are normalized file timestamps, not project time.
 Keep the complete returned cursor when paging or searching; changing selection or
-generation requires a fresh read. Reads can prepare transcription with ready local
-models but never download models. Discover registered IDs, purposes and source
-requirements with `model.list`, then inspect `model.status` with the selected
-`modelId`. Call `model.prepare` by default when the requested Yap feature needs
-its registered model/runtime; this separate preparation may download the pinned
-model under its advertised acquisition policy and needs no additional permission.
-Supply verified local sources
-when required instead of guessing temporary paths or installing dependencies
-during reads. Diagnose failed/canceled work before explicit transcript retry.
-A source phrase cannot cross an inference segment. Preserve overlapping estimates
+generation requires a fresh read. Prepare speech explicitly with `transcript.prepare`;
+`transcript.get` and search inspect retained evidence and never run inference.
+A preparation's `executionRange` limits primary source ownership; its outer
+`context` expands decoding without extending that ownership. A read's `range`
+only filters retained observations. Pin the returned `generation` when reading
+bounded evidence; omitting it selects full-support preparation, never the latest
+bounded take. For project reads, pass advertised `sourceGenerations` pins to use
+bounded source evidence. Context observations and boundary decisions remain in
+raw evidence; unowned decoded context is `not_observed`, not silence or missing
+physical media. Inspect this evidence when a seam is refused; never repair word
+timestamps or silently discard a boundary word.
+
+Discover registered IDs, purposes and source requirements with `model.list`, then
+inspect `model.status` with the selected `modelId`. Call `model.prepare` by default
+when the requested Yap feature needs its registered model/runtime; this separate
+preparation may download pinned inputs under its advertised acquisition policy
+and needs no additional permission. Supply verified local sources when required
+instead of guessing temporary paths or installing dependencies during reads.
+Diagnose failed/canceled work before explicit transcript retry with the original
+execution selection. Phrase search can cross accepted inference seams, but cannot
+cross unavailable, unobserved or skipped source support. Preserve overlapping estimates
 and zero-width instant pins as returned. Unfiltered source enumeration retains all
 observations; explicit source/project ranges use half-open membership. Never turn
 an instant into playable duration or treat overlapping estimates as clean cuts.

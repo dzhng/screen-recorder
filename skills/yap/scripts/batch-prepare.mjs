@@ -184,7 +184,6 @@ export async function prepareBatch(
           {
             assetId: item.import.published.output.assetId,
             streamId,
-            prepare: false,
             limit: 1,
           },
           { signal },
@@ -207,7 +206,7 @@ export async function prepareBatch(
       if (entry.status.state === "not_requested") {
         if (
           !(await request(
-            "transcript.retry",
+            "transcript.prepare",
             { assetId: item.import.published.output.assetId, streamId },
             (status) => {
               entry.status = status;

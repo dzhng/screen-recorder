@@ -26,7 +26,35 @@ import type { SpeechEnginePins, SpeechModelRequest } from "./models.js";
 import type { TimeRange } from "./presentation-time.js";
 import { wordKind, wordKindPolicy, type WordKind } from "./word-kind.js";
 
-export const transcriptPolicy = "transcript-v2";
+export const transcriptPolicy = "transcript-v3";
+
+const speechWindowRecipe = "source-windows-20s-context4s-guard1s-v2";
+export const speechExecutionSchema = z.strictObject({
+  executionRange: selectionRangeSchema.nullable(),
+  context: z.strictObject({
+    beforeUs: z.int().min(0).max(4_000_000),
+    afterUs: z.int().min(0).max(4_000_000),
+  }),
+  recipe: z.literal(speechWindowRecipe),
+});
+export type SpeechExecution = z.infer<typeof speechExecutionSchema>;
+export type TranscriptExecutionSelection = {
+  executionRange?: SelectionRange | undefined;
+  context?: { beforeUs: number; afterUs: number } | undefined;
+};
+export function speechExecution(selection: TranscriptExecutionSelection = {}): SpeechExecution {
+  if (
+    !selection.executionRange &&
+    selection.context &&
+    (selection.context.beforeUs !== 0 || selection.context.afterUs !== 0)
+  )
+    throw new CatalogError("INVALID_REQUEST", "Context requires an execution range");
+  return speechExecutionSchema.parse({
+    executionRange: selection.executionRange ?? null,
+    context: selection.context ?? { beforeUs: 0, afterUs: 0 },
+    recipe: speechWindowRecipe,
+  });
+}
 
 /** What the native `speech.transcribe` operation receives. */
 export type SpeechTranscriptionRequest = {
@@ -38,6 +66,7 @@ export type SpeechTranscriptionRequest = {
     available: SelectionRange[];
   };
   output: string;
+  execution: SpeechExecution;
 };
 /** What the native operation answers after publishing `output`; parsed tolerantly of added fields. */
 export type SpeechTranscriptionReceipt = {
@@ -55,8 +84,11 @@ export type SpeechTranscriptionReceipt = {
     state: "transcribed" | "skipped";
     reason?: "too_short" | undefined;
     wordCount: number;
+    owned: SelectionRange;
   }[];
   wordCount: number;
+  execution: SpeechExecution;
+  available: SelectionRange[];
 };
 export type SpeechTranscriber = (
   request: SpeechTranscriptionRequest,
@@ -108,6 +140,8 @@ export const portableTranscriptSchema = z
         ...(acquisitionId === undefined ? {} : { acquisitionId }),
       })),
     engine: transcriptEngineSchema,
+    execution: speechExecutionSchema,
+    available: z.array(selectionRangeSchema).max(10000),
     track: z.strictObject({
       streamId: engineLabel,
       sourceOffsetUs: signedTimeValueSchema,
@@ -154,6 +188,8 @@ export type TranscriptSource = Readonly<
 >;
 type TranscriptDetails = {
   engine: TranscriptEngine;
+  execution: SpeechExecution;
+  available: SelectionRange[];
   segmentCount: number;
   wordCount: number;
   gapCount: number;
@@ -215,7 +251,7 @@ export function recordingTranscriptOwner(store: CaptureStore) {
       throw new CatalogError("UNAVAILABLE", "Recording no longer accepts this transcript source");
   };
 }
-export type GapReason = "not_acquired" | "too_short";
+export type GapReason = "not_acquired" | "not_observed" | "too_short";
 export type TranscriptWordRecord = {
   ordinal: number;
   text: string;
@@ -225,10 +261,11 @@ export type TranscriptWordRecord = {
   /** An estimated instant observation, retained without inventing playable duration. */
   instant: boolean;
   confidence: number | null;
+  /** Connected primary observation run; native inference windows are retained separately. */
   segment: number;
 };
 export type TranscriptGapRecord = { startUs: number; endUs: number; reason: GapReason };
-/** One readable source interval as the engine saw it. */
+/** One decoded inference window as the engine saw it. */
 export type TranscriptSegmentRecord = {
   ordinal: number;
   startUs: number;
@@ -272,14 +309,18 @@ const receiptSchema = z.object({
         state: z.enum(["transcribed", "skipped"]),
         reason: z.literal("too_short").optional(),
         wordCount: time,
+        owned: selectionRangeSchema,
       }),
     )
     .max(10_000),
   wordCount: time,
+  execution: speechExecutionSchema,
+  available: z.array(selectionRangeSchema).max(10000),
 });
 const lineSchema = z.object({
   ordinal: time,
   source: selectionRangeSchema,
+  owned: selectionRangeSchema,
   state: z.enum(["transcribed", "skipped"]),
   reason: z.literal("too_short").optional(),
   words: z.array(
@@ -306,6 +347,8 @@ type GenerationRow = {
   generation: string;
   source: string;
   engine: string;
+  execution: string;
+  available: string;
   track: string;
   segmentCount: number;
   wordCount: number;
@@ -331,20 +374,20 @@ export class TranscriptStore implements TranscriptRecords {
     store.catalog.exec(`
       CREATE TABLE IF NOT EXISTS transcript_generations (
         ownerKind TEXT NOT NULL,ownerId TEXT NOT NULL,sourceId TEXT NOT NULL,generation TEXT NOT NULL,
-        source TEXT NOT NULL,engine TEXT NOT NULL,track TEXT NOT NULL,
+        source TEXT NOT NULL,engine TEXT NOT NULL,execution TEXT NOT NULL,available TEXT NOT NULL,track TEXT NOT NULL,
         segmentCount INTEGER NOT NULL,wordCount INTEGER NOT NULL DEFAULT 0,gapCount INTEGER NOT NULL DEFAULT 0,
         maxWordUs INTEGER NOT NULL DEFAULT 0,rawSha256 TEXT,bytes INTEGER,state TEXT NOT NULL,
         PRIMARY KEY(ownerKind,ownerId,generation)
       ) STRICT;
       CREATE TABLE IF NOT EXISTS transcript_segments (
         ownerKind TEXT NOT NULL,ownerId TEXT NOT NULL,generation TEXT NOT NULL,ordinal INTEGER NOT NULL,
-        startUs INTEGER NOT NULL,endUs INTEGER NOT NULL,source TEXT NOT NULL,state TEXT NOT NULL,reason TEXT,
+        startUs INTEGER NOT NULL,endUs INTEGER NOT NULL,source TEXT NOT NULL,owned TEXT NOT NULL,state TEXT NOT NULL,reason TEXT,
         PRIMARY KEY(ownerKind,ownerId,generation,ordinal)
       ) STRICT;
       CREATE TABLE IF NOT EXISTS transcript_words (
         ownerKind TEXT NOT NULL,ownerId TEXT NOT NULL,generation TEXT NOT NULL,ordinal INTEGER NOT NULL,
         startUs INTEGER NOT NULL,endUs INTEGER NOT NULL,instant INTEGER NOT NULL,text TEXT NOT NULL,
-        kind TEXT NOT NULL,confidence REAL,segment INTEGER NOT NULL,
+        kind TEXT NOT NULL,confidence REAL,segment INTEGER NOT NULL,windowOrdinal INTEGER NOT NULL,
         PRIMARY KEY(ownerKind,ownerId,generation,ordinal)
       ) STRICT;
       CREATE INDEX IF NOT EXISTS transcript_words_time
@@ -464,21 +507,22 @@ export class TranscriptStore implements TranscriptRecords {
       (
         this.store.catalog
           .prepare(
-            `SELECT segment,COUNT(*) AS count FROM transcript_words WHERE ${where} GROUP BY segment`,
+            `SELECT windowOrdinal,COUNT(*) AS count FROM transcript_words WHERE ${where} GROUP BY windowOrdinal`,
           )
           .all(...ownerIdentity(value.owner), value.generation) as {
-          segment: number;
+          windowOrdinal: number;
           count: number;
         }[]
-      ).map((row) => [row.segment, row.count]),
+      ).map((row) => [row.windowOrdinal, row.count]),
     );
     const segments = this.store.catalog
       .prepare(
-        `SELECT ordinal,source,state,reason FROM transcript_segments WHERE ${where} ORDER BY ordinal LIMIT 10001`,
+        `SELECT ordinal,source,owned,state,reason FROM transcript_segments WHERE ${where} ORDER BY ordinal LIMIT 10001`,
       )
       .all(...ownerIdentity(value.owner), value.generation) as {
       ordinal: number;
       source: string;
+      owned: string;
       state: "transcribed" | "skipped";
       reason: "too_short" | null;
     }[];
@@ -497,9 +541,12 @@ export class TranscriptStore implements TranscriptRecords {
         computeUnits: value.engine.computeUnits,
       },
       wordCount: value.wordCount,
+      execution: value.execution,
+      available: value.available,
       segments: segments.map((segment) => ({
         ordinal: segment.ordinal,
         source: selectionRangeSchema.parse(JSON.parse(segment.source)),
+        owned: selectionRangeSchema.parse(JSON.parse(segment.owned)),
         state: segment.state,
         ...(segment.reason === null ? {} : { reason: segment.reason }),
         wordCount: counts.get(segment.ordinal) ?? 0,
@@ -592,7 +639,7 @@ export class TranscriptStore implements TranscriptRecords {
       const indexed = await this.index({
         identity: expected,
         source: expected.source,
-        request: { track, output },
+        request: { track, output, execution: expected.execution },
         receipt: { ...receipt, output: { ...receipt.output, file: output } },
         pins,
         signal,
@@ -685,7 +732,7 @@ export class TranscriptStore implements TranscriptRecords {
   private async index(input: {
     identity: TranscriptIdentity;
     source: TranscriptSource;
-    request: Pick<SpeechTranscriptionRequest, "track" | "output">;
+    request: Pick<SpeechTranscriptionRequest, "track" | "output" | "execution">;
     receipt: SpeechTranscriptionReceipt;
     pins: SpeechEnginePins & { modelDigest: string };
     signal: AbortSignal;
@@ -708,7 +755,20 @@ export class TranscriptStore implements TranscriptRecords {
     const parsed = receiptSchema.safeParse(input.receipt);
     if (!parsed.success) invalid("Transcription receipt is malformed");
     const receipt = parsed.data;
-    const available = request.track.available;
+    if (!isDeepStrictEqual(receipt.execution, request.execution))
+      invalid("Transcription execution differs from requested preparation");
+    const available = receipt.available;
+    let availableEnd: TimeValue = 0;
+    for (const support of available) {
+      const admitted = request.track.available.find(
+        (candidate) =>
+          compare(fromTime(candidate.startUs), fromTime(support.startUs)) <= 0 &&
+          compare(fromTime(candidate.endUs), fromTime(support.endUs)) >= 0,
+      );
+      if (!admitted || compare(fromTime(support.startUs), fromTime(availableEnd)) < 0)
+        invalid("Transcription physical support differs from admitted source");
+      availableEnd = support.endUs;
+    }
     if (
       receipt.output.file !== request.output ||
       receipt.engine.runtime !== pins.runtime ||
@@ -717,10 +777,11 @@ export class TranscriptStore implements TranscriptRecords {
     )
       invalid("Transcription receipt names another output or engine");
     // Native narrows each acquired interval to the media the selected source actually holds, so a
-    // segment is any ordered, nonempty part of one acquired interval; time between segments was not read.
+    // decoded windows can overlap; their ordered primary ownership never fills missing support.
     let words = 0,
       interval = 0,
-      readUs: TimeValue = 0;
+      readUs: TimeValue = 0,
+      ownedEnd: TimeValue = 0;
     for (const [ordinal, segment] of receipt.segments.entries()) {
       if (segment.ordinal !== ordinal)
         invalid("Transcription segment ordinals must be unique and ordered");
@@ -730,17 +791,26 @@ export class TranscriptStore implements TranscriptRecords {
       )
         interval++;
       const acquired = available[interval];
+      const owned = segment.owned;
+      const execution = request.execution;
       if (
         compare(fromTime(segment.source.startUs), fromTime(readUs)) < 0 ||
         compare(fromTime(segment.source.endUs), fromTime(segment.source.startUs)) <= 0 ||
         !acquired ||
         compare(fromTime(segment.source.startUs), fromTime(acquired.startUs)) < 0 ||
         compare(fromTime(segment.source.endUs), fromTime(acquired.endUs)) > 0 ||
+        compare(fromTime(owned.startUs), fromTime(segment.source.startUs)) < 0 ||
+        compare(fromTime(owned.endUs), fromTime(segment.source.endUs)) > 0 ||
+        compare(fromTime(owned.startUs), fromTime(ownedEnd)) < 0 ||
+        (execution.executionRange !== null &&
+          (compare(fromTime(owned.startUs), fromTime(execution.executionRange.startUs)) < 0 ||
+            compare(fromTime(owned.endUs), fromTime(execution.executionRange.endUs)) > 0)) ||
         (segment.state === "skipped") !== (segment.reason === "too_short") ||
         (segment.state === "skipped" && segment.wordCount !== 0)
       )
         invalid("Transcription segment does not lie in an acquired source interval");
-      readUs = segment.source.endUs;
+      readUs = segment.source.startUs;
+      ownedEnd = owned.endUs;
       words += segment.wordCount;
     }
     if (words !== receipt.wordCount) invalid("Transcription word count does not match segments");
@@ -759,8 +829,8 @@ export class TranscriptStore implements TranscriptRecords {
     };
     this.store.catalog
       .prepare(
-        `INSERT INTO transcript_generations(ownerKind,ownerId,sourceId,generation,source,engine,track,segmentCount,state)
-         VALUES(?,?,?,?,?,?,?,?,'ingesting')`,
+        `INSERT INTO transcript_generations(ownerKind,ownerId,sourceId,generation,source,engine,execution,available,track,segmentCount,state)
+         VALUES(?,?,?,?,?,?,?,?,?,?,'ingesting')`,
       )
       .run(
         ownerKind,
@@ -769,17 +839,19 @@ export class TranscriptStore implements TranscriptRecords {
         component(generation),
         JSON.stringify(source),
         JSON.stringify(engine),
+        JSON.stringify(request.execution),
+        JSON.stringify(available),
         JSON.stringify(track),
         receipt.segments.length,
       );
     const insertSegment = this.store.catalog.prepare(
-      "INSERT INTO transcript_segments VALUES(?,?,?,?,?,?,?,?,?)",
+      "INSERT INTO transcript_segments VALUES(?,?,?,?,?,?,?,?,?,?)",
     );
     const insertWord = this.store.catalog.prepare(
-      "INSERT INTO transcript_words VALUES(?,?,?,?,?,?,?,?,?,?,?)",
+      "INSERT INTO transcript_words VALUES(?,?,?,?,?,?,?,?,?,?,?,?)",
     );
     let segments: SpeechTranscriptionReceipt["segments"] = [];
-    let batch: TranscriptWordRecord[] = [];
+    let batch: (TranscriptWordRecord & { windowOrdinal: number })[] = [];
     const flush = async () => {
       signal.throwIfAborted();
       this.store.transaction(() => {
@@ -792,6 +864,7 @@ export class TranscriptStore implements TranscriptRecords {
             round(fromTime(segment.source.startUs)),
             round(fromTime(segment.source.endUs)),
             JSON.stringify(segment.source),
+            JSON.stringify(segment.owned),
             segment.state,
             segment.reason ?? null,
           );
@@ -808,6 +881,7 @@ export class TranscriptStore implements TranscriptRecords {
             word.kind,
             word.confidence,
             word.segment,
+            word.windowOrdinal,
           );
       });
       segments = [];
@@ -818,7 +892,9 @@ export class TranscriptStore implements TranscriptRecords {
     let lines = 0,
       ordinal = 0,
       maxWordUs = 0,
-      previousStartUs = 0;
+      previousStartUs = 0,
+      connectedRun = -1;
+    let previousSegment: SpeechTranscriptionReceipt["segments"][number] | undefined;
     const consume = async (bytes: Buffer) => {
       let value: unknown;
       try {
@@ -839,6 +915,19 @@ export class TranscriptStore implements TranscriptRecords {
         line.data.words.length !== segment.wordCount
       )
         invalid("Raw transcript segment differs from its receipt");
+      if (!isDeepStrictEqual(line.data.owned, segment.owned))
+        invalid("Raw transcript ownership differs from its receipt");
+      // Inference windows are provenance, not phrase barriers. Exact connected ownership
+      // continues one observation run; skipped or uncovered support starts another.
+      const owned = segment.owned;
+      if (
+        !previousSegment ||
+        previousSegment.state !== "transcribed" ||
+        segment.state !== "transcribed" ||
+        compare(fromTime(previousSegment.owned.endUs), fromTime(owned.startUs)) !== 0
+      )
+        connectedRun++;
+      previousSegment = segment;
       segments.push(segment);
       const observed = {
         startUs: round(fromTime(segment.source.startUs)),
@@ -869,7 +958,8 @@ export class TranscriptStore implements TranscriptRecords {
           endUs,
           instant,
           confidence: word.confidence ?? null,
-          segment: segment.ordinal,
+          segment: connectedRun,
+          windowOrdinal: segment.ordinal,
         });
         if (batch.length === 256) await flush();
       }
@@ -881,7 +971,7 @@ export class TranscriptStore implements TranscriptRecords {
     let bytes = 0;
     try {
       if (!(await handle.stat()).isFile()) invalid("Raw transcript is not a regular file");
-      // A long interval is one large line; collect its chunks instead of re-copying a growing buffer.
+      // A decoded window can be a large raw line; collect chunks without re-copying a growing buffer.
       let parts: Buffer[] = [],
         partBytes = 0;
       for await (const chunk of handle.createReadStream({ highWaterMark: 65_536, signal })) {
@@ -915,12 +1005,16 @@ export class TranscriptStore implements TranscriptRecords {
     }
 
     const gaps = transcriptGaps(
-      receipt.segments.map(({ source, state }) => ({
-        startUs: round(fromTime(source.startUs)),
-        endUs: round(fromTime(source.endUs)),
+      receipt.segments.map(({ owned, state }) => ({
+        startUs: round(fromTime(owned.startUs)),
+        endUs: round(fromTime(owned.endUs)),
         state,
       })),
       round(fromTime(durationUs)),
+      available.map(({ startUs, endUs }) => ({
+        startUs: round(fromTime(startUs)),
+        endUs: round(fromTime(endUs)),
+      })),
     );
     signal.throwIfAborted();
     return this.store.transaction(() => {
@@ -1091,18 +1185,32 @@ export class TranscriptStore implements TranscriptRecords {
 export function transcriptGaps(
   segments: readonly (TimeRange & Pick<TranscriptSegmentRecord, "state">)[],
   durationUs: number,
+  available?: readonly TimeRange[],
 ): TranscriptGapRecord[] {
   const gaps: TranscriptGapRecord[] = [];
   let atUs = 0;
   for (const segment of segments) {
-    if (atUs < segment.startUs)
-      gaps.push({ startUs: atUs, endUs: segment.startUs, reason: "not_acquired" });
+    if (atUs < segment.startUs) appendUnobserved(atUs, segment.startUs);
     if (segment.state === "skipped" && segment.startUs < segment.endUs)
       gaps.push({ startUs: segment.startUs, endUs: segment.endUs, reason: "too_short" });
-    atUs = segment.endUs;
+    atUs = Math.max(atUs, segment.endUs);
   }
-  if (atUs < durationUs) gaps.push({ startUs: atUs, endUs: durationUs, reason: "not_acquired" });
+  if (atUs < durationUs) appendUnobserved(atUs, durationUs);
   return gaps;
+
+  function appendUnobserved(startUs: number, endUs: number) {
+    let at = startUs;
+    for (const support of available ?? []) {
+      if (support.endUs <= at || support.startUs >= endUs) continue;
+      if (at < support.startUs)
+        gaps.push({ startUs: at, endUs: Math.min(endUs, support.startUs), reason: "not_acquired" });
+      const lower = Math.max(at, support.startUs),
+        upper = Math.min(endUs, support.endUs);
+      if (lower < upper) gaps.push({ startUs: lower, endUs: upper, reason: "not_observed" });
+      at = upper;
+    }
+    if (at < endUs) gaps.push({ startUs: at, endUs, reason: "not_acquired" });
+  }
 }
 
 function metadata(row: GenerationRow): TranscriptMetadata {
@@ -1115,6 +1223,8 @@ function metadata(row: GenerationRow): TranscriptMetadata {
     generation: row.generation,
     source: JSON.parse(row.source) as TranscriptSource,
     engine: JSON.parse(row.engine) as TranscriptEngine,
+    execution: speechExecutionSchema.parse(JSON.parse(row.execution)),
+    available: z.array(selectionRangeSchema).parse(JSON.parse(row.available)),
     track: JSON.parse(row.track) as TranscriptMetadata["track"],
     segmentCount: row.segmentCount,
     wordCount: row.wordCount,

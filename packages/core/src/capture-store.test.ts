@@ -3,6 +3,7 @@ import { mkdtempSync, rmSync, readFileSync, copyFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { DatabaseSync } from "node:sqlite";
+import { catalogFormat } from "./catalog.js";
 import { CaptureStore } from "./capture-store.js";
 
 const roots: string[] = [];
@@ -539,12 +540,12 @@ test("a catalog in another format, or unstamped with tables, is refused without 
   expect(() => new CaptureStore(prior, providers)).toThrow(
     expect.objectContaining({
       code: "UNSUPPORTED_CATALOG",
-      details: { format: 22, supportedFormat: 26 },
+      details: { format: 22, supportedFormat: catalogFormat },
     }),
   );
   expect(readFileSync(prior)).toEqual(priorBytes);
   for (const format of [
-    0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25,
+    ...Array.from({ length: catalogFormat }, (_, format) => format),
     2147483647,
   ]) {
     const other = new DatabaseSync(path);

@@ -43,6 +43,15 @@ half-open membership. Search and caption grouping preserve the widest selected
 estimate rather than assuming the final word ends latest. Text seeds keep original
 word pins; a selection consisting only of points requires caller-authored text extent.
 
+Speech preparation owns execution scope; retained reads own selection. A bounded
+preparation keeps the whole-source descriptor and pins its range, decode context
+and recipe in generation identity. Decoded context does not expand primary
+ownership: physical gaps, unobserved support and skipped support remain distinct.
+[Transcript publication](src/transcript-processing.ts) resolves omitted generation
+only through full-support identity; bounded reads and project dependencies pin the
+retained generation explicitly. Native windows remain raw provenance, while
+connected primary observation runs preserve phrase continuity across accepted seams.
+
 Source evidence retains its source clock. Project evidence projects it through
 a revision's exact mapping without rewriting the source observation. Generation
 and dependency identity bind pagination, prepared output and caches; freshness

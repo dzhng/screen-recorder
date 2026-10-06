@@ -3,6 +3,7 @@ import {
   fromTime,
   add,
   subtract,
+  compare,
   type SignedTimeValue,
   type TimeValue,
 } from "@yap/composition";
@@ -114,9 +115,44 @@ async function fixture(
           signal.addEventListener("abort", () => reject(signal.reason), { once: true }),
         );
       if (control.fail) throw new Error("fixture transcription failure");
-      const lines = request.track.available.map((source, ordinal) => ({
+      const spans = request.track.available.flatMap((available) => {
+        const execution = request.execution?.executionRange;
+        if (!execution) return [{ source: available, owned: available }];
+        const owned = {
+          startUs:
+            compare(fromTime(available.startUs), fromTime(execution.startUs)) > 0
+              ? available.startUs
+              : execution.startUs,
+          endUs:
+            compare(fromTime(available.endUs), fromTime(execution.endUs)) < 0
+              ? available.endUs
+              : execution.endUs,
+        };
+        if (compare(fromTime(owned.startUs), fromTime(owned.endUs)) >= 0) return [];
+        const before = round(
+          subtract(fromTime(owned.startUs), fromTime(request.execution!.context.beforeUs)),
+        );
+        const after = round(
+          add(fromTime(owned.endUs), fromTime(request.execution!.context.afterUs)),
+        );
+        return [
+          {
+            owned,
+            source: {
+              startUs:
+                compare(fromTime(available.startUs), fromTime(before)) > 0
+                  ? available.startUs
+                  : before,
+              endUs:
+                compare(fromTime(available.endUs), fromTime(after)) < 0 ? available.endUs : after,
+            },
+          },
+        ];
+      });
+      const lines = spans.map(({ source, owned }, ordinal) => ({
         ordinal,
         source,
+        owned,
         state: "transcribed" as const,
         words: [
           {
@@ -146,6 +182,8 @@ async function fixture(
         },
         segments: lines.map(({ words, ...line }) => ({ ...line, wordCount: words.length })),
         wordCount: lines.length,
+        execution: request.execution,
+        available: request.track.available,
       };
     },
   });
@@ -199,11 +237,152 @@ test("selected source admission retains its real asset and publishes normalized 
   ).toEqual([]);
 });
 
+test("retained transcript inspection never starts first-time inference", async () => {
+  const f = await fixture();
+  expect(f.processing.sourceStatus(f.selection)).toMatchObject({
+    state: "not_requested",
+    reason: null,
+    jobId: null,
+    published: null,
+  });
+  await new Promise((resolve) => setImmediate(resolve));
+  expect(f.catalog.catalog.prepare("SELECT artifact FROM jobs").all()).toEqual([]);
+  expect(f.requests).toEqual([]);
+});
+
+test("bounded preparation retains whole-source identity, unobserved coverage and an explicit reusable generation", async () => {
+  const f = await fixture();
+  const preparation = {
+    ...f.selection,
+    executionRange: { startUs: 300, endUs: 700 },
+    context: { beforeUs: 100, afterUs: 100 },
+  };
+  f.processing.prepareSource(preparation);
+  await f.jobs.idle();
+  const status = f.processing.sourceStatus(preparation),
+    metadata = status.published!.transcript;
+  expect(metadata.source).toMatchObject({ durationUs: 1000, streamId: "track:2" });
+  expect(
+    f.transcripts
+      .wordRecords(metadata, { limit: 10 })
+      .map(({ text, startUs, endUs }) => ({ text, startUs, endUs })),
+  ).toEqual([{ text: "track:2", startUs: 210, endUs: 790 }]);
+  expect(f.transcripts.gapRecords(metadata, { limit: 10 })).toEqual([
+    { startUs: 0, endUs: 100, reason: "not_acquired" },
+    { startUs: 100, endUs: 300, reason: "not_observed" },
+    { startUs: 700, endUs: 1000, reason: "not_observed" },
+  ]);
+  expect(f.processing.sourceStatus(f.selection)).toMatchObject({
+    state: "not_requested",
+    published: null,
+  });
+  f.models.state = "absent";
+  expect(
+    f.processing.sourceStatus({ ...f.selection, generation: metadata.generation }).published!
+      .transcript,
+  ).toEqual(metadata);
+  expect(
+    new SourceTranscriptRead(f.transcripts, metadata).page({ range: { startUs: 300, endUs: 700 } })
+      .rows,
+  ).toMatchObject([{ type: "word", sourceRange: { startUs: 210, endUs: 790 }, partial: true }]);
+  f.models.state = "ready";
+  f.processing.prepareSource(preparation);
+  expect(f.requests).toHaveLength(1);
+  expect(() =>
+    f.processing.sourceStatus({
+      ...f.selection,
+      streamId: "track:1",
+      generation: metadata.generation,
+    }),
+  ).toThrow("another selected source");
+});
+
+test("source phrase search crosses an accepted ownership seam without changing either estimate", async () => {
+  const f = await fixture({ originUs: 0, startUs: 0, endUs: 40_000_000 }, async (request) => {
+    const lines = [
+      {
+        ordinal: 0,
+        source: { startUs: 0, endUs: 24_000_000 },
+        owned: { startUs: 0, endUs: 20_000_000 },
+        state: "transcribed" as const,
+        words: [
+          { text: "Hello", source: { startUs: 19_800_000, endUs: 20_100_000 }, confidence: 0.8 },
+        ],
+      },
+      {
+        ordinal: 1,
+        source: { startUs: 16_000_000, endUs: 40_000_000 },
+        owned: { startUs: 20_000_000, endUs: 40_000_000 },
+        state: "transcribed" as const,
+        words: [
+          { text: "world.", source: { startUs: 20_200_000, endUs: 20_400_000 }, confidence: 0.9 },
+        ],
+      },
+    ];
+    const raw = lines.map((line) => JSON.stringify(line) + "\n").join("");
+    await writeFile(request.output, raw);
+    return {
+      output: {
+        file: request.output,
+        bytes: Buffer.byteLength(raw),
+        sha256: createHash("sha256").update(raw).digest("hex"),
+      },
+      engine: {
+        runtime: "FluidAudio",
+        runtimeVersion: "0.15.7",
+        decoder: "parakeet-tdt-batch",
+        encoderPrecision: "int8",
+        computeUnits: "cpuAndNeuralEngine",
+      },
+      execution: request.execution,
+      available: request.track.available,
+      segments: lines.map(({ words, ...line }) => ({ ...line, wordCount: words.length })),
+      wordCount: 2,
+    };
+  });
+  f.processing.prepareSource(f.selection);
+  await f.jobs.idle();
+  const metadata = f.processing.sourceStatus(f.selection).published!.transcript;
+  expect(
+    new SourceTranscriptRead(f.transcripts, metadata).search({ text: "hello world" }).entries,
+  ).toEqual([{ wordIds: ["w0", "w1"], sourceRange: { startUs: 19_800_000, endUs: 20_400_000 } }]);
+  expect(
+    f.transcripts
+      .portableReceipt(f.transcripts.portableGenerations(f.asset.id)[0]!)
+      .segments.map(({ owned, wordCount }) => ({ owned, wordCount })),
+  ).toEqual([
+    { owned: { startUs: 0, endUs: 20_000_000 }, wordCount: 1 },
+    { owned: { startUs: 20_000_000, endUs: 40_000_000 }, wordCount: 1 },
+  ]);
+});
+
+test("native execution receipt must match the requested bounded preparation", async () => {
+  const f = await fixture(
+    { originUs: 0, startUs: 0, endUs: 10_000_000 },
+    nativeTranscript((_, receipt) => {
+      Object.assign(receipt, {
+        execution: {
+          executionRange: { startUs: 0, endUs: 9_000_000 },
+          context: { beforeUs: 0, afterUs: 0 },
+          recipe: "source-windows-20s-context4s-guard1s-v2",
+        },
+      });
+    }),
+  );
+  f.processing.prepareSource(f.selection);
+  await f.jobs.idle();
+  expect(f.processing.sourceStatus(f.selection)).toMatchObject({
+    state: "failed",
+    published: null,
+    reason: "Transcription execution differs from requested preparation",
+  });
+});
+
 test("model readiness and failure stay explicit, reads never retry and explicit retry creates a fresh attempt", async () => {
   const f = await fixture();
   for (const state of ["absent", "preparing", "failed"] as const) {
     f.models.state = state;
-    expect(f.processing.publishedSource(f.selection)).toMatchObject({
+    expect(f.processing.sourceStatus(f.selection)).toMatchObject({
       state: "unavailable",
       reason: "model_not_prepared",
       jobId: null,
@@ -218,7 +397,7 @@ test("model readiness and failure stay explicit, reads never retry and explicit 
   await expect.poll(() => f.processing.sourceStatus(f.selection).state).toBe("failed");
   const failed = f.processing.sourceStatus(f.selection);
   const attempt = f.jobs.job(failed.jobId!).attemptId;
-  f.processing.publishedSource(f.selection);
+  f.processing.sourceStatus(f.selection);
   expect(f.requests).toHaveLength(1);
   f.control.fail = false;
   f.processing.retrySource(f.selection);
@@ -234,7 +413,11 @@ test("cancelled attempts are not revived by reads; cleanup preserves other publi
   await expect.poll(() => f.processing.sourceStatus(f.selection).state).toBe("ready");
   const retained = f.processing.sourceStatus(f.selection).published!.transcript;
   f.control.hold = true;
-  const first = { ...f.selection, streamId: "track:1" };
+  const first = {
+    ...f.selection,
+    executionRange: { startUs: 300, endUs: 700 },
+    context: { beforeUs: 100, afterUs: 100 },
+  };
   f.processing.prepareSource(first);
   await expect.poll(() => f.requests.length).toBe(2);
   const id = f.processing.sourceStatus(first).jobId!;
@@ -243,7 +426,7 @@ test("cancelled attempts are not revived by reads; cleanup preserves other publi
   expect(f.jobs.job(id).attemptId).toBe(attempt);
   expect(f.requests).toHaveLength(2);
   await f.jobs.drainJob(id);
-  f.processing.publishedSource(first);
+  f.processing.sourceStatus(first);
   expect(f.requests).toHaveLength(2);
   f.control.hold = false;
   f.processing.retrySource(first);
@@ -252,7 +435,15 @@ test("cancelled attempts are not revived by reads; cleanup preserves other publi
   expect(f.transcripts.wordRecords(retained, { limit: 10 }).map((word) => word.text)).toEqual([
     "track:2",
   ]);
-  expect(f.processing.sourceStatus(first).published!.generation).not.toBe(retained.generation);
+  const resumed = f.processing.sourceStatus(first).published!.transcript;
+  expect(resumed.generation).not.toBe(retained.generation);
+  expect(resumed.execution.executionRange).toEqual(first.executionRange);
+  expect(
+    f.transcripts
+      .wordRecords(resumed, { limit: 10 })
+      .map(({ text, startUs, endUs }) => ({ text, startUs, endUs })),
+  ).toEqual([{ text: "track:2", startUs: 210, endUs: 790 }]);
+  expect(f.processing.sourceStatus(f.selection).published!.transcript).toEqual(retained);
   expect(() => f.processing.prepareSource({ ...f.selection, streamId: "track:3" })).toThrow(
     "audio stream",
   );
@@ -293,7 +484,7 @@ test("explicit acquisition masks separate jobs for the same bytes and retain the
     { startUs: 600, endUs: 800 },
   ]);
   expect(f.acquisitions.references("masked")).toEqual([{ kind: "job", id: status.jobId }]);
-  expect(f.processing.publishedSource({ ...f.selection, acquisitionId: "empty" })).toMatchObject({
+  expect(f.processing.sourceStatus({ ...f.selection, acquisitionId: "empty" })).toMatchObject({
     state: "unavailable",
     reason: "no_audio",
     jobId: null,
@@ -352,7 +543,6 @@ test("current decoder work separates source recipes while retained evidence stay
   expect(f.requests).toHaveLength(2);
   await f.processing.cleanup(new AbortController().signal);
   expect(f.transcripts.wordRecords(metadata, { limit: 100 })).toEqual(original);
-  expect(metadata.engine.policy).toBe("transcript-v2");
 });
 
 test("portable transcripts retain raw bytes and words with models absent in the recipient", async () => {
@@ -401,7 +591,7 @@ test("portable transcripts retain raw bytes and words with models absent in the 
     receiver.processing.adoptPublication(stage.metadata, input.available, input.publication);
   });
   await stage.close();
-  const adopted = receiver.processing.publishedSource(receiver.selection);
+  const adopted = receiver.processing.sourceStatus(receiver.selection);
   expect(adopted).toMatchObject({ state: "ready", jobId: null, models: { state: "absent" } });
   expect(adopted.published!.transcript.track.source).toBe(receiver.assets.path(receiver.asset.id));
   expect(adopted.published!.transcript.track.source).not.toBe(original.track.source);
@@ -414,7 +604,7 @@ test("portable transcripts retain raw bytes and words with models absent in the 
   expect(receiver.requests).toEqual([]);
   await receiver.transcripts.recoverPendingAssets(new AbortController().signal);
   await receiver.processing.cleanup(new AbortController().signal);
-  expect(receiver.processing.publishedSource(receiver.selection).state).toBe("ready");
+  expect(receiver.processing.sourceStatus(receiver.selection).state).toBe("ready");
   expect(receiver.requests).toEqual([]);
 });
 
@@ -510,7 +700,7 @@ test("portable transcripts preserve historical model recipes independently of re
     });
     await stage.close();
     receiver.changeModel(digest);
-    expect(receiver.processing.publishedSource(receiver.selection)).toMatchObject({
+    expect(receiver.processing.sourceStatus(receiver.selection)).toMatchObject({
       state: "ready",
       jobId: null,
       models: { state: "absent" },
@@ -524,51 +714,72 @@ test("portable transcripts preserve historical model recipes independently of re
   expect(receiver.requests).toEqual([]);
 });
 
-test("fractional decoded segments survive portable receipts while words keep observation labels", async () => {
-  const timing = {
-    originUs: { numerator: 1, denominator: 3 },
-    startUs: { numerator: 201, denominator: 2 },
-    endUs: { numerator: 2001, denominator: 2 },
-  };
-  const donor = await fixture(timing),
-    receiver = await fixture(timing);
-  donor.processing.prepareSource(donor.selection);
-  await expect.poll(() => donor.processing.sourceStatus(donor.selection).state).toBe("ready");
-  const value = donor.transcripts.portableGenerations(donor.asset.id)[0]!;
-  const receipt = donor.transcripts.portableReceipt(value);
-  expect(receipt.segments[0]!.source).toEqual({ startUs: timing.startUs, endUs: timing.endUs });
-  expect(donor.transcripts.segmentRecords(value, { limit: 5 })).toMatchObject([
-    { startUs: 101, endUs: 1001 },
-  ]);
-  expect(donor.transcripts.wordRecords(value, { limit: 5 })).toMatchObject([
-    { startUs: 111, endUs: 991 },
-  ]);
-  expect(value.track.sourceOffsetUs).toEqual({ numerator: -1, denominator: 3 });
-  receiver.models.state = "absent";
-  const input = donor.processing.portable(value);
-  const stage = await receiver.transcripts.stagePortable(
-    value,
-    receipt,
-    donor.transcripts.portableFile(value),
-    {
-      ...value.track,
-      source: receiver.assets.path(receiver.asset.id),
-      available: input.available,
-    },
-    new AbortController().signal,
-  );
-  try {
-    receiver.catalog.transaction(() => {
-      stage.publish();
-      receiver.processing.adoptPublication(stage.metadata, input.available, input.publication);
-    });
-    expect(receiver.transcripts.portableReceipt(value).segments).toEqual(receipt.segments);
-    expect(receiver.processing.publishedSource(receiver.selection).state).toBe("ready");
-    expect(receiver.requests).toEqual([]);
-  } finally {
-    await stage.close();
-  }
-});
+test.each([false, true])(
+  "fractional source portable receipts retain execution ownership (bounded=%s)",
+  async (bounded) => {
+    const timing = {
+      originUs: { numerator: 1, denominator: 3 },
+      startUs: { numerator: 201, denominator: 2 },
+      endUs: { numerator: 2001, denominator: 2 },
+    };
+    const donor = await fixture(timing),
+      receiver = await fixture(timing);
+    const preparation = {
+      ...donor.selection,
+      ...(bounded
+        ? { executionRange: { startUs: 300, endUs: 700 }, context: { beforeUs: 100, afterUs: 100 } }
+        : {}),
+    };
+    donor.processing.prepareSource(preparation);
+    await expect.poll(() => donor.processing.sourceStatus(preparation).state).toBe("ready");
+    const value = donor.transcripts.portableGenerations(donor.asset.id)[0]!;
+    const receipt = donor.transcripts.portableReceipt(value);
+    expect(receipt.segments[0]!.source).toEqual(
+      bounded ? { startUs: 200, endUs: 800 } : { startUs: timing.startUs, endUs: timing.endUs },
+    );
+    expect(receipt.segments[0]!.owned).toEqual(
+      bounded ? { startUs: 300, endUs: 700 } : { startUs: timing.startUs, endUs: timing.endUs },
+    );
+    expect(donor.transcripts.segmentRecords(value, { limit: 5 })).toMatchObject([
+      bounded ? { startUs: 200, endUs: 800 } : { startUs: 101, endUs: 1001 },
+    ]);
+    expect(donor.transcripts.wordRecords(value, { limit: 5 })).toMatchObject([
+      bounded ? { startUs: 210, endUs: 790 } : { startUs: 111, endUs: 991 },
+    ]);
+    expect(value.track.sourceOffsetUs).toEqual({ numerator: -1, denominator: 3 });
+    receiver.models.state = "absent";
+    const input = donor.processing.portable(value);
+    const stage = await receiver.transcripts.stagePortable(
+      value,
+      receipt,
+      donor.transcripts.portableFile(value),
+      {
+        ...value.track,
+        source: receiver.assets.path(receiver.asset.id),
+        available: input.available,
+      },
+      new AbortController().signal,
+    );
+    try {
+      receiver.catalog.transaction(() => {
+        stage.publish();
+        receiver.processing.adoptPublication(stage.metadata, input.available, input.publication);
+      });
+      expect(receiver.transcripts.portableReceipt(value).segments).toEqual(receipt.segments);
+      expect(
+        receiver.processing.sourceStatus({ ...receiver.selection, generation: value.generation })
+          .published!.transcript.execution,
+      ).toEqual(value.execution);
+      expect(receiver.transcripts.portableReceipt(value).available).toEqual(receipt.available);
+      expect(receiver.transcripts.gapRecords(value, { limit: 20 })).toEqual(
+        donor.transcripts.gapRecords(value, { limit: 20 }),
+      );
+      expect(receiver.requests).toEqual([]);
+    } finally {
+      await stage.close();
+    }
+  },
+);
 
 async function retainOutput(name: string, value: unknown) {
   const directory = process.env.YAP_TRANSCRIPT_TEST_OUTPUT;
@@ -591,6 +802,7 @@ function nativeTranscript(
       {
         ordinal: 0,
         source: { startUs: 500000, endUs: 4000000 },
+        owned: { startUs: 500000, endUs: 4000000 },
         state: "transcribed",
         wordCount: 4,
         words: [
@@ -603,6 +815,7 @@ function nativeTranscript(
       {
         ordinal: 1,
         source: { startUs: 5500000, endUs: 8000000 },
+        owned: { startUs: 5500000, endUs: 8000000 },
         state: "transcribed",
         wordCount: 3,
         words: [
@@ -614,6 +827,7 @@ function nativeTranscript(
       {
         ordinal: 2,
         source: { startUs: 8500000, endUs: 8600000 },
+        owned: { startUs: 8500000, endUs: 8600000 },
         state: "skipped",
         reason: "too_short",
         wordCount: 0,
@@ -631,6 +845,8 @@ function nativeTranscript(
       },
       segments: lines.map(({ words, ...line }) => structuredClone(line)),
       wordCount: 7,
+      execution: request.execution,
+      available: lines.map((line) => line.source),
     };
     corrupt?.(lines, receipt);
     const raw = lines.map((line) => JSON.stringify(line) + "\n").join("");
@@ -644,6 +860,12 @@ function nativeTranscript(
 }
 test("selected transcript native refusal leaves no generation, indexed row or output", async () => {
   const cases: [string, (lines: NativeLine[], receipt: SpeechTranscriptionReceipt) => void][] = [
+    [
+      "Raw transcript ownership differs from its receipt",
+      (lines) => {
+        lines[0]!.owned = { startUs: 1_000_000, endUs: 4_000_000 };
+      },
+    ],
     [
       "Transcript word lies outside its segment",
       (lines) => {

@@ -1,0 +1,28 @@
+Building for debugging...
+[0/3] Write swift-version--58304C5D6DBC2206.txt
+[1/4] Write sources
+[3/6] Compiling YapSpeechTests main.swift
+[4/6] Emitting module YapSpeechTests
+[4/7] Write Objects.LinkFileList
+[5/7] Linking YapSpeechTests
+[6/7] Applying YapSpeechTests
+Build of product 'YapSpeechTests' complete! (1.35s)
+PASS a trailing mark does not carry the word's end through the silence after it
+PASS a mark between letters leaves the word timed by its letters
+PASS a word that is only a mark keeps the one time the engine gave it
+PASS a word of plain speech reports exactly the engine's own span
+PASS overlapping word estimates retain both extents
+PASS a word ends at its latest token, not its last one
+PASS digits count as speech
+PASS exact speech interval mapping before integer word-label projection
+PASS binary engine seconds at a decimal half-microsecond label boundary
+PASS malformed token timing/confidence reports the offending token
+PASS bounded and full-source planning retain primary ownership, outer context and real gaps
+PASS seam observations retain one original occurrence when starts disagree
+PASS explicit ownership handles absent owners, repeats, ambiguity and exact points
+PASS lexical anchors distinguish frame-shifted estimates without a timestamp epsilon
+CASE overlap-region {"boundaryUs":20000000,"pairs":[{"left":66,"right":1,"selected":"left"},{"left":67,"right":2,"selected":"left"},{"left":68,"right":3,"selected":"left"},{"left":69,"right":4,"selected":"left"},{"left":70,"right":5,"selected":"right"},{"left":71,"right":6,"selected":"right"}],"shared":{"endUs":22000000,"startUs":18000000}}
+CASE overlap-neighbor {"boundaryUs":20000000,"pairs":[{"left":53,"right":5,"selected":"left"},{"left":54,"right":6,"selected":"left"},{"left":55,"right":7,"selected":"left"},{"left":56,"right":8,"selected":"left"},{"left":57,"right":9,"selected":"right"},{"left":58,"right":10,"selected":"right"},{"left":59,"right":11,"selected":"right"},{"left":60,"right":12,"selected":"right"},{"left":61,"right":13,"selected":"right"}],"shared":{"endUs":22000000,"startUs":18000000}}
+CASE long-shifted-boundary60 {"boundaryUs":60000000,"pairs":[{"left":72,"right":10,"selected":"left"},{"left":73,"right":11,"selected":"left"},{"left":74,"right":12,"selected":"left"},{"left":75,"right":13,"selected":"left"},{"left":76,"right":14,"selected":"left"},{"left":77,"right":15,"selected":"right"},{"left":78,"right":16,"selected":"right"},{"left":79,"right":17,"selected":"right"},{"left":80,"right":18,"selected":"right"},{"left":81,"right":19,"selected":"right"},{"left":82,"right":20,"selected":"right"},{"left":83,"right":21,"selected":"right"},{"left":84,"right":22,"selected":"right"}],"shared":{"endUs":64000000,"startUs":56000000}}
+CASE overlap-region-context4 {"boundaryUs":20000000,"pairs":[{"left":66,"right":7,"selected":"left"},{"left":67,"right":8,"selected":"left"},{"left":68,"right":9,"selected":"left"},{"left":69,"right":10,"selected":"left"},{"left":70,"right":11,"selected":"right"},{"left":71,"right":12,"selected":"right"}],"shared":{"endUs":24000000,"startUs":16000000}}
+CASE overlap-neighbor-context4 {"boundaryUs":20000000,"pairs":[{"left":53,"right":13,"selected":"left"},{"left":54,"right":14,"selected":"left"},{"left":55,"right":15,"selected":"left"},{"left":56,"right":16,"selected":"left"},{"left":57,"right":17,"selected":"left"},{"left":58,"right":18,"selected":"right"},{"left":59,"right":19,"selected":"right"},{"left":60,"right":20,"selected":"right"},{"left":61,"right":21,"selected":"right"}],"shared":{"endUs":24000000,"startUs":16000000}}

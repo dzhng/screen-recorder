@@ -41,7 +41,7 @@ test("reading two takes retains verbatim rows, generations and admitted duration
     { selections: [selection, { ...selection, assetId: "take-b", label: "Take B" }] },
     async (operation, params) => {
       assert.equal(operation, "transcript.get");
-      assert.equal(params.prepare, false);
+      assert.equal("prepare" in params, false);
       return {
         ...sourcePage(rows),
         assetId: params.assetId,

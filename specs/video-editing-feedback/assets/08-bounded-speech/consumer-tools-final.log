@@ -1,0 +1,34 @@
+✔ selected imports retain success when a sibling fails and resume without duplicating work (2.709208ms)
+✔ model absence is reported once; resume never prepares models or implicitly retries ASR (0.496333ms)
+✔ unfinished jobs hold concurrency slots across polling budgets and resume (3.277333ms)
+✔ a lost import answer (CLI_TIMEOUT) reserves its slot and replays the saved identity on resume (0.396167ms)
+✔ a lost import answer (TIMEOUT) reserves its slot and replays the saved identity on resume (0.224792ms)
+✔ a lost import answer (CONNECTION_ERROR) reserves its slot and replays the saved identity on resume (0.223625ms)
+✔ a lost import answer (ABORTED) reserves its slot and replays the saved identity on resume (0.226667ms)
+✔ the executable saves replay identities and preserves source bytes across repeated runs (276.625416ms)
+✔ the installed helper can be invoked through a symlink (38.160166ms)
+✔ interrupted transcript admission recovers status without restarting a failed attempt (0.44525ms)
+✔ lowering concurrency on resume drains earlier jobs before admitting a new preparation (1.920916ms)
+✔ resuming drains a pending stream before retrying a failed sibling (3.127959ms)
+✔ reading two takes retains verbatim rows, generations and admitted duration (2.189ms)
+✔ empty project pages continue with pinned revision and preserve repeated fractional occurrences (0.18175ms)
+✔ UTF-8 budget returns replayable pages without dropping verbatim words (0.365708ms)
+✔ a ready envelope without a transcript page is rejected rather than called complete (0.190333ms)
+✔ phrases never bridge discontinuous projected fragments even when words are close (0.08625ms)
+✔ unavailable reads do not erase the expected transcript-generation check (0.201833ms)
+✔ consumer command reads stdin and calls only installed transcript reads (96.271916ms)
+✔ gaps, inference segments and partial words split reading phrases (0.391208ms)
+✔ a bounded empty-page read returns its real continuation and rejects another source list (0.414833ms)
+✔ oversized verbatim words fail explicitly instead of truncating evidence (0.331125ms)
+✔ a later take that cannot fit returns the accepted prefix with a compact continuation (0.208167ms)
+✔ exact pause threshold separates phrases before display rounding (0.106792ms)
+✔ project occurrence coverage remains available after manifest-only continuation pages (0.1015ms)
+✔ reading phrases retain overlap envelopes and isolate exact instant observations (0.105583ms)
+ℹ tests 26
+ℹ suites 0
+ℹ pass 26
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 366.244583

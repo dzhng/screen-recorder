@@ -63,7 +63,7 @@ const policy = (domain: Query["domain"]) =>
       ? "project-events-v2"
       : domain === "cursor"
         ? "project-events-v1"
-        : "project-transcript-v2";
+        : "project-transcript-v3";
 // Provisional inspection budgets; scale acceptance owns changes to these limits.
 const maximumBytes = 8 * 1024 * 1024;
 
@@ -77,6 +77,7 @@ const cursorSchema = z.strictObject({
 export type ProjectEvidenceCursor = z.infer<typeof cursorSchema>;
 export type ProjectEvidenceInput = {
   prepare?: boolean | undefined;
+  sourceGenerations?: readonly (SourceSelection & { generation: string })[] | undefined;
   projectId: string;
   revisionId?: string | undefined;
   range?: { startUs: number; endUs: number } | undefined;
@@ -91,6 +92,7 @@ type QueryInput = ProjectEvidenceInput & {
   modelId?: string;
 };
 type Query = {
+  sourceGenerations?: (SourceSelection & { generation: string })[];
   domain: "transcript" | "transcript.search" | CaptureDomain | "speakers";
   channel?: number;
   modelId?: string;
@@ -220,6 +222,13 @@ export class ProjectEvidenceInspection {
         : {};
     const query: Query = {
       ...speaker,
+      ...(input.sourceGenerations === undefined
+        ? {}
+        : {
+            sourceGenerations: [...input.sourceGenerations].sort((a, b) =>
+              selectionKey(a).localeCompare(selectionKey(b)),
+            ),
+          }),
       domain,
       ...(input.text === undefined ? {} : { text: input.text }),
       projectId: input.projectId,
@@ -251,6 +260,14 @@ export class ProjectEvidenceInspection {
     }
     if (selections.size > 1024)
       throw new CatalogError("LIMIT_EXCEEDED", "Evidence window exceeds 1024 sources");
+    if (plan.query.sourceGenerations) {
+      const keys = plan.query.sourceGenerations.map(selectionKey);
+      if (new Set(keys).size !== keys.length || keys.some((key) => !selections.has(key)))
+        throw new CatalogError(
+          "INVALID_REQUEST",
+          "Transcript generation selectors must uniquely name selected project sources",
+        );
+    }
     return {
       ...plan,
       occurrences,
@@ -320,9 +337,13 @@ export class ProjectEvidenceInspection {
       });
     }
     return selections.map((selection) => {
-      const status = prepare
-        ? this.options.transcripts.publishedSource(selection)
-        : this.options.transcripts.sourceStatus(selection);
+      const generation = query.sourceGenerations?.find(
+        (value) => selectionKey(value) === selectionKey(selection),
+      )?.generation;
+      const status = this.options.transcripts.sourceStatus({
+        ...selection,
+        ...(generation === undefined ? {} : { generation }),
+      });
       return {
         selection,
         transcript: status.published?.transcript ?? null,
@@ -586,6 +607,7 @@ export class ProjectEvidenceInspection {
           revisionId: cursor?.revisionId ?? manifest.query.revisionId,
           range: input.range ?? manifest.query.range,
           trackIds: input.trackIds ?? manifest.query.trackIds,
+          sourceGenerations: input.sourceGenerations ?? manifest.query.sourceGenerations,
         },
         input.range === undefined,
       );

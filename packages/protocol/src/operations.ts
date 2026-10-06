@@ -33,6 +33,16 @@ const sourceSelection = mediaClipSchema.pick({
   streamId: true,
   acquisitionId: true,
 });
+const transcriptExecutionSelection = {
+  executionRange: selectionRangeSchema.optional(),
+  context: z
+    .strictObject({
+      beforeUs: z.int().min(0).max(4_000_000),
+      afterUs: z.int().min(0).max(4_000_000),
+    })
+    .optional(),
+};
+const sourceTranscriptPreparation = sourceSelection.extend(transcriptExecutionSelection).strict();
 const sourceTranscriptReference = {
   assetId: id,
   streamId: id,
@@ -56,6 +66,15 @@ const projectEvidenceParams = project
         checkpointId: z.uuid(),
         queryDigest: z.string().regex(/^[a-f0-9]{64}$/),
       })
+      .optional(),
+  })
+  .strict();
+const projectTranscriptParams = projectEvidenceParams
+  .extend({
+    sourceGenerations: z
+      .array(sourceSelection.extend({ generation: z.uuid() }).strict())
+      .min(1)
+      .max(10000)
       .optional(),
   })
   .strict();
@@ -680,13 +699,21 @@ export const operationSchema = z.discriminatedUnion("operation", [
       "Read immutable source observations or their source/project projection without preparing or invoking a model. Project selectors consume retained matching channel/model generations only; no project scores. Optional packageHandle reads the opened immutable package; package project metadata jobs and checkpoints share its bounded context lifetime. observationRange selects the generation; sourceRange only narrows display. Intervals retain complete exact source ranges, native ordinals and anonymous generation-local slots. Scores retain every original 80ms cell and are uncalibrated, never assignment confidence or silence. Continue while nextCursor exists, including empty pages. Continuations pin the original generation, decoder and display query; changed input refuses with ARTIFACT_CHANGED. Ready reads need neither the current native executable nor prepared runtime bytes.",
     ),
   z
+    .strictObject({
+      operation: z.literal("transcript.prepare"),
+      params: sourceTranscriptPreparation,
+    })
+    .describe(
+      "Explicitly request source speech inference. executionRange selects primary source-clock ownership; context adds decode-only outer support, never edits or retimes words. Omission prepares full admitted support in bounded 20-second windows with 4-second internal context and unique shared-context word correspondence. Gaps remain gaps. Retained raw evidence includes all context candidates and ownership/merge diagnostics. Unmatched or ambiguous boundary observations refuse nonretryably. Models must already be prepared via model.prepare. Repeat identical requests join existing work; read bounded output with its retained generation.",
+    ),
+  z
     .object({
       operation: z.literal("transcript.get"),
       params: z.union([
-        projectEvidenceParams.extend({ prepare: z.boolean().optional() }),
+        projectTranscriptParams,
         sourceSelection
           .extend({
-            prepare: z.boolean().optional(),
+            generation: z.uuid().optional(),
             range: range.optional(),
             limit: z.int().min(1).max(1000).default(250),
             cursor: z
@@ -703,18 +730,19 @@ export const operationSchema = z.discriminatedUnion("operation", [
     })
     .strict()
     .describe(
-      "Request a project transcript with projectId and optional revisionId, range and trackIds, a selected asset-stream source transcript. Project rows retain occurrence identity and exact editorial fragments, ordered by project time; query windows do not change editorial partiality. Continue even when a project page is empty if nextCursor exists. Project continuations pin the original revision and source generations. Asset ranges use the normalized source clock; acquisitionId omission uses physical support. Use prepare:false to inspect current source readiness without enqueueing transcription; an already ready project may still prepare its read-only evidence manifest. Omission preserves preparation behavior. Returns readiness until complete, then word and acquisition-gap rows in the selected time domain. Unfiltered asset enumeration returns every retained observation, including points at the source end. Explicit source/project interval selections remain half-open. Asset ranges mark intersected rows partial while preserving their full source range; overlapping estimates and exact instant points are not playable cut support. Words keep verbatim text, kind and a per-generation ID. Without narration it is unavailable:no_narration; unprepared models are a retryable unavailable:model_not_prepared (see model.prepare). Continue with the returned cursor to pin selection, generation and range.",
+      "Request a project transcript with projectId and optional revisionId, range and trackIds, a selected asset-stream source transcript. Project rows retain occurrence identity and exact editorial fragments, ordered by project time; query windows do not change editorial partiality. Continue even when a project page is empty if nextCursor exists. Project continuations pin the original revision and source generations. Asset ranges use the normalized source clock; acquisitionId omission uses physical support. Reads and search never enqueue transcription or prepare models. Use transcript.prepare to request inference. generation selects retained source evidence; bounded preparations require that pin (a continuation already pins it). Omitted generation resolves only full-support preparation identity. Project sourceGenerations explicitly select bounded retained dependencies; omitted selections resolve full-support identities. A ready project may prepare its read-only evidence manifest. Returns readiness until complete, then word and acquisition-gap rows in the selected time domain. Unfiltered asset enumeration returns every retained observation, including points at the source end. Explicit source/project interval selections remain half-open. Asset ranges mark intersected rows partial while preserving their full source range; overlapping estimates and exact instant points are not playable cut support. Words keep verbatim text, kind and a per-generation ID. Without narration it is unavailable:no_narration; unprepared models are a retryable unavailable:model_not_prepared (see model.prepare). Continue with the returned cursor to pin selection, generation and range.",
     ),
   z
     .object({
       operation: z.literal("transcript.search"),
       params: z.union([
-        projectEvidenceParams
+        projectTranscriptParams
           .extend({ text: z.string().min(1).max(200), limit: z.int().min(1).max(500).optional() })
           .strict(),
         sourceSelection
           .extend({
             text: z.string().min(1).max(200),
+            generation: z.uuid().optional(),
             limit: z.int().min(1).max(500).default(100),
             cursor: z
               .object({ ...sourceTranscriptReference, afterOrdinal: time, text: z.string() })
@@ -726,14 +754,14 @@ export const operationSchema = z.discriminatedUnion("operation", [
     })
     .strict()
     .describe(
-      "Search a project, selected source or ready narration transcript for literal, case-folded text over consecutive words, ignoring outer punctuation. Project matches follow consecutive whole words on each selected audio track, may cross contiguous clips, and stop at gaps or partial words. Each match carries all contributing word/clip identities and the widest exact projectRange across its word estimates; simultaneous speakers never form a shared phrase. Source entries carry word IDs and source range; phrases cannot cross transcript segments. Returns readiness like transcript.get until complete. Continue while nextCursor exists, even if entries is empty, to keep the same revision, generation and text.",
+      "Search a project, selected source or ready narration transcript for literal, case-folded text over consecutive words, ignoring outer punctuation. Project matches follow consecutive whole words on each selected audio track, may cross contiguous clips, and stop at gaps or partial words. Each match carries all contributing word/clip identities and the widest exact projectRange across its word estimates; simultaneous speakers never form a shared phrase. Source entries carry word IDs and source range; phrases can cross accepted inference seams but stop at unavailable, unobserved or skipped support. Returns readiness like transcript.get until complete. Continue while nextCursor exists, even if entries is empty, to keep the same revision, generation and text.",
     ),
   z
     .object({
       operation: z.literal("transcript.retry"),
       params: z.union([
-        sourceSelection,
-        projectEvidenceParams
+        sourceTranscriptPreparation,
+        projectTranscriptParams
           .omit({ cursor: true, limit: true })
           .extend({ text: z.string().min(1).max(200).optional() })
           .strict(),
@@ -741,7 +769,7 @@ export const operationSchema = z.discriminatedUnion("operation", [
     })
     .strict()
     .describe(
-      "Explicitly prepare or retry the selected asset-stream transcript without downloading models. A project selector retries only its evidence manifest (include the same text to retry phrase search); source preparation failures must be retried with their returned asset-stream selection. Keep the same acquisition selection; preparation uses a fresh generation after failure.",
+      "Explicitly retry previously requested selected-source preparation with the same executionRange/context; initial work uses transcript.prepare. Models must already be prepared. A project selector retries only its evidence manifest (include the same text to retry phrase search); source preparation failures must be retried with their returned asset-stream selection. Keep the same acquisition selection; preparation uses a fresh generation after failure.",
     ),
   z
     .object({ operation: z.literal("model.list"), params: z.object({}).strict() })

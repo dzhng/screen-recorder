@@ -11,6 +11,7 @@ enum SpeechOperation {
         let models: SpeechModelFiles
         let track: AudioSourceSelection
         let output: String
+        let execution: SpeechExecution
     }
 
     static func transcribe(_ params: [String: Any]) async throws -> SpeechTranscript {
@@ -22,7 +23,7 @@ enum SpeechOperation {
         try WireRequest.requireAbsolute(request.models.directory, request.track.source, request.output)
         return try await divertingStandardOutput {
             try await SourceTranscript.write(
-                models: request.models, track: request.track, output: request.output)
+                models: request.models, track: request.track, output: request.output, execution: request.execution)
         }
     }
 

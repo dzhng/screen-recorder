@@ -1,30 +1,63 @@
 import assert from "node:assert/strict";
 import { createHash } from "node:crypto";
 import { mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
-import { join } from "node:path";
+import { join, resolve } from "node:path";
+import { pathToFileURL } from "node:url";
 import { tmpdir } from "node:os";
 import { Catalog } from "../../core/dist/catalog.js";
-import { TranscriptStore } from "../../core/dist/transcript.js";
+import { TranscriptStore, speechExecution } from "../../core/dist/transcript.js";
 import { SourceTranscriptRead } from "../../core/dist/transcript-read.js";
+import { portHistoricalSpeechRaw } from "./reference-raw.mjs";
 
-const evidence = new URL(
-  "../../../specs/video-editing-feedback/assets/07-speech-timing/",
-  import.meta.url,
-);
-const cases = JSON.parse(await readFile(new URL("replay-cases.json", evidence), "utf8"));
-if (process.argv.includes("--help")) {
+const args = process.argv.slice(2);
+const inventoryIndex = args.indexOf("--inventory");
+const inventory =
+  inventoryIndex < 0
+    ? new URL(
+        "../../../specs/video-editing-feedback/assets/07-speech-timing/replay-cases.json",
+        import.meta.url,
+      )
+    : pathToFileURL(resolve(args[inventoryIndex + 1] ?? ""));
+const evidence = new URL(".", inventory);
+const cases = JSON.parse(await readFile(inventory, "utf8"));
+if (args.includes("--help")) {
   console.log(
-    `Usage: node packages/test-harness/speech/timing-replay.mjs --case <name>\nCases: ${Object.keys(cases).sort().join(", ")}\nBuild composition and core first. Replays retained native raw evidence through current admission and one-row source pagination in owned scratch. Performs no inference, media acquisition, edit or accuracy certification.`,
+    `Usage: node packages/test-harness/speech/timing-replay.mjs [--inventory <json>] --case <name>\nCases: ${Object.keys(cases).sort().join(", ")}\nBuild composition and core first. Replays retained native raw evidence through current admission and one-row source pagination in owned scratch. Performs no inference, media acquisition, edit or accuracy certification. The default07 reference adapter supplies full-source execution/ownership/physical support from its certified decoded extents; current inventories retain those inputs explicitly.`,
   );
   process.exit(0);
 }
-const args = process.argv.slice(2);
+if (inventoryIndex >= 0) args.splice(inventoryIndex, 2);
 const selected = args.length === 2 && args[0] === "--case" && cases[args[1]];
 assert(selected, "Choose one named --case; see --help");
+const execution = selected.execution ?? speechExecution();
 const body = await readFile(new URL(selected.raw, evidence));
 const sha256 = createHash("sha256").update(body).digest("hex");
 assert.equal(sha256, selected.sha256, "Retained raw identity changed");
 const lines = body.toString("utf8").trim().split("\n").map(JSON.parse);
+const available = selected.available ?? lines.map((line) => line.source);
+const admitted = lines.some((line) => line.owned === undefined)
+  ? portHistoricalSpeechRaw(body, { execution, available })
+  : { body, sha256, referenceReplay: null };
+for (const [ordinal, line] of lines.entries()) {
+  if (line.observations) {
+    assert.deepEqual(
+      line.words,
+      line.selectedObservationIndexes.map((index) => line.observations[index]),
+      "Selected estimates were rewritten",
+    );
+    if (line.boundary) {
+      const previous = lines[ordinal - 1];
+      for (const pair of line.boundary.pairs) {
+        assert.equal(
+          Number(previous.selectedObservationIndexes.includes(pair.left)) +
+            Number(line.selectedObservationIndexes.includes(pair.right)),
+          1,
+          "A boundary correspondence must publish exactly once",
+        );
+      }
+    }
+  }
+}
 const home = await mkdtemp(join(tmpdir(), "yap-speech-timing-"));
 const catalog = new Catalog(join(home, "catalog.sqlite"));
 try {
@@ -37,7 +70,7 @@ try {
     generation: "replay",
   };
   const output = await records.reserve(identity);
-  await writeFile(output, body);
+  await writeFile(output, admitted.body);
   const metadata = await records.ingest({
     identity,
     source: {
@@ -47,17 +80,18 @@ try {
       supportDigest: sha256,
     },
     request: {
+      execution,
       models: { directory: home, files: [] },
       track: {
         source: selected.raw,
         streamId: "fixture",
         sourceOffsetUs: 0,
-        available: lines.map((line) => line.source),
+        available,
       },
       output,
     },
     receipt: {
-      output: { file: output, bytes: body.length, sha256 },
+      output: { file: output, bytes: admitted.body.length, sha256: admitted.sha256 },
       engine: {
         runtime: "FluidAudio",
         runtimeVersion: "0.15.7",
@@ -68,9 +102,14 @@ try {
       segments: lines.map((line) => ({
         ordinal: line.ordinal,
         source: line.source,
+        owned: line.owned ?? line.source,
         state: line.state,
         wordCount: line.words.length,
       })),
+      // Frozen07 raw comes from whole readable intervals, before physical support was
+      // separately echoed in receipts. Its recorded decode extents certify this adapter.
+      execution,
+      available,
       wordCount: selected.wordCount,
     },
     pins: {
@@ -101,6 +140,10 @@ try {
     JSON.stringify({
       case: args[1],
       rawSha256: sha256,
+      admittedSha256: admitted.sha256,
+      referenceReplay: admitted.referenceReplay,
+      execution: metadata.execution,
+      available: metadata.available,
       policy: metadata.engine.policy,
       wordCount: words.length,
       rows,

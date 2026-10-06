@@ -10,6 +10,8 @@ import { retainedPublicationSchema, type JobExecution, type JobQueue } from "./j
 import type { Models } from "./models.js";
 import {
   transcriptPolicy,
+  speechExecution,
+  speechExecutionSchema,
   portableTranscript,
   type PortableTranscript,
   type SpeechTranscriber,
@@ -17,11 +19,14 @@ import {
   type TranscriptIdentity,
   type TranscriptSource,
   type TranscriptMetadata,
+  type SpeechExecution,
+  type TranscriptExecutionSelection,
 } from "./transcript.js";
 
 const artifact = "transcript";
 // Native PCM decoding is an execution input, separate from portable transcript schema policy.
-const decoderExecution = "native-audio-v5";
+const decoderExecution = "native-audio-v6";
+export type TranscriptPreparation = SourceSelection & TranscriptExecutionSelection;
 
 export type PortableTranscriptPublication = z.infer<typeof retainedPublicationSchema>;
 /** The model owner as transcription sees it: readiness, the verified file list and its pins. */
@@ -36,7 +41,11 @@ export type TranscriptProcessingOptions = {
   asset: AssetDomain;
 };
 function selectedAudio(domain: AssetDomain, selection: SourceSelection) {
-  const selected = selectSource(domain.assets, domain.acquisitions, selection);
+  const selected = selectSource(domain.assets, domain.acquisitions, {
+    assetId: selection.assetId,
+    streamId: selection.streamId,
+    ...(selection.acquisitionId === undefined ? {} : { acquisitionId: selection.acquisitionId }),
+  });
   if (selected.stream.kind !== "audio")
     throw new CatalogError("UNSUPPORTED_MEDIA", "Transcription requires an audio stream");
   return selected;
@@ -95,6 +104,7 @@ export class TranscriptProcessing {
   private sourceIdentity(
     selected: ReturnType<typeof selectedAudio>,
     execution: ReturnType<TranscriptProcessing["execution"]>,
+    scope: SpeechExecution,
   ) {
     return {
       target: { kind: "asset" as const, assetId: selected.selection.assetId },
@@ -106,6 +116,7 @@ export class TranscriptProcessing {
         pins: execution.pins,
         policy: transcriptPolicy,
         decoderExecution: execution.decoderExecution,
+        execution: scope,
       }),
     };
   }
@@ -174,7 +185,9 @@ export class TranscriptProcessing {
     } catch {
       throw new CatalogError("INVALID_PACKAGE", "Invalid transcript publication input");
     }
-    const parsed = z.object({ decoderExecution: z.string().min(1).max(256) }).safeParse(input);
+    const parsed = z
+      .object({ decoderExecution: z.string().min(1).max(256), execution: speechExecutionSchema })
+      .safeParse(input);
     if (!parsed.success)
       throw new CatalogError("INVALID_PACKAGE", "Transcript publication has no decoder identity");
     const {
@@ -185,12 +198,17 @@ export class TranscriptProcessing {
       modelDigest,
       ...pins
     } = value.engine;
-    const identity = this.sourceIdentity(selected, {
-      modelDigest,
-      pins,
-      decoderExecution: parsed.data.decoderExecution,
-    });
+    const identity = this.sourceIdentity(
+      selected,
+      {
+        modelDigest,
+        pins,
+        decoderExecution: parsed.data.decoderExecution,
+      },
+      value.execution,
+    );
     if (
+      !isDeepStrictEqual(parsed.data.execution, value.execution) ||
       publication.attemptId !== value.generation ||
       !isDeepStrictEqual(JSON.parse(identity.input), input)
     )
@@ -200,9 +218,36 @@ export class TranscriptProcessing {
       );
     this.jobs.adoptArtifact({ ...identity, ...publication, result: JSON.stringify(metadata) });
   }
-  sourceStatus(selection: SourceSelection) {
+  sourceStatus(selection: TranscriptPreparation & { generation?: string | undefined }) {
     const selected = selectedAudio(this.asset, selection);
-    const status = this.jobs.status(this.sourceIdentity(selected, this.execution()));
+    const scope = speechExecution(selection);
+    if (
+      scope.executionRange &&
+      compare(fromTime(scope.executionRange.endUs), fromTime(selected.durationUs)) > 0
+    )
+      throw new CatalogError(
+        "INVALID_REQUEST",
+        "Transcript execution range exceeds source duration",
+      );
+    let status = this.jobs.status(this.sourceIdentity(selected, this.execution(), scope));
+    if (selection.generation !== undefined) {
+      const retained = this.jobs.retainedArtifact(
+        { kind: "asset", assetId: selection.assetId },
+        artifact,
+        selection.generation,
+      );
+      if (!retained)
+        throw new CatalogError("NOT_FOUND", "Retained transcript generation is unavailable", {
+          generation: selection.generation,
+        });
+      const metadata = JSON.parse(retained.result) as TranscriptMetadata;
+      if (!isDeepStrictEqual(metadata.source, sourceDescriptor(selected)))
+        throw new CatalogError(
+          "ARTIFACT_CHANGED",
+          "Transcript generation belongs to another selected source",
+        );
+      status = { state: "ready", jobId: null, reason: null, retryable: false, published: retained };
+    }
     const models = this.models.status();
     const reason = !selected.track.available.length
       ? "no_audio"
@@ -227,12 +272,16 @@ export class TranscriptProcessing {
     };
   }
 
-  prepareSource(selection: SourceSelection): void {
+  prepareSource(selection: TranscriptPreparation): void {
     const status = this.sourceStatus(selection);
     if (status.state !== "not_requested" || status.reason !== null) return;
     this.jobs.submit(
       () => ({
-        ...this.sourceIdentity(selectedAudio(this.asset, selection), this.execution()),
+        ...this.sourceIdentity(
+          selectedAudio(this.asset, selection),
+          this.execution(),
+          speechExecution(selection),
+        ),
         lane: "heavy",
       }),
       (job) => {
@@ -244,19 +293,13 @@ export class TranscriptProcessing {
     );
   }
 
-  publishedSource(selection: SourceSelection) {
-    this.prepareSource(selection);
-    return this.sourceStatus(selection);
-  }
-
-  retrySource(selection: SourceSelection) {
-    this.prepareSource(selection);
+  retrySource(selection: TranscriptPreparation) {
     const status = this.sourceStatus(selection);
     if (!status.jobId && status.state === "ready") return status;
     if (!status.jobId)
       throw new CatalogError(
         status.reason === "model_not_prepared" ? "MODEL_NOT_PREPARED" : "UNAVAILABLE",
-        status.reason ?? "Source transcript is unavailable",
+        status.reason ?? "Source transcript has not been requested; use transcript.prepare",
         {},
         status.retryable,
       );
@@ -282,10 +325,11 @@ export class TranscriptProcessing {
     if (job.target.kind !== "asset" || job.artifact !== artifact)
       throw new CatalogError("UNSUPPORTED_JOB", "Transcript processor cannot execute this job");
     const selection = sourceSelectionSchema.parse(JSON.parse(job.input).selection);
+    const scope = speechExecutionSchema.parse(JSON.parse(job.input).execution);
     const selected = selectedAudio(this.asset, selection);
     if (
       job.target.assetId !== selection.assetId ||
-      job.input !== this.sourceIdentity(selected, this.execution()).input
+      job.input !== this.sourceIdentity(selected, this.execution(), scope).input
     )
       throw new CatalogError("ARTIFACT_CHANGED", "Transcript source or model inputs changed");
     if (!selected.track.available.length) throw new CatalogError("UNAVAILABLE", "no_audio");
@@ -301,6 +345,7 @@ export class TranscriptProcessing {
         },
         sourceDescriptor(selected),
         selected.track,
+        scope,
         signal,
       ),
     );
@@ -310,12 +355,13 @@ export class TranscriptProcessing {
     identity: TranscriptIdentity,
     source: TranscriptSource,
     track: Parameters<SpeechTranscriber>[0]["track"],
+    execution: SpeechExecution,
     signal: AbortSignal,
   ) {
     signal.throwIfAborted();
     const output = await this.transcripts.reserve(identity);
     try {
-      const request = { models: await this.models.nativeRequest(), track, output };
+      const request = { models: await this.models.nativeRequest(), track, output, execution };
       const receipt = await this.transcribe(request, signal);
       signal.throwIfAborted();
       const metadata = await this.transcripts.ingest({

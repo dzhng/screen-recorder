@@ -1,0 +1,104 @@
+
+ RUN  v5.0.0 /Users/server/dev/yap-capability-skill
+
+ ❯ packages/core/src/asset-transcript.test.ts (16 tests | 1 failed | 15 skipped) 29ms
+   × native execution receipt must match the requested bounded preparation 29ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  packages/core/src/asset-transcript.test.ts > native execution receipt must match the requested bounded preparation
+AssertionError: expected { …(9) } to match object { state: 'failed', …(2) }
+(8 matching properties omitted from actual)
+
+- Expected
++ Received
+
+  {
+-   "details": {
+-     "code": "INVALID_RESPONSE",
+-     "message": "Transcription execution differs from requested preparation",
++   "published": {
++     "generation": 1,
++     "transcript": {
++       "available": [
++         {
++           "endUs": 4000000,
++           "startUs": 500000,
++         },
++         {
++           "endUs": 8000000,
++           "startUs": 5500000,
++         },
++         {
++           "endUs": 8600000,
++           "startUs": 8500000,
++         },
++       ],
++       "engine": {
++         "computeUnits": "cpuAndNeuralEngine",
++         "decoder": "parakeet-tdt-batch",
++         "encoderPrecision": "int8",
++         "kindPolicy": "word-kind-v1",
++         "model": "model",
++         "modelDigest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
++         "modelRevision": "revision",
++         "policy": "transcript-v3",
++         "runtime": "FluidAudio",
++         "runtimeRevision": "runtime",
++         "runtimeVersion": "0.15.7",
+        },
+-   "published": null,
+-   "state": "failed",
++       "execution": {
++         "context": {
++           "afterUs": 0,
++           "beforeUs": 0,
++         },
++         "executionRange": null,
++         "recipe": "source-windows-20s-context4s-guard1s-v2",
++       },
++       "gapCount": 5,
++       "generation": "287d4b6f-c0db-45eb-9e9f-d50d18681927",
++       "maxWordUs": 600000,
++       "owner": {
++         "assetId": "9c1fac2baae7b19204d4ebbe518d8c1d2613696917d6a9132e6c1d991518c559",
++         "kind": "asset",
++       },
++       "raw": {
++         "bytes": 891,
++         "sha256": "e10a80cbf554fee0af832da474b2a3198bcf52ab74f1369697b69c6de4fd8ee8",
++       },
++       "segmentCount": 3,
++       "source": {
++         "durationUs": 10000000,
++         "kind": "asset",
++         "streamId": "track:2",
++         "supportDigest": "e79f8d7363078c76c1364c33f271b018f1bf7e5474ea4dd5b36710636a720423",
++       },
++       "sourceId": "9c1fac2baae7b19204d4ebbe518d8c1d2613696917d6a9132e6c1d991518c559",
++       "track": {
++         "source": "/tmp/asset-transcript-2WrzBm/assets/9c1fac2baae7b19204d4ebbe518d8c1d2613696917d6a9132e6c1d991518c559.mov",
++         "sourceOffsetUs": 0,
++         "streamId": "track:2",
++       },
++       "wordCount": 7,
++     },
++   },
++   "state": "ready",
+  }
+
+ ❯ packages/core/src/asset-transcript.test.ts:288:50
+    286|   f.processing.prepareSource(f.selection);
+    287|   await f.jobs.idle();
+    288|   expect(f.processing.sourceStatus(f.selection)).toMatchObject({ state…
+       |                                                  ^
+    289|     details: { code: "INVALID_RESPONSE", message: "Transcription execu…
+    290| });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 15 skipped (16)
+   Start at  22:34:16
+   Duration  286ms (transform 59%, import 28%, tests 12%, worker 1%)

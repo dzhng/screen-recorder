@@ -19,6 +19,16 @@ retained output identities must not be conflated. Named operations define the
 payload meaning. Synchronous read pages and committed export receipts keep their
 own contracts rather than inventing asynchronous work.
 
+## Speech preparation and retained selection
+
+Preparation requests inference; reads and search consume retained evidence.
+Execution scope is distinct from a read filter and participates in publication
+identity. Bounded source reads pin a generation, and project reads pin their source
+dependencies. An omitted generation selects full-support preparation, never the
+latest bounded result. The operation declarations own parameter names and bounds;
+[core evidence](../core/README.md) owns physical support, primary ownership and
+phrase continuity across inference seams.
+
 ## Capture roles
 
 [Capture admission](src/capture.ts) names a selected camera inside the primary

@@ -298,9 +298,10 @@ export function transcriptMemberPath(
     .digest("hex");
   return `transcripts/${id}/${leaf}`;
 }
+const projectPackageVersion = 5;
 const manifestSchema = z.strictObject({
   format: z.literal("yap-project"),
-  version: z.literal(4),
+  version: z.literal(projectPackageVersion),
   project: z.unknown(),
   undo: z.array(z.string()).max(1000),
   references: projectSnapshotReferencesSchema,
@@ -365,7 +366,7 @@ export function projectPackageManifest(
 ): ProjectPackageManifest {
   return {
     format: "yap-project",
-    version: 4,
+    version: projectPackageVersion,
     project: snapshot.project,
     undo: snapshot.undo,
     references: snapshot.references,
@@ -392,10 +393,10 @@ export function parseProjectPackageManifest(
     typeof value === "object" &&
     "format" in value &&
     value.format === "yap-project" &&
-    (!("version" in value) || value.version !== 4)
+    (!("version" in value) || value.version !== projectPackageVersion)
   )
     throw new CatalogError("INVALID_PACKAGE", "Unsupported project package version", {
-      supportedVersion: 4,
+      supportedVersion: projectPackageVersion,
     });
   const parsed = manifestSchema.safeParse(value);
   if (!parsed.success) invalid("Invalid project manifest");

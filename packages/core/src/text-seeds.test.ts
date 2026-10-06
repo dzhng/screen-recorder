@@ -9,7 +9,7 @@ import { validateComposition, createCompiler, type TextSeedCue } from "@yap/comp
 import { Catalog } from "./catalog.js";
 import { AssetStore, compositionAsset } from "./assets.js";
 import { AcquisitionStore } from "./acquisitions.js";
-import { TranscriptStore, transcriptGenerationResource } from "./transcript.js";
+import { speechExecution, TranscriptStore, transcriptGenerationResource } from "./transcript.js";
 import { selectSource } from "./source-selection.js";
 import { ProjectStore } from "./projects.js";
 const cleanup: (() => Promise<void>)[] = [];
@@ -65,7 +65,8 @@ async function fixture(
   };
   const output = await records.reserve(identity);
   const range = { startUs: 0, endUs: 2000000 };
-  const raw = JSON.stringify({ ordinal: 0, source: range, state: "transcribed", words }) + "\n";
+  const raw =
+    JSON.stringify({ ordinal: 0, source: range, owned: range, state: "transcribed", words }) + "\n";
   await writeFile(output, raw);
   const pins = {
     runtime: "FluidAudio",
@@ -84,7 +85,12 @@ async function fixture(
       durationUs: selected.durationUs,
       supportDigest: selected.supportDigest,
     },
-    request: { models: { directory: home, files: [] }, track: selected.track, output },
+    request: {
+      execution: speechExecution(),
+      models: { directory: home, files: [] },
+      track: selected.track,
+      output,
+    },
     receipt: {
       output: {
         file: output,
@@ -92,8 +98,12 @@ async function fixture(
         sha256: createHash("sha256").update(raw).digest("hex"),
       },
       engine: { ...pins, encoderPrecision: "int8", computeUnits: "cpu" },
-      segments: [{ ordinal: 0, source: range, state: "transcribed", wordCount: words.length }],
+      segments: [
+        { ordinal: 0, source: range, owned: range, state: "transcribed", wordCount: words.length },
+      ],
+      execution: speechExecution(),
       wordCount: words.length,
+      available: selected.track.available,
     },
     pins,
     signal: new AbortController().signal,

@@ -1,0 +1,28 @@
+
+ RUN  v5.0.0 /Users/server/dev/yap-capability-skill
+
+ ❯ packages/core/src/project-evidence.test.ts (49 tests | 1 failed | 48 skipped) 54ms
+   × project transcript reads never infer and explicitly select retained bounded source generations 54ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  packages/core/src/project-evidence.test.ts > project transcript reads never infer and explicitly select retained bounded source generations
+Error: Project evidence continuation or dependencies changed
+ ❯ changed packages/core/src/project-evidence.ts:142:3
+    140| const digest = (value: unknown) => createHash("sha256").update(JSON.st…
+    141| const changed = () =>
+    142|   new CatalogError("ARTIFACT_CHANGED", "Project evidence continuation …
+       |   ^
+    143| /** Immutable query manifests and resumable merge checkpoints share th…
+    144| export class ProjectEvidenceInspection {
+ ❯ ProjectEvidenceInspection.read packages/core/src/project-evidence.ts:617:15
+ ❯ ProjectEvidenceInspection.get packages/core/src/project-evidence.ts:530:31
+ ❯ packages/core/src/project-evidence.test.ts:607:29
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 48 skipped (49)
+   Start at  23:02:35
+   Duration  507ms (transform 67%, import 21%, tests 12%)

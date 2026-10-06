@@ -1,0 +1,43 @@
+
+ RUN  v5.0.0 /Users/server/dev/yap-capability-skill
+
+ ❯ packages/core/src/asset-transcript.test.ts (15 tests | 1 failed | 14 skipped) 31ms
+   × source phrase search crosses an accepted ownership seam without changing either estimate 31ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  packages/core/src/asset-transcript.test.ts > source phrase search crosses an accepted ownership seam without changing either estimate
+AssertionError: expected [] to deeply equal [ { wordIds: [ 'w0', 'w1' ], …(1) } ]
+
+- Expected
++ Received
+
+- [
+-   {
+-     "sourceRange": {
+-       "endUs": 20400000,
+-       "startUs": 19800000,
+-     },
+-     "wordIds": [
+-       "w0",
+-       "w1",
+-     ],
+-   },
+- ]
++ []
+
+ ❯ packages/core/src/asset-transcript.test.ts:273:101
+    271|   await f.jobs.idle();
+    272|   const metadata = f.processing.sourceStatus(f.selection).published!.t…
+    273|   expect(new SourceTranscriptRead(f.transcripts, metadata).search({ te…
+       |                                                                                                     ^
+    274|     { wordIds: ["w0", "w1"], sourceRange: { startUs: 19_800_000, endUs…
+    275|   ]);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 14 skipped (15)
+   Start at  22:29:53
+   Duration  248ms (transform 61%, import 23%, tests 15%, worker 1%)

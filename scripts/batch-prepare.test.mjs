@@ -54,7 +54,7 @@ test("model absence is reported once; resume never prepares models or implicitly
       };
     if (operation === "asset.get")
       return { assetId: "interview", streams: [{ streamId: "audio", mediaKind: "audio" }] };
-    assert.equal(operation, "transcript.retry");
+    assert.equal(operation, "transcript.prepare");
     preparationRequests++;
     throw Object.assign(new Error("Speech model is absent"), {
       code: "MODEL_NOT_PREPARED",
@@ -216,12 +216,12 @@ test("interrupted transcript admission recovers status without restarting a fail
         published: { generation: 1, output: { assetId: "interview" } },
       };
     if (operation === "asset.get") return { assetId: "interview", streams: [] };
-    if (operation === "transcript.retry") {
+    if (operation === "transcript.prepare") {
       assert.equal(checkpoint.items[0].transcripts[0].status.state, "uncertain");
       throw Object.assign(new Error("answer lost after admission"), { code: "CLI_TIMEOUT" });
     }
     assert.equal(operation, "transcript.get");
-    assert.deepEqual(params, { assetId: "interview", streamId: "audio", prepare: false, limit: 1 });
+    assert.deepEqual(params, { assetId: "interview", streamId: "audio", limit: 1 });
     return {
       state: "failed",
       jobId: "transcript",
@@ -258,7 +258,7 @@ test("lowering concurrency on resume drains earlier jobs before admitting a new 
         published: { generation: 1, output: { assetId: params.jobId } },
       };
     if (operation === "asset.get") return { assetId: params.assetId, streams: [] };
-    assert.equal(operation, "transcript.retry");
+    assert.equal(operation, "transcript.prepare");
     transcripts++;
     return { state: "ready", jobId: "transcript", published: { generation: 1 } };
   };
@@ -289,7 +289,7 @@ test("resuming drains a pending stream before retrying a failed sibling", async 
         published: { generation: 1, output: { assetId: "interview" } },
       };
     if (operation === "asset.get") return { assetId: "interview", streams: [] };
-    if (operation === "transcript.retry") {
+    if (operation === "transcript.prepare") {
       if (params.streamId === "first") return { state: "failed", jobId: "first", retryable: true };
       outstanding.add("second");
       return { state: "processing", jobId: "second" };

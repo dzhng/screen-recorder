@@ -69,7 +69,7 @@ function phrases(rows, pauseUs) {
 function selectionParams(selection) {
   const params = { ...selection };
   delete params.label;
-  delete params.generation;
+  if ("projectId" in params) delete params.generation;
   return params;
 }
 
@@ -160,7 +160,6 @@ export async function compactTranscripts(request, invoke) {
     if (retained?.identity.revisionId) params.revisionId = retained.identity.revisionId;
     if (cursor) params.cursor = cursor;
     params.limit = pageRows;
-    params.prepare = false;
     const response = await invoke("transcript.get", params);
     pagesRead++;
     if (

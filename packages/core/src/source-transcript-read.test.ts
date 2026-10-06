@@ -3,8 +3,9 @@ import { mkdtemp, rm, writeFile, readFile } from "node:fs/promises";
 import { join } from "node:path";
 import { afterEach, expect, test } from "vitest";
 import { Catalog } from "./catalog.js";
-import { TranscriptStore, type TranscriptMetadata } from "./transcript.js";
+import { speechExecution, TranscriptStore, type TranscriptMetadata } from "./transcript.js";
 import { SourceTranscriptRead, type SourceTranscriptRow } from "./transcript-read.js";
+import { portHistoricalSpeechRaw } from "../../test-harness/speech/reference-raw.mjs";
 
 const cleanup: (() => Promise<void>)[] = [];
 afterEach(async () => {
@@ -59,6 +60,7 @@ async function fixture(
   const lines = segments.map(({ startUs, endUs, words }, ordinal) => ({
     ordinal,
     source: { startUs, endUs },
+    owned: { startUs, endUs },
     state: "transcribed" as const,
     words: words.map(({ text, startUs, endUs }) => ({
       text,
@@ -78,6 +80,7 @@ async function fixture(
       supportDigest: "b".repeat(64),
     },
     request: {
+      execution: speechExecution(),
       models: { directory: join(home, "models"), files: [] },
       output,
       track: {
@@ -97,10 +100,13 @@ async function fixture(
       segments: lines.map(({ ordinal, source, state, words }) => ({
         ordinal,
         source,
+        owned: source,
         state,
         wordCount: words.length,
       })),
+      execution: speechExecution(),
       wordCount: lines.reduce((sum, line) => sum + line.words.length, 0),
+      available: segments.map(({ startUs, endUs }) => ({ startUs, endUs })),
     },
     pins,
     signal: new AbortController().signal,
@@ -425,7 +431,7 @@ test("a point at the next gap start never hides either record in one-row continu
 });
 
 test.each(["baseline", "green"])(
-  "retained Madison %s native evidence survives admission unchanged",
+  "retained Madison %s word estimates survive explicit reference admission",
   async (version) => {
     const raw = await readFile(
       new URL(
@@ -438,6 +444,10 @@ test.each(["baseline", "green"])(
       source: { startUs: number; endUs: number };
       words: { text: string; source: { startUs: number; endUs: number } }[];
     };
+    const adapted = portHistoricalSpeechRaw(Buffer.from(raw), {
+      execution: speechExecution(),
+      available: [segment.source],
+    });
     const { read, metadata } = await fixture(
       [
         {
@@ -446,9 +456,12 @@ test.each(["baseline", "green"])(
         },
       ],
       2650000,
-      raw,
+      adapted.body.toString("utf8"),
     );
-    expect(metadata.raw.sha256).toBe(createHash("sha256").update(raw).digest("hex"));
+    expect(metadata.raw.sha256).toBe(adapted.sha256);
+    expect(adapted.referenceReplay.sourceSha256).toBe(
+      createHash("sha256").update(raw).digest("hex"),
+    );
     expect(
       read
         .page({})

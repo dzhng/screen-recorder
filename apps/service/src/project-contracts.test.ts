@@ -284,7 +284,7 @@ test("selected-source transcript preserves filler, phrase and ready retry throug
           startSeconds: (range.startUs - Number(source.startUs)) / 1e6,
           endSeconds: (range.endUs - Number(source.startUs)) / 1e6,
         }));
-      return { ordinal, source, state: "transcribed" as const, words };
+      return { ordinal, source, owned: source, state: "transcribed" as const, words };
     });
     const raw = lines.map((line) => JSON.stringify(line) + "\n").join("");
     await writeFile(request.output, raw);
@@ -301,9 +301,12 @@ test("selected-source transcript preserves filler, phrase and ready retry throug
           encoderPrecision: "int8",
           computeUnits: "cpuAndNeuralEngine",
         },
+        execution: request.execution,
+        available: request.track.available,
         segments: lines.map(({ ordinal, source, state, words }) => ({
           ordinal,
           source,
+          owned: source,
           state,
           wordCount: words.length,
         })),
@@ -322,7 +325,7 @@ test("selected-source transcript preserves filler, phrase and ready retry throug
   if (!imported.ok) throw new Error(JSON.stringify(imported));
   const ready = await f.job((imported.data as { jobId: string }).jobId, "ready");
   const selection = { assetId: ready.published!.output.assetId, streamId: "track:1" };
-  expect(await f.call("transcript.get", { ...selection, prepare: false })).toMatchObject({
+  expect(await f.call("transcript.get", selection)).toMatchObject({
     ok: true,
     data: { state: "not_requested", jobId: null, page: null },
   });
@@ -351,7 +354,7 @@ test("selected-source transcript preserves filler, phrase and ready retry throug
     projectId: initial.project.projectId,
     revisionId: (edited.data as { revision: { id: string } }).revision.id,
   };
-  expect(await f.call("transcript.get", { ...projectSelection, prepare: false })).toMatchObject({
+  expect(await f.call("transcript.get", projectSelection)).toMatchObject({
     ok: true,
     data: {
       state: "not_ready",
@@ -366,7 +369,7 @@ test("selected-source transcript preserves filler, phrase and ready retry throug
     [],
   );
   expect(requests).toEqual([]);
-  const pending = await f.call("transcript.get", selection);
+  const pending = await f.call("transcript.prepare", selection);
   if (!pending.ok) throw new Error(JSON.stringify(pending));
   const jobId = (pending.data as { jobId: string }).jobId;
   await f.job(jobId, "ready");

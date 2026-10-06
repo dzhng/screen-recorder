@@ -1,0 +1,3 @@
+Command: bunx tsc -p packages/core/tsconfig.check.json --noEmit --incremental false
+Exit status: 0
+Output: empty
