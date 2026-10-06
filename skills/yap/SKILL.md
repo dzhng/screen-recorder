@@ -81,8 +81,8 @@ unavailable; do not claim it reopened or retry writes blindly.
 1. **Write the brief.** Save, in a task workspace, what the user asked for and
    your decision for every material choice they left open: audience, length,
    aspect, structure, pacing, what must stay, captions, music and treatments.
-   For launch videos, podcasts, episode introductions or teasers, read
-   [story shapes](references/creative-workflows.md#launch-podcast-and-teaser-story-shapes)
+   For a launch video, podcast, episode introduction, teaser, tutorial, update or
+   social clip, read [video use cases](references/video-use-cases.md)
    before choosing the structure and ending.
    An inspiration clip is a style target, not source material: import it as an
    ordinary asset and read its pacing, framing, caption style and structure with
@@ -182,9 +182,10 @@ Before importing, transcribing, inspecting media, editing, rendering or exportin
 read the relevant sections of [media workflows](references/media-workflows.md).
 That reference covers source/project clocks, processing and model readiness,
 frames/audio/timeline evidence, captions, layout and published exports.
-For launch/podcast/teaser structure, assembly, multi-take selection, caption design, animation, music or
+For format-specific structure and techniques, assembly, multi-take selection, caption design, animation, music or
 publication choices, read [creative workflows](references/creative-workflows.md).
-It covers compact transcript reading, decision sheets and creative techniques;
+Read [video use cases](references/video-use-cases.md) for launch, podcast, teaser,
+tutorial, update and social-clip shapes. Creative workflows covers compact transcript reading, decision sheets and creative techniques;
 use [editorial checks](references/editorial-checks.md) for rendered-output review.
 For optional MCP use, read [MCP delivery](references/mcp.md); CLI is the default.
 
