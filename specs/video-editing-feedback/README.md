@@ -25,6 +25,11 @@ discovered the clipped Parakeet edge, authored one bounded replacement and
 rechecked the changed revision with fresh rendered recognition. The helper never
 chooses repairs or retries blindly.
 
+Slice 01's independent-control checkpoint now passes over the canonical compact
+media owner; its nine negative and boundary controls are retained under
+`assets/01-corpus-controls/`. Real-corpus behavioral and multicamera gates stay
+open, so do not mark slice 01 complete from the control receipt alone.
+
 Priority order: 20 global synchronization remains refused on the frozen unlike-mic
 evidence; 15/16 face/framing and 25 tone remain partial; 27–30 now have public
 transition, moving-coverage and bounded-blur delivery receipts but broader visual
