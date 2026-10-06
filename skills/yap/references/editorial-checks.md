@@ -101,7 +101,7 @@ changes alone cannot enumerate edited joins.
   candidate artifact, not an audible-pop verdict.
 - Sample the opening, ending and representative middle sections. Check that the
   setup and chosen ending survive: a complete video delivers its payoff, while a
-  [teaser](teaser-videos.md#question-end-strategy) can deliberately
+  [teaser](teaser-videos.md#the-question-end-strategy) can deliberately
   withhold the answer after a complete question. Check that captions or end cards
   do not accidentally reveal it. Check that text is readable at the intended viewing size, grades
   match, and music/effects don't mask speech. A still cannot establish motion or
