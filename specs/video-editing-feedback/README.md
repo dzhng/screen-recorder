@@ -1,6 +1,6 @@
 # Reliable autonomous video editing
 
-Status: implementation active; core contracts through19 are integrated, contextual joins now include a fresh-agent Parakeet repair replay, and caption, blend, synchronization-evidence, motion, delivered-scene and focused-use-case routing helpers are present. The retained corpus now has a fresh physical eight-case verifier receipt plus a nine-control independent-control receipt; native switched-angle, physical empty-edit and deterministic transition comparator receipts are integrated. Synchronization estimation, broader native parity and long-form speaker quality gates remain open. Last updated: 2026-10-06.
+Status: implementation active; bounded speaker ranges, project speaker joins, face-landmark quality, source-bound synchronization receipts and production-native fresh-agent replay are integrated and rechecked on the current branch. The retained corpus, native switched-angle, physical empty-edit and transition receipts remain intact. Whole behavioral corpus certification, full-face localization, global synchronization, broader reference parity, long-form speaker continuity and final review remain open. Last updated: 2026-10-06.
 
 Yap supplies explicit editing primitives and reproducible observations. The consumer
 agent chooses the story, uses available creative tools, checks actual output and
@@ -17,7 +17,7 @@ change the installed app until the user requests release. Hard cutover remains
 binding: no aliases, dual readers or migrations; preserve external originals and
 frozen historical evidence.
 
-Current pickup: slice 31/32 speaker continuity and labeling feasibility. The latest trajectory checkpoint also binds directional whip coverage to a caller-supplied fixed geometry rectangle and refuses animated rectangle dimensions; native moving-delivery coverage and blur parity remain open. Face landmark quality now travels from native Vision observations into framing violations without widening uncertain boxes. The synchronization pass now has a bounded estimator-to-receipt adapter for measured controls, while the real unlike-microphone global clock remains refused. A production-native fresh replay now runs the public CLI/MCP journey twice, replays the real Parakeet repair, and retains normalized delivery plus decoded picture/audio evidence. The registered
+Current pickup: audit the remaining independent acceptance gates rather than widening bounded claims. The latest trajectory checkpoint binds directional whip coverage to a caller-supplied fixed geometry rectangle and refuses animated rectangle dimensions; native moving-delivery coverage and blur parity remain open. Face landmark quality now travels from native Vision observations into framing violations without widening uncertain boxes. The synchronization pass has a bounded estimator-to-receipt adapter for measured controls, while the real unlike-microphone global clock remains refused. A production-native fresh replay runs the public CLI/MCP journey twice, replays the real Parakeet repair, and retains normalized delivery plus decoded picture/audio evidence on the current native build. The registered
 speaker provider now has a measured pinned NeMo runtime acquisition descriptor and
 auto-prepares its first-party inputs by default. That closes acquisition readiness
 only; bounded selected-range preparation now accepts complete 80ms-grid windows
@@ -38,11 +38,13 @@ media owner; its nine negative and boundary controls are retained under
 `assets/01-corpus-controls/`. Real-corpus behavioral and multicamera gates stay
 open, so do not mark slice 01 complete from the control receipt alone.
 
-Priority order: 20 global synchronization remains refused on the frozen unlike-mic
-evidence; 15/16 face/framing remain partial; 27–30 now have public
-transition, moving-coverage and bounded-blur delivery receipts but broader visual
-parity remains open; 31/32 project-level continuity and attribution are the next
-feasibility gate; 33/34 finish media-aware workflows and fresh-agent replay.
+Priority order: 01 whole-corpus certification remains open; 20/21 global
+synchronization remains refused on the frozen unlike-mic evidence; 15/16
+face/framing remain partial; 27–30 have public transition, moving-coverage and
+bounded-blur delivery receipts but broader visual parity remains open; 31/32
+bounded attribution is integrated while long-form continuity remains red; 33/34
+have focused references and a green concrete replay, with final workflow review
+still open.
 Follow slice dependencies when a later item is independently ready.
 
 Evidence ledger: [assets](assets/README.md) links the scoped receipts. Slice 12's
