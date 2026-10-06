@@ -59,6 +59,13 @@ func verifyFaceFixture(in parent: URL) async throws {
         let observations = object["faceObservations"] as? [String: Any]
         precondition(observations != nil, "fixture frame \(atUs) did not return face observations")
         precondition(observations?["status"] as? String == "available", "fixture frame \(atUs) must expose a face")
+        precondition(
+            observations?["coordinateSpace"] as? String == "delivered-top-left-pixels",
+            "fixture frame \(atUs) returned an unexpected face coordinate space")
+        guard let rasterWidth = observations?["width"] as? Int, let rasterHeight = observations?["height"] as? Int,
+              rasterWidth > 0, rasterHeight > 0 else {
+            preconditionFailure("fixture frame \(atUs) returned invalid raster dimensions")
+        }
         guard let faces = observations?["faces"] as? [[String: Any]], !faces.isEmpty else {
             preconditionFailure("fixture frame \(atUs) reported available without face boxes")
         }
@@ -67,10 +74,16 @@ func verifyFaceFixture(in parent: URL) async throws {
             guard let box = face["boundingBox"] as? [String: Any] else {
                 preconditionFailure("fixture frame \(atUs) returned a face without a bounding box")
             }
-            for key in ["x", "y", "width", "height"] {
-                precondition(box[key] is Int, "fixture frame \(atUs) returned a malformed bounding box")
+            guard let x = box["x"] as? Int, let y = box["y"] as? Int,
+                  let width = box["width"] as? Int, let height = box["height"] as? Int,
+                  x >= 0, y >= 0, width > 0, height > 0,
+                  x + width <= rasterWidth, y + height <= rasterHeight else {
+                preconditionFailure("fixture frame \(atUs) returned an out-of-bounds bounding box")
             }
-            precondition(face["confidence"] is Double, "fixture frame \(atUs) returned a face without confidence")
+            guard let confidence = face["confidence"] as? Double,
+                  confidence.isFinite, (0...1).contains(confidence) else {
+                preconditionFailure("fixture frame \(atUs) returned an invalid confidence")
+            }
         }
         available.append(["atUs": atUs, "faces": faces.count])
     }
