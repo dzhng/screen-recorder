@@ -77,6 +77,32 @@ func verifyTextDecorations() throws {
         }
     }
     precondition(alphaBytes > 0, "Decorated text must produce visible pixels")
+
+    let pointed = try TextRaster(TextSource(
+        kind: "text", text: "AVW", font: font, width: 420, height: 200, size: 80,
+        color: "#ffffffff", alignment: "center", verticalAlignment: "center",
+        stroke: .init(color: "#ff0000ff", width: 16), shadow: nil, background: nil,
+        highlight: nil, activeRanges: nil, wrap: true), binding: binding)
+    guard let pointedImage = CIContext().createCGImage(pointed.image, from: pointed.image.extent),
+          let pointedData = pointedImage.dataProvider?.data else {
+        throw NativeFailure.decodeFailed("Cannot inspect pointed caption stroke.")
+    }
+    let bounds = pointed.layout.decorationBounds
+    var outsidePixels = 0
+    (pointedData as Data).withUnsafeBytes { raw in
+        for y in 0..<pointedImage.height {
+            for x in 0..<pointedImage.width {
+                let alpha = raw[y * pointedImage.bytesPerRow + x * 4 + 3]
+                if alpha > 16,
+                   Double(x) < floor(bounds[0]) - 1 || Double(x) >= ceil(bounds[0] + bounds[2]) + 1
+                    || Double(y) < floor(bounds[1]) - 1 || Double(y) >= ceil(bounds[1] + bounds[3]) + 1 {
+                    outsidePixels += 1
+                }
+            }
+        }
+    }
+    precondition(outsidePixels == 0,
+        "Caption stroke must fit its reported decoration bounds, allowing one antialias pixel; outside=\(outsidePixels)")
     print("PASS native text stroke, shadow and background decorations are rendered and receipted")
 }
 

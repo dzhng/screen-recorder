@@ -174,7 +174,12 @@ bounded stroke/shadow/background fields; native TextRaster reports glyph-path `i
 clipped `visibleBounds`, `verticalOffset`, decoration bounds and echoed decoration fields.
 Focused `YapFrameTests --text-vertical` proves top/center/bottom placement against a real
 Arial font, including empty text, and `--text-decorations` renders/inspects nontransparent
-decorated pixels. Public caption-sheet evidence remains open.
+decorated pixels. The [public caption-sheet/Unicode evidence](assets/22-styled-text/README.md)
+now passes through CLI/MCP with matched plain/styled glyph placement, actual pixel
+changes, full decoration bounds, explicit color emoji/complex-script imports and
+unchanged missing-glyph/substitution refusal. Independent code/visual review is
+complete; round glyph joins fix observed bounds spill. Coverage remains selected
+imported fonts/strings and static captions, not universal typography or animation.
 
 Slice24 evidence: the composition processor registry and compiled visual operations carry
 bounded `normal`, `multiply`, `screen` and `soft-light` modes. The native compositor applies

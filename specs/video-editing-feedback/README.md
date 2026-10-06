@@ -16,9 +16,10 @@ merge, push or installed-app change has been requested. Hard cutover remains
 binding: no aliases, dual readers or migrations; preserve external originals and
 frozen historical evidence.
 
-Current pickup: finish22's public static-caption and explicit color-emoji/complex-script
-proof, then integrate the independent11 rendered-speech,24 blend-movie and26 LUT passes.
-Use the current native worker built at `cead551b`; generic operations omit tonal fields,
+Current pickup: finish10's public acoustic boundary evidence while independent11
+rendered-speech,24 blend-movie and26 LUT reviews complete, then integrate their commits.
+The matching native worker includes22's rounded glyph strokes; frame/movie cache
+identities change with that rendering behavior. Generic operations omit tonal fields,
 while an actual correction must supply them.
 
 Priority after integration:10 acoustic boundary verdict →20 lexical synchronization →
@@ -28,15 +29,15 @@ motion;25 reference-conditioned tone;27–29 delivered transitions/trajectory/bl
 fresh-agent delivery/replay. Follow slice dependencies rather than this list when
 independent work is available.
 
-Completed:02–09,13–14,17–19.01 retains exact source-rate PCM, full-raster pictures and
+Completed:02–09,13–14,17–19,22.01 retains exact source-rate PCM, full-raster pictures and
 five original/derivative speech comparisons, but multicamera/speaker certification
 remains open. Partial21 declares exact caller-selected angle clocks;23 maps timed
 UTF-16 highlights;25 extends the shared SDR correction;27 lowers transitions into
 ordinary opacity/gain curves. Each still needs its remaining delivery evidence.
 
 Evidence ledger: [assets](assets/README.md) locates scoped verdicts. [22](assets/22-styled-text/README.md)
-now has a matching native build and passing public static-sheet receipts/pixels;
-visual closeout is in progress. [24](assets/24-blend-sheet/README.md) retains exact still
+has accepted public static-sheet/Unicode receipts and pixels, matched comparisons,
+independent visual/code review and a red/green stroke-bounds correction. [24](assets/24-blend-sheet/README.md) retains exact still
 arithmetic and the original hard-edge movie disagreement; a codec-matched full-raster
 control is under independent review. [20](assets/20-synchronization/README.md) refuses
 all nine real waveform comparisons, so lexical anchors remain necessary. [31](assets/31-speaker-replication/README.md)
@@ -77,7 +78,7 @@ Numbering is a review order; actual prerequisites live in the slice headers.
 - [x] [19 — Dialogue matching and compressor makeup](slices/19-dialogue-matching.md)
 - [ ] [20 — Synchronization feasibility](slices/20-sync-replication.md)
 - [ ] [21 — Declared angle clocks](slices/21-synced-angles.md)
-- [ ] [22 — Native typography and caption styling](slices/22-styled-text.md)
+- [x] [22 — Native typography and caption styling](slices/22-styled-text.md)
 - [ ] [23 — Timed word highlighting and entrance motion](slices/23-timed-word-captions.md)
 - [ ] [24 — Explicit blend semantics](slices/24-blend-modes.md)
 - [ ] [25 — Tone and color controls](slices/25-tone-controls.md)

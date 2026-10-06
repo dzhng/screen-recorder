@@ -1,0 +1,1 @@
+No actionable regressions were found across the tracked changes and untracked evidence. JavaScript syntax checks and retained artifact hashes passed; native test execution was blocked by the read-only sandbox.

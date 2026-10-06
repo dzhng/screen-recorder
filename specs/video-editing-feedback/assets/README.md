@@ -58,3 +58,7 @@ it establishes no camera clock or production provider.
 [Independent blend arithmetic](24-blend-sheet/README.md) retains color/alpha sheets and
 a smooth vignette through the public compiler/native still/movie seam, with explicit
 codec masks and unfinished visual/public-admission gates.
+
+[Styled caption layout](22-styled-text/README.md) retains accepted static native/public
+placement and decorations, explicit color emoji/complex-script glyphs, matched
+pixels and independent review. It makes no universal-font or animation claim.

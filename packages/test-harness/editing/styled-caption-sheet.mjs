@@ -5,7 +5,7 @@ import assert from "node:assert/strict";
  * selected matrix of native text styles so receipt fields and rendered pixels
  * are observed through the same frame.get boundary callers use.
  */
-export async function styledCaptionSheet({ project, picture, font, report }) {
+export async function styledCaptionSheet({ project, picture, font, report, rgba }) {
   const p = await project({
     width: 640,
     height: 420,
@@ -36,23 +36,23 @@ export async function styledCaptionSheet({ project, picture, font, report }) {
       label: "bottom-shadow",
       text: "Bottom shadow",
       verticalAlignment: "bottom",
-      shadow: { color: "#000000cc", offsetX: 6, offsetY: 8, blur: 5 },
+      shadow: { color: "#8abcf0cc", offsetX: 2, offsetY: -4, blur: 2 },
       expected: {
         stroke: undefined,
-        shadow: { color: "#000000cc", offsetX: 6, offsetY: 8, blur: 5 },
+        shadow: { color: "#8abcf0cc", offsetX: 2, offsetY: -4, blur: 2 },
         background: undefined,
       },
       rect: { x: 20, y: 240 },
     },
     {
       label: "center-background",
-      text: "Center background",
+      text: "Background",
       verticalAlignment: "center",
-      background: { color: "#112233dd", padding: 12, cornerRadius: 8 },
+      background: { color: "#36506ddd", padding: 12, cornerRadius: 8 },
       expected: {
         stroke: undefined,
         shadow: undefined,
-        background: { color: "#112233dd", padding: 12, cornerRadius: 8 },
+        background: { color: "#36506ddd", padding: 12, cornerRadius: 8 },
       },
       rect: { x: 340, y: 240 },
     },
@@ -83,7 +83,7 @@ export async function styledCaptionSheet({ project, picture, font, report }) {
       label: `${variant.label}-text`,
       clip: {
         trackId: { label: variant.label },
-        source: style(variant),
+        source: { ...style(variant), stroke: undefined, shadow: undefined, background: undefined },
         placement: { kind: "project", range: { startUs: 0, endUs: 1000000 } },
       },
     })),
@@ -108,13 +108,28 @@ export async function styledCaptionSheet({ project, picture, font, report }) {
       ],
     })),
   );
+  const plain = await picture({ ...p.selection(), atUs: 500000 }, "plain-caption-sheet");
+  await p.edit(
+    variants.map((variant) => ({
+      operation: "text.set",
+      clipId: placed.edit.labels[`${variant.label}-text`],
+      source: style(variant),
+    })),
+  );
   const sheet = await picture({ ...p.selection(), atUs: 500000 }, "styled-caption-sheet");
+  assert.notDeepEqual(sheet.bytes, plain.bytes, "Decorations must change delivered PNG bytes");
+  const plainPixels = await rgba(plain.path);
+  const styledPixels = await rgba(sheet.path);
+  assert.equal(plainPixels.length, 640 * 420 * 4);
+  assert.equal(styledPixels.length, plainPixels.length);
+  const plainByClip = new Map(plain.receipt.pictures.map((entry) => [entry.clipId, entry]));
   const byClip = new Map(sheet.receipt.pictures.map((entry) => [entry.clipId, entry]));
   const rows = variants.map((variant) => {
     const clipId = placed.edit.labels[`${variant.label}-text`];
     const entry = byClip.get(clipId);
     assert.ok(entry && entry.kind === "text" && entry.status === "available", variant.label);
     assert.equal(entry.layout.text, variant.text);
+    assert.deepEqual(entry.layout.inkBounds, plainByClip.get(clipId).layout.inkBounds);
     assert.deepEqual(
       {
         stroke: entry.layout.stroke,
@@ -123,8 +138,15 @@ export async function styledCaptionSheet({ project, picture, font, report }) {
       },
       variant.expected,
     );
-    assert.ok(entry.layout.decorationBounds[2] >= entry.layout.inkBounds[2]);
-    assert.ok(entry.layout.decorationBounds[3] >= entry.layout.inkBounds[3]);
+    const [x, y, width, height] = entry.layout.decorationBounds;
+    const [inkX, inkY, inkWidth, inkHeight] = entry.layout.inkBounds;
+    assert.ok(x <= inkX && y <= inkY);
+    assert.ok(x + width >= inkX + inkWidth && y + height >= inkY + inkHeight);
+    if (variant.verticalAlignment === "center")
+      assert.ok(Math.abs(inkY + inkHeight / 2 - 75) < 1, variant.label);
+    if (variant.verticalAlignment === "bottom")
+      assert.ok(Math.abs(inkY + inkHeight - 150) < 1, variant.label);
+    if (variant.verticalAlignment === undefined) assert.equal(entry.layout.verticalOffset, 0);
     return {
       label: variant.label,
       clipId,
@@ -132,12 +154,27 @@ export async function styledCaptionSheet({ project, picture, font, report }) {
       verticalOffset: entry.layout.verticalOffset,
       inkBounds: entry.layout.inkBounds,
       decorationBounds: entry.layout.decorationBounds,
+      decorationClipped: x < 0 || y < 0 || x + width > 280 || y + height > 150,
       style: variant.expected,
     };
   });
   assert.equal(new Set(rows.map((row) => row.clipId)).size, variants.length);
-  assert.ok(rows[0].verticalOffset < rows[1].verticalOffset);
-  assert.ok(rows[1].verticalOffset < rows[2].verticalOffset);
+  assert.ok(rows[0].inkBounds[1] < rows[1].inkBounds[1]);
+  assert.ok(rows[1].inkBounds[1] < rows[2].inkBounds[1]);
+  const pixelChanges = variants.map((variant) => {
+    let changedPixels = 0;
+    for (let y = variant.rect.y; y < variant.rect.y + 150; y++)
+      for (let x = variant.rect.x; x < variant.rect.x + 280; x++) {
+        const index = (y * 640 + x) * 4;
+        if (!plainPixels.subarray(index, index + 4).equals(styledPixels.subarray(index, index + 4)))
+          changedPixels++;
+      }
+    assert.ok(
+      variant.label === "top-plain" ? changedPixels === 0 : changedPixels > 0,
+      variant.label,
+    );
+    return { label: variant.label, changedPixels };
+  });
   report.checks.push({
     name: "public-styled-caption-static-sheet",
     frame: sheet.receipt,
@@ -145,6 +182,9 @@ export async function styledCaptionSheet({ project, picture, font, report }) {
     exactStyleReceipts: true,
     decorationBoundsContainInk: true,
     verticalPlacementOrdered: true,
+    plainReference: plain.receipt,
+    glyphPlacementUnchangedByDecorations: true,
+    pixelChanges,
   });
   return { projectId: p.selection().projectId, revisionId: p.selection().revisionId, sheet };
 }

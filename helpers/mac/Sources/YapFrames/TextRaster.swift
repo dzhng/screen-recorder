@@ -231,6 +231,7 @@ struct TextRaster {
             context.saveGState()
             context.setTextDrawingMode(.stroke)
             context.setLineWidth(stroke.width)
+            context.setLineJoin(.round)
             context.setStrokeColor(color)
             CTFrameDraw(frame, context)
             context.restoreGState()

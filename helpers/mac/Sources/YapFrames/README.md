@@ -50,3 +50,8 @@ upright CGImage when explicitly requested. They return every detected box in
 top-left pixel coordinates, preserve no-face and detector-error states, and
 carry no person identity or largest-face selection. This is evidence for the
 caller; it never changes composition or framing.
+
+Native text retains its literal UTF-16 and imported font identity. Glyph-path
+bounds own vertical placement; decorations retain separate bounds and clipping.
+Rounded stroke joins keep acute glyph corners inside the reported half-width
+expansion instead of producing unreported sharp spikes.

@@ -1002,3 +1002,26 @@ unlisted architecture or user-only choice was found in this research pass.
 - **The reach:** Movement/gap/ambiguity behavior is deterministic and testable from retained receipts. Native multi-frame acquisition and visual overlay coverage remain open.
 - **Verdict:** sound, medium confidence. It preserves uncertainty and keeps replay independent of detector reruns.
 - **Confidence:** medium.
+
+## Rounded caption outlines — slice22 public closeout
+
+- **When:** slice22 static public/Unicode acceptance and stroke-bounds correction.
+- **The choice:** Round the joins where a caption glyph has a sharp corner. For example,
+  a wide outline around `A` previously produced long pointed spikes beyond the
+  reported outline rectangle. Rounded joins keep the requested stroke within its
+  half-width expansion. The frame/movie rendering recipe identity also changes,
+  so an old cached image cannot replace the corrected render.
+- **The gap:** The plan requested useful outlines and truthful bounds without
+  selecting a corner shape. Keeping sharp joins and expanding the receipt would
+  preserve visually distracting spikes; reporting smaller bounds would be false.
+- **The reach:** Native stills and movies share this stroke shape. Font identity,
+  literal text and glyph placement stay intact; this adds no editor preset or
+  separate decoration engine. Clients needing another aesthetic can import an
+  explicit graphic rather than inheriting an automatic treatment.
+- **Verdict:** sound. One native drawing rule makes the visible outline agree with
+  its measured extent, without hiding spill or relaxing the bounds contract.
+- **Confidence:** medium-high.
+
+The reversible static fixture uses a compact blue shadow and a distinct rounded
+panel. These are example requests, not product defaults. No additional policy
+choice is embedded in the imported-font coverage.

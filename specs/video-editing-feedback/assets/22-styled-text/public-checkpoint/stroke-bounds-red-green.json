@@ -1,0 +1,19 @@
+{
+  "test": "YapFrameTests --text-decorations, AVW with width16 outline",
+  "before": {
+    "exitCode": 133,
+    "outsidePixels": 589,
+    "reason": "Acute default-miter joins exceed reported decoration bounds plus one antialias pixel"
+  },
+  "after": {
+    "exitCode": 0,
+    "outsidePixels": 0,
+    "change": "Round glyph stroke joins; reported bounds unchanged"
+  },
+  "build": "Matching debug native and service builds pass",
+  "noOpFalsification": {
+    "exitCode": 1,
+    "reason": "Decorations must change delivered PNG bytes",
+    "scope": "Scratch public request removed all decorations"
+  }
+}
