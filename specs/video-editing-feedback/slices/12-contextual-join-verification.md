@@ -1,6 +1,6 @@
 # 12 — Verify joins and repair through the agent
 
-Status: planned. Depends on: [10](10-alignment-and-boundaries.md), [11](11-rendered-speech.md), [06](06-exact-removal.md).
+Status: checkpoint A exact boundary mapping implemented and reviewed. Public report and contextual repair remain open. Depends on: [10](10-alignment-and-boundaries.md), [11](11-rendered-speech.md), [06](06-exact-removal.md).
 
 ## Contract
 
@@ -22,6 +22,29 @@ These are current discovery pointers, not a claim every listed module must chang
 ## Scope and frozen decisions
 
 Define join.verify with pinned revision/tap, explicit boundaries/expected text and context budget. Return evidence/disagreement/coverage per source side and rendered side, including opening/ending. Include padded-window recognition and controlled nearby candidate offsets, acoustic edge activity, room-tone/discontinuity and alignment evidence. Do not apply an edit, fixed timing offset or universal fade. Skill uses bounded attempts/no-progress stop and keeps more retained audio through measured quiet when appropriate; rechecks changed output and reports exact remaining uncertainty.
+
+## Implementation checkpoints
+
+- A: extend the existing composition cut owner with explicit two-sided boundary
+  lookup. Opening, ending, continuous splits and caller-selected candidate points
+  retain exact project/source clocks. A review point does not author a cut, assert
+  available media or identify speech. [Boundary evidence](../assets/12-contextual-joins/README.md)
+  owns its focused tests and retained falsifications.
+- B: publish the read-only `join.verify` report over pinned revision/tap and
+  explicitly prepared source/rendered evidence. Reuse retained generation reads;
+  this report creates neither another inference scheduler nor an edit. Return
+  complete observed operands, disagreement and missing coverage instead of a
+  clean-cut verdict inferred from matching text. Ordinary public preparation
+  requests supply padded recognition and caller-selected nearby candidates.
+- C: exercise clipped, intact-but-abrupt, repaired and intentional-jump outputs
+  with complete expected wording, acoustic/context evidence and exact delivered
+  sample support. Preserve the frozen Parakeet word-completion limitation. Source
+  energy and conditional alignment remain insufficient phonetic identity.
+- D: a fresh agent discovers the withheld edge defect without a timecode hint,
+  performs explicit bounded repairs within its brief and rechecks changed output.
+  Keep no-progress stop and all original lexical/physical acceptance gates.
+
+These checkpoints split verification order; they do not reduce the slice's scope.
 
 ## Runnable checkpoint
 

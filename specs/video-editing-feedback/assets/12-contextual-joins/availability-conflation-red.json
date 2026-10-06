@@ -1,0 +1,6 @@
+{
+  "mutation": "Filtering boundary placements by media availability",
+  "exitCode": 1,
+  "expectedFailure": "The unavailable-media boundary loses its exact placed source mapping; physical support must not erase authored placement.",
+  "restoredSha256": "4f76d456061271c2dde25314358a47955186df3eea0fa8a6cb1758cd5c22323c"
+}

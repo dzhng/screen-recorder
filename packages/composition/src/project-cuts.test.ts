@@ -58,6 +58,128 @@ const cuts = (clips: Clip[], input = asset) =>
   createProjectCuts(validateComposition(doc(clips), [input]));
 const simplify = (rows: ReturnType<ReturnType<typeof createProjectCuts>["window"]>) =>
   rows.map((r) => [r.projectAtUs, r.trackId, r.before?.clipId ?? null, r.after?.clipId ?? null]);
+
+test("explicit opening and ending boundaries retain the exact retimed source sides", () => {
+  const index = cuts([clip("take", 0, 4, 10, 18, "audio")]);
+  const mapping = {
+    clipId: "take",
+    kind: "range",
+    assetId: "source",
+    streamId: "audio",
+    rate: 2,
+  };
+  expect(index.boundary({ trackId: "audio", projectAtUs: 0 })).toEqual({
+    projectAtUs: 0,
+    trackId: "audio",
+    mediaKind: "audio",
+    before: null,
+    after: { ...mapping, sourceAtUs: 10 },
+  });
+  expect(index.boundary({ trackId: "audio", projectAtUs: 4 })).toEqual({
+    projectAtUs: 4,
+    trackId: "audio",
+    mediaKind: "audio",
+    before: { ...mapping, sourceAtUs: 18 },
+    after: null,
+  });
+});
+
+test("candidate review points retain fractional clocks without authoring cuts at a continuous split", () => {
+  const index = cuts([clip("left", 0, 2, 0, 3, "audio"), clip("right", 2, 4, 3, 6, "audio")]);
+  expect(index.window({ range: range(0, 4) })).toEqual([]);
+  expect(index.boundary({ trackId: "audio", projectAtUs: 2 })).toEqual({
+    projectAtUs: 2,
+    trackId: "audio",
+    mediaKind: "audio",
+    before: {
+      clipId: "left",
+      kind: "range",
+      assetId: "source",
+      streamId: "audio",
+      sourceAtUs: 3,
+      rate: { numerator: 3, denominator: 2 },
+    },
+    after: {
+      clipId: "right",
+      kind: "range",
+      assetId: "source",
+      streamId: "audio",
+      sourceAtUs: 3,
+      rate: { numerator: 3, denominator: 2 },
+    },
+  });
+  const candidate = index.boundary({
+    trackId: "audio",
+    projectAtUs: { numerator: 1, denominator: 3 },
+  });
+  expect(candidate.projectAtUs).toEqual({ numerator: 1, denominator: 3 });
+  expect(candidate.before).toEqual(candidate.after);
+  expect(candidate.before).toMatchObject({
+    clipId: "left",
+    sourceAtUs: { numerator: 1, denominator: 2 },
+  });
+});
+
+test("boundary review refuses the rounded tail beyond actual fractional support and foreign tracks", () => {
+  const take = clip("take", 0, 3, 0, 7, "audio");
+  take.placement = {
+    kind: "project",
+    range: { startUs: 0, endUs: { numerator: 7, denominator: 3 } },
+  };
+  const index = cuts([take]);
+  const ending = index.boundary({
+    trackId: "audio",
+    projectAtUs: { numerator: 7, denominator: 3 },
+  });
+  expect(ending.before).toMatchObject({ clipId: "take", sourceAtUs: 7, rate: 3 });
+  expect(ending.after).toBeNull();
+  expect(() => index.boundary({ trackId: "audio", projectAtUs: 3 })).toThrow(
+    "Boundary is outside the exact project extent",
+  );
+  expect(() => index.boundary({ trackId: "foreign", projectAtUs: 0 })).toThrow(
+    "Unknown track: foreign",
+  );
+});
+
+test("boundary mapping distinguishes unavailable media from an authored placement gap", () => {
+  const sparse: Asset = {
+    ...asset,
+    streams: [
+      {
+        id: "audio",
+        kind: "audio",
+        bounds: range(0, 30),
+        available: [range(0, 2), range(8, 30)],
+      },
+    ],
+  };
+  const index = cuts(
+    [clip("left", 0, 4, 0, 4, "audio"), clip("right", 8, 10, 8, 10, "audio")],
+    sparse,
+  );
+  const unavailable = index.boundary({ trackId: "audio", projectAtUs: 3 });
+  expect(unavailable.before).toEqual({
+    clipId: "left",
+    kind: "range",
+    assetId: "source",
+    streamId: "audio",
+    sourceAtUs: 3,
+    rate: 1,
+  });
+  expect(unavailable.after).toEqual(unavailable.before);
+  expect(index.boundary({ trackId: "audio", projectAtUs: 6 })).toEqual({
+    projectAtUs: 6,
+    trackId: "audio",
+    mediaKind: "audio",
+    before: null,
+    after: null,
+  });
+  expect(index.boundary({ trackId: "audio", projectAtUs: 8 })).toMatchObject({
+    before: null,
+    after: { clipId: "right", sourceAtUs: 8 },
+  });
+});
+
 test("editorial replacement and overlap retain separate audio/video transitions without pure split cuts", () => {
   const index = cuts([
     clip("a", 0, 4),

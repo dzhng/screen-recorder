@@ -49,8 +49,11 @@ measured refusals and completed independent review.
 replacement and truthful retained external conflicts.
 [14 picture observations](14-picture-statistics/README.md) binds delivered PNG
 pixels to retained measurements and explicit masks.
-[10A prepared alignment](10-word-attribution/README.md) verifies fresh pinned
-acquisition and provider parity; public retained alignment remains10B.
+[Prepared alignment](10-word-attribution/README.md) verifies pinned acquisition,
+retained conditional/source acoustic evidence and portable project-tap replay.
+
+[Contextual join checkpoints](12-contextual-joins/README.md) keep exact boundary
+mapping separate from the pending public speech/disagreement report and agent repair.
 
 [Dialogue finishing](19-dialogue-matching/README.md) retains explicit per-occurrence
 matching, compressor makeup and a complete independently measured strict master.

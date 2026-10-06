@@ -34,6 +34,11 @@ single invented inverse timestamp. Stream offsets share the asset presentation
 origin. Missing support and a known source with no occurrence remain different
 from invalid identity.
 
+[Editorial boundaries](src/project-cuts.ts) use the same source mapping for
+authored cuts and explicit two-sided review points. Opening/ending and nearby
+candidate coordinates stay exact; asking about a point never authors a cut or
+proves that its source media is available.
+
 [Source projection](src/source-projection.ts) preserves retained fragments and
 completeness in an immutable revision. Completeness describes the original source
 range surviving in an occurrence, not whatever smaller display window was later

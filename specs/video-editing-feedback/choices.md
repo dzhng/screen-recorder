@@ -1204,3 +1204,19 @@ Apple cube candidate are in the slice26 evidence; no user-only decision remains.
   owner, compatibility mechanism or production exception is introduced.
 - **Verdict:** sound; it exercises existing admission with truthful file operands.
 - **Confidence:** high.
+
+## Reuse ordered placements for candidate points — slice12A
+
+- **When:** exact boundary lookup review.
+- **The choice:** Find the neighboring placements in the track's existing sorted
+  list. If an agent asks about several nearby candidate cut positions, each lookup
+  examines only the neighboring entries after searching by start time, rather
+  than scanning every clip again. Exact endpoint tests distinguish the clip that
+  ends at a point from the clip that starts there.
+- **The gap:** The plan prescribed exact mappings, but left lookup structure open.
+  The validated composition already guarantees sorted, nonoverlapping placements;
+  another interval tree or cache would duplicate that ownership.
+- **The reach:** Repeated point reads have logarithmic lookup work with unchanged
+  results and no additional index state, lifetime or persisted format.
+- **Verdict:** sound; the existing ordering supplies all necessary information.
+- **Confidence:** high.

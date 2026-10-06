@@ -4,6 +4,7 @@ import { compare, fromTime, toTime, type Rational } from "./rational.js";
 import {
   isMediaClip,
   selectionRangeSchema,
+  timeValueSchema,
   type SelectionRange,
   type TimeValue,
   type TextSource,
@@ -63,14 +64,16 @@ function continuous(a: ProjectCutSide | null, b: ProjectCutSide | null) {
 }
 /** Exact editorial transitions. Support gaps and renderer sampling do not author cuts. */
 export function createProjectCuts(model: ValidatedComposition) {
-  const byTrack = new Map(model.document.tracks.map((track) => [track.id, [] as Resolved[]]));
+  const byTrack = new Map(
+    model.document.tracks.map((track) => [track.id, { track, clips: [] as Resolved[] }]),
+  );
   let terminal = fromTime(0);
   for (const value of model.clips) {
-    byTrack.get(value.track.id)!.push(value);
+    byTrack.get(value.track.id)!.clips.push(value);
     if (compare(value.range.end, terminal) > 0) terminal = value.range.end;
   }
   const tracks = new Map<string, ProjectCut[]>();
-  for (const [id, values] of byTrack) {
+  for (const [id, { clips: values }] of byTrack) {
     const rows: ProjectCut[] = [];
     const add = (at: Rational, before?: Resolved, after?: Resolved) => {
       if (compare(at, fromTime(0)) === 0 || compare(at, terminal) === 0) return;
@@ -99,6 +102,41 @@ export function createProjectCuts(model: ValidatedComposition) {
     tracks.set(id, rows);
   }
   return {
+    /** An explicit review point is not an authored cut or evidence of available media. */
+    boundary(input: { trackId: string; projectAtUs: TimeValue }) {
+      const parsed = timeValueSchema.safeParse(input.projectAtUs);
+      if (!parsed.success) throw new CompositionError("INVALID_TIME", parsed.error.message);
+      const at = fromTime(parsed.data);
+      if (compare(at, fromTime(0)) < 0 || compare(at, terminal) > 0)
+        throw new CompositionError("INVALID_TIME", "Boundary is outside the exact project extent");
+      const selected = byTrack.get(input.trackId);
+      if (!selected)
+        throw new CompositionError("INVALID_COMPOSITION", `Unknown track: ${input.trackId}`);
+      const { track, clips: values } = selected;
+      let lo = 0,
+        hi = values.length;
+      while (lo < hi) {
+        const mid = (lo + hi) >>> 1;
+        if (compare(values[mid]!.range.start, at) < 0) lo = mid + 1;
+        else hi = mid;
+      }
+      const left = values[lo - 1],
+        right = values[lo];
+      const before = left && compare(at, left.range.end) <= 0 ? left : undefined;
+      const after =
+        right && compare(right.range.start, at) === 0
+          ? right
+          : left && compare(at, left.range.end) < 0
+            ? left
+            : undefined;
+      return {
+        projectAtUs: toTime(at),
+        trackId: track.id,
+        mediaKind: track.kind,
+        before: side(before, at),
+        after: side(after, at),
+      };
+    },
     window(input: { range: SelectionRange; trackIds?: readonly string[] }): ProjectCut[] {
       const parsed = selectionRangeSchema.safeParse(input.range);
       if (!parsed.success) throw new CompositionError("INVALID_TIME", parsed.error.message);
