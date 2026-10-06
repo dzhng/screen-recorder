@@ -15,7 +15,8 @@ import YapControls
  */
 @MainActor
 final class RecordingControls: NSObject {
-    private let statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
+    private let home: String
+    private let statusItem = NSStatusBar.system.statusItem(withLength: StatusItemAppearance.menuBarLength)
     private lazy var capturePopover = CapturePopover(perform: { [weak self] in self?.perform($0) })
     private lazy var libraryWindow = LibraryWindow(perform: { [weak self] in self?.perform($0) })
     private var emptySourceMode = CaptureViewInput.Source.display
@@ -71,6 +72,7 @@ final class RecordingControls: NSObject {
         export: { [weak self] in self?.exports.export($0, kind: $1) })
     private lazy var overlay = RecordingOverlayPanel(
         preferences: preferences, perform: { [weak self] action in self?.perform(action) })
+    private let recordingPreview = PreviewWindow()
     private lazy var countdown = StartCountdown(shortcuts: shortcuts)
     private lazy var settings = SettingsWindow(
         preferences: preferences,
@@ -89,6 +91,7 @@ final class RecordingControls: NSObject {
     private static let tick: TimeInterval = 0.5
 
     init(home: String, preferences: Preferences, quit: @escaping () -> Void) {
+        self.home = home
         self.quit = quit
         self.preferences = preferences
         state = ControlsState(recording: preferences.recording)
@@ -292,6 +295,10 @@ final class RecordingControls: NSObject {
             send("capture.cancel", live())
         case .restart:
             restart()
+        case .playRecording(let recordingId):
+            playRecording(recordingId)
+        case .copyRecordingPrompt(let recordingId):
+            copyRecordingPrompt(recordingId)
         case .deleteRecording,
             .previewProject, .exportProject, .deleteProject, .nextProjects, .previousProjects, .nextRecordings, .previousRecordings, .refreshLibrary:
             break // LibraryController handles these before capture selections.
@@ -654,6 +661,25 @@ final class RecordingControls: NSObject {
     func openCapture() { if !capturePopover.isShown { toggleCapture() } }
     func closeCapture() { capturePopover.close() }
 
+    private func playRecording(_ recordingId: String) {
+        let file = URL(fileURLWithPath: home)
+            .appendingPathComponent("library/recordings")
+            .appendingPathComponent(recordingId)
+            .appendingPathComponent("source/video.mov")
+        guard FileManager.default.fileExists(atPath: file.path) else {
+            state.failure = "Recording media is unavailable."
+            render()
+            return
+        }
+        recordingPreview.playLocalFile(title: "Recording — \(recordingId)", file: file.path, mediaType: "video/quicktime")
+    }
+
+    private func copyRecordingPrompt(_ recordingId: String) {
+        let prompt = LibraryPresentation.agentPrompt(for: recordingId)
+        NSPasteboard.general.clearContents()
+        NSPasteboard.general.setString(prompt, forType: .string)
+    }
+
     var captureRows: [[String: Any]] {
         guard let view = captureView else { return [] }
         return nativeControls(in: view).map { control in
@@ -679,7 +705,11 @@ final class RecordingControls: NSObject {
         case .projects: page = LibraryPresentation.projects(for: state, exports: exports.state)
         case .exports: page = ExportPresentation.items(for: state, exports: exports.state)
         }
-        return page.items.filter { $0.kind == .message || savedMediaView.control(identifier: "actions.\($0.id)") != nil }.map { item in
+        return page.items.filter { item in
+            item.kind == .message
+                || savedMediaView.control(identifier: "actions.\(item.id)") != nil
+                || (0..<item.actions.count).contains { savedMediaView.control(identifier: "actions.\(item.id).\($0)") != nil }
+        }.map { item in
             ["title": item.title, "id": item.id, "details": item.details, "submenu": item.actions.map { action in
                 ["item": action.action.id, "title": action.title, "enabled": action.enabled] as [String: Any]
             }] as [String: Any]

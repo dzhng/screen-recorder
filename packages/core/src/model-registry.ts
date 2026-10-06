@@ -10,6 +10,7 @@ import type { ModelManifest, RuntimeEntry } from "./model-types.js";
 export const parakeetModel: ModelManifest = {
   name: "parakeet",
   purpose: "transcription",
+  autoPrepare: true,
   platform: { system: "darwin", architecture: "arm64" },
   repo: "FluidInference/parakeet-tdt-0.6b-v2-coreml",
   revision: "ee09c569f73759e6d44c9bd16766f477b2b36d39",

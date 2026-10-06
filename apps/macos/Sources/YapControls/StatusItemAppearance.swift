@@ -4,6 +4,10 @@ import AppKit
 /// that from the menu bar alone, without opening anything, so the item carries the take's own
 /// elapsed playback time beside a symbol for what the device is doing.
 public enum StatusItemAppearance {
+    /// Reserve the timer's full menu-bar footprint before a take starts so the capture popover's
+    /// status-item anchor does not move when elapsed text appears or gains an hours field.
+    public static let menuBarLength: CGFloat = 96
+
     public static func symbolName(for state: ControlsState) -> String {
         if case .unavailable = state.service { return "exclamationmark.triangle" }
         if state.take?.finalizationError != nil { return "exclamationmark.triangle" }

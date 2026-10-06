@@ -2,6 +2,10 @@ import Foundation
 
 /// Shared saved-media facts and action applicability; renderers consume these directly.
 public enum LibraryPresentation {
+    public static func agentPrompt(for recordingId: String) -> String {
+        "I want you to use this recording with this ID with the Yap CLI: \(recordingId)"
+    }
+
     public static func recordings(for state: ControlsState) -> SavedPage {
         let takes = state.library.recent + state.library.deletions.values.compactMap(\.take)
             .filter { pending in !state.library.recent.contains { $0.recordingId == pending.recordingId } }
@@ -20,17 +24,15 @@ public enum LibraryPresentation {
         return .init(items: notices + takes.map { take in
             let request = state.library.deletions[.recording(take.recordingId)]
             let pending = request?.isPending == true
-            var details = [take.recordingId]
+            var details: [String] = []
             if let failure = take.finalizationError { details.append("Finalization failed — \(failure.code): \(failure.message)") }
-            if let sourceId = take.sourceId { details.append("Source: \(sourceId)") }
-            for admission in take.sourceAdmissions ?? [] { details.append(admission.sourceId + " — " + admission.title) }
-            if take.sourceAdmissions?.isEmpty == true { details.append("No admitted sources reported") }
             if let failure = request?.failure { details.append("Delete not confirmed — \(failure)") }
             let suffix = pending ? " — deleting…" : request == nil ? "" : " — delete not confirmed"
             let status = request != nil ? pending ? "Deleting" : "Attention" : take.finalizationError != nil ? "Attention" : take.state == "complete" ? "Ready" : take.state.capitalized
             return .init(id: take.recordingId, kind: .recording, title: recordingTitle(of: take) + suffix,
                 status: status, details: details, actions: [
-                    .init(.deleteRecording(take.recordingId), pending ? "Deleting…" : request == nil ? "Delete Recording" : "Retry Delete", enabled: state.service == .ready && !pending),
+                    .init(.playRecording(take.recordingId), "Play", enabled: state.service == .ready && !pending && take.state != "canceled"),
+                    .init(.copyRecordingPrompt(take.recordingId), "Copy agent prompt", enabled: !pending),
                 ])
         }, actions: actions)
     }

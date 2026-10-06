@@ -37,12 +37,16 @@ For imported speech, select the returned `assetId` and audio `streamId` explicit
 when requesting a source transcript; include `acquisitionId` only when you intend
 its capture gaps. These ranges are normalized file timestamps, not project time.
 Keep the complete returned cursor when paging or searching; changing selection or
-generation requires a fresh read. Reads can prepare transcription with ready local
-models but never download models. Discover registered IDs, purposes and source
-requirements with `model.list`, then inspect `model.status` with the selected
-`modelId`. Use explicit `model.prepare` when needed; supply verified local sources
-when required instead of guessing temporary paths or installing dependencies
-during reads. Diagnose failed/canceled work before explicit transcript retry.
+generation requires a fresh read. The app prepares models marked for the product
+lifecycle in the background at install and update; reads wait for that work but do
+not own a new download. If an explicit user request still returns
+`unavailable:model_not_prepared`, discover the registered transcription model with
+`model.list`, inspect it with `model.status`, use `model.prepare` as recovery for a
+failed or interrupted lifecycle download, poll until `ready`, then retry the same
+transcript selection. Supply verified local sources when required instead of
+guessing temporary paths or installing dependencies during reads. Keep incidental
+probes read-only. Diagnose failed/canceled work before explicit transcript retry,
+and surface the exact returned reason when a retry still fails.
 A source phrase cannot cross an inference segment.
 
 When anonymous speaker observations are requested, inspect `speaker.prepare` and
