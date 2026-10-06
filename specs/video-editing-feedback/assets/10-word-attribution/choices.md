@@ -125,3 +125,24 @@ All entries are sound; none require a user decision. Ranked least-confident firs
   does not add a second publication state machine or infer a retry.
 - **Verdict:** sound. Inspection and readiness remain distinct contracts.
 - **Confidence:** high.
+
+## B2 source-portability pass
+
+### Sound — portable projects carry admitted observations, not unpublished attempt diagnostics
+
+- **When:** B2 source-portability pass.
+- **Choice:** If a provider returns malformed output, the current library keeps its
+  original bytes available for inspection, marked unverified. Exporting a project
+  carries completed observations whose words, scores and clocks have passed
+  admission. It does not also carry the malformed attempt. The alternative would
+  export an attempt journal and teach portable readers/adopters a second readiness
+  state for those diagnostics.
+- **Gap:** The plan requires complete portable evidence but does not specify
+  portable retention of unpublished failure diagnostics.
+- **Reach:** Opening a package can inspect every raw operand of its admitted
+  generations without inference. Debugging a malformed unpublished attempt still
+  uses its owning library; adding portable attempt journals would be a separate
+  explicit contract.
+- **Verdict:** Sound. This follows the existing portable observation contract and
+  never promotes unverified diagnostics into ready evidence.
+- **Confidence:** Medium.

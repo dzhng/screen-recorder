@@ -125,9 +125,9 @@ stays owned until retirement is confirmed; a committed external file remains
 independent of project deletion. Portable adoption owns copied bytes and their
 meaning rather than borrowing a donor path indefinitely.
 
-The current project package format retains typed speaker generations, their full
-raw native/report strings and their original publication order. The same native
-parser admits live and portable observations. Older package formats are refused;
+The current project package format retains admitted speaker and conditional
+alignment generations, their complete original operands and publication order.
+The same evidence parsers admit live and portable observations. Older package formats are refused;
 adoption stages evidence against package source facts and rechecks the published
 live source owner inside the existing transaction before replaying readiness.
 

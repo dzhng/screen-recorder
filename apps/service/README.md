@@ -141,6 +141,10 @@ sidecar operands are captured before attempt cleanup, including model refusals.
 `speaker.get` reads retained source generations or their revision projection without
 native or model execution; `speaker.prepare` alone requests new acoustic work.
 Portable packages preserve complete original operands and observation ordering.
+Immutable alignment pages name the original generation and open package context;
+their continuations cannot be reused in another context. Reading or adopting them
+needs no model execution or native decoder. Evidence admission and publication
+remain with the shared core owners.
 Read-only package projections share the source projection, coverage and merge owners;
 immutable checkpoints use the existing package context jobs and disappear on closure.
 The context's metadata and job budgets apply to these inspections as to adoption.

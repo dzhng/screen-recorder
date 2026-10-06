@@ -68,6 +68,14 @@ import {
   type SpeakerEvidenceStore,
 } from "@yap/core/speaker-evidence";
 import type { SpeakerProcessing } from "@yap/core/speaker-processing";
+import {
+  assetAlignmentOwner,
+  alignmentGenerationResource,
+  alignmentOperandRecords,
+  type AlignmentEvidenceStore,
+} from "@yap/core/alignment-evidence";
+import type { AlignmentProcessing } from "@yap/core/alignment-processing";
+import { SourceAlignmentRead, type AlignmentReadInput } from "@yap/core/alignment-read";
 import { SourceSpeakerRead } from "@yap/core/speaker-read";
 import { selectSpeakerSource } from "@yap/core/source-speakers";
 import type { TranscriptStore } from "@yap/core/transcript";
@@ -97,6 +105,8 @@ type Owners = {
   scenes: SceneProcessing;
   speakerRecords: SpeakerEvidenceStore;
   speakers: SpeakerProcessing;
+  alignmentRecords: AlignmentEvidenceStore;
+  alignments: AlignmentProcessing;
   transcriptRecords: TranscriptStore;
   transcripts: TranscriptProcessing;
   indexRecords: ScreenshotIndexStore<SourceIndexRecords>;
@@ -356,6 +366,32 @@ export class ProjectPackages {
     const { sourceRange, ...selection } = input;
     return { ...selection, state: "ready", generation: resource.metadata.generation, page };
   }
+  sourceAlignment(
+    packageHandle: string,
+    assetId: string,
+    generation: string,
+    query: AlignmentReadInput,
+  ) {
+    if (!this.registry) throw new CatalogError("CONTEXT_CLOSED", "Project package is not open");
+    const { manifest } = this.registry.lookup(packageHandle);
+    const resource = manifest.resources.find(
+      (value): value is Extract<PortableResource, { kind: "alignment-generation" }> =>
+        value.kind === "alignment-generation" &&
+        value.metadata.owner.assetId === assetId &&
+        value.metadata.generation === generation,
+    );
+    if (!resource) throw new CatalogError("NOT_READY", "Alignment evidence is not ready", {}, true);
+    return {
+      assetId,
+      state: "ready",
+      generation,
+      page: new SourceAlignmentRead(
+        alignmentOperandRecords(resource.metadata, resource),
+        resource.metadata,
+        packageHandle,
+      ).page(query),
+    };
+  }
   status(admissionId?: string) {
     if (admissionId) {
       if (!this.registry) throw new CatalogError("NOT_FOUND", "Package admission does not exist");
@@ -477,6 +513,35 @@ export class ProjectPackages {
         speakerInventory.set(identity.id, resource);
         return identity;
       });
+    const alignmentInventory = new Map<
+      string,
+      Extract<PortableDependency, { kind: "alignment-generation" }>
+    >();
+    let alignmentInventoryBytes = 0;
+    const alignmentsForAsset = (assetId: string) => {
+      const identities: import("@yap/core/references").ResourceReference[] = [];
+      for (const { metadata, sequence } of this.owners.alignmentRecords.portableGenerations(
+        assetId,
+      )) {
+        const identity = {
+          kind: "alignment-generation" as const,
+          id: alignmentGenerationResource(metadata),
+        };
+        identities.push(identity);
+        if (alignmentInventory.has(identity.id)) continue;
+        const resource: Extract<PortableDependency, { kind: "alignment-generation" }> = {
+          kind: "alignment-generation",
+          metadata,
+          sequence,
+          publication: this.owners.alignments.portablePublication(metadata),
+          ...this.owners.alignmentRecords.operands(metadata),
+        };
+        alignmentInventoryBytes += Buffer.byteLength(JSON.stringify(resource));
+        checkProjectJsonBytes(alignmentInventoryBytes);
+        alignmentInventory.set(identity.id, resource);
+      }
+      return identities;
+    };
     const indexesForAsset = (assetId: string) =>
       this.owners.indexRecords.portableGenerations({ kind: "asset", assetId }).map((metadata) => {
         const resource: Extract<PortableDependency, { kind: "index-generation" }> = {
@@ -543,6 +608,7 @@ export class ProjectPackages {
           ...transcriptsForAsset(identity.id),
           ...indexesForAsset(identity.id),
           ...speakersForAsset(identity.id),
+          ...alignmentsForAsset(identity.id),
         ];
         resource = {
           kind: "asset",
@@ -564,6 +630,7 @@ export class ProjectPackages {
             "transcript-generation",
             "index-generation",
             "speaker-generation",
+            "alignment-generation",
           ].includes(identity.kind)
         )
           throw new CatalogError(
@@ -571,13 +638,15 @@ export class ProjectPackages {
             `Portable adoption is not implemented for ${identity.kind}`,
           );
         const inventory =
-          identity.kind === "speaker-generation"
-            ? speakerInventory
-            : identity.kind === "scene-generation"
-              ? sceneInventory
-              : identity.kind === "transcript-generation"
-                ? transcriptInventory
-                : indexInventory;
+          identity.kind === "alignment-generation"
+            ? alignmentInventory
+            : identity.kind === "speaker-generation"
+              ? speakerInventory
+              : identity.kind === "scene-generation"
+                ? sceneInventory
+                : identity.kind === "transcript-generation"
+                  ? transcriptInventory
+                  : indexInventory;
         if (!inventory.has(identity.id)) {
           let tuple: unknown;
           try {
@@ -593,7 +662,8 @@ export class ProjectPackages {
             typeof tuple[2] !== "string"
           )
             throw new CatalogError("INVALID_STORAGE", "Invalid retained-generation identity");
-          if (identity.kind === "speaker-generation") speakersForAsset(tuple[1]);
+          if (identity.kind === "alignment-generation") alignmentsForAsset(tuple[1]);
+          else if (identity.kind === "speaker-generation") speakersForAsset(tuple[1]);
           else if (identity.kind === "scene-generation") scenesForAsset(tuple[1]);
           else if (identity.kind === "transcript-generation") transcriptsForAsset(tuple[1]);
           else indexesForAsset(tuple[1]);
@@ -637,6 +707,8 @@ export class ProjectPackages {
         this.owners.preparedAudio.portable(resourceIdentity(resource).id);
       if (resource.kind === "speaker-generation")
         this.owners.speakerRecords.operands(resource.metadata);
+      if (resource.kind === "alignment-generation")
+        this.owners.alignmentRecords.operands(resource.metadata);
       if (resource.kind === "scene-generation")
         this.owners.sceneRecords.sourcePage({ identity: resource.metadata, limit: 1 });
       if (resource.kind === "transcript-generation")
@@ -705,6 +777,10 @@ export class ProjectPackages {
         const speakers: {
           stage: ReturnType<SpeakerEvidenceStore["stagePortable"]>;
           resource: Extract<PortableResource, { kind: "speaker-generation" }>;
+        }[] = [];
+        const alignments: {
+          stage: ReturnType<AlignmentEvidenceStore["stagePortable"]>;
+          resource: Extract<PortableResource, { kind: "alignment-generation" }>;
         }[] = [];
         const scenes: {
           stage: Awaited<ReturnType<SceneEvidenceStore["stagePortable"]>>;
@@ -898,6 +974,41 @@ export class ProjectPackages {
               ),
             });
           }
+          const validateAlignment = assetAlignmentOwner(
+            {
+              get: (id) => {
+                const asset = portableAssets.get(id);
+                if (!asset)
+                  throw new CatalogError("INVALID_PACKAGE", "Missing alignment source asset");
+                return asset;
+              },
+              path: (id) => assetPaths.get(id)!,
+            },
+            {
+              get: (id) => {
+                const acquisition = portableAcquisitions.get(id);
+                if (!acquisition)
+                  throw new CatalogError("INVALID_PACKAGE", "Missing alignment acquisition");
+                return acquisition;
+              },
+            },
+          );
+          for (const resource of manifest.resources
+            .filter(
+              (value): value is Extract<PortableResource, { kind: "alignment-generation" }> =>
+                value.kind === "alignment-generation",
+            )
+            .toSorted((a, b) => a.sequence - b.sequence)) {
+            signal.throwIfAborted();
+            alignments.push({
+              resource,
+              stage: this.owners.alignmentRecords.stagePortable(
+                resource.metadata,
+                resource,
+                validateAlignment,
+              ),
+            });
+          }
           const sceneReads = new Map(
             scenes.map(({ resource, stage }) => [resourceIdentity(resource).id, stage.read]),
           );
@@ -1035,6 +1146,11 @@ export class ProjectPackages {
                 if (resource.publication)
                   this.owners.speakers.adoptPublication(stage.metadata, resource.publication);
               }
+              for (const { resource, stage } of alignments) {
+                stage.publish();
+                if (resource.publication)
+                  this.owners.alignments.adoptPublication(stage.metadata, resource.publication);
+              }
               for (const { resource, stage } of transcripts) {
                 stage.publish();
                 this.owners.transcripts.adoptPublication(
@@ -1074,6 +1190,7 @@ export class ProjectPackages {
           });
         } finally {
           await Promise.all(speakers.map(({ stage }) => stage.close()));
+          await Promise.all(alignments.map(({ stage }) => stage.close()));
           await Promise.all(projectIndexes.map(({ stage }) => stage.close()));
           await Promise.all(indexes.map(({ stage }) => stage.close()));
           await Promise.all(transcripts.map(({ stage }) => stage.close()));
@@ -1279,7 +1396,11 @@ export class ProjectPackages {
         resources.push(await assembleIndex(entry, this.owners.projectIndexRecords, entry.metadata));
         continue;
       }
-      if (entry.kind === "prepared-audio" || entry.kind === "speaker-generation") {
+      if (
+        entry.kind === "prepared-audio" ||
+        entry.kind === "speaker-generation" ||
+        entry.kind === "alignment-generation"
+      ) {
         resources.push(entry);
         continue;
       }

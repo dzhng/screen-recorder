@@ -706,6 +706,7 @@ export const operationSchema = z.discriminatedUnion("operation", [
       operation: z.literal("alignment.get"),
       params: z.strictObject({
         assetId: id,
+        packageHandle: id.optional(),
         generation: id,
         sourceRange: selectionRangeSchema.optional(),
         view: z.enum(["words", "acoustic", "scores", "raw"]).optional(),
@@ -716,7 +717,7 @@ export const operationSchema = z.discriminatedUnion("operation", [
       }),
     })
     .describe(
-      "Read an explicit immutable alignment generation without model or native execution. Supplied words retain conditional path estimates separately from greedy observed words; repeated correspondence stays unknown and unmatched text stays unmatched. Complete native ceil bounds outside physical support retain null sourceRange/refused_unowned_support, never clamped timing. Scores are complete uncalibrated native cells. Acoustic view requires caller thresholdRMS, labels measured RMS >=threshold active, and never assigns a word or authorizes an edit. Raw view returns original UTF8 operands in bounded base64 chunks, including unpublished refusals as state:captured with verified:false; those never expose ready rows. Continue while nextCursor exists, including empty pages. Continuations bind the generation, display range, view, operand and threshold.",
+      "Read an explicit immutable alignment generation without model or native execution. packageHandle selects published evidence in an open read-only package; its continuation binds that context. Supplied words retain conditional path estimates separately from greedy observed words; repeated correspondence stays unknown and unmatched text stays unmatched. Complete native ceil bounds outside physical support retain null sourceRange/refused_unowned_support, never clamped timing. Scores are complete uncalibrated native cells. Acoustic view requires caller thresholdRMS, labels measured RMS >=threshold active, and never assigns a word or authorizes an edit. Raw view returns original UTF8 operands in bounded base64 chunks, including unpublished managed-library refusals as state:captured with verified:false; those never expose ready rows. Continue while nextCursor exists, including empty pages. Continuations bind the generation, display range, view, operand and threshold.",
     ),
   z
     .strictObject({

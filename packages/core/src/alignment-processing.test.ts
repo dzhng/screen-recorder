@@ -182,6 +182,14 @@ test("a repeated explicit observation joins the source job and ready reads need 
   ).toEqual([{ channel: 0, range: f.input.sourceRange }]);
   await rm(join(f.home, "models", f.input.modelId), { recursive: true });
   expect(f.processing.sourceStatus(f.input)).toEqual(status);
+  const publication = f.processing.portablePublication(metadata);
+  expect(publication).toMatchObject({ attemptId: metadata.generation, generation: 1 });
+  if (!publication) throw Error("Expected retained publication");
+  f.processing.adoptPublication(metadata, publication);
+  expect(f.processing.sourceStatus(f.input)).toEqual(status);
+  expect(() =>
+    f.processing.adoptPublication(metadata, { ...publication, attemptId: "other" }),
+  ).toThrow("differs from its source and generation");
 });
 
 test("cancellation drains a held worker and explicit retry publishes a fresh generation", async () => {

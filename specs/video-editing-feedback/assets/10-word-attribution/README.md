@@ -92,3 +92,13 @@ continuation remain checkpoint B2.
 [Source review](review-source.json) records the independent B1 review and focused
 consumer corrections. Both stale private-wire test contracts were updated to the
 shared selected-channel owner; frozen historical archives remain unchanged.
+
+[Portable source evidence](portable-source.json) records same-parser immutable reads
+and adoption through the existing package owner. It is controlled-provider and
+actual archive/storage proof; project-tap inference and source projection remain open.
+
+[Exact source projection](../../../../packages/core/src/project-alignment.ts) maps retained
+source timing through existing revision occurrences into project ranges, splitting at
+available fragments and preserving null timing as unknown. It does not mutate source
+rows or create a second project clock. Actual prepared project-tap observation and its
+public lifecycle remain the next B2 pass.

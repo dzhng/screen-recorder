@@ -58,6 +58,115 @@ type Generation = {
   correspondence: string;
   complete: number;
 };
+const summary = (rows: ReturnType<typeof alignmentOperandRows>) => ({
+  wordCount: rows.words.length,
+  acousticCount: rows.acoustic.length,
+  scoreCount: rows.scores.length,
+  matrixSha256: rows.matrixSha256,
+  observedLowerDecileRMS: rows.observedLowerDecileRMS,
+  conditionalStatus: rows.conditionalStatus,
+  correspondenceOptimum: rows.correspondenceOptimum,
+  lexicalIdentity: "unknown" as const,
+  scoreMeaning: "uncalibrated" as const,
+});
+type AlignmentRow = AlignmentWord | AlignmentAcoustic | AlignmentScore;
+function pageArguments(after: number, limit: number) {
+  if (
+    !Number.isSafeInteger(after) ||
+    after < -1 ||
+    !Number.isSafeInteger(limit) ||
+    limit < 1 ||
+    limit > 1000
+  )
+    throw new CatalogError("INVALID_PARAMS", "Invalid alignment evidence page");
+}
+function boundedPage(
+  metadata: AlignmentEvidenceMetadata,
+  rows: { sequence: number; content: string }[],
+  limit: number,
+) {
+  let bytes = 0;
+  const selected: typeof rows = [];
+  for (const row of rows) {
+    const next = Buffer.byteLength(row.content);
+    if (selected.length && (selected.length >= limit || bytes + next > 192 * 1024)) break;
+    bytes += next;
+    selected.push(row);
+  }
+  return {
+    metadata,
+    rows: selected.map((v) => JSON.parse(v.content) as AlignmentRow),
+    nextSequence: selected.length < rows.length ? selected.at(-1)!.sequence : null,
+  };
+}
+function rawPage(operands: AlignmentOperands, operand: keyof AlignmentOperands, offset: number) {
+  if (!Number.isSafeInteger(offset) || offset < 0 || offset % 32768 !== 0)
+    throw new CatalogError("INVALID_PARAMS", "Invalid alignment operand offset");
+  const bytes = Buffer.from(operands[operand]);
+  if (offset > bytes.length)
+    throw new CatalogError("INVALID_PARAMS", "Alignment operand offset exceeds retained bytes");
+  const end = Math.min(offset + 32768, bytes.length);
+  return {
+    bytesBase64: bytes.subarray(offset, end).toString("base64"),
+    offset,
+    totalBytes: bytes.length,
+    sha256: alignmentDigest(bytes),
+    nextOffset: end < bytes.length ? end : null,
+  };
+}
+/** Immutable package reads share admission, row identity and delivery budgets with the catalog. */
+export function alignmentOperandRecords(
+  input: AlignmentEvidenceMetadata,
+  operands: AlignmentOperands,
+) {
+  const metadata = alignmentEvidenceMetadataSchema.parse(input),
+    rows = alignmentOperandRows(metadata.source, operands);
+  for (const operand of ["nativeReceipt", "report", "correspondence"] as const)
+    if (alignmentDigest(operands[operand]) !== metadata[`${operand}Sha256`])
+      throw new CatalogError("INVALID_PACKAGE", "Alignment operands differ from retained metadata");
+  const parsedSummary = summary(rows);
+  if (
+    !isDeepStrictEqual(
+      parsedSummary,
+      Object.fromEntries(
+        Object.keys(parsedSummary).map((key) => [key, metadata[key as keyof typeof metadata]]),
+      ),
+    )
+  )
+    throw new CatalogError("INVALID_PACKAGE", "Alignment metadata differs from complete operands");
+  const bind = (identity: AlignmentEvidenceIdentity) => {
+    if (
+      !isDeepStrictEqual(
+        alignmentIdentitySchema.strip().parse(identity),
+        alignmentIdentitySchema.strip().parse(metadata),
+      )
+    )
+      throw new CatalogError("ARTIFACT_CHANGED", "Alignment generation changed");
+  };
+  return {
+    page(
+      identity: AlignmentEvidenceIdentity,
+      kind: "words" | "acoustic" | "scores",
+      after: number,
+      limit: number,
+    ) {
+      bind(identity);
+      pageArguments(after, limit);
+      return boundedPage(
+        metadata,
+        rows[kind].slice(after + 1, after + limit + 2).map((content, index) => ({
+          sequence: after + 1 + index,
+          content: JSON.stringify(content),
+        })),
+        limit,
+      );
+    },
+    rawPage(identity: AlignmentEvidenceIdentity, operand: keyof AlignmentOperands, offset: number) {
+      bind(identity);
+      return rawPage(operands, operand, offset);
+    },
+  };
+}
 const descriptorSchema = alignmentEvidenceSourceSchema.omit({ pcm: true, decoder: true });
 const descriptorExpression = "json_remove(json_extract(metadata,'$.source'),'$.pcm','$.decoder')";
 export function assetAlignmentOwner(
@@ -108,10 +217,19 @@ export class AlignmentEvidenceStore {
     operands: AlignmentOperands,
     jobId?: string,
   ) {
+    return this.captureWithOwner(input, inputSource, operands, jobId, this.validateOwner);
+  }
+  private captureWithOwner(
+    input: AlignmentEvidenceIdentity,
+    inputSource: AlignmentEvidenceSource,
+    operands: AlignmentOperands,
+    jobId: string | undefined,
+    validateOwner: typeof this.validateOwner,
+  ) {
     const identity = alignmentIdentitySchema.parse(input),
       source = alignmentEvidenceSourceSchema.parse(inputSource);
-    this.validateOwner(identity, source);
-    for (const value of Object.values(operands))
+    validateOwner(identity, source);
+    for (const value of [operands.nativeReceipt, operands.report, operands.correspondence])
       if (Buffer.byteLength(value) > alignmentOperandByteLimit)
         throw new CatalogError("INVALID_EVIDENCE", "Alignment operand exceeds the byte limit");
     const captured = {
@@ -160,7 +278,36 @@ export class AlignmentEvidenceStore {
     operands: AlignmentOperands,
     jobId?: string,
   ) {
-    const { identity, captured, owned } = this.capture(input, source, operands, jobId);
+    return this.stageWithOwner(input, source, operands, jobId, this.validateOwner);
+  }
+  stagePortable(
+    metadata: AlignmentEvidenceMetadata,
+    operands: AlignmentOperands,
+    validateOwner: typeof this.validateOwner,
+  ) {
+    alignmentOperandRecords(metadata, operands);
+    return this.stageWithOwner(
+      alignmentIdentitySchema.strip().parse(metadata),
+      metadata.source,
+      operands,
+      undefined,
+      validateOwner,
+    );
+  }
+  private stageWithOwner(
+    input: AlignmentEvidenceIdentity,
+    source: AlignmentEvidenceSource,
+    operands: AlignmentOperands,
+    jobId: string | undefined,
+    validateOwner: typeof this.validateOwner,
+  ) {
+    const { identity, captured, owned } = this.captureWithOwner(
+      input,
+      source,
+      operands,
+      jobId,
+      validateOwner,
+    );
     if (!owned && this.row(identity)?.complete !== 1)
       throw new CatalogError("PROCESSING_BUSY", "Alignment generation is being prepared", {}, true);
     let rows: ReturnType<typeof alignmentOperandRows>;
@@ -179,15 +326,7 @@ export class AlignmentEvidenceStore {
     }
     const metadata: AlignmentEvidenceMetadata = {
       ...captured,
-      wordCount: rows.words.length,
-      acousticCount: rows.acoustic.length,
-      scoreCount: rows.scores.length,
-      matrixSha256: rows.matrixSha256,
-      observedLowerDecileRMS: rows.observedLowerDecileRMS,
-      conditionalStatus: rows.conditionalStatus,
-      correspondenceOptimum: rows.correspondenceOptimum,
-      lexicalIdentity: "unknown",
-      scoreMeaning: "uncalibrated",
+      ...summary(rows),
     };
     const content = JSON.stringify(metadata);
     if (owned)
@@ -279,52 +418,29 @@ export class AlignmentEvidenceStore {
     limit: number,
   ) {
     const metadata = this.metadata(identity);
-    if (
-      !Number.isSafeInteger(after) ||
-      after < -1 ||
-      !Number.isSafeInteger(limit) ||
-      limit < 1 ||
-      limit > 1000
-    )
-      throw new CatalogError("INVALID_PARAMS", "Invalid alignment evidence page");
+    pageArguments(after, limit);
     const rows = this.store.catalog
       .prepare(
         `SELECT sequence,content FROM alignment_evidence_records WHERE ${where} AND kind=? AND sequence>? ORDER BY sequence LIMIT ?`,
       )
       .all(...key(identity), kind, after, limit + 1) as { sequence: number; content: string }[];
-    // Matrix cells can be large. The response budget, not a requested row count, bounds delivery.
-    let bytes = 0;
-    const selected: typeof rows = [];
-    for (const row of rows) {
-      const next = Buffer.byteLength(row.content);
-      if (selected.length && (selected.length >= limit || bytes + next > 192 * 1024)) break;
-      bytes += next;
-      selected.push(row);
-    }
-    const records = selected.map(
-      (v) => JSON.parse(v.content) as AlignmentWord | AlignmentAcoustic | AlignmentScore,
-    );
-    return {
-      metadata,
-      rows: records,
-      nextSequence: selected.length < rows.length ? selected.at(-1)!.sequence : null,
-    };
+    return boundedPage(metadata, rows, limit);
   }
   rawPage(identity: AlignmentEvidenceIdentity, operand: keyof AlignmentOperands, offset: number) {
     this.capturedMetadata(identity);
-    if (!Number.isSafeInteger(offset) || offset < 0 || offset % 32768 !== 0)
-      throw new CatalogError("INVALID_PARAMS", "Invalid alignment operand offset");
-    const bytes = Buffer.from(this.capturedOperands(identity)[operand]);
-    if (offset > bytes.length)
-      throw new CatalogError("INVALID_PARAMS", "Alignment operand offset exceeds retained bytes");
-    const end = Math.min(offset + 32768, bytes.length);
-    return {
-      bytesBase64: bytes.subarray(offset, end).toString("base64"),
-      offset,
-      totalBytes: bytes.length,
-      sha256: alignmentDigest(bytes),
-      nextOffset: end < bytes.length ? end : null,
-    };
+    return rawPage(this.capturedOperands(identity), operand, offset);
+  }
+  *portableGenerations(assetId: string) {
+    for (const row of this.store.catalog
+      .prepare(
+        "SELECT rowid AS sequence,metadata FROM alignment_evidence_generations WHERE ownerId=? AND complete=1 ORDER BY rowid",
+      )
+      .iterate(assetId)) {
+      const { sequence, metadata } = row as { sequence: number; metadata: string };
+      const parsed = alignmentEvidenceMetadataSchema.parse(JSON.parse(metadata));
+      this.validateOwner(parsed, parsed.source);
+      yield { sequence, metadata: parsed };
+    }
   }
   remove(identity: AlignmentEvidenceIdentity) {
     this.store.transaction(() => {

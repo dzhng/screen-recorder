@@ -30,6 +30,7 @@ export class SourceAlignmentRead {
   constructor(
     private readonly records: Pick<AlignmentEvidenceStore, "page" | "rawPage">,
     private readonly metadata: AlignmentEvidenceMetadata | AlignmentCapturedMetadata,
+    private readonly context?: string,
   ) {}
   page(input: AlignmentReadInput) {
     const parsed = alignmentReadSchema.parse(input),
@@ -55,6 +56,7 @@ export class SourceAlignmentRead {
           range,
           thresholdRMS: parsed.thresholdRMS ?? null,
           operand: view === "raw" ? operand : null,
+          context: this.context ?? null,
         }),
       )
       .digest("hex");

@@ -1,5 +1,8 @@
 import { afterEach, expect, test } from "vitest";
 import { join } from "node:path";
+import { randomUUID } from "node:crypto";
+import { realpath } from "node:fs/promises";
+import { fileURLToPath } from "node:url";
 import { Catalog } from "@yap/core/catalog";
 import { AssetStore } from "@yap/core/assets";
 import { AcquisitionStore } from "@yap/core/acquisitions";
@@ -13,11 +16,208 @@ import {
 import { selectAlignmentSource } from "@yap/core/source-alignment";
 import { alignmentSource, alignmentOutput } from "./alignment.fixture.js";
 import { projectServiceFixture } from "./project-service.fixture.js";
+import { jsonWorker } from "./worker.js";
 
 const cleanup: (() => Promise<void>)[] = [];
 afterEach(async () => {
   for (const close of cleanup.splice(0).reverse()) await close();
 });
+test.runIf(process.platform === "darwin")(
+  "alignment package export, immutable open and adoption retain complete original evidence without inference",
+  async () => {
+    const native = jsonWorker({
+      executable: fileURLToPath(
+        new URL("../../../helpers/mac/.build/debug/yap-native", import.meta.url),
+      ),
+      args: [],
+    });
+    const f = await projectServiceFixture(cleanup, async (operation, params, options) => {
+      if (operation === "media.probe") return { ok: true, data: probe };
+      return native(operation, params, options);
+    });
+    const imported = await f.call("asset.import", {
+      requestId: "portable-alignment",
+      path: f.path,
+    });
+    if (!imported.ok) throw Error(JSON.stringify(imported));
+    const assetId = (await f.job((imported.data as { jobId: string }).jobId, "ready")).published!
+      .output.assetId;
+    const library = join(f.home, "library"),
+      catalog = new Catalog(join(library, "catalog.sqlite"));
+    const assets = new AssetStore(catalog, library),
+      acquisitions = new AcquisitionStore(catalog),
+      selected = selectAlignmentSource(assets, acquisitions, {
+        assetId,
+        streamId: "a1",
+        channel: 0,
+        sourceRange: alignmentSource.observationRange,
+        text: alignmentSource.text,
+        modelId: "nemo-ctc110",
+      });
+    const source = {
+        ...alignmentSource,
+        supportDigest: selected.supportDigest,
+        engine: new Models(library).alignment("nemo-ctc110").engine,
+      },
+      operands = alignmentOutput();
+    for (const field of ["nativeReceipt", "report"] as const) {
+      const value = JSON.parse(operands[field]);
+      value.modelSha256 = source.engine.modelSha256;
+      operands[field] = JSON.stringify(value);
+    }
+    operands.report += "\n";
+    const records = new AlignmentEvidenceStore(catalog, assetAlignmentOwner(assets, acquisitions)),
+      staged = records.stage(
+        { owner: { kind: "asset", assetId }, generation: "portable-g1", policy: "alignment-v1" },
+        source,
+        operands,
+      );
+    catalog.transaction(() => staged.publish());
+    catalog.close();
+    const query = {
+        assetId,
+        generation: "portable-g1",
+        view: "acoustic",
+        thresholdRMS: 0.1,
+        limit: 3,
+      },
+      original = await f.call("alignment.get", query);
+    const created = await f.call("project.create", {
+      requestId: "alignment-project",
+      canvas: {
+        width: 64,
+        height: 48,
+        fps: { numerator: 30, denominator: 1 },
+        background: "#000000ff",
+      },
+    });
+    if (!created.ok) throw Error(JSON.stringify(created));
+    const { project, revision } = created.data as {
+      project: { projectId: string };
+      revision: { id: string };
+    };
+    expect(
+      await f.call("edit.apply", {
+        projectId: project.projectId,
+        requestId: "place",
+        expectedRevisionId: revision.id,
+        operations: [
+          { operation: "track.add", label: "sound", track: { kind: "audio", order: 0 } },
+          {
+            operation: "place",
+            clip: {
+              trackId: { label: "sound" },
+              assetId,
+              streamId: "a1",
+              source: { kind: "range", range: source.observationRange },
+              placement: { kind: "project", range: { startUs: 0, endUs: 200000 } },
+            },
+          },
+        ],
+      }),
+    ).toMatchObject({ ok: true });
+    const wait = async (
+      owner: typeof f,
+      operation: string,
+      params: Record<string, unknown>,
+      state: string,
+    ) => {
+      let result = await owner.call(operation, params);
+      await expect
+        .poll(
+          async () => {
+            result = await owner.call(operation, params);
+            if (!result.ok) return JSON.stringify(result);
+            const observed = (result.data as Record<string, unknown>).state;
+            return ["failed", "canceled", "unavailable"].includes(String(observed))
+              ? JSON.stringify(result)
+              : observed;
+          },
+          { timeout: 10000 },
+        )
+        .toBe(state);
+      if (!result.ok) throw Error(JSON.stringify(result));
+      return result.data as Record<string, unknown>;
+    };
+    const exportId = randomUUID();
+    expect(
+      await f.call("export.create", {
+        projectId: project.projectId,
+        exportId,
+        kind: "processed-package",
+        directory: f.home,
+        leaf: "alignment.zip",
+      }),
+    ).toMatchObject({ ok: true });
+    await wait(f, "export.status", { exportId }, "committed");
+    const target = await projectServiceFixture(cleanup, async (operation, params, options) => {
+      if (operation.startsWith("media."))
+        throw Error(`Unexpected package inference/decoder ${operation}`);
+      return native(operation, params, options);
+    });
+    const opened = await target.call("package.open", {
+      path: await realpath(join(f.home, "alignment.zip")),
+    });
+    if (!opened.ok) throw Error(JSON.stringify(opened));
+    const admissionId = (opened.data as { id: string }).id,
+      packageHandle = (await wait(target, "package.status", { admissionId }, "ready"))
+        .packageHandle;
+    const packaged = await target.call("alignment.get", { ...query, packageHandle });
+    if (!original.ok || !packaged.ok) throw Error(JSON.stringify({ original, packaged }));
+    const originalPage = (original.data as { page: { rows: unknown[]; nextCursor: string } }).page,
+      portablePage = (packaged.data as { page: { rows: unknown[]; nextCursor: string } }).page;
+    expect(portablePage.rows).toEqual(originalPage.rows);
+    expect(
+      await target.call("alignment.get", {
+        ...query,
+        packageHandle,
+        cursor: originalPage.nextCursor,
+      }),
+    ).toMatchObject({ ok: false, error: { code: "ARTIFACT_CHANGED" } });
+    const continued = await target.call("alignment.get", {
+      ...query,
+      packageHandle,
+      cursor: portablePage.nextCursor,
+    });
+    expect(continued).toMatchObject({
+      ok: true,
+      data: {
+        page: { rows: [{ activity: "quiet" }, { activity: "quiet" }, { activity: "active" }] },
+      },
+    });
+    const raw = await target.call("alignment.get", {
+      assetId,
+      generation: "portable-g1",
+      view: "raw",
+      operand: "report",
+      packageHandle,
+    });
+    expect(raw).toMatchObject({
+      ok: true,
+      data: { page: { bytesBase64: Buffer.from(operands.report).toString("base64") } },
+    });
+    const adopted = await wait(
+      target,
+      "package.adopt",
+      { packageHandle, requestId: "adopt-alignment" },
+      "ready",
+    );
+    expect(
+      await target.call("package.adopt", { packageHandle, requestId: "adopt-alignment" }),
+    ).toMatchObject({ ok: true, data: { state: "ready", published: adopted.published } });
+    await target.call("package.close", { admissionId });
+    await target.service.close();
+    const restarted = await projectServiceFixture(
+      cleanup,
+      async (operation) => {
+        throw Error(`Retained alignment invokes ${operation}`);
+      },
+      target.home,
+    );
+    expect(await restarted.call("alignment.get", query)).toEqual(original);
+  },
+  30000,
+);
 const probe = {
   originUs: 0,
   streams: [

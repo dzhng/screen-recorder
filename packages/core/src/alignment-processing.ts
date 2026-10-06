@@ -1,10 +1,16 @@
 import { join } from "node:path";
+import { z } from "zod";
 import { isDeepStrictEqual } from "node:util";
 import { setImmediate } from "node:timers/promises";
 import type { AssetStore } from "./assets.js";
 import type { AcquisitionStore } from "./acquisitions.js";
 import { CatalogError } from "./catalog.js";
-import type { JobQueue, JobExecution, StagedJobResult } from "./jobs.js";
+import {
+  retainedPublicationSchema,
+  type JobQueue,
+  type JobExecution,
+  type StagedJobResult,
+} from "./jobs.js";
 import type { Models, PreparedRuntime } from "./models.js";
 import {
   selectAlignmentSource,
@@ -12,7 +18,11 @@ import {
   type AlignmentSourceInput,
 } from "./source-alignment.js";
 import type { AlignmentEvidenceStore, AlignmentEvidenceMetadata } from "./alignment-evidence.js";
-import type { AlignmentEvidenceSource, AlignmentOperands } from "./alignment-operands.js";
+import {
+  alignmentEvidenceSourceSchema,
+  type AlignmentEvidenceSource,
+  type AlignmentOperands,
+} from "./alignment-operands.js";
 
 const artifact = "source-alignment";
 export type AlignmentObserver = (
@@ -189,6 +199,51 @@ export class AlignmentProcessing {
         this.options.jobs.retainsAttempt({ kind: "asset", assetId }, artifact, generation),
       signal,
     );
+  }
+  portablePublication(metadata: AlignmentEvidenceMetadata) {
+    const receipt = this.options.jobs.retainedArtifact(
+      metadata.owner,
+      artifact,
+      metadata.generation,
+    );
+    return receipt
+      ? retainedPublicationSchema.parse({
+          generation: receipt.generation,
+          attemptId: receipt.attemptId,
+          input: receipt.input,
+        })
+      : null;
+  }
+  adoptPublication(
+    metadata: AlignmentEvidenceMetadata,
+    publication: z.infer<typeof retainedPublicationSchema>,
+  ) {
+    let value: { request?: unknown; source?: unknown } | null;
+    try {
+      value = JSON.parse(publication.input);
+    } catch {
+      throw new CatalogError("INVALID_PACKAGE", "Alignment publication has invalid JSON");
+    }
+    const parsed = alignmentSourceSchema.safeParse(value?.request);
+    if (!parsed.success)
+      throw new CatalogError("INVALID_PACKAGE", "Alignment publication has invalid selection");
+    const identity = this.identity(parsed.data, metadata.source.decoder),
+      source = alignmentEvidenceSourceSchema.omit({ pcm: true }).strip().parse(metadata.source);
+    if (
+      metadata.owner.assetId !== parsed.data.assetId ||
+      publication.attemptId !== metadata.generation ||
+      publication.input !== identity.input ||
+      !isDeepStrictEqual(value?.source, source)
+    )
+      throw new CatalogError(
+        "INVALID_PACKAGE",
+        "Alignment publication differs from its source and generation",
+      );
+    this.options.jobs.adoptArtifact({
+      ...identity,
+      ...publication,
+      result: JSON.stringify(metadata),
+    });
   }
   async cleanup(signal: AbortSignal) {
     let afterSequence = 0;

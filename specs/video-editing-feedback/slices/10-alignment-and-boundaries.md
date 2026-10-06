@@ -1,6 +1,6 @@
 # 10 — Publish alignment and acoustic boundary evidence
 
-Status: checkpoint A committed; checkpoint B1 source/public lifecycle reviewed and green; B2 project tap/projection/portable not started. Depends on: [09](09-alignment-replication.md), [08](08-bounded-speech-preparation.md).
+Status: checkpoint A and B1 committed; B2 source portability reviewed and exact source projection helper implemented; actual prepared project-tap observation and public lifecycle remain open. Depends on: [09](09-alignment-replication.md), [08](08-bounded-speech-preparation.md).
 
 ## Contract
 
@@ -61,6 +61,16 @@ and conditional-bound parity passes against09 through the shared native arithmet
 and actual core publication/read owners. Source restart, cancellation/retry and
 missing-runtime checks pass. B2 still owns project selected-tap observations,
 source projection and portable preservation through this same evidence store.
+
+B2's source-portability pass reuses the package registry, resource closure,
+archive budgets and adopter. Complete ready generations retain original raw bytes,
+native bounds, correspondence and publication order. The same parser admits
+immutable package reads and catalog adoption; publication rechecks the live source
+inside the existing transaction. Actual public export/open/adopt/replay/restart
+passes with receiver media/model execution forbidden, and package continuation
+refuses a managed-library cursor. Captured unpublished failures remain local
+diagnostics. The next pass must add actual selected-tap evidence and exact source
+projection without conflating these clocks.
 
 Explicit preparation publishes immutable conditional paths and correspondence,
 with literal source/text/channel/range/provider/PCM pins. Retained reads and pinned

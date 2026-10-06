@@ -751,6 +751,8 @@ export async function startProjectService(options: {
       scenes,
       speakerRecords,
       speakers,
+      alignmentRecords,
+      alignments,
       transcriptRecords: transcriptStore,
       transcripts,
       indexRecords: sourceIndex,
@@ -998,7 +1000,12 @@ export async function startProjectService(options: {
             };
           }
           case "alignment.get": {
-            const { assetId, generation, ...query } = operation.params;
+            const { assetId, generation, packageHandle, ...query } = operation.params;
+            if (packageHandle)
+              return {
+                ok: true,
+                data: projectPackages.sourceAlignment(packageHandle, assetId, generation, query),
+              };
             const identity = {
               owner: { kind: "asset" as const, assetId },
               generation,
