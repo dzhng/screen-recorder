@@ -1,0 +1,15 @@
+{
+  "operation": "speaker.continuityLab",
+  "params": {
+    "model": "/tmp/yap-speaker-hysteresis-20261006/ultra8-admission/model-library/models/ultra8-checkpoint-research/08c94f3d289e426288b15a580f7ce47b93b99bf2/checkpoint/ultra_diar_streaming_sortformer_8spk_v1.nemo",
+    "cases": [
+      {
+        "id": "aiqwk30",
+        "pcm": "/tmp/yap-editing-speaker-replication/aiqwk.f32",
+        "pcmSha256": "d5b47fcc546370ebf65b395d6ae7d2c5f5e9ebc3e3529c6550b89b82ea3bd759",
+        "frames": 480000,
+        "output": "/tmp/yap-speaker-hysteresis-20261006/ultra8-admission/observations/aiqwk30/aiqwk30.json"
+      }
+    ]
+  }
+}

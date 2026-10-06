@@ -1,0 +1,48 @@
+{
+  "scope": "Checkpoint-only acquisition by Core Models; no native quality/runtime seal or production promotion",
+  "frozenAt": "2026-10-06T08:59:01.520688+00:00",
+  "manifest": {
+    "name": "ultra8-checkpoint-research",
+    "purpose": "speaker",
+    "platform": {
+      "system": "darwin",
+      "architecture": "arm64"
+    },
+    "repo": "mago-ai/ultra_diar_streaming_sortformer_8spk_v1",
+    "revision": "08c94f3d289e426288b15a580f7ce47b93b99bf2",
+    "folderName": "checkpoint",
+    "engine": {
+      "runtime": "NeMo",
+      "runtimeVersion": "3.0.0",
+      "runtimeRevision": "not-prepared",
+      "decoder": "ultra8-research-only"
+    },
+    "files": [
+      {
+        "path": "ultra_diar_streaming_sortformer_8spk_v1.nemo",
+        "bytes": 471367680,
+        "sha256": "dcaaff77f4469fe35ce1eb4560349832058175c57613d509058a7624739e2ae9"
+      }
+    ]
+  },
+  "licenses": [
+    "Apache-2.0 derivative",
+    "NVIDIA Open Model License upstream; commercially usable, redistribution copy/NOTICE obligations retained"
+  ],
+  "licenseHashes": {
+    "source-LICENSE": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
+    "upstream-model-license.md": "f18df7c4b5433c0216e7c0e07605fa46f00bccab1e84dfe47e46589b4861a6ca"
+  },
+  "modelCardSha256": "41ddee5037050247333d27058a47dfd7c672b0b372a3e080fecd2da73f30eba4",
+  "partialConfigSha256": "acf56bf475615384992f11d8861d7e4d72e57973f666d8888d4890db66be463f",
+  "partialHeaderBytes": 65536,
+  "admission": "Partial config lacks split-head n_base_spks and matches admitted stock constructor fields; full strict load still required; no dropped parameters, conversion or fallback source.",
+  "modelSource": "NVIDIA-NeMo/Speech@3c0fdca291547aa4898cbf38d9f0325ec225d9d8; existing immutable source/runtime reused",
+  "execution": "No inference in checkpoint acquisition. Preserve native80ms output clock; fixed.5/.1 interpretation before short calls. Automatic count only.",
+  "acquisitionBudget": {
+    "fullCheckpointBytes": 471367680,
+    "timeoutSeconds": 180,
+    "retries": 0,
+    "initialHeaderProbeBytes": 65536
+  }
+}

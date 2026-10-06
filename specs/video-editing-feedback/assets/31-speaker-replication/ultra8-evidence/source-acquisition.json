@@ -1,0 +1,60 @@
+{
+  "files": [
+    {
+      "path": "model-metadata.json",
+      "url": "https://huggingface.co/api/models/mago-ai/ultra_diar_streaming_sortformer_8spk_v1/revision/08c94f3d289e426288b15a580f7ce47b93b99bf2?blobs=true",
+      "bytes": 1379,
+      "sha256": "f73069ad320670c0287b564799038521fd2dccd0c037b5211ed3e8b37e502d47"
+    },
+    {
+      "path": "model-card.md",
+      "url": "https://huggingface.co/mago-ai/ultra_diar_streaming_sortformer_8spk_v1/resolve/08c94f3d289e426288b15a580f7ce47b93b99bf2/README.md",
+      "bytes": 3577,
+      "sha256": "41ddee5037050247333d27058a47dfd7c672b0b372a3e080fecd2da73f30eba4"
+    },
+    {
+      "path": "upstream-card.md",
+      "url": "https://huggingface.co/nvidia/diar_streaming_sortformer_4spk-v2.1/resolve/cd03eee90fbec18297ac31b8c21546e596b7f71c/README.md",
+      "bytes": 27604,
+      "sha256": "0cfd901cb5e44b20b107f939532f772905a4f1da453182a4047963e6eb87d619"
+    },
+    {
+      "path": "source-tree.json",
+      "url": "https://api.github.com/repos/LilDevsy0117/Ultra-Sortformer/git/trees/ac21c901eb7127b99d4bf15a590a0e45cbb5c529?recursive=1",
+      "bytes": 3261,
+      "sha256": "91c6998f3215967fed82a24c8004fc9b3005dc9cd84fb2ea1a1ba05bf850c8a1"
+    },
+    {
+      "path": "source-README.md",
+      "url": "https://raw.githubusercontent.com/LilDevsy0117/Ultra-Sortformer/ac21c901eb7127b99d4bf15a590a0e45cbb5c529/README.md",
+      "bytes": 17877,
+      "sha256": "685c763aef78e163a82fb59ef4cd8162b76bfcec3bb683e17fc926c556ac1c9c"
+    },
+    {
+      "path": "source-LICENSE",
+      "url": "https://raw.githubusercontent.com/LilDevsy0117/Ultra-Sortformer/ac21c901eb7127b99d4bf15a590a0e45cbb5c529/LICENSE",
+      "bytes": 11358,
+      "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30"
+    },
+    {
+      "path": "extend_output_layer.py",
+      "url": "https://raw.githubusercontent.com/LilDevsy0117/Ultra-Sortformer/ac21c901eb7127b99d4bf15a590a0e45cbb5c529/scripts/extend_output_layer.py",
+      "bytes": 5411,
+      "sha256": "9f1f90208b86d26e5a87f3c9522c4affc07c980564a4b3dada40cd95397dbe47"
+    },
+    {
+      "path": "inference.py",
+      "url": "https://raw.githubusercontent.com/LilDevsy0117/Ultra-Sortformer/ac21c901eb7127b99d4bf15a590a0e45cbb5c529/scripts/inference.py",
+      "bytes": 655,
+      "sha256": "065bad6c78c45ccd56683ec9ca158680ac850d7e6b2254928a51fa3a0b1d99e2"
+    },
+    {
+      "path": "upstream-model-license.html",
+      "url": "https://www.nvidia.com/en-us/agreements/enterprise-software/nvidia-open-model-license/",
+      "bytes": 307675,
+      "sha256": "74f5fb1e4396d12cf36c7d204fbb48d7c6a62cfe1febf99d77639c42f9daa1a6"
+    }
+  ],
+  "weightsDownloadedBytes": 0,
+  "inferenceCalls": 0
+}

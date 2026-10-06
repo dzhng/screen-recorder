@@ -29,6 +29,11 @@ independently merges identities on its first short control, despite native suppo
 and resource admission. Its complete raw operands and transport repair are retained;
 other short and long controls remain untested under the frozen stop rule.
 
+[Independent eight-slot activity](ultra8-evidence/README.md) strictly restores and
+preserves complete native80ms scores. It passes its first short control but fails
+the second on false activity despite retained overlap and identities; no long call
+is authorized by that partial result.
+
 Each bundle links its read-only replay accepting the repository root. Replay
 checks retained operand hashes and recomputes metrics through the existing scorer;
 it performs no acquisition or inference. [Integration receipts](replays.json)

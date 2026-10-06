@@ -17,6 +17,14 @@
       "scope": "Reused short control/confirmation; no100/long claims. No parameter attribution within the coherent bundle.",
       "verdict": "discard; no retuning",
       "evidence": "context-evidence/results.json"
+    },
+    {
+      "factor": "Independent Ultra8 weights/runtime and documented high-context recipe",
+      "settings": "376cache/40FIFO/340chunk/40right/300update; native80ms; fixed.5/.1",
+      "effect": "BSP30 passes DER15.55%, overlap97.37%, identity0%; aiq30 retains100% overlap,.416%confusion,count4 but false9.92speaker-seconds raises DER34.76%.",
+      "scope": "Two short calls; no returns,long or production readiness. One coupled bundle, not isolated weight/cache attribution.",
+      "verdict": "discard; no threshold fitting",
+      "evidence": "ultra8-evidence/results.json"
     }
   ],
   "attempts": [
@@ -96,7 +104,14 @@
     "admission": "Inspect Apache2 plus upstream NVIDIA Open Model terms, source compatibility, complete raw access and native support. Pin and acquire through Models only after admission; strict native load; no count hints or non-strict dropped parameters.",
     "recipe": "Model-card high-context buffering; output interpretation fixed.5/.1 before all short cases, no tuning on failed confirmation.",
     "quality": "Same six mandatory gates and short-first stop rule; no packaging or promotion until all short and long gates pass.",
-    "status": "Metadata/card/source admission only; no Ultra weights acquired or inference.",
-    "admissionFinding": "Pinned author documentation describes split heads and n_base_spks unsupported by the currently admitted stock NeMo source; published patch source is absent. Architecture/source admission remains incomplete; no weights acquired."
+    "status": "Strict native restore and both short controls executed; discard after aiqwk30 DER failure. No returns or long calls.",
+    "admissionFinding": "Released config has standard8-slot head; strict restore succeeds in chosen pinned NeMo3 runtime. Native80ms scores preserved. Runtime remains unsealed; both derivative/base terms retained.",
+    "evidence": "ultra8-evidence/README.md"
+  },
+  "nextHypothesisAfterUltra8": {
+    "status": "Source/operand inspection; no acquisition or inference selected yet.",
+    "candidate": "Independent learned speech/activity evidence with declared provider interpretation",
+    "reason": "Ultra8 retains required overlap/identities yet false activity causes first failing gate. Inspect retained native scores/decoder and independent speech evidence before selecting a new coherent provider bundle. Do not refit thresholds on failed controls or rerun unchanged candidates.",
+    "quality": "All six gates unchanged; short-first, long quality required before promotion."
   }
 }
