@@ -946,3 +946,21 @@ unlisted architecture or user-only choice was found in this research pass.
 - **Verdict:** sound, high confidence. It keeps names explicit and generation-local,
   while the red long-form quality gate prevents overclaiming stable identity.
 - **Confidence:** high.
+
+## Public styled-caption sheet shape — slice22
+
+- **When:** slice22 public static-sheet checkpoint.
+- **The choice:** The public proof renders four caption variants into one selected
+  frame: default/top, centered stroke, bottom shadow and centered rounded background.
+  Each variant has its own track and clip identity, so the `frame.get` receipt can be
+  matched to the authored request without relying on row order. The same frame is
+  retained as the PNG artifact; a native-only raster is not treated as public proof.
+- **The gap:** The slice required a public styled-caption artifact and receipt but did
+  not define whether to capture one style or a matrix, nor how to associate receipt rows
+  with visual samples.
+- **The reach:** Future decoration changes can rerun one bounded sheet and compare
+  literal text, vertical offset, decoration echo and bounds. Animation and moving-footage
+  legibility remain separate gates.
+- **Verdict:** sound, high confidence. The sheet is small, exercises each decoration
+  owner and uses stable clip IDs.
+- **Confidence:** high.

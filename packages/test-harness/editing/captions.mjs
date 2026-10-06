@@ -1,6 +1,7 @@
 import assert from "node:assert/strict";
 import { captionClock } from "./caption-clock.mjs";
 import { captionSeeds } from "./caption-seeds.mjs";
+import { styledCaptionSheet } from "./styled-caption-sheet.mjs";
 import { randomUUID } from "node:crypto";
 import { mkdir, mkdtemp, readFile, writeFile, rm } from "node:fs/promises";
 import { join, resolve } from "node:path";
@@ -16,6 +17,7 @@ assert.ok(
     "unicode",
     "repeated-retimed-speech",
     "caption-clock",
+    "styled-sheet",
   ].includes(values.case),
 );
 assert.ok(values.out && process.env.YAP_NATIVE);
@@ -728,6 +730,7 @@ try {
   }
   if (values.case === "caption-clock")
     await captionClock({ call, out, font, project, admit, picture, report });
+  if (values.case === "styled-sheet") await styledCaptionSheet({ project, picture, font, report });
   report.passed = true;
 } finally {
   await service.stop();

@@ -182,3 +182,4 @@ Core Image blend kernels when a surface joins its parent, while ordinary surface
 normal alpha-over behavior. `YapFrameTests --blend-modes` renders red/blue swatches and
 checks multiply black, screen magenta and the bounded soft-light response. Reference-sheet
 and vignette comparison remain open.
+| U35 | Public styled-caption static sheet | [22](slices/22-styled-text.md) | `captions.mjs --case styled-sheet` drives public frame admission for top/center/bottom and stroke/shadow/background variants; receipt rows are keyed by clip identity and the same request retains a PNG. Native execution/evidence generation remains unverified in this worktree. |
