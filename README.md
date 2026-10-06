@@ -256,6 +256,8 @@ for personal keep/remove judgments.
   dependency layers; the [speaker primitive](helpers/speaker/README.md) supplies anonymous source
   observations through explicit optional model/runtime preparation and shared
   retained-evidence owners.
+  The [conditional alignment worker](helpers/alignment/README.md) preserves the
+  supplied-text interpretation and full native operands of its pinned provider.
 
 The consumer [yap skill](skills/yap/SKILL.md) teaches external agents
 how to edit for the user with the toolkit. Repository development skills live

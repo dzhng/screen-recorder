@@ -1,6 +1,6 @@
 # 10 — Publish alignment and acoustic boundary evidence
 
-Status: planned. Depends on: [09](09-alignment-replication.md), [08](08-bounded-speech-preparation.md).
+Status: checkpoint A implemented and reviewed; checkpoint B not started. Depends on: [09](09-alignment-replication.md), [08](08-bounded-speech-preparation.md).
 
 ## Contract
 
@@ -21,6 +21,45 @@ Current owners and starting checks:
 These are current discovery pointers, not a claim every listed module must change. Extend existing behavior tests; the [global contract](../README.md) owns hard cutover and source preservation.
 
 ## Scope and frozen decisions
+
+### Checkpoint A — prepared provider and shared arithmetic
+
+Port the exact accepted NeMo auxiliary CTC flow and Torchaudio forced alignment,
+preserving literal tokenizer inputs and complete native operands. Reuse the Models
+preparation owner for pinned checkpoint/runtime inputs; inference is offline and
+never acquires another model. Preserve request/output parity against09 before new
+inference. Generalize native selected-channel PCM decoding so each model owns its
+window policy, without creating another decoder. One ordered all-optimal
+correspondence owner serves08 reconciliation and10 provider correspondence;
+their physical support, point and ownership policies remain separate.
+
+Fresh preparation reconstructs the optional runtime from hash-pinned public
+interpreter/package inputs through the existing Models acquisition owner and
+service descendant lifetime. It requires no developer-installed runtime or
+developer tools. The complete measured output inventory precedes readiness;
+offline inference cannot trigger acquisition. Runtime identity is distinct from
+the original accepted donor closure. The
+[checkpoint evidence](../assets/10-word-attribution/README.md) records acquisition
+scope, complete reference parity and interpretation limits;
+[scoped choices](../assets/10-word-attribution/choices.md) retain architecture calls.
+
+Checkpoint A focused gates pass: Models preparation/adoption, optional runtime
+helpers, prepared-model cache ownership, affected core/service types, native
+channel extraction, correspondence and speech seam parity. Full provider-response
+parity covers retained candidates before actual inference; the prepared public
+closure reproduces every bounded reference matrix. Repeated inference also
+preserves complete inventory readiness. Public attribution is still pending B.
+
+### Checkpoint B — durable evidence and public lifecycle
+
+Explicit preparation publishes immutable conditional paths and correspondence,
+with literal source/text/channel/range/provider/PCM pins. Retained reads and pinned
+source/project projection require neither inference nor runtime bytes. Wrong,
+repeated, missing and partial text remain unmatched or unknown as observed;
+out-of-physical-support native cells refuse rather than shortening an estimate.
+Retain bounded acoustic cells and measured noise context. Acoustic activity/quiet
+requires a caller-supplied threshold, and never supplies a lexical identity.
+Both checkpoints are required before this slice is complete.
 
 Explicit alignment preparation pins literal text, source/tap/range, PCM identity and provider. Read rows retain token/word index, estimated bounds, matched/unmatched status and provider score interpretation. Report nearby quiet/activity intervals with resolution and measured noise context; no waveform-only lexical label. Preserve partial/disfluent fragments only when observed; otherwise expose unexplained speech/ASR mismatch as unknown, not invented words.
 

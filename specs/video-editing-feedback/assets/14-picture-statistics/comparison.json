@@ -1,0 +1,222 @@
+{
+  "target": "Requesting observations preserves the delivered image. Explicit authored exposure controls change brightness without moving source time, geometry or masks. These are observations, never grading targets.",
+  "matchedPairs": [
+    {
+      "id": "chart/source",
+      "sameRequestExceptObservations": true,
+      "deliveredDimensions": [
+        4,
+        4
+      ],
+      "plainPngSha256": "f5166d5d61dacb0db9bf963075b09d76c24715dd8fe10a3bd1dca9b66dce0d9f",
+      "measuredPngSha256": "f5166d5d61dacb0db9bf963075b09d76c24715dd8fe10a3bd1dca9b66dce0d9f",
+      "decodedRgbaSha256": "68ca9f8554438acbffd510c11a97fc813161e4153023f279a24db53074d3d150",
+      "byteDifference": 0,
+      "fullAndExplicitRegionHistograms": "exact independently decoded match",
+      "colorMetricMask": "alpha255 only; alpha0/partial kept as coverage",
+      "regionCoordinates": "delivered upright top-left pixels"
+    },
+    {
+      "id": "alpha/source",
+      "sameRequestExceptObservations": true,
+      "deliveredDimensions": [
+        3,
+        1
+      ],
+      "plainPngSha256": "1e6e6cf2355a1853458984c900f8ddf2af48027a51c74e29e98175b270c03df2",
+      "measuredPngSha256": "1e6e6cf2355a1853458984c900f8ddf2af48027a51c74e29e98175b270c03df2",
+      "decodedRgbaSha256": "cec343d3e08f73c324c30c898a8004edb6175779434f13d1dd23a9e3b71e8921",
+      "byteDifference": 0,
+      "fullAndExplicitRegionHistograms": "exact independently decoded match",
+      "colorMetricMask": "alpha255 only; alpha0/partial kept as coverage",
+      "regionCoordinates": "delivered upright top-left pixels"
+    },
+    {
+      "id": "dark/source",
+      "sameRequestExceptObservations": true,
+      "deliveredDimensions": [
+        4,
+        4
+      ],
+      "plainPngSha256": "c37593917a82b6b6119d5118de57607ac3cc969278321e504cf75ec41fe25822",
+      "measuredPngSha256": "c37593917a82b6b6119d5118de57607ac3cc969278321e504cf75ec41fe25822",
+      "decodedRgbaSha256": "20e65596fe7c15642996b35ef3054f8c93a772fc0e91f66b3174ae8ff26a2921",
+      "byteDifference": 0,
+      "fullAndExplicitRegionHistograms": "exact independently decoded match",
+      "colorMetricMask": "alpha255 only; alpha0/partial kept as coverage",
+      "regionCoordinates": "delivered upright top-left pixels"
+    },
+    {
+      "id": "border/source",
+      "sameRequestExceptObservations": true,
+      "deliveredDimensions": [
+        4,
+        4
+      ],
+      "plainPngSha256": "86ebe85f12a3a7f8264614a1191da55f646cbc478f4d70d691b0c0744da28cd9",
+      "measuredPngSha256": "86ebe85f12a3a7f8264614a1191da55f646cbc478f4d70d691b0c0744da28cd9",
+      "decodedRgbaSha256": "8ec2fde123d42aca3249b53ea1684a86f5816572b0bcf57568376ae53a5ab260",
+      "byteDifference": 0,
+      "fullAndExplicitRegionHistograms": "exact independently decoded match",
+      "colorMetricMask": "alpha255 only; alpha0/partial kept as coverage",
+      "regionCoordinates": "delivered upright top-left pixels"
+    },
+    {
+      "id": "graham/source",
+      "sameRequestExceptObservations": true,
+      "deliveredDimensions": [
+        480,
+        270
+      ],
+      "plainPngSha256": "0bdef7c1c77cbbf0cd7f0da6010522be8896f80d2ddd5dc324b477339f01da9e",
+      "measuredPngSha256": "0bdef7c1c77cbbf0cd7f0da6010522be8896f80d2ddd5dc324b477339f01da9e",
+      "decodedRgbaSha256": "521b807356ef9cc1c9c00e5e92a8dfdaf861d61175edb49a14af25c2e6e0cc61",
+      "byteDifference": 0,
+      "fullAndExplicitRegionHistograms": "exact independently decoded match",
+      "colorMetricMask": "alpha255 only; alpha0/partial kept as coverage",
+      "regionCoordinates": "delivered upright top-left pixels"
+    },
+    {
+      "id": "graham/project",
+      "sameRequestExceptObservations": true,
+      "deliveredDimensions": [
+        480,
+        270
+      ],
+      "plainPngSha256": "dd1dc6d243e465fe112f91fd2373b012f2ecb21af5c12e7ef91b6d09288ef63b",
+      "measuredPngSha256": "dd1dc6d243e465fe112f91fd2373b012f2ecb21af5c12e7ef91b6d09288ef63b",
+      "decodedRgbaSha256": "97076054729beb9ccd2b303ab82264df83e9c9c3041f727eb1439796d72c23af",
+      "byteDifference": 0,
+      "fullAndExplicitRegionHistograms": "exact independently decoded match",
+      "colorMetricMask": "alpha255 only; alpha0/partial kept as coverage",
+      "regionCoordinates": "delivered upright top-left pixels"
+    },
+    {
+      "id": "graham/dark-exposure",
+      "sameRequestExceptObservations": true,
+      "deliveredDimensions": [
+        480,
+        270
+      ],
+      "plainPngSha256": "fe60d3d1c7b697debf2e33c194581f3c437a87fa27260aeab6f865f15cb4155e",
+      "measuredPngSha256": "fe60d3d1c7b697debf2e33c194581f3c437a87fa27260aeab6f865f15cb4155e",
+      "decodedRgbaSha256": "0116e672072c5632f5ccce8159680a39066f641ed79998e2e6a356172c37414e",
+      "byteDifference": 0,
+      "fullAndExplicitRegionHistograms": "exact independently decoded match",
+      "colorMetricMask": "alpha255 only; alpha0/partial kept as coverage",
+      "regionCoordinates": "delivered upright top-left pixels"
+    },
+    {
+      "id": "graham/bright-exposure",
+      "sameRequestExceptObservations": true,
+      "deliveredDimensions": [
+        480,
+        270
+      ],
+      "plainPngSha256": "8af469d6a4de03a6ce19ac66ff416ef004c00d7a6e464fb26e3979f6472a3cc6",
+      "measuredPngSha256": "8af469d6a4de03a6ce19ac66ff416ef004c00d7a6e464fb26e3979f6472a3cc6",
+      "decodedRgbaSha256": "b6d1e39e4274b340b7cd3b4b552ddda8f1d1b934bd7391ca8f370379e4e35f14",
+      "byteDifference": 0,
+      "fullAndExplicitRegionHistograms": "exact independently decoded match",
+      "colorMetricMask": "alpha255 only; alpha0/partial kept as coverage",
+      "regionCoordinates": "delivered upright top-left pixels"
+    },
+    {
+      "id": "madison/source",
+      "sameRequestExceptObservations": true,
+      "deliveredDimensions": [
+        480,
+        270
+      ],
+      "plainPngSha256": "11aa7ab10d5c0a7081bdca438e519e1e2b34c682ad8b5aa1f75549fb822b284c",
+      "measuredPngSha256": "11aa7ab10d5c0a7081bdca438e519e1e2b34c682ad8b5aa1f75549fb822b284c",
+      "decodedRgbaSha256": "0cf42c319b58553cbd6f80d5f82de0d8cf7405dbc9b9cfc00169b61f295497d8",
+      "byteDifference": 0,
+      "fullAndExplicitRegionHistograms": "exact independently decoded match",
+      "colorMetricMask": "alpha255 only; alpha0/partial kept as coverage",
+      "regionCoordinates": "delivered upright top-left pixels"
+    },
+    {
+      "id": "madison/project",
+      "sameRequestExceptObservations": true,
+      "deliveredDimensions": [
+        480,
+        270
+      ],
+      "plainPngSha256": "8cb06e9d72cce32f915d5f855363dd81c6f0008fde5f1da12ee2ec843f7329f6",
+      "measuredPngSha256": "8cb06e9d72cce32f915d5f855363dd81c6f0008fde5f1da12ee2ec843f7329f6",
+      "decodedRgbaSha256": "ad756098e032ab314a45e610ca63367d0515cc76b5af9df97cf41b75b99e19f6",
+      "byteDifference": 0,
+      "fullAndExplicitRegionHistograms": "exact independently decoded match",
+      "colorMetricMask": "alpha255 only; alpha0/partial kept as coverage",
+      "regionCoordinates": "delivered upright top-left pixels"
+    },
+    {
+      "id": "lily/source",
+      "sameRequestExceptObservations": true,
+      "deliveredDimensions": [
+        480,
+        270
+      ],
+      "plainPngSha256": "ff6c787bc87ea8c097fbcee824ab03f417e67cae95776f3d1c9813cdf86b1ee4",
+      "measuredPngSha256": "ff6c787bc87ea8c097fbcee824ab03f417e67cae95776f3d1c9813cdf86b1ee4",
+      "decodedRgbaSha256": "8e3e58511ef4ba487e21428434c9d4dc93ac726da33d064cfb445d94b620b584",
+      "byteDifference": 0,
+      "fullAndExplicitRegionHistograms": "exact independently decoded match",
+      "colorMetricMask": "alpha255 only; alpha0/partial kept as coverage",
+      "regionCoordinates": "delivered upright top-left pixels"
+    },
+    {
+      "id": "lily/project",
+      "sameRequestExceptObservations": true,
+      "deliveredDimensions": [
+        480,
+        270
+      ],
+      "plainPngSha256": "81ca70e6f4c6aa91af6b73d886740d68b027295e99fd47414921fb6d071dc3bd",
+      "measuredPngSha256": "81ca70e6f4c6aa91af6b73d886740d68b027295e99fd47414921fb6d071dc3bd",
+      "decodedRgbaSha256": "1afa6891b2ffddac66976d0af264ceedb76e7df89699d08f2580419ade25d909",
+      "byteDifference": 0,
+      "fullAndExplicitRegionHistograms": "exact independently decoded match",
+      "colorMetricMask": "alpha255 only; alpha0/partial kept as coverage",
+      "regionCoordinates": "delivered upright top-left pixels"
+    },
+    {
+      "id": "rotated/source",
+      "sameRequestExceptObservations": true,
+      "deliveredDimensions": [
+        3,
+        4
+      ],
+      "plainPngSha256": "675721a9b295574990f0e91eacd227983b2cdc63e09b677636def201cdaced9a",
+      "measuredPngSha256": "675721a9b295574990f0e91eacd227983b2cdc63e09b677636def201cdaced9a",
+      "decodedRgbaSha256": "2dcebf2ca84f6eba6db415e4a8684b311dd210564eac5301a19e262207d2681b",
+      "byteDifference": 0,
+      "fullAndExplicitRegionHistograms": "exact independently decoded match",
+      "colorMetricMask": "alpha255 only; alpha0/partial kept as coverage",
+      "regionCoordinates": "delivered upright top-left pixels"
+    }
+  ],
+  "authoredExposureControls": [
+    {
+      "id": "dark-exposure",
+      "matchedSourceSample": true,
+      "matchedGeometry": true,
+      "byteHashChanged": true,
+      "beforeLuma": 188.1545910493827,
+      "afterLuma": 49.58662808641975,
+      "beforeBrightFraction": 0,
+      "afterBrightFraction": 0
+    },
+    {
+      "id": "bright-exposure",
+      "matchedSourceSample": true,
+      "matchedGeometry": true,
+      "byteHashChanged": true,
+      "beforeLuma": 188.1545910493827,
+      "afterLuma": 254.31161265432098,
+      "beforeBrightFraction": 0,
+      "afterBrightFraction": 0.9833719135802469
+    }
+  ]
+}

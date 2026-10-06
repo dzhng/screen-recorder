@@ -22,6 +22,11 @@ func finish() -> Never { cleanupEvidence(); exit(0) }
 let images = evidence.appendingPathComponent("images")
 try FileManager.default.createDirectory(at: images, withIntermediateDirectories: true)
 
+if CommandLine.arguments.contains("--picture-observations") {
+    try verifyPictureObservations(in: images)
+    finish()
+}
+
 if CommandLine.arguments.contains("--sdr-correction") {
     try await verifySDRCorrection(in: images)
     finish()
@@ -37,6 +42,7 @@ if CommandLine.arguments.contains("--pointer-readability") {
     finish()
 }
 
+try verifyPictureObservations(in: images)
 try await verifySDRCorrection(in: images)
 try await verifyCompositionPNG(in: images)
 try await verifyCompositionSourceColors(in: images)

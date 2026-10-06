@@ -12,6 +12,8 @@ import {
   normalizationGain,
   admitNormalization,
   normalizationTolerance,
+  normalizationCorrectionPolicy,
+  normalizationFailures,
   type AudioProcessingEvidence,
 } from "@yap/core/audio-measurement";
 import type { AudioWindowInput } from "@yap/core/project-window";
@@ -43,7 +45,7 @@ export async function audioProcessingRuntime(
   const processors = Object.fromEntries(
     externalTypes.map((type) => [
       type,
-      `${type === "limiter" ? "linked-mono-max-limiter-v1" : type === "compressor" ? "peak-maximum-downward-compressor-v1" : "measured-normalization-v1"}:${tools.receiptSha256}:${preparationId}`,
+      `${type === "limiter" ? "linked-mono-max-limiter-v1" : type === "compressor" ? "peak-maximum-downward-compressor-v1" : "bounded-offset-normalization"}:${tools.receiptSha256}:${preparationId}`,
     ]),
   );
   return {
@@ -247,6 +249,9 @@ export async function withAudioProcessing<T>(
           ? await prefix("detector")
           : undefined;
       let filter: string, before: Awaited<ReturnType<typeof meter.measure>> | undefined;
+      let dynamic: { offsetDb: number; filter: (offsetDb: number) => string } | undefined;
+      const attempts: NonNullable<AudioProcessingEvidence["normalization"]>["attempts"] = [];
+      let previousErrorLu = Infinity;
       if (recipe.type === "limiter") {
         const ceiling = 10 ** (recipe.ceilingDbfs / 20);
         filter = `[0:a]asetnsamples=n=128:p=1,asplit=2[p][d];[d]aeval=exprs=max(abs(val(0))\\,abs(val(1))):c=mono,asplit=2[m][md];[m]alimiter=limit=${ceiling}:attack=${recipe.lookaheadMs}:release=${recipe.releaseMs}:level_in=1:level_out=1:level=false:asc=false:latency=true,asetnsamples=n=128:p=1[ml];[p][md][ml]amerge=inputs=3,aeval=exprs=if(eq(val(2)\\,0)\\,val(0)\\,val(0)*val(3)/val(2))|if(eq(val(2)\\,0)\\,val(1)\\,val(1)*val(3)/val(2)):c=stereo,atrim=end_sample=${frames}[out]`;
@@ -312,109 +317,189 @@ export async function withAudioProcessing<T>(
               );
             return value;
           };
-          filter = `[0:a]${base}:measured_I=${finite("input_i")}:measured_TP=${finite("input_tp")}:measured_LRA=${finite("input_lra")}:measured_thresh=${finite("input_thresh")}:offset=${finite("target_offset")}[out]`;
+          const measuredFilter = `${base}:measured_I=${finite("input_i")}:measured_TP=${finite("input_tp")}:measured_LRA=${finite("input_lra")}:measured_thresh=${finite("input_thresh")}`;
+          dynamic = {
+            offsetDb: finite("target_offset"),
+            filter: (offsetDb) => `[0:a]${measuredFilter}:offset=${offsetDb}[out]`,
+          };
+          filter = dynamic.filter(dynamic.offsetDb);
         }
       } else throw new CatalogError("INVALID_RESPONSE", "Unexpected external audio recipe");
-      return await withFfmpegArtifact(
-        request.worker,
-        {
-          attempt: {
-            directory: request.directory,
-            worker: request.worker,
-            authority: request.authority,
-          },
-          filename: `domain-${domainIndex}-treated.wav`,
-          executable: tools.executables.ffmpeg.path,
-          ownerExecutable: runtime.ownerExecutable,
-          descriptors: [program.file.fd, ...(detector ? [detector.file.fd] : [])],
-          rewindDescriptors: detector ? [3, 4] : [3],
-          timeoutMs: request.timeoutMs,
-          maxBytes: 65536,
-          args: (slot) => [
-            ...preamble,
-            ...inputArgs(3),
-            ...(detector ? inputArgs(4) : []),
-            "-filter_complex",
-            filter,
-            "-map",
-            "[out]",
-            "-ar",
-            "48000",
-            "-ac",
-            "2",
-            "-c:a",
-            "pcm_f32le",
-            "-f",
-            "wav",
-            "-fd",
-            String(slot),
-            "fd:",
-          ],
-        },
-        signal,
-        async (file) => {
-          const audio = await validateWave(file, frames, signal);
-          if (recipe.type === "limiter" && audio.peak > 10 ** (recipe.ceilingDbfs / 20) + 1e-6)
-            throw new CatalogError(
-              "LIMITER_CEILING_UNMET",
-              "The complete limited signal exceeds its requested sample ceiling",
-            );
-          const normalization =
-            recipe.type === "normalization"
-              ? {
-                  before: before!,
-                  after: await meter.measure(
-                    {
-                      source: { fd: file.fd, bytes: audio.bytes },
-                      audio,
-                      channelInterpretation: "native",
-                      truePeak: true,
-                    },
-                    signal,
-                  ),
-                  meterImplementationId: meter.implementationId,
-                  tolerances: normalizationTolerance,
-                }
-              : undefined;
-          if (normalization && recipe.type === "normalization")
-            admitNormalization(recipe, normalization.after);
-          return { audio, normalization };
-        },
-        async (artifact) => {
-          held.push({
-            domainIndex,
-            recipe,
-            sampleRange: domain.sampleRange,
-            sampleRate: 48000,
-            channels: 2,
-            pcm: {
-              descriptor: 3 + descriptors.length,
-              identity: artifact.identity,
-              bytes: artifact.bytes,
-              dataOffset: artifact.evidence.audio.dataOffset,
-              frames,
-              range: { start: 0, end: frames },
-              unavailable: [],
+      type AdmittedCandidate = { errorLu: number; finish: () => Promise<T> };
+      const treat = async (candidate: number, best?: AdmittedCandidate): Promise<T> => {
+        const filename = `domain-${domainIndex}-treated-${candidate}.wav`;
+        return withFfmpegArtifact(
+          request.worker,
+          {
+            attempt: {
+              directory: request.directory,
+              worker: request.worker,
+              authority: request.authority,
             },
-          });
-          descriptors.push(artifact.file.fd);
-          evidence.push({
-            domainIndex,
-            recipe,
-            sampleRange: domain.sampleRange,
-            implementationId,
-            ...(artifact.evidence.normalization
-              ? { normalization: artifact.evidence.normalization }
-              : {}),
-          });
-          // Retain only completed domain outputs while downstream recipes execute.
-          for (const p of prefixes.splice(0)) {
-            await p.file.close();
-            await unlink(p.path);
-          }
-          return recurse(ordinal + 1);
-        },
-      );
+            filename,
+            executable: tools.executables.ffmpeg.path,
+            ownerExecutable: runtime.ownerExecutable,
+            descriptors: [program.file.fd, ...(detector ? [detector.file.fd] : [])],
+            rewindDescriptors: detector ? [3, 4] : [3],
+            timeoutMs: request.timeoutMs,
+            maxBytes: 65536,
+            args: (slot) => [
+              ...preamble,
+              ...inputArgs(3),
+              ...(detector ? inputArgs(4) : []),
+              "-filter_complex",
+              filter,
+              "-map",
+              "[out]",
+              "-ar",
+              "48000",
+              "-ac",
+              "2",
+              "-c:a",
+              "pcm_f32le",
+              "-f",
+              "wav",
+              "-fd",
+              String(slot),
+              "fd:",
+            ],
+          },
+          signal,
+          async (file) => {
+            const audio = await validateWave(file, frames, signal);
+            if (recipe.type === "limiter" && audio.peak > 10 ** (recipe.ceilingDbfs / 20) + 1e-6)
+              throw new CatalogError(
+                "LIMITER_CEILING_UNMET",
+                "The complete limited signal exceeds its requested sample ceiling",
+              );
+            const normalization =
+              recipe.type === "normalization"
+                ? {
+                    before: before!,
+                    after: await meter.measure(
+                      {
+                        source: { fd: file.fd, bytes: audio.bytes },
+                        audio,
+                        channelInterpretation: "native",
+                        truePeak: true,
+                      },
+                      signal,
+                    ),
+                    attempts,
+                    selectedAttempt: candidate,
+                    meterImplementationId: meter.implementationId,
+                    tolerances: normalizationTolerance,
+                  }
+                : undefined;
+            if (normalization)
+              attempts.push({ offsetDb: dynamic?.offsetDb ?? null, after: normalization.after });
+            return { audio, normalization };
+          },
+          async (artifact) => {
+            const normalization = artifact.evidence.normalization;
+            const finish = async (): Promise<T> => {
+              held.push({
+                domainIndex,
+                recipe,
+                sampleRange: domain.sampleRange,
+                sampleRate: 48000,
+                channels: 2,
+                pcm: {
+                  descriptor: 3 + descriptors.length,
+                  identity: artifact.identity,
+                  bytes: artifact.bytes,
+                  dataOffset: artifact.evidence.audio.dataOffset,
+                  frames,
+                  range: { start: 0, end: frames },
+                  unavailable: [],
+                },
+              });
+              descriptors.push(artifact.file.fd);
+              evidence.push({
+                domainIndex,
+                recipe,
+                sampleRange: domain.sampleRange,
+                implementationId,
+                ...(artifact.evidence.normalization
+                  ? { normalization: artifact.evidence.normalization }
+                  : {}),
+              });
+              // Retain only completed domain outputs while downstream recipes execute.
+              for (const p of prefixes.splice(0)) {
+                await p.file.close();
+                await unlink(p.path);
+              }
+              return recurse(ordinal + 1);
+            };
+            if (normalization && recipe.type === "normalization") {
+              const after = normalization.after;
+              const errorLu =
+                after.integratedLufs === null
+                  ? Infinity
+                  : Math.abs(recipe.targetIntegratedLufs - after.integratedLufs);
+              const failures = normalizationFailures(recipe, after);
+              const admitted =
+                !Object.values(failures).some(Boolean) && (!best || errorLu < best.errorLu)
+                  ? { errorLu, finish }
+                  : best;
+              const constraints =
+                after.integratedLufs !== null && !failures.range && !failures.peak;
+              const nextOffsetDb =
+                dynamic && after.integratedLufs !== null
+                  ? dynamic.offsetDb + recipe.targetIntegratedLufs - after.integratedLufs
+                  : NaN;
+              const offsetAvailable =
+                Number.isFinite(nextOffsetDb) &&
+                nextOffsetDb >= normalizationCorrectionPolicy.minimumOffsetDb &&
+                nextOffsetDb <= normalizationCorrectionPolicy.maximumOffsetDb;
+              const progress =
+                previousErrorLu - errorLu >=
+                normalizationCorrectionPolicy.minimumErrorImprovementLu;
+              const budget = candidate + 1 < normalizationCorrectionPolicy.maximumCandidates;
+              if (
+                dynamic &&
+                constraints &&
+                errorLu > normalizationCorrectionPolicy.desiredErrorLu &&
+                progress &&
+                budget &&
+                offsetAvailable
+              ) {
+                previousErrorLu = errorLu;
+                dynamic.offsetDb = nextOffsetDb;
+                filter = dynamic.filter(nextOffsetDb);
+                // Nested artifact lifetimes keep the best admitted PCM held until correction settles.
+                return treat(candidate + 1, admitted);
+              }
+              if (admitted) return admitted.finish();
+              try {
+                admitNormalization(recipe, after);
+              } catch (error) {
+                if (!(error instanceof CatalogError)) throw error;
+                throw new CatalogError(
+                  error.code,
+                  error.message,
+                  {
+                    ...error.details,
+                    attempts,
+                    stopReason: !dynamic
+                      ? "single-gain"
+                      : !constraints
+                        ? "constraints"
+                        : !progress
+                          ? "no-progress"
+                          : !budget
+                            ? "budget-exhausted"
+                            : "offset-unavailable",
+                  },
+                  error.retryable,
+                );
+              }
+            }
+            return finish();
+          },
+        );
+      };
+      return await treat(0);
     } finally {
       for (const p of prefixes) {
         await p.file.close();

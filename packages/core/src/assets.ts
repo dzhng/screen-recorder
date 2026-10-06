@@ -20,7 +20,13 @@ import { mkdir, open, link, unlink, opendir, rm, lstat } from "node:fs/promises"
 import { extname, isAbsolute, join } from "node:path";
 import { z } from "zod";
 import { Catalog, CatalogError } from "./catalog.js";
-import { copyImportedFile, fileIdentity, hashFile, type IdentifiedFile } from "./files.js";
+import {
+  copyImportedFile,
+  fileIdentity,
+  hashFile,
+  type IdentifiedFile,
+  type FileIdentity,
+} from "./files.js";
 
 const integer = z.number().int().min(Number.MIN_SAFE_INTEGER).max(Number.MAX_SAFE_INTEGER);
 const positive = integer.positive();
@@ -171,6 +177,8 @@ export class AssetStore {
       CREATE TABLE IF NOT EXISTS asset_imports (
         importId TEXT PRIMARY KEY, requestId TEXT UNIQUE NOT NULL, path TEXT NOT NULL, assetId TEXT, source TEXT NOT NULL
       ) STRICT;
+      CREATE INDEX IF NOT EXISTS asset_import_source_identity ON asset_imports(
+        json_extract(source,'$.identity.device'),json_extract(source,'$.identity.inode'));
       CREATE TABLE IF NOT EXISTS assets (
         sequence INTEGER PRIMARY KEY AUTOINCREMENT, id TEXT UNIQUE NOT NULL,
         metadata TEXT NOT NULL
@@ -299,6 +307,16 @@ export class AssetStore {
         if (owner) this.retain(owner, [asset.id]);
       },
       intent.source,
+    );
+  }
+
+  /** Imported originals remain protected even through another pathname or later byte changes. */
+  isImportedSource(identity: Pick<FileIdentity, "device" | "inode">): boolean {
+    return Boolean(
+      this.store.catalog
+        .prepare(`SELECT 1 FROM asset_imports INDEXED BY asset_import_source_identity
+      WHERE json_extract(source,'$.identity.device')=? AND json_extract(source,'$.identity.inode')=? LIMIT 1`)
+        .get(identity.device, identity.inode),
     );
   }
 

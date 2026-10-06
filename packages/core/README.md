@@ -31,7 +31,8 @@ Read-only acoustic measurements retain the selected PCM generation and recipe.
 Integrated loudness requires complete admitted support; a hole cannot become
 measured silence or concatenate neighboring material. A null gate result is
 evidence of measurement limits, never an instruction to normalize. Explicit
-normalization publication retains complete before/after measurements and refuses
+normalization publication retains complete before/after measurements and every
+bounded candidate offset/result, and refuses
 infeasible or missed requested targets. Prepared excerpts preserve that complete
 processing evidence rather than relabeling it as an excerpt measurement. An explicit
 prepared signal pin must match its complete tap, ordered processing recipe and revision
@@ -100,6 +101,12 @@ Registered acquisition policy can require explicitly supplied local model bytes;
 it does not change execution identity. An already verified preparation remains
 idempotent without repeating its original acquisition inputs.
 
+Curated runtime acquisition uses the same downloader and cancellation owner.
+The [runtime recipe](../../helpers/model-runtime/README.md) identifies public
+interpreter/package inputs and offline assembly; the service supplies execution
+lifetime. Full measured inventory admission precedes publication. Neither a
+successful installer nor a matching package version is runtime readiness.
+
 ## Publication and storage
 
 Export intent pins revision and destination before execution. Acknowledgement
@@ -120,3 +127,12 @@ sources. Aggregate [storage observations](src/storage.ts) measure managed files;
 shared media does not have an invented per-project byte share. Models and external
 donors have separate ownership, and shutdown joins observations before closing
 the catalog.
+
+[Frame inspection](src/frame-inspection.ts) retains optional picture measurements
+beside its existing source sample or compiled revision identity. Requested masks
+and thresholds participate in the frame and index recipes, so plain pixels cannot
+stand in for measured evidence and another rectangle cannot reuse its receipt.
+The [pure public observation contract](../protocol/src/picture.ts) admits masks,
+coverage and histogram operands; native still owns their computation on the
+inspected raster. Index retention copies the complete evidence with its PNG and
+proves only the sampled picture, never intervening visibility or a quality grade.

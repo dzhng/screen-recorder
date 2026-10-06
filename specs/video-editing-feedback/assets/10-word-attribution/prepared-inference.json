@@ -1,0 +1,93 @@
+[
+  {
+    "name": "constructed-repeats",
+    "seconds": 30.217624708000002,
+    "exactNativeMatrix": true,
+    "exactConditionalPath": true,
+    "runtimeDigest": "1e25a3c61e34840ce67d0548901f6d9b6ab0df01d1bd7ede64a42f54aca208fd",
+    "nativeReceiptSha256": "fee74cd6849a5368fc3036a555359ff4397007a36d51988a06dd5589138ea596",
+    "reportSha256": "c8097941a070dea916b6b10548f2f6b6861b738cd360cf3d6da472c421522e90",
+    "shape": [
+      150,
+      1025
+    ]
+  },
+  {
+    "name": "false-start",
+    "seconds": 9.952684833,
+    "exactNativeMatrix": true,
+    "exactConditionalPath": true,
+    "runtimeDigest": "1e25a3c61e34840ce67d0548901f6d9b6ab0df01d1bd7ede64a42f54aca208fd",
+    "nativeReceiptSha256": "fbba7d9b91ee38882b235160c98c5ea35a811d0a8c9aae9bb9b079036f0165a8",
+    "reportSha256": "ee4f585ac4e4d7366c8feb6cee3d5ca60f9029c6730d664bfb6dbd95020bafbc",
+    "shape": [
+      23,
+      1025
+    ]
+  },
+  {
+    "name": "fortunate-contextual",
+    "seconds": 8.183275083,
+    "exactNativeMatrix": true,
+    "exactConditionalPath": true,
+    "runtimeDigest": "1e25a3c61e34840ce67d0548901f6d9b6ab0df01d1bd7ede64a42f54aca208fd",
+    "nativeReceiptSha256": "9e9cc1cc2300651ebd8b4814a63389ba81697e38bdbf18bedd44767768e6370d",
+    "reportSha256": "261f82e6758c6c13c03037ef74d8ebf6e4f9617a666ab5df46cdbd413b201bc1",
+    "shape": [
+      37,
+      1025
+    ]
+  },
+  {
+    "name": "fortunate-intact",
+    "seconds": 8.252516042000003,
+    "exactNativeMatrix": true,
+    "exactConditionalPath": true,
+    "runtimeDigest": "1e25a3c61e34840ce67d0548901f6d9b6ab0df01d1bd7ede64a42f54aca208fd",
+    "nativeReceiptSha256": "edf7d0f2b91ef12797436e6267c6798be28ef269dd8f81b307a3c48f642d1e7d",
+    "reportSha256": "70e17df7571128689143a7d9de22760f89350333bcb091bcffecf8b3acf78211",
+    "shape": [
+      12,
+      1025
+    ]
+  },
+  {
+    "name": "fortunate-truncated",
+    "seconds": 10.547059084000008,
+    "exactNativeMatrix": true,
+    "exactConditionalPath": true,
+    "runtimeDigest": "1e25a3c61e34840ce67d0548901f6d9b6ab0df01d1bd7ede64a42f54aca208fd",
+    "nativeReceiptSha256": "fe51074173a41bc390123f08752600f0a4cfb9bd71b5d69b384dec9dbed22226",
+    "reportSha256": "d6b5bd132ceef812862490a91e00a1990020d08b2a3067bf57edc42b2ba9d930",
+    "shape": [
+      5,
+      1025
+    ]
+  },
+  {
+    "name": "madison-tiny",
+    "seconds": 13.138285541999998,
+    "exactNativeMatrix": true,
+    "exactConditionalPath": true,
+    "runtimeDigest": "1e25a3c61e34840ce67d0548901f6d9b6ab0df01d1bd7ede64a42f54aca208fd",
+    "nativeReceiptSha256": "4dc09b0e187bff570e4150da3fd61cc2ef5b1125f6c901126c0db21f3edb0b30",
+    "reportSha256": "c3e20de99965a90df053772b3fe6465153f4b5864fd885265a0c4d921a2a9f60",
+    "shape": [
+      34,
+      1025
+    ]
+  },
+  {
+    "name": "overlap25",
+    "seconds": 9.302487500000003,
+    "exactNativeMatrix": true,
+    "exactConditionalPath": true,
+    "runtimeDigest": "1e25a3c61e34840ce67d0548901f6d9b6ab0df01d1bd7ede64a42f54aca208fd",
+    "nativeReceiptSha256": "524e657b2eec11f8ee33514d799cbe638fffae1a6eaeb724fee8550bd5902f94",
+    "reportSha256": "71a4e3e7b3f9b70e09dbbad31284a100d42d1de9f61d1757dba81f95cb65c1a4",
+    "shape": [
+      313,
+      1025
+    ]
+  }
+]

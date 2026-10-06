@@ -1,0 +1,33 @@
+Falsification: ignore digest when comparing destination evidence.
+✖ same-inode same-length race still requires the pinned victim digest (440.565416ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 475.372625
+
+✖ failing tests:
+
+test at helpers/mac/Tests/publication.test.mjs:205:1
+✖ same-inode same-length race still requires the pinned victim digest (440.565416ms)
+  AssertionError [ERR_ASSERTION]: {"ok":true,"data":{"state":"committed"},"id":"test"}
+  + actual - expected
+  
+  + 'committed'
+  - 'conflicted'
+       ^
+  
+      at TestContext.<anonymous> (file:///Users/server/dev/yap-exact-removal/helpers/mac/Tests/publication.test.mjs:208:10)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async Test.run (node:internal/test_runner/test:1409:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 'committed',
+    expected: 'conflicted',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }

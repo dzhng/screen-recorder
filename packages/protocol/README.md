@@ -58,3 +58,13 @@ selection and generation that produced the bytes.
 real native consumers. Their assertions complement type checking: they protect
 what actually crosses a process boundary, including malformed and foreign-owner
 inputs.
+
+## Picture observations
+
+[The pure picture contract](src/picture.ts) owns optional measurement requests,
+default interpretation and bounded receipts for shared frame/index delivery.
+Rectangles address delivered upright pixels, and nested observations inherit the
+parent frame's source/sample or project/revision pins. Histograms report opaque
+encoded-sRGB operands with declared luma weights; they are not radiometric light,
+scene semantics or instructions to edit. Coverage and actual color profiles keep
+missing pixels or absent ICC bytes visible instead of filling them with defaults.

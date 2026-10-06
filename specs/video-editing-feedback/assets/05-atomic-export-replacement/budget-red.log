@@ -1,0 +1,26 @@
+
+ RUN  v5.0.0 /Users/server/dev/yap-exact-removal
+
+ ❯ apps/service/src/publication.test.ts (2 tests | 1 failed) 4ms
+   × replacement deadline includes the pinned previous destination bytes 2ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  apps/service/src/publication.test.ts > replacement deadline includes the pinned previous destination bytes
+AssertionError: expected 30001 to be greater than 30001
+ ❯ apps/service/src/publication.test.ts:21:59
+     19| test("replacement deadline includes the pinned previous destination by…
+     20|   const small = publicationDeadlineMs(1024);
+     21|   expect(publicationDeadlineMs(1024, 1024 * 1024 * 1024)).toBeGreaterT…
+       |                                                           ^
+     22|   expect(publicationDeadlineMs(1024, Number.MAX_SAFE_INTEGER)).toBe(MA…
+     23| });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 1 passed (2)
+   Start at  23:54:02
+   Duration  551ms (transform 82%, import 17%, tests 1%)
+

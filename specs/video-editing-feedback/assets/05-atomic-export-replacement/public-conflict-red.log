@@ -1,0 +1,31 @@
+✖ public external swap conflict reports uncertain visibility and retains unknown displaced bytes (2309.09675ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 2495.974875
+
+✖ failing tests:
+
+test at apps/service/tests/export-replacement.mjs:356:1
+✖ public external swap conflict reports uncertain visibility and retains unknown displaced bytes (2309.09675ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + undefined
+  - 'uncertain'
+  
+      at TestContext.<anonymous> (file:///Users/server/dev/yap-exact-removal/apps/service/tests/export-replacement.mjs:380:10)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async Test.run (node:internal/test_runner/test:1409:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: 'uncertain',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }

@@ -15,6 +15,7 @@ public enum CompositionFrameRenderer {
         let maxEncodedBytes: Int?
         let sdrCorrectionImplementationId: String?
         let pointers: PreparedPointersReceipt?
+        let observations: PictureObservationRequest?
     }
     public struct Result: Encodable {
         let file: String
@@ -30,6 +31,7 @@ public enum CompositionFrameRenderer {
         let decodedSamples: Int
         let readerOpens: Int
         let bytes: Int
+        let observations: PictureObservations?
     }
 
     public static func write(_ request: Request) async throws -> Result {
@@ -56,13 +58,14 @@ public enum CompositionFrameRenderer {
         try pictures.finishPointers()
         // Orientation and composition are complete. Only the established delivery bound remains.
         let image = FrameImage(oriented: composed, maxLongEdge: edge)
-        let bytes = try image.publishPNG(
-            to: output, context: pictures.context, maxEncodedBytes: limit)
+        let published = try image.publishPNG(
+            to: output, context: pictures.context, maxEncodedBytes: limit,
+            observations: request.observations)
         return Result(
             file: request.output, frame: frame, pictures: pictures.pictures,
             width: image.width, height: image.height,
             sourceWidth: request.canvas.width, sourceHeight: request.canvas.height,
             decodedImages: pictures.decodedImages, decodedSamples: pictures.decodedSamples,
-            readerOpens: pictures.opens, bytes: bytes)
+            readerOpens: pictures.opens, bytes: published.bytes, observations: published.observations)
     }
 }

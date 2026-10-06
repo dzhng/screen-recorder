@@ -1,0 +1,1 @@
+Within the requested corrective scope, metadata-only symlink accounting uses no-follow inspection and preserves existing conflict and cleanup refusal behavior. Retained red/green evidence covers both native and public storage paths; this is not a review of the whole feature.

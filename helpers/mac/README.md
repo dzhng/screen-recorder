@@ -52,6 +52,24 @@ streams original observations and integrity disposition. Journal record order is
 not global source-time order; consumers index explicit clocks rather than inventing
 movement or treating a completion claim as new media validation.
 
+## External publication
+
+[Publication](Sources/YapWire/PublicationOperation.swift) retains complete staged
+bytes and the displaced destination until acknowledged. Cooperative publishers
+share a destination-directory lock; replacements validate the displaced inode
+and digest after the kernel swap. Confirmed replacement evidence outlives an
+interrupted cleanup, and accounting measures each private inode once. Retained
+swap symlinks contribute only their no-follow metadata length, never referent
+bytes; they remain unknown displacement, not owned payloads.
+
+macOS has no pathname swap conditional on an expected inode and digest. A
+noncooperating same-user writer can race the final check, including by injecting
+a symlink leaf: rename swaps the link itself without following its referent.
+Such unknown displacement is a conflict, may leave new output visible without a
+committed receipt, and stays retained. Recovery never rolls back over a possible
+successor or removes unknown entries. This boundary is not protection against a
+writer that ignores ownership.
+
 ## Verification
 
 The [primary-camera fixture](Tests/YapCaptureTests/PrimaryCameraPublicationTests.swift)

@@ -1,0 +1,33 @@
+
+ RUN  v5.0.0 /Users/server/dev/yap-picture-statistics/apps/service
+
+ ❯ src/frame-batch.test.ts (4 tests | 1 failed | 3 skipped) 74ms
+   × public picture observations are retained with selection and create a distinct normalized cache identity 73ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/frame-batch.test.ts > public picture observations are retained with selection and create a distinct normalized cache identity
+AssertionError: expected false to be true // Object.is equality
+
+- Expected
++ Received
+
+- true
++ false
+
+ ❯ batch src/frame-batch.test.ts:27:20
+     25|   | { atUs: number; ok: true; data: FrameStatus };
+     26| function batch(reply: OperationResult) {
+     27|   expect(reply.ok).toBe(true);
+       |                    ^
+     28|   if (!reply.ok) throw new Error(JSON.stringify(reply));
+     29|   return reply.data as SourceSelection & { items: FrameItem[] };
+ ❯ src/frame-batch.test.ts:251:21
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 3 skipped (4)
+   Start at  23:45:58
+   Duration  1.06s (transform 66%, import 27%, tests 7%)

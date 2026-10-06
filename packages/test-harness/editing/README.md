@@ -64,6 +64,11 @@ remain separate from caller edit intent.
 explicit dependency precedence for local inference experiments. It produces an
 artifact for the existing preparation owner, never another installer.
 
+[Conditional alignment](../../../helpers/alignment/README.md) separates controlled
+provider-response parity, native correspondence arithmetic and actual prepared
+runtime inference. A matching forced path does not establish that the supplied
+word was spoken; physical admission and interpretation retain separate proof.
+
 ## Delivery, lifetime and work
 
 Public journeys exercise the complete request, readiness, delivery and publication
@@ -136,3 +141,10 @@ sample/clock preservation; it makes no listening or managed-publication claim.
 
 [Audio recipe reproduction](audio-recipes/README.md) retains numerical
 normalization, limiter and compressor evidence before production admission.
+
+[Picture observation verification](picture-observations.mjs) reuses public journey
+lifetime and the independent delivered-PNG observer. It checks explicit region
+operands, alpha coverage and read-only pixel identity, including scratch-authored
+exposure controls and retained index receipts. Its help owns selected inputs and
+invocation. [Accepted observations](../../../specs/video-editing-feedback/assets/14-picture-statistics/README.md)
+retain measured scopes without turning camera histograms into grade targets.

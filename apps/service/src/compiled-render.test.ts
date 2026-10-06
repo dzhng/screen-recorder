@@ -347,3 +347,66 @@ test("successive bulk domain requests retire their control files in the same att
     await rm(directory, { recursive: true, force: true });
   }
 });
+
+test("dynamic normalization budgets its bounded original-input scans while retained audio skips them", () => {
+  const asset = {
+    id: "source",
+    streams: [
+      {
+        id: "audio",
+        kind: "audio" as const,
+        channels: 2,
+        sampleRate: 48000,
+        bounds: { startUs: 0, endUs: 100000000 },
+        available: [{ startUs: 0, endUs: 100000000 }],
+      },
+    ],
+  };
+  const document = {
+    canvas: {
+      width: 16,
+      height: 16,
+      fps: { numerator: 30, denominator: 1 },
+      background: "#000000ff",
+    },
+    tracks: [{ id: "audio", kind: "audio" as const, order: 0 }],
+    groups: [],
+    syncGroups: [],
+    clips: [
+      {
+        id: "clip",
+        trackId: "audio",
+        assetId: asset.id,
+        streamId: "audio",
+        source: { kind: "range" as const, range: { startUs: 0, endUs: 100000000 } },
+        placement: { kind: "project" as const, range: { startUs: 0, endUs: 100000000 } },
+      },
+    ],
+    processing: [
+      {
+        target: { kind: "output" as const },
+        steps: [
+          {
+            id: "normalize",
+            enabled: true,
+            processor: {
+              type: "normalization" as const,
+              mode: "dynamic" as const,
+              targetIntegratedLufs: -14.5,
+              truePeakCeilingDbtp: 0,
+              maxLoudnessRangeLu: 7,
+            },
+          },
+        ],
+      },
+    ],
+  };
+  const window = createCompiler(validateComposition(document, [asset]), "revision").audioWindow({
+    range: { startUs: 99900000, endUs: 100000000 },
+    rendition: { sampleRate: 48000, channels: 2 },
+    tap: { target: { kind: "output" }, point: { kind: "processed" } },
+  });
+  // Before scanner + loudnorm statistics + three renders and three after scanners = eight traversals.
+  expect(audioDeadline(window)).toBe(renderWindowDeadlineMs(window.manifest.range) + 800000);
+  expect(audioDeadline(window, true)).toBe(renderWindowDeadlineMs(window.manifest.range));
+});

@@ -17,3 +17,10 @@ boundary. The compressor pads both inputs on one packet grid before processing
 and trims to the declared frame count; that preserves a partial EOF block without
 making padded silence part of the admitted signal. The compiler and native graph
 must preserve that context in production.
+
+Run `python3 mastering.py FFMPEG LIBEBUR128_ORACLE NEW_OUTPUT --case balanced`
+for the independently metered peaky original-input offset reference, or choose
+`--case peak-limited` for strict refusal. The reference records every candidate,
+keeps first-pass statistics fixed and never feeds a candidate back as input.
+Actual production accuracy and AAC delivery are exercised by the service's
+`audio-processing.test.ts`; independent numerical probes do not replace that route.

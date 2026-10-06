@@ -114,7 +114,7 @@ try:
     (bundle / "execution/imports.json").write_text(json.dumps({"supplemental": layers}, sort_keys=True)+"\n")
     native_report, native_changes = None, {}
     if args.native_policy:
-        relocate = runpy.run_path(str(Path(__file__).with_name("runtime-native.py")))["relocate"]
+        relocate = runpy.run_path(str(Path(__file__).with_name("native.py")))["relocate"]
         native_report, native_changes = relocate(Path(args.native_policy).resolve(), bundle, sources, out, clone_file, sha)
     entries = []
     for path in sorted(bundle.rglob("*")):

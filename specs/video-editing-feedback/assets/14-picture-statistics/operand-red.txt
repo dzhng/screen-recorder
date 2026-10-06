@@ -1,0 +1,32 @@
+
+ RUN  v5.0.0 /Users/server/dev/yap-picture-statistics
+
+ ❯ packages/protocol/src/picture.test.ts (2 tests | 1 failed) 22ms
+   × malformed native histogram, coverage, region and edge operands refuse without throwing 6ms
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 1 passed (2)
+   Start at  00:01:07
+   Duration  187ms (import 48%, transform 26%, tests 24%, worker 3%)
+
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  packages/protocol/src/picture.test.ts > malformed native histogram, coverage, region and edge operands refuse without throwing
+AssertionError: expected true to be false // Object.is equality
+
+- Expected
++ Received
+
+- false
++ true
+
+ ❯ packages/protocol/src/picture.test.ts:22:64
+     20|     const value = structuredClone(controls.chart); mutate(value);
+     21|     expect(() => pictureObservationsSchema.safeParse(value)).not.toThr…
+     22|     expect(pictureObservationsSchema.safeParse(value).success).toBe(fa…
+       |                                                                ^
+     23|   }
+     24|   const dark = structuredClone(controls.dark); dark.edgeBands[0].adjac…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯

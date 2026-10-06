@@ -1,0 +1,1 @@
+YapFrameTests/PictureObservationTests.swift:39: Fatal error: Requested observations must be returned from the delivered picture
